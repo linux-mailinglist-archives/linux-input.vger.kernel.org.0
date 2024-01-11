@@ -1,227 +1,274 @@
-Return-Path: <linux-input+bounces-1211-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1212-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F026482A84E
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 08:28:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0721482AABC
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 10:21:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99F62285D5D
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 07:28:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A42E1C26941
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 09:21:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA85D27D;
-	Thu, 11 Jan 2024 07:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7CE411C8C;
+	Thu, 11 Jan 2024 09:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BfygzK7L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fprZTILC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D4BD26A;
-	Thu, 11 Jan 2024 07:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d54b86538aso24055495ad.0;
-        Wed, 10 Jan 2024 23:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704958090; x=1705562890; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
-        b=BfygzK7Ls24K3c3KFTCHSYb+UJLmcGwoBCMdxsEYkN8Dz48Pqw8nWdTbupZ6teu8QY
-         f+WGfnf/se3Qbk+XcobV7ibArXSGuyUKK4OYMzOdUNYS3QZD1qaOoXiAtF0CuS2HfeWq
-         hvxn9+pN3W9v2c+FpSw/edkoijGi04Nxn29IcNkQXlHVy8+1z+oRlRgR67i2dct4ya0t
-         7F2jh8OAoXi0+rVxwYtq6Klp5vBLAJki4GBOIYLYRkMvEDiU5jeoH0v/qHE4co9EEvLK
-         +WIXOz2HJeEW3oqbO0kwZoUMwiq6GqcUzfD6YEc1A+IKaGf6t8AfcNy03kt7cm4XMXJQ
-         QFzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704958090; x=1705562890;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
-        b=p7hSNrcTHYEu/4otZgOkkW+i/Eu+MBnzOjEUQL9xAjyB3f5aaUgS6GMUKGzgao2gQf
-         4Fxk9KXenu8TYT4kXtISEZSjxo1pSIqamiks/AEr+QGLz5LygmEe8qxTk5RXjwDF39f1
-         avklebJH9sLVRUv+uAEI7+R3Mvlawx9F/nqUJoxvq6futnhv+OT9CyqDOsLTSAwNlVrt
-         hSEyrOBYrsrz4G9QqqQu7tewiWVWUagDZc67C9e4hvb6vXcM7w+0EUvWUlWBXLjAQDAt
-         B01dNcnk7CjVXwnC7qSCAe8uiOsSswhuSV4mZgs8zfOGOSTeBj23QewvN9CAncMGdTGu
-         vZlQ==
-X-Gm-Message-State: AOJu0Yw94L2sHb2K7yPKdRF5ECCDiP294YeJtzGCk+PqURBtk9NDJuLf
-	66EXZXFqX/HfK0hgBxIbl/Q=
-X-Google-Smtp-Source: AGHT+IGl35uLlQRJwX4rvJzLGZrtgZstO0G3rpfy7BBTIi9UZR4sWdYeEO5QUbzFqaZyYXxS2sm4Lw==
-X-Received: by 2002:a17:903:28f:b0:1d4:2066:6b7 with SMTP id j15-20020a170903028f00b001d4206606b7mr986820plr.69.1704958090495;
-        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
-        by smtp.gmail.com with ESMTPSA id mm3-20020a1709030a0300b001d4bb7cdc11sm491328plb.88.2024.01.10.23.28.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
-Date: Wed, 10 Jan 2024 23:28:06 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <Fred.Treven@cirrus.com>,
-	Ben Bright <Ben.Bright@cirrus.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	James Schulman <James.Schulman@cirrus.com>,
-	David Rhodes <David.Rhodes@cirrus.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Peng Fan <peng.fan@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Shenghao Ding <13916275206@139.com>,
-	Ryan Lee <ryans.lee@analog.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"moderated list:CIRRUS LOGIC AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v5 4/5] Input: cs40l50 - Add support for the CS40L50
- haptic driver
-Message-ID: <ZZ-YhtIulqrSFc3R@google.com>
-References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
- <20240104223643.876292-5-jogletre@opensource.cirrus.com>
- <ZZoFUwOEF6NByIp2@google.com>
- <564A2601-4933-4BD7-B4E6-C973A585CA61@cirrus.com>
- <ZZ3JNuLp-ZfGOQRF@google.com>
- <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A28A11C85
+	for <linux-input@vger.kernel.org>; Thu, 11 Jan 2024 09:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704964895; x=1736500895;
+  h=date:from:to:cc:subject:message-id;
+  bh=6NX7817AgSU+NoPXaY09kaTbT0Fy4RECTnZXrA52W/o=;
+  b=fprZTILCAiNiKgYzlkZww/tqxI0HJYbJXRFp5tQUOlLD3DC67Z2pSCY8
+   iqMZ8px8wA0MUHAfILtFApDg3D3EfFZkAwD+IOalA7fAYAY3XecnY47K3
+   O2jTztQx1xZ4TSvFKKKKP6MI4u/88QUOYDBPVGecR37j3psU7gsjH02gH
+   KRgfir+avCGD6cfj27+inmML5CY5p1f/HYoZUFwVITgybuFP21l61YHYa
+   kJTVJalxMefdwbrzmhB6S9zWFfcyYB3A632AitBg+ZnNVLM3/SI91lNzu
+   EgRINNnXMCPzkYapWtmjCvoUhI7LPt0gOXvd74UeTZd09ZnsCIlCxaGpQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="397665261"
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
+   d="scan'208";a="397665261"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 01:21:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
+   d="scan'208";a="24569585"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jan 2024 01:21:34 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNrFi-000846-2o;
+	Thu, 11 Jan 2024 09:21:30 +0000
+Date: Thu, 11 Jan 2024 17:20:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 52c4e5985a730796a3fa555b83b404708b960f9d
+Message-ID: <202401111737.xlp716rR-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
 
-On Wed, Jan 10, 2024 at 02:36:55PM +0000, James Ogletree wrote:
-> 
-> > On Jan 9, 2024, at 4:31 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> > 
-> > On Tue, Jan 09, 2024 at 10:03:02PM +0000, James Ogletree wrote:
-> >> Hi Dmitry,
-> >> 
-> >> Thank you for your excellent review. Just a few questions.
-> >> 
-> >>> On Jan 6, 2024, at 7:58 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >>> 
-> >>> On Thu, Jan 04, 2024 at 10:36:37PM +0000, James Ogletree wrote:
-> >>>> +
-> >>>> + info->add_effect.u.periodic.custom_data = kcalloc(len, sizeof(s16), GFP_KERNEL);
-> >>>> + if (!info->add_effect.u.periodic.custom_data)
-> >>>> + return -ENOMEM;
-> >>>> +
-> >>>> + if (copy_from_user(info->add_effect.u.periodic.custom_data,
-> >>>> +   effect->u.periodic.custom_data, sizeof(s16) * len)) {
-> >>>> + info->add_error = -EFAULT;
-> >>>> + goto out_free;
-> >>>> + }
-> >>>> +
-> >>>> + queue_work(info->vibe_wq, &info->add_work);
-> >>>> + flush_work(&info->add_work);
-> >>> 
-> >>> I do not understand the need of scheduling a work here. You are
-> >>> obviously in a sleeping context (otherwise you would not be able to
-> >>> execute flush_work()) so you should be able to upload the effect right
-> >>> here.
-> >> 
-> >> Scheduling work here is to ensure its ordering with “playback" worker
-> >> items, which themselves are called in atomic context and so need
-> >> deferred work. I think this explains why we need a workqueue as well,
-> >> but please correct me.
-> >> 
-> >>> 
-> >>>> +
-> >>>> +static int vibra_playback(struct input_dev *dev, int effect_id, int val)
-> >>>> +{
-> >>>> + struct vibra_info *info = input_get_drvdata(dev);
-> >>>> +
-> >>>> + if (val > 0) {
-> >>> 
-> >>> value is supposed to signal how many times an effect should be repeated.
-> >>> It looks like you are not handling this at all.
-> >> 
-> >> For playbacks, we mandate that the input_event value field is set to either 1
-> > 
-> > I am sorry, who is "we"?
-> 
-> Just a royal “I”. Apologies, no claim to authority intended here. :)
-> 
-> > 
-> >> or 0 to command either a start playback or stop playback respectively.
-> >> Values other than that should be rejected, so in the next version I will fix this
-> >> to explicitly check for 1 or 0.
-> > 
-> > No, please implement the API properly.
-> 
-> Ack.
-> 
-> > 
-> >> 
-> >>> 
-> >>>> + info->start_effect = &dev->ff->effects[effect_id];
-> >>>> + queue_work(info->vibe_wq, &info->vibe_start_work);
-> >>> 
-> >>> The API allows playback of several effects at once, the way you have it
-> >>> done here if multiple requests come at same time only one will be
-> >>> handled.
-> >> 
-> >> I think I may need some clarification on this point. Why would concurrent
-> >> start/stop playback commands get dropped? It seems they would all be
-> >> added to the workqueue and executed eventually.
-> > 
-> > You only have one instance of vibe_start_work, as well as only one
-> > "slot" to hold the effect you want to start. So if you issue 2 request
-> > back to back to play effect 1 and 2 you are likely to end with
-> > info->start_effect == 2 and that is what vibe_start_work handler will
-> > observe, effectively dropping request to play effect 1 on the floor.
-> 
-> Understood, ack.
-> 
-> > 
-> >> 
-> >>> 
-> >>>> + } else {
-> >>>> + queue_work(info->vibe_wq, &info->vibe_stop_work);
-> >>> 
-> >>> Which effect are you stopping? All of them? You need to stop a
-> >>> particular one.
-> >> 
-> >> Our implementation of “stop” stops all effects in flight which is intended.
-> >> That is probably unusual so I will add a comment here in the next
-> >> version.
-> > 
-> > Again, please implement the driver properly, not define your own
-> > carveouts for the expected behavior.
-> 
-> Ack, and a clarification question: the device is not actually able to
-> play multiple effects at once. In that case, does stopping a specific
-> effect entail just cancelling an effect in the queue?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 52c4e5985a730796a3fa555b83b404708b960f9d  Input: driver for Adafruit Seesaw Gamepad
 
-In this case I believe the device should declare maximum number of
-effects as 1. Userspace is supposed to determine maximum number of
-simultaneously playable effects by issuing EVIOCGEFFECTS ioctl on the
-corresponding event device.
+elapsed time: 1446m
 
-Thanks.
+configs tested: 193
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     haps_hs_smp_defconfig   gcc  
+arc                   randconfig-001-20240111   gcc  
+arc                   randconfig-002-20240111   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g4_defconfig   clang
+arm                          collie_defconfig   clang
+arm                                 defconfig   clang
+arm                       multi_v4t_defconfig   gcc  
+arm                           omap1_defconfig   clang
+arm                   randconfig-001-20240111   gcc  
+arm                   randconfig-002-20240111   gcc  
+arm                   randconfig-003-20240111   gcc  
+arm                   randconfig-004-20240111   gcc  
+arm                         s5pv210_defconfig   clang
+arm                         socfpga_defconfig   clang
+arm                           spitz_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240111   gcc  
+arm64                 randconfig-002-20240111   gcc  
+arm64                 randconfig-003-20240111   gcc  
+arm64                 randconfig-004-20240111   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240111   gcc  
+csky                  randconfig-002-20240111   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240111   clang
+hexagon               randconfig-002-20240111   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240111   gcc  
+i386         buildonly-randconfig-002-20240111   gcc  
+i386         buildonly-randconfig-003-20240111   gcc  
+i386         buildonly-randconfig-004-20240111   gcc  
+i386         buildonly-randconfig-005-20240111   gcc  
+i386         buildonly-randconfig-006-20240111   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240111   gcc  
+i386                  randconfig-002-20240111   gcc  
+i386                  randconfig-003-20240111   gcc  
+i386                  randconfig-004-20240111   gcc  
+i386                  randconfig-005-20240111   gcc  
+i386                  randconfig-006-20240111   gcc  
+i386                  randconfig-011-20240111   clang
+i386                  randconfig-012-20240111   clang
+i386                  randconfig-013-20240111   clang
+i386                  randconfig-014-20240111   clang
+i386                  randconfig-015-20240111   clang
+i386                  randconfig-016-20240111   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240111   gcc  
+loongarch             randconfig-002-20240111   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5249evb_defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                        bcm47xx_defconfig   gcc  
+mips                     cu1000-neo_defconfig   clang
+mips                           ip27_defconfig   gcc  
+mips                          malta_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240111   gcc  
+nios2                 randconfig-002-20240111   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                  or1klitex_defconfig   gcc  
+openrisc                 simple_smp_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240111   gcc  
+parisc                randconfig-002-20240111   gcc  
+parisc64                            defconfig   gcc  
+powerpc                      acadia_defconfig   clang
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        icon_defconfig   clang
+powerpc                 mpc832x_rdb_defconfig   clang
+powerpc                 mpc836x_rdk_defconfig   clang
+powerpc                         ps3_defconfig   gcc  
+powerpc               randconfig-001-20240111   gcc  
+powerpc               randconfig-002-20240111   gcc  
+powerpc               randconfig-003-20240111   gcc  
+powerpc                     redwood_defconfig   gcc  
+powerpc64             randconfig-001-20240111   gcc  
+powerpc64             randconfig-002-20240111   gcc  
+powerpc64             randconfig-003-20240111   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                    nommu_k210_defconfig   gcc  
+riscv                 randconfig-001-20240111   gcc  
+riscv                 randconfig-002-20240111   gcc  
+riscv                          rv32_defconfig   clang
+s390                             alldefconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240111   clang
+s390                  randconfig-002-20240111   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                     magicpanelr2_defconfig   gcc  
+sh                    randconfig-001-20240111   gcc  
+sh                    randconfig-002-20240111   gcc  
+sh                      rts7751r2d1_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                        sh7763rdp_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240111   gcc  
+sparc64               randconfig-002-20240111   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240111   gcc  
+um                    randconfig-002-20240111   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240111   gcc  
+x86_64       buildonly-randconfig-002-20240111   gcc  
+x86_64       buildonly-randconfig-003-20240111   gcc  
+x86_64       buildonly-randconfig-004-20240111   gcc  
+x86_64       buildonly-randconfig-005-20240111   gcc  
+x86_64       buildonly-randconfig-006-20240111   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240111   clang
+x86_64                randconfig-002-20240111   clang
+x86_64                randconfig-003-20240111   clang
+x86_64                randconfig-004-20240111   clang
+x86_64                randconfig-005-20240111   clang
+x86_64                randconfig-006-20240111   clang
+x86_64                randconfig-011-20240111   gcc  
+x86_64                randconfig-012-20240111   gcc  
+x86_64                randconfig-013-20240111   gcc  
+x86_64                randconfig-014-20240111   gcc  
+x86_64                randconfig-015-20240111   gcc  
+x86_64                randconfig-016-20240111   gcc  
+x86_64                randconfig-071-20240111   gcc  
+x86_64                randconfig-072-20240111   gcc  
+x86_64                randconfig-073-20240111   gcc  
+x86_64                randconfig-074-20240111   gcc  
+x86_64                randconfig-075-20240111   gcc  
+x86_64                randconfig-076-20240111   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240111   gcc  
+xtensa                randconfig-002-20240111   gcc  
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
