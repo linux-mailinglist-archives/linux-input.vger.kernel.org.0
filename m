@@ -1,145 +1,105 @@
-Return-Path: <linux-input+bounces-1205-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1206-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856C682A500
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 00:42:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB6B82A580
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 02:20:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E07A1F243AB
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jan 2024 23:42:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0016285CD4
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 01:20:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5B74F8A0;
-	Wed, 10 Jan 2024 23:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F18624;
+	Thu, 11 Jan 2024 01:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GjEXAmpl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="as678D0K"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE544F886
-	for <linux-input@vger.kernel.org>; Wed, 10 Jan 2024 23:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd65f803b7so29938281fa.1
-        for <linux-input@vger.kernel.org>; Wed, 10 Jan 2024 15:42:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C777E4;
+	Thu, 11 Jan 2024 01:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d3e05abcaeso32226605ad.1;
+        Wed, 10 Jan 2024 17:20:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704930144; x=1705534944; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rx9HmcQEcblZ0PctKblTiQoSafk+55qkIdaYiVD4oBo=;
-        b=GjEXAmpl9rYESPm3ZgVcYBM7kGwXLSd/kpk+NOP/hUiEKrOXsG/HvZGsn1nWRUdBKj
-         CfU9UiPqIXY17PgUz3KGSCsgZtC4L8QNLrFgS/x/8DjWfOShQIi1JUuosRJYYPCwK8cI
-         4eWtscTYiRam2aYPjyWGaui37MccrVI8CKmfs=
+        d=gmail.com; s=20230601; t=1704936046; x=1705540846; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+85vjAWnmuAqmINzQfl2QzJ3u0NEMnxOJaGB/D0sB4=;
+        b=as678D0KPbj0sIUHW+qxxHH/W3AV0pvjJ/N5zcl+6TNU6ZGF2NzAcHyAFBGDvv1aP7
+         O2IvmaSbwFxiYas7QhT2KW9nD9QEb6SQr6wfrZGfktvSaHTnANd7LrzJ0Xw/x1pDHQ4Z
+         DnltngmFoVgNUKW1h+g4p5R+6oWRm+AfSo2kDgxcEQeyJCeF9B0nzHb1rw0bjlC1fe8i
+         IufYFgBzlL8EgFqYEKlfDK/CKoOnmcIrF0RgEiH7rwfUS+a0Gl1FcKUNQ4iLz29lN6s3
+         2fbQveEGT9IICRQbx3MtanyecPvfmZYCk95UT3Yci0ab6mTmuaKf8eMWKs4s6FwYakiX
+         qtAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704930144; x=1705534944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rx9HmcQEcblZ0PctKblTiQoSafk+55qkIdaYiVD4oBo=;
-        b=jeI8Dv2HbGQBNYWAt17WN6I/SWvpE2Q0adeLiVqY/w59DwIa4675gihM+yPtRly8tD
-         vFmNctMDJQGw8vLBN9Q1tAcsk97d1o+OHemeel90QWEUuLD2YwtZM/DVAsmA35wITa6+
-         pVozoOI75x5ePMu9htYxMZzI4aO9gQG7xmFQiQMoHVXDOpZyLGJSj3FuTFXLoZHA8bS7
-         avyUNxNV0IPISnZ03mi/C4D03/IuXLQ34YCnMKIx/Ft5KDwHiq1aHjqQv4bGT1+kFihM
-         OsI6BEatdJSYvd1uAPOU+uPpNXZJ81jNBmNiM85LHQVIilD3e9zXZjQTM1WAYt1m7BzH
-         ITDQ==
-X-Gm-Message-State: AOJu0Yxyu2BBlA95MZ43Q4J/aK+zmRCzEt9lEfrMMEMHeTcl15i0hbBh
-	0IlVrFPr0NP+L80GZDWDbtEv5cYA/6ZjPfJ5oDiO5ubVB5Ra
-X-Google-Smtp-Source: AGHT+IG25KWe7lBAnxdYtTXEsvZq8IxZ3FsLF3cs+SKOslzEghUeo1BZZgyFhBNJGqAY1BBK0VYAk8hkzvDJqW4lSnk=
-X-Received: by 2002:a2e:a4cc:0:b0:2cc:a7b9:2fa0 with SMTP id
- p12-20020a2ea4cc000000b002cca7b92fa0mr142451ljm.12.1704930144263; Wed, 10 Jan
- 2024 15:42:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704936046; x=1705540846;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+85vjAWnmuAqmINzQfl2QzJ3u0NEMnxOJaGB/D0sB4=;
+        b=iibHMGBsV9CESSQ7BRfehYlZPoqOAMYvHVpAo9i/a67Lu4YeqCVPLh/6i2pheBamU5
+         z5SXpwfjtGluWH4wLtdGCkQJGxp0gq+DK4Ysx0rfwHaAunOKFe9yJQDDumjAkAWv7Ic6
+         fzc/gMBcaRn4j/fV5GHeD7dSl1hMK8nCQUoyF0GPEK1AE5VK/Hv16hRDkG2CcmVcBUO2
+         1vG+Ye5wj+XjCK3V/FE/WcBzlUn/N5eisElkO2oXY1H+8b/wq4h8p939iQPKotDfMyW0
+         KLyJCDMjaKkezwbe+Kxup8BghCOcZ4coh8par2gFpkCV1C+2Es4COd3Mx+RXS43Ob54I
+         2L7Q==
+X-Gm-Message-State: AOJu0YxRE4lDyb8oNzQnNMAMuhxcQPnjKxqQJRNLxYprqDovHA1BjwKJ
+	VgqYcJoFjmI9sqNPv/iv+Zg=
+X-Google-Smtp-Source: AGHT+IHDtY/zHkCm0BIQ5AWUy1WbvTxZ/YQnd12fJR9h98cktHmfmoALSkLqP6i+09l7fOkogTzgeQ==
+X-Received: by 2002:a17:902:9a05:b0:1d4:cdc9:6c1e with SMTP id v5-20020a1709029a0500b001d4cdc96c1emr336684plp.109.1704936046045;
+        Wed, 10 Jan 2024 17:20:46 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
+        by smtp.gmail.com with ESMTPSA id x9-20020a170902820900b001d4cad5bcf0sm4249726pln.237.2024.01.10.17.20.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 17:20:45 -0800 (PST)
+Date: Wed, 10 Jan 2024 17:20:42 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Jeff LaBundy <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v12 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <ZZ9CaiYCqDlSxiIb@google.com>
+References: <20240106015111.882325-1-anshulusr@gmail.com>
+ <20240106015111.882325-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
- <ZWF76ALANQwP_9b1@google.com> <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
- <ZZ2eduF_h7lcBrSL@google.com>
-In-Reply-To: <ZZ2eduF_h7lcBrSL@google.com>
-From: Jonathan Denose <jdenose@chromium.org>
-Date: Wed, 10 Jan 2024 17:42:13 -0600
-Message-ID: <CALNJtpWr0h+r3=R2scxyCGzgbZ1C6FiYrCGWW1_aSVPBdmNc3Q@mail.gmail.com>
-Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai <tiwai@suse.de>, 
-	Werner Sembach <wse@tuxedocomputers.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240106015111.882325-2-anshulusr@gmail.com>
 
-Dmitry,
+Hi Anshul,
 
-Sorry I forgot to reply all, so I'm resending my other email.
+On Sat, Jan 06, 2024 at 07:21:00AM +0530, Anshul Dalal wrote:
+> +
+> +	for_each_set_bit(i, (long *)&SEESAW_BUTTON_MASK,
+> +			 BITS_PER_TYPE(SEESAW_BUTTON_MASK)) {
 
-On Tue, Jan 9, 2024 at 1:28=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Jonathan,
->
-> On Mon, Nov 27, 2023 at 10:38:57AM -0600, Jonathan Denose wrote:
-> > Hi Dmitry
-> >
-> > On Fri, Nov 24, 2023 at 10:45=E2=80=AFPM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > Hi Jonathan,
-> > >
-> > > On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
-> > > > The ThinkPad T14 Gen 1 touchpad works fine except that clicking
-> > > > and dragging by tapping the touchpad or depressing the touchpad
-> > > > do not work. Disabling PNP for controller setting discovery enables
-> > > > click and drag without negatively impacting other touchpad features=
-.
-> > >
-> > > I would like to understand more on how enabling PnP discovery for i80=
-42
-> > > affects the touchpad. Do you see it using different interrupt or IO
-> > > ports? What protocol does the touchpad use with/without PnP? If the
-> > > protocol is the same, do you see difference in the ranges (pressure,
-> > > etc) reported by the device?
-> > >
-> > > Thanks.
-> > >
-> > > --
-> > > Dmitry
-> >
-> > Without PnP discovery the touchpad is using the SynPS/2 protocol, with
-> > PnP discovery, the touchpad is using the rmi4 protocol. Since the
-> > protocols are different, so are the ranges but let me know if you
-> > still want to see them.
->
-> Thank you for this information. So it is not PnP discovery that appears
-> harmful in your case, but rather that legacy PS/2 mode appears to be
-> working better than RMI4 for the device in question.
->
-> I will note that the original enablement of RMI4 for T14 was done by
-> Hans in [1]. Later T14 with AMD were added to the list of devices that
-> should use RMI4 [2], however this was reverted in [3].
->
-> Could you please tell me what exact device you are dealing with? What's
-> it ACPI ID?
->
-> [1] https://lore.kernel.org/all/20201005114919.371592-1-hdegoede@redhat.c=
-om/
-> [2] https://lore.kernel.org/r/20220318113949.32722-1-snafu109@gmail.com
-> [3] https://lore.kernel.org/r/20220920193936.8709-1-markpearson@lenovo.co=
-m
->
-> Thanks.
->
-> --
-> Dmitry
+This is not really safe as it might not be aligned properly, and we can
+potentially try to peek beyond the data element (even though we limit
+how many bits we consider valid). I changed SEESAW_BUTTON_MASK to be
+unsigned long.
 
-Thanks for your reply!
+I also dropped bunch of unneeded casts and applied, thank you.
 
-I'm not 100% sure which of these is the ACPI ID, but from `udevadm
-info -e` there's:
-N: Name=3D"Synaptics TM3471-020"
-P: Phys=3Drmi4-00/input0
+Thanks.
+
+-- 
+Dmitry
 
