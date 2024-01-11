@@ -1,108 +1,224 @@
-Return-Path: <linux-input+bounces-1210-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1211-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC1F82A83C
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 08:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F026482A84E
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 08:28:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68AB0285152
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 07:21:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99F62285D5D
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 07:28:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C539AD287;
-	Thu, 11 Jan 2024 07:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA85D27D;
+	Thu, 11 Jan 2024 07:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMOXAgc3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BfygzK7L"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDD1D27A;
-	Thu, 11 Jan 2024 07:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D4BD26A;
+	Thu, 11 Jan 2024 07:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3bbbc6e51d0so3481149b6e.3;
-        Wed, 10 Jan 2024 23:21:37 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d54b86538aso24055495ad.0;
+        Wed, 10 Jan 2024 23:28:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704957696; x=1705562496; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yy2lzqaTFfa02W+7q6UCYddcpHLmZArhRiq65UjnToc=;
-        b=dMOXAgc3yiR0rThuCvyuP5/NLE+vuWibffhVpBiszUHFe5wZSMWoXz1kHGb58nZtaF
-         sbQdcCLPn55TJnELM+EtsZFS+UtFbaBlWYrvL+1EhL+y5KxPoe31mCrzTlk3WISfVbDN
-         cVIvbzSRXJhLmV/DohN5LvVq8pe7XSI6nqYqWlivmieGiaP5JTaeCD9u0blkLASUwyC1
-         9CsI+zi+iyLUuslgC8zUeydzEAOZ+fKXVDX9xWPlBzapfRu/03PY7bSQX5AEs3EIcvtE
-         F93UIJUkVolifPa60tTFHnGA75H4e4mSAd0Glue5sFh4yEQBzXbof88Zk++o9aLdieah
-         tsKg==
+        d=gmail.com; s=20230601; t=1704958090; x=1705562890; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
+        b=BfygzK7Ls24K3c3KFTCHSYb+UJLmcGwoBCMdxsEYkN8Dz48Pqw8nWdTbupZ6teu8QY
+         f+WGfnf/se3Qbk+XcobV7ibArXSGuyUKK4OYMzOdUNYS3QZD1qaOoXiAtF0CuS2HfeWq
+         hvxn9+pN3W9v2c+FpSw/edkoijGi04Nxn29IcNkQXlHVy8+1z+oRlRgR67i2dct4ya0t
+         7F2jh8OAoXi0+rVxwYtq6Klp5vBLAJki4GBOIYLYRkMvEDiU5jeoH0v/qHE4co9EEvLK
+         +WIXOz2HJeEW3oqbO0kwZoUMwiq6GqcUzfD6YEc1A+IKaGf6t8AfcNy03kt7cm4XMXJQ
+         QFzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704957696; x=1705562496;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yy2lzqaTFfa02W+7q6UCYddcpHLmZArhRiq65UjnToc=;
-        b=qZ9oh8i/l1+xlKKTxzhkDWs3pz0KPpZPYtLCMLAEfCSItlZTun8Mgo6I2auK5Iexdh
-         UckBFooHBDY4r0YfIVKC4tuAdmLfEXEmE1vvD8F+fi3WwJ/YhNd4lrjnI0gVVHkvJVP2
-         wnHBHIkoNwRES0K/jK+tHmho1VkDm4CTiFT+Xe3g4XK+qfDtzV4erkq1te7UVEv+BvFc
-         60KeD5QtyROVE2k/ksyi7KVW2mdXvx8MY4X9JvzIV9pnpcpypBApdS2QU9IuafeTalUf
-         h4qp9yhRjCRNLnoDuaPwV5Xw+GtE/ZkkTdmsNdTI1fLzb5W6Gm/czyWbhf5Cw5CH/vPI
-         H//g==
-X-Gm-Message-State: AOJu0Yygt1rwajjL3l+bJkdZrNnqEutpGPNXhZ0zn+UHu/Fr/0iqMmEA
-	H7q1KdaC1RVDfeO7rPUGcwI=
-X-Google-Smtp-Source: AGHT+IEd95KMby+FaKu8/bxssdUJwSuxQqijxRBzUkA6Qa5Imunn62jJCrDzhGREmY0J6EUzJfPCKg==
-X-Received: by 2002:a05:6808:1411:b0:3bb:c599:e3ed with SMTP id w17-20020a056808141100b003bbc599e3edmr867056oiv.17.1704957696423;
-        Wed, 10 Jan 2024 23:21:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704958090; x=1705562890;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
+        b=p7hSNrcTHYEu/4otZgOkkW+i/Eu+MBnzOjEUQL9xAjyB3f5aaUgS6GMUKGzgao2gQf
+         4Fxk9KXenu8TYT4kXtISEZSjxo1pSIqamiks/AEr+QGLz5LygmEe8qxTk5RXjwDF39f1
+         avklebJH9sLVRUv+uAEI7+R3Mvlawx9F/nqUJoxvq6futnhv+OT9CyqDOsLTSAwNlVrt
+         hSEyrOBYrsrz4G9QqqQu7tewiWVWUagDZc67C9e4hvb6vXcM7w+0EUvWUlWBXLjAQDAt
+         B01dNcnk7CjVXwnC7qSCAe8uiOsSswhuSV4mZgs8zfOGOSTeBj23QewvN9CAncMGdTGu
+         vZlQ==
+X-Gm-Message-State: AOJu0Yw94L2sHb2K7yPKdRF5ECCDiP294YeJtzGCk+PqURBtk9NDJuLf
+	66EXZXFqX/HfK0hgBxIbl/Q=
+X-Google-Smtp-Source: AGHT+IGl35uLlQRJwX4rvJzLGZrtgZstO0G3rpfy7BBTIi9UZR4sWdYeEO5QUbzFqaZyYXxS2sm4Lw==
+X-Received: by 2002:a17:903:28f:b0:1d4:2066:6b7 with SMTP id j15-20020a170903028f00b001d4206606b7mr986820plr.69.1704958090495;
+        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
-        by smtp.gmail.com with ESMTPSA id u2-20020a056a00098200b006d99056c4edsm464983pfg.187.2024.01.10.23.21.35
+        by smtp.gmail.com with ESMTPSA id mm3-20020a1709030a0300b001d4bb7cdc11sm491328plb.88.2024.01.10.23.28.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 23:21:36 -0800 (PST)
-Date: Wed, 10 Jan 2024 23:21:33 -0800
+        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
+Date: Wed, 10 Jan 2024 23:28:06 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Helge Deller <deller@gmx.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-input@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
-Message-ID: <ZZ-W_WAmGuOU-Bbg@google.com>
-References: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+To: James Ogletree <James.Ogletree@cirrus.com>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <Fred.Treven@cirrus.com>,
+	Ben Bright <Ben.Bright@cirrus.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	James Schulman <James.Schulman@cirrus.com>,
+	David Rhodes <David.Rhodes@cirrus.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Peng Fan <peng.fan@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Shuming Fan <shumingf@realtek.com>,
+	Shenghao Ding <13916275206@139.com>,
+	Ryan Lee <ryans.lee@analog.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"moderated list:CIRRUS LOGIC AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v5 4/5] Input: cs40l50 - Add support for the CS40L50
+ haptic driver
+Message-ID: <ZZ-YhtIulqrSFc3R@google.com>
+References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
+ <20240104223643.876292-5-jogletre@opensource.cirrus.com>
+ <ZZoFUwOEF6NByIp2@google.com>
+ <564A2601-4933-4BD7-B4E6-C973A585CA61@cirrus.com>
+ <ZZ3JNuLp-ZfGOQRF@google.com>
+ <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
 
-On Mon, Jan 08, 2024 at 02:41:02PM +0100, Lukas Bulwahn wrote:
-> The config HW_CONSOLE is always identical to the config VT and is not
-> visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
-> redundant.
+On Wed, Jan 10, 2024 at 02:36:55PM +0000, James Ogletree wrote:
 > 
-> Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
-> CONFIG_HW_CONSOLE.
+> > On Jan 9, 2024, at 4:31 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> > 
+> > On Tue, Jan 09, 2024 at 10:03:02PM +0000, James Ogletree wrote:
+> >> Hi Dmitry,
+> >> 
+> >> Thank you for your excellent review. Just a few questions.
+> >> 
+> >>> On Jan 6, 2024, at 7:58 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> >>> 
+> >>> On Thu, Jan 04, 2024 at 10:36:37PM +0000, James Ogletree wrote:
+> >>>> +
+> >>>> + info->add_effect.u.periodic.custom_data = kcalloc(len, sizeof(s16), GFP_KERNEL);
+> >>>> + if (!info->add_effect.u.periodic.custom_data)
+> >>>> + return -ENOMEM;
+> >>>> +
+> >>>> + if (copy_from_user(info->add_effect.u.periodic.custom_data,
+> >>>> +   effect->u.periodic.custom_data, sizeof(s16) * len)) {
+> >>>> + info->add_error = -EFAULT;
+> >>>> + goto out_free;
+> >>>> + }
+> >>>> +
+> >>>> + queue_work(info->vibe_wq, &info->add_work);
+> >>>> + flush_work(&info->add_work);
+> >>> 
+> >>> I do not understand the need of scheduling a work here. You are
+> >>> obviously in a sleeping context (otherwise you would not be able to
+> >>> execute flush_work()) so you should be able to upload the effect right
+> >>> here.
+> >> 
+> >> Scheduling work here is to ensure its ordering with “playback" worker
+> >> items, which themselves are called in atomic context and so need
+> >> deferred work. I think this explains why we need a workqueue as well,
+> >> but please correct me.
+> >> 
+> >>> 
+> >>>> +
+> >>>> +static int vibra_playback(struct input_dev *dev, int effect_id, int val)
+> >>>> +{
+> >>>> + struct vibra_info *info = input_get_drvdata(dev);
+> >>>> +
+> >>>> + if (val > 0) {
+> >>> 
+> >>> value is supposed to signal how many times an effect should be repeated.
+> >>> It looks like you are not handling this at all.
+> >> 
+> >> For playbacks, we mandate that the input_event value field is set to either 1
+> > 
+> > I am sorry, who is "we"?
 > 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> I think this patch is best picked up by Greg rather than splitting it
-> in smaller pieces for m68k, amiga keyboard, fbdev etc.
+> Just a royal “I”. Apologies, no claim to authority intended here. :)
 > 
-> Greg, if that is fine, could you pick this for the next merge window?
+> > 
+> >> or 0 to command either a start playback or stop playback respectively.
+> >> Values other than that should be rejected, so in the next version I will fix this
+> >> to explicitly check for 1 or 0.
+> > 
+> > No, please implement the API properly.
 > 
-> I was also considering to rename config VT_HW_CONSOLE_BINDING to
-> VT_CONSOLE_BINDING, as the dependency is on VT, not HW_CONSOLE, but
-> at the moment, that seemed more churn than value of clarification.
+> Ack.
 > 
->  arch/m68k/amiga/config.c        | 2 +-
->  drivers/input/keyboard/amikbd.c | 6 +++---
+> > 
+> >> 
+> >>> 
+> >>>> + info->start_effect = &dev->ff->effects[effect_id];
+> >>>> + queue_work(info->vibe_wq, &info->vibe_start_work);
+> >>> 
+> >>> The API allows playback of several effects at once, the way you have it
+> >>> done here if multiple requests come at same time only one will be
+> >>> handled.
+> >> 
+> >> I think I may need some clarification on this point. Why would concurrent
+> >> start/stop playback commands get dropped? It seems they would all be
+> >> added to the workqueue and executed eventually.
+> > 
+> > You only have one instance of vibe_start_work, as well as only one
+> > "slot" to hold the effect you want to start. So if you issue 2 request
+> > back to back to play effect 1 and 2 you are likely to end with
+> > info->start_effect == 2 and that is what vibe_start_work handler will
+> > observe, effectively dropping request to play effect 1 on the floor.
+> 
+> Understood, ack.
+> 
+> > 
+> >> 
+> >>> 
+> >>>> + } else {
+> >>>> + queue_work(info->vibe_wq, &info->vibe_stop_work);
+> >>> 
+> >>> Which effect are you stopping? All of them? You need to stop a
+> >>> particular one.
+> >> 
+> >> Our implementation of “stop” stops all effects in flight which is intended.
+> >> That is probably unusual so I will add a comment here in the next
+> >> version.
+> > 
+> > Again, please implement the driver properly, not define your own
+> > carveouts for the expected behavior.
+> 
+> Ack, and a clarification question: the device is not actually able to
+> play multiple effects at once. In that case, does stopping a specific
+> effect entail just cancelling an effect in the queue?
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In this case I believe the device should declare maximum number of
+effects as 1. Userspace is supposed to determine maximum number of
+simultaneously playable effects by issuing EVIOCGEFFECTS ioctl on the
+corresponding event device.
 
 Thanks.
 
