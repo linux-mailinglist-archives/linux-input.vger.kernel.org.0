@@ -1,244 +1,322 @@
-Return-Path: <linux-input+bounces-1213-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1214-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095E882AC70
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 11:48:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8656882B004
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 14:55:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62BF4B22008
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 10:48:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEC8E1F2424A
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jan 2024 13:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3945F15480;
-	Thu, 11 Jan 2024 10:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869623B782;
+	Thu, 11 Jan 2024 13:55:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Er1W2pFb"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="XtwdTQlR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2076.outbound.protection.outlook.com [40.107.243.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4593E14F6F
-	for <linux-input@vger.kernel.org>; Thu, 11 Jan 2024 10:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704970099;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gb635P6D37dItnS5Lkxshet4VrgKfKXqIRdta0HuSAg=;
-	b=Er1W2pFbjqnxDif+KXD7FZZKv5WfOOb8/bCZ8D+PuSoBCGZ1w31DnbRortTSGFnz6K09cu
-	ObuBz0tf/slUvjliSmYTAZsFWdpLzUIsTlpe4vO4o+fFZ4Kor1YxC79DYRh9bVN6mu+AaD
-	p5y8hhUu8sS9NFCIRv5ODW1/BYtphnM=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-171-hjHe0jP8PS-MyICjjraTmw-1; Thu, 11 Jan 2024 05:48:16 -0500
-X-MC-Unique: hjHe0jP8PS-MyICjjraTmw-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-50e7b2ac430so4079455e87.1
-        for <linux-input@vger.kernel.org>; Thu, 11 Jan 2024 02:48:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704970093; x=1705574893;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gb635P6D37dItnS5Lkxshet4VrgKfKXqIRdta0HuSAg=;
-        b=GNIJS/Coy0VvC/VLDRpkvakUbUt5BhwNQzRR5TRD5Sn4STRAwAuXQHceiAxNrMBKHu
-         Ylw9JtxNo3nvWMnyp+08j7SYyWvrN905+41Ag5sRzkk5jXUqV/1u7nUAVLKsHNT2nQDl
-         GU/uDBiFQvhiTsxUxD6oZ2wd76fd0CEIKAsSupErfa7BnXS3ucEZ41x/CkxkdVcfJH+n
-         xzHyd83/F77RXYAPzYVVhylhvQ3kdo+4NxDAYuPe2hxG4sW02USu3WAP0aZtYvaYFYbc
-         ru3zCa2WKKJ9aaBYB7XjoPkb+ziqJ2x2v8M4dGJS7rLN5OzJIj83b1U0qVFEn0/P+0PC
-         4Kcg==
-X-Gm-Message-State: AOJu0YyH9ttaqiIcsbDLzbeIAVcOg0N1rMiAlekYIBD+U6ClpT/SH7q0
-	wks7kQbAW8lDNN40dCw83T3Tyc7WD+Zm3DuiqF8jDMNE6zZltthoXAov9O4DE0XbZ40O3z4x864
-	taXV4prrANHA5tNw7s5FlpYqsBk5JsRlDpVf5oPQ=
-X-Received: by 2002:ac2:4da3:0:b0:50e:7b67:b86e with SMTP id h3-20020ac24da3000000b0050e7b67b86emr502140lfe.76.1704970093237;
-        Thu, 11 Jan 2024 02:48:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHpI/1ITPTuh47uDUhlVWVfLk3ya78VXSjq3aPivPmgdPHI0oxnUORDi/kZxb10DteXW077mw==
-X-Received: by 2002:ac2:4da3:0:b0:50e:7b67:b86e with SMTP id h3-20020ac24da3000000b0050e7b67b86emr502126lfe.76.1704970092845;
-        Thu, 11 Jan 2024 02:48:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id q24-20020a170906541800b00a26f0f49dd2sm430461ejo.11.2024.01.11.02.48.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 02:48:12 -0800 (PST)
-Message-ID: <005a6d3c-ffba-45df-bdc0-cb2d32e6b676@redhat.com>
-Date: Thu, 11 Jan 2024 11:48:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3B4364C5;
+	Thu, 11 Jan 2024 13:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e+gAiuoPRaXoKVZpIrdJLDaOJW3p1f8cwpP8f3UNkd5rObTt4gXH+EuYZ+vbrOWoz1SxKlhhXfRu0aiHeO5g09+g3J00OVPcbf2YW4MooaXy7dV21HxXIHx7mT34ECnS+IO9X/XaMpdFNbVRKFPVVdaAA5D3qQsuTSq95mAlFRG9sAYx6V1FDBy0YWa4joH+wgaWTXtTlP1B79u3AMDloX1nZzBF+iP/g210jj46q45YWm7JGsPfV0HwpQOw11QAkj292pp4ysHG9asYWWBRYItOZ3iUMaWn3aZx8BFMiwgy4sNMlUS1zn7zsarDK9BgNK56f30pTETY8ZGS1lcepQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=REzi4lIqLddDL3R9sZyppejICVYzr1EpaHZvOd2UjSw=;
+ b=YNkvgbCsY3M9QNiDB6bPBgzYxtkoi3O+d8HPeHuR8at5Tqovv6QPJjEAL5TlvOysw0I0yFYRDEmYyTsdpBfusrEOer+rVZ0YJ+JEFN+l7YQeMPMcwa37GHUTnOP3NPeZ4p85OAc1KH6qiOAoi3fu7C5LX5JmgPgCHSlTnCkQAnl64eMnbPyZ+ZbBr133xO7A9Uh8BoBPo7qkeDVLL+uxr3PMFuLwL4IkLRby/1GDE32Vxdb4sRJRIqwKuiGRgjLaL1HktwDi19xhBD+Apyu3H2iA2n/Pnb08Sq4oR20pX5SmGKOB4rk6n1XutxxA/ChYzv8NC/irvr4QkF8fzh16dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=REzi4lIqLddDL3R9sZyppejICVYzr1EpaHZvOd2UjSw=;
+ b=XtwdTQlROrpGi0h8khUWV+KkWd1Uy/Kr0Z+Mf7mCjorE/UxLh4sUzGDWJ2S5yxqr8ZMg080h7oxB+0Op3b7JWzDH2Zkh202hP3hT2GE/DMAph0kh+L3nDEAemV90P3ur/vBW17oK7j93cMOdfBHrPXdLTDPZLfo5qRIgbbqSM/8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by MN6PR08MB8737.namprd08.prod.outlook.com
+ (2603:10b6:208:477::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Thu, 11 Jan
+ 2024 13:55:28 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7181.015; Thu, 11 Jan 2024
+ 13:55:27 +0000
+Date: Thu, 11 Jan 2024 07:55:19 -0600
+From: Jeff LaBundy <jeff@labundy.com>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Bastian Hecht <hechtb@gmail.com>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] Input: touch-overlay - Add touchscreen overlay
+ handling
+Message-ID: <ZZ/zR+GybLjR8Dcb@nixie71>
+References: <20230510-feature-ts_virtobj_patch-v6-0-d8a605975153@wolfvision.net>
+ <20230510-feature-ts_virtobj_patch-v6-2-d8a605975153@wolfvision.net>
+ <ZZB9x+0eNL8e+xI3@nixie71>
+ <12ac3718-2c69-4d11-8ea4-b555f2321232@wolfvision.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12ac3718-2c69-4d11-8ea4-b555f2321232@wolfvision.net>
+X-ClientProxiedBy: SA1PR03CA0005.namprd03.prod.outlook.com
+ (2603:10b6:806:2d3::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
-Content-Language: en-US, nl
-To: Jonathan Denose <jdenose@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai
- <tiwai@suse.de>, Werner Sembach <wse@tuxedocomputers.com>,
- linux-kernel@vger.kernel.org
-References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
- <ZWF76ALANQwP_9b1@google.com>
- <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
- <ZZ2eduF_h7lcBrSL@google.com>
- <CALNJtpWr0h+r3=R2scxyCGzgbZ1C6FiYrCGWW1_aSVPBdmNc3Q@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CALNJtpWr0h+r3=R2scxyCGzgbZ1C6FiYrCGWW1_aSVPBdmNc3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|MN6PR08MB8737:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09c9a63f-242c-4350-0730-08dc12acf73c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	adQHboLq2FRBbz4Aq00eAK3xQv6J/C7/jk9p8yjkvD8zbi3ZOdiD41bD7hm/Smy81nk7xnE2zLWhUObemJ1vlV9+JKNbv5mE5jCNhEDOAy3asij1ZVq6EVqI5zHWlCfXdqZwXViwbrTAJlNA1ZPkL9/amtBqe4UQ1gQohzitpgH+KlXJ21NYo7n4Z26lkxggXncZHiz3vPdd4TszQfAXe1QGHgUBmdxPp51qQ1F2SwPidWxC663OQn2yW5eHv62ObzsrhcKy8/t+Ey0l8pYOGAQTb1CVNbbIpOOpjDd55C5QNZAvaxSjQVlKcM+wvplbTPDuv0IzmySsc/uxFEBqHZzKhkq88Gxa03J59l966UdxYbRDJJxdJgeOX6c6KFI34tntgj0V5v+xG+K5+ab2OSIS9CtwFyvVCp3giKe09GN6nVi0+NlgKeIRvMWlLdH7ai74sMorIVXno6eXGwHYA0/J/ZwbQDKcyvw5i01Y3IRVcKb1zvKCDiYQBGBTAuuID/ax8D3MpuQfyaHYASRijrTREFgVFm7J5h0DwN0nUoHXHQs9wMwImE4z9tH0HeXG
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(396003)(39830400003)(366004)(136003)(376002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(83380400001)(26005)(38100700002)(33716001)(41300700001)(54906003)(66476007)(66556008)(66946007)(5660300002)(316002)(2906002)(7416002)(4326008)(8676002)(8936002)(6916009)(6506007)(6512007)(6666004)(53546011)(6486002)(9686003)(478600001)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/PSaoP2f04TI5gF3lDakHKgvr4h/BTNgi4SDMsDWLlOxZkjJsdnX7LJss0rC?=
+ =?us-ascii?Q?u8VaCA/1PDdNO3J0m+XBIw1VU04g5/DSmPgiNcJhJ3hCyfja2FmNF+8wZppJ?=
+ =?us-ascii?Q?vmSImcsbaRQLJ7xiKc/F9g1akPDkvMieFJe+da8bztiB7XU3Ly7Z4cskvMWE?=
+ =?us-ascii?Q?197UrA8qlPFrZOGEXAyQxsgdFCdNeFf3g863GUHQc+mlMLOwbnUw0Qi4TvIk?=
+ =?us-ascii?Q?SwkqmSatyYH6+Cqyp7Sn6SD7TnytlOW2V2zQk13SzSEdjDmrF3saXTyaCLCc?=
+ =?us-ascii?Q?k/BgiZ8ASLFP7MgHRTR+pvkJQpmdU6nKnPbdiolGkMIFWtGsCfPIy2icnosw?=
+ =?us-ascii?Q?KgYkY4y9YkGK00bE+fz1aI9V9U6M8BJ69P+LH5OmHz0yqNtplMYNAS1hA+EB?=
+ =?us-ascii?Q?W5Te/NAVl9Ig72E39GbGCBShM4i6fCAPqfsoNSfQO0KfKpV288f+g5P1dZsX?=
+ =?us-ascii?Q?J21XxjrU9HFE/R/efqoCKtNc75iCPnoaMhXY9bknHrBcI5rhZU/EsNRkRK/4?=
+ =?us-ascii?Q?8kXVjdLnNLmAremE3fTb0Wz0jRCKC4INnRTa5jsjGW2GM95Ya2YxsV45nkrW?=
+ =?us-ascii?Q?6MUdH+kt1wEkbqNbT4woOvWE3bQEcUDzaxSKnPrGXLxHnWw19WrS90IbMosV?=
+ =?us-ascii?Q?qhMyuqs4+yy23cBFczMasVuk+LaTtPWw2X1jGR87Z7+R5TZOIi/gDerV2r6+?=
+ =?us-ascii?Q?y+qgtTDcXmOA5xrhV1orUEPTYQlIMxHu26ara4nF2icZDGV91EqUm828Cbjz?=
+ =?us-ascii?Q?2PzfVHM7ghfjAGcrEGT9kn3lASzi7B/3GyVzgErN5bNVo3j+cw+sxz9nIXKZ?=
+ =?us-ascii?Q?eNLe143/heAglcZDsA/+nZ/4oQtInF3DkjC3s9SYHhZyvWr8FPm7GstQlzbC?=
+ =?us-ascii?Q?Y9lY0jiOv3k9mCuA9WTKwNvJW7lluTW6juHvaVWH6UqNG5KnBgVnsfSbez9o?=
+ =?us-ascii?Q?KK0nTF2pUKtCZPWII2NSvnDvM2qVmolX/UP+QnHXLn2ApRB6BCR3ojYpOgZC?=
+ =?us-ascii?Q?Nu7GqqYVM3PqSUKjR8zgqtikUPWw+GgxjETdgNaXFG4oqW3F1ETac0SAT5ps?=
+ =?us-ascii?Q?AV2za6Oi8AYCXAnCWvnrOaC4s3qVsDqys2r89qFm6zSekf8bjjioGobIYlHL?=
+ =?us-ascii?Q?UXBKsVFCvmXgriqC49p5bTM0LP2bGxWk0tZgYohd4s7gH81AGLI56zkA3BIg?=
+ =?us-ascii?Q?s0fR5bJkukxF9eEFIeDyAND3uGibFcN0IX07fdaUkexNtgwYjJDGHC0hVeZi?=
+ =?us-ascii?Q?VNVOgfkxbC/kdUXEFYpUKAk0Klaw+bS8BDPBQLWC5q3/BV1c+Pi3MQ4S0xGi?=
+ =?us-ascii?Q?Hot5xShGRpIZT1p4A4yyVKnyNXOvYfP0q5XE/lOvocn3kFciNsPFnLFgOkZh?=
+ =?us-ascii?Q?M3psD5lwYPe+OGg7/O29wxq5gzVzJDgaDceIEeLM336K1VABuvznCqgBvTjL?=
+ =?us-ascii?Q?H390H7ADkhhXjV641cvHzd1psQ5m3Sy0/zdSR9C5LhAnKJHOCVetDJtojyRe?=
+ =?us-ascii?Q?iwUfpzQ/8dHxhJ/OrSnUxwMy4scJSvvnUJ4MM458ad57IxXWUMCpJgGE1bz5?=
+ =?us-ascii?Q?/iViURvvoapd6wAniE/JmDp/begZwv5dh9slFpMT?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09c9a63f-242c-4350-0730-08dc12acf73c
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 13:55:27.3350
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S003ZwdEQEmOEiPkfS0Pu3QWUTyH8pPll2Sa+UugE9SwxmoZ4epnJuCcaJaVifdF8wpD11zWiPxaPl+nfKgp+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR08MB8737
 
-Hi Jonathan,
+Hi Javier,
 
-On 1/11/24 00:42, Jonathan Denose wrote:
-> Dmitry,
+On Fri, Jan 05, 2024 at 08:21:25PM +0100, Javier Carrasco wrote:
+> Hi Jeff,
 > 
-> Sorry I forgot to reply all, so I'm resending my other email.
+> On 30.12.23 21:29, Jeff LaBundy wrote:
+> > Having reviewed this version in detail, it's clear how the implementation
+> > imposes this restriction. However, it's not clear why we have to have this
+> > restriction straight out of the gate; it also breaks the "square doughnut"
+> > example we discussed in v5, where a button resides inside a touch surface
+> > which is split into four discrete rectangles that report X/Y coordinates
+> > relative to the same origin.
+> > 
+> > From my naive point of view, a driver should merely pass a contact's ID
+> > (for HW that can track contacts), coordinates, and pressure. Your helper(s)
+> > are then responisble for iterating over the list, determining the segment
+> > in which the coordinates fall, and then reporting the event by way of
+> > input_report_abs() or input_report_key() based on whether or not a keycode
+> > is defined.
+> > 
+> > I think the problem with that approach is that touchscreen drivers only
+> > report coordinates when the pressure is nonzero. The process of dropping
+> > a contact, i.e. button release for some segments, happens inside input-mt
+> > by virtue of the driver calling input_mt_sync_frame().
+> > 
+> > It makes sense now why you are duplicating the contact tracking to a degree
+> > here. Therefore, it's starting to look more and more like the overlay segment
+> > handling needs to move into the input-mt core, where much of the information
+> > you need already exists.
+> > 
+> > If we look at input_mt_report_pointer_emulation(), the concept of button
+> > release is already happening; all we really want to do here is gently
+> > expand the core to understand that some ranges of coordinates are simply
+> > quantized to a keycode with binary pressure (i.e. press/release).
+> > 
+> > In addition to removing duplicate code as well as the restriction of supporting
+> > only one X/Y surface, moving overlay support into the input-mt core would
+> > remove the need to modify each touchscreen driver one at a time with what
+> > are largely the same nontrivial changes. If we think about it more, the
+> > touchscreen controller itself is not changing, so the driver really shouldn't
+> > have to change much either.
+> > 
+> > Stated another way, I think it's a better design pattern if we let drivers
+> > continue to do their job of merely lobbing hardware state to the input
+> > subsytem via input_mt_slot(), touchscreen_report_pos() and input_mt_sync_frame(),
+> > then leave it to the input subsystem alone to iterate over the list and
+> > determine whether some coordinates must be handled differently.
+> > 
+> > The main drawback to this approach is that the overlay buttons would need
+> > to go back to being part of the touchscreen input device as in v1, as opposed
+> > to giving the driver the flexibility of splitting the buttons and X/Y surfaces
+> > into two separate input devices.
+> > 
+> > When we first discussed this with Peter, we agreed that splitting them into two
+> > input devices grants the most flexibility, in case user space opts to inhibit
+> > one but not the other, etc. However since the buttons and X/Y surfaces are all
+> > part of the same physical substrate, it seems the chances of user space being
+> > interested in one but not the other are low.
+> > 
+> > Furthermore, folding the buttons and X/Y surfaces back into the same input
+> > device would remove the need for each touchscreen driver to preemptively
+> > allocate a second input device, but then remove it later as in patch [4/4]
+> > in case the helpers did not find any buttons.
+> > 
+> > What are your thoughts on evolving the approach in this way? It's obviously
+> > another big change and carries some risk to the core, so I'm curious to hear
+> > Dmitry's and others' thoughts as well. I appreciate that you've been iterating
+> > on this for some time, and good is not the enemy of great; therefore, maybe
+> > a compromise is to move forward with the current approach in support of the
+> > hardware you have today, then work it into the input-mt core over time. But
+> > it would be nice to avoid ripping up participating touchscreen drivers twice.
+> > 
+> > Thank you for your patience and continued effort. In the meantime, please note
+> > some minor comments that are independent of this architectural decision.
+> > 
 > 
-> On Tue, Jan 9, 2024 at 1:28 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
->>
->> Hi Jonathan,
->>
->> On Mon, Nov 27, 2023 at 10:38:57AM -0600, Jonathan Denose wrote:
->>> Hi Dmitry
->>>
->>> On Fri, Nov 24, 2023 at 10:45 PM Dmitry Torokhov
->>> <dmitry.torokhov@gmail.com> wrote:
->>>>
->>>> Hi Jonathan,
->>>>
->>>> On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
->>>>> The ThinkPad T14 Gen 1 touchpad works fine except that clicking
->>>>> and dragging by tapping the touchpad or depressing the touchpad
->>>>> do not work. Disabling PNP for controller setting discovery enables
->>>>> click and drag without negatively impacting other touchpad features.
->>>>
->>>> I would like to understand more on how enabling PnP discovery for i8042
->>>> affects the touchpad. Do you see it using different interrupt or IO
->>>> ports? What protocol does the touchpad use with/without PnP? If the
->>>> protocol is the same, do you see difference in the ranges (pressure,
->>>> etc) reported by the device?
->>>>
->>>> Thanks.
->>>>
->>>> --
->>>> Dmitry
->>>
->>> Without PnP discovery the touchpad is using the SynPS/2 protocol, with
->>> PnP discovery, the touchpad is using the rmi4 protocol. Since the
->>> protocols are different, so are the ranges but let me know if you
->>> still want to see them.
->>
->> Thank you for this information. So it is not PnP discovery that appears
->> harmful in your case, but rather that legacy PS/2 mode appears to be
->> working better than RMI4 for the device in question.
->>
->> I will note that the original enablement of RMI4 for T14 was done by
->> Hans in [1]. Later T14 with AMD were added to the list of devices that
->> should use RMI4 [2], however this was reverted in [3].
->>
->> Could you please tell me what exact device you are dealing with? What's
->> it ACPI ID?
->>
->> [1] https://lore.kernel.org/all/20201005114919.371592-1-hdegoede@redhat.com/
->> [2] https://lore.kernel.org/r/20220318113949.32722-1-snafu109@gmail.com
->> [3] https://lore.kernel.org/r/20220920193936.8709-1-markpearson@lenovo.com
->>
->> Thanks.
->>
->> --
->> Dmitry
+> Thanks again for your thorough reviews and proposals to improve the code.
 > 
-> Thanks for your reply!
+> I am basically open to any solution that improves the quality of the
+> feature. If I get you right, moving everything to the input-mt core
+> would hide the overlay stuff from the device drivers (which sounds good)
+> and a bit of code could be simplified by using the existing infrastructure.
+
+Yes, that is the idea.
+
 > 
-> I'm not 100% sure which of these is the ACPI ID, but from `udevadm
-> info -e` there's:
-> N: Name="Synaptics TM3471-020"
-> P: Phys=rmi4-00/input0
+> On the other hand, adding this feature to the input-mt core right away
+> increases the risk of breaking things that many users need. We are
+> already using this feature in some prototypes since v1 without any issue
+> so far, but it would be great if it could be tested under different
+> circumstances (hardware, configurations, etc.) before it goes into the
+> core, wouldn't it?
 
-To get the ACPI ID you need to run e.g. :``
+I agree with you. Thinking about this more, immediately introducing this
+feature to the core is a relatively high risk that would be shared by all
+users. I like your idea of introducing a preliminary version first before
+making heavy-handed changes. That's the beauty of helper functions; they
+only impact users who explicitly opt in.
 
-cat /sys/bus/serio/devices/serio1/firmware_id
+> 
+> I would also like to know what more experienced people think about it,
+> if we should go all out and add it to the input-mt core now or as you
+> also suggested, move forward with the current approach and let it
+> "mature" first. The cost of that would be modifying device driver code
+> twice, but I suppose that not so many drivers will add this feature in
+> the next kernel iterations... maybe you? it sounds like that you might
+> have a use case for it :)
 
-After reading the original bug report again I take back my
-Reviewed-by and I'm tending towards a nack for this.
+I don't have an immediate use case, but I've been looking at this from
+the perspective of a future customer of it. Maybe the right path forward
+is as follows:
 
-Jonathan upon re-reading things I think that your problem
-is more a case of user space mis-configuration then
-a kernel problem.
+1. Stick with the same general architecture of v6 and its "limitations",
+   which in practice are unlikely to be encountered. I imagine the overlay
+   layout you have been using would be the most common use case.
+2. Make the handful of small changes that have been suggested thus far.
+3. Consider updating patch [4/4] to combine the touchscreen and buttons
+   into the same input device as you had in v1. This sets a little simpler
+   precedent for the first user of these helpers. If later these helpers
+   do get absorbed into the core, thereby forcing a single input device,
+   the st1232 would continue to appear the same to user space.
 
-You mention both tap-n-drag not working as well as click+drag
-not working.
+Does this seem reasonable?
 
-tap-n-drag is purely done in userspace and typically only
-works if tap-to-click is enabled in the touchpad configuration
-of your desktop environment.
+> 
+> >> +struct button {
+> >> +	u32 key;
+> >> +	bool pressed;
+> >> +	int slot;
+> >> +};
+> >> +
+> >> +struct touch_overlay_segment {
+> >> +	struct list_head list;
+> >> +	u32 x_origin;
+> >> +	u32 y_origin;
+> >> +	u32 x_size;
+> >> +	u32 y_size;
+> >> +	struct button *btn;
+> > 
+> > I think you can simply declare the struct itself here as opposed to a pointer to
+> > one; this would avoid a second call to devm_kzalloc().
+> > 
+> 
+> That was the other option I mentioned in my reply and I am fine with the
+> modification you propose.
+> 
+> >> +	if (fwnode_property_present(segment_node, "linux,code")) {
+> > 
+> > Instead of walking the device tree twice by calling fwnode_property_present()
+> > followed by fwnode_property_read_u32(), you can simply check whether the
+> > latter returns -EINVAL, which indicates the optional property was absent.
+> > 
+> 
+> Ack.
+> 
+> >> +		segment->btn = devm_kzalloc(dev, sizeof(*segment->btn),
+> >> +					    GFP_KERNEL);
+> >> +		if (!segment->btn)
+> >> +			return -ENOMEM;
+> >> +
+> 
+> 
+> >> +	fwnode_for_each_child_node(overlay, fw_segment) {
+> >> +		segment = devm_kzalloc(dev, sizeof(*segment), GFP_KERNEL);
+> >> +		if (!segment) {
+> >> +			error = -ENOMEM;
+> >> +			goto put_overlay;
+> > 
+> > For this and the below case where you exit the loop early in case of an
+> > error, you must call fwnode_handle_put(fw_segment) manually. The reference
+> > count is handled automatically only when the loop iterates and terminates
+> > naturally.
+> > 
+> > Since nothing else happens between the loop and the 'put_overlay' label,
+> > you can also replace the goto with a break and remove the label altogether.
+> > 
+> 
+> Ack.
+> 
+> > 
+> > Kind regards,
+> > Jeff LaBundy
+> 
+> 
+> Thanks and best regards,
+> Javier Carrasco
 
-Click + drag requires you to use the bottom of the touchpad
-(the only part which actually clicks) as if there still were
-2 physical buttons there and then click the touchpad down
-with 1 finger till it clicks and then drags with another
-finger (you can click+drag with one finger but the force
-required to keep the touchpad clicked down while dragging
-makes this uncomfortable to do).
-
-This will likely also only work if the mouse click emulation
-mode is set to "area" and not "fingers" with "fingers" being
-the default now. In GNOME you can configure
-the "click emulation mode" in the "tweaks" tools under
-"mouse & touchpad" (and tap to click is in the normal
-settings menu / control panel).
-
-If you have the click emulations set to fingers and
-then do the click with 1 finger + drag with another
-finger thing, I think the drag will turn into a
-right button drag instead of a left button drag which
-is likely why this is not working.
-
-You can check which mode you are in by seeing how
-you right click. If you right-click by pressing down
-in the right bottom corner of the touchpad then
-your userspace (libinput) config is set to areas,
-if you can right click anywhere by pressing down
-with 2 fingers at once then your click emulation
-is in fingers mode and this is likely why click-n-drag
-is not working.
-
-I have just dug up my T14 gen1 (Intel) and updated it
-to kernel 6.6.11 to rule out kernel regressions.
-
-And both click-n-drag and tap-n-drag (double-tap then
-drag) both work fine there with a touchpad with
-an ACPI id of LEN2068 as shown by
-cat /sys/bus/serio/devices/serio1/firmware_id
-
-(with the Desktop Environment configured for bottom
-area click emulation and tap-to-click enabled)
-
-As for why changing things back to synps2 works,
-I don't know. One guess is that you already configured
-the touchpad behavior of your desktop environment to
-your liking in the past and your desktop environment
-has remembered this only for the input device-name
-which is used in SynPS/2 mode and the different
-input device-name in RMI4 mode in new (new-ish)
-kernels causes the desktop environment to use
-default settings which are typically "fingers"
-click emulation and tap-to-click disabled.
-
-This can e.g. also happen if you have moved your
-disk (contents) over from an older machine. IIRC
-the SynPS/2 driver always used the same input
-device-name where as with RMI4 the name is tied
-to the actual laptop model.
-
-Regards,
-
-Hans
-
-
+Kind regards,
+Jeff LaBundy
 
