@@ -1,147 +1,117 @@
-Return-Path: <linux-input+bounces-1217-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1218-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BF782BBDD
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 08:39:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DDB82C1EA
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 15:34:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BE281C24B66
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 07:39:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECF0C285078
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 14:34:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FA15B5BF;
-	Fri, 12 Jan 2024 07:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9E56DCF4;
+	Fri, 12 Jan 2024 14:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhuOaNR0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QSxNKtH0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B085C90C;
-	Fri, 12 Jan 2024 07:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6d9cdd0a5e6so3696431b3a.3;
-        Thu, 11 Jan 2024 23:39:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDBA6BB48
+	for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 14:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e69b31365so351195e9.0
+        for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 06:34:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705045151; x=1705649951; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ltxfqdn8oMs6HiFEgPdU5d3jRUgHJ3wntYFCndBlEL0=;
-        b=AhuOaNR0pSJdkFQuwOxyK/b+ALALPGdN+knq/7Nz+ZiLKnzr42VEUvIB6C0wAb+lLQ
-         iw+NxI045owqxnRWew7nA9pydu0QuTP6+CDhD9Vj6W3iD2xp50tionHGh5njl1DtCC8Y
-         rbWf3aI3OGCpt1PIPLXhW0B2IM+kuqUYcrAzzDB3gnWCVs3S9yvySfWHO0inAAfJGg1D
-         TyRN8vHfahW8kcwZUL8wioTzM83ZMsGu+vR1VTFdFFCoxpQSn58QMBsJZi+A1hGlzsyc
-         tFcIw1VMBYymTW7YfBZHAw2WAQ/zO63v7CyhXDVUIFKCrj/tb51UMJi9vfqa3odonm+y
-         OSVQ==
+        d=linaro.org; s=google; t=1705070057; x=1705674857; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wMAozsps9KhdnPC0gC/CqjxcAys0VIF1YUv+72UuGdM=;
+        b=QSxNKtH0L5ny97b8ubTtPuslm7pNmNynFnHnzGI/mk4exHOX4oaK6f/LzjXq4m4Pgg
+         S2PttR0ATVEnHHRuqAQ/hszkFViYWkW29xxS4hpqduKzbbE0KmkTN7Bv+XmNrZOz922v
+         JFt9J4fTpVVMk7QEygpR3hHUoDTzQF6Hi1SzEXFWh5877WesQ1pZ6W54e92A+k+74k5F
+         Jg+MDlwuDGu0zpZKLXxXtpmimmiwuPU4zs2BQxsAZTZbqcpSOk4PanE6D5B81vvrkooY
+         vTPWxCu5EgZV07p640BUWol6qiBj4+Rdb2B8oEw4atT+ZZjkmhyKJIOC3rxPd729dIxO
+         A0zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705045151; x=1705649951;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ltxfqdn8oMs6HiFEgPdU5d3jRUgHJ3wntYFCndBlEL0=;
-        b=PbuAG5MdgrEoyADk99a6m7ZqnaUmM/0N5jocaRUdK0phYPx4yCbs6mkw7MKnNoeBV2
-         Eo6pDzv+f2NoqeXPyz/2ewhZCrWMTipjmTDZXfCeMth1jorYv9T0an3ipV/cU1x/+DFK
-         sfbalUDROK6Mbb/Q43FL1GYQSVd+PwfKFCy1ZMcIKQUZxC8nOuUDCeo/692axVSyhEuE
-         2SasWymN3TGYpi/bGMAR8hbEaRrSNdpYHP9CzBbXGV4lazLMLS5u1s9a0dhyDnUNbvyN
-         wa+UDagVNLc6EB7Zc13k71KMtNko+cv6EJJX57EgJWnfQD8WYN9ZAeVR5oJfJS1izERm
-         VzyA==
-X-Gm-Message-State: AOJu0YyenFN72QPgNBX8R7Mtp7TTGzMtf4HHO9AtZ6HwBVWft6suBIv7
-	C+C4TwzBecgkNqIw9EKci9E=
-X-Google-Smtp-Source: AGHT+IHHyM4INeewJgDCfByb1wR/DWXGrSMUSzpTM4WgHiY4EFQ9S7QWLIsDnv8bY2tCOBNXv8rW+w==
-X-Received: by 2002:aa7:9e52:0:b0:6d9:a0a2:a7c0 with SMTP id z18-20020aa79e52000000b006d9a0a2a7c0mr388151pfq.66.1705045150890;
-        Thu, 11 Jan 2024 23:39:10 -0800 (PST)
-Received: from g2039B650.. ([106.39.42.152])
-        by smtp.gmail.com with ESMTPSA id ka6-20020a056a00938600b006d991505b4csm2565570pfb.76.2024.01.11.23.39.07
+        d=1e100.net; s=20230601; t=1705070057; x=1705674857;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wMAozsps9KhdnPC0gC/CqjxcAys0VIF1YUv+72UuGdM=;
+        b=FUwlo6Es0NOyipMTSeRPXFbYLsFjnTVulq+7/sIlDAfolnFmNy/Y3esnEmTs8itwVt
+         MiJ/h7ibUuLAu3okAjsa8Z3eDPbG+eslRArlzfkzcFdAzLmvlyhwAGPB1ZmOOeL0fwwp
+         xkfwfoRUvjoLgACoU4FXcXpRyRUfoLoqaoOb6gp5hjp8j9sQAtP9wY/eQiDmJhPOflpY
+         0SmZK/vXfQ1lcq3pjHDTutYiz0xAYemMAsywAMGSJEhrX22huLmr7eXDUk+gdfPB6Fxw
+         TI67dWsFqIVQo8S82AWE7lKvXD2TCZr1CPZBLX30Eipp6tPM2FbIicJNvFHfM9/bs34+
+         tc8w==
+X-Gm-Message-State: AOJu0YzHytnooJAPsuIf0jlOtWDvZRoFgH5OhsPeaTPfVxB/jRPuqm6S
+	foSxhuWtDtqBHKEAsJFiYGCBMr/Kt1/3AQ==
+X-Google-Smtp-Source: AGHT+IEo2mOleVaYUfc9j4l2dY3+TK3k54YTZMybDNjOmwmfLYfAMTaWAKbDYx/jgnOTy0AsBo3okg==
+X-Received: by 2002:a05:600c:1705:b0:40e:4832:9fab with SMTP id c5-20020a05600c170500b0040e48329fabmr886892wmn.143.1705070057428;
+        Fri, 12 Jan 2024 06:34:17 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id l17-20020a05600c1d1100b0040e4a2b36bfsm9849022wms.22.2024.01.12.06.34.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 23:39:10 -0800 (PST)
-From: Gui-Dong Han <2045gemini@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	arnd@kernel.org,
-	schnelle@linux.ibm.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@outlook.com,
-	Gui-Dong Han <2045gemini@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] Input: fix atomicity violation in gameport_run_poll_handler
-Date: Fri, 12 Jan 2024 15:38:55 +0800
-Message-Id: <20240112073855.16594-1-2045gemini@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 12 Jan 2024 06:34:17 -0800 (PST)
+Date: Fri, 12 Jan 2024 17:34:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH 1/2] HID: hid-steam: remove pointless error message
+Message-ID: <305898fb-6bd4-4749-806c-05ec51bbeb80@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-In gameport_run_poll_handler():
-    ...
-    if (gameport->poll_cnt)
-        mod_timer(&gameport->poll_timer, jiffies + ...));
+This error message doesn't really add any information.  If modprobe
+fails then the user will already know what the error code is.  In the
+case of kmalloc() it's a style violation to print an error message for
+that because kmalloc has it's own better error messages built in.
 
-In gameport_stop_polling():
-    spin_lock(&gameport->timer_lock);
-    if (!--gameport->poll_cnt)
-        del_timer(&gameport->poll_timer);
-    spin_unlock(&gameport->timer_lock);
-
-An atomicity violation occurs due to the concurrent execution of
-gameport_run_poll_handler() and gameport_stop_polling(). The current check
-for gameport->poll_cnt in gameport_run_poll_handler() is not effective
-because poll_cnt can be decremented to 0 and del_timer can be called in
-gameport_stop_polling() before mod_timer is called in
-gameport_run_poll_handler(). This situation leads to the risk of calling
-mod_timer for a timer that has already been deleted in
-gameport_stop_polling(). Since calling mod_timer on a deleted timer
-reactivates it, this atomicity violation could result in the timer being
-activated while the poll_cnt value is 0.
-
-This possible bug is found by an experimental static analysis tool
-developed by our team, BassCheck[1]. This tool analyzes the locking APIs
-to extract function pairs that can be concurrently executed, and then
-analyzes the instructions in the paired functions to identify possible
-concurrency bugs including data races and atomicity violations. The above
-possible bug is reported when our tool analyzes the source code of
-Linux 5.17.
-
-To resolve this issue, it is suggested to add a spinlock pair in
-gameport_run_poll_handler() to ensure atomicity. With this patch applied,
-our tool no longer reports the bug, with the kernel configuration
-allyesconfig for x86_64. Due to the absence of the requisite hardware, we
-are unable to conduct runtime testing of the patch. Therefore, our
-verification is solely based on code logic analysis.
-
-[1] https://sites.google.com/view/basscheck/
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Gui-Dong Han <2045gemini@gmail.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/input/gameport/gameport.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/hid/hid-steam.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/input/gameport/gameport.c b/drivers/input/gameport/gameport.c
-index 34f416a3ebcb..12af46d3c059 100644
---- a/drivers/input/gameport/gameport.c
-+++ b/drivers/input/gameport/gameport.c
-@@ -202,8 +202,13 @@ static void gameport_run_poll_handler(struct timer_list *t)
- 	struct gameport *gameport = from_timer(gameport, t, poll_timer);
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index b3c4e50e248a..59df6ead7b54 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -1109,10 +1109,9 @@ static int steam_probe(struct hid_device *hdev,
+ 		return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
  
- 	gameport->poll_handler(gameport);
+ 	steam = devm_kzalloc(&hdev->dev, sizeof(*steam), GFP_KERNEL);
+-	if (!steam) {
+-		ret = -ENOMEM;
+-		goto steam_alloc_fail;
+-	}
++	if (!steam)
++		return -ENOMEM;
 +
-+	spin_lock(&gameport->timer_lock);
-+
- 	if (gameport->poll_cnt)
- 		mod_timer(&gameport->poll_timer, jiffies + msecs_to_jiffies(gameport->poll_interval));
-+
-+	spin_unlock(&gameport->timer_lock);
+ 	steam->hdev = hdev;
+ 	hid_set_drvdata(hdev, steam);
+ 	spin_lock_init(&steam->lock);
+@@ -1179,9 +1178,6 @@ static int steam_probe(struct hid_device *hdev,
+ 	cancel_work_sync(&steam->work_connect);
+ 	cancel_delayed_work_sync(&steam->mode_switch);
+ 	cancel_work_sync(&steam->rumble_work);
+-steam_alloc_fail:
+-	hid_err(hdev, "%s: failed with error %d\n",
+-			__func__, ret);
+ 	return ret;
  }
  
- /*
 -- 
-2.34.1
+2.43.0
 
 
