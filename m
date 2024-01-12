@@ -1,145 +1,248 @@
-Return-Path: <linux-input+bounces-1220-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1221-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA44082C28C
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 16:08:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3531E82C290
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 16:11:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57B21284319
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 15:08:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3603B1C20F7C
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 15:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29676E2DC;
-	Fri, 12 Jan 2024 15:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B34A6EB40;
+	Fri, 12 Jan 2024 15:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tmgKjx9V"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jJ2LKk2z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280166DD18
-	for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 15:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3374e332124so4926737f8f.2
-        for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 07:08:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FFA6E2D7
+	for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 15:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso78028181fa.0
+        for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 07:11:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705072107; x=1705676907; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YlH+RSdYRoNdfUEygz2Iz90RJfaOQT2YtQneGSIE04U=;
-        b=tmgKjx9VR4KDZvHWU5+EAOE929PjGRjMgga00/c7QiD2HXr3xigTagwNMKpOPVOL2V
-         55R+EEMd4p6VCPZBr8vmawjuUCpaHbJ0jnqm0Ci81ws9YyZ+ok+a+qeXUwQWhJ3ExliJ
-         ZhaZcr2eQC7IHR8uarJCQuR6Fpx7TtlQcMp6Qb/veBJ9qTYrqhTDfxbpGLPatR5n8Xgx
-         6uehEq9AwnwFRRC52/hHDgwK+1Tq2Szwo43Swp3y6s57CKRWoCnxRzYeJZFLXTCYN24N
-         lL/703MWFZ4Byoohpbov5PBqswFaiEj5BYw9udefibtele1dWgzlg41jRv0BC8DEGQNv
-         wRWg==
+        d=chromium.org; s=google; t=1705072259; x=1705677059; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m8c0Yp8f31j184o5cUbwQWo/MTPb1ianU9ZhYeuFp4g=;
+        b=jJ2LKk2zk58ZjYzdWek3/MqJ+ECuqnAv7L0SV9af47m4fL083rY4cr1+XfCY3ZALdW
+         uICDGoc/iSNknvbYhsjORaK5cV86mWO0Ah6AmPu1qflmbjPEe232hEKFKpUBpNyO2P7z
+         pRvRS2prttM/9HJmXDchsIwVoOEYTZ6TawxDM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705072107; x=1705676907;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YlH+RSdYRoNdfUEygz2Iz90RJfaOQT2YtQneGSIE04U=;
-        b=R4pD6a/b7FudBkLbV5seFiktTVwIBsAPiNzeYrm0d6tr53OPVZAThhiW72VxbUuIVa
-         dWJB05IictQAhLSt4ci0LeFpgOZL6Wfl92E8aXixaZMDa2CoBglMGZjlRNCcB9hBtCIu
-         pU5ugn7AErwCjFy628RXYIFtf48JapRxhsJOtGzAeuk1UjpeAlVzRuKdFLor8pPMSF8A
-         7GQmAYQOprhSTBi5UGCQjlSfLUaZXMxBsx9r2PkZxe+dM4509JG77IiNBd5ZQjT3p1pY
-         eYo5lYsc8UjjnTDmw1WU5VX0iwoQwKpEo4I4WU5OzRbgx62lEgHVgMOUW05lIZjuGKan
-         4vrA==
-X-Gm-Message-State: AOJu0Yw6WVZrcv7ize+dDUtVyw+xzxLpwkG9he/8N6E/mBAgRdeghLle
-	bJwc5RNFt3eJFMec6KYiai+IV/lzbtKklw==
-X-Google-Smtp-Source: AGHT+IHcab6t7oU8df+Vv5MKkJQwgZOMfKP62VXTh5xVxPG6f8EpxAJLVT+q/6kp36EYqcr/SZ226Q==
-X-Received: by 2002:a5d:64ef:0:b0:337:97ec:d73c with SMTP id g15-20020a5d64ef000000b0033797ecd73cmr496429wri.22.1705072107391;
-        Fri, 12 Jan 2024 07:08:27 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:59d5:231:f1ee:77f? ([2a01:e0a:982:cbb0:59d5:231:f1ee:77f])
-        by smtp.gmail.com with ESMTPSA id j21-20020a5d6e55000000b0033672cfca96sm4123938wrz.89.2024.01.12.07.08.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 07:08:26 -0800 (PST)
-Message-ID: <98ed4ee9-f381-43a0-a5cc-523ad108b374@linaro.org>
-Date: Fri, 12 Jan 2024 16:08:23 +0100
+        d=1e100.net; s=20230601; t=1705072259; x=1705677059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m8c0Yp8f31j184o5cUbwQWo/MTPb1ianU9ZhYeuFp4g=;
+        b=qV8K9diNH5xIEYkWKdZh5cZsoSwOPDxTycSnpTfJL93f89iWZPO7QRpTnLvDoaomUz
+         Yg4s/IciTOhp174aLkVN2Ve+NSEodALSi6KiI8+hZl5iV4S+F2oa0uatFCtmiGzPBR2+
+         3OsX0Xqjsee8fWzZaghZu+E80E1mdkdl5MIMR404ghOvEFYhzVq9dc76HhybH40feitv
+         Qnm+gVkPi1cpycC3M8jbd162ykaKIdHQ0aeigEVziISsFm2CN7Vrh9Gt68CNcgs38Zub
+         whX66coiAljy4YTthjFGp+kPkP+I78lLP0cjdHgjPIry2fsuYuFNtDpu4dmV2X1dNQgi
+         Bg2Q==
+X-Gm-Message-State: AOJu0YzlF0Di4b+t3Ra9vz+uPtdScAWV81f1CFQuWdke9YYOobYXUd/z
+	9l8pcZ3VSsi5DUcf/XXJsM3Wb9D86i6s9PRk7AkOHo0R6Yde
+X-Google-Smtp-Source: AGHT+IFVqzLLyGjfjk6nnLC3w+i9qs6a1PIOYb3Rbvq7LQ9cGpykngvg24amtaGcWL+WtHprES5E8k5fF/aD0XZ/UHw=
+X-Received: by 2002:a2e:88d5:0:b0:2cc:5cd5:9664 with SMTP id
+ a21-20020a2e88d5000000b002cc5cd59664mr771610ljk.95.1705072258713; Fri, 12 Jan
+ 2024 07:10:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v14 2/4] Input: add core support for Goodix Berlin
- Touchscreen IC
-Content-Language: en-US, fr
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Bastien Nocera <hadess@hadess.net>,
- Hans de Goede <hdegoede@redhat.com>, Henrik Rydberg <rydberg@bitmath.org>,
- Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231221-topic-goodix-berlin-upstream-initial-v14-0-04459853b640@linaro.org>
- <20231221-topic-goodix-berlin-upstream-initial-v14-2-04459853b640@linaro.org>
- <ZZ-W0UPHOdpU-8el@google.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <ZZ-W0UPHOdpU-8el@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
+ <ZWF76ALANQwP_9b1@google.com> <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
+ <ZZ2eduF_h7lcBrSL@google.com> <CALNJtpWr0h+r3=R2scxyCGzgbZ1C6FiYrCGWW1_aSVPBdmNc3Q@mail.gmail.com>
+ <005a6d3c-ffba-45df-bdc0-cb2d32e6b676@redhat.com>
+In-Reply-To: <005a6d3c-ffba-45df-bdc0-cb2d32e6b676@redhat.com>
+From: Jonathan Denose <jdenose@chromium.org>
+Date: Fri, 12 Jan 2024 09:10:47 -0600
+Message-ID: <CALNJtpUrevm6YXZjG=37H4vs4_1RbHsO6BgsoQbUjZQHzpSOJA@mail.gmail.com>
+Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
+	Jonathan Denose <jdenose@google.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai <tiwai@suse.de>, 
+	Werner Sembach <wse@tuxedocomputers.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dmitry,
+Hans,
 
-On 11/01/2024 08:20, Dmitry Torokhov wrote:
-> Hi Neil,
-> 
-> On Thu, Dec 21, 2023 at 04:21:20PM +0100, Neil Armstrong wrote:
->> Add initial support for the new Goodix "Berlin" touchscreen ICs.
-> 
-> Thank you very much for explaining how reading of additional contacts
-> and checksum works, it makes sense now.
-> 
-> I was a bit unhappy about number of times we copy/move the data over;
-> could you please try the patch below to see if the device still works
-> with it?
+On Thu, Jan 11, 2024 at 4:48=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Hi Jonathan,
+>
+> On 1/11/24 00:42, Jonathan Denose wrote:
+> > Dmitry,
+> >
+> > Sorry I forgot to reply all, so I'm resending my other email.
+> >
+> > On Tue, Jan 9, 2024 at 1:28=E2=80=AFPM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> >>
+> >> Hi Jonathan,
+> >>
+> >> On Mon, Nov 27, 2023 at 10:38:57AM -0600, Jonathan Denose wrote:
+> >>> Hi Dmitry
+> >>>
+> >>> On Fri, Nov 24, 2023 at 10:45=E2=80=AFPM Dmitry Torokhov
+> >>> <dmitry.torokhov@gmail.com> wrote:
+> >>>>
+> >>>> Hi Jonathan,
+> >>>>
+> >>>> On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
+> >>>>> The ThinkPad T14 Gen 1 touchpad works fine except that clicking
+> >>>>> and dragging by tapping the touchpad or depressing the touchpad
+> >>>>> do not work. Disabling PNP for controller setting discovery enables
+> >>>>> click and drag without negatively impacting other touchpad features=
+.
+> >>>>
+> >>>> I would like to understand more on how enabling PnP discovery for i8=
+042
+> >>>> affects the touchpad. Do you see it using different interrupt or IO
+> >>>> ports? What protocol does the touchpad use with/without PnP? If the
+> >>>> protocol is the same, do you see difference in the ranges (pressure,
+> >>>> etc) reported by the device?
+> >>>>
+> >>>> Thanks.
+> >>>>
+> >>>> --
+> >>>> Dmitry
+> >>>
+> >>> Without PnP discovery the touchpad is using the SynPS/2 protocol, wit=
+h
+> >>> PnP discovery, the touchpad is using the rmi4 protocol. Since the
+> >>> protocols are different, so are the ranges but let me know if you
+> >>> still want to see them.
+> >>
+> >> Thank you for this information. So it is not PnP discovery that appear=
+s
+> >> harmful in your case, but rather that legacy PS/2 mode appears to be
+> >> working better than RMI4 for the device in question.
+> >>
+> >> I will note that the original enablement of RMI4 for T14 was done by
+> >> Hans in [1]. Later T14 with AMD were added to the list of devices that
+> >> should use RMI4 [2], however this was reverted in [3].
+> >>
+> >> Could you please tell me what exact device you are dealing with? What'=
+s
+> >> it ACPI ID?
+> >>
+> >> [1] https://lore.kernel.org/all/20201005114919.371592-1-hdegoede@redha=
+t.com/
+> >> [2] https://lore.kernel.org/r/20220318113949.32722-1-snafu109@gmail.co=
+m
+> >> [3] https://lore.kernel.org/r/20220920193936.8709-1-markpearson@lenovo=
+.com
+> >>
+> >> Thanks.
+> >>
+> >> --
+> >> Dmitry
+> >
+> > Thanks for your reply!
+> >
+> > I'm not 100% sure which of these is the ACPI ID, but from `udevadm
+> > info -e` there's:
+> > N: Name=3D"Synaptics TM3471-020"
+> > P: Phys=3Drmi4-00/input0
+>
+> To get the ACPI ID you need to run e.g. :``
+>
+> cat /sys/bus/serio/devices/serio1/firmware_id
+>
+> After reading the original bug report again I take back my
+> Reviewed-by and I'm tending towards a nack for this.
+>
+> Jonathan upon re-reading things I think that your problem
+> is more a case of user space mis-configuration then
+> a kernel problem.
+>
+> You mention both tap-n-drag not working as well as click+drag
+> not working.
+>
+> tap-n-drag is purely done in userspace and typically only
+> works if tap-to-click is enabled in the touchpad configuration
+> of your desktop environment.
+>
+> Click + drag requires you to use the bottom of the touchpad
+> (the only part which actually clicks) as if there still were
+> 2 physical buttons there and then click the touchpad down
+> with 1 finger till it clicks and then drags with another
+> finger (you can click+drag with one finger but the force
+> required to keep the touchpad clicked down while dragging
+> makes this uncomfortable to do).
+>
+> This will likely also only work if the mouse click emulation
+> mode is set to "area" and not "fingers" with "fingers" being
+> the default now. In GNOME you can configure
+> the "click emulation mode" in the "tweaks" tools under
+> "mouse & touchpad" (and tap to click is in the normal
+> settings menu / control panel).
+>
+> If you have the click emulations set to fingers and
+> then do the click with 1 finger + drag with another
+> finger thing, I think the drag will turn into a
+> right button drag instead of a left button drag which
+> is likely why this is not working.
+>
+> You can check which mode you are in by seeing how
+> you right click. If you right-click by pressing down
+> in the right bottom corner of the touchpad then
+> your userspace (libinput) config is set to areas,
+> if you can right click anywhere by pressing down
+> with 2 fingers at once then your click emulation
+> is in fingers mode and this is likely why click-n-drag
+> is not working.
+>
+> I have just dug up my T14 gen1 (Intel) and updated it
+> to kernel 6.6.11 to rule out kernel regressions.
+>
+> And both click-n-drag and tap-n-drag (double-tap then
+> drag) both work fine there with a touchpad with
+> an ACPI id of LEN2068 as shown by
+> cat /sys/bus/serio/devices/serio1/firmware_id
+>
+> (with the Desktop Environment configured for bottom
+> area click emulation and tap-to-click enabled)
+>
+> As for why changing things back to synps2 works,
+> I don't know. One guess is that you already configured
+> the touchpad behavior of your desktop environment to
+> your liking in the past and your desktop environment
+> has remembered this only for the input device-name
+> which is used in SynPS/2 mode and the different
+> input device-name in RMI4 mode in new (new-ish)
+> kernels causes the desktop environment to use
+> default settings which are typically "fingers"
+> click emulation and tap-to-click disabled.
+>
+> This can e.g. also happen if you have moved your
+> disk (contents) over from an older machine. IIRC
+> the SynPS/2 driver always used the same input
+> device-name where as with RMI4 the name is tied
+> to the actual laptop model.
+>
+> Regards,
+>
+> Hans
+>
+>
 
-Sure, I'll test it and report you.
+Thank you for your thorough reply. Based on what you've written, I
+agree this sounds more like a user-space issue than a kernel issue. At
+least that narrows it down for me, so I'll take a look at what could
+be misconfigured in user-space.
 
-> 
-> I also shortened some #defines and defines some additional structures.
-> Also as far as I can see not everything needs to be packed as the data
-> is naturally aligned on the word boundaries.
-
-Great, thank!
-
-Neil
-
-> 
-> Thanks!
-> 
-
+Thanks so much for your help!
+Jonathan
 
