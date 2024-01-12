@@ -1,167 +1,145 @@
-Return-Path: <linux-input+bounces-1219-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1220-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8B182C1ED
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 15:35:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA44082C28C
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 16:08:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95BCB1C21CC5
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 14:35:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57B21284319
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 15:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA46C6DCF4;
-	Fri, 12 Jan 2024 14:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29676E2DC;
+	Fri, 12 Jan 2024 15:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nvzGNpBb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tmgKjx9V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D2F64CFF
-	for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 14:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280166DD18
+	for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 15:08:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e63bc90f2so9382435e9.2
-        for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 06:35:12 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3374e332124so4926737f8f.2
+        for <linux-input@vger.kernel.org>; Fri, 12 Jan 2024 07:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705070110; x=1705674910; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y95Jfas4yPMpMpOy2M2wHIojPX+ZKuNke1Ebmh6JQsU=;
-        b=nvzGNpBb/QggawV0OZUTjf9VYCxKeVJAa+RE7Fls9OnS6P+uI1mV/o3Pr7kaSmlfhd
-         cEksUFnc5LSafqYTs1zCj8+TaC12GxoqVxNCRg/em+0URqlvaScO9UbjUQJZUSm52xZN
-         7e4A6Fuu8H98dbv+G8NmdI6psx1qHl1ObdSOP9c0k/3scSsajY1Yo3y5w33Q8/nJBmYK
-         2q+8Fd+YLkJHQn1fFE69kjZo80xW8sHs1VIGhi1/s4o1c421w1TkBh/sZx7IqiqdUFRf
-         yAhXHz02KVI6deJbztdmvP3lgqcek/arBdZ/5vs8LjhlzQ4t90GmFI4SaS0OGb+mnKaT
-         caCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705070110; x=1705674910;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1705072107; x=1705676907; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y95Jfas4yPMpMpOy2M2wHIojPX+ZKuNke1Ebmh6JQsU=;
-        b=FaHCS7CafDNhn/KHWuVi1tL6YTRldwvvzXhGbdFeaJkLhuyjv8FCeym9JTyfKmvUTj
-         LGUP0S2kTVWr6d7pENcqSw+HmcnXaPYma/g14Nk0mi1E/k7Ztf1vcyVU9ku+xaVSppva
-         P+unj8C5VZoQc0lZrPq3OOsVx5zCWMFVdnVEPqylDyqe3icifoGFRSBYyd9Ke/LIGS6U
-         tYqmmlWISI+BGs1mQtA7FbZvmpxj6IGmdogk1jUhMyb5en3W8W1R0IbUvvcey8Vldxkh
-         8plU8x8FvQUrm/sPOUCR5Ynxcwp1aMyvHUn3F3GlBnSIjVK2QLnW3RdelChusMLPtKIN
-         vmkg==
-X-Gm-Message-State: AOJu0YxKMJVfgBigcVzmJCuxTl9s8a5rX35VDfm6rdlMhwISzoAvJGMh
-	z3D5yexNlzX04+KRkbM58z1VyPhPj8wNWQ==
-X-Google-Smtp-Source: AGHT+IF5Ymenj6Zi2wDPf9weDy1XyZvZJoiZKVlmUQZsJUDWY62gba1DbI8h7VfF0Hw5vd0BEhf7ZQ==
-X-Received: by 2002:a1c:7c08:0:b0:40e:55bb:a0b8 with SMTP id x8-20020a1c7c08000000b0040e55bba0b8mr787274wmc.157.1705070110611;
-        Fri, 12 Jan 2024 06:35:10 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id j28-20020a05600c1c1c00b0040e6726befcsm2090812wms.10.2024.01.12.06.35.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 06:35:10 -0800 (PST)
-Date: Fri, 12 Jan 2024 17:35:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vicki Pfau <vi@endrift.com>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH 2/2] HID: hid-steam: Fix cleanup in probe()
-Message-ID: <1fd87904-dabf-4879-bb89-72d13ebfc91e@moroto.mountain>
+        bh=YlH+RSdYRoNdfUEygz2Iz90RJfaOQT2YtQneGSIE04U=;
+        b=tmgKjx9VR4KDZvHWU5+EAOE929PjGRjMgga00/c7QiD2HXr3xigTagwNMKpOPVOL2V
+         55R+EEMd4p6VCPZBr8vmawjuUCpaHbJ0jnqm0Ci81ws9YyZ+ok+a+qeXUwQWhJ3ExliJ
+         ZhaZcr2eQC7IHR8uarJCQuR6Fpx7TtlQcMp6Qb/veBJ9qTYrqhTDfxbpGLPatR5n8Xgx
+         6uehEq9AwnwFRRC52/hHDgwK+1Tq2Szwo43Swp3y6s57CKRWoCnxRzYeJZFLXTCYN24N
+         lL/703MWFZ4Byoohpbov5PBqswFaiEj5BYw9udefibtele1dWgzlg41jRv0BC8DEGQNv
+         wRWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705072107; x=1705676907;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YlH+RSdYRoNdfUEygz2Iz90RJfaOQT2YtQneGSIE04U=;
+        b=R4pD6a/b7FudBkLbV5seFiktTVwIBsAPiNzeYrm0d6tr53OPVZAThhiW72VxbUuIVa
+         dWJB05IictQAhLSt4ci0LeFpgOZL6Wfl92E8aXixaZMDa2CoBglMGZjlRNCcB9hBtCIu
+         pU5ugn7AErwCjFy628RXYIFtf48JapRxhsJOtGzAeuk1UjpeAlVzRuKdFLor8pPMSF8A
+         7GQmAYQOprhSTBi5UGCQjlSfLUaZXMxBsx9r2PkZxe+dM4509JG77IiNBd5ZQjT3p1pY
+         eYo5lYsc8UjjnTDmw1WU5VX0iwoQwKpEo4I4WU5OzRbgx62lEgHVgMOUW05lIZjuGKan
+         4vrA==
+X-Gm-Message-State: AOJu0Yw6WVZrcv7ize+dDUtVyw+xzxLpwkG9he/8N6E/mBAgRdeghLle
+	bJwc5RNFt3eJFMec6KYiai+IV/lzbtKklw==
+X-Google-Smtp-Source: AGHT+IHcab6t7oU8df+Vv5MKkJQwgZOMfKP62VXTh5xVxPG6f8EpxAJLVT+q/6kp36EYqcr/SZ226Q==
+X-Received: by 2002:a5d:64ef:0:b0:337:97ec:d73c with SMTP id g15-20020a5d64ef000000b0033797ecd73cmr496429wri.22.1705072107391;
+        Fri, 12 Jan 2024 07:08:27 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:59d5:231:f1ee:77f? ([2a01:e0a:982:cbb0:59d5:231:f1ee:77f])
+        by smtp.gmail.com with ESMTPSA id j21-20020a5d6e55000000b0033672cfca96sm4123938wrz.89.2024.01.12.07.08.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jan 2024 07:08:26 -0800 (PST)
+Message-ID: <98ed4ee9-f381-43a0-a5cc-523ad108b374@linaro.org>
+Date: Fri, 12 Jan 2024 16:08:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <305898fb-6bd4-4749-806c-05ec51bbeb80@moroto.mountain>
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v14 2/4] Input: add core support for Goodix Berlin
+ Touchscreen IC
+Content-Language: en-US, fr
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bastien Nocera <hadess@hadess.net>,
+ Hans de Goede <hdegoede@redhat.com>, Henrik Rydberg <rydberg@bitmath.org>,
+ Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231221-topic-goodix-berlin-upstream-initial-v14-0-04459853b640@linaro.org>
+ <20231221-topic-goodix-berlin-upstream-initial-v14-2-04459853b640@linaro.org>
+ <ZZ-W0UPHOdpU-8el@google.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <ZZ-W0UPHOdpU-8el@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There are a number of issues in this code.  First of all if
-steam_create_client_hid() fails then it leads to an error pointer
-dereference when we call hid_destroy_device(steam->client_hdev).
+Hi Dmitry,
 
-Also there are a number of leaks.  hid_hw_stop() is not called if
-hid_hw_open() fails for example.  And it doesn't call steam_unregister()
-or hid_hw_close().
+On 11/01/2024 08:20, Dmitry Torokhov wrote:
+> Hi Neil,
+> 
+> On Thu, Dec 21, 2023 at 04:21:20PM +0100, Neil Armstrong wrote:
+>> Add initial support for the new Goodix "Berlin" touchscreen ICs.
+> 
+> Thank you very much for explaining how reading of additional contacts
+> and checksum works, it makes sense now.
+> 
+> I was a bit unhappy about number of times we copy/move the data over;
+> could you please try the patch below to see if the device still works
+> with it?
 
-Fixes: 691ead124a0c ("HID: hid-steam: Clean up locking")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-This is just from static analysis and code review.  I haven't tested
-it.  I only included the fixes tag for the error pointer dereference.
+Sure, I'll test it and report you.
 
- drivers/hid/hid-steam.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> I also shortened some #defines and defines some additional structures.
+> Also as far as I can see not everything needs to be packed as the data
+> is naturally aligned on the word boundaries.
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index 59df6ead7b54..b08a5ab58528 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -1128,14 +1128,14 @@ static int steam_probe(struct hid_device *hdev,
- 	 */
- 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_HIDRAW);
- 	if (ret)
--		goto hid_hw_start_fail;
-+		goto err_cancel_work;
- 
- 	ret = hid_hw_open(hdev);
- 	if (ret) {
- 		hid_err(hdev,
- 			"%s:hid_hw_open\n",
- 			__func__);
--		goto hid_hw_open_fail;
-+		goto err_hw_stop;
- 	}
- 
- 	if (steam->quirks & STEAM_QUIRK_WIRELESS) {
-@@ -1151,33 +1151,37 @@ static int steam_probe(struct hid_device *hdev,
- 			hid_err(hdev,
- 				"%s:steam_register failed with error %d\n",
- 				__func__, ret);
--			goto input_register_fail;
-+			goto err_hw_close;
- 		}
- 	}
- 
- 	steam->client_hdev = steam_create_client_hid(hdev);
- 	if (IS_ERR(steam->client_hdev)) {
- 		ret = PTR_ERR(steam->client_hdev);
--		goto client_hdev_fail;
-+		goto err_stream_unregister;
- 	}
- 	steam->client_hdev->driver_data = steam;
- 
- 	ret = hid_add_device(steam->client_hdev);
- 	if (ret)
--		goto client_hdev_add_fail;
-+		goto err_destroy;
- 
- 	return 0;
- 
--client_hdev_add_fail:
--	hid_hw_stop(hdev);
--client_hdev_fail:
-+err_destroy:
- 	hid_destroy_device(steam->client_hdev);
--input_register_fail:
--hid_hw_open_fail:
--hid_hw_start_fail:
-+err_stream_unregister:
-+	if (steam->connected)
-+		steam_unregister(steam);
-+err_hw_close:
-+	hid_hw_close(hdev);
-+err_hw_stop:
-+	hid_hw_stop(hdev);
-+err_cancel_work:
- 	cancel_work_sync(&steam->work_connect);
- 	cancel_delayed_work_sync(&steam->mode_switch);
- 	cancel_work_sync(&steam->rumble_work);
-+
- 	return ret;
- }
- 
--- 
-2.43.0
+Great, thank!
+
+Neil
+
+> 
+> Thanks!
+> 
 
 
