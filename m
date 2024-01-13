@@ -1,154 +1,120 @@
-Return-Path: <linux-input+bounces-1228-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1229-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD9E82CC80
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 12:28:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7A882CCDF
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 14:57:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E84C1C215DF
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 11:28:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED8A8284518
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 13:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2084210E1;
-	Sat, 13 Jan 2024 11:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 710162134E;
+	Sat, 13 Jan 2024 13:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEZlhzbu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BC6210E2
-	for <linux-input@vger.kernel.org>; Sat, 13 Jan 2024 11:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=artur-rojek.eu
-Received: by mail.gandi.net (Postfix) with ESMTPA id EB50620003;
-	Sat, 13 Jan 2024 11:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA07821113;
+	Sat, 13 Jan 2024 13:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a2c179aa5c4so384528266b.0;
+        Sat, 13 Jan 2024 05:57:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705154263; x=1705759063; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PGE1HEJ5ixxTvOXVNxbbYY7sOdvQr1NpAqO6gUYLh08=;
+        b=aEZlhzbuh4VFbItmMYKxfYHzvAwezxQ72V8VbwSa3g2pnsRc0mi1xrF0c2AznuUXwc
+         BJokau6Tlj72I3E3GC3GeRuNsGi2elNDjWnjAwhxUnub0gGGsmIV8RptUwm9DS4198b+
+         9bcTkY0oNaQOiKshEmC8vbw1maBpVjdNlYIO7jdlpzn+1rX/qpSDtPm5VBUXihACvvCI
+         igCjIlJMp6gtdIpmOqnwP03yP+op1I3/KfFOj6HiKZJouw0ejX1F/mpHaO7EVW0zoyFN
+         Bt08xk92AtZrM3fpJ22N4PoVCTMewA352nCZUZzqlf7bBAw80c3vt0pccG0YogCLefAX
+         8mWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705154263; x=1705759063;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PGE1HEJ5ixxTvOXVNxbbYY7sOdvQr1NpAqO6gUYLh08=;
+        b=AjXDxe0byr1rZ/QgUCURCH6+r/gh6ngdPXDwWBsTXr62OMj+epLO7uNCpk+tDLxkkL
+         4EfM103SAJBUUZBr3Kszbu/zMYTZPvYNUL3bFZ/FVzlPoD0nzU1tGa1xRY1Yi6xIw/bD
+         UXZtqw3EyiIm14h2jJZjdnZxIruGvPaybM+Yepqbkn1ma2EluHA3LMwEgUWbfEDEAJ2L
+         t06RyN2MIafbSwIH8RH33Uaq6acT1zKJOdl/8X9qHqWOcvH7BHvbqK2uiretTDqfvb5k
+         Tj3k/u1sQv277L0BUla4I2Kii1s4U30C3U1WOZMunvZAnwQaCifQ3mJ++DGxAmFLzGmN
+         WBKA==
+X-Gm-Message-State: AOJu0YzAXUKt422fjnYSnVLlWKTkkrdkxmTZh8fpUq4MUl1O7Cr7mFYG
+	sar8Mo4oLEOvDWf8REg5gl4=
+X-Google-Smtp-Source: AGHT+IFMOIYDYiCqRWjRhgVi6B2d5peHDNTF2jXuwvHB8FKts87L7ld0sC7DRk8qiddMgjxRgmPzDw==
+X-Received: by 2002:a17:906:15c3:b0:a2b:1a80:7b72 with SMTP id l3-20020a17090615c300b00a2b1a807b72mr1514786ejd.30.1705154262796;
+        Sat, 13 Jan 2024 05:57:42 -0800 (PST)
+Received: from krava (ip-94-113-247-30.net.vodafone.cz. [94.113.247.30])
+        by smtp.gmail.com with ESMTPSA id b4-20020a170906150400b00a2a37f63216sm2950887ejd.171.2024.01.13.05.57.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jan 2024 05:57:42 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Sat, 13 Jan 2024 14:57:40 +0100
+To: Daniel Xu <dxu@dxuuu.xyz>
+Cc: Jiri Olsa <olsajiri@gmail.com>, linux-input@vger.kernel.org,
+	coreteam@netfilter.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	fsverity@lists.linux.dev, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	cgroups@vger.kernel.org, alexei.starovoitov@gmail.com,
+	quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com
+Subject: Re: [PATCH bpf-next v3 0/3] Annotate kfuncs in .BTF_ids section
+Message-ID: <ZaKW1AghwUnVz_c4@krava>
+References: <cover.1704565248.git.dxu@dxuuu.xyz>
+ <ZaFm13GyXUukcnkm@krava>
+ <2dhmwvfnnqnlrui2qcr5fob54gdsuse5caievct42trvvia6qe@p24nymz3uttv>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 13 Jan 2024 12:28:29 +0100
-From: Artur Rojek <contact@artur-rojek.eu>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- hdegoede@redhat.com, paul@crapouillou.net, peter.hutterer@who-t.net,
- svv@google.com, biswarupp@google.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V2] Input: adc-joystick: Handle inverted axes
-In-Reply-To: <20240111220333.66060-1-macroalpha82@gmail.com>
-References: <20240111220333.66060-1-macroalpha82@gmail.com>
-Message-ID: <e2ca902be5796d1222bc7460911f499f@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: contact@artur-rojek.eu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2dhmwvfnnqnlrui2qcr5fob54gdsuse5caievct42trvvia6qe@p24nymz3uttv>
 
-Hi Chris,
+On Fri, Jan 12, 2024 at 01:03:59PM -0700, Daniel Xu wrote:
+> On Fri, Jan 12, 2024 at 05:20:39PM +0100, Jiri Olsa wrote:
+> > On Sat, Jan 06, 2024 at 11:24:07AM -0700, Daniel Xu wrote:
+> > > === Description ===
+> > > 
+> > > This is a bpf-treewide change that annotates all kfuncs as such inside
+> > > .BTF_ids. This annotation eventually allows us to automatically generate
+> > > kfunc prototypes from bpftool.
+> > > 
+> > > We store this metadata inside a yet-unused flags field inside struct
+> > > btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
+> > > 
+> > > More details about the full chain of events are available in commit 3's
+> > > description.
+> > > 
+> > > The accompanying pahole changes (still needs some cleanup) can be viewed
+> > > here on this "frozen" branch [0].
+> > 
+> > so the plan is to have bpftool support to generate header file
+> > with detected kfuncs?
+> 
+> Yep, that's the major use case. But I see other use cases as well like
 
-some comments inline.
+ok, any chance you could already include it in the patchset?
+would be a great way to test this.. maybe we could change
+selftests to use that
 
-On 2024-01-11 23:03, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> When one or more axes are inverted, (where min > max), normalize the
-> data so that min < max and invert the values reported to the input
-> stack.
-> 
-> This ensures we can continue defining the device correctly in the
-> device tree while not breaking downstream assumptions that min is
-> always less than max.
-> 
-> Changes since V1:
->  - Moved proposed helper for inversion from input stack to adc-joystick
->    driver.
-The changes summary should go after the "---" separator, otherwise it
-ends up in the commit description.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/input/joystick/adc-joystick.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/joystick/adc-joystick.c
-> b/drivers/input/joystick/adc-joystick.c
-> index c0deff5d4282..46197ebd3564 100644
-> --- a/drivers/input/joystick/adc-joystick.c
-> +++ b/drivers/input/joystick/adc-joystick.c
-> @@ -18,6 +18,7 @@ struct adc_joystick_axis {
->  	s32 range[2];
->  	s32 fuzz;
->  	s32 flat;
-> +	bool inverted;
->  };
-> 
->  struct adc_joystick {
-> @@ -29,6 +30,14 @@ struct adc_joystick {
->  	bool polled;
->  };
-> 
-> +static int adc_joystick_invert(struct input_dev *dev, unsigned int
-> axis, int val)
-As the parameter list exceeds 80 characters, can you move "int val" into
-a second line?
-> +{
-> +	int min = dev->absinfo[axis].minimum;
-> +	int max = dev->absinfo[axis].maximum;
-> +
-> +	return (max + min) - val;
-> +}
-> +
->  static void adc_joystick_poll(struct input_dev *input)
->  {
->  	struct adc_joystick *joy = input_get_drvdata(input);
-> @@ -38,6 +47,8 @@ static void adc_joystick_poll(struct input_dev 
-> *input)
->  		ret = iio_read_channel_raw(&joy->chans[i], &val);
->  		if (ret < 0)
->  			return;
-> +		if (joy->axes[i].inverted)
-> +			val = adc_joystick_invert(input, i, val);
->  		input_report_abs(input, joy->axes[i].code, val);
->  	}
->  	input_sync(input);
-> @@ -86,6 +97,8 @@ static int adc_joystick_handle(const void *data,
-> void *private)
->  			val = sign_extend32(val, msb);
->  		else
->  			val &= GENMASK(msb, 0);
-> +		if (joy->axes[i].inverted)
-> +			val = adc_joystick_invert(joy->input, i, val);
->  		input_report_abs(joy->input, joy->axes[i].code, val);
->  	}
-> 
-> @@ -168,11 +181,17 @@ static int adc_joystick_set_axes(struct device
-> *dev, struct adc_joystick *joy)
->  			goto err_fwnode_put;
->  		}
-> 
-> +		if (axes[i].range[0] > axes[i].range[1]) {
-> +			dev_dbg(dev, "abs-axis %d inverted\n", i);
-There is no "abs-axis" property. Make it "Axis %d inverted\n" instead.
-> +			axes[i].inverted = 1;
-Turn this into an explicit "true", as its a bool.
+thanks,
+jirka
 
-With all above nits fixed:
-Acked-by: Artur Rojek <contact@artur-rojek.eu>
 
-Cheers,
-Artur
-
-> +		}
-> +
->  		fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
->  		fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
-> 
->  		input_set_abs_params(joy->input, axes[i].code,
-> -				     axes[i].range[0], axes[i].range[1],
-> +				     min_array(axes[i].range, 2),
-> +				     max_array(axes[i].range, 2),
->  				     axes[i].fuzz, axes[i].flat);
->  		input_set_capability(joy->input, EV_ABS, axes[i].code);
->  	}
-
+> precision probing of kfuncs. Rather than guess and check which progs can
+> load (in the event of backwards incompatible kfunc changes), programs
+> can look at kfunc type signature thru BTF.
 
