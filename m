@@ -1,119 +1,153 @@
-Return-Path: <linux-input+bounces-1224-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1225-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2ADE82C616
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 21:04:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BFA82C90E
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 03:11:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5167028309C
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jan 2024 20:04:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 542B11F23204
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 02:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3730416407;
-	Fri, 12 Jan 2024 20:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141A418C3D;
+	Sat, 13 Jan 2024 02:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="XKtJaWQ5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="q0MxCTl2"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="X3z7GvZx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A1D15ACF;
-	Fri, 12 Jan 2024 20:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id EAC4E3200AE9;
-	Fri, 12 Jan 2024 15:04:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 12 Jan 2024 15:04:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1705089843; x=1705176243; bh=+8mz4XZguZ
-	in9UP/KR7blhH64FTif6Z1M+wN3fDN6dQ=; b=XKtJaWQ5K8ENuQnLrOOFCe9Oqr
-	N+oxaTUlyPe1bFrj5Ndq8a9kzF/XPvQX6V/zjvpeJFWrKO4IiAz56Im7dS/5tUrg
-	LF9LA2PXRzfpXWbenlCDejl4IS1BT9j3K7syUQeoyl9bti1963hqfi4BGr5C6VIx
-	7/y6K8qb/pQgvRf8Cc1Z1d99CITcCUaqBgQJ/alRxAxlprAawk1pR5QwDr7e5c/b
-	ianfPN82FOg+0d3pFTd2bCjoiHFs8krGwgd6f9yRPCSGZwV6KTfPmNpAaLrtgvZi
-	YD9Tc+mLGUrXWWGkDNSaLo3Z1GqZdK8IaN4HFZFYb8AxZzOjLh6SgBZS9VNA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1705089843; x=1705176243; bh=+8mz4XZguZin9UP/KR7blhH64FTi
-	f6Z1M+wN3fDN6dQ=; b=q0MxCTl2AoML2E0BHeGfYNog4xC/sRa8vIfOKKiGddNw
-	0prH+OWyfMFIyJ2II/bw0Acx5uQfHaBhF0KaGnf4l9MeU5DC8wRMphxLi9FFqupn
-	mdp2kiq0yiIJlmTTPaIo0RfC9hGgujQs71lq2ft23KL2cJCLIGP0nMoXJN6HySnc
-	pHMz5fo0GGhFKXRhBqa1Fw0Rwo/nbPjp3wAVG8IpcYU3ToCvgoUa5JlsPA8dzUN9
-	J35/kx7dlxio9pAYIzJj4Z+P1/PFaUZ93JOdvKJqO6haIYJ09PELFGwtjX14fylt
-	d8NSFTZNlLWN/+KGSMjW5yQnmel62kXjpV94alsy3w==
-X-ME-Sender: <xms:MpuhZb8duYQSytqWdU77MM6IyqWHqYh050N5HvRxrLHKhlKlkVCRXA>
-    <xme:MpuhZXtglSlLhLRZefoYM7vdW83i9wqN1BKWtHjZXQJlCL8hyF8itey3_N2gvsuzB
-    NzND2cMU2agHpfTOA>
-X-ME-Received: <xmr:MpuhZZDuDHyUNifp5hPfOoiAEamPCMUJHybPVSKqEB6-EjrFvWPg744nZvo-X_Rbjw0W7SqQRprjTdHRuLTWcd2QbEVrqJ_SXEwR0lo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeihedgudefudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enfghrlhcuvffnffculdejtddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtsfdt
-    tddtvdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
-    enucggtffrrghtthgvrhhnpedvfeekteduudefieegtdehfeffkeeuudekheduffduffff
-    gfegiedttefgvdfhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:MpuhZXdfeoElfiSSF5KdEALU43XdsO3V3q9kxSEDq4zGsYW4hMg2ag>
-    <xmx:MpuhZQNU14LzFDa4papP7154zoWDsLRztvp615vN5cZ88HXyqd19ew>
-    <xmx:MpuhZZkT1Li4-Lqb_29omSMiU-F0NlfGeKOwvQLHj6BY5T46UmhJEA>
-    <xmx:M5uhZVvjD4ejrvco6EgFK3lew0AWY7HU4KijWUhlweUkBmFLK5sPog>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Jan 2024 15:04:00 -0500 (EST)
-Date: Fri, 12 Jan 2024 13:03:59 -0700
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: linux-input@vger.kernel.org, coreteam@netfilter.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org, fsverity@lists.linux.dev, 
-	bpf@vger.kernel.org, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	cgroups@vger.kernel.org, alexei.starovoitov@gmail.com, quentin@isovalent.com, 
-	alan.maguire@oracle.com, memxor@gmail.com
-Subject: Re: [PATCH bpf-next v3 0/3] Annotate kfuncs in .BTF_ids section
-Message-ID: <2dhmwvfnnqnlrui2qcr5fob54gdsuse5caievct42trvvia6qe@p24nymz3uttv>
-References: <cover.1704565248.git.dxu@dxuuu.xyz>
- <ZaFm13GyXUukcnkm@krava>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B9818B15;
+	Sat, 13 Jan 2024 02:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+Received: from [192.168.0.24] (71-212-26-68.tukw.qwest.net [71.212.26.68])
+	by endrift.com (Postfix) with ESMTPSA id BC5A4A114;
+	Fri, 12 Jan 2024 18:11:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1705111864; bh=v5VXITQd0KCg/Jf8oHl/mWiFAfKUv01SrcH7y13eI5s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=X3z7GvZxb5UUY8gvShzR5MYNYDzqvos9WjekT3UOSbOYC/YFPdc1GtZFGWb33yGdc
+	 reY7rTDWr9spSGTWe81rvHTe1u6LUIfy6wrRBpSPDSMPoCrtFhqVfGCBOQC566bUHf
+	 lRTuVKlDuDRBQg7FDt9ReCV2osgDY0xvMi7wnZjrpF0b0sQbZY0Yas5riIbnFe/V8j
+	 yqJAzbHOVVfu7l3BA0qO2gCi1KMYm2zBG8n9YYUVpCj14oY0E7FmBzZz91tVCk2QT2
+	 srmROlYgWZRstGR+JhqJaLpSvF+XvnBy9ZLLE43NgVnsyjDn7roQQcNFCLWsfMDxdU
+	 1Ys0QN5Hb1AOw==
+Message-ID: <5e17d884-5803-43b3-be94-063c2293f5a0@endrift.com>
+Date: Fri, 12 Jan 2024 18:11:05 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZaFm13GyXUukcnkm@krava>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] HID: hid-steam: Fix cleanup in probe()
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <1fd87904-dabf-4879-bb89-72d13ebfc91e@moroto.mountain>
+From: Vicki Pfau <vi@endrift.com>
+In-Reply-To: <1fd87904-dabf-4879-bb89-72d13ebfc91e@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 12, 2024 at 05:20:39PM +0100, Jiri Olsa wrote:
-> On Sat, Jan 06, 2024 at 11:24:07AM -0700, Daniel Xu wrote:
-> > === Description ===
-> > 
-> > This is a bpf-treewide change that annotates all kfuncs as such inside
-> > .BTF_ids. This annotation eventually allows us to automatically generate
-> > kfunc prototypes from bpftool.
-> > 
-> > We store this metadata inside a yet-unused flags field inside struct
-> > btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
-> > 
-> > More details about the full chain of events are available in commit 3's
-> > description.
-> > 
-> > The accompanying pahole changes (still needs some cleanup) can be viewed
-> > here on this "frozen" branch [0].
+I have applied this to our downstream and made sure it compiles and runs 
+without obvious issues.
+
+Reviewed-by: Vicki Pfau <vi@endrift.com>
+
+Thanks,
+Vicki
+
+On 1/12/24 06:35, Dan Carpenter wrote:
+> There are a number of issues in this code.  First of all if
+> steam_create_client_hid() fails then it leads to an error pointer
+> dereference when we call hid_destroy_device(steam->client_hdev).
 > 
-> so the plan is to have bpftool support to generate header file
-> with detected kfuncs?
-
-Yep, that's the major use case. But I see other use cases as well like
-precision probing of kfuncs. Rather than guess and check which progs can
-load (in the event of backwards incompatible kfunc changes), programs
-can look at kfunc type signature thru BTF.
+> Also there are a number of leaks.  hid_hw_stop() is not called if
+> hid_hw_open() fails for example.  And it doesn't call steam_unregister()
+> or hid_hw_close().
+> 
+> Fixes: 691ead124a0c ("HID: hid-steam: Clean up locking")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> This is just from static analysis and code review.  I haven't tested
+> it.  I only included the fixes tag for the error pointer dereference.
+> 
+>   drivers/hid/hid-steam.c | 26 +++++++++++++++-----------
+>   1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+> index 59df6ead7b54..b08a5ab58528 100644
+> --- a/drivers/hid/hid-steam.c
+> +++ b/drivers/hid/hid-steam.c
+> @@ -1128,14 +1128,14 @@ static int steam_probe(struct hid_device *hdev,
+>   	 */
+>   	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_HIDRAW);
+>   	if (ret)
+> -		goto hid_hw_start_fail;
+> +		goto err_cancel_work;
+>   
+>   	ret = hid_hw_open(hdev);
+>   	if (ret) {
+>   		hid_err(hdev,
+>   			"%s:hid_hw_open\n",
+>   			__func__);
+> -		goto hid_hw_open_fail;
+> +		goto err_hw_stop;
+>   	}
+>   
+>   	if (steam->quirks & STEAM_QUIRK_WIRELESS) {
+> @@ -1151,33 +1151,37 @@ static int steam_probe(struct hid_device *hdev,
+>   			hid_err(hdev,
+>   				"%s:steam_register failed with error %d\n",
+>   				__func__, ret);
+> -			goto input_register_fail;
+> +			goto err_hw_close;
+>   		}
+>   	}
+>   
+>   	steam->client_hdev = steam_create_client_hid(hdev);
+>   	if (IS_ERR(steam->client_hdev)) {
+>   		ret = PTR_ERR(steam->client_hdev);
+> -		goto client_hdev_fail;
+> +		goto err_stream_unregister;
+>   	}
+>   	steam->client_hdev->driver_data = steam;
+>   
+>   	ret = hid_add_device(steam->client_hdev);
+>   	if (ret)
+> -		goto client_hdev_add_fail;
+> +		goto err_destroy;
+>   
+>   	return 0;
+>   
+> -client_hdev_add_fail:
+> -	hid_hw_stop(hdev);
+> -client_hdev_fail:
+> +err_destroy:
+>   	hid_destroy_device(steam->client_hdev);
+> -input_register_fail:
+> -hid_hw_open_fail:
+> -hid_hw_start_fail:
+> +err_stream_unregister:
+> +	if (steam->connected)
+> +		steam_unregister(steam);
+> +err_hw_close:
+> +	hid_hw_close(hdev);
+> +err_hw_stop:
+> +	hid_hw_stop(hdev);
+> +err_cancel_work:
+>   	cancel_work_sync(&steam->work_connect);
+>   	cancel_delayed_work_sync(&steam->mode_switch);
+>   	cancel_work_sync(&steam->rumble_work);
+> +
+>   	return ret;
+>   }
+>   
 
