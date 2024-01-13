@@ -1,153 +1,100 @@
-Return-Path: <linux-input+bounces-1225-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1226-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BFA82C90E
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 03:11:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C2582CBE6
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 11:38:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 542B11F23204
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 02:11:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DD3328461D
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 10:38:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141A418C3D;
-	Sat, 13 Jan 2024 02:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD0020B31;
+	Sat, 13 Jan 2024 10:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="X3z7GvZx"
+	dkim=pass (2048-bit key) header.d=bernhard-seibold.de header.i=@bernhard-seibold.de header.b="errw/3pV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B9818B15;
-	Sat, 13 Jan 2024 02:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from [192.168.0.24] (71-212-26-68.tukw.qwest.net [71.212.26.68])
-	by endrift.com (Postfix) with ESMTPSA id BC5A4A114;
-	Fri, 12 Jan 2024 18:11:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1705111864; bh=v5VXITQd0KCg/Jf8oHl/mWiFAfKUv01SrcH7y13eI5s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X3z7GvZxb5UUY8gvShzR5MYNYDzqvos9WjekT3UOSbOYC/YFPdc1GtZFGWb33yGdc
-	 reY7rTDWr9spSGTWe81rvHTe1u6LUIfy6wrRBpSPDSMPoCrtFhqVfGCBOQC566bUHf
-	 lRTuVKlDuDRBQg7FDt9ReCV2osgDY0xvMi7wnZjrpF0b0sQbZY0Yas5riIbnFe/V8j
-	 yqJAzbHOVVfu7l3BA0qO2gCi1KMYm2zBG8n9YYUVpCj14oY0E7FmBzZz91tVCk2QT2
-	 srmROlYgWZRstGR+JhqJaLpSvF+XvnBy9ZLLE43NgVnsyjDn7roQQcNFCLWsfMDxdU
-	 1Ys0QN5Hb1AOw==
-Message-ID: <5e17d884-5803-43b3-be94-063c2293f5a0@endrift.com>
-Date: Fri, 12 Jan 2024 18:11:05 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E257FF
+	for <linux-input@vger.kernel.org>; Sat, 13 Jan 2024 10:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bernhard-seibold.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bernhard-seibold.de
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TBvxY1m85z9smX;
+	Sat, 13 Jan 2024 11:37:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernhard-seibold.de;
+	s=MBO0001; t=1705142273;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+plblxpTapy0W7iNYUG8ra6k9Oo4vafWB94LMsj+YI8=;
+	b=errw/3pVCKyHVD40+b2o/s8PNIVVhtJVP0M7+maIy2GDYvXE0UmZNAzdtAwyF6OK4u1jF2
+	aEKD4BlcO38NWOVTyBpRhfiOqqjwRktOdFROyKySNkjpU6kJLZ1C6MVtPoo7xDA/cp+OtX
+	CFDoOZ4+5Q9PFnrpTZ90JgqWmFu6W2SmgFbKoLia57J26BB5iqywJYLnc4C3OzVQQeodey
+	BDtEUrEQSK2gWPgCT9ih8JCnO4vxrDty3W87uNvB+NJzERDqX9HamLJxT5Vaj6PBwBSwQp
+	BLycuYKulRyCsj0HDORM8Ihh5YUrAKdYf2obmTrLybLilwLkQFPsSReKT/I2uw==
+From: Bernhard Seibold <mail@bernhard-seibold.de>
+To: linux-input@vger.kernel.org
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jamie Lentin <jm@lentin.co.uk>,
+	Bernhard Seibold <mail@bernhard-seibold.de>
+Subject: [PATCH v2 1/2] Input: leds - set default-trigger for mute
+Date: Sat, 13 Jan 2024 11:37:42 +0100
+Message-ID: <20240113103743.97205-1-mail@bernhard-seibold.de>
+In-Reply-To: <ZZbxHpibdyNY_zUt@google.com>
+References: <ZZbxHpibdyNY_zUt@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] HID: hid-steam: Fix cleanup in probe()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <1fd87904-dabf-4879-bb89-72d13ebfc91e@moroto.mountain>
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <1fd87904-dabf-4879-bb89-72d13ebfc91e@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-I have applied this to our downstream and made sure it compiles and runs 
-without obvious issues.
+Set the default-trigger for the mute led to audio-mute.
 
-Reviewed-by: Vicki Pfau <vi@endrift.com>
+Signed-off-by: Bernhard Seibold <mail@bernhard-seibold.de>
+---
+ drivers/input/input-leds.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Thanks,
-Vicki
+diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+index 0e935914bc3a..b16fc81940f5 100644
+--- a/drivers/input/input-leds.c
++++ b/drivers/input/input-leds.c
+@@ -18,6 +18,12 @@
+ #define VT_TRIGGER(_name)	.trigger = NULL
+ #endif
+ 
++#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
++#define AUDIO_TRIGGER(_name)	.trigger = _name
++#else
++#define AUDIO_TRIGGER(_name)	.trigger = NULL
++#endif
++
+ static const struct {
+ 	const char *name;
+ 	const char *trigger;
+@@ -29,7 +35,7 @@ static const struct {
+ 	[LED_KANA]	= { "kana", VT_TRIGGER("kbd-kanalock") },
+ 	[LED_SLEEP]	= { "sleep" } ,
+ 	[LED_SUSPEND]	= { "suspend" },
+-	[LED_MUTE]	= { "mute" },
++	[LED_MUTE]	= { "mute", AUDIO_TRIGGER("audio-mute") },
+ 	[LED_MISC]	= { "misc" },
+ 	[LED_MAIL]	= { "mail" },
+ 	[LED_CHARGING]	= { "charging" },
+-- 
+2.43.0
 
-On 1/12/24 06:35, Dan Carpenter wrote:
-> There are a number of issues in this code.  First of all if
-> steam_create_client_hid() fails then it leads to an error pointer
-> dereference when we call hid_destroy_device(steam->client_hdev).
-> 
-> Also there are a number of leaks.  hid_hw_stop() is not called if
-> hid_hw_open() fails for example.  And it doesn't call steam_unregister()
-> or hid_hw_close().
-> 
-> Fixes: 691ead124a0c ("HID: hid-steam: Clean up locking")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> This is just from static analysis and code review.  I haven't tested
-> it.  I only included the fixes tag for the error pointer dereference.
-> 
->   drivers/hid/hid-steam.c | 26 +++++++++++++++-----------
->   1 file changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-> index 59df6ead7b54..b08a5ab58528 100644
-> --- a/drivers/hid/hid-steam.c
-> +++ b/drivers/hid/hid-steam.c
-> @@ -1128,14 +1128,14 @@ static int steam_probe(struct hid_device *hdev,
->   	 */
->   	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_HIDRAW);
->   	if (ret)
-> -		goto hid_hw_start_fail;
-> +		goto err_cancel_work;
->   
->   	ret = hid_hw_open(hdev);
->   	if (ret) {
->   		hid_err(hdev,
->   			"%s:hid_hw_open\n",
->   			__func__);
-> -		goto hid_hw_open_fail;
-> +		goto err_hw_stop;
->   	}
->   
->   	if (steam->quirks & STEAM_QUIRK_WIRELESS) {
-> @@ -1151,33 +1151,37 @@ static int steam_probe(struct hid_device *hdev,
->   			hid_err(hdev,
->   				"%s:steam_register failed with error %d\n",
->   				__func__, ret);
-> -			goto input_register_fail;
-> +			goto err_hw_close;
->   		}
->   	}
->   
->   	steam->client_hdev = steam_create_client_hid(hdev);
->   	if (IS_ERR(steam->client_hdev)) {
->   		ret = PTR_ERR(steam->client_hdev);
-> -		goto client_hdev_fail;
-> +		goto err_stream_unregister;
->   	}
->   	steam->client_hdev->driver_data = steam;
->   
->   	ret = hid_add_device(steam->client_hdev);
->   	if (ret)
-> -		goto client_hdev_add_fail;
-> +		goto err_destroy;
->   
->   	return 0;
->   
-> -client_hdev_add_fail:
-> -	hid_hw_stop(hdev);
-> -client_hdev_fail:
-> +err_destroy:
->   	hid_destroy_device(steam->client_hdev);
-> -input_register_fail:
-> -hid_hw_open_fail:
-> -hid_hw_start_fail:
-> +err_stream_unregister:
-> +	if (steam->connected)
-> +		steam_unregister(steam);
-> +err_hw_close:
-> +	hid_hw_close(hdev);
-> +err_hw_stop:
-> +	hid_hw_stop(hdev);
-> +err_cancel_work:
->   	cancel_work_sync(&steam->work_connect);
->   	cancel_delayed_work_sync(&steam->mode_switch);
->   	cancel_work_sync(&steam->rumble_work);
-> +
->   	return ret;
->   }
->   
 
