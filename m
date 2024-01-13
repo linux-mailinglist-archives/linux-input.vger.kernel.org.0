@@ -1,144 +1,105 @@
-Return-Path: <linux-input+bounces-1231-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1232-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6F882CDB5
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 17:18:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B1F82CDE5
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 18:20:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8161AB2111F
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 16:17:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2ADA51C20FA0
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jan 2024 17:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC95033D0;
-	Sat, 13 Jan 2024 16:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="Xnzpsfc1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MJDYuIZn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D6065227;
+	Sat, 13 Jan 2024 17:20:14 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from ciao.gmane.io (ciao.gmane.io [116.202.254.214])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D594A23AD;
-	Sat, 13 Jan 2024 16:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id CD45E5C015C;
-	Sat, 13 Jan 2024 11:17:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sat, 13 Jan 2024 11:17:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1705162667; x=1705249067; bh=MEDYmM5cVk
-	zuxdcLusRM8oPzUPvOS7c6CVBKYOnEpUQ=; b=Xnzpsfc1Nl63sjp7BTJAIuCmEp
-	cUpfhwChKEfReR1Psw6r7mE2+aRXLGMYrTQdE7y8dEkJD1RhelN3XbuAPsPqdfwU
-	8F9wkYxPexlfkc1FiyJhf61fKWJs59ruedYiDNd+fnK4FYZ56A/5Igw1X5eqztxu
-	F+6yO/0WBk2kvx5W/xNl5M5lAuqmfRWOY1qi2TJASnqAGFoJd7DnVQ0kFh9ae1+G
-	w4NiVKy1dL/Ofk8tkJHCR4gIm2jv6CHpPYKIH5fGBMxg0kdIVczBjKzuMlr8ML6Z
-	547+2kg8keGGTxL8kJy+e45ajDM97oOFsCNJDUWtBZc5ZyG+75NZgo7H3RQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1705162667; x=1705249067; bh=MEDYmM5cVkzuxdcLusRM8oPzUPvO
-	S7c6CVBKYOnEpUQ=; b=MJDYuIZnfcoNAXxq7SZfX0nbx40/W8OL/awF37AflUbi
-	df1zwyv8Yl0LONbHxWUbygOojfYFXP5TJtIBeTAjdotnShknXgSdlNdYthgFaV+q
-	gftOJqPQ6+6m2a8si7ANLuwB3j7JqGomuHRqamhB3P6aHp4W8eMmnehIXiLPdb4i
-	z2+ZIwDbKnMdMEnqE5CwhgshtYKvcKP58Fpc77SVsEuYSBfnqlcTjHdQLmUbyYg9
-	SReb9RXWbBnm/FrIYhIg4wT57iZeBbfkihA3LjBHvT7LA0ABEMr/9zJDfUN+zLfC
-	Eshnw3CTKpJFJrglCgpOzqUtGf0scEsZOd298aLQfw==
-X-ME-Sender: <xms:q7eiZfE9PCD0JsFpwiV5hPc6lGTqA2ie0NHxajGocSsQdOq4opPE8Q>
-    <xme:q7eiZcUBbznI7dCLxsW2KDTobKkaHBPx5Qq-Ml14tVT1elIzkdHa4MnU43aY5who6
-    PBec8mmp8LAYTgUgw>
-X-ME-Received: <xmr:q7eiZRIX157GUhJVAVKWbpq3uXB55N784QI3W3BEBaXLBAsBIPdyPPk8EPmw7eZ3q4RS3tlCKwZWdfXM1co9Zy8pPtAchECDG327odo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeijedgkeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdfstddt
-    tddvnecuhfhrohhmpeffrghnihgvlhcuighuuceougiguhesugiguhhuuhdrgiihiieqne
-    cuggftrfgrthhtvghrnhepvdefkeetuddufeeigedtheefffekuedukeehudffudfffffg
-    geeitdetgfdvhfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:q7eiZdFqygVlOL7uxMwlcPKPoIajAPuK7WbTdtobRaYi_yDn58e_HA>
-    <xmx:q7eiZVUFF0bmdJN3bP5ZmS4mUUiCqL-E2moh1UehdxOumzPwYV5KQw>
-    <xmx:q7eiZYM_2qc3jM-u9lz1HicL2Rd_26OJZSoZqxZzXLENSwSMg6ms4Q>
-    <xmx:q7eiZWXaNdaK6K4jSsiKPbWYfVmvTPGIkjySaqH2L9UdU8-cyRAD2w>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Jan 2024 11:17:45 -0500 (EST)
-Date: Sat, 13 Jan 2024 09:17:44 -0700
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: linux-input@vger.kernel.org, coreteam@netfilter.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org, fsverity@lists.linux.dev, 
-	bpf@vger.kernel.org, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	cgroups@vger.kernel.org, alexei.starovoitov@gmail.com, quentin@isovalent.com, 
-	alan.maguire@oracle.com, memxor@gmail.com
-Subject: Re: [PATCH bpf-next v3 0/3] Annotate kfuncs in .BTF_ids section
-Message-ID: <nhpt647n2djmthtdkqzrfbpeuqkhfy567rt7qyqtymxejncbgr@4tpiyxy2sbcm>
-References: <cover.1704565248.git.dxu@dxuuu.xyz>
- <ZaFm13GyXUukcnkm@krava>
- <2dhmwvfnnqnlrui2qcr5fob54gdsuse5caievct42trvvia6qe@p24nymz3uttv>
- <ZaKW1AghwUnVz_c4@krava>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A675226
+	for <linux-input@vger.kernel.org>; Sat, 13 Jan 2024 17:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.gmane-mx.org
+Received: from list by ciao.gmane.io with local (Exim 4.92)
+	(envelope-from <glki-linux-input-2@m.gmane-mx.org>)
+	id 1rOhb4-0008Eg-2l
+	for linux-input@vger.kernel.org; Sat, 13 Jan 2024 18:15:02 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: linux-input@vger.kernel.org
+From: Nikos Chantziaras <realnc@gmail.com>
+Subject: 8BitDo USB controller disconnect/reconnect loop
+Date: Sat, 13 Jan 2024 19:02:58 +0200
+Message-ID: <unufo3$det$1@ciao.gmane.io>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZaKW1AghwUnVz_c4@krava>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 
-Hi Jiri,
+Hello.
 
-On Sat, Jan 13, 2024 at 02:57:40PM +0100, Jiri Olsa wrote:
-> On Fri, Jan 12, 2024 at 01:03:59PM -0700, Daniel Xu wrote:
-> > On Fri, Jan 12, 2024 at 05:20:39PM +0100, Jiri Olsa wrote:
-> > > On Sat, Jan 06, 2024 at 11:24:07AM -0700, Daniel Xu wrote:
-> > > > === Description ===
-> > > > 
-> > > > This is a bpf-treewide change that annotates all kfuncs as such inside
-> > > > .BTF_ids. This annotation eventually allows us to automatically generate
-> > > > kfunc prototypes from bpftool.
-> > > > 
-> > > > We store this metadata inside a yet-unused flags field inside struct
-> > > > btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
-> > > > 
-> > > > More details about the full chain of events are available in commit 3's
-> > > > description.
-> > > > 
-> > > > The accompanying pahole changes (still needs some cleanup) can be viewed
-> > > > here on this "frozen" branch [0].
-> > > 
-> > > so the plan is to have bpftool support to generate header file
-> > > with detected kfuncs?
-> > 
-> > Yep, that's the major use case. But I see other use cases as well like
-> 
-> ok, any chance you could already include it in the patchset?
-> would be a great way to test this.. maybe we could change
-> selftests to use that
+Support for the 8BitDo Pro 2 Wired controller was added in kernel 6.3. 
+I'm currently using 6.6.11 (I use LTS kernels.)
 
-I haven't start working on that code yet, but I can.
+When I connect the controller, it rumbles every few seconds. Looking at 
+dmesg, the reason is that it constantly disconnects and reconnects:
 
-Here is my plan FWIW:
+usb 1-4: new full-speed USB device number 6 using xhci_hcd
+usb 1-4: New USB device found, idVendor=2dc8, idProduct=3106, bcdDevice= 
+1.14
+usb 1-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-4: Product: 8BitDo Pro 2 Wired Controller
+usb 1-4: Manufacturer: 8BitDo
+usb 1-4: SerialNumber: 817EC44BB302
+input: 8BitDo Pro 2 Wired Controller as 
+/devices/pci0000:00/0000:00:01.2/0000:02:00.0/usb1/1-4/1-4:1.0/input/input13
+input input13: unable to receive magic message: -121
+usb 1-4: USB disconnect, device number 6
+xpad 1-4:1.0: xpad_try_sending_next_out_packet - usb_submit_urb failed 
+with result -19
+usb 1-4: new full-speed USB device number 7 using xhci_hcd
+usb 1-4: New USB device found, idVendor=2dc8, idProduct=3106, bcdDevice= 
+1.14
+usb 1-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-4: Product: 8BitDo Pro 2 Wired Controller
+usb 1-4: Manufacturer: 8BitDo
+usb 1-4: SerialNumber: 817EC44BB302
+input: 8BitDo Pro 2 Wired Controller as 
+/devices/pci0000:00/0000:00:01.2/0000:02:00.0/usb1/1-4/1-4:1.0/input/input14
+input input14: unable to receive magic message: -121
+usb 1-4: USB disconnect, device number 7
+xpad 1-4:1.0: xpad_try_sending_next_out_packet - usb_submit_urb failed 
+with result -19
 
-1. Bump minimum required pahole version up. Or feature probe for
-   kfunc decl tag support. Whatever is the standard practice here.
+The index in /devices/ is also changing each time.
 
-2. Teach bpftool to dump kfunc prototypes, guarded behind a flag.
+This goes on forever. It only stops happening when I launch an 
+application that uses the controller. Once I exit the application, this 
+behavior returns and it rumbles every 4 seconds or so.
 
-3. Flip bpftool flag on in selftest build and remove all manual kfunc
-   prototypes atomically in 1 commit.
+Apparently this controller has a quirk where it needs to be polled once 
+in a while to keep it from disconnecting. I can't be sure why, but I 
+suspect it's because it tries to auto-detect the host system it's being 
+connected to. For example if it's connected to a PC, it switches to 
+X-Input mode. when it's connected to a Nintendo Switch, it switches to 
+that mode instead. But when it hasn't been polled for a few second, it 
+probably enters its auto-detection mode again.
 
-I thought it'd be nicer to do it incrementally given all the moving
-pieces. But if we want to land it all at once that is ok by me too.
+While searching the web for this issue, I found other users with exactly 
+the same problem (I'm on Gentoo Linux, other users on Fedora and Arch 
+Linux.)
 
-Thanks,
-Daniel
+This behavior does not occur when using the controller in Microsoft 
+Windows 10. The controller's firmware is upgraded to the latest version 
+(1.03.)
+
+Is there something I can do to fix this? Is there some kernel option or 
+perhaps a udev option I can use that would poll the controller once a 
+second or so to keep it alive?
+
 
