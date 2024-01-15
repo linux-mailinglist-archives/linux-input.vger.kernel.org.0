@@ -1,75 +1,80 @@
-Return-Path: <linux-input+bounces-1239-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1248-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F1582DA72
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 14:45:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA3C82DBF6
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 15:58:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C24B51C213F5
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 13:45:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B26091F22A52
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 14:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B4617553;
-	Mon, 15 Jan 2024 13:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4EpZHYE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 466AA17755;
+	Mon, 15 Jan 2024 14:58:13 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E157171BB;
-	Mon, 15 Jan 2024 13:45:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849DBC43390;
-	Mon, 15 Jan 2024 13:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705326324;
-	bh=3CYq5m9c0Z2YmumV52JE15z62NoUEsxe7VfwOd+rpf0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o4EpZHYE4CsLFI3cR+A1UgmZAYtPlvqTHIIyHAeZAUabjWiH3V8xJsWPLRxHWMdSJ
-	 EXLMqJ9hafmfr6zBox8Jq47WwvGfGw/f7JomKbvknyiyo1UwhARhGO2I2H4P6kgfD5
-	 yLvcLZtfgOsQns7AeGG8Dn5e3WleZ46JmMe/KE8Ky4oR1BSqDbcClbjVHMLuUBosPA
-	 SRNcnABEIpx7j4/G1dxFLJ2/6bb2a07y1ABgv3lxJBtd1h4MKq5MN1riE3dE3jv0IG
-	 1aTqcjau+tUrFAhGup4rIQutQnPL8nGdROkZSYTRRaO0/pMArFgyqZnY2fMFMv9iiK
-	 mxBX6Q1ZbswKw==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-In-Reply-To: <305898fb-6bd4-4749-806c-05ec51bbeb80@moroto.mountain>
-References: <305898fb-6bd4-4749-806c-05ec51bbeb80@moroto.mountain>
-Subject: Re: [PATCH 1/2] HID: hid-steam: remove pointless error message
-Message-Id: <170532632324.1146873.6182162741847699008.b4-ty@kernel.org>
-Date: Mon, 15 Jan 2024 14:45:23 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF31417752;
+	Mon, 15 Jan 2024 14:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 0924BFFBE2;
+	Mon, 15 Jan 2024 14:48:41 +0000 (UTC)
+From: Max Staudt <max@enpas.org>
+To: Roderick Colenbrander <roderick.colenbrander@sony.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	max@enpas.org
+Subject: [PATCH v1 0/7] HID: playstation: DS4: LED bugfix, third-party gamepad support
+Date: Mon, 15 Jan 2024 23:45:31 +0900
+Message-Id: <20240115144538.12018-1-max@enpas.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Jan 2024 17:34:14 +0300, Dan Carpenter wrote:
-> This error message doesn't really add any information.  If modprobe
-> fails then the user will already know what the error code is.  In the
-> case of kmalloc() it's a style violation to print an error message for
-> that because kmalloc has it's own better error messages built in.
-> 
-> 
+Dear hid-playstation maintainers,
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git (for-6.8/upstream-fixes), thanks!
+Could you please have a look at the enclosed patches for the DualShock 4
+driver in hid-playstation, and upstream them if possible?
 
-[1/2] HID: hid-steam: remove pointless error message
-      https://git.kernel.org/hid/hid/c/a96681699611
-[2/2] HID: hid-steam: Fix cleanup in probe()
-      https://git.kernel.org/hid/hid/c/a9f1da09c69f
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+There is one bugfix, and a few small patches to enable third-party
+controllers. They sometimes don't implement features that they
+semantically "don't need", but which currently trip the driver.
+
+For example, for the DualShock 4, we don't actually need to know the
+firmware version in order to work with the gamepad - unlike with the
+DualSense, which has different driver logic depending on the version.
+
+
+Finally, there are two patches to add a DS4 compatible controller with
+an unassigned VID/PID - I'd appreciate your thoughts on that.
+
+
+If I can make it easier to upstream these patches, please let me know.
+
+Thanks!
+
+Max
+
+
+Patches in this series:
+  [PATCH v1 1/7] HID: playstation: DS4: Fix LED blinking
+  [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address
+  [PATCH v1 3/7] HID: playstation: DS4: Don't fail on FW/HW version
+  [PATCH v1 4/7] HID: playstation: DS4: Don't fail on calibration data
+  [PATCH v1 5/7] HID: playstation: DS4: Parse minimal report 0x01
+  [PATCH v1 6/7] HID: playstation: Simplify device type ID
+  [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
 
 
