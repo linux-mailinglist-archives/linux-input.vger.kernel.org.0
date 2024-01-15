@@ -1,28 +1,28 @@
-Return-Path: <linux-input+bounces-1243-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1244-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDAB82DBDB
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 15:52:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B16682DBDD
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 15:52:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CB5B1F22969
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 14:52:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EE581F22A0B
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 14:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFA617BD4;
-	Mon, 15 Jan 2024 14:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B2918EB1;
+	Mon, 15 Jan 2024 14:49:03 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1634D17BB2;
-	Mon, 15 Jan 2024 14:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05F717C70;
+	Mon, 15 Jan 2024 14:49:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 17DA8101651;
-	Mon, 15 Jan 2024 14:48:54 +0000 (UTC)
+	by mail.enpas.org (Postfix) with ESMTPSA id AB9F0101653;
+	Mon, 15 Jan 2024 14:48:57 +0000 (UTC)
 From: Max Staudt <max@enpas.org>
 To: Roderick Colenbrander <roderick.colenbrander@sony.com>,
 	Jiri Kosina <jikos@kernel.org>,
@@ -30,9 +30,9 @@ To: Roderick Colenbrander <roderick.colenbrander@sony.com>,
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	max@enpas.org
-Subject: [PATCH v1 5/7] HID: playstation: DS4: Parse minimal report 0x01
-Date: Mon, 15 Jan 2024 23:45:36 +0900
-Message-Id: <20240115144538.12018-6-max@enpas.org>
+Subject: [PATCH v1 6/7] HID: playstation: Simplify device type ID
+Date: Mon, 15 Jan 2024 23:45:37 +0900
+Message-Id: <20240115144538.12018-7-max@enpas.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240115144538.12018-1-max@enpas.org>
 References: <20240115144538.12018-1-max@enpas.org>
@@ -44,73 +44,88 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some third-party controllers never switch to the full 0x11 report.
+Distinguish PS4/PS5 type controllers using .driver_data in
+MODULE_DEVICE_TABLE rather than by VID/PID.
 
-They keep sending the short 0x01 report, so let's parse that instead.
+This allows adding compatible controllers with different VID/PID.
 
 Signed-off-by: Max Staudt <max@enpas.org>
 ---
- drivers/hid/hid-playstation.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/hid/hid-playstation.c | 40 +++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 2bf44bd3cc8a..086b0768fa51 100644
+index 086b0768fa51..a0eb36d695d9 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -287,6 +287,8 @@ struct dualsense_output_report {
+@@ -27,6 +27,11 @@ static DEFINE_IDA(ps_player_id_allocator);
  
- #define DS4_INPUT_REPORT_USB			0x01
- #define DS4_INPUT_REPORT_USB_SIZE		64
-+#define DS4_INPUT_REPORT_BT_MINIMAL		0x01
-+#define DS4_INPUT_REPORT_BT_MINIMAL_SIZE	10
- #define DS4_INPUT_REPORT_BT			0x11
- #define DS4_INPUT_REPORT_BT_SIZE		78
- #define DS4_OUTPUT_REPORT_USB			0x05
-@@ -2198,6 +2200,7 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
- 	int battery_status, i, j;
- 	uint16_t sensor_timestamp;
- 	unsigned long flags;
-+	bool is_minimal = false;
+ #define HID_PLAYSTATION_VERSION_PATCH 0x8000
  
- 	/*
- 	 * DualShock4 in USB uses the full HID report for reportID 1, but
-@@ -2225,6 +2228,18 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
- 		ds4_report = &bt->common;
- 		num_touch_reports = bt->num_touch_reports;
- 		touch_reports = bt->touch_reports;
-+	} else if (hdev->bus == BUS_BLUETOOTH &&
-+		   report->id == DS4_INPUT_REPORT_BT_MINIMAL &&
-+			 size == DS4_INPUT_REPORT_BT_MINIMAL_SIZE) {
-+		/* Some third-party pads never switch to the full 0x11 report.
-+		 * The short 0x01 report is 10 bytes long:
-+		 *   u8 report_id == 0x01
-+		 *   u8 first_bytes_of_full_report[9]
-+		 * So let's reuse the full report parser, and stop it after
-+		 * parsing the buttons.
-+		 */
-+		ds4_report = (struct dualshock4_input_report_common *)&data[1];
-+		is_minimal = true;
- 	} else {
- 		hid_err(hdev, "Unhandled reportID=%d\n", report->id);
- 		return -1;
-@@ -2258,6 +2273,9 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
- 	input_report_key(ds4->gamepad, BTN_MODE,   ds4_report->buttons[2] & DS_BUTTONS2_PS_HOME);
- 	input_sync(ds4->gamepad);
- 
-+	if (is_minimal)
-+		goto finish_minimal;
++enum PS_TYPE {
++	PS_TYPE_PS4_DUALSHOCK4,
++	PS_TYPE_PS5_DUALSENSE,
++};
 +
- 	/* Parse and calibrate gyroscope data. */
- 	for (i = 0; i < ARRAY_SIZE(ds4_report->gyro); i++) {
- 		int raw_data = (short)le16_to_cpu(ds4_report->gyro[i]);
-@@ -2365,6 +2383,7 @@ static int dualshock4_parse_report(struct ps_device *ps_dev, struct hid_report *
- 	ps_dev->battery_status = battery_status;
- 	spin_unlock_irqrestore(&ps_dev->lock, flags);
+ /* Base class for playstation devices. */
+ struct ps_device {
+ 	struct list_head list;
+@@ -2690,17 +2695,14 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		goto err_stop;
+ 	}
  
-+finish_minimal:
- 	return 0;
- }
+-	if (hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER ||
+-		hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_2 ||
+-		hdev->product == USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE) {
++	if (id->driver_data == PS_TYPE_PS4_DUALSHOCK4) {
+ 		dev = dualshock4_create(hdev);
+ 		if (IS_ERR(dev)) {
+ 			hid_err(hdev, "Failed to create dualshock4.\n");
+ 			ret = PTR_ERR(dev);
+ 			goto err_close;
+ 		}
+-	} else if (hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER ||
+-		hdev->product == USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
++	} else if (id->driver_data == PS_TYPE_PS5_DUALSENSE) {
+ 		dev = dualsense_create(hdev);
+ 		if (IS_ERR(dev)) {
+ 			hid_err(hdev, "Failed to create dualsense.\n");
+@@ -2734,16 +2736,26 @@ static void ps_remove(struct hid_device *hdev)
  
+ static const struct hid_device_id ps_devices[] = {
+ 	/* Sony DualShock 4 controllers for PS4 */
+-	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER) },
+-	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE) },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER),
++		.driver_data = PS_TYPE_PS4_DUALSHOCK4 },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER),
++		.driver_data = PS_TYPE_PS4_DUALSHOCK4 },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2),
++		.driver_data = PS_TYPE_PS4_DUALSHOCK4 },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_2),
++		.driver_data = PS_TYPE_PS4_DUALSHOCK4 },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTROLLER_DONGLE),
++		.driver_data = PS_TYPE_PS4_DUALSHOCK4 },
++
+ 	/* Sony DualSense controllers for PS5 */
+-	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+-	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
++		.driver_data = PS_TYPE_PS5_DUALSENSE },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
++		.driver_data = PS_TYPE_PS5_DUALSENSE },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2),
++		.driver_data = PS_TYPE_PS5_DUALSENSE },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER_2),
++		.driver_data = PS_TYPE_PS5_DUALSENSE },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, ps_devices);
 -- 
 2.39.2
 
