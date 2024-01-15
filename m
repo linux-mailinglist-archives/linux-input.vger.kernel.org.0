@@ -1,141 +1,105 @@
-Return-Path: <linux-input+bounces-1250-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1251-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B482DD29
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 17:15:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDF382DF55
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 19:22:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 966111C2142C
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 16:15:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B7BE1F22C5B
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 18:22:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D67A17BA6;
-	Mon, 15 Jan 2024 16:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313CA199CE;
+	Mon, 15 Jan 2024 18:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iY3DUK4+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eybOU38d"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B/8g6Nuj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C644F17BA1;
-	Mon, 15 Jan 2024 16:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 317F13200A24;
-	Mon, 15 Jan 2024 11:15:07 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 15 Jan 2024 11:15:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1705335306; x=1705421706; bh=OwwV079+Ib
-	4EhCbveDYoIfXqeXgw7sWlHiHGG0LHoH0=; b=iY3DUK4+l4x1zKVZt/k7PFIF2T
-	9GDD31aL2Nj9MbIq/iW7zEJNz9xwhZSOc8HNPXnB4499+tAIHkyhQOxRcdkA8UI0
-	6bZrxDFvUpAuE5HvEcMDHuRRQKMgpwH5AHEiMEYz2eHblWWvEnRxz/RI+nal6KfK
-	qiLKDTtWqA/mJxfiuoW0YMRibjnO67CI0PTGamje4QsXWuD8pjxM7cuJapiZwzYr
-	8VL49wvb+zmV7024PyQn/cl/SjVr1H5v49CHj5RY739qeryfkqHOmQf9F6DJcoM9
-	UndCI49i5EKETL7YRzJ0AP1oejWlcO2XEt/dkkVgMoto8/eQ2qrBYjJizW3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1705335306; x=1705421706; bh=OwwV079+Ib4EhCbveDYoIfXqeXgw
-	7sWlHiHGG0LHoH0=; b=eybOU38d2C55AfxnNCB5YYoTKubKkcYLl1HuKNMxsaAE
-	CYwHMEPVdF+HoQWWmEp7ZfUhPy55abq7fsr82qLxEE35BLgUxAn0LylyfO0Y5xlT
-	VxhrN1ddFTZa5mDYp5WDc8qS/z8MW5I5nbxWi0XMcp2fEVpAo+bBm0cZGEteVLBH
-	/YLr6Cuwubvtb+4b1aO2JSI9PqTtkMZfFg9LpKiB77EaXO+4VND95uwRZep+Vr5J
-	pAj5l/2q245PGZPp0bgzDAY8f2dnfaqp+5dDT3AWjLkby0x2mKpFgH80tRLSTyxj
-	v+HL0W/cPsVxVZ+ZRFR3nJuL/29wIUoq0gfi8qXBtQ==
-X-ME-Sender: <xms:ClqlZb1bvHx7W99HefEkf9N086keHr4jvu_Lj4nJhtw23wQnRVdodw>
-    <xme:ClqlZaH50Bb-xmchKsdP4PZRqDkyI1MohXKydXLAd1sJjc69yfUB6elhMCEha_khI
-    0yzScobDup4WIA-XOE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdejuddgkeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepkeehtefguddvleejvdeileeifffhueevgedvheeiudfhueevgfehkeeitedu
-    keeknecuffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:ClqlZb5HDS1LRxqzJYVDnneQGoXfUI4iXL1UE667Uq4EAlfyErYR-A>
-    <xmx:ClqlZQ2sJ0mYSBIQueyA14P8y33zfIvxjBHlTG9Yl1fNcrvKw-pTpQ>
-    <xmx:ClqlZeGzt-jgAjwSwZCzrFkES_TEU0o48wygK48rMRWIJj8M-JbYkw>
-    <xmx:ClqlZbPv0bAFj_XAFQDrV-UIFIReuNBf2XAj8ch4tTyPK6TnOvagCg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 58AA2B6008D; Mon, 15 Jan 2024 11:15:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1374-gc37f3abe3d-fm-20240102.001-gc37f3abe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C985199D3
+	for <linux-input@vger.kernel.org>; Mon, 15 Jan 2024 18:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a28cc85e6b5so1076398466b.1
+        for <linux-input@vger.kernel.org>; Mon, 15 Jan 2024 10:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705342860; x=1705947660; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yC2xyFUISb0IkOhvfcovWkWsLnq71surBiWkKTVQGT0=;
+        b=B/8g6Nuj5OJrli31+2SJRhF77Qp1XO2+fmHqq5SAQ8GWn9t6F5pHpjet7vfKE13uQn
+         GgECunRcxjIK/pQBLvx07IAyf9InLHQrluG3pj8xXd+sRdCoo1ctBB2W2oF4m7qT+PWO
+         Sia4h32rvk+esDh+U49UEjpw/cmaE5K4cnyKDr4J4/tczHhEkMtq2BHQ1JtbkGJgKRUg
+         lq9Xm/g/CZwwwAXF0qRwoVX9mdav8hAdZ6HJft/ikKKL0Vs0BCkseIYQo1PlxJZXYUu7
+         VS3AMFvpXnSggh3JIusGuRfQVXsaYYcSPiZkpSvcl4rrpAeCWVXpRXLwANwwJ8RVpMej
+         R0Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705342860; x=1705947660;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yC2xyFUISb0IkOhvfcovWkWsLnq71surBiWkKTVQGT0=;
+        b=Bg1yBy4Q3xl3KbciKn9S4JnROwOTwplgDFwZGZObwky7gbw1DA5X42KVd3powx42fU
+         7U5hXShJ9eCv8eoIB2Vjfq77fz7CmEzaGEijDkPUrPpStB4kVZ+kboLzRU7Uw+9pHzWi
+         384rP6R0DhtPYNtWQWQTwxMqXo5kC7bezVDemdHvjhiwkpLmd5EUSgQHhsQS9pIjf0Iy
+         Y7O6qd2QCyaq8yX7/9Ygbe1l/OFnCQhZO3QRy9DNDCDz2L24d5bQ9Wyb4Cm747nwNPi9
+         Yclbuu3+Ce0w+tt7FNaQgMhUP2YMmFB3qgI7e8az2VKkfsm8AopJtyc1kb3Vo1CE0uN/
+         RJtQ==
+X-Gm-Message-State: AOJu0YzLScEXi1GE4m+J4MLcR/7TAXjuyZHiLr752u46UFforr/JidWL
+	9U24Nodbz7hidrN0DrlHrQ6R5ng7qeVqHnQZcVfwSkLoLM4=
+X-Google-Smtp-Source: AGHT+IHuehd+Ath+q26b0iCYWIHVrRKBBl34yztJzpBl9VLQAw1YZyBaq5SwHv4MR7kgx5tnyEedbg==
+X-Received: by 2002:a17:907:1115:b0:a28:f816:c4bb with SMTP id qu21-20020a170907111500b00a28f816c4bbmr1876808ejb.117.1705342859983;
+        Mon, 15 Jan 2024 10:20:59 -0800 (PST)
+Received: from krzk-bin.. ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id w14-20020a17090652ce00b00a19afc16d23sm5530420ejn.104.2024.01.15.10.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 10:20:59 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: input: silead,gsl1680: do not override firmware-name $ref
+Date: Mon, 15 Jan 2024 19:20:57 +0100
+Message-Id: <20240115182057.1610195-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <faf84e13-a927-4679-b837-2509f0209f82@app.fastmail.com>
-In-Reply-To: <20be7b9d5b8c0bef2a35da3d207c15eae75bfd4d.camel@mwa.re>
-References: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
- <ZYEFCHBC75rjCE0n@google.com>
- <9e97eb50-f9a6-4655-9422-fa1106fff97a@app.fastmail.com>
- <491250ba57be2ab983048ffcf5ffd2aec2bedb9e.camel@mwa.re>
- <1a528414-f193-4ac0-a911-af426bb48d64@app.fastmail.com>
- <caa041d27b0fa45aad09a9a262038e3ae4099ca2.camel@mwa.re>
- <20be7b9d5b8c0bef2a35da3d207c15eae75bfd4d.camel@mwa.re>
-Date: Mon, 15 Jan 2024 17:11:50 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Antonios Salios" <antonios@mwa.re>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Deepa Dinamani" <deepa.kernel@gmail.com>
-Cc: rydberg@bitmath.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Jan Henrik Weinstock" <jan@mwa.re>,
- =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas@mwa.re>
-Subject: Re: element sizes in input_event struct on riscv32
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 15, 2024, at 16:46, Antonios Salios wrote:
-> On Thu, 2023-12-21 at 14:38 +0100, Antonios Salios wrote:
->> On Thu, 2023-12-21 at 12:28 +0000, Arnd Bergmann wrote:
->> > On Thu, Dec 21, 2023, at 08:56, Antonios Salios wrote:
->> > > On Tue, 2023-12-19 at 13:53 +0000, Arnd Bergmann wrote:
->> > > > On Tue, Dec 19, 2023, at 02:50, Dmitry Torokhov wrote:
->> > 
->> > I don't know what __TIMESIZE is, this is not part of the kernel ABI
->> > as far as I can tell. __USE_TIME_BITS64 should be set by any 32-bit
->> > architecture if the C library defines a 64-bit time_t, otherwise
->> > the
->> > kernel headers have no way of picking the correct definitions based
->> > on preprocessor logic.
->> 
->> Okay, I agree that this might be a libc problem then. I'll ask the
->> glibc maintainers.
->> 
->
-> According to a glibc maintainer, __USE_TIME_BITS64 is not set on
-> architectures that use 64-bit time_t as default such as riscv32.
-> This can also be seen here [1].
->
-> Perhaps the kernel header needs to check the size of time_t in some
-> other way?
->
-> [1]
-> https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/features-time64.h;hb=glibc-2.37
+dtschema package defines firmware-name as string-array, so individual
+bindings should not make it a string but instead just narrow the number
+of expected firmware file names.
 
-I don't see any better way, the kernel headers started using this
-in 2018 based on the glibc design documents and discussions
-with glibc maintainers, see the section on ioctls in
-https://sourceware.org/glibc/wiki/Y2038ProofnessDesign
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/input/touchscreen/silead,gsl1680.yaml   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The kernel only relies on this macro for the sound and
-input subsystem, but there are numerous applications and
-libraries that copied the kernel definition because that
-was defined as the only reliable method.
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/silead,gsl1680.yaml b/Documentation/devicetree/bindings/input/touchscreen/silead,gsl1680.yaml
+index 95b554be25b4..5381a96f4949 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/silead,gsl1680.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/silead,gsl1680.yaml
+@@ -31,7 +31,7 @@ properties:
+     maxItems: 1
+ 
+   firmware-name:
+-    $ref: /schemas/types.yaml#/definitions/string
++    maxItems: 1
+     description: >
+       File basename for board specific firmware
+ 
+-- 
+2.34.1
 
-Maybe you can work around by patching the glibc sources
-yourself?
-
-     Arnd
 
