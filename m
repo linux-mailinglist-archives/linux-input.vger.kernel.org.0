@@ -1,137 +1,239 @@
-Return-Path: <linux-input+bounces-1235-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1236-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A00F82D3C3
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 06:00:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B025982D4D9
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 09:03:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17D21B20D9F
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 05:00:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1ED4F1F21723
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 08:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DDC420E6;
-	Mon, 15 Jan 2024 05:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D046FA4;
+	Mon, 15 Jan 2024 08:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="XvTh11TF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CrisPuS9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A281717CF;
-	Mon, 15 Jan 2024 05:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from localhost.localdomain (unknown [10.101.196.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 090B03F722;
-	Mon, 15 Jan 2024 04:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1705294302;
-	bh=/h0ueumzQRHlEhJDa988fwbrKEXZ/2rrzQgvraRlQ6s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=XvTh11TFw0EDTwDxRedeNeFkn2S20dhKqZYkET3YbEsT0Im3PVCgGfK1t4sIYpbCW
-	 UFcIPZwX9gWN250kSEvp1DtvkOz9D2aRJ9q0q2WLZnrgdNMYlej0bVjm3JSRGoeNCY
-	 QctqYkRWuV41PjSo07wbOt6AgW4iHQkKudSe7yQc4qaav44S3i18RLN8tmpcO5hzTl
-	 MzLYWkJK0IHaJBo4RTjdb5as1v3idXBFC5Y+tcW7IJakerky6EP3XaaDqrVuSoUcEF
-	 zRhC5H+Y7BOQY1wek1WE7Qa1kDMW5aiuTf1wbG7BaR+NWmhCd5+26/BtcRRsdEzdtA
-	 x/h+Hy9hS+2qA==
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: i2c-hid: Skip SET_POWER SLEEP for Cirque touchpad on system suspend
-Date: Mon, 15 Jan 2024 12:50:51 +0800
-Message-Id: <20240115045054.1170294-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F646FA1
+	for <linux-input@vger.kernel.org>; Mon, 15 Jan 2024 08:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705305816; x=1736841816;
+  h=date:from:to:cc:subject:message-id;
+  bh=hkw24sneuv8gfAJgDsMdF+ouVaEqX0aaiamr44Uf/nk=;
+  b=CrisPuS9U+I/hqGPqoi6Q6hI4wTMSnt36iPE61OPR6knmztjigRKVurJ
+   zvvX2dB31q/oflBlKHTD6x23JRGbODQVFu+qI2RUqPNfrkrxDOn2kuMIT
+   R8U5EqI6clPcIo+CLLDsJTniMQkGywkDHVSPTicCHH4sogqhBZK8Iveep
+   uukgX4N5BEDfvs40TVVr3Ydx5fv1k58W144bKHYlj4suqTcuOzf9uZp2t
+   MOtZya4gmBgYDlaFFiout66jI/UTiLJbvMrvofKMWHKvp7+yjD8FZiniy
+   M24def1X+TuD6gZGG4DdkDQDR5IStDxYdoRH6lg/BaMCNhK4HI6vIOUuB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="465939972"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="465939972"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 00:03:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="817741394"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="817741394"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 15 Jan 2024 00:03:34 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPHwL-000CJ6-0o;
+	Mon, 15 Jan 2024 08:03:31 +0000
+Date: Mon, 15 Jan 2024 16:02:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ e2a2501af13cfeb1f21bb628db54c49d61949a53
+Message-ID: <202401151652.Tl5LqEEp-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-There's a Cirque touchpad that wakes system up without anything touched
-the touchpad. The input report is empty when this happens.
-The reason is stated in HID over I2C spec, 7.2.8.2:
-"If the DEVICE wishes to wake the HOST from its low power state, it can
-issue a wake by asserting the interrupt."
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: e2a2501af13cfeb1f21bb628db54c49d61949a53  Merge branch 'next' into for-linus
 
-This is fine if OS can put system back to suspend by identifying input
-wakeup count stays the same on resume, like Chrome OS Dark Resume [0].
-But for regular distro such policy is lacking.
+elapsed time: 1476m
 
-Though the change doesn't bring any impact on power consumption for
-touchpad is minimal, other i2c-hid device may depends on SLEEP control
-power. So use a quirk to limit the change scope.
+configs tested: 157
+configs skipped: 1
 
-[0] https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/power_manager/docs/dark_resume.md
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v2:
- - Use quirk instead of applying the change universally.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                      axs103_smp_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                   randconfig-001-20240115   gcc  
+arc                   randconfig-002-20240115   gcc  
+arm                               allnoconfig   gcc  
+arm                          pxa3xx_defconfig   gcc  
+arm                             pxa_defconfig   gcc  
+arm                   randconfig-001-20240115   gcc  
+arm                   randconfig-002-20240115   gcc  
+arm                   randconfig-003-20240115   gcc  
+arm                   randconfig-004-20240115   gcc  
+arm                           sama5_defconfig   gcc  
+arm                        spear6xx_defconfig   gcc  
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240115   gcc  
+arm64                 randconfig-002-20240115   gcc  
+arm64                 randconfig-003-20240115   gcc  
+arm64                 randconfig-004-20240115   gcc  
+csky                             alldefconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240115   gcc  
+csky                  randconfig-002-20240115   gcc  
+hexagon                          allmodconfig   clang
+hexagon                          allyesconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386                  randconfig-011-20240115   clang
+i386                  randconfig-012-20240115   clang
+i386                  randconfig-013-20240115   clang
+i386                  randconfig-014-20240115   clang
+i386                  randconfig-015-20240115   clang
+i386                  randconfig-016-20240115   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch             randconfig-001-20240115   gcc  
+loongarch             randconfig-002-20240115   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                        bcm47xx_defconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240115   gcc  
+nios2                 randconfig-002-20240115   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240115   gcc  
+parisc                randconfig-002-20240115   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        cell_defconfig   gcc  
+powerpc                      cm5200_defconfig   gcc  
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                 mpc837x_rdb_defconfig   gcc  
+powerpc                      pasemi_defconfig   gcc  
+powerpc               randconfig-001-20240115   gcc  
+powerpc               randconfig-002-20240115   gcc  
+powerpc               randconfig-003-20240115   gcc  
+powerpc                     sequoia_defconfig   gcc  
+powerpc                        warp_defconfig   gcc  
+powerpc64             randconfig-001-20240115   gcc  
+powerpc64             randconfig-002-20240115   gcc  
+powerpc64             randconfig-003-20240115   gcc  
+riscv                            allmodconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                 randconfig-001-20240115   gcc  
+riscv                 randconfig-002-20240115   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                            hp6xx_defconfig   gcc  
+sh                    randconfig-001-20240115   gcc  
+sh                    randconfig-002-20240115   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                             shx3_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240115   gcc  
+sparc64               randconfig-002-20240115   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240115   gcc  
+um                    randconfig-002-20240115   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240115   gcc  
+x86_64       buildonly-randconfig-002-20240115   gcc  
+x86_64       buildonly-randconfig-003-20240115   gcc  
+x86_64       buildonly-randconfig-004-20240115   gcc  
+x86_64       buildonly-randconfig-005-20240115   gcc  
+x86_64       buildonly-randconfig-006-20240115   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-011-20240115   gcc  
+x86_64                randconfig-012-20240115   gcc  
+x86_64                randconfig-013-20240115   gcc  
+x86_64                randconfig-014-20240115   gcc  
+x86_64                randconfig-015-20240115   gcc  
+x86_64                randconfig-016-20240115   gcc  
+x86_64                randconfig-071-20240115   gcc  
+x86_64                randconfig-072-20240115   gcc  
+x86_64                randconfig-073-20240115   gcc  
+x86_64                randconfig-074-20240115   gcc  
+x86_64                randconfig-075-20240115   gcc  
+x86_64                randconfig-076-20240115   gcc  
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa                randconfig-001-20240115   gcc  
+xtensa                randconfig-002-20240115   gcc  
+xtensa                    smp_lx200_defconfig   gcc  
 
- drivers/hid/hid-ids.h              | 3 +++
- drivers/hid/i2c-hid/i2c-hid-core.c | 6 +++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index fb30e228d35f..828a5c022c64 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -298,6 +298,9 @@
- 
- #define USB_VENDOR_ID_CIDC		0x1677
- 
-+#define I2C_VENDOR_ID_CIRQUE           0x0488
-+#define I2C_PRODUCT_ID_CIRQUE_1063     0x1063
-+
- #define USB_VENDOR_ID_CJTOUCH		0x24b8
- #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0020	0x0020
- #define USB_DEVICE_ID_CJTOUCH_MULTI_TOUCH_0040	0x0040
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 90f316ae9819..2df1ab3c31cc 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -49,6 +49,7 @@
- #define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(2)
- #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(3)
- #define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(4)
-+#define I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND	BIT(5)
- 
- /* Command opcodes */
- #define I2C_HID_OPCODE_RESET			0x01
-@@ -131,6 +132,8 @@ static const struct i2c_hid_quirks {
- 		 I2C_HID_QUIRK_RESET_ON_RESUME },
- 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
- 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
-+	{ I2C_VENDOR_ID_CIRQUE, I2C_PRODUCT_ID_CIRQUE_1063,
-+		I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND },
- 	/*
- 	 * Sending the wakeup after reset actually break ELAN touchscreen controller
- 	 */
-@@ -956,7 +959,8 @@ static int i2c_hid_core_suspend(struct i2c_hid *ihid, bool force_poweroff)
- 		return ret;
- 
- 	/* Save some power */
--	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
-+	if (!(ihid->quirks & I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND))
-+		i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
- 
- 	disable_irq(client->irq);
- 
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
