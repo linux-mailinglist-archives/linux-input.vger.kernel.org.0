@@ -1,126 +1,141 @@
-Return-Path: <linux-input+bounces-1249-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1250-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9919682DC8E
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 16:46:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B482DD29
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 17:15:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A11A1F224A2
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 15:46:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 966111C2142C
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jan 2024 16:15:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3231774C;
-	Mon, 15 Jan 2024 15:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D67A17BA6;
+	Mon, 15 Jan 2024 16:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mwa.re header.i=@mwa.re header.b="NibfqV5Y"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iY3DUK4+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eybOU38d"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E24168C4
-	for <linux-input@vger.kernel.org>; Mon, 15 Jan 2024 15:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mwa.re
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mwa.re
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40e7662621dso12956965e9.2
-        for <linux-input@vger.kernel.org>; Mon, 15 Jan 2024 07:46:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mwa.re; s=google; t=1705333578; x=1705938378; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yJEZxzOzncv1QTVfRspOT86NVOhhPss/crA1KTOsfTg=;
-        b=NibfqV5Yfxu4BAV7W0H7G2cYqD5BOWLMs92JqjnvG9fTpD01sD4S6vMxk+hoODu/t1
-         XlJUr5ByeoYQLRrdDzfLjH+F6gpOMVQkU+wpahr6IwT2VcNiDJlu/M4QLSseHPJtqUzG
-         LJU3wgFUFWSyLyGBnoDcb6SQpkasMNU3OVJc/Jv0B5JLmM3zi8SkStNYSR/vVqRKOq9S
-         K1YaYM/waZUGfycXPEqKmgMCPu3MmDA7oKdUgRd3eew3lyt/4glxJGEPzR31eCW7eOZO
-         DkYmgmFf/UDz/djkj3UtZJe+olIvXRWQmfyoPOslkUqOL5bhrRAUrJ7YHPuRHCrL9ah8
-         8PSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705333578; x=1705938378;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yJEZxzOzncv1QTVfRspOT86NVOhhPss/crA1KTOsfTg=;
-        b=oGU9+7D/Rzx+FOU5PWRjwgbO4OylJLS1uGPbRrhV++5llNYsxFsKaJ1QXPh0QFGhu8
-         L5ynU7QPH5FUu5tBr9WYA2WjLMUAbY9CtjatfjSsQeVa8v6EtpJNYoJJmvCzfRydnIJr
-         osJnIZjjxBZjM7pm6Z2aBt3otXnhqh0hGiaQaBoL9Rs2EbapqcdnfMbuxvBAWN8FS/o2
-         zY77OJuR4rNMb2T6DLyIdnC4ZETNKQQV2yKnr+HcRw364EfeZ0d0ubIceUgjq8Lz1hIu
-         DqcamP4KwAWFw1OYx+sXGmnN8qTNVqEK7yaRFN2UQXwjyPGsUQXQp07q1pL8mbnayJJ3
-         8nzw==
-X-Gm-Message-State: AOJu0YwRa93/VQAFFlQZG0aWzYDpcdojmCXfbYfFknN6evJkbadG3QUV
-	wS2nmyO5NtnlvX4rO1vaUSOBeVLt2yFzgQ==
-X-Google-Smtp-Source: AGHT+IE4Dm6sXrNHWBvvv49O1+4ZjHQ+czCsBSqDjST+9zXk1PRfk8HFLb751anMBW37+qKALcDaAQ==
-X-Received: by 2002:a05:600c:3111:b0:40d:8794:8535 with SMTP id g17-20020a05600c311100b0040d87948535mr2962745wmo.160.1705333578032;
-        Mon, 15 Jan 2024 07:46:18 -0800 (PST)
-Received: from electron.fritz.box ([2a0a:a549:33a5:0:44e2:8957:612:a313])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c501200b0040e77ce8768sm4450228wmr.16.2024.01.15.07.46.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 07:46:17 -0800 (PST)
-Message-ID: <20be7b9d5b8c0bef2a35da3d207c15eae75bfd4d.camel@mwa.re>
-Subject: Re: element sizes in input_event struct on riscv32
-From: Antonios Salios <antonios@mwa.re>
-To: Arnd Bergmann <arnd@arndb.de>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>,  Deepa Dinamani <deepa.kernel@gmail.com>
-Cc: rydberg@bitmath.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jan Henrik Weinstock <jan@mwa.re>, Lukas
-	=?ISO-8859-1?Q?J=FCnger?=
-	 <lukas@mwa.re>
-Date: Mon, 15 Jan 2024 16:46:16 +0100
-In-Reply-To: <caa041d27b0fa45aad09a9a262038e3ae4099ca2.camel@mwa.re>
-References: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
-	 <ZYEFCHBC75rjCE0n@google.com>
-	 <9e97eb50-f9a6-4655-9422-fa1106fff97a@app.fastmail.com>
-	 <491250ba57be2ab983048ffcf5ffd2aec2bedb9e.camel@mwa.re>
-	 <1a528414-f193-4ac0-a911-af426bb48d64@app.fastmail.com>
-	 <caa041d27b0fa45aad09a9a262038e3ae4099ca2.camel@mwa.re>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C644F17BA1;
+	Mon, 15 Jan 2024 16:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 317F13200A24;
+	Mon, 15 Jan 2024 11:15:07 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 15 Jan 2024 11:15:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1705335306; x=1705421706; bh=OwwV079+Ib
+	4EhCbveDYoIfXqeXgw7sWlHiHGG0LHoH0=; b=iY3DUK4+l4x1zKVZt/k7PFIF2T
+	9GDD31aL2Nj9MbIq/iW7zEJNz9xwhZSOc8HNPXnB4499+tAIHkyhQOxRcdkA8UI0
+	6bZrxDFvUpAuE5HvEcMDHuRRQKMgpwH5AHEiMEYz2eHblWWvEnRxz/RI+nal6KfK
+	qiLKDTtWqA/mJxfiuoW0YMRibjnO67CI0PTGamje4QsXWuD8pjxM7cuJapiZwzYr
+	8VL49wvb+zmV7024PyQn/cl/SjVr1H5v49CHj5RY739qeryfkqHOmQf9F6DJcoM9
+	UndCI49i5EKETL7YRzJ0AP1oejWlcO2XEt/dkkVgMoto8/eQ2qrBYjJizW3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1705335306; x=1705421706; bh=OwwV079+Ib4EhCbveDYoIfXqeXgw
+	7sWlHiHGG0LHoH0=; b=eybOU38d2C55AfxnNCB5YYoTKubKkcYLl1HuKNMxsaAE
+	CYwHMEPVdF+HoQWWmEp7ZfUhPy55abq7fsr82qLxEE35BLgUxAn0LylyfO0Y5xlT
+	VxhrN1ddFTZa5mDYp5WDc8qS/z8MW5I5nbxWi0XMcp2fEVpAo+bBm0cZGEteVLBH
+	/YLr6Cuwubvtb+4b1aO2JSI9PqTtkMZfFg9LpKiB77EaXO+4VND95uwRZep+Vr5J
+	pAj5l/2q245PGZPp0bgzDAY8f2dnfaqp+5dDT3AWjLkby0x2mKpFgH80tRLSTyxj
+	v+HL0W/cPsVxVZ+ZRFR3nJuL/29wIUoq0gfi8qXBtQ==
+X-ME-Sender: <xms:ClqlZb1bvHx7W99HefEkf9N086keHr4jvu_Lj4nJhtw23wQnRVdodw>
+    <xme:ClqlZaH50Bb-xmchKsdP4PZRqDkyI1MohXKydXLAd1sJjc69yfUB6elhMCEha_khI
+    0yzScobDup4WIA-XOE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdejuddgkeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepkeehtefguddvleejvdeileeifffhueevgedvheeiudfhueevgfehkeeitedu
+    keeknecuffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:ClqlZb5HDS1LRxqzJYVDnneQGoXfUI4iXL1UE667Uq4EAlfyErYR-A>
+    <xmx:ClqlZQ2sJ0mYSBIQueyA14P8y33zfIvxjBHlTG9Yl1fNcrvKw-pTpQ>
+    <xmx:ClqlZeGzt-jgAjwSwZCzrFkES_TEU0o48wygK48rMRWIJj8M-JbYkw>
+    <xmx:ClqlZbPv0bAFj_XAFQDrV-UIFIReuNBf2XAj8ch4tTyPK6TnOvagCg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 58AA2B6008D; Mon, 15 Jan 2024 11:15:06 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1374-gc37f3abe3d-fm-20240102.001-gc37f3abe
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Message-Id: <faf84e13-a927-4679-b837-2509f0209f82@app.fastmail.com>
+In-Reply-To: <20be7b9d5b8c0bef2a35da3d207c15eae75bfd4d.camel@mwa.re>
+References: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
+ <ZYEFCHBC75rjCE0n@google.com>
+ <9e97eb50-f9a6-4655-9422-fa1106fff97a@app.fastmail.com>
+ <491250ba57be2ab983048ffcf5ffd2aec2bedb9e.camel@mwa.re>
+ <1a528414-f193-4ac0-a911-af426bb48d64@app.fastmail.com>
+ <caa041d27b0fa45aad09a9a262038e3ae4099ca2.camel@mwa.re>
+ <20be7b9d5b8c0bef2a35da3d207c15eae75bfd4d.camel@mwa.re>
+Date: Mon, 15 Jan 2024 17:11:50 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Antonios Salios" <antonios@mwa.re>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Deepa Dinamani" <deepa.kernel@gmail.com>
+Cc: rydberg@bitmath.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Jan Henrik Weinstock" <jan@mwa.re>,
+ =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas@mwa.re>
+Subject: Re: element sizes in input_event struct on riscv32
+Content-Type: text/plain
 
-On Thu, 2023-12-21 at 14:38 +0100, Antonios Salios wrote:
-> On Thu, 2023-12-21 at 12:28 +0000, Arnd Bergmann wrote:
-> > On Thu, Dec 21, 2023, at 08:56, Antonios Salios wrote:
-> > > On Tue, 2023-12-19 at 13:53 +0000, Arnd Bergmann wrote:
-> > > > On Tue, Dec 19, 2023, at 02:50, Dmitry Torokhov wrote:
-> >=20
-> > I don't know what __TIMESIZE is, this is not part of the kernel ABI
-> > as far as I can tell. __USE_TIME_BITS64 should be set by any 32-bit
-> > architecture if the C library defines a 64-bit time_t, otherwise
-> > the
-> > kernel headers have no way of picking the correct definitions based
-> > on preprocessor logic.
->=20
-> Okay, I agree that this might be a libc problem then. I'll ask the
-> glibc maintainers.
->=20
+On Mon, Jan 15, 2024, at 16:46, Antonios Salios wrote:
+> On Thu, 2023-12-21 at 14:38 +0100, Antonios Salios wrote:
+>> On Thu, 2023-12-21 at 12:28 +0000, Arnd Bergmann wrote:
+>> > On Thu, Dec 21, 2023, at 08:56, Antonios Salios wrote:
+>> > > On Tue, 2023-12-19 at 13:53 +0000, Arnd Bergmann wrote:
+>> > > > On Tue, Dec 19, 2023, at 02:50, Dmitry Torokhov wrote:
+>> > 
+>> > I don't know what __TIMESIZE is, this is not part of the kernel ABI
+>> > as far as I can tell. __USE_TIME_BITS64 should be set by any 32-bit
+>> > architecture if the C library defines a 64-bit time_t, otherwise
+>> > the
+>> > kernel headers have no way of picking the correct definitions based
+>> > on preprocessor logic.
+>> 
+>> Okay, I agree that this might be a libc problem then. I'll ask the
+>> glibc maintainers.
+>> 
+>
+> According to a glibc maintainer, __USE_TIME_BITS64 is not set on
+> architectures that use 64-bit time_t as default such as riscv32.
+> This can also be seen here [1].
+>
+> Perhaps the kernel header needs to check the size of time_t in some
+> other way?
+>
+> [1]
+> https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/features-time64.h;hb=glibc-2.37
 
-According to a glibc maintainer, __USE_TIME_BITS64 is not set on
-architectures that use 64-bit time_t as default such as riscv32.
-This can also be seen here [1].
+I don't see any better way, the kernel headers started using this
+in 2018 based on the glibc design documents and discussions
+with glibc maintainers, see the section on ioctls in
+https://sourceware.org/glibc/wiki/Y2038ProofnessDesign
 
-Perhaps the kernel header needs to check the size of time_t in some
-other way?
+The kernel only relies on this macro for the sound and
+input subsystem, but there are numerous applications and
+libraries that copied the kernel definition because that
+was defined as the only reliable method.
 
-[1]
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/li=
-nux/features-time64.h;hb=3Dglibc-2.37
+Maybe you can work around by patching the glibc sources
+yourself?
 
---=20
-Antonios Salios
-Software Engineer
-
-MachineWare GmbH | www.machineware.de
-H=C3=BChnermarkt 19, 52062 Aachen, Germany
-Amtsgericht Aachen HRB25734
-
-Gesch=C3=A4ftsf=C3=BChrung
-Lukas J=C3=BCnger
-Dr.-Ing. Jan Henrik Weinstock
+     Arnd
 
