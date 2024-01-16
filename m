@@ -1,54 +1,51 @@
-Return-Path: <linux-input+bounces-1259-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1260-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F37C82E8BE
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 05:57:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49D782E8EE
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 06:04:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14591284C8F
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 04:57:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41330B2333F
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 05:04:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D431BDDC;
-	Tue, 16 Jan 2024 04:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A328011725;
+	Tue, 16 Jan 2024 04:53:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F198493;
-	Tue, 16 Jan 2024 04:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26071171E;
+	Tue, 16 Jan 2024 04:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="125018765"
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="125645468"
 X-IronPort-AV: E=Sophos;i="6.04,198,1695654000"; 
-   d="scan'208";a="125018765"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 13:52:20 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 3F2F1D9D93;
-	Tue, 16 Jan 2024 13:52:18 +0900 (JST)
+   d="scan'208";a="125645468"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 13:52:20 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 85CBDC14A5;
+	Tue, 16 Jan 2024 13:52:17 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6C420D4C3D;
-	Tue, 16 Jan 2024 13:52:17 +0900 (JST)
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id AEBB4BF3FC;
+	Tue, 16 Jan 2024 13:52:16 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 035646B4C5;
-	Tue, 16 Jan 2024 13:52:17 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4BFBC6B4C7;
+	Tue, 16 Jan 2024 13:52:16 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.226.45])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 7A3B11A0160;
-	Tue, 16 Jan 2024 12:52:16 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id D68F01A0161;
+	Tue, 16 Jan 2024 12:52:15 +0800 (CST)
 From: Li Zhijian <lizhijian@fujitsu.com>
 To: linux-kernel@vger.kernel.org
 Cc: Li Zhijian <lizhijian@fujitsu.com>,
-	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
 	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
 	linux-input@vger.kernel.org
-Subject: [PATCH 11/42] drivers/hid: Convert snprintf to sysfs_emit
-Date: Tue, 16 Jan 2024 12:51:20 +0800
-Message-Id: <20240116045151.3940401-9-lizhijian@fujitsu.com>
+Subject: [PATCH 09/42] drivers/hid/hid-lenovo: Convert snprintf to sysfs_emit
+Date: Tue, 16 Jan 2024 12:51:18 +0800
+Message-Id: <20240116045151.3940401-7-lizhijian@fujitsu.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20240116045151.3940401-1-lizhijian@fujitsu.com>
 References: <20240116041129.3937800-1-lizhijian@fujitsu.com>
@@ -59,82 +56,122 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28122.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28122.005
-X-TMASE-Result: 10--9.191800-10.000000
-X-TMASE-MatchedRID: TWQD+6s80gM4ibokZ3+Q0CoiRKlBVkYIBXngI6jFvpfvd49YGReckE1N
-	J2MN+nPkgxCMf8A0YpR5sRK06wHV4TBF7stuNMMxuce7gFxhKa3BOVz0Jwcxl6vCrG0TnfVUilv
-	Ab18i4hNTeKr01gQwdM4WYLmQfXYmpoPHQXywp1eeAiCmPx4NwHJnzNw42kCxxEHRux+uk8h+IC
-	quNi0WJEL8FCMwqM38FrY9ClHoB7aesdE5CwuBX7I5/zNfZniYftwZ3X11IV0=
+X-TMASE-Result: 10--8.440000-10.000000
+X-TMASE-MatchedRID: R1u6Jncx2x04ibokZ3+Q0CoiRKlBVkYIBXngI6jFvpfvd49YGReckE1N
+	J2MN+nPkgxCMf8A0YpR5sRK06wHV4TBF7stuNMMxTuctSpiuWyUUi4Ehat0546MQi364g884JmV
+	7j1WQqoeX81JAaXNO9negIXkiA/apHxPMjOKY7A8LbigRnpKlKSPzRlrdFGDwJh5lryUC0+jUrH
+	d8FT6b0HReObJMOgmzR5gvrzvL35ST76aKysvrqA==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Per Documentation/filesystems/sysfs.rst, show() should only use sysfs_emit()
+Per filesystems/sysfs.rst, show() should only use sysfs_emit()
 or sysfs_emit_at() when formatting the value to be returned to user space.
 
 coccinelle complains that there are still a couple of functions that use
 snprintf(). Convert them to sysfs_emit().
 
-> ./drivers/hid/hid-picolcd_core.c:259:9-17: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-picolcd_core.c:304:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-sensor-custom.c:375:10-18: WARNING: please use sysfs_emi
+> ./drivers/hid/hid-lenovo.c:558:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:602:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:792:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:822:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:852:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:882:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:912:8-16: WARNING: please use sysfs_emit
+> ./drivers/hid/hid-lenovo.c:941:8-16: WARNING: please use sysfs_emit
 
 No functional change intended
 
-CC: "Bruno Prémont" <bonbons@linux-vserver.org>
 CC: Jiri Kosina <jikos@kernel.org>
 CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 CC: linux-input@vger.kernel.org
 Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
 ---
- drivers/hid/hid-picolcd_core.c  | 6 +++---
- drivers/hid/hid-sensor-custom.c | 3 +--
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/hid/hid-lenovo.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
-index bbda231a7ce3..fa46fb6eab3f 100644
---- a/drivers/hid/hid-picolcd_core.c
-+++ b/drivers/hid/hid-picolcd_core.c
-@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_show(struct device *dev,
- 	struct picolcd_data *data = dev_get_drvdata(dev);
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 149a3c74346b..26768c319361 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -555,7 +555,7 @@ static ssize_t attr_fn_lock_show(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data = hid_get_drvdata(hdev);
  
- 	if (data->status & PICOLCD_BOOTLOADER)
--		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
-+		return sysfs_emit(buf, "[bootloader] lcd\n");
- 	else
--		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
-+		return sysfs_emit(buf, "bootloader [lcd]\n");
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data->fn_lock);
++	return sysfs_emit(buf, "%u\n", data->fn_lock);
  }
  
- static ssize_t picolcd_operation_mode_store(struct device *dev,
-@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_delay_show(struct device *dev,
- {
- 	struct picolcd_data *data = dev_get_drvdata(dev);
+ static ssize_t attr_fn_lock_store(struct device *dev,
+@@ -599,8 +599,7 @@ static ssize_t attr_sensitivity_show_cptkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
  
--	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
-+	return sysfs_emit(buf, "%hu\n", data->opmode_delay);
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		cptkbd_data->sensitivity);
++	return sysfs_emit(buf, "%u\n", cptkbd_data->sensitivity);
  }
  
- static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
-diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-index d85398721659..4fe8dccf671d 100644
---- a/drivers/hid/hid-sensor-custom.c
-+++ b/drivers/hid/hid-sensor-custom.c
-@@ -372,8 +372,7 @@ static ssize_t show_value(struct device *dev, struct device_attribute *attr,
- 				     sizeof(struct hid_custom_usage_desc),
- 				     usage_id_cmp);
- 		if (usage_desc)
--			return snprintf(buf, PAGE_SIZE, "%s\n",
--					usage_desc->desc);
-+			return sysfs_emit(buf, "%s\n", usage_desc->desc);
- 		else
- 			return sprintf(buf, "not-specified\n");
- 	 } else
+ static ssize_t attr_sensitivity_store_cptkbd(struct device *dev,
+@@ -789,7 +788,7 @@ static ssize_t attr_press_to_select_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->press_to_select);
++	return sysfs_emit(buf, "%u\n", data_pointer->press_to_select);
+ }
+ 
+ static ssize_t attr_press_to_select_store_tpkbd(struct device *dev,
+@@ -819,7 +818,7 @@ static ssize_t attr_dragging_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->dragging);
++	return sysfs_emit(buf, "%u\n", data_pointer->dragging);
+ }
+ 
+ static ssize_t attr_dragging_store_tpkbd(struct device *dev,
+@@ -849,7 +848,7 @@ static ssize_t attr_release_to_select_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->release_to_select);
++	return sysfs_emit(buf, "%u\n", data_pointer->release_to_select);
+ }
+ 
+ static ssize_t attr_release_to_select_store_tpkbd(struct device *dev,
+@@ -879,7 +878,7 @@ static ssize_t attr_select_right_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->select_right);
++	return sysfs_emit(buf, "%u\n", data_pointer->select_right);
+ }
+ 
+ static ssize_t attr_select_right_store_tpkbd(struct device *dev,
+@@ -909,8 +908,7 @@ static ssize_t attr_sensitivity_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		data_pointer->sensitivity);
++	return sysfs_emit(buf, "%u\n", data_pointer->sensitivity);
+ }
+ 
+ static ssize_t attr_sensitivity_store_tpkbd(struct device *dev,
+@@ -938,8 +936,7 @@ static ssize_t attr_press_speed_show_tpkbd(struct device *dev,
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
+-		data_pointer->press_speed);
++	return sysfs_emit(buf, "%u\n", data_pointer->press_speed);
+ }
+ 
+ static ssize_t attr_press_speed_store_tpkbd(struct device *dev,
 -- 
 2.29.2
 
