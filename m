@@ -1,288 +1,101 @@
-Return-Path: <linux-input+bounces-1261-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1262-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B49682E8F2
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 06:05:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E0182EAEF
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 09:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFCDF1C22C2F
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 05:05:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8876E1F240F0
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 08:39:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3933812B88;
-	Tue, 16 Jan 2024 04:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5797311CB1;
+	Tue, 16 Jan 2024 08:39:17 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11D911C84;
-	Tue, 16 Jan 2024 04:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="125645470"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695654000"; 
-   d="scan'208";a="125645470"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 13:52:20 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id A6D11D6188;
-	Tue, 16 Jan 2024 13:52:17 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id E32D2D1037;
-	Tue, 16 Jan 2024 13:52:16 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7E6636B4C5;
-	Tue, 16 Jan 2024 13:52:16 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.226.45])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 2BA571A015F;
-	Tue, 16 Jan 2024 12:52:16 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-kernel@vger.kernel.org
-Cc: Li Zhijian <lizhijian@fujitsu.com>,
-	Stefan Achatz <erazor_de@users.sourceforge.net>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org
-Subject: [PATCH 10/42]  drivers/hid/hid-roccat-*: Convert snprintf to sysfs_emit
-Date: Tue, 16 Jan 2024 12:51:19 +0800
-Message-Id: <20240116045151.3940401-8-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20240116045151.3940401-1-lizhijian@fujitsu.com>
-References: <20240116041129.3937800-1-lizhijian@fujitsu.com>
- <20240116045151.3940401-1-lizhijian@fujitsu.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D0D11C8B;
+	Tue, 16 Jan 2024 08:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9e26d15b068842508cea8914b7d8260f-20240116
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:c3d94d1a-6232-43f3-9c7d-02add46f3c88,IP:20,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:30
+X-CID-INFO: VERSION:1.1.35,REQID:c3d94d1a-6232-43f3-9c7d-02add46f3c88,IP:20,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:30
+X-CID-META: VersionHash:5d391d7,CLOUDID:c7ac4d8e-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:240116163853GJBD7274,BulkQuantity:0,Recheck:0,SF:66|38|24|17|19|44|1
+	02,TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL
+	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: 9e26d15b068842508cea8914b7d8260f-20240116
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+	(envelope-from <chentao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 222917768; Tue, 16 Jan 2024 16:38:50 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id BF4A2E000EB9;
+	Tue, 16 Jan 2024 16:38:50 +0800 (CST)
+X-ns-mid: postfix-65A6409A-58652291
+Received: from kernel.. (unknown [172.20.15.234])
+	by mail.kylinos.cn (NSMail) with ESMTPA id E5E41E000EB9;
+	Tue, 16 Jan 2024 16:38:49 +0800 (CST)
+From: Kunwu Chan <chentao@kylinos.cn>
+To: dmitry.torokhov@gmail.com,
+	aduggan@synaptics.com,
+	cheiny@synaptics.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kunwu Chan <chentao@kylinos.cn>
+Subject: [PATCH] Input: synaptics-rmi4: Fix NULL pointer dereference in rmi_driver_probe
+Date: Tue, 16 Jan 2024 16:38:47 +0800
+Message-Id: <20240116083847.89934-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28122.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28122.005
-X-TMASE-Result: 10--14.475000-10.000000
-X-TMASE-MatchedRID: 6n1zk+md1nUbO59FK9BdmJiHtCNYjckMjkDrBOJwwnQ8JmmJxjOaQclB
-	Lll1g/6SBNyCmIook0dM0AWQBBcXdpRSkbxKeJc4K0+leiJxLlf0swHSFcVJ6DoUdFbHYUawvwU
-	evDt+uW5/XjpbSJS7a0NziVKCujClzYigC8AbwLLfSQNpZkETVBgff28UuvITATcg4/ageygDLs
-	WB7rAWWw4Xs7pbWEXf7s2Nt+r3hd9Vdkt0SbCMkW/6CCblACLhfS0Ip2eEHnz3IzXlXlpamPoLR
-	4+zsDTtX28xNpU0U3NhU2eCowgLsevf3R1I+ALA478u2VNp3LSHqCbfj0eF4g==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Content-Transfer-Encoding: quoted-printable
 
-Per filesystems/sysfs.rst, show() should only use sysfs_emit()
-or sysfs_emit_at() when formatting the value to be returned to user space.
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.
 
-coccinelle complains that there are still a couple of functions that use
-snprintf(). Convert them to sysfs_emit().
-
-> ./drivers/hid/hid-roccat-isku.c:64:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:403:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:412:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:435:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:444:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:454:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kone.c:556:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-koneplus.c:245:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-koneplus.c:312:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kovaplus.c:275:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kovaplus.c:328:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kovaplus.c:337:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kovaplus.c:347:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-kovaplus.c:368:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-pyra.c:286:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-pyra.c:303:8-16: WARNING: please use sysfs_emit
-> ./drivers/hid/hid-roccat-pyra.c:324:8-16: WARNING: please use sysfs_emit
-
-No functional change intended
-
-CC: Stefan Achatz <erazor_de@users.sourceforge.net>
-CC: Jiri Kosina <jikos@kernel.org>
-CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-CC: linux-input@vger.kernel.org
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+Fixes: 2b6a321da9a2 ("Input: synaptics-rmi4 - add support for Synaptics R=
+MI4 devices")
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 ---
- drivers/hid/hid-roccat-isku.c     |  2 +-
- drivers/hid/hid-roccat-kone.c     | 12 ++++++------
- drivers/hid/hid-roccat-koneplus.c |  4 ++--
- drivers/hid/hid-roccat-kovaplus.c | 10 +++++-----
- drivers/hid/hid-roccat-pyra.c     |  6 +++---
- 5 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/input/rmi4/rmi_driver.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/hid/hid-roccat-isku.c b/drivers/hid/hid-roccat-isku.c
-index 458060403397..0cd6208fb371 100644
---- a/drivers/hid/hid-roccat-isku.c
-+++ b/drivers/hid/hid-roccat-isku.c
-@@ -61,7 +61,7 @@ static ssize_t isku_sysfs_show_actual_profile(struct device *dev,
- {
- 	struct isku_device *isku =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", isku->actual_profile);
-+	return sysfs_emit(buf, "%d\n", isku->actual_profile);
- }
- 
- static ssize_t isku_sysfs_set_actual_profile(struct device *dev,
-diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
-index 00a1abc7e839..3f8f459edcf3 100644
---- a/drivers/hid/hid-roccat-kone.c
-+++ b/drivers/hid/hid-roccat-kone.c
-@@ -400,7 +400,7 @@ static ssize_t kone_sysfs_show_actual_profile(struct device *dev,
- {
- 	struct kone_device *kone =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kone->actual_profile);
-+	return sysfs_emit(buf, "%d\n", kone->actual_profile);
- }
- static DEVICE_ATTR(actual_profile, 0440, kone_sysfs_show_actual_profile, NULL);
- 
-@@ -409,7 +409,7 @@ static ssize_t kone_sysfs_show_actual_dpi(struct device *dev,
- {
- 	struct kone_device *kone =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kone->actual_dpi);
-+	return sysfs_emit(buf, "%d\n", kone->actual_dpi);
- }
- static DEVICE_ATTR(actual_dpi, 0440, kone_sysfs_show_actual_dpi, NULL);
- 
-@@ -432,7 +432,7 @@ static ssize_t kone_sysfs_show_weight(struct device *dev,
- 
- 	if (retval)
- 		return retval;
--	return snprintf(buf, PAGE_SIZE, "%d\n", weight);
-+	return sysfs_emit(buf, "%d\n", weight);
- }
- static DEVICE_ATTR(weight, 0440, kone_sysfs_show_weight, NULL);
- 
-@@ -441,7 +441,7 @@ static ssize_t kone_sysfs_show_firmware_version(struct device *dev,
- {
- 	struct kone_device *kone =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kone->firmware_version);
-+	return sysfs_emit(buf, "%d\n", kone->firmware_version);
- }
- static DEVICE_ATTR(firmware_version, 0440, kone_sysfs_show_firmware_version,
- 		   NULL);
-@@ -451,7 +451,7 @@ static ssize_t kone_sysfs_show_tcu(struct device *dev,
- {
- 	struct kone_device *kone =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kone->settings.tcu);
-+	return sysfs_emit(buf, "%d\n", kone->settings.tcu);
- }
- 
- static int kone_tcu_command(struct usb_device *usb_dev, int number)
-@@ -553,7 +553,7 @@ static ssize_t kone_sysfs_show_startup_profile(struct device *dev,
- {
- 	struct kone_device *kone =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kone->settings.startup_profile);
-+	return sysfs_emit(buf, "%d\n", kone->settings.startup_profile);
- }
- 
- static ssize_t kone_sysfs_set_startup_profile(struct device *dev,
-diff --git a/drivers/hid/hid-roccat-koneplus.c b/drivers/hid/hid-roccat-koneplus.c
-index 22b895436a7c..8ccb3b14a1a9 100644
---- a/drivers/hid/hid-roccat-koneplus.c
-+++ b/drivers/hid/hid-roccat-koneplus.c
-@@ -242,7 +242,7 @@ static ssize_t koneplus_sysfs_show_actual_profile(struct device *dev,
- {
- 	struct koneplus_device *koneplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", koneplus->actual_profile);
-+	return sysfs_emit(buf, "%d\n", koneplus->actual_profile);
- }
- 
- static ssize_t koneplus_sysfs_set_actual_profile(struct device *dev,
-@@ -309,7 +309,7 @@ static ssize_t koneplus_sysfs_show_firmware_version(struct device *dev,
- 			&info, KONEPLUS_SIZE_INFO);
- 	mutex_unlock(&koneplus->koneplus_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
-+	return sysfs_emit(buf, "%d\n", info.firmware_version);
- }
- static DEVICE_ATTR(firmware_version, 0440,
- 		   koneplus_sysfs_show_firmware_version, NULL);
-diff --git a/drivers/hid/hid-roccat-kovaplus.c b/drivers/hid/hid-roccat-kovaplus.c
-index 86af538c10d6..748d4d7cb2fc 100644
---- a/drivers/hid/hid-roccat-kovaplus.c
-+++ b/drivers/hid/hid-roccat-kovaplus.c
-@@ -272,7 +272,7 @@ static ssize_t kovaplus_sysfs_show_actual_profile(struct device *dev,
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_profile);
-+	return sysfs_emit(buf, "%d\n", kovaplus->actual_profile);
- }
- 
- static ssize_t kovaplus_sysfs_set_actual_profile(struct device *dev,
-@@ -325,7 +325,7 @@ static ssize_t kovaplus_sysfs_show_actual_cpi(struct device *dev,
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_cpi);
-+	return sysfs_emit(buf, "%d\n", kovaplus->actual_cpi);
- }
- static DEVICE_ATTR(actual_cpi, 0440, kovaplus_sysfs_show_actual_cpi, NULL);
- 
-@@ -334,7 +334,7 @@ static ssize_t kovaplus_sysfs_show_actual_sensitivity_x(struct device *dev,
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_x_sensitivity);
-+	return sysfs_emit(buf, "%d\n", kovaplus->actual_x_sensitivity);
- }
- static DEVICE_ATTR(actual_sensitivity_x, 0440,
- 		   kovaplus_sysfs_show_actual_sensitivity_x, NULL);
-@@ -344,7 +344,7 @@ static ssize_t kovaplus_sysfs_show_actual_sensitivity_y(struct device *dev,
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_y_sensitivity);
-+	return sysfs_emit(buf, "%d\n", kovaplus->actual_y_sensitivity);
- }
- static DEVICE_ATTR(actual_sensitivity_y, 0440,
- 		   kovaplus_sysfs_show_actual_sensitivity_y, NULL);
-@@ -365,7 +365,7 @@ static ssize_t kovaplus_sysfs_show_firmware_version(struct device *dev,
- 			&info, KOVAPLUS_SIZE_INFO);
- 	mutex_unlock(&kovaplus->kovaplus_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
-+	return sysfs_emit(buf, "%d\n", info.firmware_version);
- }
- static DEVICE_ATTR(firmware_version, 0440,
- 		   kovaplus_sysfs_show_firmware_version, NULL);
-diff --git a/drivers/hid/hid-roccat-pyra.c b/drivers/hid/hid-roccat-pyra.c
-index 5663b9cd9c69..eeb3d38cd805 100644
---- a/drivers/hid/hid-roccat-pyra.c
-+++ b/drivers/hid/hid-roccat-pyra.c
-@@ -283,7 +283,7 @@ static ssize_t pyra_sysfs_show_actual_cpi(struct device *dev,
- {
- 	struct pyra_device *pyra =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", pyra->actual_cpi);
-+	return sysfs_emit(buf, "%d\n", pyra->actual_cpi);
- }
- static DEVICE_ATTR(actual_cpi, 0440, pyra_sysfs_show_actual_cpi, NULL);
- 
-@@ -300,7 +300,7 @@ static ssize_t pyra_sysfs_show_actual_profile(struct device *dev,
- 			&settings, PYRA_SIZE_SETTINGS);
- 	mutex_unlock(&pyra->pyra_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", settings.startup_profile);
-+	return sysfs_emit(buf, "%d\n", settings.startup_profile);
- }
- static DEVICE_ATTR(actual_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
- static DEVICE_ATTR(startup_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
-@@ -321,7 +321,7 @@ static ssize_t pyra_sysfs_show_firmware_version(struct device *dev,
- 			&info, PYRA_SIZE_INFO);
- 	mutex_unlock(&pyra->pyra_lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
-+	return sysfs_emit(buf, "%d\n", info.firmware_version);
- }
- static DEVICE_ATTR(firmware_version, 0440, pyra_sysfs_show_firmware_version,
- 		   NULL);
--- 
-2.29.2
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_dri=
+ver.c
+index 258d5fe3d395..d3a601ff51e6 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -1197,6 +1197,12 @@ static int rmi_driver_probe(struct device *dev)
+ 		rmi_driver_set_input_params(rmi_dev, data->input);
+ 		data->input->phys =3D devm_kasprintf(dev, GFP_KERNEL,
+ 						"%s/input0", dev_name(dev));
++		if (!data->input->phys) {
++			dev_err(dev, "%s: Failed to allocate memory.\n",
++					__func__);
++			retval =3D -ENOMEM;
++			goto err;
++		}
+ 	}
+=20
+ 	retval =3D rmi_init_functions(data);
+--=20
+2.39.2
 
 
