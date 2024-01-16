@@ -1,251 +1,176 @@
-Return-Path: <linux-input+bounces-1263-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1264-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF3E82EB9E
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 10:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF1782EC34
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 10:52:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E281F2850A9
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 09:34:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B761C284339
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 09:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C2DD12E43;
-	Tue, 16 Jan 2024 09:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7557134AD;
+	Tue, 16 Jan 2024 09:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QbRXDohb"
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="uNfgpjdS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2040.outbound.protection.outlook.com [40.107.15.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551AE12E40
-	for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 09:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705397663;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BAROFYz0VoJ3LBsBUNqK3dYOMCsxFj6+N8fGk1qAPvA=;
-	b=QbRXDohbjVchTbP/jRsjHvoLZfoPJGLBS6LtPeOqjKojdhPJk58wj+z/Z0QFsxbqGRiLuV
-	NwJZP65BhOl2TNOQG9+9KoGGjB19TikgCEBUjErTiypAtraseWXekL9NAr3+oEPw9wg0KK
-	5BDTcoSn1BxHkZ4oEnFYCcCWZ/IJqBI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-529-Z23dvpixM2Ga9uIAdPJqHw-1; Tue, 16 Jan 2024 04:34:22 -0500
-X-MC-Unique: Z23dvpixM2Ga9uIAdPJqHw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a2e6fb4c24eso19695066b.2
-        for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 01:34:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705397659; x=1706002459;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BAROFYz0VoJ3LBsBUNqK3dYOMCsxFj6+N8fGk1qAPvA=;
-        b=QtnmxS+tvwe2iGF0yJdwl+gVxc92SPvEub37DkwgY5fu17dYILrVwV2DD2/dtEPDCD
-         lSP2HesnkcpNKjthZr0MEmm3EOHAUFuNuyV2jNqVBIOcDLaD20IIQElI8BoVnm+5G/Q8
-         By2T2zfOfiwqicuKyk7dm5nWudVFC/nrKzRAMds5UMk7fHTSTnEPdKJ9A8jMcqzglAY9
-         ys6EsGOa2G/Jv4Oyc6ysO/1rp2NsLkptcsAWTqHBKuqo7kGy9DyQ23SRt06bzKxwygdh
-         biTDKddUMkT8lokH3SjX9OT+WW0q0gEshZkTWabBRNbW8GZcb9b0X+yL7pi2qjurGC8B
-         CylA==
-X-Gm-Message-State: AOJu0YyR3A6dZg7nSWqdP0V3QksV8DZloJEWw2Qe2Tl8GFOO6iRb1ULN
-	deAxIVEkUgaJCaripLH7CTQAqxJRo8D/+r+QZ8LzeSCFlxWeVyUm40PM6FKgp/aGJOTg+7wCNst
-	WAJs2QFmhPV19a6KfpnZ3RlhlrsOyC5o=
-X-Received: by 2002:a17:906:d8d1:b0:a2d:b3f4:c03a with SMTP id re17-20020a170906d8d100b00a2db3f4c03amr1293926ejb.29.1705397659614;
-        Tue, 16 Jan 2024 01:34:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGLicFvqI1ntTHcsIvx5g/471VozWujSkLXtdp/HhFQOZflqNc2GtxDFuz1iuDrYsvOrv2NFw==
-X-Received: by 2002:a17:906:d8d1:b0:a2d:b3f4:c03a with SMTP id re17-20020a170906d8d100b00a2db3f4c03amr1293913ejb.29.1705397659245;
-        Tue, 16 Jan 2024 01:34:19 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id k11-20020a1709063e0b00b00a1e4558e450sm6303186eji.156.2024.01.16.01.34.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 01:34:18 -0800 (PST)
-Message-ID: <162f0847-3f72-4606-a1ab-de05bdd97339@redhat.com>
-Date: Tue, 16 Jan 2024 10:34:18 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E1F134A0;
+	Tue, 16 Jan 2024 09:52:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mxU27n1DeediDMxrt7QWgkpN6SH6bppN2+4w4l+KuGm08XLsObs7GeG3JD7CSdH1v/6ZI/rLDDZgiV59zdIDYU4ODs8oX/B2w0CSH5RnkdB9uXud9qvS2SsJIFE7TK03eJmHbDIsW1jSfBtQnf8ZnqS1si1RvNGaa/7u1r6PIsLvSKoVvLeFL3CEiBXl76sgBnPYN8nNKt0/cgHXf7kfqCO0+lt3wEXNZBYgSYshCEwCaymZ3cfM80ZYlaihDXJar75KvBx+HgxsIJSIktjcWiHG/8KKr3CGsgsoUO3YzPSm3L6cvtKKz37dQlA7DsstRO9fYaQZg2EPN3Br1ncmTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LOw0eUpiGNz2iAoGWqOmWCbLp500rV7i4UxtdoMIkNU=;
+ b=YWA8yYKOmusawQ5Dr9el1gpxCPapWKtYef8ybx7BuKV3hVqE/7/ue8MbIhIhn+exB0vHtjrVkgYoX4GCePLKtMXuN2axp8rTfe99p1/YHp1NvebHFPEKr4hPX4+9ixtEgXIPPDRvL14cKGvj7OdryNxozIpT1pQnwrKvnQjVNroD29ihz3CGWPvqHJjwMyDZoyEt5LJtTLrUIV2HempupUSrFYQgjnH6zL73TidsMZndsxS1QYEgbYIRCBikWpyYDFyJYdBXH57MnnsfO7e3BRKtti8xRpill8C3CL21g+5/WMCgSSxQKVodoDaDqJlOpIem810Hqo8KspxI2luYMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LOw0eUpiGNz2iAoGWqOmWCbLp500rV7i4UxtdoMIkNU=;
+ b=uNfgpjdSmNdvd7lBBtZ62n0O8w6cnkULDTSxvsmf2gbtVXLNjKdSQIZekeKBhvv3FjYnkfBhGgSb/jcOEPnfUY/tUcUrBmc4ZfpwB/LmP+nAsm4eGSzalL1GiXaEiiQD6FF9UniDAOdTWO3ThBFcJh912kEmTYstDrEWfYOwnS8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by AS8PR08MB6421.eurprd08.prod.outlook.com (2603:10a6:20b:31c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.29; Tue, 16 Jan
+ 2024 09:52:22 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::c8ee:9414:a0c6:42ab]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::c8ee:9414:a0c6:42ab%6]) with mapi id 15.20.7181.027; Tue, 16 Jan 2024
+ 09:52:22 +0000
+Message-ID: <4a16a651-62d6-4fba-8e18-1da029c52768@wolfvision.net>
+Date: Tue, 16 Jan 2024 10:52:20 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] Input: touch-overlay - Add touchscreen overlay
+ handling
+Content-Language: en-US
+To: Jeff LaBundy <jeff@labundy.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
+ Bastian Hecht <hechtb@gmail.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20230510-feature-ts_virtobj_patch-v6-0-d8a605975153@wolfvision.net>
+ <20230510-feature-ts_virtobj_patch-v6-2-d8a605975153@wolfvision.net>
+ <ZZB9x+0eNL8e+xI3@nixie71>
+ <12ac3718-2c69-4d11-8ea4-b555f2321232@wolfvision.net>
+ <ZZ/zR+GybLjR8Dcb@nixie71>
+From: Javier Carrasco <javier.carrasco@wolfvision.net>
+In-Reply-To: <ZZ/zR+GybLjR8Dcb@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR07CA0130.eurprd07.prod.outlook.com
+ (2603:10a6:802:16::17) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
-To: =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- Shang Ye <yesh25@mail2.sysu.edu.cn>, gurevitch <mail@gurevit.ch>,
- Egor Ignatov <egori@altlinux.org>, Anton Zhilyaev <anton@cpp.in>
-References: <20231115174625.7462-1-hdegoede@redhat.com>
- <W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AS8PR08MB6421:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1fffe39e-8f4f-4084-d54d-08dc1678d5b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	mZYGJb7exunLG8HtZRB3Y67f9Zqi5BJ4WrjUShtRMWjkfVo5ytH6hFVBBYCaD8/C6hUYUIwx16xM6YjZvKmt95Ymmn328xuPQUbEnmJVypEmeAJ8kcQObPQbrXVs6DrSScDWZfR5h8/reEPaC/uvNyU4S8q4aF+mZgw8T9UHHIbX/WfNXTm4bAEczeyis4duuyxcN6ETREapZEpTZrfQPG/LNMLTYefeAVQ/KfoSCRgjnq3Cp8Vrc3pgOvMwkVZF0F551chwAU6G4z21j+O230J7kHaMZAc7VI81uqci8soguxA6jHFEUmFuXXP2LNHqUoHHXKcwaTTsIKlO1Uuy/87tWYoiJNWQRl9zZ/FuEiRRapAGrTJ8K0Ahg+YrXZ168AivpFXDYG7456BjTygsbDIZRkL/mkH0/03apy7cm0MB8V+ezFFfn4zm5Vnh5yeS97dxsYuCfveuvPsyZrs2NBKWI4q+DVU6uVbb6izSwq81jwN/mOUzQdMOZVp/Ps4s0nndGzk6eCue1Z46SlNqA7Bk32v19FDlXnazbHdUqRt8vbzYzzNJueLtIkxwjWpvyCu4t7IW1G2ktWHO7evnh0n58ZWP2JHHdaVKtgQqyUQ49r0QFZYIbEB3hRwuvxcag0/yUVay4PZ+vXdAJCl3RQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(346002)(376002)(366004)(136003)(396003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(26005)(2616005)(83380400001)(38100700002)(41300700001)(66476007)(8936002)(8676002)(6916009)(66556008)(316002)(54906003)(5660300002)(2906002)(7416002)(4326008)(44832011)(478600001)(6486002)(53546011)(6506007)(6512007)(66946007)(36756003)(31696002)(86362001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bkJFaDdpeXZQSExaTk8wc2FhdWF1TVJoM0xEMUY5ODZwZzVzdk5DTjFUMld2?=
+ =?utf-8?B?dmcwaDdRcDVYZUhUanFWaG80YmwxdmNlK1gxc0N5V3V6TzdNclZieExkWDU2?=
+ =?utf-8?B?elNSelp2R2h0Nm4zTXlHZERwR1F3aDZSS0FIOWtCY05ZTHdSRkFXR1JmK0Ft?=
+ =?utf-8?B?eTBDaUhEdFpIUXNSMUFBRjIwdUlvSWRrSThmbzczK0pKbTgvTzltcW1WZmlK?=
+ =?utf-8?B?Y1JpYjI0RlNYVjcvZlRLTTlDU3lJcUZOS1VTaHdYUlc4cWVJVFR3UmJWa0RN?=
+ =?utf-8?B?UGZrelBXU3MwQ1ZCRXBVVnRMQ28xd29FeFFrNnpvWXI3VnZZSFloTzd6Y1B1?=
+ =?utf-8?B?Nys1a1BVTmQ0cHNhU1lPNDJkTzlCMDdUMlM1UFRpZjFjbTFwSTk2NjVHN1Jy?=
+ =?utf-8?B?M3hWQXI2QnZqekU1c3JOZ0ZBRmJyUlZsYU5SUUwzWmVYWTB2UmxXY2M4NnI4?=
+ =?utf-8?B?ME5OTHIxY3JtbG80REE3Yjdzd09UN3hkSGJ6cDQzTDlFVUNKR0ljaGhZUTMv?=
+ =?utf-8?B?L1UwOVlvbkFubkdFWnBkNHdjaWZZRlArdnJxYUl6R1o3cEZFRkNlM25LeFZh?=
+ =?utf-8?B?MkdkU2xtT1doNElRZWtIWElMeVF2QkptRUJXOFgwOW94dm5QMkJ3d0Z1eHN1?=
+ =?utf-8?B?K3QyNjE0QkJ1OFNQcHk3ZmtuVnlVU29ucmgxWnNRVDVWSTZEbW1lblYzUkdP?=
+ =?utf-8?B?dEZBU202MmZrRFlnRk5oUlQrUHdxOGpuemo5TDBRZS9Rc2hwSUJWSVd4Nndy?=
+ =?utf-8?B?MmZsTy82dEt4R2V6bmxFMTdtWURNSlViTmxDcnpyWU5OdU4vSVVmTGR0dkNr?=
+ =?utf-8?B?dzE5ZGRkRVBiU3lqTm9RdGNsL2Z1aWt1Qkpwc2JPbG9rV2ppYjA3eit0ck84?=
+ =?utf-8?B?OGdBQXJtdG1YR0h3eVdSbmNCMUM0Z3dDZkZiZmU3Wk5tOWZmYlFpeTRGOXpk?=
+ =?utf-8?B?bTB3VndRU2Z3TWxkcUFJaVo4VXpRVXB1Vk5MY1lnUzBHK0lOTGwyakM2dlBO?=
+ =?utf-8?B?V2p5NUM5Y2JyNWtWZDJlQngrT283R3BBcHorVUovNElvUkV4Zk5OZ1p6MDUw?=
+ =?utf-8?B?Ykxid1NraS83R1lmTmN1eXNpVUxMUFFaemRzc1RzWld5Q01RNDJlckZNOWpJ?=
+ =?utf-8?B?NHhiRGZIT3BvQkxjd0RmVTlFSDdSWnk0THlmd2NEazdIaElOQzNrN2cvR3pO?=
+ =?utf-8?B?eUpjMkpNanQ1c1h0UmJCRm55SStHc3FWd1VRbWxybGdoVFUxOFBsYU44a05M?=
+ =?utf-8?B?aFI1NDB4aHM5bGxML1hLWVlpVEZGN3Njc0FiYjgzODVuN2dCTiswczB3L0g2?=
+ =?utf-8?B?dUEvZThHRTk1azdZM2xXOEYxQWlDUEpMUkd4ZXNEYnl6TW90TmptUi9lcjFN?=
+ =?utf-8?B?aVJkNjZoUmpXVVRERWpZeCtmWTBMS1pPZVhTOG9rdnE0d3EyZFVHNUxmY3h4?=
+ =?utf-8?B?a2E2NVlBdmgvMWJxekxEUENVMlRaQlFqWXVSajFPdytwemVobWVBeWhNaHF6?=
+ =?utf-8?B?NlRBd0RzSXFFcGxHZ2JBcGJZOElwRmMzYVhhVjhYclljZ2FGOEdIVEQ5em5m?=
+ =?utf-8?B?TjhPaXJKVlBNbHl1WHgyOG5IWHA2dkNjeTFYcUVBVHR0S2tqd2RwU09HbFZJ?=
+ =?utf-8?B?VktrZE9IVm9mZlhUa3JhY3RoUUhIMHo0aFlSb0c1WmllaGV3L1dhd1hRclE0?=
+ =?utf-8?B?aEVSdkdqM3pGMXQrRDJRZGdLTFdRT0tNQWlWMytGYUwvSWxNcHAvay91QjdK?=
+ =?utf-8?B?WU5mWFVBZm5RUHZEUVY1cmtwdUcvQ3VJbHZQUFdzMnh2L043WHBRekZqZjE2?=
+ =?utf-8?B?V0VYNzBIcWgrTVA3Q1dDSG5vVmFFY3F2YlZwaFZsNjIzOFdJTExMUkdhZ3h4?=
+ =?utf-8?B?akJaTzVQYUY2OG5CaVFBVzBXTk4wQjVFZGpoTjFTU1lKUkZvOE4yeUhrMWs5?=
+ =?utf-8?B?MDFUS0QwbEM5SXNXUDQ2U3V5WHc1d2RrK3V4VnhuTjgrR3EreU1MVFRPT2p4?=
+ =?utf-8?B?a1c3bTdDMDZZVWUzakRsYmlYaVRSUXpMTGhCKzhqeG8rb2Q2SEFmVGI5QTZv?=
+ =?utf-8?B?UExGNUdwK2hhNDZTNytXMndOUXZSUm9WWVR3bzBPdkhTeE9RRmF0MlhhaUhN?=
+ =?utf-8?B?b1JUcWxHMzVmL1NIK3BjeEpIUE9rdW9Xa01WNmF3WUtzbHJxaTlqaTVRNlQ4?=
+ =?utf-8?B?ZWc9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fffe39e-8f4f-4084-d54d-08dc1678d5b1
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 09:52:21.8656
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4onupTeVV71bmrzVj9XZqdQ8L2CX225VgCLHwQt0mhQ8LveKlCp5tKSf5b5/TL96iy4XKXhdwFcNOyraApN1GBFjYkwv17t6ZVcxPDaZULs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6421
 
-Hi Barnabás,
-
-On 1/16/24 01:21, Barnabás Pőcze wrote:
-> Hi
+On 11.01.24 14:55, Jeff LaBundy wrote:
+> Hi Javier,
 > 
+> I agree with you. Thinking about this more, immediately introducing this
+> feature to the core is a relatively high risk that would be shared by all
+> users. I like your idea of introducing a preliminary version first before
+> making heavy-handed changes. That's the beauty of helper functions; they
+> only impact users who explicitly opt in.
 > 
-> 2023. november 15., szerda 18:46 keltezéssel, Hans de Goede írta:
+> I don't have an immediate use case, but I've been looking at this from
+> the perspective of a future customer of it. Maybe the right path forward
+> is as follows:
 > 
->> There have been multiple reports of keyboard issues on recent laptop models
->> which can be worked around by setting i8042.dumbkbd, with the downside
->> being this breaks the capslock LED.
->>
->> It seems that these issues are caused by recent laptops getting confused by
->> ATKBD_CMD_GETID. Rather then adding and endless growing list of quirks for
->> this, just skip ATKBD_CMD_GETID alltogether on laptops in translated mode.
->>
->> The main goal of sending ATKBD_CMD_GETID is to skip binding to ps/2
->> mice/touchpads and those are never used in translated mode.
->>
->> Examples of laptop models which benefit from skipping ATKBD_CMD_GETID:
->>
->> * "HP Laptop 15s-fq2xxx", "HP laptop 15s-fq4xxx" and "HP Laptop 15-dy2xxx"
->>   models the kbd stops working for the first 2 - 5 minutes after boot
->>   (waiting for EC watchdog reset?)
->>
->> * On "HP Spectre x360 13-aw2xxx" atkbd fails to probe the keyboard
->>
->> * At least 9 different Lenovo models have issues with ATKBD_CMD_GETID, see:
->>   https://github.com/yescallop/atkbd-nogetid
->>
->> This has been tested on:
->>
->> 1. A MSI B550M PRO-VDH WIFI desktop, where the i8042 controller is not
->>    in translated mode when no keyboard is plugged in and with a ps/2 kbd
->>    a "AT Translated Set 2 keyboard" /dev/input/event# node shows up
->>
->> 2. A Lenovo ThinkPad X1 Yoga gen 8 (always has a translated set 2 keyboard)
+> 1. Stick with the same general architecture of v6 and its "limitations",
+>    which in practice are unlikely to be encountered. I imagine the overlay
+>    layout you have been using would be the most common use case.
+> 2. Make the handful of small changes that have been suggested thus far.
+> 3. Consider updating patch [4/4] to combine the touchscreen and buttons
+>    into the same input device as you had in v1. This sets a little simpler
+>    precedent for the first user of these helpers. If later these helpers
+>    do get absorbed into the core, thereby forcing a single input device,
+>    the st1232 would continue to appear the same to user space.
 > 
-> Just wanted to briefly mention that this broke my hwdb configuration because the
-> version field of the device (as shown in `/proc/bus/input/devices`) has changed
-> and it was included in the hwdb match rule.
-
-That is unfortunate. Was this a custom rule or one from
-the hwdb shipped with systemd ?
-
-Either way can you share the match pattern of the rule before and
-after? I want to check if there are any similar cases in
-the hwdb shipped with systemd.
-
-Regards,
-
-Hans
-
-
-
->> Reported-by: Shang Ye <yesh25@mail2.sysu.edu.cn>
->> Closes: https://lore.kernel.org/linux-input/886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn/
->> Closes: https://github.com/yescallop/atkbd-nogetid
->> Reported-by: gurevitch <mail@gurevit.ch>
->> Closes: https://lore.kernel.org/linux-input/2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch/
->> Reported-by: Egor Ignatov <egori@altlinux.org>
->> Closes: https://lore.kernel.org/all/20210609073333.8425-1-egori@altlinux.org/
->> Reported-by: Anton Zhilyaev <anton@cpp.in>
->> Closes: https://lore.kernel.org/linux-input/20210201160336.16008-1-anton@cpp.in/
->> Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2086156
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Note this supersedes my previous atkbd series:
->> https://lore.kernel.org/linux-input/20231005201544.26983-1-hdegoede@redhat.com/
->> ---
->> Changes in v2:
->> - Add DMI check for laptop chassis types and only skip ATKBD_CMD_GETID
->>   on laptops with the i8042 in translated mode
->> ---
->>  drivers/input/keyboard/atkbd.c | 61 +++++++++++++++++++++++++++++++---
->>  1 file changed, 57 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
->> index c92e544c792d..5667f1e80839 100644
->> --- a/drivers/input/keyboard/atkbd.c
->> +++ b/drivers/input/keyboard/atkbd.c
->> @@ -765,6 +765,59 @@ static void atkbd_deactivate(struct atkbd *atkbd)
->>  			ps2dev->serio->phys);
->>  }
->>
->> +#ifdef CONFIG_X86
->> +static const struct dmi_system_id atkbd_dmi_laptop_table[] = {
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "8"), /* Portable */
->> +		},
->> +	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "9"), /* Laptop */
->> +		},
->> +	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "10"), /* Notebook */
->> +		},
->> +	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "14"), /* Sub-Notebook */
->> +		},
->> +	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "31"), /* Convertible */
->> +		},
->> +	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "32"), /* Detachable */
->> +		},
->> +	},
->> +	{ }
->> +};
->> +
->> +/*
->> + * On many modern laptops ATKBD_CMD_GETID may cause problems, on these laptops
->> + * the controller is always in translated mode. In this mode mice/touchpads will
->> + * not work. So in this case simply assume a keyboard is connected to avoid
->> + * confusing some laptop keyboards.
->> + *
->> + * Skipping ATKBD_CMD_GETID ends up using a fake keyboard id. Using a fake id is
->> + * ok in translated mode, only atkbd_select_set() checks atkbd->id and in
->> + * translated mode that is a no-op.
->> + */
->> +static bool atkbd_skip_getid(struct atkbd *atkbd)
->> +{
->> +	return atkbd->translated && dmi_check_system(atkbd_dmi_laptop_table);
->> +}
->> +#else
->> +static inline bool atkbd_skip_getid(struct atkbd *atkbd) { return false; }
->> +#endif
->> +
->>  /*
->>   * atkbd_probe() probes for an AT keyboard on a serio port.
->>   */
->> @@ -794,12 +847,12 @@ static int atkbd_probe(struct atkbd *atkbd)
->>   */
->>
->>  	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
->> -	if (ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
->> +	if (atkbd_skip_getid(atkbd) || ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
->>
->>  /*
->> - * If the get ID command failed, we check if we can at least set the LEDs on
->> - * the keyboard. This should work on every keyboard out there. It also turns
->> - * the LEDs off, which we want anyway.
->> + * If the get ID command was skipped or failed, we check if we can at least set
->> + * the LEDs on the keyboard. This should work on every keyboard out there.
->> + * It also turns the LEDs off, which we want anyway.
->>   */
->>  		param[0] = 0;
->>  		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
->> --
->> 2.41.0
->>
+> Does this seem reasonable?
 > 
 
+It seems reasonable, so I will go for that approach in v7: single input
+device and less modifications in the consumer drivers.
+
+Best regards,
+Javier Carrasco
 
