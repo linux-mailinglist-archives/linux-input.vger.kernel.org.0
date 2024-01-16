@@ -1,146 +1,141 @@
-Return-Path: <linux-input+bounces-1284-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1285-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A9C82F83A
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 21:41:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968CA82FC60
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 23:18:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8E9E28654B
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 20:41:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 29656B25544
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 22:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B59812F5AB;
-	Tue, 16 Jan 2024 19:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F94424B36;
+	Tue, 16 Jan 2024 20:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWm5GT7T"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T6CbTkO3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA95812F5B2
-	for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 19:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D444924B4D
+	for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 20:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705434650; cv=none; b=e7InVQ+OUQ+Ttq+zPmv3pbQM0atB57A36bmMgzoccfWAFQCw7kmtpj7S3TFn3q4vMRN2F/3aw0apHyEIsqWP+Ha7yImP3U6ALlx6dkEVzYTRytw8sPWw+eOkcKdowfxaETOwZYtd1Ok9s4fL3QG3AeDDALIn1Fc+VvQf1nvlO/k=
+	t=1705437816; cv=none; b=Joo0cC763KykCt55ETIlfZQmqkIUIUvLIMo1+eoqxI4iyT9+gtvh/cABscUjh7ElKv7grHOW0Wxdt/wZqoVX/lO4TRHDg0cgPvUy+i2chgZPCXY+9ttIM76C5TpfFmE8moajmoqA2Fbh6TOII1zpds5qKDkf6HRrsAJuU5aaCVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705434650; c=relaxed/simple;
-	bh=isakIZnpzzfLnv3spKUUiR3Shbt13cDpq6O3pBh75sU=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To; b=QDBGYyLE2UA/mEqhyC5IHTDdcXTK+uwjlfu9GynTTsOSeQ0ogmt/LeyM0T9YX9efoatOFw25P23LZfc3uEApJFlmdki2YW7DX4D52StJ9o5lrAKPo601ihxfqb556LLlAE5a9EK9qmcYLhQpm7xjgrmXREAaFPHHoaFTXdLSCMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWm5GT7T; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6db82a57c50so1693088b3a.2
-        for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 11:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705434648; x=1706039448; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RNdW3+1vYS+v+LoCPwbZ5Kczj+DmF72etIWLLTRlW8c=;
-        b=cWm5GT7TOqGJQVpnGu5Qi/9vgabQkfAGQVPyhoQrOoOXz6p/4sWvfzaPZubzndw+F2
-         pfJT21UtSKRC/eGR0Q/wGqoa7OIYVoDeEeLyJ6ej5iZuT85DpID4PYaIL8Qn8OMq7VHQ
-         SlKRrD8mbTcmi5deFAUsgbPZW84oI80+R5xOYHmKcluuSckbSMRafcjeDexzwfdZQ7Fx
-         ml4eTVQTik3rpZ1e829sIAtz+fQ3V/SbXvOVm2/o8cO7L5lj0+DBVjp45hERULQ5oZx/
-         evaSQmpYoOlCorcr7LT0wcwl4D5hTT5W0soAeDmHSkiWKS4QKD10tTqEzf9WwqPtv5ox
-         p3DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705434648; x=1706039448;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNdW3+1vYS+v+LoCPwbZ5Kczj+DmF72etIWLLTRlW8c=;
-        b=d4tdKizhIM6kE0N2QV90LSLsPWrsqFFpTi4MjjCVilxlULl21/DjUwD5XdgUYl4x0A
-         7V2AlRSricKLyE661+FWI8uqIsA/ImNPPlpEAIDPOxhoXF8d1xQtN144VPYptnl8pvMG
-         h33OtnK5HIcfipgHb6TobI3GewL5scyJ7IqGISZ867n1h9I5Toz7T0v33GKuNcE1vKbu
-         tS404l+laz7EV/oOMi/TL7JAaNgPlanonnOIriMNOht1uXr/gaIZztIdm5x87UjwjyXv
-         kCrP5OOrlZ1EKs++SBKK3iAfVspowF4D/VXmyEZExsLBhXHB54hIfD5HtrpOIdHxrBCY
-         Upeg==
-X-Gm-Message-State: AOJu0YxFKirJK81ljwLtZ4eDkg6ML+lbXhM2SEuUvoxLp7fO2apOxeJ4
-	LoiYTBNuwnroPAikfihM84Q=
-X-Google-Smtp-Source: AGHT+IEManUOnSzmHWmVzNkCCLWd65RhT8LuGZlHP/mw6uJ4bCRSAoChkkg/B9hBiFTDOLA3U1UA1g==
-X-Received: by 2002:a05:6a00:c8d:b0:6da:dc40:8a20 with SMTP id a13-20020a056a000c8d00b006dadc408a20mr5358805pfv.33.1705434648082;
-        Tue, 16 Jan 2024 11:50:48 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:5c15:9a6:f612:d37a])
-        by smtp.gmail.com with ESMTPSA id r3-20020aa78b83000000b006d9beb968c3sm9712972pfd.106.2024.01.16.11.50.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 11:50:47 -0800 (PST)
-Date: Tue, 16 Jan 2024 11:50:45 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-	linux-input@vger.kernel.org, Shang Ye <yesh25@mail2.sysu.edu.cn>,
-	gurevitch <mail@gurevit.ch>, Egor Ignatov <egori@altlinux.org>,
-	Anton Zhilyaev <anton@cpp.in>
-Subject: Re: [PATCH v2] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
-Message-ID: <ZabeFRKGZQn7QuIK@google.com>
-References: <20231115174625.7462-1-hdegoede@redhat.com>
- <W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com>
- <162f0847-3f72-4606-a1ab-de05bdd97339@redhat.com>
- <DZ5T0aPAth1T_tvaht8979K9VSJFt5_00JStgZUA1nApXOA6JYcEjgdEnCZ-V1o_kKNya5nhqz9NTW76_xpQXMWvnGpu497KLsmPxewtEZ0=@protonmail.com>
- <20a1cc94-7f88-4b7f-879b-1835f804e8d1@redhat.com>
- <ZabTi1PbTl-uF5aM@google.com>
- <5207ea8a-722b-4431-8d50-8cec8356f1ad@redhat.com>
+	s=arc-20240116; t=1705437816; c=relaxed/simple;
+	bh=p+i0FXuxXzZH+zBYjbfUxX6j1AcRg2SAkRBqUYmvsrY=;
+	h=DKIM-Signature:Received:X-MC-Unique:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Scanned-By; b=dD1L+368PCwkMD9rlpL7IaDlkRg/ee9HBfGPSVaEXJnb2tA05yXauxBQoDr3lYI2249zFiVx4qgju78u/utOOst9RL8Mu6+Pyaq4AlSU+qydZhn/e0QTMRs3qzsB9P7rGQ7BsDMsGE8o/+GmI3WWy0RuO9lTrrVJu4RwNrSLrTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T6CbTkO3; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705437812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=n4Ld+LwHT2KtaHlX19Lhlf3Zd/e0ctjbol8Ko0BP92k=;
+	b=T6CbTkO34uyygGVU0wCGnTuHshzxD0zngcoS0JW3WG8+rNv2h2/DTxR/xOkr3Th0/NXXH5
+	fU444U03BPZtkEdD6bX0EhOXOd7i6K4t+4+KO6O9tMGLC+kN6FjFkCf0Y/rpRjj2T9J6Jf
+	KN/EFAWH4QwBT6nFSLKegKiKUGeeEtI=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-631-YiU3qG3zNTe99xQupm5aBw-1; Tue,
+ 16 Jan 2024 15:43:30 -0500
+X-MC-Unique: YiU3qG3zNTe99xQupm5aBw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F6B8380671C;
+	Tue, 16 Jan 2024 20:43:29 +0000 (UTC)
+Received: from x1.nl (unknown [10.39.192.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 62C2F1C060AF;
+	Tue, 16 Jan 2024 20:43:27 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-input@vger.kernel.org,
+	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
+Subject: [PATCH] Input: atkbd - Use ab83 as id when skipping the getid command
+Date: Tue, 16 Jan 2024 21:43:25 +0100
+Message-ID: <20240116204325.7719-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5207ea8a-722b-4431-8d50-8cec8356f1ad@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-On Tue, Jan 16, 2024 at 08:33:39PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 1/16/24 20:05, Dmitry Torokhov wrote:
-> > On Tue, Jan 16, 2024 at 03:43:10PM +0100, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 1/16/24 14:32, Barnabás Pőcze wrote:
-> >>>
-> >>> After:
-> >>>
-> >>> evdev:input:b0011v0001p0001*
-> >>>  KEYBOARD_KEY_f8=fn
-> >>>  KEYBOARD_KEY_76=f21
-> >>>
-> >>> I: Bus=0011 Vendor=0001 Product=0001 Version=abba
-> >>> N: Name="AT Translated Set 2 keyboard"
-> >>> P: Phys=isa0060/serio0/input0
-> >>> S: Sysfs=/devices/platform/i8042/serio0/input/input4
-> >>
-> >> I see, thank you. There are no v0001p0001 matches
-> >> in the hwdb.d/60-keyboard.hwdb shipped with systems.
-> >>
-> >> Typically laptop builtin keyboards use another match-type
-> >> so that they can do DMI matching e.g.:
-> >>
-> >> evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
-> >>
-> >> So luckily for almost all users the e field in the match
-> >> rule changing should not be an issue. Sorry that this
-> >> was a problem for you.
-> > 
-> > Hans, I wonder, if we skip "GET ID" command because it is a
-> > portable/laptop, maybe we should assume that it is the standard "0xab83"
-> > instead of "0xabba" that we assign if GET ID fails but SET LEDS
-> > succeeds. What do you think?
-> 
-> That sounds like a good idea to me. I was already wondering
-> if there was a standard response.
-> 
-> Do you plan to write a fix yourself or shall I propose one ?
+Barnabás reported that the change to skip the getid command
+when the controller is in translated mode on laptops caused
+the Version field of his "AT Translated Set 2 keyboard"
+input device to change from ab83 to abba, breaking a custom
+hwdb entry for this keyboard.
 
-Please propose a patch.
+Use the standard ab83 id for keyboards when getid is skipped
+(rather then that getid fails) to avoid reporting a different
+Version to userspace then before skipping the getid.
 
-Thanks.
+Fixes: 936e4d49ecbc ("Input: atkbd - skip ATKBD_CMD_GETID in translated mode")
+Reported-by: Barnabás Pőcze <pobrn@protonmail.com>
+Closes: https://lore.kernel.org/linux-input/W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/keyboard/atkbd.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+index 786f00f6b7fd..13ef6284223d 100644
+--- a/drivers/input/keyboard/atkbd.c
++++ b/drivers/input/keyboard/atkbd.c
+@@ -791,9 +791,9 @@ static bool atkbd_is_portable_device(void)
+  * not work. So in this case simply assume a keyboard is connected to avoid
+  * confusing some laptop keyboards.
+  *
+- * Skipping ATKBD_CMD_GETID ends up using a fake keyboard id. Using a fake id is
+- * ok in translated mode, only atkbd_select_set() checks atkbd->id and in
+- * translated mode that is a no-op.
++ * Skipping ATKBD_CMD_GETID ends up using a fake keyboard id. Using the standard
++ * 0xab83 id is ok in translated mode, only atkbd_select_set() checks atkbd->id
++ * and in translated mode that is a no-op.
+  */
+ static bool atkbd_skip_getid(struct atkbd *atkbd)
+ {
+@@ -811,6 +811,7 @@ static int atkbd_probe(struct atkbd *atkbd)
+ {
+ 	struct ps2dev *ps2dev = &atkbd->ps2dev;
+ 	unsigned char param[2];
++	bool skip_getid;
+ 
+ /*
+  * Some systems, where the bit-twiddling when testing the io-lines of the
+@@ -832,7 +833,8 @@ static int atkbd_probe(struct atkbd *atkbd)
+  */
+ 
+ 	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
+-	if (atkbd_skip_getid(atkbd) || ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
++	skip_getid = atkbd_skip_getid(atkbd);
++	if (skip_getid || ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
+ 
+ /*
+  * If the get ID command was skipped or failed, we check if we can at least set
+@@ -842,7 +844,7 @@ static int atkbd_probe(struct atkbd *atkbd)
+ 		param[0] = 0;
+ 		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
+ 			return -1;
+-		atkbd->id = 0xabba;
++		atkbd->id = skip_getid ? 0xab83 : 0xabba;
+ 		return 0;
+ 	}
+ 
 -- 
-Dmitry
+2.43.0
+
 
