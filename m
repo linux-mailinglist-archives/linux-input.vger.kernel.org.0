@@ -1,130 +1,121 @@
-Return-Path: <linux-input+bounces-1274-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1275-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DF882F4FF
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 20:05:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E184C82F514
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 20:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA4071C21303
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 19:05:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90CF7284C26
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 19:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B5701CF87;
-	Tue, 16 Jan 2024 19:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF1801D692;
+	Tue, 16 Jan 2024 19:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MPvSWNsP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3yC47mT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84AC1BF29
-	for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 19:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3853F1D690;
+	Tue, 16 Jan 2024 19:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705431952; cv=none; b=t6mXxuC543vND4LQWK66YEaMOHZgiG2QYtY758j1+NmxlKgundSqaOlHDc3HdN+0wa/+Prnzv87KypziFgCeqHkBtGAndDl8MHdaG5iAx6TDgbJ6hHAuYQmcbf95P2kbF6EriGBFGp9wncnXdLCS7fY8PbkqJVbDW7L/WFBFm94=
+	t=1705432323; cv=none; b=bYcjeEGNVyG8Jz7exNpm1CtGX+enirdId/t+a/h9i0/0pgZE00QG/Dzm5Q5kzz985WfK+95nJYDlO44jtsjPSjw2/L41jznN4kFfmRyVdn8o+1zvjNIqw3uVHVO/eLMbAsV3EDJacMC566kX3qa/6Lm2qDZIr50PW4LjIYEgz3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705431952; c=relaxed/simple;
-	bh=zp5DAUasDX5CuxVQ2w36DwjjWB1VzJ4akJH4ovSqxzE=;
+	s=arc-20240116; t=1705432323; c=relaxed/simple;
+	bh=At0y0LAg63pryN4SDbw6Y9AQ4QA1Gvq+RIc+Zhyvjjc=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To; b=SEKk0Uz/ezwJcnJBEpmPcmAy6iGX75t3lnuaO0R+W/Vrn/wXe+BQUbaKqeFUy8IE1LMtXuby6RyGK/1uRXgb+volGa8I94qHk7RrAS52BZudd5QRQw6AWrq/8LM+JHgChCK8XqIqAxoQPokn8Q6ELmdxSLNNgjvZlBnYSTuVr7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MPvSWNsP; arc=none smtp.client-ip=209.85.166.178
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3606dc50447so49673025ab.2
-        for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 11:05:51 -0800 (PST)
+	 Content-Disposition:In-Reply-To; b=mOHoJVLJIQ/wvuXl+c9EmFijkgimzNH6Dewx6ZLRphDhW+qfJTQ8LQEFQ1L7Pg7X9TZQr4EIGjgbon0K2Mfptnvu066rs6hUk/3SkcMpuX8CNo4krNxVzYOKjNwH07+lhDP4eu132BtG4W06kJ8wxaQXNtkm8QvnUuT8nGqHYvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3yC47mT; arc=none smtp.client-ip=209.85.215.182
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5cedfc32250so4789593a12.0;
+        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705431950; x=1706036750; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Xb3OSCtvNsA44+oTeeg5PlC0zSnSiMqHUZGFHY4kUyM=;
-        b=MPvSWNsPcz36y/KZTDEZx17zUfVPh+K8j2muD4C/H69ceCES+xLtEYeoMxBbW6FoMJ
-         LPFELY2plrqLSiufhhmHvmQ6ZeDp/ovh5sMpFlYVRLlCxIeHyOE4dxi5rQ6S4tdbZge9
-         pueSuHjEq/uDJLf22geCsoJSP3LfIRmnrF+jh+AJ49Ripr+dgB5Dfc6zjwPlIzN1np+O
-         xSZtZHUUxefWFOlPkYTAvPTN9YbudeW/99xm8mkW2JKUFV8FUGYJuOfRoZ6oMaYOXj7O
-         2VNZwNNn9ViZYsmkYbASlwdkwaDtrHtMqSM1PrpMMjgdErV/YDPgqnUtj1yZMl9Q5owE
-         BKeA==
+        d=gmail.com; s=20230601; t=1705432321; x=1706037121; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8wrpQHEifzn5isE2BzzQKB98qg2UFhAKp9CxBXCvJHc=;
+        b=B3yC47mThZHz1n1rEraIl8BdZz6L2Fg38Py+sMsuwBB1Q2sS+NhETRLan1gaaDiuS8
+         lhevQPZDmHpKmkIj8O/+Yi0ZszvFtJP4PS2UWZWkg1dexSnx62PlTocfPeDOgsQsFqg4
+         rUsTr88mCc8h52zW4KEpOouroD3IwBkASaayOsAMlxX9/VMKRzqVOth2z+vopDBcmTBZ
+         99yaDqzj6p5P6LXQk1dCyB5ql1E2edE1/r5szxZ0H7TJgqS1+32ZRx+oSPSlC6mq6xGo
+         8XE++OjRzEpnmKisgsDgx6EcYDEE1QBojWz6Kh71fvOGUqiBuHh+5uUw2lVIq6b8z8XG
+         BHoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705431950; x=1706036750;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xb3OSCtvNsA44+oTeeg5PlC0zSnSiMqHUZGFHY4kUyM=;
-        b=SyWcEZaCTZ+gbTcQebEbGoya5KnztAB7nY/xINzEwzNEHOlamE0WrO3Hqll1QlhztP
-         zL/+2UUEyMuhdhkbEgLoPMSQ6tdTHONw1JCGNRQVkTjobd4lvu+vliLnobiHHXBg0E67
-         l4/eaJ48ha7IRL5v4WNzjNhU1NLvhKCmiXnDLJZV7tyHDwKDcnLh91JJLWYonjUsEkxC
-         L3dISkId5v/aA92iIxiTFJBfvfKbTvLr3pPAhjkJ23ruvWeIkBwg8uka3EuFw96RGK7J
-         WS3Wm0PqawG2/ermputLV1Z1CJ06WrJalf8nBO95UYAD8WIG45MD86KJt2mxb/BMUyEO
-         pDLg==
-X-Gm-Message-State: AOJu0Yy/MFIrI/xBmLkUBMRr9QMN9zXPfsT8a2BOl5vj3Ka1HVb7k4cK
-	th4hgpFP6os04Fj52/chcx0=
-X-Google-Smtp-Source: AGHT+IGGnEg5wmY6T/L9XM4mSiuZHINRgKsBU1TXWyr541rDOGozIQScA3aYRZRjioBsA6gYbeW5aw==
-X-Received: by 2002:a05:6e02:1d0f:b0:360:b60:6af2 with SMTP id i15-20020a056e021d0f00b003600b606af2mr10563490ila.32.1705431950537;
-        Tue, 16 Jan 2024 11:05:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705432321; x=1706037121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8wrpQHEifzn5isE2BzzQKB98qg2UFhAKp9CxBXCvJHc=;
+        b=qjSGMML0Inabe0raMZaongheQeluNc1B4gB+36AIwibUsTMGNVYxt1x1tdQNE+F9MR
+         +NNCwBCpZ2nQgj8A7nMy2zFmw9uoegMbe9yWbZIcIZGZ6AcbncloHXR+LaiyWJjllc+S
+         aj44Xdikx2ft9KOuEE+xyl/OMlNtM4MIIH1PFicHwYr2dABF1UVlTBWK/n6rxOE0o16L
+         Zs9MUTbJvxNpfQxHk2N9fLaHl7Dab5h8KEVbWExgX5sdSeB5rpEIbMzbNz1H8ZdSq0Fd
+         TKKHcUmJ0PAql1uc4j1TuiLElxMKsUlwHKFuvEYI9uuEWQgxbDtF4LbqeApbSuo8YMaX
+         X22g==
+X-Gm-Message-State: AOJu0YzL22jonKy71Mm6eCurrZ6YPmWV02sZG1K4CVH3uRI/ERiqatUb
+	JjiMtV2yOpgdxfV6TyPwGCdQhVVkoAk=
+X-Google-Smtp-Source: AGHT+IELUMf2IeBpxdiRocm2duo6eMGUfPK03qWFxT/xZMoS+7BRCBaEKqo72o+u91mqoqzJlN/7OQ==
+X-Received: by 2002:a05:6a20:6723:b0:199:e08c:f444 with SMTP id q35-20020a056a20672300b00199e08cf444mr3237956pzh.64.1705432321341;
+        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:5c15:9a6:f612:d37a])
-        by smtp.gmail.com with ESMTPSA id b13-20020a65668d000000b005cdf0b46fecsm9226430pgw.81.2024.01.16.11.05.49
+        by smtp.gmail.com with ESMTPSA id m6-20020a62f206000000b006dae568baedsm9627081pfh.24.2024.01.16.11.12.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 11:05:50 -0800 (PST)
-Date: Tue, 16 Jan 2024 11:05:47 -0800
+        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
+Date: Tue, 16 Jan 2024 11:11:58 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-	linux-input@vger.kernel.org, Shang Ye <yesh25@mail2.sysu.edu.cn>,
-	gurevitch <mail@gurevit.ch>, Egor Ignatov <egori@altlinux.org>,
-	Anton Zhilyaev <anton@cpp.in>
-Subject: Re: [PATCH v2] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
-Message-ID: <ZabTi1PbTl-uF5aM@google.com>
-References: <20231115174625.7462-1-hdegoede@redhat.com>
- <W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com>
- <162f0847-3f72-4606-a1ab-de05bdd97339@redhat.com>
- <DZ5T0aPAth1T_tvaht8979K9VSJFt5_00JStgZUA1nApXOA6JYcEjgdEnCZ-V1o_kKNya5nhqz9NTW76_xpQXMWvnGpu497KLsmPxewtEZ0=@protonmail.com>
- <20a1cc94-7f88-4b7f-879b-1835f804e8d1@redhat.com>
+To: Kunwu Chan <chentao@kylinos.cn>
+Cc: aduggan@synaptics.com, cheiny@synaptics.com,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: synaptics-rmi4: Fix NULL pointer dereference in
+ rmi_driver_probe
+Message-ID: <ZabU_lsGCuki1dSY@google.com>
+References: <20240116083847.89934-1-chentao@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20a1cc94-7f88-4b7f-879b-1835f804e8d1@redhat.com>
+In-Reply-To: <20240116083847.89934-1-chentao@kylinos.cn>
 
-On Tue, Jan 16, 2024 at 03:43:10PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 1/16/24 14:32, Barnabás Pőcze wrote:
-> > 
-> > After:
-> > 
-> > evdev:input:b0011v0001p0001*
-> >  KEYBOARD_KEY_f8=fn
-> >  KEYBOARD_KEY_76=f21
-> > 
-> > I: Bus=0011 Vendor=0001 Product=0001 Version=abba
-> > N: Name="AT Translated Set 2 keyboard"
-> > P: Phys=isa0060/serio0/input0
-> > S: Sysfs=/devices/platform/i8042/serio0/input/input4
-> 
-> I see, thank you. There are no v0001p0001 matches
-> in the hwdb.d/60-keyboard.hwdb shipped with systems.
-> 
-> Typically laptop builtin keyboards use another match-type
-> so that they can do DMI matching e.g.:
-> 
-> evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
-> 
-> So luckily for almost all users the e field in the match
-> rule changing should not be an issue. Sorry that this
-> was a problem for you.
+On Tue, Jan 16, 2024 at 04:38:47PM +0800, Kunwu Chan wrote:
+> devm_kasprintf() returns a pointer to dynamically allocated memory
+> which can be NULL upon failure. Ensure the allocation was successful
+> by checking the pointer validity.
 
-Hans, I wonder, if we skip "GET ID" command because it is a
-portable/laptop, maybe we should assume that it is the standard "0xab83"
-instead of "0xabba" that we assign if GET ID fails but SET LEDS
-succeeds. What do you think?
+It is perfectly valid to not set "input->phys" and leave it at NULL. So
+while I agree that having error handling is good I do not believe
+there's chance for NULL pointer dereference, so please adjust your patch
+title.
+
+> 
+> Fixes: 2b6a321da9a2 ("Input: synaptics-rmi4 - add support for Synaptics RMI4 devices")
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+> ---
+>  drivers/input/rmi4/rmi_driver.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+> index 258d5fe3d395..d3a601ff51e6 100644
+> --- a/drivers/input/rmi4/rmi_driver.c
+> +++ b/drivers/input/rmi4/rmi_driver.c
+> @@ -1197,6 +1197,12 @@ static int rmi_driver_probe(struct device *dev)
+>  		rmi_driver_set_input_params(rmi_dev, data->input);
+>  		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
+>  						"%s/input0", dev_name(dev));
+> +		if (!data->input->phys) {
+> +			dev_err(dev, "%s: Failed to allocate memory.\n",
+
+No need to log the error here, memory allocation will already log the
+failure.
 
 Thanks.
 
