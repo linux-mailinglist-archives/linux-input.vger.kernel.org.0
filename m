@@ -1,121 +1,109 @@
-Return-Path: <linux-input+bounces-1275-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1276-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E184C82F514
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 20:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADDF82F51F
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 20:14:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90CF7284C26
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 19:12:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C91F22858C3
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 19:14:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF1801D692;
-	Tue, 16 Jan 2024 19:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DA141CFA9;
+	Tue, 16 Jan 2024 19:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3yC47mT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T8NiL+NT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3853F1D690;
-	Tue, 16 Jan 2024 19:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED04E1D53D;
+	Tue, 16 Jan 2024 19:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705432323; cv=none; b=bYcjeEGNVyG8Jz7exNpm1CtGX+enirdId/t+a/h9i0/0pgZE00QG/Dzm5Q5kzz985WfK+95nJYDlO44jtsjPSjw2/L41jznN4kFfmRyVdn8o+1zvjNIqw3uVHVO/eLMbAsV3EDJacMC566kX3qa/6Lm2qDZIr50PW4LjIYEgz3o=
+	t=1705432454; cv=none; b=daYknJyVs9MWszOSU/btxOgOXOHZgoSPoW8nbXPk3zlNt+GijzyyOM0QKIdVmBiUQs2U40zR9OFcH0wLLa2Gp4YW6R34mmCOFcsck8OoFcoMzK057GiDnjqoy0dLCTw4ci+qt8M92qbyG1mgA7Z/Gfkiljm2aZApYBI636iQQyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705432323; c=relaxed/simple;
-	bh=At0y0LAg63pryN4SDbw6Y9AQ4QA1Gvq+RIc+Zhyvjjc=;
+	s=arc-20240116; t=1705432454; c=relaxed/simple;
+	bh=tpKwCnXNKmaoVKMv2ghf5TOzEvyS4zSCPF+Zx2qFG+w=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mOHoJVLJIQ/wvuXl+c9EmFijkgimzNH6Dewx6ZLRphDhW+qfJTQ8LQEFQ1L7Pg7X9TZQr4EIGjgbon0K2Mfptnvu066rs6hUk/3SkcMpuX8CNo4krNxVzYOKjNwH07+lhDP4eu132BtG4W06kJ8wxaQXNtkm8QvnUuT8nGqHYvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3yC47mT; arc=none smtp.client-ip=209.85.215.182
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5cedfc32250so4789593a12.0;
-        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To; b=UkO0FSdCr0t2BEQS2UUjeGyjVtMDOAXOsDX+BetczUMjKXqniTjcvnaO2vpQ8ThoBdzItFpK4c770o0d+hP8h34wY1YxuARbJQoO/mq4LHl1lH3bmwx+9j+xBS19ZD3jkEPmVQJ8MyYJsxZIiBDh3uh7hyWpbSM//DcT2FwTkTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T8NiL+NT; arc=none smtp.client-ip=209.85.215.178
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5ce6b5e3c4eso4643251a12.2;
+        Tue, 16 Jan 2024 11:14:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705432321; x=1706037121; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8wrpQHEifzn5isE2BzzQKB98qg2UFhAKp9CxBXCvJHc=;
-        b=B3yC47mThZHz1n1rEraIl8BdZz6L2Fg38Py+sMsuwBB1Q2sS+NhETRLan1gaaDiuS8
-         lhevQPZDmHpKmkIj8O/+Yi0ZszvFtJP4PS2UWZWkg1dexSnx62PlTocfPeDOgsQsFqg4
-         rUsTr88mCc8h52zW4KEpOouroD3IwBkASaayOsAMlxX9/VMKRzqVOth2z+vopDBcmTBZ
-         99yaDqzj6p5P6LXQk1dCyB5ql1E2edE1/r5szxZ0H7TJgqS1+32ZRx+oSPSlC6mq6xGo
-         8XE++OjRzEpnmKisgsDgx6EcYDEE1QBojWz6Kh71fvOGUqiBuHh+5uUw2lVIq6b8z8XG
-         BHoA==
+        d=gmail.com; s=20230601; t=1705432452; x=1706037252; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MZLUPKoMm7HGGewJ4tUOegf+TEvT6KwpecvPa7fqCl8=;
+        b=T8NiL+NT7rQ8tOidQn8pOdUF4DoVNB02+GEoYAhozmRiq396qORSdTFMDHffI9QIAw
+         TgpbZkWDd0TrcPHy/tE3wy2xJVQ3Et1aiP9yRM31B95bc5phvL+eBom/wOPQgfZm/aT1
+         den1bpimK+hEwLIKgqHqHFN8DQf8X9fURZZdqbyPBjgBDHlXn0mEQCwltDxF3abUvVEd
+         szQ9aBOeXp8OOmYjVAX+QukE7eKAtiWCiCuIiAzeNrxXwVGElJ2Y1qbMA9Ns3wdoUz6L
+         CeOpwB9BtgvAHXDfcPnGqlY6HRZIGC4f+z6JUi6rKH/eVbhtrUrrqJkWGLU1/eWqV9yV
+         M8CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705432321; x=1706037121;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wrpQHEifzn5isE2BzzQKB98qg2UFhAKp9CxBXCvJHc=;
-        b=qjSGMML0Inabe0raMZaongheQeluNc1B4gB+36AIwibUsTMGNVYxt1x1tdQNE+F9MR
-         +NNCwBCpZ2nQgj8A7nMy2zFmw9uoegMbe9yWbZIcIZGZ6AcbncloHXR+LaiyWJjllc+S
-         aj44Xdikx2ft9KOuEE+xyl/OMlNtM4MIIH1PFicHwYr2dABF1UVlTBWK/n6rxOE0o16L
-         Zs9MUTbJvxNpfQxHk2N9fLaHl7Dab5h8KEVbWExgX5sdSeB5rpEIbMzbNz1H8ZdSq0Fd
-         TKKHcUmJ0PAql1uc4j1TuiLElxMKsUlwHKFuvEYI9uuEWQgxbDtF4LbqeApbSuo8YMaX
-         X22g==
-X-Gm-Message-State: AOJu0YzL22jonKy71Mm6eCurrZ6YPmWV02sZG1K4CVH3uRI/ERiqatUb
-	JjiMtV2yOpgdxfV6TyPwGCdQhVVkoAk=
-X-Google-Smtp-Source: AGHT+IELUMf2IeBpxdiRocm2duo6eMGUfPK03qWFxT/xZMoS+7BRCBaEKqo72o+u91mqoqzJlN/7OQ==
-X-Received: by 2002:a05:6a20:6723:b0:199:e08c:f444 with SMTP id q35-20020a056a20672300b00199e08cf444mr3237956pzh.64.1705432321341;
-        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705432452; x=1706037252;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MZLUPKoMm7HGGewJ4tUOegf+TEvT6KwpecvPa7fqCl8=;
+        b=BjGzq4mK2ZLMMcaj8yDAZUYynAz6UFRzzraznrkXZEs7LPt/w6GzjRBvXIYv1348PS
+         3BBxLoamSsqIXUiYpGzwBW4cpCoVvR8zx+RlKzGRl1SuSYXS+IvWjO8NZVVy1XpBUzes
+         I6EZv5t9lNuHpqbMvQ9vR5Xp3TkzqnLKDC7BE223CfgGAiKmcUC1HW0eaqrrQsVClZDH
+         0P3WKPeb1QULfCzeqXBRZV0VMuFra9JWUz/0ve+CJefbm9ccq9y6FNPK9Nrc862d4y8J
+         WNZWWDMYEkLHiSNny0LapR68+qBd6O3qW7JomBWwEvPI6Luh71UvGd+hKWnl9a6Q3WfT
+         AAwQ==
+X-Gm-Message-State: AOJu0YxJ8Lze3+TM1/sxI54xZ3CNF1EznxdFbzbJ1KCp6pfbqdpKCNW0
+	r25d/oj9Hzyaj0vpgcRwkxI=
+X-Google-Smtp-Source: AGHT+IGYbSYmjB24NTQxmaJssKIY6tVcZ8Ft9p73NKEtBQlF+QNlGUOpdtE5extmmvz6qj40BAO7QQ==
+X-Received: by 2002:a17:903:1c1:b0:1d5:e4b0:b27f with SMTP id e1-20020a17090301c100b001d5e4b0b27fmr1319464plh.52.1705432452126;
+        Tue, 16 Jan 2024 11:14:12 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:5c15:9a6:f612:d37a])
-        by smtp.gmail.com with ESMTPSA id m6-20020a62f206000000b006dae568baedsm9627081pfh.24.2024.01.16.11.12.00
+        by smtp.gmail.com with ESMTPSA id t5-20020a170902dcc500b001d6e8f28f71sm241923pll.159.2024.01.16.11.14.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 11:12:01 -0800 (PST)
-Date: Tue, 16 Jan 2024 11:11:58 -0800
+        Tue, 16 Jan 2024 11:14:11 -0800 (PST)
+Date: Tue, 16 Jan 2024 11:14:09 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Kunwu Chan <chentao@kylinos.cn>
-Cc: aduggan@synaptics.com, cheiny@synaptics.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: synaptics-rmi4: Fix NULL pointer dereference in
- rmi_driver_probe
-Message-ID: <ZabU_lsGCuki1dSY@google.com>
-References: <20240116083847.89934-1-chentao@kylinos.cn>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-spi@vger.kernel.org, kernel@pengutronix.de,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH 04/33] Input: pxspad - follow renaming of SPI "master" to
+ "controller"
+Message-ID: <ZabVgZRjcpMKsw8z@google.com>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+ <5e05e8f918ba1f026b9967b0aaff5403a35cbf13.1705348269.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240116083847.89934-1-chentao@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5e05e8f918ba1f026b9967b0aaff5403a35cbf13.1705348269.git.u.kleine-koenig@pengutronix.de>
 
-On Tue, Jan 16, 2024 at 04:38:47PM +0800, Kunwu Chan wrote:
-> devm_kasprintf() returns a pointer to dynamically allocated memory
-> which can be NULL upon failure. Ensure the allocation was successful
-> by checking the pointer validity.
-
-It is perfectly valid to not set "input->phys" and leave it at NULL. So
-while I agree that having error handling is good I do not believe
-there's chance for NULL pointer dereference, so please adjust your patch
-title.
-
+On Mon, Jan 15, 2024 at 09:12:50PM +0100, Uwe Kleine-König wrote:
+> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+> some functions and struct members were renamed. To not break all drivers
+> compatibility macros were provided.
 > 
-> Fixes: 2b6a321da9a2 ("Input: synaptics-rmi4 - add support for Synaptics RMI4 devices")
-> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-> ---
->  drivers/input/rmi4/rmi_driver.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> To be able to remove these compatibility macros push the renaming into
+> this driver.
 > 
-> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-> index 258d5fe3d395..d3a601ff51e6 100644
-> --- a/drivers/input/rmi4/rmi_driver.c
-> +++ b/drivers/input/rmi4/rmi_driver.c
-> @@ -1197,6 +1197,12 @@ static int rmi_driver_probe(struct device *dev)
->  		rmi_driver_set_input_params(rmi_dev, data->input);
->  		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
->  						"%s/input0", dev_name(dev));
-> +		if (!data->input->phys) {
-> +			dev_err(dev, "%s: Failed to allocate memory.\n",
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-No need to log the error here, memory allocation will already log the
-failure.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Please feel free to merge with the rest of the series.
 
 Thanks.
 
