@@ -1,162 +1,184 @@
-Return-Path: <linux-input+bounces-1266-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1267-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D2382F0A7
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 15:41:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5206782F0BD
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 15:43:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5CFE1F23B4B
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 14:41:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBA4D285E16
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jan 2024 14:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9431BF2C;
-	Tue, 16 Jan 2024 14:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7204E1BF22;
+	Tue, 16 Jan 2024 14:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoW8PYM2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gOAiT+V8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433D01BF2A;
-	Tue, 16 Jan 2024 14:41:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82385C433F1;
-	Tue, 16 Jan 2024 14:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705416062;
-	bh=pi9f5n7aCz4k4GcDtHhDD5lv5OgeZ4ucYdJWw/uz8rU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eoW8PYM2MfAuIBhKaoTZlWZwOEH64nrarWgh8smz385NHA2AvWbxhu44TZid6guIO
-	 ztdPcokve4KGk/P0r48xP9LXjdlp+nfRggeFVeFp1EKUfQh1HSmalAz393OHzBH8yx
-	 HITZr7gQr/eVgLSaMXJ0zK/Hypf/9tgOSbSJiXzjxDaUW1d3OgO9S7G4+/H4mw666+
-	 L5PksNx2fvrD/Q9/Cn2uOjt9fv52HRvN58krYPnsggJ/tW1Mam7cV3tInWEBTcjzIV
-	 QhTlg/jUO4g8ofnL8rKCTYV2n5vBGWNCAEmw7Luoyo7bgDS5dKI4oEy8rewQcDvB/c
-	 CCz+OFltnyGUA==
-Date: Tue, 16 Jan 2024 14:40:39 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-spi@vger.kernel.org,
-	kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rayyan Ansari <rayyan@ansari.sh>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Sergey Kozlov <serjk@netup.ru>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
-	Rob Herring <robh@kernel.org>, linux-mtd@lists.infradead.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Ronald Wahl <ronald.wahl@raritan.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Michal Simek <michal.simek@amd.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, Rui Miguel Silva <rmfrfs@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-integrity@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/33] spi: get rid of some legacy macros
-Message-ID: <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
-References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF1C1BF32
+	for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 14:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705416195;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zslZ4nrtSF+deObftyFSW69jYOuD+r3RaTGNVY2qNi0=;
+	b=gOAiT+V83tEZ8r+fk+vm2JNw9MVMT9TdO4x3AeWHpi/vxP5qZOt786SI3ZcUggDNu7QqxL
+	c++so2T6fnEBMlxcuAbEeBwaIjARoTQJDxRVHM7f+aiSyKkrBh1ZKTKLP7RLraeb1F8Mzq
+	GPE2o3tKO+LKTr1fhUf6dffxnlpfn3Q=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-358-9hsJgw0bOK60AX6_hkeGDQ-1; Tue, 16 Jan 2024 09:43:13 -0500
+X-MC-Unique: 9hsJgw0bOK60AX6_hkeGDQ-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-558fc42759fso1467605a12.1
+        for <linux-input@vger.kernel.org>; Tue, 16 Jan 2024 06:43:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705416192; x=1706020992;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zslZ4nrtSF+deObftyFSW69jYOuD+r3RaTGNVY2qNi0=;
+        b=wh8AymPSkgwfwAAK79oHBRVrwlJORluOh0DwcbbV3Zgsp8zhcA6IfhzDfCa+9Iggrg
+         RjkciifaYhkbDYPwwL5ieS3TnpD6+geGnz1r2jyclWWsPn60qxd5OMUzZRaW9sud2I63
+         puaAZx137ArrD5tHWQKYThxuCz2kyVzXrrjlqI+1IkSn58L2jdkmF9JL9RqJN7yLGry9
+         R/tlAy4m/5oVDwRSo8ScSMPvSNfxPRZvbVZJtyPej2kQ4PBGKgMecktvjU6oKNL7Oy7B
+         5p1cn9jHwpr776N/wvdtPdnVqmHsVIrA7jm9tlvln79ILzV8AkxbuA9FvQ8lNHmypGtL
+         PxkA==
+X-Gm-Message-State: AOJu0YxgGp8pufT4CJthqowA/UFOURy9tQtyBdTrEpxBu3kALJNPXfoP
+	2l/X/irHeWeO/m9z6TteygiigFUP5m97yjG/78jyfffosnto7vf/EY1SYk3xa+RLGauKd5K3WQU
+	niCMNkK1Ug1JofJZoxq6KVI56fiYUvq0=
+X-Received: by 2002:aa7:c143:0:b0:558:b89d:a2ce with SMTP id r3-20020aa7c143000000b00558b89da2cemr4298885edp.19.1705416192556;
+        Tue, 16 Jan 2024 06:43:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEd/Z4ZAplKe17YHYU8oebPidVCIvKAtmbrfG93PbmakqjNbBadZz+QtsRs35rLbods9qI0MQ==
+X-Received: by 2002:aa7:c143:0:b0:558:b89d:a2ce with SMTP id r3-20020aa7c143000000b00558b89da2cemr4298882edp.19.1705416192236;
+        Tue, 16 Jan 2024 06:43:12 -0800 (PST)
+Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029? (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
+        by smtp.gmail.com with ESMTPSA id ef5-20020a05640228c500b00557d839727esm6826117edb.7.2024.01.16.06.43.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jan 2024 06:43:11 -0800 (PST)
+Message-ID: <20a1cc94-7f88-4b7f-879b-1835f804e8d1@redhat.com>
+Date: Tue, 16 Jan 2024 15:43:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c8yli56mmI+gJGEV"
-Content-Disposition: inline
-In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
-X-Cookie: Programmers do it bit by bit.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
+To: =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ Shang Ye <yesh25@mail2.sysu.edu.cn>, gurevitch <mail@gurevit.ch>,
+ Egor Ignatov <egori@altlinux.org>, Anton Zhilyaev <anton@cpp.in>
+References: <20231115174625.7462-1-hdegoede@redhat.com>
+ <W1ydwoG2fYv85Z3C3yfDOJcVpilEvGge6UGa9kZh8zI2-qkHXp7WLnl2hSkFz63j-c7WupUWI5TLL6n7Lt8DjRuU-yJBwLYWrreb1hbnd6A=@protonmail.com>
+ <162f0847-3f72-4606-a1ab-de05bdd97339@redhat.com>
+ <DZ5T0aPAth1T_tvaht8979K9VSJFt5_00JStgZUA1nApXOA6JYcEjgdEnCZ-V1o_kKNya5nhqz9NTW76_xpQXMWvnGpu497KLsmPxewtEZ0=@protonmail.com>
+Content-Language: en-US
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <DZ5T0aPAth1T_tvaht8979K9VSJFt5_00JStgZUA1nApXOA6JYcEjgdEnCZ-V1o_kKNya5nhqz9NTW76_xpQXMWvnGpu497KLsmPxewtEZ0=@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---c8yli56mmI+gJGEV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/16/24 14:32, Barnabás Pőcze wrote:
+> Hi
+> 
+> 
+> 2024. január 16., kedd 10:34 keltezéssel, Hans de Goede írta:
+> 
+>> [...]
+>>> 2023. november 15., szerda 18:46 keltezéssel, Hans de Goede írta:
+>>>
+>>>> There have been multiple reports of keyboard issues on recent laptop models
+>>>> which can be worked around by setting i8042.dumbkbd, with the downside
+>>>> being this breaks the capslock LED.
+>>>>
+>>>> It seems that these issues are caused by recent laptops getting confused by
+>>>> ATKBD_CMD_GETID. Rather then adding and endless growing list of quirks for
+>>>> this, just skip ATKBD_CMD_GETID alltogether on laptops in translated mode.
+>>>>
+>>>> The main goal of sending ATKBD_CMD_GETID is to skip binding to ps/2
+>>>> mice/touchpads and those are never used in translated mode.
+>>>>
+>>>> Examples of laptop models which benefit from skipping ATKBD_CMD_GETID:
+>>>>
+>>>> * "HP Laptop 15s-fq2xxx", "HP laptop 15s-fq4xxx" and "HP Laptop 15-dy2xxx"
+>>>>   models the kbd stops working for the first 2 - 5 minutes after boot
+>>>>   (waiting for EC watchdog reset?)
+>>>>
+>>>> * On "HP Spectre x360 13-aw2xxx" atkbd fails to probe the keyboard
+>>>>
+>>>> * At least 9 different Lenovo models have issues with ATKBD_CMD_GETID, see:
+>>>>   https://github.com/yescallop/atkbd-nogetid
+>>>>
+>>>> This has been tested on:
+>>>>
+>>>> 1. A MSI B550M PRO-VDH WIFI desktop, where the i8042 controller is not
+>>>>    in translated mode when no keyboard is plugged in and with a ps/2 kbd
+>>>>    a "AT Translated Set 2 keyboard" /dev/input/event# node shows up
+>>>>
+>>>> 2. A Lenovo ThinkPad X1 Yoga gen 8 (always has a translated set 2 keyboard)
+>>>
+>>> Just wanted to briefly mention that this broke my hwdb configuration because the
+>>> version field of the device (as shown in `/proc/bus/input/devices`) has changed
+>>> and it was included in the hwdb match rule.
+>>
+>> That is unfortunate. Was this a custom rule or one from
+>> the hwdb shipped with systemd ?
+>>
+>> Either way can you share the match pattern of the rule before and
+>> after? I want to check if there are any similar cases in
+>> the hwdb shipped with systemd.
+>> [...]
+> 
+> It was a custom rule.
+> 
+> Before:
+> 
+> evdev:input:b0011v0001p0001eAB83*
+>  KEYBOARD_KEY_f8=fn
+>  KEYBOARD_KEY_76=f21
+> 
+> I: Bus=0011 Vendor=0001 Product=0001 Version=ab83
+> N: Name="AT Translated Set 2 keyboard"
+> P: Phys=isa0060/serio0/input0
+> S: Sysfs=/devices/platform/i8042/serio0/input/input4
+> 
+> 
+> After:
+> 
+> evdev:input:b0011v0001p0001*
+>  KEYBOARD_KEY_f8=fn
+>  KEYBOARD_KEY_76=f21
+> 
+> I: Bus=0011 Vendor=0001 Product=0001 Version=abba
+> N: Name="AT Translated Set 2 keyboard"
+> P: Phys=isa0060/serio0/input0
+> S: Sysfs=/devices/platform/i8042/serio0/input/input4
 
-On Mon, Jan 15, 2024 at 09:12:46PM +0100, Uwe Kleine-K=F6nig wrote:
+I see, thank you. There are no v0001p0001 matches
+in the hwdb.d/60-keyboard.hwdb shipped with systems.
 
-> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-> some functions were renamed. Further some compat defines were introduced
-> to map the old names to the new ones.
+Typically laptop builtin keyboards use another match-type
+so that they can do DMI matching e.g.:
 
-> Patch #18 and #19 touch the same driver, otherwise the patches #1 - #31
-> are pairwise independent and could be applied by their respective
-> maintainers. The alternative is to let all patches go via the spi tree.
-> Mark, what's your preference here?
+evdev:atkbd:dmi:bvn*:bvr*:bd*:svnAcer*:pn*:*
 
-I don't have a strong preference here, I'm happy to take all the patches
-if the maintainers for the other subsystem are OK with that - ideally
-I'd apply things at -rc1 but the timeline is a bit tight there.  I think
-my plan here unless anyone objects (or I notice something myself) will
-be to queue things at -rc3, please shout if that doesn't seem
-reasonable.
+So luckily for almost all users the e field in the match
+rule changing should not be an issue. Sorry that this
+was a problem for you.
 
---c8yli56mmI+gJGEV
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Hans
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWmlVwACgkQJNaLcl1U
-h9AImgf/YhrOsj57KBdfXCGkJi2n+rTwU/YN3Vvfy2fP+4gmJoFGfjk1o+luXQwi
-q3+RNetq9JicN07DE0eggUdY7EqvLtghmHnQWYraw+gEPT7PwkiFuKZgDEy79tmH
-pNpJuEKTeDipvLkXCVMzD0T+NrW2BXshkACyxLpBrh+ewGJpmmgJEH8LEo52dxrk
-uLfK3YjSYco5zXw8Dzak8Ea9Hb57dnySjT6aQf8GRXZMjNYAPqMC27Pzd5pWHnD1
-am4raQY/1ji5yjiVs38+2RB0EnWlFJyj0VvC9vL5PEhkz0XiW3OTTedLKcxKKoYv
-H+d+5ZwIRVx3bl+qcRRzH8EMyJW7pA==
-=Umm1
------END PGP SIGNATURE-----
-
---c8yli56mmI+gJGEV--
 
