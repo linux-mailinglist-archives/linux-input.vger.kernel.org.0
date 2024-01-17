@@ -1,82 +1,82 @@
-Return-Path: <linux-input+bounces-1292-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1293-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA498309B6
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 16:27:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B157830B77
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 17:51:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E65F286F51
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 15:27:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53AD2282453
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 16:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04BE32231F;
-	Wed, 17 Jan 2024 15:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57AA6224DC;
+	Wed, 17 Jan 2024 16:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YMqReci3"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IZVZV7jZ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2267F22316
-	for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 15:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F8722329
+	for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 16:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705505204; cv=none; b=gCjF294VwNuR+W3auCmfsooWIgs+9EM4T1f8MQN2iK6wVnW7iSDvyEMjVHdOEfLZfhAjb5N/jIqkok2/EROSHsvYs0MOEKB0CvmVG09I0OrKRSN8FWMPdNBTHzKVZacsb9zcuFfm+FHa5QnzqoE0m1P7VD5NPvj/9Z9sRjfq9iM=
+	t=1705510260; cv=none; b=JnT1VejpHml0ikrfPaRy6VzgpMCSlqAzvW8OZS4JXxQHAiTJfJkcD2IyxcsuAkyLolMjrQMiQ67RTEHr9cQxgvgCiEJONj21KhSBxEaexmjCBdJRKJQpx6W+wJ6GUc7Eh0bCmnTAgaO9KrOr4d+Qw1XdWUsRJ8SVduesHJTlP3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705505204; c=relaxed/simple;
-	bh=uol4Wkl6bT4uLERdk8KIHsyvO2BIE5KygFwHXUQrR3w=;
+	s=arc-20240116; t=1705510260; c=relaxed/simple;
+	bh=bj/hs96SoSD6M7wdLl2YH/DmMdRpKQy3s5ii6iFbQ0o=;
 	h=DKIM-Signature:Received:X-MC-Unique:Received:
 	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
 	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Date:
 	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=BsYD2IAYOPpVjPQJRtzOa5QqfiBljDWWhs4LQTM4qKIJYsrCibsCnTQFXFnB2mdK6/kcbG+oI+4OTXaCBPqS+iiXPtf7gxdcW93ST/aW7+FtxmiHSqNIzyM/VKvG1vPLDCu1jeGLe46Q9P+4ZbCmGg9omPFI2hFba3ptRElJeYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YMqReci3; arc=none smtp.client-ip=170.10.133.124
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=l3XUndrO+hSjGQoYC13ub+EvcNvuunMCWVZgdE1iVPNj5+Px9+pwoKfkxonK8WpyAKCyqnZbr3QRLjAipLD1xDzhCdrk+8J9gCQEBZ1oK7Y3k8SuIlGp44q+4p6SjuE8MQL7OKRjSSyBazOimrv0oipihRLewZUqlTbexQHqkxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IZVZV7jZ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705505202;
+	s=mimecast20190719; t=1705510257;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q3igXpz0jLYNpd2wAR8zuEeppoJCF74coEtZektTXQ8=;
-	b=YMqReci3V5HhFspANhHZUb3MPCQ1pj1P4IyGidt5TUp1oJ+47NwMxpi+F1xaEEJmCu6T96
-	NC4aAXbX4i4hRiLBEbDiZzVEBxLvkWLlDs957tkw1dI0ouJkdESdEDeFSqD09CtxKX6ocX
-	JRdr3ynMEZ/bpf/79DVgCZi8PlIBGC8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=nnc6dQVA3dNi3pJUCdpIqw7wvP4lwyFls8kLU3/xDnc=;
+	b=IZVZV7jZvnKcTXBLqtNcf8A+tkFsBXe+LjxN3wekComU+jC+xyGPzAYt8PzHwXWmDga67n
+	0dSBoDttdOZVbci6rZ9/cN24sYVFj+XoCfSUPCfD0tlpLPPi70N/6utF9SKj6+/GAsK91w
+	WBbrSX2EvWFL3LNmxE4SRcHeRPsmubE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-16-9Imx5hFfOC-HAVp_9Mt9qg-1; Wed, 17 Jan 2024 10:26:40 -0500
-X-MC-Unique: 9Imx5hFfOC-HAVp_9Mt9qg-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a2e66e80504so76764866b.0
-        for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 07:26:40 -0800 (PST)
+ us-mta-168-5QvX56MpNQuhNgRsL_t5MQ-1; Wed, 17 Jan 2024 11:50:54 -0500
+X-MC-Unique: 5QvX56MpNQuhNgRsL_t5MQ-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a2cb0d70d6cso265957766b.2
+        for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 08:50:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705505199; x=1706109999;
+        d=1e100.net; s=20230601; t=1705510254; x=1706115054;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q3igXpz0jLYNpd2wAR8zuEeppoJCF74coEtZektTXQ8=;
-        b=o4glpY2XtLTfRRAYKtMyvKLdzoLAEjm+kfcIb5yv6oplJGgaPc1Z3i2TyS/uBUW+dl
-         RTGWWchWu9nTS8tZd0vvEn6m+VDcmSEcBIsVfnL2BQ+4R6ROF+VEBEtffxQe8o9hMh7Q
-         1gigAwf9X3OUlZ5J1CkjkPrZ9Xvonud89RfkOcSNKzeTxT8KYd322PsFXt2nhnxgfnpn
-         2eJMKh/5qC7J7Lc150AZ1Aw0264D/l//h6c97MTq6jMeUROF3FBeMTHWdjI8uyp5A4HL
-         JzhhsFnSs2QCnfHcUCpYFgGXRWioNxK9kp36tmdcJP3DhOgkncg0LWehSdzpt0ZgtEj3
-         bNDw==
-X-Gm-Message-State: AOJu0YyBecRlGgTR3hdtZEk0fzvxf/DJK6wLHgeQl803Eh2xgK2BmjFW
-	BSBc/oZOgCRYhzQog2vFkiSwEk9uS8ZDo8cJ3zoSPOSKwetgvTmBYn/neewHFFD9MYDB2rWl0Dh
-	iRo3GD4ZmYnq9T1CFSeysAyPd/i+9AJM=
-X-Received: by 2002:a17:906:4756:b0:a1f:a0f1:ec60 with SMTP id j22-20020a170906475600b00a1fa0f1ec60mr4657352ejs.14.1705505199163;
-        Wed, 17 Jan 2024 07:26:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFzGC4HE1nk4PyXljKqlVraEewSzZEQUd0rZqD6w/i823EW7w1nYdsR7qSI/BGtJg49PIweYg==
-X-Received: by 2002:a17:906:4756:b0:a1f:a0f1:ec60 with SMTP id j22-20020a170906475600b00a1fa0f1ec60mr4657338ejs.14.1705505198728;
-        Wed, 17 Jan 2024 07:26:38 -0800 (PST)
+        bh=nnc6dQVA3dNi3pJUCdpIqw7wvP4lwyFls8kLU3/xDnc=;
+        b=NyQg3pyBekJGie3OuZqhe2t1me70td5f+Ro9WR2OQDaZz6N/yUq7HJeLhGP/mxu6IC
+         Huc2PTa6yVcqBeqJ94Bf/oLuAxsQrRtWju8/bgJwRcWnjstO/kWLRrqCMDJeo6Q7lxa9
+         HhbnV02/EZ+uhXkvBiHTlhSd+ESMiDFhKncbIa7V8fIa0/5ND+tKeN23tQDe+LL50JlG
+         FMUw7CYze7uHMTBim8mw/kdmVpBnIbTNP+i/Py4LbZWfIYth9I3YfWl90e9KHu5wrpyr
+         PVZKH0Pzxgyh1p4sDZFQNQ3Nt+f9wQ+HtZkA58rzuY/0VDJQNde3mMjew+g42el4sN8i
+         4NCQ==
+X-Gm-Message-State: AOJu0YzimHwKsJuPNlJIn2mRm6dcHpDXDEx5M7ILdlgs0KYsywbr8aTf
+	EnK46rRTU62jXSQW7VRfOFBokyh5K2D8gL88oHku305wsSc1ZIfeacehKjBxd/u8bxxJhYkT0Dm
+	BI2/0W8Ia6uf3UmlZdlHfJYremyqPIxY=
+X-Received: by 2002:a17:907:c307:b0:a2d:d128:fbb8 with SMTP id tl7-20020a170907c30700b00a2dd128fbb8mr3755982ejc.124.1705510253809;
+        Wed, 17 Jan 2024 08:50:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEeQWD5jgD8PYE8L0xWO+esoquWgfev7sv2x2VEZdl70xPLAE5sWQx6nUbFSZipIQNLmXnyPw==
+X-Received: by 2002:a17:907:c307:b0:a2d:d128:fbb8 with SMTP id tl7-20020a170907c30700b00a2dd128fbb8mr3755959ejc.124.1705510253429;
+        Wed, 17 Jan 2024 08:50:53 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id g6-20020a170906c18600b00a2a9ddd15b8sm8023610ejz.173.2024.01.17.07.26.37
+        by smtp.gmail.com with ESMTPSA id kq10-20020a170906abca00b00a2e98f4c687sm1737550ejb.164.2024.01.17.08.50.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jan 2024 07:26:38 -0800 (PST)
-Message-ID: <8d77246d-ec1f-4106-8a33-b6e93bdbab45@redhat.com>
-Date: Wed, 17 Jan 2024 16:26:37 +0100
+        Wed, 17 Jan 2024 08:50:52 -0800 (PST)
+Message-ID: <3040290f-9b26-4fd3-8e64-a03ec59921d6@redhat.com>
+Date: Wed, 17 Jan 2024 17:50:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,11 +84,12 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Subject: Re: Userspace API for per key backlight for non HID (no hidraw)
+ keyboards
 Content-Language: en-US, nl
 To: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>,
  Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>
+ Jelle van der Waa <jelle@vdwaa.nl>, Armin Wolf <W_Armin@gmx.de>
 Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
  <lee@kernel.org>, linux-kernel@vger.kernel.org,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
@@ -113,207 +114,163 @@ In-Reply-To: <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Werner,
-
-Once again, sorry for the very slow response here.
+Hi All,
 
 On 11/27/23 11:59, Werner Sembach wrote:
-> Hi Hans,
+
+<snip>
+
+> I also stumbled across a new Problem:
 > 
-> Am 22.11.23 um 19:34 schrieb Hans de Goede:
->> Hi Werner,
-> [snip]
->>>>> Another idea I want to throw in the mix:
->>>>>
->>>>> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
->>>>>
->>>>> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
->>>> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
->>>>
->>>> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
->>> I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel driver no longer does anything.
->> I'm not in favor of using "enable" as sysfs attribute for this,
->> I would like to see a more descriptive name, how about:
->>
->> "disable_kernel_kbd_backlight_support"
->>
->> And then maybe also have the driver actually unregister
->> the LED class device ?
->>
->> Or just make the support inactive when writing 1 to
->> this and allow re-enabling it by writing 0?
+> We have an upcoming device that has a per-key keyboard backlight, but does the control completely via a wmi/acpi interface. So no usable hidraw here for a potential userspace driver implementation ...
 > 
-> Unregistering would mean that it can't be reenabled without module reload/reboot?
+> So a quick summary for the ideas floating in this thread so far:
+> 
+> 1. Expand leds interface allowing arbitrary modes with semi arbitrary optional attributes:
+> 
+>     - Pro:
+> 
+>         - Still offers all default attributes for use with UPower
+> 
+>         - Fairly simple to implement from the preexisting codebase
+> 
+>         - Could be implemented for all (to me) known internal keyboard backlights
+> 
+>     - Con:
+> 
+>         - Violates the simplicity paradigm of the leds interface (e.g. with this one leds entry controls possible multiple leds)
 
-Yes.
+So what you are suggesting here is having some way (a-z + other sysfs attr?)
+to use a single LED class device and then extend that to allow setting all
+keys ?
 
-> I would prefer that the userspace driver could easily give back control to the leds interface.
+This does not seem like a good idea to me and this will also cause issues
+when doing animations in software, since this API will likely be slow.
 
-Hmm, the problem here is that leaving a non-working LED class device
-behind may confuse things like upower.
+And if the API is not slow, then it will likely involve some sort
+of binary sysfs file for setting multiple keys rather then 1
+file per key which would break the normal 1 file per setting sysfs
+paradigm.
 
-So maybe the disable_kbd_backlight_support sysfs attr should
-not sit under /sys/class/leds/foobar::kbd_backlight, but rather
-it should sit under the sysfs dir of the parent-device ?
+> 2. Implement per-key keyboards as auxdisplay
+> 
+>     - Pro:
+> 
+>         - Already has a concept for led positions
 
-So if we are talking [USB|I2C]-HID keyboards and userspace
-using hidraw to takeover kbd_backlight control through,
-then have "disable_kbd_backlight_support" sit under
+With a "concept" you mean simple x,y positioning or is
+there something more advanced here that I'm aware of ?
+
+>         - Is conceptually closer to "multiple leds forming a singular entity"
+> 
+>     - Con:
+> 
+>         - No preexisting UPower support
+> 
+>         - No concept for special hardware lightning modes
+> 
+>         - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+
+Hmm, so there is very little documentation on this and what
+docs there is: Documentation/admin-guide/auxdisplay/cfag12864b.rst
+as well as the example program how to uses this suggests that
+this is using the old /dev/fb# interface which we are sorta
+trying to retire.
+
+
+> 3. Implement in input subsystem
+> 
+>     - Pro:
+> 
+>         - Preexisting concept for keys and key purpose
+> 
+>     - Con:
+> 
+>         - Not in scope for subsystem
+> 
+>         - No other preexisting light infrastructure
+
+Dmitry actually recently nacked the addition of
+a LED_MIC_MUTE define to include/uapi/linux/input-event-codes.h
+which was intended to be able to allow the input LED support
+with standard HID mic-mute leds (spk-mute is already supported
+this way).
+
+Dmitry was very clear that no new LEDs must be added and
+that any new LED support should be done through the LED
+subsytem, so I do not think that something like this
+is going to fly.
+
+
+> 4. Implement a simple leds driver only supporting a small subset of the capabilities and make it disable-able for a userspace driver to take over
+> 
+>     - Pro:
+> 
+>         - Most simple to implement basic support
+> 
+>         - In scope for led subsystem simplicity paradigm
+> 
+>     - Con:
+> 
+>         - Not all built in keyboard backlights can be implemented in a userspace only driver
+
+Right, so this is basically what we have been discussing in the other
+part of the thread with the:
+
 /sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
 
-and then re-register the LED class device for the keyboard
-when 0 gets written to disable_kbd_backlight_support ?
+proposal to unregister the kernel's LED class device and then
+allow userspace to do whatever it wants through /dev/hidraw
+without the kernel also trying to access the backlight
+functionality at the same time.
 
-That seems better to me then leaving a non-working LED
-class device behind and this will not require any changes
-to the LED subsystem.
+AFAIK there already is a bunch of userspace support for
+per key addressable kbd RGB backlights using hidraw support,
+so this way we can use the momentum / code of these existing
+projects, at least for existing hidraw keyboards and adding
+support for:
 
+/sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
 
->>> Questions:
->>>
->>> - Should the driver try to reset the settings to boot default? Or just leave the device in the current state? With the former I could see issues that they keyboard is flashing when changing from kernelspace control to userspace control. With the later the burden on bringing the device to a know state lies with the userspace driver.
->> My vote would go to leave the state as is. Even if the hw
->> does not support state readback, then the userspace code
->> can readback the state before writing 1 to
->> "disable_kernel_kbd_backlight_support"
-> ack
->>
->>> - Should this be a optional entry that only shows up on drivers supporting it, or could this implemented in a generic way affecting all current led entries?
->> IMHO this should be optional. If we go with the variant
->> where writing 1 to "disable_kernel_kbd_backlight_support"
->> just disables support and 0 re-enables it then I guess
->> we could have support for this in the LED-core, enabled
->> by a flag set by the driver.
->>
->> If we go with unregistering the led class device,
->> then this needs to be mostly handled in the driver.
->>
->> Either way the kernel driver should know about this even
->> if it is mostly handled in the LED core so that e.g.
->> it does not try to restore settings on resume from suspend.
-> 
-> So a generic implementation would still require all current led drivers to be touched?
-> 
-> For the sake of simplicity I would then prefer the optional variant.
+to these existing projects should be simple.
 
-See above, I think we need to put the sysfs-attr to disable
-the kernel's builtin kbd-backlight support in the parents
-sysfs-dir and then actually unregister the LED class device,
-this way we don't need any LED subsytem changes at all.
+Yet this will not work for your mentioned "control completely
+via a wmi/acpi interface". Still I think we should go the same
+route for those adding a misc-char device or something like
+that to allow making WMI calls from userspace (like Windows
+can do). Maybe with an allow list per GUID to only allow
+specific calls, so that we can avoid possible dangerous calls.
 
->>> - I guess UPower integration for the userspace driver could be archived with https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to brightness atm, so when accent colors actually come to UPower this would also need some expansion to be able to pass a preferred color to the userspace driver (regardless of what that driver is then doing with that information).
->> Using uleds is an interesting suggestion, but upower atm
->> does not support LED class kbd_backlight devices getting
->> hot-plugged. It only scans for them once at boot.
->>
->> Jelle van der Waa (a colleague of mine, added to the Cc)
->> has indicated he is interested in maybe working on fixing
->> this upower short-coming as a side project, once his
->> current side-projects are finished.
-> Nice to hear.
->>
->>> On a different note: This approach does currently not cover the older EC controlled 3 zone keyboards from clevo. Here only the kernel has access access to the device so the kernel driver has to expose all functionality somehow. Should this be done by an arbitrarily designed platform device?
->> Interesting question, this reminds there was a discussion
->> about how to handle zoned keyboards using plain LED class
->> APIs here:
->>
->> https://lore.kernel.org/linux-leds/544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com/
->>
->> Basically the idea discussed there is to create
->> separate multi-color LED sysfs devices for each zone,
->> using :rgb:kbd_zoned_backlight-xxx as postfix, e.g. :
->>
->>   :rgb:kbd_zoned_backlight-left
->>   :rgb:kbd_zoned_backlight-middle
->>   :rgb:kbd_zoned_backlight-right
->>   :rgb:kbd_zoned_backlight-wasd
->>
->> As postfixes for the 4 per zone LED class devices
->> and then teach upower to just treat this as
->> a single kbd-backlight for the existing upower
->> DBUS API and maybe later extend the DBUS API.
->>
->> Would something like this work for the Clevo
->> case you are describing?
-> 
-> Not entirely as some concept for the special modes would still be required.
+Armin Wolf recently became the WMI bus maintainer.
 
-Right, that can be done with some custom sysfs attr added
-to the LED class device, like how dell-laptop.c sets
-the .groups member of the "dell::kbd_backlight"
-"struct led_classdev kbd_led" to add some extra
-sysfs_attr to configure the timeout after which
-the kbd_backlight automatically turns off when
-no keys are pressed.
+Armin, we are discussing how to deal with (laptop) keyboards
+which have a separate RGB LED per key and how to control
+those LEDs.
 
-> Also it would be nice to be able to set the whole keyboard with a singular file access so that the keyboard changes at once and not zone by zone.
+So far per key addressable keyboard backlighting has always
+been HID based, so any existing support is just userspace
+based using /dev/hidraw. In my experience the problem with
+supporting gaming peripherals is that there is interest in it,
+but not really enough interest to keep a sustained momentum
+behind projects, especially not when it comes to taking code
+from a fun weekend hack to upstreaming them into bigger
+projects like the kernel.
 
-That is an interesting point. This could be implemented
-by adding an "enable_atomic_commit" sysfs attr to
-all 4:
+So I would like to offer some sort of easy accessible
+API to userspace for accessing this, basically allowing
+userspace drivers for the LED part of the keyboard which
+in some cases will involve making WMI calls from userspace.
 
-   :rgb:kbd_zoned_backlight-left
-   :rgb:kbd_zoned_backlight-middle
-   :rgb:kbd_zoned_backlight-right
-   :rgb:kbd_zoned_backlight-wasd
+So, Armin, what do you think about a way of allowing
+(filtered) WMI calls from userspace through say
+a misc-char device + ioctls or something like that?
 
-LED class devices, which is backed by only
-1 variable in the kernel (so changing it
-in one place changes it everywhere) and
-then also have a "commit" sysfs attr and
-writing say "1" to that will then commit
-all changes at once.
-
-So normally changes are still applied directly
-(for compatibility with the usual sysfs API),
-but then when "enable_atomic_commit" is set to 1,
-writes only update in kernel variables and then
-once "commit" is written all changes are send
-out in 1 go.
-
-I think we had the same issue where there was
-a single WMI call to change all zones at once
-(and having some sort of atomic API was desirable)
-the last time the suggestion to use 4 LED class
-devices for zoned kbds:
-
-   :rgb:kbd_zoned_backlight-left
-   :rgb:kbd_zoned_backlight-middle
-   :rgb:kbd_zoned_backlight-right
-   :rgb:kbd_zoned_backlight-wasd
-
-came up, so we could start a new:
-
-Documentation/ABI/testing/sysfs-class-led-zoned-kbd-backlight
-
-document extending the standard:
-
-Documentation/ABI/testing/sysfs-class-led
-
-which documents both using the:
-
-   :rgb:kbd_zoned_backlight-left
-   :rgb:kbd_zoned_backlight-middle
-   :rgb:kbd_zoned_backlight-right
-   :rgb:kbd_zoned_backlight-wasd
-
-suffixes there, as well as document some sort
-of atomically change all 4 zones at once API.
-
-Werner, if this sounds like something which would
-work for you, then it would probably be best to
-first submit a RFC patch introducing a:
-
-Documentation/ABI/testing/sysfs-class-led-zoned-kbd-backlight
-
-and then first discuss that with the LED subsys
-maintainers, so that we have buy-in from the LED
-subsys maintainers before you start actually
-implementing this.
-
-I'll reply to your "I also stumbled across a new Problem"
-in another reply as it seems best to start a separate
-thread for this.
+Werner atm I personally do think that option 4. from
+your list is the way to go. Mainly because designing
+a generic kernel API for all bells and whistles of gaming
+hw is very tricky and would require a large ongoing
+effort which I just don't see happening (based on
+past experience).
 
 Regards,
 
