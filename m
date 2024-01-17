@@ -1,106 +1,124 @@
-Return-Path: <linux-input+bounces-1290-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1291-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1C0830227
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 10:21:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C00830714
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 14:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 764B31F251BB
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 09:21:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19733286845
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 13:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BF914013;
-	Wed, 17 Jan 2024 09:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A9A1EB52;
+	Wed, 17 Jan 2024 13:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpX0ZGGL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791A913ADD
-	for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 09:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE7914A87;
+	Wed, 17 Jan 2024 13:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705483282; cv=none; b=FT/MB8/Wz4KdhJlw0kjuUlwuv1aHMOOFl8oz2LeXDKAnN7T6fmxct9rxJP6BzPwOSkPesOQjz9Qxb1Ukx+y5GvOpk/rj7hFIV/QCzRdK1QOLr4USFILbDT/9Wj0ecz5VGmj0VR773VShLkStUbqtZagPYgSbqgOv2qQC3qhfSIY=
+	t=1705498050; cv=none; b=fgztqRvbPpA1E8hvITjggYZG9nFy1IKHDidP24GFZVwWkmASBuFnBvFXPhnTSvMtJ7hg6CAtQOuphx6qX3ZbVJHpF0e4m3ry0WtrbJiWROX/i6aVJEKut7Mo8n64jXyBCin6ZjXjdTSwApijHXf37t2yt5fc3vYY+0qHVUe9D7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705483282; c=relaxed/simple;
-	bh=s5vuN6JWkgaXfmqPxiqAmbI3bXzyrZtw626VB7EuW+c=;
-	h=Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Google-Smtp-Source:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:
-	 Message-ID:Subject:From:To:Content-Type; b=Q8sPwLnoR3crQq7mEF6NdgynElZNhobsXjOPDZ242pdSejv4QKgZrZH3lUMcLJBK69DVHezRcE597sTonLOxCGQ/245S4g+d7dd+EPIoZ6hILlrV3tto81RsJsTxCqfyXgpzNyRHGNncplveN7ptQgy8u932bhNon5kYOKCEBhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3618ed4a2f5so9968285ab.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 01:21:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705483280; x=1706088080;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Up+jt1bihbVkBuUSBW+4TnpBfqZB9U3eKOg/evtGkN8=;
-        b=mgQVNJMsc7CAKaD9XQTqvqVyyPWEPHPqVIUYBQn/8zLDZbrGw3NttbXXx0kTSNwVyC
-         +LjEKndi6O+CRLOox0GhjP7Oz8orJ5iJF0g/m2om0Pn4aUqpz5poMC2LFM8FXFU54IQd
-         v3hUb9AOGajG4CoiL6izs+XuOQIBQiruMm3bi5YAZHxYDGgv7jTSr7uIF7UXr0LeyYzo
-         +e5vsvfr1HZXuwaECgACEtUD1ZLtu/iiMPrdOKxgrSHwAskXbHmAsB64RVNVwURbTYTW
-         YESS5G8QS0j0y+1lRs4ftiwMitROQXh2khV+3XR4Zwqjk7JAEeLyLsUj3daQCoWRKGyJ
-         3DNQ==
-X-Gm-Message-State: AOJu0Yx1pawauZFmDiZvWEpAineezlKpyej7cGKoD7mt0BnLNqCKWPfE
-	040BwNSaVR90zuIabYdg5yn8077zZ7R8XmPVSIKLLl1Bsgv2K6U=
-X-Google-Smtp-Source: AGHT+IGj5Jz/cVztIRPm1xyeRL71jW9Gjid3kd57muWdi+IvewSnwCcswtoo81J75UUWRsb9pLwrUMeVpn/k2lEgyCspNgrP0743
+	s=arc-20240116; t=1705498050; c=relaxed/simple;
+	bh=tywzkYCatCjvmllWPiu8+4g6b7SfayHdRCj5tZxD2aY=;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key; b=YU/T4yaRXbrGU3fR+vqf7meorafhrYvUiOS/weYvqGx3W29JPyyYxT6q+DegA2RoYlLW0qjhNK36Lix4NssOKerhhHOu6fUkNJte1YWS6Z/JBwv8dkIcsr61OMYw+feA6adKYYYlpfKsHzieP7mbJeen3BeRvnv9vlJ/YOJJj+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpX0ZGGL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11054C433C7;
+	Wed, 17 Jan 2024 13:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705498049;
+	bh=tywzkYCatCjvmllWPiu8+4g6b7SfayHdRCj5tZxD2aY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=BpX0ZGGLJIc2VX6MAPAWP7z8lbc2pUD9G3GIJvnD/QBB4AJhcD13u0IcVFtRRTs4o
+	 zbbWuwpm7ltx7aX6lqt2fzbRxn0H7X4U6av8iHKDGYe/2OViwBWXEJXP3QuBiLJGf3
+	 h+5suyjX+ZY4w1jyj06d4OQAv3NY1vXoHtx8IUCudYokO5SP/tbXculPc93dj/J3Xg
+	 Z9ntMDKR9BtBuRF4tbJZjQ+qjMSv9fb2Gb/PFLO+w8UctMuTB7kivYkDLVfZO7Vryt
+	 PaW+EmfdbUhc7iW65Izq9gp2izxQQkmjbZE125bGr+Bp1rJBtZWpzK78pCioxxffrl
+	 JAwGSTZkWHlWw==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Date: Wed, 17 Jan 2024 14:27:15 +0100
+Subject: [PATCH] selftests/hid: wacom: fix confidence tests
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1ca5:b0:361:8d02:f37d with SMTP id
- x5-20020a056e021ca500b003618d02f37dmr266518ill.4.1705483280708; Wed, 17 Jan
- 2024 01:21:20 -0800 (PST)
-Date: Wed, 17 Jan 2024 01:21:20 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001df937060f20c585@google.com>
-Subject: [syzbot] Monthly input report (Jan 2024)
-From: syzbot <syzbot+listb3639229afd4dbbee8c1@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240117-b4-wip-wacom-tests-fixes-v1-1-f317784f3c36@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALLVp2UC/x3LTQqAIBBA4avErBtQMfq5SrTQmmoWpThRQXT3p
+ OXH4z0glJgEuuKBRCcLhz1DlwWMq9sXQp6ywShjldY1eosXR7zcGDY8SA7BmW8SNG3jK+XJ2Xq
+ GvMdEf8h3P7zvByhu+wJqAAAA
+To: Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Shuah Khan <shuah@kernel.org>, Jason Gerecke <jason.gerecke@wacom.com>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1705498047; l=2088;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=tywzkYCatCjvmllWPiu8+4g6b7SfayHdRCj5tZxD2aY=;
+ b=IWzV59t4VHpJ7UoQOlD9tX+ULtDRWbwucPyNMZaoHScUQLIkX976SUTV53Af6WvswqS+9spXf
+ VyFYjlDA+cHDmmI1hVitU6gE/ZTGsokN+SQzQIOZ23xfYJPCb+hsILW
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Hello input maintainers/developers,
+The device is exported with a fuzz of 4, meaning that the `+ t` here
+is removed by the fuzz algorithm, making those tests failing.
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+Not sure why, but when I run this locally it was passing, but not in the
+VM.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 12 issues are still open and 51 have been fixed so far.
+Link: https://gitlab.freedesktop.org/bentiss/hid/-/jobs/53692957#L3315
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Over the break the test suite wasn't properly running on my runner,
+and this small issue sneaked in.
+---
+ tools/testing/selftests/hid/tests/test_wacom_generic.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 4133    Yes   WARNING in input_mt_init_slots
-                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-<2> 947     Yes   WARNING in implement
-                  https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
-<3> 353     No    possible deadlock in evdev_pass_values (2)
-                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<4> 149     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<5> 90      Yes   INFO: task hung in uhid_char_release
-                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<6> 39      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+diff --git a/tools/testing/selftests/hid/tests/test_wacom_generic.py b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+index 352fc39f3c6c..b62c7dba6777 100644
+--- a/tools/testing/selftests/hid/tests/test_wacom_generic.py
++++ b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+@@ -880,8 +880,8 @@ class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, TouchTabletTest
+         does not overlap with other contacts. The value of `t` may be
+         incremented over time to move the point along a linear path.
+         """
+-        x = 50 + 10 * contact_id + t
+-        y = 100 + 100 * contact_id + t
++        x = 50 + 10 * contact_id + t * 11
++        y = 100 + 100 * contact_id + t * 11
+         return test_multitouch.Touch(contact_id, x, y)
+ 
+     def make_contacts(self, n, t=0):
+@@ -902,8 +902,8 @@ class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, TouchTabletTest
+         tracking_id = contact_ids.tracking_id
+         slot_num = contact_ids.slot_num
+ 
+-        x = 50 + 10 * contact_id + t
+-        y = 100 + 100 * contact_id + t
++        x = 50 + 10 * contact_id + t * 11
++        y = 100 + 100 * contact_id + t * 11
+ 
+         # If the data isn't supposed to be stored in any slots, there is
+         # nothing we can check for in the evdev stream.
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 80d5a73edcfbd1d8d6a4c2b755873c5d63a1ebd7
+change-id: 20240117-b4-wip-wacom-tests-fixes-298b50bea47f
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
