@@ -1,111 +1,106 @@
-Return-Path: <linux-input+bounces-1289-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1290-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBFC83008B
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 08:31:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1C0830227
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 10:21:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 683FC287C88
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 07:31:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 764B31F251BB
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 09:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88A88C2C6;
-	Wed, 17 Jan 2024 07:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BF914013;
+	Wed, 17 Jan 2024 09:21:22 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6849ABA4B;
-	Wed, 17 Jan 2024 07:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791A913ADD
+	for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 09:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705476697; cv=none; b=OdSUH2qWl5CV/++u0ABO72pN5vDqUCkVDlpC01FvCOTQw7jSbDBz2BPzq5ulrKmnNUGIpk/zmb6Juh3eiPjzqFt0Rab0Wmf00gSV5N6wkWmlptRlKJFt+3G4Jh0ZgYWCn1/8rf4K9kU0nzlyG1r/M8tzw67XrREiKiPB1gPJOzI=
+	t=1705483282; cv=none; b=FT/MB8/Wz4KdhJlw0kjuUlwuv1aHMOOFl8oz2LeXDKAnN7T6fmxct9rxJP6BzPwOSkPesOQjz9Qxb1Ukx+y5GvOpk/rj7hFIV/QCzRdK1QOLr4USFILbDT/9Wj0ecz5VGmj0VR773VShLkStUbqtZagPYgSbqgOv2qQC3qhfSIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705476697; c=relaxed/simple;
-	bh=6DBmh5VudcgrGyumJ5ceN/k6JjkuLlAOr34rh1d6IVg=;
-	h=X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-UUID:Received:Received:X-ns-mid:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding; b=Z+wqSNQ6/0nVLmCAH4qQ7xn3Q8w64f0IxcdyEkUpHqiSz/Vdjlrw5oa0oDGZ8912BM2eDKo/nix+hdpEvdv3eoU50+yujBzBipzgR/AOyGNraMeZ6phA+4KeXvCxf7/tnz40JYEM1+d19nZerW4l6Pe/iU1bv99HEvGAgVk4V4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 98846c88b5f0479da8554ea9b061d516-20240117
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:ba636615-2455-415e-8dd8-38c78f84f03c,IP:20,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:30
-X-CID-INFO: VERSION:1.1.35,REQID:ba636615-2455-415e-8dd8-38c78f84f03c,IP:20,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:30
-X-CID-META: VersionHash:5d391d7,CLOUDID:dfd7f082-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:2401171531288ICAXGXH,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|66|1
-	02,TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL
-	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-UUID: 98846c88b5f0479da8554ea9b061d516-20240117
-Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
-	(envelope-from <chentao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 2021478520; Wed, 17 Jan 2024 15:31:27 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 81F37E000EB9;
-	Wed, 17 Jan 2024 15:31:27 +0800 (CST)
-X-ns-mid: postfix-65A7824F-336142280
-Received: from kernel.. (unknown [172.20.15.234])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 05727E000EB9;
-	Wed, 17 Jan 2024 15:31:26 +0800 (CST)
-From: Kunwu Chan <chentao@kylinos.cn>
-To: dmitry.torokhov@gmail.com,
-	aduggan@synaptics.com,
-	cheiny@synaptics.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kunwu Chan <chentao@kylinos.cn>
-Subject: [PATCH v2] Input: synaptics-rmi4: Add a null pointer check to the rmi_driver_probe
-Date: Wed, 17 Jan 2024 15:31:24 +0800
-Message-Id: <20240117073124.143636-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1705483282; c=relaxed/simple;
+	bh=s5vuN6JWkgaXfmqPxiqAmbI3bXzyrZtw626VB7EuW+c=;
+	h=Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Google-Smtp-Source:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:
+	 Message-ID:Subject:From:To:Content-Type; b=Q8sPwLnoR3crQq7mEF6NdgynElZNhobsXjOPDZ242pdSejv4QKgZrZH3lUMcLJBK69DVHezRcE597sTonLOxCGQ/245S4g+d7dd+EPIoZ6hILlrV3tto81RsJsTxCqfyXgpzNyRHGNncplveN7ptQgy8u932bhNon5kYOKCEBhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3618ed4a2f5so9968285ab.3
+        for <linux-input@vger.kernel.org>; Wed, 17 Jan 2024 01:21:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705483280; x=1706088080;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Up+jt1bihbVkBuUSBW+4TnpBfqZB9U3eKOg/evtGkN8=;
+        b=mgQVNJMsc7CAKaD9XQTqvqVyyPWEPHPqVIUYBQn/8zLDZbrGw3NttbXXx0kTSNwVyC
+         +LjEKndi6O+CRLOox0GhjP7Oz8orJ5iJF0g/m2om0Pn4aUqpz5poMC2LFM8FXFU54IQd
+         v3hUb9AOGajG4CoiL6izs+XuOQIBQiruMm3bi5YAZHxYDGgv7jTSr7uIF7UXr0LeyYzo
+         +e5vsvfr1HZXuwaECgACEtUD1ZLtu/iiMPrdOKxgrSHwAskXbHmAsB64RVNVwURbTYTW
+         YESS5G8QS0j0y+1lRs4ftiwMitROQXh2khV+3XR4Zwqjk7JAEeLyLsUj3daQCoWRKGyJ
+         3DNQ==
+X-Gm-Message-State: AOJu0Yx1pawauZFmDiZvWEpAineezlKpyej7cGKoD7mt0BnLNqCKWPfE
+	040BwNSaVR90zuIabYdg5yn8077zZ7R8XmPVSIKLLl1Bsgv2K6U=
+X-Google-Smtp-Source: AGHT+IGj5Jz/cVztIRPm1xyeRL71jW9Gjid3kd57muWdi+IvewSnwCcswtoo81J75UUWRsb9pLwrUMeVpn/k2lEgyCspNgrP0743
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a05:6e02:1ca5:b0:361:8d02:f37d with SMTP id
+ x5-20020a056e021ca500b003618d02f37dmr266518ill.4.1705483280708; Wed, 17 Jan
+ 2024 01:21:20 -0800 (PST)
+Date: Wed, 17 Jan 2024 01:21:20 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001df937060f20c585@google.com>
+Subject: [syzbot] Monthly input report (Jan 2024)
+From: syzbot <syzbot+listb3639229afd4dbbee8c1@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-devm_kasprintf() returns a pointer to dynamically allocated memory
-which can be NULL upon failure. Ensure the allocation was successful
-by checking the pointer validity.
+Hello input maintainers/developers,
 
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
+
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 12 issues are still open and 51 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 4133    Yes   WARNING in input_mt_init_slots
+                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+<2> 947     Yes   WARNING in implement
+                  https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
+<3> 353     No    possible deadlock in evdev_pass_values (2)
+                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<4> 149     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<5> 90      Yes   INFO: task hung in uhid_char_release
+                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
+<6> 39      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+
 ---
-v2: Change title and remove dev_err
----
- drivers/input/rmi4/rmi_driver.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_dri=
-ver.c
-index 258d5fe3d395..8da104e99e7b 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -1197,6 +1197,10 @@ static int rmi_driver_probe(struct device *dev)
- 		rmi_driver_set_input_params(rmi_dev, data->input);
- 		data->input->phys =3D devm_kasprintf(dev, GFP_KERNEL,
- 						"%s/input0", dev_name(dev));
-+		if (!data->input->phys) {
-+			retval =3D -ENOMEM;
-+			goto err;
-+		}
- 	}
-=20
- 	retval =3D rmi_init_functions(data);
---=20
-2.39.2
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
