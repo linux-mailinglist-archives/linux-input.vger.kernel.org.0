@@ -1,127 +1,111 @@
-Return-Path: <linux-input+bounces-1288-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1289-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2621A830059
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 08:08:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBFC83008B
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 08:31:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7D401C23A3E
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 07:08:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 683FC287C88
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 07:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885D18BFC;
-	Wed, 17 Jan 2024 07:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88A88C2C6;
+	Wed, 17 Jan 2024 07:31:37 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AE86AA2;
-	Wed, 17 Jan 2024 07:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6849ABA4B;
+	Wed, 17 Jan 2024 07:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705475289; cv=none; b=dgZG/q8WVZ/596tEWUCVGt/oE0ixuyiKCkEwxL4mk6O7ZGTc5HvMMgscwyvWL5MKexSy3XD3hRUJdwMwemMKUbk4G2+WU+ihlMqLRIdXpqCZkKqYONtKnyEcNoyUulDc26O1u1l0/w2EL8n4dFJlD2NWC9kY1tNcaSUN+7RwMHA=
+	t=1705476697; cv=none; b=OdSUH2qWl5CV/++u0ABO72pN5vDqUCkVDlpC01FvCOTQw7jSbDBz2BPzq5ulrKmnNUGIpk/zmb6Juh3eiPjzqFt0Rab0Wmf00gSV5N6wkWmlptRlKJFt+3G4Jh0ZgYWCn1/8rf4K9kU0nzlyG1r/M8tzw67XrREiKiPB1gPJOzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705475289; c=relaxed/simple;
-	bh=WXNYjqgzNatwx+1zxT1NT6S8kRttXGSS7rRMRoawxlA=;
+	s=arc-20240116; t=1705476697; c=relaxed/simple;
+	bh=6DBmh5VudcgrGyumJ5ceN/k6JjkuLlAOr34rh1d6IVg=;
 	h=X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:X-CID-META:X-CID-BVR:
 	 X-CID-BAS:X-CID-FACTOR:X-UUID:Received:Received:X-ns-mid:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=k4faD+T4A/4n6WiwCTIZWHb+5xktyIB2ejZ10ZMncBsnJedNPjObTtgjFExOY3hY6WbRrp6g7hgeUsU/zwMAzXKnkusqXaXhRtk1Xr/b2CgJ7yEZ1WwCvE0xJb47yTE4MA8+m2RZd+sPSqlhFlbI26D7rOKHcpNeW+BO+pIor/U=
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=Z+wqSNQ6/0nVLmCAH4qQ7xn3Q8w64f0IxcdyEkUpHqiSz/Vdjlrw5oa0oDGZ8912BM2eDKo/nix+hdpEvdv3eoU50+yujBzBipzgR/AOyGNraMeZ6phA+4KeXvCxf7/tnz40JYEM1+d19nZerW4l6Pe/iU1bv99HEvGAgVk4V4k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 5125fa9da51240b98565e2c343a33f68-20240117
+X-UUID: 98846c88b5f0479da8554ea9b061d516-20240117
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:e522f8bc-1ccc-40fb-bf5e-816037eda404,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-5
-X-CID-INFO: VERSION:1.1.35,REQID:e522f8bc-1ccc-40fb-bf5e-816037eda404,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:5d391d7,CLOUDID:b792578e-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:2401170312075O11I267,BulkQuantity:5,Recheck:0,SF:64|66|24|17|19|44|1
-	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+X-CID-O-INFO: VERSION:1.1.35,REQID:ba636615-2455-415e-8dd8-38c78f84f03c,IP:20,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:30
+X-CID-INFO: VERSION:1.1.35,REQID:ba636615-2455-415e-8dd8-38c78f84f03c,IP:20,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:30
+X-CID-META: VersionHash:5d391d7,CLOUDID:dfd7f082-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:2401171531288ICAXGXH,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|66|1
+	02,TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL
 	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-UUID: 5125fa9da51240b98565e2c343a33f68-20240117
+X-UUID: 98846c88b5f0479da8554ea9b061d516-20240117
 Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
 	(envelope-from <chentao@kylinos.cn>)
 	(Generic MTA)
-	with ESMTP id 284761598; Wed, 17 Jan 2024 15:08:00 +0800
+	with ESMTP id 2021478520; Wed, 17 Jan 2024 15:31:27 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 5249EE000EB9;
-	Wed, 17 Jan 2024 15:08:00 +0800 (CST)
-X-ns-mid: postfix-65A77CD0-263206224
-Received: from [172.20.15.234] (unknown [172.20.15.234])
-	by mail.kylinos.cn (NSMail) with ESMTPA id B0AC1E000EB9;
-	Wed, 17 Jan 2024 15:07:59 +0800 (CST)
-Message-ID: <3e7945e2-1891-4d86-aef9-e19eaa805721@kylinos.cn>
-Date: Wed, 17 Jan 2024 15:07:59 +0800
+	by mail.kylinos.cn (NSMail) with SMTP id 81F37E000EB9;
+	Wed, 17 Jan 2024 15:31:27 +0800 (CST)
+X-ns-mid: postfix-65A7824F-336142280
+Received: from kernel.. (unknown [172.20.15.234])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 05727E000EB9;
+	Wed, 17 Jan 2024 15:31:26 +0800 (CST)
+From: Kunwu Chan <chentao@kylinos.cn>
+To: dmitry.torokhov@gmail.com,
+	aduggan@synaptics.com,
+	cheiny@synaptics.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kunwu Chan <chentao@kylinos.cn>
+Subject: [PATCH v2] Input: synaptics-rmi4: Add a null pointer check to the rmi_driver_probe
+Date: Wed, 17 Jan 2024 15:31:24 +0800
+Message-Id: <20240117073124.143636-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: synaptics-rmi4: Fix NULL pointer dereference in
- rmi_driver_probe
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: aduggan@synaptics.com, cheiny@synaptics.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240116083847.89934-1-chentao@kylinos.cn>
- <ZabU_lsGCuki1dSY@google.com>
-Content-Language: en-US
-From: Kunwu Chan <chentao@kylinos.cn>
-In-Reply-To: <ZabU_lsGCuki1dSY@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 2024/1/17 03:11, Dmitry Torokhov wrote:
-> On Tue, Jan 16, 2024 at 04:38:47PM +0800, Kunwu Chan wrote:
->> devm_kasprintf() returns a pointer to dynamically allocated memory
->> which can be NULL upon failure. Ensure the allocation was successful
->> by checking the pointer validity.
-> 
-> It is perfectly valid to not set "input->phys" and leave it at NULL. So
-> while I agree that having error handling is good I do not believe
-> there's chance for NULL pointer dereference, so please adjust your patch
-> title.
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.
 
-Thanks for your suggestions.
-I'll change patch title to "Input: synaptics-rmi4: Add a null pointer 
-check to the rmi_driver_probe".
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+v2: Change title and remove dev_err
+---
+ drivers/input/rmi4/rmi_driver.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->>
->> Fixes: 2b6a321da9a2 ("Input: synaptics-rmi4 - add support for Synaptics RMI4 devices")
->> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
->> ---
->>   drivers/input/rmi4/rmi_driver.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
->> index 258d5fe3d395..d3a601ff51e6 100644
->> --- a/drivers/input/rmi4/rmi_driver.c
->> +++ b/drivers/input/rmi4/rmi_driver.c
->> @@ -1197,6 +1197,12 @@ static int rmi_driver_probe(struct device *dev)
->>   		rmi_driver_set_input_params(rmi_dev, data->input);
->>   		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
->>   						"%s/input0", dev_name(dev));
->> +		if (!data->input->phys) {
->> +			dev_err(dev, "%s: Failed to allocate memory.\n",
-> 
-> No need to log the error here, memory allocation will already log the
-> failure.
-Thanks, I'll remove the dev_err.
-> 
-> Thanks.
-> 
--- 
-Thanks,
-   Kunwu
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_dri=
+ver.c
+index 258d5fe3d395..8da104e99e7b 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -1197,6 +1197,10 @@ static int rmi_driver_probe(struct device *dev)
+ 		rmi_driver_set_input_params(rmi_dev, data->input);
+ 		data->input->phys =3D devm_kasprintf(dev, GFP_KERNEL,
+ 						"%s/input0", dev_name(dev));
++		if (!data->input->phys) {
++			retval =3D -ENOMEM;
++			goto err;
++		}
+ 	}
+=20
+ 	retval =3D rmi_init_functions(data);
+--=20
+2.39.2
 
 
