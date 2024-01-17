@@ -1,249 +1,341 @@
-Return-Path: <linux-input+bounces-1296-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1295-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A555830D29
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 20:13:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DDD830D16
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 20:04:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE3FB287380
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 19:13:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38F9E1C22FA0
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jan 2024 19:04:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A212420C;
-	Wed, 17 Jan 2024 19:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48DEA24212;
+	Wed, 17 Jan 2024 19:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="aadc6FlH"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ZqUrB5+I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0046e701.pphosted.com (mx0a-0046e701.pphosted.com [67.231.149.93])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B9724205;
-	Wed, 17 Jan 2024 19:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCFF24204;
+	Wed, 17 Jan 2024 19:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705518800; cv=none; b=o7NXSso1ii/Gzjr1DM3u74FmRWVskyRhi7pguVXuVRGhZOQgb+sonNEf3NP1fXnIuE4pJkfxv9XmCv7mbzpAL7BnQynbxQlYXimRqR3VXmRy6MoedAd6oUT2BBMKSneD+Wfz54dbBGRcvblraeNTLgpLfu68Hxy6VQqSidpswsw=
+	t=1705518275; cv=none; b=t6rd/xKB/7ShKaF3kv0hZs7rkHPMOO2eDWtaTexb5PZGWzBuhyHBUz2yak1fRVTMs/czofAzkhRZDrQRry4tHgwh6GpKM64pSrodBraNpac8m6TvTfp4xwEtBfzeW5tlISEfuKihmUZxtkmmfjWmzAEJM49hZBkX5JE1a6Ngd6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705518800; c=relaxed/simple;
-	bh=jKRss196qeLVlfcnne75UPlPmKcND3FARQ5NtdNiHqU=;
-	h=Received:DKIM-Signature:Received:Received:Received:From:To:CC:
-	 Subject:Thread-Topic:Thread-Index:Date:Message-ID:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:
-	 X-MS-TNEF-Correlator:x-originating-ip:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details; b=mqkxcy6UzBY1Gc4/EVhdIGg5N6r1V9OhzEw3bZDXUVU2FgergU5+kQlJiF0R+P8okJvEUx/f7HTwk+Le416K4OMe2aPJd4e0Iqq4slZr9v8F6QbYwjFQCn9PnUOYfBxALhf/b5GuZnsuZ3eaZ+IrTke4UOV0/gVfbPU1eD9RVAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=aadc6FlH; arc=none smtp.client-ip=67.231.149.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
-Received: from pps.filterd (m0341554.ppops.net [127.0.0.1])
-	by mx0a-0046e701.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40HC8IG6019691;
-	Wed, 17 Jan 2024 12:48:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:content-type
-	:content-id:content-transfer-encoding:mime-version; s=pps1; bh=j
-	KRss196qeLVlfcnne75UPlPmKcND3FARQ5NtdNiHqU=; b=aadc6FlHIkKg2QkpW
-	zA5iZcyDQeRy2Rzb8qR2oo1MCK6lKRNIs+u1IZ2lavL9l1svUFG4nPxWPDh5fBWN
-	tSNi9vKAG1Ezpazhb/CBtql4NkHJz3pvWThx8NpOEWCkmpRe+ASXIin6Etgz8ThN
-	+AG/bsRcF6/aLaZ5EdlLHO1oQhxW3v2qwUwcKRocMgHLIpU9A5mfDOlMsJtsrR1X
-	YHoqpngCNrEvM449HGFWg81nI+hlDs9xcWa2jqb3+P0zSVU9Mc/p1g5Nr1hlHIlC
-	p7qmTFDB+03ldmLUAm77hPgIoseJpPNVZVJuq7QQiKpTBrJ6N0zPWH1sDXIBH7n8
-	grunw==
-Received: from gcc-mail-mx-001.na.plexus.com (outbound.plexus.com [64.215.193.254])
-	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 3vpc62ht8s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 12:48:25 -0600 (CST)
-Received: from gcc-mail-mx-003.Na.Plexus.com (10.255.51.222) by
- gcc-mail-mx-001.na.plexus.com (10.255.51.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 17 Jan 2024 18:48:23 +0000
-Received: from gcc-mail-mx-003.Na.Plexus.com ([10.255.51.222]) by
- gcc-mail-mx-003.na.plexus.com ([10.255.51.222]) with mapi id 15.01.2507.035;
- Wed, 17 Jan 2024 18:48:23 +0000
-From: Danny Kaehn <Danny.Kaehn@plexus.com>
-To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-CC: "kaehndan@gmail.com" <kaehndan@gmail.com>,
-        "bartosz.golaszewski@linaro.org" <bartosz.golaszewski@linaro.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        Ethan Twardy
-	<Ethan.Twardy@plexus.com>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com"
-	<dmitry.torokhov@gmail.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "niyas.sait@linaro.org" <niyas.sait@linaro.org>,
-        "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: Re: [PATCH v9 3/3] HID: cp2112: Fwnode Support
-Thread-Topic: [PATCH v9 3/3] HID: cp2112: Fwnode Support
-Thread-Index: AQHaSXW/3n6OZGvLFUWJikeLL2pJPQ==
-Date: Wed, 17 Jan 2024 18:48:23 +0000
-Message-ID: <3e0fc6fa95f19d39711ca66808a2cff344652985.camel@plexus.com>
-In-Reply-To: <ZKKpknBH3Pa9mLS1@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <048D5E748166D84184FB49083C976C3D@plexus.com>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1705518275; c=relaxed/simple;
+	bh=bdLIPC15ej0v+zOIWbvmyn7ex0HPBw0c2Y8yrcRmgUE=;
+	h=DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Provags-ID:X-Spam-Flag:UI-OutboundReport; b=b+gkur8r32K8wVB5I9z+JTxAIZfWFATaEr9tztNJOSjNV7UkGddvcaOb0R1cVTbhe9maBCafbq+k2soNRSQ0FgcCGoWIlUc1ELIYRhcQBXFTsJqJJkxJf5HhH0U3ma3jTxBW2HHSVcWnL86Y9tJDFcXhLIPP9Q3d6Z1srvApcLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=ZqUrB5+I; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1705518242; x=1706123042; i=w_armin@gmx.de;
+	bh=bdLIPC15ej0v+zOIWbvmyn7ex0HPBw0c2Y8yrcRmgUE=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=ZqUrB5+IF/pyfkruHesmKxOj/RBoFttlDhzJ4c0LLQfDwwccDfkEFd0hzO+jUybU
+	 mZ31mdOPv48bo66OTHo0ALAAgMMlXcIf02vXBRDowlTr6wWxiHDkMaRaa9ryqmSLg
+	 Z2AbAMCV7ewQXccEOH8cgsKKXJSPDvHGFPE0HMIAZQuFx+AVOBzXIWz2Rr4ObsP1E
+	 vIgClYrNr+eT99Ggmr8D6ampYSRlu3zcvcAAlz6LWcInq99RfzGrxLxXKZxge+ZTh
+	 m93846rMbvEP5tZyga0uUegwHiWHtJR9V6FIH9P9gvSelr+Zx4SKsEzQVKKEjJq7s
+	 BhAG/eGzU3p4g1RqZQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mo6qp-1qlL4b1jjf-00pZUw; Wed, 17
+ Jan 2024 20:04:02 +0100
+Message-ID: <6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de>
+Date: Wed, 17 Jan 2024 20:03:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: HbbQEF2pgxdzG59UVGP_L8jik9KPpEV5
-X-Proofpoint-GUID: HbbQEF2pgxdzG59UVGP_L8jik9KPpEV5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-17_12,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 clxscore=1011 impostorscore=0 mlxscore=0
- spamscore=0 bulkscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2401170136
+User-Agent: Mozilla Thunderbird
+Subject: Re: Userspace API for per key backlight for non HID (no hidraw)
+ keyboards
+To: Hans de Goede <hdegoede@redhat.com>,
+ Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>,
+ Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
+ <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <3040290f-9b26-4fd3-8e64-a03ec59921d6@redhat.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <3040290f-9b26-4fd3-8e64-a03ec59921d6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:slnQSX0fSQ1Rlo9H0x1wbSLXQ437xLk6mAYc0Z78ttihROUnZG0
+ eNyNIaA2sc7aNxXCB8a7h9rLigbblOf8Nhh0TyHN030UAA0bRrM2Am3mxzeJH/DM19V4V0i
+ UYtvQh9+MFm/YQM3eNcDBZSndztz9o/5sFtC79/jKnAhsUifDamemC7G+kbj/DcPCRbsrNn
+ C2BXtEbdXf7a/d5go9ZQQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:grnvNIq4uoo=;6YCsgOTz5hZp0T00nKJHjQEtS5d
+ SxBKok9MuuPW6cBs7jcyc5Udvvpzpfy0HpHk7PgSk+ta09GlfNUBXtQ1KRaL4tPN/bhOWWSE/
+ NcmpRK71/I1wVJ2rpsSmxtpfcc+qwRuTapyfQuwOo4Ga8YpaFEGsRnd3P8762QUGpkdAqSOo6
+ WDB1q8sv5CoeyrSpgE2fzEMUk73j7OKNBk8GRS+UOxQl0Ey75V30zpYUFfL823h1nBp1iXUZO
+ drfvRfutwdTV7pKSLTxwNPnn9h3Tnje6Po6Bpk8naOeksg2c9kYsiuXqK/MlK1qNghcak5Kkw
+ Ai4DBucYenJxX4EkVGZq3+M4IQDAOLWfp2rBYEFuh186iCgMmb5y+X5poLhYNTUBLGe1jkLIl
+ CrmM9MmI+KbtPLBBbFutd5UuSbfu+TB6/WqUFRfnKprGBT19dWrXyIs8g0UhMsfvsH/yEtQPt
+ D6eJ2bxpmeYT+CoiqG5sRKBMvPVuZn0pf5O60Ffb6uBv9BFD3bI7tPd/fhy/Ebyc2ONP6RrhO
+ Tdc6RE5x23ZBoTYva/k7NTwd5487cTd7eTbgyyfYWe4z/N6YwNnemCCDPxUnm4ZS7pQY8sdhQ
+ ryTnsG0g8DJN6LFKT7QeBso4jDqlQl36aAnLRx5LDe9xGAwfhlgub76rwW7P0AZNDvUreSm+q
+ iR81It4a+LhM6Wc/AE4rWyixQQFzTAkOF9iVXTfh+sD169oAGzK6yl1IN9TecEhOOGydW4uzE
+ J74xtcA5zlI9UrLmqMOZy+Eqjq/xehS15+ohk3gFeciTx3vL3jIJ9hFzqSnVxrfpor75MWftS
+ mJ1/aEokbsj11IsBJYper3UfiHFFoRe5J4rGaPLuzJgmslk621msSg6q5mlTQZj61QnNi472O
+ XV5bqyw2GTUszYkb58OW7m5xQl8TKIoBfWc+fDzouHfb3zHcmhaNdMPm8Nijgpl7zh4D0zlZ0
+ ykBBnGTw28PH66/pOYsv3Y6n7Zk=
 
-SGVsbG8gZm9sa3MsIHdhbnRlZCB0byBnaXZlIG9uZSBtb3JlIGZvbGxvdyB1cCBvbiB0aGlzDQpw
-YXRjaC9kaXNjdXNzaW9uLiBXb3VsZCBhIHJlYXNvbmFibGUgbmV4dCBzdGVwIGZvciBtZQ0KdG8g
-aGVscCBudWRnZSB0aGlzIGZvcndhcmQgYmUgdG8gc3VibWl0IGEgdjEwIGFkZHJlc3NpbmcNCkFu
-ZHkncyBtb3N0IHJlY2VudCBjb2RlIGNvbW1lbnRzPyBBZ2FpbiBob3BpbmcgSSdtIG5vdCBiZWlu
-Zw0KcnVkZSBvciBzdGVwcGluZyBvbiB0b2VzOyBqdXN0IHdhbnQgdG8gbWFrZSBzdXJlIEknbSBk
-b2luZyBteQ0KZGlsbGlnZW5jZSB0byBtb3ZlIHRoaW5ncyBmb3J3YXJkLiBJJ2xsIGFzc3VtZSB0
-aGF0IGdvaW5nIGFoZWFkDQphbmQgc3VibWl0dGluZyBhIHYxMCB3aXRoIHVucmVzb2x2ZWQgZGlz
-Y3Vzc2lvbiBoZXJlIGlzbid0IGENCnRlcnJpYmxlIG9mZmVuc2UgaWYgSSBkb24ndCBlbmQgdXAg
-Z2V0dGluZyBhIHJlc3BvbnNlIGhlcmUgaW4gDQp0aGUgbmV4dCB3ZWVrIG9yIHNvLg0KDQpMZWF2
-aW5nIHNvbWUgbGlua3MgdG8gc29tZSBvZiB0aGUgbW9yZSBrZXkgcG9pbnRzIG9mIHRoZSBkaXNj
-dXNzaW9uDQphY3Jvc3MgdGhlIHZlcnNpb25zIG9mIHRoaXMgcGF0Y2gsIHNpbmNlIGl0J3MgYmVl
-biB+NSBtb250aHMgc2luY2UNCnRoZSBsYXN0IGFjdGl2aXR5IGhlcmUuDQoNCkRpc2N1c3Npb24g
-YmVnYW4gd2l0aCBkaXNjdXNzaW9uIG9mIHVzaW5nIGNoaWxkIG5vZGVzIGJ5IG5hbWUNCmFjcm9z
-cyBEVCB3aXRoIEFDUEksIGZvciBiaW5kaW5nIGZ3bm9kZXMgZm9yIHRoZSBDUDIxMTIncyBJMkMN
-CmFuZCBHUElPIGNvbnRyb2xsZXJzOyBzaW5jZSAgQUNQSSByZXF1aXJlcyB1cHBlcmNhc2UgbmFt
-ZXMgKGFuZA0KbmFtZXMgc2hvdWxkIHNwZWNpZmljYWxseSBub3QgYmUgbWVhbmluZ2Z1bCBpbiBB
-Q1BJKQ0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL1klMkY5b08xQUU2R0s2Q1FtcEBzbWls
-ZS5maS5pbnRlbC5jb20vDQoNCkFuZHkgc3VnZ2VzdGVkIEkgdXNlIF9BRFIgdG8gaWRlbnRpZnkg
-dGhlIGNoaWxkIG5vZGUgYnkgaW5kZXgNCmZvciBBQ1BJDQpodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9hbGwvWkFpNE5qcVhUYkxwVmhQb0BzbWlsZS5maS5pbnRlbC5jb20vDQoNCnY5IGltcGxlbWVu
-dGVkIG1hdGNoaW5nIGJ5IGNoaWxkIG5vZGUgbmFtZSBPUiBieSBhZGRyZXNzIGRlcG5kaW5nDQpv
-biB0aGUgdHlwZSBvZiBmaXJtd2FyZSB1c2VkDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwv
-MjAyMzAzMTkyMDQ4MDIuMTM2NC00LWthZWhuZGFuQGdtYWlsLmNvbS8NCg0KU29tZSBhZGRpdGlv
-bmFsIGRpc2N1c3Npb24gb24gd2hldGhlciBtYXRjaGluZyBjaGlsZCBub2RlcyBieSBuYW1lDQpp
-cyB0aGUgYmVzdCBhcHByb2FjaCBldmVuIGZvciB0aGUgRFQgc2lkZQ0KKGFsc28gd2l0aGluIHRo
-ZSBpbi1saW5lIGJvZHkgb2YgdGhpcyBlbWFpbCkNCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2Fs
-bC9aQmhvSHpUcjVsMzh1JTJGa1hAc21pbGUuZmkuaW50ZWwuY29tLw0KDQoNClRoZSBEVCBiaW5k
-aW5nIHBhdGNoIGluIHF1ZXN0aW9uDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMzAz
-MTkyMDQ4MDIuMTM2NC0yLWthZWhuZGFuQGdtYWlsLmNvbS8NCg0KVGhhbmtzLA0KDQpEYW5ueSBL
-YWVobg0KDQoNCg0KDQpPbiBNb24sIEp1bCAzIDIwMjMgYXQgMTM6NTc6MjIgKzAzMDAgQW5keSBT
-aGV2Y2hlbmtvIHdyaXRlOg0KPiBPbiBNb24sIE1heSAwMSwgMjAyMyBhdCAwNjozNTo0NFBNIC0w
-NTAwLCBEYW5pZWwgS2FlaG4gd3JvdGU6DQo+ID4gT24gTW9uLCBNYXIgMjAsIDIwMjMgYXQgOTox
-MOKAr0FNIEFuZHkgU2hldmNoZW5rbw0KPiA+IDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRl
-bC5jb20+IHdyb3RlOg0KPiA+ID4gT24gTW9uLCBNYXIgMjAsIDIwMjMgYXQgMDg6NDA6MDdBTSAt
-MDUwMCwgRGFuaWVsIEthZWhuIHdyb3RlOg0KPiA+ID4gPiBPbiBNb24sIE1hciAyMCwgMjAyMyBh
-dCA4OjAw4oCvQU0gQW5keSBTaGV2Y2hlbmtvDQo+ID4gPiA+IDxhbmRyaXkuc2hldmNoZW5rb0Bs
-aW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPiA+ID4gPiA+IE9uIE1vbiwgTWFyIDIwLCAyMDIzIGF0
-IDAyOjU4OjA3UE0gKzAyMDAsIEFuZHkgU2hldmNoZW5rbw0KV3JvdGU6DQo+ID4gPiA+ID4gPiBP
-biBTdW4sIE1hciAxOSwgMjAyMyBhdCAwMzo0ODowMlBNIC0wNTAwLCBEYW5ueSBLYWVobg0Kd3Jv
-dGU6DQo+ICtDYzogTml5YXMsIHdobyBpcyB3b3JraW5nIGEgbG90IG9uIGZpbGxpbmcgdGhlIGdh
-cHMgaW4gQUNQSSBpbg0KY29tcGFyaXNvbg0KPiAgICAgIHRvIERUIGluIHRoZSBMaW51eCBrZXJu
-ZWwuIFBlcmhhcHMgaGUgaGFzIHNvbWUgaWRlYXMgb3IgZXZlbg0KYmV0dGVyDQo+ICAgICAgc29s
-dXRpb25zLg0KPiANCj4gDQo+IC4uLg0KPiANCj4gPiA+ID4gPiA+ID4gKyAgIGRldmljZV9mb3Jf
-ZWFjaF9jaGlsZF9ub2RlKCZoZGV2LT5kZXYsIGNoaWxkKSB7DQo+ID4gPiA+ID4gPiA+ICsgICAg
-ICAgICAgIG5hbWUgPSBmd25vZGVfZ2V0X25hbWUoY2hpbGQpOw0KPiA+ID4gPiA+ID4gPiArICAg
-ICAgICAgICByZXQgPQ0KYWNwaV9nZXRfbG9jYWxfYWRkcmVzcyhBQ1BJX0hBTkRMRV9GV05PREUo
-Y2hpbGQpLCAmYWRkcik7DQo+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gKyAgICAgICAg
-ICAgaWYgKChuYW1lICYmIHN0cmNtcCgiaTJjIiwgbmFtZSkgPT0gMCkgfHwNCighcmV0ICYmIGFk
-ZHIgPT0gMCkpDQo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgZGV2aWNlX3NldF9u
-b2RlKCZkZXYtPmFkYXAuZGV2LA0KY2hpbGQpOw0KPiA+ID4gPiA+ID4gPiArICAgICAgICAgICBl
-bHNlIGlmICgobmFtZSAmJiBzdHJjbXAoImdwaW8iLCBuYW1lKSkgPT0gMA0KfHwNCj4gPiA+ID4g
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKCFyZXQgJiYgYWRkciA9
-PSAxKSkNCj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICBkZXYtPmdjLmZ3bm9kZSA9
-IGNoaWxkOw0KPiA+ID4gPiA+ID4gPiArICAgfQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFBs
-ZWFzZSwgbWFrZSBhZGRyZXNzZXMgZGVmaW5lZCBleHBsaWNpdGx5LiBZb3UgbWF5IGFsc28gZG8N
-Cml0IHdpdGggbm9kZSBuYW1pbmcNCj4gPiA+ID4gPiA+IHNjaGVtYToNCj4gPiA+ID4gPiA+DQo+
-ID4gPiA+ID4gPiAjZGVmaW5lIENQMjExMl9JMkNfQURSICAgICAgICAgICAgICAgIDANCj4gPiA+
-ID4gPiA+ICNkZWZpbmUgQ1AyMTEyX0dQSU9fQURSICAgICAgICAgICAgICAgMQ0KPiA+ID4gPiA+
-ID4NCj4gPiA+ID4gPiA+IHN0YXRpYyBjb25zdCBjaGFyICogY29uc3QgY3AyMTEyX2NlbGxfbmFt
-ZXNbXSA9IHsNCj4gPiA+ID4gPiA+ICAgICAgIFtDUDIxMTJfSTJDX0FEUl0gICAgICAgID0gImky
-YyIsDQo+ID4gPiA+ID4gPiAgICAgICBbQ1AyMTEyX0dQSU9fQURSXSAgICAgICA9ICJncGlvIiwN
-Cj4gPiA+ID4gPiA+IH07DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gICAgICAgZGV2aWNlX2Zv
-cl9lYWNoX2NoaWxkX25vZGUoJmhkZXYtPmRldiwgY2hpbGQpIHsNCj4gPiA+ID4gPiA+ICAgICAg
-ICAgICAgICAgbmFtZSA9IGZ3bm9kZV9nZXRfbmFtZShjaGlsZCk7DQo+ID4gPiA+ID4gPiAgICAg
-ICAgICAgICAgIGlmIChuYW1lKSB7DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAg
-cmV0ID0gbWF0Y2hfc3RyaW5nKGNwMjExMl9jZWxsX25hbWVzLA0KQVJSQVlfU0laRShjcDIxMTJf
-Y2VsbF9uYW1lcyksIG5hbWUpOw0KPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIGlm
-IChyZXQgPj0gMCkNCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFk
-ZHIgPSByZXQ7DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgIH0gZWxzZQ0KPiA+ID4gPiA+ID4g
-ICAgICAgICAgICAgICAgICAgICAgIHJldCA9DQphY3BpX2dldF9sb2NhbF9hZGRyZXNzKEFDUElf
-SEFORExFX0ZXTk9ERShjaGlsZCksICZhZGRyKTsNCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAg
-aWYgKHJldCA8IDApDQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgLi4uZXJyb3Ig
-aGFuZGxpbmcgaWYgbmVlZGVkLi4uDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gICAgICAgICAg
-ICAgICBzd2l0Y2ggKGFkZHIpIHsNCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgY2FzZSBDUDIx
-MTJfSTJDX0FEUjoNCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICBkZXZpY2Vfc2V0
-X25vZGUoJmRldi0+YWRhcC5kZXYsDQpjaGlsZCk7DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAg
-ICAgICAgICAgYnJlYWs7DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgIGNhc2UgQ1AyMTEyX0dQ
-SU9fQURSOg0KPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIGRldi0+Z2MuZndub2Rl
-ID0gY2hpbGQ7DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4g
-PiA+ID4gPiAgICAgICAgICAgICAgIGRlZmF1bHQ6DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAg
-ICAgICAgICAgLi4uZXJyb3IgaGFuZGxpbmcuLi4NCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAg
-fQ0KPiA+ID4gPiA+ID4gICAgICAgfQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQnR3LCBkb24ndCB5
-b3UgdXNlICJyZWciIHByb3BlcnR5IGZvciB0aGUgY2hpbGQgbm9kZXM/IEl0DQp3b3VsZCBiZSBi
-ZXR0ZXIgZnJvbQ0KPiA+ID4gPiA+IGRlIGZhY3RvIHVzZWQgcGF0dGVybnMgKHdlIGhhdmUgYSBj
-b3VwbGUgb2YgbW9kZSBkcml2ZXJzIHRoYXQNCmhhdmUgYSBjb21tb24NCj4gPiA+ID4gPiBjb2Rl
-IHRvIHJlYWQgInJlZyIgb3IgX0FEUigpIGFuZCB0aGF0IGNvZGUgY2FuIGJlIHNwbGl0IGludG8N
-CmEgaGVscGVyIGFuZCB1c2VkDQo+ID4gPiA+ID4gaGVyZSkuDQo+ID4gPiA+DQo+ID4gPiA+IE5h
-bWVkIG5vZGVzIF9zZWVtXyB0byBiZSBwcmVmZXJyZWQgaW4gRFQgZm9yIHdoZW4gdGhlcmUgaXNu
-J3QgYQ0KbG9naWNhbCAvDQo+ID4gPiA+IG5hdHVyYWwgbnVtYmVyaW5nIHRvIHRoZSBjaGlsZCBu
-b2Rlcy4gQS5lLiBmb3IgVVNCLCByZWcgaXMgdXNlZA0KdG8gc3BlY2lmeQ0KPiA+ID4gPiB3aGlj
-aCBwb3J0LCBmb3IgSTJDLCB3aGljaCBhZGRyZXNzIG9uIHRoZSBidXMsIGJ1dCBmb3IgdHdvDQpw
-YXJhbGxlbCBhbmQNCj4gPiA+ID4gaW5kZXBlbmRlbnQgZnVuY3Rpb25zIG9uIHRoZSBzYW1lIGRl
-dmljZSwgaXQgc2VlbXMgbmFtZWQgbm9kZXMNCndvdWxkIG1ha2UNCj4gPiA+ID4gbW9yZSBzZW5z
-ZSBpbiBEVC4gTWFueSBleGFtcGxlcyBleGlzdCBpbiBtYWlubGluZSB3aGVyZSBuYW1lZA0Kbm9k
-ZXMgYXJlIHVzZWQNCj4gPiA+ID4gaW4gRFQgaW4gdGhpcyB3YXkuDQo+ID4gPg0KPiA+ID4gT2th
-eSwgSSdtIG5vdCBhbiBleHBlcnQgaW4gdGhlIERUIHByZWZlcmFibGUgc2NoZW1hcywgc28gSQ0K
-YmVsaWV2ZSBEVCBwZW9wbGUNCj4gPiA+IHNob3VsZCBhbnN3ZXIgb24gdGhpcy4NCj4gPiANCj4g
-PiBIZWxsbywNCj4gPiANCj4gPiBUaGFua3MgZm9yIGFsbCB0aGUgdGltZSBzcGVudCByZXZpZXdp
-bmcgdGhpcyB0aHVzIGZhci4gRm9sbG93aW5nIHVwDQp0bw0KPiA+IHNlZSB3aGF0IG15IG5leHQg
-c3RlcHMgbWlnaHQgYmUuDQo+ID4gDQo+ID4gSXQgc291bmRzIGxpa2Ugd2UgbWlnaHQgd2FudCBz
-b21lIERUIGZvbGtzIHRvIHdlaWdoIGluIG9uIHRoZQ0Kc3RyYXRlZ3kNCj4gPiB1c2VkIGZvciBp
-ZGVudGlmeWluZyB0aGUgY2hpbGQgSTJDIGFuZCBHUElPIG5vZGVzIGZvciB0aGUgQ1AyMTEyDQo+
-ID4gZGV2aWNlIGJlZm9yZSBtb3ZpbmcgZnVydGhlciB0b3dhcmQgYXBwbHlpbmcgdGhpcy4NCj4g
-PiANCj4gPiBTaW5jZSB0aGUgRFQgbGlzdCBpcyBvbiB0aGlzIHRocmVhZCAoYXMgd2VsbCBhcyBS
-b2IrS3J6eXN0b2YpLCBhbmQNCj4gPiB0aGlzIGhhcyBzYXQgZm9yIGEgbGl0dGxlIHdoaWxlLCBJ
-J20gYXNzdW1pbmcgdGhhdCB0aGUgYmFsbCBpcyBpbg0KbXkNCj4gPiBjb3VydCB0byBzZWVrIG91
-dCBhbiBhbnN3ZXIvb3BpbmlvbiBoZXJlLiAoSSBrbm93IGZvbGtzIGdldCBhIGxvdA0Kb2YNCj4g
-PiBlbWFpbCwgc28gYXBvbG9naWVzIGlmIHRoZSBjb3JyZWN0IG1vdmUgd291bGQgaGF2ZSBiZWVu
-IHRvIHdhaXQgYQ0KYml0DQo+ID4gbG9uZ2VyIGJlZm9yZSBmb2xsb3dpbmcgdXAhIE5vdCBpbnRl
-bmRpbmcgdG8gYmUgcnVkZS4pDQo+ID4gDQo+ID4gV291bGQgaXQgYmUgYXBwcm9wcmlhdGUgLyBl
-eHBlY3RlZCB0aGF0IEkgc2VuZCBhIHNlcGFyYXRlIGVtYWlsDQp0aHJlYWQNCj4gPiB0byB0aGUg
-RFQgbWFpbGluZyBsaXN0IG9uIHRoZWlyIG9waW5pb24gaGVyZT8gT3Igd291bGQgdGhhdCBjcmVh
-dGUNCj4gPiBtb3JlIGNvbmZ1c2lvbi9jb21wbGV4aXR5IGluIGFkZGluZyB5ZXQgYW5vdGhlciB0
-aHJlYWQ/IEkgZGlkDQpjcmVhdGUgYQ0KPiA+IHNlcGFyYXRlIGVtYWlsIHRocmVhZCBmb3IgdGhl
-IGluaXRpYWwgRFQgdnMuIEFDUEkgY29udmVyc2F0aW9uIHdlDQpoYWQNCj4gPiBhYm91dCBhY2Nl
-c3NpbmcgY2hpbGRyZW4gYnkgbmFtZSBvciBpbmRleCBpbiBhIHVuaWZpZWQgd2F5IGR1ZSB0bw0K
-dGhlDQo+ID4gZGlmZmVyZW5jZXMgaW4gdXBwZXIvbG93ZXIgY2FzZSBhbmQgdXNlLWNhc2VzLCBi
-dXQgdGhhdA0KPiA+ICh1bmRlcnN0YW5kYWJseSkgZGlkbid0IHNlZW0gdG8gZ2FpbiBhbnkgdHJh
-Y3Rpb24uDQo+ID4gDQo+ID4gVGhhbmtzIGZvciBhbnkgaW5zaWdodHMhDQo+ID4gDQo+ID4gVGhh
-bmtzLA0KPiA+IERhbm55IEthZWhuDQo+ID4gDQo+ID4gPiA+IE9uZSBleGFtcGxlIGlzIG5ldHdv
-cmsgY2FyZHMgd2hpY2ggcHJvdmlkZSBhbiBtZGlvIGJ1cw0KPiA+ID4gPiBiaW5kIHRocm91Z2gg
-dGhlIGNoaWxkICJtZGlvIi4gT25lIGV4YW1wbGUgb2YgYSBzcGVjaWZpY2FsbHkgYQ0KPiA+ID4g
-PiBjaGlsZCBpMmMgY29udHJvbGxlciBiZWluZyBib3VuZCB0byAiaTJjIiBjYW4gYmUgZm91bmQg
-aW4NCj4gPiA+ID4gcGluZTY0LHBpbmVwaG9uZS1rZXlib2FyZC55YW1sLg0KPiA+ID4gPiBCdXQg
-aXQncyBjZXJ0YWlubHkgcG9zc2libGUgdGhpcyBpc24ndCB0aGUgZGVzaXJlZCBkaXJlY3Rpb24N
-Cm1vdmluZyBmb3J3YXJkDQo+ID4gPiA+IGluIERUIC0tIG15IG9waW5pb24gc2hvdWxkIGRlZmlu
-aXRlbHkgYmUgdGFrZW4gd2l0aCBhIGdyYWluIG9mDQpzYWx0LiBNYXliZQ0KPiA+ID4gPiB0aGlz
-IGlzIHNvbWV0aGluZyBJIHNob3VsZCBmb2xsb3cgdXAgb24gd2l0aCBEVCBmb2xrcyBvbiB0aGF0
-DQpEVCB2cy4gQUNQSQ0KPiA+ID4gPiB0aHJlYWQgbWFkZSBlYXJsaWVyLg0KPiA+ID4gPg0KPiA+
-ID4gPiBPbmUgdGhpbmcgSSBkaWQgbm90aWNlIHdoZW4gbG9va2luZyBhdCB0aGUgbWZkIHN1YnN5
-c3RlbSBpcw0KdGhhdCBtb3N0IERUDQo+ID4gPiA+IGRyaXZlcnMgYWN0dWFsbHkgbWF0Y2ggb24g
-dGhlIGNvbXBhdGlibGUgc3RyaW5nIG9mIHRoZSBjaGlsZA0Kbm9kZXMsIGEuZS4NCj4gPiA+ID4g
-InNpbGFicyxjcDIxMTIiLCAic2lsYWJzLGNwMjExMi1ncGlvIi4gICJzaWxhYnMsY3AyMTEyLWky
-YyIuIFdlDQpjb3VsZA0KPiA+ID4gPiBpbXBsZW1lbnQgdGhhdCBoZXJlLCBidXQgSSB0aGluayB0
-aGF0IHdvdWxkIG1ha2UgbW9yZSBzZW5zZSBpZg0Kd2Ugd2VyZSB0bw0KPiA+ID4gPiBhY3R1YWxs
-eSBzcGxpdCB0aGUgY3AyMTEyIGludG8gbWZkICYgcGxhdGZvcm0gZHJpdmVycywgYW5kDQphZGRp
-dGlvbmFsbHkgc3BsaXQNCj4gPiA+ID4gdGhlIERUIGJpbmRpbmcgYnkgZnVuY3Rpb24uDQo+ID4g
-Pg0KPiA+ID4gSUlSQyAoYnV0IG1pZ2h0IGJlIHZlcnkgd2VsbCBtaXN0YWtlbikgdGhlIGNvbXBh
-dGlibGUgc3RyaW5ncyBmb3INCmNoaWxkcmVuDQo+ID4gPiBhcmUgZGlzY291cmFnZWQuDQo+IA0K
-DQo=
+Am 17.01.24 um 17:50 schrieb Hans de Goede:
+
+> Hi All,
+>
+> On 11/27/23 11:59, Werner Sembach wrote:
+>
+> <snip>
+>
+>> I also stumbled across a new Problem:
+>>
+>> We have an upcoming device that has a per-key keyboard backlight, but d=
+oes the control completely via a wmi/acpi interface. So no usable hidraw h=
+ere for a potential userspace driver implementation ...
+>>
+>> So a quick summary for the ideas floating in this thread so far:
+>>
+>> 1. Expand leds interface allowing arbitrary modes with semi arbitrary o=
+ptional attributes:
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Pro:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Still offers all default attri=
+butes for use with UPower
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Fairly simple to implement fro=
+m the preexisting codebase
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Could be implemented for all (=
+to me) known internal keyboard backlights
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Con:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Violates the simplicity paradi=
+gm of the leds interface (e.g. with this one leds entry controls possible =
+multiple leds)
+> So what you are suggesting here is having some way (a-z + other sysfs at=
+tr?)
+> to use a single LED class device and then extend that to allow setting a=
+ll
+> keys ?
+>
+> This does not seem like a good idea to me and this will also cause issue=
+s
+> when doing animations in software, since this API will likely be slow.
+>
+> And if the API is not slow, then it will likely involve some sort
+> of binary sysfs file for setting multiple keys rather then 1
+> file per key which would break the normal 1 file per setting sysfs
+> paradigm.
+>
+>> 2. Implement per-key keyboards as auxdisplay
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Pro:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Already has a concept for led =
+positions
+> With a "concept" you mean simple x,y positioning or is
+> there something more advanced here that I'm aware of ?
+>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Is conceptually closer to "mul=
+tiple leds forming a singular entity"
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Con:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - No preexisting UPower support
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - No concept for special hardwar=
+e lightning modes
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - No support for arbitrary led o=
+utlines yet (e.g. ISO style enter-key)
+> Hmm, so there is very little documentation on this and what
+> docs there is: Documentation/admin-guide/auxdisplay/cfag12864b.rst
+> as well as the example program how to uses this suggests that
+> this is using the old /dev/fb# interface which we are sorta
+> trying to retire.
+>
+>
+>> 3. Implement in input subsystem
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Pro:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Preexisting concept for keys a=
+nd key purpose
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Con:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Not in scope for subsystem
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - No other preexisting light inf=
+rastructure
+> Dmitry actually recently nacked the addition of
+> a LED_MIC_MUTE define to include/uapi/linux/input-event-codes.h
+> which was intended to be able to allow the input LED support
+> with standard HID mic-mute leds (spk-mute is already supported
+> this way).
+>
+> Dmitry was very clear that no new LEDs must be added and
+> that any new LED support should be done through the LED
+> subsytem, so I do not think that something like this
+> is going to fly.
+>
+>
+>> 4. Implement a simple leds driver only supporting a small subset of the=
+ capabilities and make it disable-able for a userspace driver to take over
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Pro:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Most simple to implement basic=
+ support
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - In scope for led subsystem sim=
+plicity paradigm
+>>
+>>  =C2=A0=C2=A0=C2=A0 - Con:
+>>
+>>  =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 - Not all built in keyboard back=
+lights can be implemented in a userspace only driver
+> Right, so this is basically what we have been discussing in the other
+> part of the thread with the:
+>
+> /sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
+>
+> proposal to unregister the kernel's LED class device and then
+> allow userspace to do whatever it wants through /dev/hidraw
+> without the kernel also trying to access the backlight
+> functionality at the same time.
+>
+> AFAIK there already is a bunch of userspace support for
+> per key addressable kbd RGB backlights using hidraw support,
+> so this way we can use the momentum / code of these existing
+> projects, at least for existing hidraw keyboards and adding
+> support for:
+>
+> /sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
+>
+> to these existing projects should be simple.
+>
+> Yet this will not work for your mentioned "control completely
+> via a wmi/acpi interface". Still I think we should go the same
+> route for those adding a misc-char device or something like
+> that to allow making WMI calls from userspace (like Windows
+> can do). Maybe with an allow list per GUID to only allow
+> specific calls, so that we can avoid possible dangerous calls.
+>
+> Armin Wolf recently became the WMI bus maintainer.
+>
+> Armin, we are discussing how to deal with (laptop) keyboards
+> which have a separate RGB LED per key and how to control
+> those LEDs.
+>
+> So far per key addressable keyboard backlighting has always
+> been HID based, so any existing support is just userspace
+> based using /dev/hidraw. In my experience the problem with
+> supporting gaming peripherals is that there is interest in it,
+> but not really enough interest to keep a sustained momentum
+> behind projects, especially not when it comes to taking code
+> from a fun weekend hack to upstreaming them into bigger
+> projects like the kernel.
+>
+> So I would like to offer some sort of easy accessible
+> API to userspace for accessing this, basically allowing
+> userspace drivers for the LED part of the keyboard which
+> in some cases will involve making WMI calls from userspace.
+>
+> So, Armin, what do you think about a way of allowing
+> (filtered) WMI calls from userspace through say
+> a misc-char device + ioctls or something like that?
+>
+> Werner atm I personally do think that option 4. from
+> your list is the way to go. Mainly because designing
+> a generic kernel API for all bells and whistles of gaming
+> hw is very tricky and would require a large ongoing
+> effort which I just don't see happening (based on
+> past experience).
+>
+> Regards,
+>
+> Hans
+>
+Hi,
+
+i can understand your concerns, but i strongly advise against a generic WM=
+I userspace API.
+The reasons for this are:
+
+1. We are still unable to parse (and use) the binary MOF buffers describin=
+g the WMI devices,
+so all of that would require the driver parsing a raw byte buffer. In this=
+ case a separate
+misc device managed by the driver would basically do the same.
+
+2. Many WMI implementations are like RWEverything implemented inside the A=
+CPI firmware, so
+most devices will require the driver to do excessive filtering. Many imple=
+mentations also do
+no proper input validation either so the driver has to know all possible u=
+se cases since he
+has to protect the buggy ACPI firmware from userspace attacks.
+
+Regarding point number 2, i just had to contact Asus so that they remove a=
+ broken WMI interface
+from my motherboard or else a simple application could crash the Windows k=
+ernel. This firmware
+is (sadly) being designed as an internal API and thus unstable beyond all =
+imagination.
+
+For HID devices, a userspace driver might be OK since they are somewhat is=
+olated from the remaining
+hardware, but WMI is basically a kernel bypass for ACPI firmware calls, so=
+ userspace could easily
+attack the kernel is way.
+
+Personally, i would prefer extending the LED subsystem to support zone-lik=
+e devices with many LEDs,
+as this would prevent userspace from having to tinker with the hardware be=
+hind the kernels back.
+Other highly device-specific features could be implemented with a driver-s=
+pecific misc device.
+
+Regarding the speed, it depends on the underlying WMI interface design if =
+smooth animations are
+even possible, since many WMI interfaces are quite slow. Can you share the=
+ Binary MOF buffers
+describing the WMI interfaces in question?
+
+Thanks,
+Armin Wolf
+
 
