@@ -1,152 +1,132 @@
-Return-Path: <linux-input+bounces-1320-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1321-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531E8832194
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 23:33:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F4983221F
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 00:07:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C018AB21F6F
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 22:33:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83A3B1F234A7
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 23:07:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F3B1DFE9;
-	Thu, 18 Jan 2024 22:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087D81DA45;
+	Thu, 18 Jan 2024 23:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="skrnqaFi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zly86cSh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA791DFC1;
-	Thu, 18 Jan 2024 22:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C1B28E01;
+	Thu, 18 Jan 2024 23:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705617173; cv=none; b=tG79gLIxzMEDuCgxfQgUDP9ckw7gW891QHi9cI5ZPVFu7DLyxCEUNLjakZqc0QfjA66e/Aq/7WqePVL3COumbNwE72T4EPxD2beKmxgUuWUL5Eb4e3A9C6MGrdaA1Amv8jrEwJgrPU8ROvoTfHL25I4p7iayiYtUTg3mBtCWGg0=
+	t=1705619221; cv=none; b=GHu/I0/SzV+onfWvg4rCHlHDWgiAv+d7PlhzGN0wZn4ZhmzmtjgxFa5qUfVCxqNPv1cgmRagBIqw9IqHh2B9irIY/YNruv0dDDTE99OQyEI/nLmwboTePwPenxOTPQnXJgwC0pviIZJivYdSJqEisZD7H+Wr0lBVeJmC1EbKNRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705617173; c=relaxed/simple;
-	bh=vlRhOFuJHHUE/Y2iOF6G7uGmlqOi2NbuVZwVBWP4ZIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vATPdIzTHHnIPRnxBinsmPcC7BFL3rLRHtUqyCje/eLy6gjl8lGJMW4hLL0jTtOyuKEQMzLYiUBvXhzF8sNQ25q3bxp7XgOhOi6z01HEufeuBF0mFPcuBjpTJ9ITOUD/MTkRVD9sazODkiUFuGAVkPYzLJqhLhlX8jHoZUahhQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=skrnqaFi; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id AC7DC2FC0077;
-	Thu, 18 Jan 2024 23:32:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1705617166;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TcAihJqhysfhWWUhnS+B4zIl0C6+wxno+qUkxODtDPs=;
-	b=skrnqaFiJ30IpZ0KeddjZA0Z9cIyIwoe8HLgXuaXz4KKqIqEgsudvsukql3T+IOW2uDbHP
-	jbaMWKK87uEsRCg4DQDKW+Bhy5QKSKPozbH+Z1GqYBHr+Ux753Hg5FX87UfK6mrFBDVuPi
-	v6Aw2KkthLlUGXtzlf1gUT2gzI0QhP4=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <5f144fb7-647e-4488-af20-211e95679d1c@tuxedocomputers.com>
-Date: Thu, 18 Jan 2024 23:32:45 +0100
+	s=arc-20240116; t=1705619221; c=relaxed/simple;
+	bh=C3czo7khii5HLSj5rEGnLSSs34D6Pt3jnqqN3UEI3zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bVOISw0sesbEa/SShY/U+Wcj3qz7S6aOcEWMtO0WLuDaRn8VWct7H1+ZbMvM7bl0u2gZdALMLwyUtZ+RI8/xvmD8dSsP0Y5lMyHnrehQmx9Nj/MgiRCvicYERRsrb/1XR0scO9ddNVoErbd0Z66tmFP5VMZRaquEU29IqrgCa7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zly86cSh; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6da4a923b1bso208884b3a.2;
+        Thu, 18 Jan 2024 15:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705619220; x=1706224020; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8f0ZMOFj6e5ONvZJKWhCCfR/uGYAf+8vGREsVvAFMM=;
+        b=Zly86cShpgMt2qwzjksQe+KimTpyD6eemfA7tg9oQUzOFq8kfWl8U4eVHOe5GLPA9N
+         Fr0/mlmuztchay/VY+vUqTZXvya4TVxTfwHT0kLgbhQOgAZDufqhIpM+2FxC4grM2xFR
+         VZOm4gN9cyExuNX3edwzhkMnJfpeAC0gMhQCx/mEJFIsn0S+RipC8urJPsgqtgGSHdI2
+         9roVv/nlS94sRH5/6rbl4QJ4Dfjm2wOLM+Z6J8x7md6Xk1OvtFZSjZ7yLwRNernkUUgi
+         ulMDjKz3KnwQLOJCbmDU18LQ2SH5H1i0MyTT/g+pivbuV2bmE6h+JnTNtuQLNGiV7OtJ
+         2fvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705619220; x=1706224020;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c8f0ZMOFj6e5ONvZJKWhCCfR/uGYAf+8vGREsVvAFMM=;
+        b=R1Zv61TbbQXa5oEWyi6G66e5KIF+5E0hF2y7JRY0rWmk2DlM+kpoeeDiKDNmK5nsbo
+         MYeZI+IS/dlhe/NXh37nx49URfMC/ucssq9Kx20JN2Qmz0dBdaK1UEH9V6KUL75bIpCR
+         HscHXzoVj0JP4ic398PB6zr2kikErDK1rZTXNzfCrX3StL79RI71BLlggjHzVbNzJ7SZ
+         AYmcKBGuGTeMCB7XAVRTbLDnkMCSuE4JusZ0dzKC+rPHFqBDH+Neg7saqFlZSNVJ1MlM
+         02J30UDSJfkwOJisgpXxevRAcTWfGrG4cW9Yqq7M9mTetv2yDRLqqhJawtOmDcdt8wjf
+         58fw==
+X-Gm-Message-State: AOJu0Yy3P+Q4xF7HWWuZzkRIOvlXd14DpobwzvWMj1HpCMvcQM60se9K
+	GbVCTaDS+iEx6N1YGPIGrMfE67tOez4c9UeKPLc+RWsVPywFrZzw
+X-Google-Smtp-Source: AGHT+IEJ1tudrXxSISfJ6OkeSmt1gjuBMQTyvcMdQURSlaxaQ70Cu1g0KRISL+QXH+NqMAq4WDztVQ==
+X-Received: by 2002:a05:6a20:4294:b0:19b:80f5:3157 with SMTP id o20-20020a056a20429400b0019b80f53157mr1516866pzj.28.1705619219909;
+        Thu, 18 Jan 2024 15:06:59 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
+        by smtp.gmail.com with ESMTPSA id j38-20020a635526000000b005cf7c4bb938sm2102597pgb.94.2024.01.18.15.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 15:06:59 -0800 (PST)
+Date: Thu, 18 Jan 2024 15:06:56 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Doug Anderson <dianders@chromium.org>,
+	Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
+	Tomasz Figa <tfiga@chromium.org>, jingyliang@chromium.org,
+	poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+	jikos@kernel.org, wuxy23@lenovo.com, conor+dt@kernel.org,
+	luolm1@lenovo.com, robh+dt@kernel.org, devicetree@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	poyu_hung@himax.corp-partner.google.com,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v3 0/4] HID: touchscreen: add himax hid-over-spi driver
+Message-ID: <ZamvEAGGiDrQvmFq@google.com>
+References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
+ <6c7d9c92-7616-4fad-806e-44302c33b63c@linaro.org>
+ <CAD=FV=X2kZcyeyK1SBcXaViBft4F6XYtA6+JwBqJswU41V9kUQ@mail.gmail.com>
+ <9e1233ce-1a6d-443d-873e-6efb3ed0207c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZaljwLe7P+dXHEHb@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e1233ce-1a6d-443d-873e-6efb3ed0207c@linaro.org>
 
-Hi
+On Wed, Oct 18, 2023 at 08:07:32AM +0200, Krzysztof Kozlowski wrote:
+> On 17/10/2023 23:41, Doug Anderson wrote:
+> > 
+> > 3. The ChromeOS team is organized much more like the upstream
+> > community than a big hierarchical corporation. Just as it's not easy
+> > for you to control the behavior of other maintainers, it is not
+> > trivial for one person on the team to control what others on the team
+> > will do. We could make an attempt to institute rules like "all patches
+> > must go through internal review before being posted", but as per #2 I
+> > don't think this is a good idea. The ChromeOS team has even less
+> > control over what our partners may or may not do. In general it is
+> > always a struggle to get partners to even start working upstream and
+> > IMO it's a win when I see a partner post a patch. We should certainly
+> > help partners be successful here, but the right way to do that is by
+> > offering them support.
+> 
+> I don't know who is exactly core team, who is partner. I see
+> "google.com" domain, so Google folks are responsible for not wasting
+> time of the community. If Google disagrees, please change the domain so
+> I will understand that and not feel like Google wants to use us all.
 
-Am 18.01.24 um 18:45 schrieb Pavel Machek:
-> Hi!
->
->> We have an upcoming device that has a per-key keyboard backlight, but does
->> the control completely via a wmi/acpi interface. So no usable hidraw here
->> for a potential userspace driver implementation ...
->>
->> So a quick summary for the ideas floating in this thread so far:
->>
->> 1. Expand leds interface allowing arbitrary modes with semi arbitrary
->> optional attributes:
->>      - Con:
->>
->>          - Violates the simplicity paradigm of the leds interface (e.g. with
->> this one leds entry controls possible multiple leds)
-> Let's not do this.
->
->> 2. Implement per-key keyboards as auxdisplay
->>
->>      - Pro:
->>
->>          - Already has a concept for led positions
->>
->>          - Is conceptually closer to "multiple leds forming a singular entity"
->>
->>      - Con:
->>
->>          - No preexisting UPower support
->>
->>          - No concept for special hardware lightning modes
->>
->>          - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
-> Please do this one.
+I think it might help if you think of <company>.corp-partner.google.com
+addresses as gmail.com addresses. People who are using these addresses
+are not employees of Google nor contractors for Google; they work for
+their respective <company>.
 
-2 more maybe cons to add to this that popped into my mind just now:
+The main reason person@<company>.corp-partner.google.com addresses are
+being used for mainline submissions is because it is actually possible
+to set up "git send-email" with them, as their main domain typically
+handled by Exchange and mandates Outlook.
 
-- How would lightbars, or mice fit into this?
+Thanks.
 
-- How do 3-zone, 4-zone, n-zone keyboards fit into this? aka how many zones to 
-be considered an aux display?
-
->
->> 3. Implement in input subsystem
->>
->>      - Pro:
->>
->>          - Preexisting concept for keys and key purpose
->>
->>      - Con:
->>
->>          - Not in scope for subsystem
->>
->>          - No other preexisting light infrastructure
-> Or negotiate with input people to do this.
->
->> 4. Implement a simple leds driver only supporting a small subset of the
->> capabilities and make it disable-able for a userspace driver to take over
-> No. Kernel should abstract this away.
->
-> Best regards,
-> 									Pavel
-
-Kind regards,
-
-Werner
-
+-- 
+Dmitry
 
