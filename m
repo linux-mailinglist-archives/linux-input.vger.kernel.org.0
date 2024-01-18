@@ -1,162 +1,177 @@
-Return-Path: <linux-input+bounces-1316-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1317-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9272E831F31
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 19:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CE083208E
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 21:44:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C01A1F231C3
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 18:41:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C6A71F24987
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 20:44:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB612DF68;
-	Thu, 18 Jan 2024 18:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A612F3219A;
+	Thu, 18 Jan 2024 20:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PoS9gzWd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+MtcGaf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626301DFC2
-	for <linux-input@vger.kernel.org>; Thu, 18 Jan 2024 18:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040BF32193;
+	Thu, 18 Jan 2024 20:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705603309; cv=none; b=CtB/fqyCtfqQQSL8qq4cszWoIY5AwvPixYX1KqfqR4zBj8GS08JppEIIL/L/OVa1ZwYNZQpM6rMFsWLRpSkpY05GQqE+gGw0J4QSxOgu5q2toGfIMFn0x5ujmSJcSd5YHinb6ZK24REJnVmGI2x6SQbQ57yWrigw64+aNgECa6M=
+	t=1705610626; cv=none; b=XCryTFozCAwErhNAjFSl54gwLCwQINL07JQXpCdwrBJJBenS3p2UZ5UYzy8czWca/fLMKuBwDSkDRKg0Lk4SXFx7nEpFYgVRx1giGn2RULDoajxlhUJV1VCZqdee7v0ab3YTBJlNtkmgd36zPhFRiVG4mV2eAwjJCL/HdLh2A/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705603309; c=relaxed/simple;
-	bh=4OmQ1oubWOd7o519mJLdBFWYdcFLo4S+glxiLbr+tC0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NvUOn4bdWJnAWaxXRHxJGiMKnox/1nLlluLtMzGMHFCFZk0bgOTG0s//aubdgaBJkOSjh4VrKasKWBQuopnYNasgMVg0K5qO4VaKjaCFwwPQJSfDVEhXFm0G9R5O2aXQOUraR4e8cmhU0waeK39H+0jg8CsoPcBXF6nOXaIM4Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PoS9gzWd; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-337c25e503fso631320f8f.1
-        for <linux-input@vger.kernel.org>; Thu, 18 Jan 2024 10:41:48 -0800 (PST)
+	s=arc-20240116; t=1705610626; c=relaxed/simple;
+	bh=R06cQdi4MNgbIu422h++0jlD99NL6HlGgH6a1VBS/Fs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ee/tWd5OCOX+hArxP2vQk/dAlj76DxyGA2WWW4c0+7Dc9hAV6j0nydwH1viX1Aicnstje6ljYIXXmPkePxcrXOFxClLsl0oLXIWws/MBd750GbznwfLRVUv08mwMOrc2mptX0fVnmYCJKuNlrDLlM9dPK9bun7aNTWANEpuFqDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+MtcGaf; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3379e942685so5266f8f.0;
+        Thu, 18 Jan 2024 12:43:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705603306; x=1706208106; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hLpIkESB6PMuUI7s5uphN+gLKVT0TGYaYNk8rmcP/OU=;
-        b=PoS9gzWd5PyzGkMDQnylWS07w736YnWl1GlffC9RHfbE40j9gTMO5xnZNY1sMzbw/T
-         D+lbeapK+Pv/ugSNhXg0fJnmoxFg1AqHS+yiAya3o+aSM77vC2N0CciI45XZbTPFPWEo
-         rMOc8HsVds2JEZx5SgGrCCv3vOa12VUjUJ4FirMX4rC8MAH4xMDqbA4G/qYderuQ+Fss
-         ESYKGbgFIE+Alfn5Q26fSnPsrUOIB6AsFaFF928iwNv6ZP2nJabHHdMHpMLuOSyQGgN0
-         0T0LkDk/69LnZ/lp24+aJObZni8Dly2N4J371z4yf9/QdPDHdff86OJQDicdV3w9HzZ+
-         UT5g==
+        d=gmail.com; s=20230601; t=1705610623; x=1706215423; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uiSxlbKBjhgqtlbTNin6t3C+/oKvkiypv2RdUBSMVWY=;
+        b=e+MtcGafDwO/xllcO26hXzCrMIzfPsiaG0YQSkqct9WvEMtZbZoq9RywQzADSLI7nR
+         6s+R3dJF2AesY/y0TKbrrm8KC18Q3U0yfbwjdZIA53OT5yelBL0BwCSztT9g53sxFpoO
+         D83S9XNal7ETErr6uVgAr4lYTcWnt06YbljYW+lwR81Bkt/AMo7QlMjJ1TbkHiIbU+cL
+         4dgUq3Thoc3LZ7iCMvSlyyZxbte6I4Lck8LbnOd4CLSFJeKdHpdINhlU73PC5b7Rvt8C
+         rGdoB0n5gRTEHZZAymxecEozoxmlUG41D+MHKOjPyGV5wdRVotUM6muE+ZRZP2svEPOx
+         w0LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705603306; x=1706208106;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hLpIkESB6PMuUI7s5uphN+gLKVT0TGYaYNk8rmcP/OU=;
-        b=QVSXPtEiHjsDbUdTUa4bE/rCrwGa6PcRThsgbUtmXgkXQvtjpMwqVRcqOgkr08UqiR
-         EY2tg5jBwcw99DDlmcQuxY+Pbi5ecm3KUf7iQf/MssfisCixIaxew1Y+kuy8rODxwWtL
-         e8x5Q8IfSfC95M908eL1XRgpC4QTfALeNZbXVgBe6sDBfNchnEw0p9g4FD0mWkahvYn7
-         DjQzAeS9B+9OYPZ+2+OeGCKaNvKwxF+rPaqFAgm1jLIv+mFCxHZS+05BFlYGfgLX9RT8
-         df6UNlaGmHRCVDFXf6sbpO6Tar7mb0AmlVDtTgCFDkkkCwkmd7MFYgqvXKcjIuW0d1mu
-         NiJw==
-X-Gm-Message-State: AOJu0Yw4gm/hlTk9bKwsAbSX1M77WPg6MlWzhLczUL1UOUJ6rDquXd/q
-	W03ifSU+XKnTX++VRYxGLUpRrbfhKmkZYiJ55ttRT2kXneDgGW97/MMd4snq6tZ6LfqPQuLd35o
-	L+0yQAPEXD2+6kc5R7Npg4duoKJDjvd63ln1x
-X-Google-Smtp-Source: AGHT+IGlfWOYCfBCaK1FjP2auhOpOqOg1vlBxYGWVIUNJkOMvIjFU8G8VwFJqM33pUZUiMhl2NsLXI2vNzgoPezzRKc=
-X-Received: by 2002:a5d:53cd:0:b0:337:d346:bf4 with SMTP id
- a13-20020a5d53cd000000b00337d3460bf4mr580103wrw.5.1705603306339; Thu, 18 Jan
- 2024 10:41:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705610623; x=1706215423;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uiSxlbKBjhgqtlbTNin6t3C+/oKvkiypv2RdUBSMVWY=;
+        b=wF7UcFTIj/ZgoLUyAM38J+WLYgyYvYUC4EskfxIRl7+GFU8cOcIXNLDoLfo9Lf2d4c
+         NgHmvu527XU2Sa1Gr8cOe33cbdq/jYWB0BiMkWYYihiMLHB4NR5d+6dyGDTMk0eXhiYF
+         Ff//6hEzfOKk6Mf1ePW/q3JviFwXOMojZaveUofWNS4Oj9NSd6NrzBgq9RKJUsSNNHVr
+         7Tv8oK+nxHL2pfdWGATVaU3thgkc1e+DZcF8sw+73Dck3tSrkWvA9AE0qB95KBOF6PHT
+         qgkusYjSi8e/PkFWjaTyAQSosO22UuWBSTitHlRyN0kttnjkYESNqb6vur8FksvtUeDd
+         kgSQ==
+X-Gm-Message-State: AOJu0YxyaWxfiFOn9ZQU1DiB2pZraHO3xQd6/iN+ov3xvMcJAveE3H88
+	0hHuTHKqGSs9AZMPJiK+iAbza1wsO3gCKSs3pCSQAKQ/bkOyzesY
+X-Google-Smtp-Source: AGHT+IEUyom4MGuWcRz66WV0lIcVR2TV8yFNeBnaSaTRsj2AiRY+WxjgR7r10CAeyxuuHw6IOU0zGg==
+X-Received: by 2002:adf:fd51:0:b0:337:3904:9a2b with SMTP id h17-20020adffd51000000b0033739049a2bmr353670wrs.0.1705610622980;
+        Thu, 18 Jan 2024 12:43:42 -0800 (PST)
+Received: from desktop-nixos-martino.. ([2a01:e11:5004:180::bd5a:12c2])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040e4ca7fcb4sm26900115wms.37.2024.01.18.12.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 12:43:42 -0800 (PST)
+From: Martino Fontana <tinozzo123@gmail.com>
+To: djogorchock@gmail.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Martino Fontana <tinozzo123@gmail.com>,
+	Ryan McClelland <rymcclel@gmail.com>
+Subject: [PATCH v2] HID: nintendo: use ida for LED player id
+Date: Thu, 18 Jan 2024 21:35:40 +0100
+Message-ID: <20240118204057.17776-4-tinozzo123@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAAL3-=88exVfuL1Y-kvPNbsU+d-UTfDLFViWVObFLtbC4xueeA@mail.gmail.com>
- <20240118183546.418064-1-appsforartists@google.com>
-In-Reply-To: <20240118183546.418064-1-appsforartists@google.com>
-From: Brenton Simpson <appsforartists@google.com>
-Date: Thu, 18 Jan 2024 10:41:31 -0800
-Message-ID: <CAAL3-=-RCJvc0=3Ren+zJ8jBPSwO9RKqfzXYrTKXK_2TJy0BcA@mail.gmail.com>
-Subject: Re: [PATCH] Input: xpad - add Lenovo Legion Go controllers
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Hans de Goede <hdegoede@redhat.com>
-Cc: Cameron Gutman <aicommander@gmail.com>, Erica Taylor <rickytaylor26@gmail.com>, 
-	Ismael Ferreras Morezuelas <swyterzone@gmail.com>, Jonathan Frederick <doublej472@gmail.com>, 
-	Matthias Benkmann <matthias.benkmann@gmail.com>, Matthias Berndt <matthias_berndt@gmx.de>, nate@yocom.org, 
-	Sam Lantinga <slouken@libsdl.org>, Vicki Pfau <vi@endrift.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, trivial@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-A bunch of internal wrangling and one holiday codefreeze later, my git
-alias has finally been enabled for send-email.
+Previously, the leds pattern would just increment with every controller
+connected. This wouldn't take into consideration when controllers are
+disconnected. The same controller could be connected and disconnected
+with the pattern increasing player count each time.
 
-Sorry for the hassle, and thanks for your help.
+This patch changes it by using an ID allocator in order to assign the
+player id, the same way hid-playstation does.
 
-On Thu, Jan 18, 2024 at 10:35=E2=80=AFAM Brenton Simpson
-<appsforartists@google.com> wrote:
->
-> The Lenovo Legion Go is a handheld gaming system, similar to a Steam Deck=
-.
-> It has a gamepad (including rear paddles), 3 gyroscopes, a trackpad,
-> volume buttons, a power button, and 2 LED ring lights.
->
-> The Legion Go firmware presents these controls as a USB hub with various
-> devices attached.  In its default state, the gamepad is presented as an
-> Xbox controller connected to this hub.  (By holding a combination of
-> buttons, it can be changed to use the older DirectInput API.)
->
-> This patch teaches the existing Xbox controller module `xpad` to bind to
-> the controller in the Legion Go, which enables support for the:
->
-> - directional pad,
-> - analog sticks (including clicks),
-> - X, Y, A, B,
-> - start and select (or menu and capture),
-> - shoulder buttons, and
-> - rumble.
->
-> The trackpad, touchscreen, volume controls, and power button are already
-> supported via existing kernel modules.  Two of the face buttons, the
-> gyroscopes, rear paddles, and LEDs are not.
->
-> After this patch lands, the Legion Go will be mostly functional in Linux,
-> out-of-the-box.  The various components of the USB hub can be synthesized
-> into a single logical controller (including the additional buttons) in
-> userspace with [Handheld Daemon](https://github.com/hhd-dev/hhd), which
-> makes the Go fully functional.
->
-> Signed-off-by: Brenton Simpson <appsforartists@google.com>
-> ---
->  drivers/input/joystick/xpad.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.=
-c
-> index f5c21565bb3c..ecfcea8740a0 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -127,6 +127,7 @@ static const struct xpad_device {
->         u8 mapping;
->         u8 xtype;
->  } xpad_device[] =3D {
-> +       { 0x17ef, 0x6182, "Lenovo Legion Controller for Windows", 0, XTYP=
-E_XBOX360 },
->         { 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 =
-},
->         { 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
->         { 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
-> @@ -459,6 +460,7 @@ static const signed short xpad_btn_paddles[] =3D {
->
->  static const struct usb_device_id xpad_table[] =3D {
->         { USB_INTERFACE_INFO('X', 'B', 0) },    /* Xbox USB-IF not-approv=
-ed class */
-> +       XPAD_XBOX360_VENDOR(0x17ef),            /* Lenovo */
->         XPAD_XBOX360_VENDOR(0x0079),            /* GPD Win 2 controller *=
-/
->         XPAD_XBOX360_VENDOR(0x03eb),            /* Wooting Keyboards (Leg=
-acy) */
->         XPAD_XBOXONE_VENDOR(0x03f0),            /* HP HyperX Xbox One con=
-trollers */
-> --
-> 2.43.0.275.g3460e3d667-goog
->
+Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
+---
+Changes for v2:
+
+ida_free now frees the correct id, instead of an id that got moduloed.
+
+ drivers/hid/hid-nintendo.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index ccc4032fb2b0..6ab4c2ec4a5d 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -34,6 +34,7 @@
+ #include <linux/device.h>
+ #include <linux/kernel.h>
+ #include <linux/hid.h>
++#include <linux/idr.h>
+ #include <linux/input.h>
+ #include <linux/jiffies.h>
+ #include <linux/leds.h>
+@@ -569,6 +570,7 @@ static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS]
+ struct joycon_ctlr {
+ 	struct hid_device *hdev;
+ 	struct input_dev *input;
++	u32 player_id;
+ 	struct led_classdev leds[JC_NUM_LEDS]; /* player leds */
+ 	struct led_classdev home_led;
+ 	enum joycon_ctlr_state ctlr_state;
+@@ -2283,7 +2285,8 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
+ 	return ret;
+ }
+ 
+-static DEFINE_SPINLOCK(joycon_input_num_spinlock);
++static DEFINE_IDA(nintendo_player_id_allocator);
++
+ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ {
+ 	struct hid_device *hdev = ctlr->hdev;
+@@ -2294,20 +2297,19 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 	char *name;
+ 	int ret;
+ 	int i;
+-	unsigned long flags;
+ 	int player_led_pattern;
+-	static int input_num;
+-
+-	/*
+-	 * Set the player leds based on controller number
+-	 * Because there is no standard concept of "player number", the pattern
+-	 * number will simply increase by 1 every time a controller is connected.
+-	 */
+-	spin_lock_irqsave(&joycon_input_num_spinlock, flags);
+-	player_led_pattern = input_num++ % JC_NUM_LED_PATTERNS;
+-	spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
+ 
+ 	/* configure the player LEDs */
++	ctlr->player_id = U32_MAX;
++	ret = ida_alloc(&nintendo_player_id_allocator, GFP_KERNEL);
++	if (ret < 0) {
++		hid_warn(hdev, "Failed to allocate player ID, skipping; ret=%d\n", ret);
++		goto home_led;
++	}
++	ctlr->player_id = ret;
++	player_led_pattern = ret % JC_NUM_LED_PATTERNS;
++	hid_info(ctlr->hdev, "assigned player %d led pattern", player_led_pattern + 1);
++
+ 	for (i = 0; i < JC_NUM_LEDS; i++) {
+ 		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+ 				      d_name,
+@@ -2789,6 +2791,7 @@ static void nintendo_hid_remove(struct hid_device *hdev)
+ 	spin_unlock_irqrestore(&ctlr->lock, flags);
+ 
+ 	destroy_workqueue(ctlr->rumble_queue);
++	ida_free(&nintendo_player_id_allocator, ctlr->player_id);
+ 
+ 	hid_hw_close(hdev);
+ 	hid_hw_stop(hdev);
+-- 
+2.43.0
+
 
