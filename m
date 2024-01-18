@@ -1,159 +1,121 @@
-Return-Path: <linux-input+bounces-1311-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1312-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C728B831EA3
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 18:45:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3515E831ECE
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 18:55:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E900B24679
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 17:45:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0B8528AD2A
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 17:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62972D04B;
-	Thu, 18 Jan 2024 17:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 065182D62C;
+	Thu, 18 Jan 2024 17:55:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="D8YVA5Wu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gn0W9XSw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B892D03B;
-	Thu, 18 Jan 2024 17:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9E32D608;
+	Thu, 18 Jan 2024 17:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705599942; cv=none; b=SJDmUQYshjd7ZSuHeCzea+5Wj3j0lSJloSydFfmQmgaNtZq6FSUFPPfMthUugHgdtpvNLUkDhjdi7s5E5zSYtRLI6FGEp1X/7zzz6ilQ6M+Ql/FuXveCFT3zNSOiyS1FlC17ay2J6NvALBmxmo8bZfBcj6MEswFo/B/u+n7YGx8=
+	t=1705600543; cv=none; b=CR1sI/uPbtxXH6mub7BwhJU928Cfmb6aXUifKVyxBjoYm8yWlnoKLPv/JP4MObvPP00fSIrHq3mrBXebRTGfTcybggHvzQA62bA1xP3HGM2ns2w6WMy84zsZX7UrH4xwIhBNBlPqV/LiwnUV1z63R4317aMR+UJaL5OTTqa5AbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705599942; c=relaxed/simple;
-	bh=RyY3iug65fvKTAhGTPkBeOA+ALdT0Buumyxgvxot7Es=;
+	s=arc-20240116; t=1705600543; c=relaxed/simple;
+	bh=fKFKhXygl42NeFOdSVuJarNs+0BLW2bOFf769RHcpgc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3DxURNUPuxgV2spdDOexF14BDySi0qpmk/v7QnUAII7jYQILKSaEIt8YivD/5Teb/lmE+t9toJNpVVOUDHbVGR+NYwooNUKIDX821Zh/yRoOogztrn+9R/x+S/CMIB2+StO+SA9q/Ob4IjfDHq/YS8+Hrg/zm5H+SY9VZerSBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=D8YVA5Wu; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 1B4181C007B; Thu, 18 Jan 2024 18:45:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1705599937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s2decVdRnW3kcXYTXMhZ+4hppOm4DXM8+5MfDGDRqr0=;
-	b=D8YVA5WuCkS7PJEvNxOIdAa/kR3li8rbSqVyqKK2zs7wjQsV8Yp/VEOyRtTkA+EN1vHW65
-	h42g8hGwRL52WcKdxl9uzxBYVMIIne5rcj6FGkBAXn91gTkWsj8rKMcLuTsIZ4ltqcn+WL
-	bQ/UOAGQXnRNJ7mcre5KkuxaHXR1Cv4=
-Date: Thu, 18 Jan 2024 18:45:36 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
-	Jelle van der Waa <jelle@vdwaa.nl>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZaljwLe7P+dXHEHb@duo.ucw.cz>
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com>
- <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=keOZVvfPZWgySMnEQgzaCQHaN9HVDLmkywNaCQVZSX5UGZM/lbq6tv8A8mahPDgE3fA4loHjmy4j+dmivBuqZSJLhmS0PqQts9RV5L9OpObYnb+2C2Dd0Sm2GgFkC5G6Cg1UwT4dBca0yyue9T+tSfb75NvsSXzxpY07RY/W2ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gn0W9XSw; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6d9bee259c5so7569288b3a.1;
+        Thu, 18 Jan 2024 09:55:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705600542; x=1706205342; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQV2inHhk6YnIPGUCD6FRidR+XFSr3X65Rn9aWPTRfs=;
+        b=gn0W9XSwi8kEzOWnGUs1TkB4E5Sc88iAoNSkDIv0azMJWbzdgtjGUi7v6/ICTu5gRz
+         z/nP6TR+nX4wcIOeqZJ2VC/CT9fj+kLwFz6k6h/NQMlR6bVgNLRLPGtN4PKbO+ld1xDh
+         jmrINY9kGZ7Y939SZhMBQ3dWCmcSlB/o0J9WubHy67u6xw/Rt/5GC9ziTMdGWjyCkFHF
+         y5Pf5xLdsBRN8tbybworuh74zxI9exwolAmV6JFVEb1HknGxuTfbrjIVaMF48LEXhLYq
+         ECmtzmf3uJ9Lj0OxGgKRkI0RCLJfWe8bml5/KqMzUngHZY9hQ8M6hiImWVWiH9yZLryT
+         HU8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705600542; x=1706205342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQV2inHhk6YnIPGUCD6FRidR+XFSr3X65Rn9aWPTRfs=;
+        b=YIyIYxhpboO/UnKmBGtTae1aIIf1DLG/9/gFhfamCEk15B6hYL/KYrx+2/YjoXH3Su
+         zCt1R1NsaKqJQIcD4J66jNuTfT4nb/cYRnwKCuhiV+CitxLWFhjImc/ICzD4CzMYVrPJ
+         +ukT111Hje2BHPodd/9nu4lSQ4w6l55Ct5XcYLMPOVTA3rHr48gSJmwLFTAuK/U5EQsV
+         RMdPzQMaV3MtMZV1yRsrShdxL5IXHy7LVUZShEv2kBtUoniDvLX19FVvhsvNrOPlUkf7
+         Uyx6S2SFTn2vis6DgQo4mfdL1HSps5n/sOYNUJyBIq9Y9YFqm5m9tKvbxeknj+ku/ExV
+         6IpA==
+X-Gm-Message-State: AOJu0YyVS8LXteVT9WxfflGKr2l/qf52Pa3oGvkaDwMytkNpmrPRTRP3
+	ybVtv/GB0CLrAfMkIaD36imxu96aJyZfqGNXCi5UtBJ87Rvh5oMhafRUiI1V
+X-Google-Smtp-Source: AGHT+IELdrhwgZSXqBrT051wdOSKlOlhfFGsJhxKGC6nUuSXcUvarjBz1SucjIUHsxFlNa1NFmzVgw==
+X-Received: by 2002:a05:6a00:1791:b0:6d9:9afd:82f9 with SMTP id s17-20020a056a00179100b006d99afd82f9mr1271350pfg.51.1705600541769;
+        Thu, 18 Jan 2024 09:55:41 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
+        by smtp.gmail.com with ESMTPSA id fj2-20020a056a003a0200b006d98505dacasm3587634pfb.132.2024.01.18.09.55.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 09:55:41 -0800 (PST)
+Date: Thu, 18 Jan 2024 09:55:38 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Ting Shen <phoenixshen@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, fshao@chromium.org,
+	Ting Shen <phoenixshen@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	chrome-platform@lists.linux.dev,
+	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: cros_ec_keyb: add support for base attached event
+Message-ID: <ZalmGi_Zlm9HLoBy@google.com>
+References: <20240118085310.1139545-1-phoenixshen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9D/I+LN93effYwNd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+In-Reply-To: <20240118085310.1139545-1-phoenixshen@google.com>
 
+Hi Ting,
 
---9D/I+LN93effYwNd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 18, 2024 at 04:52:43PM +0800, Ting Shen wrote:
+> This CL maps ChromeOS EC's BASE_ATTACHED event to SW_DOCK,
 
-Hi!
+As far as I know none of the Chrome OS devices support classic docking
+station (not talking about the new USB-C/TB ones).
 
-> We have an upcoming device that has a per-key keyboard backlight, but does
-> the control completely via a wmi/acpi interface. So no usable hidraw here
-> for a potential userspace driver implementation ...
->=20
-> So a quick summary for the ideas floating in this thread so far:
->=20
-> 1. Expand leds interface allowing arbitrary modes with semi arbitrary
-> optional attributes:
+> to allow userspace detect that a keyboard is attached to the
+> detachable device.
 
-> =A0=A0=A0 - Con:
->=20
-> =A0=A0=A0 =A0=A0=A0 - Violates the simplicity paradigm of the leds interf=
-ace (e.g. with
-> this one leds entry controls possible multiple leds)
+Are we planning to have detachable keyboard that is not USB?
 
-Let's not do this.
+EC_MKBP_BASE_ATTACHED is processed by hid-google-hammer driver and,
+together with the USB connector state, is used to form SW_TABLET_MODE.
+The reason just the USB state was not enough is because the keyboard
+could be attached to the lid "other way around" to be used as a stand.
+In that configuration USB connection was not active. However userspace
+still needed to know about this to activate tablet version of the UI.
 
-> 2. Implement per-key keyboards as auxdisplay
->=20
-> =A0=A0=A0 - Pro:
->=20
-> =A0=A0=A0 =A0=A0=A0 - Already has a concept for led positions
->=20
-> =A0=A0=A0 =A0=A0=A0 - Is conceptually closer to "multiple leds forming a =
-singular entity"
->=20
-> =A0=A0=A0 - Con:
->=20
-> =A0=A0=A0 =A0=A0=A0 - No preexisting UPower support
->=20
-> =A0=A0=A0 =A0=A0=A0 - No concept for special hardware lightning modes
->=20
-> =A0=A0=A0 =A0=A0=A0 - No support for arbitrary led outlines yet (e.g. ISO=
- style enter-key)
+Please provide more information why you want this to be exposed via
+cros_ec_keyb driver.
 
-Please do this one.
+Thanks.
 
-> 3. Implement in input subsystem
->=20
-> =A0=A0=A0 - Pro:
->=20
-> =A0=A0=A0 =A0=A0=A0 - Preexisting concept for keys and key purpose
->=20
-> =A0=A0=A0 - Con:
->=20
-> =A0=A0=A0 =A0=A0=A0 - Not in scope for subsystem
->=20
-> =A0=A0=A0 =A0=A0=A0 - No other preexisting light infrastructure
-
-Or negotiate with input people to do this.
-
-> 4. Implement a simple leds driver only supporting a small subset of the
-> capabilities and make it disable-able for a userspace driver to take over
-
-No. Kernel should abstract this away.
-
-Best regards,
-									Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---9D/I+LN93effYwNd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZaljwAAKCRAw5/Bqldv6
-8t2rAJ0bXGLlIcltuLM/IFy7NcEBaumlcwCcCEGqrSVmOZCnA82+Y9Rt7Thq3Bw=
-=6pEX
------END PGP SIGNATURE-----
-
---9D/I+LN93effYwNd--
+-- 
+Dmitry
 
