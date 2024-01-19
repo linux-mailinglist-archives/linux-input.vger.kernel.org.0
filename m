@@ -1,132 +1,79 @@
-Return-Path: <linux-input+bounces-1321-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1322-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F4983221F
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 00:07:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6AB8322F0
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 02:25:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83A3B1F234A7
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jan 2024 23:07:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E764928602A
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 01:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087D81DA45;
-	Thu, 18 Jan 2024 23:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92CC17F0;
+	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zly86cSh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqafsaTI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C1B28E01;
-	Thu, 18 Jan 2024 23:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A401A15A4;
+	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705619221; cv=none; b=GHu/I0/SzV+onfWvg4rCHlHDWgiAv+d7PlhzGN0wZn4ZhmzmtjgxFa5qUfVCxqNPv1cgmRagBIqw9IqHh2B9irIY/YNruv0dDDTE99OQyEI/nLmwboTePwPenxOTPQnXJgwC0pviIZJivYdSJqEisZD7H+Wr0lBVeJmC1EbKNRk=
+	t=1705627491; cv=none; b=NU2bekfVyD/VX6Nm/+N6/iY5bK8tfNITWi9aXB0w7oP6MdxR7yLlBgRbCTkO3hwZh8hSgpJefmM1ClZq2BUDf4aMgTMhMc7OxqTwQrJ30OQK4tc2lLwXSMZaMmvIBNjsGNNxIkDBp5cPa7dFBu1sTHgj4Lmf04Q9SD+UOq88+Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705619221; c=relaxed/simple;
-	bh=C3czo7khii5HLSj5rEGnLSSs34D6Pt3jnqqN3UEI3zU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVOISw0sesbEa/SShY/U+Wcj3qz7S6aOcEWMtO0WLuDaRn8VWct7H1+ZbMvM7bl0u2gZdALMLwyUtZ+RI8/xvmD8dSsP0Y5lMyHnrehQmx9Nj/MgiRCvicYERRsrb/1XR0scO9ddNVoErbd0Z66tmFP5VMZRaquEU29IqrgCa7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zly86cSh; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6da4a923b1bso208884b3a.2;
-        Thu, 18 Jan 2024 15:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705619220; x=1706224020; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c8f0ZMOFj6e5ONvZJKWhCCfR/uGYAf+8vGREsVvAFMM=;
-        b=Zly86cShpgMt2qwzjksQe+KimTpyD6eemfA7tg9oQUzOFq8kfWl8U4eVHOe5GLPA9N
-         Fr0/mlmuztchay/VY+vUqTZXvya4TVxTfwHT0kLgbhQOgAZDufqhIpM+2FxC4grM2xFR
-         VZOm4gN9cyExuNX3edwzhkMnJfpeAC0gMhQCx/mEJFIsn0S+RipC8urJPsgqtgGSHdI2
-         9roVv/nlS94sRH5/6rbl4QJ4Dfjm2wOLM+Z6J8x7md6Xk1OvtFZSjZ7yLwRNernkUUgi
-         ulMDjKz3KnwQLOJCbmDU18LQ2SH5H1i0MyTT/g+pivbuV2bmE6h+JnTNtuQLNGiV7OtJ
-         2fvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705619220; x=1706224020;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c8f0ZMOFj6e5ONvZJKWhCCfR/uGYAf+8vGREsVvAFMM=;
-        b=R1Zv61TbbQXa5oEWyi6G66e5KIF+5E0hF2y7JRY0rWmk2DlM+kpoeeDiKDNmK5nsbo
-         MYeZI+IS/dlhe/NXh37nx49URfMC/ucssq9Kx20JN2Qmz0dBdaK1UEH9V6KUL75bIpCR
-         HscHXzoVj0JP4ic398PB6zr2kikErDK1rZTXNzfCrX3StL79RI71BLlggjHzVbNzJ7SZ
-         AYmcKBGuGTeMCB7XAVRTbLDnkMCSuE4JusZ0dzKC+rPHFqBDH+Neg7saqFlZSNVJ1MlM
-         02J30UDSJfkwOJisgpXxevRAcTWfGrG4cW9Yqq7M9mTetv2yDRLqqhJawtOmDcdt8wjf
-         58fw==
-X-Gm-Message-State: AOJu0Yy3P+Q4xF7HWWuZzkRIOvlXd14DpobwzvWMj1HpCMvcQM60se9K
-	GbVCTaDS+iEx6N1YGPIGrMfE67tOez4c9UeKPLc+RWsVPywFrZzw
-X-Google-Smtp-Source: AGHT+IEJ1tudrXxSISfJ6OkeSmt1gjuBMQTyvcMdQURSlaxaQ70Cu1g0KRISL+QXH+NqMAq4WDztVQ==
-X-Received: by 2002:a05:6a20:4294:b0:19b:80f5:3157 with SMTP id o20-20020a056a20429400b0019b80f53157mr1516866pzj.28.1705619219909;
-        Thu, 18 Jan 2024 15:06:59 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
-        by smtp.gmail.com with ESMTPSA id j38-20020a635526000000b005cf7c4bb938sm2102597pgb.94.2024.01.18.15.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 15:06:59 -0800 (PST)
-Date: Thu, 18 Jan 2024 15:06:56 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Doug Anderson <dianders@chromium.org>,
-	Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
-	Tomasz Figa <tfiga@chromium.org>, jingyliang@chromium.org,
-	poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
-	jikos@kernel.org, wuxy23@lenovo.com, conor+dt@kernel.org,
-	luolm1@lenovo.com, robh+dt@kernel.org, devicetree@vger.kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	poyu_hung@himax.corp-partner.google.com,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	benjamin.tissoires@redhat.com
-Subject: Re: [PATCH v3 0/4] HID: touchscreen: add himax hid-over-spi driver
-Message-ID: <ZamvEAGGiDrQvmFq@google.com>
-References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
- <6c7d9c92-7616-4fad-806e-44302c33b63c@linaro.org>
- <CAD=FV=X2kZcyeyK1SBcXaViBft4F6XYtA6+JwBqJswU41V9kUQ@mail.gmail.com>
- <9e1233ce-1a6d-443d-873e-6efb3ed0207c@linaro.org>
+	s=arc-20240116; t=1705627491; c=relaxed/simple;
+	bh=g6dZ/s8iRvFCBO9yFMXzjTMisIdd69xDaF1WTbDKnTA=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Tt1r6+kcxLw8VYM0GncelM/Wo+gGDJhEx/ZkikWCJYRviEufQ0FG08nZeoDeQHLpPJ4KWjVTFdIRfXYEWwwBs28FRzPxj/OlJTzMDqFIMPOatbovtxsoyz0DO6envjV9XLD1TBQ71LFuJNMixNMg9MboJYxJDdfd5a6DiU/cEM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqafsaTI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B704C433A6;
+	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705627491;
+	bh=g6dZ/s8iRvFCBO9yFMXzjTMisIdd69xDaF1WTbDKnTA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=rqafsaTIANKHeOaF/RcTQWF2JB7WfF9Jz+qCj3wl1buRq1JYCtnmzqQOVx06hv1cq
+	 87vobXjNxnFTPwiqozC4eBUGz1i+Vdm1YqjdA9j19Br+PkVWe06XKKuwmj5AC/9QAY
+	 99W71GxximV/dj5iNMTY75Dl9igCugn8RXkFsMHVy+ToErqG77DMwoks5npx050scI
+	 WZOgCSkePYG7oz3/LkQH9Y/sF90f10GsaNm6JrXIaEEGBi5iQk83iQ2uIAobSB8itc
+	 A+xIsY5tuEA8gVUlcX/ZU3GTka+GyemAjbiiCHR2nq6qKNQDQ7T46XIk4fLuTYvU3w
+	 yA12OJZJDBzMQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6CCB9D8C970;
+	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v6.8-rc0
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Zalq8fauylyDfoXf@google.com>
+References: <Zalq8fauylyDfoXf@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Zalq8fauylyDfoXf@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc0
+X-PR-Tracked-Commit-Id: 58f65f9db7e0de366a5a115c2e2c0703858bba69
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 0f289bdd4102fc870c8b97652c57d41952040d70
+Message-Id: <170562749144.26879.11236730756200970428.pr-tracker-bot@kernel.org>
+Date: Fri, 19 Jan 2024 01:24:51 +0000
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e1233ce-1a6d-443d-873e-6efb3ed0207c@linaro.org>
 
-On Wed, Oct 18, 2023 at 08:07:32AM +0200, Krzysztof Kozlowski wrote:
-> On 17/10/2023 23:41, Doug Anderson wrote:
-> > 
-> > 3. The ChromeOS team is organized much more like the upstream
-> > community than a big hierarchical corporation. Just as it's not easy
-> > for you to control the behavior of other maintainers, it is not
-> > trivial for one person on the team to control what others on the team
-> > will do. We could make an attempt to institute rules like "all patches
-> > must go through internal review before being posted", but as per #2 I
-> > don't think this is a good idea. The ChromeOS team has even less
-> > control over what our partners may or may not do. In general it is
-> > always a struggle to get partners to even start working upstream and
-> > IMO it's a win when I see a partner post a patch. We should certainly
-> > help partners be successful here, but the right way to do that is by
-> > offering them support.
-> 
-> I don't know who is exactly core team, who is partner. I see
-> "google.com" domain, so Google folks are responsible for not wasting
-> time of the community. If Google disagrees, please change the domain so
-> I will understand that and not feel like Google wants to use us all.
+The pull request you sent on Thu, 18 Jan 2024 10:16:17 -0800:
 
-I think it might help if you think of <company>.corp-partner.google.com
-addresses as gmail.com addresses. People who are using these addresses
-are not employees of Google nor contractors for Google; they work for
-their respective <company>.
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc0
 
-The main reason person@<company>.corp-partner.google.com addresses are
-being used for mainline submissions is because it is actually possible
-to set up "git send-email" with them, as their main domain typically
-handled by Exchange and mandates Outlook.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/0f289bdd4102fc870c8b97652c57d41952040d70
 
-Thanks.
+Thank you!
 
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
