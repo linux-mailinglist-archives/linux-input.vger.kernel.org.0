@@ -1,94 +1,78 @@
-Return-Path: <linux-input+bounces-1344-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1345-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59D9832EF5
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 19:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D456E832F58
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 20:22:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41AB01F250EE
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 18:33:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BAE91F23DD9
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 19:22:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF105946F;
-	Fri, 19 Jan 2024 18:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D0056447;
+	Fri, 19 Jan 2024 19:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2wnjMVm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CruyDL4g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1A32112;
-	Fri, 19 Jan 2024 18:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD07056440
+	for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 19:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705689219; cv=none; b=bB+DAQgW5kD4/7JTfbRFfSA2h7mBDj+bWv4SldvoTDgwpaLafYv0vzXsI8CiogxeHxFY/aMjvIBkkoaKkKoeLGh7ef2a6N27l55oyAX0t4pqg7pcmeSWX/hsfSNNrSM7+XqQfN+vuhCpXX2jcXCCQHQP5C+6P3ECmIzBtQuEXj8=
+	t=1705692170; cv=none; b=GK037wtYikdKtX+ewIePuRW4hN3dN9NhAz2xmImyVoSP4XXWMNVvVLbE7zxcbswk76mb3VAf2g7cO6VpTxJ35y/BFlvijnHmABAR41SsqubxGa9w63fok0B02T7botWusen8QQehtjLH2xuV174Pu8kKzlhfOaeKv5CYy/Tr1dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705689219; c=relaxed/simple;
-	bh=2UTEvLs5YWOQsuXjS93MK2My/6R/O8u9HEeLv8CKhG0=;
+	s=arc-20240116; t=1705692170; c=relaxed/simple;
+	bh=7SaoXnKENyP2A2/QuVxxqqtiDWrSey0wo1LHzJ78iQ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=do+6HDDjIwT8KrbpHUysXXUVliABemfeZKsoZE7jQDKmUaPsDLWSs+1Y5t3bsz2J/uuKomDy0uysfO47ycchtTJzB4Yao7x3pp3O9H5fBQ9GkeqlwFI/bSJjF8MAONduPNXJRNwbXhsnXQAprKDGBWjKzQ8EvncvEtk1pMSeYxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2wnjMVm; arc=none smtp.client-ip=209.85.216.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q4WJtBEFl8mNmoLdr4tUXxObREV/2dYSXKyVfnXjLuwJqvUziiOf9Vx++TVAhTUC2SEFO/+DknLZF6s8PbVzGo+m4+5Fej5OHZu6a7gLN34MOQyUqcl7uR2XcVhUg/TDv3AeiMEZdshmN8tpcueH2j3k3EjN8C+04BdUm6LYLzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CruyDL4g; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29065efa06fso23199a91.1;
-        Fri, 19 Jan 2024 10:33:38 -0800 (PST)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6dbc9dab55dso355798b3a.0
+        for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 11:22:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705689217; x=1706294017; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1705692168; x=1706296968; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
-        b=Z2wnjMVmqbKU4URiAB5MWVd7m6hoNZChZS9B+T9HEHRQXoW1QoQZ41wlR/DVovmaMr
-         91bK2XzCUz6ZuMIgjZvW4Vbw9c1u0r4Hi1o3Mob17pqk0A99HS3KzwSAF6RTvQmK2+Mq
-         kJPKQYYykrQIA3im+Jk54Vk3b16bZvdeGSiBacOgE2AWGmsEVltChCmJn+UDe17Ep0KY
-         7fznHTphIhTH7ykH9BCuUdiP1rYKVpCrPIKXhtc+ny/xx3SGsuhBQrydPlhYSV8t0kiM
-         tv9R1+b9EHl1IL4nTNBvVtmBE3hy9BeftjScoVsB+Qm+LnJxmBY4/E4RaXlazYqxIgKr
-         xq7Q==
+        bh=6vDAi4KqapOjCWbEC/u51sCQijieT389gbY8Tpl9lC8=;
+        b=CruyDL4g6vkDfdHHqgoBowXAXgIOjvUYKKe8YN912zENMcd3bU4v8y0WWrUnRQkGsR
+         FmsJe3TVO/1JzLRVdI5TPCh4iSyhr63ky2HM3y+uvQ9d4IfalItnNAU2m5a4CyGbHEK8
+         Y05nFiux6Tn2hfzzOe3leu1/FNqDaCHVkyvfh25kBW9kTOMi8wqSGW7X+H3XbOvxD0T9
+         Nz2pypK70CYVVK7aBvEHul2L175VlPUdYYHYzIZtpHqIEXCg/9VZrPnGDj6f9/bVvt6m
+         z5toHbdoP8QsvRaw+q0rF+Z9434oaHRLY3Ppkj3m7EjEbAQc5IwqlqOA2onmuzXwyniC
+         czEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705689217; x=1706294017;
+        d=1e100.net; s=20230601; t=1705692168; x=1706296968;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
-        b=Hgh0KviQhYeyw/p1cREDb1CaP3SaLKfHxU27gCjf45HuQLtAuQRKf/HPH4zCyML0Dm
-         59oIR7Y6Q7lTpH+Bvjw1yV/Mv2HBYPCB3upRW1a8q81SV0gt+Ej8Pbc6Ta1BCI3Isg+J
-         5ObsLCkrY9vk9EudPt6Xen+61RdoPkIfX86rI5JZ3GXrnlSTO7nXK1LS0UMjtlzYj2+V
-         J+Eumnt+T4JPPCc4ppJwpFDxx1CsLVOCK5Qc7dM9j9VBadV1/ns2Xp0y0RnX/UuPIqBK
-         SO7qidDDGGyWg04JaLAQVvoqlHTi58OOTigUWdh54YwegD1FIzmdhDPvYBnijJ47diSe
-         +ZEg==
-X-Gm-Message-State: AOJu0Yw1QZ9k9WSAW5yV7fH3V/47CI1mr9eEqBd4ypSQDE8ILThaLUtu
-	b2rmAasgWCnuhzDr1qeMlFHVXffealFCCXozpaXI4I+dLQis3fiH
-X-Google-Smtp-Source: AGHT+IE3J3mk+o/jaEbN4lFdflrsPSNaC31PQjCmi5eiwC0XemD3b7u1le1I/qswQjFVSQuib1m0zA==
-X-Received: by 2002:a17:90a:c7cb:b0:290:1426:86fc with SMTP id gf11-20020a17090ac7cb00b00290142686fcmr182985pjb.89.1705689217443;
-        Fri, 19 Jan 2024 10:33:37 -0800 (PST)
+        bh=6vDAi4KqapOjCWbEC/u51sCQijieT389gbY8Tpl9lC8=;
+        b=F0TsRIHqkj3bt0FjZj5fuJ3ss1l8YeC/NR+9+5jckRFzuN8+WDqT2bUbrczpyjaI8u
+         PpL0Fufszjia8rmsRxYgCcroIBfyQ9gZcyslJ06wr5mQAdypEBudBRmJCvEcWaPbPG8U
+         +SjyyC+5ihJQ1A6wgwmvmTKZFhUZcFhokIiniwZ29vFQjDJc0teRPJBW4PDzzuuecPs5
+         GAARX9zLw+IGPXx6nFDqZ4xk6sIz6p6Wb6XncXQLcjLNQ623jDKleGHnqP4hATauVrfJ
+         5lORuxjLtPny6+TmS7Tbg9GOwvu6O9kUjLv95nVQ2YDMsaKL6oEV4PV96QuwyndnCQq6
+         0jaw==
+X-Gm-Message-State: AOJu0YzWeM57+4M7gv7cwgmHB1yjFLJ2y/XO+1ryO/EUwkjSBO0ijMVI
+	o2dGOGk02ieNkDkiB7KkA61yIRPZf0Re3wsX0VbHDY7wGLFwuXU0
+X-Google-Smtp-Source: AGHT+IEDUnSBTWpekJ8ZeNuP8N5eylLLfPn/iro4N5a0n1aXQOcSL5MQVCAdx9YFqCgioyzspGWarQ==
+X-Received: by 2002:a05:6a00:1914:b0:6db:9c1:7164 with SMTP id y20-20020a056a00191400b006db09c17164mr1870907pfi.15.1705692168120;
+        Fri, 19 Jan 2024 11:22:48 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:97b4:2663:16e0:cf81])
-        by smtp.gmail.com with ESMTPSA id sy14-20020a17090b2d0e00b0029005525d76sm4412592pjb.16.2024.01.19.10.33.36
+        by smtp.gmail.com with ESMTPSA id w67-20020a626246000000b006d9b32812c2sm5677871pfb.101.2024.01.19.11.22.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 10:33:37 -0800 (PST)
-Date: Fri, 19 Jan 2024 10:33:34 -0800
+        Fri, 19 Jan 2024 11:22:47 -0800 (PST)
+Date: Fri, 19 Jan 2024 11:22:45 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-	Werner Sembach <wse@tuxedocomputers.com>, jikos@kernel.org,
-	Jelle van der Waa <jelle@vdwaa.nl>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZarAfg2_5ocfKAWo@google.com>
-References: <87sf61bm8t.fsf@intel.com>
- <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <87bk9hppee.fsf@intel.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: linux-input@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+	hdegoede@redhat.com, andy.shevchenko@gmail.com, frank.li@vivo.com
+Subject: Re: [PATCH -next] Input: bcm-keypad - Remove redundant of_match_ptr()
+Message-ID: <ZarMBRUuX_TL0i4c@google.com>
+References: <20230809101626.2664651-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -97,73 +81,15 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87bk9hppee.fsf@intel.com>
+In-Reply-To: <20230809101626.2664651-1-ruanjinjie@huawei.com>
 
-On Fri, Jan 19, 2024 at 12:51:21PM +0200, Jani Nikula wrote:
-> On Fri, 19 Jan 2024, Hans de Goede <hdegoede@redhat.com> wrote:
-> > For per key controllable rgb LEDs we need to discuss a coordinate
-> > system. I propose using a fixed size of 16 rows of 64 keys,
-> > so 64x16 in standard WxH notation.
-> >
-> > And then storing RGB in separate bytes, so userspace will then
-> > always send a buffer of 192 bytes per line (64x3) x 14 rows
-> > = 3072 bytes. With the kernel driver ignoring parts of
-> > the buffer where there are no actual keys.
-> >
-> > I would then like the map the standard 105 key layout onto this,
-> > starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
-> > the top left). Leaving plenty of space on the left top and right
-> > (and some on the bottom) for extra media key rows, macro keys, etc.
-> >
-> > The idea to have the standard layout at a fixed place is to allow
-> > userspace to have a database of preset patterns which will work
-> > everywhere.
-> >
-> > Note I say standard 105 key layout, but in reality for
-> > defining the standardized part of the buffer we should
-> > use the maximum amount of keys per row of all the standard layouts,
-> > so for row 6 (the ESC row) and for extra keys on the right outside
-> > the main block we use the standard layout as shown here:
+On Wed, Aug 09, 2023 at 06:16:26PM +0800, Ruan Jinjie wrote:
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
 > 
-> Doesn't the input stack already have to have pretty much all of this
-> already covered? I can view the keyboard layout in my desktop
-> environment, and it's a reasonably accurate match, even if unlikely to
-> be pixel perfect. But crucially, it has to have all the possible layouts
-> covered already.
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-The kernel actually is not aware of the keyboard geometry, it had no
-idea if you are dealing with a standard full 101/102 keys keyboard,
-TKL or even smaller one, if it is split or not, maybe something like
-Kinesis Advantage360. Arguably, it could potentially know about
-101/TLK if vendors would program accurate descriptors into their
-devices, but nobody does... And geometry is not a part of HID interface
-at all. So your desktop environment makes an [un]educated guess.
-
-> 
-> And while I would personally hate it, you can imagine a use case where
-> you'd like a keypress to have a visual effect around the key you
-> pressed. A kind of force feedback, if you will. I don't actually know,
-> and correct me if I'm wrong, but feels like implementing that outside of
-> the input subsystem would be non-trivial.
-
-Actually I think it does not belong to the input subsystem as it is,
-where the goal is to deliver keystrokes and gestures to userspace.  The
-"force feedback" kind of fits, but not really practical, again because
-of lack of geometry info. It is also not really essential to be fully
-and automatically handled by the kernel. So I think the best way is to
-have an API that is flexible enough for the userspace solution to
-control, and that is not restricted by the input core design. The
-hardware drivers are not restricted to using a single API, they can
-implement both an input device and whatever new "rgbled" and userspace
-can associate them by topology/sysfs.
-
-> 
-> Cc: Dmitry, could we at least have some input from the input subsystem
-> POV on this? AFAICT we have received none.
-
-Sorry, I was not CCed and I missed this on the mainling list.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
