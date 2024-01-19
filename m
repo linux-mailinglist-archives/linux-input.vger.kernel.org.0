@@ -1,79 +1,115 @@
-Return-Path: <linux-input+bounces-1322-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1323-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6AB8322F0
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 02:25:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0959783247F
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 07:07:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E764928602A
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 01:24:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA6C91F24945
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 06:07:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92CC17F0;
-	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqafsaTI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 746434A34;
+	Fri, 19 Jan 2024 06:07:27 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A401A15A4;
-	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373FE4A0F;
+	Fri, 19 Jan 2024 06:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705627491; cv=none; b=NU2bekfVyD/VX6Nm/+N6/iY5bK8tfNITWi9aXB0w7oP6MdxR7yLlBgRbCTkO3hwZh8hSgpJefmM1ClZq2BUDf4aMgTMhMc7OxqTwQrJ30OQK4tc2lLwXSMZaMmvIBNjsGNNxIkDBp5cPa7dFBu1sTHgj4Lmf04Q9SD+UOq88+Hk=
+	t=1705644447; cv=none; b=N0vfXnxERLA8I80mZzLJeDuCmohriGi+UySz5C/bIxftfvlABIxycbH+lnczh4McLXz2NPy9KghG8Go5OW0sa2x7aNLCQ74D/t5Q9xNCJveM5XkvBY0x/ccpkfvSMgFfctVLkRQjhj3oVZTEeAGY6Vsu0gpJCrx8f6qIb+/KQuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705627491; c=relaxed/simple;
-	bh=g6dZ/s8iRvFCBO9yFMXzjTMisIdd69xDaF1WTbDKnTA=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Tt1r6+kcxLw8VYM0GncelM/Wo+gGDJhEx/ZkikWCJYRviEufQ0FG08nZeoDeQHLpPJ4KWjVTFdIRfXYEWwwBs28FRzPxj/OlJTzMDqFIMPOatbovtxsoyz0DO6envjV9XLD1TBQ71LFuJNMixNMg9MboJYxJDdfd5a6DiU/cEM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqafsaTI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B704C433A6;
-	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705627491;
-	bh=g6dZ/s8iRvFCBO9yFMXzjTMisIdd69xDaF1WTbDKnTA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rqafsaTIANKHeOaF/RcTQWF2JB7WfF9Jz+qCj3wl1buRq1JYCtnmzqQOVx06hv1cq
-	 87vobXjNxnFTPwiqozC4eBUGz1i+Vdm1YqjdA9j19Br+PkVWe06XKKuwmj5AC/9QAY
-	 99W71GxximV/dj5iNMTY75Dl9igCugn8RXkFsMHVy+ToErqG77DMwoks5npx050scI
-	 WZOgCSkePYG7oz3/LkQH9Y/sF90f10GsaNm6JrXIaEEGBi5iQk83iQ2uIAobSB8itc
-	 A+xIsY5tuEA8gVUlcX/ZU3GTka+GyemAjbiiCHR2nq6qKNQDQ7T46XIk4fLuTYvU3w
-	 yA12OJZJDBzMQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6CCB9D8C970;
-	Fri, 19 Jan 2024 01:24:51 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v6.8-rc0
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Zalq8fauylyDfoXf@google.com>
-References: <Zalq8fauylyDfoXf@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Zalq8fauylyDfoXf@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc0
-X-PR-Tracked-Commit-Id: 58f65f9db7e0de366a5a115c2e2c0703858bba69
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0f289bdd4102fc870c8b97652c57d41952040d70
-Message-Id: <170562749144.26879.11236730756200970428.pr-tracker-bot@kernel.org>
-Date: Fri, 19 Jan 2024 01:24:51 +0000
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+	s=arc-20240116; t=1705644447; c=relaxed/simple;
+	bh=UBzZ49HqC2sWhE+aAm+H8+GVQvgeyj/loWZJwfPGEVk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VYHMO5+QrnqeZHpDHWJgpSZyV7o3qhYldVAwx2bSdKwvsHG/oa8zyhbfI3bY/GJpj3RF1Ph0LQeuInH2IXozvs0iT4Ms8Dal4q85VYMX95PxNZIodoJVO5RPVOlyMGH0hbcsPuPPlvlnvAiLPqpm3aHDlnjpK14TttgbCu+Qjr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: bce7ae8d548d4673ade61757093c66d8-20240119
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:1b893184-87f0-4021-8c3b-02909b61d1d6,IP:10,
+	URL:0,TC:0,Content:30,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:25
+X-CID-INFO: VERSION:1.1.35,REQID:1b893184-87f0-4021-8c3b-02909b61d1d6,IP:10,UR
+	L:0,TC:0,Content:30,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:25
+X-CID-META: VersionHash:5d391d7,CLOUDID:78906c8e-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:240119140717LEZ98I33,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|66|1
+	02,TC:nil,Content:4,EDM:-3,IP:-2,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil
+	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
+	TF_CID_SPAM_ULN
+X-UUID: bce7ae8d548d4673ade61757093c66d8-20240119
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+	(envelope-from <chentao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1958869100; Fri, 19 Jan 2024 14:07:16 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 64468E000EB9;
+	Fri, 19 Jan 2024 14:07:16 +0800 (CST)
+X-ns-mid: postfix-65AA1194-203573312
+Received: from kernel.. (unknown [172.20.15.234])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 846B1E000EB9;
+	Fri, 19 Jan 2024 14:07:15 +0800 (CST)
+From: Kunwu Chan <chentao@kylinos.cn>
+To: rrameshbabu@nvidia.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kunwu Chan <chentao@kylinos.cn>
+Subject: [PATCH] HID: nvidia-shield: Add some null pointer checks to the hid-nvidia-shield.c
+Date: Fri, 19 Jan 2024 14:07:14 +0800
+Message-Id: <20240119060714.258635-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Thu, 18 Jan 2024 10:16:17 -0800:
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc0
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/hid/hid-nvidia-shield.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0f289bdd4102fc870c8b97652c57d41952040d70
+diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shi=
+eld.c
+index 82d0a77359c4..58b15750dbb0 100644
+--- a/drivers/hid/hid-nvidia-shield.c
++++ b/drivers/hid/hid-nvidia-shield.c
+@@ -800,6 +800,8 @@ static inline int thunderstrike_led_create(struct thu=
+nderstrike *ts)
+=20
+ 	led->name =3D devm_kasprintf(&ts->base.hdev->dev, GFP_KERNEL,
+ 				   "thunderstrike%d:blue:led", ts->id);
++	if (!led->name)
++		return -ENOMEM;
+ 	led->max_brightness =3D 1;
+ 	led->flags =3D LED_CORE_SUSPENDRESUME | LED_RETAIN_AT_SHUTDOWN;
+ 	led->brightness_get =3D &thunderstrike_led_get_brightness;
+@@ -831,6 +833,8 @@ static inline int thunderstrike_psy_create(struct shi=
+eld_device *shield_dev)
+ 	shield_dev->battery_dev.desc.name =3D
+ 		devm_kasprintf(&ts->base.hdev->dev, GFP_KERNEL,
+ 			       "thunderstrike_%d", ts->id);
++	if (!shield_dev->battery_dev.desc.name)
++		return -ENOMEM;
+=20
+ 	shield_dev->battery_dev.psy =3D power_supply_register(
+ 		&hdev->dev, &shield_dev->battery_dev.desc, &psy_cfg);
+--=20
+2.39.2
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
 
