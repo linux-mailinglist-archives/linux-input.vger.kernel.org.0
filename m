@@ -1,188 +1,105 @@
-Return-Path: <linux-input+bounces-1336-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1337-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4B88325AC
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 09:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800608325C2
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 09:30:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71E541C20EFD
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 08:23:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A5431C2037B
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 08:30:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFC020B04;
-	Fri, 19 Jan 2024 08:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBBA520B10;
+	Fri, 19 Jan 2024 08:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c0Rmrfs7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJtR50lU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E157ADF6C
-	for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 08:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861CC20B04
+	for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 08:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705652583; cv=none; b=OihW12SDV/RhBcA0ZxbySOl2opBwaBZgamlm/WT2WLD/yIc9hT6zvZIu0xtRzFqD1ZC0+GcdtZB2jTO/VoH/NdPME4uRWe/CmwAwKvXXzN+iadEurheCFtTMph0T0F76zbNXs+tORxkWxkiaLkLfnOq5HzBWjdpYtE3flOTvXnM=
+	t=1705652999; cv=none; b=NlsdAVyWydb2wf4BujOCCkja72xQaVo0lbQF9zDx2pNSyHsIdu0Khpo04Fu2UIQkIhW/5RUlJAPwtDZxuMiktbknaXmDeJ5ed04F+GdHBABed+HT3odlmMLbwnGsNld1Ypr8YfpEjglmozmr67QsvdKeZvQ0T9PJbWxNjnNyC1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705652583; c=relaxed/simple;
-	bh=rNH5w9MEnm/L7pSlhbE5K6ub+H7WRRZ8uvcVydL82jQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j8heX0IbeudI21SD3qFQPG7Kt9JuHOOx8elNXLZ3cs+Xe5wuDWzTc8Qjom7m+y6jxB/IQ5JT26Bvn1vY8HNZCymoHrVqVh6H94XAWiH7LGi2Xr9ZjTaRePpy+TszsHJDbcYI0gOb6L5tICfzJzgPtflGdqPbpbFLuNbOAHoILNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c0Rmrfs7; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e880121efso5287005e9.3
-        for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 00:23:00 -0800 (PST)
+	s=arc-20240116; t=1705652999; c=relaxed/simple;
+	bh=TUvMR1IDByEwIyKWddFAynkG32WHqpvL8Pstdtk4syI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qac1GJbhZTWhc7JjUum2SIXbCokFPV+UcsaGNm1jQ3BbuaI6wU0Dijq1INEP98pPUiCxSr2xSNfBwm3yAgQRTcjDij2h9UVYKDUlBXdEK9OIGFYcehWYaktQJRr/VO8K5q70qLLGpN02h2OJGbC2/OqylW7LqZ1TA9SElTKqglw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJtR50lU; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d9cb95ddd1so396057b3a.1
+        for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 00:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705652579; x=1706257379; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7G8u3jZmSnI6t8T7vybwiOVPsXxP7J+QmNG1+oPGSI8=;
-        b=c0Rmrfs7K62dXC+q6wHSPktn5wUNm03WVZRFXinrc8s0vKAzTSyuK5+6IvQxtmfdJi
-         394z7WSgkr6fPzsVB+VWQcD97/snYcChI9MF10mal1AOK/3oGXXuD3OiVKvn8J0EMG0Q
-         plSgvILisaKj6zNK0EOapB4vJFcIlcH+gjWlRcT/weRUm/WJOk3UE7WNSEbXPwcQmJRV
-         XkZqTW6+66wwgy/ZpXctsGegnKm11CnzzUCtd7t91VrgCuf29UOm3zayKbQmAePgyl1x
-         5Q52sF6PlWRpUONKf+D8ArMbjHBlvstbMJ7PrRtxPwplZaGn+1jphghWM1Db6hQm6Vl+
-         L/yA==
+        d=gmail.com; s=20230601; t=1705652998; x=1706257798; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HeyPu2bkqOOYDyrIKE1z1uGc5gft5g/fnfY6LPpHZuM=;
+        b=OJtR50lUKbNJlqFaYnmXtCu52ZASYeJ2kRJF4X9Z6Hl7s3hcmTDsjRZ8MCghkg7OmQ
+         bVY3l0np/wb2VSAB4GTU8UcVjerfd0N1/W3o0NNaE/qthbPzFiH8FWW5o4ptDvEGN1mA
+         uR0Z7p76FwKIr4fGb6hxsJLHihhrNTmMYL+LW7TwlMAzpgjaP2M9ocJ7w6tWcA8hWqbO
+         OiDYpBBy3sgnpT7eK20u0OPGMa0+v20LLgMwKUt5ZkodwyI1BT3iYgqo/Sq4qbByE98C
+         LR2Or5WkhchLkqCeykbx2eBw+AP2zLQ6YX/59Rido9Rn5iBzgKkbMSPdkd/ngmmvbIBe
+         1PLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705652579; x=1706257379;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7G8u3jZmSnI6t8T7vybwiOVPsXxP7J+QmNG1+oPGSI8=;
-        b=xTOieWoDyWQmSi2JTRAeD8LtN+hX8QP9/XjiUg5cL8gxPkPBaj/6YdElBZFrQLaMvg
-         rabOBLm54vDOBJjtSv5GxKCjdrjvHHNKviZTvTy+cBCXlwMrMliFN/mDnZzOiKB5TT8v
-         DnIT3DjVdXWwdPgZaXGJjgNJQ1SayvaZ9Yla3UKwhYE3uarelaJua4kzENYP9Qnq6cnc
-         4Xk99DGXOuanEioWM0jrp3UTvymrT0+Leqk28T/D8SqUS49mQDIdWSO6xx7boH3SnFjt
-         7EyO5eye8f14XEMK/d6Nieix6tvJGcqUTTyf6bAbLrPynEp2ChgTbU6RXjSASmsAoOZb
-         KxjQ==
-X-Gm-Message-State: AOJu0Yz0lkQLDLvwrxWS1GGCexsvMYHfdhGCagNfwi3eXwde9WDNY6AW
-	jqgO1HxDvwVByUw0QjJdV1aEPi8uuUIq9FPgf8gK5Dxsu5wq6rU+vuOospfviA1S3wtbPBGSjRu
-	0LVHRx2oiqbm1HLGgqrae/d3rD+MTPzxby/22
-X-Google-Smtp-Source: AGHT+IEtwGqCg6+G8tWJ+B+4jKLxhzzARtXT4xjsqIeERHh1fxV6MbmzUNh4SeVxsqSRMXUDSrDp9LewThDiLbVF3PE=
-X-Received: by 2002:a05:600c:3414:b0:40e:88b3:8918 with SMTP id
- y20-20020a05600c341400b0040e88b38918mr1232159wmp.52.1705652578931; Fri, 19
- Jan 2024 00:22:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705652998; x=1706257798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HeyPu2bkqOOYDyrIKE1z1uGc5gft5g/fnfY6LPpHZuM=;
+        b=thcrwqW0o1g0BfDmupplxFQDk7foTjYJ2PK//HWUN+y3ttx2QFZZtD5VNQLeyMYe1a
+         NquQJCriYYyuBoJYsCzxeDV5v1Y5gJqlH8Bb7Lo4SvVZCGi5vlU6pGvl3g2LaDolCRdg
+         pwmAMP1VHiREtk+8nZDEdMRacDv19fy5oo7A7p+5mEXHcTlDbyNm6zFaSYwCT2P657mz
+         PTLBc54lJuwu6/3v/4qV8tXf4FR00UrUjYMb3V5VJqpaSRLEmAR30bDhJsRu/BMGTcqU
+         BL4zQXbgSw8nYk5YndSX30fyg6Vt2wb9gx+AyO6Vsq5u6LOdefHGaCZXTUEzjT5dt4Ds
+         yfDQ==
+X-Gm-Message-State: AOJu0YzeJ0WWYnIo7GM9/BkN3Ars2hqhbbw2iaz3j47RGBEeDovMkrDM
+	rysI3vNVGTgii3r2rKtEVNCQ1ZMIPY6TQo4aLZ/JiS/YhfQaLQSs
+X-Google-Smtp-Source: AGHT+IHZBsSpTtTzxxUYQejjS4ZKgOIVfdCQJcOxm3JMt/u8WO4zdbd3Q7grWjCGxap3DGZf2c+EUQ==
+X-Received: by 2002:a17:90a:62c8:b0:28c:f48c:c875 with SMTP id k8-20020a17090a62c800b0028cf48cc875mr1821154pjs.45.1705652997748;
+        Fri, 19 Jan 2024 00:29:57 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f04f:73f4:b79:a70c])
+        by smtp.gmail.com with ESMTPSA id sy14-20020a17090b2d0e00b0028c89122f8asm3312432pjb.6.2024.01.19.00.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 00:29:57 -0800 (PST)
+Date: Fri, 19 Jan 2024 00:29:54 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-input@vger.kernel.org, contact@artur-rojek.eu,
+	hdegoede@redhat.com, paul@crapouillou.net, peter.hutterer@who-t.net,
+	svv@google.com, biswarupp@google.com,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH v3] Input: adc-joystick: Handle inverted axes
+Message-ID: <ZaozAsSblybdoeEK@google.com>
+References: <20240115192752.266367-1-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAAL3-=88exVfuL1Y-kvPNbsU+d-UTfDLFViWVObFLtbC4xueeA@mail.gmail.com>
- <20240118183546.418064-1-appsforartists@google.com> <da6f1483-1ae2-40b5-9c1e-684321e12288@endrift.com>
-In-Reply-To: <da6f1483-1ae2-40b5-9c1e-684321e12288@endrift.com>
-From: Brenton Simpson <appsforartists@google.com>
-Date: Fri, 19 Jan 2024 00:22:45 -0800
-Message-ID: <CAAL3-=-RRWyCbq_B=Lh7tnG2i3MOLL+2bqPOUS54oTC4+vVk_g@mail.gmail.com>
-Subject: Re: [PATCH] Input: xpad - add Lenovo Legion Go controllers
-To: Vicki Pfau <vi@endrift.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Cameron Gutman <aicommander@gmail.com>, Erica Taylor <rickytaylor26@gmail.com>, 
-	Ismael Ferreras Morezuelas <swyterzone@gmail.com>, Jonathan Frederick <doublej472@gmail.com>, 
-	Matthias Benkmann <matthias.benkmann@gmail.com>, Matthias Berndt <matthias_berndt@gmx.de>, nate@yocom.org, 
-	Sam Lantinga <slouken@libsdl.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, trivial@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240115192752.266367-1-macroalpha82@gmail.com>
 
-Thanks Vicki.  I didn't realize they were meant to be sorted.
+Hi Chris,
 
-Would it be appropriate to add comments explaining the sorting?  The
-second stanza, in particular, is sorted by the IDs rather than
-lexicographically.  If someone sorted it naively, they'd end up with a
-bigger diff than expected.
+On Mon, Jan 15, 2024 at 01:27:52PM -0600, Chris Morgan wrote:
+>  
+> +static int adc_joystick_invert(struct input_dev *dev,
+> +			       unsigned int axis, int val)
+> +{
+> +	int min = dev->absinfo[axis].minimum;
+> +	int max = dev->absinfo[axis].maximum;
 
-It looks like a few others have escaped sorting; for instance,
-"Microsoft X-Box One Elite 2 pad" appears in the wrong place.
+I changed this to input_abs_get_[min|max](dev, axis) to avoid peeking
+into absinfo and applied.
 
-If Dmitry wants to land this and then follow on with a sort + comment
-commit (or do that first and then rebase this on top), that would be
-great.  I can take a stab too if that's helpful.
+Thanks.
 
-
-On Thu, Jan 18, 2024 at 10:16=E2=80=AFPM Vicki Pfau <vi@endrift.com> wrote:
->
-> Hi Brenton,
->
-> On 1/18/24 10:35, Brenton Simpson wrote:
-> > The Lenovo Legion Go is a handheld gaming system, similar to a Steam De=
-ck.
-> > It has a gamepad (including rear paddles), 3 gyroscopes, a trackpad,
-> > volume buttons, a power button, and 2 LED ring lights.
-> >
-> > The Legion Go firmware presents these controls as a USB hub with variou=
-s
-> > devices attached.  In its default state, the gamepad is presented as an
-> > Xbox controller connected to this hub.  (By holding a combination of
-> > buttons, it can be changed to use the older DirectInput API.)
-> >
-> > This patch teaches the existing Xbox controller module `xpad` to bind t=
-o
-> > the controller in the Legion Go, which enables support for the:
-> >
-> > - directional pad,
-> > - analog sticks (including clicks),
-> > - X, Y, A, B,
-> > - start and select (or menu and capture),
-> > - shoulder buttons, and
-> > - rumble.
-> >
-> > The trackpad, touchscreen, volume controls, and power button are alread=
-y
-> > supported via existing kernel modules.  Two of the face buttons, the
-> > gyroscopes, rear paddles, and LEDs are not.
-> >
-> > After this patch lands, the Legion Go will be mostly functional in Linu=
-x,
-> > out-of-the-box.  The various components of the USB hub can be synthesiz=
-ed
-> > into a single logical controller (including the additional buttons) in
-> > userspace with [Handheld Daemon](https://github.com/hhd-dev/hhd), which
-> > makes the Go fully functional.
-> >
-> > Signed-off-by: Brenton Simpson <appsforartists@google.com>
-> > ---
-> >   drivers/input/joystick/xpad.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpa=
-d.c
-> > index f5c21565bb3c..ecfcea8740a0 100644
-> > --- a/drivers/input/joystick/xpad.c
-> > +++ b/drivers/input/joystick/xpad.c
-> > @@ -127,6 +127,7 @@ static const struct xpad_device {
-> >       u8 mapping;
-> >       u8 xtype;
-> >   } xpad_device[] =3D {
-> > +     { 0x17ef, 0x6182, "Lenovo Legion Controller for Windows", 0, XTYP=
-E_XBOX360 },
-> >       { 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 =
-},
-> >       { 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
-> >       { 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
->
-> Please keep the items in this list sorted.
->
->  > @@ -459,6 +460,7 @@ static const signed short xpad_btn_paddles[] =3D {
-> >
-> >   static const struct usb_device_id xpad_table[] =3D {
-> >       { USB_INTERFACE_INFO('X', 'B', 0) },    /* Xbox USB-IF not-approv=
-ed class */
-> > +     XPAD_XBOX360_VENDOR(0x17ef),            /* Lenovo */
-> >       XPAD_XBOX360_VENDOR(0x0079),            /* GPD Win 2 controller *=
-/
-> >       XPAD_XBOX360_VENDOR(0x03eb),            /* Wooting Keyboards (Leg=
-acy) */
-> >       XPAD_XBOXONE_VENDOR(0x03f0),            /* HP HyperX Xbox One con=
-trollers */
->
-> Ditto here.
->
-> Dmitry will sometimes take patches and fix the sorting after they're
-> submitted so you might not to resubmit, but for future reference, this
-> list is intended to be sorted.
->
-> Vicki
+-- 
+Dmitry
 
