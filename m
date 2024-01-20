@@ -1,184 +1,350 @@
-Return-Path: <linux-input+bounces-1352-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1353-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2709833105
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 23:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8091833259
+	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 02:58:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FE721F21F99
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jan 2024 22:56:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 411ED1F220F6
+	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 01:58:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0EE56B7B;
-	Fri, 19 Jan 2024 22:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66855A4D;
+	Sat, 20 Jan 2024 01:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pi62taVs"
+	dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b="J0jVUr1T"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E670E56770
-	for <linux-input@vger.kernel.org>; Fri, 19 Jan 2024 22:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B637A3C;
+	Sat, 20 Jan 2024 01:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705704981; cv=none; b=QhrizvdUDMSo3nowA91XkSbJLId4YA3MMnnZa6BqHd2Q/0Fc5s+yqrV12uoCNS+T2qba+GYrhQGuIdZ+QLYxd2/b6rZBpI58O1Cn+P8Ab/F97gP+LIU3NAHuLusUbN05jkCLTrgQVgdsHMNEPUHDKzSPKX0hk/bR6FEgD8bCp40=
+	t=1705715929; cv=none; b=EaWwq2Kt9VlZCyl8ZOKJnbM58O+2xmmjzLY+A8MckBFdc6FW2f5Q7madvKjzr0qm8tVCKS3n1DdMmdaFfXznF31O6Gn9Cxoj7ybExLnxm3BCzViABcy1DmZIqdiLNuNN32OBMLpi26egEDXb+UX/+FWhwLOMVs++fe+KcUfIWjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705704981; c=relaxed/simple;
-	bh=tN315j0NSemgGjT2ezAHTsuMyOgBcErGqNkbFzkfvmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lAyqm04JmkOEzhQ12XRr/UkufV1mV37DRBgcvhkJygwYAWC22AV1N+QZsgr2C60z62OVI/togQBhHZAQn/ZjuAIMLYXlyZde2fx9Q1y74Os/dM69NoTj59VKn5pfdSKHIo9Vef+UIFLF6UAbMMQ0dDx3GSVhvJppgoW1D7v0S78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pi62taVs; arc=none smtp.client-ip=134.134.136.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705704979; x=1737240979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tN315j0NSemgGjT2ezAHTsuMyOgBcErGqNkbFzkfvmE=;
-  b=Pi62taVs5dOxCg5M9vsffegVjFAncD0VqLpXzV3+JJjh8RLmdoU/c5fl
-   eFGWj2UkwSfBx46Ll9nZ8DwYQmypZb7k9akG4qnI4ci1syeWvHDDSyJQ4
-   IZad8Pc0ctISW58hQWApcstIHZgR5QHBwZRT19TC6O2OiOo/84kuSap73
-   +TsS4i1E7gRbfYU67xq+G9YbSuZg084bxH9JI5xJPyU/uXTYPk+u50gOQ
-   VIWEd3DY2XXWu1cauAYTPKDDZXyVJt5CB14aIiJ8KN9nNqbjuoXeYYs3I
-   3CnYZT5XFdQn7xXwOHuVfVTqTQMrRqxXCNuigSjRC9bdc0AE+8xvoyfYl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="467231465"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="467231465"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 14:56:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="928492805"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="928492805"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2024 14:56:17 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQxmY-0004UG-3A;
-	Fri, 19 Jan 2024 22:56:14 +0000
-Date: Sat, 20 Jan 2024 06:55:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macromorgan@hotmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [dtor-input:next 134/135]
- drivers/input/joystick/adc-joystick.c:194:10: error: implicit declaration of
- function 'min_array'
-Message-ID: <202401200614.B4PnBzhk-lkp@intel.com>
+	s=arc-20240116; t=1705715929; c=relaxed/simple;
+	bh=xOACwnOi7ZpXZZ3xQYWsc2Q+zVEz14s8WrM3MlqBpjo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=UGiOFMmrH0BpwPidR8rxtHOSWORLjtjii3cnqe2iD4gg5dsgA4mKN16sUaWtm22sDMfO+Y0Ku9tyMyiZYjgZhWQd/+LyHutOn8YCV66Q2CpApnmTt6RyCwPaZ+aWuUwYR6/GrvjlppUNvdlhdoQqHjBdOOa62DusnwID9mWIyac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info; spf=pass smtp.mailfrom=altimeter.info; dkim=pass (1024-bit key) header.d=altimeter.info header.i=@altimeter.info header.b=J0jVUr1T; arc=none smtp.client-ip=35.82.102.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=altimeter.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altimeter.info
+Received: from webmail.porkbun.com (unknown [35.86.129.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	(Authenticated sender: linux-kernel@altimeter.info)
+	by hognose1.porkbun.com (Postfix) with ESMTPSA id 590AA44A1E;
+	Sat, 20 Jan 2024 01:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altimeter.info;
+	s=default; t=1705715437;
+	bh=MMx1XAvnhnQyIVkUF0rG2+exZo1HNYaZru2T8fljynw=;
+	h=Date:From:To:Cc:Subject;
+	b=J0jVUr1TlamxVW+ZpZ3Zqib2k+7EM2tAQ1TbZOCHYVT1RBgd3ZbR8cqHKzHTUHJbx
+	 JfomUlUd8CHhDF9npYQLT3UgxPbsrLTl2d9qKoxG8hqEYMRzWBzHRIQIE/ONsCm4Yi
+	 pKzsgFh870y5gcqtRtyWwCYgYIVdT4o67eZRCt90=
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Sat, 20 Jan 2024 01:50:35 +0000
+From: Ivan Gorinov <linux-kernel@altimeter.info>
+To: jikos@kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: hid-winwing module
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <5443fad4ced90864acc351e6e11c5959@altimeter.info>
+X-Sender: linux-kernel@altimeter.info
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-head:   3af6e24a456437d323d1080bd254053f7af05234
-commit: 6380a59c534ecab1462608a1f76490289a45a377 [134/135] Input: adc-joystick - handle inverted axes
-config: i386-randconfig-011-20240120 (https://download.01.org/0day-ci/archive/20240120/202401200614.B4PnBzhk-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200614.B4PnBzhk-lkp@intel.com/reproduce)
+Support for WinWing Orion2 throttle.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401200614.B4PnBzhk-lkp@intel.com/
+Signed-off-by: Ivan Gorinov <linux-kernel@altimeter.info>
+---
+  drivers/hid/Kconfig       |  12 ++
+  drivers/hid/Makefile      |   1 +
+  drivers/hid/hid-winwing.c | 231 ++++++++++++++++++++++++++++++++++++++
+  3 files changed, 244 insertions(+)
+  create mode 100644 drivers/hid/hid-winwing.c
 
-All errors (new ones prefixed by >>):
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4c682c650704..cb41613cebbd 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1236,6 +1236,18 @@ config HID_WIIMOTE
+  	To compile this driver as a module, choose M here: the
+  	module will be called hid-wiimote.
 
-   drivers/input/joystick/adc-joystick.c: In function 'adc_joystick_set_axes':
->> drivers/input/joystick/adc-joystick.c:194:10: error: implicit declaration of function 'min_array' [-Werror=implicit-function-declaration]
-     194 |          min_array(axes[i].range, 2),
-         |          ^~~~~~~~~
->> drivers/input/joystick/adc-joystick.c:195:10: error: implicit declaration of function 'max_array'; did you mean 'kmalloc_array'? [-Werror=implicit-function-declaration]
-     195 |          max_array(axes[i].range, 2),
-         |          ^~~~~~~~~
-         |          kmalloc_array
-   cc1: some warnings being treated as errors
++config HID_WINWING
++	tristate "WinWing Orion2 throttle with F/A-18 grip support (USB)"
++	depends on USB_HID
++	depends on NEW_LEDS
++	depends on LEDS_CLASS
++	help
++	  Support for WinWing Orion2 throttle.
++	  Enables all buttons and switches on the base.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called hid-winwing.
++
+  config HID_XINMO
+  	tristate "Xin-Mo non-fully compliant devices"
+  	help
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 082a728eac60..ce71b53ea6c5 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -150,6 +150,7 @@ wacom-objs			:= wacom_wac.o wacom_sys.o
+  obj-$(CONFIG_HID_WACOM)		+= wacom.o
+  obj-$(CONFIG_HID_WALTOP)	+= hid-waltop.o
+  obj-$(CONFIG_HID_WIIMOTE)	+= hid-wiimote.o
++obj-$(CONFIG_HID_WINWING)	+= hid-winwing.o
+  obj-$(CONFIG_HID_SENSOR_HUB)	+= hid-sensor-hub.o
+  obj-$(CONFIG_HID_SENSOR_CUSTOM_SENSOR)	+= hid-sensor-custom.o
 
-
-vim +/min_array +194 drivers/input/joystick/adc-joystick.c
-
-   135	
-   136	static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
-   137	{
-   138		struct adc_joystick_axis *axes;
-   139		struct fwnode_handle *child;
-   140		int num_axes, error, i;
-   141	
-   142		num_axes = device_get_child_node_count(dev);
-   143		if (!num_axes) {
-   144			dev_err(dev, "Unable to find child nodes\n");
-   145			return -EINVAL;
-   146		}
-   147	
-   148		if (num_axes != joy->num_chans) {
-   149			dev_err(dev, "Got %d child nodes for %d channels\n",
-   150				num_axes, joy->num_chans);
-   151			return -EINVAL;
-   152		}
-   153	
-   154		axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-   155		if (!axes)
-   156			return -ENOMEM;
-   157	
-   158		device_for_each_child_node(dev, child) {
-   159			error = fwnode_property_read_u32(child, "reg", &i);
-   160			if (error) {
-   161				dev_err(dev, "reg invalid or missing\n");
-   162				goto err_fwnode_put;
-   163			}
-   164	
-   165			if (i >= num_axes) {
-   166				error = -EINVAL;
-   167				dev_err(dev, "No matching axis for reg %d\n", i);
-   168				goto err_fwnode_put;
-   169			}
-   170	
-   171			error = fwnode_property_read_u32(child, "linux,code",
-   172							 &axes[i].code);
-   173			if (error) {
-   174				dev_err(dev, "linux,code invalid or missing\n");
-   175				goto err_fwnode_put;
-   176			}
-   177	
-   178			error = fwnode_property_read_u32_array(child, "abs-range",
-   179							       axes[i].range, 2);
-   180			if (error) {
-   181				dev_err(dev, "abs-range invalid or missing\n");
-   182				goto err_fwnode_put;
-   183			}
-   184	
-   185			if (axes[i].range[0] > axes[i].range[1]) {
-   186				dev_dbg(dev, "abs-axis %d inverted\n", i);
-   187				axes[i].inverted = true;
-   188			}
-   189	
-   190			fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
-   191			fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
-   192	
-   193			input_set_abs_params(joy->input, axes[i].code,
- > 194					     min_array(axes[i].range, 2),
- > 195					     max_array(axes[i].range, 2),
-   196					     axes[i].fuzz, axes[i].flat);
-   197			input_set_capability(joy->input, EV_ABS, axes[i].code);
-   198		}
-   199	
-   200		joy->axes = axes;
-   201	
-   202		return 0;
-   203	
-   204	err_fwnode_put:
-   205		fwnode_handle_put(child);
-   206		return error;
-   207	}
-   208	
-
+diff --git a/drivers/hid/hid-winwing.c b/drivers/hid/hid-winwing.c
+new file mode 100644
+index 000000000000..a08f97458aef
+--- /dev/null
++++ b/drivers/hid/hid-winwing.c
+@@ -0,0 +1,231 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * HID driver for WinWing Orion 2 throttle
++ *
++ * Copyright (c) 2023 Ivan Gorinov
++ */
++
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/hidraw.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++
++#define MAX_REPORT 16
++
++struct winwing_led {
++	struct led_classdev cdev;
++	struct hid_device *hdev;
++	int number;
++};
++
++struct winwing_led_info {
++	int number;
++	int max_brightness;
++	const char *led_name;
++};
++
++static struct winwing_led_info led_info[3] = {
++	{ 0, 255, "backlight" },
++	{ 1, 1, "a-a" },
++	{ 2, 1, "a-g" },
++};
++
++struct winwing_drv_data {
++	struct hid_device *hdev;
++	__u8 *report_buf;
++	struct mutex lock;
++	unsigned int num_leds;
++	struct winwing_led leds[];
++};
++
++static int winwing_led_write(struct led_classdev *cdev, enum 
+led_brightness br)
++{
++	struct winwing_led *led = (struct winwing_led *) cdev;
++	struct winwing_drv_data *data = hid_get_drvdata(led->hdev);
++	__u8 *buf = data->report_buf;
++	int ret;
++
++	mutex_lock(&data->lock);
++
++	buf[0] = 0x02;
++	buf[1] = 0x60;
++	buf[2] = 0xbe;
++	buf[3] = 0x00;
++	buf[4] = 0x00;
++	buf[5] = 0x03;
++	buf[6] = 0x49;
++	buf[7] = led->number;
++	buf[8] = br;
++	buf[9] = 0x00;
++	buf[10] = 0;
++	buf[11] = 0;
++	buf[12] = 0;
++	buf[13] = 0;
++
++	ret = hid_hw_output_report(led->hdev, buf, 14);
++
++	mutex_unlock(&data->lock);
++
++	return ret;
++}
++
++static int winwing_init_led(struct hid_device *hdev, struct input_dev 
+*input)
++{
++	struct winwing_drv_data *data;
++	struct winwing_led *led;
++	int ret;
++	int i;
++
++	size_t data_size = struct_size(data, leds, 3);
++
++	data = devm_kzalloc(&hdev->dev, data_size, GFP_KERNEL);
++
++	if (!data)
++		return -ENOMEM;
++
++	data->report_buf = devm_kmalloc(&hdev->dev, MAX_REPORT, GFP_KERNEL);
++
++	if (!data->report_buf)
++		return -ENOMEM;
++
++	for (i = 0; i < 3; i += 1) {
++		struct winwing_led_info *info = &led_info[i];
++
++		led = &data->leds[i];
++		led->hdev = hdev;
++		led->number = info->number;
++		led->cdev.max_brightness = info->max_brightness;
++		led->cdev.brightness_set_blocking = winwing_led_write;
++		led->cdev.flags = LED_HW_PLUGGABLE;
++		led->cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
++						"%s::%s",
++						dev_name(&input->dev),
++						info->led_name);
++
++		ret = devm_led_classdev_register(&hdev->dev, &led->cdev);
++		if (ret)
++			return ret;
++	}
++
++	hid_set_drvdata(hdev, data);
++
++	return ret;
++}
++
++static int winwing_probe(struct hid_device *hdev,
++			const struct hid_device_id *id)
++{
++	unsigned int minor;
++	int ret;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (ret) {
++		hid_err(hdev, "hw start failed\n");
++		return ret;
++	}
++
++	minor = ((struct hidraw *) hdev->hidraw)->minor;
++
++	return 0;
++}
++
++static int winwing_input_configured(struct hid_device *hdev,
++			struct hid_input *hidinput)
++{
++	int ret;
++
++	ret = winwing_init_led(hdev, hidinput->input);
++
++	if (ret)
++		hid_err(hdev, "led init failed\n");
++
++	return ret;
++}
++
++static __u8 original_rdesc_buttons[] = {
++	0x05, 0x09, 0x19, 0x01, 0x29, 0x6F,
++	0x15, 0x00, 0x25, 0x01, 0x35, 0x00,
++	0x45, 0x01, 0x75, 0x01,	0x95, 0x6F,
++	0x81, 0x02, 0x75, 0x01, 0x95, 0x01,
++	0x81, 0x01
++};
++
++/*
++ * HID report descriptor shows 111 buttons, which exceeds maximum
++ * number of buttons (80) supported by Linux kernel HID subsystem.
++ *
++ * This module skips numbers 32-63, unused on some throttle grips.
++ */
++
++static __u8 *winwing_report_fixup(struct hid_device *hdev, __u8 *rdesc,
++		unsigned int *rsize)
++{
++	int sig_length = sizeof(original_rdesc_buttons);
++	int unused_button_numbers = 32;
++
++	if (*rsize < 34)
++		return rdesc;
++
++	if (memcmp(rdesc + 8, original_rdesc_buttons, sig_length) == 0) {
++
++		/* Usage Maximum */
++		rdesc[13] -= unused_button_numbers;
++
++		/*  Report Count for buttons */
++		rdesc[25] -= unused_button_numbers;
++
++		/*  Report Count for padding [HID1_11, 6.2.2.9] */
++		rdesc[31] += unused_button_numbers;
++
++		hid_info(hdev, "winwing descriptor fixed\n");
++	}
++
++	return rdesc;
++}
++
++static int winwing_raw_event(struct hid_device *hdev,
++		struct hid_report *report, u8 *raw_data, int size)
++{
++	if (size >= 15) {
++		/* Skip buttons 32 .. 63 */
++		memmove(raw_data + 5, raw_data + 9, 6);
++
++		/* Clear the padding */
++		memset(raw_data + 11, 0, 4);
++	}
++
++	return 0;
++}
++
++static const struct hid_device_id winwing_devices[] = {
++	/* Orion2 base with F/A-18 Hornet grip */
++	{ HID_USB_DEVICE(0x4098, 0xbe62) },
++
++	/* Orion2 base with F-16 Hornet grip */
++	{ HID_USB_DEVICE(0x4098, 0xbe68) },
++
++	{}
++};
++
++MODULE_DEVICE_TABLE(hid, winwing_devices);
++
++static struct hid_driver winwing_driver = {
++	.name = "winwing",
++	.id_table = winwing_devices,
++	.probe = winwing_probe,
++	.input_configured = winwing_input_configured,
++	.report_fixup = winwing_report_fixup,
++	.raw_event = winwing_raw_event,
++};
++module_hid_driver(winwing_driver);
++
++MODULE_LICENSE("GPL");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
 
