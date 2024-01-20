@@ -1,187 +1,143 @@
-Return-Path: <linux-input+bounces-1363-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1364-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C32833610
-	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 21:26:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BF7833620
+	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 22:06:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6856F1F21BEE
-	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 20:26:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A8001F212B9
+	for <lists+linux-input@lfdr.de>; Sat, 20 Jan 2024 21:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFB1F12B95;
-	Sat, 20 Jan 2024 20:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7671B101CF;
+	Sat, 20 Jan 2024 21:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ip80SeM2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+qYk9KW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E62D12E47
-	for <linux-input@vger.kernel.org>; Sat, 20 Jan 2024 20:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A39394;
+	Sat, 20 Jan 2024 21:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705782371; cv=none; b=ZbuCpriyos5vd6+UHTrSjyT3RIXL9z/OOB/xKvasT0qjy++fRXi6D85cYwrIm6JE3yalwYgpXuYTpwBDhrZzqFoMErN2H58V5/DmczMIs/9fQRj6VYTfsDjiud4k/Y7901hXIoNptUIVKUTo5jj5CcfPErac7AXshmNqCHRpF+E=
+	t=1705784768; cv=none; b=qN4mdHPEJyX5dqblBKQK8bxaH1sA5uQoXJ5shKgtLQa+VK/jfcFuImAK4atiYvtCxIJSsMVRk5cdNSLYEoUslLr8Uut97wVLJbVUwBwlG6wUrEWyDcTiOY9wU3IMr270X9IM6irA6fdLaOaq2D2DMXHJ2UtTTOOfW/4q9k6TPgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705782371; c=relaxed/simple;
-	bh=E9NsYbZxlVjESIGCacSf+Ik7c/ume2adKqxJLr5Rotg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=d6/MLg/T+uGoPV6lChhFfyLOhNd3adT3/DVg7z9bO5T7C+cwUNDgikJHE8aVjuuFtlTQInkEpjrYyMJ3eLEkqPazl5PBURUIwGzU1/5asQE68V6oEYJsskLCQxLdehr/ZSetiyHFMyTYYl65eyAvP7RfwyhVsiAa9K1pNc5GniI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ip80SeM2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705782368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DX4dXMQ9Zd/jP9gKVwQfRx3j8zLRWZtP8Q+HxZciNU4=;
-	b=Ip80SeM2GcYz79zkUf2bxy8d6ITbPZ1gi1vND2S29oQ64VJY5bsNUFxfxphKSq2JgqzK2J
-	/JlPgpxDE7kIZY/7kl2ne6Jk60oBiwAj7+ytEP0LI0lVeKg/N7+4L7A1XXrC69LlHQ3CPo
-	uygZaOw3uIeigUpF89yGlJiW3SE2kSU=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-251-ATzUDyg8Mtec-khU_-MSrQ-1; Sat, 20 Jan 2024 15:26:06 -0500
-X-MC-Unique: ATzUDyg8Mtec-khU_-MSrQ-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2cddf6eafdeso11510861fa.3
-        for <linux-input@vger.kernel.org>; Sat, 20 Jan 2024 12:26:06 -0800 (PST)
+	s=arc-20240116; t=1705784768; c=relaxed/simple;
+	bh=3qE6x3nL0LxScB30Ky4Ariiuqa3uxdDhY8YBcbxvizU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IG8cNJuWVooIGf8T5dm66d8RFGIN6I4Ipw3GpEPqBZZp4mSVNhqYEf+/Km7karF1mxypHL8iwzdBdsU3DRk9P7NqbwBt0hK0mVDgRPIYV41EhETnRko+w2r0KTYgBr0wu0yTieD/9ZWqXD5/iysXqR05Pscokxvw1MLVd95qChU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+qYk9KW; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7ba903342c2so111252739f.3;
+        Sat, 20 Jan 2024 13:06:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705784766; x=1706389566; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2xXegOS7ClGg2BEbcZwkFVV5ySUvJXxkGDHtYE2nX3U=;
+        b=D+qYk9KWYo9VVTujvnGcpGAtqLPc5d4tKmqjaMDw/kQTXsbF2dEH2lSfTc15Mg7eQf
+         TiWqTBuwzYNVSmfiSOJ0NHgVJhYigSslTAx2SRvbWaK5qQutpgrE5NV/TRTGl4USbD8i
+         fWD57jJxuA6rR97AWvdwXRQRkdkhK/HUY8CXfGYsLUvxj8srjn7+CBWB7cvVjgrQ9J7V
+         ZimAREKWUzPpv274e/0v97/MIWO63w8sRrgCt3CtGpwAiDC3FILFe4LuAS2Cs4DVBvxW
+         RaQ+vs5WW2HS3u3reWrxMgdH5Ev6MYRidqOoO/P19VhrGgrTZ44HZS6qs5dddusAdTOu
+         iNBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705782365; x=1706387165;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DX4dXMQ9Zd/jP9gKVwQfRx3j8zLRWZtP8Q+HxZciNU4=;
-        b=KBl3txXbzxsLlAC0tcMOt0Xfr7l9PHYFxel2QruVcCwOl9yoALvP2Lq1xJtIv5kzrF
-         GmdIQn0370lyayAEfH7+xKiCjC+1P1+GgVFh41Oi3HFFq45DP9DrQMA66y0E2o3s7hrC
-         IAOmb+vD3hFA9Yast0uq0YzRm5VJr2pG+rDxDvly2r/mTpGoV9ni0lEmi2RzSOvyPrnI
-         O96EJ1l6GlLquxXfQ16Q7T7+3I2gDvqMh33byXVl1Tro+m/hWd2Vju/srSpk9f20GCIs
-         wL78PrP6GfvQVn69UlRrD6OCU2PiBD0NJRAe/ViMGBNzAIZm+Sr0Gp7wap/K2am2BFVj
-         Mjog==
-X-Gm-Message-State: AOJu0YyKYy6JwCzp58KOPFo8uH65eSTapSav2VUOy8AugMp6tN4eQGhF
-	LMCzkQ2CB57GOEtglg3StpmvZS+Hu58+ub44qliF8g507HLjH7JzDPjtey+51WsQWha1162vFk2
-	6HsQDaeGHQzJi/Ug9u8sVGcshgwGumDJ9K8owgb77bY8FN7NUVqjZDCT/IgD2
-X-Received: by 2002:a2e:91c9:0:b0:2cd:fa79:4cc1 with SMTP id u9-20020a2e91c9000000b002cdfa794cc1mr275563ljg.89.1705782365079;
-        Sat, 20 Jan 2024 12:26:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGSO0D5rt1ubbifU4nVe4zOHGkl8IEXhQH7ZMFwmsWrcpWj5rb7od2jV1jehadOksOEMsSGNw==
-X-Received: by 2002:a2e:91c9:0:b0:2cd:fa79:4cc1 with SMTP id u9-20020a2e91c9000000b002cdfa794cc1mr275561ljg.89.1705782364743;
-        Sat, 20 Jan 2024 12:26:04 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p16-20020aa7cc90000000b00558a7d36956sm12156869edt.0.2024.01.20.12.26.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Jan 2024 12:26:04 -0800 (PST)
-Message-ID: <f27b491c-2f1c-4e68-804c-24eeaa8d10de@redhat.com>
-Date: Sat, 20 Jan 2024 21:26:03 +0100
+        d=1e100.net; s=20230601; t=1705784766; x=1706389566;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2xXegOS7ClGg2BEbcZwkFVV5ySUvJXxkGDHtYE2nX3U=;
+        b=nJEHGeIG9t/fLJB+qrjiRDndKqA3qFgEPKXo6sPBlqPgnqZVWQeU2ehw/yyAJgypcb
+         5ycuksYuFL1YV9duTjqXghq+shPoxrWB4PhDraJgvj5Gdn0KeqGY6U86pAFsWA8+Yo+f
+         8gBQIOU7nKAxgw4di1Crve0Sj1VdmiieppQ0GLe59U1L3WwydaupS0SLT77hQ6Ca3dRt
+         9skEGwBLA8F1To+TgPyMpTXn4NRFdGK5EizHTAfWElfMtvMdhAguHtMn+L1upGOVJqZJ
+         8kp1eWLK0FYTLb9Ywwdw1pFA+5eAALsgW5r1f7B7OXomX8lAgvaQ+5D+a4FmxRABljvO
+         5Kwg==
+X-Gm-Message-State: AOJu0YxHcwePyvPRJNw+QWCtslkk5xuIz8FUP8f/J1rpn0eTdZRHfqul
+	vJBIThKWh2ikekRp+iJuJXa5iy2LwJN5hZhkrobakpn6f2CC+Uao
+X-Google-Smtp-Source: AGHT+IG9YypzKX0DrYGko3rZc9qI/PlJUhYyCJPEBPVIz/eHw92MupYDlU0dEfNi8amZRtX/qVy31A==
+X-Received: by 2002:a92:c0c5:0:b0:361:af7c:de16 with SMTP id t5-20020a92c0c5000000b00361af7cde16mr2613975ilf.24.1705784766023;
+        Sat, 20 Jan 2024 13:06:06 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:b227:ab83:6b35:c967])
+        by smtp.gmail.com with ESMTPSA id h10-20020a170902704a00b001d4816958c2sm4889712plt.166.2024.01.20.13.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jan 2024 13:06:05 -0800 (PST)
+Date: Sat, 20 Jan 2024 13:06:03 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: bartosz.golaszewski@linaro.org, linux-wireless@vger.kernel.org,
+	linux-input@vger.kernel.org
+Subject: Re: [bug report] gpiolib: use a mutex to protect the list of GPIO
+ devices
+Message-ID: <Zaw1ux7eTogP-DQi@google.com>
+References: <f7b5ff1e-8f34-4d98-a7be-b826cb897dc8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: PS/2 keyboard of laptop Dell XPS 13 9360 goes missing after S3
-To: Paul Menzel <pmenzel@molgen.mpg.de>, LKML <linux-kernel@vger.kernel.org>
-Cc: linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
- Dell.Client.Kernel@dell.com, regressions@lists.linux.dev
-References: <0aa4a61f-c939-46fe-a572-08022e8931c7@molgen.mpg.de>
-Content-Language: en-US, nl
-In-Reply-To: <0aa4a61f-c939-46fe-a572-08022e8931c7@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f7b5ff1e-8f34-4d98-a7be-b826cb897dc8@moroto.mountain>
 
-Hi Paul,
-
-On 1/18/24 13:57, Paul Menzel wrote:
-> #regzbot introduced v6.6.11..v6.7
+On Mon, Jan 15, 2024 at 11:50:52AM +0300, Dan Carpenter wrote:
+> Hello Bartosz Golaszewski,
 > 
-> Dear Linux folks,
+> The patch 65a828bab158: "gpiolib: use a mutex to protect the list of
+> GPIO devices" from Dec 15, 2023 (linux-next), leads to the following
+> Smatch static checker warning:
 > 
+> 	drivers/net/wireless/ath/ath9k/hw.c:2836 ath9k_hw_gpio_get()
+> 	warn: sleeping in atomic context
 > 
-> There seems to be a regression in Linux 6.7 on the Dell XPS 13 9360 (Intel i7-7500U).
+> drivers/net/wireless/ath/ath9k/hw.c
+>     2826                         val = MS_REG_READ(AR9285, gpio);
+>     2827                 else if (AR_SREV_9280(ah))
+>     2828                         val = MS_REG_READ(AR928X, gpio);
+>     2829                 else if (AR_DEVID_7010(ah))
+>     2830                         val = REG_READ(ah, AR7010_GPIO_IN) & BIT(gpio);
+>     2831                 else if (AR_SREV_9300_20_OR_LATER(ah))
+>     2832                         val = REG_READ(ah, AR_GPIO_IN(ah)) & BIT(gpio);
+>     2833                 else
+>     2834                         val = MS_REG_READ(AR, gpio);
+>     2835         } else if (BIT(gpio) & ah->caps.gpio_requested) {
+> --> 2836                 val = gpio_get_value(gpio) & BIT(gpio);
+>                                ^^^^^^^^^^^^^^
 > 
->     [    0.000000] DMI: Dell Inc. XPS 13 9360/0596KF, BIOS 2.21.0 06/02/2022
+>     2837         } else {
+>     2838                 WARN_ON(1);
+>     2839         }
+>     2840 
+>     2841         return !!val;
+>     2842 }
 > 
-> The PS/2 keyboard goes missing after S3 resume¹. The problem does not happen with Linux 6.6.11.
-
-Thank you for reporting this.
-
-Can you try adding "i8042.dumbkbd=1" to your kernel commandline?
-
-This should at least lead to the device not disappearing from
-
-"sudo libinput list-devices"
-
-The next question is if the keyboard will still actually
-work after suspend/resume with "i8042.dumbkbd=1". If it
-stays in the list, but no longer works then there is
-a problem with the i8042 controller; or interrupt
-delivery to the i8042 controller.
-
-If "i8042.dumbkbd=1" somehow fully fixes things, then I guess
-my atkbd driver fix for other laptop keyboards is somehow
-causing issues for yours.
-
-If "i8042.dumbkbd=1" fully fixes things, can you try building
-your own 6.7.0 kernel with commit 936e4d49ecbc:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=936e4d49ecbc8c404790504386e1422b599dec39
-
-reverted?
-
-Regards,
-
-Hans
-
-
-
-
-
-
-
-
+> Before gpio_get_value() took a spinlock but now it takes a mutex
+> (actually a rw semaphor now).  The call tree where we are in atomic
+> context is:
 > 
->     [    1.435071] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f13:PS2M] at 0x60,0x64 irq 1,12
->     [    1.435409] i8042: Warning: Keylock active
->     [    1.437624] serio: i8042 KBD port at 0x60,0x64 irq 1
->     [    1.437631] serio: i8042 AUX port at 0x60,0x64 irq 12
->     […]
->     [    1.439743] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
+> ath_btcoex_period_timer() <- disables preempt
+> -> ath_detect_bt_priority()
+>    -> ath9k_hw_gpio_get()
 > 
->     $ sudo libinput list-devices
->     […]
->     Device:           AT Translated Set 2 keyboard
->     Kernel:           /dev/input/event0
->     Group:            15
->     Seat:             seat0, default
->     Capabilities:     keyboard
->     Tap-to-click:     n/a
->     Tap-and-drag:     n/a
->     Tap drag lock:    n/a
->     Left-handed:      n/a
->     Nat.scrolling:    n/a
->     Middle emulation: n/a
->     Calibration:      n/a
->     Scroll methods:   none
->     Click methods:    none
->     Disable-w-typing: n/a
->     Disable-w-trackpointing: n/a
->     Accel profiles:   n/a
->     Rotation:         0.0
+> Another warning this change causes is:
 > 
-> `libinput list-devices` does not list the device after resuming from S3. Some of the function keys, like brightness and airplane mode keys, still work, as the events are probably transmitted over the embedded controller or some other mechanism. An external USB keyboard also still works.
+> drivers/input/keyboard/matrix_keypad.c:95 enable_row_irqs() warn: sleeping in atomic context
+> matrix_keypad_scan() <- disables preempt
+> -> enable_row_irqs()
 > 
-> I haven’t had time to further analyze this, but wanted to report it. No idea
-> 
-> 
-> Kind regards,
-> 
-> Paul
-> 
-> 
-> ¹ s2idle is not working correctly on the device, in the sense, that energy usage is very high in that state, and the full battery is at 20 % after leaving it for eight hours.
+> drivers/input/keyboard/matrix_keypad.c:108 disable_row_irqs() warn: sleeping in atomic context
+> matrix_keypad_interrupt() <- disables preempt
+> -> disable_row_irqs()
 
+Now that that operation becomes heavier we should convert row GPIOs into
+interrupt numbers in probe() and then this issue will go away.
 
+Thanks.
+
+-- 
+Dmitry
 
