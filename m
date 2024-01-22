@@ -1,97 +1,133 @@
-Return-Path: <linux-input+bounces-1393-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1394-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A344837246
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 20:18:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BE3837269
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 20:24:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91B4629340D
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 19:17:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 761A91C2AC97
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 19:24:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91C1D3DBA4;
-	Mon, 22 Jan 2024 19:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F7753F8FA;
+	Mon, 22 Jan 2024 19:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5Uu5O9v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Om7TXwRG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075F63DB93;
-	Mon, 22 Jan 2024 19:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7593DBA8;
+	Mon, 22 Jan 2024 19:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705950831; cv=none; b=nboSwwbgtXshz26uPZGa+TPvdXY1pHKmEhNDWL/Qv494YKQe7TlM5O7Met15CAdzZOFfS9e1W2bGeScIc4nBv1mFV2e953tLF05hvWrkrDhu5ycowIy5NEyNu1MzwKsJVTJvjhb7GPsFpD1gwSgtkRoDysyUnbZ8kPI9s1W8yYA=
+	t=1705951456; cv=none; b=aEVbdbEvWIgB0P5IdQPrpxmWMzSsTq7ACAjO2j/Cz75McxizM2qQnQv/ogaoItKnb8rW+mJJ6t8Oa4T4JWKYcQ2A9Ei4OzHn23U3FMhSj4oCvxQGfK6rzwrIwkjGudL163Psb9F0Lqlx56PDZe6CSor75y4T/rsvfHpBwnyOfHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705950831; c=relaxed/simple;
-	bh=UtPW3iBOYj9y1r3lOHYj8pC4RC8774OVmpdKwb1MVLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S/TZxOgI5l+OO+NXq3zLoXWhn8dLmftQ4lmazykycB/AOKfSHvjdarB6Jra3+I2NTsmXyAC5xBA8vQbQt7/vKfIeI4QCj/3ZrwOMtsS3337Y1D90AlTvoBlYowQZxVlUhK9FNgYN1TOBO/BD4M7zeEMrdFEIZte99JKJPOKPjVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c5Uu5O9v; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d9b13fe9e9so2816250b3a.2;
-        Mon, 22 Jan 2024 11:13:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705950829; x=1706555629; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+zs49Ss16lx07/2W0vLfClzzZfLGVFixdKySGjV38uo=;
-        b=c5Uu5O9vWUfG7NHeLFLUEW1SPMHM2fnsXBDPknI/gz88mNHxC92YDRgaIohGsw2MPf
-         qAyspKQhxhnQrcIVV66IBa+SYmKHfDJcsHh2+tpplIXwF+wJeVEdGynYBo+q2KZltrd3
-         zIFMM38GoyFdjgjBco3aiJr7+eDm6A3cSVQ3YBrnDQvEnrumJIwECyADtxjW/vAsEArE
-         StOu7/JcbPT/YW72ZvlAMfJrccAqOLhpsbiDq+zJfmdzo9Aa57uObsCZyR+oGyUL6d5r
-         m1xhQdpMAR82eI0q7JC7wY3xwjCMI8VkVaEEp0hTmKJcmfo1nsIggwcREfyhI2W5cKcs
-         W9YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705950829; x=1706555629;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+zs49Ss16lx07/2W0vLfClzzZfLGVFixdKySGjV38uo=;
-        b=vixmSg4a7CbHHzVblTg9+KwN+BXGdANWa+t3yDa1j/cQJu8KGJ2RtiUGjPIJe2NEXf
-         ReJtUUUw3Wm5mEzU8OKeAXq1n6JBSHtKj1gM5biWcbetdPpKbIa38I+sr6fmKmLhZ0pc
-         4mN5TSxABhdS60tDuAU1CoI1HeeIFXnfpzu8AG+bZ+ske/85EfoZWXwEO9RN4+k0C7KQ
-         8H3xmoCBwG0yRltTPXJJIsRND7gDtKzt6H88qfDss8T3XXXBrmhoUtfQUhgpk5xzMNPv
-         ssjBow0tgRf8CkTFT4VF0hhWaoNxfaNGbHW2n63E4pn34UAwwZtCZPOJAGVckpnHGo3n
-         fFxw==
-X-Gm-Message-State: AOJu0YxR7XmYkLBjbh+o3Nf/qsIzL7LbuAbpN/9IXTfm29vklGEPX400
-	3Rd1Wcp2As6zndJyIIM0E4b41Hec2ipkrWAc7eU/bVoDZXGwOkMM5qUhX5uF
-X-Google-Smtp-Source: AGHT+IHolkkL4zh2a73ERbn2UVlqONUvn274CRcjTuUOGhHqdHwE0WKxjR4YcgpMT+ylafWbWVrp4w==
-X-Received: by 2002:a05:6a20:4709:b0:19a:25c6:4913 with SMTP id ek9-20020a056a20470900b0019a25c64913mr4706873pzb.38.1705950829039;
-        Mon, 22 Jan 2024 11:13:49 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:b644:a8c4:640a:70c6])
-        by smtp.gmail.com with ESMTPSA id i10-20020a65484a000000b005b458aa0541sm7472918pgs.15.2024.01.22.11.13.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 11:13:48 -0800 (PST)
-Date: Mon, 22 Jan 2024 11:13:46 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input - 88pm80x_onkey: add SPDX and drop GPL boilerplate
-Message-ID: <Za6-asdWrxuxbbXs@google.com>
-References: <20240121-88pm80x-onkey-spdx-v1-1-b646d4749f5b@skole.hr>
+	s=arc-20240116; t=1705951456; c=relaxed/simple;
+	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ByF9IqdSPil69Mjoli42+D+gwIqFYP0nX0IAnXzNPfou4dpGCGkrz7Bk1kF4Y5NMh3kTZjLtiw06ICf1ucgjdrXg8EvY9vDhT6ATr3u8beJUzY2KeKQPBSrU+osP4oH5FyEvz5gyACdq6sSRuCYGaff3q85qQ2tYEtCfqEH75Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Om7TXwRG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FBDEC433C7;
+	Mon, 22 Jan 2024 19:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705951455;
+	bh=MEXKZHQkB/IyiyQVHXrZDxlLURiVSiUhivYGVZLcqn0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Om7TXwRG+RLb91NjkMlGtbBbQYrAGinHi8YBBuORygdejt7BZ+vQd9Bqs0sBl/BxP
+	 VCw1yjmez+FHyuigs8WrRG3xG5dxGPTpaOT2qYeFl6QHLeQijLl0kkOlguh3EaCef5
+	 +AkOU52pnihuLtq9XxoisJbYHmdBJ7MWGdIGbaT+Hqd1d3bAs/JdGsBZD+YdEjOqeP
+	 eiYtqYfgWpXt9iSL4haLcS9baDm6slcDBeeq4Pri4phWer/ACYdMdlNEE7R3pgjieo
+	 tFpdEkRwqJLtm9GAX85YeLj+l6gbxcnR7JUDJE+8uHr22Geysx+TUOYD6M7QtotXaK
+	 eSyrD1CGdOh3w==
+Date: Mon, 22 Jan 2024 19:23:43 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
+ <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
+ <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
+ netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
+ Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Martin Tuma
+ <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
+ <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
+ linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
+ Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
+ Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-mtd@lists.infradead.org, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
+ Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
+ Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
+ Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
+ <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
+ <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
+ Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
+ <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <20240122192343.148a0b6d@jic23-huawei>
+In-Reply-To: <e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240121-88pm80x-onkey-spdx-v1-1-b646d4749f5b@skole.hr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 21, 2024 at 10:11:00PM +0100, Duje Mihanović wrote:
-> Add a SPDX-License-Identifier to the 88PM80x onkey driver and drop the
-> GPL boilerplate in accordance with current kernel code guidelines.
-> 
-> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+On Mon, 22 Jan 2024 18:18:22 +0000
+Mark Brown <broonie@kernel.org> wrote:
 
-Applied, thank you.
+> On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+>=20
+> > Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> > didn't appear in a public tree though yet. I still included it here to
+> > make the kernel build bots happy. =20
+>=20
+> It's also going to be needed for buildability of the end of the series.
 
--- 
-Dmitry
+Ah.  I thought intent was to split this across all the different trees
+then do the final patch only after they were all gone?
+
+I'm fine with it going all in one go if people prefer that.
+
+My tree will be out in a few mins. Was just waiting to rebase on rc1
+which I've just done.
+
+Jonathan
 
