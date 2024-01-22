@@ -1,217 +1,102 @@
-Return-Path: <linux-input+bounces-1380-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1381-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D96F835C50
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 09:08:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79078835C73
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 09:20:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D6D228697A
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 08:08:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 324A2282E26
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 08:20:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B155F1A70A;
-	Mon, 22 Jan 2024 08:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385EA20DF7;
+	Mon, 22 Jan 2024 08:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NsyE6qUe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yNg12Jq0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB08918C38
-	for <linux-input@vger.kernel.org>; Mon, 22 Jan 2024 08:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDC820DF0
+	for <linux-input@vger.kernel.org>; Mon, 22 Jan 2024 08:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705910908; cv=none; b=T4LTMHCnRwqXyUYLKxp8fWGoB/FZVudVeHP9Uikch8Ca05AGVV1nA+JBIAh52qFmjSN6hCysTHHYvOj1JGhsxytOivujhJIpTlmwtuRl5Uco9jf8J2wAb+4+WO7rirt3z2pEU+IcEFKiGGoNAUpkRyOgDhhB/fvOZGpnTBZdJ80=
+	t=1705911609; cv=none; b=t9ZRKuhoUT2/HwZQo1B5i0QkcCzZfcxLEwixQZAsrmRYIBrHlgeZXvpGwSU5ybp9MbsGz+873PeAvNWOMAMhajMCGnRJPdQZyF+WG116njtEN9SBhosAEd2idy0L3btZ3erjoo9emHLZ/w9h72PwawMS4EnAXP8F1xv0KnMQdAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705910908; c=relaxed/simple;
-	bh=JJ1inQIP5uiqCQ2ktxCodtSUjm7NkRAfTdl5UMOjwFs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qC6PWks+bppOJh5ZKoMlhvWwga6q63qqCNs2BnzpNC4XAI5QgCyBA5ykYhyYU/77VDPOXJhehms7J81PaKRDEN82YzBTVU2l2T9iYbH+SY1JOWB9AsKGkEedhgm9n+Es7hrr3WwXFQufagkW+AbTb59QirkYhsC1VdZS/TZ+ji8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NsyE6qUe; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1705911609; c=relaxed/simple;
+	bh=isDe77D2iQvn55U1/z57KKJud4YSPJiujYGyL9CMF28=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F/2AP3cuvvl79ve+9w+WwTDXEzmLCQ2wqnLYLs/mKv5PtqS3LHDMoTV22NV2UHOuXifWUGGZ5uo/Tz/MZOxjxOaqSKh56JFuzd0Phxpgb/BFhFT+kQQJZBK2219PIXjdIrQ3/4j7j+edaHeKng2lx3IpzU/JTzDb2W4k3p5wVIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yNg12Jq0; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40eaf3528c8so3163515e9.2
-        for <linux-input@vger.kernel.org>; Mon, 22 Jan 2024 00:08:26 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5ff84214fc7so25356187b3.0
+        for <linux-input@vger.kernel.org>; Mon, 22 Jan 2024 00:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705910905; x=1706515705; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ljxRrYk3P84s9G/mrheKlxc/t+X1N0QJvAOyGscIczc=;
-        b=NsyE6qUeq23jqVAFh43pmQ0uQ/qKRHIjFfq39/49uVyZppgkt0k3JohgCq/Z3PSu4l
-         wBtv4L6Kt6ofxllCuVN++ze+lETHPZqgVglySBUDFiRsRShTzW5Q3TTqokR9s35hZZyk
-         CPcg5e1SuJcumJpAZT6pIZdNT3VFbOkWeaTCOlWUtnlcSaUiQzZIGPfyj2fxrJjhsNls
-         RgZYpbXi4Fa9HLYkWp0fyxUF98dS43zCP4LpQGDV8pr+1/IwKojMyjXn3m2lNykj7SRJ
-         POxsE8wKMVG2yIWPRwNITBpUtuzIecHXSHRKhP6jaBYbgeoAGVCpmjuRYOPAMfad9tOI
-         ebqA==
+        d=linaro.org; s=google; t=1705911607; x=1706516407; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=isDe77D2iQvn55U1/z57KKJud4YSPJiujYGyL9CMF28=;
+        b=yNg12Jq0OjH/xqi3+tUJ9zj2qTgX8hBhK2jYjb2mScduou4IX0K3l7pEMG4g7/letz
+         u9QfFxEmhFWwcP3h82bO8F1BbhS+/LVPSAFI6ueGEJOSjlPWndsD1UgvkBC7GvO/QnKr
+         QUTekXeHUFsMl3f2Wi/nT5UVxpW5/BfWypW68hQPEUOWLFvcqNPlclTac+LncILNJd9d
+         Kxcws3Ze/yaze6bacIWkLw+08EGLaCiSv+8WCu+z+JQGJpZMdKRkjsL3HAVFZJRBXcjv
+         q4HTwJXPnRO1wsi6MZsvcvLIFej7Tzewi7eQncYa3RR4GRK4iCr4BpGZbiRHQ54Q6C14
+         atGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705910905; x=1706515705;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ljxRrYk3P84s9G/mrheKlxc/t+X1N0QJvAOyGscIczc=;
-        b=Jb+FY1E2z9P6kVMotUOyOMtBRPpAXBfF5a4Hd0TpFmU2ejQMMsdHPYVo1j/5coP23S
-         je5KtSbBIo3erdvHEHLYDoui6aekJ5nDDRwwXz1A9GoIRuoZQ6jGpRUK40U87aD4a0S7
-         MMLU5G8fPUUdSHxmAA4mXLo74llK/h/F6w+s+5+TkB4VhiXslcOnRatZZnkHgHlxxtIk
-         t67SYQwGKp5CSZjm0CXLcubjT6ytexzZcKzFaAAKSLfvv2yWIIR0dF2Jm8bTCcYKPWfE
-         UhJ5eVHvQzLXcVRvgM1d8Fpo2gexkXsrW502yg9TiWb7YQCc0OZ29Z0XSClsHTOMGHol
-         zdLQ==
-X-Gm-Message-State: AOJu0Yyw+kBCZWHZh+3mQzMgsccg1IpM0SLUzUzi4aLUs3ilZkTzeSeW
-	Ef3DHe0FzQXMBCVOTT9bOXg4BB/5F8CJ1LBDiwepwQnixRR2TPVnaxwrIqGuJ200N71T/QjwVn6
-	F/ZA=
-X-Google-Smtp-Source: AGHT+IHUaQRzlvIdl9RygGOemyjUeJK+jz3LnrAoFb9NTzVpbM1JlXQ7Uo3ldRvnYWuQc97RiIadPg==
-X-Received: by 2002:a05:600c:332a:b0:40e:5aa7:769d with SMTP id q42-20020a05600c332a00b0040e5aa7769dmr1981343wmp.143.1705910905064;
-        Mon, 22 Jan 2024 00:08:25 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id n19-20020a05600c501300b0040e813f1f31sm22576287wmr.25.2024.01.22.00.08.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 00:08:24 -0800 (PST)
-Message-ID: <5a2f292d-efdf-4647-89ce-e4f5d28c7192@linaro.org>
-Date: Mon, 22 Jan 2024 09:08:23 +0100
+        d=1e100.net; s=20230601; t=1705911607; x=1706516407;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=isDe77D2iQvn55U1/z57KKJud4YSPJiujYGyL9CMF28=;
+        b=ihrbe9DEr7AfXNK7TX/0+jbejf8XDr99MUdLLANSGXql95ibtBt1s9RAxKHREeHTtq
+         2Vrim0S3oqffM1p5nW0WwplobIiHQXqhveb+0pNA6a6xr3v9Y+UX28bqpw3aoxn0Wb53
+         MlISRKRbITb8kNMpXh5AXO2BbaUQ7h/8zUW/3KQPa5ROZin2Efkd6yBm/mJvGeuV/KO2
+         mVluISJBAEEYLEilYiufjiRkQ1Ua56hn6QugIECGHj78ijnbM7KBoLVWiQXLQAOsdml/
+         4ROlIP+nxLXjtzpBHopXToJilgAvSayaG6JlmySFKsAzGoR+teC3C9aIZVwwLozT7+7N
+         mg4A==
+X-Gm-Message-State: AOJu0YwuBPeXRkhQQ7FXImBOnzsbF/S5h7N6B2D+HaJT7fKcL46XyMBO
+	yFjokKfjHj/7ikVz10pv6TuXja6Tp+liEIbQqDkuBUEXV9UByE9nwaQEnwBP44AJtXioVCEa/4w
+	TmL0wenQl4C+knlWXv5443ICEuaJESHQ/ELSNwg==
+X-Google-Smtp-Source: AGHT+IEDIu6tz4zc7zLNjO22lhxaAaUhf1UZ0shhNc0RxwcPSI9HNppAZHgchwGKFX+SqDSpztPQxnGIdvmwIPPAy7A=
+X-Received: by 2002:a81:9185:0:b0:5ff:53de:dbef with SMTP id
+ i127-20020a819185000000b005ff53dedbefmr2552068ywg.11.1705911606868; Mon, 22
+ Jan 2024 00:20:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] HID: touchscreen: add himax hid-over-spi driver
-Content-Language: en-US
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
- Doug Anderson <dianders@chromium.org>, jingyliang@chromium.org,
- poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
- jikos@kernel.org, wuxy23@lenovo.com, conor+dt@kernel.org, luolm1@lenovo.com,
- robh+dt@kernel.org, dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, poyu_hung@himax.corp-partner.google.com,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- benjamin.tissoires@redhat.com
-References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
- <6c7d9c92-7616-4fad-806e-44302c33b63c@linaro.org>
- <CAAFQd5AN-1FTHZcE1Eja0Jd4iqpDocZSz19F44RxqtvKs6ikeQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAAFQd5AN-1FTHZcE1Eja0Jd4iqpDocZSz19F44RxqtvKs6ikeQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240121053232.276968-1-dmitry.torokhov@gmail.com>
+In-Reply-To: <20240121053232.276968-1-dmitry.torokhov@gmail.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Date: Mon, 22 Jan 2024 09:19:56 +0100
+Message-ID: <CACMJSetrYPaXOr5abHtP1mjsyH3nB3=6CwxWfviN1BP0rhgEhg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Input: matrix_keypad - avoid repeatedly converting
+ GPIO to IRQ
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 22/01/2024 05:57, Tomasz Figa wrote:
-> Hi Krzysztof,
-> 
-> On Wed, Oct 18, 2023 at 2:08 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 17/10/2023 11:18, Tylor Yang wrote:
->>> Hello,
->>>
->>> This patch series adds the driver for Himax HID-over-SPI touchscreen ICs.
->>> This driver takes a position in [1], it intends to take advantage of SPI
->>> transfer speed and HID interface.
->>>
->>
->> Dear Google/Chromium folks,
->>
->> As a multi-billion company I am sure you can spare some small amount of
->> time/effort/money for internal review before using community for this
->> purpose. I mean reviewing trivial issues, like coding style, or just
->> running checkpatch. You know, the obvious things.
->>
->> There is no need to use expensive time of community reviewers to review
->> very simple mistakes, the ones which we fixed in Linux kernel years ago
->> (also with automated tools). You can and you should do it, before
->> submitting drivers for community review.
->>
->> Thanks in advance.
-> 
-> First of all, I can understand your sentiment towards some of the
-> patches being in a very rough shape. As a community we have large
-> volumes of patches to review and it would be really helpful if new
-> contributors followed some basic simple steps, as described in our
-> "Submitting patches" page...
+On Sun, 21 Jan 2024 at 06:32, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+>
+> gpio_to_irq() is getting more expensive and may require sleeping.
 
-I don't really understand why responding to something which is three
-months old. Anyway, I talked with Doug on Plumbers about it so things
-are more or less clarified, however since two Google folks responded,
-let me continue.
+This is no longer true, the relevant commit was reverted and I have
+now a working series where I'm using SRCU for lockless list traversal
+so if anything it will actually become cheaper.
 
-> 
-> That said, it's not a fair assumption that there are no steps taken to
-> offload the upstream reviewers community by the corporate
-> contributors. We usually do have basic internal pre-reviews for
-> patches coming from partners and even a pre-review bot (CoP) that can
+> Convert row GPIOs to interrupt numbers once in probe() and use
+> this information when the driver needs to enable or disable given
+> interrupt line.
 
-Good to know.
+That being said, I'm not against this change, though this may not be
+very useful after all.
 
-> automate some of the checks such as checkpatch or bisectability. But
-> as others said in this thread, we don't control our partners and they
-> are free to send the patches just directly to the mailing lists if
-> they want to do so. In a similar way, not everyone in ChromeOS is
-> super experienced with upstream submissions, so sometimes they may not
-> be aware of the best practices, etc.
-> 
-> I haven't seen the patch in question, but I'd assume it's more like an
-> exception rather than a usual pattern, so I'd appreciate it if we
+Bartosz
 
-Unfortunately that's the pattern. I was complaining few times about very
-poor quality of some patches from some partners before writing that email.
-
-Just to clarify: all the complains are about missing basic stuff, like
-running basic tools. They don't even require internal review by humans.
-
-> could avoid aggressive responses like that and try to solve the
-> problems in a more productive way. Just a simple response with a link
-> to https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> wouldn't really cost you much, or actually even less than the entire
-> litany in this email.
-
-Simple response to docs don't work. Docs are quite long and contributors
-questioned here just don't read them in details.
-
-Best regards,
-Krzysztof
-
+[snip!]
 
