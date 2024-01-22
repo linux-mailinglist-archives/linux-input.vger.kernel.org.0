@@ -1,117 +1,206 @@
-Return-Path: <linux-input+bounces-1376-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1377-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3FD8357DD
-	for <lists+linux-input@lfdr.de>; Sun, 21 Jan 2024 22:11:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7958359F1
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 05:03:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF641C20A68
-	for <lists+linux-input@lfdr.de>; Sun, 21 Jan 2024 21:11:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2B6D1F21252
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 04:03:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C08F038DD4;
-	Sun, 21 Jan 2024 21:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C03B71C2E;
+	Mon, 22 Jan 2024 04:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGvx8dyg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84625381DC;
-	Sun, 21 Jan 2024 21:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.165.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBD91C2D
+	for <linux-input@vger.kernel.org>; Mon, 22 Jan 2024 04:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705871513; cv=none; b=e1BqUmfIuLrAL00CDxMt8YFUBMD87vKvi0UmOh4L9uvQo8wdhkTjwwDRdRabbVM6kQX8hoKo8x1bGHEz6qJm4SuIQoD66+m5dO3FJScz9BlzkNXSGiLgGIzi6BYyoULmEtcGsNuk9LDB59LT/x9vqgWLwkgJxRNmVbSGXDQJazY=
+	t=1705896204; cv=none; b=GQPUf1xKWlD5kgyKrI6lhKcn+zwsxWL1KD2yGt8IJad/wuHN3eqRTuEqBXfN7yU6zJ2Fa7r6nO8IUxegsQo+aYj8Zkp5TcIGBdO61IkonmCh6HxnOMSX3cvtOpVvnQKiSJveW4Sqa98uLsALmLaSUkV7OJndj6MaeosNuWSyMSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705871513; c=relaxed/simple;
-	bh=otOwVFhN9BfjL4K3Po0fXUsJpt+/JO+cvNKKpgo5aKY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rFm8bA+Ma52fHtg7vcij3e4BZovkAEsMqICnELxt+OzrRBzysBJjjv3PmL5LN/YnwEiT4nzJjZ4vQcftK3JMKnYA974Pj3cn6tm1uTD26MO/OxkT3TFeYOE3m0anUC8v+WX2CzLCSs+QZLnuTFz4ZhWCVsXvpkuixjDWSP8dPSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr; spf=pass smtp.mailfrom=skole.hr; arc=none smtp.client-ip=161.53.165.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=skole.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skole.hr
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id E7A6C844EC;
-	Sun, 21 Jan 2024 22:11:46 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Sun, 21 Jan 2024 22:11:00 +0100
-Subject: [PATCH] Input - 88pm80x_onkey: add SPDX and drop GPL boilerplate
+	s=arc-20240116; t=1705896204; c=relaxed/simple;
+	bh=UIZZM0JbqkOEbpL4hh9/Vq4fgVMsNrPMp/slWC7oAOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvD+p0GnTQ1qkAdqb+SjklHuNsmXnbS5x68bau96QGh75ipInrsDyWtG9PUXzk14fU/8xsHE0rhCv8od3o2z41XkpZj7YfecgJIpLnUhB3dp7muwiz/ctc0dGeFhD8w0GQc3DGZJbV8NglUf9s6AObdFgDTh9F0KSvRBLeBgICE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGvx8dyg; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5cf87cdc4c5so2201026a12.1
+        for <linux-input@vger.kernel.org>; Sun, 21 Jan 2024 20:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705896202; x=1706501002; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y/aPvU/8Bid01l62DrdzYx1Ls0wvMFy2XAx9v1jGKg4=;
+        b=gGvx8dyghG3L8aaEJV05HvLleXHWPQWgnpEJ+JpQoWTgDZpyTUhsxhz53d42yFbPjE
+         Sci11+WxNmg8QB6r6sjE/Oex5oiZyMmprjo1jV984u08SuPeGS3f9n0mPXRalrAvfqIS
+         HB1jVL6D+vq+J/uUYNI/ComtPnk8xTGZu478y01cfBbeRuPQ+2CnDjq1q+o0nWSQdxCX
+         HUiM2PM4kMOc3LvkiqZpwxaqIUHn+3qbsLlAgwPxZwCERpkOjJVp5i1ufS85lXfLiobm
+         3TG7aXMs3y0EjdGz+i+0VBS6Y4bQ7HqFyX76Yfl4+dhKgzvfJVLtRgAwCIEjqesVq/XR
+         MstA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705896202; x=1706501002;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y/aPvU/8Bid01l62DrdzYx1Ls0wvMFy2XAx9v1jGKg4=;
+        b=Ye/KqrQTYQUNtmzWBZcg6SiV9NKPZ/1vrtvUg2e16oqK2nbCncQct8ZmqrgN560ncV
+         vKgm6BnIv4ncLzD3Jwdl3aJKk/ZwmHI8hJIGewkBQ45pEnBX3sbePCWaV7Miegljynuy
+         TzkmEY2mBuLBRH/9Sdz89j68POG9CdpVK5phEwbrSa/lQsvJoOWVM7f95S9ggb3apSmj
+         Hk0rCfW+dNDKNaucPDiXKROj4Q8IOiu4k95kukVUHgNFKz7BG6HLiuG2oX4631o/sjva
+         3Ryop77Clla9LMd0XEsUtzTMmtSWxooHSav5iQ+dUKG3/EcJlQgG5NcGpox4G9WTNFMv
+         WaEQ==
+X-Gm-Message-State: AOJu0YwWV2EBm7/QswXdoDQahnPXDqIPVK3+hyvjVcLgboBvL4ZJADqo
+	wBYsxNu9nqt7gqhbYzdlgmqrDjP86XZ+PGHyAPlQOJFtZsG67Ppc
+X-Google-Smtp-Source: AGHT+IGOEAng/qwWKPF1khoCyrbaI0EqQg1dZulZQY2gvrGAX985X6SFfLbndsqw4PS9kr2JlPcR0g==
+X-Received: by 2002:a05:6a21:3391:b0:199:fe49:8ff9 with SMTP id yy17-20020a056a21339100b00199fe498ff9mr4604426pzb.2.1705896202357;
+        Sun, 21 Jan 2024 20:03:22 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:1bfc:f713:b3b:5e6c])
+        by smtp.gmail.com with ESMTPSA id fi33-20020a056a0039a100b006d9aa6592d0sm8682386pfb.82.2024.01.21.20.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jan 2024 20:03:21 -0800 (PST)
+Date: Sun, 21 Jan 2024 20:03:19 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vicki Pfau <vi@endrift.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: uinput - Allow uinput_request_submit wait
+ interrupting
+Message-ID: <Za3pB5_n0udgD4d1@google.com>
+References: <20231207063406.556770-1-vi@endrift.com>
+ <20231207063406.556770-2-vi@endrift.com>
+ <ZXNvQCFxPoH0-i-P@google.com>
+ <b54584c2-9db8-4715-966a-6fdf57fdee1a@endrift.com>
+ <853baa9e-1c76-4e61-b1f6-a1155ccb5dd7@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240121-88pm80x-onkey-spdx-v1-1-b646d4749f5b@skole.hr>
-X-B4-Tracking: v=1; b=H4sIAGOIrWUC/x3MQQqAIBBA0avErBtQsZq6SrSImmqITBTCiO6et
- HyL/x+IHIQjdMUDgS+JcroMXRYwbaNbGWXOBqOMVdpoJPIHqYSn2/nG6OeEpplU1S41EVnIoQ+
- 8SPqn/fC+H7sTeDBkAAAA
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1648;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=otOwVFhN9BfjL4K3Po0fXUsJpt+/JO+cvNKKpgo5aKY=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlrYhtTPZRUI09tm+zogjqmzGruDaqzkqcVAPlR
- gYCPGM+lymJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZa2IbQAKCRCaEZ6wQi2W
- 4cudD/0Q9HF+pXYPIC8iqWmDKeYyB4vLnYpulp/4UeRerww11Prq0zrf7oJVjetIuqGROgHhpbR
- LRsVBwHFcb0P/rGxp+ofldYWl5T038Z30Sek0zjmdRkd65njEJeXTiNXnxGseoQ2OtRYRNd4q+u
- Q5528j3LLssC7tPiF3ByS5vBCIEwlnn60JBmpE/S8Z1gN9B7wNJUftFiQYc1RNPDlg7vNPf5gL5
- WmUvKolLxNzu4IGYyfkykpgvmbBeZq36AZLKyugGZiKD8w7JPABEsUVPmYGfJU8zI1CY/iSqT0U
- V8SZAeaZa0jqb2wghPzskkUKEs6msA6jbQVQsYTsAzXkk3IqV2VOZqu4r9NpO8hkwe3hXenyca/
- oa1H3AYQnOn1e8PI+DMpyAFblQGWAWEYAQFB0Tw97pZl+wCd54kS4zaeKGKDOHMerkPKJPOGz02
- JtvxpUEXPydXGGwjgKYbS30HkNmm158mlWk0ozFVAy5ycmzANYz7zlnLqwGnBChZzEohmMIBSca
- R0IKkCroqwsfXJvIVLq8vgjaxqiOWz2yHtdsD52R5ObbSQAQRj3RIw2KN4Z+fIz9y8Mdpk6MW4q
- EkuNjeAfk8y+AKLKvIq4aq5i/jvM0iMfGHsSgEGFoXPWylnRHX4hhMZh880/Hmzq4xo3LjTUYlx
- kC07O5C/eTmz63w==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <853baa9e-1c76-4e61-b1f6-a1155ccb5dd7@endrift.com>
 
-Add a SPDX-License-Identifier to the 88PM80x onkey driver and drop the
-GPL boilerplate in accordance with current kernel code guidelines.
+Hi Vicki,
 
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- drivers/input/misc/88pm80x_onkey.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+On Thu, Dec 14, 2023 at 07:04:09PM -0800, Vicki Pfau wrote:
+> Hi Dmitry
+> 
+> On 12/8/23 19:24, Vicki Pfau wrote:
+> > Hi Dmitry,
+> > 
+> > On 12/8/23 11:32, Dmitry Torokhov wrote:
+> >> Hi Vicki,
+> >>
+> >> On Wed, Dec 06, 2023 at 10:34:05PM -0800, Vicki Pfau wrote:
+> >>> Currently, uinput_request_submit will only fail if the request wait times out.
+> >>> However, in other places this wait is interruptable, and in this specific
+> >>> location it can lead to issues, such as causing system suspend to hang until
+> >>> the request times out.
+> >>
+> >> Could you please explain how a sleeping process can cause suspend to
+> >> hang?
+> > 
+> > While I'm not 100% sure how it happens, given I found this by
+> > reproducing it before I came up with a theory for why it happened,
+> > my guess is that as it's trying to suspend all of userspace
+> > programs, it suspends the process that owns the uinput handle, so it
+> > can't continue to service requests, while the other process hangs in
+> > the uninterruptable call, blocking suspend for 30 seconds until the
+> > call times out.
+> > 
+> >>
+> >>> Since the timeout is so long, this can cause the
+> >>> appearance of a total system freeze. Making the wait interruptable resolves
+> >>> this and possibly further issues.
+> >>
+> >> I think you are trying to find a justification too hard and it does not
+> >> make sense, however I agree that allowing to kill the process issuing
+> >> the request without waiting for the timeout to expire if the other side
+> >> is stuck might be desirable.
+> > 
+> > This isn't reaching. As I said above, I discovered the patched line
+> > of code *after* observing suspend hanging for 30 seconds while
+> > trying to reproduce another bug. I wrote this patch, retested, and
+> > found that it now suspended immediately, leading to a visible
+> > -ERESTARTSYS in strace on coming back from suspend.
+> > 
 
-diff --git a/drivers/input/misc/88pm80x_onkey.c b/drivers/input/misc/88pm80x_onkey.c
-index 31f0702c3d01..4b0685f96113 100644
---- a/drivers/input/misc/88pm80x_onkey.c
-+++ b/drivers/input/misc/88pm80x_onkey.c
-@@ -1,22 +1,10 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Marvell 88PM80x ONKEY driver
-  *
-  * Copyright (C) 2012 Marvell International Ltd.
-  * Haojian Zhuang <haojian.zhuang@marvell.com>
-  * Qiao Zhou <zhouqiao@marvell.com>
-- *
-- * This file is subject to the terms and conditions of the GNU General
-- * Public License. See the file "COPYING" in the main directory of this
-- * archive for more details.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-- * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-  */
- 
- #include <linux/kernel.h>
+I must apologize, you indeed weren't reaching. As far as I can see,
+putting tasks into the freezer (which happens during system suspend) is
+done via delivering a fake signal to the task. So the task indeed needs
+to be in an interruptible state, uninterruptible tasks result in system
+failing to suspend.
 
----
-base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
-change-id: 20240121-88pm80x-onkey-spdx-27c059f68884
+> > I can post the reproduction case somewhere, but the test program is
+> > only the evdev client end, with the uinput side being Steam, which I
+> > don't have source code for.
+> > 
+> >>
+> >> I think the best way to use wait_for_completion_killable_timeout()
+> >> so that stray signals do not disturb userspace, but the processes can
+> >> still be terminated.
+> > 
+> > There's already a mutex_lock_interruptable in uinput_request_send
+> > that could cause this to fall back to userspace under similar
+> > circumstances. The only difference I can find, which is admittedly a
+> > bug in this patch now that I look at it again, is that
+> > uinput_dev_event would get called twice, leading to the request
+> > getting duplicated.
+> 
+> After further investigation, it seems this would still be the case
+> even if the request times out--an invalid request would get left in
+> the buffer, which means that while this is a new way to trigger the
+> issue, it's not actually a new issue.
 
-Best regards,
+No, I disagree that it is the same issue. The timeout condition is
+pretty much fatal, I expect the caller to exit or stop using the device
+if request times out (because either the real device is not responding,
+or userspace is not responding, and there is no indication that they
+will start responding any time soon). That is why the timeout value is
+so generous (30 seconds). In this case we definitely not expect the
+request to be re-submitted, either automatically, or explicitly by
+userspace.
+
+If we make waiting on the request interruptible we may get interrupted
+by a stray signal, and I do not know how both producer (the process
+issuing the uinput request) and consumer of the request, will react to
+essentially duplicate requests being sent.
+
+I believe we can split this into 2 separate issues:
+
+1. The fact that it is not possible terminate the producer process while
+it is waiting for request to be handled (for 30 seconds). I think this
+can be safely resolved by switching to
+wait_for_completion_killable_timeout(). This will allow fatal signals to
+break the wait, and for the process to exit.
+
+2. Producer task failing to enter refrigerator and breaking suspend.
+I wonder if the best way to handle that is for uinput to create and
+register wakeup source, and then use __pm_stay_awake() and __pm_relax()
+to indicate to the rest of the system that suspend is blocked. I believe
+userspace should be able to handle this and repeat suspend attempt when
+the condition clears...
+
+Rafael, do you have any suggestions here? And I wonder, could we make
+killable tasks also enter refrigerator?
+
+
+Also, now that I think about it more, we should not use slot number for
+request->id, as I expect the common situation is to have 1 outstanding
+request, so all requests have id 0. Instead we should have a counter and
+increase it. This way timeout handling will be more robust, we will not
+mistake delayed response to the previous request as response to the
+current one.
+
+Thanks.
+
 -- 
-Duje Mihanović <duje.mihanovic@skole.hr>
-
-
+Dmitry
 
