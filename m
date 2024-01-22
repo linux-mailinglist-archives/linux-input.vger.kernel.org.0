@@ -1,159 +1,125 @@
-Return-Path: <linux-input+bounces-1391-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1392-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3338370EE
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 19:52:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0C383716F
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 19:59:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5CFC91C27708
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 18:52:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1007C2934B5
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jan 2024 18:59:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC50B3D99D;
-	Mon, 22 Jan 2024 18:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DF4750268;
+	Mon, 22 Jan 2024 18:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8fifh16"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="B1RosA8X"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935E73DBAB;
-	Mon, 22 Jan 2024 18:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12DD3D0B0;
+	Mon, 22 Jan 2024 18:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705947523; cv=none; b=qEZOgSEFJXjaKNxE87CRy/SkohIrSozxB91koJUj/XpLifCa9QMcALm56DkXKhwv380yANeyGj7lOSRK4sZmKP9xO0/fzJ9TiYdDt2Q+Phr+HN0Pdg4X1ivbQh5/TUvYo4MatvjREfibdBghksCD1Fh7GSsg+kxRrnRNdL5Z38A=
+	t=1705948323; cv=none; b=JOOApoaFPpUwhXM3VXyZeoZaBhe5r2PlZtujpAVz0voZnpKeEKtzACH0NFlVnnbeqR7PZCV8HognVVNT12BbMo1GsJ4Fm/WR4s7qmEbTyFTUzDgAn8ChQoSqrNPf/8KVz0ru5vVcDQSeNxgrJXv1iBF5tVqwCEYKqKSRd0iA5NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705947523; c=relaxed/simple;
-	bh=McOauSyMQNxtPZ0g7TEpEiNFuLd+iPYfNexDMsX/FI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lvbDUZPsH/VZPN2Ia6l7KpBEVdMu4clKpDNnOLPhtVK7ErD96AHrvD0zeM0V2YbtEKNYJ+nL4byKWBd2RKU/zjTKs2c7aljVoIHBFGo6hWSGSkRA32YrysgZJ/Vrt5g3lidz61ffXph01lv+ExR3uRTpHf0bm+Q918mGcPRxn88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8fifh16; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84691C433F1;
-	Mon, 22 Jan 2024 18:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705947523;
-	bh=McOauSyMQNxtPZ0g7TEpEiNFuLd+iPYfNexDMsX/FI0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c8fifh16cqrlBPFhmdK0/1YCmVp+FCQJRM3mcc61e8B54POXfNtNHCezXLI06U+BW
-	 2HyC31K2GKN8pqxyPoe5eH43Wr1IvzJ4qYvgVKrZ28cOHRapgl4U0tO7nRd1Hg96Gu
-	 /I85mPr8fKbNlof8bDAKADfRcHtOpPxmy3YbesJ0DqFFZ2OTYAI+xKJ3khkG5PRPqb
-	 IkZ7Lha5tDCBsHZjVT1Pc0QMwPbNJ0JMPGxW7jUMjEknv7bvXLCARAShkNA8Yp5eXw
-	 Jxu0Ft8Uip4jzu6W9VwfTzuvxciZJpio1DrdN7XFmAH69ub0PysqfBMv84es2fWtex
-	 o4y4YVecDwVTQ==
-Date: Mon, 22 Jan 2024 18:18:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-	Rayyan Ansari <rayyan@ansari.sh>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Sergey Kozlov <serjk@netup.ru>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
-	linux-mtd@lists.infradead.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Ronald Wahl <ronald.wahl@raritan.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, Max Filippov <jcmvbkbc@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-integrity@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1705948323; c=relaxed/simple;
+	bh=kQYBY/jXz8XA7HEvelLlvWZgjv2fyiFiZrCrN+kAE08=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=NnhqfN1cU0YDAhbV7Qu45jPpwWNUbMTgh9PQ0kzmDswsDObraD89e2gDRUKET7LZyS4QxI1hmtxlPKbGidCAz0EHlB57d5ZKp/mpOvPukyIowF2RVv+xENCMbaFLV3v4uU8WUEvHaUnD73nSCyFoHvQIsLvg6+M128Q5i+Eer3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=B1RosA8X; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 40MIT1AI2664504
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 22 Jan 2024 10:29:02 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 40MIT1AI2664504
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024011201; t=1705948144;
+	bh=QCjl5w8ff3CMR72Hnb5PjbDlccx4tDMem9MqU3fld3c=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=B1RosA8XsV29moVdedwgLHhWvwsgILXvhW0cnqL3kqssx8+LP2fpVpgeXP9elD+pG
+	 NvP3sVoclLIjbwKnJtlAMdYoFQMsyieqlPFdo6OwulQ/CTo54EDpJIA9BovLdM+pmu
+	 d01iK1nRDbI/rd8sIVmU8kcgadwO7+KRZB7EUefGT2GJ1ua6yaK5wDWwrmFekPex5M
+	 mGs21wFLqCpmX3iylKsnWRYBebobQrpZzaC7JYOqHM0t0KQmyPnueVibdAVZFRxSTX
+	 43ctnDUMiixOANgCaQYJixq3Kjoe0zg/DosWuidgtZ/8IjJfD5RJ2+c0LiUsfjpQVW
+	 V2QG0At5ci/BQ==
+Date: Mon, 22 Jan 2024 10:28:58 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Dave Hansen <dave.hansen@intel.com>,
+        Alexey Makhalov <alexey.makhalov@broadcom.com>,
+        linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+        bp@alien8.de, dave.hansen@linux.intel.com, mingo@redhat.com,
+        tglx@linutronix.de
+CC: x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
+        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+        pv-drivers@vmware.com, namit@vmware.com, timothym@vmware.com,
+        akaher@vmware.com, jsipek@vmware.com, dri-devel@lists.freedesktop.org,
+        daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de,
+        mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+        horms@kernel.org, kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v6 7/7] x86/vmware: Add TDX hypercall support
+User-Agent: K-9 Mail for Android
+In-Reply-To: <ff370e42-f48b-4c62-9b44-9d4031cd78b0@intel.com>
+References: <20240109084052.58661-1-amakhalov@vmware.com> <20240109084052.58661-8-amakhalov@vmware.com> <ff370e42-f48b-4c62-9b44-9d4031cd78b0@intel.com>
+Message-ID: <4CF87BC4-E8C8-4584-A275-5A985D5A18A1@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="T+I3YsJdHvT4lja9"
-Content-Disposition: inline
-In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-X-Cookie: Nice guys don't finish nice.
-
-
---T+I3YsJdHvT4lja9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=F6nig wrote:
+On January 22, 2024 8:32:22 AM PST, Dave Hansen <dave=2Ehansen@intel=2Ecom>=
+ wrote:
+>On 1/9/24 00:40, Alexey Makhalov wrote:
+>> +#ifdef CONFIG_INTEL_TDX_GUEST
+>> +unsigned long vmware_tdx_hypercall(unsigned long cmd,
+>> +				   struct tdx_module_args *args)
+>> +{
+>> +	if (!hypervisor_is_type(X86_HYPER_VMWARE))
+>> +		return ULONG_MAX;
+>> +
+>> +	if (cmd & ~VMWARE_CMD_MASK) {
+>> +		pr_warn_once("Out of range command %lx\n", cmd);
+>> +		return ULONG_MAX;
+>> +	}
+>> +
+>> +	args->r10 =3D VMWARE_TDX_VENDOR_LEAF;
+>> +	args->r11 =3D VMWARE_TDX_HCALL_FUNC;
+>> +	args->r12 =3D VMWARE_HYPERVISOR_MAGIC;
+>> +	args->r13 =3D cmd;
+>> +	args->r15 =3D 0; /* CPL */
+>> +
+>> +	__tdx_hypercall(args);
+>> +
+>> +	return args->r12;
+>> +}
+>> +EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
+>> +#endif
+>
+>This is the kind of wrapper that I was hoping for=2E  Thanks=2E
+>
+>Acked-by: Dave Hansen <dave=2Ehansen@linux=2Eintel=2Ecom>
+>
 
-> Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> didn't appear in a public tree though yet. I still included it here to
-> make the kernel build bots happy.
+I'm slightly confused by this TBH=2E
 
-It's also going to be needed for buildability of the end of the series.
+Why are the arguments passed in as a structure, which is modified by the w=
+rapper to boot? This is analogous to a system call interface=2E
 
---T+I3YsJdHvT4lja9
-Content-Type: application/pgp-signature; name="signature.asc"
+Furthermore, this is an out-of-line function; it should never be called wi=
+th !X86_HYPER_VMWARE or you are introducing overhead for other hypervisors;=
+ I believe a pr_warn_once() is in order at least, just as you have for the =
+out-of-range test=2E
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWusW0ACgkQJNaLcl1U
-h9AR1Af8DbPI9TFuBXKEh4BM61G07z/XXFesQgMYJFn7hnO/3qPq0DB2udfdH+HR
-WrEFwWfImJcLCzV8lyZSjyQS8FeUMRbP7r99FeoYIb8amMJfpQIN7gD1IJ+OzZGL
-9PhsdsnLY3FgKjHbQCA6B6TnEDwI/0zpTfNjtElcXbWRB+V9uqBR/i8Uk02ngrKd
-MFM4BWy/tlEQvi0AQcylB9znY58FISMxd4ww1jeW0euV6Do4c1U3/9N+ivg6WNfs
-rKxD/BMTdGNcwlR3dWzHBLLYk3YAMLSi8p37kFSHwDGoHFtHCuUNPhA4RsVlbb9P
-SyEM0rudlzp/uFBuKSBT2nWslCLfjA==
-=Dr9Y
------END PGP SIGNATURE-----
 
---T+I3YsJdHvT4lja9--
 
