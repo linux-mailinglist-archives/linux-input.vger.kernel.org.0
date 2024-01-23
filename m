@@ -1,89 +1,196 @@
-Return-Path: <linux-input+bounces-1404-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1405-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23221838CA7
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 11:56:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D06B838E3D
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 13:13:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8DD2B24CC5
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:56:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 786991F24424
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 12:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52DA5C8ED;
-	Tue, 23 Jan 2024 10:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 695275F848;
+	Tue, 23 Jan 2024 12:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INbUVT4T"
+	dkim=pass (2048-bit key) header.d=abaltatech.com header.i=@abaltatech.com header.b="N5n83pPV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAC348CE4;
-	Tue, 23 Jan 2024 10:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DD35F847
+	for <linux-input@vger.kernel.org>; Tue, 23 Jan 2024 12:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706007358; cv=none; b=tz+wqbWHkK/u1KnFBYetb+lF0O4n/J0fF9r68UP/feWUY3OyE0hLKOH4gDo5J31AnKlNMPP8YKsQViz3MhXMKTQBShQv7RRU+wIwrseq3l58zc7YGr8m08dfNsB/tI+jkcQqWi+YCHSzE+InoVhx9qTyF7YRYajZ0DGUnoFhg6Y=
+	t=1706011978; cv=none; b=rQYavL+LCB5qkAdUpj7tUeoRwQCJY0Rc3G+G0+XszxtiHxPK0VaBHvzm5136aF8VTGPfn/dV5QgHeyt+u+sOOdDjenjJzlo+B694JTc6T4F5s2TQq9WYPfqEkKzXdlk24Jl4DM796Ud/gauA5DLaZtyq4r9S4IX9pdCCGrz3IQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706007358; c=relaxed/simple;
-	bh=4tsL23ghaEQEaT2bq2YzzgROa1LghxVl/vUgPgfSGjk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=SCqOxflR0EAH2lUvfR2dYBgumeJ2aaD38zcQpii7lEVFjWFztIqpFdmLsnkjJqonrVCUXuvnaT9u9tlXOHxIHSAh9s/8ZFvRo592oG3aPJhmZ1MXWP3t1kC9M4hmKUBUha6FQ334OBIXvvdJjEy+RiUqJbByP/cKbgyo2oDilqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INbUVT4T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36A0C433C7;
-	Tue, 23 Jan 2024 10:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706007358;
-	bh=4tsL23ghaEQEaT2bq2YzzgROa1LghxVl/vUgPgfSGjk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=INbUVT4TOo/bB4RTGM/M9Ew6RjGLp7arfUjRaP7TWHjkxi7/pPLGwre3bg/wrGzb4
-	 sjfwQIUPqwTNZKOmXtuLQ3St1YhhmewT0k21fkNuZDLriMnsaohlGPHxB+0ynDF4Oz
-	 kqPtUFS6d4vEfVIWLoKIoaDyvvLD7QVaWPI0DU063Fgf0fKxAqwav/saDHH7xS0POc
-	 5thnsJ34QEYuHvSTadpNTy6TF8Xafv7uMHgaC0MYmIuzYC5IC6v7ZiuLUVoNDFRRYs
-	 gXYk5AKuqwYK/nBYZ5zXsObSU4h81DBuUQ5PRYZO3PKvKOe/BcJlKaaz16hKNa1TZY
-	 d4vsa9diE6L9g==
-Date: Tue, 23 Jan 2024 11:55:58 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Mikhail Khvainitski <me@khvoinitsky.org>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    iam@valdikss.org.ru, jekhor@gmail.com, u-v@mailbox.org
-Subject: Re: [PATCH] HID: lenovo: Add middleclick_workaround sysfs knob for
- cptkbd
-In-Reply-To: <20231223191401.70727-1-me@khvoinitsky.org>
-Message-ID: <nycvar.YFH.7.76.2401231155270.29548@cbobk.fhfr.pm>
-References: <CAMMabwPd-m7a+EQV7zb=wU52=P1FkqFU1dg9=gyvaS1EP5tX3Q@mail.gmail.com> <20231223191401.70727-1-me@khvoinitsky.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1706011978; c=relaxed/simple;
+	bh=vMldsinky1rVpaNwFY0gG9MCqB/gB8cA9ybdUTlUO6I=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Lu7fbyHhsoQX4VNIBlnWs3sdhtaC78YbuqUQx5goiZJUNNhpwDPkTBEAi++BifcpMuCPQYleRndWjfMbYNjw1YPaC16dHPuUzG7KlTbDxwtEPsjIsRkDrRV+FsfXCcUeSvj8Plpq7X8TGEyAznw3o9NBmausm6dV0MiI1EWD/qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=abaltatech.com; spf=pass smtp.mailfrom=abaltatech.com; dkim=pass (2048-bit key) header.d=abaltatech.com header.i=@abaltatech.com header.b=N5n83pPV; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=abaltatech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=abaltatech.com
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-21499c9650cso23577fac.1
+        for <linux-input@vger.kernel.org>; Tue, 23 Jan 2024 04:12:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=abaltatech.com; s=google; t=1706011975; x=1706616775; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sHWR5m8Uu7F9bztAS6YReTZBQxh622FSfp7ym8cmJYM=;
+        b=N5n83pPV9GJdHpMs5wSi+IPeaPAzMWiLhaezjCgLanQeOJUH/lf1IM1yy5xYD5cnKg
+         3SQqc+mNQKZe1W9DG+J1vyTca9OfX5XmCjv5LebzIIyMW9hM0BDrH7SqIU6btRci3QgH
+         /PJYP9SmHTXNMyo7NMc8LbY3+VQKSRvrn03F0Njv1rWxH+S4Wd+8c6a881NeYwh53UQK
+         +3/MOtH6wcBt2UJYvuJI2Yl9jpMs/WWuxd+CB3K1ChXiRMF99N+UQSAsq5ANL0ryTLHE
+         5roWGJTFY3FSsnoRCl/+AbspJxWCIH24nHFKEpyPnIlcEN9dZP+LSgbSe++rEBjY21Sj
+         79Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706011975; x=1706616775;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sHWR5m8Uu7F9bztAS6YReTZBQxh622FSfp7ym8cmJYM=;
+        b=iTynJQjjHzeBvCd9quPEXuEvbbBWtmPSKoHy2Vt4mg3/OFgsP30CFP3NHMK7RR9Lr1
+         7XgyhLAhId4YRlmf/Ixt5lutpr3TuuUsDbD5HXlocd92WhOCeOYxIZ5V9wbolZN8QFmy
+         +2FZ+Bn6LaL0hW8EoWWBUPDfTq2YlVCoE2kg5XQO/G1LQ3LzmBVNOgsMTLleY4kM94Z+
+         W3yp/pp450gJdPCyVewPy4yuWnpsFVhAVmh067oGgWC/Ae59L8Qw0PaZhG7pFl4fnPGy
+         SMhJeYUERpk2hzep4BR0j+znXf+cnXKfSIdsaZ+GWnP9r69Z+YlM2UOoAHoiqguD+DCM
+         j/FA==
+X-Gm-Message-State: AOJu0YyZSTF1CEwcfTRivV3vd6KdxMT7xfrV4SfXRGpuGTccLjuRAN19
+	pH+RDm6u6wMxHeQfASEcQcjFX6H3Et3LjMThEJqagHyE5XMym/5qvGJx2nO+41p8r1n17KLc1ub
+	4adKQaT7hXrzHqqbbx+wuU91j09KG78kgWfu0uSEQ65n3VC5+tw==
+X-Google-Smtp-Source: AGHT+IFFYNQDM5ZHe0pTjkdgEkvDU+X8sD4HbOPaFtjrpmqNmSQ7umol6DRnm2nwAzBsl/RikWomIWcEIxeRWXwN5zg=
+X-Received: by 2002:a05:6870:9a05:b0:210:ccdb:7cb0 with SMTP id
+ fo5-20020a0568709a0500b00210ccdb7cb0mr1164663oab.7.1706011975677; Tue, 23 Jan
+ 2024 04:12:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+From: Lyuboslav Angelov <langelov@abaltatech.com>
+Date: Tue, 23 Jan 2024 14:12:45 +0200
+Message-ID: <CAL5USX=a3VwaBp6LUOKks3Wr8eW3Ucpc0y98yhqCGez2Y=JNEw@mail.gmail.com>
+Subject: Multitouch HID issue in Android 14
+To: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 23 Dec 2023, Mikhail Khvainitski wrote:
+Dear kernel developers,
 
-> Previous attempt to autodetect well-behaving patched firmware
-> introduced in commit 46a0a2c96f0f ("HID: lenovo: Detect quirk-free fw
-> on cptkbd and stop applying workaround") has shown that there are
-> false-positives on original firmware (on both 1st gen and 2nd gen
-> keyboards) which causes the middle button click workaround to be
-> mistakenly disabled.
-> 
-> This commit adds explicit parameter to sysfs to control this
-> workaround.
-> 
-> Fixes: 46a0a2c96f0f ("HID: lenovo: Detect quirk-free fw on cptkbd and stop applying workaround")
-> Fixes: 43527a0094c1 ("HID: lenovo: Restrict detection of patched firmware only to USB cptkbd")
-> Signed-off-by: Mikhail Khvainitski <me@khvoinitsky.org>
+We are reaching out to you to discuss and hopefully resolve an
+important issue we=E2=80=99ve encountered in the recent versions of the
+Android kernel (for example 5.10.177-Android13, as reported on a Pixel
+7 device), which affects millions of automotive multimedia devices
+already in production.
 
-I am not a huge fan of sysctl device-specific knobs like this, but I guess 
-this is the best we can get here, unfortunately.
 
-Now applied, thanks a lot.
+The issue we=E2=80=99ve detected is related to the handling of the HID
+descriptor by the kernel. According to our investigation the issue is
+caused by a conflicting interpretation of the =E2=80=9CUsage Page (Button)=
+=E2=80=9D
+and the =E2=80=9CUsage (Touch Screen)=E2=80=9D feature items in the used HI=
+D
+descriptor. The issue is noticed when a registered HID descriptor
+contains the =E2=80=9CUsage Page (Button)=E2=80=9D feature item, which when=
+ parsed
+later on in the kernel, leads to interpreting the device as a
+mouse-like or trackpad device, ignoring the value of the =E2=80=9CUsage (To=
+uch
+Screen)=E2=80=9D field, and manifesting a mouse cursor. Previous versions o=
+f
+the kernel correctly handle the value of the =E2=80=9CUsage (Touch Screen)=
+=E2=80=9D
+field and identify properly the attached touch screen device, hence
+our request for fixing the issue in the future versions of the kernel
+and for the affected devices already in the field.
 
--- 
-Jiri Kosina
-SUSE Labs
 
+This issue does not reproduce with =D0=B0 Samsung device with Android 14,
+which reports kernel version 5.10.177-Android12.
+
+
+HID Descriptor overview:
+
+static const uint8_t c_descriptorArray[] =3D {
+  0x06, 0x0D, 0x00,  // Usage Page (Digitizer)
+  0x0A, 0x04, 0x00,  // Usage (Touch Screen)
+  0xA1, 0x01,        // Collection (Application)
+  0x06, 0x0D, 0x00,  //   Usage Page (Digitizer)
+  0x0A, 0x22, 0x00,  //   Usage (Finger)
+  0xA1, 0x02,        //   Collection (Logical)
+  0x06, 0x01, 0x00,  //     Usage Page (Generic Desktop Ctrls)
+  0x0A, 0x01, 0x00,  //     Usage (Pointer)
+  0xA1, 0x00,        //     Collection (Physical)
+  0x06, 0x0D, 0x00,  //       Usage Page (Digitizer)
+  0x0A, 0x51, 0x00,  //       Usage (Contact ID)
+  0x16, 0x00, 0x00,  //       Logical Minimum (0)
+  0x26, 0x00, 0x09,  // Logical Maximum (9)
+  0x95, 0x01,        //       Report Count (1)
+  0x75, 0x08,        //       Report Size (8)
+  0x82, 0x02, 0x00,  // Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Bit Field)
+  0x06, 0x0D, 0x00,  //       Usage Page (Digitizer)
+  0x0A, 0x42, 0x00,  //       Usage (Tip Switch)
+  0x0A, 0x32, 0x00,  //       Usage (In Range)
+  0x16, 0x00, 0x00,  //       Logical Minimum (0)
+  0x26, 0x01, 0x00,  //       Logical Maximum (1)
+  0x95, 0x02,        //       Report Count (2)
+  0x75, 0x01,        //       Report Size (1)
+  0x82, 0x02, 0x00,  // Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Bit Field)
+  0x95, 0x01,        // Report Count (1)
+  0x75, 0x06,        //       Report Size (6)
+  0x82, 0x01, 0x00,  // Input (Const,Array,Abs,No
+Wrap,Linear,Preferred State,No Null Position,Bit Field)
+  0x06, 0x0D, 0x00,  //       Usage Page (Digitizer)
+  0x0A, 0x30, 0x00,  //       Usage (Tip Pressure)
+  0x16, 0x00, 0x00,  //       Logical Minimum (0)
+  0x26, 0xFF, 0x00,  // Logical Maximum (255)
+  0x95, 0x01,        // Report Count (1)
+  0x75, 0x08,        //       Report Size (8)
+  0x82, 0x02, 0x00,  // Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Bit Field)
+  0x06, 0x01, 0x00,  //       Usage Page (Generic Desktop Ctrls)
+  0x0A, 0x30, 0x00,  //       Usage (X)
+  0x0A, 0x31, 0x00,  //       Usage (Y)
+  0x16, 0x00, 0x00,  // Logical Minimum (0)
+  0x26, 0x00, 0x40,  // Logical Maximum (16384)
+  0x95, 0x02,        //       Report Count (2)
+  0x75, 0x10,        //       Report Size (16)
+  0x82, 0x02, 0x00,  //  Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Bit Field)
+  0x06, 0x09, 0x00,  //       Usage Page (Button)
+  0x1A, 0x01, 0x00,  //       Usage Minimum (0x01)
+  0x2A, 0x08, 0x00,  //       Usage Maximum (0x08)
+  0x16, 0x00, 0x00,  //       Logical Minimum (0)
+  0x26, 0x01, 0x00,  //       Logical Maximum (1)
+  0x95, 0x08,        //       Report Count (8)
+  0x75, 0x01,        //       Report Size (1)
+  0x82, 0x02, 0x00,  //  Input (Data,Var,Abs,No Wrap,Linear,Preferred
+State,No Null Position,Bit Field)
+  0xC0,              //     End Collection
+  0xC0,              //   End Collection
+  0xC0,              // End Collection
+};
+
+struct SHIDReport_MT
+{
+  uint8_t m_touchPointId;
+  uint8_t m_tipSwitch;
+  uint8_t m_pressure;
+  uint16_t m_posX;
+  uint16_t m_posY;
+  uint8_t m_button;
+} SHIDReport_MT_PACKED;
+
+
+Thank you for your time!
+
+Best regards,
+
+Lyuboslav Angelov
+Software developer
+Abalta Technologies, Inc.
+langelov@abaltatech.com
 
