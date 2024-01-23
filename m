@@ -1,56 +1,59 @@
-Return-Path: <linux-input+bounces-1402-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1403-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE0F838B9F
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 11:23:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F71838BBE
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 11:26:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDE3728173E
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:23:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03AF9B21592
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36985A11C;
-	Tue, 23 Jan 2024 10:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E790A5A0F9;
+	Tue, 23 Jan 2024 10:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+aZ+skN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BSw4b3hU"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB1B59B5B;
-	Tue, 23 Jan 2024 10:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08BDEEA9;
+	Tue, 23 Jan 2024 10:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706005398; cv=none; b=SFdieHqFl5Baoy8OViG3o8bve4j8/QAP0pPt912NJoEyjrdtQ92utpwEMniNjTUQ98kh5h3NxIDL1gqVVHJUiFWAIHOmJaazB/8s9l7bFziBqWCk/noae/uG6UZdbao3SuCygJeuFBiojE8tuX2+cESeKgfWk4kNsoP55yhl6d0=
+	t=1706005601; cv=none; b=LlMoAkXiiW9xMFvwgpTn7j7iGTr/2EAFZAtSO9lOG2Vx3zYXuE1E8VQyAV1jp/1625MffLDHOYGlRN4HSCHiaGiERsZS5d1BcBufykSfZleqC+sxaizx0w27k3eRbozk2kqCGgagAlbSbgDX7O0NVWO4w8OCZmhV2WpBUtRqJeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706005398; c=relaxed/simple;
-	bh=L6rwmbIP8oH+1dk4XDVm6rZq+NdKHW+y+FrjBFZ1HcQ=;
+	s=arc-20240116; t=1706005601; c=relaxed/simple;
+	bh=DR+zgKNWJaIggO6xvI5mXauOg5o07Q+mfafKQsQ+U+E=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=b6cpfLyOf6ItQbEYBr9RprakJxYc76jr30Otmk0t6H1C8to/7TDv4EvIKt93lmWqS8od3rCZ8V9KJBjOPqt6pkKoLKqwbw5Mz3ume8GV9h0dipzRw3Z1NP+hznCJwLRHJTcUPHLPMQqw0uaw+UGpfr4Xvz9qZzhxJxv9YFigxi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+aZ+skN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B412BC433F1;
-	Tue, 23 Jan 2024 10:23:17 +0000 (UTC)
+	 MIME-Version:Content-Type; b=shGx5TUwXby2GUti6Jm0MAQsHP/XLUthIi7AeMDHaOe1Uu1WfWWsPkDyfYfO8/ddJuF3yTJYlD3f4b7nZD59Xn/6VW+61AY+b4KDUkeEJWPbcSgfSuwU+AIsrkYg2P7Agzv0L4LM2Ru3boJr/34xQToDdkCDejYkk/hGhXLjLIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BSw4b3hU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73EBC433C7;
+	Tue, 23 Jan 2024 10:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706005398;
-	bh=L6rwmbIP8oH+1dk4XDVm6rZq+NdKHW+y+FrjBFZ1HcQ=;
+	s=k20201202; t=1706005601;
+	bh=DR+zgKNWJaIggO6xvI5mXauOg5o07Q+mfafKQsQ+U+E=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=L+aZ+skNUG/IcPsJTjqshqyvjYSynZybazN2PZGkdW16Kh+zr3/EWf/YIswd+oRcX
-	 Bj2+VEY1TBsYQCR4rrVdt4Rf0kGHS/G2R83Z6m8WIY1XfVrTsNgtBQBjt4YLGbNfQH
-	 zCWl0Y1Sfh9lsOqes1s0rTxuEQJFs+jMaXzIPMMMVg+K5P0m0jCRreCFzKZcgnsEfI
-	 KaRhapJplpgdnpD4eK9WruGVTRdCv2dyni3/0ZTAQnmuQz6k8CDcne/5JLGA6EJJl1
-	 qHAk/K7VCi8v7k3jGebB9+S0jUXj9OWkrGZt4aP5zxHDhwpeSOjtK4+x+WwPvjNnCj
-	 3UZG4TQS9Ogcw==
-Date: Tue, 23 Jan 2024 11:23:18 +0100 (CET)
+	b=BSw4b3hUDD75X2tFed+8I/YY6i8CeyPlTmboyQP2YuWBW2qz3NCi49Ax2yH+qVrRs
+	 tIuOrWy4J5mq/GW5BEoHwppfiQy1un2ty4AazL+fMaKwqm2KYX6k8Im5iTGVan7O7b
+	 gp/b1+e7sdPGFrh3Y76fkBAlGjiieGKiZOUh7o/wjpODIH7g37eKyMM4jIIrWK7K93
+	 rIlE8ZH2+8oWvbiuOFGh916rIqVe8NTEocmEytQNWe7aQnclTpC/0N24PHLn51SSOG
+	 Wab5IoYBlzojMG0haBzp4I15HEtjUPK93wHoqNDEjovnI7GVCe7TIej4GYJHDtzIzc
+	 8H/0U4EUtTD1g==
+Date: Tue, 23 Jan 2024 11:26:41 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-cc: Kunwu Chan <chentao@kylinos.cn>, benjamin.tissoires@redhat.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: nvidia-shield: Add some null pointer checks to the
- hid-nvidia-shield.c
-In-Reply-To: <87o7dhx2ny.fsf@nvidia.com>
-Message-ID: <nycvar.YFH.7.76.2401231123050.29548@cbobk.fhfr.pm>
-References: <20240119060714.258635-1-chentao@kylinos.cn> <87o7dhx2ny.fsf@nvidia.com>
+To: Doug Anderson <dianders@chromium.org>
+cc: Kai-Heng Feng <kai.heng.feng@canonical.com>, benjamin.tissoires@redhat.com, 
+    Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
+    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
+    Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: i2c-hid: Skip SET_POWER SLEEP for Cirque touchpad
+ on system suspend
+In-Reply-To: <CAD=FV=VCoB_uBontRk3WVn-nqzZnutSMCHBpdBqNOFwrYv=8xw@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2401231126300.29548@cbobk.fhfr.pm>
+References: <20240115045054.1170294-1-kai.heng.feng@canonical.com> <CAD=FV=VCoB_uBontRk3WVn-nqzZnutSMCHBpdBqNOFwrYv=8xw@mail.gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -60,25 +63,44 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 18 Jan 2024, Rahul Rameshbabu wrote:
+On Wed, 17 Jan 2024, Doug Anderson wrote:
 
-> > devm_kasprintf() returns a pointer to dynamically allocated memory
-> > which can be NULL upon failure. Ensure the allocation was successful
-> > by checking the pointer validity.
+> > There's a Cirque touchpad that wakes system up without anything 
+> > touched the touchpad. The input report is empty when this happens. The 
+> > reason is stated in HID over I2C spec, 7.2.8.2: "If the DEVICE wishes 
+> > to wake the HOST from its low power state, it can issue a wake by 
+> > asserting the interrupt."
 > >
-> > Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+> > This is fine if OS can put system back to suspend by identifying input 
+> > wakeup count stays the same on resume, like Chrome OS Dark Resume [0]. 
+> > But for regular distro such policy is lacking.
+> >
+> > Though the change doesn't bring any impact on power consumption for 
+> > touchpad is minimal, other i2c-hid device may depends on SLEEP control 
+> > power. So use a quirk to limit the change scope.
+> >
+> > [0] https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/power_manager/docs/dark_resume.md
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 > > ---
+> > v2:
+> >  - Use quirk instead of applying the change universally.
+> >
+> >  drivers/hid/hid-ids.h              | 3 +++
+> >  drivers/hid/i2c-hid/i2c-hid-core.c | 6 +++++-
+> >  2 files changed, 8 insertions(+), 1 deletion(-)
 > 
-> Just one comment about the subject for future submissions (this one is
-> fine). I would just leave the subject as "HID: nvidia-shield: Add some
-> null pointer checks". We know what file is being edited from the commit
-> content, so the additional filename detail isn't necessary.
+> This seems OK to me. As per my repy to v1, it doesn't feel fully 
+> explained what's going on. Why does it only wake the system without 
+> touches if you put it to sleep first? Is it truly a hardware quirk with 
+> the Cirque touchpad or is it a bug on the board you have it hooked up 
+> to? In any case, perhaps it doesn't matter since you said you measured 
+> power here and, on this touchpad it doesn't seem to save significant 
+> extra power to go into sleep mode. ...so I guess I'd be OK w/
 > 
-> Thanks for the patch. Really appreciate it.
-> 
-> Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-I have tweaked the changelog a little bit and applied, thanks.
+Applied, thanks.
 
 -- 
 Jiri Kosina
