@@ -1,59 +1,57 @@
-Return-Path: <linux-input+bounces-1403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F71838BBE
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 11:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23221838CA7
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 11:56:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03AF9B21592
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:26:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8DD2B24CC5
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E790A5A0F9;
-	Tue, 23 Jan 2024 10:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52DA5C8ED;
+	Tue, 23 Jan 2024 10:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BSw4b3hU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INbUVT4T"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08BDEEA9;
-	Tue, 23 Jan 2024 10:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAC348CE4;
+	Tue, 23 Jan 2024 10:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706005601; cv=none; b=LlMoAkXiiW9xMFvwgpTn7j7iGTr/2EAFZAtSO9lOG2Vx3zYXuE1E8VQyAV1jp/1625MffLDHOYGlRN4HSCHiaGiERsZS5d1BcBufykSfZleqC+sxaizx0w27k3eRbozk2kqCGgagAlbSbgDX7O0NVWO4w8OCZmhV2WpBUtRqJeM=
+	t=1706007358; cv=none; b=tz+wqbWHkK/u1KnFBYetb+lF0O4n/J0fF9r68UP/feWUY3OyE0hLKOH4gDo5J31AnKlNMPP8YKsQViz3MhXMKTQBShQv7RRU+wIwrseq3l58zc7YGr8m08dfNsB/tI+jkcQqWi+YCHSzE+InoVhx9qTyF7YRYajZ0DGUnoFhg6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706005601; c=relaxed/simple;
-	bh=DR+zgKNWJaIggO6xvI5mXauOg5o07Q+mfafKQsQ+U+E=;
+	s=arc-20240116; t=1706007358; c=relaxed/simple;
+	bh=4tsL23ghaEQEaT2bq2YzzgROa1LghxVl/vUgPgfSGjk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=shGx5TUwXby2GUti6Jm0MAQsHP/XLUthIi7AeMDHaOe1Uu1WfWWsPkDyfYfO8/ddJuF3yTJYlD3f4b7nZD59Xn/6VW+61AY+b4KDUkeEJWPbcSgfSuwU+AIsrkYg2P7Agzv0L4LM2Ru3boJr/34xQToDdkCDejYkk/hGhXLjLIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BSw4b3hU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73EBC433C7;
-	Tue, 23 Jan 2024 10:26:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=SCqOxflR0EAH2lUvfR2dYBgumeJ2aaD38zcQpii7lEVFjWFztIqpFdmLsnkjJqonrVCUXuvnaT9u9tlXOHxIHSAh9s/8ZFvRo592oG3aPJhmZ1MXWP3t1kC9M4hmKUBUha6FQ334OBIXvvdJjEy+RiUqJbByP/cKbgyo2oDilqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INbUVT4T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36A0C433C7;
+	Tue, 23 Jan 2024 10:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706005601;
-	bh=DR+zgKNWJaIggO6xvI5mXauOg5o07Q+mfafKQsQ+U+E=;
+	s=k20201202; t=1706007358;
+	bh=4tsL23ghaEQEaT2bq2YzzgROa1LghxVl/vUgPgfSGjk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=BSw4b3hUDD75X2tFed+8I/YY6i8CeyPlTmboyQP2YuWBW2qz3NCi49Ax2yH+qVrRs
-	 tIuOrWy4J5mq/GW5BEoHwppfiQy1un2ty4AazL+fMaKwqm2KYX6k8Im5iTGVan7O7b
-	 gp/b1+e7sdPGFrh3Y76fkBAlGjiieGKiZOUh7o/wjpODIH7g37eKyMM4jIIrWK7K93
-	 rIlE8ZH2+8oWvbiuOFGh916rIqVe8NTEocmEytQNWe7aQnclTpC/0N24PHLn51SSOG
-	 Wab5IoYBlzojMG0haBzp4I15HEtjUPK93wHoqNDEjovnI7GVCe7TIej4GYJHDtzIzc
-	 8H/0U4EUtTD1g==
-Date: Tue, 23 Jan 2024 11:26:41 +0100 (CET)
+	b=INbUVT4TOo/bB4RTGM/M9Ew6RjGLp7arfUjRaP7TWHjkxi7/pPLGwre3bg/wrGzb4
+	 sjfwQIUPqwTNZKOmXtuLQ3St1YhhmewT0k21fkNuZDLriMnsaohlGPHxB+0ynDF4Oz
+	 kqPtUFS6d4vEfVIWLoKIoaDyvvLD7QVaWPI0DU063Fgf0fKxAqwav/saDHH7xS0POc
+	 5thnsJ34QEYuHvSTadpNTy6TF8Xafv7uMHgaC0MYmIuzYC5IC6v7ZiuLUVoNDFRRYs
+	 gXYk5AKuqwYK/nBYZ5zXsObSU4h81DBuUQ5PRYZO3PKvKOe/BcJlKaaz16hKNa1TZY
+	 d4vsa9diE6L9g==
+Date: Tue, 23 Jan 2024 11:55:58 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-cc: Kai-Heng Feng <kai.heng.feng@canonical.com>, benjamin.tissoires@redhat.com, 
-    Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
-    Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: i2c-hid: Skip SET_POWER SLEEP for Cirque touchpad
- on system suspend
-In-Reply-To: <CAD=FV=VCoB_uBontRk3WVn-nqzZnutSMCHBpdBqNOFwrYv=8xw@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2401231126300.29548@cbobk.fhfr.pm>
-References: <20240115045054.1170294-1-kai.heng.feng@canonical.com> <CAD=FV=VCoB_uBontRk3WVn-nqzZnutSMCHBpdBqNOFwrYv=8xw@mail.gmail.com>
+To: Mikhail Khvainitski <me@khvoinitsky.org>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    iam@valdikss.org.ru, jekhor@gmail.com, u-v@mailbox.org
+Subject: Re: [PATCH] HID: lenovo: Add middleclick_workaround sysfs knob for
+ cptkbd
+In-Reply-To: <20231223191401.70727-1-me@khvoinitsky.org>
+Message-ID: <nycvar.YFH.7.76.2401231155270.29548@cbobk.fhfr.pm>
+References: <CAMMabwPd-m7a+EQV7zb=wU52=P1FkqFU1dg9=gyvaS1EP5tX3Q@mail.gmail.com> <20231223191401.70727-1-me@khvoinitsky.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -63,44 +61,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 17 Jan 2024, Doug Anderson wrote:
+On Sat, 23 Dec 2023, Mikhail Khvainitski wrote:
 
-> > There's a Cirque touchpad that wakes system up without anything 
-> > touched the touchpad. The input report is empty when this happens. The 
-> > reason is stated in HID over I2C spec, 7.2.8.2: "If the DEVICE wishes 
-> > to wake the HOST from its low power state, it can issue a wake by 
-> > asserting the interrupt."
-> >
-> > This is fine if OS can put system back to suspend by identifying input 
-> > wakeup count stays the same on resume, like Chrome OS Dark Resume [0]. 
-> > But for regular distro such policy is lacking.
-> >
-> > Though the change doesn't bring any impact on power consumption for 
-> > touchpad is minimal, other i2c-hid device may depends on SLEEP control 
-> > power. So use a quirk to limit the change scope.
-> >
-> > [0] https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/power_manager/docs/dark_resume.md
-> >
-> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > ---
-> > v2:
-> >  - Use quirk instead of applying the change universally.
-> >
-> >  drivers/hid/hid-ids.h              | 3 +++
-> >  drivers/hid/i2c-hid/i2c-hid-core.c | 6 +++++-
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
+> Previous attempt to autodetect well-behaving patched firmware
+> introduced in commit 46a0a2c96f0f ("HID: lenovo: Detect quirk-free fw
+> on cptkbd and stop applying workaround") has shown that there are
+> false-positives on original firmware (on both 1st gen and 2nd gen
+> keyboards) which causes the middle button click workaround to be
+> mistakenly disabled.
 > 
-> This seems OK to me. As per my repy to v1, it doesn't feel fully 
-> explained what's going on. Why does it only wake the system without 
-> touches if you put it to sleep first? Is it truly a hardware quirk with 
-> the Cirque touchpad or is it a bug on the board you have it hooked up 
-> to? In any case, perhaps it doesn't matter since you said you measured 
-> power here and, on this touchpad it doesn't seem to save significant 
-> extra power to go into sleep mode. ...so I guess I'd be OK w/
+> This commit adds explicit parameter to sysfs to control this
+> workaround.
 > 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Fixes: 46a0a2c96f0f ("HID: lenovo: Detect quirk-free fw on cptkbd and stop applying workaround")
+> Fixes: 43527a0094c1 ("HID: lenovo: Restrict detection of patched firmware only to USB cptkbd")
+> Signed-off-by: Mikhail Khvainitski <me@khvoinitsky.org>
 
-Applied, thanks.
+I am not a huge fan of sysctl device-specific knobs like this, but I guess 
+this is the best we can get here, unfortunately.
+
+Now applied, thanks a lot.
 
 -- 
 Jiri Kosina
