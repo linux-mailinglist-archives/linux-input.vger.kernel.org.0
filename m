@@ -1,203 +1,122 @@
-Return-Path: <linux-input+bounces-1410-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1411-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F10839525
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 17:46:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEEE839589
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 17:58:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84BFA1F2B677
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 16:46:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A37661F31340
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 16:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D9682D81;
-	Tue, 23 Jan 2024 16:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5130F8005B;
+	Tue, 23 Jan 2024 16:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zfhb0bcm"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="GNMBobsM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E2F82D7C;
-	Tue, 23 Jan 2024 16:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D473E7FBA7;
+	Tue, 23 Jan 2024 16:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706028063; cv=none; b=EnG0X/8qw6dLaRzL/zEjVQ2SrAT+5IM5VpJ2yu4AGUVHOsYf8ZeGXTHeon8wKnESOsDq7GZtoHg2J1cNZZelY0F/EsVTTniFjjcXsQKTOYy+cUNqt4xbR/E7lo0r+WK0SWsW0hga7S7q6vlvXAFsJ7OsKC7uP3J3vToVy3SPW/I=
+	t=1706028677; cv=none; b=Y4Au2I1aBu/7pGBv3yUVI1c+7c+yU5wOK/WLqDROOAjJ6C/DKJhdkTRvuyYRK2N+i11IamGotHR8wpZbPSnaj57t7y6m6YYhDreRUzlPcFu8cnz/2hSNZqw5+9KLlsTGxhBMT/jQfkJyw72ipWKo6DzoJWk1/VJ4LwGagA8bJ30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706028063; c=relaxed/simple;
-	bh=k8S+SH5DCWnhTkXa53WVFA61i4bptiV+YN7U96SThXg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eteccKHG5XfjUJCNJJobhcZc3N12WkfgXZNMbY9yKBXpudJk5AVXGB8cIjsrAUkxQvulXYfmSGSBzMumqI5nt59Jh613f8MkJESbhvC2R+KHbVtlgtpDK+Lj4H8g3f1FU+XCsOwfSjJdOavpp+zX66dgjBmKf+6qiTS1iQLr+nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zfhb0bcm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D597C43394;
-	Tue, 23 Jan 2024 16:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706028062;
-	bh=k8S+SH5DCWnhTkXa53WVFA61i4bptiV+YN7U96SThXg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Zfhb0bcmmpNNXl1tRUjGGrIxhWExV75hs6steNvB46IBMMwsJtf/0gv+gnLnMfAov
-	 eNSonxBFI7udiXbyi88HCdnylw06odPVuK01sIRFLtjRlyuLYI4Z215ghLpAti5zxR
-	 FhxAb6DekkMMfB+loBiaqPC0zA72IkRBy3t0nmOqz1lrzdl+7dgZ/o6Q8FreAW5Vuq
-	 Cw/2lIPsKyGZ64Bn0vFWNaPsstOfbjTNeyyDkCXrBPnATOhpfQIWQxiBDLJezVcXIO
-	 5gJlqc6c/hJGwXMPfCX4cOqmx6pjf4ktY6wpfgJa0EoqFtmXhlFC0k8eckAKgmWQjZ
-	 1yjGX+9jjm27w==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Tue, 23 Jan 2024 17:40:44 +0100
-Subject: [PATCH 2/2] HID: bpf: use __bpf_kfunc instead of noinline
+	s=arc-20240116; t=1706028677; c=relaxed/simple;
+	bh=VE3TwMTd3CZosuWs/YQh6GO1jbfQe0kjsCQk3Fo5jOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=efAgRucbwvtDZaG2tnLcvkwG/3t2+BsJIIYJ3EzCw58LjKhueLLDUXHIuAHfuUyzxMQMrHz2+xQUWdMgLF6mvycWOYllf58xsfl2BZvRw0899CwRyYAs041IcfITILnJM0+FuXcVQhCsG1DKSo7BKUoQYD1G8gmbk5LZ0fU7Sxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=GNMBobsM; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 9C3C22FC0050;
+	Tue, 23 Jan 2024 17:51:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706028666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VdkokTZGvxcJHk9IiPC4nPROKX8TmRItLHJlrEqCNJs=;
+	b=GNMBobsM25vzbIaUJ9ZsUXY1t95zxv/x9Yb3+W+7pAvEmJYGD68iisuOJAL1aT70kBltww
+	LgcsjCrRpRcBlhU9ICKmB6aem1k8IkLgcVm+nXcdUMoKeDKUT6g+yb7SGTE3xnplyyTFTn
+	3AqrmNSNTous3svtFzJSaayp9w+UIUc=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <7df49b4f-5d9f-48f2-98bd-e2c3f567126c@tuxedocomputers.com>
+Date: Tue, 23 Jan 2024 17:51:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com> <87bk9hppee.fsf@intel.com>
+ <ZarAfg2_5ocfKAWo@google.com> <Zar0MFelV4gY50La@duo.ucw.cz>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Zar0MFelV4gY50La@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240123-b4-hid-bpf-fixes-v1-2-aa1fac734377@kernel.org>
-References: <20240123-b4-hid-bpf-fixes-v1-0-aa1fac734377@kernel.org>
-In-Reply-To: <20240123-b4-hid-bpf-fixes-v1-0-aa1fac734377@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Daniel Borkmann <daniel@iogearbox.net>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1706028056; l=4626;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=k8S+SH5DCWnhTkXa53WVFA61i4bptiV+YN7U96SThXg=;
- b=Inil0fQhKQFZtbu547ZVCCFw83S3vcuZ5g+odjPhLN7Fq//HjtK3YoCZ7xV6xbvHSaTQWy9wm
- 2navsiW7JaSAFcpU1GuMeRJEsJ2CYXKwNIBW4toGoRedOlB5xdtFvUM
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Follow the docs at Documentation/bpf/kfuncs.rst:
-- declare the function with `__bpf_kfunc`
-- disables missing prototype warnings, which allows to remove them from
-  include/linux/hid-bpf.h
 
-Removing the prototypes is not an issue because we currently have to
-redeclare them when writing the BPF program. They will eventually be
-generated by bpftool directly AFAIU.
-
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- drivers/hid/bpf/hid_bpf_dispatch.c | 22 +++++++++++++++++-----
- include/linux/hid_bpf.h            | 11 -----------
- 2 files changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index 5111d1fef0d3..119e4f03df55 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -143,6 +143,11 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
- }
- EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
- 
-+/* Disables missing prototype warnings */
-+__diag_push();
-+__diag_ignore_all("-Wmissing-prototypes",
-+		  "Global kfuncs as their definitions will be in BTF");
-+
- /**
-  * hid_bpf_get_data - Get the kernel memory pointer associated with the context @ctx
-  *
-@@ -152,7 +157,7 @@ EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-  *
-  * @returns %NULL on error, an %__u8 memory pointer on success
-  */
--noinline __u8 *
-+__bpf_kfunc __u8 *
- hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const size_t rdwr_buf_size)
- {
- 	struct hid_bpf_ctx_kern *ctx_kern;
-@@ -167,6 +172,7 @@ hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const size_t rdwr
- 
- 	return ctx_kern->data + offset;
- }
-+__diag_pop(); /* missing prototype warnings */
- 
- /*
-  * The following set contains all functions we agree BPF programs
-@@ -274,6 +280,11 @@ static int do_hid_bpf_attach_prog(struct hid_device *hdev, int prog_fd, struct b
- 	return fd;
- }
- 
-+/* Disables missing prototype warnings */
-+__diag_push();
-+__diag_ignore_all("-Wmissing-prototypes",
-+		  "Global kfuncs as their definitions will be in BTF");
-+
- /**
-  * hid_bpf_attach_prog - Attach the given @prog_fd to the given HID device
-  *
-@@ -286,7 +297,7 @@ static int do_hid_bpf_attach_prog(struct hid_device *hdev, int prog_fd, struct b
-  * is pinned to the BPF file system).
-  */
- /* called from syscall */
--noinline int
-+__bpf_kfunc int
- hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags)
- {
- 	struct hid_device *hdev;
-@@ -328,7 +339,7 @@ hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags)
-  *
-  * @returns A pointer to &struct hid_bpf_ctx on success, %NULL on error.
-  */
--noinline struct hid_bpf_ctx *
-+__bpf_kfunc struct hid_bpf_ctx *
- hid_bpf_allocate_context(unsigned int hid_id)
- {
- 	struct hid_device *hdev;
-@@ -359,7 +370,7 @@ hid_bpf_allocate_context(unsigned int hid_id)
-  * @ctx: the HID-BPF context to release
-  *
-  */
--noinline void
-+__bpf_kfunc void
- hid_bpf_release_context(struct hid_bpf_ctx *ctx)
- {
- 	struct hid_bpf_ctx_kern *ctx_kern;
-@@ -380,7 +391,7 @@ hid_bpf_release_context(struct hid_bpf_ctx *ctx)
-  *
-  * @returns %0 on success, a negative error code otherwise.
-  */
--noinline int
-+__bpf_kfunc int
- hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *buf, size_t buf__sz,
- 		   enum hid_report_type rtype, enum hid_class_request reqtype)
- {
-@@ -448,6 +459,7 @@ hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *buf, size_t buf__sz,
- 	kfree(dma_data);
- 	return ret;
- }
-+__diag_pop(); /* missing prototype warnings */
- 
- /* our HID-BPF entrypoints */
- BTF_SET8_START(hid_bpf_fmodret_ids)
-diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-index 840cd254172d..7118ac28d468 100644
---- a/include/linux/hid_bpf.h
-+++ b/include/linux/hid_bpf.h
-@@ -77,17 +77,6 @@ enum hid_bpf_attach_flags {
- int hid_bpf_device_event(struct hid_bpf_ctx *ctx);
- int hid_bpf_rdesc_fixup(struct hid_bpf_ctx *ctx);
- 
--/* Following functions are kfunc that we export to BPF programs */
--/* available everywhere in HID-BPF */
--__u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const size_t __sz);
--
--/* only available in syscall */
--int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags);
--int hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *buf, size_t buf__sz,
--		       enum hid_report_type rtype, enum hid_class_request reqtype);
--struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id);
--void hid_bpf_release_context(struct hid_bpf_ctx *ctx);
--
- /*
-  * Below is HID internal
-  */
-
--- 
-2.43.0
-
+Am 19.01.24 um 23:14 schrieb Pavel Machek:
+> Hi!
+>
+>>> And while I would personally hate it, you can imagine a use case where
+>>> you'd like a keypress to have a visual effect around the key you
+>>> pressed. A kind of force feedback, if you will. I don't actually know,
+>>> and correct me if I'm wrong, but feels like implementing that outside of
+>>> the input subsystem would be non-trivial.
+>> Actually I think it does not belong to the input subsystem as it is,
+>> where the goal is to deliver keystrokes and gestures to userspace.  The
+>> "force feedback" kind of fits, but not really practical, again because
+>> of lack of geometry info. It is also not really essential to be fully
+>> and automatically handled by the kernel. So I think the best way is
+>>> to
+> So that's actually big question.
+>
+> If the common usage is "run bad apple demo on keyboard" than pretty
+> clearly it should be display.
+>
+> If the common usage is "computer is asking yes/no question, so
+> highlight yes and no buttons", then there are good arguments why input
+> should handle that (as it does capslock led, for example).
+The common usage is "make keyboard look flashy", for some a fixed color scheme 
+is enough, other ones might probably enable one of the built in modes. Most 
+people I think will be satisfied with these 2 options, albeit both of your 
+suggestions sound cool.
+>
+> Actually I could imagine "real" use when shift / control /alt
+> backlight would indicate sticky-shift keys for handicapped.
+>
+> It seems they are making mice with backlit buttons. If the main use is
+> highlight this key whereever it is, then it should be input.
+>
+> But I suspect may use is just fancy colors and it should be display.
+>
+> Best regards,
+> 								Pavel
 
