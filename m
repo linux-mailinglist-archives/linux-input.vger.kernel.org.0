@@ -1,57 +1,60 @@
-Return-Path: <linux-input+bounces-1398-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1399-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61B9838AE0
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BAC838AEA
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 10:52:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 572E21F24420
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 09:51:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 614951F219EC
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jan 2024 09:52:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97D559B66;
-	Tue, 23 Jan 2024 09:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90E15C8E9;
+	Tue, 23 Jan 2024 09:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cO9/a1pX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJdMncaH"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F11F59B61;
-	Tue, 23 Jan 2024 09:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22535C8E2;
+	Tue, 23 Jan 2024 09:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706003265; cv=none; b=If5eM3Vehvd8dyoCqSncFUoI2ndSTjkhdwwSoI7gOZDtDgPYJTkuvvTNgg1ZXdmshnerBig3Y48sKzD7DD0N2sMmRJ3PO1Aq93cBLQQ0jDIeUUnjI9kzW/qOiBc4YUQ2R0cTjDnonBzASXIepiEIbgkz3T8XCCrp85PnpIR97yc=
+	t=1706003394; cv=none; b=K++U8XaEVJ8UsFJQYFLPtElFu7NMYPDxnCaILy+jf46F/e13dpRVwwBE0h+YzIh2Qygei6y5seqxxHW7Uf/FmTb0RgU8aVOaJYkDbadOP2UtLcGChZYfV8vU3qMQkvf4/gbc7sooGN5vvX2gKqkznW4LUh9dqkklLxeDkw9/lwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706003265; c=relaxed/simple;
-	bh=E5DDSd9jInVCIwSyg7EZ4ScsPQilv7OKc3YaWEfLIg0=;
+	s=arc-20240116; t=1706003394; c=relaxed/simple;
+	bh=oafaka+k/YuoznuEZx2paL1IH8gYbOVl6HqzshxYwjY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=bQpgeGdghwtpbEr2/zSqizNigADn/x0l+GjRiTCBh+iVf6SuFnYoeM3Ttdp9werpaPod6E7oYsTVEX81HYrTeD3Vdf/4uus02zOqUa/5ZhtdiLYDdduJoB/T8DR8gWI3lXPYADnYMbWgzMzSmGkIK2spz03DpQTI/C67JMMjZ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cO9/a1pX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB58AC433C7;
-	Tue, 23 Jan 2024 09:47:44 +0000 (UTC)
+	 MIME-Version:Content-Type; b=lIZdkVHEUN0/+R/6AmXwwKoi/FRjtK1qC3KTtjbZlmJfN2OnbeV2oFDofYF95I+VzrSDlXElTB/5zvg2jSpGdHndIUbCONvx3WwaegHaM1EhRFXW4HZI9L9G2F3DwNFUDZ3XAiZTOsjQi+1+JRu1lbs/ZCJO94JdD12Cfj1fwR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJdMncaH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A8AC43390;
+	Tue, 23 Jan 2024 09:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706003265;
-	bh=E5DDSd9jInVCIwSyg7EZ4ScsPQilv7OKc3YaWEfLIg0=;
+	s=k20201202; t=1706003394;
+	bh=oafaka+k/YuoznuEZx2paL1IH8gYbOVl6HqzshxYwjY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=cO9/a1pXRI5mzyLjPgHxSlg8GuGevociP60sK8stsTxCpRx/QWO7jSFOe2+nHHMTy
-	 JIhRL1y3m7pEBhs7wy17Eh9p4neCUaWGJAsoq5LF/BTN8RevLeo57QrS89REjGclM6
-	 axhjBOZHvuhF4vv4SVhSmL/kB5y0W/zVQ/PLryLT2GMgXvCKseLk7uSXcgdvHOep8R
-	 xlWnH1sRwaXALwJe615rjmEKaVl4J28CCJ1Ad3lKGeRZx6rg1SIMZgObWnDmywycFC
-	 Rdqr/qtbe4345nWZmFbSrqPaKkKathELPXHGxL8SaNMF7qYwtLlTeRvGR03EKxBN/M
-	 6/jnbQT1EhnCQ==
-Date: Tue, 23 Jan 2024 10:47:45 +0100 (CET)
+	b=WJdMncaH+kZziw373npdlH1RQ6Hc0KnLc6REKh0KtUydYVlo2JuNDBoGokUUv1HYh
+	 eUtDmC/87IXt2/JKyOXchq9UXvm454k0ZRlDg95V5GFncsUJxEfXKEWKRH4AZ2O2zj
+	 momePPCLBX0zvmzLy8GrAE+lH3nOkFahU9ZAV9TTE99Ic9l5OBhkyp9aXKAslfMJK9
+	 9Kdq9m9DgVkxMSFhdB6LETIhY/cBljEjSWuS3jAqRxRiWElnBJd3gpsbamFhd69zoM
+	 0qonF2A57DFei8cA8wib6ba+fPv+kxDPu4R4qcwCRPIChFFaDnEPrdPmPtaPU4TZpj
+	 NBSPzeJafY31w==
+Date: Tue, 23 Jan 2024 10:49:54 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Max Staudt <max@enpas.org>
-cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+To: "sandeep.cs" <sandeep.cs@samsung.com>
+cc: 'Joe Perches' <joe@perches.com>, 
+    'Benjamin Tissoires' <benjamin.tissoires@redhat.com>, 
+    gaudium.lee@samsung.com, ih0923.kim@samsung.com, suhyun_.kim@samsung.com, 
+    jitender.s21@samsung.com, junwan.cho@samsung.com, 
     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/7] HID: playstation: DS4: LED bugfix, third-party
- gamepad support
-In-Reply-To: <20240115144538.12018-1-max@enpas.org>
-Message-ID: <nycvar.YFH.7.76.2401231047140.29548@cbobk.fhfr.pm>
-References: <20240115144538.12018-1-max@enpas.org>
+Subject: RE: [HID Patchsets for Samsung driver v2 2/6] HID: Samsung : Fix
+ the checkpatch complain.
+In-Reply-To: <020e01da421f$c0d20660$42761320$@samsung.com>
+Message-ID: <nycvar.YFH.7.76.2401231049150.29548@cbobk.fhfr.pm>
+References: <20240108091917.1552013-1-sandeep.cs@samsung.com> <CGME20240108091959epcas5p2559b779424e2fb7c7e268d1b24612b4f@epcas5p2.samsung.com> <20240108091917.1552013-3-sandeep.cs@samsung.com> <486973921f89f70bcc5d42501eeca3fd105be2c4.camel@perches.com>
+ <020e01da421f$c0d20660$42761320$@samsung.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,40 +64,41 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 15 Jan 2024, Max Staudt wrote:
+On Mon, 8 Jan 2024, sandeep.cs wrote:
 
-> Dear hid-playstation maintainers,
-> 
-> Could you please have a look at the enclosed patches for the DualShock 4
-> driver in hid-playstation, and upstream them if possible?
-> 
-> There is one bugfix, and a few small patches to enable third-party
-> controllers. They sometimes don't implement features that they
-> semantically "don't need", but which currently trip the driver.
-> 
-> For example, for the DualShock 4, we don't actually need to know the
-> firmware version in order to work with the gamepad - unlike with the
-> DualSense, which has different driver logic depending on the version.
-> 
-> Finally, there are two patches to add a DS4 compatible controller with
-> an unassigned VID/PID - I'd appreciate your thoughts on that.
-> 
-> If I can make it easier to upstream these patches, please let me know.
-> 
-> Thanks!
-> 
-> Max
-> 
-> Patches in this series:
->   [PATCH v1 1/7] HID: playstation: DS4: Fix LED blinking
->   [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address
->   [PATCH v1 3/7] HID: playstation: DS4: Don't fail on FW/HW version
->   [PATCH v1 4/7] HID: playstation: DS4: Don't fail on calibration data
->   [PATCH v1 5/7] HID: playstation: DS4: Parse minimal report 0x01
->   [PATCH v1 6/7] HID: playstation: Simplify device type ID
->   [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
+> >> -	} else
+> >> -	if (*rsize == 203 && rdesc[192] == 0x15 && rdesc[193] == 0x0 &&
+> >> +	} else if (*rsize == 203 && rdesc[192] == 0x15 && rdesc[193] == 0x0
+> >> +&&
+> >>  			rdesc[194] == 0x25 && rdesc[195] == 0x12) {
+> >>  		samsung_irda_dev_trace(hdev, 203);
+> >>  		rdesc[193] = 0x1;
+> >>  		rdesc[195] = 0xf;
+> >> -	} else
+> >> -	if (*rsize == 135 && rdesc[124] == 0x15 && rdesc[125] == 0x0 &&
+> >> +	} else if (*rsize == 135 && rdesc[124] == 0x15 && rdesc[125] == 0x0
+> >> +&&
+> >>  			rdesc[126] == 0x25 && rdesc[127] == 0x11) {
+> >>  		samsung_irda_dev_trace(hdev, 135);
+> >>  		rdesc[125] = 0x1;
+> >>  		rdesc[127] = 0xe;
+> >> -	} else
+> >> -	if (*rsize == 171 && rdesc[160] == 0x15 && rdesc[161] == 0x0 &&
+> >> +	} else if (*rsize == 171 && rdesc[160] == 0x15 && rdesc[161] == 0x0
+> >> +&&
+> >>  			rdesc[162] == 0x25 && rdesc[163] == 0x01) {
+> >>  		samsung_irda_dev_trace(hdev, 171);
+> >>  		rdesc[161] = 0x1;
+> >
+> >For this block, I think a rewrite using memcmp would be clearer.
+> >Something like: 
+> Okay . Thanks for your valuable feedback. We will promptly address your
+> suggestions and enhance our code accordingly.
 
-Roderick, any word on this series, please?
+I agree with Joe's suggestion here; are you planning to send v2 of the 
+series?
+
+The rest of the set looks good to me.
 
 Thanks,
 
