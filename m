@@ -1,90 +1,142 @@
-Return-Path: <linux-input+bounces-1432-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1433-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A95C83B0D9
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 19:19:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE8083B2B7
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 21:02:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E3D11C22AE4
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 18:19:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 434681C22B47
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 20:02:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23D1129A91;
-	Wed, 24 Jan 2024 18:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE51A133996;
+	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8mDSddw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIXWtyFH"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A807F7F2;
-	Wed, 24 Jan 2024 18:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C6133985;
+	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706120357; cv=none; b=SAfOD6aIbZHtknoH2p/tvHuoyaX0yM+GoBAlu2gE5OY9DpZD4/2LeMUB+4J/E9D4GvRleiEKlKTp3ZkJohGg56lwEoRlhd6uygnTo8MK0yy7idiUyihKcRrD0CMhlVcUtLVEY+y4cQlWQbDnLPIcOMvhDghsAyS0HNmk0iWvtTg=
+	t=1706126562; cv=none; b=iF8NcSRmX5jYJfEKs2DSY3wb2nvf0BvuIrnHMxBn8K3c1G1gYmsKf6wwbrWx/SGKAxc1mLDlyaIDtOT8FgiUVOj6p4O59UwZdAarm+Za7iscpku3F2yhWWc3c6Ql7zwPzewIvCAKsR9cdyBiJo1NO8gxVHryMUW0IO0Qr42y1yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706120357; c=relaxed/simple;
-	bh=fu+WDFHPoM2Kn0sOnwkBIKYDNv9+uDzbcq78InGY8sI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=a6AyHGR8JzaWxcXWL79bxBL3yNolE5kWv5qs1i1tZONYjwus33HgNxLBKwDMZJ40z+9XdchURX/3CzzHe7GYCzyxy75gEV2q86aISv4rPKRtDGSlPk261jKwy3QOYegeWcKSUy608yq/1sQLJJKnRk4BV2rb5tw+Vsmu9nGSBi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8mDSddw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C69C2C433F1;
-	Wed, 24 Jan 2024 18:19:16 +0000 (UTC)
+	s=arc-20240116; t=1706126562; c=relaxed/simple;
+	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C57I24B3iGHxq4RC1uR7Z4VOqayNXANOWtpZUKYn/jWdtALZMmthT64kMeDRf+r5j8VM4gqMsyADXVZqlj+XzBYowmN0G/oEOP7N4OPbfF32hOAuymA8mvoJUEPk/uZjeb5+EVmjchaXdsDD3LOKC9Sks3n+UKF5BI9SgTDN6uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIXWtyFH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C4C433F1;
+	Wed, 24 Jan 2024 20:02:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706120357;
-	bh=fu+WDFHPoM2Kn0sOnwkBIKYDNv9+uDzbcq78InGY8sI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=d8mDSddwYEH+Wr/Fw37NimgJB8ZDYK9KWfzZWfQdByKN1aSLAItIjs8VX+gs7Sg0b
-	 OvKjAvTvymZe0lzNJxlX3+3Byjx/yhXDqKrjBL8gmZjQk3DzW9bZkYtGBAcymisBdA
-	 cJs6KNhjF2yPmjYFv6jy9HjtuJLnR2De6IGws4Obhhr8d+fB/WUQt5daKmPy5xzokm
-	 SoZArbMS9mBhjx9dTQ1M3wdkza6b3q+zea/okBOXEaGLDQ4n0mzepjG4SleEGBTsPj
-	 XjmZQ1iHoJ+wn1sxjVwGlZqXT3nvXGCQMTwShM1pQ0HZUlhvOnheZS3YUb1RbUi5Lj
-	 q3igeEtfYcDfw==
-Date: Wed, 24 Jan 2024 19:19:16 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Sandeep C S <sandeep.cs@samsung.com>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    gaudium.lee@samsung.com, ih0923.kim@samsung.com, suhyun_.kim@samsung.com, 
-    jitender.s21@samsung.com, junwan.cho@samsung.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [HID Patchsets for Samsung driver v3 3/6] HID: Samsung : Add
- Samsung wireless keyboard support.
-In-Reply-To: <20240124161029.3756075-4-sandeep.cs@samsung.com>
-Message-ID: <nycvar.YFH.7.76.2401241917490.29548@cbobk.fhfr.pm>
-References: <20240124161029.3756075-1-sandeep.cs@samsung.com> <CGME20240124161121epcas5p1fef1a14624b26cc436b899d9f6cde164@epcas5p1.samsung.com> <20240124161029.3756075-4-sandeep.cs@samsung.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=k20201202; t=1706126562;
+	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TIXWtyFH5yxUa2sKS25qW3wOvsP8Ed2klnxIK0jQEvMXqnYVHZWCU0zqLjO7+ilCR
+	 JWdnVZmbglYShezSvqIcZWDN/Vh46HywERZIGBwdalc9QELX9rTL+upLtWfATkdWgT
+	 WOJSdLKuC7J9/6NYjh+DNGAalqkPr+gBHAK+jK1uAFFeeu8RJwLSBlu58kMYFUoEl1
+	 Yp7MPDfACwXPwjaV1u4/U968HoLm30T94Tl/mdr2QRYc4fOG1E9E30BuK8sKFpJ4U8
+	 n+9CHV5JSYN6y7zhCegxJ1IM+OVstyfug/6ZJ17Jvqz0l9lgm0LjUJl94LQR9K86D2
+	 ni5ld1wGOGq1w==
+Date: Wed, 24 Jan 2024 20:02:07 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
+ <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
+ <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
+ netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
+ Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Martin Tuma
+ <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
+ <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
+ linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
+ Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
+ Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-mtd@lists.infradead.org, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
+ Filippov <jcmvbkbc@gmail.com>, linux-arm-kernel@lists.infradead.org, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
+ Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
+ Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
+ <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
+ <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
+ Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
+ <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <20240124200207.7e02b501@jic23-huawei>
+In-Reply-To: <20240122192343.148a0b6d@jic23-huawei>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+	<20240122192343.148a0b6d@jic23-huawei>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 24 Jan 2024, Sandeep C S wrote:
+On Mon, 22 Jan 2024 19:23:43 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-> Add Support for samsung wireless keyboard with input mapping events.
-> 
-> Device 7021 (Samsung wireless keyboard)
-> 
-> Signed-off-by: Sandeep C S <sandeep.cs@samsung.com>
-> Signed-off-by: Junwan Cho <junwan.cho@samsung.com>
-> Signed-off-by: Jitender Sajwan <jitender.s21@samsung.com>
-> ---
->  drivers/hid/hid-ids.h     |   2 +
->  drivers/hid/hid-samsung.c | 108 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 110 insertions(+)
-[ ... snip ... ]
-> +#ifdef CONFIG_HID_KK_UPGRADE
+> On Mon, 22 Jan 2024 18:18:22 +0000
+> Mark Brown <broonie@kernel.org> wrote:
+>=20
+> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> >  =20
+> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> > > didn't appear in a public tree though yet. I still included it here to
+> > > make the kernel build bots happy.   =20
+> >=20
+> > It's also going to be needed for buildability of the end of the series.=
+ =20
+>=20
+> Ah.  I thought intent was to split this across all the different trees
+> then do the final patch only after they were all gone?
+>=20
+> I'm fine with it going all in one go if people prefer that.
+>=20
+> My tree will be out in a few mins. Was just waiting to rebase on rc1
+> which I've just done.
+>=20
+> Jonathan
+>=20
 
-Where is CONFIG_HID_KK_UPGRADE coming from, please? This is the first time 
-I am seeing it, and it's definitely not being introduced by your patchset.
+Dropped from my tree.
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
