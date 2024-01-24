@@ -1,142 +1,185 @@
-Return-Path: <linux-input+bounces-1433-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1434-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE8083B2B7
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 21:02:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9E383B32F
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 21:48:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 434681C22B47
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 20:02:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D0361F232DD
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 20:48:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE51A133996;
-	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0C4F7E760;
+	Wed, 24 Jan 2024 20:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIXWtyFH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ni1Voonn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C6133985;
-	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E95134740
+	for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 20:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706126562; cv=none; b=iF8NcSRmX5jYJfEKs2DSY3wb2nvf0BvuIrnHMxBn8K3c1G1gYmsKf6wwbrWx/SGKAxc1mLDlyaIDtOT8FgiUVOj6p4O59UwZdAarm+Za7iscpku3F2yhWWc3c6Ql7zwPzewIvCAKsR9cdyBiJo1NO8gxVHryMUW0IO0Qr42y1yI=
+	t=1706129292; cv=none; b=nLTuinyTewWTbxWfYFbxBwwjlq1c49qANA18cGOKLZfYuu1o13j7VAcnV2Es8Ki7jr7lV+70T7nxU+Ay4n4sC23LiqNoDmy/GhZ5kimYuUgT21is/qEz/PVFXVKfZZq6YfAc+dAzwTTqrQRyCBddpQ95w5zh3n4njRMt5jJImBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706126562; c=relaxed/simple;
-	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C57I24B3iGHxq4RC1uR7Z4VOqayNXANOWtpZUKYn/jWdtALZMmthT64kMeDRf+r5j8VM4gqMsyADXVZqlj+XzBYowmN0G/oEOP7N4OPbfF32hOAuymA8mvoJUEPk/uZjeb5+EVmjchaXdsDD3LOKC9Sks3n+UKF5BI9SgTDN6uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIXWtyFH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C4C433F1;
-	Wed, 24 Jan 2024 20:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706126562;
-	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TIXWtyFH5yxUa2sKS25qW3wOvsP8Ed2klnxIK0jQEvMXqnYVHZWCU0zqLjO7+ilCR
-	 JWdnVZmbglYShezSvqIcZWDN/Vh46HywERZIGBwdalc9QELX9rTL+upLtWfATkdWgT
-	 WOJSdLKuC7J9/6NYjh+DNGAalqkPr+gBHAK+jK1uAFFeeu8RJwLSBlu58kMYFUoEl1
-	 Yp7MPDfACwXPwjaV1u4/U968HoLm30T94Tl/mdr2QRYc4fOG1E9E30BuK8sKFpJ4U8
-	 n+9CHV5JSYN6y7zhCegxJ1IM+OVstyfug/6ZJ17Jvqz0l9lgm0LjUJl94LQR9K86D2
-	 ni5ld1wGOGq1w==
-Date: Wed, 24 Jan 2024 20:02:07 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
- <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
- <trix@redhat.com>, linux-fpga@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
- <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
- netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
- Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Martin Tuma
- <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
- <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
- Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
- linux-mtd@lists.infradead.org, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
- Filippov <jcmvbkbc@gmail.com>, linux-arm-kernel@lists.infradead.org, Bjorn
- Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, Thomas Zimmermann
- <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
- Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
- Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
- Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
- <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
- <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
- <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
- Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
- <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
- <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <20240124200207.7e02b501@jic23-huawei>
-In-Reply-To: <20240122192343.148a0b6d@jic23-huawei>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
-	<20240122192343.148a0b6d@jic23-huawei>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1706129292; c=relaxed/simple;
+	bh=IWYYgf4rbO3bkPyfQAyXXt9wb2dSZquYyHmjLLkU0R4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nADjl8WoYm/yeHryEf21lVbj7fk5oXxYYZkkpLtD9NK9jQvWKm/aX1wY8A+B29uZVST7U4XhP1ogRWVOMd69wznTbM8k6RTQ024FcJBdqMxSZQpqoOxuP0bi1dQupgmwhIumrunf7vYKEjf1874pDw0h5KuUWNeISNIhYbxXz/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ni1Voonn; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6e0cc84fe4dso3296132a34.2
+        for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 12:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706129281; x=1706734081; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xp1FxFFoeqCuLyZKJ4b0I/MPjBEdBmWc8V7BZ2u4Mus=;
+        b=ni1VoonniKTQUixo8FLnCSzZsbE1nPBBTak7SkIMqSWEDpgmp4w1/z8rGeSg6uBB8I
+         vEkB/Bgj14mSlSN0MYsiAC3kd2cWiLG414AeC2jLh2SouGxfLKTRp/xIRn5OrLeIhnj5
+         ommeeCLIVi3fDsi3jWQp9boIatl/gVxtlZLcycanTISRLioLTuvdXFqPiYuikAJjGtL9
+         OZWe5j6YWgBzEPwXQYa6o5/LcfPgqzfQqTotFN3xiQ84w76JT2DJaIBDf270DEcEwqMD
+         zVS4FP3qOuNikS36KzLl3OJ1ofWDiZCBzf29broN9rLhYzdiGgHL+O6UknkpJnrtAj9q
+         Dddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706129281; x=1706734081;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xp1FxFFoeqCuLyZKJ4b0I/MPjBEdBmWc8V7BZ2u4Mus=;
+        b=aI5wF7p3vKesdrU6x/SOr11538NpQWGAWgNIzrxTQsVbcV9H27Bi5NXUnM210ouItD
+         P0gHT3LsooV6TOFToUDsKFclSBu8uz8DUPZliftDDmcCe+11X378+W2bUcdd651NN7jr
+         YvmES98/jnHBGs/elb0OEeB5Hx6kgs3d6Y4pT77Bng2dZG3CymJzl+s9X1mQcXu+f/Rt
+         W3kuDN6jpOF15yDF5BQ2sp/c7sS3adivHSbNznaU5UxW0YdARwBtv5mmyZ6/UYfDb2yp
+         MDT6pUblyd41PkHRYtJyVK4xogjbi1J4X1O40fzeHn4ZrC2R5YOrSk7eIoNtcRMm7BIK
+         zkqA==
+X-Gm-Message-State: AOJu0YziinevqvHhMQGclnDE1VUjof1ICkqUhx6BxflUF6wxcWxJt++F
+	Ohxj1NfDGBskvk7A3ZmvTbWHeKuOaAkWXlysGHUpTmlhqFNcxFF5Qa99uPWS
+X-Google-Smtp-Source: AGHT+IEKoaVNsaxsEm9SaJ5VETErB293M/xgxyeQSnPIqYp0rQyOc5kWQ7mrqP5DA5gTvL2OVHpwTg==
+X-Received: by 2002:a9d:6456:0:b0:6e0:b719:4f68 with SMTP id m22-20020a9d6456000000b006e0b7194f68mr1830405otl.26.1706129280869;
+        Wed, 24 Jan 2024 12:48:00 -0800 (PST)
+Received: from localhost.localdomain ([75.28.21.198])
+        by smtp.gmail.com with ESMTPSA id g3-20020a9d6483000000b006d7eaaa65a4sm2738403otl.71.2024.01.24.12.48.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 12:48:00 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: contact@artur-rojek.eu,
+	hdegoede@redhat.com,
+	paul@crapouillou.net,
+	peter.hutterer@who-t.net,
+	svv@google.com,
+	biswarupp@google.com,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V4] Input: adc-joystick: Handle inverted axes
+Date: Wed, 24 Jan 2024 14:47:54 -0600
+Message-Id: <20240124204754.43982-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Jan 2024 19:23:43 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+From: Chris Morgan <macromorgan@hotmail.com>
 
-> On Mon, 22 Jan 2024 18:18:22 +0000
-> Mark Brown <broonie@kernel.org> wrote:
->=20
-> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> >  =20
-> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> > > didn't appear in a public tree though yet. I still included it here to
-> > > make the kernel build bots happy.   =20
-> >=20
-> > It's also going to be needed for buildability of the end of the series.=
- =20
->=20
-> Ah.  I thought intent was to split this across all the different trees
-> then do the final patch only after they were all gone?
->=20
-> I'm fine with it going all in one go if people prefer that.
->=20
-> My tree will be out in a few mins. Was just waiting to rebase on rc1
-> which I've just done.
->=20
-> Jonathan
->=20
+When one or more axes are inverted, (where min > max), normalize the
+data so that min < max and invert the values reported to the input
+stack.
 
-Dropped from my tree.
+This ensures we can continue defining the device correctly in the
+device tree while not breaking downstream assumptions that min is
+always less than max.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+Changes since V3:
+ - Add include for minmax.h.
+ - Use swap() instead of min_array()/max_array().
+ - Dropped Ack due to change.
+Changes since V2:
+ - Explicitly set bool value to "true" instead of "1".
+ - Split adc_joystick_invert() function definition to 2 lines.
+ - Corrected changes message location.
+Changes since V1:
+ - Moved proposed helper for inversion from input stack to adc-joystick
+   driver.
+
+ drivers/input/joystick/adc-joystick.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
+index c0deff5d4282..3b05b2e413d0 100644
+--- a/drivers/input/joystick/adc-joystick.c
++++ b/drivers/input/joystick/adc-joystick.c
+@@ -7,6 +7,7 @@
+ #include <linux/input.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/consumer.h>
++#include <linux/minmax.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+@@ -18,6 +19,7 @@ struct adc_joystick_axis {
+ 	s32 range[2];
+ 	s32 fuzz;
+ 	s32 flat;
++	bool inverted;
+ };
+ 
+ struct adc_joystick {
+@@ -29,6 +31,15 @@ struct adc_joystick {
+ 	bool polled;
+ };
+ 
++static int adc_joystick_invert(struct input_dev *dev,
++			       unsigned int axis, int val)
++{
++	int min = dev->absinfo[axis].minimum;
++	int max = dev->absinfo[axis].maximum;
++
++	return (max + min) - val;
++}
++
+ static void adc_joystick_poll(struct input_dev *input)
+ {
+ 	struct adc_joystick *joy = input_get_drvdata(input);
+@@ -38,6 +49,8 @@ static void adc_joystick_poll(struct input_dev *input)
+ 		ret = iio_read_channel_raw(&joy->chans[i], &val);
+ 		if (ret < 0)
+ 			return;
++		if (joy->axes[i].inverted)
++			val = adc_joystick_invert(input, i, val);
+ 		input_report_abs(input, joy->axes[i].code, val);
+ 	}
+ 	input_sync(input);
+@@ -86,6 +99,8 @@ static int adc_joystick_handle(const void *data, void *private)
+ 			val = sign_extend32(val, msb);
+ 		else
+ 			val &= GENMASK(msb, 0);
++		if (joy->axes[i].inverted)
++			val = adc_joystick_invert(joy->input, i, val);
+ 		input_report_abs(joy->input, joy->axes[i].code, val);
+ 	}
+ 
+@@ -168,6 +183,12 @@ static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
+ 			goto err_fwnode_put;
+ 		}
+ 
++		if (axes[i].range[0] > axes[i].range[1]) {
++			dev_dbg(dev, "abs-axis %d inverted\n", i);
++			axes[i].inverted = true;
++			swap(axes[i].range[0], axes[i].range[1]);
++		}
++
+ 		fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
+ 		fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
+ 
+-- 
+2.34.1
+
 
