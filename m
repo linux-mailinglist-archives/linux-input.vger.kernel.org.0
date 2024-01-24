@@ -1,264 +1,144 @@
-Return-Path: <linux-input+bounces-1416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1417-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE0E83A620
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 10:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1342E83A7BA
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 12:27:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E0E6284A40
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 09:59:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66F19285E4A
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 11:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F8F1804F;
-	Wed, 24 Jan 2024 09:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F901AAD3;
+	Wed, 24 Jan 2024 11:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OkhrsnVV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9CyT7/z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F39182B5
-	for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 09:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE792C684;
+	Wed, 24 Jan 2024 11:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706090352; cv=none; b=MqXwsn7jAKDWQq6heyxWFNjQSZfeOat/d2jJNDdc4vaV+odaqsa8HbgfMNh/j9fXjRk/Fd5R0+2nCim9Hdqpi1WrrOz3OKExLeACn2XZBSvW6UOt00g+mohBfG9JbNHosBdyDz0HSdgjJl6kZXmQrlY5Qg0fJDLrDUA7nSvYaH4=
+	t=1706095630; cv=none; b=JZJ2CiStkme3egp0naAN+aBSeLf9FIdYstvb7D95YzDgqsrfoMymdVVeWZKYPKdJF8F85hNKxjXJHi7GTsOdVOEEAMlGUas/Ce3RreMg60slGSU6D/ybvaWo/9xi8nPj/9A6a94Q9lTNX2l+BVhReeG1f+oLnsE4eGQb4jF5P8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706090352; c=relaxed/simple;
-	bh=15Q4F0kE4qahoEyJ6HulrWZpeQdJz1QfwlrrMXu0l60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=umrmPzys09nO0tssAsASNHuz+nriLy4Qr0FgiWis0hWyQ5H8x/kORBRhHHZ97gYqx6/7sRBl7ZHrLtmxhGBSH7ErIWPAix+2NpEmn5v4JPV6zfuhm04YR5QCptcJkmThjs2GOTcfh1QgZ0p/SjICiMhBbFqsWrksCvWhN4ssRZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OkhrsnVV; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706090350;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ycwyiuq6MSu6fJ8T9ykxWOzW0MDrM+yl5NgqcP5LEEo=;
-	b=OkhrsnVV7e+4RR7RHvlooHQ9Ngd9gl/Hzvpiw//lLMzcuNjTFaaWW9z3heyapMeD7tgvlp
-	cGh4yfL3Eb7G780U29K+GkZJbgC39+dShjp64ML4vfbajtHwXw27FJIsKvPMATlfgeYKoh
-	+prduMPlHwrlEC+K7opBR9dk+XMSfMg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-495-VzqS73AFNyOL5sTmuoYg6g-1; Wed, 24 Jan 2024 04:59:08 -0500
-X-MC-Unique: VzqS73AFNyOL5sTmuoYg6g-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a30fbf6e9a5so36064166b.3
-        for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 01:59:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706090346; x=1706695146;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ycwyiuq6MSu6fJ8T9ykxWOzW0MDrM+yl5NgqcP5LEEo=;
-        b=jSuWT6fhb7DzR4nIUnQI23CnKKlyQ61/Rot4gvUJ1gnm4BotQj/Zcw9239O0/EeKgK
-         9oNcCnFzGfVYKGpiGkDHpXDevGAJDIx+iKNm25NswfOIYZcJkkjHUx0F1tui2jPBAZMx
-         knHIx5OCTr8rHL5t9Xaq9Ccl3Tu8XmSP88xs4M955BhxkVAMilKT84D/7bedyDEGVTrH
-         kaw5ArrIyQjBLOeFnXJlo91gQt3/JfOLgdsIJTE7V8t+y/IPa5yAwv8zBq4MCTVs95LP
-         MQy3BJivvMVLF5BYfouUqOwkZWHLTO2YZ2ASVCHMt1W2Fvfk4UxV3wfv5FlKvvKtCgjQ
-         VwLA==
-X-Gm-Message-State: AOJu0Yx2phhKI24dGLO4Qck/VARUD3/wST6NY70G+liOczi7VzoarqBL
-	qOG6NmtpxPQKto28tIxFjYbOotq2XZ3PyXbx5LQx9CqdnynO94F3u3Gs9FS6OoDBX0sw+EKX+Wd
-	zriZVH1LQrDgAM8aK6jwvXdKrYJ69SHSu+MJO6l4QBV25gMCeMUK6lnWpxH7Y6NYYAJyxkA7eNT
-	3ylGK6g/HYgr61ca7QRrqKpeSzVvYxLm6gwIdieCznvFM=
-X-Received: by 2002:a17:907:8748:b0:a28:c217:ce8e with SMTP id qo8-20020a170907874800b00a28c217ce8emr759049ejc.124.1706090346437;
-        Wed, 24 Jan 2024 01:59:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEPu5nlNtWGHZaLtZ37i6pNs7lvberqRiX4p3cwtvFz0zIWKs9cFdhli4kiokFcEr5hYFR3LhDmpONRZqAnA+A=
-X-Received: by 2002:a17:907:8748:b0:a28:c217:ce8e with SMTP id
- qo8-20020a170907874800b00a28c217ce8emr759038ejc.124.1706090346097; Wed, 24
- Jan 2024 01:59:06 -0800 (PST)
+	s=arc-20240116; t=1706095630; c=relaxed/simple;
+	bh=alQWMBFXA1hw7IIWXSpJ6i4inmySS5LtlbuTmaNyvl4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CiR4wt/Uch6WAgfDwe4Yhw66szMwDjBmP2OzxvZZGNnlw8V4XQMV7r11eBSKvIU5uWAPId00EnXrmdW/zUsIZjbF6QFKQA7ga1fsfuiepNDGVsGe8vZGQggG8eDYHJI6JgJaZlApmQSE05MyFH7Nfpr3XQPOT8mK7rLmda86BQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9CyT7/z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A84C433C7;
+	Wed, 24 Jan 2024 11:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706095630;
+	bh=alQWMBFXA1hw7IIWXSpJ6i4inmySS5LtlbuTmaNyvl4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Y9CyT7/zJOgHijuFWNtRE5BK0H0gmMJs7J47B3RhKobd0Cdg95Ffr0gwjegsbTJo9
+	 l5jFT2D0k8Wyf1dZoIrlgwJABziL/uMh7EqvOQiCy+6H9e0FbnL78Ek/1NQrXTTBFz
+	 Yi+KDg63/QF6strX05Jg1NdW6DyP8VWGmY+t6rcCnEPltwieHTEDnB/ORgwltAMHQt
+	 4rw7g0q9i+7z20mO68w9Ez+/gi8Fu2qEXqr+W8u7p4E6jUeBuUZJ0xAn0Zlv0I2WPD
+	 x52l2BtjQTejwsCFKqIkqM15PYksEtxlrVS+kzYNrgUpw05Xu/ypl++kRvycDZC1ph
+	 dnwJ8F4Z5hbfA==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH v2 0/3] HID: bpf: couple of upstream fixes
+Date: Wed, 24 Jan 2024 12:26:56 +0100
+Message-Id: <20240124-b4-hid-bpf-fixes-v2-0-052520b1e5e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240123-b4-hid-bpf-fixes-v1-0-aa1fac734377@kernel.org>
- <20240123-b4-hid-bpf-fixes-v1-2-aa1fac734377@kernel.org> <CAEf4BzbE-YHR1FuXfG7ryi_77H=nzF0XBoppqrbG4Uh1uPz8Lg@mail.gmail.com>
-In-Reply-To: <CAEf4BzbE-YHR1FuXfG7ryi_77H=nzF0XBoppqrbG4Uh1uPz8Lg@mail.gmail.com>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Wed, 24 Jan 2024 10:58:53 +0100
-Message-ID: <CAO-hwJL4UMQMOC-CQKXZ_Np2b7H2rSnAji=Yypc62k_+GejwcA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: bpf: use __bpf_kfunc instead of noinline
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAD0sGUC/32NQQ6CMBBFr0Jm7Zh22lB1xT0MiwJTOtEAaQ3RE
+ O5u5QAu3/95/2+QOQlnuFUbJF4lyzwVoFMFffTTyChDYSBFVmky2FmMMmC3BAzy5ox1TVd1CUx
+ kLBRtSXwUxbq3haPk15w+x8Oqf+mfsVWjQu918L0z1jjXPDhN/DzPaYR23/cvIfSokbEAAAA=
+To: Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1706095628; l=2390;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=alQWMBFXA1hw7IIWXSpJ6i4inmySS5LtlbuTmaNyvl4=;
+ b=j5lHHgQgLoXVZiipVjKowReOGI8kG/sxaAYoHUCxIixkXKDGr6uZidECS+6mEjacbAFlkw3y8
+ 0leuu0JRJH5Bdo74vBNHfnY00B3a2snuwqLxHwVesgj3F0kFQKh3wI/
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Tue, Jan 23, 2024 at 8:57=E2=80=AFPM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
->
-> On Tue, Jan 23, 2024 at 8:46=E2=80=AFAM Benjamin Tissoires <bentiss@kerne=
-l.org> wrote:
-> >
-> > Follow the docs at Documentation/bpf/kfuncs.rst:
-> > - declare the function with `__bpf_kfunc`
-> > - disables missing prototype warnings, which allows to remove them from
-> >   include/linux/hid-bpf.h
-> >
-> > Removing the prototypes is not an issue because we currently have to
-> > redeclare them when writing the BPF program. They will eventually be
-> > generated by bpftool directly AFAIU.
-> >
-> > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > ---
-> >  drivers/hid/bpf/hid_bpf_dispatch.c | 22 +++++++++++++++++-----
-> >  include/linux/hid_bpf.h            | 11 -----------
-> >  2 files changed, 17 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_b=
-pf_dispatch.c
-> > index 5111d1fef0d3..119e4f03df55 100644
-> > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > @@ -143,6 +143,11 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hd=
-ev, u8 *rdesc, unsigned int *s
-> >  }
-> >  EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-> >
-> > +/* Disables missing prototype warnings */
-> > +__diag_push();
-> > +__diag_ignore_all("-Wmissing-prototypes",
-> > +                 "Global kfuncs as their definitions will be in BTF");
-> > +
->
-> would it be possible to use __bpf_kfunc_start_defs() and
-> __bpf_kfunc_end_defs() macros instead of explicit __diag push/pop
-> pairs? It's defined in include/linux/btf.h
+Hi,
 
-Sure, I'll use them in v2.
+This is the v2 of this series of HID-BPF fixes.
+I have forgotten to include a Fixes tag in the first patch
+and got a review from Andrii on patch 2.
 
-I also realized that I had some memory leaks because I never called
-put_device() after bus_find_device(), so I need to add another fix to
-this series.
+And this first patch made me realize that something was fishy
+in the refcount of the hid devices. I was not crashing the system
+even if I accessed the struct hid_device after hid_destroy_device()
+was called, which was suspicious to say the least. So after some
+debugging I found the culprit and realized that I had a pretty
+nice memleak as soon as one HID-BPF program was attached to a HID
+device.
+
+The good thing though is that this ref count prevents a crash in
+case a HID-BPF program attempts to access a removed HID device when
+hid_bpf_allocate_context() has been called but not yet released.
+
+Anyway, for reference, the cover letter of v1:
+
+---
+
+Hi,
+
+these are a couple of fixes for hid-bpf. The first one should
+probably go in ASAP, after the reviews, and the second one is nice
+to have and doesn't hurt much.
+
+Thanks Dan for finding out the issue with bpf_prog_get()
 
 Cheers,
 Benjamin
 
->
-> >  /**
-> >   * hid_bpf_get_data - Get the kernel memory pointer associated with th=
-e context @ctx
-> >   *
-> > @@ -152,7 +157,7 @@ EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-> >   *
-> >   * @returns %NULL on error, an %__u8 memory pointer on success
-> >   */
-> > -noinline __u8 *
-> > +__bpf_kfunc __u8 *
-> >  hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const s=
-ize_t rdwr_buf_size)
-> >  {
-> >         struct hid_bpf_ctx_kern *ctx_kern;
-> > @@ -167,6 +172,7 @@ hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned =
-int offset, const size_t rdwr
-> >
-> >         return ctx_kern->data + offset;
-> >  }
-> > +__diag_pop(); /* missing prototype warnings */
-> >
-> >  /*
-> >   * The following set contains all functions we agree BPF programs
-> > @@ -274,6 +280,11 @@ static int do_hid_bpf_attach_prog(struct hid_devic=
-e *hdev, int prog_fd, struct b
-> >         return fd;
-> >  }
-> >
-> > +/* Disables missing prototype warnings */
-> > +__diag_push();
-> > +__diag_ignore_all("-Wmissing-prototypes",
-> > +                 "Global kfuncs as their definitions will be in BTF");
-> > +
-> >  /**
-> >   * hid_bpf_attach_prog - Attach the given @prog_fd to the given HID de=
-vice
-> >   *
-> > @@ -286,7 +297,7 @@ static int do_hid_bpf_attach_prog(struct hid_device=
- *hdev, int prog_fd, struct b
-> >   * is pinned to the BPF file system).
-> >   */
-> >  /* called from syscall */
-> > -noinline int
-> > +__bpf_kfunc int
-> >  hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags)
-> >  {
-> >         struct hid_device *hdev;
-> > @@ -328,7 +339,7 @@ hid_bpf_attach_prog(unsigned int hid_id, int prog_f=
-d, __u32 flags)
-> >   *
-> >   * @returns A pointer to &struct hid_bpf_ctx on success, %NULL on erro=
-r.
-> >   */
-> > -noinline struct hid_bpf_ctx *
-> > +__bpf_kfunc struct hid_bpf_ctx *
-> >  hid_bpf_allocate_context(unsigned int hid_id)
-> >  {
-> >         struct hid_device *hdev;
-> > @@ -359,7 +370,7 @@ hid_bpf_allocate_context(unsigned int hid_id)
-> >   * @ctx: the HID-BPF context to release
-> >   *
-> >   */
-> > -noinline void
-> > +__bpf_kfunc void
-> >  hid_bpf_release_context(struct hid_bpf_ctx *ctx)
-> >  {
-> >         struct hid_bpf_ctx_kern *ctx_kern;
-> > @@ -380,7 +391,7 @@ hid_bpf_release_context(struct hid_bpf_ctx *ctx)
-> >   *
-> >   * @returns %0 on success, a negative error code otherwise.
-> >   */
-> > -noinline int
-> > +__bpf_kfunc int
-> >  hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *buf, size_t buf__sz,
-> >                    enum hid_report_type rtype, enum hid_class_request r=
-eqtype)
-> >  {
-> > @@ -448,6 +459,7 @@ hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *b=
-uf, size_t buf__sz,
-> >         kfree(dma_data);
-> >         return ret;
-> >  }
-> > +__diag_pop(); /* missing prototype warnings */
-> >
-> >  /* our HID-BPF entrypoints */
-> >  BTF_SET8_START(hid_bpf_fmodret_ids)
-> > diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-> > index 840cd254172d..7118ac28d468 100644
-> > --- a/include/linux/hid_bpf.h
-> > +++ b/include/linux/hid_bpf.h
-> > @@ -77,17 +77,6 @@ enum hid_bpf_attach_flags {
-> >  int hid_bpf_device_event(struct hid_bpf_ctx *ctx);
-> >  int hid_bpf_rdesc_fixup(struct hid_bpf_ctx *ctx);
-> >
-> > -/* Following functions are kfunc that we export to BPF programs */
-> > -/* available everywhere in HID-BPF */
-> > -__u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, c=
-onst size_t __sz);
-> > -
-> > -/* only available in syscall */
-> > -int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags)=
-;
-> > -int hid_bpf_hw_request(struct hid_bpf_ctx *ctx, __u8 *buf, size_t buf_=
-_sz,
-> > -                      enum hid_report_type rtype, enum hid_class_reque=
-st reqtype);
-> > -struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id);
-> > -void hid_bpf_release_context(struct hid_bpf_ctx *ctx);
-> > -
-> >  /*
-> >   * Below is HID internal
-> >   */
-> >
-> > --
-> > 2.43.0
-> >
-> >
->
+To: Jiri Kosina <jikos@kernel.org>
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:  <linux-input@vger.kernel.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Cc:  <bpf@vger.kernel.org>
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+
+---
+Changes in v2:
+- add Fixes tags
+- handled Andrii review (use of __bpf_kfunc_start/end_defs())
+- new patch to fetch ref counting of struct hid_device
+- Link to v1: https://lore.kernel.org/r/20240123-b4-hid-bpf-fixes-v1-0-aa1fac734377@kernel.org
+
+---
+Benjamin Tissoires (3):
+      HID: bpf: remove double fdget()
+      HID: bpf: actually free hdev memory after attaching a HID-BPF program
+      HID: bpf: use __bpf_kfunc instead of noinline
+
+ drivers/hid/bpf/hid_bpf_dispatch.c  | 101 ++++++++++++++++++++++++++----------
+ drivers/hid/bpf/hid_bpf_dispatch.h  |   4 +-
+ drivers/hid/bpf/hid_bpf_jmp_table.c |  39 +++++++-------
+ include/linux/hid_bpf.h             |  11 ----
+ 4 files changed, 95 insertions(+), 60 deletions(-)
+---
+base-commit: fef018d8199661962b5fc0f0d1501caa54b2b533
+change-id: 20240123-b4-hid-bpf-fixes-662908fe2234
+
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
 
