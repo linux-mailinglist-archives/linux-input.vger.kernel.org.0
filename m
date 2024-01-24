@@ -1,332 +1,161 @@
-Return-Path: <linux-input+bounces-1427-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1428-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D551483AE17
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 17:13:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EA983AEED
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 17:58:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 054561C2235B
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 16:13:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19FFBB277C6
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jan 2024 16:58:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82F27E566;
-	Wed, 24 Jan 2024 16:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4C517E593;
+	Wed, 24 Jan 2024 16:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="naF+CmDy"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="WuVEICY1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2064.outbound.protection.outlook.com [40.107.22.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDD8003A
-	for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 16:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706112710; cv=none; b=ovTX6IBfZihbxb08JbdXprepnTSEUFCWm5U1GnZlpPjtRqD57QZ0Ykg34nzn8kjo9L+vJtmRJqI/VIYDReYyPqLD+w9+dUbmYbxu3nVj4+xwvxhRsne7d2uwMvnq+Evg8H/2QaHJ2C2MZXjf4I1U/iJ4Qr7KuPWaOnNXIFHy+HQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706112710; c=relaxed/simple;
-	bh=d4bsKmm/S0cNV+rPnLXkgJTdv/5usqe7TAF0r+e9VBI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=cmGR2gD4H95WU5/gOIOtiLZfVoOao+0YBnaCBbjgXdHuK6fED54C8kwvCYl6kCJxhgRGpwiQEsgHIhd7DAPhayADuK4x5ck2oVwiBIm5VvuXQXuuBQAgR26tNAno8ttjWAwplAkAdENUiL0UyluRzQ7hxrKiAd0don3H7AEkSvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=naF+CmDy; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240124161146epoutp040a1f4c147f585b2bed69de0106806f56~tVHet0a-k2638126381epoutp04F
-	for <linux-input@vger.kernel.org>; Wed, 24 Jan 2024 16:11:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240124161146epoutp040a1f4c147f585b2bed69de0106806f56~tVHet0a-k2638126381epoutp04F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1706112706;
-	bh=h8EqZYKtyKm8YLRUkquBdtpHYnrssIr8zIGAQ4rp3Mc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=naF+CmDyo5iwxCLoK3eMWHLUASvl0NK8zthVT9jmhpQ+r0w+ZiElCY+AzFPOuY1pj
-	 /Cm0eraSlbsrctSntxKoQXbyva7F+0plQ4SsZj1X5D/NVTfgkCW/oUgJx8/s4FsNFt
-	 IpGFoh6aKO6f/sgAI7oUgYMuzrM4jDuq8u1slLJU=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240124161145epcas5p46a1a72c03f970a81808f00b9ea17162d~tVHdhztvD1524215242epcas5p4w;
-	Wed, 24 Jan 2024 16:11:45 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4TKpqg5p5fz4x9Pr; Wed, 24 Jan
-	2024 16:11:43 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B0.5F.09672.FB631B56; Thu, 25 Jan 2024 01:11:43 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240124161142epcas5p42fe248ea16530b66c617890bc495234b~tVHamGOpE1524115241epcas5p4r;
-	Wed, 24 Jan 2024 16:11:42 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240124161142epsmtrp1643eaa5331301037219738476473db3f~tVHalc0vD1601516015epsmtrp1u;
-	Wed, 24 Jan 2024 16:11:42 +0000 (GMT)
-X-AuditID: b6c32a4b-39fff700000025c8-9c-65b136bf4e62
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E3.CA.18939.EB631B56; Thu, 25 Jan 2024 01:11:42 +0900 (KST)
-Received: from ws2030077324.sa.corp.samsungelectronics.net (unknown
-	[107.99.237.91]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240124161140epsmtip19fbb19c480d74e7e21c0c23dc83e1550~tVHZJwhzq1251112511epsmtip1m;
-	Wed, 24 Jan 2024 16:11:40 +0000 (GMT)
-From: Sandeep C S <sandeep.cs@samsung.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
-	<benjamin.tissoires@redhat.com>
-Cc: gaudium.lee@samsung.com, ih0923.kim@samsung.com,
-	suhyun_.kim@samsung.com, jitender.s21@samsung.com, junwan.cho@samsung.com,
-	sandeep.cs@samsung.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [HID Patchsets for Samsung driver v3 6/6] HID: Samsung : Add
- Samsung wireless bookcover and universal keyboard support.
-Date: Wed, 24 Jan 2024 21:40:28 +0530
-Message-Id: <20240124161029.3756075-7-sandeep.cs@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240124161029.3756075-1-sandeep.cs@samsung.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C827E780;
+	Wed, 24 Jan 2024 16:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706115440; cv=fail; b=GZEJNVuEGOjkqAA9rH6/XK+bmAzY2LMMjBhXKgw9zv+owV6AYT5+MIzulMyGb/beu768vFJCEofXJY1LG5Gqv/1EXjm5AIP0TjYOFjs8xkhg+n1kpWyQOP4O0oAs9Hx0sbMmvKqWVA74pRMFWlfT8PRHBnQnLw33/XeMS6v0uwE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706115440; c=relaxed/simple;
+	bh=zlLUDPEJK4ccRnhmGKzhXsexemEeg5NIlTc+nJ/syRI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GnsC5wCI71zGBRpHVESY+LYIn0QPxPkPgj4VrOEqmJX17EKSWqfLeB8Zg1x/xKkYq+FJyLkzow0allMpzJ23IzvCkjSB5xj9Arkjo0LeSnium5hJIltxid8bWwABvnCAZwwmIO8CT5Qoj/CEodGeqrLBwT/kJjRRpF1Q8OcTvBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=2n.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=WuVEICY1; arc=fail smtp.client-ip=40.107.22.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=2n.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CwnlAtDqRy1HoIvKM1yfmT5UXEtRwaykYigYf6AJNNrVnEaKAM4drjQHRKd6FUv9nsMrRfwoJJyTpfutX8g4iZwWTKlWM2ieHdu85iO5tHgS9EOt9riwJnTa2MtlWF/Qmy+kfiQDsEVxpzEbZN5AioSMiJUq7q0IfW9vhlr5/cQdai1xSJZwUgLFX8Cx4qcflnwZy9i/1a4qfatbq8GjyrKkihhTCNbpePVkntAz275tO7B+yXDCVr1IgGhfOhyCloCico6gSXgUnVucWLHFNKVY6ryD1esDaYT+j9UAIPuuijIaME9LFzO7K4y4IiaCZcHyYIRjr6l4be039Rq4gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mxf9P+CRBevJ2MEdaLNHEv55nbKT+Un8kqjs8/dKulA=;
+ b=YiYcbKREDtS7HtpgJdXebUaqpwtK0tFZFLSduxmgQA5D+p87Br/Wes/oT393zs5LZCiRDfu8YKYpuzIbyp6MdQeD0djDMyg0Sui5GwaHjGKpeO3isTWzyY0P8LSdvn0OsVKuUvy1B/UNWDJotM2FN9njNxFXnMebyi3AeuGXsASl7l1MqtcE2r56oukm8rtPbwQmQuS1wq/xAK+oXsPhm6k3fI55yCKXJTObMrGTMbnXeqqzOW7Kyi5w71sBZXGN1OAZ0ExBOc8Gzh3FqdXxQLUZi+gtozA7dD1Rg61HjrRSNbulvXPldJygFV+pfoc8l/rBqUSBJM4jO3ubFQ0v4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=2n.com; dmarc=pass action=none header.from=axis.com; dkim=pass
+ header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mxf9P+CRBevJ2MEdaLNHEv55nbKT+Un8kqjs8/dKulA=;
+ b=WuVEICY1sx/VZr9jK6gGLecTkYuEfZkvtZcEpusNn61Ko2qloYA9JemJGBSB8FCwCVJD4YTK707Ugsu90u9yFeUAjayDC1YILWMQxCTXhfbzY+trjwEBDSXv1xDywgzh9JW262XpOtoAtvzq/W5hQXd+4BrRuOxYCDNJL8nq+MY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Received: from PAXPR02MB7263.eurprd02.prod.outlook.com (2603:10a6:102:1c5::18)
+ by DU0PR02MB9194.eurprd02.prod.outlook.com (2603:10a6:10:466::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Wed, 24 Jan
+ 2024 16:57:14 +0000
+Received: from PAXPR02MB7263.eurprd02.prod.outlook.com
+ ([fe80::788c:574d:7902:4a41]) by PAXPR02MB7263.eurprd02.prod.outlook.com
+ ([fe80::788c:574d:7902:4a41%3]) with mapi id 15.20.7202.035; Wed, 24 Jan 2024
+ 16:57:14 +0000
+Message-ID: <f081bad4-2828-4d2f-bbe6-165ad2ba1655@axis.com>
+Date: Wed, 24 Jan 2024 17:57:12 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: cap11xx - stop using chip ID when configuring it
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <ZXlCRsnOu_L8xeTC@google.com> <ZalnEZ83M0jlQI2s@google.com>
+Content-Language: en-US
+From: Jiri Valek - 2N <jiriv@axis.com>
+In-Reply-To: <ZalnEZ83M0jlQI2s@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MM0P280CA0072.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:8::30) To PAXPR02MB7263.eurprd02.prod.outlook.com
+ (2603:10a6:102:1c5::18)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTU3e/2cZUg45lGhbXp2xmtbi9wNNi
-	65K5rBa3jrcyWrx8sIHdYvPkRywWNz99Y7W4vGsOm0X77GeMFo9WbGJy4PLYtKqTzeP9vqts
-	Hn1bVjF6fN4kF8ASlW2TkZqYklqkkJqXnJ+SmZduq+QdHO8cb2pmYKhraGlhrqSQl5ibaqvk
-	4hOg65aZA3SPkkJZYk4pUCggsbhYSd/Opii/tCRVISO/uMRWKbUgJafApECvODG3uDQvXS8v
-	tcTK0MDAyBSoMCE7Y/72LqaCl4YVxx9+YGxg3K3ZxcjJISFgIjH74FvWLkYuDiGB3YwSU4/e
-	YodwPjFKzDszA8Fpv/CFDaZl9YEXUImdjBIzPndA9XcySbS8PcUOUsUmoCXRd+Q7E4gtIhAh
-	8W7BJkYQm1ngOqPEg4eBIA3CAk2MEkff7WQBSbAIqEpM3t7MCmLzCthK/L/xkAVinbzE/oNn
-	mUFsTgE7if6+e2wQNYISJ2c+YYEYKi/RvHU2M8hQCYGv7BIbd6xkhWh2kVi2YBHUIGGJV8e3
-	sEPYUhIv+9vYIRq6GSWW3j4G5cxglGjZeZUZospe4ufrCUDrOIBWaEqs36UPsY1Povf3EyaQ
-	sIQAr0RHmxBEtYrE067drDDzv5/YyARhe0h8+zsf7GghgYmMEvv74yYwys9C8sMsJD/MQli2
-	gJF5FaNkakFxbnpqsWmBcV5qOTxuk/NzNzGCU6aW9w7GRw8+6B1iZOJgPMQowcGsJMJrYrox
-	VYg3JbGyKrUoP76oNCe1+BCjKTCQJzJLiSbnA5N2Xkm8oYmlgYmZmZmJpbGZoZI47+vWuSlC
-	AumJJanZqakFqUUwfUwcnFINTGtObGA3vDU5ep6lRCWvr+rcU6tjBCTsbT89d9w4OaVIaprL
-	nNb+mV+3R204OTu/5Y6LXu7JUxXbc8Tzj763Dl+jXZS1nKutfP6VjeZ1zpaO4YaaZ65Mf1Hu
-	vSpY5ugzTffzDrv9lt45dVWis2TvV+XPsWdfx2VNXyXgnyrC33Q2QdnrfArP30V1hmIJItai
-	9u3unh2vzyt/XmjUG1hw+fFkntmruI8xvnf12f/0yTbugKRjChqb5p5urGT6HDRJRejO1pMB
-	bPc6wj+d2nrX6cU1lyk2F366PrS0c7urffalVenXTLMnq1JP3vlsXePj2P189czKE1Pnvpoc
-	dU/ELNxy4TPlmNlS/kaH1j0PEFZiKc5INNRiLipOBACgoFZzIgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsWy7bCSnO4+s42pBqfbRSyuT9nManF7gafF
-	1iVzWS1uHW9ltHj5YAO7xebJj1gsbn76xmpxedccNov22c8YLR6t2MTkwOWxaVUnm8f7fVfZ
-	PPq2rGL0+LxJLoAlissmJTUnsyy1SN8ugStj/vYupoKXhhXHH35gbGDcrdnFyMkhIWAisfrA
-	C/YuRi4OIYHtjBInHr9mg0hISay6fo8RwhaWWPnvOVRRO5PExw1vWEASbAJaEn1HvjOB2CIC
-	ERLT/q1lBCliFrjPKLF1/1U2EEdYoIFRYt3Sz8wgVSwCqhKTtzezgti8ArYS/288ZIFYIS+x
-	/+BZsBpOATuJ/r57YGcIAdXs+d7LAlEvKHFy5hMwmxmovnnrbOYJjAKzkKRmIUktYGRaxSia
-	WlCcm56bXGCoV5yYW1yal66XnJ+7iREc5FpBOxiXrf+rd4iRiYPxEKMEB7OSCK+J6cZUId6U
-	xMqq1KL8+KLSnNTiQ4zSHCxK4rzKOZ0pQgLpiSWp2ampBalFMFkmDk6pBib34Afih4p/7dp+
-	ZqK6/r3mRaed9CQnnfW/eaJAcs6JsxEMb+68LEx/vpPTrcquTPx04k8l9fN/WWda2/zhnbtO
-	5MdWh7NzbI9OLttxKbvlwrLmPQtOiHZH7l3Ke+Wr6NdPbuId2y2XPdq2Zuv+yIfi7AmTZsbt
-	tir47iZg+f76Si6WF5/FNn2avVF8x+aK9ifGVlr1XVf7F+9a2jN770l+tefLpkXICNyeur7s
-	fMb7lRdNbqWHcxTXfp7VM+XCvkWfypYk7ImNvB3N1yvNWXXY7eanBSfeXJNx13l+NuaMbXj7
-	rOZs1i0hc08x866Z/91YvMQgRPH95uTq+B5DYOqaeXVXXMeKebscorxO3HvYrcRSnJFoqMVc
-	VJwIAH0XKKXhAgAA
-X-CMS-MailID: 20240124161142epcas5p42fe248ea16530b66c617890bc495234b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240124161142epcas5p42fe248ea16530b66c617890bc495234b
-References: <20240124161029.3756075-1-sandeep.cs@samsung.com>
-	<CGME20240124161142epcas5p42fe248ea16530b66c617890bc495234b@epcas5p4.samsung.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR02MB7263:EE_|DU0PR02MB9194:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71c1a249-2120-4a3e-9720-08dc1cfd83e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	qOyLtSuT392D5L6kImXkBoJze8+IXvc8AdfLarsxhNpIAYpvIn6ATkmtLZzXlZk+1PXOSfjNgHVqn3bco973ewL1Faj4mwSnviEDZsag6RNfj67b68LL5dDPU/2JhD0oCXLuW7J5vnbvpVj2jz/rerItTBolFaqirQ32hhcopZlTb85+MlVNkRto6XBuByOFlIu2+5m9IV1Hm4yD8RkM/5afgBV1N2XUtY92IcjP2RdVAGxAL1Pi2B2JuvSDBHSgBuVdTVbW/BO0AtKEbqywzGzurpqHlP9NqiJ0O7Fm1VCJcEwYUEr4yzhJ4Vaya9Xvv+8GCbEbqRGv3A2xrf5JlLm/HUYAvRHI/EEaziSK36w2tCC8y1f2yAdHrJrz/VfCwhRidmSSStq6jrfAsMCA2Mt7nYDlJa7iXNFZ8niSiYng7heFM8wFszPz1saKFTTJPKozTJ2tRReM/JpHkxjT0+O5GF2IC2W4h7JjL/3YszVyfwRX8eUmCEA8kYh2adrykMs24wIYFTgIux6rGZpka5gnIxqBaht46d9hU+GaxdQexJpIpgV74swtLaZzfPuOVCDJMSSDtvKLkzG90tL1oWU/Y5YS1uC1yn7P/8ggf5XV8di9vn6J4IkZMq4+Pn3ZoZTVjJf36JM9FZdjcyZ30w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7263.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(366004)(39860400002)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(31696002)(36756003)(83170400001)(38100700002)(4326008)(31686004)(83380400001)(42882007)(6512007)(6506007)(66556008)(6486002)(478600001)(66476007)(26005)(66946007)(6916009)(2616005)(316002)(8936002)(2906002)(41300700001)(4744005)(8676002)(5660300002)(53546011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M1hSYnljbEY2cE4xc0RtL3dUT294Lzl5R1NxSzJzakV1Rk9CSkRlSk4rZlVi?=
+ =?utf-8?B?U3ZocWtkTDB0ZUdMdkRpUllFc3o4TGEvUkloajR3M1pydC83ZXhKb29MclZ0?=
+ =?utf-8?B?NWxNbHdRSWpxNDNTdjduOHo3Wjc4T1NqOHRRWnFpcjc3MlI2V3Y2TlRYMXA0?=
+ =?utf-8?B?TWNia2lqZGwvdk9aMFlpdnA4K3JYNUZVVjF2NGltZGJybTVlS0dORXUwMXZC?=
+ =?utf-8?B?eEdrUDM5K0UxOWxEaDIwMG9PMHh0endkS2VVUXViRlF4ZkgrbFlLU3FJQ0ZY?=
+ =?utf-8?B?cUdLbjVSSlZNU2daTFZ2ODZVZ21DTmIraDFCWllydFpOMDQ2b0t6SSszcXlM?=
+ =?utf-8?B?c1l4UEtpVy81bUdRcWpNVUZEM2krTDJuRHB5SkZCaEFocVRTbVhVRWdEclFm?=
+ =?utf-8?B?aVRjNWVxL2hQdi9hUVE1NitSL2RNUndYN1VSeTB2OGFYZVg4Tk9GRjNoYVFk?=
+ =?utf-8?B?NXpjT3pWYkVHVHBSa3RmQWYvZmVqVkdqdWlEamNFUWpSM2ZzTTlObmZUVWhl?=
+ =?utf-8?B?TVh3MUF1MkJvdzRvWmxMZGthcW44dzlJSzBldVRiQUZqRFoxL2pPdGpJc0hz?=
+ =?utf-8?B?bzNUOEFUZHVxdldqV1lhemZDbVJrWit1R3B5N2cwc0pPWE9CL1ZjRUtXN3lO?=
+ =?utf-8?B?U1ZxRnhGUE9uSkNYcm5yQkVNY1diYmJZMWx2a1R2ZTgxYXVrdjNFZVJRMlUx?=
+ =?utf-8?B?azUvOGNBbzdHdDArbXo5Unh4OHNSNWlMWDJOY2VDZGNONWNvbU91Y1dhZ2Za?=
+ =?utf-8?B?L2pVMTM0cmN0S1N2N1hTcml3T1pLYjJycXVNZStYK0xHN0t3M0dsWnh2OVV1?=
+ =?utf-8?B?SHpaUGxlT3ZKV2tGTTcycXN0U0xnT2hiK1h4akEvZ1VmNnViY093ajREZFFJ?=
+ =?utf-8?B?U2lzRW9kbHpGVy9pY24rd3dZaGhPWVNBQ3Q0UXN5dWV3eXB0ZEFHVURwS2E0?=
+ =?utf-8?B?MFZzamlmNU9wOTVXQkczNG1IUW80ZUkvUlFGbkVlenBpWms3YUpMbTJ0TEZ6?=
+ =?utf-8?B?N01JbWVqTE4xZ2dBN2pyb29BVTdRTVNZNm00MVZwQTJ2elBLOUxXdXlzY3px?=
+ =?utf-8?B?azBaQU4zaGZ4YlJWVEhYQm9yTlhDeHR5NU92U0FucnA0N1c2MnVyT25jajhw?=
+ =?utf-8?B?SlRodW1Ga3JRNVF5L2MwZDN2UFB4a3c2dG1ZeHZaTWg3dWdaRk5zYVNYOUNv?=
+ =?utf-8?B?NWlhOExHenlRT1Q1Sm5nN2FNb05PUWY4Rm1GWjlqdmt1OGd2LzRKcy9EMERh?=
+ =?utf-8?B?eTFjZkxFN3ZnOW1LM1JVQUNjOHdnL1VjakVhcjAyRWgzZ2E5bFNLZ0xmSkpQ?=
+ =?utf-8?B?MGo5NUNXV09ER1N2MXIzL09QczB6cHNYNUMyZ3NHVFNMT0cvZVhYYmZpNWwz?=
+ =?utf-8?B?YmFLc1JxbldjdHZ0cUR3VENuVm9DMjY0d200REo1K09zcXFiTGN3Q3E1ZTB1?=
+ =?utf-8?B?bG9xUkNFV3lTYjhGUmp2Mmd6aEZEUDJWMWJDU3JPaFlLZDFJTE8wbGlweDJO?=
+ =?utf-8?B?OEQ0ZFliaWVMMUV6eVdsV2k3TnZ2aW91RzczdlJweERmaWtNcU9NZVcwMHNE?=
+ =?utf-8?B?R2JYaEJzdDhubm5MazFuYzJjeEZYWUlGc0dxcitncURGOVo2blZkblhsY3Jo?=
+ =?utf-8?B?aDJqUVVYRnRYSysvdUNTUW0rVlUxcnRxK2djbEFWSUNjeHdnQmQxS2loT2wv?=
+ =?utf-8?B?SExyd3prUXMxRzhvd2ZoMG05NUJxREU3NlE5bzJrQUF4ZDdIQWV4MTBubTlQ?=
+ =?utf-8?B?NWpab0ppeE1OODFGT1pZTmJwdThNaXp2OCtjUThBRmdpWTZGakpsTk1ackNp?=
+ =?utf-8?B?VzU1MUQxSS9CcUw1Y0JvK005SjlkRFZaK29GNGgwdlI1Q0ZkUVBXSGQ5Wk9V?=
+ =?utf-8?B?K0V6TVBSWFhQQ0kvU1dIUldaQ0Mwenh6aEJ3NDNTWmljd1I0R0xOMk5XVHlE?=
+ =?utf-8?B?L1lGRHp1MXRXeis3Q2hCc3JxTlI5VC81NjZ4RytRejVBNnNKS0U3aEVnN2pP?=
+ =?utf-8?B?dFJPU0M4WTZjYmxER0VGcFdZeHRka3BmbFZMYTRwWE9LVmQrRGZ4NGlMbFl5?=
+ =?utf-8?B?UEp6UGEvY3ZtN1ZHQmlzeGkvTnROSE1vTytneER1a2I0ejE3ejMrVS9PSTNJ?=
+ =?utf-8?Q?JLJZhWpBIArPizLdW8Nc6IsQK?=
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71c1a249-2120-4a3e-9720-08dc1cfd83e2
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7263.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 16:57:14.6332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oCYE8lPkGfWabf/UcU3HsfP+2MTLp6fgq0ci21v3jpt9P/vRcT/aOicTQ+CQM6zA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9194
 
-Add support for samsung wireless bookcover and universal keyboard with input mapping events.
+On 1/18/24 18:59, Dmitry Torokhov wrote:
+> On Tue, Dec 12, 2023 at 09:33:58PM -0800, Dmitry Torokhov wrote:
+>> struct cap11xx_hw_model is supposed to describe the chip capabilities,
+>> however later code changes introduced checks against chip ID.
+>>
+>> Introduce new capabilities in cap11xx_hw_model and use them when applying
+>> chip configuration, and remove the enum for chip ID. While at it, rename
+>> no_gain to has_gain to match the rest of the new capabilities.
+> 
+> Jiri, if you could give this a spin on your device that would be great.
+> 
+> Thanks!
+> 
+Hi Dmitry,
 
-Device a005 (Samsung wireless bookcover keyboard)
-Device a006 (Samsung wireless universal keyboard)
-Device a064 (Samsung wireless multi hogp keyboard)
+thanks for changes. Looks good to me.
+I verified the functionality on real HW with CAP1293.
 
-Signed-off-by: Sandeep C S <sandeep.cs@samsung.com>
-Signed-off-by: Junwan Cho <junwan.cho@samsung.com>
-Signed-off-by: Jitender Sajwan <jitender.s21@samsung.com>
-Signed-off-by: Gwangho Lee <gaudium.lee@samsung.com>
----
- drivers/hid/hid-ids.h     |   3 +
- drivers/hid/hid-samsung.c | 142 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 145 insertions(+)
+Reviewed-by: Jiri Valek - 2N <jiriv@axis.com>
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 43a990086225..e44a48b852fd 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1149,6 +1149,9 @@
- #define USB_DEVICE_ID_SAMSUNG_WIRELESS_KBD	0x7021
- #define USB_DEVICE_ID_SAMSUNG_WIRELESS_GAMEPAD	0xa000
- #define USB_DEVICE_ID_SAMSUNG_WIRELESS_ACTIONMOUSE	0xa004
-+#define USB_DEVICE_ID_SAMSUNG_WIRELESS_BOOKCOVER	0xa005
-+#define USB_DEVICE_ID_SAMSUNG_WIRELESS_UNIVERSAL_KBD	0xa006
-+#define USB_DEVICE_ID_SAMSUNG_WIRELESS_MULTI_HOGP_KBD	0xa064
- 
- #define USB_VENDOR_ID_SEMICO			0x1a2c
- #define USB_DEVICE_ID_SEMICO_USB_KEYKOARD	0x0023
-diff --git a/drivers/hid/hid-samsung.c b/drivers/hid/hid-samsung.c
-index df0de72062b7..845768397036 100644
---- a/drivers/hid/hid-samsung.c
-+++ b/drivers/hid/hid-samsung.c
-@@ -357,6 +357,140 @@ static int samsung_actionmouse_input_mapping(struct hid_device *hdev,
- 	return 1;
- }
- 
-+static int samsung_universal_kbd_input_mapping(struct hid_device *hdev,
-+	struct hid_input *hi, struct hid_field *field, struct hid_usage *usage,
-+	unsigned long **bit, int *max)
-+{
-+	if (!(HID_UP_CONSUMER == (usage->hid & HID_USAGE_PAGE) ||
-+			HID_UP_KEYBOARD == (usage->hid & HID_USAGE_PAGE)))
-+		return 0;
-+
-+	dbg_hid("samsung wireless keyboard input mapping event [0x%x]\n",
-+		usage->hid & HID_USAGE);
-+
-+	if (HID_UP_KEYBOARD == (usage->hid & HID_USAGE_PAGE)) {
-+		set_bit(EV_REP, hi->input->evbit);
-+		switch (usage->hid & HID_USAGE) {
-+		/* Only for UK keyboard */
-+		/* key found */
-+#ifdef CONFIG_HID_KK_UPGRADE
-+		case 0x32:
-+			samsung_kbd_mouse_map_key_clear(KEY_KBDILLUMTOGGLE);
-+			break;
-+		case 0x64:
-+			samsung_kbd_mouse_map_key_clear(KEY_BACKSLASH);
-+			break;
-+#else
-+		case 0x32:
-+			samsung_kbd_mouse_map_key_clear(KEY_BACKSLASH);
-+			break;
-+		case 0x64:
-+			samsung_kbd_mouse_map_key_clear(KEY_102ND);
-+			break;
-+#endif
-+		/* Only for BR keyboard */
-+		case 0x87:
-+			samsung_kbd_mouse_map_key_clear(KEY_RO);
-+			break;
-+		default:
-+			return 0;
-+		}
-+	}
-+
-+	if (HID_UP_CONSUMER == (usage->hid & HID_USAGE_PAGE)) {
-+		switch (usage->hid & HID_USAGE) {
-+		/* report 2 */
-+		/* MENU */
-+		case 0x040:
-+			samsung_kbd_mouse_map_key_clear(KEY_MENU);
-+			break;
-+		case 0x18a:
-+			samsung_kbd_mouse_map_key_clear(KEY_MAIL);
-+			break;
-+		case 0x196:
-+			samsung_kbd_mouse_map_key_clear(KEY_WWW);
-+			break;
-+		case 0x19e:
-+			samsung_kbd_mouse_map_key_clear(KEY_SCREENLOCK);
-+			break;
-+		case 0x221:
-+			samsung_kbd_mouse_map_key_clear(KEY_SEARCH);
-+			break;
-+		case 0x223:
-+			samsung_kbd_mouse_map_key_clear(KEY_HOMEPAGE);
-+			break;
-+		/* RECENTAPPS */
-+		case 0x301:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY1);
-+			break;
-+		/* APPLICATION */
-+		case 0x302:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY2);
-+			break;
-+		/* Voice search */
-+		case 0x305:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY4);
-+			break;
-+		/* QPANEL on/off */
-+		case 0x306:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY5);
-+			break;
-+		/* SIP on/off */
-+		case 0x307:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY3);
-+			break;
-+		/* LANG */
-+		case 0x308:
-+			samsung_kbd_mouse_map_key_clear(KEY_LANGUAGE);
-+			break;
-+		case 0x30a:
-+			samsung_kbd_mouse_map_key_clear(KEY_BRIGHTNESSDOWN);
-+			break;
-+		case 0x070:
-+			samsung_kbd_mouse_map_key_clear(KEY_BRIGHTNESSDOWN);
-+			break;
-+		case 0x30b:
-+			samsung_kbd_mouse_map_key_clear(KEY_BRIGHTNESSUP);
-+			break;
-+		case 0x06f:
-+			samsung_kbd_mouse_map_key_clear(KEY_BRIGHTNESSUP);
-+			break;
-+		/* S-Finder */
-+		case 0x304:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY7);
-+			break;
-+		/* Screen Capture */
-+		case 0x303:
-+			samsung_kbd_mouse_map_key_clear(KEY_SYSRQ);
-+			break;
-+		/* Multi Window */
-+		case 0x309:
-+			samsung_kbd_mouse_map_key_clear(BTN_TRIGGER_HAPPY9);
-+			break;
-+		/* HotKey App 1 */
-+		case 0x071:
-+			samsung_kbd_mouse_map_key_clear(0x2f5);
-+			break;
-+		/* HotKey App 2 */
-+		case 0x072:
-+			samsung_kbd_mouse_map_key_clear(0x2f6);
-+			break;
-+		/* HotKey App 3 */
-+		case 0x073:
-+			samsung_kbd_mouse_map_key_clear(0x2f7);
-+			break;
-+		/* Dex */
-+		case 0x06e:
-+			samsung_kbd_mouse_map_key_clear(0x2bd);
-+			break;
-+		default:
-+			return 0;
-+		}
-+	}
-+
-+	return 1;
-+}
-+
- static __u8 *samsung_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 	unsigned int *rsize)
- {
-@@ -383,6 +517,12 @@ static int samsung_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	else if (hdev->product == USB_DEVICE_ID_SAMSUNG_WIRELESS_ACTIONMOUSE)
- 		ret = samsung_actionmouse_input_mapping(hdev,
- 			hi, field, usage, bit, max);
-+	else if (hdev->product == USB_DEVICE_ID_SAMSUNG_WIRELESS_UNIVERSAL_KBD)
-+		ret = samsung_universal_kbd_input_mapping(hdev,
-+			hi, field, usage, bit, max);
-+	else if (hdev->product == USB_DEVICE_ID_SAMSUNG_WIRELESS_MULTI_HOGP_KBD)
-+		ret = samsung_universal_kbd_input_mapping(hdev,
-+			hi, field, usage, bit, max);
- 
- 	return ret;
- }
-@@ -428,6 +568,8 @@ static const struct hid_device_id samsung_devices[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SAMSUNG_ELECTRONICS, USB_DEVICE_ID_SAMSUNG_WIRELESS_KBD) },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SAMSUNG_ELECTRONICS, USB_DEVICE_ID_SAMSUNG_WIRELESS_GAMEPAD) },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SAMSUNG_ELECTRONICS, USB_DEVICE_ID_SAMSUNG_WIRELESS_ACTIONMOUSE) },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SAMSUNG_ELECTRONICS, USB_DEVICE_ID_SAMSUNG_WIRELESS_UNIVERSAL_KBD) },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SAMSUNG_ELECTRONICS, USB_DEVICE_ID_SAMSUNG_WIRELESS_MULTI_HOGP_KBD) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, samsung_devices);
--- 
-2.34.1
 
 
