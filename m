@@ -1,81 +1,81 @@
-Return-Path: <linux-input+bounces-1441-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1442-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6E283B652
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 02:01:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35BD83B655
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 02:04:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 071022870E5
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 01:01:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 54EBE1F23DCB
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 01:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27A8780A;
-	Thu, 25 Jan 2024 01:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892AF80B;
+	Thu, 25 Jan 2024 01:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fs9IGCqt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gv6l9chR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B227F8;
-	Thu, 25 Jan 2024 01:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A2A7F8;
+	Thu, 25 Jan 2024 01:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706144476; cv=none; b=scytJxutzDghDd+0HoPT3hYaiS25o1FrFDjGEpyhu2uAJVdC2O2D7qA+eB2OcenUlb4lF9Vy3zcxFL259+K/XD/ubPqC/GUQUaUDRz0/sVcWtNPNg7rYXn/L3DgCTCrP8mXB17wU0fYUXn9md75NtI4x4vsbc9DLn4505CpNDkw=
+	t=1706144654; cv=none; b=o84tpWi+dmR9jO+Ts1lxK1rRrFh8Sb0FeVrCh42DZdClGU+AEUJHkOnveezN0ryH/esfXUv0dEWUbv1ANafij+Y/p5biWrci7ldwZZbCA5ysR6bOJdO+tEzapLdq+X/9P/A+5kX1UqRV4POtRYwC1xrm5GIVz0qvFoxNmQIgGm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706144476; c=relaxed/simple;
-	bh=aAY/Pry5Kjaz4wqkv7lOYDN55tnggAzWhDbTtjVonGw=;
+	s=arc-20240116; t=1706144654; c=relaxed/simple;
+	bh=yrn1KceoCEV9E2X+gMdi5SB7RD3fOrfIAtwD5tqFxVE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BgjcGiPPl6uzGfsRcG8rUnANALAP2j2GzycziXJsmVZ77ZvRo2UeJKBKLxGCeza6FuEGNL12tqe1/OaDEAho3jS6tTj7RrypZoTcJyRXRKphEbB4sjhjP12Zv5vfcpfuX40VjKh04JapjVZi9arvMvxK8WvgpzrXkzuRJbFpvW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fs9IGCqt; arc=none smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=lDesedane8Ktj9dw96OIVuYIV0J5VRfW53tAjDUz8s6ksOTYKEomCLpHodguOLPRIrdTWUu4WAfPhyPfdyPKYq1DSCYDoVw/stgO5kvD1U+iRlrcvZJsH6jXh2VzYy+TxrI45r3HimBSB3XAom5z0UN280Cyc4I75sOyZpQn4ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gv6l9chR; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55cd798b394so454025a12.0;
-        Wed, 24 Jan 2024 17:01:13 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-55c2cf644f3so4085099a12.1;
+        Wed, 24 Jan 2024 17:04:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706144472; x=1706749272; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706144651; x=1706749451; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9wlytBSogeuOwCdynHPj1+lp6nTAVWkrJDq1Bxhe/cg=;
-        b=Fs9IGCqtnHQYJI8IX0l47RA9Q9vxZSERn/hMuOnuxI9JJOdbUp5Mz9znS7FwiznAYK
-         il03fhqN//fLfPpaiWEF6JUgpcEzngS0N1DhHFhvUZ/TH6oZ1rcjwcag5ZJzLBV34PXL
-         qcs+MQrcbFVEGiKv3LwHuh0n8wfpxoKP7BCRaCpx1lXreFvhVkLY+7SQOWkd0KxutHuW
-         IDrO1G9ah6Ofdgfu5qi9KUxw9KBCmvpxW1DO6UYFhHtkRx6Qv6r9m+p5YMgV8YzzTkBa
-         7gSaa/eUliVriQn5LmmD5ZvUN2Yvy5gq4uhuBnCQk+DmSpg0ryFKu0/cZ5Rr2kMhZKGP
-         48Qg==
+        bh=iAjy8o7mK2jxLO30WD6vuXRYXSBlcMTLyTUzMLzRzmM=;
+        b=gv6l9chRjqA+jnjP7jJOy3dztBPS5ABAJDzEGu5wZPqYGd5/LED3M8wxo45znYRKkR
+         dN8PZs6s61WAWmN38CzFU5tvhTMOaiFigz7hDyRL9Kjb8moTjyJ0JF32CnzttAHAPHnv
+         UT4xW7Xjibz3rmpkMH3wUlCAthnshQq+JkgMbGN2OWrFT/VlmnhpIts1kGFbgP9KEmVG
+         9/oej/qOSa/hNzsBicS5ZAIDMK9gTo5iLfSqu7o9aDrszudHUIiDKGtbZ2Bfv5GBijmi
+         tow+Hudp7mgSZdSKMbgfPXWGaQ8Z7a9CZP0recOHuTk8cnZQ3JZwv8OXhuaMQ1YPc9Zp
+         rW5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706144472; x=1706749272;
+        d=1e100.net; s=20230601; t=1706144651; x=1706749451;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9wlytBSogeuOwCdynHPj1+lp6nTAVWkrJDq1Bxhe/cg=;
-        b=HhAtiZV2ocFF80fNiwqNfed1f2byfN+Q3VbHRH856GRFsedp8wsh1jg+q1qCqB7rJr
-         Dj0K9QzqORHY2hwXB67afZ934Nlblq0S5TrCDBYhIfhzAHyUSYqWqvUaLdRcIzVRsER1
-         CH5z6BbKP7m6ON9D8aUVarJ8n+lWxnyM5l8OgIqg08Nw3VSTN3BRoREjxtjJjcK19C7J
-         DDwUoM91dbOXPAkVY/LfuegVRwdbbSkEz6mFXQx28yVqXpleox0SF+hg9Udy5Nfhf8kQ
-         06jmiZXv0ZJEEAdUCcJTLQRq5lHZNJsiGeum74xn/P3EMJjo+ACCsViTJgF+ShUibBTy
-         Ob5Q==
-X-Gm-Message-State: AOJu0YygxUGDcv8TOhpH7h2v5XpAu9Z5XdhK9IKrhT5PNjK/m9LD3axl
-	8/cVVGsHbU8AzCzHfsrlFRooXHvHD08fxqfM1ont7cYCDk3vrMXsGpnMrWVCt6TjKFmmTRbyy5R
-	Oh6leXHZF29vRNmHiYQjEwXN3m0LZPS70
-X-Google-Smtp-Source: AGHT+IHQD5LlBm8SJXBxKjam2afeKPNXa2zBEHx9DJF/ZanTf+IoePmuXYN2ChhXANTvSOymlaHkgrytu+GA5VFFY84=
-X-Received: by 2002:a17:907:d501:b0:a28:abfa:e405 with SMTP id
- wb1-20020a170907d50100b00a28abfae405mr200905ejc.58.1706144472329; Wed, 24 Jan
- 2024 17:01:12 -0800 (PST)
+        bh=iAjy8o7mK2jxLO30WD6vuXRYXSBlcMTLyTUzMLzRzmM=;
+        b=jo/vlqqXzYXstsU/cNvdVlHU1ymaSW1eKjyutw2RENBiF25+yNs+jmzeThw3OIxEpb
+         9zJP1MC+2ocnYwwBNTV/PeuXJP6Si0XjfQmBveH0aN1EWkxuCUFtfJ3lULS4KVNLgog2
+         /6rrzeHFA3xIyNGoL1grQKx0H3dDyBD1nhq9faJgh1fi5BxWxM5P6MojT3nXvnJX+WCL
+         Rm0HSas7hZtoOHnnb386fsSW63JLLr5At1z5302tWhugODqnee+WnTgoQGvZP1ZrvSbA
+         Cc4UyBV1Nr3On5duNM5/IrV+T2Qg8GCgadIlLYuUwrI1kI4pd9Jz+wfHQGE98rFje0er
+         ALMw==
+X-Gm-Message-State: AOJu0Yw6nwQQoOwhov8DUOZdk6YYKpesFuNiNtJlMpSzHmzf7RbAWh9E
+	9tDKCn4IlHC4hSGTIzuRdxTBXQrUuGVt2hIR9XFxRk0l2qjw5uDvub6joRUMN1/Osd3HDe+Tp6H
+	jYRZNhnfap3L6nsmDV0vPfsDMPb0=
+X-Google-Smtp-Source: AGHT+IFfRQT8q2bTr2lvLvt1k3dEQYTmghKRBGQcSSdxPyWzD3wGRlFoNCG3ipXjXBP77gBYHfA0vH24LllOT5X9uRo=
+X-Received: by 2002:a17:907:a809:b0:a31:5773:9f9f with SMTP id
+ vo9-20020a170907a80900b00a3157739f9fmr64279ejc.32.1706144650803; Wed, 24 Jan
+ 2024 17:04:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-7-max@enpas.org>
-In-Reply-To: <20240115144538.12018-7-max@enpas.org>
+References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-8-max@enpas.org>
+In-Reply-To: <20240115144538.12018-8-max@enpas.org>
 From: Roderick Colenbrander <thunderbird2k@gmail.com>
-Date: Wed, 24 Jan 2024 17:01:00 -0800
-Message-ID: <CAEc3jaBvsr5vnc_Dfm2YsThxBr94TkE3i16GLQipVZM+4KH3cw@mail.gmail.com>
-Subject: Re: [PATCH v1 6/7] HID: playstation: Simplify device type ID
+Date: Wed, 24 Jan 2024 17:03:59 -0800
+Message-ID: <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
+Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER controllers
 To: Max Staudt <max@enpas.org>
 Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
@@ -83,122 +83,58 @@ Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@k
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 6:55=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
+On Mon, Jan 15, 2024 at 6:52=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
 >
-> Distinguish PS4/PS5 type controllers using .driver_data in
-> MODULE_DEVICE_TABLE rather than by VID/PID.
->
-> This allows adding compatible controllers with different VID/PID.
+> It seems like this USB VID is not officially assigned, so let's create a
+> hid-ids.h entry without a vendor or product name.
 >
 > Signed-off-by: Max Staudt <max@enpas.org>
 > ---
->  drivers/hid/hid-playstation.c | 40 +++++++++++++++++++++++------------
->  1 file changed, 26 insertions(+), 14 deletions(-)
+>  drivers/hid/hid-ids.h         | 3 +++
+>  drivers/hid/hid-playstation.c | 4 ++++
+>  2 files changed, 7 insertions(+)
 >
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 72046039d1be..df831ab464a4 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -22,6 +22,9 @@
+>  #define USB_DEVICE_ID_3M2256           0x0502
+>  #define USB_DEVICE_ID_3M3266           0x0506
+>
+> +#define USB_VENDOR_ID_7545             0x7545
+> +#define USB_DEVICE_ID_7545_0104                0x0104
+> +
+>  #define USB_VENDOR_ID_A4TECH           0x09da
+>  #define USB_DEVICE_ID_A4TECH_WCP32PU   0x0006
+>  #define USB_DEVICE_ID_A4TECH_X5_005D   0x000a
 > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
 c
-> index 086b0768fa51..a0eb36d695d9 100644
+> index a0eb36d695d9..0aa474f1e96f 100644
 > --- a/drivers/hid/hid-playstation.c
 > +++ b/drivers/hid/hid-playstation.c
-> @@ -27,6 +27,11 @@ static DEFINE_IDA(ps_player_id_allocator);
->
->  #define HID_PLAYSTATION_VERSION_PATCH 0x8000
->
-> +enum PS_TYPE {
-> +       PS_TYPE_PS4_DUALSHOCK4,
-> +       PS_TYPE_PS5_DUALSENSE,
-> +};
-> +
->  /* Base class for playstation devices. */
->  struct ps_device {
->         struct list_head list;
-> @@ -2690,17 +2695,14 @@ static int ps_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
->                 goto err_stop;
->         }
->
-> -       if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS4_CONTROLLER ||
-> -               hdev->product =3D=3D USB_DEVICE_ID_SONY_PS4_CONTROLLER_2 =
-||
-> -               hdev->product =3D=3D USB_DEVICE_ID_SONY_PS4_CONTROLLER_DO=
-NGLE) {
-> +       if (id->driver_data =3D=3D PS_TYPE_PS4_DUALSHOCK4) {
->                 dev =3D dualshock4_create(hdev);
->                 if (IS_ERR(dev)) {
->                         hid_err(hdev, "Failed to create dualshock4.\n");
->                         ret =3D PTR_ERR(dev);
->                         goto err_close;
->                 }
-> -       } else if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER=
- ||
-> -               hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER_2)=
+> @@ -2747,6 +2747,10 @@ static const struct hid_device_id ps_devices[] =3D=
  {
-> +       } else if (id->driver_data =3D=3D PS_TYPE_PS5_DUALSENSE) {
->                 dev =3D dualsense_create(hdev);
->                 if (IS_ERR(dev)) {
->                         hid_err(hdev, "Failed to create dualsense.\n");
-> @@ -2734,16 +2736,26 @@ static void ps_remove(struct hid_device *hdev)
->
->  static const struct hid_device_id ps_devices[] =3D {
->         /* Sony DualShock 4 controllers for PS4 */
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER) },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER_2) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_2) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_DONGLE) },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER),
-> +               .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER),
-> +               .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4=
-_CONTROLLER_2),
-> +               .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
-OLLER_2),
-> +               .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
+>         { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS4_CONTR=
 OLLER_DONGLE),
+>                 .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
+>
+> +       /* Third-party controllers identifying as "SZ-MYPOWER" */
+> +       { HID_USB_DEVICE(USB_VENDOR_ID_7545, USB_DEVICE_ID_7545_0104),
 > +               .driver_data =3D PS_TYPE_PS4_DUALSHOCK4 },
 > +
 >         /* Sony DualSense controllers for PS5 */
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5=
-_CONTROLLER) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTR=
-OLLER) },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5=
-_CONTROLLER_2) },
-> -       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTR=
-OLLER_2) },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5=
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5=
 _CONTROLLER),
-> +               .driver_data =3D PS_TYPE_PS5_DUALSENSE },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTR=
-OLLER),
-> +               .driver_data =3D PS_TYPE_PS5_DUALSENSE },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5=
-_CONTROLLER_2),
-> +               .driver_data =3D PS_TYPE_PS5_DUALSENSE },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTR=
-OLLER_2),
-> +               .driver_data =3D PS_TYPE_PS5_DUALSENSE },
->         { }
->  };
->  MODULE_DEVICE_TABLE(hid, ps_devices);
+>                 .driver_data =3D PS_TYPE_PS5_DUALSENSE },
 > --
 > 2.39.2
 >
 >
 
-Hi Max,
+I'm not familiar with this device, but if it indeed works. Then I'm
+okay with it.
 
-This one looks good to me.
-
+Thanks,
 Roderick
 
