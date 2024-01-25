@@ -1,83 +1,79 @@
-Return-Path: <linux-input+bounces-1458-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1459-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F4E83BAA0
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 08:30:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB4683BAB8
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 08:36:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 238572852BB
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 07:30:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 471F8B236EE
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 07:36:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE47111739;
-	Thu, 25 Jan 2024 07:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B324C125C4;
+	Thu, 25 Jan 2024 07:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+a7svVH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.nfschina.com (unknown [42.101.60.195])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 7204310A24;
-	Thu, 25 Jan 2024 07:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.101.60.195
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EBD125C2;
+	Thu, 25 Jan 2024 07:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706167840; cv=none; b=bC3X8y63iEJM7eOfd6P1hUrms0oinPIX5Rr6UhJuPQGaxab+FfbZ12kEz/1+v5ZKe7OGfVbBzxPZvra7SlSOON+QLCMk7C1H0Naew3+7lX6ORkuWBMuA0WRzmjphNTYMjNMSNFH26aMCw75x2rwKACGvgVhsUFXlrtIlMgYGIFA=
+	t=1706168155; cv=none; b=OTeM8BZ4WeuZ4sgILoME3E5uybSDFzRmtbfcB/Rv+6yIzVfs1s8pZj5ys8c/1sK50BobB5jZ4Z1M7RZ1dKxDR6Ztm2iUHOqjdedymfbBB5H/Uy9Lm8n9VFtc9maDeMKKYCpxdJlLHA1t9dgtBahtmY86ch+FzaYoT7emE4nAU7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706167840; c=relaxed/simple;
-	bh=zezz4fsplqfGvnQtgvPm8PerG232C9kn1Lbh9s3RA7c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type; b=i9ZiaaYelPZ1xYNAw0rLj8i1kUHOyxpWuYQ5XfDTlKUukdStg7mUqyTisgIXgsW4iWYdgMKp2IlBBwll6sNLDQFdfmGx7bZw9GUvUGSO+NkYHDrcHp5kSBbFkljtdfTXxYmk9Ckf96C3YDeOp6Gr7mX48iFmuRR+jglK7rQUQUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com; spf=pass smtp.mailfrom=nfschina.com; arc=none smtp.client-ip=42.101.60.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nfschina.com
-Received: from [172.30.11.106] (unknown [180.167.10.98])
-	by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id 480B9608638A0;
-	Thu, 25 Jan 2024 15:30:15 +0800 (CST)
-Message-ID: <699a33f7-2584-8d64-3a5c-668088f0dea4@nfschina.com>
-Date: Thu, 25 Jan 2024 15:30:14 +0800
+	s=arc-20240116; t=1706168155; c=relaxed/simple;
+	bh=zHVsONx4KcOBxgGm9yVtdcWnYuuQg2lDfSnAQLPVhHg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=bPobLuKPnt9RmSy3iVmXYRVmIchDMf9RG48Qm5JkwtyyNdmzChtL7g7oYpgUSZLzIzncxNCZE0D0bnCFyIHletV4ZXCvYVsGZM8/DyEts47nG2cTP+WiiEN3f3/Ft/dAd49zACOleJPs0+pjLo5zIS1OIE6NUdOBNmMIMLNGEME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+a7svVH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D80C433C7;
+	Thu, 25 Jan 2024 07:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706168155;
+	bh=zHVsONx4KcOBxgGm9yVtdcWnYuuQg2lDfSnAQLPVhHg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=c+a7svVHLRMoQtYwbDDUroi+Mo/iXrsJP8O86Mh5iZhygqFCB3ORQ9OdmiCHhwq10
+	 FMnD/5zDrEN9MiBUhEILwTZjKcI4j7lGR8KKLpGQVfTwoFk8v/afz3iJoxLAeCfOVI
+	 YlTzAMOoNur3F1xYemVnvwIwIaIOKoJRnzRcw/1ioNPXnGH2k5WEmg1Gny2O3///CA
+	 SH7WDkQvEBhowBcg+jqPsFq8fC7IqCR9VhVpZ8u/NLb3Eus1V/xagDF72bxB+0wIMV
+	 bkFb9EYohfSfFa1kg8szc/DOfSIsGjrKtRlc1F9vvPHUt+bXsXHFvbGetQvNwU/2uL
+	 oNiewCrIgF51A==
+Date: Thu, 25 Jan 2024 08:35:55 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Su Hui <suhui@nfschina.com>
+cc: benjamin.tissoires@redhat.com, mail@karthek.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] HID: hidraw: fix a problem of memory leak in
+ hidraw_release()
+In-Reply-To: <20240125063225.2796234-1-suhui@nfschina.com>
+Message-ID: <nycvar.YFH.7.76.2401250835450.29548@cbobk.fhfr.pm>
+References: <20240125063225.2796234-1-suhui@nfschina.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] HID: hidraw: fix a problem of memory leak in
- hidraw_release()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, mail@karthek.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <76300deb-f532-4d74-a97a-4cd321ae8f41@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 2024/1/25 15:11, Dan Carpenter wrote:
-> On Thu, Jan 25, 2024 at 02:32:26PM +0800, Su Hui wrote:
->> 'struct hidraw_list' is a circular queue whose head can be smaller than
->> tail. Using 'list->tail != list->head' to release all memory that should
->> be released.
->>
->> Fixes: a5623a203cff ("HID: hidraw: fix memory leak in hidraw_release()")
->> Signed-off-by: Su Hui <suhui@nfschina.com>
-> This is very clever.  How did you find that?  Was it through static
-> analysis or just review?  Perhaps using syzkaller?
-Hi,
+On Thu, 25 Jan 2024, Su Hui wrote:
 
-I just met this bug on a real machine and found this problem by 
-reviewing the code.
+> 'struct hidraw_list' is a circular queue whose head can be smaller than
+> tail. Using 'list->tail != list->head' to release all memory that should
+> be released.
+> 
+> Fixes: a5623a203cff ("HID: hidraw: fix memory leak in hidraw_release()")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
 
->
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
->
-> I imagine we could write a checker heuristic to identify ->tail and
-> ->head struct members and then complain if they were ever used in a <
-> or > comparison.
+Good catch, thanks. Applied.
 
-I can't agree any more, great idea!
-
-Su Hui
+-- 
+Jiri Kosina
+SUSE Labs
 
 
