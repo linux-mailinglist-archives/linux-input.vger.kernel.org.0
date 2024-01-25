@@ -1,81 +1,81 @@
-Return-Path: <linux-input+bounces-1438-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1439-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF62183B624
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 01:40:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A3783B62A
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 01:44:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E7531F22ABB
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 00:40:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49D9A1C220AE
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 00:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7173162B;
-	Thu, 25 Jan 2024 00:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BC862B;
+	Thu, 25 Jan 2024 00:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2k14+mo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBKWHnUs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894FB7F8;
-	Thu, 25 Jan 2024 00:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2983F63AE;
+	Thu, 25 Jan 2024 00:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706143212; cv=none; b=eDIo+ESc/d6DO72vZ9gwU+lFGCyrUeW2uvcQtaHWLK2gXDmFYlZiZorJWQVz707QoB4DNnU/k9AFtWIF7ubWr30CChrOs4QLhuiD1dfpkK5Nq0BY9fmnirtIWpwilraPj5XFF1Mn95gS98ELWthXDVuAzn8WtKhYP/OvkT3muNs=
+	t=1706143436; cv=none; b=PtI+UCtNj+qfkr9RWmcfmy2k9rhfXW+85duAXNwq8h+b2AywzoTe/VwbmkIIW642e05I3WuSNFcnrEFp//kkgbIwIIppP+eSuePYmqILoIs4ZPJLdBRrzq9QMpnoOOzfb4wjEnC8Wpyx7e3VR5MbvfpzK7bA3UUHkPmuj1dMoO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706143212; c=relaxed/simple;
-	bh=eb2GrpgXshNovWGjPivGLwffyuCL9x1cuni9Whxv+Xk=;
+	s=arc-20240116; t=1706143436; c=relaxed/simple;
+	bh=yCcZeaaqYYRu8RPX/c6SSdgg2TCYbsxPPTWCp3Obvfw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YaJlKzUryGVRRIqnKnVz+odJ4pUFkTT7GOxGRJ3Hs4o2n+xtv2dFwr+s6E4M33UWGHNua6ga4dZtfP4ph9WiR/k1DIDT8ZQMZ3C1n0RtnaYQPkjUvqBvogn0o1PGUCErO0udg8s8Rh2wj6+luiPZ3VDtutOFL6lgkNhvyCxMCu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2k14+mo; arc=none smtp.client-ip=209.85.218.42
+	 To:Cc:Content-Type; b=jGt3/sbYLGDUF9dtl2j9EXRUMIPEnF8dj0IaZmtcAKb3zBz295Sc03CcLuM4vyJq3f5dCTDAzNUp5M7a1CQlrTjknS2if6a67mbJhhjEKi/n58Sf0lNcnoCRMqJxw4tvaP/zhkMoTkryYFMh68GZp76tjjK1CV+DuIsDilSFYYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBKWHnUs; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a313b51cf1fso39533766b.0;
-        Wed, 24 Jan 2024 16:40:10 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a313b51cf1fso39858966b.0;
+        Wed, 24 Jan 2024 16:43:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706143209; x=1706748009; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706143433; x=1706748233; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UpHYzcGHhb7fxFeEZ0u8pA/XWhZmXclMeGSYqqibVUM=;
-        b=K2k14+moo83Hcu6iULpYzNm7UWRW/i8h8yi3LwyMwtGCg8RUteFarKrI8RoiJdf7qV
-         R8P3Z7AWbY3ZFjX4sIpQ1rK+ogfctoGVPLx+s+1DrSqpqxqaBm45ON7fiE3kMw+Ri5wq
-         RX3ze45CerS9Lv48iJ8m4yiQx8xBc5LOuwGzqcH81c5Rs/MYDTxaqNp4cmdsom/FbnP7
-         DJHDS45/q/GUI4SqmHR+szTFcPEwTi7MpsIXwLNlvlXHEszGP9aDI1ob2vxmuPiXnrQm
-         nx6FWjlJL6VB4onj1Qcr/Awo0mec3QHEBoqnfZ5HGw3CBIYA0uUR3IDv0tR404rdngpZ
-         OHHg==
+        bh=hFc+kSQFufwfP1edBk1kaebdfjp3/wv6fnY/t4JcCA0=;
+        b=BBKWHnUs/k5ZLrpSnhZOsExCwVgs8R0AKBhTcDCNNwo3pGy4HLQLyHGBA01C+J4ToC
+         pvJZlGXOlyTrcYIYU6cmZnX6CUYl16Ijd4HYP16/R7ORkH/sGf2NTnuiY2jfsccmRN86
+         /E4AnvRy7nG3cDjc+Q2s1q97eAWcEEIJiJhBR4Pvo9GBc2la0XuMLHy+KQY9eJOF3tQm
+         5CpALmjsAt6KzzXiOLPotG0BNbyksZJ+yzNGyeFS/hxfZ89mcVYdbv/jhcCX560gG6V4
+         CLsiGEcrn1tKCYInRdhFYG5YkQvFSfnFktVHlTBYwaRiC9BmMK5vd/YUv+VzFC8BgR3F
+         Rf8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706143209; x=1706748009;
+        d=1e100.net; s=20230601; t=1706143433; x=1706748233;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UpHYzcGHhb7fxFeEZ0u8pA/XWhZmXclMeGSYqqibVUM=;
-        b=Qc5y0KaFXAj6apFnBo+LH1H+uo+kgjzqlUXyseFym6uiY6BRQvf6ip/vPrs1pw0ZKk
-         GSNGc4lrpV7IT5I2Gm7rB71Xd4eSowimpjcxFaIMsUC4MedwBtVGPj0AA3d7SV0xwf49
-         6zYzZ36uWymb+z9Vq1BpDtig51jHpc74TgvqNkKj5bMvESAEEHFq1Ktt990H0uoBlM7Z
-         RUy1s5ucHaw2tjkI6W0zrqykLrHtH+I3LPPBIalY7xbudamJk4AgwxWF8iNeN1aCuOlM
-         +RA5lREyvIvtU0fKjHJN0KFbxqCG1Yco6/nb01xSOpeAt+ShS4vyYyecgKI21cZ4S86e
-         pdLw==
-X-Gm-Message-State: AOJu0Yz6iatOMjJr7JOZvJv7smr9YjypMdI9cSNRzub2AASYsnKrNqMo
-	M5o7EEnwoEKeKlqTKG8mhlQxg8GamiwcJsnBTX+haZgGNYPBIG+H3kSTz0NmUuvE6rTUZ3tL5y3
-	LLXH7IF7VDKvGE6kAtP54+HqgFMuJHCPZ
-X-Google-Smtp-Source: AGHT+IEQn9+jyke/CAhfHPoFTBBCBLXtpuWbScqfz3WCJC3eNYGXj+WO1wpXjLyFggb3pwUmxuc1FwrW4GNimzemi+w=
-X-Received: by 2002:a17:906:b0e:b0:a28:e980:8984 with SMTP id
- u14-20020a1709060b0e00b00a28e9808984mr150591ejg.18.1706143208439; Wed, 24 Jan
- 2024 16:40:08 -0800 (PST)
+        bh=hFc+kSQFufwfP1edBk1kaebdfjp3/wv6fnY/t4JcCA0=;
+        b=rLezO/4yAqqLCIx/GK0pSSP5D795dX+KlhzMnqvwe7a3LoO3jPl7cDH6SFz3B8kDi0
+         bjV0rhRd4abjLrzEkPFWiSGaPc6WXgnoDMgqa/6B4q2U8Ow81mQbNFGCQa+PXk5JI4lq
+         kGBUNgXHEZSDF2b7fkJlsFaM4RMkaGZr9sb0fTJf/+G4MbjePswXfUMRlJZvJs934GRA
+         AyYXrGChdAPuvSuVTm93HfSbsVUDSXlPOtrVm6BtYr9WGGQ4mjZy2HryR0rFvueRT7Xz
+         U4aixScIqA8F6o8L80Ac84LX1DQQ7uMFucOCx5+vYFrSZfrKBJhJsNmvcQr+JyHUhx5E
+         rzPA==
+X-Gm-Message-State: AOJu0YypONi7zJ82G1uV4G52+i7u5II9qdR1BJv+QBbj3SMjUJi09Xg5
+	DneUTvyq1a/IRWmPHNVutZ//r5J8rXcG/aBsP139CO2M2l9KyWVFWLV0oOjN0Dtfu7ORSmK0KFW
+	b9rn2BQ9Tj6cTLDX3NmYVDoozR1M6qh3V
+X-Google-Smtp-Source: AGHT+IEddp8f1pcDM+A+XBbfQ3qR7lQckcJQJU5SEbjHDBe9mW2JEaW+SasVs+pocbF3rLzURICRTuYx7M04rvaYBHI=
+X-Received: by 2002:a17:907:c207:b0:a31:1179:199a with SMTP id
+ ti7-20020a170907c20700b00a311179199amr191478ejc.3.1706143433122; Wed, 24 Jan
+ 2024 16:43:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-3-max@enpas.org>
-In-Reply-To: <20240115144538.12018-3-max@enpas.org>
+References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-4-max@enpas.org>
+In-Reply-To: <20240115144538.12018-4-max@enpas.org>
 From: Roderick Colenbrander <thunderbird2k@gmail.com>
-Date: Wed, 24 Jan 2024 16:39:56 -0800
-Message-ID: <CAEc3jaD9qXp=F6Xfg8bdeC1Hv5pHiKA16SBd=-ac74ibE1ELyw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address request
+Date: Wed, 24 Jan 2024 16:43:41 -0800
+Message-ID: <CAEc3jaDD76e+Lkwc8WSac30-kXBYKP6_R2+kM4+Z_RVOinD9Kg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/7] HID: playstation: DS4: Don't fail on FW/HW version request
 To: Max Staudt <max@enpas.org>
 Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
@@ -83,75 +83,43 @@ Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@k
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 6:58=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
+On Mon, Jan 15, 2024 at 6:51=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
 >
-> Some third-party controllers can't report their MAC address.
+> Some third-party controllers can't report firmware/hardware version.
 >
-> Since a unique ID is needed for ps_devices_list_add() and
-> ps_device_register_battery(), let's use hdev->id for this when we don't
-> have a MAC address.
+> Unlike for the DualSense, the driver does not use these values for
+> anything in the DualShock 4 case, but merely exposes them via sysfs.
+> They will simply be 0x0.
 >
 > Signed-off-by: Max Staudt <max@enpas.org>
 > ---
->  drivers/hid/hid-playstation.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  drivers/hid/hid-playstation.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
 c
-> index 7f50e13601f0..0a3c442af305 100644
+> index 0a3c442af305..12321cae4416 100644
 > --- a/drivers/hid/hid-playstation.c
 > +++ b/drivers/hid/hid-playstation.c
-> @@ -1966,7 +1966,10 @@ static int dualshock4_get_mac_address(struct duals=
-hock4 *ds4)
->                                 DS4_FEATURE_REPORT_PAIRING_INFO_SIZE, fal=
-se);
->                 if (ret) {
->                         hid_err(hdev, "Failed to retrieve DualShock4 pair=
-ing info: %d\n", ret);
-> -                       goto err_free;
-> +                       hid_err(hdev, "Generating fake MAC address for th=
-is device.\n");
-> +                       buf[1] =3D (hdev->id >>  0) & 0xff;
-> +                       buf[2] =3D (hdev->id >>  8) & 0xff;
-> +                       buf[3] =3D (hdev->id >> 16) & 0xff;
->                 }
->
->                 memcpy(ds4->base.mac_address, &buf[1], sizeof(ds4->base.m=
-ac_address));
-> @@ -1986,7 +1989,6 @@ static int dualshock4_get_mac_address(struct dualsh=
-ock4 *ds4)
->                 return 0;
->         }
->
-> -err_free:
->         kfree(buf);
->         return ret;
->  }
-> @@ -2552,7 +2554,7 @@ static struct ps_device *dualshock4_create(struct h=
+> @@ -2561,7 +2561,7 @@ static struct ps_device *dualshock4_create(struct h=
 id_device *hdev)
->         ret =3D dualshock4_get_mac_address(ds4);
+>         ret =3D dualshock4_get_firmware_info(ds4);
 >         if (ret) {
->                 hid_err(hdev, "Failed to get MAC address from DualShock4\=
-n");
+>                 hid_err(hdev, "Failed to get firmware info from DualShock=
+4\n");
 > -               return ERR_PTR(ret);
-> +               hid_err(hdev, "Can't detect simultaneous USB/BT connectio=
-ns from this device.\n");
+> +               hid_err(hdev, "HW/FW version data in sysfs will be invali=
+d.\n");
 >         }
->         snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds4->base.mac_ad=
-dress);
 >
+>         ret =3D ps_devices_list_add(ps_dev);
 > --
 > 2.39.2
 >
 >
 
-Hi Max,
+This looks good. Perhaps could have been a hid_warn then, but err is
+probably fine.
 
-For what type of devices is this not working? This one example of this
-request which is very foundational for a controller working on even
-the game console. Are this perhaps USB-only devices? If the case maybe
-some kind of error is only needed for USB connections.
-
-Thanks,
 Roderick
 
