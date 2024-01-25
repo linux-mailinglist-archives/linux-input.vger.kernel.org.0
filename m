@@ -1,73 +1,73 @@
-Return-Path: <linux-input+bounces-1443-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1444-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C1F83B6D9
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 02:52:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8215B83B773
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 03:57:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB596B2361D
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 01:52:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A78F21C23B3D
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jan 2024 02:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF0310E6;
-	Thu, 25 Jan 2024 01:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43E336FC8;
+	Thu, 25 Jan 2024 02:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="fMD+G96n"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="XCKp0aO8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38585680
-	for <linux-input@vger.kernel.org>; Thu, 25 Jan 2024 01:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96586AB9
+	for <linux-input@vger.kernel.org>; Thu, 25 Jan 2024 02:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706147530; cv=none; b=eIdA6Vk0E0ZIwFGHUQO/We5ZVOOsbOC8Bpkom08JxOvfPqz07wJxuvlpyIkTZkfpEniEgQPg1Y0nIMNdLunUdjieMKD2ArWJlUtz0QxKBnlHDUleXCZHldFKGM8Gej6nuwnkR+osQ1U1LlAjX7shCzjDyyTop6LsZysmqbAX2IU=
+	t=1706151436; cv=none; b=d7CO4doQKdkA4J8DBmCfb2An9R9oC488ff2pRDW1uk9PR+LA3zhqj4XXv9JbJ+p1eKyXPLPwC/Y8YMcSmJY8paNk692NQLAjT9A7dE068q4TfsfVsZODoW5BK9ORofa8hUbahuEJSrHGZjdjhNfjo4l/U00JCKnK3GM0Au22reU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706147530; c=relaxed/simple;
-	bh=ZJ1GNx5ryxSDx5W6FiQrSJk0Y5y4JRaDlZzorVio9I0=;
+	s=arc-20240116; t=1706151436; c=relaxed/simple;
+	bh=Vt9NFRCVSrMVE+JcDCImJqL3ssdxEuUFAeruHffN2PQ=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=UInZ6WewuW5MF4pZsdowDdjNxxEq3fe67RYOkrewhxBXAgA2k1b/gZKHU4zGKr8NRfzdAqKK9hBJiGiPyV97f8RgadGdsq7UfYBXhO+G9nGbAERz1wUvLo2dIJj8WxANHWb6Kg3s2L0geYifg2mv02tQYJOFvbLHBCt3wy+R/VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=fMD+G96n; arc=none smtp.client-ip=203.254.224.34
+	 Content-Type:References; b=WQura7Pqe5E0yeWv4XFgC9VPqPEZDAM4KXkOB9HrDUHAdfdbMGUzHLV2wDHCsS2CGYoWbjjArangPOveXh2LsnsUA9izkEjJGQgunx1Lvr14r5w8GH6xgAEI+gXLj4qB6lwS+rzlX+emDBIASs/R1sgA2kc1zpjjWOpk640dEuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=XCKp0aO8; arc=none smtp.client-ip=203.254.224.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240125015205epoutp0413960d38ce70d1fa04f7e5572df202a8~tdCJrpe0T1726617266epoutp04i
-	for <linux-input@vger.kernel.org>; Thu, 25 Jan 2024 01:52:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240125015205epoutp0413960d38ce70d1fa04f7e5572df202a8~tdCJrpe0T1726617266epoutp04i
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240125025709epoutp03054011a6cf2f277f0409fb29aa6ac110~td6_b2v1r0624206242epoutp03U
+	for <linux-input@vger.kernel.org>; Thu, 25 Jan 2024 02:57:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240125025709epoutp03054011a6cf2f277f0409fb29aa6ac110~td6_b2v1r0624206242epoutp03U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1706147525;
-	bh=8Er5bzFeFelCVreOXb2lRDMRhYWCfoIp3xasGT4diT0=;
+	s=mail20170921; t=1706151430;
+	bh=7CgfqBulVHw9QYs0b2+26MG0F5iv8YN4xW+PuYlqVBA=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=fMD+G96nkj0Zb8MR5ImsZKml+XNoHpatO+Iry0IgpsJuKB6gKO2o99QAL0iub5Iiz
-	 tpIs5Z0mwJRNqT0ssd0wyHyo5+Dqi3rZfnJK/QYpxvIyj9VCq2OVJ/hCJLW62R+UMY
-	 S0HfWRkSWzwqoZgJRidPasuQpsmTmw/3yDToOIwk=
+	b=XCKp0aO81RLiCMH09wbc5KpapapcXn9S3rToopQX9c492YWPN8noIBurqbWmBI0Ue
+	 5kbZdDqLGq1TFFEssaJV8+IvD1NSBwNc9T5NbYyTBifgSMgmQNTk6ymR3wInJ6wTZX
+	 CiqM99Hj4+Yrgse096WFAsCVYwnvVCixrU9bo/Uk=
 Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240125015204epcas5p1cd7fa49397bf8e6f4b4e411f47daa3df~tdCJVi_d01296212962epcas5p1Q;
-	Thu, 25 Jan 2024 01:52:04 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4TL3jG674Fz4x9Q1; Thu, 25 Jan
-	2024 01:52:02 +0000 (GMT)
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240125025709epcas5p35fb4556c4da39c3f0539de17007a5b4b~td6_Hv_ws0470404704epcas5p38;
+	Thu, 25 Jan 2024 02:57:09 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4TL58M6ZvVz4x9Pr; Thu, 25 Jan
+	2024 02:57:07 +0000 (GMT)
 Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7F.7C.19369.2CEB1B56; Thu, 25 Jan 2024 10:52:02 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240125015202epcas5p4a37e2da6aeda3e7f6a46c6d78fa8d182~tdCHH-eZS0492104921epcas5p4U;
-	Thu, 25 Jan 2024 01:52:02 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240125015202epsmtrp1ba6dfb89cdfd12cf4ece48c1971cca60~tdCHG0kOk1924219242epsmtrp1O;
-	Thu, 25 Jan 2024 01:52:02 +0000 (GMT)
-X-AuditID: b6c32a50-9e1ff70000004ba9-bb-65b1bec2b2f8
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9C.0A.09672.30EC1B56; Thu, 25 Jan 2024 11:57:07 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240125025707epcas5p10f31b0ba6412449fa30d07d8914ce376~td68MaW5k2771327713epcas5p1v;
+	Thu, 25 Jan 2024 02:57:07 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240125025707epsmtrp207ac9ba33a3cf54a97cf46c8568849fe~td68Ls-5p2574025740epsmtrp2W;
+	Thu, 25 Jan 2024 02:57:07 +0000 (GMT)
+X-AuditID: b6c32a4b-39fff700000025c8-9b-65b1ce0343c7
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	FC.F0.18939.2CEB1B56; Thu, 25 Jan 2024 10:52:02 +0900 (KST)
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	81.E3.07368.30EC1B56; Thu, 25 Jan 2024 11:57:07 +0900 (KST)
 Received: from SRIB7IJ5F5BM8F (unknown [107.99.12.215]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240125015159epsmtip17ac3c67e59d0070d149cfee40aec4d69~tdCE9L1BL2716327163epsmtip1Z;
-	Thu, 25 Jan 2024 01:51:59 +0000 (GMT)
+	20240125025705epsmtip110cbe843938f2548bfd8a1330de904bf~td656jci90127001270epsmtip1H;
+	Thu, 25 Jan 2024 02:57:04 +0000 (GMT)
 From: "sandeep.cs" <sandeep.cs@samsung.com>
 To: "'Jiri Kosina'" <jikos@kernel.org>
 Cc: "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
@@ -78,8 +78,8 @@ Cc: "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
 In-Reply-To: <nycvar.YFH.7.76.2401241917490.29548@cbobk.fhfr.pm>
 Subject: RE: [HID Patchsets for Samsung driver v3 3/6] HID: Samsung : Add
  Samsung wireless keyboard support.
-Date: Thu, 25 Jan 2024 07:21:44 +0530
-Message-ID: <000501da4f31$16ec07d0$44c41770$@samsung.com>
+Date: Thu, 25 Jan 2024 08:26:56 +0530
+Message-ID: <000001da4f3a$2ea1bce0$8be536a0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -88,41 +88,41 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGe9MEZUacnBkQWTWlSz6s7q4Y4xAGczTLaA7AsQnoA9RKiFLEuZp+A
+Thread-Index: AQGe9MEZUacnBkQWTWlSz6s7q4Y4xAGczTLaA7AsQnoA9RKiFLEueL2g
 Content-Language: en-in
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEJsWRmVeSWpSXmKPExsWy7bCmhu6hfRtTDR5s1rG4PmUzq8XtBZ4W
-	W5fMZbW4dbyV0eLlgw3sFpsnP2KxuPnpG6vF5V1z2CwerdjE5MDpsWlVJ5vH+31X2Tz6tqxi
-	9Pi8SS6AJSrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNct
-	MwfoFCWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGB
-	gZEpUGFCdsaxky9YC46xVfyf/oWtgXE1axcjJ4eEgInE5ueP2boYuTiEBPYwSrya+IAdwvnE
-	KHHg4ks2OGftgi8sMC0br75igkjsZJS4sfUzVNUbRonD++eAVbEJaEvM+HuNGcQWEVCTmPPy
-	HlgRs0A7k8Slvr9gRZwCDhInD64DKuLgEBbIkzjV4Q4SZhFQlViy/BMTiM0rYCnRcnUXO4Qt
-	KHFy5hOwVmYBeYntb+cwQ1ykIPHz6TJWiF1uEo+OvmKGqBGXOPqzhxlkr4TATA6JK9daob52
-	kZh34ScThC0s8er4FnYIW0riZX8bO0RDN6PE0tvHoJwZjBItO69CrbOX+Pl6AhvI1cwCmhLr
-	d+lDbOOT6P39hAkkLCHAK9HRJgRRrSLxtGs3K8z87yc2Qu31kFg78wDzBEbFWUh+m4Xkt1lI
-	fpiFsGwBI8sqRqnUguLc9NRk0wJD3bzUcnicJ+fnbmIEJ1atgB2Mqzf81TvEyMTBeIhRgoNZ
-	SYTXxHRjqhBvSmJlVWpRfnxRaU5q8SFGU2CIT2SWEk3OB6b2vJJ4QxNLAxMzMzMTS2MzQyVx
-	3tetc1OEBNITS1KzU1MLUotg+pg4OKUamFxmWdRz819dz3mwLuYMw7qVeXsURFfd79H8XFKR
-	sOeRYL0oD6/dF7mIp8rsXDNaT11Vk/Ja6PYjgJFDjtvZOmtFqOeU2gRvm0OTzAIO8J8S3bXp
-	2YdHPMbnFyTMuZgsdzCVo9jVLO/RvgWyMX6zlZJ2CNQzy5vsWPspIiZqh/EM1vfbjvbPaOjs
-	2cxmvOTy74QtG2dw5Nl9vtusZdjvs0z25O7Pa90s8/K3XDRYtHea0KdzvZaleTdU67wF26U2
-	7a3i/L+5V0Fghd7diV80y749qdtc1cNUGdLeV/B72ueVjdIyP4RnHHX7sDfnwtrYhe1Wzgcc
-	xBa4KO1g/LWsZ0Kt1NQ3WTWL07vSbKRXKLEUZyQaajEXFScCAMR6O7A1BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTvfQvo2pBnf+cFhcn7KZ1eL2Ak+L
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPJsWRmVeSWpSXmKPExsWy7bCmhi7zuY2pBkfeG1lcn7KZ1eL2Ak+L
 	rUvmslrcOt7KaPHywQZ2i82TH7FY3Pz0jdXi8q45bBaPVmxicuD02LSqk83j/b6rbB59W1Yx
-	enzeJBfAEsVlk5Kak1mWWqRvl8CVcezkC9aCY2wV/6d/YWtgXM3axcjJISFgIrHx6iumLkYu
-	DiGB7YwSKzf+YIZISEmsun6PEcIWllj57zk7RNErRolrU6+xgyTYBLQlZvy9BtYgIqAmMefl
-	PTaQImaBXiaJ319bWSA6vjJK/Hy1GqyDU8BB4uTBdUAdHBzCAjkSkw9ngYRZBFQlliz/xARi
-	8wpYSrRc3cUOYQtKnJz5hAXEZhbQk1i/fg4jhC0vsf3tHKhLFSR+Pl3GCnGEm8Sjo6+YIWrE
-	JY7+7GGewCg8C8moWUhGzUIyahaSlgWMLKsYRVMLinPTc5MLDPWKE3OLS/PS9ZLzczcxgiNK
-	K2gH47L1f/UOMTJxMB5ilOBgVhLhNTHdmCrEm5JYWZValB9fVJqTWnyIUZqDRUmcVzmnM0VI
-	ID2xJDU7NbUgtQgmy8TBKdXAJDiX0U7GVP2D1Fx2v0+7FP4WLD+w//X8r1IbxW8wWf8xk41R
-	bv6p/7Vt5iXTd0fenp2RPKH4bpNMz747aUHv97ydHPn007GWaLkp5rkmZx6tUVr2XyahMEbp
-	xMue+7UbVBfP+SXO8YFr1YP8M7O1JhzUV77cpBp7/6TzwS+pDzucUyJs80OMc1pOft7wq5X7
-	WKvyKn2l7sdGMxhsDh72DvecJp4XobXlinb6zq9et56JRkX2/0/JnX86LqojdZfJl0bx1XJT
-	UqdkHzik37TwYG2Q/s0Pn1fJHmdt8J5xdafi6qS462YNH/lbPx4UD1eebLW97VwZ67bcFE7Z
-	aQl66ksCI4TkD4iIc3kd2h6/UImlOCPRUIu5qDgRAOgt5y4XAwAA
-X-CMS-MailID: 20240125015202epcas5p4a37e2da6aeda3e7f6a46c6d78fa8d182
+	enzeJBfAEpVtk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuW
+	mQN0ipJCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwKRArzgxt7g0L10vL7XEytDA
+	wMgUqDAhO+PEph/sBc/YK35P28TWwLiMrYuRk0NCwERizbl+RhBbSGA3o8S+9SxdjFxA9idG
+	iUvNv5khnG+MEp2T1jHBdJx5PhMqsZdR4tfqb1AtbxglPi9dCjaXTUBbYsbfa8wgtoiAmsSc
+	l/fYQIqYBdqZJC71/WUBSXAKOEicPLgOqIiDQ1ggT+JUhztImEVAVWLtyytMIGFeAUuJ3pMS
+	IGFeAUGJkzOfgHUyC8hLbH87hxniIAWJn0+XsUKscpPoubuPDaJGXOLozx6wQyUEFnJI9K1d
+	zQjR4CJx+PksqP+FJV4d38IOYUtJfH63lw2ioZtRYuntY+wQzgxGiZadV6HW2Uv8fD2BDeQ6
+	ZgFNifW79CG28Un0/n4CdrSEAK9ER5sQRLWKxNOu3aww87+f2AgNRQ+JtTMPME9gVJyF5LdZ
+	SH6bheSHWQjLFjCyrGKUTC0ozk1PLTYtMM5LLYdHeHJ+7iZGcErV8t7B+OjBB71DjEwcjIcY
+	JTiYlUR4TUw3pgrxpiRWVqUW5ccXleakFh9iNAWG90RmKdHkfGBSzyuJNzSxNDAxMzMzsTQ2
+	M1QS533dOjdFSCA9sSQ1OzW1ILUIpo+Jg1Oqgani6WG3VXILds8o28JuuM/3n6mM+45zdpE7
+	9ZUtzIMnhYZf+5Nc8ivp/HOTZZkiBZvf3CvZ/WpZ8AKTbSdTLh3XTjtY4vtAv1lV1Nxr0oOy
+	n4y32Axt5r94FZ+k4mp2irHshrCX4XV36fUrdldPWp4c//7Cjbd/Hx2zqU4M15FZG8B/aefC
+	MPf91w4d2srZMuHrOXuhv4br/nOnvm5f8pjxAYdd1L1H0tmvdshd010n8F3wpIXlh80aKd9v
+	5gUdjxXh41JZPfF0aMgp5g/vfSdumrD//EGBaSW8lZX8DY+93tfc5+WfrqQb4cttUvugcJnN
+	hI3Tvlxs0vn+Z/+UQxMs/VwWZtgsiZ76Zke44cxUJZbijERDLeai4kQAqPeq1TIEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTpf53MZUgw87xC2uT9nManF7gafF
+	1iVzWS1uHW9ltHj5YAO7xebJj1gsbn76xmpxedccNotHKzYxOXB6bFrVyebxft9VNo++LasY
+	PT5vkgtgieKySUnNySxLLdK3S+DKOLHpB3vBM/aK39M2sTUwLmPrYuTkkBAwkTjzfCZzFyMX
+	h5DAbkaJ3qdbmCASUhKrrt9jhLCFJVb+e84OYgsJvGKUOL42AcRmE9CWmPH3GjOILSKgJjHn
+	5T02kEHMAr1MEr+/trJATP3KKPHz1Wqwbk4BB4mTB9cBdXBwCAvkSEw+nAUSZhFQlVj78goT
+	SJhXwFKi96QESJhXQFDi5MwnLCBhZgE9ibaNYOcwC8hLbH87hxniNAWJn0+XsUKc4CbRc3cf
+	G0SNuMTRnz3MExiFZyGZNAth0iwkk2Yh6VjAyLKKUTK1oDg3PTfZsMAwL7Vcrzgxt7g0L10v
+	OT93EyM4orQ0djDem/9P7xAjEwfjIUYJDmYlEV4T042pQrwpiZVVqUX58UWlOanFhxilOViU
+	xHkNZ8xOERJITyxJzU5NLUgtgskycXBKNTCJnX9j/eNJl/K6zbKV5pXPAl5s/iD6Q+Xp5Gmf
+	ZrXks5bYv962e6HAu/1vK5nSU+/MvcfL6RBnMdtF6uqHjMxIn9WiXK18lpeOyRYZ+F2cVt2y
+	4VKrtmWMdtFJL12uvhs7PLf9fvpfXeLkdy4tlw+vC411kp8qCCptP9mlyV3HzKzZdnDmlNVM
+	kgH+dREP8l4cZLZe9sKxYkKuVk3cnO5lPcZeR5+XPjSPvFTndoxtj0zs6pqmPQW3J67inKmc
+	/YDhd9J37qluRU+ybjzwNglf1pHyramBO+aTGNOSg4fTZY9IVpg7TZra37s7r9dC5cLpcv8C
+	1o2Se87LmV2MuqRho7zmizlXjoobd/EREyWW4oxEQy3mouJEAEna1IQXAwAA
+X-CMS-MailID: 20240125025707epcas5p10f31b0ba6412449fa30d07d8914ce376
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
@@ -149,15 +149,25 @@ References: <20240124161029.3756075-1-sandeep.cs@samsung.com>
 > ++++++++++++++++++++++++++++++++++++++
 >  2 files changed, 110 insertions(+)
 >[ ... snip ... ]
->> +#ifdef CONFIG_HID_KK_UPGRADE
+> +#ifdef CONFIG_HID_KK_UPGRADE
 >
 >Where is CONFIG_HID_KK_UPGRADE coming from, please? This is the first time
 I
 >am seeing it, and it's definitely not being introduced by your patchset.
+>
+>Thanks,
+>
+>--
+>Jiri Kosina
+>SUSE Labs
+Hello
 
-Yes, Please ignore this commit message line. Only our changes are related to
-bringing up Samsung driver only.
+Sorry for oversight!
+It is custom handling code for keyboard keys in Samsung driver for android
+devices. As suggested I will exclude this macro from open source submission.
+I will be sending v4 patchsets shortly.
 
 Thank you
+
 
 
