@@ -1,119 +1,129 @@
-Return-Path: <linux-input+bounces-1494-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1495-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BF183DE54
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 17:08:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EA283DE90
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 17:23:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4C641F22ED3
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 16:07:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 218561C2345B
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 16:23:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6EA1D54A;
-	Fri, 26 Jan 2024 16:07:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657D21D551;
+	Fri, 26 Jan 2024 16:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q+fhA6nV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEkTsWGm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2196E1D527
-	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 16:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A231CD3F;
+	Fri, 26 Jan 2024 16:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706285273; cv=none; b=gFAbESoDO9+0w+Ate3gSB5LWNo5x2MlZv9Vc4MX0y5FMcdYwDqiT5op2uZt+8Pv+jPUEJIjKOwRQ0Qt5/i/RffvIjqx85WMhb6m/8p1YfcjaSpEy91GoKgfjkplG+sohCW3fAPZRFiDwSAm2jj4TpWg5+9cUwa48I+qO5T1to7E=
+	t=1706286199; cv=none; b=fkpxCt6ZMbMfdTfQBW6ORKApV4y9LnkLq+p2JQ0xV7Z8RWaSg0Q/Hrt76rcge7Gh4RzSlp1SavikUVH3j7vPXyPwETml8Fnjf8PsBa6e62ZUgxyjr7Eus3L3qpk8ia/CyfEJxDvKMRt0i+9EK274nbzfUtW3VBYHefzDxMunJuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706285273; c=relaxed/simple;
-	bh=msl+pRuD5P5zFRlWMH/aDgd0LBjVTJdc7AoKbctMcIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZV88dv6A+vP1RvndWeNTwopG3IhM6oP6btzPjB6EMd8EYPTcf7VOwA1+5Hq5KcTPZm2h/G0h/ouUj5nihFhIQibcMgDO1aGCbuusgl4EMv1lqHC3kZGPaGT77F5pLzQsj7i24z6HkgJgAfI44xOHEzaWaGqLIVNgXtMZCzUzy0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q+fhA6nV; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706285271;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9XXP9w7kKPlYEgTmtrjAIjtvem/ro/F62xr2HXJTsCE=;
-	b=Q+fhA6nV3emPPxPrpVDoOF1bJHnKcRTtmRfqthHPeMoja/8gwU6C88we12kqGlrgU6sFdw
-	G9f/TrB4ohojbqhcWRpcNEzq0Dl7pGpPOPLxEIk/SfGNzyOM+uXt3/2JTjNzjycuEVf9DR
-	hglfaYO5lghUgrE+rnXJ6SYlcoDfqPo=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-536-u-Ek7JKpOxCuqokkglN2uQ-1; Fri,
- 26 Jan 2024 11:07:45 -0500
-X-MC-Unique: u-Ek7JKpOxCuqokkglN2uQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AE7D383CD7A;
-	Fri, 26 Jan 2024 16:07:44 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B4BB6111D65B;
-	Fri, 26 Jan 2024 16:07:43 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	stable@vger.kernel.org,
-	regressions@lists.linux.dev,
-	linux-input@vger.kernel.org
-Subject: [PATCH regression fix 2/2] Input: atkbd - Do not skip atkbd_deactivate() when skipping ATKBD_CMD_GETID
-Date: Fri, 26 Jan 2024 17:07:24 +0100
-Message-ID: <20240126160724.13278-3-hdegoede@redhat.com>
-In-Reply-To: <20240126160724.13278-1-hdegoede@redhat.com>
-References: <20240126160724.13278-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1706286199; c=relaxed/simple;
+	bh=2JCXgq32qIglC6mO72WRbjPvok3iIvPLQe2ZqDXoq+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACJ4xEDku3bvSGTSw2JZKg6ICFGNRqGXbXlqj0sw14WqDgvT6lr7qE8kUzM4oZA96by1+Nn55tgOhpoUky2FEso6GWIB71FT/CZB/A70Mg2NKinkTCN0NAJvEOLABOLXlzls/oKTBM86zzCFh9R1CPz4UhI8Chu+1Ik/8edcD/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEkTsWGm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10D0C433F1;
+	Fri, 26 Jan 2024 16:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706286198;
+	bh=2JCXgq32qIglC6mO72WRbjPvok3iIvPLQe2ZqDXoq+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fEkTsWGm+pTv3JpEFsZcSKKxEWVnImncAwsQyoI3Ld7l8SqlSPkkztT/6mu8pqEam
+	 vpLLbGXpWSpvxubuMPdi5uAwFg5PAsQpDJ2RYnDpXQb18Lkdozxrjscnx2eqEOnHm8
+	 N3YGwkvhkqmRoM4YyAG0hwlgvuEX6Cw1xuO9WWStHUSB+R76n524qZSpZ52mqSDMbt
+	 qAmd1GVQf7jgU3LVhcwQgru0P+PSyZS1HKGCkz9QcV41zFIh+g6izksdFp3d+SIS53
+	 oB319QBS/gebFb4F/ER1A13hzFoCVoHbdFA3lczGeOkC/6HOiU0ADFoxFjTG9zgJ8u
+	 8cbQygMkAxiWg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rTOzK-000000007rm-46Kw;
+	Fri, 26 Jan 2024 17:23:31 +0100
+Date: Fri, 26 Jan 2024 17:23:30 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
+ touchscreen
+Message-ID: <ZbPcgqr9gBByqV7Q@hovoldconsulting.com>
+References: <20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com>
+ <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
+ <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
+ <20240126130232.GA5506@aspen.lan>
+ <ZbPCJv7HW8OQzPMT@hovoldconsulting.com>
+ <20240126145346.GN2936378@hu-bjorande-lv.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240126145346.GN2936378@hu-bjorande-lv.qualcomm.com>
 
-After commit 936e4d49ecbc ("Input: atkbd - skip ATKBD_CMD_GETID in
-translated mode") not only the getid command is skipped, but also
-the de-activating of the keyboard at the end of atkbd_probe(), potentially
-re-introducing the problem fixed by commit be2d7e4233a4 ("Input: atkbd -
-fix multi-byte scancode handling on reconnect").
+On Fri, Jan 26, 2024 at 06:53:46AM -0800, Bjorn Andersson wrote:
+> On Fri, Jan 26, 2024 at 03:31:02PM +0100, Johan Hovold wrote:
+> > On Fri, Jan 26, 2024 at 01:02:32PM +0000, Daniel Thompson wrote:
 
-Make sure multi-byte scancode handling on reconnect is still handled
-correctly by not skipping the atkbd_deactivate() call.
+> > > In short it looks like the delays make the difference and, even a short
+> > > delay, can fix the problem.
+> > 
+> > Right, but since the suppliers are left enabled by the bootloader (and
+> > never disabled by the kernel), that only begs the question of why this
+> > makes a difference.
+> 
+> You're right, the supply is kept on by other things, so this isn't the
+> problem.
+> 
+> > Without the delay, the other HID devices are probing (successfully)
+> > slightly before, but essentially in parallel with the touchscreen while
+> > using the same resources. Is that causing trouble somehow?
+> 
+> The difference to those other HID devices is GPIO 99 - the reset pin,
+> which is configured pull down input from boot - i.e. the chip is held in
+> reset.
+> 
+> When the HID device is being probed, pinctrl applies &ts0_default starts
+> driving it high, bringing the device out of reset. But insufficient time
+> is given for the chip to come up so the I2C read fails.
 
-Fixes: 936e4d49ecbc ("Input: atkbd - skip ATKBD_CMD_GETID in translated mode")
-Tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/keyboard/atkbd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ah, that's it.
 
-diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-index c229bd6b3f7f..7f67f9f2946b 100644
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -826,7 +826,7 @@ static int atkbd_probe(struct atkbd *atkbd)
- 
- 	if (atkbd_skip_getid(atkbd)) {
- 		atkbd->id = 0xab83;
--		return 0;
-+		goto deactivate_kbd;
- 	}
- 
- /*
-@@ -863,6 +863,7 @@ static int atkbd_probe(struct atkbd *atkbd)
- 		return -1;
- 	}
- 
-+deactivate_kbd:
- /*
-  * Make sure nothing is coming from the keyboard and disturbs our
-  * internal state.
--- 
-2.43.0
+You should drop that 'output-high' from the pin config as part of this
+patch to avoid toggling the reset line twice at boot.
 
+Looks like we have the same problem on the CRD as well. There the
+touchscreen still works, possibly because it has been enabled by the
+boot firmware or simply because that touchscreen can handle a shorter
+delay.
+
+Where exactly did you find those delay values in the ACPI tables? I
+couldn't seem to find anything in the decompiled DSDT.
+
+> If you later try to probe again, 200ms has elapsed since the reset was
+> deasserted (driven high).
+
+Right.
+
+Johan
 
