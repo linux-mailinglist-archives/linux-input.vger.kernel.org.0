@@ -1,91 +1,94 @@
-Return-Path: <linux-input+bounces-1502-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1503-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DF583DF51
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 17:56:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DF683DF84
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 18:10:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E4401C21FAA
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 16:56:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FD45281FB9
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 17:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DBAD1EA87;
-	Fri, 26 Jan 2024 16:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56681EA74;
+	Fri, 26 Jan 2024 17:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6wfEVg+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c73abWvK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB271EB24;
-	Fri, 26 Jan 2024 16:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E8C200A6;
+	Fri, 26 Jan 2024 17:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706288181; cv=none; b=io79OOcaTMH4Vs9I1QJR/LWBRrjrS2UPfYZ24MlN7HFscPwzT6MHH997eoxGQowgNs0eBtFYadbU4i73CTlVhmvjr2kxq5O7++k9ZmO9AviQIpoSKp5no2g6OMXe+Jkb0UP92NElPh2NWXG1u0Ftnf7OoOoTSMdYypwbLUgCm3k=
+	t=1706289033; cv=none; b=LJOwKs+yVHR4qx+Y8AHEVOhlEpT4I2wcpZEoyZhNtF82yXglGkImRvwSzNJYWarAQSlYMVKrbgiwva5wzsf+iikrGTW1RKCGymo+ds4gVFLECYX1gKzrZzvc71sFBqlrgWyGyiFFTOgfftAwWZHS76xwlRMOw/R1oo53VYabbhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706288181; c=relaxed/simple;
-	bh=QgW0oHQLcFslidWlTpKmmp0JRnttwiUG2ggzqqllD4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdqqXqy7MKnx3eBMrRlY7RTrCn959UAcrpMtTKuTUhl83AGzWeEOBd7P/kZzRNvAQgbO4c6YOw/g1cgE00ggc3OHY53awhW457KT8KuybKS5gl+rV6P7mdsTJ1vCpHLVpVVq9Zz48EGb23VdmdHtbJ7pwGBL0UesuFHwfZ5Sk3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6wfEVg+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E6BC433F1;
-	Fri, 26 Jan 2024 16:56:20 +0000 (UTC)
+	s=arc-20240116; t=1706289033; c=relaxed/simple;
+	bh=DEHxLqizhVae7GfdD+IYf2Qhwx8aaBFy0kmp5GGvB3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h4Bastt7cVJrUyFIif2UWuoTsugGg8zqIpYg20AboMoDJiuyeme4Zw4GF6MqTTxDbyuGIuQ6tiTErpr3Y+RX8HbDmBMdOivzUF4pe7f9XsvnZGXlhAjYMLYENyBOAYeXztYnnNhj96rURy11mpPk77vqbRlNH2rT4TsrmxvfWsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c73abWvK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CB1C433C7;
+	Fri, 26 Jan 2024 17:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706288180;
-	bh=QgW0oHQLcFslidWlTpKmmp0JRnttwiUG2ggzqqllD4M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I6wfEVg+RqhZMarNGzZv9BzRGK154CIxhnolYwjm28YnrnsT72tH73EgWj+ZgfX8i
-	 oMF3k2mS1Nn7gQtWpQUSd5W5cq/nsASpEHrUF+OBzuDX/L0mG5sPKku0vxJ/0OPPQh
-	 NI6B2LLa8lK/YOVKX8Ff3EEyuFQHd6m8XQyvKr65NMmsl9wbdFWff2wDYmpiqtcOXH
-	 1eh8hBEd2QA0UMvMNDW700zAlXeMQGI/Z9ZJDW80MGFo46SPWwraacFonR5oogOqJm
-	 wME/SoEgkzBYqCEudcCXBFWrJkVJMC3AurFumhJaaOSKjAopR1GbCBBXz6q6kQr0Qd
-	 OerFZ2t/XGYTg==
+	s=k20201202; t=1706289033;
+	bh=DEHxLqizhVae7GfdD+IYf2Qhwx8aaBFy0kmp5GGvB3M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=c73abWvKtRcIGlcqIFirNK8ljnzEEB6kiz37s998Hb9Vw0N9xH+v3zXLmRk3Tqyac
+	 W3W+4bLnAhkJiG+rCT00MOouACTON12NsDin4kcvSlu8Cm2mvvtB7q1roMj1etB0SZ
+	 urBAu1y1mKHVP+ex3XjuPvy4n5R2kzQgWMnNv4DSgqUnICBvu4EANwrwhfAvksmFyE
+	 +bQpw7L0KZNXSyRPEV/62g8MFLt30tdHDWjZDfz+ABIUHx1EFZX3iUNbbEMbk8+7zo
+	 4hreBHGf+RMtIKbWcAsf17NBb9lVBjEPQz0xi+29jD1aBMMkk/o2A6uarh2CKlsJqu
+	 qi5pR8SDswMAg==
 Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rTPVJ-0000000009d-1j4s;
-	Fri, 26 Jan 2024 17:56:33 +0100
-Date: Fri, 26 Jan 2024 17:56:33 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rTPj4-000000000YW-0YGh;
+	Fri, 26 Jan 2024 18:10:46 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan+linaro@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v2 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
- touchscreen
-Message-ID: <ZbPkQVrsrYgUpudo@hovoldconsulting.com>
-References: <20240126-x13s-touchscreen-v2-0-5374ccc9e10d@quicinc.com>
- <20240126-x13s-touchscreen-v2-2-5374ccc9e10d@quicinc.com>
+	stable@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH] HID: i2c-hid-of: fix NULL-deref on failed power up
+Date: Fri, 26 Jan 2024 18:09:01 +0100
+Message-ID: <20240126170901.893-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126-x13s-touchscreen-v2-2-5374ccc9e10d@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 26, 2024 at 08:41:39AM -0800, Bjorn Andersson wrote:
-> The failing read-test in __i2c_hid_core_probe() determines that there's
-> nothing connected at the documented address of the touchscreen.
-> 
-> Introduce the 5ms after-power and 200ms after-reset delays found in the
-> ACPI tables. Also wire up the reset-gpio, for good measure.
+A while back the I2C HID implementation was split in an ACPI and OF
+part, but the new OF driver never initialises the client pointer which
+is dereferenced on power-up failures.
 
-Please amend the commit message so that it reflects the discussion we
-just had (e.g. wiring up the reset-gpio is not just for good measure).
+Fixes: b33752c30023 ("HID: i2c-hid: Reorganize so ACPI and OF are separate modules")
+Cc: stable@vger.kernel.org      # 5.12
+Cc: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/hid/i2c-hid/i2c-hid-of.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Johan
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
+index c4e1fa0273c8..8be4d576da77 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of.c
+@@ -87,6 +87,7 @@ static int i2c_hid_of_probe(struct i2c_client *client)
+ 	if (!ihid_of)
+ 		return -ENOMEM;
+ 
++	ihid_of->client = client;
+ 	ihid_of->ops.power_up = i2c_hid_of_power_up;
+ 	ihid_of->ops.power_down = i2c_hid_of_power_down;
+ 
+-- 
+2.43.0
+
 
