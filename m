@@ -1,109 +1,149 @@
-Return-Path: <linux-input+bounces-1482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0E683D5B2
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 10:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7861983D7D2
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 11:20:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8EDA81C262F6
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 09:13:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3D5B1C2A6F4
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 10:20:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0C51429E;
-	Fri, 26 Jan 2024 08:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3C4E50A7E;
+	Fri, 26 Jan 2024 09:53:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1qguTP2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVh5vbrD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE8B7FB;
-	Fri, 26 Jan 2024 08:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5042350A74;
+	Fri, 26 Jan 2024 09:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706256749; cv=none; b=hhiKqeVEyNi4ZpALL3uVsmiGsixEa62iA876lrpeJH+B9i1hI1i+PFjn8e4PSaDKqmwz6iq0GwUw3nb2zrxzGIqzEONR5IGsi9Sq0nYcqRQcTrYbOf61klLy6CqmE+ic0sU0y4UyFfuKAh7zNSQifAc8HGBxYBpgHwnAn9maCwU=
+	t=1706262796; cv=none; b=otmlz+ifdjIvk5Jn89nBwJOjtI7tdmuvSuNOX08ByIoNKkjzlwMFhHmoc/PeSRxd47+6NSEWbuRm6x6Qm4zIGzPg2EgGcCFeOk9AG3q55DrhxZ1y+9oiv3yHsVL/00dtDbAPh2hiH/m2hHtxFFSWjczMe0KOQcZ7CJzTXUZMHPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706256749; c=relaxed/simple;
-	bh=e5RqXiUfA6NRNGKjt3CxSJ3zCXhBqQGuJKKlnfeXBBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbeK09oL4yrV+E9cspBV2CXRAUv9CYzstj6lrD+O7/vDlZ7gemu4+hBw2qcf1h3kRdmd2H7zUhMXplvn8TAVh+S+e3u0C46hYCEnHXvIARTR3+x2p8PvtDOAVYa67rcfQUEd0zqde23yR6rMwd8KVme1LNofylr6FppxQoPrRWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1qguTP2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD9EC433F1;
-	Fri, 26 Jan 2024 08:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706256748;
-	bh=e5RqXiUfA6NRNGKjt3CxSJ3zCXhBqQGuJKKlnfeXBBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y1qguTP2G1gop3ziXTuVUqHXx5FTziY9+Vs4vikiNNqRNMEA5AiB+KNUM2xpqh9yC
-	 OV/6UOKDrgKMrqLoXPSWKWvVYHAV1GfTye39ByQbjwly3N4p7WAyHWz319I2wYdbAJ
-	 y77x2kVDc1iYyh8g7UCHmfRC2jBIbbys+TF+V2rGfYabIVcISdCBqgP6s0xsW5Ctq2
-	 Oj85pr1VA+diTym8b+05ypQQ/k7MssTEpdVHejqQmpOQ/OGrQdn/sH7AqlLcqUbr58
-	 sNhoZjP6ePQpkDbJs6eZ+2gck40XuyS6f1wikmuVdjOXqVeiBZSE/BvsSFIGhljC4K
-	 CZfo9eiSwVing==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rTHKH-000000002nP-2nAg;
-	Fri, 26 Jan 2024 09:12:37 +0100
-Date: Fri, 26 Jan 2024 09:12:37 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
- touchscreen
-Message-ID: <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
-References: <20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com>
- <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
+	s=arc-20240116; t=1706262796; c=relaxed/simple;
+	bh=qIyNv2GKT/pRB+BCdOcRrE+9O93YX0P2wOyy8cuwfv8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uVgP2v0FCokT3a+QsqfBX5tB2YjlHREPucbaaP/YHSf+T7kPgqq+4KVk7YZF0YADE6Pu57ePwcjJyWiacDom6SXN7xAiDNmmm8n6wFPmmJEWFd2G9wGMTOGOg/ixT4xZUnqMtX9Kjq/uX6SqR81ptnYEMn7Qu0fhDV4w3ldBHr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVh5vbrD; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5955a4a9b23so136234eaf.1;
+        Fri, 26 Jan 2024 01:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706262794; x=1706867594; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IQ/3kDvRhsDFelMOEvB+kaIVBVK6Cu/lnq9gIh4BpOQ=;
+        b=cVh5vbrDU/7Vj2Ey5n/9DinrNSaB22lcEKzR853TwFy7g6hfKDoquYGaXBynGNE54L
+         2BoRwHk5oIC+NtHfYh6mICZL5JGjkYQC8XtxT55dPhYOvyxJJ2lKjosUitFjlGx+5Dan
+         hFW8Q3aa9goMLiNmKQQ2ALdvh+CAdXr3UlXu1/HpmySl123omSu+nPzbYcRMpalg84/j
+         nr3WekkArBmiwnQ3tIYdWoXT5Gl0Sq2kX74MB1KS+pOGOHlvL54uCPLj+UfIa1FS08QU
+         iXj/jX+5W1y3erFxuXeT692F9FCDje0Tnz3RhamzPFOVSUKMAL72Yc3UDe/zT6qXroJ3
+         eDfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706262794; x=1706867594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IQ/3kDvRhsDFelMOEvB+kaIVBVK6Cu/lnq9gIh4BpOQ=;
+        b=H2+daFcZ7rC7lu3gc03HCLiUHGy/2H5IbWdNc1XVbDQUVJGj3grAMg7S0pfdqic1sk
+         3JAqfQoXgRtHHqeCAHWHImePUjcUp17geqptSxsKw/Rn0PNQ43aXML2YFXg+Rtm4u6P+
+         RYythOqn/S6sPP0SLrGb3tYoR29BwVEoGUedyRm0Cfw8hoGqm0ETgVDya5KsfcpGkBrm
+         2alvDxPaWbmiOpRzNPdvItgf8XQHtMeQTF38Z6Av9HkK1rYqFHz07+9IlHYXF5P4djDM
+         DG+8K2m5RXeOqBmC6EHq7owSLEOtoeXVNpGBAVEjrJHgAQE6u6+q42Lwdob/4f9NXJwG
+         Bmeg==
+X-Gm-Message-State: AOJu0Yw/XR+SKs5BaO/e5m/Vf3JFMawhPT6BnALQG2tkyrzNRYg9NW2r
+	8SoJeVLzwBC18Ij+Ca9wtkgKKawVNfkriIb2u0vUg9nI7f4VrRif
+X-Google-Smtp-Source: AGHT+IFAR8CEw9FYEn6c0qELGbaw9Md3V/BeXz2XULDluuB2LMDlrD8c62HnOllvMmmfg5+iT2qznw==
+X-Received: by 2002:a05:6358:7502:b0:176:7f72:36af with SMTP id k2-20020a056358750200b001767f7236afmr1111329rwg.23.1706262794099;
+        Fri, 26 Jan 2024 01:53:14 -0800 (PST)
+Received: from h310mstx.. (2001-b011-4000-1ad1-19f3-37ad-3632-eedd.dynamic-ip6.hinet.net. [2001:b011:4000:1ad1:19f3:37ad:3632:eedd])
+        by smtp.gmail.com with ESMTPSA id ei20-20020a17090ae55400b0028feef0f956sm2822847pjb.17.2024.01.26.01.53.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 01:53:13 -0800 (PST)
+From: Phoenix Chen <asbeltogf@gmail.com>
+To: hdegoede@redhat.com
+Cc: ilpo.jarvinen@linux.intel.com,
+	linux-input@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Phoenix Chen <asbeltogf@gmail.com>
+Subject: [PATCH] drivers/platform/x86/touchscreen_dmi.c: Add touch config
+Date: Fri, 26 Jan 2024 17:53:08 +0800
+Message-Id: <20240126095308.5042-1-asbeltogf@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
-> The failing read-test in __i2c_hid_core_probe() determines that there's
-> nothing connected at the documented address of the touchscreen.
-> 
-> Introduce the 5ms after-power and 200ms after-reset delays found in the
-> ACPI tables. Also wire up the reset-gpio, for good measure.
+Added touch screen info for TECLAST X16 Plus tablet.
 
-As the supplies for the touchscreen are always on (and left on by the
-bootloader) it would seem that it is really the addition of the reset
-gpio which makes things work here. Unless the delay is needed for some
-other reason.
+Signed-off-by: Phoenix Chen <asbeltogf@gmail.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 35 ++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-(The power-on delay also looks a bit short compared to what is used for
-other devices.)
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 0c6733772698..7aee5e9ff2b8 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -944,6 +944,32 @@ static const struct ts_dmi_data teclast_tbook11_data = {
+ 	.properties	= teclast_tbook11_props,
+ };
+ 
++static const struct property_entry teclast_x16_plus_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1916),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1264),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-teclast-x16-plus.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data teclast_x16_plus_data = {
++	.embedded_fw = {
++		.name	= "silead/gsl3692-teclast-x16-plus.fw",
++		.prefix = { 0xf0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 },
++		.length	= 43560,
++		.sha256	= { 0x9d, 0xb0, 0x3d, 0xf1, 0x00, 0x3c, 0xb5, 0x25,
++			    0x62, 0x8a, 0xa0, 0x93, 0x4b, 0xe0, 0x4e, 0x75,
++			    0xd1, 0x27, 0xb1, 0x65, 0x3c, 0xba, 0xa5, 0x0f,
++			    0xcd, 0xb4, 0xbe, 0x00, 0xbb, 0xf6, 0x43, 0x29 },
++	},
++	.acpi_name	= "MSSL1680:00",
++	.properties	= teclast_x16_plus_props,
++};
++
+ static const struct property_entry teclast_x3_plus_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+@@ -1612,6 +1638,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_SKU, "E5A6_A1"),
+ 		},
+ 	},
++	{
++		/* Teclast X16 Plus */
++		.driver_data = (void *)&teclast_x16_plus_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "TECLAST"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Default string"),
++			DMI_MATCH(DMI_PRODUCT_SKU, "D3A5_A1"),
++		},
++	},
+ 	{
+ 		/* Teclast X3 Plus */
+ 		.driver_data = (void *)&teclast_x3_plus_data,
+-- 
+2.34.1
 
-Reset support was only recently added with commit 2be404486c05 ("HID:
-i2c-hid-of: Add reset GPIO support to i2c-hid-of") so we should not
-backport this one before first determining that.
-
-That commit also added a comment in the HID driver about the
-'post-reset-deassert-delay-ms' to the driver which should now be
-removed:
-
-	/*
-	 * Note this is a kernel internal device-property set by x86 platform code,
-	 * this MUST not be used in devicetree files without first adding it to
-	 * the DT bindings.
-	 */
-
-Johan
 
