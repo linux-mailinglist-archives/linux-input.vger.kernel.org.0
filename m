@@ -1,266 +1,161 @@
-Return-Path: <linux-input+bounces-1484-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1485-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D964483D933
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 12:20:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8757C83D992
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 12:46:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 563491F27B1B
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 11:20:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F57429642A
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 11:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D361814273;
-	Fri, 26 Jan 2024 11:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F410175B4;
+	Fri, 26 Jan 2024 11:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XsXs6vZs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HxPSMVws"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1914C13FFA
-	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 11:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E2718AF4
+	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 11:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706268040; cv=none; b=qfGt7FQV3bsyqfE1O3/cLoPe/+TmCEDau1Y8M5yiDjAWnEyELcmFhfva9wy5llYDIMbTzeWscetpFbAOk9mN1HK18r1h2fpPlJaDWbqoteLYQ/dfNIMaSWwGhPd707jiMxL9BK6GzJvlyH1asCnqOYr+7pq/laZvJPKWJktzYTE=
+	t=1706269582; cv=none; b=JldC517FI/LCs53y6ez1x9+OlCdIqNQ69sA68SXtcVswbFRiErgSl60kdOp+Iy3xaM7R2xyzRxgosWdVNAZVj4JZtpig314TlXtMeiZUbR8IR/eakZu+yAj+pdUS6Vt98V0MVpjbGY04RZuC985FzQxY38EgZ/ZRb1YgTvXkV30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706268040; c=relaxed/simple;
-	bh=rUDCyjkqCSegFTrxzDZFLtSC0X1851BiYh6zk6ILQUo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r+WZVC7qTMudB3sXXIvY4DWkyAOzueOHNOOCqjI+/FOuHV8lT7KMTaXrYbBxdBdf+8w4/ZqE5JHOJf/EhYno5aZVQjLVBExZCYR3tPHQ5OAbR16X4mOShOzY3HNk6iFZjbR/ANIuJfQ/g0TjfP+i/neWy6bFFjTzLE0RbpB37Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XsXs6vZs; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706268037;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adKrKcsVsy8nxrIIG/cxmKvYrilkzcpLV+j2FAcibZc=;
-	b=XsXs6vZsimq91nqY0snVfpUujY1pYLQcJ2ud9x5uUoQmux4j+K9rB5LJCymHd0ed5OOCVX
-	hadgF+Fe9yCxb4nobUch9VF/rt9invzL6rDFJ0CKszo0YTmwE5CdEuLNoso6htg8YRa/zC
-	heB9vWos132AOOUFwhBQJ9GkDRqmq7o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-486-bn-Ivpj8PWW45LHAxDLo6Q-1; Fri, 26 Jan 2024 06:20:36 -0500
-X-MC-Unique: bn-Ivpj8PWW45LHAxDLo6Q-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a35118e98caso7722166b.0
-        for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 03:20:36 -0800 (PST)
+	s=arc-20240116; t=1706269582; c=relaxed/simple;
+	bh=jdSVSOW4S3cVB/lrRyT2T8+woWNF5mmW4K+M3PhTaCU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gMwqOZWR5kYbGGURcLYyIYuuC8K2q5MUh3P1WD4tRKIsRafUS80y5eX0W6X3IFflw0N9pkNOTJE2fuWLgZ4Ey7KMPJR9HwJSF/z07pojMoSq8TRVRLhMPkqDwHSpnYlV37f5+LQeszqiVXRS6XstUmP0xzq5OMkuTxQYULbKcFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HxPSMVws; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55a349cf29cso257706a12.0
+        for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 03:46:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706269579; x=1706874379; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/SptwUWIsbNk7qK39wNHbbMiIPCKUkVigUQ+MN6aFWw=;
+        b=HxPSMVwsj6KWcB77xk4aKY7EB6xQk5JZkkEKOrPxpa0PfvtGxqxW2Np47Cfpw0rO4K
+         wsv8B5aw5jbhYO5848JRTekzJzFPi1Reg4dWuw0aPHAcVzZHGn95gI/mO2QFFWH/2qIO
+         L/4ZfMyLQxoCe2Jiv0TdNY7a3Lta3AaZW9E0buoIO7UDbhXMiQrZI3E6AqhsiUMJnRn1
+         j3sJhIXt+lxxQ8znxz1nhTos7h9BeefjnehBF9/vdQm45C0NhV8yTnEC+g2ZWWZVASI/
+         mFYntPaGFFjrrHMZX4l/mAdElUCzBOoG+2oSZ+Q8V0+FaHPg8ASoZElL7u0E+tr4kL8S
+         Fa6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706268035; x=1706872835;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=adKrKcsVsy8nxrIIG/cxmKvYrilkzcpLV+j2FAcibZc=;
-        b=tA16TnMTcSOqsZfZ5j9xblHFyZywmSaYKESr4GfzTHFulSAqn9fOex0VHyd7HlQsBM
-         rgvEEVHTiYqvPia2+n4k6NKhJhO2NmLr8hmpat5Hs1UaO8u2rrQRsNUmbp4d0+3EMKsv
-         TXrqJPMAOKQkcJzGacJ8qd1COa6T21VQ7jzXdjK5/m3ImMVdbBMwMhrCcNJJJ7vI5SKG
-         6ngrdKZMnZ2ssVzQHrOATbw35kVH1+BezyhOD01lZVwx1QYEFC3f2tK+WtoWMAyoaIxw
-         wEvF3bM2uXKJFrWihUWQFStavHdpGCoPzLYGqHiRLDghq+hBO3j7BXzat4oYn3Rigr/x
-         +x3w==
-X-Gm-Message-State: AOJu0YywcbkJNzur7gcw4td0U2NTk3nU9nnZRW0Pyr+offuxPeexEHVb
-	SVn+W+0lp4mYP9s4Bv0reSVhZI7IW+Tr4MdlIET8FqQdU6YrIBS0Vzg6WsGoUISkRVzxI5ijCf4
-	OF8QI5cOZ6MaWQJRQoqPlTgCDs89JG7d5veDM43NOsjupOuRzag2q1Cz82eUZNtlyBFsmSxNJxE
-	1UfenlSIKAiOMl+84dT+W0FdAueigCjjt1yPI=
-X-Received: by 2002:a17:906:1b57:b0:a33:2ea8:6c45 with SMTP id p23-20020a1709061b5700b00a332ea86c45mr1153415ejg.19.1706268035428;
-        Fri, 26 Jan 2024 03:20:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFXUuQde2ZQSJlUg0Q4EcQL0ZwIpzUDUFkwVkwVyFgYDxpfpgyPr4TsY9axdE6ilwDji2IFnSyFKy2lexowRo=
-X-Received: by 2002:a17:906:1b57:b0:a33:2ea8:6c45 with SMTP id
- p23-20020a1709061b5700b00a332ea86c45mr1153407ejg.19.1706268035096; Fri, 26
- Jan 2024 03:20:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706269579; x=1706874379;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/SptwUWIsbNk7qK39wNHbbMiIPCKUkVigUQ+MN6aFWw=;
+        b=tBUE3c4Ljdp8+GxULLSEHY3vLsVFrQW0ejmiWNbENLbl6nvFUDvWLpwLU1ePP3JKwW
+         hQnz5rUODf5MIBGC/+aX6Pf2SimfdlE1HPrSb44ugoysDmOh6QRA8YmauiwYvoWho2hI
+         fiCbtYFEDAKGY+WME42se9vzOSqJexNkLBKPyGq434PQnwERbhRXQd6qvRnRs0dWrePb
+         AwlqawLLp1HFQdKVVFpOTDZ9qwt7h8GMvYRchazXtz0vS2t+SZO83nZ8M3qLXiGZb//k
+         tTPCI116DGHobiA/oY01NkWP3ND157HaEdisK/nggID3PH8Q4RLWaCh8jbaC8/LkYbZN
+         4Dhg==
+X-Gm-Message-State: AOJu0YyajtxG6MOPFbHQvoJVbS8yMtBLaVfWCl3ubXNjVcF+ywrp5xuY
+	AdgI/DlBL/gteyU01B8S+xYLvHbIFUs1cRTOWRvV31ETNiqMei2xcH29zfw4AcM=
+X-Google-Smtp-Source: AGHT+IHJ+565KaSILXURtz/VzVm2tikFKd31yCjOUwBElldjIimbisxTb7DLQ1S7TSjm2MtCYzmazQ==
+X-Received: by 2002:aa7:da54:0:b0:55c:92f4:4754 with SMTP id w20-20020aa7da54000000b0055c92f44754mr723938eds.8.1706269578851;
+        Fri, 26 Jan 2024 03:46:18 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id el15-20020a056402360f00b0055d1d8e058asm506752edb.69.2024.01.26.03.46.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 03:46:18 -0800 (PST)
+Message-ID: <2c8961ff-9fcc-402c-b048-744ae9473164@linaro.org>
+Date: Fri, 26 Jan 2024 12:46:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240124-b4-hid-bpf-fixes-v2-0-052520b1e5e6@kernel.org> <20240124-b4-hid-bpf-fixes-v2-2-052520b1e5e6@kernel.org>
-In-Reply-To: <20240124-b4-hid-bpf-fixes-v2-2-052520b1e5e6@kernel.org>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Fri, 26 Jan 2024 12:20:23 +0100
-Message-ID: <CAO-hwJ+xOF=GH115_KcWKjXLqeKU-BzXmNY0bvOzhZQb0WkEDg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] HID: bpf: actually free hdev memory after
- attaching a HID-BPF program
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii.nakryiko@gmail.com>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/3] dt-bindings: input: Add TouchNetix axiom
+ touchscreen
+Content-Language: en-US
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Marco Felsch <m.felsch@pengutronix.de>, Jeff LaBundy <jeff@labundy.com>
+Cc: catalin.popescu@leica-geosystems.com, mark.satterthwaite@touchnetix.com,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ bsp-development.geo@leica-geosystems.com
+References: <20240125165823.996910-1-kamel.bouhara@bootlin.com>
+ <20240125165823.996910-3-kamel.bouhara@bootlin.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240125165823.996910-3-kamel.bouhara@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 24, 2024 at 12:27=E2=80=AFPM Benjamin Tissoires <bentiss@kernel=
-.org> wrote:
->
-> Turns out that I got my reference counts wrong and each successful
-> bus_find_device() actually calls get_device(), and we need to manually
-> call put_device().
->
-> Ensure each bus_find_device() gets a matching put_device() when releasing
-> the bpf programs and fix all the error paths.
->
-> Cc: stable@vger.kernel.org
-> Fixes: f5c27da4e3c8 ("HID: initial BPF implementation")
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
->
-> ---
->
-> new in v2
-> ---
->  drivers/hid/bpf/hid_bpf_dispatch.c  | 29 +++++++++++++++++++++++------
->  drivers/hid/bpf/hid_bpf_jmp_table.c | 19 ++++++++++++++++---
->  2 files changed, 39 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf=
-_dispatch.c
-> index 5111d1fef0d3..7903c8638e81 100644
-> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> @@ -292,7 +292,7 @@ hid_bpf_attach_prog(unsigned int hid_id, int prog_fd,=
- __u32 flags)
->         struct hid_device *hdev;
->         struct bpf_prog *prog;
->         struct device *dev;
-> -       int fd;
-> +       int err, fd;
->
->         if (!hid_bpf_ops)
->                 return -EINVAL;
-> @@ -311,14 +311,24 @@ hid_bpf_attach_prog(unsigned int hid_id, int prog_f=
-d, __u32 flags)
->          * on errors or when it'll be detached
->          */
->         prog =3D bpf_prog_get(prog_fd);
-> -       if (IS_ERR(prog))
-> -               return PTR_ERR(prog);
-> +       if (IS_ERR(prog)) {
-> +               err =3D PTR_ERR(prog);
-> +               goto out_dev_put;
-> +       }
->
->         fd =3D do_hid_bpf_attach_prog(hdev, prog_fd, prog, flags);
-> -       if (fd < 0)
-> -               bpf_prog_put(prog);
-> +       if (fd < 0) {
-> +               err =3D fd;
-> +               goto out_prog_put;
-> +       }
->
->         return fd;
+On 25/01/2024 17:58, Kamel Bouhara wrote:
+> +  reset-gpios:
+> +    maxItems: 1
 > +
-> + out_prog_put:
-> +       bpf_prog_put(prog);
-> + out_dev_put:
-> +       put_device(dev);
-> +       return err;
->  }
->
->  /**
-> @@ -345,8 +355,10 @@ hid_bpf_allocate_context(unsigned int hid_id)
->         hdev =3D to_hid_device(dev);
->
->         ctx_kern =3D kzalloc(sizeof(*ctx_kern), GFP_KERNEL);
-> -       if (!ctx_kern)
-> +       if (!ctx_kern) {
-> +               put_device(dev);
->                 return NULL;
-> +       }
->
->         ctx_kern->ctx.hid =3D hdev;
->
-> @@ -363,10 +375,15 @@ noinline void
->  hid_bpf_release_context(struct hid_bpf_ctx *ctx)
->  {
->         struct hid_bpf_ctx_kern *ctx_kern;
-> +       struct hid_device *hid;
->
->         ctx_kern =3D container_of(ctx, struct hid_bpf_ctx_kern, ctx);
-> +       hid =3D (struct hid_device *)ctx_kern->ctx.hid; /* ignore const *=
-/
->
->         kfree(ctx_kern);
+> +  vdda-supply:
+> +    description: Analog power supply regulator on VDDA pin
 > +
-> +       /* get_device() is called by bus_find_device() */
-> +       put_device(&hid->dev);
->  }
->
->  /**
-> diff --git a/drivers/hid/bpf/hid_bpf_jmp_table.c b/drivers/hid/bpf/hid_bp=
-f_jmp_table.c
-> index 12f7cebddd73..85a24bc0ea25 100644
-> --- a/drivers/hid/bpf/hid_bpf_jmp_table.c
-> +++ b/drivers/hid/bpf/hid_bpf_jmp_table.c
-> @@ -196,6 +196,7 @@ static void __hid_bpf_do_release_prog(int map_fd, uns=
-igned int idx)
->  static void hid_bpf_release_progs(struct work_struct *work)
->  {
->         int i, j, n, map_fd =3D -1;
-> +       bool hdev_destroyed;
->
->         if (!jmp_table.map)
->                 return;
-> @@ -220,6 +221,12 @@ static void hid_bpf_release_progs(struct work_struct=
- *work)
->                 if (entry->hdev) {
->                         hdev =3D entry->hdev;
->                         type =3D entry->type;
-> +                       /*
-> +                        * hdev is still valid, even if we are called aft=
-er hid_destroy_device():
-> +                        * when hid_bpf_attach() gets called, it takes a =
-ref on the dev through
-> +                        * bus_find_device()
-> +                        */
-> +                       hdev_destroyed =3D hdev->bpf.destroyed;
->
->                         hid_bpf_populate_hdev(hdev, type);
->
-> @@ -232,12 +239,18 @@ static void hid_bpf_release_progs(struct work_struc=
-t *work)
->                                 if (test_bit(next->idx, jmp_table.enabled=
-))
->                                         continue;
->
-> -                               if (next->hdev =3D=3D hdev && next->type =
-=3D=3D type)
-> +                               if (next->hdev =3D=3D hdev && next->type =
-=3D=3D type) {
-> +                                       /*
-> +                                        * clear the hdev reference and d=
-ecrement the device ref
-> +                                        * that was taken during bus_find=
-_device() while calling
-> +                                        * hid_bpf_attach()
-> +                                        */
->                                         next->hdev =3D NULL;
-> +                                       put_device(&hdev->dev);
+> +  vddi-supply:
+> +    description: I/O power supply regulator on VDDI pin
+> +
+> +  startup-time-ms:
+> +    description: delay after power supply regulator is applied in ms
 
-sigh... I can't make a correct patch these days... Missing a '}' here
-to match the open bracket added above :(
+That's a regulator property - ramp up time.
 
-I had some debug information put there to check if the device was
-actually freed, and the closing bracket got lost while cleaning this
-up.
-
-Cheers,
-Benjamin
-
->                         }
->
-> -                       /* if type was rdesc fixup, reconnect device */
-> -                       if (type =3D=3D HID_BPF_PROG_TYPE_RDESC_FIXUP)
-> +                       /* if type was rdesc fixup and the device is not =
-gone, reconnect device */
-> +                       if (type =3D=3D HID_BPF_PROG_TYPE_RDESC_FIXUP && =
-!hdev_destroyed)
->                                 hid_bpf_reconnect(hdev);
->                 }
->         }
->
-> --
-> 2.43.0
->
+Best regards,
+Krzysztof
 
 
