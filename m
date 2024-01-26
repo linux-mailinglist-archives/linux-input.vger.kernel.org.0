@@ -1,152 +1,200 @@
-Return-Path: <linux-input+bounces-1486-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1487-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3E183DA7A
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 14:02:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F6083DAEA
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 14:33:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D4FA1C2034E
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 13:02:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EA4D286D5D
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 13:33:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A24FE1B81E;
-	Fri, 26 Jan 2024 13:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D24631B958;
+	Fri, 26 Jan 2024 13:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RXnoB0RI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P1PcHJXA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFAB1B80A
-	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 13:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DC51B942
+	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 13:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706274158; cv=none; b=ZAq4muZbKvrmBHO2wEcarGqdv+iE+zcbOCsgFdor3eIxLsyGBzoK7H0OiZOBrQg7S2Tz6l0WfETmL0imrw68GNicZhsRZ/OghD1DWYbogt0cBirwb85wYvMZW/lKh3r6YG4ss26jvo/282TlLH2geENGDv5XTUc4srGtXwc9pA0=
+	t=1706275986; cv=none; b=qcPTuRLu0b1GPBjgRS/4ZrtStTZC98Db/ttmkriS6e0RbuqbvDEE4j+HC9rPLKPVleVO+s/L1sTS41Ktt3ZrzmKwtOmuJYe+tdMfdF051ZJ7v2snrYqAB8akdwnyuYcSEdRIqHcRDu2j+ml3oQFWegxgZRpgoipZgBxB2PCnLio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706274158; c=relaxed/simple;
-	bh=mBXiWmO43x4IedI7eW45Poke+eFkqHYazw7gPasItoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fgmvf5LT0Np28SvWaf0wYxE/sCjr1mJmcfU8dnK4rVZJPuRF3AFFT/w+6kh64YxIKHz17tQEFOm0VLBRSN0RpFJIm4W8QQBHoz9C9XXmJviRD2k2R4DjT/VLLkl5Phrw4X3I87+/bRq9/UrlCmRnbVuH8P3ejueW8HuT4e09CHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RXnoB0RI; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e76109cdeso9297145e9.0
-        for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 05:02:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706274155; x=1706878955; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3+07jRFtwaufVPIk/XTD0i2kvGZ4Tbho2wTMEbnG0c=;
-        b=RXnoB0RIxwv/NQSIzOtszHrLgNebcQjJd5nF1JqvwwYVz0q2yhfZPY/L8RSal11skC
-         0ZLnJHAP1vWwaqCKFDknubpEnWq6HawZenu5H0jfUMAnitZEbDSKHejVlGIMnwtlJo24
-         qBwednnHhCsH4QOLccTxqHyzIJwDtfYbdKwlRaXgNx/AHt0mhGSm6d4RO7C3Odz4VQgY
-         13EiuJgpOBB9HUrqhoPlKm8hF7gwHv6YzMe83QYeFsyb88Jwik4v1o2giVllb/nsyK3q
-         54g3HtS5qPh+8gqqNHeJrI/0+ns8wzghbXPKWd0NzKJYod00DAWE8LWccLtSy3bhSSGJ
-         Ak8g==
+	s=arc-20240116; t=1706275986; c=relaxed/simple;
+	bh=t75+ApVE4O2pChN2R4h66dZ7fB5ab5Ao7eh8CU5ennw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QE6/j+ILJxNqmpiibaCyNVGTb16OMwGFXjC8hx1eVJ8tcv1QzXT7J/pum1u7XFm6La1tIURIhGYH3tG7AbGQQLqrTGkyyZ9Lp0l6fK33DDa2Jmmm+Gh+B146Gg5ukGfd6svxUY4FnX44uNNtAJvFZ503UPZq+AVnJVNvktvqoGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P1PcHJXA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706275984;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U3CYoF7To3W2OvR7Q0XItMhTSU3L3ntABi2tsSEqr9s=;
+	b=P1PcHJXAU06p87tXNt5/0JGtFfK8VPDKsA8cLJSH97VzcEbDkJWRS654ys42Aa4avvd47u
+	DtTWIJkgu/neXl/dq8+fZup4OxXsgQjAlHmSfYAaw1Kd78n0fcWr8ugSojVdIuHU1D77PU
+	31lnK/OuHY1T+5XkW0t52MJyELrl5ww=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-368-bWtwPJIuNVmFHXhd4u41Rw-1; Fri, 26 Jan 2024 08:33:02 -0500
+X-MC-Unique: bWtwPJIuNVmFHXhd4u41Rw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a2c653c7b35so34464266b.0
+        for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 05:33:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706274155; x=1706878955;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a3+07jRFtwaufVPIk/XTD0i2kvGZ4Tbho2wTMEbnG0c=;
-        b=bVZznmd2z8czq/EMeTXAU+APlpFlnJqfX9FbT2FpTeQoq3UafhwX7hhdnmjoZJ6NMV
-         ixSxhSZGiOp9T8DQHzbcdq0F3kjtB1fYt01uyWHiniAlz9gflRqN49yyViUN3c25HRYd
-         Fk61bVPso3tyeC+AP3Brsq8TE5x6IpLtZydjh96nJ1pEqrAm4whVqx08o4rTVJ2WUJaS
-         fyCJKqMVfkShGDvLFeBHa6RRSQ9S6vrzz4EzJnZppvR4+of6+bgUVi52InSCiZFA11LK
-         WCFKlNKhzZhgV1gK/fOgPwL5ytxk0lrJtCLEU3pVUSEG9ThATHpZ3LWjeZXMrys4Hyrd
-         3CIg==
-X-Gm-Message-State: AOJu0YzP6OOVInOMBdm1FcsWwsGF6T/PqrWuBQaSZ8TwTj6ZD21M6SZh
-	HDeSrle888R5WbTwGrznWGWera8Au5SNcyCprBanrYwb4m7WV85BM9GTjb1iSc0=
-X-Google-Smtp-Source: AGHT+IFJEnTrtRkieL7052tDdsHf4QprHoC8IvOe6lXVFTMJ1+IvvGQj1R8OZsfDteVBTHZ4Kx1Eyw==
-X-Received: by 2002:a5d:694e:0:b0:33a:dec4:1d88 with SMTP id r14-20020a5d694e000000b0033adec41d88mr10537wrw.75.1706274155128;
-        Fri, 26 Jan 2024 05:02:35 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id j17-20020adfe511000000b00339214d70b5sm1231554wrm.85.2024.01.26.05.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 05:02:34 -0800 (PST)
-Date: Fri, 26 Jan 2024 13:02:32 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
- touchscreen
-Message-ID: <20240126130232.GA5506@aspen.lan>
-References: <20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com>
- <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
- <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
+        d=1e100.net; s=20230601; t=1706275981; x=1706880781;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3CYoF7To3W2OvR7Q0XItMhTSU3L3ntABi2tsSEqr9s=;
+        b=SoWylmJWTyJminwqwjDcAXyCBMlcd9I1oXml0qJisRZqo5ukPlknOVWnvK8Cem29F1
+         DKSxBOXRRGE1heCVQ4DQjSce/FpUwPUDDMKg1jCCdc+rFlZgye/YVNxUzJWiNvnmw2Cm
+         fCYHpKIa+vt2/vWDo3z07M60XFaV32IR9KRQw6HJU+Em6yDrPYGncVxBEx7MPD+lk8BX
+         E9G2uISZXUmOfDcIJ5QvWIjwSOnlDO8eXuQJzb+5yrqkIkZKBQPtEEaao0ZhqtpFzuIG
+         IU2LoIReRUQOqc2t0cAdtIamuK4960wCsaC5wtCsvbylvHGiMmyQ8AbAO9Ki2X9zM0dW
+         06GQ==
+X-Gm-Message-State: AOJu0YxkVY2TZb7r1sveI0+9hLG9vq/fDsjNT3k19bGMMXZ0Y/rVknJo
+	2sXj31rf1f99QVEkZWbPjJ8geSplM5tmLpGBT8KkbD7zsoeU9JbsmT3KrI1Q0bl+u5p5ReQl9Uo
+	nwiCVBTCmDX1Mr0cGzibSbSBhuCdjQx1MgpCzKqVzkVYrf1cYiSEvP07msS0UyyWKFzkU
+X-Received: by 2002:a17:906:1949:b0:a33:604d:2a42 with SMTP id b9-20020a170906194900b00a33604d2a42mr527117eje.25.1706275981158;
+        Fri, 26 Jan 2024 05:33:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHhKBLsSu7OcWJcv0AZ4I04EUiwRYyjkq++HEtrw6QvawvzQb9UNe2gW7BIw4ofNgZSMFoQWQ==
+X-Received: by 2002:a17:906:1949:b0:a33:604d:2a42 with SMTP id b9-20020a170906194900b00a33604d2a42mr527109eje.25.1706275980797;
+        Fri, 26 Jan 2024 05:33:00 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id un3-20020a170907cb8300b00a3516240ab3sm118189ejc.215.2024.01.26.05.33.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 05:33:00 -0800 (PST)
+Message-ID: <5f70a174-7f18-43c0-b3a3-b72544a2631b@redhat.com>
+Date: Fri, 26 Jan 2024 14:32:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: PS/2 keyboard of laptop Dell XPS 13 9360 goes missing after S3
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+ Dell.Client.Kernel@dell.com, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <0aa4a61f-c939-46fe-a572-08022e8931c7@molgen.mpg.de>
+ <f27b491c-2f1c-4e68-804c-24eeaa8d10de@redhat.com>
+ <0b30c88a-6f0c-447f-a08e-29a2a0256c1b@molgen.mpg.de>
+ <dde1bdfe-7877-41bd-b233-03bcdba0e2de@redhat.com>
+ <f07333d2-ebb0-4531-a396-8fb3d1daa2c3@molgen.mpg.de>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <f07333d2-ebb0-4531-a396-8fb3d1daa2c3@molgen.mpg.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 26, 2024 at 09:12:37AM +0100, Johan Hovold wrote:
-> On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
-> > The failing read-test in __i2c_hid_core_probe() determines that there's
-> > nothing connected at the documented address of the touchscreen.
-> >
-> > Introduce the 5ms after-power and 200ms after-reset delays found in the
-> > ACPI tables. Also wire up the reset-gpio, for good measure.
->
-> As the supplies for the touchscreen are always on (and left on by the
-> bootloader) it would seem that it is really the addition of the reset
-> gpio which makes things work here. Unless the delay is needed for some
-> other reason.
->
-> (The power-on delay also looks a bit short compared to what is used for
-> other devices.)
->
-> Reset support was only recently added with commit 2be404486c05 ("HID:
-> i2c-hid-of: Add reset GPIO support to i2c-hid-of") so we should not
-> backport this one before first determining that.
+Hi Paul,
 
-This comment attracted my attention so I tried booting with each of the
-three lines individually.
+On 1/26/24 08:03, Paul Menzel wrote:
+> Dear Hans,
+> 
+> 
+> Thank you for your reply, and sorry for the delay on my side. I needed to set up an environment to easily build the Linux kernel.
+
+No problem thank you for testing this.
+
+> Am 22.01.24 um 14:43 schrieb Hans de Goede:
+> 
+>> On 1/21/24 15:26, Paul Menzel wrote:
+> 
+> […]
+> 
+>>> Am 20.01.24 um 21:26 schrieb Hans de Goede:
+>>>
+>>>> On 1/18/24 13:57, Paul Menzel wrote:
+>>>>> #regzbot introduced v6.6.11..v6.7
+>>>
+>>>>> There seems to be a regression in Linux 6.7 on the Dell XPS 13 9360 (Intel i7-7500U).
+>>>>>
+>>>>>       [    0.000000] DMI: Dell Inc. XPS 13 9360/0596KF, BIOS 2.21.0 06/02/2022
+>>>>>
+>>>>> The PS/2 keyboard goes missing after S3 resume¹. The problem does not happen with Linux 6.6.11.
+>>>>
+>>>> Thank you for reporting this.
+>>>>
+>>>> Can you try adding "i8042.dumbkbd=1" to your kernel commandline?
+>>>>
+>>>> This should at least lead to the device not disappearing from
+>>>>
+>>>> "sudo libinput list-devices"
+>>>>
+>>>> The next question is if the keyboard will still actually
+>>>> work after suspend/resume with "i8042.dumbkbd=1". If it
+>>>> stays in the list, but no longer works then there is
+>>>> a problem with the i8042 controller; or interrupt
+>>>> delivery to the i8042 controller.
+>>>>
+>>>> If "i8042.dumbkbd=1" somehow fully fixes things, then I guess
+>>>> my atkbd driver fix for other laptop keyboards is somehow
+>>>> causing issues for yours.
+>>>
+>>> Just a quick feedback, that booting with `i8042.dumbkbd=1` seems to fix the issue.
+>>>
+>>>> If "i8042.dumbkbd=1" fully fixes things, can you try building
+>>>> your own 6.7.0 kernel with commit 936e4d49ecbc:
+>>>>
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=936e4d49ecbc8c404790504386e1422b599dec39
+>>>>
+>>>> reverted?
+>>>
+>>> I am going to try that as soon as possible.
+>>
+>> Assuming this was not some one time glitch with 6.7.0,
+>> I have prepared a patch hopefully fixing this (1) as well
+>> as a follow up fix to address another potential issue which
+>> I have noticed.
+> 
+> Unfortunately, it wasn’t just a glitch.
+> 
+>> Can you please give a 6.7.0 (2) kernel with the 2 attached
+>> patches added a try ?
+>>
+>> I know building kernels can be a bit of work / takes time,
+>> sorry. If you are short on time I would prefer testing these 2
+>> patches and see if they fix things over trying a plain revert.
+> 
+> Applying both patches on v6.7.1
+> 
+>     $ git log --oneline -3
+>     053fa44c0de1 (HEAD -> v6.7.1) Input: atkbd - Do not skip atkbd_deactivate() when skipping ATKBD_CMD_GETID
+>     0e0fa0113c7a Input: atkbd - Skip ATKBD_CMD_SETLEDS when skipping ATKBD_CMD_GETID
+>     a91fdae50a6d (tag: v6.7.1, stable/linux-6.7.y, origin/linux-6.7.y) Linux 6.7.1
+> 
+> I am unable to reproduce the problem in eight ACPI S3 suspend/resume cycles. The DMAR errors [3] are also gone:
+
+Thanks.
+
+So thinking more about this I think the DMAR errors are actually the real cause of the issue here, specifically if we replace: f0 with 00 (I guess DMAR uses the high bits for its own purposes) in
+
+`[INTR-REMAP] Request device [f0:1f.0] fault index 0x0`
+
+then the device ID is 00:1f.0 which is the ISA bridge and [INTR-REMAP] errors are known to disable interrupts. The PS/2 controller (which sits behind the ISA bridge) interrupt getting disabled would explain the suspend/resume keyboard issue better then the atkbd.c changes I have been focusing on.
+
+So then the question becomes why does the 6.7.1 kernel not show the DMAR errors. I don't see anything between 6.7.0 and 6.7.1 which explains this. But maybe your local build is using a different configuration which explains this.
+
+Can you try your local 6.7.1 build without my 2 patches? The quickest way to do that would be to run: "git reset --hard HEAD~2" and then re-run the make commandos, this will re-use your previous build so it should be pretty quick.
+
+If things still work after that then the problem is not with the atkbd code.
+
+Regards,
+
+Hans
 
 
-On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
-> +             reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
-
-This is not enough, on it's own, to get the touch screen running.
-
-I guess that's not so much of a surprise since the rebind-the-driver
-from userspace trick wouldn't have been touching this reset.
 
 
-> +             post-power-on-delay-ms = <5>;
-
-This line alone is enough (in v6.7.1).
-
-
-> +             post-reset-deassert-delay-ms = <200>;
-
-This line alone is also enough!
-
-In short it looks like the delays make the difference and, even a short
-delay, can fix the problem.
-
-Of course, regardless of the line-by-line results I also ran with all
-the changes so, FWIW:
-Tested-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-Daniel.
 
