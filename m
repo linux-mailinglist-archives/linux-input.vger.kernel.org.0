@@ -1,150 +1,198 @@
-Return-Path: <linux-input+bounces-1488-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1489-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03E583DBE2
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 15:30:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 280B483DCC3
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 15:54:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F2361C211E0
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 14:30:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A49401F21684
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 14:54:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3FAF1869;
-	Fri, 26 Jan 2024 14:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 361341C2A5;
+	Fri, 26 Jan 2024 14:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWB2+Ym8"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cQgN1XDy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822177F;
-	Fri, 26 Jan 2024 14:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F99134B1;
+	Fri, 26 Jan 2024 14:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706279452; cv=none; b=ftg5TTMQiHIhjpxkJcPLry+i6UBt+j1adlWu+7LD5ho/NpPgkdLKQYYgcUfI99ik+BLwINhsG3OFgXfvMd1xvajczuoX7gVd8HfOi/ZD3fsjD45cLSGL+u7+Ub4wwyB3Gxg9UwAdkFgoX1Jplrz+PWWj5qiwQn/Ten2kniLApt4=
+	t=1706280841; cv=none; b=PzBf2Y1JGsaa7uYxPA79jOjaJoR11pH9atzuHz7IHrocb6AlooDs1MMrzGLM3ZIhSw5KpE92tlzk0uYqypZr/uy28H9R/mAHH0OMVDvNhZJbZFt9XBjq2mQF2/cAciLyfyKnmTPcFQ3SgxOn5ziGqKWNdURjhvDB7TtsgHHspqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706279452; c=relaxed/simple;
-	bh=5PTW+IqP2/VHagHq8RzcNDNtfY8AXE4R1InU9ZFsRoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N4yQkH5o+kBSVm8q6JNuVBel0tFUzzInpkASaqZrjgFp37PZrfH0/X15nfHC+BWyuCK1IbcS5UzAOyNt99n0Mz4oUAC+wQFSh+aWpSYYL4IOWtgpa4EXfNC96FXUjEWKD4+mkUJuq++qssBomTH/egCUvPpF4qLoeBXzwmABXlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWB2+Ym8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0F80C433C7;
-	Fri, 26 Jan 2024 14:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706279452;
-	bh=5PTW+IqP2/VHagHq8RzcNDNtfY8AXE4R1InU9ZFsRoY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KWB2+Ym84uJLouqbVirqCK9/fentoQ0ElweL6zwW5q84ZepK9XW2oSbMqyOs+c6wR
-	 bbPzecqjB7lB7pB2LiY/78NJd2MSOTi57HTrxqibk6MtThVUmexxg6LVBS3eFgTzhY
-	 w5wEaZbgL33rMhDbWVXD3lNUMFXNnqjKS8EoKaqiJx1Aj4wD9sPYDE54B0eLz0K5bl
-	 ldC+Pv8RtPxYOiyLhCIf6WcE6lUu3uSQW2YaI1hVZmZzYlgapfAnfZp8VHAx1mjBDK
-	 uN1HrFnXmWq0rg8fgEXUYtmSykuEuZcdIowGn6D5LLdTMFPhXT6RwHANmDRi1QkUsf
-	 3b8pNQrkjyPtg==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rTNEU-000000007UG-3KiF;
-	Fri, 26 Jan 2024 15:31:03 +0100
-Date: Fri, 26 Jan 2024 15:31:02 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1706280841; c=relaxed/simple;
+	bh=1j1a87TYuL7HVJgjDjSKLga0ol8xwDXznY29YeCIAn0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WE35pcuykRj1rLrNpwQ4kmkRICGE6luOhGKKZWZUDrAPdjdhzWtWG/sifLvsbjFw0FyEmGuadzslZ1/JUBTdY6HVo5af5N/FOpQ1gppAoHP/BLSjUCFJAJasyO8JNmK6/bwNw469umvhPuNROMP0Ojn8PP24jt77Zsl9h4JSMGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cQgN1XDy; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QEoqt2015147;
+	Fri, 26 Jan 2024 14:53:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=rjJO8r+D56PlvTquNfeBs
+	vaogxnc+8WZ9L1wd1K3rlA=; b=cQgN1XDykPRpatZxr6j0GyJLViq29Sy0gciHr
+	KMnyk1GFjCika2PqsWyeLjKBnWh8JJJpPKEQ8duXrZaKc2YELD9JYxCMAskOP58s
+	TmA2YQ2j10hSkUDCTby8Gw+9YrsGQr9BhmLg7ltyhIcdEUXkvjyPsKpkqkTwAWb7
+	A20EnstrImO8BWpSD/ov/huypoC71iNIEh/leeY7z8tUXSeUz1gPqHj+0t45LUZn
+	k0u/QOhHELWC1xbm6bkPilSsW9/BHsQArrmMWEMkxQfRlhQs6mUUmf59u0i9InS8
+	Mj7BrvoxQnfIJbbnEBttheIX4vw67YDN6HAI8ivwlsl0tM+FQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv8e88sgg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 14:53:48 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QErlUx010339
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 14:53:47 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 26 Jan 2024 06:53:47 -0800
+Date: Fri, 26 Jan 2024 06:53:46 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Johan Hovold <johan@kernel.org>
+CC: Daniel Thompson <daniel.thompson@linaro.org>,
+        Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Johan Hovold
+	<johan+linaro@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject: Re: [PATCH 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
  touchscreen
-Message-ID: <ZbPCJv7HW8OQzPMT@hovoldconsulting.com>
+Message-ID: <20240126145346.GN2936378@hu-bjorande-lv.qualcomm.com>
 References: <20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com>
  <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
  <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
  <20240126130232.GA5506@aspen.lan>
+ <ZbPCJv7HW8OQzPMT@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240126130232.GA5506@aspen.lan>
+In-Reply-To: <ZbPCJv7HW8OQzPMT@hovoldconsulting.com>
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: mkK8KsKyC34BE9-QgIYjMpicC3bbLL3n
+X-Proofpoint-ORIG-GUID: mkK8KsKyC34BE9-QgIYjMpicC3bbLL3n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401260109
 
-On Fri, Jan 26, 2024 at 01:02:32PM +0000, Daniel Thompson wrote:
-> On Fri, Jan 26, 2024 at 09:12:37AM +0100, Johan Hovold wrote:
-> > On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
-> > > The failing read-test in __i2c_hid_core_probe() determines that there's
-> > > nothing connected at the documented address of the touchscreen.
+On Fri, Jan 26, 2024 at 03:31:02PM +0100, Johan Hovold wrote:
+> On Fri, Jan 26, 2024 at 01:02:32PM +0000, Daniel Thompson wrote:
+> > On Fri, Jan 26, 2024 at 09:12:37AM +0100, Johan Hovold wrote:
+> > > On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
+> > > > The failing read-test in __i2c_hid_core_probe() determines that there's
+> > > > nothing connected at the documented address of the touchscreen.
+> > > >
+> > > > Introduce the 5ms after-power and 200ms after-reset delays found in the
+> > > > ACPI tables. Also wire up the reset-gpio, for good measure.
 > > >
-> > > Introduce the 5ms after-power and 200ms after-reset delays found in the
-> > > ACPI tables. Also wire up the reset-gpio, for good measure.
-> >
-> > As the supplies for the touchscreen are always on (and left on by the
-> > bootloader) it would seem that it is really the addition of the reset
-> > gpio which makes things work here. Unless the delay is needed for some
-> > other reason.
-> >
-> > (The power-on delay also looks a bit short compared to what is used for
-> > other devices.)
-> >
-> > Reset support was only recently added with commit 2be404486c05 ("HID:
-> > i2c-hid-of: Add reset GPIO support to i2c-hid-of") so we should not
-> > backport this one before first determining that.
+> > > As the supplies for the touchscreen are always on (and left on by the
+> > > bootloader) it would seem that it is really the addition of the reset
+> > > gpio which makes things work here. Unless the delay is needed for some
+> > > other reason.
+> > >
+> > > (The power-on delay also looks a bit short compared to what is used for
+> > > other devices.)
+> > >
+> > > Reset support was only recently added with commit 2be404486c05 ("HID:
+> > > i2c-hid-of: Add reset GPIO support to i2c-hid-of") so we should not
+> > > backport this one before first determining that.
+> > 
+> > This comment attracted my attention so I tried booting with each of the
+> > three lines individually.
+> > 
+> > On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
+> > > +             reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
+> > 
+> > This is not enough, on it's own, to get the touch screen running.
+> > 
+> > I guess that's not so much of a surprise since the rebind-the-driver
+> > from userspace trick wouldn't have been touching this reset.
 > 
-> This comment attracted my attention so I tried booting with each of the
-> three lines individually.
+> Right, I realised that after hitting send.
 > 
-> On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
-> > +             reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
+> For the record, people have successfully been using the touchpad after
+> forcing the driver to reprobe through sysfs:
 > 
-> This is not enough, on it's own, to get the touch screen running.
+> 	echo 4-0010 >/sys/bus/i2c/drivers/i2c_hid_of/bind
 > 
-> I guess that's not so much of a surprise since the rebind-the-driver
-> from userspace trick wouldn't have been touching this reset.
-
-Right, I realised that after hitting send.
-
-For the record, people have successfully been using the touchpad after
-forcing the driver to reprobe through sysfs:
-
-	echo 4-0010 >/sys/bus/i2c/drivers/i2c_hid_of/bind
-
-> > +             post-power-on-delay-ms = <5>;
+> > > +             post-power-on-delay-ms = <5>;
+> > 
+> > This line alone is enough (in v6.7.1).
 > 
-> This line alone is enough (in v6.7.1).
-
-Thanks for confirming.
-
-> > +             post-reset-deassert-delay-ms = <200>;
+> Thanks for confirming.
 > 
-> This line alone is also enough!
+> > > +             post-reset-deassert-delay-ms = <200>;
+> > 
+> > This line alone is also enough!
+> 
+> Yes, the driver honours this delay regardless of whether a reset gpio is
+> defined currently, so this is expected.
+> 
+> > In short it looks like the delays make the difference and, even a short
+> > delay, can fix the problem.
+> 
+> Right, but since the suppliers are left enabled by the bootloader (and
+> never disabled by the kernel), that only begs the question of why this
+> makes a difference.
+> 
 
-Yes, the driver honours this delay regardless of whether a reset gpio is
-defined currently, so this is expected.
+You're right, the supply is kept on by other things, so this isn't the
+problem.
 
-> In short it looks like the delays make the difference and, even a short
-> delay, can fix the problem.
+> Without the delay, the other HID devices are probing (successfully)
+> slightly before, but essentially in parallel with the touchscreen while
+> using the same resources. Is that causing trouble somehow?
+> 
 
-Right, but since the suppliers are left enabled by the bootloader (and
-never disabled by the kernel), that only begs the question of why this
-makes a difference.
+The difference to those other HID devices is GPIO 99 - the reset pin,
+which is configured pull down input from boot - i.e. the chip is held in
+reset.
 
-Without the delay, the other HID devices are probing (successfully)
-slightly before, but essentially in parallel with the touchscreen while
-using the same resources. Is that causing trouble somehow?
+When the HID device is being probed, pinctrl applies &ts0_default starts
+driving it high, bringing the device out of reset. But insufficient time
+is given for the chip to come up so the I2C read fails.
 
-Or is there a bug in the i2c controller driver affecting only this
-device that can be worked around by adding a delay before the first
-transfer?
+If you later try to probe again, 200ms has elapsed since the reset was
+deasserted (driven high).
 
-Johan
+Regards,
+Bjorn
+
+> Or is there a bug in the i2c controller driver affecting only this
+> device that can be worked around by adding a delay before the first
+> transfer?
+> 
+> Johan
 
