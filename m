@@ -1,101 +1,109 @@
-Return-Path: <linux-input+bounces-1481-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1482-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5FF83D567
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 10:06:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0E683D5B2
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 10:13:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5106D1C2102A
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 09:06:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8EDA81C262F6
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 09:13:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D0061689;
-	Fri, 26 Jan 2024 07:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0C51429E;
+	Fri, 26 Jan 2024 08:12:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="f7tQ/Z9t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1qguTP2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06BC125DB;
-	Fri, 26 Jan 2024 07:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE8B7FB;
+	Fri, 26 Jan 2024 08:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706255707; cv=none; b=iy4IH1EPpBVFodZxMQ39Gmf9HI5dXjQGHueAh/QIQuxdntzEtL6XF0fvX7EDMkuVdToiiB4ZKTq3Qx1AA6tfiNAgeQR5XG2Agio64DObg/p2dZ/cawT8ptLzq1EFmNhJKyE/Ww8FivIUwRjlnzPYAf2cmUorGeo9xB09/u2hp2M=
+	t=1706256749; cv=none; b=hhiKqeVEyNi4ZpALL3uVsmiGsixEa62iA876lrpeJH+B9i1hI1i+PFjn8e4PSaDKqmwz6iq0GwUw3nb2zrxzGIqzEONR5IGsi9Sq0nYcqRQcTrYbOf61klLy6CqmE+ic0sU0y4UyFfuKAh7zNSQifAc8HGBxYBpgHwnAn9maCwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706255707; c=relaxed/simple;
-	bh=PLcDYGc3A3KbkeSJVUSvsPSMylDJVowTLRFbic23reM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M3085clUgDLVWZRmu+GrdZqG0KrdLvSHqRglFRKzQQA/Rf6Llq26jmFGL6PXh/qAZl4NLZQ+JoQ6zG+YweFoTe3poGPaz90H95qVs+oZda4l0EYJWgCLqw2QRcskA2y8ptiYeoeEXFxbooqPH53lvwDPFIBQoVjINxckXPeE5fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=f7tQ/Z9t; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1706255695; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=MNOY8Q5NDwaHI6XaoJ0LQ9C0/crVlCsDYm9O0vJ51+M=;
-	b=f7tQ/Z9t9WKGeoWCxIPSBXoRZNDIwd6ZCDolGCz3ixx4fPdm6o+iBQ7QBfkNn2VPNYd4eyXWIhw1gJmo+eGkc2jWLAb6jMsx7ZVk9RRNV0SDZh1ELhtMvzw4Z5W201q/HSh6NygWV6W4uhiRP9njtSc2ECSCyHM0YoxmWv465Pc=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0W.MzF4n_1706255688;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0W.MzF4n_1706255688)
-          by smtp.aliyun-inc.com;
-          Fri, 26 Jan 2024 15:54:54 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: djogorchock@gmail.com
-Cc: jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] HID: nintendo: Remove some unused functions
-Date: Fri, 26 Jan 2024 15:54:45 +0800
-Message-Id: <20240126075445.15495-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	s=arc-20240116; t=1706256749; c=relaxed/simple;
+	bh=e5RqXiUfA6NRNGKjt3CxSJ3zCXhBqQGuJKKlnfeXBBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbeK09oL4yrV+E9cspBV2CXRAUv9CYzstj6lrD+O7/vDlZ7gemu4+hBw2qcf1h3kRdmd2H7zUhMXplvn8TAVh+S+e3u0C46hYCEnHXvIARTR3+x2p8PvtDOAVYa67rcfQUEd0zqde23yR6rMwd8KVme1LNofylr6FppxQoPrRWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1qguTP2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD9EC433F1;
+	Fri, 26 Jan 2024 08:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706256748;
+	bh=e5RqXiUfA6NRNGKjt3CxSJ3zCXhBqQGuJKKlnfeXBBY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y1qguTP2G1gop3ziXTuVUqHXx5FTziY9+Vs4vikiNNqRNMEA5AiB+KNUM2xpqh9yC
+	 OV/6UOKDrgKMrqLoXPSWKWvVYHAV1GfTye39ByQbjwly3N4p7WAyHWz319I2wYdbAJ
+	 y77x2kVDc1iYyh8g7UCHmfRC2jBIbbys+TF+V2rGfYabIVcISdCBqgP6s0xsW5Ctq2
+	 Oj85pr1VA+diTym8b+05ypQQ/k7MssTEpdVHejqQmpOQ/OGrQdn/sH7AqlLcqUbr58
+	 sNhoZjP6ePQpkDbJs6eZ+2gck40XuyS6f1wikmuVdjOXqVeiBZSE/BvsSFIGhljC4K
+	 CZfo9eiSwVing==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rTHKH-000000002nP-2nAg;
+	Fri, 26 Jan 2024 09:12:37 +0100
+Date: Fri, 26 Jan 2024 09:12:37 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
+ touchscreen
+Message-ID: <ZbNpdaSyFS9tYrkd@hovoldconsulting.com>
+References: <20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com>
+ <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240125-x13s-touchscreen-v1-2-ab8c882def9c@quicinc.com>
 
-These functions are defined in the hid-nintendo.c file, but not called
-elsewhere, so delete these unused functions.
+On Thu, Jan 25, 2024 at 07:55:14PM -0800, Bjorn Andersson wrote:
+> The failing read-test in __i2c_hid_core_probe() determines that there's
+> nothing connected at the documented address of the touchscreen.
+> 
+> Introduce the 5ms after-power and 200ms after-reset delays found in the
+> ACPI tables. Also wire up the reset-gpio, for good measure.
 
-drivers/hid/hid-nintendo.c:757:20: warning: unused function 'joycon_type_has_left_controls'.
-drivers/hid/hid-nintendo.c:763:20: warning: unused function 'joycon_type_has_right_controls'.
+As the supplies for the touchscreen are always on (and left on by the
+bootloader) it would seem that it is really the addition of the reset
+gpio which makes things work here. Unless the delay is needed for some
+other reason.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=8060
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/hid/hid-nintendo.c | 12 ------------
- 1 file changed, 12 deletions(-)
+(The power-on delay also looks a bit short compared to what is used for
+other devices.)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 7ce6be0a8dee..ab5953fc2436 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -754,18 +754,6 @@ static inline bool joycon_type_is_right_nescon(struct joycon_ctlr *ctlr)
- 	return ctlr->ctlr_type == JOYCON_CTLR_TYPE_NESR;
- }
- 
--static inline bool joycon_type_has_left_controls(struct joycon_ctlr *ctlr)
--{
--	return joycon_type_is_left_joycon(ctlr) ||
--	       joycon_type_is_procon(ctlr);
--}
--
--static inline bool joycon_type_has_right_controls(struct joycon_ctlr *ctlr)
--{
--	return joycon_type_is_right_joycon(ctlr) ||
--	       joycon_type_is_procon(ctlr);
--}
--
- static inline bool joycon_type_is_any_joycon(struct joycon_ctlr *ctlr)
- {
- 	return joycon_type_is_left_joycon(ctlr) ||
--- 
-2.20.1.7.g153144c
+Reset support was only recently added with commit 2be404486c05 ("HID:
+i2c-hid-of: Add reset GPIO support to i2c-hid-of") so we should not
+backport this one before first determining that.
 
+That commit also added a comment in the HID driver about the
+'post-reset-deassert-delay-ms' to the driver which should now be
+removed:
+
+	/*
+	 * Note this is a kernel internal device-property set by x86 platform code,
+	 * this MUST not be used in devicetree files without first adding it to
+	 * the DT bindings.
+	 */
+
+Johan
 
