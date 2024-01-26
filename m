@@ -1,263 +1,240 @@
-Return-Path: <linux-input+bounces-1479-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1480-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0416F83D34C
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 05:02:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FDF83D500
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 09:55:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 298321C229EB
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 04:02:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D5EA1F29D43
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jan 2024 08:55:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CF098BEB;
-	Fri, 26 Jan 2024 04:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="nRnQw3bO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEB3C24204;
+	Fri, 26 Jan 2024 07:05:57 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B2AB658
-	for <linux-input@vger.kernel.org>; Fri, 26 Jan 2024 04:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706241744; cv=fail; b=NDojBefSXuohJMez5Le+dvG4Yb5O2ZPVmqHIGTssfzoQxLX5kJA/Yn5P5yUzfs+gqAnmsIRvfac7aWzuHOuIoYeAWUjrkoZk5lzZu7Z8li20LrugguQ+pCdrso/3SfTAw1fv5wM7rYZ48v6EeWuNxRqMHwpJfCKRP3plqxzjdNo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706241744; c=relaxed/simple;
-	bh=K+kMaK38Pp6RCc5fWrh6lvJOZ7zxApjXKtIp7ZfXvos=;
-	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=n02BS3jhZDScFXG/HKk20jKWZOjlmxmteyryJrm1rDB83yqfLun8o+LqbYLQ/kGJFHC7GWSOxCIO1dmeJ6c/g0DoNBUp7NFmk3w4dIfx05ngz41aDgjCEHFaSY/4Afk7C2W7b5wpnr88bc9G+Ft2aX1XLZtYs9iy+y+stOWxQNU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=nRnQw3bO; arc=fail smtp.client-ip=40.107.94.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ngZLhtGAeJtLlX8ILpZPxTMiWud4q27pAktJJVyxS8lgrL+XsRrMsNillcU6ieDlZXVN3u0QDGiNFAu7mjpk1/CMPQYOdVheE25r9YYrhTMehejZnkHGFbhPBv7LHPzWZTiKW25blhmNw4h2IvsGEIgq26NfC+4NFG//Zp2QIafC4vLwTHFyySuSCrHd2gPistzyDGupP3Ox14CCXP53zfzOAQRr0kLwDg3smaPadZwFhM0Mp5Du7Mf5kFrCEhSQe1KSjTVrArG49o60H55C4EKRJAvbtx5zwz1MepscsWwByd+bJvxNLZWLjUuLgs2gBJpMAVbMGBN3GUky+VaotQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gZSLJhrMjCbdJ7mV+xDE2uCZeCjmTsQ3+uk98ItNZHw=;
- b=iZ9OP6ui1bZJwfwdEwikoZ68xWrftpesoZntLxAFj1KBXjE2pBTioozZI4t/+FAtGFSqTDut74I1UQWfML+whowKETzhrS18Ft80E4vV8ZeLxUItbH5hwZi9NQwwt2ErO9kOHvJOMvbPja0IAeXU6uz3fYr+W4UyymcHncHnb2A+ShG/OaUQBabEbReNRgOvdpRsgRE0nxqkTAUrDzbzVCA1K3SStP3kss9yf24HOcNi8nDpCg+4ijKkW2dLRlUcxbuaARUxchLc4azBSzqFkyYNEk1m1wxJSrepPQOgk8vKURpICQFyYYXz02WxrbjXH73POGvV6VKdG3EI/uqlKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gZSLJhrMjCbdJ7mV+xDE2uCZeCjmTsQ3+uk98ItNZHw=;
- b=nRnQw3bO3RVHLRfQAJCpOxSxMBbeNvgmNPNq0nDLSZVDFPbjZZFX0suw0bNRxJXDdaF84ZF+CMGUOLykZ8ie7VHk9+lJvIxbkH0f/taURjRIv7RLsdJyOi6YK6cNXixukt/EeiBcZSeqARZ/9ra7jI7lC/CEB4n4bis4STpD9UM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from DM5PR0801MB3767.namprd08.prod.outlook.com (2603:10b6:4:7c::37)
- by SA2PR08MB6761.namprd08.prod.outlook.com (2603:10b6:806:f8::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Fri, 26 Jan
- 2024 04:02:20 +0000
-Received: from DM5PR0801MB3767.namprd08.prod.outlook.com
- ([fe80::6965:e04:a3ec:9177]) by DM5PR0801MB3767.namprd08.prod.outlook.com
- ([fe80::6965:e04:a3ec:9177%7]) with mapi id 15.20.7228.009; Fri, 26 Jan 2024
- 04:02:20 +0000
-Date: Thu, 25 Jan 2024 22:02:15 -0600
-From: Jeff LaBundy <jeff@labundy.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org, jeff@labundy.com
-Subject: [PATCH] Input: iqs7222 - add support for IQS7222D v1.1 and v1.2
-Message-ID: <ZbMux0sns6wSwfH9@nixie71>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: DS7PR03CA0141.namprd03.prod.outlook.com
- (2603:10b6:5:3b4::26) To DM5PR0801MB3767.namprd08.prod.outlook.com
- (2603:10b6:4:7c::37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F071AACD;
+	Fri, 26 Jan 2024 07:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706252757; cv=none; b=ShZAY6bjoQm3NWiChmnx9UvJy+5vesfMllDi3z3Z5vmL54L4u7p3P+XiLyDrlTm31709r0/7HQh/uDv+TVRz/Ucjjcyc5psXectZJ0FP5G82gW9dZpK+QzGinMciaYlQY6wELfeG6OoaXWRLeFMSRquk+EIJ01KEFls6k0WVEmk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706252757; c=relaxed/simple;
+	bh=pcsil5fXr8+VHV+eVDviFFwwRsocY/oapa4amn5QRYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qZu6X8WPyr2XN2+KdKYJ8q9ApfUrDiSrFYOQGLlEEAop6xnkRSV7UFu6eM0+RD8nh6oErqmPWqY+atAGTVti3w7aqDm4ocoteeCm2eUXYyjaS8aOVDooofzW1zWTPUamskRNk2LyDC2d3+j52JDBESsRjOCvlcI4+xdx1SMIUCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.224] (ip5f5aec07.dynamic.kabel-deutschland.de [95.90.236.7])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 0DFC161E5FE03;
+	Fri, 26 Jan 2024 08:03:18 +0100 (CET)
+Message-ID: <f07333d2-ebb0-4531-a396-8fb3d1daa2c3@molgen.mpg.de>
+Date: Fri, 26 Jan 2024 08:03:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR0801MB3767:EE_|SA2PR08MB6761:EE_
-X-MS-Office365-Filtering-Correlation-Id: e11f8777-358b-4b3f-2953-08dc1e2397e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	s6l0+ChKn2dn92/+Ui6iPvPUzVfmIz1qwhCXmDBUnh/ydNgKSfwfUZG7kzrGrKFSKBG2PmroeZ1Y1BVnCGSQTn3LUe72EchX+FFns4J6f8LwW9bf2M8nc3b0BYJUarbXqbXwiu8jwt3tXinGHF4/uPayJnAkHFzGHHqVhzsKHK5y6qxQG/zw3wBtTIbwU+Tbtl79NwgpaPfgw5edziH6yNPV/zdAWZ4wRJSiwpjIa0OFPts3pfOn9KtEVtg2kldM/1/tMEyI2GHzNsIo4uBm9WoTYa3VbBGQcEbMvFwaS5038yUPytFEBFjerFBuqjYJHk8Shek6ztwAoYcmitVu1ofcGvjy00XxqbtmxrdnFbfSe+QvuMOi7VIwkYydxn7ctyzY/6zLcx6LByftgBT6Iq4UVyLGn+tNLCWLfxgbRneF7yJ1gHGRx3kECB65jpPN3MuHarA4i/EIAXV1qAzB0/MK75hVc/FObQAV9pFBfjFLspwTxquPYyVGRFJevzLXXm/wjJOfQe2aVW9uItXNx6t5pV6Sb5o26gi3n/JN95oiaNz/AEWw6X5qfy3S+AI3
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0801MB3767.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(346002)(39830400003)(136003)(376002)(366004)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(83380400001)(26005)(86362001)(107886003)(5660300002)(4326008)(38100700002)(8936002)(33716001)(66946007)(66476007)(9686003)(6512007)(6916009)(66556008)(8676002)(6506007)(6486002)(316002)(6666004)(2906002)(478600001)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MMU8HB2f5HA/eG7TMWUHzlo/yz35dMXwGerrs6ZzqbtPCfzhzzLBU0f9bI9f?=
- =?us-ascii?Q?WKAV+Z4VNuzh+7nYT/bab4zc2ryJM9Gvqc75OOwG2YyTI0i/b2AVedwhduFt?=
- =?us-ascii?Q?30Pe/1WrCpcj9tB5RH5tOycEtzXALGeXaiskrFAaOz2Lnj6OgEeEx08datjL?=
- =?us-ascii?Q?u6Pd0TVwAftfYapVTH7q7ZpT4HRGcbsumvroTkv/3SIWSrBCgnRl/fFmpy2a?=
- =?us-ascii?Q?CsMxtfJ74W8X6XTH5ULS+KMgUv1XiQqHqc93tK8cGGxob8nixndkX0CUlG67?=
- =?us-ascii?Q?UsqNjVQNh+5jUfMeHp+8lY/VXxqmWV7SJUYMPwfuSPblcehj2rhYuOrDnwH0?=
- =?us-ascii?Q?psVMq2LDhB1qV7uaDPEdnfezn0TJ7LavvRjc73zJp9WwueiQQvCyTtYVNZc4?=
- =?us-ascii?Q?6C0XcN30rit3mejZKo+7bOpjJgKleAmh96zXFCQtCAuIfLUkyemmOAAo06XY?=
- =?us-ascii?Q?/a4Yaov2x5iFxqDYS7qyYqJPfx9O+yAbS7wB0A/8RZjtQJyHbN4D+0XLtGH5?=
- =?us-ascii?Q?crfUjWIPKL8uGtVu+To2W2qWgZlkB7zYkGzBJXH1wO1upv+KxD70ou9+6Bh8?=
- =?us-ascii?Q?anKM5OebX3FtHLjwziWA7a6XAjRK28NkOxO/GdQh1aaJ348iyH8m/ZANJzaA?=
- =?us-ascii?Q?i6w2R+jIVb79S8/0aMg2RSga0e/GDZJQAaO/EQ7+UAr1bVZUaCjaXT8SCr+n?=
- =?us-ascii?Q?DQTnmz7FfsS671D6I/mf5dpme5373MuPH+i5y0TRK2CscSSVfzYZ2sgMwRee?=
- =?us-ascii?Q?tw325Z2h2pjVJXH44hQKfJ3kp0dco8JBNCgWQAhzbTG9olKVdC28DybGsviC?=
- =?us-ascii?Q?XTq/0NOA0bkkfCHUnaFaiwCOkO1vAUjFXtBKXMydYx9v8O8iv2vNnukohr5v?=
- =?us-ascii?Q?SB7T3KYTnoUvL+yrQhkhwJSiZb6GzFOneCUTgagpTudjjqOr/RenYkxN9QYw?=
- =?us-ascii?Q?pYhVcH+RGyRlL41NH6gB3/C6r+4CpxT+qZkcR1x/WVo9nb1XLAVN0UKg1Wk2?=
- =?us-ascii?Q?9Ty74T7VjpH+d8qsDVw9kynDWd3SpyYKOckn+XSB8jB6+hwY/VF+FfG7iNlr?=
- =?us-ascii?Q?fzJIeufgU8gS/btxh2C9qAQiMyowoFN8QiOzjyX8Zk7RSbZoy2quRueftCEs?=
- =?us-ascii?Q?RRs/GiAEBgHuBh4QLss5580PJDd0brcZzrOXqi+RQV2cM9caZgO85HJt9ShD?=
- =?us-ascii?Q?DpfwlIc9XDeAJOk4yO5+ehdgyyDB+40GK/gyZFzrwaGn0EZ7K/nCBcutwQ4p?=
- =?us-ascii?Q?RMByxyjoMEGYEXGKXWz6wIjF2BxPjl7LWzIM23Ndh+DNhtxRJpgmujFTFJya?=
- =?us-ascii?Q?a2ce13J5v34VCLhBVAtAZoDmsz/jm1lJy5W8DV46Y4CnaxhH++mjLkNe2OQb?=
- =?us-ascii?Q?6hby0xO7WlxqfO7yk7YP/kCdXFIEbLe2TlS1C3rlvoCCEm5BQ2CgTDN6x+qU?=
- =?us-ascii?Q?Nf9OlKM1qnuCYzEvQG0C7Or9h8jxPE/jyXj1ybiZVtLDVaj+1l58Sc3acLsw?=
- =?us-ascii?Q?Qm1vdUyTVfpzyIUjclA+HUlpYqHOME6LBjk4Z1MSbhEP8vydqIIjdG33AdHp?=
- =?us-ascii?Q?nih9/4BfKZOIlxViMfW5D/22KTmEQo1MuDriy7g6?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e11f8777-358b-4b3f-2953-08dc1e2397e8
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR0801MB3767.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 04:02:20.2208
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5LUC1mWrXUBNsGQZaMp2fc9M1aAJv6AgVHp6aRddY04LsJ+0Pokcs0QWnrbPN+4EbTfeoLQ7HBsdLOe5bbe/MA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR08MB6761
+User-Agent: Mozilla Thunderbird
+Subject: Re: PS/2 keyboard of laptop Dell XPS 13 9360 goes missing after S3
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+ Dell.Client.Kernel@dell.com, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <0aa4a61f-c939-46fe-a572-08022e8931c7@molgen.mpg.de>
+ <f27b491c-2f1c-4e68-804c-24eeaa8d10de@redhat.com>
+ <0b30c88a-6f0c-447f-a08e-29a2a0256c1b@molgen.mpg.de>
+ <dde1bdfe-7877-41bd-b233-03bcdba0e2de@redhat.com>
+Content-Language: en-US
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <dde1bdfe-7877-41bd-b233-03bcdba0e2de@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The vendor has introduced two new revisions with slightly different
-memory maps; update the driver to support them.
+Dear Hans,
 
-Fixes: dd24e202ac72 ("Input: iqs7222 - add support for Azoteq IQS7222D")
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
----
- drivers/input/misc/iqs7222.c | 112 +++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
 
-diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
-index 36aeeae77611..9ca5a743f19f 100644
---- a/drivers/input/misc/iqs7222.c
-+++ b/drivers/input/misc/iqs7222.c
-@@ -620,6 +620,118 @@ static const struct iqs7222_dev_desc iqs7222_devs[] = {
- 			},
- 		},
- 	},
-+	{
-+		.prod_num = IQS7222_PROD_NUM_D,
-+		.fw_major = 1,
-+		.fw_minor = 2,
-+		.touch_link = 1770,
-+		.allow_offset = 9,
-+		.event_offset = 10,
-+		.comms_offset = 11,
-+		.reg_grps = {
-+			[IQS7222_REG_GRP_STAT] = {
-+				.base = IQS7222_SYS_STATUS,
-+				.num_row = 1,
-+				.num_col = 7,
-+			},
-+			[IQS7222_REG_GRP_CYCLE] = {
-+				.base = 0x8000,
-+				.num_row = 7,
-+				.num_col = 2,
-+			},
-+			[IQS7222_REG_GRP_GLBL] = {
-+				.base = 0x8700,
-+				.num_row = 1,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_BTN] = {
-+				.base = 0x9000,
-+				.num_row = 14,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_CHAN] = {
-+				.base = 0xA000,
-+				.num_row = 14,
-+				.num_col = 4,
-+			},
-+			[IQS7222_REG_GRP_FILT] = {
-+				.base = 0xAE00,
-+				.num_row = 1,
-+				.num_col = 2,
-+			},
-+			[IQS7222_REG_GRP_TPAD] = {
-+				.base = 0xB000,
-+				.num_row = 1,
-+				.num_col = 24,
-+			},
-+			[IQS7222_REG_GRP_GPIO] = {
-+				.base = 0xC000,
-+				.num_row = 3,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_SYS] = {
-+				.base = IQS7222_SYS_SETUP,
-+				.num_row = 1,
-+				.num_col = 12,
-+			},
-+		},
-+	},
-+	{
-+		.prod_num = IQS7222_PROD_NUM_D,
-+		.fw_major = 1,
-+		.fw_minor = 1,
-+		.touch_link = 1774,
-+		.allow_offset = 9,
-+		.event_offset = 10,
-+		.comms_offset = 11,
-+		.reg_grps = {
-+			[IQS7222_REG_GRP_STAT] = {
-+				.base = IQS7222_SYS_STATUS,
-+				.num_row = 1,
-+				.num_col = 7,
-+			},
-+			[IQS7222_REG_GRP_CYCLE] = {
-+				.base = 0x8000,
-+				.num_row = 7,
-+				.num_col = 2,
-+			},
-+			[IQS7222_REG_GRP_GLBL] = {
-+				.base = 0x8700,
-+				.num_row = 1,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_BTN] = {
-+				.base = 0x9000,
-+				.num_row = 14,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_CHAN] = {
-+				.base = 0xA000,
-+				.num_row = 14,
-+				.num_col = 4,
-+			},
-+			[IQS7222_REG_GRP_FILT] = {
-+				.base = 0xAE00,
-+				.num_row = 1,
-+				.num_col = 2,
-+			},
-+			[IQS7222_REG_GRP_TPAD] = {
-+				.base = 0xB000,
-+				.num_row = 1,
-+				.num_col = 24,
-+			},
-+			[IQS7222_REG_GRP_GPIO] = {
-+				.base = 0xC000,
-+				.num_row = 3,
-+				.num_col = 3,
-+			},
-+			[IQS7222_REG_GRP_SYS] = {
-+				.base = IQS7222_SYS_SETUP,
-+				.num_row = 1,
-+				.num_col = 12,
-+			},
-+		},
-+	},
- 	{
- 		.prod_num = IQS7222_PROD_NUM_D,
- 		.fw_major = 0,
--- 
-2.34.1
+Thank you for your reply, and sorry for the delay on my side. I needed 
+to set up an environment to easily build the Linux kernel.
 
+
+Am 22.01.24 um 14:43 schrieb Hans de Goede:
+
+> On 1/21/24 15:26, Paul Menzel wrote:
+
+[…]
+
+>> Am 20.01.24 um 21:26 schrieb Hans de Goede:
+>>
+>>> On 1/18/24 13:57, Paul Menzel wrote:
+>>>> #regzbot introduced v6.6.11..v6.7
+>>
+>>>> There seems to be a regression in Linux 6.7 on the Dell XPS 13 9360 (Intel i7-7500U).
+>>>>
+>>>>       [    0.000000] DMI: Dell Inc. XPS 13 9360/0596KF, BIOS 2.21.0 06/02/2022
+>>>>
+>>>> The PS/2 keyboard goes missing after S3 resume¹. The problem does not happen with Linux 6.6.11.
+>>>
+>>> Thank you for reporting this.
+>>>
+>>> Can you try adding "i8042.dumbkbd=1" to your kernel commandline?
+>>>
+>>> This should at least lead to the device not disappearing from
+>>>
+>>> "sudo libinput list-devices"
+>>>
+>>> The next question is if the keyboard will still actually
+>>> work after suspend/resume with "i8042.dumbkbd=1". If it
+>>> stays in the list, but no longer works then there is
+>>> a problem with the i8042 controller; or interrupt
+>>> delivery to the i8042 controller.
+>>>
+>>> If "i8042.dumbkbd=1" somehow fully fixes things, then I guess
+>>> my atkbd driver fix for other laptop keyboards is somehow
+>>> causing issues for yours.
+>>
+>> Just a quick feedback, that booting with `i8042.dumbkbd=1` seems to fix the issue.
+>>
+>>> If "i8042.dumbkbd=1" fully fixes things, can you try building
+>>> your own 6.7.0 kernel with commit 936e4d49ecbc:
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=936e4d49ecbc8c404790504386e1422b599dec39
+>>>
+>>> reverted?
+>>
+>> I am going to try that as soon as possible.
+> 
+> Assuming this was not some one time glitch with 6.7.0,
+> I have prepared a patch hopefully fixing this (1) as well
+> as a follow up fix to address another potential issue which
+> I have noticed.
+
+Unfortunately, it wasn’t just a glitch.
+
+> Can you please give a 6.7.0 (2) kernel with the 2 attached
+> patches added a try ?
+> 
+> I know building kernels can be a bit of work / takes time,
+> sorry. If you are short on time I would prefer testing these 2
+> patches and see if they fix things over trying a plain revert.
+
+Applying both patches on v6.7.1
+
+     $ git log --oneline -3
+     053fa44c0de1 (HEAD -> v6.7.1) Input: atkbd - Do not skip 
+atkbd_deactivate() when skipping ATKBD_CMD_GETID
+     0e0fa0113c7a Input: atkbd - Skip ATKBD_CMD_SETLEDS when skipping 
+ATKBD_CMD_GETID
+     a91fdae50a6d (tag: v6.7.1, stable/linux-6.7.y, origin/linux-6.7.y) 
+Linux 6.7.1
+
+I am unable to reproduce the problem in eight ACPI S3 suspend/resume 
+cycles. The DMAR errors [3] are also gone:
+
+     $ sudo dmesg --level alert,crit,err,warn
+     [    0.065292] MDS CPU bug present and SMT on, data leak possible. 
+See https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html 
+for more details.
+     [    0.065292] MMIO Stale Data CPU bug present and SMT on, data 
+leak possible. See 
+https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/processor_mmio_stale_data.html 
+for more details.
+     [    0.092064] ENERGY_PERF_BIAS: Set to 'normal', was 'performance'
+     [    0.294522] hpet_acpi_add: no address or irqs in _CRS
+     [    0.345003] i8042: Warning: Keylock active
+     [    1.063807] usb: port power management may be unreliable
+     [    1.178339] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is 
+disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+     [   37.712916] wmi_bus wmi_bus-PNP0C14:01: WQBC data block query 
+control method not found
+     [   67.307070] warning: `atop' uses wireless extensions which will 
+stop working for Wi-Fi 7 hardware; use nl80211
+     [  141.861803] ACPI Error: AE_BAD_PARAMETER, Returned by Handler 
+for [EmbeddedControl] (20230628/evregion-300)
+     [  141.861808] ACPI Error: Aborting method \_SB.PCI0.LPCB.ECDV.ECR1 
+due to previous error (AE_BAD_PARAMETER) (20230628/psparse-529)
+     [  141.861814] ACPI Error: Aborting method \_SB.PCI0.LPCB.ECDV.ECR2 
+due to previous error (AE_BAD_PARAMETER) (20230628/psparse-529)
+     [  141.861818] ACPI Error: Aborting method \ECRW due to previous 
+error (AE_BAD_PARAMETER) (20230628/psparse-529)
+     [  141.861821] ACPI Error: Aborting method \ECG1 due to previous 
+error (AE_BAD_PARAMETER) (20230628/psparse-529)
+     [  141.861824] ACPI Error: Aborting method \NEVT due to previous 
+error (AE_BAD_PARAMETER) (20230628/psparse-529)
+     [  141.861827] ACPI Error: Aborting method \_SB.PCI0.LPCB.ECDV._Q66 
+due to previous error (AE_BAD_PARAMETER) (20230628/psparse-529)
+
+Please tell me, if I can do anything else.
+
+
+Kind regards,
+
+Paul
+
+
+> 1) Assuming it is caused by this commit in the first place,
+> which seems likely
+> 
+> 2) 6.8-rc1 has a follow up patch which is squashed into the
+> first patch here, so these patches will only apply cleanly
+> to 6.7.0 .
+
+[3]: 
+https://lore.kernel.org/all/9a24c335-8ec5-48c9-9bdd-b0dac5ecbca8@molgen.mpg.de/
+
+>>>>       [    1.435071] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f13:PS2M] at 0x60,0x64 irq 1,12
+>>>>       [    1.435409] i8042: Warning: Keylock active
+>>>>       [    1.437624] serio: i8042 KBD port at 0x60,0x64 irq 1
+>>>>       [    1.437631] serio: i8042 AUX port at 0x60,0x64 irq 12
+>>>>       […]
+>>>>       [    1.439743] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
+>>>>
+>>>>       $ sudo libinput list-devices
+>>>>       […]
+>>>>       Device:           AT Translated Set 2 keyboard
+>>>>       Kernel:           /dev/input/event0
+>>>>       Group:            15
+>>>>       Seat:             seat0, default
+>>>>       Capabilities:     keyboard
+>>>>       Tap-to-click:     n/a
+>>>>       Tap-and-drag:     n/a
+>>>>       Tap drag lock:    n/a
+>>>>       Left-handed:      n/a
+>>>>       Nat.scrolling:    n/a
+>>>>       Middle emulation: n/a
+>>>>       Calibration:      n/a
+>>>>       Scroll methods:   none
+>>>>       Click methods:    none
+>>>>       Disable-w-typing: n/a
+>>>>       Disable-w-trackpointing: n/a
+>>>>       Accel profiles:   n/a
+>>>>       Rotation:         0.0
+>>>>
+>>>> `libinput list-devices` does not list the device after resuming
+>>>> from S3. Some of the function keys, like brightness and airplane
+>>>> mode keys, still work, as the events are probably transmitted over
+>>>> the embedded controller or some other mechanism. An external USB
+>>>> keyboard also still works.
+>>>>
+>>>> I haven’t had time to further analyze this, but wanted to report
+>>>> it. No idea
+>>>>
+>>>>
+>>>> Kind regards,
+>>>>
+>>>> Paul
+>>>>
+>>>>
+>>>> ¹ s2idle is not working correctly on the device, in the sense, that
+>>>> energy usage is very high in that state, and the full battery is at
+>>>> 20 % after leaving it for eight hours.
 
