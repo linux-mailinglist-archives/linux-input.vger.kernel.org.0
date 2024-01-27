@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-1511-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1512-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A1483ECD5
-	for <lists+linux-input@lfdr.de>; Sat, 27 Jan 2024 12:16:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB5C83ECFF
+	for <lists+linux-input@lfdr.de>; Sat, 27 Jan 2024 12:52:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C58782833F9
-	for <lists+linux-input@lfdr.de>; Sat, 27 Jan 2024 11:16:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90AC41C21722
+	for <lists+linux-input@lfdr.de>; Sat, 27 Jan 2024 11:52:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E982030A;
-	Sat, 27 Jan 2024 11:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731E3200D6;
+	Sat, 27 Jan 2024 11:52:35 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44E520305;
-	Sat, 27 Jan 2024 11:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81690200BF;
+	Sat, 27 Jan 2024 11:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706354185; cv=none; b=qP1i0MHib2m5kPB5oFYsNN94DuWJRvDpAThGKIYEfkzGZHCtKde2DfKPN2nzIeRTQZ8BVRz59xGjBAbYIO6ISNSjLa5rLFCgJFqfgdMXIiFPAEjEXIFXzszXnfM+j2Jqlnh0NsRT/SiGopCuRfqOl7RtIkhpIPbw4FKdjGqff6I=
+	t=1706356355; cv=none; b=hzU7c4PW3FRYqkj7UpZKFQf9Pju+hJ5tY5BkCUVBvRw+q5Vj1WhMKKoK63jBYe7BPPwhI31RNaJ7Yd2v94fFLVZ513k2BP2N510qeanJRODlnSZwLLLiZhb1QLLJ7cZlBJksF7VGjaS0VCS+QXlZv0cXme6RUi3+90mIzLtTdww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706354185; c=relaxed/simple;
-	bh=DVhH52aCcGgD5ZDUeD+yoQaqfWfEL7GSjbITGNZd2AQ=;
+	s=arc-20240116; t=1706356355; c=relaxed/simple;
+	bh=smEVPDJ1TMvwMUm2x05BLrsaQnBayyX2ir3dtq9gJF0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKnT+PCCRmYT+Ytbj8f7pQ2CVNLBe9mwwfeehmEwWLPSZehJlw5qy+mqMMiIHkEWwqLXhfuE35TnPLRDsSgh7QgMp+tZ08TB3Mlk1yhtXvMoiwBMN2tRVpsw8L9e47g5VKTv1OA3qOChFluWSCjn20fj69paS3c+rNZgIamVeb0=
+	 In-Reply-To:Content-Type; b=NXQKRu9nXnHjnIzxDVbBMH10t0ATFhRb7se/M0R8JNqVlBB5cUSsaKWTpIA9Hb9odsXjCwg+vKTZQsIESVfcEWxDMO3ffDrALgruHT9TFr06lRfbl1ldTTrNbnyYYMNlJJ0ExulCMJRBFGnRJaiI/n4CE+H9f8YXBYMRRggRKIc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id A402F1015FD;
-	Sat, 27 Jan 2024 11:16:17 +0000 (UTC)
-Message-ID: <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
-Date: Sat, 27 Jan 2024 20:16:14 +0900
+	by mail.enpas.org (Postfix) with ESMTPSA id 2EE881015FD;
+	Sat, 27 Jan 2024 11:52:27 +0000 (UTC)
+Message-ID: <88df213a-5a12-4571-9f29-6311b82a8f25@enpas.org>
+Date: Sat, 27 Jan 2024 20:52:25 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -41,17 +41,17 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
- controllers
+Subject: Re: [PATCH v1 0/7] HID: playstation: DS4: LED bugfix, third-party
+ gamepad support
 Content-Language: en-US
-To: Roderick Colenbrander <thunderbird2k@gmail.com>
+To: Roderick Colenbrander <thunderbird2k@gmail.com>,
+ Jiri Kosina <jikos@kernel.org>
 Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
- Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
  linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240115144538.12018-1-max@enpas.org>
- <20240115144538.12018-8-max@enpas.org>
- <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
+ <nycvar.YFH.7.76.2401231047140.29548@cbobk.fhfr.pm>
+ <CAEc3jaATA-Z86jh=njR6yctguQBRp1BQEFcBQhYT0rYKcA4f2w@mail.gmail.com>
 From: Max Staudt <max@enpas.org>
 Autocrypt: addr=max@enpas.org; keydata=
  xsNNBFWfXgEBIADcbJMG2xuJBIVNlhj5AFBwKLZ6GPo3tGxHye+Bk3R3W5uIws3Sxbuj++7R
@@ -124,55 +124,47 @@ Autocrypt: addr=max@enpas.org; keydata=
  d3HIwZEKLNW9hUEqwXueZqQSNQ0Lvjx/oWYlrQQpz4kFJJb9LYpKpY5k3nBf9AGtJP+c1+PN
  eOjt3GvAJlnOzLtT36UIgcXSQuQFgLpY6FKT0verMP35mV2JXfm/qHIC+mnHAe4HRiZ54aML
  PsRBqTJGs7jw5gOWMMchFaemEnEJtg==
-In-Reply-To: <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
+In-Reply-To: <CAEc3jaATA-Z86jh=njR6yctguQBRp1BQEFcBQhYT0rYKcA4f2w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/25/24 10:03, Roderick Colenbrander wrote:
-> I'm not familiar with this device, but if it indeed works. Then I'm
-> okay with it.
+On 1/25/24 07:24, Roderick Colenbrander wrote:
+> Sorry for the late reply. I had glanced over them, but didn't have an
+> opportunity for a detailed review yet.
 
-Thanks!
-
-
-I've just tried this patch on real hardware again, and there's a tradeoff here - it improves the situation for one 7545:0104 controller, and worsens it for another.
-
-Up to you, and if you don't want to think about it, then let's shelve this patch :)
+No worries, thank you for giving the patches a chance.
 
 
+> My general fear is a balance between supporting clone devices vs
+> reliability. This driver is heavily used in devices (phones, tablets,
+> TVs, cars). There have been bug reports in the past and just getting
+> the fixes downstream takes a lot of time (e.g. Android devices).
 
-Details follow, if you're curious.
+I understand this very well, which is why I hope I've kept the patches small enough to be alright to follow. If you have a bad feeling about something in particular, please let me know, and maybe we can find a better solution or alleviate concerns.
 
+On my end, I am working (currently as a hobby) on an appliance that aims to support as many controllers as possible, hence I know the choices you face in order to keep user expectations in check, and user experience consistent. See my comment on patch 7/7 - what if someone uses a third-party controller that happens to work by chance, and a kernel update breaks stuff?
 
-I have two controllers with VID/PID 7545:0104, and they're both very quirky multi-emulation devices. One is shaped like a PS4 controller, the other like a hybrid between a PS4 and a Switch controller. Since these controllers exhibit all of the USB related quirks in this series, I've kept them as reproducers. Other controllers that passed through my hands only had a subset of the quirks.
-
-Up until now, both controllers worked with hid-sony as PS3 controllers. With this patch, the PS4 controller gains LED support and fine-grained control of the weak rumble motor. The "Switch (?) controller" on the other hand errors out, becomes 0079:181c, and loses the Home key and the accelerometer. This is a user facing change, and the question is how much we really care about these controllers.
-
-
-
-More details, if you're still reading:
-
-
-Both are "multi-purpose" controllers, appearing as PS4/PS3/Switch/other controllers in sequence. They advertise themselves as one USB device, and if there is no driver sending whatever init sequence they expect, they disconnect and try emulating a different controller.
-
-The PS4 controller has rumble and an RGB LED, and this patch series improves its functionality. It cannot emulate a Switch controller.
-
-The Switch (?) controller has no rumble and four multicolour player LEDs, but it adds Switch compatibility including accelerometer and gyro.
+So I am with you on focusing on the original devices, which have predictable behaviour and quality. That said, hopefully some or all of these patches are trivial enough to be included upstream. I feel that it's beautiful to plug random stuff into a Linux box and to find that it just works :)
 
 
-For the PS4 mode, which is the first that they try, and which would unify most functions, they use 7545:0104 instead of cloning a DS4 VID/PID. So I took a guess and found that it works fine with hid-playstation if I add the VID/PID and the init quirks in patches 2/3/4. Well, to be precise, I've only made the DS4 shaped one work in PS4 mode, the Switch controller isn't happy and errors out, see below.
+> One of the key things I really would like to see enhanced are the unit
+> tests (hid-tools / kernel side now). To really make sure we emulate
+> behavior of these other devices well. The tricky part is that they
+> don't always support all the HID requests of the real device (which is
+> weird as the game console does use those HID reports and others and I
+> don't know how it would have worked there).
+
+I've been wondering the same, but without a PS4 of my own, I didn't try such controllers on a real console. That would be interesting indeed!
 
 
-On the PS4 controller, this makes the RGB LED work, rumble works, but the gyro and touchpad don't send HID updates. The touchpad can click though, so maybe the controller I have has a hardware defect.
+> That's in general the key feedback about the tests. A question for
+> Max: do you have access to all the devices being added?
 
-The Switch (?) controller is where things get weird. It disconnects, even though it is initialised by hid-playstation, and transitions into a generic controller with VID/PID 0079:181c. This mode is *not* on the list of emulations it usually tries. It's as if the "unfinished" PS4 initialisation transitions it into a hidden fifth emulation mode. In this mode, the home key does not send any HID event, and there are no accelerometer updates that hid-sony would receive in PS3 mode.
-
-
-So, with this patch, the PS4 controller works better on Linux, while the Switch controller works worse. Both were seen as PS3 controllers up until now. I see no way to discern them at driver probe time.
-
-Any preference on what to do...?
+I don't have all devices I've ever tested, but I do have at least one reproducer for each patch in this series.
 
 
+
+Thanks,
 
 Max
 
