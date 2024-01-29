@@ -1,80 +1,105 @@
-Return-Path: <linux-input+bounces-1515-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1516-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C7E83FA2D
-	for <lists+linux-input@lfdr.de>; Sun, 28 Jan 2024 22:49:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D227283FBB9
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 02:24:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FDC7B21577
-	for <lists+linux-input@lfdr.de>; Sun, 28 Jan 2024 21:49:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AE8C1F21E14
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 01:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7B73C461;
-	Sun, 28 Jan 2024 21:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751B6D2E5;
+	Mon, 29 Jan 2024 01:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRVgGKnd"
+	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="Sp/P9ZFJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="toSTS5fI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD873C46B;
-	Sun, 28 Jan 2024 21:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056A0D515;
+	Mon, 29 Jan 2024 01:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706478585; cv=none; b=YD1tSK4F0wqZpfJClmCmTe7g+lxxw9a9Hl6P7KR44+xpsLG6eGDhqYaZ9IMWe9D8Y9xKk4ODzkpHZfsnsBsi9xpBEAj8hISvSG2ZGmHQc7Gdj2KrACDFObWJFOFIUpccw8S0MCeymIE8iHDXsDVmah6knIUipL+Dnl8m/0XbaSc=
+	t=1706491464; cv=none; b=k7nF5f0u5nzgQc4LyZsEGJ0r62sZaaPT6e04HS1OQEP0xoCS1OCgJhCCM43IkXVmWHNt+qDt5z0g4URljhVjn8dwM0kxgBEqzU1Yg8O4Lg1fqHBO7Nrk9FWwB865n09YrOaBZiYVvZyGZtowuwj/U/n/Bj1TnorL4M8UEAiVLg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706478585; c=relaxed/simple;
-	bh=5XSwR5d0CYyIYkRItflEyY+5Xx4c+VbuswIhthiINY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SRGoH0asEWgXzbCt1SUnTv1JxuWC8RCDLrOc2mrnwwZdoOLW3uukoRSOm5g1mXfbErVqREP5ZH72RgPp4LOhkTLEmr0tVCEM/ZN9bJ10VHT8pmFuB18sQQyUZT1MmoqBYmInNI2OgDJ74WAxFXwJNmjPFEa7YOvQFam4l6icrgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRVgGKnd; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a3122b70439so279480666b.3;
-        Sun, 28 Jan 2024 13:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706478581; x=1707083381; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fG11WzG3UkhubdzI3pqjFW/7tCcUOSmi9kh2Qgw4z3w=;
-        b=HRVgGKnd8gRVetmOKjjoBkauLLrDu8miJwcNfnEIahHLh/L1Sjk0SQyIvHkBR6tH35
-         PuaRBKXgzRnMbhTer49Soej/PHNYVOi8ZcPxPG15eMp7ShDFnzKiTcJk6nGvtGsou8AB
-         gDFD2nVcA40y3afrfTrAmbKmLcuRiX77q3Pyjox4xUHH8lcTXOClBGipWkwT8zjnDbgO
-         AFTGxbK0DGfk4/K8/iy2yfuUHehhLUpYOlsB2tZ3CxmYX1K8A2t6k9YfbYJTILNXe21X
-         V30NL0IgkWzqcE9EitJ/6seI3dvPRTlNLRHsNQxDUAQKqGvKzK3tLoCieCZWMHOiiivq
-         bTig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706478581; x=1707083381;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fG11WzG3UkhubdzI3pqjFW/7tCcUOSmi9kh2Qgw4z3w=;
-        b=rCu1BJOxhMmK0GrFPi/hgbs2suSGXmNuQsJm8v3IPQgimRkXOKTixUbUF0z9axuNnc
-         8dH4uYCzOWZf2PiBFf/1k27vmE+3+Y0cilHIgt57pn2BnISN6B7A262jrwsBi5fkkwvS
-         Ed+UH3afJ7LZae9n2Ira4Ayl1ApTVFNHyQWYpkfXOofVm3mHjY57IEUzr760cFovX3uY
-         LHuFJ5BzRqgcWiewQ1rpgD3Eu/l2a/j1RgJy1ued/A+Gf/n+i8aNrw+4/0jTMCST7mVA
-         /Wc6SvKqygvN3YelqwxbCym8IPDVpfo+cciELjFnEA0yco+KnO49JI/azYkz/x96dodW
-         eoHw==
-X-Gm-Message-State: AOJu0Yychy9Te1mmdsvJbMmGxTN/tqwXnYav7A6VhraVZIhGX0nuklBt
-	FJZQJjY1zpiWtU7gK+VqLGgfdeueA6GEtdrQVhntMUetjQl03BHB
-X-Google-Smtp-Source: AGHT+IGcNTYSIze+l91AGzS0Y/tA1QCu1G5Y6lfss+bT6MNsdGY9j6HyfMjQa2+BGmW/qsy8JZjVGQ==
-X-Received: by 2002:a17:906:dfca:b0:a35:9e9c:5dab with SMTP id jt10-20020a170906dfca00b00a359e9c5dabmr1249205ejc.54.1706478581427;
-        Sun, 28 Jan 2024 13:49:41 -0800 (PST)
-Received: from localhost.localdomain ([84.32.202.14])
-        by smtp.gmail.com with ESMTPSA id th8-20020a1709078e0800b00a3539ca2f72sm2161545ejc.156.2024.01.28.13.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 13:49:41 -0800 (PST)
-From: Yaraslau Furman <yaro330@gmail.com>
-To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: yaro330@gmail.com,
-	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-	Jiri Kosina <jikos@kernel.org>,
-	linux-input@vger.kernel.org (open list:HID LOGITECH DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] HID: logitech-dj: allow mice to use all types of reports
-Date: Sun, 28 Jan 2024 23:49:06 +0200
-Message-ID: <20240128214906.60606-1-yaro330@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1706491464; c=relaxed/simple;
+	bh=kQEe3sxHRS25R01Huae1wLO1VdyUa7hma2vI+TmJQuw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=exqo8w9XMcTruA7bYtaIu9paCGKyTt8AILpdfuy4KCx/c1TKaqn/3151u44By+F2Jc5rM+IQbQ7gU+HZHVDhAVhfaMep8Rq6YmN9KM0qi4BQ+fUHTKxBEOckf7uD7NoqtuA1KiEN6+STIyWhCBKebAsmhLArA8IUCA61Qv/uYKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=Sp/P9ZFJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=toSTS5fI; arc=none smtp.client-ip=64.147.123.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 9954E3200ABB;
+	Sun, 28 Jan 2024 20:24:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 28 Jan 2024 20:24:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+	:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1706491459; x=1706577859; bh=UASoXhX4PTY3QDklhg97M
+	HiJ1GxNYruI0l1hSTsM1IQ=; b=Sp/P9ZFJkQIEHfcvNH4pxlWQcJTVOu3NARJrb
+	QU0vlJmpM4nohk3iDeQEo/Uuk1NtXdRe9TzUPuLVLZwihZ2nMpR1SaHdOFYdPeJr
+	zyyOLJHWmQv7wFfiklp11U0lm+k97FGE2W734EFNtr2HA1l0VDW6mjxCvSRt+cv2
+	Jz2l6Sncb1dytEyLi2GEvXGQ8aodcH4vddVYUfcqlyPdggq74hiSUGoZkM9NARAL
+	grjLqJgJe/RfIVPH+Fxq0yr0PsDuKjMfahjqvFerrDmJPT3klD1YJQ4f8hx5H2my
+	hiIvvxRm3KeWyQfKVuh8g6GeiEUxoxvfTxyklE1gB/WGbzKRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:date:feedback-id:feedback-id:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706491459; x=1706577859; bh=UASoXhX4PTY3QDklhg97MHiJ1GxN
+	YruI0l1hSTsM1IQ=; b=toSTS5fIeqME+j6fCgQl7sXWi2TbaNbgcEYAv/FUpQCi
+	ojINcUtIFRCemYQFFUCw9KMt6lbUje5JxS9ppMq3UONrtbV910ynaSb71OoD+HR9
+	MskHaANtEDpX/5ZHaX0tU+6v3twRjwEl6fh9aWg3iJaQzjt41KBNs7OnsV5nkZUf
+	9Gf8uMy5g2kYfJaAOtwMMELWFbjTIAF79KrHS0lZ5rR+jWV+YW/iswh8WhA3oYi3
+	iEncy2kWOFdpaGrtvFoMJ0nG9xynxVzhhwcsP7Sl9yD5qe/JLLH1f5gG1Q8jBSZK
+	VLY7S7aDF71kp6q6/qfmcapQgHbU65dYB5oHy/DKQw==
+X-ME-Sender: <xms:Qv62ZdjsQSYWbTlKTLSEqMzzeUVWsCelA_UpwRQPxO1pbHXMb9VtDw>
+    <xme:Qv62ZSAE8nNVyjnQSVjZrXsWge5dcgOFoP5891x2RYn4LJanvbYpqiM9jdLBQJ1P_
+    62DAc7xuFK7DVJxvA>
+X-ME-Received: <xmr:Qv62ZdHZoFIBgCnLzmLD3S7ZxEXX2DyqstxMiOMW2vy6EYK23Jj0mlqAdYVy07CZeSgvbkqi47Kp8joEaorqp0d-f4OR9TxCKAtWAHu_Fqg1hA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedtfedgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpefhvf
+    fufffkofgggfestdekredtredttdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihu
+    segugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpeffffegjeduheelgfdtudekie
+    ejgfegheehjefgieejveevteeiveeukefgheekjeenucffohhmrghinhepghhithhhuhgs
+    rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:Qv62ZSTwvQHw03v-B2f1Bae6pN4fJB-3Qs8pCTG6pZi9wB0IlqrCtg>
+    <xmx:Qv62ZaxbEzm0olNmw8XT6u5Hgp2K4DFcOrRD_Mo1YqOS2_wuDmHRhA>
+    <xmx:Qv62ZY4sEd0MomoUDEp5-KW2l923PFpKcPYCM2P57eJmietEO2dsGA>
+    <xmx:Q_62Zfhc89QQ1-UiKEW_sidKxkm0BIiyi8TNBF-Dz_bCocdzYVhFcg>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 28 Jan 2024 20:24:17 -0500 (EST)
+From: Daniel Xu <dxu@dxuuu.xyz>
+To: linux-trace-kernel@vger.kernel.org,
+	coreteam@netfilter.org,
+	bpf@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netfilter-devel@vger.kernel.org,
+	alexei.starovoitov@gmail.com,
+	olsajiri@gmail.com,
+	quentin@isovalent.com,
+	alan.maguire@oracle.com,
+	memxor@gmail.com
+Subject: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
+Date: Sun, 28 Jan 2024 18:24:05 -0700
+Message-ID: <cover.1706491398.git.dxu@dxuuu.xyz>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -83,45 +108,69 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-You can bind whatever action you want to the mouse's reprogrammable
-buttons using Windows application. Allow Linux to receive those keycodes.
+=== Description ===
 
-Signed-off-by: Yaraslau Furman <yaro330@gmail.com>
----
- drivers/hid/hid-logitech-dj.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+This is a bpf-treewide change that annotates all kfuncs as such inside
+.BTF_ids. This annotation eventually allows us to automatically generate
+kfunc prototypes from bpftool.
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index e6a8b6d8eab7..5730be1aa41c 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -948,11 +948,12 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
- 				HIDPP_DEVICE_TYPE_MASK;
- 	workitem->quad_id_msb = hidpp_report->params[HIDPP_PARAM_EQUAD_MSB];
- 	workitem->quad_id_lsb = hidpp_report->params[HIDPP_PARAM_EQUAD_LSB];
-+	workitem->reports_supported |= STD_KEYBOARD | MULTIMEDIA |
-+				POWER_KEYS | MEDIA_CENTER |
-+				HIDPP;
-+
- 	switch (workitem->device_type) {
- 	case REPORT_TYPE_KEYBOARD:
--		workitem->reports_supported |= STD_KEYBOARD | MULTIMEDIA |
--					       POWER_KEYS | MEDIA_CENTER |
--					       HIDPP;
- 		id = (workitem->quad_id_msb << 8) | workitem->quad_id_lsb;
- 		for (i = 0; i < ARRAY_SIZE(kbd_builtin_touchpad_ids); i++) {
- 			if (id == kbd_builtin_touchpad_ids[i]) {
-@@ -965,9 +966,6 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
- 		}
- 		break;
- 	case REPORT_TYPE_MOUSE:
--		workitem->reports_supported |= STD_MOUSE | HIDPP;
--		if (djrcv_dev->type == recvr_type_mouse_only)
--			workitem->reports_supported |= MULTIMEDIA;
- 		break;
- 	}
- }
+We store this metadata inside a yet-unused flags field inside struct
+btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
+
+More details about the full chain of events are available in commit 3's
+description.
+
+The accompanying pahole and bpftool changes can be viewed
+here on these "frozen" branches [0][1].
+
+[0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
+[1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
+
+=== Changelog ===
+
+Changes from v3:
+* Rebase to bpf-next and add missing annotation on new kfunc
+
+Changes from v2:
+* Only WARN() for vmlinux kfuncs
+
+Changes from v1:
+* Move WARN_ON() up a call level
+* Also return error when kfunc set is not properly tagged
+* Use BTF_KFUNCS_START/END instead of flags
+* Rename BTF_SET8_KFUNC to BTF_SET8_KFUNCS
+
+Daniel Xu (3):
+  bpf: btf: Support flags for BTF_SET8 sets
+  bpf: btf: Add BTF_KFUNCS_START/END macro pair
+  bpf: treewide: Annotate BPF kfuncs in BTF
+
+ Documentation/bpf/kfuncs.rst                  |  8 +++----
+ drivers/hid/bpf/hid_bpf_dispatch.c            |  8 +++----
+ fs/verity/measure.c                           |  4 ++--
+ include/linux/btf_ids.h                       | 21 +++++++++++++++----
+ kernel/bpf/btf.c                              |  8 +++++++
+ kernel/bpf/cpumask.c                          |  4 ++--
+ kernel/bpf/helpers.c                          |  8 +++----
+ kernel/bpf/map_iter.c                         |  4 ++--
+ kernel/cgroup/rstat.c                         |  4 ++--
+ kernel/trace/bpf_trace.c                      |  8 +++----
+ net/bpf/test_run.c                            |  8 +++----
+ net/core/filter.c                             | 20 +++++++++---------
+ net/core/xdp.c                                |  4 ++--
+ net/ipv4/bpf_tcp_ca.c                         |  4 ++--
+ net/ipv4/fou_bpf.c                            |  4 ++--
+ net/ipv4/tcp_bbr.c                            |  4 ++--
+ net/ipv4/tcp_cubic.c                          |  4 ++--
+ net/ipv4/tcp_dctcp.c                          |  4 ++--
+ net/netfilter/nf_conntrack_bpf.c              |  4 ++--
+ net/netfilter/nf_nat_bpf.c                    |  4 ++--
+ net/xfrm/xfrm_interface_bpf.c                 |  4 ++--
+ net/xfrm/xfrm_state_bpf.c                     |  4 ++--
+ .../selftests/bpf/bpf_testmod/bpf_testmod.c   |  8 +++----
+ 23 files changed, 87 insertions(+), 66 deletions(-)
+
 -- 
-2.43.0
+2.42.1
 
 
