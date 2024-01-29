@@ -1,173 +1,264 @@
-Return-Path: <linux-input+bounces-1530-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1531-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA70840AD4
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 17:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4578B840B2A
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 17:20:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A514284237
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 16:09:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFBCA28A147
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jan 2024 16:20:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DF9E15530D;
-	Mon, 29 Jan 2024 16:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D0F155A3C;
+	Mon, 29 Jan 2024 16:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RLixhlyd"
+	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="QWV44F2R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC31D1552E9
-	for <linux-input@vger.kernel.org>; Mon, 29 Jan 2024 16:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FD2156960;
+	Mon, 29 Jan 2024 16:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706544544; cv=none; b=n9qUUH/qMrQ3Ns30KaSmNNh/+kdypOWuEjCcWMIUUsueIi5DeRP6acmW32x0jpErq7L1cD0juebBDJ/xKPL9+QrW6zFcetcPJeNbBgHTfZLcNdbA+qTUSvu5LUcY/fqukGbR2uRoDSwxp5PQqSy1WlSv3r+6JSuzpU5y60dtdNk=
+	t=1706545210; cv=none; b=uLP3fq1KNzhD9hYitej8lmVYN2jeziwHYRPlR4X9ktzIGl1PhKRA2uDE9dfZcDFOJfr3f6Fx4Nganh9WztJyoPGsdg+9wCpJYBqBW2+z/wbnhetm7g5mV/NI+0AY8YowMpdxMGHZdDzEcf1+vRjl7k7UEGKgLMZYPgBMCeXxYco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706544544; c=relaxed/simple;
-	bh=brNShbY1URR80bnYQB5chJ2H/a+e1UzLa9Lt+2tAP7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LvehZWAiAZSXHxvwRDhzaEHKhE1ktBpM3PBHPh6sLXh29cA/2JvGc5rU8FtdZrnawtAjRxjzjJ1rq69C7fBDfuuys7Rpmh7ZoOkKtlKxpK3pJ17P1qAGBLBRCkLivEtVz+C3vWb8jE8sjrZ+EaFEiyeBpjIcenRl/VvgtB5rI/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RLixhlyd; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706544541;
+	s=arc-20240116; t=1706545210; c=relaxed/simple;
+	bh=tCQNh03kPb0hVD3381TosARGcFot6I3fIlnNAcTeoT4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xh9KfhLDJ3o1eVU/z0vXcXLBJPb9hTdBm2X0hAH4XazEqytrlvYI6vdZ+0i28hGUQISngzUYnamMBPzw7rzcsBO5d5nhSBfC5bLwtLP0I74bcXsuFXGXSemLl1gPtY/UBNffJxGg68ba0zn7X8ezTkafzaBb+/68YRp+cVCx14Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=QWV44F2R; arc=none smtp.client-ip=199.247.17.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
+Received: from spock.localnet (unknown [94.142.239.106])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by prime.voidband.net (Postfix) with ESMTPSA id DA1A86356CC0;
+	Mon, 29 Jan 2024 17:20:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+	s=dkim-20170712; t=1706545205;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5W1qbZBNKXcGMEWcUwU6tCp2DojQquTsGFStiKEOGg=;
-	b=RLixhlydkCjQymKIYisuH26BC/qQ4HwUPq5IzjrePDLe3nCzRxazNwNySDBFKAkkIRe1wQ
-	UqaxWpMhXw+byg/1zlRbJFjxDar4YjdGD3PLUYNF7FfUD5i2WVKt47OoSds/liBz6Qv2tZ
-	edJzv7EZUL81nZ/4SMkCkRaR6jUiSHk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-609-GhgpA67yNieVWeFfzSobXg-1; Mon, 29 Jan 2024 11:08:59 -0500
-X-MC-Unique: GhgpA67yNieVWeFfzSobXg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a35118e98caso193748966b.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Jan 2024 08:08:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706544538; x=1707149338;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X5W1qbZBNKXcGMEWcUwU6tCp2DojQquTsGFStiKEOGg=;
-        b=YoLQK6GuIjnDcGXjJZszlJJq1V5bH+0ORBo3BSDFKJ1NMWw4MV/tIegUIpJsEMlBFh
-         gidLXr++b7h/y/plIOWB3Wq2EnPN8mCENimUPDBEaddtpQz+mOYpCfNWtmustoO/4NmU
-         NR0Zk/l5/fO92euNmWSHlGwHvwC8rh9p3u0uFzIPkt1uk5CGaFr+b6g6WQSdLEEX9DHu
-         UF9yuhY2OrPGJbg+spnCIY59T8xtSyMX8thb7HAgbWoSa3O7GDTlDC1EEn8PvNQfLbx3
-         Xwe/z1U9/FPR9Ot+Y+RskKCHX32765mr+5nwdb77bTQ/euyyTLFQxSakWkAk8ZMS7bMh
-         JPtA==
-X-Gm-Message-State: AOJu0Yx1LQuTAk9Tdj8JNQE7QEeDjcsIYKsL3XsTj1o0PvsbDCPv9GK2
-	fAMSKbQf/+w6ElcM0Kmcv2Jrha8RvJ/eacnqZjplARw3JqFCWPNKY1tMK1tclDFn1vWu7aZrdzP
-	6x1bouGTBzw0raVmHJdz7NLCwX9CMPHmUzsp3PF15u8CsZnyGJMjR70yxBVyO
-X-Received: by 2002:a17:906:454d:b0:a31:29fc:6ef2 with SMTP id s13-20020a170906454d00b00a3129fc6ef2mr5414501ejq.41.1706544538772;
-        Mon, 29 Jan 2024 08:08:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGkIHRlvL3buruk+ngVpL4Wj2pJau+nBMDRcpkE7IrDFhAt5CI+tBrL4Hw9MtiFz2S9ga2IDQ==
-X-Received: by 2002:a17:906:454d:b0:a31:29fc:6ef2 with SMTP id s13-20020a170906454d00b00a3129fc6ef2mr5414485ejq.41.1706544538460;
-        Mon, 29 Jan 2024 08:08:58 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ti7-20020a170907c20700b00a3294cafba6sm4072499ejc.109.2024.01.29.08.08.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 08:08:57 -0800 (PST)
-Message-ID: <489d6c71-73eb-4605-8293-5cfea385cf08@redhat.com>
-Date: Mon, 29 Jan 2024 17:08:56 +0100
+	bh=QUPpZlS0vWCioBkwkhT2xs0rrMrqTqY1OIwQMzU+/oE=;
+	b=QWV44F2RToANXCBGBM2CXBrbu7FyJB9OFuVmLg3Gm2DlhpAoHe2O1Caj+eHTs3SekPWOcs
+	OSHcgU5mgDRY8KDtrrH19yXEbkXmbSwnMnqeCTgmXaD0G62o02aY4p8Td81dhQgGq5LPxh
+	kcA/10dZgl3ibkYM6hPgkzhU7gkbNFI=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
+Cc: linux-input@vger.kernel.org,
+ Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+ Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: Flood of logitech-hidpp-device messages in v6.7
+Date: Mon, 29 Jan 2024 17:19:54 +0100
+Message-ID: <4894984.31r3eYUQgx@natalenko.name>
+In-Reply-To: <489d6c71-73eb-4605-8293-5cfea385cf08@redhat.com>
+References:
+ <3277085.44csPzL39Z@natalenko.name> <12371430.O9o76ZdvQC@natalenko.name>
+ <489d6c71-73eb-4605-8293-5cfea385cf08@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Content-Type: multipart/signed; boundary="nextPart4543854.LvFx2qVVIh";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart4543854.LvFx2qVVIh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
 Subject: Re: Flood of logitech-hidpp-device messages in v6.7
-To: Oleksandr Natalenko <oleksandr@natalenko.name>,
- linux-kernel@vger.kernel.org
-Cc: linux-input@vger.kernel.org, =?UTF-8?Q?Filipe_La=C3=ADns?=
- <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <3277085.44csPzL39Z@natalenko.name>
- <824573bb-ae01-41b9-8f97-a760ae8f3f18@redhat.com>
- <12371430.O9o76ZdvQC@natalenko.name>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <12371430.O9o76ZdvQC@natalenko.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 29 Jan 2024 17:19:54 +0100
+Message-ID: <4894984.31r3eYUQgx@natalenko.name>
+In-Reply-To: <489d6c71-73eb-4605-8293-5cfea385cf08@redhat.com>
+MIME-Version: 1.0
 
-Hi,
+On pond=C4=9Bl=C3=AD 29. ledna 2024 17:08:56 CET Hans de Goede wrote:
+> Hi,
+>=20
+> On 1/29/24 16:58, Oleksandr Natalenko wrote:
+> > Hello.
+> >=20
+> > On =C3=BAter=C3=BD 9. ledna 2024 12:58:10 CET Hans de Goede wrote:
+> >> Hi Oleksandr,
+> >>
+> >> On 1/9/24 12:45, Oleksandr Natalenko wrote:
+> >>> Hello Hans et al.
+> >>>
+> >>> Starting from v6.7 release I get the following messages repeating in =
+`dmesg` regularly:
+> >>>
+> >>> ```
+> >>> Jan 09 10:05:06 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: Disconnected
+> >>> Jan 09 10:07:15 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: Disconnected
+> >>> Jan 09 10:16:51 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: HID++ 4.5 device connected.
+> >>> Jan 09 10:16:55 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 10:16:55 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 10:36:31 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: Disconnected
+> >>> Jan 09 10:37:07 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: HID++ 4.5 device connected.
+> >>> Jan 09 10:46:21 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: Disconnected
+> >>> Jan 09 10:48:23 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: Disconnected
+> >>> Jan 09 11:12:27 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: HID++ 4.5 device connected.
+> >>> Jan 09 11:12:47 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 11:12:47 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 11:38:32 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: Disconnected
+> >>> Jan 09 11:43:32 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: Disconnected
+> >>> Jan 09 11:45:10 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: HID++ 4.5 device connected.
+> >>> Jan 09 11:45:11 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 11:45:11 spock kernel: logitech-hidpp-device 0003:046D:408A.00=
+05: HID++ 4.5 device connected.
+> >>> Jan 09 12:31:48 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: Disconnected
+> >>> Jan 09 12:33:21 spock kernel: logitech-hidpp-device 0003:046D:4051.00=
+06: HID++ 4.5 device connected.
+> >>> ```
+> >>>
+> >>> I've got the following hardware:
+> >>>
+> >>> * Bus 006 Device 004: ID 046d:c52b Logitech, Inc. Unifying Receiver
+> >>> * Logitech MX Keys
+> >>> * Logitech M510v2
+> >>>
+> >>> With v6.6 I do not get those messages.
+> >>>
+> >>> I think this is related to 680ee411a98e ("HID: logitech-hidpp: Fix co=
+nnect event race").
+> >>>
+> >>> My speculation is that some of the devices enter powersaving state af=
+ter being idle for some time (5 mins?), and then wake up and reconnect once=
+ I touch either keyboard or mouse. I should highlight that everything works=
+ just fine, it is the flood of messages that worries me.
+> >>>
+> >>> Is it expected?
+> >>
+> >> Yes this is expected, looking at your logs I see about 10 messages per
+> >> hour which IMHO is not that bad.
+> >>
+> >> I guess we could change things to track we have logged the connect
+> >> message once and if yes then log future connect messages (and all
+> >> disconnect messages) at debug level.
+> >=20
+> > How granular such a tracking should be? Per-`struct hidpp_device`?
+>=20
+> Yes per struct hidpp_device we want to log the connect message once
+> per device since it gives info which might be useful for troubleshooting.
+>=20
+> > Should there be something like `hid_info_once_then_dbg()` macro, or ope=
+n-code it in each place instead?
+>=20
+> Since we want something like e.g. a "first_connect" (initialized
+> to true if you use that name) flag per struct hidpp_device this needs
+> to be open coded.
 
-On 1/29/24 16:58, Oleksandr Natalenko wrote:
-> Hello.
-> 
-> On úterý 9. ledna 2024 12:58:10 CET Hans de Goede wrote:
->> Hi Oleksandr,
->>
->> On 1/9/24 12:45, Oleksandr Natalenko wrote:
->>> Hello Hans et al.
->>>
->>> Starting from v6.7 release I get the following messages repeating in `dmesg` regularly:
->>>
->>> ```
->>> Jan 09 10:05:06 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: Disconnected
->>> Jan 09 10:07:15 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: Disconnected
->>> Jan 09 10:16:51 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: HID++ 4.5 device connected.
->>> Jan 09 10:16:55 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 10:16:55 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 10:36:31 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: Disconnected
->>> Jan 09 10:37:07 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: HID++ 4.5 device connected.
->>> Jan 09 10:46:21 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: Disconnected
->>> Jan 09 10:48:23 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: Disconnected
->>> Jan 09 11:12:27 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: HID++ 4.5 device connected.
->>> Jan 09 11:12:47 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 11:12:47 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 11:38:32 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: Disconnected
->>> Jan 09 11:43:32 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: Disconnected
->>> Jan 09 11:45:10 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: HID++ 4.5 device connected.
->>> Jan 09 11:45:11 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 11:45:11 spock kernel: logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
->>> Jan 09 12:31:48 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: Disconnected
->>> Jan 09 12:33:21 spock kernel: logitech-hidpp-device 0003:046D:4051.0006: HID++ 4.5 device connected.
->>> ```
->>>
->>> I've got the following hardware:
->>>
->>> * Bus 006 Device 004: ID 046d:c52b Logitech, Inc. Unifying Receiver
->>> * Logitech MX Keys
->>> * Logitech M510v2
->>>
->>> With v6.6 I do not get those messages.
->>>
->>> I think this is related to 680ee411a98e ("HID: logitech-hidpp: Fix connect event race").
->>>
->>> My speculation is that some of the devices enter powersaving state after being idle for some time (5 mins?), and then wake up and reconnect once I touch either keyboard or mouse. I should highlight that everything works just fine, it is the flood of messages that worries me.
->>>
->>> Is it expected?
->>
->> Yes this is expected, looking at your logs I see about 10 messages per
->> hour which IMHO is not that bad.
->>
->> I guess we could change things to track we have logged the connect
->> message once and if yes then log future connect messages (and all
->> disconnect messages) at debug level.
-> 
-> How granular such a tracking should be? Per-`struct hidpp_device`?
+OK, would something like this make sense (not tested)?
 
-Yes per struct hidpp_device we want to log the connect message once
-per device since it gives info which might be useful for troubleshooting.
+```
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hi=
+dpp.c
+index 6ef0c88e3e60a..a9899709d6b74 100644
+=2D-- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -203,6 +203,9 @@ struct hidpp_device {
+ 	struct hidpp_scroll_counter vertical_wheel_counter;
+=20
+ 	u8 wireless_feature_index;
++
++	bool once_connected;
++	bool once_disconnected;
+ };
+=20
+ /* HID++ 1.0 error codes */
+@@ -988,8 +991,13 @@ static int hidpp_root_get_protocol_version(struct hidp=
+p_device *hidpp)
+ 	hidpp->protocol_minor =3D response.rap.params[1];
+=20
+ print_version:
+=2D	hid_info(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
+=2D		 hidpp->protocol_major, hidpp->protocol_minor);
++	if (!hidpp->once_connected) {
++		hid_info(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
++			 hidpp->protocol_major, hidpp->protocol_minor);
++		hidpp->once_connected =3D true;
++	} else
++		hid_dbg(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
++			 hidpp->protocol_major, hidpp->protocol_minor);
+ 	return 0;
+ }
+=20
+@@ -4184,7 +4192,11 @@ static void hidpp_connect_event(struct work_struct *=
+work)
+ 	/* Get device version to check if it is connected */
+ 	ret =3D hidpp_root_get_protocol_version(hidpp);
+ 	if (ret) {
+=2D		hid_info(hidpp->hid_dev, "Disconnected\n");
++		if (!hidpp->once_disconnected) {
++			hid_info(hidpp->hid_dev, "Disconnected\n");
++			hidpp->once_disconnected =3D true;
++		} else
++			hid_dbg(hidpp->hid_dev, "Disconnected\n");
+ 		if (hidpp->battery.ps) {
+ 			hidpp->battery.online =3D false;
+ 			hidpp->battery.status =3D POWER_SUPPLY_STATUS_UNKNOWN;
+```
 
-> Should there be something like `hid_info_once_then_dbg()` macro, or open-code it in each place instead?
+>=20
+> Regards,
+>=20
+> Hans
+>=20
+>=20
+>=20
+>=20
+>=20
 
-Since we want something like e.g. a "first_connect" (initialized
-to true if you use that name) flag per struct hidpp_device this needs
-to be open coded.
 
-Regards,
+=2D-=20
+Oleksandr Natalenko (post-factum)
+--nextPart4543854.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Hans
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmW30CoACgkQil/iNcg8
+M0tMbhAAxwXz2G2znb7/e96UUURxP3n8XsQ3XQs47HR/7EqE2FXDzZhdpkK/fD02
+Jhwo6dLdQ6M0nnIeGYePWzbf91iQkbzN027LY5TDQjGYLF2ckikhEOyS9/HK7+fh
+2SA2p2cLbMQkPmdm1PsLKC7g/4zT0H3UU91b+pR6PfUDeTtOipQndkyhw1wHEb9X
+8fyj0fyI7WbeAJ16VpXBjxAKZ0Wu1LV+lbxbNFzbAi243J6IlmdK+0O518cfqRvt
+T8UB2ndH9nHiz0jamgU7ouZNAw84HYeydDV4U85R1/6Jfi3Co26YIIb0Mxl0GOjl
+J940E2d+EPD0FmdGBU9dFYOaKzdmJilS3rkSVnT4CVVRygrQAeEGytlLHsPR6d8r
+qaXy4f71HoEp9wcpl74E2Hf5AxCKoAkwqUrry08L+MGullPedHYkN/VdD72AtroE
+UU63HApzt8giBpikRBhkmZ1l6xVHuxGvpE9ZBL1Sa5+sYpVt+dAozopCbvgj8jtU
+nnsVcnjzAWwPIvRWMkYbO+CPtqBfQQ6CzST/cXDxUQK1S5jKxSVkvtf80daJg+8W
+YF1WNXY9idIUwB6K1D5hge+63n+IMmgstqA6ndtC3RlKCEGybf6Y6sak3s1f6e1b
+GqCcHoYIn/z3XQRnLeAr8gIszOdOMouRJKTe0KJ/X/L2NT7dm+s=
+=3fAU
+-----END PGP SIGNATURE-----
+
+--nextPart4543854.LvFx2qVVIh--
 
 
 
