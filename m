@@ -1,82 +1,82 @@
-Return-Path: <linux-input+bounces-1552-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1553-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028DF842E4C
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 21:59:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E1B842E78
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 22:08:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1E461C24CD5
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 20:59:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 717A82886A7
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 21:08:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924E271B49;
-	Tue, 30 Jan 2024 20:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F363A762FA;
+	Tue, 30 Jan 2024 21:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlMvxfOE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lj/C+z8i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B0471B48;
-	Tue, 30 Jan 2024 20:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20570762EC;
+	Tue, 30 Jan 2024 21:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706648372; cv=none; b=gYpfUUlPmxTkR4G+wWOXpQNYWHlOR5N8usPmySxwcdcurkp0ncVszb8WLSZ11GWB0c/Hy8DnzTdU722Bw6FKeVC9WR+OFiTcv9mhr5CN2t/PSHPZz9abjwZoNRVyF6RVNLouNVLTYKq5Nu4qU+7w03taKihd+cnxvNT3qna0lXg=
+	t=1706648856; cv=none; b=mhtFxnWOhOXGbZLndI1pHRoQNxeoyDcnmITHNz1mRziPlljFCTcGXjz9o8hMt15mqDgi2/dvEwvcvhcleifeWcP8IC1eC4wG63nUGhWWwvRiNOZWuTfUMZGskuVD6pgBhIc7CP5TeLX1WTM+MeVZEpNM8Kt7ZL1mck4DkJnL1fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706648372; c=relaxed/simple;
-	bh=hKNIC3ubOL8awV14Yi8/zq+d4Qi6blzxIbGvY3Cd85U=;
+	s=arc-20240116; t=1706648856; c=relaxed/simple;
+	bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IqzEP2TH8NsuZvDHvc4WkL/KfbyTerktbCTdvLN/I6WMtTZWvjQzkr9yr8S7qcKw/Bo82KaOPJJsQHrKUSP+1ELI84wpKHM4P0UVoWFKRK++h+BgPsdkiIr8xvs0uQgNDryZYMeudTtZR1OoLCGLgv8TnH8P2tkhrtaiJhbX17o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlMvxfOE; arc=none smtp.client-ip=209.85.208.175
+	 To:Cc:Content-Type; b=WSRjo0cvF+TDlwKg/wA0K752vCYOISgLoEF3xHh86+2xGLdi3eIhUIyCRMjoyBgvJsYqTn0Okkcl6CCi2NImGPipqxLvwlLmhFgRj9TfI+y8nvF0IapIS99S0WISy6YJGmFf6XGbVof5bUM+R5gO3sAP8qoEpb81r9N546QOXSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lj/C+z8i; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d03fde0bd9so39056051fa.0;
-        Tue, 30 Jan 2024 12:59:30 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5100ed2b33dso7419171e87.0;
+        Tue, 30 Jan 2024 13:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706648369; x=1707253169; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706648853; x=1707253653; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hKNIC3ubOL8awV14Yi8/zq+d4Qi6blzxIbGvY3Cd85U=;
-        b=XlMvxfOEBYZIj+NUMrAY0TZE46tI4N0Q2/OKR4H1G/R3t0PgGa/5NBa2RZ93N/7ren
-         0eLibyf16XvkHB2ZVdGzfVi5w9fJye8HKY65UrLMrZLeGu8d5VK98jFlDw4EqQgpgFkG
-         jKNiPJHOkAwHBq0djSMDj/kzj3VJx+dEepW9yTHnGeZwZ61FcrHDRLOuL9w5xZBl6gvt
-         8IMCx1Pba9MnD/JBoBCvSZEjqRpZPrhlaNRDksUjXTLjBRaEjaPweyQcVD6w6uFkTCWY
-         Pfrxs90mrVNEu9c3586rIgS/Dz3cAJOIGQ5yj7Y43f+8x/vMGqB3KP0EQpK2xKMgpVN9
-         xFQQ==
+        bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
+        b=Lj/C+z8ipP0Z5sHpVrcQ44vlYYPQujAR1CeKCtvMhmkM26qPFGHZze3szBHNmc2+z+
+         zO/U9nM6DHtdHgjqjhwrNORv8dSGofM/snJhNwKdIe6sMvDT3JMYeuz/HBS/Hbt6Eb0X
+         KeFX+/Ut7mmU4izidyO97MJjEqIpR/GHWyArJGcGvHWAGqv/EdEUOIqAp/ssjqX6U+9g
+         fYQXifEB72lKMrOukKTwS88rJkSS/+XlKblWvt8Fi5Mc73E9Ugb1pyw1f0Kl7202X+d5
+         MmP7q9mB5mdzv1oN2HqeFHwgorzrkfeIAj72byL5z9MJBn79WkSOUQB3+etVPqHBq0U7
+         UfZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706648369; x=1707253169;
+        d=1e100.net; s=20230601; t=1706648853; x=1707253653;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hKNIC3ubOL8awV14Yi8/zq+d4Qi6blzxIbGvY3Cd85U=;
-        b=Y7zMivW5j8acvfuPyyQkdY7fUOWR+RwiC8JpuOIH48KZIeNckfU5FwgxH+lu8fISTJ
-         pXcAvwsODxVHNJ8YTtJKKtR38s6SBHyfQLovTCsOxUUaGfdhB3MPvaOlMpta3GtlG6y8
-         0fzjTyypn26wCtMvv05CdNJm7mSJs4nK33KDLfxBLK50Acb28cUXZp0PML7RNSSDCdu8
-         K9Mengs8MJPsqK+utDSvOqSrHo/fsWDNhew1NH3XPtSrthk2z+T5+Vgp1AbUd3yhs6ey
-         EssORyZWxa6lr6v4Wjg2VpQGAFRoD6bWTZnLcTVK26sJq32XTVOkpKiycJLbqA3O8kyz
-         DgRQ==
-X-Gm-Message-State: AOJu0YzEITKvANQyMrVCa2OqVP1VzUd8CAs0/zj1fq3c8STzuPk540Yo
-	6xP/JUp7+PA3Kz465EwzoJQfsAjmvvwYE//9qyDyrMIX6+CCOeMTc4YB+hSJ6nlYilSumDgrXnt
-	og/fl2EeM28DADnp2IIYr0P9WLRg=
-X-Google-Smtp-Source: AGHT+IHnCZxPwY8EE1gl5dA94a/VcMqHZxdwN3MKKOsXVfbb/PXf0EQY0HKq5VesrGEzb4Ge/LB4AqMXlQlSAjC3mkI=
-X-Received: by 2002:a2e:b550:0:b0:2d0:5435:7b11 with SMTP id
- a16-20020a2eb550000000b002d054357b11mr2815357ljn.52.1706648368382; Tue, 30
- Jan 2024 12:59:28 -0800 (PST)
+        bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
+        b=iR5BzbC1tBdDSz1blqmnqDsejvQ+Pg95Hp0bfAasGIcL8VPapoIOhdDWudc5bFMhiN
+         iFti6xrJAbFVh1AD0YTddFTeQkoWVBP5mf+cZs2t/VSpHC+l7qNpT8VrKoB540GUNBIq
+         VMr3jrjL6KVbGOVvBeF9d5twwtlCYDSHfCDQo1AooINhpA3PKoJJGzGS78eVYClQvTvP
+         ybiFwGE7ML8EP87dXuM0nVdh+XzHnuybwKMGoYTyxzKfTRn4ogH1vrQO+AhhIXBy7qUJ
+         2E8WJ+UuK/KLbIyfJL0buyIA8DpIVkmq1cwsCwZqCAw2TmD3qbJardUoscITK0A4Qdqt
+         WR5A==
+X-Gm-Message-State: AOJu0Yy0lzWkR9WjsRPfpV8pPuKo/cuqyY9hqfGjCAR2KkOi5FixyPiW
+	+NDGa3XXmzDQGOFghNFlhxIUtBlr81XM7Dmfdkzyfk0eYMU4INg2Si1p4PnBGBN71wgncDR8Jqt
+	4FAfNBGKrB2BtTDdGHzQMzwCuMbQ=
+X-Google-Smtp-Source: AGHT+IG/NNfOBuC+bRUZNf/fg8JPc+cFNXVBFM7r/LlBjJ7UtHGJ+l5lVCXl9+nDwtMNpF1H7F6fRX5NPhXF6OhuZLo=
+X-Received: by 2002:a05:6512:2209:b0:50e:8137:9a13 with SMTP id
+ h9-20020a056512220900b0050e81379a13mr8439646lfu.66.1706648852871; Tue, 30 Jan
+ 2024 13:07:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-3-max@enpas.org>
- <CAEc3jaD9qXp=F6Xfg8bdeC1Hv5pHiKA16SBd=-ac74ibE1ELyw@mail.gmail.com> <cb8290a0-1937-4937-ace5-e2a22a1f6e41@enpas.org>
-In-Reply-To: <cb8290a0-1937-4937-ace5-e2a22a1f6e41@enpas.org>
+References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-8-max@enpas.org>
+ <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com> <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
+In-Reply-To: <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
 From: Roderick Colenbrander <thunderbird2k@gmail.com>
-Date: Tue, 30 Jan 2024 12:59:16 -0800
-Message-ID: <CAEc3jaDp-GRoZs9Pp0XxCeARfPx0xFq5SdNkignGeCu0P2+Fdw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address request
+Date: Tue, 30 Jan 2024 13:07:20 -0800
+Message-ID: <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER controllers
 To: Max Staudt <max@enpas.org>
 Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
@@ -84,53 +84,100 @@ Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@k
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 27, 2024 at 12:51=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
+On Sat, Jan 27, 2024 at 3:16=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
 >
-> On 1/25/24 09:39, Roderick Colenbrander wrote:
-> > On Mon, Jan 15, 2024 at 6:58=E2=80=AFAM Max Staudt <max@enpas.org> wrot=
-e:
-> >>
-> >> Some third-party controllers can't report their MAC address.
-> >>
-> > For what type of devices is this not working? This one example of this
-> > request which is very foundational for a controller working on even
-> > the game console. Are this perhaps USB-only devices? If the case maybe
-> > some kind of error is only needed for USB connections.
+> On 1/25/24 10:03, Roderick Colenbrander wrote:
+> > I'm not familiar with this device, but if it indeed works. Then I'm
+> > okay with it.
 >
-> IIRC I've only seen this quirk with the oddball VID/PID 7545:0104 that my=
- patch 7/7 adds. It is indeed a USB-only controller. I have not tried this =
-device (or any, really) with an actual console, my focus is just on Linux. =
-Admittedly, I'd also like to know what happens on a real PS4 :)
+> Thanks!
 >
-> My intention was to keep the error message and the solution as universal =
-as possible, in case a controller comes along that has both this quirk *and=
-* Bluetooth. It's a bit of an ugly workaround though - if you (or anyone el=
-se) have an idea for a nicer solution, I'd be really glad.
+>
+> I've just tried this patch on real hardware again, and there's a tradeoff=
+ here - it improves the situation for one 7545:0104 controller, and worsens=
+ it for another.
+>
+> Up to you, and if you don't want to think about it, then let's shelve thi=
+s patch :)
+>
+>
+>
+> Details follow, if you're curious.
+>
+>
+> I have two controllers with VID/PID 7545:0104, and they're both very quir=
+ky multi-emulation devices. One is shaped like a PS4 controller, the other =
+like a hybrid between a PS4 and a Switch controller. Since these controller=
+s exhibit all of the USB related quirks in this series, I've kept them as r=
+eproducers. Other controllers that passed through my hands only had a subse=
+t of the quirks.
+>
+> Up until now, both controllers worked with hid-sony as PS3 controllers. W=
+ith this patch, the PS4 controller gains LED support and fine-grained contr=
+ol of the weak rumble motor. The "Switch (?) controller" on the other hand =
+errors out, becomes 0079:181c, and loses the Home key and the accelerometer=
+. This is a user facing change, and the question is how much we really care=
+ about these controllers.
+>
+>
+>
+> More details, if you're still reading:
+>
+>
+> Both are "multi-purpose" controllers, appearing as PS4/PS3/Switch/other c=
+ontrollers in sequence. They advertise themselves as one USB device, and if=
+ there is no driver sending whatever init sequence they expect, they discon=
+nect and try emulating a different controller.
+>
+> The PS4 controller has rumble and an RGB LED, and this patch series impro=
+ves its functionality. It cannot emulate a Switch controller.
+>
+> The Switch (?) controller has no rumble and four multicolour player LEDs,=
+ but it adds Switch compatibility including accelerometer and gyro.
+>
+>
+> For the PS4 mode, which is the first that they try, and which would unify=
+ most functions, they use 7545:0104 instead of cloning a DS4 VID/PID. So I =
+took a guess and found that it works fine with hid-playstation if I add the=
+ VID/PID and the init quirks in patches 2/3/4. Well, to be precise, I've on=
+ly made the DS4 shaped one work in PS4 mode, the Switch controller isn't ha=
+ppy and errors out, see below.
+>
+>
+> On the PS4 controller, this makes the RGB LED work, rumble works, but the=
+ gyro and touchpad don't send HID updates. The touchpad can click though, s=
+o maybe the controller I have has a hardware defect.
+>
+> The Switch (?) controller is where things get weird. It disconnects, even=
+ though it is initialised by hid-playstation, and transitions into a generi=
+c controller with VID/PID 0079:181c. This mode is *not* on the list of emul=
+ations it usually tries. It's as if the "unfinished" PS4 initialisation tra=
+nsitions it into a hidden fifth emulation mode. In this mode, the home key =
+does not send any HID event, and there are no accelerometer updates that hi=
+d-sony would receive in PS3 mode.
+>
+>
+> So, with this patch, the PS4 controller works better on Linux, while the =
+Switch controller works worse. Both were seen as PS3 controllers up until n=
+ow. I see no way to discern them at driver probe time.
+>
+> Any preference on what to do...?
+>
 >
 >
 > Max
 >
 
-I remember on the console side that we support a number of controllers
-including our official model and some licensed controllers. I recall
-them taking some different codepaths and HID reports differently. It
-has been a while, so I don't recall the details. If I remember it
-could be that all of the licensed ones were USB-only (of course there
-are some Bluetooth capable clones).
+Hmpf, euhm euhm I'm not entirely sure what makes sense. From the
+sounds of it are somewhat broken devices (buggy firmwares on them) or
+perhaps one of your controllers (the one with not working touch) is
+perhaps broken.
 
-For this reason I think not all DS4-compatible devices have a MAC
-address or handle this request. (We made some fixes in hid-playstation
-relative to hid-sony, where hid-sony used another less known HID
-report for the MAC address. Now we use the more commonly known one and
-that helped other clone devices).
+Some of the patches like handling report id 0x1 (minimal) won't hurt,
+the LED fixes won't either. It makes it easier to add more devices. I
+wonder if we have fully have enough data.
 
-I'm not sure about the best way to handle this. I have kind of been
-leaning towards doing a vid/pid like check for this case even though I
-really hate it. It could be within dualshock4_get_mac_address as we do
-some other special handling there too (although having the caller of
-dualshock4_get_mac_address do it is an option too, but I think within
-get_mac_address is slightly nicer for now).
+Need to think a bit...
 
-Thanks,
 Roderick
 
