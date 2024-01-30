@@ -1,86 +1,92 @@
-Return-Path: <linux-input+bounces-1558-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1559-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEB7843111
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 00:22:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD684311E
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 00:25:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CFCBB21779
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:22:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52CA7284929
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:25:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFEC54276;
-	Tue, 30 Jan 2024 23:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0628383BA;
+	Tue, 30 Jan 2024 23:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2jmISR5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4slPpyn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5DD7EF06;
-	Tue, 30 Jan 2024 23:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1CF7EF06;
+	Tue, 30 Jan 2024 23:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706656932; cv=none; b=mqE7zmIl4RPCu29wZLFQO6Gjc1cqh+BIlTJqEInlxNtYxMtsMQ1ORExRpwCU+98pmdSKOnBgjMXPwQ9BpUklcMfx7GC056BimQZcJtC0UxnsLKFUi9d0wb4k4VccEBVemjSXVzvfTdrLtrAZ/athyBXxLqWUUlUI4LrAF0nLStE=
+	t=1706657098; cv=none; b=DeV9sxg0gg5l9+3sdu1A/KZ9VVvinqub648LZANQdHj8FGixMGfeOum5d3g/mN0cLzRS/RejMF7NY/le1lZM2+eIFZ0rFcda9A9yQTSWTkP8IjBoGr7WCn653uj06OW1JHgDUd9zBupm2R0+lYI7kOpEPwU6PqbL5/GrkVtQtz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706656932; c=relaxed/simple;
-	bh=kv+e9Cs/2JkPD7PTMh8KOS/xZyRVE/K3NioD86J90SQ=;
+	s=arc-20240116; t=1706657098; c=relaxed/simple;
+	bh=h+fiOBcSHUoUZfnJbyVjeSVHt9iH3RGtwKjNjMY5Flk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aP6hGUSz6bgeSgGKl6MqNKKQPfHEXMSXbOGj/cHmBi/5vuk84qm0Sbln3o9521dxzlxvpTsATU13ZRCJlR/7pVtQJLxozt0OKuJo/mEF9VJGT22/JWtTbo2tYh6iL1GlTjK81RA59I9vrePTN2D1FYv2mv60ot+jKpRNNqJT+fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V2jmISR5; arc=none smtp.client-ip=209.85.166.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=uF3aRtEXWnL1Sg4z/5OYYL2nG2iPD0v/Urrlb2HzlvlRqa15nIq7Ra2P/3EvSF+zxxbEAZTibKLXaij5eTc67mKWdIBuL8+tzi2/mR9Zw9yoXuNdauypwYe2F5pb9FbhjDZQU68e3xiM8GG0CJQOa+mA00G35l2fI6pLd5Dca2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4slPpyn; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3637f958e9dso5939595ab.1;
-        Tue, 30 Jan 2024 15:22:10 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d71cb97937so26742845ad.3;
+        Tue, 30 Jan 2024 15:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706656930; x=1707261730; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706657096; x=1707261896; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sEYhELlxY9RsXySQ9haft7PmND+A/JY4VFg9NvdfEZ8=;
-        b=V2jmISR58XyjnxAMPZTPCSMBj2bFFStmrabttbyOnnMkq4grnGsspogP37DnxBf/Yh
-         058eTGjEW7mu51KmKV8Jo8t7V0QOHvpzbwadAcpKs47hJReHGSvXdJh3bKczETkQV1cX
-         xJ0gpaJs80lCaUNcRwQGnkk7iV3/cwbvzMzpQO60nRsmjRKCrU4yQ2TZPNOMLYuwHjba
-         BRDjA7eJfDy4k5XLtH9ksrwhcCxsfi7i45LaKsGGEp7X0SieRVA0XyqQ1jCBHYCg0OSE
-         Z4+b9l7zzfI9w9f2Kqs6WQ6qWE2SRorvYMpptxwqPMmdFEXelDuLrWKcV63sQGxmynyg
-         ZA+w==
+        bh=9PYmS+wAfBRPLW1A4cOHciujMu9QywnUJYSefvoV7DU=;
+        b=V4slPpynY/Yzibvci7o9ESqUA3ug3rClggUg1+BrMNtc/tQm0cGBTYZICKLI3oA6ec
+         kKhZstKwsdEsjtlzISsd0dLYZJgc1RHAqC0dAxquWkY//k73gxcMmtGZ+VlCU7ZMYE2E
+         CyLviu6SwkMXSDRl6ouvIadF0aifEOQisyMZM/StTXzi6w30SZTGy0+UhaA+XCWzfbiv
+         PTJx488Q42ecKDFDD/mcFqW9ofVE8pEAH4dvKjGxs2jzX4yjEzNs4CUBqNxKDAzG9pQ5
+         EC+O1xA/D0ZCHlxYajxGMwSIw9/kDDIt2EVeWVKuAjKpYSO7G70m+TQ2hD8utNRa6JY+
+         1qdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706656930; x=1707261730;
+        d=1e100.net; s=20230601; t=1706657096; x=1707261896;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sEYhELlxY9RsXySQ9haft7PmND+A/JY4VFg9NvdfEZ8=;
-        b=K/CCu0/lBTsuSlGXbXO5iiMh9NZv9gGLv/sbWFPwqcxlKGVTF1tBA4KBKJb28NUNH5
-         D56aXsBXlJ7ambUaoGpakaN8acJ1n/Wq0FzembNddLEx8wJBxGDpSbmsJhVDxgUGmhmh
-         eRsaumGHjXr7vEppSVgO61SEMOP7GaGSOqUhjSu69WmXYAcc0yHLY/ebaDW1ieiigdhd
-         1pqWDKUXXskqXDVrFNhtgmA3DLF4J7bRyUokK20hlZSJfCZ8Qz/mxDiuL/OuM6NPeqHL
-         g6VIv4E9ugzOaLQdGMZSwH3rSCc+LyiPBoQTCqLRNPcRZqo8TQ0n6QdtZ0vraqi19H+r
-         GA0g==
-X-Gm-Message-State: AOJu0YzRMsfRDH2rcfFe0z4SFt/SPoWu1fdbY60cJtbcHK/zuXQpf/Ry
-	pBlZ1i44iXhq2qOy46CgtImrdXwxPmGWa3PT0qb4CPLNhdQF9CvK
-X-Google-Smtp-Source: AGHT+IHHlT1De7ZNKLWcKB3LNAdis9rHuBmeNy7AumhkIETFmTaOgTEA8gWxiebRB2SKhhiN4LIBXg==
-X-Received: by 2002:a05:6e02:685:b0:363:8353:324b with SMTP id o5-20020a056e02068500b003638353324bmr77262ils.1.1706656929914;
-        Tue, 30 Jan 2024 15:22:09 -0800 (PST)
+        bh=9PYmS+wAfBRPLW1A4cOHciujMu9QywnUJYSefvoV7DU=;
+        b=A0OYEfLoQA7rr0grx+tVxT0mENNa2scPF6rO+edVrzXw0Qus4EOgqb/L5MuyQRZg21
+         wZx1bCICwv6CE835RlFuZPkNjy6J8LCws6Zevq5fxYMuVK7Ujy5ui4o4YLzXAzFyTVlK
+         pod81mEM7NiOtZiGr+Z76VP/o9zlWgUvk/TOfxTVovBUEuKBwpQrekbii2UdjzWBy7gO
+         YgRiMr5d7aHdA1KP2+Wod1JjKvY/5KjQiT07rFwzR+wmG3q6kmXPa3LI9YEXOXmgYjlY
+         Zl+INHtP/Ckxv8ERQAjRcndvDwyln2chr3PDS7ZZuMbMlqQOm39+TmD1U9uVHeUGusDQ
+         v8Ag==
+X-Gm-Message-State: AOJu0YwmOaa8mcQxVR14tUsqfONaA4rbcLawjXPWz9JK/UIrWwR6bkqN
+	lHjuLTo9VwTjq5a34t30dbTL12cnIs4CpC1Z7kIklcCIxAdGmHExLFgDaA2J
+X-Google-Smtp-Source: AGHT+IG+ase8x0aSn5hJbirv65Ls60h0K3hk876L9tuikWYYNLdWD3EJsc0bskHtGlybvVWBNt1UKg==
+X-Received: by 2002:a17:902:64c8:b0:1d7:75a0:3c86 with SMTP id y8-20020a17090264c800b001d775a03c86mr64811pli.66.1706657096379;
+        Tue, 30 Jan 2024 15:24:56 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:955e:133f:54ba:f642])
-        by smtp.gmail.com with ESMTPSA id n28-20020a635c5c000000b005cfba3c84b7sm7924472pgm.81.2024.01.30.15.22.08
+        by smtp.gmail.com with ESMTPSA id u17-20020a170902a61100b001d6f8b31ddcsm7750316plq.3.2024.01.30.15.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 15:22:09 -0800 (PST)
-Date: Tue, 30 Jan 2024 15:22:06 -0800
+        Tue, 30 Jan 2024 15:24:56 -0800 (PST)
+Date: Tue, 30 Jan 2024 15:24:53 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+To: POPESCU Catalin <catalin.popescu@leica-geosystems.com>
+Cc: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	Hans de Goede <hdegoede@redhat.com>,
 	Henrik Rydberg <rydberg@bitmath.org>,
-	Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v15 0/4] Input: add initial support for Goodix Berlin
- touchscreen IC
-Message-ID: <ZbmEnhIoJzC__4no@google.com>
-References: <20240129-topic-goodix-berlin-upstream-initial-v15-0-6f7d096c0a0a@linaro.org>
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"mark.satterthwaite@touchnetix.com" <mark.satterthwaite@touchnetix.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
+Subject: Re: [PATCH v6 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <ZbmFRTW4IsfYT5hc@google.com>
+References: <20240125165823.996910-1-kamel.bouhara@bootlin.com>
+ <20240125165823.996910-4-kamel.bouhara@bootlin.com>
+ <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,34 +95,30 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129-topic-goodix-berlin-upstream-initial-v15-0-6f7d096c0a0a@linaro.org>
+In-Reply-To: <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
 
-On Mon, Jan 29, 2024 at 10:16:34AM +0100, Neil Armstrong wrote:
-> These touchscreen ICs support SPI, I2C and I3C interface, up to
-> 10 finger touch, stylus and gestures events.
-> 
-> This initial driver is derived from the Goodix goodix_ts_berlin
-> available at [1] and [2] and only supports the GT9916 IC
-> present on the Qualcomm SM8550/SM8650 MTP & QRD touch panel.
-> 
-> The current implementation only supports BerlinD, aka GT9916.
-> 
-> Support for advanced features like:
-> - Firmware & config update
-> - Stylus events
-> - Gestures events
-> - Previous revisions support (BerlinA or BerlinB)
-> is not included in current version.
-> 
-> The current support will work with currently flashed firmware
-> and config, and bail out if firmware or config aren't flashed yet.
-> 
-> [1] https://github.com/goodix/goodix_ts_berlin
-> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Tue, Jan 30, 2024 at 05:32:54PM +0000, POPESCU Catalin wrote:
+> On 25.01.24 17:58, Kamel Bouhara wrote:
 
-Applied the lot, thank you.
+> > +               u16 offset = (usage_id * AXIOM_U31_BYTES_PER_USAGE);
+> > +               u8 id = rx_data[offset + 0];
+> > +               u8 start_page = rx_data[offset + 1];
+> > +               u8 num_pages = rx_data[offset + 2];
+> > +               u32 max_offset = ((rx_data[offset + 3] & AXIOM_PAGE_OFFSET_MASK) + 1) * 2;
+> > +
+> > +               if (!num_pages)
+> > +                       usage_table[id].is_report = true;
+> please add an else statement to set is_report to false.
+
+Better written as:
+
+		usage_table[id].is_report = num_pages == 0;
+
+or
+
+		usage_table[id].is_report = !num_pages;
+
+Thanks.
 
 -- 
 Dmitry
