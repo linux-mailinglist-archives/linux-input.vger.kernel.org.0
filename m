@@ -1,130 +1,155 @@
-Return-Path: <linux-input+bounces-1556-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1557-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22A8842FBB
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:32:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E30384310A
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 00:19:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E4DE283A25
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 22:32:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53CF91C209FF
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74A9554276;
-	Tue, 30 Jan 2024 22:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240E47EF1F;
+	Tue, 30 Jan 2024 23:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oz8t5h00"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eUlHjAae"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0694B7866A;
-	Tue, 30 Jan 2024 22:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0A77EEF0
+	for <linux-input@vger.kernel.org>; Tue, 30 Jan 2024 23:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706653947; cv=none; b=tuaWgHXkMyGfM15cTNI5etd55ahqZwpanh09YdnORkdyLeoHHcOgqMGcKm/1xi1MMTMTO9CIP3XFW1N1DGEjYmumjaZ5G+2OASVGgLoIccpeRFuzFwvJBtf4NC/IQTAGzGOnx6sEKuq66OdbBq3nA3gOVDUbFWKKjIOLE5bok5U=
+	t=1706656751; cv=none; b=A7clKDk+RxGUcqbMMRzDfZRo6Q8dw7DTo43Pk3nquCw8KiyRHHWLUdLbahTjjQTqy6rNW03T45jHdJ0EWhkEjgQXS8BaEMxY5i2yfA4+cqjKNe06nXmEXAe8HEK/OMtFgII77oqOl0Qs60X182dAWXoHrjfpXuhRF7YjmWDu22c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706653947; c=relaxed/simple;
-	bh=3JIOZ13F04bYjY3n9eEAQmLaX0QN3tAJ0w2x2SGciug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AD0CP45YP/Zn7IXLbxVZhZFupO017gtekVghcV6i18feiJTU1eiVbS04n54sd1vYHgMAH5C8PBbFfoB7VSDchhm1r4SZNBfyyJLuRJcxR1hz3EW/V8fyeY9FfnXfYFVPtAXW3PDIFUprTiXkAZezod2H7FLUUy5kfT0DkO1NWmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oz8t5h00; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d7431e702dso31969295ad.1;
-        Tue, 30 Jan 2024 14:32:25 -0800 (PST)
+	s=arc-20240116; t=1706656751; c=relaxed/simple;
+	bh=Ne2zymPGwgNLZ0fzTsCHLLHHtmVdegrwUkI1VwreITE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=YHF2u05H2kbroHcmmumovEVrdy7TvQD1M+e7Pj1kYlKKn838cYjakLGtCSlklFRsqNkZbuQznsQYJH0SUHNm6MPku96T9VzFvxIeMZqqU0z+aYqtK799rCrequqwsTLyAtsIWFnGM8ocVzYfYyrw8S1AJpEjQMjiaPKkN8nG9mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=appsforartists-gmr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eUlHjAae; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=appsforartists-gmr.bounces.google.com
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-6dd65194396so307894b3a.0
+        for <linux-input@vger.kernel.org>; Tue, 30 Jan 2024 15:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706653945; x=1707258745; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JAB2kkVVtLto1O0phcXvL9Nli468Klpnx1Dh/SQOK10=;
-        b=Oz8t5h00Y2wRqYqLs9BcaZtAPAwhbWzL0Lmwk/flPJpaAo7tk905wOwi3ht1tAKKpC
-         vN78l+kRVeWHm3+ieCyMNxe0JCMd5MKKabcNrW6R4FDXPd10Kv2+g+pTLL5NADOEAEPl
-         sDz8OmovObfxqVdcAQfeblSiHKQr/+lBUgEhsgdb3IIEHl4BsuNTb2PxVV7WRI0QiXYO
-         K60cGfH/fto+jfTx4Av+Zlsb699SFiWM6d/Kd/bb1sVzJ7/3uRASQLTbSafAyZ30tqM3
-         pMciXNPdElA7QybUDpYJpLI1HBPC9Aauir/I/trBLBqLiWfBLz+oNs9GIdonFbeajl1T
-         f+cw==
+        d=google.com; s=20230601; t=1706656749; x=1707261549; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ZHtWLch8osUf7MuEnzR3SfbD3ic98HmCKlCawxZtIo=;
+        b=eUlHjAaeEBtIFR9nvF84wrbDWAubQFTi31gGs0RkbpMXaZrpn9HRUnQL5eS49iPjdu
+         EsdtJbG39sFzVkeeWo9JPBxvBoavZf/EoFebtlpEcY+axxf7hM8z42cOPM79NhG+ugJD
+         ol9psMQGHatd5TMXQBi1QfV+chc8Y4FXBPk+CJQnQuyMnb4n1hVXk++NLzU7kohElMri
+         pwx116sO5SynQwNAJyNH5HV4M8yqf4p9sMM6f/NYthUEUbHIEwpTQr0V+y2nh4mkGfMX
+         UQHB/4Ed+8OJSOq293Nt+o2xculEdIH5uGEU/fVm/1brvDJetf/rDixFycM/UH28Ujl1
+         B2Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706653945; x=1707258745;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JAB2kkVVtLto1O0phcXvL9Nli468Klpnx1Dh/SQOK10=;
-        b=J+byJbLwybIjW3SUzuPQIxxn55K3BpAPWM9vnXGpp4ZySn61XD7XHOTZjWFWFSKYcp
-         U5Lht01dB9KuHW6FX7Va8LT/tBAHoyR4SgFjuRYmQYFjn+kfmGBF23dGG3If4SUtmoZ0
-         RUy6aIJuRJzOjCb3YdSFjR2FOMpghP2RfCKWRibuMWvVoeCbO5YxNiv5ZcQ6iCoISjS/
-         msb5el3492bxqAbPk16w5olEGzuBRMvTGTN3eCFzOv8NC7UbGWgFOmZaJ4sRt0gVz5BS
-         uUfl0yW4H5cY20/jKyyMZ+999R8+xPpowqAXEJugBmuMdsG5n94ytMKeSHgHSHiMNkWF
-         yKeQ==
-X-Gm-Message-State: AOJu0Yyhb6ahA8RHBtuInN/+RJ6dcTOZsxfppP7K5DR3uM1x1sdugg8l
-	FQqXbfJou7fenBBh+1+DULdPKZHuGd03PcwsFQ7sbI4acPAU0no/rYf8uq/2
-X-Google-Smtp-Source: AGHT+IHio4lYEpw285b/K45D5Mn4X9d6W7i0wVkxRpjiduy2r9GWUlbCG6xz5wBKi+9NE3XwhImWjQ==
-X-Received: by 2002:a17:903:2301:b0:1d8:f827:d9d2 with SMTP id d1-20020a170903230100b001d8f827d9d2mr4889287plh.23.1706653944935;
-        Tue, 30 Jan 2024 14:32:24 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:955e:133f:54ba:f642])
-        by smtp.gmail.com with ESMTPSA id x15-20020a1709027c0f00b001d717e644e2sm7647661pll.247.2024.01.30.14.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 14:32:24 -0800 (PST)
-Date: Tue, 30 Jan 2024 14:32:21 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Brenton Simpson <appsforartists@google.com>
-Cc: Vicki Pfau <vi@endrift.com>, Hans de Goede <hdegoede@redhat.com>,
-	Cameron Gutman <aicommander@gmail.com>,
-	Erica Taylor <rickytaylor26@gmail.com>,
-	Ismael Ferreras Morezuelas <swyterzone@gmail.com>,
-	Jonathan Frederick <doublej472@gmail.com>,
-	Matthias Benkmann <matthias.benkmann@gmail.com>,
-	Matthias Berndt <matthias_berndt@gmx.de>, nate@yocom.org,
-	Sam Lantinga <slouken@libsdl.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, trivial@kernel.org
-Subject: Re: [PATCH] Input: xpad - add Lenovo Legion Go controllers
-Message-ID: <Zbl49VAMZx2qrz-p@google.com>
-References: <CAAL3-=88exVfuL1Y-kvPNbsU+d-UTfDLFViWVObFLtbC4xueeA@mail.gmail.com>
- <20240118183546.418064-1-appsforartists@google.com>
- <da6f1483-1ae2-40b5-9c1e-684321e12288@endrift.com>
- <CAAL3-=-RRWyCbq_B=Lh7tnG2i3MOLL+2bqPOUS54oTC4+vVk_g@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1706656749; x=1707261549;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ZHtWLch8osUf7MuEnzR3SfbD3ic98HmCKlCawxZtIo=;
+        b=B4MZeWKAQSOTDvLjz+N0S8E7ueAES2mbOE9oHIPuEns7h8AQrSAFV+Er29PAl3J4Kc
+         OOqkPgF30/kZH72RNU2hWW9nhkGjqfuMeGC470PbB7ckjDLCyWIqlnn7JEjjXMAQbBms
+         kJ2KiruFgiEwKvMYg6Xqj9fkjHIX2CZTnagihUU/cwK3iNGbbY0hvsOtWe3B3drEUFce
+         9BUC1jkqfXU9/WQ34il7KGVeui96K525CwnjaatqMbdiY06L9b8956VtByQW6ekjFUgQ
+         09ZsAzGE8DP9WZJDBxSqAOyOIhpWYqLtK+Trmf1i9m8YP6KCLfAXjk+1XmgehCN0Anz/
+         ahzA==
+X-Gm-Message-State: AOJu0Yxb6wQBaHE5zU9Soc0nhREWZEhKT5uKSZowZgx0vrjLdVhs3IhX
+	MurrkrJVuwk54wEEHj+soAz5gTuEe79aN/q/+FfFlmX5WVQpqil8wXNTbpsFClaw8csZ+hMqwL/
+	CwkjM+t6pMIzB9noNiGM7B3melQ==
+X-Google-Smtp-Source: AGHT+IHtZT1kC3UUcmYNw2JPqG5HMaXcBB4Q0lXZDdBLkQmSTDLHyDwKshMTqz2mJkunN3phkuL0+B5wXSbWjjTX+gE=
+X-Received: by 2002:aa7:9ec8:0:b0:6de:1b47:8887 with SMTP id
+ r8-20020aa79ec8000000b006de1b478887mr120189pfq.1.1706656748602; Tue, 30 Jan
+ 2024 15:19:08 -0800 (PST)
+Date: Tue, 30 Jan 2024 23:19:03 +0000
+In-Reply-To: <Zbl49VAMZx2qrz-p@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAL3-=-RRWyCbq_B=Lh7tnG2i3MOLL+2bqPOUS54oTC4+vVk_g@mail.gmail.com>
+Mime-Version: 1.0
+References: <Zbl49VAMZx2qrz-p@google.com>
+X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
+Message-ID: <20240130231903.293265-1-appsforartists@google.com>
+Subject: [PATCH] Input: xpad - sort xpad_device by vendor and product ID
+From: Brenton Simpson <appsforartists@google.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Hans de Goede <hdegoede@redhat.com>
+Cc: Cameron Gutman <aicommander@gmail.com>, Erica Taylor <rickytaylor26@gmail.com>, 
+	Ismael Ferreras Morezuelas <swyterzone@gmail.com>, Jonathan Frederick <doublej472@gmail.com>, 
+	Matthias Benkmann <matthias.benkmann@gmail.com>, Matthias Berndt <matthias_berndt@gmx.de>, nate@yocom.org, 
+	Sam Lantinga <slouken@libsdl.org>, Vicki Pfau <vi@endrift.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, trivial@kernel.org, 
+	Brenton Simpson <appsforartists@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Brenton,
+Signed-off-by: Brenton Simpson <appsforartists@google.com>
+---
+ drivers/input/joystick/xpad.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-On Fri, Jan 19, 2024 at 12:22:45AM -0800, Brenton Simpson wrote:
-> Thanks Vicki.  I didn't realize they were meant to be sorted.
-
-Please try avoid top posting.
-
-> 
-> Would it be appropriate to add comments explaining the sorting?  The
-> second stanza, in particular, is sorted by the IDs rather than
-> lexicographically.  If someone sorted it naively, they'd end up with a
-> bigger diff than expected.
-
-Yes, we usually sort by VID/PID rather than the name of the device.
-
-> 
-> It looks like a few others have escaped sorting; for instance,
-> "Microsoft X-Box One Elite 2 pad" appears in the wrong place.
-
-Yep, sometimes we mess up.
-
-> 
-> If Dmitry wants to land this and then follow on with a sort + comment
-> commit (or do that first and then rebase this on top), that would be
-> great.  I can take a stab too if that's helpful.
-
-I applied the patch (moving the entires to the right place). If someone
-would send a patch fixing the Elite 2 entry and noting the sorting rules
-I'd be happy to apply it.
-
-Thanks.
-
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 7c4b2a5cc1b5..c67f3d65192d 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -127,6 +127,7 @@ static const struct xpad_device {
+ 	u8 mapping;
+ 	u8 xtype;
+ } xpad_device[] = {
++	/* Please keep this list sorted by vendor and product ID. */
+ 	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
+@@ -147,9 +148,9 @@ static const struct xpad_device {
+ 	{ 0x045e, 0x02d1, "Microsoft X-Box One pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x02dd, "Microsoft X-Box One pad (Firmware 2015)", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", MAP_PADDLES, XTYPE_XBOXONE },
+-	{ 0x045e, 0x0b00, "Microsoft X-Box One Elite 2 pad", MAP_PADDLES, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
++	{ 0x045e, 0x0b00, "Microsoft X-Box One Elite 2 pad", MAP_PADDLES, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0b0a, "Microsoft X-Box Adaptive Controller", MAP_PROFILE_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x045e, 0x0b12, "Microsoft Xbox Series S|X Controller", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+ 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+@@ -335,7 +336,6 @@ static const struct xpad_device {
+ 	{ 0x20d6, 0x2001, "BDA Xbox Series X Wired Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x2009, "PowerA Enhanced Wired Controller for Xbox Series X|S", 0, XTYPE_XBOXONE },
+ 	{ 0x20d6, 0x281f, "PowerA Wired Controller For Xbox 360", 0, XTYPE_XBOX360 },
+-	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x5000, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5300, "PowerA MINI PROEX Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5303, "Xbox Airflo wired controller", 0, XTYPE_XBOX360 },
+@@ -350,9 +350,9 @@ static const struct xpad_device {
+ 	{ 0x24c6, 0x5502, "Hori Fighting Stick VX Alt", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5503, "Hori Fighting Edge", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5506, "Hori SOULCALIBUR V Stick", 0, XTYPE_XBOX360 },
+-	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x550d, "Hori GEM Xbox controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x550e, "Hori Real Arcade Pro V Kai 360", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
++	{ 0x24c6, 0x5510, "Hori Fighting Commander ONE (Xbox 360/PC Mode)", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x551a, "PowerA FUSION Pro Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x561a, "PowerA FUSION Controller", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x5b00, "ThrustMaster Ferrari 458 Racing Wheel", 0, XTYPE_XBOX360 },
+@@ -363,6 +363,7 @@ static const struct xpad_device {
+ 	{ 0x2563, 0x058d, "OneXPlayer Gamepad", 0, XTYPE_XBOX360 },
+ 	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x3106, "8BitDo Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
++	{ 0x2e24, 0x0652, "Hyperkin Duke X-Box One pad", 0, XTYPE_XBOXONE },
+ 	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1200, "Wooting Two", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1210, "Wooting Lekker", 0, XTYPE_XBOX360 },
+@@ -460,6 +461,9 @@ static const signed short xpad_btn_paddles[] = {
+ 	{ XPAD_XBOXONE_VENDOR_PROTOCOL((vend), 208) }
+ 
+ static const struct usb_device_id xpad_table[] = {
++	/* Please keep this list sorted by vendor ID.  Because the lines use different
++	 * macros, you may need to sort it by hand.
++	 */
+ 	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
+ 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
+ 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
 -- 
-Dmitry
+2.43.0.429.g432eaa2c6b-goog
+
 
