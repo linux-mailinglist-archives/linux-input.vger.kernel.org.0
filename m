@@ -1,183 +1,207 @@
-Return-Path: <linux-input+bounces-1553-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1554-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E1B842E78
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 22:08:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1914D842F6B
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:11:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 717A82886A7
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 21:08:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2ABA91C2061D
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 22:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F363A762FA;
-	Tue, 30 Jan 2024 21:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AC297D3FD;
+	Tue, 30 Jan 2024 22:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lj/C+z8i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ebptkNaT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20570762EC;
-	Tue, 30 Jan 2024 21:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2415A7D3FE;
+	Tue, 30 Jan 2024 22:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706648856; cv=none; b=mhtFxnWOhOXGbZLndI1pHRoQNxeoyDcnmITHNz1mRziPlljFCTcGXjz9o8hMt15mqDgi2/dvEwvcvhcleifeWcP8IC1eC4wG63nUGhWWwvRiNOZWuTfUMZGskuVD6pgBhIc7CP5TeLX1WTM+MeVZEpNM8Kt7ZL1mck4DkJnL1fg=
+	t=1706652675; cv=none; b=JhWF83+QNv+8UIB+FSEd7v70WE8Fs8nGLKl6Uq9Ovqin3hdNO3/DXduwoDi6/C3F+GOjXgZc5ytpOUYZCr3/M909jcvMJuO/r7PiwbMsXMe+/lycqMcCN1MWtxSNJWDYrjMjMB4Lcpbjp6gkrc6H/gV9nM2g7sKSNm33MYSAIK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706648856; c=relaxed/simple;
-	bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WSRjo0cvF+TDlwKg/wA0K752vCYOISgLoEF3xHh86+2xGLdi3eIhUIyCRMjoyBgvJsYqTn0Okkcl6CCi2NImGPipqxLvwlLmhFgRj9TfI+y8nvF0IapIS99S0WISy6YJGmFf6XGbVof5bUM+R5gO3sAP8qoEpb81r9N546QOXSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lj/C+z8i; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1706652675; c=relaxed/simple;
+	bh=oSqyi3mVU7QS7x2jYdyUrY+3NHGEMVnwrT6hR/v/aRM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KUocElNqwB1hBlwt8h247DGtd8gINspLjxgeEIRtfHhbnbZR53nlItbIz8HwFa+VP4jR812XXllk+z9M5dp7lBho0nbHUI3TpVqL0qk/kOAuZzZHzgsai0CPnHf/OJrfLuEBD+G2X5dHVdZkRkGuAD75R8KBKudWyYRO3xogF9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ebptkNaT; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5100ed2b33dso7419171e87.0;
-        Tue, 30 Jan 2024 13:07:34 -0800 (PST)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a3604697d63so266956166b.3;
+        Tue, 30 Jan 2024 14:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706648853; x=1707253653; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
-        b=Lj/C+z8ipP0Z5sHpVrcQ44vlYYPQujAR1CeKCtvMhmkM26qPFGHZze3szBHNmc2+z+
-         zO/U9nM6DHtdHgjqjhwrNORv8dSGofM/snJhNwKdIe6sMvDT3JMYeuz/HBS/Hbt6Eb0X
-         KeFX+/Ut7mmU4izidyO97MJjEqIpR/GHWyArJGcGvHWAGqv/EdEUOIqAp/ssjqX6U+9g
-         fYQXifEB72lKMrOukKTwS88rJkSS/+XlKblWvt8Fi5Mc73E9Ugb1pyw1f0Kl7202X+d5
-         MmP7q9mB5mdzv1oN2HqeFHwgorzrkfeIAj72byL5z9MJBn79WkSOUQB3+etVPqHBq0U7
-         UfZw==
+        d=gmail.com; s=20230601; t=1706652672; x=1707257472; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QUnCuHfqCBV79IBZ5Lp4urGXCgccRoBnaSQQzC74PU0=;
+        b=ebptkNaTzp77P8bhvkYxqqGDkvMqiBm1SUIJR420iwl1U7qXN/qKFNVwATUo2nVk11
+         +UPX0ldO4EKkmGEALcsCh8IPi6Y3+ECBcUZqEtpSWArB+vtJASyw15OwzMVyxT6lp+zt
+         3PuwkxDboFJ2whEld6pJ1MK++HiuoPJY09DHArodFAi8TwtTCCL3Njj3QyO23w+FDuhq
+         ZUxxy0Tm/H6Tki91LpAz9ohjvJTjbpiaPET1FvqrL8znqeo/jqch83+fZhygcCvz3LXS
+         z3uAN1zRU3mrha+bPxM9ajzwpC6PAuUiyuLP0tQMLFFeRgagpe51lO1NcvWUU0FRn2La
+         PV3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706648853; x=1707253653;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mdhg44Qjztr1CKpivR9/YQvJuZ4oCAobol6ImAw4F00=;
-        b=iR5BzbC1tBdDSz1blqmnqDsejvQ+Pg95Hp0bfAasGIcL8VPapoIOhdDWudc5bFMhiN
-         iFti6xrJAbFVh1AD0YTddFTeQkoWVBP5mf+cZs2t/VSpHC+l7qNpT8VrKoB540GUNBIq
-         VMr3jrjL6KVbGOVvBeF9d5twwtlCYDSHfCDQo1AooINhpA3PKoJJGzGS78eVYClQvTvP
-         ybiFwGE7ML8EP87dXuM0nVdh+XzHnuybwKMGoYTyxzKfTRn4ogH1vrQO+AhhIXBy7qUJ
-         2E8WJ+UuK/KLbIyfJL0buyIA8DpIVkmq1cwsCwZqCAw2TmD3qbJardUoscITK0A4Qdqt
-         WR5A==
-X-Gm-Message-State: AOJu0Yy0lzWkR9WjsRPfpV8pPuKo/cuqyY9hqfGjCAR2KkOi5FixyPiW
-	+NDGa3XXmzDQGOFghNFlhxIUtBlr81XM7Dmfdkzyfk0eYMU4INg2Si1p4PnBGBN71wgncDR8Jqt
-	4FAfNBGKrB2BtTDdGHzQMzwCuMbQ=
-X-Google-Smtp-Source: AGHT+IG/NNfOBuC+bRUZNf/fg8JPc+cFNXVBFM7r/LlBjJ7UtHGJ+l5lVCXl9+nDwtMNpF1H7F6fRX5NPhXF6OhuZLo=
-X-Received: by 2002:a05:6512:2209:b0:50e:8137:9a13 with SMTP id
- h9-20020a056512220900b0050e81379a13mr8439646lfu.66.1706648852871; Tue, 30 Jan
- 2024 13:07:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706652672; x=1707257472;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QUnCuHfqCBV79IBZ5Lp4urGXCgccRoBnaSQQzC74PU0=;
+        b=ryaaHFX7bHH2xkb0wUC3pBtN5aflggJWY/+lNq6P8FT6F6XTe7WmemaUfbiaDs9Jq5
+         NFThHnjYT7OxpKAboZPr2cCAhoAy5Ulc+Bag3aRxxj0CFIWKcsy2yNjwxVMnX5bVFu3n
+         THYR8M3iLUGKU+9F3/opgmd/W+6a6QJjWDaPsn/rpVupbFYziWKiNdKucXmG04SDqlxO
+         MGOq9ARt2RE+irDlPyWHA5CNy3Lfu9+lqaIc7o4kCTlE7Mao6SxIa/18RDdOZNpAAHyd
+         RR+cMk8DCb0hb7xYHj06/4WksplLXk/4/VhoyYp1dp2FXXkG7yT3arIOQc3yh174drx5
+         fR4Q==
+X-Gm-Message-State: AOJu0Yw574BMokV9zO/MbgYPhGe6uHVOa/hniSGpP35dD4nmC0L3SCjp
+	jwQTSZAYOnGgEWZNDIDHbqRrssjRMm4IXWbiL8G9bL4XDyjGKhlrBGy5HAHF+nYvig==
+X-Google-Smtp-Source: AGHT+IFwBEq2SN1TkzJhORjzTidgitEvGlR+ee3NWHMI5YMKUAgWABFG0sQru6oK7k3oWKV61P4n3g==
+X-Received: by 2002:a17:906:6712:b0:a35:2f7a:385b with SMTP id a18-20020a170906671200b00a352f7a385bmr7230560ejp.23.1706652671994;
+        Tue, 30 Jan 2024 14:11:11 -0800 (PST)
+Received: from ?IPV6:2a02:8389:41cf:e200:7400:ff68:7ab4:4169? (2a02-8389-41cf-e200-7400-ff68-7ab4-4169.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:7400:ff68:7ab4:4169])
+        by smtp.gmail.com with ESMTPSA id vu2-20020a170907a64200b00a35a9745910sm2988697ejc.137.2024.01.30.14.11.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 14:11:11 -0800 (PST)
+Message-ID: <7d7382d6-4999-4519-86c5-34f6c175e83f@gmail.com>
+Date: Tue, 30 Jan 2024 23:11:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115144538.12018-1-max@enpas.org> <20240115144538.12018-8-max@enpas.org>
- <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com> <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
-In-Reply-To: <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
-From: Roderick Colenbrander <thunderbird2k@gmail.com>
-Date: Tue, 30 Jan 2024 13:07:20 -0800
-Message-ID: <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
-Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER controllers
-To: Max Staudt <max@enpas.org>
-Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Input: bcm5974 - check endpoint type before starting
+ traffic
+Content-Language: en-US
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ John Horan <knasher@gmail.com>, Henrik Rydberg <rydberg@bitmath.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+References: <20231007-topic-bcm5974_bulk-v3-1-d0f38b9d2935@gmail.com>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <20231007-topic-bcm5974_bulk-v3-1-d0f38b9d2935@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 27, 2024 at 3:16=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
->
-> On 1/25/24 10:03, Roderick Colenbrander wrote:
-> > I'm not familiar with this device, but if it indeed works. Then I'm
-> > okay with it.
->
-> Thanks!
->
->
-> I've just tried this patch on real hardware again, and there's a tradeoff=
- here - it improves the situation for one 7545:0104 controller, and worsens=
- it for another.
->
-> Up to you, and if you don't want to think about it, then let's shelve thi=
-s patch :)
->
->
->
-> Details follow, if you're curious.
->
->
-> I have two controllers with VID/PID 7545:0104, and they're both very quir=
-ky multi-emulation devices. One is shaped like a PS4 controller, the other =
-like a hybrid between a PS4 and a Switch controller. Since these controller=
-s exhibit all of the USB related quirks in this series, I've kept them as r=
-eproducers. Other controllers that passed through my hands only had a subse=
-t of the quirks.
->
-> Up until now, both controllers worked with hid-sony as PS3 controllers. W=
-ith this patch, the PS4 controller gains LED support and fine-grained contr=
-ol of the weak rumble motor. The "Switch (?) controller" on the other hand =
-errors out, becomes 0079:181c, and loses the Home key and the accelerometer=
-. This is a user facing change, and the question is how much we really care=
- about these controllers.
->
->
->
-> More details, if you're still reading:
->
->
-> Both are "multi-purpose" controllers, appearing as PS4/PS3/Switch/other c=
-ontrollers in sequence. They advertise themselves as one USB device, and if=
- there is no driver sending whatever init sequence they expect, they discon=
-nect and try emulating a different controller.
->
-> The PS4 controller has rumble and an RGB LED, and this patch series impro=
-ves its functionality. It cannot emulate a Switch controller.
->
-> The Switch (?) controller has no rumble and four multicolour player LEDs,=
- but it adds Switch compatibility including accelerometer and gyro.
->
->
-> For the PS4 mode, which is the first that they try, and which would unify=
- most functions, they use 7545:0104 instead of cloning a DS4 VID/PID. So I =
-took a guess and found that it works fine with hid-playstation if I add the=
- VID/PID and the init quirks in patches 2/3/4. Well, to be precise, I've on=
-ly made the DS4 shaped one work in PS4 mode, the Switch controller isn't ha=
-ppy and errors out, see below.
->
->
-> On the PS4 controller, this makes the RGB LED work, rumble works, but the=
- gyro and touchpad don't send HID updates. The touchpad can click though, s=
-o maybe the controller I have has a hardware defect.
->
-> The Switch (?) controller is where things get weird. It disconnects, even=
- though it is initialised by hid-playstation, and transitions into a generi=
-c controller with VID/PID 0079:181c. This mode is *not* on the list of emul=
-ations it usually tries. It's as if the "unfinished" PS4 initialisation tra=
-nsitions it into a hidden fifth emulation mode. In this mode, the home key =
-does not send any HID event, and there are no accelerometer updates that hi=
-d-sony would receive in PS3 mode.
->
->
-> So, with this patch, the PS4 controller works better on Linux, while the =
-Switch controller works worse. Both were seen as PS3 controllers up until n=
-ow. I see no way to discern them at driver probe time.
->
-> Any preference on what to do...?
->
->
->
-> Max
->
+On 14.10.23 12:20, Javier Carrasco wrote:
+> syzbot has found a type mismatch between a USB pipe and the transfer
+> endpoint, which is triggered by the bcm5974 driver[1].
+> 
+> This driver expects the device to provide input interrupt endpoints and
+> if that is not the case, the driver registration should terminate.
+> 
+> Repros are available to reproduce this issue with a certain setup for
+> the dummy_hcd, leading to an interrupt/bulk mismatch which is caught in
+> the USB core after calling usb_submit_urb() with the following message:
+> "BOGUS urb xfer, pipe 1 != type 3"
+> 
+> Some other device drivers (like the appletouch driver bcm5974 is mainly
+> based on) provide some checking mechanism to make sure that an IN
+> interrupt endpoint is available. In this particular case the endpoint
+> addresses are provided by a config table, so the checking can be
+> targeted to the provided endpoints.
+> 
+> Add some basic checking to guarantee that the endpoints available match
+> the expected type for both the trackpad and button endpoints.
+> 
+> This issue was only found for the trackpad endpoint, but the checking
+> has been added to the button endpoint as well for the same reasons.
+> 
+> Given that there was never a check for the endpoint type, this bug has
+> been there since the first implementation of the driver (f89bd95c5c94).
+> 
+> [1] https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsyzkaller.appspot.com%2Fbug%3Fextid%3D348331f63b034f89b622&data=05%7C01%7Cjavier.carrasco%40wolfvision.net%7C1880f48b0ac1493b40ff08dbcc9f2ea8%7Ce94ec9da9183471e83b351baa8eb804f%7C1%7C0%7C638328756279240780%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=IOsiHpWoIkog8HHkYIY8Ljh762bPZiqgm5xd5oAbK3s%3D&reserved=0
+> 
+> Fixes: f89bd95c5c94 ("Input: bcm5974 - add driver for Macbook Air and Pro Penryn touchpads")
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> Reported-and-tested-by: syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+> ---
+> Changes in v3:
+> - Use usb_check_int_endpoints() to validate the endpoints.
+> - Link to v2: https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F20231007-topic-bcm5974_bulk-v2-1-021131c83efb%40gmail.com&data=05%7C01%7Cjavier.carrasco%40wolfvision.net%7C1880f48b0ac1493b40ff08dbcc9f2ea8%7Ce94ec9da9183471e83b351baa8eb804f%7C1%7C0%7C638328756279240780%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=vqLE9mUP0ehBIgtI%2F52ONRsF1wOrikc0VVLrp6MMjqQ%3D&reserved=0
+> 
+> Changes in v2:
+> - Keep error = -ENOMEM for the rest of the probe and return -ENODEV if
+>   the endpoint check fails.
+> - Check function returns now bool and was renamed (_is_ for
+>   bool-returning functions).
+> - Link to v1: https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80%40gmail.com&data=05%7C01%7Cjavier.carrasco%40wolfvision.net%7C1880f48b0ac1493b40ff08dbcc9f2ea8%7Ce94ec9da9183471e83b351baa8eb804f%7C1%7C0%7C638328756279240780%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=Qf6kg4M2AvwSEpkwClGPpVdo1PO96WfUfTsiy6z28UI%3D&reserved=0
+> ---
+>  drivers/input/mouse/bcm5974.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
+> index ca150618d32f..953992b458e9 100644
+> --- a/drivers/input/mouse/bcm5974.c
+> +++ b/drivers/input/mouse/bcm5974.c
+> @@ -19,6 +19,7 @@
+>   * Copyright (C) 2006	   Nicolas Boichat (nicolas@boichat.ch)
+>   */
+>  
+> +#include "linux/usb.h"
+>  #include <linux/kernel.h>
+>  #include <linux/errno.h>
+>  #include <linux/slab.h>
+> @@ -193,6 +194,8 @@ enum tp_type {
+>  
+>  /* list of device capability bits */
+>  #define HAS_INTEGRATED_BUTTON	1
+> +/* maximum number of supported endpoints (currently trackpad and button) */
+> +#define MAX_ENDPOINTS	2
+>  
+>  /* trackpad finger data block size */
+>  #define FSIZE_TYPE1		(14 * sizeof(__le16))
+> @@ -891,6 +894,18 @@ static int bcm5974_resume(struct usb_interface *iface)
+>  	return error;
+>  }
+>  
+> +static bool bcm5974_check_endpoints(struct usb_interface *iface,
+> +				    const struct bcm5974_config *cfg)
+> +{
+> +	u8 ep_addr[MAX_ENDPOINTS + 1] = {0};
+> +
+> +	ep_addr[0] = cfg->tp_ep;
+> +	if (cfg->tp_type == TYPE1)
+> +		ep_addr[1] = cfg->bt_ep;
+> +
+> +	return usb_check_int_endpoints(iface, ep_addr);
+> +}
+> +
+>  static int bcm5974_probe(struct usb_interface *iface,
+>  			 const struct usb_device_id *id)
+>  {
+> @@ -903,6 +918,11 @@ static int bcm5974_probe(struct usb_interface *iface,
+>  	/* find the product index */
+>  	cfg = bcm5974_get_config(udev);
+>  
+> +	if (!bcm5974_check_endpoints(iface, cfg)) {
+> +		dev_err(&iface->dev, "Unexpected non-int endpoint\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	/* allocate memory for our device state and initialize it */
+>  	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
+>  	input_dev = input_allocate_device();
+> 
+> ---
+> base-commit: 401644852d0b2a278811de38081be23f74b5bb04
+> change-id: 20231007-topic-bcm5974_bulk-c66b743ba7ba
+> 
+> Best regards,
 
-Hmpf, euhm euhm I'm not entirely sure what makes sense. From the
-sounds of it are somewhat broken devices (buggy firmwares on them) or
-perhaps one of your controllers (the one with not working touch) is
-perhaps broken.
+Gentle reminder: this bug keeps on being found by syzbot and it was
+included in the last monthly input report (Jan 2024):
 
-Some of the patches like handling report id 0x1 (minimal) won't hurt,
-the LED fixes won't either. It makes it easier to add more devices. I
-wonder if we have fully have enough data.
+https://lore.kernel.org/all/0000000000001df937060f20c585@google.com/T/
 
-Need to think a bit...
+Best regards,
+Javier Carrasco
 
-Roderick
+
 
