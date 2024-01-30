@@ -1,93 +1,175 @@
-Return-Path: <linux-input+bounces-1548-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1549-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280C9842B8A
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 19:16:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B99842BDB
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 19:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 897CE28B8A4
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 18:16:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AA10289434
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 18:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679D2157E6F;
-	Tue, 30 Jan 2024 18:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7C478B48;
+	Tue, 30 Jan 2024 18:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tY8zLPKR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IV1A8e7l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371928612D;
-	Tue, 30 Jan 2024 18:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F159578B43
+	for <linux-input@vger.kernel.org>; Tue, 30 Jan 2024 18:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706638601; cv=none; b=doMZmZHgGazXLMm3wGDHdj54VUbcS3weHesVFO3NcRdK5hLAwyD6JXBdbYgK9z5CbX/tczgSXUsXHG4Wy9v5VpvRWk4hCTCkwQKB5MVYbfO7cbIgTpLtzu3CBYCWcCqdza5EQU5sf65Iwf+WDB/HCGme8KEQoFC7HTc0EMqIZHI=
+	t=1706639730; cv=none; b=jVQDWv9BWbb+499aeC9daMrXb1qm2Nna4wIvo9/s5CgJH9xWhP7F20Bv9/3zG7g5OqQ+be7VkFksovqML1JH0LAv/NQWoSLeQLx9NzCI6k7VoUHi0EamReWMBC1Q5JG0zjJwwZg14wXiOo6AFAvD8OQYxmSVEvtYKVi3mUInlIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706638601; c=relaxed/simple;
-	bh=LpEp13sjWndJKXUQDKaQ9fVxVGcPE52nhZRtN4BAINY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgBQDBwaURPU44qi8Vk3A5xyS+USylEZRhM7OgUokzdIN083dKNa+8+uDBN/ydQx9CmqmvHf1lSlpg3hKX2ELXbAvArjKx50EVi9af9EFh8WDwMq5+R5lvUsN/DpnZT0p3SIWPFU5o3YGSNFCkFOh6lAXu0XersKCkQ/QPAdgVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tY8zLPKR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605FEC433C7;
-	Tue, 30 Jan 2024 18:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706638600;
-	bh=LpEp13sjWndJKXUQDKaQ9fVxVGcPE52nhZRtN4BAINY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tY8zLPKRyo//fJtNkz9jfrzfcGT1jNNzldzd336pGMaw7XlDhajnOn+1Qx22JhBN2
-	 FxQsDe6jMoMn/EH13xDvJAbJXIw+BswKS639JVzl4l4vJ8Y4a21FLj4XjDgc2nffQL
-	 fnjeA+3k3nLvk0TgfcndeCCjxA9ziw+2hSUOmdrah3ew68ZANNHu9r2DKzg4sn4sy/
-	 RLiFll6YWMg2z27IYkral5H8hTR4Q7eYeGFh5UaBOLRAmqKJo6ybILa3mFYDAVw05R
-	 nGJSki5K/yghVCy//9jrfd2OabdypbTdor2kSfz3DFmxwLvqNVDSnNKovgDwFdTBTT
-	 ZZzhVEUjmNARQ==
-Date: Tue, 30 Jan 2024 12:16:38 -0600
-From: Rob Herring <robh@kernel.org>
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-Cc: Henrik Rydberg <rydberg@bitmath.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	phone-devel@vger.kernel.org,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] dt-bindings: input/touchscreen: imagis: add
- compatible for IST3032C
-Message-ID: <170663859769.2091769.5804775030839032520.robh@kernel.org>
-References: <20240120191940.3631-1-karelb@gimli.ms.mff.cuni.cz>
- <20240120191940.3631-5-karelb@gimli.ms.mff.cuni.cz>
+	s=arc-20240116; t=1706639730; c=relaxed/simple;
+	bh=L+aLgJvaj3T4etR2vnjdTfpWxiYKCUhJ3FdQIpZAMho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LafzbFM9p6jm7gM+Gzk71uvVVtEsyiEI92zpY9Ta2chTThvW4dLxBqbzYaRPFKDGVWJ6ZXmcx4KsEwTA2JWu9mZzuUa0gWl8ybxLG7dyMZmxGFmoGHtWHFeQB5rq9FmYSF4Bt/CaqZvji0cIWSpbJL3Mouyx8R2Zkarf/SimiLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IV1A8e7l; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706639727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IOdYfwIYC5N4y+doDXlGO/PH5vC47bZ8gY5CXDn+WTw=;
+	b=IV1A8e7lta+V+Fibzja2y2xdYEWsh0PNZ8uayBYlkOUBHDldkZWbyclk4gZLElqEgH7tpn
+	i9He1UAdmG41C4LTijsNqgQrSKxIjo7qcpYP0qp7LEpcGQP569KYmhIsw9BBLdRgy4ssTp
+	Oxtuu4IH8zPzPIxYHI+NfcbAA34ksLg=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-70-_ONADyD6P3q6NKvNhxabKA-1; Tue, 30 Jan 2024 13:35:25 -0500
+X-MC-Unique: _ONADyD6P3q6NKvNhxabKA-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-50e91f9d422so4455008e87.2
+        for <linux-input@vger.kernel.org>; Tue, 30 Jan 2024 10:35:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706639724; x=1707244524;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IOdYfwIYC5N4y+doDXlGO/PH5vC47bZ8gY5CXDn+WTw=;
+        b=CMx2TcgcNdx4skIEW0M4WS9Ga+FsCEnfs1vP2Ka2ezSAku83fLHc9qaC0DrXHu/K8z
+         kNC+Hrxs+BWin0uj0MqON8JTc9dXr8veFlwA58vk/D8dgYVZNWqyMp+oyuvkitAhlEzk
+         VyUaJcus2vkIntrmwNOAg/ViamvsZXNg4h3luvAMtNhZsbQRxQOYgzyTHugCmY7Tzv5X
+         KfG4FIgbAnFQofCbAoyEIbjgygG1ogClsdL67Q4oF9olXIzNXe4+Kp1s9DJsDb49VYm2
+         GisjWG16h7mEpkTwREZyYc4ABAitmtLUSce1YVeg9vdGkobMPs5LIUTQBUd230X5Ippv
+         0uBw==
+X-Gm-Message-State: AOJu0YylOU9smbJ9xSXhQu4HbBMwI5G0so4GDyxi6zHfOdy89o25/2uy
+	G7RZjAXYshHqOB3hUxijF3J+V0jYthFZLpU+/HjeKgx8m+DHnPYvvvL4m5zXegGIs4RldaS7oGj
+	r3tiAQQqb/qK8UNDA1XYVooMCwP6jNc/NowDMDrGj9smaJIUFM46Qn/1PSzTj
+X-Received: by 2002:a05:6512:3118:b0:50e:937e:b00e with SMTP id n24-20020a056512311800b0050e937eb00emr6754067lfb.46.1706639724477;
+        Tue, 30 Jan 2024 10:35:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG0lPG90dR+JaL7x5rEP1i/zj5JCA86gd1b2bt/YA8OReAEDomZA4lkHoV4BguYPqMnadNhaQ==
+X-Received: by 2002:a05:6512:3118:b0:50e:937e:b00e with SMTP id n24-20020a056512311800b0050e937eb00emr6754042lfb.46.1706639723972;
+        Tue, 30 Jan 2024 10:35:23 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id md5-20020a170906ae8500b00a318d32ac79sm5433103ejb.146.2024.01.30.10.35.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 10:35:22 -0800 (PST)
+Message-ID: <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+Date: Tue, 30 Jan 2024 19:35:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240120191940.3631-5-karelb@gimli.ms.mff.cuni.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 1/30/24 19:09, Werner Sembach wrote:
+> Hi Hans,
+> 
+> resend because Thunderbird htmlified the mail :/
+
+I use thunderbird too. If you right click on the server name
+and then go to "Settings" -> "Composition & Addressing"
+and then uncheck "Compose messages in HTML format"
+I think that should do the trick.
+
+> Am 30.01.24 um 18:10 schrieb Hans de Goede:
+>> Hi Werner,
+>>
+>> On 1/30/24 12:12, Werner Sembach wrote:
+>>> Hi Hans,
+>>>
+>>> Am 29.01.24 um 14:24 schrieb Hans de Goede:
+> <snip>
+>>> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+>> IMHO it would be better to limit /dev/rgbledstring use to only
+>> cases where direct userspace control is not possible and thus
+>> have the cut be based on whether direct userspace control
+>> (e.g. /dev/hidraw access) is possible or not.
+> 
+> Ack
+> 
+> <snip>
+> 
+>>> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
+>> Ah good point, no I think that a basic driver just for kbd backlight
+>> brightness support which works with the standard desktop environment
+>> controls for this makes sense.
+>>
+>> Combined with some mechanism for e.g. openrgb to fully take over
+>> control as discussed. It is probably a good idea to file a separate
+>> issue with the openrgb project to discuss the takeover API.
+> 
+> I think the OpenRGB maintainers are pretty flexible at that point, after all it's similar to enable commands a lot of rgb devices need anyway. I would include it in a full api proposal.
+
+Ack.
+
+> On this note: Any particular reason you suggested an ioctl interface instead of a sysfs one? (Open question as, for example, I have no idea what performance implications both have)
+
+sysfs APIs typically have a one file per setting approach,
+so for effects with speed and multiple-color settings you
+would need a whole bunch of different files and then you
+would either need to immediately apply every setting,
+needing multiple writes to the hw for a single effect
+update, or have some sort of "commit" sysfs attribute.
+
+With ioctls you can simply provide all the settings
+in one call, which is why I suggested using ioctls.
+
+Regards,
+
+Hans
 
 
-On Sat, 20 Jan 2024 20:11:15 +0100, Karel Balej wrote:
-> From: Karel Balej <balejk@matfyz.cz>
-> 
-> IST3032C is a touchscreen IC which seems mostly compatible with IST3038C
-> except that it reports a different chip ID value.
-> 
-> Signed-off-by: Karel Balej <balejk@matfyz.cz>
-> ---
-> 
-> Notes:
->     v4:
->     * Reword commit description to mention how this IC differs from the
->       already supported.
-> 
->  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
->  1 file changed, 1 insertion(+)
-> 
-
-Acked-by: Rob Herring <robh@kernel.org>
 
 
