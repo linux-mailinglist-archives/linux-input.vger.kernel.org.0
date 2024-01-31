@@ -1,65 +1,61 @@
-Return-Path: <linux-input+bounces-1567-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1568-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A21843C8B
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:28:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3956843C92
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:28:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6521E2928A5
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:28:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24A881C29CA3
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:28:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32DB56DD1E;
-	Wed, 31 Jan 2024 10:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514CC6F067;
+	Wed, 31 Jan 2024 10:27:26 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAF226DD00;
-	Wed, 31 Jan 2024 10:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B25569946;
+	Wed, 31 Jan 2024 10:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706696831; cv=none; b=YvKIxNo5LwYmHOrLCktWOlhZaAI735V5s6/sx89qrjcqYjZ1cWWmXGN2zqN224R0x2v1SDPJ8gqcmaCvUdtPOQpMuM3yeSqX8lHcwcAlPkvLMbCb/K6BOEQ0bQSSorqhOG/5z8NRG6KHxNftoVQKzaiKp+XT7eQcdLHVInRcBp8=
+	t=1706696846; cv=none; b=MkuTujVWXCEdSo+J6MzdwI9m+lhTRrPx5uNCQOM+LNocYL7LRJTnsdEDZCZyRvX/Bda8lE1UO0lzaUFwllR5gTwOOPIqL0ExR5IIpghjTHqWcZM+gcedhOksNmWlDpogrLZUk6pz/EbnYROVCUXYcdyWfwslFpZQFULcf6+Fqpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706696831; c=relaxed/simple;
-	bh=3tOOKEFDglSKDgxDOhWsj9U4KNMdCRxM9r4EgNb2MZI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mABcI/vTZJa3PxRaQDQDYNYspBNJJYNfYD0AAJHEDM415M6EJI5ycoquGvZ8x3dnqZqT/EV3G+nqT2q/1eR6nN6BhNgTusNbeRtTK6J3Wp5gHYe26ai7NJYIdBPSSiTDbJqSlXfCgkg7JU8HZPS9cVyS+VIicU1d7ddd150fVao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	s=arc-20240116; t=1706696846; c=relaxed/simple;
+	bh=zhfoulCMgDFiptKNGz12veM+H41fJTHzTtiB+OHREdw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dsji8q7NPamdNv1mv5mCybs0hEPMBthgeKi7AaBgj1n9aw7Q4JY4hiTfIxz7s+PZh2S6sMZnzm8jNy1tUpvzxuggpjoOia/1ZQxKYzIM9F3KLwvAryUlNTvaK4/w0Q0FF02mwCI+5GG8Up6PGm97gKPXGfIDAZLetQA/5s49AWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
-   d="scan'208";a="192377752"
+   d="scan'208";a="196288301"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:06 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:20 +0900
 Received: from localhost.localdomain (unknown [10.226.92.227])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8E50F41DF0AB;
-	Wed, 31 Jan 2024 19:26:59 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E6DB41DF0AB;
+	Wed, 31 Jan 2024 19:27:15 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Lee Jones <lee@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
 	linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 RESEND 0/6] Convert DA906{1,2} bindings to json-schema
-Date: Wed, 31 Jan 2024 10:26:50 +0000
-Message-Id: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Lee Jones <lee@kernel.org>
+Subject: [PATCH v6 RESEND 3/6] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
+Date: Wed, 31 Jan 2024 10:26:53 +0000
+Message-Id: <20240131102656.3379-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -68,105 +64,194 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the below bindings to json-schema
-1) DA906{1,2} mfd bindings
-2) DA906{1,2,3} onkey bindings
-3) DA906{1,2,3} thermal bindings
+Convert the da906{1,2,3} onkey device tree binding documentation to
+json-schema.
 
-Document missing gpio child node for da9062 and update MAINTAINERS entries.
+Update MAINTAINERS entries, description and onkey property by
+referring to dlg,da9062-onkey binding file.
 
-Merge strategy:
-Since there is binding dependency between input, thermal and MFD
-subsystem. it is decided that this series will go through the MFD tree.
-So once the respective subsystem maintainers, DT and Renesas are happy
-with the patch they can give an ack/rb tag, so that it can be applied to
-MFD tree.
-
-v6->v6 Resend:
- * Dropped Patch#2 and patch#3 from this series as it hits mainline.
- * Added Ack from Lee Jones for all the patches.
- * Fixed merge conflict on MAINTAINERS file for patch#1
- * Added Rb tag from Conor for patch#6.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Lee Jones <lee@kernel.org>
+---
+v6->v6 resend:
+ * Added Ack from Lee Jones.
 v5->v6:
- * Added Rb tag from Guenter Roeck for watchdog binding patches.
- * Updated commit description related to "gpio-controller" and
-   "#gpio-cells" properties defined in parent node.
- * Added Rb tag from Krzysztof Kozlowski for patch#8.
+ * No change.
 v4->v5:
- * Updated cover letter with merging strategy.
- * Added fixes tag for patch#1
- * Added Rb tags from Geert and Krzysztof for patch#1
- * Added Ack from Conor for patch#1
- * Added Rb tag from Geert and Ack from Conor for patch#2
- * Drop items and just use enum as it is easier to read for compatibles.
- * Retained the tags for patch#2 as it is trivial change.
- * Added Rb tag from Geert for patch#3
- * Updated commit header and description by replacing
-   'watchdog property'->'watchdog child node'
- * Added Rb tag from Geert for patch#4.
- * Added Rb tag from Krzysztof and Conor for patch#5
+ * Added Rb tag from Krzysztof and Conor
  * Dropped Items, Just enum as it is easier to read compatibles.
- * Retained tags for patch#5 as the changes are trivial.
- * Updated commit description for patch#8
- * Dropped unnecessary ref from gpio child node.
- * Added gpio-hog pattern property
- * Moved gpio-controller,gpio-cells above child nodes
- * Sorted compatible in rtc child node.
- * Dropped status from example.
- * Updated the example.
+ * Retained tags as the changes are trivial.
 v3->v4:
- * Patch#1 is merge of patch#1 from v2 + patch#8 from v2.
- * Dropped comment for d9061 watchdog fallback
- * Replaced enum->const for dlg,da9061-watchdog and its fallback.
- * Restored patch#4 in series 1 and dropped the thermal example
- * Added Ack from Conor Dooley for da9063 watchdog binding support.
- * Updated title DA9062/61->DA906{1,2,3} as it supports DA9063.
- * Retained Rb tag since the changes are trivial.
- * Added Ack from Conor for updating watchdog property
- * Dropped link to product information.
- * Patch#5(onkey) is squashed with patch#6 and patch#9 from v2.
+ * Squashed with patch#6 and patch#9 from v2.
  * Replaced enum->const for dlg,da9061-onkey and its fallback.
  * Dropped example
- * Restored the thermal binding patch from v2.
- * Dropped example
- * Replaced enum->const for compatible property.
- * Added Rb tag from Rob and retained Rb tag as changes are trivial.
- * Added Ack from Conor Dooley for patch#7.
- * Split the thermal binding patch separate
- * Updated the description
 v2->v3:
- * Updated Maintainer entries for watchdog,onkey and thermal bindings
- * Fixed bot errors related to MAINTAINERS entry, invalid doc
-   references and thermal examples by merging patch#4. 
-
-v1->v2:
- Link: https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.renesas.com/
- * DA9062 and DA9061 merged with DA9063
- * Sorted the child devices
- * mfd,onkey and thermal are pointing to child bindings
-
-Biju Das (6):
-  dt-bindings: mfd: da9062: Update watchdog description
-  dt-bindings: mfd: dlg,da9063: Update watchdog child node
-  dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-  dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
-  dt-bindings: mfd: dlg,da9063: Sort child devices
-  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-
- .../bindings/input/da9062-onkey.txt           |  47 ----
- .../bindings/input/dlg,da9062-onkey.yaml      |  38 +++
- .../devicetree/bindings/mfd/da9062.txt        | 124 ---------
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 248 +++++++++++++++---
- .../bindings/thermal/da9062-thermal.txt       |  36 ---
- .../bindings/thermal/dlg,da9062-thermal.yaml  |  35 +++
- MAINTAINERS                                   |   6 +-
- 7 files changed, 290 insertions(+), 244 deletions(-)
+ * Updated MAINTAINERS entries.
+v2:
+ * New patch
+---
+ .../bindings/input/da9062-onkey.txt           | 47 -------------------
+ .../bindings/input/dlg,da9062-onkey.yaml      | 39 +++++++++++++++
+ .../devicetree/bindings/mfd/da9062.txt        |  2 +-
+ .../devicetree/bindings/mfd/dlg,da9063.yaml   | 15 +-----
+ MAINTAINERS                                   |  2 +-
+ 5 files changed, 42 insertions(+), 63 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
  create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
- delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
- create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 
+diff --git a/Documentation/devicetree/bindings/input/da9062-onkey.txt b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+deleted file mode 100644
+index e5eef59a93dc..000000000000
+--- a/Documentation/devicetree/bindings/input/da9062-onkey.txt
++++ /dev/null
+@@ -1,47 +0,0 @@
+-* Dialog DA9061/62/63 OnKey Module
+-
+-This module is part of the DA9061/DA9062/DA9063. For more details about entire
+-DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
+-For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+-
+-This module provides the KEY_POWER event.
+-
+-Required properties:
+-
+-- compatible: should be one of the following valid compatible string lines:
+-	"dlg,da9061-onkey", "dlg,da9062-onkey"
+-	"dlg,da9062-onkey"
+-	"dlg,da9063-onkey"
+-
+-Optional properties:
+-
+-- dlg,disable-key-power : Disable power-down using a long key-press. If this
+-    entry exists the OnKey driver will remove support for the KEY_POWER key
+-    press when triggered using a long press of the OnKey.
+-
+-Example: DA9063
+-
+-	pmic0: da9063@58 {
+-		onkey {
+-			compatible = "dlg,da9063-onkey";
+-			dlg,disable-key-power;
+-		};
+-	};
+-
+-Example: DA9062
+-
+-	pmic0: da9062@58 {
+-		onkey {
+-			compatible = "dlg,da9062-onkey";
+-			dlg,disable-key-power;
+-		};
+-	};
+-
+-Example: DA9061 using a fall-back compatible for the DA9062 onkey driver
+-
+-	pmic0: da9061@58 {
+-		onkey {
+-			compatible = "dlg,da9061-onkey", "dlg,da9062-onkey";
+-			dlg,disable-key-power;
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+new file mode 100644
+index 000000000000..757a522c102c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+@@ -0,0 +1,39 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/dlg,da9062-onkey.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Dialog DA9061/62/63 OnKey Module
++
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++
++description: |
++  This module is part of the DA9061/DA9062/DA9063. For more details about entire
++  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
++  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
++
++  This module provides the KEY_POWER event.
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - dlg,da9062-onkey
++          - dlg,da9063-onkey
++      - items:
++          - const: dlg,da9061-onkey
++          - const: dlg,da9062-onkey
++
++  dlg,disable-key-power:
++    type: boolean
++    description:
++      Disable power-down using a long key-press. If this entry exists
++      the OnKey driver will remove support for the KEY_POWER key press
++      when triggered using a long press of the OnKey.
++
++required:
++  - compatible
++
++additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
+index 18463b7fbb42..154c31fa4443 100644
+--- a/Documentation/devicetree/bindings/mfd/da9062.txt
++++ b/Documentation/devicetree/bindings/mfd/da9062.txt
+@@ -84,7 +84,7 @@ Sub-nodes:
+   with the DA9062. There are currently no entries in this binding, however
+   compatible = "dlg,da9062-rtc" should be added if a node is created.
+ 
+-- onkey : See ../input/da9062-onkey.txt
++- onkey : See ../input/dlg,da9062-onkey.yaml
+ 
+ - watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
+ 
+diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+index ce81e0b029cc..1e5a847a6be2 100644
+--- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
++++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+@@ -44,20 +44,7 @@ properties:
+         const: dlg,da9063-rtc
+ 
+   onkey:
+-    type: object
+-    $ref: /schemas/input/input.yaml#
+-    unevaluatedProperties: false
+-    properties:
+-      compatible:
+-        const: dlg,da9063-onkey
+-
+-      dlg,disable-key-power:
+-        type: boolean
+-        description: |
+-          Disable power-down using a long key-press.
+-          If this entry does not exist then by default the key-press triggered
+-          power down is enabled and the OnKey will support both KEY_POWER and
+-          KEY_SLEEP.
++    $ref: /schemas/input/dlg,da9062-onkey.yaml
+ 
+   regulators:
+     type: object
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e0091af90973..2aab4f5d634a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6163,8 +6163,8 @@ DIALOG SEMICONDUCTOR DRIVERS
+ M:	Support Opensource <support.opensource@diasemi.com>
+ S:	Supported
+ W:	http://www.dialog-semiconductor.com/products
+-F:	Documentation/devicetree/bindings/input/da90??-onkey.txt
+ F:	Documentation/devicetree/bindings/input/dlg,da72??.txt
++F:	Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+ F:	Documentation/devicetree/bindings/mfd/da90*.txt
+ F:	Documentation/devicetree/bindings/mfd/dlg,da90*.yaml
+ F:	Documentation/devicetree/bindings/regulator/da92*.txt
 -- 
 2.39.2
 
