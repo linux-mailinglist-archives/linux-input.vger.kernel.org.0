@@ -1,51 +1,50 @@
-Return-Path: <linux-input+bounces-1591-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1593-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB438448BD
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 21:22:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9446B8448D5
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 21:29:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C32731C23279
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 20:22:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50740289BE6
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 20:29:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36BF73FE27;
-	Wed, 31 Jan 2024 20:22:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760D56A334;
+	Wed, 31 Jan 2024 20:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="haYT871A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CfQ3PWl6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A733FB39;
-	Wed, 31 Jan 2024 20:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483EE405DD;
+	Wed, 31 Jan 2024 20:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706732562; cv=none; b=WFDnkWc6ttFN3ZH78qQZ2uPdbB0xSCQpA6w6m6NPJc4X7D/43uV84W1T93G1hHBOfO2rnXQJx6lYCZ9zgrAgpn9YDUkGsZLT6OJymdd3qqbCBUwW+lGPU5M3tUHlYsUUqj9RfWrOpiep47uDjhnXengD9pC58C4/z1yYhnZweeM=
+	t=1706732722; cv=none; b=NkajXRj5ajXV4dJeGW5pJsFM7m+nUQwz0Qeeu+mERMOHDxIgOW88AUZ0OmDfH4UlKAdpgIJRVV16sd6ad1OuzMuB5G31oDZAos3+SqPHlpRiRwTsXIHQtD5O6skgFVHHUPNAqR1GZ+0q91HAjUKF+7BfxfjxizH0BB9DX32QPfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706732562; c=relaxed/simple;
-	bh=qd/w5Bcuf2svgiEaBng8uEFP+/hQ9TBMaFzh70vee4c=;
+	s=arc-20240116; t=1706732722; c=relaxed/simple;
+	bh=adwQTBsELG6IcUpc/2BvWJPBMElyuZywwj6CtPi8rAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bE8yRuXDbY9LH46wHXExqWSItrARwazGCgo8N6UwOemZaFaSzvpGjPI/wSuy3vulUL5IMVHPuoqOPbWzEhNrXb8BcjxZaPGLjMPyNTS+29dopY32Y7S/jKInlMs0MIiReM60N0K1F0zP7hD7oxM05DE2ENXFrFdVP7N5krkDykA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=haYT871A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FABC433F1;
-	Wed, 31 Jan 2024 20:22:41 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=uN0yyrj6fagJCstC9tMSPJlEedOIGkss4S0xGPpjQ/rgYaiSYUdIXzTxEQ/L4PRTcDijrKkPUDJks41ZYRLa6hMccbFnIW1i0KN82j48YijJL2n87Dfh3huWXM67JOxdqa+7H5+76iUEFYIix6epunG+9o0Ih2o06q8oGzRUqv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CfQ3PWl6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 685C4C433F1;
+	Wed, 31 Jan 2024 20:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706732561;
-	bh=qd/w5Bcuf2svgiEaBng8uEFP+/hQ9TBMaFzh70vee4c=;
+	s=k20201202; t=1706732721;
+	bh=adwQTBsELG6IcUpc/2BvWJPBMElyuZywwj6CtPi8rAw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=haYT871AjlVRcMjGMJ5jr8i6K3lktJn5RibSXPsjUf+1fm+UTvAmvdLV7GIPk+i7z
-	 p1UXFNdz/xYWIwO5FaL60DFz56gNy0yYD2jHq6aDAiuh1RJPILXSHEwz0AjbpgURxK
-	 nbzeLCsifWDlIJ2UM6G0LSSQvI3wLMU6L3dp69Y0ZyXM9HAXAHWeM2+wJKOUs1fkor
-	 TbN0keNBgCc2jRipyt0wwM+5H4og0RqwNIGz10eH+i55CaWgFv5tO0JH6CW08iBZeA
-	 U74JjuOwK6M3YwdKrOT5hscZuOWwrfKYWPPIDVs0FmMlbcW4KKLXcDyKMd0O+QmnSy
-	 RjtfPZ3G+GfhA==
-Date: Wed, 31 Jan 2024 14:22:39 -0600
+	b=CfQ3PWl67yoCo7KBDU/gpnSRg48r2ztxAib2ticidVXNkTX0QOn6nRWIMGFQpJryV
+	 BJo3GhznvsCSL5W27wseLcQnxPQnDN3pEjAMbiet33G07CQ47RJfe+OsR/jy+EkF3T
+	 fjhF+Xwoi4cw2N49fHybqIDs8x0Hi4dI82VlKu/jnr7y8r60OGSnuCqbdRvNH6XYMG
+	 XwUBCXZ/qWHbrXlU6JyEJYSIIhgUGJ6aFU7hQLAIG9K7lkqLUB5pOzCT3ujnupP8QC
+	 QHB/794IdABRfiZrDNy+/cnOLc5YZns+Hb4LLVN2Xcgt23Zi9xwE13ipjm6HTC5SA5
+	 A7L5paB5NtLxA==
+Date: Wed, 31 Jan 2024 14:25:19 -0600
 From: Rob Herring <robh@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -56,13 +55,13 @@ Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
 	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: Document reset-related
- properties
-Message-ID: <20240131202239.GA2222869-robh@kernel.org>
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
+ touchscreen
+Message-ID: <20240131202519.GB2222869-robh@kernel.org>
 References: <20240129-x13s-touchscreen-v3-0-c4a933034145@quicinc.com>
- <20240129-x13s-touchscreen-v3-1-c4a933034145@quicinc.com>
- <ZbfYzyHaNmjJyNpY@hovoldconsulting.com>
+ <20240129-x13s-touchscreen-v3-2-c4a933034145@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -71,42 +70,79 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZbfYzyHaNmjJyNpY@hovoldconsulting.com>
+In-Reply-To: <20240129-x13s-touchscreen-v3-2-c4a933034145@quicinc.com>
 
-On Mon, Jan 29, 2024 at 05:56:47PM +0100, Johan Hovold wrote:
-> On Mon, Jan 29, 2024 at 08:47:47AM -0800, Bjorn Andersson wrote:
-> > Some I2C HID devices has a reset pin and requires that some specified
-> > time elapses after this reset pin is deasserted, before communication
-> > with the device is attempted.
-> > 
-> > The Linux implementation is looking for these in the "reset-gpios" and
-> > "post-reset-deassert-delay-ms" properties already, so use these property
-> > names.
+On Mon, Jan 29, 2024 at 08:47:48AM -0800, Bjorn Andersson wrote:
+> The touchscreen present on some SKUs of Lenovo Thinkpad X13s is never
+> detected by Linux. Power is applied and the device is brought out of
+> reset using the pinconfig in DeviceTree, but the read-test in
+> __i2c_hid_core_probe() fails to access the device, which result in probe
+> being aborted.
 > 
-> > +  post-reset-deassert-delay-ms:
-> > +    description: Time required by the device after reset has been deasserted,
-> > +      before it is ready for communication.
-> > +
-> > +  reset-gpios: true
+> Some users have reported success after rebinding the device.
 > 
-> Hmm, for the third time, it seems you ignored my comment that you need
-> to remove the comment about these properties from the driver as part of
-> this series.
+> Looking to the ACPI tables, there's a 5ms after-power and a 200ms
+> after-reset delay. The power-supply is shared with other components, so
+> this is active all the way through boot. The reset GPIO, on the other
+> hand, is low (reset asserted) at boot, so this is first deasserted by
+> the implicit application of the pinconf state.
 > 
-> 	/*
-> 	 * Note this is a kernel internal device-property set by x86 platform code,
-> 	 * this MUST not be used in devicetree files without first adding it to
-> 	 * the DT bindings.
-> 	 */
-> 	if (!device_property_read_u32(dev, "post-reset-deassert-delay-ms", &val))
-> 		ihid_of->post_reset_delay_ms = val;
+> This means the time between reset deassert and __i2c_hid_core_probe() is
+> significantly below the value documented in the ACPI tables.
+> 
+> As the I2C HID binding and driver support specifying a reset gpio,
+> replace the pinconf-based scheme to pull the device out of reset. Then
+> specify the after-reset time.
+> 
+> The shared power rail is currently always on, but in case this ever
+> change, the after-power delay is added as well, to not violate the
+> power-on to reset-deassert timing requirement.
+> 
+> Fixes: 32c231385ed4 ("arm64: dts: qcom: sc8280xp: add Lenovo Thinkpad X13s devicetree")
+> Tested-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> index def3976bd5bb..33731b95ad51 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> @@ -620,7 +620,6 @@ &i2c4 {
+>  
+>  	status = "okay";
+>  
+> -	/* FIXME: verify */
+>  	touchscreen@10 {
+>  		compatible = "hid-over-i2c";
 
-DT devices should have a specific compatible that gives enough detail to 
-handle this delay or *any* other power sequencing requirement.
+Please add a real device compatible before you need the next power 
+sequencing property I'll reject.
 
-OTOH, we've already got one other delay property, what's one more. Sigh.
-
-Acked-by: Rob Herring <robh@kernel.org>
-
-Rob
+>  		reg = <0x10>;
+> @@ -630,6 +629,11 @@ touchscreen@10 {
+>  		vdd-supply = <&vreg_misc_3p3>;
+>  		vddl-supply = <&vreg_s10b>;
+>  
+> +		reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
+> +
+> +		post-power-on-delay-ms = <5>;
+> +		post-reset-deassert-delay-ms = <200>;
+> +
+>  		pinctrl-names = "default";
+>  		pinctrl-0 = <&ts0_default>;
+>  	};
+> @@ -1450,7 +1454,6 @@ int-n-pins {
+>  		reset-n-pins {
+>  			pins = "gpio99";
+>  			function = "gpio";
+> -			output-high;
+>  			drive-strength = <16>;
+>  		};
+>  	};
+> 
+> -- 
+> 2.25.1
+> 
 
