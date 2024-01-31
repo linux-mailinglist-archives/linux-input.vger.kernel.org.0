@@ -1,70 +1,80 @@
-Return-Path: <linux-input+bounces-1586-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1587-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D78C8445C9
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 18:15:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1158884476F
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 19:48:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9A61F22072
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 17:15:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9BD91F26A46
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 18:48:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8864312C53B;
-	Wed, 31 Jan 2024 17:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28D821350;
+	Wed, 31 Jan 2024 18:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WgUObyZ/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKBlKuxr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27B77EF1B;
-	Wed, 31 Jan 2024 17:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689B61805F;
+	Wed, 31 Jan 2024 18:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706721294; cv=none; b=OxQW1EKMp5oZqW8Ff2zkjTVWVgW/KES/GusB7qLYggQYnkTY8fWG7iAGBNMgzcsAn/Gia0QE8g5TvJpi7LPjELI5weYFx/bfxsCgkkLVVjbVgCsJXdNbYZ+ikN6F2vL+rM0jJFVEUX0b/Ryc9xv1al/fibOHBguiTarNHrvglnE=
+	t=1706726913; cv=none; b=T+jPed8ooykmDfBtEfqTwVYW0gBnwkK8dedATG/OIcL22L8mpQffq8UqI8yJuUxQGdh/EA7RSYEnLS5ZGJ223oQO10dMTkq/DiD0aFb8OBRXm5w7Z/nLyaAHefjkPql8yn/wl8aFIA5DylUCUo+NdgX2Hq863JqcYL0z7bs9Z44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706721294; c=relaxed/simple;
-	bh=umMTfbavV5anbbuvqaxrldcGPNeK3mMqhy5S46iPOGg=;
+	s=arc-20240116; t=1706726913; c=relaxed/simple;
+	bh=RFMdXct/WeF2HdVsAl1NpYcuQkoBVNHNuM4QUPQVh54=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BNtYICpkzP61+mtbbqYs+BJOxusydV5QRdkCbmHoap9x3xAhD3GqEKdIe5Mr4lhZtNEa9iYjIafd+fEQvc7N+en+tGNIdlo0a6W8ZtDjahIcis1qFmLgfnjtw8WwdHJdWDa/dXC+jnbn7eprceULmu3dJOxG9tuGHjIlkydrXXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WgUObyZ/; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 094211C0008;
-	Wed, 31 Jan 2024 17:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706721284;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9lTRq8lZT7hitaFYIXz5SPSPzis0fVqQJM+pMRYZ704=;
-	b=WgUObyZ/9pP6ARuPtDDuoCxJPd9co0I0PlUUhWF71vCyZeBfWeR8Ss2Y+MI8LZGFF8xGlz
-	bsssTGy5GTkjZ5ISpRColNqsS+03eXLoQUs2cKzaxdZSzjL79o3Ila6FyUzsMJQ6wu6MP5
-	RDlNIOTa8ikbVSJWA1mfgTkZA6QKQC7D4aUXlkWzuJ+be8Gl/Lre2TS6UFdppqVBOiJQ8m
-	YBpeSA9DHN5llY89e9rWYl/zwHZPdgjFFyb5Bc6BOr7SPHd3A3/K07llty9wC/CG4gD5Wz
-	VCl4pwBraurh0JzRu/edmfyVcNxiePIYSxn50JjqrOkxzthQQSI+vWBYMIfqgA==
-Date: Wed, 31 Jan 2024 18:14:41 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Jeff LaBundy <jeff@labundy.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
-	hannah.rossiter@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v5 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <20240131171441.GA3005@kb-xps>
-References: <20231211121430.1689139-1-kamel.bouhara@bootlin.com>
- <20231211121430.1689139-4-kamel.bouhara@bootlin.com>
- <ZY5An58Rffrcpfpn@nixie71>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IBKxyu6QNZFj0oQM2FvS/eqQAb/9j7p21jg1a3qnxEP/3Owkp3m7AeJNo3iBfmNMxcdJmjhLpzacxbQQ1+PAelL9I1W32EHptzi/Z5K/ivIFDyQ1CtVT5fNtPALZh0UH5XDzFdwUeohsgFsYC2y7pnkW5p//wCJ7Gq1AUc/ftL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jKBlKuxr; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ddfb0dac4dso34182b3a.1;
+        Wed, 31 Jan 2024 10:48:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706726911; x=1707331711; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/7EvC4Sv0z/qUL75PLLhhMsn+h7NJhI8P8qFIiHbguc=;
+        b=jKBlKuxr7bxwI+iAY1gVGCXg11/r26AUajESpw9fjXJ3UuBqhNWwW71ZHSuKFbN3iD
+         2i8Nc3DU2/xwU5iaHqyvEzbn47iAjfodXgdLSVUu+LTm9bLzUz0AH96dEoq3bpMAn9/t
+         UbcFK1ODS52eTV/3+fMGarF766HoVH6ii0wa6/wi32DFp2GB/OMdtZGkXKMVcKMYpjNd
+         2OL2yYXqcFqGAFEM2btw2aoQdOLNM10JOWhda2X/cwoJFRV2czI0C26YzN9gilpx7biF
+         xd+4cmUOnvXFY4FOYlktT3JHdAeL9IntUUabQ0Y7w1CtgzAiqTSht/AMhTvJd5S0crEB
+         /qRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706726911; x=1707331711;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/7EvC4Sv0z/qUL75PLLhhMsn+h7NJhI8P8qFIiHbguc=;
+        b=VpWFQ7/nQK76VwoG87eJm6cB7MgqdVzQutaISSB5gULPpBuu5lyAjkP9FLS9yLYdZh
+         fHOJOHErbGKjtXjKGgd9JLwfsNoVgY/U5F7w5Xnw1EocB44JNSC2dN4irGh4CNu1VIF7
+         escwdWd8iyEor2Td3Wp/DlpcN2PT0QRXl/Z7TToRH1pFxrAhWLwG9hcbLy92cRlO60AV
+         70U+rK+ET02uvwwGVWlQxg2IbbXWBo9DKfmm4YD8XzOXcK5bYxOq3gOGLnWWIiBlHwB2
+         gMFHxDi9FI6iF354kjWkKI0LDkFfx7M+eMGLigv0fEIgSewHu1JNbiceoazd3BaVuE4W
+         h1MQ==
+X-Gm-Message-State: AOJu0YwYht0zwWvt8fWiX5h+z2s61NofMPOVRo20pzVIL9q1jCqFivDG
+	zXDmCGKozGZSTXK9NClOLmdv+6OEty1lJ4dPqPWletJNietv+13H
+X-Google-Smtp-Source: AGHT+IEwat+pYEQ8x/QzV9uAlx8DvMe1jJNSEg1K+ttTZrWzYk4523pBbpf0F2UjZqjfKd5hi8aGdg==
+X-Received: by 2002:a62:ab12:0:b0:6dd:a11a:602b with SMTP id p18-20020a62ab12000000b006dda11a602bmr2358369pff.10.1706726911417;
+        Wed, 31 Jan 2024 10:48:31 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:955e:133f:54ba:f642])
+        by smtp.gmail.com with ESMTPSA id i1-20020a056a00004100b006d0a29ad0aasm10197409pfk.5.2024.01.31.10.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 10:48:31 -0800 (PST)
+Date: Wed, 31 Jan 2024 10:48:28 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: linux-input@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: matrix_keypad - avoid repeatedly converting
+ GPIO to IRQ
+Message-ID: <ZbqV_EqBqppL5pNF@google.com>
+References: <20240121053232.276968-1-dmitry.torokhov@gmail.com>
+ <CACMJSetrYPaXOr5abHtP1mjsyH3nB3=6CwxWfviN1BP0rhgEhg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -73,114 +83,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZY5An58Rffrcpfpn@nixie71>
-X-GND-Sasl: kamel.bouhara@bootlin.com
+In-Reply-To: <CACMJSetrYPaXOr5abHtP1mjsyH3nB3=6CwxWfviN1BP0rhgEhg@mail.gmail.com>
 
-On Thu, Dec 28, 2023 at 09:44:31PM -0600, Jeff LaBundy wrote:
-> Hi Kamel,
->
+On Mon, Jan 22, 2024 at 09:19:56AM +0100, Bartosz Golaszewski wrote:
+> On Sun, 21 Jan 2024 at 06:32, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> >
+> > gpio_to_irq() is getting more expensive and may require sleeping.
+> 
+> This is no longer true, the relevant commit was reverted and I have
+> now a working series where I'm using SRCU for lockless list traversal
+> so if anything it will actually become cheaper.
+> 
+> > Convert row GPIOs to interrupt numbers once in probe() and use
+> > this information when the driver needs to enable or disable given
+> > interrupt line.
+> 
+> That being said, I'm not against this change, though this may not be
+> very useful after all.
 
-Hello Jeff,
+OK, then I'll tone down the patch description and apply.
 
-[...]
+Thanks.
 
-> > +
-> > +/*
-> > + * Support function to axiom_process_u41_report.
-> > + * Generates input-subsystem events for every target.
-> > + * After calling this function the caller shall issue
-> > + * a Sync to the input sub-system.
-> > + */
-> > +static bool axiom_process_u41_report_target(struct axiom_data *ts,
-> > +					    struct axiom_target_report *target)
-> > +{
-> > +	struct input_dev *input_dev = ts->input_dev;
-> > +	struct axiom_u41_target *target_prev_state;
-> > +	enum axiom_target_state current_state;
-> > +	bool update = false;
-> > +	int slot;
-> > +
-> > +	/* Verify the target index */
-> > +	if (target->index >= AXIOM_U41_MAX_TARGETS) {
-> > +		dev_dbg(ts->dev, "Invalid target index! %u\n", target->index);
->
-> Should this be dev_err()?
->
-> > +		return false;
-> > +	}
-> > +
-> > +	target_prev_state = &ts->targets[target->index];
-> > +
-> > +	current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
-> > +
-> > +	if (target->present) {
-> > +		if (target->z >= 0)
-> > +			current_state = AXIOM_TARGET_STATE_TOUCHING;
-> > +		else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
-> > +			current_state = AXIOM_TARGET_STATE_HOVER;
-> > +		else if (target->z == AXIOM_PROX_LEVEL)
-> > +			current_state = AXIOM_TARGET_STATE_PROX;
-> > +	}
-> > +
-> > +	if (target_prev_state->state == current_state &&
-> > +	    target_prev_state->x == target->x &&
-> > +	    target_prev_state->y == target->y &&
-> > +	    target_prev_state->z == target->z) {
-> > +		return false;
-> > +	}
->
-> No need for curly braces here; please refer to the kernel style guidelines.
->
-> > +
-> > +	slot = target->index;
-> > +
-> > +	dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-> > +		target->index, slot, target->present,
-> > +		target->x, target->y, target->z);
-> > +
-> > +	switch (current_state) {
-> > +	case AXIOM_TARGET_STATE_NOT_PRESENT:
-> > +	case AXIOM_TARGET_STATE_PROX:
-> > +		if (!target_prev_state->insert)
-> > +			break;
-> > +		update = true;
-> > +		target_prev_state->insert = false;
-> > +		input_mt_slot(input_dev, slot);
-> > +
-> > +		if (!slot)
-> > +			input_report_key(input_dev, BTN_TOUCH, 0);
-> > +
-> > +		input_mt_report_slot_inactive(input_dev);
-> > +		/*
-> > +		 * make sure the previous coordinates are
-> > +		 * all off screen when the finger comes back
-> > +		 */
-> > +		target->x = 65535;
-> > +		target->y = 65535;
-> > +		target->z = AXIOM_PROX_LEVEL;
-> > +		break;
-> > +	case AXIOM_TARGET_STATE_HOVER:
-> > +	case AXIOM_TARGET_STATE_TOUCHING:
-> > +		target_prev_state->insert = true;
-> > +		update = true;
-> > +		input_mt_slot(input_dev, slot);
-> > +		input_report_abs(input_dev, ABS_MT_TRACKING_ID, slot);
-> > +		input_report_abs(input_dev, ABS_MT_POSITION_X, target->x);
-> > +		input_report_abs(input_dev, ABS_X, target->x);
->
-> You do not need to explicitly report ABS_X and ABS_Y values, as calling
-> input_mt_sync_frame() effectively takes care of this by way of pointer
-> emulation.
->
-
-After double checking/testing this, it doesn't seems to
-report ABS_X/Y values anymore, are you sure about this ? Maybe I missed
-some extra flag in input_mt_init_slots() for that ?
-
-Regards,
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Dmitry
 
