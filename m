@@ -1,194 +1,146 @@
-Return-Path: <linux-input+bounces-1574-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1575-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A0F843D93
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 12:02:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A53843DA8
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 12:05:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA295288E90
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:02:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1CA11F27E8A
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:05:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 390A47F488;
-	Wed, 31 Jan 2024 10:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72EB36DD00;
+	Wed, 31 Jan 2024 11:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l/2AYQfw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SDj5lO2y"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439477F47A
-	for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 10:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9E978668;
+	Wed, 31 Jan 2024 11:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698755; cv=none; b=SHDft5vSqG8DFJ6xtNNbB/iqZZmwOD5dtFuFN9ASbbuOz3s4QJuB0dJI53k7qAWAkeAbR7GDLy+He/87vt8o4wf8W2t90fwsGUtnopGHoBfPOLNRdOrWEALTz9q8AL7Yowrn7HHvOVd+Q9klA0u0MbpAH11sDrLOzvUzYaf4U/E=
+	t=1706698997; cv=none; b=B7zcySlfimTUkQ8TV0LCDnlAfGU90K/7y/fnZ/eryA1779aT5kdyhSeqN/azEchXuO5yV4a3aM0wmC2ft9zUPFilPnPRtvHm8ubKV6/7NHLOw8aZhSp1SU6I9sSH/HdFgTvCHVgIHHD+xn7pD1mYsf20iU3TzKgfKYnR5AFKEtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698755; c=relaxed/simple;
-	bh=+HH4T5gCCW7B6/O11DJ1e0ynoAupK45aqEDlcF2lKb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KL+Mvekrpn3D7Pfo96EXtCScQHlWUzRBDPESQa8E5jDFKSZygZc2ZTDLOtlFc9n5woOhzJGObNHZGuD8r1eYPfLBFzkN8jvgTskVfQU6hgeBtiPTRaUKcdpik+pKC99I4tTs2xqsYxP76Ww3oSTk2qS8KH1fWJBFwDhLuwtrc4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l/2AYQfw; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a363961b96aso200240366b.3
-        for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 02:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706698751; x=1707303551; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8daxsfgFAdPln+pSh5rU6HQsvWnE80v2yJ8udP+jUgI=;
-        b=l/2AYQfwBSzNqbxdsaP2kVJvT8ZIAMxWdbA6Mzr6JjH7hvnI74BwrD1raCAA971bsj
-         XdvQY4M7JXky6Bh1gVuapmYXbHJRxhOhr1t33pXwFOujXMCsz8MF8DAhbaDpln8DHbtR
-         MeGcw7Y1BLohHkkyeQs0bnP5Gr1BI5j5W0iTBAvNJzf3PfcP6pgM3ZIPc1BOG4oi0M0j
-         0ksOfNub4IK254waB301pwisgEYuEaKwo/3VQxsUv8cX4elaWUrh1x2v8U6kIgWh3C4X
-         AkMEsfaELJhHxF/51eqgnGDQmi36qZm8IZAAj9MYGTXmgd9BY+QvIyOGbT+rCmXiIRtj
-         xrqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706698751; x=1707303551;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8daxsfgFAdPln+pSh5rU6HQsvWnE80v2yJ8udP+jUgI=;
-        b=OUhQgYcl91WZ8t/CQJlfv5ZwsucHz58QI9VxZAT3i0sQQ/YzH4HK4u6M4U2e2/bzwT
-         QMDqtb+rROntHnFWrzni1uNpZCET1Dq8nXUmSoqYOlRyKwIYr0f5EYd6i+iiEG93ZXFV
-         8R5MnrUWqif3kt0y+e7qx31LzeFXQULddbnG6XBCZ2TzOl/AGMNQ2KQ8gC9w1R20mprn
-         OHch/xA/dSTHHoncYh9B859BhGhQCpPHpULYB9wcwu7uIUn8kSdk+2cYTYiWQzAig+cV
-         55Tqf7vnbjWO2x6d3BmwujmbLsLCqeAJRMgMYVuPcysEQHA+h1VuPikYJbclFVqjHjn/
-         B9Nw==
-X-Gm-Message-State: AOJu0Yzwm618xWIJrEJqzRbc6Q37Hn5ukB81e18s+GD58k42Av2XgyGt
-	Kw5d1DvvB8nO/6EDi9Q9ttvfRcznGNSwbkXt4uU8+ahyvvzl8mK+UXK2r2ciyIs=
-X-Google-Smtp-Source: AGHT+IGjjVldnBQDUYLgFnpa7q/CgYzqbCS/pXV8RvKfq5UFsY2R8HJq/5hgUc8oSMFJsNTaG/qHvQ==
-X-Received: by 2002:a17:906:7cf:b0:a36:5dd3:6126 with SMTP id m15-20020a17090607cf00b00a365dd36126mr948578ejc.41.1706698751437;
-        Wed, 31 Jan 2024 02:59:11 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCX5qlE/FjXIH6HPQXuhaMoBmoz78ws/YoqZ6+PxH+fsKbDCkN1t/ApHlU+lYpNhK64RDKP50ewZLknSNfh5RNFP2v1ZmzTsFU+h+KObUMgOOmGRTco+mCEVl5rGSZ4IQF8mV+Zh6u/MmzUUif3GC0p121DGv8GicaR9fmE/btRToxTFvu2gQjHAXdAh3JbpKom1eeTuiRPKUpQ9u1vP2O3zSjMeiXx/mjTJToMaGxqbTerP+Bvwscf9e/1h353xupADGsccL3Mtx86yd8cZToniLK1V73Ja4bMa+0u3rD6auDTQTbHp1xuVfjFBXt6u2i0rsQMlmsdjQ5aCAYxIMCMm+yvFsB0ng6XiGyqmynZxgPJAtGkUkMAHvh8TctorJynRuv/z33TZgZrpBKgwAdnQ+DySFF8v07z1koPGqOKNlCsKAfemGCKMnKCPlFzJF3FymWzmj7HhwyUmVlwGdge7Cew7dODxzCtmYziZNpLuRZRce/cIt+wA+3XE9lRmThovBwNyRRxGu3f91qFtTGRhepddPN/UpfquCS8Zx14R8GsBToZf0Zv09BDik2LSHAziDMQwb5UkRCUntPpq4uPv2e4g4Rv4
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id vs6-20020a170907a58600b00a3542a13eb3sm4908793ejc.138.2024.01.31.02.59.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 02:59:10 -0800 (PST)
-Message-ID: <94bf91fc-9f6e-491f-b332-d60e69ebd9d6@linaro.org>
-Date: Wed, 31 Jan 2024 11:59:09 +0100
+	s=arc-20240116; t=1706698997; c=relaxed/simple;
+	bh=wz8mZeMJ4lXkzfi7C4k08g/FeXlGD7xz3n4JSrz6JM0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PVwOE9D7BIY8CTQjF6u1KRyKQDaim6Am+t/qw+sD5821LYBWPiRwuxnoXKDvBClorZMyBsn61h7vaJXOzaqUh2JGfEZzEnZHAjPmWi12PzyYjm4knkEXPqRMTtSI/Sb0Du0HUScf3P4I8zlFI/yYHLvJc9nN0q3cetCibn61Y9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SDj5lO2y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AD09C433F1;
+	Wed, 31 Jan 2024 11:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706698997;
+	bh=wz8mZeMJ4lXkzfi7C4k08g/FeXlGD7xz3n4JSrz6JM0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SDj5lO2yzopiyTwlLyrOIyt/IcDQW50EfY9T4oLgxD6kWFpEVVfwxHBNfDHfQ6lpu
+	 kMnirpZfHTX425I0j/MEXYwhu7m5QtjeA+RTZnJl6BGgPnwgn51W5nS8n6GSjrD6JF
+	 NiRIp8+Lj+10XqHrQUmq+JdQvpz57RnfqzgLAZ3dnvvaiUyAIcaAGDn8dZylaTVmmW
+	 wN1aX0/visHzvJL4U8eRjHJ86HjrQt1AuGIBF2GRiQlnPebJ9IA+T+JuMD9Fg2NxPI
+	 5zB966/YiXtEUv9UElq7jUKfE4zQn+FCdtkrKH/IFPzLwZoL6VDfY6oMwGNJOJNYsX
+	 um8hvs7GgY+bg==
+Date: Wed, 31 Jan 2024 11:03:11 +0000
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Cc: Karel Balej <balejk@matfyz.cz>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/5] mfd: add 88pm88x driver
+Message-ID: <20240131110311.GI8551@google.com>
+References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231217131838.7569-3-karelb@gimli.ms.mff.cuni.cz>
+ <20240125122634.GE74950@google.com>
+ <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] dt-bindings: input: Add TouchNetix axiom
- touchscreen
-Content-Language: en-US
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>,
- Jeff LaBundy <jeff@labundy.com>, catalin.popescu@leica-geosystems.com,
- mark.satterthwaite@touchnetix.com,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- bsp-development.geo@leica-geosystems.com
-References: <20240125165823.996910-1-kamel.bouhara@bootlin.com>
- <20240125165823.996910-3-kamel.bouhara@bootlin.com>
- <2c8961ff-9fcc-402c-b048-744ae9473164@linaro.org>
- <20240130222844.GA2527859-robh@kernel.org>
- <f07d7557-c190-4154-8fc7-6a3850b1d162@linaro.org>
- <20240131090652.GB3004909@kb-xps>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240131090652.GB3004909@kb-xps>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
 
-On 31/01/2024 10:06, Kamel Bouhara wrote:
-> Hello,
+On Sun, 28 Jan 2024, Karel Balej wrote:
+> > > +	/* GPIO1: DVC, GPIO0: input */
+> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
+> >
+> > Shouldn't you set these up using Pintrl?
 > 
-> On Wed, Jan 31, 2024 at 08:28:43AM +0100, Krzysztof Kozlowski wrote:
->> On 30/01/2024 23:28, Rob Herring wrote:
->>> On Fri, Jan 26, 2024 at 12:46:16PM +0100, Krzysztof Kozlowski wrote:
->>>> On 25/01/2024 17:58, Kamel Bouhara wrote:
->>>>> +  reset-gpios:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  vdda-supply:
->>>>> +    description: Analog power supply regulator on VDDA pin
->>>>> +
->>>>> +  vddi-supply:
->>>>> +    description: I/O power supply regulator on VDDI pin
->>>>> +
->>>>> +  startup-time-ms:
->>>>> +    description: delay after power supply regulator is applied in ms
->>>>
->>>> That's a regulator property - ramp up time.
->>>
->>> I'm sure there's an existing property name that could be used.
->>>
->>> But why is it needed? Is it variable per board with the same device? If
->>> not, it should be implied by the compatible.
->>
->> I meant, that regulators have such property. Unless this is coming from
->> the device needs, not from the regulator?
->>
-> 
-> After looking again into the device's datasheet [1], the delay (startup
-> time) is not really optional and it shouldn't be set through devicetree.
-> 
-> IIUC, it have to be set unconditionally after a device reset or
-> a vdda assertion.
-> 
-> [1]: https://www.touchnetix.com/media/dgnjohor/tnxd00394-a3-axiom_ax54a_2d_touch_controller_datasheet.pdf
-> --
+> You mean to add a new MFD cell for the pins and write the respective
+> driver? The downstream implementation has no such thing so I'm not sure
+> if I would be able to do that from scratch.
 
-OK, then it's not a regulator ramp up, but rather part of device driver
-(deduced from compatible).
+This is not a Pinctrl driver.
 
-Best regards,
-Krzysztof
+Isn't there a generic API you can use?
 
+> > > +	/* GPIO2: input */
+> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL2, 0x00),
+> > > +	/* DVC2, DVC1 */
+> >
+> > Please unify all of the comments.
+> >
+> > They all use a different structure.
+> >
+> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL3, 0x44),
+> > > +	/* GPIO5V_1:input, GPIO5V_2: input */
+> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL4, 0x00),
+> > > +	/* output 32 kHz from XO */
+> > > +	REG_SEQ0(PM88X_REG_AON_CTRL2, 0x2a),
+> > > +	/* OSC_FREERUN = 1, to lock FLL */
+> > > +	REG_SEQ0(PM88X_REG_BK_OSC_CTRL1, 0x0f),
+> > > +	/* XO_LJ = 1, enable low jitter for 32 kHz */
+> > > +	REG_SEQ0(PM88X_REG_LOWPOWER2, 0x20),
+> > > +	/* OV_VSYS and UV_VSYS1 comparators on VSYS disabled, VSYS_OVER_TH : 5.6V */
+> > > +	REG_SEQ0(PM88X_REG_LOWPOWER4, 0xc8),
+> > > +	/* set the duty cycle of charger DC/DC to max */
+> > > +	REG_SEQ0(PM88X_REG_BK_OSC_CTRL3, 0xc0),
+> >
+> > These all looks like they should be handled in their respective drivers?
+> >
+> > "patch"ing these in seems like a hack.
+> 
+> To be honest, I don't really know why these are required and what effect
+> they have -- the comments above taken from the downstream version are
+> the only thing I have to go by. I might try removing them to see if
+> there is any noticable change and whether they could be added only later
+> with the respective drivers.
+
+If you don't know that they are or what they do and you haven't tested
+them, they should not be submitted upstream.
+
+> > > +static struct mfd_cell pm88x_devs[] = {
+> > > +	{
+> > > +		.name = "88pm88x-onkey",
+> > > +		.num_resources = ARRAY_SIZE(onkey_resources),
+> > > +		.resources = onkey_resources,
+> > > +		.id = -1,
+> > > +	},
+> > > +};
+> >
+> > It's not an MFD if it only supports a single device.
+> 
+> As I have noted above with respect to the IRQ enum and also in the
+> commit message, I have so far only added the parts which there is
+> already use for. I intend to add the other parts along with the
+> respective subdevice drivers, please see my regulator series [1] for an
+> example.
+> 
+> I thought this approach would make for shorter and simpler patches and
+> also would allow me to make more informed decisions as I familiarize
+> myself with the downstream subdevice drivers more closely one by one.
+
+One device doesn't warrant an MFD.  Please add more devices.
+
+-- 
+Lee Jones [李琼斯]
 
