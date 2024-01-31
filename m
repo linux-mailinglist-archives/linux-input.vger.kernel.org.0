@@ -1,159 +1,265 @@
-Return-Path: <linux-input+bounces-1583-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1584-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA00844298
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 16:06:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07145844368
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 16:52:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03BC0297D02
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 15:06:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B128F283FF1
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 15:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504CB8612C;
-	Wed, 31 Jan 2024 15:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58B4082865;
+	Wed, 31 Jan 2024 15:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGN10B/1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D75869D00;
-	Wed, 31 Jan 2024 15:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB9C433CB;
+	Wed, 31 Jan 2024 15:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706713519; cv=none; b=ih9Ubx+d8bzKlvOFzwughyVD1I7btuC/hNmUM597p4X9u7yUQRG8bK9ZaMj67sp0BphPm2B68jh2R8j4oHa5332FE0mlXzVbWTemkU5m+wK0NaZtcIq9BThx+3I0GLcc9akb0Iv+DYfzOEYw2mn/334/evQJBU51qQnivA8SH7c=
+	t=1706716354; cv=none; b=nGt3mWcewYwn/t5S9MeJMc1eYcERZriEH0Jt2X9zuAk19FSxO7URPktWqLCJqj6Qh8k12ZFOPmRH0dLLZV8jS4KWid55iaYIcohXNIO3aoo0h5XQr2cx2/UMRSEeLo95VZzeR2bERFjR96Mis/L+cbIi/Iw7iMErSQOoJ5zJG+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706713519; c=relaxed/simple;
-	bh=WU+VKG03eBUkvtkiguojXYPCCPA+rxN7uV/uylx6Uwo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VssN3P0kD3ug2ek3mQ0NLDYcuGvAYkBuTJWTQsX6Hv1AmxP5YJysW19oYlhQW1cofqSPdZP0cTeg4zMdFUpT1l+PkOSImrN3wrSfH19OanA/B4aK5cTW16OFW9iyM8mmZvZOSxn6WngHGJdsBqxmhG9637IRQGA5z61BRfTVq6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id C1234FFB3B;
-	Wed, 31 Jan 2024 15:05:12 +0000 (UTC)
-Message-ID: <a5113807-429e-449b-aec0-8882c7976eb5@enpas.org>
-Date: Thu, 1 Feb 2024 00:05:09 +0900
+	s=arc-20240116; t=1706716354; c=relaxed/simple;
+	bh=gh7UgQTt1upM52DH9/brHa41xulwVb6hdMi49LlFaU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ICypWAs3r25YJdCC9IrU7jv0Oe7phJg7LKjPaY1oMMs+ahoL09NlVNyxQdqmMmzriE/CyFAN2RKmO41y5cRGVEgxg/aI6UvRTtP53NLjBFd0s17uGoehsS+4rhNidxs7zaxwEkcpxqnI2T5wyxzgQKER6HxKKPmh6FobbntZn8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGN10B/1; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124d43943so1218734e87.2;
+        Wed, 31 Jan 2024 07:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706716350; x=1707321150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OQX3o9OdnVWodXK7XnVqKIBMgmyYUG9SCf1DG/2FOUc=;
+        b=KGN10B/1Q2izJ7khreM+avVzPxttmnrQ0fWfhHKlJH37fb0c3IGfzA+Vhr8gTudMpR
+         Mm+UN2/Ew0y2ad4QbrJzkqhVQXj6koccU5ukHsXH1rydGRma1ylWaQc+TbB+ImEH0VC2
+         DLO8D1TIeYsWvNNjdzXZB6Cap31gg1O6WQrCiWvUavYlqfSmQnkaR2YsOcQ9XHVWiYq9
+         VxHTPR+PV7wjZ2VrAuoJkME/eUCucPA0dtSF6uOmLipkMbXvzfLGTemDW1PFplD2c5nq
+         NPrPSubPsk7oHXi94Fj9Y0Phb3EUxrIDa/q0CpxRBfbmxPqMAhgxaK+PP/P0HE3HHthx
+         FGFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706716350; x=1707321150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OQX3o9OdnVWodXK7XnVqKIBMgmyYUG9SCf1DG/2FOUc=;
+        b=KqAwN9l4C3i/DZIlxvb06SKiUD9DwRLn48zVE6250ml48wCpcOdAFOt8e9GcbOWSQp
+         HkHrtp9neg6ijTQV4LXL5D6MRMd5bWIJFWCDEFfD7A4JILV7kS9O2tW5+RanAGwe1S6T
+         rczRzNHWn5eKE+OKMRy955jp9bWhqLuykGudFHWaNOtUoKB22gzKfxy289K6Uhjc0hfO
+         8h0/iO/ZAwYLLOcrptlt51Vh0xyplHmjEhL2RZdEBcLAa6LpcBvY5AcxSW2iy5mFFQnx
+         SqOpOHCxIm/v7G3y4liQZzu64WDqfX8XoZRpBYxMrEASuYieiml+SmtKfRHDmisONEXT
+         +rgg==
+X-Gm-Message-State: AOJu0Yx4sYe9BfuV+q0Cnd2e74wMIdytWxPerJlDRE8nkLdAqkFUO9jG
+	jZT+nWyQPoVYoQ6okVx4xhIP40YOn2lTcbs53vYUQkjkFl+3UHKwIDTSGF0OXDeNus4u85LV6s+
+	lgPrmD5y3ymusTg5R4VkMC1Ea5cw=
+X-Google-Smtp-Source: AGHT+IHGgRpeCu9yNBRtA4a5mdEUPe6rJOKy5MddfQNAEf49HG41vyeNWWjwuxEzNvIAJhfV9seBWUCZ2kKje+jEW6w=
+X-Received: by 2002:a05:651c:10c9:b0:2d0:4fbb:7bfd with SMTP id
+ l9-20020a05651c10c900b002d04fbb7bfdmr1431157ljn.10.1706716349820; Wed, 31 Jan
+ 2024 07:52:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address
- request
-Content-Language: en-US
-To: Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240115144538.12018-1-max@enpas.org>
- <20240115144538.12018-3-max@enpas.org>
- <CAEc3jaD9qXp=F6Xfg8bdeC1Hv5pHiKA16SBd=-ac74ibE1ELyw@mail.gmail.com>
- <cb8290a0-1937-4937-ace5-e2a22a1f6e41@enpas.org>
- <CAEc3jaDp-GRoZs9Pp0XxCeARfPx0xFq5SdNkignGeCu0P2+Fdw@mail.gmail.com>
-From: Max Staudt <max@enpas.org>
-Autocrypt: addr=max@enpas.org; keydata=
- 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
- PsRBqTJGs7jw5gOWMMchFaemEnEJtg==
-In-Reply-To: <CAEc3jaDp-GRoZs9Pp0XxCeARfPx0xFq5SdNkignGeCu0P2+Fdw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz> <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com> <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com> <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz> <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com> <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com> <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com> <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com> <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+In-Reply-To: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Wed, 31 Jan 2024 07:52:17 -0800
+Message-ID: <CAEc3jaDsv0hv8gcqsMdcrMf4WK-Nq0LMgPcVHzv87x+J0M=V2Q@mail.gmail.com>
+Subject: Re: Future handling of complex RGB devices on Linux
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	jikos@kernel.org, linux-kernel@vger.kernel.org, 
+	Jelle van der Waa <jelle@vdwaa.nl>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, 
+	ojeda@kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/31/24 05:59, Roderick Colenbrander wrote:
-> I remember on the console side that we support a number of controllers
-> including our official model and some licensed controllers. I recall
-> them taking some different codepaths and HID reports differently. It
-> has been a while, so I don't recall the details. If I remember it
-> could be that all of the licensed ones were USB-only (of course there
-> are some Bluetooth capable clones).
+On Wed, Jan 31, 2024 at 3:42=E2=80=AFAM Werner Sembach <wse@tuxedocomputers=
+.com> wrote:
+>
+> Hi,
+>
+> so I combined Hans last draft, with the discussion since then and the com=
+ments
+> from the OpenRGB maintainers from here
+> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916 and my own exper=
+ience
+> and came up witrh this rough updated draft for the new uapi:
+>
+> Future handling of complex RGB devices on Linux:
+>
+> Optional: Provide a basic leds-subsystem driver:
+>      - The whole device is treated as a singular RGB led in the current l=
+eds uapi
+>          - Backwards compatibility
+>          - Have something work out-of-the-box and during boot time
+>      - The driver also registers a misc device with a singluar sysfs attr=
+ibute
+> select_uapi
+>          - reading this gives back "[leds] none"
+>          - the current active uapi can be selected by writing it to that =
+attribute
+>          - switching the uapi means deregistering the device from that en=
+tirely
+> and registering and initializing it with the new one froms scratch
+>          - selecting none only does the deregistering
+>
+> If the device is already reachable by userspace directly, e.g. via hidraw=
+, the
+> kernel will only offer this basic implementation and a more complex drive=
+r has
+> to be implemented in userspace.
+>      - This driver has to use the select_uapi attribute first and select =
+"none"
+> to avoid undefined behaviour caused by accessing the leds upai and hidraw=
+ to
+> control the lighting at the same time
+>      - Question: How to best associate the select_uapi attribute to the
+> corresponding hidraw (or other) direct access channel? So that a userspac=
+e
+> driver can reliable check whether or not this has to be set.
+>
+> Devices not reachable by userspace directly, e.g. because they are contro=
+led via
+> a wmi interface, can also be implemented in the new rgbledstring-subsyste=
+m
+> (working title) for more complex control
+>      - a rgbledstring device provides an ioctl interface (ioctl only no r=
+/w)
+> using /dev/rgbledstring0, /dev/rgbledstring1, etc. registered as a misc c=
+hardev.
+>          - get-device-info ioctl which returns in a single struct:
+>              - char name[64]                     /* Device model name /
+> identifier, preferable human readable. For keyboards, if known to the dri=
+ver,
+> physical layout (or even printed layout) should be separated here */
+>              - enum device_type                  /* e.g. keyboard, mouse,
+> lightbar, etc. */
+>              - char firmware_version_string[64]  /* if known to the drive=
+r,
+> empty otherwise */
+>              - char serial_number[64]            /* if known to the drive=
+r,
+> empty otherwise */
+>              - enum supported_modes[64]          /* modes supported by th=
+e
+> firmware e.g. static/direct, breathing, scan, raindrops, etc. */
+>          - get-mode-info icotl, RFC here: Hans thinks it is better to hav=
+e the
+> modes and their inputs staticly defined and have, if required, something =
+like
+> breathing_clevo_1, breathing_clevo_2, breathing_tongfang_1 if the inputs =
+vary
+> between vendors. I think a dynamic approach could be useful where userspa=
+ce just
+> queries the struct required for each individual mode.
+>              - input: a mode from the supported_modes extracted from get-=
+device-info
+>              - output: static information about the mode, e.g.
+> max_animation_speed, max_brightness, etc.
+>              - output: the struct/a list of attributes and their types re=
+quired
+> to configure the mode
+>          - set-mode ioctl takes a single struct:
+>              - enum mode                         /* from supported_modes =
+*/
+>              - union data
+>                  - char raw[3072]
+>                  - <all structs returned by get-mode-info>
+>          - The driver also registers a singluar sysfs attribute select_ua=
+pi
+>              - reading this gives back "[leds] rgbledstring none" or
+> "[rgbledstring] none" respectifly
+>              - Discussion question: should select_uapi instead be use_led=
+s_uapi
+>                  - if 1: use basic leds driver
+>                  - if 0: if device is userspace accessible no kernel driv=
+er is
+> active, if device ist not userspace accessible register rgbledstring (aka
+> implicit separation between rgbledstring and none instead of explicit one=
+)
+>
+> Zone configuration would be seen as a subset of mode configuration, as I =
+suspect
+> not every mode needs the zone configuration even on devices that offer it=
+?
+>
+> The most simple mode would be static/direct and the set-mode struct would=
+ look
+> like this:
+> {
+>      enum mode, /* =3D static */
+>      {
+>          uint8 brightness, /* global brightness, some keyboards offer thi=
+s */
+>          uint8 color[<number_of_leds>*3]
+>      }
+> }
+>
+> Question: Are there modes that have a separate setup command that is only
+> required once and then a continuous stream of update information? If yes,=
+ should
+> we reflect that by splitting set-mode into set-mode-setup and set-mode-up=
+date
+> (with get-mode-info returning one struct for each)? Or should userspace j=
+ust
+> always send setup and update information and it's up to the kernel driver=
+ to
+> only resend the setup command when something has changed? In the former c=
+ase
+> set-mode-update might be a noop in most cases.
+>
+> Discussion on this might also happen here:
+> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1751170108
+>
+> Regards,
+>
+> Werner
+>
+>
 
-Now that is an interesting tidbit... if you learn more, I'd be curious to hear about it if possible!
+Hi Werner,
 
+I don't have a particular opinion as I don't know too much about RGB
+keyboards. I just want to provide some food for thought and provide
+some extra context of other devices. Just to challenge the discussion
+and make sure than any API is flexible enough as it is hard to change
+kernel interfaces later on.
 
-> I'm not sure about the best way to handle this. I have kind of been
-> leaning towards doing a vid/pid like check for this case even though I
-> really hate it. It could be within dualshock4_get_mac_address as we do
-> some other special handling there too (although having the caller of
-> dualshock4_get_mac_address do it is an option too, but I think within
-> get_mac_address is slightly nicer for now).
+At Sony our PlayStation controllers historically had a variety of LEDs
+whether basic indicator ones (e.g. used to pick a player number) as
+well as RGB leds. The devices are all HID based, but we do custom
+parsing in hid-playstation to break out them out through LED framework
+(regular leds and leds-class-multicolor for RGB). They were a bit of a
+nightmare for applications to discover as crawling sysfs isn't fun (we
+wrote a lot of code for Android's input framework to do this for our
+own peripherals, but others too).
 
-As suggested in the 7545:0104 patch, how about dropping this patch as well, until we encounter a device we really want to add and that does not provide a MAC address?
+I'm not entirely sure where your RGB proposal is headed, but if one of
+the higher goals is making dealing with LEDs and input devices easier,
+maybe this extra info helps some of the discussion.
 
-
-If it's okay for you, I'd send a v2 of everything after hearing your comment on the patch to make controllers work that don't provide gyro calibration data.
-
-
-Max
-
+Thanks,
+Roderick Colenbrander
 
