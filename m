@@ -1,146 +1,190 @@
-Return-Path: <linux-input+bounces-1575-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1576-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A53843DA8
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 12:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6008F843EA6
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 12:41:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1CA11F27E8A
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:05:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C98FF1F26D15
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72EB36DD00;
-	Wed, 31 Jan 2024 11:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F4C74E21;
+	Wed, 31 Jan 2024 11:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SDj5lO2y"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZxYtFrTD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9E978668;
-	Wed, 31 Jan 2024 11:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF0B762C3;
+	Wed, 31 Jan 2024 11:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698997; cv=none; b=B7zcySlfimTUkQ8TV0LCDnlAfGU90K/7y/fnZ/eryA1779aT5kdyhSeqN/azEchXuO5yV4a3aM0wmC2ft9zUPFilPnPRtvHm8ubKV6/7NHLOw8aZhSp1SU6I9sSH/HdFgTvCHVgIHHD+xn7pD1mYsf20iU3TzKgfKYnR5AFKEtk=
+	t=1706701274; cv=none; b=Tmpknyo890UFmI/XGUZ3mpKmbD1uKuSReuHodz/yoNzHVbvE/1Vj+qLbuWtmHHmF9PKWkswvMEXZnc4SB1vPV7HgOi/35sY0Y3rxqilyBIBSIGQMdX59JjHqqFkHnTDsoKiX+iK+0PksPA2x/pJrm5r3ZvQxYhTSF2CLAnVt7rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698997; c=relaxed/simple;
-	bh=wz8mZeMJ4lXkzfi7C4k08g/FeXlGD7xz3n4JSrz6JM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVwOE9D7BIY8CTQjF6u1KRyKQDaim6Am+t/qw+sD5821LYBWPiRwuxnoXKDvBClorZMyBsn61h7vaJXOzaqUh2JGfEZzEnZHAjPmWi12PzyYjm4knkEXPqRMTtSI/Sb0Du0HUScf3P4I8zlFI/yYHLvJc9nN0q3cetCibn61Y9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SDj5lO2y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AD09C433F1;
-	Wed, 31 Jan 2024 11:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706698997;
-	bh=wz8mZeMJ4lXkzfi7C4k08g/FeXlGD7xz3n4JSrz6JM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SDj5lO2yzopiyTwlLyrOIyt/IcDQW50EfY9T4oLgxD6kWFpEVVfwxHBNfDHfQ6lpu
-	 kMnirpZfHTX425I0j/MEXYwhu7m5QtjeA+RTZnJl6BGgPnwgn51W5nS8n6GSjrD6JF
-	 NiRIp8+Lj+10XqHrQUmq+JdQvpz57RnfqzgLAZ3dnvvaiUyAIcaAGDn8dZylaTVmmW
-	 wN1aX0/visHzvJL4U8eRjHJ86HjrQt1AuGIBF2GRiQlnPebJ9IA+T+JuMD9Fg2NxPI
-	 5zB966/YiXtEUv9UElq7jUKfE4zQn+FCdtkrKH/IFPzLwZoL6VDfY6oMwGNJOJNYsX
-	 um8hvs7GgY+bg==
-Date: Wed, 31 Jan 2024 11:03:11 +0000
-From: Lee Jones <lee@kernel.org>
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-Cc: Karel Balej <balejk@matfyz.cz>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/5] mfd: add 88pm88x driver
-Message-ID: <20240131110311.GI8551@google.com>
-References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
- <20231217131838.7569-3-karelb@gimli.ms.mff.cuni.cz>
- <20240125122634.GE74950@google.com>
- <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
+	s=arc-20240116; t=1706701274; c=relaxed/simple;
+	bh=Ysk1DXQQH8iuG3T6SLSADhPrd8JuNH55pHiq/6Vyz18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XqCQfzVHcOHwaf9/kYM6ZOftnT9Dfh/evLSuoHD9JgjI7BNx8STCh7FR5GPoQ0sDl3w5ULCnodXZZn2cmmfJF1HNYCgIrfUj8FwwoegsIkK+8gFio0Q5YRRLATp9kKhR80nCk59J0sCw9H9lJ1u35frMTZRuTzsmaQEQqtovpd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZxYtFrTD; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id A32332FC004A;
+	Wed, 31 Jan 2024 12:41:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706701263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SsJehYO30sr02LgW1i3XyRegpdTntKLXnN2eAseYrk=;
+	b=ZxYtFrTDL35wTkktQPwdhDVYEOf8pW9ybpn7/klnIOy0ABz9s2wkDHJ500ZGK/X9L/hUNQ
+	12LVdbNj7C9QpSeFB0m7MXclVlvHmle5/ZCdjQe56Bjoq9VS8viJv6tDuZnGG9dDYJebuD
+	k0LFC/WFVpfDcbwzUp9vYywXrLB8dUM=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+Date: Wed, 31 Jan 2024 12:41:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Future handling of complex RGB devices on Linux
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
 
-On Sun, 28 Jan 2024, Karel Balej wrote:
-> > > +	/* GPIO1: DVC, GPIO0: input */
-> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
-> >
-> > Shouldn't you set these up using Pintrl?
-> 
-> You mean to add a new MFD cell for the pins and write the respective
-> driver? The downstream implementation has no such thing so I'm not sure
-> if I would be able to do that from scratch.
+Hi,
 
-This is not a Pinctrl driver.
+so I combined Hans last draft, with the discussion since then and the comments 
+from the OpenRGB maintainers from here 
+https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916 and my own experience 
+and came up witrh this rough updated draft for the new uapi:
 
-Isn't there a generic API you can use?
+Future handling of complex RGB devices on Linux:
 
-> > > +	/* GPIO2: input */
-> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL2, 0x00),
-> > > +	/* DVC2, DVC1 */
-> >
-> > Please unify all of the comments.
-> >
-> > They all use a different structure.
-> >
-> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL3, 0x44),
-> > > +	/* GPIO5V_1:input, GPIO5V_2: input */
-> > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL4, 0x00),
-> > > +	/* output 32 kHz from XO */
-> > > +	REG_SEQ0(PM88X_REG_AON_CTRL2, 0x2a),
-> > > +	/* OSC_FREERUN = 1, to lock FLL */
-> > > +	REG_SEQ0(PM88X_REG_BK_OSC_CTRL1, 0x0f),
-> > > +	/* XO_LJ = 1, enable low jitter for 32 kHz */
-> > > +	REG_SEQ0(PM88X_REG_LOWPOWER2, 0x20),
-> > > +	/* OV_VSYS and UV_VSYS1 comparators on VSYS disabled, VSYS_OVER_TH : 5.6V */
-> > > +	REG_SEQ0(PM88X_REG_LOWPOWER4, 0xc8),
-> > > +	/* set the duty cycle of charger DC/DC to max */
-> > > +	REG_SEQ0(PM88X_REG_BK_OSC_CTRL3, 0xc0),
-> >
-> > These all looks like they should be handled in their respective drivers?
-> >
-> > "patch"ing these in seems like a hack.
-> 
-> To be honest, I don't really know why these are required and what effect
-> they have -- the comments above taken from the downstream version are
-> the only thing I have to go by. I might try removing them to see if
-> there is any noticable change and whether they could be added only later
-> with the respective drivers.
+Optional: Provide a basic leds-subsystem driver:
+     - The whole device is treated as a singular RGB led in the current leds uapi
+         - Backwards compatibility
+         - Have something work out-of-the-box and during boot time
+     - The driver also registers a misc device with a singluar sysfs attribute 
+select_uapi
+         - reading this gives back "[leds] none"
+         - the current active uapi can be selected by writing it to that attribute
+         - switching the uapi means deregistering the device from that entirely 
+and registering and initializing it with the new one froms scratch
+         - selecting none only does the deregistering
 
-If you don't know that they are or what they do and you haven't tested
-them, they should not be submitted upstream.
+If the device is already reachable by userspace directly, e.g. via hidraw, the 
+kernel will only offer this basic implementation and a more complex driver has 
+to be implemented in userspace.
+     - This driver has to use the select_uapi attribute first and select "none" 
+to avoid undefined behaviour caused by accessing the leds upai and hidraw to 
+control the lighting at the same time
+     - Question: How to best associate the select_uapi attribute to the 
+corresponding hidraw (or other) direct access channel? So that a userspace 
+driver can reliable check whether or not this has to be set.
 
-> > > +static struct mfd_cell pm88x_devs[] = {
-> > > +	{
-> > > +		.name = "88pm88x-onkey",
-> > > +		.num_resources = ARRAY_SIZE(onkey_resources),
-> > > +		.resources = onkey_resources,
-> > > +		.id = -1,
-> > > +	},
-> > > +};
-> >
-> > It's not an MFD if it only supports a single device.
-> 
-> As I have noted above with respect to the IRQ enum and also in the
-> commit message, I have so far only added the parts which there is
-> already use for. I intend to add the other parts along with the
-> respective subdevice drivers, please see my regulator series [1] for an
-> example.
-> 
-> I thought this approach would make for shorter and simpler patches and
-> also would allow me to make more informed decisions as I familiarize
-> myself with the downstream subdevice drivers more closely one by one.
+Devices not reachable by userspace directly, e.g. because they are controled via 
+a wmi interface, can also be implemented in the new rgbledstring-subsystem 
+(working title) for more complex control
+     - a rgbledstring device provides an ioctl interface (ioctl only no r/w) 
+using /dev/rgbledstring0, /dev/rgbledstring1, etc. registered as a misc chardev.
+         - get-device-info ioctl which returns in a single struct:
+             - char name[64]                     /* Device model name / 
+identifier, preferable human readable. For keyboards, if known to the driver, 
+physical layout (or even printed layout) should be separated here */
+             - enum device_type                  /* e.g. keyboard, mouse, 
+lightbar, etc. */
+             - char firmware_version_string[64]  /* if known to the driver, 
+empty otherwise */
+             - char serial_number[64]            /* if known to the driver, 
+empty otherwise */
+             - enum supported_modes[64]          /* modes supported by the 
+firmware e.g. static/direct, breathing, scan, raindrops, etc. */
+         - get-mode-info icotl, RFC here: Hans thinks it is better to have the 
+modes and their inputs staticly defined and have, if required, something like 
+breathing_clevo_1, breathing_clevo_2, breathing_tongfang_1 if the inputs vary 
+between vendors. I think a dynamic approach could be useful where userspace just 
+queries the struct required for each individual mode.
+             - input: a mode from the supported_modes extracted from get-device-info
+             - output: static information about the mode, e.g. 
+max_animation_speed, max_brightness, etc.
+             - output: the struct/a list of attributes and their types required 
+to configure the mode
+         - set-mode ioctl takes a single struct:
+             - enum mode                         /* from supported_modes */
+             - union data
+                 - char raw[3072]
+                 - <all structs returned by get-mode-info>
+         - The driver also registers a singluar sysfs attribute select_uapi
+             - reading this gives back "[leds] rgbledstring none" or 
+"[rgbledstring] none" respectifly
+             - Discussion question: should select_uapi instead be use_leds_uapi
+                 - if 1: use basic leds driver
+                 - if 0: if device is userspace accessible no kernel driver is 
+active, if device ist not userspace accessible register rgbledstring (aka 
+implicit separation between rgbledstring and none instead of explicit one)
 
-One device doesn't warrant an MFD.  Please add more devices.
+Zone configuration would be seen as a subset of mode configuration, as I suspect 
+not every mode needs the zone configuration even on devices that offer it?
 
--- 
-Lee Jones [李琼斯]
+The most simple mode would be static/direct and the set-mode struct would look 
+like this:
+{
+     enum mode, /* = static */
+     {
+         uint8 brightness, /* global brightness, some keyboards offer this */
+         uint8 color[<number_of_leds>*3]
+     }
+}
+
+Question: Are there modes that have a separate setup command that is only 
+required once and then a continuous stream of update information? If yes, should 
+we reflect that by splitting set-mode into set-mode-setup and set-mode-update 
+(with get-mode-info returning one struct for each)? Or should userspace just 
+always send setup and update information and it's up to the kernel driver to 
+only resend the setup command when something has changed? In the former case 
+set-mode-update might be a noop in most cases.
+
+Discussion on this might also happen here: 
+https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1751170108
+
+Regards,
+
+Werner
+
 
