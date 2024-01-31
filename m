@@ -1,171 +1,173 @@
-Return-Path: <linux-input+bounces-1566-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1567-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A34843B89
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:58:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A21843C8B
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:28:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 297301C220F9
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 09:58:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6521E2928A5
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:28:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD5769D00;
-	Wed, 31 Jan 2024 09:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NKe50600"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32DB56DD1E;
+	Wed, 31 Jan 2024 10:27:11 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BBC69D02
-	for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 09:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAF226DD00;
+	Wed, 31 Jan 2024 10:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706695077; cv=none; b=t1aSqUvP5j8hE1ieZOLR7dy/p3ibiRPJKVx3Xh5soHdsisNCv8vVSVwlEBzna8YuouUtOFBn32ph7RCx2nw9rzG9o+lFJjenBy8CBOuKXipuyHevHQkmIdFOljizkBuwEpBLfsIgAZLURX5NLmQwJSWJC0uOMlc72pf9+wph/CE=
+	t=1706696831; cv=none; b=YvKIxNo5LwYmHOrLCktWOlhZaAI735V5s6/sx89qrjcqYjZ1cWWmXGN2zqN224R0x2v1SDPJ8gqcmaCvUdtPOQpMuM3yeSqX8lHcwcAlPkvLMbCb/K6BOEQ0bQSSorqhOG/5z8NRG6KHxNftoVQKzaiKp+XT7eQcdLHVInRcBp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706695077; c=relaxed/simple;
-	bh=uJ8CHYYT4dvem+7W+JJDFp1el7H1cjBMm17tWDT3GiU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WXtqWk5vgHo3EaN9ufoX/GVtVIwBaNaAv1DXeYJ63t28xREW0o00hjrB7jqKCAycltJO31UVIzzb09JCLf3jDq9fcT9/sRSY7INPDKjBpPdHrW0kw2vVvzyGcKnA2kjaSbGWXjErEDben/jJKMU7YjAyxjPXSgPO5jRE/cXBabc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NKe50600; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706695075;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B3JEysCXRHAT92wPhPM7QEv3/4oTwikWcJbcmbdh2Ow=;
-	b=NKe50600EBp43Tl46KyuX3YBZ5z4z0j5dWacihKeFN2t21Cut36mmGRHqNzIwJgDqQQtF1
-	SePWB9sMr7/ftv94FLvi5W92amABqFBe7O08YLyiRp0t5aEXggcTSY7LVmppJCtNU8TtUG
-	wy+N0dlMBmP0sTmqkdmFtQ6xb00Aboo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-656-syiSERr4MOysyyWDVqtTiw-1; Wed, 31 Jan 2024 04:57:52 -0500
-X-MC-Unique: syiSERr4MOysyyWDVqtTiw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a35a649c608so182425966b.2
-        for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 01:57:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706695071; x=1707299871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B3JEysCXRHAT92wPhPM7QEv3/4oTwikWcJbcmbdh2Ow=;
-        b=OcLJhZOQXCouSF3bBxBL95SOs+AyEa3A5jMLcOG7BtscJtj24ZyDZJW+3Uoppjuxa0
-         2eVDeQldliA4bLE0vzzKhh3ZG+unWZdN8u2I19ATy466o7gOUTfS2TVQ5Ha2dPQR0h78
-         F7CUWCikZnKNQ5eN2skaNj94u3fjt5P3Zh+hXRyfPj73PnyjRyMTFVqv0HOfKkZcU/iY
-         K3K8xaCoOzJIFxcxZ0cKMlYWretgtSh7n9BOA+rR6VUoJUoD6bptBoa7gLWcK2/b4gVu
-         YI8U219M6NZG+yhL7ohZRChPjhiJs+M36IyzXki3L7LOgMqEr5XYzOPnHEthMDDvug4v
-         PaRg==
-X-Gm-Message-State: AOJu0YwO7qnGrm+KCrnEoE4Uq1tPqHDfKC7trGQx6LywlRiEd3LknHRr
-	pmRlsiX6WuQIhPpXDbwToG3Yo36XNiZsMQh8x7shk0raL1AGg/YjcsVbbSOSi5OBcV6KuA2wVrL
-	zlWkcf5CjO0XH+57NymJZ6f84ACxW98ziL7NhFI4ReFwAb6FMaUHANVQfmuErR6SuqyfLLVX1aQ
-	IJN2g73UsbiW1zCeF+yUwHkrfZrt7GajM4i5E=
-X-Received: by 2002:a17:906:16c7:b0:a36:7f6b:306 with SMTP id t7-20020a17090616c700b00a367f6b0306mr604715ejd.76.1706695071626;
-        Wed, 31 Jan 2024 01:57:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHgHP1nwiXMMru0WG+4Kqez/KPIqym6zauOKBmSbCnrUqD+xqVdKmqmtrDk4SkQUtsk72HFb6PSNQdPcTyshlI=
-X-Received: by 2002:a17:906:16c7:b0:a36:7f6b:306 with SMTP id
- t7-20020a17090616c700b00a367f6b0306mr604706ejd.76.1706695071312; Wed, 31 Jan
- 2024 01:57:51 -0800 (PST)
+	s=arc-20240116; t=1706696831; c=relaxed/simple;
+	bh=3tOOKEFDglSKDgxDOhWsj9U4KNMdCRxM9r4EgNb2MZI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mABcI/vTZJa3PxRaQDQDYNYspBNJJYNfYD0AAJHEDM415M6EJI5ycoquGvZ8x3dnqZqT/EV3G+nqT2q/1eR6nN6BhNgTusNbeRtTK6J3Wp5gHYe26ai7NJYIdBPSSiTDbJqSlXfCgkg7JU8HZPS9cVyS+VIicU1d7ddd150fVao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
+   d="scan'208";a="192377752"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:06 +0900
+Received: from localhost.localdomain (unknown [10.226.92.227])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8E50F41DF0AB;
+	Wed, 31 Jan 2024 19:26:59 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Lee Jones <lee@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 RESEND 0/6] Convert DA906{1,2} bindings to json-schema
+Date: Wed, 31 Jan 2024 10:26:50 +0000
+Message-Id: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEQPD4S1zyUMUyJbOb8i5a+URsLCrGMKPKD47es8OgCoKKwRQg@mail.gmail.com>
- <CAEQPD4T+C_RaP_z96XRXj1teGiDMZu1MsPn8hAQ5FhSoaajZaA@mail.gmail.com> <CAEQPD4RSFJN5TvU2vwHL=w1TkMzxD+v1=jxyyNzZDMyPane=BQ@mail.gmail.com>
-In-Reply-To: <CAEQPD4RSFJN5TvU2vwHL=w1TkMzxD+v1=jxyyNzZDMyPane=BQ@mail.gmail.com>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Wed, 31 Jan 2024 10:57:39 +0100
-Message-ID: <CAO-hwJ+OFxRqoL4RYaKMR_PfmpBJuyWUGcDXRrp7jWuYfT=CyQ@mail.gmail.com>
-Subject: Re: Suspected bug in hid-microsoft.c
-To: Taco Jerkface <tacodog311@gmail.com>, Siarhei Vishniakou <svv@google.com>
-Cc: linux-input@vger.kernel.org, jikos@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Convert the below bindings to json-schema
+1) DA906{1,2} mfd bindings
+2) DA906{1,2,3} onkey bindings
+3) DA906{1,2,3} thermal bindings
 
-[Adding Siarhei who added support for those controllers in the kernel]
+Document missing gpio child node for da9062 and update MAINTAINERS entries.
 
-On Wed, Jan 31, 2024 at 7:27=E2=80=AFAM Taco Jerkface <tacodog311@gmail.com=
-> wrote:
->
-> Resending without HTML:
->
-> Hi,
->
-> I hope this is the correct contact for this report, I found you as the
-> maintainer in the hid-microsoft.c.
->
-> I believe there is a bug in the microsoft bluetooth driver for the
-> Xbox Elite Series 2 controller.  I have been experiencing issues with
-> it that I initially thought were SDL related.  However the SDL team
-> seems to think this is driver related. My SDL bug report information
-> is here:
->
-> https://github.com/libsdl-org/SDL/issues/8907
+Merge strategy:
+Since there is binding dependency between input, thermal and MFD
+subsystem. it is decided that this series will go through the MFD tree.
+So once the respective subsystem maintainers, DT and Renesas are happy
+with the patch they can give an ack/rb tag, so that it can be applied to
+MFD tree.
 
-Hard to say anything with that bug report because we don't know what
-those tools are supposed to do, and how they access the device (hidraw
-or evdev).
+v6->v6 Resend:
+ * Dropped Patch#2 and patch#3 from this series as it hits mainline.
+ * Added Ack from Lee Jones for all the patches.
+ * Fixed merge conflict on MAINTAINERS file for patch#1
+ * Added Rb tag from Conor for patch#6.
+v5->v6:
+ * Added Rb tag from Guenter Roeck for watchdog binding patches.
+ * Updated commit description related to "gpio-controller" and
+   "#gpio-cells" properties defined in parent node.
+ * Added Rb tag from Krzysztof Kozlowski for patch#8.
+v4->v5:
+ * Updated cover letter with merging strategy.
+ * Added fixes tag for patch#1
+ * Added Rb tags from Geert and Krzysztof for patch#1
+ * Added Ack from Conor for patch#1
+ * Added Rb tag from Geert and Ack from Conor for patch#2
+ * Drop items and just use enum as it is easier to read for compatibles.
+ * Retained the tags for patch#2 as it is trivial change.
+ * Added Rb tag from Geert for patch#3
+ * Updated commit header and description by replacing
+   'watchdog property'->'watchdog child node'
+ * Added Rb tag from Geert for patch#4.
+ * Added Rb tag from Krzysztof and Conor for patch#5
+ * Dropped Items, Just enum as it is easier to read compatibles.
+ * Retained tags for patch#5 as the changes are trivial.
+ * Updated commit description for patch#8
+ * Dropped unnecessary ref from gpio child node.
+ * Added gpio-hog pattern property
+ * Moved gpio-controller,gpio-cells above child nodes
+ * Sorted compatible in rtc child node.
+ * Dropped status from example.
+ * Updated the example.
+v3->v4:
+ * Patch#1 is merge of patch#1 from v2 + patch#8 from v2.
+ * Dropped comment for d9061 watchdog fallback
+ * Replaced enum->const for dlg,da9061-watchdog and its fallback.
+ * Restored patch#4 in series 1 and dropped the thermal example
+ * Added Ack from Conor Dooley for da9063 watchdog binding support.
+ * Updated title DA9062/61->DA906{1,2,3} as it supports DA9063.
+ * Retained Rb tag since the changes are trivial.
+ * Added Ack from Conor for updating watchdog property
+ * Dropped link to product information.
+ * Patch#5(onkey) is squashed with patch#6 and patch#9 from v2.
+ * Replaced enum->const for dlg,da9061-onkey and its fallback.
+ * Dropped example
+ * Restored the thermal binding patch from v2.
+ * Dropped example
+ * Replaced enum->const for compatible property.
+ * Added Rb tag from Rob and retained Rb tag as changes are trivial.
+ * Added Ack from Conor Dooley for patch#7.
+ * Split the thermal binding patch separate
+ * Updated the description
+v2->v3:
+ * Updated Maintainer entries for watchdog,onkey and thermal bindings
+ * Fixed bot errors related to MAINTAINERS entry, invalid doc
+   references and thermal examples by merging patch#4. 
 
-Note that the bluetooth version is using uhid because it's a BLE controller=
-.
-Basically when there is a BLE controller, bluez handles the transport
-layer from userspace, and injects the events through uhid so that it's
-handled as a normal kernel device.
+v1->v2:
+ Link: https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.renesas.com/
+ * DA9062 and DA9061 merged with DA9063
+ * Sorted the child devices
+ * mfd,onkey and thermal are pointing to child bindings
 
-So there is no "uhid userspace driver", bluez just blindly forwards
-the events/reports/commands as it is told.
+Biju Das (6):
+  dt-bindings: mfd: da9062: Update watchdog description
+  dt-bindings: mfd: dlg,da9063: Update watchdog child node
+  dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
+  dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
+  dt-bindings: mfd: dlg,da9063: Sort child devices
+  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
 
->
-> Basically, SDL reads the controller correctly when connected by USB,
-> and if I run "controllermap" with root permission, but with user
-> permissions it misreads
+ .../bindings/input/da9062-onkey.txt           |  47 ----
+ .../bindings/input/dlg,da9062-onkey.yaml      |  38 +++
+ .../devicetree/bindings/mfd/da9062.txt        | 124 ---------
+ .../devicetree/bindings/mfd/dlg,da9063.yaml   | 248 +++++++++++++++---
+ .../bindings/thermal/da9062-thermal.txt       |  36 ---
+ .../bindings/thermal/dlg,da9062-thermal.yaml  |  35 +++
+ MAINTAINERS                                   |   6 +-
+ 7 files changed, 290 insertions(+), 244 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
+ create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
+ delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 
-Using root or not shouldn't change the way your program sees the
-device: if you are capable of opening it, then you should get the same
-output.
-
-However, the immediate explanation that would come to my mind is that
-you are not using the "same" controller in both cases:
-- maybe that when you use it with root you are talking to the device
-through hidraw
-- maybe when you are not root you are talking to the device through evdev
-
-Again, not knowing the tools doesn't help me here :(
-
->  the number of buttons as 122, the first paddle
-> button on the back seems to act like the "screenshot" button from the
-> 1914 controller, and the other paddle buttons are not read.  All
-> buttons read fine with evites, but the paddle buttons "KEY_UNKNOWN"
->
-> type 1 (EV_KEY), code 240 (KEY_UNKNOWN), value 0
->
-> Please let me know if there is a better contact for this, or if there
-> is anything I can do to help identify the problem.
->
-
-Ideally I'd like Siarhei to answer here. But in the meantime, we could
-fetch some logs from the device itself which would allow me to better
-understand the issue:
-please use hid-recorder from hid-tools[1] to get the logs, and attach
-the whole output, with a recording of the events that are problematic:
-$> pip3 install hid-tools
-$> sudo hid-recorder
-
-Please dump 2 hid-recorder outputs, one with USB, and one with
-Bluetooth, with the same event sequence if possible so we can compare
-between the 2.
-
-Cheers,
-Benjamin
-
-[1] https://gitlab.freedesktop.org/libevdev/hid-tools
+-- 
+2.39.2
 
 
