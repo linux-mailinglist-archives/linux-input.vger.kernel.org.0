@@ -1,50 +1,50 @@
-Return-Path: <linux-input+bounces-1590-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1594-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50AB8448AF
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 21:20:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09188448F1
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 21:32:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13AC51C2291F
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 20:20:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F0451C20F8B
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 20:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF37E3FE2C;
-	Wed, 31 Jan 2024 20:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2uVbYHm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB7712AAFD;
+	Wed, 31 Jan 2024 20:30:02 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900B73FB1E;
-	Wed, 31 Jan 2024 20:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAF613D4FB;
+	Wed, 31 Jan 2024 20:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706732429; cv=none; b=kxmt7KKeMn0gxIgfhcXzC9wmyQ1+V/Vcjx2z19LcoRJ/RkQTrD7rGWxTTfrhwhjieI1DeuS6Zvso8vInLFe5AgPR/dR91vL+wDuiHgEY39fp3/G9el7KZ49dNN2tl9fTz4NX6cZ195R3nuGnojHAyce2VTt+gqkaFIrNVV894qM=
+	t=1706733002; cv=none; b=aorUtI2IWEwfAadK4eQLJqkU1MnHOGy+VVp1CAkanOTJ8pyCBNv1p6otjQwtkGwHS9h4lO24ndDKDfv7uyn0qn0DPEXgJaCsOCw+9p71dajraZIKeG5ukta0uAWOT/YHXO7gB506A1QNOj7gI8l9thg6yXo1HVPD7eE2DpGuy0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706732429; c=relaxed/simple;
-	bh=5n2GPaqqGywO7Qry4eYZWTM4oFGQUDmGZmFT4fN7rrA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=V5tk5twx4UxIbCwcBA7Dtjb6dijhsYCcR6BOXxpBk74eKp1vPXTq55COUdt2Vv3sQJ29/ijPYfm/d/4EnZ/XZHyob+wsuSGj6GtEHq82HCpGz/L/uQ5G4tUQhq3XdOj4lB4SN+YNpsJWMzFqBwP+yVnKr0ZUlfZFNipfpvn9flY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2uVbYHm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1644BC43399;
-	Wed, 31 Jan 2024 20:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706732429;
-	bh=5n2GPaqqGywO7Qry4eYZWTM4oFGQUDmGZmFT4fN7rrA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=j2uVbYHmJ0BNlBHTdgUBgToOHPf+Qp4+Unj1DhM4x0CdZn1Tp36nyKi13zJ4NsBIr
-	 //0kQJg6fwsnmWQYfnR2CZSUXvSIpo3/iGgYh/XaFnVL1jU0DTgM8QBNto5qWBWVDS
-	 vcqbDp7/vd0zLOGyh5KfD4vVhxPymWXNSaVHEQnaHcADHr+VtdaF38ZzDPzu6o8zPU
-	 fWEGnzHYcE7+2/JhZaS3ZIov8rGKSfUD63SwZdSAHH3lFpglQsA/0G3nIPMWrFeXm3
-	 9frtgxX17A8LyAlpcuY9DlRurZmEwHMKebMLzPTzZHfIKjiacmWjriWBzUTbkx54sG
-	 53m66RsqvuGaQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F2F56DC99E4;
-	Wed, 31 Jan 2024 20:20:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1706733002; c=relaxed/simple;
+	bh=4GtRh7WJods/5nRPcNIU9DIYmVO3KiovibqAa0Mp2Rw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M56TTePju7QzWhvnhDIoK5bK87XolbbKS/xeu5Y13KJkpLOD9xjysXYhgDt+rQVHX+iTVOqgG1ABHTTBMcFjcT8h2oHXCh+cmnxTYa9RBV8/AIKAF3vYnVjHAU/6QeUVtDjqCqv4UdEGTltTFbusEFyCWDlxguM4FLQVd0fYLtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id A1EE3A06B0;
+	Wed, 31 Jan 2024 20:22:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id AAC116000C;
+	Wed, 31 Jan 2024 20:21:55 +0000 (UTC)
+From: Joe Perches <joe@perches.com>
+To: linux-input@vger.kernel.org
+Cc: Sandeep C S <sandeep.cs@samsung.com>,
+	Junwan Cho <junwan.cho@samsung.com>,
+	Jitender Sajwan <jitender.s21@samsung.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] HID: samsung: Object code size reduction and neatening
+Date: Wed, 31 Jan 2024 12:21:35 -0800
+Message-ID: <cover.1706732238.git.joe@perches.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -52,52 +52,24 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170673242899.4502.6917209613478941432.git-patchwork-notify@kernel.org>
-Date: Wed, 31 Jan 2024 20:20:28 +0000
-References: <cover.1706491398.git.dxu@dxuuu.xyz>
-In-Reply-To: <cover.1706491398.git.dxu@dxuuu.xyz>
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org,
- bpf@vger.kernel.org, linux-input@vger.kernel.org, cgroups@vger.kernel.org,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- fsverity@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netfilter-devel@vger.kernel.org,
- alexei.starovoitov@gmail.com, olsajiri@gmail.com, quentin@isovalent.com,
- alan.maguire@oracle.com, memxor@gmail.com
+X-Rspamd-Queue-Id: AAC116000C
+X-Stat-Signature: idn3j8kwcz5oiy3p75yr3871yf98u3xp
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/wBRyWJqoR/km88mI/HUD17tBDCUtzVAg=
+X-HE-Tag: 1706732515-608211
+X-HE-Meta: U2FsdGVkX18oyJN/QLZ3rVHRUr9xW74gldjYie8Xz3gqd9xBRywKAhztgv+9cUg5J72ra18ugOoD9ZZ4UCU+Dy6q6eCB3jfczoZqMx4ZGesQb1SRABxpL/1fpW/Q8guXDJlSw8xlYaprgf4PTjGWE9IDwhqkOQA+lFHc0mlTaT/7ToqFwX6aUEm/YkBha4czT0LVzIxNr0N7LXMtNZnnzdm23B9Vjo/LUDSVTj0+WP1kSpZduJR8h7j8iJ2MuvbWqCILX0C/cEYQJULjrs4OoA==
 
-Hello:
+Reduce object size and neatening
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Joe Perches (2):
+  HID: samsung: Reduce code size
+  HID: samsung: Object size reduction and neatening
 
-On Sun, 28 Jan 2024 18:24:05 -0700 you wrote:
-> === Description ===
-> 
-> This is a bpf-treewide change that annotates all kfuncs as such inside
-> .BTF_ids. This annotation eventually allows us to automatically generate
-> kfunc prototypes from bpftool.
-> 
-> We store this metadata inside a yet-unused flags field inside struct
-> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
-> 
-> [...]
+ drivers/hid/hid-samsung.c | 652 +++++++++++++++++---------------------
+ 1 file changed, 283 insertions(+), 369 deletions(-)
 
-Here is the summary with links:
-  - [bpf-next,v4,1/3] bpf: btf: Support flags for BTF_SET8 sets
-    https://git.kernel.org/bpf/bpf-next/c/79b47344bbc5
-  - [bpf-next,v4,2/3] bpf: btf: Add BTF_KFUNCS_START/END macro pair
-    https://git.kernel.org/bpf/bpf-next/c/2747e0ee57c2
-  - [bpf-next,v4,3/3] bpf: treewide: Annotate BPF kfuncs in BTF
-    https://git.kernel.org/bpf/bpf-next/c/6e7769e6419f
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
 
