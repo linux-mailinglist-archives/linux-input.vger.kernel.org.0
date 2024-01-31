@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-1582-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1583-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D15D844227
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 15:48:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA00844298
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 16:06:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7685D1F25AE6
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 14:48:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03BC0297D02
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 15:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D2B384A25;
-	Wed, 31 Jan 2024 14:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504CB8612C;
+	Wed, 31 Jan 2024 15:05:19 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76F483CDB;
-	Wed, 31 Jan 2024 14:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D75869D00;
+	Wed, 31 Jan 2024 15:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706712532; cv=none; b=q0W9CruCvaDAxKLuP3+CmxZZRo04lVtOLk8NUSjJcjZG3eJtsLwxycMEgzUeYIUOtYKJCKP2PC1SIwJc8rtbALEDjKDWfvBBaMvz7E95bpNs4G407n0uLmw38Ow7e+7m+s4AJlDaOdjGSdPvzzjp0gSFgbhEfVbOXQQhWKBXdaI=
+	t=1706713519; cv=none; b=ih9Ubx+d8bzKlvOFzwughyVD1I7btuC/hNmUM597p4X9u7yUQRG8bK9ZaMj67sp0BphPm2B68jh2R8j4oHa5332FE0mlXzVbWTemkU5m+wK0NaZtcIq9BThx+3I0GLcc9akb0Iv+DYfzOEYw2mn/334/evQJBU51qQnivA8SH7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706712532; c=relaxed/simple;
-	bh=hi/CSU2J1Y+QCIkEj/pP9amk+Pq0WBFMSDYIBL9sJyc=;
+	s=arc-20240116; t=1706713519; c=relaxed/simple;
+	bh=WU+VKG03eBUkvtkiguojXYPCCPA+rxN7uV/uylx6Uwo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bro+qASkfsnULUWDsaa7fvizXmc0vGlqkSxKJtHIR4rbBnOqpWu60abMNqBnlh0Ii8O9mTmc5eRKmBK2UtZKgSO6BX7sK+5cOPr32OAR4FsM95iM+m6iJHWk4wQWyaTss6s3w6boNRx5PTUyrK+cq91bBrYX5YQNzPUuHw4kLSc=
+	 In-Reply-To:Content-Type; b=VssN3P0kD3ug2ek3mQ0NLDYcuGvAYkBuTJWTQsX6Hv1AmxP5YJysW19oYlhQW1cofqSPdZP0cTeg4zMdFUpT1l+PkOSImrN3wrSfH19OanA/B4aK5cTW16OFW9iyM8mmZvZOSxn6WngHGJdsBqxmhG9637IRQGA5z61BRfTVq6Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 36DADFFB3B;
-	Wed, 31 Jan 2024 14:48:38 +0000 (UTC)
-Message-ID: <d5d301c6-172d-4204-88cc-2dc9b351e693@enpas.org>
-Date: Wed, 31 Jan 2024 23:48:35 +0900
+	by mail.enpas.org (Postfix) with ESMTPSA id C1234FFB3B;
+	Wed, 31 Jan 2024 15:05:12 +0000 (UTC)
+Message-ID: <a5113807-429e-449b-aec0-8882c7976eb5@enpas.org>
+Date: Thu, 1 Feb 2024 00:05:09 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -41,8 +41,8 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
- controllers
+Subject: Re: [PATCH v1 2/7] HID: playstation: DS4: Don't fail on MAC address
+ request
 Content-Language: en-US
 To: Roderick Colenbrander <thunderbird2k@gmail.com>
 Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
@@ -50,10 +50,10 @@ Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
  linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240115144538.12018-1-max@enpas.org>
- <20240115144538.12018-8-max@enpas.org>
- <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
- <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
- <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
+ <20240115144538.12018-3-max@enpas.org>
+ <CAEc3jaD9qXp=F6Xfg8bdeC1Hv5pHiKA16SBd=-ac74ibE1ELyw@mail.gmail.com>
+ <cb8290a0-1937-4937-ace5-e2a22a1f6e41@enpas.org>
+ <CAEc3jaDp-GRoZs9Pp0XxCeARfPx0xFq5SdNkignGeCu0P2+Fdw@mail.gmail.com>
 From: Max Staudt <max@enpas.org>
 Autocrypt: addr=max@enpas.org; keydata=
  xsNNBFWfXgEBIADcbJMG2xuJBIVNlhj5AFBwKLZ6GPo3tGxHye+Bk3R3W5uIws3Sxbuj++7R
@@ -126,29 +126,32 @@ Autocrypt: addr=max@enpas.org; keydata=
  d3HIwZEKLNW9hUEqwXueZqQSNQ0Lvjx/oWYlrQQpz4kFJJb9LYpKpY5k3nBf9AGtJP+c1+PN
  eOjt3GvAJlnOzLtT36UIgcXSQuQFgLpY6FKT0verMP35mV2JXfm/qHIC+mnHAe4HRiZ54aML
  PsRBqTJGs7jw5gOWMMchFaemEnEJtg==
-In-Reply-To: <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
+In-Reply-To: <CAEc3jaDp-GRoZs9Pp0XxCeARfPx0xFq5SdNkignGeCu0P2+Fdw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/31/24 06:07, Roderick Colenbrander wrote:
-> Hmpf, euhm euhm I'm not entirely sure what makes sense. From the
-> sounds of it are somewhat broken devices (buggy firmwares on them) or
-> perhaps one of your controllers (the one with not working touch) is
-> perhaps broken.
-> 
-> Some of the patches like handling report id 0x1 (minimal) won't hurt,
-> the LED fixes won't either. It makes it easier to add more devices. I
-> wonder if we have fully have enough data.
-> 
-> Need to think a bit...
+On 1/31/24 05:59, Roderick Colenbrander wrote:
+> I remember on the console side that we support a number of controllers
+> including our official model and some licensed controllers. I recall
+> them taking some different codepaths and HID reports differently. It
+> has been a while, so I don't recall the details. If I remember it
+> could be that all of the licensed ones were USB-only (of course there
+> are some Bluetooth capable clones).
 
-Yeah, maybe for now, let's focus on the patches that you don't see much trouble with. Better to enable some devices, than none.
-
-I suggest dropping this here patch (enabling 7545:0104) for now, and if there's ever a change of mind, we can just pick it from the LKML archives :)
+Now that is an interesting tidbit... if you learn more, I'd be curious to hear about it if possible!
 
 
-You can also drop the other patch that you're uneasy about, since I believe these 7545:0104 devices are the only ones I've observed to not implement the what-is-your-MAC-address command.
+> I'm not sure about the best way to handle this. I have kind of been
+> leaning towards doing a vid/pid like check for this case even though I
+> really hate it. It could be within dualshock4_get_mac_address as we do
+> some other special handling there too (although having the caller of
+> dualshock4_get_mac_address do it is an option too, but I think within
+> get_mac_address is slightly nicer for now).
 
+As suggested in the 7545:0104 patch, how about dropping this patch as well, until we encounter a device we really want to add and that does not provide a MAC address?
+
+
+If it's okay for you, I'd send a v2 of everything after hearing your comment on the patch to make controllers work that don't provide gyro calibration data.
 
 
 Max
