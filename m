@@ -1,556 +1,861 @@
-Return-Path: <linux-input+bounces-1569-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1570-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C73843C9D
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805C3843CD4
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 11:34:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 010D51F30C60
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:28:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E90111F31DB6
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 10:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A7A469DE1;
-	Wed, 31 Jan 2024 10:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7BC2629FE;
+	Wed, 31 Jan 2024 10:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BxK+8riO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9037D69D0D;
-	Wed, 31 Jan 2024 10:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A5EFBF1;
+	Wed, 31 Jan 2024 10:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706696862; cv=none; b=S1lfR8+4teWPn+eRTusLwipxdcDJGOIEfW0gw0i65NE+12YTzNE3gcjcUEZnmQ15+CYQEDoz7ktPO9tdXqXuyRWSpMw1wy1n9o+9u3IvdARgXqbkAV6qtMcUa7HWXsWgJHTb5UNoLvgXu0dLYYid89qmwUs+lpJAcXf5s9xwpkI=
+	t=1706697247; cv=none; b=OwqsMiH1qSmUKvfH8fszMJ10471gYYWF/u/geq9gPmLIKSxfaaJy17Qyg/SWNXyvj9hWPwXLfwecDnQp0+qzT+BR66x6w3m1RarDiQJjHHr6Qro6fmCqOeEAWSBv91DEhjKMNW475yX7IethfUbW4G4R2HCO9ywzkF3ho0LbfCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706696862; c=relaxed/simple;
-	bh=JtsBTB58b0Uq5Upbuv64mSk7VBXAm2DQi6567UxIzVs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FEvzqnkxc978beMIXK50K/A5VltzdKA1uyH758immiO4SqmZBiKwsjpzsEeACIHFAwX+HRR864ngheX3ltySWnO6jquoHxTrsYnmaTyfJ9RVzEX+DYOR217/c++BwElMsHgHhV/rOcak0yP88wDyLAACg9Kze8FGr/oHFVk+s7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
-   d="scan'208";a="192377808"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:38 +0900
-Received: from localhost.localdomain (unknown [10.226.92.227])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D2A3141DF0AB;
-	Wed, 31 Jan 2024 19:27:31 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	s=arc-20240116; t=1706697247; c=relaxed/simple;
+	bh=MMNwoeR98tlgLzRbzjIZrN4/qgbL3ERfsqpQslaI09I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FTDKXY1j46jrc82mikhypwNvehkSRBMnDy8A8jKC2Ep9FRxZbYYZqEiBlGPuBgyxSyEIoNZ+JYRfuHp9WhofomWUZa+6RyftdREuL8MkdGDTgaY0B09LFwHRiV/LkHNXoTYSOjte4JtdXh7LYxJA5MsRKLyALAoQDiwpbtqAzhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BxK+8riO; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D4029240018;
+	Wed, 31 Jan 2024 10:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706697235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lbX39CjtKD1ktzRelMK5d9pKQ//VOSzaPB53RgWMFh4=;
+	b=BxK+8riOQZoCrpeg/ICJIwfE0TnZ0hcd/xyezFVMzaLNCydxRJkq6NIG4eP3W43nAecdwq
+	edrhd/p0tA7zPXr/3N8nW4Ha/NB5cIz3rDyQOYyCu36ZF+4WAmhOVX2NQUN0afc2s4XHLl
+	k0duBvvKCKUYpZ3Lgp9rzOX784QPL66Yd8vIdQ2FOu49WVzGibv1TUtiCzU8kPx2jcW1/h
+	nBC4MhAVcYZU5WIW8iX3gOcnwNpRqMQDtrmqJ31Xu1uE3rR8UoM75Aa4sM/fGecuE/VAEa
+	Pwy3pwIIR/q2cJf1BM+04FmU3/heYWw0GXWTLACpvXmK1yaosaQIjrMMDAAuhA==
+Date: Wed, 31 Jan 2024 11:33:53 +0100
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: POPESCU Catalin <catalin.popescu@leica-geosystems.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v6 RESEND 6/6] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-Date: Wed, 31 Jan 2024 10:26:56 +0000
-Message-Id: <20240131102656.3379-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
-References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+	Henrik Rydberg <rydberg@bitmath.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"mark.satterthwaite@touchnetix.com" <mark.satterthwaite@touchnetix.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
+Subject: Re: [PATCH v6 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <20240131103353.GC3004909@kb-xps>
+References: <20240125165823.996910-1-kamel.bouhara@bootlin.com>
+ <20240125165823.996910-4-kamel.bouhara@bootlin.com>
+ <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
+X-GND-Sasl: kamel.bouhara@bootlin.com
 
-Convert the da9062 PMIC device tree binding documentation to json-schema.
+On Tue, Jan 30, 2024 at 05:32:54PM +0000, POPESCU Catalin wrote:
+> Hi Kamel,
+>
 
-Document the missing gpio child node for da9062.
+Hi,
 
-While at it, update description with link to product information and
-example.
+> I have a few remarks regarding the population of the usage table
+> function, see inline.
+>
+> On 25.01.24 17:58, Kamel Bouhara wrote:
+> > [Some people who received this message don't often get email from kamel.bouhara@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >
+> > This email is not from Hexagon’s Office 365 instance. Please be careful while clicking links, opening attachments, or replying to this email.
+> >
+> >
+> > Add a new driver for the TouchNetix's axiom family of
+> > touchscreen controllers. This driver only supports i2c
+> > and can be later adapted for SPI and USB support.
+> >
+> > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > ---
+> >   MAINTAINERS                                  |   1 +
+> >   drivers/input/touchscreen/Kconfig            |  12 +
+> >   drivers/input/touchscreen/Makefile           |   1 +
+> >   drivers/input/touchscreen/touchnetix_axiom.c | 664 +++++++++++++++++++
+> >   4 files changed, 678 insertions(+)
+> >   create mode 100644 drivers/input/touchscreen/touchnetix_axiom.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 4752d8436dbb..337ddac6c74b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -21436,6 +21436,7 @@ M:      Kamel Bouhara <kamel.bouhara@bootlin.com>
+> >   L:     linux-input@vger.kernel.org
+> >   S:     Maintained
+> >   F:     Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
+> > +F:     drivers/input/touchscreen/touchnetix_axiom.c
+> >
+> >   THUNDERBOLT DMA TRAFFIC TEST DRIVER
+> >   M:     Isaac Hazan <isaac.hazan@intel.com>
+> > diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> > index e3e2324547b9..f36bee8d8696 100644
+> > --- a/drivers/input/touchscreen/Kconfig
+> > +++ b/drivers/input/touchscreen/Kconfig
+> > @@ -803,6 +803,18 @@ config TOUCHSCREEN_MIGOR
+> >            To compile this driver as a module, choose M here: the
+> >            module will be called migor_ts.
+> >
+> > +config TOUCHSCREEN_TOUCHNETIX_AXIOM
+> > +       tristate "TouchNetix AXIOM based touchscreen controllers"
+> > +       depends on I2C
+> > +       help
+> > +         Say Y here if you have a axiom touchscreen connected to
+> > +         your system.
+> > +
+> > +         If unsure, say N.
+> > +
+> > +         To compile this driver as a module, choose M here: the
+> > +         module will be called axiom.
+> > +
+> >   config TOUCHSCREEN_TOUCHRIGHT
+> >          tristate "Touchright serial touchscreen"
+> >          select SERIO
+> > diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+> > index 62bd24f3ac8e..8e32a2df5e18 100644
+> > --- a/drivers/input/touchscreen/Makefile
+> > +++ b/drivers/input/touchscreen/Makefile
+> > @@ -88,6 +88,7 @@ obj-$(CONFIG_TOUCHSCREEN_SUR40)               += sur40.o
+> >   obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI) += surface3_spi.o
+> >   obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)        += ti_am335x_tsc.o
+> >   obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)   += touchit213.o
+> > +obj-$(CONFIG_TOUCHSCREEN_TOUCHNETIX_AXIOM)     += touchnetix_axiom.o
+> >   obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)   += touchright.o
+> >   obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)     += touchwin.o
+> >   obj-$(CONFIG_TOUCHSCREEN_TS4800)       += ts4800-ts.o
+> > diff --git a/drivers/input/touchscreen/touchnetix_axiom.c b/drivers/input/touchscreen/touchnetix_axiom.c
+> > new file mode 100644
+> > index 000000000000..cbb5525b83f5
+> > --- /dev/null
+> > +++ b/drivers/input/touchscreen/touchnetix_axiom.c
+> > @@ -0,0 +1,664 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * TouchNetix axiom Touchscreen Driver
+> > + *
+> > + * Copyright (C) 2020-2023 TouchNetix Ltd.
+> > + *
+> > + * Author(s): Bart Prescott <bartp@baasheep.co.uk>
+> > + *            Pedro Torruella <pedro.torruella@touchnetix.com>
+> > + *            Mark Satterthwaite <mark.satterthwaite@touchnetix.com>
+> > + *            Hannah Rossiter <hannah.rossiter@touchnetix.com>
+> > + *            Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > + *
+> > + */
+> > +#include <linux/bitfield.h>
+> > +#include <linux/crc16.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/device.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/input.h>
+> > +#include <linux/input/mt.h>
+> > +#include <linux/input/touchscreen.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#include <asm/unaligned.h>
+> > +#define AXIOM_PROX_LEVEL               -128
+> > +#define AXIOM_DMA_OPS_DELAY_USEC       250
+> > +/*
+> > + * Register group u31 has 2 pages for usage table entries.
+> > + */
+> > +#define AXIOM_U31_MAX_USAGES           0xff
+> > +#define AXIOM_U31_BYTES_PER_USAGE      6
+> > +#define AXIOM_U31_PAGE0_LENGTH         0x0C
+> > +#define AXIOM_U31_BOOTMODE_MASK                BIT(7)
+> > +#define AXIOM_U31_DEVID_MASK           GENMASK(14, 0)
+> > +
+> > +#define AXIOM_MAX_REPORT_LEN           0x7f
+> > +
+> > +#define AXIOM_CMD_HEADER_READ_MASK     BIT(15)
+> > +#define AXIOM_U41_MAX_TARGETS          10
+> > +
+> > +#define AXIOM_U46_AUX_CHANNELS         4
+> > +#define AXIOM_U46_AUX_MASK             GENMASK(11, 0)
+> > +
+> > +#define AXIOM_COMMS_MAX_USAGE_PAGES    3
+> > +#define AXIOM_COMMS_PAGE_SIZE          256
+> > +#define AXIOM_COMMS_REPORT_LEN_MASK    GENMASK(6, 0)
+> > +
+> > +#define AXIOM_REPORT_USAGE_ID          0x34
+> > +#define AXIOM_DEVINFO_USAGE_ID         0x31
+> > +#define AXIOM_USAGE_2HB_REPORT_ID      0x01
+> > +#define AXIOM_USAGE_2AUX_REPORT_ID     0x46
+> > +#define AXIOM_USAGE_2DCTS_REPORT_ID    0x41
+> > +
+> > +#define AXIOM_PAGE_OFFSET_MASK         GENMASK(6, 0)
+> > +
+> > +struct axiom_devinfo {
+> > +       __le16 device_id;
+> > +       u8 fw_minor;
+> > +       u8 fw_major;
+> > +       u8 fw_info_extra;
+> > +       u8 tcp_revision;
+> > +       u8 bootloader_fw_minor;
+> > +       u8 bootloader_fw_major;
+> > +       __le16 jedec_id;
+> > +       u8 num_usages;
+> > +} __packed;
+> > +
+> > +/*
+> > + * Describes parameters of a specific usage, essentially a single element of
+> > + * the "Usage Table"
+> > + */
+> > +struct axiom_usage_entry {
+> > +       u8 id;
+> > +       u8 is_report;
+> > +       u8 start_page;
+> > +       u8 num_pages;
+> > +};
+> > +
+> > +/*
+> > + * Represents state of a touch or target when detected prior to a touch (eg.
+> > + * hover or proximity events).
+> > + */
+> > +enum axiom_target_state {
+> > +       AXIOM_TARGET_STATE_NOT_PRESENT = 0,
+> > +       AXIOM_TARGET_STATE_PROX = 1,
+> > +       AXIOM_TARGET_STATE_HOVER = 2,
+> > +       AXIOM_TARGET_STATE_TOUCHING = 3,
+> > +};
+> > +
+> > +struct axiom_u41_target {
+> > +       enum axiom_target_state state;
+> > +       u16 x;
+> > +       u16 y;
+> > +       s8 z;
+> > +       bool insert;
+> > +       bool touch;
+> > +};
+> > +
+> > +struct axiom_target_report {
+> > +       u8 index;
+> > +       u8 present;
+> > +       u16 x;
+> > +       u16 y;
+> > +       s8 z;
+> > +};
+> > +
+> > +struct axiom_cmd_header {
+> > +       __le16 target_address;
+> > +       __le16 length;
+> > +} __packed;
+> > +
+> > +struct axiom_data {
+> > +       struct axiom_devinfo devinfo;
+> > +       struct device *dev;
+> > +       struct gpio_desc *reset_gpio;
+> > +       struct i2c_client *client;
+> > +       struct input_dev *input_dev;
+> > +       u32 max_report_len;
+> > +       u8 rx_buf[AXIOM_COMMS_MAX_USAGE_PAGES * AXIOM_COMMS_PAGE_SIZE];
+> > +       struct axiom_u41_target targets[AXIOM_U41_MAX_TARGETS];
+> > +       struct axiom_usage_entry usage_table[AXIOM_U31_MAX_USAGES];
+> > +       bool usage_table_populated;
+> > +       struct regulator *vdda;
+> > +       struct regulator *vddi;
+> > +       struct regmap *regmap;
+> > +       struct touchscreen_properties   prop;
+> > +};
+> > +
+> > +static const struct regmap_config axiom_i2c_regmap_config = {
+> > +       .reg_bits = 32,
+> > +       .reg_format_endian = REGMAP_ENDIAN_LITTLE,
+> > +       .val_bits = 8,
+> > +       .val_format_endian = REGMAP_ENDIAN_LITTLE,
+> > +};
+> > +
+> > +/*
+> > + * axiom devices are typically configured to report touches at a rate
+> > + * of 100Hz (10ms) for systems that require polling for reports.
+> > + * When reports are polled, it will be expected to occasionally
+> > + * observe the overflow bit being set in the reports.
+> > + * This indicates that reports are not being read fast enough.
+> > + */
+> > +#define POLL_INTERVAL_DEFAULT_MS 10
+> > +
+> > +/* Translate usage/page/offset triplet into physical address. */
+> > +static u16 axiom_usage_to_target_address(struct axiom_data *ts, u8 usage, u8 page,
+> > +                                        char offset)
+> > +{
+> > +       /* At the moment the convention is that u31 is always at physical address 0x0 */
+> > +       if (!ts->usage_table_populated) {
+> > +               if (usage == AXIOM_DEVINFO_USAGE_ID)
+> > +                       return ((page << 8) + offset);
+> > +               else
+> > +                       return 0xffff;
+> > +       }
+> > +
+> > +       if (page >= ts->usage_table[usage].num_pages) {
+> > +               dev_err(ts->dev, "Invalid usage table! usage: u%02x, page: %02x, offset: %02x\n",
+> > +                       usage, page, offset);
+> > +               return 0xffff;
+> > +       }
+> > +
+> > +       return ((ts->usage_table[usage].start_page + page) << 8) + offset;
+> > +}
+> > +
+> > +static int axiom_read(struct axiom_data *ts, u8 usage, u8 page, void *buf, u16 len)
+> > +{
+> > +       struct axiom_cmd_header cmd_header;
+> > +       int ret;
+> > +
+> > +       cmd_header.target_address = cpu_to_le16(axiom_usage_to_target_address(ts, usage, page, 0));
+> > +       cmd_header.length = cpu_to_le16(len | AXIOM_CMD_HEADER_READ_MASK);
+> > +
+> > +       __le32 preamble = get_unaligned_le32((u8 *)&cmd_header);
+> > +
+> > +       ret = regmap_write(ts->regmap, preamble, 0);
+> > +       if (ret) {
+> > +               dev_err(ts->dev, "failed to write preamble, error %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = regmap_raw_read(ts->regmap, 0, buf, len);
+> > +       if (ret) {
+> > +               dev_err(ts->dev, "failed to read target address %04x, error %d\n",
+> > +                       cmd_header.target_address, ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       /* Wait device's DMA operations */
+> > +       usleep_range(AXIOM_DMA_OPS_DELAY_USEC, AXIOM_DMA_OPS_DELAY_USEC + 50);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/*
+> > + * One of the main purposes for reading the usage table is to identify
+> > + * which usages reside at which target address.
+> > + * When performing subsequent reads or writes to AXIOM, the target address
+> > + * is used to specify which usage is being accessed.
+> > + * Consider the following discovery code which will build up the usage table.
+> > + */
+> > +static u32 axiom_populate_usage_table(struct axiom_data *ts)
+> > +{
+> > +       struct axiom_usage_entry *usage_table;
+> > +       u8 *rx_data = ts->rx_buf;
+> > +       u32 max_report_len;
+> please force initialization of max_report_len to 0.
 
-The missing child node with of_compatible defined in MFD_CELL_OF is
-causing the below warning message:
-da9062-gpio: Failed to locate of_node [id: -1]
+Fixed, thanks !
 
-So, make all child nodes with of_compatible defined in struct mfd_cell
-as required property for da906{1,2} devices.
+> > +       u32 usage_id;
+> > +       int error;
+> > +
+> > +       usage_table = ts->usage_table;
+> > +
+> > +       /* Read the second page of usage u31 to get the usage table */
+> > +       error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 1, rx_data,
+> > +                          (AXIOM_U31_BYTES_PER_USAGE * ts->devinfo.num_usages));
+> > +
+> > +       if (error)
+> > +               return error;
+> > +
+> > +       for (usage_id = 1; usage_id < AXIOM_U31_MAX_USAGES; usage_id++) {
+>
+> usage_id should start at 0, since it's used to compute the offset in the
+> page 1 of u31.
+> if you start with usage_id=1, then whatever is the 1st usage of the
+> usage table gets jumped out...
 
-The "gpio-controller" and "#gpio-cells" properties are defined in the
-parent instead of gpio child node as there are existing driver users
-based on these parent properties.
+You're right, first usage id is u01, I think that's what induced my
+mistake here.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Lee Jones <lee@kernel.org>
----
-v6->v6 Resend:
- * Added Rb tag from Conor Dooley and Ack from Lee Jones.
-v5->v6:
- * Updated commit description related to "gpio-controller" and
-   "#gpio-cells" properties defined in parent node.
- * Added Rb tag Krzysztof Kozlowski.
-v4->v5:
- * Updated commit description
- * Dropped unnecessary ref from gpio child node.
- * Added gpio-hog pattern property
- * Moved gpio-controller,gpio-cells above child nodes
- * Sorted compatible in rtc child node.
- * Dropped status from example.
- * Updated the example.
-v3->v4:
- * Split the thermal binding patch separate.
- * Updated the description.
-v2->v3:
- * Fixed bot errors related to MAINTAINERS entry, invalid doc
-   references and thermal examples by merging patch#4.
-v2:
- * New patch
----
- .../bindings/input/dlg,da9062-onkey.yaml      |   3 +-
- .../devicetree/bindings/mfd/da9062.txt        | 124 ----------
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 215 +++++++++++++++++-
- .../bindings/thermal/dlg,da9062-thermal.yaml  |   2 +-
- 4 files changed, 212 insertions(+), 132 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
+> also, you should stop the loop at num_usages, otherwise you're going to
+> read garbage after the end of rx_data buffer...
+> this garbage would end up in wrong computation of max_report_len then in
+> failure of reading any touch report.
+>
 
-diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-index 757a522c102c..1480d95421e1 100644
---- a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-+++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-@@ -11,8 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062/DA9063. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
--  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+  DA906{1,2,3} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   This module provides the KEY_POWER event.
- 
-diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
-deleted file mode 100644
-index c8a7f119ac84..000000000000
---- a/Documentation/devicetree/bindings/mfd/da9062.txt
-+++ /dev/null
-@@ -1,124 +0,0 @@
--* Dialog DA9062 Power Management Integrated Circuit (PMIC)
--
--Product information for the DA9062 and DA9061 devices can be found here:
--- https://www.dialog-semiconductor.com/products/da9062
--- https://www.dialog-semiconductor.com/products/da9061
--
--The DA9062 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-rtc              :               : Real-Time Clock
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--da9062-gpio             :               : GPIOs
--
--The DA9061 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--
--======
--
--Required properties:
--
--- compatible : Should be
--    "dlg,da9062" for DA9062
--    "dlg,da9061" for DA9061
--- reg : Specifies the I2C slave address (this defaults to 0x58 but it can be
--  modified to match the chip's OTP settings).
--
--Optional properties:
--
--- gpio-controller : Marks the device as a gpio controller.
--- #gpio-cells     : Should be two. The first cell is the pin number and the
--                    second cell is used to specify the gpio polarity.
--
--See Documentation/devicetree/bindings/gpio/gpio.txt for further information on
--GPIO bindings.
--
--- interrupts : IRQ line information.
--- interrupt-controller
--
--See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt for
--further information on IRQ bindings.
--
--Sub-nodes:
--
--- regulators : This node defines the settings for the LDOs and BUCKs.
--  The DA9062 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    buck4    : BUCK_4
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The DA9061 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The component follows the standard regulator framework and the bindings
--  details of individual regulator device can be found in:
--  Documentation/devicetree/bindings/regulator/regulator.txt
--
--  regulator-initial-mode may be specified for buck regulators using mode values
--  from include/dt-bindings/regulator/dlg,da9063-regulator.h.
--
--- rtc : This node defines settings required for the Real-Time Clock associated
--  with the DA9062. There are currently no entries in this binding, however
--  compatible = "dlg,da9062-rtc" should be added if a node is created.
--
--- onkey : See ../input/dlg,da9062-onkey.yaml
--
--- watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
--
--- thermal : See ../thermal/dlg,da9062-thermal.yaml
--
--Example:
--
--	pmic0: da9062@58 {
--		compatible = "dlg,da9062";
--		reg = <0x58>;
--		interrupt-parent = <&gpio6>;
--		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
--		interrupt-controller;
--
--		rtc {
--			compatible = "dlg,da9062-rtc";
--		};
--
--		regulators {
--			DA9062_BUCK1: buck1 {
--				regulator-name = "BUCK1";
--				regulator-min-microvolt = <300000>;
--				regulator-max-microvolt = <1570000>;
--				regulator-min-microamp = <500000>;
--				regulator-max-microamp = <2000000>;
--				regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
--				regulator-boot-on;
--			};
--			DA9062_LDO1: ldo1 {
--				regulator-name = "LDO_1";
--				regulator-min-microvolt = <900000>;
--				regulator-max-microvolt = <3600000>;
--				regulator-boot-on;
--			};
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-index 676b4f2566ae..da741c999445 100644
---- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Dialog DA9063/DA9063L Power Management Integrated Circuit (PMIC)
-+title: Dialog DA906{3L,3,2,1} Power Management Integrated Circuit (PMIC)
- 
- maintainers:
-   - Steve Twiss <stwiss.opensource@diasemi.com>
-@@ -17,10 +17,17 @@ description: |
-   moment where all voltage monitors are disabled. Next, as da9063 only supports
-   UV *and* OV monitoring, both must be set to the same severity and value
-   (0: disable, 1: enable).
-+  Product information for the DA906{3L,3,2,1} devices can be found here:
-+  - https://www.dialog-semiconductor.com/products/da9063l
-+  - https://www.dialog-semiconductor.com/products/da9063
-+  - https://www.dialog-semiconductor.com/products/da9062
-+  - https://www.dialog-semiconductor.com/products/da9061
- 
- properties:
-   compatible:
-     enum:
-+      - dlg,da9061
-+      - dlg,da9062
-       - dlg,da9063
-       - dlg,da9063l
- 
-@@ -35,6 +42,18 @@ properties:
-   "#interrupt-cells":
-     const: 2
- 
-+  gpio-controller: true
-+
-+  "#gpio-cells":
-+    const: 2
-+
-+  gpio:
-+    type: object
-+    additionalProperties: false
-+    properties:
-+      compatible:
-+        const: dlg,da9062-gpio
-+
-   onkey:
-     $ref: /schemas/input/dlg,da9062-onkey.yaml
- 
-@@ -42,7 +61,7 @@ properties:
-     type: object
-     additionalProperties: false
-     patternProperties:
--      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$":
-+      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck[1-4])$":
-         $ref: /schemas/regulator/regulator.yaml
-         unevaluatedProperties: false
- 
-@@ -52,16 +71,85 @@ properties:
-     unevaluatedProperties: false
-     properties:
-       compatible:
--        const: dlg,da9063-rtc
-+        enum:
-+          - dlg,da9062-rtc
-+          - dlg,da9063-rtc
-+
-+  thermal:
-+    $ref: /schemas/thermal/dlg,da9062-thermal.yaml
- 
-   watchdog:
-     $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
- 
-+patternProperties:
-+  "^(.+-hog(-[0-9]+)?)$":
-+    type: object
-+
-+    required:
-+      - gpio-hog
-+
- required:
-   - compatible
-   - reg
--  - interrupts
--  - interrupt-controller
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9063
-+              - dlg,da9063l
-+    then:
-+      properties:
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        gpio: false
-+        regulators:
-+          patternProperties:
-+            "^buck[1-4]$": false
-+        thermal: false
-+      required:
-+        - interrupts
-+        - interrupt-controller
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9062
-+    then:
-+      properties:
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$": false
-+      required:
-+        - gpio
-+        - onkey
-+        - rtc
-+        - thermal
-+        - watchdog
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9061
-+    then:
-+      properties:
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        gpio: false
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck4)$": false
-+        rtc: false
-+      required:
-+        - onkey
-+        - thermal
-+        - watchdog
- 
- additionalProperties: false
- 
-@@ -118,4 +206,121 @@ examples:
-         };
-       };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      pmic@58 {
-+        compatible = "dlg,da9062";
-+        reg = <0x58>;
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+
-+        sd0-pwr-sel-hog {
-+          gpio-hog;
-+          gpios = <1 0>;
-+          input;
-+          line-name = "SD0_PWR_SEL";
-+        };
-+
-+        sd1-pwr-sel-hog {
-+          gpio-hog;
-+          gpios = <2 0>;
-+          input;
-+          line-name = "SD1_PWR_SEL";
-+        };
-+
-+        sw-et0-en-hog {
-+          gpio-hog;
-+          gpios = <3 0>;
-+          input;
-+          line-name = "SW_ET0_EN#";
-+        };
-+
-+        pmic-good-hog {
-+          gpio-hog;
-+          gpios = <4 0>;
-+          output-high;
-+          line-name = "PMIC_PGOOD";
-+        };
-+
-+        gpio {
-+          compatible = "dlg,da9062-gpio";
-+        };
-+
-+        onkey {
-+          compatible = "dlg,da9062-onkey";
-+        };
-+
-+        regulators {
-+          buck1 {
-+            regulator-name = "vdd_arm";
-+            regulator-min-microvolt = <925000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck2 {
-+            regulator-name = "vdd_soc";
-+            regulator-min-microvolt = <1150000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck3 {
-+            regulator-name = "vdd_ddr3";
-+            regulator-min-microvolt = <1500000>;
-+            regulator-max-microvolt = <1500000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck4 {
-+            regulator-name = "vdd_eth";
-+            regulator-min-microvolt = <1200000>;
-+            regulator-max-microvolt = <1200000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          ldo1 {
-+            regulator-name = "vdd_snvs";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo2 {
-+            regulator-name = "vdd_high";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo3 {
-+            regulator-name = "vdd_eth_io";
-+            regulator-min-microvolt = <2500000>;
-+            regulator-max-microvolt = <2500000>;
-+          };
-+          ldo4 {
-+            regulator-name = "vdd_emmc";
-+            regulator-min-microvolt = <1800000>;
-+            regulator-max-microvolt = <1800000>;
-+            regulator-always-on;
-+          };
-+        };
-+
-+        rtc {
-+          compatible = "dlg,da9062-rtc";
-+        };
-+
-+        thermal {
-+          compatible = "dlg,da9062-thermal";
-+        };
-+
-+        watchdog {
-+          compatible = "dlg,da9062-watchdog";
-+          dlg,use-sw-pm;
-+        };
-+      };
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-index 206635f74850..e8b2cac41084 100644
---- a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-+  DA906{1,2} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   Junction temperature thermal module uses an interrupt signal to identify
-   high THERMAL_TRIP_HOT temperatures for the PMIC device.
--- 
-2.39.2
+Reading num_usages is indeed a more clever choice here, thanks again !
 
+> > +               u16 offset = (usage_id * AXIOM_U31_BYTES_PER_USAGE);
+> > +               u8 id = rx_data[offset + 0];
+> > +               u8 start_page = rx_data[offset + 1];
+> > +               u8 num_pages = rx_data[offset + 2];
+> > +               u32 max_offset = ((rx_data[offset + 3] & AXIOM_PAGE_OFFSET_MASK) + 1) * 2;
+> > +
+> > +               if (!num_pages)
+> > +                       usage_table[id].is_report = true;
+> please add an else statement to set is_report to false.
+
+Fixed in v7, thanks.
+
+> > +
+> > +               /* Store the entry into the usage table */
+> > +               usage_table[id].id = id;
+> > +               usage_table[id].start_page = start_page;
+> > +               usage_table[id].num_pages = num_pages;
+> > +
+> > +               dev_dbg(ts->dev, "Usage u%02x Info: %*ph\n", id, AXIOM_U31_BYTES_PER_USAGE,
+> > +                       &rx_data[offset]);
+> > +
+> > +               /* Identify the max report length the module will receive */
+> > +               if (usage_table[id].is_report && max_offset > max_report_len)
+> > +                       max_report_len = max_offset;
+> > +       }
+> > +
+> > +       ts->usage_table_populated = true;
+> > +
+> > +       return max_report_len;
+> > +}
+> > +
+> > +static int axiom_discover(struct axiom_data *ts)
+> > +{
+> > +       int error;
+> > +
+> > +       /*
+> > +        * Fetch the first page of usage u31 to get the
+> > +        * device information and the number of usages
+> > +        */
+> > +       error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 0, &ts->devinfo, AXIOM_U31_PAGE0_LENGTH);
+> > +       if (error)
+> > +               return error;
+> > +
+> > +       dev_dbg(ts->dev, "  Boot Mode      : %s\n",
+> > +               FIELD_GET(AXIOM_U31_BOOTMODE_MASK,
+> > +                         le16_to_cpu(ts->devinfo.device_id)) ? "BLP" : "TCP");
+> > +       dev_dbg(ts->dev, "  Device ID      : %04lx\n",
+> > +               FIELD_GET(AXIOM_U31_DEVID_MASK, le16_to_cpu(ts->devinfo.device_id)));
+> > +       dev_dbg(ts->dev, "  Firmware Rev   : %02x.%02x\n", ts->devinfo.fw_major,
+> > +               ts->devinfo.fw_minor);
+> > +       dev_dbg(ts->dev, "  Bootloader Rev : %02x.%02x\n", ts->devinfo.bootloader_fw_major,
+> > +               ts->devinfo.bootloader_fw_minor);
+> > +       dev_dbg(ts->dev, "  FW Extra Info  : %04x\n", ts->devinfo.fw_info_extra);
+> > +       dev_dbg(ts->dev, "  Silicon        : %04x\n", le16_to_cpu(ts->devinfo.jedec_id));
+> > +       dev_dbg(ts->dev, "  Number usages        : %04x\n", ts->devinfo.num_usages);
+> > +
+> > +       ts->max_report_len = axiom_populate_usage_table(ts);
+> > +       if (!ts->max_report_len || !ts->devinfo.num_usages ||
+> > +           ts->max_report_len > AXIOM_MAX_REPORT_LEN) {
+> > +               dev_err(ts->dev, "Invalid report length or usages number");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       dev_dbg(ts->dev, "Max Report Length: %u\n", ts->max_report_len);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/*
+> > + * Support function to axiom_process_u41_report.
+> > + * Generates input-subsystem events for every target.
+> > + * After calling this function the caller shall issue
+> > + * a Sync to the input sub-system.
+> > + */
+> > +static bool axiom_process_u41_report_target(struct axiom_data *ts,
+> > +                                           struct axiom_target_report *target)
+> > +{
+> > +       struct input_dev *input_dev = ts->input_dev;
+> > +       struct axiom_u41_target *target_prev_state;
+> > +       enum axiom_target_state current_state;
+> > +       int slot;
+> > +
+> > +       /* Verify the target index */
+> > +       if (target->index >= AXIOM_U41_MAX_TARGETS) {
+> > +               dev_err(ts->dev, "Invalid target index! %u\n", target->index);
+> > +               return false;
+> > +       }
+> > +
+> > +       target_prev_state = &ts->targets[target->index];
+> > +
+> > +       current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
+> > +
+> > +       if (target->present) {
+> > +               if (target->z >= 0)
+> > +                       current_state = AXIOM_TARGET_STATE_TOUCHING;
+> > +               else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
+> > +                       current_state = AXIOM_TARGET_STATE_HOVER;
+> > +               else if (target->z == AXIOM_PROX_LEVEL)
+> > +                       current_state = AXIOM_TARGET_STATE_PROX;
+> > +       }
+> > +
+> > +       if (target_prev_state->state == current_state &&
+> > +           target_prev_state->x == target->x &&
+> > +           target_prev_state->y == target->y &&
+> > +           target_prev_state->z == target->z)
+> > +               return false;
+> > +
+> > +       slot = target->index;
+> > +
+> > +       dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
+> > +               target->index, slot, target->present,
+> > +               target->x, target->y, target->z);
+> > +
+> > +       switch (current_state) {
+> > +       case AXIOM_TARGET_STATE_NOT_PRESENT:
+> > +       case AXIOM_TARGET_STATE_PROX:
+> > +               if (!target_prev_state->insert)
+> > +                       break;
+> > +               target_prev_state->insert = false;
+> > +               input_mt_slot(input_dev, slot);
+> > +
+> > +               if (!slot)
+> > +                       input_report_key(input_dev, BTN_TOUCH, 0);
+> > +
+> > +               input_mt_report_slot_inactive(input_dev);
+> > +               /*
+> > +                * make sure the previous coordinates are
+> > +                * all off screen when the finger comes back
+> > +                */
+> > +               target->x = 65535;
+> > +               target->y = 65535;
+> > +               target->z = AXIOM_PROX_LEVEL;
+> > +               break;
+> > +       case AXIOM_TARGET_STATE_HOVER:
+> > +       case AXIOM_TARGET_STATE_TOUCHING:
+> > +               target_prev_state->insert = true;
+> > +               input_mt_slot(input_dev, slot);
+> > +               input_report_abs(input_dev, ABS_MT_TRACKING_ID, slot);
+> > +               input_report_abs(input_dev, ABS_MT_POSITION_X, target->x);
+> > +               input_report_abs(input_dev, ABS_MT_POSITION_Y, target->y);
+> > +
+> > +               if (current_state == AXIOM_TARGET_STATE_TOUCHING) {
+> > +                       input_report_abs(input_dev, ABS_MT_DISTANCE, 0);
+> > +                       input_report_abs(input_dev, ABS_DISTANCE, 0);
+> > +                       input_report_abs(input_dev, ABS_MT_PRESSURE, target->z);
+> > +                       input_report_abs(input_dev, ABS_PRESSURE, target->z);
+> > +               } else {
+> > +                       input_report_abs(input_dev, ABS_MT_DISTANCE, -target->z);
+> > +                       input_report_abs(input_dev, ABS_DISTANCE, -target->z);
+> > +                       input_report_abs(input_dev, ABS_MT_PRESSURE, 0);
+> > +                       input_report_abs(input_dev, ABS_PRESSURE, 0);
+> > +               }
+> > +
+> > +               if (!slot)
+> > +                       input_report_key(input_dev, BTN_TOUCH, (current_state ==
+> > +                                        AXIOM_TARGET_STATE_TOUCHING));
+> > +               break;
+> > +       default:
+> > +               break;
+> > +       }
+> > +
+> > +       target_prev_state->state = current_state;
+> > +       target_prev_state->x = target->x;
+> > +       target_prev_state->y = target->y;
+> > +       target_prev_state->z = target->z;
+> > +
+> > +       return true;
+> > +}
+> > +
+> > +/*
+> > + * U41 is the output report of the 2D CTS and contains the status of targets
+> > + * (including contacts and pre-contacts) along with their X,Y,Z values.
+> > + * When a target has been removed (no longer detected),
+> > + * the corresponding X,Y,Z values will be zeroed.
+> > + */
+> > +static bool axiom_process_u41_report(struct axiom_data *ts, u8 *rx_buf)
+> > +{
+> > +       struct axiom_target_report target;
+> > +       bool update_done = false;
+> > +       u16 target_status;
+> > +       int i;
+> > +
+> > +       target_status = get_unaligned_le16(rx_buf + 1);
+> > +
+> > +       for (i = 0; i < AXIOM_U41_MAX_TARGETS; i++) {
+> > +               u8 *target_step = &rx_buf[i * 4];
+> > +
+> > +               target.index = i;
+> > +               target.present = ((target_status & (1 << i)) != 0) ? 1 : 0;
+> > +               target.x = get_unaligned_le16(target_step + 3);
+> > +               target.y = get_unaligned_le16(target_step + 5);
+> > +               target.z = (s8)(rx_buf[i + 43]);
+> > +               update_done |= axiom_process_u41_report_target(ts, &target);
+> > +       }
+> > +
+> > +       return update_done;
+> > +}
+> > +
+> > +/*
+> > + * U46 report contains a low level measurement data generated by the capacitive
+> > + * displacement sensor (CDS) algorithms from the auxiliary channels.
+> > + * This information is useful when tuning multi-press to assess mechanical
+> > + * consistency in the unit's construction.
+> > + */
+> > +static void axiom_process_u46_report(struct axiom_data *ts, u8 *rx_buf)
+> > +{
+> > +       struct input_dev *input_dev = ts->input_dev;
+> > +       u32 event_value;
+> > +       u16 aux_value;
+> > +       int i;
+> > +
+> > +       for (i = 0; i < AXIOM_U46_AUX_CHANNELS; i++) {
+> > +               u8 *target_step = &rx_buf[i * 2];
+> > +
+> > +               aux_value = get_unaligned_le16(target_step + 1) & AXIOM_U46_AUX_MASK;
+> > +               event_value = (i << 16) | (aux_value);
+> > +               input_event(input_dev, EV_MSC, MSC_RAW, event_value);
+> > +       }
+> > +}
+> > +
+> > +/*
+> > + * Validates the crc and demultiplexes the axiom reports to the appropriate
+> > + * report handler
+> > + */
+> > +static int axiom_handle_events(struct axiom_data *ts)
+> > +{
+> > +       struct input_dev *input_dev = ts->input_dev;
+> > +       u8 *report_data = ts->rx_buf;
+> > +       struct device *dev = ts->dev;
+> > +       u16 crc_report;
+> > +       u16 crc_calc;
+> > +       int error;
+> > +       u8 len;
+> > +
+> > +       error = axiom_read(ts, AXIOM_REPORT_USAGE_ID, 0, report_data, ts->max_report_len);
+> > +       if (error)
+> > +               return error;
+> > +
+> > +       len = (report_data[0] & AXIOM_COMMS_REPORT_LEN_MASK) << 1;
+> > +       if (len <= 2) {
+> > +               dev_err(dev, "Zero length report discarded.\n");
+> > +               return -ENODATA;
+> > +       }
+> > +
+> > +       /* Validate the report CRC */
+> > +       u8 *crc_bytes = &report_data[len];
+> > +
+> > +       crc_report = get_unaligned_le16(crc_bytes - 2);
+> > +       /* Length is in 16 bit words and remove the size of the CRC16 itself */
+> > +       crc_calc = crc16(0, report_data, (len - 2));
+> > +
+> > +       if (crc_calc != crc_report) {
+> > +               dev_err(dev,
+> > +                       "CRC mismatch! Expected: %#x, Calculated CRC: %#x.\n",
+> > +                       crc_report, crc_calc);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       switch (report_data[1]) {
+> > +       case AXIOM_USAGE_2DCTS_REPORT_ID:
+> > +               if (axiom_process_u41_report(ts, &report_data[1])) {
+> > +                       input_mt_sync_frame(input_dev);
+> > +                       input_sync(input_dev);
+> > +               }
+> > +               break;
+> > +
+> > +       case AXIOM_USAGE_2AUX_REPORT_ID:
+> > +               /* This is an aux report (force) */
+> > +               axiom_process_u46_report(ts, &report_data[1]);
+> > +               input_mt_sync(input_dev);
+> > +               input_sync(input_dev);
+> > +               break;
+> > +
+> > +       case AXIOM_USAGE_2HB_REPORT_ID:
+> > +               /* This is a heartbeat report */
+> > +               break;
+> > +       default:
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static void axiom_i2c_poll(struct input_dev *input_dev)
+> > +{
+> > +       struct axiom_data *ts = input_get_drvdata(input_dev);
+> > +
+> > +       axiom_handle_events(ts);
+> > +}
+> > +
+> > +static irqreturn_t axiom_irq(int irq, void *dev_id)
+> > +{
+> > +       struct axiom_data *ts = dev_id;
+> > +
+> > +       axiom_handle_events(ts);
+> > +
+> > +       return IRQ_HANDLED;
+> > +}
+> > +
+> > +static void axiom_reset(struct gpio_desc *reset_gpio)
+> > +{
+> > +       gpiod_set_value_cansleep(reset_gpio, 1);
+> > +       usleep_range(1000, 2000);
+> > +       gpiod_set_value_cansleep(reset_gpio, 0);
+> > +       msleep(110);
+> > +}
+> > +
+> > +static int axiom_i2c_probe(struct i2c_client *client)
+> > +{
+> > +       u32 poll_interval = POLL_INTERVAL_DEFAULT_MS;
+> > +       struct device *dev = &client->dev;
+> > +       struct input_dev *input_dev;
+> > +       struct axiom_data *ts;
+> > +       u32 startup_delay_ms;
+> > +       int target;
+> > +       int error;
+> > +
+> > +       ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+> > +       if (!ts)
+> > +               return -ENOMEM;
+> > +
+> > +       i2c_set_clientdata(client, ts);
+> > +       ts->client = client;
+> > +       ts->dev = dev;
+> > +
+> > +       ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
+> > +       error = PTR_ERR_OR_ZERO(ts->regmap);
+> > +       if (error) {
+> > +               dev_err(dev, "Failed to initialize regmap: %d\n", error);
+> > +               return error;
+> > +       }
+> > +
+> > +       ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> > +       if (IS_ERR(ts->reset_gpio))
+> > +               return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
+> > +
+> > +       if (ts->reset_gpio)
+> > +               axiom_reset(ts->reset_gpio);
+> > +
+> > +       ts->vddi = devm_regulator_get_optional(dev, "vddi");
+> > +       if (!IS_ERR(ts->vddi)) {
+> > +               error = devm_regulator_get_enable(dev, "vddi");
+> > +               if (error)
+> > +                       return dev_err_probe(&client->dev, error,
+> > +                                            "Failed to enable vddi regulator\n");
+> > +       }
+> > +
+> > +       ts->vdda = devm_regulator_get_optional(dev, "vdda");
+> > +       if (!IS_ERR(ts->vdda)) {
+> > +               error = devm_regulator_get_enable(dev, "vdda");
+> > +               if (error)
+> > +                       return dev_err_probe(&client->dev, error,
+> > +                                            "Failed to enable vdda regulator\n");
+> > +               if (!device_property_read_u32(dev, "startup-time-ms", &startup_delay_ms))
+> > +                       msleep(startup_delay_ms);
+> > +       }
+> > +
+> > +       error = axiom_discover(ts);
+> > +       if (error)
+> > +               return dev_err_probe(dev, error, "Failed touchscreen discover\n");
+> > +
+> > +       input_dev = devm_input_allocate_device(ts->dev);
+> > +       if (!input_dev)
+> > +               return -ENOMEM;
+> > +
+> > +       input_dev->name = "TouchNetix axiom Touchscreen";
+> > +       input_dev->phys = "input/axiom_ts";
+> > +
+> > +       input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
+> > +       input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
+> > +       input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
+> > +       input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
+> > +       input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
+> > +
+> > +       touchscreen_parse_properties(input_dev, true, &ts->prop);
+> > +
+> > +       /* Registers the axiom device as a touchscreen instead of a mouse pointer */
+> > +       error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
+> > +       if (error)
+> > +               return error;
+> > +
+> > +       /* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
+> > +       set_bit(EV_REL, input_dev->evbit);
+> > +       set_bit(EV_MSC, input_dev->evbit);
+> > +       /* Declare that we support "RAW" Miscellaneous events */
+> > +       set_bit(MSC_RAW, input_dev->mscbit);
+> > +
+> > +       ts->input_dev = input_dev;
+> > +       input_set_drvdata(ts->input_dev, ts);
+> > +
+> > +       /* Ensure that all reports are initialised to not be present. */
+> > +       for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
+> > +               ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
+> > +
+> > +       error = input_register_device(input_dev);
+> > +       if (error)
+> > +               return dev_err_probe(ts->dev, error,
+> > +                                    "Could not register with Input Sub-system.\n");
+> > +
+> > +       error = devm_request_threaded_irq(dev, client->irq, NULL,
+> > +                                         axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
+> > +       if (error) {
+> > +               dev_info(dev, "Request irq failed, falling back to polling mode");
+> > +
+> > +               error = input_setup_polling(input_dev, axiom_i2c_poll);
+> > +               if (error)
+> > +                       return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
+> > +
+> > +               if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
+> > +                       input_set_poll_interval(input_dev, poll_interval);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static const struct i2c_device_id axiom_i2c_id_table[] = {
+> > +       { "ax54a" },
+> > +       { },
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
+> > +
+> > +static const struct of_device_id axiom_i2c_of_match[] = {
+> > +       { .compatible = "touchnetix,ax54a", },
+> > +       { }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, axiom_i2c_of_match);
+> > +
+> > +static struct i2c_driver axiom_i2c_driver = {
+> > +       .driver = {
+> > +                  .name = "axiom",
+> > +                  .of_match_table = axiom_i2c_of_match,
+> > +       },
+> > +       .id_table = axiom_i2c_id_table,
+> > +       .probe = axiom_i2c_probe,
+> > +};
+> > +module_i2c_driver(axiom_i2c_driver);
+> > +
+> > +MODULE_AUTHOR("Bart Prescott <bartp@baasheep.co.uk>");
+> > +MODULE_AUTHOR("Pedro Torruella <pedro.torruella@touchnetix.com>");
+> > +MODULE_AUTHOR("Mark Satterthwaite <mark.satterthwaite@touchnetix.com>");
+> > +MODULE_AUTHOR("Hannah Rossiter <hannah.rossiter@touchnetix.com>");
+> > +MODULE_AUTHOR("Kamel Bouhara <kamel.bouhara@bootlin.com>");
+> > +MODULE_DESCRIPTION("TouchNetix axiom touchscreen I2C bus driver");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.25.1
+> >
+>
+
+--
+Kamel Bouhara, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
