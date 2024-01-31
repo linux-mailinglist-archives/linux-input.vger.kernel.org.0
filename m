@@ -1,125 +1,110 @@
-Return-Path: <linux-input+bounces-1559-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1560-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD684311E
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 00:25:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8238436AC
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 07:27:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52CA7284929
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jan 2024 23:25:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E15E1C215CB
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 06:27:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0628383BA;
-	Tue, 30 Jan 2024 23:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E62A405D8;
+	Wed, 31 Jan 2024 06:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4slPpyn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbpj23tf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1CF7EF06;
-	Tue, 30 Jan 2024 23:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93656405C1
+	for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 06:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706657098; cv=none; b=DeV9sxg0gg5l9+3sdu1A/KZ9VVvinqub648LZANQdHj8FGixMGfeOum5d3g/mN0cLzRS/RejMF7NY/le1lZM2+eIFZ0rFcda9A9yQTSWTkP8IjBoGr7WCn653uj06OW1JHgDUd9zBupm2R0+lYI7kOpEPwU6PqbL5/GrkVtQtz4=
+	t=1706682429; cv=none; b=sl924KV7M5zTvIq1A8iM96R0x4O4664kczCBwemu59JSYw822cqv6tLCJ5A+efZX00kdK67x3UdJs3V5txTzQ6pSUUW2wO+II2FTqZzK1/6yJWBUV/ujJAMV3VtPO7FQcYg/dDaUqFfTFmG0WPlOQDD3fdP84lJEn4ZdZqpfPDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706657098; c=relaxed/simple;
-	bh=h+fiOBcSHUoUZfnJbyVjeSVHt9iH3RGtwKjNjMY5Flk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uF3aRtEXWnL1Sg4z/5OYYL2nG2iPD0v/Urrlb2HzlvlRqa15nIq7Ra2P/3EvSF+zxxbEAZTibKLXaij5eTc67mKWdIBuL8+tzi2/mR9Zw9yoXuNdauypwYe2F5pb9FbhjDZQU68e3xiM8GG0CJQOa+mA00G35l2fI6pLd5Dca2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4slPpyn; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1706682429; c=relaxed/simple;
+	bh=4DxgEHV2qTmEkeqF/8mayBmcLIJcXq5bI5YQV21iz3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=hYg6UuCll5mqtOOQB22VbXUCr1471aGA0kD6CV/s9zyaIrQOOEFo+BWx31iGcKQHygg1TxiX0lgbHkYZgjIwfz7Zbw9P3a7yIo3FX4ZTojzZsB6O2j1d/6XVtzlais143+nX68N4++B/DS2+A3MT2A4PKC+xANoWL/5rLkJ/dNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbpj23tf; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d71cb97937so26742845ad.3;
-        Tue, 30 Jan 2024 15:24:57 -0800 (PST)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so674176866b.0
+        for <linux-input@vger.kernel.org>; Tue, 30 Jan 2024 22:27:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706657096; x=1707261896; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9PYmS+wAfBRPLW1A4cOHciujMu9QywnUJYSefvoV7DU=;
-        b=V4slPpynY/Yzibvci7o9ESqUA3ug3rClggUg1+BrMNtc/tQm0cGBTYZICKLI3oA6ec
-         kKhZstKwsdEsjtlzISsd0dLYZJgc1RHAqC0dAxquWkY//k73gxcMmtGZ+VlCU7ZMYE2E
-         CyLviu6SwkMXSDRl6ouvIadF0aifEOQisyMZM/StTXzi6w30SZTGy0+UhaA+XCWzfbiv
-         PTJx488Q42ecKDFDD/mcFqW9ofVE8pEAH4dvKjGxs2jzX4yjEzNs4CUBqNxKDAzG9pQ5
-         EC+O1xA/D0ZCHlxYajxGMwSIw9/kDDIt2EVeWVKuAjKpYSO7G70m+TQ2hD8utNRa6JY+
-         1qdA==
+        d=gmail.com; s=20230601; t=1706682426; x=1707287226; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bWaZyKeLGRS2KPQ6AE1LzDAfNjq4+Gkbll2hjxwu5BI=;
+        b=lbpj23tfb9usqlmrbVnRSRe+R4xINndiSC8sASyLmBGcShCm1hYeI0XeuNEBzdyCN2
+         baTmzIaMAR5liCdpAdKmfYOHa3fbdvNGogjvassmUggj803YPlODW4mgw+WawNBi+JMM
+         XS7Kvr7QptfwMtAyQfp7c8zXIibqWTd2/Db+2hCivXUaoQTY8pPuXqXmTa1oagtsJnHi
+         JUgbGVzcWNmvYmVy1/pqyJRyghXDKnRjX/xFb+bErrninGAKiTWd5rDOVMIoE+Ok4+AC
+         pTG/hafo2Rr1KX7gaA3AoHt8oRTF1zOE1j1MIYTywu+bExHxVnuMWsoYLTyuImd7iOS3
+         bwQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706657096; x=1707261896;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9PYmS+wAfBRPLW1A4cOHciujMu9QywnUJYSefvoV7DU=;
-        b=A0OYEfLoQA7rr0grx+tVxT0mENNa2scPF6rO+edVrzXw0Qus4EOgqb/L5MuyQRZg21
-         wZx1bCICwv6CE835RlFuZPkNjy6J8LCws6Zevq5fxYMuVK7Ujy5ui4o4YLzXAzFyTVlK
-         pod81mEM7NiOtZiGr+Z76VP/o9zlWgUvk/TOfxTVovBUEuKBwpQrekbii2UdjzWBy7gO
-         YgRiMr5d7aHdA1KP2+Wod1JjKvY/5KjQiT07rFwzR+wmG3q6kmXPa3LI9YEXOXmgYjlY
-         Zl+INHtP/Ckxv8ERQAjRcndvDwyln2chr3PDS7ZZuMbMlqQOm39+TmD1U9uVHeUGusDQ
-         v8Ag==
-X-Gm-Message-State: AOJu0YwmOaa8mcQxVR14tUsqfONaA4rbcLawjXPWz9JK/UIrWwR6bkqN
-	lHjuLTo9VwTjq5a34t30dbTL12cnIs4CpC1Z7kIklcCIxAdGmHExLFgDaA2J
-X-Google-Smtp-Source: AGHT+IG+ase8x0aSn5hJbirv65Ls60h0K3hk876L9tuikWYYNLdWD3EJsc0bskHtGlybvVWBNt1UKg==
-X-Received: by 2002:a17:902:64c8:b0:1d7:75a0:3c86 with SMTP id y8-20020a17090264c800b001d775a03c86mr64811pli.66.1706657096379;
-        Tue, 30 Jan 2024 15:24:56 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:955e:133f:54ba:f642])
-        by smtp.gmail.com with ESMTPSA id u17-20020a170902a61100b001d6f8b31ddcsm7750316plq.3.2024.01.30.15.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 15:24:56 -0800 (PST)
-Date: Tue, 30 Jan 2024 15:24:53 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: POPESCU Catalin <catalin.popescu@leica-geosystems.com>
-Cc: Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"mark.satterthwaite@touchnetix.com" <mark.satterthwaite@touchnetix.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
-Subject: Re: [PATCH v6 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <ZbmFRTW4IsfYT5hc@google.com>
-References: <20240125165823.996910-1-kamel.bouhara@bootlin.com>
- <20240125165823.996910-4-kamel.bouhara@bootlin.com>
- <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
+        d=1e100.net; s=20230601; t=1706682426; x=1707287226;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWaZyKeLGRS2KPQ6AE1LzDAfNjq4+Gkbll2hjxwu5BI=;
+        b=cPRU0zNp4NOo+xJAHiyjBAkH/w6X6SfkOu7P9veqI+yGegHBX1dkh0B+/nAUncR2sS
+         DgkpPTPm2Ol4QByohgM6JH0bS7s/9g6fqUWIWcKHPEX7mwkMXwF2oP/DXTLnbN9dJMWw
+         W9ARynPJGqN0O82KqopRQ6kWgC24TqVeF2YMvf3TpNEsbEnuC0P3+0X1GQ4LBVPxD2Jc
+         zs8jHCCDnFXEEDLupwmT5HFbNvOlnd5VEOddQCIUQ2AxqAUf0E2gvZwfREmoAYxjQFwn
+         +QhQIyPRQyz+6vdej9LzR4V6CmpmzfFcN0yV2CLg/Ok6seF4XaG8HRlFYZajG9aq8Jxv
+         uH0Q==
+X-Gm-Message-State: AOJu0Yx55+q6j0CihyaS7QYkieDhoAZSGYYJqqMPSyJSkUVV01N3RtWz
+	owATFOAUcX3Ky1xtp22Jm4MhtzF/rD0nhsdiGHeABEX2CTTQ1QYWtdVwo0UWJu/MhcF2jX0RZz0
+	hMTbf1FK1AIuY/eZROBtCudcF/gn67+46jPM=
+X-Google-Smtp-Source: AGHT+IEdUZG9ysQscXVw4pCmW1t+fys/Zr6QZKafNAuy5wA7gc87EcJkOE1hyx8SqdcP4E8C4f1A6J5QwM7/QGHC2BM=
+X-Received: by 2002:a17:906:e28c:b0:a35:4663:74a1 with SMTP id
+ gg12-20020a170906e28c00b00a35466374a1mr436554ejb.5.1706682425565; Tue, 30 Jan
+ 2024 22:27:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b466d75c-944f-4c45-80f3-993b1fe40d7a@leica-geosystems.com>
+References: <CAEQPD4S1zyUMUyJbOb8i5a+URsLCrGMKPKD47es8OgCoKKwRQg@mail.gmail.com>
+ <CAEQPD4T+C_RaP_z96XRXj1teGiDMZu1MsPn8hAQ5FhSoaajZaA@mail.gmail.com>
+In-Reply-To: <CAEQPD4T+C_RaP_z96XRXj1teGiDMZu1MsPn8hAQ5FhSoaajZaA@mail.gmail.com>
+From: Taco Jerkface <tacodog311@gmail.com>
+Date: Tue, 30 Jan 2024 23:26:56 -0700
+Message-ID: <CAEQPD4RSFJN5TvU2vwHL=w1TkMzxD+v1=jxyyNzZDMyPane=BQ@mail.gmail.com>
+Subject: Suspected bug in hid-microsoft.c
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
+	jikos@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 30, 2024 at 05:32:54PM +0000, POPESCU Catalin wrote:
-> On 25.01.24 17:58, Kamel Bouhara wrote:
+Resending without HTML:
 
-> > +               u16 offset = (usage_id * AXIOM_U31_BYTES_PER_USAGE);
-> > +               u8 id = rx_data[offset + 0];
-> > +               u8 start_page = rx_data[offset + 1];
-> > +               u8 num_pages = rx_data[offset + 2];
-> > +               u32 max_offset = ((rx_data[offset + 3] & AXIOM_PAGE_OFFSET_MASK) + 1) * 2;
-> > +
-> > +               if (!num_pages)
-> > +                       usage_table[id].is_report = true;
-> please add an else statement to set is_report to false.
+Hi,
 
-Better written as:
+I hope this is the correct contact for this report, I found you as the
+maintainer in the hid-microsoft.c.
 
-		usage_table[id].is_report = num_pages == 0;
+I believe there is a bug in the microsoft bluetooth driver for the
+Xbox Elite Series 2 controller.  I have been experiencing issues with
+it that I initially thought were SDL related.  However the SDL team
+seems to think this is driver related. My SDL bug report information
+is here:
 
-or
+https://github.com/libsdl-org/SDL/issues/8907
 
-		usage_table[id].is_report = !num_pages;
+Basically, SDL reads the controller correctly when connected by USB,
+and if I run "controllermap" with root permission, but with user
+permissions it misreads the number of buttons as 122, the first paddle
+button on the back seems to act like the "screenshot" button from the
+1914 controller, and the other paddle buttons are not read.  All
+buttons read fine with evites, but the paddle buttons "KEY_UNKNOWN"
 
-Thanks.
+type 1 (EV_KEY), code 240 (KEY_UNKNOWN), value 0
 
--- 
-Dmitry
+Please let me know if there is a better contact for this, or if there
+is anything I can do to help identify the problem.
+
+Cheers
 
