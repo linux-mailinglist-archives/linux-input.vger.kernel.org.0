@@ -1,75 +1,138 @@
-Return-Path: <linux-input+bounces-1624-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1625-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05612845C5F
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 17:00:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A788462C8
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 22:47:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 934E41F2D4F2
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 16:00:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2AA9288CCD
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 21:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC26A626B2;
-	Thu,  1 Feb 2024 15:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 394423EA8C;
+	Thu,  1 Feb 2024 21:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYhAJw//"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0599C626B6;
-	Thu,  1 Feb 2024 15:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B0F39AE1;
+	Thu,  1 Feb 2024 21:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706802997; cv=none; b=UC1fXjiSyBIaLmw+w/u84txSDpeEgvgaqQVBZbKfVuJy+72ozqV7m6oxmexsPSSwWCSAPszCeU3ql6zGc7z6NqSSht2jB05iu6HVu1beEGH33kPUOfoWas4JN7dgfYVSerPzG6vzdXNbqwtY6hDxks92S3nyvTqKrAU9hmkDrOk=
+	t=1706824053; cv=none; b=Uak3q6fovuTrGQ6irIPfGICYVR6/6afdPLjz5lGScydMdAvIKR/Ha7ZIPGsrj8heY0Ul5oFuu9USIkaIAmsbS2Wh/ipeb4gjhrXDLzP7rEYiWVRvrELSdlwX1XSIfR1w2P79RKfrvzAbn89EXGPA6OMhjEYh+YXMgar4h6gDgzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706802997; c=relaxed/simple;
-	bh=HZRmG/u2yOoG/gtlPI7AZER68B4VPuCYhtlhcp1Zmc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T6bI3LK0DlZasyDH7x5srKjspXPYYq6y1HqesqwssUbyC9T+EgwDpoH+qjoj28NCopThbzqcxwlya2DMnsqfIpFGBWVfAnzoiEXq+EUI9Dn09Y9tW6G7j3TVCInRO1CwyJyjfdSMroyYZhnPbT7dTI50eiVep5M+NiqMMWApwXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id A99A8FFE54;
-	Thu,  1 Feb 2024 15:56:25 +0000 (UTC)
-Message-ID: <b4aefd3f-e5b6-4474-8122-763523786cd2@enpas.org>
-Date: Fri, 2 Feb 2024 00:56:19 +0900
+	s=arc-20240116; t=1706824053; c=relaxed/simple;
+	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=khxhwSxLDnLzjIdYRf0JZGlz3N+SgDTU1UeUf+6SBoSQeUBK47wAcA3uuk18bvU3k9yTfrG83HMqz2/VEq/jaA28iuim+dgoqHSgNBcucMECnn/FwC7u904JZr5lKQUlIl0uxu6CALvToLATsy7OmaqQxjriTPztTHU9S2cVVvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYhAJw//; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEB5C433C7;
+	Thu,  1 Feb 2024 21:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706824052;
+	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KYhAJw//yARcM3TA6pVCkI4LUiBLE5XWbQdyIJ2IOE9XeeW9PXuRT0u1fpPxxrkwp
+	 Hurjt/dBf8xwi23T1FksMdv9e36XHyjvhrDNFhBSr1xRnTYLMYbJE3ILCL/Xokm/MD
+	 5zQO0eFXQidwjXeacacwmmo5pMdGivYcXVl5OsSlyzb4uDD6zF3QHkW/ipNCSyCrkX
+	 ruFySuh4tDJV4Rf4YFiYpBgTsdWdhvZKAcl5M+3wneiWVFJ2zo1QtBfWDecyRoxa73
+	 fETXEmGDyXWVSu/j1Xloaznpi7OcrAoyx70CgInqn+hTw2H52XDK3rA5SorsXzUwVT
+	 KByKrTZWMbAOA==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
- controllers
-To: Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240115144538.12018-1-max@enpas.org>
- <20240115144538.12018-8-max@enpas.org>
- <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
- <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
- <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
- <d5d301c6-172d-4204-88cc-2dc9b351e693@enpas.org>
- <CAEc3jaDFh3UY8AGnXA3s13DbcKTFnBT8Z7iq4qdqnM5o3nVHFA@mail.gmail.com>
-Content-Language: en-US
-From: Max Staudt <max@enpas.org>
-In-Reply-To: <CAEc3jaDFh3UY8AGnXA3s13DbcKTFnBT8Z7iq4qdqnM5o3nVHFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 01 Feb 2024 23:47:13 +0200
+Message-Id: <CYU2MG4IOJ0Q.2UJOTK999FCCC@suppilovahvero>
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Mark Brown" <broonie@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+Cc: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ <kernel@pengutronix.de>, "Moritz Fischer" <mdf@kernel.org>, "Wu Hao"
+ <hao.wu@intel.com>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
+ <trix@redhat.com>, <linux-fpga@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Alexander Aring" <alex.aring@gmail.com>,
+ "Stefan Schmidt" <stefan@datenfreihafen.org>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, <linux-wpan@vger.kernel.org>,
+ <netdev@vger.kernel.org>, "Lars-Peter Clausen" <lars@metafoo.de>, "Michael
+ Hennerich" <Michael.Hennerich@analog.com>, "Jonathan Cameron"
+ <jic23@kernel.org>, <linux-iio@vger.kernel.org>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>, "Ulf Hansson"
+ <ulf.hansson@linaro.org>, "Rayyan Ansari" <rayyan@ansari.sh>, "Andy
+ Shevchenko" <andriy.shevchenko@linux.intel.com>, "Jonathan Cameron"
+ <Jonathan.Cameron@huawei.com>, "Martin Tuma"
+ <martin.tuma@digiteqautomotive.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, <linux-media@vger.kernel.org>, "Sergey Kozlov"
+ <serjk@netup.ru>, "Arnd Bergmann" <arnd@arndb.de>, "Yang Yingliang"
+ <yangyingliang@huawei.com>, <linux-mmc@vger.kernel.org>, "Richard
+ Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Rob
+ Herring" <robh@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>, "Michal
+ Simek" <michal.simek@amd.com>, "Amit Kumar Mahapatra via Alsa-devel"
+ <alsa-devel@alsa-project.org>, <linux-mtd@lists.infradead.org>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ "Simon Horman" <horms@kernel.org>, "Ronald Wahl" <ronald.wahl@raritan.com>,
+ "Benson Leung" <bleung@chromium.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>,
+ "Guenter Roeck" <groeck@chromium.org>, <chrome-platform@lists.linux.dev>,
+ "Max Filippov" <jcmvbkbc@gmail.com>, <linux-spi@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+ <linux-arm-msm@vger.kernel.org>, "Matthias Brugger"
+ <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>,
+ <linux-mediatek@lists.infradead.org>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Amit Kumar Mahapatra" <amit.kumar-mahapatra@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, "Viresh Kumar" <vireshk@kernel.org>, "Rui
+ Miguel Silva" <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex
+ Elder" <elder@kernel.org>, <greybus-dev@lists.linaro.org>, "Peter Huewe"
+ <peterhuewe@gmx.de>, "Jason Gunthorpe" <jgg@ziepe.ca>,
+ <linux-integrity@vger.kernel.org>, "Herve Codina"
+ <herve.codina@bootlin.com>, "Alan Stern" <stern@rowland.harvard.edu>, "Aaro
+ Koskinen" <aaro.koskinen@iki.fi>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, <linux-usb@vger.kernel.org>, "Helge
+ Deller" <deller@gmx.de>, "Dario Binacchi"
+ <dario.binacchi@amarulasolutions.com>, "Kalle Valo" <kvalo@kernel.org>,
+ "Dmitry Antipov" <dmantipov@yandex.ru>, <libertas-dev@lists.infradead.org>,
+ <linux-wireless@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "James Clark" <james.clark@arm.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+X-Mailer: aerc 0.15.2
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+ <2024012417-prissy-sworn-bc55@gregkh>
+ <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
+In-Reply-To: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
 
-On 2/1/24 01:34, Roderick Colenbrander wrote:
-> I agree it sounds like a good idea for now to drop just those 2 paches
-> and just see what other devices are out there (SDL2 has a good ds4
-> implementation too and they dealt with a lot of devices). May need to
-> get some of the 8bitdo and many others to see some patterns.
+On Wed Jan 24, 2024 at 7:22 PM EET, Mark Brown wrote:
+> On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
+> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+>
+> > > Note that Jonathan Cameron has already applied patch 3 to his tree, i=
+t
+> > > didn't appear in a public tree though yet. I still included it here t=
+o
+> > > make the kernel build bots happy.
+>
+> > Are we supposed to take the individual changes in our different
+> > subsystem trees, or do you want them all to go through the spi tree?
+>
+> Given that the final patch removes the legacy interfaces I'm expecting
+> to take them via SPI.
 
-8BitDo seem to be interesting indeed. IIRC they need the patches for the firmware version, the gyro calibration, and 0x01 events.
++1
 
+least fuss approach
 
-Max
-
+BR, Jarkko
 
