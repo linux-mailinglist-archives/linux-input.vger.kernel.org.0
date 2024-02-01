@@ -1,103 +1,75 @@
-Return-Path: <linux-input+bounces-1623-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1624-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2964D845BB0
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 16:38:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05612845C5F
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 17:00:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAC9A282F01
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 15:38:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 934E41F2D4F2
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 16:00:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720B262145;
-	Thu,  1 Feb 2024 15:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="ZXb+Iga+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC26A626B2;
+	Thu,  1 Feb 2024 15:56:37 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56266626C9;
-	Thu,  1 Feb 2024 15:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0599C626B6;
+	Thu,  1 Feb 2024 15:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706801878; cv=none; b=OL0obQgzvUpgg/SEvvMWgD0WreGTH6hZeI5rD7u5wYISLsLmOli3QGhe0fng6N0ZBpVJ2jN+DcnxngC3kZWDdamaBuQcieRuUZNnTfAIqeOssOsSEmZYeGyweaCgVvynorEA4SD1QpHUNvqFYWyljsdMkpLRs7pRAk1STiimvu4=
+	t=1706802997; cv=none; b=UC1fXjiSyBIaLmw+w/u84txSDpeEgvgaqQVBZbKfVuJy+72ozqV7m6oxmexsPSSwWCSAPszCeU3ql6zGc7z6NqSSht2jB05iu6HVu1beEGH33kPUOfoWas4JN7dgfYVSerPzG6vzdXNbqwtY6hDxks92S3nyvTqKrAU9hmkDrOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706801878; c=relaxed/simple;
-	bh=mlFdx8q/qv+OqqycJ0U0WzY9CEGgq+9/dfyQ3o9wzOY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=pCSBkCZos4zkmUKYMFdj7ybv1YsXWdFxa1nllEY+Hh+Wpp/dfM9urGtz3YWICc1gkQlgPOQo/BVjbhWYr3ynf1noorCS+ZXu6fzK56Y1KYs8o3eQIsS1Q+nV6kfnFOH7uZ2Zp5r1ddToAkiOh4P8+GR9dqpGNnnZozXdm/8/hZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=ZXb+Iga+; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id DA4F6283D4C;
-	Thu,  1 Feb 2024 16:37:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1706801859;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MrwVT/WNDACr7m8GmvCDFAAxCBNQxViS+p8tHUq04XY=;
-	b=ZXb+Iga+zgEpxQtmV4KbAtVjpkIqGkOmCVbzHldgvGXUHA8KWzR6UHH4luWzNylkNzXqfw
-	6eKWPwViOX7KiMtgw4i94fHUwCtE2uoSB/SPVcsiBwf+Hl8sSIHhAGUlBb9MXaDfOZCM6q
-	q2fyvc+E/xzwtwHswjxasn26hQlQJCk=
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id B97A8457CB8;
-	Thu,  1 Feb 2024 16:37:39 +0100 (CET)
+	s=arc-20240116; t=1706802997; c=relaxed/simple;
+	bh=HZRmG/u2yOoG/gtlPI7AZER68B4VPuCYhtlhcp1Zmc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T6bI3LK0DlZasyDH7x5srKjspXPYYq6y1HqesqwssUbyC9T+EgwDpoH+qjoj28NCopThbzqcxwlya2DMnsqfIpFGBWVfAnzoiEXq+EUI9Dn09Y9tW6G7j3TVCInRO1CwyJyjfdSMroyYZhnPbT7dTI50eiVep5M+NiqMMWApwXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id A99A8FFE54;
+	Thu,  1 Feb 2024 15:56:25 +0000 (UTC)
+Message-ID: <b4aefd3f-e5b6-4474-8122-763523786cd2@enpas.org>
+Date: Fri, 2 Feb 2024 00:56:19 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 01 Feb 2024 16:37:39 +0100
-Message-Id: <CYTURHOW0WMR.2UMOT0D1GFZ2W@gimli.ms.mff.cuni.cz>
-Cc: "Karel Balej" <balejk@matfyz.cz>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, "Rob Herring" <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
- <conor+dt@kernel.org>, <linux-input@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [RFC PATCH 2/5] mfd: add 88pm88x driver
-To: "Lee Jones" <lee@kernel.org>
-From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
- <20231217131838.7569-3-karelb@gimli.ms.mff.cuni.cz>
- <20240125122634.GE74950@google.com>
- <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
- <20240131110311.GI8551@google.com>
-In-Reply-To: <20240131110311.GI8551@google.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 7/7] HID: playstation: DS4: Add VID/PID for SZ-MYPOWER
+ controllers
+To: Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240115144538.12018-1-max@enpas.org>
+ <20240115144538.12018-8-max@enpas.org>
+ <CAEc3jaBU3M0Zce2pdFvdBSG50a7Ky=GY4gLO3dkYdDrkYtiO0Q@mail.gmail.com>
+ <e107b202-5843-41a7-b61e-68dd92128176@enpas.org>
+ <CAEc3jaCifoWW3ZXHvySSfgwhVm1AffYe=z7HRP9RjmYyu53w7Q@mail.gmail.com>
+ <d5d301c6-172d-4204-88cc-2dc9b351e693@enpas.org>
+ <CAEc3jaDFh3UY8AGnXA3s13DbcKTFnBT8Z7iq4qdqnM5o3nVHFA@mail.gmail.com>
+Content-Language: en-US
+From: Max Staudt <max@enpas.org>
+In-Reply-To: <CAEc3jaDFh3UY8AGnXA3s13DbcKTFnBT8Z7iq4qdqnM5o3nVHFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Lee Jones, 2024-01-31T11:03:11+00:00:
-> On Sun, 28 Jan 2024, Karel Balej wrote:
-> > > > +	/* GPIO1: DVC, GPIO0: input */
-> > > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
-> > >
-> > > Shouldn't you set these up using Pintrl?
-> >=20
-> > You mean to add a new MFD cell for the pins and write the respective
-> > driver? The downstream implementation has no such thing so I'm not sure
-> > if I would be able to do that from scratch.
->
-> This is not a Pinctrl driver.
->
-> Isn't there a generic API you can use?
+On 2/1/24 01:34, Roderick Colenbrander wrote:
+> I agree it sounds like a good idea for now to drop just those 2 paches
+> and just see what other devices are out there (SDL2 has a good ds4
+> implementation too and they dealt with a lot of devices). May need to
+> get some of the 8bitdo and many others to see some patterns.
 
-I'm sorry, I don't think I understand what you mean.
+8BitDo seem to be interesting indeed. IIRC they need the patches for the firmware version, the gyro calibration, and 0x01 events.
 
-Thank you,
-K. B.
+
+Max
+
 
