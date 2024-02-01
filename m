@@ -1,189 +1,142 @@
-Return-Path: <linux-input+bounces-1599-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1602-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376DC844F5E
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 04:07:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ADF845003
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 05:04:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9B5028D3C5
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 03:07:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 059B31F2A696
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 04:04:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 525963A1DB;
-	Thu,  1 Feb 2024 03:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7241D3B786;
+	Thu,  1 Feb 2024 04:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eYbzX9Cp"
+	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="pMYWn59+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BC139AFE;
-	Thu,  1 Feb 2024 03:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B863D3B197
+	for <linux-input@vger.kernel.org>; Thu,  1 Feb 2024 04:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706756869; cv=none; b=CHphaFqQMWo2CqbM41t0ymagfTGIA3rZIOWHsmJkvfq4O7lcx4cM9vtp2X2ofyB6HhXqsfjbWTwqd06ucCb4kvknHvpNz/phR7RknBNnfbquzsC6shEPuZn86SiB2eVxvpLs0tqpASLPz0UpJYbCRyr8PsqaynCjmNgQBo6b8ok=
+	t=1706760271; cv=none; b=Yum6Tu13nvKZnXBi839ARySvu2B984iicbQXRbWOBWPcoxVrkJ1ec0zp6j2gI/mfgC633LQ/urvGjGkDePpIehWlvFYRwrf8zKzS1n3fZhBB7m5/HD6UTltiuzX193GspPVZat2QWxruJdPeTd8u3QPsmcJrpqROiMC64uWhRB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706756869; c=relaxed/simple;
-	bh=PcB0AJ8B1lqY+iSkXfjih3Kz6E+Pdd+y+kEDjRJEORM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Wv4/ITq+ZKjzG03p+8tzGzLeQyeedRDQDLgRdPg5nJ7nHh2lzQh8wrY6Edhnz7OFMVUtq7WxWCXE/aM+QOtqcGMYDlxlhePJqODdePYGw6tWyukEnsQYNh7aTeGv9SQDZofey5gUa1GU+Ry8dGFejwqWl9Sw+Gksd4Ej+UwhSNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eYbzX9Cp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4111qXmH025477;
-	Thu, 1 Feb 2024 03:07:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:date:subject:mime-version:content-type
-	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=Eo/8t/2I40bS5oouVKnNf8nmQwYcSuOfwyKZt2xv6S8
-	=; b=eYbzX9CpFf+bpGNUXbettrsHO/NbddouZmTk+xGZDM0mRybVoqn9zP+Dp2l
-	E/h6yzfAu4cMXJ13nzTYalA4rxqtkHDDRTtC6M+mBbL7ls95vCA3KflwM2lLXFpw
-	lWjMNWN+QNg1QBh4jIO9lb3GKdcLWxUBiIDDd7hpm6Ga+lnr1BvqyHXaV6Ly13H+
-	Haufmo+jVp87wdm452j1dIy08kPJ1yyP8GrzpYEoC9whf1dTliu+fkmokuPe/pbF
-	VzD4xQCVyEhxVMzyOresEKt5dguCtOK+uDdhTZARxS48CS6NejB+JIlVy10gzAQj
-	7yLsImbXRsv9Hv8FRYbp9JyxBMA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vyqvehrqk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 Feb 2024 03:07:39 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41137cR8009842
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 1 Feb 2024 03:07:38 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 31 Jan
- 2024 19:07:37 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-Date: Wed, 31 Jan 2024 19:07:28 -0800
-Subject: [PATCH v4 3/3] arm64: dts: qcom: sc8280xp-x13s: Fix/enable
- touchscreen
+	s=arc-20240116; t=1706760271; c=relaxed/simple;
+	bh=U+z/Gzi2e8oSaSkN5Mf9nf9eVZKujMwhE9OLgovc7bM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z0zYx3JJFLJUz6+C/axKeAB10PySG2zJQbzRFPvWekt49yAC1xoMwHas0sZPsxQsB2lRD+qp+wSJzXqfhQrXLxf8VaafWAf3Ot3r22Yng1SxG4T+2iqeU9cBfX08ptw387LeEU4vzzfae8OqddXJzjnAIHimiZQ0nw7AQF7wKCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=pMYWn59+; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2cf5917f049so6612001fa.2
+        for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 20:04:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kali.org; s=google; t=1706760268; x=1707365068; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g1pCpqVMhWzU3nLiNxALZDbTH3+vNR66xyNLLKO0v8w=;
+        b=pMYWn59+cHhsWgr23hYLZ+Mp1Er1uJdeAOsf2u6UaBEWvrra4HjgjJMG/0DuZTnFCq
+         jdizSoHWrB4oHAK0jBV/Ci1fD1d6xnD8jZLAVPkxukQA3l0omqddNVBPxKIcjowloqgP
+         0QO4vhtJ1305mJ+lcm5Ptuv94fgplSu3nhAKsXV2iJnhYE/PfiPy9hilN3vuAzXrFgqr
+         Cl4nuzNDS1CBhR7n5ZVFeu6PywrAWdPczJ165tTU3uF1RWtNOn8HVzjyM12uQIHce3Nk
+         5hBTDCkBMRO2Vc/nWMYqbNOgs07ZFvxRsN+P0oazYfmj6MISAMkYJCSzd+N56cZXfGE1
+         1EWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706760268; x=1707365068;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1pCpqVMhWzU3nLiNxALZDbTH3+vNR66xyNLLKO0v8w=;
+        b=WQGXvTBeALECrKQ4qusmwnj4AY8rxWqlpNu+qBdKrXXXnyvbcr8tDJOoZuMqarzzWa
+         7+1JXcOCh6pQtR0DDOLpPZuIFpY0VOv7X1zco9+z2cmpxw8Wo2++1LJP/+ZhDqQf2HeN
+         qhBaP8xKCl6faVJKHCXVtYo22NxbtpazEHSMX6qZzi0Gm5pYHPsOfYpOgYTARRyS7IJT
+         KXWp7d6GYk58UTfqNFbJThcxqdgQvmkg5PQ9eaGSg4VrkWq14BaksjZGonuCqIlIBm90
+         a45DR+CXorLoqlhifiMJiejoybDjc88Q2WrGaITvSKcCSMguLnmemPOFHTBzCSp0Shd8
+         hWlw==
+X-Gm-Message-State: AOJu0YxqhrHFy92H3ZKPHWyAt4OiefO7278tgLsHUNxciDuKCzjaOrtA
+	hyKdRCIcnwG+Dm937RYjYLe318izpbdpfJ+LKMn5bmwasvBZAJdMJ9UXzY7uNpWn/DpaUdcWd+n
+	WBngAXammAwVxt9koDdwHtpZ0cOIptzn5qH+DBA==
+X-Google-Smtp-Source: AGHT+IFe5H/phU7lMtzKlpQzEnleJByHGXLacQC79IKXkfpOvLnNeg3HBnc/RI/6OD+znY9scOVD1GK6dfOsLTNVxEI=
+X-Received: by 2002:a05:651c:1cf:b0:2d0:6fe8:bb2a with SMTP id
+ d15-20020a05651c01cf00b002d06fe8bb2amr2054277ljn.32.1706760267723; Wed, 31
+ Jan 2024 20:04:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240131-x13s-touchscreen-v4-3-39c0f9925d3c@quicinc.com>
 References: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
 In-Reply-To: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina
-	<jikos@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Johan Hovold <johan+linaro@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@somainline.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>,
-        Bjorn Andersson
-	<quic_bjorande@quicinc.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1706756856; l=2516;
- i=quic_bjorande@quicinc.com; s=20230915; h=from:subject:message-id;
- bh=PcB0AJ8B1lqY+iSkXfjih3Kz6E+Pdd+y+kEDjRJEORM=;
- b=B27rcr52LWCc4knuPSnQkUSJpdro31QedccioOAwSXpXPKrfSY2EFguKMflfXqhkPU4DxGlT3
- d/lFMVFwxZsCjC6IlWKSBjBZe+oI1hS/UsX/yNwJ6L6plbuMTRFa4Px
-X-Developer-Key: i=quic_bjorande@quicinc.com; a=ed25519;
- pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hOn1CmDDBFH-Mnys9FYYBfTgBwD_V4DH
-X-Proofpoint-GUID: hOn1CmDDBFH-Mnys9FYYBfTgBwD_V4DH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-31_10,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2401190000
- definitions=main-2402010023
+From: Steev Klimaszewski <steev@kali.org>
+Date: Wed, 31 Jan 2024 22:04:16 -0600
+Message-ID: <CAKXuJqh0Js8t6YHLOOj8p6YQgKAAfchVLXfFWotVVR_H8bFsbA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] arm64: dts: qcom: sc8280xp-x13s: Enable touchscreen
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Jiri Kosina <jikos@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Daniel Thompson <daniel.thompson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The touchscreen present on some SKUs of Lenovo Thinkpad X13s is never
-detected by Linux. Power is applied and the device is brought out of
-reset using the pinconfig in DeviceTree, but the read-test in
-__i2c_hid_core_probe() fails to access the device, which result in probe
-being aborted.
+On Wed, Jan 31, 2024 at 9:07=E2=80=AFPM Bjorn Andersson
+<quic_bjorande@quicinc.com> wrote:
+>
+> This documents and defines the necessary properties for the I2C
+> HID-based touchscreen found in some SKUs of the Lenovo Thinkpad X13s to
+> work.
+>
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+> Changes in v4:
+> - Introduced the patch in the HID driver removing the comment about the
+> need to update the binding.
+> - Link to v3: https://lore.kernel.org/r/20240129-x13s-touchscreen-v3-0-c4=
+a933034145@quicinc.com
+>
+> Changes in v3:
+> - Rewrote the commit message, to properly describe the problem being
+>   resolved.
+> - Link to v2: https://lore.kernel.org/r/20240126-x13s-touchscreen-v2-0-53=
+74ccc9e10d@quicinc.com
+>
+> Changes in v2:
+> - Dropped output-high from &ts0_default, to avoid bouncing the reset
+>   line unnecessarily
+> - Link to v1: https://lore.kernel.org/r/20240125-x13s-touchscreen-v1-0-ab=
+8c882def9c@quicinc.com
+>
+> ---
+> Bjorn Andersson (3):
+>       dt-bindings: HID: i2c-hid: Document reset-related properties
+>       HID: i2c-hid-of: Remove comment about post-reset in DT binding
+>       arm64: dts: qcom: sc8280xp-x13s: Fix/enable touchscreen
+>
+>  Documentation/devicetree/bindings/input/hid-over-i2c.yaml  | 6 ++++++
+>  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 7 +++++--
+>  drivers/hid/i2c-hid/i2c-hid-of.c                           | 5 -----
+>  3 files changed, 11 insertions(+), 7 deletions(-)
+> ---
+> base-commit: 8bf1262c53f50fa91fe15d01e5ef5629db55313c
+> change-id: 20240125-x13s-touchscreen-48012ff3c24e
+>
+> Best regards,
+> --
+> Bjorn Andersson <quic_bjorande@quicinc.com>
+>
+>
+Thank you for this work!
 
-Some users have reported success after rebinding the device.
-
-Looking to the ACPI tables, there's a 5ms after-power and a 200ms
-after-reset delay. The power-supply is shared with other components, so
-this is active all the way through boot. The reset GPIO, on the other
-hand, is low (reset asserted) at boot, so this is first deasserted by
-the implicit application of the pinconf state.
-
-This means the time between reset deassert and __i2c_hid_core_probe() is
-significantly below the value documented in the ACPI tables.
-
-As the I2C HID binding and driver support specifying a reset gpio,
-replace the pinconf-based scheme to pull the device out of reset. Then
-specify the after-reset time.
-
-The shared power rail is currently always on, but in case this ever
-change, the after-power delay is added as well, to not violate the
-power-on to reset-deassert timing requirement.
-
-Fixes: 32c231385ed4 ("arm64: dts: qcom: sc8280xp: add Lenovo Thinkpad X13s devicetree")
-Tested-by: Daniel Thompson <daniel.thompson@linaro.org>
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index def3976bd5bb..33731b95ad51 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -620,7 +620,6 @@ &i2c4 {
- 
- 	status = "okay";
- 
--	/* FIXME: verify */
- 	touchscreen@10 {
- 		compatible = "hid-over-i2c";
- 		reg = <0x10>;
-@@ -630,6 +629,11 @@ touchscreen@10 {
- 		vdd-supply = <&vreg_misc_3p3>;
- 		vddl-supply = <&vreg_s10b>;
- 
-+		reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
-+
-+		post-power-on-delay-ms = <5>;
-+		post-reset-deassert-delay-ms = <200>;
-+
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&ts0_default>;
- 	};
-@@ -1450,7 +1454,6 @@ int-n-pins {
- 		reset-n-pins {
- 			pins = "gpio99";
- 			function = "gpio";
--			output-high;
- 			drive-strength = <16>;
- 		};
- 	};
-
--- 
-2.25.1
-
+Works great on my Thinkpad X13s
+Tested-by: Steev Klimaszewski <steev@kali.org>
 
