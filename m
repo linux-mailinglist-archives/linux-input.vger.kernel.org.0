@@ -1,133 +1,159 @@
-Return-Path: <linux-input+bounces-1597-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1598-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF66E844CD9
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 00:32:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5358844F5D
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 04:07:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86E4A28B0BB
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jan 2024 23:32:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B8EA1F2CAD1
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 03:07:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3EFC13B7B4;
-	Wed, 31 Jan 2024 23:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46C8A3A1C9;
+	Thu,  1 Feb 2024 03:07:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HM0mMkD/"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QxdbsFnY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9703F8ED;
-	Wed, 31 Jan 2024 23:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C94539FFF;
+	Thu,  1 Feb 2024 03:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706743209; cv=none; b=fL/bQ6dRXBE/yq3FEd76KKQghVlign2TfkpafS/mS5+fxsit2joWPNP9IWKRM9jEH0d/cW4DItsy1XYIF/I7yi1fV9mlQooDDeQAVwjWhzE2hfSYPVYfZ3vdABwazr/eSmyhBCXijCVMVm50+8QN0pQiCzmMyJMhV7QTEMsrio8=
+	t=1706756869; cv=none; b=gV/N9W9dKwhl4qE/iYg25hF/mozd0am24jycrSEK3zVpFujDTZS9WX3ZuqDRSu3ou7V3xpEHgevKOGQ6q9lNc8GgJdxVoZJ8fRdmW0wc3D4Wfrx6ilttjze62z32Y6JJJTkrXKB7urB63yA0GtyYFajSVWDDzQZC05+krCdveAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706743209; c=relaxed/simple;
-	bh=xAKFpWy2WYrKAuOW3GMFvbc0mFyvSz6sd4M8U/M+wfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elgoVwPiZtEN9eIpVMvS+tcVTyxCNDsIHO/QsVx5gBRd80+olT7RkYmGQEOthdlN8bG/ymLdO9/7Q16oxKW7WJZeMucbCBxNM0mlTQ8U0C6WxawxK3mPPhFSpEcMndt1vIzrbNlL1FZxQab24USuVVl27w/CVazV5l4vUzFV5to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HM0mMkD/; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-295daac78efso190228a91.3;
-        Wed, 31 Jan 2024 15:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706743207; x=1707348007; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNn41Rs8JhzOA9iWpZly1tLKK/bxOt9Z64RFV10twd4=;
-        b=HM0mMkD/Zo0ave6B8cEOgmcymR05PkerC0EIudEV5SXVYk0Z5wZfYN/uU28jl6267x
-         W6P0KWJn7dAx/E3E9DQe+LFL1cycAReOuf5MmVrOkMVn82I8a4QNz83HXdYMHDA+AseQ
-         DQXLdRW0+c19CAHsLYELSuRGA8BKA70ZEZKp7y80Dnym5ElFSHzIIa5ohi0OvFpcphMF
-         uyVsXu3Q0V+K3DuEUqCUg+at1TUSefkn4K3bBN+0uwHtzrtfD2PPvbmL09IQ5y0L4COV
-         cfuKcrqk2XH36czX7MNTgm0EyQKtYNgU+h2DtfIpbI33H9QyxpggQfL3F55sCb5LqY9z
-         oGRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706743207; x=1707348007;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mNn41Rs8JhzOA9iWpZly1tLKK/bxOt9Z64RFV10twd4=;
-        b=WlDZbiJHiPiCOTvMBH7wlt4s+QcQYkEMqSRgXCCWL99J2vJ/vzbw9jNzK4zSU5gtMd
-         lWYbS6vzuBa+a6AMnSIiEE06ZSHJaGuqOPimLEUk9N1Z6Mu/LKTVj7H6opt3XP14u+0m
-         MLCXKRuRXgMcliIrJRd7qhy8mD5WHeFNhzsi+HdKIyLSQrfCgJgZ7S4kMXHfjIJ5huB6
-         G7lbwCbK5sDE0kNeAhiWV/R/d+ao6508EAUTHhdSI5NLKMicpCGZaQFWiM866k5cyayo
-         v2/R2cgOad2vhqlhYKyVUJh7y80Z5bHeTN3vgLU34JWqdLEudTfbJCIFDkaQtDMbXjmg
-         /cTQ==
-X-Gm-Message-State: AOJu0Yy1nxBtlYbaVZfq9o2jyfWhL0DUa2VbalKbWHhArrWMclbQYoSA
-	4c8FR9dnuZAdmaliNa3LO5xmMX7G2Tq54rGnCG8jwzoABW2ZyVo2
-X-Google-Smtp-Source: AGHT+IEwJOyENEo0RV/dSF4+36GJxsG/AU/qipnTFBZPFdzMx7YD5fDcamkmjrWkcYm42xtOpnANYw==
-X-Received: by 2002:a17:90a:d103:b0:295:eaff:78f3 with SMTP id l3-20020a17090ad10300b00295eaff78f3mr2709654pju.8.1706743207369;
-        Wed, 31 Jan 2024 15:20:07 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVrs67UgyRjt7ta5JVSJxCcxPfW1OctfiRBsYNEd1kvJDCYDbmM05kFcW7L1bNn4+4Vyvwm8GRwrF2EVBgi08QfaIjrx1+TG53eey3T1oC9zvKrfzJtky8GdBVar4A8VJ5KEgBHKTiu3Fb0vptKHFnTmWzw2hLWbGzm35z5F/ZZDo2lpPq5iDPM9s2ljh28lm0ToCZw/XMwC4m1JYOtGjmc9iIOOMDi5Led+nP/2INS4Hj7OXiha+1EYymN0YG3If3ewntYBwNiDWf0w86LBCyvlIl+dufh0smFPbj1ZUiMefw1bP9bTx1f9/9WEiBdMBJF4LgE9zbVVOnjMvC0w+GZEFLhN+1tRwwEQwmh3QiMO4HNyW2LL6U7+pLotMejcVR4UFxp8HiMGMjYM4+h5/C46fwovTsz8ALIrLR8hRys2qQEkQ0ZA9gZ8jcZjmQ9FsGtfK2aJq983DqSyQWE4sMAa6hWgJwXNHpvMsLATdnrx+2Ijo/QQaAWjxcHq0NVRIG9WOMpDVy2M+vnCOlHq23P2fg5FyPDDbZRnVkMKl2kFaHahWIvdissiGXUkeEeugn6Y+rIniOyWY6VWBZk6NKTONC2N/mpElYUqFy2ikXrfQ/to2OxgkIlDikeyIZ5f+w6u8KVI3BqqHN5Lhy3n0dekLtMJ0blRPUcbczNzCxO2gxfdNquvmZDRegILn1jR+2SHaGsiIzl0rSIzjludelOEVWGbf4ff7IJ94JVZYB4XhP06w==
-Received: from google.com ([2620:15c:9d:2:dd5d:ba2a:a6f9:365f])
-        by smtp.gmail.com with ESMTPSA id se16-20020a17090b519000b00295066a69c4sm2074603pjb.36.2024.01.31.15.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 15:20:07 -0800 (PST)
-Date: Wed, 31 Jan 2024 15:20:04 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v6 RESEND 6/6] dt-bindings: mfd: dlg,da9063: Convert
- da9062 to json-schema
-Message-ID: <ZbrVpIIhIAuEEmlP@google.com>
-References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
- <20240131102656.3379-7-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1706756869; c=relaxed/simple;
+	bh=KTULhIMFFnxhtlNK2d7CqhHMEe0edZVqfB4S1Oawrns=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=Va8u4SD0nw8heFYPqJlv9g4W0PXb1A22PkZrbco9vsf7LX3PNSIo3ept6dJre9QVz03a9uEg4iGsnz+PN1QrhDJkanJyR1Gn7LBvKSsWW7fjqnfG3lVLbvsrmOeo1xrqYJkgmr4gephCypz/ppyLZzV9OoliuN+Kg+gHbxDI4QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QxdbsFnY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4111cvwk023887;
+	Thu, 1 Feb 2024 03:07:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding:to:cc; s=qcppdkim1; bh=2K80p9Ro1kzJR3
+	1H55txCImJwMy/lTnQpim7GWGUU7M=; b=QxdbsFnYBxXH6luq7C/95hWf37EIr2
+	fAslw6/3KOSunDjWnlUG+BXhcJQwgr/M7bSOSSlS5ZQlij1Sg35d/fhWG3T+3Ay/
+	EbTa6uZ/EBABOK0TcKyjwLVtlcQzXzNNvpfaXpjTADkuNzqFOag8NgG/BHzWZacO
+	BPXsoB18ILAz7Rly2hZPNk2W4gPlxz0jeSvTEtfwwL/qYu2oS2VgjRyNK+nFVsXH
+	iDoDK6Z7KONNfTBTLLdsunE+/FbMF6ko/W+d618rkcq1+TTWXdM7A230Jkb7t+6U
+	qqxJG/cZFj+ImbRTsrXWC9IdzXwe0QVGhIjOpL24Pp1YDntCHL+sIaEQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vyq0dsv9j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Feb 2024 03:07:38 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41137bxF021092
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 1 Feb 2024 03:07:37 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 31 Jan
+ 2024 19:07:36 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: [PATCH v4 0/3] arm64: dts: qcom: sc8280xp-x13s: Enable touchscreen
+Date: Wed, 31 Jan 2024 19:07:25 -0800
+Message-ID: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131102656.3379-7-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO0Ku2UC/33NTQ6CMBCG4auQrq3pH1pceQ/jAoepdGGrLTQYw
+ t0trDASl++XzDMjiRgsRnIqRhIw2Wi9y6F2BYG2dnektslNBBOKcVHSgctIO99DGyEgOqp03o2
+ RIBSSfPYMaOywkJdr7tbGzof38iHxef2DJU4ZrW8atBYNmgrOr96CdbAH/yAzl8SaOGwQIhOlP
+ CoAqJCz5peQa6LaIGQmQNWVlEwqrspvYpqmD7c9f0s4AQAA
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina
+	<jikos@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Johan Hovold <johan+linaro@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@somainline.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>,
+        Bjorn Andersson
+	<quic_bjorande@quicinc.com>,
+        Rob Herring <robh@kernel.org>,
+        Daniel Thompson
+	<daniel.thompson@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1706756856; l=1510;
+ i=quic_bjorande@quicinc.com; s=20230915; h=from:subject:message-id;
+ bh=KTULhIMFFnxhtlNK2d7CqhHMEe0edZVqfB4S1Oawrns=;
+ b=Q/w7+dVOLB1MZw1u1Z0xh8MEEY88SiMhHVsiOZ3XiwKHL1/hKIS1o4KJaZ4+vI2uR/t3aH/Os
+ OgSpP99AVNlBtMbsZQ83emamzWBmi4RMBbEBcMp6XSxGKc2frEixY4L
+X-Developer-Key: i=quic_bjorande@quicinc.com; a=ed25519;
+ pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ScSEMI9-SANWbESWSv6WcfKX9sUGIDRU
+X-Proofpoint-ORIG-GUID: ScSEMI9-SANWbESWSv6WcfKX9sUGIDRU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-31_10,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 clxscore=1011 bulkscore=0 mlxlogscore=793
+ malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2401190000 definitions=main-2402010023
 
-On Wed, Jan 31, 2024 at 10:26:56AM +0000, Biju Das wrote:
-> Convert the da9062 PMIC device tree binding documentation to json-schema.
-> 
-> Document the missing gpio child node for da9062.
-> 
-> While at it, update description with link to product information and
-> example.
-> 
-> The missing child node with of_compatible defined in MFD_CELL_OF is
-> causing the below warning message:
-> da9062-gpio: Failed to locate of_node [id: -1]
-> 
-> So, make all child nodes with of_compatible defined in struct mfd_cell
-> as required property for da906{1,2} devices.
-> 
-> The "gpio-controller" and "#gpio-cells" properties are defined in the
-> parent instead of gpio child node as there are existing driver users
-> based on these parent properties.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Acked-by: Lee Jones <lee@kernel.org>
+This documents and defines the necessary properties for the I2C
+HID-based touchscreen found in some SKUs of the Lenovo Thinkpad X13s to
+work.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+---
+Changes in v4:
+- Introduced the patch in the HID driver removing the comment about the
+need to update the binding.
+- Link to v3: https://lore.kernel.org/r/20240129-x13s-touchscreen-v3-0-c4a933034145@quicinc.com
 
+Changes in v3:
+- Rewrote the commit message, to properly describe the problem being
+  resolved.
+- Link to v2: https://lore.kernel.org/r/20240126-x13s-touchscreen-v2-0-5374ccc9e10d@quicinc.com
 
-Thanks.
+Changes in v2:
+- Dropped output-high from &ts0_default, to avoid bouncing the reset
+  line unnecessarily
+- Link to v1: https://lore.kernel.org/r/20240125-x13s-touchscreen-v1-0-ab8c882def9c@quicinc.com
 
+---
+Bjorn Andersson (3):
+      dt-bindings: HID: i2c-hid: Document reset-related properties
+      HID: i2c-hid-of: Remove comment about post-reset in DT binding
+      arm64: dts: qcom: sc8280xp-x13s: Fix/enable touchscreen
+
+ Documentation/devicetree/bindings/input/hid-over-i2c.yaml  | 6 ++++++
+ arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 7 +++++--
+ drivers/hid/i2c-hid/i2c-hid-of.c                           | 5 -----
+ 3 files changed, 11 insertions(+), 7 deletions(-)
+---
+base-commit: 8bf1262c53f50fa91fe15d01e5ef5629db55313c
+change-id: 20240125-x13s-touchscreen-48012ff3c24e
+
+Best regards,
 -- 
-Dmitry
+Bjorn Andersson <quic_bjorande@quicinc.com>
+
 
