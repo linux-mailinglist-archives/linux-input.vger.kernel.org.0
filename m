@@ -1,142 +1,137 @@
-Return-Path: <linux-input+bounces-1602-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1603-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70ADF845003
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 05:04:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02D5845062
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 05:41:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 059B31F2A696
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 04:04:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC563B25C9B
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 04:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7241D3B786;
-	Thu,  1 Feb 2024 04:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 592532B9A9;
+	Thu,  1 Feb 2024 04:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="pMYWn59+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqpRevVU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B863D3B197
-	for <linux-input@vger.kernel.org>; Thu,  1 Feb 2024 04:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB27E1EEF8;
+	Thu,  1 Feb 2024 04:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706760271; cv=none; b=Yum6Tu13nvKZnXBi839ARySvu2B984iicbQXRbWOBWPcoxVrkJ1ec0zp6j2gI/mfgC633LQ/urvGjGkDePpIehWlvFYRwrf8zKzS1n3fZhBB7m5/HD6UTltiuzX193GspPVZat2QWxruJdPeTd8u3QPsmcJrpqROiMC64uWhRB8=
+	t=1706762482; cv=none; b=L5DSgX5cwA6+Y6kfRuYxUWrdODQd3z2ZpFIsdTd1HACmaH6obPvKOYGjsGE9YZMj+cA+IdxlIRaQFykKB5GDlcCPuBcoODR/hh47bNmz/jxQNwqBv1ZV4htUpkosNCNC68s9Vg40D7HCyFOM+DuqpEwp5/Bbe7fjgYkgZtjztsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706760271; c=relaxed/simple;
-	bh=U+z/Gzi2e8oSaSkN5Mf9nf9eVZKujMwhE9OLgovc7bM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z0zYx3JJFLJUz6+C/axKeAB10PySG2zJQbzRFPvWekt49yAC1xoMwHas0sZPsxQsB2lRD+qp+wSJzXqfhQrXLxf8VaafWAf3Ot3r22Yng1SxG4T+2iqeU9cBfX08ptw387LeEU4vzzfae8OqddXJzjnAIHimiZQ0nw7AQF7wKCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=pMYWn59+; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2cf5917f049so6612001fa.2
-        for <linux-input@vger.kernel.org>; Wed, 31 Jan 2024 20:04:29 -0800 (PST)
+	s=arc-20240116; t=1706762482; c=relaxed/simple;
+	bh=MeFsnr70vuz/PQLuXUKqCe7KhvGM+4jAF1eW6TQijrI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eXVl4C+KFde6/EfSUX7NMTsVmuszjmrCXFUU5xkVwL42uXyFyOco1lZyaF30RXNN8TqUTNHKss66PCAbkTUC9MCFrFIUxKOqasmfTMAKjvd2Zhp/RY9LGNrBaOkd88CR2MtMWtzGKkgqKvWIyQyMRhxmhw5B3Iep/THX+ddtGDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqpRevVU; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29593a27fcaso112946a91.1;
+        Wed, 31 Jan 2024 20:41:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google; t=1706760268; x=1707365068; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g1pCpqVMhWzU3nLiNxALZDbTH3+vNR66xyNLLKO0v8w=;
-        b=pMYWn59+cHhsWgr23hYLZ+Mp1Er1uJdeAOsf2u6UaBEWvrra4HjgjJMG/0DuZTnFCq
-         jdizSoHWrB4oHAK0jBV/Ci1fD1d6xnD8jZLAVPkxukQA3l0omqddNVBPxKIcjowloqgP
-         0QO4vhtJ1305mJ+lcm5Ptuv94fgplSu3nhAKsXV2iJnhYE/PfiPy9hilN3vuAzXrFgqr
-         Cl4nuzNDS1CBhR7n5ZVFeu6PywrAWdPczJ165tTU3uF1RWtNOn8HVzjyM12uQIHce3Nk
-         5hBTDCkBMRO2Vc/nWMYqbNOgs07ZFvxRsN+P0oazYfmj6MISAMkYJCSzd+N56cZXfGE1
-         1EWg==
+        d=gmail.com; s=20230601; t=1706762479; x=1707367279; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZGzsH9un+SuLT2jBVrNgYws9bKvscinpS1YvutaGoJE=;
+        b=mqpRevVU3YQvFaG0yDsH4auyRgd80yCisqTzyv3ED6DHAKCD8xkTC9hdcqtvjxeYUV
+         7qSrHHvriSb2U36wC0JbwjhqMnYZHe/+ugAAQpDLZKjFwgOV1NcS91kCs/3KkNmzL4B5
+         jfcC+ADWyLFiCGx4VP2kBxQiY8MRaACi3ppl94I5XMyJmu4fRuMgNXbaT6VAjsMoje9M
+         PoBwOAdwvxhUsrX1mAJoP5eQJ3ItWcnlSi2XjGCBhcVneXV+FWx8irWzsMyYvZHOUg5h
+         lIBLuFh9F0q0V6Gh6AixI+Rqlh+Q4kHBu7hLDyuqr0FcAD9IjHTrUYnFCQJumm0qz4F8
+         g2Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706760268; x=1707365068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g1pCpqVMhWzU3nLiNxALZDbTH3+vNR66xyNLLKO0v8w=;
-        b=WQGXvTBeALECrKQ4qusmwnj4AY8rxWqlpNu+qBdKrXXXnyvbcr8tDJOoZuMqarzzWa
-         7+1JXcOCh6pQtR0DDOLpPZuIFpY0VOv7X1zco9+z2cmpxw8Wo2++1LJP/+ZhDqQf2HeN
-         qhBaP8xKCl6faVJKHCXVtYo22NxbtpazEHSMX6qZzi0Gm5pYHPsOfYpOgYTARRyS7IJT
-         KXWp7d6GYk58UTfqNFbJThcxqdgQvmkg5PQ9eaGSg4VrkWq14BaksjZGonuCqIlIBm90
-         a45DR+CXorLoqlhifiMJiejoybDjc88Q2WrGaITvSKcCSMguLnmemPOFHTBzCSp0Shd8
-         hWlw==
-X-Gm-Message-State: AOJu0YxqhrHFy92H3ZKPHWyAt4OiefO7278tgLsHUNxciDuKCzjaOrtA
-	hyKdRCIcnwG+Dm937RYjYLe318izpbdpfJ+LKMn5bmwasvBZAJdMJ9UXzY7uNpWn/DpaUdcWd+n
-	WBngAXammAwVxt9koDdwHtpZ0cOIptzn5qH+DBA==
-X-Google-Smtp-Source: AGHT+IFe5H/phU7lMtzKlpQzEnleJByHGXLacQC79IKXkfpOvLnNeg3HBnc/RI/6OD+znY9scOVD1GK6dfOsLTNVxEI=
-X-Received: by 2002:a05:651c:1cf:b0:2d0:6fe8:bb2a with SMTP id
- d15-20020a05651c01cf00b002d06fe8bb2amr2054277ljn.32.1706760267723; Wed, 31
- Jan 2024 20:04:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706762479; x=1707367279;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZGzsH9un+SuLT2jBVrNgYws9bKvscinpS1YvutaGoJE=;
+        b=I7rdKhf2Qy7LW3njSGKNDKLOQhOuy5cxQrddvy9uqNwAxIkTRB0hqNSlVOKjadLSUB
+         cK1X9ezhyZBPcNVoFg20x7DCMhbbdUnMQ7WiS1o9AYxzevCJIxbJFXHnKIYMZLFbyj7o
+         sjL2+B8d/RNsl7XvSLkkqy/EFalsL9fM5D3sFS5bBjRvuQzvJfknl9VJnOuU+ylGZB3x
+         P4akXRiXypINdwfcW9feIhHbTQ0TMx0IA2a0ZJN7wMTKq7dTem+HqrkTBmVwpBW7EF0S
+         4/bTD8oyZk4FkGwsp/sEKNWV0DXpurMHdCRAlnXQRvQVx/l/BeAB+75Yr1V59vV8U0hv
+         EIdA==
+X-Forwarded-Encrypted: i=0; AJvYcCUnoIJDplvLmSN4Shd6reQZEt9i+pjhgnV1dLcxSdMOH5olxUh3zQY8QKXm4SSzj1SuMVVWhx8w1tomUsboqHtCuqK9jwUv
+X-Gm-Message-State: AOJu0Yy9lm39HC4YOZX5Zm/ZFJ0CSsz+0sdErB/sgKEAUUFYNI6Axdw2
+	FB/lMXJF70Xyh0uEL9Gu6tusOueIzxfxEAWIQYjqH3PYqAgap8l9v37scpI0
+X-Google-Smtp-Source: AGHT+IFmV+E4ua407EExdmy+760CbcVOfFqQaqMDJ29Yqcg7UdzF08CRUJ8TzSkiXbiimRQAeeTxAw==
+X-Received: by 2002:a17:902:c18b:b0:1d8:dc04:2534 with SMTP id d11-20020a170902c18b00b001d8dc042534mr1614844pld.2.1706762479073;
+        Wed, 31 Jan 2024 20:41:19 -0800 (PST)
+Received: from Holt.corp.onewacom.com ([153.246.18.34])
+        by smtp.gmail.com with ESMTPSA id m18-20020a170902db1200b001d8accb025fsm889908plx.197.2024.01.31.20.41.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 20:41:18 -0800 (PST)
+From: "Tobita, Tatsunosuke" <tatsunosuke.wacom@gmail.com>
+To: linux-input@vger.kernel.org,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>
+Cc: Ping Cheng <pinglinux@gmail.com>,
+	Jason Gerecke <killertofu@gmail.com>,
+	Aaron Armstrong Skomra <skomra@gmail.com>,
+	Joshua Dickens <Joshua@Joshua-Dickens.com>,
+	Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/2] HID: wacom: generic: Avoid reporting a serial of '0' to userspace
+Date: Thu,  1 Feb 2024 13:40:55 +0900
+Message-Id: <20240201044055.23367-1-tatsunosuke.wacom@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
-In-Reply-To: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Wed, 31 Jan 2024 22:04:16 -0600
-Message-ID: <CAKXuJqh0Js8t6YHLOOj8p6YQgKAAfchVLXfFWotVVR_H8bFsbA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] arm64: dts: qcom: sc8280xp-x13s: Enable touchscreen
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Jiri Kosina <jikos@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Daniel Thompson <daniel.thompson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 31, 2024 at 9:07=E2=80=AFPM Bjorn Andersson
-<quic_bjorande@quicinc.com> wrote:
->
-> This documents and defines the necessary properties for the I2C
-> HID-based touchscreen found in some SKUs of the Lenovo Thinkpad X13s to
-> work.
->
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-> Changes in v4:
-> - Introduced the patch in the HID driver removing the comment about the
-> need to update the binding.
-> - Link to v3: https://lore.kernel.org/r/20240129-x13s-touchscreen-v3-0-c4=
-a933034145@quicinc.com
->
-> Changes in v3:
-> - Rewrote the commit message, to properly describe the problem being
->   resolved.
-> - Link to v2: https://lore.kernel.org/r/20240126-x13s-touchscreen-v2-0-53=
-74ccc9e10d@quicinc.com
->
-> Changes in v2:
-> - Dropped output-high from &ts0_default, to avoid bouncing the reset
->   line unnecessarily
-> - Link to v1: https://lore.kernel.org/r/20240125-x13s-touchscreen-v1-0-ab=
-8c882def9c@quicinc.com
->
-> ---
-> Bjorn Andersson (3):
->       dt-bindings: HID: i2c-hid: Document reset-related properties
->       HID: i2c-hid-of: Remove comment about post-reset in DT binding
->       arm64: dts: qcom: sc8280xp-x13s: Fix/enable touchscreen
->
->  Documentation/devicetree/bindings/input/hid-over-i2c.yaml  | 6 ++++++
->  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 7 +++++--
->  drivers/hid/i2c-hid/i2c-hid-of.c                           | 5 -----
->  3 files changed, 11 insertions(+), 7 deletions(-)
-> ---
-> base-commit: 8bf1262c53f50fa91fe15d01e5ef5629db55313c
-> change-id: 20240125-x13s-touchscreen-48012ff3c24e
->
-> Best regards,
-> --
-> Bjorn Andersson <quic_bjorande@quicinc.com>
->
->
-Thank you for this work!
+From: Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>
 
-Works great on my Thinkpad X13s
-Tested-by: Steev Klimaszewski <steev@kali.org>
+The xf86-input-wacom driver does not treat '0' as a valid serial
+number and will drop any input report which contains an
+MSC_SERIAL = 0 event. The kernel driver already takes care to
+avoid sending any MSC_SERIAL event if the value of serial[0] == 0
+(which is the case for devices that don't actually report a
+serial number), but this is not quite sufficient.
+Only the lower 32 bits of the serial get reported to userspace,
+so if this portion of the serial is zero then there can still
+be problems.
+
+This commit allows the driver to report either the lower 32 bits
+if they are non-zero or the upper 32 bits otherwise.
+
+Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Signed-off-by: Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>
+Fixes: f85c9dc678a5 ("HID: wacom: generic: Support tool ID and additional tool types")
+CC: stable@vger.kernel.org # v4.10
+---
+ drivers/hid/wacom_wac.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index da8a01fedd39..fbe10fbc5769 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2575,7 +2575,14 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
+ 				wacom_wac->hid_data.tipswitch);
+ 		input_report_key(input, wacom_wac->tool[0], sense);
+ 		if (wacom_wac->serial[0]) {
+-			input_event(input, EV_MSC, MSC_SERIAL, wacom_wac->serial[0]);
++			/*
++			 * xf86-input-wacom does not accept a serial number
++			 * of '0'. Report the low 32 bits if possible, but
++			 * if they are zero, report the upper ones instead.
++			 */
++			__u32 serial_lo = wacom_wac->serial[0] & 0xFFFFFFFFu;
++			__u32 serial_hi = wacom_wac->serial[0] >> 32;
++			input_event(input, EV_MSC, MSC_SERIAL, (int)(serial_lo ? serial_lo : serial_hi));
+ 			input_report_abs(input, ABS_MISC, sense ? id : 0);
+ 		}
+ 
+-- 
+2.34.1
+
 
