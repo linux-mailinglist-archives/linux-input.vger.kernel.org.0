@@ -1,395 +1,296 @@
-Return-Path: <linux-input+bounces-1621-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1622-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85E084569D
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 12:55:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3FE845B01
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 16:13:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0063282F90
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 11:55:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C236C1F28142
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 15:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9A6161B40;
-	Thu,  1 Feb 2024 11:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5462862141;
+	Thu,  1 Feb 2024 15:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NNGHT2ex"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iw7PPF2g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C24516089D;
-	Thu,  1 Feb 2024 11:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A5D5F496
+	for <linux-input@vger.kernel.org>; Thu,  1 Feb 2024 15:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706788417; cv=none; b=ZuUGS2/eBi9wHaX8YCB3+yAjocoV14eoEJ6JSkVXALpQFfHcajmpRIeSWI/pMr1Ir3HPUvfRJeO6Sf8A3SqQ7fGxR5Q/F0BjBmAAGhwFgFRp+akCh7e+B0bW94Rh0uyVTRe6Ro67UjhYVxg1E9/JjLP02JgGrRZNoXnXuZD74j8=
+	t=1706800415; cv=none; b=sKItjv1FvS6H4EfXBcRmdzBjXvF2WCmaA9TaGq8B1HApeQQb+0qakSshR2Y3z5/2DaSNT/4wvyU/B1WnJFxsebFSf956SQOgZ0nhXyDD+MT7GvBeYTLu+bozLi9nHdvDtssdHtxCxdA60rYFcuk2VsjqcL7BIKTtPXdJwLIPyTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706788417; c=relaxed/simple;
-	bh=NF/WyNz8fSJXXP6Kn7H5YvVfKOqkIoj0xrHRvaRo2mw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gJ4IUcxe0ytbNcaY8o8h4YpixqXEPtGKu7qm/96Vmtkx/AgLPNGUjckPBfSkx/cYvpGDYqUCrAiV2dNFS/W/xPVA0GuSZSVLj1MtVzvvLXGJc6UF9CkhfgonCPinwB1Wd8wBNpERzddHIJIj998noml7qJtU5Am/Jixo3H/G14k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NNGHT2ex; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B98C433C7;
-	Thu,  1 Feb 2024 11:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706788417;
-	bh=NF/WyNz8fSJXXP6Kn7H5YvVfKOqkIoj0xrHRvaRo2mw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NNGHT2exEp4W0nJRU3r+k4NHUJ4UbMrAnlMHIWY7IedIvpUjmfMfxlFNlOm1i6w5W
-	 tfV61ZlxLQeDsjEBqgyFeKy4PmZ3pwLcjZ59lhnFAAyO9tAR9pKuIUBwCe6TSo4sZA
-	 rQJbhUmLUTTRDcvu17Vitnsf6PcEJmkwLK8KDynl6C326JvkX6nBRSCV621eHc6D4O
-	 JLad5znyo94r+VxbMSlbZJ466YdSYmVYV1mK81NxOqXPC7VVSxC473LTF1FyG/MUq3
-	 69v7Iwy43en8QVn+ncbyLHSyWhmZG3RR3HcrVKqPSC+48ogC9AaO6y+9qcZ0YrtznP
-	 j7TPvlr5DVqqQ==
-From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To: jikos@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 7/7] HID: hid-prodikeys: remove struct pk_device
-Date: Thu,  1 Feb 2024 12:53:20 +0100
-Message-ID: <20240201115320.684-8-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240201115320.684-1-jirislaby@kernel.org>
-References: <20240201115320.684-1-jirislaby@kernel.org>
+	s=arc-20240116; t=1706800415; c=relaxed/simple;
+	bh=XWhYi20YGFwxIZ6i83WaLRP4aTa0P2/mxTqd+2XXGe4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g4raNxxzzv0i6kKAGtcILP/ve3iCZ7viUdVI7xdyxbUBHHSrJmBLWJiI+A7mC+8RB/hnfzVaY3BnWgBo5KGsj9AUSHCrs+vy2vW6NIIxKmORjBO6nONAQw0/B9qEa+eEbBZ0nM0inuDGBVDBd5mk2YTuV7zvGlFiHoXqG4kIlzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iw7PPF2g; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706800414; x=1738336414;
+  h=date:from:to:cc:subject:message-id;
+  bh=XWhYi20YGFwxIZ6i83WaLRP4aTa0P2/mxTqd+2XXGe4=;
+  b=iw7PPF2gLovSiaO49kmKcp/Hvx5L/IceVndbbH0UQX5gE0cDHObfNMfg
+   CnZ/OJetgWOjSkChSqmo4o94Sb46l3yXKxCz7h3R5o4HNBcoNn4rLHu5P
+   355dryylVxAtq5SiCbqQ1+No32fgyEbhVASmBwlDZZEl/b28pWkPxlwTi
+   sMqbe6E+usn5mZqvJYp5wSyCNUJiOWKVG1Lw0PV+unpy290Q6vxmT37Hh
+   LPX5G6sJYcPPReBQJrK0y8fYJ0WrjmYVznMhfVAZYt0INAwWrWMHTy6Ma
+   XVVqsq5t2tBTMO56XV/xHsmYPhN+TTb63Ysdh+qLmC/HT41f42aviSunl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10666207"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="10666207"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 07:13:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="30894777"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 01 Feb 2024 07:13:31 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVYkr-0002sz-27;
+	Thu, 01 Feb 2024 15:13:29 +0000
+Date: Thu, 01 Feb 2024 23:13:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 7d0f351da46098b3bbb147f886f059473b84ff48
+Message-ID: <202402012314.ekR9JozB-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-First, quirks was unused in struct pk_device.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 7d0f351da46098b3bbb147f886f059473b84ff48  Input: matrix_keypad - switch to using managed resources
 
-And I see no reason for this additional level of indirection. struct
-pcmidi_snd is far enough for the driver. Unless I am missing something?
+elapsed time: 1200m
 
-So drop struct pk_device and convert all the users to use struct
-pcmidi_snd directly. No need for doubled kmalloc+kfrees now.
+configs tested: 195
+configs skipped: 3
 
-Found by https://github.com/jirislaby/clang-struct.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- drivers/hid/hid-prodikeys.c | 113 +++++++++++++-----------------------
- 1 file changed, 40 insertions(+), 73 deletions(-)
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240201   gcc  
+arc                   randconfig-002-20240201   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g4_defconfig   clang
+arm                                 defconfig   clang
+arm                            hisi_defconfig   gcc  
+arm                        mvebu_v7_defconfig   clang
+arm                   randconfig-001-20240201   gcc  
+arm                   randconfig-002-20240201   gcc  
+arm                   randconfig-003-20240201   gcc  
+arm                   randconfig-004-20240201   gcc  
+arm                         s5pv210_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240201   gcc  
+arm64                 randconfig-002-20240201   gcc  
+arm64                 randconfig-003-20240201   gcc  
+arm64                 randconfig-004-20240201   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240201   gcc  
+csky                  randconfig-002-20240201   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240201   clang
+hexagon               randconfig-002-20240201   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240201   gcc  
+i386         buildonly-randconfig-002-20240201   gcc  
+i386         buildonly-randconfig-003-20240201   clang
+i386         buildonly-randconfig-003-20240201   gcc  
+i386         buildonly-randconfig-004-20240201   clang
+i386         buildonly-randconfig-004-20240201   gcc  
+i386         buildonly-randconfig-005-20240201   clang
+i386         buildonly-randconfig-005-20240201   gcc  
+i386         buildonly-randconfig-006-20240201   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240201   clang
+i386                  randconfig-001-20240201   gcc  
+i386                  randconfig-002-20240201   clang
+i386                  randconfig-002-20240201   gcc  
+i386                  randconfig-003-20240201   clang
+i386                  randconfig-003-20240201   gcc  
+i386                  randconfig-004-20240201   clang
+i386                  randconfig-004-20240201   gcc  
+i386                  randconfig-005-20240201   gcc  
+i386                  randconfig-006-20240201   clang
+i386                  randconfig-006-20240201   gcc  
+i386                  randconfig-011-20240201   clang
+i386                  randconfig-012-20240201   clang
+i386                  randconfig-012-20240201   gcc  
+i386                  randconfig-013-20240201   clang
+i386                  randconfig-013-20240201   gcc  
+i386                  randconfig-014-20240201   clang
+i386                  randconfig-014-20240201   gcc  
+i386                  randconfig-015-20240201   clang
+i386                  randconfig-016-20240201   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240201   gcc  
+loongarch             randconfig-002-20240201   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+m68k                          multi_defconfig   gcc  
+m68k                        mvme147_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                      bmips_stb_defconfig   clang
+mips                         db1xxx_defconfig   clang
+mips                           ip28_defconfig   gcc  
+mips                    maltaup_xpa_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240201   gcc  
+nios2                 randconfig-002-20240201   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240201   gcc  
+parisc                randconfig-002-20240201   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                      acadia_defconfig   clang
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc                 mpc837x_rdb_defconfig   gcc  
+powerpc                      pmac32_defconfig   clang
+powerpc                     ppa8548_defconfig   gcc  
+powerpc                      ppc40x_defconfig   clang
+powerpc                      ppc44x_defconfig   clang
+powerpc                         ps3_defconfig   gcc  
+powerpc               randconfig-001-20240201   gcc  
+powerpc               randconfig-002-20240201   gcc  
+powerpc               randconfig-003-20240201   gcc  
+powerpc                    socrates_defconfig   gcc  
+powerpc                     taishan_defconfig   clang
+powerpc                         wii_defconfig   gcc  
+powerpc64             randconfig-001-20240201   gcc  
+powerpc64             randconfig-002-20240201   gcc  
+powerpc64             randconfig-003-20240201   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                 randconfig-001-20240201   gcc  
+riscv                 randconfig-002-20240201   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240201   clang
+s390                  randconfig-002-20240201   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                            hp6xx_defconfig   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                    randconfig-001-20240201   gcc  
+sh                    randconfig-002-20240201   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240201   gcc  
+sparc64               randconfig-002-20240201   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240201   gcc  
+um                    randconfig-002-20240201   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240201   gcc  
+x86_64       buildonly-randconfig-002-20240201   gcc  
+x86_64       buildonly-randconfig-003-20240201   gcc  
+x86_64       buildonly-randconfig-004-20240201   gcc  
+x86_64       buildonly-randconfig-005-20240201   gcc  
+x86_64       buildonly-randconfig-006-20240201   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240201   clang
+x86_64                randconfig-002-20240201   clang
+x86_64                randconfig-003-20240201   clang
+x86_64                randconfig-004-20240201   clang
+x86_64                randconfig-005-20240201   clang
+x86_64                randconfig-006-20240201   clang
+x86_64                randconfig-011-20240201   gcc  
+x86_64                randconfig-012-20240201   gcc  
+x86_64                randconfig-013-20240201   gcc  
+x86_64                randconfig-014-20240201   gcc  
+x86_64                randconfig-015-20240201   gcc  
+x86_64                randconfig-016-20240201   gcc  
+x86_64                randconfig-071-20240201   gcc  
+x86_64                randconfig-072-20240201   gcc  
+x86_64                randconfig-073-20240201   gcc  
+x86_64                randconfig-074-20240201   gcc  
+x86_64                randconfig-075-20240201   gcc  
+x86_64                randconfig-076-20240201   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa                randconfig-001-20240201   gcc  
+xtensa                randconfig-002-20240201   gcc  
 
-diff --git a/drivers/hid/hid-prodikeys.c b/drivers/hid/hid-prodikeys.c
-index 439f4320f1d2..a593ed62c969 100644
---- a/drivers/hid/hid-prodikeys.c
-+++ b/drivers/hid/hid-prodikeys.c
-@@ -32,13 +32,6 @@
- 
- struct pcmidi_snd;
- 
--struct pk_device {
--	unsigned long		quirks;
--
--	struct hid_device	*hdev;
--	struct pcmidi_snd	*pm; /* pcmidi device context */
--};
--
- struct pcmidi_sustain {
- 	unsigned long		in_use;
- 	struct pcmidi_snd	*pm;
-@@ -50,7 +43,7 @@ struct pcmidi_sustain {
- 
- #define PCMIDI_SUSTAINED_MAX	32
- struct pcmidi_snd {
--	struct pk_device		*pk;
-+	struct hid_device		*hdev;
- 	unsigned short			ifnum;
- 	struct hid_report		*pcmidi_report6;
- 	struct input_dev		*input_ep82;
-@@ -98,11 +91,11 @@ static ssize_t show_channel(struct device *dev,
- 	struct device_attribute *attr, char *buf)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
--	dbg_hid("pcmidi sysfs read channel=%u\n", pk->pm->midi_channel);
-+	dbg_hid("pcmidi sysfs read channel=%u\n", pm->midi_channel);
- 
--	return sprintf(buf, "%u (min:%u, max:%u)\n", pk->pm->midi_channel,
-+	return sprintf(buf, "%u (min:%u, max:%u)\n", pm->midi_channel,
- 		PCMIDI_CHANNEL_MIN, PCMIDI_CHANNEL_MAX);
- }
- 
-@@ -111,13 +104,13 @@ static ssize_t store_channel(struct device *dev,
- 	struct device_attribute *attr, const char *buf, size_t count)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
- 	unsigned channel = 0;
- 
- 	if (sscanf(buf, "%u", &channel) > 0 && channel <= PCMIDI_CHANNEL_MAX) {
- 		dbg_hid("pcmidi sysfs write channel=%u\n", channel);
--		pk->pm->midi_channel = channel;
-+		pm->midi_channel = channel;
- 		return strlen(buf);
- 	}
- 	return -EINVAL;
-@@ -135,11 +128,11 @@ static ssize_t show_sustain(struct device *dev,
-  struct device_attribute *attr, char *buf)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
--	dbg_hid("pcmidi sysfs read sustain=%u\n", pk->pm->midi_sustain);
-+	dbg_hid("pcmidi sysfs read sustain=%u\n", pm->midi_sustain);
- 
--	return sprintf(buf, "%u (off:%u, max:%u (ms))\n", pk->pm->midi_sustain,
-+	return sprintf(buf, "%u (off:%u, max:%u (ms))\n", pm->midi_sustain,
- 		PCMIDI_SUSTAIN_MIN, PCMIDI_SUSTAIN_MAX);
- }
- 
-@@ -148,15 +141,14 @@ static ssize_t store_sustain(struct device *dev,
- 	struct device_attribute *attr, const char *buf, size_t count)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
- 	unsigned sustain = 0;
- 
- 	if (sscanf(buf, "%u", &sustain) > 0 && sustain <= PCMIDI_SUSTAIN_MAX) {
- 		dbg_hid("pcmidi sysfs write sustain=%u\n", sustain);
--		pk->pm->midi_sustain = sustain;
--		pk->pm->midi_sustain_mode =
--			(0 == sustain || !pk->pm->midi_mode) ? 0 : 1;
-+		pm->midi_sustain = sustain;
-+		pm->midi_sustain_mode = (0 == sustain || !pm->midi_mode) ? 0 : 1;
- 		return strlen(buf);
- 	}
- 	return -EINVAL;
-@@ -174,11 +166,11 @@ static ssize_t show_octave(struct device *dev,
- 	struct device_attribute *attr, char *buf)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
--	dbg_hid("pcmidi sysfs read octave=%d\n", pk->pm->midi_octave);
-+	dbg_hid("pcmidi sysfs read octave=%d\n", pm->midi_octave);
- 
--	return sprintf(buf, "%d (min:%d, max:%d)\n", pk->pm->midi_octave,
-+	return sprintf(buf, "%d (min:%d, max:%d)\n", pm->midi_octave,
- 		PCMIDI_OCTAVE_MIN, PCMIDI_OCTAVE_MAX);
- }
- 
-@@ -187,14 +179,14 @@ static ssize_t store_octave(struct device *dev,
- 	struct device_attribute *attr, const char *buf, size_t count)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
- 	int octave = 0;
- 
- 	if (sscanf(buf, "%d", &octave) > 0 &&
- 		octave >= PCMIDI_OCTAVE_MIN && octave <= PCMIDI_OCTAVE_MAX) {
- 		dbg_hid("pcmidi sysfs write octave=%d\n", octave);
--		pk->pm->midi_octave = octave;
-+		pm->midi_octave = octave;
- 		return strlen(buf);
- 	}
- 	return -EINVAL;
-@@ -268,7 +260,7 @@ static void stop_sustain_timers(struct pcmidi_snd *pm)
- 
- static int pcmidi_get_output_report(struct pcmidi_snd *pm)
- {
--	struct hid_device *hdev = pm->pk->hdev;
-+	struct hid_device *hdev = pm->hdev;
- 	struct hid_report *report;
- 
- 	list_for_each_entry(report,
-@@ -293,7 +285,7 @@ static int pcmidi_get_output_report(struct pcmidi_snd *pm)
- 
- static void pcmidi_submit_output_report(struct pcmidi_snd *pm, int state)
- {
--	struct hid_device *hdev = pm->pk->hdev;
-+	struct hid_device *hdev = pm->hdev;
- 	struct hid_report *report = pm->pcmidi_report6;
- 	report->field[0]->value[0] = 0x01;
- 	report->field[0]->value[1] = state;
-@@ -620,7 +612,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 
- 	/* Setup sound card */
- 
--	err = snd_card_new(&pm->pk->hdev->dev, index[dev], id[dev],
-+	err = snd_card_new(&pm->hdev->dev, index[dev], id[dev],
- 			   THIS_MODULE, 0, &card);
- 	if (err < 0) {
- 		pk_error("failed to create pc-midi sound card\n");
-@@ -658,7 +650,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 		&pcmidi_in_ops);
- 
- 	/* create sysfs variables */
--	err = device_create_file(&pm->pk->hdev->dev,
-+	err = device_create_file(&pm->hdev->dev,
- 				 sysfs_device_attr_channel);
- 	if (err < 0) {
- 		pk_error("failed to create sysfs attribute channel: error %d\n",
-@@ -666,7 +658,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 		goto fail;
- 	}
- 
--	err = device_create_file(&pm->pk->hdev->dev,
-+	err = device_create_file(&pm->hdev->dev,
- 				sysfs_device_attr_sustain);
- 	if (err < 0) {
- 		pk_error("failed to create sysfs attribute sustain: error %d\n",
-@@ -674,7 +666,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 		goto fail_attr_sustain;
- 	}
- 
--	err = device_create_file(&pm->pk->hdev->dev,
-+	err = device_create_file(&pm->hdev->dev,
- 			 sysfs_device_attr_octave);
- 	if (err < 0) {
- 		pk_error("failed to create sysfs attribute octave: error %d\n",
-@@ -704,11 +696,11 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 
- fail_register:
- 	stop_sustain_timers(pm);
--	device_remove_file(&pm->pk->hdev->dev, sysfs_device_attr_octave);
-+	device_remove_file(&pm->hdev->dev, sysfs_device_attr_octave);
- fail_attr_octave:
--	device_remove_file(&pm->pk->hdev->dev, sysfs_device_attr_sustain);
-+	device_remove_file(&pm->hdev->dev, sysfs_device_attr_sustain);
- fail_attr_sustain:
--	device_remove_file(&pm->pk->hdev->dev, sysfs_device_attr_channel);
-+	device_remove_file(&pm->hdev->dev, sysfs_device_attr_channel);
- fail:
- 	if (pm->card) {
- 		snd_card_free(pm->card);
-@@ -722,12 +714,9 @@ static int pcmidi_snd_terminate(struct pcmidi_snd *pm)
- 	if (pm->card) {
- 		stop_sustain_timers(pm);
- 
--		device_remove_file(&pm->pk->hdev->dev,
--			sysfs_device_attr_channel);
--		device_remove_file(&pm->pk->hdev->dev,
--			sysfs_device_attr_sustain);
--		device_remove_file(&pm->pk->hdev->dev,
--			sysfs_device_attr_octave);
-+		device_remove_file(&pm->hdev->dev, sysfs_device_attr_channel);
-+		device_remove_file(&pm->hdev->dev, sysfs_device_attr_sustain);
-+		device_remove_file(&pm->hdev->dev, sysfs_device_attr_octave);
- 
- 		snd_card_disconnect(pm->card);
- 		snd_card_free_when_closed(pm->card);
-@@ -757,10 +746,7 @@ static int pk_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		struct hid_field *field, struct hid_usage *usage,
- 		unsigned long **bit, int *max)
- {
--	struct pk_device *pk = hid_get_drvdata(hdev);
--	struct pcmidi_snd *pm;
--
--	pm = pk->pm;
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
- 	if (HID_UP_MSVENDOR == (usage->hid & HID_USAGE_PAGE) &&
- 		1 == pm->ifnum) {
-@@ -775,16 +761,16 @@ static int pk_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- static int pk_raw_event(struct hid_device *hdev, struct hid_report *report,
- 	u8 *data, int size)
- {
--	struct pk_device *pk = hid_get_drvdata(hdev);
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 	int ret = 0;
- 
--	if (1 == pk->pm->ifnum) {
-+	if (1 == pm->ifnum) {
- 		if (report->id == data[0])
- 			switch (report->id) {
- 			case 0x01: /* midi keys (qwerty)*/
- 			case 0x03: /* midi keyboard (musical)*/
- 			case 0x04: /* extra/midi keys (qwerty)*/
--				ret = pcmidi_handle_report(pk->pm,
-+				ret = pcmidi_handle_report(pm,
- 						report->id, data, size);
- 				break;
- 			}
-@@ -799,8 +785,7 @@ static int pk_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	struct usb_interface *intf;
- 	unsigned short ifnum;
- 	unsigned long quirks = id->driver_data;
--	struct pk_device *pk;
--	struct pcmidi_snd *pm = NULL;
-+	struct pcmidi_snd *pm;
- 
- 	if (!hid_is_usb(hdev))
- 		return -EINVAL;
-@@ -808,26 +793,16 @@ static int pk_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	intf = to_usb_interface(hdev->dev.parent);
- 	ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
- 
--	pk = kzalloc(sizeof(*pk), GFP_KERNEL);
--	if (pk == NULL) {
--		hid_err(hdev, "can't alloc descriptor\n");
--		return -ENOMEM;
--	}
--
--	pk->hdev = hdev;
--
- 	pm = kzalloc(sizeof(*pm), GFP_KERNEL);
- 	if (pm == NULL) {
- 		hid_err(hdev, "can't alloc descriptor\n");
--		ret = -ENOMEM;
--		goto err_free_pk;
-+		return -ENOMEM;
- 	}
- 
--	pm->pk = pk;
--	pk->pm = pm;
-+	pm->hdev = hdev;
- 	pm->ifnum = ifnum;
- 
--	hid_set_drvdata(hdev, pk);
-+	hid_set_drvdata(hdev, pm);
- 
- 	ret = hid_parse(hdev);
- 	if (ret) {
-@@ -854,26 +829,18 @@ static int pk_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	hid_hw_stop(hdev);
- err_free:
- 	kfree(pm);
--err_free_pk:
--	kfree(pk);
- 
- 	return ret;
- }
- 
- static void pk_remove(struct hid_device *hdev)
- {
--	struct pk_device *pk = hid_get_drvdata(hdev);
--	struct pcmidi_snd *pm;
--
--	pm = pk->pm;
--	if (pm) {
--		pcmidi_snd_terminate(pm);
--		kfree(pm);
--	}
-+	struct pcmidi_snd *pm = hid_get_drvdata(hdev);
- 
-+	pcmidi_snd_terminate(pm);
- 	hid_hw_stop(hdev);
- 
--	kfree(pk);
-+	kfree(pm);
- }
- 
- static const struct hid_device_id pk_devices[] = {
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
