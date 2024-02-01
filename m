@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-1606-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1607-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43608845258
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 09:06:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 054E384527A
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 09:15:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9A21B23EFA
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 08:06:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F40D1F235FA
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 08:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A55A1586FB;
-	Thu,  1 Feb 2024 08:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E893A158D73;
+	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ES5zFr36"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJazJQD5"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AD785C7D;
-	Thu,  1 Feb 2024 08:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E751586D3;
+	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706774812; cv=none; b=rVAq2PDd7m05gGA4vOnYv6DFIBJZiNHVJiFzrAeoY0Kh4T9ROjP5ymLdTprtPPVKIHMBX0HGwQWOFwZhQeuSXe+J5EuxqIKPGtBECnHfiRvIFwJNTCFCm8EGa7eShbpztocIh/++zp8pR8x8CtBD+FyCNHre3OTyN6Z/c+0AWFM=
+	t=1706775328; cv=none; b=XsoWrh/1oocE3sGsZTlMEIE94sCeIWoBVkhDc4RIZM0i4LZZBLo6pbxoxE1QuQfB83RXgXWzka3B1PzOVefarngqSqtTPt7iG+NyY0OU0sDZEpFuMlQ78D5A8FabP+wHaU0GZd6L/90AIrU0my1DJAsCdc4OWbeP36yij6MWkq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706774812; c=relaxed/simple;
-	bh=RWc7qs1DM19netaxDibaiGaRudn34fnK5CrPeU1wEsI=;
+	s=arc-20240116; t=1706775328; c=relaxed/simple;
+	bh=kkm9m85BchBsg8gyaeBqfM19x9yX2lcmT5vikkpEihs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+/XAOaRiYsxexPSq5imSiSFHaQ5t7gZbzQvftp+euNXyb2dsyqHHDKIuqECsiYME0NlVYG9aRZeTXwl6w+Tf/+juAkEBgCZRu0C9ik91q25/wkb6mfnLII63U0X6AolbZm85wEJfIZ3AubEhWGWPxJ0U7phCy1ZYisB8To9cGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ES5zFr36; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A92C433C7;
-	Thu,  1 Feb 2024 08:06:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YKgA3hCTsJs9R/OOyJ8MwBC8G9110B6QaOaSb5VBVrtT/PvG/dUR1W1qlbMqRCTgEyzZ/6y5yXJXkYgbU+AhYNaEWyIMDeEqR3WIphj72wOE9CMsksy69uYiFvk8gOh8hTJZnmhphZjMKDCjJaxZYJBEc1DG8sFimRrbOPgfkvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJazJQD5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 383F0C433F1;
+	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706774811;
-	bh=RWc7qs1DM19netaxDibaiGaRudn34fnK5CrPeU1wEsI=;
+	s=k20201202; t=1706775328;
+	bh=kkm9m85BchBsg8gyaeBqfM19x9yX2lcmT5vikkpEihs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ES5zFr36fd3EMtVKSSzhrWYzlZIw4DWNZkViT+MZ30Br2ryTtxNVJ1uuVOAR/QPnU
-	 lTy320s93DXJWO5wT6F8aoVhJB2qOmNGE+MtL6xlY7h9NkBpLzxnDsXrJAbMfwVq/i
-	 KoBDHA/jnBGjDPgtpqB/H4LcQqfPaR9nbb3Gd2aQ9u2hztbcU4ygru54zB+s/Zo1En
-	 /r6EsUykvXzC5gA0xkDvm+9Z2T/leXuG7COQ3Z3sSNixAaMNwi5hKhwedmEAjJdadi
-	 R35X+NliGn41icTu9lhVwgBwAQFUFS4M0vcG3wd8ZGTwG0AdAiPD5ZcEK+kRvbm+pN
-	 pquBAJ3QW5uMg==
+	b=JJazJQD5szwbMpJjuDL/t7jXeKWf6+Ijqym93J1qnpgke0tVyOxVGhkhGQFkiGNMs
+	 ttaJMhC3XyipqNfXK08pO9FnS61CrIyGPPBH4wVfW/bJuM7EsOaH045gKDD/TMzJvQ
+	 R11u5YQ6YkJeqv5I1kqMnS9GOBmnbyLp1wdhVro6D1B10HLyGxrpILn3YsmL3Y9Wel
+	 wGBTYcn+Qh5DdzVM5V76DhXN3LnA5AhGZqMFPY6AJvQw7R8pDsNA8jsXTF48Ue0DNO
+	 kyhpohL1nC3ewZJARLrTUVm5OZJnTB3RbyhMnxekBaRtcSEITFl9uy0Qv2u2qtE5sq
+	 U/+pdea5NfSnQ==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1rVS60-000000005iT-0PtX;
-	Thu, 01 Feb 2024 09:06:52 +0100
-Date: Thu, 1 Feb 2024 09:06:52 +0100
+	id 1rVSEL-000000005lV-1gxB;
+	Thu, 01 Feb 2024 09:15:29 +0100
+Date: Thu, 1 Feb 2024 09:15:29 +0100
 From: Johan Hovold <johan@kernel.org>
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh@kernel.org>
+Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -61,11 +61,13 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Konrad Dybcio <konrad.dybcio@somainline.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 2/3] HID: i2c-hid-of: Remove comment about post-reset
- in DT binding
-Message-ID: <ZbtRHAHsjfbp9p_a@hovoldconsulting.com>
-References: <20240131-x13s-touchscreen-v4-0-39c0f9925d3c@quicinc.com>
- <20240131-x13s-touchscreen-v4-2-39c0f9925d3c@quicinc.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: Document reset-related
+ properties
+Message-ID: <ZbtTIYFzMVLMxb10@hovoldconsulting.com>
+References: <20240129-x13s-touchscreen-v3-0-c4a933034145@quicinc.com>
+ <20240129-x13s-touchscreen-v3-1-c4a933034145@quicinc.com>
+ <ZbfYzyHaNmjJyNpY@hovoldconsulting.com>
+ <20240131202239.GA2222869-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,13 +76,50 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131-x13s-touchscreen-v4-2-39c0f9925d3c@quicinc.com>
+In-Reply-To: <20240131202239.GA2222869-robh@kernel.org>
 
-On Wed, Jan 31, 2024 at 07:07:27PM -0800, Bjorn Andersson wrote:
-> With the "post-reset-deassert-delay-ms" property added to the DeviceTree
-> binding, the comment is no longer valid, remove it.
+On Wed, Jan 31, 2024 at 02:22:39PM -0600, Rob Herring wrote:
+> On Mon, Jan 29, 2024 at 05:56:47PM +0100, Johan Hovold wrote:
+> > On Mon, Jan 29, 2024 at 08:47:47AM -0800, Bjorn Andersson wrote:
+> > > Some I2C HID devices has a reset pin and requires that some specified
+> > > time elapses after this reset pin is deasserted, before communication
+> > > with the device is attempted.
+> > > 
+> > > The Linux implementation is looking for these in the "reset-gpios" and
+> > > "post-reset-deassert-delay-ms" properties already, so use these property
+> > > names.
+> > 
+> > > +  post-reset-deassert-delay-ms:
+> > > +    description: Time required by the device after reset has been deasserted,
+> > > +      before it is ready for communication.
+> > > +
+> > > +  reset-gpios: true
+> > 
+> > Hmm, for the third time, it seems you ignored my comment that you need
+> > to remove the comment about these properties from the driver as part of
+> > this series.
+> > 
+> > 	/*
+> > 	 * Note this is a kernel internal device-property set by x86 platform code,
+> > 	 * this MUST not be used in devicetree files without first adding it to
+> > 	 * the DT bindings.
+> > 	 */
+> > 	if (!device_property_read_u32(dev, "post-reset-deassert-delay-ms", &val))
+> > 		ihid_of->post_reset_delay_ms = val;
 > 
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> DT devices should have a specific compatible that gives enough detail to 
+> handle this delay or *any* other power sequencing requirement.
+> 
+> OTOH, we've already got one other delay property, what's one more. Sigh.
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Right, and I guess we could do this now before this new property gets
+more use. Who knows if those delays are actually correct or may need to
+be tweaked down the line.
+
+Apparently we only have one specific i2c-hid compatible in the kernel
+(and it's not yet used by the driver).
+
+Johan
 
