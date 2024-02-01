@@ -1,125 +1,157 @@
-Return-Path: <linux-input+bounces-1607-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1608-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054E384527A
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 09:15:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A57845333
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 09:56:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F40D1F235FA
-	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 08:15:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BBB11C21F6A
+	for <lists+linux-input@lfdr.de>; Thu,  1 Feb 2024 08:56:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E893A158D73;
-	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0829215A4AC;
+	Thu,  1 Feb 2024 08:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJazJQD5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KIkrmPZQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E751586D3;
-	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F63158D8E
+	for <linux-input@vger.kernel.org>; Thu,  1 Feb 2024 08:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706775328; cv=none; b=XsoWrh/1oocE3sGsZTlMEIE94sCeIWoBVkhDc4RIZM0i4LZZBLo6pbxoxE1QuQfB83RXgXWzka3B1PzOVefarngqSqtTPt7iG+NyY0OU0sDZEpFuMlQ78D5A8FabP+wHaU0GZd6L/90AIrU0my1DJAsCdc4OWbeP36yij6MWkq4=
+	t=1706777770; cv=none; b=GBHOikwBMwJkXkILC5LOr7zy1FVcOaRtIIjpMifmEF8h62Pbo/eDMXtmAhNYh89EliKDej/RsgOne5gd1z4C5vgIK9VGlFIei55QYWopPic1DXdun8nh0LY+4O9dJQHjoho8uBEDkApJ7l7MhIicEIoVa503lutcFETNG1H4Ovg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706775328; c=relaxed/simple;
-	bh=kkm9m85BchBsg8gyaeBqfM19x9yX2lcmT5vikkpEihs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKgA3hCTsJs9R/OOyJ8MwBC8G9110B6QaOaSb5VBVrtT/PvG/dUR1W1qlbMqRCTgEyzZ/6y5yXJXkYgbU+AhYNaEWyIMDeEqR3WIphj72wOE9CMsksy69uYiFvk8gOh8hTJZnmhphZjMKDCjJaxZYJBEc1DG8sFimRrbOPgfkvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJazJQD5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 383F0C433F1;
-	Thu,  1 Feb 2024 08:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706775328;
-	bh=kkm9m85BchBsg8gyaeBqfM19x9yX2lcmT5vikkpEihs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JJazJQD5szwbMpJjuDL/t7jXeKWf6+Ijqym93J1qnpgke0tVyOxVGhkhGQFkiGNMs
-	 ttaJMhC3XyipqNfXK08pO9FnS61CrIyGPPBH4wVfW/bJuM7EsOaH045gKDD/TMzJvQ
-	 R11u5YQ6YkJeqv5I1kqMnS9GOBmnbyLp1wdhVro6D1B10HLyGxrpILn3YsmL3Y9Wel
-	 wGBTYcn+Qh5DdzVM5V76DhXN3LnA5AhGZqMFPY6AJvQw7R8pDsNA8jsXTF48Ue0DNO
-	 kyhpohL1nC3ewZJARLrTUVm5OZJnTB3RbyhMnxekBaRtcSEITFl9uy0Qv2u2qtE5sq
-	 U/+pdea5NfSnQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rVSEL-000000005lV-1gxB;
-	Thu, 01 Feb 2024 09:15:29 +0100
-Date: Thu, 1 Feb 2024 09:15:29 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: Document reset-related
- properties
-Message-ID: <ZbtTIYFzMVLMxb10@hovoldconsulting.com>
-References: <20240129-x13s-touchscreen-v3-0-c4a933034145@quicinc.com>
- <20240129-x13s-touchscreen-v3-1-c4a933034145@quicinc.com>
- <ZbfYzyHaNmjJyNpY@hovoldconsulting.com>
- <20240131202239.GA2222869-robh@kernel.org>
+	s=arc-20240116; t=1706777770; c=relaxed/simple;
+	bh=RLkQH/GJxsJeVLwHLafLjvyrL5mb6HnKHTKR/Y9FUmc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A9Y8RRR4ns/NobEF+K2uFlS4j3mfSdUlXBnkYoe+7rMmifrvatlzQm5nXpo1Of6DCmWiBojJf5oWzrn5xlfZsEFgnTuriDM2cWVWsigOeOxcAxMbbQKwfzvGPNpWDgX9XSDbFFY+P4JtbkTQtCy7o4ADVoZvOkVoAWxr70zc8I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KIkrmPZQ; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a363961b96aso74595266b.3
+        for <linux-input@vger.kernel.org>; Thu, 01 Feb 2024 00:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706777767; x=1707382567; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mB7vjw31zr2ME4ruwxSaUAFeK+9jaGAgfyv3NCi+5rE=;
+        b=KIkrmPZQb8Mg1/J2bBiMBW90drD4uVYMeSMSt06Tq/zfFGRrHosrgvmFLA7vsplDkt
+         JuRdesYBj1t9ccacStNBR8dMVN/5K2tqqDagZkLkyVPj1jjB2ofvmuYBv8x74mtB9ni2
+         w+7QjtrVsXouc5Gqby+NQMpFBYvwDiQvkuiyI07fFJmWkDjCgmKPWIEa3gbOyyYHA//1
+         /+hE4fblkxidN++teUO4/XJCxRg0Pu3NW9/rtKpp7GYlaIllvtokDKDx2H/+LyxjcZQe
+         FuaZyejc3i44Myr34unA117kCOZWqka6MjinMKrUUkVspRJlvjpfOghjQYqoJci5Q7rc
+         5/RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706777767; x=1707382567;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mB7vjw31zr2ME4ruwxSaUAFeK+9jaGAgfyv3NCi+5rE=;
+        b=L7Bm0Flx5yyNaxVvwXPfnZah/mvLeIpps6KJVd+PeP0CFZcUggATTwE+PQve1sf8CT
+         fNGpvXUmCmErdLemtCNfFrZtyupL6agGZ89WcTn2RWavmcvDBYsOrzXixm1K3ExdOXFc
+         6uib7V+zMf1OhjXBSdhhsUC97co56b1HFm3aTjjg27ql1n6JMNbdlvsc97y1g/Qm66tj
+         T9ASggV0XE+EUASdHkVwVrhroNaKoCOBFLDsSzRddU5Ry8zPPVK3oKXQuiwxsd0JvNdp
+         x4rJcPDiJzm4AMFEfYNtpgoqAm53tVhW5zVlCdcbfMaCHs97ogih/d2sFO5bFVjUDFXK
+         qxeQ==
+X-Gm-Message-State: AOJu0YwvYVQ7deoZRzV2UmsfJtRtfxQyaRB6z6o8vxt53LqsjhSGfuXo
+	XRL2cqG0Uou+Q4fKQEoXqHFUZiHGRW21I0VoqLUKSQ3quEGtbu8gNSFUrcAXp0g=
+X-Google-Smtp-Source: AGHT+IEvk+ikpQ7EL9PeouXhZZ76oVWxuQ3rVJls+FGmPgsN0eFbbz9cMFGZANeF0vrFUzDStHBUDw==
+X-Received: by 2002:a17:907:1110:b0:a35:b808:8f1d with SMTP id qu16-20020a170907111000b00a35b8088f1dmr3344089ejb.67.1706777767458;
+        Thu, 01 Feb 2024 00:56:07 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWkt1xBZa5iosvZ6ourmNI65ZeYwDUNROjacpmLSg8vas4us+XlCfwUaVPLGInDDfmEDH+mM3hj7bCCpxOKH8+P6naBnNnI/GRBf962MXWkbXRs3t6806RF2HO1JgKHC99ESU5EkBhrjFe8mXsoXEr9u1PKyesUjQ1oZ/343YkjdRwDNdB/Fb8gEkDFe/xaReBJ3/ObXqm5tefuJ+2LFSO63AdRJc55GuaKhPs2CWtOUiAGwF8DRvy/Hfa09YhE/Datgkn53PH6yHO1UxUMKT1qrbJbjgOR41YZnrfNOyrjTGHjBOBXPrPx3orMjOEbFqegwN3AOls4t0OU3tvvkvfxiAtB7NpvXa3FXPFwP4i2mJFzB6OF63j+8TPZBloEanLk1cON2EVGc6tnZZIgSIWaZx2KtZrter/o/+G54QywzPQCNCFoj/NJ/yoXUmvAu+dPRgu1CTaQejZhsi5fKAtUiJ15dsKm7dDenSywes5Cz90OJZyPdnQFQ3HVyy9x0ZEmaWsZoRbRxPuwwRYVARjPkE820Ll4x8utID1XuZT4UK/zanQHu/pO0MhrXhJvlK3B5gUE
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id o14-20020a1709061d4e00b00a2c70ec1533sm6927297ejh.66.2024.02.01.00.56.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Feb 2024 00:56:06 -0800 (PST)
+Message-ID: <821ce1d4-bc15-4764-bbe0-315c57e8536e@linaro.org>
+Date: Thu, 1 Feb 2024 09:56:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131202239.GA2222869-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/3] dt-bindings: input: Add TouchNetix axiom
+ touchscreen
+Content-Language: en-US
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Marco Felsch <m.felsch@pengutronix.de>, Jeff LaBundy <jeff@labundy.com>
+Cc: catalin.popescu@leica-geosystems.com, mark.satterthwaite@touchnetix.com,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ bsp-development.geo@leica-geosystems.com
+References: <20240131141158.3350344-1-kamel.bouhara@bootlin.com>
+ <20240131141158.3350344-3-kamel.bouhara@bootlin.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240131141158.3350344-3-kamel.bouhara@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 31, 2024 at 02:22:39PM -0600, Rob Herring wrote:
-> On Mon, Jan 29, 2024 at 05:56:47PM +0100, Johan Hovold wrote:
-> > On Mon, Jan 29, 2024 at 08:47:47AM -0800, Bjorn Andersson wrote:
-> > > Some I2C HID devices has a reset pin and requires that some specified
-> > > time elapses after this reset pin is deasserted, before communication
-> > > with the device is attempted.
-> > > 
-> > > The Linux implementation is looking for these in the "reset-gpios" and
-> > > "post-reset-deassert-delay-ms" properties already, so use these property
-> > > names.
-> > 
-> > > +  post-reset-deassert-delay-ms:
-> > > +    description: Time required by the device after reset has been deasserted,
-> > > +      before it is ready for communication.
-> > > +
-> > > +  reset-gpios: true
-> > 
-> > Hmm, for the third time, it seems you ignored my comment that you need
-> > to remove the comment about these properties from the driver as part of
-> > this series.
-> > 
-> > 	/*
-> > 	 * Note this is a kernel internal device-property set by x86 platform code,
-> > 	 * this MUST not be used in devicetree files without first adding it to
-> > 	 * the DT bindings.
-> > 	 */
-> > 	if (!device_property_read_u32(dev, "post-reset-deassert-delay-ms", &val))
-> > 		ihid_of->post_reset_delay_ms = val;
+On 31/01/2024 15:11, Kamel Bouhara wrote:
+> Add the TouchNetix axiom I2C touchscreen device tree bindings
+> documentation.
 > 
-> DT devices should have a specific compatible that gives enough detail to 
-> handle this delay or *any* other power sequencing requirement.
-> 
-> OTOH, we've already got one other delay property, what's one more. Sigh.
-> 
-> Acked-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> ---
 
-Right, and I guess we could do this now before this new property gets
-more use. Who knows if those delays are actually correct or may need to
-be tweaked down the line.
 
-Apparently we only have one specific i2c-hid compatible in the kernel
-(and it's not yet used by the driver).
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Johan
+Best regards,
+Krzysztof
+
 
