@@ -1,141 +1,141 @@
-Return-Path: <linux-input+bounces-1641-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1642-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D723E8478B3
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:58:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9A28479F7
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 20:53:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C0611C25866
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:58:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EB221F273AF
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D54157E82;
-	Fri,  2 Feb 2024 18:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8162D8060B;
+	Fri,  2 Feb 2024 19:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+91RmjV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nR/Rc+Nv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAD615099E;
-	Fri,  2 Feb 2024 18:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9A58175F;
+	Fri,  2 Feb 2024 19:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706899312; cv=none; b=nbPBCbnPRJhRMib5vDd002a3fyWyOYzAorlJwqegR1Dz7Ei5tQWlGWqyTL4f0YFUhqav1fnygpKBMSyPftxmZOI42TOV76A9VimbG2IEyMAxGmpYMpmWVofU8E66VFEjJU2KCcIAxgjgFIB9gTEGnlTUERx6I9m70I8q9yTg7p4=
+	t=1706903607; cv=none; b=cjV7w2H7INHfjNL4u93SMDlSXQriMjC6ASIlQ9q0YRSmnI52MkU1HQofdft44VLhgbdRjN8HAGEUipSEVVCV9JHZiJwivmdy2+nATMULvZvIefOmrvKzItis0ITn5MkiN45ah0WDg1ma43DQ/EbFRKdMRYzly7Hd6V8+3/lbtPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706899312; c=relaxed/simple;
-	bh=M9wBgqupwhTELvQhqkNKpCNfjRPsU9wC61rYfxM9bHc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=brsoUWKHourGq7ewA/CukeYuCvqS7y7G7x4UphNZ00FYKvVV4UDdo24cgXjuA7Vqa+smLYZpyPWrFKzr/WxxwthAbzsRSnILR1+90YtM9q16lXCSkxNMXiyfE+QHdm9C2YzjMObW1/hSlLNcYKk9pmHNyt2DZAokLWy3cHAOqjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+91RmjV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E13C433F1;
-	Fri,  2 Feb 2024 18:41:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706899312;
-	bh=M9wBgqupwhTELvQhqkNKpCNfjRPsU9wC61rYfxM9bHc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n+91RmjV6PQ+gnGmU0M9udXO/VnSWIlq8gJ7innImnsqobAya8JO/LceCSHiyD2nI
-	 YdQ0WFHkvw4dkqbreB9l8zYkr97aYr5+B9GkXGJNOYloBvE6KF9V0UuDi1icLSoKYb
-	 MIdPpSjxUgAWrwqgUnRCx0G+F+Ao1wPVuaBXbh18kKE7ZR0lamtxT1d9GkO0MQgaAS
-	 25epEUCgkmFpoznEqRIJ8z3UlnpyO/vDX0pQF1LiNPMANTxmd6kooF4Kw9n9V8qejZ
-	 W/YMmEs2AOmKYYqqOIPJj4i4pvlRi+qeaLc2H11fAqgHxyUfzwoTgK7lzuL65GI2Tr
-	 itmO+DFX/FCdQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Phoenix Chen <asbeltogf@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ilpo.jarvinen@linux.intel.com,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 11/11] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
-Date: Fri,  2 Feb 2024 13:41:25 -0500
-Message-ID: <20240202184130.541736-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202184130.541736-1-sashal@kernel.org>
-References: <20240202184130.541736-1-sashal@kernel.org>
+	s=arc-20240116; t=1706903607; c=relaxed/simple;
+	bh=y9CPof6+weJZ90idQr8vFZCmimYUO08YPbLC5Rk2XFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V2Dv8xcr5rLVMp9KZ3v0GE0tr95X/F+BOYsnlAv0jiHVT9KzXp8B8xQSwRr+yxi+y8AYKChfKVdWKMOjRCTQ/87ISXMB22qMGLAIXCRQSzygP5JKUxO/CwPPM+NQC6PmNd9ZExenRQQyUgMnKrl50L8zah35Uy/LDfC0zmWAkCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nR/Rc+Nv; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6de287449f1so1735648b3a.2;
+        Fri, 02 Feb 2024 11:53:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706903596; x=1707508396; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pEX04GHs2TY1yrUpMLFp489utbKDIJ1QmjpEDT80Li8=;
+        b=nR/Rc+NvdZYrQGhI/1VvjFNb21PceZmG8Q0cF3/tFGS1KQF5SsN6R/rhEmsC6e5v5E
+         kLZa9RuOkfhwy7pjztLx4LH6BQwB2Iv4J5kHDK8/sCaPXmaxvl+N10qndebXdbwvCT+e
+         MGsE9YVsuCErFAu1r4sSYjGSxllPjx5B7z7DvXfmds/Qk6ggBwbjg3JQBoEdNZbd5FE6
+         tNpXl/9V1FRnEvBe3+7ZTnGgOTGTjKyOidKDmyKl3zvALoEdjP5H7GhOesy/liBbsvXK
+         sjnlQJ6tr835XhrIuKHXlBMyWUQEh5lH5bWJ3xdV9A4vsCXncF6pJu58eJKre0WbTZJ8
+         HQLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706903596; x=1707508396;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pEX04GHs2TY1yrUpMLFp489utbKDIJ1QmjpEDT80Li8=;
+        b=AiH662mv04+K1ae1mmuckPEFtF4lJzvBVCo3mJkuIHxRExajQ5hBKFKXZCcgJh00Sl
+         gZdx+qUCywWmWMFQwVhAHwyPOh2RPfE4JWbwXfYrq5yy9upFOoILP5tXuRtjk7cK4YO4
+         wH4BAPTNpaJ3JaOFVtAy/jMOVk+krDplOfZ1VNPW9BLlBTR7s/KU4JtuBsyY89SGHqRs
+         g98gFQTWsplBvxYxog1ikqwlL37gDN40cmVtUs7lIpdyox1qo0vJYs3/uXV7+4mjV+cs
+         YS1dgAZhw1t7M0ozl+1R4FgWQrBl7pdlOgGVxXAQDW/YdwOwxnsbjrf4dOgNuX1XeO0M
+         zsWw==
+X-Gm-Message-State: AOJu0YzQxs2Zy3HP//OlsAKyVusmvQTsLDkn1FZlrlxW4WdlLtOG/pKK
+	nA98ZceL+xslB9ucXdJvEabieiBkPi2wvniHtqm2SbwiI9wpwVLi
+X-Google-Smtp-Source: AGHT+IFsrhQ86WJEX11iXZxHiEA7cKVixtXRAzDz5v8qGUQSJ1SAe6vH89vYUKa+vGhhNECIm4DW3Q==
+X-Received: by 2002:aa7:8c48:0:b0:6d9:b9b4:8ca with SMTP id e8-20020aa78c48000000b006d9b9b408camr8765723pfd.28.1706903596462;
+        Fri, 02 Feb 2024 11:53:16 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUcA24CxtkUNk1HKIW57bt2Yn8/sgrl3vr3/NEnFXZX3YNZHGoJ519CEhWXtYlVHDIkIAa2CjTGCs3E5SztkqCXa4rvUxN26y2OZ3Jf/g/3LmI7t+R44IxnWBL/Ep7tUdMyo1ni2gU=
+Received: from google.com ([2620:15c:9d:2:d093:a15e:90dc:f5f8])
+        by smtp.gmail.com with ESMTPSA id b23-20020aa78717000000b006dfed5251easm2010164pfo.76.2024.02.02.11.51.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Feb 2024 11:52:23 -0800 (PST)
+Date: Fri, 2 Feb 2024 11:51:32 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.8-rc2
+Message-ID: <Zb1HxLM3Vs9p4MiG@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.148
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Phoenix Chen <asbeltogf@gmail.com>
+Hi Linus,
 
-[ Upstream commit 1abdf288b0ef5606f76b6e191fa6df05330e3d7e ]
+Please pull from:
 
-Add touch screen info for TECLAST X16 Plus tablet.
-
-Signed-off-by: Phoenix Chen <asbeltogf@gmail.com>
-Link: https://lore.kernel.org/r/20240126095308.5042-1-asbeltogf@gmail.com
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/touchscreen_dmi.c | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index f129e29b295d..397283893f39 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -916,6 +916,32 @@ static const struct ts_dmi_data teclast_tbook11_data = {
- 	.properties	= teclast_tbook11_props,
- };
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc2
  
-+static const struct property_entry teclast_x16_plus_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1916),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1264),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-teclast-x16-plus.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	PROPERTY_ENTRY_BOOL("silead,home-button"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data teclast_x16_plus_data = {
-+	.embedded_fw = {
-+		.name	= "silead/gsl3692-teclast-x16-plus.fw",
-+		.prefix = { 0xf0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 },
-+		.length	= 43560,
-+		.sha256	= { 0x9d, 0xb0, 0x3d, 0xf1, 0x00, 0x3c, 0xb5, 0x25,
-+			    0x62, 0x8a, 0xa0, 0x93, 0x4b, 0xe0, 0x4e, 0x75,
-+			    0xd1, 0x27, 0xb1, 0x65, 0x3c, 0xba, 0xa5, 0x0f,
-+			    0xcd, 0xb4, 0xbe, 0x00, 0xbb, 0xf6, 0x43, 0x29 },
-+	},
-+	.acpi_name	= "MSSL1680:00",
-+	.properties	= teclast_x16_plus_props,
-+};
-+
- static const struct property_entry teclast_x3_plus_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-@@ -1552,6 +1578,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_SKU, "E5A6_A1"),
- 		},
- 	},
-+	{
-+		/* Teclast X16 Plus */
-+		.driver_data = (void *)&teclast_x16_plus_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "TECLAST"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Default string"),
-+			DMI_MATCH(DMI_PRODUCT_SKU, "D3A5_A1"),
-+		},
-+	},
- 	{
- 		/* Teclast X3 Plus */
- 		.driver_data = (void *)&teclast_x3_plus_data,
--- 
-2.43.0
+to receive updates for the input subsystem. You will get:
 
+- a fix for the fix to deal with newer laptops which get confused by the
+  "GET ID" command when probing for PS/2 keyboards
+
+- a couple of tweaks to i8042 to handle Clevo NS70PU and Lifebook U728
+  laptops
+
+- a change to bcm5974 to validate that the device has appropriate
+  endpoints
+
+- an addition of new product ID to xpad driver to recognize Lenovo
+  Legion Go controllers
+
+- a quirk to Goodix controller to deal with extra GPIO described in ACPI
+  tables on some devices.
+
+Changelog:
+---------
+
+Brenton Simpson (1):
+      Input: xpad - add Lenovo Legion Go controllers
+
+Hans de Goede (3):
+      Input: goodix - accept ACPI resources with gpio_count == 3 && gpio_int_idx == 0
+      Input: atkbd - skip ATKBD_CMD_SETLEDS when skipping ATKBD_CMD_GETID
+      Input: atkbd - do not skip atkbd_deactivate() when skipping ATKBD_CMD_GETID
+
+Javier Carrasco (1):
+      Input: bcm5974 - check endpoint type before starting traffic
+
+Szilard Fabian (1):
+      Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
+
+Werner Sembach (1):
+      Input: i8042 - fix strange behavior of touchpad on Clevo NS70PU
+
+Diffstat:
+--------
+
+ drivers/input/joystick/xpad.c         |  2 ++
+ drivers/input/keyboard/atkbd.c        | 14 +++++++++-----
+ drivers/input/mouse/bcm5974.c         | 20 ++++++++++++++++++++
+ drivers/input/serio/i8042-acpipnpio.h | 14 ++++++++++++++
+ drivers/input/touchscreen/goodix.c    |  3 ++-
+ 5 files changed, 47 insertions(+), 6 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
 
