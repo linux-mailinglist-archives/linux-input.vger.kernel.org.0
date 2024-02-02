@@ -1,118 +1,109 @@
-Return-Path: <linux-input+bounces-1635-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A830847129
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 14:29:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 297F08471E0
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 15:26:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB4262853A7
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 13:29:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 371921C213FD
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 14:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85C146525;
-	Fri,  2 Feb 2024 13:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A8646B98;
+	Fri,  2 Feb 2024 14:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IezIkzd0"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="iHvft8L4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ED54643A;
-	Fri,  2 Feb 2024 13:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355F01854;
+	Fri,  2 Feb 2024 14:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706880586; cv=none; b=BwvgTz6z/D7vNGC8NjoGcH9u91PyKCxoTU9BMlgLohDkBu4TJKBckwmDJQWZNjmcHdkzWBG29IDZs89Ir+IA60vyHD6NaBlR98DB5mrRV3u2MEl81Uz3FHpt39V3GWTs7VQlyU23/O7P1h5rZATYu7qSCAtcI/UhjGjZ53JpU+Y=
+	t=1706883992; cv=none; b=layv9/Kx7lkj9FOBrREzcFgO9pwx+K5UoYYYjA6Wg/iP87pddzFx6UBuXaS0KCJP0PEfZm2NpYrTbjiO3ox2QBYZhcF9V6U1Vr7vy4W85F7Cy98XpfgUcgd1IA1VNEkIAX0V1DfBWLhYsfRf6SL98FXeJPLY+MBjIaqWM9KEZ4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706880586; c=relaxed/simple;
-	bh=emWHbtbKmHt44W1EEZpZpoNIQ47i7QfIYpdTdG9/FUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mNs1m1BhFO2AyGYbfE6ZARxI2K7b8yXitZaDgaOUmJCivnVAV92p3qndFckbcfRvihSNaoBTR9taV2I4L1JILFQ6AnmDg+4v9PmAfcLWQ90fjjGxiGUpvRMgsyao46d5Df184LFv89/+Va8FEH5I5tFz3tXkNtDrjIaaj6LcbbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IezIkzd0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CEEC433F1;
-	Fri,  2 Feb 2024 13:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706880585;
-	bh=emWHbtbKmHt44W1EEZpZpoNIQ47i7QfIYpdTdG9/FUA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IezIkzd0Uc+tG7hy/lyHyY7q+70ph0LArTYnWrdSZB/soOCU74p82GOqyzzZ3IspI
-	 P9kuaKt8RC9Pmg8Ga9ETLt8LtAXwxTp8lvwbQPVD15lHJp20ymArkNM3epDmSVwG5P
-	 D8xnQLyCodAAy5pXpS8pLk8Rh4IZw9yydGpfDQ00ot6PbMwatR7pccRGdEUiYYeoHV
-	 XbN7wXgQyj1tc4eejDh7ZHC4KRQEbT21umWIvKAmMqBnjm07DU7hjTGh2E+rtIJ+yl
-	 PRQTsvj264iIPI0o4IWVce/N3prRs8Hw5dSaYZZ2NldH24jwjFpzhjKVQIDupQU8RD
-	 rgwg88YkFkmmg==
-Date: Fri, 2 Feb 2024 13:29:40 +0000
-From: Lee Jones <lee@kernel.org>
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Karel Balej <balejk@matfyz.cz>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/5] mfd: add 88pm88x driver
-Message-ID: <20240202132940.GG1379817@google.com>
-References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
- <20231217131838.7569-3-karelb@gimli.ms.mff.cuni.cz>
- <20240125122634.GE74950@google.com>
- <CYQ8MEQRJELE.2GB9316NZA998@gimli.ms.mff.cuni.cz>
- <20240131110311.GI8551@google.com>
- <CYTURHOW0WMR.2UMOT0D1GFZ2W@gimli.ms.mff.cuni.cz>
- <20240202124550.GE1379817@google.com>
- <CYULY1BYVCYK.1EGSBSVNRSTLQ@gimli.ms.mff.cuni.cz>
+	s=arc-20240116; t=1706883992; c=relaxed/simple;
+	bh=Hek7OsUPTK/+2iL5vxjRI0TRniJiNEvzpxxb70WqieY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hDuT/VDmvGTRxUSiEF8nsGzZORsKTFEsE9+cxVjGnEun+5QEXRI+bbMnBiNjrydhIIqRjy0pEoVZ8q5eI0ED7fuWqZ3uJoDf2FXr0EIEiVBe98bTmyWBZK4cKtuzQFBgCnBb74IdeXinulzWy71/bAfOnTiZIZ6mFPGkfkSrzaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=iHvft8L4; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D1CF22FC0055;
+	Fri,  2 Feb 2024 15:26:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1706883980;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rjb1X9/opxrO69KIAP8GbmQxkKMjdNz9fFqZgIlfaFo=;
+	b=iHvft8L4Q/QKjbUsU6dGjcf9ASdUNkAWJjCWZ9XpweIkg3TWZIgzbS6msRf325wL1JuRYC
+	zRhwp9dJJbbDCM8nbPN3UlDu4RiDQ63Iu1SgOfZafAeoZxN0DJw5tDC9JQeqy+BP9coPSA
+	yBw1hrh6D+Wd+ZwVZ9Hajt82HB9My5k=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <029a0d30-c68a-4e12-80a6-db3203ff3907@tuxedocomputers.com>
+Date: Fri, 2 Feb 2024 15:26:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CYULY1BYVCYK.1EGSBSVNRSTLQ@gimli.ms.mff.cuni.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Fix strange behavior of touchpad on Clevo NS70PU
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231205163602.16106-1-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20231205163602.16106-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Linus,
+gentle bump
 
-On Fri, 02 Feb 2024, Karel Balej wrote:
-
-> Lee Jones, 2024-02-02T12:45:50+00:00:
-> > On Thu, 01 Feb 2024, Karel Balej wrote:
-> >
-> > > Lee Jones, 2024-01-31T11:03:11+00:00:
-> > > > On Sun, 28 Jan 2024, Karel Balej wrote:
-> > > > > > > +	/* GPIO1: DVC, GPIO0: input */
-> > > > > > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
-
-Do we have a precedent for drivers setting up their own pins like this?
-
-> > > > > > Shouldn't you set these up using Pintrl?
-> > > > > 
-> > > > > You mean to add a new MFD cell for the pins and write the respective
-> > > > > driver? The downstream implementation has no such thing so I'm not sure
-> > > > > if I would be able to do that from scratch.
-> > > >
-> > > > This is not a Pinctrl driver.
-> > > >
-> > > > Isn't there a generic API you can use?
-> > > 
-> > > I'm sorry, I don't think I understand what you mean.
-> >
-> > Perhaps I misunderstand the code.  It looks like this regmap patch hack
-> > is configuring pins and a bunch of other things.  Would that be a
-> > correct assessment?
-> 
-> Yes, that sounds correct.
-> 
-> > If so, where do we draw the line here?  Do we accept a 1000 line driver
-> > which configures a large SoC with a bunch of bespoke register writes?
-> 
-> I understand, I just don't know what you mean by "a generic API". I'm
-> also not clear on whether what you have in mind is simply adding a
-> dedicated driver for the pins as a new subdevice of this MFD.
-
--- 
-Lee Jones [李琼斯]
+Am 05.12.23 um 17:36 schrieb Werner Sembach:
+> When closing the laptop lid with an external screen connected, the mouse
+> pointer has a constant movement to the lower right corner. Opening the
+> lid again stops this movement, but after that the touchpad does no longer
+> register clicks.
+>
+> The touchpad is connected both via i2c-hid and PS/2, the predecessor of
+> this device (NS70MU) has the same layout in this regard and also strange
+> behaviour caused by the psmouse and the i2c-hid driver fighting over
+> touchpad control. This fix is reusing the same workaround by just
+> disabling the PS/2 aux port, that is only used by the touchpad, to give the
+> i2c-hid driver the lone control over the touchpad.
+>
+> v2: Rebased on current master
+>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
+> ---
+>   drivers/input/serio/i8042-acpipnpio.h | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> index 9c39553d30fa2..b31d3285bea69 100644
+> --- a/drivers/input/serio/i8042-acpipnpio.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -1200,6 +1200,12 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>   					SERIO_QUIRK_RESET_ALWAYS | SERIO_QUIRK_NOLOOP |
+>   					SERIO_QUIRK_NOPNP)
+>   	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_NAME, "NS5x_7xPU"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
+> +	},
+>   	{
+>   		.matches = {
+>   			DMI_MATCH(DMI_BOARD_NAME, "NJ50_70CU"),
 
