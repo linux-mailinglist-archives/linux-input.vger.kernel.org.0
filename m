@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-1638-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1639-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D44847861
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:51:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFAA84785A
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:51:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1325B2BED0
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:46:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E9581F2636D
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:51:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8418A12C7FF;
-	Fri,  2 Feb 2024 18:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 972AE1384B5;
+	Fri,  2 Feb 2024 18:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PumQBerj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVkGcQiy"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9212C7F8;
-	Fri,  2 Feb 2024 18:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0ED1384AF;
+	Fri,  2 Feb 2024 18:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706899208; cv=none; b=rjGekYGkImtCE7yO6vJkfsQwPo1jI/IcoUPB70M05KhizjG/Rpg7cEM7koXTa6Vm4YbRA7uTYmW4/CIhd3FiMYVTKfOFwjM1wezl72a85i116em3wbIPGEAh7HpqyfeOApD2ipiVA0T7wfohLKsXo8X779j4tC6alHStOaQu8NA=
+	t=1706899252; cv=none; b=CMRvrB9h3vJ7E0BRgg9itGMmuYQiD4ubJ28kA7F8gzTbmlg//OdLNj010ixonfn0c0GD5OtymWNFINZJnB92ggDn503gPBa4pFcRMQaA2dxVohH0RV2mO79XzzkI+PE9/ISEZ23gZzCJ2cMlNxyF8dDnjycqTHv2igK8L6obg3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706899208; c=relaxed/simple;
+	s=arc-20240116; t=1706899252; c=relaxed/simple;
 	bh=DBhCBpHNYtAfNq4+MxgcsEhfGsHqbT4zWuXR+vsZt0c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YozTNb3Yqw0l/RUPPdrktN2HqOScQGqodBSSx6mif5Ki0Ilajw5s1NL/3vO0A3nX50RxMjMzTonEhW9ryNirhgIuWQlh3zzkSk67WSeAf88h5da5iios5foyFNxPrU06bHU5EC6rZ+upH7s6FBB6Lntr98boXAGe/dtoe1K5qYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PumQBerj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC737C43399;
-	Fri,  2 Feb 2024 18:40:06 +0000 (UTC)
+	 MIME-Version; b=e5T/k8DM2WemZLTqvbJGjevfzh8JqV5/6ywqZSK2sl8klRcT1zNHP047C5RtO8t1DJchdfa88sVlZJE9oOFpR3O5flCqsBIyAlTknsG8DYJvdIR0amhPFg/tlzq3ScQn7c2JegUbg8umySf0Dia4JtnTToMM7NhX60zUmTqaj08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVkGcQiy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04905C43390;
+	Fri,  2 Feb 2024 18:40:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706899207;
+	s=k20201202; t=1706899251;
 	bh=DBhCBpHNYtAfNq4+MxgcsEhfGsHqbT4zWuXR+vsZt0c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PumQBerjT+fhgCS+JdEkX3p/vvGxRuf8DN1dVWiqCAvFrbqZtMn3BFHhRRnJOB1Av
-	 b93KC744kXq6vLo8g8i+PBTp8k0pNMMBUBWx6OVh3xxp2c7O00W7OcltUIcT+vMI1b
-	 Mj8AwkIFBBtLba6B413IKOsa2mWTGsQ5I62VwVkRVIuCkDoAMZmp7R0s3HddOadqFs
-	 lmXQtyd5W26iDfRCAPY62n7GX1dvfUUQKG545wq3Qp99RviRWkSchqHN/wqEX++T5o
-	 Mth5evmeKBQL0p9r3acclFx/ZOz0wMHiYhRBhxnvxttIBPyZVRlYjhDvxvsUh/2DNz
-	 Y30nM76G0K7ZQ==
+	b=eVkGcQiyuDYmnU3eQPwr4O4WaRYbqrv82gJHk3V08CSOsfepHiC3HylN67+uC8xWX
+	 cGSKBhwx9Pi2Vx7LndSCJrfmA56l9UiwgqLSxVBve38sU2ushuS3W5c/c6j4ioNL3b
+	 IhHrBlGR6iVOyC2hUJ48R90hA4cOJH6XxgrzqHcZK1Hxg1jjZNfI4tptTXWbjXIxAF
+	 TPLtd4f0kroraPRJkqw/lhYOprKkNKSvUcF3J5HIW7VdJoPdGu8cNb1LzNHZtshrxp
+	 ye6BL9MWkGT3qkNmU0zuCbgB5YUl3fSmHndBsJRY/HVbJ6zfQmQBlZVGF3mnqFH8zF
+	 Gcua04OFJcdDw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Phoenix Chen <asbeltogf@gmail.com>,
 	ilpo.jarvinen@linux.intel.com,
 	linux-input@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 23/23] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
-Date: Fri,  2 Feb 2024 13:39:19 -0500
-Message-ID: <20240202183926.540467-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 21/21] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
+Date: Fri,  2 Feb 2024 13:40:08 -0500
+Message-ID: <20240202184015.540966-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202183926.540467-1-sashal@kernel.org>
-References: <20240202183926.540467-1-sashal@kernel.org>
+In-Reply-To: <20240202184015.540966-1-sashal@kernel.org>
+References: <20240202184015.540966-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.3
+X-stable-base: Linux 6.6.15
 Content-Transfer-Encoding: 8bit
 
 From: Phoenix Chen <asbeltogf@gmail.com>
