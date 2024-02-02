@@ -1,79 +1,60 @@
-Return-Path: <linux-input+bounces-1634-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1635-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493748470B3
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 13:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A830847129
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 14:29:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0ED702873EE
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 12:55:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB4262853A7
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 13:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC17C1FAE;
-	Fri,  2 Feb 2024 12:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85C146525;
+	Fri,  2 Feb 2024 13:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="edLqh18U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IezIkzd0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39FB15D2;
-	Fri,  2 Feb 2024 12:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ED54643A;
+	Fri,  2 Feb 2024 13:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878550; cv=none; b=O7yqRAsWIy2Ir8hKvbuTOpND5ZEZGkdscm4YWSCR9OV+jIT2+EmXtzPfgtNcwyOexWSUG2C4bbaBwiAA1+rwK8ngAJTnDJXQlNtx1cECX+DVjlT7C4KXFyaafAwpDtqqYDsXbTp8tgw6niF8eRmKHG6Sh03Md/K/AgJbsaakUS0=
+	t=1706880586; cv=none; b=BwvgTz6z/D7vNGC8NjoGcH9u91PyKCxoTU9BMlgLohDkBu4TJKBckwmDJQWZNjmcHdkzWBG29IDZs89Ir+IA60vyHD6NaBlR98DB5mrRV3u2MEl81Uz3FHpt39V3GWTs7VQlyU23/O7P1h5rZATYu7qSCAtcI/UhjGjZ53JpU+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878550; c=relaxed/simple;
-	bh=+TmtUtIfmZcdIbEuOgcCdi2sK+bzSVptb/iPlbxGHIg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=RL+QXAiPE2QKx1ZWmw8ThmWuKjmugkCeR7/uS+6bfRMFeQz+3SDlcMJZms5ap/TNyEO3f3HCpcExs+4+GMmwFPjNX5+/G7d2TWpF98gp1aQkRbgOgWdlq0pm41Cx+yzV4Tz+ctx+iSyvd483IeOx016NrMCEn8y8kbTrbUyCFWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=edLqh18U; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id C0E8B283DA8;
-	Fri,  2 Feb 2024 13:55:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1706878542;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vk6ebVfUP0DK1H8nYjPQE8hIkEuSNdLAy6sElffR3ok=;
-	b=edLqh18Utjzl1LdX29V+5A3Xpy1mu+zS9Cjr0I7nC5D7VZkcP8c/Po1Aw4c6/EQT9UqRQK
-	5EK3JQp5RLXKt7ZZbsdacOYx9ft6eu7X9yjIJtXn9lBVa9NigZxKwWEkj+zvnZ0kKd4gap
-	e7k007zRwHiSQD8Ybnib+aMzJuMR9zU=
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 93ED14516B2;
-	Fri,  2 Feb 2024 13:55:42 +0100 (CET)
-Precedence: bulk
-X-Mailing-List: linux-input@vger.kernel.org
-List-Id: <linux-input.vger.kernel.org>
-List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Feb 2024 13:55:42 +0100
-Message-Id: <CYULY1BYVCYK.1EGSBSVNRSTLQ@gimli.ms.mff.cuni.cz>
-Cc: "Karel Balej" <balejk@matfyz.cz>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, "Rob Herring" <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
- <conor+dt@kernel.org>, <linux-input@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+	s=arc-20240116; t=1706880586; c=relaxed/simple;
+	bh=emWHbtbKmHt44W1EEZpZpoNIQ47i7QfIYpdTdG9/FUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mNs1m1BhFO2AyGYbfE6ZARxI2K7b8yXitZaDgaOUmJCivnVAV92p3qndFckbcfRvihSNaoBTR9taV2I4L1JILFQ6AnmDg+4v9PmAfcLWQ90fjjGxiGUpvRMgsyao46d5Df184LFv89/+Va8FEH5I5tFz3tXkNtDrjIaaj6LcbbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IezIkzd0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CEEC433F1;
+	Fri,  2 Feb 2024 13:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706880585;
+	bh=emWHbtbKmHt44W1EEZpZpoNIQ47i7QfIYpdTdG9/FUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IezIkzd0Uc+tG7hy/lyHyY7q+70ph0LArTYnWrdSZB/soOCU74p82GOqyzzZ3IspI
+	 P9kuaKt8RC9Pmg8Ga9ETLt8LtAXwxTp8lvwbQPVD15lHJp20ymArkNM3epDmSVwG5P
+	 D8xnQLyCodAAy5pXpS8pLk8Rh4IZw9yydGpfDQ00ot6PbMwatR7pccRGdEUiYYeoHV
+	 XbN7wXgQyj1tc4eejDh7ZHC4KRQEbT21umWIvKAmMqBnjm07DU7hjTGh2E+rtIJ+yl
+	 PRQTsvj264iIPI0o4IWVce/N3prRs8Hw5dSaYZZ2NldH24jwjFpzhjKVQIDupQU8RD
+	 rgwg88YkFkmmg==
+Date: Fri, 2 Feb 2024 13:29:40 +0000
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Karel Balej <balejk@matfyz.cz>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Subject: Re: [RFC PATCH 2/5] mfd: add 88pm88x driver
-To: "Lee Jones" <lee@kernel.org>
-From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
+Message-ID: <20240202132940.GG1379817@google.com>
 References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
  <20231217131838.7569-3-karelb@gimli.ms.mff.cuni.cz>
  <20240125122634.GE74950@google.com>
@@ -81,43 +62,57 @@ References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
  <20240131110311.GI8551@google.com>
  <CYTURHOW0WMR.2UMOT0D1GFZ2W@gimli.ms.mff.cuni.cz>
  <20240202124550.GE1379817@google.com>
-In-Reply-To: <20240202124550.GE1379817@google.com>
+ <CYULY1BYVCYK.1EGSBSVNRSTLQ@gimli.ms.mff.cuni.cz>
+Precedence: bulk
+X-Mailing-List: linux-input@vger.kernel.org
+List-Id: <linux-input.vger.kernel.org>
+List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CYULY1BYVCYK.1EGSBSVNRSTLQ@gimli.ms.mff.cuni.cz>
 
-Lee Jones, 2024-02-02T12:45:50+00:00:
-> On Thu, 01 Feb 2024, Karel Balej wrote:
->
-> > Lee Jones, 2024-01-31T11:03:11+00:00:
-> > > On Sun, 28 Jan 2024, Karel Balej wrote:
-> > > > > > +	/* GPIO1: DVC, GPIO0: input */
-> > > > > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
-> > > > >
-> > > > > Shouldn't you set these up using Pintrl?
-> > > >=20
-> > > > You mean to add a new MFD cell for the pins and write the respectiv=
-e
-> > > > driver? The downstream implementation has no such thing so I'm not =
-sure
-> > > > if I would be able to do that from scratch.
-> > >
-> > > This is not a Pinctrl driver.
-> > >
-> > > Isn't there a generic API you can use?
-> >=20
-> > I'm sorry, I don't think I understand what you mean.
->
-> Perhaps I misunderstand the code.  It looks like this regmap patch hack
-> is configuring pins and a bunch of other things.  Would that be a
-> correct assessment?
+Linus,
 
-Yes, that sounds correct.
+On Fri, 02 Feb 2024, Karel Balej wrote:
 
-> If so, where do we draw the line here?  Do we accept a 1000 line driver
-> which configures a large SoC with a bunch of bespoke register writes?
+> Lee Jones, 2024-02-02T12:45:50+00:00:
+> > On Thu, 01 Feb 2024, Karel Balej wrote:
+> >
+> > > Lee Jones, 2024-01-31T11:03:11+00:00:
+> > > > On Sun, 28 Jan 2024, Karel Balej wrote:
+> > > > > > > +	/* GPIO1: DVC, GPIO0: input */
+> > > > > > > +	REG_SEQ0(PM88X_REG_GPIO_CTRL1, 0x40),
 
-I understand, I just don't know what you mean by "a generic API". I'm
-also not clear on whether what you have in mind is simply adding a
-dedicated driver for the pins as a new subdevice of this MFD.
+Do we have a precedent for drivers setting up their own pins like this?
 
-Thanks,
-K. B.
+> > > > > > Shouldn't you set these up using Pintrl?
+> > > > > 
+> > > > > You mean to add a new MFD cell for the pins and write the respective
+> > > > > driver? The downstream implementation has no such thing so I'm not sure
+> > > > > if I would be able to do that from scratch.
+> > > >
+> > > > This is not a Pinctrl driver.
+> > > >
+> > > > Isn't there a generic API you can use?
+> > > 
+> > > I'm sorry, I don't think I understand what you mean.
+> >
+> > Perhaps I misunderstand the code.  It looks like this regmap patch hack
+> > is configuring pins and a bunch of other things.  Would that be a
+> > correct assessment?
+> 
+> Yes, that sounds correct.
+> 
+> > If so, where do we draw the line here?  Do we accept a 1000 line driver
+> > which configures a large SoC with a bunch of bespoke register writes?
+> 
+> I understand, I just don't know what you mean by "a generic API". I'm
+> also not clear on whether what you have in mind is simply adding a
+> dedicated driver for the pins as a new subdevice of this MFD.
+
+-- 
+Lee Jones [李琼斯]
 
