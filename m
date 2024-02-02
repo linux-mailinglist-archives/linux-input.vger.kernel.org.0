@@ -1,108 +1,141 @@
-Return-Path: <linux-input+bounces-1637-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1638-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D25847751
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:25:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D44847861
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:51:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 070461F2775C
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:25:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1325B2BED0
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAC9C151CD3;
-	Fri,  2 Feb 2024 18:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8418A12C7FF;
+	Fri,  2 Feb 2024 18:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VG7D5afL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PumQBerj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64216150990;
-	Fri,  2 Feb 2024 18:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9212C7F8;
+	Fri,  2 Feb 2024 18:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706898166; cv=none; b=VSlUMqFv0qf3drKQKA5rmCtFKxVAop09yBHGl8ubxVcXdcR9ZNrcs6dis5hOSnVEIUnlZIcbMW9kFqS6JmUyBPr9PETj1McvW1L4vt+ckEWOeq5erS7uWO+C4e4cILHpR/z8EWVPDjbp+nNdkylBAipsjXQh70+I+rUXYeYF7ZI=
+	t=1706899208; cv=none; b=rjGekYGkImtCE7yO6vJkfsQwPo1jI/IcoUPB70M05KhizjG/Rpg7cEM7koXTa6Vm4YbRA7uTYmW4/CIhd3FiMYVTKfOFwjM1wezl72a85i116em3wbIPGEAh7HpqyfeOApD2ipiVA0T7wfohLKsXo8X779j4tC6alHStOaQu8NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706898166; c=relaxed/simple;
-	bh=2VoEdRvrRqBHfptG31aYebj1E1qTdeZ8YWp0J6B5gdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Syc0T8rzonN4rh3v8OPY6ZRABH8ENuXfmplYMjij21w4wTBBqGNNbchLKu8XNPRDHwTt83rFeSdlnSfPSwb9DZbylw0MeWGm66A1fAJJCNMPK8AIG4UMmDBS7Hu2Qkw9BD6N1OaU/A6XLTel2xPX4foqk9F7FjcgVNsEN1UpuJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VG7D5afL; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-28bec6ae0ffso1787170a91.3;
-        Fri, 02 Feb 2024 10:22:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706898164; x=1707502964; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YT/0Srb3byEwhZGAN9MvjmeizM6BiaKwUj1DsG3vCZE=;
-        b=VG7D5afLoG6oay4ugal35RSMw6734XJSxkyc+cXzMhFs4G0Cwz0ErzCQfqIK1Y0gNS
-         ee1iZsu/WFOe4vt6UnMb2pOlEqpNUxNt2S9zzD3MRc0Z/OuM8f1cDtDssp7pniEgMNvE
-         7QZm41vkI4RaOHtHn5ESWny9hYaQc8d/4A9ly6Ahm+fCjs9lOOSyVp0HmWGH5na1ZzA6
-         cOB3GYd3AJ33fcLj2YsImqUt/3KCDLHSa1mVDP7Rb48G0oruF1A3kaO+hTa77uvILIqV
-         K/uQhuvPUJaNv28n72yc94moArVgKTsNausthTQxgr2fou+ahBkNwpN2s2kkZ5OJOdV2
-         c5vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706898164; x=1707502964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YT/0Srb3byEwhZGAN9MvjmeizM6BiaKwUj1DsG3vCZE=;
-        b=usecHkz8m7P+ZG0mZVpFdNQA9ktO1RfqcZl5JQzI3XpC+MQhknuiR66jtsjpcZ81Ml
-         aaPkKtF94+klmJmhTfy9l6Lhd0laK24wpde62obqeSRyMLUdIbhapXzTrer7e/AV6Y0Q
-         PlVN359+5F+QdcSvbvfqOmR2w+VyYNhSxEuQ7rg6gOWA+IOtQWGIfJkUXCieJWf2i/Ri
-         Fw2/8kUd+nf/xXl5LqOJI2uNU1O0eCrAPduSZ9xwAxHgxZaopgWKaGAiNXhMSHTLDTr1
-         KMX9565sw+6gYGpuq+H4hZrC3gHDFkrmZ0ijzM/NBav7tjXg5gNxoljCiXPIZSDUAfvh
-         rmpw==
-X-Gm-Message-State: AOJu0YxukAAqDhELoQlbxP2jm+jwRDwMGQrbji/8IHcPyYpnsQXo2/md
-	uG4+O0VfoA1b+dnK415w1W801NdgR9lvjm/ia3OPeGk4EgxXAqMwa6vvWINp
-X-Google-Smtp-Source: AGHT+IGrUXxBw9jg+aIzlF/xYC+0+LaqvOK84khmAMHLUTLNSJQDwY6j38qwSHgxrWVfIv1UR3NiZg==
-X-Received: by 2002:a17:90b:205:b0:295:f9a5:f8f0 with SMTP id fy5-20020a17090b020500b00295f9a5f8f0mr2883428pjb.10.1706898164395;
-        Fri, 02 Feb 2024 10:22:44 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUeBJY7v8lYdeGa0d/C1VBduqn96gP+fdlNA+X/J9qXmj4Z7PxTFe8Y6ugyx2+vcY+meTvYtVcYnq+HNLCDwxbTLECJcq2IiSbCYXYXbM1MBTCJmOpzl4PLgmp+Dykf7J1yWbGHAkAr
-Received: from google.com ([2620:15c:9d:2:c30c:2f35:dc97:44fc])
-        by smtp.gmail.com with ESMTPSA id u16-20020a17090ac89000b00290f9e8b4f9sm311350pjt.46.2024.02.02.10.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 10:22:44 -0800 (PST)
-Date: Fri, 2 Feb 2024 10:22:41 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Fix strange behavior of touchpad on Clevo NS70PU
-Message-ID: <Zb0y8cc0T6rr_NDr@google.com>
-References: <20231205163602.16106-1-wse@tuxedocomputers.com>
+	s=arc-20240116; t=1706899208; c=relaxed/simple;
+	bh=DBhCBpHNYtAfNq4+MxgcsEhfGsHqbT4zWuXR+vsZt0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YozTNb3Yqw0l/RUPPdrktN2HqOScQGqodBSSx6mif5Ki0Ilajw5s1NL/3vO0A3nX50RxMjMzTonEhW9ryNirhgIuWQlh3zzkSk67WSeAf88h5da5iios5foyFNxPrU06bHU5EC6rZ+upH7s6FBB6Lntr98boXAGe/dtoe1K5qYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PumQBerj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC737C43399;
+	Fri,  2 Feb 2024 18:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706899207;
+	bh=DBhCBpHNYtAfNq4+MxgcsEhfGsHqbT4zWuXR+vsZt0c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PumQBerjT+fhgCS+JdEkX3p/vvGxRuf8DN1dVWiqCAvFrbqZtMn3BFHhRRnJOB1Av
+	 b93KC744kXq6vLo8g8i+PBTp8k0pNMMBUBWx6OVh3xxp2c7O00W7OcltUIcT+vMI1b
+	 Mj8AwkIFBBtLba6B413IKOsa2mWTGsQ5I62VwVkRVIuCkDoAMZmp7R0s3HddOadqFs
+	 lmXQtyd5W26iDfRCAPY62n7GX1dvfUUQKG545wq3Qp99RviRWkSchqHN/wqEX++T5o
+	 Mth5evmeKBQL0p9r3acclFx/ZOz0wMHiYhRBhxnvxttIBPyZVRlYjhDvxvsUh/2DNz
+	 Y30nM76G0K7ZQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Phoenix Chen <asbeltogf@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ilpo.jarvinen@linux.intel.com,
+	linux-input@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 23/23] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
+Date: Fri,  2 Feb 2024 13:39:19 -0500
+Message-ID: <20240202183926.540467-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240202183926.540467-1-sashal@kernel.org>
+References: <20240202183926.540467-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205163602.16106-1-wse@tuxedocomputers.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.3
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 05, 2023 at 05:36:01PM +0100, Werner Sembach wrote:
-> When closing the laptop lid with an external screen connected, the mouse
-> pointer has a constant movement to the lower right corner. Opening the
-> lid again stops this movement, but after that the touchpad does no longer
-> register clicks.
-> 
-> The touchpad is connected both via i2c-hid and PS/2, the predecessor of
-> this device (NS70MU) has the same layout in this regard and also strange
-> behaviour caused by the psmouse and the i2c-hid driver fighting over
-> touchpad control. This fix is reusing the same workaround by just
-> disabling the PS/2 aux port, that is only used by the touchpad, to give the
-> i2c-hid driver the lone control over the touchpad.
-> 
-> v2: Rebased on current master
-> 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Cc: stable@vger.kernel.org
+From: Phoenix Chen <asbeltogf@gmail.com>
 
-Applied, thank you.
+[ Upstream commit 1abdf288b0ef5606f76b6e191fa6df05330e3d7e ]
 
+Add touch screen info for TECLAST X16 Plus tablet.
+
+Signed-off-by: Phoenix Chen <asbeltogf@gmail.com>
+Link: https://lore.kernel.org/r/20240126095308.5042-1-asbeltogf@gmail.com
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 35 ++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 0c6733772698..7aee5e9ff2b8 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -944,6 +944,32 @@ static const struct ts_dmi_data teclast_tbook11_data = {
+ 	.properties	= teclast_tbook11_props,
+ };
+ 
++static const struct property_entry teclast_x16_plus_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1916),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1264),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-teclast-x16-plus.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data teclast_x16_plus_data = {
++	.embedded_fw = {
++		.name	= "silead/gsl3692-teclast-x16-plus.fw",
++		.prefix = { 0xf0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 },
++		.length	= 43560,
++		.sha256	= { 0x9d, 0xb0, 0x3d, 0xf1, 0x00, 0x3c, 0xb5, 0x25,
++			    0x62, 0x8a, 0xa0, 0x93, 0x4b, 0xe0, 0x4e, 0x75,
++			    0xd1, 0x27, 0xb1, 0x65, 0x3c, 0xba, 0xa5, 0x0f,
++			    0xcd, 0xb4, 0xbe, 0x00, 0xbb, 0xf6, 0x43, 0x29 },
++	},
++	.acpi_name	= "MSSL1680:00",
++	.properties	= teclast_x16_plus_props,
++};
++
+ static const struct property_entry teclast_x3_plus_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+@@ -1612,6 +1638,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_SKU, "E5A6_A1"),
+ 		},
+ 	},
++	{
++		/* Teclast X16 Plus */
++		.driver_data = (void *)&teclast_x16_plus_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "TECLAST"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Default string"),
++			DMI_MATCH(DMI_PRODUCT_SKU, "D3A5_A1"),
++		},
++	},
+ 	{
+ 		/* Teclast X3 Plus */
+ 		.driver_data = (void *)&teclast_x3_plus_data,
 -- 
-Dmitry
+2.43.0
+
 
