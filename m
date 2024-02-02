@@ -1,133 +1,127 @@
-Return-Path: <linux-input+bounces-1628-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1629-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0DC8465E9
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 03:33:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD2084672A
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 05:55:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E9551C25009
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 02:33:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CE601F27A66
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 04:55:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72235E56D;
-	Fri,  2 Feb 2024 02:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DECADF513;
+	Fri,  2 Feb 2024 04:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ck5Q2M/k"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MjE4gFtP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95625E56B;
-	Fri,  2 Feb 2024 02:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61941F9C6;
+	Fri,  2 Feb 2024 04:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706841071; cv=none; b=Yhd2FsLjbl067W8R5JuoVKDDUF/35UxzIeSXvoxn3IZNgCqLygf9f4Vp2n+yKC0nnUtZzcIBIOeykiacgeWdwjbTCtBNKBH0QRKnpjNOIop8ySTJL7l2K0m4fO6IcKKkKLdZsjwPVh8Q2EY3QRNUz/bwJbkmzCQpARWOYTYkR/g=
+	t=1706849737; cv=none; b=kfkBN/lpIBf4Mk/KMNAYFnmMQCTevLc4NkuATRcw0SlZuQsuq6m9EzJc933X7kzFXXiaDan9sYEsnwKDiaIlcYd44k60xmtRJxjTTwl7kQBCgyWn1kegfkEEVeypWGyXltrcL0S5j+0RsNTZ8i3dzM+sTPDwTZMzvWsFqsHac/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706841071; c=relaxed/simple;
-	bh=+yWBFgqsLJb+DfB4+lohr/565RIudwuQoPMSMCPgiEQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KTvFX9R7VmIslUbYdDModzoBzAV0zzlmkLemq6HP28Xz/Xxy/Ix8rEy7ZBBY+RC/7H/Ugug8xGcb3zZNbdLyXCdJJA9QT6bK+WivSVt9ntRQYVLaffsdWEwz7xJNcumITgnyivEI8CtFRzh1L04H4NNNK44/z+k8BaF/H8fGH94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ck5Q2M/k; arc=none smtp.client-ip=209.85.167.43
+	s=arc-20240116; t=1706849737; c=relaxed/simple;
+	bh=2kYlvhPgJrOA5JXv0UROVLU7nz5GY8Jsi12RfI9OR8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHxtFIPvFior87ptAYGbqXxf1TDbwDF0pG/5asV2RnDONQipmLUfFI/vs6MZb7Spyq4xPwjzhKSsQgLF9easdfNIKNTti3V+t77MvtMzSvH6YePAVAmr/BQzsL8/yPYRx5E8x10ganuQDLyNul2xGTAsLLlNlOm7wptp2u+CSkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MjE4gFtP; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5113191f3c3so410672e87.0;
-        Thu, 01 Feb 2024 18:31:09 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d9607f2b3aso2853735ad.0;
+        Thu, 01 Feb 2024 20:55:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706841067; x=1707445867; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l99B5IUgp/QyIWazijcr0QOYcEJaWP5wOJ89lKkwdd8=;
-        b=ck5Q2M/kU9x0oU1sWLTmJ9Rehhuct+k+yhcoqxZ890e1KVgwoZldycD7TCSoN2oQGv
-         Bckbf6od2MsLcF9crr6nqFZ4UA30KoqMIYk2cWPWxv/Lun8tSuK5yqLPEDvHlSwS2E0n
-         7aAdxc/Dp/Kl7ovnpK5eZ3ZeGtiPu1KiiKxK0S3aUNNC+zlI0rTZF3K7OFylzWb1tZKl
-         fGrFLmxM3bxxMvxuhdQWUp88sIaxv2RcgwXb1+qoOhCrV/3lfs52zzInIvieIRZN3omD
-         mXDX6vhFsU/QydmylEVLJqBNJPp/6NvK+KnduiaFZvgcOFiAenuf5U/uWHGagMy8SPkS
-         c8lg==
+        d=gmail.com; s=20230601; t=1706849735; x=1707454535; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=x4F54oWj9ECEcH1NBGn7lQh9aozrsidT6aq0Ua0NYqg=;
+        b=MjE4gFtPEe9RcZQ0WZJlN0nmOGPA4ksGHYIb/zjZaWSLiI2Yidki+pnXYyEaOuxQNi
+         JnKKqD2TJJ7bkzFDZOyP2fC3/v9+YtCL4yI/P6xTWZ7fC6IUzjOr7CRP38oUD5KSEBHI
+         LkRPuqAFiPv+An6e+i6Cx4jpzGXTVmxu60aX6TlU5m7aWF7kwQmOTEpHdHGqcutFoo1k
+         0t3gLM0iQUPhnPPNuHBxaKQlkmEqqemGb+2Lc1Gp6G9EKef+g6TJXTnEsgr0CIBSSHET
+         in7QL8tkvt0U2YeKz/txhACSt/TEzSrC1jTSBm+MCvHQuhdO7eN7Jyet7X5OcudLnr1j
+         Qo1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706841067; x=1707445867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l99B5IUgp/QyIWazijcr0QOYcEJaWP5wOJ89lKkwdd8=;
-        b=f7gpagqfQNWPH+DQVorVJV4IuSZEZTuRn84bmGG8zXwhBiVasgCotSe5MXGgrrL5eP
-         6QHKP8Vfiz3V7hq3qXpHmLmOWu/ySI7xpt2+UM+nxAOyEAYUFWQL21GPBZPwueUKylaX
-         zeLxNl8XyJQ8sVAWJZ3HB89h2QI128M+hC0ccmoXXoz90reFkpoEM4lIFANu0aYGch2O
-         cG00JHS7Cgx9vilNx/mzP8vY1t2LnZxxCV5nigjleCpC8j65dASV4jeYaQE3WGwu+KEE
-         3M0yzsNC+XRadc4l+ea4q6aOhJSzYEPOqkPOgZwSh7gVhPS65FUHawNJ9ql1yO82k5GO
-         Or2g==
-X-Forwarded-Encrypted: i=0; AJvYcCUpOQexrkII5UqD3Ys9tH7bTdClZOsipxxXylOXkZW4SSWfRraT18t6vmCHIzacBLbhf3dG/xVYfbqq5oKw0lsegIJnU/O3WqdkslWyGfAaWUBbN+I19+vnD7SlhA4W5i4oahVAedjupls=
-X-Gm-Message-State: AOJu0YyWfTKLcN5vOCJkIxcG/BPJkC8Zt3TgI0FDZFnQ5E4oJ8IXSGrs
-	PqLvSSxXsb8PZpv4M85ZQvYDu+A1StQnVyR8b2UNuFy2C3xbmKTLAy6+3aPsrm0limKBAv7GPAt
-	uFZlztZcAIRY9X5GKScKEVP56f3+Zxf6YUaP9rA==
-X-Google-Smtp-Source: AGHT+IH/WCkGkOlIZ5RVRugk5Caf3wHPCOQZPMfFpuCqEQlRXSSVK1vGqUq2hkqY2MElIL55i6YENWOpqCdWfS79Wmo=
-X-Received: by 2002:a2e:7d10:0:b0:2d0:727e:79a6 with SMTP id
- y16-20020a2e7d10000000b002d0727e79a6mr2707828ljc.1.1706841067128; Thu, 01 Feb
- 2024 18:31:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706849735; x=1707454535;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x4F54oWj9ECEcH1NBGn7lQh9aozrsidT6aq0Ua0NYqg=;
+        b=Qh5KuBM11sXkABnzqxDrRIF+bXEOMt9FTYdyLyGVJs35k9s0W54/CGE8NCzq4hXdXm
+         vpNbJaFU4Lz+UgCon7jHWY44SgbYS4gwS2JX7bPaWRVMeeppDAaMMieimjkeF3sMskwt
+         ekvEvLds/ERsthXmkjN2/BPp4qR0HC66SFECxjCQR3+Ui3zGDQAYOKzm1i75XnHoxB3m
+         DKzxgfXeiVxa0AnnD67hZ7GmozZdVWrw+YRsRlPI/FSgtX0R7enWcC1n0w6ZZNfSdZSZ
+         cRfzjr1h0Z4w+ac0pVP+hWe4+KFeCBbBb2R61vh8RVwiqa1KRCNRNG9Y9ray31Rsyi3o
+         sd9A==
+X-Gm-Message-State: AOJu0YyW5/dVue2wgylH253DKrp42Ad+4RDJdS2/SJ9JALmz21FhoSgh
+	L/wEk2peJM1XLjqPeRoWBfOPslbEEphkrOuw1bXLEsfNj6c1LXkA
+X-Google-Smtp-Source: AGHT+IFxTKQC2MJ/rQeUs8h6zf1wW5trleLfX/5jZSaf9XUEEDCY6HJ4yvvPM+IKBzY2imgzqKCTEA==
+X-Received: by 2002:a17:902:f9cb:b0:1d5:8cbc:863c with SMTP id kz11-20020a170902f9cb00b001d58cbc863cmr1435468plb.27.1706849735443;
+        Thu, 01 Feb 2024 20:55:35 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUuzGWXEriJLeKQmmTDmUTB7aZmUbOXiU2mC2rYxMsQ1toxMQW42aabv+jnoeuV3WboTI06ja14Lf5LXWKL2MP/qUlFg6NSF3VNQcbJVQ6SFX5/XQix/EDMWmmmKPkPFxN8YNsCU6chrqSUyQXyEJE/gHDUBO8n3hpqvN32qbMmK510/cx1nSbQX6EnBHbiT7Smi1Dk7lctprqdtQ==
+Received: from google.com ([2620:15c:9d:2:c30c:2f35:dc97:44fc])
+        by smtp.gmail.com with ESMTPSA id i133-20020a636d8b000000b005d0796e779bsm652708pgc.12.2024.02.01.20.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 20:55:35 -0800 (PST)
+Date: Thu, 1 Feb 2024 20:55:32 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>, stable@vger.kernel.org,
+	regressions@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH regression fix 0/2] Input: atkbd - Fix Dell XPS 13 line
+ suspend/resume regression
+Message-ID: <Zbx1xA5FK_c8EEmm@google.com>
+References: <20240126160724.13278-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240201115320.684-1-jirislaby@kernel.org> <20240201115320.684-3-jirislaby@kernel.org>
-In-Reply-To: <20240201115320.684-3-jirislaby@kernel.org>
-From: Ping Cheng <pinglinux@gmail.com>
-Date: Thu, 1 Feb 2024 18:30:54 -0800
-Message-ID: <CAF8JNhK+LSxg+wj3Ms46HhmETj3ymtEThnDBNHaWHbAZiGqsqA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] HID: wacom: remove unused hid_data::pressure
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: jikos@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>, 
-	Jason Gerecke <jason.gerecke@wacom.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240126160724.13278-1-hdegoede@redhat.com>
 
-On Thu, Feb 1, 2024 at 3:53=E2=80=AFAM Jiri Slaby (SUSE) <jirislaby@kernel.=
-org> wrote:
->
-> The pressure member in struct hid_data is unused. It was
-> added in commit 5ae6e89f7409 (HID: wacom: implement the finger part of
-> the HID generic handling), but never used.
->
-> As this is not a struct to communicate with the HW, remove that member.
->
-> Found by https://github.com/jirislaby/clang-struct.
->
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+On Fri, Jan 26, 2024 at 05:07:22PM +0100, Hans de Goede wrote:
+> Hi Dmitry,
+> 
+> There have been multiple reports that the keyboard on
+> Dell XPS 13 9350 / 9360 / 9370 models has stopped working after
+> a suspend/resume after the merging of commit 936e4d49ecbc ("Input:
+> atkbd - skip ATKBD_CMD_GETID in translated mode").
+> 
+> See the 4 closes tags in the first patch for 4 reports of this.
+> 
+> I have been working with the first reporter on resolving this
+> and testing on his Dell XPS 13 9360 confirms that these patches
+> fix things.
+> 
+> Unfortunately the commit causing the issue has also been picked
+> up by multiple stable kernel series now. Can you please send
+> these fixes to Linus ASAP, so that they can also be backported
+> to the stable series ASAP ?
+> 
+> Alternatively we could revert the commit causing this, but that
+> commit is know to fix issues on a whole bunch of other laptops
+> so I would rather not revert it.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> Hans de Goede (2):
+>   Input: atkbd - Skip ATKBD_CMD_SETLEDS when skipping ATKBD_CMD_GETID
+>   Input: atkbd - Do not skip atkbd_deactivate() when skipping
+>     ATKBD_CMD_GETID
 
-Wacom current touch devices do not support pressure. We could add pressure
-back when it is necessary in the future. Thank you Jiri.
+Applied the lot to 'for-linus' branch, I will get it into the next push.
 
-Acked-by: Ping Cheng <ping.cheng@wacom.com>
+Thanks.
 
-Cheers,
-Ping
-
-> Cc: Ping Cheng <ping.cheng@wacom.com>
-> Cc: Jason Gerecke <jason.gerecke@wacom.com>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
->  drivers/hid/wacom_wac.h | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-> index e63b1e806e34..6ec499841f70 100644
-> --- a/drivers/hid/wacom_wac.h
-> +++ b/drivers/hid/wacom_wac.h
-> @@ -309,7 +309,6 @@ struct hid_data {
->         bool confidence;
->         int x;
->         int y;
-> -       int pressure;
->         int width;
->         int height;
->         int id;
-> --
-> 2.43.0
->
->
+-- 
+Dmitry
 
