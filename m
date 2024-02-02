@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-1640-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1641-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D95784788C
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D723E8478B3
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 19:58:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D9F71C25E3F
-	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:54:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C0611C25866
+	for <lists+linux-input@lfdr.de>; Fri,  2 Feb 2024 18:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DC651552EB;
-	Fri,  2 Feb 2024 18:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D54157E82;
+	Fri,  2 Feb 2024 18:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l23w67rJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+91RmjV"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721F514E9A3;
-	Fri,  2 Feb 2024 18:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAD615099E;
+	Fri,  2 Feb 2024 18:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706899285; cv=none; b=tvwiErd848uG6fhzup0/M001BBE5mBC6/N6dgsGIjeyx2P6EPdXibeUFCXcD7P7yE4bG7Zt/MWfN+A9R1RWjnbx9aVylqvWSeuSrSYa9ltpKIY9DJW3wRoIP027yzIAkotm3FstAOeU69Pe0x9Fxz5RNpVpp+8aCEW9SgFTxjG8=
+	t=1706899312; cv=none; b=nbPBCbnPRJhRMib5vDd002a3fyWyOYzAorlJwqegR1Dz7Ei5tQWlGWqyTL4f0YFUhqav1fnygpKBMSyPftxmZOI42TOV76A9VimbG2IEyMAxGmpYMpmWVofU8E66VFEjJU2KCcIAxgjgFIB9gTEGnlTUERx6I9m70I8q9yTg7p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706899285; c=relaxed/simple;
-	bh=F4/tDt8MoVAU/kVRndmou+VuoYqjCATUe8lVRsIp9u4=;
+	s=arc-20240116; t=1706899312; c=relaxed/simple;
+	bh=M9wBgqupwhTELvQhqkNKpCNfjRPsU9wC61rYfxM9bHc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KvfRJ+8sTVbjCwI+JJBOR8/ROvIal4Mm3wzqvzXo9UzuCKKLjPBDMmJAz6xeI0gLLaS2FIyrcCIWHmO6/buf6ZJwrtrs6s9AuF8x5kTjSwgHg9keOuGxuWV/KSzJDsxmDt6BPVOu5AymChfd1ERWqk3IKe6Gs/3Xlix3yZl+CTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l23w67rJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC28C433C7;
-	Fri,  2 Feb 2024 18:41:24 +0000 (UTC)
+	 MIME-Version; b=brsoUWKHourGq7ewA/CukeYuCvqS7y7G7x4UphNZ00FYKvVV4UDdo24cgXjuA7Vqa+smLYZpyPWrFKzr/WxxwthAbzsRSnILR1+90YtM9q16lXCSkxNMXiyfE+QHdm9C2YzjMObW1/hSlLNcYKk9pmHNyt2DZAokLWy3cHAOqjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+91RmjV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E13C433F1;
+	Fri,  2 Feb 2024 18:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706899285;
-	bh=F4/tDt8MoVAU/kVRndmou+VuoYqjCATUe8lVRsIp9u4=;
+	s=k20201202; t=1706899312;
+	bh=M9wBgqupwhTELvQhqkNKpCNfjRPsU9wC61rYfxM9bHc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=l23w67rJHWYgxzGnVyoV1vvXR1hT/V7pp1bZtPuuegX7+PevjD9FSi0bIeoLx36ok
-	 MxS4+o6sBgveLzEh6lAUaXH1+aC/quR7kJb1MAr6lEO96yXdUUXHDZXtXIETVSzmES
-	 XxmyWzBFZOr84BynKvZiJEvQNZWvSikdqF3KQySWbDEwy+wUmeGmxWhCCZpYw+KSBl
-	 oAhooCow4K0DwIDgHxjF2moCQsi/qtKFvJqzrN6IrKpQjkYXsSj4zYf709x2aW2StN
-	 2/ONhwtJsEGtv6ZyKNeFhPxrlPqjqMLd8Lk+SUkN50sAmrKvqA7IB5560Ho0uOC74Z
-	 g7h+MErqqoH0w==
+	b=n+91RmjV6PQ+gnGmU0M9udXO/VnSWIlq8gJ7innImnsqobAya8JO/LceCSHiyD2nI
+	 YdQ0WFHkvw4dkqbreB9l8zYkr97aYr5+B9GkXGJNOYloBvE6KF9V0UuDi1icLSoKYb
+	 MIdPpSjxUgAWrwqgUnRCx0G+F+Ao1wPVuaBXbh18kKE7ZR0lamtxT1d9GkO0MQgaAS
+	 25epEUCgkmFpoznEqRIJ8z3UlnpyO/vDX0pQF1LiNPMANTxmd6kooF4Kw9n9V8qejZ
+	 W/YMmEs2AOmKYYqqOIPJj4i4pvlRi+qeaLc2H11fAqgHxyUfzwoTgK7lzuL65GI2Tr
+	 itmO+DFX/FCdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Phoenix Chen <asbeltogf@gmail.com>,
 	ilpo.jarvinen@linux.intel.com,
 	linux-input@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 15/15] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
-Date: Fri,  2 Feb 2024 13:40:52 -0500
-Message-ID: <20240202184057.541411-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 11/11] platform/x86: touchscreen_dmi: Add info for the TECLAST X16 Plus tablet
+Date: Fri,  2 Feb 2024 13:41:25 -0500
+Message-ID: <20240202184130.541736-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202184057.541411-1-sashal@kernel.org>
-References: <20240202184057.541411-1-sashal@kernel.org>
+In-Reply-To: <20240202184130.541736-1-sashal@kernel.org>
+References: <20240202184130.541736-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.76
+X-stable-base: Linux 5.15.148
 Content-Transfer-Encoding: 8bit
 
 From: Phoenix Chen <asbeltogf@gmail.com>
@@ -83,10 +83,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 35 insertions(+)
 
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 9a92d515abb9..50ec19188a20 100644
+index f129e29b295d..397283893f39 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -913,6 +913,32 @@ static const struct ts_dmi_data teclast_tbook11_data = {
+@@ -916,6 +916,32 @@ static const struct ts_dmi_data teclast_tbook11_data = {
  	.properties	= teclast_tbook11_props,
  };
  
@@ -119,7 +119,7 @@ index 9a92d515abb9..50ec19188a20 100644
  static const struct property_entry teclast_x3_plus_props[] = {
  	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
  	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-@@ -1567,6 +1593,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -1552,6 +1578,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
  			DMI_MATCH(DMI_PRODUCT_SKU, "E5A6_A1"),
  		},
  	},
