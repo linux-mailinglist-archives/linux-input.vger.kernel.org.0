@@ -1,79 +1,140 @@
-Return-Path: <linux-input+bounces-1701-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1702-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9383884A8E7
-	for <lists+linux-input@lfdr.de>; Mon,  5 Feb 2024 23:15:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FB884ABFE
+	for <lists+linux-input@lfdr.de>; Tue,  6 Feb 2024 03:09:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D6492B24C67
-	for <lists+linux-input@lfdr.de>; Mon,  5 Feb 2024 22:15:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F328286BB1
+	for <lists+linux-input@lfdr.de>; Tue,  6 Feb 2024 02:09:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCD22D604;
-	Mon,  5 Feb 2024 21:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 458AD56B74;
+	Tue,  6 Feb 2024 02:09:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6oZdz4E"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="b+KMj6tv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9085FBA1;
-	Mon,  5 Feb 2024 21:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EBA56B6F;
+	Tue,  6 Feb 2024 02:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707170384; cv=none; b=AfZ+oLAiIkHofCqT+4j1GdP/oGYGc6z2uYnWaSisrMGtp5Nof2ixX+ztfj/VoUhlRBdKBG7nOIK48deBWAuxmVRaddjLBRKubwumSaTGapmMLE457FC1pxc81oddsBJ4UrA5JN2m4khGTUjd4qThV1trq2zHoiPIJuqy0Cp/FjM=
+	t=1707185358; cv=none; b=E7PEzjVEZxWqzIHGlJ7z4Na+iQX7i8W99HKf7Su6+Mi6X7v0F3QzWHRZl3DFV8/M82VMIQter1OaQqFNxhyRkwI9MVVmFFoMHvJll2QaRqWktz79YKJv368I7gGhrVHY06aRlpznxQK3BF7Q+jgP9oKaEhJidVe4r9/hXO1i8Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707170384; c=relaxed/simple;
-	bh=+AS06WoujOeqXU4Hb3VAVxvfM0mY/e5EGItG8aTCTas=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bAWqpSWxG+D3P7CT5klEUkQwVahJMJs5cTvGL2DF3KmkTab3Qr//GNB6qhxJa37f97YSdYJ/ebbZsgfz7Tlxh7ibtD4L4mJuJs6gQaniprBSrriAVc4yb+rzq0vSqcvQZM6Fj6dDvZWA9qKRyzYUS9PnX5xIyqKT2lafZvDZpB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6oZdz4E; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so1636225e9.3;
-        Mon, 05 Feb 2024 13:59:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707170381; x=1707775181; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7v36dUm/qfcDe5R6rUIhuYhf7AEbt4izd4LOEjbQQ90=;
-        b=k6oZdz4E9JTHmNdNPxQEnydRA8yk2EdaQoVMHXZJIWmN4i6PcMRbCt4pS3ZCFOQOgB
-         hNW5/McwMcDU5cvQvKRQQgnKNhOWQvfy5s056kqMH9zIF7v0ZpcOBvJIYDX4X7L79HPp
-         egH9VCky3Akw3uF+i1DKQwJoN37OX65lP46sSn3hWk4GVjDdonDhdmXbAUjiAMxoz7a3
-         nB2+CVOdTNh34A7Km1bbHMUXN1SPe9WqNhTvTQvXpfFbHFLp/6FiaaQKkktGs3TbnvLK
-         5NbwBou5iVyXQNcSDS3wSergTCPMQXMNXapTwNpi/RSD2ZuBVBq3AX4piYVxfyy6ySn0
-         UHJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707170381; x=1707775181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7v36dUm/qfcDe5R6rUIhuYhf7AEbt4izd4LOEjbQQ90=;
-        b=K0tAepwf/2ngvojze8VKpdA4GCbGcM9Oaw6b5HLgp42M2pFlkamPtVTHvm81lMwH/J
-         VAFTozWL7S0g1KnrH4sIEjwkkxqQSoV4EnUoblUV87/u90kuv1r2pKYzgnxP+sjZP/c7
-         NdX0T93rD94fvWt5a3rWw5vtlYCPKnmaazgpsp7YTs0HdV9EofMshyGnw2Isrgf6oF+S
-         8m3ry+iiXyVSDlXDGUz+68KBZiEyAS+4WmUKmxsge6U6Ov3NlVkBVO58YJkQ38Dw9ckT
-         JBYj9J/smI+VSE92cMmbsH1UoH1Wm6QvTGMpMBuXy7NNZ1at5q/tXADYHngALvXjKfK5
-         YPfQ==
-X-Gm-Message-State: AOJu0Yxh1U1lpUcBwDbxWCSaRfy2a8Oxk4a6ZaiKUGTZ5ham/jCXfTp1
-	oWmh7u8N3ZqsWTlBx3iTM8tYhQoH+sxtQ2p8/uLaRH1jhJ9GxZaCVrghe93Uw9k=
-X-Google-Smtp-Source: AGHT+IGZlV9OF1/ilTswL166CszINvzdpP3TzLASP+eTjpBTHUwh9tFjMQkxoBOYPGk1AgPzN0Ozrw==
-X-Received: by 2002:a05:600c:3581:b0:40f:de6a:2a27 with SMTP id p1-20020a05600c358100b0040fde6a2a27mr698032wmq.40.1707170381323;
-        Mon, 05 Feb 2024 13:59:41 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWy8BJdViKpI9NE7N7rSvNeqaStkN8WderlhTgTe1CsuSJAIo2mgM+X54TowxaYb98i8WkoeTAORncoqvB1y1CumSKzB3asdXxSs54qYlU0r7nTAJMO21Xcw54dBOi7bTBMCskqBfoiLL1jwA4h14LRjudSQtPg/6IiTKDd456Y1Jk=
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id fb4-20020a05600c520400b0040fdb17e66csm1081486wmb.4.2024.02.05.13.59.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 13:59:40 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] input: ti_am335x_tsc: remove redundant assignment to variable config
-Date: Mon,  5 Feb 2024 21:59:40 +0000
-Message-Id: <20240205215940.1851349-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1707185358; c=relaxed/simple;
+	bh=WYfoRPya76Tqck0ScDgB0y5w0roJ0OYNP1LTT+2qcEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JeHGi5PkP5aBV4JD0Kmh/1Gmst9kmQ2fRsukbqwjuNpgEyp7RogdrwtIfOvTuRdrwHH175kx2jFIXfCvTML7bcW/xYA6k+K17lVx6pZ+DK/N07YfD5MCMpAVyafzxXHUPk465qrTImGkkJgSIoeIM9leUAJv3wGldj3E1pUyh3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=b+KMj6tv; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4161EYUn020918;
+	Tue, 6 Feb 2024 02:08:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2023-11-20;
+ bh=TNBqmrMN0GKiz0meyol2MTt7jK7ZOMX41ADnOQ7L/UU=;
+ b=b+KMj6tvO4efzEbKZhSG/xzlHnsPmbgMlBfcTWawkZTnAIffaQla4J5cVDofspUuJqWS
+ /o00HHnk0n3gN9qp3mx/3E4gJC1I52m2sdoqn6JFMG+i8UwxEXr0NcQnIWxdhEFBJn+E
+ /x8af1pQLtk1k1AM1L7u822p8aQ15VNJPSq8MPE9D4515Gx5HixPyTgAvA3/EgoqxoHI
+ QgW4sF8UUf5WKq6QgWwluTQ92vNZ9x/szjLyibVmDwZBAu8ox17jHGO02Dm+ih1uUcH6
+ DGK4SsClE47m3SK3AzW4xYXw6GyPWvrQpLAswBi0lOq+tWmzWKU14KToHTtMKtqix0Tu 5w== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w1bwengt7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 Feb 2024 02:08:03 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 4160ucci039478;
+	Tue, 6 Feb 2024 02:08:02 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3w1bx6cdtw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 Feb 2024 02:08:02 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41627qHJ034652;
+	Tue, 6 Feb 2024 02:08:01 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3w1bx6cdrb-2;
+	Tue, 06 Feb 2024 02:08:01 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-kernel@vger.kernel.org, Li Zhijian <lizhijian@fujitsu.com>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alistar Popple <alistair@popple.id.au>,
+        "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Artur Paszkiewicz <artur.paszkiewicz@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>, cocci@inria.fr,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Don Brace <don.brace@microchip.com>, dri-devel@lists.freedesktop.org,
+        Eddie James <eajames@linux.ibm.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Hannes Reinecke <hare@kernel.org>, Hannes Reinecke <hare@suse.de>,
+        Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
+        HighPoint Linux Team <linux@highpoint-tech.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Jack Wang <jinpu.wang@cloud.ionos.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        James Morse <james.morse@arm.com>, Jeremy Kerr <jk@ozlabs.org>,
+        Jiri Kosina <jikos@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+        Joel Stanley <joel@jms.id.au>, Jonathan Cameron <jic23@kernel.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Karan Tilak Kumar <kartilak@cisco.com>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Ketan Mukadam <ketan.mukadam@broadcom.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-scsi@vger.kernel.org, Manish Rangankar <mrangankar@marvell.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        megaraidlinux.pdl@broadcom.com, Michael Cyr <mikecyr@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Januszewski <spock@gentoo.org>,
+        MPT-FusionLinux.pdl@broadcom.com, Namhyung Kim <namhyung@kernel.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, netdev@vger.kernel.org,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Nilesh Javali <njavali@marvell.com>,
+        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Richard Cochran <richardcochran@gmail.com>,
+        Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>,
+        Sathya Prakash <sathya.prakash@broadcom.com>,
+        Satish Kharat <satishkh@cisco.com>,
+        Sesidhar Baddela <sebaddel@cisco.com>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        storagedev@microchip.com, Stuart Yoder <stuyoder@gmail.com>,
+        Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+        Sumit Saxena <sumit.saxena@broadcom.com>, target-devel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>,
+        Tyrel Datwyler <tyreld@linux.ibm.com>,
+        Vadim Pasternak <vadimp@nvidia.com>, x86@kernel.org
+Subject: Re: (subset) [PATCH 00/42] Fix coccicheck warnings
+Date: Mon,  5 Feb 2024 21:07:38 -0500
+Message-ID: <170715263710.945763.16540743989774199712.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20240116041129.3937800-1-lizhijian@fujitsu.com>
+References: <20240116041129.3937800-1-lizhijian@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,33 +143,47 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-05_18,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 phishscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402060013
+X-Proofpoint-ORIG-GUID: pTT_U64MvKVXcaNppMcpJ2F1AhkrIKYI
+X-Proofpoint-GUID: pTT_U64MvKVXcaNppMcpJ2F1AhkrIKYI
 
-The variable config is being initialized with a value that is never
-read, it is being re-assigned in the next statement. The initialization
-is redundant and can be removed.
+On Tue, 16 Jan 2024 12:10:47 +0800, Li Zhijian wrote:
 
-Cleans up clang scan build warning:
-drivers/input/touchscreen/ti_am335x_tsc.c:160:2: warning: Value stored
-to 'config' is never read [deadcode.DeadStores]
+> make coccicheck COCCI=$PWD/scripts/coccinelle/api/device_attr_show.cocci`
+> complians some warnnings as following[1]:
+> 
+> Not sure if someone had tried these fixes, feel free to ignore this
+> patch set if we have come to a *NOT-FIX* conclusion before :)
+> 
+> This patch set also fix a few snprintf() beside coccicheck reported.
+> For example, some thing like
+> xxx_show() {
+> 	rc = snprintf();
+> ...
+> 	return rc;
+> }
+> 
+> [...]
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/input/touchscreen/ti_am335x_tsc.c | 1 -
- 1 file changed, 1 deletion(-)
+Applied to 6.9/scsi-queue, thanks!
 
-diff --git a/drivers/input/touchscreen/ti_am335x_tsc.c b/drivers/input/touchscreen/ti_am335x_tsc.c
-index 34324f8512ac..294b7ceded27 100644
---- a/drivers/input/touchscreen/ti_am335x_tsc.c
-+++ b/drivers/input/touchscreen/ti_am335x_tsc.c
-@@ -157,7 +157,6 @@ static void titsc_step_config(struct titsc *ts_dev)
- 			     n++ == 0 ? STEPCONFIG_OPENDLY : 0);
- 	}
- 
--	config = 0;
- 	config = STEPCONFIG_MODE_HWSYNC |
- 			STEPCONFIG_AVG_16 | ts_dev->bit_yn |
- 			STEPCONFIG_INM_ADCREFM;
+[22/42] drivers/scsi/fnic: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/1ad717c92925
+[25/42] drivers/scsi/ibmvscsi: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/29ff822f466e
+[26/42] drivers/scsi/ibmvscsi_tgt: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/01105c23de42
+[27/42] drivers/scsi/isci: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/5fbf37e53091
+[34/42] drivers/scsi/pm8001: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/8179041f801d
+
 -- 
-2.39.2
-
+Martin K. Petersen	Oracle Linux Engineering
 
