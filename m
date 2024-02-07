@@ -1,57 +1,58 @@
-Return-Path: <linux-input+bounces-1741-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1742-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D5984D429
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF6A84D435
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:37:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889141F22A0F
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:36:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CFED1F29D71
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F93F1420C9;
-	Wed,  7 Feb 2024 21:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0B71487DA;
+	Wed,  7 Feb 2024 21:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBp+Vm2i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPMAzmAI"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041C51420C2;
-	Wed,  7 Feb 2024 21:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5E91487CF;
+	Wed,  7 Feb 2024 21:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341025; cv=none; b=HPbuSra10YycwKHnjTfutaGq3iKcET+uJyhM8pjuyn6Th6Ogkywj4dc2NEzA7xi3zAcwxOEgUvEHXfcBEnoXzTQdpmrWO4TuVmTf5BUZNvq75TFNt+8kP6AvfielDw5Cwj5JbNx5XPdRkk7ApmC75fq3YI5LV0ab7NmMyZfIesk=
+	t=1707341034; cv=none; b=LDnaw/map1wlfEB/sx3LzpP+mRGTRRoOyhJqQfHwFys5fis7DTDhBJelEux28Mb99/cMyn2NMMltQNEoaXXSXDQTe9spPr1sIcVVZ6+KHYMClH+ydEk1O5zowUxWPMN31VKgcjdd0b9/mV/irQ0EeYstG1aWELAPoNseFrr7yy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341025; c=relaxed/simple;
-	bh=4riSpvDKPsuPfk6rX8NTI0xammA7of+/B6rJJfgnT8A=;
+	s=arc-20240116; t=1707341034; c=relaxed/simple;
+	bh=73gobveBCfcwgCL9kNg4UHI8MzRQDi5tMXWlU9/XIE4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LADNx2o7zPq/zCujwZOjYklaIPQvAFWns1W+gF6uRbxN06JYTKoDMfjLbjSnsQN9al2dn8krLV53jGFX9YAeQ8//gPcPs3SREsrxAD2xiVYvDZWsI6jMnj2b3v2zxvLlog7sOqF/uNiJBwCOH4GczFDQU+jqgiEu+obz4MprlpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBp+Vm2i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE13AC43390;
-	Wed,  7 Feb 2024 21:23:43 +0000 (UTC)
+	 MIME-Version:Content-Type; b=jsYMYViZNtOsK5iSEl5gwMacO1GVXRuneF2rICbrmzFndlStbzeYT7OBioj6NUzayJrg1Mwmg8Yi/eHH0yZeNGmu2z2dRlGUfUSlnTHsNq74IP/yEekRXwsfv5EMITv61GkRh/4H1zeXLNSHXs19L7Jobcff6J5nRQFqSyLX0Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPMAzmAI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90CDC433C7;
+	Wed,  7 Feb 2024 21:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341024;
-	bh=4riSpvDKPsuPfk6rX8NTI0xammA7of+/B6rJJfgnT8A=;
+	s=k20201202; t=1707341033;
+	bh=73gobveBCfcwgCL9kNg4UHI8MzRQDi5tMXWlU9/XIE4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eBp+Vm2ic6ymobnT1qzYDJP1FXHnu/ipx9vZxHcHs9JoZQtunfi5eV5jHArn3/g/Z
-	 tQz4YIsSIW5GR8fWx5LeXs6QpZAA6qdw0LQnpGtztJKP6Y20BWtLZ2Bv/nm4cWHjQ0
-	 vzArlrwDRc1Tz4IGAXDkxM2NRbLPwm5jolPa2E8x5UpC+0Fx5cHZr5RFxuscJI4pic
-	 bt88JR3Iaw9kDIzR/z/H2kOa7UlJBT/EtCStCZZHmNuw9JGTD3jNd6UosnGGhGQHJx
-	 6B1euObAhU4YcvECLzfSMP9JCcKuwCOPDQmCii+i8t/e1LzyNrLA+q+8vrbgCwZvkm
-	 C2pRfaYu1MpgA==
+	b=OPMAzmAIRWtELUkE5Hh52+hg3HwOPOiDfV+UiyKS/nmWta2OcimUTO730Y/PK84Aw
+	 7OCv5zKDXT4uH1oL5uSByXNubIVG/rv1mHCMDHRYEpxfu2XgPeC7AW4JBFbRVMCu2M
+	 GGLUacUjgmAp1lXNYpY+nbLopGZ1wT5+hXIhgxIIUmJUDF512p4tuXw9Ux1TqHvx/m
+	 W4i356pj1VLTjLC7yUFxifgebsD1M7ecuB4iBuhWR96PVgkI8u0Oj/sTskZiIwbIB9
+	 EucGlZYKHSiaohoC0UJ2sJVqq6mfINT3MigtN0rr2KZ4S0/HHj+Vr63PosNTEFS0JA
+	 OSoBXfn1O6GWA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc: Jiri Kosina <jkosina@suse.com>,
+	=?UTF-8?q?Marcus=20R=C3=BCckert?= <darix@opensu.se>,
 	Sasha Levin <sashal@kernel.org>,
-	hadess@hadess.net,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 04/38] Input: goodix - accept ACPI resources with gpio_count == 3 && gpio_int_idx == 0
-Date: Wed,  7 Feb 2024 16:22:50 -0500
-Message-ID: <20240207212337.2351-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 09/38] HID: logitech-hidpp: add support for Logitech G Pro X Superlight 2
+Date: Wed,  7 Feb 2024 16:22:55 -0500
+Message-ID: <20240207212337.2351-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212337.2351-1-sashal@kernel.org>
 References: <20240207212337.2351-1-sashal@kernel.org>
@@ -61,55 +62,38 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.16
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Jiri Kosina <jkosina@suse.com>
 
-[ Upstream commit 180a8f12c21f41740fee09ca7f7aa98ff5bb99f8 ]
+[ Upstream commit afa6ac2690bb9904ff883c6e942281e1032a484d ]
 
-Some devices list 3 Gpio resources in the ACPI resource list for
-the touchscreen:
+Let logitech-hidpp driver claim Logitech G Pro X Superlight 2.
 
-1. GpioInt resource pointing to the GPIO used for the interrupt
-2. GpioIo resource pointing to the reset GPIO
-3. GpioIo resource pointing to the GPIO used for the interrupt
-
-Note how the third extra GpioIo resource really is a duplicate
-of the GpioInt provided info.
-
-Ignore this extra GPIO, treating this setup the same as gpio_count == 2 &&
-gpio_int_idx == 0 fixes the touchscreen not working on the Thunderbook
-Colossus W803 rugged tablet and likely also on the CyberBook_T116K.
-
-Reported-by: Maarten van der Schrieck
-Closes: https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/-/issues/22
-Suggested-by: Maarten van der Schrieck
-Tested-by: Maarten van der Schrieck
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20231223141650.10679-1-hdegoede@redhat.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Reported-by: Marcus Rückert <darix@opensu.se>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/goodix.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index af32fbe57b63..b068ff8afbc9 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -884,7 +884,8 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
- 		}
- 	}
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 7bf12ca0eb4a..4519ee377aa7 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4650,6 +4650,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
+ 	{ /* Logitech G Pro X Superlight Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
++	{ /* Logitech G Pro X Superlight 2 Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC09b) },
  
--	if (ts->gpio_count == 2 && ts->gpio_int_idx == 0) {
-+	/* Some devices with gpio_int_idx 0 list a third unused GPIO */
-+	if ((ts->gpio_count == 2 || ts->gpio_count == 3) && ts->gpio_int_idx == 0) {
- 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
- 		gpio_mapping = acpi_goodix_int_first_gpios;
- 	} else if (ts->gpio_count == 2 && ts->gpio_int_idx == 1) {
+ 	{ /* G935 Gaming Headset */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0x0a87),
 -- 
 2.43.0
 
