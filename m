@@ -1,134 +1,203 @@
-Return-Path: <linux-input+bounces-1720-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1721-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12B284C17F
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 01:47:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AA484C6ED
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 10:09:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71E61B22A06
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 00:47:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3AEC1F249DB
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 09:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4118146A0;
-	Wed,  7 Feb 2024 00:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8C3D208D3;
+	Wed,  7 Feb 2024 09:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HNYTVNEg"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="hxDASHby"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F99D27E
-	for <linux-input@vger.kernel.org>; Wed,  7 Feb 2024 00:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6320B12;
+	Wed,  7 Feb 2024 09:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707266857; cv=none; b=Zf7YwiXXIvGZNvYzXtnyQSippOeHUmUAXnMKV4quEC4RnUjx1XqzSl0w4t8XoZzdP5TKE0AoR8xPwy2y/6FDZgyTEKMvQiZoWmZWSyfNoTR5YroV7dZyPErx97HWQq3KEDrDtZD2ea+U7N8lAhUbtkBdTrjnuApIIXvkLZQ5frw=
+	t=1707296982; cv=none; b=gOtYhRKEZVN2/2jJXgCBt6QSgLHVtAQJx0B1KyVGA84hqVNGrjZRrkEZgfEsdptRC3dxdpnKU0wUuDaAKXYQQa5SXUeswae0CQOtOiITgxSCA6fgsBjmZSrsUnX0tWvSsgDd02Nys2Y7SrkO/CkExiXlRD63SCdYMzSJzpLR/Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707266857; c=relaxed/simple;
-	bh=94YzYXEp1uORbNJKyOyHBQcdMq3uI+6oMYHqyUH0Pr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aT9dmOhw+9wRWFqENgOrEy9iHUDe8k/fwZYMYL4VdUw2qbmH3qkFd/CPZQZr/lOvTi0gg6KXKQVAQ+V7BmnnTDbAsFMOCi94qWqgFAFZc4II832D1MsZEPZTHppEZDY6m1Z3wV0ha/kdXxU34oRlUXyHhzXhbA/Pl6wnQohdEJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HNYTVNEg; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-219108b8e9cso64810fac.2
-        for <linux-input@vger.kernel.org>; Tue, 06 Feb 2024 16:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707266854; x=1707871654; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MsEjXZX6xQ1bWIwsvoqizKiR6sGEHjxD6RK0x9ggrFA=;
-        b=HNYTVNEgT4ZuHIZ3oWg9ZPv3BTEV2T7bZjfSHQnXc/gBm5hkudNfQ+QAFXHCaFIbWQ
-         XKDENnHMXw8J8fqycvG1OgN97ZoZYHG+X3gOLalttnE01hbSK2GnrGXHKZh2mPWVgWel
-         gvIl3vf9f0AF8oM+xG04/nGT9hdHQXU75052E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707266854; x=1707871654;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MsEjXZX6xQ1bWIwsvoqizKiR6sGEHjxD6RK0x9ggrFA=;
-        b=nZT/2DramujoWhCiXM95frrjOA/qihZ1XIMDP/9Qt+wMqPNXcENlNWvL4R8EWE0mx1
-         A3sm3G61Iz2Gh9noXWWlzOO3vB1rIJtjFrxQ5b65aOr6p8Jqlol7Ed1R2Euo11bJrVf6
-         xKBmYrNgweD1QltvRCZNH2s3xd+F2p44TrUEGnR26BHbToLeuT0Vrd8AmnbAQcgF/xlr
-         YqkKrMt7svUrxQO6id64bHKu2Xu9TcJcC1j6B5ahdLxx2zEH+Gch4LiyBCEIG4U3/FDS
-         Xdw4PFQnimzwY9Bb+0aYjCsiKLjZBTBfHLp6zXpdlntvNd2T80fUnQix7NDIQ11bOj2D
-         VO3g==
-X-Gm-Message-State: AOJu0Yy7HfT26qe2lHONu9y8pY7NeHIJruglBM5WC+P3egv7LPwgD5f4
-	WU9GUoBogwXG3UGTPgFgBCdmRjQMkEOUWkTBI/HaSpOFev3uvBr2bfa4Qo8Nog==
-X-Google-Smtp-Source: AGHT+IF/rDLtdFbe55ST7w5PxhOZY1WnwU1GB1z9+jLCHlGHp+cCk8u5VLljSX0gXAK1NCzjyxykjg==
-X-Received: by 2002:a05:6870:63aa:b0:219:7a41:348e with SMTP id t42-20020a05687063aa00b002197a41348emr4463605oap.49.1707266854548;
-        Tue, 06 Feb 2024 16:47:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU5J6Rqtr0j/snrDML0dw3JTs5gZadpORkSlVTwggjDtf769sNKVDWmTOqdOsFxRp6P7WQG0YLTn6O5i5dzNWrbILeohCfOQSRx5UBp9SfiaGL20Y4O7XLWz/q1L1z33cQwM1JyphFLx4TXdtS86ftmffiBqG0xT8ZPzlSA
-Received: from [192.168.68.59] (076-186-130-074.res.spectrum.com. [76.186.130.74])
-        by smtp.gmail.com with ESMTPSA id dt37-20020a0568705aa500b002186e53f9a1sm49173oab.3.2024.02.06.16.47.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 16:47:33 -0800 (PST)
-Message-ID: <b186f4ab-42f4-47f5-ba83-81e7b38c8649@chromium.org>
-Date: Tue, 6 Feb 2024 18:47:32 -0600
+	s=arc-20240116; t=1707296982; c=relaxed/simple;
+	bh=beBlKUnQlMjIIycAlMHD9WeMz6PrzSQqI+kN25ySIK8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rZG+gXVPhq0KgImi8bWOkRlqZ52B1FjLsZvM2r1afuT3HKM9JpEtgDKN2aB3BFND0xJg4jEHj5pa7qBYigC50aQbZfOWPc5E4nn/KM7XvA879FS06p3zsp4rz3axpnkhjY9k4zvCTlgZbcimBFPZmgJk5AsvkdFUYXzEGGedXAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=hxDASHby; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1707296981; x=1738832981;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=beBlKUnQlMjIIycAlMHD9WeMz6PrzSQqI+kN25ySIK8=;
+  b=hxDASHbybRG3IN29HIn7CjcJw63QLjd0ABxX66grbNl0fh+hTC/aMAXY
+   AhotpiWlj37BElL4H0IFWKAawt+k3wUSf/vqWKYOUK8BIhiXJLY0JMMyK
+   I5RqdKVLqbk1xXpsvpqUFPnqMHbaRRkEPDJRVGbW/GYMC5icz2/uR65lX
+   HO0PvH+P5NJNllFYSCaF+MNtJTuiweZpWsE6E0/XUzX4piI5fLN5maZr5
+   HlB40FjDuiNOg2KbeOsQzuQQvqM685PPP5ztCSi5zz1TJbeUYeqCnHVCp
+   52PHGnZTvj7enoWppmVCpxEPKOcsDShvebeUp0Vo/ewePPOAWkDdcVVXu
+   g==;
+X-CSE-ConnectionGUID: eOi1+RARQkqo8bSeKgzAhg==
+X-CSE-MsgGUID: TsHSek2YRS+KrX5nlr7uxw==
+X-IronPort-AV: E=Sophos;i="6.05,250,1701154800"; 
+   d="scan'208";a="15882619"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 07 Feb 2024 02:09:39 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 7 Feb 2024 02:09:02 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 02:08:57 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+	<claudiu.beznea@tuxon.dev>, <dharma.b@microchip.com>,
+	<linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] dt-bindings: input: atmel,captouch: convert bindings to YAML
+Date: Wed, 7 Feb 2024 14:38:53 +0530
+Message-ID: <20240207090853.188400-1-dharma.b@microchip.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Requesting 3 patches for Apple Magic Keyboard 2021 to be merged
- to LTS kernels
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stable@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com,
- linux-input@vger.kernel.org
-References: <3b82d3d8-c0c3-49e1-ae68-966f02fe5429@chromium.org>
- <2024020217-immodest-reversion-407e@gregkh>
-From: Aseda Aboagye <aaboagye@chromium.org>
-In-Reply-To: <2024020217-immodest-reversion-407e@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+Convert the Atmel capacitive touchscreen bindings to YAML format.
 
-> On Fri, Feb 02, 2024 at 08:45:40PM -0600, Aseda Aboagye wrote:
->> Dear stable kernel maintainers,
->>
->> I am writing to request that 3 related patches be merged to various LTS kernels. I'm not sure if it would have
->> been preferable for me to send 3 separate emails, so please forgive me if I chose wrongly. (This is my first foray
->> into interacting with the kernel community) :)
->>
->> The patches are as follows:
->>
->>     1. 0cd3be51733f (HID: apple: Add support for the 2021 Magic Keyboard, 2021-10-08)
->>     2. 346338ef00d3 (HID: apple: Swap the Fn and Left Control keys on Apple keyboards, 2020-05-15)
->>     3. 531cb56972f2 (HID: apple: Add 2021 magic keyboard FN key mapping, 2021-11-08)
->>
->> These patches have all been merged to mainline, but I believe when they were submitted, backporting may not have been considered. The Apple Magic Keyboard 2021 (Model # A2450) seems to be a popular keyboard, and without these
->> patches, for users on certain LTS kernels that use this keyboard, the function keys do not behave as expected. e.g. Pressing the brightness down or brightness up key didn't work, and bizarrely pressing the globe/Fn key alone caused the brightness to decrease. None of the top row keys worked as expected.
->>
->> I checked to see where the patches were missing and figured that it would be good to have those patches in those
->> kernels.
->>
->> I would ask that patches 1 & 3 be merged to v4.19, v5.4, v5.10, and v5.15.
->> I would ask that patch 2 be merged to: v5.4 and v4.19.
->>
->> For patch 3 to apply cleanly, it needed patch 2 to be present in the tree.
-> 
-> I've done so now, but really, adding support for a keyboard that wasn't
-> even out when the kernel was released is odd, why not just use a newer
-> kernel version?  That's generally a good idea for all consumer devices,
-> use the latest stable kernel please.
-> 
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+---
+ .../bindings/input/atmel,captouch.txt         | 36 -----------
+ .../bindings/input/atmel,captouch.yaml        | 62 +++++++++++++++++++
+ 2 files changed, 62 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/atmel,captouch.txt
+ create mode 100644 Documentation/devicetree/bindings/input/atmel,captouch.yaml
 
-Thank you so much Greg! Yes, that would be the ideal, using a newer kernel. Our
-team is in the process of updating the kernel version for our devices, but it's
-a long process with many devices and hence wanting to get a fix in the interim.
-Our goal is to eventually continuously ship the latest stable kernel versions.
+diff --git a/Documentation/devicetree/bindings/input/atmel,captouch.txt b/Documentation/devicetree/bindings/input/atmel,captouch.txt
+deleted file mode 100644
+index fe9ee5c53bcc..000000000000
+--- a/Documentation/devicetree/bindings/input/atmel,captouch.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Device tree bindings for Atmel capacitive touch device, typically
+-an Atmel touch sensor connected to AtmegaXX MCU running firmware
+-based on Qtouch library.
+-
+-The node for this device must be a child of a I2C controller node, as the
+-device communicates via I2C.
+-
+-Required properties:
+-
+-	compatible:	Must be "atmel,captouch".
+-	reg:		The I2C slave address of the device.
+-	interrupts:	Property describing the interrupt line the device
+-			is connected to. The device only has one interrupt
+-			source.
+-	linux,keycodes:	Specifies an array of numeric keycode values to
+-			be used for reporting button presses. The array can
+-			contain up to 8 entries.
+-
+-Optional properties:
+-
+-	autorepeat:	Enables the Linux input system's autorepeat
+-			feature on the input device.
+-
+-Example:
+-
+-	atmel-captouch@51 {
+-		compatible = "atmel,captouch";
+-		reg = <0x51>;
+-		interrupt-parent = <&tlmm>;
+-		interrupts = <67 IRQ_TYPE_EDGE_FALLING>;
+-		linux,keycodes = <BTN_0>, <BTN_1>,
+-			<BTN_2>, <BTN_3>,
+-			<BTN_4>, <BTN_5>,
+-			<BTN_6>, <BTN_7>;
+-		autorepeat;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/atmel,captouch.yaml b/Documentation/devicetree/bindings/input/atmel,captouch.yaml
+new file mode 100644
+index 000000000000..5d5679896bc9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/atmel,captouch.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/atmel,captouch.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Atmel capacitive touch device
++
++maintainers:
++  - Dharma balasubiramani <dharma.b@microchip.com>
++
++description:
++  Atmel capacitive touch device, typically an Atmel touch sensor connected to
++  AtmegaXX MCU running firmware based on Qtouch library.
++
++allOf:
++  - $ref: input.yaml#
++
++properties:
++  compatible:
++    const: atmel,captouch
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  linux,keycodes:
++    minItems: 1
++    maxItems: 8
++
++  autorepeat:
++    type: boolean
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - linux,keycodes
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/input/linux-event-codes.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      atmel-captouch@51 {
++        compatible = "atmel,captouch";
++        reg = <0x51>;
++        interrupt-parent = <&tlmm>;
++        interrupts = <67 IRQ_TYPE_EDGE_FALLING>;
++        linux,keycodes = <BTN_0>, <BTN_1>,
++                         <BTN_2>, <BTN_3>,
++                         <BTN_4>, <BTN_5>,
++                         <BTN_6>, <BTN_7>;
++        autorepeat;
++      };
++    };
+-- 
+2.25.1
 
-Thanks,
-
---
-Aseda Aboagye
-
-> thanks,
-> 
-> greg k-h
-> 
 
