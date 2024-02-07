@@ -1,63 +1,60 @@
-Return-Path: <linux-input+bounces-1749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1750-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2843384D4E5
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:56:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DE84D512
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:59:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACDD12830D6
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:56:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 605101C24593
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD8B16E36F;
-	Wed,  7 Feb 2024 21:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0285A6BFB5;
+	Wed,  7 Feb 2024 21:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kxUXX8tX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zi5d/UT0"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65C5179A06;
-	Wed,  7 Feb 2024 21:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2856BFCA;
+	Wed,  7 Feb 2024 21:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341193; cv=none; b=teLYwaECbIhoNUbEnC/SkY28zxr07t1j3Z+tLRc00xBWGIGOFy8fTahsIyEENHSQYfhGMXIf3I10wtptvGZspIsdABCV+pEhOmtWlgMLZaXCHWIPDtDgEWJHTZcCALh9vkhH+Ap5sfa8bY8OnMf8HaU2xM7TcRtB0JuAeMbZQO8=
+	t=1707341215; cv=none; b=dpTEnSrUM7l5Dt4OIor//GDD7Easl/d1PpZVA9khroHziU0yZcWifSXKSd4ueuqK4oJezXvo6CjcTcZ1tEeUj0Hx+Cr/rPYFtQno8bEzWir2X33lInMNpFl5b636UuBNqjmLjoSppMuFHLyTVOgW8R2dl1FFAcKf9MAzyh9PZao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341193; c=relaxed/simple;
-	bh=R0dOcXmanYZWpCUfSoSQ5uZPRgUSkvXD7HI1oiHj4bM=;
+	s=arc-20240116; t=1707341215; c=relaxed/simple;
+	bh=5AfnTg+OU3W3j2LltrIgksiWO7cV1lN5s+AyZFDoXm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=az2Cvj3m9uZwK+ZlUwzKWRGLGV/Cbr6syb0qGfGWhdBAQW4n1NaiK3zzOfNDf/yfBCweZPmLWWkyOFnkdfmXfya05w95uGhud6TpqGpXhALlul9SoiFyl73S1y+TovKh6m6GFsSRBOIA/Fs8kwDErRV9KXH6TXCI0yAzcHZCh7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kxUXX8tX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CD6C433F1;
-	Wed,  7 Feb 2024 21:26:31 +0000 (UTC)
+	 MIME-Version; b=SJPPbHbQW2q6zBPczkEwtYlQm4bGhk4lqk2FJAuE8XM0fe+lrsVyyX2ORqszSumU8bd3Q2vSq/NfPkrUB8+cU3LVb7JDwEKgK/V/CZ18LAUwMSxLQudpc4UKovetgjRJ4m0PsGQFKl9azy8IEBIKBsXvyZgYkiKl+Y+IEywMDDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zi5d/UT0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1E6C433C7;
+	Wed,  7 Feb 2024 21:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341193;
-	bh=R0dOcXmanYZWpCUfSoSQ5uZPRgUSkvXD7HI1oiHj4bM=;
+	s=k20201202; t=1707341215;
+	bh=5AfnTg+OU3W3j2LltrIgksiWO7cV1lN5s+AyZFDoXm0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kxUXX8tXTC3vOC2C/Fk2FlgU49YqGu3E64D6B0elQQq/QhvKt+GTAX/CyHpu4zYek
-	 lByq7YZ/S8/SJfdON21hT9Mw3UOie69GjTao5EFE0RGra8jnn+ZgVnNCZDwYq+p3n5
-	 +jj7FWUr4IHNVcvNzsD7FpEN+ai+zs4xvRj9ZGR9UX3e6pcCIj6CY8lM2x8g19cGfg
-	 ce+5mdW7ksaru6mb2TRVK6DXp1scwZMp5njsW0fd0w1BLZQoXEPirlnfs+V+1Hj1pw
-	 kJNbnaW+1jlez4tMDTpEwtHR8ATY1qusW53ndmY+2vd5rHBE8L+RhAUzLmieyfP0Yg
-	 IeY3ANV0AL/nA==
+	b=Zi5d/UT0U9NRflzvVA1w136ezNMO21RFTECjOHv+r66sGL6opNoxsjE89MRluX585
+	 uIcxzl261kg39/rTXDt/tXH7AZUwQjiTl0BfThFM5Pk/zbHqlMmZd2hlUlHVfDeH8b
+	 +pfQYSOMEaIZA/w7OdentQDFNCfmI1mLjWwEkFPbdubj+ctNbhJxdMSWfsfc3DF90t
+	 mCqBMKb1Tt5mIc7vc0K9K4fD3c8lr6PI1P1OQjOHm5pcW0H6ETysqM3paHn5wOLvMB
+	 +PAjI3NgD59htYEHrafZIyI+M25630an+q5e/2qDuUE2RxmzG2aQEAeeBRR4CW7qWf
+	 HNaSoghCxuQ0g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Brenton Simpson <appsforartists@google.com>,
+Cc: Szilard Fabian <szfabian@bluemarch.art>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	vi@endrift.com,
-	swyterzone@gmail.com,
-	luca@z3ntu.xyz,
-	slouken@libsdl.org,
-	pgriffais@valvesoftware.com,
-	matthias_berndt@gmx.de,
-	christophe.jaillet@wanadoo.fr,
+	wse@tuxedocomputers.com,
+	jdenose@chromium.org,
+	hdegoede@redhat.com,
+	eshimanovich@chromium.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 11/23] Input: xpad - add Lenovo Legion Go controllers
-Date: Wed,  7 Feb 2024 16:25:52 -0500
-Message-ID: <20240207212611.3793-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 23/23] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
+Date: Wed,  7 Feb 2024 16:26:04 -0500
+Message-ID: <20240207212611.3793-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212611.3793-1-sashal@kernel.org>
 References: <20240207212611.3793-1-sashal@kernel.org>
@@ -72,67 +69,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.148
 Content-Transfer-Encoding: 8bit
 
-From: Brenton Simpson <appsforartists@google.com>
+From: Szilard Fabian <szfabian@bluemarch.art>
 
-[ Upstream commit 80441f76ee67002437db61f3b317ed80cce085d2 ]
+[ Upstream commit 4255447ad34c5c3785fcdcf76cfa0271d6e5ed39 ]
 
-The Lenovo Legion Go is a handheld gaming system, similar to a Steam Deck.
-It has a gamepad (including rear paddles), 3 gyroscopes, a trackpad,
-volume buttons, a power button, and 2 LED ring lights.
+Another Fujitsu-related patch.
 
-The Legion Go firmware presents these controls as a USB hub with various
-devices attached.  In its default state, the gamepad is presented as an
-Xbox controller connected to this hub.  (By holding a combination of
-buttons, it can be changed to use the older DirectInput API.)
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook U728
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-This patch teaches the existing Xbox controller module `xpad` to bind to
-the controller in the Legion Go, which enables support for the:
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:3092) not working at all.
 
-- directional pad,
-- analog sticks (including clicks),
-- X, Y, A, B,
-- start and select (or menu and capture),
-- shoulder buttons, and
-- rumble.
+So this notebook uses a hid-over-i2c touchpad which is managed by the
+i2c_designware input driver. Since you can't find a PS/2 mouse port on this
+computer and you can't connect a PS/2 mouse to it even with an official
+port replicator I think it's safe to not use the PS/2 mouse port at all.
 
-The trackpad, touchscreen, volume controls, and power button are already
-supported via existing kernel modules.  Two of the face buttons, the
-gyroscopes, rear paddles, and LEDs are not.
-
-After this patch lands, the Legion Go will be mostly functional in Linux,
-out-of-the-box.  The various components of the USB hub can be synthesized
-into a single logical controller (including the additional buttons) in
-userspace with [Handheld Daemon](https://github.com/hhd-dev/hhd), which
-makes the Go fully functional.
-
-Signed-off-by: Brenton Simpson <appsforartists@google.com>
-Link: https://lore.kernel.org/r/20240118183546.418064-1-appsforartists@google.com
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+Link: https://lore.kernel.org/r/20240103014717.127307-2-szfabian@bluemarch.art
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 1ff0d4e24fe6..f0b1dac93822 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -276,6 +276,7 @@ static const struct xpad_device {
- 	{ 0x1689, 0xfd00, "Razer Onza Tournament Edition", 0, XTYPE_XBOX360 },
- 	{ 0x1689, 0xfd01, "Razer Onza Classic Edition", 0, XTYPE_XBOX360 },
- 	{ 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-+	{ 0x17ef, 0x6182, "Lenovo Legion Controller for Windows", 0, XTYPE_XBOX360 },
- 	{ 0x1949, 0x041a, "Amazon Game Controller", 0, XTYPE_XBOX360 },
- 	{ 0x1bad, 0x0002, "Harmonix Rock Band Guitar", 0, XTYPE_XBOX360 },
- 	{ 0x1bad, 0x0003, "Harmonix Rock Band Drumkit", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
-@@ -464,6 +465,7 @@ static const struct usb_device_id xpad_table[] = {
- 	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark X-Box 360 controllers */
- 	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech X-Box 360 controllers */
- 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
-+	XPAD_XBOX360_VENDOR(0x17ef),		/* Lenovo */
- 	XPAD_XBOX360_VENDOR(0x1949),		/* Amazon controllers */
- 	XPAD_XBOX360_VENDOR(0x1bad),		/* Harminix Rock Band Guitar and Drums */
- 	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA Controllers */
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 6af38f53154b..37b87e05cf0b 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -625,6 +625,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
+ 	},
++	{
++		/* Fujitsu Lifebook U728 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK U728"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
++	},
+ 	{
+ 		/* Gigabyte M912 */
+ 		.matches = {
 -- 
 2.43.0
 
