@@ -1,58 +1,59 @@
-Return-Path: <linux-input+bounces-1737-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1738-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBA284D3C0
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:24:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3DA84D3CB
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:24:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3DD8DB27C8A
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:24:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE3091C2450F
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE3612FB09;
-	Wed,  7 Feb 2024 21:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B08B13473E;
+	Wed,  7 Feb 2024 21:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgnVeJYJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdxbtFSd"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2129C12F5B3;
-	Wed,  7 Feb 2024 21:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30703134756;
+	Wed,  7 Feb 2024 21:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707340919; cv=none; b=p7cONrbI+k1eg7y5PLrtMh1/QTyJlSTswYUXs3GBryuJkBUkgrGZbSiW0OOzqhmuHYpx/nOkrHHy4NvQP+nnIklgUrJr5QuAPU62EDR0kkTiCkdM4GWMeK7URRk6hlmMLptpV7yRcR+6C3KrUAKPQ4JC/nNri6W0N7r8XGNhgm4=
+	t=1707340926; cv=none; b=YUQdezb1pyANxi5E9kKDnxO9iIUBeMSLSilZBawTpxuZ6R7o91Igt98hZSd+EIKYYNm0UODV6WOXtfs3Zas7366upgpm5fpumU+hxtfKke28O+wDwtbgIRXg94sbVQ+Xhz5eChHSYjWna81IFw33AI+0bbAfeSM17ViGRqXwKJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707340919; c=relaxed/simple;
-	bh=T4dKGluWwNhVczRT6Xa4bYlNUXP1O8lVxoA6WzByoTw=;
+	s=arc-20240116; t=1707340926; c=relaxed/simple;
+	bh=9Zyv7aOpFhgsO+LRJJsTsVa+9Ob+CYBv/nEn7bNmvXU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UmWIn7KSDJ+l4yLl5o7EMqV9vGMyuBjxmlOyxYMtxt91xw3aa5n+RUscue0rvgiTpImaAvlmfJBb6RFf/3DDD5Rg+GmeZM5znWhWx/3FX0/J+gquJfmz63C8zWMYw8zKOao6x2M0cPVwGDt9i5tEO3QEYziXoLbRYsjc7bgOHU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgnVeJYJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF55C43394;
-	Wed,  7 Feb 2024 21:21:57 +0000 (UTC)
+	 MIME-Version; b=ZPFTKLfYws+IRPo7CFOs53JM5bem8B0p3Dn9RWD/N+rVE53dbYm8AICEesVFiZupCowVlJ1a8qZutdVwUjfkDT/c190Kygo7cSVysdbIxZm5BEIsa82i7lUT9e2OYQXsRNCzo1QUXCVqOYxswDhpG4lvVLszBgBX2d5cCnsipZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdxbtFSd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD205C43394;
+	Wed,  7 Feb 2024 21:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707340919;
-	bh=T4dKGluWwNhVczRT6Xa4bYlNUXP1O8lVxoA6WzByoTw=;
+	s=k20201202; t=1707340926;
+	bh=9Zyv7aOpFhgsO+LRJJsTsVa+9Ob+CYBv/nEn7bNmvXU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EgnVeJYJhVh9FBY7IBFt70pILKFr1aCutoTrM43EeolfoYR6+rEgBdCJ1GZ6IbtfA
-	 UDw+JULdq3sGkiSUCxzi+Zz4wIRXbqkXoa/mIjJv1FaoOgk+SOmRv2o7wVJZkpkFjP
-	 RmpH51IK04W6XU9iL6Vr+RSq9a5pgPX+WDHMazGrsCCou1TaJwVoSwDcm8WPKmHqdO
-	 Eqa0PIShMSrqdolGqdvqLJ/EHe5j24oIK8NyV0AERP+XluGQcMJwLU0N20xN+Sk1YB
-	 jLbaHNrQhO3S/+0oGn3Fvrj9RID5nCIa1aerzBxmaRpx5xL/HHGvFeyLUe9t8rvUru
-	 0lo0G4K+PtPmQ==
+	b=SdxbtFSdqmeg4dGY+/Ori5W9eRJrSZCWy443PrQWIbRalnIsakydPFNJkS7P2Sg+/
+	 3W2qmIKz4HNmWdUojN5NSxLPHav+3wq8mGNdR3S7x6bdWwK7WqGO5AwVs2OrmvCqiz
+	 k1tHdH34r1LSRjBq19bagMhktYxxWRWSULK2IPfQEcq+cr62aXhVvu5gRMSVj6yzf+
+	 yJnxa+7FtZoy+3X/l8Wbikz4rMPbJesf4pnPkNShwQUOpJoxXAznTmkn+Kpy7nNj71
+	 mpwNamWXXTAEi0HlpbpC4HTGRiKEqG44S4H3RDQdPOOgBqvwi/BhBPAUt/B9b9j282
+	 1zLh2vNbt4wig==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jiri Kosina <jkosina@suse.com>,
-	=?UTF-8?q?Marcus=20R=C3=BCckert?= <darix@opensu.se>,
+Cc: Kunwu Chan <chentao@kylinos.cn>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 09/44] HID: logitech-hidpp: add support for Logitech G Pro X Superlight 2
-Date: Wed,  7 Feb 2024 16:20:36 -0500
-Message-ID: <20240207212142.1399-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 12/44] HID: nvidia-shield: Add missing null pointer checks to LED initialization
+Date: Wed,  7 Feb 2024 16:20:39 -0500
+Message-ID: <20240207212142.1399-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
 References: <20240207212142.1399-1-sashal@kernel.org>
@@ -62,38 +63,50 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
 
-From: Jiri Kosina <jkosina@suse.com>
+From: Kunwu Chan <chentao@kylinos.cn>
 
-[ Upstream commit afa6ac2690bb9904ff883c6e942281e1032a484d ]
+[ Upstream commit b6eda11c44dc89a681e1c105f0f4660e69b1e183 ]
 
-Let logitech-hidpp driver claim Logitech G Pro X Superlight 2.
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.
 
-Reported-by: Marcus Rückert <darix@opensu.se>
+[jkosina@suse.com: tweak changelog a bit]
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/hid-nvidia-shield.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index fd6d8f1d9b8f..6ef0c88e3e60 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4610,6 +4610,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
- 	{ /* Logitech G Pro X Superlight Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
-+	{ /* Logitech G Pro X Superlight 2 Gaming Mouse over USB */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC09b) },
+diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shield.c
+index 82d0a77359c4..58b15750dbb0 100644
+--- a/drivers/hid/hid-nvidia-shield.c
++++ b/drivers/hid/hid-nvidia-shield.c
+@@ -800,6 +800,8 @@ static inline int thunderstrike_led_create(struct thunderstrike *ts)
  
- 	{ /* G935 Gaming Headset */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0x0a87),
+ 	led->name = devm_kasprintf(&ts->base.hdev->dev, GFP_KERNEL,
+ 				   "thunderstrike%d:blue:led", ts->id);
++	if (!led->name)
++		return -ENOMEM;
+ 	led->max_brightness = 1;
+ 	led->flags = LED_CORE_SUSPENDRESUME | LED_RETAIN_AT_SHUTDOWN;
+ 	led->brightness_get = &thunderstrike_led_get_brightness;
+@@ -831,6 +833,8 @@ static inline int thunderstrike_psy_create(struct shield_device *shield_dev)
+ 	shield_dev->battery_dev.desc.name =
+ 		devm_kasprintf(&ts->base.hdev->dev, GFP_KERNEL,
+ 			       "thunderstrike_%d", ts->id);
++	if (!shield_dev->battery_dev.desc.name)
++		return -ENOMEM;
+ 
+ 	shield_dev->battery_dev.psy = power_supply_register(
+ 		&hdev->dev, &shield_dev->battery_dev.desc, &psy_cfg);
 -- 
 2.43.0
 
