@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-1750-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1751-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DE84D512
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:59:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CF084D53B
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 23:03:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 605101C24593
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:59:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AA341C24CF4
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0285A6BFB5;
-	Wed,  7 Feb 2024 21:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43143143D5F;
+	Wed,  7 Feb 2024 21:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zi5d/UT0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djkdWuRS"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2856BFCA;
-	Wed,  7 Feb 2024 21:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1757C143D5B;
+	Wed,  7 Feb 2024 21:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341215; cv=none; b=dpTEnSrUM7l5Dt4OIor//GDD7Easl/d1PpZVA9khroHziU0yZcWifSXKSd4ueuqK4oJezXvo6CjcTcZ1tEeUj0Hx+Cr/rPYFtQno8bEzWir2X33lInMNpFl5b636UuBNqjmLjoSppMuFHLyTVOgW8R2dl1FFAcKf9MAzyh9PZao=
+	t=1707341251; cv=none; b=qhEoQw5PR1xCZRF/gWSzhf7Y1s4Bmn4+eZRyYAlEwnz+ws2I6ogZ84PItOuFKTA2NaxHA7/XJqVsju8H58+pUlh2OEwTYvwk0Gg59TMDdWwuZsepW+9FYTYwErPhbTruSggecxq2QQY/CHFpZ4IM0wvmBMvh47bGFAUCdHxFn9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341215; c=relaxed/simple;
-	bh=5AfnTg+OU3W3j2LltrIgksiWO7cV1lN5s+AyZFDoXm0=;
+	s=arc-20240116; t=1707341251; c=relaxed/simple;
+	bh=0Qidyr6PAaPq2GIi6iWq9ZPaWPYuC2K6/1r4CFQQdsg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SJPPbHbQW2q6zBPczkEwtYlQm4bGhk4lqk2FJAuE8XM0fe+lrsVyyX2ORqszSumU8bd3Q2vSq/NfPkrUB8+cU3LVb7JDwEKgK/V/CZ18LAUwMSxLQudpc4UKovetgjRJ4m0PsGQFKl9azy8IEBIKBsXvyZgYkiKl+Y+IEywMDDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zi5d/UT0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1E6C433C7;
-	Wed,  7 Feb 2024 21:26:54 +0000 (UTC)
+	 MIME-Version; b=jhCg5HT3OTNquHZaFSEGtEDXOkijA5bvGIRxfOwBg8o3+bf9fUr6NGiZiKm3vCXd+2hKJAjIubbQf4GXoOiulnhF5pw26E24FD+Udyx+L37TiTuN3PNqovqD8CNZGv6hLopEzx6gwoG60hK5Yi1TP3u0iHwaLrkRoyrBqy1r2L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djkdWuRS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2160C433C7;
+	Wed,  7 Feb 2024 21:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341215;
-	bh=5AfnTg+OU3W3j2LltrIgksiWO7cV1lN5s+AyZFDoXm0=;
+	s=k20201202; t=1707341250;
+	bh=0Qidyr6PAaPq2GIi6iWq9ZPaWPYuC2K6/1r4CFQQdsg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zi5d/UT0U9NRflzvVA1w136ezNMO21RFTECjOHv+r66sGL6opNoxsjE89MRluX585
-	 uIcxzl261kg39/rTXDt/tXH7AZUwQjiTl0BfThFM5Pk/zbHqlMmZd2hlUlHVfDeH8b
-	 +pfQYSOMEaIZA/w7OdentQDFNCfmI1mLjWwEkFPbdubj+ctNbhJxdMSWfsfc3DF90t
-	 mCqBMKb1Tt5mIc7vc0K9K4fD3c8lr6PI1P1OQjOHm5pcW0H6ETysqM3paHn5wOLvMB
-	 +PAjI3NgD59htYEHrafZIyI+M25630an+q5e/2qDuUE2RxmzG2aQEAeeBRR4CW7qWf
-	 HNaSoghCxuQ0g==
+	b=djkdWuRSQ4gho/Hm3VnxCvz+YU8u/H5xDC4CLDHJhUkOtvIlJ0SPvgH+SXG5ZtYT9
+	 phiQ9YqJEBW9l3EMgiN6SPgsqxaF4vI1XQkRF6jZx2IKpq/WBsEjpwABqK+riv1LyR
+	 Uf/N4EXVT2XCdcoPI1xVfOfG8/MiuNxXiqS1Q3PoWUBVOZLKKi1djDwh5aQZ2LdbMh
+	 ctCfHCe2maseSzFtwx8M9soM7o7umFjuZsF3HXXkthSsjpRF6tabqDNewkq0FttV2B
+	 KSjmcgqiyDMOCuIAtrFhmbt+JXP24vSsoslqef2ecuswwmny7s7yA53Gy4oqnBKf3L
+	 2Ok3YX25pCadg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -48,16 +48,15 @@ Cc: Szilard Fabian <szfabian@bluemarch.art>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	wse@tuxedocomputers.com,
-	jdenose@chromium.org,
-	hdegoede@redhat.com,
 	eshimanovich@chromium.org,
+	jdenose@chromium.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 23/23] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
-Date: Wed,  7 Feb 2024 16:26:04 -0500
-Message-ID: <20240207212611.3793-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 16/16] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
+Date: Wed,  7 Feb 2024 16:26:56 -0500
+Message-ID: <20240207212700.4287-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212611.3793-1-sashal@kernel.org>
-References: <20240207212611.3793-1-sashal@kernel.org>
+In-Reply-To: <20240207212700.4287-1-sashal@kernel.org>
+References: <20240207212700.4287-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,7 +65,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.148
+X-stable-base: Linux 5.10.209
 Content-Transfer-Encoding: 8bit
 
 From: Szilard Fabian <szfabian@bluemarch.art>
@@ -98,7 +97,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 6af38f53154b..37b87e05cf0b 100644
+index 124ab98ea43a..816711771ffd 100644
 --- a/drivers/input/serio/i8042-acpipnpio.h
 +++ b/drivers/input/serio/i8042-acpipnpio.h
 @@ -625,6 +625,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
