@@ -1,57 +1,62 @@
-Return-Path: <linux-input+bounces-1746-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1747-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521EB84D487
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:46:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464CA84D49D
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:49:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E42228605C
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:46:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7146B1C218FE
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D117815530A;
-	Wed,  7 Feb 2024 21:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCDE9158352;
+	Wed,  7 Feb 2024 21:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0RuEvnX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ib7KbE5m"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8450155302;
-	Wed,  7 Feb 2024 21:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA0A15834C;
+	Wed,  7 Feb 2024 21:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341112; cv=none; b=UGA2OBykArttq3PYqtqtYOaUOMoXpOGTT2TkkxsKAkJtN+WhGX/RiItuqKMggUgssGeVgdJbgoUCxVxYGT2S16r+j6P560Op4vK/qDBKTbP0dq0qvC6OBZiakAlw4CWyyTUnKv42aWljfEGmJZEpajH6GKSLjp20y23Y39+5mz4=
+	t=1707341131; cv=none; b=exrR8pKHzGQ22Teo2CS7Aefi8fyYmgovFDqyeRznyx6vndaTsML7bn0CfjcKSxe12N4gcuHShTjR/JRFLYKe/2sn7Zb/fbTdHToOCq9GC++kGJOIrY5YthkLXbCQhRz7iwY6sxq1AJd8ikIhoW6zb6hjGCvZnongz2DcvhBRUYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341112; c=relaxed/simple;
-	bh=HxzqeR34vWKyBCxMv6Ub7CmvMT1sXq3Y15wW9tH7EGY=;
+	s=arc-20240116; t=1707341131; c=relaxed/simple;
+	bh=G7iCaHlA7Oz0rW1vGnMZr5iEOwhTncPPYDCbXFk5Rio=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aS6tvXCRb6uawZYuvyMm+IfGqVtUYCKyMDsyiBv9cP0Hgm3Bv7uKcLWhgYJXjTdmQcvOMCQiurdTj5u/R+dMUNV8W3VJe5FjS9uAVBAwWnxK91rPfJVN76dzyhCW6aTQ2dE5HsXzHp994smeNLGe3grmtH4lEz5V8MLmBAQXCvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0RuEvnX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9078CC433C7;
-	Wed,  7 Feb 2024 21:25:11 +0000 (UTC)
+	 MIME-Version; b=G0BmZDazPnmjJSA1WTQuR3HKa0THG2mz6FDLCfzxVyKj4jnm+rzLR2rEb+6qA3d0/iyUZ9lkxoudNqmDFlo148jjFSJcQRFhD7Y3GXLvB4rRsCz95SGtVTZAEVgWa0Oq13OLnt3GJ883ygQIEF8jJMDFsCn9n0iRv50SXuwceMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ib7KbE5m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB04C433C7;
+	Wed,  7 Feb 2024 21:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341112;
-	bh=HxzqeR34vWKyBCxMv6Ub7CmvMT1sXq3Y15wW9tH7EGY=;
+	s=k20201202; t=1707341131;
+	bh=G7iCaHlA7Oz0rW1vGnMZr5iEOwhTncPPYDCbXFk5Rio=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H0RuEvnXTExRkjO/dAO6bVRmxqbEcr31KufCb4eCxWqy7pgb/bxsP8flc98jUUdoe
-	 KasOagCNgL/5Otu8ehNMgv9kVSDzudPsHIIz2opPZCSNW73PihwWcOKGD2o4981fi6
-	 X/Zi2Kl/DZlwWLI0e5wUXDbse/QaYqVoakJ6z08M5NUXGXdGl7KbsKlS9hLVd/CR3j
-	 9qUSDe57mz+HFOSzkuoseYcPRX+DeWgcdVaWqokcc+OeHTfkDXqXAvHOv3fSaeIFUD
-	 /pQlV0SfE1ero2sjJWie3VjC9OUuDgVzcebIhSLoO0UBeRNR4iox5NUdX56iH6mlBQ
-	 qgPuZVCRoT/aQ==
+	b=ib7KbE5meQB7RM8XnjQksCUq4lvhgFl4Kcp+cdyHNE3Q1Egkf1XnOUddUBCskmWoq
+	 lSccnDMoguffVioDqSaIDb7Vyzac3Kn1zKbuPtSrri2TWZrDHJ2ic0Yf9QdIOzt/uA
+	 zruF5hMabkXAYCTRRrE8ysrGYwvH4NZJGUTnkk+Xwoz5c/OBYx+kezkCCU4skOumml
+	 0X9kU+XuZRVvh28kTHXlbt6ZgLshnCyT36ae8/xP9VpcXaqK/Oc28IN6jqaFlLr20n
+	 cre71Oigbi5j09mnnAjURsa+j5lMYtSZyA5vtlaBZ80hhGYy8ELhq9Bz9B+BFlWWXJ
+	 D0Shhxl+SEVnw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
+Cc: Brenton Simpson <appsforartists@google.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	hadess@hadess.net,
+	vi@endrift.com,
+	swyterzone@gmail.com,
+	aicommander@gmail.com,
+	luca@z3ntu.xyz,
+	pgriffais@valvesoftware.com,
+	doublej472@gmail.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 04/29] Input: goodix - accept ACPI resources with gpio_count == 3 && gpio_int_idx == 0
-Date: Wed,  7 Feb 2024 16:24:29 -0500
-Message-ID: <20240207212505.3169-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 13/29] Input: xpad - add Lenovo Legion Go controllers
+Date: Wed,  7 Feb 2024 16:24:38 -0500
+Message-ID: <20240207212505.3169-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
 References: <20240207212505.3169-1-sashal@kernel.org>
@@ -66,50 +71,67 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Brenton Simpson <appsforartists@google.com>
 
-[ Upstream commit 180a8f12c21f41740fee09ca7f7aa98ff5bb99f8 ]
+[ Upstream commit 80441f76ee67002437db61f3b317ed80cce085d2 ]
 
-Some devices list 3 Gpio resources in the ACPI resource list for
-the touchscreen:
+The Lenovo Legion Go is a handheld gaming system, similar to a Steam Deck.
+It has a gamepad (including rear paddles), 3 gyroscopes, a trackpad,
+volume buttons, a power button, and 2 LED ring lights.
 
-1. GpioInt resource pointing to the GPIO used for the interrupt
-2. GpioIo resource pointing to the reset GPIO
-3. GpioIo resource pointing to the GPIO used for the interrupt
+The Legion Go firmware presents these controls as a USB hub with various
+devices attached.  In its default state, the gamepad is presented as an
+Xbox controller connected to this hub.  (By holding a combination of
+buttons, it can be changed to use the older DirectInput API.)
 
-Note how the third extra GpioIo resource really is a duplicate
-of the GpioInt provided info.
+This patch teaches the existing Xbox controller module `xpad` to bind to
+the controller in the Legion Go, which enables support for the:
 
-Ignore this extra GPIO, treating this setup the same as gpio_count == 2 &&
-gpio_int_idx == 0 fixes the touchscreen not working on the Thunderbook
-Colossus W803 rugged tablet and likely also on the CyberBook_T116K.
+- directional pad,
+- analog sticks (including clicks),
+- X, Y, A, B,
+- start and select (or menu and capture),
+- shoulder buttons, and
+- rumble.
 
-Reported-by: Maarten van der Schrieck
-Closes: https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/-/issues/22
-Suggested-by: Maarten van der Schrieck
-Tested-by: Maarten van der Schrieck
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20231223141650.10679-1-hdegoede@redhat.com
+The trackpad, touchscreen, volume controls, and power button are already
+supported via existing kernel modules.  Two of the face buttons, the
+gyroscopes, rear paddles, and LEDs are not.
+
+After this patch lands, the Legion Go will be mostly functional in Linux,
+out-of-the-box.  The various components of the USB hub can be synthesized
+into a single logical controller (including the additional buttons) in
+userspace with [Handheld Daemon](https://github.com/hhd-dev/hhd), which
+makes the Go fully functional.
+
+Signed-off-by: Brenton Simpson <appsforartists@google.com>
+Link: https://lore.kernel.org/r/20240118183546.418064-1-appsforartists@google.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/goodix.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index 3f0732db7bf5..6de64b3f900f 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -884,7 +884,8 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
- 		}
- 	}
- 
--	if (ts->gpio_count == 2 && ts->gpio_int_idx == 0) {
-+	/* Some devices with gpio_int_idx 0 list a third unused GPIO */
-+	if ((ts->gpio_count == 2 || ts->gpio_count == 3) && ts->gpio_int_idx == 0) {
- 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
- 		gpio_mapping = acpi_goodix_int_first_gpios;
- 	} else if (ts->gpio_count == 2 && ts->gpio_int_idx == 1) {
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index e8011d70d079..02f3bc4e4895 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -294,6 +294,7 @@ static const struct xpad_device {
+ 	{ 0x1689, 0xfd00, "Razer Onza Tournament Edition", 0, XTYPE_XBOX360 },
+ 	{ 0x1689, 0xfd01, "Razer Onza Classic Edition", 0, XTYPE_XBOX360 },
+ 	{ 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
++	{ 0x17ef, 0x6182, "Lenovo Legion Controller for Windows", 0, XTYPE_XBOX360 },
+ 	{ 0x1949, 0x041a, "Amazon Game Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0002, "Harmonix Rock Band Guitar", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0003, "Harmonix Rock Band Drumkit", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
+@@ -489,6 +490,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
++	XPAD_XBOX360_VENDOR(0x17ef),		/* Lenovo */
+ 	XPAD_XBOX360_VENDOR(0x1949),		/* Amazon controllers */
+ 	XPAD_XBOX360_VENDOR(0x1bad),		/* Harminix Rock Band Guitar and Drums */
+ 	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA Controllers */
 -- 
 2.43.0
 
