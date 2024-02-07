@@ -1,63 +1,60 @@
-Return-Path: <linux-input+bounces-1740-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1741-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEF184D41D
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:35:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D5984D429
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 22:36:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD267281B7E
-	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:35:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889141F22A0F
+	for <lists+linux-input@lfdr.de>; Wed,  7 Feb 2024 21:36:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA91140768;
-	Wed,  7 Feb 2024 21:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F93F1420C9;
+	Wed,  7 Feb 2024 21:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+3jayCy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBp+Vm2i"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89F613DBB0;
-	Wed,  7 Feb 2024 21:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041C51420C2;
+	Wed,  7 Feb 2024 21:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341004; cv=none; b=gmmcjuVh8HqDtFjk+Xa5usZc/BEyX4XIz+pprhVNgc7AEr8Kt+r0fAVFGnzdRKmOGZV5kCqNTN8LXc1AtayA3+b1hblcuYazlKi2SFoMFqjYJ0wTYZw/TZPfQlZ2RFEk+ZeMcbE2uoXGckuXTqZLmMy7Y0l17JrUYhVFqUeKWsA=
+	t=1707341025; cv=none; b=HPbuSra10YycwKHnjTfutaGq3iKcET+uJyhM8pjuyn6Th6Ogkywj4dc2NEzA7xi3zAcwxOEgUvEHXfcBEnoXzTQdpmrWO4TuVmTf5BUZNvq75TFNt+8kP6AvfielDw5Cwj5JbNx5XPdRkk7ApmC75fq3YI5LV0ab7NmMyZfIesk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341004; c=relaxed/simple;
-	bh=7evh+XqFxwvu7R9U2lsnxI8rZrzANHrt6c8aSq0JI28=;
+	s=arc-20240116; t=1707341025; c=relaxed/simple;
+	bh=4riSpvDKPsuPfk6rX8NTI0xammA7of+/B6rJJfgnT8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ScXM8WDpOzQqXU0KaOORd8P1BLJtGkyWaIM3slQaG7jNMYzZ7UVaIXzV1c5RdzmprI3qqPCncJbOt7QuBPd86qwThDxGzwmnJYr5P6xdRgLDCLHdK7kT18rWAY1q6IWGlEjS34Ssxc5IfaXJ0FOnWWQSA0eeTAh8f70D6UR4cSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+3jayCy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8925BC43399;
-	Wed,  7 Feb 2024 21:23:22 +0000 (UTC)
+	 MIME-Version; b=LADNx2o7zPq/zCujwZOjYklaIPQvAFWns1W+gF6uRbxN06JYTKoDMfjLbjSnsQN9al2dn8krLV53jGFX9YAeQ8//gPcPs3SREsrxAD2xiVYvDZWsI6jMnj2b3v2zxvLlog7sOqF/uNiJBwCOH4GczFDQU+jqgiEu+obz4MprlpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBp+Vm2i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE13AC43390;
+	Wed,  7 Feb 2024 21:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341003;
-	bh=7evh+XqFxwvu7R9U2lsnxI8rZrzANHrt6c8aSq0JI28=;
+	s=k20201202; t=1707341024;
+	bh=4riSpvDKPsuPfk6rX8NTI0xammA7of+/B6rJJfgnT8A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=T+3jayCyYwKnpYq8BzQN9D4QeDabWQigEX61XMDuMFjDgHFloUQLc9zKSXoCNbhPn
-	 nmI3dM2TSXZOtefWRa2WkTO48H+d2EID4oSN9ZhLTRELY/NVzbM1KpquqqFfGhzLul
-	 EwwXwCU9b4BUtmQay1bDzWanwwkXx8OA5lpDixHfKjH5Fra93f0y3pt0LAK/TT+UCl
-	 sPI/hJc4+1UJq8oCUHWrvuhOEFzBRxbEdpAmbY2Mbf0Zr5dgwo6k4YclzQqrC7GAjO
-	 GFoSmdMOqHgA12G08wxTP4k7LOuimUeN0g+vYisHCyyCxTSFqKpHWBfkB8K3F/gMaA
-	 mzZnVfjZApghw==
+	b=eBp+Vm2ic6ymobnT1qzYDJP1FXHnu/ipx9vZxHcHs9JoZQtunfi5eV5jHArn3/g/Z
+	 tQz4YIsSIW5GR8fWx5LeXs6QpZAA6qdw0LQnpGtztJKP6Y20BWtLZ2Bv/nm4cWHjQ0
+	 vzArlrwDRc1Tz4IGAXDkxM2NRbLPwm5jolPa2E8x5UpC+0Fx5cHZr5RFxuscJI4pic
+	 bt88JR3Iaw9kDIzR/z/H2kOa7UlJBT/EtCStCZZHmNuw9JGTD3jNd6UosnGGhGQHJx
+	 6B1euObAhU4YcvECLzfSMP9JCcKuwCOPDQmCii+i8t/e1LzyNrLA+q+8vrbgCwZvkm
+	 C2pRfaYu1MpgA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Szilard Fabian <szfabian@bluemarch.art>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	wse@tuxedocomputers.com,
-	hdegoede@redhat.com,
-	eshimanovich@chromium.org,
-	jdenose@chromium.org,
+	hadess@hadess.net,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 44/44] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
-Date: Wed,  7 Feb 2024 16:21:11 -0500
-Message-ID: <20240207212142.1399-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 04/38] Input: goodix - accept ACPI resources with gpio_count == 3 && gpio_int_idx == 0
+Date: Wed,  7 Feb 2024 16:22:50 -0500
+Message-ID: <20240207212337.2351-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
-References: <20240207212142.1399-1-sashal@kernel.org>
+In-Reply-To: <20240207212337.2351-1-sashal@kernel.org>
+References: <20240207212337.2351-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -66,56 +63,53 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.4
+X-stable-base: Linux 6.6.16
 Content-Transfer-Encoding: 8bit
 
-From: Szilard Fabian <szfabian@bluemarch.art>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 4255447ad34c5c3785fcdcf76cfa0271d6e5ed39 ]
+[ Upstream commit 180a8f12c21f41740fee09ca7f7aa98ff5bb99f8 ]
 
-Another Fujitsu-related patch.
+Some devices list 3 Gpio resources in the ACPI resource list for
+the touchscreen:
 
-In the initial boot stage the integrated keyboard of Fujitsu Lifebook U728
-refuses to work and it's not possible to type for example a dm-crypt
-passphrase without the help of an external keyboard.
+1. GpioInt resource pointing to the GPIO used for the interrupt
+2. GpioIo resource pointing to the reset GPIO
+3. GpioIo resource pointing to the GPIO used for the interrupt
 
-i8042.nomux kernel parameter resolves this issue but using that a PS/2
-mouse is detected. This input device is unused even when the i2c-hid-acpi
-kernel module is blacklisted making the integrated ELAN touchpad
-(04F3:3092) not working at all.
+Note how the third extra GpioIo resource really is a duplicate
+of the GpioInt provided info.
 
-So this notebook uses a hid-over-i2c touchpad which is managed by the
-i2c_designware input driver. Since you can't find a PS/2 mouse port on this
-computer and you can't connect a PS/2 mouse to it even with an official
-port replicator I think it's safe to not use the PS/2 mouse port at all.
+Ignore this extra GPIO, treating this setup the same as gpio_count == 2 &&
+gpio_int_idx == 0 fixes the touchscreen not working on the Thunderbook
+Colossus W803 rugged tablet and likely also on the CyberBook_T116K.
 
-Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
-Link: https://lore.kernel.org/r/20240103014717.127307-2-szfabian@bluemarch.art
+Reported-by: Maarten van der Schrieck
+Closes: https://gitlab.com/AdyaAdya/goodix-touchscreen-linux-driver/-/issues/22
+Suggested-by: Maarten van der Schrieck
+Tested-by: Maarten van der Schrieck
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/r/20231223141650.10679-1-hdegoede@redhat.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/input/touchscreen/goodix.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index b585b1dab870..2fd056ebce1c 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -634,6 +634,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
- 	},
-+	{
-+		/* Fujitsu Lifebook U728 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK U728"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
-+	},
- 	{
- 		/* Gigabyte M912 */
- 		.matches = {
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index af32fbe57b63..b068ff8afbc9 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -884,7 +884,8 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+ 		}
+ 	}
+ 
+-	if (ts->gpio_count == 2 && ts->gpio_int_idx == 0) {
++	/* Some devices with gpio_int_idx 0 list a third unused GPIO */
++	if ((ts->gpio_count == 2 || ts->gpio_count == 3) && ts->gpio_int_idx == 0) {
+ 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
+ 		gpio_mapping = acpi_goodix_int_first_gpios;
+ 	} else if (ts->gpio_count == 2 && ts->gpio_int_idx == 1) {
 -- 
 2.43.0
 
