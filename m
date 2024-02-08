@@ -1,109 +1,129 @@
-Return-Path: <linux-input+bounces-1764-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1765-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15A984E1C6
-	for <lists+linux-input@lfdr.de>; Thu,  8 Feb 2024 14:19:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0013284E738
+	for <lists+linux-input@lfdr.de>; Thu,  8 Feb 2024 18:59:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 902DC1F24FE9
-	for <lists+linux-input@lfdr.de>; Thu,  8 Feb 2024 13:19:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC4BBB27301
+	for <lists+linux-input@lfdr.de>; Thu,  8 Feb 2024 17:58:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5739A7A738;
-	Thu,  8 Feb 2024 13:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D5D7CF15;
+	Thu,  8 Feb 2024 17:58:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1uy3JXG"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="A8vOG/KP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D907A731;
-	Thu,  8 Feb 2024 13:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950D37EF19
+	for <linux-input@vger.kernel.org>; Thu,  8 Feb 2024 17:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707397906; cv=none; b=ZRWdJGFCPOPb5ngyqqQiUDs82FLlMCqB4+HdS/PABnzcIKblKs68+qSJOxdPolmTz9Yxla3LUfhysXdwmoZC44ZpryobAm+IMiNalMEwDDteRdFqKQoCqtSsGYUgQezEIHVjWJUTO7VPAEzGUyR6OWwDcYn1JuVNKQGMKOyreiM=
+	t=1707415091; cv=none; b=MBsuhGikpPFD4mCcvi6v1TIKlAqeDWNsRMarXTzXDTDb+YM0EMKQASDSxkAZhTB92v2S3RwgBd4bDn1ZerC97sy6Lv0sZr9HoY9BdXrCLcRtisbgMDsiZA2mvpufvxBPgNmuuAQRU9tzOfjgTBRG5Rn+YYf/hT5LoI5UL+tLsu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707397906; c=relaxed/simple;
-	bh=ThWFfCJ1mJMM96s44EJj+q1fZqPrQBxpeMUzuQEICXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lw68qDnnHazAMtMI8yi2/h9I/u54jldyeGgH75dCEZG5b7cY2XCMf/YCCWdhhKtYYV1R9LDdiLdu+svAo/827jUDZfICeQ5XnNLSM+d8I6PE0JW3EaBQOTafXEg09edohHjtNQpPw1Lnr8mwvYzG8rcHfF2ZrnbamxQg9IOT1xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1uy3JXG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E532C433F1;
-	Thu,  8 Feb 2024 13:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707397905;
-	bh=ThWFfCJ1mJMM96s44EJj+q1fZqPrQBxpeMUzuQEICXA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y1uy3JXG0+psJZsLER2Tx8v2E+vA/YDmg5BRj5+vlHe0c62wZUvb9Cp3kMEitbe/9
-	 qTs5gs0gxBvJcwGtzb9vfPjrfg/8gmqZzEc4JJCHq0FcDUQM0F1mNd0E6T/NX862Os
-	 SFBeqByHYtv6ldlUG5vgtGuiTj1OWWp3LTzMvykAo9seM+PxNWcFgBiH657gssMp0N
-	 6Ej5PZT0YZHazIEjnhLT8u/qzDipJqNEGvk3HW3ZLGfi+v9opq/STX8DYkoZS7EvPS
-	 YN7E32BXa84QOBlQ5plkWFPEIUaARbtlsthu+dFTT5DBLJOM3D8yeFWQlel88HJx0k
-	 6/li2lFI30zJA==
-Date: Thu, 8 Feb 2024 13:11:38 +0000
-From: Lee Jones <lee@kernel.org>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 RESEND 0/6] Convert DA906{1,2} bindings to json-schema
-Message-ID: <20240208131138.GN689448@google.com>
-References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
- <170739757961.1020645.7945873817461577204.b4-ty@kernel.org>
+	s=arc-20240116; t=1707415091; c=relaxed/simple;
+	bh=BljVYhmqzxYmEca+envNVs4ji1R3FjdjRhTbfglmoDc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GltWPML+6v1n33d+9ToKsf99WwHLZ0/8l7LF7EjBfNgRoMQLIcaB4xwCC85CLgMH9RmbTkrv46srue5IkY4PnNySKzNW6wMS6udRqJrtyc+x4uvMaqziu9KR63F1bUIAT7398OpGmKROKDQyWec0LNVloYU9jYPes2TLGWMA+uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=A8vOG/KP; arc=none smtp.client-ip=80.12.242.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.18] ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id Y8eLrzbSOF1QfY8f1rnOlk; Thu, 08 Feb 2024 18:58:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1707415087;
+	bh=SUiKKH4tpPPUKGCw9wCMBwYqXT0j4dANGt0PyM91ApQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=A8vOG/KPXwBErCe2/79QYD6IL+R75SPpC3y2enYgYQH2g9bw+W5D2sDUU68ETkVXX
+	 LUC9roH5U6WSkwUPkvNTkUccAR9M6uzzYD9L5V3dG1opYlJqpFtkPCt7Tg1mFO2lXw
+	 m140D9+lL+BG83qOJOu9h3rtiXZOmrka7uKOLWpsfR4ce/YrXrwjK8/h5S9XrXEKmn
+	 dVu7SUpwH++T31AREuMfFurZ6wmwSQthcsjSLcxMwrJ2Dn7u/qmoZiNdvD7fRpHrlB
+	 xf0C8ZQ4VdEgPnyYjQWjNw4LrvO1LLc6i1fnQdlVfsZprVq3vIVUkZVqbWw4apCoZs
+	 p9aDl5JvOY9bw==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 08 Feb 2024 18:58:07 +0100
+X-ME-IP: 92.140.202.140
+Message-ID: <a1af20a9-951f-4a5d-8a60-04ded8d6f9a0@wanadoo.fr>
+Date: Thu, 8 Feb 2024 18:58:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: sony: Remove usage of the deprecated ida_simple_xx()
+ API
+Content-Language: en-MW
+To: Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-input@vger.kernel.org
+References: <19b538bc05c11747a3dd9fa204fde91942063d52.1698831460.git.christophe.jaillet@wanadoo.fr>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <19b538bc05c11747a3dd9fa204fde91942063d52.1698831460.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <170739757961.1020645.7945873817461577204.b4-ty@kernel.org>
 
-On Thu, 08 Feb 2024, Lee Jones wrote:
-
-> On Wed, 31 Jan 2024 10:26:50 +0000, Biju Das wrote:
-> > Convert the below bindings to json-schema
-> > 1) DA906{1,2} mfd bindings
-> > 2) DA906{1,2,3} onkey bindings
-> > 3) DA906{1,2,3} thermal bindings
-> > 
-> > Document missing gpio child node for da9062 and update MAINTAINERS entries.
-> > 
-> > [...]
+Le 01/11/2023 à 10:38, Christophe JAILLET a écrit :
+> ida_alloc() and ida_free() should be preferred to the deprecated
+> ida_simple_get() and ida_simple_remove().
 > 
-> Applied, thanks!
+> This is less verbose.
 > 
-> [1/6] dt-bindings: mfd: da9062: Update watchdog description
->       commit: 12f0a4cc845286f331239c52282aab283a0392e5
-> [2/6] dt-bindings: mfd: dlg,da9063: Update watchdog child node
->       commit: 19c993f29e8ed2c4e34f4696b9cd0184e404c1fb
-> [3/6] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
->       commit: e2fcaf4c067099a1ebcdb37903e630ad0f55ed2e
-> [4/6] dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
->       commit: fddee1e686de077c80ad9dd61f4a50fa1d8b6605
-> [5/6] dt-bindings: mfd: dlg,da9063: Sort child devices
->       commit: ae3a0d709c240bc88c741d624d119ae96081d545
-> [6/6] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
->       commit: f1eb64bf6d4bef5295ab7633874960fbcfadca46
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>   drivers/hid/hid-sony.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+> index ebc0aa4e4345..55c0ad61d524 100644
+> --- a/drivers/hid/hid-sony.c
+> +++ b/drivers/hid/hid-sony.c
+> @@ -1844,8 +1844,7 @@ static int sony_set_device_id(struct sony_sc *sc)
+>   	 * All others are set to -1.
+>   	 */
+>   	if (sc->quirks & SIXAXIS_CONTROLLER) {
+> -		ret = ida_simple_get(&sony_device_id_allocator, 0, 0,
+> -					GFP_KERNEL);
+> +		ret = ida_alloc(&sony_device_id_allocator, GFP_KERNEL);
+>   		if (ret < 0) {
+>   			sc->device_id = -1;
+>   			return ret;
+> @@ -1861,7 +1860,7 @@ static int sony_set_device_id(struct sony_sc *sc)
+>   static void sony_release_device_id(struct sony_sc *sc)
+>   {
+>   	if (sc->device_id >= 0) {
+> -		ida_simple_remove(&sony_device_id_allocator, sc->device_id);
+> +		ida_free(&sony_device_id_allocator, sc->device_id);
+>   		sc->device_id = -1;
+>   	}
+>   }
 
-Building now.  Pull-request to follow.
+Hi,
 
--- 
-Lee Jones [李琼斯]
+gentle reminder.
+
+All patches to remove the ida_simple API have been sent.
+And Matthew Wilcox seems happy with the on going work. (see [1])
+
+Based on next-20240207
+$git grep ida_simple_get | wc -l
+38
+
+https://elixir.bootlin.com/linux/v6.8-rc3/A/ident/ida_simple_get
+50
+
+https://elixir.bootlin.com/linux/v6.7.4/A/ident/ida_simple_get
+81
+
+Thanks
+CJ
+
+[1]: https://lore.kernel.org/all/ZaqruGVz734zjxrZ@casper.infradead.org/
 
