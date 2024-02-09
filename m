@@ -1,122 +1,143 @@
-Return-Path: <linux-input+bounces-1798-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1799-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF2084FC61
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 19:56:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BA184FC88
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 20:02:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5072C28228A
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 18:56:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 774B91F29C17
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 19:02:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9388780C17;
-	Fri,  9 Feb 2024 18:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B86763E3;
+	Fri,  9 Feb 2024 19:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kwtDETOR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFzAJbMT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3707F57339;
-	Fri,  9 Feb 2024 18:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2720550241;
+	Fri,  9 Feb 2024 19:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707504976; cv=none; b=GqlqHyjkt12yZtaKi1zL0HZPr18JsI8pOxAYjVtRHb0nvZTzKdgG5wrsUyU157mbFdbggWfmiAb4Mi7S6mqbUH83GV4rGNh9HVKoEgea5bnExAM3/Am/jIRoNDbj5auBZRbGl63nA0LTSEnG8mVC/1b6e6I+de8KO1FtYKnhzeY=
+	t=1707505317; cv=none; b=lMbwhWdGbh/jETU1SrStiHfuwtz3EZjmCnIUMVVUPesr/sMjodaON0Mz9EvurDjtD5tl0+Gxczjs5PYJj6T+G/IX8h/wEKSFk6IIvwOGtSP1kPAkcgpcSPePOF5Mmh0G+3JY6BrdBKpPoBzZErvMvAyJ0MaKShL6PuI1KCuu3xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707504976; c=relaxed/simple;
-	bh=C9S2oNwOOfhw1Ocskog3nsge/HD81Vm1NImbMpSpgYY=;
+	s=arc-20240116; t=1707505317; c=relaxed/simple;
+	bh=mXnpjUMjZYmglO49XI5gBG1hSNgTF3CJvQfAO/EeFJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQZvggnW/tNJ0o5wTvHps0TZ7SkTjL1iANhg65Np1Xayao1YSmr2kvAaQu36/o97KaFPypm4IAzTloXPxW+TC7tp209eL0fyHQQQwJ2ml4RPMJzoKbxuw/Lia3H+St8YIeWufNYncyc+EWUjgFjadWApg023FPbYODIRJY2fTDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kwtDETOR; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y0m/ngVmhAVobQo8SpC3YNrvgXXYK8CCmNq0j0s0Yd5PWAPAnBSKhA0kNlxOOHa1HvHLwPdLkwp1/LaPzY2wPcPEmRaVhNqlu3AxK8cX6r8RVb349WKz2xY64O5O8PemDYZTOWuZ5O00obLJ5JRGRnlwGB6pAlLcDBOUUpxX4yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFzAJbMT; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d944e8f367so10694845ad.0;
-        Fri, 09 Feb 2024 10:56:14 -0800 (PST)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d73066880eso11302985ad.3;
+        Fri, 09 Feb 2024 11:01:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707504974; x=1708109774; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=56hgMqr3mswCnWTmMb87WQwpoLmhLltp/8RI39azy0Q=;
-        b=kwtDETORaeIZyJ5GswVr2CPfFgdFKIhkh/HlZhwqphJGaZhMSEXEDVgRm/rItcetBq
-         4jOvmh+oCVkVboXWIwdCro15yk1YUTDZN/+SIxz3ruaSCDbN3t2pUp/BaYC9cjlu6siD
-         85SwZH+4jlTCDluHpPyqg7p/Jrf6AXyyyDF71nktLhyiMxofNPg7n99l1+4tMz8tEQzE
-         11kMbCf49BKcFAiL+yjT42iyfBcvoJTY1DtEEAiZarEWA85RV9gnuqxVrgntVv1evoxL
-         ESQpFHAgzQNmq5NSBUs7m1EWAa5SNjODQZAn63BcpbcwBRHG4wL1vkTZ1cR9RDQxLaPM
-         dh6g==
+        d=gmail.com; s=20230601; t=1707505315; x=1708110115; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dTLq5cLd6EW0V+pCXvV5cGkaUzSdBm3QWfelUNi0RmI=;
+        b=jFzAJbMT7zEthpuJ4hK+R03ZiMjVEzqTwvdZqotcEj5IICqqYC4v4YVs+YTZHVph2l
+         SddUIWbPi5xc8SpXY3PDsejQkeMGbY8/AS3CtP6OCGjFJ2EJZ9K1kL0yurV3k3rCp7o1
+         3+OI0u/CyEman0C2MBQ3BKHm65BAPzdYTVwPU+2xiWkXY5uz0JqkI9BuelX0SoZ+L+9a
+         1FQmYAq4lGzzjZOIcqo+IyB3DhAdG9ncObXJTUVj1y/dz5lqIq7MopLup1AP1OdIcsVU
+         Vnpf8WBec9eUl90pkx2lTO3Qjk19xvbJNhWfQMkrjQrj9FiY5VqBvbGqYO07xXm08AKP
+         akrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707504974; x=1708109774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=56hgMqr3mswCnWTmMb87WQwpoLmhLltp/8RI39azy0Q=;
-        b=qtIL1cVPRhopNidwNHS2Q2vxbOxln7qP4kIX+vsPNyUXtCx1wkFNhyLbfG+FsaeTG5
-         DjE8Lj6nUbXjnbQn9sxEMAKHf/tspMZUnMT7zx7kmnqQlU6jOQc1oh0Cmx9ql8a8fr+r
-         2F1kkAnnJOuSlzKfVLdUZFU6Pdi6B8gCyIJtatbtHKZWUXf8i7evkNKQRcKGl7Cs39BH
-         4EgO/YQbXM8rX0PkTNm3Tuoruibn+PkCdCDClqZagIFgaB0e0BUre3t/gu+/65Pq0gSi
-         1LW2hygi1PjQgV9x8PM/LixDPBAEWwrhbrMMo1vuE38I226drTtkQMvHPRi3/E1klBuP
-         CPgQ==
-X-Gm-Message-State: AOJu0YyStg0jbn8cjl8uunSxYyIolhvQHFpgDWE/4VSRUU77dYfnIhvE
-	f6RxVG4O3hFigJCD+IAGJvK/SA1Dvsq2CVmFeTAHCWVXFxj4nPEZ
-X-Google-Smtp-Source: AGHT+IEfTKQr1tJLEw0FhCX2wQeGeOD8/LznWPv9wkv7W5WtuaR7MMqHEGB5GTH/HFZP71SmkqHDFQ==
-X-Received: by 2002:a17:902:9f87:b0:1d9:657c:2769 with SMTP id g7-20020a1709029f8700b001d9657c2769mr119939plq.19.1707504974268;
-        Fri, 09 Feb 2024 10:56:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWYlk1nnzdg273wMBD0TlhR6Ex1Db4qqsAlWzgp9N2xrKjlR4Z3Ll4QNQmgN1UgNggrDZ2kvKKro10zHppccIWiEj8o/FJjRXuwADw5+rKMOsUplakT4BPh613rrk2Rw31w9nr8i+Z4fbrev7ADEXGvqqrqq00BGkKS95jNo4R4VOa/Xt+wW5YKr4jTIvET9SN/kqULLfb9YmFgr5LzxQoGscyAGHdLfVxpikYJP7P3LUeVpKvuVreBQONCZcj2XCGLlAjPwyLJ0s3rG1yg5hqJ227QE0/293fthgV0KxI969k8fDWhMWebhI9LX7MH+sT/eTXnCoKXiv2qCk6AJmrnyPblLouVywWif/iu7EDuh5SGOLv3r2eWC7oUSh59iMMV5w81eWwa/IFBZS+H84FCL//AQoG8tzkM5GRxlLt2Tl0KpwrNrut/7rvABggTmdJi2eZBnZo0cZEX8Hr3
+        d=1e100.net; s=20230601; t=1707505315; x=1708110115;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dTLq5cLd6EW0V+pCXvV5cGkaUzSdBm3QWfelUNi0RmI=;
+        b=F0i7w6/1aNRCbiOrroQXCDlgNXieCKalBtKX28Fm5izlgV+SNjyOdcZ+dYB0bsH6Dm
+         W6/cacJunRJBYutz4wcWrcsjsSXiUAg28Tpem9u7TmbdP123v/dUwGTZCI9YF2cfA/uN
+         5ztWW2cuuUxGIl8/jizr8vOp7x/MuLGZCRy6oxs452K4dEzYXBXfXin0zKsTKar3mTLO
+         Sx5GGpbPOmN5Z0KiFSGaQyFf9J2UVZbfOtSyl6HTbHfoC+wk+DQP11Fx99+AR91vWPg7
+         xUrNhkgL+R1iesnH8Q+7al7r1RfEKNt8QcVhC1T5cf+MVJ39usbGc6S5zEp339lGFAiD
+         Qr2A==
+X-Gm-Message-State: AOJu0YxjMptfXkYqoABN0JevS00feQhKQMWG0+0tehOha9NRYL4caVNP
+	IvwFQOuUiHEPVMjIhZEqbfS4jIFZZqcpjt/W68IZXvyLsa9No8kk
+X-Google-Smtp-Source: AGHT+IEwvQoB5TC1uIWbgDJB8SmCS7VztF3Xw9J74aun9ddu3TR8T3KHWNAiZQ0Np/1lMB9WBf2VjQ==
+X-Received: by 2002:a17:902:e80e:b0:1da:1780:8b49 with SMTP id u14-20020a170902e80e00b001da17808b49mr228638plg.0.1707505315264;
+        Fri, 09 Feb 2024 11:01:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUjoEMxNjLxC6GOol6lB7OSTSlHJOlWls8J/e10SG76ACkgM/Ro7WDvQcB3b0Ii/kS8FulfhCnUy/LlCYjFkTg1hKNmWG/kyRXpNdOmF467WzD+b554gPULeBDUZDzDzD/93ygbbvsVtsLMvbAZamLgf03EYUr+FK//4nJE/0iMz1BA2HpChpdlar6/Hvx+Zo9OjtCJyaQMqs4g3bqkIiE51Wb25xc3e9lthg==
 Received: from google.com ([2620:15c:9d:2:9ec:8b78:c8c:fc9])
-        by smtp.gmail.com with ESMTPSA id jh21-20020a170903329500b001d9609f2e30sm1843385plb.1.2024.02.09.10.56.12
+        by smtp.gmail.com with ESMTPSA id ks7-20020a170903084700b001d9033b9d8csm1833761plb.59.2024.02.09.11.01.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 10:56:13 -0800 (PST)
-Date: Fri, 9 Feb 2024 10:56:10 -0800
+        Fri, 09 Feb 2024 11:01:54 -0800 (PST)
+Date: Fri, 9 Feb 2024 11:01:52 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Brenton Simpson <appsforartists@google.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Cameron Gutman <aicommander@gmail.com>,
-	Erica Taylor <rickytaylor26@gmail.com>,
-	Ismael Ferreras Morezuelas <swyterzone@gmail.com>,
-	Jonathan Frederick <doublej472@gmail.com>,
-	Matthias Benkmann <matthias.benkmann@gmail.com>,
-	Matthias Berndt <matthias_berndt@gmx.de>, nate@yocom.org,
-	Sam Lantinga <slouken@libsdl.org>, Vicki Pfau <vi@endrift.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	trivial@kernel.org
-Subject: Re: [PATCH] Input: xpad - sort xpad_device by vendor and product ID
-Message-ID: <ZcZ1Sn_iPwlgfI3s@google.com>
-References: <Zbl49VAMZx2qrz-p@google.com>
- <20240130231903.293265-1-appsforartists@google.com>
+To: Jonathan Denose <jdenose@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, jefferymiller@google.com,
+	Jonathan Denose <jdenose@google.com>,
+	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: psmouse - add resync_on_resume dmi check
+Message-ID: <ZcZ2oG1Rls-oR593@google.com>
+References: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
+ <ZcKs589qYxviC1J4@google.com>
+ <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240130231903.293265-1-appsforartists@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
 
-Hi Brenton,
+On Wed, Feb 07, 2024 at 10:39:03AM -0600, Jonathan Denose wrote:
+> Hi Dmitry,
+> 
+> Thanks for your reply.
+> 
+> On Tue, Feb 6, 2024 at 4:04 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Jonathan,
+> >
+> > On Thu, Nov 02, 2023 at 07:52:47AM -0500, Jonathan Denose wrote:
+> > > Some elantech touchpads consistently fail after resuming from
+> > > suspend at sanity_check in elantech_packet_check_v4. This means
+> > > the touchpad is completely unusable after suspend resume.
+> > >
+> > > With different permutations of i8042 nomux, nopnp, reset, and noloop
+> > > kernel options enabled, and with crc_enabled the touchpad fails in
+> > > the same way.
+> > >
+> > > Resyncing the touchpad after receiving the
+> > > PACKET_UNKNOWN/PSMOUSE_BAD_DATA return code allows the touchpad to
+> > > function correctly on resume. The touchpad fails to reconnect with
+> > > the serio reconnect no matter how many times it retries, so this
+> > > change skips over that retry sequence and goes directly to resync.
+> >
+> > Why can't we do this in elantech_reconnect()? I am sure we can make it
+> > simpler and more robust than what the generic handler is trying to do
+> > with polling and everything.
+> >
+> > Thanks.
+> >
+> > --
+> > Dmitry
+> 
+> I am fine with anything that would be simpler and more robust, though
+> I'm not sure how to implement what you are describing.
+> 
+> Are you suggesting that in this PSMOUSE_BAD_DATA case, instead of
+> using psmouse_set_state and psmouse_queue_work to call
+> psmouse->reconnect (which calls elantech_reconnect)?
 
-On Tue, Jan 30, 2024 at 11:19:03PM +0000, Brenton Simpson wrote:
-> Signed-off-by: Brenton Simpson <appsforartists@google.com>
+No. From the description it sounds like the device sends wrong/extra
+data right after resume. I think you can handle it in
+elantech_reconnect() method by draining the buffer or issuing poll
+request or something similar.
 
-Empty patch descriptions are frowned upon. You should be able to add at
-least a single sentence why the change is being made.
-
-...
-
->  
->  static const struct usb_device_id xpad_table[] = {
-> +	/* Please keep this list sorted by vendor ID.  Because the lines use different
-> +	 * macros, you may need to sort it by hand.
-> +	 */
-
-Kernel style of multi-line comments is:
-
-	/*
-	 * line 1
-	 * line 2.
-	 */
-
-I adjusted and applied, thank you.
+Can you post the i8042 data stream that happens on suspend/resume?
+Toggling i8042.debug option will cause the driver to dump the data to
+dmesg.
 
 Thanks.
 
