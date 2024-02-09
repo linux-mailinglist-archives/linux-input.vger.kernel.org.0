@@ -1,179 +1,126 @@
-Return-Path: <linux-input+bounces-1787-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1788-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C05584F7C1
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 15:42:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4612684F8C3
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 16:43:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FD751F21941
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 14:42:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B07271F25550
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 15:43:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED66365BCF;
-	Fri,  9 Feb 2024 14:41:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EDC076027;
+	Fri,  9 Feb 2024 15:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMEOghU7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LLEfbCMA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F42C6DD1E;
-	Fri,  9 Feb 2024 14:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F086F74E28
+	for <linux-input@vger.kernel.org>; Fri,  9 Feb 2024 15:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707489716; cv=none; b=j8brSjdbbWJgsdFztTXW9RoNm/rk9Ywevylbqrfz0+LJwlxw3IcdJuK5F3PG0p3zoPBeCob8QmGS6k6rCB2r/y8SOMogU9uE6IRzG6mBJB6hCdJXjEi+umbIJbi4h5JaG3qoJ0jkAGtqmzfNwTPvcQ5mOgKeai0PFGCXKhkaMdQ=
+	t=1707493372; cv=none; b=TaItqF8j60hA+JvTHbmFdODg8WVhNTQ0S/OvkQXavvW0C9anjtbAmBe3KXE8g92DsSvI0bfhvcj+s9CUtnPcIurulPWmrPLPMnmLpXw48eOt5isPk24Ph985BvjNhakBQdwHz+N9zc1IiibcU3dyUa0T8JzpIVyXvxdZ0kxnAZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707489716; c=relaxed/simple;
-	bh=j68vyMhx+KOvb0NoTod5BOmz14iYjHTu4xiog85c8js=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EVoz/8ZqlGyUcISeympND+eVzJ2QVUIXzTncTmbDR+5u6QWvVfQdInWo5SXDWKO6ih2G/VNSEFVmhfPdT5x3CPvlIMqTbiGEfYWflbKPiJuD/nAQ+ZKAejMGICz2PQ8ThBJcacDWmNUUFv1cDheW+yAvxV4MlSZkCK9eadg/VwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMEOghU7; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707489716; x=1739025716;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=j68vyMhx+KOvb0NoTod5BOmz14iYjHTu4xiog85c8js=;
-  b=XMEOghU7y0Q+2Fh+ncGBomORRy6DWfraSkRGs4RkI0Q8oAcA2XE92Cze
-   o4kdQah3IRrbYbkFzDMDcTRiofc4xE00mVL03sWaqMFEMMTdGi5WRCzYk
-   9PJONwxt1/qfv3zM0SUM4E3rhOpMMapN6igAhAHtxod9P7czrff/1ZjhN
-   81WKMhGp53MOAARkJoND8fv3VRRLKoryan7L3lUK9AGCrFnsMnnQy0Rni
-   uGulGpGm4eIhngKig3wueqpJuy5Bzfd/mjq/hT7LRXazlT7jxMRpg2ng/
-   ci9jxUf2WFIBbqJg+8aJGPzV+55RiklLwcT78T1TQ2Jb7vo1BcZcvEQEy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1591700"
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="1591700"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 06:41:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="1939708"
-Received: from spandruv-desk.jf.intel.com (HELO spandruv-desk.amr.corp.intel.com) ([10.54.75.14])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 06:41:54 -0800
-Message-ID: <64ee580b9969335d60966e23e9bd859e8f075953.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: Intel-ish-hid: Ishtp: Fix sensor reads after ACPI
- S3 suspend
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Even Xu <even.xu@intel.com>, jikos@kernel.org, 
-	benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date: Fri, 09 Feb 2024 06:41:53 -0800
-In-Reply-To: <20240209065232.15486-1-even.xu@intel.com>
-References: <20240209065232.15486-1-even.xu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-3.fc36) 
+	s=arc-20240116; t=1707493372; c=relaxed/simple;
+	bh=aoRyqAiMEdX1LMy4NGsmx8nuHCXJJko1zkj0XYhs6Is=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FMB6a7fomWDCKjm41uNjjJVo22Uk+D2s9BfyetfpMjrgeel2YxhpkBNpjLTmMQsHCFAAbmSNSpKDMkfE3bXbSwrREdvcCl7zHFBS2Q91CirS1Fa1IamihuTczRAl9tT+L6m+y2x09RUtVCmGYMLgpYGNqBwaq7K2TmTdTt66Mv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LLEfbCMA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707493369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aoRyqAiMEdX1LMy4NGsmx8nuHCXJJko1zkj0XYhs6Is=;
+	b=LLEfbCMAWONxL02NxL/wU49EsuInIKhVzGPkFIA30K6OC8VDYFf5bDTMzk+cWJgO1LcyVx
+	DEsUCOwYHy7sZmzI5jypfgwwhgMNK5PBrUP7QzzbPpPECdF9ONYoQljN/70V/1B0Kibjzn
+	q8TyPckqdmp+b30Avpx2056ZM9l6G5s=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-41-gBJzBBTaMdS9wxz-5p1iMw-1; Fri, 09 Feb 2024 10:42:46 -0500
+X-MC-Unique: gBJzBBTaMdS9wxz-5p1iMw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a382663cfa1so59167266b.3
+        for <linux-input@vger.kernel.org>; Fri, 09 Feb 2024 07:42:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707493365; x=1708098165;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aoRyqAiMEdX1LMy4NGsmx8nuHCXJJko1zkj0XYhs6Is=;
+        b=bZI3yGnNpVuWcivZZq3ZsnouCfyEfMFdZxMSP83RzBUnXHQR359UPeQRC4AQEVgiwR
+         kGmY9kWlMvsONsnGxB9SbEi1C8XTFDw0eeqfnSfF5I9s8kGdwleE39Rd9Xm7Qx/WqCua
+         N2/uALTaBTvi84B/SGgOFzJwo84Jr+O19ehLkQygqYokkvHxXo80OFvA0aI8NR+yWMwd
+         +dTwPqUBQ+LbvNT0tpXIL3/awtg+l1fVlVM5Jq/wre1ES/USYPejrCXvKd9IB89ipE4C
+         /fHkQWYdjC23S6UaiyQFw2thKuQvofQm8rFod0PtIy5Fhyp7/1RREbcjvrst02MBKGxd
+         Vbcw==
+X-Gm-Message-State: AOJu0YyJ6opBnqGCcrdFSBx3qFd+iR5FVgeIdoiyi+6nFR51Zi5qKphH
+	kEprYMPovVHMEhs3pHiIC524QIMmitzemdFzOwm8qaLVBXM2wQFWPW/jBrQ09BcJ+g0KOxX3drP
+	RLtkSfhJsClXnSb/a/deF+Gk9fLKmkHtYPAOF8cc4BTOI6D3UeIAxFpa0/mVj
+X-Received: by 2002:a17:906:4954:b0:a39:1702:ea2a with SMTP id f20-20020a170906495400b00a391702ea2amr1650099ejt.46.1707493365226;
+        Fri, 09 Feb 2024 07:42:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEUC3LMg6bNhb5Jtq/RWphSd2cR+K8TsfkQXiLcxaI8Rw5dcHhUKQcqOc/in0/EOpwOMYYXdA==
+X-Received: by 2002:a17:906:4954:b0:a39:1702:ea2a with SMTP id f20-20020a170906495400b00a391702ea2amr1650081ejt.46.1707493364829;
+        Fri, 09 Feb 2024 07:42:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXvmDDoMIBdI3NR6zTFpUsocl+Btpm2VcsF4PUKjCLcGNtqWEuwdDwxOrWZZdJ7KwWTBbzst/OV5pixVmNbxccl3kmeq0MYeHJQAe1RPNP08aPvJCsbw9URN83eiYF9YWmqT0knzDu9ASzZCa4k/Ui08b19VxZdOwj8r6/J1bAaDCG8Rh4ZhqLXJH5U7CV6FoZzHsAPaYtPgvYCQBcROrdSfzftRwmuxpPBVe3HuMdjhccVR7T/aYnLn7YQWk/RbP4q/X70Xcm9YKFzF1xi5kdhLjNGPWiFwW4hocPbofGN3FF2RIYEMXWINe501hDqVfYcc9kEYmEbiC/1F3YNCEhw3s003DseqDpa2pDjUONxgcr+yAPmyZr5P5qtN5gzeByuZ8MDSEsJfEuLJrtXn2qQnTtrIKbumPl0RZ1BYfhCvjhHgv6L1zPjJ0fDVn6hQRTJQ4X5g8jSxYK8VqrKitC9z9Vz61p8W3lRxJEUxPGIVqWVQJqVEU8w9FWOaeRWyqE2UJMkwrup1qu9JNwQrsED1V8ARsrYuIZzgcqrAZgQ7VAPznSNa2q19AcOLYR6BmGUSb0QivlzsVuAVTARlsyYArD2y5cafzgWsVlVMVshbSSB9x3n4H5sn+eM97JFXfN8yxUSJB7L
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id u1-20020a1709060ec100b00a37116e2885sm867386eji.84.2024.02.09.07.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 07:42:44 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 321FC10F5038; Fri,  9 Feb 2024 16:42:44 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Martin
+ KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Jiri Kosina
+ <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
+In-Reply-To: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
+References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Fri, 09 Feb 2024 16:42:44 +0100
+Message-ID: <87bk8pve2z.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
-On Fri, 2024-02-09 at 14:52 +0800, Even Xu wrote:
-> After legacy suspend/resume via ACPI S3, sensor read operation fails
-> with timeout. Also, it will cause delay in resume operation as there
-> will be retries on failure.
->=20
-> This is caused by commit f645a90e8ff7 ("HID: intel-ish-hid:
-> ishtp-hid-client: use helper functions for connection"), which used
-> helper functions to simplify connect, reset and disconnect process.
-> Also avoid freeing and allocating client buffers again during
-> reconnect
-> process.
->=20
-> But there is a case, when ISH firmware resets after ACPI S3 suspend,
-> ishtp bus driver frees client buffers. Since there is no realloc
-> again
-> during reconnect, there are no client buffers available to send
-> connection
-> requests to the firmware. Without successful connection to the
-> firmware,
-> subsequent sensor reads will timeout.
->=20
-> To address this issue, ishtp bus driver does not free client buffers
-> on
-> warm reset after S3 resume. Simply add the buffers from the read list
-> to free list of buffers.
->=20
-> Fixes: f645a90e8ff7 ("HID: intel-ish-hid: ishtp-hid-client: use
-> helper functions for connection")
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D218442
-> Signed-off-by: Even Xu <even.xu@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Benjamin Tissoires <bentiss@kernel.org> writes:
 
-Hi Jiri,
+> [Putting this as a RFC because I'm pretty sure I'm not doing the things
+> correctly at the BPF level.]
+> [Also using bpf-next as the base tree as there will be conflicting
+> changes otherwise]
+>
+> Ideally I'd like to have something similar to bpf_timers, but not
+> in soft IRQ context. So I'm emulating this with a sleepable
+> bpf_tail_call() (see "HID: bpf: allow to defer work in a delayed
+> workqueue").
 
-This regression is introduced with 6.8-rc1, so need a pull request for
-this rc cycle.
+Why implement a new mechanism? Sounds like what you need is essentially
+the bpf_timer functionality, just running in a different context, right?
+So why not just add a flag to the timer setup that controls the callback
+context? I've been toying with something similar for restarting XDP TX
+for my queueing patch series (though I'm not sure if this will actually
+end up being needed in the end):
 
-Thanks,
-Srinivas
+https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/?h=xdp-queueing-08&id=54bc201a358d1ac6ebfe900099315bbd0a76e862
 
-> ---
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/bus.c=C2=A0=C2=A0=C2=A0 | 2 ++
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.c | 4 +++-
-> =C2=A02 files changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> index aa6cb033bb06..03d5601ce807 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> @@ -722,6 +722,8 @@ void ishtp_bus_remove_all_clients(struct
-> ishtp_device *ishtp_dev,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0spin_lock_irqsave(&ishtp_=
-dev->cl_list_lock, flags);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0list_for_each_entry(cl, &=
-ishtp_dev->cl_list, link) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0cl->state =3D ISHTP_CL_DISCONNECTED;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0if (warm_reset && cl->device->reference_count)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0continue;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0/*
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 * Wake any pending process. The waiter would check
-> dev->state
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c
-> b/drivers/hid/intel-ish-hid/ishtp/client.c
-> index 82c907f01bd3..8a7f2f6a4f86 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/client.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/client.c
-> @@ -49,7 +49,9 @@ static void ishtp_read_list_flush(struct ishtp_cl
-> *cl)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0list_for_each_entry_safe(=
-rb, next, &cl->dev->read_list.list,
-> list)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0if (rb->cl && ishtp_cl_cmp_id(cl, rb->cl)) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0lis=
-t_del(&rb->list);
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ishtp_io_=
-rb_free(rb);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0spin_lock=
-(&cl->free_list_spinlock);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0list_add_=
-tail(&rb->list, &cl-
-> >free_rb_list.list);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0spin_unlo=
-ck(&cl->free_list_spinlock);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0}
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0spin_unlock_irqrestore(&c=
-l->dev->read_list_spinlock, flags);
-> =C2=A0}
+-Toke
 
 
