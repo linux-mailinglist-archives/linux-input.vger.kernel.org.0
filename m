@@ -1,158 +1,232 @@
-Return-Path: <linux-input+bounces-1771-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1772-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CE884F194
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 09:47:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3E384F19A
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 09:48:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C9E31F265FA
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 08:47:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 416221F22282
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 08:48:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FFF7664A1;
-	Fri,  9 Feb 2024 08:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555BD664A4;
+	Fri,  9 Feb 2024 08:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HX/i/UR+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9vkI6md"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B30C65BC7
-	for <linux-input@vger.kernel.org>; Fri,  9 Feb 2024 08:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA7865BDD;
+	Fri,  9 Feb 2024 08:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707468436; cv=none; b=VGEIu6Ig2w15FV6fCvZHflZO6e4eBOGbx0zyM7lVCTyRTjliDJqDQQjnEI0nc35GeZa8sIXsqXbQh+P6EGSdTxICleD6PEWazSMa1efEF1+/kAW3YvfaVZFoZ4ZVMrzD3iQL29uAq33jYiXEuAsiYqgGQPrtOZc9Gxsqhm/Hm+E=
+	t=1707468506; cv=none; b=g/L9j/HQvQLetZPgpdNGdN4y+KcVbzNMPv+zwuI1gfR9IGe748HLH/UR/MbKxnmraELZZWa3OSy2kdJl6sM4kB2wqYewICLsrFOVK0IfgipZ4CTdUfB27kPCkJsW1WzEVzouwxyudsygeEARRK5Wg5hw7imKZ7NkKs/cdt9/oY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707468436; c=relaxed/simple;
-	bh=Yq5UujJZ9gNbxx0FJ5Q+MkbZItwoSotxmpynItNcFus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Opnlg1zJ3H7sLH0kY8IoRNOUTVeNngf+tMGymtUb3g6yTkGFn9sVFgx2CLdbnHXcAkBZk5v6dHy23hhcNqXDIMMEjaPRd8V3HK7wm9uTKWQ1a4IBXgWMOniYgWRiA5ZNFaMzojOPN8Znul6xnMPJ7vA/nhz1YwPIZ1xM3aHwmdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HX/i/UR+; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33aea66a31cso333699f8f.1
-        for <linux-input@vger.kernel.org>; Fri, 09 Feb 2024 00:47:14 -0800 (PST)
+	s=arc-20240116; t=1707468506; c=relaxed/simple;
+	bh=FACvZGCzZd/Mj3qjKO44p5hHKQ4QqwarXOST8mlvQ/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o4SwgLrD3lElRgDFpCij+iJZsRdkGzUWmf3FvlnKwNOlCWUKipawnnebDJHRWP74YJxjFWP5PN48aak4FXHa+Gkcs1u8RQTjoTEo1OQO8WlX3C2/N209eWDStZ52AykXV+rvXJ76/s7QX9uR/T/zVsMc1mI5/dFZLJHoZezW9l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9vkI6md; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-41071e85659so1586215e9.1;
+        Fri, 09 Feb 2024 00:48:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707468433; x=1708073233; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UY1Vpgyo2v6mTMBq+DCCOOF+OZjFSypG4UZjWG/dUO8=;
-        b=HX/i/UR+OPF+Mtthoo9fNQlVo0kKJpxqDgvqkM7K09tWChshWnA0EPckoVTHvKX4K/
-         hxhRzeLWjM7D2vYgOgWNigybwT1xA9M17uzdAHq5lSMHODubcmqtM/b3mMas+B6tQCy3
-         H5kaSMsyTfUGWD1TOF9DEn4ADCjTgrvsFKdDTbuf+8DcA6f0uE3CK0HPAz/wEoVnUSQV
-         EvvBiq/5NWIFhwtnoC3gh5w4EyAf8+4vSddBzuzHaWrlzSbMWsM6VI6ODdd0XEIEtaNF
-         A1qxD1PR1oXSyTIuavaf0+YNO+5fF/xPNyMFVULcKczurtfGJvfFGQBqMUg6EQlJ8hvs
-         I58A==
+        d=gmail.com; s=20230601; t=1707468502; x=1708073302; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mVc4M1YbGvNb8ipoFp9BUg+QNpL61/sf2CwDTAOM2wc=;
+        b=V9vkI6mdGUHE6/sa1BPVoJECys3C+YvQPCVARyXGzM0JBVXLhyVjhduX85VxE2nMZE
+         qUsrW+rCY+YpBkvcSlex08cC/3v3RJzZtBOlH6GtawaCDMfqvlDyW7RVwfvnPBGwVfWf
+         AV6XirBzHBCF1DEl/M5n6KwoZ8qIqwVqnSUtmkXbLmThglo9c1ple5fernuORbZBrKrN
+         O6ZTPDujmswnZD3OlbVfshdWVexahIIdyoTCxPNGLfujddYXxb5+0/DnMy1+I9Yr12bP
+         wK7M49hiew2QYRKaJfyrxV1NvlpkmXegM5KOrIQMYflmh7rnbpuEUTyGszSEb+oVt9ka
+         DzTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707468433; x=1708073233;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY1Vpgyo2v6mTMBq+DCCOOF+OZjFSypG4UZjWG/dUO8=;
-        b=NwNQhYczbZc48o8rZ4JaStoxa87+a6Ppj5aGHi16Ac1QOYZMKBaRKK/Eck1PQlqYB/
-         mo2nvaGdQmhCdRmgHkim9Ut02iF2nDDO9uqsNbbTJGnDDuDAn3phQeUHXI6RTnv/cleI
-         UWnxGS5sXAyJkffWi3ADGLkG4hvox1O3hNtwnnYiZ1k8Oksin6pnUcgIlgn9XSbHtFmW
-         NmGsnk17Grr2VdtvexR3mSndcxhs5XX/1j5SKJYU0/jJ7DVmxePHiXSfXvd8+u4eclrY
-         eIc7oEsqm7/+ada5zjUjsxEU6Qn+g9cYKKH/x4n6fHEYhR51VHY86GGdsx8sDfQT0pkx
-         lNLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzQg49eXEBI02jYluArdVO3VStD9/393gBqDus6Cx1qXwMTipkl8s889IcwW+cuSZq/1qXRHSOjFGtxZqkoDZBsTxK2Y8xLpqO+P4=
-X-Gm-Message-State: AOJu0YzqzCyNJJJJhUMz/shaIrRRnHgjaaZYh03ES5AC5ut8kHh1PTZ0
-	P6tsTTrxWhkWylPNU8sb9lsRKlr7GBmivs7wzF34MtSBq5J5hFlhTuGcDCylAtk=
-X-Google-Smtp-Source: AGHT+IGYc6ccFIwyY+17ihQxJo6gmJqAtVVZcbiKeu9XGw0w0Ok+us7bRBJ4gZkuC2yi5j4jmkSpQQ==
-X-Received: by 2002:adf:e481:0:b0:33b:636e:c966 with SMTP id i1-20020adfe481000000b0033b636ec966mr615845wrm.3.1707468432773;
-        Fri, 09 Feb 2024 00:47:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVv052/KJlbCgLKxvBt6afA6D2iipuGWt1C8qZUQPHgMTVlvPN4z/Vlg3XfPgo0vYwvRQTqZ7hFYOez5Af3clcBhvSEwrDAh2GhWpkhHu6P/9bBGLquGXgC3mBHg4gP1aEQD32GKW3OWEBMf8RkyY2yC3MEhG6ImbFB8/StHDWI5DJ90VYh2Y/av3TfjRh1V8by8BENe0t3NRVeTL/f9Q5rRzLL5XDEvCgZQHlydz6uIem2d15p3CLOq6z+TH1rKvlcUvmyPKL2DM26gYYhwP3e+bVLQxjbfjaF/RW7pIa2xzE/cVA49iFUEcwDpu4irWspnYS7y7S6Rw1sepbdsYSqHSXcg0AVE7XhUSuamGWTmVnhCcmAL/6uGsbMzLMbxrr5cDXVcITydyZX1y4V8BmCKviIS+slId97oJ3FXGQxmc8OkyyLrSUT13xuAMtQLHz48ZEl4J/XA3B+eUg1f2npjxbZL6fgD7Q=
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id n3-20020a5d4c43000000b0033b3ceda5dbsm1239275wrt.44.2024.02.09.00.47.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Feb 2024 00:47:12 -0800 (PST)
-Message-ID: <f6f19f9f-b94a-4194-a5e5-b549471cf47e@linaro.org>
-Date: Fri, 9 Feb 2024 09:47:10 +0100
+        d=1e100.net; s=20230601; t=1707468502; x=1708073302;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mVc4M1YbGvNb8ipoFp9BUg+QNpL61/sf2CwDTAOM2wc=;
+        b=Lus9e8UJ18oM+WxoIhgMcKUlobPcE2V6IMsZUUZs1MnOaB0DsnC4M3XuGiyMBN87kY
+         yqeM6DTZL5E0utyG9a3y4TwUP1lXWg2QJSuHr37tRpztG5mQXnykLoU1zyf98t2sezFx
+         JfsI+OegFQsNje23jw2Wa0dm23vI87IjwX2nEVIOCoZ93al4Hcn1k5+qJpCjSCs8p5kE
+         tPtcrSXkVR+dHVWIXhPH67FHQc8SrR91H/ibvcp/5yEDivcBLA+WOlpQts5OURv7oPYp
+         bKdzw0UDncL7RFp4KtV+klcxntyuSMSaGBljKNIuNPXNYt59IyXNMoOsa91PMSq2EuDt
+         OSXg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8r/03X49cLqnx8puAHT09DzzGyZTyUHjz5h2b2fuJaW9eIwif8oI8Gilvc56rrke9U5YJj1+buNNUzhkgpSK8v2Ib03ka5n/FbO0LaLvp7TiifCu0PChwmYzuwYEiw7F2YVTtGbISBQ==
+X-Gm-Message-State: AOJu0YzGqyhXkAI/pfYiGdr4Fa0flgto2BFwYc3cnb7uA5niHnFb4BN0
+	QvBqh2J7lVjDj3O8k3M5DS/Qizwlfnf3/TKxSuNjMTORZ83GiJ0c
+X-Google-Smtp-Source: AGHT+IHuxdHaNTj7uUg4YZXvHOqK3J6+QqpObkDOjVG7/rLFtq6TckteUGsRtSTTw5jPMArfUD8fuw==
+X-Received: by 2002:a05:600c:4587:b0:410:5f2f:ba24 with SMTP id r7-20020a05600c458700b004105f2fba24mr654283wmo.36.1707468502203;
+        Fri, 09 Feb 2024 00:48:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2Tiy+O6M8HnHHpdnhfaYBO9GDILs3PraxayUeInXD/FQNeVFFqDpP9cvIj2VDvLQpSL16hHaq6NYgiQl0xiku68jJZbUarnWIm5Uynd8AG0ziwiKLLN3zrvxEUFLKpG8sqzBN6V2PDK+8EYt/qLcxXjG2oNtyLchDkKFY84igUAOzKxZknzNbc88edXa2cVEim4RkUH4J4ubb8vREvigKjR2p/uE9uB0eOlV6u+A3nhk2f0ocOonK1UhkpVZ3a8BMs5lhgj9WSC1KX8ozVQKG8E1NGcNNSQOWO7MP4FTh2oUPV4Id2iKS3vXAm7tzaHj96tqcnj2x+veWjUBi736aRC3MRlm0y4VCkjEVt32esUhvHf+cEWVmKwrrGbOyrFY+onnWKAaWy/PepFKcIQPQHQAqQOvLDfCvGL8XgqCplOIZIe5HhlDImUDvD5hi7miShnN9DHXVaDDMcWSv89azzDowpFofhCLe/SY0ebvBk0nWsvHXDAngFWgSKN+2wcJsDSRU5ozb7eM+F+qY4CQwKB1roiAA9l6q0rx/CzU4oARbeRz3
+Received: from eichest-laptop.toradex.int ([2a02:168:af72:0:765:2268:762e:2748])
+        by smtp.gmail.com with ESMTPSA id e13-20020a05600c4e4d00b0040fdb244485sm1897494wmq.40.2024.02.09.00.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 00:48:21 -0800 (PST)
+From: Stefan Eichenberger <eichest@gmail.com>
+To: nick@shmanahar.org,
+	dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	linus.walleij@linaro.org
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	francesco.dolcini@toradex.com,
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Subject: [PATCH v3 2/2] Input: atmel_mxt_ts - support poweroff in suspend
+Date: Fri,  9 Feb 2024 09:48:18 +0100
+Message-Id: <20240209084818.14925-1-eichest@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: input: atmel,captouch: convert bindings
- to YAML
-Content-Language: en-US
-To: Dharma Balasubiramani <dharma.b@microchip.com>,
- dmitry.torokhov@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: hari.prasathge@microchip.com
-References: <20240209064755.47516-1-dharma.b@microchip.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240209064755.47516-1-dharma.b@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 09/02/2024 07:47, Dharma Balasubiramani wrote:
-> Convert the Atmel capacitive touchscreen bindings to YAML format.
-> 
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
-> Changelog
-> v1 -> v2
-> - Drop autorepeat property.
-> - Use unevaluatedProperties instead of additionalProperties.
-> - Use node name "touch@51" instead of "atmel-captouch@51".
+From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
+Add a new device tree property to indicate that the device should be
+powered off in suspend mode. We have a shared regulator that powers the
+display, a USB hub and some other peripherals. The maXTouch controller
+doesn't normally disable the regulator in suspend mode, so our extra
+peripherals stay powered on. This is not desirable as it consumes more
+power. With this patch we add the option to disable the regulator in
+suspend mode for the maXTouch and accept the longer initialisation time.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 72 ++++++++++++++++++------
+ 1 file changed, 55 insertions(+), 17 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 542a31448c8f..2d5655385702 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -317,6 +317,7 @@ struct mxt_data {
+ 	struct gpio_desc *reset_gpio;
+ 	struct gpio_desc *wake_gpio;
+ 	bool use_retrigen_workaround;
++	bool poweroff_sleep;
+ 
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2799,15 +2800,18 @@ static int mxt_configure_objects(struct mxt_data *data,
+ 			dev_warn(dev, "Error %d updating config\n", error);
+ 	}
+ 
+-	if (data->multitouch) {
+-		error = mxt_initialize_input_device(data);
+-		if (error)
+-			return error;
+-	} else {
+-		dev_warn(dev, "No touch object detected\n");
+-	}
++	/* If input device is not already registered */
++	if (!data->input_dev) {
++		if (data->multitouch) {
++			error = mxt_initialize_input_device(data);
++			if (error)
++				return error;
++		} else {
++			dev_warn(dev, "No touch object detected\n");
++		}
+ 
+-	mxt_debug_init(data);
++		mxt_debug_init(data);
++	}
+ 
+ 	return 0;
+ }
+@@ -3325,6 +3329,8 @@ static int mxt_probe(struct i2c_client *client)
+ 		msleep(MXT_RESET_INVALID_CHG);
+ 	}
+ 
++	data->poweroff_sleep = device_property_read_bool(&client->dev,
++							 "atmel,poweroff-sleep");
+ 	/*
+ 	 * Controllers like mXT1386 have a dedicated WAKE line that could be
+ 	 * connected to a GPIO or to I2C SCL pin, or permanently asserted low.
+@@ -3387,12 +3393,21 @@ static int mxt_suspend(struct device *dev)
+ 	if (!input_dev)
+ 		return 0;
+ 
+-	mutex_lock(&input_dev->mutex);
++	if (!device_may_wakeup(dev) && data->poweroff_sleep) {
++		if (data->reset_gpio)
++			gpiod_set_value(data->reset_gpio, 1);
+ 
+-	if (input_device_enabled(input_dev))
+-		mxt_stop(data);
++		regulator_bulk_disable(ARRAY_SIZE(data->regulators),
++				data->regulators);
++		data->T44_address = 0;
++	} else {
++		mutex_lock(&input_dev->mutex);
++
++		if (input_device_enabled(input_dev))
++			mxt_stop(data);
+ 
+-	mutex_unlock(&input_dev->mutex);
++		mutex_unlock(&input_dev->mutex);
++	}
+ 
+ 	disable_irq(data->irq);
+ 
+@@ -3408,14 +3423,37 @@ static int mxt_resume(struct device *dev)
+ 	if (!input_dev)
+ 		return 0;
+ 
+-	enable_irq(data->irq);
++	if (!device_may_wakeup(dev) && data->poweroff_sleep) {
++		int ret;
+ 
+-	mutex_lock(&input_dev->mutex);
++		ret = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
++				data->regulators);
++		if (ret) {
++			dev_err(dev, "failed to enable regulators: %d\n",
++					ret);
++			return ret;
++		}
++		msleep(MXT_BACKUP_TIME);
+ 
+-	if (input_device_enabled(input_dev))
+-		mxt_start(data);
++		if (data->reset_gpio) {
++			/* Wait a while and then de-assert the RESET GPIO line */
++			msleep(MXT_RESET_GPIO_TIME);
++			gpiod_set_value(data->reset_gpio, 0);
++			msleep(MXT_RESET_INVALID_CHG);
++		}
+ 
+-	mutex_unlock(&input_dev->mutex);
++		/* This also enables the irq again */
++		mxt_initialize(data);
++	} else {
++		enable_irq(data->irq);
++
++		mutex_lock(&input_dev->mutex);
++
++		if (input_device_enabled(input_dev))
++			mxt_start(data);
++
++		mutex_unlock(&input_dev->mutex);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.40.1
 
 
