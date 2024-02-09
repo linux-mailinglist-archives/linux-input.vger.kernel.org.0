@@ -1,68 +1,89 @@
-Return-Path: <linux-input+bounces-1768-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1769-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF8284F068
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 07:52:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2A584F18E
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 09:45:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5477528E461
-	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 06:52:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8857B2257E
+	for <lists+linux-input@lfdr.de>; Fri,  9 Feb 2024 08:45:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBDA56B71;
-	Fri,  9 Feb 2024 06:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A41E265BDC;
+	Fri,  9 Feb 2024 08:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ievNd1wt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdSc8g32"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC2D657A8
-	for <linux-input@vger.kernel.org>; Fri,  9 Feb 2024 06:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27172EB14;
+	Fri,  9 Feb 2024 08:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707461559; cv=none; b=jyl8rT3dIaaQJSdTUqRV+N/eIXu8YwB/nPJoW/oK+N4c+IqMj25VJbjFdHobIldXcCpqTCS7qA2NjU6X/rx+yEQrgSln1iBiJerw9voA5Lwe7yfNhZF6RYhubbmzvy6FVKkbk1SLO72wZfSwGY7O1OFy7t1RUb21VRiP7GnEE90=
+	t=1707468348; cv=none; b=eUCjyup6U+8GGkPmr7XPbfVTEnwX6CM81w7aWMUco6OCjXh4ksaa0eah6OJ/zmjxdBY8GR8CSI+GEMu1yN+WEU8k2KsvDWTTuMf8pBbpIdz9Norhl1HHnt1ZvhDxVVRh/prCY645naK9UQDTkoqRJ8xIN5KZlZRZ0Gk1ZG6DXxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707461559; c=relaxed/simple;
-	bh=YaCsz3xecRMv1m09IxKZx7m39Uqw5RYb8HO5xJ7IMuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uQKPckR+FtAwQD9nkeIFdAHFkYL6MsL2Ry/RBZvqFBO6Twn0STTBJlcumcGt+I6RSefTr1W3vlnXTfHv5BqfgH8YkqgQOQ6gbr7V9+6C4mrTkI+GXbvKh4D32kZnyEQabZSt63yfwZuEXGOXYoahppHGbOulZyrblllZihOeybU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ievNd1wt; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707461558; x=1738997558;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YaCsz3xecRMv1m09IxKZx7m39Uqw5RYb8HO5xJ7IMuk=;
-  b=ievNd1wtdoFrJa3RjXa15AOhC20v+hBqUTH2J1E/r84UKH5Us4nvXUCa
-   lgyjb4arUJei05ayZxbsvj8JRO2qiJ0xZgRYe1JEs6pFYEbgbu1VesRcQ
-   FuCGO6rU/Q3AzuBhXMY7lp8U3OrTEdcXSkU4Sa6R/esojQ1SMXpOHv8So
-   QNLvG7pHZ3r9TlxMA9dgOJwb1YHvRLTflO2lCDVsjdQN2ti4a0SJrqV8u
-   XJPnKKjX8P+f6u1xfPHbWy83B7AVon8L68hWBmSvurdb6FcSkn010jbGt
-   Bk4c8fWrm06vgqEr1icP4Ha1jiyOZSr2z2GqQPnEscHBFVI474JVQ7ZIu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1274961"
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="1274961"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 22:52:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="6519370"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2024 22:52:36 -0800
-From: Even Xu <even.xu@intel.com>
-To: srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org
-Cc: Even Xu <even.xu@intel.com>
-Subject: [PATCH] HID: Intel-ish-hid: Ishtp: Fix sensor reads after ACPI S3 suspend
-Date: Fri,  9 Feb 2024 14:52:32 +0800
-Message-ID: <20240209065232.15486-1-even.xu@intel.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1707468348; c=relaxed/simple;
+	bh=QvJ8K/QuguClbarhkPaicZTa9WR+0GbLRmBuHE33HBY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g3vCLLUmqDEuusAimak5GhcIdhYwtjAWLSUyKLQBNk7yVdqU2hoabfHkTJ3ND9IBpz93rNUtOr3EtCvWr8Y9DHbwic+vtHAbNe8L6fKuyKywCNnpp1kf7tVwK1we1PFQnc3eg/n7FvhqGAt5oB/tCg+RTqAkLOOCI19MbEp5yO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdSc8g32; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40f033c2e30so5901275e9.0;
+        Fri, 09 Feb 2024 00:45:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707468345; x=1708073145; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+hRIU+85gP4cVkUoawCy1lqfH+fhaaCqPKNQ9eBaY3s=;
+        b=kdSc8g32qt0oSkZL2aq+u9ZDz8oZWMVXQUfHgGrV0kx+ISvyK54F/mVYWqqm2XJoMj
+         UDTgC3RBFkxY1A6z7/nP5KTpN5IiYJ3g2IUVZH3nVnqkzNdHK6MJP+0zVQcmePt70yzQ
+         wlEfBfKItbx0HGji0VNJhsfzXWq82HKUZ1lXkQlkakOjXKw+/FvC6+EUU4UmvbGk8UlW
+         r9US8JrdIFqsFYqliaObyWcgpwQ8uOe7ZgOvHbtDkm80l6T2f/ch7CVYJ2UVKjhaCbwv
+         CnD86P2Y9DOQKjDy09hsMa5NCF66wFDnbtwBCRdZABbncT0/S0sgCW6FwgN5na1x7ZQL
+         MEaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707468345; x=1708073145;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+hRIU+85gP4cVkUoawCy1lqfH+fhaaCqPKNQ9eBaY3s=;
+        b=jRiVgFJZdegSF2x6y/jW2dIZsZroDrgivVkKgVzveUn8ATDoFEuge8QItd8P427cyF
+         jkXJ4AFOlcDX0CyIfeE+3KW0So7uR+F2Epg22o/Oq1VjudBZFpGtKUiPIOgnKwvEG/O8
+         x8M/crfApaaEcpni0pxYBcgtUc6rnwC5Laf3wwi5Fb6rD6PWsdddpDop/Zx7wnMEge2M
+         FhDWVfwIPSSe1YCEpFnJZu/NP2D6k346LRTERy1g7KdvC8X8v9yTH65wTE/FdWsk6KB5
+         Lx7SX5HooF6H4GYg2rtOf6QHf2y1yr94H+SCY9on23Cn7n3ODrtP1y7R63WDA7lcmo33
+         Npyw==
+X-Gm-Message-State: AOJu0Ywg+a/hq3R+BkfHkidzf9PSz1Va2A9EpgU9M9SK9YN5jFiVP9j7
+	NYz6yrFluFEYm2mFfJPf2i+8cCJAVAPUUnoY/xk3ro4QkeY0TSWR
+X-Google-Smtp-Source: AGHT+IGjAoTCace9M2xfUFRKDENlez707RCvfNNhkCplEVi9nb/vpkY2hMs3t2o6h0ftxnt5Bf+Gow==
+X-Received: by 2002:a05:600c:5026:b0:40e:ac4f:7156 with SMTP id n38-20020a05600c502600b0040eac4f7156mr774790wmr.5.1707468345071;
+        Fri, 09 Feb 2024 00:45:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWQZpDUFLN6ZON+d1wtj1vX0nLILDZmIEMfMaohn45K0NNNXFq3yepTYA+Oz2OUuDe7vaUy0YvD9FQzsxNLHuohswNxjwPaLOKGhasroZPi4zPwBa9B73fBxTCJlpBhblUuGosa6oBCkulOyP+S9N/RA3J47GPgiXzpI5w56Eq1Y4fYRtK/iRbB9q9X6jPWoDVpHcrqGMQF1nG4MgEekrGoKhzm6OlMHFwjSeFb9+rJcc+hjnoxhQCknYpjNwgKcP7zYopifUqxwpLkF7tDmFZNhfT6+tP/VksC8LaZV7KerQF7kvTrWB5iGI1o+u0WMsvcyo2WVHSjFiEqidShrx4J64xluFqj1gwd4B4w/MeQLDYXL1pK9yNEDuRspkAH5eZSaambqbnOyafL13IixZqyQ4n4pLXfYfOvzAnhB46Kh5toXCye17HsTbObK9tolysOepdWeDzxmSqXzD2jdKU0iTQ+Q5+I4UhYwqx+7WaX5f1+OG5ZZTv79k195+yCZej1WIzU
+Received: from eichest-laptop.toradex.int ([2a02:168:af72:0:765:2268:762e:2748])
+        by smtp.gmail.com with ESMTPSA id y6-20020adfee06000000b0033b3cf1ff09sm1236689wrn.29.2024.02.09.00.45.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 00:45:44 -0800 (PST)
+From: Stefan Eichenberger <eichest@gmail.com>
+To: nick@shmanahar.org,
+	dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	linus.walleij@linaro.org
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	francesco.dolcini@toradex.com
+Subject: [PATCH v3 0/2] Add a property to turn off the max touch controller in suspend mode
+Date: Fri,  9 Feb 2024 09:45:41 +0100
+Message-Id: <20240209084543.14726-1-eichest@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -71,63 +92,31 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After legacy suspend/resume via ACPI S3, sensor read operation fails
-with timeout. Also, it will cause delay in resume operation as there
-will be retries on failure.
+Our hardware has a shared regulator that powers various peripherals such
+as the display, touch, USB hub, etc. Since the Maxtouch controller
+doesn't currently allow it to be turned off, this regulator has to stay
+on in suspend mode. This increases the overall power consumption. In
+order to turn off the controller when the system goes into suspend mode,
+this series adds a device tree property to the maxtouch driver that
+allows the controller to be turned off completely and ensurs that it can
+resume from the power off state.
 
-This is caused by commit f645a90e8ff7 ("HID: intel-ish-hid:
-ishtp-hid-client: use helper functions for connection"), which used
-helper functions to simplify connect, reset and disconnect process.
-Also avoid freeing and allocating client buffers again during reconnect
-process.
+Changes since v2:
+- Add Reviewed-by tags from Linus and Krzysztof to the dt-bindings patch
 
-But there is a case, when ISH firmware resets after ACPI S3 suspend,
-ishtp bus driver frees client buffers. Since there is no realloc again
-during reconnect, there are no client buffers available to send connection
-requests to the firmware. Without successful connection to the firmware,
-subsequent sensor reads will timeout.
+Changes since v1:
+- Rename the property and change the description (Krzysztof, Linus,
+Dmitry, Conor)
 
-To address this issue, ishtp bus driver does not free client buffers on
-warm reset after S3 resume. Simply add the buffers from the read list
-to free list of buffers.
+Stefan Eichenberger (2):
+  dt-bindings: input: atmel,maxtouch: add poweroff-sleep property
+  Input: atmel_mxt_ts - support poweroff in suspend
 
-Fixes: f645a90e8ff7 ("HID: intel-ish-hid: ishtp-hid-client: use helper functions for connection")
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218442
-Signed-off-by: Even Xu <even.xu@intel.com>
----
- drivers/hid/intel-ish-hid/ishtp/bus.c    | 2 ++
- drivers/hid/intel-ish-hid/ishtp/client.c | 4 +++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ .../bindings/input/atmel,maxtouch.yaml        |  6 ++
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 72 ++++++++++++++-----
+ 2 files changed, 61 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index aa6cb033bb06..03d5601ce807 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -722,6 +722,8 @@ void ishtp_bus_remove_all_clients(struct ishtp_device *ishtp_dev,
- 	spin_lock_irqsave(&ishtp_dev->cl_list_lock, flags);
- 	list_for_each_entry(cl, &ishtp_dev->cl_list, link) {
- 		cl->state = ISHTP_CL_DISCONNECTED;
-+		if (warm_reset && cl->device->reference_count)
-+			continue;
- 
- 		/*
- 		 * Wake any pending process. The waiter would check dev->state
-diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c b/drivers/hid/intel-ish-hid/ishtp/client.c
-index 82c907f01bd3..8a7f2f6a4f86 100644
---- a/drivers/hid/intel-ish-hid/ishtp/client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/client.c
-@@ -49,7 +49,9 @@ static void ishtp_read_list_flush(struct ishtp_cl *cl)
- 	list_for_each_entry_safe(rb, next, &cl->dev->read_list.list, list)
- 		if (rb->cl && ishtp_cl_cmp_id(cl, rb->cl)) {
- 			list_del(&rb->list);
--			ishtp_io_rb_free(rb);
-+			spin_lock(&cl->free_list_spinlock);
-+			list_add_tail(&rb->list, &cl->free_rb_list.list);
-+			spin_unlock(&cl->free_list_spinlock);
- 		}
- 	spin_unlock_irqrestore(&cl->dev->read_list_spinlock, flags);
- }
 -- 
-2.43.0
+2.40.1
 
 
