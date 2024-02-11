@@ -1,256 +1,155 @@
-Return-Path: <linux-input+bounces-1835-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1837-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCA6850892
-	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 11:02:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E7A8508DC
+	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 12:29:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E94BC1F218E3
-	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 10:02:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0227B1F23435
+	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 11:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504DD5A0FD;
-	Sun, 11 Feb 2024 10:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23F65A4FF;
+	Sun, 11 Feb 2024 11:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bernhard-seibold.de header.i=@bernhard-seibold.de header.b="O1qbzf5C"
+	dkim=pass (2048-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="lk/Skea2";
+	dkim=permerror (0-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="xCkYaHVc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3B25917F
-	for <linux-input@vger.kernel.org>; Sun, 11 Feb 2024 10:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707645744; cv=none; b=RBj5CQeT5V0PH5/2DIq7Dm5UAspMYPyvoHxBK1nJ5wW1GZZfy1bfuyX9sHo7SSY98TENTPHXyEQcVHxvrJzAgFpX/BIpGQ5wxF6WzVGNGYEHa0EBFscvWHxCnXKObke80kfDmuHS/7aIpQ95tMjRL4JRtr9C2RL6BvGMjnvDLeU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707645744; c=relaxed/simple;
-	bh=Dxwbxfi1x689DpDaB9WV14PvnzHZUP/eUwAyMuCi0Gw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TKiQK6QY7zA3I+0P0kzp+Z3gs2mMvX6qKqnar4GOaJZG5Fw/dagMPg06YnckHII27E/FgAbjMOmuADbUBP8UTylnkfNm3bXGCBNqXWHut4swp07cf8ExNVW2Koik8bKzVvIFJhCNd/QyakPDxQ9jKpLi42NIVlvXhKXLXAig9JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bernhard-seibold.de; spf=pass smtp.mailfrom=bernhard-seibold.de; dkim=pass (2048-bit key) header.d=bernhard-seibold.de header.i=@bernhard-seibold.de header.b=O1qbzf5C; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bernhard-seibold.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bernhard-seibold.de
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TXjmy5rp5z9sPq;
-	Sun, 11 Feb 2024 11:02:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernhard-seibold.de;
-	s=MBO0001; t=1707645730;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RUmp4+jZdfj8Z1/r8c6v2XBy8bOJbwrQcNp842YtrB4=;
-	b=O1qbzf5CXygRjqEPIm+BzQUfS/WONRpbXv89rCDGDILnlAagw4LBqEAimelinDaaYi8Xvh
-	osSIf22hSmYj79sAH6a7NpPHg/rNS3s13h5WZSmDreYgpuW7cB0d5YRjV0OdlHK3LoHbde
-	YKguMBAAIt2jlH+ihfsa9vb3R+w+xHDZO/mCyTG7IrrkXrBaz0RwTwXKYK9jUk8EsZI0A9
-	z3Q1kxCRgCvMgyTqJO5ojNRPY1tQcFs3q7SoOvUKIjd2SruMlXYiSFxODFb4LpRt7ZOZlB
-	BXu1iJhMpcvLt/SqGBvK5Zrb8Q1cM1KO7UBUxTDRIoEtnBKlvfOaQao1vkBvSQ==
-From: Bernhard Seibold <mail@bernhard-seibold.de>
-To: linux-input@vger.kernel.org
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jamie Lentin <jm@lentin.co.uk>,
-	Bernhard Seibold <mail@bernhard-seibold.de>
-Subject: [PATCH RESEND v2] HID: input: Add support for micmute LED
-Date: Sun, 11 Feb 2024 11:01:58 +0100
-Message-ID: <20240211100158.148593-1-mail@bernhard-seibold.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B058159178;
+	Sun, 11 Feb 2024 11:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707650961; cv=pass; b=vA6rFr7f8A6/5ishpturveudw0b/IJEU4WfkhwlU9I/NLsNeFDhhmf6+ghkWxm83aOybLIS/tS1YXI9fK1JtQrbR1QPP29zmzVXaLB+2AHjwUYRvBAKAzS+eywyJgka17ZGuPe7xSqoS1bmyB0Bb5g7I2wfzywCt5uNVA6RIQVA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707650961; c=relaxed/simple;
+	bh=a46TbE/hynpL7eBBgQ6hVp16oGlGrY98nmFueVCtp5Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DiHgpUB5Hldh+R/F6p9ZeeB1xFVw+tV1li2ZUNM+uwQ1ByNKbOofviftcqfqLKbzt4djDJpHg6R7UI9I3iVv14axoJYwfWLkJ7W9/382UAIex1ojxnFXbAOQS2uwzMJ8FEUy7orlVzbByQ2NwHFqFP87Tvh/LVdy9CElaX0QNnE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gerhold.net; spf=none smtp.mailfrom=gerhold.net; dkim=pass (2048-bit key) header.d=gerhold.net header.i=@gerhold.net header.b=lk/Skea2; dkim=permerror (0-bit key) header.d=gerhold.net header.i=@gerhold.net header.b=xCkYaHVc; arc=pass smtp.client-ip=85.215.255.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gerhold.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=gerhold.net
+ARC-Seal: i=1; a=rsa-sha256; t=1707650776; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=CMVOGEIk50drHDsacifP9+ilY09W6SVtoclY+psFfsXC9VmRMZU5alq0xUAw4TYQrJ
+    eRlX1SMmlsVB0zOY/EECH7MjZB+9JL3GR0hqcZMJ8aeYqpC4NlsD75CssoGutFGWnz+r
+    MznWHUwIoVwBk3sNh9gVBOFWn4GygTdKA7wLF3OfC1F3QIM8n8vFpeGX+o6ufNof1N0f
+    RVtovWLuUiFhWwpY8YwM96GZV8R+6g2W08n31iEya+xHk9iHGDtgxw3t6bVZyrRas1ya
+    uFQSmHJ/3Eryhj9PEji97aIlNitJpulaH4R//CiUj0n1hhw5iVGoeESKoLfs+Ab10ZgU
+    HIGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1707650776;
+    s=strato-dkim-0002; d=strato.com;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=YYORJiZMbtCUrplYD7CEsHGckfDhLB55zmu0nOiwreE=;
+    b=AHvShyhzNKbR5pJ73kp+o8YuY100VBfCq2/TGlVUnMrnN6CEbFItzmkw958FsYpuwD
+    k2ftLWCHQuqJvDdWsgCpQSUBJOAaXRe/ES4jb8bfhPv44XsYuZ+0DS1vcCEj0Ti681yo
+    owrUh1Itc8mnUbC2GQ8kslkOk4nBssWJ4Ht8n+i5rgLZaYrOy6eFzu1jvyPODHRxhw86
+    yiK99VcQWnkl5IPEiYGBQV54u1G7rMboBe5EssBFvwM5Xan03Dp/ro57hTSRatbksnYq
+    Qgu9SQBLoeA3zTUQitvP/65INuScgDlSE+QHhkPQge3NoHwoyLuuvpX15PPjbv17FLay
+    h9PA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1707650776;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=YYORJiZMbtCUrplYD7CEsHGckfDhLB55zmu0nOiwreE=;
+    b=lk/Skea2Fe88PpmmBQZ6jvEae16Juof0984NA0WgzPBbYXxhxzqYM4EJwJISixx+cl
+    GNp0VKQ49PwKjAFClIj9HYTJvfkHpwLVnzf/Eq8DAPERE+35U5+7uzRwKCJ2/LFfgawm
+    0ve/nf3vGSnbpvWbiAhxJWUDXLb4tM21SJXl+Ca9HOa1XdqTQhRB81tFXKtaYH8TC6ZI
+    D9yQD/1mHejOUapahC/IyelU43wHort70EJ6EnJPKWXORcYOYvNfa7edQIjTyM23h/Ne
+    03NIj6b73XF8C1EU+G86ugdFwTiKFywVFxnauR5izCv1BZMfx2KjVPbgBPUgIyZ0ABbH
+    roqQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1707650776;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=YYORJiZMbtCUrplYD7CEsHGckfDhLB55zmu0nOiwreE=;
+    b=xCkYaHVc0ji4XJK8kqEv6SnD4NG0rP7ri4JiohgM07RvVV8JHuSMJzay3BYSRQWRW1
+    hT/hCBDiSyxrOi0QCdCw==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQjVd4CteZ/7jYgS+mLFY+H0JAn8u4p3mw=="
+Received: from [192.168.244.3]
+    by smtp.strato.de (RZmta 49.11.2 DYNA|AUTH)
+    with ESMTPSA id ze34f101BBQFwzs
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 11 Feb 2024 12:26:15 +0100 (CET)
+From: Stephan Gerhold <stephan@gerhold.net>
+Subject: [PATCH RESEND v3 0/2] Input: add Himax HX852x(ES) touchscreen
+ driver
+Date: Sun, 11 Feb 2024 12:25:49 +0100
+Message-Id: <20240211-hx852x-v3-0-f682e2fcf11d@gerhold.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL2uyGUC/2XPPQvCMBCA4b9SMhvJ3fUjcXLQ1UFHcejHtQ1IK
+ 6mUSul/NwQsiuPl8rxwsxjYWR7ELpqF49EOtu/8QJtIlG3eNSxt5WeBCklpSGU76QQnSbFRFWY
+ ZEaLwnx+OazuF0FWcj5fj6SBu/r21w7N3r9AfIWxDygB9UiNIJU0JXNR1QikX+4Zd29+rbcfPE
+ BnxC5JaIXpYJhrBxFmBmPxDWiEojFdIHuag/QmUa2DzC5dleQM7Zn8nGAEAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Jonathan Albrieux <jonathan.albrieux@gmail.com>, 
+ Stephan Gerhold <stephan@gerhold.net>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.4
 
-The USB HID spec describes a number of LEDs that are currently
-unsupported. For now, add only the micmute LED since this one is proven
-to exist in actual devices. Since LED support via input-leds is
-grandfathered, the new LED is added directly in hid-input.
+Add DT schema and driver for the Himax HX852x(ES) touch panel 
+controller, with support for multi-touch and capacitive touch keys.
 
-Signed-off-by: Bernhard Seibold <mail@bernhard-seibold.de>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 ---
- drivers/hid/Kconfig     | 11 +++++
- drivers/hid/hid-input.c | 92 +++++++++++++++++++++++++++++++++++++++++
- include/linux/hid.h     |  1 +
- 3 files changed, 104 insertions(+)
+Unchanged resend of v3 from Tue, 24 Oct 2023:
+https://lore.kernel.org/r/20231024-hx852x-v3-0-a1890d3a81e9@gerhold.net
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 4c682c650704..f8ed13d9740a 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -42,6 +42,17 @@ config HID_BATTERY_STRENGTH
- 	that support this feature) through power_supply class so that userspace
- 	tools, such as upower, can display it.
- 
-+config HID_LEDS
-+	bool "LED support for HID devices"
-+	select LEDS_CLASS
-+	default y
-+	help
-+	This option adds support for LEDs on HID devices. Currently, the
-+	only supported LED is microphone mute. For all other LEDs,
-+	enable CONFIG_INPUT_LEDS.
-+
-+	If unsure, say Y.
-+
- config HIDRAW
- 	bool "/dev/hidraw raw HID device support"
- 	help
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index c8b20d44b147..32d3e6a2ac44 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -16,6 +16,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/kernel.h>
-+#include <linux/leds.h>
- 
- #include <linux/hid.h>
- #include <linux/hid-debug.h>
-@@ -104,6 +105,9 @@ static const struct usage_priority hidinput_usages_priorities[] = {
- #define map_key_clear(c)	hid_map_usage_clear(hidinput, usage, &bit, \
- 		&max, EV_KEY, (c))
- 
-+#define setup_led(name, trigger) \
-+	hidinput_setup_led(device, field, usage_index, name, trigger)
-+
- static bool match_scancode(struct hid_usage *usage,
- 			   unsigned int cur_idx, unsigned int scancode)
- {
-@@ -674,6 +678,88 @@ static bool hidinput_set_battery_charge_status(struct hid_device *dev,
- }
- #endif	/* CONFIG_HID_BATTERY_STRENGTH */
- 
-+#ifdef CONFIG_HID_LEDS
-+
-+struct hid_led {
-+	struct list_head list;
-+	struct led_classdev cdev;
-+	struct hid_field *field;
-+	unsigned int offset;
-+	char *name;
-+};
-+
-+static int hidinput_led_brightness_set(struct led_classdev *cdev,
-+		enum led_brightness value)
-+{
-+	struct device *dev = cdev->dev->parent;
-+	struct hid_device *device = to_hid_device(dev);
-+	struct hid_led *led = container_of(cdev, struct hid_led, cdev);
-+
-+	hid_set_field(led->field, led->offset, !!value);
-+	schedule_work(&device->led_work);
-+
-+	return 0;
-+}
-+
-+static void hidinput_setup_led(struct hid_device *device,
-+		struct hid_field *field, unsigned int offset,
-+		const char *name, const char *trigger)
-+{
-+	struct hid_led *led;
-+	struct device *dev = &device->dev;
-+	struct device *idev = &field->hidinput->input->dev;
-+
-+	led = kzalloc(sizeof(*led), GFP_KERNEL);
-+	if (!led)
-+		return;
-+
-+	led->name = kasprintf(GFP_KERNEL, "%s::%s", dev_name(idev), name);
-+	if (!led->name) {
-+		kfree(led);
-+		return;
-+	}
-+
-+	led->cdev.name = led->name;
-+	led->cdev.default_trigger = trigger;
-+	led->cdev.max_brightness = 1;
-+	led->cdev.brightness_set_blocking = hidinput_led_brightness_set;
-+	led->field = field;
-+	led->offset = offset;
-+
-+	if (led_classdev_register(dev, &led->cdev)) {
-+		kfree(name);
-+		kfree(led);
-+		return;
-+	}
-+
-+	list_add_tail(&led->list, &device->leds);
-+}
-+
-+static void hidinput_cleanup_leds(struct hid_device *device)
-+{
-+	struct hid_led *led, *tmp;
-+
-+	list_for_each_entry_safe(led, tmp, &device->leds, list) {
-+		led_classdev_unregister(&led->cdev);
-+		kfree(led->name);
-+		kfree(led);
-+	}
-+}
-+
-+#else  /* !CONFIG_HID_LEDS */
-+
-+static void hidinput_setup_led(struct hid_device *device,
-+		struct hid_field *field, unsigned int offset,
-+		const char *name, const char *trigger)
-+{
-+}
-+
-+static void hidinput_cleanup_leds(struct hid_device *device)
-+{
-+}
-+
-+#endif  /* CONFIG_HID_LEDS */
-+
- static bool hidinput_field_in_collection(struct hid_device *device, struct hid_field *field,
- 					 unsigned int type, unsigned int usage)
- {
-@@ -935,6 +1021,10 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
- 		case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
- 
-+		case 0x21:  /* "Microphone" */
-+			setup_led("micmute", "audio-micmute");
-+			break;
-+
- 		default: goto ignore;
- 		}
- 		break;
-@@ -2282,6 +2372,7 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
- 	int i, k;
- 
- 	INIT_LIST_HEAD(&hid->inputs);
-+	INIT_LIST_HEAD(&hid->leds);
- 	INIT_WORK(&hid->led_work, hidinput_led_worker);
- 
- 	hid->status &= ~HID_STAT_DUP_DETECTED;
-@@ -2380,6 +2471,7 @@ void hidinput_disconnect(struct hid_device *hid)
- {
- 	struct hid_input *hidinput, *next;
- 
-+	hidinput_cleanup_leds(hid);
- 	hidinput_cleanup_battery(hid);
- 
- 	list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 7c26db874ff0..7c0e2789755f 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -617,6 +617,7 @@ struct hid_device {							/* device report descriptor */
- 	unsigned country;						/* HID country */
- 	struct hid_report_enum report_enum[HID_REPORT_TYPES];
- 	struct work_struct led_work;					/* delayed LED worker */
-+	struct list_head leds;						/* List of associated LEDs */
- 
- 	struct semaphore driver_input_lock;				/* protects the current driver */
- 	struct device dev;						/* device */
+Changes in v3:
+- Fix device_property_count_u32() error handling (Jeff)
+- Properly handle errors in hx852x_suspend (Jeff)
+- Simplify error handling in hx852x_read_config() (Jeff)
+- Close i2c_msg array with trailing comma (Jeff)
+- Clean up error handling in hx852x_power_off()
+- Link to v2: https://lore.kernel.org/r/20230930-hx852x-v2-0-c5821947b225@gerhold.net
+
+Changes in v2:
+- dt-bindings: Swap required:/additionalProperties: (Krzysztof)
+- Use dev_err_ratelimited() for error in IRQ thread (Christophe)
+- Use dev_err_probe() consistently (Christophe)
+- Improve error handling of hx852x_power_off()/hx852x_stop() (Jeff)
+- Add linux/of.h and linux/mod_devicetable.h include (Jeff)
+- Fix %d -> %u in some format strings (Jeff)
+- Fix other small comments from Jeff
+- Link to v1: https://lore.kernel.org/r/20230913-hx852x-v1-0-9c1ebff536eb@gerhold.net
+
+---
+Jonathan Albrieux (1):
+      Input: add Himax HX852x(ES) touchscreen driver
+
+Stephan Gerhold (1):
+      dt-bindings: input: touchscreen: document Himax HX852x(ES)
+
+ .../bindings/input/touchscreen/himax,hx852es.yaml  |  81 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/input/touchscreen/Kconfig                  |  10 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/himax_hx852x.c           | 500 +++++++++++++++++++++
+ 5 files changed, 599 insertions(+)
+---
+base-commit: d03f030115fe930de1222fef294730ba21b93045
+change-id: 20230816-hx852x-3490d2773322
+
+Best regards,
 -- 
-2.43.0
+Stephan Gerhold <stephan@gerhold.net>
 
 
