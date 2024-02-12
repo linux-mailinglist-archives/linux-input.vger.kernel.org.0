@@ -1,155 +1,220 @@
-Return-Path: <linux-input+bounces-1839-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1840-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECB5850B04
-	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 20:05:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF69851818
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 16:33:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08E3A1F20FCD
-	for <lists+linux-input@lfdr.de>; Sun, 11 Feb 2024 19:05:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF95F1C20A09
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 15:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74DB55C5FC;
-	Sun, 11 Feb 2024 19:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB833CF45;
+	Mon, 12 Feb 2024 15:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="aB2YFCzL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Co2aU8UO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01olkn2078.outbound.protection.outlook.com [40.92.112.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455401E860;
-	Sun, 11 Feb 2024 19:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.112.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707678315; cv=fail; b=nVSisIoL7oEeB31OiVvqXtGbnSN+vpd0aODlsJz4U1xPNDDgaAJIHzfYuJMe99Bci2L2oXJMWNpoV2niTTwkQRvuJVESJpnnH7XaHsFX0ipXIfHzThz/FqWXa2fQ8/KsPOCEFo42xB2FDNofBkcRjkvcGQItw9M46H7f13/4xL8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707678315; c=relaxed/simple;
-	bh=tDV0hh1doTpKcZKeNL1IcJmfz89148qyoYZ7l3QGgbg=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=gSE7L4zPADRMAsBB3/E9Jdo+weezG7T4u5znCgT2ndKb0RZC67hq/ufqecN01KF1BKXhCny19rBVNxx65HlOBf8mQCMLH8b0WVnFc44ZhFSpWzZ7hP9ot2EVY+2ver7AU+ZHfZHT/ztVzmRTXGFxWi+/uMe4h4EXXH14X/UzC7s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=aB2YFCzL; arc=fail smtp.client-ip=40.92.112.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dz9i3leV09ToIoVdwuqaSwvAU6WMpPtGo7OsRaHcFyIG1GQLCFWyBTkfAjo8TlW6inCXQ9LV8wnIZHDnAYM1cYt1RmN+b/MkBOPes79CzT3acpraG+xAZU1wpekjkU7Nkj53/ajNHZ0TqT/b9j5tx8Nv2kiyf9bIwr0lN74I1I80birMSQODvrFtNoD3Dok/lD0BjLxF7rL6ervvY2qd1tj1pigtUBXVO7qcC41gIHzy1TdoxEjoFxE9YTFfg3tbEkarnmuFomyJ2WFZp9R9dVuRUQgbLeRReVANx1voh01zKODJEeuZ6BMOWHwtm8EDhIuqFzathlBs0IQIVE1plQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P1J33dguXjjEfP8faYflNUYJmQ0+hIDlKLlS7EJTOJ4=;
- b=OTsEdD1ukEBrSEck01erfebMbn/NMuJiBzg3pqDm6VgGtRwUKT4W7j+FpUdrgDDO2tdJUIjohVIwC/HRYTBsa2ceji+loAB0urPeb1F3FsvNkIKDI3AY9JM5Lse7iiVXKzh+peJ0TJx4qDBJw7pQhCjajrxsGeA9immXy8W3K/YLTPIDLrrIRQ9AD7OArIlWZMzkYvs0dNSyPymdflzuOEMwf9fEue+EVkMvDuMp2gOUqj+B8+OY00QRVq33ntBJ2lF0f45Q7y8RdDqesrIiD/Sk8Zqd/8SfbIWCuCS23F7yAoIR7veUbFlv/WamZhVdOMPLLNXLnjqJ1IWz0+aSEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1J33dguXjjEfP8faYflNUYJmQ0+hIDlKLlS7EJTOJ4=;
- b=aB2YFCzLZD4dTBx2T2l21QyONwJ0e10imrunrXhcvx6Bx4HqC2p3TndG4/zuRbnV+m0k2KCpXv0t64dc8Dpn9B9NkOAErwciK7s9AaSYaXGcLbp55cLhiTy6Kf77YNRj9rv/PrNgHiw62fVw9XceyTJiW668fKe5VfR5KYchRdVyuRUX8Dz24x63BLOg3KmG71ttLFTJ2QyZlZDzw9blQ/xDqktNpXg6oPa0xgbHWbI7Eb598aMaWJWCCw7r24Z3viUW5vhCgeyNl4kHqqNVJW7gg1VFqsNNh+Ra3Dj7ECyZlt+UzkCCqw2oHtp9c7NvjVqL0CEAd7hhhAcs7oEGPA==
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
- by LO3P123MB2970.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:fc::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.33; Sun, 11 Feb
- 2024 19:05:09 +0000
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::7c41:db74:a67f:86ff]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::7c41:db74:a67f:86ff%4]) with mapi id 15.20.7270.036; Sun, 11 Feb 2024
- 19:05:09 +0000
-From: Manuel Fombuena <fombuena@outlook.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Manuel Fombuena <fombuena@outlook.com>
-Subject: [PATCH] HID: multitouch: Add required quirk for Synaptics 0xcddc device
-Date: Sun, 11 Feb 2024 19:04:29 +0000
-Message-ID:
- <CWLP123MB547355BA62AD835719F60865C5492@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [ldbW6JTgmcR5tyVfHtBjg9lwVJNPrjjWH6PQR4hkJfYCuYCm1Sxv0InKONi7se2d]
-X-ClientProxiedBy: LO4P123CA0039.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::8) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:160::13)
-X-Microsoft-Original-Message-ID: <20240211190429.84457-1-fombuena@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165C43C497;
+	Mon, 12 Feb 2024 15:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707752001; cv=none; b=S/BayAzGdPR3klvxlZiO1LUgqlCfOoEDK3A4Q5FWj9HKntQaI5WEP5wrcajsUD+iJGMdGLRYWNeiOebLF3LNR+QMpOCI7NhG4AAw4yyZ+2tOT2kn2EJ5inMYbyhypL4z7qI0ixQmTI+BNrt1TEtTI09PH0PE9jDWT98ZI88VEbA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707752001; c=relaxed/simple;
+	bh=GFsfkdOmJKsuZtWQAq7OhjxHg4IKHiDCDNVd+Gd58aw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MmRv28evJMFIXRjQdtHazGe3+puM5+3YvnVkl9fCoH/skTwqYCQ86cssWz3+SzaivKYcGElJhwYgM9XBfewGWXwDSbbf5wnCNfilgG3W8HgwIVomPFjg7leCuzwja53AP7K89FNPXItD6EjIsS9BRMsm2b2VPXa8qzx7eZd4tFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Co2aU8UO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD66C433F1;
+	Mon, 12 Feb 2024 15:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707752000;
+	bh=GFsfkdOmJKsuZtWQAq7OhjxHg4IKHiDCDNVd+Gd58aw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Co2aU8UOdKL4W8SUaaEqV0BTVAuiZ9niMqI5QuXmkWRQqRD+bsuUp32djuJPfJQ7M
+	 J0AdS/WqPhUm+WDhNwj0PIl1NFZPSx4kaz74w8AVaBO2niEWSvmitVVz0AuwMwTUcd
+	 8MtOvRT2s7ojnBMUpDpCQjuzEzxH0//zOgasqtDHJDU6fjIDBJFEa6lJkzge7aVnIn
+	 65sRlXZGfvNWKRj6hhoF+/MvmClp/yoVXWTT6Lqc/PTFBqTwhuA4fpNCA+K8uTOths
+	 DH2aamg+A5g3aeMmWit1ZUc4X0oSEYy8EtlcvJyPFhdziLYkgWINAXOkx2oWF2pGNL
+	 vlKQQFPbdC2Dw==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, 
+ Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, 
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>, 
+ Stefan Schmidt <stefan@datenfreihafen.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ Sergey Kozlov <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Yang Yingliang <yangyingliang@huawei.com>, linux-mmc@vger.kernel.org, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Michal Simek <michal.simek@amd.com>, 
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, 
+ linux-mtd@lists.infradead.org, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+ Max Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, 
+ Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
+ Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Aaro Koskinen <aaro.koskinen@iki.fi>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>, 
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+Subject: Re: (subset) [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-Id: <170775198078.46149.4700126128576800564.b4-ty@kernel.org>
+Date: Mon, 12 Feb 2024 15:33:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|LO3P123MB2970:EE_
-X-MS-Office365-Filtering-Correlation-Id: f25e253d-7115-4a14-f73a-08dc2b345d3d
-X-MS-Exchange-SLBlob-MailProps:
-	qdrM8TqeFBueY0MSiJltW/Lq6/+Wl4JHBXF+FgvlD1WIQayWEjFM00O92anCUUDkRVkZ4wyzhgsmJHHHjzmH1jvAoHIUUPtWo1PZ4psZN6BQrGRWye9DDhm/NdKcxVRpMKkvNS5cdgCOc6fqUDec1Pxv3TPQApP2nOr8YRN7PKNJzdADlaiwfVegu+QfvaymPoGAxCrf8gcqWXC+UQozThSx9kJ7NdmpcccFTMep+YieW5j8e/A3ZcK2CMgtS4hogGUIpmSnhrijqX6ZQeUN4dcVo1TnY+VhfD+28ln5z8rXbeJjDeTUmK8ffOW+tdFkoQ8XMr8h5AFp7kLEfLJzz1dk512v9aS4HpL+2GRAWSraIgEv34xElMS8dxGUZXdk8RRsNyUzWjpLbFV9BC4euCI+TRs7OWznJtjyy4zAkHTusWoPzddHQc8VbUf0+fB52K3EqZsKErk6SsZGrFM+PeWfbwpI5M8eYOElW428rYHEXRvKP4mgp9KFKOOD5JjuH9Ni8sEOn0jzMbIgwKUlMS3fqKuP+2TGLlvODhF50HD6i2e22G/lNvZNO3wNF14af5nw2zppIYCNG1ggDI0rrn+iyxjxgxqwhKvfvwO03yrRH4qK+cdqT+dW9FVMYODX5HWvHKznjgkzC59gfA/qtreNSoHmunQLfhQM/uNTdMbanq7HvWryn3LynN/X1USV9FDAVasNQj42sNmHv/6MWkiPhkrVqqu4IN66Ru6dIkzbPX5PZVXgwMyzaE5FswqvNQzkM8CnJdG/ejSrCsT3IGEwAqHW2MLs
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	/qg0lgB33Ji6dZBpXUHTkDsSxK9xKKfCIlnGh6iFv4o4e8QGPUAW8bezubM9e221KxzyXGajJ9VUOkugH31X8bxWGCyu037WW/tIP1//Bq4EM3z/7dn2ltx+t/I83ImQRd3tNy7XeQxO0OpZ47bTekdipvP5r2ZsLRYZC+JUume2QY78mBwfu7V9xvTkkoxorv1etX4n5DP073+XjfNWb7ALIBHZ4aeCnGMZnSBVwnTWYPMQBiRWxl7lrI7gJYs2Ccilpf6dW2vJPpCXFLadAW/FWgc26iQ6oMU+F6WDhzNPl6nJR0uM9Qi2O6kMD/KmvPUeVj2XJQF8UI46CdpJISpxVBSwKd72ZsnKGhdVfGK63DQ+djESxjhsFSVyMqZVePX5VN+wYYu1uT0WIUkCJ6OVw6IKg23nBtrGd60Rf9IFcF3kY0y6M/exJ80UrGRSxEtvOz0XjHv+op0D56E+qCR3vgEk9BFbKuH1BzjFiIuZpy2zDe8iGocJ2TTTdpRHwdXTIPBoqwT9QqQrB3ZI5jJkHAnDNOwr2aP6nPH5/E8gfCiUAk8xHO2p0KiBnuNbC3eKPmNp+i8GBe2fE7sRXQ89hl9fq9zq5GOzcQ8zMBlmHDVpmj7PfKK3EjOcACYf046okctUyHxCBMPz/p3gYqHdKCPlll4hBBxFu50xaWA=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gyfRLnlVGHXW6KReuz4+aAODjPgw9sPviy12qiR/X+84x9fVgG5j1RHL2ywG?=
- =?us-ascii?Q?OEkS3qUfJ9Bm0VjSchT+t8+8c1mNr/nGADR15DnALJ0QklhNuRfCdPux7Vh3?=
- =?us-ascii?Q?4R7ZL1z712cqUGvpKSckh5RgrvxCGuwy85yD4K7J5wDQJomu5gtQG8bDw9nc?=
- =?us-ascii?Q?Ul0PNSBS/Vh/4LmpM6gxAiVcs7/fCZb9xd6ZQc7pbGzPNlSr5gBbNgaeLVFu?=
- =?us-ascii?Q?vTRLTq29apOIJA5TbUMfJvNWC8JXLW98s+SQYCyQnmjXiSko6hBx2ViiN+Rf?=
- =?us-ascii?Q?+9KZ4YXFEkiCDkM3ppOylOo2ac1C/sOCeeYmyn6h+TtVvvVZXFQdxRT8Wr+W?=
- =?us-ascii?Q?hM9ecLpZm06CV8AjKSylbdrVKZpu4dGYzB2e3M/eMtQJXCgVw8RSMUIYpTKx?=
- =?us-ascii?Q?Ga5tP2qCnu8iMui72wHqSKMO0YJZwIiNyPxzQ7zSQBJeU4IY5/agAZ12w/av?=
- =?us-ascii?Q?vTRQ5la+jgTEcVQtYmH6jaIdMiXlfZ9U/xrrvW1iOo1H5Djk7TwXWS9Q/Lcd?=
- =?us-ascii?Q?xfxbGr4XJQKysv/EQmR0W97Ffv9udqBdrLFsgaOz4LQ3N6tBle+fAxSJFCy+?=
- =?us-ascii?Q?KHuiDhvDWsBdUuxD8QWVXMdlTQunoSWJd5VL+wYqn6nu9OEIu74khq8PLHas?=
- =?us-ascii?Q?4LXJNTPaEPeA860ZcfrIrpO6RE3RGmj3W+3beGhPYiaLATogo4U2HTWpmxqM?=
- =?us-ascii?Q?jR5Eje34nX2dGJ5xoc+CZCpRx1I1TwmC/6j4Hc3sCqnxkfor8jkp06R7w+tr?=
- =?us-ascii?Q?TsX5t0FM/GREtd5EGzDFyu+DN0Gdt+dMWiAaJ8OFJvaF9tpluJtPserhMML4?=
- =?us-ascii?Q?ZLnPcIKTG+gzOAc5PwhDlFc2ZP7lj5DMpCT4HBGTpzpDndk4vsl2L16j6irk?=
- =?us-ascii?Q?Qp1qRdkO3o8m+Elz+79StdfARO2zHWjzoW1H6UiY77NjulAcs0lSVLQd3BLB?=
- =?us-ascii?Q?Dnui5+GlewKXqrqaBHz21RiEEHqRZ/ivddGB8BDgEk2lL4t3G5gEfXDVf/bt?=
- =?us-ascii?Q?p/9E0J1UswVQHsEsN1kF2mx7MiGhCjxUCrB9bCILPfM4rsQ1YqRyhRTiml8R?=
- =?us-ascii?Q?rWFsrvLIZ8vVkn6Un9j3gioBgXO2nz1z5fwdUALUwHautrbCPq5EWe8n5Dno?=
- =?us-ascii?Q?MUUjo69N+L529p58Wyq99jsS05HNLcWT7XXJVfHcaW3bxj0Ne9xPxDNqKt49?=
- =?us-ascii?Q?/zxMGrVVvswxbmIc8vDICFFkeoMst5GMAyDCIWK9x5Mie0sCwGy09AFx6ct/?=
- =?us-ascii?Q?KSNBPlxkcsEIEdfGgJdV89PnmjAY3btymtxj3LnVXgsSArQO7jvHN/lvDoK1?=
- =?us-ascii?Q?2SU=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f25e253d-7115-4a14-f73a-08dc2b345d3d
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2024 19:05:09.3188
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P123MB2970
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13-dev-a684c
 
-Add support for the pointing stick (Accupoint) and 2 mouse buttons.
+On Mon, 22 Jan 2024 19:06:55 +0100, Uwe Kleine-König wrote:
+> this is v2 of this patch set.
+> 
+> Changes since (implicit) v1, sent with Message-Id:
+> cover.1705348269.git.u.kleine-koenig@pengutronix.de:
+> 
+>  - Rebase to v6.8-rc1
+>  - Fix a build failure on sh
+>  - Added the tags received in (implicit) v1.
+> 
+> [...]
 
-Present on some Toshiba/dynabook Portege X30 and X40 laptops.
+Applied to
 
-It should close https://bugzilla.kernel.org/show_bug.cgi?id=205817
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
----
- drivers/hid/hid-multitouch.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks!
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index fd5b0637dad6..3e91e4d6ba6f 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2151,6 +2151,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
- 
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_SYNAPTICS, 0xcddc) },
-+
- 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
--- 
-2.43.0
+[01/33] fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
+        commit: 227ab73b89d66e3064b3c2bcb5fe382b1815763d
+[02/33] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
+        commit: 167b78446706bb4d19f7dd93ca320aed25ae1bbd
+[03/33] iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
+        commit: 2780e7b716a605781dbee753ef4983d775a65427
+[04/33] Input: pxspad - follow renaming of SPI "master" to "controller"
+        commit: a78acec53b8524593afeed7258a442adc3450818
+[05/33] Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
+        commit: 1245633c61baf159fcc1303d7f0855f49831b9c1
+[06/33] media: mgb4: Follow renaming of SPI "master" to "controller"
+        commit: 2c2f93fbfba7186cc081e23120f169eac3b5b62a
+[07/33] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+        commit: cfa13a64bd631d8f04a1c385923706fcef9a63ed
+[08/33] media: usb/msi2500: Follow renaming of SPI "master" to "controller"
+        commit: dd868ae646d5770f80f90dc056d06eb2e6d39c62
+[09/33] media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
+        commit: d920b3a672b7f79cd13b341234aebd49233f836c
+[10/33] misc: gehc-achc: Follow renaming of SPI "master" to "controller"
+        commit: 26dcf09ee5d9ceba2c627ae3ba174a229f25638f
+[11/33] mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
+        commit: b0a6776e53403aa380411f2a43cdefb9f00ff50a
+[12/33] mtd: dataflash: Follow renaming of SPI "master" to "controller"
+        commit: 44ee998db9eef84bf005c39486566a67cb018354
+[14/33] net: ks8851: Follow renaming of SPI "master" to "controller"
+        commit: 1cc711a72ae7fd44e90839f0c8d3226664de55a2
+[15/33] net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
+        commit: 7969b98b80c0332f940c547f84650a20aab33841
+[16/33] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+        commit: 85ad0ec049a771c4910c8aebb2d0bd9ce9311fd9
+[17/33] spi: bitbang: Follow renaming of SPI "master" to "controller"
+        commit: 2259233110d90059187c5ba75537eb93eba8417b
+[18/33] spi: cadence-quadspi: Don't emit error message on allocation error
+        commit: e71011dacc3413bed4118d2c42f10736ffcd762c
+[19/33] spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
+        commit: 28e59d8bf1ace0ddf05f989a48d6824d75731267
+[20/33] spi: cavium: Follow renaming of SPI "master" to "controller"
+        commit: 1747fbdedba8b6b3fd459895ed5d57e534549884
+[21/33] spi: geni-qcom: Follow renaming of SPI "master" to "controller"
+        commit: 14cea92338a0776c1615994150e738ac0f5fbb2c
+[22/33] spi: loopback-test: Follow renaming of SPI "master" to "controller"
+        commit: 2c2310c17fac13aa7e78756d7f3780c7891f9397
+[23/33] spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
+        commit: 8197b136bbbe64a7cab1020a4b067020e5977d98
+[24/33] spi: spidev: Follow renaming of SPI "master" to "controller"
+        commit: d934cd6f0e5d0052772612db4b07df60cb9da387
+[25/33] staging: fbtft: Follow renaming of SPI "master" to "controller"
+        commit: bbd25d7260eeeaef89f7371cbadcd33dd7f7bff9
+[26/33] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+        commit: ee3c668dda3d2783b0fff4091461356fe000e4d8
+[27/33] tpm_tis_spi: Follow renaming of SPI "master" to "controller"
+        commit: b6af14eacc8814b0986e20507df423cebe9fd859
+[28/33] usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
+        commit: 8c716f4a3d4fcbec976247e3443d36cbc24c0512
+[29/33] video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
+        commit: b23031e730e72ec9067b7c38c25e776c5e27e116
+[30/33] wifi: libertas: Follow renaming of SPI "master" to "controller"
+        commit: 30060d57cee194d6b70283f2faf787e2fdc61b6e
+[31/33] spi: fsl-lib: Follow renaming of SPI "master" to "controller"
+        commit: 801185efa2402dce57828930e9684884fc8d62da
+[32/33] spi: Drop compat layer from renaming "master" to "controller"
+        commit: 620d269f29a569ba37419cc03cf1da2d55f6252a
+[33/33] Documentation: spi: Update documentation for renaming "master" to "controller"
+        commit: 76b31eb4c2da3ddb3195cc14f6aad24908adf524
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
