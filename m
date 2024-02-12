@@ -1,116 +1,154 @@
-Return-Path: <linux-input+bounces-1853-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1858-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BBD851B55
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 18:25:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7F9851B79
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 18:31:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2587A1F212B7
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 17:25:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF2E91F2565E
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 17:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD9F3D99E;
-	Mon, 12 Feb 2024 17:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6AC3F9CB;
+	Mon, 12 Feb 2024 17:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mME2VuDB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261703E47E
-	for <linux-input@vger.kernel.org>; Mon, 12 Feb 2024 17:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FAD3EA7B;
+	Mon, 12 Feb 2024 17:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707758717; cv=none; b=MF7wcwvXJ0BbNxD+he/vaKGoUG8357fZWJgKXBiiZOKT72Qr+28/2mnMUojO2FyBjcIvABdoAHWGgV39ndd8nSpfpCYPp9wiKY5BMU+f0RpXGJfsQYpECFYbwE2QuJDse0yNWmdjC0PtC5a3k6FfN9e1XopaL0KUJX4L4Xo/O4o=
+	t=1707759100; cv=none; b=D7BYvboS9CyKYedD2EPvIQURlL14hwDdbKXqSxflvJ/h0POUQdfyNlqrYRJuUv0fnmU7LL2LQVvmaUOJ9yRStTn68ESO0Cf+MW/cIe63MS65jgyih3p6CT6oJDNqL1W60tqa+2TjFWEmvl47meKsbJgrLKzB7FWKGhpJqPzLgVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707758717; c=relaxed/simple;
-	bh=87yW5oEy3KgnEZywOGA7ppoWJvVKviyk8MEPfGLPes0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ezhASW5zd6sW/PrWMQJ6vg6G1iJi2nOVc59h1wnekA6D8GIMdpufnO/150fYc+h+KcBPuruyjvU+1YMvojrqgHmRrcy8ckKKV71hzQ/peMCLd1oRSqLQ3xoIVcJyqAEToP2KyHsvMJAmvhy+FyTYbrnF4Ouam6RswcFK8dLtVIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rZa3E-0005W6-7L; Mon, 12 Feb 2024 18:25:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rZa3D-000KX0-Ah; Mon, 12 Feb 2024 18:25:03 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rZa3D-003LAE-0m;
-	Mon, 12 Feb 2024 18:25:03 +0100
-Date: Mon, 12 Feb 2024 18:25:03 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
-	deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 06/10] backlight/pwm-backlight: Remove struct
- backlight_ops.check_fb
-Message-ID: <nzebylqpe2jvwuig72jvlmkgwqidehkreqif3wglz5xecv5uop@xopxbalfnczt>
-References: <20240212162645.5661-1-tzimmermann@suse.de>
- <20240212162645.5661-7-tzimmermann@suse.de>
+	s=arc-20240116; t=1707759100; c=relaxed/simple;
+	bh=mK31yRTxup64WSxJD8dsvPJdAc7rD+RgAShdC5fAsbw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bUJ6nGdrgrHCPwE2o6fwfxk9bvCfRPPw4OUqkg54qaEMsUI2qX4oGsFbMcf+1XeTBIzIZPzNi/0SOge3F3GhGMnUDhZ3Xc0u3loM8RoX1z6gYT28w/MAXCBWinmxevVUa/+yPinbnANfu8CcTbLK3irMSSPhfA7plfGeF83eGR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mME2VuDB; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41CHUCVE001221;
+	Mon, 12 Feb 2024 11:31:20 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=4
+	vvGckA5Yki91rPQ2RmiMlPYqiKpqyWB62mVLTfHrGc=; b=mME2VuDBI3SbkwS5+
+	aJvt7vS+vsgDEQM+SrxGrCrEvpWCW6GXA7K3hLi9Vbf/Ms2Wu60dePg9YQFu9Qps
+	baAIQrFRTeLtiwUDHtRNLtAP3NcSZI+Ux8JWe8eSKHtv06biokJd0OzFpGW3CWKH
+	FQxLBsrMbSjM+LY/fHfkTe2lizJKRYB9lv06m8bs7pys0Y6CE0C9rf9REpcG/jwt
+	twtO8O4b1h9M2+HWmoOh5R790QjCmzqIvIkG3h5jPY1jaSHScqNp8ElsbltQqIhM
+	YvCg8a+zB1L16u9qsBWfkplGUgis0oBAmYcnRpj8wy3RlyEIAYAFaVtAKtFBx66C
+	p67oQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w66ep25rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Feb 2024 11:31:20 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
+ 2024 17:31:18 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 17:31:18 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0B9D4820243;
+	Mon, 12 Feb 2024 17:31:16 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>
+Subject: [PATCH v7 0/5] Add support for CS40L50
+Date: Mon, 12 Feb 2024 17:31:06 +0000
+Message-ID: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c5qbx3hsze67vw7s"
-Content-Disposition: inline
-In-Reply-To: <20240212162645.5661-7-tzimmermann@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: aCs3FWX-ErcDJhkIeTXFdkn1jxmj21CM
+X-Proofpoint-GUID: aCs3FWX-ErcDJhkIeTXFdkn1jxmj21CM
+X-Proofpoint-Spam-Reason: safe
 
+Changes in v7:
+- Fixed sparse warning
+- Moved write sequences to private data structure
+- Logical and style improvements in write sequence interface
 
---c5qbx3hsze67vw7s
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in v6:
+- Updated write sequencer interface to be control-name based
+- Fix 1. a race condition and 2. non-handling of repeats in playback callback
+- Stylistic and logical improvements all around
 
-Hello Thomas,
+Changes in v5:
+- Added a codec sub-device to support I2S streaming
+- Moved write sequencer code from cirrus_haptics to cs_dsp
+- Reverted cirrus_haptics library; future Cirrus input
+  drivers will export and utilize cs40l50_vibra functions
+- Added more comments
+- Many small stylistic and logical improvements
 
-On Mon, Feb 12, 2024 at 05:16:39PM +0100, Thomas Zimmermann wrote:
-> The internal check_fb callback from struct pwm_bl_data is never
-> implemented. thus the driver's implementation of check_fb always
-> returns true, which is the backlight core's default if no
-> implementation has been set. So remove the code from the driver.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+Changes in v4:
+- Moved from Input to MFD
+- Moved common Cirrus haptic functions to a library
+- Incorporated runtime PM framework
+- Many style improvements
 
-Looks reasonable.
+Changes in v3:
+- YAML formatting corrections
+- Fixed typo in MAINTAINERS
+- Used generic node name "haptic-driver"
+- Fixed probe error code paths
+- Switched to "sizeof(*)"
+- Removed tree reference in MAINTAINERS
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Changes in v2:
+- Fixed checkpatch warnings
 
-Best regards
-Uwe
+James Ogletree (5):
+  firmware: cs_dsp: Add write sequencer interface
+  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+  mfd: cs40l50: Add support for CS40L50 core driver
+  Input: cs40l50 - Add support for the CS40L50 haptic driver
+  ASoC: cs40l50: Support I2S streaming to CS40L50
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+ .../bindings/input/cirrus,cs40l50.yaml        |  70 +++
+ MAINTAINERS                                   |  12 +
+ drivers/firmware/cirrus/cs_dsp.c              | 265 ++++++++
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/cs40l50-vibra.c            | 575 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  30 +
+ drivers/mfd/Makefile                          |   4 +
+ drivers/mfd/cs40l50-core.c                    | 531 ++++++++++++++++
+ drivers/mfd/cs40l50-i2c.c                     |  69 +++
+ drivers/mfd/cs40l50-spi.c                     |  69 +++
+ include/linux/firmware/cirrus/cs_dsp.h        |  28 +
+ include/linux/mfd/cs40l50.h                   | 142 +++++
+ sound/soc/codecs/Kconfig                      |  11 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/cs40l50-codec.c              | 311 ++++++++++
+ 16 files changed, 2130 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ create mode 100644 drivers/mfd/cs40l50-core.c
+ create mode 100644 drivers/mfd/cs40l50-i2c.c
+ create mode 100644 drivers/mfd/cs40l50-spi.c
+ create mode 100644 include/linux/mfd/cs40l50.h
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
---c5qbx3hsze67vw7s
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXKVG4ACgkQj4D7WH0S
-/k6lcAf/S/waxaRzh8CBsJTpus638Jmp0simMq6KwNoL65Tqp1IznymjbXp6SgXi
-h+YyIEzBVLl+oLwayRZdbFqGAl/WvWrJ52XZ5npbBjtI8BtGCaJFr1khzwEqeRjJ
-vlNQa08I/stRJPCVF4qHYVzC16pco3hATs44U1BiRt5z6XwVBJqcbkThwGEjX90d
-Be74R0eZyOpPJBgPsbRKiz4ALHK8qdurOxFGDdZYeAV1G1AbPli84fZ7Uew2oNfK
-DnQTur4DC4FJ3/gbaTKLztvLb+PDhX+PypUsPbdhnDE6PpVXvZywL3i2OaEB43K9
-+RhfBDcct5CQxwmOqe8Ts4n7hvAKgQ==
-=FXhc
------END PGP SIGNATURE-----
-
---c5qbx3hsze67vw7s--
 
