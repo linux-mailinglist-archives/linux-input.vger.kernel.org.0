@@ -1,306 +1,228 @@
-Return-Path: <linux-input+bounces-1849-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1852-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A5A851909
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 17:27:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F49D8519EC
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 17:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EB32B216B0
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 16:27:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B98E0B20AC0
+	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 16:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02EFC3D3B9;
-	Mon, 12 Feb 2024 16:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73A7A154B1;
+	Mon, 12 Feb 2024 16:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V8q7JZzN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jhw3w7hV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V8q7JZzN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jhw3w7hV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LY8u65Fl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C93A3D546;
-	Mon, 12 Feb 2024 16:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C54A1E496
+	for <linux-input@vger.kernel.org>; Mon, 12 Feb 2024 16:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707755215; cv=none; b=uxWffxogIt4byGtHZ0ihVhNTpwjNunxp5WHFnLs2nvmXFIe27wJcS6wC4Uas44TvRQ44TVgFkis5Tx7EfSABomten5jjUs5HpSZkMdp1raRgIiYLzRS5hgnekPV5OAjcvH6ICWLxKcJ/tF+XvNyq7ZnidIX37dbr8RKRnwcgZv4=
+	t=1707756441; cv=none; b=UCSNgCVRMbThJ4oyVQ+f2/N+RoObNIPNTcWy1kxWXjUk53BDNlROCMTzZtYq4fvl3M50GG7/YIRpjA1NSgGJ4AUbF6Y0UAPSeYZvGAL1nB/lzSQV9RtW/3gfsz416uNeRyDz56kgwt7u9vnLPm4Z2BkRHUfNVW6imGV+c9nBLUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707755215; c=relaxed/simple;
-	bh=5rRi1dfkRkL0wcQo6T211JgGKp7pgDrOQgsaD6MiGpw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hwibYRXCZcROcbbaJm3Crjp0XXF1kF26iyR8iA7AvxM2/pksUDJWo7/IcDMn4G0BKVSnxHRSk2p+tPmwzns7TOas9ounPy2+ESQXY6BM2IA3osQg6GMRy2IpUNt11OkjBPODMO3F+WCnz8IakksghQtv+GML8y/2at1d3mUF1Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V8q7JZzN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jhw3w7hV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V8q7JZzN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jhw3w7hV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A5161FD5A;
-	Mon, 12 Feb 2024 16:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707755212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	s=arc-20240116; t=1707756441; c=relaxed/simple;
+	bh=MY228vr+39uuu/xQY9iIz40rY8941W7snNOmZuW3dRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q1E6mhLpBzXuB7hYjdW8pTZH5+s698VNjWOI6O6DPmBTorNp9M1vIwgTZtIjtP/ujkAceaUpiBwDH6Rl3q/+7+u+Efpm8WOTjAmspi+pyD6TaRubp1cqtOeeGVsWVYrFknD3IZZvtwZxvM9QON9dPrlFVd0h7UxMCd/zxDE1cDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LY8u65Fl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707756438;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=V0RJP2AFYM7EHR/WrMMVdqLqHIA7RaYHlLIE7G5Jeog=;
-	b=V8q7JZzNAeag89ZEoYZ7lzIPEWowTBPb2XTbdtIKHa6FanTzyBjOseDxx161CnDXsMDOF3
-	Pxnrmc3pJQU0RCQQkHmL4/WKqyRZa9PS0xlTpDbjSa4PmXiOGbRuRnK5CruheuDkMBzzn3
-	jhU+PA02SnCf05nTjkDCoM9eQwEvRmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707755212;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V0RJP2AFYM7EHR/WrMMVdqLqHIA7RaYHlLIE7G5Jeog=;
-	b=Jhw3w7hVMi18P9r5sp+XFRcHoc517ZN2taYr4YrFQ47c9UwW+rwcL7sSKnfmKPl3XFvwlI
-	o+c6wkO7dkEBokDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707755212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V0RJP2AFYM7EHR/WrMMVdqLqHIA7RaYHlLIE7G5Jeog=;
-	b=V8q7JZzNAeag89ZEoYZ7lzIPEWowTBPb2XTbdtIKHa6FanTzyBjOseDxx161CnDXsMDOF3
-	Pxnrmc3pJQU0RCQQkHmL4/WKqyRZa9PS0xlTpDbjSa4PmXiOGbRuRnK5CruheuDkMBzzn3
-	jhU+PA02SnCf05nTjkDCoM9eQwEvRmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707755212;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V0RJP2AFYM7EHR/WrMMVdqLqHIA7RaYHlLIE7G5Jeog=;
-	b=Jhw3w7hVMi18P9r5sp+XFRcHoc517ZN2taYr4YrFQ47c9UwW+rwcL7sSKnfmKPl3XFvwlI
-	o+c6wkO7dkEBokDQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id DCE4113A0E;
-	Mon, 12 Feb 2024 16:26:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id wKTFNMtGymXmXgAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Mon, 12 Feb 2024 16:26:51 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org,
-	daniel.thompson@linaro.org,
-	jingoohan1@gmail.com,
-	deller@gmx.de,
-	javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 10/10] backlight: Add controls_device callback to struct backlight_ops
-Date: Mon, 12 Feb 2024 17:16:43 +0100
-Message-ID: <20240212162645.5661-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240212162645.5661-1-tzimmermann@suse.de>
-References: <20240212162645.5661-1-tzimmermann@suse.de>
+	bh=MY228vr+39uuu/xQY9iIz40rY8941W7snNOmZuW3dRk=;
+	b=LY8u65FlYQSSxdoig1oL2iBWgNMmnY6UnBav6C3rL+gEFbmCyD0sahm0ydcn3p06dwS90R
+	MfZIg0z8knLYV+qPhJdCG/bqP6SE0jOHXAV9j+oniWrrOJahIWnHEzwwOqX9EALAgpTXY/
+	nKIra0GLWtrEa/iEkyVIzmA78DAZWpw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-VWOBhA7HPXOWENBhQhIrIw-1; Mon, 12 Feb 2024 11:47:17 -0500
+X-MC-Unique: VWOBhA7HPXOWENBhQhIrIw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a2b068401b4so403870566b.1
+        for <linux-input@vger.kernel.org>; Mon, 12 Feb 2024 08:47:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707756435; x=1708361235;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MY228vr+39uuu/xQY9iIz40rY8941W7snNOmZuW3dRk=;
+        b=pOfCQkysvu+W87PUoaS3VV6ZOkb6vofdiTDoFKnZsdfpFh8kMQk3ebX6h4+jCW2Rso
+         3tz81gEaBdfDV+NfQURmxiZz8Vi7wlwG6TvzuzugRIy9tCbD3sbZYfTXo3Wjb8twQDfP
+         8uemmLIf+vk0Hx95PiTuG81egoZ5IfEaapbOa8+ILPaXLfa/KvM4ASml/AiSjYD/vfXy
+         aG7chwAVYvZ3UcA9yYvOxwh0xPibLBmFEOSwdPEnQUsmRmrUay9lEaewukBImNZi5g5u
+         A4BUWZ0AbpSYK+vZuq/YGIeMYTURSXf+THnqsqz+r6YEOVx6zapRfZqQT6OoZVvrtNc8
+         D+DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWaMFs2PNhJKn1aJEn8lWBTu6nTFA5USygWGa7zqvT0rr7nNFQr+zT63iZnFn8KOf+eLxidn/SNBlV+rupM1MPHpkuHyf/rhivFSmA=
+X-Gm-Message-State: AOJu0Yx0eG2JPW4DU9F1NUnVbxqmeJ0aPAHJhOw44U3RKmMFqA2hEqRH
+	3shYcqLC/sLpYs/GJvBKml1UeojKlQdcbrfLOMoDh9qQn2FmVIxX6+oijPYtldUhpOQufEOYdcw
+	oGqkh66yDYwUAD1nnD6x/jp2bU2yDh7Hzdq7tMAsbZauMUF4pVRdiDCTBIa3upKT4e4hCtdlrrM
+	owqfaaa3f1YxUHJo5PSEmYqZgn9akQ/0Ffve0=
+X-Received: by 2002:a17:906:a45:b0:a35:3eb8:2f6e with SMTP id x5-20020a1709060a4500b00a353eb82f6emr27076ejf.33.1707756435651;
+        Mon, 12 Feb 2024 08:47:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHAZerKch+MuCFwX1ZjjMTjm+95QqbUxaqQ0n/1DezRMjWdQ5qMyJNxcCuhpAYnDXw1l/GiYvxqNwRwneyLjyU=
+X-Received: by 2002:a17:906:a45:b0:a35:3eb8:2f6e with SMTP id
+ x5-20020a1709060a4500b00a353eb82f6emr27061ejf.33.1707756435301; Mon, 12 Feb
+ 2024 08:47:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-2.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLbrmj4aennmrpd7btm9n9zy3k)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,redhat.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.10
+References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
+ <87bk8pve2z.fsf@toke.dk> <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
+ <875xyxva9u.fsf@toke.dk>
+In-Reply-To: <875xyxva9u.fsf@toke.dk>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Mon, 12 Feb 2024 17:47:03 +0100
+Message-ID: <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
+Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
+To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace check_fb with controls_device in struct backlight_ops. The
-new callback interface takes a Linux device instead of a framebuffer.
-Resolves one of the dependencies of backlight.h on fb.h.
+On Fri, Feb 9, 2024 at 6:05=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen <to=
+ke@redhat.com> wrote:
+>
+> Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
+>
+> > On Fri, Feb 9, 2024 at 4:42=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen=
+ <toke@redhat.com> wrote:
+> >>
+> >> Benjamin Tissoires <bentiss@kernel.org> writes:
+> >>
+> >> > [Putting this as a RFC because I'm pretty sure I'm not doing the thi=
+ngs
+> >> > correctly at the BPF level.]
+> >> > [Also using bpf-next as the base tree as there will be conflicting
+> >> > changes otherwise]
+> >> >
+> >> > Ideally I'd like to have something similar to bpf_timers, but not
+> >> > in soft IRQ context. So I'm emulating this with a sleepable
+> >> > bpf_tail_call() (see "HID: bpf: allow to defer work in a delayed
+> >> > workqueue").
+> >>
+> >> Why implement a new mechanism? Sounds like what you need is essentiall=
+y
+> >> the bpf_timer functionality, just running in a different context, righ=
+t?
+> >
+> > Heh, that's exactly why I put in a RFC :)
+> >
+> > So yes, the bpf_timer approach is cleaner, but I need it in a
+> > workqueue, as a hrtimer in a softIRQ would prevent me to kzalloc and
+> > wait for the device.
+>
+> Right, makes sense.
+>
+> >> So why not just add a flag to the timer setup that controls the callba=
+ck
+> >> context? I've been toying with something similar for restarting XDP TX
+> >> for my queueing patch series (though I'm not sure if this will actuall=
+y
+> >> end up being needed in the end):
+> >>
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/=
+?h=3Dxdp-queueing-08&id=3D54bc201a358d1ac6ebfe900099315bbd0a76e862
+> >>
+> >
+> > Oh, nice. Good idea. But would it be OK to have a "timer-like" where
+> > it actually defers the job in a workqueue instead of using an hrtimer?
+>
+> That's conceptually still a timer, though, isn't it? I.e., it's a
+> mechanism whereby you specify a callback and a delay, and bpf_timer
+> ensures that your callback is called after that delay. IMO it's totally
+> congruent with that API to be able to specify a different execution
+> context as part of the timer setup.
 
-The few drivers that had custom implementations of check_fb can easily
-use the framebuffer's Linux device instead. Update them accordingly.
+Yep :)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/backlight/backlight.c      |  2 +-
- drivers/video/backlight/bd6107.c         | 12 ++++++------
- drivers/video/backlight/gpio_backlight.c | 12 ++++++------
- drivers/video/backlight/lv5207lp.c       | 12 ++++++------
- include/linux/backlight.h                | 16 ++++++++--------
- 5 files changed, 27 insertions(+), 27 deletions(-)
+There is still a problem I wasn't able to fix over the week end and
+today. How can I tell the verifier that the callback is sleepable,
+when the tracing function that called the timer_start() function is
+not?
+(more on that below).
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 48844a4f28ad3..18a0ac4bd6005 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -111,7 +111,7 @@ static int fb_notifier_callback(struct notifier_block *self,
- 
- 	if (!bd->ops)
- 		goto out;
--	else if (bd->ops->check_fb && !bd->ops->check_fb(bd, info))
-+	else if (bd->ops->controls_device && !bd->ops->controls_device(bd, info->device))
- 		goto out;
- #if IS_ENABLED(CONFIG_FB_BACKLIGHT)
- 	else if (info->bl_dev && info->bl_dev != bd)
-diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
-index c95a12bf0ce26..d124ede084ef9 100644
---- a/drivers/video/backlight/bd6107.c
-+++ b/drivers/video/backlight/bd6107.c
-@@ -99,18 +99,18 @@ static int bd6107_backlight_update_status(struct backlight_device *backlight)
- 	return 0;
- }
- 
--static int bd6107_backlight_check_fb(struct backlight_device *backlight,
--				       struct fb_info *info)
-+static bool bd6107_backlight_controls_device(struct backlight_device *backlight,
-+					     struct device *display_dev)
- {
- 	struct bd6107 *bd = bl_get_data(backlight);
- 
--	return !bd->pdata->dev || bd->pdata->dev == info->device;
-+	return !bd->pdata->dev || bd->pdata->dev == display_dev;
- }
- 
- static const struct backlight_ops bd6107_backlight_ops = {
--	.options	= BL_CORE_SUSPENDRESUME,
--	.update_status	= bd6107_backlight_update_status,
--	.check_fb	= bd6107_backlight_check_fb,
-+	.options	 = BL_CORE_SUSPENDRESUME,
-+	.update_status	 = bd6107_backlight_update_status,
-+	.controls_device = bd6107_backlight_controls_device,
- };
- 
- static int bd6107_probe(struct i2c_client *client)
-diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-index d28c30b2a35d2..c0cff685ea848 100644
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -30,18 +30,18 @@ static int gpio_backlight_update_status(struct backlight_device *bl)
- 	return 0;
- }
- 
--static int gpio_backlight_check_fb(struct backlight_device *bl,
--				   struct fb_info *info)
-+static bool gpio_backlight_controls_device(struct backlight_device *bl,
-+					   struct device *display_dev)
- {
- 	struct gpio_backlight *gbl = bl_get_data(bl);
- 
--	return !gbl->dev || gbl->dev == info->device;
-+	return !gbl->dev || gbl->dev == display_dev;
- }
- 
- static const struct backlight_ops gpio_backlight_ops = {
--	.options	= BL_CORE_SUSPENDRESUME,
--	.update_status	= gpio_backlight_update_status,
--	.check_fb	= gpio_backlight_check_fb,
-+	.options	 = BL_CORE_SUSPENDRESUME,
-+	.update_status	 = gpio_backlight_update_status,
-+	.controls_device = gpio_backlight_controls_device,
- };
- 
- static int gpio_backlight_probe(struct platform_device *pdev)
-diff --git a/drivers/video/backlight/lv5207lp.c b/drivers/video/backlight/lv5207lp.c
-index 1f1d06b4e119a..0cf00fee0f605 100644
---- a/drivers/video/backlight/lv5207lp.c
-+++ b/drivers/video/backlight/lv5207lp.c
-@@ -62,18 +62,18 @@ static int lv5207lp_backlight_update_status(struct backlight_device *backlight)
- 	return 0;
- }
- 
--static int lv5207lp_backlight_check_fb(struct backlight_device *backlight,
--				       struct fb_info *info)
-+static bool lv5207lp_backlight_controls_device(struct backlight_device *backlight,
-+					       struct device *display_dev)
- {
- 	struct lv5207lp *lv = bl_get_data(backlight);
- 
--	return !lv->pdata->dev || lv->pdata->dev == info->device;
-+	return !lv->pdata->dev || lv->pdata->dev == display_dev;
- }
- 
- static const struct backlight_ops lv5207lp_backlight_ops = {
--	.options	= BL_CORE_SUSPENDRESUME,
--	.update_status	= lv5207lp_backlight_update_status,
--	.check_fb	= lv5207lp_backlight_check_fb,
-+	.options	 = BL_CORE_SUSPENDRESUME,
-+	.update_status	 = lv5207lp_backlight_update_status,
-+	.controls_device = lv5207lp_backlight_controls_device,
- };
- 
- static int lv5207lp_probe(struct i2c_client *client)
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 614653e07e3a8..2db4c70053c46 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -13,6 +13,7 @@
- #include <linux/fb.h>
- #include <linux/mutex.h>
- #include <linux/notifier.h>
-+#include <linux/types.h>
- 
- /**
-  * enum backlight_update_reason - what method was used to update backlight
-@@ -110,7 +111,6 @@ enum backlight_scale {
- };
- 
- struct backlight_device;
--struct fb_info;
- 
- /**
-  * struct backlight_ops - backlight operations
-@@ -160,18 +160,18 @@ struct backlight_ops {
- 	int (*get_brightness)(struct backlight_device *);
- 
- 	/**
--	 * @check_fb: Check the framebuffer device.
-+	 * @controls_device: Check against the display device
- 	 *
--	 * Check if given framebuffer device is the one bound to this backlight.
--	 * This operation is optional and if not implemented it is assumed that the
--	 * fbdev is always the one bound to the backlight.
-+	 * Check if the backlight controls the given display device. This
-+	 * operation is optional and if not implemented it is assumed that
-+	 * the display is always the one controlled by the backlight.
- 	 *
- 	 * RETURNS:
- 	 *
--	 * If info is NULL or the info matches the fbdev bound to the backlight return true.
--	 * If info does not match the fbdev bound to the backlight return false.
-+	 * If display_dev is NULL or display_dev matches the device controlled by
-+	 * the backlight, return true. Otherwise return false.
- 	 */
--	int (*check_fb)(struct backlight_device *bd, struct fb_info *info);
-+	bool (*controls_device)(struct backlight_device *bd, struct device *display_dev);
- };
- 
- /**
--- 
-2.43.0
+>
+> As for how to implement it, I suspect the easiest may be something
+> similar to what the patch I linked above does: keep the hrtimer, and
+> just have a different (kernel) callback function when the timer fires
+> which does an immediate schedule_work() (without the _delayed) and then
+> runs the BPF callback in that workqueue. I.e., keep the delay handling
+> the way the existing bpf_timer implementation does it, and just add an
+> indirection to start the workqueue in the kernel dispatch code.
+
+Sounds good, especially given that's roughly how the delayed_timers
+are implemented.
+
+>
+> > I thought I would have to rewrite the entire bpf_timer approach
+> > without the softIRQ, but if I can just add a new flag, that will make
+> > things way simpler for me.
+>
+> IMO that would be fine. You may want to wait for the maintainers to
+> chime in before going down this route, though :)
+>
+> > This however raises another issue if I were to use the bpf_timers: now
+> > the HID-BPF kfuncs will not be available as they are only available to
+> > tracing prog types. And when I tried to call them from a bpf_timer (in
+> > softIRQ) they were not available.
+>
+> IIUC, the bpf_timer callback is just a function (subprog) from the
+> verifier PoV, so it is verified as whatever program type is creating the
+> timer. So in other words, as long as you setup the timer from inside a
+> tracing prog type, you should have access to all the same kfuncs, I
+> think?
+
+Yep, you are correct. But as mentioned above, I am now in trouble with
+the sleepable state:
+- I need to call timer_start() from a non sleepable tracing function
+(I'm in hard IRQ when dealing with a physical device)
+- but then, ideally, the callback function needs to be tagged as a
+sleepable one, so I can export my kfuncs which are doing kzalloc and
+device IO as such.
+
+However, I can not really teach the BPF verifier to do so:
+- it seems to check for the callback first when it is loaded, and
+there is no SEC() equivalent for static functions
+- libbpf doesn't have access to the callback as a prog as it has to be
+a static function, and thus isn't exported as a full-blown prog.
+- the verifier only checks for the callback when dealing with
+BPF_FUNC_timer_set_callback, which doesn't have a "flag" argument
+(though the validation of the callback has already been done while
+checking it first, so we are already too late to change the sleppable
+state of the callback)
+
+Right now, the only OK-ish version I have is declaring the kfunc as
+non-sleepable, but checking that we are in a different context than
+the IRQ of the initial event. This way, I am not crashing if this
+function is called from the initial IRQ, but will still crash if used
+outside of the hid context.
+
+This is not satisfactory, but I feel like it's going to be hard to
+teach the verifier that the callback function is sleepable in that
+case (maybe we could suffix the callback name, like we do for
+arguments, but this is not very clean either).
+
+Cheers,
+Benjamin
 
 
