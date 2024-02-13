@@ -1,219 +1,214 @@
-Return-Path: <linux-input+bounces-1894-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1895-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A63853C7D
-	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 21:54:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42522853E48
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 23:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAFABB273F9
-	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 20:54:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F5A9B2F08B
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 22:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C3B661664;
-	Tue, 13 Feb 2024 20:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1D3664D1;
+	Tue, 13 Feb 2024 21:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdCmCYZS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQU8V6E6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D95627E7;
-	Tue, 13 Feb 2024 20:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFD165BAA;
+	Tue, 13 Feb 2024 21:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707857575; cv=none; b=rrgk5Or6tdXhDWY5fHJdqFlVwHneD/wKP/N9JeREuHkdfTr1Sptkxn9JFitKTAAOrQr5xc61Z0FNxLVMxTk2M1+dMhjkwTYcUPV6tOFwi9mTA0LbyCuOHeTmvveycOLtgWT44XKmbnoJGTbcexwaabzaABA7al9/AQ9iNDOvgCE=
+	t=1707861504; cv=none; b=Yz2KV8+5xhfy/F67ZksMf2Fqs38pDlbQIilQFLgULB+p2SlefVUJ7stNPr/6nSgtA3y3S80w7dIbVaV8+Riy3VBX7cyOo6V19y53WR0wjsX7I79vTiUMuiceFv2iQ6nUybVHxG1lAFCAXA4QvAWNherw4+WfS+5GRmJvTpKOynY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707857575; c=relaxed/simple;
-	bh=9PwvXRhAMugLtHuzOt+aDQ3KQbytSBWLZhzNRbCHAUo=;
+	s=arc-20240116; t=1707861504; c=relaxed/simple;
+	bh=QZtp6zFSJB9KAqD6mHzlmSSAFRT2TanT7mhlKfjwml4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBgWdGjSC1ARBJh+sAdOOo8FmjT4f8WP6jeZOAJRQGyukGmoFnNeLY2NegEUxhGUgvT4wiQwZ2voa8EkjD5tn1IPkoZIELaXOxhzaTieZQ94nLzZRr9hqUF7HNuGSegA3isBIJ9BEnakNHCE9ishgzRGRvIz0a39AQ9xbwmBfd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DdCmCYZS; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-296d24631c0so2805017a91.3;
-        Tue, 13 Feb 2024 12:52:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707857573; x=1708462373; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6oMv83TSgQDRLR6Sio2134HLfx7oE5pFJJA1vfpzEPI=;
-        b=DdCmCYZScjzHzvNqnWEW1uWEgFmUWPunr7Nmm93TKnrVQVk9hOzq6y4y4aJ6acR5I+
-         Ninf9c0MIte7jcFSoUh7hByqzODVQ/UJIFycO5SepgfalXh9ZozlFUs1MUrGYjLH9Pii
-         PPjvltsoeKso8F4401//QfCE3pjNEwluhB5WaPilOQ2Tx21DalhSocu4QrKzqrw4SBDw
-         Phq053FWjfXpc30HeDDveMAiYkStxrZgaormU8BAy8geGPCDz4oEHhS1Sh61Hft6pt/Z
-         TsQ5bQX6IzkgHsNq1EXPvocBLOAP7GztFKp2s5GOZ6CeSHgsVrFBO0YNLf3ScoWkRA/H
-         a4jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707857573; x=1708462373;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6oMv83TSgQDRLR6Sio2134HLfx7oE5pFJJA1vfpzEPI=;
-        b=b0/QTG/DCVB4uBiQxdOy/DlH33wSHr21Jiy8zA+kRfUwfjgH/BKzr46TNyFJ7gtalW
-         06GCHWvB0LpS2WU+Yrx+wOaDDUr53SJOLJqeOvILq6DXrzPsr+2zm7xMdod/oeWk8y0U
-         QKiFj+ehzJi/T6vg1JhfIqUaInnAZYPZ6/RCeIT64Gk3bDbFYcqRlaM6YhnFw+d12iIb
-         dyRBtZXfYlIDZJFq3r0As9cMeArcBWpTrUov1oUVpjUpEgGKV6XOKZ9PqkABDEcbUDPa
-         NfPptvuMw2jUtNsxAFeVTcnjiC+oOebU0ghrkBtRNtasiYF6+66QO2i62MXgWJeO4Rdd
-         AHmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUruUygb7Xvm4mRLOiLFhJ8rkuQSypTMZMOeAuJ2zOctKcEIBDvxHEqseK3nkbh6AD3axUm0qzt2puwJNwkiIgRGvEtjZ6KpIeAFFZYvO7AEkAKSplp/b7FGerl2T0ZNF3Ale3XozdGoYBnz9zIulbSIAhOGHKyb2wEJE8mSB9kvmf3gz+PWIBkZDEa5W7PKiDCsjgZ838YPS5pkPXMOmY0dTmGXfidkUhzPunqlQvOEB20XudsveFMPIQ=
-X-Gm-Message-State: AOJu0Ywe81isc/bleaz/LXQJm7YTFlrxBw8cpcBpCBMhG40O7Z/0Br9F
-	F9NXnQeSD8hwc8lD9yyaOKRF4rxq+Sz3K+TdrFIJQ3eLX4JvRMep
-X-Google-Smtp-Source: AGHT+IHE7IRAy6H5onujqJT/ftqmB93CgRKWtRpljbAkBkwOoObI6kOILuCJtaTXA2cYq7usG9E45w==
-X-Received: by 2002:a17:90a:eb0e:b0:297:2f49:7aa with SMTP id j14-20020a17090aeb0e00b002972f4907aamr581305pjz.43.1707857572667;
-        Tue, 13 Feb 2024 12:52:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXQX4P2q4KPM9M0RPcwWGMfbHa16M6MAKUtvc44DFjC0I+o5aUdqeRReIvnRyuJ2d89DmnqSA7k9VLwU8ANpllpxzKV9ULYoqGccwf6+8PMw7ys5HYrHk8kDM2WkSuFqCgbvrr31ZiQVNRXuHH1AWYu5GFloJ7WZYk/pTJJ6ZWrM7Rjl/mtWiU7eHynd64EuaZqpMQC/KKCPqsBeaqExdPg2qEStG3eO20xTOD1gS0mYbGjgNqAjc/WY20o2QZTraJTY/ooqb3Gddcu+xfEOCnvN8ycs/RcqVw+9kaPSIT4kTqAtWW/0LdqqpeN6azTxYPgwsF4wTZoS/RUZD4HCT4LLWXrmz5gzcLuNI4TSjTpqzbXUPkcoDn1/bHSaiX56JD4VpadM8hyDsyNNlBD8AVscR8FiR/M0dbsbrxu1CpXedBC/ZmKNYq83+/jy9UfbdewaSZS8K893TAevC+K47QKGe9zIskiGByd7NnKdm5xDW+fxZFFOK0jisUY0zc3uKXifkihsm0+k8qZzIymf8J35/BTzGbIWCDhADxaQwiVxIgYNItAdOPTcFTwavuYIeBri35Uus/ENPtNt0JnCF1x4E5t1KCa48J3mvrHnTJKZV7ztkS3GQLK7zy9vNl9aLeIN2J9ucS5jIbBqxRtXdzk7jxMdM0S9fzvSIZ8LvfUuMnn8Y0u6DC1MpBdkAFswGk=
-Received: from macbook-pro-49.dhcp.thefacebook.com ([2620:10d:c090:500::6:7312])
-        by smtp.gmail.com with ESMTPSA id fa3-20020a17090af0c300b00296e2434e7esm2958426pjb.53.2024.02.13.12.52.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 12:52:52 -0800 (PST)
-Date: Tue, 13 Feb 2024 12:52:49 -0800
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-Message-ID: <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
-References: <87bk8pve2z.fsf@toke.dk>
- <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
- <875xyxva9u.fsf@toke.dk>
- <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
- <87r0hhfudh.fsf@toke.dk>
- <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
- <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
- <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
- <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
- <877cj8f8ht.fsf@toke.dk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uSCSxzcGDlK0O03jlqnSpkx/RvPZRQEmuWcQI+PZrXB1swbse2BgBUbETw/97Ns4sSlo8wmaIXdeDgb0T4UrI0VN73cuvkS55H12ESYzaQzA/WhUwkIgPKnCLwxbSG+rPUF4LO0813ZAsEISwSaWka2UTunNnYsb9kTpe7OVzYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQU8V6E6; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707861502; x=1739397502;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QZtp6zFSJB9KAqD6mHzlmSSAFRT2TanT7mhlKfjwml4=;
+  b=bQU8V6E6qhV+r/nkG0+zeTp+0uyc/JQNQbasnPMXJLvm7VKBzMANMCQi
+   ywMEGQSdlEx7zGgy7ISwOT5NqpcZQCz3tx/MeWNdg8LaKv68jiaTpA8fp
+   08vqHaS1k+HPKe2Vz879R3XR+ryyvK6clsOFDFHMhf1AmYNDsm/6b+RBB
+   9IVAnOzOnUssNp9vUZmFZ5JkauFXtBMdq6z7DYDVOPeS8gJWnfMSLygZ+
+   cqG4KZg7SfWsPI+yU3B1pJOAYZXzP+7PFpVeERJxWJxWpy8Vn0JboknSV
+   5te1X/yXB8wZPcidBXryqesKewDr0+KZ7octVeZh2xNcQVs3zpxPnMC3W
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12611759"
+X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
+   d="scan'208";a="12611759"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 13:58:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="911908559"
+X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
+   d="scan'208";a="911908559"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2024 13:58:17 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ra0nA-00086a-0K;
+	Tue, 13 Feb 2024 21:58:16 +0000
+Date: Wed, 14 Feb 2024 05:57:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
+	daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+	javierm@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pwm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>
+Subject: Re: [PATCH 04/10] hid/hid-picolcd: Remove struct
+ backlight_ops.check_fb
+Message-ID: <202402140514.sb1rerJx-lkp@intel.com>
+References: <20240212162645.5661-5-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <877cj8f8ht.fsf@toke.dk>
+In-Reply-To: <20240212162645.5661-5-tzimmermann@suse.de>
 
-On Tue, Feb 13, 2024 at 08:51:26PM +0100, Toke Høiland-Jørgensen wrote:
-> Kumar Kartikeya Dwivedi <memxor@gmail.com> writes:
-> 
-> > On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> wrote:
-> >>
-> >> On Feb 12 2024, Alexei Starovoitov wrote:
-> >> > On Mon, Feb 12, 2024 at 10:21 AM Benjamin Tissoires
-> >> > <benjamin.tissoires@redhat.com> wrote:
-> >> > >
-> >> > > On Mon, Feb 12, 2024 at 6:46 PM Toke Høiland-Jørgensen <toke@redhat.com> wrote:
-> >> > > >
-> >> > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
-> >> > > >
-> >> [...]
-> >> > I agree that workqueue delegation fits into the bpf_timer concept and
-> >> > a lot of code can and should be shared.
-> >>
-> >> Thanks Alexei for the detailed answer. I've given it an attempt but still can not
-> >> figure it out entirely.
-> >>
-> >> > All the lessons(bugs) learned with bpf_timer don't need to be re-discovered :)
-> >> > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
-> >> > so we need a new kfunc to set a sleepable callback.
-> >> > Maybe
-> >> > bpf_timer_set_sleepable_cb() ?
-> >>
-> >> OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini() flag?
-> >>
-> >> > The verifier will set is_async_cb = true for it (like it does for regular cb-s).
-> >> > And since prog->aux->sleepable is kinda "global" we need another
-> >> > per subprog flag:
-> >> > bool is_sleepable: 1;
-> >>
-> >> done (in push_callback_call())
-> >>
-> >> >
-> >> > We can factor out a check "if (prog->aux->sleepable)" into a helper
-> >> > that will check that "global" flag and another env->cur_state->in_sleepable
-> >> > flag that will work similar to active_rcu_lock.
-> >>
-> >> done (I think), cf patch 2 below
-> >>
-> >> > Once the verifier starts processing subprog->is_sleepable
-> >> > it will set cur_state->in_sleepable = true;
-> >> > to make all subprogs called from that cb to be recognized as sleepable too.
-> >>
-> >> That's the point I don't know where to put the new code.
-> >>
-> >
-> > I think that would go in the already existing special case for
-> > push_async_cb where you get the verifier state of the async callback.
-> > You can make setting the boolean in that verifier state conditional on
-> > whether it's your kfunc/helper you're processing taking a sleepable
-> > callback.
-> >
-> >> It seems the best place would be in do_check(), but I am under the impression
-> >> that the code of the callback is added at the end of the instruction list, meaning
-> >> that I do not know where it starts, and which subprog index it corresponds to.
-> >>
-> >> >
-> >> > A bit of a challenge is what to do with global subprogs,
-> >> > since they're verified lazily. They can be called from
-> >> > sleepable and non-sleepable contex. Should be solvable.
-> >>
-> >> I must confess this is way over me (and given that I didn't even managed to make
-> >> the "easy" case working, that might explain things a little :-P )
-> >>
-> >
-> > I think it will be solvable but made somewhat difficult by the fact
-> > that even if we mark subprog_info of some global_func A as
-> > in_sleepable, so that we explore it as sleepable during its
-> > verification, we might encounter later another global_func that calls
-> > a global func, already explored as non-sleepable, in sleepable
-> > context. In this case I think we need to redo the verification of that
-> > global func as sleepable once again. It could be that it is called
-> > from both non-sleepable and sleepable contexts, so both paths
-> > (in_sleepable = true, and in_sleepable = false) need to be explored,
-> > or we could reject such cases, but it might be a little restrictive.
-> >
-> > Some common helper global func unrelated to caller context doing some
-> > auxiliary work, called from sleepable timer callback and normal main
-> > subprog might be an example where rejection will be prohibitive.
-> >
-> > An approach might be to explore main and global subprogs once as we do
-> > now, and then keep a list of global subprogs that need to be revisited
-> > as in_sleepable (due to being called from a sleepable context) and
-> > trigger do_check_common for them again, this might have to be repeated
-> > as the list grows on each iteration, but eventually we will have
-> > explored all of them as in_sleepable if need be, and the loop will
-> > end. Surely, this trades off logical simplicity of verifier code with
-> > redoing verification of global subprogs again.
-> >
-> > To add items to such a list, for each global subprog we encounter that
-> > needs to be analyzed as in_sleepable, we will also collect all its
-> > callee global subprogs by walking its instructions (a bit like
-> > check_max_stack_depth does).
-> 
-> Sorry if I'm being dense, but why is all this needed if it's already
-> possible to just define the timer callback from a program type that
-> allows sleeping, and then set the actual timeout from a different
-> program that is not sleepable? Isn't the set_sleepable_cb() kfunc just a
-> convenience then? Or did I misunderstand and it's not actually possible
-> to mix callback/timer arming from different program types?
+Hi Thomas,
 
-More than just convience.
-bpf_set_sleepable_cb() might need to be called from non-sleepable and
-there could be no way to hack it around with fake sleepable entry.
-bpf_timer_cancel() clears callback_fn.
-So if prog wants to bpf_timer_start() and later bpf_timer_cancel()
-it would need to bpf_set_sleepable_cb() every time before bpf_timer_start().
-And at that time it might be in non-sleepable ctx.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-backlight/for-backlight-fixes hid/for-next lee-leds/for-leds-next linus/master v6.8-rc4 next-20240213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/backlight-Match-backlight-device-against-struct-fb_info-bl_dev/20240213-002853
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20240212162645.5661-5-tzimmermann%40suse.de
+patch subject: [PATCH 04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240214/202402140514.sb1rerJx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402140514.sb1rerJx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402140514.sb1rerJx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hid/hid-picolcd_fb.c: In function 'picolcd_init_framebuffer':
+>> drivers/hid/hid-picolcd_fb.c:497:13: error: 'struct fb_info' has no member named 'bl_dev'
+     497 |         info->bl_dev = data->backlight;
+         |             ^~
+
+
+vim +497 drivers/hid/hid-picolcd_fb.c
+
+   459	
+   460	static DEVICE_ATTR(fb_update_rate, 0664, picolcd_fb_update_rate_show,
+   461			picolcd_fb_update_rate_store);
+   462	
+   463	/* initialize Framebuffer device */
+   464	int picolcd_init_framebuffer(struct picolcd_data *data)
+   465	{
+   466		struct device *dev = &data->hdev->dev;
+   467		struct fb_info *info = NULL;
+   468		struct picolcd_fb_data *fbdata = NULL;
+   469		int i, error = -ENOMEM;
+   470		u32 *palette;
+   471	
+   472		/* The extra memory is:
+   473		 * - 256*u32 for pseudo_palette
+   474		 * - struct fb_deferred_io
+   475		 */
+   476		info = framebuffer_alloc(256 * sizeof(u32) +
+   477				sizeof(struct fb_deferred_io) +
+   478				sizeof(struct picolcd_fb_data) +
+   479				PICOLCDFB_SIZE, dev);
+   480		if (!info)
+   481			goto err_nomem;
+   482	
+   483		info->fbdefio = info->par;
+   484		*info->fbdefio = picolcd_fb_defio;
+   485		info->par += sizeof(struct fb_deferred_io);
+   486		palette = info->par;
+   487		info->par += 256 * sizeof(u32);
+   488		for (i = 0; i < 256; i++)
+   489			palette[i] = i > 0 && i < 16 ? 0xff : 0;
+   490		info->pseudo_palette = palette;
+   491		info->fbops = &picolcdfb_ops;
+   492		info->var = picolcdfb_var;
+   493		info->fix = picolcdfb_fix;
+   494		info->fix.smem_len   = PICOLCDFB_SIZE*8;
+   495	
+   496	#ifdef CONFIG_HID_PICOLCD_BACKLIGHT
+ > 497		info->bl_dev = data->backlight;
+   498	#endif
+   499	
+   500		fbdata = info->par;
+   501		spin_lock_init(&fbdata->lock);
+   502		fbdata->picolcd = data;
+   503		fbdata->update_rate = PICOLCDFB_UPDATE_RATE_DEFAULT;
+   504		fbdata->bpp     = picolcdfb_var.bits_per_pixel;
+   505		fbdata->force   = 1;
+   506		fbdata->vbitmap = info->par + sizeof(struct picolcd_fb_data);
+   507		fbdata->bitmap  = vmalloc(PICOLCDFB_SIZE*8);
+   508		if (fbdata->bitmap == NULL) {
+   509			dev_err(dev, "can't get a free page for framebuffer\n");
+   510			goto err_nomem;
+   511		}
+   512		info->flags |= FBINFO_VIRTFB;
+   513		info->screen_buffer = fbdata->bitmap;
+   514		info->fix.smem_start = (unsigned long)fbdata->bitmap;
+   515		memset(fbdata->vbitmap, 0xff, PICOLCDFB_SIZE);
+   516		data->fb_info = info;
+   517	
+   518		error = picolcd_fb_reset(data, 1);
+   519		if (error) {
+   520			dev_err(dev, "failed to configure display\n");
+   521			goto err_cleanup;
+   522		}
+   523	
+   524		error = device_create_file(dev, &dev_attr_fb_update_rate);
+   525		if (error) {
+   526			dev_err(dev, "failed to create sysfs attributes\n");
+   527			goto err_cleanup;
+   528		}
+   529	
+   530		fb_deferred_io_init(info);
+   531		error = register_framebuffer(info);
+   532		if (error) {
+   533			dev_err(dev, "failed to register framebuffer\n");
+   534			goto err_sysfs;
+   535		}
+   536		return 0;
+   537	
+   538	err_sysfs:
+   539		device_remove_file(dev, &dev_attr_fb_update_rate);
+   540		fb_deferred_io_cleanup(info);
+   541	err_cleanup:
+   542		data->fb_info    = NULL;
+   543	
+   544	err_nomem:
+   545		if (fbdata)
+   546			vfree(fbdata->bitmap);
+   547		framebuffer_release(info);
+   548		return error;
+   549	}
+   550	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
