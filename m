@@ -1,56 +1,57 @@
-Return-Path: <linux-input+bounces-1876-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1877-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA45D852DDA
-	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 11:29:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 562C4852DE9
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 11:31:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9DD81C2177A
-	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 10:29:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 126E728B343
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 10:31:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5912261F;
-	Tue, 13 Feb 2024 10:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C09522636;
+	Tue, 13 Feb 2024 10:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q7rrdx+4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko+lawr9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5475D17567;
-	Tue, 13 Feb 2024 10:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743DC224FD;
+	Tue, 13 Feb 2024 10:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707820137; cv=none; b=j7ZKdHrGyNzMVGxsn3aMLrqF5w9PyJeHHRxF7uW4XB4v99UfJ7kjms70OUMBdyPAWo9pGas6rqEdcWOBJCVTIEzMtpLnu7k5hkyb+cs79r1zc29s7jTmx4xpGe4SCnFDwjpBDoXUPw+gOEKK4YDG2VQiLPGIIMPiu7wxnJkeP/g=
+	t=1707820306; cv=none; b=BaUrEz0DZgh2UXZFKh2hau1t+EGEWQOVkUbNZ+21UEdNveZKhAS8Zi7f44Ni5eiTuSYM9ZMVz+jFmEpDbGin7f1+N3J6R4vBDDcNZ3767Jjcv45TVWZoMgj8dOeNAPgUJ4+LfHd6gP6DKntaQ8kyLwIFAuOdOQ4hZmz3utahksQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707820137; c=relaxed/simple;
-	bh=KELckhVrrPAn8QJQdC/3ladRTgf3KCcEhqMhtdeu0sY=;
+	s=arc-20240116; t=1707820306; c=relaxed/simple;
+	bh=JDNHbbKp8STLxl2eJjaYZi1jIUAoP4cihuNPOeU+wfk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=OmZyKsEO4Se5HtivWeWQWN35c6GpTQ3vOaQ5q59/pcbdnh5AZL1qVXwEm7+aMNWL5Te+sIYpGkociMtbp4aT8rwDDS+IcadBMRrLn3xLPcLplpYFRwioF9wgGn9BEgmxbaE1+wyANHGdmQYw0uTpjzjE9LsKhYFNH9m8BguG+90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q7rrdx+4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7F6C433C7;
-	Tue, 13 Feb 2024 10:28:56 +0000 (UTC)
+	 MIME-Version:Content-Type; b=tNB1aRc8D8J2S2PgFFqqoiXt9txZFQyETFX2fro531drkw5fksbI2wHJD+GXAk6PWSn22sYhN/r2H99Rnd1oW+1NTbryWqmoiQiVbUrNX75NpjhnGXRJ3VC/Dc5n1hbwrv20r2piqQjwN97r5bd/dw6r/wK+/rt9CBHNN6F/DJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko+lawr9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EE5C433C7;
+	Tue, 13 Feb 2024 10:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707820136;
-	bh=KELckhVrrPAn8QJQdC/3ladRTgf3KCcEhqMhtdeu0sY=;
+	s=k20201202; t=1707820305;
+	bh=JDNHbbKp8STLxl2eJjaYZi1jIUAoP4cihuNPOeU+wfk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=q7rrdx+4nriD2crmR29XX7qnukNSdg0kYiRaCTcUYiqAzfKz+YEonRLqVawcgvPJW
-	 uuK0goTyBZJySTmVHHZVVs2jb8oBUPMUO2tUI7LX0Bg9EntgMb/lo5uZH0AU/xrl4Y
-	 ZSVZ9LbNSS8Mj3QSQmEHVna74EHd9csAocY7JYSTawE32saeqYly8OuT2D3isw6vSR
-	 uZ4WN0AedrMBSb86vfKQcklrUQN8W/n+92s0BeB5p638yWXDZD48ZY6C4C3lnHERYI
-	 nzDRzK0SGEwnjCaE1LLUnGo/+Dw3iaN/BvwtwYK47oHjV461a6FpATrmhN/IZRCN7r
-	 XQhXqW5TjT6EA==
-Date: Tue, 13 Feb 2024 11:28:57 +0100 (CET)
+	b=Ko+lawr9LKclRY33881h2C5+c+BCuJQONIjOypLerZY9awYs5Y08LQ/+9/BM38vGK
+	 tCN9Ilctc5pnfGTC6xDv3ImChBAmYBCm3Xfba45i/Zmdyx8t+zl/7+Pj8lxpos6gDP
+	 m7uwlFOVlh9O8qPDAPJzi4B8WET7HbzAR+c43AuPdlJ7NKuoG73dSN6QPZxOOOQsGn
+	 7MWCt7cmVRl/e8nnEIVa2yV9k35PnBalVoXrOXijVQViNdYBtzooex7rhMrg3mKeE/
+	 K+HSVbTwOZA0gLhAhhD+YIo86ZzEiV9jo5vZFkku1J34virneND8gTU0C/BoBdlip0
+	 gfa7WgRdd0Wdg==
+Date: Tue, 13 Feb 2024 11:31:46 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Manuel Fombuena <fombuena@outlook.com>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: multitouch: Add required quirk for Synaptics 0xcddc
- device
-In-Reply-To: <CWLP123MB547355BA62AD835719F60865C5492@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-Message-ID: <nycvar.YFH.7.76.2402131128490.21798@cbobk.fhfr.pm>
-References: <CWLP123MB547355BA62AD835719F60865C5492@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+cc: Even Xu <even.xu@intel.com>, benjamin.tissoires@redhat.com, 
+    linux-input@vger.kernel.org, 
+    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: Intel-ish-hid: Ishtp: Fix sensor reads after ACPI
+ S3 suspend
+In-Reply-To: <64ee580b9969335d60966e23e9bd859e8f075953.camel@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2402131131250.21798@cbobk.fhfr.pm>
+References: <20240209065232.15486-1-even.xu@intel.com> <64ee580b9969335d60966e23e9bd859e8f075953.camel@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -60,36 +61,20 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 11 Feb 2024, Manuel Fombuena wrote:
+On Fri, 9 Feb 2024, srinivas pandruvada wrote:
 
-> Add support for the pointing stick (Accupoint) and 2 mouse buttons.
+> > Fixes: f645a90e8ff7 ("HID: intel-ish-hid: ishtp-hid-client: use
+> > helper functions for connection")
+> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218442
+> > Signed-off-by: Even Xu <even.xu@intel.com>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > 
-> Present on some Toshiba/dynabook Portege X30 and X40 laptops.
+> Hi Jiri,
 > 
-> It should close https://bugzilla.kernel.org/show_bug.cgi?id=205817
-> 
-> Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
-> ---
->  drivers/hid/hid-multitouch.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index fd5b0637dad6..3e91e4d6ba6f 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -2151,6 +2151,10 @@ static const struct hid_device_id mt_devices[] = {
->  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->  			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
->  
-> +	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			USB_VENDOR_ID_SYNAPTICS, 0xcddc) },
-> +
->  	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
->  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->  			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
+> This regression is introduced with 6.8-rc1, so need a pull request for
+> this rc cycle.
 
-Applied, thanks.
+Right; now queued in hid.git#for-6.8/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
