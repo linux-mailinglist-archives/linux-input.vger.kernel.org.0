@@ -1,192 +1,163 @@
-Return-Path: <linux-input+bounces-1864-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1865-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91DF851F84
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 22:24:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A969B85257F
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 02:16:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F292B20DA5
-	for <lists+linux-input@lfdr.de>; Mon, 12 Feb 2024 21:24:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 327A81F22B0A
+	for <lists+linux-input@lfdr.de>; Tue, 13 Feb 2024 01:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E21D4CB2B;
-	Mon, 12 Feb 2024 21:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0651757D;
+	Tue, 13 Feb 2024 00:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGcHWXeS"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="TMfT4LRP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94F2481AD;
-	Mon, 12 Feb 2024 21:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866E41772F;
+	Tue, 13 Feb 2024 00:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707773065; cv=none; b=d2LPdsQRkf7/M3OhaSySblsWUzFmshTV2GkK+KRAH/EkoYu/TE3XL/eH0Fdmc6X+fQVB28jiKo1D3JZrnIKxhjcJTXXvmqBSnhJ8IJp6led80tQfq0SZ4JHmxFCcs9POul0qMI0OZ7TrG98bDSlbVM3Ld/7Tl1hLeUkPz0ZDe24=
+	t=1707785019; cv=none; b=R+h8ppM4AR/1zWpqkeSRUUmlz+onjUNRIe6S1EudutJ/VxFXVNpgH62XJpQXUlU0GfKmalwndlHs9STjU6W2iT79GxH6jdjldG60In4BBprWnGmYvhywjDs/ZMKcPD2dR99AgVTv0T9NwMotkKITs6cAiWJ8I0mRDhLVNEC8pEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707773065; c=relaxed/simple;
-	bh=bxE29yGll33bT1hVGkhkpU2SSMDQ/72L2rqcmd5FkqI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=atLfTrauXL/V/yUprSgpr0obyKo8JRPLNOudTG1Va2f9xStq4rQ4q2iz0AFbamJ1C95IXopR5EIEu06j6WdcMNHMAg6xQqvCkWA/Dn49ToLd6JA7ZZN+jnsSRyuojx5RXyz59NV5TOhaz5LfdK8NHhBjMFsWvxoWlLYSJXtr6eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGcHWXeS; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33b66883de9so2594926f8f.0;
-        Mon, 12 Feb 2024 13:24:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707773062; x=1708377862; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bxE29yGll33bT1hVGkhkpU2SSMDQ/72L2rqcmd5FkqI=;
-        b=NGcHWXeS4iFkAbyCmXmhwCNxDHcnvpI7Ty7W2/qXLcd2G7JUvaruPJ4siVDDBR+wAA
-         TTiGB6ki1xKHlvqaa0VvVIwYU/QhTSABRBpxgmdQpRdPJkqauBUnyh4MaIjPucsmXcae
-         Ki56aX6n92Al5ogmEVuNQAmm2G6Om8N7WkR4Tw7DPkLxzqiowrK1Zg8gFI60DnPu3+dA
-         rjjVXgBcICKguHPRSZ1JV68OVFd3L5t/LspBUQ6EzpQ/HW+c7pMw3zNNM4VuWvI9L8Er
-         ISFcGjoeZR9MAfraU6350kKKSS7mHmbqBtIZrsXsBUrx+jLFBfngBc8SRA0lwql4erri
-         HTwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707773062; x=1708377862;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bxE29yGll33bT1hVGkhkpU2SSMDQ/72L2rqcmd5FkqI=;
-        b=itSjiM0Xd0YhbWTD/WdZT8/Z2JygdYjwb9YVPU3dlRd+lAUowgFZND3l1sGOVr1dpp
-         NfOalQnuW7smERzdnQzZZ3yx/wVlH2FaGqN5/zOvJIU80+5BagBLNd1SKCgQeqtDv9Sz
-         UcVkiYceKHK69D3ZDwtSJvdwfcv3i3g0blIf9EjTuIO1KS1Dw4/PmrWbamCYC31GoI8/
-         IUFdb66v5Io7cOqGJ8lqB8lCxT78wrsLbOmLhr0RDB5+Yaq+OtPfb/l229Q4t2MCM/YS
-         fm+CTwSz/7Gkq8ScAZNvhG2U41yu3+BtizaQuXvg/yaKK71SSpKOfBqU5/ynlsBH6kn6
-         tQew==
-X-Forwarded-Encrypted: i=1; AJvYcCUOef7VnbKhReZZXtw3GMjld0QsvXvQjkuyuuT2XombRWRfVp5N9OpPSIY1WzIhpsJ5E1cSSGt55Q92NMssXA/gvd5HywVQed6SaaqsE9NaTV6cPaGcTYMELvQR00PwaKQEHYxEjKFxPW3MVDMgkIV+6eM7uDKe+ztFl/7XpzJkY9RaQlUvWCGJ5+IWyRk9x235jp5ogfaNvWp9e7BUkuZJvYcAEeJ/F/Axifo/SzhMsWYyjqcY1MWiHFA=
-X-Gm-Message-State: AOJu0YyWL2COuTSVzzMBhEv/ke4ztxMpgPV0OlFskYMVGBJqsYcpE0HA
-	ZYClnIZkBk7oZ4fz4DoeMJESPQDLi/jA9QKzjLXc6dIE0Ug95r93LqZTBwjXa8LKgHc7mVA75op
-	rgCRtE1ZZ6WQcEljxGO5TYlA0pmU=
-X-Google-Smtp-Source: AGHT+IGQJsk4wTT+E8TFIHtU+/AM8HkdWJmfCDLAlARodYmBzIu5z3aknMyj7upwGILqyPN3v8jpKhnatN3rHCwCR5Q=
-X-Received: by 2002:a05:6000:148:b0:33b:8782:985a with SMTP id
- r8-20020a056000014800b0033b8782985amr1875411wrx.21.1707773061559; Mon, 12 Feb
- 2024 13:24:21 -0800 (PST)
+	s=arc-20240116; t=1707785019; c=relaxed/simple;
+	bh=F7fpg2CdE0Wy2uPhD166DyADD4Ox3yGxvUgrFRhaQS8=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P5Mz0531/1v1HC617XetLO88zrAY5Q+f1InNgkBV2uFY2FCrwlLHjXS97p25hE8FaPegnOfdctFNlap5ZagJaSUg0QS/wDXiUwjM1w6cqEC0uWvaCE9GPMJMm9G5XegK1u+x7LdPv1RZkroIu1oulIEmjLfMNhxYipIiYl8shUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=TMfT4LRP; arc=none smtp.client-ip=203.205.251.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1707785014; bh=wiPSfuRqZnFsMPwUv5OCFPjP7dEarDAicP/Tc9X1eiQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=TMfT4LRP723MraUT+zeDVSZmPCpoKYyto74wxMY2nFnrpqhhEQgxK7tfeE7O1GJnD
+	 SgikGKDTcTTB96Ekq7ISnRe8WMn0EiDzRWHFA4vDc/zsRD3M4dB4MGlI3o/IiTcyQB
+	 l5JzBb0SONSLqHxuGqPi6Ilzu1IJU4deYTO2hUB4=
+Received: from pek-lxu-l1.wrs.com ([36.129.58.158])
+	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
+	id ADEAEAC9; Tue, 13 Feb 2024 08:43:30 +0800
+X-QQ-mid: xmsmtpt1707785010tdv1gnwzi
+Message-ID: <tencent_DDCFB377C3642974A3A3A44D176B776DA605@qq.com>
+X-QQ-XMAILINFO: NYqi3QrBgYD/lt5S161oxaFNxO1cjhRBqMoSxSpD2ZO9EBHtwOA/GjZsHF+gY7
+	 cFEyXy2Qj/MoXLpeC8VlNIVt39aTWzMEiOq/QRE9PW4znfioaIQ1fRfAsoeOn7ZpSdlm0/XCS6Zk
+	 QnA3kE1+sfeAk/yXaqpZdRtMJJJlzItwLkllhn0Xt5DhSXJGhZ5Ok64Gl22GTKqDVGWkREiFd7eK
+	 nbYtLBEQMqdDzUMUOquukGX9FTwNsE9rSrtyvCbWrMWHGxlTDhAZV51AOCIMVVTnmXSgNaBxivdE
+	 CUCHHlKK+YeTddMabu/P36lsmD0sKgXykDSblxU5xdornsoLVB6jqeAuTGIHJtxAKui8bSiWJQTC
+	 72xExYCgnDSYK5q6JAQdhWRqayqmz+TJ2cuNEaldM+2wIBFzUn+GvyqnhnMv6FIhc550Bpm4vRS1
+	 rkGlkogIeqRa5G7RGCfIU3UoamLK0I1OTUb5O9g5FhDdFpJldEbfZ6Et2iwK+wing6q1pQGWY2aU
+	 DMQo0qOg5sX6NeQ/viAe5ovP0cAdKo3eS6TR4WYvrx68BtWZdPIrl31u//aMnHkj68erRTClxocv
+	 cVvOSauFMtZ7jyG0ExBl9qo7jVjunKk7f6OdIFoi1CTlmCwi2EopoTBk45OOR59lg1ingdDARITL
+	 yIvJ6rMSV45kMqyc10SXWDIdSK3VT0DKAkYLOo2ytLXkiq2CyBkQQNtvnB39JuV7vY1yYwa15gDV
+	 6nwpqEO0UflBlZodEh4Q0B3DlR55DuiOcuNlvOP8f4aar4UH1D/vhT79RoIys60Vlvmd8PRs/z4i
+	 HtMxIzUg4evzAsAX5xE1XojmI6E06Nt3aVVh7Kt9GlcKsJ0BOIX4mB91p2Mx1kNn4heT/73uXeDq
+	 vSKQM+oCsh06zS7rrM1gGiggB9mq7GpY7U5SYJ3uiKVYoTFifJSYiNinGGp4Dn7w594hubAIJD
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: Edward Adam Davis <eadavis@qq.com>
+To: gregkh@linuxfoundation.org
+Cc: eadavis@qq.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	rafael@kernel.org,
+	syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH riscv64] kobject: fix WARNING in input_register_device
+Date: Tue, 13 Feb 2024 08:43:26 +0800
+X-OQ-MSGID: <20240213004330.285237-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2024020836-flypaper-relapse-5c97@gregkh>
+References: <2024020836-flypaper-relapse-5c97@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
- <87bk8pve2z.fsf@toke.dk> <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
- <875xyxva9u.fsf@toke.dk> <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
- <87r0hhfudh.fsf@toke.dk> <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
-In-Reply-To: <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 12 Feb 2024 13:24:09 -0800
-Message-ID: <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 12, 2024 at 10:21=E2=80=AFAM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Mon, Feb 12, 2024 at 6:46=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen =
-<toke@redhat.com> wrote:
-> >
-> > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
-> >
-> > [...]
-> > >> IIUC, the bpf_timer callback is just a function (subprog) from the
-> > >> verifier PoV, so it is verified as whatever program type is creating=
- the
-> > >> timer. So in other words, as long as you setup the timer from inside=
- a
-> > >> tracing prog type, you should have access to all the same kfuncs, I
-> > >> think?
+On Thu, 8 Feb 2024 12:25:10 +0000, Greg KH wrote:
+> On Thu, Feb 08, 2024 at 07:37:56PM +0800, Edward Adam Davis wrote:
+> > On Thu, 8 Feb 2024 10:56:00, Greg KH wrote:
+> > > > The input_add_uevent_modalias_var()->input_print_modalias() will add 1684 bytes
+> > > > of data to env, which will result in insufficient memory allocated to the buf
+> > > > members of env.
 > > >
-> > > Yep, you are correct. But as mentioned above, I am now in trouble wit=
-h
-> > > the sleepable state:
-> > > - I need to call timer_start() from a non sleepable tracing function
-> > > (I'm in hard IRQ when dealing with a physical device)
-> > > - but then, ideally, the callback function needs to be tagged as a
-> > > sleepable one, so I can export my kfuncs which are doing kzalloc and
-> > > device IO as such.
+> > > What is "env"?  And can you wrap your lines at 72 columns please?
+> > env is an instance of struct kobj_uevent_env.
+> 
+> Ok, be specific please in your changelog text, otherwise we can't really
+> understand what is happening.
+> 
+> > > > Reported-and-tested-by: syzbot+8e41bb0c055b209ebbf4@syzkaller.appspotmail.com
+> > > > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> > > > ---
+> > > >  include/linux/kobject.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+> > > > index c30affcc43b4..74b37b6459cd 100644
+> > > > --- a/include/linux/kobject.h
+> > > > +++ b/include/linux/kobject.h
+> > > > @@ -30,7 +30,7 @@
+> > > >
+> > > >  #define UEVENT_HELPER_PATH_LEN		256
+> > > >  #define UEVENT_NUM_ENVP			64	/* number of env pointers */
+> > > > -#define UEVENT_BUFFER_SIZE		2048	/* buffer for the variables */
+> > > > +#define UEVENT_BUFFER_SIZE		2560	/* buffer for the variables */
 > > >
-> > > However, I can not really teach the BPF verifier to do so:
-> > > - it seems to check for the callback first when it is loaded, and
-> > > there is no SEC() equivalent for static functions
-> > > - libbpf doesn't have access to the callback as a prog as it has to b=
-e
-> > > a static function, and thus isn't exported as a full-blown prog.
-> > > - the verifier only checks for the callback when dealing with
-> > > BPF_FUNC_timer_set_callback, which doesn't have a "flag" argument
-> > > (though the validation of the callback has already been done while
-> > > checking it first, so we are already too late to change the sleppable
-> > > state of the callback)
-> > >
-> > > Right now, the only OK-ish version I have is declaring the kfunc as
-> > > non-sleepable, but checking that we are in a different context than
-> > > the IRQ of the initial event. This way, I am not crashing if this
-> > > function is called from the initial IRQ, but will still crash if used
-> > > outside of the hid context.
-> > >
-> > > This is not satisfactory, but I feel like it's going to be hard to
-> > > teach the verifier that the callback function is sleepable in that
-> > > case (maybe we could suffix the callback name, like we do for
-> > > arguments, but this is not very clean either).
-> >
-> > The callback is only set once when the timer is first setup; I *think*
-> > it works to do the setup (bpf_timer_init() and bpf_timer_set_callback()=
-)
-> > in the context you need (from a sleepable prog), but do the arming
-> > (bpf_timer_start()) from a different program that is not itself sleepab=
-le?
-> >
->
-> Genius! It works, and I can just keep having them declared as a
-> syscall kfunc, not as a tracing kfunc.
->
-> But isn't this an issue outside of my use case? I mean, if the
-> callback is assuming the environment for when it is set up but can be
-> called from any context there seems to be a problem when 2 contexts
-> are not equivalent, no?
+> > > That's an odd number, why that?  Why not just a page?  What happens if
+> > > some other path wants more?
+> > An increase of 512 bytes is sufficient for the current issue. Do not consider
+> > the problem of hypothetical existence.
+> 
+> Why is this 512 bytes sufficient now?  What changed to cause this?
+There is the following code in input_print_modalias():
 
-I agree that workqueue delegation fits into the bpf_timer concept and
-a lot of code can and should be shared.
-All the lessons(bugs) learned with bpf_timer don't need to be re-discovered=
- :)
-Too bad, bpf_timer_set_callback() doesn't have a flag argument,
-so we need a new kfunc to set a sleepable callback.
-Maybe
-bpf_timer_set_sleepable_cb() ?
-The verifier will set is_async_cb =3D true for it (like it does for regular=
- cb-s).
-And since prog->aux->sleepable is kinda "global" we need another
-per subprog flag:
-bool is_sleepable: 1;
+drivers/input/input.c
+   1         len += input_print_modalias_bits(buf + len, size - len,
+1403                                 'k', id->keybit, KEY_MIN_INTERESTING, KEY_MAX);
+This code will add up to 2608 bytes of data to env at most.
+(KEY_MAX - KEY_MIN_INTERESTING) * 4 = (256 * 3 - 1 - 113 ) * 4 = (765 - 113) * 4 = 652 * 4 = 2608 bytes。
+Note: In the expression, 4 represents 3 bytes of hexadecimal data and 1 byte of comma.
 
-We can factor out a check "if (prog->aux->sleepable)" into a helper
-that will check that "global" flag and another env->cur_state->in_sleepable
-flag that will work similar to active_rcu_lock.
-Once the verifier starts processing subprog->is_sleepable
-it will set cur_state->in_sleepable =3D true;
-to make all subprogs called from that cb to be recognized as sleepable too.
+include/uapi/linux/input-event-codes.h
+188 #define KEY_MUTE                113
+807 #define KEY_MIN_INTERESTING     KEY_MUTE
+808 #define KEY_MAX                 0x2ff
+During my actual testing process, I found that a total of 1684 bytes were
+contributed in input_print_modalias().
+> 
+> And how can we detect this automatically in the future?  Shouldn't we
+> just be truncating the buffer instead of having an overflow?
+> 
+> > > And what's causing the input stack to have so many variables all of a
+> > > sudden, what changed to cause this?  Is this a bugfix for a specific
+> > > commit that needs to be backported to older kernels?  Why did this
+> > > buffer size all of a sudden be too small?
+> > The result of my analysis is that several members of struct input_dev are too
+> > large, such as its member keybit.
+> 
+> And when did that change?  What commit id?  What prevents it from
+> growing again and us needing to change this again?
+The code that caused this issue has been introduced for a long time, and it is
+speculated that it was due to the fact that the warning in add_uevent_var() was
+returned directly to ENOMEM without being taken seriously.
 
-A bit of a challenge is what to do with global subprogs,
-since they're verified lazily. They can be called from
-sleepable and non-sleepable contex. Should be solvable.
+lib/kobject_uevent.c
+  2         if (len >= (sizeof(env->buf) - env->buflen)) { 
+  1                 WARN(1, KERN_ERR "add_uevent_var: buffer size too small\n");
+672                 return -ENOMEM;                                                                                                                                                                        
+  1         }
 
-Overall I think this feature is needed urgently,
-so if you don't have cycles to work on this soon,
-I can prioritize it right after bpf_arena work.
+I believe that this issue was introduced by:
+7eff2e7a8b65 - Driver core: change add_ueventvar to use a struct.
+
+thanks,
+edward.
+
 
