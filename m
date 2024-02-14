@@ -1,255 +1,139 @@
-Return-Path: <linux-input+bounces-1899-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1900-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A968549CC
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 13:57:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567E5854BB4
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 15:42:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F7651F2484B
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 12:57:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0713F281BFF
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 14:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE77853E1A;
-	Wed, 14 Feb 2024 12:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8DA5A4E1;
+	Wed, 14 Feb 2024 14:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YzMaoC2B"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dmkpiTm8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2076.outbound.protection.outlook.com [40.107.101.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31EE52F8C
-	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 12:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707915396; cv=none; b=BRWwE78TgFghKHZJwgL8MEDCfnPOky9tXaMjMnUTOJgIfQmGH5ggzya4nYI4cgZU0HaxaGq29UoUGwsX90eQv0Pxqe33Cq1m5hKODLFpHZhhqMQtCupQ7+92DNdZUmLh2ZeTY6OkDJMuYjc2dFV3EHTH8EOkxUK+CTUdWM/DkpI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707915396; c=relaxed/simple;
-	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=t97YMzWbQysl+ffetY/B5lPSthsVwuzDAuY3QvkePZ1XkrlEe1ING1djmiXexGG9dFAzbH7nFpLbhCbCLvjyhHiyYm5lrnjq8LcQaH0g+5KNzI4mr508dkAo0M7K4DM3+SgC29U8ngn7qQQSh7xNX94HpcVpxcUJCQqZgDSrgu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YzMaoC2B; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707915393;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-	b=YzMaoC2BsRjV+QxtjJUieTSlQzt0jlhZ35SDci2FTNzFMefvYMst/s+5xTUPEynb1P6Phg
-	3xPXwcsZ4IJX/b4IITU/Vk0igcyYsvbJSDgT/iZSohGd2atUnWDFjHyC1ee0gLh8YpHGda
-	mmxpfjgZo2erCgoJiMwdmtTDqGD6WH0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-318-T2TciRGaOjCE7M93khBuxg-1; Wed, 14 Feb 2024 07:56:32 -0500
-X-MC-Unique: T2TciRGaOjCE7M93khBuxg-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a3d114fe9b6so58403866b.3
-        for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 04:56:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707915391; x=1708520191;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-        b=SJnBcoUIivSKr2fAfikbwVvaCccnD+iaEsx+xbfZk7Qxq8mnEBoK+IK0vLlNdJABM6
-         eS61LhSxbjNt56gnymQJdG78w7ZFFDsO2b5Qkbzl6fvkPgJXvEDSg4qAvAm6oSFV29kY
-         c+8973LVB9blFko2lnIpn4GeKZAdtrbKELT7Fdmb2mMPvKgvSrk+aO0mdR6p9TAQoEnC
-         vjKBULQmks6TJ7HjiqCkgeTomfbKUJ4EDYcLdZlC9Iiaq0zaLAp9t2AvDubkAooJKMbq
-         bW3Lj3n+EnpUBof1DKvtkkyMCcT57rGXVLabeBBWwnIGySqeOVe9ylk4nLoMb8WETMQy
-         3n9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWqP4r3Fy0OOLm1q0QcrKMUhzpU8fLoBbnm5PUVFM9+FVR7Aq957nodFTxkrW82gT4ov6u2ZpWOmhClWxt68RdQb0LpwgF+Ft96zg0=
-X-Gm-Message-State: AOJu0YzCIBTPo06RbX4/91uAzonuIGPfuHdTtqvnILhiCVnXBkCJXsQZ
-	KPZ/VusV+Vefi728GCa4GVCBCa8wedS7PqjKgG2Z33rvG24bMGxYovRWzRbYLju5Om8kPmDoEFW
-	+xx1ACVcVjnja7uHjSinFJFQP4IBK63xCYUMh+N9hcvuEXLTAi4gP6oZdT1lR
-X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559814ejb.77.1707915391125;
-        Wed, 14 Feb 2024 04:56:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEtC4RmVIKd3BfBmk6nYmZIZiM8phFHfpA/m86d7qk4SVIPJZDEl1BVx7eVsmIDBaNUG11aPw==
-X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559778ejb.77.1707915390722;
-        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXeVT566eawAqV4mSiYIM54RSXg8KcFzFeTfM3lTaqYUMHBIUCXS/1t/A3OUh7PJjPlqfAuhmCDkluKHV5tDkoxAwbqEWcsb9OHKXszu9xt1+XsHDsqQR/Gt6oMAJQxj44Rtg1OIEF+AcFruNXTnueqhOSsty1y8hMHV/Q0Hy+vXJQpN0xBV3ghNG/4nguQ2hrqJJDM8MZHSY6bIj5ts1xFNA5MQpgsHrvI1Em0gVn7Y2389Jy3RsiAL7THwe00c2TzV7T7EyOWYKihiAu5o+rtxRs8uXtR/8gGy9RDXg28p1fPZJIaYFZR1R9IsZYukb84tHI0pSYWTJNbTvxqu+j6oHcO43pcoCf5hxkqfgFDAJYr0ELb4pmAHgPMPEFoJrJLDNiCLG16PPatmNBKy1MNPwrf/YGrGwcacXGEO19Jn8Suusnc+ODFM+fkSY0zIFsLdG799C9+nD4ryXbDWIt+ojfqV8NyG0IJdWyrRLa3cNG4+hmXhFUq3zif8GB1EA/FMNM7pf8JVk4YNRjHpH32s+cpFXVMNmhubaIYqYaL8uDYxGAF20wM0VY6oYtaO5GfSYOZhvG4Fuyz/XALrhx2z6Z7dsYB2dG2bUYSeLI8tCQ1YzLYVj6dKMcM3F9nDqm3Ur2Xrh8lMjGM0WTj7OwrpTIo9R78b+zsq8Yv9X+UDIL64djWOPfW1itQBIqU6VQ=
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id vb1-20020a170907d04100b00a3cfe376116sm1673172ejc.57.2024.02.14.04.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-	id CF25D10F578E; Wed, 14 Feb 2024 13:56:29 +0100 (CET)
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, Benjamin Tissoires
- <bentiss@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Andrii
- Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
- Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, bpf
- <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, "open list:HID
- CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
- <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-In-Reply-To: <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
-References: <87bk8pve2z.fsf@toke.dk>
- <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
- <875xyxva9u.fsf@toke.dk>
- <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
- <87r0hhfudh.fsf@toke.dk>
- <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
- <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
- <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
- <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
- <877cj8f8ht.fsf@toke.dk>
- <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date: Wed, 14 Feb 2024 13:56:29 +0100
-Message-ID: <874jebfblu.fsf@toke.dk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D17A5A4ED
+	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 14:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707921723; cv=fail; b=leEk3Hg7FUt4bE8VYUXI4rCgj4i4YsJaCRDbWq8saKkwW0C8tj95Gcejf5ov8fCS+i9tE7wD+gkXJdto1epii8ptHnz6bbh8juTqD4Ve+AeIampXWxNez1M2kwmlKCN7YBac5jSdVonBJVtEUh2fJLdaUA7JGX4eJiQuYjJMUtw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707921723; c=relaxed/simple;
+	bh=YQV6Yv2phGzRAn/JtbD/URm2UYauSTZDHjD9jH9+1ic=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fE2USwCNHm1A0uVpiDc/mBetnYmGNsgHWRl2aCmzI6ji+BpxeOdbavaQMqgPQg5wP/kVelpfDl4RRIz6X+ipuwhjX0VbmRtWyRobj9ARqw2jtjwqhpbqsNEo3uhja0VlpGl4SUXfVRvCYjG+04VLDqYyYS80raEZRjO7WrlQGlc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dmkpiTm8; arc=fail smtp.client-ip=40.107.101.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IZ+cCSr8Ey7dujC7et+F9Yd+ulpmm6p7AyuL9FVu7uS/GZQXTRxYkHNzw+LA1DIda1PibVVO8r7oSLn19gN7+wsAyJ0gXaaCgMJ9LWurZUFhuNn8+cbY7ASEfHO9rGxwD4n+w8Qcxl4UTDCY27xYvkWZEGekJWAu6cdOjyzXKDb2TtMqZ6ki7Pnc1DiMs2NHj0SwG2t8FMI19VTnDv+o+Sc8i+ouDYRLXx1XV5KTuHRGt4KZcuzrnAlAkD+HOvorzkJW2SeqAevRN4H5EJNDYdROFXBX7cI8T9Ngvm4zxnd84qZ7rVcV09IPJSSXIYrS/invV4Er3tckGd00qhF8LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kXDYtYS91o/7uYIGMzD6TUfl27FF/VeojLZWvtoqhBU=;
+ b=ACrSTgK+PsF36UGHAkuiL3X4BhGG3Fz0hrcACkwjP9wfn4LSOWVVuhZb36tjM7W9kT09Q9Ou5nXMUpvGB0M2DQDBaZbQQgww6tSlbFIfZu3JwMrWDTiBZ32Czz9gq//3e98FC5LF8N3AQPA7iSCGJDGI6yu4QymiE8vUpKxdAz+vpBs6v2b89IJ6Efn57P/2k4Wzv+R0LcBGYL2hMNimnhvdCp43nK1S7Pa/UVnFXebmuQS0OEyYFE6X7KcsNe2qRHskZeez/oniClz5W/vSGEGzNOSyLWgu7OAxr0KzZrhEeRILLVP4LSFXQG065N1+7lkmA8MULdyDWRPL1NVkRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kXDYtYS91o/7uYIGMzD6TUfl27FF/VeojLZWvtoqhBU=;
+ b=dmkpiTm8Wf0ly/emlFCLhiW96eF96BpxI2W9XLIR/MIkNsxB8FoI6Zznuz1kHSgVhWWsQKkuMxM1+Qd64lN3RLVg6LjxsnXIgHRWGaXtQCrm8A75obpT4VETjNGEXs2mxX1QfBZ3LZ+XwXOA3n8vhUJ1Y6jJBAaCEVCH0UAhbkM=
+Received: from BL0PR02CA0042.namprd02.prod.outlook.com (2603:10b6:207:3d::19)
+ by CH3PR12MB7665.namprd12.prod.outlook.com (2603:10b6:610:14a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.27; Wed, 14 Feb
+ 2024 14:42:00 +0000
+Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
+ (2603:10b6:207:3d:cafe::f9) by BL0PR02CA0042.outlook.office365.com
+ (2603:10b6:207:3d::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.40 via Frontend
+ Transport; Wed, 14 Feb 2024 14:42:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 14:41:59 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 14 Feb
+ 2024 08:41:57 -0600
+From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To: <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+	<linux-input@vger.kernel.org>
+CC: <akshata.mukundshetty@amd.com>, Basavaraj Natikar
+	<Basavaraj.Natikar@amd.com>
+Subject: [PATCH 0/5] Fixes and updates to amd-sfh 
+Date: Wed, 14 Feb 2024 20:11:39 +0530
+Message-ID: <20240214144144.682750-1-Basavaraj.Natikar@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|CH3PR12MB7665:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9314beb8-e00c-4cd5-9d4d-08dc2d6b19f5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ZUI7j/j0aGfvxq7ePvKW2dd+6nqC+hhUdbY2E+lSXczp1AgW+Nm2c5iN4t8qhZBtGchCzMfT6XlvZdr0xNDxFYO6IAH9qsd4l4RBJYI1mjWLE4oqbZxYFOUlFAVXt9Z0yr3AaLt4wTFeDu/6Qwz36UsrGJdmkiKFRwemCbilEioY8jNk98WYjTfL3d1+tvnGkaMwPBRodoopb14fWFnW7AIoPWkEAQkTUNuNU5fS21PKwIMZ3MTScDwXSdCCIggsskQKtby5DnTbbT7MTqlqRmAYIEkEapeCXHtuHOLJguBBvE2swqYbP3WhkB/9O0izNQBUBnC8hjBCwdWCNUUww2FzQCs4ICJAUdDuAZ10h7kNKclVJsLSdCst5iIp+83VEH6EVC1EgLzwgJ9IGvEXXOFB/o4l9X+Sojkp2dtQXa2YksE+5sHh3QgJ0ffZ828UmEd8iHkzY8AtaAHxmEYjtBFxJ4RrbIl+OsgV6eX1GSnfabfxwVIZWfXsBi24PmLoUpOaKvEDUQ4mk6imtkALeSdFnIVmjHF+tE6B5U3jsjllRYi0PY/XRgq8RguEb1x94OHIPUbTvd85iBgeF5ccjU0dpitc8QHdfuFh/a2eq0A=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(64100799003)(1800799012)(186009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(86362001)(8676002)(8936002)(5660300002)(70586007)(70206006)(4744005)(4326008)(478600001)(7696005)(15650500001)(2906002)(336012)(81166007)(426003)(83380400001)(356005)(82740400003)(1076003)(4743002)(26005)(16526019)(2616005)(41300700001)(36756003)(316002)(6666004)(110136005)(54906003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 14:41:59.9732
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9314beb8-e00c-4cd5-9d4d-08dc2d6b19f5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB50.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7665
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+This patch series include changes for:
+- Increase sensor command timeout.
+- Update HPD sensor structure elements.
+- Avoid disabling the interrupt.
+- Improve boot time.
+- Extend MP2 register access.
 
-> On Tue, Feb 13, 2024 at 08:51:26PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
-n wrote:
->> Kumar Kartikeya Dwivedi <memxor@gmail.com> writes:
->>=20
->> > On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> =
-wrote:
->> >>
->> >> On Feb 12 2024, Alexei Starovoitov wrote:
->> >> > On Mon, Feb 12, 2024 at 10:21=E2=80=AFAM Benjamin Tissoires
->> >> > <benjamin.tissoires@redhat.com> wrote:
->> >> > >
->> >> > > On Mon, Feb 12, 2024 at 6:46=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8=
-rgensen <toke@redhat.com> wrote:
->> >> > > >
->> >> > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
->> >> > > >
->> >> [...]
->> >> > I agree that workqueue delegation fits into the bpf_timer concept a=
-nd
->> >> > a lot of code can and should be shared.
->> >>
->> >> Thanks Alexei for the detailed answer. I've given it an attempt but s=
-till can not
->> >> figure it out entirely.
->> >>
->> >> > All the lessons(bugs) learned with bpf_timer don't need to be re-di=
-scovered :)
->> >> > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
->> >> > so we need a new kfunc to set a sleepable callback.
->> >> > Maybe
->> >> > bpf_timer_set_sleepable_cb() ?
->> >>
->> >> OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini=
-() flag?
->> >>
->> >> > The verifier will set is_async_cb =3D true for it (like it does for=
- regular cb-s).
->> >> > And since prog->aux->sleepable is kinda "global" we need another
->> >> > per subprog flag:
->> >> > bool is_sleepable: 1;
->> >>
->> >> done (in push_callback_call())
->> >>
->> >> >
->> >> > We can factor out a check "if (prog->aux->sleepable)" into a helper
->> >> > that will check that "global" flag and another env->cur_state->in_s=
-leepable
->> >> > flag that will work similar to active_rcu_lock.
->> >>
->> >> done (I think), cf patch 2 below
->> >>
->> >> > Once the verifier starts processing subprog->is_sleepable
->> >> > it will set cur_state->in_sleepable =3D true;
->> >> > to make all subprogs called from that cb to be recognized as sleepa=
-ble too.
->> >>
->> >> That's the point I don't know where to put the new code.
->> >>
->> >
->> > I think that would go in the already existing special case for
->> > push_async_cb where you get the verifier state of the async callback.
->> > You can make setting the boolean in that verifier state conditional on
->> > whether it's your kfunc/helper you're processing taking a sleepable
->> > callback.
->> >
->> >> It seems the best place would be in do_check(), but I am under the im=
-pression
->> >> that the code of the callback is added at the end of the instruction =
-list, meaning
->> >> that I do not know where it starts, and which subprog index it corres=
-ponds to.
->> >>
->> >> >
->> >> > A bit of a challenge is what to do with global subprogs,
->> >> > since they're verified lazily. They can be called from
->> >> > sleepable and non-sleepable contex. Should be solvable.
->> >>
->> >> I must confess this is way over me (and given that I didn't even mana=
-ged to make
->> >> the "easy" case working, that might explain things a little :-P )
->> >>
->> >
->> > I think it will be solvable but made somewhat difficult by the fact
->> > that even if we mark subprog_info of some global_func A as
->> > in_sleepable, so that we explore it as sleepable during its
->> > verification, we might encounter later another global_func that calls
->> > a global func, already explored as non-sleepable, in sleepable
->> > context. In this case I think we need to redo the verification of that
->> > global func as sleepable once again. It could be that it is called
->> > from both non-sleepable and sleepable contexts, so both paths
->> > (in_sleepable =3D true, and in_sleepable =3D false) need to be explore=
-d,
->> > or we could reject such cases, but it might be a little restrictive.
->> >
->> > Some common helper global func unrelated to caller context doing some
->> > auxiliary work, called from sleepable timer callback and normal main
->> > subprog might be an example where rejection will be prohibitive.
->> >
->> > An approach might be to explore main and global subprogs once as we do
->> > now, and then keep a list of global subprogs that need to be revisited
->> > as in_sleepable (due to being called from a sleepable context) and
->> > trigger do_check_common for them again, this might have to be repeated
->> > as the list grows on each iteration, but eventually we will have
->> > explored all of them as in_sleepable if need be, and the loop will
->> > end. Surely, this trades off logical simplicity of verifier code with
->> > redoing verification of global subprogs again.
->> >
->> > To add items to such a list, for each global subprog we encounter that
->> > needs to be analyzed as in_sleepable, we will also collect all its
->> > callee global subprogs by walking its instructions (a bit like
->> > check_max_stack_depth does).
->>=20
->> Sorry if I'm being dense, but why is all this needed if it's already
->> possible to just define the timer callback from a program type that
->> allows sleeping, and then set the actual timeout from a different
->> program that is not sleepable? Isn't the set_sleepable_cb() kfunc just a
->> convenience then? Or did I misunderstand and it's not actually possible
->> to mix callback/timer arming from different program types?
->
-> More than just convience.
-> bpf_set_sleepable_cb() might need to be called from non-sleepable and
-> there could be no way to hack it around with fake sleepable entry.
-> bpf_timer_cancel() clears callback_fn.
-> So if prog wants to bpf_timer_start() and later bpf_timer_cancel()
-> it would need to bpf_set_sleepable_cb() every time before bpf_timer_start=
-().
-> And at that time it might be in non-sleepable ctx.
+Basavaraj Natikar (5):
+  HID: amd_sfh: Increase sensor command timeout
+  HID: amd_sfh: Update HPD sensor structure elements
+  HID: amd_sfh: Avoid disabling the interrupt
+  HID: amd_sfh: Improve boot time when SFH is available
+  HID: amd_sfh: Extend MP2 register access to SFH
 
-Ah, right, makes sense; didn't think about bpf_timer_cancel(). Thanks
-for the explanation :)
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  16 +++
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        | 118 ++++++++++++++----
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |   6 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |   2 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |   4 +-
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  10 +-
+ 6 files changed, 124 insertions(+), 32 deletions(-)
 
--Toke
+-- 
+2.25.1
 
 
