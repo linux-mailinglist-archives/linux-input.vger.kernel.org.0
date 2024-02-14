@@ -1,61 +1,61 @@
-Return-Path: <linux-input+bounces-1903-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1905-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62832854BB7
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 15:42:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B666854BB9
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 15:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8F1C1F21F97
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 14:42:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF155282708
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 14:42:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBE415914A;
-	Wed, 14 Feb 2024 14:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C0535644D;
+	Wed, 14 Feb 2024 14:42:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EKmR+j79"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="r6e5JHMj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4536E5A7A4
-	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 14:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DC85A0FB
+	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 14:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707921734; cv=fail; b=Fvk+ypMXpb7vfB+IClCx2Ki6o+HDQYsHpX5NGnWtvBX+0ZCkPqxTLhVpLv8UEbK6KC9b9jsscOJttRu5QJ9Qvp63smykQCWJFlt571130yJXvZDUtKVa6YMreFobNYg56sOeaoGqNUf3mFFnfLmhibgduJ4IBII/mgufvyO+WUA=
+	t=1707921738; cv=fail; b=QfCMt4yxWTKIBOswwmr9MIBkRSIopbQArLBFg95cGUymMiJwVg6TlDPRndKpcZ+lK7N6pomVqQaVpDDzq6DeZ4ys00GBgpnH6c+YUkm7IZgzIpz7kDqubR9razOZDNduwrdwoZka3KPpK1iLH1bv4uQl5UGDQfFy+SQXzIUtvTw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707921734; c=relaxed/simple;
-	bh=f4B+bXrugDw2VTIVZMVwX44LerdMGEEeN95Ypm2PU+c=;
+	s=arc-20240116; t=1707921738; c=relaxed/simple;
+	bh=6c9/j+dVSJS7WrUB0jP52vOtVLrxe3l60wN8WNYFNWo=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oZWhzO/WQU1UHzH5h1WGKiZTAEO/4ztw/OfjTySq4JYOz7OBuS1pTKK5xfcU6GCsg2wncSwhAnlZXdhwMeVzLpyW3t4WrHeIzwIbVjCgOrzh2TezLeGYJmP0AqbpJq7BVLHUyN5SkcMevX/cLPPy+MB41tz3CRm3K8rafkJxVCk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EKmR+j79; arc=fail smtp.client-ip=40.107.92.55
+	 MIME-Version:Content-Type; b=uOwZuWC4mCPd1L7CfT6KU9iW8s2u79QaUokQxsgw7e1QgyxLd030duRkoDJlcAgELcKDZWDjK6/6JJnYFmEch5D66aGgoZ7jg9rYvmN0u+V1+zkcuAfylImz1+HYhyXTtBDwBA9FnTc/0GB/bn+H0kjlhsKzapthyNlKMLwuEJs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=r6e5JHMj; arc=fail smtp.client-ip=40.107.93.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l7KaZIXVYsNROKjCCJXwviy0LH88cdwr/UjhckReYaR8wSu8APBy3yPnngXXVkzfbm9dZfjVmYyzC6uxtNl2LRrPBJsQrIOJdlF+C8vDuORwaVITorjr5u+RBgbE8P4wCezWXwtcWAJANiofTXa3PPS92DDTpSiRdOpJKeL+kqBYs9Qzb+VUc6n28NikYuYt4y+jo8845wdpZMasKITAOLn+pv6thc7Or47O/RupXz9G1fBddVWK6ZvNgULsKhvakPpV2cPzQBhe1hyfKrI0lOZ/a7PyCZ9S2bblTZYJ9JFVfQK/u7yFOYHkRr14zRHktWOvyFOfQ/yS5nElyQK2Qw==
+ b=RnwWccm0/3zFb0+LjfMKbtHgF8To35COa2RoTT8DZCsqTGgMaZ1kuQZ12M6oQWEstQHYQ+KI2ToQGSMDx4KKVTTR18fea9QLMylMg/qh4cG/FTP+SumSnvk7VS2TTy34brW0FmXaUexa90m5Pj78YtMQ+vO7AyhHu9qD54btKsCYjzx2llt2n8zraHcjwRCKA/T7PzLIjJWlw326vRVZ+KaucR5IADFFoBYbD5aqYaMuhOjZhhR0/wLyWqEnzwyXNxQxloQyPNMPRSYPQuhX6BMUp7UxJehCZ9yfgVJOYEnV8bSjfSrHo8e6aViQotiVBRSaJaoh7OiAk6TZpiXtDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B+WWEZeXs2VRX4kO1Hs6mogajeuW9tQ++a4Q5XogNuU=;
- b=CyO4QjGFBRoL7wt1vkqr08w0F/AWXdc8ySr3Q6yeegviAHmhgAijjjAopql7lLb2Dbx6EfdFtri74eEpx+P3ljy/y2mpkupVca9aW9BOb1pUvpPLtF3Lo4rLjV8l7QbNWwCPZa2VKF1zaqcwnYoMWeG87mtYYuK5KL7lvUEAoC4GzDjWTu0cjsxFn7yzKFkuZ/NNR6D9ZSsn3t0nWm5531WdE1vFbEe4V7m0mwiLmTDqlu8czQC/Im/2EkAk4z0IP9T7BYGPvbMy6Dguvj4C/2xw00msYdx1JOCPV3xPFERP74nakyVCrathDpqQ7PsDaUON6DnWf5W/LQ+zBA6U6A==
+ bh=tMLvjp2WrhCSYcOk4M1xKgO4/dPL49xMXmCmpbe6luo=;
+ b=Zw7H9Gk3tIZc7YverqoejT5HSdaq3DoOPDHySJy2tRTr7mf1kj6N8Av5QWJQNk9wyYd+OoEXC391QaiROprRJv5VJ/8ilheuXU2UiQ/TjsLfircZRNhafU/kP1bW//Nefy95pjY1JkqaQv8KEqB8ZyiUiA5dBtQZnUM2d9R9dGNqmP8PfVObj4bQZOavegHjFxzF4U/FlsjXQxJvNDfZaE7nZOjkFApL9p+7IGuUk895AZ0wgrUMQ8p0MGbUJkAVXJckv2/BQQSym/0nlfaFvbp61d84qS0GplT4xTHu4w0j3958baj3aJjE0z1gs1Thx/vp8+nM1sQZJeSVxiyU/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B+WWEZeXs2VRX4kO1Hs6mogajeuW9tQ++a4Q5XogNuU=;
- b=EKmR+j79pKny6d6+yOXkkXu02q6iaywmRWzd8Wcc/VzNRmFYR9yRroIww5Ew1AphSp0xF2pW2lIUCrMPRsSHXMP2qqCwAb6kKTT8ulB6KS9z6ykR2ALFTXQsFtnzv6scMPKoNGC9GP+QZrlCltPXLn0ddGnIQvWmTxrkoymsezY=
-Received: from MW4PR03CA0178.namprd03.prod.outlook.com (2603:10b6:303:8d::33)
- by BL1PR12MB5287.namprd12.prod.outlook.com (2603:10b6:208:317::12) with
+ bh=tMLvjp2WrhCSYcOk4M1xKgO4/dPL49xMXmCmpbe6luo=;
+ b=r6e5JHMjUVV1r67JQLoOTNZyb48BajE5ttp9u9Nj2rjus+dXDGk1ONvJwvFkXvTk4o7kQo+eZVo80HMazSTle9ZRv+XjLlJ/adM0kMGZsqr6ptCR21GuOHh7RBIugIH+8RNCTt30VCDeUSUJ+lRNi7p8vW3IRUYcknUYWgYrwwM=
+Received: from MW4PR03CA0162.namprd03.prod.outlook.com (2603:10b6:303:8d::17)
+ by CH3PR12MB8330.namprd12.prod.outlook.com (2603:10b6:610:12c::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Wed, 14 Feb
- 2024 14:42:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.27; Wed, 14 Feb
+ 2024 14:42:11 +0000
 Received: from MWH0EPF000989E6.namprd02.prod.outlook.com
- (2603:10b6:303:8d:cafe::ee) by MW4PR03CA0178.outlook.office365.com
- (2603:10b6:303:8d::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.40 via Frontend
- Transport; Wed, 14 Feb 2024 14:42:10 +0000
+ (2603:10b6:303:8d:cafe::a3) by MW4PR03CA0162.outlook.office365.com
+ (2603:10b6:303:8d::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Wed, 14 Feb 2024 14:42:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -65,19 +65,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  MWH0EPF000989E6.mail.protection.outlook.com (10.167.241.133) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 14:42:09 +0000
+ 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 14:42:11 +0000
 Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 14 Feb
- 2024 08:42:03 -0600
+ 2024 08:42:05 -0600
 From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 To: <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
 	<linux-input@vger.kernel.org>
 CC: <akshata.mukundshetty@amd.com>, Basavaraj Natikar
 	<Basavaraj.Natikar@amd.com>
-Subject: [PATCH 3/5] HID: amd_sfh: Avoid disabling the interrupt
-Date: Wed, 14 Feb 2024 20:11:42 +0530
-Message-ID: <20240214144144.682750-4-Basavaraj.Natikar@amd.com>
+Subject: [PATCH 4/5] HID: amd_sfh: Improve boot time when SFH is available
+Date: Wed, 14 Feb 2024 20:11:43 +0530
+Message-ID: <20240214144144.682750-5-Basavaraj.Natikar@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240214144144.682750-1-Basavaraj.Natikar@amd.com>
 References: <20240214144144.682750-1-Basavaraj.Natikar@amd.com>
@@ -93,116 +93,190 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E6:EE_|BL1PR12MB5287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91b604c3-4a9c-4abb-2a98-08dc2d6b2000
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E6:EE_|CH3PR12MB8330:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7671bc7b-8226-46cb-223f-08dc2d6b20ba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	/eufgdJc+NDUftea06K9U/KZ4X7bFoONJLM2RuJrjyxU6RmaKaY7uLAMmBcTjlJS6HoPCH5kXc1I8u6K1vQUcHohhzUQsu7XzkisM4WkENLZJjKIb0g/vLCa/v0wMAiqXq9VaiQ789nmrRTRVGukk+hkyRwEJfDSBmO9+ftbEVSM3ukNM10aIj8aweehq7Jb5COa1wFyKqhz39eV/yELFWjeWWGDAYE4esX56SuqE3fZemBCJk4QFxgV/Mb9eR3wbjeTLNF1vc0aIu0pBNT09XS0Z8zs/HeOoXJ+EEc1opbmY28EKHvhFNB5gGAn/o1wrOMbS/Re+dZUjqXFOFNoce6vweHqUJQgKHLLcRi1i57rB4JjjQO9vC7BzUoBNowWmEAlWmYIobU0ZaophcaB8SLtnCAorZU2u5AfQY7FWqhvb6dBs6g4SnwB6+2lVXfwUjT/BJNWTzSrfRLsp0o6LDDa+YxV6w0T7pWEgcIFj1vMLxYbtokKbxNB2QiZQk93mVh24IQRvmbbV6yzYNxbhrzsqcPcQcrl0K0hobtAGLl1kG3RF24+j8LhuSBVa/GxTd8p6DSBpztKrpkmyiis/g==
+	HZnNGx54gyHcoBl+3h12k9/xR9mAaO+5duU5X9Wgfn65sOxtKTKklLhHJ6c9uVcZfEBCbxI31+YG75NXTYo+vxgYTqdN7Yff2PrAeX57UayIVWwy5U4r3DI1sRLAz6w5jnBxtrmfTv3bYpY3vo1iWgTcuqvsGfmbS9EZU6PwB4244D/5UELRV9vnXnGiSFooFMf0r6SDNbEz45KyLJE71L4wKWu3X+/lpMDU1BfZb0mK8seNHYT9we167+83Jsk7cDq9QIA4c5WoFVknAj82/gM5un20SwKFRrim3SBO3Ofp4eLkO3D3e3CLFETySg/vxwvp7qFGZpquH7pFgb0P7Hhyl64xMKYQxGOwfRabsTCKiqvcdERYZBnLXekYWzzv0cCclj4veWsNpcvA7ydKgdg65n3sICq6jPWzX/5jpifRrm8BPZm9tQFUAbC1qgDpsEPepVe+X0IsPKzv/fyxqM5Pudn49B5cAXvfOcy8oEGqZPEs6uyN9IJz6+0bktdqtkw7zGfmpvhm5+uEs0B/kkd7QjaSYstXjUdL43zHsC7rP3zsZUamsPpGc9RGg6F5WaedZBYewOX390cL2nCOl6EYdhCXIrhfXAUN6IxmuWw=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(376002)(346002)(396003)(136003)(230922051799003)(64100799003)(82310400011)(1800799012)(186009)(451199024)(46966006)(36840700001)(40470700004)(2906002)(8676002)(8936002)(4326008)(5660300002)(336012)(426003)(83380400001)(2616005)(1076003)(16526019)(26005)(82740400003)(36756003)(86362001)(81166007)(356005)(316002)(110136005)(70586007)(70206006)(7696005)(54906003)(966005)(478600001)(6666004)(41300700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(376002)(396003)(39860400002)(346002)(230922051799003)(1800799012)(64100799003)(186009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(36756003)(86362001)(356005)(70206006)(70586007)(5660300002)(2906002)(4326008)(8676002)(8936002)(82740400003)(83380400001)(81166007)(110136005)(7696005)(478600001)(54906003)(6666004)(316002)(26005)(1076003)(41300700001)(16526019)(2616005)(336012)(426003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 14:42:09.9837
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 14:42:11.2025
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91b604c3-4a9c-4abb-2a98-08dc2d6b2000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7671bc7b-8226-46cb-223f-08dc2d6b20ba
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	MWH0EPF000989E6.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5287
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8330
 
-HP ProBook x360 435 G7 using older version of firmware which doesn't
-support disabling the interrupt for all commands. Hence avoid disabling
-the interrupt for that particular model.
+AMD SFH load takes longer time in initialization. Hence split and defer
+initialization code to improve SFH module load time and boot time of the
+system when SFH is available.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218104
-Fixes: b300667b33b2 ("HID: amd_sfh: Disable the interrupt for all command")
-Co-developed-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
-Signed-off-by: Akshata MukundShetty <akshata.mukundshetty@amd.com>
 Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 30 +++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h |  2 +
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 75 ++++++++++++++++++++----
+ 2 files changed, 64 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+index a1950bc6e6ce..ef5551c1eec5 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+@@ -53,6 +53,8 @@ struct amd_mp2_dev {
+ 	/* mp2 active control status */
+ 	u32 mp2_acs;
+ 	struct sfh_dev_status dev_en;
++	struct work_struct work;
++	u8 init_done;
+ };
+ 
+ struct amd_mp2_ops {
 diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 8a4cd793d021..8c1809c7d1f7 100644
+index 8c1809c7d1f7..495ec1179ee5 100644
 --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
 +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -35,6 +35,8 @@ static int sensor_mask_override = -1;
- module_param_named(sensor_mask, sensor_mask_override, int, 0444);
- MODULE_PARM_DESC(sensor_mask, "override the detected sensors mask");
+@@ -10,6 +10,7 @@
  
-+static bool intr_disable = true;
-+
- static int amd_sfh_wait_response_v2(struct amd_mp2_dev *mp2, u8 sid, u32 sensor_sts)
- {
- 	union cmd_response cmd_resp;
-@@ -55,7 +57,7 @@ static void amd_start_sensor_v2(struct amd_mp2_dev *privdata, struct amd_mp2_sen
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
++#include <linux/devm-helpers.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmi.h>
+ #include <linux/interrupt.h>
+@@ -329,6 +330,48 @@ static const struct dmi_system_id dmi_nodevs[] = {
+ 	{ }
+ };
  
- 	cmd_base.ul = 0;
- 	cmd_base.cmd_v2.cmd_id = ENABLE_SENSOR;
--	cmd_base.cmd_v2.intr_disable = 1;
-+	cmd_base.cmd_v2.intr_disable = intr_disable;
- 	cmd_base.cmd_v2.period = info.period;
- 	cmd_base.cmd_v2.sensor_id = info.sensor_idx;
- 	cmd_base.cmd_v2.length = 16;
-@@ -73,7 +75,7 @@ static void amd_stop_sensor_v2(struct amd_mp2_dev *privdata, u16 sensor_idx)
- 
- 	cmd_base.ul = 0;
- 	cmd_base.cmd_v2.cmd_id = DISABLE_SENSOR;
--	cmd_base.cmd_v2.intr_disable = 1;
-+	cmd_base.cmd_v2.intr_disable = intr_disable;
- 	cmd_base.cmd_v2.period = 0;
- 	cmd_base.cmd_v2.sensor_id = sensor_idx;
- 	cmd_base.cmd_v2.length  = 16;
-@@ -87,7 +89,7 @@ static void amd_stop_all_sensor_v2(struct amd_mp2_dev *privdata)
- 	union sfh_cmd_base cmd_base;
- 
- 	cmd_base.cmd_v2.cmd_id = STOP_ALL_SENSORS;
--	cmd_base.cmd_v2.intr_disable = 1;
-+	cmd_base.cmd_v2.intr_disable = intr_disable;
- 	cmd_base.cmd_v2.period = 0;
- 	cmd_base.cmd_v2.sensor_id = 0;
- 
-@@ -292,6 +294,26 @@ int amd_sfh_irq_init(struct amd_mp2_dev *privdata)
- 	return 0;
- }
- 
-+static int mp2_disable_intr(const struct dmi_system_id *id)
++static void sfh1_1_init_work(struct work_struct *work)
 +{
-+	intr_disable = false;
-+	return 0;
++	struct amd_mp2_dev *mp2 = container_of(work, struct amd_mp2_dev, work);
++	struct pci_dev *pdev = mp2->pdev;
++	int rc;
++
++	rc = mp2->sfh1_1_ops->init(mp2);
++	if (rc) {
++		dev_err(&pdev->dev, "sfh1_1_init failed err %d\n", rc);
++		return;
++	}
++
++	amd_sfh_clear_intr(mp2);
++	mp2->init_done = 1;
 +}
 +
-+static const struct dmi_system_id dmi_sfh_table[] = {
-+	{
-+		/*
-+		 * https://bugzilla.kernel.org/show_bug.cgi?id=218104
-+		 */
-+		.callback = mp2_disable_intr,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HP ProBook x360 435 G7"),
-+		},
-+	},
-+	{}
-+};
++static void sfh_init_work(struct work_struct *work)
++{
++	struct amd_mp2_dev *mp2 = container_of(work, struct amd_mp2_dev, work);
++	struct pci_dev *pdev = mp2->pdev;
++	int rc;
 +
- static const struct dmi_system_id dmi_nodevs[] = {
- 	{
- 		/*
-@@ -315,6 +337,8 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	if (dmi_first_match(dmi_nodevs))
- 		return -ENODEV;
++	rc = amd_sfh_hid_client_init(mp2);
++	if (rc) {
++		amd_sfh_clear_intr(mp2);
++		dev_err(&pdev->dev, "amd_sfh_hid_client_init failed err %d\n", rc);
++		return;
++	}
++
++	amd_sfh_clear_intr(mp2);
++	mp2->init_done = 1;
++}
++
++static void amd_sfh_remove(struct pci_dev *pdev)
++{
++	struct amd_mp2_dev *mp2 = pci_get_drvdata(pdev);
++
++	flush_work(&mp2->work);
++	if (mp2->init_done)
++		mp2->mp2_ops->remove(mp2);
++}
++
+ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	struct amd_mp2_dev *privdata;
+@@ -367,10 +410,12 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
  
-+	dmi_check_system(dmi_sfh_table);
+ 	privdata->sfh1_1_ops = (const struct amd_sfh1_1_ops *)id->driver_data;
+ 	if (privdata->sfh1_1_ops) {
+-		rc = privdata->sfh1_1_ops->init(privdata);
++		rc = devm_work_autocancel(&pdev->dev, &privdata->work, sfh1_1_init_work);
+ 		if (rc)
+ 			return rc;
+-		goto init_done;
 +
- 	privdata = devm_kzalloc(&pdev->dev, sizeof(*privdata), GFP_KERNEL);
- 	if (!privdata)
- 		return -ENOMEM;
++		schedule_work(&privdata->work);
++		return 0;
+ 	}
+ 
+ 	mp2_select_ops(privdata);
+@@ -381,33 +426,34 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		return rc;
+ 	}
+ 
+-	rc = amd_sfh_hid_client_init(privdata);
++	rc = devm_work_autocancel(&pdev->dev, &privdata->work, sfh_init_work);
+ 	if (rc) {
+ 		amd_sfh_clear_intr(privdata);
+-		if (rc != -EOPNOTSUPP)
+-			dev_err(&pdev->dev, "amd_sfh_hid_client_init failed\n");
+ 		return rc;
+ 	}
+ 
+-init_done:
+-	amd_sfh_clear_intr(privdata);
+-
+-	return devm_add_action_or_reset(&pdev->dev, privdata->mp2_ops->remove, privdata);
++	schedule_work(&privdata->work);
++	return 0;
+ }
+ 
+ static void amd_sfh_shutdown(struct pci_dev *pdev)
+ {
+ 	struct amd_mp2_dev *mp2 = pci_get_drvdata(pdev);
+ 
+-	if (mp2 && mp2->mp2_ops)
+-		mp2->mp2_ops->stop_all(mp2);
++	if (mp2) {
++		flush_work(&mp2->work);
++		if (mp2->init_done)
++			mp2->mp2_ops->stop_all(mp2);
++	}
+ }
+ 
+ static int __maybe_unused amd_mp2_pci_resume(struct device *dev)
+ {
+ 	struct amd_mp2_dev *mp2 = dev_get_drvdata(dev);
+ 
+-	mp2->mp2_ops->resume(mp2);
++	flush_work(&mp2->work);
++	if (mp2->init_done)
++		mp2->mp2_ops->resume(mp2);
+ 
+ 	return 0;
+ }
+@@ -416,7 +462,9 @@ static int __maybe_unused amd_mp2_pci_suspend(struct device *dev)
+ {
+ 	struct amd_mp2_dev *mp2 = dev_get_drvdata(dev);
+ 
+-	mp2->mp2_ops->suspend(mp2);
++	flush_work(&mp2->work);
++	if (mp2->init_done)
++		mp2->mp2_ops->suspend(mp2);
+ 
+ 	return 0;
+ }
+@@ -438,6 +486,7 @@ static struct pci_driver amd_mp2_pci_driver = {
+ 	.probe		= amd_mp2_pci_probe,
+ 	.driver.pm	= &amd_mp2_pm_ops,
+ 	.shutdown	= amd_sfh_shutdown,
++	.remove		= amd_sfh_remove,
+ };
+ module_pci_driver(amd_mp2_pci_driver);
+ 
 -- 
 2.25.1
 
