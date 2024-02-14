@@ -1,300 +1,210 @@
-Return-Path: <linux-input+bounces-1906-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1907-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA851854F73
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 18:09:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04870854F90
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 18:12:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89CF9B24D86
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 17:05:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 460C9B2732D
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 17:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02805FDD4;
-	Wed, 14 Feb 2024 17:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D88363099;
+	Wed, 14 Feb 2024 17:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="MPHVT4xD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSBuA6CN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0046e701.pphosted.com (mx0a-0046e701.pphosted.com [67.231.149.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64F560867;
-	Wed, 14 Feb 2024 17:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273726087D;
+	Wed, 14 Feb 2024 17:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707930354; cv=none; b=QEDQr1nCwlSin9Wv4WvHeg5v99VSbOD2Rz6cIeN1s7Mzo3SrzujQ0NZPHJlF3Pnio1tl/97+qnVsWYSjUqcPkS855GO4PhQI0i3Y9EtNUSE6TBqsdj7pfHz/KhjjoPSNuMbQcy1PSV0l051aTFqEAiZqRxcmZbt/2xVI0Dj1x7o=
+	t=1707930661; cv=none; b=F2hrDwDkUewkKUDB4oYFur6ik3MG/73VsPGz5QMfItIZw8BQ2EOQoWad7J2PjR1wflukDN957KtJS1Q/JkP/LzfSz+kT9KYIZQqHPKopMIBR2hha523SIH4XZAf7a+0uhPtMBxnB990GegEzutmprpkJxcmQxnF94t5pdYtOMX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707930354; c=relaxed/simple;
-	bh=rx3M+Duu0YsPRFId7MG8RbxYqjR1u0OvnRcZx0ekX40=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GaMmOwrO1BojaUmn9x5QjAWqRCuVpWOz17FIREYJdSQxeUkw6qQuAmDnQ0VEXXOsl/CCA3EtdrEQIhikvQeuKUcZTLohIKT+7Wrtl6H731sVW+lJDu2aPFS4rme36T3xPn38rTtYy2ypMGeFbGB4X/R1b++L+ENDdJCaGDJW//U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=MPHVT4xD; arc=none smtp.client-ip=67.231.149.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
-Received: from pps.filterd (m0341554.ppops.net [127.0.0.1])
-	by mx0a-0046e701.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41EAorNh015120;
-	Wed, 14 Feb 2024 10:07:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=pps1;
-	 bh=xnq1AQLHK2MU8DiOuNCgG/K29mjeX+zve6mmPdGlY68=; b=MPHVT4xDLQoN
-	/1zvNof2zQICOz6Tlx8rfOZRqPP4Bp4AW/+H89TQeHo89LS6VKE+lHOIuU5OHmuf
-	zibJAbYemgpH5st1nIwhmwGBitwO16mOzoRfmtastl+2LE/W0ceBbmT+EUv85DJy
-	DcmeyTgA1E64PO/kqp0o36nL/foYjeBAr3wvuDWCiiZSkKeTpNodNTwqhA/1hqcH
-	y8Xcnhn3QHw2vtp45LOwPiEXKHnj3c6QtxZU4znfQfromZIOJrMRmIaIikIdhR8D
-	MlPSAoNfzqgZ8OWG6nqDnlCicOOTSNS6jemSQUhgF8CwHntWHO1FaSvRjXxA3YDo
-	NJHHjVooMA==
-Received: from gcc-mail-mx-004.na.plexus.com (outbound.plexus.com [64.215.193.254])
-	by mx0a-0046e701.pphosted.com (PPS) with ESMTPS id 3w8v4ggvyr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 14 Feb 2024 10:07:29 -0600 (CST)
-Received: from gcc-mail-mx-002.Na.Plexus.com (10.255.51.221) by
- gcc-mail-mx-004.na.plexus.com (10.255.51.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 14 Feb 2024 16:07:28 +0000
-Received: from LNDCL34533.neenah.na.plexus.com (10.255.48.203) by
- gcc-mail-mx-002.Na.Plexus.com (10.255.51.221) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 14 Feb 2024 16:07:28 +0000
-From: Danny Kaehn <danny.kaehn@plexus.com>
-To: <robh@kernel.org>
-CC: <andriy.shevchenko@linux.intel.com>, <bartosz.golaszewski@linaro.org>,
-        <bentiss@kernel.org>, <danny.kaehn@plexus.com>,
-        <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
-        <ethan.twardy@plexus.com>, <jikos@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <linux-input@vger.kernel.org>,
-        <niyas.sait@linaro.org>
-Subject: Re: [PATCH v10 1/3] dt-bindings: i2c: Add CP2112 HID USB to SMBus
-Date: Wed, 14 Feb 2024 10:06:16 -0600
-Message-ID: <20240214160616.2377733-1-danny.kaehn@plexus.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240213152825.GA1223720-robh@kernel.org>
-References: <20240213152825.GA1223720-robh@kernel.org>
+	s=arc-20240116; t=1707930661; c=relaxed/simple;
+	bh=A6NbyRZQhC46qPsrT0BBp6me28szmBiiUUjKG4u5PT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIbKYlWp6IWUo5/wx1S+PqyZCFZTPgiNKjpnn4jriiqHctDBrXQQI1pOyKyZqoKW9ON7eLvhT61gy0kj7+85qhMGKbuuXDHBqiA83j0CbMSoqcw6j/fyAR4KbI8HgZp+Iqa4Ymll8GqJ7gd/8gD0yJqs5C6ECshRULzkrmsM27Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSBuA6CN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2FB4C43601;
+	Wed, 14 Feb 2024 17:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707930659;
+	bh=A6NbyRZQhC46qPsrT0BBp6me28szmBiiUUjKG4u5PT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uSBuA6CNHXE7KeWvUxHCv8XUEy7YyEQ9KOnw8syeKd65PeMoml6JLITOjmUgZL1h1
+	 1r/o39U9gpoI3eLY8Dy+Woi+y2ZESnI1lE0i+utAPjHGI2JOJfpUv4gUM+FnhHuFyA
+	 zTlD9IzT08eFSfjrV5UL97Niv7ZvXsoZ5Ui+8RwkDpYJGYK3Y0m9RafBu49bD0sw0t
+	 C6fuAet39YnNfFNzXtxtklDO2ougI34VJtKJQAOComG2377YMWV0j9zWwZ80adERtr
+	 BCGw8R1eM03m1UsEQL47IXzebdDou5lyWiZn3IX0XiOOsVpvyX40iQXi/fkUi1FIYE
+	 /UqfYUDMIBHYA==
+Date: Wed, 14 Feb 2024 18:10:51 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
+Message-ID: <e6ipl34ajoprzskvjuvdnlw5ak4sjwplh75qqboi2v572byrbm@z4d5ntl27ojp>
+References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
+ <87bk8pve2z.fsf@toke.dk>
+ <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
+ <875xyxva9u.fsf@toke.dk>
+ <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
+ <87r0hhfudh.fsf@toke.dk>
+ <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
+ <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
+ <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
+ <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: -MsJYhM0Ofpt2r8PTgUYC-bAc6z3Pnc7
-X-Proofpoint-ORIG-GUID: -MsJYhM0Ofpt2r8PTgUYC-bAc6z3Pnc7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_08,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
- clxscore=1011 phishscore=0 impostorscore=0 mlxscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140125
+In-Reply-To: <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
 
-Thanks for taking a look Rob.
-
-On Tue, 2024-02-13 at 09:28 -0600, Rob Herring wrote:
-> On Mon, Feb 05, 2024 at 11:09:20AM -0600, Danny Kaehn wrote:
-> > This is a USB HID device which includes an I2C controller and 8 GPIO pins.
-...
-> > 2. There has been some contention between using named child nodes to
-> > identify i2c and gpio nodes, and also making the driver implementing this
-> > binding compatible with ACPI, since names aren't significant for ACPI
-> > nodes, and ACPI names are always automatically uppercased. It has been
-> > suggested that perhaps the DT binding should use child nodes with
-> > addressable `reg` properties to identify the child nodes, instead of by
-> > name [1].
+On Feb 13 2024, Kumar Kartikeya Dwivedi wrote:
+> On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> wrote:
+> >
+> > On Feb 12 2024, Alexei Starovoitov wrote:
+> > > On Mon, Feb 12, 2024 at 10:21 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > On Mon, Feb 12, 2024 at 6:46 PM Toke Høiland-Jørgensen <toke@redhat.com> wrote:
+> > > > >
+> > > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
+> > > > >
+> > [...]
+> > > I agree that workqueue delegation fits into the bpf_timer concept and
+> > > a lot of code can and should be shared.
+> >
+> > Thanks Alexei for the detailed answer. I've given it an attempt but still can not
+> > figure it out entirely.
+> >
+> > > All the lessons(bugs) learned with bpf_timer don't need to be re-discovered :)
+> > > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
+> > > so we need a new kfunc to set a sleepable callback.
+> > > Maybe
+> > > bpf_timer_set_sleepable_cb() ?
+> >
+> > OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini() flag?
+> >
+> > > The verifier will set is_async_cb = true for it (like it does for regular cb-s).
+> > > And since prog->aux->sleepable is kinda "global" we need another
+> > > per subprog flag:
+> > > bool is_sleepable: 1;
+> >
+> > done (in push_callback_call())
+> >
+> > >
+> > > We can factor out a check "if (prog->aux->sleepable)" into a helper
+> > > that will check that "global" flag and another env->cur_state->in_sleepable
+> > > flag that will work similar to active_rcu_lock.
+> >
+> > done (I think), cf patch 2 below
+> >
+> > > Once the verifier starts processing subprog->is_sleepable
+> > > it will set cur_state->in_sleepable = true;
+> > > to make all subprogs called from that cb to be recognized as sleepable too.
+> >
+> > That's the point I don't know where to put the new code.
+> >
 > 
-> 'reg' only makes sense if there are values which relate to the h/w. If 
-> your addresses are indices, that will be suspect.
-> 
-> There's documented nodenames for specific device classes in DT. You have 
-> to use those whether there's 'reg' and a unit-address or not. I'm not 
-> really clear what the problem is.
-> 
-Ack. Mostly just forwarding on Andy Shevchenko's suggestion for making a more
-consistent interface across ACPI and DT since ACPI doesn't support identifying
-children by named nodes.
+> I think that would go in the already existing special case for
+> push_async_cb where you get the verifier state of the async callback.
+> You can make setting the boolean in that verifier state conditional on
+> whether it's your kfunc/helper you're processing taking a sleepable
+> callback.
 
-> > 
-> > Of course, I acknowledge that other firmware languages and kernel details
-> > shouldn't impact DT bindings, but it also seems that there should
-> > be some consistent way to specify sub-functions like this accross DT
-> > and ACPI. Some additional commentary / requests for comment about the
-> > seemingly missing glue here can be found in [2].
-> 
-> I have little interest in worrying about ACPI as I have limited 
-> knowledge in ACPI requirements, what I do know is the model for bindings 
-> are fundamentally differ, and no one has stepped up to maintain bindings 
-> from an ACPI perspective.
-> 
-
-Fair enough.
-
-> > Any comments from Rob/Krzysztof/other DT folks would be greatly appreciated
-> > 
-> > [1] https://lore.kernel.org/all/ZBhoHzTr5l38u%2FkX@smile.fi.intel.com/
-> > [2] https://lore.kernel.org/all/CAP+ZCCd0cD+q7=ngyEzScAte2VT9R00mqCQxB3K2TMbeg8UAfA@mail.gmail.com/
-> > 
-> >  .../bindings/i2c/silabs,cp2112.yaml           | 113 ++++++++++++++++++
-> >  1 file changed, 113 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
-> > new file mode 100644
-> > index 000000000000..a27509627804
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
-> > @@ -0,0 +1,113 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/i2c/silabs,cp2112.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: CP2112 HID USB to SMBus/I2C Bridge
-> > +
-> > +maintainers:
-> > +  - Danny Kaehn <kaehndan@gmail.com>
-> > +
-> > +description:
-> > +  The CP2112 is a USB HID device which includes an integrated I2C controller
-> > +  and 8 GPIO pins. Its GPIO pins can each be configured as inputs, open-drain
-> > +  outputs, or push-pull outputs.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: usb10c4,ea90
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: The USB port number on the host controller
-> > +
-> > +  i2c:
-> > +    description: The SMBus/I2C controller node for the CP2112
-> > +    $ref: /schemas/i2c/i2c-controller.yaml#
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      sda-gpios:
-> > +        maxItems: 1
-> > +
-> > +      scl-gpios:
-> > +        maxItems: 1
-> 
-> Why do you have GPIOs if this is a proper controller?
-
-This is exclusively for bus recovery (not implemented in the driver patch
-sent here). I believe there's precedent for this in bindings like i2c-imx.yaml?
-
-(skip if the above was all you needed):
-
-Hopefully without going into more details than you're interested in, the
-CP2112 hardware doesn't implement any runtime bus recovery algorithms.
-Even just by bridging two of the CP2112's GPIOs with SCL and SDA,
-I was able to use the generic GPIO bus recovery routine to recover a stuck bus.
-This was especially important since v2 of the CP2112 hardware has an errata
-which can cause uncompleted I2C transactions on a semi-regular basis.
+Hehe, thanks a lot. Indeed, it was a simple fix. I tried to put this
+everywhere but here, and with your help got it working in 2 mins :)
 
 > 
-> > +
-> > +      clock-frequency:
-> > +        minimum: 10000
-> > +        default: 100000
-> > +        maximum: 400000
-> > +
-> > +  gpio:
-> > +    description: The GPIO controller node for the CP2112
+> > It seems the best place would be in do_check(), but I am under the impression
+> > that the code of the callback is added at the end of the instruction list, meaning
+> > that I do not know where it starts, and which subprog index it corresponds to.
+> >
+> > >
+> > > A bit of a challenge is what to do with global subprogs,
+> > > since they're verified lazily. They can be called from
+> > > sleepable and non-sleepable contex. Should be solvable.
+> >
+> > I must confess this is way over me (and given that I didn't even managed to make
+> > the "easy" case working, that might explain things a little :-P )
+> >
 > 
-> There's no need for a child node here. All these properties can be part 
-> of the parent.
+> I think it will be solvable but made somewhat difficult by the fact
+> that even if we mark subprog_info of some global_func A as
+> in_sleepable, so that we explore it as sleepable during its
+> verification, we might encounter later another global_func that calls
+> a global func, already explored as non-sleepable, in sleepable
+> context. In this case I think we need to redo the verification of that
+> global func as sleepable once again. It could be that it is called
+> from both non-sleepable and sleepable contexts, so both paths
+> (in_sleepable = true, and in_sleepable = false) need to be explored,
+> or we could reject such cases, but it might be a little restrictive.
+> 
+> Some common helper global func unrelated to caller context doing some
+> auxiliary work, called from sleepable timer callback and normal main
+> subprog might be an example where rejection will be prohibitive.
+> 
+> An approach might be to explore main and global subprogs once as we do
+> now, and then keep a list of global subprogs that need to be revisited
+> as in_sleepable (due to being called from a sleepable context) and
+> trigger do_check_common for them again, this might have to be repeated
+> as the list grows on each iteration, but eventually we will have
+> explored all of them as in_sleepable if need be, and the loop will
+> end. Surely, this trades off logical simplicity of verifier code with
+> redoing verification of global subprogs again.
+> 
+> To add items to such a list, for each global subprog we encounter that
+> needs to be analyzed as in_sleepable, we will also collect all its
+> callee global subprogs by walking its instructions (a bit like
+> check_max_stack_depth does).
 
-I had gone back and forth on this for quite some time. Would you suggest this
-just because it _can_ be combined, due to the naming constraint on the "hog"
-nodes? (as opposed to the i2c not being able to be combined, due to
-unconstrained names of child nodes?).
-
-I had initially thought this approach would scale better -- say there was a
-similar chip with I2C, GPIO, SPI, and UART interfaces -- would GPIO still
-share a node with the parent? And is there a reason that gpio is
-special, or just it _can_ be combined due to the naming restrictions? Looking
-at some of the bindings under mfd/ I see the GPIO controller broken into a
-named child node, although I see they also have their own compatible strings...
+FWIW, this (or Alexei's suggestion) is still not implemented in v2
 
 > 
+> > >
+> > > Overall I think this feature is needed urgently,
+> > > so if you don't have cycles to work on this soon,
+> > > I can prioritize it right after bpf_arena work.
+> >
+> > I can try to spare a few cycles on it. Even if your instructions were on
+> > spot, I still can't make the subprogs recognized as sleepable.
+> >
+> > For reference, this is where I am (probably bogus, but seems to be
+> > working when timer_set_sleepable_cb() is called from a sleepable context
+> > as mentioned by Toke):
+> >
 > 
-> > +    type: object
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      interrupt-controller: true
-> > +      "#interrupt-cells":
-> > +        const: 2
-> > +
-> > +      gpio-controller: true
-> > +      "#gpio-cells":
-> > +        const: 2
-> > +
-> > +      gpio-line-names:
-> > +        minItems: 1
-> > +        maxItems: 8
-> > +
-> > +    patternProperties:
-> > +      "-hog(-[0-9]+)?$":
-> > +        type: object
-> > +
-> > +        required:
-> > +          - gpio-hog
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    usb {
-> > +      #address-cells = <1>;
-> > +      #size-cells = <0>;
-> > +
-> > +      device@1 {
-> > +        compatible = "usb10c4,ea90";
-> > +        reg = <1>;
-> > +
-> > +        i2c {
-> > +          #address-cells = <1>;
-> > +          #size-cells = <0>;
-> > +          sda-gpios = <&cp2112_gpio 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-> > +          scl-gpios = <&cp2112_gpio 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-> > +
-> > +          temp@48 {
-> > +            compatible = "national,lm75";
-> > +            reg = <0x48>;
-> > +          };
-> > +        };
-> > +
-> > +        cp2112_gpio: gpio {
-> > +          gpio-controller;
-> > +          interrupt-controller;
-> > +          #gpio-cells = <2>;
-> > +          gpio-line-names = "CP2112_SDA", "CP2112_SCL", "TEST2",
-> > +            "TEST3","TEST4", "TEST5", "TEST6";
-> > +
-> > +          fan-rst-hog {
-> > +              gpio-hog;
-> > +              gpios = <7 GPIO_ACTIVE_HIGH>;
-> > +              output-high;
-> > +              line-name = "FAN_RST";
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > -- 
-> > 2.25.1
-> > 
+> I just skimmed the patch but I think it's already 90% there. The only
+> other change I would suggest is switching from helper to kfunc, as
+> originally proposed by Alexei.
 
-Thanks,
+the kfunc was a rabbit hole:
+- I needed to teach the verifier about BPF_TIMER in kfunc
+- I needed to teach the verifier about the kfunc itself
+- I'm failing at calling the callback :(
 
-Danny Kaehn
+Anyway, I'm about to send a second RFC so we can discuss on the code and
+see where my monkey patching capabilities are reaching their limits.
+
+Cheers,
+Benjamin
 
