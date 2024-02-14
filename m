@@ -1,179 +1,119 @@
-Return-Path: <linux-input+bounces-1896-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1897-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE048546BD
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 11:00:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D3E85471B
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 11:26:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D1D81C21425
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 10:00:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E8551F21463
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 10:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6673616436;
-	Wed, 14 Feb 2024 10:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7713318045;
+	Wed, 14 Feb 2024 10:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pdi53vxe"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MPX0uB6F"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE7112B69;
-	Wed, 14 Feb 2024 10:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4511757A;
+	Wed, 14 Feb 2024 10:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707904846; cv=none; b=gDE9wYgWwEOjOgwpZdWVHZusIHo5rNyyO9BW2X1MvEHRETk4K5sT10IUd5HGYS/S8ffk8/0RD2FY3wfHTmTBPrtbRptmT0u5IuSwg/1wY6o/f/P5BYpjJRkrT0siVhtsOE8mmP5WVrmbi3JflCKZ1oc0nfHEy2n8BwKo9Bz9/LA=
+	t=1707906307; cv=none; b=SSUMNiw0QAOTwotTGVAXycKwrlgc1HLEU9ODbFVnNc3iNOt6JaBLiKR2igcZk/l88S5zu01wF2aziJjLligi0iVcvcYC9/Zde5edxzQiq7E1FphrkDC2+qMxXNx5H837vnm7XyBxq6dnegsXEn9Alb50cyj6WIeobm2DHpFZFxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707904846; c=relaxed/simple;
-	bh=R06cQdi4MNgbIu422h++0jlD99NL6HlGgH6a1VBS/Fs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wzv6FsH1Vtigj9wnrzgKExJ7+LE4B0R4BxJDAKfjpjERL8/szo8qzouzQZ8i1IEnyuQnh+JuLRB+8TWtpZ9lkrcueIMcoTsBy0iTmJBZiZv9ZLIuDpffsOgt5FduwvOIh0Lv1eOuDy2NAg/mk2lxgmTuVrGdSP7++ClxSb38gNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pdi53vxe; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3cedc4acd3so57679366b.1;
-        Wed, 14 Feb 2024 02:00:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707904843; x=1708509643; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uiSxlbKBjhgqtlbTNin6t3C+/oKvkiypv2RdUBSMVWY=;
-        b=Pdi53vxeBuqBb5iiNrbUSmawHuTNPBTZ64IkGyv3Q6EJX5ovvBExliZoEAO74rHC6R
-         +7egnV/wS5b1VNj+uRuO6Jcio2T1vcped3qulqyRBmDkYiUQ/SjMGWme7QXk5rvWGuUF
-         U9Qz2XkIFEdrB8eZFRzdhsuWBGN745UEDwp6EMnI0rZQ+Jv5e08U+7gDKjiiKvS0CgDW
-         lGqxw3YzKXLTI/sXqdBkOqkT3jVCsmTksDw0c8toOHN9aV+dH/ns0C/fz7ZmAmFfSYeP
-         hOkEJc1e1i74zQBb12xUVUjIejgkRfGtaW4G5mibJdPbm4t8DDcrBN+BAlDkMMxYhYMV
-         wAlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707904843; x=1708509643;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uiSxlbKBjhgqtlbTNin6t3C+/oKvkiypv2RdUBSMVWY=;
-        b=o/Z9aMuRYi8DgUWdqSV28o9TdTxgNvGw+DT1+pNOBVq+6ZIbJUJVNLjV7o2joq5Y1u
-         dlUquA/jQyq2VCINT6iivU80RES4XE8+5XYo9a1VoXFlvaPG8EraK9AVtHMNajPVkpVq
-         7Rv+iElDCzBP89AAxo8oaB3l4obj2oVxNalcIRfOuiDmt0Mkh6F9JfYIBotKFNeqI2Oi
-         FjdIG2siR5WUmHzjPPOuNiemvZFY/ApCvk8XRRXHV9U9IFAZaycvVZqXyAYJdVAwtl/i
-         b715Lt2vv4j/WtUhaIZS3BADSwf0uaxLUMFEjl4Ii2L7Nas4yDXNvkXtLEVKqptd0l37
-         dV4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXwkaMQDZSLJc1oYq2CsiU6nNwnZSTky6nztkHNWvliNLUs6ymJtuAH28ZgNyUhBz9KnsMbQl6OWPoZOiPX/YI4IQ1/7IDa9BGurkaleC5XCT8YazffX2+rfCtGqRi5+B+SalGaYZEpHKQ=
-X-Gm-Message-State: AOJu0YyTHAeeG84NRQ+WKu3dRO41lrcPZdVzLLiibuuRpLf9gtqvqArS
-	hPD5rSwzgMOM6KrUI0XKdG46hUcmhBO6CEacb2ocuRg+LnOj01bA
-X-Google-Smtp-Source: AGHT+IENcqpoxV5hNe7FBZSRoN2dpxq1P7sBzqb+6iw2m9XhFdO/Va94p/133+7MsvxX5aqG7pD9Cg==
-X-Received: by 2002:a17:907:a809:b0:a3b:b390:22dd with SMTP id vo9-20020a170907a80900b00a3bb39022ddmr1840833ejc.2.1707904842432;
-        Wed, 14 Feb 2024 02:00:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWz4v97B5kS9ULaL9vTQkeIFJIXFdka6+v4Y+d3NOrj9xsRe2vE0W9Xx4i+r2AULs2zhPC/3sBS7DyHJ71Apl/rZSNvdm3iiVExbHjmnEUiHHzXRUATmwz6T/VHHNVxNtfIAi/r7P0SU9yhdvyZKJjogr6HbHZAFNaz/wZzfVFpArUAFW1q+VNYu/7ep11yGx/V3xTbT5WrPCjA4sJytMt08o2hZvxmFNWGB1Q2Mig=
-Received: from desktop-nixos-martino.. ([2a01:e11:5004:180::bd5a:12c2])
-        by smtp.gmail.com with ESMTPSA id vu6-20020a170907a64600b00a3d19aed4cesm1134133ejc.21.2024.02.14.02.00.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 02:00:41 -0800 (PST)
-From: Martino Fontana <tinozzo123@gmail.com>
-To: djogorchock@gmail.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Martino Fontana <tinozzo123@gmail.com>,
-	Ryan McClelland <rymcclel@gmail.com>
-Subject: [PATCH v2 RESEND] HID: nintendo: use ida for LED player id
-Date: Wed, 14 Feb 2024 10:55:52 +0100
-Message-ID: <20240214095653.9374-2-tinozzo123@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1707906307; c=relaxed/simple;
+	bh=L815oFbIeIuu/nPLWPfmkBBD824MSDUKPhdjuYMkxoI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMyHAwhaFUodgwotEWdyCEPWXTH8sZIfqxVr1tT1FbXKhFtmtepCsUR3+yaVTrZat9pNF7Ihh9+VEc52I4pUk/f0jOnp+S4vMzIexmCon+mA6i4A8kN65602JZ5kEsLomZk5J7mM9ujckoctWsHYP/7w2esNIi/W3Ng9Meq7/Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MPX0uB6F; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41E8556f007521;
+	Wed, 14 Feb 2024 04:24:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=C43+mmqH+ywn9It
+	Rt2YS6FoSpdQ9++9eC/aPhwewHIU=; b=MPX0uB6FLeKx3sWOtpEJkE3BiC8DscE
+	3nc2VahgvcSQWAlhvC/cg1R/Hbgfe/KdKRX/jgmqh2aT+qr1+ogANqDWpe4nJwi/
+	SAyHztTQAEPlN80Fmgh9ifiBGQzS6TlQSFkNr9pxdzBq1+zOC7e1qs0utqowSiiJ
+	OKraYH3pwN6n4Xaro73nwALeDXsts/EsjYlYZFKt5llqjg7QNxO+TOAnT1lBUQEH
+	bllzg2MFhC81rYlxh0rE2JsH3L5jh8bi9FZZMrHfGTCNh10tLZPWl6qEPJRdrCMY
+	YyqJV3EU3Gk9xFDr0o1nQvonmCkWjIh14z84f0dOkdjmFgj5eiekqCg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w8sp4g329-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 04:24:46 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
+ 2024 10:24:44 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Wed, 14 Feb 2024 10:24:44 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7B6B3820242;
+	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
+Date: Wed, 14 Feb 2024 10:24:43 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+CC: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v7 1/5] firmware: cs_dsp: Add write sequencer interface
+Message-ID: <ZcyU6xgpOvrhX57D@ediswmail9.ad.cirrus.com>
+References: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
+ <20240212173111.771107-2-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240212173111.771107-2-jogletre@opensource.cirrus.com>
+X-Proofpoint-ORIG-GUID: saAm5YBNWf7RG7dsp8C3pW95M6OB6FDH
+X-Proofpoint-GUID: saAm5YBNWf7RG7dsp8C3pW95M6OB6FDH
+X-Proofpoint-Spam-Reason: safe
 
-Previously, the leds pattern would just increment with every controller
-connected. This wouldn't take into consideration when controllers are
-disconnected. The same controller could be connected and disconnected
-with the pattern increasing player count each time.
+On Mon, Feb 12, 2024 at 05:31:07PM +0000, James Ogletree wrote:
+> A write sequencer is a sequence of register addresses
+> and values executed by some Cirrus DSPs following
+> power state transitions.
+> 
+> Add support for Cirrus drivers to update or add to a
+> write sequencer present in firmware.
+> 
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> ---
+> +	if (!update) {
+> +		if (wseq->ctl->len - op_end->offset < new_op_size) {
+> +			cs_dsp_err(dsp, "Not enough memory in write sequence for entry\n");
+> +			ret = -ENOMEM;
+> +			goto op_new_free;
+> +		}
+> +
+> +		op_end->offset += new_op_size;
+> +
+> +		ret = cs_dsp_coeff_write_ctrl(wseq->ctl, op_end->offset / sizeof(u32),
+> +					      &op_end->data, sizeof(u32));
+> +		if (ret)
+> +			goto op_new_free;
+> +
+> +		list_add_tail(&op_new->list, &wseq->ops);
 
-This patch changes it by using an ID allocator in order to assign the
-player id, the same way hid-playstation does.
+This means the new write will be after the terminator in the
+list. Whilst I think the code will work this way it would be
+much cleaner if we kept the list ordered to match the writes,
+by inserting the new element just before op_end.
 
-Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
-Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
----
-Changes for v2:
-
-ida_free now frees the correct id, instead of an id that got moduloed.
-
- drivers/hid/hid-nintendo.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index ccc4032fb2b0..6ab4c2ec4a5d 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -34,6 +34,7 @@
- #include <linux/device.h>
- #include <linux/kernel.h>
- #include <linux/hid.h>
-+#include <linux/idr.h>
- #include <linux/input.h>
- #include <linux/jiffies.h>
- #include <linux/leds.h>
-@@ -569,6 +570,7 @@ static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS]
- struct joycon_ctlr {
- 	struct hid_device *hdev;
- 	struct input_dev *input;
-+	u32 player_id;
- 	struct led_classdev leds[JC_NUM_LEDS]; /* player leds */
- 	struct led_classdev home_led;
- 	enum joycon_ctlr_state ctlr_state;
-@@ -2283,7 +2285,8 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
- 	return ret;
- }
- 
--static DEFINE_SPINLOCK(joycon_input_num_spinlock);
-+static DEFINE_IDA(nintendo_player_id_allocator);
-+
- static int joycon_leds_create(struct joycon_ctlr *ctlr)
- {
- 	struct hid_device *hdev = ctlr->hdev;
-@@ -2294,20 +2297,19 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 	char *name;
- 	int ret;
- 	int i;
--	unsigned long flags;
- 	int player_led_pattern;
--	static int input_num;
--
--	/*
--	 * Set the player leds based on controller number
--	 * Because there is no standard concept of "player number", the pattern
--	 * number will simply increase by 1 every time a controller is connected.
--	 */
--	spin_lock_irqsave(&joycon_input_num_spinlock, flags);
--	player_led_pattern = input_num++ % JC_NUM_LED_PATTERNS;
--	spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
- 
- 	/* configure the player LEDs */
-+	ctlr->player_id = U32_MAX;
-+	ret = ida_alloc(&nintendo_player_id_allocator, GFP_KERNEL);
-+	if (ret < 0) {
-+		hid_warn(hdev, "Failed to allocate player ID, skipping; ret=%d\n", ret);
-+		goto home_led;
-+	}
-+	ctlr->player_id = ret;
-+	player_led_pattern = ret % JC_NUM_LED_PATTERNS;
-+	hid_info(ctlr->hdev, "assigned player %d led pattern", player_led_pattern + 1);
-+
- 	for (i = 0; i < JC_NUM_LEDS; i++) {
- 		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
- 				      d_name,
-@@ -2789,6 +2791,7 @@ static void nintendo_hid_remove(struct hid_device *hdev)
- 	spin_unlock_irqrestore(&ctlr->lock, flags);
- 
- 	destroy_workqueue(ctlr->rumble_queue);
-+	ida_free(&nintendo_player_id_allocator, ctlr->player_id);
- 
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
--- 
-2.43.0
-
+Thanks,
+Charles
 
