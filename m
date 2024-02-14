@@ -1,160 +1,255 @@
-Return-Path: <linux-input+bounces-1898-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1899-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575578549BD
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 13:55:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A968549CC
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 13:57:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4495F1C21FCE
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 12:55:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F7651F2484B
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 12:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7072952F92;
-	Wed, 14 Feb 2024 12:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE77853E1A;
+	Wed, 14 Feb 2024 12:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="S0ODDW8Z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YzMaoC2B"
 X-Original-To: linux-input@vger.kernel.org
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2053.outbound.protection.outlook.com [40.92.103.53])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5437C52F8C;
-	Wed, 14 Feb 2024 12:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707915284; cv=fail; b=eJcW5zJPDXF+chI32DoLVkR3ggs2Hwk4/Ck/FpM50xFS6bxlfqaAbepyhnQe/Tj+IRsYscmjiPmemcjTZTO/SJq3NTbFtdiMOsLsDPTyGSTbfuOHkU6wemP8ss2tHDjWjuTuIJ9sFMbtfdsZZEvKHN2orIr30EJJeDnvQCLiiyY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707915284; c=relaxed/simple;
-	bh=F9ESh+XbVs6IHqIevErE0oPZBK2o9BFsoMbi2o2m00E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Z1uFKImHU5nkgzYHSjRaflfB13i3ye1PvihWBCujm9lRZtShhbTaz3/4vPjWQ2O4febOWFKKNAtS0ozyhzgaf0OJa2fLat1CPj6xjbPySEgNP9impl7heqOZZhoqGfR4OvMrkFcTNN53OtyB01JRzXgv29tsN8BgKMyPdUkpZsI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=S0ODDW8Z; arc=fail smtp.client-ip=40.92.103.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AgCM+h/g7H3p4JbA2+0RUtyLaODD9+e7Vu2Pq5OdRCAk2TWFrKAehxpjOe1Z6am1x+2X8nOCiY52sPrEKX4L1BzIhFvfhZgnuZnwqfdWNqO2q2mOYtIbeuBQSQpY6btBbq2ye2kKCNh6rtCbdRINPF5L2ir1IDS6VWL+ARaby1diqDNaWMmsZp9zlTXYX3wHMXlEh151H7qXQGmtrekmufIGntH7MNyK9yO2go1DMtwotuTI4KdFStO3fa9tuatmRQiyyJ14rNCIE3trB3tzU3rTKHsvlYPMmQR6AsifNmfMK/PM9iw77efkIAie1+2QNlY7xRnGoDeEvhgLrUAdag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F9ESh+XbVs6IHqIevErE0oPZBK2o9BFsoMbi2o2m00E=;
- b=LRiW67W407Dju+Pp6Hfoet+qEyg5JDL0J+Qzr+trE19N32iIGvJFepRr88QLHbSoRnLXWiJYyxjNXEaS0+du/OWV0GT9LGYv8Z5O0S/jjs3ppqAaS+EwjtuLy92RIDFT+CHErLJDIrgPBMWqEhfW02YgBQ+4g0KyPO10VZfMeL2uaqTeR0+d+pSE/bHn8pt7IxZyS+kwf5N72+x9+nPbRhTt1JYNyqtk2AX2M3MoOT8OV3i5YpEhnB1kSTyg/c3RyL7GuSo/hDnEGHu3DYqH9LZMz607xhis/CYulFsgtdoxqXz6grQ02BXarscmS9yVVp+lJ23J6r7UQ6WS/Zp8tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F9ESh+XbVs6IHqIevErE0oPZBK2o9BFsoMbi2o2m00E=;
- b=S0ODDW8Zazgp+mmBdMCGlW0wmXMMrYyvO7Es+VzSkVce8tKWCC9TMey0ntO+ylO8CccwW4Em2rpRm1l/Pm5rLKbB2xeKWCU9uXIBhF+1IUZne+GWQbAAdSa4JTaD5WhKpz0CpNlcDT1Zi1/iKcjQFFrOemCAlqnQ1mITJ45f8j0a2CGX8+i0x3UV4PAB/A5Oi6mPv+UGfK20aoi2lbrKhcWx2Bwx91TtjaYbDgBLydk/NXhf6QPrlWAX2K4/bTNYUeJde2/IxjUxuIoqbUgoE7rrXnIg16vWo0/lecPVJRKZbx8X0eVjXsPnwsU3LVwCpWnQwxpg2cBJRVySnaNYnA==
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN1P287MB2692.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:217::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.26; Wed, 14 Feb 2024 12:54:37 +0000
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::9500:80b2:4eeb:4a16]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::9500:80b2:4eeb:4a16%2]) with mapi id 15.20.7292.022; Wed, 14 Feb 2024
- 12:54:37 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-CC: "jikos@kernel.org" <jikos@kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Paul Pawlowski <paul@mrarm.io>, Aun-Ali Zaidi
-	<admin@kodeit.net>, Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 1/7] HID: apple: remove unused members from struct
- apple_sc_backlight
-Thread-Topic: [PATCH 1/7] HID: apple: remove unused members from struct
- apple_sc_backlight
-Thread-Index: AQHaVQVI4bzzN8ICm0KW+e59Lr0v0bEJ3+Nb
-Date: Wed, 14 Feb 2024 12:54:37 +0000
-Message-ID:
- <MA0P287MB02170D0CDAB9294D93755C0DB84E2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-References: <20240201115320.684-1-jirislaby@kernel.org>
- <20240201115320.684-2-jirislaby@kernel.org>
-In-Reply-To: <20240201115320.684-2-jirislaby@kernel.org>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [6mTmV6HKeTQI08BygCCIJXVGia6sV0rP0eawTvLZWAk=]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN1P287MB2692:EE_
-x-ms-office365-filtering-correlation-id: e36370e6-1673-4403-7fe6-08dc2d5c19af
-x-ms-exchange-slblob-mailprops:
- YfhX3sd/0TUIjNBgvGxJgbt+hYWSLXPTm2paaDpmh3PW5/Zbc/oCWYokrw445PCWxSLOz9IHG57j4CLuhKUmqMTeJgS2pVbyj1r7NezXTC2kX4WvKbvwoAQsTHmR0+xVKhDESJoL/J8mmjouLKshu9tlzhH/9AZw7glxH7CV2inHM7c3/y6Avd925C61Y4xum4chP4LJPdcBtTF5X4Imo/eB9xB7iNSWU69qYWg6VIIHP+LtVwT79iu3TC8hL9FxkWfws1L/kOYTk85sw04htz4dPosT0veue1DKkAck4W8wtH9M92J3bUlLtq7RX64W2U+SvvyT97aKE3WG6d3QjT2Uw9GMenv4clDzHsLnjar6psdthys9tAVQcFCBBI3VsGcXNEm4hReaZtFB7asc2KxFW8c/4w7hE+0+Q3KuxZO9zS7rTNT8RJs9EsGDyB1/azOgpX4nVvNIHm7mcOJYBZ8FknWyQzQKmnx9o1mfUVxM+Twjwt+5albNHJvce4Tc3NFGwXbUpkck3m8BfbfBWGICVZjzZ2EBKDoweafuO1V/7IgtvIOp9OjZ/skcJOQaw5kzGeN9NQjKobR6p2buyidDcNSCWhlaHv7dADAileYIeTRf6+epdOD+4WGqtEdOTi9Dvfbo81p2HtosRkLiEAEUAqZoys2GKQKT8rBjN7woVB1PH06v72WiCkEn+gw3RO5LMvV0TdU8ZmB1iklGypxm4vgsmQBgzouOjPZ73/7OjehVe8ox1EnVF9jy1whcG/jS8OC3d2iahVTnE4iUZjXohKjoTymm6UFtQ4K3KRo=
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Nx+aNk8mfinATiV00KyVUnrCx0l4OK1Go2qeVdjIzZqlIG0RyIPCkVfHx5ouDz0ULqJrUyD+9z+NVEw9HVo5nEwtv9MmAZkbqIDQ5vqIDHBFhvNjbzQfhusvX7tJw7IGe6Vud5TankVe6ffgiyvn7oySTrNiB+yyy+hgdPIyiYEsjjHeuHk9uzpmzVDr7W/eWWgo+qg/N5STpB029QX3ZTnfOm7aecZbBd0imZfD1FccT7XETZRKOfpFKERMSQC/AVRGoznS8hRhYhvTFxLPNAszKPPsOM9htgQd8Duigo0EjAWVOFkpQ9tj3TyBmkwifT+pjSoWVSijUD6IFQIN+czcs5hBXEbfsWO87ancCqd8tXAMeNuSXzOewXOI8JOjMPndG0J4XCcdPYKTz00T+SQAL6CU3qYvBBFwFQz940Lgh95YyQES0UuW+HOe03nuMFH6ifrwUPZZAlhT+6T+tNv+6uKLKcTnL3um+W2QpSuIue3GG36oAa6kLGY7cKla0FFkN1AoDaYsQcqaLKobUj5y4DxUkU1sxXxC/AmzEOi/2QuF2We06Xwh3Vv1APmjLooHsR81ZV3MrW4pBMuwxtj4lFY/uoXvmY+fI6n1r5g=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?c3dySFZZSkVNV2RmT3BvSm5PeC9TTC9UeU90QVhMRXQrTnVhNXRVTmtpdWhm?=
- =?utf-8?B?ZFNEbFowTUppN3ZjQkxGajE0M2xrRHdPZmtPRTgvQmNsVmdURkUrOHI4ZkRH?=
- =?utf-8?B?TWNxMzVmaEJGRGxmWWIwd2F3UjN1azF2Q1BUanlOSFJGOEUrSklwTkMwRDlv?=
- =?utf-8?B?VFM5MHM2bXhmK29EKzBXUjYzWEl4VUMvNVcvMFRpdzllcjhZR0IxcDhXUWtX?=
- =?utf-8?B?RkZYR3pLalRyc25UTk05cVh5M0ZySEFZZjQralcwbjhYd2hZUnJWR2Nzc3M2?=
- =?utf-8?B?TU1vdGFrbG1jVWJWSGRnQmdJKzY2bnNIemQzNFZkdmM5cXRORDhRYWlhVThn?=
- =?utf-8?B?cEtqMnJPa0VjZ0JaVHM3NlpPRUhmUVJ3ems4d0IydDRQT0hWZVg0YkFPRDNW?=
- =?utf-8?B?SEkzdlQrV2lsWHlFb1UxWFhUSUxCeU9xdGNITHJQeTB5OEZTazg0UEVpUmJK?=
- =?utf-8?B?RCt3U2t0RkhybmV5K3VKTWh1SUdlMzFzaUwwOXo2d0xLUEp6QzhITlBtTWs3?=
- =?utf-8?B?b2xNMXNGY2RjV1lSTi9TUlFOeUFkUHpTcHJIU3dRUzRoVzNsTmF2cGNnZktB?=
- =?utf-8?B?dFUzRC8wZXZ6c1JHN2ZtbGdpN01KVFZsNnpXcThrbXRVS08vZzYxTkplckJB?=
- =?utf-8?B?WXJtWmhyNnhnVGI4SGVUTFEzR2xtNVY3aURJWktqNHB0QloxREwyeWo5bFM3?=
- =?utf-8?B?Ym8zbFZEdnBJeHpDcTQwZGx2ZEJwZWxmT3NNWW94SXVLWDBISHFFYU5kTUpl?=
- =?utf-8?B?TGVEUVVBcFVqM3RjeEVmUHFRTHJIM1Q2aWVrY2x1M3loTm4xSk9mKzN0Zlhr?=
- =?utf-8?B?SjUvd3NUcWhtTTMwdkFLZFNoSldWZUI1QkJVZW91TGNQT0FxZ28vYTNvU0dT?=
- =?utf-8?B?QnFUakEybWFVMjlyTVVObHBHVEtscHdXUURvdTJqNDA5MlNKcEExNnQvUUxv?=
- =?utf-8?B?R3JzeEFHdkdKU1k4TVJZbHp0VlFIb0VLUEpKeVY0WG5ndnZ0d1ZZejhYVTIr?=
- =?utf-8?B?RFlJNXJkSmJuOEQ1U2owZ1ZxVmVlTkdPTHdZNjVrbDQ0SkhHRFdVT3pRdElC?=
- =?utf-8?B?b2FPTThRRnpkTHdJL1BISStDQjBqdlpzQWlBTDBIMUZoQ25hZml5V3FTRFJy?=
- =?utf-8?B?NEo3SzRRNnlSTnlpS2gzVXJ4MlVhWGRSckNyV09zdi9BV2prOWZDUFNySytm?=
- =?utf-8?B?N1V6VEMycHFrZjN6LzJUbGxTSHRNVURkNm9pbk9VNkUvSXB1RDVlWDBob0hU?=
- =?utf-8?B?MWU0R3VGcjVZMlp2a0hVQXVBbkNXRlpCL1o3d0dPNklsL3ZKOUZRMUQwWVNX?=
- =?utf-8?B?MU9CZ2JQeGZ4RzUwUW00aWJ5bjVHMWY4ZWtVOXF4dkVvSVJ3dTNFazFKQm5a?=
- =?utf-8?B?R0c3dHYwUit3Nk11Nk9KN2piMXgyeHlsdlRyK2tIN0lDZ2E0ekVyYVlHWEJ3?=
- =?utf-8?B?M0VzNi9sdHNudkJPSXlha1lWbFVrMWxnMnVVM3pWRGVDVTQ0T1N1bFVpWmpj?=
- =?utf-8?B?Tk1KeDRTaXUrZ1MwTWF6QjF3RUx6ZGo5OEVrRGRIRjdyYVJ6ekNwcU1YOGF2?=
- =?utf-8?B?bXFlZFJEMGdrREIydXlrRmdqMy9Tb05pZXp3dkJNZHUzNmJRUVA1Z0lzTXpL?=
- =?utf-8?Q?qxTxYK9d10D5r6243lt+Wb2F0mDwp+d8X9L0arMZtNp8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31EE52F8C
+	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 12:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707915396; cv=none; b=BRWwE78TgFghKHZJwgL8MEDCfnPOky9tXaMjMnUTOJgIfQmGH5ggzya4nYI4cgZU0HaxaGq29UoUGwsX90eQv0Pxqe33Cq1m5hKODLFpHZhhqMQtCupQ7+92DNdZUmLh2ZeTY6OkDJMuYjc2dFV3EHTH8EOkxUK+CTUdWM/DkpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707915396; c=relaxed/simple;
+	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=t97YMzWbQysl+ffetY/B5lPSthsVwuzDAuY3QvkePZ1XkrlEe1ING1djmiXexGG9dFAzbH7nFpLbhCbCLvjyhHiyYm5lrnjq8LcQaH0g+5KNzI4mr508dkAo0M7K4DM3+SgC29U8ngn7qQQSh7xNX94HpcVpxcUJCQqZgDSrgu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YzMaoC2B; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707915393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
+	b=YzMaoC2BsRjV+QxtjJUieTSlQzt0jlhZ35SDci2FTNzFMefvYMst/s+5xTUPEynb1P6Phg
+	3xPXwcsZ4IJX/b4IITU/Vk0igcyYsvbJSDgT/iZSohGd2atUnWDFjHyC1ee0gLh8YpHGda
+	mmxpfjgZo2erCgoJiMwdmtTDqGD6WH0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-318-T2TciRGaOjCE7M93khBuxg-1; Wed, 14 Feb 2024 07:56:32 -0500
+X-MC-Unique: T2TciRGaOjCE7M93khBuxg-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a3d114fe9b6so58403866b.3
+        for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 04:56:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707915391; x=1708520191;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
+        b=SJnBcoUIivSKr2fAfikbwVvaCccnD+iaEsx+xbfZk7Qxq8mnEBoK+IK0vLlNdJABM6
+         eS61LhSxbjNt56gnymQJdG78w7ZFFDsO2b5Qkbzl6fvkPgJXvEDSg4qAvAm6oSFV29kY
+         c+8973LVB9blFko2lnIpn4GeKZAdtrbKELT7Fdmb2mMPvKgvSrk+aO0mdR6p9TAQoEnC
+         vjKBULQmks6TJ7HjiqCkgeTomfbKUJ4EDYcLdZlC9Iiaq0zaLAp9t2AvDubkAooJKMbq
+         bW3Lj3n+EnpUBof1DKvtkkyMCcT57rGXVLabeBBWwnIGySqeOVe9ylk4nLoMb8WETMQy
+         3n9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWqP4r3Fy0OOLm1q0QcrKMUhzpU8fLoBbnm5PUVFM9+FVR7Aq957nodFTxkrW82gT4ov6u2ZpWOmhClWxt68RdQb0LpwgF+Ft96zg0=
+X-Gm-Message-State: AOJu0YzCIBTPo06RbX4/91uAzonuIGPfuHdTtqvnILhiCVnXBkCJXsQZ
+	KPZ/VusV+Vefi728GCa4GVCBCa8wedS7PqjKgG2Z33rvG24bMGxYovRWzRbYLju5Om8kPmDoEFW
+	+xx1ACVcVjnja7uHjSinFJFQP4IBK63xCYUMh+N9hcvuEXLTAi4gP6oZdT1lR
+X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559814ejb.77.1707915391125;
+        Wed, 14 Feb 2024 04:56:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEtC4RmVIKd3BfBmk6nYmZIZiM8phFHfpA/m86d7qk4SVIPJZDEl1BVx7eVsmIDBaNUG11aPw==
+X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559778ejb.77.1707915390722;
+        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXeVT566eawAqV4mSiYIM54RSXg8KcFzFeTfM3lTaqYUMHBIUCXS/1t/A3OUh7PJjPlqfAuhmCDkluKHV5tDkoxAwbqEWcsb9OHKXszu9xt1+XsHDsqQR/Gt6oMAJQxj44Rtg1OIEF+AcFruNXTnueqhOSsty1y8hMHV/Q0Hy+vXJQpN0xBV3ghNG/4nguQ2hrqJJDM8MZHSY6bIj5ts1xFNA5MQpgsHrvI1Em0gVn7Y2389Jy3RsiAL7THwe00c2TzV7T7EyOWYKihiAu5o+rtxRs8uXtR/8gGy9RDXg28p1fPZJIaYFZR1R9IsZYukb84tHI0pSYWTJNbTvxqu+j6oHcO43pcoCf5hxkqfgFDAJYr0ELb4pmAHgPMPEFoJrJLDNiCLG16PPatmNBKy1MNPwrf/YGrGwcacXGEO19Jn8Suusnc+ODFM+fkSY0zIFsLdG799C9+nD4ryXbDWIt+ojfqV8NyG0IJdWyrRLa3cNG4+hmXhFUq3zif8GB1EA/FMNM7pf8JVk4YNRjHpH32s+cpFXVMNmhubaIYqYaL8uDYxGAF20wM0VY6oYtaO5GfSYOZhvG4Fuyz/XALrhx2z6Z7dsYB2dG2bUYSeLI8tCQ1YzLYVj6dKMcM3F9nDqm3Ur2Xrh8lMjGM0WTj7OwrpTIo9R78b+zsq8Yv9X+UDIL64djWOPfW1itQBIqU6VQ=
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id vb1-20020a170907d04100b00a3cfe376116sm1673172ejc.57.2024.02.14.04.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id CF25D10F578E; Wed, 14 Feb 2024 13:56:29 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, Benjamin Tissoires
+ <bentiss@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Andrii
+ Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
+ Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, bpf
+ <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, "open list:HID
+ CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
+ <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
+In-Reply-To: <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
+References: <87bk8pve2z.fsf@toke.dk>
+ <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
+ <875xyxva9u.fsf@toke.dk>
+ <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
+ <87r0hhfudh.fsf@toke.dk>
+ <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
+ <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
+ <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
+ <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
+ <877cj8f8ht.fsf@toke.dk>
+ <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Wed, 14 Feb 2024 13:56:29 +0100
+Message-ID: <874jebfblu.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e36370e6-1673-4403-7fe6-08dc2d5c19af
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 12:54:37.0310
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN1P287MB2692
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-SGkgSmlyaQ0KDQpJIGdvdCB0aGlzIHBhdGNoIHRlc3RlZCBieSBhIHVzZXIgYW5kIG5vIHJlZ3Jl
-c3Npb24gd2FzIHJlcG9ydGVkLg0KDQpUaGFua3MNCg0KPiBPbiAwMS1GZWItMjAyNCwgYXQgNToy
-M+KAr1BNLCBKaXJpIFNsYWJ5IChTVVNFKSA8amlyaXNsYWJ5QGtlcm5lbC5vcmc+IHdyb3RlOg0K
-PiANCj4g77u/VGhlIGJhY2tsaWdodCBtZW1iZXJzIGluIHN0cnVjdCBhcHBsZV9zY19iYWNrbGln
-aHQgYXJlIHVudXNlZC4gVGhleSB3ZXJlDQo+IGFkZGVkIGluIGNvbW1pdCA5MDE4ZWFjYmU2MjMg
-KEhJRDogYXBwbGU6IEFkZCBzdXBwb3J0IGZvciBrZXlib2FyZA0KPiBiYWNrbGlnaHQgb24gY2Vy
-dGFpbiBUMiBNYWNzLiksIGJ1dCBuZXZlciB1c2VkLg0KPiANCj4gQXMgdGhpcyBpcyBub3QgYSBz
-dHJ1Y3QgdG8gY29tbXVuaWNhdGUgd2l0aCB0aGUgSFcsIHJlbW92ZSB0aGVzZS4NCj4gDQo+IEZv
-dW5kIGJ5IGh0dHBzOi8vZ2l0aHViLmNvbS9qaXJpc2xhYnkvY2xhbmctc3RydWN0Lg0KPiANCj4g
-U2lnbmVkLW9mZi1ieTogSmlyaSBTbGFieSAoU1VTRSkgPGppcmlzbGFieUBrZXJuZWwub3JnPg0K
-PiBDYzogUGF1bCBQYXdsb3dza2kgPHBhdWxAbXJhcm0uaW8+DQo+IENjOiBBdW4tQWxpIFphaWRp
-IDxhZG1pbkBrb2RlaXQubmV0Pg0KPiBDYzogQWRpdHlhIEdhcmcgPGdhcmdhZGl0eWEwOEBsaXZl
-LmNvbT4NCj4gQ2M6IEppcmkgS29zaW5hIDxqaWtvc0BrZXJuZWwub3JnPg0KPiBDYzogQmVuamFt
-aW4gVGlzc29pcmVzIDxiZW5qYW1pbi50aXNzb2lyZXNAcmVkaGF0LmNvbT4NCj4gLS0tDQo+IGRy
-aXZlcnMvaGlkL2hpZC1hcHBsZS5jIHwgMSAtDQo+IDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9u
-KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMgYi9kcml2ZXJz
-L2hpZC9oaWQtYXBwbGUuYw0KPiBpbmRleCBiOWM3YzBlZDdiY2MuLmJkMDIyZTAwNDM1NiAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9oaWQvaGlkLWFwcGxlLmMNCj4gKysrIGIvZHJpdmVycy9oaWQv
-aGlkLWFwcGxlLmMNCj4gQEAgLTc5LDcgKzc5LDYgQEAgc3RydWN0IGFwcGxlX25vbl9hcHBsZV9r
-ZXlib2FyZCB7DQo+IHN0cnVjdCBhcHBsZV9zY19iYWNrbGlnaHQgew0KPiAgICBzdHJ1Y3QgbGVk
-X2NsYXNzZGV2IGNkZXY7DQo+ICAgIHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2Ow0KPiAtICAgIHVu
-c2lnbmVkIHNob3J0IGJhY2tsaWdodF9vZmYsIGJhY2tsaWdodF9vbl9taW4sIGJhY2tsaWdodF9v
-bl9tYXg7DQo+IH07DQo+IA0KPiBzdHJ1Y3QgYXBwbGVfc2Mgew0KPiAtLQ0KPiAyLjQzLjANCj4g
-DQo=
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+
+> On Tue, Feb 13, 2024 at 08:51:26PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
+n wrote:
+>> Kumar Kartikeya Dwivedi <memxor@gmail.com> writes:
+>>=20
+>> > On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> =
+wrote:
+>> >>
+>> >> On Feb 12 2024, Alexei Starovoitov wrote:
+>> >> > On Mon, Feb 12, 2024 at 10:21=E2=80=AFAM Benjamin Tissoires
+>> >> > <benjamin.tissoires@redhat.com> wrote:
+>> >> > >
+>> >> > > On Mon, Feb 12, 2024 at 6:46=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8=
+rgensen <toke@redhat.com> wrote:
+>> >> > > >
+>> >> > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
+>> >> > > >
+>> >> [...]
+>> >> > I agree that workqueue delegation fits into the bpf_timer concept a=
+nd
+>> >> > a lot of code can and should be shared.
+>> >>
+>> >> Thanks Alexei for the detailed answer. I've given it an attempt but s=
+till can not
+>> >> figure it out entirely.
+>> >>
+>> >> > All the lessons(bugs) learned with bpf_timer don't need to be re-di=
+scovered :)
+>> >> > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
+>> >> > so we need a new kfunc to set a sleepable callback.
+>> >> > Maybe
+>> >> > bpf_timer_set_sleepable_cb() ?
+>> >>
+>> >> OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini=
+() flag?
+>> >>
+>> >> > The verifier will set is_async_cb =3D true for it (like it does for=
+ regular cb-s).
+>> >> > And since prog->aux->sleepable is kinda "global" we need another
+>> >> > per subprog flag:
+>> >> > bool is_sleepable: 1;
+>> >>
+>> >> done (in push_callback_call())
+>> >>
+>> >> >
+>> >> > We can factor out a check "if (prog->aux->sleepable)" into a helper
+>> >> > that will check that "global" flag and another env->cur_state->in_s=
+leepable
+>> >> > flag that will work similar to active_rcu_lock.
+>> >>
+>> >> done (I think), cf patch 2 below
+>> >>
+>> >> > Once the verifier starts processing subprog->is_sleepable
+>> >> > it will set cur_state->in_sleepable =3D true;
+>> >> > to make all subprogs called from that cb to be recognized as sleepa=
+ble too.
+>> >>
+>> >> That's the point I don't know where to put the new code.
+>> >>
+>> >
+>> > I think that would go in the already existing special case for
+>> > push_async_cb where you get the verifier state of the async callback.
+>> > You can make setting the boolean in that verifier state conditional on
+>> > whether it's your kfunc/helper you're processing taking a sleepable
+>> > callback.
+>> >
+>> >> It seems the best place would be in do_check(), but I am under the im=
+pression
+>> >> that the code of the callback is added at the end of the instruction =
+list, meaning
+>> >> that I do not know where it starts, and which subprog index it corres=
+ponds to.
+>> >>
+>> >> >
+>> >> > A bit of a challenge is what to do with global subprogs,
+>> >> > since they're verified lazily. They can be called from
+>> >> > sleepable and non-sleepable contex. Should be solvable.
+>> >>
+>> >> I must confess this is way over me (and given that I didn't even mana=
+ged to make
+>> >> the "easy" case working, that might explain things a little :-P )
+>> >>
+>> >
+>> > I think it will be solvable but made somewhat difficult by the fact
+>> > that even if we mark subprog_info of some global_func A as
+>> > in_sleepable, so that we explore it as sleepable during its
+>> > verification, we might encounter later another global_func that calls
+>> > a global func, already explored as non-sleepable, in sleepable
+>> > context. In this case I think we need to redo the verification of that
+>> > global func as sleepable once again. It could be that it is called
+>> > from both non-sleepable and sleepable contexts, so both paths
+>> > (in_sleepable =3D true, and in_sleepable =3D false) need to be explore=
+d,
+>> > or we could reject such cases, but it might be a little restrictive.
+>> >
+>> > Some common helper global func unrelated to caller context doing some
+>> > auxiliary work, called from sleepable timer callback and normal main
+>> > subprog might be an example where rejection will be prohibitive.
+>> >
+>> > An approach might be to explore main and global subprogs once as we do
+>> > now, and then keep a list of global subprogs that need to be revisited
+>> > as in_sleepable (due to being called from a sleepable context) and
+>> > trigger do_check_common for them again, this might have to be repeated
+>> > as the list grows on each iteration, but eventually we will have
+>> > explored all of them as in_sleepable if need be, and the loop will
+>> > end. Surely, this trades off logical simplicity of verifier code with
+>> > redoing verification of global subprogs again.
+>> >
+>> > To add items to such a list, for each global subprog we encounter that
+>> > needs to be analyzed as in_sleepable, we will also collect all its
+>> > callee global subprogs by walking its instructions (a bit like
+>> > check_max_stack_depth does).
+>>=20
+>> Sorry if I'm being dense, but why is all this needed if it's already
+>> possible to just define the timer callback from a program type that
+>> allows sleeping, and then set the actual timeout from a different
+>> program that is not sleepable? Isn't the set_sleepable_cb() kfunc just a
+>> convenience then? Or did I misunderstand and it's not actually possible
+>> to mix callback/timer arming from different program types?
+>
+> More than just convience.
+> bpf_set_sleepable_cb() might need to be called from non-sleepable and
+> there could be no way to hack it around with fake sleepable entry.
+> bpf_timer_cancel() clears callback_fn.
+> So if prog wants to bpf_timer_start() and later bpf_timer_cancel()
+> it would need to bpf_set_sleepable_cb() every time before bpf_timer_start=
+().
+> And at that time it might be in non-sleepable ctx.
+
+Ah, right, makes sense; didn't think about bpf_timer_cancel(). Thanks
+for the explanation :)
+
+-Toke
+
 
