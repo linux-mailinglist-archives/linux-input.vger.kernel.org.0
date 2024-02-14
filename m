@@ -1,375 +1,158 @@
-Return-Path: <linux-input+bounces-1918-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1919-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E7C855017
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 18:25:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F178554F1
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 22:36:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2098CB2D603
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 17:23:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B12AF28E342
+	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 21:36:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FEEA127B4F;
-	Wed, 14 Feb 2024 17:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDd1cxWi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4374713EFF5;
+	Wed, 14 Feb 2024 21:36:53 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn2102.outbound.protection.outlook.com [40.92.91.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF2C84A37;
-	Wed, 14 Feb 2024 17:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707931184; cv=none; b=uzFCJB6fAKdegnj0pkNjPe+jl5yWfdi7f00nP6iZ4zY7++uDO3SCTkqWwjvvjJT9BwuyFKS92RO0SnzhJC9d6S1eGGX1YwzTL+RFkCfvK7MrehIrMzAoImKa+z/NpcPd6vujKPG6E+BEd2A1+N/GJT1/+6urjKj8F0eGU6KrYl8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707931184; c=relaxed/simple;
-	bh=PU+I3eS6cHBmwm4SgiKJZyWi+Zr3RNPwKsVpYhPf5k4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uCTIRNRPM36j9FqflKzn728hf9MwyzWoquREdhI0SNz1NWMbEUDym7UE13Mp64pbSurma8N15buQNeLyvOGeTfio95GIHMd7f7a+lHoA+uwzXBmLfxNBKydxcPoZlTBkPhrjl6z8c+RNCfswXCLYAJMjAUoOCmmPkRfCBsR0HOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDd1cxWi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE346C43390;
-	Wed, 14 Feb 2024 17:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707931183;
-	bh=PU+I3eS6cHBmwm4SgiKJZyWi+Zr3RNPwKsVpYhPf5k4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cDd1cxWiYwELvwUBnoMX0vHoQZR/ez6dv80xmCyueLX0/x2GazDUS9oA/UL3mjeiE
-	 pFyVGBbkheN5coonqeYSCY7u1sO4qXIghbMg0Q2LhSKs+STmpUCu9uxJz4B+ACP27w
-	 rcTxQe6Mmw8sjG1tAj5PSjFm9dctljIESY2yPOIpI7EruAT20W1JG0BznO2MWMWLbD
-	 CjiE+9X5U2VBFc9TgJdf/LMiV6UxRdABdIXedXphD6DVKlV/K64gXzkkljHIU5RRP/
-	 m1wM0EE40cw89CLZ/KloG3HGR/JNf5yqFPiNot7mAkXLb5NQMrOuRdnZWhVUSHXuUj
-	 GG2/vjkUzDo9Q==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Wed, 14 Feb 2024 18:18:39 +0100
-Subject: [PATCH RFC bpf-next v2 10/10] selftests/hid: add test for
- bpf_timer
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7846B1B7E2
+	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 21:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.91.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707946613; cv=fail; b=gUpTBbzydb5FRN7edbTE7/3W/EpH0vz8cYcgWOlkxzvLezkKYfKzdLeO2uvqcQCSZs89jSB10Mjcs62ofu01ISaY0dZ0byVno5YCuGjuxxH6eoWzohZphiLvhCX2KnNqklgG770MzstmB44x376Pm+qyGaCRi8S7dAP6C4yx7lQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707946613; c=relaxed/simple;
+	bh=AzbLSvqRf3/n9L5mVtCa2M+nIoEQJ2bnKIZ1sD4vJ48=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ca6Rv44RR/9kRdAS1JDlkdvJx8Sm8ZtDj3SpQcPW4zdv94G24pBgohpEg5gz9eXJDjIMZYYZXnwVZ+jz1ZJ1G8/iReboNYAqByIc9oUyb1CF8cppyu7JjExkNl2oYMLFrIDQyRF4z2zu+cUwhzKNH2JDYRfcsT+MPM/fTC42DZU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt; spf=pass smtp.mailfrom=outlook.pt; arc=fail smtp.client-ip=40.92.91.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.pt
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kU+ca4k5cxAfFXwoc7BIrUSg7YvLeNmLDe2/HhMwBeHaMK6gpwyI80pjB6oMQkg/UdHaastIskJP3fhjACnx37rUKrwvEDIrHyL8ubgqBpLlOem4xqXvs9EHP7naM3HhKgufdyrsWjLjkzXJL3DoxD9OIG9MlUR5DJHwxZjWFginBDJtvWQ1Y+M74oSKmsALupuWzDoYQl5DxhbN2l+p+Imf4Dw5k/timbUXSMr/bavwjgt2uQ2+sryEOPWI0LXGDwPUWPILIAKSsedZw0XU17oW322JlpFjcGQzfFIwih7lYfW7MtOW+RCqEPCRYMjDAn/ngeF00g5rIm72EwvcJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S9LIZlvlePVN9O9xFUns1txwT1KWqSK2z9tulbdI9jI=;
+ b=lcgFvn1nNnSCMZ0krw+x8GM0317wYyhzrrGgRXuA/0nKTlBxIPg5DPzeS+x50dRoaW3TJTrzJnN+CfdXWuqUXUOWyNj7qpaNYGVIANKyX97BqFm0giXkH1CshZplPPdtZdHmZbSOn0HIdDxAodkzwlZ7zGYAlGKrVBk/TLjRROpdUlJiFkhy5awVTmr1Wh+xLfqQKHcKEWYb64hlUnxtxJ9xpPQ+mnJzpnXYHCwhaEmKFdzgx62nO+xelKOLPAQMMPE8/QDfWCy7MY/hrku+58xBME3k1xVJF6bMJ8/3JpkF4HzaGDwTeQKuCElQhBuQuwQfIsL5qvwlgpK+xxgZPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3bc::10)
+ by AM9P189MB1474.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:30b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Wed, 14 Feb
+ 2024 21:36:49 +0000
+Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+ ([fe80::d8d4:7065:fa11:ba45]) by DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+ ([fe80::d8d4:7065:fa11:ba45%4]) with mapi id 15.20.7270.036; Wed, 14 Feb 2024
+ 21:36:49 +0000
+From: Nuno Pereira <nf.pereira@outlook.pt>
+To: Daniel Ogorchock <djogorchock@gmail.com>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: [PATCH] HID: nintendo: Fix N64 controller being identified as mouse
+Thread-Topic: [PATCH] HID: nintendo: Fix N64 controller being identified as
+ mouse
+Thread-Index: AQHaX42VyViQiBbPC0CPbTAD+/Hm0Q==
+Date: Wed, 14 Feb 2024 21:36:49 +0000
+Message-ID:
+ <DU0P189MB204428CB8C2D669B4315552EFD4E2@DU0P189MB2044.EURP189.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [OMKn1wF4CJB2KiAYOXwDFGDQmiAISB3i]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0P189MB2044:EE_|AM9P189MB1474:EE_
+x-ms-office365-filtering-correlation-id: 7b0731ed-d695-445c-1751-08dc2da50cfb
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ dQoyl/yeEFgSL1lbARMoM0bZiIKX7Ve0aPhzcOIPiEQozQ8D9RXOzFjCMNmID2cy/4gOHO3WwTkk69bPjItyS3zJXNLhELdxZJMH+2WwNJLvBp3Jj8Zk6IAuFDQT5CRDOs8s3eKg0k3iK1qz8xQefc2iI9s/+HINGANMEjxs0wUAKjeUKwiMiwC53mPkOKTCYSQCnYgdgUU4C8Ei/xzJSQPQw9xC31RZ0AfzQyLKM1YKr2AhIfMCOZdsTnQMPayk/tTD1YJfBJJwC7W4y0FhycIZ0o6ZXOktOgisV/2aWvjYJzL7nuVRFmQl0HAZy/njXh8MuFxU3DmsA4xUnBuTUoSIjw08utAALhSwDgj6eCeSs5A3CHFcms3agHOZMSQGa5KDrCuk72wL3viGN25SVdo1Flqnalh8OaS/JpecWAryDQhJIo5mHh5DYPSj7h0qXaJQDARvc/n0i0Eiw/eVn7mcjOqKlRo9CSw/n2n823Ou4PLb+zXONGx2OIOHE4RZGRfNf3FzUHlQbEd75Ou/z1tOiwa79v1ez5/wpfvXhKXHRwgvw23drgfNiB60igdG
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?f+wHPl5erugbG4yTY1MV0eeaoQYUrNCZbTSywIy5HupNLe0nVrY61Iuonn?=
+ =?iso-8859-1?Q?LwNIvxdHnp1FwEMWQy/HDRVwf+QtdlejMwI94lD29PtuP5RiB74qs6vM6e?=
+ =?iso-8859-1?Q?jwpMrVwD5zchgPkfX2TpxgHm0NSLyoOaAD3RTM2KpNcYAGl7UNAA3W1jAs?=
+ =?iso-8859-1?Q?Bnyplc5x5U/rXlSdg39WyG461PN/TsLmYBpeUSoZOgA9mb/lcXHUXcUvzS?=
+ =?iso-8859-1?Q?B/kX9Q3gZCvEdiyKtHudd6yfoGGfU6YbhdThmiHHUv0EeMSahPJw/eCsEr?=
+ =?iso-8859-1?Q?FLXxwRLyV+Zm6RHneN5UIcRvv5BwxLTZedbtV3Jjrwu713d1KfHaOSMvn7?=
+ =?iso-8859-1?Q?pEi6zjkumGdeu9MuSkQeh0yeWMw+cjWVS9/jRU2czRSRdTcDqYbP+78QoL?=
+ =?iso-8859-1?Q?luTABylrulb04TlucSiCIS+63vn2yEfjQ3DfCzov+nay8pnQYmELwvemN5?=
+ =?iso-8859-1?Q?hz7ogb/qNE3/65dGMbY/Hzp98uxQVaubfZXq/cxvAZDJ/otaCwJLVuyZfo?=
+ =?iso-8859-1?Q?9Cf2i9M1KwehY8Z7rIxHTnfjOXtGMl0i4udvcGf+T23Y63m2K971/QwP35?=
+ =?iso-8859-1?Q?pGToIfOPuJlLJx950DRI/4NYNBnGJzP/f0SuO5dXAL79IW+V5rPg8L0x7Z?=
+ =?iso-8859-1?Q?8k6MuTHT6XmvezxFg8xjDjQscvzI0iFsphdfR3Fzbv+SrzR/Hao4HCRfO0?=
+ =?iso-8859-1?Q?vlSJUxGPqoSMB1P82Lu3yXAKWt0/r9NKybBmtNz/Ab7xWNJBbpMQ25lgh0?=
+ =?iso-8859-1?Q?9aF2l8gcD3zKv29XVC1McHnRLXrdEIiilNT3ibXXOebq0QcWOjzccq9bRL?=
+ =?iso-8859-1?Q?rw5Emz5pc/I6b/GgW8VDLbgjBYzfdtMz2NQSoQOY3hLDLplbJInksUl8pJ?=
+ =?iso-8859-1?Q?K3NoE9OdODTUSYGO1ILIyWQUBM1CPDeYSLYutL7K9TiuTIyaOl9IE6Q5b7?=
+ =?iso-8859-1?Q?XAc0xQwAWNKBCjuUPTyfveiNZlH688BJA0ffJ5t6W0PhDOPmOaADNKwa1o?=
+ =?iso-8859-1?Q?XSzI2WZ/2zspqquzhvw2lnCF8Mrq39/Uvjbvj0COADksLoTeYwwnjkKhgk?=
+ =?iso-8859-1?Q?HWX1SsI9tZLxK3OnVFt8/vJCoQcLgLixrI5CVlYULvdvPkSvLQLQsVGYs7?=
+ =?iso-8859-1?Q?JRthap8XAmuaS5VFXr9Aezetx2iDh1ghRY8yOPJgs+ibrq0hh2GgyuV6Hj?=
+ =?iso-8859-1?Q?NXlPZ0VqclC8EchGRXMqj5uNoUyro2mqqfkH8jHv1CRXTWWg18GuIhdskK?=
+ =?iso-8859-1?Q?8z7Mxv8A2mHAZtGWxTFA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-hid-bpf-sleepable-v2-10-5756b054724d@kernel.org>
-References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
-In-Reply-To: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
-To: Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1707931135; l=8194;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=PU+I3eS6cHBmwm4SgiKJZyWi+Zr3RNPwKsVpYhPf5k4=;
- b=g91iULn/RIdO4qMTzjZNWDRByiGpz0YQYg4DYiv1FZen6lFdP319S6f1vChI7eDlxK9Rs/gvi
- mBIT7wy7dsNAKNt8g2Xt7D2TTYegHj2BneC8hl9vLSSXIowq/TDi0MX
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b0731ed-d695-445c-1751-08dc2da50cfb
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 21:36:49.0262
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P189MB1474
 
-This test checks that we can actually delay a workload in a sleepable
-context through bpf_timer.
-
-When an event is injected, we push it on a map of type queue and schedule
-a work.
-When that work kicks in, it pulls the event from the queue, and wakes
-up userspace through a ring buffer.
-
-The use of the ring buffer is there to not have sleeps in userspace
-because we have no guarantees of the timing of when those jobs will be
-called.
-
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-
----
-
-new in v2
----
- tools/testing/selftests/hid/hid_bpf.c              |  83 +++++++++++
- tools/testing/selftests/hid/progs/hid.c            | 152 +++++++++++++++++++++
- .../testing/selftests/hid/progs/hid_bpf_helpers.h  |   2 +
- 3 files changed, 237 insertions(+)
-
-diff --git a/tools/testing/selftests/hid/hid_bpf.c b/tools/testing/selftests/hid/hid_bpf.c
-index f825623e3edc..c16efb43dd91 100644
---- a/tools/testing/selftests/hid/hid_bpf.c
-+++ b/tools/testing/selftests/hid/hid_bpf.c
-@@ -875,6 +875,89 @@ TEST_F(hid_bpf, test_hid_user_raw_request_call)
- 	ASSERT_EQ(args.data[1], 2);
- }
- 
-+static __u8 workload_data;
-+
-+static int handle_event(void *ctx, void *data, size_t data_sz)
-+{
-+	const __u8 *e = data;
-+
-+	workload_data = *e;
-+
-+	return 0;
-+}
-+
-+TEST_F(hid_bpf, test_hid_schedule_work_defer_events_2)
-+{
-+	struct hid_hw_request_syscall_args args = {
-+		.retval = -1,
-+		.size = 10,
-+	};
-+	DECLARE_LIBBPF_OPTS(bpf_test_run_opts, tattrs,
-+			    .ctx_in = &args,
-+			    .ctx_size_in = sizeof(args),
-+	);
-+	const struct test_program progs[] = {
-+		{ .name = "hid_defer_bpf_timer" },
-+	};
-+	struct ring_buffer *rb = NULL;
-+	__u8 buf[10] = {0};
-+	int prog_fd, err;
-+
-+	LOAD_PROGRAMS(progs);
-+
-+	/* Set up ring buffer polling */
-+	rb = ring_buffer__new(bpf_map__fd(self->skel->maps.rb), handle_event, NULL, NULL);
-+	ASSERT_OK_PTR(rb) TH_LOG("Failed to create ring buffer");
-+	ASSERT_EQ(workload_data, 0);
-+
-+	args.hid = self->hid_id;
-+	prog_fd = bpf_program__fd(self->skel->progs.hid_setup_timer);
-+
-+	err = bpf_prog_test_run_opts(prog_fd, &tattrs);
-+
-+	ASSERT_OK(err) TH_LOG("error while calling bpf_prog_test_run_opts");
-+
-+	/* check that there is no data to read from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, -1) TH_LOG("read_hidraw");
-+
-+	/* inject one event */
-+	buf[0] = 1;
-+	buf[1] = 47;
-+	buf[2] = 50;
-+	uhid_send_event(_metadata, self->uhid_fd, buf, 6);
-+
-+	err = ring_buffer__poll(rb, 100 /* timeout, ms */);
-+	ASSERT_EQ(err, 1) TH_LOG("error while calling ring_buffer__poll");
-+	ASSERT_EQ(workload_data, 3);
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, 6) TH_LOG("read_hidraw");
-+	ASSERT_EQ(buf[0], 2);
-+	ASSERT_EQ(buf[1], 3);
-+	ASSERT_EQ(buf[2], 4) TH_LOG("leftovers_from_previous_test");
-+
-+	err = ring_buffer__poll(rb, 100 /* timeout, ms */);
-+	ASSERT_EQ(err, 1) TH_LOG("error while calling ring_buffer__poll");
-+	ASSERT_EQ(workload_data, 4);
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, 6) TH_LOG("read_hidraw");
-+	ASSERT_EQ(buf[0], 2);
-+	ASSERT_EQ(buf[1], 4);
-+	ASSERT_EQ(buf[2], 6);
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, -1) TH_LOG("read_hidraw");
-+}
-+
- /*
-  * Attach hid_insert{0,1,2} to the given uhid device,
-  * retrieve and open the matching hidraw node,
-diff --git a/tools/testing/selftests/hid/progs/hid.c b/tools/testing/selftests/hid/progs/hid.c
-index f67d35def142..05afa056167e 100644
---- a/tools/testing/selftests/hid/progs/hid.c
-+++ b/tools/testing/selftests/hid/progs/hid.c
-@@ -250,3 +250,155 @@ int BPF_PROG(hid_test_insert3, struct hid_bpf_ctx *hid_ctx)
- 
- 	return 0;
- }
-+
-+struct test_report {
-+	__u8 data[6];
-+};
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_QUEUE);
-+	__uint(max_entries, 8);
-+	__type(value, struct test_report);
-+} queue SEC(".maps");
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_RINGBUF);
-+	__uint(max_entries, 8);
-+} rb SEC(".maps");
-+
-+struct elem {
-+	struct bpf_timer t;
-+};
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(max_entries, 1024);
-+	__type(key, u32);
-+	__type(value, struct elem);
-+} timer_map SEC(".maps");
-+
-+/* callback for timer_map timers */
-+
-+static int timer_cb1(void *map, int *key, struct bpf_timer *timer)
-+{
-+	struct hid_bpf_ctx *hid_ctx;
-+	struct test_report buf;
-+	__u8 *rb_elem;
-+	int err;
-+	int i, ret = 0;
-+
-+	/* do not pop the event, it'll be done in hid_offload_test() when
-+	 * notifying user space, this also allows to retry sending it
-+	 * if hid_bpf_input_report fails
-+	 */
-+	if (bpf_map_peek_elem(&queue, &buf))
-+		return 0;
-+
-+	hid_ctx = hid_bpf_allocate_context(*key);
-+	if (!hid_ctx)
-+		return 0; /* EPERM check */
-+
-+	buf.data[0] = 2;
-+
-+	/* re-inject the modified event into the HID stack */
-+	err = hid_bpf_input_report(hid_ctx, HID_INPUT_REPORT, buf.data, sizeof(buf.data));
-+	if (err == -16 /* -EBUSY */) {
-+		/*
-+		 * This happens when we schedule the work with a 0 delay:
-+		 * the thread immediately starts but the current input
-+		 * processing hasn't finished yet. So the semaphore is
-+		 * already taken, and hid_input_report returns -EBUSY
-+		 */
-+		/* schedule another attempt */
-+		bpf_timer_start(timer, 5 * 1000, 0);
-+
-+		goto out;
-+	}
-+
-+	if (bpf_map_pop_elem(&queue, &buf))
-+		goto out;
-+
-+	rb_elem = bpf_ringbuf_reserve(&rb, sizeof(*rb_elem), 0);
-+	if (!rb_elem)
-+		goto out;
-+
-+	*rb_elem = buf.data[1];
-+
-+	bpf_ringbuf_submit(rb_elem, 0);
-+
-+	/* call ourself once again until there is no more events in the queue */
-+	bpf_timer_start(timer, 10 * 1000 * 1000, 0);
-+
-+ out:
-+	hid_bpf_release_context(hid_ctx);
-+	return 0;
-+}
-+
-+#define CLOCK_MONOTONIC		1
-+
-+SEC("?fmod_ret/hid_bpf_device_event")
-+int BPF_PROG(hid_defer_bpf_timer, struct hid_bpf_ctx *hctx)
-+{
-+	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 4 /* size */);
-+	struct test_report buf = {
-+		.data = {2, 3, 4, 5, 6, 7},
-+	};
-+	struct bpf_timer *timer;
-+	int key = hctx->hid->id;
-+	struct elem init = {};
-+
-+	if (!data)
-+		return 0; /* EPERM check */
-+
-+	/* Only schedule a delayed work when reportID is 1, otherwise
-+	 * simply forward it to hidraw
-+	 */
-+	if (data[0] != 1)
-+		return 0;
-+
-+	bpf_map_push_elem(&queue, &buf, BPF_ANY);
-+	buf.data[0] = 2;
-+	buf.data[1] = 4;
-+	buf.data[2] = 6;
-+	bpf_map_push_elem(&queue, &buf, BPF_ANY);
-+
-+	timer = bpf_map_lookup_elem(&timer_map, &key);
-+	if (!timer)
-+		return 3;
-+
-+	bpf_timer_set_sleepable_cb(timer, timer_cb1);
-+
-+	if (bpf_timer_start(timer, 5 * 1000 * 1000, 0) != 0)
-+		return 2;
-+
-+	return -1; /* discard the event */
-+}
-+
-+SEC("syscall")
-+int hid_setup_timer(struct hid_hw_request_syscall_args *args)
-+{
-+	struct hid_bpf_ctx *ctx;
-+	struct bpf_timer *timer;
-+	struct elem init = {};
-+	int key = args->hid;
-+	int i, ret = 0;
-+
-+	ctx = hid_bpf_allocate_context(args->hid);
-+	if (!ctx)
-+		return -1; /* EPERM check */
-+
-+	bpf_map_update_elem(&timer_map, &key, &init, 0);
-+
-+	timer = bpf_map_lookup_elem(&timer_map, &key);
-+	if (!timer) {
-+		hid_bpf_release_context(ctx);
-+		return 1;
-+	}
-+
-+	bpf_timer_init(timer, &timer_map, CLOCK_MONOTONIC | BPF_F_TIMER_SLEEPABLE);
-+
-+	hid_bpf_release_context(ctx);
-+
-+	return 0;
-+}
-+
-diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-index 9cd56821d0f1..8235a28e7dee 100644
---- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-+++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-@@ -100,5 +100,7 @@ extern int hid_bpf_input_report(struct hid_bpf_ctx *ctx,
- 				enum hid_report_type type,
- 				__u8 *data,
- 				size_t buf__sz) __ksym;
-+extern int bpf_timer_set_sleepable_cb(struct bpf_timer *timer,
-+		int (callback_fn)(void *map, int *key, struct bpf_timer *timer)) __ksym;
- 
- #endif /* __HID_BPF_HELPERS_H */
-
--- 
-2.43.0
-
+This patch is regarding the recent addition of support for the NSO controll=
+ers to hid-nintendo.=0A=
+All controllers are working correctly with the exception of the N64 control=
+ler, which is being identified as a mouse by udev. This results in the joys=
+tick controlling the mouse cursor and the controller not being detected by =
+games.=0A=
+=0A=
+The reason for this is because the N64's C buttons have been attributed to =
+BTN_FORWARD, BTN_BACK, BTN_LEFT, BTN_RIGHT, which are buttons typically att=
+ributed to mice.=0A=
+=0A=
+This patch changes those buttons to controller buttons, making the controll=
+er be correctly identified as such.=0A=
+=0A=
+Signed-off-by: Nuno Pereira <nf.pereira@outlook.pt>=0A=
+---=0A=
+ drivers/hid/hid-nintendo.c | 8 ++++----=0A=
+ 1 file changed, 4 insertions(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c=0A=
+index ccc4032fb2b0..4b2c81b49b80 100644=0A=
+--- a/drivers/hid/hid-nintendo.c=0A=
++++ b/drivers/hid/hid-nintendo.c=0A=
+@@ -481,10 +481,10 @@ static const struct joycon_ctlr_button_mapping n64con=
+_button_mappings[] =3D {=0A=
+ 	{ BTN_TR,		JC_BTN_R,	},=0A=
+ 	{ BTN_TR2,		JC_BTN_LSTICK,	}, /* ZR */=0A=
+ 	{ BTN_START,		JC_BTN_PLUS,	},=0A=
+-	{ BTN_FORWARD,		JC_BTN_Y,	}, /* C UP */=0A=
+-	{ BTN_BACK,		JC_BTN_ZR,	}, /* C DOWN */=0A=
+-	{ BTN_LEFT,		JC_BTN_X,	}, /* C LEFT */=0A=
+-	{ BTN_RIGHT,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
++	{ BTN_SELECT,		JC_BTN_Y,	}, /* C UP */=0A=
++	{ BTN_X,		JC_BTN_ZR,	}, /* C DOWN */=0A=
++	{ BTN_Y,		JC_BTN_X,	}, /* C LEFT */=0A=
++	{ BTN_C,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
+ 	{ BTN_MODE,		JC_BTN_HOME,	},=0A=
+ 	{ BTN_Z,		JC_BTN_CAP,	},=0A=
+ 	{ /* sentinel */ },=0A=
+-- =0A=
+2.43.0=0A=
+=0A=
 
