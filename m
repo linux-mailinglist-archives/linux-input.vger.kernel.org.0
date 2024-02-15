@@ -1,158 +1,101 @@
-Return-Path: <linux-input+bounces-1919-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1920-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F178554F1
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 22:36:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E248562EC
+	for <lists+linux-input@lfdr.de>; Thu, 15 Feb 2024 13:18:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B12AF28E342
-	for <lists+linux-input@lfdr.de>; Wed, 14 Feb 2024 21:36:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0570B2DB0B
+	for <lists+linux-input@lfdr.de>; Thu, 15 Feb 2024 12:02:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4374713EFF5;
-	Wed, 14 Feb 2024 21:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E98B12B164;
+	Thu, 15 Feb 2024 12:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OsXwhnjD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn2102.outbound.protection.outlook.com [40.92.91.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7846B1B7E2
-	for <linux-input@vger.kernel.org>; Wed, 14 Feb 2024 21:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.91.102
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707946613; cv=fail; b=gUpTBbzydb5FRN7edbTE7/3W/EpH0vz8cYcgWOlkxzvLezkKYfKzdLeO2uvqcQCSZs89jSB10Mjcs62ofu01ISaY0dZ0byVno5YCuGjuxxH6eoWzohZphiLvhCX2KnNqklgG770MzstmB44x376Pm+qyGaCRi8S7dAP6C4yx7lQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707946613; c=relaxed/simple;
-	bh=AzbLSvqRf3/n9L5mVtCa2M+nIoEQJ2bnKIZ1sD4vJ48=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ca6Rv44RR/9kRdAS1JDlkdvJx8Sm8ZtDj3SpQcPW4zdv94G24pBgohpEg5gz9eXJDjIMZYYZXnwVZ+jz1ZJ1G8/iReboNYAqByIc9oUyb1CF8cppyu7JjExkNl2oYMLFrIDQyRF4z2zu+cUwhzKNH2JDYRfcsT+MPM/fTC42DZU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt; spf=pass smtp.mailfrom=outlook.pt; arc=fail smtp.client-ip=40.92.91.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.pt
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kU+ca4k5cxAfFXwoc7BIrUSg7YvLeNmLDe2/HhMwBeHaMK6gpwyI80pjB6oMQkg/UdHaastIskJP3fhjACnx37rUKrwvEDIrHyL8ubgqBpLlOem4xqXvs9EHP7naM3HhKgufdyrsWjLjkzXJL3DoxD9OIG9MlUR5DJHwxZjWFginBDJtvWQ1Y+M74oSKmsALupuWzDoYQl5DxhbN2l+p+Imf4Dw5k/timbUXSMr/bavwjgt2uQ2+sryEOPWI0LXGDwPUWPILIAKSsedZw0XU17oW322JlpFjcGQzfFIwih7lYfW7MtOW+RCqEPCRYMjDAn/ngeF00g5rIm72EwvcJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S9LIZlvlePVN9O9xFUns1txwT1KWqSK2z9tulbdI9jI=;
- b=lcgFvn1nNnSCMZ0krw+x8GM0317wYyhzrrGgRXuA/0nKTlBxIPg5DPzeS+x50dRoaW3TJTrzJnN+CfdXWuqUXUOWyNj7qpaNYGVIANKyX97BqFm0giXkH1CshZplPPdtZdHmZbSOn0HIdDxAodkzwlZ7zGYAlGKrVBk/TLjRROpdUlJiFkhy5awVTmr1Wh+xLfqQKHcKEWYb64hlUnxtxJ9xpPQ+mnJzpnXYHCwhaEmKFdzgx62nO+xelKOLPAQMMPE8/QDfWCy7MY/hrku+58xBME3k1xVJF6bMJ8/3JpkF4HzaGDwTeQKuCElQhBuQuwQfIsL5qvwlgpK+xxgZPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3bc::10)
- by AM9P189MB1474.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:30b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Wed, 14 Feb
- 2024 21:36:49 +0000
-Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
- ([fe80::d8d4:7065:fa11:ba45]) by DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
- ([fe80::d8d4:7065:fa11:ba45%4]) with mapi id 15.20.7270.036; Wed, 14 Feb 2024
- 21:36:49 +0000
-From: Nuno Pereira <nf.pereira@outlook.pt>
-To: Daniel Ogorchock <djogorchock@gmail.com>
-CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: [PATCH] HID: nintendo: Fix N64 controller being identified as mouse
-Thread-Topic: [PATCH] HID: nintendo: Fix N64 controller being identified as
- mouse
-Thread-Index: AQHaX42VyViQiBbPC0CPbTAD+/Hm0Q==
-Date: Wed, 14 Feb 2024 21:36:49 +0000
-Message-ID:
- <DU0P189MB204428CB8C2D669B4315552EFD4E2@DU0P189MB2044.EURP189.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [OMKn1wF4CJB2KiAYOXwDFGDQmiAISB3i]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU0P189MB2044:EE_|AM9P189MB1474:EE_
-x-ms-office365-filtering-correlation-id: 7b0731ed-d695-445c-1751-08dc2da50cfb
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- dQoyl/yeEFgSL1lbARMoM0bZiIKX7Ve0aPhzcOIPiEQozQ8D9RXOzFjCMNmID2cy/4gOHO3WwTkk69bPjItyS3zJXNLhELdxZJMH+2WwNJLvBp3Jj8Zk6IAuFDQT5CRDOs8s3eKg0k3iK1qz8xQefc2iI9s/+HINGANMEjxs0wUAKjeUKwiMiwC53mPkOKTCYSQCnYgdgUU4C8Ei/xzJSQPQw9xC31RZ0AfzQyLKM1YKr2AhIfMCOZdsTnQMPayk/tTD1YJfBJJwC7W4y0FhycIZ0o6ZXOktOgisV/2aWvjYJzL7nuVRFmQl0HAZy/njXh8MuFxU3DmsA4xUnBuTUoSIjw08utAALhSwDgj6eCeSs5A3CHFcms3agHOZMSQGa5KDrCuk72wL3viGN25SVdo1Flqnalh8OaS/JpecWAryDQhJIo5mHh5DYPSj7h0qXaJQDARvc/n0i0Eiw/eVn7mcjOqKlRo9CSw/n2n823Ou4PLb+zXONGx2OIOHE4RZGRfNf3FzUHlQbEd75Ou/z1tOiwa79v1ez5/wpfvXhKXHRwgvw23drgfNiB60igdG
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?f+wHPl5erugbG4yTY1MV0eeaoQYUrNCZbTSywIy5HupNLe0nVrY61Iuonn?=
- =?iso-8859-1?Q?LwNIvxdHnp1FwEMWQy/HDRVwf+QtdlejMwI94lD29PtuP5RiB74qs6vM6e?=
- =?iso-8859-1?Q?jwpMrVwD5zchgPkfX2TpxgHm0NSLyoOaAD3RTM2KpNcYAGl7UNAA3W1jAs?=
- =?iso-8859-1?Q?Bnyplc5x5U/rXlSdg39WyG461PN/TsLmYBpeUSoZOgA9mb/lcXHUXcUvzS?=
- =?iso-8859-1?Q?B/kX9Q3gZCvEdiyKtHudd6yfoGGfU6YbhdThmiHHUv0EeMSahPJw/eCsEr?=
- =?iso-8859-1?Q?FLXxwRLyV+Zm6RHneN5UIcRvv5BwxLTZedbtV3Jjrwu713d1KfHaOSMvn7?=
- =?iso-8859-1?Q?pEi6zjkumGdeu9MuSkQeh0yeWMw+cjWVS9/jRU2czRSRdTcDqYbP+78QoL?=
- =?iso-8859-1?Q?luTABylrulb04TlucSiCIS+63vn2yEfjQ3DfCzov+nay8pnQYmELwvemN5?=
- =?iso-8859-1?Q?hz7ogb/qNE3/65dGMbY/Hzp98uxQVaubfZXq/cxvAZDJ/otaCwJLVuyZfo?=
- =?iso-8859-1?Q?9Cf2i9M1KwehY8Z7rIxHTnfjOXtGMl0i4udvcGf+T23Y63m2K971/QwP35?=
- =?iso-8859-1?Q?pGToIfOPuJlLJx950DRI/4NYNBnGJzP/f0SuO5dXAL79IW+V5rPg8L0x7Z?=
- =?iso-8859-1?Q?8k6MuTHT6XmvezxFg8xjDjQscvzI0iFsphdfR3Fzbv+SrzR/Hao4HCRfO0?=
- =?iso-8859-1?Q?vlSJUxGPqoSMB1P82Lu3yXAKWt0/r9NKybBmtNz/Ab7xWNJBbpMQ25lgh0?=
- =?iso-8859-1?Q?9aF2l8gcD3zKv29XVC1McHnRLXrdEIiilNT3ibXXOebq0QcWOjzccq9bRL?=
- =?iso-8859-1?Q?rw5Emz5pc/I6b/GgW8VDLbgjBYzfdtMz2NQSoQOY3hLDLplbJInksUl8pJ?=
- =?iso-8859-1?Q?K3NoE9OdODTUSYGO1ILIyWQUBM1CPDeYSLYutL7K9TiuTIyaOl9IE6Q5b7?=
- =?iso-8859-1?Q?XAc0xQwAWNKBCjuUPTyfveiNZlH688BJA0ffJ5t6W0PhDOPmOaADNKwa1o?=
- =?iso-8859-1?Q?XSzI2WZ/2zspqquzhvw2lnCF8Mrq39/Uvjbvj0COADksLoTeYwwnjkKhgk?=
- =?iso-8859-1?Q?HWX1SsI9tZLxK3OnVFt8/vJCoQcLgLixrI5CVlYULvdvPkSvLQLQsVGYs7?=
- =?iso-8859-1?Q?JRthap8XAmuaS5VFXr9Aezetx2iDh1ghRY8yOPJgs+ibrq0hh2GgyuV6Hj?=
- =?iso-8859-1?Q?NXlPZ0VqclC8EchGRXMqj5uNoUyro2mqqfkH8jHv1CRXTWWg18GuIhdskK?=
- =?iso-8859-1?Q?8z7Mxv8A2mHAZtGWxTFA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE55812BE84
+	for <linux-input@vger.kernel.org>; Thu, 15 Feb 2024 12:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707998560; cv=none; b=lw8fYw5GboYIk6vj2V7bsnViusLcw7y2k5zoQ8ZbCaEZntjYqyxrEbz1pK99jS2obByXKKKHZs0Lrwv5m1/mEtp/JMeFGtYdnMsEdccDrwj1fSMHmEdt3AcFn92BLvkWMxgOKMUK2EKX8NoGLjpJNCMCMHuUeOawLNVzyqoai0k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707998560; c=relaxed/simple;
+	bh=vbgRA2GMlce397fPZXf/sJUC3uP4O/JDU4BLWHn2As8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Om4McCNfCPL4uZL2Vjr/vmfv9Eyd/XaUE9LYXdqWdDLqKQa2+qzfZ0x5M6ssTUiGqk0scAnFTz44QVqXYcj/bED4hiaYMYeAzuXwqtvEA96y3JsL5wGlV+ijZmpxckVSdgyjwuz1A8dUvGRo4PJFcGTO6ALvYI6CRuB+/B9KtlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OsXwhnjD; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33cf6266c76so477608f8f.1
+        for <linux-input@vger.kernel.org>; Thu, 15 Feb 2024 04:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707998557; x=1708603357; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vbgRA2GMlce397fPZXf/sJUC3uP4O/JDU4BLWHn2As8=;
+        b=OsXwhnjDPFNVM5GLiZ0J0gJL5R+PQeoy7maGkeplncYqGcEqXpR0WYYO6wzGFQPvGE
+         CSBv5XrWnYh4va0cWj+Rw28nlEUU8bohKN7lurdLy0i4Fpc4vkGjSM9DPd2ZvIiM4kSY
+         zB+Ja5yP0M1QkDqHIcTkPh3GPbMyevli6gfyjtNQbRQ5fKjRCMTPyZMfBOH3XhuRVlCN
+         akltg8uPN/4zw54CZ97TnEbL1xU2fpfSqHSH1lqPWlqjifRxdUIyKtxMm+LnQD4s1f88
+         7+ajLJHMZnE2ByIbvcdxP9WsGlVUuFZ3zrHe59t7gPjABpNUv/bTOleJWL8OfqqBZDFE
+         MBZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707998557; x=1708603357;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vbgRA2GMlce397fPZXf/sJUC3uP4O/JDU4BLWHn2As8=;
+        b=kI/de2sxizzmqlDa2y2yxyue9UjkH+vn4uOqJyVIUSU+oPKjY2yYZwWjuC71duNP68
+         m89xlkA8lhNtkTZv+xo9VDMIeDsXmwDMyPGXNaPO3r98/YrswE1QpsYgm+OOZo+IcLrS
+         EKrb6dwyQOIxJYz0Zl6btgzB21m9CUTU2tlTABd7KH6NDNuZ0ZK08gQ9QsjokVbjDIN+
+         qys6TxGFB63bSwEPPD0IOpzx/RbSfGyEkm8iy32KIXaNynEB60kd6NadovnbtYGJX9+l
+         3sBzFVaqSIka4U36O4LzBEsCAoYv1kSzNgaMaMoaZPwCGDZI3UhqrXPLJPc58Hup2aVt
+         OdFw==
+X-Forwarded-Encrypted: i=1; AJvYcCW7N0NIPYVOmnnC6A2LDRcdFMpuyvYXZPdu0Ck3FCUaFegr7Co2h3ai3oH3wpM/LB6nNvRExTHgEniOD1BjtJY6IaQB7h3SIX5MA8U=
+X-Gm-Message-State: AOJu0YwY6vkWByW3Tm4cLZEhbZznY3Pmg8i/wpEtfCIgkSJyrJPjjuza
+	A9ZxVqk06gVXZGT0j49K5vmj9JjIIY2EuhzfnBS1i13T12yyWFGlx5PlRyBzvZ4=
+X-Google-Smtp-Source: AGHT+IHkovjjm6uiGh8NEiN+5Igji2gmONxw1ozHtZ/fWfNAab/0bhMXeBul3IX7/uedCw8IfPnK6w==
+X-Received: by 2002:adf:cf10:0:b0:33b:2884:edf2 with SMTP id o16-20020adfcf10000000b0033b2884edf2mr1196357wrj.56.1707998556956;
+        Thu, 15 Feb 2024 04:02:36 -0800 (PST)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id bo2-20020a056000068200b0033cdbebfda7sm1407012wrb.14.2024.02.15.04.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 04:02:36 -0800 (PST)
+Date: Thu, 15 Feb 2024 12:02:34 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de, javierm@redhat.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 01/10] backlight: Match backlight device against struct
+ fb_info.bl_dev
+Message-ID: <20240215120234.GG9758@aspen.lan>
+References: <20240212162645.5661-1-tzimmermann@suse.de>
+ <20240212162645.5661-2-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b0731ed-d695-445c-1751-08dc2da50cfb
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 21:36:49.0262
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P189MB1474
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240212162645.5661-2-tzimmermann@suse.de>
 
-This patch is regarding the recent addition of support for the NSO controll=
-ers to hid-nintendo.=0A=
-All controllers are working correctly with the exception of the N64 control=
-ler, which is being identified as a mouse by udev. This results in the joys=
-tick controlling the mouse cursor and the controller not being detected by =
-games.=0A=
-=0A=
-The reason for this is because the N64's C buttons have been attributed to =
-BTN_FORWARD, BTN_BACK, BTN_LEFT, BTN_RIGHT, which are buttons typically att=
-ributed to mice.=0A=
-=0A=
-This patch changes those buttons to controller buttons, making the controll=
-er be correctly identified as such.=0A=
-=0A=
-Signed-off-by: Nuno Pereira <nf.pereira@outlook.pt>=0A=
----=0A=
- drivers/hid/hid-nintendo.c | 8 ++++----=0A=
- 1 file changed, 4 insertions(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c=0A=
-index ccc4032fb2b0..4b2c81b49b80 100644=0A=
---- a/drivers/hid/hid-nintendo.c=0A=
-+++ b/drivers/hid/hid-nintendo.c=0A=
-@@ -481,10 +481,10 @@ static const struct joycon_ctlr_button_mapping n64con=
-_button_mappings[] =3D {=0A=
- 	{ BTN_TR,		JC_BTN_R,	},=0A=
- 	{ BTN_TR2,		JC_BTN_LSTICK,	}, /* ZR */=0A=
- 	{ BTN_START,		JC_BTN_PLUS,	},=0A=
--	{ BTN_FORWARD,		JC_BTN_Y,	}, /* C UP */=0A=
--	{ BTN_BACK,		JC_BTN_ZR,	}, /* C DOWN */=0A=
--	{ BTN_LEFT,		JC_BTN_X,	}, /* C LEFT */=0A=
--	{ BTN_RIGHT,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
-+	{ BTN_SELECT,		JC_BTN_Y,	}, /* C UP */=0A=
-+	{ BTN_X,		JC_BTN_ZR,	}, /* C DOWN */=0A=
-+	{ BTN_Y,		JC_BTN_X,	}, /* C LEFT */=0A=
-+	{ BTN_C,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
- 	{ BTN_MODE,		JC_BTN_HOME,	},=0A=
- 	{ BTN_Z,		JC_BTN_CAP,	},=0A=
- 	{ /* sentinel */ },=0A=
--- =0A=
-2.43.0=0A=
-=0A=
+On Mon, Feb 12, 2024 at 05:16:34PM +0100, Thomas Zimmermann wrote:
+> Framebuffer drivers for devices with dedicated backlight are supposed
+> to set struct fb_info.bl_dev to the backlight's respective device. Use
+> the value to match backlight and framebuffer in the backlight core code.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
+Daniel.
 
