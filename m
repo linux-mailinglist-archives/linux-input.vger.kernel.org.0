@@ -1,120 +1,161 @@
-Return-Path: <linux-input+bounces-1933-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1934-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9554C856C28
-	for <lists+linux-input@lfdr.de>; Thu, 15 Feb 2024 19:09:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5838D857611
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 07:36:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 524B42853BA
-	for <lists+linux-input@lfdr.de>; Thu, 15 Feb 2024 18:09:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8380D1C22127
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 06:36:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02419137C2E;
-	Thu, 15 Feb 2024 18:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4795114280;
+	Fri, 16 Feb 2024 06:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jX4ysiod"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tBnKIN5q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414291384B3;
-	Thu, 15 Feb 2024 18:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A616125CD
+	for <linux-input@vger.kernel.org>; Fri, 16 Feb 2024 06:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708020590; cv=none; b=BaaAuKQNE9ktd2QPpJXzbEQff6iShFrCZA2xFm9A7ZVA71P5xkV/eVkS8n9W/PWAiyjQ/QMgvMSYNNcStPWf2O9w08XQn5/3gvBFOh8MqfMnjcDQli67Zk7LBlpFvFONO/jpymAulngTi39bkoyL7vQYscDJoeDxbFbiyKaky/0=
+	t=1708065391; cv=none; b=j/ViysChkSHfqVQLFMLBmQL6pr47Bmz/8L/XO7ixa6RJ/SI9rbAUkOq5ZlARBhkXMyXyaEmT+FRdM4+5KblUiGs7yQv0QFYmJLdrRdoX4HrMjrFw59UVgH2v4hIj43fp1P9QB+LtZ4m20W4h7FY+hQdotiePQwJ6MaERV2docDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708020590; c=relaxed/simple;
-	bh=DUAAEWcfCMwa7677MxMyGU88cfm9xN0qS3zlnmexBHA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=itcG9RwbFC0ZfpiUb5qsza27aYP/EeTE7dH+EABZh2Jvu6zvesAEXcDj5kOCWpRIHIpQpXqvE9XLa5eui5uiiRgIkw1vl1Mfb66qEo8dnMcWUiiJfurB1AHld5nSiQ35UOBijqGNtjgu2zYRivPbrvpTEdNUIz1vv2KkB1pjh2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jX4ysiod; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-411f165ef9bso10362875e9.0;
-        Thu, 15 Feb 2024 10:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708020587; x=1708625387; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DUAAEWcfCMwa7677MxMyGU88cfm9xN0qS3zlnmexBHA=;
-        b=jX4ysiod6iCTUKFCedlBoup1tFNJtP4NmO+PYqdNJl2QxtJu5EySr4VYBLCvp5w5Kl
-         WVmchwdcJnlR5Uf9KKeDRZjnD58w5em78ad84V0zr0c1DTJCYyT2JPAjssqmwJuBhOOH
-         ivFmpjQmbgqHi6Vfa/3w3y0M5TMJhhjeEW9eWmC8T+AkF94XhxLUNGPfRyYDNf9EH2v7
-         i40InIEu/Uv2B5oOWoIz0Q8a/W2unQBGdPefPVF4DRoOymAejNWFLgckxRyC2W6ySvwD
-         8MXoJmXZYn9PH9++oEpSCXF+4g0N6vglneinwdCaXLzKh4XLcPUP9+Qd6gKetiMBYcdG
-         MHDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708020587; x=1708625387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DUAAEWcfCMwa7677MxMyGU88cfm9xN0qS3zlnmexBHA=;
-        b=QTyTPb+LZfSTXkhxFqOh+gvA6TLrhzhm7yOcu0Lw3hDMrg77rDRasKyC16GcyevAvd
-         WNK0zplr8NMuLY6XfYtGtZmLoRxO3KmYxo4L6OtRBFrr3jMQyPbp9cJuV/NXX3Tqnok8
-         k5/FxTnnPrrmLSlPjmV32vSFyg634B3JPE8J/VBfla9UmiUb0fgrYBd45OHKqA80Q1Br
-         78JVro7hMWt4wuNI92I4O3/5xsklYh/TiskiyEM2KYWMOr5Q/WHJbpfNBPoLiIjh29Jn
-         mwjFUUCQA8DHb0zlIco98dojJ+cRtdulWU6pPFJq56WS6jWc8ttComsfwLCHR75NmmoB
-         mT7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXejd2WNELqcY7WQvpfQGZkMwnkXpy/JP8KcBacTtqmHS2RiUYj7sX/JffRbkituis0uA8QGfI7e4HS+k7OBcgu3gvHokt8lIDWPkAUw3r2DcCVvlVOPZkgezJoof9fEqlGwzhzctGq4/0=
-X-Gm-Message-State: AOJu0Yz6NI/jP3WPnUVodaqXg6MiCF9Vf8bvd/PjT1SRMymJV1dGp89z
-	o3xIZ0zF+IG8lyAIzu/f20Wlkseh22vubCG7QGa1SzTJEfTBCwMUxyr1vnjf/GvHCIYkoDWJwY/
-	+EiLGyojCeVxaKhPko4ZXVgy/3rg=
-X-Google-Smtp-Source: AGHT+IHNmdLroTYzl/DBp2Wh6+k70G8el0qtJommICuaW4NvZujKA590mtel8SBx3qjLVORvRqNlzTNg0PIIBj7aQK0=
-X-Received: by 2002:a05:600c:34c1:b0:411:c25d:703b with SMTP id
- d1-20020a05600c34c100b00411c25d703bmr2141905wmq.16.1708020587199; Thu, 15 Feb
- 2024 10:09:47 -0800 (PST)
+	s=arc-20240116; t=1708065391; c=relaxed/simple;
+	bh=8c1US9OauGX6MoQAcSIvGGnaJf+45MAgZiqviPZZqa0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IteYWb4m9FY5f9CE6aHntkWb1+PqGGZYTh2CnfH6HsF6jZ0mW3bW5XRh8r6yYwPnUpib27Lu063gAl73zaGYh1DcJDN+p5xrUr6MzIFFQxYG5rvNgz6bhhsQwRmD3uI99ExRZcf8MK8cPrW+KB1OWTwN3HpqaZyrx3uIQlafGTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tBnKIN5q; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708065387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sbr4QPVSTcHUa+AezXbiMdDvlOjSGnMLEs0dFzkc8tc=;
+	b=tBnKIN5qT9O82LzS5wQNyKs9/9Jb+2Nc3qdyyuiBtmOVizx2dqWVe5a8J1MYRI23lPllFO
+	j/SZsfaf+P6X/lHOIi+2MCjlLrur4E4RLAT/YArdbMOhYy0W/dVa7NmBcz64oHTYxea4q9
+	/yoOzUZ8yBH9dlUy1WcGM+fUCpQtCk8=
+Date: Thu, 15 Feb 2024 22:36:16 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240210175530.137361-1-clamor95@gmail.com> <20240210175530.137361-2-clamor95@gmail.com>
- <Zc5QANGhS8EPvgEy@google.com>
-In-Reply-To: <Zc5QANGhS8EPvgEy@google.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 15 Feb 2024 20:09:35 +0200
-Message-ID: <CAPVz0n3DA6PiJOhkX-0Lk1QXjaKa9NkLkDRkV85Z3S2S5S8Ogg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] input: touchcreen: tsc2007: make interrupt optional
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Benjamin Bara <benjamin.bara@skidata.com>, Richard Leitner <richard.leitner@linux.dev>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+Content-Language: en-US
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-=D1=87=D1=82, 15 =D0=BB=D1=8E=D1=82. 2024=E2=80=AF=D1=80. =D0=BE 19:55 Dmit=
-ry Torokhov <dmitry.torokhov@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Hi Svyatoslav,
->
-> On Sat, Feb 10, 2024 at 07:55:30PM +0200, Svyatoslav Ryhel wrote:
-> > In case tsc2007 is used as an ADC sensor there will be no interrupt
-> > provided at all, so set up an interrupt only if one is present and
-> > remove associated warning.
->
-> If we want to do this, we should better handle the input device portion
-> of the driver. We have 2 options:
->
-> - switch the input device into polling mode when interrupt is absent
-> - do not create input device
->
-> Those do not need to be mutually exclusive (i.e. we could use absence of
-> both device tree interrupt property as well as lack of poll-interval
-> property to suppress creation of the input device and only leave iio.
->
-> Thanks.
->
+On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
+> +static void bpf_timer_work_cb(struct work_struct *work)
+> +{
+> +	struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
+> +	struct bpf_map *map = t->map;
+> +	void *value = t->value;
+> +	bpf_callback_t callback_fn;
+> +	void *key;
+> +	u32 idx;
+> +
+> +	BTF_TYPE_EMIT(struct bpf_timer);
+> +
+> +	rcu_read_lock();
+> +	callback_fn = rcu_dereference(t->sleepable_cb_fn);
+> +	rcu_read_unlock();
 
-I do not care about input part and suppressing it is perfectly fine for me.
-Which implementation would be accepted?
-I suppose I may isolate input device creation into separate function and
-add check for interrupt or poll-interval. If both are not present then inpu=
-t
-device creation will be skipped. Will this be sufficient?
+I took a very brief look at patch 2. One thing that may worth to ask here, the 
+rcu_read_unlock() seems to be done too early. It is protecting the 
+t->sleepable_cb_fn (?), so should it be done after finished using the callback_fn?
 
-> --
-> Dmitry
+A high level design question. The intention of the new 
+bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a workqueue. It 
+is useful to delay work from the bpf_timer_cb and it may also useful to delay 
+work from other bpf running context (e.g. the networking hooks like "tc"). The 
+bpf_timer_set_sleepable_cb() seems to be unnecessary forcing delay-work must be 
+done in a bpf_timer_cb.
+
+Have you thought about if it is possible to create a more generic kfunc like 
+bpf_schedule_work() to delay work to a workqueue ?
+
+
+
+> +	if (!callback_fn)
+> +		return;
+> +
+> +	/* FIXME: do we need any locking? */
+> +	if (map->map_type == BPF_MAP_TYPE_ARRAY) {
+> +		struct bpf_array *array = container_of(map, struct bpf_array, map);
+> +
+> +		/* compute the key */
+> +		idx = ((char *)value - array->value) / array->elem_size;
+> +		key = &idx;
+> +	} else { /* hash or lru */
+> +		key = value - round_up(map->key_size, 8);
+> +	}
+> +
+> +	/* FIXME: this crashes the system with
+> +	 * BUG: kernel NULL pointer dereference, address: 000000000000000b
+> +	 */
+> +	/* callback_fn((u64)(long)map, (u64)(long)key, (u64)(long)value, 0, 0); */
+> +	/* The verifier checked that return value is zero. */
+> +}
+> +
+
+[ ... ]
+
+> +/* FIXME: use kernel doc style */
+> +/* Description
+> + *	Configure the timer to call *callback_fn* static function in a
+> + *	sleepable context.
+> + * Return
+> + *	0 on success.
+> + *	**-EINVAL** if *timer* was not initialized with bpf_timer_init() earlier.
+> + *	**-EPERM** if *timer* is in a map that doesn't have any user references.
+> + *	The user space should either hold a file descriptor to a map with timers
+> + *	or pin such map in bpffs. When map is unpinned or file descriptor is
+> + *	closed all timers in the map will be cancelled and freed.
+> + */
+> +__bpf_kfunc int bpf_timer_set_sleepable_cb(struct bpf_timer_kern *timer,
+> +					   int (callback_fn)(void *map, int *key, struct bpf_timer *timer))
+> +{
+> +	struct bpf_throw_ctx ctx = {};
+> +
+> +	/* FIXME: definietely not sure this is OK */
+> +	arch_bpf_stack_walk(bpf_stack_walker, &ctx);
+> +	WARN_ON_ONCE(!ctx.aux);
+> +
+> +	if (!ctx.aux)
+> +		return -EINVAL;
+> +
+> +	return __bpf_timer_set_callback(timer, (void *)callback_fn, ctx.aux, true);
+> +}
+> +
+
 
