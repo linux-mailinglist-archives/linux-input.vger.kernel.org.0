@@ -1,185 +1,183 @@
-Return-Path: <linux-input+bounces-1938-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1939-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856E4857C70
-	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 13:19:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EABC857F20
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 15:18:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EA972856A1
-	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 12:19:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04B24B258A4
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 14:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ECA178690;
-	Fri, 16 Feb 2024 12:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8A612C7F6;
+	Fri, 16 Feb 2024 14:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG2wadRw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZmXh0IEq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64B54F92;
-	Fri, 16 Feb 2024 12:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852E712C804
+	for <linux-input@vger.kernel.org>; Fri, 16 Feb 2024 14:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708085944; cv=none; b=Wiw2y9TtI0SMl8+asedt9mp8JPiC/srR0MeEGWuf5NQMfrsAeAn0vu2C56sFYsM3K2Ou8QfyuiBc1CD5T+/ENUn1JVPPUwsj6YQw2RudLzJUhwhMCwz5C8lML7SrQwn+Rc9tbaN393ChYKW212t2KCTELnX4A1ahnXV54OI+WpE=
+	t=1708093112; cv=none; b=llFycSeY43BWi1DcSpRc0D/oWlrAe7yPwcpxo/sN0GX9Z4JPKYxPKRcvtnBJIVzfXCLaTlWRJqpc5FDk1GxApHBatvmqdVz87FWkCs5KYKwJGEIshaXEnqh/PSnJH18MiR2PAoNDw2qE9KodwyFtNOjvql6iLl9+TFsQ2XYmF8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708085944; c=relaxed/simple;
-	bh=nRtBoipuC2lN/FfO4vJ6VZ3ZiVkzzR++4vGwTeteKRM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XAFtYNaZzyiokTIyRgPZFGSupx8AdhHHBIqeAdL5oCQXrPc3gRHLi75/+wasekmewUa/UgWN20wNUunpOZhuCZkqT3SkHR4D9MjfpEZNGonDTQfHke9pEJnqGqf0VH5O8Y9nJx78VsPOWgPSZEDmfKkVossChT3LU0KjAres5SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG2wadRw; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-563cc707c7cso2293274a12.1;
-        Fri, 16 Feb 2024 04:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708085941; x=1708690741; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
-        b=FG2wadRwVSt+h+B7iGfDCclKrlDHrBtSuEaUkkZCFM4YPqgiiRKvAG+v0a11auG1TR
-         0/ayQmFffDZxv5gbabGD1M94TFnFqD4OUepPKHG0MeEDVwQTJGwpP2EqFNJQUwCM6Ryv
-         tlPhUTS1b+8HavgIguECHzN50+0q07+xot+l5PJ6uTD+b14sEfQUrQ1H/1aL1ff4y1Kq
-         Hn0IBw9fLbWoYbzoyzqvAD4VJwEHFsViqGKNnHZdx036FU67YvhI+DQC8SmoQp+sYEvW
-         nsOuO1nG3ErFKD7435AU6T3KWTWLbBjhhqqSplsdmVgi7GeFcmrQvdmZiUUQXc3fTO5Z
-         bNzg==
+	s=arc-20240116; t=1708093112; c=relaxed/simple;
+	bh=n10Wi6rrBxgiYULKOy0cBzcAPiyEzBjJZzVeqL76wBw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CG15t2d1yuk1eyQk3DAbda4PtQ2IAUjNPMz6WMid6fpTO5ygHc/jv79UutM9sb4szOEpyYqbYH/Fd4VBI4V2Yvdx9V1Rw1vzW/yDUdiR+lgm5d+8mUVvJ5K6YHIpmpnNjhCr/sGHeEBd/CE2jF0ID85nhdjEzam05/WujlFYKMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZmXh0IEq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708093109;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rC9ifvju7BLNt4riptMvs2TUwj1XaSqlPfSm7QrPEPs=;
+	b=ZmXh0IEqbh6/LM8ZgL8TgZWlyS2c+7D4sH3lGka6IlGrErUkVGhUF9sSiuMa60zXwyDw9e
+	NtlwiVaV2qX9EaHdJ3NYYlsz48aRUxlrWNpjRJOTh58UFOdQHCYWIUWUocO88/UccgvZ44
+	uWNiVJ3Wqgfhcg4wbjynOPVEvgxOyho=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-547-zexFr7UbMO6m_VoxRt6g2g-1; Fri, 16 Feb 2024 09:18:27 -0500
+X-MC-Unique: zexFr7UbMO6m_VoxRt6g2g-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a2bc664528fso158437366b.3
+        for <linux-input@vger.kernel.org>; Fri, 16 Feb 2024 06:18:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708085941; x=1708690741;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
-        b=QX+w8RrRu39Ps4vDR/XnzKBgSXrzC3DCv0sOCUOEVEvojVLbZUjY2QZL9eJmcKgkO0
-         +Uq7vABY0aCdLesAFG9kEUBV1YmXq8INjQB899pf9EcDXjDyLc26PAEgUvtOBvq4cQ0V
-         0vjCp9lUir/0UkbcFy636f+ekUJg4hIw7IjooBIibTnBZlcMD6I/KW5b0pNYxFLzkhHu
-         M2DRIxfy1/G5v1LMqQhfHtBh3Pb/8yJqwcUfQjbLSdgHEcMeuKNaWlv3iFzAJMEVakbA
-         eky/WKlijYtgZgrlwbnWuScurq/42nnRpCC4Tfok4GNptEtZR71kIUkGwojUjPDrGixy
-         O6pA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlQg1dfx+Kyl5NExM+8r6/LXnHqI2wtKyP0unS+xJAk8Zvm/QKqIQbuKEqJuQQoutasfE8AbMk++Tyh1krI8giuDIVEWUuCKJX42SzGJo0DhDPJoEdvSsygS8WH/TM1jtLmLMdU4EORmIXzahR9Zp7RgpKWMoQJpiBrJnXMBw5E3cLo59zZPKPsp4bb7Bwuw30px6Ox/G9cZm10V7RY3mF
-X-Gm-Message-State: AOJu0YwDbMHtu4OcIGIryQpVdiq9ax54/fZFobRFjY0Si3W9q2R3lvo4
-	98TAjpFMtfLiWWmT51iD38lg/eQd/mwDhB6Qae/QhvLwKu5t03rF
-X-Google-Smtp-Source: AGHT+IGoj1qUAyyNrxxXOGBu2/LtRcMVvE9Sa7HjD6iHbil381l457DQVnhG48DBiCF0VygBxcshbA==
-X-Received: by 2002:a05:6402:5384:b0:55f:cc6d:29b5 with SMTP id ew4-20020a056402538400b0055fcc6d29b5mr6281407edb.21.1708085940864;
-        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
-Received: from ?IPV6:2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027? (dynamic-2a01-0c22-73a8-7a00-dc5a-d3b4-cb75-f027.c22.pool.telefonica.de. [2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027])
-        by smtp.googlemail.com with ESMTPSA id n21-20020a05640205d500b0056104738371sm1435095edx.65.2024.02.16.04.19.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
-Message-ID: <2f8bc745-bbae-4c3d-b618-2b6a38f21e63@gmail.com>
-Date: Fri, 16 Feb 2024 13:18:59 +0100
+        d=1e100.net; s=20230601; t=1708093106; x=1708697906;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rC9ifvju7BLNt4riptMvs2TUwj1XaSqlPfSm7QrPEPs=;
+        b=cIWy8or0/VLhLK3kydnIc2HCjwEsGDtq/uO+TajjZkJqTRHCuRtl1634n7yZHWrxbJ
+         Zsq3AFfO7lXUfGkpgmloIxd4K0S/KnMxvFTS7nOEgnl59xcdwqu+K8BrZc/NxWA3rgrt
+         r1TQm5nA6CJmJcVNhZ2Ty1aOYZ7LECDjop9MLbF2MMm3TnUolRILxIqNhIJuzkscZtqi
+         Q9G06PuKSPIUowazbLD2ooYkGI1xFMPrhKSaiZA4Hvyfl+yWD+tmJVuTiufYY36z9l2U
+         s7lN9iUiRig1xk550BcMRgmMcDS5qYx1hWYzNllrN2FhYY7I/J7QVCooGKCr91LnFPEu
+         VMqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOaJ5oRUyq9gmN9mohdiXR2NK6lLUQYlWMqHOTotsa7hKp7NxZNznqxbAE2bv4fGLBZor4Xe13BqfhYbVJU6zFmF0aHvg+50uRGNA=
+X-Gm-Message-State: AOJu0YxnyAXPXMndaWoah77SCPRX9O9f2BB1tRkNdOIKNnKKDFTa4UFT
+	AMxrjN2RRLkE6tLZX4alsK25xnF7FpudbnJiA3YZcdcT9oa/ccmcflhDG56dDeB5ctez9xpQJ52
+	5JxuY2v1bnZVrfxu3tpecAzHne3X6fqDJT7nXV1AHHwNL3MXlm2ws/h3JQ/qm
+X-Received: by 2002:a17:906:3942:b0:a3c:b136:e607 with SMTP id g2-20020a170906394200b00a3cb136e607mr3845805eje.43.1708093106655;
+        Fri, 16 Feb 2024 06:18:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGe5pSfuaaWUK7Uo6YfmCsYOhrst6luuLx8Fe5Y5/z56loxHe2lT6PFZXjblUmMjO55iyZg4A==
+X-Received: by 2002:a17:906:3942:b0:a3c:b136:e607 with SMTP id g2-20020a170906394200b00a3cb136e607mr3845775eje.43.1708093106304;
+        Fri, 16 Feb 2024 06:18:26 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id v9-20020a1709061dc900b00a3ce9081547sm1606509ejh.39.2024.02.16.06.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 06:18:25 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 7DA6610F5BEE; Fri, 16 Feb 2024 15:18:25 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Benjamin Tissoires <bentiss@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <shuah@kernel.org>
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+In-Reply-To: <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+ <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
+ <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Fri, 16 Feb 2024 15:18:25 +0100
+Message-ID: <87eddccx1q.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- linux-sound@vger.kernel.org,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- linux-mips@vger.kernel.org
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <87zfw1ewrd.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <87zfw1ewrd.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 15.02.2024 13:29, Takashi Iwai wrote:
-> On Tue, 13 Feb 2024 08:30:30 +0100,
-> Heiner Kallweit wrote:
->>
->> If a simple trigger is assigned to a LED, then the LED may be off until
->> the next led_trigger_event() call. This may be an issue for simple
->> triggers with rare led_trigger_event() calls, e.g. power supply
->> charging indicators (drivers/power/supply/power_supply_leds.c).
->> Therefore persist the brightness value of the last led_trigger_event()
->> call and use this value if the trigger is assigned to a LED.
->> This change allows to use simple triggers in more cases.
->> As a first use case simplify handling of the mute audio trigger.
->>
->> This series touches few subsystems. I'd propose to handle it via
->> the LED subsystem.
->>
->> Heiner Kallweit (4):
->>   leds: trigger: Store brightness set by led_trigger_event()
->>   ALSA: control-led: Integrate mute led trigger
->>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
->>   leds: trigger: audio: Remove this trigger
-> 
-> LGTM.
-> 
-> Reviewed-by: Takashi Iwai <tiwai@suse.de>
-> 
-> One thing I'm not 100% sure is the movement from ledtrig:audio-mute
-> and ledtrig:audio-micmute alias into snd-ctl-led module.  Who would
-> use/process those aliases?  I don't think this would be a problem, but
-> it might change the loading order.
-> 
-The ledtrig:% aliases are used when a LED device is registered that has
-a default trigger. Like in the case here with the input leds (patch 3).
-There might also be DT-defined LEDs with a audio mute default trigger.
-snd-ctl-led has a dependency on snd, so at least wrt snd the load order
-doesn't change.
+Benjamin Tissoires <bentiss@kernel.org> writes:
 
-> 
-> Thanks!
-> 
-> Takashi
+> On Feb 15 2024, Martin KaFai Lau wrote:
+>> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
+>> > +static void bpf_timer_work_cb(struct work_struct *work)
+>> > +{
+>> > +	struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
+>> > +	struct bpf_map *map = t->map;
+>> > +	void *value = t->value;
+>> > +	bpf_callback_t callback_fn;
+>> > +	void *key;
+>> > +	u32 idx;
+>> > +
+>> > +	BTF_TYPE_EMIT(struct bpf_timer);
+>> > +
+>> > +	rcu_read_lock();
+>> > +	callback_fn = rcu_dereference(t->sleepable_cb_fn);
+>> > +	rcu_read_unlock();
+>> 
+>> I took a very brief look at patch 2. One thing that may worth to ask here,
+>> the rcu_read_unlock() seems to be done too early. It is protecting the
+>> t->sleepable_cb_fn (?), so should it be done after finished using the
+>> callback_fn?
+>
+> Probably :)
+>
+> TBH, everytime I work with RCUs I spent countless hours trying to
+> re-understand everything, and in this case I'm currently in the "let's
+> make it work" process than fixing concurrency issues.
+> I still gave it a shot in case it solves my issue, but no, I still have
+> the crash.
+>
+> But given that callback_fn might sleep, isn't it an issue to keep the
+> RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
+> might be fine, but I'd like the confirmation from someone else).
 
-Heiner
+You're right, it isn't. From the RCU/checklist.rst doc:
+
+13.	Unlike most flavors of RCU, it *is* permissible to block in an
+	SRCU read-side critical section (demarked by srcu_read_lock()
+	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
+	Please note that if you don't need to sleep in read-side critical
+	sections, you should be using RCU rather than SRCU, because RCU
+	is almost always faster and easier to use than is SRCU.
+
+So we can't use the regular RCU protection for the callback in this
+usage. We'll need to either convert it to SRCU, or add another
+protection mechanism to make sure the callback function is not freed
+from under us (like a refcnt). I suspect the latter may be simpler (from
+reading the rest of that documentation around SRCU.
+
+>> A high level design question. The intention of the new
+>> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a workqueue.
+>> It is useful to delay work from the bpf_timer_cb and it may also useful to
+>> delay work from other bpf running context (e.g. the networking hooks like
+>> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forcing
+>> delay-work must be done in a bpf_timer_cb.
+>
+> Basically I'm just a monkey here. I've been told that I should use
+> bpf_timer[0]. But my implementation is not finished, as Alexei mentioned
+> that we should bypass hrtimer if I'm not wrong [1].
+
+I don't think getting rid of the hrtimer in favour of
+schedule_delayed_work() makes any sense. schedule_delayed_work() does
+exactly the same as you're doing in this version of the patch: it
+schedules a timer callback, and calls queue_work() from inside that
+timer callback. It just uses "regular" timers instead of hrtimers. So I
+don't think there's any performance benefit from using that facility; on
+the contrary, it would require extra logic to handle cancellation etc;
+might as well just re-use the existing hrtimer-based callback logic we
+already have, and do a schedule_work() from the hrtimer callback like
+you're doing now.
+
+-Toke
+
 
