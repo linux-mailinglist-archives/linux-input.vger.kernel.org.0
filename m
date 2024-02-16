@@ -1,73 +1,75 @@
-Return-Path: <linux-input+bounces-1937-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1938-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C198857C1A
-	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 12:51:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 856E4857C70
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 13:19:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9AC5B225BE
-	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 11:51:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EA972856A1
+	for <lists+linux-input@lfdr.de>; Fri, 16 Feb 2024 12:19:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D82878662;
-	Fri, 16 Feb 2024 11:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ECA178690;
+	Fri, 16 Feb 2024 12:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AiIJUBbx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG2wadRw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB7477F32;
-	Fri, 16 Feb 2024 11:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64B54F92;
+	Fri, 16 Feb 2024 12:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708084312; cv=none; b=eN0vvnOoTVNEw3/WkwmQ+OCzAlwCkLGzTfpGAn3mWt0YEs4nokmzMW/huXiWGylhAvmtEU3cvDpqUiTr6Whs4kr4vUjFmTGyQegV4gb4u2xPREWvDrWWtqbGFE85CmXi0g0PiA+vZ0h/PRHAMncs9/X3HZKKKcqf90RYLQZtPEM=
+	t=1708085944; cv=none; b=Wiw2y9TtI0SMl8+asedt9mp8JPiC/srR0MeEGWuf5NQMfrsAeAn0vu2C56sFYsM3K2Ou8QfyuiBc1CD5T+/ENUn1JVPPUwsj6YQw2RudLzJUhwhMCwz5C8lML7SrQwn+Rc9tbaN393ChYKW212t2KCTELnX4A1ahnXV54OI+WpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708084312; c=relaxed/simple;
-	bh=8c8z7IrXnQ8qHY9q5B6SwDk99cpEbxY5gPfy3wS60u0=;
-	h=Message-ID:Date:MIME-Version:To:From:Cc:Subject:Content-Type; b=AhNXSwIzUiwwbpRnCIvZWKMuw7ZUnO9SuKeIOxg5c3dXLMOzET0Hw5oJ+RzXzefdFOwuFapbjzli6Pb+SsZHzln04nEaG1fJRzGaRFjqj5UGGDXCn6CNemi2j3jYprduDeMKC/eE/iiUtITAx+IbcM9jWykcKNcXt7Tt/ypGPPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AiIJUBbx; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1708085944; c=relaxed/simple;
+	bh=nRtBoipuC2lN/FfO4vJ6VZ3ZiVkzzR++4vGwTeteKRM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XAFtYNaZzyiokTIyRgPZFGSupx8AdhHHBIqeAdL5oCQXrPc3gRHLi75/+wasekmewUa/UgWN20wNUunpOZhuCZkqT3SkHR4D9MjfpEZNGonDTQfHke9pEJnqGqf0VH5O8Y9nJx78VsPOWgPSZEDmfKkVossChT3LU0KjAres5SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG2wadRw; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51167e470f7so781889e87.2;
-        Fri, 16 Feb 2024 03:51:50 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-563cc707c7cso2293274a12.1;
+        Fri, 16 Feb 2024 04:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708084308; x=1708689108; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:cc:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Smi+XemBG3ZogtSdkPCilQ1a7PgwI71wggR8N7UK79I=;
-        b=AiIJUBbxqMC7/tGkf9fgJHdJFmYbKEYT2Brm6vR/o2UDJYre03FoiBfD4ohRX91HHs
-         Nc4xRCcGMxlB0CMre6JxWWIxAs513GDylWDWkqSoeCqhHRGDb+EOvTVYnaKr9D/XvIEQ
-         1J1JYXnkVmwZJeiK9a5PMEt9FBnfR9KHTZC9LmxvAfz8eA08Rm9nNPkM6E6c2csDXU1X
-         HbU6/5FQlBtheeebKbp/eR8H/qEMPBvj4cW8La+blrNhh1F4ByScTVTbhcrZP8UM5QYl
-         lG24TwA2+WuNY9Bo4nekqPJdPm5d0DeAOPf5icEeZia/PNgwOIUxeVMQsrVA3SXMk6FG
-         YdIQ==
+        d=gmail.com; s=20230601; t=1708085941; x=1708690741; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
+        b=FG2wadRwVSt+h+B7iGfDCclKrlDHrBtSuEaUkkZCFM4YPqgiiRKvAG+v0a11auG1TR
+         0/ayQmFffDZxv5gbabGD1M94TFnFqD4OUepPKHG0MeEDVwQTJGwpP2EqFNJQUwCM6Ryv
+         tlPhUTS1b+8HavgIguECHzN50+0q07+xot+l5PJ6uTD+b14sEfQUrQ1H/1aL1ff4y1Kq
+         Hn0IBw9fLbWoYbzoyzqvAD4VJwEHFsViqGKNnHZdx036FU67YvhI+DQC8SmoQp+sYEvW
+         nsOuO1nG3ErFKD7435AU6T3KWTWLbBjhhqqSplsdmVgi7GeFcmrQvdmZiUUQXc3fTO5Z
+         bNzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708084308; x=1708689108;
-        h=content-transfer-encoding:autocrypt:subject:cc:from:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Smi+XemBG3ZogtSdkPCilQ1a7PgwI71wggR8N7UK79I=;
-        b=qjrYZn6yQE5pB3x0/V/n6vpzWdc1ANLem4xJJZZLUYDh7Es6cz8AKuMMkmXiNvf7mb
-         zM4iXMoTLzjJ0/yXRsh47BfSoEmxXHiU8dA4TXVoqTELnROx/+fK91u8YPsK+RMwPO2A
-         PcFM+CSQe61gx+mM7SW+seMT8h96yXBtM9TWbwWFDmPiK0L8GX3f5wb8jqHpdBsWlfwP
-         3+A/F7oJAPq515BSkbum8OoHtmdsbCR7OElnlfFrFZDb9HOiYtDmyzyk7UDygNS70kxD
-         iZxONqEpWDFhlZCYOJU0Shi6tmx7d6yci2BzdeApouSVYucBtEo0Py2hfQpy/SA+16oI
-         tmVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXM4Vz9cVXwPlClEdMGrpfy+sLrid+JBxebA0I1ydkbu3jl3dBJeQrQS7MqG2RCY86MBA/3bQ/IztBLA75s5VFO4MhsoIcEN9EutLc=
-X-Gm-Message-State: AOJu0Yzv/xAfZ4OQyuQRiZFnT1d4/mvc5tuzqqvqUVEdcjKHoEaOQrUZ
-	joNsEAcEiP8i/NkINLKR0icaiWQboHBLvfY5iaqFeq/1jTEZ4XNj/FPhWhueTB0=
-X-Google-Smtp-Source: AGHT+IFMtn99C75IesMt3iYhbPCYI8c5GZvGp5FMz/36kPmrZYm+qVBychNQaYtOK+DT37/dO5wtAA==
-X-Received: by 2002:ac2:59c1:0:b0:511:a088:faf4 with SMTP id x1-20020ac259c1000000b00511a088faf4mr3431515lfn.4.1708084307902;
-        Fri, 16 Feb 2024 03:51:47 -0800 (PST)
-Received: from ?IPV6:2a01:e34:ec5f:c111:cff2:caac:f1f6:c049? ([2a01:e34:ec5f:c111:cff2:caac:f1f6:c049])
-        by smtp.gmail.com with ESMTPSA id n14-20020a05600c3b8e00b00410709fa0d3sm2130605wms.33.2024.02.16.03.51.46
+        d=1e100.net; s=20230601; t=1708085941; x=1708690741;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
+        b=QX+w8RrRu39Ps4vDR/XnzKBgSXrzC3DCv0sOCUOEVEvojVLbZUjY2QZL9eJmcKgkO0
+         +Uq7vABY0aCdLesAFG9kEUBV1YmXq8INjQB899pf9EcDXjDyLc26PAEgUvtOBvq4cQ0V
+         0vjCp9lUir/0UkbcFy636f+ekUJg4hIw7IjooBIibTnBZlcMD6I/KW5b0pNYxFLzkhHu
+         M2DRIxfy1/G5v1LMqQhfHtBh3Pb/8yJqwcUfQjbLSdgHEcMeuKNaWlv3iFzAJMEVakbA
+         eky/WKlijYtgZgrlwbnWuScurq/42nnRpCC4Tfok4GNptEtZR71kIUkGwojUjPDrGixy
+         O6pA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlQg1dfx+Kyl5NExM+8r6/LXnHqI2wtKyP0unS+xJAk8Zvm/QKqIQbuKEqJuQQoutasfE8AbMk++Tyh1krI8giuDIVEWUuCKJX42SzGJo0DhDPJoEdvSsygS8WH/TM1jtLmLMdU4EORmIXzahR9Zp7RgpKWMoQJpiBrJnXMBw5E3cLo59zZPKPsp4bb7Bwuw30px6Ox/G9cZm10V7RY3mF
+X-Gm-Message-State: AOJu0YwDbMHtu4OcIGIryQpVdiq9ax54/fZFobRFjY0Si3W9q2R3lvo4
+	98TAjpFMtfLiWWmT51iD38lg/eQd/mwDhB6Qae/QhvLwKu5t03rF
+X-Google-Smtp-Source: AGHT+IGoj1qUAyyNrxxXOGBu2/LtRcMVvE9Sa7HjD6iHbil381l457DQVnhG48DBiCF0VygBxcshbA==
+X-Received: by 2002:a05:6402:5384:b0:55f:cc6d:29b5 with SMTP id ew4-20020a056402538400b0055fcc6d29b5mr6281407edb.21.1708085940864;
+        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
+Received: from ?IPV6:2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027? (dynamic-2a01-0c22-73a8-7a00-dc5a-d3b4-cb75-f027.c22.pool.telefonica.de. [2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027])
+        by smtp.googlemail.com with ESMTPSA id n21-20020a05640205d500b0056104738371sm1435095edx.65.2024.02.16.04.19.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 03:51:47 -0800 (PST)
-Message-ID: <a29d56d2-c440-4a26-a9ac-014595d2ae8c@gmail.com>
-Date: Fri, 16 Feb 2024 12:51:46 +0100
+        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
+Message-ID: <2f8bc745-bbae-4c3d-b618-2b6a38f21e63@gmail.com>
+Date: Fri, 16 Feb 2024 13:18:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -75,112 +77,109 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: fr-FR, en-US
-To: Linux Stable Mailing List <stable@vger.kernel.org>
-From: =?UTF-8?Q?Rapha=C3=ABl_Halimi?= <raphael.halimi@gmail.com>
-Cc: Linux Regressions Mailing List <regressions@lists.linux.dev>,
- Linux Input Mailing List <linux-input@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@jikos.cz>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Mikhail Khvainitski <me@khvoinitsky.org>
-Subject: Regression with Lenovo ThinkPad Compact USB Keyboard
-Autocrypt: addr=raphael.halimi@gmail.com; keydata=
- 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
- Wxcwwn0N
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ linux-sound@vger.kernel.org,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ linux-mips@vger.kernel.org
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+ <87zfw1ewrd.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+In-Reply-To: <87zfw1ewrd.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dear developers,
+On 15.02.2024 13:29, Takashi Iwai wrote:
+> On Tue, 13 Feb 2024 08:30:30 +0100,
+> Heiner Kallweit wrote:
+>>
+>> If a simple trigger is assigned to a LED, then the LED may be off until
+>> the next led_trigger_event() call. This may be an issue for simple
+>> triggers with rare led_trigger_event() calls, e.g. power supply
+>> charging indicators (drivers/power/supply/power_supply_leds.c).
+>> Therefore persist the brightness value of the last led_trigger_event()
+>> call and use this value if the trigger is assigned to a LED.
+>> This change allows to use simple triggers in more cases.
+>> As a first use case simplify handling of the mute audio trigger.
+>>
+>> This series touches few subsystems. I'd propose to handle it via
+>> the LED subsystem.
+>>
+>> Heiner Kallweit (4):
+>>   leds: trigger: Store brightness set by led_trigger_event()
+>>   ALSA: control-led: Integrate mute led trigger
+>>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+>>   leds: trigger: audio: Remove this trigger
+> 
+> LGTM.
+> 
+> Reviewed-by: Takashi Iwai <tiwai@suse.de>
+> 
+> One thing I'm not 100% sure is the movement from ledtrig:audio-mute
+> and ledtrig:audio-micmute alias into snd-ctl-led module.  Who would
+> use/process those aliases?  I don't think this would be a problem, but
+> it might change the loading order.
+> 
+The ledtrig:% aliases are used when a LED device is registered that has
+a default trigger. Like in the case here with the input leds (patch 3).
+There might also be DT-defined LEDs with a audio mute default trigger.
+snd-ctl-led has a dependency on snd, so at least wrt snd the load order
+doesn't change.
 
-(sorry for the long CC list, it looks quite long to me, but I tried to 
-follow the issue reporting guide as closely as possible)
+> 
+> Thanks!
+> 
+> Takashi
 
-Since patches [1], [2] and [3] were applied to the kernel, there is a 
-regression with Lenovo ThinkPad Compact USB Keyboard (old model, not II).
-
-[1] 
-https://github.com/torvalds/linux/commit/46a0a2c96f0f47628190f122c2e3d879e590bcbe
-[2] 
-https://github.com/torvalds/linux/commit/2f2bd7cbd1d1548137b351040dc4e037d18cdfdc
-[3] 
-https://github.com/torvalds/linux/commit/43527a0094c10dfbf0d5a2e7979395a38de3ff65
-
-The regression is that a middle click is performed when releasing middle 
-button after wheel emulation.
-
-The bug appears randomly, it can be after 5 minutes or 1 hour of 
-keyboard usage, and can only be worked around by unplugging/re-plugging 
-the keyboard. (I ended up resorting to simulate an unplug/replug, with a 
-script which echoes 0 then 1 to /sys/bus/usb/devices/<id>/authorized, 
-since I was afraid to damage the Micro-USB outlet by physically 
-unplugging/re-plugging too much).
-
-Those spurious clicks are very annoying, since they can open links in
-new tabs when scrolling in Firefox, or pasting text when scrolling in
-terminals, or other unwanted stuff.
-
-I witnessed it with latest kernels (Debian unstable) as well as stable 
-kernels (Debian 12 Bookworm, stable).
-
-On Debian Stable, the last working kernel was 5.10.127, the regression 
-appeared in 5.10.136 (i read all changelogs on kernel.org between those 
-two releases but couldn't find anything about hid-lenovo, so I can't 
-tell exactly in which release the regression appeared, Debian upgraded 
-directly from .127 to .136).
-
-I reported it in Debian [4], and apparently I'm not the only person 
-suffering from it [5].
-
-[4] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058758#32
-[5] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058758#42
-
-I would understand that such bugs would end up in a development kernel 
-like the ones provided by Debian Unstable, but not with stable kernels 
-like the ones provided by Debian Stable.
-
-Regards,
-
--- 
-Raphaël Halimi
+Heiner
 
