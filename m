@@ -1,254 +1,102 @@
-Return-Path: <linux-input+bounces-1948-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1949-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CEB858FC0
-	for <lists+linux-input@lfdr.de>; Sat, 17 Feb 2024 14:42:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CED85929B
+	for <lists+linux-input@lfdr.de>; Sat, 17 Feb 2024 21:23:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E3BD1F21E86
-	for <lists+linux-input@lfdr.de>; Sat, 17 Feb 2024 13:42:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7BD4B2288C
+	for <lists+linux-input@lfdr.de>; Sat, 17 Feb 2024 20:23:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951B97B3C5;
-	Sat, 17 Feb 2024 13:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KpK0gP6r"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4B47E57F;
+	Sat, 17 Feb 2024 20:23:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F8A7B3C8
-	for <linux-input@vger.kernel.org>; Sat, 17 Feb 2024 13:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B9D7CF1A
+	for <linux-input@vger.kernel.org>; Sat, 17 Feb 2024 20:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708177357; cv=none; b=ex5Z7nIVEIEBpl8JrsMQbCs5gPcpFpHX7xth5qaKxefod+tirM3C119vIzIPT/Je4q1Luj+7s9sgW3lPZ0a7KKsrkoXY5Yf7HQvHusCBgOLZnr8wKvdq3SUEuQpphSoWF4S4m67VsOcYyBEUV1ibd/ut6nmN2r9IFyORZb5JsQU=
+	t=1708201413; cv=none; b=IFKpZ1IybQlebL1A+AGIZQ9HVtSNURNcPypIildlVPMDC5DJBeznWINzsNVqL8FJ2MIMP7YqPEq/ENlFL0zZDCp5Uwv3+ZOxi6GvsjL5H/J/bh6+41TvliFdN2JAEae4kEDyoom6DJFQkD+gocEDH3gXo5wVLPXndUn47LzwMpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708177357; c=relaxed/simple;
-	bh=OtK3IzgJ3fGYA4kSv5N/upSwJ7FGiRagAHvl4Kht5OI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Skhphj01uA3pOL1QSoSDbYySX24uUGWV5zUq9gWpBtVwZWcK3Rg+Ccx84yN+tWsp+VgWvXBU18RNA3rTZ0FpisbGLIyTayNnR5jZl7m/Vr2zcls5lzFamDD+VUQk69bUVV5HZ00teddcAS3D47yNefzoaypiDFH8kLLqafJxink=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KpK0gP6r; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708177354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
-	b=KpK0gP6r/WqR5Olg2TYJ4JSxLpEpvmpIhgQWmfrw9EpNU4h3rJWw606mZZZyLTbaMenByK
-	q/seQxuq1Wja1tUxTOl89nKgupT/oaoEz3YDZb8lRmllOU9hMwGxVHsiAqdG1hbbcjqxfu
-	fSaTtSU4e4W9LjcLgOmeci2o3ZjIWJo=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-660-2GuWK8qkMBOEi9Qvfet4xA-1; Sat, 17 Feb 2024 08:42:32 -0500
-X-MC-Unique: 2GuWK8qkMBOEi9Qvfet4xA-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-512a5c6465bso320137e87.1
-        for <linux-input@vger.kernel.org>; Sat, 17 Feb 2024 05:42:32 -0800 (PST)
+	s=arc-20240116; t=1708201413; c=relaxed/simple;
+	bh=81u/T7Hkylpl+cYgKVCaUPgCL3ty6xDKnxMpidqLznE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=kV4DkkmzSSGjOYmDjHSOOwN0mv2VlXzFcWUM38cpXNmOrDx75m7iQrJijR05+AXKQVA9dJlH0p7SwbfeZ+bfP0VJMQnsOWPi0SP48IIBdKfjeo/HGpVV9VUMmH7uzi1RnJ0dDbVz/GJsV9zRc+DJR9Nc3bmUFxkeFvR63MEhvyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-363dfabfb34so28344605ab.1
+        for <linux-input@vger.kernel.org>; Sat, 17 Feb 2024 12:23:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708177351; x=1708782151;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
-        b=Vyt4HofXI3Bo+JrK5G03WHIQCIOq1Ki+NK7p6UrEc4gt6RnHdnNd5BBUAiaBEWUx6q
-         7Bu2RROLBm7MS/RbwqZzTGIVi/raj9xbMhtq/m/2Ohc4EOjzzAZ0WswxEjAwLLCfU8rs
-         qLLLqVUSNPQiBOxMpg9GSP3ZEpzSJ45hFlzlJm+zy8IPZo0WuRPkex/zRznEmPmC0/EG
-         v3dz4KpTzlZtzdhSl4T/0iNyyB/aDLO9Y43PvJFLCltoxwSggnD5X7LZvwCejLMSWlGQ
-         haKIqCp5fW53P9bV+ik/7G9GP4Lkr3RVDDD4oKqBHeeDGVMAnkir4UN/JE3xmieXC5oC
-         748w==
-X-Forwarded-Encrypted: i=1; AJvYcCV7oVIJMlltd6dsU8kuU1Gm8l//SrbURwnnB+q0pNR5TL3ShdTMJ+8LQcv+Eh8PatOgaT9WsdowAA7VOce0uHo9j5L4vUQpZt+xX7I=
-X-Gm-Message-State: AOJu0YwZVomd6oPKqOL6s5Wg9buL4cbZOoG6LrEMIG4eQvp0Gr+QWLNS
-	QocWs+9b/4smUERS/4Z4EyDTFSmEgBVCyABYbMsWwy6CE2jlezmYpTQs0hkqSF8bg1kpTfbbrxX
-	v8txBcKh6gt7Mw1xk7IjwMC4Ongnt69iLgE1Qys+7bZPzve+vnGopdC/LqAZR
-X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737929lfc.37.1708177351163;
-        Sat, 17 Feb 2024 05:42:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGzlzEcMgskLO4de5rW93PPpUzg2F1sD9bjOjwmEyrVCbfcZUo7mXf1ARcPnPiTPqsEAqCZsw==
-X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737925lfc.37.1708177350717;
-        Sat, 17 Feb 2024 05:42:30 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
-        by smtp.gmail.com with ESMTPSA id n18-20020a1709062bd200b00a3d3bc0d689sm992614ejg.72.2024.02.17.05.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 05:42:29 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-	id 6D46710F5DDE; Sat, 17 Feb 2024 14:42:29 +0100 (CET)
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John
- Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
- Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <benjamin.tissoires@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <shuah@kernel.org>
-Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
- timers
-In-Reply-To: <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
-References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
- <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
- <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
- <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
- <87eddccx1q.fsf@toke.dk>
- <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date: Sat, 17 Feb 2024 14:42:29 +0100
-Message-ID: <878r3jcim2.fsf@toke.dk>
+        d=1e100.net; s=20230601; t=1708201411; x=1708806211;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vn33Bn8dNbpZtYkfmwI07g8AXjsR+zmg6L34qqGxuDk=;
+        b=LyeinOdF+iUT8IkctPiwX8FGxhJtFtC278ADQfmZBPyazPB4oE7HApdMuGPjyYP9CW
+         BYguN7xeq09gkWAKPY1ZLIUIbrpdvfwmvxgnRCTzdXJ4upsxTogTj+bUMeRrzDhx5o7a
+         /r8i5m7lznC1dcf54L2H4WMK38Frqb4QMWdhAr6djhg0/BwiLlbRDlVDOn+wqvAYY5tg
+         fkMoehJWr4icXNrRLmcLm2FaNbJTGBgHkMjr3uAQDGT9x0MXnB6yvhu/fl1gC3gDSi+J
+         xgffYkL0998i7d2XujamkGXHK72mpRXjP5adFvAS3EJb8gPap+F4d8qe4GL9G3N13caT
+         SWLA==
+X-Gm-Message-State: AOJu0YxCvJFkJyLXVsR9Ku+r9vJzxdryzmgcRKeCyCPCC7nxbFEh6/EP
+	+sQ6lMs6NFnDds+9Py5b8HflTC4uZLCxTQ+T5/e10pfXU9ZPUiZWbKyxS0bBvC8chX94uPcS8aM
+	BL574Ul6P8yHV0bMXJl1OLl0P5SPVH7eDXjQB1FDpyIyqUdohrda+auvURA==
+X-Google-Smtp-Source: AGHT+IHJpern2tQOKp6wqFHVEU184C2cGx4e6nZR0wEd1rZi7tziGb8oZhYguRDwBEGagl4eORZL8DvtZcNURaXMAIAGYVYSaisX
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a05:6e02:2143:b0:365:1780:2ca9 with SMTP id
+ d3-20020a056e02214300b0036517802ca9mr226831ilv.5.1708201411192; Sat, 17 Feb
+ 2024 12:23:31 -0800 (PST)
+Date: Sat, 17 Feb 2024 12:23:31 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000051b17c061199a29e@google.com>
+Subject: [syzbot] Monthly input report (Feb 2024)
+From: syzbot <syzbot+list163cb1c4023af331df63@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Benjamin Tissoires <bentiss@kernel.org> writes:
+Hello input maintainers/developers,
 
-> On Feb 16 2024, Toke H=C3=B8iland-J=C3=B8rgensen wrote:
->> Benjamin Tissoires <bentiss@kernel.org> writes:
->>=20
->> > On Feb 15 2024, Martin KaFai Lau wrote:
->> >> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
->> >> > +static void bpf_timer_work_cb(struct work_struct *work)
->> >> > +{
->> >> > +	struct bpf_hrtimer *t =3D container_of(work, struct bpf_hrtimer, =
-work);
->> >> > +	struct bpf_map *map =3D t->map;
->> >> > +	void *value =3D t->value;
->> >> > +	bpf_callback_t callback_fn;
->> >> > +	void *key;
->> >> > +	u32 idx;
->> >> > +
->> >> > +	BTF_TYPE_EMIT(struct bpf_timer);
->> >> > +
->> >> > +	rcu_read_lock();
->> >> > +	callback_fn =3D rcu_dereference(t->sleepable_cb_fn);
->> >> > +	rcu_read_unlock();
->> >>=20
->> >> I took a very brief look at patch 2. One thing that may worth to ask =
-here,
->> >> the rcu_read_unlock() seems to be done too early. It is protecting the
->> >> t->sleepable_cb_fn (?), so should it be done after finished using the
->> >> callback_fn?
->> >
->> > Probably :)
->> >
->> > TBH, everytime I work with RCUs I spent countless hours trying to
->> > re-understand everything, and in this case I'm currently in the "let's
->> > make it work" process than fixing concurrency issues.
->> > I still gave it a shot in case it solves my issue, but no, I still have
->> > the crash.
->> >
->> > But given that callback_fn might sleep, isn't it an issue to keep the
->> > RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
->> > might be fine, but I'd like the confirmation from someone else).
->>=20
->> You're right, it isn't. From the RCU/checklist.rst doc:
->>=20
->> 13.	Unlike most flavors of RCU, it *is* permissible to block in an
->> 	SRCU read-side critical section (demarked by srcu_read_lock()
->> 	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
->> 	Please note that if you don't need to sleep in read-side critical
->> 	sections, you should be using RCU rather than SRCU, because RCU
->> 	is almost always faster and easier to use than is SRCU.
->>=20
->> So we can't use the regular RCU protection for the callback in this
->> usage. We'll need to either convert it to SRCU, or add another
->> protection mechanism to make sure the callback function is not freed
->> from under us (like a refcnt). I suspect the latter may be simpler (from
->> reading the rest of that documentation around SRCU.
->
-> Currently I'm thinking at also incrementing the ->prog held in the
-> bpf_hrtimer which should prevent the callback to be freed, if I'm not wro=
-ng.
-> Then I should be able to just release the rcu_read_unlock before calling
-> the actual callback. And then put the ref on ->prog once done.
->
-> But to be able to do that I might need to protect ->prog with an RCU
-> too.
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
 
-Hmm, bpf_timer_set_callback() already increments the bpf refcnt; so it's
-a matter of ensuring that bpf_timer_cancel() and
-bpf_timer_cancel_and_free() wait for the callback to complete even in
-the workqueue case. The current 'hrtimer_running' percpu global var is
-not going to cut it for that, so I guess some other kind of locking will
-be needed? Not really sure what would be appropriate here, a refcnt, or
-maybe a full mutex?
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 13 issues are still open and 52 have been fixed so far.
 
-I am not actually sure the RCU protection of the callback field itself
-is that important given all the other protections that make sure the
-callback has exited before cancelling? As long as we add another such
-protection I think it can just be a READ_ONCE() for getting the cb
-pointer?
+Some of the still happening issues:
 
->> >> A high level design question. The intention of the new
->> >> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a wor=
-kqueue.
->> >> It is useful to delay work from the bpf_timer_cb and it may also usef=
-ul to
->> >> delay work from other bpf running context (e.g. the networking hooks =
-like
->> >> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forci=
-ng
->> >> delay-work must be done in a bpf_timer_cb.
->> >
->> > Basically I'm just a monkey here. I've been told that I should use
->> > bpf_timer[0]. But my implementation is not finished, as Alexei mention=
-ed
->> > that we should bypass hrtimer if I'm not wrong [1].
->>=20
->> I don't think getting rid of the hrtimer in favour of
->> schedule_delayed_work() makes any sense. schedule_delayed_work() does
->> exactly the same as you're doing in this version of the patch: it
->> schedules a timer callback, and calls queue_work() from inside that
->> timer callback. It just uses "regular" timers instead of hrtimers. So I
->> don't think there's any performance benefit from using that facility; on
->> the contrary, it would require extra logic to handle cancellation etc;
->> might as well just re-use the existing hrtimer-based callback logic we
->> already have, and do a schedule_work() from the hrtimer callback like
->> you're doing now.
->
-> I agree that we can nicely emulate delayed_timer with the current patch
-> series. However, if I understand Alexei's idea (and Martin's) there are
-> cases where we just want schedule_work(), without any timer involved.
-> That makes a weird timer (with a delay always equal to 0), but it would
-> allow to satisfy those latency issues.
->
-> So (and this also answers your second email today) I'm thinking at:
-> - have multiple flags to control the timer (with dedicated timer_cb
->   kernel functions):
->   - BPF_F_TIMER_HRTIMER (default)
->   - BPF_F_TIMER_WORKER (no timer, just workqueue)
->   - BPF_F_TIMER_DELAYED_WORKER (hrtimer + workqueue, or actual
->     delayed_work, but that's re-implementing stuffs)
+Ref Crashes Repro Title
+<1> 4346    Yes   WARNING in input_mt_init_slots
+                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+<2> 394     No    possible deadlock in evdev_pass_values (2)
+                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<3> 175     Yes   INFO: task hung in uhid_char_release
+                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
+<4> 154     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<5> 2       Yes   WARNING in input_unregister_device (2)
+                  https://syzkaller.appspot.com/bug?extid=617f4ccb03b9869f6494
 
-I don't think the "delayed" bit needs to be a property of the timer; the
-context in which the timer is executed (softirq vs workqueue) is,
-because that has consequences for how the callback is verified (it would
-be neat if we could know the flag at verification time, but since we
-can't we need the pairing with the _set_sleepable_cb()).
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-But the same timer could be used both as an immediate and a delayed
-callback during its lifetime; so I think this should rather be governed
-by a flag to bpf_timer_start(). In fact, the patch I linked earlier[0]
-does just that, adding a BPF_TIMER_IMMEDIATE flag to bpf_timer_start().
-I.e., keep the hrtimer allocated at all times, but skip going through it
-if that flag is set.
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-An alternative could also be to just special-case a zero timeout in
-bpf_timer_start(); I don't actually recall why I went with the flag
-instead when I wrote that patch...
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
--Toke
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/?=
-h=3Dxdp-queueing-08&id=3D54bc201a358d1ac6ebfe900099315bbd0a76e862
-
+You may send multiple commands in a single email message.
 
