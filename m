@@ -1,157 +1,111 @@
-Return-Path: <linux-input+bounces-1959-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1960-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D749085A3C7
-	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 13:49:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D22885A6C3
+	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 16:02:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 762B11F22A9B
-	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 12:49:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDC25283834
+	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 15:02:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13A332E835;
-	Mon, 19 Feb 2024 12:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9086937708;
+	Mon, 19 Feb 2024 15:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Dt8kmLMu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="onEMj+ii"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00DF2D05D;
-	Mon, 19 Feb 2024 12:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64941376EC;
+	Mon, 19 Feb 2024 15:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708346960; cv=none; b=XkaN1SL5mvUmgcxapmOVkLG8EXjxDbYSHXXXeQuNIFdf3369vY9JzJ2fb4xJDu65Fpm9esEdmDuvVbV/AR8XHKn3kDnAus5Te53nFtD0QDxnrkK4W25Qov+JNYtGx3jc9VeZ3BxwRJqMohAwlMuKkfYaOR8JKFEvA8YfPyW5dBY=
+	t=1708354935; cv=none; b=VnNAFEhOw4f/M9nJiHm8hhiPIKrzRnx7Y3aZsAJfmdMgpK7WfNUkfy9x9tNFZA3MFCjbATqEax4S3uDYAfCfOVTCoIslDN9k0twKdrYDkpy7GpfYDWOMovAem3iz8e9HU65a/e0C4Dx4fNJNu0GnD3t+7CMgJXhkhTQ6fzoxiYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708346960; c=relaxed/simple;
-	bh=06p6ukdvxbrRf6/uOtqeOyeu+dw+dCTpr3YlazzJxlM=;
+	s=arc-20240116; t=1708354935; c=relaxed/simple;
+	bh=rLJTGIJL4PehKGlrZU7auEkJi81q+N3ek1Fb//6b2lU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXhb4mrnNbDFfnbSIOvInBXoxQDu2STrlNwnTJ0CtpdBbnqLALv/kDMReyFi4LXgFrszmG159T0LAaXPo/k340Tu31fofUa5EXMrmci0tiF3TBjeZbCti5OY8KC67f0ZkI+yya6Kq3g3z68dI93/1tyH/V1g1VqeqUVcva/3+Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Dt8kmLMu; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 336FB40006;
-	Mon, 19 Feb 2024 12:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708346954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gJALkusf1cXf4p7M933GGzZIRRakiGBqKNoFoSjNoJY=;
-	b=Dt8kmLMuUKWq7J5kXL2nVlaTETvYXuskZRDGfU95wO2IHZ+Ppd4DsAGYhht5GaputNIkF2
-	Dr7TOaMh2TErh9ue2Stx5Eh1QhGz5Jc2f8u1eZaBjLKDv+qO3CliZ8t14wCP9Z1pX+UgTg
-	nA/jCP9JGV4tiKN3brQhVwVYPcdHOUSrIcUhBO4ec8jqK1FCw4bMIa1HMDEgNKtt45lLGv
-	B8RwL5ETqIHOs7pj/TylF4YGPwNUJz/y31jizxHbS5uTsYJkEPm9AHA5L6o2pP2OhodsFQ
-	4K3Aapf/caxS3vxsv3DA4bx8CT/8u6DQFJe8zzHOkm3DdbHmsbGHpgp+ekR0VA==
-Date: Mon, 19 Feb 2024 13:49:13 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: SHUKLA Mamta Ramendra <mamta.shukla@leica-geosystems.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>,
-	POPESCU Catalin <catalin.popescu@leica-geosystems.com>,
-	"mark.satterthwaite@touchnetix.com" <mark.satterthwaite@touchnetix.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	GEO-CHHER-bsp-development <bsp-development.geo@leica-geosystems.com>
-Subject: Re: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <20240219124913.GA99571@tpx1.home>
-References: <20240219101221.129750-1-kamel.bouhara@bootlin.com>
- <20240219101221.129750-4-kamel.bouhara@bootlin.com>
- <e374d585-5acc-bbe0-ee1d-65f7abdb8f8d@leica-geosystems.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RBRD9thT9UqcFB7Y8qrfY0ITJnO1p6BH13TWmh1mrYraUuByOJ1LAUYQGO4Wi7EvQ5zwut/u/Ib7wjVxmT5OMfN6li0U/x2EJjv2Zq2D0C1lPKvLUczQSa0U0kE5cMmLKg/aF9w/qUQ7aVV9nbGzNXVEcZYk3Z18Lht8g/SFbqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=onEMj+ii; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0611C433F1;
+	Mon, 19 Feb 2024 15:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708354934;
+	bh=rLJTGIJL4PehKGlrZU7auEkJi81q+N3ek1Fb//6b2lU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=onEMj+iiSDkatOTkAQmMp147ZZR5yupKFlcfK1mqOwtUu6bAHjeXimLFyOsoIEnot
+	 dW1x3BaY8y6lJxZ2RcKU7dNy8BvgIKE+iEMuXhwN3fgS7hq5iYwBXMeJJtCpfIw6uj
+	 /53G5OInSS5NmMpmaoPhSVRQNCVYb16Wk3DCBYzmj05L9eCHoe58+a5ZYAU9eHabTL
+	 zhemj43OVZjL7J/CB1blxdEGsTH05gZCbRF0vIkg8e5p00ss0wZkSqCiIa0qXOEs+F
+	 OUVWliCKfqWJGoxb1DwmCLspBGTZLwfI5+DNxy8cBFUVqu4oBlOuD0DCxci2MuIy7v
+	 WlDM2s9I8pLGw==
+Date: Mon, 19 Feb 2024 15:02:09 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, jingoohan1@gmail.com,
+	deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240219150209.GB10170@google.com>
+References: <20240212162645.5661-1-tzimmermann@suse.de>
+ <20240215121326.GL9758@aspen.lan>
+ <288a480c-74e9-49dd-a58d-294792771ea6@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e374d585-5acc-bbe0-ee1d-65f7abdb8f8d@leica-geosystems.com>
-X-GND-Sasl: kamel.bouhara@bootlin.com
+In-Reply-To: <288a480c-74e9-49dd-a58d-294792771ea6@suse.de>
 
-Le Mon, Feb 19, 2024 at 10:58:22AM +0000, SHUKLA Mamta Ramendra a �crit :
->
->
-> Hello Kamel,
+On Thu, 15 Feb 2024, Thomas Zimmermann wrote:
 
-Hello,
+> Hi
+> 
+> Am 15.02.24 um 13:13 schrieb Daniel Thompson:
+> > On Mon, Feb 12, 2024 at 05:16:33PM +0100, Thomas Zimmermann wrote:
+> > > Backlight drivers implement struct backlight_ops.check_fb, which
+> > > uses struct fb_info in its interface. Replace the callback with one
+> > > the does not use fb_info.
+> > > 
+> > > In DRM, we have several drivers that implement backlight support. By
+> > > including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> > > At the same time, fbdev is deprecated for new drivers and likely to
+> > > be replaced on many systems.
+> > > 
+> > > This patchset is part of a larger effort to implement the backlight
+> > > code without depending on fbdev.
+> > > 
+> > > Patch 1 makes the backlight core match backlight and framebuffer
+> > > devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> > > drivers and remove unnecessary implementations of check_fb. Finally,
+> > > patch 10 replaces the check_fb hook with controls_device, which
+> > > uses the framebuffer's Linux device instead of the framebuffer.
+> > I won't reply individually but I also took a look at the patches for
+> > the combo devices and it all looked good to me from a backlight
+> > point of view.
+> > 
+> > However I don't want to drop Reviewed-by: on them since it risks those
+> > bit being mistaken for an ack and merged ahead of the patch 1...
+> 
+> Thanks for reviewing. Unless someone objects, my intention is to merge
+> everything via the drm-misc, so all patches should go in at once. I do have
+> a lot more patches that untangle backlight and fbdev almost completely, but
+> most of these changes are in the actual graphics drivers rather than the
+> backlight core code. So hopefully everything can go through the DRM tree; or
+> maybe the fbdev tree.
 
-[...]
+This is only acceptable if the maintainers of those trees can provide me
+with a pull-request to a succinct (_only_ these patches) immutable
+branch.  If this is not possible, then I should like to merge the set
+through the Backlight tree and I can provide everyone else with said PR.
 
-> > +
-> > +/*
-> > + * Support function to axiom_process_u41_report.
-> > + * Generates input-subsystem events for every target.
-> > + * After calling this function the caller shall issue
-> > + * a Sync to the input sub-system.
-> > + */
-> > +static bool axiom_process_u41_report_target(struct axiom_data *ts,
-> > +                                           struct axiom_target_report *target)
-> > +{
-> > +       struct input_dev *input_dev = ts->input_dev;
-> > +       struct axiom_u41_target *target_prev_state;
-> > +       enum axiom_target_state current_state;
-> > +       int id;
-> > +
-> > +       /* Verify the target index */
-> > +       if (target->index >= AXIOM_U41_MAX_TARGETS) {
-> > +               dev_err(ts->dev, "Invalid target index! %u\n", target->index);
-> > +               return false;
-> > +       }
-> > +
-> > +       target_prev_state = &ts->targets[target->index];
-> > +
-> > +       current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
-> > +
-> > +       if (target->present) {
-> > +               if (target->z >= 0)
-> > +                       current_state = AXIOM_TARGET_STATE_TOUCHING;
-> > +               else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
-> > +                       current_state = AXIOM_TARGET_STATE_HOVER;
-> > +               else if (target->z == AXIOM_PROX_LEVEL)
-> > +                       current_state = AXIOM_TARGET_STATE_PROX;
-> > +       }
-> > +
-> > +       if (target_prev_state->state == current_state &&
-> > +           target_prev_state->x == target->x &&
-> > +           target_prev_state->y == target->y &&
-> > +           target_prev_state->z == target->z)
-> > +               return false;
-> > +
-> > +       id = target->index;
-> > +
-> > +       dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-> > +               target->index, slot, target->present,
-> > +               target->x, target->y, target->z);
->
-> This doesn't compile. You forgot to replace slot  with id.
->
->
-> -       dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u,
-> y:%u, z:%d\n",
-> -               target->index, slot, target->present,
-> +       dev_dbg(ts->dev, "U41 Target T%u, id:%u present:%u, x:%u, y:%u,
-> z:%d\n",
-> +               target->index, id, target->present,
->
-
-I don't know how I could missed this one :/ !
-
-Fixed thanks !
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Lee Jones [李琼斯]
 
