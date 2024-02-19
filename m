@@ -1,818 +1,672 @@
-Return-Path: <linux-input+bounces-1957-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1958-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2199785A0A5
-	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 11:13:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2B585A17C
+	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 11:58:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A29AA1F2155D
-	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 10:13:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DED0B20C50
+	for <lists+linux-input@lfdr.de>; Mon, 19 Feb 2024 10:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61EF28DDC;
-	Mon, 19 Feb 2024 10:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B34228DD7;
+	Mon, 19 Feb 2024 10:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TxkGSiW8"
+	dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b="GiWY6Jek"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2072.outbound.protection.outlook.com [40.107.8.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3FF286AE;
-	Mon, 19 Feb 2024 10:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708337557; cv=none; b=ZoS3N6OnYHDtyatWAmdqXtetw0eHmm4wH7/5ZwRYhwFP1BKUZ7b6HqiOuvJuxjtPrjkEsK2gcuiWKkHD6vFOxD/BU6aiX+k4mr1lB52IKGe6bhmFb343YClVfbkW8Uhg9diXtr5zy/JrmDeO06hZEDT8iP4/ybETpMapZVsKeCo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708337557; c=relaxed/simple;
-	bh=1QjAqxY5zef+WuTmcs2GSVjk80gVG5r47KEQTCkk59Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D084kr8uyDjNZAvFNca+rfkTlLKd95pPDtHAIEK1RCy1w6fbry8wHO7z6zEX/OlFyjJCFlWWRUyGtAgoAMcafKlN8U0Sr7pSCRo6rIN/8N+9ErLA1BFgC9170qJXAeyDaqeWxxykEPwf0LbsPsUY/wJ6Me1fDXLf8v3gImHNqJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TxkGSiW8; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 619E61BF213;
-	Mon, 19 Feb 2024 10:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708337546;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V9boAeDtRKnTLywwP9Uybu0H+Sf3meNGDcWyQHnxW/A=;
-	b=TxkGSiW8OTydE//zYjoGaPxRbCOYACMGUBX00UZCm10ZAyBYCSSVE+opaJjQbMmo1fLI2I
-	X8ivNpy7klTRoYSQ7SjtYXVed5zEaqLJdeJm6Dl5x9I8WZGveveFmJP5Yt6yZXVqmWi4jJ
-	vKcRxQIDEpN8nbEgTapAu+VHUeSq1rPhLeKqNdnr/R2pWEJeKeoA0bCMtuh0RuJjIQNuz9
-	EdUhYOx6hEY2sjY92kppLvhW/xfwbwXb2SHMQq06b000WHfrSxWQutN3QUacwF6hM0M8AI
-	p21g3ZI6JlUmYcqnrTkg4hAU7FuC4j7IWrpU1tNVqNpHgn4n/fMxjDTxKHGSOA==
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>
-Cc: catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Date: Mon, 19 Feb 2024 11:12:20 +0100
-Message-ID: <20240219101221.129750-4-kamel.bouhara@bootlin.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240219101221.129750-1-kamel.bouhara@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC428DBD;
+	Mon, 19 Feb 2024 10:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708340311; cv=fail; b=WtbK8YSNTSv7BRqmVR6G+hI2XrkUhYe6K4XaVocYN+xn/MmNsiSPMyOndi51ZhepxoKjK4UbDQMGKx1zZDxFD0azrsgAd6n0I6EX70SmpgmkoRv6GqXMRjKCliO6P944zQz4VLqR5XztrRUtcRWQ3q+Bzkmi+ZPGIn4RJg4+QgQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708340311; c=relaxed/simple;
+	bh=KM9mf4dN5iVYvilYVk2wg13Gvs/j/0rSc2KphTtOjDo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CmvBfOm9BUSfkjCyVf70FHTUErzxEc/rjqzFnEq+L7kvBE5F2ZrrflppNBbHv8bcEmvyYI2ij4jvmpqXnCSoarVQsOSrbV5dih8lFJyb5UJvSJ6KzIvqCnF4iILpemgJPl17znW+P3o6uyRN0HMhXJl/dDKsXOapLJfXQ+F0xek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com; spf=fail smtp.mailfrom=leica-geosystems.com; dkim=pass (1024-bit key) header.d=leica-geosystems.com header.i=@leica-geosystems.com header.b=GiWY6Jek; arc=fail smtp.client-ip=40.107.8.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=leica-geosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=leica-geosystems.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=So679a+306JQkA7cH+GgkZwHVtoIrv9zmAHYDCNBU2XSHGZZRrqHslHoYbdBLnUPnFYFaVcM1uiO/38XYyFIN666Xfr03D+8pPcW9Qg1ob3mgpfNJfp8xmW0UvTtqpCKp2Q4a6aMpt9z1LU19ZgNgolcXjoFzMZVD9inFfuOVPP4lz6BYG33Sc9Nz6PhOmwx5glFAlVhFi3a4Jc34wtuVsw21MuQ96BUzAvd3tA/VdtnNOwa1cZ25hugYAfjDKXYmU/x6FyAvqTPc1Y5WZB/fjMoewAkyDhKASYutNLhZDvJLVuv0KetygRmR2Tk6t+PVJQcXY+xrIKVvyS6eEW4Fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KM9mf4dN5iVYvilYVk2wg13Gvs/j/0rSc2KphTtOjDo=;
+ b=mJyFmuPcK4UGQXkDapqVvh9AOBNWGSalCRkBglBG9VhkGgN+zsMVXAUjWoszXzVVmV0QsA0BV8MbrrbNPBvz6TZViMP7CWeFS8ZSLwMYqZnWDg4b0R0v5dmUZXjTsb6Xav0WYKAk3HsG3206hU/We5ssSY658T/YjFGQ6uXaC55kTPFjmc80/2IUu1rAhAbbWv3okKrxq2UV1ketx5GcJ0BgsRmcYKnmKNxYO1puFGn/X3Yakrku8zRa5ym7pgxMo+uBogzL1Iifeh6bR1/32u0+lq+ZKRzAzjJwEeiIz5u5OFQkAaz1ZB9dwC+IHswQc1HcDp7P4UITne9vpQIxmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass action=none
+ header.from=leica-geosystems.com; dkim=pass header.d=leica-geosystems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KM9mf4dN5iVYvilYVk2wg13Gvs/j/0rSc2KphTtOjDo=;
+ b=GiWY6Jekealakyw7zKzhNiQrYpnFDPyqirNCD/UYYgxKEFvtOC4tGFePpB4wVDvAz14GbHi5o7jAJyKWffkKCZcU8vR6EFUIkPfUg82r3AAqQxzC7dZ8aWA7y+JhRzn8M5LY4DaKsDptyeusVy3chOpzJbi5plaLnalecGi2MOk=
+Received: from AM8PR06MB7137.eurprd06.prod.outlook.com (2603:10a6:20b:1da::16)
+ by VI1PR06MB6397.eurprd06.prod.outlook.com (2603:10a6:800:126::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.32; Mon, 19 Feb
+ 2024 10:58:24 +0000
+Received: from AM8PR06MB7137.eurprd06.prod.outlook.com
+ ([fe80::5e59:c749:a76:e8f3]) by AM8PR06MB7137.eurprd06.prod.outlook.com
+ ([fe80::5e59:c749:a76:e8f3%5]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 10:58:23 +0000
+From: SHUKLA Mamta Ramendra <mamta.shukla@leica-geosystems.com>
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Marco Felsch
+	<m.felsch@pengutronix.de>, Jeff LaBundy <jeff@labundy.com>
+CC: POPESCU Catalin <catalin.popescu@leica-geosystems.com>,
+	"mark.satterthwaite@touchnetix.com" <mark.satterthwaite@touchnetix.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Gregory Clement
+	<gregory.clement@bootlin.com>, GEO-CHHER-bsp-development
+	<bsp-development.geo@leica-geosystems.com>
+Subject: Re: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Thread-Topic: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen
+ driver
+Thread-Index: AQHaYxwkEnpb0rK/R0GUknQ7T3Vb07ERfuMA
+Date: Mon, 19 Feb 2024 10:58:22 +0000
+Message-ID: <e374d585-5acc-bbe0-ee1d-65f7abdb8f8d@leica-geosystems.com>
 References: <20240219101221.129750-1-kamel.bouhara@bootlin.com>
+ <20240219101221.129750-4-kamel.bouhara@bootlin.com>
+In-Reply-To: <20240219101221.129750-4-kamel.bouhara@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=leica-geosystems.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM8PR06MB7137:EE_|VI1PR06MB6397:EE_
+x-ms-office365-filtering-correlation-id: a4d762b5-ae40-4474-ca7c-08dc3139b0d5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 96SQeQoZHQIQyArzeY/iPBtTc9mtYMB/Z6l7d2VHL7MGY+9H+J4V5xWJ5Mvwu0wEbQ5aznICrLPLY5d63k4gmJJxEfFcXkRcval4LeYihpQmLpa/E87zCZ7FuF4O5LaEoOMXBxtN8+3ydFS+jTqN1qMn1Gjah/g7sip9PmPHLEPlAKhFGaKG43GT1UmU7xBRhA5+PHtQh8VAvN9Z3xkTmGcoWpT5rR+c83kvDlQyrd4C+ZgESsa0v1XLQzILGpI0/e0+K1fidmzuT0RGP3OkXK1fxDPzTxTCfBll6yz7rr2P6sjU/+Vfpes2s9CBgv/ZNWYH3pqiz27nOf+AB64Bc5AqJ3fEVMPtFyHmkT9CcnquAW04zJlWSyjmsrjDNrjTwixzp0fDDShNaR2vhTpwenWGHang2uokG90l81W4ducrYP3wqVpuAgKil/okYXPETiJMkHMhwfXG63A1CK271yxN8QPxM/581NdbZI/wwdqfejUJKCkb/G21eHLKImT6sjua64BsCA+IjOVh2yAbMH9vX5lEF+mIo3UN4OtZ0GPWr3kwNoEaUZSYba2p4gtGNc34GeCGX+Wj1PLr+D3FHcpsAVr1DOHp0DbGfiXVH9PK2ki7iqr0JhPyNWJnC7XV+hWro6LC25Q2BZnA59AmBA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR06MB7137.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009)(921011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cGxZY1pnV1ZiSWZUQnJKNGRVNCtMWnJDRFJVZy9FS093U3FtSHF2aWhWeE4x?=
+ =?utf-8?B?bHlKcEEwRVV3Q3MrMVFkMzA0L1NUL2FTQjVMSi9rL3hiRU9WQWZWRUJDNGd2?=
+ =?utf-8?B?Y0NMUmtvU0d2dWc5ckR3alBvNDFKRTdoVDA1cHhjUGc2MkVCQjJXVll1L0I1?=
+ =?utf-8?B?b0h6NzY4c3B0NDVIRzZFdEt1ZFhkUUdiM3U3QzhGQTJ3QVBvQStBUHhrYVRR?=
+ =?utf-8?B?TVZ1Q1BndGJIWnNxL3JsMEZWVDhaa0VoYWR0cm9sOFhCYm1PcGVWWEVxYmV4?=
+ =?utf-8?B?eVFqUlRjQ25jL1R2WFJCZFQxaTVwVmk4d29XMm1BVGlpR0dTWjRhM3dLOER4?=
+ =?utf-8?B?ekpIbjJOSFlLaEZSRHBxUHAxcStIK3VTaWxWcE1YdzFIcUdDR2wva0dLOVRS?=
+ =?utf-8?B?QlR1RXhYWTE5VUo1MlBkYk02VHJVOWx2dDdLVUkwcW1aeUFmcDFwaW1WQmxW?=
+ =?utf-8?B?V3RhclRlZlpzRmNVYXY2Q0pEN2l1T2RhUEdsWDhQQ09Td2JBLytab08vOHhF?=
+ =?utf-8?B?R3o3b0F1cStRUDdHdVhpM0NwQ0xTZk4rcjFBM3lsRmpIV2lTQ2xJY1l5ZE9q?=
+ =?utf-8?B?ZTRtWEtNNXBPS0FZYTNlcElrYTdYb3RkUTN3RWxPUzlYOHZ4VEQ4S3E5ZE5z?=
+ =?utf-8?B?QU8zcGtwSnNyR3N6MS94cjdCSVc5NjJBKzlCamJvamFYTjJadHRHb2liSTgr?=
+ =?utf-8?B?T3RrY0pRVlNtOG8wUFFZeHAvR21pQThFQkdSUnQxYWJCMWhlNVRZdTlBbjQx?=
+ =?utf-8?B?TjVzdmVsZFpoSE0xdGdVLy9nTjFBQklQWFNCMnhGVGlZTWF6cnJLT0RPV25P?=
+ =?utf-8?B?SmtVZzcvUXJOaUdnWmtxa0FadUV4U3FqVzRUUXdaNStKa0tmODAyYVNYbVRM?=
+ =?utf-8?B?SExZZnpmajRnb2tGeFY1b0VZZWwwTFRYQlBLRitHSW9leVl3VENBN0dtUTZG?=
+ =?utf-8?B?WUxKZklWajlBZ09FdFpHQ1d1eDNEeE8rUi9pL3hYcEJ3cWN2VWs2QTRPMHFS?=
+ =?utf-8?B?ZkdtcFRudnJLYjBXbWtENlhjR0JRQ1NHaHBZL01XOXZaM0EzUFdxeGYyRWlo?=
+ =?utf-8?B?T0lOeHZWL1lKb01DNU5zbDlHRzZrbWRhdTVVWW0xci9uWmdvaENYMDgxYlRo?=
+ =?utf-8?B?Mi9LRUJ1YWdKbmsraTJkU0VtVGoxSHBaK2dVQktaRFl0VjZRRGR3V3dCYUpN?=
+ =?utf-8?B?SmhOdlZySWVhcjhyNjdVUG1ncElybGR3MnkxamNDeGlUbHFYYm9ZNnN3WEZU?=
+ =?utf-8?B?a09iMmhiM1VncW1pY0ppeXpVRTVRWEdXcUd1aVp6cStFbm4yWXhjVktuZTM5?=
+ =?utf-8?B?SE16aXBYVEs3bG52SHBHbVphSlZBM3dxdmdWK2NFeU9OZC9kVm9VS2daRHBO?=
+ =?utf-8?B?WEJvQmhaaG1PQzMzYW1SSlhlWUxieEQyLzJWNDVzeDhPeVlQNkxxNUhGZ1RX?=
+ =?utf-8?B?WG02bTZmdjRDNEJZS2crYkpDYTA3WUl6V2hQNDRLS09xVEVvMENKb0NCRm9p?=
+ =?utf-8?B?cXVSYkErdTNBbW5nMkI3R2xrdE1KNlprNXF0a2RCNHpTUmdXaE1ZZ3Bqb2Zn?=
+ =?utf-8?B?aXY0cEZ5L2ZTMHZPc0NUcTVIdmxTeTZZTkhzU1gvM0VkNEJETjZNaUpkc01R?=
+ =?utf-8?B?WW4yd1BuMngxQkhMZC80VjF3K1ZobytXbU9EM3YyQkdIelFKRHhocHJzSnVV?=
+ =?utf-8?B?K1FUaHl1d290QWowZGx6UXhac21lbncyUWNWdGhOZ0ZZVkdxQ3BjSCsyUVV1?=
+ =?utf-8?B?VHVSZytHMjBHM21IdG9PSnlrbVFtUkd2dzFMQ2w0Q0s1ekdreWY5NHBxNExT?=
+ =?utf-8?B?UDg1b1BaVVhPYXVQUVpwN2FWdmpWSkpqN0RiMUJ5dnM5c0pmVXJsVEpIOXYw?=
+ =?utf-8?B?cUNZMHZCYkNkUEZVdFl2N2gwTkhzNXdDQW9QYzNWa3dDQ0VvcDc4cGV4V25H?=
+ =?utf-8?B?U29NSUkvKzMrY01YZGY4K1F4dWRxbm1HdmxLUGJLK3ZJRHIzaHpBTDZrWEFU?=
+ =?utf-8?B?eU1EK1loWkorYnhvVFh6V0N2UVF2MWtISTNTQ2ZrRU5NNnlhQjZOOUYrTll3?=
+ =?utf-8?B?N0JVSTdvYnBNRENLbUlYd1NNVkQ1SVAyeVVKbDdQczFhNlI5cEVjZjRSVUlh?=
+ =?utf-8?B?MDdyR1Azdjg1Q3NJOVdNaXp6QWhLSHVXWi9DWUZOYUNCaWxMM1VBQWIrSlU0?=
+ =?utf-8?B?UUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0096A4011045354DA9472205C057A15C@eurprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: kamel.bouhara@bootlin.com
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR06MB7137.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4d762b5-ae40-4474-ca7c-08dc3139b0d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 10:58:22.9027
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VNemQ7hTmDGmNvpCPCp/hQG+TyGcjAAqUBUUKcVzAQJY7mZb67irPelJDwPOjxbK7uQgOEp7/CzRcwQoWtKbejDUYXhhTY9JeFDpYpzbFXdDxW3WGX5mtq+O+702qaNG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB6397
 
-Add a new driver for the TouchNetix's axiom family of
-touchscreen controllers. This driver only supports i2c
-and can be later adapted for SPI and USB support.
-
-Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
----
- MAINTAINERS                                  |   1 +
- drivers/input/touchscreen/Kconfig            |  12 +
- drivers/input/touchscreen/Makefile           |   1 +
- drivers/input/touchscreen/touchnetix_axiom.c | 669 +++++++++++++++++++
- 4 files changed, 683 insertions(+)
- create mode 100644 drivers/input/touchscreen/touchnetix_axiom.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4b3ed2f22b89..de5fad8f317a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22262,6 +22262,7 @@ M:	Kamel Bouhara <kamel.bouhara@bootlin.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
-+F:	drivers/input/touchscreen/touchnetix_axiom.c
- 
- TPM DEVICE DRIVER
- M:	Peter Huewe <peterhuewe@gmx.de>
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index e3e2324547b9..f36bee8d8696 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -803,6 +803,18 @@ config TOUCHSCREEN_MIGOR
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called migor_ts.
- 
-+config TOUCHSCREEN_TOUCHNETIX_AXIOM
-+	tristate "TouchNetix AXIOM based touchscreen controllers"
-+	depends on I2C
-+	help
-+	  Say Y here if you have a axiom touchscreen connected to
-+	  your system.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called axiom.
-+
- config TOUCHSCREEN_TOUCHRIGHT
- 	tristate "Touchright serial touchscreen"
- 	select SERIO
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 62bd24f3ac8e..8e32a2df5e18 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -88,6 +88,7 @@ obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
- obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI)	+= surface3_spi.o
- obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
-+obj-$(CONFIG_TOUCHSCREEN_TOUCHNETIX_AXIOM)	+= touchnetix_axiom.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
- obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)	+= touchwin.o
- obj-$(CONFIG_TOUCHSCREEN_TS4800)	+= ts4800-ts.o
-diff --git a/drivers/input/touchscreen/touchnetix_axiom.c b/drivers/input/touchscreen/touchnetix_axiom.c
-new file mode 100644
-index 000000000000..f7d1b23a4baf
---- /dev/null
-+++ b/drivers/input/touchscreen/touchnetix_axiom.c
-@@ -0,0 +1,669 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * TouchNetix axiom Touchscreen Driver
-+ *
-+ * Copyright (C) 2020-2023 TouchNetix Ltd.
-+ *
-+ * Author(s): Bart Prescott <bartp@baasheep.co.uk>
-+ *            Pedro Torruella <pedro.torruella@touchnetix.com>
-+ *            Mark Satterthwaite <mark.satterthwaite@touchnetix.com>
-+ *            Hannah Rossiter <hannah.rossiter@touchnetix.com>
-+ *            Kamel Bouhara <kamel.bouhara@bootlin.com>
-+ *
-+ */
-+#include <linux/bitfield.h>
-+#include <linux/crc16.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/regmap.h>
-+
-+#include <asm/unaligned.h>
-+#define AXIOM_PROX_LEVEL		-128
-+#define AXIOM_DMA_OPS_DELAY_USEC	250
-+#define AXIOM_STARTUP_TIME_MS		110
-+/*
-+ * Register group u31 has 2 pages for usage table entries.
-+ */
-+#define AXIOM_U31_MAX_USAGES		0xff
-+#define AXIOM_U31_BYTES_PER_USAGE	6
-+#define AXIOM_U31_PAGE0_LENGTH		0x0C
-+#define AXIOM_U31_BOOTMODE_MASK		BIT(7)
-+#define AXIOM_U31_DEVID_MASK		GENMASK(14, 0)
-+
-+#define AXIOM_MAX_REPORT_LEN		0x7f
-+
-+#define AXIOM_CMD_HEADER_READ_MASK	BIT(15)
-+#define AXIOM_U41_MAX_TARGETS		10
-+
-+#define AXIOM_U46_AUX_CHANNELS		4
-+#define AXIOM_U46_AUX_MASK		GENMASK(11, 0)
-+
-+#define AXIOM_COMMS_MAX_USAGE_PAGES	3
-+#define AXIOM_COMMS_PAGE_SIZE		256
-+#define AXIOM_COMMS_REPORT_LEN_MASK	GENMASK(6, 0)
-+
-+#define AXIOM_REPORT_USAGE_ID		0x34
-+#define AXIOM_DEVINFO_USAGE_ID		0x31
-+#define AXIOM_USAGE_2HB_REPORT_ID	0x01
-+#define AXIOM_USAGE_2AUX_REPORT_ID	0x46
-+#define AXIOM_USAGE_2DCTS_REPORT_ID	0x41
-+
-+#define AXIOM_PAGE_OFFSET_MASK		GENMASK(6, 0)
-+
-+struct axiom_devinfo {
-+	__le16 device_id;
-+	u8 fw_minor;
-+	u8 fw_major;
-+	u8 fw_info_extra;
-+	u8 tcp_revision;
-+	u8 bootloader_fw_minor;
-+	u8 bootloader_fw_major;
-+	__le16 jedec_id;
-+	u8 num_usages;
-+} __packed;
-+
-+/*
-+ * Describes parameters of a specific usage, essentially a single element of
-+ * the "Usage Table"
-+ */
-+struct axiom_usage_entry {
-+	u8 id;
-+	u8 is_report;
-+	u8 start_page;
-+	u8 num_pages;
-+};
-+
-+/*
-+ * Represents state of a touch or target when detected prior to a touch (eg.
-+ * hover or proximity events).
-+ */
-+enum axiom_target_state {
-+	AXIOM_TARGET_STATE_NOT_PRESENT = 0,
-+	AXIOM_TARGET_STATE_PROX = 1,
-+	AXIOM_TARGET_STATE_HOVER = 2,
-+	AXIOM_TARGET_STATE_TOUCHING = 3,
-+};
-+
-+struct axiom_u41_target {
-+	enum axiom_target_state state;
-+	u16 x;
-+	u16 y;
-+	s8 z;
-+	bool insert;
-+	bool touch;
-+};
-+
-+struct axiom_target_report {
-+	u8 index;
-+	u8 present;
-+	u16 x;
-+	u16 y;
-+	s8 z;
-+};
-+
-+struct axiom_cmd_header {
-+	__le16 target_address;
-+	__le16 length;
-+} __packed;
-+
-+struct axiom_data {
-+	struct axiom_devinfo devinfo;
-+	struct device *dev;
-+	struct gpio_desc *reset_gpio;
-+	struct i2c_client *client;
-+	struct input_dev *input_dev;
-+	u32 max_report_len;
-+	u8 rx_buf[AXIOM_COMMS_MAX_USAGE_PAGES * AXIOM_COMMS_PAGE_SIZE];
-+	struct axiom_u41_target targets[AXIOM_U41_MAX_TARGETS];
-+	struct axiom_usage_entry usage_table[AXIOM_U31_MAX_USAGES];
-+	bool usage_table_populated;
-+	struct regulator *vdda;
-+	struct regulator *vddi;
-+	struct regmap *regmap;
-+	struct touchscreen_properties	prop;
-+};
-+
-+static const struct regmap_config axiom_i2c_regmap_config = {
-+	.reg_bits = 32,
-+	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-+	.val_bits = 8,
-+	.val_format_endian = REGMAP_ENDIAN_LITTLE,
-+};
-+
-+/*
-+ * axiom devices are typically configured to report touches at a rate
-+ * of 100Hz (10ms) for systems that require polling for reports.
-+ * When reports are polled, it will be expected to occasionally
-+ * observe the overflow bit being set in the reports.
-+ * This indicates that reports are not being read fast enough.
-+ */
-+#define POLL_INTERVAL_DEFAULT_MS 10
-+
-+/* Translate usage/page/offset triplet into physical address. */
-+static u16 axiom_usage_to_target_address(struct axiom_data *ts, u8 usage, u8 page,
-+					 char offset)
-+{
-+	/* At the moment the convention is that u31 is always at physical address 0x0 */
-+	if (!ts->usage_table_populated) {
-+		if (usage == AXIOM_DEVINFO_USAGE_ID)
-+			return ((page << 8) + offset);
-+		else
-+			return 0xffff;
-+	}
-+
-+	if (page >= ts->usage_table[usage].num_pages) {
-+		dev_err(ts->dev, "Invalid usage table! usage: u%02x, page: %02x, offset: %02x\n",
-+			usage, page, offset);
-+		return 0xffff;
-+	}
-+
-+	return ((ts->usage_table[usage].start_page + page) << 8) + offset;
-+}
-+
-+static int axiom_read(struct axiom_data *ts, u8 usage, u8 page, void *buf, u16 len)
-+{
-+	struct axiom_cmd_header cmd_header;
-+	u32 preamble;
-+	int ret;
-+
-+	cmd_header.target_address = cpu_to_le16(axiom_usage_to_target_address(ts, usage, page, 0));
-+	cmd_header.length = cpu_to_le16(len | AXIOM_CMD_HEADER_READ_MASK);
-+
-+	preamble = get_unaligned_le32(&cmd_header);
-+
-+	ret = regmap_write(ts->regmap, preamble, 0);
-+	if (ret) {
-+		dev_err(ts->dev, "failed to write preamble, error %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = regmap_raw_read(ts->regmap, 0, buf, len);
-+	if (ret) {
-+		dev_err(ts->dev, "failed to read target address %04x, error %d\n",
-+			cmd_header.target_address, ret);
-+		return ret;
-+	}
-+
-+	/* Wait device's DMA operations */
-+	usleep_range(AXIOM_DMA_OPS_DELAY_USEC, AXIOM_DMA_OPS_DELAY_USEC + 50);
-+
-+	return 0;
-+}
-+
-+/*
-+ * One of the main purposes for reading the usage table is to identify
-+ * which usages reside at which target address.
-+ * When performing subsequent reads or writes to AXIOM, the target address
-+ * is used to specify which usage is being accessed.
-+ * Consider the following discovery code which will build up the usage table.
-+ */
-+static u32 axiom_populate_usage_table(struct axiom_data *ts)
-+{
-+	struct axiom_usage_entry *usage_table;
-+	u8 *rx_data = ts->rx_buf;
-+	u32 max_report_len = 0;
-+	u32 usage_id;
-+	int error;
-+
-+	usage_table = ts->usage_table;
-+
-+	/* Read the second page of usage u31 to get the usage table */
-+	error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 1, rx_data,
-+			   (AXIOM_U31_BYTES_PER_USAGE * ts->devinfo.num_usages));
-+
-+	if (error)
-+		return error;
-+
-+	for (usage_id = 0; usage_id < ts->devinfo.num_usages; usage_id++) {
-+		u16 offset = (usage_id * AXIOM_U31_BYTES_PER_USAGE);
-+		u8 id = rx_data[offset + 0];
-+		u8 start_page = rx_data[offset + 1];
-+		u8 num_pages = rx_data[offset + 2];
-+		u32 max_offset = ((rx_data[offset + 3] & AXIOM_PAGE_OFFSET_MASK) + 1) * 2;
-+
-+		usage_table[id].is_report = !num_pages;
-+
-+		/* Store the entry into the usage table */
-+		usage_table[id].id = id;
-+		usage_table[id].start_page = start_page;
-+		usage_table[id].num_pages = num_pages;
-+
-+		dev_dbg(ts->dev, "Usage u%02x Info: %*ph\n", id, AXIOM_U31_BYTES_PER_USAGE,
-+			&rx_data[offset]);
-+
-+		/* Identify the max report length the module will receive */
-+		if (usage_table[id].is_report && max_offset > max_report_len)
-+			max_report_len = max_offset;
-+	}
-+
-+	ts->usage_table_populated = true;
-+
-+	return max_report_len;
-+}
-+
-+static int axiom_discover(struct axiom_data *ts)
-+{
-+	int error;
-+
-+	/*
-+	 * Fetch the first page of usage u31 to get the
-+	 * device information and the number of usages
-+	 */
-+	error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 0, &ts->devinfo, AXIOM_U31_PAGE0_LENGTH);
-+	if (error)
-+		return error;
-+
-+	dev_dbg(ts->dev, "  Boot Mode      : %s\n",
-+		FIELD_GET(AXIOM_U31_BOOTMODE_MASK,
-+			  le16_to_cpu(ts->devinfo.device_id)) ? "BLP" : "TCP");
-+	dev_dbg(ts->dev, "  Device ID      : %04lx\n",
-+		FIELD_GET(AXIOM_U31_DEVID_MASK, le16_to_cpu(ts->devinfo.device_id)));
-+	dev_dbg(ts->dev, "  Firmware Rev   : %02x.%02x\n", ts->devinfo.fw_major,
-+		ts->devinfo.fw_minor);
-+	dev_dbg(ts->dev, "  Bootloader Rev : %02x.%02x\n", ts->devinfo.bootloader_fw_major,
-+		ts->devinfo.bootloader_fw_minor);
-+	dev_dbg(ts->dev, "  FW Extra Info  : %04x\n", ts->devinfo.fw_info_extra);
-+	dev_dbg(ts->dev, "  Silicon        : %04x\n", le16_to_cpu(ts->devinfo.jedec_id));
-+	dev_dbg(ts->dev, "  Number usages        : %04x\n", ts->devinfo.num_usages);
-+
-+	ts->max_report_len = axiom_populate_usage_table(ts);
-+	if (!ts->max_report_len || !ts->devinfo.num_usages ||
-+	    ts->max_report_len > AXIOM_MAX_REPORT_LEN) {
-+		dev_err(ts->dev, "Invalid report length or usages number");
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(ts->dev, "Max Report Length: %u\n", ts->max_report_len);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Support function to axiom_process_u41_report.
-+ * Generates input-subsystem events for every target.
-+ * After calling this function the caller shall issue
-+ * a Sync to the input sub-system.
-+ */
-+static bool axiom_process_u41_report_target(struct axiom_data *ts,
-+					    struct axiom_target_report *target)
-+{
-+	struct input_dev *input_dev = ts->input_dev;
-+	struct axiom_u41_target *target_prev_state;
-+	enum axiom_target_state current_state;
-+	int id;
-+
-+	/* Verify the target index */
-+	if (target->index >= AXIOM_U41_MAX_TARGETS) {
-+		dev_err(ts->dev, "Invalid target index! %u\n", target->index);
-+		return false;
-+	}
-+
-+	target_prev_state = &ts->targets[target->index];
-+
-+	current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
-+
-+	if (target->present) {
-+		if (target->z >= 0)
-+			current_state = AXIOM_TARGET_STATE_TOUCHING;
-+		else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
-+			current_state = AXIOM_TARGET_STATE_HOVER;
-+		else if (target->z == AXIOM_PROX_LEVEL)
-+			current_state = AXIOM_TARGET_STATE_PROX;
-+	}
-+
-+	if (target_prev_state->state == current_state &&
-+	    target_prev_state->x == target->x &&
-+	    target_prev_state->y == target->y &&
-+	    target_prev_state->z == target->z)
-+		return false;
-+
-+	id = target->index;
-+
-+	dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-+		target->index, slot, target->present,
-+		target->x, target->y, target->z);
-+
-+	switch (current_state) {
-+	case AXIOM_TARGET_STATE_NOT_PRESENT:
-+	case AXIOM_TARGET_STATE_PROX:
-+		if (!target_prev_state->insert)
-+			break;
-+		target_prev_state->insert = false;
-+
-+		if (!id)
-+			input_report_key(input_dev, BTN_TOUCH, 0);
-+
-+		input_mt_report_slot_inactive(input_dev);
-+		/*
-+		 * make sure the previous coordinates are
-+		 * all off screen when the finger comes back
-+		 */
-+		target->x = 65535;
-+		target->y = 65535;
-+		target->z = AXIOM_PROX_LEVEL;
-+		break;
-+	case AXIOM_TARGET_STATE_HOVER:
-+	case AXIOM_TARGET_STATE_TOUCHING:
-+		target_prev_state->insert = true;
-+		input_report_abs(input_dev, ABS_MT_TRACKING_ID, id);
-+		input_report_abs(input_dev, ABS_MT_POSITION_X, target->x);
-+		input_report_abs(input_dev, ABS_MT_POSITION_Y, target->y);
-+
-+		if (current_state == AXIOM_TARGET_STATE_TOUCHING) {
-+			input_report_abs(input_dev, ABS_MT_DISTANCE, 0);
-+			input_report_abs(input_dev, ABS_DISTANCE, 0);
-+			input_report_abs(input_dev, ABS_MT_PRESSURE, target->z);
-+			input_report_abs(input_dev, ABS_PRESSURE, target->z);
-+		} else {
-+			input_report_abs(input_dev, ABS_MT_DISTANCE, -target->z);
-+			input_report_abs(input_dev, ABS_DISTANCE, -target->z);
-+			input_report_abs(input_dev, ABS_MT_PRESSURE, 0);
-+			input_report_abs(input_dev, ABS_PRESSURE, 0);
-+		}
-+
-+		if (!id)
-+			input_report_key(input_dev, BTN_TOUCH, (current_state ==
-+					 AXIOM_TARGET_STATE_TOUCHING));
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	target_prev_state->state = current_state;
-+	target_prev_state->x = target->x;
-+	target_prev_state->y = target->y;
-+	target_prev_state->z = target->z;
-+
-+	return true;
-+}
-+
-+/*
-+ * U41 is the output report of the 2D CTS and contains the status of targets
-+ * (including contacts and pre-contacts) along with their X,Y,Z values.
-+ * When a target has been removed (no longer detected),
-+ * the corresponding X,Y,Z values will be zeroed.
-+ */
-+static bool axiom_process_u41_report(struct axiom_data *ts, u8 *rx_buf)
-+{
-+	struct axiom_target_report target;
-+	bool update_done = false;
-+	u16 target_status;
-+	int i;
-+
-+	target_status = get_unaligned_le16(rx_buf + 1);
-+
-+	for (i = 0; i < AXIOM_U41_MAX_TARGETS; i++) {
-+		u8 *target_step = &rx_buf[i * 4];
-+
-+		target.index = i;
-+		input_mt_slot(ts->input_dev, i);
-+		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, true);
-+		target.present = ((target_status & (1 << i)) != 0) ? 1 : 0;
-+		target.x = get_unaligned_le16(target_step + 3);
-+		target.y = get_unaligned_le16(target_step + 5);
-+		target.z = (s8)(rx_buf[i + 43]);
-+		touchscreen_report_pos(ts->input_dev, &ts->prop, target.x, target.y, true);
-+		update_done |= axiom_process_u41_report_target(ts, &target);
-+	}
-+
-+	return update_done;
-+}
-+
-+/*
-+ * U46 report contains a low level measurement data generated by the capacitive
-+ * displacement sensor (CDS) algorithms from the auxiliary channels.
-+ * This information is useful when tuning multi-press to assess mechanical
-+ * consistency in the unit's construction.
-+ */
-+static void axiom_process_u46_report(struct axiom_data *ts, u8 *rx_buf)
-+{
-+	struct input_dev *input_dev = ts->input_dev;
-+	u32 event_value;
-+	u16 aux_value;
-+	int i;
-+
-+	for (i = 0; i < AXIOM_U46_AUX_CHANNELS; i++) {
-+		u8 *target_step = &rx_buf[i * 2];
-+
-+		input_mt_slot(input_dev, i);
-+		input_mt_report_slot_state(input_dev, MT_TOOL_FINGER, true);
-+		aux_value = get_unaligned_le16(target_step + 1) & AXIOM_U46_AUX_MASK;
-+		event_value = (i << 16) | (aux_value);
-+		input_event(input_dev, EV_MSC, MSC_RAW, event_value);
-+	}
-+}
-+
-+/*
-+ * Validates the crc and demultiplexes the axiom reports to the appropriate
-+ * report handler
-+ */
-+static int axiom_handle_events(struct axiom_data *ts)
-+{
-+	struct input_dev *input_dev = ts->input_dev;
-+	u8 *report_data = ts->rx_buf;
-+	struct device *dev = ts->dev;
-+	u16 crc_report;
-+	u8 *crc_bytes;
-+	u16 crc_calc;
-+	int error;
-+	u8 len;
-+
-+	error = axiom_read(ts, AXIOM_REPORT_USAGE_ID, 0, report_data, ts->max_report_len);
-+	if (error)
-+		return error;
-+
-+	len = (report_data[0] & AXIOM_COMMS_REPORT_LEN_MASK) << 1;
-+	if (len <= 2) {
-+		dev_err(dev, "Zero length report discarded.\n");
-+		return -ENODATA;
-+	}
-+
-+	/* Validate the report CRC */
-+	crc_bytes = &report_data[len];
-+
-+	crc_report = get_unaligned_le16(crc_bytes - 2);
-+	/* Length is in 16 bit words and remove the size of the CRC16 itself */
-+	crc_calc = crc16(0, report_data, (len - 2));
-+
-+	if (crc_calc != crc_report) {
-+		dev_err(dev,
-+			"CRC mismatch! Expected: %#x, Calculated CRC: %#x.\n",
-+			crc_report, crc_calc);
-+		return -EINVAL;
-+	}
-+
-+	switch (report_data[1]) {
-+	case AXIOM_USAGE_2DCTS_REPORT_ID:
-+		if (axiom_process_u41_report(ts, &report_data[1])) {
-+			input_mt_sync_frame(input_dev);
-+			input_sync(input_dev);
-+		}
-+		break;
-+
-+	case AXIOM_USAGE_2AUX_REPORT_ID:
-+		/* This is an aux report (force) */
-+		axiom_process_u46_report(ts, &report_data[1]);
-+		input_mt_sync(input_dev);
-+		input_sync(input_dev);
-+		break;
-+
-+	case AXIOM_USAGE_2HB_REPORT_ID:
-+		/* This is a heartbeat report */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void axiom_i2c_poll(struct input_dev *input_dev)
-+{
-+	struct axiom_data *ts = input_get_drvdata(input_dev);
-+
-+	axiom_handle_events(ts);
-+}
-+
-+static irqreturn_t axiom_irq(int irq, void *dev_id)
-+{
-+	struct axiom_data *ts = dev_id;
-+
-+	axiom_handle_events(ts);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void axiom_reset(struct gpio_desc *reset_gpio)
-+{
-+	gpiod_set_value_cansleep(reset_gpio, 1);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value_cansleep(reset_gpio, 0);
-+	msleep(AXIOM_STARTUP_TIME_MS);
-+}
-+
-+static int axiom_i2c_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct input_dev *input_dev;
-+	struct axiom_data *ts;
-+	u32 poll_interval;
-+	int target;
-+	int error;
-+
-+	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-+	if (!ts)
-+		return -ENOMEM;
-+
-+	i2c_set_clientdata(client, ts);
-+	ts->client = client;
-+	ts->dev = dev;
-+
-+	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-+	error = PTR_ERR_OR_ZERO(ts->regmap);
-+	if (error) {
-+		dev_err(dev, "Failed to initialize regmap: %d\n", error);
-+		return error;
-+	}
-+
-+	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ts->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
-+
-+	if (ts->reset_gpio)
-+		axiom_reset(ts->reset_gpio);
-+
-+	ts->vddi = devm_regulator_get_optional(dev, "vddi");
-+	if (!IS_ERR(ts->vddi)) {
-+		error = devm_regulator_get_enable(dev, "vddi");
-+		if (error)
-+			return dev_err_probe(&client->dev, error,
-+					     "Failed to enable vddi regulator\n");
-+	}
-+
-+	ts->vdda = devm_regulator_get_optional(dev, "vdda");
-+	if (!IS_ERR(ts->vdda)) {
-+		error = devm_regulator_get_enable(dev, "vdda");
-+		if (error)
-+			return dev_err_probe(&client->dev, error,
-+					     "Failed to enable vdda regulator\n");
-+		msleep(AXIOM_STARTUP_TIME_MS);
-+	}
-+
-+	error = axiom_discover(ts);
-+	if (error)
-+		return dev_err_probe(dev, error, "Failed touchscreen discover\n");
-+
-+	input_dev = devm_input_allocate_device(ts->dev);
-+	if (!input_dev)
-+		return -ENOMEM;
-+
-+	input_dev->name = "TouchNetix axiom Touchscreen";
-+	input_dev->phys = "input/axiom_ts";
-+
-+	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
-+
-+	touchscreen_parse_properties(input_dev, true, &ts->prop);
-+
-+	/* Registers the axiom device as a touchscreen instead of a mouse pointer */
-+	error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
-+	if (error)
-+		return error;
-+
-+	/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
-+	set_bit(EV_REL, input_dev->evbit);
-+	set_bit(EV_MSC, input_dev->evbit);
-+	/* Declare that we support "RAW" Miscellaneous events */
-+	set_bit(MSC_RAW, input_dev->mscbit);
-+
-+	ts->input_dev = input_dev;
-+	input_set_drvdata(ts->input_dev, ts);
-+
-+	/* Ensure that all reports are initialised to not be present. */
-+	for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
-+		ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
-+
-+	error = devm_request_threaded_irq(dev, client->irq, NULL,
-+					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
-+	if (error) {
-+		dev_info(dev, "Request irq failed, falling back to polling mode");
-+
-+		error = input_setup_polling(input_dev, axiom_i2c_poll);
-+		if (error)
-+			return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
-+
-+		if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
-+			input_set_poll_interval(input_dev, poll_interval);
-+		else
-+			input_set_poll_interval(input_dev, POLL_INTERVAL_DEFAULT_MS);
-+	}
-+
-+	error = input_register_device(input_dev);
-+	if (error)
-+		return dev_err_probe(ts->dev, error,
-+				     "Could not register with Input Sub-system.\n");
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id axiom_i2c_id_table[] = {
-+	{ "ax54a" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
-+
-+static const struct of_device_id axiom_i2c_of_match[] = {
-+	{ .compatible = "touchnetix,ax54a", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, axiom_i2c_of_match);
-+
-+static struct i2c_driver axiom_i2c_driver = {
-+	.driver = {
-+		   .name = "axiom",
-+		   .of_match_table = axiom_i2c_of_match,
-+	},
-+	.id_table = axiom_i2c_id_table,
-+	.probe = axiom_i2c_probe,
-+};
-+module_i2c_driver(axiom_i2c_driver);
-+
-+MODULE_AUTHOR("Bart Prescott <bartp@baasheep.co.uk>");
-+MODULE_AUTHOR("Pedro Torruella <pedro.torruella@touchnetix.com>");
-+MODULE_AUTHOR("Mark Satterthwaite <mark.satterthwaite@touchnetix.com>");
-+MODULE_AUTHOR("Hannah Rossiter <hannah.rossiter@touchnetix.com>");
-+MODULE_AUTHOR("Kamel Bouhara <kamel.bouhara@bootlin.com>");
-+MODULE_DESCRIPTION("TouchNetix axiom touchscreen I2C bus driver");
-+MODULE_LICENSE("GPL");
--- 
-2.25.1
-
+DQoNCkhlbGxvIEthbWVsLA0KDQpUaGFua3MgZm9yIHY4Lg0KDQpPbiAxOS4wMi4yNCAxMToxMiwg
+S2FtZWwgQm91aGFyYSB3cm90ZToNCg0KPiBBZGQgYSBuZXcgZHJpdmVyIGZvciB0aGUgVG91Y2hO
+ZXRpeCdzIGF4aW9tIGZhbWlseSBvZg0KPiB0b3VjaHNjcmVlbiBjb250cm9sbGVycy4gVGhpcyBk
+cml2ZXIgb25seSBzdXBwb3J0cyBpMmMNCj4gYW5kIGNhbiBiZSBsYXRlciBhZGFwdGVkIGZvciBT
+UEkgYW5kIFVTQiBzdXBwb3J0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogS2FtZWwgQm91aGFyYSA8
+a2FtZWwuYm91aGFyYUBib290bGluLmNvbT4NCj4gLS0tDQo+ICAgTUFJTlRBSU5FUlMgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgKw0KPiAgIGRyaXZlcnMvaW5wdXQvdG91
+Y2hzY3JlZW4vS2NvbmZpZyAgICAgICAgICAgIHwgIDEyICsNCj4gICBkcml2ZXJzL2lucHV0L3Rv
+dWNoc2NyZWVuL01ha2VmaWxlICAgICAgICAgICB8ICAgMSArDQo+ICAgZHJpdmVycy9pbnB1dC90
+b3VjaHNjcmVlbi90b3VjaG5ldGl4X2F4aW9tLmMgfCA2NjkgKysrKysrKysrKysrKysrKysrKw0K
+PiAgIDQgZmlsZXMgY2hhbmdlZCwgNjgzIGluc2VydGlvbnMoKykNCj4gICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi90b3VjaG5ldGl4X2F4aW9tLmMNCj4gDQo+
+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTDQo+IGluZGV4IDRiM2VkMmYy
+MmI4OS4uZGU1ZmFkOGYzMTdhIDEwMDY0NA0KPiAtLS0gYS9NQUlOVEFJTkVSUw0KPiArKysgYi9N
+QUlOVEFJTkVSUw0KPiBAQCAtMjIyNjIsNiArMjIyNjIsNyBAQCBNOiAgICAgIEthbWVsIEJvdWhh
+cmEgPGthbWVsLmJvdWhhcmFAYm9vdGxpbi5jb20+DQo+ICAgTDogICAgIGxpbnV4LWlucHV0QHZn
+ZXIua2VybmVsLm9yZw0KPiAgIFM6ICAgICBNYWludGFpbmVkDQo+ICAgRjogICAgIERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC90b3VjaHNjcmVlbi90b3VjaG5ldGl4LGF4
+NTRhLnlhbWwNCj4gK0Y6ICAgICBkcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL3RvdWNobmV0aXhf
+YXhpb20uYw0KPiANCj4gICBUUE0gREVWSUNFIERSSVZFUg0KPiAgIE06ICAgICBQZXRlciBIdWV3
+ZSA8cGV0ZXJodWV3ZUBnbXguZGU+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L3RvdWNo
+c2NyZWVuL0tjb25maWcgYi9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL0tjb25maWcNCj4gaW5k
+ZXggZTNlMjMyNDU0N2I5Li5mMzZiZWU4ZDg2OTYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5w
+dXQvdG91Y2hzY3JlZW4vS2NvbmZpZw0KPiArKysgYi9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVu
+L0tjb25maWcNCj4gQEAgLTgwMyw2ICs4MDMsMTggQEAgY29uZmlnIFRPVUNIU0NSRUVOX01JR09S
+DQo+ICAgICAgICAgICAgVG8gY29tcGlsZSB0aGlzIGRyaXZlciBhcyBhIG1vZHVsZSwgY2hvb3Nl
+IE0gaGVyZTogdGhlDQo+ICAgICAgICAgICAgbW9kdWxlIHdpbGwgYmUgY2FsbGVkIG1pZ29yX3Rz
+Lg0KPiANCj4gK2NvbmZpZyBUT1VDSFNDUkVFTl9UT1VDSE5FVElYX0FYSU9NDQo+ICsgICAgICAg
+dHJpc3RhdGUgIlRvdWNoTmV0aXggQVhJT00gYmFzZWQgdG91Y2hzY3JlZW4gY29udHJvbGxlcnMi
+DQo+ICsgICAgICAgZGVwZW5kcyBvbiBJMkMNCj4gKyAgICAgICBoZWxwDQo+ICsgICAgICAgICBT
+YXkgWSBoZXJlIGlmIHlvdSBoYXZlIGEgYXhpb20gdG91Y2hzY3JlZW4gY29ubmVjdGVkIHRvDQo+
+ICsgICAgICAgICB5b3VyIHN5c3RlbS4NCj4gKw0KPiArICAgICAgICAgSWYgdW5zdXJlLCBzYXkg
+Ti4NCj4gKw0KPiArICAgICAgICAgVG8gY29tcGlsZSB0aGlzIGRyaXZlciBhcyBhIG1vZHVsZSwg
+Y2hvb3NlIE0gaGVyZTogdGhlDQo+ICsgICAgICAgICBtb2R1bGUgd2lsbCBiZSBjYWxsZWQgYXhp
+b20uDQo+ICsNCj4gICBjb25maWcgVE9VQ0hTQ1JFRU5fVE9VQ0hSSUdIVA0KPiAgICAgICAgICB0
+cmlzdGF0ZSAiVG91Y2hyaWdodCBzZXJpYWwgdG91Y2hzY3JlZW4iDQo+ICAgICAgICAgIHNlbGVj
+dCBTRVJJTw0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9NYWtlZmls
+ZSBiL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vTWFrZWZpbGUNCj4gaW5kZXggNjJiZDI0ZjNh
+YzhlLi44ZTMyYTJkZjVlMTggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3Jl
+ZW4vTWFrZWZpbGUNCj4gKysrIGIvZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi9NYWtlZmlsZQ0K
+PiBAQCAtODgsNiArODgsNyBAQCBvYmotJChDT05GSUdfVE9VQ0hTQ1JFRU5fU1VSNDApICAgICAg
+ICAgICAgICAgKz0gc3VyNDAubw0KPiAgIG9iai0kKENPTkZJR19UT1VDSFNDUkVFTl9TVVJGQUNF
+M19TUEkpICs9IHN1cmZhY2UzX3NwaS5vDQo+ICAgb2JqLSQoQ09ORklHX1RPVUNIU0NSRUVOX1RJ
+X0FNMzM1WF9UU0MpICAgICAgICArPSB0aV9hbTMzNXhfdHNjLm8NCj4gICBvYmotJChDT05GSUdf
+VE9VQ0hTQ1JFRU5fVE9VQ0hJVDIxMykgICArPSB0b3VjaGl0MjEzLm8NCj4gK29iai0kKENPTkZJ
+R19UT1VDSFNDUkVFTl9UT1VDSE5FVElYX0FYSU9NKSAgICAgKz0gdG91Y2huZXRpeF9heGlvbS5v
+DQo+ICAgb2JqLSQoQ09ORklHX1RPVUNIU0NSRUVOX1RPVUNIUklHSFQpICAgKz0gdG91Y2hyaWdo
+dC5vDQo+ICAgb2JqLSQoQ09ORklHX1RPVUNIU0NSRUVOX1RPVUNIV0lOKSAgICAgKz0gdG91Y2h3
+aW4ubw0KPiAgIG9iai0kKENPTkZJR19UT1VDSFNDUkVFTl9UUzQ4MDApICAgICAgICs9IHRzNDgw
+MC10cy5vDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL3RvdWNobmV0
+aXhfYXhpb20uYyBiL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vdG91Y2huZXRpeF9heGlvbS5j
+DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uZjdkMWIyM2E0
+YmFmDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvZHJpdmVycy9pbnB1dC90b3VjaHNjcmVlbi90
+b3VjaG5ldGl4X2F4aW9tLmMNCj4gQEAgLTAsMCArMSw2NjkgQEANCj4gKy8vIFNQRFgtTGljZW5z
+ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkNCj4gKy8qDQo+ICsgKiBUb3VjaE5ldGl4IGF4aW9t
+IFRvdWNoc2NyZWVuIERyaXZlcg0KPiArICoNCj4gKyAqIENvcHlyaWdodCAoQykgMjAyMC0yMDIz
+IFRvdWNoTmV0aXggTHRkLg0KPiArICoNCj4gKyAqIEF1dGhvcihzKTogQmFydCBQcmVzY290dCA8
+YmFydHBAYmFhc2hlZXAuY28udWs+DQo+ICsgKiAgICAgICAgICAgIFBlZHJvIFRvcnJ1ZWxsYSA8
+cGVkcm8udG9ycnVlbGxhQHRvdWNobmV0aXguY29tPg0KPiArICogICAgICAgICAgICBNYXJrIFNh
+dHRlcnRod2FpdGUgPG1hcmsuc2F0dGVydGh3YWl0ZUB0b3VjaG5ldGl4LmNvbT4NCj4gKyAqICAg
+ICAgICAgICAgSGFubmFoIFJvc3NpdGVyIDxoYW5uYWgucm9zc2l0ZXJAdG91Y2huZXRpeC5jb20+
+DQo+ICsgKiAgICAgICAgICAgIEthbWVsIEJvdWhhcmEgPGthbWVsLmJvdWhhcmFAYm9vdGxpbi5j
+b20+DQo+ICsgKg0KPiArICovDQo+ICsjaW5jbHVkZSA8bGludXgvYml0ZmllbGQuaD4NCj4gKyNp
+bmNsdWRlIDxsaW51eC9jcmMxNi5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+DQo+ICsj
+aW5jbHVkZSA8bGludXgvZGV2aWNlLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvZ3Bpby9jb25zdW1l
+ci5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2kyYy5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2lucHV0
+Lmg+DQo+ICsjaW5jbHVkZSA8bGludXgvaW5wdXQvbXQuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9p
+bnB1dC90b3VjaHNjcmVlbi5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2ludGVycnVwdC5oPg0KPiAr
+I2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0K
+PiArI2luY2x1ZGUgPGxpbnV4L21vZF9kZXZpY2V0YWJsZS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4
+L3JlZ21hcC5oPg0KPiArDQo+ICsjaW5jbHVkZSA8YXNtL3VuYWxpZ25lZC5oPg0KPiArI2RlZmlu
+ZSBBWElPTV9QUk9YX0xFVkVMICAgICAgICAgICAgICAgLTEyOA0KPiArI2RlZmluZSBBWElPTV9E
+TUFfT1BTX0RFTEFZX1VTRUMgICAgICAgMjUwDQo+ICsjZGVmaW5lIEFYSU9NX1NUQVJUVVBfVElN
+RV9NUyAgICAgICAgICAxMTANCj4gKy8qDQo+ICsgKiBSZWdpc3RlciBncm91cCB1MzEgaGFzIDIg
+cGFnZXMgZm9yIHVzYWdlIHRhYmxlIGVudHJpZXMuDQo+ICsgKi8NCj4gKyNkZWZpbmUgQVhJT01f
+VTMxX01BWF9VU0FHRVMgICAgICAgICAgIDB4ZmYNCj4gKyNkZWZpbmUgQVhJT01fVTMxX0JZVEVT
+X1BFUl9VU0FHRSAgICAgIDYNCj4gKyNkZWZpbmUgQVhJT01fVTMxX1BBR0UwX0xFTkdUSCAgICAg
+ICAgIDB4MEMNCj4gKyNkZWZpbmUgQVhJT01fVTMxX0JPT1RNT0RFX01BU0sgICAgICAgICAgICAg
+ICAgQklUKDcpDQo+ICsjZGVmaW5lIEFYSU9NX1UzMV9ERVZJRF9NQVNLICAgICAgICAgICBHRU5N
+QVNLKDE0LCAwKQ0KPiArDQo+ICsjZGVmaW5lIEFYSU9NX01BWF9SRVBPUlRfTEVOICAgICAgICAg
+ICAweDdmDQo+ICsNCj4gKyNkZWZpbmUgQVhJT01fQ01EX0hFQURFUl9SRUFEX01BU0sgICAgIEJJ
+VCgxNSkNCj4gKyNkZWZpbmUgQVhJT01fVTQxX01BWF9UQVJHRVRTICAgICAgICAgIDEwDQo+ICsN
+Cj4gKyNkZWZpbmUgQVhJT01fVTQ2X0FVWF9DSEFOTkVMUyAgICAgICAgIDQNCj4gKyNkZWZpbmUg
+QVhJT01fVTQ2X0FVWF9NQVNLICAgICAgICAgICAgIEdFTk1BU0soMTEsIDApDQo+ICsNCj4gKyNk
+ZWZpbmUgQVhJT01fQ09NTVNfTUFYX1VTQUdFX1BBR0VTICAgIDMNCj4gKyNkZWZpbmUgQVhJT01f
+Q09NTVNfUEFHRV9TSVpFICAgICAgICAgIDI1Ng0KPiArI2RlZmluZSBBWElPTV9DT01NU19SRVBP
+UlRfTEVOX01BU0sgICAgR0VOTUFTSyg2LCAwKQ0KPiArDQo+ICsjZGVmaW5lIEFYSU9NX1JFUE9S
+VF9VU0FHRV9JRCAgICAgICAgICAweDM0DQo+ICsjZGVmaW5lIEFYSU9NX0RFVklORk9fVVNBR0Vf
+SUQgICAgICAgICAweDMxDQo+ICsjZGVmaW5lIEFYSU9NX1VTQUdFXzJIQl9SRVBPUlRfSUQgICAg
+ICAweDAxDQo+ICsjZGVmaW5lIEFYSU9NX1VTQUdFXzJBVVhfUkVQT1JUX0lEICAgICAweDQ2DQo+
+ICsjZGVmaW5lIEFYSU9NX1VTQUdFXzJEQ1RTX1JFUE9SVF9JRCAgICAweDQxDQo+ICsNCj4gKyNk
+ZWZpbmUgQVhJT01fUEFHRV9PRkZTRVRfTUFTSyAgICAgICAgIEdFTk1BU0soNiwgMCkNCj4gKw0K
+PiArc3RydWN0IGF4aW9tX2RldmluZm8gew0KPiArICAgICAgIF9fbGUxNiBkZXZpY2VfaWQ7DQo+
+ICsgICAgICAgdTggZndfbWlub3I7DQo+ICsgICAgICAgdTggZndfbWFqb3I7DQo+ICsgICAgICAg
+dTggZndfaW5mb19leHRyYTsNCj4gKyAgICAgICB1OCB0Y3BfcmV2aXNpb247DQo+ICsgICAgICAg
+dTggYm9vdGxvYWRlcl9md19taW5vcjsNCj4gKyAgICAgICB1OCBib290bG9hZGVyX2Z3X21ham9y
+Ow0KPiArICAgICAgIF9fbGUxNiBqZWRlY19pZDsNCj4gKyAgICAgICB1OCBudW1fdXNhZ2VzOw0K
+PiArfSBfX3BhY2tlZDsNCj4gKw0KPiArLyoNCj4gKyAqIERlc2NyaWJlcyBwYXJhbWV0ZXJzIG9m
+IGEgc3BlY2lmaWMgdXNhZ2UsIGVzc2VudGlhbGx5IGEgc2luZ2xlIGVsZW1lbnQgb2YNCj4gKyAq
+IHRoZSAiVXNhZ2UgVGFibGUiDQo+ICsgKi8NCj4gK3N0cnVjdCBheGlvbV91c2FnZV9lbnRyeSB7
+DQo+ICsgICAgICAgdTggaWQ7DQo+ICsgICAgICAgdTggaXNfcmVwb3J0Ow0KPiArICAgICAgIHU4
+IHN0YXJ0X3BhZ2U7DQo+ICsgICAgICAgdTggbnVtX3BhZ2VzOw0KPiArfTsNCj4gKw0KPiArLyoN
+Cj4gKyAqIFJlcHJlc2VudHMgc3RhdGUgb2YgYSB0b3VjaCBvciB0YXJnZXQgd2hlbiBkZXRlY3Rl
+ZCBwcmlvciB0byBhIHRvdWNoIChlZy4NCj4gKyAqIGhvdmVyIG9yIHByb3hpbWl0eSBldmVudHMp
+Lg0KPiArICovDQo+ICtlbnVtIGF4aW9tX3RhcmdldF9zdGF0ZSB7DQo+ICsgICAgICAgQVhJT01f
+VEFSR0VUX1NUQVRFX05PVF9QUkVTRU5UID0gMCwNCj4gKyAgICAgICBBWElPTV9UQVJHRVRfU1RB
+VEVfUFJPWCA9IDEsDQo+ICsgICAgICAgQVhJT01fVEFSR0VUX1NUQVRFX0hPVkVSID0gMiwNCj4g
+KyAgICAgICBBWElPTV9UQVJHRVRfU1RBVEVfVE9VQ0hJTkcgPSAzLA0KPiArfTsNCj4gKw0KPiAr
+c3RydWN0IGF4aW9tX3U0MV90YXJnZXQgew0KPiArICAgICAgIGVudW0gYXhpb21fdGFyZ2V0X3N0
+YXRlIHN0YXRlOw0KPiArICAgICAgIHUxNiB4Ow0KPiArICAgICAgIHUxNiB5Ow0KPiArICAgICAg
+IHM4IHo7DQo+ICsgICAgICAgYm9vbCBpbnNlcnQ7DQo+ICsgICAgICAgYm9vbCB0b3VjaDsNCj4g
+K307DQo+ICsNCj4gK3N0cnVjdCBheGlvbV90YXJnZXRfcmVwb3J0IHsNCj4gKyAgICAgICB1OCBp
+bmRleDsNCj4gKyAgICAgICB1OCBwcmVzZW50Ow0KPiArICAgICAgIHUxNiB4Ow0KPiArICAgICAg
+IHUxNiB5Ow0KPiArICAgICAgIHM4IHo7DQo+ICt9Ow0KPiArDQo+ICtzdHJ1Y3QgYXhpb21fY21k
+X2hlYWRlciB7DQo+ICsgICAgICAgX19sZTE2IHRhcmdldF9hZGRyZXNzOw0KPiArICAgICAgIF9f
+bGUxNiBsZW5ndGg7DQo+ICt9IF9fcGFja2VkOw0KPiArDQo+ICtzdHJ1Y3QgYXhpb21fZGF0YSB7
+DQo+ICsgICAgICAgc3RydWN0IGF4aW9tX2RldmluZm8gZGV2aW5mbzsNCj4gKyAgICAgICBzdHJ1
+Y3QgZGV2aWNlICpkZXY7DQo+ICsgICAgICAgc3RydWN0IGdwaW9fZGVzYyAqcmVzZXRfZ3BpbzsN
+Cj4gKyAgICAgICBzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50Ow0KPiArICAgICAgIHN0cnVjdCBp
+bnB1dF9kZXYgKmlucHV0X2RldjsNCj4gKyAgICAgICB1MzIgbWF4X3JlcG9ydF9sZW47DQo+ICsg
+ICAgICAgdTggcnhfYnVmW0FYSU9NX0NPTU1TX01BWF9VU0FHRV9QQUdFUyAqIEFYSU9NX0NPTU1T
+X1BBR0VfU0laRV07DQo+ICsgICAgICAgc3RydWN0IGF4aW9tX3U0MV90YXJnZXQgdGFyZ2V0c1tB
+WElPTV9VNDFfTUFYX1RBUkdFVFNdOw0KPiArICAgICAgIHN0cnVjdCBheGlvbV91c2FnZV9lbnRy
+eSB1c2FnZV90YWJsZVtBWElPTV9VMzFfTUFYX1VTQUdFU107DQo+ICsgICAgICAgYm9vbCB1c2Fn
+ZV90YWJsZV9wb3B1bGF0ZWQ7DQo+ICsgICAgICAgc3RydWN0IHJlZ3VsYXRvciAqdmRkYTsNCj4g
+KyAgICAgICBzdHJ1Y3QgcmVndWxhdG9yICp2ZGRpOw0KPiArICAgICAgIHN0cnVjdCByZWdtYXAg
+KnJlZ21hcDsNCj4gKyAgICAgICBzdHJ1Y3QgdG91Y2hzY3JlZW5fcHJvcGVydGllcyAgIHByb3A7
+DQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHJlZ21hcF9jb25maWcgYXhpb21f
+aTJjX3JlZ21hcF9jb25maWcgPSB7DQo+ICsgICAgICAgLnJlZ19iaXRzID0gMzIsDQo+ICsgICAg
+ICAgLnJlZ19mb3JtYXRfZW5kaWFuID0gUkVHTUFQX0VORElBTl9MSVRUTEUsDQo+ICsgICAgICAg
+LnZhbF9iaXRzID0gOCwNCj4gKyAgICAgICAudmFsX2Zvcm1hdF9lbmRpYW4gPSBSRUdNQVBfRU5E
+SUFOX0xJVFRMRSwNCj4gK307DQo+ICsNCj4gKy8qDQo+ICsgKiBheGlvbSBkZXZpY2VzIGFyZSB0
+eXBpY2FsbHkgY29uZmlndXJlZCB0byByZXBvcnQgdG91Y2hlcyBhdCBhIHJhdGUNCj4gKyAqIG9m
+IDEwMEh6ICgxMG1zKSBmb3Igc3lzdGVtcyB0aGF0IHJlcXVpcmUgcG9sbGluZyBmb3IgcmVwb3J0
+cy4NCj4gKyAqIFdoZW4gcmVwb3J0cyBhcmUgcG9sbGVkLCBpdCB3aWxsIGJlIGV4cGVjdGVkIHRv
+IG9jY2FzaW9uYWxseQ0KPiArICogb2JzZXJ2ZSB0aGUgb3ZlcmZsb3cgYml0IGJlaW5nIHNldCBp
+biB0aGUgcmVwb3J0cy4NCj4gKyAqIFRoaXMgaW5kaWNhdGVzIHRoYXQgcmVwb3J0cyBhcmUgbm90
+IGJlaW5nIHJlYWQgZmFzdCBlbm91Z2guDQo+ICsgKi8NCj4gKyNkZWZpbmUgUE9MTF9JTlRFUlZB
+TF9ERUZBVUxUX01TIDEwDQo+ICsNCj4gKy8qIFRyYW5zbGF0ZSB1c2FnZS9wYWdlL29mZnNldCB0
+cmlwbGV0IGludG8gcGh5c2ljYWwgYWRkcmVzcy4gKi8NCj4gK3N0YXRpYyB1MTYgYXhpb21fdXNh
+Z2VfdG9fdGFyZ2V0X2FkZHJlc3Moc3RydWN0IGF4aW9tX2RhdGEgKnRzLCB1OCB1c2FnZSwgdTgg
+cGFnZSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjaGFyIG9m
+ZnNldCkNCj4gK3sNCj4gKyAgICAgICAvKiBBdCB0aGUgbW9tZW50IHRoZSBjb252ZW50aW9uIGlz
+IHRoYXQgdTMxIGlzIGFsd2F5cyBhdCBwaHlzaWNhbCBhZGRyZXNzIDB4MCAqLw0KPiArICAgICAg
+IGlmICghdHMtPnVzYWdlX3RhYmxlX3BvcHVsYXRlZCkgew0KPiArICAgICAgICAgICAgICAgaWYg
+KHVzYWdlID09IEFYSU9NX0RFVklORk9fVVNBR0VfSUQpDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIHJldHVybiAoKHBhZ2UgPDwgOCkgKyBvZmZzZXQpOw0KPiArICAgICAgICAgICAgICAgZWxz
+ZQ0KPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gMHhmZmZmOw0KPiArICAgICAgIH0N
+Cj4gKw0KPiArICAgICAgIGlmIChwYWdlID49IHRzLT51c2FnZV90YWJsZVt1c2FnZV0ubnVtX3Bh
+Z2VzKSB7DQo+ICsgICAgICAgICAgICAgICBkZXZfZXJyKHRzLT5kZXYsICJJbnZhbGlkIHVzYWdl
+IHRhYmxlISB1c2FnZTogdSUwMngsIHBhZ2U6ICUwMngsIG9mZnNldDogJTAyeFxuIiwNCj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgdXNhZ2UsIHBhZ2UsIG9mZnNldCk7DQo+ICsgICAgICAgICAg
+ICAgICByZXR1cm4gMHhmZmZmOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIHJldHVybiAo
+KHRzLT51c2FnZV90YWJsZVt1c2FnZV0uc3RhcnRfcGFnZSArIHBhZ2UpIDw8IDgpICsgb2Zmc2V0
+Ow0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW50IGF4aW9tX3JlYWQoc3RydWN0IGF4aW9tX2RhdGEg
+KnRzLCB1OCB1c2FnZSwgdTggcGFnZSwgdm9pZCAqYnVmLCB1MTYgbGVuKQ0KPiArew0KPiArICAg
+ICAgIHN0cnVjdCBheGlvbV9jbWRfaGVhZGVyIGNtZF9oZWFkZXI7DQo+ICsgICAgICAgdTMyIHBy
+ZWFtYmxlOw0KPiArICAgICAgIGludCByZXQ7DQo+ICsNCj4gKyAgICAgICBjbWRfaGVhZGVyLnRh
+cmdldF9hZGRyZXNzID0gY3B1X3RvX2xlMTYoYXhpb21fdXNhZ2VfdG9fdGFyZ2V0X2FkZHJlc3Mo
+dHMsIHVzYWdlLCBwYWdlLCAwKSk7DQo+ICsgICAgICAgY21kX2hlYWRlci5sZW5ndGggPSBjcHVf
+dG9fbGUxNihsZW4gfCBBWElPTV9DTURfSEVBREVSX1JFQURfTUFTSyk7DQo+ICsNCj4gKyAgICAg
+ICBwcmVhbWJsZSA9IGdldF91bmFsaWduZWRfbGUzMigmY21kX2hlYWRlcik7DQo+ICsNCj4gKyAg
+ICAgICByZXQgPSByZWdtYXBfd3JpdGUodHMtPnJlZ21hcCwgcHJlYW1ibGUsIDApOw0KPiArICAg
+ICAgIGlmIChyZXQpIHsNCj4gKyAgICAgICAgICAgICAgIGRldl9lcnIodHMtPmRldiwgImZhaWxl
+ZCB0byB3cml0ZSBwcmVhbWJsZSwgZXJyb3IgJWRcbiIsIHJldCk7DQo+ICsgICAgICAgICAgICAg
+ICByZXR1cm4gcmV0Ow0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIHJldCA9IHJlZ21hcF9y
+YXdfcmVhZCh0cy0+cmVnbWFwLCAwLCBidWYsIGxlbik7DQo+ICsgICAgICAgaWYgKHJldCkgew0K
+PiArICAgICAgICAgICAgICAgZGV2X2Vycih0cy0+ZGV2LCAiZmFpbGVkIHRvIHJlYWQgdGFyZ2V0
+IGFkZHJlc3MgJTA0eCwgZXJyb3IgJWRcbiIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGNt
+ZF9oZWFkZXIudGFyZ2V0X2FkZHJlc3MsIHJldCk7DQo+ICsgICAgICAgICAgICAgICByZXR1cm4g
+cmV0Ow0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIC8qIFdhaXQgZGV2aWNlJ3MgRE1BIG9w
+ZXJhdGlvbnMgKi8NCj4gKyAgICAgICB1c2xlZXBfcmFuZ2UoQVhJT01fRE1BX09QU19ERUxBWV9V
+U0VDLCBBWElPTV9ETUFfT1BTX0RFTEFZX1VTRUMgKyA1MCk7DQo+ICsNCj4gKyAgICAgICByZXR1
+cm4gMDsNCj4gK30NCj4gKw0KPiArLyoNCj4gKyAqIE9uZSBvZiB0aGUgbWFpbiBwdXJwb3NlcyBm
+b3IgcmVhZGluZyB0aGUgdXNhZ2UgdGFibGUgaXMgdG8gaWRlbnRpZnkNCj4gKyAqIHdoaWNoIHVz
+YWdlcyByZXNpZGUgYXQgd2hpY2ggdGFyZ2V0IGFkZHJlc3MuDQo+ICsgKiBXaGVuIHBlcmZvcm1p
+bmcgc3Vic2VxdWVudCByZWFkcyBvciB3cml0ZXMgdG8gQVhJT00sIHRoZSB0YXJnZXQgYWRkcmVz
+cw0KPiArICogaXMgdXNlZCB0byBzcGVjaWZ5IHdoaWNoIHVzYWdlIGlzIGJlaW5nIGFjY2Vzc2Vk
+Lg0KPiArICogQ29uc2lkZXIgdGhlIGZvbGxvd2luZyBkaXNjb3ZlcnkgY29kZSB3aGljaCB3aWxs
+IGJ1aWxkIHVwIHRoZSB1c2FnZSB0YWJsZS4NCj4gKyAqLw0KPiArc3RhdGljIHUzMiBheGlvbV9w
+b3B1bGF0ZV91c2FnZV90YWJsZShzdHJ1Y3QgYXhpb21fZGF0YSAqdHMpDQo+ICt7DQo+ICsgICAg
+ICAgc3RydWN0IGF4aW9tX3VzYWdlX2VudHJ5ICp1c2FnZV90YWJsZTsNCj4gKyAgICAgICB1OCAq
+cnhfZGF0YSA9IHRzLT5yeF9idWY7DQo+ICsgICAgICAgdTMyIG1heF9yZXBvcnRfbGVuID0gMDsN
+Cj4gKyAgICAgICB1MzIgdXNhZ2VfaWQ7DQo+ICsgICAgICAgaW50IGVycm9yOw0KPiArDQo+ICsg
+ICAgICAgdXNhZ2VfdGFibGUgPSB0cy0+dXNhZ2VfdGFibGU7DQo+ICsNCj4gKyAgICAgICAvKiBS
+ZWFkIHRoZSBzZWNvbmQgcGFnZSBvZiB1c2FnZSB1MzEgdG8gZ2V0IHRoZSB1c2FnZSB0YWJsZSAq
+Lw0KPiArICAgICAgIGVycm9yID0gYXhpb21fcmVhZCh0cywgQVhJT01fREVWSU5GT19VU0FHRV9J
+RCwgMSwgcnhfZGF0YSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgKEFYSU9NX1UzMV9C
+WVRFU19QRVJfVVNBR0UgKiB0cy0+ZGV2aW5mby5udW1fdXNhZ2VzKSk7DQo+ICsNCj4gKyAgICAg
+ICBpZiAoZXJyb3IpDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gZXJyb3I7DQo+ICsNCj4gKyAg
+ICAgICBmb3IgKHVzYWdlX2lkID0gMDsgdXNhZ2VfaWQgPCB0cy0+ZGV2aW5mby5udW1fdXNhZ2Vz
+OyB1c2FnZV9pZCsrKSB7DQo+ICsgICAgICAgICAgICAgICB1MTYgb2Zmc2V0ID0gKHVzYWdlX2lk
+ICogQVhJT01fVTMxX0JZVEVTX1BFUl9VU0FHRSk7DQo+ICsgICAgICAgICAgICAgICB1OCBpZCA9
+IHJ4X2RhdGFbb2Zmc2V0ICsgMF07DQo+ICsgICAgICAgICAgICAgICB1OCBzdGFydF9wYWdlID0g
+cnhfZGF0YVtvZmZzZXQgKyAxXTsNCj4gKyAgICAgICAgICAgICAgIHU4IG51bV9wYWdlcyA9IHJ4
+X2RhdGFbb2Zmc2V0ICsgMl07DQo+ICsgICAgICAgICAgICAgICB1MzIgbWF4X29mZnNldCA9ICgo
+cnhfZGF0YVtvZmZzZXQgKyAzXSAmIEFYSU9NX1BBR0VfT0ZGU0VUX01BU0spICsgMSkgKiAyOw0K
+PiArDQo+ICsgICAgICAgICAgICAgICB1c2FnZV90YWJsZVtpZF0uaXNfcmVwb3J0ID0gIW51bV9w
+YWdlczsNCj4gKw0KPiArICAgICAgICAgICAgICAgLyogU3RvcmUgdGhlIGVudHJ5IGludG8gdGhl
+IHVzYWdlIHRhYmxlICovDQo+ICsgICAgICAgICAgICAgICB1c2FnZV90YWJsZVtpZF0uaWQgPSBp
+ZDsNCj4gKyAgICAgICAgICAgICAgIHVzYWdlX3RhYmxlW2lkXS5zdGFydF9wYWdlID0gc3RhcnRf
+cGFnZTsNCj4gKyAgICAgICAgICAgICAgIHVzYWdlX3RhYmxlW2lkXS5udW1fcGFnZXMgPSBudW1f
+cGFnZXM7DQo+ICsNCj4gKyAgICAgICAgICAgICAgIGRldl9kYmcodHMtPmRldiwgIlVzYWdlIHUl
+MDJ4IEluZm86ICUqcGhcbiIsIGlkLCBBWElPTV9VMzFfQllURVNfUEVSX1VTQUdFLA0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICAmcnhfZGF0YVtvZmZzZXRdKTsNCj4gKw0KPiArICAgICAgICAg
+ICAgICAgLyogSWRlbnRpZnkgdGhlIG1heCByZXBvcnQgbGVuZ3RoIHRoZSBtb2R1bGUgd2lsbCBy
+ZWNlaXZlICovDQo+ICsgICAgICAgICAgICAgICBpZiAodXNhZ2VfdGFibGVbaWRdLmlzX3JlcG9y
+dCAmJiBtYXhfb2Zmc2V0ID4gbWF4X3JlcG9ydF9sZW4pDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIG1heF9yZXBvcnRfbGVuID0gbWF4X29mZnNldDsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAg
+ICAgICB0cy0+dXNhZ2VfdGFibGVfcG9wdWxhdGVkID0gdHJ1ZTsNCj4gKw0KPiArICAgICAgIHJl
+dHVybiBtYXhfcmVwb3J0X2xlbjsNCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBheGlvbV9kaXNj
+b3ZlcihzdHJ1Y3QgYXhpb21fZGF0YSAqdHMpDQo+ICt7DQo+ICsgICAgICAgaW50IGVycm9yOw0K
+PiArDQo+ICsgICAgICAgLyoNCj4gKyAgICAgICAgKiBGZXRjaCB0aGUgZmlyc3QgcGFnZSBvZiB1
+c2FnZSB1MzEgdG8gZ2V0IHRoZQ0KPiArICAgICAgICAqIGRldmljZSBpbmZvcm1hdGlvbiBhbmQg
+dGhlIG51bWJlciBvZiB1c2FnZXMNCj4gKyAgICAgICAgKi8NCj4gKyAgICAgICBlcnJvciA9IGF4
+aW9tX3JlYWQodHMsIEFYSU9NX0RFVklORk9fVVNBR0VfSUQsIDAsICZ0cy0+ZGV2aW5mbywgQVhJ
+T01fVTMxX1BBR0UwX0xFTkdUSCk7DQo+ICsgICAgICAgaWYgKGVycm9yKQ0KPiArICAgICAgICAg
+ICAgICAgcmV0dXJuIGVycm9yOw0KPiArDQo+ICsgICAgICAgZGV2X2RiZyh0cy0+ZGV2LCAiICBC
+b290IE1vZGUgICAgICA6ICVzXG4iLA0KPiArICAgICAgICAgICAgICAgRklFTERfR0VUKEFYSU9N
+X1UzMV9CT09UTU9ERV9NQVNLLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgIGxlMTZfdG9f
+Y3B1KHRzLT5kZXZpbmZvLmRldmljZV9pZCkpID8gIkJMUCIgOiAiVENQIik7DQo+ICsgICAgICAg
+ZGV2X2RiZyh0cy0+ZGV2LCAiICBEZXZpY2UgSUQgICAgICA6ICUwNGx4XG4iLA0KPiArICAgICAg
+ICAgICAgICAgRklFTERfR0VUKEFYSU9NX1UzMV9ERVZJRF9NQVNLLCBsZTE2X3RvX2NwdSh0cy0+
+ZGV2aW5mby5kZXZpY2VfaWQpKSk7DQo+ICsgICAgICAgZGV2X2RiZyh0cy0+ZGV2LCAiICBGaXJt
+d2FyZSBSZXYgICA6ICUwMnguJTAyeFxuIiwgdHMtPmRldmluZm8uZndfbWFqb3IsDQo+ICsgICAg
+ICAgICAgICAgICB0cy0+ZGV2aW5mby5md19taW5vcik7DQo+ICsgICAgICAgZGV2X2RiZyh0cy0+
+ZGV2LCAiICBCb290bG9hZGVyIFJldiA6ICUwMnguJTAyeFxuIiwgdHMtPmRldmluZm8uYm9vdGxv
+YWRlcl9md19tYWpvciwNCj4gKyAgICAgICAgICAgICAgIHRzLT5kZXZpbmZvLmJvb3Rsb2FkZXJf
+ZndfbWlub3IpOw0KPiArICAgICAgIGRldl9kYmcodHMtPmRldiwgIiAgRlcgRXh0cmEgSW5mbyAg
+OiAlMDR4XG4iLCB0cy0+ZGV2aW5mby5md19pbmZvX2V4dHJhKTsNCj4gKyAgICAgICBkZXZfZGJn
+KHRzLT5kZXYsICIgIFNpbGljb24gICAgICAgIDogJTA0eFxuIiwgbGUxNl90b19jcHUodHMtPmRl
+dmluZm8uamVkZWNfaWQpKTsNCj4gKyAgICAgICBkZXZfZGJnKHRzLT5kZXYsICIgIE51bWJlciB1
+c2FnZXMgICAgICAgIDogJTA0eFxuIiwgdHMtPmRldmluZm8ubnVtX3VzYWdlcyk7DQo+ICsNCj4g
+KyAgICAgICB0cy0+bWF4X3JlcG9ydF9sZW4gPSBheGlvbV9wb3B1bGF0ZV91c2FnZV90YWJsZSh0
+cyk7DQo+ICsgICAgICAgaWYgKCF0cy0+bWF4X3JlcG9ydF9sZW4gfHwgIXRzLT5kZXZpbmZvLm51
+bV91c2FnZXMgfHwNCj4gKyAgICAgICAgICAgdHMtPm1heF9yZXBvcnRfbGVuID4gQVhJT01fTUFY
+X1JFUE9SVF9MRU4pIHsNCj4gKyAgICAgICAgICAgICAgIGRldl9lcnIodHMtPmRldiwgIkludmFs
+aWQgcmVwb3J0IGxlbmd0aCBvciB1c2FnZXMgbnVtYmVyIik7DQo+ICsgICAgICAgICAgICAgICBy
+ZXR1cm4gLUVJTlZBTDsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAgICBkZXZfZGJnKHRzLT5k
+ZXYsICJNYXggUmVwb3J0IExlbmd0aDogJXVcbiIsIHRzLT5tYXhfcmVwb3J0X2xlbik7DQo+ICsN
+Cj4gKyAgICAgICByZXR1cm4gMDsNCj4gK30NCj4gKw0KPiArLyoNCj4gKyAqIFN1cHBvcnQgZnVu
+Y3Rpb24gdG8gYXhpb21fcHJvY2Vzc191NDFfcmVwb3J0Lg0KPiArICogR2VuZXJhdGVzIGlucHV0
+LXN1YnN5c3RlbSBldmVudHMgZm9yIGV2ZXJ5IHRhcmdldC4NCj4gKyAqIEFmdGVyIGNhbGxpbmcg
+dGhpcyBmdW5jdGlvbiB0aGUgY2FsbGVyIHNoYWxsIGlzc3VlDQo+ICsgKiBhIFN5bmMgdG8gdGhl
+IGlucHV0IHN1Yi1zeXN0ZW0uDQo+ICsgKi8NCj4gK3N0YXRpYyBib29sIGF4aW9tX3Byb2Nlc3Nf
+dTQxX3JlcG9ydF90YXJnZXQoc3RydWN0IGF4aW9tX2RhdGEgKnRzLA0KPiArICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBheGlvbV90YXJnZXRfcmVwb3J0
+ICp0YXJnZXQpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IGlucHV0X2RldiAqaW5wdXRfZGV2ID0g
+dHMtPmlucHV0X2RldjsNCj4gKyAgICAgICBzdHJ1Y3QgYXhpb21fdTQxX3RhcmdldCAqdGFyZ2V0
+X3ByZXZfc3RhdGU7DQo+ICsgICAgICAgZW51bSBheGlvbV90YXJnZXRfc3RhdGUgY3VycmVudF9z
+dGF0ZTsNCj4gKyAgICAgICBpbnQgaWQ7DQo+ICsNCj4gKyAgICAgICAvKiBWZXJpZnkgdGhlIHRh
+cmdldCBpbmRleCAqLw0KPiArICAgICAgIGlmICh0YXJnZXQtPmluZGV4ID49IEFYSU9NX1U0MV9N
+QVhfVEFSR0VUUykgew0KPiArICAgICAgICAgICAgICAgZGV2X2Vycih0cy0+ZGV2LCAiSW52YWxp
+ZCB0YXJnZXQgaW5kZXghICV1XG4iLCB0YXJnZXQtPmluZGV4KTsNCj4gKyAgICAgICAgICAgICAg
+IHJldHVybiBmYWxzZTsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAgICB0YXJnZXRfcHJldl9z
+dGF0ZSA9ICZ0cy0+dGFyZ2V0c1t0YXJnZXQtPmluZGV4XTsNCj4gKw0KPiArICAgICAgIGN1cnJl
+bnRfc3RhdGUgPSBBWElPTV9UQVJHRVRfU1RBVEVfTk9UX1BSRVNFTlQ7DQo+ICsNCj4gKyAgICAg
+ICBpZiAodGFyZ2V0LT5wcmVzZW50KSB7DQo+ICsgICAgICAgICAgICAgICBpZiAodGFyZ2V0LT56
+ID49IDApDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGN1cnJlbnRfc3RhdGUgPSBBWElPTV9U
+QVJHRVRfU1RBVEVfVE9VQ0hJTkc7DQo+ICsgICAgICAgICAgICAgICBlbHNlIGlmICh0YXJnZXQt
+PnogPiBBWElPTV9QUk9YX0xFVkVMICYmIHRhcmdldC0+eiA8IDApDQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIGN1cnJlbnRfc3RhdGUgPSBBWElPTV9UQVJHRVRfU1RBVEVfSE9WRVI7DQo+ICsg
+ICAgICAgICAgICAgICBlbHNlIGlmICh0YXJnZXQtPnogPT0gQVhJT01fUFJPWF9MRVZFTCkNCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgY3VycmVudF9zdGF0ZSA9IEFYSU9NX1RBUkdFVF9TVEFU
+RV9QUk9YOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIGlmICh0YXJnZXRfcHJldl9zdGF0
+ZS0+c3RhdGUgPT0gY3VycmVudF9zdGF0ZSAmJg0KPiArICAgICAgICAgICB0YXJnZXRfcHJldl9z
+dGF0ZS0+eCA9PSB0YXJnZXQtPnggJiYNCj4gKyAgICAgICAgICAgdGFyZ2V0X3ByZXZfc3RhdGUt
+PnkgPT0gdGFyZ2V0LT55ICYmDQo+ICsgICAgICAgICAgIHRhcmdldF9wcmV2X3N0YXRlLT56ID09
+IHRhcmdldC0+eikNCj4gKyAgICAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCj4gKw0KPiArICAg
+ICAgIGlkID0gdGFyZ2V0LT5pbmRleDsNCj4gKw0KPiArICAgICAgIGRldl9kYmcodHMtPmRldiwg
+IlU0MSBUYXJnZXQgVCV1LCBzbG90OiV1IHByZXNlbnQ6JXUsIHg6JXUsIHk6JXUsIHo6JWRcbiIs
+DQo+ICsgICAgICAgICAgICAgICB0YXJnZXQtPmluZGV4LCBzbG90LCB0YXJnZXQtPnByZXNlbnQs
+DQo+ICsgICAgICAgICAgICAgICB0YXJnZXQtPngsIHRhcmdldC0+eSwgdGFyZ2V0LT56KTsNCg0K
+VGhpcyBkb2Vzbid0IGNvbXBpbGUuIFlvdSBmb3Jnb3QgdG8gcmVwbGFjZSBzbG90ICB3aXRoIGlk
+Lg0KDQoNCi0gICAgICAgZGV2X2RiZyh0cy0+ZGV2LCAiVTQxIFRhcmdldCBUJXUsIHNsb3Q6JXUg
+cHJlc2VudDoldSwgeDoldSwgDQp5OiV1LCB6OiVkXG4iLA0KLSAgICAgICAgICAgICAgIHRhcmdl
+dC0+aW5kZXgsIHNsb3QsIHRhcmdldC0+cHJlc2VudCwNCisgICAgICAgZGV2X2RiZyh0cy0+ZGV2
+LCAiVTQxIFRhcmdldCBUJXUsIGlkOiV1IHByZXNlbnQ6JXUsIHg6JXUsIHk6JXUsIA0KejolZFxu
+IiwNCisgICAgICAgICAgICAgICB0YXJnZXQtPmluZGV4LCBpZCwgdGFyZ2V0LT5wcmVzZW50LA0K
+DQo+ICsgICAgICAgc3dpdGNoIChjdXJyZW50X3N0YXRlKSB7DQo+ICsgICAgICAgY2FzZSBBWElP
+TV9UQVJHRVRfU1RBVEVfTk9UX1BSRVNFTlQ6DQo+ICsgICAgICAgY2FzZSBBWElPTV9UQVJHRVRf
+U1RBVEVfUFJPWDoNCj4gKyAgICAgICAgICAgICAgIGlmICghdGFyZ2V0X3ByZXZfc3RhdGUtPmlu
+c2VydCkNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsgICAgICAgICAgICAg
+ICB0YXJnZXRfcHJldl9zdGF0ZS0+aW5zZXJ0ID0gZmFsc2U7DQo+ICsNCj4gKyAgICAgICAgICAg
+ICAgIGlmICghaWQpDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGlucHV0X3JlcG9ydF9rZXko
+aW5wdXRfZGV2LCBCVE5fVE9VQ0gsIDApOw0KPiArDQo+ICsgICAgICAgICAgICAgICBpbnB1dF9t
+dF9yZXBvcnRfc2xvdF9pbmFjdGl2ZShpbnB1dF9kZXYpOw0KPiArICAgICAgICAgICAgICAgLyoN
+Cj4gKyAgICAgICAgICAgICAgICAqIG1ha2Ugc3VyZSB0aGUgcHJldmlvdXMgY29vcmRpbmF0ZXMg
+YXJlDQo+ICsgICAgICAgICAgICAgICAgKiBhbGwgb2ZmIHNjcmVlbiB3aGVuIHRoZSBmaW5nZXIg
+Y29tZXMgYmFjaw0KPiArICAgICAgICAgICAgICAgICovDQo+ICsgICAgICAgICAgICAgICB0YXJn
+ZXQtPnggPSA2NTUzNTsNCj4gKyAgICAgICAgICAgICAgIHRhcmdldC0+eSA9IDY1NTM1Ow0KPiAr
+ICAgICAgICAgICAgICAgdGFyZ2V0LT56ID0gQVhJT01fUFJPWF9MRVZFTDsNCj4gKyAgICAgICAg
+ICAgICAgIGJyZWFrOw0KPiArICAgICAgIGNhc2UgQVhJT01fVEFSR0VUX1NUQVRFX0hPVkVSOg0K
+PiArICAgICAgIGNhc2UgQVhJT01fVEFSR0VUX1NUQVRFX1RPVUNISU5HOg0KPiArICAgICAgICAg
+ICAgICAgdGFyZ2V0X3ByZXZfc3RhdGUtPmluc2VydCA9IHRydWU7DQo+ICsgICAgICAgICAgICAg
+ICBpbnB1dF9yZXBvcnRfYWJzKGlucHV0X2RldiwgQUJTX01UX1RSQUNLSU5HX0lELCBpZCk7DQo+
+ICsgICAgICAgICAgICAgICBpbnB1dF9yZXBvcnRfYWJzKGlucHV0X2RldiwgQUJTX01UX1BPU0lU
+SU9OX1gsIHRhcmdldC0+eCk7DQo+ICsgICAgICAgICAgICAgICBpbnB1dF9yZXBvcnRfYWJzKGlu
+cHV0X2RldiwgQUJTX01UX1BPU0lUSU9OX1ksIHRhcmdldC0+eSk7DQo+ICsNCj4gKyAgICAgICAg
+ICAgICAgIGlmIChjdXJyZW50X3N0YXRlID09IEFYSU9NX1RBUkdFVF9TVEFURV9UT1VDSElORykg
+ew0KPiArICAgICAgICAgICAgICAgICAgICAgICBpbnB1dF9yZXBvcnRfYWJzKGlucHV0X2Rldiwg
+QUJTX01UX0RJU1RBTkNFLCAwKTsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgaW5wdXRfcmVw
+b3J0X2FicyhpbnB1dF9kZXYsIEFCU19ESVNUQU5DRSwgMCk7DQo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgIGlucHV0X3JlcG9ydF9hYnMoaW5wdXRfZGV2LCBBQlNfTVRfUFJFU1NVUkUsIHRhcmdl
+dC0+eik7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGlucHV0X3JlcG9ydF9hYnMoaW5wdXRf
+ZGV2LCBBQlNfUFJFU1NVUkUsIHRhcmdldC0+eik7DQo+ICsgICAgICAgICAgICAgICB9IGVsc2Ug
+ew0KPiArICAgICAgICAgICAgICAgICAgICAgICBpbnB1dF9yZXBvcnRfYWJzKGlucHV0X2Rldiwg
+QUJTX01UX0RJU1RBTkNFLCAtdGFyZ2V0LT56KTsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+aW5wdXRfcmVwb3J0X2FicyhpbnB1dF9kZXYsIEFCU19ESVNUQU5DRSwgLXRhcmdldC0+eik7DQo+
+ICsgICAgICAgICAgICAgICAgICAgICAgIGlucHV0X3JlcG9ydF9hYnMoaW5wdXRfZGV2LCBBQlNf
+TVRfUFJFU1NVUkUsIDApOw0KPiArICAgICAgICAgICAgICAgICAgICAgICBpbnB1dF9yZXBvcnRf
+YWJzKGlucHV0X2RldiwgQUJTX1BSRVNTVVJFLCAwKTsNCj4gKyAgICAgICAgICAgICAgIH0NCj4g
+Kw0KPiArICAgICAgICAgICAgICAgaWYgKCFpZCkNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+aW5wdXRfcmVwb3J0X2tleShpbnB1dF9kZXYsIEJUTl9UT1VDSCwgKGN1cnJlbnRfc3RhdGUgPT0N
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBWElPTV9UQVJHRVRf
+U1RBVEVfVE9VQ0hJTkcpKTsNCj4gKyAgICAgICAgICAgICAgIGJyZWFrOw0KPiArICAgICAgIGRl
+ZmF1bHQ6DQo+ICsgICAgICAgICAgICAgICBicmVhazsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAg
+ICAgICB0YXJnZXRfcHJldl9zdGF0ZS0+c3RhdGUgPSBjdXJyZW50X3N0YXRlOw0KPiArICAgICAg
+IHRhcmdldF9wcmV2X3N0YXRlLT54ID0gdGFyZ2V0LT54Ow0KPiArICAgICAgIHRhcmdldF9wcmV2
+X3N0YXRlLT55ID0gdGFyZ2V0LT55Ow0KPiArICAgICAgIHRhcmdldF9wcmV2X3N0YXRlLT56ID0g
+dGFyZ2V0LT56Ow0KPiArDQo+ICsgICAgICAgcmV0dXJuIHRydWU7DQo+ICt9DQo+ICsNCj4gKy8q
+DQo+ICsgKiBVNDEgaXMgdGhlIG91dHB1dCByZXBvcnQgb2YgdGhlIDJEIENUUyBhbmQgY29udGFp
+bnMgdGhlIHN0YXR1cyBvZiB0YXJnZXRzDQo+ICsgKiAoaW5jbHVkaW5nIGNvbnRhY3RzIGFuZCBw
+cmUtY29udGFjdHMpIGFsb25nIHdpdGggdGhlaXIgWCxZLFogdmFsdWVzLg0KPiArICogV2hlbiBh
+IHRhcmdldCBoYXMgYmVlbiByZW1vdmVkIChubyBsb25nZXIgZGV0ZWN0ZWQpLA0KPiArICogdGhl
+IGNvcnJlc3BvbmRpbmcgWCxZLFogdmFsdWVzIHdpbGwgYmUgemVyb2VkLg0KPiArICovDQo+ICtz
+dGF0aWMgYm9vbCBheGlvbV9wcm9jZXNzX3U0MV9yZXBvcnQoc3RydWN0IGF4aW9tX2RhdGEgKnRz
+LCB1OCAqcnhfYnVmKQ0KPiArew0KPiArICAgICAgIHN0cnVjdCBheGlvbV90YXJnZXRfcmVwb3J0
+IHRhcmdldDsNCj4gKyAgICAgICBib29sIHVwZGF0ZV9kb25lID0gZmFsc2U7DQo+ICsgICAgICAg
+dTE2IHRhcmdldF9zdGF0dXM7DQo+ICsgICAgICAgaW50IGk7DQo+ICsNCj4gKyAgICAgICB0YXJn
+ZXRfc3RhdHVzID0gZ2V0X3VuYWxpZ25lZF9sZTE2KHJ4X2J1ZiArIDEpOw0KPiArDQo+ICsgICAg
+ICAgZm9yIChpID0gMDsgaSA8IEFYSU9NX1U0MV9NQVhfVEFSR0VUUzsgaSsrKSB7DQo+ICsgICAg
+ICAgICAgICAgICB1OCAqdGFyZ2V0X3N0ZXAgPSAmcnhfYnVmW2kgKiA0XTsNCj4gKw0KPiArICAg
+ICAgICAgICAgICAgdGFyZ2V0LmluZGV4ID0gaTsNCj4gKyAgICAgICAgICAgICAgIGlucHV0X210
+X3Nsb3QodHMtPmlucHV0X2RldiwgaSk7DQo+ICsgICAgICAgICAgICAgICBpbnB1dF9tdF9yZXBv
+cnRfc2xvdF9zdGF0ZSh0cy0+aW5wdXRfZGV2LCBNVF9UT09MX0ZJTkdFUiwgdHJ1ZSk7DQo+ICsg
+ICAgICAgICAgICAgICB0YXJnZXQucHJlc2VudCA9ICgodGFyZ2V0X3N0YXR1cyAmICgxIDw8IGkp
+KSAhPSAwKSA/IDEgOiAwOw0KPiArICAgICAgICAgICAgICAgdGFyZ2V0LnggPSBnZXRfdW5hbGln
+bmVkX2xlMTYodGFyZ2V0X3N0ZXAgKyAzKTsNCj4gKyAgICAgICAgICAgICAgIHRhcmdldC55ID0g
+Z2V0X3VuYWxpZ25lZF9sZTE2KHRhcmdldF9zdGVwICsgNSk7DQo+ICsgICAgICAgICAgICAgICB0
+YXJnZXQueiA9IChzOCkocnhfYnVmW2kgKyA0M10pOw0KPiArICAgICAgICAgICAgICAgdG91Y2hz
+Y3JlZW5fcmVwb3J0X3Bvcyh0cy0+aW5wdXRfZGV2LCAmdHMtPnByb3AsIHRhcmdldC54LCB0YXJn
+ZXQueSwgdHJ1ZSk7DQo+ICsgICAgICAgICAgICAgICB1cGRhdGVfZG9uZSB8PSBheGlvbV9wcm9j
+ZXNzX3U0MV9yZXBvcnRfdGFyZ2V0KHRzLCAmdGFyZ2V0KTsNCj4gKyAgICAgICB9DQo+ICsNCj4g
+KyAgICAgICByZXR1cm4gdXBkYXRlX2RvbmU7DQo+ICt9DQo+ICsNCj4gKy8qDQo+ICsgKiBVNDYg
+cmVwb3J0IGNvbnRhaW5zIGEgbG93IGxldmVsIG1lYXN1cmVtZW50IGRhdGEgZ2VuZXJhdGVkIGJ5
+IHRoZSBjYXBhY2l0aXZlDQo+ICsgKiBkaXNwbGFjZW1lbnQgc2Vuc29yIChDRFMpIGFsZ29yaXRo
+bXMgZnJvbSB0aGUgYXV4aWxpYXJ5IGNoYW5uZWxzLg0KPiArICogVGhpcyBpbmZvcm1hdGlvbiBp
+cyB1c2VmdWwgd2hlbiB0dW5pbmcgbXVsdGktcHJlc3MgdG8gYXNzZXNzIG1lY2hhbmljYWwNCj4g
+KyAqIGNvbnNpc3RlbmN5IGluIHRoZSB1bml0J3MgY29uc3RydWN0aW9uLg0KPiArICovDQo+ICtz
+dGF0aWMgdm9pZCBheGlvbV9wcm9jZXNzX3U0Nl9yZXBvcnQoc3RydWN0IGF4aW9tX2RhdGEgKnRz
+LCB1OCAqcnhfYnVmKQ0KPiArew0KPiArICAgICAgIHN0cnVjdCBpbnB1dF9kZXYgKmlucHV0X2Rl
+diA9IHRzLT5pbnB1dF9kZXY7DQo+ICsgICAgICAgdTMyIGV2ZW50X3ZhbHVlOw0KPiArICAgICAg
+IHUxNiBhdXhfdmFsdWU7DQo+ICsgICAgICAgaW50IGk7DQo+ICsNCj4gKyAgICAgICBmb3IgKGkg
+PSAwOyBpIDwgQVhJT01fVTQ2X0FVWF9DSEFOTkVMUzsgaSsrKSB7DQo+ICsgICAgICAgICAgICAg
+ICB1OCAqdGFyZ2V0X3N0ZXAgPSAmcnhfYnVmW2kgKiAyXTsNCj4gKw0KPiArICAgICAgICAgICAg
+ICAgaW5wdXRfbXRfc2xvdChpbnB1dF9kZXYsIGkpOw0KPiArICAgICAgICAgICAgICAgaW5wdXRf
+bXRfcmVwb3J0X3Nsb3Rfc3RhdGUoaW5wdXRfZGV2LCBNVF9UT09MX0ZJTkdFUiwgdHJ1ZSk7DQo+
+ICsgICAgICAgICAgICAgICBhdXhfdmFsdWUgPSBnZXRfdW5hbGlnbmVkX2xlMTYodGFyZ2V0X3N0
+ZXAgKyAxKSAmIEFYSU9NX1U0Nl9BVVhfTUFTSzsNCj4gKyAgICAgICAgICAgICAgIGV2ZW50X3Zh
+bHVlID0gKGkgPDwgMTYpIHwgKGF1eF92YWx1ZSk7DQo+ICsgICAgICAgICAgICAgICBpbnB1dF9l
+dmVudChpbnB1dF9kZXYsIEVWX01TQywgTVNDX1JBVywgZXZlbnRfdmFsdWUpOw0KPiArICAgICAg
+IH0NCj4gK30NCj4gKw0KPiArLyoNCj4gKyAqIFZhbGlkYXRlcyB0aGUgY3JjIGFuZCBkZW11bHRp
+cGxleGVzIHRoZSBheGlvbSByZXBvcnRzIHRvIHRoZSBhcHByb3ByaWF0ZQ0KPiArICogcmVwb3J0
+IGhhbmRsZXINCj4gKyAqLw0KPiArc3RhdGljIGludCBheGlvbV9oYW5kbGVfZXZlbnRzKHN0cnVj
+dCBheGlvbV9kYXRhICp0cykNCj4gK3sNCj4gKyAgICAgICBzdHJ1Y3QgaW5wdXRfZGV2ICppbnB1
+dF9kZXYgPSB0cy0+aW5wdXRfZGV2Ow0KPiArICAgICAgIHU4ICpyZXBvcnRfZGF0YSA9IHRzLT5y
+eF9idWY7DQo+ICsgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gdHMtPmRldjsNCj4gKyAgICAg
+ICB1MTYgY3JjX3JlcG9ydDsNCj4gKyAgICAgICB1OCAqY3JjX2J5dGVzOw0KPiArICAgICAgIHUx
+NiBjcmNfY2FsYzsNCj4gKyAgICAgICBpbnQgZXJyb3I7DQo+ICsgICAgICAgdTggbGVuOw0KPiAr
+DQo+ICsgICAgICAgZXJyb3IgPSBheGlvbV9yZWFkKHRzLCBBWElPTV9SRVBPUlRfVVNBR0VfSUQs
+IDAsIHJlcG9ydF9kYXRhLCB0cy0+bWF4X3JlcG9ydF9sZW4pOw0KPiArICAgICAgIGlmIChlcnJv
+cikNCj4gKyAgICAgICAgICAgICAgIHJldHVybiBlcnJvcjsNCj4gKw0KPiArICAgICAgIGxlbiA9
+IChyZXBvcnRfZGF0YVswXSAmIEFYSU9NX0NPTU1TX1JFUE9SVF9MRU5fTUFTSykgPDwgMTsNCj4g
+KyAgICAgICBpZiAobGVuIDw9IDIpIHsNCj4gKyAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAi
+WmVybyBsZW5ndGggcmVwb3J0IGRpc2NhcmRlZC5cbiIpOw0KPiArICAgICAgICAgICAgICAgcmV0
+dXJuIC1FTk9EQVRBOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIC8qIFZhbGlkYXRlIHRo
+ZSByZXBvcnQgQ1JDICovDQo+ICsgICAgICAgY3JjX2J5dGVzID0gJnJlcG9ydF9kYXRhW2xlbl07
+DQo+ICsNCj4gKyAgICAgICBjcmNfcmVwb3J0ID0gZ2V0X3VuYWxpZ25lZF9sZTE2KGNyY19ieXRl
+cyAtIDIpOw0KPiArICAgICAgIC8qIExlbmd0aCBpcyBpbiAxNiBiaXQgd29yZHMgYW5kIHJlbW92
+ZSB0aGUgc2l6ZSBvZiB0aGUgQ1JDMTYgaXRzZWxmICovDQo+ICsgICAgICAgY3JjX2NhbGMgPSBj
+cmMxNigwLCByZXBvcnRfZGF0YSwgKGxlbiAtIDIpKTsNCj4gKw0KPiArICAgICAgIGlmIChjcmNf
+Y2FsYyAhPSBjcmNfcmVwb3J0KSB7DQo+ICsgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwNCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgIkNSQyBtaXNtYXRjaCEgRXhwZWN0ZWQ6ICUjeCwgQ2Fs
+Y3VsYXRlZCBDUkM6ICUjeC5cbiIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGNyY19yZXBv
+cnQsIGNyY19jYWxjKTsNCj4gKyAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiArICAg
+ICAgIH0NCj4gKw0KPiArICAgICAgIHN3aXRjaCAocmVwb3J0X2RhdGFbMV0pIHsNCj4gKyAgICAg
+ICBjYXNlIEFYSU9NX1VTQUdFXzJEQ1RTX1JFUE9SVF9JRDoNCj4gKyAgICAgICAgICAgICAgIGlm
+IChheGlvbV9wcm9jZXNzX3U0MV9yZXBvcnQodHMsICZyZXBvcnRfZGF0YVsxXSkpIHsNCj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgaW5wdXRfbXRfc3luY19mcmFtZShpbnB1dF9kZXYpOw0KPiAr
+ICAgICAgICAgICAgICAgICAgICAgICBpbnB1dF9zeW5jKGlucHV0X2Rldik7DQo+ICsgICAgICAg
+ICAgICAgICB9DQo+ICsgICAgICAgICAgICAgICBicmVhazsNCj4gKw0KPiArICAgICAgIGNhc2Ug
+QVhJT01fVVNBR0VfMkFVWF9SRVBPUlRfSUQ6DQo+ICsgICAgICAgICAgICAgICAvKiBUaGlzIGlz
+IGFuIGF1eCByZXBvcnQgKGZvcmNlKSAqLw0KPiArICAgICAgICAgICAgICAgYXhpb21fcHJvY2Vz
+c191NDZfcmVwb3J0KHRzLCAmcmVwb3J0X2RhdGFbMV0pOw0KPiArICAgICAgICAgICAgICAgaW5w
+dXRfbXRfc3luYyhpbnB1dF9kZXYpOw0KPiArICAgICAgICAgICAgICAgaW5wdXRfc3luYyhpbnB1
+dF9kZXYpOw0KPiArICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsNCj4gKyAgICAgICBjYXNlIEFY
+SU9NX1VTQUdFXzJIQl9SRVBPUlRfSUQ6DQo+ICsgICAgICAgICAgICAgICAvKiBUaGlzIGlzIGEg
+aGVhcnRiZWF0IHJlcG9ydCAqLw0KPiArICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsgICAgICAg
+ZGVmYXVsdDoNCj4gKyAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiArICAgICAgIH0N
+Cj4gKw0KPiArICAgICAgIHJldHVybiAwOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBheGlv
+bV9pMmNfcG9sbChzdHJ1Y3QgaW5wdXRfZGV2ICppbnB1dF9kZXYpDQo+ICt7DQo+ICsgICAgICAg
+c3RydWN0IGF4aW9tX2RhdGEgKnRzID0gaW5wdXRfZ2V0X2RydmRhdGEoaW5wdXRfZGV2KTsNCj4g
+Kw0KPiArICAgICAgIGF4aW9tX2hhbmRsZV9ldmVudHModHMpOw0KPiArfQ0KPiArDQo+ICtzdGF0
+aWMgaXJxcmV0dXJuX3QgYXhpb21faXJxKGludCBpcnEsIHZvaWQgKmRldl9pZCkNCj4gK3sNCj4g
+KyAgICAgICBzdHJ1Y3QgYXhpb21fZGF0YSAqdHMgPSBkZXZfaWQ7DQo+ICsNCj4gKyAgICAgICBh
+eGlvbV9oYW5kbGVfZXZlbnRzKHRzKTsNCj4gKw0KPiArICAgICAgIHJldHVybiBJUlFfSEFORExF
+RDsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgYXhpb21fcmVzZXQoc3RydWN0IGdwaW9fZGVz
+YyAqcmVzZXRfZ3BpbykNCj4gK3sNCj4gKyAgICAgICBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAo
+cmVzZXRfZ3BpbywgMSk7DQo+ICsgICAgICAgdXNsZWVwX3JhbmdlKDEwMDAsIDIwMDApOw0KPiAr
+ICAgICAgIGdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChyZXNldF9ncGlvLCAwKTsNCj4gKyAgICAg
+ICBtc2xlZXAoQVhJT01fU1RBUlRVUF9USU1FX01TKTsNCj4gK30NCj4gKw0KPiArc3RhdGljIGlu
+dCBheGlvbV9pMmNfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkNCj4gK3sNCj4gKyAg
+ICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmY2xpZW50LT5kZXY7DQo+ICsgICAgICAgc3RydWN0
+IGlucHV0X2RldiAqaW5wdXRfZGV2Ow0KPiArICAgICAgIHN0cnVjdCBheGlvbV9kYXRhICp0czsN
+Cj4gKyAgICAgICB1MzIgcG9sbF9pbnRlcnZhbDsNCj4gKyAgICAgICBpbnQgdGFyZ2V0Ow0KPiAr
+ICAgICAgIGludCBlcnJvcjsNCj4gKw0KPiArICAgICAgIHRzID0gZGV2bV9remFsbG9jKGRldiwg
+c2l6ZW9mKCp0cyksIEdGUF9LRVJORUwpOw0KPiArICAgICAgIGlmICghdHMpDQo+ICsgICAgICAg
+ICAgICAgICByZXR1cm4gLUVOT01FTTsNCj4gKw0KPiArICAgICAgIGkyY19zZXRfY2xpZW50ZGF0
+YShjbGllbnQsIHRzKTsNCj4gKyAgICAgICB0cy0+Y2xpZW50ID0gY2xpZW50Ow0KPiArICAgICAg
+IHRzLT5kZXYgPSBkZXY7DQo+ICsNCj4gKyAgICAgICB0cy0+cmVnbWFwID0gZGV2bV9yZWdtYXBf
+aW5pdF9pMmMoY2xpZW50LCAmYXhpb21faTJjX3JlZ21hcF9jb25maWcpOw0KPiArICAgICAgIGVy
+cm9yID0gUFRSX0VSUl9PUl9aRVJPKHRzLT5yZWdtYXApOw0KPiArICAgICAgIGlmIChlcnJvcikg
+ew0KPiArICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8gaW5pdGlhbGl6ZSBy
+ZWdtYXA6ICVkXG4iLCBlcnJvcik7DQo+ICsgICAgICAgICAgICAgICByZXR1cm4gZXJyb3I7DQo+
+ICsgICAgICAgfQ0KPiArDQo+ICsgICAgICAgdHMtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dl
+dF9vcHRpb25hbChkZXYsICJyZXNldCIsIEdQSU9EX09VVF9ISUdIKTsNCj4gKyAgICAgICBpZiAo
+SVNfRVJSKHRzLT5yZXNldF9ncGlvKSkNCj4gKyAgICAgICAgICAgICAgIHJldHVybiBkZXZfZXJy
+X3Byb2JlKGRldiwgUFRSX0VSUih0cy0+cmVzZXRfZ3BpbyksICJmYWlsZWQgdG8gZ2V0IHJlc2V0
+IEdQSU9cbiIpOw0KPiArDQo+ICsgICAgICAgaWYgKHRzLT5yZXNldF9ncGlvKQ0KPiArICAgICAg
+ICAgICAgICAgYXhpb21fcmVzZXQodHMtPnJlc2V0X2dwaW8pOw0KPiArDQo+ICsgICAgICAgdHMt
+PnZkZGkgPSBkZXZtX3JlZ3VsYXRvcl9nZXRfb3B0aW9uYWwoZGV2LCAidmRkaSIpOw0KPiArICAg
+ICAgIGlmICghSVNfRVJSKHRzLT52ZGRpKSkgew0KPiArICAgICAgICAgICAgICAgZXJyb3IgPSBk
+ZXZtX3JlZ3VsYXRvcl9nZXRfZW5hYmxlKGRldiwgInZkZGkiKTsNCj4gKyAgICAgICAgICAgICAg
+IGlmIChlcnJvcikNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGRldl9lcnJfcHJv
+YmUoJmNsaWVudC0+ZGV2LCBlcnJvciwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIkZhaWxlZCB0byBlbmFibGUgdmRkaSByZWd1bGF0b3JcbiIpOw0KPiAr
+ICAgICAgIH0NCj4gKw0KPiArICAgICAgIHRzLT52ZGRhID0gZGV2bV9yZWd1bGF0b3JfZ2V0X29w
+dGlvbmFsKGRldiwgInZkZGEiKTsNCj4gKyAgICAgICBpZiAoIUlTX0VSUih0cy0+dmRkYSkpIHsN
+Cj4gKyAgICAgICAgICAgICAgIGVycm9yID0gZGV2bV9yZWd1bGF0b3JfZ2V0X2VuYWJsZShkZXYs
+ICJ2ZGRhIik7DQo+ICsgICAgICAgICAgICAgICBpZiAoZXJyb3IpDQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIHJldHVybiBkZXZfZXJyX3Byb2JlKCZjbGllbnQtPmRldiwgZXJyb3IsDQo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8gZW5h
+YmxlIHZkZGEgcmVndWxhdG9yXG4iKTsNCj4gKyAgICAgICAgICAgICAgIG1zbGVlcChBWElPTV9T
+VEFSVFVQX1RJTUVfTVMpOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIGVycm9yID0gYXhp
+b21fZGlzY292ZXIodHMpOw0KPiArICAgICAgIGlmIChlcnJvcikNCj4gKyAgICAgICAgICAgICAg
+IHJldHVybiBkZXZfZXJyX3Byb2JlKGRldiwgZXJyb3IsICJGYWlsZWQgdG91Y2hzY3JlZW4gZGlz
+Y292ZXJcbiIpOw0KPiArDQo+ICsgICAgICAgaW5wdXRfZGV2ID0gZGV2bV9pbnB1dF9hbGxvY2F0
+ZV9kZXZpY2UodHMtPmRldik7DQo+ICsgICAgICAgaWYgKCFpbnB1dF9kZXYpDQo+ICsgICAgICAg
+ICAgICAgICByZXR1cm4gLUVOT01FTTsNCj4gKw0KPiArICAgICAgIGlucHV0X2Rldi0+bmFtZSA9
+ICJUb3VjaE5ldGl4IGF4aW9tIFRvdWNoc2NyZWVuIjsNCj4gKyAgICAgICBpbnB1dF9kZXYtPnBo
+eXMgPSAiaW5wdXQvYXhpb21fdHMiOw0KPiArDQo+ICsgICAgICAgaW5wdXRfc2V0X2Fic19wYXJh
+bXMoaW5wdXRfZGV2LCBBQlNfTVRfUE9TSVRJT05fWCwgMCwgNjU1MzUsIDAsIDApOw0KPiArICAg
+ICAgIGlucHV0X3NldF9hYnNfcGFyYW1zKGlucHV0X2RldiwgQUJTX01UX1BPU0lUSU9OX1ksIDAs
+IDY1NTM1LCAwLCAwKTsNCj4gKyAgICAgICBpbnB1dF9zZXRfYWJzX3BhcmFtcyhpbnB1dF9kZXYs
+IEFCU19NVF9UT09MX1RZUEUsIDAsIE1UX1RPT0xfTUFYLCAwLCAwKTsNCj4gKyAgICAgICBpbnB1
+dF9zZXRfYWJzX3BhcmFtcyhpbnB1dF9kZXYsIEFCU19NVF9ESVNUQU5DRSwgMCwgMTI3LCAwLCAw
+KTsNCj4gKyAgICAgICBpbnB1dF9zZXRfYWJzX3BhcmFtcyhpbnB1dF9kZXYsIEFCU19NVF9QUkVT
+U1VSRSwgMCwgMTI3LCAwLCAwKTsNCj4gKw0KPiArICAgICAgIHRvdWNoc2NyZWVuX3BhcnNlX3By
+b3BlcnRpZXMoaW5wdXRfZGV2LCB0cnVlLCAmdHMtPnByb3ApOw0KPiArDQo+ICsgICAgICAgLyog
+UmVnaXN0ZXJzIHRoZSBheGlvbSBkZXZpY2UgYXMgYSB0b3VjaHNjcmVlbiBpbnN0ZWFkIG9mIGEg
+bW91c2UgcG9pbnRlciAqLw0KPiArICAgICAgIGVycm9yID0gaW5wdXRfbXRfaW5pdF9zbG90cyhp
+bnB1dF9kZXYsIEFYSU9NX1U0MV9NQVhfVEFSR0VUUywgSU5QVVRfTVRfRElSRUNUKTsNCj4gKyAg
+ICAgICBpZiAoZXJyb3IpDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gZXJyb3I7DQo+ICsNCj4g
+KyAgICAgICAvKiBFbmFibGVzIHRoZSByYXcgZGF0YSBmb3IgdXAgdG8gNCBmb3JjZSBjaGFubmVs
+cyB0byBiZSBzZW50IHRvIHRoZSBpbnB1dCBzdWJzeXN0ZW0gKi8NCj4gKyAgICAgICBzZXRfYml0
+KEVWX1JFTCwgaW5wdXRfZGV2LT5ldmJpdCk7DQo+ICsgICAgICAgc2V0X2JpdChFVl9NU0MsIGlu
+cHV0X2Rldi0+ZXZiaXQpOw0KPiArICAgICAgIC8qIERlY2xhcmUgdGhhdCB3ZSBzdXBwb3J0ICJS
+QVciIE1pc2NlbGxhbmVvdXMgZXZlbnRzICovDQo+ICsgICAgICAgc2V0X2JpdChNU0NfUkFXLCBp
+bnB1dF9kZXYtPm1zY2JpdCk7DQo+ICsNCj4gKyAgICAgICB0cy0+aW5wdXRfZGV2ID0gaW5wdXRf
+ZGV2Ow0KPiArICAgICAgIGlucHV0X3NldF9kcnZkYXRhKHRzLT5pbnB1dF9kZXYsIHRzKTsNCj4g
+Kw0KPiArICAgICAgIC8qIEVuc3VyZSB0aGF0IGFsbCByZXBvcnRzIGFyZSBpbml0aWFsaXNlZCB0
+byBub3QgYmUgcHJlc2VudC4gKi8NCj4gKyAgICAgICBmb3IgKHRhcmdldCA9IDA7IHRhcmdldCA8
+IEFYSU9NX1U0MV9NQVhfVEFSR0VUUzsgdGFyZ2V0KyspDQo+ICsgICAgICAgICAgICAgICB0cy0+
+dGFyZ2V0c1t0YXJnZXRdLnN0YXRlID0gQVhJT01fVEFSR0VUX1NUQVRFX05PVF9QUkVTRU5UOw0K
+PiArDQo+ICsgICAgICAgZXJyb3IgPSBkZXZtX3JlcXVlc3RfdGhyZWFkZWRfaXJxKGRldiwgY2xp
+ZW50LT5pcnEsIE5VTEwsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGF4aW9tX2lycSwgSVJRRl9PTkVTSE9ULCBkZXZfbmFtZShkZXYpLCB0cyk7DQo+ICsgICAg
+ICAgaWYgKGVycm9yKSB7DQo+ICsgICAgICAgICAgICAgICBkZXZfaW5mbyhkZXYsICJSZXF1ZXN0
+IGlycSBmYWlsZWQsIGZhbGxpbmcgYmFjayB0byBwb2xsaW5nIG1vZGUiKTsNCj4gKw0KPiArICAg
+ICAgICAgICAgICAgZXJyb3IgPSBpbnB1dF9zZXR1cF9wb2xsaW5nKGlucHV0X2RldiwgYXhpb21f
+aTJjX3BvbGwpOw0KPiArICAgICAgICAgICAgICAgaWYgKGVycm9yKQ0KPiArICAgICAgICAgICAg
+ICAgICAgICAgICByZXR1cm4gZGV2X2Vycl9wcm9iZSh0cy0+ZGV2LCBlcnJvciwgIlVuYWJsZSB0
+byBzZXQgdXAgcG9sbGluZyBtb2RlXG4iKTsNCj4gKw0KPiArICAgICAgICAgICAgICAgaWYgKCFk
+ZXZpY2VfcHJvcGVydHlfcmVhZF91MzIodHMtPmRldiwgInBvbGwtaW50ZXJ2YWwiLCAmcG9sbF9p
+bnRlcnZhbCkpDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGlucHV0X3NldF9wb2xsX2ludGVy
+dmFsKGlucHV0X2RldiwgcG9sbF9pbnRlcnZhbCk7DQo+ICsgICAgICAgICAgICAgICBlbHNlDQo+
+ICsgICAgICAgICAgICAgICAgICAgICAgIGlucHV0X3NldF9wb2xsX2ludGVydmFsKGlucHV0X2Rl
+diwgUE9MTF9JTlRFUlZBTF9ERUZBVUxUX01TKTsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAg
+ICBlcnJvciA9IGlucHV0X3JlZ2lzdGVyX2RldmljZShpbnB1dF9kZXYpOw0KPiArICAgICAgIGlm
+IChlcnJvcikNCj4gKyAgICAgICAgICAgICAgIHJldHVybiBkZXZfZXJyX3Byb2JlKHRzLT5kZXYs
+IGVycm9yLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIkNvdWxkIG5v
+dCByZWdpc3RlciB3aXRoIElucHV0IFN1Yi1zeXN0ZW0uXG4iKTsNCj4gKw0KPiArICAgICAgIHJl
+dHVybiAwOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGkyY19kZXZpY2VfaWQg
+YXhpb21faTJjX2lkX3RhYmxlW10gPSB7DQo+ICsgICAgICAgeyAiYXg1NGEiIH0sDQo+ICsgICAg
+ICAgeyB9LA0KPiArfTsNCj4gK01PRFVMRV9ERVZJQ0VfVEFCTEUoaTJjLCBheGlvbV9pMmNfaWRf
+dGFibGUpOw0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBheGlvbV9p
+MmNfb2ZfbWF0Y2hbXSA9IHsNCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gInRvdWNobmV0aXgs
+YXg1NGEiLCB9LA0KPiArICAgICAgIHsgfQ0KPiArfTsNCj4gK01PRFVMRV9ERVZJQ0VfVEFCTEUo
+b2YsIGF4aW9tX2kyY19vZl9tYXRjaCk7DQo+ICsNCj4gK3N0YXRpYyBzdHJ1Y3QgaTJjX2RyaXZl
+ciBheGlvbV9pMmNfZHJpdmVyID0gew0KPiArICAgICAgIC5kcml2ZXIgPSB7DQo+ICsgICAgICAg
+ICAgICAgICAgICAubmFtZSA9ICJheGlvbSIsDQo+ICsgICAgICAgICAgICAgICAgICAub2ZfbWF0
+Y2hfdGFibGUgPSBheGlvbV9pMmNfb2ZfbWF0Y2gsDQo+ICsgICAgICAgfSwNCj4gKyAgICAgICAu
+aWRfdGFibGUgPSBheGlvbV9pMmNfaWRfdGFibGUsDQo+ICsgICAgICAgLnByb2JlID0gYXhpb21f
+aTJjX3Byb2JlLA0KPiArfTsNCj4gK21vZHVsZV9pMmNfZHJpdmVyKGF4aW9tX2kyY19kcml2ZXIp
+Ow0KPiArDQo+ICtNT0RVTEVfQVVUSE9SKCJCYXJ0IFByZXNjb3R0IDxiYXJ0cEBiYWFzaGVlcC5j
+by51az4iKTsNCj4gK01PRFVMRV9BVVRIT1IoIlBlZHJvIFRvcnJ1ZWxsYSA8cGVkcm8udG9ycnVl
+bGxhQHRvdWNobmV0aXguY29tPiIpOw0KPiArTU9EVUxFX0FVVEhPUigiTWFyayBTYXR0ZXJ0aHdh
+aXRlIDxtYXJrLnNhdHRlcnRod2FpdGVAdG91Y2huZXRpeC5jb20+Iik7DQo+ICtNT0RVTEVfQVVU
+SE9SKCJIYW5uYWggUm9zc2l0ZXIgPGhhbm5haC5yb3NzaXRlckB0b3VjaG5ldGl4LmNvbT4iKTsN
+Cj4gK01PRFVMRV9BVVRIT1IoIkthbWVsIEJvdWhhcmEgPGthbWVsLmJvdWhhcmFAYm9vdGxpbi5j
+b20+Iik7DQo+ICtNT0RVTEVfREVTQ1JJUFRJT04oIlRvdWNoTmV0aXggYXhpb20gdG91Y2hzY3Jl
+ZW4gSTJDIGJ1cyBkcml2ZXIiKTsNCj4gK01PRFVMRV9MSUNFTlNFKCJHUEwiKTsNCj4gLS0NCj4g
+Mi4yNS4xDQo+IA0K
 
