@@ -1,122 +1,236 @@
-Return-Path: <linux-input+bounces-1975-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1976-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0A285B7AC
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 10:36:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EDB85B7B5
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 10:38:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B86121F25A1B
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 09:36:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 902DC28386E
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 09:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63C8C612EE;
-	Tue, 20 Feb 2024 09:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32ED45FDAE;
+	Tue, 20 Feb 2024 09:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ARZ7NZLW"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jb76ZZsG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HDylI/Yt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jb76ZZsG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HDylI/Yt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9AB612CB
-	for <linux-input@vger.kernel.org>; Tue, 20 Feb 2024 09:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1175FDC6;
+	Tue, 20 Feb 2024 09:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708421760; cv=none; b=SmKo/wlahHHM/PlZltMCSPyRRfwUGwkmNgQG3I0A1s1GVZx6VdGucADKQpFpaPU6Saq9ln7XwcgOKaB2bBcmDEnOPwilVO2K8OssnUiFbNjcbrD6RM0+zIK5VM69EIBxaVlVInyFyqyND4xKMv3WcQ0UcXjeaAficZGee+TVT/Y=
+	t=1708421881; cv=none; b=uF9KIU5b8a14yKvrWq09U13RL6cfMOx3rQAR7uU+dP6WCINg3C2+ruZZt+9MrCdbVsWeDtfPbLok6ilM/0bKyReKX7nr34lbtbDRq347O7cdGrkoiQ1XbMVqIBa/oUi5u2Q0jPdnXCBKVwFQijjz1HtrwVt3waShKMqeXeqUBIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708421760; c=relaxed/simple;
-	bh=VnAn8uZAJT5vkIYnj03sUb9gmxZzfSWHD4320ZoQ8KQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JVyaPADfOkM2VXPvKGaHSMbDR6HNCUScX+QmM6q+1bcKmF21fFcpGbtaag9LwZDNiXL6tJ438pLuuO6aFdjBXM1j7aBEaNx0xylrg3Mi2jD0cWmg9vWt6KRaHK5WFWrsNzwghqa3KKPgTU8gjVWLEb2FXZV7mGlr8L3/zEjV0iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ARZ7NZLW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708421757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9Hgn9WqXu1AhhX6E5+lsbEBu8N0fTK8tYmqmiPGcClA=;
-	b=ARZ7NZLWLjH7jyHqKAAa47bNF3PLxCHa2BNGOTlpt6NSBSF0v3ys6Xo0plG0XOmHUew3ng
-	0VY/8SbJNo155dWlnXJhoqeTJYyJhbrsYxJs2P7NYwZRKqs+C4KEC7n+ms8ZLkCcHT7AmD
-	ETdhCNObVVC+8ofRhnQWnsurcTQ7LdM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-WXEoGB4OMvWb3whxrpFllw-1; Tue, 20 Feb 2024 04:35:56 -0500
-X-MC-Unique: WXEoGB4OMvWb3whxrpFllw-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-411e1466370so20965315e9.0
-        for <linux-input@vger.kernel.org>; Tue, 20 Feb 2024 01:35:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708421755; x=1709026555;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Hgn9WqXu1AhhX6E5+lsbEBu8N0fTK8tYmqmiPGcClA=;
-        b=YFN0ouFcCoTKbefvLz/D5T3Zyuh6plSCx5frDCAX9ftH1ORraJWPmMXbmzzZEIQXLO
-         L7RnLTClevT37S/SJvNyCY3EbYs+dOP6WavIAmaafgLhSWSNSYqz/0BOjChIVa8hYo6P
-         Xv5w/iAlR0Fv+xzlWUPQRt90mZwtrxRdvRZUCZwccw1S98eZ8J35Xj2Eptyu8mh7ZF/1
-         ftoO4EK2pPfdjWBH4tyO3FV62InlEaYq439zjLwd9UXb2iO9zEwyz29OEXQnNOk06Hye
-         x1Aj14Ei2EZgEI1n73orx33qtWK8L3LdTcMuXmD/uOxirXyIfgNpVBkPHxps0TuuCLeE
-         yruw==
-X-Forwarded-Encrypted: i=1; AJvYcCVb0lexMfYji9BfENqEOPADKKwwCfE7dSVShZjMcGqtUFYymqRKkPXXmsJZ+pt3ZGqqIhRzOUHrWL4vH+KmyQo6e4KWRPFAJ7R5qu8=
-X-Gm-Message-State: AOJu0Yx81Z6E2YxyUm6nO0LP8ZDZvBjFhsvGgxgnpEXto5IGsGiZhAjf
-	r7xhgO9Wc4sa5+dlMQexq04j5q3Xa+yMb9I8fSKhQWFmlZHgZlDbeaJ5X8DtvM9ea1pyZlCXK6a
-	EruwBsMK2XdNYzr1SX2+Wwj9+gfk8NymVD5RAillTBQo/0tdJAo7XP80V64il
-X-Received: by 2002:a05:600c:310f:b0:412:68a1:1020 with SMTP id g15-20020a05600c310f00b0041268a11020mr3013469wmo.17.1708421755414;
-        Tue, 20 Feb 2024 01:35:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE+JttJJiDku7kTZxlbPK/PYMKWsh61tt639P+Ab793uMc5bDoYOmRxrg62ZITenPVeeiMypg==
-X-Received: by 2002:a05:600c:310f:b0:412:68a1:1020 with SMTP id g15-20020a05600c310f00b0041268a11020mr3013458wmo.17.1708421755137;
-        Tue, 20 Feb 2024 01:35:55 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id 21-20020a05600c229500b0041228b2e179sm13843333wmf.39.2024.02.20.01.35.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 01:35:54 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org, Thomas Zimmermann
- <tzimmermann@suse.de>
-Subject: Re: [PATCH 10/10] backlight: Add controls_device callback to struct
- backlight_ops
-In-Reply-To: <20240212162645.5661-11-tzimmermann@suse.de>
-References: <20240212162645.5661-1-tzimmermann@suse.de>
- <20240212162645.5661-11-tzimmermann@suse.de>
-Date: Tue, 20 Feb 2024 10:35:54 +0100
-Message-ID: <87le7fiikl.fsf@minerva.mail-host-address-is-not-set>
+	s=arc-20240116; t=1708421881; c=relaxed/simple;
+	bh=Z7Rjezkjfzh1eTj3MU5Qt95d3trDXg9etNcDhztA2oQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BVimo0H5O+5wqBHkqmhws1CpL9tLFbrriKruMFg+uE3TxXWXF6o9B1l2faSbGyPURz+cz48nxOVQII68tg2cUypmkRcbOaeuJWeew6xFuCnhzY9habpbB/bnRjR745V7zl4lfo4b0Ru63YyIt+s5KDCG4dtcb254WiQOtp/hCAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Jb76ZZsG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HDylI/Yt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Jb76ZZsG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HDylI/Yt; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E2D931FDB5;
+	Tue, 20 Feb 2024 09:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708421875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Az73m7hkronVlyFOGd16b02oS4EEP2mnCYpid/LcV2c=;
+	b=Jb76ZZsGmsdxWGrgUlHu3qiKqaXW4BnVbvWQwgHd0UsfiYnnaZa9YBSEvLtWOEZzw3hBUJ
+	hwgjWJOd918B2NcqTJJf1AcCRMDD3t6GZDouCIenl01Lvx7Lr4uVknarGJTLtF1XqMIzJ4
+	5ygIK14WXj4zwD1UpANAC/X0eY7G16A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708421875;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Az73m7hkronVlyFOGd16b02oS4EEP2mnCYpid/LcV2c=;
+	b=HDylI/Yt9+GvzQ0sSMxg2mWg2E4QfMf5cOiDiwVqXtIrLPd0f6Amr25SPNUTYD8tuWyhNt
+	8hG8gGk5DLGULuDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708421875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Az73m7hkronVlyFOGd16b02oS4EEP2mnCYpid/LcV2c=;
+	b=Jb76ZZsGmsdxWGrgUlHu3qiKqaXW4BnVbvWQwgHd0UsfiYnnaZa9YBSEvLtWOEZzw3hBUJ
+	hwgjWJOd918B2NcqTJJf1AcCRMDD3t6GZDouCIenl01Lvx7Lr4uVknarGJTLtF1XqMIzJ4
+	5ygIK14WXj4zwD1UpANAC/X0eY7G16A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708421875;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Az73m7hkronVlyFOGd16b02oS4EEP2mnCYpid/LcV2c=;
+	b=HDylI/Yt9+GvzQ0sSMxg2mWg2E4QfMf5cOiDiwVqXtIrLPd0f6Amr25SPNUTYD8tuWyhNt
+	8hG8gGk5DLGULuDw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A5FE2139EF;
+	Tue, 20 Feb 2024 09:37:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id qSI9J/Ny1GXhaQAAn2gu4w
+	(envelope-from <tzimmermann@suse.de>); Tue, 20 Feb 2024 09:37:55 +0000
+Message-ID: <a5b9a2d8-f305-4b68-9086-76d5f1b985c7@suse.de>
+Date: Tue, 20 Feb 2024 10:37:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] backlight: Match backlight device against struct
+ fb_info.bl_dev
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, lee@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <20240212162645.5661-1-tzimmermann@suse.de>
+ <20240212162645.5661-2-tzimmermann@suse.de>
+ <87bk8bjxzo.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87bk8bjxzo.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-3.09 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FREEMAIL_TO(0.00)[redhat.com,kernel.org,linaro.org,gmail.com,gmx.de];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.09
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi
 
-> Replace check_fb with controls_device in struct backlight_ops. The
-> new callback interface takes a Linux device instead of a framebuffer.
-> Resolves one of the dependencies of backlight.h on fb.h.
+Am 20.02.24 um 10:17 schrieb Javier Martinez Canillas:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
 >
-> The few drivers that had custom implementations of check_fb can easily
-> use the framebuffer's Linux device instead. Update them accordingly.
+> Hello Thomas,
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+>> Framebuffer drivers for devices with dedicated backlight are supposed
+>> to set struct fb_info.bl_dev to the backlight's respective device. Use
+>> the value to match backlight and framebuffer in the backlight core code.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/video/backlight/backlight.c | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+>> index 86e1cdc8e3697..48844a4f28ad3 100644
+>> --- a/drivers/video/backlight/backlight.c
+>> +++ b/drivers/video/backlight/backlight.c
+>> @@ -98,7 +98,8 @@ static int fb_notifier_callback(struct notifier_block *self,
+>>   {
+>>   	struct backlight_device *bd;
+>>   	struct fb_event *evdata = data;
+>> -	int node = evdata->info->node;
+>> +	struct fb_info *info = evdata->info;
+>> +	int node = info->node;
+>>   	int fb_blank = 0;
+>>   
+>>   	/* If we aren't interested in this event, skip it immediately ... */
+>> @@ -110,8 +111,12 @@ static int fb_notifier_callback(struct notifier_block *self,
+>>   
+>>   	if (!bd->ops)
+>>   		goto out;
+>> -	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
+>> +	else if (bd->ops->check_fb && !bd->ops->check_fb(bd, info))
+>>   		goto out;
+>> +#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
+>> +	else if (info->bl_dev && info->bl_dev != bd)
+> If the driver doesn't provide a struct backlight_ops .check_fb callback, I
+> think that having an info->bl_dev should be mandatory ? Or at least maybe
+> there should be a warning if info->bl_dev isn't set ?
 
-Personally, I don't like the "control_device" callback name that much. I
-think that check_device or probe_device would be a better one and easier
-to understand what it does.
+bl_dev can only be used for display drivers that set an explicit 
+backlight device; otherwise it's NULL. There seem to be systems where 
+backlight and display are distinct. And the docs for check_fb say that 
+by default the backlight matches against any display. I tried to keep 
+this semantics by silently succeeding if neither check_fb nor bl_dev 
+have bene set.
 
-But not strong opinion on that,
+>
+> The would be a driver bug, right ?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I assume that some systems create the backlight instance from platform 
+data or DT and the display driver has no means of knowing about it.
+
+Best regards
+Thomas
+
+>
+> Regardless, the change makes sense to me.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
 
