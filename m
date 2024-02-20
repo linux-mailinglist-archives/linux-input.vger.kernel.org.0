@@ -1,64 +1,65 @@
-Return-Path: <linux-input+bounces-1961-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1962-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706B085B000
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 01:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC6385B15A
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 04:29:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94ED61C22507
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 00:22:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C24CE1C211F6
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 03:29:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E07E515D2;
-	Tue, 20 Feb 2024 00:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB344597A;
+	Tue, 20 Feb 2024 03:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDngcxln"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJL1krAJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93D54A26;
-	Tue, 20 Feb 2024 00:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D767C45009;
+	Tue, 20 Feb 2024 03:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708388512; cv=none; b=ZypuM9SdtKI3yqTrvsLsHRpjvMiXr/m4OGy8GZuUaLEXWPsTbBmBXIP9WkaRySycjv4Dg9GXA2j6dtgwQxM6nU1jLP5J06twbelesa1RPdQZH626gBagoDLc01gqORZsx04oYh5A7alpK8Dlvq2NZdYe/3oMKnSA71haJhVq0DE=
+	t=1708399734; cv=none; b=XVOE6mzG5/yimUuTVwE7yF2PZVnjz81Yl0Am9nTlD42F39gy7VFF6VY3LPeipd6P9LsslqEX675g54yOXHiFjx54qJP6guLbxDxN8xlJ1rYr4v9HpiwfAHNH95fXuBZhNvd8CKwrORCfbi4sxZvveBPwmGh9ccykcmnUw7BuVBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708388512; c=relaxed/simple;
-	bh=yWL9+crD7ozhyXtdUplwtrHE2vBN684Ax3/F37eopcU=;
+	s=arc-20240116; t=1708399734; c=relaxed/simple;
+	bh=BQlHpa273SuRCqvblXi5OnaVTNFf5TN8Nfvq3Uk5gu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uTCBKScG0mG6snBwyuDXP5xz8lHQGVDqRZLsY02jCNBvAnCuL0qMhnMZHAVMYrVm8AUyPXP9StaQDSoGmVJnSf11w7Eah+FPOqzpwLA7LTuh4ma14OCGvcT0x/xBn5sRLzBwji8jeZCcsOowCuNHCMWyDK/cT7Ypk8rDbjRsei4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDngcxln; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=jvwRQoex6r9eio7dGvZNM5hRlDSXkCBSni0jg4ZcN0z9bYywBXaYHviAZxcpkTpUoIj98hzry4ENHrIrW782qFsFl3EuG2ZkNGABBCUhQ3ZhHEiyZ0VuQijT2TUc3jUNO5Odenr5DiUgmJcUOYk+dz5u+41PlU3eK1Xw+w0C0nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJL1krAJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708388511; x=1739924511;
+  t=1708399732; x=1739935732;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yWL9+crD7ozhyXtdUplwtrHE2vBN684Ax3/F37eopcU=;
-  b=iDngcxlnvSgFvUUI4rzM3/XsvscI/XLG3L7O/PEdALdcRfezqVGlL2gM
-   qdYr/i9v8ElsajKat9u3VDi3pjsPIQjbx6fm6itwM+CeoeiXuCVZ6n8Dg
-   Tnm4LDdY5l5iA0PJwjenCjd/aPRLm7DNEmASU/deGCWLAYeLgvbAq+ZF2
-   J+MXOwkNIUmStgj5fkTuaKHI1yTBlSqFXYJvLgUMQ6USaLy6gPjl4y2At
-   4DQkjsfU8NhkZHVJ7LWIrclQyIumUkUZCrpZghflcY4Q3X2aYDS7tSIEb
-   cDzqr3Yq3z9/DM8WT+Va3c6GVVFV879n4D52uDJZDl+Luqiul/rYRPxk4
+  bh=BQlHpa273SuRCqvblXi5OnaVTNFf5TN8Nfvq3Uk5gu4=;
+  b=QJL1krAJhE1LBYg2JHUwfmylUQy81N6H4ECaBlCm83P3S9HO74Ugrs0b
+   hx4ivp6Ux8QWX5BybcC1MpymthWU8vpgEDiq9SRUQx3ZmfMQ3C0peW/vm
+   +rXAnPN/xffs8e21V76jnLsPautP3r1SJKSMzyzr8MKel28lo2b6CGw3m
+   ymaGzQbbKtNLp3nOhRbuPYQb1RzUcvTxTvF4LWgNNxY/9bI+1/iGFTO0t
+   +/xF9rErn+T3KZQDcTd2JMBK123zn3oGcGJzie7Lb4YbUYW0+mcMKc9qz
+   pY7EqnKYYtOA17KsNPa0dgkOtORdy7V/+JnENHRvNZ9hc1IR4tmCJBtmH
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13875035"
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2351346"
 X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="13875035"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 16:21:50 -0800
+   d="scan'208";a="2351346"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 19:28:51 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="936382961"
 X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="4996627"
+   d="scan'208";a="936382961"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2024 16:21:45 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2024 19:28:46 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcDtG-00049W-0k;
-	Tue, 20 Feb 2024 00:21:42 +0000
-Date: Tue, 20 Feb 2024 08:20:39 +0800
+	id 1rcGoG-0004EC-1z;
+	Tue, 20 Feb 2024 03:28:44 +0000
+Date: Tue, 20 Feb 2024 11:28:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -69,14 +70,15 @@ To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
 	Marco Felsch <m.felsch@pengutronix.de>,
 	Jeff LaBundy <jeff@labundy.com>
-Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	catalin.popescu@leica-geosystems.com,
 	mark.satterthwaite@touchnetix.com,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Gregory Clement <gregory.clement@bootlin.com>,
 	bsp-development.geo@leica-geosystems.com,
 	Kamel Bouhara <kamel.bouhara@bootlin.com>
 Subject: Re: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <202402200849.ABf6sZnr-lkp@intel.com>
+Message-ID: <202402201157.BKo97uWl-lkp@intel.com>
 References: <20240219101221.129750-4-kamel.bouhara@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -102,38 +104,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
 patch link:    https://lore.kernel.org/r/20240219101221.129750-4-kamel.bouhara%40bootlin.com
 patch subject: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-config: i386-buildonly-randconfig-002-20240220 (https://download.01.org/0day-ci/archive/20240220/202402200849.ABf6sZnr-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200849.ABf6sZnr-lkp@intel.com/reproduce)
+config: arm64-randconfig-002-20240220 (https://download.01.org/0day-ci/archive/20240220/202402201157.BKo97uWl-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402201157.BKo97uWl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402200849.ABf6sZnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402201157.BKo97uWl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15:0,
-                    from drivers/input/touchscreen/touchnetix_axiom.c:17:
-   drivers/input/touchscreen/touchnetix_axiom.c: In function 'axiom_process_u41_report_target':
->> drivers/input/touchscreen/touchnetix_axiom.c:332:18: error: 'slot' undeclared (first use in this function); did you mean 'sget'?
-      target->index, slot, target->present,
-                     ^
-   include/linux/dev_printk.h:129:34: note: in definition of macro 'dev_printk'
-      _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
-                                     ^~~~~~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:331:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-     ^~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:332:18: note: each undeclared identifier is reported only once for each function it appears in
-      target->index, slot, target->present,
-                     ^
-   include/linux/dev_printk.h:129:34: note: in definition of macro 'dev_printk'
-      _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
-                                     ^~~~~~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:331:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-     ^~~~~~~
+>> drivers/input/touchscreen/touchnetix_axiom.c:332:18: error: use of undeclared identifier 'slot'; did you mean 'sget'?
+     332 |                 target->index, slot, target->present,
+         |                                ^~~~
+         |                                sget
+   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
+     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+         |                                                             ^
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                                ^
+   include/linux/fs.h:2272:21: note: 'sget' declared here
+    2272 | struct super_block *sget(struct file_system_type *type,
+         |                     ^
+   1 error generated.
 
 
 vim +332 drivers/input/touchscreen/touchnetix_axiom.c
