@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-1981-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1982-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FBB85C371
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 19:12:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9793685C440
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 20:05:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E9B51C20D5E
-	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 18:12:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD5FDB225B8
+	for <lists+linux-input@lfdr.de>; Tue, 20 Feb 2024 19:05:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE77379920;
-	Tue, 20 Feb 2024 18:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF45A12838D;
+	Tue, 20 Feb 2024 19:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oza1j5RQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQ3m0fky"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E293D78B63;
-	Tue, 20 Feb 2024 18:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4742A44C94;
+	Tue, 20 Feb 2024 19:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708452730; cv=none; b=CcMLdVmaSQccdYqaaK7sW84t05Y0Hn2qw7IbGQrR3sy7bSRphZ7RZcdwjEW16AZlkmZWdGoCP+capGuam5nt4XY9A9QzhJg60Izbjhas8K/v+yK/ScfLGwZ0Nte5zIwjkYg30RamzWn9B6M2kIiE3xdW0zosqrMEg2YxWolwh2Y=
+	t=1708455934; cv=none; b=Azdw0qV7Ju1cNrJ3sknsrK7oAED4rushB3XnNa/m4xSySEvBTqy+deMozcWZqK0HaGRZD32i3a7eU47cLMBMoRv/svva7YA7RavYYz8O0YbasBubOoWmMOaXpUS2oYPEc8pwkmkmJv1WukvEkKsfia8zm3JnBba6ZTB0o6KSvc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708452730; c=relaxed/simple;
-	bh=K4Pg2ukWWO9VgdQeMinN/m7rs4wCWBDd0u5fathmfgM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ny5F97dmW0/kvIhaMAivJDuWRsUc8Znt8oLhe+/eNF26L6fUHiNFKUcrXbE6nrSZiphrlbG5SA8oZJvAOnx54mxlRnqS40znuVZ4Q8p4zn7N6qra7z25Zgz7O5xicnSv91CloWdTdZcJORksF7wsuwCqi1Ab/S/Ob/xR6KyYlN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oza1j5RQ; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1708455934; c=relaxed/simple;
+	bh=d57dwiYN/IUClLZ1zZHaXBEK/xBD1K3nBDTBMz9mmMA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MMITMIoFBNrLzfd4p5J9XMFPpgF7cPIWV+lM6SenGzH7/dX2XxL4BbW/b2rIGArZqrWmJbOnZn+uCHW5nJV5Npovt3052h/4R83Yxoijx8jxWac8z8Rjb6SsOC4IE9ZnBnC82NIEJ4Of2XHOe2q9AFaYINB2OVINyhjcGLKpWNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQ3m0fky; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d6fe64a9bso656355f8f.0;
-        Tue, 20 Feb 2024 10:12:08 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-410e820a4feso38979655e9.1;
+        Tue, 20 Feb 2024 11:05:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708452727; x=1709057527; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
+        d=gmail.com; s=20230601; t=1708455931; x=1709060731; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cx6laXczgEnaoQTUR4D8qlYDX1ToRaSpNxIMxiJrew4=;
-        b=Oza1j5RQhngT/yKG/0fN3pO4tPxOKqr03J7QJYnUFT7yNe8ENj0+xFRwLe7aeYXn6b
-         FJ3TYXMmOEsWsuVq/8VA9KjfnMVjRHEWC3bUNvps2Ch4OmSGXnLf2ikKeHGZ10zvlnPv
-         MbBEt6G5Wm16ihVtKt636wTRQty+RZknGRQKrjdhJTh3VedhFL6LVGsA9odE8mMFhSxR
-         WGvuh/F2FPLl0CUrNDnQ+xzyHTyOby6RrXUgaJIqKIjUlKgPpyjWgiOeqNBDo3NfBHkP
-         vjEB7iwXm7IJ2jZBeTu3gg67lPeGp7UnUcB2qouwu0KhjGmZQVk4buw/akSchB+4AL4j
-         QmzA==
+        bh=ZlGVc0x7kVqh/QCLdDBir2xloFdYnUlV85OlUaPZ9QU=;
+        b=NQ3m0fkyN7SKKV6LHy8aF19bb+EXJfJFdGwR0W4C44UOyxIV9EoeFdjtskJUSnLORu
+         7XOGqjrWUazq/N94TF39K8caIh2zQ6RsqyRi2gQDc5tHQ0WTG/IoCOynevzfXn7hkPeI
+         rml665dQL+oMmWAsH0xQFKS+EF+eP+DTJSLT/XtSpjRaN4NZwX/qM/DBIjCPkz3Up29j
+         KBecNQ7D7SpAIfZC6A1tFRkjAq38DjDGw5Hsy5kCuZMkj3yEqlofISSart0wdCDFSXR1
+         TFrL7HZUPLiEFBJoR6vAQUTtTEO69RUs/OCxypDuZ5Hkot9UTIRHKsSYUz8Jhx0PTJNA
+         Ec/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708452727; x=1709057527;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
+        d=1e100.net; s=20230601; t=1708455931; x=1709060731;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cx6laXczgEnaoQTUR4D8qlYDX1ToRaSpNxIMxiJrew4=;
-        b=kUZsIX22YuHO/Ek7pUNhvMV/qL8v1vaJAaYxc/AEsYg5ySl4WW1DHBK0I1+q0hLXC/
-         Zy6kNPBkt7Ct93AHG2JQqF5ga3LrCUN4MqXnp7XvEQ5yyFXlcbT/6DJuY/yQ9N3J+IIw
-         LoANA73R4ZdUZ804kMdtKjiPunyHiOKC6HDbvcksjwOih3gLAaAmA81NS+o3uE90YhCM
-         u3Se3ntQROKgpeAjMHKJ2p75iAUxO/5fx0IO3vnaT/kq7rShzWhok+IyXXviv15Qcz4W
-         3/6/PPHRWuLg+8YTXbQEcKhsVx1h32lMMCb3qCNTldaHF6i7cAX2A8WkNR/cX5q8TI7P
-         8UIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWprq+P13MsWtIV6Hi+R6BCWJPM7K12b+LRO4S0DNkomvy/mvkFtAx/xmcvwaOiPYNg3VZox55lhscsk09NpSwSTe9KKowqTY4z4k2kR7jasyhmgkdTXixnk5Xr9/xNyZ8jKno=
-X-Gm-Message-State: AOJu0YzqMviqlKJQC863M5Jw1Jua8MK0KymuBhu27pY2MbV+GtKSLBRz
-	etSt48UIWV0n0gewRnvU44ODTohwsbA1377M9pyPMREkavrEdYs7
-X-Google-Smtp-Source: AGHT+IEnj5STeqAnpBo732KVTQcITKGLCyco89kcAdtWrY01nn8u9AnHown+reJHgBoTeA2Nsro8dA==
-X-Received: by 2002:a5d:660e:0:b0:33c:f9d6:fb20 with SMTP id n14-20020a5d660e000000b0033cf9d6fb20mr12318593wru.45.1708452727034;
-        Tue, 20 Feb 2024 10:12:07 -0800 (PST)
+        bh=ZlGVc0x7kVqh/QCLdDBir2xloFdYnUlV85OlUaPZ9QU=;
+        b=YcNGSnby+Ysek0cqZx9K+grFcYM74Gw4ZK34A2Yp3saY03GZvUyhYSINAhuL37N/U3
+         DRMAXEWjK2Pce33FEXQz8EDYnO+BpVzYCgcXyZG+0Eso/kiCafMiQtOyEObCAhgo9DXb
+         FUjUXN74i7DN1HPh+pXDOY5/O9kpCNaCfTpYQBEws/133KTFyr0ZKLMQw/kWRteXoaQu
+         Q3uGKJkv5uM/Wtry/P51GIcLsFvooMuYvorLjY+32F2Cvwmnl/C+yRfnfUR5Ru5DwaI+
+         QC0T6aFsa0GnMPvfz01CzQfZ0O8SHsIcgZ7m7HLkhbFnNu6qBV2cdTeUtdFZqL35b+5m
+         FK/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVZooBmg6MD0aFRFWb03f42/qDNNLosDTT9XWR0+2rgwCh7XMQOSVqDGn5kB/9wwrSINwXKvLirSQ6fSBDOffzg5WAVBVkI8TUYtrIsoYARiARk+u2eay1FHfwlSTi5yu7NIL8=
+X-Gm-Message-State: AOJu0YzIZlSdXAnYUnninai/ILrzVkwGL8r3Fa3O4mRATaun7hDGRksA
+	yMgydc5PwaT928zdtwUjHJ9gF23mFxFLd3DYxc1d3pIRFjXerqSg
+X-Google-Smtp-Source: AGHT+IGAcR+g1idnLlewxTtH6P7zOfyXYpv5CvT6kmRXMqmDv5O12robaNxl4YJgXjzQUsy8E8VQOw==
+X-Received: by 2002:a05:600c:3b10:b0:411:aa3c:128d with SMTP id m16-20020a05600c3b1000b00411aa3c128dmr17987166wms.15.1708455931285;
+        Tue, 20 Feb 2024 11:05:31 -0800 (PST)
 Received: from ?IPV6:2a01:e34:ec5f:c111:befe:8ded:1f46:cf9a? ([2a01:e34:ec5f:c111:befe:8ded:1f46:cf9a])
-        by smtp.gmail.com with ESMTPSA id k35-20020a05600c1ca300b00410cfc34260sm16013966wms.2.2024.02.20.10.12.06
+        by smtp.gmail.com with ESMTPSA id hi16-20020a05600c535000b004126ca2a1cbsm3916582wmb.48.2024.02.20.11.05.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 10:12:06 -0800 (PST)
-Message-ID: <c8986411-2bf7-4b7d-8ac1-f702dc7c725a@gmail.com>
-Date: Tue, 20 Feb 2024 19:12:04 +0100
+        Tue, 20 Feb 2024 11:05:30 -0800 (PST)
+Message-ID: <0877c4fb-cb32-4dd9-b0a4-6bc306384979@gmail.com>
+Date: Tue, 20 Feb 2024 20:05:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,8 +77,9 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Rapha=C3=ABl_Halimi?= <raphael.halimi@gmail.com>
 Subject: Re: Regression with Lenovo ThinkPad Compact USB Keyboard
+Content-Language: fr-FR, en-US
+From: =?UTF-8?Q?Rapha=C3=ABl_Halimi?= <raphael.halimi@gmail.com>
 To: Thorsten Leemhuis <regressions@leemhuis.info>
 Cc: Linux Regressions Mailing List <regressions@lists.linux.dev>,
  Linux Input Mailing List <linux-input@vger.kernel.org>,
@@ -88,7 +89,7 @@ Cc: Linux Regressions Mailing List <regressions@lists.linux.dev>,
  Linux Stable Mailing List <stable@vger.kernel.org>
 References: <a29d56d2-c440-4a26-a9ac-014595d2ae8c@gmail.com>
  <21370dc5-94a3-442c-ae04-76f9f94b1b96@leemhuis.info>
-Content-Language: fr-FR, en-US
+ <c8986411-2bf7-4b7d-8ac1-f702dc7c725a@gmail.com>
 Autocrypt: addr=raphael.halimi@gmail.com; keydata=
  xsFNBFHHpQ0BEACk0BWTsWRBSZEB0UKcmchP5//yAHIp1qWR9ctmDjlOSFtLAIJaak/onkbd
  WB2X/0sfUOl78OSuLxoL2aNE9EH+pKMquIZFNfcmUIkbnRGlBXPe1fUwLweXl5Jv88F92+pN
@@ -133,136 +134,21 @@ Autocrypt: addr=raphael.halimi@gmail.com; keydata=
  Kv7Z6lI3hQvsHu0NoqU8lmwJDQD60AnUTaZd8jXDRR8yMrEToVSwOzKj7nBB/6kcmhxQ06x5
  8b7QRZ5EBDl7xs/qibIcXW3g/pKGrxuG7JFs9z0xQHswf0OW7YsLNV0v3IS8Pm4lRRUMdFto
  Wxcwwn0N
-In-Reply-To: <21370dc5-94a3-442c-ae04-76f9f94b1b96@leemhuis.info>
+In-Reply-To: <c8986411-2bf7-4b7d-8ac1-f702dc7c725a@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 20/02/2024 à 12:35, Thorsten Leemhuis a écrit :
-> [CCing the regression list, as it should be in the loop for regressions:
-> https://docs.kernel.org/admin-guide/reporting-regressions.html]
-> 
-> Hi, Thorsten here, the Linux kernel's regression tracker.
+Le 20/02/2024 à 19:12, Raphaël Halimi a écrit :
+> Confident that I probably pinpointed the faulty driver, I simply looked 
+> at the file history on Github, and saw that those three commits were 
+> dated from after the time when the bug appeared ; moreover, the comments 
+> did mention stuff related to wheel emulation and spurious middle-clicks.
 
-Hi, thanks for replying (even if I find your tone a bit harsh, but I 
-don't blame you - and since English is not my native language, maybe I'm 
-mistaking).
-
->> [1]
->> https://github.com/torvalds/linux/commit/46a0a2c96f0f47628190f122c2e3d879e590bcbe
->> [2]
->> https://github.com/torvalds/linux/commit/2f2bd7cbd1d1548137b351040dc4e037d18cdfdc
->> [3]
->> https://github.com/torvalds/linux/commit/43527a0094c10dfbf0d5a2e7979395a38de3ff65
->>
->> The regression is that a middle click is performed when releasing middle
->> button after wheel emulation.
-> 
-> How did you identify these three commits? Or do you just suspect that
-> it's one of them?
-
-No, I didn't "just suspect" that it was one of them. I may not be a 
-kernel developer but I'm an experienced sysadmin (25+ years). So please 
-stop taking users for idiots.
-
-First, I compared the three machines I used which have a keyboard with a 
-TrackPoint: my desktop at home (external "Lenovo ThinkPad Compact 
-Keyboard with TrackPoint" (not II, not Bluetooth), Debian unstable (I'm 
-a DM), my desktop at work (same keyboard, Debian Stable) and my personal 
-laptop (ThinkPad X270, internal keyboard, Debian Stable but with backports).
-
-The machine at work had a 5.10 kernel at the time, and the other ones 
-had a 6.6, but only the machines with an external keyboard exhibited the 
-spurious middle-clicks. So I compared the loaded HID drivers, and 
-noticed that both of them had hid_lenovo loaded, whereas the laptop did not.
-
-Confident that I probably pinpointed the faulty driver, I simply looked 
-at the file history on Github, and saw that those three commits were 
-dated from after the time when the bug appeared ; moreover, the comments 
-did mention stuff related to wheel emulation and spurious middle-clicks.
-
-So, no, I didn't "just suspected" that they were responsible, but I hope 
-you'll admit my method was sound, and that my conclusion is a pretty 
-strong (to not say "almost certain") probability.
-
-> And did you try to check which of the three is the actual culprit?
-> Either by reverting them on top of master or by checking the parent for
-> each of the commits (git show '2f2bd7cbd1d^' shows the parent for
-> 2f2bd7cbd1d).
-
-I admit I didn't. I didn't compile my own kernels for ages. I used to do 
-it in the past, but I came to trust Debian's kernels and rely on the 
-maintainers' work. But read below.
-
->> On Debian Stable, the last working kernel was 5.10.127, the regression
->> appeared in 5.10.136 (i read all changelogs on kernel.org between those
->> two releases but couldn't find anything about hid-lenovo, so I can't
->> tell exactly in which release the regression appeared, Debian upgraded
->> directly from .127 to .136).
-> 
-> Why not bisect between .127 and .136 then?
-
-I heard of that term before (and I understand the mathematical meaning 
-of it), but I never did it with a Git tree. I read the guide you 
-mentioned below, but it seems much too complicated and too long to me 
-for just verifying if those three commits are indeed the cause of the 
-regression (which I'm almost sure of, as stated above).
-
-So in the meantime, I decided to follow my hunch and recompile only the 
-hid_lenovo module (following the guide at [6], updating it slightly by 
-manually removing kernel signing options in .config, since I obviously 
-don't have Debian's signing keys, and replacing "make 
-SUBDIRS=drivers/..." with "make M=..." as suggested by make), after 
-un-applying those three patches in reverse order.
-
-[6] https://askubuntu.com/a/338403/387067
-
-The HID modules built successfully, and after copying my modified 
-hid-lenovo.ko to /usr/lib/modules/6.6.15-amd64/updates/ and running 
-'depmod -a', the module loaded fine with Debian's kernel (I don't use 
-Secure Boot on this machine).
-
-I'll let a few days pass (remember, the bug doesn't happen immediately 
-but only after a varying amount of time) and I'll report here if the 
-spurious middle-clicks happened again or not.
-
-Notes:
-
-1/ Thank you for (indirectly) giving me this idea. Maybe this relatively 
-simple procedure should be made available somewhere on Debian's wiki 
-(instead of an outdated, but still useful, answer on AskUbuntu).
-
-2/ Please note that I did it only for unstable kernel; unfortunately, I 
-can't do the same for the stable kernel, since I don't have access to my 
-  machine at work anymore (my freelance contract ended one week ago) and 
-I don't have any other machine at home exhibiting this bug. So I won't 
-be able to test it on a stable kernel.
-
->> I reported it in Debian [4], and apparently I'm not the only person
->> suffering from it [5].
->>
->> [4] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058758#32
->> [5] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058758#42
->>
->> I would understand that such bugs would end up in a development kernel
->> like the ones provided by Debian Unstable, but not with stable kernels
->> like the ones provided by Debian Stable.
-> 
-> A bug report like yours can do the trick sometimes, as it might be
-> enough to ring a bell for one of the developers. But given that nobody
-> replied yet it looks like that is not the case. Then you most likely
-> will need to perform a bisection to identify the exact commit that broke
-> things.
-
-Nobody amongst the developers, yes, I'll give you that. But the comment 
-I linked from the Debian BTS, plus another bug report I found in the 
-Input mailing list [7], show that I'm not the only user complaining from 
-the recent regressions.
-
-[7] 
-https://lore.kernel.org/linux-input/CACSVgagaEHO2zoYQ8zDBrMT9OvT8R5B_h3dxfZuLQFAUBtKMmQ@mail.gmail.com
+s/after/just before/
 
 Regards,
 
 -- 
 Raphaël Halimi
+
 
