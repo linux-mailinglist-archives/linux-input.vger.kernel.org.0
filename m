@@ -1,208 +1,98 @@
-Return-Path: <linux-input+bounces-2008-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2009-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639CE85D6BC
-	for <lists+linux-input@lfdr.de>; Wed, 21 Feb 2024 12:22:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC61785DFCE
+	for <lists+linux-input@lfdr.de>; Wed, 21 Feb 2024 15:34:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16D7D283F26
-	for <lists+linux-input@lfdr.de>; Wed, 21 Feb 2024 11:22:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CFFB1F24D5F
+	for <lists+linux-input@lfdr.de>; Wed, 21 Feb 2024 14:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28C633FB16;
-	Wed, 21 Feb 2024 11:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="k7E5wTI9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0B57C0B8;
+	Wed, 21 Feb 2024 14:34:17 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94EA3C493;
-	Wed, 21 Feb 2024 11:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEB569D10;
+	Wed, 21 Feb 2024 14:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708514556; cv=none; b=UEUl91aJZlUbbcAeNwWboNXQ80D2TezNxAc0M5r0vERkMUi7Y87taYLYeU6kpoq7fiKYgJ2l0iarM4Vnzeobn/BQyPotYoy+SmbeRetzMbVurOgKoWmxM/tfXBmAaLV9gWXozbaPI+Cv0aKaPeO//zvGGjDc3dYZdEQ/BaLceR8=
+	t=1708526057; cv=none; b=HTWfi0ap11HIXY5Z86xy1uBeXtBhi9L8Wf+fmUMKMYJVz4Dauws7OkPB1OkMP1xfg6eeoGPpiVJ7hWQPveRRFaK08sZ2B/ixWt4wMelg8wUXIWfGJAvr1dyReTMttcdipIZwDzuMZqZ5B5Kcrz0thmBOo/tJpxLPV1Eec6yyEBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708514556; c=relaxed/simple;
-	bh=Cd4YbmGVn6HLR5Rl2we4DAmAlvwWASoLb8I9ojQ3DSA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=EUwlsXyhKbS1LLR1GRuW51b+eawSt3ji5tE3whI7d5Vqt8Ql9dK5UC82hl10M/4Wfc7gfyqrPXD0W/av3OQa/NHw+J4SyfQGZI4r0CDv6YTdb1O60fO5HuZEj4rEguE1mFSnPJb/wJVUxOZP5QCmGl1d6N5qJv7v2HcOnR5LQs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=k7E5wTI9; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D40662FC0048;
-	Wed, 21 Feb 2024 12:12:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1708513959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sbjUnH12jdTK6RPMAkyasJrnzhc5mx7f3K8nZGIu3HM=;
-	b=k7E5wTI9wjKCm/lrwKWCcvr4H172M6hup+m/2tF3hvs5LCeQDFEYbXXCDDw4YQr49vfn3p
-	iUUXgwkSMVO7nIrwnDQmkbIVfjxjqRatSrkD6TpFzw/fKL0LKJC6qFkIZsVD5fc2u1QT50
-	GtGuma4H+b3wtpNf58YTKmC0MsP4Sy8=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
-Date: Wed, 21 Feb 2024 12:12:38 +0100
+	s=arc-20240116; t=1708526057; c=relaxed/simple;
+	bh=5qghrkmzaw0d79bz1F1aq4Vy3+pNS+s51gwkQO2jOCc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixiXF/iP2zXO0/vDK2J+LduLzOOpoFCLL26w58Vm4dJgY129jIMPYR9SMuSrYaLDHM71mlRZ4dUMhsBGL+Pna15mH8YKoO2w67Pf+v3g9Xt0Q2/1Qo4CB+X7XHRE5stxe4z4ZZuTjG3WcasCoq5nh2+Lk2hUIFSdLz2eyrbBx8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2550066"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="2550066"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 06:34:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="913315045"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="913315045"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 06:34:12 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rcnfk-00000006N6c-41vp;
+	Wed, 21 Feb 2024 16:34:08 +0200
+Date: Wed, 21 Feb 2024 16:34:08 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+	deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 01/10] backlight: Match backlight device against
+ struct fb_info.bl_dev
+Message-ID: <ZdYJ4FhJ9vhzUeiW@smile.fi.intel.com>
+References: <20240221094324.27436-1-tzimmermann@suse.de>
+ <20240221094324.27436-2-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Future handling of complex RGB devices on Linux v2
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240221094324.27436-2-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Wed, Feb 21, 2024 at 10:41:28AM +0100, Thomas Zimmermann wrote:
+> Framebuffer drivers for devices with dedicated backlight are supposed
+> to set struct fb_info.bl_dev to the backlight's respective device. Use
+> the value to match backlight and framebuffer in the backlight core code.
 
-so after more feedback from the OpenRGB maintainers I came up with an even more 
-generic proposal: 
-https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1753072869
+...
 
-Copy pasting the relevant part:
+>  	if (!bd->ops)
+>  		goto out;
+> -	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
+> +	else if (bd->ops->check_fb && !bd->ops->check_fb(bd, info))
 
- >Another, yet more generic, approach:
- >
- >```
- >get-device-info ioctl returning:
- >{
- >    char name[64]                /* Device model name / identifier */
- >    enum device_type            /* e.g. keyboard, mouse, lightbar, etc. */
- >    char firmware_version_string[64]    /* if known to the driver, empty 
-otherwise */
- >    char serial_number[64]            /* if known to the driver, empty 
-otherwise */
- >    enum supported_commands[128]        /* comands supported by the firmware */
- >}
- >
- >evaluate-set-command ioctl taking:
- >{
- >    enum command                /* one of supported_commands */
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <input struct for command 0>
- >        },
- >        {
- >            <input struct for command 1>
- >        },
- >        ...
- >    }
- >}
- >
- >evaluate-get-command ioctl taking:
- >{
- >    enum command                /* one of supported_commands */
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <input struct for command 0>
- >        },
- >        {
- >            <input struct for command 1>
- >        },
- >        ...
- >    }
- >}
- >and returning:
- >{
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <return struct for command 0>    /* not every command might have 
-one */
- >        },
- >        {
- >            <return struct for command 1>    /* not every command might have 
-one */
- >        },
- >        ...
- >    }
- >}
- >```
- >
- >- char name[64] still includes, if know to the driver, information about 
-physical or even printed layout.
- >- differentiation between evaluate-set-command and evaluate-get-command is 
-mainly there for performance optimization for direct mode (for 
-evaluate-set-command the kernel does not have to copy anything back to userspace)
- >- commands without a return struct must not be used with evaluate-get-command
- >- the input struct might be empty for very simple commands (or "int unused" to 
-not confuse the compiler if neccessary)
- >
- >Now is the question: How does userspace know which commands takes/returns 
-which structs? Define them in one big header file (as struct 
-clevo_set_breathing_mode_1_input, struct tongfang_set_breathing_mode_1_input, 
-etc.), or somehow dynamicaly? I'm warming up to Hans suggestion to just do it 
-statically, unlike my suggestion yesterday.
- >
- >Min/Max values are documented in the header file (if not implied by variable 
-type). With different max value -> different command, e.g. 
-clevo_set_breathing_mode_1 for devices with speed from 0 to 7 and 
-clevo_set_breathing_mode_2 for devices with speed from 1 to 10.
+What's the point of adding redundant 'else'?
 
-But at this point it is almost a generic interface that can be used to expose 
-anything to userspace, looping back to the sanitized-wmiraw idea that was 
-floating around earlier.
+>  		goto out;
+> +#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
+> +	else if (info->bl_dev && info->bl_dev != bd)
 
-So a new approach (Please correct me if there is already something similar I'm 
-not aware of):
+Ditto.
 
-New subsystem "Platform Device Commands" (short platdevcom) (I'm open for better 
-name suggestions):
+> +		goto out;
+> +#endif
 
-- Registers /sys/class/platdevcom/platdevcom[0-9]* (similar to hidraw)
-- Has get-device-info ioctl, evaluate-set-command ioctl, and 
-evaluate-get-command ioctl as described above
-- device_type enum entries for rgb would be for example rgbleds_keyboard, 
-rgbleds_mouse, etc.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-On a high level this subsystem can be used to expose any platform functionality 
-to userspace that doesn't fit another subsystem in a central location. This 
-could be for example a nearly 1 to 1 sanitized mapping to wmi calls. Or writing 
-a specific EC register to control OEM BIOS features like flexi charging (only 
-charge battery to specific percentage to extend the live).
-
-However I am aware that this is hardly an api. So Maybe it's best to just fall 
-back on extending the leds subsystem with the deactivate command, and from there 
-just implement the few rgb devices that are not hidraw as misc devices in a per 
-OEM fasion without a unified api.
 
 
