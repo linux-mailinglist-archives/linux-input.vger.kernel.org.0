@@ -1,174 +1,153 @@
-Return-Path: <linux-input+bounces-2037-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2038-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF2A85F756
-	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 12:40:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DAF85F771
+	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 12:50:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB1DE1F2A140
-	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 11:40:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CA68281B43
+	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 11:50:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9685E40BEE;
-	Thu, 22 Feb 2024 11:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54F9146435;
+	Thu, 22 Feb 2024 11:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5blD3Xn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hrt90nRk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9652405D4;
-	Thu, 22 Feb 2024 11:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7A147A40
+	for <linux-input@vger.kernel.org>; Thu, 22 Feb 2024 11:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708601894; cv=none; b=Alob+qW5OqlUrAQazicF3CEvnz2jjdIVuesV4++1UMkVUuzE5KLj39YMKOfx0t8U2koXf7RzTplYKoCPnW3XYyw5D8mcyWnGh52eeUW1vL81atODfzKFL0qm4EeQbYKITMhVZ3R14TZXkgX4RaLqyX8/MlXxgslGO56K7dhnHDI=
+	t=1708602619; cv=none; b=GcgviE0fTjd/YxhihEEH8DYSwGdayZ2Oaarp7f55Zrc28Nus4qQfPoqRBAJBfXFZIx16GVhI6UNYoZWbuXmx9UAG7Rz5Mgshw9JyPychtEVeFzDAZP0JB75rn2cSiZE2dY4aiFyYaWfcNoiOCc7CvpvSp6+FuVegwBRTxAM/hUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708601894; c=relaxed/simple;
-	bh=uLn85H6BfgHQmu6Lkpo3kyKem1I/giGYKE2Jvsin2kE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L/+mylnlzxMiwq3ZAoUHMX5EYJKDHuyH0CMWCYIt7OxF8uEZsVYS38ar54j1TeBpbUn+4hEfuUfWGbJvTLBRHSwCQgNVbyPw39f/jJZa8MD8tABbCAUyGgM/H68aa9ZNlCZH7uc3meW9By90wjG/X7py4GmOPxoLdA05FiJlOGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5blD3Xn; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a3f1bf03722so312542866b.1;
-        Thu, 22 Feb 2024 03:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708601891; x=1709206691; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4j+GQLy+4UDOE+jrUoWuh2+LJUqbegRz7zLOxtcxl8=;
-        b=X5blD3Xn2I+EZIPUm6KESusfJPhoSxmPmKxPUeD7theFuaH5rTWm/LIimtMUhh1Kph
-         ZNpxxoTvisdMXhRRsJ3B+IFFnc+irQyn5BJzQebNXEclRoKIueR5Bu/uU83mf0TP+ACH
-         EGtLigphJE+ohIitf5Zzio22QLDsZevD+W6LBwWRbO/kAMwSjkxLysEWPgPAbcl4pzz8
-         gKx1CUvvkhc/e03THjrzS4UdnxSsELW2OvfmUEGoouxd6UoVOsUZ7H76pWXwgaji6FAL
-         G2B1Wc+oDqfpseFmSY1h8moBB4zIGDAU8OApd4BRm2473ykSYIRA16Ep/VaJylcyHG6I
-         8D+Q==
+	s=arc-20240116; t=1708602619; c=relaxed/simple;
+	bh=ma9DfQIGiAa5vr3ks75PfINXo2TPrC0w7A/88yi8pA8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ck/g/qVjdeVgBhxNO4FX2M3MtqlUqB0/AquT6dUxlJxMOX2UlWlEakMuIiZC04cDcsn9fO6fRFFxel1Ye2qshn3+/zg/CFVBAfgjufmiWQ2OLQwEdHt4mewv6RKP6I/j1yW2jEahVVENZBv/V2sCaJm6tiUcVJ51iUAROurehaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hrt90nRk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708602616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ldC5iLR/TjfHxpr5I8kE+2L9PTCMZ2jj1k9txMQpdfM=;
+	b=hrt90nRkXMJU2uhYGsRzxnbsCelUZhBL4PN8IwevKm0NbP7Dib1ZvrtIOQrGSkMPXybDe+
+	mDT3K+vh28yJQXmdVX4W8actnjQxW+HWNXk3R0xchuFs7Fmts3hm6C8++fye9+EycOC306
+	OfbHZw3xLHYlgiQbxoTZAElFOTtEQT4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-449-xaFeP8qNO7et0oH9V3iZiw-1; Thu, 22 Feb 2024 06:50:15 -0500
+X-MC-Unique: xaFeP8qNO7et0oH9V3iZiw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a3bdd99a243so79434766b.0
+        for <linux-input@vger.kernel.org>; Thu, 22 Feb 2024 03:50:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708601891; x=1709206691;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4j+GQLy+4UDOE+jrUoWuh2+LJUqbegRz7zLOxtcxl8=;
-        b=W6U6QxJaTkRBV5NZ2sasbwabw9DGm7sdDakpT7lX9YQtqjLJa3N4USHbA/SzjsDWgg
-         IU1HSemqumJ7Uly6Ua2+o7uDROun1R10TNMyeMCft1ZPy8oRd26ipfs92D3UI9vyK/E/
-         NNshiA+VLCe+EQn8APN5vjIWt30OrePRac/lbVcUPTKrG+l3B6O3FfXbCJroGnOApYXV
-         ZU3gjcH7CRv+CN8XkUoV0bIWUdwrN8IDc8qharcFGFFHD0npopsWxKVrIDFeVlTJLBWN
-         U+tDQDqCz0RlhPIg71AVKMUtdLVm1hPnfx2lf2B0rTObSjRSdTY6jr3LtYZEmKFNvnOu
-         Q3ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0gMoHJ6Q4ZP8kuXUTKLeY+UZnKKmoe1BBKKsdJ9H2NJ/iKV/gy6UoQnTZbUJDaqajc6NgfZ73jXhvRWUFqEV+ItIUOSd0BVC4CbLP0SIR9OGkpP8W/WDqJN0+jaeM6vrK8jUZ8jyvESfo4dcgEbnBel0LPQBjZC+2N2wxab4bw8/mAvJd
-X-Gm-Message-State: AOJu0YxozFAs+jJ6rjBR8MNJsWFHVQHA6GnkiCChS8iWvyJq+ffJqgrm
-	aEcyk0vMnKiywNq8carwRt2eb8EZY+VBXxuGlNJQfv4uJu2z7CSR
-X-Google-Smtp-Source: AGHT+IGCbUbNF+tds+NYR3EhGNyKrbLXM2++L+ZotTeZEEO+/PmKKaikbMzR162S8tSZ1WWrGUPaIA==
-X-Received: by 2002:a17:906:3559:b0:a3f:a562:ded2 with SMTP id s25-20020a170906355900b00a3fa562ded2mr96896eja.73.1708601890657;
-        Thu, 22 Feb 2024 03:38:10 -0800 (PST)
-Received: from [100.125.116.68] ([213.55.188.37])
-        by smtp.googlemail.com with ESMTPSA id wb1-20020a170907d50100b00a3ec215f130sm3435903ejc.103.2024.02.22.03.38.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 03:38:09 -0800 (PST)
-Message-ID: <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
-Date: Thu, 22 Feb 2024 12:38:07 +0100
+        d=1e100.net; s=20230601; t=1708602614; x=1709207414;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ldC5iLR/TjfHxpr5I8kE+2L9PTCMZ2jj1k9txMQpdfM=;
+        b=KlNLedWHxSthco4gcERs2y7MbdB83WMUK0HRLOcy1Wcr+KXhDEQrj1UjAGTfX7900L
+         9cTTSxxhaMlPXNt8GdI8N2VigD8GuoNEexxavpufCuTJFzY2ry0aSSxU+mAVsR6oLP/T
+         Epk5JXUH0MEIqAP8nUiDWvt5NO5/F3l/zoQqWpriVUx5RrqX+cZ6g3PKjl30qKH9rCOq
+         C17g+XsuUevmEvwlUGcgM/SH7GyKQA3KzwkNDTXOoxyhCsYARZxxFJgniXeyTQL+HmFW
+         T3gjx9qetyPGeRG5pH6vfZoaiV+WyqnewTb6HA6Xcrtj/ZvaDg20B8pel91yUOMP4AAy
+         lUpw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4egpzPtDIY/giea+Ys6Avu/QTISREpoW9AumDe9kzmKZhkzm9XNCH6nydu6msUJRPNBrZh8RiA2D3nfSXzhph72DzdUwXt1CKlBw=
+X-Gm-Message-State: AOJu0YzoY0CEfkccQ9FwW7t0ylxViQfF3OTfJyCPEFMl6YCvpe6LA8II
+	Au/HjXqDgbT3Dl4vlc1YyddRb+ArOB8rckAwYGPdz9ztDmZHpeymzGcQiWJn7uOBgCzUD2K9aeO
+	Voz4nCJIx+W4UjGWuj7prfAzgnwSmZ2szS6p5rOobJvu8/BEVIGHjnxExCVRs
+X-Received: by 2002:a17:906:393:b0:a3f:4ca8:f93e with SMTP id b19-20020a170906039300b00a3f4ca8f93emr2003788eja.24.1708602614216;
+        Thu, 22 Feb 2024 03:50:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHFqkM/gRLrevRcPSWpe7we5hg0Pbu6lFDxiRpmiSyGCXmYKdK+uwM9zZOtenBwAxZkzrXVHw==
+X-Received: by 2002:a17:906:393:b0:a3f:4ca8:f93e with SMTP id b19-20020a170906039300b00a3f4ca8f93emr2003757eja.24.1708602613833;
+        Thu, 22 Feb 2024 03:50:13 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id h10-20020a170906398a00b00a3f99497456sm259912eje.90.2024.02.22.03.50.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 03:50:13 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 63345112DEFE; Thu, 22 Feb 2024 12:50:12 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Martin
+ KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Jiri Kosina
+ <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: [PATCH RFC bpf-next v3 04/16] bpf/helpers: introduce sleepable
+ bpf_timers
+In-Reply-To: <20240221-hid-bpf-sleepable-v3-4-1fb378ca6301@kernel.org>
+References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
+ <20240221-hid-bpf-sleepable-v3-4-1fb378ca6301@kernel.org>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Thu, 22 Feb 2024 12:50:12 +0100
+Message-ID: <87le7chg5n.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v2
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
-Content-Language: en-US, de-CH, fr-CH
-From: Gregor Riepl <onitake@gmail.com>
-Autocrypt: addr=onitake@gmail.com; keydata=
- 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
- DMcsQA==
-In-Reply-To: <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-> This certainly is the most KISS approach. This proposal
-> in essence is just an arbitrary command multiplexer /
-> demultiplexer and ioctls already are exactly that.
-> 
-> With the added advantage of being able to directly use
-> pass the vendor-cmd-specific struct to the ioctl instead
-> of having to first embed it in some other struct.
+Benjamin Tissoires <bentiss@kernel.org> writes:
 
-There's also the question of how much complexity needs to remain in the 
-kernel, if vendor-specific ioctls are made available.
+> @@ -1245,6 +1294,7 @@ BPF_CALL_3(bpf_timer_set_callback, struct bpf_timer_kern *, timer, void *, callb
+>  		ret = -EPERM;
+>  		goto out;
+>  	}
+> +	down(&t->sleepable_lock);
+>  	prev = t->prog;
+>  	if (prev != prog) {
+>  		/* Bump prog refcnt once. Every bpf_timer_set_callback()
+> @@ -1261,6 +1311,7 @@ BPF_CALL_3(bpf_timer_set_callback, struct bpf_timer_kern *, timer, void *, callb
+>  		t->prog = prog;
+>  	}
+>  	rcu_assign_pointer(t->callback_fn, callback_fn);
+> +	up(&t->sleepable_lock);
+>  out:
+>  	__bpf_spin_unlock_irqrestore(&timer->lock);
+>  	return ret;
+> @@ -1282,7 +1333,7 @@ BPF_CALL_3(bpf_timer_start, struct bpf_timer_kern *, timer, u64, nsecs, u64, fla
+>  
+>  	if (in_nmi())
+>  		return -EOPNOTSUPP;
+> -	if (flags & ~(BPF_F_TIMER_ABS | BPF_F_TIMER_CPU_PIN))
+> +	if (flags & ~(BPF_F_TIMER_ABS | BPF_F_TIMER_CPU_PIN | BPF_F_TIMER_SLEEPABLE))
+>  		return -EINVAL;
+>  	__bpf_spin_lock_irqsave(&timer->lock);
+>  	t = timer->timer;
+> @@ -1299,7 +1350,10 @@ BPF_CALL_3(bpf_timer_start, struct bpf_timer_kern *, timer, u64, nsecs, u64, fla
+>  	if (flags & BPF_F_TIMER_CPU_PIN)
+>  		mode |= HRTIMER_MODE_PINNED;
+>  
+> -	hrtimer_start(&t->timer, ns_to_ktime(nsecs), mode);
+> +	if (flags & BPF_F_TIMER_SLEEPABLE)
+> +		schedule_work(&t->work);
+> +	else
+> +		hrtimer_start(&t->timer, ns_to_ktime(nsecs), mode);
+>  out:
+>  	__bpf_spin_unlock_irqrestore(&timer->lock);
+>  	return ret;
 
-Does every vendor driver implement a complex mapping to hardware 
-registers? What about drivers that basically implement no mapping at all 
-and simply forward all data to the hardware without any checking? The 
-latter case would match Pavel's concerns, although I don't see how this 
-is any different from the situation today, where userspace talks 
-directly to the hardware via libusb etc.
+I think it's a little weird to just ignore the timeout parameter when
+called with the sleepable flag. But I guess it can work at least as a
+first pass; however, in that case we should enforce that the caller
+passes in a timeout of 0, so that if we do add support for a timeout for
+sleepable timers in the future, callers will be able to detect this.
 
-To be honest, I think the kernel shouldn't include too much high-level 
-complexity. If there is a desire to implement a generic display device 
-on top of the RGB device, this should be a configurable service running 
-in user space. The kernel should provide an interface to expose this 
-emulated display as a "real" display to applications - unless this can 
-also be done entirely in user space in a generic way.
+-Toke
+
 
