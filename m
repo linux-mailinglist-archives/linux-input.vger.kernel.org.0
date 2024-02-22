@@ -1,195 +1,118 @@
-Return-Path: <linux-input+bounces-2034-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2035-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DA985F3E7
-	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 10:05:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D98EC85F57C
+	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 11:18:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4644EB26251
-	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 09:05:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16B801C2310E
+	for <lists+linux-input@lfdr.de>; Thu, 22 Feb 2024 10:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701AA374FD;
-	Thu, 22 Feb 2024 09:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 068AB3A278;
+	Thu, 22 Feb 2024 10:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="VkeLeqdS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OgK0mX1b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D52A374E0;
-	Thu, 22 Feb 2024 09:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.240.19.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4781239FDC;
+	Thu, 22 Feb 2024 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708592718; cv=none; b=RYFpyJ/QzRxZjjc9Sxc3bhGENxI23mf6lot7QLkJz6x3PdDwIPU6gcBuHzrcVKxdu8Mxp46bQ86mEXWGzjjwlF1ilzyiruUpQkzGXdwe/us54AvywrhUwfUV733XuSENgmlGFs3NvBU4Sz9tuW2/gwRutCXnCBpiEj6MpB8aph4=
+	t=1708597118; cv=none; b=ZsjOxvmQQSdprXRnf7XkEFHFZgU6qaBdBZz0te4DVzcvjqs21a8eP0TjRk1MMbOVUVq/AF7FUMFrRk90+vO9n0H6nro8a4MvcZpfizwS21n4igJlgJyGkude+8COGMsxieASfUR23fzt2knwlMBj3LVPMM4l1Qc2jeIk5CiYslI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708592718; c=relaxed/simple;
-	bh=7I0wHg141R2PhpVmgnTxEnibZlxY8UYP5J5mp3RN6GU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QSgH2/xRZrRuoFWzuTjTBOc0Ki///2M14VwcWjjiJJvgJLviOSrqQisaXP9A553nmCZ7FPVG44qJ5/a8e5+LdDqsaUP3zZ3zG9vNJQVLDTfzJfnYv7+b6MNYdr244EBt8jQLbpMKG4rPHA2nKO679nJw9dst2U/n+w4EcaAany8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=haloniitty.fi; spf=pass smtp.mailfrom=haloniitty.fi; dkim=pass (2048-bit key) header.d=haloniitty.fi header.i=@haloniitty.fi header.b=VkeLeqdS; arc=none smtp.client-ip=77.240.19.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=haloniitty.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=haloniitty.fi
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=jy4iJLCblvKkUzR0o5i8Eb7l5HB6H8VhmrwS78eie1Q=; b=VkeLeqdSQSUTs5SQ0vhDaAaUy7
-	pjf59Ta5KMN/UG9i/MCyHTX0Zr2sr09yupfv7FGrpg4xV9ny6TR8S6+idtFSsNUpSfwAiKLLrON1U
-	0gT5oLQKw25Wf68wVdAYjtNA6eBPzmQqbiJ+rS8xGjixf04mAgsKQ+4B7ViMh56jRCeQtUoJisUel
-	2oZ/wiP1Kx0SAslQhLb64DNPXIw2vTtXh8r8xaBEXfb1yVMES0BOHI4Q+CqwYiuu6Shmc/YcJHUxf
-	sz3IaQojbZYKaYnl+domwwbMWjkEs/FW6cBwtDldtkXlys+78eCZD7Rw23Da4jVOy2XM8Q+RPgxe7
-	zJXgFY6A==;
-Received: from [194.136.85.206] (port=46638 helo=eldfell)
-	by whm50.louhi.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <pekka.paalanen@haloniitty.fi>)
-	id 1rd50q-0003aY-2X;
-	Thu, 22 Feb 2024 11:05:06 +0200
-Date: Thu, 22 Feb 2024 11:04:57 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, Hans de Goede
- <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>, Miguel
- Ojeda <miguel.ojeda.sandonis@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org,
- ojeda@kernel.org, linux-leds@vger.kernel.org
-Subject: Re: Future handling of complex RGB devices on Linux v2
-Message-ID: <20240222110457.71618f27@eldfell>
-In-Reply-To: <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
-	<7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
-	<730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
-	<952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
-	<9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
-	<1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
-	<b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
-	<477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
-	<e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-	<247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
-	<ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708597118; c=relaxed/simple;
+	bh=hok62KdyZlUwWp+vCS6X/XQdwd32WCp3cJQev+HQ4/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cYSih4gV5r3y8miqZyvV3OtAxCOUZ9aYXOJiDtJPQOUAxbRVH3/15e2yO1R5kKFvJj21oBxZoNT7Gcx12G5gwoSzlcIotUFPNA//N/cIg/YHNY0gnzA/9x0V4E1XimDbEW8riPxglv1Xx3S1aksqgWOtMe7UNrA0+DFsVSD1aM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OgK0mX1b; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a3ed9cae56fso128413466b.1;
+        Thu, 22 Feb 2024 02:18:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708597115; x=1709201915; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wazdN7gWecYYIgnQB0kZi/Sg4s0sKcCnfJoTIpjsRfg=;
+        b=OgK0mX1bIhk0BZWIiU+ecG5DI/BWIeIbBH4CiqjAKA4cpuJJw7gEblxsiVPCRPFbDt
+         Ib1Eb2sM09VLTxorNO2Bz670DW3tq7oi40w4jqvXnmxP9Mlp7XotlBY+Y8NfMZCoNeMq
+         w+mj5CxIYsfXIB8Hdgrpi639REzTbn0dZ1EYnvjVEb/iE1SN9FbfClqk/pmZWd9Scjji
+         0+DClZ9tJgMjpNx5ng5TqnxOJY0tA3DXsu7+7FtRvnUEmO0duBYH6WeJgN1r9d5Ycnen
+         uOT1VEDlAxjrCDAT7GLd1iuQbY9SNzG0xrDQB2ko8GYId1g1FdBHCv6SE0kicfr+fy/O
+         VJqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708597115; x=1709201915;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wazdN7gWecYYIgnQB0kZi/Sg4s0sKcCnfJoTIpjsRfg=;
+        b=aOcr/lU+F5JM5h9KUZg2zSubsRwqaZKCN22MaWlxcqDEIorLQCVIXnjKRhGRwsVvXS
+         VjQYIrNf4Lhm5xfUMSOwWcl8hIgJhRPz4WgDajYwjrh0i0YqU6WVSLPRweQvS4GoON3c
+         KKDmTrHu3uTz+/lomaNbFi2djhTBIJcMi5gh4zih1cnvSHCtX91MLxKX2rLTUwkOwY7M
+         wfOXSPCk+9eKHWeqxCG4ffLrO9XLx5uHmjBuQ+wlgwU4rp1IV5iO9fAXzDHT5b6xT3eZ
+         Zz7iUbH3G3y0xfMLdbmAI2N0keUPmigHvIYcfsdXhlURbwtDdBleirZcWcgg81o+pN1W
+         FKaA==
+X-Forwarded-Encrypted: i=1; AJvYcCULIYyjgshq9ydX09xOpipy8OEIvN9uKTnmYOTiv6VaTsQYlmZSuHCU1/bvY6HfycumFYs+3VELGY0764Rnblo+nWThfWAmWI/BHEhcZqkh7v4/IpiaZ1HmiMzRQU4kkAHYsUCxx4iAGME=
+X-Gm-Message-State: AOJu0YzgucuYnqQQZICGRfJHx6ANMsjbnpCD3pH5JFGiRNvfovWEA2fO
+	j/jHtYNq+9tyI1Ha1d8FwHqGXtxVptPoiW9Q+yuYtWta9kEg7MC5
+X-Google-Smtp-Source: AGHT+IGZ27fJTL64apoPGO4VOYi46MvyBCwr1MXEIO8hMCWqhotb2mjF1pXNuIe4xUKbGMSqBf5ExQ==
+X-Received: by 2002:a17:906:6bc7:b0:a3f:9ff6:a1fa with SMTP id t7-20020a1709066bc700b00a3f9ff6a1famr179062ejs.17.1708597115198;
+        Thu, 22 Feb 2024 02:18:35 -0800 (PST)
+Received: from localhost.localdomain ([84.32.202.14])
+        by smtp.gmail.com with ESMTPSA id vu2-20020a170907a64200b00a3fa275de38sm25932ejc.162.2024.02.22.02.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 02:18:34 -0800 (PST)
+From: Yaraslau Furman <yaro330@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Lucas Zampieri <lzampier@redhat.com>,
+	Yaraslau Furman <yaro330@gmail.com>,
+	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+	linux-input@vger.kernel.org (open list:HID LOGITECH DRIVERS),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] HID: logitech-dj: allow mice to report multimedia keycodes
+Date: Thu, 22 Feb 2024 12:18:11 +0200
+Message-ID: <20240222101811.18921-1-yaro330@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240130111700.11666-1-yaro330@gmail.com>
+References: <20240130111700.11666-1-yaro330@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_GjnoK4T7HWLn/wL/.Ih.Jd";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id: pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 
---Sig_/_GjnoK4T7HWLn/wL/.Ih.Jd
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Multimedia buttons can be bound to the mouse's extra keys in Windows application.
+Let Linux receive those keycodes.
 
-On Wed, 21 Feb 2024 23:17:52 +0100
-Pavel Machek <pavel@ucw.cz> wrote:
+Signed-off-by: Yaraslau Furman <yaro330@gmail.com>
+---
+ drivers/hid/hid-logitech-dj.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> Hi!
->=20
-> > so after more feedback from the OpenRGB maintainers I came up with an e=
-ven
-> > more generic proposal:
-> > https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_175307286=
-9 =20
->=20
-> > >evaluate-set-command ioctl taking:
-> > >{
-> > >=C2=A0=C2=A0=C2=A0 enum command=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
-=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* one of supported_commands */
-> > >=C2=A0=C2=A0=C2=A0 union data
-> > >=C2=A0=C2=A0=C2=A0 {
-> > >=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 char raw[3072],
-> > >=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 {
-> > >=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 <input struct=
- for command 0>
-> > >=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }, =20
->=20
-> Yeah, so ... this is not a interface. This is a backdoor to pass
-> arbitrary data. That's not going to fly.
->=20
-> For keyboards, we don't need complete new interface; we reasonable
-> extensions over existing display APIs -- keyboards are clearly 2D.
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index e6a8b6d8eab7..3c3c497b6b91 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -965,9 +965,7 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
+ 		}
+ 		break;
+ 	case REPORT_TYPE_MOUSE:
+-		workitem->reports_supported |= STD_MOUSE | HIDPP;
+-		if (djrcv_dev->type == recvr_type_mouse_only)
+-			workitem->reports_supported |= MULTIMEDIA;
++		workitem->reports_supported |= STD_MOUSE | HIDPP | MULTIMEDIA;
+ 		break;
+ 	}
+ }
+-- 
+2.43.0
 
-I suppose they could be seen as *a* display, but if you are referring
-to DRM KMS UAPI, then no, I don't see that fitting at all:
-
-- the "pixel grid" is not orthogonal, it's not a rectangle, and it
-  might not be a grid at all
-
-- Timings and video modes? DRM KMS has always been somewhat awkward for
-  display devices that do not have an inherent scanout cycle and timings
-  totally depend on the amount of pixels updated at a time
-  (FB_DAMAGE_CLIPS), e.g. USB displays (not USB-C DP alt mode).
-  They do work, but they are very different from the usual hardware
-  involved with KMS, require special consideration in userspace, and
-  they still are actual displays while what we're talking about here
-  are not.
-
-- KMS has no concept of programmed autonomous animations, and likely
-  never will. They are not useful with actual displays.
-
-- Userspace will try to light up KMS outputs automatically and extend
-  the traditional desktop there. This was already a problem for
-  head-mounted displays (HMD) where it made no sense. That was worked
-  around with an in-kernel list of HMDs and some KMS property quirking.
-
-Modern KMS UAPI very much aims to be a generic UAPI that abstracts
-display devices. It already breaks down a little for things like USB
-displays and virtual machines (e.g. qemu, vmware, especially with
-remote viewers), which I find unfortunate. With HMDs the genericity
-breaks down in other ways, but I'd claim HMDs are a better fit still
-than full-featured VM virtual displays (cursor plane hijacking). With
-non-displays like keyboards the genericity would be completely lost, as
-they won't work at all the same way as displays. You cannot even show
-proper images there, only coarse light patterns *IF* you actually know
-the pixel layout. But the pixel layout is(?) hardware-specific which is
-the opposite of generic.
-
-While you could dress keyboard lights etc. up with DRM KMS UAPI, the
-userspace would have to be written from scratch for them, and you
-somehow need to make existing KMS userspace to never touch those
-devices. What's the point of using DRM KMS UAPI in the first place,
-then?
-
-
-Thanks,
-pq
-
---Sig_/_GjnoK4T7HWLn/wL/.Ih.Jd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXXDjkACgkQI1/ltBGq
-qqcWSg/+LfVHYtYAxb2OgFmYI0f3aKnMdoFZx4JA7AB95VfEyv+ok/lFhIWz8aIn
-B2zqfOxV1lPNFKOeBzh8oZRnQAzB4+oXSIEk61OI506esijcY0zpbzyg8qkUgpfr
-tVBeI7Ck0ypAHHGHb/3nnZfR556ZWs0CsMvDmHyBQvbBkPUykfB37+U6BmAVC2ry
-DL6jrMl0q09v9nLdNjQC9AkrO9lIMA8TME+XDUl1sLYpw+4DrAM+lnWUAyXFY5zk
-jMwv2G6BGNWpQTi1R3ImL5O8mdl+KXPcY36VHQwLUzXVmZOzYsfJJAjqvySIHNpG
-e4jC7EoJDCJdulHE/GcyXv+kt9AOGw6D2bSqmmosgk/g7F1gKJibN0hdy48HHV4+
-ipZuoM7djS/SBPc7A8KLvPIHfoJKfVfsjD6i4aSotEUHu8xyXsradMka9ouxNm5Z
-u0b5wE+Q7Csbmd8yLMHTqyE2e+ptdjScb85ra3sP8ZBXEQl/ZNurfQQIxjBrmgtc
-Zl/labXGRS8kdNQeba2rt3qzi/W81yebHR+yO/gwAgRJoFtzJj1rxHjPntF8pKQh
-cGrDLfc87GN9fvB9PL3KdGqKfvKzAmVmprxAdulqdZYvDblzy4fRekHn12xA7/vO
-Bc/LFP/jo+fZ02aeTZYSVHxQglUb/HkmPe+MldrSp7xA3ustudM=
-=rxLn
------END PGP SIGNATURE-----
-
---Sig_/_GjnoK4T7HWLn/wL/.Ih.Jd--
 
