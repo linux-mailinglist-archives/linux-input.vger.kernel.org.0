@@ -1,116 +1,136 @@
-Return-Path: <linux-input+bounces-2054-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2055-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3C0860892
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 02:56:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FCD860CF1
+	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 09:36:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15E621C223D1
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 01:56:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00CED1C2166B
+	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 08:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4842B66C;
-	Fri, 23 Feb 2024 01:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C256286A6;
+	Fri, 23 Feb 2024 08:33:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pvk0VgYH"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="uiGUC3PN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CE68F51;
-	Fri, 23 Feb 2024 01:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A3A1946C;
+	Fri, 23 Feb 2024 08:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708653386; cv=none; b=crV3iK1PrGJDJHX247yYSSFSrgukWe0wCkP3HAigIlsb3K9XhqbMkpxKdIbk5XZ5OSIAys/isN2ZtzbpbfhF2Nj0fpeIfwu1EP6dLUk6/nMXoIk/D3QjHgyXZYxIJvyiiCUac/6rm+X9Ic2Gkzm89IqheI8vfTyVsdQFzClDWiY=
+	t=1708677232; cv=none; b=swkSu06jotNYeuUzksfOQuoU5rzVa2cDYhZrrI0jDDXx8/CARBTSMJP/HaPg7KT+eNkO+ko+QR+WrhvhskT9rwn7Q2jGXIlSnG5zy2sPDznHGNTDHCzQ/mN7PPqbihUl8po7z6+1+J/TIcg1ykLQSRBWLVLVeHKa9hnt7jZX0ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708653386; c=relaxed/simple;
-	bh=OoAGUEey0v/HudJdEpxNwVcwRPbIB72SbkNiVuKIKN8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=isznrCzLLq8vZh0tFs0/nobVdCufPNxOHAt0GM2C54+W9zp3Q0DxOzwprCXWFG4+SWi4noAcRUl2ZNkb+CMZ5W1PqMx1XStuLiFpVE+R+xX8s3OFBL3oI6sDfLxuWTzTbu00NHFItyykL47+wBqJQIrlszXIqaLA1fS+jl/AG34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pvk0VgYH; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33aeb088324so227504f8f.2;
-        Thu, 22 Feb 2024 17:56:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708653383; x=1709258183; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iUdZVH+IyHyUk6BumjJJBqY/HP0jfnVa+1NxERJx/L0=;
-        b=Pvk0VgYHTVFgO9OThv+zKEzYAnNEwietvfxXgVbzU8peYq3emgBVe15SLBljktXnD6
-         3RXafnK4Ba081FzVq2NzxRd0N2aW+RRsRLQVngnA37DYGgfK3S5y+ufUquOTrd/4GvVi
-         dGk1oHnYYSu30oGhtQWoq/301kXyLsXlpYgS881FxwQc1WOJ2TaG8UHv+7pKy2rIiwJ6
-         XJxLBz6PGlrzhBgIX5aQossMey3a+X7jyZDOZjbScrY3/to1vLY8IgPexOjsYVexGpJ9
-         yUq0D1jnct6bfRvSI+Pt0ypbtU+4N/j1pv5rc4Wgmp4CfibNoU6ccWtpk0D2GyBAEfuy
-         iOaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708653383; x=1709258183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iUdZVH+IyHyUk6BumjJJBqY/HP0jfnVa+1NxERJx/L0=;
-        b=fgfpLqfDV2gdMyjMta92ICanAScWamzIcIaKrJdL/kVX93M56QsHh5C7IOJrQfoTvY
-         KBs+jFA+irYgyGMLLamFfChHI9ynRg01+S0K1frFwdqN16PbF4fNvvZkjAEaaSEdvr1G
-         8/+5K+7qr7q3OXQfQstPK5VmgXCHPYlMjdNtXGC5oNUzVcKCWVLYpIr63ETEB2G1gobV
-         Ubg6xNcallC2CWpJPIatExNpXlCc2H+ovPXJJxZtpV5QZwpNKbnX8HG6kHEsaYbhFRb6
-         owkZz3KzXN4n+gNF/xKNsUpfP2rDLJ7Jh0lZXVCqWq2FQOvSw+P8YfZHsyEsA/4PrjVr
-         5CHg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+BM7Xpkz02dPA6F/vtJZthxyJqAgvlXovQbgViieaGCuWUyMDJUOCwARf9Ij5TPU0mkT0y2txrpDot/yAeJOo7gfNFlQCGIrOxPPUavzDE9f1mymqOVBGPss29aO0zknSKix937TeGWHTUaPnMbrfch69HnbnTW8yJaxgzzNy6Ka1kX5JxPv+MlisDrexybxI23C3DtE+72um7Kliy65aZMc5ABzHdv2j+6QKwj2/y+uFRCRjpns+uIA=
-X-Gm-Message-State: AOJu0YxmYls0X8aIQ/+Fek5pk3dolTytqTSm/6MVZJuYRmwWiCo9sTav
-	x35mHEkyZHywAo9OEokChUOh/kMKcIIGnlgGSC0wElv2aNSZOaukFjG+NgiB0n5rtJuFMRItX93
-	PHExWR2HryYLlx/y7mFlzeUGq91o=
-X-Google-Smtp-Source: AGHT+IFlc+/w+KFBh9cRNousvmemixbQ/ubY3s+vrEGwhWDPVvFJozbC/Ssd1y4TZYFcnorm7nZRvrvy4dWEj2CtOCA=
-X-Received: by 2002:a5d:5045:0:b0:33d:26b1:c460 with SMTP id
- h5-20020a5d5045000000b0033d26b1c460mr432252wrt.39.1708653383258; Thu, 22 Feb
- 2024 17:56:23 -0800 (PST)
+	s=arc-20240116; t=1708677232; c=relaxed/simple;
+	bh=5c0V9iUcpSHiDMvTejGO6cBy5XVestFd+FPyt7ByrNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/+5yM1KMqsSvWlhHUU2jI9nhZC70514CeRkVEVYwulbNSXNKWFf27/sTij46rBYFh6JmKLJZ7i4JoJiqc1CFrIp3en1AGfiYEcRmuXgf3TqcRdH3G4BEF3IKEAwsPljNinoXtcBUCH9xi6nbR+VqlWO+s5KIJox2i828V5WUxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=uiGUC3PN; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D55A92FC0048;
+	Fri, 23 Feb 2024 09:33:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1708677222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hyg/6mIbbTS+jgvBpDapIOM2QZ8XaLynxTsM3xRcdr0=;
+	b=uiGUC3PNuqR8MRaR8BM4zMwX+uJOlh79kFVIufcDk4kXGjhe/w44A2tFFVubAtH+YXlD8i
+	WXoK/JYaw9BqwItu0YEa6blEf3H8bn1cudUoBjecz7Jf1hTD/YVRKmZG8ur14Sx+onhp71
+	Nxa8LUFPzUedZJHyTXFiJZi76cLcdTc=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <38b6998a-eb5c-44b6-95c9-260bd84046af@tuxedocomputers.com>
+Date: Fri, 23 Feb 2024 09:33:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org> <20240221-hid-bpf-sleepable-v3-2-1fb378ca6301@kernel.org>
-In-Reply-To: <20240221-hid-bpf-sleepable-v3-2-1fb378ca6301@kernel.org>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Thu, 22 Feb 2024 17:56:11 -0800
-Message-ID: <CAADnVQKotZ0ki6p4DAydj=XE9hU6pPc+FdqU_WQ99NBK-qSe+A@mail.gmail.com>
-Subject: Re: [PATCH RFC bpf-next v3 02/16] bpf/verifier: introduce
- in_sleepable() helper
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Future handling of complex RGB devices on Linux v2
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
+ jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 21, 2024 at 8:25=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
-> @@ -18193,7 +18198,7 @@ static int resolve_pseudo_ldimm64(struct bpf_veri=
-fier_env *env)
->                                 return -E2BIG;
->                         }
+Hi,
+
+Am 21.02.24 um 23:17 schrieb Pavel Machek:
+> Hi!
 >
-> -                       if (env->prog->aux->sleepable)
-> +                       if (in_sleepable(env))
->                                 atomic64_inc(&map->sleepable_refcnt);
+>> so after more feedback from the OpenRGB maintainers I came up with an even
+>> more generic proposal:
+>> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1753072869
+>>> evaluate-set-command ioctl taking:
+>>> {
+>>>      enum command                /* one of supported_commands */
+>>>      union data
+>>>      {
+>>>          char raw[3072],
+>>>          {
+>>>              <input struct for command 0>
+>>>          },
+> Yeah, so ... this is not a interface. This is a backdoor to pass
+> arbitrary data. That's not going to fly.
+>
+> For keyboards, we don't need complete new interface; we reasonable
+> extensions over existing display APIs -- keyboards are clearly 2D.
 
-this one doesn't look correct.
-The verifier didn't start its main loop when resolve_pseudo_ldimm64()
-is called.
-It also loses symmetry with other sleepable_refcnt operations
-in syscall.c and core.c
+Maybe we should look on this from a users perspective: Running custom Animation 
+(i.e. where treating it as a display would be helpfull) is only >one< of the 
+ways a user might want to use the keyboard backlight.
 
-I reverted this hunk and applied patches 1,2,3
-with minor edits, like removing unnecessary parens in patch 3,
-and patch subject rewords.
+Equally viable are for example:
+- Having it mono colored.
+- Playing a hardware effect
+- Playing a hardware effect on one side of the keyboard while having the other 
+side of the keyboard playing a custom animation (As I learned from the OpenRGB 
+maintainers: There are keyboards which allow this)
+
+There is no reason to define a custom animation as the default and then just 
+bolt the other options on top as it might not even be possible for some devices 
+where the firmware is plainly to slow for custom animations.
+
+Also I still think a 2*2, 1*3 or even 1*1 matrix is not a display, coming back 
+aground to the earlier point where I want to implement this for keyboard first, 
+but this discussion is also thought to find a way that works for all complex RGB 
+devices. And I don't think it is a good idea find a way that works for keyboards 
+and then introduce again something completely new for other device categories.
+
+>
+> Best regards,
+> 								Pavel
+
+Best regards,
+
+Werner
+
 
