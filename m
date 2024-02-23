@@ -1,82 +1,78 @@
-Return-Path: <linux-input+bounces-2074-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2075-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11954861EE1
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 22:24:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F843862089
+	for <lists+linux-input@lfdr.de>; Sat, 24 Feb 2024 00:16:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC75828BC35
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 21:24:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2D431F220AE
+	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 23:16:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36B92149382;
-	Fri, 23 Feb 2024 21:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA79C14CAD8;
+	Fri, 23 Feb 2024 23:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2quoiZY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBuw6Mj5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4AA1DDC3;
-	Fri, 23 Feb 2024 21:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6252C14CAD1;
+	Fri, 23 Feb 2024 23:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708723374; cv=none; b=CtFUqnZ5x/i8fHA6KnA/6iN13Mt9efV3m0IouhYvjVAWlUfLC4nGuiKRTuHg8LYRId0B1L7qwpqkGFbOyeh7h2Zw5eX3ValNMOxCbImmNC9x7TgtfkyLmbNWSZbutNANF4MlBeI0IcTKJ2VJBkyezBz91LoICcAPN8Xo5sKpK70=
+	t=1708730177; cv=none; b=kKlinBcXTf6x3Dfj7FjVR3SRUZZm5iXlKfqr/8lpfan5Y7J1gwyCmyVC1s0BBPBT+ZnvQT9bT8HVr2HutI473dK3WjJTetqLfpswdO+Lxn/lVuUic6BqDw6JZ2/GUiYNFQr+0FKJw95BfsgzVCAPEH4+0Fs4jeDJVIaGVaDAYOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708723374; c=relaxed/simple;
-	bh=D9xlkAwetO2YYsp4AzG3YrTgZ6UnVD1pIb+/R0M9yxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yj+McLpI1k0DtHEsR237Xpr/OUhNUUlZnJUl2L424EMs2nzsTcaWPSOgjjKeB5Uv85ryJlhxm8KSmloyhdP+KL4MQLqhJXqAMFZt2UtcFUqwqDmAhv6DTvn3NhIqjl6AsmLF1NR5cBM2Et47sYPJxxA7iJVaXKTW4m9Lnziwt88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2quoiZY; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1708730177; c=relaxed/simple;
+	bh=dK1BjyOXGfLwN5ILE7hkJADDu3le/Lw6z1zJA5AtyVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tP+gCul+tlK684WpH19abQshR7Zalsh3NNxfc3fhCppCFPdoVljt89/OgnzZa+KXdNBoxr9Rf+DccGUel1lzxr3e/m3VLdbm1WMVTqTZUMjPsC/azngmbJe8a6P/2QNle+b9m8omDHWE87mFzHrZIs1JWajco4E7CS/WMzvyU2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBuw6Mj5; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33d0a7f2424so606389f8f.0;
-        Fri, 23 Feb 2024 13:22:52 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1dc3b4b9b62so12169735ad.1;
+        Fri, 23 Feb 2024 15:16:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708723371; x=1709328171; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FighQhaXjcHvzu/cP/qcaVJd6ZUW+O6jZf8uJbTD2qg=;
-        b=O2quoiZYslg1y0C5mMQHU1y3J2iUBMxdsgxy0W2Hk76Brzj5DrhGjUqIanNSS6K/Os
-         3SmKU9aUWk22o7bh14DURBbd0SQzPqTFZC3DkLYxdZPys27+wfJPYPdjLNSIK/DISLIL
-         cSDqokRsVPvnlVHvRcufjcnwCgJwPjMqOBPlCzFLyBAcsvbHG0fl9TYhsGq/XbFkLm6S
-         Yzysz8uOSxX8cezfzFnyBIngvyWzOUkxu1gUirvdEDs4HGx26he4pFqeoLlMq7W1ZN6T
-         zNeS2IKnG/0p8/QlxHxFS0+gWy8Xy0Fm6rpwgGoYSo/s1LFHgeadi0vl7sXqZcvT6SYt
-         B1jQ==
+        d=gmail.com; s=20230601; t=1708730175; x=1709334975; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ap5jfynKUwvFrOMjr8+smc5ih4W+k0wxlpnBX6ZIbOw=;
+        b=cBuw6Mj5RlWHzQ1K4BrIsqytuOq/nV9w44hac/GsD4ak8dOFhr0CyUWYB+2s0Epsnt
+         iNj04XR4ecoZ7IWJRexbRYV9GI1FXRXACa7W2JnQHlJ3BXOHBmeUXG/ad2kD/bWInd4q
+         sgagdHAH5mfZ8YPU5YtJgFwLxEqkejkV6BJDR2/iJEQrP3rzJUv/g3S4sZcUX1FuVMSW
+         o4m07EYYkR0VrD/W3kyaCYEJuZD++5JYawGAt/BN6aI5V4ALZtPKiI4nsIvsUHEk3gBJ
+         NQUwRSDTyrTGsNS3mNFSinAfCzKQvPeTZ/3M0MZpUGrl2v+I7fDz4chXFjuVNh5mQlrd
+         Mi5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708723371; x=1709328171;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FighQhaXjcHvzu/cP/qcaVJd6ZUW+O6jZf8uJbTD2qg=;
-        b=ACwWfzaT9zpB0NOu/0buJ39VHSZryCl2S0cHs3AiDA9r0uGck2OSpf1LO5KTQL5sAR
-         pXar4xh5lhplwelTSI071mr0EZFGLVfFABRXh2drqqZqlESwqamC+gjKi8lH/52y24Q0
-         KcRzFVR6qpicFtYQFN2d0JqYOwxwv0ivu5r/K2HbJCENkJuEWQcTEoAO04zMkFsXLst2
-         8YksjaP+DXoNWT1X8/xdlEFJgC1TFJnAzOZxjE8phJ+7OfuboFLstoTpbjq8xRDAYcr/
-         cZQUy+zjjee2Cw1M0K1FLXrdBTPJmQesaNyAJnnKAZKeDrXYGVJJVVrHS1DPgLLT+Tx2
-         m08A==
-X-Forwarded-Encrypted: i=1; AJvYcCX73zVzPwNydoSczZcgnjVXMHhPJK6iyyqjFxx0NaLwjXq0t+2ZMAnxgKxwUtf10xHKiZaWOEJbXSxVuUxV7HWu+mxvu/vPjEGLy4lofxnkB2uDVVCNpNldk1z5hmsIjz3XZbnT8qUShxo=
-X-Gm-Message-State: AOJu0Yxp8lnELeRQiYwQ9YBHBJLwA7ozF6NB49le7lyFGQIQfW5A5ved
-	fzi46wOA4cEGAmL/n9QW8qgUD3RZHuGn1FPrhdj14y79SNpXYUom
-X-Google-Smtp-Source: AGHT+IFDBAaVDq0LkSeFnlg7HBYqY64qEoifclU9wuWbudpVFSVqQQA6UsymPdnn6EifuGspZgNgMA==
-X-Received: by 2002:adf:f98a:0:b0:33d:adce:568a with SMTP id f10-20020adff98a000000b0033dadce568amr606581wrr.33.1708723370468;
-        Fri, 23 Feb 2024 13:22:50 -0800 (PST)
-Received: from m2 (89-139-223-180.bb.netvision.net.il. [89.139.223.180])
-        by smtp.gmail.com with ESMTPSA id y10-20020a5d470a000000b0033d640c8942sm4062605wrq.10.2024.02.23.13.22.48
+        d=1e100.net; s=20230601; t=1708730175; x=1709334975;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ap5jfynKUwvFrOMjr8+smc5ih4W+k0wxlpnBX6ZIbOw=;
+        b=IYD33roeWkx5jnZF2r6jQ+B5IJ8LIgP4NS7JQ6NqLbDXDCa0HegkD7nImr0CctpkA6
+         YbaUo85fkb1plmYDIj/TdlPc7KFcaXMVMg8q37swCIixyXLMlKC7cIsA7E6L8Z/rktEt
+         xK9iSg20R/sdwuyDAa5f10wmq3cBYW3MskGyq3TdMBxl97cp7UMhJzK4wB4WVUo0Af3N
+         rnxbtcWVTNPKoYfoD+iJOmdo62jsUvbJcDqor097IuzxN4KyujI87Ed3SAYTOHfgUu5J
+         y4QL6GID1omS2QP9kvVlAPmzvxPg+w3uecEbowgHYZpXGKdqtnNgnyXNS9AaHKAXkDc3
+         ZGqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVV64CS7RMeoSbXUTE2c0AN0w97jMH0fEYI2vjJEcrp/nOljbjVtH6icghsyVYVJXWtmZYrtojBZyuk9AE6zZzKhPU5FK/xsvmsRqOH12ee3UYcmro593cfD/U1KDK7uPDmvTxS2lXwSCU=
+X-Gm-Message-State: AOJu0YzYUf9PJHKSIxU7YdroMdgqIl0W2P+v/4+tN9CqIeCWTXeiQECJ
+	H0vP0a0MkhBiliOkDrldO48Fua63mxVUoZpYfHnmJdweFR7C+FwB
+X-Google-Smtp-Source: AGHT+IGcAjdfNPBzL6liO8W0ZiZ+ojd6M1x1g4CEoa9UsWYoEVz3zzIeNdRS4kEDaDJ0/7PIQQtzLA==
+X-Received: by 2002:a17:902:db0a:b0:1db:c113:29bb with SMTP id m10-20020a170902db0a00b001dbc11329bbmr1480811plx.34.1708730175455;
+        Fri, 23 Feb 2024 15:16:15 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f0c6:1cdc:5abd:78b8])
+        by smtp.gmail.com with ESMTPSA id je5-20020a170903264500b001d8f82f90ccsm12119196plb.199.2024.02.23.15.16.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 13:22:49 -0800 (PST)
-Date: Fri, 23 Feb 2024 23:22:47 +0200
-From: Michael Zaidman <michael.zaidman@gmail.com>
-To: chrysh@christina-quast.de, daniel.beer@igorinstitute.com,
-	jikos@kernel.org, michael.zaidman@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-serial@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-	johan@kernel.org, gregkh@linuxfoundation.org, equinox@diac24.net
-Subject: Re: [PATCH v1 19/19] hid-ft260: uart: improve write performance
-Message-ID: <ZdkMpwA1ZPWRUvWM@m2>
-References: <20240210215147.77629-1-michael.zaidman@gmail.com>
- <20240210215147.77629-20-michael.zaidman@gmail.com>
+        Fri, 23 Feb 2024 15:16:15 -0800 (PST)
+Date: Fri, 23 Feb 2024 15:16:12 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: kenalba@google.com, dianders@chromium.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: input: avoid polling stylus battery on Chromebook Pompom
+Message-ID: <ZdknA5qa8B-nB6ta@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,77 +81,49 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240210215147.77629-20-michael.zaidman@gmail.com>
 
-On Sat, Feb 10, 2024 at 11:51:47PM +0200, Michael Zaidman wrote:
-> Tx performance with the current buffer size of 256 bytes is lower when
-> the data length exceeds the xmit buf size.
-> 
-> [134331.147978] ft260_uart_write: count: 288, len: 256
-> [134331.157945] ft260_uart_write: count: 32, len: 32
-> [134331.159977] ft260_uart_write: count: 288, len: 256
-> [134331.169990] ft260_uart_write: count: 32, len: 32
-> 
-> 1. Increase the xmit buffer size to page size as used in the serial core
-> and other tty drivers.
-> 
-> 2. Remove the xmit buffer fulness against the watermark checking and the
-> tty_wakeup calling in the ft260_uart_transmit_chars routine. This code is
-> taken from other drivers, but other drivers may call the routine from the
-> interrupt context. In our case, this condition is always True since xmit
-> buffer filling and emptying are serialized and done synchronously.
-> 
-> Tested with picocom ASCII file transfer by 288-byte chunks at 921600
-> bauds rate with above 20% performance improvement.
-> 
-> Before:
-> 2821.7 Kbytes transferred at 47367 CPS... Done.
-> 
-> After:
-> 2821.7 Kbytes transferred at 57788 CPS... Done.
-> 
+Internal touchscreen on Trogdor Pompom (AKA Dynabook Chromebook C1)
+supports USI stylus. Unfortunately the HID descriptor for the stylus
+interface does not contain "Stylus" physical collection, which makes
+the kernel to try and pull battery information, resulting in errors.
 
-Besides the performance improvement, it fixes the bug of outputting
-characters to the local terminal when local echo is disabled and
-printing every character twice with local echo enabled.
+Apply HID_BATTERY_QUIRK_AVOID_QUERY to the device.
 
-> Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
-> ---
->  drivers/hid/hid-ft260.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-> index 6b172bfa4f98..1188b8e09938 100644
-> --- a/drivers/hid/hid-ft260.c
-> +++ b/drivers/hid/hid-ft260.c
-> @@ -308,8 +308,7 @@ enum {
->  #define FT260_UART_EN_PW_SAVE_BAUD	(4800)
->  
->  #define UART_COUNT_MAX (4) /* Number of supported UARTs */
-> -#define XMIT_FIFO_SIZE (256)
-> -#define TTY_WAKEUP_WATERMARK (XMIT_FIFO_SIZE / 2)
-> +#define XMIT_FIFO_SIZE (PAGE_SIZE)
->  
->  static const struct hid_device_id ft260_devices[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_FUTURE_TECHNOLOGY,
-> @@ -1211,7 +1210,7 @@ static int ft260_uart_transmit_chars(struct ft260_device *port)
->  
->  		len = kfifo_out_spinlocked(xmit, rep->data, len, &port->xmit_fifo_lock);
->  
-> -		ret = ft260_hid_output_report(hdev, (u8 *)rep, len + sizeof(*rep));
-> +		ret = ft260_hid_output_report(hdev, (u8 *)rep, len + 2);
->  		if (ret < 0)
->  			goto tty_out;
->  
-> @@ -1219,10 +1218,6 @@ static int ft260_uart_transmit_chars(struct ft260_device *port)
->  		port->icount.tx += len;
->  	} while (data_len > 0);
->  
-> -	len = kfifo_len(xmit);
-> -	if ((XMIT_FIFO_SIZE - len) > TTY_WAKEUP_WATERMARK)
-> -		tty_wakeup(tty);
-> -
->  	ret = 0;
->  
->  tty_out:
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-input.c | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e4d2dfd5d253..05f451390a3b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -426,6 +426,7 @@
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
+ #define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
++#define I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM	0x2F81
+ 
+ #define USB_VENDOR_ID_ELECOM		0x056e
+ #define USB_DEVICE_ID_ELECOM_BM084	0x0061
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index c8b20d44b147..e03d300d2bac 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -411,6 +411,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM),
++	  HID_BATTERY_QUIRK_AVOID_QUERY },
+ 	{}
+ };
+ 
+-- 
+2.44.0.rc0.258.g7320e95886-goog
+
+
+-- 
+Dmitry
 
