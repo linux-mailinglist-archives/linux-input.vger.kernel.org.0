@@ -1,192 +1,119 @@
-Return-Path: <linux-input+bounces-2069-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2070-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29FB861702
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 17:08:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32B78617A3
+	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 17:21:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CD2D1F27AA6
-	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 16:08:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27E9FB26626
+	for <lists+linux-input@lfdr.de>; Fri, 23 Feb 2024 16:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3477B84A3A;
-	Fri, 23 Feb 2024 16:05:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4EE128386;
+	Fri, 23 Feb 2024 16:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ttPNwGAq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yY0o5r85";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ttPNwGAq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yY0o5r85"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNa0LXl3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D92583CD3;
-	Fri, 23 Feb 2024 16:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFD884FA7;
+	Fri, 23 Feb 2024 16:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708704359; cv=none; b=V3+AOlDetBMxAtBEIwiBUIuv/tRoS4870pj7FxSN73sk4f6733tJ2FTKk+jmUARpzvned/s85LeX4borD1HEoyA1UcKoMPVCuPYWnuwcBTGz0Z5dXImhMvAMW81ytyIqqiT6ZuatIpeifAG7xcmbYY30PQKuUeAVEnkSMwfvJS4=
+	t=1708705193; cv=none; b=Ha6PFj4kfdJgrIKHT/oYevl6MroA2s3t6ay+FdOGcUyMBPSeCjFEeh8y1TJ9RcTN629duBwcKe6+q8ApPPi9Zvrdme4tCHtWqr9d6S5/afG5NFho3GkBHcFJYVFaIlC81qw1oNMyXoqIgCLhUqqLrn9shgxrKeZKKDcYXpcgKuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708704359; c=relaxed/simple;
-	bh=zH2MvSplEEXgx46LBtOzJeLTlqge/RgcaokSnyMh7sw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q4GJBDzEVWitRkjt76R5lBRpIcNbcjWIkt9+vR8v/6HAjQegfEplZqdXzkpSiVr2yOZ3RaZBFWdOzIBVvcleyXKi0inmvcfKkhug/5nbJlIFc7XpL65Zzd0TQXI9kyg7en78J9P5Os/yDuzCPqjZl+ND91+en1UVbChALdEZP+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ttPNwGAq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yY0o5r85; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ttPNwGAq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yY0o5r85; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 91DAD22061;
-	Fri, 23 Feb 2024 16:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708704355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o4kUKyBE8wK/e7CbFCZFUsuzEC5HbRBaNLxtB2b2mDE=;
-	b=ttPNwGAq3csd73zQ01YKgwvjMjfZUgWSvBQINzjTaxCh5nX3xKz0vwTv+O9xrZ2p18kMzD
-	RuF3cEsYDRxw8xCNt/Ro3/S8gtCIOBZcgpA4JFkwkfSGDw9HRBLzTeMzwxdbjkq62W8t8r
-	yxeznWq3K0BkmzmtqTXZ+zm80BkiXSs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708704355;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o4kUKyBE8wK/e7CbFCZFUsuzEC5HbRBaNLxtB2b2mDE=;
-	b=yY0o5r85FetfwOgUtyOdRKohBEXnlgL75bFOSo2Fn957pOy+fgEmAIQ+r3lkTKEYkbpfnP
-	QuNHawi5KDvi9lDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708704355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o4kUKyBE8wK/e7CbFCZFUsuzEC5HbRBaNLxtB2b2mDE=;
-	b=ttPNwGAq3csd73zQ01YKgwvjMjfZUgWSvBQINzjTaxCh5nX3xKz0vwTv+O9xrZ2p18kMzD
-	RuF3cEsYDRxw8xCNt/Ro3/S8gtCIOBZcgpA4JFkwkfSGDw9HRBLzTeMzwxdbjkq62W8t8r
-	yxeznWq3K0BkmzmtqTXZ+zm80BkiXSs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708704355;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o4kUKyBE8wK/e7CbFCZFUsuzEC5HbRBaNLxtB2b2mDE=;
-	b=yY0o5r85FetfwOgUtyOdRKohBEXnlgL75bFOSo2Fn957pOy+fgEmAIQ+r3lkTKEYkbpfnP
-	QuNHawi5KDvi9lDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35519132C7;
-	Fri, 23 Feb 2024 16:05:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R5uLC2PC2GUiLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 16:05:55 +0000
-Date: Fri, 23 Feb 2024 17:05:54 +0100
-Message-ID: <878r3b2mjh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of led_trigger_event() and simplify mute audio trigger
-In-Reply-To: <20240223160415.GG1666215@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
-	<20240223154559.GF1666215@google.com>
-	<87cysn2ndu.wl-tiwai@suse.de>
-	<20240223160415.GG1666215@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1708705193; c=relaxed/simple;
+	bh=met8njy71Mw/n/j1aUV456Ew99lMhLKOvTi11bATOoE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HTgbwxskU2++4+01WSyxalm/0+xS2Zx7B6hEtwaGr6cC1orNXuOFpZpV+JJq085nC74CNkGimLLrZ+JuymB5bqmh1S7qPf60sUeDDtBgErFUXrtxE2apZ0cqPz6HXqds4nhawxqTFBpWhB789fawlxidNPFp+7dI+KeAlsaXAcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNa0LXl3; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2d1094b5568so6402971fa.1;
+        Fri, 23 Feb 2024 08:19:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708705190; x=1709309990; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=C+z4evuI/NntdwkpluV6CvSYqNLCNZZI/SQfSnZFAR0=;
+        b=iNa0LXl3Z30SXzI+6bf95DRcyaxR4ymuAaKx5QFXtDc9vOsPGwImUM6KKVbzEftdRI
+         EHNRtNCAPwdlYyXZm8JQv8ufjuzq15mEIaOb9GubNRgeZQJWgfdfnsQ5q781/GyXPwVk
+         0dTkAEW5tncz9wzMXjtM/+mI7J/Gld0t95iX43+5Zxw8Kv928XvBw/xpli5ZOBjZnKcM
+         CW8WuyY6GhPIgT2qUHrxw4UOxjTIv4qI8BPRkA5uxVcDS/01dkIBVOsI7jmkiQcxkPHX
+         jooI7bFAjCmtm0wKnlsjsZC11p+LFnS5aZpLGC4loB9WP4ZSAxuEv7N0/hY1hfbDSC+3
+         H2bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708705190; x=1709309990;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+z4evuI/NntdwkpluV6CvSYqNLCNZZI/SQfSnZFAR0=;
+        b=fZrPy64YEWqID8MdBzCQwS7FjgNHO94Lpw8+cYMgRMWeRjCLmCyxkSQMaBKiI7//fj
+         As99tH19leCAIRs3bKDga4r7NbxfJYADnwjYPPLHI4qFF6bPxMCV8kcGJUKZBvJlO0Tv
+         mcS5iCvexjaJr2nEkWAZ4aEN0fttUA/DZ0TWVbKAazMVQce3h5xRYis2h32MGk7/9Os7
+         03p8usNirHFkaAtoTcqEEvY+LpvdBG2QbnoWguEhOtdez4jY4XFjZXL3TgjD8FfBIwGy
+         OgJGI85cXWYj3CRUFiDJ5S+X0pSRdlmnRD9gjn31E43EzdDaKVADs5OguB5IcswAu0aN
+         IOhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqFnP1wGgRh/UewQDaIMjTaA+8shj3CFHjXZLs1yJ8SiZTuPz/zbV6r/h9AJiSjFNcejrgQ44r7ygMG/zKuReVhd1Ie5/cY7x8forlICz4UFE+IAB/sAGF6acU1wQiZ3NXx7xxUvOyWv/zk/RIry8BegH5SGRwu4Odo1+wGtSR0OvCp7vfHH3YZwRbVKZ5RiYTghD/L33RY2tZXtIdTWSGX0MHPMQ=
+X-Gm-Message-State: AOJu0Yw81XnZkddTjYC5x4geSzp+a8yTM/cJZdDxtQMEqYDWSRXmVwGj
+	P5LcjSYnokj/QVyVKEU+y+OUTc2O0urLQlaLbyQ/IsumSZ02c5FS
+X-Google-Smtp-Source: AGHT+IHh3rPxFcNYrpkL2582koBbeXo8BBTa1kFaxQr/oZe0Gj596MvHizj9oYcNcmAtbFHRCxYu1A==
+X-Received: by 2002:a05:6512:2246:b0:512:ab9e:3521 with SMTP id i6-20020a056512224600b00512ab9e3521mr188717lfu.11.1708705189424;
+        Fri, 23 Feb 2024 08:19:49 -0800 (PST)
+Received: from [192.168.1.94] (host-176-36-0-241.b024.la.net.ua. [176.36.0.241])
+        by smtp.gmail.com with ESMTPSA id hu20-20020a170907a09400b00a3fa3411416sm1214756ejc.64.2024.02.23.08.19.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 08:19:49 -0800 (PST)
+Message-ID: <e95cebb8f6a7ede5d40b4becf58cb578a5c4cf58.camel@gmail.com>
+Subject: Re: [PATCH RFC bpf-next v3 00/16] sleepable bpf_timer (was: allow
+ HID-BPF to do device IOs)
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov
+ <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Martin
+ KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Date: Fri, 23 Feb 2024 18:19:42 +0200
+In-Reply-To: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
+References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
+Autocrypt: addr=eddyz87@gmail.com; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-0.60 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[suse.de,gmail.com,ucw.cz,perex.cz,suse.com,alpha.franken.de,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -0.60
+MIME-Version: 1.0
 
-On Fri, 23 Feb 2024 17:04:15 +0100,
-Lee Jones wrote:
-> 
-> On Fri, 23 Feb 2024, Takashi Iwai wrote:
-> 
-> > On Fri, 23 Feb 2024 16:45:59 +0100,
-> > Lee Jones wrote:
-> > > 
-> > > On Tue, 13 Feb 2024, Heiner Kallweit wrote:
-> > > 
-> > > > If a simple trigger is assigned to a LED, then the LED may be off until
-> > > > the next led_trigger_event() call. This may be an issue for simple
-> > > > triggers with rare led_trigger_event() calls, e.g. power supply
-> > > > charging indicators (drivers/power/supply/power_supply_leds.c).
-> > > > Therefore persist the brightness value of the last led_trigger_event()
-> > > > call and use this value if the trigger is assigned to a LED.
-> > > > This change allows to use simple triggers in more cases.
-> > > > As a first use case simplify handling of the mute audio trigger.
-> > > > 
-> > > > This series touches few subsystems. I'd propose to handle it via
-> > > > the LED subsystem.
-> > > > 
-> > > > Heiner Kallweit (4):
-> > > >   leds: trigger: Store brightness set by led_trigger_event()
-> > > >   ALSA: control-led: Integrate mute led trigger
-> > > >   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
-> > > >   leds: trigger: audio: Remove this trigger
-> > > > 
-> > > >  arch/mips/configs/ci20_defconfig     |  1 -
-> > > >  drivers/input/input-leds.c           |  8 +---
-> > > >  drivers/leds/led-triggers.c          |  6 ++-
-> > > >  drivers/leds/trigger/Kconfig         |  7 ---
-> > > >  drivers/leds/trigger/Makefile        |  1 -
-> > > >  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
-> > > >  include/linux/leds.h                 | 29 ++++++------
-> > > >  sound/core/Kconfig                   |  1 -
-> > > >  sound/core/control_led.c             | 20 +++++++--
-> > > >  9 files changed, 37 insertions(+), 103 deletions(-)
-> > > >  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
-> > > 
-> > > Are the sound maintainers on-board with this?
-> > 
-> > See
-> >   https://lore.kernel.org/r/87zfw1ewrd.wl-tiwai@suse.de
-> 
-> Were you happy with Heiner's response?
+On Wed, 2024-02-21 at 17:25 +0100, Benjamin Tissoires wrote:
+> [Partly a RFC/formal submission: there are still FIXMEs in the code]
+> [Also using bpf-next as the base tree for HID changes as there will
+> be conflicting changes otherwise, so I'm personaly fine for the HID
+> commits to go through bpf-next]
 
-Yes.
+[...]
 
+Could you please also add verifier selftests, e.g. extend
+tools/testing/selftests/bpf/progs/timer.c       (bpf side)
+tools/testing/selftests/bpf/prog_tests/timer.c  (userspace side triggering
+                                                 bpf side)
+Negative tests could be added in
+tools/testing/selftests/bpf/progs/timer_failure.c
 
-Takashi
+Please let me know if you need any help setting up local BPF test
+environment, I have a short writeup on how to set it up in chroot.
 
