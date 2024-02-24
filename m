@@ -1,162 +1,181 @@
-Return-Path: <linux-input+bounces-2082-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2083-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195028625F9
-	for <lists+linux-input@lfdr.de>; Sat, 24 Feb 2024 17:15:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1C3862642
+	for <lists+linux-input@lfdr.de>; Sat, 24 Feb 2024 18:08:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D2E21C20C4E
-	for <lists+linux-input@lfdr.de>; Sat, 24 Feb 2024 16:15:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23BD9283170
+	for <lists+linux-input@lfdr.de>; Sat, 24 Feb 2024 17:08:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81933250EA;
-	Sat, 24 Feb 2024 16:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D765141A87;
+	Sat, 24 Feb 2024 17:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsPGnFNI"
+	dkim=pass (1024-bit key) header.d=sysophe.eu header.i=@sysophe.eu header.b="mRH73Vp8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hygieia.sysophe.eu (hygieia.sysophe.eu [138.201.91.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98F047A6C;
-	Sat, 24 Feb 2024 16:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A0D4879B;
+	Sat, 24 Feb 2024 17:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=138.201.91.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708791321; cv=none; b=FhUhoTCf4F0lRwUltBVGRDG1eJ0aUOOCs6FvhGm6XDloRVbRVtDuATRk3xHLJ0Oa+TJ4V7Z2QOw3NyccC04wOhpFToCU+HdgLiLFjkRBmlUQ5FPp1ZPke43NbTB6YhCayN/h1ZwoPE90JbUzI3EHdXXy55WanmL33FqWi6dtF3Y=
+	t=1708794501; cv=none; b=piXFt5K4hnFh/bhOjjrp2Q6bruoprkUmZ6hWfuSXlKWBwnrsWx0fdXfUj7zKGEIVfvfG0/UnulkBLWCOIn3sxykBuEC3wzLEU0dnZyGYs346KRZX3nste6sSPXuGrFB2OfqLMAir6TB1xJL6Fe/tuIsbWJeCDFrWjJ2e+DVAYNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708791321; c=relaxed/simple;
-	bh=g+DTbQCprT09ui/iajZuZwaiHYmxNTwsRxuBYrt6p28=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TC8t89PkGeYL5DGl+0g+6De0YYOBcSRWkHoFpR44DnBEZhkLAepGbVuiFulAYn9uOzv9tU6nllK1JkghiydaZkXUc1JbH6DFq5DisCt6T8Le4YzkEeqU8fQlZoSPGwM4ati7FQKqBHfJJEArI4yYBgMM8lM0KBTE2aMLIEwV1Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsPGnFNI; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d22b8801b9so30104901fa.0;
-        Sat, 24 Feb 2024 08:15:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708791318; x=1709396118; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JyhmGWcuUbEjVhEB7bKU+F0sM3z5qyWYqCSve3HLVM4=;
-        b=RsPGnFNIascB+EAbAkO3S5N/zr78xH82b84zYCf9N1i+RCCTzQeVyJQKv0JVsdvPmN
-         Lq0RUDGL2S8HOUK/BNiALbUBneX5HFIQTSYhCIR7WtiKK4tXucIgLiDHYQql9freKppJ
-         z8iaynvOkTcc44wVxlM68sIqBB1WGMVQ70EEJGPrKizrzmvpSg5EmYKFbkcYCvoMQvxP
-         Slyu9CrXfOMwaeelHyPqzjhfi6iObkcfbRAfLq6TBOQEn3ddkrTOfKmllJsjg9FMpk0O
-         33/N5MN5IXwYDbeWpuAqtBI23J1dLjLmlxDAPKH4dTyXEBI6P0c70TiRzJC2p8ea99sv
-         1jKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708791318; x=1709396118;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JyhmGWcuUbEjVhEB7bKU+F0sM3z5qyWYqCSve3HLVM4=;
-        b=RYUtpdmMZtlscp/xnUH7eqQdyZU0Ikicx2ctL0GmUSHsUtq5/gvLjMIEYP2M3Y+xXG
-         D6J+iibI0Dhzi5Lz+Yj+yUSoZFXDFfNZmOymtBlhzwdZaXBBfmixKat1UyC/VZ24dZeB
-         3AIaEC597rfzW7T/dXXQfepq5frTCqhFSTg9DpigjFm54bRFQCnjB7mQRBusMJ/rUOJa
-         CAaoXWOH6FbFSJp3odQk0TbWSzEGy1oXSDdUKxj6Pr7h1TSePZu/DXFuIB78uDecAxdD
-         i7XFODlIiIhDvsxaLKk38W7EWj/WZmZKf5EpSFiHSILOpVPH8WWK6cgsozv5DCz+6Jj3
-         YSoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJykb865C+8vG2fKnHmaSIpyDDMEAEbL6e06Uk3WaCdGmQflHXiUvR8AeaPLS9hcQm+MO3jaw8eiCuu6t/Z+ukkAVy0vTa
-X-Gm-Message-State: AOJu0YyQdF2dS0QPdZSqgrwgHJBakwZLS5aGySeKg2gG6ODVMDhxinf9
-	rA01wlHDi+Ici7U1Bc+bOX0/ls7+tIBj0dzqTdNc4RPo8FSxGL3Z
-X-Google-Smtp-Source: AGHT+IHVRMMz7iNRFF2Edvrc/ipJh31i8mijV3rF4fE6vaaPChoOH6mtiD8M8KNx/U0vIrVBdN5aiA==
-X-Received: by 2002:a2e:a7d3:0:b0:2d2:777e:70f3 with SMTP id x19-20020a2ea7d3000000b002d2777e70f3mr1704709ljp.3.1708791317489;
-        Sat, 24 Feb 2024 08:15:17 -0800 (PST)
-Received: from ?IPV6:2a01:e34:ec5f:c111:ab46:ec03:bf48:53f1? ([2a01:e34:ec5f:c111:ab46:ec03:bf48:53f1])
-        by smtp.gmail.com with ESMTPSA id u16-20020a05600c211000b004126732390asm6406182wml.37.2024.02.24.08.15.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Feb 2024 08:15:16 -0800 (PST)
-Message-ID: <9db59ae4-be28-4ab3-a2ae-0b0f661f56be@gmail.com>
-Date: Sat, 24 Feb 2024 17:15:16 +0100
+	s=arc-20240116; t=1708794501; c=relaxed/simple;
+	bh=UmoOY0WXEH/Ir+XdmtPrWmUTuq7p3/sTYgdrJ9Ydluk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GztsuAeadX+LPWsz271N7hNQnxtln3KeFrWx0KS7ZN5snulBeiCMUWqE5CMichAgU/wfhljSjqZaPu2wg2C7dHGZzbFsVV4zC+iuTr/toOoF4fnBznnstwTlGaoBoE+QxuPm/YYnoUvJuVdEa3l0olF+p+CF12QW1WMGbx8rRdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sysophe.eu; spf=pass smtp.mailfrom=sysophe.eu; dkim=pass (1024-bit key) header.d=sysophe.eu header.i=@sysophe.eu header.b=mRH73Vp8; arc=none smtp.client-ip=138.201.91.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sysophe.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sysophe.eu
+Received: from hemera.lan.sysophe.eu (unknown [IPv6:2001:a18:2cf:c101:a2ce:c8ff:fe62:fc79])
+	by smtp.sysophe.eu (Postfix) with ESMTPSA id F0C9C2281C0;
+	Sat, 24 Feb 2024 17:59:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=sysophe.eu; s=201205;
+	t=1708793980; x=1708880380;
+	bh=UmoOY0WXEH/Ir+XdmtPrWmUTuq7p3/sTYgdrJ9Ydluk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=mRH73Vp8rv5+Cu3wIVme/OOAZW+igNMOmvlrg5R6m5rjG1N1z3Til1PpcnGiTVDY6
+	 IXsQM/eMKgiNlMLO9dxnG9k7qqUa9NL/orV7S8/IqaSozX8XjGb6t5IRbMdWcmUb00
+	 TDCbzOMZcPRwSZlS8ZWxhKzUfQGax/5Es5M2kwUA=
+Date: Sat, 24 Feb 2024 17:59:29 +0100
+From: Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@sysophe.eu>
+To: Li Zhijian <lizhijian@fujitsu.com>
+Cc: linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, Benjamin
+ Tissoires <benjamin.tissoires@redhat.com>, Jonathan Cameron
+ <jic23@kernel.org>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 11/42] drivers/hid: Convert snprintf to sysfs_emit
+Message-ID: <20240224175929.6ea8d4f9@hemera.lan.sysophe.eu>
+In-Reply-To: <20240116045151.3940401-9-lizhijian@fujitsu.com>
+References: <20240116041129.3937800-1-lizhijian@fujitsu.com>
+	<20240116045151.3940401-1-lizhijian@fujitsu.com>
+	<20240116045151.3940401-9-lizhijian@fujitsu.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.39; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Regression with Lenovo ThinkPad Compact USB Keyboard
-From: =?UTF-8?Q?Rapha=C3=ABl_Halimi?= <raphael.halimi@gmail.com>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Linux Input Mailing List <linux-input@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@jikos.cz>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Mikhail Khvainitski <me@khvoinitsky.org>,
- "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
- Linux Stable Mailing List <stable@vger.kernel.org>
-References: <a29d56d2-c440-4a26-a9ac-014595d2ae8c@gmail.com>
- <21370dc5-94a3-442c-ae04-76f9f94b1b96@leemhuis.info>
- <c8986411-2bf7-4b7d-8ac1-f702dc7c725a@gmail.com>
- <7a5fc584-1520-4e52-9c77-d67a656524c6@gmail.com>
- <10022b0c-89c3-43e1-89ba-00e458fe1dfd@leemhuis.info>
- <7a8d9d60-a151-4b25-882b-48e6929339a4@gmail.com>
-Content-Language: fr-FR, en-US
-Autocrypt: addr=raphael.halimi@gmail.com; keydata=
- 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
- Wxcwwn0N
-In-Reply-To: <7a8d9d60-a151-4b25-882b-48e6929339a4@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Le 24/02/2024 à 14:51, Raphaël Halimi a écrit :
-> It can't be the third one (43527a0) since I clearly remember that I 
-> experienced the regression before it was applied to the Debian kernel.
-> 
-> So I'll try applying only the first one (46a0a2c), and report.
+Hi Li,
 
-I can confirm that the module compiled with 46a0a2c alone does produces 
-spurious middle-clicks.
+While only looking for the snprintf() in your coccinelle analysis you
+probably also want to look for sprintf() (see e.g. else clause in
+hid-sensor-custom.c and scnprintf() (see picolcd_fb_update_rate_show
+in hid-picolcd_fb.c) to replace more s*printf() calls with sysfs_emit*
+variants.
 
-Maybe "ThinkPad Compact Keyboard with TrackPoint" should also be 
-excluded, like "ThinkPad TrackPoint Keyboard II" was in commit 43527a0 ?
 
-But then, would 46a0a2c still be relevant ?
 
-Regards,
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index d726aaafb146..03074d25d662 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -459,9 +459,9 @@ static ssize_t picolcd_fb_update_rate_show(struct devic=
+e *dev,
+ 		if (ret >=3D PAGE_SIZE)
+ 			break;
+ 		else if (i =3D=3D fb_update_rate)
+-			ret +=3D scnprintf(buf+ret, PAGE_SIZE-ret, "[%u] ", i);
++			ret +=3D sysfs_emit_at(buf, ret, "[%u] ", i);
+ 		else
+-			ret +=3D scnprintf(buf+ret, PAGE_SIZE-ret, "%u ", i);
++			ret +=3D sysfs_emit_at(buf, ret, "%u ", i);
+ 	if (ret > 0)
+ 		buf[min(ret, (size_t)PAGE_SIZE)-1] =3D '\n';
+ 	return ret;
 
--- 
-Raphaël Halimi
+
+For hid-picolcd-*.c,
+  Acked-by: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+but preferably with the scnprintf() case is covered too.
+
+
+Cheers,
+Bruno
+
+On Tue, 16 Jan 2024 12:51:20 +0800 Li Zhijian wrote:
+> Per Documentation/filesystems/sysfs.rst, show() should only use sysfs_emi=
+t()
+> or sysfs_emit_at() when formatting the value to be returned to user space.
+>=20
+> coccinelle complains that there are still a couple of functions that use
+> snprintf(). Convert them to sysfs_emit().
+>=20
+> > ./drivers/hid/hid-picolcd_core.c:259:9-17: WARNING: please use sysfs_em=
+it
+> > ./drivers/hid/hid-picolcd_core.c:304:8-16: WARNING: please use sysfs_em=
+it
+> > ./drivers/hid/hid-sensor-custom.c:375:10-18: WARNING: please use sysfs_=
+emi =20
+>=20
+> No functional change intended
+>=20
+> CC: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
+> CC: Jiri Kosina <jikos@kernel.org>
+> CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> CC: Jonathan Cameron <jic23@kernel.org>
+> CC: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> CC: linux-input@vger.kernel.org
+> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+> ---
+>  drivers/hid/hid-picolcd_core.c  | 6 +++---
+>  drivers/hid/hid-sensor-custom.c | 3 +--
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_cor=
+e.c
+> index bbda231a7ce3..fa46fb6eab3f 100644
+> --- a/drivers/hid/hid-picolcd_core.c
+> +++ b/drivers/hid/hid-picolcd_core.c
+> @@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_show(struct dev=
+ice *dev,
+>  	struct picolcd_data *data =3D dev_get_drvdata(dev);
+> =20
+>  	if (data->status & PICOLCD_BOOTLOADER)
+> -		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
+> +		return sysfs_emit(buf, "[bootloader] lcd\n");
+>  	else
+> -		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
+> +		return sysfs_emit(buf, "bootloader [lcd]\n");
+>  }
+> =20
+>  static ssize_t picolcd_operation_mode_store(struct device *dev,
+> @@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_delay_show(stru=
+ct device *dev,
+>  {
+>  	struct picolcd_data *data =3D dev_get_drvdata(dev);
+> =20
+> -	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
+> +	return sysfs_emit(buf, "%hu\n", data->opmode_delay);
+>  }
+> =20
+>  static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-cus=
+tom.c
+> index d85398721659..4fe8dccf671d 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -372,8 +372,7 @@ static ssize_t show_value(struct device *dev, struct =
+device_attribute *attr,
+>  				     sizeof(struct hid_custom_usage_desc),
+>  				     usage_id_cmp);
+>  		if (usage_desc)
+> -			return snprintf(buf, PAGE_SIZE, "%s\n",
+> -					usage_desc->desc);
+> +			return sysfs_emit(buf, "%s\n", usage_desc->desc);
+>  		else
+>  			return sprintf(buf, "not-specified\n");
+
+Shouldn't the sprintf() in the else clause be replaced as well?
+
+>  	 } else
+
 
