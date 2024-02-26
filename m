@@ -1,120 +1,131 @@
-Return-Path: <linux-input+bounces-2090-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2091-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A78986796C
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 16:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BE1867E8E
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 18:31:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB0611C24F6F
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 15:05:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A7C01C24D0A
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 17:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33344130E27;
-	Mon, 26 Feb 2024 14:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1929C12D742;
+	Mon, 26 Feb 2024 17:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kg7bI7tw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hc63XxRG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819F1130AFE;
-	Mon, 26 Feb 2024 14:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520C012E1C2;
+	Mon, 26 Feb 2024 17:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708958562; cv=none; b=FvVH//cWQL1bYLeUUR8+LRd2DQ/ssvgS5kz0rBzhxyXXBkV+8dPPbBzPr5fy3rPOAokpx+zs0sTNX9ehWhxpq+cuxaalEtSPTLt13oq5cH5TB3JC48tdXMtiVL5D0uLL801gLrx8LucgI0t2S9pxKDrNfeEmZh+e03PN/vI1/Z4=
+	t=1708968703; cv=none; b=tAUpaufY9Z7iSknEJkhMLApHdT2XZtlkFi4GcoEy8uynUI1T79gH0BEnAqa2FSffXcQDpCz9ESpB01GoKUTEyVibs4Vac6gjuSURuthfT/G1Kzrkh5DAhESn4C3K0VIHFV2bmy+2RQto4VdSzzEL3e+F/T0ooeXH/doIyuAgk6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708958562; c=relaxed/simple;
-	bh=EUJ5esbYjUapXTYbha5kyIY8tScY0s/JJFha6imEgQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nP5jL/Ocdyg2XHLHbOPIYr4tOm0YOptpd9wJi+Lyv/BH7hCKZBdbIE5HKJNDL9oq4rmx4EpYzB4mN7YgvjF8KQSoROXk2t6QJOqwBdvjM87bkHHMZI5HK4DpD7gYFNDFaSKsT78ZMGCOrxK1RnwlVPIVA1R9gpmsB8NZJbADSKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kg7bI7tw; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708958560; x=1740494560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EUJ5esbYjUapXTYbha5kyIY8tScY0s/JJFha6imEgQw=;
-  b=kg7bI7twSo5akob+eL+2IaLeV0Hp/4T6NYaBS2vnzYKYKnC4hyi6egRT
-   ag92cAWy76a2BjePoXWCe/DUq/4RTnJXHbylSnDZTXb5CJRhVvEM8e18i
-   KyNC9u7WqffSe9Bh37GKWLw/1r4FuQPD+l5USj38y8QqXxSMgATsZ0+gN
-   uK9Uje15xhJI1rcNmxc4GzwcWDDO4KX2GsxrfhbvEfqYW5VfFp4XsTd7M
-   OHl++vADp02Wa8dOPPsZr0AgZZl+4eeoMMEIt/CruQK1SQeT+QaQ/AtWq
-   umhQa4w85pNw74d5Kk7UHAmIB3J5iSz78L2Od0phyFom+8v6emx5NxBnH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14681144"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="14681144"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:42:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="913873886"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="913873886"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:42:36 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1recBd-00000007hqk-1zwX;
-	Mon, 26 Feb 2024 16:42:33 +0200
-Date: Mon, 26 Feb 2024 16:42:33 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: nikita.shubin@maquefel.me
-Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v8 23/38] input: keypad: ep93xx: add DT support for
- Cirrus EP93xx
-Message-ID: <ZdyjWVwYRfASc38I@smile.fi.intel.com>
-References: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
- <20240226-ep93xx-v8-23-3136dca7238f@maquefel.me>
+	s=arc-20240116; t=1708968703; c=relaxed/simple;
+	bh=JqR/nbtraPfs2ZLthyKJWlx6wGyBAgMXjbmnp7oiyqU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Eon/QGBqlWhG/ioljTsq2PHx4jOaG8ivz6nghRrgGduMPPZWdVJBaM4UVF08YwrxS1FKh+9KMkQSLAGONyJVbXIfVrhj9lNA0+FxUCXg28gTJi1yGErKz6hf/X/gEQo5nS6VszS4UNZDxIEvVMZJeNRpDhMUqI+3u9wC1/tnjDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hc63XxRG; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a293f2280c7so483330166b.1;
+        Mon, 26 Feb 2024 09:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708968700; x=1709573500; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+WU5hdSHBzbEr/EOa1is0WCLMDW3bS3kIX0rAhn0rg8=;
+        b=hc63XxRG/aoe5/LDhNndB7QhPeNqmGHnf41gu2Qf/mfPWZYNgXoqRwEV+tKO1Lxd4C
+         a592ZiyGmXNuQyDlAlIPdJn7XL9rNzLobhMOToe6qvGuTl3ZLrnwuH1hPTf7rAgQaEiI
+         jOkm2LVpPz9ZrijkAJVal/7ftMWkDM+PlzqOgyRkiQo9XShIhcjuAO5YrI0iloMMQp9K
+         sgsvcy3VAqln+K+Tf5ZONBuIc1c7LExJeqH5j9k7XQjourUmkEzeMHuFf1u9rrb7fi/b
+         Db4YTFgWAYecuNaRaOAWYTUnF7w2d04I4nI4Trx9RY3Yp7U+Pb/QMU0C5tshNawitEYt
+         esBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708968700; x=1709573500;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+WU5hdSHBzbEr/EOa1is0WCLMDW3bS3kIX0rAhn0rg8=;
+        b=wdZdZXN6eq6fKCl6OtwUPYgSwpQ1nWvGBv9wxar+qVFHkDL0uX8SK95bNDqXsiWPyv
+         xzaKn6ZlcV5Lwkt1dy1AwGAtyKkgE9c6elmHF6HCE2Fa2MzmSZJV8LaVjKp6x9JLtPdh
+         5lo0WH3Ce3YfWg8Z/Pz2n4mudx7Ayeev9X4DhRjQVT+VeWYdmvgZgbk+4TTp4/HB0dYz
+         4MRTWjnQKbOqP/kgp67anHkreL4CE0EjutfYPscJRkx6PgZ494kDFRhcygQwhmCdkUiC
+         70JIKeOW2IAj5t9p9wuPnlQ3S8p8t7P6I6gjujpkhddFRmvPIpfKUplePrRv/EjbO4kc
+         UMlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqstTfPPfIbVfXzB1UA2HVJlF0oPXVhGj7vZSf56hXJosvaBXUbPN3vJWJc/hkFgA0b4ZumGk85EQ6Z7kXnoRavGcnWlGOhIdhAU2T3Yga26y+MuVVlUPZX6WXaNajk8u7ZW3pa+6+PJzuQKNJ4l8Eds4FbfYng9sG2u093kXaxAENWBt5
+X-Gm-Message-State: AOJu0YwTWCA34HkgYndZu7e7i02l6OtkTUOnKv57hNGE60nnnloe5VHc
+	BGeV6heUtxkHnT5oIg0W7EqdL4ulSZD5oPBFG1N6RNz3yFkHMotY
+X-Google-Smtp-Source: AGHT+IFQIbGtRJZcvdmjxtUF9k7iAj+aV2asa5agG4pUYnayde6hWZh9DoU0ud+zNuxKQdrFfIsQgQ==
+X-Received: by 2002:a17:906:1310:b0:a43:c72:4146 with SMTP id w16-20020a170906131000b00a430c724146mr4081186ejb.58.1708968699695;
+        Mon, 26 Feb 2024 09:31:39 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ps8-20020a170906bf4800b00a42ee2af521sm2535227ejb.137.2024.02.26.09.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 09:31:39 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [PATCH] dt-bindings: input: allwinner,sun4i-a10-lrad: drop redundant type
+ from label
+Date: Mon, 26 Feb 2024 18:31:38 +0100
+Message-ID: <3207352.5fSG56mABF@jernej-laptop>
+In-Reply-To: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
+References: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240226-ep93xx-v8-23-3136dca7238f@maquefel.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 26, 2024 at 10:30:19AM +0300, Nikita Shubin via B4 Relay wrote:
-> From: Nikita Shubin <nikita.shubin@maquefel.me>
+Dne ponedeljek, 26. februar 2024 ob 13:29:34 CET je Krzysztof Kozlowski napisal(a):
+> dtschema defines label as string, so $ref in other bindings is
+> redundant.
 > 
-> - drop flags, they were not used anyway
-> - add OF ID match table
-> - process "autorepeat", "debounce-delay-ms", prescale from device tree
-> - drop platform data usage and it's header
-> - keymap goes from device tree now on
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-...
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
->  struct ep93xx_keypad {
-> -	struct ep93xx_keypad_platform_data *pdata;
->  	struct input_dev *input_dev;
->  	struct clk *clk;
-> +	unsigned int	debounce;
-> +	uint16_t	prescale;
+I already send PR for 6.9. Do you mind if it waits on next cycle?
 
-In case you need to send a new version note that the indentation of the fields
-is different here. Also uint16_t is not the type we expect to see usually
-(does the file use it already?). In kernel we have u16.
+Best regards,
+Jernej
 
->  	void __iomem *mmio_base;
+> ---
+>  .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml           | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> index 5efceb313879..c384bf0bb25d 100644
+> --- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> +++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+> @@ -49,7 +49,6 @@ patternProperties:
+>      $ref: input.yaml#
+>      properties:
+>        label:
+> -        $ref: /schemas/types.yaml#/definitions/string
+>          description: Descriptive name of the key
+>  
+>        linux,code: true
+> 
 
--- 
-With Best Regards,
-Andy Shevchenko
+
 
 
 
