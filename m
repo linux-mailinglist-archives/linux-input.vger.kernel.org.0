@@ -1,119 +1,106 @@
-Return-Path: <linux-input+bounces-2087-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2088-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FD58674EF
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 13:30:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AA5867680
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 14:28:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4A3C1C243F0
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 12:30:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 093621F29D99
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 13:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 431B1605CC;
-	Mon, 26 Feb 2024 12:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B927B1292F4;
+	Mon, 26 Feb 2024 13:27:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zvxlmbc1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgEXo7Wd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBE0605A1
-	for <linux-input@vger.kernel.org>; Mon, 26 Feb 2024 12:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3408412881C;
+	Mon, 26 Feb 2024 13:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708950581; cv=none; b=CvVW8XboxU7dZa2PCCRrzZYXB20AefPGDXefJlEpeaxRKxoyG/4JhWo8NNhOBOtysJC4v6rAS/WbkSB02wCDIqVwbqt7wCRu+Igpes+yqcDc8Fdn3rBUUGs1rcfD4RaCXgb0EtJ8flmThVXm9xeSplQ+nNeV9FbQHZw2Z9+zezY=
+	t=1708954065; cv=none; b=hKgNwayugl3vNLKAAtoQdS5v24nfvX/0CV0EJ3QZHHB0Gc88NWehw+MdyP4z4S5GmGHbZYLWvB/JMp4dvcGC24tdSf/dakEouegW6DdRgf2ztqSaAsl9ZoSnqS9RDa/3Mn9rxR4k5BN8PiDbb8bKjJIOkq/h2vVHd/2wt7GQcFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708950581; c=relaxed/simple;
-	bh=/yIz5oyLBfSA++ON1dY6EPVob2yea5MQlWsNhAmfIVc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YEUVwHUzKqfYKN/JXd3RGgZlegsez+MYsB3g262FhR3dAEvuj3Or78CehhPhoyFKsYbmFSzOvJI0sbMXfUFxVhMWCKtveB0lDLwSixX2+yvmzRXwtDfGKa60w+WnL9jJpPqp79WyRCSpg+at6L7PDf8+59H1CmX28bI2VKuSJhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zvxlmbc1; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-564e4df00f3so3817039a12.3
-        for <linux-input@vger.kernel.org>; Mon, 26 Feb 2024 04:29:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708950578; x=1709555378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SUO6wmBtkv4ffo/uxOeQsK49ucl/5uSltaqOCTDJPag=;
-        b=zvxlmbc1hoLmUsYE3vC2ANVf9Ser6/fe32yCoRTtB1xN43g9yN8TNVacuv4No4SzO9
-         qcT+aZaV4ZiKvw6kqI1jPhynrkMDjfuUwwySb2bglXUU2hZT3km4K/rTG7ovaKuU2y/H
-         mZDgRhX2rW82Gf0z8NUQeUv0vO+v688WX5I2tI1hxLsD6McTeApY4+5jbrHbKcJoVAcB
-         LiOS6Kd40bzld+sf5sjtDIuTrQ2e02JRmsBbNLiJZEHkH75vPcju8Kv2kPJFzT/eU02R
-         HHPhGXG+McoYDTsEwuUOz6uVlqWhmjmSAkwwbKXfqI8/DMUKmaT+lwSPqdmpnsYQPTSf
-         SyBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708950578; x=1709555378;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SUO6wmBtkv4ffo/uxOeQsK49ucl/5uSltaqOCTDJPag=;
-        b=j9SfNLJPlavJxT5omFrNoYd6tBl56oxZepqzoW9jssiXTay/F8fM3u/ZfIGCYhaBVN
-         LjoI5KowIXoEImVwgIlINzjkyyH42+EkmlKN67s17ZpHN6NvgJ/x4D6VjtYaGJyRrr4R
-         uoQqzHiFuLQoaxyCBOFLGftnohJ3E3YWT3Qpgl/yRtK1bYsaEIBNmCdlgm4qxw7XRPP3
-         VQab6wVSLYVsQl0qaLCBBFCSxWaVlZxAyOFd+dOzp4bQpsjQKS/KFp0fdxQB9LcUDN5k
-         aCSfqv4RdvHfUDjNlSip64vo0HaJghcmq2BGs8Oy1FLRkEDn4oFbk6OXJ0Mgm43PSndM
-         Oydw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1Cbj0Je4bGR2ttcJoJRbT6XP29ruCHxYKYeMhT3y4zr3tY3xjDJbOOMmHJfwSz+KJKDasEnACkDLRAGEAMHdlTUgrmzHrVGm0IBw=
-X-Gm-Message-State: AOJu0YxDc9aqA7Pmtb0uxlDxJSiyaauLeHTxuWzPWX5t2gqTRiHr/YIn
-	ASo9wZ4VVWDdM3NS9eJK6ISxHU3wufW9z3jBuSXC3qJRfv5NtwwOT+rX/9F1n3Q=
-X-Google-Smtp-Source: AGHT+IEG45l2x++PIZXi1hnUpUUkA/1s8de6YMCGRZc2XdUxmEusGFOlqs4MacdMEgFnjeNKBj1UZQ==
-X-Received: by 2002:a50:ef08:0:b0:566:ee8:8b1d with SMTP id m8-20020a50ef08000000b005660ee88b1dmr869351eds.24.1708950577837;
-        Mon, 26 Feb 2024 04:29:37 -0800 (PST)
-Received: from krzk-bin.. ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id s17-20020a50ab11000000b0055f0b3ec5d8sm2422683edc.36.2024.02.26.04.29.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 04:29:37 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: input: allwinner,sun4i-a10-lrad: drop redundant type from label
-Date: Mon, 26 Feb 2024 13:29:34 +0100
-Message-Id: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1708954065; c=relaxed/simple;
+	bh=Ix55SDDxs43BwGtiKWK/8AwfY6ZDBx66aPuAUJxoKB8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZHL2tOGev3CCSng7WG+SzmAT+uyiNH/BWNjjZK06K0tl9vE77n0Nn8VWEW/i49COoOMjkef5mY/77aaXOvu4bDUjc/Lmyddvd87XZ6BkOSOq7qCKnEaIbzqCdb0OVe46GXhq6eiGSEuHRkm3EmhOrsK7lc0dFbSpujCdNCHkYTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GgEXo7Wd; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708954064; x=1740490064;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=Ix55SDDxs43BwGtiKWK/8AwfY6ZDBx66aPuAUJxoKB8=;
+  b=GgEXo7WdVidrHGjxU71MjA5U2CeZKW6HgQfULsFuRV4dszrrkjnm+4IW
+   NdG65gRgXqfoMR3wSby7sDR27L/NIMTeNDQahK01EEKlCqHye8/NZ2WU3
+   7xpsvBFK6H7c8EFdBYfbe/fJf6YmvYP3Kci/ct+vzffa6NTOdSQAmj/BV
+   faGp2v20hFVIAPtfNZCBBnQZVTtZtnojMWRZJMlaCCn3CSzXFoWEUnWNH
+   jP7ate59s5d5o2pH9nXBn5eg6GjfYxLC27hmDWNbwaXMT7RjIpQpKlbMQ
+   0o2WdSER4W1QZr5LSiH+AX2Vh+FB7p6vn8Ag8G7w2uQgncFoicxas6CPs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14652571"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="14652571"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 05:27:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="6702834"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.48.12])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 05:27:40 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Ike Panhc <ike.pan@canonical.com>, Hans de Goede <hdegoede@redhat.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Philipp Jungkamp <p.jungkamp@gmx.net>, Gergo Koteles <soyer@irl.hu>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org
+In-Reply-To: <cover.1708399689.git.soyer@irl.hu>
+References: <cover.1708399689.git.soyer@irl.hu>
+Subject: Re: [PATCH 0/2] map Fn + R key on newer Yogas and Legions
+Message-Id: <170895405312.2243.4199399921923370447.b4-ty@linux.intel.com>
+Date: Mon, 26 Feb 2024 15:27:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-dtschema defines label as string, so $ref in other bindings is
-redundant.
+On Tue, 20 Feb 2024 04:39:34 +0100, Gergo Koteles wrote:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml           | 1 -
- 1 file changed, 1 deletion(-)
+> This patch series adds a new KEY_FN_R input event code and map the
+> Fn + R key to it in the ideapad-laptop driver.
+> 
+> It affects two WMI keycodes and I couldn't try the 0x0a, but I couldn't
+> find any indication that the refresh rate toggle should not be Fn + R.
+> 
+> Regards,
+> Gergo
+> 
+> [...]
 
-diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-index 5efceb313879..c384bf0bb25d 100644
---- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-+++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-@@ -49,7 +49,6 @@ patternProperties:
-     $ref: input.yaml#
-     properties:
-       label:
--        $ref: /schemas/types.yaml#/definitions/string
-         description: Descriptive name of the key
- 
-       linux,code: true
--- 
-2.34.1
+
+Thank you for your contribution, it has been applied to my local
+review-ilpo branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/2] Input: allocate keycode for Fn + R
+      commit: 4e45fa464aeef4e803412b5dcce73aad48c94b0e
+[2/2] platform/x86: ideapad-laptop: map Fn + R key to KEY_FN_R
+      commit: cd4525993e49f1449e9380bd28fa1179b05c911d
+
+--
+ i.
 
 
