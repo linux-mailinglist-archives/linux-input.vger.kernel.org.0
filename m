@@ -1,132 +1,120 @@
-Return-Path: <linux-input+bounces-2089-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2090-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356848676AA
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 14:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A78986796C
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 16:05:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 66E9E1C24E0B
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 13:34:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB0611C24F6F
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 15:05:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 883E5128832;
-	Mon, 26 Feb 2024 13:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33344130E27;
+	Mon, 26 Feb 2024 14:42:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlXB3JID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kg7bI7tw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302147FBAA;
-	Mon, 26 Feb 2024 13:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819F1130AFE;
+	Mon, 26 Feb 2024 14:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708954477; cv=none; b=hU6JfemUpjotRXhVwPBjDs83JnXPFtEzkiLgUPELGCpS9BL1NlXJVmRMGPOVosUdtiBRjtLf2p09w8EQQ8YE0CMYZP43XQp0VoeGzoqI/F2H5CJrDN/t7bfEkWv7M5h2umuf5zRDBbakDMlpLBPvJbBpXgHEBtyG+lPt1CSzV0E=
+	t=1708958562; cv=none; b=FvVH//cWQL1bYLeUUR8+LRd2DQ/ssvgS5kz0rBzhxyXXBkV+8dPPbBzPr5fy3rPOAokpx+zs0sTNX9ehWhxpq+cuxaalEtSPTLt13oq5cH5TB3JC48tdXMtiVL5D0uLL801gLrx8LucgI0t2S9pxKDrNfeEmZh+e03PN/vI1/Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708954477; c=relaxed/simple;
-	bh=/x/cq3y9mTCgiZ8o1taGp5qapBsu0Js+9yDBIjMHSCM=;
+	s=arc-20240116; t=1708958562; c=relaxed/simple;
+	bh=EUJ5esbYjUapXTYbha5kyIY8tScY0s/JJFha6imEgQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AtV5pgDqIhaTTwuW5Bb+BqNZyLW0C90VzrM3FuoTdXSQGU0aZocMdmZ5As3mdhObVtkUOTiCRonRURpfju9RAGGB3pKtN3IcRBca8q5WUdXkfsB1Ifm5z0xNdbpRKrLq9/BFqCceGoU9WXPLZnCIn1ULjU24trs/4ZCqqxapcTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlXB3JID; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2ADBC433F1;
-	Mon, 26 Feb 2024 13:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708954477;
-	bh=/x/cq3y9mTCgiZ8o1taGp5qapBsu0Js+9yDBIjMHSCM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mlXB3JIDgx/sTAcksbq0alUlQoDqCg6Xa3YRQvX+pgHlAoRwWxZK+VdSrlRj2tFh2
-	 WgOrqwDvcC936qN+jwQVKZ/yBQozALrLax6Y8j04m5tXRnyj+JkydmSGoAHzI7WgUI
-	 KqHTDMC3IriE7ZmWZAWypMlkbGGGXGTUl75UxvB8UQxmPLTH1VniZKEwN8uwFciqms
-	 hwp8jKhmWx+NwD6hVHBlXwL+99E5v8sceenvE+1GFPEtOhMZEULqLhe1Vhh6Xoh1H7
-	 LbARsrm2bNZ7stG6i92/78t2no6FlD6iljD6IA0lgyMjwaXW3x4+YOsejbn+51ZFV8
-	 QZQeWeabe5phA==
-Date: Mon, 26 Feb 2024 13:34:23 +0000
-From: Mark Brown <broonie@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nP5jL/Ocdyg2XHLHbOPIYr4tOm0YOptpd9wJi+Lyv/BH7hCKZBdbIE5HKJNDL9oq4rmx4EpYzB4mN7YgvjF8KQSoROXk2t6QJOqwBdvjM87bkHHMZI5HK4DpD7gYFNDFaSKsT78ZMGCOrxK1RnwlVPIVA1R9gpmsB8NZJbADSKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kg7bI7tw; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708958560; x=1740494560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EUJ5esbYjUapXTYbha5kyIY8tScY0s/JJFha6imEgQw=;
+  b=kg7bI7twSo5akob+eL+2IaLeV0Hp/4T6NYaBS2vnzYKYKnC4hyi6egRT
+   ag92cAWy76a2BjePoXWCe/DUq/4RTnJXHbylSnDZTXb5CJRhVvEM8e18i
+   KyNC9u7WqffSe9Bh37GKWLw/1r4FuQPD+l5USj38y8QqXxSMgATsZ0+gN
+   uK9Uje15xhJI1rcNmxc4GzwcWDDO4KX2GsxrfhbvEfqYW5VfFp4XsTd7M
+   OHl++vADp02Wa8dOPPsZr0AgZZl+4eeoMMEIt/CruQK1SQeT+QaQ/AtWq
+   umhQa4w85pNw74d5Kk7UHAmIB3J5iSz78L2Od0phyFom+8v6emx5NxBnH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14681144"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="14681144"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:42:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="913873886"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="913873886"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:42:36 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1recBd-00000007hqk-1zwX;
+	Mon, 26 Feb 2024 16:42:33 +0200
+Date: Mon, 26 Feb 2024 16:42:33 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: nikita.shubin@maquefel.me
 Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
 	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
-	Lukasz Majewski <lukma@denx.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Ralf Baechle <ralf@linux-mips.org>,
-	"Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>,
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v8 00/38] ep93xx device tree conversion
-Message-ID: <168fd3d7-d1e9-467e-bdd0-36c12aa81b68@sirena.org.uk>
+	linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v8 23/38] input: keypad: ep93xx: add DT support for
+ Cirrus EP93xx
+Message-ID: <ZdyjWVwYRfASc38I@smile.fi.intel.com>
 References: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
+ <20240226-ep93xx-v8-23-3136dca7238f@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bOKaKvSbzTVE2lWB"
-Content-Disposition: inline
-In-Reply-To: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
-X-Cookie: Walk softly and carry a BFG-9000.
-
-
---bOKaKvSbzTVE2lWB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240226-ep93xx-v8-23-3136dca7238f@maquefel.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Feb 26, 2024 at 10:29:56AM +0300, Nikita Shubin via B4 Relay wrote:
+On Mon, Feb 26, 2024 at 10:30:19AM +0300, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
+> 
+> - drop flags, they were not used anyway
+> - add OF ID match table
+> - process "autorepeat", "debounce-delay-ms", prescale from device tree
+> - drop platform data usage and it's header
+> - keymap goes from device tree now on
 
-> The goal is to receive ACKs for all patches in series to merge it via Arnd branch.
+...
 
-What are the actual dependencies here?
+>  struct ep93xx_keypad {
+> -	struct ep93xx_keypad_platform_data *pdata;
+>  	struct input_dev *input_dev;
+>  	struct clk *clk;
+> +	unsigned int	debounce;
+> +	uint16_t	prescale;
 
---bOKaKvSbzTVE2lWB
-Content-Type: application/pgp-signature; name="signature.asc"
+In case you need to send a new version note that the indentation of the fields
+is different here. Also uint16_t is not the type we expect to see usually
+(does the file use it already?). In kernel we have u16.
 
------BEGIN PGP SIGNATURE-----
+>  	void __iomem *mmio_base;
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXck18ACgkQJNaLcl1U
-h9CsAAf+OGvM07gxhxeVoFEY2namqi3/k8QFeVfcgOHP2bvSRWzLj+Za5HJ77pCz
-5NPf/dOYtbqSn6Tg6tGG7nkioQECfPyoUc75jpIZHzFp2uPzk5Zx62L2WVoDnbBX
-6hzWj6VDqDZtgCB5xzXzHhEDL/OpxrUTqA3S+jeaPIeLLf5xnRDl1M4sESkZQseD
-DMzGQouGu00Z+BSB/iAt4O2uN1DAyS/jipqNGmJzmCGD8wt9LbHfpDdzzQ+q6+iw
-JDA6z8gDwF3jF1NH6SuoCvsVgNsRQyqLoMP/4ziVTz/XxQa2S91NnuSVz3Vk3y/k
-gLUn1koeWlce3T54eUcZau09HwlwFg==
-=w2Qd
------END PGP SIGNATURE-----
+-- 
+With Best Regards,
+Andy Shevchenko
 
---bOKaKvSbzTVE2lWB--
+
 
