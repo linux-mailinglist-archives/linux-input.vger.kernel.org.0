@@ -1,135 +1,160 @@
-Return-Path: <linux-input+bounces-2092-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2093-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84503867F63
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 18:55:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 795648683E2
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 23:39:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8AD5B29279
-	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 17:49:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EF7F28DA10
+	for <lists+linux-input@lfdr.de>; Mon, 26 Feb 2024 22:39:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D77F12F5A1;
-	Mon, 26 Feb 2024 17:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HWh/DySn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F591353F9;
+	Mon, 26 Feb 2024 22:39:35 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04olkn2100.outbound.protection.outlook.com [40.92.75.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FD612F38C;
-	Mon, 26 Feb 2024 17:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708969751; cv=none; b=OqQ6YxXOPdeFE+SK89iOJT7QqN0OzXgCpqriJZ15HZpgSzRNG7isb5wc/MX30+hmYadmeNPlCX0Jmv5J6cAf8OaBVIvlAR87qnjjA0EM1iFVrkT/ZP4gNd1W3J9Y0akwHR9L9aatfPnKr2BxjXNOtBe2ll8UDWfEWI5hHaXIaqg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708969751; c=relaxed/simple;
-	bh=SdkZOIdfsdAR0iYA5ghNUJ2oMXM6ota2GiB86K3uBuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cdrvV+Y3DJO1JDxuzFWZsjnsJ2Wlwoo18dLLY7qH03jGPPR9g0OE9VFoNm1X/KkOiwvx3nzC82Uf+Ggq9HAm75JjfPjMWV6pSSU8rpY32MPwChMLtI9cXlvyt0ZCbsQkMa22yGMYq7yT6fPee+KQlGAXso1xWZ+LTz74iLr2bF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HWh/DySn; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e4e7e25945so1531124b3a.1;
-        Mon, 26 Feb 2024 09:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708969749; x=1709574549; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2BsS4tIYGDQjJXCQxQl+f5av4au5uoF2Mun1slK7JQA=;
-        b=HWh/DySnWlptrul9IbNdxLjYaTgWYvumcHBWxR5FqN71zvOkIxTTydwJfcI7inRaD3
-         n79+RuNRFJngPvdsvh79XqxJmgDUlhKdusYtlKu3vsCe3MA2om8KlHrspyAuMw/257jY
-         2LsDToynCDk3Bm8LB9kmzjkk/sIXC6bewrxbeBvn8t2GYwzzFH20rR6dfzIAFC9GXuM/
-         GZrwpX6p6Jz1rMq+dA8corkeSG/WyrUvpOOoCeUZBLo1rmHwOV90sJ6I/bXEy/J5kkR4
-         NXCvjtt6NpnZEtx0zXfZCC+rDbEB39gQlqsWcoebzq5GXdwXGFWzDHVKqdvFNU4qOhlX
-         d20g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708969749; x=1709574549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2BsS4tIYGDQjJXCQxQl+f5av4au5uoF2Mun1slK7JQA=;
-        b=fmJx00M/St+b5GAcPbHAY2Il54FihOAnbYb6BkRPdp/1uwyUpnxS1VvFnI1/IQb3/L
-         ebVs1/DkeX/s0EO51pov2pkEpMK3fmnhq5Smx3eOIriXZMaIrdQdAs0s+iVDknGOfblM
-         rlF0HhOE4Ryb7SAee11xss9WJyjpRPIl8KMjLkXKV/3OHSKZhnRZXTjtIbN0Gp3kXrkU
-         gpC6pwkaOhGXj8Z1+XDRedrBHY9k7AlZGjG2fuQSqwF0aPbjchrByIWLZy9aGl8t/s+H
-         65610Wu921ilE14ND5wI3Cyn3myhmtO+A267P9Tg1pnZXZKid4xIfvLMqBoLC2OKd1x2
-         CN9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVIrM1Ymd6uUX/yY97q5oXke0niSbYse+aEpGn2vWTQiTTlUNyYaRj0euN1rTSr1Acx2iZyEjEl+uKcb3DJsW8Pl2lb5ES1rguVW1+U8WNv6Yaw1QDa3A4njjP1Z/HGMISUUK6i+35U+jeDug/WPTScHTL6T0Muz8PprExzF2tza9uQKaKYIKKjQBYFFjmWCygNuazQHaQL4upow0zStnQC
-X-Gm-Message-State: AOJu0YwO6NBTIJZdsx0Me2kBXTo/qxJwpxN/W1qGdiEJVPYBfCIuvu4j
-	rRxwF39Zkfi3aBmaAjRGqipTzbkgC0aYtd4TsDDBdFTfeSe84EXz
-X-Google-Smtp-Source: AGHT+IFsBVQ6d9x5agbxMbddSYtV6eGl4MnyyLR4nq0IeDFMDMoFpVFwf7N8ww5kqnCzQAqZkJqhxQ==
-X-Received: by 2002:a05:6a00:1daa:b0:6e5:1196:dc01 with SMTP id z42-20020a056a001daa00b006e51196dc01mr4246833pfw.18.1708969748967;
-        Mon, 26 Feb 2024 09:49:08 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:5bfc:f2ad:5ebb:5c14])
-        by smtp.gmail.com with ESMTPSA id a16-20020a63cd50000000b005dc87f5dfcfsm4344271pgj.78.2024.02.26.09.49.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 09:49:08 -0800 (PST)
-Date: Mon, 26 Feb 2024 09:49:06 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: leds: Prepare for removal of config option
- LEDS_AUDIO_TRIGGER
-Message-ID: <ZdzPEmpS0fohSfiy@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <e5ef576b-70ee-4781-88e3-e728c1e7cb9c@gmail.com>
- <Zdko7JAFw_TBV-63@google.com>
- <a2544b2b-265d-499b-b235-e4075a9ef398@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44631E878
+	for <linux-input@vger.kernel.org>; Mon, 26 Feb 2024 22:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.75.100
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708987175; cv=fail; b=OECX+BDfjjFhXljGSlKd2+sOXlwt70KWb8Cy6GTDOduAT356DdaEXDMJ/2xsAiDze1vDjBY5ShpNS94s3GccPQvB3c8xJvjouh96ZtLT9caU5gNoqwJuJDad+LbzkqbM0N4MaO340E9XbsPqBiU82GKKkIAIwte9b4F45Xlx+9o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708987175; c=relaxed/simple;
+	bh=HbXHPPvYh3agSVr/XidprSukZVRegCE584Ie1rFEPFA=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=HDpNxE9aWvnvY/n7rF7C1VemJV+j7MHPLLPfXiABUI+Vugt5m3z1nQZ5XxBpGtM5jeWndI6TsBb8y1KCrp0T9jCAzuNVigNTQtC+uCf7dhTEFZzVOfyCMhL28+YIPrpEQrwA+A8hR0D4JScyM8Jv+b8rM/lpATY2ZU9f9YsZ8h8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt; spf=pass smtp.mailfrom=outlook.pt; arc=fail smtp.client-ip=40.92.75.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.pt
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fUM8tPnzYtSRrPj/jqsAqBe0ZBUQINFgaTLT2c89gWjQagZJ+/EBXutgU6f868q3SRWE6VlcRbs7RRsA5LFEF9btzNN8cb6Ed38jFAXx7YA5VqbnyRDcLl2VpqW6m5p2UI+N7FAKzGLsesSSFRMJVeTOj+oNFwuE06QEknQn68vAucg69uq4hEGcX5Mqs6NfU0RipOKmDWouGWs+9xwyOx7H3P0M4+vT1vjx1jRmUBMQ7cYkhjqifeEPc3gt3E7V0eZqkZbZ16t2IMd8itBubwXv+FwGWm7YxRoE14cg/cLjZ05mDTFXXTDhwBsKkWN8A08gSR/VbrBYQnZt5K4ngQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3hZIkjOuagEPQ8GHurCS6oHBMERxErEMMGg+og83V5w=;
+ b=dTC4ypCkOnCizyHRNUF6AqBJ9dksh82q6aWWG7xrZOiVaqxQehc0ptRR8RbaJtmk4eubd8RGDOzx63g4TociARgfXrCT+1z9+Kg7hGl6zEqj0isLnUjqAZ2t610H7aHugZagn8MmB+TxshXWIIKH7ccMR6KduIoQ/ae8I94WYrXe8QJ6M+z9n71bONEnXa2AAveFf7pmpLSqLjmL3tUWk6p0YLjTF1bS5YCTO+LF0On60b4d0MATz0g3Y5UBYq3b1BJM7zliC04DrikfUalaj3B/6Brc2K9/51nAnwtVzvY1Iz6FrdnYbxSo0Wic6miR46ODdpcjCssvL1luIqNMGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3bc::10)
+ by PR3P189MB1001.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Mon, 26 Feb
+ 2024 22:39:31 +0000
+Received: from DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+ ([fe80::d8d4:7065:fa11:ba45]) by DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+ ([fe80::d8d4:7065:fa11:ba45%4]) with mapi id 15.20.7316.034; Mon, 26 Feb 2024
+ 22:39:31 +0000
+From: Nuno Pereira <nf.pereira@outlook.pt>
+To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+CC: Daniel Ogorchock <djogorchock@gmail.com>, Ryan McClelland
+	<rymcclel@gmail.com>, "benjamin.tissoires@redhat.com"
+	<benjamin.tissoires@redhat.com>, "jikos@kernel.org" <jikos@kernel.org>
+Subject: [PATCH] HID: nintendo: Fix N64 controller being identified as mouse
+Thread-Topic: [PATCH] HID: nintendo: Fix N64 controller being identified as
+ mouse
+Thread-Index: AQHaaQOGaWUcQg00tEKCUeoMRSTM5g==
+Date: Mon, 26 Feb 2024 22:39:31 +0000
+Message-ID:
+ <DU0P189MB2044EAF345CB76578D8C1A5CFD5A2@DU0P189MB2044.EURP189.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [x6MSQ+cbIHMO6wS343kEaTrVDvHzfCg7]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0P189MB2044:EE_|PR3P189MB1001:EE_
+x-ms-office365-filtering-correlation-id: a41733b2-8fe0-470d-98c4-08dc371bcc4e
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ lKdojOg3NEU/xcyHiJoMIPtUcayL8dv7tXyr07PYHzyFwfotQk/5XnjO0u6sNBhW7k0v9+udZ+aW7ipkeDDIuYXhvauQtfeeWJ57tKgPH0fAy0Z/Ha6SWkBh+Ty8vnQb4LfDfVXZXtQY5/SjnD1uToi3tjG1kqecquCtFeakZq1h2Igm1buMxeeRkuSOwkHDkQtG/xHsTchYboFmJgvKorRe2RFpQNQL/wacnhuIq8o4/eloUhIRis+zgTsBDJw7wo5eCz7pgJ9xLtpXrRQCvt/kDfCMVtOIZjJA33QMMnT6bPh/mbWo7nWVmFHaN1PCQzn5NQ6mDtzQiKI+TFxq1StauTV5E6zwCpnFQ8TJEODZznfWDYLnoifh6yTMocTh6NZvZIxcbz+sXcqGul+VgrvrxGnfXdjXKjN8snFS83aPjYRWrMEIAEB43IoulYWvBT2vV5Zd/xYrJLWnmj9UVqkLTcMFjqJdtcXs2W+dspkJcXkQto24MGu6K9X2miQAO75Bm0Cv1XsdBDYTPpy+dkP2+vtxOkmbMpI9cYOiIPP48WKTHmqyOK60QiC+Zzyp
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?RzctQs9nAarJxJp6xNmBypk9JhCnx0k65DObXA/JZ48HXKZhbtAMiQIXZt?=
+ =?iso-8859-1?Q?WHNRCrUe7pkEOqe5WZzOoCpnGUptwF0Hf+uKx5EKCL9ycINLn42qReOwo7?=
+ =?iso-8859-1?Q?EgWqDVhu7MUI76mSU3wwIEEQbdXgxyETt06/v1fqylGX3saooMfO7d3DJq?=
+ =?iso-8859-1?Q?Yn0jf/K/DFP0s7IYpal4LVLiqH0jDnBXiGMYnYW5QQxIKmSD9hMMok2mcE?=
+ =?iso-8859-1?Q?eLiQ2twsNIz6py+3VBJI+jKq2wHmd/YOCcXXWv4rrgpJbsgmbdAdKB/gnH?=
+ =?iso-8859-1?Q?8TmHiJrd7GP01wPas31sw7bbRYEuxYxgdopPa5ABLZeejESDm9ywrKm2Or?=
+ =?iso-8859-1?Q?i4q+d41i3KGlu0AOFW3VAldF9Z2Nby+t5+lqZNDe8poj1sHvGlRpoBHXTs?=
+ =?iso-8859-1?Q?cfEx2X5DkIZK7JiqLBLkTpYYplVHCxgqSbaTkhchnYI59IuTOCh1nhVE/f?=
+ =?iso-8859-1?Q?XRb+HUh2pZZbL/xigFVqRYHoQadSXZlzL2movnyJYtwsotWMP8kZM3LjkV?=
+ =?iso-8859-1?Q?rIB3L54P4ArdlcmykVKtH962R0J+Mrs5fMpzVYhEFYwvHHRzjdItc0j5BU?=
+ =?iso-8859-1?Q?WqpAOVvuHyiCeVOo1DJEq1iQYDVvsFxvh0KCU37pMw1bzK+KfpvmBYu80j?=
+ =?iso-8859-1?Q?Fb4x9Qo1XZpxPyIWnlVe5KHCtIvNPq1dytEEL/RVftE1kmW85Emy3NGVB7?=
+ =?iso-8859-1?Q?dn97Z8Qc/wkMpOukSnZS7TTkOC7URGauiHA7ZtudEMkvVdnls3v2TrLLHp?=
+ =?iso-8859-1?Q?LLxnTwtc52RpFvtbyQV+qQKFwUWAU/Kg75TOr38DqutYVS3dWBxR9mvI4j?=
+ =?iso-8859-1?Q?Ysqyvdv+pI/UvQ61c+1T9F3eZFQw0YC6K4w7HtWjy6OhzqGHADZfEYDtBS?=
+ =?iso-8859-1?Q?SK3T07CEHXEx9LZh/EfL96G2oLHb2MysIOYeMiABSve1JqdrDJO/d8kZfG?=
+ =?iso-8859-1?Q?vKcvPFTrNAlAvaI00ELu45nKb6tgW8cEYvtHiBa0OEt0FmWbqZO0Eba484?=
+ =?iso-8859-1?Q?oT3YoPoaCTUM+bovrMVgX93eYrdT3jNKyqO2+sudZY/wZtjp3X+bOTn8At?=
+ =?iso-8859-1?Q?j5NAYlgxFl/RHkKn10ICGUN+5n3x/Orq+ODhsD7OaJjmJ9HRIly8yGOKrp?=
+ =?iso-8859-1?Q?7aTwu0R+y+8EesrwT2yuD0p/s0TxwCRFu6nZZjVe5Hf998NUWBYYg1csU7?=
+ =?iso-8859-1?Q?f3lyOc3JWGtrtxy3LoDuvDT58IgFKd0vb5+gIwESCchAAzF4cEitCsa/c4?=
+ =?iso-8859-1?Q?wNzFzUYRsegZTFeIZAzQ=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a2544b2b-265d-499b-b235-e4075a9ef398@gmail.com>
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0P189MB2044.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: a41733b2-8fe0-470d-98c4-08dc371bcc4e
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2024 22:39:31.0855
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1001
 
-On Sat, Feb 24, 2024 at 10:31:17AM +0100, Heiner Kallweit wrote:
-> On 24.02.2024 00:23, Dmitry Torokhov wrote:
-> > On Tue, Feb 13, 2024 at 08:33:24AM +0100, Heiner Kallweit wrote:
-> >> In a follow-up patch handling of the LED audio trigger will be changed,
-> >> including removal of config symbol LEDS_AUDIO_TRIGGER. Therefore set
-> >> the default trigger unconditionally to "audio-mute". It does no harm
-> >> if a default trigger doesn't exist.
-> >>
-> >> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> >> ---
-> >>  drivers/input/input-leds.c | 8 +-------
-> >>  1 file changed, 1 insertion(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
-> >> index b16fc8194..176f1da7f 100644
-> >> --- a/drivers/input/input-leds.c
-> >> +++ b/drivers/input/input-leds.c
-> >> @@ -18,12 +18,6 @@
-> >>  #define VT_TRIGGER(_name)	.trigger = NULL
-> >>  #endif
-> >>  
-> >> -#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
-> > 
-> > Should it be simply changed to CONFIG_SND_CTL_LED?
-> > 
-> This would be another option. What is better IMO is a matter of
-> personal taste. Setting the default trigger unconditionally may
-> cause a negligible runtime overhead when the LED is instantiated,
-> on the other hand it results in less code to be maintained.
-> Do you have a preference?
-
-I am less concerned about overhead than setting a non-existent default
-trigger if the functionality is disabled. I would prefer having the
-#ifdef.
-
-Thanks.
-
--- 
-Dmitry
+This patch is regarding the recent addition of support for the NSO=0A=
+controllers to hid-nintendo. All controllers are working correctly with the=
+=0A=
+exception of the N64 controller, which is being identified as a mouse by=0A=
+udev. This results in the joystick controlling the mouse cursor and the=0A=
+controller not being detected by games.=0A=
+=0A=
+The reason for this is because the N64's C buttons have been attributed to=
+=0A=
+BTN_FORWARD, BTN_BACK, BTN_LEFT, BTN_RIGHT, which are buttons typically=0A=
+attributed to mice.=0A=
+=0A=
+This patch changes those buttons to controller buttons, making the=0A=
+controller be correctly identified as such.=0A=
+=0A=
+Signed-off-by: Nuno Pereira <nf.pereira@outlook.pt>=0A=
+---=0A=
+ drivers/hid/hid-nintendo.c | 8 ++++----=0A=
+ 1 file changed, 4 insertions(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c=0A=
+index ccc4032fb2b0..4b2c81b49b80 100644=0A=
+--- a/drivers/hid/hid-nintendo.c=0A=
++++ b/drivers/hid/hid-nintendo.c=0A=
+@@ -481,10 +481,10 @@ static const struct joycon_ctlr_button_mapping n64con=
+_button_mappings[] =3D {=0A=
+ 	{ BTN_TR,		JC_BTN_R,	},=0A=
+ 	{ BTN_TR2,		JC_BTN_LSTICK,	}, /* ZR */=0A=
+ 	{ BTN_START,		JC_BTN_PLUS,	},=0A=
+-	{ BTN_FORWARD,		JC_BTN_Y,	}, /* C UP */=0A=
+-	{ BTN_BACK,		JC_BTN_ZR,	}, /* C DOWN */=0A=
+-	{ BTN_LEFT,		JC_BTN_X,	}, /* C LEFT */=0A=
+-	{ BTN_RIGHT,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
++	{ BTN_SELECT,		JC_BTN_Y,	}, /* C UP */=0A=
++	{ BTN_X,		JC_BTN_ZR,	}, /* C DOWN */=0A=
++	{ BTN_Y,		JC_BTN_X,	}, /* C LEFT */=0A=
++	{ BTN_C,		JC_BTN_MINUS,	}, /* C RIGHT */=0A=
+ 	{ BTN_MODE,		JC_BTN_HOME,	},=0A=
+ 	{ BTN_Z,		JC_BTN_CAP,	},=0A=
+ 	{ /* sentinel */ },=0A=
+-- =0A=
+2.43.2=0A=
 
