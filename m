@@ -1,55 +1,57 @@
-Return-Path: <linux-input+bounces-2097-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2098-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A158696C1
-	for <lists+linux-input@lfdr.de>; Tue, 27 Feb 2024 15:15:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2DF86974E
+	for <lists+linux-input@lfdr.de>; Tue, 27 Feb 2024 15:20:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2DB61C23B1A
-	for <lists+linux-input@lfdr.de>; Tue, 27 Feb 2024 14:15:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66BA8B2A3BB
+	for <lists+linux-input@lfdr.de>; Tue, 27 Feb 2024 14:18:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785461419B3;
-	Tue, 27 Feb 2024 14:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F43013B798;
+	Tue, 27 Feb 2024 14:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fw0qnwXu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDU/MjjR"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522B514532D
-	for <linux-input@vger.kernel.org>; Tue, 27 Feb 2024 14:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3873578B61;
+	Tue, 27 Feb 2024 14:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709043276; cv=none; b=q+TvGDJhNLKDWvsOG74whGeGYr/SttQzpk+04sYfJ57K4YNN/36uzvRjIGei1f62Ym6JN8cMQZJ10Xj9qhnocG98u9aftXkRwH++usUSt4c4OqG8AAA67pz0hWN5lg8VKl4zmW/nkxm61vftUMnEkaSmw82GESpkbhz6HYs1ntE=
+	t=1709043508; cv=none; b=IXspAXlj808R9GHfQbnCidlv1BCXv73BaGPvxvYOoCOA9fFL43r4jP1JUPPDpqTxL06Be70Um3cBAoWwTBORL80l0s3GY3iqOQI7gUq9pwynUVAphktwaCa1sLojYVLawFEgfdwMwqCtiJo2Ac5Fnp6AD7quRlKZXIyP5Yg+2Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709043276; c=relaxed/simple;
-	bh=lpQWwURxV6I7Leu/8BpRZ+yVf00HFDpZvTWEMs22RgU=;
+	s=arc-20240116; t=1709043508; c=relaxed/simple;
+	bh=VueADUHrmKeLxfNkfS1pxBtKAFuatRLAfPYn6fpc3WM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=DBcTBLv8zJ2LGe+H6PTNEiWcTzXP0E+hLFYz6osvJjbMfTE7fPshmlYGpxfWpSIdOZZvf4bZhjIkB61m+uLwM8mww/FPDTfHknsGLpWx++WbhXK9g5SmMu38DHDBoE9k+tpD8Tr5uTV34Ghzlj5qzEw+c1B0upnh7TcgZZQ9ix4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fw0qnwXu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF6A3C433C7;
-	Tue, 27 Feb 2024 14:14:35 +0000 (UTC)
+	 MIME-Version:Content-Type; b=IOjiQc54i4sG4QjZvJJl0yYoTQSbMLP8jhp+uDV2pykHkIZy07B2gfa0KN3JziVOfWtJSxWxQC34ZguUjKQJnvj7ZMcLsSxl+21xcsVt+GRnbcwYvkouuJOw77p8dnoOuheD4fmpBMOTBFRC1vhoBFnL/FsKQ7eM0osbGAuWmHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDU/MjjR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F76C433C7;
+	Tue, 27 Feb 2024 14:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709043276;
-	bh=lpQWwURxV6I7Leu/8BpRZ+yVf00HFDpZvTWEMs22RgU=;
+	s=k20201202; t=1709043508;
+	bh=VueADUHrmKeLxfNkfS1pxBtKAFuatRLAfPYn6fpc3WM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Fw0qnwXu6LGlv5v6AhODtLEJ6+rs4HfdIZvDw3S1pkusl6IoO1m5lgCcmEopmIFgE
-	 diyD+xNuyyCDHt/2QFAzbkp07YNO1ZGZpxruMEXj9uo16o/MiVYC1X1LRJ553HpyIZ
-	 4KxQqpA90SGRIAkeO9aF1cg7DpyBHmZG0NRU6EFHbG0kBWfG0/XpYPHs7hLu9081Fo
-	 vDiVZ4OP3NFjieU6QVV5cBaUVm9FkyFLVzf59NnQZyxTP7UMCmz56h+wI+XEn05Iam
-	 TarXcPH0RzVu6mk/h2xPBVgXLzOnOhhK1FZXxFg8h0iIl3bmkAsGtAAvr7BKTMrbC4
-	 oZjZ9Ju/3Kelg==
-Date: Tue, 27 Feb 2024 15:14:37 +0100 (CET)
+	b=eDU/MjjRIO8ceHH8FKZsvTt/a84nWESIQbDEciknFmHlHHWp97KIHwgE07wP3UcSl
+	 tffTIsgxmNKtD5la8gPOqczl2YWzzeIy7iW8S1EoyiriKTRks76t18jTEIXWxwJ+4u
+	 ngKtZNkLNV7TNzeD9GvFBnFMsMvzbBxrxnvW38Vl6AJLY7mc+A5YJfoZZcer30BAux
+	 YZTzT20uQxn79a31dGHUagXJMBgrhI9qlhqzGT1OypoHrdWh2NALVLz4JzSsE3iRMD
+	 Rlx7tXxdNFe2ur3xGoLa4TeyfCW2gfz9QcWKrvtuEwOOF7W9/UQDsAmJlMmi5YhNZS
+	 35UZjvet8U54g==
+Date: Tue, 27 Feb 2024 15:18:29 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-cc: benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
-    akshata.mukundshetty@amd.com
-Subject: Re: [PATCH 0/5] Fixes and updates to amd-sfh
-In-Reply-To: <20240214144144.682750-1-Basavaraj.Natikar@amd.com>
-Message-ID: <nycvar.YFH.7.76.2402271514230.21798@cbobk.fhfr.pm>
-References: <20240214144144.682750-1-Basavaraj.Natikar@amd.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, kenalba@google.com, 
+    dianders@chromium.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: input: avoid polling stylus battery on Chromebook
+ Pompom
+In-Reply-To: <ZdknA5qa8B-nB6ta@google.com>
+Message-ID: <nycvar.YFH.7.76.2402271518110.21798@cbobk.fhfr.pm>
+References: <ZdknA5qa8B-nB6ta@google.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -59,31 +61,16 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 14 Feb 2024, Basavaraj Natikar wrote:
+On Fri, 23 Feb 2024, Dmitry Torokhov wrote:
 
-> This patch series include changes for:
-> - Increase sensor command timeout.
-> - Update HPD sensor structure elements.
-> - Avoid disabling the interrupt.
-> - Improve boot time.
-> - Extend MP2 register access.
+> Internal touchscreen on Trogdor Pompom (AKA Dynabook Chromebook C1)
+> supports USI stylus. Unfortunately the HID descriptor for the stylus
+> interface does not contain "Stylus" physical collection, which makes
+> the kernel to try and pull battery information, resulting in errors.
 > 
-> Basavaraj Natikar (5):
->   HID: amd_sfh: Increase sensor command timeout
->   HID: amd_sfh: Update HPD sensor structure elements
->   HID: amd_sfh: Avoid disabling the interrupt
->   HID: amd_sfh: Improve boot time when SFH is available
->   HID: amd_sfh: Extend MP2 register access to SFH
-> 
->  drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  16 +++
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        | 118 ++++++++++++++----
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |   6 +-
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |   2 +-
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |   4 +-
->  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  10 +-
->  6 files changed, 124 insertions(+), 32 deletions(-)
+> Apply HID_BATTERY_QUIRK_AVOID_QUERY to the device.
 
-Now queued in hid.git#for-6.9/amd-sfh. Thanks,
+Applied, thanks Dmitry.
 
 -- 
 Jiri Kosina
