@@ -1,83 +1,80 @@
-Return-Path: <linux-input+bounces-2115-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2116-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD3086ADE9
-	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 12:46:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0727A86ADED
+	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 12:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22DB628D252
-	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 11:46:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B7EC1F227C5
+	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 11:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544523BBCF;
-	Wed, 28 Feb 2024 11:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24B7D73508;
+	Wed, 28 Feb 2024 11:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FTU/8WOr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHWvbFN0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8415B3BBC6
-	for <linux-input@vger.kernel.org>; Wed, 28 Feb 2024 11:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709120379; cv=fail; b=sZvUH6B99TKOoDeORaJvCJAtz26olEhwhP6SLwemnU70i9h+cZLrssPYIzNxnF02eAG7y+4QKhnxQjEhG7vrYufV3Njta2sq+pYhtGzoju1khyNUDMCXZ7K0bba71VpItIPzUOGYgyQ9swVIKx5ldPuC7e6fN7sLAgFBaBy+Ans=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709120379; c=relaxed/simple;
-	bh=WGRhM3q4cD5rXF9EwNNY38i11utb5+Cn22AjkZ+Uyjs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FVSGKsRcR+GfSH8u/Yw0E4/Yg5IzwbRXxlUDtlwHV/KpOwB13Hr2HVDx4ULUEC5qdkfUYVPxxpbjQnWpbZndtE79nzeRKXsmaakn1YRp1hCgELLyHE84y89k7vMwG8UETY526jBUP9N2Ak6y1uo4eeFhoBUhTnNZv4sM/akvrWs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FTU/8WOr; arc=fail smtp.client-ip=40.107.93.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JXnH+fdoELFcyPjpNjKL5iigF77s5TuSBx5x2wY7/86hWbFHDRrabmGh2jKAQI8QbOmIJQd26hnnhutLKwhWuwVpqacOG4wzXxXVoHPvXUC2FRtoD9X2dwo+Iya8U3oAVs+C6BuE8DgGdupH6AmbNDpRWy+JxyA4BNhI3o6vrO5/28bIJHHz5KEKzVl+aMtYYwPuch2EOA88ILFWcaqnbc+t2EV1zpuTvnHQkc0m4JSyw8Tzfykxlb73qrJ2B2DnHcXVCzwy/uIwkoyyQk1adFByBIfT4oS8qvORMtQVG2y0HS11H22b9yXYSOQv6+uO0Smc49Hphkxo0fw76GkFzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/zctAgXOquHPhsr5dKr3LAxr8jnLg2AzmVp7nKbKZ50=;
- b=dd/cCH/bMGyJVa1L9+0kOwTSLRaQr8iuNV0xMxz9202GI+Vt9F/n92jgcV+iFy/uDcm+PANcHtESVcf5rsiD0DjCeqGgRPrNNzDEaiMJaLsXthh569bDRJyH52XRX1nsdPdDWwA69FgShy9CcQ5UC67qiy3tW24UedGu3JwtEYren3Sn/tt9VumBM+17Jz768X0rTe9blrarxLq2tjglBrA7fqxJOo0/rNIxKR4y9Jdrvqv6X3A2hEkb05XtrKjqM6jk3Fys2HXYqm/TTF2bnrWew6TD+4swyRMkvgtW0EJVsBvtqcvhDJqQUy/eCNSMG3uasyDUFL4c40yg0LQ0oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/zctAgXOquHPhsr5dKr3LAxr8jnLg2AzmVp7nKbKZ50=;
- b=FTU/8WOret+X/U+fVkjpUVVfQZtM6Yk0n0ZLvruunfTbZXTZpGo2f0jCRLdR18D00LIZgb0h8jOj0b11FnxvS3/qP4tdZjBCgq6OPcv9wQx2NAHSZBKjDaLOtafMJOeCwb5mLEWZVrmu4UTFEPyq4NE8MNEREvovRpD/aiXUcI8=
-Received: from MW4PR04CA0390.namprd04.prod.outlook.com (2603:10b6:303:81::35)
- by MN6PR12MB8470.namprd12.prod.outlook.com (2603:10b6:208:46d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.39; Wed, 28 Feb
- 2024 11:39:34 +0000
-Received: from CO1PEPF000044F1.namprd05.prod.outlook.com
- (2603:10b6:303:81:cafe::98) by MW4PR04CA0390.outlook.office365.com
- (2603:10b6:303:81::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.27 via Frontend
- Transport; Wed, 28 Feb 2024 11:39:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F1.mail.protection.outlook.com (10.167.241.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Wed, 28 Feb 2024 11:39:33 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 28 Feb
- 2024 05:39:31 -0600
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-	<linux-input@vger.kernel.org>
-CC: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Stephen Rothwell
-	<sfr@canb.auug.org.au>
-Subject: [PATCH hid-next] HID: amd_sfh: Set the AMD SFH driver to depend on x86
-Date: Wed, 28 Feb 2024 17:09:14 +0530
-Message-ID: <20240228113914.3864232-1-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C39E73503;
+	Wed, 28 Feb 2024 11:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709120512; cv=none; b=DdX1oHMz8SX60YSlPQsxXSbWe1HkJOTsWMlrbvt55pfaIO3ukbuiHkxsNQMclG/Q4/PxEbxXZjXLEblIYCDXP1EN1lFbnKAnrjBoOfIvTbbGNwwE6A2WLFcnuCmWJ4NAdvygupGTIHr4ej1xqIKyu4urwGmRspUZrfr+U6BGqII=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709120512; c=relaxed/simple;
+	bh=dsE7T7ejNZclEhWu3veU2fF5ccoj2EE2IlDwDI/vwM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T1LhesUSNfB+vDK0pQgLZbGWoba3aEno/w1wwffCwjNlbjxsvt7HVjL9HAUyz9wzCsOZlf1iJgeCwRMyz6QH+OXgULIj58a9I8ByCknE7IsZY1YMpqWOZVdwR2QJnPWr5nC0D20JYdD74PGGRKuqq17SXCyoWdlr+Mdnp8SQLvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHWvbFN0; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-365be6563cbso585545ab.0;
+        Wed, 28 Feb 2024 03:41:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709120509; x=1709725309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WCRPDq43vyBVqTjbpT8Jvj/oHj2cwLRKueKi4UzZsFA=;
+        b=lHWvbFN0MEsmb+e/VQR7f3qD+yHbQ2q0BrLo0QGW056mTxdhhi4mOh0sRXFmBw3II2
+         U7AoFFmiYCHj46AC/17n5nnsSNGupo4w0BhQfluDdjyUl0XXwzrSOZxDTX+CGXc/Ga1/
+         N+cfgTM4pJjr2ws0IAkJyehNnCcoqBAbVFluFXJE7PjB/MTDfp8w1PwDaAGyz93cho1b
+         xL423/9pcrXAiCB8BZuAr6J2ZV3fS4SpFhHS9/1u0zcXDGtf6tfYnYPQCrsH8165wQnc
+         df7An5A+TQ0deRQyTkUdZlT/q/MNRI8fuCPKk7gKL1AulZ5YwQ3RsVBmjwWqIZ2a9RS+
+         iGZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709120509; x=1709725309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WCRPDq43vyBVqTjbpT8Jvj/oHj2cwLRKueKi4UzZsFA=;
+        b=jyVfMFn2xvMq1QJQNfqxYs5rraiOvg8AWfPZ5o0kaHYmhXVO9OXzCyisAKyQB6vazB
+         4LiN0cgKjboOBJe2Novz88XRI4UB34z/0B01wiH/1XbhmAJ9G7XKC+bzoIap6rHuUGXn
+         5hwfUfYz0/wj8KdXvjcdKKO2x2cRsE8lkRvktFgEc1drRhk96Q12gupdp4ma5KK+F3+g
+         eBKGbbYW0Xpqwpli42uYsF3VO4gniJHc3CeO/HzdDU87Te3mWuFBmP6kBhPlNKJvKGKi
+         oAGFamvcUtY8w94AL622DZhivBNJBMPKUftutu2P9hB7rck44B9dHWTKoPw+0PtZ6X2m
+         B39g==
+X-Forwarded-Encrypted: i=1; AJvYcCWXk4N14n+8weSuYpiBl6Awe7fWzSZL6kLYbXYfC/Dqa/l4bQ7I5A4EH10pUduZcwyOs/D0GKh8hrAP0LtLbg3pVzGwQL18+YsK9pr2
+X-Gm-Message-State: AOJu0YyE8xEFg/72ClmL8Hcw/qArwpShA+G0ptHhymPfT8v0lalGJAet
+	x4GLARQ/u8hwIH0tQEwuvT9U4s0Ht27/Xy1T7zjOqg4z7EOEmtfPjrJeBm42bSLXzQow
+X-Google-Smtp-Source: AGHT+IFN1dBUkmGMTpj7ucVaqBDd8wbgDdggJZdOnfFLRJ2KvP2psSeQ7cUsqhenzq8xKT5aWMj6PQ==
+X-Received: by 2002:a92:d28b:0:b0:365:2429:f60b with SMTP id p11-20020a92d28b000000b003652429f60bmr12830902ilp.18.1709120509426;
+        Wed, 28 Feb 2024 03:41:49 -0800 (PST)
+Received: from aford-System-Version.lan ([2601:447:d002:5be:abe6:89f4:1061:8343])
+        by smtp.gmail.com with ESMTPSA id bu33-20020a056e02352100b00365bd7f608esm139533ilb.40.2024.02.28.03.41.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Feb 2024 03:41:49 -0800 (PST)
+From: Adam Ford <aford173@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: aford@beaconembedded.com,
+	Adam Ford <aford173@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: ili210x:  Allow IRQ to share GPIO
+Date: Wed, 28 Feb 2024 05:41:42 -0600
+Message-ID: <20240228114142.43803-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,64 +82,28 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F1:EE_|MN6PR12MB8470:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ed8b735-335a-46a7-d713-08dc3851ef4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	LCm05mxTyU3oxoB1IAv9lnsXx4CT8Md0g7keFX6a17pSaB3CFpZC99mjETuJ11n87WNedGiE9F3uJBVwN9DUKCNV4a8nh/mD0S4/2n5rS0l4UnfhrNR2tNCTmp+dNtAymQntgmYrW4awjofmRZpI0ltpYdNRk9sXpCkzIdFipA14AFhcU5SkfzWnwDxnN1BTODVYWIzgj5tdhb8DAk4MB7JsDXqWeClJy9mqXmaHj31vvtV+uzENTBYGQ82KXIU6cYIgFSfS84gVOFMEN+1XLbp196nL9dTD8JuRT7KCNd1r18MCJfD8BR2aWyPO+HLCiVafwMVcx/IsDV8Vk5PnMh3P3cw1N8RciiM9o8Vwq9I/pjeqZ06iNYxVSC3GdPZ7GPR/rxF/eBhkZiE9TgGGcCNOoJudf0fiq/eWnZnwnKKx15m6kuCl8mabiVrAveX/8DjvKEohxGTZwueXSat8Nen06S3iM9+U5dkAso07wuyqVOKY/UY/pKYnXGJpbdP3AQhX/wvFVZLmUXAPZh9sv1VulHzou8o3MX0uRamcERrgRYANF2qBIWn9B3xLiY3wHvYqc8kHs5y/UbE1OAic2tU/ULke82k9cifpGAqj/hVNkzv3kO2MUGiy6BTyFKqUIYbMOShfzxB+m/fRCj8y9IViZoZXcPz7oiLufY0ze+DcNH/V3Im140IiAqTtkI4qLzft4/jwefns8bD1A9BrbOPlTDfsWY5KCfpmUvaPg08Li0d4ubsA9eL/AQhPZwNP
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(230273577357003)(36860700004)(82310400014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 11:39:33.6658
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ed8b735-335a-46a7-d713-08dc3851ef4c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044F1.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8470
 
-Considering that amd_sfh exists only on AMD platforms, set the AMD SFH
-driver to depend on x86 to avoid build warnings or errors on other
-architectures, as shown below.
+The IRQ registration currently assumes that the GPIO is
+dedicated to it, but that may not necessarily be the case.
+If the board has another device sharing the IRQ, it won't be
+registered and the touch detect fails.
 
-drivers/hid/amd-sfh-hid/amd_sfh_pcie.c: In function 'amd_mp2_pci_probe':
-drivers/hid/amd-sfh-hid/amd_sfh_pcie.c:413:21: error: 'boot_cpu_data'
-undeclared (first use in this function); did you mean 'boot_cpu_hwid'?
-  413 |                 if (boot_cpu_data.x86 >= 0x1A)
-      |                     ^~~~~~~~~~~~~
-      |                     boot_cpu_hwid
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Fixes: 6296562f30b1 ("HID: amd_sfh: Extend MP2 register access to SFH")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20240228145648.41c493ec@canb.auug.org.au/
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
- drivers/hid/amd-sfh-hid/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/amd-sfh-hid/Kconfig b/drivers/hid/amd-sfh-hid/Kconfig
-index af752dd3a340..329de5e12c1a 100644
---- a/drivers/hid/amd-sfh-hid/Kconfig
-+++ b/drivers/hid/amd-sfh-hid/Kconfig
-@@ -6,6 +6,7 @@ menu "AMD SFH HID Support"
- config AMD_SFH_HID
- 	tristate "AMD Sensor Fusion Hub"
- 	depends on HID
-+	depends on X86
- 	help
- 	  If you say yes to this option, support will be included for the
- 	  AMD Sensor Fusion Hub.
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 31ffdc2a93f3..ebad20f451bd 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -1003,7 +1003,7 @@ static int ili210x_i2c_probe(struct i2c_client *client)
+ 	}
+ 
+ 	error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+-					  IRQF_ONESHOT, client->name, priv);
++					  IRQF_ONESHOT | IRQF_SHARED, client->name, priv);
+ 	if (error) {
+ 		dev_err(dev, "Unable to request touchscreen IRQ, err: %d\n",
+ 			error);
 -- 
-2.25.1
+2.43.0
 
 
