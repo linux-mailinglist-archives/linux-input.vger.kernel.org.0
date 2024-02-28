@@ -1,177 +1,150 @@
-Return-Path: <linux-input+bounces-2106-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2107-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9788E86A623
-	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 02:53:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4781686A941
+	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 08:52:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CD2728A1EA
-	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 01:53:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A0F0B2122C
+	for <lists+linux-input@lfdr.de>; Wed, 28 Feb 2024 07:51:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16487219E4;
-	Wed, 28 Feb 2024 01:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644A625567;
+	Wed, 28 Feb 2024 07:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfwjlPFc"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="j4n1hf6M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACBA219E9;
-	Wed, 28 Feb 2024 01:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709084966; cv=none; b=kd19/VysG4/uHgcq6F1Lyhpu174KcNwQKJfVp+cLBa4f2m66/66tFdfpAG9d8n5Nj+rsnde4fWDmcg0LXINhRoFVmqr6Gi5Z/TVcEKrXkBsISAT/UjTatAPb5FN01Gm7m93ixsQ5fjBxZXP9jonmLm/nLmMKKAa9rc7hX6kNgDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709084966; c=relaxed/simple;
-	bh=+FQUdTrkE2zK55NQ+Cu+x7TSgIAYifAQCWyaS9T97NA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GPPVVM6ka4pjTrwd3bygPKzKKoF3G+kPwluk1+YcQ1Ke6I68+8nzMfBor2Q5IvqBwWlopSO7uHq5QqAqqNJgGhakf6/TNiB/VPgONi6zkwTfHNtk+5vEn0Clvpt0GPpOBwRMlPYQF1+iibmC9dB+PP/bTrlZEShNVgko31092x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cfwjlPFc; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-412aec2505dso8369395e9.2;
-        Tue, 27 Feb 2024 17:49:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709084962; x=1709689762; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ui4sJq/l8+cxeUyr+OFsebM3T707k8kNS1YD3vIJ/Xw=;
-        b=cfwjlPFcToyuEd4MZtKyKCayQiLVbydRBOAnFL3ubSNu/J8m6ZLNarZF1TrFOYPZVG
-         ayx+iEMPleTNKvNyz9hxB1KVRlKztJKE4ZLsQn4NPUX/yfzwrPC9cM0M80EjfEDI/PxN
-         iBZCz/3Ry12G7ZUeR3Qye5GToj1xZytgSxuiIcdmSx0dYCdKC4RUB0OlIQGHQ3tK35g9
-         /XZ9QDaOkTumNPB3ibF7zHGtqgCn1wE8SfsowkD8xwo5mtIANDJU7+btg5039SQefjUE
-         ULCFSiRfL5i3dFRrrN6ksx0XEc9Te9K4S8PVvxBOEipgqJh18sF1uHjE8naH6m+enswt
-         nbGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709084962; x=1709689762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ui4sJq/l8+cxeUyr+OFsebM3T707k8kNS1YD3vIJ/Xw=;
-        b=H7DTIa04x3rTG1bnwKUWUMvfkvvtaFBnVcIxvQFa3QMHr8jXrPhRpF8U7OKjhCRh2T
-         +6EXBrsRORRjl1i6cA/v7wSv6uedj62JBjqmICG+uVjO+IROZKWrXfjntv7YU8E64QG4
-         CFZRlGAzKQOZ3+G5581LoAVHkLd7NkgtpS8F47nsl6STUjsMBOvy8zhFQhn2HzgbXzbm
-         Unszin7Eav8sC9SRz+eDHS29E0T9SWI03qOg4sDFDniMtEPeL6kVIXmjlCVxIGrR1GC/
-         GanEza4zAj6Fo5OfIjc3yzBmz0fQdvPLNYRU6poNsOZnxqAA9TwSskhuKwFEA48SCxmL
-         yKPA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7Ye+7L13OYHCQZBwci4C93XD6qvYkPZAsIxv6c7eHPvMh95lngCOJXasNBIoWCfxRwfvrgEECgYlQblk4gc48r3QFN8IMzL1HfEv57T4I4iB8QCs6XsEA3dtP0vDPM9+4K2zk+1/zL4xvTwrkPrgmssgaDWUSL5FMZAtiBbEP2Mrr7HJXijNQ7f4u7pJDNBD8pAXuHlH3wi6wWhe5ag0r49f8zBiRJ1VQXTSmxh7zIMpbcslzDzaFnoc=
-X-Gm-Message-State: AOJu0YwCzgQhQX8aZl/uBOcEO/xHgeE+GqmmIOI1C74tETFjT3k1FLc2
-	iEhijztTCgS8h8Sz84rbZNeMl2zmGRJc0JpkR2cLDyDfZiIngwt3AeQniVNL3p2EfyM+eR/OzsZ
-	rVUKcfaD6WT4l+MmWsnBtK3Bk5bo=
-X-Google-Smtp-Source: AGHT+IGZnDSmoeFl4CZIz+6vAS7IGmyc6HIgJYxbGn7bvr4zS6MIaN7+NdCrCxGiklkpE+8wP8mR8Pv+ITnHeccQpk0=
-X-Received: by 2002:a5d:64cb:0:b0:33d:f89b:147b with SMTP id
- f11-20020a5d64cb000000b0033df89b147bmr781105wri.26.1709084962552; Tue, 27 Feb
- 2024 17:49:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6B241E6
+	for <linux-input@vger.kernel.org>; Wed, 28 Feb 2024 07:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709106693; cv=fail; b=Bb7RVlE4jYyDqhablUMTb0EoJsIMZqZUY8mpemhbk7NftLZDeu++i9xVZP0Lpoj0qqpNpahwqzzIAlxzHnF+AHhgFDwbjtPbGAHyjba9USV3P2J61kNMcNEbn7wEnwSseI306s65i35BlyMo5oTk3JxPmYFQ7zphcJWaFtLAbng=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709106693; c=relaxed/simple;
+	bh=mqr4U8sD+qE3ezn0gi+sGECEoiikNMsGThydIZH4lRg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aH6mPoTYS6CFoxmBD6EwRMPEJfFJ33+OFi6673ChTzoy/ALxKnayXhqY/PvtOfZItYvxDPlELXcctnqB5DICkmNKbKOm+SQsC68d3MIEragy1dqDUXqd8aBF/OW5rIPTfHZaFt1p1Cl/oP1QCNWq600EGawI12oe40ihrc8ldUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=j4n1hf6M; arc=fail smtp.client-ip=40.107.93.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jqymlrNvvlEShhAFt4tD+rl8WIK9qfvTXkGpABOUuWBsqZ/sohmjOTZoERYCY+EYQMbM+/Tmkv/RdvVWv3h2rniCBuB+pAfBz92DvTRnsrJRKt82mweZXucPYMfFJP8vAAsw9RhwSrxDU9IzVosZy2yV5SzQrjdT2q1gxMM/WxkLDkcwwNtkvEJfUP+K/rlOgOY1YSBL8gZHZwaU1OWm/ABAzwRABLqaK1IrTGiWcdsKR5BkD8XCb9r+wtRXMJy1Ndcr9YRx8tO+UEZrJMO5KbleVDtBM/sID12D1qALcq0TESAkpuGT8wlQcQx9/lEiI0hlRXMXN6wpa1qFxRylQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o4ctBcwv2v4GUO9tt87JI/X34jXohQx/qchCuAiLS4g=;
+ b=MEn1IN7TPqxPplBMDp1ZfaFfVLWrtLBlXr7PnDWutwd4P1UdDp6ox22YwkR75hDbLtOaDR6Q1nrg18EkJm3EQXrTKv5Jl9r2QtUQzUcOtW0V6zhlpDuxj6JGwp6IyrD4moADyII7jQ98N6CxsD+3TYhHyCGpQI05CXsdzuflaIArV86ytO+UgXHwnxxBXZMifezC1V3bhDr+cR/BriXwZU1TzWf1OzWA0+raafxEcR0erAoZEd+y+BBAftoauSidY6SmnJ3ZOBX7z8SWWng5zsZEUZ9FmwxM4fEdYPPP9QP3C1Pn3FiIrsIZCOaHxu7lIsRjgI984JkCkA2LAuIuWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o4ctBcwv2v4GUO9tt87JI/X34jXohQx/qchCuAiLS4g=;
+ b=j4n1hf6M7aCmhf7iiRG5CQIBj42gKRlhD3nERfwCnsAZRR2Y+Ovi2QkzzLRwvY0ASBP/kMJ8IL6U8UHtXFOQCg44SgCyPrXPmxxA/9gPyv0qlAyiq0gP7FJU1sW4NhQxY7ZQtvi0w+t9L6Bd7JJgRJIskd+/Ev3nVTD+JEj2URw=
+Received: from BN6PR17CA0028.namprd17.prod.outlook.com (2603:10b6:405:75::17)
+ by SJ2PR12MB7919.namprd12.prod.outlook.com (2603:10b6:a03:4cc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Wed, 28 Feb
+ 2024 07:51:29 +0000
+Received: from BN3PEPF0000B076.namprd04.prod.outlook.com
+ (2603:10b6:405:75:cafe::d1) by BN6PR17CA0028.outlook.office365.com
+ (2603:10b6:405:75::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.50 via Frontend
+ Transport; Wed, 28 Feb 2024 07:51:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B076.mail.protection.outlook.com (10.167.243.121) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Wed, 28 Feb 2024 07:51:29 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 28 Feb
+ 2024 01:51:27 -0600
+From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To: <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+	<linux-input@vger.kernel.org>
+CC: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Stephen Rothwell
+	<sfr@canb.auug.org.au>
+Subject: [PATCH hid-next] HID: amd_sfh: Fix build error without x86 kconfig
+Date: Wed, 28 Feb 2024 13:21:04 +0530
+Message-ID: <20240228075104.3495081-1-Basavaraj.Natikar@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
- <20240221-hid-bpf-sleepable-v3-8-1fb378ca6301@kernel.org> <55177311ccdc24a74811d4a291ee1880044a5227.camel@gmail.com>
- <pocfd5n6lxriqg7r6usyhrlprgslclxs44jqoq63lw734fjl2g@5kv4hjaux2fp>
- <9a35a53a1887fb664fd540ec7e272cb3ea63f799.camel@gmail.com> <CAO-hwJ+TGiLrc4De7htvKaSsMfQnZahK-zONAMNgUMYHEQb-7g@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+TGiLrc4De7htvKaSsMfQnZahK-zONAMNgUMYHEQb-7g@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 27 Feb 2024 17:49:11 -0800
-Message-ID: <CAADnVQKrKzrvzu9NmcaDYGFYicqN--R5J6r--_J58gB0jic_NA@mail.gmail.com>
-Subject: Re: [PATCH RFC bpf-next v3 08/16] bpf/verifier: do_misc_fixups for is_bpf_timer_set_sleepable_cb_kfunc
-To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Eduard Zingerman <eddyz87@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B076:EE_|SJ2PR12MB7919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85b4271c-2c73-4561-66a8-08dc383212ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	2+C8+C6iYW2fKqRQAEkZ4/rtynDWH08oPy/h3WxphazmqeGUwDBVEkNa5z0mzcVVrUPWapd5Fh1dcsZ1KK59luEqAMSnRdSrBlmq069KdXksiQ9m+BNRRa/at2DpYMaKz/OZi6rvB/B0b2G5VH3+kj/c0GXyfgHbuq1/NJM51GHQ3XxLYxZxnnnzNpkIflS0sJeCKoG69LBKQoBMA13iKSNfZYh/qmSH53JavgEL0vR+BeyiC0ZeUyxPdWxgtkEULntpv5HQewhCXE+rhRbq4ElGlwyBCddCrOnNVxH/dZXCItu3PF7s9MP6v3SkAqPvbnyvExD+metWlh91UTfBpR6nHag5xnN92Xe+ZLMtPfxwFuImNNmPrCa+iYq3/zuZ9W/Qy35C+TwlQCwXHg7+bkBnqvh9puJCMHqvB6al+jQuRUf73EKZ2N4jgj3ZUJSoSP06MmFhzBoAiUsT55HYILukZO8Ssw6iWrFbctTnaoCNbiqrr2tcLkjlOj6lKGcNWVlGNUSGPNSuAuELbWEneLxqB/eiRBg3mf9s5y+oMPuaWBLsvLqTm4cRAKL6/oSB4G4c0f7A9JTK3xmAXd24b3RLTmtlVYGtZZCrInDHx6nKci2TMZ8xrlkns8VRyvseXotTA6qJlyXuHOaOlqT3aVhDTo2C0Y2vJeK+sF8MP8ut4UMrzZuXcjG2NslCwnc0qIyn/CWAjU0orVgH7ltbfYac7BjOxLZgG0uhUMvU6hBhyBiJHn6lhN8M1tAqDDne
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(82310400014)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 07:51:29.2198
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85b4271c-2c73-4561-66a8-08dc383212ab
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B076.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7919
 
-On Tue, Feb 27, 2024 at 8:51=E2=80=AFAM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Tue, Feb 27, 2024 at 5:36=E2=80=AFPM Eduard Zingerman <eddyz87@gmail.c=
-om> wrote:
-> >
-> > On Tue, 2024-02-27 at 17:18 +0100, Benjamin Tissoires wrote:
-> > [...]
-> >
-> > > Hmm, I must still be missing a piece of the puzzle:
-> > > if I declare bpf_timer_set_sleepable_cb() to take a third "aux"
-> > > argument, given that it is declared as kfunc, I also must declare it =
-in
-> > > my bpf program, or I get the following:
-> > >
-> > > # libbpf: extern (func ksym) 'bpf_timer_set_sleepable_cb': func_proto=
- [264] incompatible with vmlinux [18151]
-> > >
-> > > And if I declare it, then I don't know what to pass, given that this =
-is
-> > > purely added by the verifier:
-> > >
-> > > 43: (85) call bpf_timer_set_sleepable_cb#18152
-> > > arg#2 pointer type STRUCT bpf_prog_aux must point to scalar, or struc=
-t with scalar
-> >
-> > Right, something has to be done about number of arguments and we don't
-> > have a convenient mechanism for this afaik.
-> >
-> > The simplest way would be to have two kfuncs:
-> > - one with 2 arguments, used form bpf program;
-> > - another with 3 arguments, used at runtime;
-> > - replace former by latter during rewrite.
->
-> It's hacky but seems interesting enough to be tested :)
+This patch is to fix below build error while using the kconfig without
+x86.
 
-Too hacky imo :)
+drivers/hid/amd-sfh-hid/amd_sfh_pcie.c: In function 'amd_mp2_pci_probe':
+drivers/hid/amd-sfh-hid/amd_sfh_pcie.c:413:21: error: 'boot_cpu_data'
+undeclared (first use in this function); did you mean 'boot_cpu_hwid'?
+  413 |                 if (boot_cpu_data.x86 >= 0x1A)
+      |                     ^~~~~~~~~~~~~
+      |                     boot_cpu_hwid
 
-Let's follow the existing pattern.
-See:
-__bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+Fixes: 6296562f30b1 ("HID: amd_sfh: Extend MP2 register access to SFH")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20240228145648.41c493ec@canb.auug.org.au/
+Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+---
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-__ign suffix tells the verifier to ignore it.
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+index 9e97c26c4482..c815f2f54321 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+@@ -410,8 +410,10 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 
+ 	privdata->sfh1_1_ops = (const struct amd_sfh1_1_ops *)id->driver_data;
+ 	if (privdata->sfh1_1_ops) {
++#ifdef CONFIG_X86
+ 		if (boot_cpu_data.x86 >= 0x1A)
+ 			privdata->rver = 1;
++#endif
+ 
+ 		rc = devm_work_autocancel(&pdev->dev, &privdata->work, sfh1_1_init_work);
+ 		if (rc)
+-- 
+2.25.1
 
-Then we do:
-#define bpf_obj_new(type) \
-  ((type *)bpf_obj_new_impl(bpf_core_type_id_local(type), NULL))
-
-and later the verifier replaces arg2 with the correct pointer.
-
-> We also could use the suffix (like __uninit, __k, etc...), but it
-> might introduce more headaches than the 2 kfuncs you are proposing.
-
-Only one kfunc pls. Let's not make it more complex than necessary.
-
-We cannot easily add a suffix to tell libbpf to ignore that arg,
-since bpf_core_types_are_compat() compares types and there are
-no argument names in the types.
-So it will be a significant surgery for libbpf to find the arg name
-in vmlinux BTF and strcmp the suffix.
-
->
-> >
-> > Could you please provide more details on what exactly it complains abou=
-t?
-> >
->
-> Well, there is a simple reason: that code is never reached because, in
-> that function, there is a `if (insn->src_reg =3D=3D
-> BPF_PSEUDO_KFUNC_CALL)` above that unconditionally terminates with a
-> `continue`. So basically this part of the code is never hit.
->
-> I'll include that new third argument and the dual kfunc call in
-> fixup_kfunc_call() and report if it works from here.
-
-Something is wrong. fixup_kfunc_call() can rewrite args with whatever
-it wants.
-Are you sure you've added bpf_timer_set_sleepable_cb to special_kfunc_list =
-?
 
