@@ -1,59 +1,58 @@
-Return-Path: <linux-input+bounces-2119-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2120-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B586CD6F
-	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 16:49:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC08886CDB2
+	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 16:54:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90EB41C224FB
-	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 15:49:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE4091C223F9
+	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 15:54:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA961509BE;
-	Thu, 29 Feb 2024 15:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20DCB1649D1;
+	Thu, 29 Feb 2024 15:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pd5huMZz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLNLUbPJ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7F21509B1;
-	Thu, 29 Feb 2024 15:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC40B1649CC;
+	Thu, 29 Feb 2024 15:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221739; cv=none; b=ooXh+UWdDeJLkAuv6dkokwosoibcVLAMFx+PuJ6VsjLjDZbvsggsV8dhDSE0gGlz/49hlBssdt+HyoSEJTeX2UuDSTs6r/GLQ8sMDNJDtymw3W29lOoW/MfVsggb64JGbDFHJ3m7Ljhr1c2RoAI7Yuh52bk8esUGuxFzepFLGe4=
+	t=1709221772; cv=none; b=X5E5ham6IN10y7w/mwog+FC62R4IOzr77H1cZhW4a/l1bP0A/bqapsnu5sFBpQHAQrRAgPQ+UA7yr4MQ5R81r7XCxUiRHoU9XkcM6xqtXz56npcevBUPxjM8lik1Fk/HoqyGqBMeAZokSUpqZJib1RUIb8BMTyyM2Nqst4tFfCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221739; c=relaxed/simple;
-	bh=aIRyXvmgRyZnTFWiYbSLRS3WFje6cM1cG1tedA4/0vw=;
+	s=arc-20240116; t=1709221772; c=relaxed/simple;
+	bh=cR0HqTUaknLkPLTFIwauFtbbMFpsVGfj/+7sGvCDCjw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EwHkmm0Y0ognL87cfLu8feffKRQNhMqVBIDto4plt0c6U6ckKEl+DBQPqHIQRXOTBX4nAgEZ2rxFe57QH2K39CHE8RS8FhPrX44TulKRb/6FA1ifQUgN7XSDuyWHQ635x4x8Syv61fopDeFmK03Vn8X5/PsoL7J8n/sm+D9ylN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pd5huMZz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 917D4C43390;
-	Thu, 29 Feb 2024 15:48:57 +0000 (UTC)
+	 MIME-Version; b=U/ho16TVaw0xaGlZ9iIcb9p/1vRzT8IY7aDFJL3/BgzJvJIMkJD5YWnDHDcp0FWtyQPHwpq/Le3wUjK10riDxZD+AmufBIPaOrKVm11+6wy7isSVNMm7fHrdm5KiRmo4lmqnNjIKDewAsSMXuc10enqEgeTMjk1PJHedUrC6DP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLNLUbPJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C03C433C7;
+	Thu, 29 Feb 2024 15:49:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221738;
-	bh=aIRyXvmgRyZnTFWiYbSLRS3WFje6cM1cG1tedA4/0vw=;
+	s=k20201202; t=1709221771;
+	bh=cR0HqTUaknLkPLTFIwauFtbbMFpsVGfj/+7sGvCDCjw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pd5huMZzMxtJ1DwTqQhnTK9n1rcPIyrnhp0GTLxZZx5qI++DOVTyf/l53pwQgWWFx
-	 ccuyE/JnhxKglde654biDyHYiieuqVdHwaSwEhBJKctfOQW5coEBOZkxraTNB7lS6G
-	 3bdUYHO0Ug+yggG+/FULxrbYcWBGpa//+8+w3dRNwTtGekOcoHxSPTvRJ9o1+3gFdu
-	 MOP9DtNi3mK0wATyNle901+/JTFPfw4VvYhVcIpU1CD7CHjiDX/5cBEfEOV7tHpi87
-	 TvEnL4Snm2mR8JN0oJrHBlECMpRwq5SAC2MfHKFoM+XK6q2zBrJBslUtqOYgUd3F/h
-	 li4c+MZz4psKw==
+	b=oLNLUbPJIMJN/LwXvZt/jpAo/YdT8ztolAJtebP8zqkqmL1GBX4lN4UMH9/MYOFwV
+	 FacB/7nUIoMRtLqsWVyAHcoIQyuIy/ms4M84xdLIje3AnpYsZyFx6iiubSNo498R0A
+	 y0/AL5Jy0S9S5OFutfDD81arqmVQXzlm7KWDY6hR2vtgHl6YQ70iBbUr2dmo0SYUfC
+	 wcDEYYuSJZu3H5+2sMf/+ozICFvw6fG93WjED6TrRjyp3fx5+MKzmKTkwCb9xuuVsy
+	 iaV0TA0tefX93gK5iLwEYL0sMOXpYboAQbigwe7jsHF7oII+XHGnDZR1Tu5kYHTk5m
+	 wDKFoFTS7SgLg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Oleksandr Natalenko <oleksandr@natalenko.name>,
-	Hans de Goede <hdegoede@redhat.com>,
+Cc: Manuel Fombuena <fombuena@outlook.com>,
 	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
 	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 04/26] HID: logitech-hidpp: Do not flood kernel log
-Date: Thu, 29 Feb 2024 10:48:23 -0500
-Message-ID: <20240229154851.2849367-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 22/26] HID: multitouch: Add required quirk for Synaptics 0xcddc device
+Date: Thu, 29 Feb 2024 10:48:41 -0500
+Message-ID: <20240229154851.2849367-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
 References: <20240229154851.2849367-1-sashal@kernel.org>
@@ -68,69 +67,38 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.6
 Content-Transfer-Encoding: 8bit
 
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
+From: Manuel Fombuena <fombuena@outlook.com>
 
-[ Upstream commit 411a20db905b44e18cc9129b745f1d5deba4eae5 ]
+[ Upstream commit 1741a8269e1c51fa08d4bfdf34667387a6eb10ec ]
 
-Since commit 680ee411a98e ("HID: logitech-hidpp: Fix connect event race")
-the following messages appear in the kernel log from time to time:
+Add support for the pointing stick (Accupoint) and 2 mouse buttons.
 
-logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
-logitech-hidpp-device 0003:046D:408A.0005: HID++ 4.5 device connected.
-logitech-hidpp-device 0003:046D:4051.0006: Disconnected
-logitech-hidpp-device 0003:046D:408A.0005: Disconnected
+Present on some Toshiba/dynabook Portege X30 and X40 laptops.
 
-As discussed, print the first per-device "device connected" message
-at info level, demoting subsequent messages to debug level. Also,
-demote the "Disconnected message" to debug level unconditionally.
+It should close https://bugzilla.kernel.org/show_bug.cgi?id=205817
 
-Link: https://lore.kernel.org/lkml/3277085.44csPzL39Z@natalenko.name/
-Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/hid/hid-multitouch.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index fd6d8f1d9b8f6..6ecf40a902369 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -203,6 +203,8 @@ struct hidpp_device {
- 	struct hidpp_scroll_counter vertical_wheel_counter;
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index fd5b0637dad68..3e91e4d6ba6fa 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2151,6 +2151,10 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+ 			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
  
- 	u8 wireless_feature_index;
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			USB_VENDOR_ID_SYNAPTICS, 0xcddc) },
 +
-+	bool connected_once;
- };
- 
- /* HID++ 1.0 error codes */
-@@ -988,8 +990,13 @@ static int hidpp_root_get_protocol_version(struct hidpp_device *hidpp)
- 	hidpp->protocol_minor = response.rap.params[1];
- 
- print_version:
--	hid_info(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
--		 hidpp->protocol_major, hidpp->protocol_minor);
-+	if (!hidpp->connected_once) {
-+		hid_info(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
-+			 hidpp->protocol_major, hidpp->protocol_minor);
-+		hidpp->connected_once = true;
-+	} else
-+		hid_dbg(hidpp->hid_dev, "HID++ %u.%u device connected.\n",
-+			 hidpp->protocol_major, hidpp->protocol_minor);
- 	return 0;
- }
- 
-@@ -4184,7 +4191,7 @@ static void hidpp_connect_event(struct work_struct *work)
- 	/* Get device version to check if it is connected */
- 	ret = hidpp_root_get_protocol_version(hidpp);
- 	if (ret) {
--		hid_info(hidpp->hid_dev, "Disconnected\n");
-+		hid_dbg(hidpp->hid_dev, "Disconnected\n");
- 		if (hidpp->battery.ps) {
- 			hidpp->battery.online = false;
- 			hidpp->battery.status = POWER_SUPPLY_STATUS_UNKNOWN;
+ 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+ 			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
 -- 
 2.43.0
 
