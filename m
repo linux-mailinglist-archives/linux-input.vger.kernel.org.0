@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-2124-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2125-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A408C86CE54
-	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 17:10:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC39486CE67
+	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 17:12:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDE4285F5D
-	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 16:10:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C17E1F26279
+	for <lists+linux-input@lfdr.de>; Thu, 29 Feb 2024 16:12:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A017F154BF4;
-	Thu, 29 Feb 2024 15:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D135F15F8AF;
+	Thu, 29 Feb 2024 15:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXqkz2t9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khv8LNIK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D57154454;
-	Thu, 29 Feb 2024 15:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA21215F8AB;
+	Thu, 29 Feb 2024 15:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221883; cv=none; b=bBAHg+muws/ApoMCOCJI138IwGqgbAvAFYDR9D5Dc8lTJUn4nVqaq9dNeVt4bGLPM1BPXqVoQNBJ/QQU9s9a1NSspZsZWSQPVdeY2jjZ+ZAB9r8PkaFHSJONDOoqR4ykUCW6qXKwI1sz5wdgEXwVbsMZUL123k/c96Yy/tZy8uk=
+	t=1709221895; cv=none; b=FfhPEmY1q5ZGNKVJ1bX3L8D4dIydq4pCfNLncZAuRn4u1TPOa3lplGz9m45lbfLNXxVALVrv6ooZOd0VCTr052yqCfIYmljxXFZGqA+UZHquLgU3d+bnfXdXhuRJFnY1euzEpemAvaulvumbKU9CVpROZHc3OThZG+Pwfckn6PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221883; c=relaxed/simple;
-	bh=c6/DOxUKRsUIHujFZ6RcUlM4sO3EWtCuNBhifZZp5eM=;
+	s=arc-20240116; t=1709221895; c=relaxed/simple;
+	bh=6zsh90FjlNz03vkNYYf8ZUIghWHUOsxZgTKLCL4hVMM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PaSi2Ay1U3sYgPy2kAHlQp5S6HBO0T90wMXqxHXVeFQVoRWaTSpOV92so77q2zy6VqhcjPZWutonHUUuIGOZ9saaSkzdrGFl08YDM19hxxRGTf6jqtyQtubHcevz1JhvkQggQqHrNxUpbkDW00qMTrl7bZ+ByDHonGa5WtlxOSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXqkz2t9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526C7C433F1;
-	Thu, 29 Feb 2024 15:51:22 +0000 (UTC)
+	 MIME-Version; b=tABvJuc0y4r/EMXrQWHXpjXNQPUJ7vT4b4R3kEJrrJdLapEMOJSWDWr9dHQd8BHugGH9RGqqZafGOrODnPojlyd8YzzNzi7u+grush1WGHEXPsWhLAmMqHGGOSNO2PQmo/Y9Ts8ddAZeyzAK4EoyebDhUE8TN6h1KpXyMFmG9K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khv8LNIK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D56C433F1;
+	Thu, 29 Feb 2024 15:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221883;
-	bh=c6/DOxUKRsUIHujFZ6RcUlM4sO3EWtCuNBhifZZp5eM=;
+	s=k20201202; t=1709221895;
+	bh=6zsh90FjlNz03vkNYYf8ZUIghWHUOsxZgTKLCL4hVMM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CXqkz2t9u2GDM2rOwD2VoNpQ2DINnc8A19fjpo144wAZUUIsXZf+zGXhSbwwcMiNB
-	 XdNtmaosJn1lwdWWGvTHxeM2ZvkLmhCa/pj2JNNu/+i+CjqyLaWXDDK1Phj4GO+quS
-	 TVIWNuyJiapKfbgWvvMGJXVXNQ4SlvAl+goccfhw4QI3HokWc2WFpWebGbX7lXAsZw
-	 GIy1MeRc6Lr97//rGADMQlmrZ2sKV2Th9USuNm28X/U4TXj5+Fro4dnkiTjJBjynT9
-	 NET08smkAQzS59mjVLgC5y6j3h87n/B7VwcBrAtSNw6iK4aaz0Ui7edF95Q3j8ebCs
-	 z4/rO7D7sK05w==
+	b=khv8LNIKByT7u4sAIuRA4X6iq3M3sx5dDu0Pt6YLABdHs4QrUKZYClIY90lRZJ/OO
+	 79BafSk7GXAiPR6Fs5AlWBCNIOfYWCFLC59aEIKsSkgXY7LAYFuOkUIOZLSSvYGMye
+	 f1MCSQOdVo2dtyrF8dR6xa8dtflQoxxuQwTSB6IWfox6xsX8O6jP2fEDZ3+5jLCamK
+	 hvJg2tBxGP9X9yBkafyXvR/Q+uItR39Rktu/S4G57q1uqfCSFPjPg5HfuUlvIyynbO
+	 xNUm+rl3p57VaPtjzg3cEcQfF9yeojBKJHQT3djIly+Jsd+I4foQMWFnNvyJUSKdFI
+	 4cAMs3eZQepBg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Manuel Fombuena <fombuena@outlook.com>,
 	jikos@kernel.org,
 	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 6/7] HID: multitouch: Add required quirk for Synaptics 0xcddc device
-Date: Thu, 29 Feb 2024 10:51:10 -0500
-Message-ID: <20240229155112.2851155-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 5/5] HID: multitouch: Add required quirk for Synaptics 0xcddc device
+Date: Thu, 29 Feb 2024 10:51:27 -0500
+Message-ID: <20240229155127.2851327-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229155112.2851155-1-sashal@kernel.org>
-References: <20240229155112.2851155-1-sashal@kernel.org>
+In-Reply-To: <20240229155127.2851327-1-sashal@kernel.org>
+References: <20240229155127.2851327-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.210
+X-stable-base: Linux 5.4.269
 Content-Transfer-Encoding: 8bit
 
 From: Manuel Fombuena <fombuena@outlook.com>
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 7d43d62df2409..8dcd636daf270 100644
+index c37399f61c67b..c3810e7140a55 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -2067,6 +2067,10 @@ static const struct hid_device_id mt_devices[] = {
+@@ -2090,6 +2090,10 @@ static const struct hid_device_id mt_devices[] = {
  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
  			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
  
