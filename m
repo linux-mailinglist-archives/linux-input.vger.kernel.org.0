@@ -1,73 +1,75 @@
-Return-Path: <linux-input+bounces-2148-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2149-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5874A86F0D9
-	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 16:24:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EB486F1C0
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 18:45:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0C261F216CA
-	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 15:24:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67E1D283E94
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 17:45:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AD1182AF;
-	Sat,  2 Mar 2024 15:24:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A406F2BD1F;
+	Sat,  2 Mar 2024 17:45:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fcxTKqEr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VY93DY2H"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D9310FA;
-	Sat,  2 Mar 2024 15:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47CC2BCF7;
+	Sat,  2 Mar 2024 17:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709393074; cv=none; b=tbUp6wpBD+EOuX/fMUQNWMaxENPusnI7RaLzVlJlvSkJH1XvNMGLfGu1JWqlIVjGOS+3Q/OucCgE7gtdMaQhbYpyd9AKyhREdrIjClbOAvFR5eRtJzPzVSqZQGHol/goYgS8E2rK4uLJU4TZBCgwrFuh543Oqd7cF8EodcsStPU=
+	t=1709401552; cv=none; b=O9qsHnULfGR7zFCQBVCeCPJ/3Xts6wSjDamuHS4w77jfW3HrYMuyUqJ+lWvbfqSRufLLn3i53qwHqBHbqR4B/XAhfE4QUk72zp/frwY6EuSibKv/rtsKcpFHmlRuJ50EZSadzqTmtYwJ1lpAFAVJBhpub3KLdbjrD+NEWHuQ2Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709393074; c=relaxed/simple;
-	bh=xD+hFcNg7fqN8cbrsHJZUQUE8dErfDtlAheqiEmgrLU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=OXXRTiv378bsAXrwq/7kTghyLB55TR38xs56IXFwQsEivf9RvEgitvIcMbpEbf+B30+mrrg9HEKkxSpSgUezArGhuln9VaIxJwgdVV3w5GyYyZDSkFzSDQzCh4Za6InpGwjPUvxRQ9RKGDuKKvZqffiqvoH7H+eDzro8mdFxSR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fcxTKqEr; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1709401552; c=relaxed/simple;
+	bh=X66Ph8DtwKOgV7WhgccW6ba3WD/IxG6oWrlpNrTNJ5M=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GZoGWhFrryitAq6WMGlXg5IS/oz2iC1z0V1Ftv3LK91k/lVFRr5ApGnBSlNJa/wARtMmS/B98sMOspfXJRnv7cQ5DBUh9qBAn6/izTRVQIAKx1/KBLRrN3imE8UCJAW+iY54rmyUyx9EhyaYR38jk80At+UvQtbkRlXZfv3qFiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VY93DY2H; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33e122c8598so1673501f8f.1;
-        Sat, 02 Mar 2024 07:24:31 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-565a3910f86so4966974a12.3;
+        Sat, 02 Mar 2024 09:45:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709393070; x=1709997870; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Suj8iyI7f2lF+x7NvsRpt/pPuqERVxzuZWaHeCIhdCA=;
-        b=fcxTKqErb6HTRF6Bl9qU58OEHrln8YeCJ6TOV5LBy9gNqCZOwoipatYtooEKKmaiXC
-         N+lX6XsDNjRzULM+IfeNRzeBPM2hZxfw4lXcrersvDynw1fodnfgwytI2+gre3ugUd58
-         BY2BDQLRiF9WBC32S9HvGEg2mZAZf936yT6OZasHJOem3/4enMY1nG4+EZkypmrJxvMq
-         bZsu1jEGJAfukq4wm+Y2uD1YAN5xEQPBTSDGpFDLvPkdzoB4lIZOo59j8yGdGidtRoVl
-         rRv0jLLwLbP8IfKJry80pooF8pPVw9t8ulszw7DaGu6NLzCVWAZs4KHzcdTJTFw4wI4e
-         i22g==
+        d=gmail.com; s=20230601; t=1709401549; x=1710006349; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=yrVFJMvetst3Xm/RqXpn850ovd0bJsyoZmCGBSUPBfo=;
+        b=VY93DY2Hdan+SAYvQojQT8L1K2aA7VaIzhh+ailUzT2Pd3X//KlnjnGk4Oah33Ak0x
+         ps2TVpod10p7G4y9CQpEoZpihlEWAQvuqAsYe2eB3YWGE2oGWd6ctR+5LTsMslBSE6oP
+         J2sxXECxc07j4MSddM+m5UFFaZvMXpyGrdySgRGoCbOQMVYyvzgJd81CkKGdLKn5y2JK
+         9nztO8s0wmPmiARBk31UAJfEIm/YIytvDOaGAwfbZx9F3tMYnNpM5IuzRlPWJODwPF9G
+         hzobiwpRb9/YPpjxnLKKymlCaxBw4QiYAr5830Dxk04HkbjzqYBjwr73HsorJSLq8vgo
+         nTuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709393070; x=1709997870;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Suj8iyI7f2lF+x7NvsRpt/pPuqERVxzuZWaHeCIhdCA=;
-        b=gbkY4YBe5IED10NsLTc9KAbI3dH1/nV9PQuJC5F42cq7xDZZJntt3cN4QKwjf0LcVq
-         NRg0xTaJxUG7j9+cmnmIBYZqeDJGCgWZjNAJuLt1nDH7wAJ1TCAkFiLYcsSTtVOQkZ50
-         fzicv3YEVn1I166wialrUH74/XWB1tmgDBpSRIMpfVC8AT60lak6ckACOyaxC5QadhAC
-         gSdfF2Ry0GfaBzMYgcu/CFEScYV7qFdyZP6jxJ/AcuyUf244hEzp2CsCpLDvYj51ox/N
-         RQT2wcDI30j0xQvvpXy4QRfi6fhbIoo2+vn5o2+IIO2BP1Hw5g6/iSpjXQA5ESaZsni8
-         WJCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ7AeG0YfU7sNJJfnMzP2lZhyiQfWr0ny5AEMt7F65oEvmK8RHlg3gQ1+Bhkt9GZA62kVRU1AyOGsduD7I3AfDS2xypVwLEUtASg==
-X-Gm-Message-State: AOJu0Yw9cEbTMs8pDtXp0DJyL79FELlKbWlzDCCbbzAwSwKAcmEsd93W
-	lV8VESztLZMgsTvoLxIDSNBPxs8DmSSGOLAkDcCmHNtbgCn/zBoe
-X-Google-Smtp-Source: AGHT+IEDaUm1JW2wT+UOKJL8sv6flYHv/bG/dWi4swfTXLNn2Vy/2PsDbLFDnk7LVjKhnnFV93zjFg==
-X-Received: by 2002:adf:a39a:0:b0:33d:a944:54c0 with SMTP id l26-20020adfa39a000000b0033da94454c0mr2943696wrb.22.1709393069788;
-        Sat, 02 Mar 2024 07:24:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709401549; x=1710006349;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yrVFJMvetst3Xm/RqXpn850ovd0bJsyoZmCGBSUPBfo=;
+        b=ZCNM+hUWmke5g43w9r6lkvP25S55q5uJAUeCX0sJQFWTPm8RyD/d4R40/PsQZECUGV
+         rL8UOwrMVHZ3NIlj8Q/Kl9kU7b8cUFpCNBeXvF6lj3pL+XtrQ7x04+eQffAmdg3Sxaj8
+         UKi+ZwqmLGOm5Rt8qms14sxvlBZiW3WF8jAMcj3QwAJgec7NwOaAklT2ICiRMSn+HJMi
+         /Kgqu3/QLZ4mTYKipLMixXZJBAQHzON/D21RoROpuHls1tddJJRxLeG8JMTEQyecsuBP
+         prZJHft4/3ad4mD3A/vb5n7GjPUqb1Qyv16X5cj3Kov95oE/foB446l62E/MuzR0vR8p
+         Simw==
+X-Forwarded-Encrypted: i=1; AJvYcCXP5ss7p2WQMqldy9gKfiW2rVXHOLhoQdFBN/04AIGtFi/0iK5fnMCgHv2ZS1IGgIPSjHG/w5bJlc9qRFnbBdDckEQ79+HLqBkN
+X-Gm-Message-State: AOJu0Yw2Dr27yfHUqMBEmyJ2YyzInreDTgrlLXCoL6vqXWQ7vT/tNbRB
+	q0DIKbpyrO6mK2iomGV0FHdKKE7/doDUuWN+4nW/PbHPCxGfVgws
+X-Google-Smtp-Source: AGHT+IEZDExaejol+XfA1TI0jXVdyJ3KAQ8w5amAiRKO6/bg2867yJeulElFqkAkFQJFoDCquilqAw==
+X-Received: by 2002:a17:906:48cf:b0:a45:5c4:852e with SMTP id d15-20020a17090648cf00b00a4505c4852emr231123ejt.28.1709401549090;
+        Sat, 02 Mar 2024 09:45:49 -0800 (PST)
 Received: from ?IPV6:2a01:c23:bcce:a400:2519:2036:7f0:6005? (dynamic-2a01-0c23-bcce-a400-2519-2036-07f0-6005.c23.pool.telefonica.de. [2a01:c23:bcce:a400:2519:2036:7f0:6005])
-        by smtp.googlemail.com with ESMTPSA id f15-20020adffccf000000b0033dedd63382sm7528506wrs.101.2024.03.02.07.24.29
+        by smtp.googlemail.com with ESMTPSA id d25-20020a1709067f1900b00a440e2ada28sm2893253ejr.201.2024.03.02.09.45.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Mar 2024 07:24:29 -0800 (PST)
-Message-ID: <6011ca63-187c-42dd-a5fd-7dd733d6257c@gmail.com>
-Date: Sat, 2 Mar 2024 16:24:28 +0100
+        Sat, 02 Mar 2024 09:45:48 -0800 (PST)
+Message-ID: <2b88cd6d-8be2-48c4-b779-df40ac0472de@gmail.com>
+Date: Sat, 2 Mar 2024 18:45:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -75,14 +77,14 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: bma150: remove I2C_CLASS_HWMON from drivers w/o
+ detect and address_list
 Content-Language: en-US
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- Lee Jones <lee@kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] Input: leds: Change config symbol dependency for audio mute
- trigger
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Wolfram Sang <wsa@kernel.org>
+Cc: "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <011ac933-2a45-4a63-895d-d45bfcb8576e@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -126,34 +128,34 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
+In-Reply-To: <011ac933-2a45-4a63-895d-d45bfcb8576e@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-In a follow-up patch implementation of the LED audio trigger will be
-moved to sound/core/snd_ctl_led, including removal of config symbol
-LEDS_AUDIO_TRIGGER. Also as of today the audio mute LED trigger
-is effectively a no-op w/o config symbol SND_CTL_LED being defined.
-Therefore switch the dependency to this config symbol.
+On 27.01.2024 16:18, Heiner Kallweit wrote:
+> Class-based I2C probing requires detect() and address_list to be
+> set in the I2C client driver, see checks in i2c_detect().
+> It's misleading to declare I2C_CLASS_HWMON support if this
+> precondition isn't met.
+> 
+Any feedback here? Should this better go through the I2C tree?
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/input/input-leds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+>  drivers/input/misc/bma150.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/input/misc/bma150.c b/drivers/input/misc/bma150.c
+> index 0fb4cc628..22feaa8c1 100644
+> --- a/drivers/input/misc/bma150.c
+> +++ b/drivers/input/misc/bma150.c
+> @@ -549,7 +549,6 @@ static struct i2c_driver bma150_driver = {
+>  		.name	= BMA150_DRIVER,
+>  		.pm	= &bma150_pm,
+>  	},
+> -	.class		= I2C_CLASS_HWMON,
+>  	.id_table	= bma150_id,
+>  	.probe		= bma150_probe,
+>  	.remove		= bma150_remove,
 
-diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
-index b16fc8194..6bbf3806e 100644
---- a/drivers/input/input-leds.c
-+++ b/drivers/input/input-leds.c
-@@ -18,7 +18,7 @@
- #define VT_TRIGGER(_name)	.trigger = NULL
- #endif
- 
--#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
-+#if IS_ENABLED(CONFIG_SND_CTL_LED)
- #define AUDIO_TRIGGER(_name)	.trigger = _name
- #else
- #define AUDIO_TRIGGER(_name)	.trigger = NULL
--- 
-2.44.0
 
