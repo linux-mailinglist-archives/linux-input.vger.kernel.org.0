@@ -1,142 +1,116 @@
-Return-Path: <linux-input+bounces-2143-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2144-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CAF86E663
-	for <lists+linux-input@lfdr.de>; Fri,  1 Mar 2024 17:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DDA86EE18
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 03:15:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE5451C209ED
-	for <lists+linux-input@lfdr.de>; Fri,  1 Mar 2024 16:56:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DE7B1C2149D
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 02:15:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B61DB6F06D;
-	Fri,  1 Mar 2024 16:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E99FB7462;
+	Sat,  2 Mar 2024 02:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="i4f7gS//"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrT3dDB0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90111947E;
-	Fri,  1 Mar 2024 16:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F32D63AE
+	for <linux-input@vger.kernel.org>; Sat,  2 Mar 2024 02:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709311669; cv=none; b=e0YK5ISZKFaV4fmjcx39suf7fPdyrVs4xt1W9cPXxUAi7TP9MjE7hX5OtVVKK0LxTcc54J+gsBv0KtFvXlf0ylvePHyn++844j/0TqK6Jvy0S38G1JRat3fWtbhLlq4305FyS70wdwBwUpzIQZ8n57C3gSacu8TbX4Ro1M7K75k=
+	t=1709345745; cv=none; b=TLMFx0rvnVc2SSzbukYrA6do2arXKLBsK1D08MYVaVuzwsKCcCQuGp+y4HvGqeSfGLHCXlEVDFqLqG/E4KH8R5S8lA5g8a4bkkuHA7Us8Dz9pzdo7Zl2i0D+IB6OlrYoDqq8wKQsv7TrWHji2Vwsw1t/KZ0x8QeP5FW3RVV/nAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709311669; c=relaxed/simple;
-	bh=TwO38cA3UyCr2W+EpuHHLQjPXPcd10Pe64Cu4R4UPC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pwSa8p/m9dkTnbqnYijT/Ak1bt2eeqAw46qZR0wZb+WsAWTTj1xgmY+dj1RaPutVmxPp9w0fnyUWXG0i/L0tFXg1VQJxZ00f9C/qfrGGQLWibJe9OyrrCy4gOx/SEisrGU3F7i3dMQKks0fzfW4TRnQxENCWqTB7tUPMJ842M2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=i4f7gS//; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 8239C284258;
-	Fri,  1 Mar 2024 17:47:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1709311658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7DmL1iFyPuL+YAdM6p9eG7fp01uB00uvAhrDZTooCM=;
-	b=i4f7gS//gRybv9G91n4rfHD3U3QiMVHe+6kQ6HKg543tZlwYFWSeirBz1b8NB7+jZNC3fu
-	0cgiuBMh8OKMRcDzFqXxgij0z4/gESuUIQX74rEZ3UGjt2StU43OCyqvDc06G+bNm8lhZX
-	cOgXDxbXnoUy23vLudtQ1KKBxuNJIiE=
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 4CF374587C6;
-	Fri,  1 Mar 2024 17:47:38 +0100 (CET)
-From: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-To: Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	karelb@gimli.ms.mff.cuni.cz
-Subject: [RESEND PATCH v5 5/5] input/touchscreen: imagis: add support for IST3032C
-Date: Fri,  1 Mar 2024 17:41:04 +0100
-Message-ID: <20240301164659.13240-6-karelb@gimli.ms.mff.cuni.cz>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240301164659.13240-1-karelb@gimli.ms.mff.cuni.cz>
-References: <20240301164659.13240-1-karelb@gimli.ms.mff.cuni.cz>
+	s=arc-20240116; t=1709345745; c=relaxed/simple;
+	bh=vhqd6a49gqd0CdpWJ4/1IvJwyYEUYi0fnKuNnon/4OI=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=mEbgvohszKa86ZvYxKNcVmD1HdGJS9IQhd/8SsNM9kngmPwh1fw4KjI5n3f9y63gyseDIKsnglf9mD0zFulA1lVrfi7dvCaesHlW28lCYyeQI7IiIsE9SnwFoHNLbV4K51XRPb3sx8GEwL/Rxa6+pssSxkZNn1FutQKaJ9Sn4kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PrT3dDB0; arc=none smtp.client-ip=209.85.215.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-5dca1efad59so2312646a12.2
+        for <linux-input@vger.kernel.org>; Fri, 01 Mar 2024 18:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709345744; x=1709950544; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OhcwgMepaL3JQT2mmebB+j7UvPxSZW8+wt7P4Qfa9E4=;
+        b=PrT3dDB0QN/NB8TmIOWQ2iEClDrh4QtzxmK8jZ7r1G/OuI9XIBBrcQmo2E9qBrPVfc
+         AaWCPzu3oX7eEPIwrSfO7O/cf1lOVJY9Nnfh2s/wdIIZHfiDRkNn/EbX9t0WIDKoWeMP
+         lMgE8tkteC7ZYp5+w4aE3tljt8qRnXPqP9oI28W9C4+VsRmY/K4Gm/Aupcutb/RQ+L6Z
+         zG2LfQfMFQIRl3E8dO9aV5PWjCMo/+PzPzpBLyxJWZYgA6jPIq41gyTiLgu0cOrvm9d/
+         iefzHuWyKS+TozYfgcgYc6sXzD+oes5yT9MvbnEe3Q4vy9HAuSF5pxGj6QbBd59fK6+o
+         DcJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709345744; x=1709950544;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OhcwgMepaL3JQT2mmebB+j7UvPxSZW8+wt7P4Qfa9E4=;
+        b=wukucTYj0wfitoXWuRlleBAyIO+xgmv3w/JDOX2Wtq9sds/PCpE3mqfgao00SZampA
+         FgiM7723V8PakMkKPdOKXxuRVWIWmrhY6d8w4FrZzeeQBdaFveQTkHJ7JhjLcpvZo243
+         gwMVjkXGbyxrzleUpxXnLAQi+BzVykAYV8J2L3TZBYjnzyy/BspQBG4f1rxAhOs70L2p
+         s8yRn7brd5y2KhCbY4nqViPZw6NIwlZTMGzJEsPQ7RgmFXYa7kDtMK3v/0JDL9g63OSu
+         1TA24bknobxTfv0v/4sByUmzSJF23izKNkDwvyxDQ64dK7l53xas2lTdeoA21AOLhzfn
+         ++qw==
+X-Gm-Message-State: AOJu0Yw1aFWBntnqudFQqJ+9ziQtixPAaX9Yl9ns9LSsRh4445HLR8ns
+	YVZe0fn8mNDOCPOfbM8Go1ot/jsW14JipspjqYouyyBn6pdrex0FuhqceWIBy/w=
+X-Google-Smtp-Source: AGHT+IHYSiXCxrUI1TqQKH7R20oYawcH9qOkmCIs8lWkvSYLWEwVHFPymd/AfLasc0pH7VND2KysNA==
+X-Received: by 2002:a17:902:da85:b0:1dc:e58:8ab4 with SMTP id j5-20020a170902da8500b001dc0e588ab4mr4443881plx.9.1709345743762;
+        Fri, 01 Mar 2024 18:15:43 -0800 (PST)
+Received: from [10.10.13.50] ([136.226.64.194])
+        by smtp.gmail.com with ESMTPSA id w1-20020a170902d10100b001dbb14e6feesm4152608plw.189.2024.03.01.18.15.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Mar 2024 18:15:43 -0800 (PST)
+Message-ID: <44ad5ffa-76d8-4046-94ee-2ef171930ed2@gmail.com>
+Date: Fri, 1 Mar 2024 18:15:42 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From: "Nguyen, Max" <hphyperxdev@gmail.com>
+Subject: [PATCH] Input: xpad - Add additional HyperX Controller Identifiers
+Cc: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Karel Balej <balejk@matfyz.cz>
-
-IST3032C is a touchscreen chip used for instance in the
-samsung,coreprimevelte smartphone, with which this was tested. Add the
-chip specific information to the driver.
-
-Reviewed-by: Markuss Broks <markuss.broks@gmail.com>
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
+Add additional HyperX device identifiers to xpad_device and xpad_table. 
+Cc: stable@vger.kernel.org Suggested-by: Chris Toledanes<chris.toledanes@hp.com>
+Reviewed-by: Carl Ng<carl.ng@hp.com>
+Signed-off-by: Max Nguyen<maxwell.nguyen@hp.com>
 ---
 
-Notes:
-    v4:
-    * Change the WHOAMI definition position to preserve alphanumerical order
-      of the definitions.
-    * Add Markuss' Reviewed-by trailer.
-
- drivers/input/touchscreen/imagis.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-index 9af8a6332ae6..e1fafa561ee3 100644
---- a/drivers/input/touchscreen/imagis.c
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -11,6 +11,8 @@
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
- 
-+#define IST3032C_WHOAMI			0x32c
-+
- #define IST3038B_REG_STATUS		0x20
- #define IST3038B_REG_CHIPID		0x30
- #define IST3038B_WHOAMI			0x30380b
-@@ -363,6 +365,13 @@ static int imagis_resume(struct device *dev)
- 
- static DEFINE_SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
- 
-+static const struct imagis_properties imagis_3032c_data = {
-+	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-+	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-+	.whoami_cmd = IST3038C_REG_CHIPID,
-+	.whoami_val = IST3032C_WHOAMI,
-+};
-+
- static const struct imagis_properties imagis_3038b_data = {
- 	.interrupt_msg_cmd = IST3038B_REG_STATUS,
- 	.touch_coord_cmd = IST3038B_REG_STATUS,
-@@ -380,6 +389,7 @@ static const struct imagis_properties imagis_3038c_data = {
- 
- #ifdef CONFIG_OF
- static const struct of_device_id imagis_of_match[] = {
-+	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
- 	{ .compatible = "imagis,ist3038b", .data = &imagis_3038b_data },
- 	{ .compatible = "imagis,ist3038c", .data = &imagis_3038c_data },
- 	{ },
--- 
-2.44.0
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 7c4b2a5cc1b5..a7e001a1f6dc 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -131,6 +131,11 @@ static const struct xpad_device {
+  	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+  	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
+  	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
++	{ 0x03f0, 0x08B6, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },		/* v2 */
++	{ 0x03f0, 0x07A0, "HyperX Clutch Gladiate RGB", 0, XTYPE_XBOXONE },
++	{ 0x03f0, 0x038D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wired */
++	{ 0x03f0, 0x048D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wireless */
++	{ 0x03f0, 0x09B4, "HyperX Clutch Tanto", 0, XTYPE_XBOXONE },
+  	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+  	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+  	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
+@@ -464,6 +469,7 @@ static const struct usb_device_id xpad_table[] = {
+  	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
+  	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
+  	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
++	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX Xbox 360 controllers */
+  	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
+  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
 
 
