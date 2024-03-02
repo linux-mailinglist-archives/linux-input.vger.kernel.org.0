@@ -1,74 +1,73 @@
-Return-Path: <linux-input+bounces-2147-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2148-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157D586F0C9
-	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 16:09:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5874A86F0D9
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 16:24:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 237371C2097C
-	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 15:09:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0C261F216CA
+	for <lists+linux-input@lfdr.de>; Sat,  2 Mar 2024 15:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8431877;
-	Sat,  2 Mar 2024 15:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AD1182AF;
+	Sat,  2 Mar 2024 15:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uqurx7L6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fcxTKqEr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018451119A;
-	Sat,  2 Mar 2024 15:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D9310FA;
+	Sat,  2 Mar 2024 15:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709392152; cv=none; b=OpY+suMSsvVP5b7kFsysW3DCFfEJKS6WT6kBVJzTEckRGXeqNU8VCQzbhLut82MHW/H3RJs22AmzLhpayTQ+rRP+qW1hpH1RTp7fTpHCO4a/5OhRqIewrL+myvjJxDOhobZR3ZbOFH0avE5zO9lGlKhpITFIrG1GgT2h7pxDJAE=
+	t=1709393074; cv=none; b=tbUp6wpBD+EOuX/fMUQNWMaxENPusnI7RaLzVlJlvSkJH1XvNMGLfGu1JWqlIVjGOS+3Q/OucCgE7gtdMaQhbYpyd9AKyhREdrIjClbOAvFR5eRtJzPzVSqZQGHol/goYgS8E2rK4uLJU4TZBCgwrFuh543Oqd7cF8EodcsStPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709392152; c=relaxed/simple;
-	bh=fFlC0pPy3vfJ4/zGymDcSMHtHsLWlxsA3iKdlnI4kjU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i10rwKIODMLu7E4hqxfk1LEh3y2a/A8BUoYrG10gUcy2isgkpPsF/a8ch+jvOBtm1oRrAZWWki2F1ExyDNvSF/G+VRcbnzWM34g+wRf9YZrUIV5CHRcKVXZdrcdd+FoM76OMKhq9PH/fJp1k79UzX4NITkilLfZuYjGGN1u/6+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uqurx7L6; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1709393074; c=relaxed/simple;
+	bh=xD+hFcNg7fqN8cbrsHJZUQUE8dErfDtlAheqiEmgrLU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=OXXRTiv378bsAXrwq/7kTghyLB55TR38xs56IXFwQsEivf9RvEgitvIcMbpEbf+B30+mrrg9HEKkxSpSgUezArGhuln9VaIxJwgdVV3w5GyYyZDSkFzSDQzCh4Za6InpGwjPUvxRQ9RKGDuKKvZqffiqvoH7H+eDzro8mdFxSR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fcxTKqEr; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-412d501fb96so3066475e9.0;
-        Sat, 02 Mar 2024 07:09:10 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33e122c8598so1673501f8f.1;
+        Sat, 02 Mar 2024 07:24:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709392149; x=1709996949; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vZnmyEbp7/KapwN09X3KPNmenF0EZ+gIMNP6ui8wv+8=;
-        b=Uqurx7L6i2K+RNwgPaNQEOYpPiGSUvLOeZy/aXevAlgZJqRe2XC0jyropywj3YP8Qp
-         E/orzKJWPCPcvSu0EpgyMvqFKgTUG4zcA736BCfUeQ2+fqBVjcEbMfmh5CA7kaCKjhUV
-         v+gsNPrMNWa4rawAV7TSqa5UiddDjokJmQKKFTSalZHDtP1lrQ/AcED1Bmfthr9jUvEE
-         6lkvXcKG2ss1SQ87BYBhuLDgfHvnaOM5o7iPcS3oLysdFnLWVEowNdTPGO/BL7FvoFJj
-         +eGy2DUDC6kABrw+Abn/GrubrhuybAcHhK7arKVhPjvX3TvZgIY8aVVdoAJ1mlYkfB3v
-         ybew==
+        d=gmail.com; s=20230601; t=1709393070; x=1709997870; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Suj8iyI7f2lF+x7NvsRpt/pPuqERVxzuZWaHeCIhdCA=;
+        b=fcxTKqErb6HTRF6Bl9qU58OEHrln8YeCJ6TOV5LBy9gNqCZOwoipatYtooEKKmaiXC
+         N+lX6XsDNjRzULM+IfeNRzeBPM2hZxfw4lXcrersvDynw1fodnfgwytI2+gre3ugUd58
+         BY2BDQLRiF9WBC32S9HvGEg2mZAZf936yT6OZasHJOem3/4enMY1nG4+EZkypmrJxvMq
+         bZsu1jEGJAfukq4wm+Y2uD1YAN5xEQPBTSDGpFDLvPkdzoB4lIZOo59j8yGdGidtRoVl
+         rRv0jLLwLbP8IfKJry80pooF8pPVw9t8ulszw7DaGu6NLzCVWAZs4KHzcdTJTFw4wI4e
+         i22g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709392149; x=1709996949;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1709393070; x=1709997870;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vZnmyEbp7/KapwN09X3KPNmenF0EZ+gIMNP6ui8wv+8=;
-        b=J1605mAeI9raAV2BGcBmZv4cq3Obp59tpT3Bd7YG7ImAusAqiytyLOYUINiPliDjU3
-         cWzinX7KdWm9g6ET+SB0n+hIEZvD9quy/wgvPyTAo4h0Wgqh/ZRZreR0P2xWKyw6dQbR
-         6sI+/vdCKE2P5EUn1squ6ysXHkSsaNMPI8idqZOeXztCEkKUk5Y2kZRVR7UYfch6kSsk
-         TGfPltSyR/8rwcOUBEr2KQ58Pa9zvg+NdoTKbV8i3gOhO4C2xqEp9er1yLkft/b9NWom
-         YaQ+hT1wwW+0d3yb0+sb5qVcyKf9+VcwqjwkVWRcY7JuFKnqSwUpZ6ihHVOSHMzSG6Db
-         KntQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxfe//kOl/RE67IwJuMoP/iWHBuGXlO2WzaK+NfoxYN9j6n9dmGolQmCz0qmOqBfXrYp9Gj7ocutUQSKiPu7ggf4oK7mNP2QcglA3zgwLsaOHViCMYIkRkaKSaxCN+vux8dKARn1mYy2ZfW9sO9NfDh5pfLYRDDfKtW4yuxXJaqswbh/cPFsVvLC1BDUVKQCaOCuBFnI+NJ/AUMCyhaLhH
-X-Gm-Message-State: AOJu0YyP66msOHSC7Poqase6aGCk6jJeh+6L+MQiRzcoaOTLc/fiVN8Y
-	Xpojj/KA1rDlpVrwn6hYOsB4heZMlqMJR7cFf5yD5B/e1Hw8xNEG
-X-Google-Smtp-Source: AGHT+IFjI7EL9wmaOMs9DKRRoNoT/K+vGVVN1tRzp4FVvAb7IlMcgE0CtEM8KM4rNz0E+V7pGjBM0Q==
-X-Received: by 2002:a05:600c:4e90:b0:411:c9c0:eddf with SMTP id f16-20020a05600c4e9000b00411c9c0eddfmr4004505wmq.36.1709392149165;
-        Sat, 02 Mar 2024 07:09:09 -0800 (PST)
+        bh=Suj8iyI7f2lF+x7NvsRpt/pPuqERVxzuZWaHeCIhdCA=;
+        b=gbkY4YBe5IED10NsLTc9KAbI3dH1/nV9PQuJC5F42cq7xDZZJntt3cN4QKwjf0LcVq
+         NRg0xTaJxUG7j9+cmnmIBYZqeDJGCgWZjNAJuLt1nDH7wAJ1TCAkFiLYcsSTtVOQkZ50
+         fzicv3YEVn1I166wialrUH74/XWB1tmgDBpSRIMpfVC8AT60lak6ckACOyaxC5QadhAC
+         gSdfF2Ry0GfaBzMYgcu/CFEScYV7qFdyZP6jxJ/AcuyUf244hEzp2CsCpLDvYj51ox/N
+         RQT2wcDI30j0xQvvpXy4QRfi6fhbIoo2+vn5o2+IIO2BP1Hw5g6/iSpjXQA5ESaZsni8
+         WJCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ7AeG0YfU7sNJJfnMzP2lZhyiQfWr0ny5AEMt7F65oEvmK8RHlg3gQ1+Bhkt9GZA62kVRU1AyOGsduD7I3AfDS2xypVwLEUtASg==
+X-Gm-Message-State: AOJu0Yw9cEbTMs8pDtXp0DJyL79FELlKbWlzDCCbbzAwSwKAcmEsd93W
+	lV8VESztLZMgsTvoLxIDSNBPxs8DmSSGOLAkDcCmHNtbgCn/zBoe
+X-Google-Smtp-Source: AGHT+IEDaUm1JW2wT+UOKJL8sv6flYHv/bG/dWi4swfTXLNn2Vy/2PsDbLFDnk7LVjKhnnFV93zjFg==
+X-Received: by 2002:adf:a39a:0:b0:33d:a944:54c0 with SMTP id l26-20020adfa39a000000b0033da94454c0mr2943696wrb.22.1709393069788;
+        Sat, 02 Mar 2024 07:24:29 -0800 (PST)
 Received: from ?IPV6:2a01:c23:bcce:a400:2519:2036:7f0:6005? (dynamic-2a01-0c23-bcce-a400-2519-2036-07f0-6005.c23.pool.telefonica.de. [2a01:c23:bcce:a400:2519:2036:7f0:6005])
-        by smtp.googlemail.com with ESMTPSA id k7-20020a7bc407000000b004126e26f756sm11827464wmi.43.2024.03.02.07.09.07
+        by smtp.googlemail.com with ESMTPSA id f15-20020adffccf000000b0033dedd63382sm7528506wrs.101.2024.03.02.07.24.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Mar 2024 07:09:08 -0800 (PST)
-Message-ID: <208e8bcc-1f35-4095-9a70-7243fdabaf87@gmail.com>
-Date: Sat, 2 Mar 2024 16:09:07 +0100
+        Sat, 02 Mar 2024 07:24:29 -0800 (PST)
+Message-ID: <6011ca63-187c-42dd-a5fd-7dd733d6257c@gmail.com>
+Date: Sat, 2 Mar 2024 16:24:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,20 +75,14 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
 Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
  "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- linux-sound@vger.kernel.org,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- linux-mips@vger.kernel.org
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <20240229172653.GB1209090@google.com>
+ Lee Jones <lee@kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] Input: leds: Change config symbol dependency for audio mute
+ trigger
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -133,68 +126,34 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <20240229172653.GB1209090@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29.02.2024 18:26, Lee Jones wrote:
-> On Tue, 13 Feb 2024, Heiner Kallweit wrote:
-> 
->> If a simple trigger is assigned to a LED, then the LED may be off until
->> the next led_trigger_event() call. This may be an issue for simple
->> triggers with rare led_trigger_event() calls, e.g. power supply
->> charging indicators (drivers/power/supply/power_supply_leds.c).
->> Therefore persist the brightness value of the last led_trigger_event()
->> call and use this value if the trigger is assigned to a LED.
->> This change allows to use simple triggers in more cases.
->> As a first use case simplify handling of the mute audio trigger.
->>
->> This series touches few subsystems. I'd propose to handle it via
->> the LED subsystem.
->>
->> Heiner Kallweit (4):
->>   leds: trigger: Store brightness set by led_trigger_event()
->>   ALSA: control-led: Integrate mute led trigger
->>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
->>   leds: trigger: audio: Remove this trigger
->>
->>  arch/mips/configs/ci20_defconfig     |  1 -
-> 
->>  drivers/input/input-leds.c           |  8 +---
-> 
-> This does not apply.
-> 
-> Please rebase onto v6.8-rc1.
-> 
-Since v6.8-rc1 the following has been added, which is touched by
-my series:
-698b43780ba2 ("Input: leds - set default-trigger for mute")
+In a follow-up patch implementation of the LED audio trigger will be
+moved to sound/core/snd_ctl_led, including removal of config symbol
+LEDS_AUDIO_TRIGGER. Also as of today the audio mute LED trigger
+is effectively a no-op w/o config symbol SND_CTL_LED being defined.
+Therefore switch the dependency to this config symbol.
 
-Rebasing onto v6.8-rc1 would mean:
-- remove the change to input-leds from the series
-- resubmit this change via input subsystem
+Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/input/input-leds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This would affect bisectability, because for the time being
-input-leds would reference a config symbol that doesn't exist
-any longer.
-
-We'd be fine only if the change to input-leds is applied first.
-I think that's the best way to go, if you can't accept a series
-based on linux-next.
-
->>  drivers/leds/led-triggers.c          |  6 ++-
->>  drivers/leds/trigger/Kconfig         |  7 ---
->>  drivers/leds/trigger/Makefile        |  1 -
->>  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
->>  include/linux/leds.h                 | 29 ++++++------
->>  sound/core/Kconfig                   |  1 -
->>  sound/core/control_led.c             | 20 +++++++--
->>  9 files changed, 37 insertions(+), 103 deletions(-)
->>  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
->>
->> -- 
->> 2.43.1
->>
-> 
-
+diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+index b16fc8194..6bbf3806e 100644
+--- a/drivers/input/input-leds.c
++++ b/drivers/input/input-leds.c
+@@ -18,7 +18,7 @@
+ #define VT_TRIGGER(_name)	.trigger = NULL
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
++#if IS_ENABLED(CONFIG_SND_CTL_LED)
+ #define AUDIO_TRIGGER(_name)	.trigger = _name
+ #else
+ #define AUDIO_TRIGGER(_name)	.trigger = NULL
+-- 
+2.44.0
 
