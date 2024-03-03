@@ -1,81 +1,78 @@
-Return-Path: <linux-input+bounces-2158-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2159-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA71A86F778
-	for <lists+linux-input@lfdr.de>; Sun,  3 Mar 2024 23:37:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8121786F77D
+	for <lists+linux-input@lfdr.de>; Sun,  3 Mar 2024 23:45:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB0A61C203B3
-	for <lists+linux-input@lfdr.de>; Sun,  3 Mar 2024 22:37:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DBF69B20BF0
+	for <lists+linux-input@lfdr.de>; Sun,  3 Mar 2024 22:45:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71EAD79DB7;
-	Sun,  3 Mar 2024 22:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF64433C1;
+	Sun,  3 Mar 2024 22:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIfBg2Ml"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWGIihZS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009BB76910;
-	Sun,  3 Mar 2024 22:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E451D1E51E
+	for <linux-input@vger.kernel.org>; Sun,  3 Mar 2024 22:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709505418; cv=none; b=oUXePecxo6DpoRv0gJ6LCkKUlbyP0bQu7/ssF13PWPa+d/S4JmiFH84ziJ2hP9SSbdtsy3rShLB5rbD0R+NQRb7y1XCjm3rOfnQUHbPJydZWS/WqBdKoK0z8SRd9lwkYVI382IUY01qhw0Q/lEvBZQz98J4ZPDyV6leHmwpcdyA=
+	t=1709505910; cv=none; b=kNiBe+w5E+WftZtoaKYfMvntm5QSXWUdUeNeOdqfrJy36SP4P/zYYf8Y030b+42JAzQdwDjVkIQQH7XP8XOSloKfyXusPWAhbONMOiEH5GLIIwH9xnLC8/PKFo4/gF62+cyY/9dFNn+m7AgWCfZpQmZGWP/Ec3fpbC7JAzvLgi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709505418; c=relaxed/simple;
-	bh=PYS5qB0mlbb61cQOtSQwmX1wMFO/MrV8NxbMBy23M9c=;
+	s=arc-20240116; t=1709505910; c=relaxed/simple;
+	bh=5uH0SKGYBGhVl6UACpRO6Mns2vNuTuumOAVPYC6gqMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kr97sLvi8l2oi7upLUM0E+HwaUTyzWCVTNFRPhIR9J+VeLN8lVjx0PD7QeVlfkyO315mjMc9c37AhAWZRKJ7MmgyUK1P2d88E4+HNAKDQNKj3VpY7IbsxYzA7UukRnRqCbcO5udPk7Fmt/iebY4d87Drh1s+y7X8Ct9VeLsaa2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CIfBg2Ml; arc=none smtp.client-ip=209.85.210.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hmxs/0NILOcOE7P1paSarLnr0qJGqSwgke/oClu29/jgd6bFuyBkmu+xGoP2JQM1nPfxB3wjoPAa3T9JUVsTbIDKEWAtp1KfnCSNAbxOh5qZcTx3p2fAp0FxrsmU2/BZEZdxf3n8TS3Q3WoVqydvs5RmHptQN74K84M8s8OJ3BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWGIihZS; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6e4a803c72aso2242348a34.3;
-        Sun, 03 Mar 2024 14:36:56 -0800 (PST)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6e5a232fe80so2219991b3a.0
+        for <linux-input@vger.kernel.org>; Sun, 03 Mar 2024 14:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709505416; x=1710110216; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709505908; x=1710110708; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6GUHqu0R39Lc7lbOWuUkoIyVbW7DjlCZHWYLj8Ms2o=;
-        b=CIfBg2Ml4KnL8oiEAvIPYzan65qOQOMwZqbt5x+kYzVGQD0cCp1DAE2oWnDTXNIxcD
-         rv/No3cD6qycTdBQdAXgHuxNWYgRpwrkP12YIZUxfAy+2zHkzNffruoMpDL5U8Z0Ueld
-         2l3OdFkYsqqFk2bNVCzIzcEsPoDDPj7f24ACLWvGP7Cqs2/WyPtMPwFKn+GxqPvcAwhs
-         ePhlc6GVOgy4D7R6Mru/XRhbG4FY8OSUHt7SbO9/mfV9PUPktintypNHw9Vgs0TaV3qj
-         4pnOuIoDGsNPtG/DGJgaWCIXieOypSF7DnL/tXR4WwGIjHwtM72Q22VUu92ov1gUl93m
-         G6VQ==
+        bh=W6Yb8zYlap87HPSrdIB3Gyfc+A+bwkytjyYQNRnypKI=;
+        b=ZWGIihZSyLEInlihpv9y0OQJ/9VmY3J8hgjuOrNzi4e78rEWYvoRgHYar0oEXbFlgK
+         55KBSJLXBOKAvTVoA7uqlGVzAqKKObstM6fs4lB1cVGnQHKwWJD0BhRkAmkCGnwWQ6Pf
+         VfwN046VL4rtzq32ffbJNgmHNg6DvL+A0AUng+LVGRYVQ4MP2xiu6ioiZkmqgJ+SwTiE
+         HYENXBelndhqIza9hm5JgT+9emnwQHV83jejl3ov4cnCauhhKN78hs7d0h8BMa/Nukau
+         SpxFGm496KowXbVLu7P0TWZr1KHLjEtQ3GyK0pPmdaONO0lSbmB35+BSsrU67NgjFRdP
+         IQkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709505416; x=1710110216;
+        d=1e100.net; s=20230601; t=1709505908; x=1710110708;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b6GUHqu0R39Lc7lbOWuUkoIyVbW7DjlCZHWYLj8Ms2o=;
-        b=H1mOYsUtgXLKimniqsdXifMd1mtXStXKt42q5zLM+G7tHoIdr04lWwt7VrB7dT+jq6
-         wywFnDlWEfR2zenMRgw4Kv41RxGgVW/EeRJl+HEALozkqRLxAFkuoqrKAVhy7Vb1pLGr
-         vTkx5Q9bJrJu3lFajMrqYWWEUtbUwzEcfGNu56qBmMCvbG4GXQJslVcMLciyA9pKbzM/
-         R17xVZVo3fphO2bDyMsAv9UypJLjrosCtFCIN+k8gBFyGMwtOnozoy0xJ60XfPRhqyBC
-         j75zFJO3OZXEEwJ3NFHXvXQTUP31v55ZAFJA2Cu0MIQwDOxti0mYiKMAvbXlXBzwSEhi
-         IcYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpqkQIjXjGFBQrQEwnoABxwVF9Zn2QjzCS1FWuIdhG02OUp7aTzq+Bn84KckgH1UnYFV1cZbnlvxi0RRbdSoWbpQmO/peYgE1jVA==
-X-Gm-Message-State: AOJu0YzkkaD2hEAqKPEeU9PcybmS3u3bsXbBd33EPTzccwm39EU4r8Ub
-	Qp35vyIWCnc5ctu0OVXMC3k5kcH+sUtOUzpZkQhNi+oa+Bi2Wdd9MKtbqCxB
-X-Google-Smtp-Source: AGHT+IGKt5ry0nZbQiq7EAKVh0Ki/2ZcKM8qmXFSiTHHv+AOMiQFtaeEvPDHjcr3ZaKzYNr3mX5h3A==
-X-Received: by 2002:a9d:6d05:0:b0:6e4:dfc5:d13e with SMTP id o5-20020a9d6d05000000b006e4dfc5d13emr3080225otp.15.1709505415816;
-        Sun, 03 Mar 2024 14:36:55 -0800 (PST)
+        bh=W6Yb8zYlap87HPSrdIB3Gyfc+A+bwkytjyYQNRnypKI=;
+        b=Gdi39kGpg//u09kwasggjke/fBT/rLF8yjZcIcrQFfrInV+7eaRdzIRPLK/AJtwyqn
+         EKSRd46JJi1LKy7B+PuSWHP2+WJc7IjuLd6ShTeDmTSPO8gYWlfVyMYUR9fao8BOc5hW
+         NjXSjEe4gJiEgvS2lcJE23rVFtCbNXPF885NiDI30TDY+iSUSOz+bN0uAkuVZhqpi9lu
+         7/5FxfvBR7gp2g8LB80QKSyH2XbsoN5boAQSwkzrBUAuL7+9uGCPfDFen76XOQ8V3Qvx
+         jOt3Sv8kJU2YlM2pFaZTG0OCvnqZ4dWe2QlpqNTiAMTTjk8rluSrMLByJ4aAt0v7DVNc
+         D9Kg==
+X-Gm-Message-State: AOJu0Yxnge3IdqjDdDbyQLbm72Kk4nEMOxAXqanQ5hb8KnHX72HgrIGP
+	PD4f0ygBLaR/ManLFxth+PBoUnSW7Mk0eOVhbAmm98uJQ0UoirLTeBcTkIaz
+X-Google-Smtp-Source: AGHT+IGmdVRRGUg2+PCOXUqiPmUYpFzXove7I+BWPLV/Llzy/NkAzPpsaLZSl7uTQnmO2n392UgAUw==
+X-Received: by 2002:a05:6a20:9c8f:b0:1a0:eed4:dbf9 with SMTP id mj15-20020a056a209c8f00b001a0eed4dbf9mr16220657pzb.24.1709505908202;
+        Sun, 03 Mar 2024 14:45:08 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:99d7:8333:f50c:d6a6])
-        by smtp.gmail.com with ESMTPSA id l126-20020a632584000000b005dc8c301b9dsm6299223pgl.2.2024.03.03.14.36.55
+        by smtp.gmail.com with ESMTPSA id y185-20020a638ac2000000b005df41b00ee9sm6172714pgd.68.2024.03.03.14.45.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 14:36:55 -0800 (PST)
-Date: Sun, 3 Mar 2024 14:36:53 -0800
+        Sun, 03 Mar 2024 14:45:07 -0800 (PST)
+Date: Sun, 3 Mar 2024 14:45:05 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH] Input: leds: Change config symbol dependency for audio
- mute trigger
-Message-ID: <ZeT7hadF5w6_ErGK@google.com>
-References: <6011ca63-187c-42dd-a5fd-7dd733d6257c@gmail.com>
+To: "Nguyen, Max" <hphyperxdev@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: xpad - Add additional HyperX Controller
+ Identifiers
+Message-ID: <ZeT9cbHRVe7td8WB@google.com>
+References: <44ad5ffa-76d8-4046-94ee-2ef171930ed2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,19 +81,39 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6011ca63-187c-42dd-a5fd-7dd733d6257c@gmail.com>
+In-Reply-To: <44ad5ffa-76d8-4046-94ee-2ef171930ed2@gmail.com>
 
-On Sat, Mar 02, 2024 at 04:24:28PM +0100, Heiner Kallweit wrote:
-> In a follow-up patch implementation of the LED audio trigger will be
-> moved to sound/core/snd_ctl_led, including removal of config symbol
-> LEDS_AUDIO_TRIGGER. Also as of today the audio mute LED trigger
-> is effectively a no-op w/o config symbol SND_CTL_LED being defined.
-> Therefore switch the dependency to this config symbol.
+Hi Max,
+
+On Fri, Mar 01, 2024 at 06:15:42PM -0800, Nguyen, Max wrote:
+> Add additional HyperX device identifiers to xpad_device and xpad_table. Cc:
+> stable@vger.kernel.org Suggested-by: Chris Toledanes<chris.toledanes@hp.com>
+> Reviewed-by: Carl Ng<carl.ng@hp.com>
+> Signed-off-by: Max Nguyen<maxwell.nguyen@hp.com>
+
+Your client messes up patches :(
+
+> ---
 > 
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 7c4b2a5cc1b5..a7e001a1f6dc 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -131,6 +131,11 @@ static const struct xpad_device {
+>  	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+>  	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
+>  	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
+> +	{ 0x03f0, 0x08B6, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },		/* v2 */
+> +	{ 0x03f0, 0x07A0, "HyperX Clutch Gladiate RGB", 0, XTYPE_XBOXONE },
+> +	{ 0x03f0, 0x038D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wired */
+> +	{ 0x03f0, 0x048D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wireless */
+> +	{ 0x03f0, 0x09B4, "HyperX Clutch Tanto", 0, XTYPE_XBOXONE },
 
-Applied, thank you.
+These need to be sorted by VID/PID.
+
+I fixed it up and applied.
+
+Thanks.
 
 -- 
 Dmitry
