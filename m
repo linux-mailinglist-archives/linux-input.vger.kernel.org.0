@@ -1,95 +1,104 @@
-Return-Path: <linux-input+bounces-2180-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2181-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE815870273
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:17:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2874D8702C1
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:31:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DB071F250DA
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:17:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3AF01F22E9F
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2201D3D98E;
-	Mon,  4 Mar 2024 13:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63ACA3DBBC;
+	Mon,  4 Mar 2024 13:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O71PnSBA"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ncl+PH7R"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB90C3D3BE;
-	Mon,  4 Mar 2024 13:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939A93D547;
+	Mon,  4 Mar 2024 13:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709558236; cv=none; b=XIvHWUUS3igwHu6irM6Jb1na9ltYfo9oJED4524NxpUtaSwc6dnZX53lNsb1bMllShIYSxNgsfiXCVxhDjbUz7lv6wGlaZEZeyRB3ARwlz20zBuazMTCCRFWPONc/lx0lHOTeew0zVfHtQKjEE6cbVbwSVjZW3oPWIHStTkBoV0=
+	t=1709559060; cv=none; b=GCTwL6X2QV7FNF8fMJnsOu228cU0GqU5iEFaImr8B7vFyemeXBzRy9XUSX+2xx7YlUbQN8vV1fyOCF5QvdQUW19xuLgyu28XAk0uXclblfzenruXq3CAYY7qbqHcoSufE4TfL0kFg/kJGtV6h9PzlErt8YmTegjnoMruOr4pOM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709558236; c=relaxed/simple;
-	bh=xdnfnXAPoXai/PKBNe/jGm6kOPUz6a+yu7Z7OrhS8fU=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PHyVWkCK3aI+cERRcB3Pp2128AixZdtpFpeHYPTdo0RGr5Uldt/L28aYAutmkSxR3el8zTOIBdsMFkMt5gkjo2tf915e4DDoOP02unRBBWWxs2aBZEdrGXgVB36K5lopc96RiWMOPdZ9I0BYftb1vrpcBXuvQOdNZa4JZPqAxqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O71PnSBA; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709558234; x=1741094234;
-  h=from:to:in-reply-to:references:subject:message-id:date:
-   mime-version:content-transfer-encoding;
-  bh=xdnfnXAPoXai/PKBNe/jGm6kOPUz6a+yu7Z7OrhS8fU=;
-  b=O71PnSBAhjcgXeRFwaYAlSkFLAdeMBhsfZb2AHNvTrSBVOHAA8ZaVzme
-   WPf1rMAeUMkmjswyNXwRtt/fRrAmYX3u2Yikj2csZT4Xe7pbk2ZRIunlv
-   pr/Ukxukz9Y8pjam7np3t/CnAaVFyrMKSTW1EjQnBGEh1llffUTM+tggX
-   WdqiTQpSFhALX41d9XN/1YJrtlB2X3UMp+g5ALT9KySkPw6m9ZnWTfKWk
-   fNpCBf6dBKYjfsJdKbXOfPJk5EK9F1LAgQr72zUIjpjCySlGm6JBc5MS6
-   iU7wMDDx15FH11qxlKSeLKP0ddiwpcqjrLTtqzrX/PUxd/uyoJzB+naSt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4625160"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="4625160"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 05:17:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="8905155"
-Received: from ekohn-mobl1.ger.corp.intel.com (HELO localhost) ([10.246.49.145])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 05:17:10 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: hdegoede@redhat.com, linux-input@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Alban_Boy=C3=A9?= <alban.boye@protonmail.com>
-In-Reply-To: <20240227223919.11587-1-alban.boye@protonmail.com>
-References: <20240227223919.11587-1-alban.boye@protonmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add an extra entry for
- a variant of the Chuwi Vi8 tablet
-Message-Id: <170955822522.5357.960339169691404001.b4-ty@linux.intel.com>
-Date: Mon, 04 Mar 2024 15:17:05 +0200
+	s=arc-20240116; t=1709559060; c=relaxed/simple;
+	bh=/tEpggeL4FP4g7AiM9zkr4WDOC8Z3r7V8asbPxSkyGc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tmMu5YFt+GppfcIoArLjAqdv9QNuL4CsLKrquzW+DMJ4lB0z+7bJyvlnx62kxDxnfPFxlTRuEnXF6oNl32ykx/bnV3FT3jaNzut4rIgtNi2IiTFUj14omgCz6OWL7+M8seqXdyRVxtAHArPIZwgECefP5l07aAH94TArUNXwJ54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ncl+PH7R; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1709559036; x=1710163836; i=markus.elfring@web.de;
+	bh=/tEpggeL4FP4g7AiM9zkr4WDOC8Z3r7V8asbPxSkyGc=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=ncl+PH7RDK8EgVjFo0dI7eobj3Tfoy0REc8/bcluX7BG2pUvOmf3hn8kqKR60Ja5
+	 NuuGMNIASzR9eW4xZI9fv28eR7z63+a8I+Q4pwgTNQJrtRAoePbjW7ilThozzBVGl
+	 GBnphNtGILFiCBuLUETt1ubNZHkwHB+i1Pdx5k8ea6tPhTg8uY+q6qnwwcd7CSj1R
+	 nKK9K6uVYM7CZFx0JXem9p5CaGqapaeLoxnkdm/NmwIHH55/jAgSf9VZ9Vwd8UMQq
+	 Khj4Uw4NhKlXsZtiHGit6zduUrzJzOI0fcM38iXCZvGs+2m6VuhM2S6uw7/XaNKtL
+	 AYXr489Od65G1FY6Ow==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MeUXg-1r6h7X46hY-00aOsr; Mon, 04
+ Mar 2024 14:30:36 +0100
+Message-ID: <472d8a45-4657-458e-9ff3-8cf55dc2b214@web.de>
+Date: Mon, 4 Mar 2024 14:30:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: Input: iqs626a - Use scope-based resource management in
+ iqs626_parse_events()
+Content-Language: en-GB
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Julia Lawall <julia.lawall@inria.fr>, linux-input@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Jeff LaBundy <jeff@labundy.com>,
+ Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
+ <ZeU8ENmnPj3sKxAv@nixie71> <ZeVOPSt0L1D4BxuZ@google.com>
+ <e8a2b63f-4f9a-463b-b419-c5f673191111@web.de>
+ <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
+ <2be02b12-84ce-4f83-b104-685f3b7cfd95@moroto.mountain>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <2be02b12-84ce-4f83-b104-685f3b7cfd95@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:LxD5vC+4LOqVHs7yIzbOKA23818+Gp/En37V4dAABNUZ5TrX+wI
+ bw/9vdaV9P1IDacEfzrfJDehUnoj7osEF3ZASu50ReF8g3z34C/5OLsCpsNZYdv0pMRvD6m
+ rJJUqfrGkU0kEtl9xBrOHICL/3gjwM6VohGiz/4ytLrBgM7p74dZ+AqVtBPcGLXR8tuYDv/
+ Goj1bis3eP/wuUp1oGLdQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H8FdFt0dBl0=;vwIr9GfMvSe7f373BmX88rghrwq
+ fW1Q9/+iFM7Ozo3xXG9iaWY9jBzVDo12G89/fthHXTTKE7ZG1ijlmXe5XCozWYDIIaPjaGdqY
+ RmCQ31eaGgdMeWNzjcvD6E2+okP81C1wMBn2Q6dQlgqGHK7axW4Lj8KBZuvIpWE96rg7+I9OA
+ nSr5t7Fa7/KuDK9um6uUG1iwNAnCAFPhmeQ05d5QjjaMSM3gTeEI6jNSJBtXbUNzBWv9Ti0Tf
+ XsDShIY4k9U4OPK7CbxMPqEvU+JeW9XVd9YyLYPEIZR2HKqoWjIWTwMJZOOkrHjZ6Uv93tV4S
+ teXSrpbifYRJPW0BPEoc/h6+Vkns913pb6ubb4uJn29l4hd/QGrB4K4aUXRNhxqG6o8SDLy2S
+ n2etaJ3n2Q9A8HQOglyPoX5+w6p2omj5yTg9GOqWGzpI9aNYeJUipUpKMhm4oeoDEMXAebLZs
+ TU0+2iBz0n4c0zVFpnDm178mWqOn4p4HW2gyjPSNQkXfQhAfiBKx4Np1/tkgJGJ6EyOhPUTZa
+ 53F01F8h3TlXZAdlGJxgQGjHp+wmiK9w0eGFRCFUIVAFgfdv++UT24doWlQGJsp6e8bj2eP0q
+ 2b7zluINrU8nRg96tCfDTOGizV1Jf5bujcoQP1eIKgZ6llEOHLYYQ41LGulPx4x5aDcrQyJNy
+ rjDSww/ajsrL0uo4dCMcf+9rx7sXwg9VPGiZXXritlI0FbgoLfgHd4Z4CFy4h8z2WlfsAe7qT
+ R9tmY4T2kQEfDLOT9oc8Ssacu/5QFFnvgbjOatHyDtAlxm2RLwsCji4agqWh0i+gGMqXfntMY
+ 9CDzrRIz5NwDS6YnN5YfrkSNNmahZIpAF3XJIbtuua04Y=
 
-On Tue, 27 Feb 2024 22:40:17 +0000, Alban Boyé wrote:
+> Generally kernel style is that you have to declare variables at the start of the block...
+> But that's becoming less universal now that it's not a compile error.
 
-> 
+Will it become more feasible to adjust the scope for further (local) variables?
 
-
-
-Thank you for your contribution, it has been applied to my local
-review-ilpo branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo branch only once I've pushed my
-local branch there, which might take a while.
-
-The list of commits applied:
-[1/1] platform/x86: touchscreen_dmi: Add an extra entry for a variant of the Chuwi Vi8 tablet
-      commit: a8170d6a5d310eeaa3ecf3bbc8e3835004723f36
-
---
- i.
-
+Regards,
+Markus
 
