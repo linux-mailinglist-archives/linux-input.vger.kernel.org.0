@@ -1,196 +1,95 @@
-Return-Path: <linux-input+bounces-2179-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2180-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53278701C7
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE815870273
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:17:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BCB91F21549
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 12:45:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DB071F250DA
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:17:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168BF3D0D4;
-	Mon,  4 Mar 2024 12:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2201D3D98E;
+	Mon,  4 Mar 2024 13:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzA21dkH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yMcq3/+6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzA21dkH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yMcq3/+6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O71PnSBA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056801E506;
-	Mon,  4 Mar 2024 12:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB90C3D3BE;
+	Mon,  4 Mar 2024 13:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709556335; cv=none; b=Gv5Hrm2r3Y0QNjPXcXHf46wdSs7v5/nwJMpWIqwOg4b+lD/3o5zELFaCmydn1Nl2A0ZigEHKP/PUjpXqIwUvdg16id51QNg9jp3Gy6J6a7aFdOvt/74Z16IcDzpInJZXggfMZk62M0yKX61MusPpCCY5BEa1bnD7ll1ZUOR/f+Q=
+	t=1709558236; cv=none; b=XIvHWUUS3igwHu6irM6Jb1na9ltYfo9oJED4524NxpUtaSwc6dnZX53lNsb1bMllShIYSxNgsfiXCVxhDjbUz7lv6wGlaZEZeyRB3ARwlz20zBuazMTCCRFWPONc/lx0lHOTeew0zVfHtQKjEE6cbVbwSVjZW3oPWIHStTkBoV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709556335; c=relaxed/simple;
-	bh=hgg7ztDSEPRjWgfx5szBQ5vnIIPmCrUaIAUDotlaUXg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G2z4dobhBt4jSQRzL2XeRMzeWZEC9MKJDOcQIjKqVuDWBp3CSOO36NxhPqD0VptQvVrhKm+cEdRPM4FmU5inWkAt2NpoR/BEqCPM7QYPHdyq26TwxjmJSTi2CI933FxUEbC7j/qYgxEqgn0Xzg4ADdL7tRc5x6/WNUBD4MGrd5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzA21dkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yMcq3/+6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzA21dkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yMcq3/+6; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F04D4E584;
-	Mon,  4 Mar 2024 12:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709556331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
-	b=HzA21dkHt6RNAEyo6l5tKymmNyJFSXhsUdamIt5gZkzy+u3wUfUomthDGaYE3soM+iIxDy
-	p2F2SSvSe+3B35M0YEm/WhEXQHQVMMvEV6DqJDsS/au1NiUEnHF8Tw6OBoU893c1K5jWbt
-	vD3FfunEe+nVZu5YRkHi1WO5tT4TyMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709556331;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
-	b=yMcq3/+6vKMpWbQJqI6jPBF9+8N5EY9Rszo8BUWBqg/1og3OyCiUcWQHiFFrmu+RhW3GMG
-	1CwLss5a8ILjj6Cw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709556331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
-	b=HzA21dkHt6RNAEyo6l5tKymmNyJFSXhsUdamIt5gZkzy+u3wUfUomthDGaYE3soM+iIxDy
-	p2F2SSvSe+3B35M0YEm/WhEXQHQVMMvEV6DqJDsS/au1NiUEnHF8Tw6OBoU893c1K5jWbt
-	vD3FfunEe+nVZu5YRkHi1WO5tT4TyMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709556331;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
-	b=yMcq3/+6vKMpWbQJqI6jPBF9+8N5EY9Rszo8BUWBqg/1og3OyCiUcWQHiFFrmu+RhW3GMG
-	1CwLss5a8ILjj6Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFC4F13A5B;
-	Mon,  4 Mar 2024 12:45:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9MgQOWrC5WVtOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 12:45:30 +0000
-Date: Mon, 04 Mar 2024 13:45:30 +0100
-Message-ID: <874jdm17yt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
-In-Reply-To: <6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
-References: <87sf161jjc.wl-tiwai@suse.de>
-	<6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1709558236; c=relaxed/simple;
+	bh=xdnfnXAPoXai/PKBNe/jGm6kOPUz6a+yu7Z7OrhS8fU=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PHyVWkCK3aI+cERRcB3Pp2128AixZdtpFpeHYPTdo0RGr5Uldt/L28aYAutmkSxR3el8zTOIBdsMFkMt5gkjo2tf915e4DDoOP02unRBBWWxs2aBZEdrGXgVB36K5lopc96RiWMOPdZ9I0BYftb1vrpcBXuvQOdNZa4JZPqAxqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O71PnSBA; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709558234; x=1741094234;
+  h=from:to:in-reply-to:references:subject:message-id:date:
+   mime-version:content-transfer-encoding;
+  bh=xdnfnXAPoXai/PKBNe/jGm6kOPUz6a+yu7Z7OrhS8fU=;
+  b=O71PnSBAhjcgXeRFwaYAlSkFLAdeMBhsfZb2AHNvTrSBVOHAA8ZaVzme
+   WPf1rMAeUMkmjswyNXwRtt/fRrAmYX3u2Yikj2csZT4Xe7pbk2ZRIunlv
+   pr/Ukxukz9Y8pjam7np3t/CnAaVFyrMKSTW1EjQnBGEh1llffUTM+tggX
+   WdqiTQpSFhALX41d9XN/1YJrtlB2X3UMp+g5ALT9KySkPw6m9ZnWTfKWk
+   fNpCBf6dBKYjfsJdKbXOfPJk5EK9F1LAgQr72zUIjpjCySlGm6JBc5MS6
+   iU7wMDDx15FH11qxlKSeLKP0ddiwpcqjrLTtqzrX/PUxd/uyoJzB+naSt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4625160"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="4625160"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 05:17:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="8905155"
+Received: from ekohn-mobl1.ger.corp.intel.com (HELO localhost) ([10.246.49.145])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 05:17:10 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: hdegoede@redhat.com, linux-input@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Alban_Boy=C3=A9?= <alban.boye@protonmail.com>
+In-Reply-To: <20240227223919.11587-1-alban.boye@protonmail.com>
+References: <20240227223919.11587-1-alban.boye@protonmail.com>
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add an extra entry for
+ a variant of the Chuwi Vi8 tablet
+Message-Id: <170955822522.5357.960339169691404001.b4-ty@linux.intel.com>
+Date: Mon, 04 Mar 2024 15:17:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org,lists.linux.dev];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
-On Mon, 04 Mar 2024 12:26:48 +0100,
-Javier Carrasco wrote:
+On Tue, 27 Feb 2024 22:40:17 +0000, Alban Boyé wrote:
+
 > 
-> On 04.03.24 09:35, Takashi Iwai wrote:
-> > Hi,
-> > 
-> > we've received a few regression reports for openSUSE Leap about the
-> > missing touchpad on Macbooks.  After debugging, this turned out to be
-> > the backport of the commit 2b9c3eb32a699acdd4784d6b93743271b4970899
-> >     Input: bcm5974 - check endpoint type before starting traffic
-> > 
-> > And, the same regression was confirmed on the upstream 6.8-rc6
-> > kernel.
-> > 
-> > Reverting the commit above fixes the problem, the touchpad reappears.
-> > 
-> > The detailed hardware info is found at:
-> >   https://bugzilla.suse.com/show_bug.cgi?id=1220030
-> > 
-> > Feel free to join the bugzilla above, or let me know if you need
-> > something for debugging, then I'll delegate on the bugzilla.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> 
-> Hi Takashi,
-> 
-> The commit adds a check to ensure that the endpoint type is interrupt.
-> 
-> According to that report, the issue arose with a MacBook Pro 5.1 (no
-> button, only trackpad endpoint), so the check on the tp_ep address
-> (0x81) returns false. I assume that you see an error message
-> ("Unexpected non-int endpoint) and  the probe function fails returning
-> -ENODEV.
-
-Right, there is the message.
-
-> Do you see any warning in the logs when you revert the commit? It was
-> added to prevent using wrong endpoint types, which will display the
-> following warning: "BOGUS urb xfer, pipe "some_number" != type
-> "another_number""
-
-The revert was tested on the downstream kernel, but it has also the
-check of bogus pipe, and there was no such warning, as far as I see
-the report.
-
-> I am just wondering if for some reason the check on interrupt type is
-> wrong here.
-
-I'll ask reporters to give the lsusb -v output so that we can take a
-deeper look.  Also, I'm building a test kernel based on 6.8-rc7 with
-the revert, and ask reporters to test with it, just to be sure.
 
 
-thanks,
 
-Takashi
+Thank you for your contribution, it has been applied to my local
+review-ilpo branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/1] platform/x86: touchscreen_dmi: Add an extra entry for a variant of the Chuwi Vi8 tablet
+      commit: a8170d6a5d310eeaa3ecf3bbc8e3835004723f36
+
+--
+ i.
+
 
