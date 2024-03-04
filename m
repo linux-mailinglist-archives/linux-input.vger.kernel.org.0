@@ -1,175 +1,196 @@
-Return-Path: <linux-input+bounces-2168-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2169-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9515A86FB44
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 09:03:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE1386FB8E
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 09:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C22711C219FA
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 08:03:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77E001F2146B
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 08:19:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20303134D1;
-	Mon,  4 Mar 2024 08:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCD617586;
+	Mon,  4 Mar 2024 08:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tYcZOgOq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U9FcpVwy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2265C171A8
-	for <linux-input@vger.kernel.org>; Mon,  4 Mar 2024 08:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B3C1799D
+	for <linux-input@vger.kernel.org>; Mon,  4 Mar 2024 08:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709539391; cv=none; b=Ht+9BnlMLK4KwzSPjCi8xPMnDKzYF5T0XSI8s12eE8Cz1nHhzQn2pSwNc9mmp2RtRH7k05M41KZevvEFDlJF/TZE0kLP3TvAT1CD6pgVTipSuhoA0Dc7ag9bpLDpJ77/wMuyQeEeSKvlKv3R1ABpxB7xCvyDqjyB83ENpZ7+tH0=
+	t=1709540334; cv=none; b=MjzeqtxIIq4/Q0v3I/XhsBqiW94BwkpR5fcwEvADnL8wnJE2TEQSZPS8G8/5MmBxQUCarc/UneghGNfrVVndQwYNfa5T0qq9VvYdNpJaXFHd78MGEkoavDZs0KZ9EBGbRBe6feL7I66vXGCdUUSYhcrw1BdCjnFZxjwOhxceFcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709539391; c=relaxed/simple;
-	bh=cf2GQuHUnLGa1HT30qbwpYOorlUsieDl9zdB7rsh5hM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nlVbijyAVrxlxsL74+M+unvo+wYOB0h8z3iao2UjjmmqIjkjknzMIgVE1/OzW95cnUOzhYwMTA86wDN+3mU5Anu4m27obmpzX59YSNIhAsEYjuIePxTL4JlCe3EMo+dd48mC9zItJxXwuR3ytCxOr43RVV52tWJM7nFHyF3BAAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tYcZOgOq; arc=none smtp.client-ip=209.85.167.50
+	s=arc-20240116; t=1709540334; c=relaxed/simple;
+	bh=lf4QbrTdyQGbsfhBE4a4VPnu/JGFsWbiqabuasROWBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kiVfOoDGBtrBsndI5QNhvAkwndBoEE8QMU7x71/87EVpnSPXuYYJx3bPtLZuxfDpEZBi05zmQr3YdMRItTed0gSeoK2vIVP+bLCEevqQg6QDPql7iycYZWm9rTWTP9OdXwglSwfKWQ5NDEG5WGYglhsijXxz6xsXFzr507Pd5b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U9FcpVwy; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51344bebe2fso521291e87.2
-        for <linux-input@vger.kernel.org>; Mon, 04 Mar 2024 00:03:08 -0800 (PST)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33e2268ed96so2169580f8f.3
+        for <linux-input@vger.kernel.org>; Mon, 04 Mar 2024 00:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709539387; x=1710144187; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SSr0PIDEu1LU4XPjjEQ1EhQ2tPIxMT1qNUrAmVrWMFY=;
-        b=tYcZOgOqbS6eBjSkfV1JOgYle5b36xIMq35ASQA4U8HGhelw2GQeGSWAhYJLs7mY+r
-         eEjY+sm3WLK6zf63DpZJ5angBx9u/sYteYf+Yybd1wQifKMggf6IYH0ytQs9VlQt386y
-         2eMSCgY1uc5dtDMXSS/ZKFbQvOK96xbtR/EgBO+nYncVBjBEzOi93RQCRphrrLn31/Ib
-         CKKnEZUPS/4BBMYZUtNIYqgFL3UiAHkg7KfGhhM1iTeXQfKfubHnoXAovf+kZ7c/nEd0
-         JDct8+X0dyPPC9byg06bi8mRlMxL6QHtWQxA0wmVzRT6NyAzTOcJasrEydIaGAkDDNL2
-         tGOQ==
+        d=linaro.org; s=google; t=1709540330; x=1710145130; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X+Wz3vSqADvCmRUr41ggthQrfscNeOqtvo32hpAdQrU=;
+        b=U9FcpVwy5ni2jVlNJvOlBgmRDA2f8YDpTGVpaC7QD/UnNcTb++1BG6j+Il88f2sZH4
+         FNny5sfQkIQO1m7fo+WoO5ikXpOSxNHMNQuu95T8EJbBewxDB8GL53iU94MzMwXvFvXm
+         lqMSmANTLEBZ2zz/e+0HRYjatEcU2LZo4KwUseeRTbW+XKycxT7F/IOOGvXMGTPamfgL
+         4zo79l2I8bF3FOZ5Zg+Z0cNZuGy8elQ35Uv/LXT2IjR4KM7fj6+h+s5jZDOgrXfnLWY6
+         XEmdRxYO9QTSX0jHdp1svbmSGFdTGnjLBmLlEDQAsGaAA6ldQoSvYhPn/pon/PJWnkMd
+         AC8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709539387; x=1710144187;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SSr0PIDEu1LU4XPjjEQ1EhQ2tPIxMT1qNUrAmVrWMFY=;
-        b=o7+zN6lhk89Ko9AjJHYYxeUlY7fAqaBDmOsqEe6nOYu0OMfn1Xu8QQq8rTeJWODNzD
-         fQB6bAt8QzdivkMTUFbZNWirZAR+PVgOCi6mFW+ac7mbGHYrLv6EZM5nwVeD8bU0mD36
-         6f3Smv9mLOAeI5ynAYfjY48qzCQR9vAYWpR6175RXoCJQxEjhem4jzG35tdPlfiA6cGt
-         6q4a4gDsyqq7+/OpBjaKfpdDsOdnwv3FYxUV+KCSUYElAL6QFtsHSqvKxsvlhDed7fNm
-         ShrHyKsf7N6Z/gfWDFIYkj7LeiABnBYbOzTdOMbQxYPjGJQ/wa6yoxcsYeCZ3lGLZhWe
-         GcTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCkG0I+FQxLy4DdJ06R7qjmGx6rmB1fb0K8MkgshIJpnB6095MAuZdSJEo8aQhMUp0/sf9OX3bm3bo2DDKL7D4NMDmIE/yGBjUHBA=
-X-Gm-Message-State: AOJu0YzfRPENtobOp+d8WGgQZOl3hYbf0CJRvIzBls6XcLB4qOTnAx10
-	0H4lSuCmzHPtkl+vLrp3pHvwey8OPHIIVxBEU3VFGIpSYpVNhAPt1/nk72gTR5A=
-X-Google-Smtp-Source: AGHT+IHHhY2ic0gMBE2XWlw3mxZhJaKJAhDImEtmHH50mtPCTMkl3akkewtk0UKgiJ/cgJozr/Cxbg==
-X-Received: by 2002:a05:6512:2354:b0:513:3310:2ffb with SMTP id p20-20020a056512235400b0051333102ffbmr7135798lfu.7.1709539387288;
-        Mon, 04 Mar 2024 00:03:07 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id n3-20020adfe783000000b0033b79d385f6sm11367416wrm.47.2024.03.04.00.03.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Mar 2024 00:03:06 -0800 (PST)
-Message-ID: <a6937e1b-ec4b-4eed-8771-8f5dae801815@linaro.org>
-Date: Mon, 4 Mar 2024 09:03:04 +0100
+        d=1e100.net; s=20230601; t=1709540330; x=1710145130;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X+Wz3vSqADvCmRUr41ggthQrfscNeOqtvo32hpAdQrU=;
+        b=aP6pxYphaadbHjnd6nSL4ajEiVKPRSzttQKA6t3bbQHOfwUU4BPuQqziEU8F8tARSi
+         ePa0LqlJsJYiqUcnCuybCaKUycATm2WIqLpqovvupSw9fwGkduTLzLYzVl3Thbgb0iNt
+         laBKeNkXKYfoI/wAwGrtX59tvjzl1M+siW4Q5HsOq1+GD1eiTcoBgBpxUq5aJnO9NR3T
+         RtrY1VCQ8M0ioCpA9irmag4ZOsHfkX3yQ4F0r3KBpG0xFgtKuLmIyx42ud08Xq5U1v56
+         fmk9ThdYwjNKFc5eoXOxZluNBSFro6O36hkMcISwZuBWJuCP5NB8knFV5FO6bXilmkgK
+         6aZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKN4/JHHFfZjDQtBSHfGSb7xfHMX5HxH+In50z7oWIhuN56DhcqDWRdCkdwTk4W16AY9J+uDeJt7ZQE20D8MTZPN0Ze4guiG6Vn1Y=
+X-Gm-Message-State: AOJu0YzT18TY6ego120oRgohUlqXZW4g9f0XfQ6tjNI1PHhwpRISkfaC
+	vyjPe4zyACG118dPxU6NYfsT3wAM797xeg56uTqrCS32kTdwMam6BY9ZPg8x4lk=
+X-Google-Smtp-Source: AGHT+IEEACqniaOv1TiY0H6kWmP529cCDflhJo/tAnZFMaI+Uhz12qFbHINc222Iumefyt2EZD63nw==
+X-Received: by 2002:a5d:650b:0:b0:33d:f3cc:1f8a with SMTP id x11-20020a5d650b000000b0033df3cc1f8amr5370378wru.55.1709540330225;
+        Mon, 04 Mar 2024 00:18:50 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id v13-20020adfd04d000000b0033d202abf01sm11477083wrh.28.2024.03.04.00.18.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 00:18:49 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:18:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jeff LaBundy <jeff@labundy.com>, Markus Elfring <Markus.Elfring@web.de>,
+	linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: iqs626a - Use common error handling code in
+ iqs626_parse_events()
+Message-ID: <11e5db31-2a8f-458d-a249-7205e37aa20f@moroto.mountain>
+References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
+ <ZeU8ENmnPj3sKxAv@nixie71>
+ <ZeVOPSt0L1D4BxuZ@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 1/5] dt-bindings: mfd: add entry for Marvell
- 88PM886 PMIC
-Content-Language: en-US
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>, Karel Balej
- <balejk@matfyz.cz>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-Cc: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-References: <20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz>
- <20240303101506.4187-2-karelb@gimli.ms.mff.cuni.cz>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240303101506.4187-2-karelb@gimli.ms.mff.cuni.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZeVOPSt0L1D4BxuZ@google.com>
 
-On 03/03/2024 11:04, Karel Balej wrote:
-> From: Karel Balej <balejk@matfyz.cz>
+On Sun, Mar 03, 2024 at 08:29:49PM -0800, Dmitry Torokhov wrote:
+> On Sun, Mar 03, 2024 at 09:12:16PM -0600, Jeff LaBundy wrote:
+> > Hi Markus,
+> > 
+> > On Sat, Mar 02, 2024 at 12:42:08PM +0100, Markus Elfring wrote:
+> > > From: Markus Elfring <elfring@users.sourceforge.net>
+> > > Date: Sat, 2 Mar 2024 11:44:17 +0100
+> > > 
+> > > Add a jump target so that a bit of exception handling can be better reused
+> > > at the end of this function implementation.
+> > > 
+> > > This issue was transformed by using the Coccinelle software.
+> > > 
+> > > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> > > ---
+> > >  drivers/input/misc/iqs626a.c | 13 +++++++------
+> > >  1 file changed, 7 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
+> > > index 0dab54d3a060..fa9570755f7b 100644
+> > > --- a/drivers/input/misc/iqs626a.c
+> > > +++ b/drivers/input/misc/iqs626a.c
+> > > @@ -530,8 +530,7 @@ iqs626_parse_events(struct iqs626_private *iqs626,
+> > >  					dev_err(&client->dev,
+> > >  						"Invalid input type: %u\n",
+> > >  						val);
+> > > -					fwnode_handle_put(ev_node);
+> > > -					return -EINVAL;
+> > > +					goto put_fwnode;
+> > >  				}
+> > > 
+> > >  				iqs626->kp_type[ch_id][i] = val;
+> > > @@ -545,8 +544,7 @@ iqs626_parse_events(struct iqs626_private *iqs626,
+> > >  				dev_err(&client->dev,
+> > >  					"Invalid %s channel hysteresis: %u\n",
+> > >  					fwnode_get_name(ch_node), val);
+> > > -				fwnode_handle_put(ev_node);
+> > > -				return -EINVAL;
+> > > +				goto put_fwnode;
+> > >  			}
+> > > 
+> > >  			if (i == IQS626_EVENT_DEEP_DN ||
+> > > @@ -566,8 +564,7 @@ iqs626_parse_events(struct iqs626_private *iqs626,
+> > >  				dev_err(&client->dev,
+> > >  					"Invalid %s channel threshold: %u\n",
+> > >  					fwnode_get_name(ch_node), val);
+> > > -				fwnode_handle_put(ev_node);
+> > > -				return -EINVAL;
+> > > +				goto put_fwnode;
+> > >  			}
+> > > 
+> > >  			if (ch_id == IQS626_CH_HALL)
+> > > @@ -580,6 +577,10 @@ iqs626_parse_events(struct iqs626_private *iqs626,
+> > >  	}
+> > > 
+> > >  	return 0;
+> > > +
+> > > +put_fwnode:
+> > > +	fwnode_handle_put(ev_node);
+> > > +	return -EINVAL;
+> > >  }
+> > > 
+> > >  static noinline_for_stack int
+> > > --
+> > > 2.44.0
+> > > 
+> > 
+> > Thank you for this patch, but it seems like a NAK to me. I think this is
+> > a matter of personal preference, and according to mine, it is much more
+> > confusing to insert a goto label after a function's primary return path
+> > than to have 2-3 calls to fwnode_handle_put().
+> > 
+> > If you feel strongly otherwise, then I would suggest a helper function as
+> > recommended by Dmitry in another thread. However, maybe that helper should
+> > live in the driver core, as I suspect this driver is not the only place we
+> > can avoid calling fwnode_handle_put() in an error path that returns an int.
 > 
+> Yes, it should go into include/linux/fwnode.h, something like
+> 
+> DEFINE_FREE(fwnode, struct fwnode_handle *, if (_T) fwnode_hanlde_put(_T));
+> 
+> Then drivers can do:
+> 
+> 	struct fwnode_handle *ev_node __free(fwnode) =
+> 		fwnode_get_named_child_node(ch_node, ev_name);
+> 
+> and have it automatically be "put" once execution leaves the variable
+> scope.
+> 
+> Ah, we actually already have it defined in include/linux/property.h, all
+> the better.
 
+It's already there.
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      pmic@30 {
-> +        compatible = "marvell,88pm886-a1";
-> +        reg = <0x30>;
-> +        interrupts = <0 4 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-parent = <&gic>;
-> +        wakeup-source;
-> +
-> +        regulators {
-> +          ldo2: ldo2 {
-> +            regulator-min-microvolt = <3100000>;
-> +            regulator-max-microvolt = <3300000>;
-> +            };
+DEFINE_FREE(fwnode_handle, struct fwnode_handle *, fwnode_handle_put(_T))
 
-Messed indentation here and in following lines..
+I can send a patch for this.  You need to be a bit carefull to move
+the declaration into the correct scope for this to work.  I should write
+some Smatch rules for this...
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+regards,
+dan carpenter
 
 
