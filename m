@@ -1,53 +1,74 @@
-Return-Path: <linux-input+bounces-2181-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2182-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2874D8702C1
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:31:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4D2870389
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 15:04:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3AF01F22E9F
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:31:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 335C11C2243A
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:04:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63ACA3DBBC;
-	Mon,  4 Mar 2024 13:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB983F8D3;
+	Mon,  4 Mar 2024 14:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ncl+PH7R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNVJp4Zd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939A93D547;
-	Mon,  4 Mar 2024 13:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9034E3F8E2;
+	Mon,  4 Mar 2024 14:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709559060; cv=none; b=GCTwL6X2QV7FNF8fMJnsOu228cU0GqU5iEFaImr8B7vFyemeXBzRy9XUSX+2xx7YlUbQN8vV1fyOCF5QvdQUW19xuLgyu28XAk0uXclblfzenruXq3CAYY7qbqHcoSufE4TfL0kFg/kJGtV6h9PzlErt8YmTegjnoMruOr4pOM0=
+	t=1709561072; cv=none; b=SxpPFSZNRV5qNRypzOGLkN2MbqXnji0G7bOmFFnfsVVJiW2lDbu9qYNlIoQrOu8ItztZtAqPTm/qNaeaIO3t4rNYDv2JgeJ+4Nz3nur5936SoVM8uNLe5gp5vWUk9R6WsSotPp7MvGVDEfj4FvH+RYZSvaZixYsjpNXO3McNx1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709559060; c=relaxed/simple;
-	bh=/tEpggeL4FP4g7AiM9zkr4WDOC8Z3r7V8asbPxSkyGc=;
+	s=arc-20240116; t=1709561072; c=relaxed/simple;
+	bh=SLbSjt9SbkPv+g6/vROjXm/Gz3EE39aUaCGhCyjYusE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tmMu5YFt+GppfcIoArLjAqdv9QNuL4CsLKrquzW+DMJ4lB0z+7bJyvlnx62kxDxnfPFxlTRuEnXF6oNl32ykx/bnV3FT3jaNzut4rIgtNi2IiTFUj14omgCz6OWL7+M8seqXdyRVxtAHArPIZwgECefP5l07aAH94TArUNXwJ54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ncl+PH7R; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709559036; x=1710163836; i=markus.elfring@web.de;
-	bh=/tEpggeL4FP4g7AiM9zkr4WDOC8Z3r7V8asbPxSkyGc=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=ncl+PH7RDK8EgVjFo0dI7eobj3Tfoy0REc8/bcluX7BG2pUvOmf3hn8kqKR60Ja5
-	 NuuGMNIASzR9eW4xZI9fv28eR7z63+a8I+Q4pwgTNQJrtRAoePbjW7ilThozzBVGl
-	 GBnphNtGILFiCBuLUETt1ubNZHkwHB+i1Pdx5k8ea6tPhTg8uY+q6qnwwcd7CSj1R
-	 nKK9K6uVYM7CZFx0JXem9p5CaGqapaeLoxnkdm/NmwIHH55/jAgSf9VZ9Vwd8UMQq
-	 Khj4Uw4NhKlXsZtiHGit6zduUrzJzOI0fcM38iXCZvGs+2m6VuhM2S6uw7/XaNKtL
-	 AYXr489Od65G1FY6Ow==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MeUXg-1r6h7X46hY-00aOsr; Mon, 04
- Mar 2024 14:30:36 +0100
-Message-ID: <472d8a45-4657-458e-9ff3-8cf55dc2b214@web.de>
-Date: Mon, 4 Mar 2024 14:30:35 +0100
+	 In-Reply-To:Content-Type; b=qZqcCfKA1XvWVszmgO9Q9jNHF02Bk2B1DDqBU2kKcDYc2K5qwmaYg6X9uQOx0pf4Xo2WIpFccmYXHxeliKOWU5Dvck8zxAMONRzpRXSKxEZDKFn8WIoPkuL7yI6nDqhqxX8dlsFybVc8F1PfesJskvXuJdutfcNIAgPsbhHk38w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNVJp4Zd; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51320ca689aso5277189e87.2;
+        Mon, 04 Mar 2024 06:04:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709561069; x=1710165869; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+A2MIgcuwPWk7lZwI41C//csGmOFt/MFKi0gAzZz/R8=;
+        b=jNVJp4Zd1kqK0JOh8wzUQal45ptHZeQKbv4gwNFVXmBsWOyu8BT9LRGanUvH4BwTst
+         oVsah7sJTMfAE2f1o1Zc8mDf7I/fOwbSpQT1dQ1XWN/apqPF74tEWZvY3KXjl0XU2SJt
+         C4MMWzbhr0nd2LuZbfCL5R2dmVTNYoxEQrTq7sC5l5MrGz6tEXlSdGzZP0tTgbr4+m8f
+         ZdSyOjzxCzQSkMES8bxZjmQhDyM4DzVkC4qwXzfXh5sMnvwU64JxoIKFkFCEHyfNMbHB
+         gc7Kel3/Ps3PlwPoheDsXV53XtH0gbVYOI6/ks0FFwaQfDU447pT4VpVN9zDdpXcRcL/
+         SDpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709561069; x=1710165869;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+A2MIgcuwPWk7lZwI41C//csGmOFt/MFKi0gAzZz/R8=;
+        b=Ux+CIXiBEkY83fvCKrpBPuu3o+sIgR+P14ha12RQ4bsV6qyd2XC2vjJfJOZCpBqOuC
+         biin8QxIG9YmHngnzUvyVXAC3SRYQXckSce0TnmmZqRAJBvqYVC1xouAh5UzhQKaGiym
+         oSoiJTEat4k6pL3DFOOfNL9i6q1aGMD3v0xyqjfgTuvQZPpmywnXFzWJXRwA13G8RUpC
+         9VO0+0J3hlXleyl+V+b96LlxmU5Cdq772jaICr+fSImH/rtZb9fovU+uf8Q+3bFpw7NZ
+         NAA0ZvsGNENh6ic8kBWBb3tG1dzltEKCLoaoyhp43bvw1eO4i8wtBKMzjrL6d8PDVAdt
+         cBCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdfzgPoTkRKwpGLwzEVAMOJM4mWJKgwolA9rMXjSwEHGmXJhlgLiJYcGOwk2Z8fLv+7jUrLDB326XX7jL6yQ0SvZwod7wcV42XSKvNhB5i+MXU6QTgK48J4NYFiAe4eY91NWP1A95+pbA=
+X-Gm-Message-State: AOJu0Ywr1f0kRtr/ZLvFOCckwRpbACb2yqsYl2PPAzoz/k+wJl9E08pH
+	EUoms/6kMCjvd5in3wxUW5iOTQwWXxpWEdDsCV8v//IpRXBBYCGW
+X-Google-Smtp-Source: AGHT+IEz+skFuqRkbnNFQLR4g/WSQnRAMiBY6M1c7WhrM5/JBrRjGoqo0wpSyC71RQNJ1tmb9ttgfg==
+X-Received: by 2002:a05:6512:34c8:b0:512:b00f:a55e with SMTP id w8-20020a05651234c800b00512b00fa55emr5880137lfr.13.1709561068360;
+        Mon, 04 Mar 2024 06:04:28 -0800 (PST)
+Received: from [192.168.0.31] (84-115-209-225.cable.dynamic.surfer.at. [84.115.209.225])
+        by smtp.gmail.com with ESMTPSA id q22-20020aa7da96000000b005669ce3f761sm4660283eds.59.2024.03.04.06.04.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 06:04:27 -0800 (PST)
+Message-ID: <c2e4ae25-1e8a-4f54-8321-800a7b7f8583@gmail.com>
+Date: Mon, 4 Mar 2024 15:04:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,50 +76,103 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Input: iqs626a - Use scope-based resource management in
- iqs626_parse_events()
-Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Julia Lawall <julia.lawall@inria.fr>, linux-input@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Jeff LaBundy <jeff@labundy.com>,
- Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
- <ZeU8ENmnPj3sKxAv@nixie71> <ZeVOPSt0L1D4BxuZ@google.com>
- <e8a2b63f-4f9a-463b-b419-c5f673191111@web.de>
- <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
- <2be02b12-84ce-4f83-b104-685f3b7cfd95@moroto.mountain>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <2be02b12-84ce-4f83-b104-685f3b7cfd95@moroto.mountain>
+Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>,
+ Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <87sf161jjc.wl-tiwai@suse.de>
+ <6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
+ <874jdm17yt.wl-tiwai@suse.de>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <874jdm17yt.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:LxD5vC+4LOqVHs7yIzbOKA23818+Gp/En37V4dAABNUZ5TrX+wI
- bw/9vdaV9P1IDacEfzrfJDehUnoj7osEF3ZASu50ReF8g3z34C/5OLsCpsNZYdv0pMRvD6m
- rJJUqfrGkU0kEtl9xBrOHICL/3gjwM6VohGiz/4ytLrBgM7p74dZ+AqVtBPcGLXR8tuYDv/
- Goj1bis3eP/wuUp1oGLdQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:H8FdFt0dBl0=;vwIr9GfMvSe7f373BmX88rghrwq
- fW1Q9/+iFM7Ozo3xXG9iaWY9jBzVDo12G89/fthHXTTKE7ZG1ijlmXe5XCozWYDIIaPjaGdqY
- RmCQ31eaGgdMeWNzjcvD6E2+okP81C1wMBn2Q6dQlgqGHK7axW4Lj8KBZuvIpWE96rg7+I9OA
- nSr5t7Fa7/KuDK9um6uUG1iwNAnCAFPhmeQ05d5QjjaMSM3gTeEI6jNSJBtXbUNzBWv9Ti0Tf
- XsDShIY4k9U4OPK7CbxMPqEvU+JeW9XVd9YyLYPEIZR2HKqoWjIWTwMJZOOkrHjZ6Uv93tV4S
- teXSrpbifYRJPW0BPEoc/h6+Vkns913pb6ubb4uJn29l4hd/QGrB4K4aUXRNhxqG6o8SDLy2S
- n2etaJ3n2Q9A8HQOglyPoX5+w6p2omj5yTg9GOqWGzpI9aNYeJUipUpKMhm4oeoDEMXAebLZs
- TU0+2iBz0n4c0zVFpnDm178mWqOn4p4HW2gyjPSNQkXfQhAfiBKx4Np1/tkgJGJ6EyOhPUTZa
- 53F01F8h3TlXZAdlGJxgQGjHp+wmiK9w0eGFRCFUIVAFgfdv++UT24doWlQGJsp6e8bj2eP0q
- 2b7zluINrU8nRg96tCfDTOGizV1Jf5bujcoQP1eIKgZ6llEOHLYYQ41LGulPx4x5aDcrQyJNy
- rjDSww/ajsrL0uo4dCMcf+9rx7sXwg9VPGiZXXritlI0FbgoLfgHd4Z4CFy4h8z2WlfsAe7qT
- R9tmY4T2kQEfDLOT9oc8Ssacu/5QFFnvgbjOatHyDtAlxm2RLwsCji4agqWh0i+gGMqXfntMY
- 9CDzrRIz5NwDS6YnN5YfrkSNNmahZIpAF3XJIbtuua04Y=
 
-> Generally kernel style is that you have to declare variables at the start of the block...
-> But that's becoming less universal now that it's not a compile error.
 
-Will it become more feasible to adjust the scope for further (local) variables?
+On 04.03.24 13:45, Takashi Iwai wrote:
+> On Mon, 04 Mar 2024 12:26:48 +0100,
+> Javier Carrasco wrote:
+>>
+>> On 04.03.24 09:35, Takashi Iwai wrote:
+>>> Hi,
+>>>
+>>> we've received a few regression reports for openSUSE Leap about the
+>>> missing touchpad on Macbooks.  After debugging, this turned out to be
+>>> the backport of the commit 2b9c3eb32a699acdd4784d6b93743271b4970899
+>>>     Input: bcm5974 - check endpoint type before starting traffic
+>>>
+>>> And, the same regression was confirmed on the upstream 6.8-rc6
+>>> kernel.
+>>>
+>>> Reverting the commit above fixes the problem, the touchpad reappears.
+>>>
+>>> The detailed hardware info is found at:
+>>>   https://bugzilla.suse.com/show_bug.cgi?id=1220030
+>>>
+>>> Feel free to join the bugzilla above, or let me know if you need
+>>> something for debugging, then I'll delegate on the bugzilla.
+>>>
+>>>
+>>> thanks,
+>>>
+>>> Takashi
+>>>
+>>
+>> Hi Takashi,
+>>
+>> The commit adds a check to ensure that the endpoint type is interrupt.
+>>
+>> According to that report, the issue arose with a MacBook Pro 5.1 (no
+>> button, only trackpad endpoint), so the check on the tp_ep address
+>> (0x81) returns false. I assume that you see an error message
+>> ("Unexpected non-int endpoint) and  the probe function fails returning
+>> -ENODEV.
+> 
+> Right, there is the message.
+> 
+>> Do you see any warning in the logs when you revert the commit? It was
+>> added to prevent using wrong endpoint types, which will display the
+>> following warning: "BOGUS urb xfer, pipe "some_number" != type
+>> "another_number""
+> 
+> The revert was tested on the downstream kernel, but it has also the
+> check of bogus pipe, and there was no such warning, as far as I see
+> the report.
+> 
+>> I am just wondering if for some reason the check on interrupt type is
+>> wrong here.
+> 
+> I'll ask reporters to give the lsusb -v output so that we can take a
+> deeper look.  Also, I'm building a test kernel based on 6.8-rc7 with
+> the revert, and ask reporters to test with it, just to be sure.
+> 
+> 
+> thanks,
+> 
+> Takashi
 
-Regards,
-Markus
+
+Getting the output of lsusb would be awesome, thank you.
+
+The bcm9547 driver has always made the assumption that the endpoint type
+is interrupt, and the expected output from lsusb would be something like
+
+bEndpointAddress     0x81  EP 1 IN
+bmAttributes         3
+Transfer Type        Interrupt
+
+which is what the reverted commit checks.
+
+I don't have the specific piece of hardware the report mentions, but I
+triggered the probe with the endpoint type = interrupt and the check was
+fine i.e. the probe did not fail. That made me think that the endpoint
+type could be different, but I am dubious about that.
+
+I will keep an eye on the bugzilla you linked, in case we get feedback
+quickly.
+
+Best regards,
+Javier Carrasco
 
