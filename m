@@ -1,90 +1,89 @@
-Return-Path: <linux-input+bounces-2200-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2201-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF06E870819
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 18:14:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B619D870820
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 18:16:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B6BE285871
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 17:13:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B8661F21627
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 17:16:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7A7E6025A;
-	Mon,  4 Mar 2024 17:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCA85FEE5;
+	Mon,  4 Mar 2024 17:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DuEMUgu9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNi2jmam"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556FE39AF1;
-	Mon,  4 Mar 2024 17:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F0A6025B;
+	Mon,  4 Mar 2024 17:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709572434; cv=none; b=Z+rap6dWJM7qwqyrWcZbRixhk99IRT5Jop+xqjpPyl7t0WBq1tosUHcsWoM6g1i2GXC6sUTau6gTarPzDuu9m0uidyL864oYPCAjoyTvUtZfiTzUeFVNR0Y26czvUtcVrH3dhUpYNU/lo6fCLqAE5h5299w3MUu9meWELK+YQq8=
+	t=1709572588; cv=none; b=s92+2Gkbv9FkNzeIERaDQG0sRyUxRDjNqzwWYmJtekyLTlJouI5Ti+ozw/MXWb0AXHBZmZY7/GOOi3A2ew1I8GX34CYEKrZRlMTfFukt9dzNEETPoUinmHoWJcLeaRAZeg7q9gqtMjM+5Q35H6Omp48jjZvfJhhFXO+jKoW7DOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709572434; c=relaxed/simple;
-	bh=aVsoSYr9lidkVGiDzBTySKzdgM/ZiOsURJBg5zuk/3I=;
+	s=arc-20240116; t=1709572588; c=relaxed/simple;
+	bh=m4aPM8M6KAN3usk2/26PJxZ518eFliLBsTOWT8kko9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBM9NlaIiJV2ZwRjJfD+mjTtHr1ljp6RUGCL0hivSB5RPCtW0GbCRsnw+Kv7EJQhAG0W+0Q9Tx+alpDZ8VE4BI8xuGCvUYNjnkNRLq0cJwbH+yVKQD8BjKs1sPFbEy4tEbGrE+/n2Xe/dLlCKYJNf55hgLiO8O+rjWcuJMJWM5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DuEMUgu9; arc=none smtp.client-ip=209.85.210.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=oZ0NS2yXwRrt0P+2gL+JcWjP9OkmSvqSlluEfl1eQS/2IpnrL4WpmeqYeULCryESRj6nCcTLht8XkgJ5NAdmAI0eede8bsC3p6k8KgzbialH1ZKJDkr+X5dMC2E7E0ig/rethKJl61njOvuQYNDEcHJlgKzvbB3xpeEVO6cLluI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNi2jmam; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e59bbdd8c7so3856488b3a.3;
-        Mon, 04 Mar 2024 09:13:53 -0800 (PST)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5ce9555d42eso4053186a12.2;
+        Mon, 04 Mar 2024 09:16:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709572432; x=1710177232; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709572586; x=1710177386; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=EBlQa3GtwlSFl/WzXIlG10CFy19K9d7iBWjjMCPyyvc=;
-        b=DuEMUgu9k8fQPQar9sOJZY9XuuSoWIfP++QENjZ6dFTyFWNVk4hlxAXUpdwG3M2ckP
-         a5sH+f+xDZenvVlYVLHSChrQa2joyRiachZwFxPxXRong73gLjrkxPyRedzDD8WkGCXk
-         uYAUaWo/qPV3OafGxmlIpnsgvU6zvAt8i4LPviaMX0HrTLbI9Xuf2oOrBox3gU8KYOhB
-         VkYy0BcIlHxn7NgJZE/TFqT4VAaSUApVionHiKX2B/yjdNX8HiTttxIBC55f/yMcdJje
-         SoatWoJ2KlxBTQvfhRFNrRntiHVjQNTGyofVnjOGf0YvppF9jCo1aAieup0WygsUEsyC
-         CgAA==
+        bh=GiGUTwcmS+sZMCMr3FUD76KaDTM9Y9RtqjrMO//bVwE=;
+        b=jNi2jmamFhTSA3Q9UPcFSSwkGSG6Iw2Tqm7KMTgWRWMvZZ6JVxatYB92v44dT4IGgF
+         NXJwEM+mWGdkW0hvV5kPU9G6FdD4xgN0ELfdKx5wKXyq3MnZCcFrDp/4+LnNt2SrzYTh
+         bGFz8e2Ho8ad3ngAFRuYQ14ecC1igF+z3Eqv4HrYLbDdCHGUiMeblJ747j1STDSj2bT7
+         ghVq0FEcWiS1b6UHOlAbUPyn4WyE5JEsKuCE1l2fi39qA49xDrkVp+mD6SxcRnZgt3Df
+         MheGX+kTYuA0TF5QwRSISVbY58PKPTVvHkEYt8AcsZd/g/Z4vjXLnYkrrLEjp3ATdi27
+         ZTVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709572432; x=1710177232;
+        d=1e100.net; s=20230601; t=1709572586; x=1710177386;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBlQa3GtwlSFl/WzXIlG10CFy19K9d7iBWjjMCPyyvc=;
-        b=bDINECB5bNPvxiYVzYbx9LEhmaseFgQPoPChSbF0yWfNqDBX+FrZRpU676EQwyrsyV
-         BzmatFyxm7bNsi9iOTxfWZPW7avEkG/HfJilc6RNCXv3pIOk+3CjjcAD7Z9BPhfz6L4W
-         hTlsIDa7I02GOH5afMQsIn52owkZaUvCF1nGX7QHWy4E3V8m94UTq31xWPHO4WvTQVrk
-         8z1TNLzc7HH7BD4HkH0x3+/KMPIlX5iZSelnpWdQzkJvVUWjGc21J7g7chIwIaepbCm4
-         Ps9nnwBgkKiJf0ZljbpKGFJVZbq6QcxSoHJM13fgvz9GShQ37Kp/dMfn2FUusBFCQDxw
-         hbSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVq2UFBvWdz7nNBsOYQwoRL3kUGpqJZHktBUP5E9WnY/MpQtjpiWYhme2hPFhGqqD/wvtiJgme3ekPdMO1AMZEH5cPcUycoQ0O//Fdgk6LF2Eb9sD/fFQO9rSyyJ/ghebuBHysndNKnDY9LFNy1wBL7rxIHoOmiuGGFmMsi1iaPy54zdHBtbVhsYz8=
-X-Gm-Message-State: AOJu0Yy9J9JFhUo1DUoRbe1u02JAAFs80oRXvQ6rQVRA1fEu6dq3IdDc
-	oOevGXRQLQ8qmtsvXjNFTyN1u3G263/jNH0Mo8yYZOAOANOoJECi
-X-Google-Smtp-Source: AGHT+IHMZPii8KNhV0sSfdA1ahnzkIkrriDy33cN1wcfC/2V5l4SBefB0+HcFMX/wVn2TFBpUvkivA==
-X-Received: by 2002:a05:6a00:4b42:b0:6e4:62ed:23c3 with SMTP id kr2-20020a056a004b4200b006e462ed23c3mr12677188pfb.9.1709572432503;
-        Mon, 04 Mar 2024 09:13:52 -0800 (PST)
+        bh=GiGUTwcmS+sZMCMr3FUD76KaDTM9Y9RtqjrMO//bVwE=;
+        b=Xv+0TatP7bx+rT7FBfhGOlWRn+vQ/lYTrlLWtNis63BTgPs9owO6DxlaW8/NqKVYoR
+         9B3Wko9wmV/TBpl6eB6L1kXnuEURdSIvW8qs77VAYnzrnBWMeFVOhFcG041iAk6Uy6C4
+         9U14qQSRbLA1KJ2HuZ3mlEFiLSHfNbX06/jQpus8xTx1kiHNVLMwuK8zjg4F6wby+Gxa
+         D8jZTbxDb1ji86nNh+jQ6JQp4ZFftkhJI/Io7evXuM+pVc3XjWU1lqRR0ngnrBnsa7an
+         qHLIL+KW28LCkk+5LHJuSAPkvTQjGk4Dc7+7G23MLMhaUCueDG7PeGdEd7Eht8PIC7Um
+         1HTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMdevwhHKRFValZXhLfSmuQIun0gaazhtFOrKhQWlW1U+6zkOywzrMFyxcRKCEvojKsva87yasl+Z93p6DoYoE9S5Hesxh8BNhDK8HZq/hAwFNcS6Ig5Lq6pXOL+qsSuAutcFuGLTFYDCaJ5HHObYFqEmX5O+jAwHF6NODFcD0G+foYNXqWAoyCLc=
+X-Gm-Message-State: AOJu0Yy4jiOfu+R/8jYt2DUA5B6fxTQrFEcNPAycg6wrkhYnxmPdXXfn
+	L1q2a6lWuuQlKhnzuqiR7i7TwKKCNubQA42xKHfl6xa+DMO0m0RV
+X-Google-Smtp-Source: AGHT+IGuVXFuv6smouEpbKdN0FwHDvZTejuV/4+04n1oAt1D7900BVI3gEwpMEPYxt6tRHJMB294Pg==
+X-Received: by 2002:a17:90b:46c8:b0:29b:1f62:6a3a with SMTP id jx8-20020a17090b46c800b0029b1f626a3amr7834956pjb.29.1709572585964;
+        Mon, 04 Mar 2024 09:16:25 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:99d7:8333:f50c:d6a6])
-        by smtp.gmail.com with ESMTPSA id lp3-20020a056a003d4300b006e553f2b880sm7420133pfb.211.2024.03.04.09.13.51
+        by smtp.gmail.com with ESMTPSA id ta6-20020a17090b4ec600b0029a849e7268sm10345209pjb.28.2024.03.04.09.16.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 09:13:52 -0800 (PST)
-Date: Mon, 4 Mar 2024 09:13:49 -0800
+        Mon, 04 Mar 2024 09:16:25 -0800 (PST)
+Date: Mon, 4 Mar 2024 09:16:23 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jeff LaBundy <jeff@labundy.com>
+To: Julia Lawall <julia.lawall@inria.fr>
 Cc: Markus Elfring <Markus.Elfring@web.de>, linux-input@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	kernel-janitors@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
 	Rob Herring <robh@kernel.org>,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
 	LKML <linux-kernel@vger.kernel.org>,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2] Input: iqs269a - Use scope-based resource management
- in iqs269_parse_chan()
-Message-ID: <ZeYBTUQRAp2u3bXX@google.com>
-References: <6bf9f962-cf75-459d-89f4-2546063fc154@web.de>
- <ZeT6UUFNq1ujMW17@google.com>
- <b5f9c66e-d9c8-4dc6-8ce5-8d1dc5f0782d@web.de>
- <ZeYAk830OUpaup5W@nixie71>
+Subject: Re: [PATCH v2] Input: iqs626a - Use scope-based resource management
+ in iqs626_parse_events()
+Message-ID: <ZeYB51RRw6Lg0XSh@google.com>
+References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
+ <ZeU8ENmnPj3sKxAv@nixie71>
+ <ZeVOPSt0L1D4BxuZ@google.com>
+ <e8a2b63f-4f9a-463b-b419-c5f673191111@web.de>
+ <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,90 +93,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZeYAk830OUpaup5W@nixie71>
+In-Reply-To: <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
 
-On Mon, Mar 04, 2024 at 11:10:43AM -0600, Jeff LaBundy wrote:
-> Hi Markus,
+On Mon, Mar 04, 2024 at 11:55:23AM +0100, Julia Lawall wrote:
 > 
-> On Mon, Mar 04, 2024 at 10:55:11AM +0100, Markus Elfring wrote:
+> 
+> On Mon, 4 Mar 2024, Markus Elfring wrote:
+> 
 > > From: Markus Elfring <elfring@users.sourceforge.net>
-> > Date: Mon, 4 Mar 2024 10:30:52 +0100
-> > 
+> > Date: Mon, 4 Mar 2024 11:40:04 +0100
+> >
 > > Scope-based resource management became supported also for this software
 > > area by contributions of Jonathan Cameron on 2024-02-17.
-> > 
+> >
 > > device property: Add cleanup.h based fwnode_handle_put() scope based cleanup.
 > > https://lore.kernel.org/r/20240217164249.921878-3-jic23@kernel.org
-> > 
-> > 
+> >
+> >
 > > * Thus use the attribute “__free(fwnode_handle)”.
-> > 
+> >
 > > * Reduce the scope for the local variable “ev_node” into a for loop.
-> > 
+> >
 > > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 > > ---
-> > 
+> >
 > > v2:
-> > An other cleanup technique was applied as requested by Dmitry Torokhov.
-> > 
-> > 
-> >  drivers/input/misc/iqs269a.c | 73 ++++++++++++++++++------------------
-> >  1 file changed, 37 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-> > index cd14ff9f57cf..9caee936927b 100644
-> > --- a/drivers/input/misc/iqs269a.c
-> > +++ b/drivers/input/misc/iqs269a.c
-> > @@ -557,7 +557,6 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
-> >  			     const struct fwnode_handle *ch_node)
+> > An other cleanup technique was applied as requested by Dmitry Torokhov
+> > and Jeff LaBundy.
+> >
+> >
+> >  drivers/input/misc/iqs626a.c | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/input/misc/iqs626a.c b/drivers/input/misc/iqs626a.c
+> > index 0dab54d3a060..86fcb5134f45 100644
+> > --- a/drivers/input/misc/iqs626a.c
+> > +++ b/drivers/input/misc/iqs626a.c
+> > @@ -462,7 +462,6 @@ iqs626_parse_events(struct iqs626_private *iqs626,
 > >  {
-> >  	struct i2c_client *client = iqs269->client;
+> >  	struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
+> >  	struct i2c_client *client = iqs626->client;
 > > -	struct fwnode_handle *ev_node;
-> >  	struct iqs269_ch_reg *ch_reg;
-> >  	u16 engine_a, engine_b;
-> >  	unsigned int reg, val;
-> > @@ -734,47 +733,49 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
-> >  	}
-> > 
-> >  	for (i = 0; i < ARRAY_SIZE(iqs269_events); i++) {
-> > -		ev_node = fwnode_get_named_child_node(ch_node,
-> > -						      iqs269_events[i].name);
-> > -		if (!ev_node)
-> > -			continue;
-> > -
-> > -		if (!fwnode_property_read_u32(ev_node, "azoteq,thresh", &val)) {
-> > -			if (val > IQS269_CHx_THRESH_MAX) {
-> > -				dev_err(&client->dev,
-> > -					"Invalid channel %u threshold: %u\n",
-> > -					reg, val);
-> > -				fwnode_handle_put(ev_node);
-> > -				return -EINVAL;
-> > +		{
-> > +			struct fwnode_handle *ev_node __free(fwnode_handle)
-> > +						      = fwnode_get_named_child_node(ch_node,
-> > +										    iqs269_events[i].name);
-> > +
-> > +			if (!ev_node)
-> > +				continue;
-> > +
-> > +			if (!fwnode_property_read_u32(ev_node, "azoteq,thresh", &val)) {
-> > +				if (val > IQS269_CHx_THRESH_MAX) {
-> > +					dev_err(&client->dev,
-> > +						"Invalid channel %u threshold: %u\n",
-> > +						reg, val);
-> > +					return -EINVAL;
-> > +				}
-> > +
-> > +				ch_reg->thresh[iqs269_events[i].th_offs] = val;
+> >  	const char *ev_name;
+> >  	u8 *thresh, *hyst;
+> >  	unsigned int val;
+> > @@ -501,6 +500,8 @@ iqs626_parse_events(struct iqs626_private *iqs626,
+> >  		if (!iqs626_channels[ch_id].events[i])
+> >  			continue;
+> >
+> > +		struct fwnode_handle *ev_node __free(fwnode_handle);
 > 
-> I may just be a curmudgeon, but this is another NAK for me. The dummy
-> curly braces and extra indentation make the code difficult to understand,
-> and this simply does not seem like a natural way to write a driver. Just
-> to remove 2-3 calls to fwnode_handle_put()?
+> Doesn't this need to be initialized?
 
-The extra curly braces are absolutely not needed. The for loop's body
-already defines scope, __cleanup()s should be called at the end of the
-body.
+It would be better if we had a helper here, iqs626_get_ev_node() or
+something.
 
 Thanks.
 
