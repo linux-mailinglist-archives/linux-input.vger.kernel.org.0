@@ -1,106 +1,196 @@
-Return-Path: <linux-input+bounces-2178-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2179-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2D1870192
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:34:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D53278701C7
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB354289CC7
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 12:34:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BCB91F21549
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 12:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848643D0B6;
-	Mon,  4 Mar 2024 12:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168BF3D0D4;
+	Mon,  4 Mar 2024 12:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="idTVtYf/"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzA21dkH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yMcq3/+6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzA21dkH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yMcq3/+6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ADF38DEA;
-	Mon,  4 Mar 2024 12:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056801E506;
+	Mon,  4 Mar 2024 12:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709555558; cv=none; b=aTF3137tz5KBRS98MtG+rY8RKBjQtW7NXOobiWgx6lEmWTaWmfykkpElQfjj82SLwoel/BFV95lbcTlEMYO9hB9ks1ShMLTGEaHdZAAxb9hA5b1RWnRkx1kNLhVpRJVBqxo9ooPldp3RuCE56TwkGx83bveqP8x/BaAsKfsjKic=
+	t=1709556335; cv=none; b=Gv5Hrm2r3Y0QNjPXcXHf46wdSs7v5/nwJMpWIqwOg4b+lD/3o5zELFaCmydn1Nl2A0ZigEHKP/PUjpXqIwUvdg16id51QNg9jp3Gy6J6a7aFdOvt/74Z16IcDzpInJZXggfMZk62M0yKX61MusPpCCY5BEa1bnD7ll1ZUOR/f+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709555558; c=relaxed/simple;
-	bh=di4c4mREnB9k5kEq9w5dk3pY2MZiD+6QT9eZNjhDu4o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NuA5GaWLksV3Na3rGcItY4UO/6mFvglhdmXhsadtzHj4T/eKi9inEkueTbaeQhS/MkV3Z60XSaBhoVn3oMS14hBkU9CmbpJJzfRv+9sNX4ZrkQNrPTwdUpS6JlRRnxcMLOKw7WNQJX+apxwGb46uJbqsuTiuS1/aLYdjsE2Yecg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=idTVtYf/; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709555507; x=1710160307; i=markus.elfring@web.de;
-	bh=di4c4mREnB9k5kEq9w5dk3pY2MZiD+6QT9eZNjhDu4o=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=idTVtYf/zbwHYQoEQSmrMqo8POAzdk9xYUYecKBUyVeqwAVFpxAKKVfkeJ+XSR5J
-	 ADtLS5nbKBGAy6+YswKLIthBlVlp7S0jGeGGBk0Buw7Mgt+j/GhmGN6lfPf/dQUZf
-	 UsZx0bI8EAIeltqDlveSumNBRVDIsZkJutM5Qh2pv3twPyLnCaJXooF058kKp9JaX
-	 RkeOs8+IwNPfvMyBkQrrtHSQOwDVCYTXpgJxqB527iVKCoi21MitTIeQef8uP77gg
-	 ZtsxrP6U1CaBbPhh41BjedZMBJRvy08uxtsb0p/ll5sXYq2RJG9/Y3gcEsOSq3fks
-	 Bg5gdV3vwfOHiIlzGw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mt8kX-1qsAcl42OH-00tJYz; Mon, 04
- Mar 2024 13:31:47 +0100
-Message-ID: <ae1a88d8-2c7d-4d1a-9ade-ec8c6b4b13eb@web.de>
-Date: Mon, 4 Mar 2024 13:31:32 +0100
+	s=arc-20240116; t=1709556335; c=relaxed/simple;
+	bh=hgg7ztDSEPRjWgfx5szBQ5vnIIPmCrUaIAUDotlaUXg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G2z4dobhBt4jSQRzL2XeRMzeWZEC9MKJDOcQIjKqVuDWBp3CSOO36NxhPqD0VptQvVrhKm+cEdRPM4FmU5inWkAt2NpoR/BEqCPM7QYPHdyq26TwxjmJSTi2CI933FxUEbC7j/qYgxEqgn0Xzg4ADdL7tRc5x6/WNUBD4MGrd5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzA21dkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yMcq3/+6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzA21dkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yMcq3/+6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F04D4E584;
+	Mon,  4 Mar 2024 12:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709556331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
+	b=HzA21dkHt6RNAEyo6l5tKymmNyJFSXhsUdamIt5gZkzy+u3wUfUomthDGaYE3soM+iIxDy
+	p2F2SSvSe+3B35M0YEm/WhEXQHQVMMvEV6DqJDsS/au1NiUEnHF8Tw6OBoU893c1K5jWbt
+	vD3FfunEe+nVZu5YRkHi1WO5tT4TyMk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709556331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
+	b=yMcq3/+6vKMpWbQJqI6jPBF9+8N5EY9Rszo8BUWBqg/1og3OyCiUcWQHiFFrmu+RhW3GMG
+	1CwLss5a8ILjj6Cw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709556331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
+	b=HzA21dkHt6RNAEyo6l5tKymmNyJFSXhsUdamIt5gZkzy+u3wUfUomthDGaYE3soM+iIxDy
+	p2F2SSvSe+3B35M0YEm/WhEXQHQVMMvEV6DqJDsS/au1NiUEnHF8Tw6OBoU893c1K5jWbt
+	vD3FfunEe+nVZu5YRkHi1WO5tT4TyMk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709556331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zYwciqTpDEG3fTSKbV8dQHE0AxNIrAo1Mvf8rFjUd30=;
+	b=yMcq3/+6vKMpWbQJqI6jPBF9+8N5EY9Rszo8BUWBqg/1og3OyCiUcWQHiFFrmu+RhW3GMG
+	1CwLss5a8ILjj6Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFC4F13A5B;
+	Mon,  4 Mar 2024 12:45:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9MgQOWrC5WVtOgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 12:45:30 +0000
+Date: Mon, 04 Mar 2024 13:45:30 +0100
+Message-ID: <874jdm17yt.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
+In-Reply-To: <6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
+References: <87sf161jjc.wl-tiwai@suse.de>
+	<6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Input: iqs626a - Use common error handling code in
- iqs626_parse_events()
-Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jeff LaBundy
- <jeff@labundy.com>, linux-input@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- LKML <linux-kernel@vger.kernel.org>
-References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
- <ZeU8ENmnPj3sKxAv@nixie71> <ZeVOPSt0L1D4BxuZ@google.com>
- <11e5db31-2a8f-458d-a249-7205e37aa20f@moroto.mountain>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <11e5db31-2a8f-458d-a249-7205e37aa20f@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dWWuhieQn2ltbceIa2J3okqIXFlEceqale7urOiL33IgAP5AdOb
- ukSSFWgsxiveF29HzREbMe/hWax++JLv0Ezq1ovbyrRT7KnAJvhb4I0/1eZF/64/3VfdOlU
- xHShmCEVqdTfA4t8YxSty1zf0hUC3tLaenXijBC5ctCYJgYxm8OnpNtjhlcbt3MT46D2/fX
- j9o462CRckriYePWXAZ9w==
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org,lists.linux.dev];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Jv8M8nYNTj4=;ji6CCsnWNMQia0Ua0J4XG3nAc2d
- QP7Gu8RP5eie815ZA/XYAKWzBA9VjyCTm8sT8qXAHYJKcTwAyC1IKi/gSWLV4/YdZbck9Q2wJ
- UCUJm+i/hWivJSxABu/OQ9YeSknnT/ffGHAoEU8++uU4gJBKvc2OorWcAzwzUTArtTx4KpNAM
- 0c5uQc2rd0o3f8ODPWReAe56FCfqVeTCOb+9pxJq1Ag3ntbviaZrN2V+Hi7132QtL1/18OFw+
- us60/PfOjmRpj2FXH+zCqFORae4E1M12Jxg9WR3ghHbEyMkO3+YcaQgtJGSSJfU910248m/rB
- 1bYJNBpLjGlqnkn1X//tSysMLJ10G8aC+czWornumktProQm+lpiVhXy2szxq/JjIqGQQqnW1
- 6ESN27AeXQ4m1DC2Z/cw1tkSC3ePVF9MJC8VnJN8rBmgkR4oe3bJGiVRksn4159ZkMLdFjEfm
- hfgzD6KV+j1S3/UQBbsa9rx0ss6Cd33PYZvAUfHutwZnVOWSp0o4qTOv4tB4QsMiPJP6eWJKL
- HTgMsN2jIxvfNclWJ6dzRf2s7hE7U89CVmehW2aQ/3Hsmu3HTLwvWgAODc1+chJVqAQ0q5l5K
- Yslw6Al3RZm9S9NQeadxMsV74ZIVGp8p7El0IvDNNHFyg16qeiWSUvzOn0Lw1xURtTGdKOb5P
- aRukp+k30QY6lqAP3ycGpKfc8wc0S175hXBpgQLKb++rQIVr/om54XniT4wESn63yrvEBL9il
- Ga5t3tFh4rnQ+NdSXnQs421kJmoyk3FvJ8guTYkA4kW4Odo4Mjd/39k8e1x32hs4KdGU6xiGX
- 3537NbffgQvlC3MTIL2WqrmcS/+e392WQ5BWtf89Jc05A=
 
-> DEFINE_FREE(fwnode_handle, struct fwnode_handle *, fwnode_handle_put(_T)=
-)
->
-> I can send a patch for this.  You need to be a bit carefull to move
-> the declaration into the correct scope for this to work.  I should write
-> some Smatch rules for this...
+On Mon, 04 Mar 2024 12:26:48 +0100,
+Javier Carrasco wrote:
+> 
+> On 04.03.24 09:35, Takashi Iwai wrote:
+> > Hi,
+> > 
+> > we've received a few regression reports for openSUSE Leap about the
+> > missing touchpad on Macbooks.  After debugging, this turned out to be
+> > the backport of the commit 2b9c3eb32a699acdd4784d6b93743271b4970899
+> >     Input: bcm5974 - check endpoint type before starting traffic
+> > 
+> > And, the same regression was confirmed on the upstream 6.8-rc6
+> > kernel.
+> > 
+> > Reverting the commit above fixes the problem, the touchpad reappears.
+> > 
+> > The detailed hardware info is found at:
+> >   https://bugzilla.suse.com/show_bug.cgi?id=1220030
+> > 
+> > Feel free to join the bugzilla above, or let me know if you need
+> > something for debugging, then I'll delegate on the bugzilla.
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> 
+> Hi Takashi,
+> 
+> The commit adds a check to ensure that the endpoint type is interrupt.
+> 
+> According to that report, the issue arose with a MacBook Pro 5.1 (no
+> button, only trackpad endpoint), so the check on the tp_ep address
+> (0x81) returns false. I assume that you see an error message
+> ("Unexpected non-int endpoint) and  the probe function fails returning
+> -ENODEV.
 
-I became also curious how available development tools will evolve further
-for improved handling of scope-based resource management.
+Right, there is the message.
 
-Regards,
-Markus
+> Do you see any warning in the logs when you revert the commit? It was
+> added to prevent using wrong endpoint types, which will display the
+> following warning: "BOGUS urb xfer, pipe "some_number" != type
+> "another_number""
+
+The revert was tested on the downstream kernel, but it has also the
+check of bogus pipe, and there was no such warning, as far as I see
+the report.
+
+> I am just wondering if for some reason the check on interrupt type is
+> wrong here.
+
+I'll ask reporters to give the lsusb -v output so that we can take a
+deeper look.  Also, I'm building a test kernel based on 6.8-rc7 with
+the revert, and ask reporters to test with it, just to be sure.
+
+
+thanks,
+
+Takashi
 
