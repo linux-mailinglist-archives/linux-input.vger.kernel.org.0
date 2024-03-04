@@ -1,53 +1,52 @@
-Return-Path: <linux-input+bounces-2176-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2177-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7ED68700F8
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:10:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF3687011C
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 13:18:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F2441F21A1D
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 12:10:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3A571F21046
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 12:18:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 176D83BB3A;
-	Mon,  4 Mar 2024 12:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C149C224DF;
+	Mon,  4 Mar 2024 12:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Zmc3PHWa"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="d0UfJP/k"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728BA2261A;
-	Mon,  4 Mar 2024 12:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8303BB3C;
+	Mon,  4 Mar 2024 12:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709554244; cv=none; b=JuGjdcma9e0UgsLvImxKf6IV7ToGsajkiBzNCIHSayCb9dleWPZxvYe//s/8acmx+wwpVC9YIkPNX8fQG9HZSqYcPkG3nseMlRr/PviE0OjSb3AfmdIG/eedFBxkkkdZ6mNddR86lI1XHuxpBPpPfkJBEzOoBWcU2p0hqhefk8I=
+	t=1709554694; cv=none; b=RqzkKbQEA+8iMS5rUmhCeOribCcdIfA0CxG44Cyjc0/zdgyRfMcatiYrnJO/em1fSwpKBY1qyc1268BjPDQK12M4tmJYP7ADI1h6O46aOBVW8oBVhM91e9ZRCKKkSzTIZ+b5f2Ww4KGu/au7whaBCuZvUxlGniUG0ePBR5N7EbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709554244; c=relaxed/simple;
-	bh=w8KVMfNx2zd6C6LYa7vJU1D+To3lrbFoF0bVr9U0imU=;
+	s=arc-20240116; t=1709554694; c=relaxed/simple;
+	bh=N2W3mE8rnw2SVp2I4OlDvkJ1azlDiC+mHB23aFxRlX0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U2lHm+IW5Kl764I7kk5M0aPjVPnJXy9L+3K0QEpyd5AeYFiJvVDVM8khWhpIU9YGlcJYtnYF0yIfX8WIhXetzPk6egOeEFow/qoui3W+joE6SiZZv1ORlSLAC+wgdtKblQpkw1K1tVG2IkVLRU1Q4vrVg2gbsPpwk7rmf8O+0lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Zmc3PHWa; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709554212; x=1710159012; i=markus.elfring@web.de;
-	bh=w8KVMfNx2zd6C6LYa7vJU1D+To3lrbFoF0bVr9U0imU=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Zmc3PHWa6lOwpCA6+weIY3sdyr7tgF0RQpb+052BMFhBYTrSqBDa0Ni1ytlwX9mN
-	 EnJjLYwD5wJ/YRS3UYUAzb7xLyVVC3GRF77iqYnvBcL02gcuUyQb+FK2f+UPVndie
-	 aK6uYpeJY095Yl1Zv+aOAYI8ah+1CuKPVrMtX5M0xc7JREXbJgd2TaNDfetW8Jv2j
-	 N6SzcWlcCy0ZmgAYA1sh+2v4GHmqti8T/TvSl0ein80ZIwiuD1NdmsXPBIqRC1gCm
-	 mvRrHQwbn1ZUdECEtGZEzMykMpLHEjP9W974pfMyOh2TDf5ovDtAUr22HDqS7Eg0+
-	 /dANATb3HxV9AlMmVA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2gkl-1riU3f36XH-004NU4; Mon, 04
- Mar 2024 13:10:12 +0100
-Message-ID: <a8cae5ad-8a2a-4752-a2cd-634c1746af8f@web.de>
-Date: Mon, 4 Mar 2024 13:10:11 +0100
+	 In-Reply-To:Content-Type; b=VLXgPC+cbAOkUw0axWbn6VhpihAVtS2Zz/ZmfvZ5ifJfp2wiQpOwzxU5nUAluCuzCZJhno00sPmyTrOsK2kIMBKtvbU6I93pkLkgQAZ+Tmd/btItFmWrzihhHOiHWVdtutWnqUQaOEJYLpguVhP3zsGVhC2JDhYCAt+ZFqJ0Mxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=d0UfJP/k; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=uf9/2sCOY3v4S1nCPA6rsbwBK7yGOrOwP1YZD759F5Y=;
+	t=1709554692; x=1709986692; b=d0UfJP/kksHG+VFWhn/EsuBO+7Y9Ua442cnflhjdTKVbT/Q
+	1n5sqokjgSGlNhrTvffgquEiM3FkIsONWDVXt6Ee2DCgzPYa3iJ4xfK29mBemBAxtebDfwd5SmjtG
+	+etbL+zopIKaqnHLzpYxoVSd65uDeaouhUyFcdomVWOnyEzWVA3UoMcYuUW6DDRollfx20ATbI/y4
+	us314FSyoN0C5BXt7dvq8BNJPI+ZUCD4gDTIKh01yml9XBdJ09cc15Vk0udEag5SMfF2zj0J2WqmG
+	vQQXCJhcKqFg2ySOxTbC1yYHmfT+3vWvSfWnulJHnIuusafoTgJN3UEfzHfeaiAg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rh7Gj-0007ZK-Aw; Mon, 04 Mar 2024 13:18:09 +0100
+Message-ID: <ab9d758c-3ce9-42f6-99af-877055a589e6@leemhuis.info>
+Date: Mon, 4 Mar 2024 13:18:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,82 +54,52 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Input: iqs626a - Use scope-based resource management
- in iqs626_parse_events()
-Content-Language: en-GB
-To: Julia Lawall <julia.lawall@inria.fr>, linux-input@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Jeff LaBundy <jeff@labundy.com>,
- Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <8a7607f8-d634-415e-8269-e26dcc0f9fdc@web.de>
- <ZeU8ENmnPj3sKxAv@nixie71> <ZeVOPSt0L1D4BxuZ@google.com>
- <e8a2b63f-4f9a-463b-b419-c5f673191111@web.de>
- <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <b91fe21-fe2-eac8-d1ee-ea8922a08861@inria.fr>
+Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
+Content-Language: en-US, de-DE
+To: regressions@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <87sf161jjc.wl-tiwai@suse.de>
+From: "Linux regression tracking #adding (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <87sf161jjc.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PKES2OXGqOX5haTvklakPWg73v8jW8wtWclFnqH2pzuUBW7Xr/w
- A7vLT6ATYTbJCX52lGPrSnYwgWGdPvOtk/tT0Hq9gOhLL5TpBaFVVChg48PyAY8cOl8h7lo
- DUidwoYKeYgHpNQfBqCu0lQai6cmp5xznL8rdueAnME+ruajHrPr8O7VRg59m0prqwJb/6a
- qrNJuFRqPRdnGA6al/OxQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DNcDAss1Lss=;J+Ty/FXrv4R1l3N0EljlsZQhbMX
- e+tYAqBtBYmJg3e1gA/d67ve0J8cQuNw8Suas1sIgfGZskJNuPTkukqwm5UEkxdAyT3vjckmv
- MfS109EG+fH2VtNp2C/BawYffFYWMW9lZ8lpYLAXBGN4u3nxG20Z1ZG6XtyDeibgNN/Sb3MyI
- kPzYEWLfBJkurOUy/DUda/zblrQ6TjxL64yoLxWmVV9gNZzK3e8T0dp37B5zjz543w6hhlKH9
- u8gKEF9Z5/fe5yzvpIwa2EMvp48ckEy2LcwlYpSu8+pUj06CgQU9KLB1RhJoMvtRu9KM3c9uk
- vtcT6xkEGZHAuAuzyF+/BBXqwIUimqmdNJ7amxLSoqbDu1lGvW+Zy3ew47SRTlgnWkz81Wf2Q
- TXpAMGuYEXXZpTh2ZTPTAOG2XwuR9l79ELZ6Do2BnClxmjK3C3RIRa353YTCYXSSI0FA3RW9y
- t86kC61H1uT4X/PF5dRMOf7wsgWQuVu0XJP/cddIQLH51Xth/Wz2DdLOsxq8lyy97PMEVyqjy
- V0USe2t7YzRfEsASjdMYCx+6WqmYVn+u04PCHq+zx8lrNHit2qsz8T5zLQXh5N1y+KU1wlbES
- skxAYskP2K2dmC8NAe2mqsX0VV0pM8U4Sri5v8OTLaqkZ4GrqaQJVoGBsqnKky2WoZ1eMPMlE
- uj/Y1/9e3Hf4McYl1Ei0B7RBDoX4GRC0FAn0Yf2CBwO5PjY2YMIM8QztXF80s6q1NLZ8D02KQ
- 6U5IuNmef30R3FscUbMWRY4fUBiSR9/yKmzazpyHVEr4R8F9LTYKLBErRCsLOC5vY0hZEw8ar
- 3NQ/UZ9RmGms6lWsFxT+ZwvlA/kIdiknUNt6d/rpB4Ak0=
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1709554692;3519abd2;
+X-HE-SMSGID: 1rh7Gj-0007ZK-Aw
 
->> Scope-based resource management became supported also for this software
->> area by contributions of Jonathan Cameron on 2024-02-17.
->>
->> device property: Add cleanup.h based fwnode_handle_put() scope based cl=
-eanup.
->> https://lore.kernel.org/r/20240217164249.921878-3-jic23@kernel.org
->>
->>
->> * Thus use the attribute =E2=80=9C__free(fwnode_handle)=E2=80=9D.
->>
->> * Reduce the scope for the local variable =E2=80=9Cev_node=E2=80=9D int=
-o a for loop.
-=E2=80=A6
->> +++ b/drivers/input/misc/iqs626a.c
->> @@ -462,7 +462,6 @@ iqs626_parse_events(struct iqs626_private *iqs626,
->>  {
->>  	struct iqs626_sys_reg *sys_reg =3D &iqs626->sys_reg;
->>  	struct i2c_client *client =3D iqs626->client;
->> -	struct fwnode_handle *ev_node;
->>  	const char *ev_name;
->>  	u8 *thresh, *hyst;
->>  	unsigned int val;
->> @@ -501,6 +500,8 @@ iqs626_parse_events(struct iqs626_private *iqs626,
->>  		if (!iqs626_channels[ch_id].events[i])
->>  			continue;
->>
->> +		struct fwnode_handle *ev_node __free(fwnode_handle);
->
-> Doesn't this need to be initialized?
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
 
-This variable should usually be set in both branches of the subsequent if =
-statement,
-shouldn't it?
+On 04.03.24 09:35, Takashi Iwai wrote:
+> 
+> we've received a few regression reports for openSUSE Leap about the
+> missing touchpad on Macbooks.  After debugging, this turned out to be
+> the backport of the commit 2b9c3eb32a699acdd4784d6b93743271b4970899
+>     Input: bcm5974 - check endpoint type before starting traffic
+> 
+> And, the same regression was confirmed on the upstream 6.8-rc6
+> kernel.
+> 
+> Reverting the commit above fixes the problem, the touchpad reappears.
+> 
+> The detailed hardware info is found at:
+>   https://bugzilla.suse.com/show_bug.cgi?id=1220030
 
-Please take another look at the proposed scope reduction
-for the affected variable.
-May additional curly brackets be omitted for this source code transformati=
-on?
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
 
-Regards,
-Markus
+#regzbot ^introduced 2b9c3eb32a699ac
+#regzbot title Input: missing bcm5974 touchpad on Macbooks
+#regzbot duplicate: https://bugzilla.suse.com/show_bug.cgi?id=1220030
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
