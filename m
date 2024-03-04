@@ -1,74 +1,52 @@
-Return-Path: <linux-input+bounces-2182-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2183-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4D2870389
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 15:04:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDABF87043D
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 15:34:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 335C11C2243A
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:04:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 940EA1F23D8B
+	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 14:34:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB983F8D3;
-	Mon,  4 Mar 2024 14:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302883EA66;
+	Mon,  4 Mar 2024 14:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNVJp4Zd"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="n9+wVMIM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9034E3F8E2;
-	Mon,  4 Mar 2024 14:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0947A1DFF9;
+	Mon,  4 Mar 2024 14:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709561072; cv=none; b=SxpPFSZNRV5qNRypzOGLkN2MbqXnji0G7bOmFFnfsVVJiW2lDbu9qYNlIoQrOu8ItztZtAqPTm/qNaeaIO3t4rNYDv2JgeJ+4Nz3nur5936SoVM8uNLe5gp5vWUk9R6WsSotPp7MvGVDEfj4FvH+RYZSvaZixYsjpNXO3McNx1k=
+	t=1709562841; cv=none; b=GPc8G5Rv/GgChVSvEqWmOTC4HjAVBKosmgL9epzCXpIcQKdrNBMjxhXNaajF/BJ/hA4v3KU93L+EnlddRibNpW+RFoyBIdxfP2c0eUK/+W341KvawFj1C9XJCDPLfkmYMsLyFBJbH8qiGXV0odbPT1+2gtTzxuuN1gDvTM3nIjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709561072; c=relaxed/simple;
-	bh=SLbSjt9SbkPv+g6/vROjXm/Gz3EE39aUaCGhCyjYusE=;
+	s=arc-20240116; t=1709562841; c=relaxed/simple;
+	bh=n1OGt1q7qIx6wzw21FHK0ipfwH+yh9FrvXjD6olJ2LU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qZqcCfKA1XvWVszmgO9Q9jNHF02Bk2B1DDqBU2kKcDYc2K5qwmaYg6X9uQOx0pf4Xo2WIpFccmYXHxeliKOWU5Dvck8zxAMONRzpRXSKxEZDKFn8WIoPkuL7yI6nDqhqxX8dlsFybVc8F1PfesJskvXuJdutfcNIAgPsbhHk38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNVJp4Zd; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51320ca689aso5277189e87.2;
-        Mon, 04 Mar 2024 06:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709561069; x=1710165869; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+A2MIgcuwPWk7lZwI41C//csGmOFt/MFKi0gAzZz/R8=;
-        b=jNVJp4Zd1kqK0JOh8wzUQal45ptHZeQKbv4gwNFVXmBsWOyu8BT9LRGanUvH4BwTst
-         oVsah7sJTMfAE2f1o1Zc8mDf7I/fOwbSpQT1dQ1XWN/apqPF74tEWZvY3KXjl0XU2SJt
-         C4MMWzbhr0nd2LuZbfCL5R2dmVTNYoxEQrTq7sC5l5MrGz6tEXlSdGzZP0tTgbr4+m8f
-         ZdSyOjzxCzQSkMES8bxZjmQhDyM4DzVkC4qwXzfXh5sMnvwU64JxoIKFkFCEHyfNMbHB
-         gc7Kel3/Ps3PlwPoheDsXV53XtH0gbVYOI6/ks0FFwaQfDU447pT4VpVN9zDdpXcRcL/
-         SDpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709561069; x=1710165869;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+A2MIgcuwPWk7lZwI41C//csGmOFt/MFKi0gAzZz/R8=;
-        b=Ux+CIXiBEkY83fvCKrpBPuu3o+sIgR+P14ha12RQ4bsV6qyd2XC2vjJfJOZCpBqOuC
-         biin8QxIG9YmHngnzUvyVXAC3SRYQXckSce0TnmmZqRAJBvqYVC1xouAh5UzhQKaGiym
-         oSoiJTEat4k6pL3DFOOfNL9i6q1aGMD3v0xyqjfgTuvQZPpmywnXFzWJXRwA13G8RUpC
-         9VO0+0J3hlXleyl+V+b96LlxmU5Cdq772jaICr+fSImH/rtZb9fovU+uf8Q+3bFpw7NZ
-         NAA0ZvsGNENh6ic8kBWBb3tG1dzltEKCLoaoyhp43bvw1eO4i8wtBKMzjrL6d8PDVAdt
-         cBCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdfzgPoTkRKwpGLwzEVAMOJM4mWJKgwolA9rMXjSwEHGmXJhlgLiJYcGOwk2Z8fLv+7jUrLDB326XX7jL6yQ0SvZwod7wcV42XSKvNhB5i+MXU6QTgK48J4NYFiAe4eY91NWP1A95+pbA=
-X-Gm-Message-State: AOJu0Ywr1f0kRtr/ZLvFOCckwRpbACb2yqsYl2PPAzoz/k+wJl9E08pH
-	EUoms/6kMCjvd5in3wxUW5iOTQwWXxpWEdDsCV8v//IpRXBBYCGW
-X-Google-Smtp-Source: AGHT+IEz+skFuqRkbnNFQLR4g/WSQnRAMiBY6M1c7WhrM5/JBrRjGoqo0wpSyC71RQNJ1tmb9ttgfg==
-X-Received: by 2002:a05:6512:34c8:b0:512:b00f:a55e with SMTP id w8-20020a05651234c800b00512b00fa55emr5880137lfr.13.1709561068360;
-        Mon, 04 Mar 2024 06:04:28 -0800 (PST)
-Received: from [192.168.0.31] (84-115-209-225.cable.dynamic.surfer.at. [84.115.209.225])
-        by smtp.gmail.com with ESMTPSA id q22-20020aa7da96000000b005669ce3f761sm4660283eds.59.2024.03.04.06.04.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Mar 2024 06:04:27 -0800 (PST)
-Message-ID: <c2e4ae25-1e8a-4f54-8321-800a7b7f8583@gmail.com>
-Date: Mon, 4 Mar 2024 15:04:26 +0100
+	 In-Reply-To:Content-Type; b=rid7Vv6PuW90KGnuutzfxmZSev9aXzrYX1FB2H1FXNUQTr1oM4WFOH2Brc3yDJwiJNN7dJvAXjlRarQqxe4L8Kxr6p/NgQ1RMkBFvI7/mrNPhm5EuAiiHfsCmn3xVHm+bFrjhWwOLfqKIYUTtGvHzqqWDhlGmu/OziONy6v2n58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=n9+wVMIM; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=xr9mbwGp388Lp+Z/zemh6Y052V9AVvs43i2AXCTBlsE=;
+	t=1709562839; x=1709994839; b=n9+wVMIM2Me6yydOFe6UWHqj/sNBPQP69bsj445qtz79RkX
+	2chOlNnWkufiL2jax1Ax1B1hCODaFiHere9ZJ2M62ihVqi1qyPL/9eiDppXHlI9+BHySM8Ops5A9+
+	VNnMTjkuwC/qktLWryq4p2JeiPvX7IdFC5ueA+AGBHMiCvV43DWAa6rBLGEN4QeGHZZZn/GuNw5ro
+	lOGukMDoLkXNJFLQcueClB5eSvHE0cE9SxI1117qDO0fLfouG/KeAdht7ZJ6ksDcewnjqxQNtzx/e
+	8xJiC1vdHWNh8cxZ3d2iz58NsG+VeTUTz7BXgWi+rSHO4H8kr5gkd1i2kq/ays/Q==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rh9O8-000638-VF; Mon, 04 Mar 2024 15:33:57 +0100
+Message-ID: <3bb95fcd-65cf-45dd-8d81-1a41b1ae0288@leemhuis.info>
+Date: Mon, 4 Mar 2024 15:33:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,103 +54,58 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>,
- Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-References: <87sf161jjc.wl-tiwai@suse.de>
- <6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
- <874jdm17yt.wl-tiwai@suse.de>
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <874jdm17yt.wl-tiwai@suse.de>
+Subject: Re: Regression with Lenovo ThinkPad Compact USB Keyboard
+Content-Language: en-US, de-DE
+To: =?UTF-8?Q?Rapha=C3=ABl_Halimi?= <raphael.halimi@gmail.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Linux Input Mailing List <linux-input@vger.kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@jikos.cz>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Mikhail Khvainitski <me@khvoinitsky.org>,
+ Linux Stable Mailing List <stable@vger.kernel.org>
+References: <a29d56d2-c440-4a26-a9ac-014595d2ae8c@gmail.com>
+ <21370dc5-94a3-442c-ae04-76f9f94b1b96@leemhuis.info>
+ <c8986411-2bf7-4b7d-8ac1-f702dc7c725a@gmail.com>
+ <7a5fc584-1520-4e52-9c77-d67a656524c6@gmail.com>
+ <10022b0c-89c3-43e1-89ba-00e458fe1dfd@leemhuis.info>
+ <7a8d9d60-a151-4b25-882b-48e6929339a4@gmail.com>
+ <9db59ae4-be28-4ab3-a2ae-0b0f661f56be@gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <9db59ae4-be28-4ab3-a2ae-0b0f661f56be@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1709562839;1f5e658a;
+X-HE-SMSGID: 1rh9O8-000638-VF
 
-
-On 04.03.24 13:45, Takashi Iwai wrote:
-> On Mon, 04 Mar 2024 12:26:48 +0100,
-> Javier Carrasco wrote:
+On 24.02.24 17:15, Raphaël Halimi wrote:
+> Le 24/02/2024 à 14:51, Raphaël Halimi a écrit :
+>> It can't be the third one (43527a0) since I clearly remember that I
+>> experienced the regression before it was applied to the Debian kernel.
 >>
->> On 04.03.24 09:35, Takashi Iwai wrote:
->>> Hi,
->>>
->>> we've received a few regression reports for openSUSE Leap about the
->>> missing touchpad on Macbooks.  After debugging, this turned out to be
->>> the backport of the commit 2b9c3eb32a699acdd4784d6b93743271b4970899
->>>     Input: bcm5974 - check endpoint type before starting traffic
->>>
->>> And, the same regression was confirmed on the upstream 6.8-rc6
->>> kernel.
->>>
->>> Reverting the commit above fixes the problem, the touchpad reappears.
->>>
->>> The detailed hardware info is found at:
->>>   https://bugzilla.suse.com/show_bug.cgi?id=1220030
->>>
->>> Feel free to join the bugzilla above, or let me know if you need
->>> something for debugging, then I'll delegate on the bugzilla.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
->>>
->>
->> Hi Takashi,
->>
->> The commit adds a check to ensure that the endpoint type is interrupt.
->>
->> According to that report, the issue arose with a MacBook Pro 5.1 (no
->> button, only trackpad endpoint), so the check on the tp_ep address
->> (0x81) returns false. I assume that you see an error message
->> ("Unexpected non-int endpoint) and  the probe function fails returning
->> -ENODEV.
+>> So I'll try applying only the first one (46a0a2c), and report.
 > 
-> Right, there is the message.
+> I can confirm that the module compiled with 46a0a2c alone does produces
+> spurious middle-clicks.
 > 
->> Do you see any warning in the logs when you revert the commit? It was
->> added to prevent using wrong endpoint types, which will display the
->> following warning: "BOGUS urb xfer, pipe "some_number" != type
->> "another_number""
+> Maybe "ThinkPad Compact Keyboard with TrackPoint" should also be
+> excluded, like "ThinkPad TrackPoint Keyboard II" was in commit 43527a0 ?
 > 
-> The revert was tested on the downstream kernel, but it has also the
-> check of bogus pipe, and there was no such warning, as far as I see
-> the report.
-> 
->> I am just wondering if for some reason the check on interrupt type is
->> wrong here.
-> 
-> I'll ask reporters to give the lsusb -v output so that we can take a
-> deeper look.  Also, I'm building a test kernel based on 6.8-rc7 with
-> the revert, and ask reporters to test with it, just to be sure.
-> 
-> 
-> thanks,
-> 
-> Takashi
+> But then, would 46a0a2c still be relevant ?
 
+Hmmm, another week without any developer looking at this. That's not how
+it should be. Guess I have to bring this to Linus attention sooner or
+later then. But before doing so, please confirm that 6.8-rc8 is still
+affected and reverting the culprit on top of it fixes the problem (the
+tricks you used are not bad as such, but they can have side effects --
+which might also be the reason why no developer has looked into this).
 
-Getting the output of lsusb would be awesome, thank you.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-The bcm9547 driver has always made the assumption that the endpoint type
-is interrupt, and the expected output from lsusb would be something like
-
-bEndpointAddress     0x81  EP 1 IN
-bmAttributes         3
-Transfer Type        Interrupt
-
-which is what the reverted commit checks.
-
-I don't have the specific piece of hardware the report mentions, but I
-triggered the probe with the endpoint type = interrupt and the check was
-fine i.e. the probe did not fail. That made me think that the endpoint
-type could be different, but I am dubious about that.
-
-I will keep an eye on the bugzilla you linked, in case we get feedback
-quickly.
-
-Best regards,
-Javier Carrasco
+#regzbot poke
 
