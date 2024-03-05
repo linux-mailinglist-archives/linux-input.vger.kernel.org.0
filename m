@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-2249-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2250-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E00872609
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 18:53:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E088726DF
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 19:47:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7053AB291E6
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 17:52:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6D891C26DE5
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 18:47:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D937317BA7;
-	Tue,  5 Mar 2024 17:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36F2199B9;
+	Tue,  5 Mar 2024 18:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2Tgu49Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KvXgi+D3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50714A99;
-	Tue,  5 Mar 2024 17:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0ED1426F;
+	Tue,  5 Mar 2024 18:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709661102; cv=none; b=lLaXVzVn+MpTRTNW3IkqZLhQKnnGuuDTEaWeUvDUifKX0rUdTrI1III+KMkG/XzYHO2Mv9Y6QI++wVitkLzWdcigyOfAtu/Ai/mxPmXb0I8dsiHWLfuCpQ2S6llSN9tKPVbmMH1wq2s/98czLoJ/QlD+upchxgDIkrhiBvC7c50=
+	t=1709664442; cv=none; b=p4IsNI7NqqDF//ic0TPAFJw32P2LI0bpOICHWClgR5CBVB5UfL+WML3DolRBrrJcUbOXFz6zSWx0cf7jaIxe256BhQx2r8t9IkR03BWP7gvQexxfMV4uGxl4FwSno0SJHQyXiHJKQvAMyV6S095i455aN/Lvpc2FY4deOJRXCCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709661102; c=relaxed/simple;
-	bh=2M9LS8/TFzVtINnbm0xitDXNpDBa5QKyfi1NFWuZEJs=;
+	s=arc-20240116; t=1709664442; c=relaxed/simple;
+	bh=iAaSLHsYs9roiiEX5r9RnEO+PBQ1/2zpvlq3PkG99m0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kkghJ3jxZJbbDWs7xR25RtojeHoR6Z4MI8T0trcFiBH8h7isTYX7TRxbMj3LyuA/zeR/URNv/xV1P2+FoVYMUDej7SgV1z3CXUe/FpV/8VTXdVIX09D+1LTFKJprHq88MXGjUHtmumSRveZ3yyHDaX0qqZGLbUKjua0LpnN8w80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2Tgu49Y; arc=none smtp.client-ip=209.85.215.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8NVGrkCRdUH3D0zzfLT0t4lVKuvGPw9IJBvNJBwcxF+HKIqYxokHbdwzAn1KvZi1M4pf2oAf5udoSkJw/K6q1weqlbENpIY5tQFIPWEgLuBo/JyZwyMDkWFBO8X0PdIZsy2EKOjPayuPsSjl6Dd+fAuLC9zLMVnZx2yQKF8L0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KvXgi+D3; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5e4b775e1d6so2283533a12.1;
-        Tue, 05 Mar 2024 09:51:41 -0800 (PST)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dc49b00bdbso54459925ad.3;
+        Tue, 05 Mar 2024 10:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709661101; x=1710265901; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709664440; x=1710269240; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tpTAtw3UQ93UxOybj4sot8nZNmiyYpy30JpPxTWnT6o=;
-        b=j2Tgu49YGrfXjpbyl/YVmgcX0A8mqWabJ4Tp4mbzJqtrig/kfLJTBmOT+GtiOvEQKv
-         kL+p5PEZVNvxr9g0sCExmZMgT89I4QwFsLJ+TNYkUNLdCkSYU+Uo3aoyr2wzqP87AVn0
-         vHQp90Gu8COY2du9IMITaUFvCcMu1xnJHyu8KsSKVPpkE7MHyJpQdLwa5Lb92u92I9Hj
-         OFVLhkXU66LYrTDr6C/GqG1nPZzMXm1EVgXHKsTAQq4E774XkfoicaxwDr1DNrjxMam0
-         qveDFu7gh7MV4WMcnPZFD/CjfjoFAdHEIkYkRMvixkWbgydRbV0jmDl1Wi0+b5uE9LN5
-         Hm8Q==
+        bh=p4Ja5phbKUQl6LGtsUwc/A0bRu4rsYTBRUxvAe+9/4Y=;
+        b=KvXgi+D36nqS7SdTTPKH8w3TaychHtwyDDSPEPctQi7/xRF3RiT9XFAfTTQ0OoPaBJ
+         1ZGpHQVBn2BVLwZKsNzV1JoyFYyqWqz/PriMX/tJB//GkJHW0bcLy26MZTeeRxnRpxCj
+         53IFRdKaJ+HxcXsD8Nhq07CwnSTx4RcKmJuWI0U47fen0cQtrMKk4Z78FFcskU5Symhk
+         4kLBU4GoZUxqAY4e9zSdNwqjpBIZ+BVoXQ1C+uTqBzUfuMrdvxdxDCzFyuc84Up06Hxh
+         PXnnpy+fGdSDH+l22K9N/gb0SaZHITiO/AxTFHm4QY0WVYxUM0l5/FtKsMzvAgGkehkO
+         ZXjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709661101; x=1710265901;
+        d=1e100.net; s=20230601; t=1709664440; x=1710269240;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tpTAtw3UQ93UxOybj4sot8nZNmiyYpy30JpPxTWnT6o=;
-        b=H1o809+9DMR//TJojGlpM03DsFevgKLcz59ADoQmGwlMbnIYmnFIIwofUQzI2hboVn
-         T4krRV9nzYNg39iyUcSLMExA6jQiwyA/PJhixW0RmnxL0WEo1NzNoZPBEwGnCgLSBIZd
-         sHE0VSBr002wFn+fnamFeA1/cP8aHb1XFGyhHVVrVlO89lpFzmkmOGZzLS6m6V3091fO
-         Uu+ankVXstTrGKlBKclzFE/jSLT+77sx3qaHDwr8YEY5P87Gf3g751QZo4wdZJVaU01H
-         WOf5n6UTG+CJHrW2AMtHPfzWN3apaB5oFlmwKQ0rxfqIsG23gujjSTrF7MGCEJlw9OBZ
-         tNUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWp9ZnIyhZiDxDQriF0UPkvfnh2qxzNs1y7Cr4G8Ub5tevWuv6bxNvfMqU98jMkJpHkuVbB4BiA2eq1WXfQch7XZLkxyG5NxXZ/bxuDvi4WAXrqvy66XLVzGWEXWUUXPyGxEdvW3jkQM2cUF84Hz1TdkKN94O7FBW0kyyBqBmzWBagkSKCd
-X-Gm-Message-State: AOJu0Yzz3Wt8ADKLRs/8YyLTOwu+SSPH5Rb8Fmx6VLZt9nnBFg0GYTXo
-	Eitb7s/NhaQFOGk6qq6W3zSxQlV1tjYKjmdshz0Waez6dQT6AT5NQ6x60jNp
-X-Google-Smtp-Source: AGHT+IEXCEPMzLnaVufcdsnqvv3Px87pp8CIOt+QaL3umwskWU4qB01+4dyG4lax3qmGLdnMAoYDHQ==
-X-Received: by 2002:a05:6a20:8428:b0:1a1:215a:335e with SMTP id c40-20020a056a20842800b001a1215a335emr3251417pzd.27.1709661100543;
-        Tue, 05 Mar 2024 09:51:40 -0800 (PST)
+        bh=p4Ja5phbKUQl6LGtsUwc/A0bRu4rsYTBRUxvAe+9/4Y=;
+        b=vywg1heKDJziGkYjJ7GBI7FqO+mfPPfwqhzZek2a5Igiz8JSTVhNDMuhvYCS95YdGY
+         jtVDtqYAnEeu4/oeZsEacVHLaL7mze4RY8z1sSCCA8fqcjkhxATTzVbBq/7fI1ZZ8WQw
+         WjlXq7VBYFVaojp4Vlci5T2oTWkJAa3TSnEklyb+3xjGBHHZM3VRL3JnIJL1MHfy3sWT
+         FFmeAc05qKebcfgAIFCHj1qkKAV/QJINwHTiljhE12pBd70UeajNgX1RsXj+i49KMHzq
+         N9ECpaUjYe1ILhpFQFYhAkKUkGFDAZsPMLWpAz/ksiiPovA2j2ZAeDdLjt+KJQpkMXid
+         ADBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaG5KP7DkAzZ7J81Vo+gljqvjd79MttWypDDRfQfYus3YKHAj46GAGM97gGaslsKckXr9tm6zHk/lMJ6Twym/WqgQ2um2b3SwfGrc=
+X-Gm-Message-State: AOJu0YxE3Ju/jZPNlAwlb+dKqaCNSnS8N5h+sbxn1L6H1vC/owO1P/FD
+	yCutzjnAgqPzbLPfE9CDmtZ+UlUIAC1baEE03BdOBc1pSvSvwTP8
+X-Google-Smtp-Source: AGHT+IH1qbh8T+uOB1J+/dWQ+S1Mi36WGIRdloSgQg0mgDX4K7CA0qNXIF7gstpIcIvf0HXxwh7b4w==
+X-Received: by 2002:a17:902:7c92:b0:1dc:cc09:ebad with SMTP id y18-20020a1709027c9200b001dccc09ebadmr2188437pll.28.1709664440320;
+        Tue, 05 Mar 2024 10:47:20 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:a5d5:fe74:fba8:86b5])
-        by smtp.gmail.com with ESMTPSA id h37-20020a631225000000b005cfc1015befsm8377078pgl.89.2024.03.05.09.51.39
+        by smtp.gmail.com with ESMTPSA id d15-20020a170903230f00b001dc3c4e7a12sm10915798plh.14.2024.03.05.10.47.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 09:51:40 -0800 (PST)
-Date: Tue, 5 Mar 2024 09:51:37 -0800
+        Tue, 05 Mar 2024 10:47:19 -0800 (PST)
+Date: Tue, 5 Mar 2024 10:47:17 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: allwinner,sun4i-a10-lrad: drop
- redundant type from label
-Message-ID: <ZedbqeNY23o8JzJb@google.com>
-References: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
+To: Jonathan Denose <jdenose@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, jefferymiller@google.com,
+	Jonathan Denose <jdenose@google.com>,
+	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: psmouse - add resync_on_resume dmi check
+Message-ID: <ZedotW8Yu6tJ2yYL@google.com>
+References: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
+ <ZcKs589qYxviC1J4@google.com>
+ <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
+ <ZcZ2oG1Rls-oR593@google.com>
+ <CALNJtpWNbSZdpxky9hTiSRsaGgLDUnM66QGEy213d3Lhra0hsw@mail.gmail.com>
+ <ZeDLq9gPs5InBmdK@google.com>
+ <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,15 +89,141 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
 
-On Mon, Feb 26, 2024 at 01:29:34PM +0100, Krzysztof Kozlowski wrote:
-> dtschema defines label as string, so $ref in other bindings is
-> redundant.
+On Mon, Mar 04, 2024 at 11:17:31AM -0600, Jonathan Denose wrote:
+> I disabled the ideapad driver by rebuilding the kernel without the
+> ideapad_laptop module. That does fix the suspend/resume issue!
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Attached are the logs. Is there a way to make this permanent?
 
-Applied, thank you.
+Could you please try the patch below? Thanks!
+
+---
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 9fbb8d31575a..2f0c143c3137 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -127,6 +127,7 @@ MODULE_PARM_DESC(unmask_kbd_data, "Unconditional enable (may reveal sensitive da
+ #endif
+ 
+ static bool i8042_present;
++static bool i8042_ready;
+ static bool i8042_bypass_aux_irq_test;
+ static char i8042_kbd_firmware_id[128];
+ static char i8042_aux_firmware_id[128];
+@@ -190,6 +191,26 @@ void i8042_unlock_chip(void)
+ }
+ EXPORT_SYMBOL(i8042_unlock_chip);
+ 
++int i8042_device_link_add(struct device *consumer)
++{
++	if (!i8042_present)
++		return -ENODEV;
++
++	if (!i8042_platform_device || !i8042_ready)
++		return -EPROBE_DEFER;
++
++	return device_link_add(consumer, &i8042_platform_device->dev,
++			       DL_FLAG_STATELESS) != NULL;
++}
++EXPORT_SYMBOL(i8042_device_link_add);
++
++void i8042_device_link_remove(struct device *consumer)
++{
++	if (i8042_platform_device)
++		device_link_remove(consumer, &i8042_platform_device->dev);
++}
++EXPORT_SYMBOL(i8042_device_link_remove);
++
+ int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+ 					struct serio *serio))
+ {
+@@ -1574,6 +1595,7 @@ static int i8042_probe(struct platform_device *dev)
+  */
+ 	i8042_register_ports();
+ 
++	i8042_ready = true;
+ 	return 0;
+ 
+  out_fail:
+diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+index ac037540acfc..d4d1bccbe882 100644
+--- a/drivers/platform/x86/ideapad-laptop.c
++++ b/drivers/platform/x86/ideapad-laptop.c
+@@ -1842,6 +1842,13 @@ static int ideapad_acpi_add(struct platform_device *pdev)
+ 			ideapad_register_rfkill(priv, i);
+ 
+ 	ideapad_sync_rfk_state(priv);
++
++	err = i8042_device_link_add(&pdev->dev);
++	if (err) {
++		dev_err(&pdev->dev, "failed to link with 8042 controller :%d", err);
++		goto i8042_link_failed;
++	}
++
+ 	ideapad_sync_touchpad_state(priv, false);
+ 
+ 	err = ideapad_dytc_profile_init(priv);
+@@ -1882,7 +1889,9 @@ static int ideapad_acpi_add(struct platform_device *pdev)
+ 
+ backlight_failed:
+ 	ideapad_dytc_profile_exit(priv);
++	i8042_device_link_remove(&pdev->dev);
+ 
++i8042_link_failed:
+ 	for (i = 0; i < IDEAPAD_RFKILL_DEV_NUM; i++)
+ 		ideapad_unregister_rfkill(priv, i);
+ 
+@@ -1909,6 +1918,7 @@ static void ideapad_acpi_remove(struct platform_device *pdev)
+ 
+ 	ideapad_backlight_exit(priv);
+ 	ideapad_dytc_profile_exit(priv);
++	i8042_device_link_remove(&pdev->dev);
+ 
+ 	for (i = 0; i < IDEAPAD_RFKILL_DEV_NUM; i++)
+ 		ideapad_unregister_rfkill(priv, i);
+diff --git a/include/linux/i8042.h b/include/linux/i8042.h
+index 95b07f8b77fe..ce45569f5246 100644
+--- a/include/linux/i8042.h
++++ b/include/linux/i8042.h
+@@ -52,12 +52,15 @@
+ #define I8042_CTR_AUXDIS	0x20
+ #define I8042_CTR_XLATE		0x40
+ 
++struct device;
+ struct serio;
+ 
+ #if defined(CONFIG_SERIO_I8042) || defined(CONFIG_SERIO_I8042_MODULE)
+ 
+ void i8042_lock_chip(void);
+ void i8042_unlock_chip(void);
++int i8042_device_link_add(struct device *dev);
++void i8042_device_link_remove(struct device *dev);
+ int i8042_command(unsigned char *param, int command);
+ int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+ 					struct serio *serio));
+@@ -74,6 +77,15 @@ static inline void i8042_unlock_chip(void)
+ {
+ }
+ 
++int i8042_device_link_add(struct device *dev)
++{
++	return -ENODEV;
++}
++
++void i8042_device_link_remove(struct device *dev)
++{
++}
++
+ static inline int i8042_command(unsigned char *param, int command)
+ {
+ 	return -ENODEV;
+
+
+
+Thanks.
 
 -- 
 Dmitry
