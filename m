@@ -1,65 +1,56 @@
-Return-Path: <linux-input+bounces-2227-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2228-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D9B871C04
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 11:48:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6D1871C4B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 11:54:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12ED628513F
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 10:48:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DFAB1C22D90
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 10:54:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DDA65B663;
-	Tue,  5 Mar 2024 10:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E121164AB3;
+	Tue,  5 Mar 2024 10:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IG0YkgI/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ib32rDTh"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50F5A78D;
-	Tue,  5 Mar 2024 10:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76A6633F1;
+	Tue,  5 Mar 2024 10:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709635206; cv=none; b=LT2kJ895qjmEvcjuTNphXpQpTnEdGM2ASnQ5dLcVaZMdDktYe+S+dnnF8HYRwP9cOS4f0pLf5CMASnOOaMDrg5hrTLqtHOpJvh3gg7TYzln8nxvjTuyyD3c+bDjwpwtaWcCAczxVhh/hzlvazbEmUNgWRc8PXaCwwUpghO9f54E=
+	t=1709635505; cv=none; b=ZNldbGOabh9l2l2YdhSmyVHdSqNvM27Pbck6WNpd2SnkO05a5fZXgvSM22iHMtH9UeuD0w6IwP7lHQlOGXP7IIoZ0sRQlR2byN0T1cHdAFB0TcAn+Y3Jmjo2AnYLGavtFnDUGedXT+kkK+uc80PDWIMtN6KrbqPDlj11MTAGfqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709635206; c=relaxed/simple;
-	bh=IJDVz1uipxvQs+z2wfWz4EQe35sYMgwDkAU8oGgCkfQ=;
+	s=arc-20240116; t=1709635505; c=relaxed/simple;
+	bh=8VjRaJlSO52iUgJuSPtyZYPQMgxH2rtz0BnF9RAJWh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AHdYYMCvXxuN1OejYybHchNgVddC8OBxm7ePvaUwiAdkgdRCuDcx4glnGwCMH5JcC2Wo/HpjJIWrwsAjCmcu2p6P+EwWBmoHcD+0I6lWINOTRIYg2Tvi5WjgfC0/BB93OHLKs25/srDXPk2VgJkEntfxENpPM0T8HVSjZY/pMPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IG0YkgI/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77779C433F1;
-	Tue,  5 Mar 2024 10:40:03 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYw8VEfswU3RP9VbjkkPB5hp+xczzvnVV/ng8gqrlc61Vzgk8LyiUujzObgqd4KUWhiY4AA7YloWPWO9yfTLzuB9rk9Vk26vbqGsiNQ30qx2GqrAHdMlKSHAPEMOvjnjhzkSZR39v68/1xQyJ0SqldyVlw40unRCCzz8gPf+s0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ib32rDTh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4A1C433C7;
+	Tue,  5 Mar 2024 10:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709635205;
-	bh=IJDVz1uipxvQs+z2wfWz4EQe35sYMgwDkAU8oGgCkfQ=;
+	s=k20201202; t=1709635505;
+	bh=8VjRaJlSO52iUgJuSPtyZYPQMgxH2rtz0BnF9RAJWh4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IG0YkgI/VfyLOtJMVZvNwGqFJaWZF344+xm8SzYA6a4CCUjrLevkeRI34sXmryMuV
-	 tSD3ZJsRKSWE7MM0whXPbTNoNcDttLYN86EodmAY9U2ypzvjgAsz4sIriGVzJy+y4l
-	 L2kTRAfyY797LslqJZZ8S5bIuxgZx7lgk6usCoQ/pRkaimUTre28WRXZoSZEWiz8Ge
-	 Jh4a9RoZaITjjOq3jyrpAT7S3gRoy3VqcPX2zHDm/Z7jXQDwT0/M8qGRizodIEbdKT
-	 42xMIm60lKoHeSPkQHJU8a81cju2MR/EVELVRKTmEJrusJOdE2zyBTGFRzde/e88nm
-	 T6dwyk1tkzP5A==
-Date: Tue, 5 Mar 2024 10:40:00 +0000
+	b=Ib32rDTh4IJYYPZKnoiSk9MLqhEOKNsNr1vEYi4ugZ0s5BDM8Mht4heLcu0Udkxag
+	 8v0nX4T7ukk8LMFRAhRQ8uqDx/xOQMPUzeSu60R3VdRhJXj4O1nzOR8eaFlbL96JFu
+	 soCK+s47ucZI/XIqYtx+PY1I8b9MWsw3ywh3jfQzPQwrVWfkAyOWd7ozPyvoqOQ9yM
+	 AbwvJ/0dBjchXuN1RaH6qMHcgF372gCrI9vBrJ8IhsR0g//jDRywFazfy74BqdAVD5
+	 303nVglW7uUTyNujcbgQtlD1sEJ/4m7n7RG5j2qbbcbwFNhdVwxcL9msRwmNIq3Nlr
+	 Hlyk7IKCnXt0w==
+Date: Tue, 5 Mar 2024 10:44:59 +0000
 From: Lee Jones <lee@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240305104000.GG5206@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <20240229172653.GB1209090@google.com>
- <208e8bcc-1f35-4095-9a70-7243fdabaf87@gmail.com>
- <20240305095539.GE5206@google.com>
- <875xy1ynya.wl-tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+	deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240305104459.GA86322@google.com>
+References: <20240304163220.19144-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -69,77 +60,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <875xy1ynya.wl-tiwai@suse.de>
+In-Reply-To: <20240304163220.19144-1-tzimmermann@suse.de>
 
-On Tue, 05 Mar 2024, Takashi Iwai wrote:
+On Mon, 04 Mar 2024, Thomas Zimmermann wrote:
 
-> On Tue, 05 Mar 2024 10:55:39 +0100,
-> Lee Jones wrote:
-> > 
-> > On Sat, 02 Mar 2024, Heiner Kallweit wrote:
-> > 
-> > > On 29.02.2024 18:26, Lee Jones wrote:
-> > > > On Tue, 13 Feb 2024, Heiner Kallweit wrote:
-> > > > 
-> > > >> If a simple trigger is assigned to a LED, then the LED may be off until
-> > > >> the next led_trigger_event() call. This may be an issue for simple
-> > > >> triggers with rare led_trigger_event() calls, e.g. power supply
-> > > >> charging indicators (drivers/power/supply/power_supply_leds.c).
-> > > >> Therefore persist the brightness value of the last led_trigger_event()
-> > > >> call and use this value if the trigger is assigned to a LED.
-> > > >> This change allows to use simple triggers in more cases.
-> > > >> As a first use case simplify handling of the mute audio trigger.
-> > > >>
-> > > >> This series touches few subsystems. I'd propose to handle it via
-> > > >> the LED subsystem.
-> > > >>
-> > > >> Heiner Kallweit (4):
-> > > >>   leds: trigger: Store brightness set by led_trigger_event()
-> > > >>   ALSA: control-led: Integrate mute led trigger
-> > > >>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
-> > > >>   leds: trigger: audio: Remove this trigger
-> > > >>
-> > > >>  arch/mips/configs/ci20_defconfig     |  1 -
-> > > > 
-> > > >>  drivers/input/input-leds.c           |  8 +---
-> > > > 
-> > > > This does not apply.
-> > > > 
-> > > > Please rebase onto v6.8-rc1.
-> > > > 
-> > > Since v6.8-rc1 the following has been added, which is touched by
-> > > my series:
-> > > 698b43780ba2 ("Input: leds - set default-trigger for mute")
-> > > 
-> > > Rebasing onto v6.8-rc1 would mean:
-> > > - remove the change to input-leds from the series
-> > > - resubmit this change via input subsystem
-> > > 
-> > > This would affect bisectability, because for the time being
-> > > input-leds would reference a config symbol that doesn't exist
-> > > any longer.
-> > > 
-> > > We'd be fine only if the change to input-leds is applied first.
-> > > I think that's the best way to go, if you can't accept a series
-> > > based on linux-next.
-> > 
-> > Then it's going to have to wait until v6.10.
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
 > 
-> Or merging via input tree?
-> The changes are relatively small and easy, after all.
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
+> 
+> This patchset is part of a larger effort to implement the backlight
+> code without depending on fbdev.
+> 
+> Patch 1 makes the backlight core match backlight and framebuffer
+> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> drivers and remove unnecessary implementations of check_fb. Finally,
+> patch 10 replaces the check_fb hook with controls_device, which
+> uses the framebuffer's Linux device instead of the framebuffer.
+> 
+> v3:
+> 	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
+> 	* if-else cleanups (Andy)
+> 	* fix commit message of patch 2 (Andy)
+> v2:
+> 	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
+> 	* fixes to commit messages
+> 
+> Thomas Zimmermann (10):
+>   backlight: Match backlight device against struct fb_info.bl_dev
+>   auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+>   hid/hid-picolcd: Fix initialization order
+>   hid/hid-picolcd: Remove struct backlight_ops.check_fb
+>   backlight/aat2870-backlight: Remove struct backlight.check_fb
+>   backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+>   fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+>   fbdev/ssd1307fb: Init backlight before registering framebuffer
+>   fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+>   backlight: Add controls_device callback to struct backlight_ops
+> 
+>  drivers/auxdisplay/ht16k33.c             |  8 ------
+>  drivers/hid/hid-picolcd_backlight.c      |  7 ------
+>  drivers/hid/hid-picolcd_core.c           | 14 +++++------
+>  drivers/hid/hid-picolcd_fb.c             |  6 +++++
+>  drivers/video/backlight/aat2870_bl.c     |  7 ------
+>  drivers/video/backlight/backlight.c      |  8 ++++--
+>  drivers/video/backlight/bd6107.c         | 12 ++++-----
+>  drivers/video/backlight/gpio_backlight.c | 12 ++++-----
+>  drivers/video/backlight/lv5207lp.c       | 12 ++++-----
+>  drivers/video/backlight/pwm_bl.c         | 12 ---------
+>  drivers/video/fbdev/core/fb_backlight.c  |  5 ++++
+>  drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
+>  drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
+>  include/linux/backlight.h                | 16 ++++++------
+>  include/linux/fb.h                       |  9 +++++++
+>  include/linux/pwm_backlight.h            |  1 -
+>  16 files changed, 70 insertions(+), 97 deletions(-)
 
-That's likely to culminate in similar merge-conflicts when further
-changes are made to:
+All applied.  Submitted for build testing.
 
-  drivers/leds/led-triggers.c
-  drivers/leds/trigger/Kconfig
-  drivers/leds/trigger/Makefile
-  drivers/leds/trigger/ledtrig-audio.c
-  include/linux/leds.h
-
-What happens if I take all but the Input change?  If this doesn't cause
-build-failures and the Input change will definitely land in v6.9, it
-could work.
+Will follow-up with a PR once that's passed.
 
 -- 
 Lee Jones [李琼斯]
