@@ -1,146 +1,189 @@
-Return-Path: <linux-input+bounces-2211-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2212-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB24C87123E
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 02:15:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD20D87156F
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 06:53:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E863B2135E
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 01:15:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1A061C2209B
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 05:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1E3311718;
-	Tue,  5 Mar 2024 01:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C78D2AE95;
+	Tue,  5 Mar 2024 05:52:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJTNe2Gu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZzL3XOL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F58111A5;
-	Tue,  5 Mar 2024 01:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CDF4CB23;
+	Tue,  5 Mar 2024 05:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709601344; cv=none; b=sQlH6YiaOdP/sEjnk7Zx6/mDjBbrYiiI2LwlRXNPnLYDE9MshLQIbhm4mZhzt/5YYMegCGO0e3c9734p1znWda5CHEVrlEcOVVuooeAyDu4gBVzeJ3aLeV3ultTLpSfcSDBJjRGX1Pm5Vz8WbKDPzWCvHCMV2hgiLZ3fNl4CJl4=
+	t=1709617979; cv=none; b=eZvuU3lmVrnbMXqBBJ/s3nYXWEDoZaIlS3OOZRvVJBshJ7fZXY/svKV9WH7YdrlCuljja/zUz5amyGactl2PX1IASG1vNrtq0Oe3wnh20ak14dAgVrhaJ3/+cc+x8C1H51mP82ii1TLV2AUrLnWwDiu6kqseH+WS+HUVhMIe4GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709601344; c=relaxed/simple;
-	bh=rNYrYnUDeiQThIlOLf7GZzdLyTpjLYQxAmN0MpVAUGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KzJvpzv/V3rHtGj2aJUC6OPGR1L5Aa17Wxrgpl/ZMcst+GoMTNPqs4Mmy+TfAWh9kjtmfD6+i3NQz4u76I/fIvsd89qVBg7FegnlYzPdeMqBus8kRgKwHeG59GZ3oQofNqVQXmXPSzZnipIafapQ5o0I1h+DR4X5Z9CTQUUcryA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJTNe2Gu; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1709617979; c=relaxed/simple;
+	bh=AYLW1//dy5xf/Pa6/bMw0sJZYBaMmhOjIUuu7n6/e20=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tSfOaq1U/jS2XLdwxPd2bbBMZwypQ7btPV+ZXJtQj3RVg6sGXFjKUsZE2Q5Qvd9bWobaeu1Y5QKaKyzhMTRetd+tA4/QmBAI4nLoi0ef01lIb/8IYQPBGtVFoC8D5gbHbP9Mn7q22mWzluDQwexB9ututo4R6Wb/iYvgkr27JVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZzL3XOL; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5e4b775e1d6so1658487a12.1;
-        Mon, 04 Mar 2024 17:15:43 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a44ad785a44so421714766b.3;
+        Mon, 04 Mar 2024 21:52:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709601342; x=1710206142; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a97puSPee8NDveftoKysQGZs9RYm6VyTGxwyRsunH+Y=;
-        b=fJTNe2Gub27MurvKcTXhyF1QFNQQodU+fu9T+cxVNmcVr0ZGwHN7vKgI3GZFs3QPRn
-         8gzFd0Wqw/A63jkpXVCHU0Pg1rA/WSzlCDder89OAXwz2wcdbIPym6HrfDhhEjg4j4dD
-         QDGzlnBhxSt41ocP3TceN5KDiCTFiuMsZPLyIMk1wB7e/8hW154+/sS50f80vVT+LYlw
-         AewTiOr13/hnOBqaOV3AF0Q+ZwYVap/B2smBMULkS1VstT3uSiSP4NSY2o9SKeq0Gcki
-         djHloygETtD9KTvOB3ftF2K46/mQgRkoec/+lwTyW5Sr9kIQS4kADiK5dyV3sD7CLiYI
-         2cOA==
+        d=gmail.com; s=20230601; t=1709617976; x=1710222776; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iNfYyJIcPqgZYHnSjE0qasYntQo5CxIhhJdeJyjsmfw=;
+        b=QZzL3XOL1xc672TYpD8ukwE02VzHdss8nj1V4KsoThzvtccgcf4K+xXKfBFv0RBYtB
+         4FfWOSmpLSCqUjhEUFe8gJLm/SRGO8F27WBTyTxUNbulxSt8EQZVpdB7F4spCL3rrtCd
+         h6E/iln/1nxgoXhr/DpAWzzHxSn5Rk4xbLmD7IYrj4eGvjg7XyjVoV5DoJjSY+6EnIAZ
+         rJ0TIrYbcSIOXu9VlT/huDdoVGtLHPIgK2j1k1o9nJMeZRw2jzWwZH5wp9cct4BaWIdp
+         QqFGTdzFL/8XBAYuSTC9+SW+zRVh9i+pubdK8rSQB1S2rybU9si7qCyMO4QUMYRRtrwn
+         Ir7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709601342; x=1710206142;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a97puSPee8NDveftoKysQGZs9RYm6VyTGxwyRsunH+Y=;
-        b=B+7Kzc6de6fBRAi8ZB75AA6xY64fhK37XsJFX4yvmn1KLpLNE1AN48AAUNZ1SZUw+o
-         vb62cxbmCTQv99SIbstBrJZ9ucjeDZjT1fD1B2h0nu97BaedD8ZI/9VuqRDf2wo9iZJL
-         WPok+0uxyooYiUMbRJ0lYcyEBr/YioMrQZ0lN42YYK9QTUpJLwYCInf6EVshmkvI6AUk
-         mLS2jf8xg5FfEAUiEaQVXpM3eiTlUu+PMbPM7LC2Kq9nNx4jAOyCPTyYL97ykT2JKunL
-         fsFmr2JP73lR2iQgdIm1gpnIRWhIh75Yvq2OA5o3o0+EGMv/Os3TJBZI6C+N2eRQxOWB
-         ERAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQj8bJcdax/i8Lhwc3BJA3cDpKybJlGu0Iko26B4fVGXOIiT57zSBcGKUjo9I5roC2O/CyjAMFYZySzD+/LX6dfNgzOz5U1bo4QSTMdGxUbyQbrCQL+OC/eIm+N/N5kPTrUoEqGXj0qnk=
-X-Gm-Message-State: AOJu0Yz9jI6X7P6ux6hUQwfdn+qsVSqtEJbYIqXlOM3xzXQBH5jQ11Dr
-	ypIvjdti8L9PRnab/+ND/KlPzqr+1CI9OITlIHWDUsjwNaWzH1bl
-X-Google-Smtp-Source: AGHT+IGf/n6nOjCwoUrmBtzH0Ck54FjovaK9aQfF83w1GFO/2lpWpRKOz6N0/J/WgsAWRf4Tx45MzQ==
-X-Received: by 2002:a17:90a:9601:b0:29b:9e1:2fb0 with SMTP id v1-20020a17090a960100b0029b09e12fb0mr1416148pjo.0.1709601342390;
-        Mon, 04 Mar 2024 17:15:42 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:a5d5:fe74:fba8:86b5])
-        by smtp.gmail.com with ESMTPSA id p4-20020a17090b010400b0029af35db43csm8520610pjz.43.2024.03.04.17.15.41
+        d=1e100.net; s=20230601; t=1709617976; x=1710222776;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iNfYyJIcPqgZYHnSjE0qasYntQo5CxIhhJdeJyjsmfw=;
+        b=dAuT1Vr73EuyfM8Udfp3+R8mvIaTjqBAs/FmTe7OqhVieN2dX7T76/J/LxqKrB8959
+         a5m7bDHGGGeDQhW3yIC7odzOeB4b8qPVilzKOqVFqn9qUEvZeM0PgoIGqgEVYq+GXWAd
+         cf9BnhjR5ur/xRZaf3LsBbXP/3XggLmCVYjdN7FR9jKjhK2ThxEHJayh5nEGFnDRkSVb
+         mt/fZXEE0Z9U6CH1cyJXMmoDhw/4Fu9tukvYpG3vDjYd+aAO8U2HDdf7nlMyoeVAMsnn
+         ZMo2s5kAgMkI5febF0ZWAVMsRTgpfZqBBCOHQb0T4pOAuJK8onxSBIVBWw8e+AbFOTyM
+         TfCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVL5f5dlHh79QUJZB1B9mDaC3I1s8fT1qH2Ym478SgXYJpQo0tpu4P8tRkAE+/mRsXNc+noaoDxygXiQu1onvRUvBAV0Jn8LY/QjKjp
+X-Gm-Message-State: AOJu0Yw+MNgxmT20ViSOBB9OhgDaNQKhZRo0c/HIKxH7vXDilVq2OAWV
+	WsRC4RNMHW4bmrS8TR3ik7sBVGiYm+RwlOxeZux5314UpRcjNw4h
+X-Google-Smtp-Source: AGHT+IGvy4VyIAdGOPrnkE7IhGVpRILLK08YsbaHw7JmOvxFg/w40x+sca9mmrhsXAZ8uYYraF94mw==
+X-Received: by 2002:a17:906:c7c3:b0:a3e:34e8:626f with SMTP id dc3-20020a170906c7c300b00a3e34e8626fmr7917401ejb.66.1709617975573;
+        Mon, 04 Mar 2024 21:52:55 -0800 (PST)
+Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id lb24-20020a170906add800b00a4131367204sm5633692ejb.80.2024.03.04.21.52.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 17:15:42 -0800 (PST)
-Date: Mon, 4 Mar 2024 17:15:39 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev, Henrik Rydberg <rydberg@euromail.se>,
-	John Horan <knasher@gmail.com>
-Subject: Re: [REGRESSION] Missing bcm5974 touchpad on Macbooks
-Message-ID: <ZeZyO7RUGyC8BRKP@google.com>
-References: <87sf161jjc.wl-tiwai@suse.de>
- <6ef6c5bf-e6e5-4711-81c6-6ae41de2e61e@wolfvision.net>
- <874jdm17yt.wl-tiwai@suse.de>
- <449417ca-aae1-4868-a96f-a99ac5d187d6@gmail.com>
+        Mon, 04 Mar 2024 21:52:54 -0800 (PST)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Tue, 05 Mar 2024 06:52:43 +0100
+Subject: [PATCH] Revert "Input: bcm5974 - check endpoint type before
+ starting traffic"
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <449417ca-aae1-4868-a96f-a99ac5d187d6@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240305-revert_bcm5974_ep_check-v1-1-db4f0422588f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACqz5mUC/x2MWwqAIBAArxL7nWA+krpKhJittUQPNCKI7p70O
+ TAzDySMhAna4oGIFyXatwxVWYCf3TYhozEzCC4Ul1yzLGE87eBX3Rhl8bB+Rr8waYJwtRuEqRT
+ k+ogY6P7PXf++H3gbtSlpAAAA
+To: Henrik Rydberg <rydberg@bitmath.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ regressions@lists.linux.dev, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709617973; l=3264;
+ i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
+ bh=AYLW1//dy5xf/Pa6/bMw0sJZYBaMmhOjIUuu7n6/e20=;
+ b=UMHi2tDKeW5/xZXMWhszo8IKwIEF/XFtfTC1wu/2uAqsqt23o93AXZH5YXy07BHLyF95heJKC
+ CCY2je1DrW5AQw/LSqjiWqQ/UfXIwthZbU1UVxsSQma86cFcpidBO5V
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
 
-On Mon, Mar 04, 2024 at 09:21:19PM +0100, Javier Carrasco wrote:
-> 
-> There is indeed an interrupt endpoint with address 0x81, but the driver
-> defines bInterfaceProtocol = 2 (Mouse), and the endpoint in that
-> interface is 0x84:
-> 
-> #define BCM5974_DEVICE(prod) {					\
-> 	.match_flags = (USB_DEVICE_ID_MATCH_DEVICE |		\
-> 			USB_DEVICE_ID_MATCH_INT_CLASS |		\
-> 			USB_DEVICE_ID_MATCH_INT_PROTOCOL),	\
-> 	.idVendor = USB_VENDOR_ID_APPLE,			\
-> 	.idProduct = (prod),					\
-> 	.bInterfaceClass = USB_INTERFACE_CLASS_HID,		\
-> 	.bInterfaceProtocol = USB_INTERFACE_PROTOCOL_MOUSE	\
-> }
-> 
-> where USB_INTERFACE_PROTOCOL_MOUSE = 2.
-> 
-> 
-> My interpretation is that the driver is checking if the endpoint with
-> address 0x81 form the interface with bInterfaceProtocol = 2 (that is the
-> last interface of the list, the one with bInterfaceNumber = 2), but it
-> is not found, because its only endpoint has a different address (0x84).
-> 
-> Interestingly, 0x84 is the address given to the endpoint of the button
-> interface. The button interface should not be relevant for Macbook 5,1
-> (TYPE 2 in the driver), according to 43f482b48d03 ("Input: bcm5974 -
-> only setup button urb for TYPE1 devices").
-> 
-> If that is true, does anyone know why bInterfaceProtocol is always set
-> to USB_INTERFACE_PROTOCOL_MOUSE, and why the driver works anyway with
-> bEndpointAddress = 0x81 for the trackpad? The urb setup for 0x84 is only
-> executed for TYPE 1 devices, and the mouse interface does not have an
-> endpoint with address 0x81. Or am I missing something?
+This patch intended to fix an well-knonw issue in old drivers where the
+endpoint type is taken for granted, which is often triggered by fuzzers.
 
-The driver is naughty, it binds to the 3rd interface (bInterfaceNumber
-2) but actually pokes into the 2nd interface with endpoint 0x84 without
-actually claiming it. Your check expects that the endpoint belongs to
-the interface that the driver binds to and thus fails.
+That was the case for this driver [1], and although the fix seems to be
+correct, it uncovered another issue that leads to a regression [2] if
+the endpoints of the current interface are checked. The driver makes use
+of endpoints that belong to a different interface rather than the one it
+binds (it binds to the third interface, but also accesses an endpoint
+from a different one). The driver should claim the interfaces it
+requires, but that is still not the case.
 
-> 
-> We could revert the patch in question, but I see no reason why checking
-> an expected interrupt endpoint should cause trouble. It looks like there
-> is something fishy going on.
+Given that the regression is more severe than the issue found by
+syzkaller, the best approach is reverting the patch that causes the
+regression, and trying to fix the underlying problem before checking
+the endpoint types again.
 
-Yes, the driver needs to claim both interfaces and when checking use the
-right one. I will revert the patch for now given that it causes
-regression and we can try fixing it again.
+Note that reverting this patch will probably trigger the syzkaller bug
+at some point.
 
-Thanks.
+[1] https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+[2] https://lore.kernel.org/linux-input/ab9d758c-3ce9-42f6-99af-877055a589e6@leemhuis.info/T/#t
 
+This reverts commit 2b9c3eb32a699acdd4784d6b93743271b4970899.
+
+Fixes: b516b1b0dfcc ("Revert "Input: bcm5974 - check endpoint type before starting traffic"")
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+ drivers/input/mouse/bcm5974.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
+
+diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
+index 953992b458e9..ca150618d32f 100644
+--- a/drivers/input/mouse/bcm5974.c
++++ b/drivers/input/mouse/bcm5974.c
+@@ -19,7 +19,6 @@
+  * Copyright (C) 2006	   Nicolas Boichat (nicolas@boichat.ch)
+  */
+ 
+-#include "linux/usb.h"
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+ #include <linux/slab.h>
+@@ -194,8 +193,6 @@ enum tp_type {
+ 
+ /* list of device capability bits */
+ #define HAS_INTEGRATED_BUTTON	1
+-/* maximum number of supported endpoints (currently trackpad and button) */
+-#define MAX_ENDPOINTS	2
+ 
+ /* trackpad finger data block size */
+ #define FSIZE_TYPE1		(14 * sizeof(__le16))
+@@ -894,18 +891,6 @@ static int bcm5974_resume(struct usb_interface *iface)
+ 	return error;
+ }
+ 
+-static bool bcm5974_check_endpoints(struct usb_interface *iface,
+-				    const struct bcm5974_config *cfg)
+-{
+-	u8 ep_addr[MAX_ENDPOINTS + 1] = {0};
+-
+-	ep_addr[0] = cfg->tp_ep;
+-	if (cfg->tp_type == TYPE1)
+-		ep_addr[1] = cfg->bt_ep;
+-
+-	return usb_check_int_endpoints(iface, ep_addr);
+-}
+-
+ static int bcm5974_probe(struct usb_interface *iface,
+ 			 const struct usb_device_id *id)
+ {
+@@ -918,11 +903,6 @@ static int bcm5974_probe(struct usb_interface *iface,
+ 	/* find the product index */
+ 	cfg = bcm5974_get_config(udev);
+ 
+-	if (!bcm5974_check_endpoints(iface, cfg)) {
+-		dev_err(&iface->dev, "Unexpected non-int endpoint\n");
+-		return -ENODEV;
+-	}
+-
+ 	/* allocate memory for our device state and initialize it */
+ 	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
+ 	input_dev = input_allocate_device();
+
+---
+base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+change-id: 20240305-revert_bcm5974_ep_check-37f2a6ab2714
+
+Best regards,
 -- 
-Dmitry
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
 
