@@ -1,127 +1,127 @@
-Return-Path: <linux-input+bounces-2207-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2208-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F6F870B9B
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 21:28:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E148711E4
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 01:43:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EAA9E1C22447
-	for <lists+linux-input@lfdr.de>; Mon,  4 Mar 2024 20:28:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBD151F210AB
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 00:43:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25ADB79DBA;
-	Mon,  4 Mar 2024 20:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBDAA46B5;
+	Tue,  5 Mar 2024 00:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="WS6j8opJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asPvtNjX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18D35FF0E;
-	Mon,  4 Mar 2024 20:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AC546A0
+	for <linux-input@vger.kernel.org>; Tue,  5 Mar 2024 00:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709584100; cv=none; b=DMx+9gPe2ZRvrxMPHRoGTGmRdZKeoXTOtvjjV4eE3ufQ7nMr8GFi1XkJzeOmqVr5FFW4jcLRYAxVAh1xMHz/mETokEloze2XyuGs2lg0PgaceDoQisU5DImqVfmuUpZB1lyPhQO7rAq+ZXdDzKjWn+HIgB3Sk4Bu5JuzkwMoXJI=
+	t=1709599394; cv=none; b=rS054vqqyTBEno/CZr+EJC3u6Bcjm7NmTMGjFb1WGbMeuAiohOyJv5K6vi3wrO1RZvqdsOweSELPgIEgxETpGNbFOobQTloGilxnJgr7ZumhdIHKIgUyClqJ80F6Sm6CPfkQ21W/T77ho+1qw23LUqkr+aQVXqEMf/4p9AA3DXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709584100; c=relaxed/simple;
-	bh=Wpxa/TK4b0ZLhe17uwNFCNqly4luRjWd6+LrHrOSp08=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=uXLXIe/Uro530eyjHEkIB+2f+uuz0ZdtJkyEdce2MG9aDdzVbha6dJxNtDyNya6tKTNW9DgMlHml3ketjZ+EbS8K7Ae+XCmYD9a915RV5tZT+7EX6XZg4sRcD2wb6O5Q9am/dgoetekrrzDcEEWI8n+FRV2J239W1w/QEvzPCpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=WS6j8opJ; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 509FC2843B5;
-	Mon,  4 Mar 2024 21:28:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1709584089;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0gGSi9ctqlSm0+Gdj84gUSgxHdqznSURe1C3VVntQE=;
-	b=WS6j8opJpfs0wpsyX6yLSCrostCOINwT8dTgsY2V+OjcaE6QPC7vvhaBybZwwLw2sPQO9f
-	VNFBi0Z0Q2XBY0ZyL5gEd76Y6OJK3+Nl2cSO4NaPOW/j+mrRI+N1Bm23jHZ3edJyhrEwrY
-	tj/03Qr1cnAi+fyfrA1Y5A8wN3h59f4=
-Received: from localhost (koleje-wifi-0023.koleje.cuni.cz [78.128.191.23])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 2C9E0457628;
-	Mon,  4 Mar 2024 21:28:09 +0100 (CET)
+	s=arc-20240116; t=1709599394; c=relaxed/simple;
+	bh=i+9TG63dIeCwX6A1FSQfa+pp6n0t0zRwJsg1MOpwRgg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EbdzGhJVoGDBhu1AoM0dmeWxJ67RVv2HBSWtvh5s3vlmfqILrstews++tt26M9lZ+2kF71xEyueXg2Ak776CUn1sR5f86rfvDssZs9jLBODByWxP7K++1UIc2K5dhWN4GBR0GGHNeB61lBAPRXO+ORyuj5FJ4tKNTwixPK9sAuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asPvtNjX; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-1dc1ff3ba1aso38711775ad.3
+        for <linux-input@vger.kernel.org>; Mon, 04 Mar 2024 16:43:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709599392; x=1710204192; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=URrS8glJFWUiAoRtO7SlP1XyYj10mu2KuLYcQqYWEBs=;
+        b=asPvtNjXXpdOoD8s5aQRc21+MzLzOoMAPUq1hAFQw0EUa6M16HfuiyaJjhtnRK12TV
+         LMeqcINWzaD4bNyjTgwTkOgWSc765MJ4rtcNWaRmiYRvfHqJRYGkejOVi4tsEjhNehki
+         PaTnMGXypaPvKr3zElI8WvBycK5xPZZgrdJ/uGcC6/KGbXz6kHt8/6OF4UVYOIup2uFk
+         xvSo5WoLghY51vPdAl+l7plDHpqYePozYz8gWyoUIVrOOidTDs5nsxntItOS4OsU8oxY
+         77puHxlHE6RbuaGSsz6WY8z1I4xgypGePzI1HAqE4381Q32jV5nt6N7EdZvpdnF2SaWz
+         aS4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709599392; x=1710204192;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=URrS8glJFWUiAoRtO7SlP1XyYj10mu2KuLYcQqYWEBs=;
+        b=uPqAi19PLz+0y6alnJnep3YSt4mD8dKSBMZsQzktAUkp/6r2TJXKXFLXnIfW4kiK40
+         c6CMzd1Pvs0Y7Ic09P8ZAWNDmS1fKWs1/YKx4lZ8j6W+l0YjgWbgUoZvoRXuj0Jb20hQ
+         JQo0c2NonUsyp6WjEfTyS3eXlAPCrmECjA7VVFs3Zww+6RomyfQxrlSwjqqkFfThgCAO
+         tacp0T4IC5HwGPlSwT6GyYCbTEqjhpkzpmpAJ+vXpnS2hQ3uQ+C4jDk0cV30JkrA6Rn1
+         qW7eSiV7a1nvHufnIGHZz6KmRKa/KndMDSyUxbO3Svos9wGDIY4ic9hoAP56HRDjKx4w
+         abCQ==
+X-Gm-Message-State: AOJu0Yx6ezrIDX02qTK34UOHcx5o0PQQo9SlLOZdqBp9yLYiU2ZBMUGd
+	1l2FL2fJ/WqyComGaH6Ldlan0t0n5KnkORb6rfPR8l1KKrgtP2Po
+X-Google-Smtp-Source: AGHT+IFhhuTlc7wpW1QmkMEqysiKoeeKq+VLyCf7t6+s8MTxMtiELQ7rMq3Inhj8hkRa5YqyHR8GZQ==
+X-Received: by 2002:a17:902:ff02:b0:1dc:ad9d:9e7b with SMTP id f2-20020a170902ff0200b001dcad9d9e7bmr384383plj.59.1709599392487;
+        Mon, 04 Mar 2024 16:43:12 -0800 (PST)
+Received: from ?IPV6:2607:fb90:571c:c787:a1aa:d99e:c4b7:75b8? ([2607:fb90:571c:c787:a1aa:d99e:c4b7:75b8])
+        by smtp.gmail.com with ESMTPSA id h12-20020a170902f7cc00b001dcac08a360sm9183856plw.175.2024.03.04.16.43.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 16:43:12 -0800 (PST)
+Message-ID: <8a2e32ad-abbe-4459-ac99-c0b8e8e2cdef@gmail.com>
+Date: Mon, 4 Mar 2024 16:43:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 04 Mar 2024 21:28:45 +0100
-Message-Id: <CZL8ZSZAVEBI.349BV2Y6AKIPN@gimli.ms.mff.cuni.cz>
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 4/5] input: add onkey driver for Marvell 88PM886
- PMIC
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-References: <20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz>
- <20240303101506.4187-5-karelb@gimli.ms.mff.cuni.cz>
- <ZeTgEmjJc_VhYpLm@google.com>
-In-Reply-To: <ZeTgEmjJc_VhYpLm@google.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: xpad - Add additional HyperX Controller
+ Identifiers
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+References: <44ad5ffa-76d8-4046-94ee-2ef171930ed2@gmail.com>
+ <ZeT9cbHRVe7td8WB@google.com>
+Content-Language: en-US
+From: "Nguyen, Max" <hphyperxdev@gmail.com>
+In-Reply-To: <ZeT9cbHRVe7td8WB@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dmitry,
 
-Dmitry Torokhov, 2024-03-03T12:39:46-08:00:
-> On Sun, Mar 03, 2024 at 11:04:25AM +0100, Karel Balej wrote:
-> > From: Karel Balej <balejk@matfyz.cz>
-> >=20
-> > Marvell 88PM886 PMIC provides onkey among other things. Add client
-> > driver to handle it. The driver currently only provides a basic support
-> > omitting additional functions found in the vendor version, such as long
-> > onkey and GPIO integration.
-> >=20
-> > Signed-off-by: Karel Balej <balejk@matfyz.cz>
-> > ---
-> >=20
-> > Notes:
-> >     RFC v3:
-> >     - Drop wakeup-source.
-> >     RFC v2:
-> >     - Address Dmitry's feedback:
-> >       - Sort includes alphabetically.
-> >       - Drop onkey->irq.
-> >       - ret -> err in irq_handler and no initialization.
-> >       - Break long lines and other formatting.
-> >       - Do not clobber platform_get_irq error.
-> >       - Do not set device parent manually.
-> >       - Use input_set_capability.
-> >       - Use the wakeup-source DT property.
-> >       - Drop of_match_table.
+On 3/3/2024 2:45 PM, Dmitry Torokhov wrote:
+> Hi Max,
 >
-> I only said that you should not be using of_match_ptr(), but you still
-> need to have of_match_table set and have MODULE_DEVICE_TABLE() for the
-> proper module loading support.
+> On Fri, Mar 01, 2024 at 06:15:42PM -0800, Nguyen, Max wrote:
+>> Add additional HyperX device identifiers to xpad_device and xpad_table. Cc:
+>> stable@vger.kernel.org Suggested-by: Chris Toledanes<chris.toledanes@hp.com>
+>> Reviewed-by: Carl Ng<carl.ng@hp.com>
+>> Signed-off-by: Max Nguyen<maxwell.nguyen@hp.com>
+> Your client messes up patches :(
 
-I removed of_match_table because I no longer need compatible for this --
-there are no device tree properties and the driver is being instantiated
-by the MFD driver.
+Sorry about that... I tried to submit through a different client.  I will submit through my previous method next time.
 
-Is the MODULE_DEVICE_TABLE() entry needed for the driver to probe when
-compiled as module? If that is the case, given what I write above, am I
-correct that MODULE_DEVICE_TABLE(platform,...) would be the right thing
-to use here?
+>
+>> ---
+>>
+>> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+>> index 7c4b2a5cc1b5..a7e001a1f6dc 100644
+>> --- a/drivers/input/joystick/xpad.c
+>> +++ b/drivers/input/joystick/xpad.c
+>> @@ -131,6 +131,11 @@ static const struct xpad_device {
+>>   	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+>>   	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
+>>   	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
+>> +	{ 0x03f0, 0x08B6, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },		/* v2 */
+>> +	{ 0x03f0, 0x07A0, "HyperX Clutch Gladiate RGB", 0, XTYPE_XBOXONE },
+>> +	{ 0x03f0, 0x038D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wired */
+>> +	{ 0x03f0, 0x048D, "HyperX Clutch", 0, XTYPE_XBOX360 },			/* wireless */
+>> +	{ 0x03f0, 0x09B4, "HyperX Clutch Tanto", 0, XTYPE_XBOXONE },
+> These need to be sorted by VID/PID.
+>
+> I fixed it up and applied.
+>
+> Thanks.
 
-Thank you, kind regards,
-K. B.
+Can you help explain the sort?  Do the VID/PIDs need to be in sequential order?
+
 
