@@ -1,121 +1,110 @@
-Return-Path: <linux-input+bounces-2222-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2223-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87407871A4E
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 11:13:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47355871B48
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 11:32:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22C09B21FE9
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 10:13:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 034C6280EE2
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 10:32:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CFD4548EA;
-	Tue,  5 Mar 2024 10:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1821C548E2;
+	Tue,  5 Mar 2024 10:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="atricZjL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF45548E0
-	for <linux-input@vger.kernel.org>; Tue,  5 Mar 2024 10:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D7C53E03
+	for <linux-input@vger.kernel.org>; Tue,  5 Mar 2024 10:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709633458; cv=none; b=X8VhMJbvcebAcjAbRlxuJ+1AEilZd2kkFtxZ1uPfeQMm98VjsJcX2ksHcn2I5VoAelp2/xVH5podLvXNVS7QnrYOK8IvMzm4n+mUJnow6nAQx/u1euYMBNyS8sUOJPfizPjilhWs8sxJPqzeTXHVJ5bKq9Sz5d0Mr/fkPaDddNs=
+	t=1709633865; cv=none; b=UJTlUjeYcQYuzqBX++/1qtu/roB91OLF/ITogt4piHSPLjfyeV24YMig42dY1VCpXfFm4X6y1yFTskgCxcD4RKS27HCQfjAHJ6ZwGAgZQr7nKkfP6s8ZsVCyU3lXTBHZ6uHZ8H2+a22Qu6J0Qacon9rTQl5tXDd+sg4/VKqAnRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709633458; c=relaxed/simple;
-	bh=+oLVsRd4MBhQuMWSbl0WQlAaxHX4j3U6FntbKyCeg5U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ma7Oy+DQXwKuHoWZcJmhiyFWHnwJ6CZ3bmYAzr9Ym2vnkZzLKUOBeq+dS6/UdC+5KZ1n4YL1E3PH/ZlzJ7EhYvVfpLmMJVMXMSLoxZ60PCGFP+IStmD1kW9w3IJs4PnM4cQXp0bCQken/TpEEXBEKVIY8Ej9dhhui+7FehC+IS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhRl0-00074L-7C; Tue, 05 Mar 2024 11:10:46 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhRkz-004X0P-Jd; Tue, 05 Mar 2024 11:10:45 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhRkz-00Ha7h-1f;
-	Tue, 05 Mar 2024 11:10:45 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: [PATCH] Input: gpio_keys_polled - Suppress deferred probe error for gpio
-Date: Tue,  5 Mar 2024 11:10:42 +0100
-Message-ID: <20240305101042.10953-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1709633865; c=relaxed/simple;
+	bh=BO8aT2K0AnpBOr0QkCkPwFxiTb+pVBTrL/spNAsZygs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aRyuW5UoTp9byDd+zAHKrMBzJOP2ecLiNWR2YJanB9WQ8AxhdnplAJzKINqaQng4WWnPFQ/lrP28VCOVp4oiWMx7FJ5KWFMSYf25X+vXgjTJDKLeAHr4N89xLRN2iU0olmjLFwU+h08Wx1OcQqDAIQCeDQ25zSln/pkuVIMif1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=atricZjL; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-609acac53d0so17421717b3.1
+        for <linux-input@vger.kernel.org>; Tue, 05 Mar 2024 02:17:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709633862; x=1710238662; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bB1ASSHtevkX7qDtnq3HRRs4BcAZEE3eaFkYYtR1taM=;
+        b=atricZjLQaxoy7wtobzYCo1Va84aYFttNGd1qHu0ILdyz+daeKFhbDfU9dwvsLIWke
+         ll2UILVkpLxtMW0Oh/IxrmZlAGR79ro3q9tin50Llk/FNaFvkJ983bpDDG3D34nqEfIM
+         V9TsLx4YjBm420NJrY66P8uzyZZuCutNZmKv48LArA9fEX2MObUhOw8jOUqgs4iRayqf
+         VqAauRhDi2BvFyJQOP8TJbmk5xx4tPUUO9JfY7E7W4EymgDjjXscWlTxeREwT0bIbQ6Q
+         i7JILaFTr2WLY+AjJK9YWeEerGf0w2InnJHSAkOYFDhlxv7J798eHuoah5neZJXRH4zD
+         wLdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709633862; x=1710238662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bB1ASSHtevkX7qDtnq3HRRs4BcAZEE3eaFkYYtR1taM=;
+        b=wukm4ncNKoHHePTupiHgeRSNmymAI8iHzX/8xiBo3IngmxmgtAIHhv3CjBIG4zOjMj
+         mCR1aSuDKg/1zTBM7+Bb5qDmmKN+c0ZtZM1x2lTTpnbX8yM5tBBv8rT2t8ivVGOk17RK
+         2jz+iS0Xa4echbRB+rJne2CKzoFbZxPgOHfD5GaV9YTDOBziCw8gmFsPU0wdClZWz+By
+         UGdaSGVQdtXFp7uVqgTR87VtXvpFBd/bcm3/mKFFbvgOrxSTryEr8OlJPhPTEX/uSD0j
+         xFndnKOz16W4C/RfOR5aZBsELs9X9QIaNC/64W9ZyKLwU9XUXsG1347mFF8hrHJ6h+y0
+         ESvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWs80KUFgfbnAFnVMg/b6W7XiG+ZmzAE+/vnBRyUGEwdrD5o2zPHEtW3XwqQfGpKcXdHYH2ia8oeNXiLGzTdOr4B/ymeUVB/t8/XXk=
+X-Gm-Message-State: AOJu0YwHIfQgMiu1RfzNK793RizQBPY1sHTezrzIQ3g5FST8N062ougi
+	XieL7DZmG1m8G6PXAm0HzmQ8adrar3J9nRuoY7Z2rSPYKae8jXy8vpuvM3naWfpXQQnUwGelakI
+	0Ol5y2sHa3Iokk3kunAjepiI5F/1xgp+T3PtB0A==
+X-Google-Smtp-Source: AGHT+IFyMCmGtg6nsCAXmWOECD1n/aaAvY07L67qNbxyZgXXAt2DonlTFrD+IUQew+aehKyU7xVKqo1UPU1mPinyf64=
+X-Received: by 2002:a0d:c0c2:0:b0:608:b543:2d3b with SMTP id
+ b185-20020a0dc0c2000000b00608b5432d3bmr11059455ywd.18.1709633862285; Tue, 05
+ Mar 2024 02:17:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1583; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=+oLVsRd4MBhQuMWSbl0WQlAaxHX4j3U6FntbKyCeg5U=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl5u+i03ve1jJCggpnNDSDm2oYjgPpYoNVzKUxO /jVaBOxm3OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZebvogAKCRCPgPtYfRL+ TsnJB/9jiIsJZZ5ASV6z7wuDSz6cx5SiTYgvWM1OCoJDgz77ebE5pZNMw/jQme0wLD0dEXMJece 29rdm6suKZmjFAz2bFpHvWOVtnc08ff0lPocmk/rt/bEtGWEOt4nrfiZsewqRzUHTGY29xmhInX Q99ivIuRhOI55I2dXQZBVH7RuqyQRrwjfjjGHXzzPvEk0NtgivJMwHSOdWa/aOXuv4YoF3DTC2D dxlsst/oLlj9iqo4F5nUgHKFswcXvSOx2a81xSLRzqrKlF1OhYWlaubsKzmRlIEx36soVA2uX0j wlh+yyITnL+qdv6JKp2Niim+xvdnSfqu9F2Ps9bz5+BBGHdC
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20240305101042.10953-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240305101042.10953-2-u.kleine-koenig@pengutronix.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 5 Mar 2024 11:18:06 +0100
+Message-ID: <CACRpkdYa0+6V03LPbr8+h4RJxZxrnrQ=pCcBd8WfL5Jg_tcPEQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: gpio_keys_polled - Suppress deferred probe error
+ for gpio
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, linux-input@vger.kernel.org, 
+	kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On a PC Engines APU our admins are faced with:
+On Tue, Mar 5, 2024 at 11:10=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 
-	$ dmesg | grep -c "gpio-keys-polled gpio-keys-polled: unable to claim gpio 0, err=-517"
-	261
+> On a PC Engines APU our admins are faced with:
+>
+>         $ dmesg | grep -c "gpio-keys-polled gpio-keys-polled: unable to c=
+laim gpio 0, err=3D-517"
+>         261
+>
+> Such a message always appears when e.g. a new USB device is plugged in.
+>
+> Suppress this message which considerably clutters the kernel log for
+> EPROBE_DEFER (i.e. -517).
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Such a message always appears when e.g. a new USB device is plugged in.
+Fair enough,
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Suppress this message which considerably clutters the kernel log for
-EPROBE_DEFER (i.e. -517).
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
-
-there are a few other exit paths that could use dev_err_probe(), but IIRC
-Dmitry isn't a fan of using dev_err_probe() where the return value cannot be
-EPROBE_DEFER, so I'm only changing this one error path.
-
-Best regards
-Uwe
-
- drivers/input/keyboard/gpio_keys_polled.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index ba00ecfbd343..b41fd1240f43 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -315,12 +315,10 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 			error = devm_gpio_request_one(dev, button->gpio,
- 					flags, button->desc ? : DRV_NAME);
--			if (error) {
--				dev_err(dev,
--					"unable to claim gpio %u, err=%d\n",
--					button->gpio, error);
--				return error;
--			}
-+			if (error)
-+				return dev_err_probe(dev, error,
-+						     "unable to claim gpio %u\n",
-+						     button->gpio);
- 
- 			bdata->gpiod = gpio_to_desc(button->gpio);
- 			if (!bdata->gpiod) {
-
-base-commit: 11afac187274a6177a7ac82997f8691c0f469e41
--- 
-2.43.0
-
+Yours,
+Linus Walleij
 
