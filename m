@@ -1,130 +1,155 @@
-Return-Path: <linux-input+bounces-2251-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2252-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A295F8726FB
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 19:53:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818FC8727D8
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 20:42:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4241A1F2639A
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 18:53:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF83AB20A75
+	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 19:42:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436241AAAE;
-	Tue,  5 Mar 2024 18:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C2B18639;
+	Tue,  5 Mar 2024 19:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="kIhUI8Fr"
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="jB/xRRLV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16A51C2BD;
-	Tue,  5 Mar 2024 18:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30335675D;
+	Tue,  5 Mar 2024 19:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709664802; cv=none; b=I5eR6pFkAcJXxAJxPUvktu+75rSE9Cr6G6zr6af2KE8tV+rwq/96V3GjzTlG9NXd5GYGM7q/XoAe1iaBGz9UYYEb4uoMEPpmDTSELLQ35HcGcdbB4+vvP0T9XoHclhRKWnEy8zERsU+VF6MUslgVpgGMDX9l0yqaiQOjdF0K38I=
+	t=1709667744; cv=none; b=dWfvwq2/yroKXgYjTh5ASndRMFIY/3cG+mfZ0slUMH8Jep2sXAR1cM8/74NgFWIqF4lV2eb0bru6lJUFfmuNIug+6g+VgHhXYngeyQpnfOYpAx+W/+k1TtmaEj1z1/lrPYs22OMnznhXtaOCTH2Lw/DI7zxLjmEmYjxtYAlr0KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709664802; c=relaxed/simple;
-	bh=PAjYBfjUZfOfVYAYGp67ZjY5YssOIvuLWF/KNxrjNVI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=JdnYBIV7Aw+NHWoP7hdqiTWZRYCcV45PjZ5SWRiLJijAZSoILJ27IhEjy9+/uJk/K8z7yU9zbVfa2VKBthmvhCwZp6p1HkF23v9Y0XhYN8PJKI3wB0qwMGWPI4sEtay8LVSaiNr5aIlPYmwdAg6/sbq4p/EMqf25x8ebwTkx2hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=kIhUI8Fr; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 5195128443D;
-	Tue,  5 Mar 2024 19:53:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1709664796;
+	s=arc-20240116; t=1709667744; c=relaxed/simple;
+	bh=sWeqlDdrCvrscZ1nizJTiBx6SzjcdhujOsJuJ00B4Mc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EYElMUbVpHJm7m4guTL69LrUE2gfbVYmYrl36PPVBsBNbPfhC1OU+A3s6lorTAUcn+3q/YL8zp7aa+zA219eqoGl7IwWVCpaCLtbVmEZeWUqmKKXhPSpBPBnlIyKUygd95uNISAgtVyht9u8SDEUrgPnVNgsm8EtWTZMcIHQsDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=jB/xRRLV; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5e4613f2b56so5488827a12.1;
+        Tue, 05 Mar 2024 11:42:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709667742; x=1710272542;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QW8n563iIpVzHpbfeVLjRX5pvgGzhzJJv1hAgvnjd7Y=;
+        b=WDRn0MMFqf/FogeacMwz5XaYNv2NtQ+daH+Na5mD39/rEI0HXkyqql94oDqDTPydDd
+         IeMTgRRGMEAie2W21LU/21H/1O9owqi3CQROP7LP5w94KsF6L4kAXL0QwNh5eGihFNhx
+         rl0+bQ4geWfuQ+0IfS/Bb1o+miw8OjMBv17TIXeWQF0TQ791ZNepIruzLwCsY7WwHdiQ
+         uJZnb6a6IKT+CMdAlJHoXaTH9Q+NkoANo9ozmpJlgmoXSzmh0zrRz2uM+hWWMCBwokXB
+         cuBNukyUqB5WHaqqbs46b8FNSmsEvxsDOTKYKWnk+PGa1IRZxi1LUxKp5t1JHx/kZ61i
+         sRug==
+X-Forwarded-Encrypted: i=1; AJvYcCUcu1D65EArvajTCwQk4h0BUBy2YidJTllMRg0BtASTuDIuvnOBwu9FCYqGkMkCTSlBJObJy4dQE+A6pIMAu7mP4ZLpxmEr3rGpAXC+
+X-Gm-Message-State: AOJu0Yx83tt6IcBnGjxgax7fOhLvuu/5umHUo//zOqCseCoZcqujKxTM
+	Ndl8zodogR60uaez1koAhONMVeDDxpzdBfC2OuMUjgFhbWqXmtxNtcsaC8/EGjECKg==
+X-Google-Smtp-Source: AGHT+IErAFQrwK7MEJODrnd3UOpnvJS0xdH1NQHqHvmgs8vZIzmRJeO3ap0ElbYfnH/FBOfKoVQq6A==
+X-Received: by 2002:a05:6a20:438b:b0:1a1:4a45:b393 with SMTP id i11-20020a056a20438b00b001a14a45b393mr3013322pzl.30.1709667742291;
+        Tue, 05 Mar 2024 11:42:22 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id f6-20020a056a000b0600b006e3a69eb6c4sm9250865pfu.219.2024.03.05.11.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Mar 2024 11:42:21 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2024; t=1709667740;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dks2OPoqszY4gtl403k8F6gGmC1uZy/jgxeo+Bx8K40=;
-	b=kIhUI8FrDeRNhFpoEApUP5Tyzna549ZwD7ewVoB7kE9J9TrvfSDh9hdtq390wgkyjbumjt
-	MalmDgC6PilHQZ8HG4SSYL7Ddcndbr0FJjLIeakLO4trHcbP/wRvuMX0FAb/H4Xdv17dci
-	P15t6/clg2eCRrI/o3dQ4hRxvSkxnSg=
-Received: from localhost (koleje-wifi-0023.koleje.cuni.cz [78.128.191.23])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 26124458158;
-	Tue,  5 Mar 2024 19:53:16 +0100 (CET)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QW8n563iIpVzHpbfeVLjRX5pvgGzhzJJv1hAgvnjd7Y=;
+	b=jB/xRRLVz65sPHrDvbAzA2UhUftXl058vFpf7FdlhQmY+vr2JYh96Bm7b3QQl3cZNe0wCi
+	Ut1OqarpVj6rcErlMGkO8jewUviGu7YUJSwEtuhv+pYqUJH6JiODGQzDJ2OwfS1zOcwHmX
+	8l1En4a10IdtdT35Jd9wVN1o+d2P3bSVfUFHvbhURE1LQUxgnjY2owIJhQwgHX54vEJerx
+	PqSJIR4uZJ2PWHMjFDpP4zAp4Lr7CplRMB4vQhggflOU6f/Ia89BmvBy63Fi/Gd4GEEq6m
+	mjA44qGU9MxxdvfVaF+6Yh0Dr/fdhtyBGFWi32oZcOs3nezAwiSEb2plskFX6Q==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Date: Tue, 05 Mar 2024 16:42:13 -0300
+Subject: [PATCH] input: make input_class constant
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 05 Mar 2024 19:53:52 +0100
-Message-Id: <CZM1LPDLQXLP.VVOVCCQPGBOL@gimli.ms.mff.cuni.cz>
-Cc: "Rob Herring" <robh+dt@kernel.org>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-input@vger.kernel.org>, =?utf-8?q?Duje_Mihanovi=C4=87?=
- <duje.mihanovic@skole.hr>, <~postmarketos/upstreaming@lists.sr.ht>,
- <phone-devel@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 2/5] mfd: add driver for Marvell 88PM886 PMIC
-To: "Lee Jones" <lee@kernel.org>
-From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-References: <20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz>
- <20240303101506.4187-3-karelb@gimli.ms.mff.cuni.cz>
- <20240305114418.GB86322@google.com>
-In-Reply-To: <20240305114418.GB86322@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240305-class_cleanup-input-v1-1-0c3d950c25db@marliere.net>
+X-B4-Tracking: v=1; b=H4sIAJR152UC/x3MSwqAMAwA0atI1hbqv3gVEakxakBqaVQE8e4Wl
+ 28x84BQYBJokwcCXSy8u4gsTQBX6xZSPEVDrvNSF7pSuFmRATey7vSKnT8PNZsKTVOPRAYhlj7
+ QzPd/7fr3/QAZv/P5ZQAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1698; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=sWeqlDdrCvrscZ1nizJTiBx6SzjcdhujOsJuJ00B4Mc=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl53WaZvuwdVxpKYRoI+8PpkMTCOHmT1aEdwNLu
+ HKzmGqrLPCJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZed1mgAKCRDJC4p8Y4ZY
+ pinnD/49at5Y3+Xcs6zF5pDBSpeg3hSR0G8YYlqp2LCtns5PyEdvhxkP8lLvdAKl2lanYu9OU60
+ 3p1jIW64AMvWEHgpMpjC0Mw+vrljC+QeV5v8GsXhOt8QPALKnQpFJ4fKv4ZwLgT8P+HlgKGvZp6
+ R7SLeYbrKcZ5Qpm9CdG0gCdN7uJYahuZg3qIDgxngTR6P21TDrXPRNJ0jAZ7Z3SMMf96TsMpFJ9
+ qu7ZqDyGhKG6p+UG6bQGx2icFcyfk2hiHhHYuwLDLwevtDaQFElBaNXB7TLYdhm1q+1GveD1xa7
+ JN7CFa9k1omv4TMiroGw8+ERRUa3UaX33VZSgVnH4oSTSbZbffU2wPT4in+18tSazLvG8fysrvF
+ ZB5NZA2W98LZv7NaV/wVXNfQdJqjVva0M37FYdjfNumCrNvvmIFStNmt0fAbnifFFTNjF9c7xIZ
+ vtT2UgiW5s2ZVo+lcSGrj/qJ1sMUEbvpMlPgzcqHsD1clSElxWbL/lz4EKl93oqq28XNjpj74Hl
+ sGm6yXuyNppt5sixcTAuzW354x4FuCUKam0lGw1pZrhc+JCh0CmZQhZzboEUtmUFPNWRIaKjAsC
+ dgo4Nv3AJROQWDUsAjZ3g29EZ6yGShj1gqtjK0iVFMdSDFV3yOAduK2YCRlppQHXvW5bEjJn01I
+ 7wt44+pWklLRCoA==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-Lee Jones, 2024-03-05T11:44:18+00:00:
-> > +static struct mfd_cell pm886_devs[] =3D {
-> > +	{
-> > +		.name =3D "88pm886-onkey",
-> > +		.num_resources =3D ARRAY_SIZE(pm886_onkey_resources),
-> > +		.resources =3D pm886_onkey_resources,
-> > +	},
-> > +	{
-> > +		.name =3D "88pm886-regulator",
-> > +		.id =3D PM886_REGULATOR_ID_LDO2,
->
-> Why doesn't PLATFORM_DEVID_AUTO work for this device?
+Since commit 43a7206b0963 ("driver core: class: make class_register() take
+a const *"), the driver core allows for struct class to be in read-only
+memory, so move the input_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
-Because I am using the IDs in the regulator driver to determine which
-regulator data to use/which regulator to register.
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+ drivers/input/input.c | 2 +-
+ include/linux/input.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> > +static int pm886_initialize_subregmaps(struct pm886_chip *chip)
-> > +{
-> > +	struct device *dev =3D &chip->client->dev;
-> > +	struct i2c_client *page;
-> > +	struct regmap *regmap;
-> > +	int err;
-> > +
-> > +	/* regulators page */
-> > +	page =3D devm_i2c_new_dummy_device(dev, chip->client->adapter,
-> > +				chip->client->addr + PM886_PAGE_OFFSET_REGULATORS);
-> > +	if (IS_ERR(page)) {
-> > +		err =3D PTR_ERR(page);
-> > +		dev_err(dev, "Failed to initialize regulators client: %d\n", err);
-> > +		return err;
-> > +	}
-> > +	regmap =3D devm_regmap_init_i2c(page, &pm886_i2c_regmap);
-> > +	if (IS_ERR(regmap)) {
-> > +		err =3D PTR_ERR(regmap);
-> > +		dev_err(dev, "Failed to initialize regulators regmap: %d\n", err);
-> > +		return err;
-> > +	}
-> > +	chip->regmaps[PM886_REGMAP_REGULATORS] =3D regmap;
->
-> Except for the regulator driver, where else is the regulators regmap used=
-?
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index de7884a5be39..711485437567 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1918,7 +1918,7 @@ static char *input_devnode(const struct device *dev, umode_t *mode)
+ 	return kasprintf(GFP_KERNEL, "input/%s", dev_name(dev));
+ }
+ 
+-struct class input_class = {
++const struct class input_class = {
+ 	.name		= "input",
+ 	.devnode	= input_devnode,
+ };
+diff --git a/include/linux/input.h b/include/linux/input.h
+index de6503c0edb8..c22ac465254b 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -514,7 +514,7 @@ void input_enable_softrepeat(struct input_dev *dev, int delay, int period);
+ 
+ bool input_device_enabled(struct input_dev *dev);
+ 
+-extern struct class input_class;
++extern const struct class input_class;
+ 
+ /**
+  * struct ff_device - force-feedback part of an input device
 
-Nowhere, at least as of now. So you are saying that I should initialize
-the regmap in the regulator driver?
+---
+base-commit: b0f3f9ab419c243389da6c0dd6a9db0eea560146
+change-id: 20240305-class_cleanup-input-f85c876bee8c
 
-Thank you,
-K. B.
+Best regards,
+-- 
+Ricardo B. Marliere <ricardo@marliere.net>
+
 
