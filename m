@@ -1,109 +1,112 @@
-Return-Path: <linux-input+bounces-2255-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2256-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905DF872AEA
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 00:17:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7094D872BE2
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 01:45:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CBFA28879A
-	for <lists+linux-input@lfdr.de>; Tue,  5 Mar 2024 23:17:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F9AB1F221B7
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 00:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBBEF12D1FD;
-	Tue,  5 Mar 2024 23:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37D8D320A;
+	Wed,  6 Mar 2024 00:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vba43/zp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvpdaefC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C7912CDBD;
-	Tue,  5 Mar 2024 23:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE1118641
+	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 00:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709680653; cv=none; b=mVwphZfrVGYf/arV0gvjJ6AAU/MIrXWKYTr625Cgy26ORD32rHM9ZkDMm/UGLPYtBiwudJpXiil+LMWVkKGu3WNdriGDt4M4u+eC9RblEcYwZR55W3eKwYO8XIFrOWuPbb52FBDCe/d/AlAQ53yHP5bxX0wWf4jzfVnGStTZQMw=
+	t=1709685846; cv=none; b=bgCe/BAQWYYEdf8k0Sn0UZsKrxDKwS1KhJqkmkOSQnSMkGfjbS0ykljuliftTJrITlilVYaRl5E8O4ANx7qJKxD5PMpSagbCgua9mz3QWEaMZfpQFHZNUV4/lRj2jT4lJIvJY5sX/aXijuNxw+Oi/9jcqDHFUEJMnxfykDOPKQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709680653; c=relaxed/simple;
-	bh=hAQXXtEpci5/rqG5hNT3/xrRrrFzIAMrqiDRFDsqivc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nTS4hTgOnjVgIl1rnZ9IJ8xI6Dihqq6YKCtGoJcldbxwsJoMOEFgv7Me5jN0FWSpXlZ8tS/6XrtoP+ixl8KtdTiK+Y4wahBbjNC4Uw2ARLIkhFf46q32Z6hOyYt6kiQK/NMXwWNC9C3FR4AboxmbMBZrrU7YGL6Mt8qjEJ+TeVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vba43/zp; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1dc0e5b223eso53731465ad.1;
-        Tue, 05 Mar 2024 15:17:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709680651; x=1710285451; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6kAiofd41xTmLhHdy9IDUcWKAST66CzURKTeO5duD9w=;
-        b=Vba43/zpKCp1jINc/8A7xHYaBAkzRfWIlzmws84Sgc5htoe+P9QhdBW34Gnrh2x9u8
-         3rSblgcfAjDwPvG3O3QI8p7aNz29tXr4y7swxiArD9wQC2YERgZJGDEzHrVYpLmFCG5f
-         OzfIQagXP781XX7WSb/36XIJhOlu9eSCjfuS3S5eJ4ausDptCRDvxLMZWh1cvd+aRfSr
-         S3AX9GrdQGK2c4A3PlWi06m6ME43hPeV2NVNBPHYiL5X8PYKCsBOJ61QFiA7oWI8tL4y
-         3yDlBByUjpJoqQYdC/mULd8qHNJJpgdN9sz+wU+Ut5OghqJd7V88HGwi4ivnT+hwq1U1
-         hKtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709680651; x=1710285451;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6kAiofd41xTmLhHdy9IDUcWKAST66CzURKTeO5duD9w=;
-        b=U3AzeVw1OUePZIiO6Mx3tNiTF5SR7K41hZ3nYgKMTTuHGrG9ocU08GoodHtGYZv8Jk
-         IdW1OIdmgRSyNC2VPzXn1oKiz8zHqiQGcbH4MpMGs5X6vE4VuERNJzywcix9aWwOpKKk
-         LJeJHjOsbKwSugTPBpM8sZmOd8sGghqLQp1pjcYMVNdEA3yiR83v2eJe7yk7A1PV5rp8
-         ZVQPSU6uaoPH7f/IFj9bX6/uDC2xm6ts359u4w3p7t8SBKSL+FsvoB+F/jMwQ3ZV2lKq
-         /o/C3tx2vSEHv45Lvfyv6DfFjYDJvgkdvvlnGdqRnM7Wsl4BIE5gzOMWkL+puAXl6ayh
-         2qxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcOR/T+0pk8DvubYIWXBOXwcgQ7rVUPOO+CtJFwn4Kb04aiEB8Bntogd02x4qRydb/QPVu8+HGFD3Va6DatE0Sf0U/qq3npqycRfE=
-X-Gm-Message-State: AOJu0YyQjNahJbF8pxaOMpTIWP2pAx2KXGImkMAz/WzqzZS6QdjLbZNT
-	hZa9S8c145Ll3oQB7msaHt1Ohi/vWzOVMV9krRTZIhGENDyjpG8mwddW/OQf
-X-Google-Smtp-Source: AGHT+IGrKGFiKrQ8r1cAOMn/ooa6FZcEMzzBWBIuR2cO1XKgo/Q3HxKH8XvehN0XSAghUngAwYmFCQ==
-X-Received: by 2002:a17:902:eec3:b0:1db:f389:2deb with SMTP id h3-20020a170902eec300b001dbf3892debmr2970443plb.17.1709680648399;
-        Tue, 05 Mar 2024 15:17:28 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:b1d1:58b4:d9ca:da78])
-        by smtp.gmail.com with ESMTPSA id jb5-20020a170903258500b001dcc29b985csm11133635plb.134.2024.03.05.15.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 15:17:28 -0800 (PST)
-Date: Tue, 5 Mar 2024 15:17:25 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Denose <jdenose@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, jefferymiller@google.com,
-	Jonathan Denose <jdenose@google.com>,
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: psmouse - add resync_on_resume dmi check
-Message-ID: <ZeeoBeUwz0__lVLM@google.com>
-References: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
- <ZcKs589qYxviC1J4@google.com>
- <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
- <ZcZ2oG1Rls-oR593@google.com>
- <CALNJtpWNbSZdpxky9hTiSRsaGgLDUnM66QGEy213d3Lhra0hsw@mail.gmail.com>
- <ZeDLq9gPs5InBmdK@google.com>
- <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
- <ZedotW8Yu6tJ2yYL@google.com>
- <CALNJtpWHxk8yWVSbX56JC3KThCZxFpUQMkikE9kc7hrawPdH4g@mail.gmail.com>
+	s=arc-20240116; t=1709685846; c=relaxed/simple;
+	bh=/0r8beR9ksz+n5rOVVYanJFwrbF4a19psUS9GXAtukc=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=uIbpLhoTlJeqZvrrILlhar3zqlhQ9J6w6PSTdMrMswpm86jp0vNIVI10MOB3gIcaYKg/bcqqgRLCmAiG2VeHQVKArXNYmfKdKtJZQnyJosK8ia1Nd595mulxjyqLIcQJZysxbQYcyUmedyJ7H8DTOKK0YbICz5n6MdT+Y6MnvG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvpdaefC; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709685844; x=1741221844;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/0r8beR9ksz+n5rOVVYanJFwrbF4a19psUS9GXAtukc=;
+  b=NvpdaefCz+do7EZe247rxMZ73U6+3Q55tpKEJPUvbeAInYaTEM8zL50p
+   rrMfZtYQMTgd2NYNwHMcupEmWzP8+4KtRBSWo4sc5mRG9uAQ0QyM3wobt
+   cS+VYZ7Mtj+xiOTtBRuqP8NWclkINAXo8Gst1fsN9nRlsEp5be3frNHyp
+   toSxD5Vr8fPF8Y4ivfZmqRA7ExhWKYTj6vm5oTTbTxjDkdoNnPnQvi3aw
+   fTshqNd+UrerUuJGOrlkqdZ0YLXZdEB6vyrYd9Nyg8db52xehN5vNRbDl
+   5JnTKT58Qnw4CqYUXuqBWhPFJR9eL3D6+r/NtQm1IxAUm+2jbWiYM0eeL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15419200"
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="15419200"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:44:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
+   d="scan'208";a="40452142"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.198])
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2024 16:44:01 -0800
+From: "Zhang, Lixu" <lixu.zhang@intel.com>
+To: linux-input@vger.kernel.org,
+	srinivas.pandruvada@linux.intel.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Subject: [PATCH] HID: intel-ish-hid: ipc: Fix dev_err usage with uninitialized dev->devc
+Date: Wed,  6 Mar 2024 00:44:04 +0000
+Message-Id: <20240306004404.2770417-1-lixu.zhang@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALNJtpWHxk8yWVSbX56JC3KThCZxFpUQMkikE9kc7hrawPdH4g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 05, 2024 at 03:48:29PM -0600, Jonathan Denose wrote:
-> Thanks for this.
-> 
-> I tried the patch and unfortunately the issue still occurs. Attached
-> are the dmesg logs.
+From: Zhang Lixu <lixu.zhang@intel.com>
 
-So this is without going through suspend/resume, but straight up boot?
-Could you please post the whole dmesg, not only data from 8042?
+The variable dev->devc in ish_dev_init was utilized by dev_err before it
+was properly assigned. To rectify this, the assignment of dev->devc has
+been moved to immediately follow memory allocation.
 
-Thanks.
+Without this change "(NULL device *)" is printed for device information.
 
+Fixes: 8ae2f2b0a284 ("HID: intel-ish-hid: ipc: Fix potential use-after-free in work function")
+Fixes: ae02e5d40d5f ("HID: intel-ish-hid: ipc layer")
+Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index 7cc412798fdf..adce30f8ebff 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -948,6 +948,7 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ 	if (!dev)
+ 		return NULL;
+ 
++	dev->devc = &pdev->dev;
+ 	ishtp_device_init(dev);
+ 
+ 	init_waitqueue_head(&dev->wait_hw_ready);
+@@ -983,7 +984,6 @@ struct ishtp_device *ish_dev_init(struct pci_dev *pdev)
+ 	}
+ 
+ 	dev->ops = &ish_hw_ops;
+-	dev->devc = &pdev->dev;
+ 	dev->mtu = IPC_PAYLOAD_SIZE - sizeof(struct ishtp_msg_hdr);
+ 	return dev;
+ }
 -- 
-Dmitry
+2.40.1
+
 
