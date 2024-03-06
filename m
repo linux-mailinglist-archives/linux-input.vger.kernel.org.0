@@ -1,120 +1,171 @@
-Return-Path: <linux-input+bounces-2270-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2273-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1660873DC8
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 18:51:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32556873FCB
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 19:41:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 414D61F238D0
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 17:51:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C9A81C202F7
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 18:41:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A11E13BAF9;
-	Wed,  6 Mar 2024 17:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938A2137909;
+	Wed,  6 Mar 2024 18:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6EReW+q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A569013BAE9
-	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 17:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A19266D4;
+	Wed,  6 Mar 2024 18:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709747470; cv=none; b=I09RQY5Cyx3WJRNftgmK9+WTffzfj08bFhu5MBsph6llXjR700VjyBOwWvaMtXyjCDUghnvTryfP9jY5KPYMPqnrABPU5Vr/9UM6s0K8m3TYImOAV9K8Ny65bCp8d/MkIEZE/nG6RtJirbg8kL4CnaDbgvBkGC2aDEZlZ/GNG3o=
+	t=1709750460; cv=none; b=GvrREcVz+OdlyTaGbR5Dqa/Ybq1uKn1ugi3uKVpJ6eqYkfkQBz/nIzExD9a6rh00JL2qXqdx8wCcSZyuh5/9KWHQSrGIvtsZSry2s9eMuhHZbd3uF9+qvjTSFlJW5GzScubTQNhwvI4M9Wym87olsAJQRmZGdQcBk8d/90SpIZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709747470; c=relaxed/simple;
-	bh=X4WgGpBn1NzPFix2PE5nZ871DVdaTNhuoct3kfjsvmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sBEumvwzFxGVnEAoFDmG6rNErg7Ii3cVomzHhNQty0raJ/zq60ewbMw6CA2c2aIFlqu3G53zyTFE5DdkWZNLv+hlmVpsN6UcfpH2nOweseYzDLx778SZP8QGzbXlRXuilRlWhtFoE9Daf2cFpddAUW1PmM/0qCHE1ILrL3YhIdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPz-0002VO-0r; Wed, 06 Mar 2024 18:51:03 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPy-004n6k-K4; Wed, 06 Mar 2024 18:51:02 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPy-000nyE-1k;
-	Wed, 06 Mar 2024 18:51:02 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Maximilian Luz <luzmaximilian@gmail.com>,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: [PATCH 3/3] HID: surface-hid: kbd: Convert to platform remove callback returning void
-Date: Wed,  6 Mar 2024 18:50:50 +0100
-Message-ID:  <05d0d6ef781ebd6124a36f70cda1f90331799dc7.1709747164.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1709747164.git.u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1709750460; c=relaxed/simple;
+	bh=gV0qdvOfcFrVuFUnoKGMfiykayAlHiTwTLIzL0VcW/Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tF/bFU5p+t76odSS+AyhkPtugZpgWcdlHLSLpn8an79A8/P0woqeAPQNBErHcDZoGI09w333JeJUc20mHmdpex6/1NA+PIUPnI+AfZo+6vrAYDwvkJtT+PQo7rCV3x+9dfRKylr6VPQDOD1HwFTUw1Ln9CUL0zdvP1RmT5gr/mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6EReW+q; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709750459; x=1741286459;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=gV0qdvOfcFrVuFUnoKGMfiykayAlHiTwTLIzL0VcW/Y=;
+  b=Y6EReW+qXsdeX1BJzwY5oeoVc5sSGR1eS2+HBDDspmlqYqEq3jea5PS7
+   B6NbYuCSvIL3SwrMh8GLyWS3GOCq3+a6NlSKAeXegZ8rdPVr4mSDpksFA
+   IY1gpoOClNr8mp7X8DCgeeiGJ5B9k60MfXrt5oy3XHbokW9eKr0Cxw0UR
+   WNde8AcN/o2x2ew6fEKu00sUGd0GkHmTvyIcbcVy5osRDoAlfVttmMNAs
+   s9oqaRUG4Dwauwl5QUOUDbGJOV0u5qpI3Dq70enlVAQtQ0g98duqzlaw5
+   VFpbMdMF/c0yCmkXL2KaRKYdnOGz2aJxoWluNqaqEOle0PUg4eauTUhvb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="4532911"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="4532911"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 10:40:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="47365083"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.209.89.31])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 10:40:58 -0800
+Message-ID: <bf4206ee5c69c73d487502837b30d0accce85a51.camel@linux.intel.com>
+Subject: Re: [PATCH 2/3] HID: hid-sensor-custom: Convert to platform remove
+ callback returning void
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, linux-input@vger.kernel.org, 
+	linux-iio@vger.kernel.org, kernel@pengutronix.de
+Date: Wed, 06 Mar 2024 10:40:52 -0800
+In-Reply-To: <f4c8334ea1548d911862ede881ab0d90a408c156.1709747164.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1709747164.git.u.kleine-koenig@pengutronix.de>
+	 <f4c8334ea1548d911862ede881ab0d90a408c156.1709747164.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1802; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=X4WgGpBn1NzPFix2PE5nZ871DVdaTNhuoct3kfjsvmY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl6Kz7zH/6x8nO1lJWbTkq6Xc/bw3q+BioyB+oB KjNsFBXy8eJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZeis+wAKCRCPgPtYfRL+ TsO6B/9o4i7/IO8vYjQ46Da4IKi4jmRxIGA4TVq2BD2hVrG6tbab1SA0NYVDIaeqgMaDwGQN2am KqyMARdw+7JghgZlSAhGzCeCao4TYfZNMJHzJC3+O9zcOTL/iSN203ljlS0W83DRKlLPWy8369M bIBnNppQEGe5ZtxVdy2tonxFw9c5h3CKZWMe76YykInlWXZBgPj7nf6v7raaVvF1LFbEr9ofepZ fbFHhxuZ4xxFvtqlcs5/llUUtNO+eYTX/Vs2D2w0OBu9VrNQb5HOOrlp3Bvw+Ih/7Mm/QV0/ull s8cDc1na6ksRuqe2g9UcWPcO8ai8U0SOGhpZXf2PYCnoFLqR
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+On Wed, 2024-03-06 at 18:50 +0100, Uwe Kleine-K=C3=B6nig wrote:
+> The .remove() callback for a platform driver returns an int which
+> makes
+> many driver authors wrongly assume it's possible to do error handling
+> by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource
+> leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all
+> drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert this driver from always returning zero in the
+> remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/hid/surface-hid/surface_kbd.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/surface-hid/surface_kbd.c b/drivers/hid/surface-hid/surface_kbd.c
-index 4fbce201db6a..8c0cbb2deb11 100644
---- a/drivers/hid/surface-hid/surface_kbd.c
-+++ b/drivers/hid/surface-hid/surface_kbd.c
-@@ -271,10 +271,9 @@ static int surface_kbd_probe(struct platform_device *pdev)
- 	return surface_hid_device_add(shid);
- }
- 
--static int surface_kbd_remove(struct platform_device *pdev)
-+static void surface_kbd_remove(struct platform_device *pdev)
- {
- 	surface_hid_device_destroy(platform_get_drvdata(pdev));
--	return 0;
- }
- 
- static const struct acpi_device_id surface_kbd_match[] = {
-@@ -285,7 +284,7 @@ MODULE_DEVICE_TABLE(acpi, surface_kbd_match);
- 
- static struct platform_driver surface_kbd_driver = {
- 	.probe = surface_kbd_probe,
--	.remove = surface_kbd_remove,
-+	.remove_new = surface_kbd_remove,
- 	.driver = {
- 		.name = "surface_keyboard",
- 		.acpi_match_table = surface_kbd_match,
--- 
-2.43.0
+> ---
+> =C2=A0drivers/hid/hid-sensor-custom.c | 8 +++-----
+> =C2=A01 file changed, 3 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
+> sensor-custom.c
+> index d85398721659..de7287f3af61 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -1032,14 +1032,14 @@ static int hid_sensor_custom_probe(struct
+> platform_device *pdev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> =C2=A0}
+> =C2=A0
+> -static int hid_sensor_custom_remove(struct platform_device *pdev)
+> +static void hid_sensor_custom_remove(struct platform_device *pdev)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hid_sensor_custom =
+*sensor_inst =3D
+> platform_get_drvdata(pdev);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hid_sensor_hub_dev=
+ice *hsdev =3D pdev-
+> >dev.platform_data;
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (sensor_inst->custom_p=
+dev) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0platform_device_unregister(sensor_inst->custom_pdev=
+);
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0return 0;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0return;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hid_sensor_custom_dev_if_=
+remove(sensor_inst);
+> @@ -1047,8 +1047,6 @@ static int hid_sensor_custom_remove(struct
+> platform_device *pdev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sysfs_remove_group(&senso=
+r_inst->pdev->dev.kobj,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 &enable_sensor_attr_group);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sensor_hub_remove_callbac=
+k(hsdev, hsdev->usage);
+> -
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static const struct platform_device_id hid_sensor_custom_ids[] =3D =
+{
+> @@ -1068,7 +1066,7 @@ static struct platform_driver
+> hid_sensor_custom_platform_driver =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0.name=C2=A0=C2=A0=C2=A0=3D KBUILD_MODNAME,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.probe=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D hid_sensor_custom_probe,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.remove=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D hid_sensor_custom_remove,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.remove_new=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=3D hid_sensor_custom_remove,
+> =C2=A0};
+> =C2=A0module_platform_driver(hid_sensor_custom_platform_driver);
+> =C2=A0
 
 
