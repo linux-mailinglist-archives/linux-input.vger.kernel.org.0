@@ -1,130 +1,92 @@
-Return-Path: <linux-input+bounces-2257-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2258-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A57872BE6
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 01:54:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8ABB872BE8
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 01:56:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BDFE1C212A8
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 00:54:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 673A6287B9E
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 00:56:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DB8119E;
-	Wed,  6 Mar 2024 00:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739BB2CA7;
+	Wed,  6 Mar 2024 00:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZeyZXg9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLG1Ow4f"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C16F6FAD
-	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 00:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B8319E
+	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 00:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709686437; cv=none; b=gQqHTyPtRyq2uhR8O2D95+ZZUIsEfAWGAfSj/qO8dAe9/hV/jUKnFuRY9DYj8CWpPt7GLr3AiDvCA0Q+X9cWX8cvxiD2I6XNCRYaNN44+3DRRgReigWiLJj8iHwMKgFeIZdBwjMi3IwRzdz6gpeu56as0PEy6TjuS9B6q6faO1E=
+	t=1709686598; cv=none; b=GfUQMOlDxnaN71PR6fAUaqZsc12N07RwG2Lu7p5FIExB3/0dcjk/1692qT9jSVgDIBUST+4RUvD5NcyxINe6xjEDjlQRci5W+yjR5MUkMiLOzTaNm3w8GDqjCBXS6yMNvvsXhTtelyy0y3pP4xqssY1sF7OSz3FUoaNV7XIfNwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709686437; c=relaxed/simple;
-	bh=6Y6i8AaFPiHKrFFjd9/+eYJHITedvi8cEqxbHfsnOhA=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mv/qAp4QIGxLZhbvYNwgeKZPFLjcsa1T7h+3KztadDLH45RJewUNnuof6ZA2EUH3hPYMYf/AtJCBKa7wLaBuqJgHkndc+6YD8H2JDUMnP5Y2Y6sew7/Cp0IMbNa5SqBHmcERlQZEvWf0ujwU7+x+7vQgmp/RIzgPKRrrsfuY0ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZeyZXg9; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709686598; c=relaxed/simple;
+	bh=CwaumKdG8oB1fnICMiVK2g5HYDMX9N7LDD+9MV6nR4w=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=NLWpwGEKbzGUDEDHPIY7ZcbVhnJjF0fgEqqcurRN/symxss8wPXW2lJfrV17/RG/VKe3fPOh8BkPNbXqK7OcWb+J/+YEmqvpqTDQxPauz+LG7vc5f9ZJlks4OfeKI9yilS+iJRmeo0TYH6KVYIrTKl/MUxHPpKSARfu2kR9P4Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLG1Ow4f; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709686436; x=1741222436;
-  h=message-id:subject:from:to:date:in-reply-to:references:
-   content-transfer-encoding:mime-version;
-  bh=6Y6i8AaFPiHKrFFjd9/+eYJHITedvi8cEqxbHfsnOhA=;
-  b=HZeyZXg9GUIxDt8q9lCC1kRqoRu1rH+eEZobbX5f9ucnxNCw6HqHh8jB
-   6COqNrN3kqOluI1DsXXAVBRiY8zJazear1yF8qERWbyiHeWGgVd5085Pm
-   RqbYhmn9Kou/YPVJHh1nsqfWLGz7UShab3EJfSJbA9RySHq2Vxi//ndHH
-   mrchc8sbGdKW6NWL4RGSGiqTwAx8ItMAIhZ7YfT83y0X1QfNB7wosrLMS
-   ZXi4Fdhdc5ZNAG1Rf8fAzhRxDB+V/mJ5IXR0cmjKPsP8fM4cdnwgqk43o
-   tSkkhvo7TacyNBf9lw99YDuxADuD8pIqw8S/OCQLWUrM6mbmfshpUCkhU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8094611"
+  t=1709686597; x=1741222597;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CwaumKdG8oB1fnICMiVK2g5HYDMX9N7LDD+9MV6nR4w=;
+  b=YLG1Ow4fNtqzrsS5h8A/eQDEe7IGv7iEt+iDIv275/DAXczjzex4xE7B
+   P41pkqrpMuTCyeCSH+BhG0AzulbIIC/GUY05l7qL5BS++agB26vYGJLkR
+   tfEfonWGDL4GYb2+CyH4On883ItOhwioVGMlhpOgWTmHhbhqBhgwSi+1Y
+   IBCiv9HpX8QJ30Zx9epvYJy2MvX1sFq+LikV+3ukaPeqHWPYvorLb+JDH
+   n+yzQzNf3SiVLd7I75Wxx9GVRAKKyTAhAOyo79+2SmvaiDNXTRFljv1mW
+   RQYZ+86wSxnEt9jMIXNcPUmsfKEv1N1OephP+IU2NW4ralLN0MR/TKQTL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="8094858"
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="8094611"
+   d="scan'208";a="8094858"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:53:56 -0800
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:56:36 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
-   d="scan'208";a="9983057"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.209.19.141])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 16:53:56 -0800
-Message-ID: <f5ca7644241a989779d85086ac55e8c100d926a2.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Fix dev_err usage with
- uninitialized dev->devc
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: "Zhang, Lixu" <lixu.zhang@intel.com>, linux-input@vger.kernel.org, 
-	jikos@kernel.org, benjamin.tissoires@redhat.com
-Date: Tue, 05 Mar 2024 16:53:55 -0800
-In-Reply-To: <20240306004404.2770417-1-lixu.zhang@intel.com>
-References: <20240306004404.2770417-1-lixu.zhang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+   d="scan'208";a="9983822"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.198])
+  by orviesa007.jf.intel.com with ESMTP; 05 Mar 2024 16:56:35 -0800
+From: "Zhang, Lixu" <lixu.zhang@intel.com>
+To: linux-input@vger.kernel.org,
+	srinivas.pandruvada@linux.intel.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Subject: [PATCH 0/2] HID: intel-ish-hid: ipc: Use PCI_VDEVICE() and add Lunar Lake-M PCI device ID
+Date: Wed,  6 Mar 2024 00:56:36 +0000
+Message-Id: <20240306005638.2781839-1-lixu.zhang@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-03-06 at 00:44 +0000, Zhang, Lixu wrote:
-> From: Zhang Lixu <lixu.zhang@intel.com>
->=20
-> The variable dev->devc in ish_dev_init was utilized by dev_err before
-> it
-> was properly assigned. To rectify this, the assignment of dev->devc
-> has
-> been moved to immediately follow memory allocation.
->=20
-> Without this change "(NULL device *)" is printed for device
-> information.
->=20
-> Fixes: 8ae2f2b0a284 ("HID: intel-ish-hid: ipc: Fix potential use-
-> after-free in work function")
-> Fixes: ae02e5d40d5f ("HID: intel-ish-hid: ipc layer")
-> Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-This is not an important change to submit to rc cycle.
-This is just a logging issue.
+This patch series consists of two patches. The first patch simplifies
+the device table by using the PCI_VDEVICE() macro and renames the device
+ID macros to follow the pattern PCI_DEVICE_ID_INTEL_*. The second patch
+adds the device ID of Lunar Lake-M to the ISHTP support list.
 
-Thanks,
-Srinivas
+Zhang Lixu (1):
+  HID: intel-ish-hid: ipc: Add Lunar Lake-M PCI device ID
 
-> =C2=A0drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-
-> ish-hid/ipc/ipc.c
-> index 7cc412798fdf..adce30f8ebff 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -948,6 +948,7 @@ struct ishtp_device *ish_dev_init(struct pci_dev
-> *pdev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!dev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return NULL;
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev->devc =3D &pdev->dev;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ishtp_device_init(dev);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0init_waitqueue_head(&dev-=
->wait_hw_ready);
-> @@ -983,7 +984,6 @@ struct ishtp_device *ish_dev_init(struct pci_dev
-> *pdev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev->ops =3D &ish_hw_ops;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev->devc =3D &pdev->dev;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev->mtu =3D IPC_PAYLOAD_=
-SIZE - sizeof(struct ishtp_msg_hdr);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return dev;
-> =C2=A0}
+Zhang, Lixu (1):
+  HID: intel-ish-hid: Use PCI_VDEVICE() and rename device ID macros
+
+ drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 45 ++++++++++---------
+ drivers/hid/intel-ish-hid/ipc/ipc.c     | 14 +++---
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 59 +++++++++++++------------
+ 3 files changed, 60 insertions(+), 58 deletions(-)
+
+-- 
+2.40.1
 
 
