@@ -1,31 +1,31 @@
-Return-Path: <linux-input+bounces-2269-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2272-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69664873DC7
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 18:51:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 335FC873DCA
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 18:51:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2539E2824B6
-	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 17:51:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6594F1C2297C
+	for <lists+linux-input@lfdr.de>; Wed,  6 Mar 2024 17:51:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1680605DC;
-	Wed,  6 Mar 2024 17:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E650513B7A9;
+	Wed,  6 Mar 2024 17:51:11 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20075D48F
-	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 17:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0148F13BAF1
+	for <linux-input@vger.kernel.org>; Wed,  6 Mar 2024 17:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709747466; cv=none; b=aEecIT0yIy6I9gsVq0E4dadQ1hGvTgvZ5VnASyYdQp/c9JyBY/nTXpOB7WHvGma/CkMOcrdZFU6Lg4VG4e4x2p+l+R/itXcHzBc8/mGYSvsQm3Vlygr2NOmg/m6cE9oow/qecSz4ukHOLj0GMfGEGwrt5xSS9PSlDdHuvQVcORs=
+	t=1709747471; cv=none; b=YYbgxwW7YwkxHJqGa7acmzlOzhKrF6bCLIFItMyRK5KD32GNF8NrqQDEDedALoBt9uOfJaMnNwST8Txosgsp//zl6ZOcGA9Wp+rWU+g5XikR6cIKappQD8+ku5gQEXn0JqZvwyuUTRHvzBSB6xXi0Aye0zGHaSOCqbFGJXx3Zv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709747466; c=relaxed/simple;
-	bh=X8BkERi10tX+G/I0WlhN0twyIhqVhoouN1iH+TY17Kw=;
+	s=arc-20240116; t=1709747471; c=relaxed/simple;
+	bh=eK4NW9Rk4JvCfGAlFvUDp7R7qIYr4GqYENwx7iHN+QA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HlgTKNbBLGYF2voddD3SrpKe5kDV6oUZqWT+H8bbws7czo9SZSmZ+5zcDyNYc/ljqj8YH4GxAHlkMjy3nUGPGpvkrjJOCQ56BOHkanWxuz67q9QQedVP6gSdNideWUXL7bpiw61BJsr5HaACjsgkggoU0W7QryUCRyoTCU+qe/Y=
+	 MIME-Version:Content-Type; b=RxaBid3KSiez27n18MNlnruRFbnw1FKLAqw/z2O+wyCqAJPq6PWR+1pmuOqntIuF+pdDU9cBug0RJijukpJ6Z6VgkSv7RzKhKMgvpK2xSqNi/qEMpQD568Ly3LKMvruBFb4ScxihRIulTvgZvGcxhYV6+80VJ0aRIOqvthsIq7Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,24 +33,27 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPt-0002LP-Ue; Wed, 06 Mar 2024 18:50:57 +0100
+	id 1rhvPw-0002OA-Ls; Wed, 06 Mar 2024 18:51:00 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPt-004n6c-Hi; Wed, 06 Mar 2024 18:50:57 +0100
+	id 1rhvPw-004n6g-4N; Wed, 06 Mar 2024 18:51:00 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1rhvPt-000nxz-1V;
-	Wed, 06 Mar 2024 18:50:57 +0100
+	id 1rhvPw-000ny5-09;
+	Wed, 06 Mar 2024 18:51:00 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org,
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org,
 	kernel@pengutronix.de
-Subject: [PATCH 1/3] HID: google: hammer: Convert to platform remove callback returning void
-Date: Wed,  6 Mar 2024 18:50:48 +0100
-Message-ID:  <33de82975dd3dc0c867f740ca1121d95a9eb17b2.1709747164.git.u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 2/3] HID: hid-sensor-custom: Convert to platform remove callback returning void
+Date: Wed,  6 Mar 2024 18:50:49 +0100
+Message-ID:  <f4c8334ea1548d911862ede881ab0d90a408c156.1709747164.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1709747164.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1709747164.git.u.kleine-koenig@pengutronix.de>
@@ -61,7 +64,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1870; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=X8BkERi10tX+G/I0WlhN0twyIhqVhoouN1iH+TY17Kw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl6Kz4GE1x15w87fkycpFClSzWjVQZl1OPGH654 LUOIej3nSWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZeis+AAKCRCPgPtYfRL+ Tkk3B/9IKjCg2FCxumlciNLQScphS206ZSTixKMkuXZlREuaIYI//sRDykdrPomuKFJwwJwMRz9 Df9AmLXXgvNlOlEEJhELVClUxMzd12knzfmk9tmASuM1FdqFItraSbvue6GF72mmrxL8/qqDE5B n3x3ACqldQhHePuCtSsHCFebhbrYVoYZIHieBu4Ll5JZ6MgiTUF1vt99//LN8yGBOm+KyaTV0Nm 4MSt4lazFm78NbTCR9BNRw/xA8rScPrGHwPuQFfoNctPY68ZRMxbkubrobAdDvxo8yvle8vvEBT GMbk+mYeXYx5CXNgoc6Lv9yrP6QZ92l3XmXydRGvmsDbxDbP
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2267; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=eK4NW9Rk4JvCfGAlFvUDp7R7qIYr4GqYENwx7iHN+QA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl6Kz6u4elbe732bZ1momXG+oG1DpXHlk/tdD/Z 6Re+1mS/peJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZeis+gAKCRCPgPtYfRL+ TmU7B/0eaFD339wXp3yiNszZyWj0Szdjw2jZdUB8ijcWtke+65zdHwczl7MoPf7Y5ynEyBVFjK9 o7Xxa1DlDTTV57pHtZzVLFDrf8q5ByxSp3ZzLXE8CwPHIdlmqfpnaQAE3z0IB2hfAVMeOuNYNAq rd1AYbhRcDMJtXwKlv79cps8OyOeM8WjQFlfKvD80dlMBDCQHMPO8jnTio89KvWTKPj1eqXTq7r CtYD/dhQD7i18T+n71+Cp72y8v8bNEpKax8Ax+lUVnzwYfKLAFYlxoOTvktFqxqRI7jw8d81vy/ OeM3hCNlc7uyh9J7lJiabWrVfckmyOwfiufuNPNKLM9gfpDa
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -84,39 +87,48 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/hid/hid-google-hammer.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/hid/hid-sensor-custom.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index c6bdb9c4ef3e..25331695ae32 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -255,7 +255,7 @@ static int cbas_ec_probe(struct platform_device *pdev)
- 	return retval;
+diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+index d85398721659..de7287f3af61 100644
+--- a/drivers/hid/hid-sensor-custom.c
++++ b/drivers/hid/hid-sensor-custom.c
+@@ -1032,14 +1032,14 @@ static int hid_sensor_custom_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int cbas_ec_remove(struct platform_device *pdev)
-+static void cbas_ec_remove(struct platform_device *pdev)
+-static int hid_sensor_custom_remove(struct platform_device *pdev)
++static void hid_sensor_custom_remove(struct platform_device *pdev)
  {
- 	struct cros_ec_device *ec = dev_get_drvdata(pdev->dev.parent);
+ 	struct hid_sensor_custom *sensor_inst = platform_get_drvdata(pdev);
+ 	struct hid_sensor_hub_device *hsdev = pdev->dev.platform_data;
  
-@@ -266,7 +266,6 @@ static int cbas_ec_remove(struct platform_device *pdev)
- 	cbas_ec_set_input(NULL);
+ 	if (sensor_inst->custom_pdev) {
+ 		platform_device_unregister(sensor_inst->custom_pdev);
+-		return 0;
++		return;
+ 	}
  
- 	mutex_unlock(&cbas_ec_reglock);
+ 	hid_sensor_custom_dev_if_remove(sensor_inst);
+@@ -1047,8 +1047,6 @@ static int hid_sensor_custom_remove(struct platform_device *pdev)
+ 	sysfs_remove_group(&sensor_inst->pdev->dev.kobj,
+ 			   &enable_sensor_attr_group);
+ 	sensor_hub_remove_callback(hsdev, hsdev->usage);
+-
 -	return 0;
  }
  
- static const struct acpi_device_id cbas_ec_acpi_ids[] = {
-@@ -285,7 +284,7 @@ MODULE_DEVICE_TABLE(of, cbas_ec_of_match);
+ static const struct platform_device_id hid_sensor_custom_ids[] = {
+@@ -1068,7 +1066,7 @@ static struct platform_driver hid_sensor_custom_platform_driver = {
+ 		.name	= KBUILD_MODNAME,
+ 	},
+ 	.probe		= hid_sensor_custom_probe,
+-	.remove		= hid_sensor_custom_remove,
++	.remove_new	= hid_sensor_custom_remove,
+ };
+ module_platform_driver(hid_sensor_custom_platform_driver);
  
- static struct platform_driver cbas_ec_driver = {
- 	.probe = cbas_ec_probe,
--	.remove = cbas_ec_remove,
-+	.remove_new = cbas_ec_remove,
- 	.driver = {
- 		.name = "cbas_ec",
- 		.acpi_match_table = ACPI_PTR(cbas_ec_acpi_ids),
 -- 
 2.43.0
 
