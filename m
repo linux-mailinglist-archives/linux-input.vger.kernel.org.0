@@ -1,149 +1,190 @@
-Return-Path: <linux-input+bounces-2278-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2279-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDE3875618
-	for <lists+linux-input@lfdr.de>; Thu,  7 Mar 2024 19:29:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B8D87593E
+	for <lists+linux-input@lfdr.de>; Thu,  7 Mar 2024 22:30:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F3D1B22FE8
-	for <lists+linux-input@lfdr.de>; Thu,  7 Mar 2024 18:29:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DE43286BAD
+	for <lists+linux-input@lfdr.de>; Thu,  7 Mar 2024 21:30:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C9EB132C19;
-	Thu,  7 Mar 2024 18:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028B713B79B;
+	Thu,  7 Mar 2024 21:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l3HHOofO"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="cnKPdaBG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B912C180;
-	Thu,  7 Mar 2024 18:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B55213B787
+	for <linux-input@vger.kernel.org>; Thu,  7 Mar 2024 21:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709836149; cv=none; b=VhnpsSF2CA3Wl3C3bQNE0UpbZplvg0fmw+lk0vbh2ssa0fiOkYkDkqBasVtJH8SuaoqWCk8VtM156Fb/I3YolUlga88hPhPap6n6H6jVj2Ox0678kKS7Gxi0mGYMdiDl9JEFV9Pbd+xrv/O1CTbWCObwgXDogeo0FDBeEg7+F2E=
+	t=1709846999; cv=none; b=u/OcnjvIDwDVXGxw3zTUEuHTGg8Gg2X0ljIGyANma69SkHa6Zd8qwVjlnJzXhb/8xTAlnMVLGe2A7s88ahFkJqJPhPumFjv0+1IHI5Qdz9g6uFtMTdJoIfiVXY3gI0szFTCkh4LPiWt9eDfYLEneE8pbgjQXdC+yOvBN51pW58U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709836149; c=relaxed/simple;
-	bh=eBSebctmO6Ythh8P9I3Tu0FhUlKA5IX3lUZ879cQR8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b7s51NLqLJXF/IZPxLA3Un6r6qESE4zcXpDj1OVjRHB3Cs4uYMOMvzu/eICobPQpJ8+KZ30pA3+mdrl5jzEnbxrb887xzlBT9i/c1F0X9w38uq4n4coT1uTv8iCY0DuQ++mSDsOSMtWI6hBfJp2SFFG2Avgt9MlghRJA0RDgWuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l3HHOofO; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso957020a12.3;
-        Thu, 07 Mar 2024 10:29:07 -0800 (PST)
+	s=arc-20240116; t=1709846999; c=relaxed/simple;
+	bh=sUZxtGNHFx4zLodxUdWUhxGzSh51kPJIzM5f+5HerXM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lQGapol8WQ9R8eifXpb+49c49ucTx6wgQsjB9743ZmbGXTWOF2FqC2dRpEN4WvVW/uRirsTv21tA39KhVux7EgfQcKJie/tgisNDP4tbWpOc/TOiFCB1uBsieNg587anDgpSdtv8aTNpIMOcgkEHNI0jJNhpTz8wMUUchxNAzLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=cnKPdaBG; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-29b7fbf7a28so166430a91.1
+        for <linux-input@vger.kernel.org>; Thu, 07 Mar 2024 13:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709836147; x=1710440947; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZNpOPY6J6NoDjcYUmT22gL0RoTRGL1EqV0mF/U5iDE0=;
-        b=l3HHOofOCkuPZcUgo/1dXDVs9fhjs5/z+rwBc0AVyEJxr1EBhemoFNRcxE+nn+MhjQ
-         BNNp32tcF29xWJqN5rUw92ue+wWT6KI+jrOSrSbCiCYDII7KpArNyo/5LGYSy0EAJjg0
-         0fgitrFkq5A5FE7XCsqFKcYuZ33/RnnQKCX4Yauih3SV+UMGWleCoAu0gEB/Xel0heZS
-         sj9b8jldPblsUpKUspNILkaM2UxyJsgBtMyDw2fRo9BE5vCkKFtTcXR2E1F+dWBHkXse
-         ewYi1admE+oATpdRGrlA4amqkIzNyiA7/zX/oaE+hiNtYLsqG5MhwymRxh2RGwE+lPGV
-         jOLA==
+        d=broadcom.com; s=google; t=1709846997; x=1710451797; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+YZLpG094wphSKZXLLG7LA5wMsC4o/YJbeoOf2hZChI=;
+        b=cnKPdaBGegPp5BJwBrCzKS/yjHJL+AyfEgciWTVR+NexL5lmQabES6W9rHdHJDY2+F
+         nc4aOWgUnhAkrD9ZPitvsN/zQJ06h4XEbt/jGZc+grTlFLcjmyzhT/zBe/JfF1heAlXg
+         emPr6JKJu/UxgU1LFFt7dbtRQJR/YdzV7R9Zk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709836147; x=1710440947;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZNpOPY6J6NoDjcYUmT22gL0RoTRGL1EqV0mF/U5iDE0=;
-        b=ILeRJuR+x5foYDKKfwVw63qhFkBH4CynVPvQEJY8Su2JnFQKCX3nk7015BNDL9b1Oj
-         DNrUjLKiRGP3KTlgakMZLkM6cg94L55hILX/MqdqrXx21MLUNrwXpzUov3Qyf9a5n4Xh
-         VkOwfqu5RoGx6IJcHwnj7edJBaasJGaRZzyYPoF9L5UWNNcoSFpS/FqsG3fKhAZtCSFS
-         jZ9UbJ5jNRqZbEDYyQ9ataE1aCe+HeKfY1LjrJsChHA40vzmjoaPTVkakjTTgEE9tbc7
-         zb7GkDkpDGdGFOtb4BwnE4gMGFH9ycK13c+BjRmiK7tHHYejUgxCvhvRclb42YaWWxsI
-         fKBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkq4r2p7fbmHSdEbHjXwUKzsMCcmckD9v0no3nnoYnzbyNbZZ374pKDXk8lLX2rS4nDw8rj0XZuWUvOmjQIyJ1xIb6UiQXXG9Um+BhYhnCciriyFzPePyOP6HzzfoEpQnuJSEqtg7XW9ONbCleZz1R
-X-Gm-Message-State: AOJu0Yzken+fQUc7mxM7ivWXVfYXOQP37ZGRgKZF7nTw8ZgwYzGAnbgR
-	Cmist5qQJeSRwl4J8tx8p2i+YzAd+68fAa4jOkhfNvw/yFCdetpNkPbOpOku
-X-Google-Smtp-Source: AGHT+IFoqGRAc7bA+Jb5qPn3fbeVju8JdprzvuqhlMjyIn+5aoLqHrodeP54M0NUofB2BTKLM3iynw==
-X-Received: by 2002:a05:6a20:3d27:b0:1a1:6f2c:ceb7 with SMTP id y39-20020a056a203d2700b001a16f2cceb7mr3808492pzi.8.1709836146949;
-        Thu, 07 Mar 2024 10:29:06 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:7cdb:7132:a03e:7749])
-        by smtp.gmail.com with ESMTPSA id c11-20020aa781cb000000b006e4362d0d8csm12935384pfn.36.2024.03.07.10.29.06
+        d=1e100.net; s=20230601; t=1709846997; x=1710451797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+YZLpG094wphSKZXLLG7LA5wMsC4o/YJbeoOf2hZChI=;
+        b=jgBlINmWM6tMeCf8Fn8xyGlbBobduiwBTXH6hQWaAap7/epQDmSuccpfgnidHCxkze
+         f1F2w8Hz+J1OivNzFbCPM09ptXWDbKl1HPGtt9yar/WOeif0JvIrGYs9m//CRRuR4hC1
+         nEJ1OA9kr2vpvlkaw1ddb7fOULrNhKEZlhYK0o+C0jHAcj4/iTCZ9b2zmmOKg8rYOvKV
+         pMV5g19N3Yy+AyoWpLSAGsioD8S86P4BQJSpWvm9gPJ7O81h2V+BB7tMHElDe2Vd84m0
+         AaqB1+UBgJ6p9ihLL7i5YGGZHx38Du1uRp+eJZVQq2GIicZa8YLhqovuLGBASQguAw3C
+         Mgew==
+X-Forwarded-Encrypted: i=1; AJvYcCXQQ8KOt2E8BDuHWdOibRe6dmgwtR0+pJHsg6OdJV1vCG6tKvAhcsbQYsKqdqtVPiJNS/21RckR4r2ty6gTR/lQRgIvv3o5AtActXA=
+X-Gm-Message-State: AOJu0YwjkY7qHH7i1pv94mZTAHjxjK8vnQozYgEFNi8mRgKrz0n1PzXH
+	yYAXmiIVejWzoYNQ2gQZ/3W/J/WBOKfV8pipuKD/0xiKvHb2ZPT8ZNzjNRgqdA==
+X-Google-Smtp-Source: AGHT+IEzz+bckUTxMNcu0RwZK0XnBSiwtoTYqhjpphfi8E+fSD4mV1nsz9A9Yr4VpADTNeEUBC8JoQ==
+X-Received: by 2002:a17:90a:a606:b0:29a:a3a6:dde7 with SMTP id c6-20020a17090aa60600b0029aa3a6dde7mr17873626pjq.18.1709846997354;
+        Thu, 07 Mar 2024 13:29:57 -0800 (PST)
+Received: from amakhalov-build-vm.eng.vmware.com ([64.186.27.43])
+        by smtp.gmail.com with ESMTPSA id y12-20020a17090abd0c00b00299db19a81asm1991021pjr.56.2024.03.07.13.29.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 10:29:06 -0800 (PST)
-Date: Thu, 7 Mar 2024 10:29:04 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Denose <jdenose@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, jefferymiller@google.com,
-	Jonathan Denose <jdenose@google.com>,
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org,
-	Ike Panhc <ike.pan@canonical.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] Input: psmouse - add resync_on_resume dmi check
-Message-ID: <ZeoHcH59Qsiv90b-@google.com>
-References: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
- <ZcKs589qYxviC1J4@google.com>
- <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
- <ZcZ2oG1Rls-oR593@google.com>
- <CALNJtpWNbSZdpxky9hTiSRsaGgLDUnM66QGEy213d3Lhra0hsw@mail.gmail.com>
- <ZeDLq9gPs5InBmdK@google.com>
- <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
+        Thu, 07 Mar 2024 13:29:57 -0800 (PST)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	namit@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: [PATCH v7 0/7] VMware hypercalls enhancements
+Date: Thu,  7 Mar 2024 13:29:42 -0800
+Message-Id: <20240307212949.4166120-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
 
-On Mon, Mar 04, 2024 at 11:17:31AM -0600, Jonathan Denose wrote:
-> I disabled the ideapad driver by rebuilding the kernel without the
-> ideapad_laptop module. That does fix the suspend/resume issue!
-> 
-> Attached are the logs. Is there a way to make this permanent?
-> 
-> On Thu, Feb 29, 2024 at 12:23 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Mon, Feb 12, 2024 at 02:57:08PM -0600, Jonathan Denose wrote:
-> > ...
-> > > [   50.241235] ideapad_acpi VPC2004:00: PM: calling acpi_subsys_resume+0x0/0x5d @ 4492, parent: PNP0C09:00
-> > > [   50.242055] snd_hda_intel 0000:00:0e.0: PM: pci_pm_resume+0x0/0xed returned 0 after 13511 usecs
-> > > [   50.242120] snd_hda_codec_realtek hdaudioC0D0: PM: calling hda_codec_pm_resume+0x0/0x19 [snd_hda_codec] @ 4518, parent: 0000:00:0e.0
-> > > [   50.247406] i8042: [49434] a8 -> i8042 (command)
-> > > [   50.247468] ideapad_acpi VPC2004:00: PM: acpi_subsys_resume+0x0/0x5d returned 0 after 6220 usecs
-> > ...
-> > > [   50.247883] i8042 kbd 00:01: PM: calling pnp_bus_resume+0x0/0x9d @ 4492, parent: pnp0
-> > > [   50.247894] i8042 kbd 00:01: PM: pnp_bus_resume+0x0/0x9d returned 0 after 0 usecs
-> > > [   50.247906] i8042 aux 00:02: PM: calling pnp_bus_resume+0x0/0x9d @ 4492, parent: pnp0
-> > > [   50.247916] i8042 aux 00:02: PM: pnp_bus_resume+0x0/0x9d returned 0 after 0 usecs
-> > ...
-> > > [   50.248301] i8042 i8042: PM: calling platform_pm_resume+0x0/0x41 @ 4492, parent: platform
-> > > [   50.248377] i8042: [49434] 55 <- i8042 (flush, kbd)
-> > > [   50.248407] i8042: [49435] aa -> i8042 (command)
-> > > [   50.248601] i8042: [49435] 00 <- i8042 (return)
-> > > [   50.248604] i8042: [49435] i8042 controller selftest: 0x0 != 0x55
-> >
-> > So here I see the ideapad-laptop driver trying to access i8042 before it
-> > even starts resuming. I wonder, does it help if you disable
-> > (temporarily) the ideapad driver?
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-OK, so I tried to cook up a patch that would allow ideapad-laptop driver
-to establish device link with i8042 so that the resume will be processed
-after i8042 resumes, but the longer I think about it, the more I think
-that ideapad driver should not be messing with the touchpad state
-directly. The disable event may come up in a middle of the touchpad
-resume transition, or when we decide to change touchpad mode for one
-reason or another. It also does not respect inhibit/uninhibit controls
-for input devices. I think that the proper way for ideapad driver to
-handle this is to only send KEY_TOUCHPAD_OFF/KEY_TOUCHPAD_ON to
-userspace and let userspace deal with toggling touchpad input (via
-inhibit or by other means).
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-CC-ing ideapad maintainers for their thoughts.
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-Thanks.
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
+
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
+
+v6->v7 changes (only in patch 7):
+- Addressed comments from H. Peter Anvin:
+  1. Removed vmware_tdx_hypercall_args(), moved args handling inside
+     vmware_tdx_hypercall().
+  2. Added pr_warn_once() for !hypervisor_is_type(X86_HYPER_VMWARE) case.
+- Added ack by Dave Hansen.
+
+v5->v6 change:
+- Added ack by Kirill A. Shutemov in patch 7. 
+
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
+
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (7):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Undefine VMWARE_HYPERCALL
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 331 +++++++++++++++++++---
+ arch/x86/kernel/cpu/vmware.c              | 144 +++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 593 insertions(+), 525 deletions(-)
 
 -- 
-Dmitry
+2.39.0
+
 
