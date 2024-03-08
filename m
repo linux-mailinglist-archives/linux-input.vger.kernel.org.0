@@ -1,154 +1,135 @@
-Return-Path: <linux-input+bounces-2288-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2289-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64000875B8B
-	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 01:30:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C88C875DBE
+	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 06:40:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 574B61C20E51
-	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 00:30:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 470AEB20B99
+	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 05:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76211139F;
-	Fri,  8 Mar 2024 00:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECCB42E65B;
+	Fri,  8 Mar 2024 05:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNfdZGew"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Br1bEehd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECDC1CD05;
-	Fri,  8 Mar 2024 00:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4E92564;
+	Fri,  8 Mar 2024 05:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709857834; cv=none; b=pjMNTALJYqVUg3MsWruX8dV91pTFT9mJSKzXCs+oCJ1Gh/UEtS+j0BIIqQc8W3os8BmIc+M3GtSsSu3QG5DxOY0/EHAXwhB207p0SFsjOAoUbLIkjpaXDE/NFv6NTB3mdECRtzir8VAg74KMGnSMy3KqFrwOLH/sUhkLGFiBs5c=
+	t=1709876436; cv=none; b=XWOwqu/ao1v71+3267OLAzt3XbMEiXrG905gfzCHtzJKAKDLk794S0sh7oApxCoDpWXmETqzsqKSlMzj3/wLFeIOXPtXHgbrAX79VrZeZRR+sXPyfSNrxl4AhOjNEbqYFUtWPWm4Uk+BxsmHShSat3MNNHpnklDJMrJGGbvx3ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709857834; c=relaxed/simple;
-	bh=FmvtmuJp4iYx2xKCfdfNDhv1ZPTAAFS9Pxa5WePHlRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbXsbbwWBdBCbWOLuZ+oLdtao942+dgTcvTvnxE8uH1ivrKKNmuWK3xrZ3VdSfUAFO1J+p90SLdfrgk08YRXYigaAjNNErp7WeiYBUGH5XarNzGNnAs5k3gVC2XFHsSuaDiND93g4O+3Je9TCSuyGPqEsdhigRwxMXbKDoOIHc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNfdZGew; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1709876436; c=relaxed/simple;
+	bh=VXzTDDwrVzsBd5OwF3NbrcZGSZl081y1VSk5gTaR33M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oYt9ljqKFHNdMs9LxB/BGjGJLi3VEG7XUaoeJ3cmEvIwUU5GAzZbiuUB+xj3ARMUmTwjJ0QeZkNXaNZ5+1EzxpfJKQcrRXyIQUFTShs7t7g9/HK/qk4OBlA0oN6ewaFN8pEpit8MC5NkAqVKxsTha5GfstJXFP4wqjiCDNoF8YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Br1bEehd; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1dd10ae77d8so13383985ad.0;
-        Thu, 07 Mar 2024 16:30:32 -0800 (PST)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6e4f8f140c1so740667a34.2;
+        Thu, 07 Mar 2024 21:40:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709857832; x=1710462632; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0xyP0tGi6BBQc8nNMKqV9IiFVbJf3kyiqu5hveyj5c=;
-        b=CNfdZGewyrYibi0jR8GJuQDZrxbFOVmcKhrJ/KKphQk80dDO/1Qw9ULYdexxagL61I
-         ZyJrZBtXk++LHn9kV9NWUb1traFfp7KseBLvTmdY+vo0KBYAgF/fr1xLv8dbHYSM7ho8
-         c37l0VDFs2blfWTB/VO1md+qBfTFfvHnnuSuGj4z52MtbMz+iNei5qLqJoQHr7I77dGG
-         NQFuiDPxCZjroazbpw5lZmfEHXeEwFMvIiNUw8MOoNckpYmY53aySW9SZEQyWRj77Vej
-         K5owAXF5iIEVItsbsgmiJJWJ43rkCFlS2Qv6IoUaamAPlZE99di4t+krx5zWyO9kPoRL
-         6DgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709857832; x=1710462632;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709876434; x=1710481234; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b0xyP0tGi6BBQc8nNMKqV9IiFVbJf3kyiqu5hveyj5c=;
-        b=Ncaj2HYk8MEOpmCpFlnprP0Vdyi7JPKA/mjQtBHSX+Aw6ie5YmpiljNxzmQ6JlL8jf
-         wLS7d/+Je9e5g9MWPN88jXtp/IHzfSiTM2iD5NEWMKeN1N8DK6ts6gFevVykqrPs6YMx
-         q3AZ2avmIXFaUgR5dMdAXp0aNA9f/lXOUVmc3TeE+pLGQ2xHkt7cCzzuiRbLUiJuGy7s
-         yD+BvZXJGlmH4Ud2oow2cvcxyLpNVcgJSXmC4d7NZsdvd9o5kvjpo+hN5LHR4BXAFjps
-         R4pG8pGILpJymBUBHg2rDtEO2xpr7HJZp44NMP2BKldDaOHDPrhKTxAOTzhODlphRfcS
-         kOcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhXUpO5jmkiGDSEJ0DDdTXCZuQv85e7AsaBqtC5E7RU+xL5OZGKyZ4oh4enojU2K1LcJ4OVHzttZ8xObqp3M2H+XZ12KimPc7iE9cPBJJ6IkmGdkY1Dbo9EVyMj7FdhDa61bBw/dLyfvY=
-X-Gm-Message-State: AOJu0Yx2BeLeaZecKMGhWFDueyfohRIumZA89+3ZltArSjiJyXL0l7af
-	maT7xM5OhzXAaQtjhSA1/crdUiGFVJ6MQ7rfWOd363kN22Lars4X
-X-Google-Smtp-Source: AGHT+IE0vp5ntfkL3LjCRDntUZpnMVxAGr/YRqblfjC04ypXeHSC1N0Ok66hKK+cMJYBoWI87EAmwQ==
-X-Received: by 2002:a17:902:6b06:b0:1dd:33:6efb with SMTP id o6-20020a1709026b0600b001dd00336efbmr9186927plk.30.1709857831807;
-        Thu, 07 Mar 2024 16:30:31 -0800 (PST)
+        bh=FmIdbXAIShCcx4VSxfFCIq6Nn+BVqj1An3BXPDxEMT8=;
+        b=Br1bEehd3eynC8MInWxktqrrpdwCp1NI1xa9UVTuedejHoGDNM8X8nBaKngPp+VP2l
+         BC7dDldTwTPmjc8xIhoT4oA5r4b4hS7gIlhoAWhdwLO0UvYZt4rypb6L4F20FfxDvQSu
+         Rf8VMEjoKWwkgsUX7814x0Gm8ZkBzhBBPkzRpLDgLpOu58gSMDVHgWytjSrfSQ3WXwqb
+         j6Z/LohasUNpL93GPABo8lEfOnb0976Fgqjif6wtJyEnfXsu5gj0S/VXySRqfsn6j82e
+         es0pzgw//YlUUvSAhqesmaKC4LD5d4jZG/GZUYEwTl7eEEhLVXdwFajt3TRk24AhAidp
+         cNUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709876434; x=1710481234;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FmIdbXAIShCcx4VSxfFCIq6Nn+BVqj1An3BXPDxEMT8=;
+        b=wBz/CGc3KMusO9dCNQ2v5EMjNdDFcmOidVIqfySO48dE0OlDYcRThcFLKvBsOzYurg
+         Rbs/EgmZggE6DXcZxV/4oQN/VMyBUbOa5mlhzJ2cOo8ZRRAN6O/jhCCUUfW4FzQKUP4e
+         gen4Q/ceheRGYc0h5XLLDopJQCU5iHsJzUFTxyCPvtaHKWi/e0umNI2RTzrhw+EAJ2U2
+         cvG046B2mNg9YrxNCnl81zHi8+wdr2aHw31t5rY4G+DVYnmudizdvhnB0yZ6GpDYIvM2
+         GljY+qioFy+vDHWWsrzsx9b8pSjRSGXY2qQqGBqaet6gbKX2V5rEBVSRh6B4vvF1R5Fb
+         tf/w==
+X-Forwarded-Encrypted: i=1; AJvYcCXw8cuMRMITv1KxNoTJenZ+OOeIZskRnLFmwusdF3FPiiYmQwolUXwdzG0oKR6rNzXCUfLU6tFqXfRvgp8DStcQUuadf7xk8oBAMPg=
+X-Gm-Message-State: AOJu0YzxilDxSGRzzYqOsRqkApTAZfB6Ybhs+Tyjl/WquWFvsa/AXLot
+	GZdxyeXFNNeGSfWkOGM+6C3o4ffpMpzSoU+HGY6S4suHMkh3G7DBdvqs+eMO
+X-Google-Smtp-Source: AGHT+IGYu8d37+M+Hyt6EPIoBZhXbKT9k6mfbVygFCJcEx7bVGhnKAsjEq7wGIDWsDQqLgqQPmh1wg==
+X-Received: by 2002:a05:6808:f15:b0:3c2:30b2:c6c2 with SMTP id m21-20020a0568080f1500b003c230b2c6c2mr1468161oiw.26.1709876434258;
+        Thu, 07 Mar 2024 21:40:34 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:13a:f30c:e020:9a13])
-        by smtp.gmail.com with ESMTPSA id q3-20020a170902a3c300b001dbcb39dd7dsm15401221plb.125.2024.03.07.16.30.30
+        by smtp.gmail.com with ESMTPSA id n21-20020a056a000d5500b006e669289fa7sm661870pfv.220.2024.03.07.21.40.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 16:30:31 -0800 (PST)
-Date: Thu, 7 Mar 2024 16:30:28 -0800
+        Thu, 07 Mar 2024 21:40:33 -0800 (PST)
+Date: Thu, 7 Mar 2024 21:40:31 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mathias Krause <minipli@grsecurity.net>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Torsten Hilbrich <torsten.hilbrich@secunet.com>,
-	Nick Dyer <nick@shmanahar.org>,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Brad Spengler <spender@grsecurity.net>,
-	Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH] Input: synaptics-rmi4 - fix use after free (more
- completely) -- but not fully ;)
-Message-ID: <ZepcJAhn_JYJcz3F@google.com>
-References: <e77756aa-c0f1-44a8-bcd6-a46fe954b195@moroto.mountain>
- <49c935cf-4bf5-456f-8bc0-d6dbf0f8cf0f@grsecurity.net>
- <61786e1d-35dc-4cf1-a152-fba363c94520@grsecurity.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.8-rc7
+Message-ID: <Zeqhkk0HJwEIUZ0D@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <61786e1d-35dc-4cf1-a152-fba363c94520@grsecurity.net>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 22, 2024 at 03:19:49PM +0100, Mathias Krause wrote:
-> On 22.02.24 15:08, Mathias Krause wrote:
-> >>
-> >> The bug is that we must not call device_del() until after calling
-> >> irq_dispose_mapping().
-> > 
-> > Unfortunately, this is only half the truth. We investigated this further
-> > and there's another bug that got introduced in commit 24d28e4f1271
-> > ("Input: synaptics-rmi4 - convert irq distribution to irq_domain"). The
-> > IRQ domain has a UAF issue as well. I'll send the patch soon -- wanted
-> > to do so this week, but, again, more urgent matters interrupted this.
-> 
-> Unfortunately, I send that Email too fast. Looking at the backtrace
-> again, it's just the other bug that needs fixing (a UAF in
-> rmi_driver_remove()). Will sent a patch really soon now!
-> 
-> > 
-> >>
-> >> Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
-> >> Reported-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-> >> Closes: https://lore.kernel.org/all/1932038e-2776-04ac-5fcd-b15bb3cd088d@secunet.com/
-> >> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=215604
-> >> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> >> ---
-> >>  drivers/input/rmi4/rmi_bus.c | 5 ++---
-> >>  1 file changed, 2 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
-> >> index 1b45b1d3077d..02acc81b9d3e 100644
-> >> --- a/drivers/input/rmi4/rmi_bus.c
-> >> +++ b/drivers/input/rmi4/rmi_bus.c
-> >> @@ -275,12 +275,11 @@ void rmi_unregister_function(struct rmi_function *fn)
-> >>  	rmi_dbg(RMI_DEBUG_CORE, &fn->dev, "Unregistering F%02X.\n",
-> >>  			fn->fd.function_number);
-> >>  
-> >> -	device_del(&fn->dev);
-> >> -	of_node_put(fn->dev.of_node);
-> >> -
-> >>  	for (i = 0; i < fn->num_of_irqs; i++)
-> >>  		irq_dispose_mapping(fn->irq[i]);
-> >>  
-> >> +	device_del(&fn->dev);
-> >> +	of_node_put(fn->dev.of_node);
-> >>  	put_device(&fn->dev);
-> >>  }
-> >>  
-> > 
-> > Acked-by: Mathias Krause <minipli@grsecurity.net>
-> 
-> So, forget about that one, sorry.
+Hi Linus,
 
-Right, I do not think this patch is needed. The "fn" will stay in memory
-until the last reference to fn->dev is dropped. So the original patch
-was enough for this particular issue, and Mathias' patch fixes slightly
-different UAF.
+Please pull from:
+
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.8-rc7
+
+to receive updates for the input subsystem. You will get:
+
+- a revert of endpoint checks in bcm5974 - the driver is being naughty
+  and pokes at unclaimed USB interface, so the check fails. We need to
+  fix the driver to claim both interfaces, and then re-implement the
+  endpoints check
+
+- a fix to Synaptics RMI driver to avoid UAF on driver unload or device
+  unbinding
+
+- a few new VID/PIDs added to xpad game controller driver
+
+- a change to gpio_keys_polled driver to quiet it when GPIO causes probe
+  deferral.
+
+Changelog:
+---------
+
+Javier Carrasco (1):
+      Revert "Input: bcm5974 - check endpoint type before starting traffic"
+
+Mathias Krause (1):
+      Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
+
+Max Nguyen (1):
+      Input: xpad - add additional HyperX Controller Identifiers
+
+Uwe Kleine-König (1):
+      Input: gpio_keys_polled - suppress deferred probe error for gpio
+
+Diffstat:
+--------
+
+ drivers/input/joystick/xpad.c             |  6 ++++++
+ drivers/input/keyboard/gpio_keys_polled.c | 10 ++++------
+ drivers/input/mouse/bcm5974.c             | 20 --------------------
+ drivers/input/rmi4/rmi_driver.c           |  6 +++---
+ 4 files changed, 13 insertions(+), 29 deletions(-)
 
 Thanks.
+
 
 -- 
 Dmitry
