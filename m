@@ -1,239 +1,161 @@
-Return-Path: <linux-input+bounces-2291-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2292-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3FD87667B
-	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 15:42:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA78876836
+	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 17:16:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D1C41C2143D
-	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 14:42:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C938128384A
+	for <lists+linux-input@lfdr.de>; Fri,  8 Mar 2024 16:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2936336F;
-	Fri,  8 Mar 2024 14:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D8A0208A5;
+	Fri,  8 Mar 2024 16:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCgaXqEp"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Pnp7/IDh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC55EBB
-	for <linux-input@vger.kernel.org>; Fri,  8 Mar 2024 14:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2772567A;
+	Fri,  8 Mar 2024 16:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709908976; cv=none; b=HaExC58GWs+CP9NFMye+eAyv0eQRtxogbEnp3BMu8p3SRYTvfBeddYp/AZktoVKDcdnXBePkBVTrU+fIF3lJ2f8wpKjj+mO3tXV1DVON0MPI/+QdzBaGMFoqYv4RkPfxIweHVeq2pHOMrKS7olEs/AUoaL7RTkSMLM5RSEhgJtw=
+	t=1709914591; cv=none; b=DZgCfLcZTJu/lwJDjvZMaBK/IfJtEVI5OMaAviKOSsCm1sRTeqwbHt6ml3fErNZGu19uWsXGQhR+vDzCAlkomBrp8jIJYE5fp8W1cNx9Fl0eiKXFk3l8q9jE1C96kbcnXSSetJKVvlMtFRl5+9PaKE0KuEiPHzCPDES3BRcnCjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709908976; c=relaxed/simple;
-	bh=ypyp1qzqQ1jK6cCi03yetoYVhbBEPJkmu6b5IfcHfow=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o4MWtD5d76HlHm2PJR6TkJQz8Co2RhnMYp7jrln+NPMd6i3po4yuh8BtpMGOmoVHiucFEF/Ta35ze92lAobYSxfiDyBavkwe6mFhwGZOMeWKcSCFD/1hE23RgHtL35CophR5CLtcept0oeck7K8bvTaKFnhhwrWoiaywga82b24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCgaXqEp; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709908974; x=1741444974;
-  h=date:from:to:cc:subject:message-id;
-  bh=ypyp1qzqQ1jK6cCi03yetoYVhbBEPJkmu6b5IfcHfow=;
-  b=BCgaXqEpxylL/ojPpzItG/Him2pxX+6neXiGo7Vt9e6qk+ZbUxyIloTs
-   gWrrZBEZVJt8nTA1+eFbaGlPex4PkrUF5aPOIrlvBPut9khZrQhYPuP1O
-   TP24mHOn5Z8u5/ObdVnm58uCCf1PGm5pbLrrmgRZpyf4EDdEni/aCKuGU
-   cHklQ/D1t+VZcKmttjaGWAxZfQWUkX0MC5+NkiinzpC/DtcsHgwNRjsEp
-   d9MkqmANmYY6gJxwyjTNq48GMBBGmXO4v7Bfv9J9DVAXTO0VSXBEumrds
-   3ew9y+CAwWwit1maI/GrvF/ui7X7MMnxkDd5oh2UZHKQPHWQi2v4YUIEe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="4754438"
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="4754438"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 06:42:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="15143571"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2024 06:42:52 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ribQv-0006RN-2g;
-	Fri, 08 Mar 2024 14:42:49 +0000
-Date: Fri, 08 Mar 2024 22:42:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- fbf8d71742557abaf558d8efb96742d442720cc2
-Message-ID: <202403082215.pREKp6VE-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1709914591; c=relaxed/simple;
+	bh=nl8BmuRwYvsr+bu7CuRQ/ADaxAD0pyS3qoMsQf8QLk8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=OCSc8D8DYxKRJKL9m4ZemK6WGYHNVcCyJi1PlH8HnryHN7J5CVceez9ZPEUL6sgeEImSJ9jPaU8Fz7EwXIqTBh1QwvlB515VcCmxXvk1zIMaBB3XQbsm2Gt2UPytmpXP7/j7/8gthlSTFgXs718TiRpkHhqfbYwMus/GHwY1wH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Pnp7/IDh; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1709914555; x=1710519355; i=w_armin@gmx.de;
+	bh=nl8BmuRwYvsr+bu7CuRQ/ADaxAD0pyS3qoMsQf8QLk8=;
+	h=X-UI-Sender-Class:Date:Subject:To:References:From:Cc:
+	 In-Reply-To;
+	b=Pnp7/IDhh4PdaOl5dzP5k5ENdZA7YVeJWmuUeShyF24i8MqrPaooOTwqusKGojas
+	 uECBk2NGzpxMd4hn4w/EjvRatWk0YcCm55ZFlR1v4KGKe6KcyUOpdx73Eeu1TTAC9
+	 XGrYd75qRIAKQwuAydw+KuFxoD1L7aWxl+yOaoSnGBN7ofF3eOG8ZrMyBm7JNYRDa
+	 RGWi4z+nBKfNo67xp2vt3tevacUAY48vOjqDfXbw4spI+BbL8cRQAPA4N3rFDeGgN
+	 JKzPPbjYNBLm1WooopyT5FFG8EQG6ARU+qGfsjFn0q9A2pyMY10q5nQiIt+77RuJf
+	 kOmNjsyDtLSr0PIF4Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfpOd-1rBSmw37dZ-00gD67; Fri, 08
+ Mar 2024 17:15:55 +0100
+Message-ID: <c07dedf3-175c-4748-b6d3-e1effe9cad41@gmx.de>
+Date: Fri, 8 Mar 2024 17:15:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] platform/x86: add lenovo wmi camera button driver
+Content-Language: en-US
+To: =?UTF-8?B?6Im+6LaF?= <aichao@kylinos.cn>, hdegoede <hdegoede@redhat.com>,
+ "ilpo.jarvinen" <ilpo.jarvinen@linux.intel.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ platform-driver-x86 <platform-driver-x86@vger.kernel.org>
+References: <1vk29ojvhrf-1vk4tk6plf0@nsmail7.0.0--kylin--1>
+From: Armin Wolf <W_Armin@gmx.de>
+Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+In-Reply-To: <1vk29ojvhrf-1vk4tk6plf0@nsmail7.0.0--kylin--1>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KWHWcfVt4TiOkAIHEN1Jf4Wok0DkXphNbM6k/8m4y1cBlp3266u
+ BrB0jP7XcxvI9+k/5GROjS5rPmqcgfX4MDnzxTN2Fw9jtohQ0QehezJUlXHN49qg7GClTyE
+ bEUb1NDcw97Ims6L7XP0iu1r2ac3Z+vxRid1s46WXKzPXZq9nb9rbfLqysVY/Kp+NntPd/B
+ zBfv80713vl12eQHtBt0Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:updG3xWEY4c=;9ZsCzdJLgPU7szJBd1nGgnSXEdQ
+ N+p22wL6oERTwSOAUan8ckv2xSSj8VqUUZLvOFAyohBffMKA6YESa9IXl7Ae5u2iGiQDiwvW1
+ q37IOLbQD/4eOLYCyrOb59aUiokt1ZJ72p35akEKb2sGwg3EsxcLMqtwZSkfHl+0opIqeH3mV
+ SVyLFocXCvmDBQS9pkxuD3xy6Vmk2iSbohM13/+xnqDFB4QQBNQ86HnvinM2THFrLngEybF18
+ IwQAc3JB9sOnbdh44xZS/ZfOOcxFl2uQvQ0lVKneCu3/sk+H3Er6P3PKmGfe8OQn2GsnipVSY
+ Sp79TE+MpX3bDJ34ttbKSgFeya9HcFIc8BlWrjrNVVTVS7Ie1SDZowa0e3I7rwW/Bq4AARSCS
+ TK0OpN3hvEzfd7+UW2n2bOi68m/ePKnFDP3IkbD/Y+dDfN002jptksxmZCmen7G6ZjbW42sb7
+ 5jcJw217HcXF9Yd4Ypk4/dSa/mTMxiCOcOtuPH1MolMsunUaPsKYEG4YFx5cSCJtYHIFhWhrz
+ ZpfduQjhd8iKguuwyiHI3kAg6953kHq3g13HzCRniN2QF4DU02Xd/wodeh/K83MqqaTdyHFU5
+ PXYLtv/SpLQvjQ97lQiUeT2Jn1HsaqmLG6vZ1w7auyQmuwT3R647BVYdv4Xbxj+y3Pv9dxfuD
+ OQobQd7RYDo8dnK9BWl5PYYIZrVKVj5nLbwdKkPFQQ8dnHt2TyqGl9KedqC2TGUygUKP3lV/h
+ oLy9MVSYDiV8S3Arot7PZnHsZAmNES9YHQUZRSbjWwwIqxoS7cKx1boVNhCQjLiTtBJ7qYFTM
+ Y5B0gTMTIRJylUdCAE+NRqSpXs126OKGThOtNmAhgtbaI=
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: fbf8d71742557abaf558d8efb96742d442720cc2  Input: synaptics-rmi4 - fix UAF of IRQ domain on driver removal
+Am 08.03.24 um 09:40 schrieb =E8=89=BE=E8=B6=85:
 
-elapsed time: 799m
+> Hi
+>
+> =C2=A0=C2=A0=C2=A0 thanks for your help.
+>
+> > Is there a way to determine the current state of the camera switch
+> without having
+> > to wait for an WMI event?
+>
+> There is no other way to detemine the current state of the camera
+> switch without
+>
+> a WMI event.
+>
+>
+> > If its not possible to determine the current state of the camera
+> switch, then your
+> > driver has to defer the initialization of the input device until it
+> knows the current
+> > state of the camera switch. Otherwise the initial switch state
+> reported by the
+> > input device might be wrong.
+>
+> > In this case, that means your driver must initialize the input
+> device when receiving
+> > a valid WMI event for the first time.
+>
+> > Basically when your driver receives a WMI event, it has to check if
+> the input device
+> > is already initialized. If this is not the case, then the input
+> device is initialized.
+> > Please protect this check and the input device initialization with a
+> mutex, since WMI
+> > event handling is multithreaded.
+>
+>
+> This Camera is a UVC device, and the Carema device is already
+> initialized before the WMI
+>
+> event .=C2=A0 Whether the camera switch is on or off, we can used lsusb =
+to
+> check the Camera.
+>
+> This wmi-camera driver only need to report the current state of the
+> camera switch.
+>
+>
+> Thanks.
+>
+> =C2=A0=C2=A0=C2=A0 Ai Chao
+>
+I see, so userspace will notice when the camera is disabled. Since the cam=
+era disappears from
+the USB bus when the switch is activated, i wonder if SW_CAMERA_LENS_COVER=
+ is the right thing
+to use in this case after all.
 
-configs tested: 150
-configs skipped: 2
+I CCed the maintainer of the input subsystem so that he can maybe provide =
+some advise.
+I for example would, taking the above information above the UVC device int=
+o account, say that
+KEY_CAMERA_ACCESS_ENABLE/KEY_CAMERA_ACCESS_DISABLE is more suitable. Then =
+userspace has to
+keep track of the camera state (through lsusb for example).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Maybe someone knowing the input subsystem can provide some advise on what =
+to do in this case?
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240308   gcc  
-arc                   randconfig-002-20240308   gcc  
-arm                              alldefconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   gcc  
-arm                                 defconfig   clang
-arm                        neponset_defconfig   gcc  
-arm                           omap1_defconfig   gcc  
-arm                          pxa910_defconfig   gcc  
-arm                   randconfig-001-20240308   gcc  
-arm                        shmobile_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-004-20240308   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240308   gcc  
-csky                  randconfig-002-20240308   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-003-20240308   gcc  
-i386         buildonly-randconfig-004-20240308   gcc  
-i386         buildonly-randconfig-005-20240308   gcc  
-i386                                defconfig   clang
-i386                  randconfig-004-20240308   gcc  
-i386                  randconfig-011-20240308   gcc  
-i386                  randconfig-015-20240308   gcc  
-i386                  randconfig-016-20240308   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240308   gcc  
-loongarch             randconfig-002-20240308   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     loongson1c_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240308   gcc  
-nios2                 randconfig-002-20240308   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240308   gcc  
-parisc                randconfig-002-20240308   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                         ps3_defconfig   gcc  
-powerpc               randconfig-001-20240308   gcc  
-powerpc                  storcenter_defconfig   gcc  
-powerpc64             randconfig-001-20240308   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240308   gcc  
-s390                  randconfig-002-20240308   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                    randconfig-001-20240308   gcc  
-sh                    randconfig-002-20240308   gcc  
-sh                           se7724_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240308   gcc  
-sparc64               randconfig-002-20240308   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-002-20240308   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-002-20240308   gcc  
-x86_64       buildonly-randconfig-003-20240308   gcc  
-x86_64       buildonly-randconfig-005-20240308   gcc  
-x86_64       buildonly-randconfig-006-20240308   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240308   gcc  
-x86_64                randconfig-005-20240308   gcc  
-x86_64                randconfig-006-20240308   gcc  
-x86_64                randconfig-012-20240308   gcc  
-x86_64                randconfig-015-20240308   gcc  
-x86_64                randconfig-016-20240308   gcc  
-x86_64                randconfig-072-20240308   gcc  
-x86_64                randconfig-073-20240308   gcc  
-x86_64                randconfig-074-20240308   gcc  
-x86_64                randconfig-075-20240308   gcc  
-x86_64                randconfig-076-20240308   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa                randconfig-001-20240308   gcc  
-xtensa                randconfig-002-20240308   gcc  
+Thanks,
+Armin Wolf
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
