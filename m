@@ -1,244 +1,277 @@
-Return-Path: <linux-input+bounces-2303-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2304-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA19877178
-	for <lists+linux-input@lfdr.de>; Sat,  9 Mar 2024 14:44:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B02487718A
+	for <lists+linux-input@lfdr.de>; Sat,  9 Mar 2024 14:56:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9FD2281A9C
-	for <lists+linux-input@lfdr.de>; Sat,  9 Mar 2024 13:44:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76FE21F21660
+	for <lists+linux-input@lfdr.de>; Sat,  9 Mar 2024 13:56:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE1C16FF52;
-	Sat,  9 Mar 2024 13:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XOvu/NYd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD5D40867;
+	Sat,  9 Mar 2024 13:56:24 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C233FB9F
-	for <linux-input@vger.kernel.org>; Sat,  9 Mar 2024 13:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E394A4085B
+	for <linux-input@vger.kernel.org>; Sat,  9 Mar 2024 13:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709991870; cv=none; b=nL+jXFG3lykl0M4jW5EFnb3LQAvlWa5YphHNuniSMkZbIZjNr0hiEgz2b+YY8QNqUk1vf1r3W2kVCJaNyyqowJ8O1BU+D7ZGSndLRmVUNdVYaDn2WvEp3aYG4NVFl/ejRBJV/7o35f20gwjrxBMkDLJaWgErPbf1IYscemeub8U=
+	t=1709992584; cv=none; b=JfBsHqNMUyeEXUUoSJLlXJQrkDs6n+P4pDN0xNyW0NbfiGd0VJfWG7Erv5TgcA7p4PMaSZ+QaGTODdR/DIcJ+ymdguLubbRGATaXZ/hJJmJZkH5uedwbsA5tBrKfEpUiIPPDCPJhKOJzstpFfs489/SOtaiaJu6TSrDHBPwSr1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709991870; c=relaxed/simple;
-	bh=avk9nSVV8DYRadaqtweaTG9bTqshOL/pVzQ12NkMKfY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AOLxRhl+Btdb34cuLlqmmSMHmAd3HYbRShrELKDbQthFjTYl6BF6Fxaje/YRmfe9iMyE1y1oMzLUD3gaWcD7zgCe6CEhwfv448LlhRssInRx9197EnVHWLtE45cnYpivs9KRwKuML7rKxOWId3VcBdwFMrcbEdtQpuRJmXzZNk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XOvu/NYd; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709991868; x=1741527868;
-  h=date:from:to:cc:subject:message-id;
-  bh=avk9nSVV8DYRadaqtweaTG9bTqshOL/pVzQ12NkMKfY=;
-  b=XOvu/NYdS9zEOxXQfiPHKFhPdgo9LMBmsVToQx8gwevpH3+Y8k5bKVnn
-   bojixS4i8oWtJGW2JcOHeQSVVjSvB6/zc0sUYYvnMft4kYGl0XL+KChPD
-   XaBb/f7iHDpZpdqsZ4H0SIU7NtxgQ7PY9GP3CPUc96ca1bs5jDeQWTtWM
-   PjG4QAt7y5SqgD7im7Z9hlIYcI26pRnbclJPeU69LiY8IkFrojBO845Xp
-   rhMh0/hfD4GWPOS5lYNIK7mHTW0/fVJi+wyml8IDHt2bo/LPZypH4BMq3
-   fwjKMSI7Mo7gmcPz4LTQUX8ZLVnJGahlN/M15yjzoLTkI2Lp0CfRv1VCh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11007"; a="16139113"
-X-IronPort-AV: E=Sophos;i="6.07,112,1708416000"; 
-   d="scan'208";a="16139113"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 05:44:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,112,1708416000"; 
-   d="scan'208";a="15228046"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Mar 2024 05:44:26 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1riwzw-0007Ml-0B;
-	Sat, 09 Mar 2024 13:44:24 +0000
-Date: Sat, 09 Mar 2024 21:43:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 1099a04ccc9b4d2b9d5dcd33d9bb9c333e147e8d
-Message-ID: <202403092122.Quk8A9u9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1709992584; c=relaxed/simple;
+	bh=4/rRvptdp4qKmeIoYfCSm0w2FvFvH5RKhZS0MyGJ7MU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Q9y/B1rLgyqXFAELIQXAW5rXyEAGC9xqTfrwk/lweJynQ6W/UYTCeAxcrLtU6kIE0RrwdSm4pMJimYixQTXpA7rDwSRNtGB9AZJL1VNVvC2sYQi4ecWyCaPq8F3mLgumC/Bh00tXG0Weg6EbaEJXTtdV6Ytw7HZF1UKjFW9iR2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7c84b3570cfso298878139f.3
+        for <linux-input@vger.kernel.org>; Sat, 09 Mar 2024 05:56:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709992582; x=1710597382;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yeWdolIukjuIT6djSO5vJ9A0bt1LKEAUENPR0p05oog=;
+        b=aYihwAPnpIb8hGNLikek1Nmj4/gPXTeySHZ4SI6tOHJ5985rBBtCCtiFYYIy1TfrKU
+         YNWyPiQ1L+PBxAuUGjnzVUyhU1olyFoAwOSV9uwtXUpqZLDTmlksp6lF/wSZ3vk3tnra
+         nWhyAHtZUzOPQbv4ESTdLgv0QLTgmn3zB0j3pkIGBGd06TJo8fjNok4hgmiTqPyXFNiY
+         +bEizqbfsJijcSG47tbNCXQ66Fk26mQwlTf1mig5d400ne+DZf3PBruh1TOAgt0wiU/k
+         3BZCzzciFCO+FX9LTz46sNjTyADPwM9zXfkeJzNWc+L87ttPJWc65EI3+I2gnCSEmqbk
+         p9IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdnRMwaN+BVheYe/zuzyzDgEh72OWOToJNZQCddxqElQPWBwVMdEf56pnbuV26jyAIJjdSpY6L+sepIyqkrsc1L7qo+8g11MYdgDE=
+X-Gm-Message-State: AOJu0YwbqTIMpmRwdmYH4/XC2pFv8BvHAYj4Wqf+rLK147KX6hvlbUpv
+	habV9AsxUS0+eyE4UE/UNml65WH7SjD5j6KZIXCDuHfMhfmvD9e1sEw1gYiQikrBdI2clfbuh6x
+	8FmqM9p19ZRVqwF/lHpXFuE+Q0Mb7xHPLWRQE/uOzbvy6RumxqQkTifg=
+X-Google-Smtp-Source: AGHT+IGospwXP3X//QXmS850gEnXTtJTITsLt1q19l2raEN3aAt2yX9zRlc27x6V4JGS+3bKBjHBiAkPP5Ixom+Sv014ly6u103d
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6602:6403:b0:7c8:593f:fdc3 with SMTP id
+ gn3-20020a056602640300b007c8593ffdc3mr33513iob.4.1709992582162; Sat, 09 Mar
+ 2024 05:56:22 -0800 (PST)
+Date: Sat, 09 Mar 2024 05:56:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006dbb0b06133aacee@google.com>
+Subject: [syzbot] [mm?] [input?] [usb?] INFO: rcu detected stall in asm_exc_page_fault
+From: syzbot <syzbot+360faf5c01a5be55581d@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, 
+	pasha.tatashin@soleen.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 1099a04ccc9b4d2b9d5dcd33d9bb9c333e147e8d  dt-bindings: input: atmel,captouch: convert bindings to YAML
+Hello,
 
-elapsed time: 725m
+syzbot found the following issue on:
 
-configs tested: 155
-configs skipped: 2
+HEAD commit:    90d35da658da Linux 6.8-rc7
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=122f6f6a180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=119d08814b43915b
+dashboard link: https://syzkaller.appspot.com/bug?extid=360faf5c01a5be55581d
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=124056de180000
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/fb2c1adf4ec3/disk-90d35da6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/09c5b88a8ceb/vmlinux-90d35da6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5e5cbc312e49/bzImage-90d35da6.xz
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240309   gcc  
-arc                   randconfig-002-20240309   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                        clps711x_defconfig   clang
-arm                                 defconfig   clang
-arm                   milbeaut_m10v_defconfig   clang
-arm                            mps2_defconfig   clang
-arm                       netwinder_defconfig   gcc  
-arm                   randconfig-002-20240309   gcc  
-arm                   randconfig-004-20240309   gcc  
-arm                        spear6xx_defconfig   clang
-arm                           sunxi_defconfig   gcc  
-arm                           u8500_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240309   gcc  
-csky                             alldefconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240309   gcc  
-csky                  randconfig-002-20240309   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240309   clang
-i386         buildonly-randconfig-002-20240309   clang
-i386         buildonly-randconfig-003-20240309   gcc  
-i386         buildonly-randconfig-004-20240309   gcc  
-i386         buildonly-randconfig-005-20240309   gcc  
-i386         buildonly-randconfig-006-20240309   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240309   gcc  
-i386                  randconfig-002-20240309   gcc  
-i386                  randconfig-003-20240309   clang
-i386                  randconfig-004-20240309   clang
-i386                  randconfig-005-20240309   clang
-i386                  randconfig-006-20240309   gcc  
-i386                  randconfig-011-20240309   gcc  
-i386                  randconfig-012-20240309   gcc  
-i386                  randconfig-013-20240309   clang
-i386                  randconfig-014-20240309   clang
-i386                  randconfig-015-20240309   clang
-i386                  randconfig-016-20240309   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240309   gcc  
-loongarch             randconfig-002-20240309   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ip28_defconfig   gcc  
-mips                          malta_defconfig   gcc  
-mips                      maltaaprp_defconfig   clang
-mips                          rb532_defconfig   clang
-nios2                         10m50_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240309   gcc  
-nios2                 randconfig-002-20240309   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240309   gcc  
-parisc                randconfig-002-20240309   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      makalu_defconfig   clang
-powerpc                  mpc866_ads_defconfig   clang
-powerpc                    mvme5100_defconfig   gcc  
-powerpc                      ppc40x_defconfig   clang
-powerpc               randconfig-001-20240309   gcc  
-powerpc64             randconfig-001-20240309   gcc  
-powerpc64             randconfig-002-20240309   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240309   gcc  
-riscv                 randconfig-002-20240309   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240309   gcc  
-sh                    randconfig-002-20240309   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240309   gcc  
-sparc64               randconfig-002-20240309   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240309   clang
-x86_64       buildonly-randconfig-003-20240309   clang
-x86_64       buildonly-randconfig-006-20240309   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-002-20240309   clang
-x86_64                randconfig-003-20240309   clang
-x86_64                randconfig-005-20240309   clang
-x86_64                randconfig-011-20240309   clang
-x86_64                randconfig-012-20240309   clang
-x86_64                randconfig-013-20240309   clang
-x86_64                randconfig-076-20240309   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240309   gcc  
-xtensa                randconfig-002-20240309   gcc  
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+360faf5c01a5be55581d@syzkaller.appspotmail.com
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: {
+ 1-....
+ } 4831 jiffies s: 1849 root: 0x2/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 0 to CPUs 1:
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+NMI backtrace for cpu 1
+CPU: 1 PID: 5232 Comm: syz-executor.3 Not tainted 6.8.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+RIP: 0010:format_decode+0x546/0x1bb0
+Code: 85 96 01 00 00 45 84 ff 0f 84 8d 01 00 00 48 bb 00 ff ff ff 00 ff ff ff 48 8b 44 24 20 42 0f b6 04 30 84 c0 0f 85 4d 10 00 00 <48> 8b 54 24 48 48 21 da 48 8b 44 24 28 42 0f b6 04 30 84 c0 48 8d
+RSP: 0000:ffffc900001efa20 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: ffffff00ffffff00 RCX: ffff8880219e0000
+RDX: ffff8880219e0000 RSI: 0000000000000025 RDI: 0000000000000000
+RBP: ffffc900001efb10 R08: ffffffff8b57a4c8 R09: ffffffff8b57a1aa
+R10: 0000000000000002 R11: ffff8880219e0000 R12: ffffffff8bab75e6
+R13: ffffffff8bab75e6 R14: dffffc0000000000 R15: 0000000000000025
+FS:  0000555555c82480(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f74dc087056 CR3: 0000000021bc6000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ vsnprintf+0x14f/0x1da0 lib/vsprintf.c:2776
+ sprintf+0xda/0x120 lib/vsprintf.c:3028
+ print_time kernel/printk/printk.c:1324 [inline]
+ info_print_prefix+0x16b/0x310 kernel/printk/printk.c:1350
+ record_print_text kernel/printk/printk.c:1399 [inline]
+ printk_get_next_message+0x408/0xce0 kernel/printk/printk.c:2828
+ console_emit_next_record kernel/printk/printk.c:2868 [inline]
+ console_flush_all+0x42d/0xec0 kernel/printk/printk.c:2967
+ console_unlock+0x13b/0x4d0 kernel/printk/printk.c:3036
+ vprintk_emit+0x508/0x720 kernel/printk/printk.c:2303
+ _printk+0xd5/0x120 kernel/printk/printk.c:2328
+ printk_stack_address arch/x86/kernel/dumpstack.c:72 [inline]
+ show_trace_log_lvl+0x438/0x520 arch/x86/kernel/dumpstack.c:285
+ sched_show_task+0x50c/0x6d0 kernel/sched/core.c:9171
+ show_state_filter+0x19e/0x270 kernel/sched/core.c:9216
+ kbd_keycode drivers/tty/vt/keyboard.c:1524 [inline]
+ kbd_event+0x30fa/0x4910 drivers/tty/vt/keyboard.c:1543
+ input_to_handler drivers/input/input.c:132 [inline]
+ input_pass_values+0x945/0x1200 drivers/input/input.c:161
+ input_event_dispose drivers/input/input.c:378 [inline]
+ input_handle_event drivers/input/input.c:406 [inline]
+ input_repeat_key+0x3fd/0x6c0 drivers/input/input.c:2263
+ call_timer_fn+0x17e/0x600 kernel/time/timer.c:1700
+ expire_timers kernel/time/timer.c:1751 [inline]
+ __run_timers+0x621/0x830 kernel/time/timer.c:2038
+ run_timer_softirq+0x67/0xf0 kernel/time/timer.c:2051
+ __do_softirq+0x2bb/0x942 kernel/softirq.c:553
+ invoke_softirq kernel/softirq.c:427 [inline]
+ __irq_exit_rcu+0xf1/0x1c0 kernel/softirq.c:632
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:644
+ sysvec_apic_timer_interrupt+0x97/0xb0 arch/x86/kernel/apic/apic.c:1076
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:649
+RIP: 0010:page_table_check_set+0x58/0x700 mm/page_table_check.c:109
+Code: 95 ff 85 ed 0f 84 5f 03 00 00 49 bf 00 00 00 00 00 fc ff df 48 c1 e3 06 48 bd 00 00 00 00 00 ea ff ff 48 8d 3c 2b 48 89 3c 24 <e8> 33 e9 ff ff 49 89 c6 4c 8d 64 2b 08 4c 89 e5 48 c1 ed 03 42 80
+RSP: 0000:ffffc90004d0f650 EFLAGS: 00000202
+RAX: 0000000000000000 RBX: 0000000001c8ae80 RCX: ffff8880219e0000
+RDX: ffff8880219e0000 RSI: 0000000000000001 RDI: ffffea0001c8ae80
+RBP: ffffea0000000000 R08: ffffffff81fdf590 R09: 1ffffffff1f0880d
+R10: dffffc0000000000 R11: fffffbfff1f0880e R12: 0000000000000000
+R13: 0000000000000001 R14: 00000000722ba025 R15: dffffc0000000000
+ __page_table_check_ptes_set+0x220/0x280 mm/page_table_check.c:196
+ page_table_check_ptes_set include/linux/page_table_check.h:74 [inline]
+ set_ptes include/linux/pgtable.h:241 [inline]
+ set_pte_range+0x885/0x8b0 mm/memory.c:4549
+ filemap_map_order0_folio mm/filemap.c:3513 [inline]
+ filemap_map_pages+0xee2/0x1830 mm/filemap.c:3559
+ do_fault_around mm/memory.c:4716 [inline]
+ do_read_fault mm/memory.c:4749 [inline]
+ do_fault mm/memory.c:4888 [inline]
+ do_pte_missing mm/memory.c:3745 [inline]
+ handle_pte_fault mm/memory.c:5164 [inline]
+ __handle_mm_fault+0x485d/0x72d0 mm/memory.c:5305
+ handle_mm_fault+0x27e/0x770 mm/memory.c:5470
+ do_user_addr_fault arch/x86/mm/fault.c:1355 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1498 [inline]
+ exc_page_fault+0x456/0x870 arch/x86/mm/fault.c:1554
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:570
+RIP: 0033:0x7f74dc087080
+Code: Unable to access opcode bytes at 0x7f74dc087056.
+RSP: 002b:00007ffe028d3bb8 EFLAGS: 00010246
+RAX: 00007f74dcdfb9d0 RBX: 00007f74dcdfb6c0 RCX: 00007f74dc07de67
+RDX: 0000000000000003 RSI: 0000000000020000 RDI: 00007f74dcdfb6c0
+RBP: 0000000000000000 R08: 00000000ffffffff R09: 0000000000000000
+R10: 0000000000021000 R11: 0000000000000206 R12: 00007ffe028d3e60
+R13: ffffffffffffffc0 R14: 0000000000001000 R15: 0000000000000000
+ </TASK>
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:kworker/u4:0    state:I stack:24400 pid:11    tgid:11    ppid:2      flags:0x00004000
+Workqueue:  0x0 (events_unbound)
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0x177f/0x49a0 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0x149/0x260 kernel/sched/core.c:6817
+ worker_thread+0xc26/0x1000 kernel/workqueue.c:2802
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:kworker/u4:1    state:I stack:23344 pid:12    tgid:12    ppid:2      flags:0x00004000
+Workqueue:  0x0 (bat_events)
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0x177f/0x49a0 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0x149/0x260 kernel/sched/core.c:6817
+ worker_thread+0xc26/0x1000 kernel/workqueue.c:2802
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:kworker/R-mm_pe state:I stack:28752 pid:13    tgid:13    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0x177f/0x49a0 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0x149/0x260 kernel/sched/core.c:6817
+ rescuer_thread+0xc45/0xda0 kernel/workqueue.c:2937
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:rcu_tasks_kthre state:I stack:27448 pid:14    tgid:14    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0x177f/0x49a0 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0x149/0x260 kernel/sched/core.c:6817
+ rcu_tasks_one_gp+0x7f5/0xda0 kernel/rcu/tasks.h:578
+ rcu_tasks_kthread+0x186/0x1b0 kernel/rcu/tasks.h:625
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:rcu_tasks_trace state:I stack:27144 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0x177f/0x49a0 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0x149/0x260 kernel/sched/core.c:6817
+ rcu_tasks_one_gp+0x7f5/0xda0 kernel/rcu/tasks.h:578
+ rcu_tasks_kthread+0x186/0x1b0 kernel/rcu/tasks.h:625
+ kthread+0x2ef/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+task:ksoftirqd/0
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
