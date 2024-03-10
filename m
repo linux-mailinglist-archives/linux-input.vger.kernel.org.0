@@ -1,286 +1,218 @@
-Return-Path: <linux-input+bounces-2317-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2318-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E209687784E
-	for <lists+linux-input@lfdr.de>; Sun, 10 Mar 2024 20:30:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C97CA877880
+	for <lists+linux-input@lfdr.de>; Sun, 10 Mar 2024 21:35:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11A9A1C20943
-	for <lists+linux-input@lfdr.de>; Sun, 10 Mar 2024 19:30:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FB6C2814A5
+	for <lists+linux-input@lfdr.de>; Sun, 10 Mar 2024 20:35:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7043D39FEF;
-	Sun, 10 Mar 2024 19:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290CE39FEF;
+	Sun, 10 Mar 2024 20:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="pVPidqxn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NyJ28+u1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2092.outbound.protection.outlook.com [40.107.237.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3256E39846;
-	Sun, 10 Mar 2024 19:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.92
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710099007; cv=fail; b=tR13KI5ZqoIKRQB/OvnaEymcaQdWts6YWwEY8yvoN7np1S5QpOozwt1yw/QvKf7yZEZWyn70AebxBy8nvpv9eM6XTH3I807e34mQVmQCcXxigxvTAaWuMR2gS4CFcXw3r67RfL4UICUfXUO+RCVeYtBEJ8UOwMNWNV5tmyG8mZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710099007; c=relaxed/simple;
-	bh=wZSASI/56HTQ/FDVSbv8gIjKfjBOhQAnHOAQ9ytApew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cTTYsqO/pBv6fGyc+A4v8ciKuLv8F6MyMYUE+cZY7NBwUua7Mu3LC/Y1GO1sAx7RcYvbgTBNjPUn1im90gbHYrS8Zpjfh9zvpBSfn5BJMpPTNSE1IXRMHNmob0b9X2wfvYY3BjLhgGa2eNuNunN4vcYMhUUZ8/l10vR1mOEuZr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=pVPidqxn; arc=fail smtp.client-ip=40.107.237.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GudjwVJNwnv77K4bpZAvE9Z6iH9xpdldcwsCMgsZOxbT3DTqv+LueTvEn8HwXULYIIq6e9z8OJLmJvrWKtVB9kObJ7DwoTXOZZqJYxr+meVsmhW+rIWZ2SVCbTkRqTSANWPSF0FTzD1V7gVK2CVQmdZaGtcfGEGzlXXNUF2zubrbeZFV3Y0zy5PwKZ2bxO2X8M9pTBfYTVgMpkn9YIXFJNZ20+QFWOanvcpxWnZURXXxJvtuP8HoJl9FmEjINNxRmrluDiWTSIxpn5be9ygw7A3IjCx6NJqaZagBd6flT2mW31kwtInXIR9F0ZEg+On4KCa5Vx5RClVrpvczo20JRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pxWQ3WQoVnlKn9lsbmmQV8ok/1oTY6rHJC59T/yG3x4=;
- b=DRIuc9OIyhWopWtAEwBElntgWJCYXG7CGw63rG9GFUtORvl4JNjQrl1PzaX02nFzmIRv22KFMg/7Yy3X3J7UH1HAjTOSXq+cSxSCYR1tJdZdGMl0Q3va3I0klpS/fvdQhBFiEIgGIf7eWyg2E4zImkbc9lcF/ai0QTaJf5l75sp8jfjSkAtGARJyMlNtNJWd3MU65UD/7MFwpVoo2JFhse54LSZgBOu/sOlga6zSvF5WAbcQkWWTYDaKPodqcW+G4MnlT2gvP44KrOONOMEytwMUk30XgMxQgmCBqGvULeiuBJcpIGgIAQt54amnHTzHxVXiR3mIuYHU6LVKMWUsIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387D1364D4
+	for <linux-input@vger.kernel.org>; Sun, 10 Mar 2024 20:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710102943; cv=none; b=JFq0qPqrskOXqF+qe/L8TzupP0NW/GZGhXtdsdO19nhhu2xz6bfru+tiFdWX2bO2PdSnmoaiaHW9e0AATsWJ3lAgxOa3m67KhMz2Y2Ub4LJJUjKgV/NvWjCExKb+EBURwqVLAYZZGJeNRV93qjImiuL+4/NXCFvA34D8oBdA6Do=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710102943; c=relaxed/simple;
+	bh=e70bg/e1BS2jVywk5zKGgumV9mPuOOtP93ieLTvedjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RE8dzYO1fdkcz98rHzQeOVuHhYvEAAu6lD/LSsPnFeAsA9NbrTl+DkdfacA9HlZiPTsUReNjYJiNwgl9ZnwgMTX72tM/gx3ZD2iPOttQhSKjYlfDBCP6kqstrJ8Ehts4FEJbRlYo0agtdXorSUyCK8XxD34Y8rYzOUujvjlwSKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NyJ28+u1; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-413286f8985so2686435e9.2
+        for <linux-input@vger.kernel.org>; Sun, 10 Mar 2024 13:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pxWQ3WQoVnlKn9lsbmmQV8ok/1oTY6rHJC59T/yG3x4=;
- b=pVPidqxnXMNpRd0iBFR59Q5PL1vkyOYawNtGc53oFLYx1It6fAiDv9ajtunCUkuEOacWNHHA09Auf2ZfMnVIB9ubD2/DEeQ1OWfO6+q/l4xz7PvTCLXDIHcjWkXxQuaXBPbYIcXyv7VNosBxwi0qJM/C3FKKT7picbjqiivyyfU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM3PR08MB9499.namprd08.prod.outlook.com
- (2603:10b6:0:14::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Sun, 10 Mar
- 2024 19:30:02 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::bea5:3186:8a9f:52a]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::bea5:3186:8a9f:52a%7]) with mapi id 15.20.7362.031; Sun, 10 Mar 2024
- 19:30:01 +0000
-Date: Sun, 10 Mar 2024 14:29:56 -0500
-From: Jeff LaBundy <jeff@labundy.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>
-Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	lee@kernel.org, broonie@kernel.org, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v9 2/5] dt-bindings: input: cirrus,cs40l50: Add initial
- DT binding
-Message-ID: <Ze4KNBEsK5juzpNR@nixie71>
-References: <20240308222421.188858-1-jogletre@opensource.cirrus.com>
- <20240308222421.188858-3-jogletre@opensource.cirrus.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240308222421.188858-3-jogletre@opensource.cirrus.com>
-X-ClientProxiedBy: SA9PR03CA0027.namprd03.prod.outlook.com
- (2603:10b6:806:20::32) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+        d=linaro.org; s=google; t=1710102939; x=1710707739; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hLuyOAUfakNiTmfRz2436v7ufbiP6S7z3xGi1kKPoaE=;
+        b=NyJ28+u1hNf9hBj//WKMR4yJcD8RcKa+m4q9ggmQuMdBhL37pPpOGLWomdvwifY+rH
+         uPkzbbZGp6Mq2YNj1e7vVhnkvinZlbUO+MMlapZOwgMEGDzZCyMa+sIgbkmYQEBNSQci
+         nBMuoDRnMGZbzl2TNFLsy/OStp5Njy6Z++bAY556itMjAvxITgrDAIsW/x1na4zWzILa
+         Gjoi8YLZOS7hHum56Se2vW91h3kEz/QLyrUayTtWJNRndEZHIxtXhcJ9UaMuac/Q5LJH
+         km9wBamevr804BZCERxonkS0P6plvtF9SMoLTM5rjQE1A1rFJNPnAVUXCiE5L0jYCKE3
+         M33g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710102939; x=1710707739;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hLuyOAUfakNiTmfRz2436v7ufbiP6S7z3xGi1kKPoaE=;
+        b=ZenDMAw9bNe3QPoPABkkrl9ahXUIlZXPIcCb0FggXm0eTJF2PlAdnoUar4dNzY9boJ
+         OKgRV3wGRLXxwv8Gm/1Z+oL2TiSPCZds5/Q1Buo2ilfwhHNQzBfaQNiXt/N1rIrS7gfX
+         jGXenAdj4TyaBwiQ5kFE4RsBz79LbV735joNbImiLr0wJmV7on46hqKfwCqAVPuCjaR3
+         +9+vzraL9ZwIv5sS+xcwuVFqpg4zyKShG8sUsjZUt//jal3HjyXwws9HB2zxepoQQkOy
+         fCjw/+qRfS+wDFqjcTmNlYb0RRykxKiTHniWxTbknfWFdXMcIO7wg5qsonl72EI10VP9
+         80eg==
+X-Forwarded-Encrypted: i=1; AJvYcCWzk7VYFQ481O9kdcdE33o6DMjCvkc8bUADJidmD0lGVwV0emS2FqDAu2AtIJ5n9jBm2OaAmnxd0DNOEb8sr/WF0rxvRqqiZkkkJ2I=
+X-Gm-Message-State: AOJu0Yy9YXXjfKzVTIIBfuN2oJod32b2PJf/B8sDqYdKmfO5A4ON2Qul
+	3wQBghe0nCTVtpcbtwTef/5sShuSFum5a6LfuKlU2Y2mNDZRVoKczbcVt34LxsM=
+X-Google-Smtp-Source: AGHT+IGwoVzQmaIuC9catL7JO+dbjx4CAeAUQWIHrknNzg8KTrQrmKOMUWfvzyEDcvXpmiYHyfWfMQ==
+X-Received: by 2002:a05:600c:5253:b0:413:166e:ad51 with SMTP id fc19-20020a05600c525300b00413166ead51mr3670556wmb.2.1710102939596;
+        Sun, 10 Mar 2024 13:35:39 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id j20-20020a05600c191400b00412f016a151sm6778963wmq.9.2024.03.10.13.35.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Mar 2024 13:35:39 -0700 (PDT)
+Message-ID: <3601a374-4161-40e1-8a80-9bbfdae5bd8a@linaro.org>
+Date: Sun, 10 Mar 2024 21:35:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM3PR08MB9499:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3e0074c-46a4-47ff-e44e-08dc41387aff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	HGaRtDbDTbJaU4dYT1XxbxUQz8dijiMM57XsvfiEwlMj7HMJQkt95WeEYGjETRYwICHtc7FLhDWUmZYUL8YQbFmf/GlBtSCHynI6IX3zfuT/hvJIK90YrQYWq2QHfV0OitJFg+Xp2s5rJouZe95QEgDHOQX1mK6e3M/SRGAWSNhBxNW/BxQX0P+kBcWAG8BqD2weAXHxFbQfG4gHawJSwdPj2CBc7peBCLDn08tCPcBP0MzYFnmiVqrPa5HApCUTx+HLmsewzCj9mrgIjSv1AKvuqJfHZgsL3z877dm58iNMjqjDZljONu9iUq4gIAYpyO/YBqK/ALSRuT45A6WBPfQdV8H5o/aCG4KDmc8MTnhJuf6ScsPmomh3vLltfwljwBNoZ1FSoLXDh+X7t7PAaGESTRi3C55JT5X9EY4AP+lCmLV8jKqP5MNQQxLhPbN2GMo1gxeTG3bk3tmzGTva2duL/Zi8NUiNDlZ4eNfhBxTI1oULVp1ULpJQp7O9AmSpbW+gVwXkxL/zL0cWAy71bzsVknGWpGvt1ZQLwK9HlOTb6vZpnKuAf8jti2Az5bejuPfNwc/mjY08+mwcSHx0lvFILnCEdnFlx9cXcIOHS50=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0u/obspgTrUsS/I98mkhP4stm/h+pzVLf8QlLrPjhmBqwMsfkzRYp1E6NNQS?=
- =?us-ascii?Q?WOvHv5AjvKPrBitqvtQJH1Z/TQ8RAjvZy7KtZmSmKyJuHxTTn80ucl0aAKjE?=
- =?us-ascii?Q?uJGqVnGzn1GxPTarmEba9Ov4Iso11BFTZRvNgzGmpu3OVlnXi8Q0CojPlSj8?=
- =?us-ascii?Q?JVU5zo7obYKpzkz/LEtcyabDU9d4+MOynzwNbrHqFL+OsMnjjeFczOv+7U8w?=
- =?us-ascii?Q?HoaEtWO22oLvhlgmTND2bWc3IGuxVYO3QJiFkcPxXghCj0x9J1j03oWlY2eT?=
- =?us-ascii?Q?ifU1wy5N/yC1zLkkcMSaSuQr1iZT3cdIJPgNPS+IquBGqkuCEbxQKGywgFrp?=
- =?us-ascii?Q?iO0xaWX2c24biNasZzpRkHNf4Qe3V9+yhKXgulIHyIU9NLWE3ifhbLJa9YMe?=
- =?us-ascii?Q?MAIW7pfwidmt/3+R29QRekadn+32KZ1mhCbJXmQ5Qwme5/aS2oSmfyPhke1K?=
- =?us-ascii?Q?uMj8D5qsxyBlpQU4HAnIae3bwm3glhyUGHLt95BPh9UaP767Q0/o3PfPmH43?=
- =?us-ascii?Q?3h4YJ0/qju0E3RMXw7AFayQDRKQVjj1damVz40gHfK/Vy4XBXghJTtOMiw0J?=
- =?us-ascii?Q?n5BsRtwoFhYR3VXFmKIadJMh9TC+gWbSC1UfcbMraADx5sgGdN1Rgc4i0bGr?=
- =?us-ascii?Q?OHkEr8+KQLh1g9gj0+lGHiE5A7qTls4P6Wa+girVOvCkMbCY3NHXHIoJKaC2?=
- =?us-ascii?Q?CopmV37KaW56+m3QHyXBbUekrneg9wDbtRAkQR3KPhs0sJqbN1POjzu6WPeX?=
- =?us-ascii?Q?/kE1vvOXgxhann9bbmvZXeXRmfIXXS3OV2Qxt3QetKsCHEuI1elpIK+8cwU2?=
- =?us-ascii?Q?P/GqeWgC3yy+zDBUWjrN+tdIWp7U3tuI9GMMKoTnj8gft7k3oOAsdsUerIcV?=
- =?us-ascii?Q?KNnoCYJJpDu55SGP1vGL9U/N2LPxxRvdevv6xX06zejd5aJMQIJHQyjLHHIK?=
- =?us-ascii?Q?RbA2tAifkOVWBaJgts43+jY/hucbkfL6kuzbAjGLyWxB4ZLipRKJlj2aFCkc?=
- =?us-ascii?Q?O1QtMQsm0PjTpmed0xQEKxOhynT/Zwi+28Yt2xU6hlMF9r8lbLmDF0L96N8l?=
- =?us-ascii?Q?XY1oQyzLlE1k9MIEdD0HM1pxbU6hXj+I/f2huVuAjQZSlFdTmZbxortmL1rh?=
- =?us-ascii?Q?TvFieTXSSqNi0NgGolG6GgEbPEspIb3PVMjlN4h55QbqQ8ITevwM8McjJcxJ?=
- =?us-ascii?Q?BvJzUiGm83FaZ+HcLyKi2zwGevB3J9sM6emSTGw3/uylQgm0l3T9LQ0v6pmp?=
- =?us-ascii?Q?CKsQN9dWTaSkfLIsvu+T3ZZKavC3g37H949VFwGV6hCgVtv4TcK56BTNnF/O?=
- =?us-ascii?Q?an8n2uJoqjpl/82U2fP0gjlmMZ01nj0BTD5JkfgQu1wTEZ7Uu3vHf7Us/4hL?=
- =?us-ascii?Q?Igq8TePCPGv03UL2L/agvznxgvGWDZWaQQ66+ED9YyZhAHfH8LyKhbcVEgwL?=
- =?us-ascii?Q?PFjJPHrCcs+ffPEUgUExe4ImYAhKs6lkN5XlbkL/isWECfW8xqssWgKCCgiT?=
- =?us-ascii?Q?4HsV6cistQDOE9CpqjD/MgVvrkpL32+9CwYLXND97kW+xdVpNHwjnQzH5UOZ?=
- =?us-ascii?Q?cMNdY/Wf6EBBLZwbZBmiS2qm5K2u+Oqn6MhDw32b?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3e0074c-46a4-47ff-e44e-08dc41387aff
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2024 19:30:01.8812
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VgY6Xz2a1ITNzv9ZnojpUR8OuYiQ1x4vSzwbNyHnqhilDEBnRB/jKP/qb/H+YqNqE92pNffFrLOiVqua5RU9sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR08MB9499
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 4/5] input: add onkey driver for Marvell 88PM886
+ PMIC
+Content-Language: en-US
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz>
+ <20240303101506.4187-5-karelb@gimli.ms.mff.cuni.cz>
+ <ZeTgEmjJc_VhYpLm@google.com>
+ <CZL8ZSZAVEBI.349BV2Y6AKIPN@gimli.ms.mff.cuni.cz>
+ <ZeZxI_spu4vwxrs7@google.com>
+ <CZQ1EP61IDOC.1PPYGMIOINGND@gimli.ms.mff.cuni.cz>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CZQ1EP61IDOC.1PPYGMIOINGND@gimli.ms.mff.cuni.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi James,
-
-On Fri, Mar 08, 2024 at 10:24:18PM +0000, James Ogletree wrote:
-> The CS40L50 is a haptic driver with waveform memory,
-> integrated DSP, and closed-loop algorithms.
+On 10/03/2024 12:35, Karel Balej wrote:
+> Dmitry Torokhov, 2024-03-04T17:10:59-08:00:
+>> On Mon, Mar 04, 2024 at 09:28:45PM +0100, Karel Balej wrote:
+>>> Dmitry,
+>>>
+>>> Dmitry Torokhov, 2024-03-03T12:39:46-08:00:
+>>>> On Sun, Mar 03, 2024 at 11:04:25AM +0100, Karel Balej wrote:
+>>>>> From: Karel Balej <balejk@matfyz.cz>
+>>>>>
+>>>>> Marvell 88PM886 PMIC provides onkey among other things. Add client
+>>>>> driver to handle it. The driver currently only provides a basic support
+>>>>> omitting additional functions found in the vendor version, such as long
+>>>>> onkey and GPIO integration.
+>>>>>
+>>>>> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+>>>>> ---
+>>>>>
+>>>>> Notes:
+>>>>>     RFC v3:
+>>>>>     - Drop wakeup-source.
+>>>>>     RFC v2:
+>>>>>     - Address Dmitry's feedback:
+>>>>>       - Sort includes alphabetically.
+>>>>>       - Drop onkey->irq.
+>>>>>       - ret -> err in irq_handler and no initialization.
+>>>>>       - Break long lines and other formatting.
+>>>>>       - Do not clobber platform_get_irq error.
+>>>>>       - Do not set device parent manually.
+>>>>>       - Use input_set_capability.
+>>>>>       - Use the wakeup-source DT property.
+>>>>>       - Drop of_match_table.
+>>>>
+>>>> I only said that you should not be using of_match_ptr(), but you still
+>>>> need to have of_match_table set and have MODULE_DEVICE_TABLE() for the
+>>>> proper module loading support.
+>>>
+>>> I removed of_match_table because I no longer need compatible for this --
+>>> there are no device tree properties and the driver is being instantiated
+>>> by the MFD driver.
+>>>
+>>> Is the MODULE_DEVICE_TABLE() entry needed for the driver to probe when
+>>> compiled as module? If that is the case, given what I write above, am I
+>>> correct that MODULE_DEVICE_TABLE(platform,...) would be the right thing
+>>> to use here?
+>>
+>> Yes, if uevent generated for the device is "platform:<name>" then
+>> MODULE_DEVICE_TABLE(platform,...) will suffice. I am not sure how MFD
+>> sets it up (OF modalias or platform), but you should be able to check
+>> the format looking at the "uevent" attribute for your device in sysfs
+>> (/sys/devices/bus/platform/...). 
 > 
-> Add a YAML DT binding document for this device.
+> The uevent is indeed platform.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
-> ---
->  .../bindings/input/cirrus,cs40l50.yaml        | 70 +++++++++++++++++++
->  MAINTAINERS                                   |  8 +++
->  2 files changed, 78 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+> But since there is only one device, perhaps having a device table is
+> superfluous and using `MODULE_ALIAS("platform:88pm886-onkey")` is more
+> fitting?
+
+Adding aliases for standard IDs and standard cases is almost never
+correct. If you need module alias, it means your ID table is wrong (or
+missing, which is usually wrong).
+
 > 
-> diff --git a/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml b/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-> new file mode 100644
-> index 000000000000..6a5bdafed56b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/cirrus,cs40l50.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS40L50 Advanced Haptic Driver
-> +
-> +maintainers:
-> +  - James Ogletree <james.ogletree@cirrus.com>
+> Although I don't understand why this is even necessary when the driver
+> name is such and the module is registered using
+> `module_platform_driver`...
 
-Nit: this email address and the one in MAINTAINERS don't match the one
-you're using to sign off. There is no requirement that they do; I just
-wanted to check whether this was intentional.
+ID table and MODULE_DEVICE_TABLE() are necessary for modprobe to work.
+Just run `modinfo`.
 
-> +
-> +description:
-> +  CS40L50 is a haptic driver with waveform memory,
-> +  integrated DSP, and closed-loop algorithms.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs40l50
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  va-supply:
-> +    description: Power supply for internal analog circuits.
-> +
-> +  vp-supply:
-> +    description: Power supply for always-on circuits.
-> +
-> +  vio-supply:
-> +    description: Power supply for digital input/output.
-> +
-> +  vamp-supply:
-> +    description: Power supply for the Class D amplifier.
+Best regards,
+Krzysztof
 
-Does L50 support external boost mode? If not, it will always be shorted
-directly to VBST on the board, and there is no reason to describe it in
-the binding.
-
-If external boost mode is supported, then I recommend extending support
-for it in the driver. Perhaps some additional registers must be set if
-this supply is present.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - reset-gpios
-> +  - vp-supply
-
-Making VP a required supply is likely inconvenient for customers; 99% of
-them connect it to a battery, and end up tying this property to a dummy
-regulator to keep the driver from bleating.
-
-Only for a wall-powered case would VP be tied to something like a 3.3-V
-switching supply, and I imagine those cases are rare. It seems that VP
-should be optional.
-
-> +  - vio-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-
-Nit: most device trees tend to use 8-column indentation as with kernel code.
-
-> +
-> +      haptic-driver@34 {
-> +        compatible = "cirrus,cs40l50";
-> +        reg = <0x34>;
-> +        interrupt-parent = <&gpio>;
-> +        interrupts = <113 IRQ_TYPE_LEVEL_LOW>;
-> +        reset-gpios = <&gpio 112 GPIO_ACTIVE_LOW>;
-> +        vp-supply = <&vreg>;
-> +        vio-supply = <&vreg>;
-
-Showing VP and VIO tied to the same supply is not a valid example; VP
-typically connects to a battery, and VIO is likely a 1.8-V supply. Their
-voltage ranges do not overlap, and hence they cannot be shared. I also
-suspect there are sequencing restrictions between them as well.
-
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dd5de540ec0b..b71017a187f8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4933,6 +4933,14 @@ F:	sound/pci/hda/cs*
->  F:	sound/pci/hda/hda_cs_dsp_ctl.*
->  F:	sound/soc/codecs/cs*
->  
-> +CIRRUS LOGIC HAPTIC DRIVERS
-> +M:	James Ogletree <james.ogletree@cirrus.com>
-> +M:	Fred Treven <fred.treven@cirrus.com>
-> +M:	Ben Bright <ben.bright@cirrus.com>
-> +L:	patches@opensource.cirrus.com
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-> +
->  CIRRUS LOGIC DSP FIRMWARE DRIVER
->  M:	Simon Trimmer <simont@opensource.cirrus.com>
->  M:	Charles Keepax <ckeepax@opensource.cirrus.com>
-> -- 
-> 2.25.1
-> 
-
-Kind regards,
-Jeff LaBundy
 
