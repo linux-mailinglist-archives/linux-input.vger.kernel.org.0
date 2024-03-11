@@ -1,233 +1,107 @@
-Return-Path: <linux-input+bounces-2338-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2339-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101A1877FBE
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 13:12:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE3F87809E
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 14:28:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 917021F20FEB
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 12:12:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0C201F21F7A
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 13:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABE563D57A;
-	Mon, 11 Mar 2024 12:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4059C3D984;
+	Mon, 11 Mar 2024 13:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="VtMkRhEH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyRdoZjS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB533D0A3;
-	Mon, 11 Mar 2024 12:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428DB3FB93;
+	Mon, 11 Mar 2024 13:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710159154; cv=none; b=enTuLry7kKOLm45kp6DFo8ZCARYN+fI5iVJsq5OSi5//SLRofIqHKbYfGLq9PVivIGpJyquSFPEgDhv/3uiQVDi2Rvcaj0fcilpSfRZwwV5wDhfBhDoN31g8Sm62oDW9slyI4oYNbRBO+PL3wc4OaRIUpz/omBqd9Y5z6mQlXFU=
+	t=1710163696; cv=none; b=Py5Y7s49k3ltOhq1FwZ5+oiI2Oa41xBvT33XX9GeRwQK6NTtX6F2OnvT0dqFqPLuyTUxF2DwKU1HC5JGcphUUWvejZUlCTrxuVFLkPeB+Pordehm3Dp+T/rrni3jgN2vl/04D9zLc8nsC9bvpkl2KdnP+Ua+xvy25MPSYgFWz/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710159154; c=relaxed/simple;
-	bh=U3LEf9gcvb9qBbv5Ydgi8wGMo6Un0VZqLowtuSb4FXg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=UzcQFgCAQMxTuS583AJ62K5hWatLc1Ajoj/QN1gTNC596dsEvLkil0gbEUKxMdy674w9Lu6MfmH4ElI0CgnrZjiqHWGA+wrSHZEJd3QNF1C/WG7uCLraeezGK0rjSFrS05fUxZDxf/ySG9ZRliLsKeIfPASZq+fnLEW0cle1R04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz; dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b=VtMkRhEH; arc=none smtp.client-ip=195.113.20.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 306782846EE;
-	Mon, 11 Mar 2024 13:12:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1710159142;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f513oSfKIQNBl+NCiBkqWypTWrkqtfFoWPWTNimurcI=;
-	b=VtMkRhEH7lirmCfZ6lq4ZfqNkpmbutYBTmxMKv7B6+8uy+PWmIJVGoz6aUTKckFA49V3Uk
-	xVqZGtc6OGuS8HS+HgMFhiZtlj0iG+MVG56uUx5hgHXDPJI4HrXs9NorCIl7GCXZRkbOf5
-	yrsggvESPQo1v7rVvqmYvy1Ueh/JOsQ=
-Received: from localhost (koleje-wifi-0013.koleje.cuni.cz [78.128.191.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 0C223459710;
-	Mon, 11 Mar 2024 13:12:22 +0100 (CET)
+	s=arc-20240116; t=1710163696; c=relaxed/simple;
+	bh=sp8wPVWLcMFirjt1xb+bkWZ4tLirl6iWsWdIf0hhyrg=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=KxOz32VSntoRUoo+SY6vFICPrORZtI9NQBjoVYWpqPFBbsE9dMoISC8s2yw5XUxKvbfpxwFKBoP9xqr9Y0lnh8VG8fiVx0vzrXHWOGOQ4DqF+qWBgSHAjUhn6ZKqbUJbbnocngoZe5HOZhJF5Fd8/oZ9cBiZ8kPgIkl+i2yyGlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyRdoZjS; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710163694; x=1741699694;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=sp8wPVWLcMFirjt1xb+bkWZ4tLirl6iWsWdIf0hhyrg=;
+  b=EyRdoZjSzBWbANkbyCEuYUKhvhBgQrJi8xh2JrruXi56DOo0UFMiUyD6
+   M9lPHKCSfppgLpefIET43TW3CIkAtqyMvFUQjchGTcIvRmMpqnMuech9Z
+   6Cao+es1nQNmReHEYChPLveLMWG0Zf9Q+vb4q1phmzmXY8TbPCFnFjYlU
+   VE3T6ic/AiRlxh1S8ZyRf3hS69ERMSv58qas85l6h8xZ6FwRMsi4+DjFE
+   Hk48CGaOhGeITEXvBsVttVBybzFamH5SD5n1y3zU6QkgmRIAEkAr/Naso
+   J5dW7L0xiwFVshVM9L2z5Q5xaiPwvhwMVIpkWp6xHkNJkKs7TAW7p7vTM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15963217"
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="15963217"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 06:28:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
+   d="scan'208";a="11259697"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.201])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 06:28:06 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 11 Mar 2024 15:28:00 +0200 (EET)
+To: Gergo Koteles <soyer@irl.hu>
+cc: Ike Panhc <ike.pan@canonical.com>, Hans de Goede <hdegoede@redhat.com>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] map Fn + R key on newer Lenovo Yogas and
+ Legions
+In-Reply-To: <cover.1710065750.git.soyer@irl.hu>
+Message-ID: <f77afd46-a238-630e-e77f-2c2506097554@linux.intel.com>
+References: <cover.1710065750.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 11 Mar 2024 13:12:58 +0100
-Message-Id: <CZQWU0R0G7NS.3JP4FRKAPOLIY@gimli.ms.mff.cuni.cz>
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 4/5] input: add onkey driver for Marvell 88PM886
- PMIC
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Dmitry
- Torokhov" <dmitry.torokhov@gmail.com>
-From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-References: <20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz>
- <20240303101506.4187-5-karelb@gimli.ms.mff.cuni.cz>
- <ZeTgEmjJc_VhYpLm@google.com>
- <CZL8ZSZAVEBI.349BV2Y6AKIPN@gimli.ms.mff.cuni.cz>
- <ZeZxI_spu4vwxrs7@google.com>
- <CZQ1EP61IDOC.1PPYGMIOINGND@gimli.ms.mff.cuni.cz>
- <3601a374-4161-40e1-8a80-9bbfdae5bd8a@linaro.org>
- <CZQUKBQF1GZ9.3RSNW5WQBU9L6@gimli.ms.mff.cuni.cz>
- <ce1cac6f-afb9-4388-b709-bfaee0feb525@linaro.org>
-In-Reply-To: <ce1cac6f-afb9-4388-b709-bfaee0feb525@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-Krzysztof Kozlowski, 2024-03-11T11:41:53+01:00:
-> On 11/03/2024 11:26, Karel Balej wrote:
-> > Krzysztof Kozlowski, 2024-03-10T21:35:36+01:00:
-> >> On 10/03/2024 12:35, Karel Balej wrote:
-> >>> Dmitry Torokhov, 2024-03-04T17:10:59-08:00:
-> >>>> On Mon, Mar 04, 2024 at 09:28:45PM +0100, Karel Balej wrote:
-> >>>>> Dmitry,
-> >>>>>
-> >>>>> Dmitry Torokhov, 2024-03-03T12:39:46-08:00:
-> >>>>>> On Sun, Mar 03, 2024 at 11:04:25AM +0100, Karel Balej wrote:
-> >>>>>>> From: Karel Balej <balejk@matfyz.cz>
-> >>>>>>>
-> >>>>>>> Marvell 88PM886 PMIC provides onkey among other things. Add clien=
-t
-> >>>>>>> driver to handle it. The driver currently only provides a basic s=
-upport
-> >>>>>>> omitting additional functions found in the vendor version, such a=
-s long
-> >>>>>>> onkey and GPIO integration.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Karel Balej <balejk@matfyz.cz>
-> >>>>>>> ---
-> >>>>>>>
-> >>>>>>> Notes:
-> >>>>>>>     RFC v3:
-> >>>>>>>     - Drop wakeup-source.
-> >>>>>>>     RFC v2:
-> >>>>>>>     - Address Dmitry's feedback:
-> >>>>>>>       - Sort includes alphabetically.
-> >>>>>>>       - Drop onkey->irq.
-> >>>>>>>       - ret -> err in irq_handler and no initialization.
-> >>>>>>>       - Break long lines and other formatting.
-> >>>>>>>       - Do not clobber platform_get_irq error.
-> >>>>>>>       - Do not set device parent manually.
-> >>>>>>>       - Use input_set_capability.
-> >>>>>>>       - Use the wakeup-source DT property.
-> >>>>>>>       - Drop of_match_table.
-> >>>>>>
-> >>>>>> I only said that you should not be using of_match_ptr(), but you s=
-till
-> >>>>>> need to have of_match_table set and have MODULE_DEVICE_TABLE() for=
- the
-> >>>>>> proper module loading support.
-> >>>>>
-> >>>>> I removed of_match_table because I no longer need compatible for th=
-is --
-> >>>>> there are no device tree properties and the driver is being instant=
-iated
-> >>>>> by the MFD driver.
-> >>>>>
-> >>>>> Is the MODULE_DEVICE_TABLE() entry needed for the driver to probe w=
-hen
-> >>>>> compiled as module? If that is the case, given what I write above, =
-am I
-> >>>>> correct that MODULE_DEVICE_TABLE(platform,...) would be the right t=
-hing
-> >>>>> to use here?
-> >>>>
-> >>>> Yes, if uevent generated for the device is "platform:<name>" then
-> >>>> MODULE_DEVICE_TABLE(platform,...) will suffice. I am not sure how MF=
-D
-> >>>> sets it up (OF modalias or platform), but you should be able to chec=
-k
-> >>>> the format looking at the "uevent" attribute for your device in sysf=
-s
-> >>>> (/sys/devices/bus/platform/...).=20
-> >>>
-> >>> The uevent is indeed platform.
-> >>>
-> >>> But since there is only one device, perhaps having a device table is
-> >>> superfluous and using `MODULE_ALIAS("platform:88pm886-onkey")` is mor=
-e
-> >>> fitting?
-> >>
-> >> Adding aliases for standard IDs and standard cases is almost never
-> >> correct. If you need module alias, it means your ID table is wrong (or
-> >> missing, which is usually wrong).
-> >>
-> >>>
-> >>> Although I don't understand why this is even necessary when the drive=
-r
-> >>> name is such and the module is registered using
-> >>> `module_platform_driver`...
-> >>
-> >> ID table and MODULE_DEVICE_TABLE() are necessary for modprobe to work.
-> >=20
-> > I think I understand the practical reasons. My point was that I would
-> > expect the alias to be added automatically even in the case that the
-> > device table is absent based solely on the driver name and the
-> > registration method (*module*_*platform*_driver). Why is that not the
-> > case? Obviously the driver name matching the mfd_cell name is sufficien=
-t
->
-> You mean add it automatically by macro-magic based on presence of
-> id_table and/or of_match_table?
+On Sun, 10 Mar 2024, Gergo Koteles wrote:
 
-Yes, that plus: if id_table is present, use that for module aliases,
-otherwise use driver name. In fact, I checked the platform core and it
-seems to proceed in exactly this way when determining whether there is a
-match. And while autoloading and probing are two different things, I
-assume that we always want to consider a module for autoloading when we
-know that it will probe because we have a compatible device.
+> Hi All,
+> 
+> This patch series adds a new KEY_REFRESH_RATE_TOGGLE input event code 
+> and maps the Fn + R key to it in the ideapad-laptop driver.
+> 
+> It affects two WMI keycodes. I couldn't try the 0x0a.
+> 
+> Regards,
+> Gergo
+> 
+> Changes in v2:
+>  - use KEY_REFRESH_RATE_TOGGLE instead of KEY_FN_R
+> 
+> [1]: https://lore.kernel.org/all/cover.1708399689.git.soyer@irl.hu/
+> 
+> Gergo Koteles (2):
+>   Input: allocate keycode for Display refresh rate toggle
+>   platform/x86: ideapad-laptop: map Fn + R key to
+>     KEY_REFRESH_RATE_TOGGLE
 
-> That's a good question. I cannot find answer why not, except that maybe
-> no one ever wrote it...
->
->
-> > for the driver to probe when it is built in so the name does seem to
-> > serve as some identification for the device just as a device table entr=
-y
-> > would.
-> >=20
-> > Furthermore, drivers/input/serio/ioc3kbd.c does not seem to have an ID
-> > table either, nor a MODULE_ALIAS -- is that a mistake? If not, what
-> > mechanism causes the driver to probe when compiled as a module? It seem=
-s
->
-> You are now mixing two different things: probing of driver (so bind) and
-> module auto-loading.
+Hi,
 
-Yes, sorry, I meant autoloading.
+As mentioned in the other thread, please redo this on top of 
+pdx86/for-next.
 
-> Probing is done also by driver name. Auto-loading,
-> not sure, maybe by name as well?
+-- 
+ i.
 
-Well probably not, otherwise it would work here too, no? Unless there
-are some fundamental differences in this between PCI and platform
-drivers. But the input driver is platform too and is required through
-the MFD cell, so I think it should be the same scenario.
-
-> However it is also likely that
-> auto-loading is broken. Several drivers had such issues in the past.
-
-OK, I see, thank you. I think this was the main source of my confusion
-because I looked at other drivers for reference when trying to
-understand which properties (name/device table) are necessary for what
-action (probing/autoloading).
-
-> Best regards,
-> Krzysztof
-
-Thank you again, kind regards,
-K. B.
 
