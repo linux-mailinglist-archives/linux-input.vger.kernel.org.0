@@ -1,117 +1,138 @@
-Return-Path: <linux-input+bounces-2353-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2354-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8EF878827
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 19:51:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5DC878846
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 19:54:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D1791C2118B
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 18:51:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CA771F21F1E
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 18:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 877455B200;
-	Mon, 11 Mar 2024 18:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1508955C3A;
+	Mon, 11 Mar 2024 18:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jiv/ZupV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8hihn39"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D75D5A4D1;
-	Mon, 11 Mar 2024 18:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2895D464;
+	Mon, 11 Mar 2024 18:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710182424; cv=none; b=SSvF+44Xl5DRKwXrWkN5Ew5qXA0HbtzONvVTdNlivFDH3ti7gNJmPpZKnZ0HP0iQRlyJXIxYLXdfkTpl3j1kKrZ3+jZIMqziLKVeXwiIxcm/QuVYeNtoUEcljFEStWEuf/DB14moG8uX7Po2hcQ4n+gGpu19/Tzb7+dnOShutsE=
+	t=1710182744; cv=none; b=By71yj/F74lN+2ow5WoovtTsD73fRIIxtYg2wxrdjB1tgco22NKNhSaz6B0hxwXImaJ5A7FnRJMKb17qzMM4BGZpmTOMGWhlrEpp6J6RiCo5cDkj5pxSFsdRZhznddxQObuM6fqPJ+CsupXDLBQXCh2UholNaxeRKbZId56gyAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710182424; c=relaxed/simple;
-	bh=3Q6+nkFmLZ8LSriDKFXBaKSN3UtPPBNDjNc8HitH7HM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qktS+sW3tx6JiIbrZM83zwIAPpOGqu5hzyBrshopYvVModcRt5H64hDPhACYxxh1jfQp9HuKd6/pcsYNTViLbEpkVA/B5xgOR7d0XF8lvhQQoiIvgZEL3NOhdYT95veJPtcS9D5XSYTgG2Kpc8BqhcgvmZieox+qa/hJPHVMsWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jiv/ZupV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4595BC43390;
-	Mon, 11 Mar 2024 18:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710182424;
-	bh=3Q6+nkFmLZ8LSriDKFXBaKSN3UtPPBNDjNc8HitH7HM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jiv/ZupVP/OvPRa0/WVF8jr+FLsWwVsxhC4gLXZiwM/vcuFjc280pNBIumD54RPa6
-	 8DESZS6Y7w616O9Bq0RNkj9n1VFDWQi+CZbebXqel4WQgGatduPQZ+vmfqy4Hg93fC
-	 wZUMj84B68qtNASzzojrtAO3/RYNLNRFvlqlZF2SX0x5MYoTglsDRNtC66BEB9n9/R
-	 2FkNrnUOjn4sGA5Yned0l7xZXdH0G2dnKyE3hTrlL9r7Ijk0ndX48a1WoaFp/0H1ql
-	 wUHcMJ2f5c2wkaAuY1TF+Z3m4E3A94N7Nl5D+GjXmJo/3YVV+8BPv0DQghP5sJrI05
-	 oJaIMJFiOVGDw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/5] Input: gpio_keys_polled - suppress deferred probe error for gpio
-Date: Mon, 11 Mar 2024 14:40:08 -0400
-Message-ID: <20240311184011.329314-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240311184011.329314-1-sashal@kernel.org>
-References: <20240311184011.329314-1-sashal@kernel.org>
+	s=arc-20240116; t=1710182744; c=relaxed/simple;
+	bh=YhOHMWjkcUzXIED148TTJXrskfLAfL9srHM7kYXxEN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OIpB3gt+pb2Yndgy1c/v6mmV2WzDIvemDz4idcqfMzTF0TGPD9j6GfGW0Cw2I0QF25YsaF1aEASwoeUl0b9W8oUx+/z6BKpwBZxQbZKXutFJq0tV08KX0PiFEMiC73raow7kTIj7Q5aM/22rj+z2iebQBm+G8XazeAGmQghSCJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E8hihn39; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5cddc5455aeso2676491a12.1;
+        Mon, 11 Mar 2024 11:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710182742; x=1710787542; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tZJVptozyO4U9eoAV1lEXZFvnlnohiXBEJs1F4MzQv4=;
+        b=E8hihn399fGIn0n5oK40oNLAIFIGCr6fkBrgS0fEhUNLjY/Lgl/JcomDkSAfjY6FNf
+         K3LoOOzxwcFx/jiXLbBFEuNo01GQHAIHvMGiTmIA8/UzLatqBQCfdReqr4b4yTqUAVIk
+         hxlINnHCPPCpojcb3l8Kj54aEoPEF2IV0YQanysCym29R5m/BD4U9xGPaw6boamT/oRa
+         7anKl41iYxtBGL7z9uRQm88iy868bmIzId+bveN8A4b/ojMFxeTws4fHjZXb/qxbNA1g
+         2dPX6YdVIaJf6/4QCCoDrwi7/yPVt3tLZ78Vs6c8v0/GUGoMJOhBBJsDYvu1PK9AEpgZ
+         vs3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710182742; x=1710787542;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tZJVptozyO4U9eoAV1lEXZFvnlnohiXBEJs1F4MzQv4=;
+        b=wT6Qb+HCgGsvCsh03UDsp/+fwDyrRJG7lMoEoEypAA6MCjY8/RZSQcTiSqWkdXdaW2
+         qk9V8AvKK0XqgzqUPoVybg/aK+ycHKMcr6AZa5MNqIX7yGyPlZhzL59uQP5tCHWP3S51
+         fnzJj/5TaZkONRv66sPjt2vcUeFHPQ8bber7AWfV8p1ClCc0ikNPt1AVrPXCiFPjyNVO
+         Hm8yvRqzDkO0h8zMCeeY+2SlPOZ/scV9HvKYzgrxecdxOWArVbW1zQ7qOs6T3O6RYWLx
+         w5X40cCLlbhb7ZTfuTvOD/qIwGI8BIEJXaKVayZyOnud5i6oziXqvZFXOV4QDMyrHt4k
+         b14g==
+X-Forwarded-Encrypted: i=1; AJvYcCW+W9MsKz4ARwztmlbK4xApuu1+GKh/kllAuk5CKsJx5+f4NUODcwRqhMSWNZj//yolRVwMnbL3hLet5psbDfnEKSICG4TAXCNtox8nIHysQVrNcWmgTZgsabj6K5df+L+Fba7Aia8zy4jY0xvKOIUFBrf6Z7O1qR9wiA4yMxPFKsJpD3M7vn28f+aE6RLg
+X-Gm-Message-State: AOJu0YwZLUeCXvIxRiVOFmP4npUQ1IarU61LKUPhHg8yuhAoOdx3DlrM
+	KzeyzBoMLuNQpR4GbHE9/frJ/gJT5BsNp0D1PWA4JeV59kSYCK4PgUvYZoIw
+X-Google-Smtp-Source: AGHT+IEP2WQw4BdxkDhx4mHDy2GCkmkazyh/kAwWEXEcVSX6EfOwBcl8Le+/xIYGxsb5mCEMAnwIdw==
+X-Received: by 2002:a05:6a20:e196:b0:1a3:1aee:c1a2 with SMTP id ks22-20020a056a20e19600b001a31aeec1a2mr2037900pzb.62.1710182741753;
+        Mon, 11 Mar 2024 11:45:41 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:539:3ac9:e65b:d64b])
+        by smtp.gmail.com with ESMTPSA id cv8-20020a17090afd0800b0029bcf62e296sm4013621pjb.42.2024.03.11.11.45.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Mar 2024 11:45:41 -0700 (PDT)
+Date: Mon, 11 Mar 2024 11:45:39 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Ike Panhc <ike.pan@canonical.com>, Hans de Goede <hdegoede@redhat.com>,
+	Philipp Jungkamp <p.jungkamp@gmx.net>, Gergo Koteles <soyer@irl.hu>,
+	platform-driver-x86@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/2] map Fn + R key on newer Yogas and Legions
+Message-ID: <Ze9RU8Mbnl-w8ZUL@google.com>
+References: <cover.1708399689.git.soyer@irl.hu>
+ <170895405312.2243.4199399921923370447.b4-ty@linux.intel.com>
+ <Ze0PSaOQSJMxL_Ln@google.com>
+ <269b8adf-426a-b614-5450-383cde095c75@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.309
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <269b8adf-426a-b614-5450-383cde095c75@linux.intel.com>
 
-From: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
+On Mon, Mar 11, 2024 at 12:53:36PM +0200, Ilpo Järvinen wrote:
+> On Sat, 9 Mar 2024, Dmitry Torokhov wrote:
+> 
+> > On Mon, Feb 26, 2024 at 03:27:33PM +0200, Ilpo Järvinen wrote:
+> > > On Tue, 20 Feb 2024 04:39:34 +0100, Gergo Koteles wrote:
+> > > 
+> > > > This patch series adds a new KEY_FN_R input event code and map the
+> > > > Fn + R key to it in the ideapad-laptop driver.
+> > > > 
+> > > > It affects two WMI keycodes and I couldn't try the 0x0a, but I couldn't
+> > > > find any indication that the refresh rate toggle should not be Fn + R.
+> > > > 
+> > > > Regards,
+> > > > Gergo
+> > > > 
+> > > > [...]
+> > > 
+> > > 
+> > > Thank you for your contribution, it has been applied to my local
+> > > review-ilpo branch. Note it will show up in the public
+> > > platform-drivers-x86/review-ilpo branch only once I've pushed my
+> > > local branch there, which might take a while.
+> > > 
+> > > The list of commits applied:
+> > > [1/2] Input: allocate keycode for Fn + R
+> > >       commit: 4e45fa464aeef4e803412b5dcce73aad48c94b0e
+> > 
+> > I am sorry for the delay, but instead of defining a generic name we should define
+> > a proper keycode for concrete action even if nothing is printed on a
+> > particular key on a particular device.
+> > 
+> > Please drop this patch.
+> 
+> Dropping them at this point would bit of a hassle due to backmerges of
+> fixes branch.
 
-[ Upstream commit 963465a33141d0d52338e77f80fe543d2c9dc053 ]
+You should really wait applying patches affecting other parts of the
+kernel as well as UAPI until all maintainers responsible for them agree
+with the changes.
 
-On a PC Engines APU our admins are faced with:
+Thanks.
 
-	$ dmesg | grep -c "gpio-keys-polled gpio-keys-polled: unable to claim gpio 0, err=-517"
-	261
-
-Such a message always appears when e.g. a new USB device is plugged in.
-
-Suppress this message which considerably clutters the kernel log for
-EPROBE_DEFER (i.e. -517).
-
-Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://lore.kernel.org/r/20240305101042.10953-2-u.kleine-koenig@pengutronix.de
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/keyboard/gpio_keys_polled.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index edc7262103b9a..96e47b2401490 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -328,12 +328,10 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 
- 			error = devm_gpio_request_one(dev, button->gpio,
- 					flags, button->desc ? : DRV_NAME);
--			if (error) {
--				dev_err(dev,
--					"unable to claim gpio %u, err=%d\n",
--					button->gpio, error);
--				return error;
--			}
-+			if (error)
-+				return dev_err_probe(dev, error,
-+						     "unable to claim gpio %u\n",
-+						     button->gpio);
- 
- 			bdata->gpiod = gpio_to_desc(button->gpio);
- 			if (!bdata->gpiod) {
 -- 
-2.43.0
-
+Dmitry
 
