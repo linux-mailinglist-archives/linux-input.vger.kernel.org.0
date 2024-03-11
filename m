@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-2347-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2348-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014968787A1
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 19:40:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BD28787D1
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 19:43:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94C8C1F223DD
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 18:40:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAE391F254EC
+	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 18:43:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD2F56776;
-	Mon, 11 Mar 2024 18:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE38C5FDCC;
+	Mon, 11 Mar 2024 18:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IeXSrNa9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sclpDytX"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324185A4C6;
-	Mon, 11 Mar 2024 18:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7C2604CE;
+	Mon, 11 Mar 2024 18:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710182233; cv=none; b=jqf2MkPkWnKsS+hrxFMncdISxLAXey54DvdvCYWEhI2Vwd1jXEVl9Xn/MyJbTw39HZdLePQ3uRkT+jZXY8sOTOAXC8sII9BqblNa6VgJHyJ3UHCAEGQDekbreYpDpp8CGp5RqJyfhQj+9cr40H2IvoHH0f8NzjGy22bhYHahoPs=
+	t=1710182291; cv=none; b=j+BxV8sRRPIpjfsE/SLgGv7NQ8245YmzxdvvLltD6iKTwpOIv0ufA/FSE/B6FWNh2IYh1haOK3n311fs+umA2GX3pAHqlqsyvdulqU/lKuM09B6DnHCiMkvzqZG0yPeHvJFfSUmXbQIK0a0NA98IAby6/Ru0rF17RSPWAUsVQVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710182233; c=relaxed/simple;
+	s=arc-20240116; t=1710182291; c=relaxed/simple;
 	bh=a90TlNcd55CuvJI7AGBcJt7/5SipQJTr/jE8uvYuenY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s3/+RNR2H/XeHJe/enBZ7rdZtyFBVK6TQM75Dk7fMY7FR1cRcVtJXdRmbaDK2LZ9Nt6Uzs7BnNJXtMf+M+xGl8MIY9/dwZOLMxErc6TXa5K0Tvbj0JF3wbZgrs5XHXTNp+K4iNSAnGWLmOA+dJjJlNIZYFJ/ruJX+3bDsuLEl0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IeXSrNa9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92152C43394;
-	Mon, 11 Mar 2024 18:37:09 +0000 (UTC)
+	 MIME-Version:Content-Type; b=P5wPRZh7MfQ65CuBjxb29WDHTnpVe4cRyG69t51/k7SshkmrMbB9yYmTmbxLQAFCNEIiSjmGJFO5ByMxG9jBJR5VwYF96piQMUQId5zRfvmR2+Nsgr4ev+rMW985jpLUvra5AHvjABwEUlEfJz+XJijA32ehl6FmpjkNqahauB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sclpDytX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E31FC433C7;
+	Mon, 11 Mar 2024 18:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710182233;
+	s=k20201202; t=1710182291;
 	bh=a90TlNcd55CuvJI7AGBcJt7/5SipQJTr/jE8uvYuenY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IeXSrNa9KvMFEnuCwREYZAoOsRQwHHgLDppMUqBrGuf7FHWUj9kI6rX3D/P+xwvul
-	 drOYqry4ZpQx4tEeLaMBwJVILU7oV5G2JLckkHpxBU6Uv5UXf2NV2lbiiT2oTC9tBJ
-	 n4eOOqts1MZeGzPRApz/StHq5Os0HEFNy+p0u+y/POC3c6vsP8g1Uc3fRRlPKteNIp
-	 5SWKZ2etoCyc6kjRyrUoKIpYgGR+YLt2HhuknT5qGZVy70WNGP2kzH+Ou9eNFActhJ
-	 L2gUkBBcnYAxtDres1AQ6P1+b/9FGsPBzg3N9Q4diFrgirgy+ZlbkCh6n+LJ74/kIn
-	 zblztGRiZmK0Q==
+	b=sclpDytXvxJJgnfLy1DOHqAmUL/6l9sMXipjXNwKFLeULcgtmVMKf6Y0A+rnkE2+b
+	 VWTY2H5TzIr8TH75rdAuzhk8ruFq7njz6WXd+FB5Irws/c9Ak6ZdmAWG4oXBc5QNwc
+	 uDY4SdDzq3t9RXsCLUChHuQqm7zzYLpf5cvAVzereXt50uU4TqeQvGHDyD+HTH/dko
+	 jNpoEB4h7c2ztKUYU3doaEZlNX8AWwHqpym6L2zGIM07quxkZU9/apC3zqwkIYjAP0
+	 SjjkIhBKsgjxfPAQOM7zIZvaJVkvO30ZJ5ohfpsPzoW45oQ0iOC8E6ztY/n+2R2xy5
+	 y9tdMQgYSahJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +49,12 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 11/14] Input: gpio_keys_polled - suppress deferred probe error for gpio
-Date: Mon, 11 Mar 2024 14:36:14 -0400
-Message-ID: <20240311183618.327694-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 09/12] Input: gpio_keys_polled - suppress deferred probe error for gpio
+Date: Mon, 11 Mar 2024 14:37:23 -0400
+Message-ID: <20240311183727.328187-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240311183618.327694-1-sashal@kernel.org>
-References: <20240311183618.327694-1-sashal@kernel.org>
+In-Reply-To: <20240311183727.328187-1-sashal@kernel.org>
+References: <20240311183727.328187-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.9
+X-stable-base: Linux 6.6.21
 Content-Transfer-Encoding: 8bit
 
 From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
