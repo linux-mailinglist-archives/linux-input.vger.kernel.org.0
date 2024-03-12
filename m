@@ -1,125 +1,139 @@
-Return-Path: <linux-input+bounces-2355-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2356-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1335F878AD6
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 23:41:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7E987929F
+	for <lists+linux-input@lfdr.de>; Tue, 12 Mar 2024 12:01:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C11592821E5
-	for <lists+linux-input@lfdr.de>; Mon, 11 Mar 2024 22:41:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 605E31C22064
+	for <lists+linux-input@lfdr.de>; Tue, 12 Mar 2024 11:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA995810E;
-	Mon, 11 Mar 2024 22:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB2147869C;
+	Tue, 12 Mar 2024 11:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b="ssVSCewM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Khf5xBph"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbU6fWTi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE7D2E40E
-	for <linux-input@vger.kernel.org>; Mon, 11 Mar 2024 22:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF0F58207;
+	Tue, 12 Mar 2024 11:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710196911; cv=none; b=vFnsFX2Xhb1GIjzjT+3FKIjOL4p/Q5m+FVkDXl1bN3+TQTEwAjsP68+gaAzfYFPDo3X1li6FtyWAwe2JQhmI3DwFyLOLmEgpBMB3h9uaBVh/9KK4W59nk20hmMzVljDPTJWkZey5cUzQ1JZ/fnzZ02sz0VeS/Ox0N8dmxuNZOEw=
+	t=1710241268; cv=none; b=YySWrF9Fjkf8ViAGgx7s0Sl8nb+pg7svIe6gHioKT8rqDFDT6KdQ7xAXDcGyjpRrTKp77mZ5tZLgqILJ8PnkemHj47f+n8xWs3MkJWNpDjgUxioAx7PmOsM34LsffFo9Uvn6b2cuTE4wIbuIhApZP18q+nmAZnv3fySvlxBs6rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710196911; c=relaxed/simple;
-	bh=kCgyqxA5fAoTBjl4Trrh5IGsCpoqfDOeJEHUJa3SeOA=;
-	h=MIME-Version:Message-Id:Date:From:To:Cc:Subject:Content-Type; b=B9G8J6DnB0s3I84UrFgDUquFD7svsjn2bjbYHzvoDb0Ov51xraqvQOg1k9LJ1R0vrPO7moRJwDdK92z1N7wkZRcDqxJ9QXvEHfhZCO2EgwIRqqZBpTGrN9zXZ5Y7iolYfwE4yhT8vlTh9pUglxLrTgejOO9aQwRI8USUAcASJQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm; spf=pass smtp.mailfrom=fastmail.fm; dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b=ssVSCewM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Khf5xBph; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.fm
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 95F47114008A;
-	Mon, 11 Mar 2024 18:41:47 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute2.internal (MEProxy); Mon, 11 Mar 2024 18:41:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1710196907; x=1710283307; bh=fdOX4B9JBnWPNcMwTCYcASy4674199ms
-	u1LWzFR46cw=; b=ssVSCewMDnSI+Q3vK8qm1mbNNfvi6DLier/QLFZlESopQhsb
-	a4qJtcPcgn8b6JLfMUlGwfEzojaC/IUi+RISZ9O0+xxgucFzBT9kYzwXjxDUXIwq
-	3RG6vknSVpRTEeuDpTy2jor8jQWnbgl2bykADB4Xb7CVqNKEawRZwyrmgnJ0lh6v
-	ZLMDG7XFc0eJsGGKBml8bfoZgI/s9BdzoTWjqsd8DdSnk+2IvCQNAICvXujmfod2
-	FbyCIFJaU1z0mob6MGZNUz+6ourOTwliAesgZBaDsic6r3UjtIqmU8yVs71XckPG
-	U1j9jEdu96eXUxlsM6CVlEbb9gk8NxmyGf4OlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1710196907; x=1710283307; bh=fdOX4B9JBnWPNcMwTCYcASy4674199msu1L
-	WzFR46cw=; b=Khf5xBphD8J1eJi3VszdwydX55Q7sXrvf18r+ioNz8/Hzmq7IMk
-	a7OMUng3N5XKo9wESqbmsw4Qm7E4sw9XIx8wUdJISprFE4mziIvhBULhKDMnrLac
-	aKcr5EusFCr92pswzI3FJ1mWrkPBQG+VXgZddrboY1JjMgkPGoXINWRDAkewNlrk
-	Aqql9bDVrYUQUik/tE8eiUUNr9Ajx0BeXGDITdwTKP/1/TkyT3n15xsZfqMwhCNq
-	dtYnAxboK8ugsxKo2rADio6HTFeXS8qH+15uNse5eymFtaj1eXKbYsbW/bIW3x1M
-	OdvYNU1n8Ad+tZnzlo5L4vhW6wukVkQVx8Q==
-X-ME-Sender: <xms:q4jvZQENilbQvekQvNeQ8X5UURRl86HKPDqHNUW2ZI7amA1gnxtzWg>
-    <xme:q4jvZZWLWANd8bTqVRB1fWqSym8uSycynPU--NpoJrenScynUNKZT2km0y6I4TZcg
-    b7DiQPDXp7n1iVDeA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedvgddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvfevufgtsehttdertd
-    erredtnecuhfhrohhmpehmrghtthdrghhithesfhgrshhtmhgrihhlrdhfmhenucggtffr
-    rghtthgvrhhnpeduledvfedtveduteffieevjeehiedtueetteffgfekkeeuffeftdeuge
-    duiedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehmrghtthdrghhithesfhgrshhtmhgrihhlrdhfmh
-X-ME-Proxy: <xmx:q4jvZaKk19REyM-mDplHLWgVNWla7rWA4-csCm9vlJ-CdNu1AgQaCw>
-    <xmx:q4jvZSER9uMxYBirn588syAn2ZfKb5QXag91Tag0wTyZitxbwSVdhA>
-    <xmx:q4jvZWW12MeYwS2Lj6_P4S25VCFTghAeDXIzj6uaGqB0AA56x8xeDA>
-    <xmx:q4jvZZe_d0udiMmGwi3zOXCOMQTvxNEbm9pip921FdRAtwt2INKq_A>
-Feedback-ID: icc494911:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5F201B6008D; Mon, 11 Mar 2024 18:41:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
+	s=arc-20240116; t=1710241268; c=relaxed/simple;
+	bh=yWxjcqk3nCMt2Sxjy1ZbQ/ciNB8fetvsro9SiWbKotA=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=k+c9teb09e+qL9og+ra+MSK0tSqkPfUFXCFL8RAwMfhZOVJr/YxFNVcxa2v6rTxHU0TpmvC5Kxv1vCpofUyisCb28WscUtrADvf7TPFsT6N71mJhF5htzCBb+0maiCrZy0RUjfE8EYeO8zvi3sMceR5vUEE9O5Z3hgOtzA6p6S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbU6fWTi; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710241267; x=1741777267;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=yWxjcqk3nCMt2Sxjy1ZbQ/ciNB8fetvsro9SiWbKotA=;
+  b=GbU6fWTiHG9X2mPdxLkBq8UH4FivdWrSQ7388R0kYScGE7qG7s+dpKTt
+   HxWvIpLyIRgArlB5AWorQTVJdqynAg07kVko+WDOQoYO8ch0cYV4OF73k
+   XUAbLzfRzfh3npHX140/aAlrbVyaQO0eYT78GNP+qNrUZWuE+Iidry+Qh
+   ASjh88r6xiyQz9WJZzsWnCFXGkR5KQ5CksEpjD5HZDJO50deH9g58I7Lh
+   j5pou6Fy68nLAjm0ditRUby771YYOa9zk8JP4wd6MfWwzN7hw4vV3YFSp
+   DKm+c0Yyuwb0b3IIF69f/EJmTMyGn6Ac0pjCUzp3EQogUMFNmSd+Z+bEx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5062316"
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="5062316"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 04:01:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
+   d="scan'208";a="11422913"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.6])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 04:01:03 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 12 Mar 2024 13:01:00 +0200 (EET)
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc: Ike Panhc <ike.pan@canonical.com>, Hans de Goede <hdegoede@redhat.com>, 
+    Philipp Jungkamp <p.jungkamp@gmx.net>, Gergo Koteles <soyer@irl.hu>, 
+    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/2] map Fn + R key on newer Yogas and Legions
+In-Reply-To: <Ze9RU8Mbnl-w8ZUL@google.com>
+Message-ID: <3aa59524-1d66-0536-a0e0-264e6b089aa5@linux.intel.com>
+References: <cover.1708399689.git.soyer@irl.hu> <170895405312.2243.4199399921923370447.b4-ty@linux.intel.com> <Ze0PSaOQSJMxL_Ln@google.com> <269b8adf-426a-b614-5450-383cde095c75@linux.intel.com> <Ze9RU8Mbnl-w8ZUL@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <efbfb428-06b0-48f9-8701-db291c2a9d65@app.fastmail.com>
-Date: Mon, 11 Mar 2024 17:41:24 -0500
-From: matt.git@fastmail.fm
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org
-Subject: [PATCH] Add xpad support for Snakebyte GAMEPADs
-Content-Type: text/plain
+Content-Type: multipart/mixed; boundary="8323328-859821774-1710241260=:1770"
 
-Support for Snakebyte GAMEPAD BASE X
-Support for Snakebyte GAMEPAD RGB X
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Matt Scialabba <matt.git@fastmail.fm>
----
- drivers/input/joystick/xpad.c | 3 +++
- 1 file changed, 3 insertions(+)
+--8323328-859821774-1710241260=:1770
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 14c828adebf7..712f79ed3259 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -366,6 +366,8 @@ static const struct xpad_device {
-        { 0x24c6, 0x5d04, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-        { 0x24c6, 0xfafe, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
-        { 0x2563, 0x058d, "OneXPlayer Gamepad", 0, XTYPE_XBOX360 },
-+       { 0x294b, 0x3303, "Snakebyte GAMEPAD BASE X", 0, XTYPE_XBOXONE },
-+       { 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
-        { 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
-        { 0x2dc8, 0x3106, "8BitDo Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
-        { 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
-@@ -507,6 +509,7 @@ static const struct usb_device_id xpad_table[] = {
-        XPAD_XBOXONE_VENDOR(0x24c6),            /* PowerA controllers */
-        XPAD_XBOX360_VENDOR(0x2563),            /* OneXPlayer Gamepad */
-        XPAD_XBOX360_VENDOR(0x260d),            /* Dareu H101 */
-+       XPAD_XBOXONE_VENDOR(0x294b),            /* Snakebyte */
-        XPAD_XBOX360_VENDOR(0x2c22),            /* Qanba Controllers */
-        XPAD_XBOX360_VENDOR(0x2dc8),            /* 8BitDo Pro 2 Wired Controller */
-        XPAD_XBOXONE_VENDOR(0x2dc8),            /* 8BitDo Pro 2 Wired Controller for Xbox */
--- 
-2.39.2
+On Mon, 11 Mar 2024, Dmitry Torokhov wrote:
+
+> On Mon, Mar 11, 2024 at 12:53:36PM +0200, Ilpo J=E4rvinen wrote:
+> > On Sat, 9 Mar 2024, Dmitry Torokhov wrote:
+> >=20
+> > > On Mon, Feb 26, 2024 at 03:27:33PM +0200, Ilpo J=E4rvinen wrote:
+> > > > On Tue, 20 Feb 2024 04:39:34 +0100, Gergo Koteles wrote:
+> > > >=20
+> > > > > This patch series adds a new KEY_FN_R input event code and map th=
+e
+> > > > > Fn + R key to it in the ideapad-laptop driver.
+> > > > >=20
+> > > > > It affects two WMI keycodes and I couldn't try the 0x0a, but I co=
+uldn't
+> > > > > find any indication that the refresh rate toggle should not be Fn=
+ + R.
+> > > > >=20
+> > > > > Regards,
+> > > > > Gergo
+> > > > >=20
+> > > > > [...]
+> > > >=20
+> > > >=20
+> > > > Thank you for your contribution, it has been applied to my local
+> > > > review-ilpo branch. Note it will show up in the public
+> > > > platform-drivers-x86/review-ilpo branch only once I've pushed my
+> > > > local branch there, which might take a while.
+> > > >=20
+> > > > The list of commits applied:
+> > > > [1/2] Input: allocate keycode for Fn + R
+> > > >       commit: 4e45fa464aeef4e803412b5dcce73aad48c94b0e
+> > >=20
+> > > I am sorry for the delay, but instead of defining a generic name we s=
+hould define
+> > > a proper keycode for concrete action even if nothing is printed on a
+> > > particular key on a particular device.
+> > >=20
+> > > Please drop this patch.
+> >=20
+> > Dropping them at this point would bit of a hassle due to backmerges of
+> > fixes branch.
+>=20
+> You should really wait applying patches affecting other parts of the
+> kernel as well as UAPI until all maintainers responsible for them agree
+> with the changes.
+>=20
+> Thanks.
+
+I'm sorry about that. I'll try to be more careful in the future.
+
+I've now replaced those patches in pdx86/for-next.
+
+--=20
+ i.
+
+--8323328-859821774-1710241260=:1770--
 
