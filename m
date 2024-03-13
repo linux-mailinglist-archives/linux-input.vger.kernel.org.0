@@ -1,331 +1,123 @@
-Return-Path: <linux-input+bounces-2362-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2363-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8CA879B5A
-	for <lists+linux-input@lfdr.de>; Tue, 12 Mar 2024 19:30:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B22A87A30C
+	for <lists+linux-input@lfdr.de>; Wed, 13 Mar 2024 07:49:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F247B20E3A
-	for <lists+linux-input@lfdr.de>; Tue, 12 Mar 2024 18:30:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C9CA1C20DE1
+	for <lists+linux-input@lfdr.de>; Wed, 13 Mar 2024 06:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581FA13958E;
-	Tue, 12 Mar 2024 18:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d8gGhv2A"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC2C134AD;
+	Wed, 13 Mar 2024 06:49:12 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F07B139585
-	for <linux-input@vger.kernel.org>; Tue, 12 Mar 2024 18:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB8512E6C
+	for <linux-input@vger.kernel.org>; Wed, 13 Mar 2024 06:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710268208; cv=none; b=C0BsMTG1Uwpa42DYvJkS6mKHmGweXTRqGqz56y0ZKoIvmnu7Z36ipiyw7T2OGWMUssGA+qJzJEsUGs6gQQOCj8V2yTQLfsKU9AlYCDZ8yyatgL7JVcSxvVRu06DG2IaTJlbBhuQqthzTUxvQmt0qrLYoKpm8vSmR5eHpP7ZnWUc=
+	t=1710312552; cv=none; b=NzPu6tToJ630jHwIpr6s6aDvn+mVJNJaQxcMTFPnuskaDMkp2mINgtQ+MSgilb7uYECQzM01W0hyoSchOAfRNh9bWu2cUjp21L3HN6KMBpqN2QLbLC8+mvG58k/ypOLW8Vq75GhYHoO8nEm4A/Gp045o4HwS6E1bXHZfU6qI0gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710268208; c=relaxed/simple;
-	bh=nP46n0jcTTeYpauXe/+zfoUjzDQ2EGZv67UMSWODJdM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TE30osWDHDfaIEqlH0YJM7rJL6P+Kp19YNBPuQKRGmPm7N+VkSwfBXUnp3zIPSQluQwpQy14Mv1QxuUJcY8Gmjf0+QODCoPwERGYYhFZp+jndRStPbL3Kzgncdl+6KzMsiW5K/97BnmqheJp9SQS44wtbP4GDWOmuVTEhHc/YVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d8gGhv2A; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e6aca1ca9so5701910f8f.2
-        for <linux-input@vger.kernel.org>; Tue, 12 Mar 2024 11:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710268204; x=1710873004; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wj0RwfzSeaH3zu2ZUByQWF3Tyva/dlg0AmgzMmpsYvQ=;
-        b=d8gGhv2AV6PfsE7LCNNRKdLiUg+6uFFITODBycCaH4RozOBJId+rMpQCRXARG7osDz
-         C+3MWlgKfcI+UGwRJ9/lWntPAb/8sn6xc19jBuiGMI6HGrJTzPEgca8wKLTNbl+pEezC
-         XmYj8+8PAHbK3+crolGYcdvC6cmQBaFtqnFeOqpR87liCEhEgbOVnTSBd89UhLLU5XPx
-         3k+Zfu8I8bOj5HxDluFPHou1fGEQeOy0nq6Cx54iO7Xiq4c7iew4WYddT6kdp3D54vdS
-         Ghahj9uU1mXdabTEk0vFeN01sleAcn5cxAD1feqj25q+J8dVF5dVkDBS5bgANe7EG2yF
-         U/Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710268204; x=1710873004;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Wj0RwfzSeaH3zu2ZUByQWF3Tyva/dlg0AmgzMmpsYvQ=;
-        b=r7opaN/YlkJJMVTt3Ur3Y8l+kGs13eyMDZoz88g5koAQileq2rrSegFfdpY+gfRbDo
-         JBtlKeuQftDzY1+wY8m1fADygGQMg64n0qA+7TOzeKPjq4+dJKYnPeTmXosX5GaYg6Fj
-         WyxQ+erF6AjqMyY9iAc5O8wFteqfyr4Rx0QUpjRCpcqugWGmi6fo3D2jnXWdFGlAnhug
-         QvQAVlMcyx8wgHidyzswXkBBAVxwc4CHA4GedVRISJ1TjYXrHQ5NQWbQBtBl3GJspc87
-         7KqV//5pAnJIDI2RRWY+Mfr7EA+7HnYObVbe6UWesMDCxezZfvGa2EVQUNKe1G/Trcot
-         aQ2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVhyxH3/HPU77Jz+s0zIy2L1dBu1KBZlna2KYsLQPXYxBmTsaU2rPelvGrsel5Pr5BCYM27tAXyGJ24rZDU8hv4GXMY5RW+4MQkOSg=
-X-Gm-Message-State: AOJu0YwU+LNm1XbJGi1GkOWkM7IK91du77bOdhX+bXLOLKM/oQ3ZBPjx
-	Ven8Wny7O+RGK/2mWGLH20gGR4vWXDZjD9u9V5LzZqy+jA810LD+MM+wRpKtQlMKoZpcQfTxX/u
-	W
-X-Google-Smtp-Source: AGHT+IEOapWwkAs6vj2cpDcE/owqSppl0uIbcEtSOOx4QNZ+Byu8ijzqekKkbvcA5v0rUfCYfySxbg==
-X-Received: by 2002:a5d:544c:0:b0:33e:20a:99d with SMTP id w12-20020a5d544c000000b0033e020a099dmr196396wrv.30.1710268204290;
-        Tue, 12 Mar 2024 11:30:04 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id f19-20020adfb613000000b0033dc931eb06sm9822974wre.0.2024.03.12.11.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 11:30:03 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: input: samsung,s3c6410-keypad: convert to DT Schema
-Date: Tue, 12 Mar 2024 19:30:01 +0100
-Message-Id: <20240312183001.714626-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1710312552; c=relaxed/simple;
+	bh=YmGhpF67UQkXDrjW1tdhJtif7Mb5bOO6MU/H0fI9Ehw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JgwUc1K8bf/+aYJj2dNgLfJKUvFWnJZceLVKZKfeOLgHIHFKO7FTcSZpGo7jd29Ub2EuG0d+TEyaZTaVWl+goKKdyP8baB8Hidq9cAp3RQUDtOatx4gXAnK3TWF9PPXkvFbk7ux7dmAOGfV9xCCyXkGuaIvfyuKeuWHwuMrwW1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkIQ5-0003qH-Ik; Wed, 13 Mar 2024 07:48:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkIQ3-006404-W6; Wed, 13 Mar 2024 07:48:56 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkIQ3-005E6s-2f;
+	Wed, 13 Mar 2024 07:48:55 +0100
+Date: Wed, 13 Mar 2024 07:48:55 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, andy@kernel.org, daniel.thompson@linaro.org, 
+	jingoohan1@gmail.com, deller@gmx.de, robin@protonic.nl, javierm@redhat.com, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <heasef3pdfyj7xyngnvbg527pc5uyy2v6hatz4wr6q3sfkhw3h@f4lnresjcnmb>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fazplp4fyrovvxv2"
+Content-Disposition: inline
+In-Reply-To: <20240305162425.23845-1-tzimmermann@suse.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Convert Samsung SoC Keypad bindings to DT schema with changes:
-1. Rename "linux,keypad-no-autorepeat" property to
-   "linux,input-no-autorepeat", because the latter was implemented in
-   the Linux driver.
-2. Add clocks and clock-names, already used by DTS and the Linux driver.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../input/samsung,s3c6410-keypad.yaml         | 121 ++++++++++++++++++
- .../bindings/input/samsung-keypad.txt         |  77 -----------
- .../bindings/power/wakeup-source.txt          |   2 +-
- 3 files changed, 122 insertions(+), 78 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/samsung-keypad.txt
+--fazplp4fyrovvxv2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml b/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
-new file mode 100644
-index 000000000000..a53569aa0ee7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
-@@ -0,0 +1,121 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/samsung,s3c6410-keypad.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung SoC series Keypad Controller
-+
-+description:
-+  Samsung SoC Keypad controller is used to interface a SoC with a matrix-type
-+  keypad device. The keypad controller supports multiple row and column lines.
-+  A key can be placed at each intersection of a unique row and a unique column.
-+  The keypad controller can sense a key-press and key-release and report the
-+  event using a interrupt to the cpu.
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,s3c6410-keypad
-+      - samsung,s5pv210-keypad
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: keypad
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
-+  linux,input-no-autorepeat:
-+    type: boolean
-+    description:
-+      Do no enable autorepeat feature.
-+
-+  linux,input-wakeup:
-+    type: boolean
-+    deprecated: true
-+
-+  samsung,keypad-num-columns:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Number of column lines connected to the keypad controller.
-+
-+  samsung,keypad-num-rows:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Number of row lines connected to the keypad controller.
-+
-+patternProperties:
-+  '^key-[0-9a-z]+$':
-+    type: object
-+    $ref: input.yaml#
-+    additionalProperties: false
-+    description:
-+      Each key connected to the keypad controller is represented as a child
-+      node to the keypad controller device node.
-+
-+    properties:
-+      keypad,column:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The column number to which the key is connected.
-+
-+      keypad,row:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: The row number to which the key is connected.
-+
-+      linux,code: true
-+
-+    required:
-+      - keypad,column
-+      - keypad,row
-+      - linux,code
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - samsung,keypad-num-columns
-+  - samsung,keypad-num-rows
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos4.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    keypad@100a0000 {
-+        compatible = "samsung,s5pv210-keypad";
-+        reg = <0x100a0000 0x100>;
-+        interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clock CLK_KEYIF>;
-+        clock-names = "keypad";
-+
-+        samsung,keypad-num-rows = <2>;
-+        samsung,keypad-num-columns = <8>;
-+        linux,input-no-autorepeat;
-+        wakeup-source;
-+
-+        key-1 {
-+            keypad,row = <0>;
-+            keypad,column = <3>;
-+            linux,code = <2>;
-+        };
-+
-+        key-2 {
-+            keypad,row = <0>;
-+            keypad,column = <4>;
-+            linux,code = <3>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/input/samsung-keypad.txt b/Documentation/devicetree/bindings/input/samsung-keypad.txt
-deleted file mode 100644
-index 4c5c0a82586d..000000000000
---- a/Documentation/devicetree/bindings/input/samsung-keypad.txt
-+++ /dev/null
-@@ -1,77 +0,0 @@
--* Samsung's Keypad Controller device tree bindings
--
--Samsung's Keypad controller is used to interface a SoC with a matrix-type
--keypad device. The keypad controller supports multiple row and column lines.
--A key can be placed at each intersection of a unique row and a unique column.
--The keypad controller can sense a key-press and key-release and report the
--event using a interrupt to the cpu.
--
--Required SoC Specific Properties:
--- compatible: should be one of the following
--  - "samsung,s3c6410-keypad": For controllers compatible with s3c6410 keypad
--    controller.
--  - "samsung,s5pv210-keypad": For controllers compatible with s5pv210 keypad
--    controller.
--
--- reg: physical base address of the controller and length of memory mapped
--  region.
--
--- interrupts: The interrupt number to the cpu.
--
--Required Board Specific Properties:
--- samsung,keypad-num-rows: Number of row lines connected to the keypad
--  controller.
--
--- samsung,keypad-num-columns: Number of column lines connected to the
--  keypad controller.
--
--- Keys represented as child nodes: Each key connected to the keypad
--  controller is represented as a child node to the keypad controller
--  device node and should include the following properties.
--  - keypad,row: the row number to which the key is connected.
--  - keypad,column: the column number to which the key is connected.
--  - linux,code: the key-code to be reported when the key is pressed
--    and released.
--
--- pinctrl-0: Should specify pin control groups used for this controller.
--- pinctrl-names: Should contain only one value - "default".
--
--Optional Properties:
--- wakeup-source: use any event on keypad as wakeup event.
--		 (Legacy property supported: "linux,input-wakeup")
--
--Optional Properties specific to linux:
--- linux,keypad-no-autorepeat: do no enable autorepeat feature.
--
--
--Example:
--	keypad@100a0000 {
--		compatible = "samsung,s5pv210-keypad";
--		reg = <0x100A0000 0x100>;
--		interrupts = <173>;
--		samsung,keypad-num-rows = <2>;
--		samsung,keypad-num-columns = <8>;
--		linux,input-no-autorepeat;
--		wakeup-source;
--
--		pinctrl-names = "default";
--		pinctrl-0 = <&keypad_rows &keypad_columns>;
--
--		key_1 {
--			keypad,row = <0>;
--			keypad,column = <3>;
--			linux,code = <2>;
--		};
--
--		key_2 {
--			keypad,row = <0>;
--			keypad,column = <4>;
--			linux,code = <3>;
--		};
--
--		key_3 {
--			keypad,row = <0>;
--			keypad,column = <5>;
--			linux,code = <4>;
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/power/wakeup-source.txt b/Documentation/devicetree/bindings/power/wakeup-source.txt
-index 75bc20b95688..a6c8978964aa 100644
---- a/Documentation/devicetree/bindings/power/wakeup-source.txt
-+++ b/Documentation/devicetree/bindings/power/wakeup-source.txt
-@@ -27,7 +27,7 @@ List of legacy properties and respective binding document
- 				Documentation/devicetree/bindings/mfd/tc3589x.txt
- 				Documentation/devicetree/bindings/input/touchscreen/ads7846.txt
- 4. "linux,keypad-wakeup"	Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
--5. "linux,input-wakeup"		Documentation/devicetree/bindings/input/samsung-keypad.txt
-+5. "linux,input-wakeup"		Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
- 6. "nvidia,wakeup-source"	Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
- 
- Examples
--- 
-2.34.1
+Hello Thomas,
 
+On Tue, Mar 05, 2024 at 05:22:33PM +0100, Thomas Zimmermann wrote:
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
+>=20
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
+>=20
+> This patchset is part of a larger effort to implement the backlight
+> code without depending on fbdev.
+>=20
+> Patch 1 makes the backlight core match backlight and framebuffer
+> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> drivers and remove unnecessary implementations of check_fb. Finally,
+> patch 10 replaces the check_fb hook with controls_device, which
+> uses the framebuffer's Linux device instead of the framebuffer.
+
+I assume the merge plan for this series is via drm-misc in one go?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--fazplp4fyrovvxv2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXxTFYACgkQj4D7WH0S
+/k4WCgf+N9+ghi7jxWwK3i7nnF9402Id/hmnbKSiQ/2mzmtMu7hWnXpywzKwVGNy
+JuwbngFjANW8HquzInPZ0cOClpGx2dm5i2YsAqyDnOZO2Jg3zT1VOVZkd+/YzOI4
+FWBxp3T0ZUTmE1Fh0ohTEL+lL49F7nJXmeZNUMqWec4BwT09Eu71ZRseDMjL4Ar3
+bO9k6WkqF7/v+sWljRUWjvcAvRC/El4JMjyLTb9xS/UarDtjSbxePHZB6d9lf6St
+Dm0sgkqb/+jaZhY5kM1d0HJaEE1Wdef63pW2tDIunfj5L5PBveSw8xHMiipSCd4e
+9krdHDOzOyL/lPFi7CSq7i85LSyypg==
+=uhXV
+-----END PGP SIGNATURE-----
+
+--fazplp4fyrovvxv2--
 
