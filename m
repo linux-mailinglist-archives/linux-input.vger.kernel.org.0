@@ -1,251 +1,149 @@
-Return-Path: <linux-input+bounces-2368-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2371-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD09B87B945
-	for <lists+linux-input@lfdr.de>; Thu, 14 Mar 2024 09:28:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF6D87B9A9
+	for <lists+linux-input@lfdr.de>; Thu, 14 Mar 2024 09:51:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B4CC1F2351D
-	for <lists+linux-input@lfdr.de>; Thu, 14 Mar 2024 08:28:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E178D282FCD
+	for <lists+linux-input@lfdr.de>; Thu, 14 Mar 2024 08:51:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F015D73A;
-	Thu, 14 Mar 2024 08:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28E7A6D1BA;
+	Thu, 14 Mar 2024 08:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CabL6gBM"
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="GKOyCHSr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E644A12;
-	Thu, 14 Mar 2024 08:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EF56E2BD;
+	Thu, 14 Mar 2024 08:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710404930; cv=none; b=d/GOLmMld8XQEUuSirV3hJPXLC0lsGd08l9lKnKEN0T4aJXVBGUc/AWjhlfAJJ0H6zJ55QcU6cXvO4SsWQJodwAE/zd/JOU9ua6ny6H20jSnfl3ew6nfOIZk3BEc3YPl4KEnYZhx359KgNEhEsXCqa4N2XbS3q3TfiGYc+xm9Tw=
+	t=1710406121; cv=none; b=ud8I2y5GRPjzBlUZbjC74UOLqp1B6/NtCL+IxPMcgmYHJiTr0ie1sErIP0Ww0xKjSqdgyh5pNxygNCaM+kFHafMZPOGdEWCIfDraLYBQ7U1JGfBNXatDDGBesU2xUKIKZbAoGNcS33+yCt9RJq300X61T5eQqLWu8qlsPjiMIkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710404930; c=relaxed/simple;
-	bh=dWBvzMvhEojLc4YRKahCcivlodgKip+79gtNWQpwMpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tO7+1+l6kskSogSqdUYewEQQIxDm+BsNAWjBu1e6wGJbBHzX2kHJAqIupLp8GMr8yY0qbnIxq7bqqYB37hlKQ/SMx6p49CHJJnAX+13EMqIwKvoDE58Et8F/Wf7WLst1PHZVbya8p18ThN4bc46Kvlmu2XTKN+uJTlHnDrHGOh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CabL6gBM; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 45ED6C0008;
-	Thu, 14 Mar 2024 08:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710404925;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ta2o1x/LIlySc7obf85xA0brUjSk62k5/P2oqyy2gbY=;
-	b=CabL6gBMbBp+8mopqE1f1dUVAINgn7OlUvLJsnZJP08TZJbgD6yr+zl4f51i4Vx5aLBh25
-	TX8yKi/akLHzClY5day0luGdWE3lSOtAcicijuAPdyiqtQ+2uWWQQZW5twGzVeuTEXw5ov
-	SHfll56j0kvJcdOD4psPs0Qo6jCc5FUM3/ZKJA09M6eXMacXKQUQNj7Iqbymk1KKRGIujj
-	+OtAA89rIgEMuzY3y1Ixvf+66cWzZ444hwAVewSAwuV6KTFP7Ek/30QEXAZTe7zMMW4toc
-	6C4GAMYQFjz6fyFmqwFGe5p+wPIQupGrr2dH1Bkp3v6lfQnKYk3czhpPasYkrg==
-Date: Thu, 14 Mar 2024 09:28:42 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Jeff LaBundy <jeff@labundy.com>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v9 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <20240314082842.GA6963@tpx1.home>
-References: <20240301103909.167923-1-kamel.bouhara@bootlin.com>
- <20240301103909.167923-4-kamel.bouhara@bootlin.com>
- <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
+	s=arc-20240116; t=1710406121; c=relaxed/simple;
+	bh=KWHHw8AdrVa/yYww2f3tWcNpA+3ogD6g03jLdbzloxE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HmGOiI1cO+Wz25gfNMA7nl0igy+fkZqtIuywreTfbvvORxONUACiJEnsG7A3pxjP4UAwNZhdArMW510JR8leUCako6XIiXA0KdXKioo5LEGD+/oTU+5PSIcWNBSTQBhLGFvRkn22z460+1OOu+pg4erTDRN8GZGzHUiH+uZZeHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=GKOyCHSr; arc=none smtp.client-ip=207.54.90.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1710406116; x=1741942116;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KWHHw8AdrVa/yYww2f3tWcNpA+3ogD6g03jLdbzloxE=;
+  b=GKOyCHSrt6qKlkQvJ8G+ks5Nm4RAdfjZqEOa6RASSGsh0+69csi/lggp
+   Ipw/oA8QV3k5zV8sgR47VBGynPL4UhWytwQqxr43uLqn8rAH/ATcGoDDP
+   vg/iR1gNa0kbe1QK0sglUG0XdpNqXe19KQMHcsFGjdt+NGolB1fnntr8e
+   9XF0FdshqZQjrLeBfvWO+HJoyMaoU5PCjuVx3+r8cE5fANlkJ2WB7b+6R
+   ferWwYg/LIaXDi62RHUhWBgyiTPsCBYNNtd5kA25bYsB+6PoW4AIk4a9e
+   +nShZlnN5gAEGw/eBVtP6cXoSPSJzpLTMQ+0AHhESetxk0f3UvAMfqywT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="131618747"
+X-IronPort-AV: E=Sophos;i="6.07,124,1708354800"; 
+   d="scan'208";a="131618747"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 17:48:28 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 645A2E95F5;
+	Thu, 14 Mar 2024 17:48:25 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 98EFDE61BE;
+	Thu, 14 Mar 2024 17:48:24 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 25E9B200932DB;
+	Thu, 14 Mar 2024 17:48:24 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.167.226.45])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 819BD1A006B;
+	Thu, 14 Mar 2024 16:48:23 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: linux-kernel@vger.kernel.org
+Cc: Li Zhijian <lizhijian@fujitsu.com>,
+	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH v2 1/4] HID: hid-picolcd_core: Convert sprintf/snprintf to sysfs_emit
+Date: Thu, 14 Mar 2024 16:47:50 +0800
+Message-Id: <20240314084753.1322110-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
-X-GND-Sasl: kamel.bouhara@bootlin.com
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28250.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28250.005
+X-TMASE-Result: 10--5.324200-10.000000
+X-TMASE-MatchedRID: Jy5kObkVr+g4ibokZ3+Q0CoiRKlBVkYIBXngI6jFvpfDqO6/8R69QE8U
+	roFNOGp7a6aAZTOwtJmRloiW1Kgftd2ZdKe8BPbSrMZ+BqQt2NpBHuVYxc8DW3hh5KUdlgWiKqF
+	q1hn3Eb3d+/nM3Koh0iaTw03n/wYO0ekSi+00U24ReM8i8p3vgEyQ5fRSh2656hUULKzHRgQLm6
+	NncNkETaGvCFqoKSwTX7bicKxRIU2No+PRbWqfRDsAVzN+Ov/soPjENVLc2pbdBcO/UNP0olix4
+	n9Bi0emDYblnKmVeNx0j0UM11E4+w==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Le Wed, Mar 13, 2024 at 09:21:35PM +0100, Marco Felsch a Ècrit :
-> Hi Kamel,
->
-Hi Marco,
+Per filesystems/sysfs.rst, show() should only use sysfs_emit()
+or sysfs_emit_at() when formatting the value to be returned to user space.
 
-> please see below, be aware that this is just an rough review.
->
+coccinelle complains that there are still a couple of functions that use
+snprintf(). Convert them to sysfs_emit().
 
-[...]
+sprintf() will be converted as weel if they have.
 
-> > +
-> > +static int axiom_i2c_probe(struct i2c_client *client)
-> > +{
-> > +	struct device *dev = &client->dev;
-> > +	struct input_dev *input_dev;
-> > +	struct axiom_data *ts;
-> > +	u32 poll_interval;
-> > +	int target;
-> > +	int error;
-> > +
-> > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-> > +	if (!ts)
-> > +		return -ENOMEM;
-> > +
-> > +	i2c_set_clientdata(client, ts);
-> > +	ts->client = client;
-> > +	ts->dev = dev;
-> > +
-> > +	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-> > +	error = PTR_ERR_OR_ZERO(ts->regmap);
-> > +	if (error) {
-> > +		dev_err(dev, "Failed to initialize regmap: %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(ts->reset_gpio))
-> > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
-> > +
-> > +	if (ts->reset_gpio)
-> > +		axiom_reset(ts->reset_gpio);
->
-> This seems useless, since you doing an reset without enabling the power
-> supply (below). I know there are systems which do have the supply always
-> connected or for ACPI the supply is managed via firmware, but the driver
-> should implement the correct logic and for DT/OF case this is not
-> correct.
->
+Generally, this patch is generated by
+make coccicheck M=<path/to/file> MODE=patch \
+COCCI=scripts/coccinelle/api/device_attr_show.cocci
 
-Alright, this can be moved after enabling vdda regulator as this is
-still required in the power sequence.
+No functional change intended
 
-> > +
-> > +	ts->vddi = devm_regulator_get_optional(dev, "vddi");
-> > +	if (!IS_ERR(ts->vddi)) {
-> > +		error = devm_regulator_get_enable(dev, "vddi");
->
-> Regulators are ref counted and now you request the regulator twice. Also
-> the regulator is not optional, it is required for the device to work.
-> Same applies to the vdda below.
->
+CC: "Bruno Pr√©mont" <bonbons@linux-vserver.org>
+CC: Jiri Kosina <jikos@kernel.org>
+CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC: linux-input@vger.kernel.org
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
+Split them per subsystem so that the maintainer can review it easily
+[1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fujitsu.com/
+---
+ drivers/hid/hid-picolcd_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ack, I wrongly took my use case (ACPI + fixed regulators) but this isn't
-a common use case.
+diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
+index bbda231a7ce3..fa46fb6eab3f 100644
+--- a/drivers/hid/hid-picolcd_core.c
++++ b/drivers/hid/hid-picolcd_core.c
+@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_show(struct device *dev,
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
+ 
+ 	if (data->status & PICOLCD_BOOTLOADER)
+-		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
++		return sysfs_emit(buf, "[bootloader] lcd\n");
+ 	else
+-		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
++		return sysfs_emit(buf, "bootloader [lcd]\n");
+ }
+ 
+ static ssize_t picolcd_operation_mode_store(struct device *dev,
+@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_delay_show(struct device *dev,
+ {
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
++	return sysfs_emit(buf, "%hu\n", data->opmode_delay);
+ }
+ 
+ static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
+-- 
+2.29.2
 
-> > +		if (error)
-> > +			return dev_err_probe(&client->dev, error,
-> > +					     "Failed to enable vddi regulator\n");
-> > +	}
-> > +
-> > +	ts->vdda = devm_regulator_get_optional(dev, "vdda");
-> > +	if (!IS_ERR(ts->vdda)) {
-> > +		error = devm_regulator_get_enable(dev, "vdda");
-> > +		if (error)
-> > +			return dev_err_probe(&client->dev, error,
-> > +					     "Failed to enable vdda regulator\n");
-> > +		msleep(AXIOM_STARTUP_TIME_MS);
-> > +	}
-> > +
-> > +	error = axiom_discover(ts);
-> > +	if (error)
-> > +		return dev_err_probe(dev, error, "Failed touchscreen discover\n");
-> > +
-> > +	input_dev = devm_input_allocate_device(ts->dev);
-> > +	if (!input_dev)
-> > +		return -ENOMEM;
-> > +
-> > +	input_dev->name = "TouchNetix axiom Touchscreen";
-> > +	input_dev->phys = "input/axiom_ts";
-> > +
-> > +	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
-> > +	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
-> > +	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
-> > +	input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
-> > +	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
-> > +
-> > +	touchscreen_parse_properties(input_dev, true, &ts->prop);
-> > +
-> > +	/* Registers the axiom device as a touchscreen instead of a mouse pointer */
-> > +	error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
-> > +	set_bit(EV_REL, input_dev->evbit);
-> > +	set_bit(EV_MSC, input_dev->evbit);
-> > +	/* Declare that we support "RAW" Miscellaneous events */
-> > +	set_bit(MSC_RAW, input_dev->mscbit);
-> > +
-> > +	ts->input_dev = input_dev;
-> > +	input_set_drvdata(ts->input_dev, ts);
-> > +
-> > +	/* Ensure that all reports are initialised to not be present. */
-> > +	for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
-> > +		ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
-> > +
-> > +	error = devm_request_threaded_irq(dev, client->irq, NULL,
-> > +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
-> > +	if (error) {
-> > +		dev_info(dev, "Request irq failed, falling back to polling mode");
-> > +
-> > +		error = input_setup_polling(input_dev, axiom_i2c_poll);
-> > +		if (error)
-> > +			return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
-> > +
-> > +		if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
->
-> This is not wrong but can we move the "poll-intervall" parsing into
-> touchscreen_parse_properties() since it seems pretty common to me.
-
-Maybe too late to add it in this series :).
-
->
-> > +			input_set_poll_interval(input_dev, poll_interval);
-> > +		else
-> > +			input_set_poll_interval(input_dev, POLL_INTERVAL_DEFAULT_MS);
-> > +	}
-> > +
-> > +	error = input_register_device(input_dev);
-> > +	if (error)
-> > +		return dev_err_probe(ts->dev, error,
-> > +				     "Could not register with Input Sub-system.\n");
->
-> 	return input_register_device(input_dev);
-
-Ack, thanks.
-
->
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct i2c_device_id axiom_i2c_id_table[] = {
-> > +	{ "ax54a" },
-> > +	{ },
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
->
-> Do we really need an i2c-id table here? Most platforms do either use OF
-> or ACPI.
-
-If not wrong this is used to enumarate the device from userspace
-and in my case it is required as there is no direct i2c controller
-exposed from ACPI pov.
-
-Thanks !
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
