@@ -1,86 +1,86 @@
-Return-Path: <linux-input+bounces-2395-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2396-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFA387D0F1
-	for <lists+linux-input@lfdr.de>; Fri, 15 Mar 2024 17:10:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC2D87D264
+	for <lists+linux-input@lfdr.de>; Fri, 15 Mar 2024 18:08:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27F891C22C91
-	for <lists+linux-input@lfdr.de>; Fri, 15 Mar 2024 16:10:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EEA11F22B0B
+	for <lists+linux-input@lfdr.de>; Fri, 15 Mar 2024 17:08:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18AF446D1;
-	Fri, 15 Mar 2024 16:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGMcC+HY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E1BB55E58;
+	Fri, 15 Mar 2024 17:03:55 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768641773D;
-	Fri, 15 Mar 2024 16:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A0354916;
+	Fri, 15 Mar 2024 17:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710519036; cv=none; b=cmcTgb531PEfHk/BOLlkHQunZEuMj6Bnfz+HZ1nspX9+6i9miasbznSj6TA8nVcCgRoSwIOyoNYb/hArzSoPyciKoXQnw5H8Db+zT8I11sJNOizQ+wCuVCTsVSar1jdciW6vYnnNAZRfdsODZgsettd909hzI+qf5bH0FAPf7Ys=
+	t=1710522235; cv=none; b=WHQqg/ODhRHshBsvTlrpcSeubKIYVD4uX23eBgt4lIKrzW4gSVp0EbrhzNJf4I/P1unRvffRU0CDSrlQO9h29UDzoyd5igsGGIHVFHRHK2j4Gb7umiBTGrbfn0gx35hPkTiKyGT7lVi/5bLpnv3ylwhIDv4dLlCwpYbIfF26+T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710519036; c=relaxed/simple;
-	bh=9U8TXTtoTxC0CWMvJj6mLCU2BEQ3lky4kTdkGEen2HM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j8mRLMgAWLjJq6PUId76ExHWdWsSNVY6em4gzL1tcjbyqgddJA+HvjCgxUlP7y7IjXD+Im/2CB9PxCCoqRetgGPCOZkqWPyUblw/TnqYKs/kABlnqrioiO6UobZ3EM+GPTaYTrLg9p7zNUmj9bv3/iPzvxw1e48eQVSkA8tWrVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGMcC+HY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D29D7C433F1;
-	Fri, 15 Mar 2024 16:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710519035;
-	bh=9U8TXTtoTxC0CWMvJj6mLCU2BEQ3lky4kTdkGEen2HM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aGMcC+HYb1uOVKox+WEZ98pZdZHbHb83ps+LonLIDwZXPh/jwX1E9oX4soa408r9o
-	 uJ7yPPveUk+blXkaawLyoc4F6hEATjWwYzbhKXWkphLAmIz1HCeDV8e8YWo1Ce/3PM
-	 65srT/wPcY+0DW+8i4ayuEwDEMNjt+oycgNlr630ziw7qC4MFFWzUZGcVpLcHwDMFK
-	 epQM6s/r10uRTDzPGhdBf/XeQ2kJa+Ex7Lf74vhdFz70ZLDeAQH4u+Umt1npA/WkWy
-	 tUWx2ub2ypbjZCBol+vqh8e7v0Idqrbspj6aCBcHdqnxXaYuD+NmWveNmzFyA0AVVF
-	 GX7iK9+uZYIEA==
-Date: Fri, 15 Mar 2024 10:10:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	s=arc-20240116; t=1710522235; c=relaxed/simple;
+	bh=L8ekJX/7I2WmOQ/OuIxQtjFMyvHp8xDkf0qHYdDgrkI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jyetL+7FvUH/2fp3YMGRVIkk4CtmIRQvGZSbPuXCAy6WWLnIwpGfvr8TvdKraXHuHo8ELKk5x42OvSRhz4P9AFIpDGC5k0QNvFq5qZKe/z7RmxU2CLzs2jQ4BEUYRW8Txk4/k0pmh90zqIJo0jLl/DAWVUPbjWw0D0rnHbTNT5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 681BF10145E;
+	Fri, 15 Mar 2024 16:58:17 +0000 (UTC)
+From: Max Staudt <max@enpas.org>
+To: "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: input: samsung,s3c6410-keypad: convert to
- DT Schema
-Message-ID: <171051903211.1425696.5675675890339089631.robh@kernel.org>
-References: <20240312183001.714626-1-krzysztof.kozlowski@linaro.org>
+	max@enpas.org
+Subject: [PATCH v2] HID: nintendo: Don't fail on setting baud rate
+Date: Sat, 16 Mar 2024 01:57:29 +0900
+Message-Id: <20240315165729.17817-1-max@enpas.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240312183001.714626-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
 
+Some third-party controllers can't change the baud rate.
 
-On Tue, 12 Mar 2024 19:30:01 +0100, Krzysztof Kozlowski wrote:
-> Convert Samsung SoC Keypad bindings to DT schema with changes:
-> 1. Rename "linux,keypad-no-autorepeat" property to
->    "linux,input-no-autorepeat", because the latter was implemented in
->    the Linux driver.
-> 2. Add clocks and clock-names, already used by DTS and the Linux driver.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../input/samsung,s3c6410-keypad.yaml         | 121 ++++++++++++++++++
->  .../bindings/input/samsung-keypad.txt         |  77 -----------
->  .../bindings/power/wakeup-source.txt          |   2 +-
->  3 files changed, 122 insertions(+), 78 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
->  delete mode 100644 Documentation/devicetree/bindings/input/samsung-keypad.txt
-> 
+We can still use the gamepad as-is, so let's do that.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Max Staudt <max@enpas.org>
+---
+Changes in v2:
+ - Made hid_err() a hid_warn() since it's not a fatal failure.
+---
+ drivers/hid/hid-nintendo.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 997c3a1adaca..395ed6b5ef59 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -2164,8 +2164,11 @@ static int joycon_init(struct hid_device *hdev)
+ 		/* set baudrate for improved latency */
+ 		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
+ 		if (ret) {
+-			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
+-			goto out_unlock;
++			/*
++			 * We can function with the default baudrate.
++			 * Provide a warning, and continue on.
++			 */
++			hid_warn(hdev, "Failed to set baudrate (ret=%d), continuing anyway\n", ret);
+ 		}
+ 		/* handshake */
+ 		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
+-- 
+2.39.2
 
 
