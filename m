@@ -1,261 +1,266 @@
-Return-Path: <linux-input+bounces-2403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADD187DEAC
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 17:32:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552CD87DF60
+	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 19:52:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 157AF1F214B6
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 16:32:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 066BB2812C7
+	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 18:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49CCC7F6;
-	Sun, 17 Mar 2024 16:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8651CD29;
+	Sun, 17 Mar 2024 18:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgOwxzGp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201DF36D
-	for <linux-input@vger.kernel.org>; Sun, 17 Mar 2024 16:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A46A1D531
+	for <linux-input@vger.kernel.org>; Sun, 17 Mar 2024 18:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710693160; cv=none; b=qEfvdabJqtxJGpWtqzLW/CRZfu7NpdMQVyKElnE0OlQUOipFf+AxEuOO0JYPc4DEkBB0CmzvGjC6iZxi/Ii7tGNQ5I2QBDffEI6fex9OovKB/rIhCPMuz9QCXNxYZkPGH/kAAIo9SqHCwT5/Md73h9/y2wf6EH4VI9cVxJ8weiM=
+	t=1710701558; cv=none; b=uzggtIuYvUsgXwvk3W6X3vsULDOMAb0vNQ1/LvT2EmHFZhk1QVJOHRs2aYLBw5n/+9FGil3u4ei7K4IVWFMQLRM9Hp5yZ0NC5sJBl8XY+iQH+8nZuMtIpQx8FDEraGYL6EuCJ31XCohQCLBPU61MbZ5zwkItmkronRo17miP4MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710693160; c=relaxed/simple;
-	bh=Ru9Q3tyHpIPcIy60i8PZiPeo4E8COxNTkWu1Vxczqsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bq1Ts4lsonFHi7CvNtRqkoWuHvqIq/udPRl2pxk107DAc78Sm7FKK99k9H6ogf31uwSsh92Dg/0mZYKKvScd18+CKkC28DUF7EIB3CPFfQPIaWqi3AKp1DZzdX5o2TBtzxqZzQB9elZzGMuh3G6CxHb/bDdVBauODTfiEPj+nh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rltQx-0005gT-B6; Sun, 17 Mar 2024 17:32:27 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rltQu-006umO-R0; Sun, 17 Mar 2024 17:32:24 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rltQu-0041DJ-2N;
-	Sun, 17 Mar 2024 17:32:24 +0100
-Date: Sun, 17 Mar 2024 17:32:24 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Jeff LaBundy <jeff@labundy.com>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v9 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <20240317163224.l6mme67w5g3qz2hs@pengutronix.de>
-References: <20240301103909.167923-1-kamel.bouhara@bootlin.com>
- <20240301103909.167923-4-kamel.bouhara@bootlin.com>
- <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
- <20240314082842.GA6963@tpx1.home>
+	s=arc-20240116; t=1710701558; c=relaxed/simple;
+	bh=k2MogJ9H5LQwXyBUv+EMqA/mVDqbWD/Yr5G8XDdQkjk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XCprLLvl2Ag0dD6PHh0l7qin7KD1WBE8B71GPD+ttLMRULV/JjlW6fQH+0n9aYml5BG3BpKD5+UDdf1jKqoKrNNF/fzd6UUuqffSbz8Ag7wy/r964RDs8o1LAPx9COcMu2YntGPrlNC3BFIhdbw4Vm0eLAFfqroHPEEbAPPAGaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgOwxzGp; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710701556; x=1742237556;
+  h=date:from:to:cc:subject:message-id;
+  bh=k2MogJ9H5LQwXyBUv+EMqA/mVDqbWD/Yr5G8XDdQkjk=;
+  b=cgOwxzGpDM1rIRZXYy/Qzv5gnId1MpJR/xyvsspecGUbRW1EPzHOYwlh
+   gZm/MX5rDaaoHN+5/pUpOvTZHC0eBD2Rkce+9+rdQoGJct+edUY3lxHy0
+   bZ+7g7Z4M7fan0AeRQK75aYrDnJKQ6BwP+gnRWSKuHDAjhXPSZchqYe2n
+   e3oNKdwAy1w46GmVk48etn6ZuO721yG0INaxDRHWfeR5Z4+TWz4xvzntG
+   yYh17wQjyRM1r9qpV4q+dinMVUAFs7Qs9l/L89GL9rZNct1lg1dDB6RNp
+   CcIs8iPmUxA74Dh61mn7tRmOi9kseSDOjUwAZdtpWTbAiGx5W1QRG2ZiP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="5370659"
+X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
+   d="scan'208";a="5370659"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2024 11:52:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,133,1708416000"; 
+   d="scan'208";a="13139515"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Mar 2024 11:52:34 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rlvcV-000GQR-20;
+	Sun, 17 Mar 2024 18:52:31 +0000
+Date: Mon, 18 Mar 2024 02:52:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 57ed9567e63b59350c21ae026635ae051e247abb
+Message-ID: <202403180257.vF3SB00t-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240314082842.GA6963@tpx1.home>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-On 24-03-14, Kamel Bouhara wrote:
-> Le Wed, Mar 13, 2024 at 09:21:35PM +0100, Marco Felsch a écrit :
-> > Hi Kamel,
-> >
-> Hi Marco,
-> 
-> > please see below, be aware that this is just an rough review.
-> >
-> 
-> [...]
-> 
-> > > +
-> > > +static int axiom_i2c_probe(struct i2c_client *client)
-> > > +{
-> > > +	struct device *dev = &client->dev;
-> > > +	struct input_dev *input_dev;
-> > > +	struct axiom_data *ts;
-> > > +	u32 poll_interval;
-> > > +	int target;
-> > > +	int error;
-> > > +
-> > > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-> > > +	if (!ts)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	i2c_set_clientdata(client, ts);
-> > > +	ts->client = client;
-> > > +	ts->dev = dev;
-> > > +
-> > > +	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-> > > +	error = PTR_ERR_OR_ZERO(ts->regmap);
-> > > +	if (error) {
-> > > +		dev_err(dev, "Failed to initialize regmap: %d\n", error);
-> > > +		return error;
-> > > +	}
-> > > +
-> > > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> > > +	if (IS_ERR(ts->reset_gpio))
-> > > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
-> > > +
-> > > +	if (ts->reset_gpio)
-> > > +		axiom_reset(ts->reset_gpio);
-> >
-> > This seems useless, since you doing an reset without enabling the power
-> > supply (below). I know there are systems which do have the supply always
-> > connected or for ACPI the supply is managed via firmware, but the driver
-> > should implement the correct logic and for DT/OF case this is not
-> > correct.
-> >
-> 
-> Alright, this can be moved after enabling vdda regulator as this is
-> still required in the power sequence.
-> 
-> > > +
-> > > +	ts->vddi = devm_regulator_get_optional(dev, "vddi");
-> > > +	if (!IS_ERR(ts->vddi)) {
-> > > +		error = devm_regulator_get_enable(dev, "vddi");
-> >
-> > Regulators are ref counted and now you request the regulator twice. Also
-> > the regulator is not optional, it is required for the device to work.
-> > Same applies to the vdda below.
-> >
-> 
-> Ack, I wrongly took my use case (ACPI + fixed regulators) but this isn't
-> a common use case.
-> 
-> > > +		if (error)
-> > > +			return dev_err_probe(&client->dev, error,
-> > > +					     "Failed to enable vddi regulator\n");
-> > > +	}
-> > > +
-> > > +	ts->vdda = devm_regulator_get_optional(dev, "vdda");
-> > > +	if (!IS_ERR(ts->vdda)) {
-> > > +		error = devm_regulator_get_enable(dev, "vdda");
-> > > +		if (error)
-> > > +			return dev_err_probe(&client->dev, error,
-> > > +					     "Failed to enable vdda regulator\n");
-> > > +		msleep(AXIOM_STARTUP_TIME_MS);
-> > > +	}
-> > > +
-> > > +	error = axiom_discover(ts);
-> > > +	if (error)
-> > > +		return dev_err_probe(dev, error, "Failed touchscreen discover\n");
-> > > +
-> > > +	input_dev = devm_input_allocate_device(ts->dev);
-> > > +	if (!input_dev)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	input_dev->name = "TouchNetix axiom Touchscreen";
-> > > +	input_dev->phys = "input/axiom_ts";
-> > > +
-> > > +	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
-> > > +	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
-> > > +	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
-> > > +	input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
-> > > +	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
-> > > +
-> > > +	touchscreen_parse_properties(input_dev, true, &ts->prop);
-> > > +
-> > > +	/* Registers the axiom device as a touchscreen instead of a mouse pointer */
-> > > +	error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
-> > > +	if (error)
-> > > +		return error;
-> > > +
-> > > +	/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
-> > > +	set_bit(EV_REL, input_dev->evbit);
-> > > +	set_bit(EV_MSC, input_dev->evbit);
-> > > +	/* Declare that we support "RAW" Miscellaneous events */
-> > > +	set_bit(MSC_RAW, input_dev->mscbit);
-> > > +
-> > > +	ts->input_dev = input_dev;
-> > > +	input_set_drvdata(ts->input_dev, ts);
-> > > +
-> > > +	/* Ensure that all reports are initialised to not be present. */
-> > > +	for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
-> > > +		ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
-> > > +
-> > > +	error = devm_request_threaded_irq(dev, client->irq, NULL,
-> > > +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
-> > > +	if (error) {
-> > > +		dev_info(dev, "Request irq failed, falling back to polling mode");
-> > > +
-> > > +		error = input_setup_polling(input_dev, axiom_i2c_poll);
-> > > +		if (error)
-> > > +			return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
-> > > +
-> > > +		if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
-> >
-> > This is not wrong but can we move the "poll-intervall" parsing into
-> > touchscreen_parse_properties() since it seems pretty common to me.
-> 
-> Maybe too late to add it in this series :).
-> 
-> >
-> > > +			input_set_poll_interval(input_dev, poll_interval);
-> > > +		else
-> > > +			input_set_poll_interval(input_dev, POLL_INTERVAL_DEFAULT_MS);
-> > > +	}
-> > > +
-> > > +	error = input_register_device(input_dev);
-> > > +	if (error)
-> > > +		return dev_err_probe(ts->dev, error,
-> > > +				     "Could not register with Input Sub-system.\n");
-> >
-> > 	return input_register_device(input_dev);
-> 
-> Ack, thanks.
-> 
-> >
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct i2c_device_id axiom_i2c_id_table[] = {
-> > > +	{ "ax54a" },
-> > > +	{ },
-> > > +};
-> > > +MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
-> >
-> > Do we really need an i2c-id table here? Most platforms do either use OF
-> > or ACPI.
-> 
-> If not wrong this is used to enumarate the device from userspace
-> and in my case it is required as there is no direct i2c controller
-> exposed from ACPI pov.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 57ed9567e63b59350c21ae026635ae051e247abb  Merge branch 'next' into for-linus
 
-Ah you're right, I forgot this use-case.
+elapsed time: 726m
 
-Regards,
-  Marco
+configs tested: 177
+configs skipped: 3
 
-> 
-> Thanks !
-> 
-> --
-> Kamel Bouhara, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                 nsimosci_hs_smp_defconfig   gcc  
+arc                   randconfig-001-20240317   gcc  
+arc                   randconfig-002-20240317   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                        clps711x_defconfig   clang
+arm                                 defconfig   clang
+arm                          moxart_defconfig   gcc  
+arm                   randconfig-001-20240317   clang
+arm                   randconfig-002-20240317   clang
+arm                   randconfig-003-20240317   gcc  
+arm                   randconfig-004-20240317   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240317   clang
+arm64                 randconfig-002-20240317   gcc  
+arm64                 randconfig-003-20240317   gcc  
+arm64                 randconfig-004-20240317   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240317   gcc  
+csky                  randconfig-002-20240317   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240317   clang
+hexagon               randconfig-002-20240317   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240317   gcc  
+i386         buildonly-randconfig-002-20240317   clang
+i386         buildonly-randconfig-003-20240317   gcc  
+i386         buildonly-randconfig-004-20240317   clang
+i386         buildonly-randconfig-005-20240317   clang
+i386         buildonly-randconfig-006-20240317   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240317   clang
+i386                  randconfig-002-20240317   clang
+i386                  randconfig-003-20240317   clang
+i386                  randconfig-004-20240317   clang
+i386                  randconfig-005-20240317   gcc  
+i386                  randconfig-006-20240317   gcc  
+i386                  randconfig-011-20240317   clang
+i386                  randconfig-012-20240317   clang
+i386                  randconfig-013-20240317   clang
+i386                  randconfig-014-20240317   gcc  
+i386                  randconfig-015-20240317   gcc  
+i386                  randconfig-016-20240317   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240317   gcc  
+loongarch             randconfig-002-20240317   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5208evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240317   gcc  
+nios2                 randconfig-002-20240317   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240317   gcc  
+parisc                randconfig-002-20240317   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                         ps3_defconfig   gcc  
+powerpc               randconfig-001-20240317   clang
+powerpc               randconfig-002-20240317   gcc  
+powerpc               randconfig-003-20240317   clang
+powerpc                  storcenter_defconfig   gcc  
+powerpc64             randconfig-001-20240317   gcc  
+powerpc64             randconfig-002-20240317   clang
+powerpc64             randconfig-003-20240317   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240317   clang
+riscv                 randconfig-002-20240317   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240317   clang
+s390                  randconfig-002-20240317   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                 kfr2r09-romimage_defconfig   gcc  
+sh                    randconfig-001-20240317   gcc  
+sh                    randconfig-002-20240317   gcc  
+sh                           se7343_defconfig   gcc  
+sh                  sh7785lcr_32bit_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240317   gcc  
+sparc64               randconfig-002-20240317   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240317   gcc  
+um                    randconfig-002-20240317   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240317   gcc  
+x86_64       buildonly-randconfig-002-20240317   gcc  
+x86_64       buildonly-randconfig-003-20240317   gcc  
+x86_64       buildonly-randconfig-004-20240317   clang
+x86_64       buildonly-randconfig-005-20240317   gcc  
+x86_64       buildonly-randconfig-006-20240317   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240317   gcc  
+x86_64                randconfig-002-20240317   gcc  
+x86_64                randconfig-003-20240317   gcc  
+x86_64                randconfig-004-20240317   gcc  
+x86_64                randconfig-005-20240317   gcc  
+x86_64                randconfig-006-20240317   clang
+x86_64                randconfig-011-20240317   clang
+x86_64                randconfig-012-20240317   gcc  
+x86_64                randconfig-013-20240317   clang
+x86_64                randconfig-014-20240317   clang
+x86_64                randconfig-015-20240317   gcc  
+x86_64                randconfig-016-20240317   clang
+x86_64                randconfig-071-20240317   gcc  
+x86_64                randconfig-072-20240317   clang
+x86_64                randconfig-073-20240317   clang
+x86_64                randconfig-074-20240317   gcc  
+x86_64                randconfig-075-20240317   gcc  
+x86_64                randconfig-076-20240317   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240317   gcc  
+xtensa                randconfig-002-20240317   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
