@@ -1,251 +1,261 @@
-Return-Path: <linux-input+bounces-2402-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2403-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D372387DC6C
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 07:21:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADD187DEAC
+	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 17:32:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 403F01F214D2
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 06:21:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 157AF1F214B6
+	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 16:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054F0847A;
-	Sun, 17 Mar 2024 06:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PSmkugFQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49CCC7F6;
+	Sun, 17 Mar 2024 16:32:40 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B84C2F4A;
-	Sun, 17 Mar 2024 06:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201DF36D
+	for <linux-input@vger.kernel.org>; Sun, 17 Mar 2024 16:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710656456; cv=none; b=Wuh/xWq3X4AoCslTJkf1fcEU+ErhdeG2qwEd21GNi54cOKsIUr1FZFg+Eg7AJxKWC6OGx5sOLxGCngxCti2YbGGgzPIMwXh23rNDX7VcjtHgXG/1jmLnsNs1UT4YIt1gbm8Iba2ZwxnttM3kkp40Xfry45NsuwaqOVDJ6s2PGGc=
+	t=1710693160; cv=none; b=qEfvdabJqtxJGpWtqzLW/CRZfu7NpdMQVyKElnE0OlQUOipFf+AxEuOO0JYPc4DEkBB0CmzvGjC6iZxi/Ii7tGNQ5I2QBDffEI6fex9OovKB/rIhCPMuz9QCXNxYZkPGH/kAAIo9SqHCwT5/Md73h9/y2wf6EH4VI9cVxJ8weiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710656456; c=relaxed/simple;
-	bh=S+8671GCPoaRGv9Yjfms1gfadvaBDNAtlAAfwdoh+8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m5WQTnISVwRqQ1Tu0UcLUZT9rX9t0ZX/8ZelcGYPn/kW52NSvTNWUHU31nUSq6Ko3KWzX5GsoinocvkU8dxyo3kYwh5wm0pSvZRMsdvuZIuTGAGTIy2X6L4IB8ojOzBxpuUr2xDYKFXH9hLK32funsNpVilh7LNryuyqvcpn5oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PSmkugFQ; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e6adc557b6so3190396b3a.2;
-        Sat, 16 Mar 2024 23:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710656455; x=1711261255; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ljRI3GTvzq1j0VFwRuFGwbfCB3VhG+MDhaVSRJaVm0M=;
-        b=PSmkugFQqSghggJ2w68XE84sAaLMUDetMfTct2l7MU9AYM8YKTIwv2b65hpXehgzWH
-         dzJgx7M8vik6qX54S7C45oKm6Gs+xKAqXBQseoa0KabpyIULhh3PimWIYf5VwE48BzQa
-         0n8tNjHJ4ML+s5tdfMyIpF1oMPTWlVPNcmMI5PI3BbyPi7/aVg2Y2f7SuMoeG08yPa0J
-         wGOhMUyTfqcJsG+5gfw0ddIsPs9Mu991BsaIisElYDePljdVjBfXMyt3XnmGpAEL8P1D
-         v//vzxEu6ovKBjvm2bEFXl5npgOCmL2SiUnv/MpIN+mnmXnAavnIIZiB4SD6lqCLD5jF
-         NVUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710656455; x=1711261255;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ljRI3GTvzq1j0VFwRuFGwbfCB3VhG+MDhaVSRJaVm0M=;
-        b=YOB6avyGMrMHryIP8OaYUD5SyVmOMqTAcg2Lze11axD7n0D6k+/vlfJJ1IP4F4nOCw
-         ywJ/YoS+cuKFT8Jz4SJ0O6qTZmM4VKbw3iFURnSJLDUkiYw8JlyjHBpXTHlCegL3rXeI
-         4wZgSJfIhk0DYM7vKqiVLMKELpjL6l5P7TofhII2FuGCYGEEYk6Ckc8OaL4IEblduIVC
-         r2XFVc+cs4rHJ0kIFRZOL/P1zUqYMq+9vnGCwLdwxulzYfhYWPI+eiNJf2BAQmgZTPp2
-         RU5OUFdWq3/MihP4m4gpjhXFTOnYeJBWDG9pRdI0bOM+mqc4krVRD/ZOLxF+B2x8scXO
-         QHhA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKZpVCgnO0JCjxYhuaFfsSYdauLeiJk/RY6OfOmr4eHSJdn+Rn41IzmDyXwqWwfhFNQs51QlLGJcxnh0foLMiOXl4xEDYJskiJuSA=
-X-Gm-Message-State: AOJu0YygyFRDFfEOKQV8CSWqOzd5yySCliZgVGSzKOG+6NREyB+ov6Pp
-	NrBqw7FKTp9DhDeHaNT5Z86NUxgK6O0xK5HKdx42s3aaU5HM1A9950NGcQ2q
-X-Google-Smtp-Source: AGHT+IH1uryWEsF5nT8ZNOCJm8zSHTse7QGHFCRmZk9K4P3CLxnBxzh5/IDl6gcl9Az6Wv0SQT6m7A==
-X-Received: by 2002:a05:6a00:2da4:b0:6e7:2199:73be with SMTP id fb36-20020a056a002da400b006e7219973bemr738856pfb.14.1710656454555;
-        Sat, 16 Mar 2024 23:20:54 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e3a5:20fc:a5dc:3c2d])
-        by smtp.gmail.com with ESMTPSA id fn24-20020a056a002fd800b006e6b415b405sm5793604pfb.36.2024.03.16.23.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 23:20:53 -0700 (PDT)
-Date: Sat, 16 Mar 2024 23:20:51 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.9-rc0
-Message-ID: <ZfaLw1CiHZDSXCLo@google.com>
+	s=arc-20240116; t=1710693160; c=relaxed/simple;
+	bh=Ru9Q3tyHpIPcIy60i8PZiPeo4E8COxNTkWu1Vxczqsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bq1Ts4lsonFHi7CvNtRqkoWuHvqIq/udPRl2pxk107DAc78Sm7FKK99k9H6ogf31uwSsh92Dg/0mZYKKvScd18+CKkC28DUF7EIB3CPFfQPIaWqi3AKp1DZzdX5o2TBtzxqZzQB9elZzGMuh3G6CxHb/bDdVBauODTfiEPj+nh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1rltQx-0005gT-B6; Sun, 17 Mar 2024 17:32:27 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1rltQu-006umO-R0; Sun, 17 Mar 2024 17:32:24 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1rltQu-0041DJ-2N;
+	Sun, 17 Mar 2024 17:32:24 +0100
+Date: Sun, 17 Mar 2024 17:32:24 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Jeff LaBundy <jeff@labundy.com>,
+	catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH v9 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <20240317163224.l6mme67w5g3qz2hs@pengutronix.de>
+References: <20240301103909.167923-1-kamel.bouhara@bootlin.com>
+ <20240301103909.167923-4-kamel.bouhara@bootlin.com>
+ <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
+ <20240314082842.GA6963@tpx1.home>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240314082842.GA6963@tpx1.home>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Hi Linus,
+On 24-03-14, Kamel Bouhara wrote:
+> Le Wed, Mar 13, 2024 at 09:21:35PM +0100, Marco Felsch a écrit :
+> > Hi Kamel,
+> >
+> Hi Marco,
+> 
+> > please see below, be aware that this is just an rough review.
+> >
+> 
+> [...]
+> 
+> > > +
+> > > +static int axiom_i2c_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct device *dev = &client->dev;
+> > > +	struct input_dev *input_dev;
+> > > +	struct axiom_data *ts;
+> > > +	u32 poll_interval;
+> > > +	int target;
+> > > +	int error;
+> > > +
+> > > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+> > > +	if (!ts)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	i2c_set_clientdata(client, ts);
+> > > +	ts->client = client;
+> > > +	ts->dev = dev;
+> > > +
+> > > +	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
+> > > +	error = PTR_ERR_OR_ZERO(ts->regmap);
+> > > +	if (error) {
+> > > +		dev_err(dev, "Failed to initialize regmap: %d\n", error);
+> > > +		return error;
+> > > +	}
+> > > +
+> > > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> > > +	if (IS_ERR(ts->reset_gpio))
+> > > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
+> > > +
+> > > +	if (ts->reset_gpio)
+> > > +		axiom_reset(ts->reset_gpio);
+> >
+> > This seems useless, since you doing an reset without enabling the power
+> > supply (below). I know there are systems which do have the supply always
+> > connected or for ACPI the supply is managed via firmware, but the driver
+> > should implement the correct logic and for DT/OF case this is not
+> > correct.
+> >
+> 
+> Alright, this can be moved after enabling vdda regulator as this is
+> still required in the power sequence.
+> 
+> > > +
+> > > +	ts->vddi = devm_regulator_get_optional(dev, "vddi");
+> > > +	if (!IS_ERR(ts->vddi)) {
+> > > +		error = devm_regulator_get_enable(dev, "vddi");
+> >
+> > Regulators are ref counted and now you request the regulator twice. Also
+> > the regulator is not optional, it is required for the device to work.
+> > Same applies to the vdda below.
+> >
+> 
+> Ack, I wrongly took my use case (ACPI + fixed regulators) but this isn't
+> a common use case.
+> 
+> > > +		if (error)
+> > > +			return dev_err_probe(&client->dev, error,
+> > > +					     "Failed to enable vddi regulator\n");
+> > > +	}
+> > > +
+> > > +	ts->vdda = devm_regulator_get_optional(dev, "vdda");
+> > > +	if (!IS_ERR(ts->vdda)) {
+> > > +		error = devm_regulator_get_enable(dev, "vdda");
+> > > +		if (error)
+> > > +			return dev_err_probe(&client->dev, error,
+> > > +					     "Failed to enable vdda regulator\n");
+> > > +		msleep(AXIOM_STARTUP_TIME_MS);
+> > > +	}
+> > > +
+> > > +	error = axiom_discover(ts);
+> > > +	if (error)
+> > > +		return dev_err_probe(dev, error, "Failed touchscreen discover\n");
+> > > +
+> > > +	input_dev = devm_input_allocate_device(ts->dev);
+> > > +	if (!input_dev)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	input_dev->name = "TouchNetix axiom Touchscreen";
+> > > +	input_dev->phys = "input/axiom_ts";
+> > > +
+> > > +	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
+> > > +	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
+> > > +	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
+> > > +	input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
+> > > +	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
+> > > +
+> > > +	touchscreen_parse_properties(input_dev, true, &ts->prop);
+> > > +
+> > > +	/* Registers the axiom device as a touchscreen instead of a mouse pointer */
+> > > +	error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
+> > > +	if (error)
+> > > +		return error;
+> > > +
+> > > +	/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
+> > > +	set_bit(EV_REL, input_dev->evbit);
+> > > +	set_bit(EV_MSC, input_dev->evbit);
+> > > +	/* Declare that we support "RAW" Miscellaneous events */
+> > > +	set_bit(MSC_RAW, input_dev->mscbit);
+> > > +
+> > > +	ts->input_dev = input_dev;
+> > > +	input_set_drvdata(ts->input_dev, ts);
+> > > +
+> > > +	/* Ensure that all reports are initialised to not be present. */
+> > > +	for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
+> > > +		ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
+> > > +
+> > > +	error = devm_request_threaded_irq(dev, client->irq, NULL,
+> > > +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
+> > > +	if (error) {
+> > > +		dev_info(dev, "Request irq failed, falling back to polling mode");
+> > > +
+> > > +		error = input_setup_polling(input_dev, axiom_i2c_poll);
+> > > +		if (error)
+> > > +			return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
+> > > +
+> > > +		if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
+> >
+> > This is not wrong but can we move the "poll-intervall" parsing into
+> > touchscreen_parse_properties() since it seems pretty common to me.
+> 
+> Maybe too late to add it in this series :).
+> 
+> >
+> > > +			input_set_poll_interval(input_dev, poll_interval);
+> > > +		else
+> > > +			input_set_poll_interval(input_dev, POLL_INTERVAL_DEFAULT_MS);
+> > > +	}
+> > > +
+> > > +	error = input_register_device(input_dev);
+> > > +	if (error)
+> > > +		return dev_err_probe(ts->dev, error,
+> > > +				     "Could not register with Input Sub-system.\n");
+> >
+> > 	return input_register_device(input_dev);
+> 
+> Ack, thanks.
+> 
+> >
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct i2c_device_id axiom_i2c_id_table[] = {
+> > > +	{ "ax54a" },
+> > > +	{ },
+> > > +};
+> > > +MODULE_DEVICE_TABLE(i2c, axiom_i2c_id_table);
+> >
+> > Do we really need an i2c-id table here? Most platforms do either use OF
+> > or ACPI.
+> 
+> If not wrong this is used to enumarate the device from userspace
+> and in my case it is required as there is no direct i2c controller
+> exposed from ACPI pov.
 
-Please pull from:
+Ah you're right, I forgot this use-case.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.9-rc0
+Regards,
+  Marco
 
-to receive updates for the input subsystem. You will get:
-
-- a new driver for Goodix Berlin I2C and SPI touch controllers
-
-- support for IQS7222D v1.1 and v1.2 in iqs7222 driver
-
-- support for IST3032C and IST3038B parts in Imagis touchscreen driver
-
-- support for touch keys for Imagis touchscreen controllers
-
-- support for Snakebyte GAMEPADs in xpad driver 
-
-- various cleanups and conversions to yaml for device tree bindings
-
-- assorted fixes and cleanups
-
-- old Synaptics navpoint driver has been removed since the only board
-  that used it (HP iPAQ hx4700) was removed a while ago.
-
-
-Changelog:
----------
-
-Bernhard Seibold (1):
-      Input: leds - set default-trigger for mute
-
-Brenton Simpson (1):
-      Input: xpad - sort xpad_device by vendor and product ID
-
-Christophe JAILLET (1):
-      Input: remove usage of the deprecated ida_simple_xx() API
-
-Colin Ian King (1):
-      Input: ti_am335x_tsc - remove redundant assignment to variable config
-
-Dharma Balasubiramani (1):
-      dt-bindings: input: atmel,captouch: convert bindings to YAML
-
-Dmitry Torokhov (3):
-      Input: matrix_keypad - avoid repeatedly converting GPIO to IRQ
-      Input: matrix_keypad - consolidate handling of clustered interrupt
-      Input: matrix_keypad - switch to using managed resources
-
-Duje MihanoviÄ‡ (5):
-      Input: navpoint - remove driver
-      Input: 88pm80x_onkey - add SPDX and drop GPL boilerplate
-      Input: imagis - use FIELD_GET where applicable
-      dt-bindings: input: imagis: Document touch keys
-      Input: imagis - add touch key support
-
-Heiner Kallweit (1):
-      Input: leds - change config symbol dependency for audio mute trigger
-
-Jeff LaBundy (1):
-      Input: iqs7222 - add support for IQS7222D v1.1 and v1.2
-
-Karel Balej (2):
-      dt-bindings: input/touchscreen: imagis: add compatible for IST3032C
-      input/touchscreen: imagis: add support for IST3032C
-
-Krzysztof Kozlowski (3):
-      dt-bindings: input: silead,gsl1680: do not override firmware-name $ref
-      dt-bindings: input: allwinner,sun4i-a10-lrad: drop redundant type from label
-      dt-bindings: input: samsung,s3c6410-keypad: convert to DT Schema
-
-Kunwu Chan (1):
-      Input: synaptics-rmi4 - fail probing if memory allocation for "phys" fails
-
-Luca Ceresoli (1):
-      dt-bindings: input: touchscreen: goodix: clarify irq-gpios misleading text
-
-Luca Weiss (1):
-      dt-bindings: input: melfas,mms114: add MMS252 compatible
-
-Markuss Broks (3):
-      input/touchscreen: imagis: Correct the maximum touch area value
-      dt-bindings: input/touchscreen: Add compatible for IST3038B
-      input/touchscreen: imagis: Add support for Imagis IST3038B
-
-Matt Scialabba (1):
-      Input: xpad - add support for Snakebyte GAMEPADs
-
-Neil Armstrong (4):
-      dt-bindings: input: document Goodix Berlin Touchscreen IC
-      Input: add core support for Goodix Berlin Touchscreen IC
-      Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
-      Input: goodix-berlin - add SPI support for Goodix Berlin Touchscreen IC
-
-Ricardo B. Marliere (4):
-      Input: gameport - make gameport_bus const
-      Input: synaptics-rmi4 - make rmi_bus_type const
-      Input: serio - make serio_bus const
-      Input: make input_class constant
-
-Ruan Jinjie (1):
-      Input: bcm-keypad - remove redundant of_match_ptr()
-
-Yang Li (1):
-      Input: xilinx_ps2 - fix kernel-doc for xps2_of_probe function
-
-Diffstat:
---------
-
- .../input/allwinner,sun4i-a10-lradc-keys.yaml      |   1 -
- .../devicetree/bindings/input/atmel,captouch.txt   |  36 -
- .../devicetree/bindings/input/atmel,captouch.yaml  |  59 ++
- .../bindings/input/samsung,s3c6410-keypad.yaml     | 121 ++++
- .../devicetree/bindings/input/samsung-keypad.txt   |  77 ---
- .../bindings/input/touchscreen/goodix,gt9916.yaml  |  95 +++
- .../bindings/input/touchscreen/goodix.yaml         |   5 +-
- .../input/touchscreen/imagis,ist3038c.yaml         |  21 +-
- .../bindings/input/touchscreen/melfas,mms114.yaml  |   6 +-
- .../bindings/input/touchscreen/silead,gsl1680.yaml |   2 +-
- .../devicetree/bindings/power/wakeup-source.txt    |   2 +-
- drivers/input/gameport/gameport.c                  |   4 +-
- drivers/input/input-leds.c                         |   8 +-
- drivers/input/input.c                              |  16 +-
- drivers/input/joystick/xpad.c                      |  14 +-
- drivers/input/keyboard/bcm-keypad.c                |   2 +-
- drivers/input/keyboard/matrix_keypad.c             | 170 ++---
- drivers/input/misc/88pm80x_onkey.c                 |  14 +-
- drivers/input/misc/iqs7222.c                       | 112 +++
- drivers/input/mouse/Kconfig                        |  12 -
- drivers/input/mouse/Makefile                       |   1 -
- drivers/input/mouse/navpoint.c                     | 350 ----------
- drivers/input/rmi4/rmi_bus.c                       |   2 +-
- drivers/input/rmi4/rmi_bus.h                       |   2 +-
- drivers/input/rmi4/rmi_driver.c                    |   6 +-
- drivers/input/serio/serio.c                        |   2 +-
- drivers/input/serio/xilinx_ps2.c                   |   3 +-
- drivers/input/touchscreen/Kconfig                  |  31 +
- drivers/input/touchscreen/Makefile                 |   3 +
- drivers/input/touchscreen/goodix_berlin.h          |  24 +
- drivers/input/touchscreen/goodix_berlin_core.c     | 755 +++++++++++++++++++++
- drivers/input/touchscreen/goodix_berlin_i2c.c      |  75 ++
- drivers/input/touchscreen/goodix_berlin_spi.c      | 178 +++++
- drivers/input/touchscreen/imagis.c                 | 118 +++-
- drivers/input/touchscreen/ti_am335x_tsc.c          |   1 -
- include/linux/input.h                              |   2 +-
- include/linux/input/navpoint.h                     |   8 -
- include/linux/serio.h                              |   2 +-
- 38 files changed, 1669 insertions(+), 671 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/atmel,captouch.txt
- create mode 100644 Documentation/devicetree/bindings/input/atmel,captouch.yaml
- create mode 100644 Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/samsung-keypad.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/goodix,gt9916.yaml
- delete mode 100644 drivers/input/mouse/navpoint.c
- create mode 100644 drivers/input/touchscreen/goodix_berlin.h
- create mode 100644 drivers/input/touchscreen/goodix_berlin_core.c
- create mode 100644 drivers/input/touchscreen/goodix_berlin_i2c.c
- create mode 100644 drivers/input/touchscreen/goodix_berlin_spi.c
- delete mode 100644 include/linux/input/navpoint.h
-
-Thanks.
-
-
--- 
-Dmitry
+> 
+> Thanks !
+> 
+> --
+> Kamel Bouhara, Bootlin
+> Embedded Linux and kernel engineering
+> https://bootlin.com
+> 
 
