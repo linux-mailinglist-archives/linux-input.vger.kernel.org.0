@@ -1,154 +1,193 @@
-Return-Path: <linux-input+bounces-2412-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2413-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0359B87E4B2
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 09:05:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5614787E530
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 09:48:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 970571F223BA
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 08:05:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4EE6B21799
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 08:48:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BC9A249F9;
-	Mon, 18 Mar 2024 08:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20AD628DBF;
+	Mon, 18 Mar 2024 08:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Lrp4hW5H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="looe8aZR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9D4249F5;
-	Mon, 18 Mar 2024 08:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082EE288D7;
+	Mon, 18 Mar 2024 08:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710749146; cv=none; b=uU+ZIw/NvidJDwE5Mpo6m3tIl0dLFo4h3guXiK6h3iauy51YilEvESElzVOS5cFQ+bx122TpeEFmf68dt/makSLfy5xxs5/sNTjJ5cXfu/og0/tjQuHppHticvYCmeI+EM/rr4dJZZx/AkBKGdBzFtnojEe7ZpqZdWbHGg0ryGo=
+	t=1710751710; cv=none; b=X46RpzyQ5zPm11PSJyXd7SjU4iGM3HMTEyJOTWtRUUy5aI5ObqZO14SuD0U7zU7Lg/2mqIJVKCuyJ7zMN1RygKFta/j4DKQUiRK0upSHnP0ZDCR/c7ExUSPF9lOoGK1hJjY7kYc4AcjiQe+TZ8rz46GAEeiawRXuLt8B609obz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710749146; c=relaxed/simple;
-	bh=wZOl8ELhCbgPbYlLMs3nOwcsGw2fIVkfUTh0HFVFIK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ameo9g/TUXXwfPu8zkqBLmbFnGV9XPe84Kh8wgWOyEhOMu2xEmqBuy9kpWsTCy1bXm4u4E9m9BUuOtPqtndiQFjgQrvQvgYzZtPcnN0kjc7C6CKx8ZSdE1B4eqCycdcV2+xqNTbUxycNwwmh6iRWSPGfpKh9QwVUDWAfJsOhExU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Lrp4hW5H; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EC05D1BF20C;
-	Mon, 18 Mar 2024 08:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710749135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2tvbx1H5YEg+d5PC7Bdp5vKt6Is6Yx4h64tavZFQbdA=;
-	b=Lrp4hW5HLkJgc12dpKpTUR2ZSa1dX/CXpruvtOVyLLO4Cpxw+/bC1xw8wzkrtQOuzpDktc
-	nRJUbWfxBPJmJZZ9Lc89/x2+s5SaLWAF6stTbb8DBlfNNc27Dq6oon7LVE0lSLnkDmVb7m
-	3Qbilc1INqqEuPKtbx4J4GXhJOvr51VT1MJERYdmozzieVg3IeqW1VGTt0+/UwBRq5mQgS
-	I62r4P0ROzY5A450VeIhEIwiYEYIW5Elyw4oV9hj2Krkizrtn+IYFmmOSx26dPe3iiGouF
-	RtF9mjnGYXSKacCkxE9jiiuBT83LOzlCv2NTjWYaVJ8AnwsHIFbegJy/xdNKiQ==
-Date: Mon, 18 Mar 2024 09:05:33 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Jeff LaBundy <jeff@labundy.com>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v9 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <20240318080533.GA35033@tpx1.home>
-References: <20240301103909.167923-1-kamel.bouhara@bootlin.com>
- <20240301103909.167923-4-kamel.bouhara@bootlin.com>
- <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
+	s=arc-20240116; t=1710751710; c=relaxed/simple;
+	bh=owIMFRWACGRv/fYCW/6DnXxYC1Wgpz6uLqFLSH/tF08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dkOBP6ts7EWGtdLhnPTQhLDvaP7OSSkBkTqz5sIJQmI6Ufg4LChkiFYdSo2jdsjVSsWFONeRb/VHbsaGMZYugyUCKC70tg3/QmUkgqXx8EOQ2NYtC7TS5vUq+W64uuuDznreYs9hlqRg8+ezWXSyrN51mjXlroKVOaIdSm1HeD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=looe8aZR; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-513d247e3c4so3281108e87.0;
+        Mon, 18 Mar 2024 01:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710751705; x=1711356505; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kpf6P/mv1nh+G+2opKvaPHFGchVDvvH/+dJJvdzBkJE=;
+        b=looe8aZRPbDmG3Qkw73eTu7LJJSyPQ/+LUBI3CORf+zXFkySpPV0gJzc7biGT8WENP
+         FsH4fcaL5VCitRbHLPHiCQgnGN7tVvqAoyRU3G2KIE99JMAhOga2oEqWEJAwncOHw38S
+         5kwwbhz7HSKgAHyk2wkn6ATJt9x7kh4uZAD243A9IVbgKIPSGQWD5N1xFfFanb7kqeYh
+         LLY7HUkJMQuoe4oFCRrAd4eVlNFFg+LeoRxPfSyC0cKRKI0WPY7cO2fj/o/FufDTiK85
+         LdBCWi+1C69XiBUDDJrxFbHDaPTn3TE/iFCOYfX3ZLL3wqgOSveJL2gCbesCJN6TMhPQ
+         i7Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710751705; x=1711356505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kpf6P/mv1nh+G+2opKvaPHFGchVDvvH/+dJJvdzBkJE=;
+        b=kXITKmtNZPiL+FALvm1NrBtsadd9Z0o0HTxY2+hno8rPMLJkm92FIQsVSacfX6roAt
+         oM81yK/lZC8Hm0I7HyQMP9ZK3GIOrZatgl1nV7MD9uiE1XSt1ZVctMXQhUw2L5i+qZDl
+         2fJBzFT213rbEKZ9YhwYGLceXsdjZmhNmqLMXMsM8xkqtFTfjrBS6u0FqqUx4V1Qkr6q
+         opL4Rlpqfi8z6AQngBa114RW4XxWbGfing13vn3pA19Mn5X+3SD6I40cy4N0cRs58f/3
+         +7MQBujzqhEuM/7ZUrORLz7z+boWuuvH/a9arB6wOiT5UYWreemyQUmT1/ywb+YI6vqE
+         WCwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeF1G4NlYG4AtHndYM4/YrTvcDr0627SdWTASXlSoy3InGZFU4tLUPq1nCZkfa/lifQGZX/4ZrIrPQtqsiURJV+JHHuGiw58rhniaXl9cchGbIXVGAu9gDzTr6bsW2knwE/um4o+j/cN9W3hEx1vYde8gV4AEJ1hJD++KPcfbEBEprQBk=
+X-Gm-Message-State: AOJu0YwCFe8KBgZS8DeAc2VovGHZ0HoTTLhT/cDnSIcQZ8lI3BOa8xVX
+	HhP0McLJxJJ1P31xvHYToQZ1WTx3W2AQcCfOOu5jkBQcu/1KIn1aZDe7Y4b8Fq3CAytRggN1p+c
+	D/BkXqTvXNJB0825KQdy/aqPvNyI=
+X-Google-Smtp-Source: AGHT+IEEoUIOrSsbRaM8/GVH+vQ+AoLpoQTnF53ccg6k+RNlmOEAGacCjS10S9CMBS6f02FWdVOZf0kD8acLyTH3OD4=
+X-Received: by 2002:a19:ca10:0:b0:513:e049:3e1a with SMTP id
+ a16-20020a19ca10000000b00513e0493e1amr1779164lfg.17.1710751704969; Mon, 18
+ Mar 2024 01:48:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240313202135.2lwgtu2z67ksh2tz@pengutronix.de>
-X-GND-Sasl: kamel.bouhara@bootlin.com
+References: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
+ <20240317222718.3e03edb1@namcao>
+In-Reply-To: <20240317222718.3e03edb1@namcao>
+From: Eva Kurchatova <nyandarknessgirl@gmail.com>
+Date: Mon, 18 Mar 2024 10:48:13 +0200
+Message-ID: <CA+eeCSMiqcvzrQcgRr7AZWJQTv-c9-uSX5jbPZPzmsDjy08z=A@mail.gmail.com>
+Subject: Re: Boot hang with SiFive PLIC when routing I2C-HID level-triggered interrupts
+To: Nam Cao <namcao@linutronix.de>
+Cc: linux-riscv <linux-riscv@lists.infradead.org>, bugs@lists.linux.dev, 
+	linux-i2c@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com, 
+	dianders@chromium.org, mripard@kernel.org, johan+linaro@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le Wed, Mar 13, 2024 at 09:21:35PM +0100, Marco Felsch a écrit :
-> Hi Kamel,
+On Sun, Mar 17, 2024 at 11:27=E2=80=AFPM Nam Cao <namcao@linutronix.de> wro=
+te:
 >
-
-Hello Marco,
-
-[...]
-
-> > +static int axiom_i2c_probe(struct i2c_client *client)
-> > +{
-> > +	struct device *dev = &client->dev;
-> > +	struct input_dev *input_dev;
-> > +	struct axiom_data *ts;
-> > +	u32 poll_interval;
-> > +	int target;
-> > +	int error;
-> > +
-> > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-> > +	if (!ts)
-> > +		return -ENOMEM;
-> > +
-> > +	i2c_set_clientdata(client, ts);
-> > +	ts->client = client;
-> > +	ts->dev = dev;
-> > +
-> > +	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-> > +	error = PTR_ERR_OR_ZERO(ts->regmap);
-> > +	if (error) {
-> > +		dev_err(dev, "Failed to initialize regmap: %d\n", error);
-> > +		return error;
-> > +	}
-> > +
-> > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(ts->reset_gpio))
-> > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
-> > +
-> > +	if (ts->reset_gpio)
-> > +		axiom_reset(ts->reset_gpio);
+> Cc: HID folks
 >
-> This seems useless, since you doing an reset without enabling the power
-> supply (below). I know there are systems which do have the supply always
-> connected or for ACPI the supply is managed via firmware, but the driver
-> should implement the correct logic and for DT/OF case this is not
-> correct.
+> On 14/Mar/2024 Eva Kurchatova wrote:
+> > If an I2C-HID controller level-triggered IRQ line is routed directly as
+> > a PLIC IRQ, and we spam input early enough in kernel boot process
+> > (Somewhere between initializing NET, ALSA subsystems and before
+> > i2c-hid driver init), then there is a chance of kernel locking up
+> > completely and not going any further.
+> >
+> > There are no kernel messages printed with all the IRQ, task hang
+> > debugging enabled - other than (sometimes) it reports sched RT
+> > throttling after a few seconds. Basic timer interrupt handling is
+> > intact - fbdev tty cursor is still blinking.
+> >
+> > It appears that in such a case the I2C-HID IRQ line is raised; PLIC
+> > notifies the (single) boot system hart, kernel claims the IRQ and
+> > immediately completes it by writing to CLAIM/COMPLETE register.
+> > No access to the I2C controller (OpenCores) or I2C-HID registers
+> > is made, so the HID report is never consumed and IRQ line stays
+> > raised forever. The kernel endlessly claims & completes IRQs
+> > without doing any work with the device. It doesn't always end up this
+> > way; sometimes boot process completes and there are no signs of
+> > interrupt storm or stuck IRQ processing afterwards.
 >
-> > +
-> > +	ts->vddi = devm_regulator_get_optional(dev, "vddi");
-> > +	if (!IS_ERR(ts->vddi)) {
-> > +		error = devm_regulator_get_enable(dev, "vddi");
+> It seems I2C HID's interrupt handler (i2c_hid_irq) returns immediately if
+> I2C_HID_READ_PENDING is set. This flag is supposed to be cleared in
+> i2c_hid_xfer(), but since the (threaded) interrupt handler runs at higher
+> priority, the flag is never cleared. So we have a lock-up: interrupt
+> handler won't do anything unless the flag is cleared, but the clearing of
+> this flag is done in a lower priority task which never gets scheduled whi=
+le
+> the interrupt handler is active.
 >
-> Regulators are ref counted and now you request the regulator twice. Also
-> the regulator is not optional, it is required for the device to work.
-> Same applies to the vdda below.
+> There is RT throttling to prevent RT tasks from locking up the system lik=
+e
+> this. I don't know much about scheduling stuffs, so I am not really sure
+> why RT throttling does not work. I think because RT throttling triggers
+> when RT tasks take too much CPU time, but in this case hard interrupt
+> handlers take lots of CPU time too (~50% according to my measurement), so
+> RT throttling doesn't trigger often enough (in this case, it triggers onc=
+e
+> and never again). Again, I don't know much about scheduler so I may be
+> talking nonsense here.
 >
+> The flag I2C_HID_READ_PENDING seems to be used to make sure that only 1
+> I2C operation can happen at a time. But this seems pointless, because I2C
+> subsystem already takes care of this. So I think we can just remove it.
+>
+> Can you give the below patch a try?
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c=
+-hid-core.c
+> index 2735cd585af0..799ad0ef9c4a 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -64,7 +64,6 @@
+>  /* flags */
+>  #define I2C_HID_STARTED                0
+>  #define I2C_HID_RESET_PENDING  1
+> -#define I2C_HID_READ_PENDING   2
+>
+>  #define I2C_HID_PWR_ON         0x00
+>  #define I2C_HID_PWR_SLEEP      0x01
+> @@ -190,15 +189,10 @@ static int i2c_hid_xfer(struct i2c_hid *ihid,
+>                 msgs[n].len =3D recv_len;
+>                 msgs[n].buf =3D recv_buf;
+>                 n++;
+> -
+> -               set_bit(I2C_HID_READ_PENDING, &ihid->flags);
+>         }
+>
+>         ret =3D i2c_transfer(client->adapter, msgs, n);
+>
+> -       if (recv_len)
+> -               clear_bit(I2C_HID_READ_PENDING, &ihid->flags);
+> -
+>         if (ret !=3D n)
+>                 return ret < 0 ? ret : -EIO;
+>
+> @@ -566,9 +560,6 @@ static irqreturn_t i2c_hid_irq(int irq, void *dev_id)
+>  {
+>         struct i2c_hid *ihid =3D dev_id;
+>
+> -       if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
+> -               return IRQ_HANDLED;
+> -
+>         i2c_hid_get_input(ihid);
+>
+>         return IRQ_HANDLED;
 
-While it is true most of the time, it occurs that for x86 based boards,
-adding a regulator entirely is not always possible.
+Patch applied cleanly on top of 6.7.9, builds OK (No warns, etc).
 
-In our particular case, the I2C controller for this touchscreen is
-behind a CPLD (aka embedded controller) so I have no direct access to
-the I2C controller and it isn't described in the ACPI table.
+This indeed fixes the hang completely.
 
-In a normal case, I would use ACPI override to pass regulator
-properties, but here it's not possible.
+I modified RVVM to send millions of keystroke events per second,
+and put `reboot` as a service hook in the guest. It has been continuously
+rebooting without a hitch for the last 30 minutes or so (Full boot takes
+around 2 seconds), whereas unpatched 6.7.9 hangs almost immediately
+in such conditions (Reverted your patch & rebuilt to be sure).
 
-Having a CPLD exposing this kind of controller is quite common on x86
-based boards. So, we need a way to support the case when a regulator
-can't be described. The optional regulator looked like a good option,
-but if you have a better alternative, I am open to considering it.
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thank you very much for this! Hope to see it upstreamed soon
 
