@@ -1,178 +1,136 @@
-Return-Path: <linux-input+bounces-2414-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2415-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F8487E557
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 10:01:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB50487E74C
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 11:25:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6FCD1F22196
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 09:01:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D90101C21C86
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 10:25:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6BA828DD1;
-	Mon, 18 Mar 2024 09:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E99C2E832;
+	Mon, 18 Mar 2024 10:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Bk5ws+Zg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BN4mcNZW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmoK1sgR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD5B28DC9;
-	Mon, 18 Mar 2024 09:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1432E827;
+	Mon, 18 Mar 2024 10:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710752475; cv=none; b=Q7RWJYczDyfrakL0TjJGbxc4iEsxSqefQcFUvoi2vGGP9Xu3PV17JJd2UMz5Nm+q2q77GxgrUyjtURdhephoDSgxWRx0rXyyYAhuwlvF1uL+74/Givxx/v0GXOo4Yw3qfDlyxqKrEfWnbEbMyWT1q9aoRx6A9S2Y+oZqMcWOx7I=
+	t=1710757474; cv=none; b=DUbZrNTswbCtNLFuadx3efJNIOWaDzf4EpDe2FFXGVuQfnWeytpNRF70sb0JTLL1eRNXzO9pnp3bjUDWKFQBfUgKOZrzqYGpAejHzLtd0W16CHi762AtO+DDEE64fXAu83we8YeDq3fj48N73Vm7676Ae7FHuWFHci8mJsl8n1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710752475; c=relaxed/simple;
-	bh=2o4/pJGqG1gzwjf7h/MbArnmzBbXAOBen6beh+yYECQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jgTZuHNyWF/aupvX+6+gMNspvo+MMW0RwGVe/Z+DPszUHDgNNxrUhLTm3FgHLjlO7EEza4sIFfpCJGQFWqGciDv1M1G9JNrVhPomaRq5EekyHCaR+Cn20AcbfnBjOS2tae1ibsM2hbfG8gP3vDCjqdmkxi3/fwiDJHZo+/eqjh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Bk5ws+Zg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BN4mcNZW; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 18 Mar 2024 10:01:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710752469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r8EiV2gzXftggen6GL4Tj807WdurcECVI7Wmk1Mm55w=;
-	b=Bk5ws+ZgAtsMmV/Bg61xGm2mYCJmRY1ttMRepbifFjRw2oBPFnjigwB9BMyTt1v13+r6GR
-	i4eVBe6dZDPGIGv7sVGTx5zwrxqwKAoKKOzmUEnz3+AUG+5EntntcD52cgkuqb6yxg6pVD
-	JWRo3UZvmSoao/JhGhxziakluoCDkKobdNXf546RjEzTRBij65hL4KzUTlPc43gohDiGEF
-	4sfmHgdsNV9yNq2UA6ID0c1jDk6AKprxiA7Pg2hElMPTw5ZEaPkMTWPPn58hipDXUmqEun
-	2whEubn+xf0z1U1NbIK5W2nM5K1jTwQFk/gu3/RbAsT15gVzyYv7av2DN+sE+Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710752469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r8EiV2gzXftggen6GL4Tj807WdurcECVI7Wmk1Mm55w=;
-	b=BN4mcNZW9LJt+7aw5DLrhZ/IG4G7TFzgzFAyO7MnMOJYNUH5J4LApJkR/eC35IYIKmeomT
-	GZcT9f5k6/I/x6BA==
-From: Nam Cao <namcao@linutronix.de>
-To: Eva Kurchatova <nyandarknessgirl@gmail.com>
-Cc: linux-riscv <linux-riscv@lists.infradead.org>, bugs@lists.linux.dev,
- linux-i2c@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com,
- dianders@chromium.org, mripard@kernel.org, johan+linaro@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Boot hang with SiFive PLIC when routing I2C-HID level-triggered
- interrupts
-Message-ID: <20240318100108.4fafd72b@namcao>
-In-Reply-To: <CA+eeCSMiqcvzrQcgRr7AZWJQTv-c9-uSX5jbPZPzmsDjy08z=A@mail.gmail.com>
-References: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
-	<20240317222718.3e03edb1@namcao>
-	<CA+eeCSMiqcvzrQcgRr7AZWJQTv-c9-uSX5jbPZPzmsDjy08z=A@mail.gmail.com>
+	s=arc-20240116; t=1710757474; c=relaxed/simple;
+	bh=ery6NRFC2rTlrIrfvpDvhH0oInDvwM5WelThauRvuDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bMaaLUC7abaD5Pi90jL7zhncqhrRxSVFrcLAktqESJ64p7p94sAejoFtdpvEiaA34W3hsMoVfMlUGMnFDVN14/8b0GdJm440veBYdx0beii1s2yoGCzfMtvp9XhFczCBG7qSLcBRVhaFsH1TY+r0XLnTFL82qx0RvueQfB588wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmoK1sgR; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-514a8259ec1so199335e87.1;
+        Mon, 18 Mar 2024 03:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710757471; x=1711362271; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kntj7D+3C8Siu9Mte/gOo4b2BDgoQlvmaeXCzlwHfd0=;
+        b=lmoK1sgRotMr6NFD81+Fuxb7w39vRuu3qzIlp5/t81ZYSPIrB+nEXjSPSXA9ToVdRP
+         Mp8QTJNDSfCEdf0hy9c11DxO4gdb1rNEhW+DM9FWJP97zaafW+2d3XaeS9YrefzBMZVt
+         56rUxk3on4qAtXt/7oW27ezG5I1B61LHeyEIsZoSZyQ9eCpxb2s5wx6nWE/gv+xqT+e4
+         RPixKY/E5KSRst8RPeKYf6hzFy0RXhg9ZIAHdGIKmUfmbzulMy6yhSxNNSlnv5uwAoqs
+         VdkP7CsyGN84cy3IFrYldmq4Btp+OJdM2z4O7G/vqSHXNuUTZbvF5+t8mKjVPY3bMI5+
+         u6kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710757471; x=1711362271;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kntj7D+3C8Siu9Mte/gOo4b2BDgoQlvmaeXCzlwHfd0=;
+        b=QUwCpQ+2LXHBHkKcLQP/seKKZDiHJGoblUMyRpKlpganhdi6XGV0lTvhkXhtl3vHRy
+         qWkgSe8UCCBmjJUE2EeYcta1cPmEhY/ogBg/a8OgmCjMHV82aroi0JHmrI46DWJfIjwW
+         8I59bGhQoBr9RI/6qpwkhLCqpVeJe3rcwHuziHNYpcFv1frJg6ruHSAuYnMu/84Fip7l
+         Zp/ImQdjVeFN1pM/TQOIKTANjhNvg6HbOaQGA/WrbKJfsg74nCp2fIQB+ntra5/mM8hx
+         HlfcC8fIHnJp9Yb2EUclTRlj6nTCcUZc78D6sHg1HPIyv726BQEtkVmNfQeTS/q8tBxw
+         Dx9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUC23pS2NdAqIiNXT7aANnvfWkPolTn/inVKxfbbkU0xGXJNytORUpXyEAbM2DE4T7V3E8Q6OQd7HRJvFpQtgqTyRm+mV7281Gz+WFWuH2YQQikLCjnSsW1RQ0yhvHDWIJB5Qm73LOh2O/s6MOASI4eXMWG9HZY545KO3CT1sUzuXyTZ/4=
+X-Gm-Message-State: AOJu0Yx5GWurtCdzu3awWEpozeeRcrU54ezuT6BUy5tRXmO9wiWyypZY
+	j7zzdigmBvP5AwFfJUNlSGshMaP+6w9ssCn7H+sg6nxQQajL4wXgpblX2OehT68P3tyZndiSpiw
+	GbOLRgMMNL+e9NzAf9B72uHXkfE8=
+X-Google-Smtp-Source: AGHT+IHkUAoaQCQVB1qIDuqXpEBKlFEHkJrtN5qFI394gASFx2wCpRpaQSzqetL2Hg5oBfbO6L7QeYXCho3lGQksddk=
+X-Received: by 2002:a05:6512:485c:b0:513:ca84:3a0e with SMTP id
+ ep28-20020a056512485c00b00513ca843a0emr6709998lfb.58.1710757470631; Mon, 18
+ Mar 2024 03:24:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
+ <20240317222718.3e03edb1@namcao> <CA+eeCSMiqcvzrQcgRr7AZWJQTv-c9-uSX5jbPZPzmsDjy08z=A@mail.gmail.com>
+ <20240318100108.4fafd72b@namcao>
+In-Reply-To: <20240318100108.4fafd72b@namcao>
+From: Eva Kurchatova <nyandarknessgirl@gmail.com>
+Date: Mon, 18 Mar 2024 12:24:18 +0200
+Message-ID: <CA+eeCSN+tsyL0OdR2owrFHiSj_dWNyw0Z46mUMND41O5xxTWKg@mail.gmail.com>
+Subject: Re: Boot hang with SiFive PLIC when routing I2C-HID level-triggered interrupts
+To: Nam Cao <namcao@linutronix.de>
+Cc: linux-riscv <linux-riscv@lists.infradead.org>, bugs@lists.linux.dev, 
+	linux-i2c@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com, 
+	dianders@chromium.org, mripard@kernel.org, johan+linaro@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 18/Mar/2024 Eva Kurchatova wrote:
-> On Sun, Mar 17, 2024 at 11:27=E2=80=AFPM Nam Cao <namcao@linutronix.de> w=
-rote:
-> > It seems I2C HID's interrupt handler (i2c_hid_irq) returns immediately =
-if
-> > I2C_HID_READ_PENDING is set. This flag is supposed to be cleared in
-> > i2c_hid_xfer(), but since the (threaded) interrupt handler runs at high=
-er
-> > priority, the flag is never cleared. So we have a lock-up: interrupt
-> > handler won't do anything unless the flag is cleared, but the clearing =
-of
-> > this flag is done in a lower priority task which never gets scheduled w=
-hile
-> > the interrupt handler is active.
-> >
-> > There is RT throttling to prevent RT tasks from locking up the system l=
-ike
-> > this. I don't know much about scheduling stuffs, so I am not really sure
-> > why RT throttling does not work. I think because RT throttling triggers
-> > when RT tasks take too much CPU time, but in this case hard interrupt
-> > handlers take lots of CPU time too (~50% according to my measurement), =
-so
-> > RT throttling doesn't trigger often enough (in this case, it triggers o=
-nce
-> > and never again). Again, I don't know much about scheduler so I may be
-> > talking nonsense here.
-> >
-> > The flag I2C_HID_READ_PENDING seems to be used to make sure that only 1
-> > I2C operation can happen at a time. But this seems pointless, because I=
-2C
-> > subsystem already takes care of this. So I think we can just remove it.
-> >
-> > Can you give the below patch a try?
-> >
-> > diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i=
-2c-hid-core.c
-> > index 2735cd585af0..799ad0ef9c4a 100644
-> > --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> > +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> > @@ -64,7 +64,6 @@
-> >  /* flags */
-> >  #define I2C_HID_STARTED                0
-> >  #define I2C_HID_RESET_PENDING  1
-> > -#define I2C_HID_READ_PENDING   2
-> >
-> >  #define I2C_HID_PWR_ON         0x00
-> >  #define I2C_HID_PWR_SLEEP      0x01
-> > @@ -190,15 +189,10 @@ static int i2c_hid_xfer(struct i2c_hid *ihid,
-> >                 msgs[n].len =3D recv_len;
-> >                 msgs[n].buf =3D recv_buf;
-> >                 n++;
-> > -
-> > -               set_bit(I2C_HID_READ_PENDING, &ihid->flags);
-> >         }
-> >
-> >         ret =3D i2c_transfer(client->adapter, msgs, n);
-> >
-> > -       if (recv_len)
-> > -               clear_bit(I2C_HID_READ_PENDING, &ihid->flags);
-> > -
-> >         if (ret !=3D n)
-> >                 return ret < 0 ? ret : -EIO;
-> >
-> > @@ -566,9 +560,6 @@ static irqreturn_t i2c_hid_irq(int irq, void *dev_i=
-d)
-> >  {
-> >         struct i2c_hid *ihid =3D dev_id;
-> >
-> > -       if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
-> > -               return IRQ_HANDLED;
-> > -
-> >         i2c_hid_get_input(ihid);
-> >
-> >         return IRQ_HANDLED; =20
->=20
-> Patch applied cleanly on top of 6.7.9, builds OK (No warns, etc).
->=20
-> This indeed fixes the hang completely.
+On Mon, Mar 18, 2024 at 11:01=E2=80=AFAM Nam Cao <namcao@linutronix.de> wro=
+te:
+> Nice! I assume I can add
+>     Reported-and-tested-by: Eva Kurchatova <nyandarknessgirl@gmail.com>
+> to the patch?
+>
 
-Nice! I assume I can add
-    Reported-and-tested-by: Eva Kurchatova <nyandarknessgirl@gmail.com>
-to the patch?
+Yes.
+You can also add link to upstream RVVM repo if anyone is interested in
+reproduction. This RVVM patch applied to 0.6 makes a keystroke storm:
+(window_update() is called on each display redraw and has access to hid_kb)
 
-> I modified RVVM to send millions of keystroke events per second,
-> and put `reboot` as a service hook in the guest. It has been continuously
-> rebooting without a hitch for the last 30 minutes or so (Full boot takes
-> around 2 seconds), whereas unpatched 6.7.9 hangs almost immediately
-> in such conditions (Reverted your patch & rebuilt to be sure).
->=20
-> Thank you very much for this! Hope to see it upstreamed soon
+diff --git a/src/devices/fb_window.c b/src/devices/fb_window.c
+index f170e2d..17e2519 100644
+--- a/src/devices/fb_window.c
++++ b/src/devices/fb_window.c
+@@ -77,6 +77,11 @@ static const uint8_t rvvm_logo_pix[] =3D {
 
-Thank you for the report, your investigation helped a lot.
+static void window_update(rvvm_mmio_dev_t* device)
+{
++    fb_window_t* win =3D device->data;
++    for (size_t i=3D0; i<100000; ++i) {
++        hid_keyboard_press(win->keyboard, HID_KEY_LEFTCTRL);
++        hid_keyboard_release(win->keyboard, HID_KEY_LEFTCTRL);
++    }
+    fb_window_update((fb_window_t*)device->data);
+}
 
-I am still confused why RT throttling doesn't unstuck the kernel in this
-case. I will consult some people and investigate more on this. But I think
-this patch is good on its own, so I will send a proper patch shortly.
+> I am still confused why RT throttling doesn't unstuck the kernel in this
+> case. I will consult some people and investigate more on this. But I thin=
+k
+> this patch is good on its own, so I will send a proper patch shortly.
+>
+> Best regards,
+> Nam
+
+RT throttling kicked in *very* rarely, in most cases where the unpatched
+kernel was actually stuck RT throttling wasn't reported at all.
+
+It didn't hang every time either, so it's possible that RT throttling
+helped sometimes, but not enough to always recover from such a loop:
+[incoming IRQ]->[IRQ claimed]->[no handling]->[IRQ completion (which
+immediately triggers phase 1 again)]
 
 Best regards,
-Nam
+Eva
 
