@@ -1,162 +1,170 @@
-Return-Path: <linux-input+bounces-2407-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2411-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500FF87E056
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 22:27:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E4787E1AE
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 02:29:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4BABB20A41
-	for <lists+linux-input@lfdr.de>; Sun, 17 Mar 2024 21:27:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2016B1F221F4
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 01:29:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AEF208AF;
-	Sun, 17 Mar 2024 21:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B8511CFBC;
+	Mon, 18 Mar 2024 01:29:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1fNVmtkO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SylwjTSs"
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="iJNKrvXy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7EE20B0E;
-	Sun, 17 Mar 2024 21:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB56620315;
+	Mon, 18 Mar 2024 01:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.37.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710710850; cv=none; b=oGvhg9gnzni1/RWcCOGfRvnZ65+lL/ZNOJYi+hvM0uDKUpPna6YAk6WgjIn8lWfZ2MBx/3FbOzx5vbwqyEzlR/CcnXrApiAfcI9f+2I5+pEBQ8P03vWmeEofRaiqJII/gg5T7Fpp2LaJwHP3vdErvNBKrEyYM3ijmu6VhA2L7tU=
+	t=1710725344; cv=none; b=svyO/6Fve8TdebYadUzBFVZWDWlvkFx+cyC8JHDg3xJqv82WvttLqsOZMBoPDUgrLG5w30MKppxwFLmMKPuiKon84K54P4ZToSsIIJSoGu/T1qNg1Ko1wckk6fEb6lJ10+49D3WL6nxBxQdL/MGCP4d3TUpUl2owL/DV+kOEEjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710710850; c=relaxed/simple;
-	bh=r1A5i7RbsqOv08lAHnRoEkHu4xFVjK0PL6GJ6TPUP4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ezoyAcm4esyaqlUMM8uEtkeGlXvspVsECHXWU8dF6CCkYrOgt5sc2LQlHs+y1xAJuwDcFX4n7V6WBG+71TVcynUM6Oi1Qw14MaABYiWd8sqlnQYF5jS9JeyQ4l5M7q6ldAetx/vhVZvHfifQZpmXbDuWYoeKFYD/uBNMwDS8bPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1fNVmtkO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SylwjTSs; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Sun, 17 Mar 2024 22:27:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710710841;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3srrq43UiauzyNmV0S4k/pQ0+n44cbViGcHlmEyhFec=;
-	b=1fNVmtkODQCyt/lLuw8N+h0zm9GlRxTrwdCdxVYqb0U61pUF+sSwuEpypKO9P5v6SxPboT
-	F/UM87VVCz4tp1gxAH+xHT9mxvwzX/bw1BiLnk1tX+fl6FQ8UGe1hH3YJaR2vZIEBAuj2h
-	ej6eAmtwLZr31q/Aq7Nz7rJDI5EdONmSNSdVXhZnQDbvXa4r+5/TIh5A1F0yo+aNX1+7xe
-	HWqK59rrfupWFrxBGbVA3mUhrks5kaGIEpEAdTqoAzofwv5NbVQFuS4tejEyTTKkDn3Nqq
-	ilemSoMXJBAPOsCMWEj3CN+0sPjuWnkv+5PbUet5upLzYFVXbN+JORTcIyi8QQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710710841;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3srrq43UiauzyNmV0S4k/pQ0+n44cbViGcHlmEyhFec=;
-	b=SylwjTSsGZaa+c23HhGRyB4sQnKHpj5LUrtHGIBxrFtqZWnK0ugZz2u31upBqdXswNlDOi
-	Z9nDIgvsqHsLJmCg==
-From: Nam Cao <namcao@linutronix.de>
-To: Eva Kurchatova <nyandarknessgirl@gmail.com>
-Cc: linux-riscv <linux-riscv@lists.infradead.org>, bugs@lists.linux.dev,
- linux-i2c@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com,
- dianders@chromium.org, mripard@kernel.org, johan+linaro@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Boot hang with SiFive PLIC when routing I2C-HID level-triggered
- interrupts
-Message-ID: <20240317222718.3e03edb1@namcao>
-In-Reply-To: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
-References: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
+	s=arc-20240116; t=1710725344; c=relaxed/simple;
+	bh=sWMzTX+WKIOYjsKJ3pC9JRzU1Tnb4gFE0gGTkrrStlM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jFYBUhLGRaYHqMQQ4qcfqoTicIY6gOujb+SZqum6Cm/y2lARe07guYLvVCeWwcu6WalgeqQHUXO7X77nlxcwoTrZuEDbJzKqORcwwGk8N74mF4if20vGFar2oc+ZrS6zOPAlO5RbvbgSwLOWbnAWCbcT0Fz7/3lzbW+ZZzDtV4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=iJNKrvXy; arc=none smtp.client-ip=139.138.37.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1710725338; x=1742261338;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sWMzTX+WKIOYjsKJ3pC9JRzU1Tnb4gFE0gGTkrrStlM=;
+  b=iJNKrvXyWxc5HrdViQBEdVB0XfgBsFumeqRIvw4KckYyKf44thupKyJY
+   HzoWbzWQb+VI0wPMMd/JyXn/xWdhsHroprf5JOZz5bP2aD/7S9eyR/pEv
+   XoBT5hEnNeWVp4ydfPKLNyXWskArJ/rzintOWS9LpGqqJQ0qlOEbfCsnI
+   ToC0cZ7n4a1AWS8kVG8x9DR532+3q1tMCRYh1gmL2TbvPTJaiQfrT+zpB
+   8pX6h5vnf8OVBN2Puec+5aoevodo2biJ626+IJneXmhOhkS9ePPISrh0S
+   Rynwr/W5s+EBIDNoBGXaToT4wAAR8rwukd7Ed4N90nx78kSiy/mkfsUHO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11016"; a="131848935"
+X-IronPort-AV: E=Sophos;i="6.07,133,1708354800"; 
+   d="scan'208";a="131848935"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 10:28:49 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id CEBBF8CAB7;
+	Mon, 18 Mar 2024 10:28:48 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 11E8DD7B62;
+	Mon, 18 Mar 2024 10:28:48 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 993C820099077;
+	Mon, 18 Mar 2024 10:28:47 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.167.226.45])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id D25FC1A006A;
+	Mon, 18 Mar 2024 09:28:46 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: linux-kernel@vger.kernel.org
+Cc: Li Zhijian <lizhijian@fujitsu.com>,
+	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH v3 1/4] HID: hid-picolcd*: Convert sprintf/scnprintf to sysfs_emit/sysfs_emit_at
+Date: Mon, 18 Mar 2024 09:28:16 +0800
+Message-Id: <20240318012819.1405003-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28258.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28258.003
+X-TMASE-Result: 10--6.761100-10.000000
+X-TMASE-MatchedRID: LFhZ4D3QpawbO59FK9BdmJiHtCNYjckMjkDrBOJwwnQ8JmmJxjOaQXVX
+	Q3/qdw5yDiqGKKMcNgRhoUIS5GGeEs1HQN/TlJ3ZOIQ9GP2P2u/0swHSFcVJ6C99T+uJIleRfDo
+	fTpsyCK+KztDhRgoFQW4suX2uLJTkj56IjTnLR+m5x7uAXGEprcE5XPQnBzGXq8KsbROd9VSArq
+	oIZrVn15fzUkBpc072g7QwQAwSFa5jAM4vu3dHIRVqL8+WwS7mrzl8sNiWClKbKItl61J/yZkw8
+	KdMzN86KrauXd3MZDXMVsUCOz7QOSWi+yl7sqIrr8WvsDVNzOZOREIpxgAYfEmK2G5nwn4k
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Cc: HID folks
+Per filesystems/sysfs.rst, show() should only use sysfs_emit()
+or sysfs_emit_at() when formatting the value to be returned to user space.
 
-On 14/Mar/2024 Eva Kurchatova wrote:
-> If an I2C-HID controller level-triggered IRQ line is routed directly as
-> a PLIC IRQ, and we spam input early enough in kernel boot process
-> (Somewhere between initializing NET, ALSA subsystems and before
-> i2c-hid driver init), then there is a chance of kernel locking up
-> completely and not going any further.
-> 
-> There are no kernel messages printed with all the IRQ, task hang
-> debugging enabled - other than (sometimes) it reports sched RT
-> throttling after a few seconds. Basic timer interrupt handling is
-> intact - fbdev tty cursor is still blinking.
-> 
-> It appears that in such a case the I2C-HID IRQ line is raised; PLIC
-> notifies the (single) boot system hart, kernel claims the IRQ and
-> immediately completes it by writing to CLAIM/COMPLETE register.
-> No access to the I2C controller (OpenCores) or I2C-HID registers
-> is made, so the HID report is never consumed and IRQ line stays
-> raised forever. The kernel endlessly claims & completes IRQs
-> without doing any work with the device. It doesn't always end up this
-> way; sometimes boot process completes and there are no signs of
-> interrupt storm or stuck IRQ processing afterwards.
+coccinelle complains that there are still a couple of functions that use
+snprintf(). Convert them to sysfs_emit().
 
-It seems I2C HID's interrupt handler (i2c_hid_irq) returns immediately if
-I2C_HID_READ_PENDING is set. This flag is supposed to be cleared in
-i2c_hid_xfer(), but since the (threaded) interrupt handler runs at higher
-priority, the flag is never cleared. So we have a lock-up: interrupt
-handler won't do anything unless the flag is cleared, but the clearing of
-this flag is done in a lower priority task which never gets scheduled while
-the interrupt handler is active.
+scnprintf() will be converted as weel if they have.
 
-There is RT throttling to prevent RT tasks from locking up the system like
-this. I don't know much about scheduling stuffs, so I am not really sure
-why RT throttling does not work. I think because RT throttling triggers
-when RT tasks take too much CPU time, but in this case hard interrupt
-handlers take lots of CPU time too (~50% according to my measurement), so
-RT throttling doesn't trigger often enough (in this case, it triggers once
-and never again). Again, I don't know much about scheduler so I may be
-talking nonsense here.
+Generally, this patch is generated by
+make coccicheck M=<path/to/file> MODE=patch \
+COCCI=scripts/coccinelle/api/device_attr_show.cocci
 
-The flag I2C_HID_READ_PENDING seems to be used to make sure that only 1
-I2C operation can happen at a time. But this seems pointless, because I2C
-subsystem already takes care of this. So I think we can just remove it.
+No functional change intended
 
-Can you give the below patch a try?
+CC: "Bruno Prémont" <bonbons@linux-vserver.org>
+CC: Jiri Kosina <jikos@kernel.org>
+CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC: linux-input@vger.kernel.org
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+V3:
+   Covert more file(drivers/hid/hid-picolcd_fb.c) as suggested by Bruno
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2735cd585af0..799ad0ef9c4a 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -64,7 +64,6 @@
- /* flags */
- #define I2C_HID_STARTED		0
- #define I2C_HID_RESET_PENDING	1
--#define I2C_HID_READ_PENDING	2
+This is a part of the work "Fix coccicheck device_attr_show warnings"[1]
+Split them per subsystem so that the maintainer can review it easily
+[1] https://lore.kernel.org/lkml/20240116041129.3937800-1-lizhijian@fujitsu.com/
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+ drivers/hid/hid-picolcd_core.c | 6 +++---
+ drivers/hid/hid-picolcd_fb.c   | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/hid/hid-picolcd_core.c b/drivers/hid/hid-picolcd_core.c
+index bbda231a7ce3..fa46fb6eab3f 100644
+--- a/drivers/hid/hid-picolcd_core.c
++++ b/drivers/hid/hid-picolcd_core.c
+@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_show(struct device *dev,
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
  
- #define I2C_HID_PWR_ON		0x00
- #define I2C_HID_PWR_SLEEP	0x01
-@@ -190,15 +189,10 @@ static int i2c_hid_xfer(struct i2c_hid *ihid,
- 		msgs[n].len = recv_len;
- 		msgs[n].buf = recv_buf;
- 		n++;
--
--		set_bit(I2C_HID_READ_PENDING, &ihid->flags);
- 	}
+ 	if (data->status & PICOLCD_BOOTLOADER)
+-		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
++		return sysfs_emit(buf, "[bootloader] lcd\n");
+ 	else
+-		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
++		return sysfs_emit(buf, "bootloader [lcd]\n");
+ }
  
- 	ret = i2c_transfer(client->adapter, msgs, n);
- 
--	if (recv_len)
--		clear_bit(I2C_HID_READ_PENDING, &ihid->flags);
--
- 	if (ret != n)
- 		return ret < 0 ? ret : -EIO;
- 
-@@ -566,9 +560,6 @@ static irqreturn_t i2c_hid_irq(int irq, void *dev_id)
+ static ssize_t picolcd_operation_mode_store(struct device *dev,
+@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_delay_show(struct device *dev,
  {
- 	struct i2c_hid *ihid = dev_id;
+ 	struct picolcd_data *data = dev_get_drvdata(dev);
  
--	if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
--		return IRQ_HANDLED;
--
- 	i2c_hid_get_input(ihid);
+-	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
++	return sysfs_emit(buf, "%hu\n", data->opmode_delay);
+ }
  
- 	return IRQ_HANDLED;
+ static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index d7dddd99d325..369c78d70e66 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -424,9 +424,9 @@ static ssize_t picolcd_fb_update_rate_show(struct device *dev,
+ 		if (ret >= PAGE_SIZE)
+ 			break;
+ 		else if (i == fb_update_rate)
+-			ret += scnprintf(buf+ret, PAGE_SIZE-ret, "[%u] ", i);
++			ret += sysfs_emit_at(buf, ret, "[%u] ", i);
+ 		else
+-			ret += scnprintf(buf+ret, PAGE_SIZE-ret, "%u ", i);
++			ret += sysfs_emit_at(buf, ret, "%u ", i);
+ 	if (ret > 0)
+ 		buf[min(ret, (size_t)PAGE_SIZE)-1] = '\n';
+ 	return ret;
+-- 
+2.29.2
+
 
