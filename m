@@ -1,145 +1,193 @@
-Return-Path: <linux-input+bounces-2416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2418-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F34C87E7DC
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 11:59:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FDD87E84C
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 12:12:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F29681F2472D
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 10:59:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CDA81F25789
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 11:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 350C12EB10;
-	Mon, 18 Mar 2024 10:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70582364C0;
+	Mon, 18 Mar 2024 11:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TkCcUqQD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DrMEe3/1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hlmdLOVi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEEA3717F;
-	Mon, 18 Mar 2024 10:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E1374CB
+	for <linux-input@vger.kernel.org>; Mon, 18 Mar 2024 11:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710759556; cv=none; b=c2jckpN3x/KjUn1FLgEOyGYvMmFzpNKJRyyKXsYhLBB8V5korVOGRqhObCmpyVjQRcgOj6S7LWeTdiseD1ea7kC/MMc2nwe8vAPI2cLj1zlqPst7S0TjEZqiRxAklG1YGVAAaQsM/Mco9Actk+zeIuA6ZXrMp+arm3N7mxJ2jLw=
+	t=1710760306; cv=none; b=AvLnguN3gT9EXkyXYH0g/cDXAtWWVVGi8Uqq9vmhRVb44H2xtl2OJTVps3l8ogbfSBZjJL3J5No1qXrI9lXlMyQO2wGP4fGzqzv1PNt0/CWVl67xhUWJ6k9wAKvikNXJkQxesAMhjMzQcalPMIc63L0GJMuAXYTpImXQC1u4GoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710759556; c=relaxed/simple;
-	bh=bnv9GxdH+9sh2HzsViiXcBSRCqU6wGTdI+qvgucpP1k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QLXSkr3LJX5ROca0I3rSxtKAdrLSZBbiJ25OCdLYksascUL2VUCqQ/XEORW+liOQurw3NBOwczP1IQsvnzipxMVsrVHz8RwYDlfNuTWjED5FHGXWimjF3Rh3GFmjh/5ZOSINNzoJ/CO4SD4sCB05H0uxxeMaXn1MPiLDbbN9qbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TkCcUqQD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DrMEe3/1; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710759553;
+	s=arc-20240116; t=1710760306; c=relaxed/simple;
+	bh=vpxP2TC2qbkVtFFP21jKsCrf2Cm91PVj9H+H8hFENmI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dAzdHtgxZvP8G6cX8wgmYVIz41264oka7kjOKJ+QXvPUcLcGBMWo2xMHX/f22ERVUvJRJIWxwP1HuaziNYypHmY/jdpy691nqsbDTxPUC3chED7s3c5g3DI09VCZ12CevHqq+jRGKmaJccouwkg3QztIbrWkLTTorhnjeoTcfjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hlmdLOVi; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710760303;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dwoqE5c/d4fnX36fLkMhWRVTFmnpaAtys7VA/YdALZA=;
-	b=TkCcUqQDiEoPHPuz+0CnhI/vi4E5sXMJLnrZESkM4pCnteOuHxgjgPtfeU9pG6XmCNywGS
-	QhS69Dw6T3M/WCFsaEXAFDGrQVJHkP7YmyEaVDoi8ewxGFDFKwZFeNQpXdZcK/dM0B4ZrV
-	QcJj08bH4+MzJWCAv8NJCT5pkYM62o+I+OxSTBw+hM8tx1u7w1Es1nWRl96rN8IQzOU3jT
-	pc8l7TCliGx7MhYYCAlMA18h8aUsRbs6v9S6ZyHmdF7J3xVtLBO7vPUBmjmla0T+y5zefm
-	A7jbRdfSZGlMY6KNViVNN+CemPqmo8Ddu7Am3vuJzUcHrBJsie7l+uYQ+X+SMw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710759553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dwoqE5c/d4fnX36fLkMhWRVTFmnpaAtys7VA/YdALZA=;
-	b=DrMEe3/1nse5uSWum6w0Q36ZOmD8yZCt9exDMo6PYeGcJQxYYK/4FC2i2Sqt5E4lroI/pa
-	IjnHzxeWUkisD4Bw==
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Eva Kurchatova <nyandarknessgirl@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] HID: i2c-hid: remove I2C_HID_READ_PENDING flag to prevent lock-up
-Date: Mon, 18 Mar 2024 11:59:02 +0100
-Message-Id: <20240318105902.34789-1-namcao@linutronix.de>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
+	b=hlmdLOViuolPGWd/IsZNI5nzakY4Fi3Y2G+b6SaUceH75tR5wurCCV+choVAGk2kY3q4Vy
+	PYljugOfsrMBbfrj6S6+/s6S90tOIZ4x2vWFqRtPAytyMQJ+yRQc8ldSyK6wG9BVFw+uCP
+	GnhGj0REFXbI/bxvFiRj7zJZFj16Vqo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-528-lnVwOz-hN5KBlQ8svCwttw-1; Mon, 18 Mar 2024 07:11:42 -0400
+X-MC-Unique: lnVwOz-hN5KBlQ8svCwttw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a46cedd9689so23376666b.3
+        for <linux-input@vger.kernel.org>; Mon, 18 Mar 2024 04:11:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710760301; x=1711365101;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
+        b=JKkDBk4Dp4NlyLi/uB2DYUjwCk+guXdXNOWKKYDbDa+M/k4UBL9NmvW2Ef8udtbtW/
+         YMDQ2cS3V1kiVIFegt2XTHDY9gq8PuHUwcyNDedIgaoxyPf5gCP45ERgcYj1B3Eo0Fxa
+         dcexMuIvmk6m1VYZd6Q/HMirscm9faIN2sukZ8y4sveANovPMt01SDksKS1wxFk7vpdm
+         PVpyp6pTlwaUAtPvnPQclJRfOs92c+5c7tgY+WZevPimGZHFhtzSRXGSEqakGhZP8hI/
+         qIGpaJmZYRH4Kn8hy0ngx60jZY5yfy4GinG04Z13pWy5UHq6ffhlbpMAjh9a9BU463W2
+         qRow==
+X-Forwarded-Encrypted: i=1; AJvYcCVUoI7cQyUrjWXVgeM+ba0dNZ/gXX797tZIvux8AOoqxo2shS0hSljYKzMxImyx/kDdTGOjTpYLcXjI8p+oU+sHH9SadIzArbRHlig=
+X-Gm-Message-State: AOJu0Yy6qhHqUAsnE9Dk5Sy1j5k4vuFo35wFnaUmMOmWhJx9GI7mjvg7
+	R7Y6IOb8yAAnsoD9dDm2DQ6QMeWyIhGd2h1vNX0HYt0XH0xcqMsFkUjz4rXAuuNl2NUC5KzmzKA
+	MPXbkofofhHZviZo108oWCfE3eGqi36HJCMbH3tfjUQZHxk0Pv4fB3bf6lYjf
+X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019172eji.2.1710760301096;
+        Mon, 18 Mar 2024 04:11:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEknhYpk/UoBbIXiSyWkooZJA3/ywR9QXOka5TQQi9XFr2kwrDhiLCZltxYyDrNnVlq8/TlEA==
+X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019152eji.2.1710760300703;
+        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id sd9-20020a170906ce2900b00a4628cacad4sm4722437ejb.195.2024.03.18.04.11.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
+Message-ID: <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
+Date: Mon, 18 Mar 2024 12:11:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Future handling of complex RGB devices on Linux v3
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The flag I2C_HID_READ_PENDING is used to serialize I2C operations.
-However, this is not necessary, because I2C core already has its own
-locking for that.
+Hi Werner,
 
-More importantly, this flag can cause a lock-up: if the flag is set in
-i2c_hid_xfer() and an interrupt happens, the interrupt handler
-(i2c_hid_irq) will check this flag and return immediately without doing
-anything, then the interrupt handler will be invoked again in an
-infinite loop.
+Sorry for the late reply.
 
-Since interrupt handler is an RT task, it takes over the CPU and the
-flag-clearing task never gets scheduled, thus we have a lock-up.
+On 2/22/24 2:14 PM, Werner Sembach wrote:
+> Hi,
+> 
+> Thanks everyone for the exhaustive feedback. And at least this thread is a good comprehesive reference for the future ^^.
+> 
+> To recap the hopefully final UAPI for complex RGB lighting devices:
+> 
+> - By default there is a singular /sys/class/leds/* entry that treats the device as if it was a single zone RGB keyboard backlight with no special effects.
 
-Delete this unnecessary flag.
+Ack this sounds good.
 
-Reported-and-tested-by: Eva Kurchatova <nyandarknessgirl@gmail.com>
-Closes: https://lore.kernel.org/r/CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUP=
-VARAzEtW9w@mail.gmail.com
-Fixes: 4a200c3b9a40 ("HID: i2c-hid: introduce HID over i2c specification im=
-plementation")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Nam Cao <namcao@linutronix.de>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 9 ---------
- 1 file changed, 9 deletions(-)
+> 
+> - There is an accompanying misc device with the sysfs attributes "name", "device_type",  "firmware_version_string", "serial_number" for device identification and "use_leds_uapi" that defaults to 1.
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-h=
-id-core.c
-index 2df1ab3c31cc..1c86c97688e9 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -64,7 +64,6 @@
- /* flags */
- #define I2C_HID_STARTED		0
- #define I2C_HID_RESET_PENDING	1
--#define I2C_HID_READ_PENDING	2
-=20
- #define I2C_HID_PWR_ON		0x00
- #define I2C_HID_PWR_SLEEP	0x01
-@@ -190,15 +189,10 @@ static int i2c_hid_xfer(struct i2c_hid *ihid,
- 		msgs[n].len =3D recv_len;
- 		msgs[n].buf =3D recv_buf;
- 		n++;
--
--		set_bit(I2C_HID_READ_PENDING, &ihid->flags);
- 	}
-=20
- 	ret =3D i2c_transfer(client->adapter, msgs, n);
-=20
--	if (recv_len)
--		clear_bit(I2C_HID_READ_PENDING, &ihid->flags);
--
- 	if (ret !=3D n)
- 		return ret < 0 ? ret : -EIO;
-=20
-@@ -556,9 +550,6 @@ static irqreturn_t i2c_hid_irq(int irq, void *dev_id)
- {
- 	struct i2c_hid *ihid =3D dev_id;
-=20
--	if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
--		return IRQ_HANDLED;
--
- 	i2c_hid_get_input(ihid);
-=20
- 	return IRQ_HANDLED;
---=20
-2.39.2
+You don't need a char misc device here, you can just make this sysfs attributes on the LED class device's parent device by using device_driver.dev_groups. Please don't use a char misc device just to attach sysfs attributes to it.
+
+Also I'm a bit unsure about most of these attributes, "use_leds_uapi" was discussed before
+and makes sense. But at least for HID devices the rest of this info is already available
+in sysfs attributes on the HID devices (things like vendor and product id) and since the
+userspace code needs per device code to drive the kbd anyways it can also have device
+specific code to retrieve all this info, so the other sysfs attributes just feel like
+duplicating information. Also there already are a ton of existing hidraw userspace rgbkbd
+drivers which already get this info from other places.
+
+>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should keep the last state the backlight was in active if possible.
+> 
+>     - If set 1 it appears again. The driver should bring it back to a static 1 zone setting while avoiding flicker if possible.
+
+Ack, if this finds it way into some documentation (which it should) please make it
+clear that this is about the "use_leds_uapi" sysfs attribute.
+
+> - If the device is not controllable by for example hidraw, the misc device might also implement additional ioctls or sysfs attributes to allow a more complex low level control for the keyboard backlight. This is will be a highly vendor specific UAPI.
+
+IMHO this is the only case where actually using a misc device makes sense, so that
+you have a chardev to do the ioctls on. misc-device-s should really only be used
+when you need a chardev under /dev . Since you don't need the chardev for the e.g.
+hidraw case you should not use a miscdev there IMHO.
+
+> 
+>     - The actual logic interacting with this low level UAPI is implemented by a userspace driver
+> 
+> Implementation wise: For the creation of the misc device with the use_leds_uapi switch a helper function/macro might be useful? Wonder if it should go into leds.h, led-class-multicolor.h, or a new header file?
+
+See above, I don't think we want the misc device for the hidraw case, at which
+point I think the helper becomes unnecessary since just a single sysfs write
+callback is necessary.
+
+Also for adding new sysfs attributes it is strongly encouraged to use
+device_driver.dev_groups so that the device core handled registering /
+unregistering the sysfs attributes which fixes a bunch of races; and
+using device_driver.dev_groups does not mix well with a helper as you've
+suggested.
+
+> 
+> - Out of my head it would look something like this:
+> 
+> led_classdev_add_optional_misc_control(
+>     struct led_classdev *led_cdev,
+>     char* name,
+>     char* device_type,
+>     char* firmware_version_string,
+>     char* serial_number,
+>     void (*deregister_led)(struct led_classdev *led_cdev),
+>     void (*reregister_led)(struct led_classdev *led_cdev))
+> 
+> Let me know your thoughts and hopefully I can start implementing it soon for one of our devices.
+
+I think overall the plan sounds good, with my main suggested change
+being to not use an unnecessary misc device for the hid-raw case.
+
+Regards,
+
+Hans
+
 
 
