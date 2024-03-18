@@ -1,193 +1,254 @@
-Return-Path: <linux-input+bounces-2418-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2419-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FDD87E84C
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 12:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CC787E9B1
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 14:02:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CDA81F25789
-	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 11:12:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A7251F21F57
+	for <lists+linux-input@lfdr.de>; Mon, 18 Mar 2024 13:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70582364C0;
-	Mon, 18 Mar 2024 11:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC1F39ACA;
+	Mon, 18 Mar 2024 13:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hlmdLOVi"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="tNHXVlmL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E1374CB
-	for <linux-input@vger.kernel.org>; Mon, 18 Mar 2024 11:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725F238FA0;
+	Mon, 18 Mar 2024 13:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710760306; cv=none; b=AvLnguN3gT9EXkyXYH0g/cDXAtWWVVGi8Uqq9vmhRVb44H2xtl2OJTVps3l8ogbfSBZjJL3J5No1qXrI9lXlMyQO2wGP4fGzqzv1PNt0/CWVl67xhUWJ6k9wAKvikNXJkQxesAMhjMzQcalPMIc63L0GJMuAXYTpImXQC1u4GoI=
+	t=1710766938; cv=none; b=qJPDcEtJiBMXrcg39ZUJaXiu91R9fmeZfu6iRc/8/t+JrkzGTaXjc3sGcgOm0O8wQ5bcQxEQ8CV3N+VGl17aebBOo7OXroeFsFg3zJ7abErI+FyUPW4g1njMn/PQi6QwpXbehnaHKeXGTOaBHyZW+HLuYT3n+9ryNI0E1W2feXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710760306; c=relaxed/simple;
-	bh=vpxP2TC2qbkVtFFP21jKsCrf2Cm91PVj9H+H8hFENmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dAzdHtgxZvP8G6cX8wgmYVIz41264oka7kjOKJ+QXvPUcLcGBMWo2xMHX/f22ERVUvJRJIWxwP1HuaziNYypHmY/jdpy691nqsbDTxPUC3chED7s3c5g3DI09VCZ12CevHqq+jRGKmaJccouwkg3QztIbrWkLTTorhnjeoTcfjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hlmdLOVi; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710760303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
-	b=hlmdLOViuolPGWd/IsZNI5nzakY4Fi3Y2G+b6SaUceH75tR5wurCCV+choVAGk2kY3q4Vy
-	PYljugOfsrMBbfrj6S6+/s6S90tOIZ4x2vWFqRtPAytyMQJ+yRQc8ldSyK6wG9BVFw+uCP
-	GnhGj0REFXbI/bxvFiRj7zJZFj16Vqo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-lnVwOz-hN5KBlQ8svCwttw-1; Mon, 18 Mar 2024 07:11:42 -0400
-X-MC-Unique: lnVwOz-hN5KBlQ8svCwttw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a46cedd9689so23376666b.3
-        for <linux-input@vger.kernel.org>; Mon, 18 Mar 2024 04:11:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710760301; x=1711365101;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KCRrLRgzcFtsj04jmn2kcF48w7FCWYzPNjCCNXWwhN8=;
-        b=JKkDBk4Dp4NlyLi/uB2DYUjwCk+guXdXNOWKKYDbDa+M/k4UBL9NmvW2Ef8udtbtW/
-         YMDQ2cS3V1kiVIFegt2XTHDY9gq8PuHUwcyNDedIgaoxyPf5gCP45ERgcYj1B3Eo0Fxa
-         dcexMuIvmk6m1VYZd6Q/HMirscm9faIN2sukZ8y4sveANovPMt01SDksKS1wxFk7vpdm
-         PVpyp6pTlwaUAtPvnPQclJRfOs92c+5c7tgY+WZevPimGZHFhtzSRXGSEqakGhZP8hI/
-         qIGpaJmZYRH4Kn8hy0ngx60jZY5yfy4GinG04Z13pWy5UHq6ffhlbpMAjh9a9BU463W2
-         qRow==
-X-Forwarded-Encrypted: i=1; AJvYcCVUoI7cQyUrjWXVgeM+ba0dNZ/gXX797tZIvux8AOoqxo2shS0hSljYKzMxImyx/kDdTGOjTpYLcXjI8p+oU+sHH9SadIzArbRHlig=
-X-Gm-Message-State: AOJu0Yy6qhHqUAsnE9Dk5Sy1j5k4vuFo35wFnaUmMOmWhJx9GI7mjvg7
-	R7Y6IOb8yAAnsoD9dDm2DQ6QMeWyIhGd2h1vNX0HYt0XH0xcqMsFkUjz4rXAuuNl2NUC5KzmzKA
-	MPXbkofofhHZviZo108oWCfE3eGqi36HJCMbH3tfjUQZHxk0Pv4fB3bf6lYjf
-X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019172eji.2.1710760301096;
-        Mon, 18 Mar 2024 04:11:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEknhYpk/UoBbIXiSyWkooZJA3/ywR9QXOka5TQQi9XFr2kwrDhiLCZltxYyDrNnVlq8/TlEA==
-X-Received: by 2002:a17:906:ddb:b0:a46:a1f7:156d with SMTP id p27-20020a1709060ddb00b00a46a1f7156dmr4019152eji.2.1710760300703;
-        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id sd9-20020a170906ce2900b00a4628cacad4sm4722437ejb.195.2024.03.18.04.11.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 04:11:40 -0700 (PDT)
-Message-ID: <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
-Date: Mon, 18 Mar 2024 12:11:39 +0100
+	s=arc-20240116; t=1710766938; c=relaxed/simple;
+	bh=Xeh3Xh85wAPq6QKrTjMMaqZtUieeXwfUZQqVI4BpdR0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=RZNgZyUCEQqnwxfSnIcSGjtD7QWVEKJFY36rlt8fx3r1zEn8sm2CvlEHEeO3MM7o36dyFniJ88rTyc50HynWPjWybY3k6WDed7h5SVkvM7OHARrB3ledmYUpjGrB92WmOQc1Du9K8JtzOuPA2s5/0HKR/xjeIcYYMvo4LNSfqeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=tNHXVlmL; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9sfZOx2DCTn54LYO3IjAwhuh25pOQkcCf5EGt7OZU20=; b=tNHXVlmLU/vIQ1W5czs79Ux/VF
+	yq/UDFl5wKMH3L1pBMJoZI7L7iC17AJl9/8JLiJioS7x73i7HthN0LrXTBLVbBTL3zdal70GTMK2m
+	y8nsbnZNGeR2uskiIWOOFzpevXgvI3qWfUxaaefL4l5b6My8T4Bo8kFEF+9cvq8tQOiLpvT2lm6Tw
+	uJMCjLNf4Xyz7zRMj6Sv+dp1AZYBfN+xhpicn5bqekLHwzHb+vJFWxRneR9I0xaUtlJDU4hG3XNjc
+	LSxWwEGN4pjRY8XctouvXQwemtHSBblfw57A+a2/vBCmjFlsa0C+zyaEOy0cElk33hxJijQNELYZ2
+	WQp/ZgjQ==;
+Received: from p200301077701e8001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7701:e800:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rmCIV-000LTn-JD; Mon, 18 Mar 2024 13:40:59 +0100
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rmCIU-00HTpq-0T;
+	Mon, 18 Mar 2024 13:40:58 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	lee@kernel.org,
+	alexandre.belloni@bootlin.com,
+	wim@linux-watchdog.org,
+	linux@roeck-us.net,
+	andreas@kemnade.info,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	sre@kernel.org
+Subject: [PATCH] dt-bindings: mfd: twl: Convert trivial subdevices to json-schema
+Date: Mon, 18 Mar 2024 13:40:50 +0100
+Message-Id: <20240318124051.4166253-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v3
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Werner,
+Convert subdevices with just an interrupt and compatbile to
+json-schema and wire up already converted subdevices.
+RTC is available in all variants, so allow it unconditionally
+GPADC binding for TWL603X uses two different compatibles, so
+specify just the compatible and not include it.
 
-Sorry for the late reply.
+Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+---
+Well, my name is in that yaml file, so I should take care of my sheep,
+in case a step-by-step approach is acceptable this is at least a
+checkpoint for me that I understand multi file binding mechanics
+properly.
 
-On 2/22/24 2:14 PM, Werner Sembach wrote:
-> Hi,
-> 
-> Thanks everyone for the exhaustive feedback. And at least this thread is a good comprehesive reference for the future ^^.
-> 
-> To recap the hopefully final UAPI for complex RGB lighting devices:
-> 
-> - By default there is a singular /sys/class/leds/* entry that treats the device as if it was a single zone RGB keyboard backlight with no special effects.
+ .../bindings/input/twl4030-pwrbutton.txt      | 21 ------
+ .../devicetree/bindings/mfd/ti,twl.yaml       | 68 +++++++++++++++++++
+ .../devicetree/bindings/rtc/twl-rtc.txt       | 11 ---
+ .../bindings/watchdog/twl4030-wdt.txt         | 10 ---
+ 4 files changed, 68 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
+ delete mode 100644 Documentation/devicetree/bindings/rtc/twl-rtc.txt
+ delete mode 100644 Documentation/devicetree/bindings/watchdog/twl4030-wdt.txt
 
-Ack this sounds good.
-
-> 
-> - There is an accompanying misc device with the sysfs attributes "name", "device_type",  "firmware_version_string", "serial_number" for device identification and "use_leds_uapi" that defaults to 1.
-
-You don't need a char misc device here, you can just make this sysfs attributes on the LED class device's parent device by using device_driver.dev_groups. Please don't use a char misc device just to attach sysfs attributes to it.
-
-Also I'm a bit unsure about most of these attributes, "use_leds_uapi" was discussed before
-and makes sense. But at least for HID devices the rest of this info is already available
-in sysfs attributes on the HID devices (things like vendor and product id) and since the
-userspace code needs per device code to drive the kbd anyways it can also have device
-specific code to retrieve all this info, so the other sysfs attributes just feel like
-duplicating information. Also there already are a ton of existing hidraw userspace rgbkbd
-drivers which already get this info from other places.
-
->     - If set to 0 the /sys/class/leds/* entry disappears. The driver should keep the last state the backlight was in active if possible.
-> 
->     - If set 1 it appears again. The driver should bring it back to a static 1 zone setting while avoiding flicker if possible.
-
-Ack, if this finds it way into some documentation (which it should) please make it
-clear that this is about the "use_leds_uapi" sysfs attribute.
-
-> - If the device is not controllable by for example hidraw, the misc device might also implement additional ioctls or sysfs attributes to allow a more complex low level control for the keyboard backlight. This is will be a highly vendor specific UAPI.
-
-IMHO this is the only case where actually using a misc device makes sense, so that
-you have a chardev to do the ioctls on. misc-device-s should really only be used
-when you need a chardev under /dev . Since you don't need the chardev for the e.g.
-hidraw case you should not use a miscdev there IMHO.
-
-> 
->     - The actual logic interacting with this low level UAPI is implemented by a userspace driver
-> 
-> Implementation wise: For the creation of the misc device with the use_leds_uapi switch a helper function/macro might be useful? Wonder if it should go into leds.h, led-class-multicolor.h, or a new header file?
-
-See above, I don't think we want the misc device for the hidraw case, at which
-point I think the helper becomes unnecessary since just a single sysfs write
-callback is necessary.
-
-Also for adding new sysfs attributes it is strongly encouraged to use
-device_driver.dev_groups so that the device core handled registering /
-unregistering the sysfs attributes which fixes a bunch of races; and
-using device_driver.dev_groups does not mix well with a helper as you've
-suggested.
-
-> 
-> - Out of my head it would look something like this:
-> 
-> led_classdev_add_optional_misc_control(
->     struct led_classdev *led_cdev,
->     char* name,
->     char* device_type,
->     char* firmware_version_string,
->     char* serial_number,
->     void (*deregister_led)(struct led_classdev *led_cdev),
->     void (*reregister_led)(struct led_classdev *led_cdev))
-> 
-> Let me know your thoughts and hopefully I can start implementing it soon for one of our devices.
-
-I think overall the plan sounds good, with my main suggested change
-being to not use an unnecessary misc device for the hid-raw case.
-
-Regards,
-
-Hans
-
+diff --git a/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt b/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
+deleted file mode 100644
+index 6c201a2ba8acf..0000000000000
+--- a/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Texas Instruments TWL family (twl4030) pwrbutton module
+-
+-This module is part of the TWL4030. For more details about the whole
+-chip see Documentation/devicetree/bindings/mfd/ti,twl.yaml.
+-
+-This module provides a simple power button event via an Interrupt.
+-
+-Required properties:
+-- compatible: should be one of the following
+-   - "ti,twl4030-pwrbutton": For controllers compatible with twl4030
+-- interrupts: should be one of the following
+-   - <8>: For controllers compatible with twl4030
+-
+-Example:
+-
+-&twl {
+-	twl_pwrbutton: pwrbutton {
+-		compatible = "ti,twl4030-pwrbutton";
+-		interrupts = <8>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+index 52ed228fb1e7e..03d725d5294db 100644
+--- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
++++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+@@ -15,6 +15,65 @@ description: |
+   USB transceiver or Audio amplifier.
+   These chips are connected to an i2c bus.
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,twl4030
++    then:
++      properties:
++        madc:
++          type: object
++          $ref: ../iio/adc/ti,twl4030-madc.yaml
++
++          unevaluatedProperties: false
++        bci:
++          type: object
++          $ref: ../power/supply/twl4030-charger.yaml
++
++          unevaluatedProperties: false
++        pwrbutton:
++          type: object
++          properties:
++            compatible:
++              const: ti,twl4030-pwrbutton
++            interrupts:
++              const: 8
++
++          additionalProperties: false
++        watchdog:
++          type: object
++          properties:
++            compatible:
++              const: ti,twl4030-wdt
++
++          additionalProperties: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,twl6030
++    then:
++      properties:
++        gpadc:
++          type: object
++          properties:
++            compatible:
++              const: ti,twl6030-gpadc
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,twl6032
++    then:
++      properties:
++        gpadc:
++          type: object
++          properties:
++            compatible:
++              const: ti,twl6032-gpadc
++
+ properties:
+   compatible:
+     description:
+@@ -42,6 +101,15 @@ properties:
+   "#clock-cells":
+     const: 1
+ 
++  rtc:
++    type: object
++    properties:
++      compatible:
++        const: ti,twl4030-rtc
++      interrupts:
++        maxItems: 1
++    additionalProperties: false
++
+ additionalProperties: false
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/rtc/twl-rtc.txt b/Documentation/devicetree/bindings/rtc/twl-rtc.txt
+deleted file mode 100644
+index 8f9a94f2f8969..0000000000000
+--- a/Documentation/devicetree/bindings/rtc/twl-rtc.txt
++++ /dev/null
+@@ -1,11 +0,0 @@
+-* Texas Instruments TWL4030/6030 RTC
+-
+-Required properties:
+-- compatible : Should be "ti,twl4030-rtc"
+-- interrupts : Should be the interrupt number.
+-
+-Example:
+-	rtc {
+-		compatible = "ti,twl4030-rtc";
+-		interrupts = <11>;
+-	};
+diff --git a/Documentation/devicetree/bindings/watchdog/twl4030-wdt.txt b/Documentation/devicetree/bindings/watchdog/twl4030-wdt.txt
+deleted file mode 100644
+index 80a37193c0b86..0000000000000
+--- a/Documentation/devicetree/bindings/watchdog/twl4030-wdt.txt
++++ /dev/null
+@@ -1,10 +0,0 @@
+-Device tree bindings for twl4030-wdt driver (TWL4030 watchdog)
+-
+-Required properties:
+-	compatible = "ti,twl4030-wdt";
+-
+-Example:
+-
+-watchdog {
+-	compatible = "ti,twl4030-wdt";
+-};
+-- 
+2.39.2
 
 
