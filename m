@@ -1,106 +1,177 @@
-Return-Path: <linux-input+bounces-2428-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2429-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C8C87FDC7
-	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 13:48:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D1880086
+	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 16:26:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78B411F21830
-	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 12:48:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B34CF1C2203E
+	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 15:26:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CCE37FBD9;
-	Tue, 19 Mar 2024 12:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E59651B4;
+	Tue, 19 Mar 2024 15:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="TmXklku9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7950C80601
-	for <linux-input@vger.kernel.org>; Tue, 19 Mar 2024 12:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5517024B33;
+	Tue, 19 Mar 2024 15:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710852524; cv=none; b=OGXvNd8Vxq3llsD5jHFajPlHy46TY7liKvNaVdiX3SUbe8vvH+Z6CgragtShcltlvCVKeZg693I9ZvGaGtoezhcs1WCNtv+elVnpjBEonPfyM8Qo1+zd59TYeXnR5LDCuzC3Q2V+/uzq19ZCJlGTylszGJ1V3JyS+9Yabpyl4qA=
+	t=1710861995; cv=none; b=uIBV9Zvs3FHpikLBsTaqY6OWH9CbRKEOJz6f2kGQZ7nzKYRXba3/gUBZ4hHN20pG+Q/1EKaBqksgv3qqOwzGo20wYyStyRuD2ZTUD8yxPzyfrmVFPGZkfN8hfT2gpZKr9gMg2cmJDvJsas7IQfbvw96QZ3htNui/PN0sG7xdoUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710852524; c=relaxed/simple;
-	bh=Y6LPOARZv6WMKc8GrR/5roQF7A4U3axLXMt0DuN3/Bk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=kAeEfo2SvR+SVmO6M+fL94PgvbUtMixF6xpVjWJhGnvtuYSaZpSvPvhlAX0HOzZZimgByk1D22Am894Kyj49Xb4uZ2AMXe52t2SxhVKenQHhDoawqersd4C5ivm6WsCyZ+vm2wyAESX0k1HleDSrkLefHlgAqLGdGQxRLazBAik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7cb806fc9f7so541293439f.2
-        for <linux-input@vger.kernel.org>; Tue, 19 Mar 2024 05:48:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710852504; x=1711457304;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R6fy4P1aZSyUUNvRv02sBgKzOYoAXr7SlJGAokWQeik=;
-        b=MItgFHaeckplatKWLKD3ekY77vOAKI6ANW6TEtepTML1NcbSWREocUxXZ2KmMUeCaZ
-         bbHgCQFbwsmgfXds7hy9n0YiM5l15QJ6QbejHAgeubI3dJ1XnSUlByskQ8mM5ElxkDpD
-         MlBX/w/mCoLO9Rp0MFIYf+4UXNhO8MiPYpg7c+7QcmDRFXuBabqHDknF55r910UCG3pn
-         a6IAiKYPjrKLsOF2AYmhgNlKMpcZytx2m3SHqnXpUJMJZ/IyOcCZGKdRtufpy9LQcrX3
-         /1/qEa1wj0eQ44D2Bvk6gSiagS9Rtikk7rS62q3FkYj9SSal7UD4B2hsvL80FG7Hw+jP
-         4lQA==
-X-Gm-Message-State: AOJu0YyA+4p9193suhAbbDwIPYiMFWDPAaxGbt7Shc/ORZrYSNCC1KSf
-	58RBMPdmkpc19nwIM468IU2DEakwErEu+tIsVqQlitfuvAyUlbUa1MyjvpA6KJNhuFMVHJ7hiuI
-	sdeI8XDSvGnP4TJ3SryIcMsjBxPCEOrsuvzcOIjuAegwfBmI5h+I0KtMAoQ==
-X-Google-Smtp-Source: AGHT+IF/ILp4C+BsiS38oKgAOXmQ+mU8zqK/MQqgsIGFBg3XWXLdpEB90k5eJ4Mgd2FeYirmoo44bc5dQjGv7yEaZwAyqHeXvZnw
+	s=arc-20240116; t=1710861995; c=relaxed/simple;
+	bh=yNuXDV24kN5Tq58Ff6lS2FO83vxVjbX+X+J+Juwqd4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E6Fs4rAAGvVN6T+SJQQrEkwVylz4I7Idlp8XnyqYUH7GMNv4HhbycXjYi0jfOFFVq/9N6B0GNj+WihZt6ykLU8cwR4vwsi3vHpZHLXr9wTxgL2ThLF3zIvlZWzGm/hycL4g8iu26wwsYe0x7hmjg61y9ts3PCDUt9UQ4QOazDDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=TmXklku9; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 873592FC010D;
+	Tue, 19 Mar 2024 16:18:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1710861522;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OLYrKqHUM/IS0ZPTvZGbAWfjnkzw3USLCJuf00OnxW8=;
+	b=TmXklku9GoSmsAqKgvFjAdvKArNOxe6Ng926gjBEtTf3XVHFd/jpvZ05aFiBmld1CLguCq
+	muxHUNdiSvwyaj1HS4SM2wSgyiAPBU5Dxil0wx0FqvM6OC6irM8F8Sz1HUvSQibYPNc+iL
+	4yi62HVK0MqzxvgZENWETG1QP4z7yRg=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <93d70ac3-bb18-4732-abb4-134750a5b50c@tuxedocomputers.com>
+Date: Tue, 19 Mar 2024 16:18:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2710:b0:476:fdd3:7bf6 with SMTP id
- m16-20020a056638271000b00476fdd37bf6mr118712jav.3.1710852504752; Tue, 19 Mar
- 2024 05:48:24 -0700 (PDT)
-Date: Tue, 19 Mar 2024 05:48:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cf3aae061402e3f0@google.com>
-Subject: [syzbot] Monthly input report (Mar 2024)
-From: syzbot <syzbot+listcb0f0391866add338d69@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Future handling of complex RGB devices on Linux v3
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <281f9b71-a565-4ff3-8343-ca36d604584d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello input maintainers/developers,
+Hi Hans,
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+Am 18.03.24 um 12:11 schrieb Hans de Goede:
+> Hi Werner,
+>
+> Sorry for the late reply.
+np
+>
+> On 2/22/24 2:14 PM, Werner Sembach wrote:
+>> Hi,
+>>
+>> Thanks everyone for the exhaustive feedback. And at least this thread is a good comprehesive reference for the future ^^.
+>>
+>> To recap the hopefully final UAPI for complex RGB lighting devices:
+>>
+>> - By default there is a singular /sys/class/leds/* entry that treats the device as if it was a single zone RGB keyboard backlight with no special effects.
+> Ack this sounds good.
+>
+>> - There is an accompanying misc device with the sysfs attributes "name", "device_type",  "firmware_version_string", "serial_number" for device identification and "use_leds_uapi" that defaults to 1.
+> You don't need a char misc device here, you can just make this sysfs attributes on the LED class device's parent device by using device_driver.dev_groups. Please don't use a char misc device just to attach sysfs attributes to it.
+>
+> Also I'm a bit unsure about most of these attributes, "use_leds_uapi" was discussed before
+> and makes sense. But at least for HID devices the rest of this info is already available
+> in sysfs attributes on the HID devices (things like vendor and product id) and since the
+> userspace code needs per device code to drive the kbd anyways it can also have device
+> specific code to retrieve all this info, so the other sysfs attributes just feel like
+> duplicating information. Also there already are a ton of existing hidraw userspace rgbkbd
+> drivers which already get this info from other places.
+The parent device can be a hid device, a wmi device, a platform device etc. so I 
+thought it would be nice to have some unified way for identification.
+>
+>>      - If set to 0 the /sys/class/leds/* entry disappears. The driver should keep the last state the backlight was in active if possible.
+>>
+>>      - If set 1 it appears again. The driver should bring it back to a static 1 zone setting while avoiding flicker if possible.
+> Ack, if this finds it way into some documentation (which it should) please make it
+> clear that this is about the "use_leds_uapi" sysfs attribute.
+Ack
+>
+>> - If the device is not controllable by for example hidraw, the misc device might also implement additional ioctls or sysfs attributes to allow a more complex low level control for the keyboard backlight. This is will be a highly vendor specific UAPI.
+> IMHO this is the only case where actually using a misc device makes sense, so that
+> you have a chardev to do the ioctls on. misc-device-s should really only be used
+> when you need a chardev under /dev . Since you don't need the chardev for the e.g.
+> hidraw case you should not use a miscdev there IMHO.
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 16 issues are still open and 52 have been fixed so far.
+My train of thought was that it would be nice to have the use_leds_uapi at a 
+somewhat unified location in sysfs. The parent device can be of any kind, like I 
+mentioned above, and while for deactivating it can easily be found via 
+/sys/class/leds/*/device/. For reactivating, the leds entry doesn't exist.
 
-Some of the still happening issues:
+>
+>>      - The actual logic interacting with this low level UAPI is implemented by a userspace driver
+>>
+>> Implementation wise: For the creation of the misc device with the use_leds_uapi switch a helper function/macro might be useful? Wonder if it should go into leds.h, led-class-multicolor.h, or a new header file?
+> See above, I don't think we want the misc device for the hidraw case, at which
+> point I think the helper becomes unnecessary since just a single sysfs write
+> callback is necessary.
+>
+> Also for adding new sysfs attributes it is strongly encouraged to use
+> device_driver.dev_groups so that the device core handled registering /
+> unregistering the sysfs attributes which fixes a bunch of races; and
+> using device_driver.dev_groups does not mix well with a helper as you've
+> suggested.
+Ok, I will see when I start implementing.
+>
+>> - Out of my head it would look something like this:
+>>
+>> led_classdev_add_optional_misc_control(
+>>      struct led_classdev *led_cdev,
+>>      char* name,
+>>      char* device_type,
+>>      char* firmware_version_string,
+>>      char* serial_number,
+>>      void (*deregister_led)(struct led_classdev *led_cdev),
+>>      void (*reregister_led)(struct led_classdev *led_cdev))
+>>
+>> Let me know your thoughts and hopefully I can start implementing it soon for one of our devices.
+> I think overall the plan sounds good, with my main suggested change
+> being to not use an unnecessary misc device for the hid-raw case.
+>
+> Regards,
+>
+> Hans
+>
+>
+Thanks for the feedback,
 
-Ref Crashes Repro Title
-<1> 4654    Yes   WARNING in input_mt_init_slots
-                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-<2> 454     No    possible deadlock in evdev_pass_values (2)
-                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<3> 312     Yes   INFO: task hung in uhid_char_release
-                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<4> 163     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<5> 156     Yes   KASAN: stack-out-of-bounds Read in sched_show_task
-                  https://syzkaller.appspot.com/bug?extid=8d2757d62d403b2d9275
-<6> 4       Yes   WARNING in __input_unregister_device
-                  https://syzkaller.appspot.com/bug?extid=b03b0fc32e288051502d
-<7> 4       Yes   WARNING in input_unregister_device (2)
-                  https://syzkaller.appspot.com/bug?extid=617f4ccb03b9869f6494
+Werner
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
