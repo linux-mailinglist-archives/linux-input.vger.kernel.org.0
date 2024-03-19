@@ -1,136 +1,115 @@
-Return-Path: <linux-input+bounces-2430-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2431-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C9188030A
-	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 18:06:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 172A78804F4
+	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 19:36:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C440B1C225B2
-	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 17:06:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 490E91C2237C
+	for <lists+linux-input@lfdr.de>; Tue, 19 Mar 2024 18:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABCA313ACC;
-	Tue, 19 Mar 2024 17:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393C639851;
+	Tue, 19 Mar 2024 18:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMdNq+SY"
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="hiaq+oF0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC7D18C05;
-	Tue, 19 Mar 2024 17:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9BC39847
+	for <linux-input@vger.kernel.org>; Tue, 19 Mar 2024 18:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710868013; cv=none; b=ogY1m9OKB+L/RtywgmUzrrlge20//dyxk10kCEocv+Sq17g0W+8+2dwWqJrshaodnKlE835cIyGKENK5VerS2Ji3E8niOkqzqGi8j5JhlILGoQAweDnH1IxttEp1XUVXfPqdKRjah+kIp+Gd5J8L6IBg7KoFvDYYkYNQ3UvXMzY=
+	t=1710873405; cv=none; b=jgOrin8SOIMisNtOAjuS2Rz51fvqiciaV74dUiYSzxdl8rtoe9bTM/g9O+wi3saSN5NzmA6iq3vfQW5CYQOq1mfnHpGwdw8aqC5nOax4DO86iAfv0Wba1ovHiEoeN1hdmQWzyn5GmtTVza/WydNkT6SqRTHvxZLdnAUPf3Y6OUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710868013; c=relaxed/simple;
-	bh=4sfHshxTfCzjYdFQoq9cTJXqvZmtR9W4NjZzxQaBRow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZemrE64XEwvTJpEphdw+BUxyaYxJUrvM1HBKhSR3/8WwkXRMGTtuvFPxL22E/sPU9w+kMDB6F1Z+wU8B0xH7pkwDsHYrpvIfm44ar++cSQp3nKVDvahOKemx3A/gO8Tv47NfPpYqPDyHlN9kY29s+Ov+bJv2TVSc/zY3HVnREw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMdNq+SY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F547C433C7;
-	Tue, 19 Mar 2024 17:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710868013;
-	bh=4sfHshxTfCzjYdFQoq9cTJXqvZmtR9W4NjZzxQaBRow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QMdNq+SYrlw395jnqI4gXOzFdKI0cTTrjTlHx2fvU/T+Cs0RDSulUlb5283MsxYbQ
-	 pe/nqzrLhZl+6e5cJbOQv9rIwxdtXilynchXZMJlC4TbuHddq93v3LmZo0PY1Ev19m
-	 ycUaGfMf8ywgGunDRMQ6sOf3mYdcNPDx39r1a6dWebxYkdkPz6ZZ+2UUaWYygFe9KT
-	 CeGfzJ88mzql6FS3/kYdKb6gNhIUASjZYkk3tlSwUdqC9wg6rc5d8WenekYbyq08IC
-	 0yAKFJg2pydhVApat1qp/GB2aFD5r8C1ZgXrLYDbjO9aseSGCNuBxc8Iy1170O9rdb
-	 ph9cHI9GP8okg==
-Date: Tue, 19 Mar 2024 17:06:47 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Bastian Hecht <hechtb@gmail.com>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Jeff LaBundy <jeff@labundy.com>, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v7 1/4] dt-bindings: touchscreen: add touch-overlay
- property
-Message-ID: <20240319-sympathy-vertigo-9bc884e5fef0@spud>
-References: <20240119-feature-ts_virtobj_patch-v7-0-eda70985808f@wolfvision.net>
- <20240119-feature-ts_virtobj_patch-v7-1-eda70985808f@wolfvision.net>
- <e373c2c7-0cd9-40d6-a19b-3b9a1a81feb2@wolfvision.net>
+	s=arc-20240116; t=1710873405; c=relaxed/simple;
+	bh=7GcSqlNA9db0TU+PtWJBvIPc33uOUli4tM8yo1e7qb8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q5MLVtIiDzL5zCUxjiq2JsCtjaBFUHKB3U6i1mw+lucdO05b/nFLaIgAkM7M9gyutUcCwMHZrfoq6DQC0lZUUPticalfzmvIzAvkhQrxx+a97/tzSKUOJatdvCsasL1+bPEV9q1Vm3AJWUzCmUdqZdL6J8U7TCvyO+hV+FZGR3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=hiaq+oF0; arc=none smtp.client-ip=80.12.242.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
+Received: from jules-desktop.dynamic.ziggo.nl ([84.105.71.69])
+	by smtp.orange.fr with ESMTPA
+	id meK0rHRJYX7HUmeKArj0ew; Tue, 19 Mar 2024 19:36:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1710873395;
+	bh=qXNQkp6Qc32Utj5LOnG0LI21fIJd6XSTE2Y5kLhNc5E=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=hiaq+oF0Tq7obWAaO4gvkQsq/4OWbegQ0vbWg3tzqE/1pHRkJBG3X0ZgXcyhFJDhh
+	 MiZL45e+QcVrotSA0VCnzoMunOqhQevFLwRw1VB8t6KTRNxdzYkcOE1CS7XbZKIQNi
+	 6UcTj0VBuRqtfLlZjza28E7lHWsebxnIwhUPsAS/839JbeEzpjkyi0/XuBF+uFHATe
+	 Al0nvKRAFA/X2I9f3AdeWbIdqkyA+K4VyXgoZ2Q0k4+GZhApyZ7xrGe5vrweRsMGUD
+	 /wzPv3Rev85vn0kQxliK2B+k2aQZWFzV3KpC3z+UkngY7VX5GmxHsZOnOTzTHV2fEa
+	 0Mrh0SNxeta6w==
+X-ME-Helo: jules-desktop.dynamic.ziggo.nl
+X-ME-Auth: anVsZXMubm9pcmFudEBvcmFuZ2UuZnI=
+X-ME-Date: Tue, 19 Mar 2024 19:36:35 +0100
+X-ME-IP: 84.105.71.69
+From: Jules Noirant <jules.noirant@orange.fr>
+To: jkosina@suse.com
+Cc: bentiss@kernel.org,
+	jkosina@suse.cz,
+	Jules Noirant <jules.noirant@orange.fr>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-usb@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: hid-pidff: stop all effects before enabling actuators
+Date: Tue, 19 Mar 2024 19:24:43 +0100
+Message-Id: <20240319182443.18161-1-jules.noirant@orange.fr>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="U9CU1yZFVMXNIoZu"
-Content-Disposition: inline
-In-Reply-To: <e373c2c7-0cd9-40d6-a19b-3b9a1a81feb2@wolfvision.net>
+Content-Transfer-Encoding: 8bit
 
+Some PID compliant devices automatically play effects after boot (i.e.
+autocenter spring) that prevent the rendering of other effects since
+it is done outside of the kernel driver.
 
---U9CU1yZFVMXNIoZu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This makes sure all the effects currently played are stopped after
+resetting the device.
+It brings compatibility to the Brunner CLS-P joystick.
 
-On Tue, Mar 19, 2024 at 12:13:08PM +0100, Javier Carrasco wrote:
-> On 1/19/24 08:43, Javier Carrasco wrote:
-> > The touch-overlay encompasses a number of touch areas that define a
-> > clipped touchscreen area and/or buttons with a specific functionality.
-> >=20
-> > A clipped touchscreen area avoids getting events from regions that are
-> > physically hidden by overlay frames.
-> >=20
-> > For touchscreens with printed overlay buttons, sub-nodes with a suitable
-> > key code can be defined to report key events instead of the original
-> > touch events.
-> >=20
-> > Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> > ---
-> >  .../bindings/input/touchscreen/touchscreen.yaml    | 119 +++++++++++++=
-++++++++
-> >  1 file changed, 119 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchs=
-creen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscree=
-n.yaml
-> > index 431c13335c40..eb1e86fa86c6 100644
-> > --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.y=
-aml
-> > @@ -87,6 +87,125 @@ properties:
-> >    touchscreen-y-plate-ohms:
-> >      description: Resistance of the Y-plate in Ohms
-> > =20
-> > +  touch-overlay:
->=20
-> Even though it has already been reviewed, just in case before it gets
-> applied. Should it not be:
->=20
-> 	description: |
-> 	  List of nodes...
->=20
-> instead, to keep formatting?
+Signed-off-by: Jules Noirant <jules.noirant@orange.fr>
+---
+ drivers/hid/usbhid/hid-pidff.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Yes.
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index 3b4ee21cd..aade18f9e 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -109,8 +109,9 @@ static const u8 pidff_pool[] = { 0x80, 0x83, 0xa9 };
+ /* Special field key tables used to put special field keys into arrays */
+ 
+ #define PID_ENABLE_ACTUATORS	0
+-#define PID_RESET		1
+-static const u8 pidff_device_control[] = { 0x97, 0x9a };
++#define PID_STOP_ALL_EFFECTS	1
++#define PID_RESET		2
++static const u8 pidff_device_control[] = { 0x97, 0x99, 0x9a };
+ 
+ #define PID_CONSTANT	0
+ #define PID_RAMP	1
+@@ -1157,6 +1158,10 @@ static void pidff_reset(struct pidff_device *pidff)
+ 	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+ 	hid_hw_wait(hid);
+ 
++	pidff->device_control->value[0] = pidff->control_id[PID_STOP_ALL_EFFECTS];
++	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
++	hid_hw_wait(hid);
++
+ 	pidff->device_control->value[0] =
+ 		pidff->control_id[PID_ENABLE_ACTUATORS];
+ 	hid_hw_request(hid, pidff->reports[PID_DEVICE_CONTROL], HID_REQ_SET_REPORT);
+-- 
+2.40.1
 
---U9CU1yZFVMXNIoZu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfnGJwAKCRB4tDGHoIJi
-0r+pAQCQN27PZoCuDBHZdZc6ygr5G/8Gjo17ikuaVKSOz2crTAD/e2nwlGPphrqJ
-h1HPjRq7LLIXp5qwQEWUA2oFZPw0TQk=
-=K3lV
------END PGP SIGNATURE-----
-
---U9CU1yZFVMXNIoZu--
 
