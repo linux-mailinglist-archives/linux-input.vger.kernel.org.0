@@ -1,193 +1,169 @@
-Return-Path: <linux-input+bounces-2444-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2445-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DF0881770
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 19:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100928817DA
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 20:30:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D23F8281FB2
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 18:46:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA025285BFA
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 19:30:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E821785288;
-	Wed, 20 Mar 2024 18:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B260D85640;
+	Wed, 20 Mar 2024 19:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="f4tGR9zO"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ZXtVD+1M"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F54052F78;
-	Wed, 20 Mar 2024 18:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FD38563B;
+	Wed, 20 Mar 2024 19:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710960357; cv=none; b=ONVs74+1CriBXIsnxUj2UL3GZNIdjWxf3KqzP2+DqUaNJPlmZfH4pASxrNwnMkgWaa5xibtUanBd4GTM20iGWKXJla3DpL7VQfOlbiwqNhexTo0wRt68rmFupkbSNhC06E8YHnjKx2n+7+hzMX0BYiLQH4FMsAh0Cv92A09MLQY=
+	t=1710963028; cv=none; b=epZA4sBiGJZI488Cp+rNyGEbjU0DXpHaHUWN0ZPOpGOB7D2zmWviGnV/E3gBvnISRIJRfsaSY2MGykAgc//G6IyDxzxiwUNwKmBj+/SBasjicMWWbpM+rBOk0wifc9nZR/FVnfpyHOVY7MjUek4ey7oM1nPAI/+T0ighZspkZTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710960357; c=relaxed/simple;
-	bh=FdvAryhYuwV2hmzPVyBwo1j+eckI21gR/HiDPzPWTGg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Xj0G7NSw49STVx3jbjl/3LBjZf9w+qBn4Q5JQw30Y0yc3hnkJjzpeKIhFGZXbVTT6sVKOhRGUQfVtx3M8rMnMxIYmpdPwmE6WmVnTk4HJOFsdUKMPSvY8deWvM05E5MBFGv8ZCMmGM6g3In+8QHB16CXalOJzPtJ77xbHkVY6ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=f4tGR9zO; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 3E8C62FC0112;
-	Wed, 20 Mar 2024 19:45:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1710960345;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0aJ6WogG8TKIkMoo2xB1GRutijq0g65zd7DzWfQd0xo=;
-	b=f4tGR9zOeoNnuXaCPems0Yk3CHqLH8rQYPZgbz9KHVxqddiaqgtmuOTk2m89La8hZhIZJT
-	epbtVjyFfEncfkX1T/CeG3NNHemqwCgqnf9z7BwXtUvK7jAfsQcMcN0lPM3Xmjt0g+gphx
-	KmYoc49s+v9KutsRCGGpxN+vfnNZd0A=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <742f2564-96bd-4b4c-89d6-7ef4e6b641a5@tuxedocomputers.com>
-Date: Wed, 20 Mar 2024 19:45:43 +0100
+	s=arc-20240116; t=1710963028; c=relaxed/simple;
+	bh=9Onb7SpSSXz/DSaTRYqETVrjUvaMxyS6VNi7FdiIpt0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jf0AHhR5uSEy+CJI3H16uzJkHY2K6Mi2rsqgg8N6Yflvrs9CBg/6UkkuJbAwFZFJeTEYiY4FXlL0lkV6MR7a4VQHi64hZBPhKVivhDcVdQ+amwgzIixKeI7Qro6IUfl43gnAcSPJ1diDsKAaRw1q3q0ffdJCl5PhMSFDVoa/r/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ZXtVD+1M; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42KITXvZ004430;
+	Wed, 20 Mar 2024 14:30:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=w
+	uhU3jyk69q+EFOCh/CvUNEU93sJaqDrjk2nglUf9VA=; b=ZXtVD+1MfbOex0ZBE
+	RAk88AQ3wQyM9aUy+8b11GrXrifSuTPBGBZV0yy2tAPmaE5ZZnbopGKMOriV1VUL
+	L7sfMZNH0SDI77FfsK9jPth2Ar5BbVIFK160S9SJ9ck/iQ4IQ1Ql92OOD81FpczY
+	5gax+rpgLyZKgM92ASiUgyRV6H7XmlYHbK4oQPvM9MisVkHTs/jljlTCdldxly3g
+	fiDGC3Z6KxAR2Qu5Iu8ONt2gjZw9/Yi+APnq0aqUMpqhXu4gthEcQvjk2AdSCyOO
+	rUx+o8M2wKJnOXQVdP+q+CcA21VFSlQw2PRbDrB6E1q7RAhR0mrR9OxR+UYoQMIH
+	dqljg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wytta0upx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 14:30:14 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 20 Mar
+ 2024 19:30:12 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Wed, 20 Mar 2024 19:30:12 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 70764820246;
+	Wed, 20 Mar 2024 19:30:10 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>
+Subject: [PATCH v10 0/5] Add support for CS40L50
+Date: Wed, 20 Mar 2024 19:29:51 +0000
+Message-ID: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v3
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <31bbac5f-a1fc-41dd-b614-f9039763084d@tuxedocomputers.com>
-In-Reply-To: <31bbac5f-a1fc-41dd-b614-f9039763084d@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: L-njsC35T00blTX4eYcgydr-uzt9LSgy
+X-Proofpoint-GUID: L-njsC35T00blTX4eYcgydr-uzt9LSgy
+X-Proofpoint-Spam-Reason: safe
 
+Changes in v10:
+- Minor refactoring and logical improvements all around
+- Renamed and added supplies
 
-Am 20.03.24 um 12:33 schrieb Werner Sembach:
->
-> Am 20.03.24 um 12:16 schrieb Werner Sembach:
->> Hi Hans and the others,
->>
->> Am 22.02.24 um 14:14 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Thanks everyone for the exhaustive feedback. And at least this thread is a 
->>> good comprehesive reference for the future ^^.
->>>
->>> To recap the hopefully final UAPI for complex RGB lighting devices:
->>>
->>> - By default there is a singular /sys/class/leds/* entry that treats the 
->>> device as if it was a single zone RGB keyboard backlight with no special 
->>> effects.
->>>
->>> - There is an accompanying misc device with the sysfs attributes "name", 
->>> "device_type",  "firmware_version_string", "serial_number" for device 
->>> identification and "use_leds_uapi" that defaults to 1.
->>>
->>>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should 
->>> keep the last state the backlight was in active if possible.
->>>
->>>     - If set 1 it appears again. The driver should bring it back to a static 
->>> 1 zone setting while avoiding flicker if possible.
->>>
->>> - If the device is not controllable by for example hidraw, the misc device 
->>> might also implement additional ioctls or sysfs attributes to allow a more 
->>> complex low level control for the keyboard backlight. This is will be a 
->>> highly vendor specific UAPI.
->> So in the OpenRGB issue thread 
->> https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices 
->> aka HID LampArray was mentioned. I did dismiss it because I thought that is 
->> only relevant for firmware, but I now stumbled upon the Virtual HID Framework 
->> (VHF) 
->> https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/virtual-hid-framework--vhf- 
->> and now I wonder if an equivalent exists for Linux? A quick search did not 
->> yield any results for me.
-> Is this what I have been searching for? 
-> https://docs.kernel.org/usb/gadget_hid.html
-Nope is something different: http://www.linux-usb.org/gadget/
->>
->> If a virtual HID device is possible and the WMI interface can reasonably be 
->> mapped to the LampArray API this might be the best starting point:
->>
->> - Implement a Virtual HID device with LampArray
->>
->> - Implement LampArray in OpenRGB
->>
->> - (Optional) Implement a generic LampArray leds subsystem driver that maps to 
->> the single zone control and ads the use_leds_uapi sysfs switch to the virtual 
->> HID device
->>
->> - (Optional) Implement vendor specific controls for 
->> AutonomousMode/built-in-firmware-effects via custom HID commands
->>
->> - (Optional) Implement Virtual HID devices for actual HID devices that don't 
->> support LampArray in firmware (Open question: How to prevent 
->> userspace/OpenRGB from interacting with original HID when the virtual HID 
->> device is not in AutonomousMode? How to associate the original and virtual 
->> HID device to each other that userspace can easily recognize this relation? 
->> Or is it possible to add virtual HID commands on top of a real HID device, 
->> making it look exactly like the pure virtual devices for userspace?)
->>
->> The LampArray API hereby is made with the intention to be used for multi leds 
->> devices, like per-key-backlight keyboards, unlike the leds UAPI. And it is 
->> coming anyway with new RGB devices soon. So it would not conflict with a 
->> "don't introduce unnecessary UAPI interfaces" principle. Are there any plans 
->> already of Wrapping LampArray in some kind ioctl/sysfs API? Or just have it 
->> used via hidraw? Or was there no discussion about it till now?
->>
->> Regards,
->>
->> Werner
->>
->>>
->>>     - The actual logic interacting with this low level UAPI is implemented 
->>> by a userspace driver
->>>
->>> Implementation wise: For the creation of the misc device with the 
->>> use_leds_uapi switch a helper function/macro might be useful? Wonder if it 
->>> should go into leds.h, led-class-multicolor.h, or a new header file?
->>>
->>> - Out of my head it would look something like this:
->>>
->>> led_classdev_add_optional_misc_control(
->>>     struct led_classdev *led_cdev,
->>>     char* name,
->>>     char* device_type,
->>>     char* firmware_version_string,
->>>     char* serial_number,
->>>     void (*deregister_led)(struct led_classdev *led_cdev),
->>>     void (*reregister_led)(struct led_classdev *led_cdev))
->>>
->>> Let me know your thoughts and hopefully I can start implementing it soon for 
->>> one of our devices.
->>>
->>> Kind regards,
->>>
->>> Werner Sembach
->>>
+Changes in v9:
+- Fixed empty struct by utilizing cs_dsp's post_run callback
+- Style fixes in MFD driver
+
+Changes in v8:
+- set_sysclk() -> set_bclk_ratio()
+- Added ID table to codec driver
+- Style improvements
+- Fixed ordering of new write sequence operations
+
+Changes in v7:
+- Fixed sparse warning
+- Moved write sequences to private data structure
+- Logical and style improvements in write sequence interface
+
+Changes in v6:
+- Updated write sequencer interface to be control-name based
+- Fixed a race condition and non-handling of repeats in playback callback
+- Stylistic and logical improvements all around
+
+Changes in v5:
+- Added a codec sub-device to support I2S streaming
+- Moved write sequencer code from cirrus_haptics to cs_dsp
+- Reverted cirrus_haptics library; future Cirrus input
+  drivers will export and utilize cs40l50_vibra functions
+- Added more comments
+- Many small stylistic and logical improvements
+
+Changes in v4:
+- Moved from Input to MFD
+- Moved common Cirrus haptic functions to a library
+- Incorporated runtime PM framework
+- Many style improvements
+
+Changes in v3:
+- YAML formatting corrections
+- Fixed typo in MAINTAINERS
+- Used generic node name "haptic-driver"
+- Fixed probe error code paths
+- Switched to "sizeof(*)"
+- Removed tree reference in MAINTAINERS
+
+Changes in v2:
+- Fixed checkpatch warnings
+
+James Ogletree (5):
+  firmware: cs_dsp: Add write sequence interface
+  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+  mfd: cs40l50: Add support for CS40L50 core driver
+  Input: cs40l50 - Add support for the CS40L50 haptic driver
+  ASoC: cs40l50: Support I2S streaming to CS40L50
+
+ .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
+ MAINTAINERS                                   |  12 +
+ drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/cs40l50-vibra.c            | 577 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  30 +
+ drivers/mfd/Makefile                          |   4 +
+ drivers/mfd/cs40l50-core.c                    | 570 +++++++++++++++++
+ drivers/mfd/cs40l50-i2c.c                     |  68 +++
+ drivers/mfd/cs40l50-spi.c                     |  68 +++
+ include/linux/firmware/cirrus/cs_dsp.h        |  27 +
+ include/linux/mfd/cs40l50.h                   | 137 +++++
+ sound/soc/codecs/Kconfig                      |  11 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/cs40l50-codec.c              | 308 ++++++++++
+ 16 files changed, 2171 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ create mode 100644 drivers/mfd/cs40l50-core.c
+ create mode 100644 drivers/mfd/cs40l50-i2c.c
+ create mode 100644 drivers/mfd/cs40l50-spi.c
+ create mode 100644 include/linux/mfd/cs40l50.h
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
+
+-- 
+2.25.1
+
 
