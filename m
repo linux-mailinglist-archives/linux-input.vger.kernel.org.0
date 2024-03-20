@@ -1,258 +1,197 @@
-Return-Path: <linux-input+bounces-2439-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2440-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF54880CA4
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 09:01:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D361881087
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 12:11:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0796BB20C2B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 08:01:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AB391C20AB7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 11:11:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53CCB2E415;
-	Wed, 20 Mar 2024 07:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864653BB4B;
+	Wed, 20 Mar 2024 11:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="fEIBGJRr"
+	dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b="Sb+QEN41"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2091.outbound.protection.outlook.com [40.107.6.91])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2098.outbound.protection.outlook.com [40.107.223.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A2F23DE;
-	Wed, 20 Mar 2024 07:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.6.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551573B799;
+	Wed, 20 Mar 2024 11:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.98
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710921510; cv=fail; b=XSqi0VoPRuLMsvJoJzJYlUuHRyf3Mnp8wwICrw8OQW8IC8MVwWTquMBwTzUM6Oo8JFIPpBtPSIO1Q5y9T7xXTuJlgwELUxH3tJty682j8wJNpeqlTit9W6vGTVqwz2W/jlRSRa7FIrEKSlf2bz6xcv4fvwA0je3vOrBq7+kkJBs=
+	t=1710933068; cv=fail; b=uYa2gzScl2wIHNcUTy0O5TprrtSrDT3GjJA3fpRXv3X2HJs1OA53vwvyIXDJr5kMFw3ezFSSvi/KVeZK7nndqJ0MWtTpLe77sHVT+R5XnQlJhHjvtSWSMhcK723tAVdB4jy3ZL2Lfh3It9fZedwaX2Ee8ILj8WK2O5fFwvhKJeA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710921510; c=relaxed/simple;
-	bh=CRZ0sSYsoUecSbz+oUC0fLIT0nSbJZhwa7o6rQIIR/k=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=olAvEino1GsAfClrujWvQBnxpwqtOkKyi2pel2Nzs6dVGjgQeZxcPYJubDOmApOS4HdBxneNJdhQTUdZ5hzGQF0UPoGf1Hx7Y/lTmko4gZokzG/Aa/faxwXB+QU7YHSe1mPFzqoQuuC4QiKFP6MZC9jb2oTwHZfu4oagsbjSmAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=fEIBGJRr; arc=fail smtp.client-ip=40.107.6.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	s=arc-20240116; t=1710933068; c=relaxed/simple;
+	bh=cIMnxe7A0SA6CXnlQtdGqDib4zgRcVgs6baVSo22vuc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZzBBr+dFDE1sZifuDAszd9Lzc880rkEM8VhBXtGeiYRO0fNOhztmKy8MxeSnLilBEpKXNg5NeLQ80KHqhLytxe3qSDQYPhODj6UjriqqYSLBOeGFrcQIYE/YGLJa/f+quLy66U2J5SlIBFf+vg38pVICFKHCnXtANuZ+xrgmtMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tw.synaptics.com; spf=pass smtp.mailfrom=tw.synaptics.com; dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b=Sb+QEN41; arc=fail smtp.client-ip=40.107.223.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tw.synaptics.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tw.synaptics.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T63C+xc7h2jEdRvepaDLnqY7qgnsy361GAFnWL0KjaUfZD2+RMr6Jz1M2VdFmAZfSnw2RFCM9vFLS5YLd1E4YZnoVbxnNbm3eBv23j2/CVuk/+cZRyTsIaHZs4evMFog4Eq0zoOna0ppJpp6uvxo7PM23lOQ2LErI+CHbNsaW/MXXFGXNgQMSDCLVjyf9rCr8XYFMoxfWlCeuiq5ksp19QIbXIU+kz1opu9FVE6/1P7ULju8M/q7TutBh0n4QtKXhmCnMEBpU4l+vLW3ZRRFD5blgWJ5EXQ2J4BpHZBuplbEYVqhVgHO4DwjoFx6BLiAQC6sjyb4oxki2+VQdbZY0g==
+ b=lZVbpfLleFU5H2FR3Lzrb8l+ckE28U09+aOw8irKicou9nvknPPlAgMEah93nw+OGL6FKZnU+tZdZVxpUlYDe062aTU54LBSYd+dEsrwgwLPQh+zuyPK59OnyTqWJnoweTNNwOb/vyQ53W/i2ZTvg0k6dX24B5DxgaWs55wwm8CYs7ZKVOPVdb/fPDo57SSLD1EImLCRg9Z/7V7yeaAbgCBWanPdf1Mg4uG8FoXhR3+8winiVofisSkFVo5ximKwL48th9ttKBK0XKIcguti7ctmSZ+qbw+RIfHJVTC2bJiWc0wlF+vLJydY4ebXSec25ciAQAJHfHLYaRH/TztoqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c+IO+awHoDqlqKjGNEtdGlN859aV5MdUs044vwjEIJE=;
- b=Ln9s9hUDuo2FZXJDEvLPlTLWi3qa/aPIdPJmU9nee7cLwzCEuWtInUPcM5bVNkQ+Mj5GKd+jYGABgP2ZjoSEYZ2frhMAgANkIi/PKVul4y7zicrukf0L1GLEsWuUnPyz5FkM7S4ouOD7iDfQe0dy6dGLilvGSoishXEEQVh+reBzYE1218XfvUUp2DvaOD8u4iMeCV5V7t2OKPEBooATPLKaAh4MIyS1P+I72eaWwdreVAS6VDiCd6LBK7XmyfExRodtVOeVWVQ2blPD7ihytZqfGxTBS9avHZj2iPLh1LZP4jgwwHf5v6wAnNCOPuVBw+AtG/kIqSgbVTeCmbKGOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
+ bh=zH8VcghEVxC+HBusf6dDYGSHgBxmCGek04JjrexznGg=;
+ b=XHIgYXWzYYLwLu9FuJC3V4PWuj9zOUI5/LA/M7u0D+9sQ7L2kIWzj5QOoqUwJ/Kz/qwjKzF5qmKwE2jmj1wyury/rhGWBDd3aSANCzCtyEw1tsjQkQqr34cGNeF/qHVsLQ/Myh5sLoFX7RrDnIjg4TNWGbfcAxW1egs+AQYaV7iGkdCHyPzy9num9d6y7x7vB9jnoa3YIcNh5anhsW3KT1MscDYer8W0mwGj+5NVXE8li44JU0pKc7HL4kR/58Oc9m/MjpkoaoThojDTv17OZQ+yaZKS40IcXUc9FFHtCFPuw/TA5FN2GKNzOc+/rplRAjfNZZgDnux73uIvxR5+Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.147.44.87) smtp.rcpttodomain=gmail.com smtp.mailfrom=tw.synaptics.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=tw.synaptics.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tw.synaptics.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c+IO+awHoDqlqKjGNEtdGlN859aV5MdUs044vwjEIJE=;
- b=fEIBGJRrPkaQIwwStjeW877PT8p6Ui0qn+SoO6nRPyVUth1xZ6a3L0FuQ5/HQvtOcMtcCRTgGL1itGPad1y6jxi77o9gvwRnuv8sXiDPI/kDf8qE8rbiavWsNHD5h4CMk5kLuU6qVxXV4Y77uGJDND9mIRcGrsCgjMK1t64Ly5U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by GV2PR08MB8703.eurprd08.prod.outlook.com (2603:10a6:150:b3::11) with
+ bh=zH8VcghEVxC+HBusf6dDYGSHgBxmCGek04JjrexznGg=;
+ b=Sb+QEN41fSqpgxlbbwMqZpnHtCqULTwUw4CBvt5eYDbAe9OwRiadrwkYknKHOnb8BnKKnDdjEhakWdRIH/R4Cb7kXCCQbPqW26HT8y6T6szxxDRyEnKZHetzravJIl1DmRgE2wLBKAqWqOxwT64a1YCdlm8tFpaAg6mihGgSRwg=
+Received: from MN2PR19CA0048.namprd19.prod.outlook.com (2603:10b6:208:19b::25)
+ by MW5PR03MB7005.namprd03.prod.outlook.com (2603:10b6:303:1a8::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.30; Wed, 20 Mar
- 2024 07:58:19 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f%7]) with mapi id 15.20.7386.025; Wed, 20 Mar 2024
- 07:58:17 +0000
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-Date: Wed, 20 Mar 2024 08:58:09 +0100
-Subject: [PATCH v8 4/4] Input: st1232 - add touch overlays handling
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240320-feature-ts_virtobj_patch-v8-4-cab6e7dcb1f6@wolfvision.net>
-References: <20240320-feature-ts_virtobj_patch-v8-0-cab6e7dcb1f6@wolfvision.net>
-In-Reply-To: <20240320-feature-ts_virtobj_patch-v8-0-cab6e7dcb1f6@wolfvision.net>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bastian Hecht <hechtb@gmail.com>, 
- Michael Riesch <michael.riesch@wolfvision.net>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco@wolfvision.net>, 
- Jeff LaBundy <jeff@labundy.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710921491; l=3456;
- i=javier.carrasco@wolfvision.net; s=20240320; h=from:subject:message-id;
- bh=CRZ0sSYsoUecSbz+oUC0fLIT0nSbJZhwa7o6rQIIR/k=;
- b=WRwmy6ZSnciUyXQAk16pOUHYUsKKRQiOTj1pJZayRYy1A+TOWjjC4mDmLBm3URVwrTV56ViXh
- DlJotJOQr/8BvgmlyF520IuWWcadGXiMDei/RTa6dtc2Gfc7l0Tfgy4
-X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
- pk=Vxk2/0sGIxM8rsKnceszFuSuHVfQwa1Yo8+is7BX2nY=
-X-ClientProxiedBy: VI1PR07CA0286.eurprd07.prod.outlook.com
- (2603:10a6:800:130::14) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.34; Wed, 20 Mar
+ 2024 11:11:03 +0000
+Received: from BL6PEPF0001AB4B.namprd04.prod.outlook.com
+ (2603:10b6:208:19b:cafe::e) by MN2PR19CA0048.outlook.office365.com
+ (2603:10b6:208:19b::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27 via Frontend
+ Transport; Wed, 20 Mar 2024 11:11:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.147.44.87)
+ smtp.mailfrom=tw.synaptics.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=tw.synaptics.com;
+Received-SPF: Pass (protection.outlook.com: domain of tw.synaptics.com
+ designates 192.147.44.87 as permitted sender)
+ receiver=protection.outlook.com; client-ip=192.147.44.87;
+ helo=sjc1uvd-bld04.synaptics.com; pr=C
+Received: from sjc1uvd-bld04.synaptics.com (192.147.44.87) by
+ BL6PEPF0001AB4B.mail.protection.outlook.com (10.167.242.69) with Microsoft
+ SMTP Server id 15.20.7409.10 via Frontend Transport; Wed, 20 Mar 2024
+ 11:11:01 +0000
+From: Marge Yang <marge.yang@tw.synaptics.com>
+To: dmitry.torokhov@gmail.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	marge.yang@tw.synaptics.com
+Cc: david.chiu@tw.synaptics.com,
+	derek.cheng@tw.synaptics.com,
+	sam.tsai@synaptics.com,
+	vincent.huang@tw.synaptics.com,
+	Vincent Huang <Vincent.Huang@tw.synaptics.com>
+Subject: [PATCH V1] Input: synaptics-rmi4 - Supports to query DPM value.
+Date: Wed, 20 Mar 2024 11:10:58 +0000
+Message-Id: <20240320111058.601156-1-marge.yang@tw.synaptics.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|GV2PR08MB8703:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56a985c7-a1ee-4db0-d4e9-08dc48b37dd2
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4B:EE_|MW5PR03MB7005:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: a7f38671-e9aa-456c-7a2d-08dc48ce6e31
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	Me/mEcxh1J1YgyIU7TJ/LFQq9G6xSMcpHaGT3/WJm30FwbxhGG03b9J6oFMuxDt2MkXriDZoWEooVaOEekdpx/SmSj/fDcIvKx+7fTZ5YyzEElJ2maQ3Z6Lj2IsnwKSCA81F86WJ5SvatWd4cuTewrV7u56goMleB5e3vp8whphjlUVJQGIO4vH5PN73SDf7ASt1yIRVBD6dqrlOZYJBwSoy7N8gidv0lsjg53kPnKjtleS/q1r/OPqPis2JP6M02kwyTSAqbryYsrXVXjAs98ZA8bH0js26UhfD/QD85V1Xeyi6IghmJvzEx2Q7F8zL73/IiV/Om84xpNl3pC87JWaMFIe7904797GJY+mMhr8cPfJ0NuVgpHNR8GVr1aEmFwgGyKTVl0vpN9tEK9r9ZtdcDHnBlfCJI41ksh+YJFnJzBvKheaGUnoFB12DW9xBLhA28Z5VD/7w0y4EloIHf+PVhjYDSXxr+HCDZj2qqhY70JGQaXQAqVrhg7DCqx3lpN3wRDGDEkCLksc+qKV+OE8E8SnNt1ogEmdA8fKuehJoKEyW1LPwe3Mm3Iq4AtS84AvJiRaM4Jf+PXWtqr3Qtv0v6hOAzUxLdxuXGQ59s9ZbZss2PfT9Unm8AAxgNfES54a8XsLtXqHtiejj/UylhwKDSZhC1N0vp9LxuHt4/7PP/gIiuU/Jd49zoPRowYFZAzKZuEzo6WmRAugJ9zMtVesOX/0NED0cqlgb2in6NW4=
+	FREVldAgZgeznk+x+N6X2y4LxhX5+PaEEeGp4cR8+TR6jBtpbtF/vfZDFfsI0PZIelb+U0P0kNGurwH5PpwvjLFCYtGXM9ECqrF9ZncOG2nZd7Mu4fgYb3/lWZBKotwej7/GheQhgXTUX6n9hYfQ+XF39pxQ6Y217yrqv4DkmrZ36H7K2fk3tS1HGUtPDI+rQKHpBmfR71R5GChSFtEsq3wnBEqZiDjynkiM+OT5H62igcJKPIpn9NEb7yN6K5elFRKPfEUIrNLawWgWtIkBIHuUZnT2sH++mOsGLnhVK+ygMTrhUaPRyJ329mzKCFUHNOyNmcdib8POLi32T+fRDKj8Ztm7/JZx7qxCaqaemS9S0FHSflNPFblTl78kKdzVvQ1R8fkD4co66eeFVdjepF0tThp0TiucoHMVsqTz6DCO8KSp4FTVESB7nAHbMcxqTXItpM7Nx0KgAcoPNvRTnW4aG0P2IVkMuBqKiltm3fFiMUQ70hTUE+fjuBok6Uo8JHoAm9WD1009BruBiR2WhDx++ZRYjGIV5Z8kFcrqQ6SoMJ2GJ/NQBzsJ9+gZA5ndsSWAkT0GwNPIBO5juXb/jOEFoph2FW4drC7MUuXdTZKR+HW049Bm797cO3L+tlU+I6PC0f2gC86+suKZTYWVbmmABorXGscrAWUrG7XIfD22ASmLQlyiyntJRmlxpDzHKiOvPTo4snzEioQ5ONEXRBdQ4s/x1ydyOS8UpnogOR6qKlZcX6ItsENsM2rlzpn0
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(376005)(366007)(1800799015)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dnVGMkE2eUtzVnJOZ1dWSEltN3MwQzhCYk96ekIzSHV2WGtQSzFqVHUrMUZY?=
- =?utf-8?B?aEFQOHROeGZOczllSFl3RWtNZW5kckhoaDc1WjFMTUdLV3Zra1ZlS2M2SDlz?=
- =?utf-8?B?SldLeVBKbUd3NG1wQVlIcmhhWXR6SzVCSVhRUkNSVzJHb1hTNTFYRkord25a?=
- =?utf-8?B?SDkwNjBidHRydWIrWVdteDlUQnIraUlFT2lLMUxyNmlPSHVKTWZFT0FhYUNG?=
- =?utf-8?B?VFhsMFpRYm9kMHdUVDZoVlJiOG1XNkRzYS9IMS9YU3pHSVc1MTNHUE1DMWZB?=
- =?utf-8?B?VmY2bjcyUGFpMUtTMEhoejNhOUZTTFYvQTJYb3dVSWVvVjg1Z3lDYU9LWUo0?=
- =?utf-8?B?U1N6RGlsTkRmZEhCU2t2ejM5aHE4emlhangxUnJvZ2pIWERlREIxREdZTUpB?=
- =?utf-8?B?bEZBaitxR0QreThyTHdDd1lwZ2Q4c09GTVoyM0plMm1sam81bldHZ2J0ajFR?=
- =?utf-8?B?YW9LTEJwWGJPU0UraEFvYUtqQ0JXYW9NVXhCRFo4THlIRms4aHNLczZGSDF4?=
- =?utf-8?B?bjFZQTRNbUFkS094eU4ySGU1ZEdHd0F4K3lsa0ZhMDNBSDd0MEx6cUVaYWNJ?=
- =?utf-8?B?OVhTWlJ0MmkyY0l0dFJBV1hYMCtlcDQwVlVqcTZzMTBBQjRNbWdKWWdvemE0?=
- =?utf-8?B?VkZFVUs0a3czYitLSWlQSHg1eEFWSlNiNS8waFc1Q3BNMnJmckJaRXFtcnYr?=
- =?utf-8?B?WjhTdWhUcDFKOU9KNmtUZmNnK3JlZWN4WnM2eGd4ZGgxZ2lzaEZFNE1OKy9S?=
- =?utf-8?B?em85V2Z2VWhwZ1d0dGRsVlZPY0prc2JNVUVpQmtEN1E0bHJXdmhqelJ3K3lZ?=
- =?utf-8?B?UFl3TzlPOHg5L05Tb09QQkRNZFZDbjRCc1REcnNvS3RKYXF6Y1pxVGxCSnFT?=
- =?utf-8?B?Vm9TZm9xbWY1Y2pQTEdGWjVTTy9oK00wbWtpaVorS2xYalVrYmRucEhFdXcw?=
- =?utf-8?B?aFpDVlRoMVJ0bVpYNVRaby9JdmpZTTZyWTZRZVhJeTNwMXJWRmZIcjI0VnUx?=
- =?utf-8?B?emxGenVsRHlsdUk1TUJ4ZkJIMnpIVnd4M3huaGZ0NkszazRxUWRJVjVqbzZv?=
- =?utf-8?B?cnV2MlNscFF2WmQwVERHd0N0NnZsZmtOVktkWWt2MGJwcW1saFNvaGE2SkZV?=
- =?utf-8?B?bHphREFybS82VGVWc01GVlpHMVpKa0hpYVFVM0JlQ25DOHVzN0dtbkFYRUhk?=
- =?utf-8?B?VEN6bFJ6NXJXZGRteWZyM1lJcmFJQXBFTW8wYzdVeFR6RTRjclZuTTYrYVFt?=
- =?utf-8?B?d3pocGpXeVBMbGtoOUxDT3BMUGNOaHFWVG8wbmk2aFRtOWh6eHdobmROWFR6?=
- =?utf-8?B?dWlZajVDUHNRQUlYUmFMU1BVQlBDQUNacElJQStiWnJSalBxTXppYmZ2cWt3?=
- =?utf-8?B?SmpSTVhKdFVvRWhkWTBubUdocWlPOU5kYWhvT1F2c0w4WDFNUEJ0Z01aUlFL?=
- =?utf-8?B?LzdKSkxyMy9qbjB6RXdXSDNIaVZZcTRnaVU2VGhVS0ZTcnYzZFJYeU9rYzI1?=
- =?utf-8?B?eU5IMnNrcjJCUi9SRzdYU0lFMXVURm0zSXBWTzBWMmdQWTNjeGp3Sktnakcz?=
- =?utf-8?B?a1Q0bVhMNGsxbXFwbThrNFg3YUxWRHFkMzArdlVFRVBWT0xlbW5qREhnaVhK?=
- =?utf-8?B?QWJ1RnJEdGJHUjc5eE4rNUVLT2JZVDF1N2c2SXNiTGFTcExuVWhzU0RQRU9t?=
- =?utf-8?B?TndVdUJyVmIvdjlrRnJhOWEzRmRsOUpOYm1pRVhsc2pEaE04WUpHcFNGSzNp?=
- =?utf-8?B?SVFRRi9TakFOcVN0eDByYVIvU1JtSWNTTGhodlVjZStwWFNlVkVmZHkyUmxx?=
- =?utf-8?B?ZTA1NHZ3NGhNYzRnYTJhQ2FIUnJycXdMeEFxeHRPWG5YUXdFWTVyNHZUMFRW?=
- =?utf-8?B?NVYzZW5ra1V6bTlsVXBtNFhxWlV1R1BEZW8zcVZTdWRoam9MOFd6U3NkNGFI?=
- =?utf-8?B?TlA2WCthTFB6L1hmcjZ2dkhqd01UcWZ1dlpIQjlCUTdJTjdQQmRrNXQxdDFC?=
- =?utf-8?B?YVExcjZlbjNORlRrK2hBZ0cyRXNXdWZrRXV5UXlYSlVSdDR2VGYyVnJoMnV5?=
- =?utf-8?B?RXd5ZWFlYy8wN3YzT1BvRkNiR1cxRmFtSEhCbGlHazdGNUgxYUVkN1Y3Z0FU?=
- =?utf-8?B?K2k1NGQzdVBFL2hPKzBYWnNBR1dNTnVTditSeWtkRnNxVml0TWFPcDNpRHFI?=
- =?utf-8?Q?FRhXNGEtnT/eyJNwleIjOmU=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56a985c7-a1ee-4db0-d4e9-08dc48b37dd2
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2024 07:58:12.8047
+	CIP:192.147.44.87;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjc1uvd-bld04.synaptics.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376005)(82310400014)(36860700004)(1800799015);DIR:OUT;SFP:1102;
+X-OriginatorOrg: tw.synaptics.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2024 11:11:01.8498
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CZZtvVfZwDgo2goRUpCLxFeX4IWGJDzy7Fmw3bBP0yyb3cbeGQV2fdfmpG3IBz0ZYe2rJxDmQVVVEfZFHEmN1UiQqyzZ8aeLaI1GsM6ehHM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8703
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7f38671-e9aa-456c-7a2d-08dc48ce6e31
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=335d1fbc-2124-4173-9863-17e7051a2a0e;Ip=[192.147.44.87];Helo=[sjc1uvd-bld04.synaptics.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB4B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR03MB7005
 
-Use touch-overlay to support overlay objects such as buttons and a resized
-frame defined in the device tree.
+RMI4 F12 will support to query DPM value on Touchpad.
+When TP firmware doesn't support to report logical and
+physical value within the Touchpad's HID report,
+We can directly query the DPM value through RMI.
 
-If buttons are provided, register an additional device to report key
-events separately. A key event will be generated if the coordinates
-of a touch event are within the area defined by the button properties.
-
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+Signed-off-by: Marge Yang <marge.yang@tw.synaptics.com>
+Signed-off-by: Vincent Huang <Vincent.Huang@tw.synaptics.com>
 ---
- drivers/input/touchscreen/st1232.c | 48 +++++++++++++++++++++++++++-----------
- 1 file changed, 34 insertions(+), 14 deletions(-)
+ drivers/input/rmi4/rmi_f12.c | 41 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-index 6475084aee1b..4fa31447dbc1 100644
---- a/drivers/input/touchscreen/st1232.c
-+++ b/drivers/input/touchscreen/st1232.c
-@@ -22,6 +22,7 @@
- #include <linux/pm_qos.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/input/touch-overlay.h>
- 
- #define ST1232_TS_NAME	"st1232-ts"
- #define ST1633_TS_NAME	"st1633-ts"
-@@ -57,6 +58,7 @@ struct st1232_ts_data {
- 	struct dev_pm_qos_request low_latency_req;
- 	struct gpio_desc *reset_gpio;
- 	const struct st_chip_info *chip_info;
-+	struct list_head touch_overlay_list;
- 	int read_buf_len;
- 	u8 *read_buf;
+diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
+index 7e97944..6a7a17d 100644
+--- a/drivers/input/rmi4/rmi_f12.c
++++ b/drivers/input/rmi4/rmi_f12.c
+@@ -24,6 +24,7 @@ enum rmi_f12_object_type {
  };
-@@ -138,14 +140,20 @@ static int st1232_ts_parse_and_report(struct st1232_ts_data *ts)
  
- 	for (i = 0; i < ts->chip_info->max_fingers; i++) {
- 		u8 *buf = &ts->read_buf[i * 4];
-+		bool contact = buf[0] & BIT(7);
-+		unsigned int x, y;
+ #define F12_DATA1_BYTES_PER_OBJ			8
++#define RMI_QUERY_DPM_IN_PRESENSE_BIT          29
  
--		if (buf[0] & BIT(7)) {
--			unsigned int x = ((buf[0] & 0x70) << 4) | buf[1];
--			unsigned int y = ((buf[0] & 0x07) << 8) | buf[2];
--
--			touchscreen_set_mt_pos(&pos[n_contacts],
--					       &ts->prop, x, y);
-+		if (contact) {
-+			x = ((buf[0] & 0x70) << 4) | buf[1];
-+			y = ((buf[0] & 0x07) << 8) | buf[2];
-+		}
-+		if (touch_overlay_process_event(&ts->touch_overlay_list, input,
-+						contact ? &x : NULL,
-+						contact ? &y : NULL, i))
-+			continue;
+ struct f12_data {
+ 	struct rmi_2d_sensor sensor;
+@@ -73,6 +74,8 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
+ 	int pitch_y = 0;
+ 	int rx_receivers = 0;
+ 	int tx_receivers = 0;
++	u16 query_dpm_addr = 0;
++	int dpm_resolution = 0;
  
-+		if (contact) {
-+			touchscreen_set_mt_pos(&pos[n_contacts], &ts->prop, x, y);
- 			/* st1232 includes a z-axis / touch strength */
- 			if (ts->chip_info->have_z)
- 				z[n_contacts] = ts->read_buf[i + 6];
-@@ -292,18 +300,30 @@ static int st1232_ts_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
+ 	item = rmi_get_register_desc_item(&f12->control_reg_desc, 8);
+ 	if (!item) {
+@@ -122,18 +125,36 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
+ 		offset += 4;
+ 	}
  
--	/* Read resolution from the chip */
--	error = st1232_ts_read_resolution(ts, &max_x, &max_y);
--	if (error) {
--		dev_err(&client->dev,
--			"Failed to read resolution: %d\n", error);
--		return error;
+-	if (rmi_register_desc_has_subpacket(item, 3)) {
+-		rx_receivers = buf[offset];
+-		tx_receivers = buf[offset + 1];
+-		offset += 2;
 -	}
--
- 	if (ts->chip_info->have_z)
- 		input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0,
- 				     ts->chip_info->max_area, 0, 0);
- 
-+	/* map overlay objects if defined in the device tree */
-+	INIT_LIST_HEAD(&ts->touch_overlay_list);
-+	error = touch_overlay_map(&ts->touch_overlay_list, input_dev);
-+	if (error)
-+		return error;
-+
-+	if (touch_overlay_mapped_touchscreen(&ts->touch_overlay_list)) {
-+		/* Read resolution from the overlay touchscreen if defined */
-+		touch_overlay_get_touchscreen_abs(&ts->touch_overlay_list,
-+						  &max_x, &max_y);
-+	} else {
-+		/* Read resolution from the chip */
-+		error = st1232_ts_read_resolution(ts, &max_x, &max_y);
-+		if (error) {
-+			dev_err(&client->dev,
-+				"Failed to read resolution: %d\n", error);
-+			return error;
++	// Only supports to query DPM value on RMI F12.
++	item = rmi_get_register_desc_item(&f12->query_reg_desc, RMI_QUERY_DPM_IN_PRESENSE_BIT);
++	if (item) {
++		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
++			RMI_QUERY_DPM_IN_PRESENSE_BIT);
++		query_dpm_addr = fn->fd.query_base_addr	+ offset;
++		ret = rmi_read(fn->rmi_dev, query_dpm_addr, buf);
++		if (ret < 0) {
++			dev_err(&fn->dev, "Failed to read DPM value: %d\n", ret);
++			return -ENODEV;
 +		}
-+	}
++		dpm_resolution = buf[0];
 +
- 	input_set_abs_params(input_dev, ABS_MT_POSITION_X,
- 			     0, max_x, 0, 0);
- 	input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
-
++		sensor->x_mm = sensor->max_x / dpm_resolution;
++		sensor->y_mm = sensor->max_y / dpm_resolution;
++	} else {
++		if (rmi_register_desc_has_subpacket(item, 3)) {
++			rx_receivers = buf[offset];
++			tx_receivers = buf[offset + 1];
++			offset += 2;
++		}
+ 
+-	/* Skip over sensor flags */
+-	if (rmi_register_desc_has_subpacket(item, 4))
+-		offset += 1;
++		/* Skip over sensor flags */
++		if (rmi_register_desc_has_subpacket(item, 4))
++			offset += 1;
++
++		sensor->x_mm = (pitch_x * rx_receivers) >> 12;
++		sensor->y_mm = (pitch_y * tx_receivers) >> 12;
++	}
+ 
+-	sensor->x_mm = (pitch_x * rx_receivers) >> 12;
+-	sensor->y_mm = (pitch_y * tx_receivers) >> 12;
+ 
+ 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "%s: x_mm: %d y_mm: %d\n", __func__,
+ 		sensor->x_mm, sensor->y_mm);
 -- 
-2.40.1
+2.7.4
 
 
