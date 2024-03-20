@@ -1,197 +1,182 @@
-Return-Path: <linux-input+bounces-2440-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2441-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D361881087
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 12:11:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EF08810BC
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 12:17:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AB391C20AB7
-	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 11:11:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 276671C22045
+	for <lists+linux-input@lfdr.de>; Wed, 20 Mar 2024 11:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864653BB4B;
-	Wed, 20 Mar 2024 11:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B1684084A;
+	Wed, 20 Mar 2024 11:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b="Sb+QEN41"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="NTznYoqz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2098.outbound.protection.outlook.com [40.107.223.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551573B799;
-	Wed, 20 Mar 2024 11:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710933068; cv=fail; b=uYa2gzScl2wIHNcUTy0O5TprrtSrDT3GjJA3fpRXv3X2HJs1OA53vwvyIXDJr5kMFw3ezFSSvi/KVeZK7nndqJ0MWtTpLe77sHVT+R5XnQlJhHjvtSWSMhcK723tAVdB4jy3ZL2Lfh3It9fZedwaX2Ee8ILj8WK2O5fFwvhKJeA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710933068; c=relaxed/simple;
-	bh=cIMnxe7A0SA6CXnlQtdGqDib4zgRcVgs6baVSo22vuc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZzBBr+dFDE1sZifuDAszd9Lzc880rkEM8VhBXtGeiYRO0fNOhztmKy8MxeSnLilBEpKXNg5NeLQ80KHqhLytxe3qSDQYPhODj6UjriqqYSLBOeGFrcQIYE/YGLJa/f+quLy66U2J5SlIBFf+vg38pVICFKHCnXtANuZ+xrgmtMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tw.synaptics.com; spf=pass smtp.mailfrom=tw.synaptics.com; dkim=pass (1024-bit key) header.d=tw.synaptics.com header.i=@tw.synaptics.com header.b=Sb+QEN41; arc=fail smtp.client-ip=40.107.223.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tw.synaptics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tw.synaptics.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZVbpfLleFU5H2FR3Lzrb8l+ckE28U09+aOw8irKicou9nvknPPlAgMEah93nw+OGL6FKZnU+tZdZVxpUlYDe062aTU54LBSYd+dEsrwgwLPQh+zuyPK59OnyTqWJnoweTNNwOb/vyQ53W/i2ZTvg0k6dX24B5DxgaWs55wwm8CYs7ZKVOPVdb/fPDo57SSLD1EImLCRg9Z/7V7yeaAbgCBWanPdf1Mg4uG8FoXhR3+8winiVofisSkFVo5ximKwL48th9ttKBK0XKIcguti7ctmSZ+qbw+RIfHJVTC2bJiWc0wlF+vLJydY4ebXSec25ciAQAJHfHLYaRH/TztoqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zH8VcghEVxC+HBusf6dDYGSHgBxmCGek04JjrexznGg=;
- b=XHIgYXWzYYLwLu9FuJC3V4PWuj9zOUI5/LA/M7u0D+9sQ7L2kIWzj5QOoqUwJ/Kz/qwjKzF5qmKwE2jmj1wyury/rhGWBDd3aSANCzCtyEw1tsjQkQqr34cGNeF/qHVsLQ/Myh5sLoFX7RrDnIjg4TNWGbfcAxW1egs+AQYaV7iGkdCHyPzy9num9d6y7x7vB9jnoa3YIcNh5anhsW3KT1MscDYer8W0mwGj+5NVXE8li44JU0pKc7HL4kR/58Oc9m/MjpkoaoThojDTv17OZQ+yaZKS40IcXUc9FFHtCFPuw/TA5FN2GKNzOc+/rplRAjfNZZgDnux73uIvxR5+Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.147.44.87) smtp.rcpttodomain=gmail.com smtp.mailfrom=tw.synaptics.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=tw.synaptics.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tw.synaptics.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zH8VcghEVxC+HBusf6dDYGSHgBxmCGek04JjrexznGg=;
- b=Sb+QEN41fSqpgxlbbwMqZpnHtCqULTwUw4CBvt5eYDbAe9OwRiadrwkYknKHOnb8BnKKnDdjEhakWdRIH/R4Cb7kXCCQbPqW26HT8y6T6szxxDRyEnKZHetzravJIl1DmRgE2wLBKAqWqOxwT64a1YCdlm8tFpaAg6mihGgSRwg=
-Received: from MN2PR19CA0048.namprd19.prod.outlook.com (2603:10b6:208:19b::25)
- by MW5PR03MB7005.namprd03.prod.outlook.com (2603:10b6:303:1a8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.34; Wed, 20 Mar
- 2024 11:11:03 +0000
-Received: from BL6PEPF0001AB4B.namprd04.prod.outlook.com
- (2603:10b6:208:19b:cafe::e) by MN2PR19CA0048.outlook.office365.com
- (2603:10b6:208:19b::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27 via Frontend
- Transport; Wed, 20 Mar 2024 11:11:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.147.44.87)
- smtp.mailfrom=tw.synaptics.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=tw.synaptics.com;
-Received-SPF: Pass (protection.outlook.com: domain of tw.synaptics.com
- designates 192.147.44.87 as permitted sender)
- receiver=protection.outlook.com; client-ip=192.147.44.87;
- helo=sjc1uvd-bld04.synaptics.com; pr=C
-Received: from sjc1uvd-bld04.synaptics.com (192.147.44.87) by
- BL6PEPF0001AB4B.mail.protection.outlook.com (10.167.242.69) with Microsoft
- SMTP Server id 15.20.7409.10 via Frontend Transport; Wed, 20 Mar 2024
- 11:11:01 +0000
-From: Marge Yang <marge.yang@tw.synaptics.com>
-To: dmitry.torokhov@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	marge.yang@tw.synaptics.com
-Cc: david.chiu@tw.synaptics.com,
-	derek.cheng@tw.synaptics.com,
-	sam.tsai@synaptics.com,
-	vincent.huang@tw.synaptics.com,
-	Vincent Huang <Vincent.Huang@tw.synaptics.com>
-Subject: [PATCH V1] Input: synaptics-rmi4 - Supports to query DPM value.
-Date: Wed, 20 Mar 2024 11:10:58 +0000
-Message-Id: <20240320111058.601156-1-marge.yang@tw.synaptics.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A853FB93;
+	Wed, 20 Mar 2024 11:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710933408; cv=none; b=cHI4JnrVbheUOlRxhHnbcbcl4I7FSFXUA2e6edNH7OZTSq5cflpP1P6O8G3OXoOIkyV6RVsohXELONDT+0/vU88g3J/jOJWeqmAsPtwKUoolkwIBlp2NXOlC4GxO0dnpyMBj+aHfFi1Pd362b6rLjAH2O7v3HAj9Dzd06U+JNWg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710933408; c=relaxed/simple;
+	bh=jZITW5F1LPSEX35Sne0hsGdLz3H++JJ4tnzWy/SgkTg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=s0Ha10noQrFlDb/AWQ89gOAAVhRQB9ocjam9yjXblrN2OMffgVoP0gHqT9NlhBHLEH0BByLiD2caED26D/YvHxIb2mr5QK7tdS5dFOWsZm0kuJZMFc8JZ56wcB5agz/W9lsuZyPGKL3rkfHqsyAtM8p0WY8JENgvt3cL1sXZDt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=NTznYoqz; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de [217.229.156.138])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 00EFF2FC0057;
+	Wed, 20 Mar 2024 12:16:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1710933401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+4zpNEIVjjhVbRfRyLCxzzJG4yUwU/PAPb8l9mzJcKI=;
+	b=NTznYoqzURRGHcbjAz6JNcN5eRJt3vLTjWwpy2AXYT5bl8Pz40YzpjhtiaIE1T7PiS1Bsk
+	spa6NzUOryF8o76qC74LsyrHfzYvd7ffScqzi7bVzJoCAnBj9itHKwKRoyEIwR7TYaxTuv
+	WS5n+eUeyBOgHcHd0tyrrKX/yZFKCvI=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+Date: Wed, 20 Mar 2024 12:16:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Future handling of complex RGB devices on Linux v3
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+ <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+ <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+In-Reply-To: <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4B:EE_|MW5PR03MB7005:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a7f38671-e9aa-456c-7a2d-08dc48ce6e31
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	FREVldAgZgeznk+x+N6X2y4LxhX5+PaEEeGp4cR8+TR6jBtpbtF/vfZDFfsI0PZIelb+U0P0kNGurwH5PpwvjLFCYtGXM9ECqrF9ZncOG2nZd7Mu4fgYb3/lWZBKotwej7/GheQhgXTUX6n9hYfQ+XF39pxQ6Y217yrqv4DkmrZ36H7K2fk3tS1HGUtPDI+rQKHpBmfR71R5GChSFtEsq3wnBEqZiDjynkiM+OT5H62igcJKPIpn9NEb7yN6K5elFRKPfEUIrNLawWgWtIkBIHuUZnT2sH++mOsGLnhVK+ygMTrhUaPRyJ329mzKCFUHNOyNmcdib8POLi32T+fRDKj8Ztm7/JZx7qxCaqaemS9S0FHSflNPFblTl78kKdzVvQ1R8fkD4co66eeFVdjepF0tThp0TiucoHMVsqTz6DCO8KSp4FTVESB7nAHbMcxqTXItpM7Nx0KgAcoPNvRTnW4aG0P2IVkMuBqKiltm3fFiMUQ70hTUE+fjuBok6Uo8JHoAm9WD1009BruBiR2WhDx++ZRYjGIV5Z8kFcrqQ6SoMJ2GJ/NQBzsJ9+gZA5ndsSWAkT0GwNPIBO5juXb/jOEFoph2FW4drC7MUuXdTZKR+HW049Bm797cO3L+tlU+I6PC0f2gC86+suKZTYWVbmmABorXGscrAWUrG7XIfD22ASmLQlyiyntJRmlxpDzHKiOvPTo4snzEioQ5ONEXRBdQ4s/x1ydyOS8UpnogOR6qKlZcX6ItsENsM2rlzpn0
-X-Forefront-Antispam-Report:
-	CIP:192.147.44.87;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjc1uvd-bld04.synaptics.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376005)(82310400014)(36860700004)(1800799015);DIR:OUT;SFP:1102;
-X-OriginatorOrg: tw.synaptics.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2024 11:11:01.8498
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7f38671-e9aa-456c-7a2d-08dc48ce6e31
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=335d1fbc-2124-4173-9863-17e7051a2a0e;Ip=[192.147.44.87];Helo=[sjc1uvd-bld04.synaptics.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR03MB7005
 
-RMI4 F12 will support to query DPM value on Touchpad.
-When TP firmware doesn't support to report logical and
-physical value within the Touchpad's HID report,
-We can directly query the DPM value through RMI.
+Hi Hans and the others,
 
-Signed-off-by: Marge Yang <marge.yang@tw.synaptics.com>
-Signed-off-by: Vincent Huang <Vincent.Huang@tw.synaptics.com>
----
- drivers/input/rmi4/rmi_f12.c | 41 +++++++++++++++++++++++++++++++----------
- 1 file changed, 31 insertions(+), 10 deletions(-)
+Am 22.02.24 um 14:14 schrieb Werner Sembach:
+> Hi,
+>
+> Thanks everyone for the exhaustive feedback. And at least this thread is a 
+> good comprehesive reference for the future ^^.
+>
+> To recap the hopefully final UAPI for complex RGB lighting devices:
+>
+> - By default there is a singular /sys/class/leds/* entry that treats the 
+> device as if it was a single zone RGB keyboard backlight with no special effects.
+>
+> - There is an accompanying misc device with the sysfs attributes "name", 
+> "device_type",  "firmware_version_string", "serial_number" for device 
+> identification and "use_leds_uapi" that defaults to 1.
+>
+>     - If set to 0 the /sys/class/leds/* entry disappears. The driver should 
+> keep the last state the backlight was in active if possible.
+>
+>     - If set 1 it appears again. The driver should bring it back to a static 1 
+> zone setting while avoiding flicker if possible.
+>
+> - If the device is not controllable by for example hidraw, the misc device 
+> might also implement additional ioctls or sysfs attributes to allow a more 
+> complex low level control for the keyboard backlight. This is will be a highly 
+> vendor specific UAPI.
+So in the OpenRGB issue thread 
+https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices 
+aka HID LampArray was mentioned. I did dismiss it because I thought that is only 
+relevant for firmware, but I now stumbled upon the Virtual HID Framework (VHF) 
+https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/virtual-hid-framework--vhf- 
+and now I wonder if an equivalent exists for Linux? A quick search did not yield 
+any results for me.
 
-diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
-index 7e97944..6a7a17d 100644
---- a/drivers/input/rmi4/rmi_f12.c
-+++ b/drivers/input/rmi4/rmi_f12.c
-@@ -24,6 +24,7 @@ enum rmi_f12_object_type {
- };
- 
- #define F12_DATA1_BYTES_PER_OBJ			8
-+#define RMI_QUERY_DPM_IN_PRESENSE_BIT          29
- 
- struct f12_data {
- 	struct rmi_2d_sensor sensor;
-@@ -73,6 +74,8 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
- 	int pitch_y = 0;
- 	int rx_receivers = 0;
- 	int tx_receivers = 0;
-+	u16 query_dpm_addr = 0;
-+	int dpm_resolution = 0;
- 
- 	item = rmi_get_register_desc_item(&f12->control_reg_desc, 8);
- 	if (!item) {
-@@ -122,18 +125,36 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
- 		offset += 4;
- 	}
- 
--	if (rmi_register_desc_has_subpacket(item, 3)) {
--		rx_receivers = buf[offset];
--		tx_receivers = buf[offset + 1];
--		offset += 2;
--	}
-+	// Only supports to query DPM value on RMI F12.
-+	item = rmi_get_register_desc_item(&f12->query_reg_desc, RMI_QUERY_DPM_IN_PRESENSE_BIT);
-+	if (item) {
-+		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
-+			RMI_QUERY_DPM_IN_PRESENSE_BIT);
-+		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-+		ret = rmi_read(fn->rmi_dev, query_dpm_addr, buf);
-+		if (ret < 0) {
-+			dev_err(&fn->dev, "Failed to read DPM value: %d\n", ret);
-+			return -ENODEV;
-+		}
-+		dpm_resolution = buf[0];
-+
-+		sensor->x_mm = sensor->max_x / dpm_resolution;
-+		sensor->y_mm = sensor->max_y / dpm_resolution;
-+	} else {
-+		if (rmi_register_desc_has_subpacket(item, 3)) {
-+			rx_receivers = buf[offset];
-+			tx_receivers = buf[offset + 1];
-+			offset += 2;
-+		}
- 
--	/* Skip over sensor flags */
--	if (rmi_register_desc_has_subpacket(item, 4))
--		offset += 1;
-+		/* Skip over sensor flags */
-+		if (rmi_register_desc_has_subpacket(item, 4))
-+			offset += 1;
-+
-+		sensor->x_mm = (pitch_x * rx_receivers) >> 12;
-+		sensor->y_mm = (pitch_y * tx_receivers) >> 12;
-+	}
- 
--	sensor->x_mm = (pitch_x * rx_receivers) >> 12;
--	sensor->y_mm = (pitch_y * tx_receivers) >> 12;
- 
- 	rmi_dbg(RMI_DEBUG_FN, &fn->dev, "%s: x_mm: %d y_mm: %d\n", __func__,
- 		sensor->x_mm, sensor->y_mm);
--- 
-2.7.4
+If a virtual HID device is possible and the WMI interface can reasonably be 
+mapped to the LampArray API this might be the best starting point:
 
+- Implement a Virtual HID device with LampArray
+
+- Implement LampArray in OpenRGB
+
+- (Optional) Implement a generic LampArray leds subsystem driver that maps to 
+the single zone control and ads the use_leds_uapi sysfs switch to the virtual 
+HID device
+
+- (Optional) Implement vendor specific controls for 
+AutonomousMode/built-in-firmware-effects via custom HID commands
+
+- (Optional) Implement Virtual HID devices for actual HID devices that don't 
+support LampArray in firmware (Open question: How to prevent userspace/OpenRGB 
+from interacting with original HID when the virtual HID device is not in 
+AutonomousMode? How to associate the original and virtual HID device to each 
+other that userspace can easily recognize this relation? Or is it possible to 
+add virtual HID commands on top of a real HID device, making it look exactly 
+like the pure virtual devices for userspace?)
+
+The LampArray API hereby is made with the intention to be used for multi leds 
+devices, like per-key-backlight keyboards, unlike the leds UAPI. And it is 
+coming anyway with new RGB devices soon. So it would not conflict with a "don't 
+introduce unnecessary UAPI interfaces" principle. Are there any plans already of 
+Wrapping LampArray in some kind ioctl/sysfs API? Or just have it used via 
+hidraw? Or was there no discussion about it till now?
+
+Regards,
+
+Werner
+
+>
+>     - The actual logic interacting with this low level UAPI is implemented by 
+> a userspace driver
+>
+> Implementation wise: For the creation of the misc device with the 
+> use_leds_uapi switch a helper function/macro might be useful? Wonder if it 
+> should go into leds.h, led-class-multicolor.h, or a new header file?
+>
+> - Out of my head it would look something like this:
+>
+> led_classdev_add_optional_misc_control(
+>     struct led_classdev *led_cdev,
+>     char* name,
+>     char* device_type,
+>     char* firmware_version_string,
+>     char* serial_number,
+>     void (*deregister_led)(struct led_classdev *led_cdev),
+>     void (*reregister_led)(struct led_classdev *led_cdev))
+>
+> Let me know your thoughts and hopefully I can start implementing it soon for 
+> one of our devices.
+>
+> Kind regards,
+>
+> Werner Sembach
+>
 
