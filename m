@@ -1,175 +1,130 @@
-Return-Path: <linux-input+bounces-2456-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2457-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C49885B4B
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 16:01:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C31885B89
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 16:19:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A5C0B20D87
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 15:01:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB4051F2399A
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 15:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173A385952;
-	Thu, 21 Mar 2024 15:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A8686246;
+	Thu, 21 Mar 2024 15:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6LV5WN3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lloGY6fs"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E462155792;
-	Thu, 21 Mar 2024 15:01:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC49441775;
+	Thu, 21 Mar 2024 15:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711033272; cv=none; b=MbPvBGcAtK4EvipYUWC3JT0/ziHPukT3UH59U2xf1MhVWmZWZ3ERFHfCVl/FdkO/G9djOZ0xEvFoynv5btR79C7ipuZC5YpegZEjQiLSwizzUURCsAdc9i+kNeTtWbCiqmgho/z+mw7EK8vJixsmTfxs0mI+fLGfDoaIcFR5/+o=
+	t=1711034377; cv=none; b=j4JBE6ZaedleOI36uC3n+TrS99IJ2ZlK5KTXDwXay/xpCe8E1+Q6E9uyqkEl7gKo25DplxhFO/wtzc0TcUFi/jyQSRUihOLNtXia2eWXdD0f1u+0CAKXe8XqKhWevQ+2quklnbhaspYqs4LCGgdreJepYxvPHyn9VtpTpApIp/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711033272; c=relaxed/simple;
-	bh=PEJrHSKt1U+K2L5GVnfRCuafwN7gw0OYFsINbYiBTdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pHx4i6QuDYUBmTUYXVFIeDKTTCOtVERy8Ckj68iz1ipQ/aMaVwja5YljDTfgg+Iha1GqnIfnT6aHfuI9fp1jORNFkf/N5gJlLC3wPSlpDEmkZ3smcgnWEAdZoaN5WxnwaJ3tYwnh3X+4tdeqSfl5Mo8A6ni9h6VOn486dN+4K7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6LV5WN3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 223A7C433F1;
-	Thu, 21 Mar 2024 15:01:09 +0000 (UTC)
+	s=arc-20240116; t=1711034377; c=relaxed/simple;
+	bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=n93ii+9krFgWKxINA1zNf9w0ehbMXLTIlLLN2cedJ9mal3JL4to5sPdHq1y3b54kLA/dNh7kF7RSsH+SnhYW1RgM4k89R08WAAjx3sFaoH7xIt+CSXgyulzZKiwrock5NKaNQj/lkjMZuQ5W7bCd5A1YDmAFsqFRSnsrl51aUMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lloGY6fs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A73DC433F1;
+	Thu, 21 Mar 2024 15:19:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711033271;
-	bh=PEJrHSKt1U+K2L5GVnfRCuafwN7gw0OYFsINbYiBTdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K6LV5WN3cJeKpxPr3PEudhZ0rutxUFjpiz3rzcP/5XF2mJaGCmyGDuWItvM5/n1iZ
-	 COlgIKNmhcOb9DYaAS6ZdSy/HZ/CHws+xOsblsl48Vrd5RDmc+XfABK4KocwyhQA1C
-	 dN64eFtIXZijfLOG6/6vHR2aTpyz3yHWeUVCEn/NikbQDND8CcmYNvkUnAykAAk26d
-	 yBJ9zVEE/S2/2TS6E7/fYHA5t9wuOH4mec2abjoSpOXUZ+DiBCbcwTrtYsjIgnNB1x
-	 yaKSy2LARjVFcd5pG6sxsynBawEy51576AMJONfeQRIsQ21FsySBxdYfyJB4CjKTzJ
-	 QPwyEdJFtIBOA==
-Date: Thu, 21 Mar 2024 16:01:06 +0100
+	s=k20201202; t=1711034377;
+	bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lloGY6fskoz0QoaV3F3FSzytf1O/aBgLGQ22LWzI4+uWeyq3k28tqrFHRJdrjYzUh
+	 Vgp9G1uZJFZMRT53k5yySWR7HJnjgaNpVQdTVGZBP0NgBf15udFFIipYCDwwloJ+5n
+	 2LjymdGHXgjlJI3BRD7++RRMutEKb6/M9JfDp4oGF1jkRNyz9N4jR/nA1d4Vt12tc0
+	 F/yyAP8PbskZnmJljEGPp81inRm46EsXrM3tfb+rI8O2ATL26gSUh/VRwmHhBM+cRw
+	 1rqsuNw9Fe/PBWZfF5KR0Wq/b+KrdOQjMBQxWLlGyVajg+kFlrlIcTL6nutfRPOrSI
+	 S9Pnf/Z7t3jxg==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: uclogic: Store firmware name in params
-Message-ID: <dadh7jtdpdf3iahcgxdaqadpc6k6gnaz6gatxycxpd4u2atl7a@2f4vzqwzt7n3>
-References: <20240321144553.262409-1-jose.exposito89@gmail.com>
- <20240321144553.262409-2-jose.exposito89@gmail.com>
+Date: Thu, 21 Mar 2024 16:19:27 +0100
+Subject: [PATCH] MAINTAINERS: update Benjamin's email address
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240321144553.262409-2-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240321-bentiss_kernel-v1-1-eeaa04b4bfbc@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAP5P/GUC/x3MSwqAMAwA0atI1haaVvBzFRGpmmpQqjQignh3i
+ 8u3mHlAKDIJNNkDkS4W3kMC5hmMiwszKZ6SwWhTaGtQDRROFulXioE2VVvEynssrXOQoiOS5/s
+ ftt37fj60LWJgAAAA
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711034376; l=2226;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
+ b=idxzU9NqEHxAzS692QigZ1cfATnvQkTmfk4T7+2MITO9upCXANUoonubIkHGuOE/CNc05KzKP
+ BQ6RMsjI1tqBxtfkSKaZ4sXrFK8D88kJpRGnbyEkvI4qhc3JZN6I6Di
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
+Update my email address to the kernel.org one, as it's getting
+more convenient this way.
 
-Hi José,
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Basically it's getting easier for me to use the kernel.org address
+instead of my company's one. So let's do it.
 
-On Mar 21 2024, José Expósito wrote:
-> A future patch will need to access the firmware name to expose it to
-> userspace via sysfs.
-> 
-> Store it in `uclogic_params->fw_name`.
-> 
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> ---
->  drivers/hid/hid-uclogic-params.c | 14 +++++++-------
->  drivers/hid/hid-uclogic-params.h |  5 +++++
->  2 files changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-> index 9859dad36495..79ec3eb80f84 100644
-> --- a/drivers/hid/hid-uclogic-params.c
-> +++ b/drivers/hid/hid-uclogic-params.c
-> @@ -121,6 +121,7 @@ void uclogic_params_hid_dbg(const struct hid_device *hdev,
->  		params->invalid ? "true" : "false");
->  	hid_dbg(hdev, ".desc_ptr = %p\n", params->desc_ptr);
->  	hid_dbg(hdev, ".desc_size = %u\n", params->desc_size);
-> +	hid_dbg(hdev, ".fw_name = %s\n", params->fw_name);
->  	hid_dbg(hdev, ".pen = {\n");
->  	uclogic_params_pen_hid_dbg(hdev, &params->pen);
->  	hid_dbg(hdev, "\t}\n");
-> @@ -652,6 +653,7 @@ void uclogic_params_cleanup(struct uclogic_params *params)
->  	if (!params->invalid) {
->  		size_t i;
->  		kfree(params->desc_ptr);
-> +		kfree(params->fw_name);
->  		uclogic_params_pen_cleanup(&params->pen);
->  		for (i = 0; i < ARRAY_SIZE(params->frame_list); i++)
->  			uclogic_params_frame_cleanup(&params->frame_list[i]);
-> @@ -837,7 +839,6 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
->  	/* The resulting parameters (noop) */
->  	struct uclogic_params p = {0, };
->  	static const char transition_ver[] = "HUION_T153_160607";
-> -	char *ver_ptr = NULL;
->  	const size_t ver_len = sizeof(transition_ver) + 1;
->  	__u8 *params_ptr = NULL;
->  	size_t params_len = 0;
-> @@ -870,14 +871,14 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
->  	}
->  
->  	/* Try to get firmware version */
-> -	ver_ptr = kzalloc(ver_len, GFP_KERNEL);
-> -	if (ver_ptr == NULL) {
-> +	p.fw_name = kzalloc(ver_len, GFP_KERNEL);
-> +	if (!p.fw_name) {
->  		rc = -ENOMEM;
->  		goto cleanup;
->  	}
-> -	rc = usb_string(udev, 201, ver_ptr, ver_len);
-> +	rc = usb_string(udev, 201, p.fw_name, ver_len);
->  	if (rc == -EPIPE) {
-> -		*ver_ptr = '\0';
-> +		*p.fw_name = '\0';
->  	} else if (rc < 0) {
->  		hid_err(hdev,
->  			"failed retrieving Huion firmware version: %d\n", rc);
-> @@ -885,7 +886,7 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
->  	}
->  
->  	/* If this is a transition firmware */
-> -	if (strcmp(ver_ptr, transition_ver) == 0) {
-> +	if (strcmp(p.fw_name, transition_ver) == 0) {
->  		hid_dbg(hdev,
->  			"transition firmware detected, not probing pen v2 parameters\n");
->  	} else {
-> @@ -1028,7 +1029,6 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
->  	rc = 0;
->  cleanup:
->  	kfree(params_ptr);
-> -	kfree(ver_ptr);
->  	uclogic_params_cleanup(&p);
->  	return rc;
->  }
-> diff --git a/drivers/hid/hid-uclogic-params.h b/drivers/hid/hid-uclogic-params.h
-> index d6ffadb2f601..412c916770f5 100644
-> --- a/drivers/hid/hid-uclogic-params.h
-> +++ b/drivers/hid/hid-uclogic-params.h
-> @@ -232,6 +232,11 @@ struct uclogic_params {
->  	 * List of event hooks.
->  	 */
->  	struct uclogic_raw_event_hook *event_hooks;
-> +	/*
-> +	 * Firmware name, exposed to userspace via sysfs as it is used to
-> +	 * identify the tablet.
-> +	 */
-> +	char *fw_name;
+Note sure if I should go through the whole tree to change the different
+occurences of my email, but worse case this can happen in a separate
+patch.
+---
+ .mailmap    | 2 ++
+ MAINTAINERS | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-I can't remember if this was on the table or not, but any reasons to not
-use hid->uniq[64] field instead of a custom sysfs?
-If there is already a value, we could just append the firmware version
-with a colon (:) separator.
+diff --git a/.mailmap b/.mailmap
+index e90797de3256..25019ddf467c 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -96,6 +96,8 @@ Ben Widawsky <bwidawsk@kernel.org> <ben@bwidawsk.net>
+ Ben Widawsky <bwidawsk@kernel.org> <ben.widawsky@intel.com>
+ Ben Widawsky <bwidawsk@kernel.org> <benjamin.widawsky@intel.com>
+ Benjamin Poirier <benjamin.poirier@gmail.com> <bpoirier@suse.de>
++Benjamin Tissoires <bentiss@kernel.org> <benjamin.tissoires@gmail.com>
++Benjamin Tissoires <bentiss@kernel.org> <benjamin.tissoires@redhat.com>
+ Bjorn Andersson <andersson@kernel.org> <bjorn@kryo.se>
+ Bjorn Andersson <andersson@kernel.org> <bjorn.andersson@linaro.org>
+ Bjorn Andersson <andersson@kernel.org> <bjorn.andersson@sonymobile.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c50e72258ba9..52bb6f2c3e7b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9546,7 +9546,7 @@ F:	kernel/power/
+ 
+ HID CORE LAYER
+ M:	Jiri Kosina <jikos@kernel.org>
+-M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
++M:	Benjamin Tissoires <bentiss@kernel.org>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+@@ -22685,7 +22685,7 @@ F:	drivers/usb/host/ehci*
+ 
+ USB HID/HIDBP DRIVERS (USB KEYBOARDS, MICE, REMOTE CONTROLS, ...)
+ M:	Jiri Kosina <jikos@kernel.org>
+-M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
++M:	Benjamin Tissoires <bentiss@kernel.org>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
 
-The main reason would be to not export a new sysfs specifically for this
-driver, but it would also allow HID-BPF to have access to the value and
-thus allow to detect if the device works with the given bpf program.
+---
+base-commit: 3e78a6c0d3e02e4cf881dc84c5127e9990f939d6
+change-id: 20240321-bentiss_kernel-93118ff173aa
 
-Cheers,
-Benjamin
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
->  };
->  
->  /* Driver data */
-> -- 
-> 2.44.0
-> 
 
