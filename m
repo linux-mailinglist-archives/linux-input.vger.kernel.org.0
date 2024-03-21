@@ -1,130 +1,198 @@
-Return-Path: <linux-input+bounces-2457-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2458-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C31885B89
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 16:19:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E24885C57
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 16:44:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB4051F2399A
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 15:19:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4F59EB28BE7
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 15:44:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A8686246;
-	Thu, 21 Mar 2024 15:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A988624F;
+	Thu, 21 Mar 2024 15:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lloGY6fs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qBzuVRhQ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC49441775;
-	Thu, 21 Mar 2024 15:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82072A947;
+	Thu, 21 Mar 2024 15:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711034377; cv=none; b=j4JBE6ZaedleOI36uC3n+TrS99IJ2ZlK5KTXDwXay/xpCe8E1+Q6E9uyqkEl7gKo25DplxhFO/wtzc0TcUFi/jyQSRUihOLNtXia2eWXdD0f1u+0CAKXe8XqKhWevQ+2quklnbhaspYqs4LCGgdreJepYxvPHyn9VtpTpApIp/E=
+	t=1711035737; cv=none; b=tnfCkS4DpfFbgEjCmwtr1IoU8rEIcjuIrnEbwZ/PugxwvbH8bQ5SOd9anqE9zBw1uh3lSyb3qBstzPKnwp6nUaEMiKIszbQSxe/4TRWHSq9x9PJaQJGHqjm4sJoCJutxpOx+WArgXWKDol5BOCZudkAdIpFZZb+E5bpnaCHNDbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711034377; c=relaxed/simple;
-	bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=n93ii+9krFgWKxINA1zNf9w0ehbMXLTIlLLN2cedJ9mal3JL4to5sPdHq1y3b54kLA/dNh7kF7RSsH+SnhYW1RgM4k89R08WAAjx3sFaoH7xIt+CSXgyulzZKiwrock5NKaNQj/lkjMZuQ5W7bCd5A1YDmAFsqFRSnsrl51aUMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lloGY6fs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A73DC433F1;
-	Thu, 21 Mar 2024 15:19:36 +0000 (UTC)
+	s=arc-20240116; t=1711035737; c=relaxed/simple;
+	bh=8wU+PN5cU0I4EEhB8JOIgJoIJA40lFgTVOanV0oEnWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMyoDxn9VRJDwu+h3TyoJnBfRRyQQS2y0Yb6OcskNYKdSavX6pWHFzx7cj22iue2DhVC9m+Ql6MinweP6NtSc5bMA3H+d0d6pqUxQ785DBpHItioZXUwbTApJ1h2G34mqZskg/GwYHDzSBskz3CgmWnP7e8Buqv6z3iBQD+19t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qBzuVRhQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC35C433F1;
+	Thu, 21 Mar 2024 15:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711034377;
-	bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
-	h=From:Date:Subject:To:Cc:From;
-	b=lloGY6fskoz0QoaV3F3FSzytf1O/aBgLGQ22LWzI4+uWeyq3k28tqrFHRJdrjYzUh
-	 Vgp9G1uZJFZMRT53k5yySWR7HJnjgaNpVQdTVGZBP0NgBf15udFFIipYCDwwloJ+5n
-	 2LjymdGHXgjlJI3BRD7++RRMutEKb6/M9JfDp4oGF1jkRNyz9N4jR/nA1d4Vt12tc0
-	 F/yyAP8PbskZnmJljEGPp81inRm46EsXrM3tfb+rI8O2ATL26gSUh/VRwmHhBM+cRw
-	 1rqsuNw9Fe/PBWZfF5KR0Wq/b+KrdOQjMBQxWLlGyVajg+kFlrlIcTL6nutfRPOrSI
-	 S9Pnf/Z7t3jxg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Thu, 21 Mar 2024 16:19:27 +0100
-Subject: [PATCH] MAINTAINERS: update Benjamin's email address
+	s=k20201202; t=1711035737;
+	bh=8wU+PN5cU0I4EEhB8JOIgJoIJA40lFgTVOanV0oEnWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qBzuVRhQdTtsKEthMcxXaa+/N5b8Tyu59i7h39aFD4yYJUXRn7HIMGMKK/kK+pkWH
+	 vCBXYR9ouME4f1lXv9PWkqbVOCCX8gJeYX6SKeNgfrORtjKPQX8QrpIwTQ0FRpbUy4
+	 eKEc385FPBkVg2gv9dK/G7v0OKxtXWdF5OEOERyY+mzu3uFkKfW5/U5vEZAa/4CDqY
+	 Cdu5N1oL/wF8q3GULbCiDOqS4VVtiQBiwbJmR+fIygTZ26kfa2gO7KocjWdQvjRohO
+	 9nU8gJtEV6+E5HAyHxBLKLT04MTcgUf/NpP5mW/3nIv8yQC/HgmdmyUENApL8MK8T8
+	 wsIz+fBHCLn+Q==
+Date: Thu, 21 Mar 2024 15:42:11 +0000
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Cc: Karel Balej <balejk@matfyz.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
+Message-ID: <20240321154211.GA13211@google.com>
+References: <20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz>
+ <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240321-bentiss_kernel-v1-1-eeaa04b4bfbc@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAP5P/GUC/x3MSwqAMAwA0atI1haaVvBzFRGpmmpQqjQignh3i
- 8u3mHlAKDIJNNkDkS4W3kMC5hmMiwszKZ6SwWhTaGtQDRROFulXioE2VVvEynssrXOQoiOS5/s
- ftt37fj60LWJgAAAA
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711034376; l=2226;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=JagbLAWs5oV14b4pWzc+FAMEcZLOG8pm8iM+Ow8+Yi8=;
- b=idxzU9NqEHxAzS692QigZ1cfATnvQkTmfk4T7+2MITO9upCXANUoonubIkHGuOE/CNc05KzKP
- BQ6RMsjI1tqBxtfkSKaZ4sXrFK8D88kJpRGnbyEkvI4qhc3JZN6I6Di
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
 
-Update my email address to the kernel.org one, as it's getting
-more convenient this way.
+On Mon, 11 Mar 2024, Karel Balej wrote:
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
-Basically it's getting easier for me to use the kernel.org address
-instead of my company's one. So let's do it.
+> From: Karel Balej <balejk@matfyz.cz>
+> 
+> Marvell 88PM886 is a PMIC which provides various functions such as
+> onkey, battery, charger and regulators. It is found for instance in the
+> samsung,coreprimevelte smartphone with which this was tested. Implement
+> basic support to allow for the use of regulators and onkey.
+> 
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+> ---
+> 
+> Notes:
+>     RFC v4:
+>     - Use MFD_CELL_* macros.
+>     - Address Lee's feedback:
+>       - Do not define regmap_config.val_bits and .reg_bits.
+>       - Drop everything regulator related except mfd_cell (regmap
+>         initialization, IDs enum etc.). Drop pm886_initialize_subregmaps.
+>       - Do not store regmap pointers as an array as there is now only one
+>         regmap. Also drop the corresponding enum.
+>       - Move regmap_config to the header as it is needed in the regulators
+>         driver.
+>       - pm886_chip.whoami -> chip_id
+>       - Reword chip ID mismatch error message and print the ID as
+>         hexadecimal.
+>       - Fix includes in include/linux/88pm886.h.
+>       - Drop the pm886_irq_number enum and define the (for the moment) only
+>         IRQ explicitly.
+>     - Have only one MFD cell for all regulators as they are now registered
+>       all at once in the regulators driver.
+>     - Reword commit message.
+>     - Make device table static and remove comma after the sentinel to signal
+>       that nothing should come after it.
+>     RFC v3:
+>     - Drop onkey cell .of_compatible.
+>     - Rename LDO page offset and regmap to REGULATORS.
+>     RFC v2:
+>     - Remove some abstraction.
+>     - Sort includes alphabetically and add linux/of.h.
+>     - Depend on OF, remove of_match_ptr and add MODULE_DEVICE_TABLE.
+>     - Use more temporaries and break long lines.
+>     - Do not initialize ret in probe.
+>     - Use the wakeup-source DT property.
+>     - Rename ret to err.
+>     - Address Lee's comments:
+>       - Drop patched in presets for base regmap and related defines.
+>       - Use full sentences in comments.
+>       - Remove IRQ comment.
+>       - Define regmap_config member values.
+>       - Rename data to sys_off_data.
+>       - Add _PMIC suffix to Kconfig.
+>       - Use dev_err_probe.
+>       - Do not store irq_data.
+>       - s/WHOAMI/CHIP_ID
+>       - Drop LINUX part of include guard name.
+>       - Merge in the regulator series modifications in order to have more
+>         devices and modify the commit message accordingly. Changes with
+>         respect to the original regulator series patches:
+>         - ret -> err
+>         - Add temporary for dev in pm88x_initialize_subregmaps.
+>         - Drop of_compatible for the regulators.
+>         - Do not duplicate LDO regmap for bucks.
+>     - Rewrite commit message.
+> 
+>  drivers/mfd/88pm886.c       | 149 ++++++++++++++++++++++++++++++++++++
+>  drivers/mfd/Kconfig         |  12 +++
+>  drivers/mfd/Makefile        |   1 +
+>  include/linux/mfd/88pm886.h |  38 +++++++++
+>  4 files changed, 200 insertions(+)
+>  create mode 100644 drivers/mfd/88pm886.c
+>  create mode 100644 include/linux/mfd/88pm886.h
 
-Note sure if I should go through the whole tree to change the different
-occurences of my email, but worse case this can happen in a separate
-patch.
----
- .mailmap    | 2 ++
- MAINTAINERS | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Looks mostly okay.
 
-diff --git a/.mailmap b/.mailmap
-index e90797de3256..25019ddf467c 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -96,6 +96,8 @@ Ben Widawsky <bwidawsk@kernel.org> <ben@bwidawsk.net>
- Ben Widawsky <bwidawsk@kernel.org> <ben.widawsky@intel.com>
- Ben Widawsky <bwidawsk@kernel.org> <benjamin.widawsky@intel.com>
- Benjamin Poirier <benjamin.poirier@gmail.com> <bpoirier@suse.de>
-+Benjamin Tissoires <bentiss@kernel.org> <benjamin.tissoires@gmail.com>
-+Benjamin Tissoires <bentiss@kernel.org> <benjamin.tissoires@redhat.com>
- Bjorn Andersson <andersson@kernel.org> <bjorn@kryo.se>
- Bjorn Andersson <andersson@kernel.org> <bjorn.andersson@linaro.org>
- Bjorn Andersson <andersson@kernel.org> <bjorn.andersson@sonymobile.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c50e72258ba9..52bb6f2c3e7b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9546,7 +9546,7 @@ F:	kernel/power/
- 
- HID CORE LAYER
- M:	Jiri Kosina <jikos@kernel.org>
--M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-+M:	Benjamin Tissoires <bentiss@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-@@ -22685,7 +22685,7 @@ F:	drivers/usb/host/ehci*
- 
- USB HID/HIDBP DRIVERS (USB KEYBOARDS, MICE, REMOTE CONTROLS, ...)
- M:	Jiri Kosina <jikos@kernel.org>
--M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-+M:	Benjamin Tissoires <bentiss@kernel.org>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+> diff --git a/include/linux/mfd/88pm886.h b/include/linux/mfd/88pm886.h
+> new file mode 100644
+> index 000000000000..a5e6524bb19d
+> --- /dev/null
+> +++ b/include/linux/mfd/88pm886.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef __MFD_88PM886_H
+> +#define __MFD_88PM886_H
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/regmap.h>
+> +
+> +#define PM886_A1_CHIP_ID		0xa1
+> +
+> +#define PM886_REGMAP_CONF_MAX_REG	0xfe
+> +
+> +#define PM886_REG_ID			0x00
+> +
+> +#define PM886_REG_STATUS1		0x01
+> +#define PM886_ONKEY_STS1		BIT(0)
+> +
+> +#define PM886_REG_MISC_CONFIG1		0x14
+> +#define PM886_SW_PDOWN			BIT(5)
+> +
+> +#define PM886_REG_MISC_CONFIG2		0x15
+> +#define PM886_INT_INV			BIT(0)
+> +#define PM886_INT_CLEAR			BIT(1)
+> +#define PM886_INT_RC			0x00
+> +#define PM886_INT_WC			BIT(1)
+> +#define PM886_INT_MASK_MODE		BIT(2)
+> +
+> +struct pm886_chip {
+> +	struct i2c_client *client;
+> +	unsigned int chip_id;
+> +	struct regmap *regmap;
+> +};
+> +
+> +static const struct regmap_config pm886_i2c_regmap = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = PM886_REGMAP_CONF_MAX_REG,
+> +};
 
----
-base-commit: 3e78a6c0d3e02e4cf881dc84c5127e9990f939d6
-change-id: 20240321-bentiss_kernel-93118ff173aa
+Why is this in here?
 
-Best regards,
+> +#endif /* __MFD_88PM886_H */
+
+What would you like me to do with this RFC patch?
+
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
-
+Lee Jones [李琼斯]
 
