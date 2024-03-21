@@ -1,117 +1,97 @@
-Return-Path: <linux-input+bounces-2467-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2468-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0537885F7C
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 18:17:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045B1885FC9
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 18:31:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F7421F23EC7
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 17:17:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFBC51F2229A
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 17:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2594482E1;
-	Thu, 21 Mar 2024 17:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8o0ZpY1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EF2B84A28;
+	Thu, 21 Mar 2024 17:31:50 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF3F224D7;
-	Thu, 21 Mar 2024 17:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949D117590;
+	Thu, 21 Mar 2024 17:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711041467; cv=none; b=c0/vjp0cWGRcVQo0iOfkPLyai9/yyK3a18C2pVU2JWLGtlw0UGjQg59vEDeiKz+J+0qj1eFkAGWnXd5VbWDGUyCwZ+nYBLVY2XOZzRMDu8IgsLs3AJXsBtJJfyiEJPPxAA/htICo1jAw8bTH3rQyld/82rRZgIprIGWsQ28s/uY=
+	t=1711042310; cv=none; b=XYK8f4SU2IyL3kVNjWSBSKn/nEunFw+uFu8gGOpzRrM01Dil9RGnHnohXW0np6JffG0nOJHXA8lZENKo2BPRLg3nQu4utGj3LHido0Ho36fDrNzDhB3Ar0VwFVtfYgS5HRpXfEm1M+cg0g7tzFjtG5ft3OXb5kzl6PtLQP/OvCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711041467; c=relaxed/simple;
-	bh=1L/duXBiIPiVo7GCjSeUY9hylRmojjGd3gub4/7cGB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fMMXngLr3L9tM/Xg4JEOyxclFoEzQxcqRXi/TBOQKZnG+VX+7MFFyfIyDJGX0b5nbu0jS/bMUfau/mv127lWjhpTPDKpidUb+I9DHlPtYxHX5634rVDCh04kEI0mIiTX9AQ6QkOGZfU8dI4Nln32TpBBEQlk7AMnvbDAEx46WtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8o0ZpY1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9759FC433F1;
-	Thu, 21 Mar 2024 17:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711041467;
-	bh=1L/duXBiIPiVo7GCjSeUY9hylRmojjGd3gub4/7cGB4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K8o0ZpY1mORa3rA1SZPj71EfUvQ/wRgEAFvOc9SnBV5ozsrvIXEIIeV3ehfSupap5
-	 JndNoTEicC610bIW+GeQqg1F2cP7beIlC9E1MCVwYXPpGMdfzS3NYpmu8PmAbl9QRN
-	 1guiY6dxqSX+3dOopVLaliM8Qm2ggtJ8gJjoTtG4TTB9PNf0iDfqZgOzGA98I9P3F7
-	 RNXPSaIRBNIpSdpvlMcTZgYqJtZ1VZSdkoswogKQf0vmtDOlbgjaBobCRWssKkC5NM
-	 wtC/U2MFabtmplYAtBCCxdQ/qq/t/W8IXXiTLrfow3zjTwSm0noSgjJk4Lfy7XQ4dk
-	 IMTxavIkasHMg==
-Date: Thu, 21 Mar 2024 17:17:40 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Karel Balej <balejk@matfyz.cz>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
-Message-ID: <45079e37-dde9-4310-a112-7af49f35ac77@sirena.org.uk>
-References: <20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz>
- <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
- <20240321154211.GA13211@google.com>
- <CZZK759UU6G7.MFPYOI0HBB6I@matfyz.cz>
- <20240321162045.GC13211@google.com>
- <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
- <879296b4-5186-4170-af3f-971787d28514@sirena.org.uk>
- <CZZLDK79D5VK.2VK3X59OHIY2Z@matfyz.cz>
+	s=arc-20240116; t=1711042310; c=relaxed/simple;
+	bh=lRZvAs6e51QxA2WQumhhbAA6NHprYtIDHJic0YkCZfA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Cc:Subject:
+	 References:In-Reply-To; b=IjL58E79/RQRbMuAnGEN3pSohS6solQmWUQEc0DDFa6+F/OeFv1vFyE6Grqqq/NnTyWnEfbMPOhMjgjqa6TXobQEJpCEsgmsAlSp2/WZE894mWNl8/wYtfxEwQ1db7NLaWS3nkDdkvsejehCzrSBlupecYfGatYfN6Fl0tE+p0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; arc=none smtp.client-ip=195.113.20.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
+X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
+	serial F5FD910E8FE2121B897F7E55B84E351D
+	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
+	auth type TLS.CUNI
+Received: from localhost (koleje-wifi-0015.koleje.cuni.cz [78.128.191.15])
+	(authenticated)
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 42LHVUUq096433
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 21 Mar 2024 18:31:32 +0100 (CET)
+	(envelope-from balejk@matfyz.cz)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oJHv45Mb4kHzpP0z"
-Content-Disposition: inline
-In-Reply-To: <CZZLDK79D5VK.2VK3X59OHIY2Z@matfyz.cz>
-X-Cookie: MIT:
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 18:32:03 +0100
+Message-Id: <CZZLVS3T3QIS.223XHI5OZ7UBG@matfyz.cz>
+To: "Mark Brown" <broonie@kernel.org>
+From: "Karel Balej" <balejk@matfyz.cz>
+Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        "Conor Dooley"
+ <conor+dt@kernel.org>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
+References: <20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz>
+ <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
+ <20240321154211.GA13211@google.com> <CZZK759UU6G7.MFPYOI0HBB6I@matfyz.cz>
+ <20240321162045.GC13211@google.com> <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
+ <879296b4-5186-4170-af3f-971787d28514@sirena.org.uk>
+ <CZZLDK79D5VK.2VK3X59OHIY2Z@matfyz.cz>
+ <45079e37-dde9-4310-a112-7af49f35ac77@sirena.org.uk>
+In-Reply-To: <45079e37-dde9-4310-a112-7af49f35ac77@sirena.org.uk>
 
+Mark Brown, 2024-03-21T17:17:40+00:00:
+> On Thu, Mar 21, 2024 at 06:08:16PM +0100, Karel Balej wrote:
+> > Mark Brown, 2024-03-21T16:58:44+00:00:
+>
+> > > > > > > > +static const struct regmap_config pm886_i2c_regmap =3D {
+> > > > > > > > +	.reg_bits =3D 8,
+> > > > > > > > +	.val_bits =3D 8,
+> > > > > > > > +	.max_register =3D PM886_REGMAP_CONF_MAX_REG,
+> > > > > > > > +};
+>
+> ...
+>
+> > > You shouldn't be creating two regmaps for the same set of registers,
+> > > that just opens the potential for confusion.
+>
+> > Just the regmap config is the same. Otherwise, each regmap lives at a
+> > different I2C address.
+>
+> Do they both genuinely have the same maximum register?
 
---oJHv45Mb4kHzpP0z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Mar 21, 2024 at 06:08:16PM +0100, Karel Balej wrote:
-> Mark Brown, 2024-03-21T16:58:44+00:00:
-
-> > > > > > > +static const struct regmap_config pm886_i2c_regmap = {
-> > > > > > > +	.reg_bits = 8,
-> > > > > > > +	.val_bits = 8,
-> > > > > > > +	.max_register = PM886_REGMAP_CONF_MAX_REG,
-> > > > > > > +};
-
-...
-
-> > You shouldn't be creating two regmaps for the same set of registers,
-> > that just opens the potential for confusion.
-
-> Just the regmap config is the same. Otherwise, each regmap lives at a
-> different I2C address.
-
-Do they both genuinely have the same maximum register?
-
---oJHv45Mb4kHzpP0z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX8a7QACgkQJNaLcl1U
-h9AzgQf/ZFwxdRh8PV6KEsERNGwwS8v1mrS7lrZyYJ3WLjvxLW4IGIhGJlvYT0QK
-6qY1L7OPpALhBqB9PJOMmzj25gYUrH0G7Xm/mgNLHGUfcziiy+aYFK+qMJz+WhmA
-4jJZonmfKnPo14Q3P0BTRbQ31Sea749XWHsBX6Lj35znOawhFuAveCYPFnmkXV8z
-IGGDK1JzLfPpzqIAt4sQSAK4IxcVZlhW431iWlsOjT6fGjUoCYJ024vfjt/Qe5a9
-LV21+ek3qXEgkiHcJN4J4hVDwm2yQ/+AbTPPjwu1zWmSDWGu9GURK3MJaJYw4xQ0
-8xeNT4PV3q7NHyFblyIuRyKnCJRIXg==
-=XIFj
------END PGP SIGNATURE-----
-
---oJHv45Mb4kHzpP0z--
+They do according to the downstream driver which is my only reference.
+In fact, there the driver defines the configs separately for each regmap
+but with the same values.
 
