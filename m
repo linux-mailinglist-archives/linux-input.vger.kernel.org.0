@@ -1,85 +1,133 @@
-Return-Path: <linux-input+bounces-2463-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2464-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32681885EB7
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 17:54:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 831D0885F1B
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 18:06:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 609411C23070
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 16:54:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38CAF2833F6
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 17:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6DF616410;
-	Thu, 21 Mar 2024 16:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QxqR/9dc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B191339A2;
+	Thu, 21 Mar 2024 16:55:05 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD38D12B7E;
-	Thu, 21 Mar 2024 16:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AD313398E;
+	Thu, 21 Mar 2024 16:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039198; cv=none; b=cz2Ri7Ehjf8DpABQdPa+k7JG21NALLDgNqRyAgYsHJzh1GvybO0tL89/VoxXm+mTnI5rr9ehpmL4R3LTywGhaBLr/cJIKGA3qVBAyc7Z/n8xaqRbV5CohMoWHnyWU3AJVWfetFtQ/WAN7zpKB2Ahf3+vywdNSy918Fa6zDkU1c4=
+	t=1711040105; cv=none; b=bPo+5XOj3Y/alr5pBK4yanXsGGoM3M9G3EME3guf4svkq1wym5SYbo0wbA+cQ+qLuI6TwknY4QuU9l/wJi6+GELXgmnqATE4G630pi7NpPfCjCAp+ZuBhLWwFToWjZUv+GrSmGQA0aKS49fI/nkQ6lAJOo722a8O+ny0DgLrql8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039198; c=relaxed/simple;
-	bh=cLa5z8Ewc33xpHSCUWMOo29kvXoVov6OLDGUdAEMZFE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hn85pDFkWEQNDjAk/+8BsVH+cVi/AB6rsWkqloW9C8HEaMInbn4KqhenUsPCvsApuZuTP7B2gH5eEjsn6zBGON7Ogfh7zVANodJIr6OuiMCBGAF1++kQqtNT7kGMgh/zjrbwdXdPOL/tDEIA8qowaHjpDTDzTfdzHiaWoInoxx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QxqR/9dc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3253C433F1;
-	Thu, 21 Mar 2024 16:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711039198;
-	bh=cLa5z8Ewc33xpHSCUWMOo29kvXoVov6OLDGUdAEMZFE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=QxqR/9dc6P5uAshkly2kzfuhreh5+4fauNvXV1nLtrai+xoUm5pC8aZ2pVks7uigr
-	 rnXq/clKVaSZ2Wfr61nDz4HpDkMUVmrJPUPUMiQejjNnl7ly2qwg3beq4ruuPpaNac
-	 yfTRlaOMCLifI8BxFQA2W6D1P5U4401ugy81Hu1azWd4mmZo4UzppfIr34vQuZTPJD
-	 H7KU/J70rU+NHTmuQQtZ16xLqxsF4dRpPmoEcGRihU/s0AdJ40+q7AVvfS4oK6XE0u
-	 6TjTCe4ks+kOEhaUBSvxIAGYbu17AbqaXZEt2XAFoKIqlkNgZJ1RH4R9dnCgZ0G8pw
-	 qqJCGxMac9j+Q==
-Date: Thu, 21 Mar 2024 17:39:55 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: update Benjamin's email address
-In-Reply-To: <20240321-bentiss_kernel-v1-1-eeaa04b4bfbc@kernel.org>
-Message-ID: <nycvar.YFH.7.76.2403211738590.20263@cbobk.fhfr.pm>
-References: <20240321-bentiss_kernel-v1-1-eeaa04b4bfbc@kernel.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1711040105; c=relaxed/simple;
+	bh=DAYUzvLgjGxzoLKaxbAegS32rjkdBP2mRLv51HBBX5g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
+	 References:In-Reply-To; b=EOYiIqroo2LzqUe9j0WbcS3mfHOxTeP07ZD/FNEnajI4/sGqMcTsum5fIdv4Zmh88yBjKFG8Ix2A2waDlXUWgdfHizaXIejYEZIeRf1dhf/8hi8gdnIHWVl3ZoLxweIO6Mxl9GN8FEJ1ZvFtEnopCe1uLf9VHJVYAE+nGqI88uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; arc=none smtp.client-ip=195.113.20.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
+X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
+	serial F5FD910E8FE2121B897F7E55B84E351D
+	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
+	auth type TLS.CUNI
+Received: from localhost (koleje-wifi-0015.koleje.cuni.cz [78.128.191.15])
+	(authenticated)
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 42LGsiwb094691
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 21 Mar 2024 17:54:46 +0100 (CET)
+	(envelope-from balejk@matfyz.cz)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 17:55:17 +0100
+Message-Id: <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
+Cc: "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>,
+        "Conor Dooley" <conor+dt@kernel.org>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Liam Girdwood"
+ <lgirdwood@gmail.com>,
+        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        =?utf-8?q?Duje_Mihanovi=C4=87?=
+ <duje.mihanovic@skole.hr>,
+        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
+To: "Lee Jones" <lee@kernel.org>
+From: "Karel Balej" <balejk@matfyz.cz>
+References: <20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz>
+ <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
+ <20240321154211.GA13211@google.com> <CZZK759UU6G7.MFPYOI0HBB6I@matfyz.cz>
+ <20240321162045.GC13211@google.com>
+In-Reply-To: <20240321162045.GC13211@google.com>
 
-On Thu, 21 Mar 2024, Benjamin Tissoires wrote:
+Lee Jones, 2024-03-21T16:20:45+00:00:
+> On Thu, 21 Mar 2024, Karel Balej wrote:
+>
+> > Lee Jones, 2024-03-21T15:42:11+00:00:
+> > > On Mon, 11 Mar 2024, Karel Balej wrote:
+> > > > diff --git a/include/linux/mfd/88pm886.h b/include/linux/mfd/88pm88=
+6.h
+> > > > new file mode 100644
+> > > > index 000000000000..a5e6524bb19d
+> > > > --- /dev/null
+> > > > +++ b/include/linux/mfd/88pm886.h
+> > > > @@ -0,0 +1,38 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > > +#ifndef __MFD_88PM886_H
+> > > > +#define __MFD_88PM886_H
+> > > > +
+> > > > +#include <linux/i2c.h>
+> > > > +#include <linux/regmap.h>
+> > > > +
+> > > > +#define PM886_A1_CHIP_ID		0xa1
+> > > > +
+> > > > +#define PM886_REGMAP_CONF_MAX_REG	0xfe
+> > > > +
+> > > > +#define PM886_REG_ID			0x00
+> > > > +
+> > > > +#define PM886_REG_STATUS1		0x01
+> > > > +#define PM886_ONKEY_STS1		BIT(0)
+> > > > +
+> > > > +#define PM886_REG_MISC_CONFIG1		0x14
+> > > > +#define PM886_SW_PDOWN			BIT(5)
+> > > > +
+> > > > +#define PM886_REG_MISC_CONFIG2		0x15
+> > > > +#define PM886_INT_INV			BIT(0)
+> > > > +#define PM886_INT_CLEAR			BIT(1)
+> > > > +#define PM886_INT_RC			0x00
+> > > > +#define PM886_INT_WC			BIT(1)
+> > > > +#define PM886_INT_MASK_MODE		BIT(2)
+> > > > +
+> > > > +struct pm886_chip {
+> > > > +	struct i2c_client *client;
+> > > > +	unsigned int chip_id;
+> > > > +	struct regmap *regmap;
+> > > > +};
+> > > > +
+> > > > +static const struct regmap_config pm886_i2c_regmap =3D {
+> > > > +	.reg_bits =3D 8,
+> > > > +	.val_bits =3D 8,
+> > > > +	.max_register =3D PM886_REGMAP_CONF_MAX_REG,
+> > > > +};
+> > >
+> > > Why is this in here?
+> >=20
+> > Because since I moved the regulators regmap initialization into the
+> > regulators driver, I need to access it from there.
+>
+> So move it into the regulators driver?
 
-> Update my email address to the kernel.org one, as it's getting
-> more convenient this way.
-> 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+It is used in the MFD driver too for the base regmap.
 
-Appplied to hid.git#for-6.9/upstream-fixes.
-
-> ---
-> Basically it's getting easier for me to use the kernel.org address
-> instead of my company's one. So let's do it.
-> 
-> Note sure if I should go through the whole tree to change the different
-> occurences of my email, but worse case this can happen in a separate
-> patch.
-
-That's exactly why I prefer not to put e-mail address in copyright headers 
-at all in the first place :)
-
--- 
-Jiri Kosina
-SUSE Labs
-
+K. B.
 
