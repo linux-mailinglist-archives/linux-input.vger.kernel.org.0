@@ -1,61 +1,56 @@
-Return-Path: <linux-input+bounces-2451-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2452-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA788591D
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 13:31:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D74885955
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 13:44:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D2E71F23F19
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 12:31:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76365B228BD
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 12:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00CB7B3EC;
-	Thu, 21 Mar 2024 12:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1D283CB3;
+	Thu, 21 Mar 2024 12:44:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xh/Nu+Pi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5AJjoLb"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C237B3D6;
-	Thu, 21 Mar 2024 12:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1C883CAA
+	for <linux-input@vger.kernel.org>; Thu, 21 Mar 2024 12:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711024294; cv=none; b=WTcMIsWHk6H4p6Wam2cTqU30FZHofUKd7QySicB7J7bCNeEjL1t9mbxiIZxR9fh4U9yB3HtVLytmDd4qO0RZiFFNJqMBF5538Hcl66GrFF7q5ZrSptPgvxBju44/QMTZm1tek320oGSIWbjBn5RTi5XgOsCqkLlL4qeVlNLyC04=
+	t=1711025081; cv=none; b=UrR4RvTsdfAd58NYuqM0cTdsP8oyzPnTpthi1efnTP9hYuEgpkV0Ea28oWE8yePLegSVbuY0eqB0sBVWS4MnrGtomW7bI6DtZqMG0BC9OAySf1D6/s6+lRP8Gj3xDEc22E5METt6vlvG7F2gQXRmRjZYrotCFa23rlnKHoUjFuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711024294; c=relaxed/simple;
-	bh=SbHg3cfmOZNQ5ge7TMv4zrHjYMVrSWom9DWWszG5nhw=;
+	s=arc-20240116; t=1711025081; c=relaxed/simple;
+	bh=hvJTCgMIcWrQbEu4ayN0mOCJ41AxtCvuPYWGLzcX9Mk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CR/eVdXAPcQA/H8oal0ODXpdbr6gUJN81p339szaUETIhyhQ4zFB4iOVcmFqQGYuLM7EKHKAMHoVzMRN1+Kx86Hzi25snboNdY2JDQU/HpO0XOJd7DlZwT/a0r8YbuybGBgWaZja5nybiMsHKJepd3M5cVSg1SQHtPKzRKbZKSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xh/Nu+Pi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BF56C433F1;
-	Thu, 21 Mar 2024 12:31:33 +0000 (UTC)
+	 MIME-Version:Content-Type; b=OKWnWXq+02F9+iaVHi463ZUWNgg0aP57WGofc+Apk30L3Q9WpSDm3z5Y7tFOwfNGgx1DzXaBi7lL9ma/YuhvgcZNA//l30OKAhSLQSOHwDpLKYk5BCZzv2c9W49zDEFgzrTq6AyiDFU96StxAZxCeSDDUFsu4l2G+aGHF9ouBIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5AJjoLb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61319C433C7;
+	Thu, 21 Mar 2024 12:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711024294;
-	bh=SbHg3cfmOZNQ5ge7TMv4zrHjYMVrSWom9DWWszG5nhw=;
+	s=k20201202; t=1711025080;
+	bh=hvJTCgMIcWrQbEu4ayN0mOCJ41AxtCvuPYWGLzcX9Mk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Xh/Nu+PiRo2Q0dtPt7L2XTMOj84lkLGHRnUiXDN/n+TLvggfsQvznofOMEvb96r0H
-	 D9kD2nCs3MUXRJfNxZZjbXiFJ4354hrgibKO0KEYWiBTS32+uJOzFvyKTbHtNYn628
-	 SvfPVoPhhF2vUiAjWEllrkgr7Tk1WRBD3BwtUG3W8juSwT+/oFIJ1xIexBkXMixrMR
-	 NMoj7Lf0nH9kjPByIxiOR0OW4dX/cfwfCdqqjyvDF0zYUmEzYiPy7SABa3DmwunpOa
-	 WGJczgHz00ElICoqfzFIoh4cbfAAqf3JSpB5cJ/VJycHewFFUzYBG7BjradJRHVWMx
-	 r6nid/IkdWWww==
-Date: Thu, 21 Mar 2024 13:31:31 +0100 (CET)
+	b=H5AJjoLb6FMQlE+3wOhRwoer6xKm35MD0Yf9xqeKlMdOP2AaDjfDOxCffpgtdDdvL
+	 ELYjyUpGfJ6ChHWyLuyp1Vxz7G1aOsb8PzVnos/NX8WZPP0yS411dwFGT/t+qnRdfk
+	 ZBEA0DOdMjqPrPwSqOPeF4NzydDQGOzzACDXkDsPgj4laA++O5CzUqhTLqitgcV4wv
+	 Ec5DuNlAL7zR8Tw8S4FhWvZ51J0uBsXHwLRK3Eu0BNFZdJB3qOp+GHVVINAHYh2W4Q
+	 +1i2AwIuJs1H9fHYJIaxqtToUtrpOel2O7XMd5uhEZ3hFx3YfrjL84VFRlQEK94lDp
+	 CE/dDG97Pjimw==
+Date: Thu, 21 Mar 2024 13:44:38 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Nam Cao <namcao@linutronix.de>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Douglas Anderson <dianders@chromium.org>, 
-    Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
-    Kai-Heng Feng <kai.heng.feng@canonical.com>, 
-    Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, Eva Kurchatova <nyandarknessgirl@gmail.com>, 
-    stable@vger.kernel.org
-Subject: Re: [PATCH] HID: i2c-hid: remove I2C_HID_READ_PENDING flag to prevent
- lock-up
-In-Reply-To: <20240318105902.34789-1-namcao@linutronix.de>
-Message-ID: <nycvar.YFH.7.76.2403211330380.20263@cbobk.fhfr.pm>
-References: <20240318105902.34789-1-namcao@linutronix.de>
+To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+cc: "Zhang, Lixu" <lixu.zhang@intel.com>, linux-input@vger.kernel.org, 
+    benjamin.tissoires@redhat.com
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Fix dev_err usage with
+ uninitialized dev->devc
+In-Reply-To: <f5ca7644241a989779d85086ac55e8c100d926a2.camel@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2403211343520.20263@cbobk.fhfr.pm>
+References: <20240306004404.2770417-1-lixu.zhang@intel.com> <f5ca7644241a989779d85086ac55e8c100d926a2.camel@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -65,29 +60,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 18 Mar 2024, Nam Cao wrote:
+On Tue, 5 Mar 2024, srinivas pandruvada wrote:
 
-> The flag I2C_HID_READ_PENDING is used to serialize I2C operations.
-> However, this is not necessary, because I2C core already has its own
-> locking for that.
-> 
-> More importantly, this flag can cause a lock-up: if the flag is set in
-> i2c_hid_xfer() and an interrupt happens, the interrupt handler
-> (i2c_hid_irq) will check this flag and return immediately without doing
-> anything, then the interrupt handler will be invoked again in an
-> infinite loop.
-> 
-> Since interrupt handler is an RT task, it takes over the CPU and the
-> flag-clearing task never gets scheduled, thus we have a lock-up.
-> 
-> Delete this unnecessary flag.
+> > The variable dev->devc in ish_dev_init was utilized by dev_err before 
+> > it was properly assigned. To rectify this, the assignment of dev->devc 
+> > has been moved to immediately follow memory allocation.
+> > 
+> > Without this change "(NULL device *)" is printed for device
+> > information.
+> > 
+> > Fixes: 8ae2f2b0a284 ("HID: intel-ish-hid: ipc: Fix potential use-
+> > after-free in work function")
+> > Fixes: ae02e5d40d5f ("HID: intel-ish-hid: ipc layer")
+> > Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
+> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > ---
+> This is not an important change to submit to rc cycle.
+> This is just a logging issue.
 
-Hmm, right, good catch, I can't figure out what extra semantic 
-I2C_HID_READ_PENDING would be adding (rather than deadlock :) ).
-Why RT throttling didn't happen and let the system in a completely locked 
-up state is something I don't understand, but that's separate.
-
-I have now queued this in hid.git#for-6.9/upstream-fixes
+Agreed about the severity. However it fixes a user-visible issue and 
+doesn't have a potential to cause any regression, so I have just queued it 
+in hid.git#for-6.9/upstream-fixes nevertheless.
 
 Thanks,
 
