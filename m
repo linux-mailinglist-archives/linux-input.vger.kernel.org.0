@@ -1,105 +1,131 @@
-Return-Path: <linux-input+bounces-2470-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2471-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA04888606A
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 19:16:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 094298860CE
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 20:00:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84874B21064
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 18:16:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B1B91C21E47
+	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 19:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD72B1332BB;
-	Thu, 21 Mar 2024 18:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A95134404;
+	Thu, 21 Mar 2024 19:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Phmga02j"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37B884A28;
-	Thu, 21 Mar 2024 18:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3D313441F;
+	Thu, 21 Mar 2024 19:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711044991; cv=none; b=gVZesJB6/EhqrcblRoxFqbqPx57jBJV5YZAl3VFvRZKIxqXgwWrt8dKH7D8g382Gh/2r8V61FGtVy0Cxkf/O9g1Du6Z1O5RWVfmQz86hRj/frQX9f3pKF9e2RNpEduuckXaCVYb+K3dj+24xerv5CNV4ZpObnkblOLXw22sQr9U=
+	t=1711047630; cv=none; b=gIbuVphFbQWOsX64BSDKJR1iVb5vzlcflCAyXrdMsnJjSNDp1PX+LhGvqR4P3IWJpj2uHEXlJgpEveqnPnqAiCHjG8KaX05iJB+BL82W0FuTiA/FmshKItJy4d5X00YvNWYRlxe4RI/yfG0TCpYEnZHzVr5/d8VF1LFMwgk0mqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711044991; c=relaxed/simple;
-	bh=kzF3PP5TBxeeyiFtNbxnHwiSOrORgk8U71rb5F3qK3Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=V3B9n3Md8F94dGWLpzOd/IimDlPU47tzEOzyHyZLsvQXV3AiuC8D22cupWWlwV0eceJisZTzBu2NCpjcHM7+Ki9y+Cx3Tcngq1u6UVQd2Zs7kxkhG92CNcLsyQn0dD45JTwCaP+PCZvlYueGOv95oHyv4CDioqjUDcOyXv8OZRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-Received: from localhost (koleje-wifi-0015.koleje.cuni.cz [78.128.191.15])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 42LIGAOn098122
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 21 Mar 2024 19:16:12 +0100 (CET)
-	(envelope-from balejk@matfyz.cz)
-Precedence: bulk
-X-Mailing-List: linux-input@vger.kernel.org
-List-Id: <linux-input.vger.kernel.org>
-List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 21 Mar 2024 19:16:43 +0100
-Message-Id: <CZZMTZBZ5S7B.2HR8A6LEY08D4@matfyz.cz>
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Conor Dooley"
- <conor+dt@kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Liam
- Girdwood" <lgirdwood@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+	s=arc-20240116; t=1711047630; c=relaxed/simple;
+	bh=NKpYyk60LjaAd7OWbS0rM8uQY8YQPxQLQGojBHAkF/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sey1Xrjxu49RVPJWFgahsCi1YBTy/20SBeVp5BXkPgygCCAwMNc2zmAfbM+aqz188V2jJMCoh41EFUnEx6mG3iCDgO0BmyqgyaAF1pAfA3v58AslI3gurZzsxJDnnVp+DXcie340lQn7rYZE0DGviV9PtTvMrzEfzF6toWh7MKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Phmga02j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA69C433C7;
+	Thu, 21 Mar 2024 19:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711047629;
+	bh=NKpYyk60LjaAd7OWbS0rM8uQY8YQPxQLQGojBHAkF/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Phmga02jpgMaMNeJxfMTrszhuv3XUrSCJNXAAU9OGQnjAeV2F8ifR8pVFmCCWwm9v
+	 nu0FzTIibnyLaB0/pPUVlisT+Fw55J881XeIGOuXAUNUyL0gZs5UR4gNaNl98g7+9Y
+	 x+SXnXd6dWsNUlngYoEJyxOE4PgTS0xgVxCnrPjpTVIVYCLyljuQ9e9o4SMHh4Jfot
+	 BtaL4t7a2h5BLxkjNbdFQb6bJlzeik/GLqf+QhBtxKBihaOtQvf5KSb8J3acCMh50V
+	 vl4sEbvvhEKUQ7oq9gwdxwyDnRYD+GFiTklf/A2UY2OhZGPRMDMRaTlPjExsjr2A8O
+	 g5dXREB1fVWvg==
+Date: Thu, 21 Mar 2024 19:00:24 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Karel Balej <balejk@matfyz.cz>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
-To: "Mark Brown" <broonie@kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-References: <20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz>
- <20240311160110.32185-3-karelb@gimli.ms.mff.cuni.cz>
- <20240321154211.GA13211@google.com> <CZZK759UU6G7.MFPYOI0HBB6I@matfyz.cz>
- <20240321162045.GC13211@google.com> <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
+Message-ID: <bd4e96b9-1026-469b-9884-073cde1f39dc@sirena.org.uk>
+References: <20240321154211.GA13211@google.com>
+ <CZZK759UU6G7.MFPYOI0HBB6I@matfyz.cz>
+ <20240321162045.GC13211@google.com>
+ <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
  <879296b4-5186-4170-af3f-971787d28514@sirena.org.uk>
  <CZZLDK79D5VK.2VK3X59OHIY2Z@matfyz.cz>
  <45079e37-dde9-4310-a112-7af49f35ac77@sirena.org.uk>
  <CZZLVS3T3QIS.223XHI5OZ7UBG@matfyz.cz>
  <e9c7bd38-49cd-44c2-8842-292bc0b4205f@sirena.org.uk>
-In-Reply-To: <e9c7bd38-49cd-44c2-8842-292bc0b4205f@sirena.org.uk>
+ <CZZMTZBZ5S7B.2HR8A6LEY08D4@matfyz.cz>
+Precedence: bulk
+X-Mailing-List: linux-input@vger.kernel.org
+List-Id: <linux-input.vger.kernel.org>
+List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gbeioFqnXp7Lrcpb"
+Content-Disposition: inline
+In-Reply-To: <CZZMTZBZ5S7B.2HR8A6LEY08D4@matfyz.cz>
+X-Cookie: MIT:
 
-Mark Brown, 2024-03-21T17:48:28+00:00:
-> On Thu, Mar 21, 2024 at 06:32:03PM +0100, Karel Balej wrote:
-> > Mark Brown, 2024-03-21T17:17:40+00:00:
->
-> > > Do they both genuinely have the same maximum register?
->
-> > They do according to the downstream driver which is my only reference.
-> > In fact, there the driver defines the configs separately for each regma=
-p
-> > but with the same values.
->
-> This is a downstream driver - are you sure it's got the best code
-> quality?
 
-No, that is why I have rewritten it and tried to improve on this. But
-like I said, it is my only reference. Is there some other way to verify
-this value (besides perhaps the datasheet)?
+--gbeioFqnXp7Lrcpb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> I'm not seeing any references to registers with numbers as high as the
-> maximum register that's there in your driver for example.
+On Thu, Mar 21, 2024 at 07:16:43PM +0100, Karel Balej wrote:
+> Mark Brown, 2024-03-21T17:48:28+00:00:
 
-Indeed, I have performed the same check with the same findings. But that
-doesn't necessarily mean that the maximum should be lower, no?
+> > > They do according to the downstream driver which is my only reference.
+> > > In fact, there the driver defines the configs separately for each regmap
+> > > but with the same values.
 
-Do you have some specific modifications of my code in mind regarding
-this?
+> > This is a downstream driver - are you sure it's got the best code
+> > quality?
 
-Thank you,
-K. B.
+> No, that is why I have rewritten it and tried to improve on this. But
+> like I said, it is my only reference. Is there some other way to verify
+> this value (besides perhaps the datasheet)?
+
+The maximum register is whatever the maximum register we know about for
+the device is, the datasheet is generally a good reference there.
+
+> > I'm not seeing any references to registers with numbers as high as the
+> > maximum register that's there in your driver for example.
+
+> Indeed, I have performed the same check with the same findings. But that
+> doesn't necessarily mean that the maximum should be lower, no?
+
+> Do you have some specific modifications of my code in mind regarding
+> this?
+
+I would expect that if you have two separate register maps they would
+have separate configurations that describe the corresponding physical
+register maps, as far as I can tell this driver is just making up a
+maximum register number.
+
+--gbeioFqnXp7Lrcpb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX8g8cACgkQJNaLcl1U
+h9AxBQgAgjcW+ImZ11bySq1bHwmyQL3Ncx+yP1+3gBzqnuQjU8YLtueCjwMzPOlK
+DbH6rty6I5az2zxFLRGUn0iF10RlH2GsTNMKvsaO4VkkpGg6q9M7l1bI/EwPmmx3
+DTYt2m4HSfa3Rxx3C4LuwyC+RXuN960pv3Vf07QREno2432fAYdoa+dpC0Uw71fO
+jgvvr73JuQ+xEJmibUrfOO98Fq4wXKrS93vKNMWDoA+ANoAZX+jeQat5CA/Z3cQV
+S7Xt7nhAAxLYwlYfehh6WTLGNWHhPA6g+nb4x8yd+GjinffbDRB9cQPfMuMPSR1M
+W/9QuiLVtbR3MSk0SbqfseCTjlmf8w==
+=houc
+-----END PGP SIGNATURE-----
+
+--gbeioFqnXp7Lrcpb--
 
