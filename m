@@ -1,59 +1,57 @@
-Return-Path: <linux-input+bounces-2488-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2489-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E79988731B
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 19:30:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 488EC88732F
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 19:31:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD1772849BB
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 18:30:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB6291F26DBF
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 18:31:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CCCB67A07;
-	Fri, 22 Mar 2024 18:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9501D6350C;
+	Fri, 22 Mar 2024 18:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqMVwH0X"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak3fgWxG"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3324C3EA6F;
-	Fri, 22 Mar 2024 18:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC4E273FA;
+	Fri, 22 Mar 2024 18:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711132212; cv=none; b=HXrpnKA3PkHiNjY7cBF/wb52sb0JtOP+LtA+n8NAVme9lsMKFtPYOL4wIwysxZgud0Hi225CmuZwf8NlwVMI2FgnBRELxa5qLuoD9kNs3MH3MrKKnHwWBW86RxLMEnmTYegMk1jBxtTlzbZ+fEiojSVTW4R/D2BEWThBsA5OLXQ=
+	t=1711132305; cv=none; b=gPF+eQFE1CjqJ4VqCTGcu0FTimzZDL6V3tHmsupjkjmKkYR0aLBf9CcG/NsjOtNchhufdXSlLvbb9Y1szEZUOuZmFx4q9NOWdXHrMfgFxZDBkBPeXshkJ5RIugQzmm9K8y8zBl8TwDUBscKLQKIlvM2oZizDSxe2BVSwZVh0KVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711132212; c=relaxed/simple;
-	bh=8FL31bqszZm9IGAOvPx565fgUKDVGSLzANi1NhRoWec=;
+	s=arc-20240116; t=1711132305; c=relaxed/simple;
+	bh=PCEKU0j/1uuzByPx7NDN6kCcAnr8R4L0d9r62J7fHM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nCYzigbXm/TZZAlWNzX8Mhoa1yhvAzTivkyIK3ezXoqdzHIRsM0e8bRXwFoqfN1x3FPe0IeStsnsy7ObYMziGCUyQurC9QpJf3gUZzqGlCF7HZEzdD3nSB8NaB4T3lRlNIvLd0MCJrPnsoMB7/1LzhGf6MnK+8e7kP5b8bBZRkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqMVwH0X; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A14C433C7;
-	Fri, 22 Mar 2024 18:30:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=gRm0NyeFWl5ToxWHVnH/F5vuK9I7apv/cXMEnxogNjq/MCpHMuSZVT+AfQb7ghsTrN+xviYHFY78+nLu8BQaaB5w+NrYI2GhzcUMpjWHrxY7HrX/jfOK/nn99WPfkUMxlN5yLy6Q00mgTOjXekdlX8zElbi1BwDu3WHKkAJ51uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ak3fgWxG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15723C433C7;
+	Fri, 22 Mar 2024 18:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711132211;
-	bh=8FL31bqszZm9IGAOvPx565fgUKDVGSLzANi1NhRoWec=;
+	s=k20201202; t=1711132305;
+	bh=PCEKU0j/1uuzByPx7NDN6kCcAnr8R4L0d9r62J7fHM8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IqMVwH0XViHF1WJUTiXQzFdYNBaiMDrDQgnShb0QIPQK21eZidBDmpwlcvGqHIASW
-	 kQ5z0TFtFvqkJ5Kwa3gnO30jcHg3KbgKmi829VX4hIxN6/esgiEKcH+Poojk+kbWFD
-	 s9MLPMpXo1avCNel56dQSo3JalV3RYDW2r9/uy6+LYxMg7r25oH1Q9wCRNKP60BJF7
-	 u9iz++otSe3f5hVI5K9NRP6otpeSwDiLLbf8480u5LooXsuu1qCiUM6YfWZqK2+Bjz
-	 2GLjaYKtd1tlPoR+Xcp5/bW1FMNmv1u6fo3+FCk38REVs6A7d61rPtrsMrtkfsMomy
-	 v5C3s0O1FRqyw==
-Date: Fri, 22 Mar 2024 13:30:09 -0500
+	b=Ak3fgWxGQTL7X1zyYERrle4zsNWr1NrLIrvxsYGd8l6ioC3oBf5EyoVjwAy4ripqK
+	 ZEdt1EyfDTGV2m4WBh4LGvzznxcxJNLa3Qd2lNH2rJdIG/EV/qycaYxaUVde2yWq4L
+	 D+Ca74YTQu5JJdTsYu6vk6at/+hewaon6WPSWa+mslChXiQ60F/Ztna11wH2WHAaqu
+	 dbo7T0mK2rirooD1HWKn8vsJCIZyjacqQkXDLwqubwJk6El6ZoMCtg7QrJYyAzg4mH
+	 r570DiM9QKDC+47TR+dGCM/gX8pf6KIpde1xlrO5/qrZ/7jykv+bHip0RcYSod5wBA
+	 04swlDJqgk6lw==
+Date: Fri, 22 Mar 2024 13:31:42 -0500
 From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jikos@kernel.org, benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+To: Allen_Lin <allencl_lin@hotmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	benjamin.tissoires@redhat.com, conor+dt@kernel.org,
+	jikos@kernel.org, devicetree@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, dmitry.torokhov@gmail.com
 Subject: Re: [PATCH v1 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
-Message-ID: <20240322183009.GA1227164-robh@kernel.org>
+Message-ID: <171113229955.1232809.11460737113264520604.robh@kernel.org>
 References: <20240322085606.993896-1-allencl_lin@hotmail.com>
  <TY0PR06MB56116F0902017225C78EDDDD9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
- <20240322-mammary-boil-f9a4c347fba1@spud>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,25 +60,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322-mammary-boil-f9a4c347fba1@spud>
+In-Reply-To: <TY0PR06MB56116F0902017225C78EDDDD9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
 
-On Fri, Mar 22, 2024 at 05:54:08PM +0000, Conor Dooley wrote:
-> On Fri, Mar 22, 2024 at 04:56:03PM +0800, Allen_Lin wrote:
-> > Add the HX83102j touchscreen device tree bindings documents.
-> > HX83102j is a Himax TDDI touchscreen controller.
-> > It's power sequence should be bound with a lcm driver, thus it
-> > needs to be a panel follower. Others are the same as normal SPI
-> > touchscreen controller.
-> > 
-> > Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+
+On Fri, 22 Mar 2024 16:56:03 +0800, Allen_Lin wrote:
+> Add the HX83102j touchscreen device tree bindings documents.
+> HX83102j is a Himax TDDI touchscreen controller.
+> It's power sequence should be bound with a lcm driver, thus it
+> needs to be a panel follower. Others are the same as normal SPI
+> touchscreen controller.
 > 
-> note to self/Krzysztof/Rob:
-> There was a previous attempt at this kind of device. This version looks
-> better but might be incomplete given there's a bunch more properties in
-> that patchset:
-> https://lore.kernel.org/all/20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com/
+> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+> ---
+>  .../input/touchscreen/himax,hx83102j.yaml     | 73 +++++++++++++++++++
+>  MAINTAINERS                                   |  6 ++
+>  2 files changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.yaml
+> 
 
-Those don't look like properties we want coming back.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Rob
 
