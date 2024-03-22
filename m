@@ -1,115 +1,120 @@
-Return-Path: <linux-input+bounces-2473-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2474-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580FC8860FD
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 20:32:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2206886810
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 09:16:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1710283AAF
-	for <lists+linux-input@lfdr.de>; Thu, 21 Mar 2024 19:32:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93982B23008
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 08:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C76713440B;
-	Thu, 21 Mar 2024 19:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4856168C4;
+	Fri, 22 Mar 2024 08:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrcQiucb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdWUkciI"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F8C133413;
-	Thu, 21 Mar 2024 19:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4856168A9;
+	Fri, 22 Mar 2024 08:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711049538; cv=none; b=PTrN4PgyF67APtr0HKHLyI//D5I1a5NBrG1/9I6oMpSNWWdSJ5nk0JeaMzR2pDHBRuuuMJwUPc044aTKh2qfv1hhUUvJWLA6auuFDDz7qv1HTThtBI4zX+7MKiSvrRfq3e5wVgSTTVfXOmNPzE/uGwlhyjoqGc/j0bAfgXCE/+E=
+	t=1711095391; cv=none; b=ggl9IjFT1nQd6R9Yk+HsV1NWgI+2cMaGK7mtZu90sQSn+gPBeKNyjNnvISe7Cw/RYdu8mPbzkHN0p/72wAZgcQ2/JEaqtxAmvJG8wqEfdyEbi/oAKRpuRirtaL4gxi8Gh0eO1S9m5mRVRzlCsNGijbCs20hBm9QPCDwJTrqHrR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711049538; c=relaxed/simple;
-	bh=RkMIcVyJBPNmrP3i9RZqC7EKeP38W9cL9a+3Pjk0aZE=;
+	s=arc-20240116; t=1711095391; c=relaxed/simple;
+	bh=78e84KjAWSryCmLw73e2JyPKfWstRQ6SUGWADdV5MAo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJ8Rzsa6AmTbT2n9dCkpB0lZaMlHg3CqUTDHkTrWx4qPMYgHlJwsJVvnXx3Ft4CBziz8adDSarE07vgVQML8cItKguZICUca0wtXj8KxMnokt6B5C4IED2yR6UGH1b/bhFJq/ardlC/BlNXLveoo23Qh3owYTinSAIzWLcSQ01g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrcQiucb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A137AC433C7;
-	Thu, 21 Mar 2024 19:32:14 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=GoKArnpvglwaIm4fPVQ7/CTXVGnA2L5Grra/yPM3gTl/duwNmziBapFDR+myi6jXFZReI5wzmuLI0T9HM9O5wfnyab4JO+N1QmUsQv2YuJKZEID7R743pCMh4AUD2MbRF6eW1lwltjE8MvczULylaJ5Uid2LIb9ZpocECu48854=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdWUkciI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D9CCC433F1;
+	Fri, 22 Mar 2024 08:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711049537;
-	bh=RkMIcVyJBPNmrP3i9RZqC7EKeP38W9cL9a+3Pjk0aZE=;
+	s=k20201202; t=1711095390;
+	bh=78e84KjAWSryCmLw73e2JyPKfWstRQ6SUGWADdV5MAo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PrcQiucb3Na9xyPrmXC9TSX4UDaxP+7U1soYBdyjR2HCre3PRWSG2s5bbynhPVg4P
-	 LEIZQULFUXBjsBH4vcTK31KyaLOGIwLoAR4qEIJmH9UzBTQ9mVWNCrS6lC6jc25tmV
-	 hNI5jHmLijs/jTuQpin2x04fCiVny0tasAYgWO7k3qboizIqL+ppr9+8ekLVlBIZz2
-	 j8j2JP7bQnHS+u0wWIDG3UhvFj3ZgtEjTFN1A7dDz4JAX6Hvr5slEsJ4R2l10ZMrZM
-	 0xufXPMba01stBnPIZExvxs0meAOo33ctzQxg/s+yeQK/dIhY0cg3ommFYC389PXAa
-	 VqJ8eKgxUtboQ==
-Date: Thu, 21 Mar 2024 19:32:11 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Karel Balej <balejk@matfyz.cz>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [RFC PATCH v4 2/5] mfd: add driver for Marvell 88PM886 PMIC
-Message-ID: <f9ff03a0-377e-46ed-b7b1-2f10017a3b1f@sirena.org.uk>
-References: <20240321162045.GC13211@google.com>
- <CZZL3MNOT0QG.2WDSNX9XD2RET@matfyz.cz>
- <879296b4-5186-4170-af3f-971787d28514@sirena.org.uk>
- <CZZLDK79D5VK.2VK3X59OHIY2Z@matfyz.cz>
- <45079e37-dde9-4310-a112-7af49f35ac77@sirena.org.uk>
- <CZZLVS3T3QIS.223XHI5OZ7UBG@matfyz.cz>
- <e9c7bd38-49cd-44c2-8842-292bc0b4205f@sirena.org.uk>
- <CZZMTZBZ5S7B.2HR8A6LEY08D4@matfyz.cz>
- <bd4e96b9-1026-469b-9884-073cde1f39dc@sirena.org.uk>
- <CZZO2EFTAKN2.246XG441ECYYK@matfyz.cz>
+	b=pdWUkciI1p6OLe7Mp+iUUUkevTieQn7eyS3YHgIIgT29n/AUCtVaV+k3ToslsobLD
+	 lArtEjjMUZxjohcYrlq9gO56WY3BqCAjKewuAlOdOcZOX03agHSPh2BogaSFjvipuC
+	 +whc6ZZT8m2UIH0EXapTRZPPKyo1/LnDjofMwLPneA5XidcN3nV0FhbFu3vEZ06Ed3
+	 6zrwBFzERX/CGcGElK8A0aVPjvGignBrRL46+7bh/T0SnLmXDshmUXNTbyLaT+VR+U
+	 i7dmG5Y44ciYvgfW1R3EZQXguHUN5VgNbV/YyogWtkQ5G3Nd3Z1mTjq5HAjrQQz5DW
+	 rEwtYnZcPA7xA==
+Date: Fri, 22 Mar 2024 08:16:25 +0000
+From: Lee Jones <lee@kernel.org>
+To: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+	deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240322081625.GM13211@google.com>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
+ <171103756721.89062.17090257592751026195.b4-ty@kernel.org>
+ <20240321161358.GB13211@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lLalkpu8aLGWk2zM"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CZZO2EFTAKN2.246XG441ECYYK@matfyz.cz>
-X-Cookie: MIT:
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240321161358.GB13211@google.com>
 
+On Thu, 21 Mar 2024, Lee Jones wrote:
 
---lLalkpu8aLGWk2zM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> On Thu, 21 Mar 2024, Lee Jones wrote:
+> 
+> > On Tue, 05 Mar 2024 17:22:33 +0100, Thomas Zimmermann wrote:
+> > > Backlight drivers implement struct backlight_ops.check_fb, which
+> > > uses struct fb_info in its interface. Replace the callback with one
+> > > that does not use fb_info.
+> > > 
+> > > In DRM, we have several drivers that implement backlight support. By
+> > > including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> > > At the same time, fbdev is deprecated for new drivers and likely to
+> > > be replaced on many systems.
+> > > 
+> > > [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [01/10] backlight: Match backlight device against struct fb_info.bl_dev
+> >         commit: f1ecddf747f0d734682152b37c927aa958a51497
+> > [02/10] auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+> >         commit: dddfda7d5f12a7b48aeca6c3840167529c8cd34a
+> > [03/10] hid/hid-picolcd: Fix initialization order
+> >         commit: a951a15002da620871d8f3d8218c043cdc4c2471
+> > [04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
+> >         commit: b3c52552f8d8a816bda2bda984411c73f4dd0b87
+> > [05/10] backlight/aat2870-backlight: Remove struct backlight.check_fb
+> >         commit: 0e03c96046405281fb072c05a7810d2661a2f334
+> > [06/10] backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+> >         commit: 78534967e7cb3c2fbfcb2d37820b51a80c570f90
+> > [07/10] fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+> >         commit: b853c08cd6598b3b3ff91cb2bba336bfef9c0ac4
+> > [08/10] fbdev/ssd1307fb: Init backlight before registering framebuffer
+> >         commit: d5ae81e965953da27cf46db6281d6a6a28eaaccb
+> > [09/10] fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+> >         commit: ec5925ef4a2dfd7ee060f4fd2a2e8036f8a94e8e
+> > [10/10] backlight: Add controls_device callback to struct backlight_ops
+> >         commit: 2e427743de015c1ac047036ef495c3f004105439
+> 
+> Okay, let's try this again.
+> 
+> Send off for more build testing based on v6.8.
+> 
+> Will report back once complete.
 
-On Thu, Mar 21, 2024 at 08:14:44PM +0100, Karel Balej wrote:
-> Mark Brown, 2024-03-21T19:00:24+00:00:
+So far, so good.
 
-> > I would expect that if you have two separate register maps they would
-> > have separate configurations that describe the corresponding physical
-> > register maps, as far as I can tell this driver is just making up a
-> > maximum register number.
+Will rebase these and sent out an immutable branch PR once v6.9-rc1 is out.
 
-> Alright, so I should just use a separate config for each regmap and set
-> the max_register value for each to whatever I can find is actually the
-> highest used value in the downstream code -- correct?
+Note to self: ib-backlight-auxdisplay-hid-fb-6.9
 
-That sounds plausible if you don't have any other information about the
-register maps.
-
---lLalkpu8aLGWk2zM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX8izsACgkQJNaLcl1U
-h9AxyAf/ZKddewyBvi8stRYLa9VKzILgV3va7iA2wGRy5+HbwQi1sP2TV5cyvzGZ
-Kuervgv5gAQ2mmFT4nGVjVdRwVaoDXlgjLVZ7AyA+ST/PZj3Z7VN1h/Nu9fFIuGT
-0mcWYGGCACD2/6g4hd61VVj41r/PL3ZAXLQi477azLRoZHNOGWzl8H97NY14QMW6
-hJzba3tTNCoDAQJkdC7BF+OZrx42l0mvQlrttLKeZumGiU33w2yuOiMgnejfmwJN
-zCu4sqrftv3zzX/9q5kAvARdQJ8Tk3A7m79RrcxTZGrj7VsLBoDZ+UN+zBSeirsb
-3C0TExKyX35FDNakR9pxN232X6UETQ==
-=3Zwp
------END PGP SIGNATURE-----
-
---lLalkpu8aLGWk2zM--
+-- 
+Lee Jones [李琼斯]
 
