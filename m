@@ -1,120 +1,154 @@
-Return-Path: <linux-input+bounces-2474-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2475-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2206886810
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 09:16:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4745088689C
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 09:56:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93982B23008
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 08:16:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92E5B1F2317A
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 08:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4856168C4;
-	Fri, 22 Mar 2024 08:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 242F518629;
+	Fri, 22 Mar 2024 08:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdWUkciI"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Kao8wmiN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SG2PR03CU006.outbound.protection.outlook.com (mail-southeastasiaazolkn19010001.outbound.protection.outlook.com [52.103.65.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4856168A9;
-	Fri, 22 Mar 2024 08:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711095391; cv=none; b=ggl9IjFT1nQd6R9Yk+HsV1NWgI+2cMaGK7mtZu90sQSn+gPBeKNyjNnvISe7Cw/RYdu8mPbzkHN0p/72wAZgcQ2/JEaqtxAmvJG8wqEfdyEbi/oAKRpuRirtaL4gxi8Gh0eO1S9m5mRVRzlCsNGijbCs20hBm9QPCDwJTrqHrR4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711095391; c=relaxed/simple;
-	bh=78e84KjAWSryCmLw73e2JyPKfWstRQ6SUGWADdV5MAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GoKArnpvglwaIm4fPVQ7/CTXVGnA2L5Grra/yPM3gTl/duwNmziBapFDR+myi6jXFZReI5wzmuLI0T9HM9O5wfnyab4JO+N1QmUsQv2YuJKZEID7R743pCMh4AUD2MbRF6eW1lwltjE8MvczULylaJ5Uid2LIb9ZpocECu48854=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdWUkciI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D9CCC433F1;
-	Fri, 22 Mar 2024 08:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711095390;
-	bh=78e84KjAWSryCmLw73e2JyPKfWstRQ6SUGWADdV5MAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pdWUkciI1p6OLe7Mp+iUUUkevTieQn7eyS3YHgIIgT29n/AUCtVaV+k3ToslsobLD
-	 lArtEjjMUZxjohcYrlq9gO56WY3BqCAjKewuAlOdOcZOX03agHSPh2BogaSFjvipuC
-	 +whc6ZZT8m2UIH0EXapTRZPPKyo1/LnDjofMwLPneA5XidcN3nV0FhbFu3vEZ06Ed3
-	 6zrwBFzERX/CGcGElK8A0aVPjvGignBrRL46+7bh/T0SnLmXDshmUXNTbyLaT+VR+U
-	 i7dmG5Y44ciYvgfW1R3EZQXguHUN5VgNbV/YyogWtkQ5G3Nd3Z1mTjq5HAjrQQz5DW
-	 rEwtYnZcPA7xA==
-Date: Fri, 22 Mar 2024 08:16:25 +0000
-From: Lee Jones <lee@kernel.org>
-To: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
-	deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
-Message-ID: <20240322081625.GM13211@google.com>
-References: <20240305162425.23845-1-tzimmermann@suse.de>
- <171103756721.89062.17090257592751026195.b4-ty@kernel.org>
- <20240321161358.GB13211@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20304F4FA;
+	Fri, 22 Mar 2024 08:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.65.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711097801; cv=fail; b=NLiksZMTiHLTjLJ05pH1EfQBeW4ltSGMBrwajGgd4p5JafA87DK3ANiZxXKbeWpvC+Js9Z1Rz5R21t+THHZmqt+NjvyHYW3K6r/jpIeMtl/DE1GcmWGgRG/1wCQPjMG7DJ40d2VbXLvdPsjorQXoWgzXJZYP5/+sL+Rfm3cAiDI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711097801; c=relaxed/simple;
+	bh=MXfk7JLwSNFt/BQuYPqWRq5qI6kfUbA6knDd+rFbIxA=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=tfjfwZNv90VqHcUKoaTpaVxN9fpLIIBxTJ49HKeVhytn0lNOqCZPFORYQxpqu6Sp4GJLXhxk95uWZZInDTt4lDYJKnfsGfJjDJ1cgk7CsZyW8a2uydycPMvLJMg6+/TlhXgDuVTO426qrt8prCYKIw8gav58/rD+yQ6+ZJBz+VA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=Kao8wmiN; arc=fail smtp.client-ip=52.103.65.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ND9J/wzOLUALVDeSib7QiaQyKIgxcFG9pAlF2SPDpV4i8vUcxYuUeFVCnsvMtIa+cA5Vkzod1txJYHVfNWREQvbVWbS/IMWxjnYxKWF+bf5m6Fo3xZp8RTbqlGCw/xwaPNojfQwhJKF5aCuT5knVaAuN2uLx7Aglq9J8F1vpwiMSCVw1VfXEZZoSMaVdGjwikirhODTZC8FxSXz9NtHWZewJ5HOfSzCPjhwHiczLer1C21YvJLU9fsApF0wSOsmVxL6cIooiyVI84brYgqTJ+rSapUhc/ab4XfsIkTU1avVv4wFXdDQWMsPK4rXMeN5em56y+C5N9zPLaeENdYzwQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ts0oUIcbq8Leri2BR9mWeUZI4RFyB/n8hjU4pGnhkgc=;
+ b=TWn3Pz+co1H2mOKu4wucVY3Mq3yiVc5KIGZbyp5teBbY4uRSaEPxVUdkrOXS0brddDRBuCe6dBKENBbSmii/XO5jS/ItImBnw9lm++TekEviu+J4iQEOSV6o7NOMAagnDDYTGWsUVxzwIXHZtQcqhtGkZftXVTqWjAtn74LLW+PO5svyegHBrUUNWDBhxoT1uCg8sd6F+NmsdYrXJ2YpDHjx6uHcBYeuV9YbsBVVmV0j2HJgf+A9sWnBluXnShViVR6zeEvMGd3oI2SQrG5wevW8SvC8uONe77OduMhr+Xd3l5CRlQwK9Vwy4nvSqbOBmnT1axo3VRZsCDKbF+cYyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ts0oUIcbq8Leri2BR9mWeUZI4RFyB/n8hjU4pGnhkgc=;
+ b=Kao8wmiNaqrh0mD8D0xfM5mTJ1GQh1nzqtkKUFNZtTt5vI04TNbRsgaoI7JIqdGU8s1bT8J9MGyFzNajzzVvTQmvMLuSfnZQk8QduWf/dyH+L6/vJRILCrtRXlhLjF2TVHG0/xxKspXzOYbWadsc0WdUuAOD3sCSpR2hfq/VrFBU76MtOJGeXAXX0+QsmQ8RNS2gc1XH+Z9qHJu6rqAJWVkY9010m9shQiNOCBH5Zy2t5ycBdVfob9TOBcG0ZoljjlNsChjBoF8GLkJlb979wb6buUsZjX6Bup02IN2wrASBBSzXVEkF28b6L+JQ7A3yweaZna9q5yYHfi7x8p2cMw==
+Received: from TY0PR06MB5611.apcprd06.prod.outlook.com (2603:1096:400:31e::8)
+ by SEZPR06MB6870.apcprd06.prod.outlook.com (2603:1096:101:19d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.35; Fri, 22 Mar
+ 2024 08:56:34 +0000
+Received: from TY0PR06MB5611.apcprd06.prod.outlook.com
+ ([fe80::d57a:9f0e:1ee7:85bf]) by TY0PR06MB5611.apcprd06.prod.outlook.com
+ ([fe80::d57a:9f0e:1ee7:85bf%5]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
+ 08:56:34 +0000
+From: Allen_Lin <allencl_lin@hotmail.com>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Allen_Lin <allencl_lin@hotmail.com>
+Subject: [PATCH v1 0/4] HID: Add support for Himax HX83102j touchscreen
+Date: Fri, 22 Mar 2024 16:56:02 +0800
+Message-ID:
+ <TY0PR06MB561166BF14CF42BBC3C2B5BF9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [uAK9cOcRi0j3tWyU+Qw8CBVp2izYQxK9]
+X-ClientProxiedBy: PS2PR02CA0040.apcprd02.prod.outlook.com
+ (2603:1096:300:59::28) To TY0PR06MB5611.apcprd06.prod.outlook.com
+ (2603:1096:400:31e::8)
+X-Microsoft-Original-Message-ID:
+ <20240322085606.993896-1-allencl_lin@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240321161358.GB13211@google.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR06MB5611:EE_|SEZPR06MB6870:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9e24213-6745-4e4a-4046-08dc4a4df9a9
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6CJllTF9G5GyiVLBUDKK5f0eQRplPSl1IUMpPUZY4K2xSjyuiFfMQo1HtHgGh5kDqCumpNXcsMx+xb3tBlNsk0GcnKyyuWz24iqvrNc1Kw1Eg5E+/IyZ210qSgHP7NzSRTM47FoUgA0YQQcQ4bAnZaO/Oin1wU8qWuyuK8iYYU5cokGcRNzP1B1jO4/NQhHjaQHWwz9/1zHwhTv/tf/uBEaOp4PZ5/8dxX8POT7ZixmN1sJW4j8R3DYeGVox9BHWV8ksbXliQ2y1xKXm+9eV19cfvrwARhlQQ0mlcBwly9ChzDPNPy5BENvLe/yhok6+l02h2t/x6o3liJIAuYfgxCrSUjse4OwZajXQL6ljSprRujH285JY46GRWP4zubBR1O0BCQZaOaBxBhWMNIlm32oboXCIJSPgagNx7p6Lw90SLtkqajbkgfivoj5GrEAZeGsOo8dFzMczH0bWoceA2Az9KAhgDRm5oHnYmGJsrx3bFkzxeBO6jHi+yMNA9GyWP0YW99ETnlkaIYXvDmmpkB6KxA969PQiDcDaozG64yrGDEPajY6g4wq5T8e7l4DZU71fEeBEesugVlSVzBUjbICUCdUQjdk9vnvH+0avXkBox0tInyn4jqt8p4rXzoeX
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5OtTBjJBs61hBNHR3dk7sBEIRYy6sFo/rn0eqzKpzD9WFnJ8CsqZkAElwzxk?=
+ =?us-ascii?Q?xxVjDVMbOteb9FDcc/go1QRZtpR0IQp+zRrc33bGjFeb/W9Lryp+naGvJf8S?=
+ =?us-ascii?Q?yNauNSfwod6xHxIas1xg/VNOwh7iWXWzPa/tY3n8779ERDUVUCOMj+63mjwK?=
+ =?us-ascii?Q?IXLK/vUn2S5VKlY8D3boF7gj35wpZzkrkTYwK4/5j60qwtFqyHBM6qtWM0P8?=
+ =?us-ascii?Q?milaUc+ggfn85oICrxAMQTQIOBsiw1wohQ5JchlmnGf84YSLEpShLpqXOXkJ?=
+ =?us-ascii?Q?VgHM7MezPa5kQBimjtzFEs9K/dZdQPB5wmdhtxpx6AYgdah/Vx5LuMZRnUD+?=
+ =?us-ascii?Q?e58/5MgF8ihUGd3PvhCy34IIu7GnWSUFU6w4tPujGU80wx3euWuHECJ8CfIc?=
+ =?us-ascii?Q?9oTSU1MvFulpomnNOlDXW6XGp78mK3Yfzas5q69L5mJbX+Fh7+2FscOrm0Pb?=
+ =?us-ascii?Q?eZAh2JMNwGLgF+1DaP+3G6AIa0J+9Vp9G9g79etCeemegZkS7eGwqTvZwzs6?=
+ =?us-ascii?Q?NcGYIFBWjftnMQUhy+dKprhBCGFuXy0noXZTCJgYCcNwTz1lO5xqPKK/MSp/?=
+ =?us-ascii?Q?TxSPLNjItx5UcIUXxo5l9z/MatXGBEnPVDf+H5d/ZWgF6x2FP4BNCLbBODs9?=
+ =?us-ascii?Q?J2auSspdQvWcin2d181SkQ/MspzBV+JoqNk9eKi/73EeX6XyMnK/sqBY+8vR?=
+ =?us-ascii?Q?/4GFtPOHlHbHw+YeZtftBECbHZ1tgAISU7UNmKCRmD8fF/tvGMyhkjs2K4v7?=
+ =?us-ascii?Q?5qH0uZivS0hYB5nJsP8sIYZf6mORdQFBNObPyOh5wZm7WrJZexBXnM2QCjvl?=
+ =?us-ascii?Q?WNSTYKDTTeDw4x7743uwrkxi2HQxJyCcJ74cw/uCyXjKHABap38lo2LLS0zy?=
+ =?us-ascii?Q?ea+3ffZsafzVgkxQLIK2DLGIRmu+jXw3WjQWx/M4MSQjFtA0E77w/WzFnO9L?=
+ =?us-ascii?Q?o/AHCvOYHKW33dEQkv8s5oSjpmi5qGdl49GM9CfO5ifnpsXNiO9DHIGjEwcL?=
+ =?us-ascii?Q?itwOobCxwL8bWh6IaI4S+aihVLZzDvV5qqVdUpJ4KYkR7bPrcn7q9RgTLjdX?=
+ =?us-ascii?Q?6931RUG2DU+AFXFkItMhS9yAGEb9zIzqALLxHDPuATbSI5WZG3jP3QiebFMQ?=
+ =?us-ascii?Q?uiMbzZfYZG15pwLqgyPU3a0gP9JoeDn8iKgM/eaHyNi9EgcS0V5jIhUl51CO?=
+ =?us-ascii?Q?6ywz+pZJmCWnNVl6sV2v5BdkOsT7dq14bpd++MbvK99dzvXrSHch4Ih6CE4?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-f764d.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9e24213-6745-4e4a-4046-08dc4a4df9a9
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5611.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 08:56:34.3997
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6870
 
-On Thu, 21 Mar 2024, Lee Jones wrote:
+Hi,
+This driver implements for Himax HID touchscreen HX83102J.
 
-> On Thu, 21 Mar 2024, Lee Jones wrote:
-> 
-> > On Tue, 05 Mar 2024 17:22:33 +0100, Thomas Zimmermann wrote:
-> > > Backlight drivers implement struct backlight_ops.check_fb, which
-> > > uses struct fb_info in its interface. Replace the callback with one
-> > > that does not use fb_info.
-> > > 
-> > > In DRM, we have several drivers that implement backlight support. By
-> > > including <linux/backlight.h> these drivers depend on <linux/fb.h>.
-> > > At the same time, fbdev is deprecated for new drivers and likely to
-> > > be replaced on many systems.
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [01/10] backlight: Match backlight device against struct fb_info.bl_dev
-> >         commit: f1ecddf747f0d734682152b37c927aa958a51497
-> > [02/10] auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
-> >         commit: dddfda7d5f12a7b48aeca6c3840167529c8cd34a
-> > [03/10] hid/hid-picolcd: Fix initialization order
-> >         commit: a951a15002da620871d8f3d8218c043cdc4c2471
-> > [04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
-> >         commit: b3c52552f8d8a816bda2bda984411c73f4dd0b87
-> > [05/10] backlight/aat2870-backlight: Remove struct backlight.check_fb
-> >         commit: 0e03c96046405281fb072c05a7810d2661a2f334
-> > [06/10] backlight/pwm-backlight: Remove struct backlight_ops.check_fb
-> >         commit: 78534967e7cb3c2fbfcb2d37820b51a80c570f90
-> > [07/10] fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
-> >         commit: b853c08cd6598b3b3ff91cb2bba336bfef9c0ac4
-> > [08/10] fbdev/ssd1307fb: Init backlight before registering framebuffer
-> >         commit: d5ae81e965953da27cf46db6281d6a6a28eaaccb
-> > [09/10] fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
-> >         commit: ec5925ef4a2dfd7ee060f4fd2a2e8036f8a94e8e
-> > [10/10] backlight: Add controls_device callback to struct backlight_ops
-> >         commit: 2e427743de015c1ac047036ef495c3f004105439
-> 
-> Okay, let's try this again.
-> 
-> Send off for more build testing based on v6.8.
-> 
-> Will report back once complete.
+Using SPI interface to receive/send HID packets.
 
-So far, so good.
+Allen_Lin (4):
+  dt-bindings: input: Add Himax HX83102J touchscreen
+  HID: Add Himax HX83102J touchscreen driver
+  HID: Add DRM panel follower function
+  HID: Load firmware directly from file to IC
 
-Will rebase these and sent out an immutable branch PR once v6.9-rc1 is out.
-
-Note to self: ib-backlight-auxdisplay-hid-fb-6.9
+ .../input/touchscreen/himax,hx83102j.yaml     |   73 +
+ MAINTAINERS                                   |    7 +
+ drivers/hid/Kconfig                           |    7 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/hid-himax-83102j.c                | 3071 +++++++++++++++++
+ drivers/hid/hid-himax-83102j.h                |  460 +++
+ 6 files changed, 3620 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.yaml
+ create mode 100644 drivers/hid/hid-himax-83102j.c
+ create mode 100644 drivers/hid/hid-himax-83102j.h
 
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
 
