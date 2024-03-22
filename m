@@ -1,222 +1,131 @@
-Return-Path: <linux-input+bounces-2482-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2483-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683838869EC
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 11:06:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E8B886AE8
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 12:02:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05C901F25E0D
-	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 10:06:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BD441C20D4B
+	for <lists+linux-input@lfdr.de>; Fri, 22 Mar 2024 11:02:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07EEE38DF7;
-	Fri, 22 Mar 2024 10:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D30D3D3B1;
+	Fri, 22 Mar 2024 11:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1+9IeIN"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="aOXwkk6i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2070238DDD;
-	Fri, 22 Mar 2024 10:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1826E3E479;
+	Fri, 22 Mar 2024 11:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711101978; cv=none; b=WcHheIIiA3W+qIwxoyPyCvE/3fgaZgiYSf8p2qv2OOBqyi/qvN5wsjUat/srP+0myk21CNJIgNb5oZZbOFVrMZYzNLJEdtuyskXnoPr/yBF6szx0QlAnRRqrUkyh8pjZWnSu6bVjNgjefz7+pRGHEyuoWMS1WouSsjzqh4wDFRk=
+	t=1711105324; cv=none; b=kpzVTWY5CtjonOSEcdMP4bUKvtBhQbmwca9tGTpdiefWwE+kRLr4mgPiVHNCJhYNay0GDja/cPNgRHRWspMhPutpijYOSUAjzA5QVyd8Ke8IYwB2TdMgtUpjvAa9iake4pTfGyBx5G2WOvbw87zMYaiBijD2njHkiG3FO6cg+Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711101978; c=relaxed/simple;
-	bh=5/NL82xbhXJXzVmjOA8LpsdsUhb2KNvVldKtcBx1awA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nSQRQEND/+llMEyvDu5eYiYqA9e3PeYaUbJa1HlsmrBvYRiTbb2ENkmoqDfz8ASUIgXbZTmgprwNRK1J2nl6rXrYrj7Vfof3fPjpoxrQaax4OqfcByy7fDwMdVtdBt0vFDLQuwS9zVDWj2NENdwMFyNHOp4OwQnuQ/EwRGafSQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1+9IeIN; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33ec7e1d542so1132470f8f.1;
-        Fri, 22 Mar 2024 03:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711101975; x=1711706775; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mGuiXVSynmMWoae/KrxhE4H+cmeMuMWjiHJAs954wAM=;
-        b=U1+9IeING6gvfy3BJet1PjVyuNAd3W6fc+hxjbIVE1kMkBfN7WK16PJdZe6OZDliCu
-         XsA9gCjdpN5CwlyQZlH5vFckP2pySGhNItq2vmB2i/J8OUpTCVZ3L1zGdCVgcOatdWVB
-         VH1PXn40HLibJFmrbi+3TfxdPj+2W4ErDvzt6WUqXLLgwtpSOhDR19mVQ7DHIiebT0T3
-         LE5Q6k3kHVm9MXzCtEfUQxAvE7mWwNdD+NOf4Agd1TQOGscMYL6SuG7yyg8huaZNIgM1
-         +tr7tydICkbhk5ief6X9Kjln67JtQ9eVTEmVuzxf4+lVnFdUVBnQ6xGD+jibK5WAeFRv
-         JarA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711101975; x=1711706775;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mGuiXVSynmMWoae/KrxhE4H+cmeMuMWjiHJAs954wAM=;
-        b=JKDi5cESXUeD8PJfdDJErKjM9dw9XYQF4GuwF6cbDSjMgZCEt8Pc5spMSfi4ii0WHf
-         6xlhF3C9ms2hqpgsAbqh81qKDkrSt4wuE7+DMXWWN9bAFMiocEz4rUJan/E1VdT7kNbw
-         gxx1u5eqnPZ4qwKxn8TbVLW8o8hh6dk/9CmpCnhy41U5NbAVV0EubTE9B51HIYBawLk0
-         Wh/Dwt7xGh0RRNBIJVCgnSJuZWsfCJ/zF7RQBnZX4K0yfEvWG+42/GPFgxZZ6CDYvf2q
-         D+0N1/ndz/35eTC87vgOlI3CV51GQ3p4GxdFdiAo4Q8FDAEzYfyB4fJzpVra+zCe2N0T
-         GDDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUynO6SdIIcgHGwATJCd3t4n/5rtKf5lxWGvW6MOfqVGjrd+Ak3tkMYYHElIXIRz0Mbsie6QXkdSylLeE8LH/DkMynpqKkcWhnnrqmHFEq6sbRkkAeAXq8GYmd5na1tdqFWPE7s6d+dxT4=
-X-Gm-Message-State: AOJu0YxBMxItj/z4Q80TQwJ6R6ouO7JBuGLcMwyDGZ4OYmqEbevvVaAM
-	pgdETSMsWkY99TsjSnmjQlaTkP7waDBMnEjTrNGOXkTgWqmtFpJ3
-X-Google-Smtp-Source: AGHT+IE4T2+x5qCpZ+WQ1UyTLSWtI13OzmXLebn2fGx+8ntf6GqeFkTqSsgVaPFUPktuZW8VPEJ3Xw==
-X-Received: by 2002:a05:6000:4008:b0:33e:7f65:bb7b with SMTP id cp8-20020a056000400800b0033e7f65bb7bmr1686415wrb.5.1711101975150;
-        Fri, 22 Mar 2024 03:06:15 -0700 (PDT)
-Received: from fedora ([94.73.33.46])
-        by smtp.gmail.com with ESMTPSA id co20-20020a0560000a1400b00341b3c6c88dsm1538632wrb.15.2024.03.22.03.06.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 03:06:14 -0700 (PDT)
-Date: Fri, 22 Mar 2024 11:06:13 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: uclogic: Store firmware name in params
-Message-ID: <Zf1YFQh-S6_21Hwx@fedora>
-References: <20240321144553.262409-1-jose.exposito89@gmail.com>
- <20240321144553.262409-2-jose.exposito89@gmail.com>
- <dadh7jtdpdf3iahcgxdaqadpc6k6gnaz6gatxycxpd4u2atl7a@2f4vzqwzt7n3>
+	s=arc-20240116; t=1711105324; c=relaxed/simple;
+	bh=DNDM9B9ksrZKSGXDoW6GLQK1di53GABk/SxYnxD0ID4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EpA18iRxHyCowhfJFp9k/cMkpykfspSY5X6xmWv7VGF8gf8M5tUjFErMHD2kVli6cpL1kCStVvfzW0ZHy/i9UuLHWhbeVqk2ragnTUcvfNHtM8EiKR4mYmgV+RpMjLNazIQD0HuRlHZyymrotEXSJSGbzaQ9Yd4+iBih1/M0ANg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=aOXwkk6i; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=jOb6LgQkAYOowfd3TpK62M7x65cNcm8EVJDYWoVUq0o=;
+	t=1711105322; x=1711537322; b=aOXwkk6irLvjl9Fm6k3ejyqMRYxk4ErvGPKuozLNMVfX162
+	GV2CLH0E8hcS2zjaF2YR1JliiWgqqytJc1I50BfZVker6I7HOinRKEOXHK8POvzLOWwUmQAtU4wXP
+	QBSfOuAywOFScuu48W8ggL+vGhqXFGNvOXII2iZK0lC2tb0kAJo9FXwPEi7lAqe6GyddrSoYU0eVQ
+	GSQs1TrncqrcRnrXR0esMA03nf1YsJnbfSTeI7mDkvnC7JOFL7QfyCA5QqXQoChDJDW4j+YcpEMth
+	9eZ22V3X+504NnXaaV8uMCZ9KHfKYulWFZH0IeFB7Rg20CPQArXRAXWuw+2Dv0cA==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rncen-0000K5-P3; Fri, 22 Mar 2024 12:01:53 +0100
+Message-ID: <5e278d43-93dd-47ac-8502-28db2fcd32f9@leemhuis.info>
+Date: Fri, 22 Mar 2024 12:01:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Regression] 6.8 - i2c_hid_acpi: probe of i2c-XXX0001:00 failed
+ with error -110
+Content-Language: en-US, de-DE
+To: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: Jiri Kosina <jkosina@suse.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <9a880b2b-2a28-4647-9f0f-223f9976fdee@manjaro.org>
+ <a587f3f3-e0d5-4779-80a4-a9f7110b0bd2@manjaro.org>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <a587f3f3-e0d5-4779-80a4-a9f7110b0bd2@manjaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dadh7jtdpdf3iahcgxdaqadpc6k6gnaz6gatxycxpd4u2atl7a@2f4vzqwzt7n3>
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1711105322;b07c2670;
+X-HE-SMSGID: 1rncen-0000K5-P3
 
-Hi Benjamin,
+[BCCed Greg and the stable list, as this is apparently a mainline
+regression and has nothing to do with the stable series
 
-Thanks a lot for the quick review :)
+Also CCing Jiri, Benjamin as well as various lists]
 
-On Thu, Mar 21, 2024 at 04:01:06PM +0100, Benjamin Tissoires wrote:
+On 19.03.24 05:52, Philip MÃ¼ller wrote:
+> On 18/03/2024 17:58, Philip MÃ¼ller wrote:
+>> I'm currently developing on the OrangePi Neo-01, which ships with two
+>> similar touchpads using the Synaptics driver. On 6.7.10 those two
+>> devices get detected normally. On 6.8.1 it seems to error out.
+
+Thx or the report.
+
+>> I either get none, or at best only one of those two devices.
+>>
+>> i2c_hid_acpi: probe of i2c-XXX0001:00 failed with error -110
+>> i2c_hid_acpi: probe of i2c-XXX0002:00 failed with error -110
 > 
-> Hi José,
+> I found the regression in commit aa69d6974185e9f7a552ba982540a38e34f69690
+> HID: i2c-hid: Switch i2c_hid_parse() to goto style error handling
+
+FWIW, that's a change from Hans. He is normally quite responsive, but as
+he has not replied yet I guess he is AFK for a few days.
+
+Ciao, Thorsten
+
+> When I use the commit before I can rmmod and modprobe in a batch script
+> using a loop without erroring out to -110. Attached the testing script
+> and dmesg log snippets
 > 
-> On Mar 21 2024, José Expósito wrote:
-> > A future patch will need to access the firmware name to expose it to
-> > userspace via sysfs.
-> > 
-> > Store it in `uclogic_params->fw_name`.
-> > 
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > ---
-> >  drivers/hid/hid-uclogic-params.c | 14 +++++++-------
-> >  drivers/hid/hid-uclogic-params.h |  5 +++++
-> >  2 files changed, 12 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-> > index 9859dad36495..79ec3eb80f84 100644
-> > --- a/drivers/hid/hid-uclogic-params.c
-> > +++ b/drivers/hid/hid-uclogic-params.c
-> > @@ -121,6 +121,7 @@ void uclogic_params_hid_dbg(const struct hid_device *hdev,
-> >  		params->invalid ? "true" : "false");
-> >  	hid_dbg(hdev, ".desc_ptr = %p\n", params->desc_ptr);
-> >  	hid_dbg(hdev, ".desc_size = %u\n", params->desc_size);
-> > +	hid_dbg(hdev, ".fw_name = %s\n", params->fw_name);
-> >  	hid_dbg(hdev, ".pen = {\n");
-> >  	uclogic_params_pen_hid_dbg(hdev, &params->pen);
-> >  	hid_dbg(hdev, "\t}\n");
-> > @@ -652,6 +653,7 @@ void uclogic_params_cleanup(struct uclogic_params *params)
-> >  	if (!params->invalid) {
-> >  		size_t i;
-> >  		kfree(params->desc_ptr);
-> > +		kfree(params->fw_name);
-> >  		uclogic_params_pen_cleanup(&params->pen);
-> >  		for (i = 0; i < ARRAY_SIZE(params->frame_list); i++)
-> >  			uclogic_params_frame_cleanup(&params->frame_list[i]);
-> > @@ -837,7 +839,6 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
-> >  	/* The resulting parameters (noop) */
-> >  	struct uclogic_params p = {0, };
-> >  	static const char transition_ver[] = "HUION_T153_160607";
-> > -	char *ver_ptr = NULL;
-> >  	const size_t ver_len = sizeof(transition_ver) + 1;
-> >  	__u8 *params_ptr = NULL;
-> >  	size_t params_len = 0;
-> > @@ -870,14 +871,14 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
-> >  	}
-> >  
-> >  	/* Try to get firmware version */
-> > -	ver_ptr = kzalloc(ver_len, GFP_KERNEL);
-> > -	if (ver_ptr == NULL) {
-> > +	p.fw_name = kzalloc(ver_len, GFP_KERNEL);
-> > +	if (!p.fw_name) {
-> >  		rc = -ENOMEM;
-> >  		goto cleanup;
-> >  	}
-> > -	rc = usb_string(udev, 201, ver_ptr, ver_len);
-> > +	rc = usb_string(udev, 201, p.fw_name, ver_len);
-> >  	if (rc == -EPIPE) {
-> > -		*ver_ptr = '\0';
-> > +		*p.fw_name = '\0';
-> >  	} else if (rc < 0) {
-> >  		hid_err(hdev,
-> >  			"failed retrieving Huion firmware version: %d\n", rc);
-> > @@ -885,7 +886,7 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
-> >  	}
-> >  
-> >  	/* If this is a transition firmware */
-> > -	if (strcmp(ver_ptr, transition_ver) == 0) {
-> > +	if (strcmp(p.fw_name, transition_ver) == 0) {
-> >  		hid_dbg(hdev,
-> >  			"transition firmware detected, not probing pen v2 parameters\n");
-> >  	} else {
-> > @@ -1028,7 +1029,6 @@ static int uclogic_params_huion_init(struct uclogic_params *params,
-> >  	rc = 0;
-> >  cleanup:
-> >  	kfree(params_ptr);
-> > -	kfree(ver_ptr);
-> >  	uclogic_params_cleanup(&p);
-> >  	return rc;
-> >  }
-> > diff --git a/drivers/hid/hid-uclogic-params.h b/drivers/hid/hid-uclogic-params.h
-> > index d6ffadb2f601..412c916770f5 100644
-> > --- a/drivers/hid/hid-uclogic-params.h
-> > +++ b/drivers/hid/hid-uclogic-params.h
-> > @@ -232,6 +232,11 @@ struct uclogic_params {
-> >  	 * List of event hooks.
-> >  	 */
-> >  	struct uclogic_raw_event_hook *event_hooks;
-> > +	/*
-> > +	 * Firmware name, exposed to userspace via sysfs as it is used to
-> > +	 * identify the tablet.
-> > +	 */
-> > +	char *fw_name;
+> #!/bin/bash
+> for ((n=0;n<5;n++))
+> do
+> sudo rmmod i2c_hid_acpi
+> sleep 1
+> sudo modprobe i2c_hid_acpi --force-vermagic
+> sleep 2
+> done
 > 
-> I can't remember if this was on the table or not, but any reasons to not
-> use hid->uniq[64] field instead of a custom sysfs?
-> If there is already a value, we could just append the firmware version
-> with a colon (:) separator.
-> 
-> The main reason would be to not export a new sysfs specifically for this
-> driver, but it would also allow HID-BPF to have access to the value and
-> thus allow to detect if the device works with the given bpf program.
+> I will try to use the code of 6.8.1 and revert that commit.
 
-That's a very good point.
+P.S.: To be sure the issue doesn't fall through the cracks unnoticed,
+I'm adding it to regzbot, the Linux kernel regression tracking bot:
 
-I tested with some tablets and for HUION, the uniq field is empty.
-Other vendors just put garbage there. In fact, we override it in
-tablets with battery to avoid a crash [1].
+#regzbot report /
+#regzbot introduced aa69d6974185e9f7a552ba982540a38e34f69690
+#regzbot title HID: i2c-hid: probe of i2c-XXX0001:00 failed with error -110
+#regzbot ignore-activity
 
-So, it'll be fine to just override the garbage in that field with
-an actual unique ID. Sent v2 with the sugested change [2].
-
-Thanks,
-Jose
-
-[1] https://github.com/JoseExposito/linux/commit/9845a1304a06805c3193c58283ca428c32c14fa7#diff-b3e9836cea703e50e8febb1f09b86f92833200e7bda4c9c1ea5a1d8b569b01dbR1257-R1262
-[2] https://lore.kernel.org/linux-input/20240322100210.107152-1-jose.exposito89@gmail.com/T/
-
-> Cheers,
-> Benjamin
-> 
-> >  };
-> >  
-> >  /* Driver data */
-> > -- 
-> > 2.44.0
-> > 
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
