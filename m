@@ -1,84 +1,105 @@
-Return-Path: <linux-input+bounces-2509-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2496-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0473C88AA17
-	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 17:50:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A0D887EFD
+	for <lists+linux-input@lfdr.de>; Sun, 24 Mar 2024 22:08:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A84B61F69DBE
-	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 16:50:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A405B210C6
+	for <lists+linux-input@lfdr.de>; Sun, 24 Mar 2024 21:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26BD7146D5C;
-	Mon, 25 Mar 2024 15:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311EF199BC;
+	Sun, 24 Mar 2024 21:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="UzfQA2qL"
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="T/NM5Y/x";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lX/aY3JH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95981146D56;
-	Mon, 25 Mar 2024 15:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E108D53F;
+	Sun, 24 Mar 2024 21:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711379327; cv=none; b=Hfj2RZeYHnnZuCwIeeN5l3T6RieoGwudUIzbdrJjwoRfl/x/P0YRFnoDC6ZSu6IhpM5qdviBjggSrXTFToOARCMVYPqgtoFIGLWDnzDNVzTct2GjYQPy5UiZlFHLFLQOK+IWLDys7bzXpUV8Rjw6jw9FTuuzPFF3VodC6BBVQpg=
+	t=1711314519; cv=none; b=eKWLwop6CfklKfptP53m3hBibjTVfck7vgyXoGLhsq7mZ98sXSHTrqpMauOKLbyLC7wPcZUzE7WqTIlEWWoKmih7rFxmkBLRSu5fcjQoZbAmkwSTPACfbNgMU5A+P/rSPJWEg5QsrRhvK4dcTs+9LYoEb1HF4HX17awHg75CxVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711379327; c=relaxed/simple;
-	bh=cOB5ofcragOsxUPDcRYrRuGwwiFEh7d8O8+uK+5YN54=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QhwnJld7OLugBcTCgqFo7XlEbozusP+TOOQmDWVPj1B1Fb6U0Rvq2xU4LCjLLxAXYsS00RVUMrilC4/hb9LfHKwF0nPgLj3dsxhDaAEy4qZ05SUtp/tNIKJJWpDGZa138RbGIGfS+9ZgrjdZf7UklN9sQmkLz8GGLeFR/zuq0AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=UzfQA2qL; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rolwE-003KEg-1E;
-	Mon, 25 Mar 2024 16:08:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=TkWL+DHrht+nOfgyUNGNUf3KP01IjzuevLkBJPg3TiI=; b=UzfQA2qL+bndZw6lsmdoDeELjW
-	uuMpHqJV3OOnQ9XErtmLJOy8b775fseCT6uPNyDf4d1N1tAXwO+MJ0ULPrEKXyjQyi8YLURYw2v5y
-	KfkjM3J2swbh6A8ItMFOFROS6dpDMSnWtBsEbxtuHw8ncnSZthPG/ot12FcTz1NBqd/lR6vhn1QtI
-	M2/IcyOWSSQ2b5riYCQjyVq8M2NaPXS0zWswkIjSKqdSXXeo1/xCxfcuDTZ1VpmbtSZrJGKrENIO1
-	zXhQX6yY8FkiiRJiDSwb6y9jgAXyrL93P/2TXu8W57oql31y/aTZOE4wvAiskqSLBF/N2EHpH0Eea
-	vw72pM9Q==;
-Received: from p2003010777026a001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7702:6a00:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1roSqO-000Y2F-Df; Sun, 24 Mar 2024 19:45:19 +0100
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1roSqN-000rkQ-0s;
-	Sun, 24 Mar 2024 19:45:19 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andreas@kemnade.info,
-	o.rempel@pengutronix.de,
-	dario.binacchi@amarulasolutions.com,
-	u.kleine-koenig@pengutronix.de,
-	hdegoede@redhat.com,
-	p.puschmann@pironex.com,
+	s=arc-20240116; t=1711314519; c=relaxed/simple;
+	bh=hpk6Wi6xibmLu2eA9kJTYleFHcU39R9mM9+aJN+WP8g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iLdqW5iXYpqtZtIk45yZVlYHcDyswyiERNWX556qNiyWPmoV1R2W7UvfMwz/sh8XhVszEpTBp0nz17YtehwxAWBh2qBg0baiHa03ZIL56IQMJAoZE6SDIaohu4bhlQ6wXrZMmhQ69Gnzbz9RFpUtS+bw3HqyHNxVDPVxsjF9oJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=T/NM5Y/x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lX/aY3JH; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 01C4611400BD;
+	Sun, 24 Mar 2024 17:08:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 24 Mar 2024 17:08:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1711314514; x=
+	1711400914; bh=h31yFYMuvD8W4+jwFqiAM6h7FP1FGnBAkqLSOrHU3Lw=; b=T
+	/NM5Y/xMwutq0VrqeHwqRc2r8ppPk9dY1B2IZL8uT9NpuLsalDAujHe0vKOxWN7D
+	kDcR/gLhDd3GPsmlLdfo4AIe/6IdiX6V48z3zZtYtJBE4koHbE5Ykh6M9bnyaTU0
+	xdNCFs9USPfsZL8AFFr1M09w5hBvCUlHaPV/LP/w37Ok86m+3iDg+DLdt8PtOmgu
+	49EBR2KuMVi2c9d1MdofmkjFmvVDoDz/WWY/J8DzIyJFdQ427puh7bmIvNn6by3q
+	J0/Std9DHJaKlaE28IgSAB6RlwaP/aTAUp6HdJeKfkWMYNsd01KbJxKh9sXWrXzN
+	QZbxJaiZbdPsXsStBMFbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1711314514; x=
+	1711400914; bh=h31yFYMuvD8W4+jwFqiAM6h7FP1FGnBAkqLSOrHU3Lw=; b=l
+	X/aY3JHbBgmpQojhGhfXeLCwqqnVCMFCSqjoavW14X6VPeYjSpLSLditBG3khcVo
+	Wh4h+IgGHvptPU2/iCZj1S3I+344KNuPSLvOB6xAHUQfSDaua9F9kCJG7486xNPE
+	Xuhv7WSucI+mCrPYwPa8Sq12Vq4S7yBvOvub0cF/Vz2chdvtiNi9LsSYdmlefgm/
+	RYny9wAKEU+2Aw3NXsOcBFR2MitoimbyIyCf/UER+GjA6zYET0zlwzV0Ipd964HX
+	fSUJ+TcAgWdso35kKxAEo+f8d69EBSL4oCDdb9adLIpJKeE0agR52MDErxcM2JNR
+	JzAbE7kKPpt/cLkfkMjyw==
+X-ME-Sender: <xms:UpYAZmi0k0huX4N1N70jkM2iLw3_yK4A05HIypRnLfoK83ZoqnIRhg>
+    <xme:UpYAZnBcz2K8DLpkbYU-TO6rwx-zYoFSrA7rN4TpPezzEC8TgYyLZJzyayi9TOHY1
+    p3asiCyIZ4HI6mGd-c>
+X-ME-Received: <xmr:UpYAZuFT963srjrqy1__Ujkdiitn9JbOru9My5xUw_h1Gjo1US945jCWkb17>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddtjedgudeglecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecuogetfedtuddqtdduucdludehmdenucfjughrpe
+    fhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforghrkhcurfgvrghr
+    shhonhcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrqeenucggtf
+    frrghtthgvrhhnpeeftddvjeefleffvefhgfejjeehudetteeigeeugfekhffhgeejudeu
+    teehgfdvffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggr
+X-ME-Proxy: <xmx:UpYAZvRI-v2pPnEQrqdStZ75-P448KxQavA-owbAUmMKEWUAwo2XoA>
+    <xmx:UpYAZjwMUBZYv_m5Tz0zlrnbGOMReOToiZYPOIKm9Sa1B-Wz088CiA>
+    <xmx:UpYAZt65STtAo-7V_NOXk7myip5IwXwktp3sxTXhhJzIvV8enaHn_A>
+    <xmx:UpYAZgwpp8p0UAXfuqDD43W4wxsRlvE4_J5rpyBxTNcUHp5NV4TC1w>
+    <xmx:UpYAZrgYPPLgGFH8f9mXXrHSzlAvXWNHfy1kPOMmqWohzzAVp8Qj9w>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 24 Mar 2024 17:08:33 -0400 (EDT)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	hmh@hmh.eng.br,
+	dmitry.torokhov@gmail.com,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	caleb.connolly@linaro.org
-Subject: [PATCH 2/2] Input: edt-ft5x06 - add ft5426
-Date: Sun, 24 Mar 2024 19:44:15 +0100
-Message-Id: <20240324184415.206587-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240324184415.206587-1-andreas@kemnade.info>
-References: <20240324184415.206587-1-andreas@kemnade.info>
+	njoshi1@lenovo.com,
+	vsankar@lenovo.com,
+	peter.hutterer@redhat.com
+Subject: [PATCH 0/4] platform/x86,input: Support for new events on
+Date: Sun, 24 Mar 2024 17:07:57 -0400
+Message-ID: <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -87,27 +108,37 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As ft5426 seems to be compatible with this driver, add it.
-Debug output during identification: Model "generic ft5x06 (79)", Rev. "
+Hi,
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- drivers/input/touchscreen/edt-ft5x06.c | 1 +
- 1 file changed, 1 insertion(+)
+This series adds support trackpoint doubletap and some new hotkey
+functionality which is being added on Lenovo laptops.
+ - FN+N - display system debug info. Used by customer support with
+   Windows users.
+ - FN+G - disable/enable trackpoint doubletap.
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 2a1db11344766..4e7621a801756 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -1484,6 +1484,7 @@ static const struct of_device_id edt_ft5x06_of_match[] = {
- 	{ .compatible = "edt,edt-ft5206", .data = &edt_ft5x06_data },
- 	{ .compatible = "edt,edt-ft5306", .data = &edt_ft5x06_data },
- 	{ .compatible = "edt,edt-ft5406", .data = &edt_ft5x06_data },
-+	{ .compatible = "focaltech,ft5426", .data = &edt_ft5506_data },
- 	{ .compatible = "edt,edt-ft5506", .data = &edt_ft5506_data },
- 	{ .compatible = "evervision,ev-ft5726", .data = &edt_ft5506_data },
- 	/* Note focaltech vendor prefix for compatibility with ft6236.c */
+We combined these into a series because there was commonality between
+what the different features were doing.
+Please let us know if you would prefer to have them as separate commits.
+
+Many thanks to Peter Hutterer and Benjamin Tissoires for the guidance on
+what would be best for exporting the events from trackpoint doubletap to
+userspace. Any mistakes are ours :)
+
+Features have been tested on Z13 G2 (doubletap & FN+G) and X1 Carbon 
+G12 (FN+N)
+
+Mark Pearson (4):
+  Input: Add trackpoint doubletap and system debug info keycodes
+  platform/x86: thinkpad_acpi: Support for trackpoint doubletap
+  platform/x86: thinkpad_acpi: Support for system debug info hotkey
+  platform/x86: thinkpad_acpi: Support hotkey to disable trackpoint
+    doubletap
+
+ drivers/platform/x86/thinkpad_acpi.c   | 31 ++++++++++++++++++++++++++
+ include/uapi/linux/input-event-codes.h |  2 ++
+ 2 files changed, 33 insertions(+)
+
 -- 
-2.39.2
+2.44.0
 
 
