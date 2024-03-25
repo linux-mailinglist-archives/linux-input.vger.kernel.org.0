@@ -1,112 +1,96 @@
-Return-Path: <linux-input+bounces-2516-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2517-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7AB88B503
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 00:10:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A669488AFA1
+	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 20:17:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75AC4B25AE6
-	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 18:48:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D71561C61CEF
+	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 19:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C700155E5C;
-	Mon, 25 Mar 2024 18:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A1118E3F;
+	Mon, 25 Mar 2024 19:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xeztjbt9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FI8o9x9n"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFCD804;
-	Mon, 25 Mar 2024 18:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE40818C08;
+	Mon, 25 Mar 2024 19:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711391955; cv=none; b=Ps7+oux/UGYOkAcIkitbMwk0YoIVDXEvEBCcXAnYCD87k2BFHy8Y1+cMeSAHDfVqY1UQnFf5sBchmlWW4SyidBpZ5ee/hMRBNKO2/e80GJPp3A8tpyZgyMoibvR4vKZNgNt8NTL9WYYSG1KrFNmhz3Bq+dDegKpmGpGFKqzrMZ4=
+	t=1711394215; cv=none; b=Hs9c70/9Old4FjGDRvYg1uNmzt88CKsfC9KQeiRC0nlRYkpS/U20QGU1RZVdnDVej1/jWRF9Yfv1jGFfYjeu/Dp1SM9FhALKXn2HKOQTMW7dRaEboMN694RSi2APn84ciHI1si8/Od3dsPgnUleo2ixHn20Rhfn7qZtOWnbgP/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711391955; c=relaxed/simple;
-	bh=nFwzYKXU3PDENa5lkJ8uYCOEicrv86o7Knmj0aH6USo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ftfgl/XX7rVojCCUEn8qfSyumKxQUIukVG6MLoKA4owI6AB/le6uemXYGaRQw0XtRIlRcibRKG/XXBZMmA4Hog2LE+bF+p+FiUx+L7K49NcS1844EwHcAgvL7oifyMMDKyvSIqHHR7Z+O6GaeEcDAUd7mN61uNjlBY91illJzH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xeztjbt9; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5ce6b5e3c4eso2282993a12.2;
-        Mon, 25 Mar 2024 11:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711391954; x=1711996754; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nFwzYKXU3PDENa5lkJ8uYCOEicrv86o7Knmj0aH6USo=;
-        b=Xeztjbt9zXvodJ7LJUBw6JHuGGYBPcY0ncOAcePTXllfRyIRwUJSMDVyeTbM6wtN9j
-         mAeoI+WTa/KSt69WqUlv4Id/DikyyJHh5tvcJZUuLy3+Dbh1tpb1QHyLLlU2F/fJTmR7
-         tGbdNdYX4neOLP6AwaXVBZl4TwgqaYG44XTT1t+KF1fDcrcm0E2FSHV8KQdjcknm21XH
-         fsKZyBm4jgmMCkE+q4hc3+UXw1jIdr3HrcyyJXusRtoOGVqt33wdzK7YB67srQR0ry1m
-         dquGhn8e6Bpi/exEI3FqUpnwMVb1hQC2DhEuk1gijB5y0kjqzOL8IA+RXKGFApk9Wd/o
-         c3Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711391954; x=1711996754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nFwzYKXU3PDENa5lkJ8uYCOEicrv86o7Knmj0aH6USo=;
-        b=hhc5RDpNVpA3zuN4YfuYYnTIfkJ4LLHq3LnmKrVxUtEohJI36atGS8JQvMIv6vDDCl
-         iR06V8GHjMbGksVri3+7YX9RWl9SxHG79FzP9OSaPGp7gHHtAQ/hZ/Bj7zlM0Pvp5hlZ
-         ApYzdJudeWqQ0NtBdt+vt47f/Jnds0duBTSyvScV8Grnu2u9Ua5lNGVlERDClVyp1WQL
-         DxW7LxbX0/O4YOaNHnCBr6senoJZZkSPANStWCZaY05owCB4rdkd9mwGoLXbFCmKegHi
-         fmnp+jk3novLvMbgvuaKAQ2obeyg1eNBwpcs89GCliPqiCuS87+vDW+Dv/vVx5vnx0wX
-         iccg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnksF/3slnl28iLQv6//2xD1msRdYmDb6LvXETuGWy+xPgaYeLE3nBhIUzt+6lU6ORWtMRSJHoEeK+PneNj9QC4iel1Ww1euWjMfLig5v484ZR+CCieMBTomqyDgJQ/QH1oGTNDO4sUXFEWBr66ZeJoELSnNnb5z+w1vdz9ofdmOASDOSt
-X-Gm-Message-State: AOJu0YwPf1vAshEggT89f4wqhCOyxmKqpI2Y1F9UdcCpok5YQx5khQCQ
-	jMPtVcXmoxcshJ/UGtRDzYo8SHVVrLOGSvdMNgv7eepXbrkpzAyuTNxO57G9bBhRATQMQDMM7+E
-	Rz/u5p9ZhhDvxU1CwbCxT6PmSL8A=
-X-Google-Smtp-Source: AGHT+IHB8Kf1FiMvd2QhpeI+M3oeri4uBSNnj55Ko8tFwUgHv4S6Z6z6cTiW6P4RuVTjs9xt/tzUaKUsVOQZ+M6sbfQ=
-X-Received: by 2002:a17:90a:16c2:b0:29a:3c70:1525 with SMTP id
- y2-20020a17090a16c200b0029a3c701525mr4879792pje.45.1711391953686; Mon, 25 Mar
- 2024 11:39:13 -0700 (PDT)
+	s=arc-20240116; t=1711394215; c=relaxed/simple;
+	bh=xQjXWR78w6LFX6c6u9rSvz6lq+JxeI4vUXLcsqqJueo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BOayrx05W/SPj0hBiH0Tp7vEDqnXLINW1LBQ8w8O/Pgzw1IBzTHvAIKZ5jotE76AmCNRn15VIbEsyNOsH+IVF/YQfZtXFFpiGaG21jcl3EtWjwZ6c5zE8t5kIAANQlFSSVm171Iasp/gSSWs+bSpfXi5ESixO5+oM8+2z2v9UeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FI8o9x9n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7339DC433C7;
+	Mon, 25 Mar 2024 19:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711394215;
+	bh=xQjXWR78w6LFX6c6u9rSvz6lq+JxeI4vUXLcsqqJueo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FI8o9x9nCSGsHEuYt4a6eVqrgrLtd8pqD5SKquNq05RgsxNX+cMZVqSgjam+3dQT6
+	 13nS3odq6JkqLTwkRYfvgb4ITtiwq70LKvYT+amYgB3ewFtuudAUBEBh0WGSXo5r4E
+	 5knsSkih7udFBuIgfkilrnmAtxhUdsrove0+TcyPGgRbnXAoyOAYi+YKkd5oSBzr3y
+	 r6XBKKC0qufuepLF24PTx11qHEDspQXYKBASWo4V38GVgaUAMRzPgssv+Ko4xQp2CE
+	 AEJ6qrb3kemhQELSxjbOR8T2UqIcQic+aMcHrE6Fn9NfaNvLqR2UAzBsxTK/uUuN49
+	 xypzMWQpNFhZA==
+Date: Mon, 25 Mar 2024 19:16:50 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	o.rempel@pengutronix.de, dario.binacchi@amarulasolutions.com,
+	u.kleine-koenig@pengutronix.de, hdegoede@redhat.com,
+	p.puschmann@pironex.com, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	caleb.connolly@linaro.org
+Subject: Re: [PATCH 0/2] Input: add ft5426
+Message-ID: <20240325-cuddle-vivacious-c0fc010bdd1a@spud>
+References: <20240324184415.206587-1-andreas@kemnade.info>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com> <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com> <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com> <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com> <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz> <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com> <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com> <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
-In-Reply-To: <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Mar 2024 19:38:46 +0100
-Message-ID: <CANiq72kPXsTjzptK7tSC=RygEpWHJHz1-QXuZv8qPHfGLyzrDw@mail.gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
- devices on Linux v3)
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, Lee Jones <lee@kernel.org>, 
-	linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, 
-	ojeda@kernel.org, linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, 
-	Gregor Riepl <onitake@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oF12n2TDHAfViFUe"
+Content-Disposition: inline
+In-Reply-To: <20240324184415.206587-1-andreas@kemnade.info>
+
+
+--oF12n2TDHAfViFUe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2024 at 3:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> +Cc: Bentiss, Jiri
+On Sun, Mar 24, 2024 at 07:44:13PM +0100, Andreas Kemnade wrote:
+> Add ft5426 touchscreen controller and the corresponding compatible.
+>=20
+> Andreas Kemnade (2):
+>   dt-bindings: input: touchscreen: edt-ft5x06: Add ft5426
+>   Input: edt-ft5x06 - add ft5426
 
-Cc'ing Andy and Geert as well who recently became the
-maintainers/reviewers of auxdisplay, in case they are interested in
-these threads (one of the initial solutions discussed in a past thread
-a while ago was to extend auxdisplay).
+I think something got messed up, I only got the cover and 2/2, no 1/2:
+https://lore.kernel.org/all/20240324184415.206587-1-andreas@kemnade.info/
 
-Cheers,
-Miguel
+--oF12n2TDHAfViFUe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgHNogAKCRB4tDGHoIJi
+0v9PAQDZ/28eIpsPGkkAS3vbjS6u0QFJ8N/Y0dXUis3DoZ1XYgEAxpWKQS/w0gOW
+lOGmBkEpv23ksVAZDGoWTdHS4w5W+wM=
+=uCyX
+-----END PGP SIGNATURE-----
+
+--oF12n2TDHAfViFUe--
 
