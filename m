@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-2501-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2502-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EDB889880
-	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 10:40:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EA7889D5F
+	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 12:43:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE88D1C31C6F
-	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 09:40:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A189B3A2E8
+	for <lists+linux-input@lfdr.de>; Mon, 25 Mar 2024 09:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 604A976402;
-	Mon, 25 Mar 2024 05:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1562E1272BA;
+	Mon, 25 Mar 2024 05:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b="YtwtNQEF"
+	dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b="qUXnFx3v"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC547581D;
-	Mon, 25 Mar 2024 01:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E6F127B70
+	for <linux-input@vger.kernel.org>; Mon, 25 Mar 2024 01:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711329260; cv=none; b=DKVYovBKaJMea9KchNxJOpK3zW5fL3fsHR4qRvpZsDUhyeFYIIDyhrk8DOLmL4APBGlB7D4SNCQi4Jj/RyerWAYs3IZEmFbbvsYg3ANGlsRlxOZ5XCzVJ6bRo0t1BMZsyvub7/PlIgp7rPHu2rq5TiOBl+6qdrbGnKmTsR4KBuw=
+	t=1711329763; cv=none; b=F9f9F/sA2DBCq5wvIcrGivUujYg1NdRWt2zzrHrTKluLeoUS01hsnPER4g2RD+FjeGIJaqKfR62iByHtauJTM/gyHsnSrskRcDwU77yvh7EU8VDPcGwGU2ZFjifumNr6HH/5pVFTTpOLLDlZyYqd/P+Byl2I6wb3hQuEfwhjw6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711329260; c=relaxed/simple;
-	bh=GbohUeNiYRLi7HCafF7j2MHMW47M3G9u2gl0XtXBfWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NQoLL36I+Yxoyfr51d0SxcaOtim6z97WCtGLepV1FQoesN6aKyXvVAzmpWLEfGQF6HYDi00qlyMgVwUjCkOst5YOnIcMB/8AZekhBXfNqylAfiQu+4XF8YhXhvRm579SXEJyjEfofo/K9HJCfLn4PjbDSNZTvUOsqrJsOhNduNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li; spf=pass smtp.mailfrom=gmx.li; dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b=YtwtNQEF; arc=none smtp.client-ip=212.227.15.19
+	s=arc-20240116; t=1711329763; c=relaxed/simple;
+	bh=dcP8j/y82Jda+s+thvqlY/EJg1lWXsOzzuJ3rVX9v4g=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u0JiIG8pVx7BO5WSkc+Ecoa4qTDr1vNeQKpEzdXJOMt4v+zlLvND4X3ICqqytRgcLcuTTrPVGY1Y1FmYS8h79hE2/QTNIGTsG20L/F/VOYdjpF19Z2zQFZFEgO0EHgXC65auxMDyaXvjjA0xTv5HiL84jMSsQq3GR4fdjlaC6aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li; spf=pass smtp.mailfrom=gmx.li; dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b=qUXnFx3v; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
-	s=s31663417; t=1711329236; x=1711934036; i=thomas.kuehne@gmx.li;
-	bh=HKWWpfd65dITQJtDLDRTP39qUP6TdCPC5VOtHpjb08w=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
-	b=YtwtNQEFB0WO0otwsX1QxxjiuRduW3y5IeSlPFcPs0Th5lHQOcJSwWAZd2qAS5FT
-	 /rYGNswmU3vtIHzjcKxQ7AKfGAoD6diUppS/C7BB5uTbe4UpfKDDGEJj3zd0MKusb
-	 IFcbDKqVJH8RceKoxo9ozEcGHANDKxG4RamZR70wT29+1eNvH1BbLBaCKdMWB3Sd0
-	 r6vOby+7JqObrQu5IxnV6RzOkvuJBbAsL4GWCjVmWIRm6EnXVggO+NMzEM6vCxbrQ
-	 ph0v53gKq45axDPfdwwKti4ej0nU1zNDfz0eaig+QQ4B98yPKRCeIqTFs++4BmGEh
-	 bFvTdxBLtDjEnUV3Rw==
+	s=s31663417; t=1711329739; x=1711934539; i=thomas.kuehne@gmx.li;
+	bh=fos/GMF3tAWW92jhpWyGvXH5P7s+YiZvp5juROfy8wQ=;
+	h=X-UI-Sender-Class:Date:From:To:Subject;
+	b=qUXnFx3v0bkQSVCujljowb0DKz+uCNjzwQYyFP+5Cc8kPY4oKT+M/ezxsVstQQl4
+	 Ngh6qU5htKzLZ3MbwTqQ4ozoinXVBRJfmkl25OHjAUvu85TT6ordv+Q9Sk61NyB7C
+	 frKdyYMVk4STHwQzIB46bsolMMtKGHdjvb8dZIUVH0JJ2zXawqM3nlQxQMto/nctL
+	 BYwRKrzjlP8go/1JYQdphNl1jd0P/nZQs5Ud0n9oMRYR7dEoeDwRXBFhTWyYtFB9O
+	 8Ex3+uvXRz2+RM5IWmap/xTbM22vDBsuRj1cdCMvT9NJumIH152OrpdvNcTJmBspF
+	 L8kWuykd0bm62RPxTQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from black ([2.59.122.231]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJmGZ-1s8YbV1sYz-00KC6W; Mon, 25
- Mar 2024 02:13:56 +0100
-Date: Mon, 25 Mar 2024 01:14:52 +0000
+Received: from black ([2.59.122.231]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1sgX2U21O1-00sOcf; Mon, 25
+ Mar 2024 02:22:19 +0100
+Date: Mon, 25 Mar 2024 01:23:15 +0000
 From: Thomas Kuehne <thomas.kuehne@gmx.li>
-To: jikos@kernel.org, benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1 v2] HID: hid-debug: add missing evdev and HID codes
-Message-ID: <ZgDQDEPR5WpN498U@black>
+To: linux-input@vger.kernel.org, jikos@kernel.org,
+	benjamin.tissoires@redhat.com
+Subject: [PATCH v2 1/1] HID: hid-debug: add missing evdev and HID codes
+Message-ID: <ZgDSAzsYVzgnjyao@black>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,24 +59,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:bShtbrnOAXhQ1Oy9bcZigewu1U2usMIwFFkaIX0jZLRsXpFwoLa
- 7TBP/Z0y4G6suATwiBzUIFVCiuP57M25ZEwM14ncaryjmEMfr6KKA8weD0G58MsLwSbyV+L
- ob+dL1Y3VKbgSr6ktgnVds1g0S0SNAGF9vWIy3Pl5xrY4v2CG6xuXy1PD5rHfIq0lgWelIA
- W/KjIHo1NoQMM8sXh9RzQ==
+X-Provags-ID: V03:K1:R6LPB5RJp5nOdgCRN1AnKHUtG3ISw+8PYfSm02pKzWTBTtOpaHn
+ 7gC2tuT5SegToDcWJfilGuSvB52afppjoe2ZT0RnHC6JUOitb5gXv/Cn6GECWIdX9JVhj+z
+ ngcrjBOhEM84lYqb5LjtRRWSPSNR6yFALx16spKKpXz7VzGnkokyyKn2fXFllbvDKxu5wNQ
+ bquZU9HluOCiQ976h+EFg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mpkCDI+99Q0=;Zia4k7zuGWLBV41PbP45kyuFSuN
- /8ttcM3KQt8YXMQEHHTF38yW3hEfJf+JSna6aVaDk8bBM36Q1OtM4Quo6deKBVjZ46EVLqQKn
- poc6BbmJtcvEse5T8Cj3TRREtE/RUTczihiIaSErCzYORWa/peYSmk7Spn8q+Nr7VmXe20QU8
- YeeoXJ/oJ9vIaaoFuyuovP18y1sRQ+iyIj9C9JpIsZas4Mi2/zwRlZweVUM10FHF5RnWyutm3
- Zo3/0lbsSMeb5ieISiQrAuunEQPZQxKybjuXVGMGA+xmgvQljTO4Ls9Hlfbp1bvdR7+eSnS33
- Z579OF9T2nJgIodl2FXL/NU9/3wBIUBqZhfaMoW3Gs5+APvzCcWM9ET4SKS7qupHPt/xUTJzg
- skiOgPa5xHtOdnsyjLVuUnCL4q/cFIvaYYiYLLFq1cQPiKuF9MiAQ7dc5G5tCtqd/GswVPjV1
- HWzUBebQn5WycLcwc9CpSYjNt6pb1d1y7RzvhAAwU4b79/vTwjQK9KGCh4lnocdFPmbVsAJar
- r20L2Q8+8QLygabZUZnRSgeyYYpyet7dwlQAzfaYo35MB1QZ70wy1BPS9MxoSX21JCFT1oQCE
- caLwXa1+M16hhh05qDTSQJTsxso9xOx8/7c8zREvsYWpyis5c4DPeTtDZLIYvhUX/U+SQOOSf
- m0pgpaLdDTYLrpgs1P/j9q2o6zTLADZT9t+tjKyF4WSfDHCM8yuaIK8zg129hMsCZww2c9878
- t14qQJ0WqDr6W2dvvP5dJLZb0anyMN/ZxF8nlhg7xXLqJCcWlF3+O8LW3Xna6DWAb7xZz5I5S
- 6ulkYFg5j7YvTepDNmyUBRYnvzgNjhliWSumrIKJz/gKs=
+UI-OutboundReport: notjunk:1;M01:P0:JnQ80IWD3JA=;OiMnAbAyztShJR1vzhH9Vp7lnat
+ uDcSH3FkevNh+EtBYXGOCJeBA4UMrPVKTEC4BMNXwR2+jOb7D5Vzzl9jxCZCY47J3YMweuqn+
+ k2GFriY9T8LKyv12N55aVSHXpmM1ASQdAKAzEOz9bDrL1/2loxnHGjOUTPXw3nZBfXyQLwAf9
+ BbL+W4KP2k1N+Gcs0zZCYgFhlRy7IuSBRT5R/5z6YKje7EmTDtNNrr58+kogr6uJXorIVRtuy
+ PA9nwFSkCMCEM4v1L0MlPX2hwj9rlVeatF4XnQPlx6Dgf8Hp2AO17ZW8rm67+HJZltlB77ipF
+ 9vx+7KXB2KRX7ZocNpxkdM7Q28OaaTuZ+52pa9WeLc5G3dm9UIu0rDwBoMf4LlXqRgj1SegLv
+ Gs6KuF+Vi47oVugYLV6ZxFHmu2xyhz/q2l6C70MT8ueLPxuuQF+fUw2I6F3ScT1tXPpF7xKEb
+ 99H2BRE+uu1gM5G2vyZcajDDux4t8QDquhCF7zt4jliSPtnUThOa+m4QIfCIxVEha+SGgtPwa
+ aolXhbLjy0AdbtmOJ5MRAw8sVYq2EVn4L1Vko+98KF0ZWoDalvfdQ+1jdjXrWV/YcLgrEZWF9
+ lu1/oORaLLZ/5baWP1j7txOUuhlJadJ9z4OuUNwhqFCOB1lZuPpZTV8xs59SsX4P4eiZMrnvM
+ I7j+U9LU50UAiRje07Mfk0kktz9aG27XeeZaO/9P8inr8hRFIr7IkPekT5Kxy+Nf4KlKFZrzD
+ wSrtcfFwCzKJA1+tHdfYrxr4yCrLzhpMZRi8QYbRGJmjEpRjcJR9AheJU6B9GkYfg/UWeui2d
+ gkHGBKiuxxSq+3MIyp9n9kACjpJZ8oKvlR2U7PmnVv3/E=
 Content-Transfer-Encoding: quoted-printable
 
 Hid-debug's rdesc output for a game controller contained a few question
@@ -92,10 +91,12 @@ Add missing event codes and update HID to HUT 1.5.
 
 Signed-off-by: Thomas Kuehne <thomas.kuehne@gmx.li>
 =2D--
-Changes since v1:
-- checked against input-event-codes.h to ensure no other codes are missing
-- ensure that hid_usage_table is up to date with HUT 1.5's HidUsageTables.=
-json
+
+ Changes since V1:
+ - alignment with input-event-codes.h
+ - alignment with HUT 1.5's HidUsageTables.json
+ - added HID compliant handling for Sensor modifiers (page 0x20, 0x1000 - =
+0xF000)
 
  base-commit: 4cece764965020c22cff7665b18a012006359095
 
@@ -3645,6 +3646,5 @@ leRangeRadar",
  static void hid_resolv_event(__u8 type, __u16 code, struct seq_file *f)
 =2D-
 2.40.1
-
 
 
