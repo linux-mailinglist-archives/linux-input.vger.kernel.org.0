@@ -1,183 +1,156 @@
-Return-Path: <linux-input+bounces-2522-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2523-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3789488BBCB
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:57:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AB688BCCF
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 09:51:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E251C2E37EE
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 07:57:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CA1BB21F9C
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1F5132811;
-	Tue, 26 Mar 2024 07:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1A2E1B962;
+	Tue, 26 Mar 2024 08:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZZxU4hOu"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="1/CR//ZZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6A0132C04;
-	Tue, 26 Mar 2024 07:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE71848;
+	Tue, 26 Mar 2024 08:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711439837; cv=none; b=hlm6RpZT6dOcw3hN05ZqJCoZGa0U8/Eh3TQvzpq5JS8mX3D7CSMi6xJPmrr5dRHPWScWd123YqrQRy2doq6p7xZKgfRA5DCCgI5yfJHhG+puy+gY3Evwdmeh6j9XrJfBMuHmYNfhJxtWtUfh+Vm/sGROFMb8qtm1DpIgyZTQo5E=
+	t=1711443039; cv=none; b=f9vRPtI/QCJxKh6iwcKcG578nFVEHDd64iq6z4hSuhVD8OBi654IXTKRBvj/GijMnWTxl5SBBXkdDstsU0lFEJbUpx3EYLCv2oJwyshm8wxl03KbIiEjJC6GLszG2o5q6AXvPqR5b4YwdEqsO4nLMa+Jq3GEjeePMTqVWYJAmbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711439837; c=relaxed/simple;
-	bh=x6WrjRafnlw5XzCc1/F74fHotz9wYk2CFg6piVDCOPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lqXsFLoxE5ublub/g5QQdvGMAnS6owf0/oKunJc4ncETAgJUPJ1z3KjggZ1dP+04SIEtZzF1iGJ5h+KutHi+CBvJ9QhOG9iddwIvwfJIefe7ff0wCeohRD5JgZGqPujIvftBJtzGgWBRLcKYlUgtU7DPLZdUY8RGnu/LtRuaqKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZZxU4hOu; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (p5de453e6.dip0.t-ipconnect.de [93.228.83.230])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 8DA012FC005D;
-	Tue, 26 Mar 2024 08:57:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1711439831;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=07xpBINcmpFjLp2DaMcbvfvjJdTbGEJQdX9Jp0QEuaI=;
-	b=ZZxU4hOuwCtvDabH2XBAqsqirw65P6JRc6X/96CK7py49gMn5gLb9G3eYbkX77mqZnFAh0
-	qRSm6e7r5BXokKL/nl/xFX8hJAyeOO8ThhV9pekNzG3tGkiUr5jCVI7IegOY4WV5mmNWOS
-	hp9tgJGlUHZ2TwI/GFe9rQ938u3I5TI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
-Date: Tue, 26 Mar 2024 08:57:09 +0100
+	s=arc-20240116; t=1711443039; c=relaxed/simple;
+	bh=lG7B+qUkM9NeNykReSQx3p76pLX9hN3mEUMsi5Fr0GI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dZCDaJzefxjDUilxNpyu6dyCvbPZErpdPW5PLY1SskW1WNvMUg7c0RX3maN6w4UlXVOHiqZ/NCf+Wzs4/XV9nX1Zf6diUyfgM4N6SDQKvvg5z0q8o4gxJLYuuvEduwX+PS78K1oTziomVBHiOovd54TBXxwMIXn2/6NgY70Mz/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=1/CR//ZZ; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1711443037; x=1742979037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lG7B+qUkM9NeNykReSQx3p76pLX9hN3mEUMsi5Fr0GI=;
+  b=1/CR//ZZy8hxBue+bXsHiwULsO9yv3UErLL3hwI4DtAwjwIyJR+9NiSF
+   djgGe8UjoR+eT7sDau+2sjGiIh3VXllKcMYjvgZ8ibcKGcAQBq2j+vx2u
+   xG8KbiZNHE20nCjeQvOlKVLA5F8PWeLlcjPAGHJBs1OSVk+EUe4lPHTiu
+   0moYShnS75Go9PsXgaVqV1oN4SnpJo2dxHTtZsnn/92u8oNcEv0TBU47l
+   KCXrfmokJ0Vn/aUBNgVVOg8ShzOWyp7bLsYjZZb15Un+RRovZH7YT61UK
+   Im4WHSw80OJzf/h/sRJRuA0jgwBfmyO0PCswXNQSSwR8K/sk0vllg3TnX
+   Q==;
+X-CSE-ConnectionGUID: UBqr2gvTSQSnKz9w8yaX1g==
+X-CSE-MsgGUID: WNkR9VEaRtu1ChEtau3wJg==
+X-IronPort-AV: E=Sophos;i="6.07,155,1708412400"; 
+   d="asc'?scan'208";a="185499468"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Mar 2024 01:50:30 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 01:49:19 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Tue, 26 Mar 2024 01:49:17 -0700
+Date: Tue, 26 Mar 2024 08:48:29 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Allen Lin <allencl_lin@hotmail.com>
+CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	<dmitry.torokhov@gmail.com>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+	<linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
+Message-ID: <20240326-whoever-spotter-1fe7ace35428@wendy>
+References: <20240322085606.993896-1-allencl_lin@hotmail.com>
+ <TY0PR06MB56116F0902017225C78EDDDD9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
+ <20240322-mammary-boil-f9a4c347fba1@spud>
+ <20240322183009.GA1227164-robh@kernel.org>
+ <20240322-rectified-udder-fef9102f58da@spud>
+ <TY0PR06MB56110ADEA805B68BE2B887069E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
- devices on Linux v3)
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-References: <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MNNZ2t7NSNgD6OgC"
+Content-Disposition: inline
+In-Reply-To: <TY0PR06MB56110ADEA805B68BE2B887069E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
 
-Hi all,
+--MNNZ2t7NSNgD6OgC
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Am 25.03.24 um 19:30 schrieb Hans de Goede:
+On Tue, Mar 26, 2024 at 01:46:56PM +0800, Allen Lin wrote:
+> Conor Dooley <conor@kernel.org> =E6=96=BC 2024=E5=B9=B43=E6=9C=8823=E6=97=
+=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:34=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Fri, Mar 22, 2024 at 01:30:09PM -0500, Rob Herring wrote:
+> > > On Fri, Mar 22, 2024 at 05:54:08PM +0000, Conor Dooley wrote:
+> > > > On Fri, Mar 22, 2024 at 04:56:03PM +0800, Allen_Lin wrote:
+> > > > > Add the HX83102j touchscreen device tree bindings documents.
+> > > > > HX83102j is a Himax TDDI touchscreen controller.
+> > > > > It's power sequence should be bound with a lcm driver, thus it
+> > > > > needs to be a panel follower. Others are the same as normal SPI
+> > > > > touchscreen controller.
+> > > > >
+> > > > > Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+> > > >
+> > > > note to self/Krzysztof/Rob:
+> > > > There was a previous attempt at this kind of device. This version l=
+ooks
+> > > > better but might be incomplete given there's a bunch more propertie=
+s in
+> > > > that patchset:
+> > > > https://lore.kernel.org/all/20231017091900.801989-1-tylor_yang@hima=
+x.corp-partner.google.com/
+> > >
+> > > Those don't look like properties we want coming back.
+> >
+> > Oh, I don't want most of them coming back either. There are some
+> > supplies in there though that I think we would like to come back, no?
+> > Maybe this particular device doesn't have any supplies, but that doesn't
+> > really seem credible.
+>=20
+> We will use Firmware-name in Device Tree.
 
-[snip]
->>> If the kernel already handles the custom protocol into generic HID, the
->>> work for userspace is not too hard because they can deal with a known
->>> protocol and can be cross-platform in their implementation.
->>>
->>> I'm mentioning that cross-platform because SDL used to rely on the
->>> input, LEDs, and other Linux peculiarities and eventually fell back on
->>> using hidraw only because it's way more easier that way.
->>>
->>> The other advantage of LampArray is that according to Microsoft's
->>> document, new devices are going to support it out of the box, so they'll
->>> be supported out of the box directly.
->>>
->>> Most of the time my stance is "do not add new kernel API, you'll regret
->>> it later". So in that case, given that we have a formally approved
->>> standard, I would suggest to use it, and consider it your API.
->> The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
-> Actually we don't even need that. Typically there is a single HID
-> driver handling both keys and the backlight, so userspace cannot
-> just unbind the HID driver since then the keys stop working.
->
-> But with a virtual LampArray HID device the only functionality
-> for an in kernel HID driver would be to export a basic keyboard
-> backlight control interface for simple non per key backlight control
-> to integrate nicely with e.g. GNOME's backlight control.
+> For power supply settings, because there may be other device using
+> same regulator.
 
-Don't forget that in the future there will be devices that natively support 
-LampArray in their firmware, so for them it is the same device.
+If there are other devices using the same regulator is it more
+important that you document it so that it doesn't get disabled by the
+other users.
 
-Regards,
+> We plan to define it as an optional property for user to control in
+> next release.
 
-Werner
+I don't see how the regulator would not be required, the device doesn't
+function without power.
 
-> And then when OpenRGB wants to take over it can just unbind the HID
-> driver from the HID device using existing mechanisms for that.
->
-> Hmm, I wonder if that will not also kill hidraw support though ...
-> I guess getting hidraw support back might require then also manually
-> binding the default HID input driver.  Bentiss any input on this?
->
-> Background info: as discussed earlier in the thread Werner would like
-> to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
-> device, since those are automatically supported by GNOME (and others)
-> and will give basic kbd backlight brightness control in the desktop
-> environment. This could be a simple HID driver for
-> the hid_allocate_device()-ed virtual HID device, but userspace needs
-> to be able to move that out of the way when it wants to take over
-> full control of the per key lighting.
->
-> Regards,
->
-> Hans
->
->
->
->
->
->
->
->> The control flow for the whole system would look something like this:
->>
->> - System boots
->>
->>      - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
->>
->>      - systemd-backlight restores last keyboard backlight brightness
->>
->>      - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
->>
->> - If the user wants more control they (auto-)start OpenRGB
->>
->>      - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
->>
->>      - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
->>
->>      - When OpenRGB closes it should reenable the sysfs leds entry
->>
->> - System shutdown
->>
->>      - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
->>
->> Regards,
->>
->> Werner
->>
->>> Side note to self: I really need to resurrect the hidraw revoke series
->>> so we could export those hidraw node to userspace with uaccess through
->>> logind...
->>>
->>> Cheers,
->>> Benjamin
+Thanks,
+Conor.
+
+--MNNZ2t7NSNgD6OgC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgKL2AAKCRB4tDGHoIJi
+0m2yAQCWBWCSYIcP5R7VCgO/0OcvwNyQA3V8xkXyyNTaF56DjAEA9p3hmjmzoWbc
+Y3z2iIHDUeGgBDNtUNF2Uu9ALdlJ5AM=
+=0xei
+-----END PGP SIGNATURE-----
+
+--MNNZ2t7NSNgD6OgC--
 
