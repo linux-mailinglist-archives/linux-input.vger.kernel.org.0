@@ -1,95 +1,154 @@
-Return-Path: <linux-input+bounces-2531-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2532-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2A788C337
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 14:18:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D6188C406
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 14:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EE931F29B9E
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 13:18:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BDD11F3AEA3
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 13:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97CA74BF8;
-	Tue, 26 Mar 2024 13:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B247641B;
+	Tue, 26 Mar 2024 13:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LZmL/4d/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E62067A00;
-	Tue, 26 Mar 2024 13:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E954974C05
+	for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 13:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711459109; cv=none; b=QtdTJTkRpMbs1Xl+T+sISdUqLa6TMEf2C0ap7XM2Pj9Dv4ZjNpLs2ykbb4cZfxBvFUfzVXJ/jAPCRaY0qfG47HtyFwj1UQ29dPOLbcO/OsPhLgx0+eik/Li8ilb1oDSEpb35FRs2e1gPriRZAUBdJ/7SVfbrOizafj4ASihux1Y=
+	t=1711460625; cv=none; b=AIFSmmlaiCDUp/CUp3inImMCEj4pdOQKXKZqUbkOrsEtc/8laiqOZmNQNLuSyXXhknx8QLm+3Cawgsihw3xhOXmpV4RsI6x37B9WVyLrF8St9rLTehkHMCljiD8nb/leTcGGSyXBofqvX+vcl88WCy+/Vzi71sfJaYxWygqIlS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711459109; c=relaxed/simple;
-	bh=cA2n/4MwPui6Y5OPDLkQphyzkjGT48J32nYE9CzA/dQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VLS1NB4u2GplQKzjZfLIwICAWfJfGABM22bsiQ4etN7goATo9JL8uqQN/sZP72CsqvI8eHcqoBlgNhPozVU5KzcSWNMlK2IxcPhAlFm6erku4+QnZBNnpDgF2lskyGc0MdBFUfdm+OsLl/RVneB8jCppOEXaTR1dq0VgiAM86jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-X-QQ-mid: bizesmtp65t1711459041tzi6x6bq
-X-QQ-Originating-IP: acgQfBts7Ri8OsILJnCeWeEv+z+f4+tsbDVsBeBQ8ns=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 26 Mar 2024 21:17:19 +0800 (CST)
-X-QQ-SSF: 01400000000000C0B000000A0000000
-X-QQ-FEAT: j86OQQvu8eT7MzXz62hGqvvve66w8l0TlZpW33Rvt5TN1M/cVf4Jm4Mu55Yo3
-	XjNj2uVpHGrHWdH+uqxRo5oNJLMFjY83HKReFabpjKNaJLyCtD1XqGsM78z/LTdqEtTTJnd
-	RstgIFoXYackNGGDM9J23s4usPvF/OZxHHP95N6dXSZZArTPAL3v9ZAD7N9L8U7L01zjU9Y
-	KpMH46nS/LBeicmeA3YTBJydG0dIAZ9argLRNYrdzAgFbc8w3kzQlg5fsrGL2R0JDE4i7NI
-	jK+ZfJdvLGdYjMBLx3YSA7muxMZt523490v32VBRodfqu+Kxh/JLJGUu+DPpPJXfmyMPJZX
-	/cnE9Cm0Z9NbM9dbQl3zV18/5PJ9VspZZpgC+xkpTZYB08yiR1W3FB1Oc5EUg==
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13992481150274053400
-From: WangYuli <wangyuli@uniontech.com>
-To: wangyuli@uniontech.com,
-	dmitry.torokhov@gmail.com,
-	rrangel@chromium.org,
-	shaoyang@uniontech.com,
-	helugang@uniontech.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangbibo <huangbibo@uniontech.com>
-Subject: [PATCH] Input: PS/2 - add support for Lenovo Xiaoxin keyboard
-Date: Tue, 26 Mar 2024 21:17:18 +0800
-Message-ID: <593C1A73FB93BACE+20240326131718.20497-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1711460625; c=relaxed/simple;
+	bh=ljMe5J3C6/sjNT1yUQPJWicsFLE8AOz/s4ig62CFcoA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WGO1a9D5TeCl6bUDtvbKGLJVMrbQVuXVFff7kcBnFwHM8VjiGA93uRRG2qaH+WIViKYTGVrpV0J0XyN2JNP/b1/ulODaAU0wfP0VJ3nBDwZUC0rBBaSbmSJAZ3Y9Lg0UhjN3MhpTmHIBlh44EAbZMIAhwpTDlkWQYHG8f/7ws/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LZmL/4d/; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-695df25699fso46823966d6.2
+        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 06:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711460620; x=1712065420; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ruCfZHq43zIiPZrKz5ByYkrM7Dnhqu1J3mZX9CrPvSQ=;
+        b=LZmL/4d/skmyJLELh6oIodn308sOvBbo35hv7F4qbyCgp9kE8hbUvwNc4W4LtGCLV9
+         5Pl3eSsOxbezpOlTcDr2X6Rdc83EHvbjFYqBbmEYHRKUdxg+eTgtHrCLBop50KYW0ZZK
+         OZCPF7VgNvWIQ30p7ErPVL65QdJZL/uXjMwJo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711460620; x=1712065420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ruCfZHq43zIiPZrKz5ByYkrM7Dnhqu1J3mZX9CrPvSQ=;
+        b=Bgy0ASUD+LkJOnO/zwi7U3BQRS2HxVXcer5/S3AT9Ut47KOeCPu29zRJWiBlKkHr4O
+         sbjJYJyru3xCgqfINewIPghnAtBkOa2WjRvdBXWY0ZbzwiMghEY61vFM8949wCCbTNun
+         RaYJsQRvPp8VhVyLKZgtBBg4894vtHi1S+p5GytijW4S9my/W2QR1ifkm93rQVHjzryD
+         AChPv8vwjSrzn1DQhHci08SCbtCNgISFUGDhfaoPIgg2rr3fBUK5ZhJA9iMAypG3PTlw
+         4SyRXgecS3EPicCwOkWHfiTpBKswtQQVWywSpAODUATO9Doe/B0rFHOvSDoHfa8DS66E
+         SHdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbQciFdbOrgPfydtusIP1N5Fg84DvunPFei/b8UEiYMgFBnm0tVfb32sFoFz1alBg3KhiE3f+qC2C17xM+77N/5Sf9Yg6Ts9pq5Hw=
+X-Gm-Message-State: AOJu0Yx7rAZD/ibxJMWweNG2SYm9NlhM9uLnS42hgvRez5AZ9CVyCtbk
+	UwsFfG1rSREAjaoQh5VsWkYlnZdWt6k2Eo8VVXG8k0SwMp5CZlt3qLrnknclnBPWNcqW1DBWi8Q
+	=
+X-Google-Smtp-Source: AGHT+IEF3l+MBQbO5fgRiNV7mTvgKt22LLulJkurjbbJjHwcWZxZgZzGdMZBNQlkjyAGcoyzczDrbw==
+X-Received: by 2002:ad4:5cae:0:b0:696:8f70:e4f5 with SMTP id q14-20020ad45cae000000b006968f70e4f5mr7523187qvh.43.1711460620123;
+        Tue, 26 Mar 2024 06:43:40 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
+        by smtp.gmail.com with ESMTPSA id kd9-20020a056214400900b00696a3367c2asm319285qvb.28.2024.03.26.06.43.39
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Mar 2024 06:43:39 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-42ee0c326e8so204901cf.0
+        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 06:43:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWCdjuAFwFv6i+bwKvpLU7MOeYy0VIAm7Z745RAtqqLcA2vNsPLX9J2SLXyonS69lA9z3SCR8mec5tV+jrA512KZyy/0zXtjxaxgL4=
+X-Received: by 2002:a05:622a:248c:b0:431:5ac0:a1e0 with SMTP id
+ cn12-20020a05622a248c00b004315ac0a1e0mr246953qtb.12.1711460618700; Tue, 26
+ Mar 2024 06:43:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+References: <20240325105452.529921-1-lma@chromium.org> <CAD=FV=VHps2d4dqLXCqE=hNMbk4pxeN607nFA0nEkd7chNAr3A@mail.gmail.com>
+ <CAE5UKNpob9dT4YXSYKsrKGQ3cZP7o3OF7y-eb925Xd-gH3BEXA@mail.gmail.com>
+In-Reply-To: <CAE5UKNpob9dT4YXSYKsrKGQ3cZP7o3OF7y-eb925Xd-gH3BEXA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 26 Mar 2024 06:43:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XdOOfHK-regXRzRkky0=iV2JMDPrKid2T_JS1=eu9H3w@mail.gmail.com>
+Message-ID: <CAD=FV=XdOOfHK-regXRzRkky0=iV2JMDPrKid2T_JS1=eu9H3w@mail.gmail.com>
+Subject: Re: [PATCH] HID: i2c-hid: wait for i2c touchpad deep-sleep to
+ power-up transition
+To: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Maxime Ripard <mripard@kernel.org>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Modified keyboard_ids in function ps2_is_keyboard_id
-for Lenovo Xiaoxin keyboard.
+Hi,
 
-Signed-off-by: yuanjianye <yuanjianye@uniontech.com>
-Signed-off-by: shaoyang <shaoyang@uniontech.com>
-Reviewed-by: huangbibo <huangbibo@uniontech.com>
-Signed-off-by: helugang <helugang@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- drivers/input/serio/libps2.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Mar 26, 2024 at 1:58=E2=80=AFAM =C5=81ukasz Majczak <lma@chromium.o=
+rg> wrote:
+>
+> > nit: checkpatch should have yelled at you saying that you should
+> > specify a commit in the format:
+> >
+> > commit b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before
+> > really probing")
+> >
+> I will do it, but I did run the checkpatch (with --strict option) and
+> it didn't complain about anything.
 
-diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
-index 6d78a1fe00c1..39d46526c56a 100644
---- a/drivers/input/serio/libps2.c
-+++ b/drivers/input/serio/libps2.c
-@@ -189,6 +189,7 @@ bool ps2_is_keyboard_id(u8 id_byte)
- 		0x5d,	/* Trust keyboard		*/
- 		0x60,	/* NMB SGI keyboard, translated */
- 		0x47,	/* NMB SGI keyboard		*/
-+		0x83,	/* Lenovo Xiaoxin keyboard	*/
- 	};
- 
- 	return memchr(keyboard_ids, id_byte, sizeof(keyboard_ids)) != NULL;
--- 
-2.43.0
+Weird that checkpatch didn't yell, but perhaps somehow your commit
+message didn't trigger its regex. ;-)
 
+
+
+> > nit: I believe your sign off should be last. It's also unclear why two
+> > signoffs. Did Radoslaw author it and you changed it? ...or was it
+> > Co-Developed-by, or ...? You'll probably need to adjust your tags a
+> > bit depending on the answers.
+> >
+> Yes, we've discussed this patch together and the original
+> investigation was done by Rad.
+
+Sounds good. Probably the best way to tag is these tags in this order:
+
+Co-developed-by: Radoslaw Biernacki <rad@chromium.org>
+Signed-off-by: Radoslaw Biernacki <rad@chromium.org>
+Signed-off-by: Lukasz Majczak <lma@chromium.org>
+
+
+> > Having both ends of the usleep be 400 is iffy. In this case it's at
+> > probe time so I wonder if udelay() is better? If not, maybe give at
+> > least _some_ margin?
+> >
+> >
+> > > +       } while (tries-- > 0 && ret < 0);
+> >
+> According to Documentation/timers/timers-howto.rst:
+> " SLEEPING FOR ~USECS OR SMALL MSECS ( 10us - 20ms):
+>                 * Use usleep_range"
+> It was also pointed out by checkpath (when I initially used msleep).
+> I think giving some margin (eg. 400,500) would be ok.
+
+Yeah, usleep_range(400, 500) would be fine. udelay(400) would also be
+OK. The later would be more "accurate" but also more wasteful of CPU
+cycles. Given that this is at probe time and only run a small handful
+of times, it probably doesn't matter lots though perhaps the sleeping
+function would allow more parallelism of other running probes.
+
+
+-Doug
 
