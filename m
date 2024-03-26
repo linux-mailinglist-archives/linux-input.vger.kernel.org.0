@@ -1,156 +1,142 @@
-Return-Path: <linux-input+bounces-2523-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2524-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AB688BCCF
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 09:51:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B0F88BCF6
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 09:58:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CA1BB21F9C
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:51:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 269AD2E32DF
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1A2E1B962;
-	Tue, 26 Mar 2024 08:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6331F1B299;
+	Tue, 26 Mar 2024 08:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="1/CR//ZZ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L2s3b6qV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE71848;
-	Tue, 26 Mar 2024 08:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947BB18E10
+	for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 08:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711443039; cv=none; b=f9vRPtI/QCJxKh6iwcKcG578nFVEHDd64iq6z4hSuhVD8OBi654IXTKRBvj/GijMnWTxl5SBBXkdDstsU0lFEJbUpx3EYLCv2oJwyshm8wxl03KbIiEjJC6GLszG2o5q6AXvPqR5b4YwdEqsO4nLMa+Jq3GEjeePMTqVWYJAmbU=
+	t=1711443508; cv=none; b=ijc2y/zCXNFjCSnJCvUzGfIfvPd4mVIZTscjStumHhhhzWyRq6Ab/qRL5cfNDhTBfVMl0jHJpv9g+TtkwkzN1Aluo36KmVYGFpz1NpM5qgdoC3fL7Wqsw22clUxFArZN+mZ4miWBZcZJMy4PayvtiaDDhg7vMLjpGM6RFXUs+Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711443039; c=relaxed/simple;
-	bh=lG7B+qUkM9NeNykReSQx3p76pLX9hN3mEUMsi5Fr0GI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZCDaJzefxjDUilxNpyu6dyCvbPZErpdPW5PLY1SskW1WNvMUg7c0RX3maN6w4UlXVOHiqZ/NCf+Wzs4/XV9nX1Zf6diUyfgM4N6SDQKvvg5z0q8o4gxJLYuuvEduwX+PS78K1oTziomVBHiOovd54TBXxwMIXn2/6NgY70Mz/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=1/CR//ZZ; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1711443037; x=1742979037;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lG7B+qUkM9NeNykReSQx3p76pLX9hN3mEUMsi5Fr0GI=;
-  b=1/CR//ZZy8hxBue+bXsHiwULsO9yv3UErLL3hwI4DtAwjwIyJR+9NiSF
-   djgGe8UjoR+eT7sDau+2sjGiIh3VXllKcMYjvgZ8ibcKGcAQBq2j+vx2u
-   xG8KbiZNHE20nCjeQvOlKVLA5F8PWeLlcjPAGHJBs1OSVk+EUe4lPHTiu
-   0moYShnS75Go9PsXgaVqV1oN4SnpJo2dxHTtZsnn/92u8oNcEv0TBU47l
-   KCXrfmokJ0Vn/aUBNgVVOg8ShzOWyp7bLsYjZZb15Un+RRovZH7YT61UK
-   Im4WHSw80OJzf/h/sRJRuA0jgwBfmyO0PCswXNQSSwR8K/sk0vllg3TnX
-   Q==;
-X-CSE-ConnectionGUID: UBqr2gvTSQSnKz9w8yaX1g==
-X-CSE-MsgGUID: WNkR9VEaRtu1ChEtau3wJg==
-X-IronPort-AV: E=Sophos;i="6.07,155,1708412400"; 
-   d="asc'?scan'208";a="185499468"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Mar 2024 01:50:30 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 26 Mar 2024 01:49:19 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Tue, 26 Mar 2024 01:49:17 -0700
-Date: Tue, 26 Mar 2024 08:48:29 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Allen Lin <allencl_lin@hotmail.com>
-CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	<dmitry.torokhov@gmail.com>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-	<linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
-Message-ID: <20240326-whoever-spotter-1fe7ace35428@wendy>
-References: <20240322085606.993896-1-allencl_lin@hotmail.com>
- <TY0PR06MB56116F0902017225C78EDDDD9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
- <20240322-mammary-boil-f9a4c347fba1@spud>
- <20240322183009.GA1227164-robh@kernel.org>
- <20240322-rectified-udder-fef9102f58da@spud>
- <TY0PR06MB56110ADEA805B68BE2B887069E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
+	s=arc-20240116; t=1711443508; c=relaxed/simple;
+	bh=n4G3Pxgl7Q9i82J6sK8SAiR5VfV6Vmb7zW7/xd8y8hk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rWzeZwMLQ60HC0UxitY5hZhvt/Ih20yCviL4q3ip34KY2NbJtnMjuvdnivTdZ7rKPsK+illIruZ3+1hpU/DiOg/MIM/reXsffe1qzE+SpuUC1Hdfxio9p7zP2dsZS+iqpFPhl41veoBV6ESbNrye3q9tLQNHXg/7hU4/gQxnc1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=L2s3b6qV; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d68cf90ec4so86816541fa.1
+        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 01:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711443505; x=1712048305; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2pPV8N1R6vzmSjl6Uwoo/hXMqUFTVOsFF3LrLWnsiMo=;
+        b=L2s3b6qVLx74juqMfvpYQSLrUPMczmGo2C9MvY5HTcVFAGq0CIOvmdOYEOw0K2p6kS
+         D/MI5GE9DOvMUdBtiH8Ku4PZVrmxQ7Ql3il5/F3zf3oF5zduinUBiUhrp8gtgqnmpvE/
+         fgzDiX3Qu0xkauPYrZCR7SKvcaospsYSnuLgM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711443505; x=1712048305;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2pPV8N1R6vzmSjl6Uwoo/hXMqUFTVOsFF3LrLWnsiMo=;
+        b=dfxGqETjLROqyLCJmD71ZZiRymdAXeqlJeNBp3dUh+PjsAtd9PJczPkl8yDBtMYMkN
+         jh+CuHdkpuBcu936MNYZKgsy7I4CIDmY8Qy4USoYrG8W2liQonHbOWcSk5W9apRwd5tD
+         hJhTT39dnoEujCkDVkL06qAc5n5IkNJ+/t7NCEx3ZuWh9j3eMx4bUW8ZL7dGXr5SZ1FO
+         UTgJNFomx52ywsvXsZfvTcMvM5vplZ+pd23hpGq+19mHw4r0D2VTopvCNmcKk7GL6FlQ
+         dXdTmQj49BLGzZk+sYnYUgjHw2DK637RT3InbkPiHQlImAYXb8i6D//ViaEfQYvYpxwP
+         5Uyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqjYupSK7PEgYuN09+NsfCe1K4JI0h4Wyrb6HQXLRZoFs8n8lxyvDdLF79MaqBGmIj2AL87PRge48CZW+pk19iP5CcXKATVisrer0=
+X-Gm-Message-State: AOJu0YztmPuKwD+ZSyjJm4u8XKeg1WZFzJJVmCrPUCpjwXusSsXuLlEA
+	4QVLKy/eKPRUODy3amCSAQiW+OP9ndvUCrPD64SXSHLAvsaX3lq+mfIGm4bNJToLS28gMzYPy4l
+	f1kQVeYRmORgDOyUwu6gPhbwuq6lfHyM5FjDT
+X-Google-Smtp-Source: AGHT+IGgjEHB//9LYudrHBhU92JAua1xIsExhovLAxvA8FaCVPRVpU+2JP2IIRNltDvxh0MCJ7PmoJyqfaNH5qmEIYw=
+X-Received: by 2002:a2e:834e:0:b0:2d4:3c32:814d with SMTP id
+ l14-20020a2e834e000000b002d43c32814dmr461489ljh.26.1711443504690; Tue, 26 Mar
+ 2024 01:58:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MNNZ2t7NSNgD6OgC"
-Content-Disposition: inline
-In-Reply-To: <TY0PR06MB56110ADEA805B68BE2B887069E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
+References: <20240325105452.529921-1-lma@chromium.org> <CAD=FV=VHps2d4dqLXCqE=hNMbk4pxeN607nFA0nEkd7chNAr3A@mail.gmail.com>
+In-Reply-To: <CAD=FV=VHps2d4dqLXCqE=hNMbk4pxeN607nFA0nEkd7chNAr3A@mail.gmail.com>
+From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Date: Tue, 26 Mar 2024 09:58:12 +0100
+Message-ID: <CAE5UKNpob9dT4YXSYKsrKGQ3cZP7o3OF7y-eb925Xd-gH3BEXA@mail.gmail.com>
+Subject: Re: [PATCH] HID: i2c-hid: wait for i2c touchpad deep-sleep to
+ power-up transition
+To: Doug Anderson <dianders@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Maxime Ripard <mripard@kernel.org>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
---MNNZ2t7NSNgD6OgC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> nit: checkpatch should have yelled at you saying that you should
+> specify a commit in the format:
+>
+> commit b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before
+> really probing")
+>
+I will do it, but I did run the checkpatch (with --strict option) and
+it didn't complain about anything.
 
-On Tue, Mar 26, 2024 at 01:46:56PM +0800, Allen Lin wrote:
-> Conor Dooley <conor@kernel.org> =E6=96=BC 2024=E5=B9=B43=E6=9C=8823=E6=97=
-=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:34=E5=AF=AB=E9=81=93=EF=BC=9A
-> >
-> > On Fri, Mar 22, 2024 at 01:30:09PM -0500, Rob Herring wrote:
-> > > On Fri, Mar 22, 2024 at 05:54:08PM +0000, Conor Dooley wrote:
-> > > > On Fri, Mar 22, 2024 at 04:56:03PM +0800, Allen_Lin wrote:
-> > > > > Add the HX83102j touchscreen device tree bindings documents.
-> > > > > HX83102j is a Himax TDDI touchscreen controller.
-> > > > > It's power sequence should be bound with a lcm driver, thus it
-> > > > > needs to be a panel follower. Others are the same as normal SPI
-> > > > > touchscreen controller.
-> > > > >
-> > > > > Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> > > >
-> > > > note to self/Krzysztof/Rob:
-> > > > There was a previous attempt at this kind of device. This version l=
-ooks
-> > > > better but might be incomplete given there's a bunch more propertie=
-s in
-> > > > that patchset:
-> > > > https://lore.kernel.org/all/20231017091900.801989-1-tylor_yang@hima=
-x.corp-partner.google.com/
-> > >
-> > > Those don't look like properties we want coming back.
-> >
-> > Oh, I don't want most of them coming back either. There are some
-> > supplies in there though that I think we would like to come back, no?
-> > Maybe this particular device doesn't have any supplies, but that doesn't
-> > really seem credible.
->=20
-> We will use Firmware-name in Device Tree.
+>
+> nit: I believe your sign off should be last. It's also unclear why two
+> signoffs. Did Radoslaw author it and you changed it? ...or was it
+> Co-Developed-by, or ...? You'll probably need to adjust your tags a
+> bit depending on the answers.
+>
+Yes, we've discussed this patch together and the original
+investigation was done by Rad.
 
-> For power supply settings, because there may be other device using
-> same regulator.
+> Having both ends of the usleep be 400 is iffy. In this case it's at
+> probe time so I wonder if udelay() is better? If not, maybe give at
+> least _some_ margin?
+>
+>
+> > +       } while (tries-- > 0 && ret < 0);
+>
+According to Documentation/timers/timers-howto.rst:
+" SLEEPING FOR ~USECS OR SMALL MSECS ( 10us - 20ms):
+                * Use usleep_range"
+It was also pointed out by checkpath (when I initially used msleep).
+I think giving some margin (eg. 400,500) would be ok.
 
-If there are other devices using the same regulator is it more
-important that you document it so that it doesn't get disabled by the
-other users.
+> I'm not a huge fan of having to check "tries" and "ret" twice.
+> Personally I'd rather see a "while (true)" loop and test the condition
+> once to break out. AKA:
+>
+> while (true) {
+>   ret = i2c_...
+>   tries--;
+>   if (tries == 0 || ret >= 0)
+>     break;
+>   udelay(400);
+> }
+>
+> ...if you feel very strongly about the way you have coded it, though,
+> I won't stand in your way.
+I don't have emotional bond to this code ;), thanks.
+>
+> Pretty much all my comments are just nits and, since I'm not the
+> maintainer here, my opinion is just an opinion. I'd wait at least a
+> little while for the maintainers to comment before posting v2. I'm
+> happy to give a Reviewed-by tag when some of the nits are fixed.
+>
+> -Doug
+Thank you Doug for all your input.
 
-> We plan to define it as an optional property for user to control in
-> next release.
-
-I don't see how the regulator would not be required, the device doesn't
-function without power.
-
-Thanks,
-Conor.
-
---MNNZ2t7NSNgD6OgC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgKL2AAKCRB4tDGHoIJi
-0m2yAQCWBWCSYIcP5R7VCgO/0OcvwNyQA3V8xkXyyNTaF56DjAEA9p3hmjmzoWbc
-Y3z2iIHDUeGgBDNtUNF2Uu9ALdlJ5AM=
-=0xei
------END PGP SIGNATURE-----
-
---MNNZ2t7NSNgD6OgC--
+Best regards,
+Lukasz
 
