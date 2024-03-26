@@ -1,357 +1,180 @@
-Return-Path: <linux-input+bounces-2527-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2528-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91F388BDB3
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 10:22:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436D188BED5
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 11:08:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 094A32E609E
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 09:22:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA2B62E2295
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 10:08:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9D070CDC;
-	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33AC6BFAA;
+	Tue, 26 Mar 2024 10:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRwLxlwG"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="PJFRJLsk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DvF0P3cz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow2-smtp.messagingengine.com (flow2-smtp.messagingengine.com [103.168.172.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79D645978;
-	Tue, 26 Mar 2024 09:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD56EAF6;
+	Tue, 26 Mar 2024 10:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711444843; cv=none; b=fhkEoQza0SRL/9SGRzTtlMZ08fEIu+TEgusrA6rhVbpHq6HaW8Ux0BATxteVy4fYDyKdsLjTLnp5iatFYuCXq4+s5I5Ki9c47TzuvxQcMPO//ofXhmE+wn0hPFgQoeMVeYxIjg+k8LDGyxiGlbM9EXZ409OyKh8f7VJ+OohieJ8=
+	t=1711447651; cv=none; b=bIUhYWSBSWyGgcqaBiP8vSCJC+Rwa0mryYroh5MLEfsdPrEzimjDU1UjKzfGk6UYAvHQ4QEBTIjD4xf8Zk9x+IBh42REGctJ+m86IlFb8YQWVZbLwyunjlKGFpVK7X/7z9+/9U52HtArloT3cV3F/FjbeyR929ix/TmNzicdvUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711444843; c=relaxed/simple;
-	bh=Iu0HBC98QUjzCojE8QueMOnSNoUPY4G13lm0F+0I/Q4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JIJGRrbTPjrxDkqW4q5RpbiH5V61n4V9i0RwvqVSm8gWJTOJC4WcBzQ0usnHYIK8YdfIsDYva4QiaQrt6pYdhwMcmreDxFiOhmjNlYzoUOmDtHN//nfhVuyKqxY96LggJSqiJCP5ehroADhA5L1CRRXMPTFIfdqVA34mpAiJ/rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DRwLxlwG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 32D6CC3279A;
-	Tue, 26 Mar 2024 09:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711444842;
-	bh=Iu0HBC98QUjzCojE8QueMOnSNoUPY4G13lm0F+0I/Q4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=DRwLxlwGIQcHcbWDP3X30InKPqizuBAXYHWORaArHr2DpgaNL55ApDUE096sIobVt
-	 05WKXjumFq6tPuKIoMm5PU6XCY9g6x59rp3WUJvPG2Fj3YL/R4Pa/c13O65KDV6opA
-	 o32APPXQuNCjrjBiG8nYkS4uWcoj+881C5gV48JNn+e71L9rhc7rFEYYtaZHWeQo8Y
-	 tHdyvrTtv28MCJaiZUGKFQM39zziNjnIITIaEO+d6nAz8T77SPVOkSuQlcxliO+NiI
-	 Wq9xq50Gu7oxqM8a1uu/xeBTBVH4oyVI40+SXvf2WOa4lRr2m3yec4ZF0emhRDES/1
-	 hgD1Yd9+/l8eQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D85CD1284;
-	Tue, 26 Mar 2024 09:20:42 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Tue, 26 Mar 2024 12:18:50 +0300
-Subject: [PATCH v9 23/38] input: keypad: ep93xx: add DT support for Cirrus
- EP93xx
+	s=arc-20240116; t=1711447651; c=relaxed/simple;
+	bh=MtysH8+9HAmIANTQD0du5b+w4USbcY1NMUiynk3OwAk=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=eoAnWnQ6EJEZ3+Fb1c+KZQASXqT4SjtOJZeivjuJQNLZdfBV05WwslcZ+epizG9lUW/k2UbNZigrPkciAZyOjEQQ3cIfFCt3bEmbJC4EGsrR1RWW0uE4dHz+IIt+Kg5s5s0PomSmTJe079f3E4KY1iOIqWjMq415KP/9Dj2wxkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=PJFRJLsk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DvF0P3cz; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 19AEF20063A;
+	Tue, 26 Mar 2024 06:07:29 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 26 Mar 2024 06:07:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1711447649; x=1711454849; bh=LwutBSd20d
+	Y9F2mV05mJEYeO4BD3EduCXGrjUsQ79Ro=; b=PJFRJLskOPk2rK+iB7VvkPPP1e
+	SLERW5kzTADhItQdrbiFv7tHcH459/NpFcy9PVmm2d3OMZxaeh4ysJYYP5cZf3qj
+	6kjIVklsQy+lvoygejE+/OdIqRnqn7vhNuUyKcCouDezDB2zrzbQAcrOcG5wRx1Q
+	/hyrVAIthJ3IcKcUv70qLinqbc0/cuSq+lRcpEVPspAtrLBo049R/SlUmMrbdiGs
+	TArsa7RG1X/FxCSiLg57bN6iu/mWAPJTP7y/4UxfORaC+BlRTRVj1SlffpoHl5qi
+	pgcEbeW0r+BWpFJHnJbm98mW6OQYQt+6RUbF3F8dlyhbgvQAD4/6+EMJOgig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1711447649; x=1711454849; bh=LwutBSd20dY9F2mV05mJEYeO4BD3
+	EduCXGrjUsQ79Ro=; b=DvF0P3czs1dT3R3uZ4D9WNdJ2Jvy5Q/+5INgRPqZyxK+
+	hkqBV3aCiIN+QgTQEUKV5qtqUGvod8DLhb4bQ4i/xDPexgDy/LVf/8n/SJG7rush
+	XEBrOGiQWpazHs9g1aNsGBmL9W7WKcnYtFoJnaylqiK3kyAaruyJHAEbhDFJEixz
+	5C4r3h9JlVJuv4pfz8arK6cd1bEtQT3q/wE5BJms9/xT6Cqp7CF1eewQzWbLj6CQ
+	kT+x1WrKGo7OqATRWp5uF+DNlqL9lnGL1Sxa/z3LB3DLbhM/+QCE+v7JbE1GfhI2
+	32FgJGmKdK/NrXqToufcvz/D0yB1o1nZjODsft/Oig==
+X-ME-Sender: <xms:X54CZuxNGYqpCrTpdkoMeYu7QHep-DtABIoilrdxkHD3sWQYbCebew>
+    <xme:X54CZqRRTk4BO6C0XUl_JYlUMa3bpBBaMeXDG4sLQi4OS4DrIkLZzvu8UfG_OQaS1
+    B-Yn9ExIQl6NTvvdyM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddufedguddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:X54CZgVzQidMIFZ5N9JpoYFGxrVx7337JziEMcVKsZMuJH165E0AZA>
+    <xmx:X54CZkjjIA4yhyjXlr5VojHurih3Ujo9_CVAICaJW8Ost8Vl5nVLqA>
+    <xmx:X54CZgA618J6_VWBxFs5t0RmjT9d4r6JLbi7Tkm1KxTbcEZMnccM0Q>
+    <xmx:X54CZlJOpkzdS_UtGHyqZuzem8YjLstkDNB3SMS9OX5-aGoBVoQ36w>
+    <xmx:YZ4CZvfWf4jPj0Z4AOpwXEiirjZXkASxh6SPn7mRGqleIMTKC6GJcUpzF9w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 717EEB6008D; Tue, 26 Mar 2024 06:07:27 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-328-gc998c829b7-fm-20240325.002-gc998c829
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-ep93xx-v9-23-156e2ae5dfc8@maquefel.me>
-References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
+Message-Id: <66e1da99-5cf4-4506-b0bf-4bdf04959f41@app.fastmail.com>
 In-Reply-To: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
-To: Hartley Sweeten <hsweeten@visionengravers.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nikita Shubin <nikita.shubin@maquefel.me>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Damien Le Moal <dlemoal@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711444837; l=9166;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=SQjZ1djVhqJlXzmNmoGbOKc1mquzc1zftWUCBd4webw=;
- b=yaDj0s5zehM36HyCLkZpVY5MkzN5oqytSkqXC98vNO18pbM946l4cNMlkjhbPPRJy7KTu1f1x5Yy
- jcCB/q/mDErZdaWZmO14twppTlJcsxxmuhtnMgnnqk3Y0jTcQGP5
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
+Date: Tue, 26 Mar 2024 11:07:06 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Nikita Shubin" <nikita.shubin@maquefel.me>,
+ "Hartley Sweeten" <hsweeten@visionengravers.com>,
+ "Alexander Sverdlin" <alexander.sverdlin@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Lukasz Majewski" <lukma@denx.de>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Andy Shevchenko" <andy@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Vinod Koul" <vkoul@kernel.org>,
+ "Wim Van Sebroeck" <wim@linux-watchdog.org>,
+ "Guenter Roeck" <linux@roeck-us.net>,
+ "Thierry Reding" <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "Mark Brown" <broonie@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Miquel Raynal" <miquel.raynal@bootlin.com>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Damien Le Moal" <dlemoal@kernel.org>,
+ "Sergey Shtylyov" <s.shtylyov@omp.ru>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Ralf Baechle" <ralf@linux-mips.org>, "Aaron Wu" <Aaron.Wu@analog.com>,
+ "Lee Jones" <lee@kernel.org>, "Olof Johansson" <olof@lixom.net>,
+ "Niklas Cassel" <cassel@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-spi@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+ "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Andrew Lunn" <andrew@lunn.ch>, "Andy Shevchenko" <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v9 00/38] ep93xx device tree conversion
+Content-Type: text/plain
 
-From: Nikita Shubin <nikita.shubin@maquefel.me>
+On Tue, Mar 26, 2024, at 10:18, Nikita Shubin via B4 Relay wrote:
+> The goal is to recieve ACKs for all patches in series to merge it via 
+> Arnd branch.
 
-- drop flags, they were not used anyway
-- add OF ID match table
-- process "autorepeat", "debounce-delay-ms", prescale from device tree
-- drop platform data usage and it's header
-- keymap goes from device tree now on
+Thank you for the continued updates, I really hope we can merge
+it all for 6.10. I've looked through it again and I'm pretty much
+ready to just merge it, though I admit that the process is not
+working out that great, and it would probably have been quicker
+to add DT support to drivers individually through the subsystem
+trees.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
----
- arch/arm/mach-ep93xx/core.c            | 46 ---------------------
- drivers/input/keyboard/ep93xx_keypad.c | 74 ++++++++++------------------------
- include/linux/soc/cirrus/ep93xx.h      |  4 --
- 3 files changed, 22 insertions(+), 102 deletions(-)
+> Stephen Boyd, Vinod Koul PLEASE! give some comments on following, couse 
+> i hadn't one for a couple of iterations already:
+>
+> Following patches require attention from Stephen Boyd, as they were 
+> converted to aux_dev as suggested:
+>
+> - ARM: ep93xx: add regmap aux_dev
+> - clk: ep93xx: add DT support for Cirrus EP93xx
+>
+> Following patches require attention from Vinod Koul:
+>
+> - dma: cirrus: Convert to DT for Cirrus EP93xx
+> - dma: cirrus: remove platform code
 
-diff --git a/arch/arm/mach-ep93xx/core.c b/arch/arm/mach-ep93xx/core.c
-index 03bce5e9d1f1..b99c46d22c4d 100644
---- a/arch/arm/mach-ep93xx/core.c
-+++ b/arch/arm/mach-ep93xx/core.c
-@@ -697,52 +697,6 @@ void __init ep93xx_register_keypad(struct ep93xx_keypad_platform_data *data)
- 	platform_device_register(&ep93xx_keypad_device);
- }
- 
--int ep93xx_keypad_acquire_gpio(struct platform_device *pdev)
--{
--	int err;
--	int i;
--
--	for (i = 0; i < 8; i++) {
--		err = gpio_request(EP93XX_GPIO_LINE_C(i), dev_name(&pdev->dev));
--		if (err)
--			goto fail_gpio_c;
--		err = gpio_request(EP93XX_GPIO_LINE_D(i), dev_name(&pdev->dev));
--		if (err)
--			goto fail_gpio_d;
--	}
--
--	/* Enable the keypad controller; GPIO ports C and D used for keypad */
--	ep93xx_devcfg_clear_bits(EP93XX_SYSCON_DEVCFG_KEYS |
--				 EP93XX_SYSCON_DEVCFG_GONK);
--
--	return 0;
--
--fail_gpio_d:
--	gpio_free(EP93XX_GPIO_LINE_C(i));
--fail_gpio_c:
--	for (--i; i >= 0; --i) {
--		gpio_free(EP93XX_GPIO_LINE_C(i));
--		gpio_free(EP93XX_GPIO_LINE_D(i));
--	}
--	return err;
--}
--EXPORT_SYMBOL(ep93xx_keypad_acquire_gpio);
--
--void ep93xx_keypad_release_gpio(struct platform_device *pdev)
--{
--	int i;
--
--	for (i = 0; i < 8; i++) {
--		gpio_free(EP93XX_GPIO_LINE_C(i));
--		gpio_free(EP93XX_GPIO_LINE_D(i));
--	}
--
--	/* Disable the keypad controller; GPIO ports C and D used for GPIO */
--	ep93xx_devcfg_set_bits(EP93XX_SYSCON_DEVCFG_KEYS |
--			       EP93XX_SYSCON_DEVCFG_GONK);
--}
--EXPORT_SYMBOL(ep93xx_keypad_release_gpio);
--
- /*************************************************************************
-  * EP93xx I2S audio peripheral handling
-  *************************************************************************/
-diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index 6b811d6bf625..dcbc50304a5a 100644
---- a/drivers/input/keyboard/ep93xx_keypad.c
-+++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -6,20 +6,13 @@
-  *
-  * Based on the pxa27x matrix keypad controller by Rodolfo Giometti.
-  *
-- * NOTE:
-- *
-- * The 3-key reset is triggered by pressing the 3 keys in
-- * Row 0, Columns 2, 4, and 7 at the same time.  This action can
-- * be disabled by setting the EP93XX_KEYPAD_DISABLE_3_KEY flag.
-- *
-- * Normal operation for the matrix does not autorepeat the key press.
-- * This action can be enabled by setting the EP93XX_KEYPAD_AUTOREPEAT
-- * flag.
-  */
- 
- #include <linux/bits.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/interrupt.h>
- #include <linux/clk.h>
- #include <linux/io.h>
-@@ -27,7 +20,6 @@
- #include <linux/input/matrix_keypad.h>
- #include <linux/slab.h>
- #include <linux/soc/cirrus/ep93xx.h>
--#include <linux/platform_data/keypad-ep93xx.h>
- #include <linux/pm_wakeirq.h>
- 
- /*
-@@ -61,12 +53,16 @@
- #define KEY_REG_KEY1_MASK	GENMASK(5, 0)
- #define KEY_REG_KEY1_SHIFT	0
- 
-+#define EP93XX_MATRIX_ROWS		(8)
-+#define EP93XX_MATRIX_COLS		(8)
-+
- #define EP93XX_MATRIX_SIZE	(EP93XX_MATRIX_ROWS * EP93XX_MATRIX_COLS)
- 
- struct ep93xx_keypad {
--	struct ep93xx_keypad_platform_data *pdata;
- 	struct input_dev *input_dev;
- 	struct clk *clk;
-+	unsigned int debounce;
-+	u16 prescale;
- 
- 	void __iomem *mmio_base;
- 
-@@ -133,23 +129,11 @@ static irqreturn_t ep93xx_keypad_irq_handler(int irq, void *dev_id)
- 
- static void ep93xx_keypad_config(struct ep93xx_keypad *keypad)
- {
--	struct ep93xx_keypad_platform_data *pdata = keypad->pdata;
- 	unsigned int val = 0;
- 
--	clk_set_rate(keypad->clk, pdata->clk_rate);
-+	val |= (keypad->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK;
- 
--	if (pdata->flags & EP93XX_KEYPAD_DISABLE_3_KEY)
--		val |= KEY_INIT_DIS3KY;
--	if (pdata->flags & EP93XX_KEYPAD_DIAG_MODE)
--		val |= KEY_INIT_DIAG;
--	if (pdata->flags & EP93XX_KEYPAD_BACK_DRIVE)
--		val |= KEY_INIT_BACK;
--	if (pdata->flags & EP93XX_KEYPAD_TEST_MODE)
--		val |= KEY_INIT_T2;
--
--	val |= ((pdata->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK);
--
--	val |= ((pdata->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK);
-+	val |= (keypad->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK;
- 
- 	__raw_writel(val, keypad->mmio_base + KEY_INIT);
- }
-@@ -220,17 +204,10 @@ static int ep93xx_keypad_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
- 				ep93xx_keypad_suspend, ep93xx_keypad_resume);
- 
--static void ep93xx_keypad_release_gpio_action(void *_pdev)
--{
--	struct platform_device *pdev = _pdev;
--
--	ep93xx_keypad_release_gpio(pdev);
--}
--
- static int ep93xx_keypad_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	struct ep93xx_keypad *keypad;
--	const struct matrix_keymap_data *keymap_data;
- 	struct input_dev *input_dev;
- 	int err;
- 
-@@ -238,14 +215,6 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	if (!keypad)
- 		return -ENOMEM;
- 
--	keypad->pdata = dev_get_platdata(&pdev->dev);
--	if (!keypad->pdata)
--		return -EINVAL;
--
--	keymap_data = keypad->pdata->keymap_data;
--	if (!keymap_data)
--		return -EINVAL;
--
- 	keypad->irq = platform_get_irq(pdev, 0);
- 	if (keypad->irq < 0)
- 		return keypad->irq;
-@@ -254,19 +223,13 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	if (IS_ERR(keypad->mmio_base))
- 		return PTR_ERR(keypad->mmio_base);
- 
--	err = ep93xx_keypad_acquire_gpio(pdev);
--	if (err)
--		return err;
--
--	err = devm_add_action_or_reset(&pdev->dev,
--				       ep93xx_keypad_release_gpio_action, pdev);
--	if (err)
--		return err;
--
- 	keypad->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(keypad->clk))
- 		return PTR_ERR(keypad->clk);
- 
-+	device_property_read_u32(dev, "debounce-delay-ms", &keypad->debounce);
-+	device_property_read_u16(dev, "cirrus,prescale", &keypad->prescale);
-+
- 	input_dev = devm_input_allocate_device(&pdev->dev);
- 	if (!input_dev)
- 		return -ENOMEM;
-@@ -278,13 +241,13 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	input_dev->open = ep93xx_keypad_open;
- 	input_dev->close = ep93xx_keypad_close;
- 
--	err = matrix_keypad_build_keymap(keymap_data, NULL,
-+	err = matrix_keypad_build_keymap(NULL, NULL,
- 					 EP93XX_MATRIX_ROWS, EP93XX_MATRIX_COLS,
- 					 keypad->keycodes, input_dev);
- 	if (err)
- 		return err;
- 
--	if (keypad->pdata->flags & EP93XX_KEYPAD_AUTOREPEAT)
-+	if (device_property_read_bool(&pdev->dev, "autorepeat"))
- 		__set_bit(EV_REP, input_dev->evbit);
- 	input_set_drvdata(input_dev, keypad);
- 
-@@ -313,10 +276,17 @@ static void ep93xx_keypad_remove(struct platform_device *pdev)
- 	dev_pm_clear_wake_irq(&pdev->dev);
- }
- 
-+static const struct of_device_id ep93xx_keypad_of_ids[] = {
-+	{ .compatible = "cirrus,ep9307-keypad" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ep93xx_keypad_of_ids);
-+
- static struct platform_driver ep93xx_keypad_driver = {
- 	.driver		= {
- 		.name	= "ep93xx-keypad",
- 		.pm	= pm_sleep_ptr(&ep93xx_keypad_pm_ops),
-+		.of_match_table = ep93xx_keypad_of_ids,
- 	},
- 	.probe		= ep93xx_keypad_probe,
- 	.remove_new	= ep93xx_keypad_remove,
-diff --git a/include/linux/soc/cirrus/ep93xx.h b/include/linux/soc/cirrus/ep93xx.h
-index a27447971302..8942bfaf1545 100644
---- a/include/linux/soc/cirrus/ep93xx.h
-+++ b/include/linux/soc/cirrus/ep93xx.h
-@@ -41,8 +41,6 @@ int ep93xx_pwm_acquire_gpio(struct platform_device *pdev);
- void ep93xx_pwm_release_gpio(struct platform_device *pdev);
- int ep93xx_ide_acquire_gpio(struct platform_device *pdev);
- void ep93xx_ide_release_gpio(struct platform_device *pdev);
--int ep93xx_keypad_acquire_gpio(struct platform_device *pdev);
--void ep93xx_keypad_release_gpio(struct platform_device *pdev);
- int ep93xx_i2s_acquire(void);
- void ep93xx_i2s_release(void);
- unsigned int ep93xx_chip_revision(void);
-@@ -52,8 +50,6 @@ static inline int ep93xx_pwm_acquire_gpio(struct platform_device *pdev) { return
- static inline void ep93xx_pwm_release_gpio(struct platform_device *pdev) {}
- static inline int ep93xx_ide_acquire_gpio(struct platform_device *pdev) { return 0; }
- static inline void ep93xx_ide_release_gpio(struct platform_device *pdev) {}
--static inline int ep93xx_keypad_acquire_gpio(struct platform_device *pdev) { return 0; }
--static inline void ep93xx_keypad_release_gpio(struct platform_device *pdev) {}
- static inline int ep93xx_i2s_acquire(void) { return 0; }
- static inline void ep93xx_i2s_release(void) {}
- static inline unsigned int ep93xx_chip_revision(void) { return 0; }
+I suspect that Stephen and Vinod may be missing this, as reviewing
+a 38 patch series tends to be a lot of work, and they may have
+missed that they are on the critical path here. I certainly
+tend to just ignore an entire thread when it looks like I'm not
+immediately going to be reviewing it all and other people are
+likely to have more comments first, so I'm not blaming them.
 
--- 
-2.41.0
+To better catch their attention, I would suggest you repost the
+two smaller sets of patches as a separate series, with only the
+relevant people on Cc. Please also include the respective
+bindings when you send send these patches to Stephen and
+Vinod.
 
-
+      Arnd
 
