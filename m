@@ -1,142 +1,229 @@
-Return-Path: <linux-input+bounces-2533-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2534-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA0D88C5B2
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 15:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E8288C793
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 16:42:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DBE81F61FA4
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 14:49:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBA801F80DF9
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 15:42:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581EE13C67A;
-	Tue, 26 Mar 2024 14:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0719113CA92;
+	Tue, 26 Mar 2024 15:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GfAxhXAb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A32BED9;
-	Tue, 26 Mar 2024 14:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F9B13CA91;
+	Tue, 26 Mar 2024 15:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711464567; cv=none; b=W5aRuY4FA+MFSwww+a9KSGBm6rjqxF/qS+LJFKNBU4hSPwhPIFxU2Jq1/l2LG5AczpGnyOXcEwvCrz/Q3NaPNqAwMPJKDzDYJJ1da4uSW1XH+h3VH+mdRZ4O2ERbQ09krA9hqDHEy8zJZYxtmOTIYcpbBICCxe2Qt3z18yuixBI=
+	t=1711467573; cv=none; b=jpGxr5FxGApD+r/6h2pzD3Ui8BpX4a0TrWJWYKCbv9WE0VTBb3doO2AfAaGrW72/Jh+0UM3G0qOWJccThTweZyZAGqw+k3zQ1GV3yzHqGchdICLkvAxYwHysGrW8674SuTknm1ZJ8R3C0zVM3o5gEV6mwzEhXsKlqAnWBC1y2UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711464567; c=relaxed/simple;
-	bh=NjGYoZS9MYNf6KYedY89CIBd6GNJTkqJoAov7a2XKRo=;
+	s=arc-20240116; t=1711467573; c=relaxed/simple;
+	bh=QM9scf4YeVv1B0PTlmFeoNK0slLx4CfaV119dLz2wHI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKa2GUP2mvNfmdnlyNeLbfnsCask9NEB4lp/RWBjl2d0U9X7MSBPz3S8LBcMRCJLBPg2ZLxsqT1391GskXnP9fC6P3xxTX/6E6DPlfevlCTKnIJjxYKl4YICDrwonkiLmXmCzDJBct5JO5U+vELkj+9bAOiu2XeEv2qMEhP4aN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: u4/HncuNQveTDgvADY/MsQ==
-X-CSE-MsgGUID: xKfSFc0eQ3Cp9nnBEl04Pw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="28999055"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="28999055"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:49:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914882408"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="914882408"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:49:12 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy@kernel.org>)
-	id 1rp86t-0000000GKYj-43J8;
-	Tue, 26 Mar 2024 16:49:07 +0200
-Date: Tue, 26 Mar 2024 16:49:07 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: nikita.shubin@maquefel.me,
-	Hartley Sweeten <hsweeten@visionengravers.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Lukasz Majewski <lukma@denx.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Ralf Baechle <ralf@linux-mips.org>,
-	"Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>,
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v9 00/38] ep93xx device tree conversion
-Message-ID: <ZgLgY11N8dkpTZJB@smile.fi.intel.com>
-References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
- <dc3e2cb4-f631-4611-8814-0dc04c5502f0@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=g736hRQTDPVkVb5KGMG/RY1bixFbI9ouvw/tGZ2JYx7YKhazAwa49CErTrSC2MGueVFiKjxrK0qxkj/ISrOqjyCrHwqzH/PSoNfW/symVue+0+7bIUNOCMc0sj+vReF8GM3LtGdhw2AwtCLfU+8znuDeKmmHGNvmtKf10CqXnmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GfAxhXAb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AED0C433C7;
+	Tue, 26 Mar 2024 15:39:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711467573;
+	bh=QM9scf4YeVv1B0PTlmFeoNK0slLx4CfaV119dLz2wHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GfAxhXAbMUApmOiyq/UeGdj5vIevwyYpM/P5riJ7xF9GqYMKDdTHF5HNk1PTVDYPh
+	 ipROtl+1fPO9mzkESKCLZSnMvOQb3AjoOcCyHuj8OuAYsySUCQDT/8ebUPoS0x2ck4
+	 M7JsfLn7qVEGtoeUGHlmjfEHgrCy7Rdw/ISV303xM/ENMn59QEXz93TNwavRcqzCCS
+	 V7zzJ4XcGu0f8Y8m7DchGQbdgPSecDrjiboVb3IzquSYm0u3b7mWRsOn5y4F5+4IR/
+	 GHbBTgs58b5qm8LteE4mXTM/2AOfS0Xqek5GEvpQu2ig8gL2VtcbIl9axckvN+9Fel
+	 a7f3IgvyvXhHA==
+Date: Tue, 26 Mar 2024 16:39:27 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>, 
+	jikos@kernel.org, linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, ojeda@kernel.org, 
+	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+Subject: Re: In kernel virtual HID devices (was Future handling of complex
+ RGB devices on Linux v3)
+Message-ID: <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
+References: <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+ <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
+ <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
+ <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+ <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
+ <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <dc3e2cb4-f631-4611-8814-0dc04c5502f0@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
 
-On Tue, Mar 26, 2024 at 11:19:54AM +0100, Krzysztof Kozlowski wrote:
-> On 26/03/2024 10:18, Nikita Shubin via B4 Relay wrote:
-> > The goal is to recieve ACKs for all patches in series to merge it via Arnd branch.
-> > 
-> > Some changes since last version (v8):
-> > 
-> > - Most important, fixed bug in Device Tree resulting in CS4271 not working by Alexander Sverdlin.
-> > - added #interrupt-cells to gpio nodes with interrupts-controller
-> > - fixed some EOF in dtsi files
-> > - fixed identation and type in ep93xx-keypad thanks to Andy Shevchenko
-> > 
-> > Stephen Boyd, Vinod Koul PLEASE! give some comments on following, couse i hadn't one for a couple of iterations already:
-> > 
-> > Following patches require attention from Stephen Boyd, as they were converted to aux_dev as suggested:
-> > 
-> > - ARM: ep93xx: add regmap aux_dev
-> > - clk: ep93xx: add DT support for Cirrus EP93xx
-> > 
-> > Following patches require attention from Vinod Koul:
-> > 
-> > - dma: cirrus: Convert to DT for Cirrus EP93xx
-> > - dma: cirrus: remove platform code
+On Mar 26 2024, Werner Sembach wrote:
+> Hi all,
 > 
-> A lot of this could have been already merged if you split it... Just
-> saying...
+> Am 25.03.24 um 19:30 schrieb Hans de Goede:
+> 
+> [snip]
+> > > > If the kernel already handles the custom protocol into generic HID, the
+> > > > work for userspace is not too hard because they can deal with a known
+> > > > protocol and can be cross-platform in their implementation.
+> > > > 
+> > > > I'm mentioning that cross-platform because SDL used to rely on the
+> > > > input, LEDs, and other Linux peculiarities and eventually fell back on
+> > > > using hidraw only because it's way more easier that way.
+> > > > 
+> > > > The other advantage of LampArray is that according to Microsoft's
+> > > > document, new devices are going to support it out of the box, so they'll
+> > > > be supported out of the box directly.
+> > > > 
+> > > > Most of the time my stance is "do not add new kernel API, you'll regret
+> > > > it later". So in that case, given that we have a formally approved
+> > > > standard, I would suggest to use it, and consider it your API.
+> > > The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
 
-But you able to apply DT schema patches if you wish.
-Just doing? :-)
+I have my reserves with such a kill switch (see below).
 
--- 
-With Best Regards,
-Andy Shevchenko
+> > Actually we don't even need that. Typically there is a single HID
+> > driver handling both keys and the backlight, so userspace cannot
+> > just unbind the HID driver since then the keys stop working.
 
+I don't think Werner meant unbinding the HID driver, just a toggle to
+enable/disable the basic HID core processing of LampArray.
 
+> > 
+> > But with a virtual LampArray HID device the only functionality
+> > for an in kernel HID driver would be to export a basic keyboard
+> > backlight control interface for simple non per key backlight control
+> > to integrate nicely with e.g. GNOME's backlight control.
+> 
+> Don't forget that in the future there will be devices that natively support
+> LampArray in their firmware, so for them it is the same device.
+
+Yeah, the generic LampArray support will not be able to differentiate
+"emulated" devices from native ones.
+
+> 
+> Regards,
+> 
+> Werner
+> 
+> > And then when OpenRGB wants to take over it can just unbind the HID
+> > driver from the HID device using existing mechanisms for that.
+
+Again no, it'll be too unpredicted.
+
+> > 
+> > Hmm, I wonder if that will not also kill hidraw support though ...
+> > I guess getting hidraw support back might require then also manually
+> > binding the default HID input driver.  Bentiss any input on this?
+
+To be able to talk over hidraw you need a driver to be bound, yes. But I
+had the impression that LampArray would be supported by default in
+hid-input.c, thus making this hard to remove. Having a separate driver
+will work, but as soon as the LampArray device will also export a
+multitouch touchpad, we are screwed and will have to make a choice
+between LampArray and touch...
+
+> > 
+> > Background info: as discussed earlier in the thread Werner would like
+> > to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
+> > device, since those are automatically supported by GNOME (and others)
+> > and will give basic kbd backlight brightness control in the desktop
+> > environment. This could be a simple HID driver for
+> > the hid_allocate_device()-ed virtual HID device, but userspace needs
+> > to be able to move that out of the way when it wants to take over
+> > full control of the per key lighting.
+
+Do we really need to entirely unregister the led class device? Can't we
+snoop on the commands and get some "mean value"?
+
+> > 
+> > Regards,
+> > 
+> > Hans
+> > 
+> > 
+> > 
+> > 
+> > 
+> > 
+> > 
+> > > The control flow for the whole system would look something like this:
+> > > 
+> > > - System boots
+> > > 
+> > >      - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
+> > > 
+> > >      - systemd-backlight restores last keyboard backlight brightness
+> > > 
+> > >      - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
+> > > 
+> > > - If the user wants more control they (auto-)start OpenRGB
+> > > 
+> > >      - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
+> > > 
+> > >      - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
+> > > 
+> > >      - When OpenRGB closes it should reenable the sysfs leds entry
+
+That's where your plan falls short: if OpenRGB crashes, or is killed it
+will not reset that bit.
+
+Next question: is OpenRGB supposed to keep the hidraw node opened all
+the time or not?
+
+If it has to keep it open, we should be able to come up with a somewhat
+similar hack that we have with hid-steam: when the hidraw node is
+opened, we disable the kernel processing of LampArray. When the node is
+closed, we re-enable it.
+
+But that also means we have to distinguish steam/SDL from OpenRGB...
+
+I just carefully read the LampArray spec. And it's simpler than what
+I expected. But the thing that caught my attention was that it's
+mentioned that there is no way for the host to query the current
+color/illumination of the LEDs when the mode is set to
+AutonomousMode=false. Which means that the kernel should be able to
+snoop into any commands sent from OpenRGB to the device, compute a mean
+value and update its internal state.
+
+Basically all we need is the "toggle" to put the led class in read-only
+mode while OpenRGB kicks in. Maybe given that we are about to snoop on
+the commands sent, we can detect that there is a LampArray command
+emitted, attach this information to the struct file * in hidraw, and
+then re-enable rw when that user closes the hidraw node.
+
+Cheers,
+Benjamin
+
+> > > 
+> > > - System shutdown
+> > > 
+> > >      - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
+> > > 
+> > > Regards,
+> > > 
+> > > Werner
+> > > 
+> > > > Side note to self: I really need to resurrect the hidraw revoke series
+> > > > so we could export those hidraw node to userspace with uaccess through
+> > > > logind...
+> > > > 
+> > > > Cheers,
+> > > > Benjamin
 
