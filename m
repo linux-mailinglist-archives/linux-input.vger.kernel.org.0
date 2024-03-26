@@ -1,75 +1,54 @@
-Return-Path: <linux-input+bounces-2521-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2522-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BF288BB60
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:36:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3789488BBCB
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 08:57:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76FCD1F369EE
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 07:36:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E251C2E37EE
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 07:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 250B1130E3F;
-	Tue, 26 Mar 2024 07:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1F5132811;
+	Tue, 26 Mar 2024 07:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HbjebAuD"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZZxU4hOu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7711E4CB2E
-	for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 07:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6A0132C04;
+	Tue, 26 Mar 2024 07:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711438595; cv=none; b=BVna9/CofDpywgOQObSzOPx/9/MQV67phkl0HrIu1CISdvaXXrX4WSXx/WLDf/vYA30mdl5O0SxSZcrue3ONjR1bKsAtYQyW5XnaHFYBBThv89XPH0sbMyF/uIhpwRA0Vnh9rIhHPWnAoWBeMo73+TLa6dT3+qCl79l+NKQjPRw=
+	t=1711439837; cv=none; b=hlm6RpZT6dOcw3hN05ZqJCoZGa0U8/Eh3TQvzpq5JS8mX3D7CSMi6xJPmrr5dRHPWScWd123YqrQRy2doq6p7xZKgfRA5DCCgI5yfJHhG+puy+gY3Evwdmeh6j9XrJfBMuHmYNfhJxtWtUfh+Vm/sGROFMb8qtm1DpIgyZTQo5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711438595; c=relaxed/simple;
-	bh=m3u1NjETM1MBj5on95tx4eAdtunQnjt2ckTBjz0VJeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ipdgpdzCkDL1B+whkELkr6DvozLhVu4hIznHbmdeBKWPXnXjuvGUGzH1DQHT68I5ffoI9nx4fs6OKKGhRHW1TlKImjEhniWWyaMV/DgoDCi9aNH/QQLhrD2Tj2yAOH9mtaiAuzHMM01g/0ldZhmeY66vaOsbaXuK5u6AGjtIGQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HbjebAuD; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a472f8c6a55so467786966b.0
-        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 00:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711438592; x=1712043392; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=DTwj7yMPnsFKbElzhkNgnR5pLBrvg9NCd+lk4WtlFCE=;
-        b=HbjebAuDcofoaivtOQ6eAo1YbsS4BIedTC1mwyXm1K8afsecHirxeSNyxykqg9EqjP
-         DVJ8mmGY6Vfhizvu9q32uWS9jYLj7yCVFbA+fznFDFAlMRxqN7Y0EvFqeUgF28PtiCyK
-         2WhZt6c1OBVRGDds2EpvNIT9r9LddmbcZOW/pDTwging3+7R2dFvHg4lQ2ylp7Emt2MD
-         erVbz6787k4OnH1bsZcL78FX4TQzIC0zCAl4+QsMbkguuMevxwhmYYLQirzRttm4ymmc
-         QvwqS18/aO/Y4KUGFiKi3xP8XvY7sTzDvPSFmj17UtjaffAcIS1/q7V9JrzRJfhdMWTf
-         rTTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711438592; x=1712043392;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DTwj7yMPnsFKbElzhkNgnR5pLBrvg9NCd+lk4WtlFCE=;
-        b=rdSf2xxb1jtNpRffU8hNo3y/42Y6DvERgiGL5NykjTOO4rlquY+ihayUhhd1zir1aU
-         UanD+tqd2NKBQlPhAo/+D6hEzLAqlStUAkqgZcptkGjoMgarj9G+4na3Hd7WFkkGgaTb
-         MJXZ55M0hTBJuzyDYk03CYAhLR09aTH6lktaendcc3TaDyw/hYNSHHh3vXabbfpzuzwv
-         56wg4D+KZcranvEwiGOFr3aPltYupQqqUfqvGohAXN1p1RfEp4k+dHG8sJXyGZFrY6LM
-         GCv8tfD4mLaytMsZmanYFw7mzbCcXUuUb7+21xf90jnE3wSMS65Cpg5DcTu2OIObgf2+
-         whyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDhXVc1PedTWg2YLpGiyHNHWHBSTBsc7VWC0fH+1lHDaVi1At/eayiMnkhEHZM7ZstDqxRaoYjgTzdbBpes0vqm1Pdg+kQPxnOjLo=
-X-Gm-Message-State: AOJu0Ywjuo7hS8wbzN3C4wMaNEEDLb2KiOriNxvXOcZbGCSd631UlR5l
-	KQqCQ0T9PvP8hPgyjwrtXMb5NJeW9OQH/4LPWW/GZD2VTUY2ncvEtIO/G/h2SYk=
-X-Google-Smtp-Source: AGHT+IEp5me4kskCsA4FG+us2408AgOnpIfaBluH+ZZcaxjBNIgc2mTSO7rEbnw9cgCm5H/TOtjSHg==
-X-Received: by 2002:a17:906:8419:b0:a4d:b0e9:efbc with SMTP id n25-20020a170906841900b00a4db0e9efbcmr1655263ejx.17.1711438591859;
-        Tue, 26 Mar 2024 00:36:31 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.44])
-        by smtp.gmail.com with ESMTPSA id b12-20020a17090630cc00b00a47342b53a4sm3898654ejb.191.2024.03.26.00.36.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 00:36:31 -0700 (PDT)
-Message-ID: <96d421d0-1a86-4290-8d90-98442e344c1e@linaro.org>
-Date: Tue, 26 Mar 2024 08:36:29 +0100
+	s=arc-20240116; t=1711439837; c=relaxed/simple;
+	bh=x6WrjRafnlw5XzCc1/F74fHotz9wYk2CFg6piVDCOPY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lqXsFLoxE5ublub/g5QQdvGMAnS6owf0/oKunJc4ncETAgJUPJ1z3KjggZ1dP+04SIEtZzF1iGJ5h+KutHi+CBvJ9QhOG9iddwIvwfJIefe7ff0wCeohRD5JgZGqPujIvftBJtzGgWBRLcKYlUgtU7DPLZdUY8RGnu/LtRuaqKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=ZZxU4hOu; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from [192.168.42.20] (p5de453e6.dip0.t-ipconnect.de [93.228.83.230])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 8DA012FC005D;
+	Tue, 26 Mar 2024 08:57:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1711439831;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=07xpBINcmpFjLp2DaMcbvfvjJdTbGEJQdX9Jp0QEuaI=;
+	b=ZZxU4hOuwCtvDabH2XBAqsqirw65P6JRc6X/96CK7py49gMn5gLb9G3eYbkX77mqZnFAh0
+	qRSm6e7r5BXokKL/nl/xFX8hJAyeOO8ThhV9pekNzG3tGkiUr5jCVI7IegOY4WV5mmNWOS
+	hp9tgJGlUHZ2TwI/GFe9rQ938u3I5TI=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
+Date: Tue, 26 Mar 2024 08:57:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,93 +56,128 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: edt-ft5x06: Add
- ft5426
-To: Andreas Kemnade <andreas@kemnade.info>, dmitry.torokhov@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- o.rempel@pengutronix.de, dario.binacchi@amarulasolutions.com,
- u.kleine-koenig@pengutronix.de, hdegoede@redhat.com,
- p.puschmann@pironex.com, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- caleb.connolly@linaro.org
-References: <20240324184415.206587-1-andreas@kemnade.info>
- <20240325192531.256854-1-andreas@kemnade.info>
+Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
+ devices on Linux v3)
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240325192531.256854-1-andreas@kemnade.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Hans de Goede <hdegoede@redhat.com>,
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
+ linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
+References: <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
+ <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
+ <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
+ <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
+ <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
+ <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
+ <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
+ <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
+ <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
+ <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
+ <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
+ <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+ <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 25/03/2024 20:25, Andreas Kemnade wrote:
-> Add compatible for ft5426.
-> Searches for documentation reveal neither edt nor evervision
-> as some related company, only FocalTech.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml        | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index f2808cb4d99df..17b05522eacd9 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -40,6 +40,7 @@ properties:
->        - edt,edt-ft5506
->        - evervision,ev-ft5726
->        - focaltech,ft6236
-> +      - focaltech,ft5426
+Hi all,
 
+Am 25.03.24 um 19:30 schrieb Hans de Goede:
 
-Please keep the order, so one line bump.
+[snip]
+>>> If the kernel already handles the custom protocol into generic HID, the
+>>> work for userspace is not too hard because they can deal with a known
+>>> protocol and can be cross-platform in their implementation.
+>>>
+>>> I'm mentioning that cross-platform because SDL used to rely on the
+>>> input, LEDs, and other Linux peculiarities and eventually fell back on
+>>> using hidraw only because it's way more easier that way.
+>>>
+>>> The other advantage of LampArray is that according to Microsoft's
+>>> document, new devices are going to support it out of the box, so they'll
+>>> be supported out of the box directly.
+>>>
+>>> Most of the time my stance is "do not add new kernel API, you'll regret
+>>> it later". So in that case, given that we have a formally approved
+>>> standard, I would suggest to use it, and consider it your API.
+>> The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
+> Actually we don't even need that. Typically there is a single HID
+> driver handling both keys and the backlight, so userspace cannot
+> just unbind the HID driver since then the keys stop working.
+>
+> But with a virtual LampArray HID device the only functionality
+> for an in kernel HID driver would be to export a basic keyboard
+> backlight control interface for simple non per key backlight control
+> to integrate nicely with e.g. GNOME's backlight control.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Don't forget that in the future there will be devices that natively support 
+LampArray in their firmware, so for them it is the same device.
 
-Best regards,
-Krzysztof
+Regards,
 
+Werner
+
+> And then when OpenRGB wants to take over it can just unbind the HID
+> driver from the HID device using existing mechanisms for that.
+>
+> Hmm, I wonder if that will not also kill hidraw support though ...
+> I guess getting hidraw support back might require then also manually
+> binding the default HID input driver.  Bentiss any input on this?
+>
+> Background info: as discussed earlier in the thread Werner would like
+> to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
+> device, since those are automatically supported by GNOME (and others)
+> and will give basic kbd backlight brightness control in the desktop
+> environment. This could be a simple HID driver for
+> the hid_allocate_device()-ed virtual HID device, but userspace needs
+> to be able to move that out of the way when it wants to take over
+> full control of the per key lighting.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+>
+>
+>
+>> The control flow for the whole system would look something like this:
+>>
+>> - System boots
+>>
+>>      - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
+>>
+>>      - systemd-backlight restores last keyboard backlight brightness
+>>
+>>      - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
+>>
+>> - If the user wants more control they (auto-)start OpenRGB
+>>
+>>      - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
+>>
+>>      - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
+>>
+>>      - When OpenRGB closes it should reenable the sysfs leds entry
+>>
+>> - System shutdown
+>>
+>>      - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
+>>
+>> Regards,
+>>
+>> Werner
+>>
+>>> Side note to self: I really need to resurrect the hidraw revoke series
+>>> so we could export those hidraw node to userspace with uaccess through
+>>> logind...
+>>>
+>>> Cheers,
+>>> Benjamin
 
