@@ -1,90 +1,173 @@
-Return-Path: <linux-input+bounces-2558-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2559-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9599288CF66
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 21:50:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D54E88D132
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 23:39:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C513C1C676AC
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 20:50:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFCF71F65E06
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 22:39:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1FDD7442F;
-	Tue, 26 Mar 2024 20:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E78F613E3F9;
+	Tue, 26 Mar 2024 22:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="f4f8+L4P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGx4NCTG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799E51EF1D
-	for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 20:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EF11CAAE;
+	Tue, 26 Mar 2024 22:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711486217; cv=none; b=VMqm3vQuILQAs6AMSAMeozcs9TITeoHpC9hmXNX7LlKJPCDvif6M5QvOPC6ZR1CsuSoj2wCIitm5de/2Z7xMbNxE/zteJtXbR53N/QGDQOZZACcCHP7kF2HJqztM7ZktLKQwD7St6THg5/OyJi50MctR+vuEXajJlUgk3yfut6o=
+	t=1711492718; cv=none; b=PeJX4x6FprfZnO5m1b3rffLvUdtKwkVx5hHXp+Tcdg8vrFTtXYTxHReWa22CJQTofV57JJzlAINibmogxo6bLXG3N0mHldY4cQsJQKwh6td57gqDvf9UGAu72V5+YwGINVCY9rHe7g/qo5Vq5gbdx4SKJfJ903G7F7CdgONNd3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711486217; c=relaxed/simple;
-	bh=T5YfNqX55Z8qEwAcg1hxsiPyLDpXowrkX/WS7TXSjbw=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=R6RX9tCWYPUYhvwUWroC0ksfTH8zu4+3Z8v2Mc5wSTCOWL8clrkfviiHOdNen5vb5DpKa/jj/ylr61e9jismiRBc59SQLyrsDgFempv8MsKpKpyyfQizn8j46MqMwMBJG74U/CsaD5v/tUeUtY6GP4Ib94wLRrM4NTaYcCJYzQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=f4f8+L4P; arc=none smtp.client-ip=185.70.43.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1711486213; x=1711745413;
-	bh=Hvu11Cz+twFSv/MGlP+aQfj4LXiDo09MBOsTz24Hku0=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=f4f8+L4PsSZsdw1KUDGypmT/BkHmSeqHGkNN6MZHCaqmDv0Fcf+J4AT3qteGHWvWu
-	 0UboBwEAQy3F4kTQG0OwWz6soWhGZwP9ITBUiKdTde3Mq0VOKNXh0CY3Bbb0DrDMHr
-	 uIGUSZ8koUlEFiISwGOfy1a5UX9JPM68j5hDGF9df1xa4vf1OYIfB+giX8Mvzrb2B6
-	 7pHTIDvcAogd6KempHi8z4xrh7AS27CWlKV9nZ2f8sflatRHYe0Reih5e+jk9XPIhe
-	 nW9Tk8b4VV8TqA0UPA486aPzrMt4snRLB8V2F+Ck1YKcLOw1J1CESBZKSM/wDoomgM
-	 gmwX0t79bTGDQ==
-Date: Tue, 26 Mar 2024 20:50:03 +0000
-To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-From: =?utf-8?Q?Micha=C5=82_Majewski?= <michal.majewski.mm@proton.me>
-Subject: psmouse.synaptics_interconnect=1 - it works!
-Message-ID: <8um9-BD5cdxelV02QxqE1vhTOIuB8xsb0xfVYD359HBq1LgGSZXPZRzRnPZ5jKyjjbkAV_USB_XcLKBC2jcxrACL02B04w_5SWz-XQEqqiQ=@proton.me>
-Feedback-ID: 104184498:user:proton
+	s=arc-20240116; t=1711492718; c=relaxed/simple;
+	bh=SPB6L/ctChhLveaXdYBbCjCt9oobwLX1bdGDBwGOoO0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Un9hgeGrMF/OiPcwJCWsFpvigripAziA4Gwo8NKYXHCuZRwCqj9ZOnexbEnLzeM9UBuJ3hMjTo32k1IeUU0SzV8bClgFuXtRqodYSBPHI9slCYLGuOwifNBhid4d1cdgSTFDW4BKWQjdPSodclvsRdKgBJjRmPRKLQX3xWvPNXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGx4NCTG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C948DC433C7;
+	Tue, 26 Mar 2024 22:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711492718;
+	bh=SPB6L/ctChhLveaXdYBbCjCt9oobwLX1bdGDBwGOoO0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pGx4NCTG2LWhkmyMjnIr7QzormuwKJKb8jduPcvEr9fHh9kO7VEnTBmioJRHspeDT
+	 H5YNlaoP6D7Q2ZgNhshKsS/BmV6fY0stqvvKrjUKukKt4t3PljRcdOcYW/I+80sDbg
+	 R89SGRiBcBON/LwB2ujoF+tWhQ32eqIRVBcCpCVeYkax6D8uqqRGex5bSxoqmAZeGP
+	 jXOGpr6Ob6HCEsFvy948o0gSqCxIS6NpNrU2aJMXy9NSc5Ih2WSgU5M/QN5d0Wk4Em
+	 AUaltyTlXALh0GnoMXcZLFVs6K3I9Nov1ese+LhHwPhrOpJpNBoK+83Fr966hvuTK7
+	 Zkic1AdBfrkmw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: llvm@lists.linux.dev
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Ariel Elior <aelior@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Helge Deller <deller@gmx.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kbuild@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/9] enabled -Wformat-truncation for clang
+Date: Tue, 26 Mar 2024 23:37:59 +0100
+Message-Id: <20240326223825.4084412-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
-I noticed in dmesg a message about kernel option from the e-mail topic and =
-i tried it out on Lenovo ThinkPad L470 W10DG. Now my touchpad works much be=
-tter and is actually smoother. I see in logs that it also affected TrackPoi=
-nt but i don't see much difference.
+From: Arnd Bergmann <arnd@arndb.de>
 
-part of my dmesg after adding kernel option:
+With randconfig build testing, I found only eight files that produce
+warnings with clang when -Wformat-truncation is enabled. This means
+we can just turn it on by default rather than only enabling it for
+"make W=1".
 
-[    0.844727] input: Sleep Button as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0=
-C0E:00/input/input0
-[    0.844947] input: Lid Switch as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0=
-D:00/input/input1
-[    0.845046] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/inpu=
-t/input2
-[    0.903292] input: AT Translated Set 2 keyboard as /devices/platform/i80=
-42/serio0/input/input3
-[    1.939367] psmouse serio1: synaptics: serio: Synaptics pass-through por=
-t at isa0060/serio1/input0
-[    1.992308] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042=
-/serio1/input/input5
-[    3.128345] input: TPPS/2 IBM TrackPoint as /devices/platform/i8042/seri=
-o1/serio2/input/input6
-[   14.240237] input: ThinkPad Extra Buttons as /devices/platform/thinkpad_=
-acpi/input/input8
-[   15.629375] input: Synaptics TM3053-010 as /devices/pci0000:00/0000:00:1=
-f.4/i2c-6/6-002c/rmi4-00/input/input19
-[   16.059828] input: TPPS/2 IBM TrackPoint as /devices/pci0000:00/0000:00:=
-1f.4/i2c-6/6-002c/rmi4-00/rmi4-00.fn03/serio3/input/input20
+Unfortunately, gcc produces a lot more warnings when the option
+is enabled, so it's not yet possible to turn it on both both
+compilers.
 
-Best regards,
-Micha=C5=82 Majewski.
+I hope that the patches can get picked up by platform maintainers
+directly, so the final patch can go in later on.
+
+     Arnd
+
+Arnd Bergmann (9):
+  fbdev: shmobile: fix snprintf truncation
+  enetc: avoid truncating error message
+  qed: avoid truncating work queue length
+  mlx5: avoid truncating error message
+  surface3_power: avoid format string truncation warning
+  Input: IMS: fix printf string overflow
+  scsi: mylex: fix sysfs buffer lengths
+  ALSA: aoa: avoid false-positive format truncation warning
+  kbuild: enable -Wformat-truncation on clang
+
+ drivers/input/misc/ims-pcu.c                  |  4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c  |  2 +-
+ .../ethernet/mellanox/mlx5/core/esw/bridge.c  |  2 +-
+ drivers/net/ethernet/qlogic/qed/qed_main.c    |  9 ++++---
+ drivers/platform/surface/surface3_power.c     |  2 +-
+ drivers/scsi/myrb.c                           | 20 ++++++++--------
+ drivers/scsi/myrs.c                           | 24 +++++++++----------
+ drivers/video/fbdev/sh_mobile_lcdcfb.c        |  2 +-
+ scripts/Makefile.extrawarn                    |  2 ++
+ sound/aoa/soundbus/i2sbus/core.c              |  2 +-
+ 10 files changed, 35 insertions(+), 34 deletions(-)
+
+-- 
+2.39.2
+
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Claudiu Manoil <claudiu.manoil@nxp.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Saeed Mahameed <saeedm@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Ariel Elior <aelior@marvell.com>
+Cc: Manish Chopra <manishc@marvell.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: Hannes Reinecke <hare@kernel.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Bill Wendling <morbo@google.com>
+Cc: Justin Stitt <justinstitt@google.com>
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-rdma@vger.kernel.org
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: alsa-devel@alsa-project.org
+Cc: linux-sound@vger.kernel.org
+Cc: llvm@lists.linux.dev
+
 
