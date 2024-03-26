@@ -1,102 +1,91 @@
-Return-Path: <linux-input+bounces-2560-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E874688D156
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 23:42:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6102588D2CD
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 00:25:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E3C6322300
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 22:42:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 014D01F3D468
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 23:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37D9913F440;
-	Tue, 26 Mar 2024 22:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODHnADV8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 195CC13DDC9;
+	Tue, 26 Mar 2024 23:25:06 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F4F13E6C5;
-	Tue, 26 Mar 2024 22:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446F36FE35;
+	Tue, 26 Mar 2024 23:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711492848; cv=none; b=PKUMKEA/x6cnLaO28xanJeC67cSQVZ40BZm4jn8hAPhu4Jct+3+vOQhiIqyNCBOs8URRC+AW3woSLTIIC4pHNyGoSuTD4TYuVDpLAfAS99HFM0g/zPF8U3WMA+G3A70PirolyheqPHEu+WeGQXz9w3kMQclymBiju6Ys/h/5enw=
+	t=1711495506; cv=none; b=YeuqNi3GEhDPOhm+AChSllaqMckK7D9p+LOxSrCSsBm+Y0giMHL6z6M9gVzh/3+vSTV+2MuNlgE+jWHlFNAzuYjBSZQSRKEHky9imbZrjVKAc027GddxOfTl87XBtdiGCrJ9ajohiyHxZy+BQAfH+QmKDwm6dV0b7Mr2Rj5hav0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711492848; c=relaxed/simple;
-	bh=iaotj1iZQ8IOaXKa3sSgBb9LPDG2URR87VML4Asl6ZI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VRBQknGcCgMEFY9pIY0qQhRKpUQp6Zx9//KkxlzYPt3oq+eiRaqcX4YW+9zS4Ue3ulJ5UzwnWJ4M6TJqPgU2409PRVDq/y5ZgK0ZbHNJGuOcwBjyrRPgIrQE+sgcnglOQgPMANLckm/au5Hso3ETLCFRguZzG/V4wLC+KNAYyTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODHnADV8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 897A9C433F1;
-	Tue, 26 Mar 2024 22:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711492847;
-	bh=iaotj1iZQ8IOaXKa3sSgBb9LPDG2URR87VML4Asl6ZI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ODHnADV8jbM1W2YmWlXbh+RY49mjLG3aluEG3tx+tMw+PQaTBk0E3Hn/ulcUNVdjw
-	 McUs8XBCAaX4PJeU7h+HtO5xr4XRyefi+bwFim4AgFaCvLpW4Z7RJyDojCYHnvUt2J
-	 s/D4ZNnNLr53uFEBh9q6QnsfcKbagk4CBO4zgit+qyqm5GI+xP3OFxeWeqcU5FsWvV
-	 U/h9UcDRN7Pwx/qFtLEkg2VRhcCqxik7J2ZQE3RM8ylDYnhepyIVgqzH4sojgBViDl
-	 I1VP9IkpTDXqdRvimcukslPS5JX7UKbWx09jD8NbcVDtswEQbCbfKx1IZCkQKhOTX8
-	 Z4bWASyfJpaXw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: llvm@lists.linux.dev,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/9] Input: IMS: fix printf string overflow
-Date: Tue, 26 Mar 2024 23:38:05 +0100
-Message-Id: <20240326223825.4084412-7-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
-References: <20240326223825.4084412-1-arnd@kernel.org>
+	s=arc-20240116; t=1711495506; c=relaxed/simple;
+	bh=/TwaUWPtbcr32wiCp9VhBHSukSNUm57OfrofMtXGVGY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=clqgqDdf6qk8KZtm9C8T5e0IwxsRrMtRsIp59Y42dqqVoyjDFk8Ia0R5v+8D4JUtoS7xm5bh6skgsUzuihoAah5zXlnnFkP5MZk6dLm9UIUwWzyyp/PQXF819fXS56Er7F4UpSPC55W2SV2VgOBGgEhieLyPQXpiWg3JD/QWNls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6C022F4;
+	Tue, 26 Mar 2024 16:25:35 -0700 (PDT)
+Received: from [10.57.81.167] (unknown [10.57.81.167])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B73133F694;
+	Tue, 26 Mar 2024 16:24:58 -0700 (PDT)
+Message-ID: <3f61d6d3-a0d6-4c49-b094-6ba62d09ab14@arm.com>
+Date: Tue, 26 Mar 2024 23:24:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/19] amba: store owner from modules with
+ amba_driver_register()
+Content-Language: en-GB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Mike Leach <mike.leach@linaro.org>,
+ James Clark <james.clark@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+Cc: linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
+ linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-input@vger.kernel.org, kvm@vger.kernel.org
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Krzysztof
 
-clang warns about a string overflow in this driver
+On 26/03/2024 20:23, Krzysztof Kozlowski wrote:
+> Merging
+> =======
+> All further patches depend on the first amba patch, therefore please ack
+> and this should go via one tree.
 
-drivers/input/misc/ims-pcu.c:1802:2: error: 'snprintf' will always be truncated; specified size is 10, but format string expands to at least 12 [-Werror,-Wformat-truncation]
-drivers/input/misc/ims-pcu.c:1814:2: error: 'snprintf' will always be truncated; specified size is 10, but format string expands to at least 12 [-Werror,-Wformat-truncation]
+Are you able to provide a stable branch with these patches once you pull
+them in to "one tree" here ? We have changes coming up in the coresight
+tree, which would conflict with the changes here (horribly).
 
-Make the buffer a little longer to ensure it always fits.
+FWIW,
 
-Fixes: 628329d52474 ("Input: add IMS Passenger Control Unit driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/input/misc/ims-pcu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+For patches 1 to 13 :
 
-diff --git a/drivers/input/misc/ims-pcu.c b/drivers/input/misc/ims-pcu.c
-index 6e8cc28debd9..80d16c92a08b 100644
---- a/drivers/input/misc/ims-pcu.c
-+++ b/drivers/input/misc/ims-pcu.c
-@@ -42,8 +42,8 @@ struct ims_pcu_backlight {
- #define IMS_PCU_PART_NUMBER_LEN		15
- #define IMS_PCU_SERIAL_NUMBER_LEN	8
- #define IMS_PCU_DOM_LEN			8
--#define IMS_PCU_FW_VERSION_LEN		(9 + 1)
--#define IMS_PCU_BL_VERSION_LEN		(9 + 1)
-+#define IMS_PCU_FW_VERSION_LEN		16
-+#define IMS_PCU_BL_VERSION_LEN		16
- #define IMS_PCU_BL_RESET_REASON_LEN	(2 + 1)
- 
- #define IMS_PCU_PCU_B_DEVICE_ID		5
--- 
-2.39.2
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
+Suzuki
 
