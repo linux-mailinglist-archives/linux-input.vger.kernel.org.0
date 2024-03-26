@@ -1,229 +1,103 @@
-Return-Path: <linux-input+bounces-2534-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2535-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E8288C793
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 16:42:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B6288C88B
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 17:06:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBA801F80DF9
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 15:42:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DD8F1C2C335
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 16:06:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0719113CA92;
-	Tue, 26 Mar 2024 15:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE99B13C918;
+	Tue, 26 Mar 2024 16:06:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GfAxhXAb"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pA0tYaz3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F9B13CA91;
-	Tue, 26 Mar 2024 15:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97B13C90A;
+	Tue, 26 Mar 2024 16:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711467573; cv=none; b=jpGxr5FxGApD+r/6h2pzD3Ui8BpX4a0TrWJWYKCbv9WE0VTBb3doO2AfAaGrW72/Jh+0UM3G0qOWJccThTweZyZAGqw+k3zQ1GV3yzHqGchdICLkvAxYwHysGrW8674SuTknm1ZJ8R3C0zVM3o5gEV6mwzEhXsKlqAnWBC1y2UY=
+	t=1711469202; cv=none; b=oXc16BktvjQ170fXoTe4NEI9HkwKAqnvPlk76AAK9NFCFbFVUezkZUXT8aHxbU8WsFMx+oOX+U61UE+ClaTxtJvEXJpQy57Gw69IaG5L6kSqFhz2bF7bwK34uQOTV+WrEHJ4Y1tQllxIi0kgKviqzYmeUVa8jzZjpESPMupz+lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711467573; c=relaxed/simple;
-	bh=QM9scf4YeVv1B0PTlmFeoNK0slLx4CfaV119dLz2wHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g736hRQTDPVkVb5KGMG/RY1bixFbI9ouvw/tGZ2JYx7YKhazAwa49CErTrSC2MGueVFiKjxrK0qxkj/ISrOqjyCrHwqzH/PSoNfW/symVue+0+7bIUNOCMc0sj+vReF8GM3LtGdhw2AwtCLfU+8znuDeKmmHGNvmtKf10CqXnmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GfAxhXAb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AED0C433C7;
-	Tue, 26 Mar 2024 15:39:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711467573;
-	bh=QM9scf4YeVv1B0PTlmFeoNK0slLx4CfaV119dLz2wHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GfAxhXAbMUApmOiyq/UeGdj5vIevwyYpM/P5riJ7xF9GqYMKDdTHF5HNk1PTVDYPh
-	 ipROtl+1fPO9mzkESKCLZSnMvOQb3AjoOcCyHuj8OuAYsySUCQDT/8ebUPoS0x2ck4
-	 M7JsfLn7qVEGtoeUGHlmjfEHgrCy7Rdw/ISV303xM/ENMn59QEXz93TNwavRcqzCCS
-	 V7zzJ4XcGu0f8Y8m7DchGQbdgPSecDrjiboVb3IzquSYm0u3b7mWRsOn5y4F5+4IR/
-	 GHbBTgs58b5qm8LteE4mXTM/2AOfS0Xqek5GEvpQu2ig8gL2VtcbIl9axckvN+9Fel
-	 a7f3IgvyvXhHA==
-Date: Tue, 26 Mar 2024 16:39:27 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>, 
-	jikos@kernel.org, linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linux-input@vger.kernel.org, ojeda@kernel.org, 
-	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>, Gregor Riepl <onitake@gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <vjd5xqgd2gsyz4ubgk6eusuyqdtxpdw6vogc5u537x2a245xcj@m2twppbxea4p>
-References: <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <fcf4dd53-f461-4c2e-8fbe-50b50e4e6797@redhat.com>
- <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
+	s=arc-20240116; t=1711469202; c=relaxed/simple;
+	bh=gZ7Oihytq6S7XooG8zMKvfOIFdioJ8AxamtfaSSQ1MY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=r8zy0Y2mzNg0Mq6c4NBxgdKnh3AiAcIcmNMGrbYct7jRYiW92fTzQ9jf6pQzZDDiZlaBnbIL6KyEIfNLFlC4BE2KXAdAso9gX6tNP8RtVo7GhjKY0BYB8XJXqHKvYtPHCFbAkVq4ZjlKD+4PX7wBzNtYrOZaSepn/RpepMnCvU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pA0tYaz3; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42Q7fAtd005126;
+	Tue, 26 Mar 2024 11:06:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=1HACJMPhmlTWowKJzBV1O8J9MaCLq8HycvFnllubDKc=; b=
+	pA0tYaz3U2FivdNdIPwlgSUagBJ+5mngy5LzOYPoWOt9a9Vsh6wjRNRVxPkb1sQm
+	XIDxj46NwehH3WcETDqFPKPE8kzWB8EFlkhNGi17HCltyrOv0+NY9sv8lQdpJYps
+	B5ctVqQl9uRv279+Oi0V/Qek9hXGxGOLiPDO1Ts6glSyZ3ngb6jXKqjR6JiUQqlI
+	yOWtTiss/OtxBAgAZO3U4SVhkRMrqHjSL10ulw1ZFgGUWN94NVoHQT7ik7RmtJJ/
+	PRmMxH/QbeS1Pmktt/PnWDRxs//XysCtwbWzYBjeCK0O+H/+d0tlzB+aDO7kRhM5
+	FQmQ9y819rGp/AtYf6/8bg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3x1ugm5j9g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 11:06:28 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 26 Mar
+ 2024 16:06:26 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Tue, 26 Mar 2024 16:06:26 +0000
+Received: from [141.131.79.41] (unknown [141.131.79.41])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8C335820241;
+	Tue, 26 Mar 2024 16:06:24 +0000 (UTC)
+Message-ID: <853901e0-2fa4-4673-8461-63e40d6ca48a@opensource.cirrus.com>
+Date: Tue, 26 Mar 2024 11:06:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <65b24776-ae1a-4290-a1d5-c7637ad0accc@tuxedocomputers.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
+Content-Language: en-US
+To: James Ogletree <jogletre@opensource.cirrus.com>,
+        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
+ <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
+From: "Rhodes, David" <drhodes@opensource.cirrus.com>
+In-Reply-To: <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
+X-Proofpoint-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
+X-Proofpoint-Spam-Reason: safe
 
-On Mar 26 2024, Werner Sembach wrote:
-> Hi all,
+On 3/20/24 2:29 PM, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
 > 
-> Am 25.03.24 um 19:30 schrieb Hans de Goede:
+> The ASoC driver enables I2S streaming to the device.
 > 
-> [snip]
-> > > > If the kernel already handles the custom protocol into generic HID, the
-> > > > work for userspace is not too hard because they can deal with a known
-> > > > protocol and can be cross-platform in their implementation.
-> > > > 
-> > > > I'm mentioning that cross-platform because SDL used to rely on the
-> > > > input, LEDs, and other Linux peculiarities and eventually fell back on
-> > > > using hidraw only because it's way more easier that way.
-> > > > 
-> > > > The other advantage of LampArray is that according to Microsoft's
-> > > > document, new devices are going to support it out of the box, so they'll
-> > > > be supported out of the box directly.
-> > > > 
-> > > > Most of the time my stance is "do not add new kernel API, you'll regret
-> > > > it later". So in that case, given that we have a formally approved
-> > > > standard, I would suggest to use it, and consider it your API.
-> > > The only new UAPI would be the use_leds_uapi switch to turn on/off the backwards compatibility.
+> Signed-off-by: James Ogletree<jogletre@opensource.cirrus.com>
+> ---
 
-I have my reserves with such a kill switch (see below).
+Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
 
-> > Actually we don't even need that. Typically there is a single HID
-> > driver handling both keys and the backlight, so userspace cannot
-> > just unbind the HID driver since then the keys stop working.
-
-I don't think Werner meant unbinding the HID driver, just a toggle to
-enable/disable the basic HID core processing of LampArray.
-
-> > 
-> > But with a virtual LampArray HID device the only functionality
-> > for an in kernel HID driver would be to export a basic keyboard
-> > backlight control interface for simple non per key backlight control
-> > to integrate nicely with e.g. GNOME's backlight control.
-> 
-> Don't forget that in the future there will be devices that natively support
-> LampArray in their firmware, so for them it is the same device.
-
-Yeah, the generic LampArray support will not be able to differentiate
-"emulated" devices from native ones.
-
-> 
-> Regards,
-> 
-> Werner
-> 
-> > And then when OpenRGB wants to take over it can just unbind the HID
-> > driver from the HID device using existing mechanisms for that.
-
-Again no, it'll be too unpredicted.
-
-> > 
-> > Hmm, I wonder if that will not also kill hidraw support though ...
-> > I guess getting hidraw support back might require then also manually
-> > binding the default HID input driver.  Bentiss any input on this?
-
-To be able to talk over hidraw you need a driver to be bound, yes. But I
-had the impression that LampArray would be supported by default in
-hid-input.c, thus making this hard to remove. Having a separate driver
-will work, but as soon as the LampArray device will also export a
-multitouch touchpad, we are screwed and will have to make a choice
-between LampArray and touch...
-
-> > 
-> > Background info: as discussed earlier in the thread Werner would like
-> > to have a basic driver registering a /sys/class/leds/foo::kbd_backlight/
-> > device, since those are automatically supported by GNOME (and others)
-> > and will give basic kbd backlight brightness control in the desktop
-> > environment. This could be a simple HID driver for
-> > the hid_allocate_device()-ed virtual HID device, but userspace needs
-> > to be able to move that out of the way when it wants to take over
-> > full control of the per key lighting.
-
-Do we really need to entirely unregister the led class device? Can't we
-snoop on the commands and get some "mean value"?
-
-> > 
-> > Regards,
-> > 
-> > Hans
-> > 
-> > 
-> > 
-> > 
-> > 
-> > 
-> > 
-> > > The control flow for the whole system would look something like this:
-> > > 
-> > > - System boots
-> > > 
-> > >      - Kernel driver initializes keyboard (maybe stops rainbowpuke boot effects, sets brightness to a default value, or initializes a solid color)
-> > > 
-> > >      - systemd-backlight restores last keyboard backlight brightness
-> > > 
-> > >      - UPower sees sysfs leds entry and exposes it to DBus for DEs to do keyboard brightness handling
-> > > 
-> > > - If the user wants more control they (auto-)start OpenRGB
-> > > 
-> > >      - OpenRGB disables sysfs leds entry via use_leds_uapi to prevent double control of the same device by UPower
-> > > 
-> > >      - OpenRGB directly interacts with hidraw device via LampArray API to give fine granular control of the backlight
-> > > 
-> > >      - When OpenRGB closes it should reenable the sysfs leds entry
-
-That's where your plan falls short: if OpenRGB crashes, or is killed it
-will not reset that bit.
-
-Next question: is OpenRGB supposed to keep the hidraw node opened all
-the time or not?
-
-If it has to keep it open, we should be able to come up with a somewhat
-similar hack that we have with hid-steam: when the hidraw node is
-opened, we disable the kernel processing of LampArray. When the node is
-closed, we re-enable it.
-
-But that also means we have to distinguish steam/SDL from OpenRGB...
-
-I just carefully read the LampArray spec. And it's simpler than what
-I expected. But the thing that caught my attention was that it's
-mentioned that there is no way for the host to query the current
-color/illumination of the LEDs when the mode is set to
-AutonomousMode=false. Which means that the kernel should be able to
-snoop into any commands sent from OpenRGB to the device, compute a mean
-value and update its internal state.
-
-Basically all we need is the "toggle" to put the led class in read-only
-mode while OpenRGB kicks in. Maybe given that we are about to snoop on
-the commands sent, we can detect that there is a LampArray command
-emitted, attach this information to the struct file * in hidraw, and
-then re-enable rw when that user closes the hidraw node.
-
-Cheers,
-Benjamin
-
-> > > 
-> > > - System shutdown
-> > > 
-> > >      - Since OpenRGB reenables the sysfs leds entry, systemd-backlight can correctly store a brightness value for next boot
-> > > 
-> > > Regards,
-> > > 
-> > > Werner
-> > > 
-> > > > Side note to self: I really need to resurrect the hidraw revoke series
-> > > > so we could export those hidraw node to userspace with uaccess through
-> > > > logind...
-> > > > 
-> > > > Cheers,
-> > > > Benjamin
+Thanks,
+David
 
