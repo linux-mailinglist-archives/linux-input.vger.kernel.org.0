@@ -1,154 +1,142 @@
-Return-Path: <linux-input+bounces-2532-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2533-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D6188C406
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 14:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA0D88C5B2
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 15:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BDD11F3AEA3
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 13:47:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DBE81F61FA4
+	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 14:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B247641B;
-	Tue, 26 Mar 2024 13:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LZmL/4d/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581EE13C67A;
+	Tue, 26 Mar 2024 14:49:27 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E954974C05
-	for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 13:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A32BED9;
+	Tue, 26 Mar 2024 14:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711460625; cv=none; b=AIFSmmlaiCDUp/CUp3inImMCEj4pdOQKXKZqUbkOrsEtc/8laiqOZmNQNLuSyXXhknx8QLm+3Cawgsihw3xhOXmpV4RsI6x37B9WVyLrF8St9rLTehkHMCljiD8nb/leTcGGSyXBofqvX+vcl88WCy+/Vzi71sfJaYxWygqIlS4=
+	t=1711464567; cv=none; b=W5aRuY4FA+MFSwww+a9KSGBm6rjqxF/qS+LJFKNBU4hSPwhPIFxU2Jq1/l2LG5AczpGnyOXcEwvCrz/Q3NaPNqAwMPJKDzDYJJ1da4uSW1XH+h3VH+mdRZ4O2ERbQ09krA9hqDHEy8zJZYxtmOTIYcpbBICCxe2Qt3z18yuixBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711460625; c=relaxed/simple;
-	bh=ljMe5J3C6/sjNT1yUQPJWicsFLE8AOz/s4ig62CFcoA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WGO1a9D5TeCl6bUDtvbKGLJVMrbQVuXVFff7kcBnFwHM8VjiGA93uRRG2qaH+WIViKYTGVrpV0J0XyN2JNP/b1/ulODaAU0wfP0VJ3nBDwZUC0rBBaSbmSJAZ3Y9Lg0UhjN3MhpTmHIBlh44EAbZMIAhwpTDlkWQYHG8f/7ws/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LZmL/4d/; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-695df25699fso46823966d6.2
-        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 06:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711460620; x=1712065420; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ruCfZHq43zIiPZrKz5ByYkrM7Dnhqu1J3mZX9CrPvSQ=;
-        b=LZmL/4d/skmyJLELh6oIodn308sOvBbo35hv7F4qbyCgp9kE8hbUvwNc4W4LtGCLV9
-         5Pl3eSsOxbezpOlTcDr2X6Rdc83EHvbjFYqBbmEYHRKUdxg+eTgtHrCLBop50KYW0ZZK
-         OZCPF7VgNvWIQ30p7ErPVL65QdJZL/uXjMwJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711460620; x=1712065420;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ruCfZHq43zIiPZrKz5ByYkrM7Dnhqu1J3mZX9CrPvSQ=;
-        b=Bgy0ASUD+LkJOnO/zwi7U3BQRS2HxVXcer5/S3AT9Ut47KOeCPu29zRJWiBlKkHr4O
-         sbjJYJyru3xCgqfINewIPghnAtBkOa2WjRvdBXWY0ZbzwiMghEY61vFM8949wCCbTNun
-         RaYJsQRvPp8VhVyLKZgtBBg4894vtHi1S+p5GytijW4S9my/W2QR1ifkm93rQVHjzryD
-         AChPv8vwjSrzn1DQhHci08SCbtCNgISFUGDhfaoPIgg2rr3fBUK5ZhJA9iMAypG3PTlw
-         4SyRXgecS3EPicCwOkWHfiTpBKswtQQVWywSpAODUATO9Doe/B0rFHOvSDoHfa8DS66E
-         SHdg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbQciFdbOrgPfydtusIP1N5Fg84DvunPFei/b8UEiYMgFBnm0tVfb32sFoFz1alBg3KhiE3f+qC2C17xM+77N/5Sf9Yg6Ts9pq5Hw=
-X-Gm-Message-State: AOJu0Yx7rAZD/ibxJMWweNG2SYm9NlhM9uLnS42hgvRez5AZ9CVyCtbk
-	UwsFfG1rSREAjaoQh5VsWkYlnZdWt6k2Eo8VVXG8k0SwMp5CZlt3qLrnknclnBPWNcqW1DBWi8Q
-	=
-X-Google-Smtp-Source: AGHT+IEF3l+MBQbO5fgRiNV7mTvgKt22LLulJkurjbbJjHwcWZxZgZzGdMZBNQlkjyAGcoyzczDrbw==
-X-Received: by 2002:ad4:5cae:0:b0:696:8f70:e4f5 with SMTP id q14-20020ad45cae000000b006968f70e4f5mr7523187qvh.43.1711460620123;
-        Tue, 26 Mar 2024 06:43:40 -0700 (PDT)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
-        by smtp.gmail.com with ESMTPSA id kd9-20020a056214400900b00696a3367c2asm319285qvb.28.2024.03.26.06.43.39
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 06:43:39 -0700 (PDT)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-42ee0c326e8so204901cf.0
-        for <linux-input@vger.kernel.org>; Tue, 26 Mar 2024 06:43:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWCdjuAFwFv6i+bwKvpLU7MOeYy0VIAm7Z745RAtqqLcA2vNsPLX9J2SLXyonS69lA9z3SCR8mec5tV+jrA512KZyy/0zXtjxaxgL4=
-X-Received: by 2002:a05:622a:248c:b0:431:5ac0:a1e0 with SMTP id
- cn12-20020a05622a248c00b004315ac0a1e0mr246953qtb.12.1711460618700; Tue, 26
- Mar 2024 06:43:38 -0700 (PDT)
+	s=arc-20240116; t=1711464567; c=relaxed/simple;
+	bh=NjGYoZS9MYNf6KYedY89CIBd6GNJTkqJoAov7a2XKRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PKa2GUP2mvNfmdnlyNeLbfnsCask9NEB4lp/RWBjl2d0U9X7MSBPz3S8LBcMRCJLBPg2ZLxsqT1391GskXnP9fC6P3xxTX/6E6DPlfevlCTKnIJjxYKl4YICDrwonkiLmXmCzDJBct5JO5U+vELkj+9bAOiu2XeEv2qMEhP4aN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: u4/HncuNQveTDgvADY/MsQ==
+X-CSE-MsgGUID: xKfSFc0eQ3Cp9nnBEl04Pw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="28999055"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="28999055"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:49:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914882408"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="914882408"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 07:49:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rp86t-0000000GKYj-43J8;
+	Tue, 26 Mar 2024 16:49:07 +0200
+Date: Tue, 26 Mar 2024 16:49:07 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: nikita.shubin@maquefel.me,
+	Hartley Sweeten <hsweeten@visionengravers.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Lukasz Majewski <lukma@denx.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ralf Baechle <ralf@linux-mips.org>,
+	"Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>,
+	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v9 00/38] ep93xx device tree conversion
+Message-ID: <ZgLgY11N8dkpTZJB@smile.fi.intel.com>
+References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
+ <dc3e2cb4-f631-4611-8814-0dc04c5502f0@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240325105452.529921-1-lma@chromium.org> <CAD=FV=VHps2d4dqLXCqE=hNMbk4pxeN607nFA0nEkd7chNAr3A@mail.gmail.com>
- <CAE5UKNpob9dT4YXSYKsrKGQ3cZP7o3OF7y-eb925Xd-gH3BEXA@mail.gmail.com>
-In-Reply-To: <CAE5UKNpob9dT4YXSYKsrKGQ3cZP7o3OF7y-eb925Xd-gH3BEXA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 26 Mar 2024 06:43:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XdOOfHK-regXRzRkky0=iV2JMDPrKid2T_JS1=eu9H3w@mail.gmail.com>
-Message-ID: <CAD=FV=XdOOfHK-regXRzRkky0=iV2JMDPrKid2T_JS1=eu9H3w@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-To: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Maxime Ripard <mripard@kernel.org>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
-	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dc3e2cb4-f631-4611-8814-0dc04c5502f0@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Tue, Mar 26, 2024 at 11:19:54AM +0100, Krzysztof Kozlowski wrote:
+> On 26/03/2024 10:18, Nikita Shubin via B4 Relay wrote:
+> > The goal is to recieve ACKs for all patches in series to merge it via Arnd branch.
+> > 
+> > Some changes since last version (v8):
+> > 
+> > - Most important, fixed bug in Device Tree resulting in CS4271 not working by Alexander Sverdlin.
+> > - added #interrupt-cells to gpio nodes with interrupts-controller
+> > - fixed some EOF in dtsi files
+> > - fixed identation and type in ep93xx-keypad thanks to Andy Shevchenko
+> > 
+> > Stephen Boyd, Vinod Koul PLEASE! give some comments on following, couse i hadn't one for a couple of iterations already:
+> > 
+> > Following patches require attention from Stephen Boyd, as they were converted to aux_dev as suggested:
+> > 
+> > - ARM: ep93xx: add regmap aux_dev
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> > 
+> > Following patches require attention from Vinod Koul:
+> > 
+> > - dma: cirrus: Convert to DT for Cirrus EP93xx
+> > - dma: cirrus: remove platform code
+> 
+> A lot of this could have been already merged if you split it... Just
+> saying...
 
-On Tue, Mar 26, 2024 at 1:58=E2=80=AFAM =C5=81ukasz Majczak <lma@chromium.o=
-rg> wrote:
->
-> > nit: checkpatch should have yelled at you saying that you should
-> > specify a commit in the format:
-> >
-> > commit b3a81b6c4fc6 ("HID: i2c-hid: check if device is there before
-> > really probing")
-> >
-> I will do it, but I did run the checkpatch (with --strict option) and
-> it didn't complain about anything.
+But you able to apply DT schema patches if you wish.
+Just doing? :-)
 
-Weird that checkpatch didn't yell, but perhaps somehow your commit
-message didn't trigger its regex. ;-)
-
-
-
-> > nit: I believe your sign off should be last. It's also unclear why two
-> > signoffs. Did Radoslaw author it and you changed it? ...or was it
-> > Co-Developed-by, or ...? You'll probably need to adjust your tags a
-> > bit depending on the answers.
-> >
-> Yes, we've discussed this patch together and the original
-> investigation was done by Rad.
-
-Sounds good. Probably the best way to tag is these tags in this order:
-
-Co-developed-by: Radoslaw Biernacki <rad@chromium.org>
-Signed-off-by: Radoslaw Biernacki <rad@chromium.org>
-Signed-off-by: Lukasz Majczak <lma@chromium.org>
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-> > Having both ends of the usleep be 400 is iffy. In this case it's at
-> > probe time so I wonder if udelay() is better? If not, maybe give at
-> > least _some_ margin?
-> >
-> >
-> > > +       } while (tries-- > 0 && ret < 0);
-> >
-> According to Documentation/timers/timers-howto.rst:
-> " SLEEPING FOR ~USECS OR SMALL MSECS ( 10us - 20ms):
->                 * Use usleep_range"
-> It was also pointed out by checkpath (when I initially used msleep).
-> I think giving some margin (eg. 400,500) would be ok.
-
-Yeah, usleep_range(400, 500) would be fine. udelay(400) would also be
-OK. The later would be more "accurate" but also more wasteful of CPU
-cycles. Given that this is at probe time and only run a small handful
-of times, it probably doesn't matter lots though perhaps the sleeping
-function would allow more parallelism of other running probes.
-
-
--Doug
 
