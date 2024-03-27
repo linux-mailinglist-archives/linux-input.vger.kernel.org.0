@@ -1,186 +1,170 @@
-Return-Path: <linux-input+bounces-2593-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2594-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7483C88E6D7
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 15:44:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39EE588E84F
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 16:17:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15B791F2EBDB
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 14:44:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC38B29FFB2
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 15:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0FC5157E9E;
-	Wed, 27 Mar 2024 13:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="df/7DgX4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06D7713E419;
+	Wed, 27 Mar 2024 14:52:22 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C6013BC3A
-	for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 13:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3901313E401
+	for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 14:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711546334; cv=none; b=hvs0vpRkodXk7f9G2MZBDBXcl4cs+nwM/ftsExvQj4kil7+HlumBgn8uZP7dZnWaT5cOwWnJsDn9XjRCugEX2jc/CtntGcj88SF/gh0i743D6GL/vK0kbZCe0HWirkAF1il7cM829KLBZb6tBomEHUEGcOLN/ZuGGBIYvM9jxyo=
+	t=1711551141; cv=none; b=WJU8oBZn2eGuDOGWHWAtg5Zy2sufYxNGSS5m3TeAWkdtKZsW1vPgyNW1C7PeAd/59BiiFF3jjd9yVvKP63/7LPDHIqmbdDqVnU8aTgsNiMTGYsG7sTBI7H9vwGQJzf9ZI4W3YM60fXgOFfYfgG1E87ecgR8u2LYiu1ZXD3VIDmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711546334; c=relaxed/simple;
-	bh=K0UVZINUhSSLxdNU4wwBE/T+FEz46ODAQKkZL3ADYrU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ut9r2z1nYAbCC8p36AAwf8QgtJ2xomZU53Ci9werKmx2TzAE192fk2wrAo1+PwPF0Vhv/djNbCR/gqaLOMrXwy452vbCqJkl6fd3llOVGOy/kaJEOfiSadK+S6gUdv+c47ngkNmVgJsSartDASfQW7g5pXvzfckSKcnvTxhO3/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=df/7DgX4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711546331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jD3Utmle+bis7mmdPw9AquqAmC1o8mQyHmUQiw/WEzk=;
-	b=df/7DgX4aTiAuA+JAj2tG6lVWAV68slnmgNzVKrmQG6jhUh5Mx53DO1djxuzUqoIoJpRdZ
-	DVmQJYFXTw/OSV//gs0x/8prhF6ZiHRlt3C6ylvTQRvk+SEmlP8UhagE6HY5f5PDqyBj04
-	DKQLnAFR3HLLDoNeoNE6D0kI3MuMWrk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-434-ugYl10N3OmupQprXlUYryg-1; Wed, 27 Mar 2024 09:32:10 -0400
-X-MC-Unique: ugYl10N3OmupQprXlUYryg-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a45acc7f07cso375502966b.2
-        for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 06:32:10 -0700 (PDT)
+	s=arc-20240116; t=1711551141; c=relaxed/simple;
+	bh=yMK9CUyK2auY2sjJAyE//x0rIqad7kjdbCI1ABfVnmo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ohW/M1cuN0dcPJB9nl33zSST6U0P3gQ8PQgBGAXswIKnHsb4wVLKSpeKIeasBffACG7YKWvYUMUl9OxsZWdxz6/OLVn1EW1eGFXZxyM0UvQczkgp2v2/4isSRtJy0zswh28qdb0BQql/62kxJqB6iAlGvNTMZ08ASRpLBOtd7FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-366a7e3099bso66084745ab.0
+        for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 07:52:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711546329; x=1712151129;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jD3Utmle+bis7mmdPw9AquqAmC1o8mQyHmUQiw/WEzk=;
-        b=fbVb14ZJK/XTduJrjbCl9E4zgG0VxQ/vEESN4ydpK2ACtxM3oYCLMm2+OlfA/T48o6
-         sUUcyeJj0F4qGvafeTmkCxc5kNgt8hSfG+dtAE+vDWzkdxnJKXjn9c8RMS9IOAS/oTy3
-         d8DZjR4Q43Qu71VX6fPAUBDCkuEGmVONgcy3Mk/OUXVJ73/OI2D8BQQoLbz+hhinhtK6
-         VvaThbNzrN7xdy+VSz8H9gZFIWYdOs148C5vBZ3QIC0UT4NTrO7FIAAa8Mx3jh5C+C7z
-         lTclzFu4NRPqN6uHDKdDGmWt1uHA4tpwSns2kMfGYn7ZYlqToqooIYaXXEcmVFe28q4H
-         LEnA==
-X-Forwarded-Encrypted: i=1; AJvYcCVDeUlyOYpKBIPaqO/6Mukt4soMcLL0lRS7cXgvN0kGSfIAbbrQoYzkNkS0sAmvbG8dJGiUJ52uoVjYZsY6/yFzQEKfaUa8kWOoBrw=
-X-Gm-Message-State: AOJu0Yzbc3YBBcjYAVWrimQoJvY+QpRNyC0J89QsFN6nqtDDFr2Nz4qp
-	Ml8r93XrALlORqFtOZ4DQ385LkRwhutjrSwNkwwkaxc1Mg2q0W2uOHw5F9R1w76ZbX8WpJah+5/
-	om9s7ZihSpv0fxopgtLrhQW2G/MnS3UYvsyCK1hz2dIpXP1glybkwFGd/lv0V
-X-Received: by 2002:a17:907:7206:b0:a4d:fe2f:a70b with SMTP id dr6-20020a170907720600b00a4dfe2fa70bmr2448985ejc.41.1711546329067;
-        Wed, 27 Mar 2024 06:32:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGdhqFLAf1gKN0Y/NZQvk+kIH5rUrJ00j88K5l/PrX7PEX8pYP+EIH8Lg2tXiyjUb+BEqFQQ==
-X-Received: by 2002:a17:907:7206:b0:a4d:fe2f:a70b with SMTP id dr6-20020a170907720600b00a4dfe2fa70bmr2448827ejc.41.1711546326567;
-        Wed, 27 Mar 2024 06:32:06 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id q2-20020a1709060e4200b00a4674ad8ab9sm5383406eji.211.2024.03.27.06.32.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 06:32:06 -0700 (PDT)
-Message-ID: <cbd6cf18-cdfe-409f-82f0-de46d2fe08ca@redhat.com>
-Date: Wed, 27 Mar 2024 14:32:05 +0100
+        d=1e100.net; s=20230601; t=1711551139; x=1712155939;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0xIjabR/1C/PkXnxQ3D13ioZWEvzCJ2+Fo9chdl0auo=;
+        b=D9Oplr4sV0rrpTlW6Z2L8uywo71tZcL+uHp0n8Zkzg5zYBuycz1QBnDn/D9dqF5PT2
+         mcsL5hFpEEcLPTkY+nX1F1UvyP5tC/vv7mYm1pgFlDi68MncqOb6LmbT73BbvU7ITktG
+         giMiq7QpJjklgT7mdZw2lITYj04WpueeQxV8OmMh9jS2rIIYvzX8meM2/z4cbzQNY6Wx
+         JiZzTAQL0D0lH+g7W/KGktAoikrcVl6u8PyaXgsyVslb9bpzEGrQCcJE8f/UOalxKw2I
+         9dMKVTflCEvk5eX8OCL8jpd6luiAG9BsnZM8gw/So1crVahRju/f+nYZDF5oCG8C220F
+         MAaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyUD5e3cG9eKxYxuM3itOhqeJpOgfiQ6XKIObx6obrqmXgfsXVklCfKEJgHxGKG0/iHQtT5OHfflWO0fPITTvX2XOrjh8XmHwTSRc=
+X-Gm-Message-State: AOJu0YysvBijTDjMgrDJKEslo2usgQLnPmYxTF+vXCQzTXHR1uZ4EZLU
+	fOpYgYoFOZ2RV8cIADtJXI11KdT/0mfn/Xim3ox+XJ+kk9iYkXZ9DN1USdC2liKVldljRgbk9cq
+	ITptlFw0g3X7scJ8gja6caNYq6Inw1VPAUjCLRMV5o/VAi1m2halDQLw=
+X-Google-Smtp-Source: AGHT+IGu6Fv+cgPe6xcSmQZWC2dGAYYjbjmJT8iSzuYALQqzKMM43yvJQWzPT2IzCWDH+Yl/C4WVxGBs+B17o9wD2zSgNPrU+X7M
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] ACPI: store owner from modules with
- acpi_bus_register_driver()
-Content-Language: en-US, nl
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>, "Luke D. Jones"
- <luke@ljones.dev>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,
- Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>,
- Daniel Oliveira Nascimento <don@syst.com.br>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Matan Ziv-Av <matan@svgalib.org>,
- Mattia Dongili <malattia@linux.it>, Azael Avalos <coproscefalo@gmail.com>,
- Richard Cochran <richardcochran@gmail.com>, Jeff Sipek <jsipek@vmware.com>,
- Ajay Kaher <akaher@vmware.com>, Alexey Makhalov <amakhalov@vmware.com>,
- VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
- Theodore Ts'o <tytso@mit.edu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-input@vger.kernel.org,
- netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
- platform-driver-x86@vger.kernel.org
-References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
- <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0hEiKJJWn-TVoyL6DEbCcMpL39_q+HLG_YZyjf9g29CXA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1d94:b0:368:7d6b:a7cd with SMTP id
+ h20-20020a056e021d9400b003687d6ba7cdmr2646ila.3.1711551139427; Wed, 27 Mar
+ 2024 07:52:19 -0700 (PDT)
+Date: Wed, 27 Mar 2024 07:52:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ae4aa90614a58d7b@google.com>
+Subject: [syzbot] [input?] WARNING in cm109_input_open/usb_submit_urb (3)
+From: syzbot <syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello,
 
-<sorry for the empty previous reply, my bad>
+syzbot found the following issue on:
 
-On 3/27/24 2:16 PM, Rafael J. Wysocki wrote:
-> On Wed, Mar 27, 2024 at 8:44 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> Merging
->> =======
->> All further patches depend on the first amba patch, therefore please ack
->> and this should go via one tree: ACPI?
->>
->> Description
->> ===========
->> Modules registering driver with acpi_bus_register_driver() often forget to
->> set .owner field.
->>
->> Solve the problem by moving this task away from the drivers to the core
->> amba bus code, just like we did for platform_driver in commit
->> 9447057eaff8 ("platform_device: use a macro instead of
->> platform_driver_register").
->>
->> Best regards,
->> Krzysztof
->>
->> ---
->> Krzysztof Kozlowski (19):
->>       ACPI: store owner from modules with acpi_bus_register_driver()
->>       Input: atlas: - drop owner assignment
->>       net: fjes: drop owner assignment
->>       platform: chrome: drop owner assignment
->>       platform: asus-laptop: drop owner assignment
->>       platform: classmate-laptop: drop owner assignment
->>       platform/x86/dell: drop owner assignment
->>       platform/x86/eeepc: drop owner assignment
->>       platform/x86/intel/rst: drop owner assignment
->>       platform/x86/intel/smartconnect: drop owner assignment
->>       platform/x86/lg-laptop: drop owner assignment
->>       platform/x86/sony-laptop: drop owner assignment
->>       platform/x86/toshiba_acpi: drop owner assignment
->>       platform/x86/toshiba_bluetooth: drop owner assignment
->>       platform/x86/toshiba_haps: drop owner assignment
->>       platform/x86/wireless-hotkey: drop owner assignment
->>       ptp: vmw: drop owner assignment
->>       virt: vmgenid: drop owner assignment
->>       ACPI: drop redundant owner from acpi_driver
-> 
-> I definitely like this, so
-> 
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> for the series and I can pick it up if people agree.
+HEAD commit:    fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14136479180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=fe78468a74fdc3b7
+dashboard link: https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
-Thanks all the drivers/platform/x86/* change look good
-to me:
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0f7abe4afac7/disk-fe46a7dd.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/82598d09246c/vmlinux-fe46a7dd.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/efa23788c875/bzImage-fe46a7dd.xz
 
-And I'm fine with merging these through the linux-pm /
-ACPI tree.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com
 
-Regards,
-
-Hans
+input: CM109 USB driver as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.8/input/input8
+------------[ cut here ]------------
+URB ffff8880285c2100 submitted while active
+WARNING: CPU: 1 PID: 5112 at drivers/usb/core/urb.c:379 usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
+Modules linked in:
+CPU: 1 PID: 5112 Comm: kworker/1:3 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
+Code: 00 eb 66 e8 b9 b2 86 fa e9 79 f0 ff ff e8 af b2 86 fa c6 05 1e 90 63 08 01 90 48 c7 c7 c0 96 4b 8c 4c 89 ee e8 c8 86 49 fa 90 <0f> 0b 90 90 e9 40 f0 ff ff e8 89 b2 86 fa eb 12 e8 82 b2 86 fa 41
+RSP: 0018:ffffc90004a0eb48 EFLAGS: 00010246
+RAX: e879a53475439e00 RBX: 0000000000000cc0 RCX: 0000000000040000
+RDX: ffffc900134bb000 RSI: 000000000003ffff RDI: 0000000000040000
+RBP: ffff8880285c2108 R08: ffffffff8157cc12 R09: 1ffff110172a51a2
+R10: dffffc0000000000 R11: ffffed10172a51a3 R12: 1ffff11005a65a0a
+R13: ffff8880285c2100 R14: dffffc0000000000 R15: ffff88802d32d010
+FS:  0000000000000000(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020002024 CR3: 0000000068c66000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ cm109_input_open+0x1f9/0x470 drivers/input/misc/cm109.c:572
+ input_open_device+0x193/0x2e0 drivers/input/input.c:654
+ kbd_connect+0xe9/0x130 drivers/tty/vt/keyboard.c:1593
+ input_attach_handler drivers/input/input.c:1064 [inline]
+ input_register_device+0xcfc/0x1090 drivers/input/input.c:2396
+ cm109_usb_probe+0x10cd/0x1600 drivers/input/misc/cm109.c:806
+ usb_probe_interface+0x5cd/0xb00 drivers/usb/core/driver.c:399
+ really_probe+0x2a0/0xc50 drivers/base/dd.c:658
+ __driver_probe_device+0x1a2/0x3e0 drivers/base/dd.c:800
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
+ bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
+ __device_attach+0x333/0x520 drivers/base/dd.c:1030
+ bus_probe_device+0x189/0x260 drivers/base/bus.c:532
+ device_add+0x8ff/0xca0 drivers/base/core.c:3639
+ usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2207
+ usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
+ usb_probe_device+0x140/0x2d0 drivers/usb/core/driver.c:294
+ really_probe+0x2a0/0xc50 drivers/base/dd.c:658
+ __driver_probe_device+0x1a2/0x3e0 drivers/base/dd.c:800
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
+ bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
+ __device_attach+0x333/0x520 drivers/base/dd.c:1030
+ bus_probe_device+0x189/0x260 drivers/base/bus.c:532
+ device_add+0x8ff/0xca0 drivers/base/core.c:3639
+ usb_new_device+0x104a/0x19a0 drivers/usb/core/hub.c:2614
+ hub_port_connect drivers/usb/core/hub.c:5483 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5623 [inline]
+ port_event drivers/usb/core/hub.c:5783 [inline]
+ hub_event+0x2d13/0x50f0 drivers/usb/core/hub.c:5865
+ process_one_work kernel/workqueue.c:3254 [inline]
+ process_scheduled_works+0xa02/0x1770 kernel/workqueue.c:3335
+ worker_thread+0x86d/0xd70 kernel/workqueue.c:3416
+ kthread+0x2f2/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4d/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
