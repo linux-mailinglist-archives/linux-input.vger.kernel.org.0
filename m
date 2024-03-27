@@ -1,91 +1,85 @@
-Return-Path: <linux-input+bounces-2561-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2562-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6102588D2CD
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 00:25:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA9588D376
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 01:47:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 014D01F3D468
-	for <lists+linux-input@lfdr.de>; Tue, 26 Mar 2024 23:25:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD0331F391C8
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 00:47:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 195CC13DDC9;
-	Tue, 26 Mar 2024 23:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCA54A32;
+	Wed, 27 Mar 2024 00:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UezsQDLg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446F36FE35;
-	Tue, 26 Mar 2024 23:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB0F4FB;
+	Wed, 27 Mar 2024 00:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711495506; cv=none; b=YeuqNi3GEhDPOhm+AChSllaqMckK7D9p+LOxSrCSsBm+Y0giMHL6z6M9gVzh/3+vSTV+2MuNlgE+jWHlFNAzuYjBSZQSRKEHky9imbZrjVKAc027GddxOfTl87XBtdiGCrJ9ajohiyHxZy+BQAfH+QmKDwm6dV0b7Mr2Rj5hav0=
+	t=1711500436; cv=none; b=KZrMYUuRTTOGVHvltL6k9USnDR2VF6bsvtlddvVpTOwuZa3qzVwgG07wV/s+U8QDgqrC8Ms/ZkmBEuO1sotpYmRu7aLa/qLY0m9jcwikM+INqT33eL2gziymfy4J6xp/A5RRzE9dFOpUbXZ30uM76hrQ8MZgf8gFXE+OI5URSyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711495506; c=relaxed/simple;
-	bh=/TwaUWPtbcr32wiCp9VhBHSukSNUm57OfrofMtXGVGY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=clqgqDdf6qk8KZtm9C8T5e0IwxsRrMtRsIp59Y42dqqVoyjDFk8Ia0R5v+8D4JUtoS7xm5bh6skgsUzuihoAah5zXlnnFkP5MZk6dLm9UIUwWzyyp/PQXF819fXS56Er7F4UpSPC55W2SV2VgOBGgEhieLyPQXpiWg3JD/QWNls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6C022F4;
-	Tue, 26 Mar 2024 16:25:35 -0700 (PDT)
-Received: from [10.57.81.167] (unknown [10.57.81.167])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B73133F694;
-	Tue, 26 Mar 2024 16:24:58 -0700 (PDT)
-Message-ID: <3f61d6d3-a0d6-4c49-b094-6ba62d09ab14@arm.com>
-Date: Tue, 26 Mar 2024 23:24:56 +0000
+	s=arc-20240116; t=1711500436; c=relaxed/simple;
+	bh=2q5crH4HwBtEVMAdw9c1ugeNy2Oyqk30hp+EirVO3q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hkWMNTzbZfTgA/IEK/JK4+B3v+mSz4F4UIfx8jWMKdsdXRYM468WolThpJmZcjldQiYiJ6V404RZu7IVIxEvecn6uZ5hlm61RPXIxMnleGnLxuMfGp/TnnNoplqsZH1bymKTDlsOWOugTIC/5Ldq1Xneczg6q9NQGyW050/URjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UezsQDLg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7EB0C433C7;
+	Wed, 27 Mar 2024 00:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711500435;
+	bh=2q5crH4HwBtEVMAdw9c1ugeNy2Oyqk30hp+EirVO3q0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UezsQDLgF9nL66A4jsvBTDD2EOr0eqDdVGhmNGprFvTwmA1eJHgPOWS9WJ7ECimcd
+	 RDE0aan9K8Zg8d9M25lbWh96ZCpZ7y0mP+R19goxTSdH2JUd8JcPPdRW83X8rI6QM8
+	 MJUThd//pIxYMao207aSg2QzHNfqWYJLPbB+dCwBN2EVPijRRPNUhHocfcqdZVwTSk
+	 P3meIA4B8q4n+12qJIk0cKVZsdNFWx3sQ+EkouWPRC+ZdDc/jHiwushF/bhTIdgyqo
+	 iwYU8SW6CRg3wKHM6DqpqtfSkZUOfF7qjVM0qmdXWxlmO2PGuFkWXuQEEE+muZ3xGT
+	 sSHlZk7LNCyaw==
+Date: Tue, 26 Mar 2024 17:47:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Claudiu Manoil <claudiu.manoil@nxp.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Ariel Elior
+ <aelior@marvell.com>, Manish Chopra <manishc@marvell.com>, Hans de Goede
+ <hdegoede@redhat.com>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
+ <ilpo.jarvinen@linux.intel.com>, Maximilian Luz <luzmaximilian@gmail.com>,
+ Hannes Reinecke <hare@kernel.org>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Helge Deller <deller@gmx.de>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Johannes Berg <johannes@sipsolutions.net>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
+Message-ID: <20240326174713.49f3a9ce@kernel.org>
+In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
+References: <20240326223825.4084412-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] amba: store owner from modules with
- amba_driver_register()
-Content-Language: en-GB
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Russell King <linux@armlinux.org.uk>, Mike Leach <mike.leach@linaro.org>,
- James Clark <james.clark@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
- <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
-Cc: linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
- linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-input@vger.kernel.org, kvm@vger.kernel.org
-References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof
+On Tue, 26 Mar 2024 23:37:59 +0100 Arnd Bergmann wrote:
+> I hope that the patches can get picked up by platform maintainers
+> directly, so the final patch can go in later on.
 
-On 26/03/2024 20:23, Krzysztof Kozlowski wrote:
-> Merging
-> =======
-> All further patches depend on the first amba patch, therefore please ack
-> and this should go via one tree.
-
-Are you able to provide a stable branch with these patches once you pull
-them in to "one tree" here ? We have changes coming up in the coresight
-tree, which would conflict with the changes here (horribly).
-
-FWIW,
-
-For patches 1 to 13 :
-
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
-Suzuki
+platform == subsystem? :)
 
