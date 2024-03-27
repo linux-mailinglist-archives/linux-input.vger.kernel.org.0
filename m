@@ -1,170 +1,206 @@
-Return-Path: <linux-input+bounces-2594-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2595-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EE588E84F
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 16:17:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E64288EB84
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 17:44:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC38B29FFB2
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 15:17:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31C5D1C2FCDE
+	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 16:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06D7713E419;
-	Wed, 27 Mar 2024 14:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E984214C5B7;
+	Wed, 27 Mar 2024 16:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFNTiJF3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3901313E401
-	for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 14:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5C129E81;
+	Wed, 27 Mar 2024 16:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711551141; cv=none; b=WJU8oBZn2eGuDOGWHWAtg5Zy2sufYxNGSS5m3TeAWkdtKZsW1vPgyNW1C7PeAd/59BiiFF3jjd9yVvKP63/7LPDHIqmbdDqVnU8aTgsNiMTGYsG7sTBI7H9vwGQJzf9ZI4W3YM60fXgOFfYfgG1E87ecgR8u2LYiu1ZXD3VIDmQ=
+	t=1711557854; cv=none; b=D0oe70bxOL8wZ45zMfQRj6fqqrzy39DEXCi8nycM6FaSNazmfGfjUL1HqZp6VLBujYZcXto61denakukYjbWixDtkhojF7P7zKsQqvsSpcB7E3CxWSHz+2DS+qpTTuNw/Cxz9Ep+zHowuRgjj+aM6B46p1YuWqpetc//SkU78e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711551141; c=relaxed/simple;
-	bh=yMK9CUyK2auY2sjJAyE//x0rIqad7kjdbCI1ABfVnmo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ohW/M1cuN0dcPJB9nl33zSST6U0P3gQ8PQgBGAXswIKnHsb4wVLKSpeKIeasBffACG7YKWvYUMUl9OxsZWdxz6/OLVn1EW1eGFXZxyM0UvQczkgp2v2/4isSRtJy0zswh28qdb0BQql/62kxJqB6iAlGvNTMZ08ASRpLBOtd7FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-366a7e3099bso66084745ab.0
-        for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 07:52:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711551139; x=1712155939;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0xIjabR/1C/PkXnxQ3D13ioZWEvzCJ2+Fo9chdl0auo=;
-        b=D9Oplr4sV0rrpTlW6Z2L8uywo71tZcL+uHp0n8Zkzg5zYBuycz1QBnDn/D9dqF5PT2
-         mcsL5hFpEEcLPTkY+nX1F1UvyP5tC/vv7mYm1pgFlDi68MncqOb6LmbT73BbvU7ITktG
-         giMiq7QpJjklgT7mdZw2lITYj04WpueeQxV8OmMh9jS2rIIYvzX8meM2/z4cbzQNY6Wx
-         JiZzTAQL0D0lH+g7W/KGktAoikrcVl6u8PyaXgsyVslb9bpzEGrQCcJE8f/UOalxKw2I
-         9dMKVTflCEvk5eX8OCL8jpd6luiAG9BsnZM8gw/So1crVahRju/f+nYZDF5oCG8C220F
-         MAaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVyUD5e3cG9eKxYxuM3itOhqeJpOgfiQ6XKIObx6obrqmXgfsXVklCfKEJgHxGKG0/iHQtT5OHfflWO0fPITTvX2XOrjh8XmHwTSRc=
-X-Gm-Message-State: AOJu0YysvBijTDjMgrDJKEslo2usgQLnPmYxTF+vXCQzTXHR1uZ4EZLU
-	fOpYgYoFOZ2RV8cIADtJXI11KdT/0mfn/Xim3ox+XJ+kk9iYkXZ9DN1USdC2liKVldljRgbk9cq
-	ITptlFw0g3X7scJ8gja6caNYq6Inw1VPAUjCLRMV5o/VAi1m2halDQLw=
-X-Google-Smtp-Source: AGHT+IGu6Fv+cgPe6xcSmQZWC2dGAYYjbjmJT8iSzuYALQqzKMM43yvJQWzPT2IzCWDH+Yl/C4WVxGBs+B17o9wD2zSgNPrU+X7M
+	s=arc-20240116; t=1711557854; c=relaxed/simple;
+	bh=aoYiCiiyO7pYp6VIX/CA0s5MidL4feGTZlAq/pcvSIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljtC4g1Wh5V5GsoQ7gQdGc49wzqyx5jN0vx4tYAeO8FArfa4+Oelx89gPFbbZX8lX4auiA5UNljXby4mAAX+GUf7l5zQ0pLHr6h5FJU+EeC43R10u0XgajoiHfsXRaYYUGL+tEwi1WclnAjx7ugt9kq+/1uDRpqN4pMTd+QekYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFNTiJF3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A16BC433C7;
+	Wed, 27 Mar 2024 16:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711557854;
+	bh=aoYiCiiyO7pYp6VIX/CA0s5MidL4feGTZlAq/pcvSIg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FFNTiJF39ypF6G0eCQJv0fNbLW3OIQR1cngkruQBkaa5AyuLTgJvpwpFLpbdlmqVg
+	 3OsYiO2XR/JvPBQcOtxOti2uQhQ6YdCVj9gpUpLz2M/jRJvYlVWmwWBUOKVT2TDr46
+	 6j8zP3X/+3aIHk+0c7JOZFfK+JLJUfoH6v4P9G5nVHIP+GhRIrjHj+kzMRknqPCTX4
+	 lnKgLuS2KiLW7A4C94JV0BkygvyQ+FT1lf1wLv9UTDlzTiRuWOHXQaFzHz/2nAcUbO
+	 1DlxWjlb7GTzQ+OlFRK3zHgCIhrh7ZCgwTOXyb66k+hGJg/WrLBJjSGSsd7xYooqS+
+	 0YXm++JeV5lQA==
+Date: Wed, 27 Mar 2024 16:44:09 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Allen Lin <allencl_lin@hotmail.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>, dmitry.torokhov@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jikos@kernel.org, benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
+Message-ID: <20240327-pegboard-deodorize-17d8b0f1e31c@spud>
+References: <20240322085606.993896-1-allencl_lin@hotmail.com>
+ <TY0PR06MB56116F0902017225C78EDDDD9E312@TY0PR06MB5611.apcprd06.prod.outlook.com>
+ <20240322-mammary-boil-f9a4c347fba1@spud>
+ <20240322183009.GA1227164-robh@kernel.org>
+ <20240322-rectified-udder-fef9102f58da@spud>
+ <TY0PR06MB56110ADEA805B68BE2B887069E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
+ <20240326-whoever-spotter-1fe7ace35428@wendy>
+ <TY0PR06MB561197578717990F4BEA93D29E352@TY0PR06MB5611.apcprd06.prod.outlook.com>
+ <20240326-granite-snipping-7c8b04480b2e@spud>
+ <TY0PR06MB5611AE812B72B349E85118D59E342@TY0PR06MB5611.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d94:b0:368:7d6b:a7cd with SMTP id
- h20-20020a056e021d9400b003687d6ba7cdmr2646ila.3.1711551139427; Wed, 27 Mar
- 2024 07:52:19 -0700 (PDT)
-Date: Wed, 27 Mar 2024 07:52:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ae4aa90614a58d7b@google.com>
-Subject: [syzbot] [input?] WARNING in cm109_input_open/usb_submit_urb (3)
-From: syzbot <syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14136479180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fe78468a74fdc3b7
-dashboard link: https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0f7abe4afac7/disk-fe46a7dd.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/82598d09246c/vmlinux-fe46a7dd.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/efa23788c875/bzImage-fe46a7dd.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com
-
-input: CM109 USB driver as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.8/input/input8
-------------[ cut here ]------------
-URB ffff8880285c2100 submitted while active
-WARNING: CPU: 1 PID: 5112 at drivers/usb/core/urb.c:379 usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
-Modules linked in:
-CPU: 1 PID: 5112 Comm: kworker/1:3 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
-Code: 00 eb 66 e8 b9 b2 86 fa e9 79 f0 ff ff e8 af b2 86 fa c6 05 1e 90 63 08 01 90 48 c7 c7 c0 96 4b 8c 4c 89 ee e8 c8 86 49 fa 90 <0f> 0b 90 90 e9 40 f0 ff ff e8 89 b2 86 fa eb 12 e8 82 b2 86 fa 41
-RSP: 0018:ffffc90004a0eb48 EFLAGS: 00010246
-RAX: e879a53475439e00 RBX: 0000000000000cc0 RCX: 0000000000040000
-RDX: ffffc900134bb000 RSI: 000000000003ffff RDI: 0000000000040000
-RBP: ffff8880285c2108 R08: ffffffff8157cc12 R09: 1ffff110172a51a2
-R10: dffffc0000000000 R11: ffffed10172a51a3 R12: 1ffff11005a65a0a
-R13: ffff8880285c2100 R14: dffffc0000000000 R15: ffff88802d32d010
-FS:  0000000000000000(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020002024 CR3: 0000000068c66000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- cm109_input_open+0x1f9/0x470 drivers/input/misc/cm109.c:572
- input_open_device+0x193/0x2e0 drivers/input/input.c:654
- kbd_connect+0xe9/0x130 drivers/tty/vt/keyboard.c:1593
- input_attach_handler drivers/input/input.c:1064 [inline]
- input_register_device+0xcfc/0x1090 drivers/input/input.c:2396
- cm109_usb_probe+0x10cd/0x1600 drivers/input/misc/cm109.c:806
- usb_probe_interface+0x5cd/0xb00 drivers/usb/core/driver.c:399
- really_probe+0x2a0/0xc50 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x3e0 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x8ff/0xca0 drivers/base/core.c:3639
- usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2207
- usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
- usb_probe_device+0x140/0x2d0 drivers/usb/core/driver.c:294
- really_probe+0x2a0/0xc50 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x3e0 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x8ff/0xca0 drivers/base/core.c:3639
- usb_new_device+0x104a/0x19a0 drivers/usb/core/hub.c:2614
- hub_port_connect drivers/usb/core/hub.c:5483 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5623 [inline]
- port_event drivers/usb/core/hub.c:5783 [inline]
- hub_event+0x2d13/0x50f0 drivers/usb/core/hub.c:5865
- process_one_work kernel/workqueue.c:3254 [inline]
- process_scheduled_works+0xa02/0x1770 kernel/workqueue.c:3335
- worker_thread+0x86d/0xd70 kernel/workqueue.c:3416
- kthread+0x2f2/0x390 kernel/kthread.c:388
- ret_from_fork+0x4d/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
- </TASK>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="a19IJaOe3GEmU3EZ"
+Content-Disposition: inline
+In-Reply-To: <TY0PR06MB5611AE812B72B349E85118D59E342@TY0PR06MB5611.apcprd06.prod.outlook.com>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--a19IJaOe3GEmU3EZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+On Wed, Mar 27, 2024 at 03:48:48PM +0800, Allen Lin wrote:
+> Conor Dooley <conor@kernel.org> =E6=96=BC 2024=E5=B9=B43=E6=9C=8827=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=883:28=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Tue, Mar 26, 2024 at 06:40:28PM +0800, Allen Lin wrote:
+> > > Conor Dooley <conor.dooley@microchip.com> =E6=96=BC 2024=E5=B9=B43=E6=
+=9C=8826=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=884:48=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> > > >
+> > > > On Tue, Mar 26, 2024 at 01:46:56PM +0800, Allen Lin wrote:
+> > > > > Conor Dooley <conor@kernel.org> =E6=96=BC 2024=E5=B9=B43=E6=9C=88=
+23=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:34=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > > > > >
+> > > > > > On Fri, Mar 22, 2024 at 01:30:09PM -0500, Rob Herring wrote:
+> > > > > > > On Fri, Mar 22, 2024 at 05:54:08PM +0000, Conor Dooley wrote:
+> > > > > > > > On Fri, Mar 22, 2024 at 04:56:03PM +0800, Allen_Lin wrote:
+> > > > > > > > > Add the HX83102j touchscreen device tree bindings documen=
+ts.
+> > > > > > > > > HX83102j is a Himax TDDI touchscreen controller.
+> > > > > > > > > It's power sequence should be bound with a lcm driver, th=
+us it
+> > > > > > > > > needs to be a panel follower. Others are the same as norm=
+al SPI
+> > > > > > > > > touchscreen controller.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+> > > > > > > >
+> > > > > > > > note to self/Krzysztof/Rob:
+> > > > > > > > There was a previous attempt at this kind of device. This v=
+ersion looks
+> > > > > > > > better but might be incomplete given there's a bunch more p=
+roperties in
+> > > > > > > > that patchset:
+> > > > > > > > https://lore.kernel.org/all/20231017091900.801989-1-tylor_y=
+ang@himax.corp-partner.google.com/
+> > > > > > >
+> > > > > > > Those don't look like properties we want coming back.
+> > > > > >
+> > > > > > Oh, I don't want most of them coming back either. There are some
+> > > > > > supplies in there though that I think we would like to come bac=
+k, no?
+> > > > > > Maybe this particular device doesn't have any supplies, but tha=
+t doesn't
+> > > > > > really seem credible.
+> > > > >
+> > > > > We will use Firmware-name in Device Tree.
+> > > >
+> > > > > For power supply settings, because there may be other device using
+> > > > > same regulator.
+> > > >
+> > > > If there are other devices using the same regulator is it more
+> > > > important that you document it so that it doesn't get disabled by t=
+he
+> > > > other users.
+> > > >
+> > > > > We plan to define it as an optional property for user to control =
+in
+> > > > > next release.
+> > > >
+> > > > I don't see how the regulator would not be required, the device doe=
+sn't
+> > > > function without power.
+> > > >
+> > > > Thanks,
+> > > > Conor.
+> > >
+> > > I will set power supply as required.
+> > > The description of power supply as below,
+> > >
+> > > properties:
+> > >   vccd-supply:
+> > >     description: A phandle for the regualtor supplying IO power. Shou=
+ld be own
+> > >                  by TPIC only.
+> >
+> > What does "owned by TPIC" only mean? Why would the vccd supply not be
+> > allowed to be shared with another device?
+> >
+> > > This works for TP digital IO only, main power is
+> > >                  given by display part VSP/VSN power source which is =
+controlled
+> > >                  by lcm driver.
+> >
+> > What drivers control things doesn't really matter here, we're just
+> > describing the hardware. If there's another supply to the controller,
+> > then document it too please.
+> >
+>=20
+> Below is IC power sequence introduction.
+> https://github.com/HimaxSoftware/Doc/tree/main/Himax_Chipset_Power_Sequen=
+ce
+>=20
+> TDDI IC, which means Touch and Display Driver is integrated in one IC,
+> So some power supplies will be controlled by Display driver.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+If someone was to turn off the supplies, would the touch component stop
+working? The document says that these supplies must be turned on before
+the touch supplies, so I'm going to assume that both are needed for the
+device to function.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+> In yaml Document, can we just list power supplies controlled by touch dri=
+ver?
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+If the touch part of this device needs the supplies to function, then
+you need to mention them, regardless of where they're controlled. All we
+are doing in the binding is describing the hardware. What drivers do
+what depends entirely on what software you're using.
 
-If you want to undo deduplication, reply with:
-#syz undup
+Cheers,
+Conor.
+
+--a19IJaOe3GEmU3EZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgRM2QAKCRB4tDGHoIJi
+0nq7AQCYmwFi2EIOEwCAHpoLu9PYbV0yhaT7bz5+hHXX3eYJwQEAkY26RWGc0cMH
+XVcM/4tDqLDjGw7jxjUht+B54PxVlQM=
+=4y83
+-----END PGP SIGNATURE-----
+
+--a19IJaOe3GEmU3EZ--
 
