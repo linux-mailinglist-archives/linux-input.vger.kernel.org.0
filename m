@@ -1,95 +1,91 @@
-Return-Path: <linux-input+bounces-2664-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2665-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4AC890B37
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 21:24:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FDB890B44
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 21:26:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 767B2B240F5
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:24:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28FF41C3018B
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD18213A3E5;
-	Thu, 28 Mar 2024 20:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4207F13AD28;
+	Thu, 28 Mar 2024 20:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OkYuNZhr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ErpvbV5s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440B014265F;
-	Thu, 28 Mar 2024 20:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C438313AD36;
+	Thu, 28 Mar 2024 20:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711657077; cv=none; b=fgEn3gZtyyXLodiQKCXLH5M9JyzEMpqh/bCkWW+ug8mQIJNmxLwHLhkCuc463nhoobMDNoEpSS8kQ70SiA69YMoWCxNYS1WaPWogFsd6MOI6nhvYH2Gfgf/ZUoAaEyJPuwLWtIXKSvGfYkD5jMzpLr34NXadhy1M0F349UutNdg=
+	t=1711657484; cv=none; b=jMTJ9ovDnozDEOx74VfyIFcWVzNJybITRHaR1+A7PwuKYfC+UhViMdFXVL2xQk/+qKHiVMqAAbcdZzYufC1eJig63lmy9ezqiqZjGf0O75+j3h73RQO+34J1A5V097PkA0OGWF5GC8GbIM1TvbFvZQT+ZsIgNlNKHaUrknVtf7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711657077; c=relaxed/simple;
-	bh=9jYHvj/0a/yHqut5NhaqVyMqutJHLvv2Ne7s1n0MDn0=;
+	s=arc-20240116; t=1711657484; c=relaxed/simple;
+	bh=nsgSRkxzMwcL9nY3tuBJREALrbXEDPSiM7Rc2uwkNbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YFf0nubeL0AwpF/IklEFyFvW9+9gdMml8F7kfGAeVaOpxQjRiC5NwT81Ehb0O59yfO/9ZTvIKBfVtBv/LXqG+bkDKYuNaGIio2Gqe2kQLelN+PwqNECTU9M+auQpS3mzrT/rNphFLYMwnL+ukp64Smeox0zuw2lv678O8vKL8AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OkYuNZhr; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMYD40H8xYuTaeXrqTnz56PhiaGPYrOHC49fpjgKhqFM6sARgPFQPCEwiXh8Bhrx8Msy7nhN942ciW2JAKrMNmEXWOvJiMwaVD7/IuHC4RtshdIZmGFdbix5lB+3Jab2/MBfZj4L7xWMNWvH7o6X2a6rdA7ixik2FlFsag/6KbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ErpvbV5s; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e0bfc42783so12571685ad.0;
-        Thu, 28 Mar 2024 13:17:56 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e0f0398553so13914345ad.3;
+        Thu, 28 Mar 2024 13:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711657075; x=1712261875; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1711657482; x=1712262282; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nEayUKz9gKaOZC4X5AV80mwdg3zyZD5G0L3PubFSTFo=;
-        b=OkYuNZhrmbLKklSR7dNY25GnY5vV5LmFstQgyDJTbIHdIQrNEWmglY+T5BMK954Amp
-         xiJCjwCKI8/wWFXp/tYMuhHkYVx1nrvy49WdZr0QuyclNV7aHJLjI0aqOblJvJuIEXgg
-         jp5E1gevsiXqfrELSilL9lm5XlbRBLt+4gP01Rpnk/xW8wL7rGBG4VrABemXdpqyTghM
-         LMU2vRbPaY+WCZSENuLeo/JutjHgO7MWpvZ+AITEwsfgTbAmu+E91gPUnpWaTD1kGy2N
-         bMUv0Yacnp4vYL0MxLMdsI6XZx5PxopvPrOJEpvOorICKX52pUxxvJ24WdCtrUCUvftt
-         60Pw==
+        bh=OSBQzFqQufqwBm+U4G6XPdH75Rro6F7rWhWjrRhCESc=;
+        b=ErpvbV5sYBYqnyUlP91TonlqNUcq9w763iSlMGk34Cfzztx61tp83qndlir+ezUN3m
+         XgkNbscKIg3LDNoJ6g5phYPsFdbNbViKAxDm1tnG37rF/a0NHPWlnCwyUR0/2G6HgGlQ
+         5Y5UaiI6jYICgizegSXDN6R/1ig7GXZAJANzF1S2NgarF/11OQ6ua+NIDPoAR+dAW2hD
+         mTiE3JvT8rFj1FHqUZItgFRsFx9uT/voLvQX7qYyQa60MjZTAuMZtpc3A6TUpzLeoY0Z
+         UhnS7zYCe7lz9YvrxnPzB5dKQ7SsK3q2j8hOfylVUpJ2MeufGUbSVuP8DhM0bCFsNk7e
+         dvTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711657075; x=1712261875;
+        d=1e100.net; s=20230601; t=1711657482; x=1712262282;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nEayUKz9gKaOZC4X5AV80mwdg3zyZD5G0L3PubFSTFo=;
-        b=lu8P5QGFchgahQV1oNsHoEqGaJ4+mVMDkaaMgPC0KwWw2FumeXG+6/jxQmMVSwyoi7
-         SS3JIbjB+6XGZIHFvn2p2ecvxGu5bwk+RLPLR2hMdLWoaqa/qVuH6vqJDJgYbVaPFi8X
-         x2DHlf5DIGrDWL1xPCOZV4bBM4fK4t47DBVpaekNfkf3aJ32Z5EhCaRLyNiiqsrmb3Wf
-         e8mQcqQDqLmyFwFvV9dyLdFdv8HPbI3OLziXNbs3QgzelQ6GmwCYy8FVchbthxFcEbej
-         7z3FGegzgkmlr5Z5jcJGN2Z8v1YfeFwQzs1JOrgm8Lfe6Rm06rk8t42kcSi+Mqu8G3Do
-         65Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCWP2afHBegpe2vRiZCt4Snwy5+kMIX15f7WH8wBlCkggt4LS7ybz3H1fVW76CJ78n0nD8RwcpH7z/8bwZ7vhtJDq9v8Kt4UQT4cOgFKlt6rtKRSWTuWNPK1z3KiOTuFGCfVjM6PnCk8qVRNcFLLnrdLvupqfgCTRIPpWlPE9Qrk/7wZfiWz/FzMWQGkEucxNJhS/eo+YpE14MOKaHA+4EJl9D6C+PxHutWFsWK8zjoyeuJX5O5bWMi8vBuRFw==
-X-Gm-Message-State: AOJu0Yy5Ci2Z6FYWGbWdqMVG+3l7l8PWuoEwW/+l+V/7OkI/4Blb4dPN
-	2PAlekdab84rwGQSzcnk8wa83eu7NG8udZU5biSRXuTdHPEpJ3RHYrUsyOB9
-X-Google-Smtp-Source: AGHT+IF2rPO6hFqFWtIX3SdzDeOGVa2ri0rsD7VKNpG6/c1HmD1Dag/mcKtYH3XvXNUZLF0lzYTQIw==
-X-Received: by 2002:a17:902:8549:b0:1dd:7da:e0a9 with SMTP id d9-20020a170902854900b001dd07dae0a9mr508604plo.69.1711657075433;
-        Thu, 28 Mar 2024 13:17:55 -0700 (PDT)
+        bh=OSBQzFqQufqwBm+U4G6XPdH75Rro6F7rWhWjrRhCESc=;
+        b=lI8ZqGKWCPC/PQnVT7Li52/H1rI26hfbkKpbWdjWNj6OZmZNxOrmokZwMIbUR49kiu
+         /Km1zxQKDqcfHqRAN30PnmCr3dAtDTY9DwJ8Ab+Yv6I1utcU57bsXh2rrIH0r64MF648
+         7y/JH0IdyEtn1zDB/mmltU1RNKZho3U2ByzEJcPdrnDttP/erR9Boe15yV/sECT28yWq
+         FZKIWNL1655fAbcdlODBXQt8WWDZdR3tFaCT0Nmvf5w6TSSQ27kFf26hJmU9SHOvNwqZ
+         Ad/FljIGj2c/CPADM1CDWvHmUTyM0k8JBndCJOzBYujeMd6YRO7PqdmGY4J0wkQA+zjm
+         dAmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ZYi5SrRqSEhTgvuE5J7yjjYph3E1icgTPQvtGyFH+2liiTB9Wu9AXNQV6/M5E9ak9TNdcpCXSm0nmL4tFB8lJF5VabfwaVeh/m01lRvB+CrerGoexnTMzBuzSG4d6V1HxbWLSuQGRDIgdfYRXxb1UUNpVjhHZKuhFt2M260CRWllXDfQkPTK
+X-Gm-Message-State: AOJu0Yypyiy0Vbp/c6l0DXQiYUft/zxbDE1ylBXEc+ZYKNme8tde6wgm
+	LyjRdl+9YcBFtb0mXnr3b9ckqoI2V/Kr7tjZRp5ItFRVBtrTs3p9iufR5EjV
+X-Google-Smtp-Source: AGHT+IEYm311DmU2l4RYrADp6NKGy1vTeD+bo97fMWmOcok6ACRQLIIZgeJAuM+ZhBOnrLw6hHfubA==
+X-Received: by 2002:a17:902:dacd:b0:1dc:7bc:d025 with SMTP id q13-20020a170902dacd00b001dc07bcd025mr770219plx.4.1711657481885;
+        Thu, 28 Mar 2024 13:24:41 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
-        by smtp.gmail.com with ESMTPSA id h1-20020a170902b94100b001dd0c5d5227sm2022519pls.193.2024.03.28.13.17.54
+        by smtp.gmail.com with ESMTPSA id c3-20020a170903234300b001db594c9d17sm2051032plh.254.2024.03.28.13.24.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 13:17:54 -0700 (PDT)
-Date: Thu, 28 Mar 2024 13:17:52 -0700
+        Thu, 28 Mar 2024 13:24:41 -0700 (PDT)
+Date: Thu, 28 Mar 2024 13:24:38 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <ZgXQcGlMiewRzki5@google.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
- <ZgWw66OpLnLPdCn-@google.com>
- <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
+To: Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	agross@kernel.org, andersson@kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-input@vger.kernel.org, quic_collinsd@quicinc.com,
+	quic_subbaram@quicinc.com, quic_kamalw@quicinc.com,
+	jestar@qti.qualcomm.com, Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: [RESEND PATCH v6 3/3] input: pm8xxx-vibrator: add new SPMI
+ vibrator support
+Message-ID: <ZgXSBiQcBEbwF060@google.com>
+References: <20230922083801.3056724-1-quic_fenglinw@quicinc.com>
+ <20230922083801.3056724-4-quic_fenglinw@quicinc.com>
+ <CAA8EJpoW8DJOTVHBu9_+BQs5DtxyJu3xrCfDNyYHn2MeHZHV4w@mail.gmail.com>
+ <12887370-0ada-359b-8a4f-18a28495c69a@quicinc.com>
+ <ZRhKAWYBLcBZHc73@google.com>
+ <98c668b6-7595-2c0a-ebe5-2f729d29b618@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -98,42 +94,72 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
+In-Reply-To: <98c668b6-7595-2c0a-ebe5-2f729d29b618@quicinc.com>
 
-On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:
-> On Thu, Mar 28, 2024 at 11:03:23AM -0700, Dmitry Torokhov wrote:
+Hi Fenglin,
+
+On Thu, Mar 28, 2024 at 02:52:32PM +0800, Fenglin Wu wrote:
 > 
-> > So because we decided that we could not have devm_regulator_enable()
-> > because of (IMO) contrived example of someone totally mixing up the devm
-> > and non-devm APIs we now have to make more and more devm- variants
-> > simply because we do not have access to the regulator structure with
-> > devm_regulator_get_enable() and so all normal APIs are not available.
 > 
-> I don't follow what you're saying here?  What normal APIs are not
-> available?  AFAICT this has nothing to do with a devm enable, it's a
-> combined operation which reports the voltage for the regulator if one is
-> available which would still be being added even if it used a devm
-> enable.
-
-You can not do devm_regulator_get_enable() and then call
-regulator_get_voltage(), you need a new combined API.
-
+> On 2023/10/1 0:17, Dmitry Torokhov wrote:
+> > On Mon, Sep 25, 2023 at 10:54:45AM +0800, Fenglin Wu wrote:
+> > > 
+> > > 
+> > > On 9/24/2023 3:07 AM, Dmitry Baryshkov wrote:
+> > > > > +
+> > > > > +       switch (vib->data->hw_type) {
+> > > > > +       case SSBI_VIB:
+> > > > >                   mask = SSBI_VIB_DRV_LEVEL_MASK;
+> > > > >                   shift = SSBI_VIB_DRV_SHIFT;
+> > > > > +               break;
+> > > > > +       case SPMI_VIB:
+> > > > > +               mask = SPMI_VIB_DRV_LEVEL_MASK;
+> > > > > +               shift = SPMI_VIB_DRV_SHIFT;
+> > > > > +               break;
+> > > > > +       case SPMI_VIB_GEN2:
+> > > > > +               mask = SPMI_VIB_GEN2_DRV_MASK;
+> > > > > +               shift = SPMI_VIB_GEN2_DRV_SHIFT;
+> > > > > +               break;
+> > > > > +       default:
+> > > > > +               return -EINVAL;
+> > > > Could you please move the switch to the previous patch? Then it would
+> > > > be more obvious that you are just adding the SPMI_VIB_GEN2 here.
+> > > > 
+> > > > Other than that LGTM.
+> > > 
+> > > Sure, I can move the switch to the previous refactoring patch.
+> > 
+> > Actually, the idea of having a const "reg" or "chip", etc. structure is
+> > to avoid this kind of runtime checks based on hardware type and instead
+> > use common computation. I believe you need to move mask and shift into
+> > the chip-specific structure and avoid defining hw_type.
+> > 
+> > Thanks.
 > 
-> > This is quite bad honestly. Mark, could we please reverse this
-> > shortsighted decision and have normal devm_regulator_enable() operating
-> > on a regulator?
+> Hi Dmitry,
 > 
-> Nothing has changed here.
+> The v7 changes have been pending for a while, I am not sure if you are still
+> insist on this. As I explained, I actually did it this way in v2 and it got
+> updated to this by following other comments.
+> 
+> Can you respond and tell me if you prefer changes similar to v2? I can
+> update and push v8 by following your suggestion.
+> 
+> v7: https://lore.kernel.org/linux-arm-msm/20231108-pm8xxx-vibrator-v7-0-632c731d25a8@quicinc.com/
+> 
+> v2: https://lore.kernel.org/linux-arm-msm/20230718062639.2339589-3-quic_fenglinw@quicinc.com/
 
-Yes, unfortunately. We could have:
+Yes, I believe what you had in v2 was better, and Dmitry Baryshkov's
+comments on v2 were also great.
 
-	reg = devm_regulator_get(...);
-	...
-	err = devm_regulator_enable(dev, reg);
-	...
-	err = regulator_get_voltage(reg);
-
-and not multiply APIs, but we do not have devm_regulator_enable().
+You can have 2 styles of code - you have a hw type for each regulator
+and then use it to do conditional logic in the code. If you do it this
+way you and you need to add a new device type or model you have to go
+through the code and validate all the checks. Or you could have a
+structure that is defined flexibly enough to cover all existing
+permutations, and you rely on the data in it to control the behavior.
+You should not mix the 2 styles, as this just makes the code more
+confusing.
 
 Thanks.
 
