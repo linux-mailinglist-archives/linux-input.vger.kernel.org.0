@@ -1,134 +1,106 @@
-Return-Path: <linux-input+bounces-2633-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2634-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D364A8903F2
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 16:55:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE26890795
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 18:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 639F0B21C0B
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 15:55:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1887C2A248B
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 17:52:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 926DA12F5BE;
-	Thu, 28 Mar 2024 15:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 438E340852;
+	Thu, 28 Mar 2024 17:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vIobDKg2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1DNL4FE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E5F12FB32
-	for <linux-input@vger.kernel.org>; Thu, 28 Mar 2024 15:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A452D792;
+	Thu, 28 Mar 2024 17:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711641306; cv=none; b=JpZj5ZHO8e9KnmNeO5kp9pACL4AAhYsPp1gywIJt907o79zp08UbWc5x9ACcMF1zXmWSRU3mShD7BYlZsmmjafOUSH6uKMp5aO5ono6FSobLJqUxYcW45HYK/DWageFc7r8w8FNsu2tvL+fqyGxjjAMkZZkO0E8tcPxHich1mr4=
+	t=1711648331; cv=none; b=Mt8elujLByMgdGBYUxifRD6UhLEAtgxZd5Q1tj7tzrzg6l8Divjp+ZU0RZOSsHqYiqoaS8ZgeFusc5Qwfeu1V1gc/78knoC2jqmS9aUGSmb6jXzAN3AkHEhhsKhwcZBl+BCPOuIxXsZvGuKG+iPH81jlgAW22sItALerLpGu5Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711641306; c=relaxed/simple;
-	bh=R7bfIIh4/xk7LeALLFjm8pnnjWc59J54jmaQNWQ6v8E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JveMZ7v6vgMFO/WL6rfs0Qr9SX8EsZqrq2yvML54ighi/g92dlmAeA/no4lQDluOoID08Iu5VpzRuerCDU7f38XjFiA2khBGIjBqHHkTjHLG4HTJhmFNQrPsiZAKaXGGhTnXjQ/7+ejGhEbH8IA7DYhwyYwFjwDo9rT1ZzqDaFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vIobDKg2; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d48f03a8bbso18808591fa.0
-        for <linux-input@vger.kernel.org>; Thu, 28 Mar 2024 08:55:03 -0700 (PDT)
+	s=arc-20240116; t=1711648331; c=relaxed/simple;
+	bh=+Ca5qoB6abbwq94BOat1CPhCCY8h1Y191rzETEJ7zgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H5D7SOig5McHGrV0Rn63r2UZDjztKvMdjzYP8dIj6gPEWUYsOGYEsHtrrHI6aqsKOb5e6KjDGv6aMr6YyI/RajC8Pkrf3Z33QIzi6mC4/w390kHb5GYk4EsCmKA11lCtSRgcosO55ckeMBvVnHrPh8oeh6xCWwdsdXt+2kSyc5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1DNL4FE; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ea838bf357so1110732b3a.0;
+        Thu, 28 Mar 2024 10:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711641302; x=1712246102; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R7bfIIh4/xk7LeALLFjm8pnnjWc59J54jmaQNWQ6v8E=;
-        b=vIobDKg2mJtEsnwrSkLu1i9EWbYR+3ldCRncFsnCfIsouyxP/uZ3rtZSTseIM4ybJM
-         cD7nPAwWUmBfaFY6ofDIvdTSwhi46ZinpXSFh1c+idTg8s0xHuUY/m4KbPisq4zTp98i
-         3kk8Nr5vOi3uBUF4HtSWVMDLsijslFbYpTvZn9vZ3u9TNRHV8pZRXPufRTBY3cLQhAVH
-         I4JBnSD4UpLEu0OVF4S5PM+KRrDMUuRYgKjZNau95ICoE0WXbNRHoEUdUjFAtf4j9cST
-         NFK/SLKNgemSvpFgsylSQ7hYriM5HERFQofPE4BhYPqw+QFe+i/eyk4Kuo8PB/fnrfTg
-         DdaQ==
+        d=gmail.com; s=20230601; t=1711648329; x=1712253129; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LGayx7O9Q31q05Nt0uhu4ViYlgHgf9Z3LztihitVGcQ=;
+        b=k1DNL4FEcjk8LhAiHgkYh8R846+//bGW6Lq1sEpsmLhC8mYgx9EREVKGkOnlph5w+J
+         psUEMCgf/tOTLcGVIX+dPgE+ObtrITFn3trS4LdqXssNzj43Q4fbQw75+cZzx2+1lzCC
+         qDwAe0FObcruDDlVheiYUIYWLiVfriNRg4w5FVoppDA8JbxLVNOb80rgbL0DsYf7wA53
+         djohQFKt1ibnRkg25okKLxE2wDFmn2SQ40j/gw/7qY3d/MhPAnvE30INjC4B9aNgpXSu
+         gCZu41aUY2y2pT7ucM1cB+WeYASALQsceVFRIlk/NQIuEDrvqSzLUJwPoo97bYrNepPd
+         EGFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711641302; x=1712246102;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R7bfIIh4/xk7LeALLFjm8pnnjWc59J54jmaQNWQ6v8E=;
-        b=IdPI8Qakx8RuHxJ88NWKLFtE7ZWdgvtxgKSPwq+c91isipcA/KoyMiTZHa+p3TILbs
-         Bba08J3/brEZ3m8tJIBnXNYJcI660RjL52bCvZsevba7HrUwLAL56ZsaUmhzilRNvgIw
-         n38OAJuLA9ZM2yAqwdOmdA2tEJy5ZMKoLG5ScIF46JczihHozTJD19HwlIB6YDZmKZrm
-         cyfFujbviliue/sADHh8m19GtY43vBd/s+31SFfccrpyRXj7s77Mg/bmDFp44lKVw499
-         CC49rtIfDolh4EhCnPUL6D0ITmH+i5AEAtC0WA2mUbBREkn6VrfTUw9UWnAjoU/1bLkY
-         CZqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWegGkiaoYS/qhjAbZABY1AiTLpFyvxQTh0SRxkfiX9P66URRff+IgBfC7x0mnFfmPcI9o584WCNA6ruczXtZL1l9Qhqr3O1kB5/yY=
-X-Gm-Message-State: AOJu0YxV/1i0Oh4nqBKM2/OyPLzHL0uu0zUT0yUFa6Y42Q7DmWVsgvI+
-	pi/qj4wOt7o1fEKJWQ8jwFggbBKCAobvaxHgt3sDw2vNjARtIdB99cOPZkn0RiaqpVDTEaUcXgE
-	RymwY5DTQOby/tHxqGfkC3tmfFu5xqqPCi9SkJw==
-X-Google-Smtp-Source: AGHT+IF0/ESH95+U3ugXq1Ok8l0CIDGsN+Io0PuUxNLRneFUjMk4GFow/0Qf+aMkXpICnzlbyE7BpmzBEev1FOymhUA=
-X-Received: by 2002:a2e:8807:0:b0:2d4:a06d:5ba with SMTP id
- x7-20020a2e8807000000b002d4a06d05bamr1198649ljh.14.1711641302030; Thu, 28 Mar
- 2024 08:55:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711648329; x=1712253129;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LGayx7O9Q31q05Nt0uhu4ViYlgHgf9Z3LztihitVGcQ=;
+        b=TaoYfjJT1rhtZwtnbb3mu+yX+27874i8LPAaI96Kv3VAUAVt1/vDjpVW4e/uXbhF+m
+         2WGRbYKeAL1AXAUq8b0QZvVGafEh3EDLsAwgPkmXlSQN0O9U85YkkuXPUVTItLB9sre6
+         BIgOuG1afQ+20vYcFlJfRswU3vUr342gUEYzZJBdbuNhup2aiQW1tv2aZwRD8iTCLusd
+         zlz/gJ/zRRrL78nEO3w6XvyA3NDQtVBsDyiT7ouRSUnJMZXNAP2GllutYt3051GNJmj8
+         0iY04HCsUtjHxpdq7SeeJHPWshZ1G4r2AQJ62a9aM2dMvOgnd7uImRklCzai96d2VcuE
+         nQdA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCnCr9XQh/f78g9J9rHZ/H1xxcrk82t2gI0JT+bo9ICp/lRWnDi5amHKH5xo5P8DA4qfrlMlRhGi7e+oyL5s/hv+AfRqQ5UzpfiZve
+X-Gm-Message-State: AOJu0YyC8KDzSijPmI2smAu6nibDXKKT86lXXztlcy6yKinml8AGjWpe
+	8NzI7OD7FcWBu9uEbESw20NDTbELid+HDCrExfZWQmB5ngvNRcZZ
+X-Google-Smtp-Source: AGHT+IGnWA1lvzTheAjnKpDpk6BGTn4H+I8IAYW3WJYvGODV8ZPRe5o0F3hO52Y+4Y3dpl0ZSShvVA==
+X-Received: by 2002:a05:6a21:191:b0:1a3:e2d1:7c5d with SMTP id le17-20020a056a21019100b001a3e2d17c5dmr4509520pzb.6.1711648328923;
+        Thu, 28 Mar 2024 10:52:08 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
+        by smtp.gmail.com with ESMTPSA id h6-20020a056a00230600b006e580678dfbsm1637713pfh.193.2024.03.28.10.52.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 10:52:08 -0700 (PDT)
+Date: Thu, 28 Mar 2024 10:52:06 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Frieder Hannenheim <friederhannenheim@riseup.net>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] input/touchscreen: synaptics_tcm_oncell: add driver
+Message-ID: <ZgWuRucvmKBetBfX@google.com>
+References: <20240327214643.7055-1-friederhannenheim@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com> <20240328134744.2fc263b9@jic23-huawei>
-In-Reply-To: <20240328134744.2fc263b9@jic23-huawei>
-From: David Lechner <dlechner@baylibre.com>
-Date: Thu, 28 Mar 2024 10:54:50 -0500
-Message-ID: <CAMknhBGAL4m5RtQsLCOiSUofAGw89R2We9MDMzfvaT=5o-4M8Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference supplies
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Support Opensource <support.opensource@diasemi.com>, 
-	Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327214643.7055-1-friederhannenheim@riseup.net>
 
-On Thu, Mar 28, 2024 at 8:48=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-> On Wed, 27 Mar 2024 18:18:50 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->
-> > A common use case for regulators is to supply a reference voltage to an
-> > analog input or output device. This adds two new devres APIs to get,
-> > enable, and get the voltage in a single call. This allows eliminating
-> > boilerplate code in drivers that use reference supplies in this way.
-> >
-> > devm_regulator_get_enable_get_voltage() is intended for cases where the
-> Maybe avoid the double get?
-> devm_regulator_get_enable_read_voltage() perhaps?
+Hi Frieder,
 
-ok with me
+On Wed, Mar 27, 2024 at 10:39:12PM +0100, Frieder Hannenheim wrote:
+> This is a bit of a stripped down and partially reworked driver for the
+> synaptics_tcm_oncell touchscreen. I based my work off the driver in the
+> LineageOS kernel found at
+> https://github.com/LineageOS/android_kernel_oneplus_sm8250 branch
+> lineage-20. The code was originally written by OnePlus developers but
+> I'm not sure how to credit them correctly.
 
->
-> > supply is required to provide an external reference voltage.
-> >
-> > devm_regulator_get_optional_enable_get_voltage() is intended for cases
-> > where the supply is optional and device typically uses an internal
-> > reference voltage if the supply is not available.
-> >
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
->
-> In general I'll find this very useful (there are 50+ incidence
+So the first question is: does this device not use Synaptics RMI4
+protocol?
 
-I didn't find quite that many. Still close to 40 though.
+I am CCing Marge Yang of Synaptics who may shed some light on the kind
+of touch controller this is.
 
-> of the pattern this can replace in IIO).
-> I would keep it more similar to other devm regulator related functions
-> and not do error printing internally though.
+Thanks.
 
-I did this because it seems like we could be losing potentially losing
-useful information when something goes wrong making it harder to
-troubleshoot which function actually failed. But looking into it more,
-the regulator functions already print errors for many of the error
-paths, so printing more errors does seem a bit redundant. So I will
-remove the dev_error_probe() in v2.
+-- 
+Dmitry
 
