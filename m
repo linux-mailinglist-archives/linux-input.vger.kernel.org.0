@@ -1,189 +1,153 @@
-Return-Path: <linux-input+bounces-2608-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2609-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8622488F2F3
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 00:21:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C8588F520
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 03:07:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F01971F2AEB4
-	for <lists+linux-input@lfdr.de>; Wed, 27 Mar 2024 23:21:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F03CBB2390B
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 02:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B43C156967;
-	Wed, 27 Mar 2024 23:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F162024219;
+	Thu, 28 Mar 2024 02:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eAqfAphT"
+	dkim=pass (2048-bit key) header.d=LIVE.FR header.i=@LIVE.FR header.b="NO43hvjj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04olkn2092.outbound.protection.outlook.com [40.92.75.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2751553AC
-	for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 23:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581555; cv=none; b=Ah2CKGBCZ2OxcMT6Z0piDUJmawSOojWNjp3wbYoROZuyKIk6g0X3Kw7rQz1Ub0E+MMnhH3M3yL/TDsyxMLS2POSbUVzWAh6XsuuedM9gQxPXtDRywoypt6gQoox+sENWr13MjMCFaR7Cs3VyrB0MSxUKkqzw0t0+K3JlB5iAuSA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581555; c=relaxed/simple;
-	bh=h9SozZx07F/ieSA3Tkw6/3vSYWM+YqSBRP3PPQIUB78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s01TXp27sYLAMs0U+5l1UzKVTnZu/7Xq2d7mctZZP7s78/hDu9FtYGJVz+s8Dfry10XrUci3LrXvhVlk+A17PB+gaLjERwTPnAg+uXLMbNSVvWcR+0Je8YirTPJPqx6sxlpRIe2IuQMhYV2ZjcIprmk090Xa2gsr924/qrAht5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eAqfAphT; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-229cbc52318so225218fac.2
-        for <linux-input@vger.kernel.org>; Wed, 27 Mar 2024 16:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581550; x=1712186350; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
-        b=eAqfAphTCe5xMLO7IDsfaBpiCj4b/x+7v8ccb8ODULuM2G7hkEN25kFJncN2sx/fvG
-         QqUtlTjU4y695H2BTg3WTXcN767DuqbeSF6kh71SM1I0HU3UoyK8Q8jlsJwuNGAUdaqX
-         v3y9v/LDcuEfFDJ4KrGbQzJPSwxGrC0/1sCznd7hZFChgt5v4WDZzdU2UoIMUeDGcrs/
-         PvpmycHNdqEKepsxWgg5WbEUrtho04hZf5xJ9rtPoZYW5V2jgvQTNy3hKTKqqAXl9uw2
-         AZCTB49zFOmtYTVDnDYwbARUFzNRGtTcij9x4iAXUwJ5fZatOfL/jouVCMKin9BmsZnq
-         WBCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711581550; x=1712186350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
-        b=XdrnrfALbHBxViM/juaDJi2iI19o5WtKcxMYdnMf2GXna+Fo/b/A24sRZ+GJtf7Pr7
-         s0TmlHfWpzayx81qHRmgBXCzjaipzOVAKWVaF5q7pEnSRgNwoQsFbHFXFTwYTsrJOg/Z
-         xDPO0BBcHyZAqTRTZz5ufoSAcZHM7vOb4Y55DzzZqITvk0542XgDiq8XqZUKx7RsRNgP
-         jQK3J2LZ+340csW5cb6AvZPaZCdlrABkcwGC1lImYlQujfihgs99EM8HhTrlJvjDWu+w
-         6wCVa0U3Sf2XHhr7qTxQcctI1/67zMNgjTLEW+dAZ9nmRJXjvrfcml/Gc32GipxQ327G
-         80yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbzKAlj72vK3tqQUHgxZ8q8HHw1W2oVvn+26exrcaiJhUZ82FwpSARAnj35RWMDXtMeyeWlu7Mcn2/EYwOYakU+Hd733AIGoNQmtU=
-X-Gm-Message-State: AOJu0YyvXwvUgOKpEIEkFBx3RnoUD8ykuzwX22JmVS3iMHavo0Rqx+n8
-	64zAAffXeqlx8TgpCc8wgkOivBB7OdkRBOVC/QZi/uP2LGUcqL85F7vFA+oawno=
-X-Google-Smtp-Source: AGHT+IFF6sA3ju+9mCH35rHh1zhgVOle14esmb64OwmiwIjcccCZ+Gff/k0HvFE6jlRCad9wpwZTGw==
-X-Received: by 2002:a05:6871:3a14:b0:221:9013:d783 with SMTP id pu20-20020a0568713a1400b002219013d783mr1213589oac.34.1711581550253;
-        Wed, 27 Mar 2024 16:19:10 -0700 (PDT)
-Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 16:19:09 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-input@vger.kernel.org
-Subject: [PATCH RFC 7/7] Input: mpr121: Use devm_regulator_get_enable_get_voltage()
-Date: Wed, 27 Mar 2024 18:18:56 -0500
-Message-ID: <20240327-regulator-get-enable-get-votlage-v1-7-5f4517faa059@baylibre.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985F924B34
+	for <linux-input@vger.kernel.org>; Thu, 28 Mar 2024 02:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.75.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711591640; cv=fail; b=gBdRZq/69PPMtm7KNYDKeygFDDtYd8+Rl41lo1y3qGB9YRAUCIVT7CfaTFJ7ZMK2YYeBlzQw7C4p2qzlnPObW4psUK77WLMGAnytR+Z0JwVsRvxmUlgjjM7ZAKhOlh5ddsYrGyfH8SD43SNGwWV+2pKpfJB8eELO/e3DP+EwF+U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711591640; c=relaxed/simple;
+	bh=Gpmi+2SEJ/LVt9RucdqUuwnbBsLNTBcqOw3bwEWtRb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=hefB775D/cPrKi8r/u0vvqDeoX9NprtDNljrSzNG4lJrE4rlb4NRBHCRIkMUlirqLiUH00OSuew0KNjGP8hgb/0rTZSdFl6LQS/WHs0RNi8/K1hyd5bE9AnWAyFBE12Cioyh6rbZ9qjEL0aPQcIATeMvUXPcWCAoTVLZNvU0sEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.fr; spf=pass smtp.mailfrom=live.fr; dkim=pass (2048-bit key) header.d=LIVE.FR header.i=@LIVE.FR header.b=NO43hvjj; arc=fail smtp.client-ip=40.92.75.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.fr
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DG5KdpKPpecc+vFPfdACMbDNPH0xSJFUUjF5dc6huGk/vD/9vQOkwyhtYk6zhP5LM0VI2Qxeb3X1uKmgpY1XD3u83Iu5gxcqCbIVtc2EFbHAeCo7gTSti9r+1u9wOD9aB42cTV6dZvF2ZiYrotWJP5kKrl+VJJKvBmZLb5R8rvqyueK852RKcjn46eTzbduC77sOE1DCsALzV+iEZOGJvrh5BtzxluzMe1kBNRWFehXZTSfJ/xZFZAXtg4/s1PaMQlC6+w7U09EqwfJq7bzd1TmL43XyaBECQylH8PYfU8ZoXygSvGkCHvOdx7GYvREcEwfIi4ul/qaomORU9ZhC2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VPrXqUQp0OW3LCfyzGhrmFAUDybNvlAJ7/oLLkP8V1k=;
+ b=W2DBYTyrMLQr7Vj3DscOyeg0gAhiMb36Y1QnrFyryTX45d4X9L3uyIo/F6CsHQ31qLI8LTdtQtMIEKIXErxHTClwqcoSVWggID8KhTja8RmUu6LvdvrPoUi9ZdM5AAOJb+0LT+oiJmITVD5A+uZGbsr4BuPxIkLUH1ANNfzUpRgQI1Z6TjpdFEz13ulk7isyLfgHB8yeV8qElwMygXPr2numqQ5Stei9cdgML8a2IZn3fKVxSyHUh3Nlj0z5smKteawPc7NZLDJN5nUGzxqx1+j/SZzamGBn0n9tv+f88JNDwF+HJUu0ZYoGoqkQnWQl20Z1x1N22/1HQEIc0gtY7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=LIVE.FR; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VPrXqUQp0OW3LCfyzGhrmFAUDybNvlAJ7/oLLkP8V1k=;
+ b=NO43hvjjKE6or2sQFCNA4H4hAHmsjW8X0mpJxY4hrNo4mSPBSZ6D2krMuWI6uzGgXOLoZBimEWMN6iJtxto0dEFJwJ8I0kJNfoOgTbc6m8B3oEZosE0q7mBjqzXlu8OvXe31HIgCxI9uZuEnVGDB0Pq2ITYt0ZLnFvGXzarpEZZLU+6e/UCITO+hG5NZ/wDHN2ZxJtZZNlHHm0yXnWEYYAanGO99IN7FCF2ozoSR+sBmymcIO888YFmfm7fy8lT3Z2e7+2ZBt+L0HV1fxkg3AGU0x/MmZlCImUa1YLKVmMY7KFFiM0W2WpFcoV2lqtw0+H/a5/R+cPeKZmWQVNC5FQ==
+Received: from PA4P189MB1469.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:ba::18)
+ by DB8P189MB0871.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:166::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Thu, 28 Mar
+ 2024 02:07:16 +0000
+Received: from PA4P189MB1469.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bcb9:1083:b7d9:e9a7]) by PA4P189MB1469.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bcb9:1083:b7d9:e9a7%7]) with mapi id 15.20.7409.031; Thu, 28 Mar 2024
+ 02:07:16 +0000
+From: Milas Robin <milas.robin@live.fr>
+To: dmitry.torokhov@gmail.com
+Cc: linux-input@vger.kernel.org,
+	Milas Robin <milas.robin@live.fr>
+Subject: [PATCH 0/1] Input: add gamecube adapter support
+Date: Thu, 28 Mar 2024 03:06:50 +0100
+Message-ID:
+ <PA4P189MB1469A4E2A0633A2091BC9FFFFA3B2@PA4P189MB1469.EURP189.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.44.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [2cuiXx49HvQFCSYWfuAd+xIzvm3d4HBPiuiLH9Ksj84N0X9pLh7UWDmFJWQqUHdO]
+X-ClientProxiedBy: PA7P264CA0166.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:36f::17) To PA4P189MB1469.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:ba::18)
+X-Microsoft-Original-Message-ID: <20240328020651.358662-1-milas.robin@live.fr>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.12.4
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4P189MB1469:EE_|DB8P189MB0871:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65f0d425-68f9-4d9f-8af0-08dc4ecbca24
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	tEAiG4OrL+HwzqpAyQYMR1/RFYTtgN+D5bsrRA/3yxmPuUaDJXErMke0tjvrNajp2GipM6MmhaCKalmJPbgVp8OlmI0PHZ2z8uoEjj6ba9sOydXHzAZeOFWxZOaTygg0UXzCARkEICPoYXt2isPZVXXkeWPD7XtBJgiJJ4iqxP/XSVR2IuvpbvseL3aAEGPEregiIl1AaQRUPxnPYzBMHMXoq/zVMpqzsVQQvmrLHk14qaQMANtbsg9Tm27ImXhTzReGi7pfe4mf4c+duWqmh0WFylrcSO60DdT34+oOCexeAqUrUDYILZjFn3F5gc03qAGiTz7ZOhZpGluzTOcleK9taSOkIdZM5XRI7ywEoFk/VU5YKI4tdYUcYbvShJX1dHQ7keUITyOBuqiWf69cLM1pglYcKZp1AEg4ZMMQwvwQFtWxm8QS6vf1aVIjaxo6m/XB8zijYDPkqf4WIHn2YBKvjX5aVShTjvWggfAsIWX29Qudb9zo2fJbCMr7vXPpuZsdVP4jyvOsKZFPwaG7XPmCBSmdYP3aRERFWkuUFV6WxJgKlm81lEAlADuBQ5YPLI2YW+14VECDxxT6nrz8v058GzMxBvpjDNv7wKNFqtegu1oe3H2bcaMNdcq8SRj3/C5EOPnoarzDU/ttVOPQhfCyLqur2py6inKiT9IlyMIVIOBs3B2QnA3E0v4i7kZP
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?N04xT5nvK2i6TfzFyHpq0LVKtxEJmc7TzSKMnR/EtGFsIW2jtxwB8fun62iK?=
+ =?us-ascii?Q?bt5/0hYQ3aYv+7s4LQOv1uI0EGS+bCmot/y9jBQ51TR6/xS8NYywW4PFso1g?=
+ =?us-ascii?Q?6CRG52NHWJnPyZpBVuXxmNxfXYf2BgX81Uj0RIIeFDkbCkDX5oYLLHv5c+2S?=
+ =?us-ascii?Q?FhJx8MI3jJeMOTUgs4txIfeKXFu2fSu67dKbHvhWOaTV2xDaBhVvWYes740G?=
+ =?us-ascii?Q?3qMYxQ8kmXkLgKbcSYZ5X4sC0z6SyNtKBOjxahK8h+q8XxNOfAnu2wYUpyNO?=
+ =?us-ascii?Q?Pc05IBePyVnOiMxP0Hkx2a7Amx49aledtHoi788IwkdCM+M5TMgEILEgF9o3?=
+ =?us-ascii?Q?mydKsF+4YtrbtpB1BE1fDMjCbNkCzPhrphW2MxgaCIRZZoaFHAa23Ma7PpnJ?=
+ =?us-ascii?Q?gXfLfxuwjbX9I5qw7scnq25X5OuUojGxEwKHY3XYpkhReOzga0/Fgw7Ktm9S?=
+ =?us-ascii?Q?0aH5enbSAiT2h1HIiNMVxQJG3Bx60v/BoWyMPsMd18TX4x7dXBd5pxOBhzrh?=
+ =?us-ascii?Q?kAEljCv7t+fBolRmqzCQcguLLFYeVnNeaP80aYcm68sakiGb6jvbkH0M0syD?=
+ =?us-ascii?Q?REpqVs+9qoSKodab6ahp/DwfGXHYG/lY6eDPvllgqh8Yv2Xbygd2nqQAGyUQ?=
+ =?us-ascii?Q?VWYlj40r8U3sB9sIZk9B4dafOg7MjgTN07AEkEPEAf+sPhP4foVEBuqPYdcA?=
+ =?us-ascii?Q?/zeaNCdRnfVBFAqmr8GPYhC40gpGj1sg3UXwdwtjGLOOyDwn6gBxNpRm/Oi+?=
+ =?us-ascii?Q?CzH+SAe2w+vGuoccjsUpTZfos+C+bmNnL0KRJwPsMcMzo3/SRts30CU+1mlx?=
+ =?us-ascii?Q?4ofCp8djeiC72gD2yRkfckHyQT4wDSalDcFzOziOhWTP9PBpyoPf4vxtTV4C?=
+ =?us-ascii?Q?H+cRL1f8APVuQZpwP5jwRThaHqbdmYqwCt9ad2taA9utKP60EhInGQ/S7DTZ?=
+ =?us-ascii?Q?HBye0sdvdLUVC+PPK6malIed+W8q8VL108iKU3vQj3zvXmdVaj/y7ZhREYni?=
+ =?us-ascii?Q?wJSCIgVQ35nj12AQ3cBIDp/0g+lwkatvnXGGRxkTYdUspeT13L5sZjZNVroM?=
+ =?us-ascii?Q?WM7n+2D4KdgNP941oTWhYNHlMOY5bAjbnUVJiwdhwuout6HvqEtEdBCkggdy?=
+ =?us-ascii?Q?TC0BhLHswzMxQMSc8MrPiScs6kx9dUJ1kbHJETRt8/7g/+TH4N46Mo4J7yd5?=
+ =?us-ascii?Q?qU49pET7JHf/vR8zib6pywLgRbSGsG7ahqjrzoZAYI7Ub0t7SBsS22LDwwEn?=
+ =?us-ascii?Q?LPn5YPdcXCkr5jIupOM2AKmv89fpkjwoDt8tpCcRwt6ytdqrCAYHAWZ39TBz?=
+ =?us-ascii?Q?gdc=3D?=
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65f0d425-68f9-4d9f-8af0-08dc4ecbca24
+X-MS-Exchange-CrossTenant-AuthSource: PA4P189MB1469.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2024 02:07:15.8469
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0871
 
-We can reduce boilerplate code by using
-devm_regulator_get_enable_get_voltage().
+Hi everyone,
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
- drivers/input/keyboard/mpr121_touchkey.c | 45 +++-----------------------------
- 1 file changed, 3 insertions(+), 42 deletions(-)
+This patch add support for the Wii U / Nintendo Switch GameCube adapter
+This is also my first contribution to the linux kernel
 
-diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
-index d434753afab1..c59e7451f3cd 100644
---- a/drivers/input/keyboard/mpr121_touchkey.c
-+++ b/drivers/input/keyboard/mpr121_touchkey.c
-@@ -82,42 +82,6 @@ static const struct mpr121_init_register init_reg_table[] = {
- 	{ AUTO_CONFIG_CTRL_ADDR, 0x0b },
- };
- 
--static void mpr121_vdd_supply_disable(void *data)
--{
--	struct regulator *vdd_supply = data;
--
--	regulator_disable(vdd_supply);
--}
--
--static struct regulator *mpr121_vdd_supply_init(struct device *dev)
--{
--	struct regulator *vdd_supply;
--	int err;
--
--	vdd_supply = devm_regulator_get(dev, "vdd");
--	if (IS_ERR(vdd_supply)) {
--		dev_err(dev, "failed to get vdd regulator: %ld\n",
--			PTR_ERR(vdd_supply));
--		return vdd_supply;
--	}
--
--	err = regulator_enable(vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to enable vdd regulator: %d\n", err);
--		return ERR_PTR(err);
--	}
--
--	err = devm_add_action_or_reset(dev, mpr121_vdd_supply_disable,
--				       vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to add disable regulator action: %d\n",
--			err);
--		return ERR_PTR(err);
--	}
--
--	return vdd_supply;
--}
--
- static void mpr_touchkey_report(struct input_dev *dev)
- {
- 	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
-@@ -233,7 +197,6 @@ static int mpr121_phys_init(struct mpr121_touchkey *mpr121,
- static int mpr_touchkey_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct regulator *vdd_supply;
- 	int vdd_uv;
- 	struct mpr121_touchkey *mpr121;
- 	struct input_dev *input_dev;
-@@ -241,11 +204,9 @@ static int mpr_touchkey_probe(struct i2c_client *client)
- 	int error;
- 	int i;
- 
--	vdd_supply = mpr121_vdd_supply_init(dev);
--	if (IS_ERR(vdd_supply))
--		return PTR_ERR(vdd_supply);
--
--	vdd_uv = regulator_get_voltage(vdd_supply);
-+	vdd_uv = devm_regulator_get_enable_get_voltage(dev, "vdd");
-+	if (vdd_uv < 0)
-+		return vdd_uv;
- 
- 	mpr121 = devm_kzalloc(dev, sizeof(*mpr121), GFP_KERNEL);
- 	if (!mpr121)
+I tried as my best to make it based on github.com/ToadKing/wii-u-gc-adapter and
+Dolphin Emulator project as well as the xpad driver.
+
+There still an issue with it as the device report itself as an usb-hid device
+the usb-hid generic driver take the priority rather than this module if usb-hid
+is compiled directly into the kernel and this module as an external module.
+How can I fix this problem ? The module function properly if bind manually or
+if the usb-hid module is not enabled.
+
+Also I'm not really good with parallel programming I tried my best to make sure
+than there is no race condition but would be grateful if some can check too.
+
+Thank you for your time reading my contribution
+Robin
+
+Milas Robin (1):
+  Input: add gamecube adapter support
+
+ drivers/input/joystick/Kconfig            |  20 +
+ drivers/input/joystick/Makefile           |   1 +
+ drivers/input/joystick/gamecube-adapter.c | 607 ++++++++++++++++++++++
+ 3 files changed, 628 insertions(+)
+ create mode 100644 drivers/input/joystick/gamecube-adapter.c
 
 -- 
-2.43.2
+2.44.0
 
 
