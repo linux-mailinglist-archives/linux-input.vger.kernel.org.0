@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-2669-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2670-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC50D890B63
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 21:35:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABC4890B6F
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 21:37:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A65E1C2DE93
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:35:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25045296C3D
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:37:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79F8D139D0E;
-	Thu, 28 Mar 2024 20:34:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3EC7F7EE;
+	Thu, 28 Mar 2024 20:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjeOnd2g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="igUckRLN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A51581AAA;
-	Thu, 28 Mar 2024 20:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFF146BF;
+	Thu, 28 Mar 2024 20:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711658091; cv=none; b=tzo8joP3zQF3JA2OT0PYCjsMzsUeN7bwTwc36Pe/Bu0iEiXteuQqiHE6NCQOY6i7M0xmKsANtYei40BQ6rwAFspqq/gBnAnY4d/Jrz+DLrr1+p8qKeX/As141FyxMb4Vj9I4WyT7keHblL2l822Fpk8+p5Pk2gD2Xj9husweLGw=
+	t=1711658243; cv=none; b=GX5yWC9YYLpztbKxf5+5P8SNvdpsx24FPeFhKBhSm9Yz5FMOc0ikBue3pNPKKgR09DcEDBHTgkWa6pUaQJIoWrHVVDsbTczMmO8kjMoMGVnP9T20+NMsnhw2YYUBgXJd6BZfZxS+oudzAKiF30tLrBUt5DPaKNSAcUIPUCYzTX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711658091; c=relaxed/simple;
-	bh=DSSn4dYb57i6Mxgq4Q5lhmvmsupd4EPzrI7J2K9/zyM=;
+	s=arc-20240116; t=1711658243; c=relaxed/simple;
+	bh=vnHYx314qwSCkOWwj1tKTXE0ChWHnu2vxdHGmjAP+YM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6RL1bqzEEnLz6MCl4byp/MZN534y3s8sriUYrAhwVx5285FF0dmm4aGKgoP+y6jEcTeg0FJ0S8d+MevuH715XxfOaGYUjYp6avFWc3o/M2FXjxRrRhaTZEqcoyORSDc+D5jYCaGrQmWP2hfQRYxwSVFtufYJzcUxBecRkggbcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjeOnd2g; arc=none smtp.client-ip=209.85.215.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXqOfzplRUcS7bjlAj5x5Rybk60hOKrT4kNAo3/PBk/n82HLPFOw73nq8YszNQRm8dATTNq4G7fNLVGhWrtqeQXqFNf2UDxocDxQTX7wFT1c7rbv64QojTUtL9umftT/XOPFNmZy82xkbwadoqIA5lCEVqxrix0G+R/DA26/rdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=igUckRLN; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5dbcfa0eb5dso1054973a12.3;
-        Thu, 28 Mar 2024 13:34:49 -0700 (PDT)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e46dcd8feaso894188b3a.2;
+        Thu, 28 Mar 2024 13:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711658089; x=1712262889; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1711658241; x=1712263041; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLbu+KB+7pwzhjMcsbthnbW/ew5+GsJMASoSWw2F5YY=;
-        b=EjeOnd2gphWXxcwX0h28mXx6fUMnlXsgYHS7TzKE13Hy255++CwEy9W400gbSQIdFK
-         z83629febnuvw6OCtGsSnZ432l+0p5J4VTZZQUFmOzcwHZP1SFmi7u0Zfy2KMVSDFT0t
-         +n3zL0ZyTuoxZtB2rx39PXAYDX/7ORWfnT2QQL1u1p+TnHkA3l37DnIdR4ek266vR+RQ
-         ++xrX9ROTGZX4HS/p5Cy0X0YNuDU3w5z9x8bjh0PeKEds7Hwb8hh8kNsGu+PluU+aXHw
-         BiZabsNiSfqOqaF0T9T9pxkZcpoFUwyMIqCyDcUmMISQVFv6yrVJa8JqDsPQUETFgaPo
-         ZA/w==
+        bh=3mekUCLeBEm209UcyPPjf4dbkIOApvmlN6pXh76P0Gc=;
+        b=igUckRLNm2C5Z6YmvRvxiZ6+Czme64sF/LHC45XEVf5/EvZs5kDmmFKkldpAsS5u9T
+         UkME44AtCRoBbr/7PMudAxOYMHF+pTHmFSkWOqoHQqA/SZTAMvKcN/cwuZgnyQhyJUm8
+         8P1KR7ZXhzco1YT7hnFM3foJwGrOTozvDy7ATV0fjoId4kfjzk7e+E9OzRbJmdFYL/Q9
+         WYcj4xa9FUZcBLfdrgZtdXrdZj98ZMnUAb11vWmrZiUDaqPbyhT7rEIckvz5x849wFh1
+         C4LZ2TQxc465fvwy6IwCtjZQLiU4GwFxG10ELhRQ+eVlEbTsGek06yYUyiMArV0j7hLF
+         IAlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711658089; x=1712262889;
+        d=1e100.net; s=20230601; t=1711658241; x=1712263041;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SLbu+KB+7pwzhjMcsbthnbW/ew5+GsJMASoSWw2F5YY=;
-        b=Worm0lC1Yu/xfdFyxv9dhUPi75RN4ZbuZ1kO1QsEyXpVnxOieCw6gTFANj43fPOo9q
-         o4ueHTEYeOO4x7u9NACWk/fnFL6D0HoL7wIA4LtXsupRHAoKj18385j2k583g2MZvy/2
-         yt06cdHqtLRa5GpAkIhVAb+vNeMnQkokNU/UMEXimhPusdibj08Xhw2ic9Odsk8UK+Yg
-         4ubM55qc/05dJLK4YYUGmu8AB5TGGkVNqTURURTSn3zAH3Rh1fuQpoH8/xc+3ac9GlmT
-         yJIMG2J8xx7eW6VE0GT7rfaAMla8WArrvEwLxK22H1VmGgAKzhRzCUuN7RjlCoAwkOiO
-         xluQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8q4rIMYXY2EEvesI3nkQ0X3iyWEmyDHhV5SN0OmNLXxz2pCvQMAzJh32qYSFStPIsmMTm4QxVrHv09DR71VByK+JC0DNEyAibqz53vje2yEtmu17iegZ8Xdk8/besO6Kd0unPe6iPg3c=
-X-Gm-Message-State: AOJu0YwpBHopIWfF8pgxXbD8VYWfy2dYrU06vBzvfEaSIwBe0ssyrlPt
-	a1ettvWPWNgah22//fvhrdCdmJK31hUQGmzrxFBWHbc4VxMLFaCX
-X-Google-Smtp-Source: AGHT+IGI1aEQDWHmKQBUmQs1CLDGzfkuMWxc6VD+3sktx+tNgpOrIFo2satat2f4wSA9R6zPsOQhhg==
-X-Received: by 2002:a05:6a20:6717:b0:1a3:5bb3:ce11 with SMTP id q23-20020a056a20671700b001a35bb3ce11mr221125pzh.25.1711658089316;
-        Thu, 28 Mar 2024 13:34:49 -0700 (PDT)
+        bh=3mekUCLeBEm209UcyPPjf4dbkIOApvmlN6pXh76P0Gc=;
+        b=i8N0BC/dWUdQF9AoGjgJ4bDUSRolvoxGYimL27v5YoYTuVncI4p8BaQ0M1aWhO9dik
+         TZCriUonmpUPu4ArA2fayULQyQnaZF/0mm1cN1E1U8TReKRX8Qibn4reyMD2xqXG02cR
+         PJNOVYoiuXLJpqZ8LbQDR2VcE5Ii9+DmnQPzpX1zVaprFgSqC5luVM2sWf21bowyYquL
+         Qdvmcqs8TZBV3nRpfCvwRBUYM6nqN2CgZ2PgijrHyWRL0kpxhkPvchcxo6w6LIuMKe0i
+         2QTbV7rvfFVXogf516vukGmmhu1WSyzZChqyWQKP2c9AZs30F03WK2PhaCgajRd0zzyJ
+         Y4kA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJpWGzw1Q9fpRNg86oklrHqgAIVPpd8Ch9ztZ0Y4fH84NA5MyNC+x65wKKl8jCDDqnrlDCb9fjHquK9wm1a86BxWtft1vEqReCpAJi0Q3N8oMPgUrg6y47XeIEMA2SJ6R3fnjv4RhTgbk=
+X-Gm-Message-State: AOJu0YyZ0CCA0XfPBQgqyPsmoV+2dStpAuujkoHtePfeZyMRSeFZLR0t
+	aoPUFmltMnIlZNsk1FpNrLp9gxIXyoAJtOMvkRXh3qxpSjhALIM77uf/V9ejOfw=
+X-Google-Smtp-Source: AGHT+IElNpwrorBm8kulfC0t9Ae1oILrqeaxMakhHrW9s5jS4jQAyEOdezW1rFDRTcVk7uHfQV9yWg==
+X-Received: by 2002:a05:6a20:914e:b0:1a3:9566:2784 with SMTP id x14-20020a056a20914e00b001a395662784mr303483pzc.16.1711658241486;
+        Thu, 28 Mar 2024 13:37:21 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
-        by smtp.gmail.com with ESMTPSA id t3-20020a170902e84300b001deed044b7dsm2056462plg.185.2024.03.28.13.34.48
+        by smtp.gmail.com with ESMTPSA id o20-20020a63e354000000b005dc36279d6dsm1736090pgj.73.2024.03.28.13.37.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 13:34:48 -0700 (PDT)
-Date: Thu, 28 Mar 2024 13:34:46 -0700
+        Thu, 28 Mar 2024 13:37:20 -0700 (PDT)
+Date: Thu, 28 Mar 2024 13:37:18 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: rrangel@chromium.org, shaoyang@uniontech.com, helugang@uniontech.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	huangbibo <huangbibo@uniontech.com>
-Subject: Re: [PATCH] Input: PS/2 - add support for Lenovo Xiaoxin keyboard
-Message-ID: <ZgXUZtEwHEF8Rs3i@google.com>
-References: <593C1A73FB93BACE+20240326131718.20497-1-wangyuli@uniontech.com>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: adafruit-seesaw - only report buttons that
+ changed state
+Message-ID: <ZgXU_tYvR22zgSdQ@google.com>
+References: <ZZ-U_bmZpIdoYA6c@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -83,36 +83,17 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <593C1A73FB93BACE+20240326131718.20497-1-wangyuli@uniontech.com>
+In-Reply-To: <ZZ-U_bmZpIdoYA6c@google.com>
 
-Hi,
-
-On Tue, Mar 26, 2024 at 09:17:18PM +0800, WangYuli wrote:
-> Modified keyboard_ids in function ps2_is_keyboard_id
-> for Lenovo Xiaoxin keyboard.
+On Wed, Jan 10, 2024 at 11:13:01PM -0800, Dmitry Torokhov wrote:
+> If a button has not changed its state when we poll the device the
+> driver does not need to report it. While duplicate events will be
+> filtered out by the input core anyway we can do it very cheaply
+> directly in the driver.
 > 
-> Signed-off-by: yuanjianye <yuanjianye@uniontech.com>
-> Signed-off-by: shaoyang <shaoyang@uniontech.com>
-> Reviewed-by: huangbibo <huangbibo@uniontech.com>
-> Signed-off-by: helugang <helugang@uniontech.com>
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> ---
->  drivers/input/serio/libps2.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
-> index 6d78a1fe00c1..39d46526c56a 100644
-> --- a/drivers/input/serio/libps2.c
-> +++ b/drivers/input/serio/libps2.c
-> @@ -189,6 +189,7 @@ bool ps2_is_keyboard_id(u8 id_byte)
->  		0x5d,	/* Trust keyboard		*/
->  		0x60,	/* NMB SGI keyboard, translated */
->  		0x47,	/* NMB SGI keyboard		*/
-> +		0x83,	/* Lenovo Xiaoxin keyboard	*/
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Could you please tell me more about the keyboard? What ID does it use?
-Majority of keyboards are using 0xab83, does your device forget to send
-0xab by chance?
+I guess there's no objections so I am applying it.
 
 Thanks.
 
