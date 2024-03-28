@@ -1,151 +1,155 @@
-Return-Path: <linux-input+bounces-2621-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2622-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE1E88FCED
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 11:25:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA08E88FE47
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 12:44:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3125D1F277EE
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 10:25:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D508B21FBF
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 11:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15486657C5;
-	Thu, 28 Mar 2024 10:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253967E103;
+	Thu, 28 Mar 2024 11:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=holoscopio.com header.i=@holoscopio.com header.b="VPL5dvFP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0V87NQs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from grilo.cascardo.info (trem.minaslivre.org [195.201.110.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A450158239;
-	Thu, 28 Mar 2024 10:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.110.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8D524BD;
+	Thu, 28 Mar 2024 11:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711621527; cv=none; b=e0EEfoW5ldWjXbijJhba8AAqA4A/J2MQQCCQZys8AC/tengKQBI5gtOCJSdoTSV+PWIqs1Xc71Yj/sDJav8qAjCwhF4gPRs1XEXqmjWzcyAzUZ2Rxysf65F1QIGvnKM9qgDrj1vHEIpzmajYC22Mvb8vL3C07jmrsEQ+H7+3kag=
+	t=1711626277; cv=none; b=lNu2OOXF03J24e1dSaGTTUghjRSb1IoDs1IVbrE0vxnSIG0A6O02i2vt/VGv+czBqyYQUejLopQoz6IFTBUt7uILK1e06Ynlta9s4jrtlO70GoDwQUN3VWEuyqvMcjSNgnRr7idhJQcoZMZ30PWovsOUU5PMA8h7LBqos8h/LwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711621527; c=relaxed/simple;
-	bh=d8qZMuxobQ9NQ+uTJ8eeu7ofwq5oepk3x8NbHvHajl8=;
+	s=arc-20240116; t=1711626277; c=relaxed/simple;
+	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UuapznrTWJdt2aBYklSCphdU0DDeLi+GAyC+a7uPgZEXnN0AF0hevmUpnZeKy8A+O0eHh3vmx5zu54X2vMk+ZKdPiJBM6+F+Lk8rvWsZ9Wa3Jqd8zdUaOZg+Js+OB2YWCNyuhCI6MUu2VNBpPHTNSO/0dWR7gp2WFVr6TWZ40Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holoscopio.com; spf=pass smtp.mailfrom=holoscopio.com; dkim=pass (2048-bit key) header.d=holoscopio.com header.i=@holoscopio.com header.b=VPL5dvFP; arc=none smtp.client-ip=195.201.110.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=holoscopio.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=holoscopio.com
-Received: from siri.cascardo.eti.br (unknown [IPv6:2804:431:e7c5:1ab4:6a17:29ff:fe00:4f38])
-	by grilo.cascardo.info (Postfix) with ESMTPSA id D24D0206F1A;
-	Thu, 28 Mar 2024 07:25:02 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=holoscopio.com;
-	s=mail; t=1711621511;
-	bh=d8qZMuxobQ9NQ+uTJ8eeu7ofwq5oepk3x8NbHvHajl8=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwOVAMHauvCn6QAHEAnst39zmDPMRMwpiMec7PbNYWdyHXcdR4Z516icFBo8r4oB5k0+7cFUjDeKIYgk8NKt2b9PwxgYLHvcIqlo6P/b32ke4C5FzPfq7QjvTGLbjYzURgfEBwVMQ+CaKcdLtXSd1xgSYaYNxuPxxYDabXIrtLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0V87NQs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30767C433C7;
+	Thu, 28 Mar 2024 11:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711626276;
+	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VPL5dvFPC9/KvtZR7dhL29GCVfdBABB9ilSj2h62jCjgj3jNASCQmKccKddwNUR2u
-	 YsVTDl1IneRVDN1sl2i083vS8wXNrCVnJeOoACNhfDVrxV18sQ8S9BGenJczRpc0Be
-	 hohraa2sTtoUaUhF6GKan9BOWJJh9vKv40DsXWvSZ8CFpj1l2j2YugcG3nCrZSpzJf
-	 JfbYHtAZWZs34rq1Uaa4aI5+BoEcImc7aJd1GiXE1WUhnk4JeGzQjUFYCYDv3tgZLf
-	 OXY2vM83OKFEOE5Zt+d53o4HmJWd36MVVemcJCkR9kV1WBaVNfjBsxNUEWR4fE5V9u
-	 fdb8VgUNzIKZw==
-Date: Thu, 28 Mar 2024 07:24:59 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-	Robert Moore <robert.moore@intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Daniel Oliveira Nascimento <don@syst.com.br>,
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-	Matan Ziv-Av <matan@svgalib.org>,
-	Mattia Dongili <malattia@linux.it>,
-	Azael Avalos <coproscefalo@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jeff Sipek <jsipek@vmware.com>, Ajay Kaher <akaher@vmware.com>,
-	Alexey Makhalov <amakhalov@vmware.com>,
-	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 06/19] platform: classmate-laptop: drop owner assignment
-Message-ID: <ZgVFe4MRgQNZW4WM@siri.cascardo.eti.br>
-References: <20240327-b4-module-owner-acpi-v1-0-725241a2d224@linaro.org>
- <20240327-b4-module-owner-acpi-v1-6-725241a2d224@linaro.org>
+	b=q0V87NQsRixWt0dPQUP4wiEyCTi3RQUbUoHlZ3YjUUIytF9cN3IV4nx/CKutUGrZd
+	 t2xT/a1e3It5eNYhj0gf4BeFdtMOYYlE83J0xxW9SxuZa/XdcC63gS1fa2ga2ul0Em
+	 VheHSyLmCG3tlqmpnuNAkqX6j0UikLoMYtnAx/c0F58ldKXIFUYApS7lN7uM2sJ0cd
+	 TpIKG6eQGPCX5G134LP4947KkSFfWk4mUFHtl0+U9oZbxoEtnF2gsbpGM3hd/Xxtm2
+	 z+2EL4LxOPRbfi9ZVnCAezY7g2PnAaxm2KVWn0WqXvqfo1PvnVt0Vss7QMpWHugHKt
+	 v6PDqDCiHXFXA==
+Date: Thu, 28 Mar 2024 11:44:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	broonie@kernel.org, jeff@labundy.com, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] Add support for CS40L50
+Message-ID: <20240328114431.GC13211@google.com>
+References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240327-b4-module-owner-acpi-v1-6-725241a2d224@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
 
-On Wed, Mar 27, 2024 at 08:43:53AM +0100, Krzysztof Kozlowski wrote:
-> ACPI bus core already sets the .owner, so driver does not need to.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Wed, 20 Mar 2024, James Ogletree wrote:
 
-Acked-by: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
+> Changes in v10:
+> - Minor refactoring and logical improvements all around
+> - Renamed and added supplies
+> 
+> Changes in v9:
+> - Fixed empty struct by utilizing cs_dsp's post_run callback
+> - Style fixes in MFD driver
+> 
+> Changes in v8:
+> - set_sysclk() -> set_bclk_ratio()
+> - Added ID table to codec driver
+> - Style improvements
+> - Fixed ordering of new write sequence operations
+> 
+> Changes in v7:
+> - Fixed sparse warning
+> - Moved write sequences to private data structure
+> - Logical and style improvements in write sequence interface
+> 
+> Changes in v6:
+> - Updated write sequencer interface to be control-name based
+> - Fixed a race condition and non-handling of repeats in playback callback
+> - Stylistic and logical improvements all around
+> 
+> Changes in v5:
+> - Added a codec sub-device to support I2S streaming
+> - Moved write sequencer code from cirrus_haptics to cs_dsp
+> - Reverted cirrus_haptics library; future Cirrus input
+>   drivers will export and utilize cs40l50_vibra functions
+> - Added more comments
+> - Many small stylistic and logical improvements
+> 
+> Changes in v4:
+> - Moved from Input to MFD
+> - Moved common Cirrus haptic functions to a library
+> - Incorporated runtime PM framework
+> - Many style improvements
+> 
+> Changes in v3:
+> - YAML formatting corrections
+> - Fixed typo in MAINTAINERS
+> - Used generic node name "haptic-driver"
+> - Fixed probe error code paths
+> - Switched to "sizeof(*)"
+> - Removed tree reference in MAINTAINERS
+> 
+> Changes in v2:
+> - Fixed checkpatch warnings
+> 
+> James Ogletree (5):
+>   firmware: cs_dsp: Add write sequence interface
+>   dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+>   mfd: cs40l50: Add support for CS40L50 core driver
+>   Input: cs40l50 - Add support for the CS40L50 haptic driver
+>   ASoC: cs40l50: Support I2S streaming to CS40L50
+> 
+>  .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
+>  MAINTAINERS                                   |  12 +
+>  drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
+>  drivers/input/misc/Kconfig                    |  10 +
+>  drivers/input/misc/Makefile                   |   1 +
+>  drivers/input/misc/cs40l50-vibra.c            | 577 ++++++++++++++++++
+>  drivers/mfd/Kconfig                           |  30 +
+>  drivers/mfd/Makefile                          |   4 +
+>  drivers/mfd/cs40l50-core.c                    | 570 +++++++++++++++++
+>  drivers/mfd/cs40l50-i2c.c                     |  68 +++
+>  drivers/mfd/cs40l50-spi.c                     |  68 +++
+>  include/linux/firmware/cirrus/cs_dsp.h        |  27 +
+>  include/linux/mfd/cs40l50.h                   | 137 +++++
+>  sound/soc/codecs/Kconfig                      |  11 +
+>  sound/soc/codecs/Makefile                     |   2 +
+>  sound/soc/codecs/cs40l50-codec.c              | 308 ++++++++++
+>  16 files changed, 2171 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+>  create mode 100644 drivers/input/misc/cs40l50-vibra.c
+>  create mode 100644 drivers/mfd/cs40l50-core.c
+>  create mode 100644 drivers/mfd/cs40l50-i2c.c
+>  create mode 100644 drivers/mfd/cs40l50-spi.c
+>  create mode 100644 include/linux/mfd/cs40l50.h
+>  create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
-> ---
->  drivers/platform/x86/classmate-laptop.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/classmate-laptop.c b/drivers/platform/x86/classmate-laptop.c
-> index 2edaea2492df..87462e7c6219 100644
-> --- a/drivers/platform/x86/classmate-laptop.c
-> +++ b/drivers/platform/x86/classmate-laptop.c
-> @@ -434,7 +434,6 @@ static const struct acpi_device_id cmpc_accel_device_ids_v4[] = {
->  };
->  
->  static struct acpi_driver cmpc_accel_acpi_driver_v4 = {
-> -	.owner = THIS_MODULE,
->  	.name = "cmpc_accel_v4",
->  	.class = "cmpc_accel_v4",
->  	.ids = cmpc_accel_device_ids_v4,
-> @@ -660,7 +659,6 @@ static const struct acpi_device_id cmpc_accel_device_ids[] = {
->  };
->  
->  static struct acpi_driver cmpc_accel_acpi_driver = {
-> -	.owner = THIS_MODULE,
->  	.name = "cmpc_accel",
->  	.class = "cmpc_accel",
->  	.ids = cmpc_accel_device_ids,
-> @@ -754,7 +752,6 @@ static const struct acpi_device_id cmpc_tablet_device_ids[] = {
->  };
->  
->  static struct acpi_driver cmpc_tablet_acpi_driver = {
-> -	.owner = THIS_MODULE,
->  	.name = "cmpc_tablet",
->  	.class = "cmpc_tablet",
->  	.ids = cmpc_tablet_device_ids,
-> @@ -996,7 +993,6 @@ static const struct acpi_device_id cmpc_ipml_device_ids[] = {
->  };
->  
->  static struct acpi_driver cmpc_ipml_acpi_driver = {
-> -	.owner = THIS_MODULE,
->  	.name = "cmpc",
->  	.class = "cmpc",
->  	.ids = cmpc_ipml_device_ids,
-> @@ -1064,7 +1060,6 @@ static const struct acpi_device_id cmpc_keys_device_ids[] = {
->  };
->  
->  static struct acpi_driver cmpc_keys_acpi_driver = {
-> -	.owner = THIS_MODULE,
->  	.name = "cmpc_keys",
->  	.class = "cmpc_keys",
->  	.ids = cmpc_keys_device_ids,
-> 
-> -- 
-> 2.34.1
-> 
+MFD part looks okay.
+
+I need Acks from all of the other maintainers before I can process the set.
+
+-- 
+Lee Jones [李琼斯]
 
