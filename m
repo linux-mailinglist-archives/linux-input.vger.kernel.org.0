@@ -1,120 +1,116 @@
-Return-Path: <linux-input+bounces-2618-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2619-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE74C88FAC6
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 10:10:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 660C088FC99
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 11:11:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58FD22915E3
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 09:10:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DCFF1C2D796
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 10:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4AD51009;
-	Thu, 28 Mar 2024 09:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A8D7CF34;
+	Thu, 28 Mar 2024 10:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OFLlSdaF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZnuMpnRg"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405BF3C0B;
-	Thu, 28 Mar 2024 09:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725EE7B3EB;
+	Thu, 28 Mar 2024 10:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711617001; cv=none; b=lbtHWiyLLQa+F4ct5N0vjDYAYFDUsEi0qArHcVoy6YrRKDzIWbId3BF37ZOIz4mUsYfEHue9VLXraYep4Rt5eGVb5TDQOnz6zJuHphr8zFrR5SwPZ5NF4LTKwgLjHhzaaABA1WgRbOJ4DP8rei/Z1HA2NDHCK3oFSFEUP0ct8Xc=
+	t=1711620686; cv=none; b=BL3okYDl+2GsjDb+qCDH8IsCubvEqaHA7yX7iRIx5asqVcjf3rE1vlVCT7OXUbZd+aZrIy5E6JgPBL4ONwIDmDY7Um0/4RwgGDyVahTmlsA4FgL8NKVNFKsg/tMN1UcadVS6SuzXu7Qyw1Xbvh61enAXV2Rsvv1pc7HOLzWmQ/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711617001; c=relaxed/simple;
-	bh=buN5Ppu9AGNZtC/if8g17RcZZEQzgqGlib2VdnuWvYg=;
+	s=arc-20240116; t=1711620686; c=relaxed/simple;
+	bh=/iYJllScuVN6X9EML6q5PXNHY8zPt1H2IRj7tnZN5Eg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=llnRjhtlzYMgw9mR22yVZWJIz/eVD+RxtsnbndqRTfr3ths1g80V92Jk4Q8QoNii8e04StK1eEeITfG9bqzhHNWT0IuIOuEcQkyiO9DAVl0CsPwTshgg2Jt2KQpz13Qofgek37N2gpByTQ4i8U2jZCDoUlAISgbzeGst2QfCGj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OFLlSdaF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DAA8C433F1;
-	Thu, 28 Mar 2024 09:10:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=pB7sp0+kO3pSGivJOuRWvt3ZjqfI4kX1JxX8YMgQtuC/y14LvBmHmtLWLhA7sL6MC8WeaZycsOHbg5hSa3hVKgMj2Q22YPMVQMeyT8pX0QoT7yJT/D8Dv8t/b+MqYjaUfMO9AA5tP9b/WVRTRnzJqAYnUPKnpgBFnmsmhfT2U/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZnuMpnRg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205E1C433C7;
+	Thu, 28 Mar 2024 10:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711617000;
-	bh=buN5Ppu9AGNZtC/if8g17RcZZEQzgqGlib2VdnuWvYg=;
+	s=k20201202; t=1711620685;
+	bh=/iYJllScuVN6X9EML6q5PXNHY8zPt1H2IRj7tnZN5Eg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OFLlSdaFgLJfwlccYTUQ07QIz60FOyuC8o6pcVV92LZbtE4gq7IAodXVpi6MWqQKD
-	 /P4Fl8Qvp5yVtqoZgDTztgedrMv69WkJQHT0+Txctf1PpT/Xt7GN34m4JFuIr7B2Ob
-	 ZenIk9jv0ixo23yCmoRslgOW7owKOyIYOaTT9eixAfQmT/MLYqxgdsDEciF2ow33fx
-	 8Bp/LnCK2rxFLnCW0HllcXCOe0nR3LyIMLLjxk5pVqhide4zeg+ntfoRA3RYM/BQBD
-	 2/XHLh2NMuIq7tdO8199Pn4n+qV0Z9Lu1bznDyMzbl74t5Y9igoKy2SgIRxUTfCqJ8
-	 VO6OdnuV01Mcg==
-Date: Thu, 28 Mar 2024 10:09:57 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Russell King <linux@armlinux.org.uk>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@linaro.org>, 
-	James Clark <james.clark@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Olivia Mackall <olivia@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-i2c@vger.kernel.org, linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-input@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [PATCH 01/19] amba: store owner from modules with
- amba_driver_register()
-Message-ID: <bm7xoej6ihtzw63mhocvkkb7j5no2wnhztwrvvlogmuxjycviv@7frc2s3dsi5h>
-References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
- <20240326-module-owner-amba-v1-1-4517b091385b@linaro.org>
- <6p4cdmbhrezm7fqbe3kgrkblqgrhaq4fgiw5x4n5dnptii7kjp@vmbj2pkjglp7>
- <c33833ad-9102-40e6-97bf-9a4e1bf0a3d9@linaro.org>
+	b=ZnuMpnRgXxbyxxVjxbv6mntmLR20Py4SnOpS2JcomdOHGP9F6hYdITusD2bexeDz3
+	 MwFi7L/pK6aQoOWMRifhNVe/Yi48dxiBYvJe0SJyq1ya1L6R4t1+N6s5d5tx+I+/2P
+	 crAHyaqUi+/3HoOs+4FDzRMDJ8NKUPKpx/HgLWBSalu3NjXcYzY8JpzvDeOmdpJiKI
+	 US+5Czvt2RJH5UPYJIRVMWZIYbS0ptRkZ88CUARpjh+bTun5qYRaWEjGNBG+7UHO1e
+	 qlQpILAtKBaxWhR+y+7+xZ63Q9oH9kaNCrQLBC5xZTSL4BdPGWg7vcz7HlqPyU6A7K
+	 ZuuwglAW4DGRg==
+Date: Thu, 28 Mar 2024 10:11:20 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+	deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: [GIT PULL] Immutable branch between MFD, Auxdisplay, HID and FB due
+ for the v6.9 merge window
+Message-ID: <20240328101120.GX13211@google.com>
+References: <20240305162425.23845-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c33833ad-9102-40e6-97bf-9a4e1bf0a3d9@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305162425.23845-1-tzimmermann@suse.de>
 
-Hi Krzysztof,
+Enjoy!
 
-> >>  /**
-> >> - *	amba_driver_register - register an AMBA device driver
-> >> + *	__amba_driver_register - register an AMBA device driver
-> >>   *	@drv: amba device driver structure
-> >> + *	@owner: owning module/driver
-> >>   *
-> >>   *	Register an AMBA device driver with the Linux device model
-> >>   *	core.  If devices pre-exist, the drivers probe function will
-> >>   *	be called.
-> >>   */
-> >> -int amba_driver_register(struct amba_driver *drv)
-> >> +int __amba_driver_register(struct amba_driver *drv,
-> > 
-> > ...
-> > 
-> >> +/*
-> >> + * use a macro to avoid include chaining to get THIS_MODULE
-> >> + */
-> > 
-> > Should the documentation be moved here? Well... I don't see any
-> > documentation linking this file yet, but in case it comes we want
-> > documented amba_driver_register() rather than
-> > __amba_driver_register().
-> > 
-> 
-> That's just a wrapper, not API... why would we care to have kerneldoc
-> for it?
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-Because everyone should use the wrapper while the real function
-will be used only once or twice.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-I see also that this is a common practice which I don't surely
-like.
+are available in the Git repository at:
 
-In any case there is no documentation exported for AMBA so that
-this discussion does not bring any tangible benefit.
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-auxdisplay-hid-fb-v6.9
 
-So that, considering that it's a good improvement,
+for you to fetch changes up to 0a4be7263749945a3882f7a0e2e5b1c45c31064e:
 
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+  backlight: Add controls_device callback to struct backlight_ops (2024-03-28 10:09:06 +0000)
 
-Andi
+----------------------------------------------------------------
+Immutable branch between MFD, Auxdisplay, HID and FB due for the v6.9 merge window
+
+----------------------------------------------------------------
+Thomas Zimmermann (10):
+      backlight: Match backlight device against struct fb_info.bl_dev
+      auxdisplay: ht16k33: Remove struct backlight_ops.check_fb
+      hid: hid-picolcd: Fix initialization order
+      hid: hid-picolcd: Remove struct backlight_ops.check_fb
+      backlight: aat2870-backlight: Remove struct backlight.check_fb
+      backlight: pwm-backlight: Remove struct backlight_ops.check_fb
+      fbdev: sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+      fbdev: ssd1307fb: Init backlight before registering framebuffer
+      fbdev: ssd1307fb: Remove struct backlight_ops.check_fb
+      backlight: Add controls_device callback to struct backlight_ops
+
+ drivers/auxdisplay/ht16k33.c             |  8 --------
+ drivers/hid/hid-picolcd_backlight.c      |  7 -------
+ drivers/hid/hid-picolcd_core.c           | 14 +++++++-------
+ drivers/hid/hid-picolcd_fb.c             |  6 ++++++
+ drivers/video/backlight/aat2870_bl.c     |  7 -------
+ drivers/video/backlight/backlight.c      |  8 ++++++--
+ drivers/video/backlight/bd6107.c         | 12 ++++++------
+ drivers/video/backlight/gpio_backlight.c | 12 ++++++------
+ drivers/video/backlight/lv5207lp.c       | 12 ++++++------
+ drivers/video/backlight/pwm_bl.c         | 12 ------------
+ drivers/video/fbdev/core/fb_backlight.c  |  6 ++++++
+ drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 -------
+ drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++++--------------------
+ include/linux/backlight.h                | 16 ++++++++--------
+ include/linux/fb.h                       |  9 +++++++++
+ include/linux/pwm_backlight.h            |  1 -
+ 16 files changed, 71 insertions(+), 97 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
 
