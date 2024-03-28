@@ -1,155 +1,115 @@
-Return-Path: <linux-input+bounces-2622-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2623-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA08E88FE47
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 12:44:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9B888FEDA
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 13:22:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D508B21FBF
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 11:44:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F59D1F2240E
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 12:22:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253967E103;
-	Thu, 28 Mar 2024 11:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8581D7E591;
+	Thu, 28 Mar 2024 12:22:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0V87NQs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0wtH3fm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8D524BD;
-	Thu, 28 Mar 2024 11:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D405854BDA;
+	Thu, 28 Mar 2024 12:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711626277; cv=none; b=lNu2OOXF03J24e1dSaGTTUghjRSb1IoDs1IVbrE0vxnSIG0A6O02i2vt/VGv+czBqyYQUejLopQoz6IFTBUt7uILK1e06Ynlta9s4jrtlO70GoDwQUN3VWEuyqvMcjSNgnRr7idhJQcoZMZ30PWovsOUU5PMA8h7LBqos8h/LwY=
+	t=1711628538; cv=none; b=Hrp1MiHp/SNIeOszFa/67sPy6RvK2NlNjTLN6QUc/MrSx2LBV2zxoblxfCiQs60ksrZifkSg8gRRhwcdsJINh3sRUVLlN45KFdIDBC7ytPkmFbTL+wF79cC9Ayfv8q8AWAcsryFjm3iiV3goTqhpHxpF7uIo52xQ8N0HajbjVnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711626277; c=relaxed/simple;
-	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwOVAMHauvCn6QAHEAnst39zmDPMRMwpiMec7PbNYWdyHXcdR4Z516icFBo8r4oB5k0+7cFUjDeKIYgk8NKt2b9PwxgYLHvcIqlo6P/b32ke4C5FzPfq7QjvTGLbjYzURgfEBwVMQ+CaKcdLtXSd1xgSYaYNxuPxxYDabXIrtLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0V87NQs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30767C433C7;
-	Thu, 28 Mar 2024 11:44:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711626276;
-	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q0V87NQsRixWt0dPQUP4wiEyCTi3RQUbUoHlZ3YjUUIytF9cN3IV4nx/CKutUGrZd
-	 t2xT/a1e3It5eNYhj0gf4BeFdtMOYYlE83J0xxW9SxuZa/XdcC63gS1fa2ga2ul0Em
-	 VheHSyLmCG3tlqmpnuNAkqX6j0UikLoMYtnAx/c0F58ldKXIFUYApS7lN7uM2sJ0cd
-	 TpIKG6eQGPCX5G134LP4947KkSFfWk4mUFHtl0+U9oZbxoEtnF2gsbpGM3hd/Xxtm2
-	 z+2EL4LxOPRbfi9ZVnCAezY7g2PnAaxm2KVWn0WqXvqfo1PvnVt0Vss7QMpWHugHKt
-	 v6PDqDCiHXFXA==
-Date: Thu, 28 Mar 2024 11:44:31 +0000
-From: Lee Jones <lee@kernel.org>
-To: James Ogletree <jogletre@opensource.cirrus.com>
-Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	broonie@kernel.org, jeff@labundy.com, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v10 0/5] Add support for CS40L50
-Message-ID: <20240328114431.GC13211@google.com>
-References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
+	s=arc-20240116; t=1711628538; c=relaxed/simple;
+	bh=2fe0n8LweizaCOPGU4EyERZ9VYXN1XEcuUzuN0FtvQA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KPVmX/474QH/RnVz/yS0aeXOsqzWfOrdQbtxoW93WmiRrGrVPGPHqH53gUtV6ipAQNuj+8pMn+RE7zPCEDXanWSr7sK9wETtO0lZF2tm2uRqMWQdukRAUmmz+yc+Y48f5plBzHO2xt9hEgnEJWDspAZkpQSNNYKLQvS464+EsOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0wtH3fm; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-341cce3e5f0so783995f8f.1;
+        Thu, 28 Mar 2024 05:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711628535; x=1712233335; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayHPtSs90OswBRl/sKzno/7Sgnyo8R4+Sjb5HQX47gY=;
+        b=D0wtH3fm3bP5kNdXwqnnuaW0Mu6MfiA8nKpcWFKxeWBqZ6zIDMj2Yv43ZCCe9rsR4q
+         dR8a0T3CWMIF2NAM2kaMtTB3YiV586EetqiPnMKbq/2+GCmilLAbJ+aAWtRoTcZTWnMt
+         kw7m9yr+7DfLAaxeKDa2d1kvWAta098piZm84ptIvG1WxIIkDDsjiLX8EciBAHpKLYR4
+         9fjE0ltW9+L9D1OpfsK/fzFiSG4+GCsF2zSRkdiSP2fNZ1eKZ/3aQ8obABiAWJeMZ063
+         gzRBNDeQwSTXOBoq2DsHuKbb82ULs0YBUaHXuvQDJMT0Ugnu9h3SoC8XZCDxv7FK1ONJ
+         /15A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711628535; x=1712233335;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ayHPtSs90OswBRl/sKzno/7Sgnyo8R4+Sjb5HQX47gY=;
+        b=o0JdnudbCfl6joh4ShEtLfKgEjLFbB6GcYUHlZFYM4GqOewyIKu07ja9UpeHOTjLBB
+         kQyEqiSM6UMSrSSmDCPO9wNxJNAZ1TUBOSoYXLbVOZSC+/PTtAw//A8O5+4JfPvBA/uJ
+         ocG5VCfycQIQEApjITkdEW/mApZwaFoJK7pN+GGGQCLlauWmpDVHzbbhRjpCIJcHpnVe
+         v4eyLo1tkLdxsx2e8VKYQA8bSpqOu5ME3q+47bPvy0hlZj/AmaFiqugRPuOCjKbqYmNG
+         Z6NSi5ZR6OQ8DBN2zXHPqOZmL01GaMGG9AXElRmYjtcEm6frQFEhomjYUxSSKSxVq48V
+         w5Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCWur7AZJ15TDHuHkCNEYxadYruOZCZV7FZ9s+xT9BRoJDA01xPGqcaTh1vvzbG78rYsmZcxvwxfKsGAbDXSsbBvOG0oGryT7UIKsnunm6/tYuk35WuhG1jeahTdWfI+czUjsHF82uWYhWQ=
+X-Gm-Message-State: AOJu0Yy/deRRzVI9Mc5BTnO9IUBg2enuljA21llgQ29S1cdxjBHIdBED
+	vLWs7KPYeEMYIvqC5bN7dVFTBtWz/ASqk1KQuCdgQpQd8oaStUJ6
+X-Google-Smtp-Source: AGHT+IHzqvUZ2ksUlygpI0QeJuF7vcP1wfbXiUmzh4ylbdpcwnBTVKDqLeJGESOkUEI0TxiC+UVLvw==
+X-Received: by 2002:a5d:560f:0:b0:33d:2180:30e8 with SMTP id l15-20020a5d560f000000b0033d218030e8mr2680359wrv.25.1711628535038;
+        Thu, 28 Mar 2024 05:22:15 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id bl37-20020adfe265000000b0033b87c2725csm1625229wrb.104.2024.03.28.05.22.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 05:22:14 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] HID: sony: remove redundant assignment to variable ret
+Date: Thu, 28 Mar 2024 12:22:13 +0000
+Message-Id: <20240328122213.762889-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
 
-On Wed, 20 Mar 2024, James Ogletree wrote:
+The variable ret is being assigned a value that is never read
+afterwards. The assignment is redundant and can be removed.
 
-> Changes in v10:
-> - Minor refactoring and logical improvements all around
-> - Renamed and added supplies
-> 
-> Changes in v9:
-> - Fixed empty struct by utilizing cs_dsp's post_run callback
-> - Style fixes in MFD driver
-> 
-> Changes in v8:
-> - set_sysclk() -> set_bclk_ratio()
-> - Added ID table to codec driver
-> - Style improvements
-> - Fixed ordering of new write sequence operations
-> 
-> Changes in v7:
-> - Fixed sparse warning
-> - Moved write sequences to private data structure
-> - Logical and style improvements in write sequence interface
-> 
-> Changes in v6:
-> - Updated write sequencer interface to be control-name based
-> - Fixed a race condition and non-handling of repeats in playback callback
-> - Stylistic and logical improvements all around
-> 
-> Changes in v5:
-> - Added a codec sub-device to support I2S streaming
-> - Moved write sequencer code from cirrus_haptics to cs_dsp
-> - Reverted cirrus_haptics library; future Cirrus input
->   drivers will export and utilize cs40l50_vibra functions
-> - Added more comments
-> - Many small stylistic and logical improvements
-> 
-> Changes in v4:
-> - Moved from Input to MFD
-> - Moved common Cirrus haptic functions to a library
-> - Incorporated runtime PM framework
-> - Many style improvements
-> 
-> Changes in v3:
-> - YAML formatting corrections
-> - Fixed typo in MAINTAINERS
-> - Used generic node name "haptic-driver"
-> - Fixed probe error code paths
-> - Switched to "sizeof(*)"
-> - Removed tree reference in MAINTAINERS
-> 
-> Changes in v2:
-> - Fixed checkpatch warnings
-> 
-> James Ogletree (5):
->   firmware: cs_dsp: Add write sequence interface
->   dt-bindings: input: cirrus,cs40l50: Add initial DT binding
->   mfd: cs40l50: Add support for CS40L50 core driver
->   Input: cs40l50 - Add support for the CS40L50 haptic driver
->   ASoC: cs40l50: Support I2S streaming to CS40L50
-> 
->  .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
->  MAINTAINERS                                   |  12 +
->  drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
->  drivers/input/misc/Kconfig                    |  10 +
->  drivers/input/misc/Makefile                   |   1 +
->  drivers/input/misc/cs40l50-vibra.c            | 577 ++++++++++++++++++
->  drivers/mfd/Kconfig                           |  30 +
->  drivers/mfd/Makefile                          |   4 +
->  drivers/mfd/cs40l50-core.c                    | 570 +++++++++++++++++
->  drivers/mfd/cs40l50-i2c.c                     |  68 +++
->  drivers/mfd/cs40l50-spi.c                     |  68 +++
->  include/linux/firmware/cirrus/cs_dsp.h        |  27 +
->  include/linux/mfd/cs40l50.h                   | 137 +++++
->  sound/soc/codecs/Kconfig                      |  11 +
->  sound/soc/codecs/Makefile                     |   2 +
->  sound/soc/codecs/cs40l50-codec.c              | 308 ++++++++++
->  16 files changed, 2171 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
->  create mode 100644 drivers/input/misc/cs40l50-vibra.c
->  create mode 100644 drivers/mfd/cs40l50-core.c
->  create mode 100644 drivers/mfd/cs40l50-i2c.c
->  create mode 100644 drivers/mfd/cs40l50-spi.c
->  create mode 100644 include/linux/mfd/cs40l50.h
->  create mode 100644 sound/soc/codecs/cs40l50-codec.c
+Cleans up clang scan build warning:
+drivers/hid/hid-sony.c:2020:3: warning: Value stored to 'ret'
+is never read [deadcode.DeadStores]
 
-MFD part looks okay.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/hid/hid-sony.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I need Acks from all of the other maintainers before I can process the set.
-
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index ebc0aa4e4345..1d37b39e1171 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -2016,8 +2016,6 @@ static int sony_input_configured(struct hid_device *hdev,
+ 
+ 	} else if (sc->quirks & MOTION_CONTROLLER) {
+ 		sony_init_output_report(sc, motion_send_output_report);
+-	} else {
+-		ret = 0;
+ 	}
+ 
+ 	if (sc->quirks & SONY_LED_SUPPORT) {
 -- 
-Lee Jones [李琼斯]
+2.39.2
+
 
