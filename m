@@ -1,117 +1,126 @@
-Return-Path: <linux-input+bounces-2662-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2663-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D554A890A4E
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:57:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8271C890AAB
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 21:13:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 715821F22FDC
-	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 19:57:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36D422946FB
+	for <lists+linux-input@lfdr.de>; Thu, 28 Mar 2024 20:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AA06139CF6;
-	Thu, 28 Mar 2024 19:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91812137926;
+	Thu, 28 Mar 2024 20:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+drNiz6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F97F139D13;
-	Thu, 28 Mar 2024 19:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D05131BA3;
+	Thu, 28 Mar 2024 20:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711655555; cv=none; b=kcHtkgaoL9Le5ynYSAtuMteY8QQvZ/cUkehW43dSt6iIwzxQWoc8JTDQOmuWC/iodxLf7dO8EkyXQ6up8IttpQXRB10Z7b1TWofl25mMSmvvQn75110FSf7po14SwqAYrXvvSLjAjC+sCTDqn6LcX7qWm2A38tNJ88DPYREsblQ=
+	t=1711656821; cv=none; b=th2wQ/L3c3C2S5/2GeNttMbWS1i+atautAE86FE/YnT9wLw6nmzmWT+7op3h+VFWyDYHUiEK8DoUrZ8gRhPTTjccgLQAL23hA6b4dIqWIdYfnCCB8UZDAshbBw9OB5xalhleUIDLthRKe8XniIl/lMcexhSvwXmVyRgsPg7VWjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711655555; c=relaxed/simple;
-	bh=47KuFYZ8L8+G4UI1Pvi3xIrvtmpgxV1zjVNEYiD1uVo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lPImMu3VVirrTj/Gd+bGVL1yNux5qCTIR8oK4zm7MvSZSQtFsaeT9mDAj3hsWjNAKd1dHhx8Gik0bOi0o0zFGa/h/kKTP4uyEjgefSnJqiRQJzNamPfGKrs19kSVrMZbPFwGu7CVGWwgl3oWzpHgf/32RGU9k3tMcjFGmaqJXew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FC6C433C7;
-	Thu, 28 Mar 2024 19:52:26 +0000 (UTC)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Thu, 28 Mar 2024 20:49:29 +0100
-Subject: [PATCH v2 19/19] ACPI: drop redundant owner from acpi_driver
+	s=arc-20240116; t=1711656821; c=relaxed/simple;
+	bh=xm4BNUTfDgO67+eXj8M7Qk2l7ZEhup+lEssGSxNSDOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAxl/Uoh1lnBplhFu9ceHXC0uFzedb8bcbwj+ElkZjShUZ0q2Ih33luYp+swL78YrK3VpuyeMWVB8B8QLr/6Qv7YvlkStbfdNlRavPE34bU1C65fT1Ad2eiNA/ztoEtmVbz3xrHxBHFP2eC4rYthRqjLxEi2HsXJDOMtq/6K1Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+drNiz6; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e0f2798cd8so12553695ad.3;
+        Thu, 28 Mar 2024 13:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711656819; x=1712261619; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fgUsxV4VoJF7d2glcoMovVqVoVYDXEoEZNAbQKQAfc0=;
+        b=F+drNiz6my8qMXxmwz2ZASh1ICAoZkKuq2OBNrwmEC7duI+fzZI+v8/rC3su68tZHp
+         HQMXjTuwNzvRc7J0fSoJg2EbVNKovgUJieRmWh5byf+Uxdp+p8TxfQDncYm49nttiJh2
+         YBkisAp6/ZUFw6dRtrsdtjCVR7bl3tU6dlVUMj8JOfQTQmMClDZtuyPRJxtJRLhp6QRR
+         JakJ0DtxVAi97E0xpP7feWtU7A/MA0I4Mo6jVrU2Ck9jWNLU8yzSNZ7Z2CKjkkIQKmZ8
+         3RznwWOuyAJ0MdcNy84RRVLFAdBO9c23kOVUEYLR0oAAMmbepoHySt3VSh1Lsq2xF0Rc
+         0mzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711656819; x=1712261619;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgUsxV4VoJF7d2glcoMovVqVoVYDXEoEZNAbQKQAfc0=;
+        b=h6ydoK8Cdn85GVrRuGInUGanGj8P5voU6YyWMDJ3CFD6HIfw8Fr9PTgpJMkLK3/zku
+         W2RQ3QDrrI466fprK6ZOyIYS0mfjd5U72s9kFfFSN5CoRt31SL31OW6CyC9g816//Lr0
+         Z5lQAD6yrE7u1Ae/iSJXM+sZBd2zpIp5Sek4aBruzWEWsl0eg0MHgiwfTmY6ERmZs5c+
+         7LmK05ECyG74QlF/ON4yHAfT6hdR/EZbK/evpK90A1uYPy4DcOWmgBAc6Nk0s+VzxPRP
+         NSpgUuP8kuDDhi6ddZwaI9GtmvTQltJ0+Ua/FpkpOt3hxpZZ9KYVEB97pu0sIbcfoATS
+         A21w==
+X-Forwarded-Encrypted: i=1; AJvYcCV26dInLVZAkExh2dAB3mOclDlblNRuaMOGlx/RjgO80BYeSgX3qrRvP+Yqfvz0QT2AB8McsyvuUvEFvLdSJA+id0Ex7UDPm5uM2PV9
+X-Gm-Message-State: AOJu0YxjaiTVMih6ohJHobyulImG+lyG03TBkK4+Bwf7z5aAE5eVxHtM
+	fqzXp7rBNXj+bT2gq8MC5Ysu3t+YDyqCv3d4rGjNHhcHbtoGnoEi
+X-Google-Smtp-Source: AGHT+IEJd7NvzFnPESl+PNer+0FvqA+KmSg4ExUyA9GqzEH1In5+hir0Ic4ktkG7vP8gBDl0szKvmg==
+X-Received: by 2002:a17:902:ecd2:b0:1dd:a3d4:9545 with SMTP id a18-20020a170902ecd200b001dda3d49545mr669820plh.54.1711656819274;
+        Thu, 28 Mar 2024 13:13:39 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
+        by smtp.gmail.com with ESMTPSA id ld11-20020a170902facb00b001dd55ac5d78sm2037046plb.184.2024.03.28.13.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 13:13:38 -0700 (PDT)
+Date: Thu, 28 Mar 2024 13:13:36 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Marge Yang <marge.yang@tw.synaptics.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com,
+	sam.tsai@synaptics.com, vincent.huang@tw.synaptics.com,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH V1] Input: synaptics-rmi4 - Enable support for F3A by
+ default.
+Message-ID: <ZgXPcBNsGMujY0m1@google.com>
+References: <20231110082148.1032629-1-marge.yang@tw.synaptics.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240328-b4-module-owner-acpi-v2-19-1e5552c2c69f@linaro.org>
-References: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-In-Reply-To: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Robert Moore <robert.moore@intel.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Corentin Chary <corentin.chary@gmail.com>, 
- "Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, 
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
- Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
- Azael Avalos <coproscefalo@gmail.com>, Ajay Kaher <akaher@vmware.com>, 
- Alexey Makhalov <amakhalov@vmware.com>, 
- VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
- Richard Cochran <richardcochran@gmail.com>, Theodore Ts'o <tytso@mit.edu>, 
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
- netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
- platform-driver-x86@vger.kernel.org, 
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=730;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=47KuFYZ8L8+G4UI1Pvi3xIrvtmpgxV1zjVNEYiD1uVo=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmBcnPtASe+iRyJkpoHwhufZ2+JsLopJALmbniw
- UDP7ulp1AWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgXJzwAKCRDBN2bmhouD
- 17DoD/0QKCrfY1wzazIXKHtVvuFB1Xfi5lltqqYYwJMDm4OTF6UpYmgo5MzHKJbTebMw05Z4pZf
- EXEmbB9o8tIjsItkWODjFoUzw3Dat2E2/B6Tpv634gKeMiXI2IvBrsOalPHbWk7v1VlzF6zJswj
- pEzdmJhzgyz9J6P9w5Vi/+lUS/Zxt6h/CumlMz0c1xRxxn3jkH31JvpYdyVa6RccfxFA+q7V6Gv
- bPJQFzhqOp1+nZWqd9D/Ykt0u/rWIegxnQHti3T1xfnI7S4HOyXaV47B99l7NOYJvCmr4Ab2BBt
- 5eYRdjRl7jFLLA2gw7Q3FpZ6pHpsQ/g5pb73wrzKO4c68s0Kkphtglr1vOxAJf6owfSb2hbTfei
- u0+17WV0r8xpAmaGBEDuaBKrJ4yHO0Cu81M9LIGBXN808vnkw3BKIcjg/WfxXsViFlvqZhPTuHZ
- eXwou6kxN/EQtyWvmULt496TgdFzxhRHsrGw10bL8gvKrxalcC/on/+sTqzhuBSUVceCxtc4y3e
- gNkZwN+xwaeub2VgVAAW6B+w8jJxRNuRSlgJLwMP+RF0p2kcd9BB0iHytmLZnHf8krluuTFKfZp
- N/GXa4RCkkQcPCCMokvj76NTpBbpX6dq1Ri0N3OnIG0ZA9GcjoJG+WMcDyiELXHjA6YCezqkQvl
- qgi9HU++if1bw9Q==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110082148.1032629-1-marge.yang@tw.synaptics.com>
 
-Once all .owner is removed from all acpi_driver instances, drop it from
-the structure.
+Hi Marge,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
+On Fri, Nov 10, 2023 at 08:21:48AM +0000, Marge Yang wrote:
+> RMI4 F3A supports the touchpad GPIO function, it's designed to
+> support more GPIOs and used on new touchpad. This patch will
+> enable support of touchpad button.
+> 
+> Signed-off-by: Marge Yang <marge.yang@tw.synaptics.com>
 
-This depends on all previous patches. It could go next cycle, after
-things got merged.
----
- include/acpi/acpi_bus.h | 1 -
- 1 file changed, 1 deletion(-)
+This should go to Jiri or Benjamin (CCed).
 
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index 7453be56f855..32aae3ee99ac 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -170,7 +170,6 @@ struct acpi_driver {
- 	unsigned int flags;
- 	struct acpi_device_ops ops;
- 	struct device_driver drv;
--	struct module *owner;
- };
- 
- /*
+> ---
+>  drivers/hid/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index e11c1c8..f3a989e 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -1082,6 +1082,7 @@ config HID_RMI
+>  	select RMI4_F11
+>  	select RMI4_F12
+>  	select RMI4_F30
+> +        select RMI4_F3A
+>  	help
+>  	Support for Synaptics RMI4 touchpads.
+>  	Say Y here if you have a Synaptics RMI4 touchpads over i2c-hid or usbhid
+> -- 
+> 2.7.4
+> 
+
+Thanks.
 
 -- 
-2.34.1
-
+Dmitry
 
