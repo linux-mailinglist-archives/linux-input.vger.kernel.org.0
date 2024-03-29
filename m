@@ -1,106 +1,101 @@
-Return-Path: <linux-input+bounces-2710-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2711-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63312891EA4
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FFD891EAD
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:49:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 954A21C261EC
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:48:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 753FC1C28208
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B887C1B31BA;
-	Fri, 29 Mar 2024 12:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0997CF4E7;
+	Fri, 29 Mar 2024 12:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORlXxmYa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAAZiASc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8151B31B5;
-	Fri, 29 Mar 2024 12:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59AB16DEDA;
+	Fri, 29 Mar 2024 12:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716592; cv=none; b=RxKHKgBrpoDFfhG0uj/kB0EelfIgOocvkMsfE0ibBKOUs+fydTVMXGrGv/KB8bRYQBfiBzla+co8sn0rw5ZfRJqEwsVUQ72sTtrcGBnSl0ePfzHQMmPqCi19xigYi1vjvtH7OLlgmhpbhWxRkmeDF9E22Vp9Bcmw4z93KABPRfA=
+	t=1711716610; cv=none; b=nFqeYwhkQ1hiGLSOn5hhbrr9+zUE83kvQscVocp6PxbUlHxi9FYiNp1V4i0TRNr36z+csyE8mzvkL8tf1FCyvvl9M24BkJn/hdV6AC4gTmUSTmsRafBa2yU6EA1dzbQjYU/IWXQpoKLhMnaHqwVONyDX5gGvi+6rjLPD7iYwdOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716592; c=relaxed/simple;
-	bh=9YD3BM9uRahPuP1kXHn2qyvJIJeAECrE7wwxmS57VZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wagj+8/V/kQEanm2Zs1sd6vyDbAxu6fgXEwuLNZKT0RZRdSGEvvc5zzJWq8rbEpSSJ2DawrXmv8WdMCIK9tjIq7SLQpJxWEOu+9g+iznBEuvCVbFs5JJHEyM3cc+LsLFcXSAscmt9O0OJs9m3GVf5EJ5R+TTMpLffDHuFrV0Oyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ORlXxmYa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AAA1C433F1;
-	Fri, 29 Mar 2024 12:49:51 +0000 (UTC)
+	s=arc-20240116; t=1711716610; c=relaxed/simple;
+	bh=KrtLP2+xQcj9c07YWsMGvUeNakHzSGnJr64CquHleek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZO/XBCqFczgUTwJCBpS5eFhg5S4cWj2+rTp7bOYo1dA9qoNH2sOBG2GK4V9Qh52q/Rr1jEVv/ZLAeRPu3PWDJCDkL6FYnh3g5EE+a3YUYv8eWeVef0kzjsxcUxZ97aZtCyAV7+xORSg85RelA7SvtLopedU4/kIIyelbpzHq0wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAAZiASc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE419C43390;
+	Fri, 29 Mar 2024 12:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716592;
-	bh=9YD3BM9uRahPuP1kXHn2qyvJIJeAECrE7wwxmS57VZE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ORlXxmYaQkCS45XSffEMW5KBFPdYIDIRg10qIzUESgaPiOBkJNlwMYiQmQGemOQTQ
-	 mCdunaaPdbJkBXepb3YXTTaaL38LIgPrieM5DwpkiaU52QOenyR5ipx6lXAuoezsjs
-	 pz3rY1ODu2FVOxA2IcF8eC3LwftjT35Qxuclym3HMaU0NbpZWFrudeognhvqDIPZIj
-	 DicjOKFUK6AA74wipAk1okzHCzBJHrpRQbOP6wTtJg5FAllU3HFoApyBVEZcZkqsIG
-	 V2eiVMYNWxlq5sQAxnRCiqM+Bejz4r0LAiRZbTVAeR1IRRHWMsB2VpPUNnF2XtS0Lc
-	 pILTRJN1ShqOA==
+	s=k20201202; t=1711716610;
+	bh=KrtLP2+xQcj9c07YWsMGvUeNakHzSGnJr64CquHleek=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DAAZiAScVtpf4YjI7RG5/5K89VTh2FwEZIXvZpae2fo96TwC2G9cqv4IYUSq6uu/8
+	 2cNxYl2XKLm3bPkvXLZvmijRbXNDvCGQNuMT30c9B22Db+Z2rHoJ/3K832it7EIliN
+	 FyWevyPsTtwbPVvfizX/jOW+mhLulA/TCLdb9nphg2UE0CUh+fF0PM3zk5tKG7yUyR
+	 qI9XaLd2FSW/ixzIMZSa8MpS+1ZLvgbbclj0np86xLGo/3NxA4IfHYpsI/sEnw8X/R
+	 zyt4eVzQ80oxC6wiEMB+qoUH6qCPhmzXUnVUAG/I2whiWBsFxK1uVOYufR0C+vXaM0
+	 /RROMKktFYGJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Alban=20Boy=C3=A9?= <alban.boye@protonmail.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+Cc: Kunwu Chan <chentao@kylinos.cn>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	hdegoede@redhat.com,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 29/31] platform/x86: touchscreen_dmi: Add an extra entry for a variant of the Chuwi Vi8 tablet
-Date: Fri, 29 Mar 2024 08:48:46 -0400
-Message-ID: <20240329124903.3093161-29-sashal@kernel.org>
+	minipli@grsecurity.net,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 01/23] Input: synaptics-rmi4 - fail probing if memory allocation for "phys" fails
+Date: Fri, 29 Mar 2024 08:49:34 -0400
+Message-ID: <20240329125009.3093845-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124903.3093161-1-sashal@kernel.org>
-References: <20240329124903.3093161-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.214
+X-stable-base: Linux 5.4.273
 Content-Transfer-Encoding: 8bit
 
-From: Alban Boyé <alban.boye@protonmail.com>
+From: Kunwu Chan <chentao@kylinos.cn>
 
-[ Upstream commit 1266e2efb7512dbf20eac820ca2ed34de6b1c3e7 ]
+[ Upstream commit bc4996184d56cfaf56d3811ac2680c8a0e2af56e ]
 
-Signed-off-by: Alban Boyé <alban.boye@protonmail.com>
-Link: https://lore.kernel.org/r/20240227223919.11587-1-alban.boye@protonmail.com
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+While input core can work with input->phys set to NULL userspace might
+depend on it, so better fail probing if allocation fails. The system must
+be in a pretty bad shape for it to happen anyway.
+
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+Link: https://lore.kernel.org/r/20240117073124.143636-1-chentao@kylinos.cn
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/input/rmi4/rmi_driver.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index ebe959db1eeb9..fbaa618594628 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -1084,6 +1084,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- 		},
- 	},
-+	{
-+		/* Chuwi Vi8 dual-boot (CWI506) */
-+		.driver_data = (void *)&chuwi_vi8_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "i86"),
-+			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI2.D86JHBNR02"),
-+		},
-+	},
- 	{
- 		/* Chuwi Vi8 Plus (CWI519) */
- 		.driver_data = (void *)&chuwi_vi8_plus_data,
+diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+index 258d5fe3d395c..aa32371f04af6 100644
+--- a/drivers/input/rmi4/rmi_driver.c
++++ b/drivers/input/rmi4/rmi_driver.c
+@@ -1196,7 +1196,11 @@ static int rmi_driver_probe(struct device *dev)
+ 		}
+ 		rmi_driver_set_input_params(rmi_dev, data->input);
+ 		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
+-						"%s/input0", dev_name(dev));
++						   "%s/input0", dev_name(dev));
++		if (!data->input->phys) {
++			retval = -ENOMEM;
++			goto err;
++		}
+ 	}
+ 
+ 	retval = rmi_init_functions(data);
 -- 
 2.43.0
 
