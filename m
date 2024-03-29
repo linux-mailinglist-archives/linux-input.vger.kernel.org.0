@@ -1,57 +1,60 @@
-Return-Path: <linux-input+bounces-2704-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2705-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683EB891E07
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:31:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAF7891EDF
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:54:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9936D1C27FCB
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:31:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EEF2B26E15
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:39:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F6B1A6477;
-	Fri, 29 Mar 2024 12:47:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76BCD1AC003;
+	Fri, 29 Mar 2024 12:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxYyOnKM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qrnOqRm2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A40B1A6463;
-	Fri, 29 Mar 2024 12:47:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F43D14E2C9;
+	Fri, 29 Mar 2024 12:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716471; cv=none; b=PFjY7nxPR4Q6fLJfCjlVZdfHKeTPATdDd3ClaswmA1y8Lir/+XoS8+7iDRrfsvufKZM6EgtfiTZi4vMfEuDPwUjCjKzkoDlBWYbTDhwsvQb+51/mXy6OpHEBtseaExUTZW01WTgvqze1eWDo0+KgRgyi1/JzmJ2aXMgdl0L14dc=
+	t=1711716522; cv=none; b=tM4yy/+3/YYvdUMHBZEwuqFBgDHSbhkQX27VvC7isl0GAP6Aj2tl1Xj2EXFxKeXNKoBx9iiQeHKztut/O7gm0dKb02RbOL9riYc2Z4rRgO0ogBsyfBH4XLPtml13V1rWxcrxCGY3w7jNGgr/b3bRMZ0gM6lW+4dqn3VNiRTYCnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716471; c=relaxed/simple;
-	bh=KrtLP2+xQcj9c07YWsMGvUeNakHzSGnJr64CquHleek=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZeI+vngTz0nQcKfbOkWRaSpYF9Bvt749ER3akT7elZZQMGYKKkpWiMb+dk5e/4r7PRzOuaHv6I785MpGIpkkA7j4R2x4gZmtrogPlh1SlNJwW5dZ0DISs8uoqzA4VJwI9G85H4MKcctZAKbmParSVfjfYq38HVhlpwwstvpVdpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxYyOnKM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 649D8C433F1;
-	Fri, 29 Mar 2024 12:47:50 +0000 (UTC)
+	s=arc-20240116; t=1711716522; c=relaxed/simple;
+	bh=GxrkUBfErBuPqs7D0mlV016hRVzmj1cw++ndtNpyer8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JsUXLLEyO/WA97u/vBaR1HJKt4F7UZ0MixVpmRIT+TerUhgkgjUnfRnOwGc8lhHC1u7ij8CqgPJCcOrtKN/qEJl/rYdCyFI4DlkHPGtSNjKpvFs4xT9dKiThdv1frs0dqfI0NkKbLuAEnYcQKk4Ey3beoj03TQjYe7mdrdSCJCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qrnOqRm2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C66C43390;
+	Fri, 29 Mar 2024 12:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716471;
-	bh=KrtLP2+xQcj9c07YWsMGvUeNakHzSGnJr64CquHleek=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bxYyOnKMediWNUcVlJK/bxCisJ+Ii51JZ0YG+JEJrst5PY4vbCTUWsV5FWQGwpCdq
-	 gj5adxV68pui6Zytmu2wxgRKCFYeNbx8eXi8Bb5q3dmlXP9VGfosGaDrdNIDCmb1Dp
-	 6BQR+wlG8gXyzdPqvnJ53/vdc8f8tUqtXjwet11iTC8ULI9sfhV6W8DUb2+QCmYAwg
-	 9j3iZwmwMTnR8/kVjhfp5MWicxH5yE/CyOjMIqc/7mWxQoj37RB6kUefWSuXvS+snq
-	 RmdYcZAkaaV+8QFxUj/NKk5Qo6Dq+0L3OrEmyq2fv/ouyHQyEf8N5iSbt5lIZ/ZEFz
-	 JwHweG+7v+VEA==
+	s=k20201202; t=1711716521;
+	bh=GxrkUBfErBuPqs7D0mlV016hRVzmj1cw++ndtNpyer8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qrnOqRm2t5QAUr0ZsHBfBcZur6HJBzI8tTo9EWectPQXUWcD1v+apaGeuqF4ttZX4
+	 7EKMymy+8g64QL/JDHTQUiUB6vfA65WYizQXtzURTjRlPccX5B8UJhVUR9Q5bhlLYU
+	 KHxVgfUn3atJO4TRz9BONyKZvVFL3jLWmMgIZ6nb/zZAwUHe/S3xaslmfFFpcrqC4U
+	 r1d0TLt8s6HN6nxboYP25CYUj43fQxKWxXE7sRaSEHrl+pcEUaFXrmYcpEOYDxw751
+	 x8oIIecKz6+3WoZIISW1ttsI/KOcb93ta15ivA5xhbEbGiHfgM6jENoAGKS8U7slin
+	 3XN8X9h3Gzm1Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kunwu Chan <chentao@kylinos.cn>,
+Cc: "Ricardo B. Marliere" <ricardo@marliere.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	minipli@grsecurity.net,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/34] Input: synaptics-rmi4 - fail probing if memory allocation for "phys" fails
-Date: Fri, 29 Mar 2024 08:47:02 -0400
-Message-ID: <20240329124750.3092394-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 30/34] Input: make input_class constant
+Date: Fri, 29 Mar 2024 08:47:31 -0400
+Message-ID: <20240329124750.3092394-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329124750.3092394-1-sashal@kernel.org>
+References: <20240329124750.3092394-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,39 +66,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.153
 Content-Transfer-Encoding: 8bit
 
-From: Kunwu Chan <chentao@kylinos.cn>
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
 
-[ Upstream commit bc4996184d56cfaf56d3811ac2680c8a0e2af56e ]
+[ Upstream commit a4735d40a5da96a637af6e5bf9f6ec8b9d996acd ]
 
-While input core can work with input->phys set to NULL userspace might
-depend on it, so better fail probing if allocation fails. The system must
-be in a pretty bad shape for it to happen anyway.
+Since commit 43a7206b0963 ("driver core: class: make class_register() take
+a const *"), the driver core allows for struct class to be in read-only
+memory, so move the input_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-Link: https://lore.kernel.org/r/20240117073124.143636-1-chentao@kylinos.cn
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+Link: https://lore.kernel.org/r/20240305-class_cleanup-input-v1-1-0c3d950c25db@marliere.net
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/rmi4/rmi_driver.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/input/input.c | 2 +-
+ include/linux/input.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 258d5fe3d395c..aa32371f04af6 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -1196,7 +1196,11 @@ static int rmi_driver_probe(struct device *dev)
- 		}
- 		rmi_driver_set_input_params(rmi_dev, data->input);
- 		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
--						"%s/input0", dev_name(dev));
-+						   "%s/input0", dev_name(dev));
-+		if (!data->input->phys) {
-+			retval = -ENOMEM;
-+			goto err;
-+		}
- 	}
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 5ca3f11d2d759..5c26f1e2c25a0 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1901,7 +1901,7 @@ static char *input_devnode(struct device *dev, umode_t *mode)
+ 	return kasprintf(GFP_KERNEL, "input/%s", dev_name(dev));
+ }
  
- 	retval = rmi_init_functions(data);
+-struct class input_class = {
++const struct class input_class = {
+ 	.name		= "input",
+ 	.devnode	= input_devnode,
+ };
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 0354b298d8749..6cc4bad37f40e 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -512,7 +512,7 @@ void input_enable_softrepeat(struct input_dev *dev, int delay, int period);
+ 
+ bool input_device_enabled(struct input_dev *dev);
+ 
+-extern struct class input_class;
++extern const struct class input_class;
+ 
+ /**
+  * struct ff_device - force-feedback part of an input device
 -- 
 2.43.0
 
