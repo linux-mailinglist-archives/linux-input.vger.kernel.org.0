@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-2698-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2699-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB54891DD6
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:26:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1B5891DEE
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:29:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E65731C24F31
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:26:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC895281581
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 339EB3CDFD4;
-	Fri, 29 Mar 2024 12:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062501A4C0F;
+	Fri, 29 Mar 2024 12:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/9upM9j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEbrRgXj"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FAE3CDFD1;
-	Fri, 29 Mar 2024 12:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF811A4C0E;
+	Fri, 29 Mar 2024 12:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716435; cv=none; b=d2P3S5uZ2yE8KTzyKBsK6oHjvc+v6S58o+r71Bwx8S5kJ9Rl2wHcPr/+zkqnYWmn2ZrE6cvCPdXBsvj7ovIhz3YdJSMM/lvm0DqPb/fZuFe7/gOrIDagScQBk3jk8AMji3IkPsDth+LGvJPQAU99U0wxrpv0We40wPxFOA16E+o=
+	t=1711716444; cv=none; b=G7890A57K5oJLjD1wwXpigFd9wGLAZIob2F4qGlOwD+GNW2fWedTdrDjPdWNNsZVIvwPw9nM5xSkiqq8rxbIHfI77gxJAGO6XYJB7bBWjmeNKJ6VN0YhbMBP02LtnrAHet9KIHQD23x/JvqqFGjUU44KQFj2+sZIj59OP6dg20Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716435; c=relaxed/simple;
-	bh=FhflmwTDHgb2DGhLTLaolrnWf5HOYW5FaDwLAJXVu2A=;
+	s=arc-20240116; t=1711716444; c=relaxed/simple;
+	bh=zZ9Pp+gF5Nd2ff9Hb0BYwi0APXWGdw1wvGYH0OFOOH8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LUoFN5EHdKhAtVXu6KNI4n5AOjEPeAf3uB0TQaM+LYtZsZPPuP3DPEyq0X8EK4gykSz3codnQywJT6vkdpage1IWBzLVTGvjV8wCijZUIpZFlXe0y3VbT2i5VoSeuVoZnDQCjOobEeiqsp73GQVO2aQOC8xq1bXqWvANPCHuON4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/9upM9j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5A6C433C7;
-	Fri, 29 Mar 2024 12:47:13 +0000 (UTC)
+	 MIME-Version; b=a+SsPgXI0ITG97p7nbi4Yc8hAQPPwVepQPHXPBIMaiFcVbKw67tmIKaGZauXdXkBaToeIAKjEB8SZc49fxc4ZimCwvAR2A/JY2sfcurVmqwu/Dth7nmKlWXoDhOTY/6PVqiSUgAz+LM0wVORUOxCrPjh2YEgIrlsFONollUGmDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEbrRgXj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D8DC43394;
+	Fri, 29 Mar 2024 12:47:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716434;
-	bh=FhflmwTDHgb2DGhLTLaolrnWf5HOYW5FaDwLAJXVu2A=;
+	s=k20201202; t=1711716444;
+	bh=zZ9Pp+gF5Nd2ff9Hb0BYwi0APXWGdw1wvGYH0OFOOH8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E/9upM9j31mk99A1bQiC2DNYJ1b5kNVli921vx9K7MmG865Rck/Oa2yEd5oNocdQq
-	 IcRxvXobxtWSPmes/EMMWVuBK5viB07kTYhpuXrAzMThM3zBkjowvYi71vT81yHdkb
-	 r1PcLMihNg/9ZLW5aXS73ut3rF7NJo7DIleK9KoJPOrr+vQbJpjxIPk+Qnbm4gb+ah
-	 Z5N+v0yfyBQhCN1ReLPLo3LQ3SqcPDR6l2Jtiwa3QZvRcck2rq3pfopjpgdbs2MaKE
-	 NkN87U7C3d3RPL9TqEBdPCu0wWZtx255LDZzQ/WsjETEgFzfwQY0UCL/qqkzk/BzhW
-	 //JMQm6yQHMQQ==
+	b=CEbrRgXj73lv4wxzJHu1hAqktHjSfioIA08JwDhnpjm6RfVK0kfLfBjRg00cJYXfU
+	 6cPdljFYhCAkdDGLNtjSyCGBG3AadmRzx7GKLLHAOB6FkciDZkQJz7TYDVs4zWzDxu
+	 0i4bvhjliRkjhzjKRB3bVul3O9mWDd4scYAIg6nlpiJW6FJ7Wj60RTxRO4ufyk3nib
+	 IxItB7NhTTVUDSmH376kZnHdwZmwgBHzYI+K3hcvVZX0D23gqo9mG5o/0DDi4lETaF
+	 m5ljgIuyya4JCtKf7kyiOZRpqHZ1YFjBj5Y1jbVuUNzRGUzfnKGJE8Fjwo8P9PanGc
+	 v+qL1R1rszgqA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Karel Balej <balejk@matfyz.cz>,
-	Markuss Broks <markuss.broks@gmail.com>,
+Cc: "Ricardo B. Marliere" <ricardo@marliere.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 38/52] input/touchscreen: imagis: add support for IST3032C
-Date: Fri, 29 Mar 2024 08:45:32 -0400
-Message-ID: <20240329124605.3091273-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 45/52] Input: make input_class constant
+Date: Fri, 29 Mar 2024 08:45:39 -0400
+Message-ID: <20240329124605.3091273-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124605.3091273-1-sashal@kernel.org>
 References: <20240329124605.3091273-1-sashal@kernel.org>
@@ -66,58 +66,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.83
 Content-Transfer-Encoding: 8bit
 
-From: Karel Balej <balejk@matfyz.cz>
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
 
-[ Upstream commit 90cb57a6c5717b83a110c0da720a03ee32ed255e ]
+[ Upstream commit a4735d40a5da96a637af6e5bf9f6ec8b9d996acd ]
 
-IST3032C is a touchscreen chip used for instance in the
-samsung,coreprimevelte smartphone, with which this was tested. Add the
-chip specific information to the driver.
+Since commit 43a7206b0963 ("driver core: class: make class_register() take
+a const *"), the driver core allows for struct class to be in read-only
+memory, so move the input_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
-Reviewed-by: Markuss Broks <markuss.broks@gmail.com>
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
-Link: https://lore.kernel.org/r/20240301164659.13240-6-karelb@gimli.ms.mff.cuni.cz
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+Link: https://lore.kernel.org/r/20240305-class_cleanup-input-v1-1-0c3d950c25db@marliere.net
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/imagis.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/input/input.c | 2 +-
+ include/linux/input.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-index 309088eadad21..400d53eae9424 100644
---- a/drivers/input/touchscreen/imagis.c
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -11,6 +11,8 @@
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 8b6a922f84702..067a9b1d5befc 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1918,7 +1918,7 @@ static char *input_devnode(struct device *dev, umode_t *mode)
+ 	return kasprintf(GFP_KERNEL, "input/%s", dev_name(dev));
+ }
  
-+#define IST3032C_WHOAMI			0x32c
-+
- #define IST3038B_REG_STATUS		0x20
- #define IST3038B_REG_CHIPID		0x30
- #define IST3038B_WHOAMI			0x30380b
-@@ -363,6 +365,13 @@ static int __maybe_unused imagis_resume(struct device *dev)
+-struct class input_class = {
++const struct class input_class = {
+ 	.name		= "input",
+ 	.devnode	= input_devnode,
+ };
+diff --git a/include/linux/input.h b/include/linux/input.h
+index 49790c1bd2c43..fa656f30081f6 100644
+--- a/include/linux/input.h
++++ b/include/linux/input.h
+@@ -514,7 +514,7 @@ void input_enable_softrepeat(struct input_dev *dev, int delay, int period);
  
- static SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
+ bool input_device_enabled(struct input_dev *dev);
  
-+static const struct imagis_properties imagis_3032c_data = {
-+	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-+	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-+	.whoami_cmd = IST3038C_REG_CHIPID,
-+	.whoami_val = IST3032C_WHOAMI,
-+};
-+
- static const struct imagis_properties imagis_3038b_data = {
- 	.interrupt_msg_cmd = IST3038B_REG_STATUS,
- 	.touch_coord_cmd = IST3038B_REG_STATUS,
-@@ -380,6 +389,7 @@ static const struct imagis_properties imagis_3038c_data = {
+-extern struct class input_class;
++extern const struct class input_class;
  
- #ifdef CONFIG_OF
- static const struct of_device_id imagis_of_match[] = {
-+	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
- 	{ .compatible = "imagis,ist3038b", .data = &imagis_3038b_data },
- 	{ .compatible = "imagis,ist3038c", .data = &imagis_3038c_data },
- 	{ },
+ /**
+  * struct ff_device - force-feedback part of an input device
 -- 
 2.43.0
 
