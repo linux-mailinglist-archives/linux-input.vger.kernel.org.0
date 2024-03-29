@@ -1,101 +1,104 @@
-Return-Path: <linux-input+bounces-2713-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2714-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1B5891EE9
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:54:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A05D7891F20
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:58:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 419041F2C6A2
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:54:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 563C328903C
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1AF31BC12C;
-	Fri, 29 Mar 2024 12:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7461C0885;
+	Fri, 29 Mar 2024 12:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AL9Uy+e7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RF7HNygk"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A741BC129;
-	Fri, 29 Mar 2024 12:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F5A1C0882;
+	Fri, 29 Mar 2024 12:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716661; cv=none; b=Xr3U6ajTLupJ6AKeGr9602H2IJkPMzSUXFePAWUoeWnk98phZoVNF7uz88IEBZ3T92D0ZGGaLjRNDgj8L+T8Wwt83/0Ok2LqafMWQJUHlejoubLePsaYayvu2kq+dOuZ0rJzp6CeYxJyQBEHq/N8Xwxjq6KaiSKhusrr6YoxMHE=
+	t=1711716692; cv=none; b=t//V1KM7fmg8izcio5qNLNjo3Yr3q/o3B2UUgrtVo6Mk6SisUGacTQ0NFQV1psK6swbnseUGT8qb5w+IHR6xJKcHJEHqpFdNn7dNJjkSu2K54gJMvwsQv/T24gKM3rrryJaM4RmCt33/clq3q2oQ75795vSR1zddPv89wjJ3zHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716661; c=relaxed/simple;
-	bh=quuCrbXcoNe9I9NvAbZy32FgefH0NZXt1foNau7zeL8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fCsidaHguFrdwFPm4HWQZhIaM0gVrGZWqhaTV2EyCjZISzzuNNeOsvTYQl0FhisnUSUhOuc+Z8/tyDik0q6AGGn+9zfA9E/6NAhY5ioD6JpmelKp/pWakjsUVGnrnUpHX7xnLzqiE1Y8Sx0p2KNLsq2FbajltnDDgSzzcb+h3lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AL9Uy+e7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9F6AC43390;
-	Fri, 29 Mar 2024 12:51:00 +0000 (UTC)
+	s=arc-20240116; t=1711716692; c=relaxed/simple;
+	bh=ijg1+AKd926h7eK8HcJHmxSLnjig6arjVgXYBiHQTZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ApKRpS+P+ssPCx99R9tfBgWm1irVtjKvAi2tGawAo9N2zVLQh3aQmMoP0n2EOniXeXoBfH1VgqZNjbvhmpoqJGpRZM8C9QBGIoujFDwbk5FbhgZeDsmLNCw1egn456Jh+UfDQG0KT+aKpQRM/ko0FO30P4NDTUBHpHVl6CQSzHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RF7HNygk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5857DC433C7;
+	Fri, 29 Mar 2024 12:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716661;
-	bh=quuCrbXcoNe9I9NvAbZy32FgefH0NZXt1foNau7zeL8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AL9Uy+e7YukX1lyrAkCEz1khf5Ir5j4YzgC09/NNZ91os10vf607vpZG4TzmgOkjv
-	 0b8iWtHO1jcTZFBVz0zxSNYwWGltbZbJ33FLhfdPa4l81uWQ/vSZZsGCvvoZssRrR3
-	 ghHd7tZ845G+oz9pyJRC2J9yoaldXou9hAE2ca2Tb+LHSU8xgvV32NZpUyrQIcVaNX
-	 Pwn5uoC2avCPFEMmUPbs8n4JWNs3VarMWC4JXahUkUSpfUqNXTXSEWxfqZXWvnou+w
-	 LcOCypMvKWHPI8L5/fc5nnvA04d1+vlRvKNNFH5jw0EjJM+h5nnqBiu6G4wCwjkZ0D
-	 sdi5xHFFo0svA==
+	s=k20201202; t=1711716692;
+	bh=ijg1+AKd926h7eK8HcJHmxSLnjig6arjVgXYBiHQTZw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RF7HNygkLo3cqcJ1NmhXeOpsRe8/VhIjbBZxg6wL6hhJYuSS10M6HfIxsTUmphRqB
+	 3rr562brrSWVFnRzbLZ8oR+eybYrpQQKHBJDJO2gIp19r6tG9lDHxo3y5vDFco2m36
+	 NXRn624GDEPVCGWurcsaqVrEaHpHQKYNAW7INShZTDygFwPeojQYzsXe3jHGVn7PSr
+	 U6ygtPGY0D0sEHqGedzYVEwNU9XJvKtlOMDh2SJ4viXjaHnElP0b+A374cp/n8u9IV
+	 HKEMnHtYsE8ik3+xGIVS2HmvNI9P6ziY42SGoTw/gU6KDC5hRWlQo2NeZF2HS47hLr
+	 Re5BxDY8oZFog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kunwu Chan <chentao@kylinos.cn>,
+Cc: Gergo Koteles <soyer@irl.hu>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Sasha Levin <sashal@kernel.org>,
-	minipli@grsecurity.net,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/19] Input: synaptics-rmi4 - fail probing if memory allocation for "phys" fails
-Date: Fri, 29 Mar 2024 08:50:33 -0400
-Message-ID: <20240329125100.3094358-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 18/19] Input: allocate keycode for Display refresh rate toggle
+Date: Fri, 29 Mar 2024 08:50:50 -0400
+Message-ID: <20240329125100.3094358-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329125100.3094358-1-sashal@kernel.org>
+References: <20240329125100.3094358-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.19.311
 Content-Transfer-Encoding: 8bit
 
-From: Kunwu Chan <chentao@kylinos.cn>
+From: Gergo Koteles <soyer@irl.hu>
 
-[ Upstream commit bc4996184d56cfaf56d3811ac2680c8a0e2af56e ]
+[ Upstream commit cfeb98b95fff25c442f78a6f616c627bc48a26b7 ]
 
-While input core can work with input->phys set to NULL userspace might
-depend on it, so better fail probing if allocation fails. The system must
-be in a pretty bad shape for it to happen anyway.
+Newer Lenovo Yogas and Legions with 60Hz/90Hz displays send a wmi event
+when Fn + R is pressed. This is intended for use to switch between the
+two refresh rates.
 
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-Link: https://lore.kernel.org/r/20240117073124.143636-1-chentao@kylinos.cn
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Allocate a new KEY_REFRESH_RATE_TOGGLE keycode for it.
+
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Link: https://lore.kernel.org/r/15a5d08c84cf4d7b820de34ebbcf8ae2502fb3ca.1710065750.git.soyer@irl.hu
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/rmi4/rmi_driver.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/uapi/linux/input-event-codes.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index ac6a20f7afdfa..0da814b41e72b 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -1199,7 +1199,11 @@ static int rmi_driver_probe(struct device *dev)
- 		}
- 		rmi_driver_set_input_params(rmi_dev, data->input);
- 		data->input->phys = devm_kasprintf(dev, GFP_KERNEL,
--						"%s/input0", dev_name(dev));
-+						   "%s/input0", dev_name(dev));
-+		if (!data->input->phys) {
-+			retval = -ENOMEM;
-+			goto err;
-+		}
- 	}
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 1c011379a9967..76b524895dea6 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -596,6 +596,7 @@
  
- 	retval = rmi_init_functions(data);
+ #define KEY_ALS_TOGGLE		0x230	/* Ambient light sensor */
+ #define KEY_ROTATE_LOCK_TOGGLE	0x231	/* Display rotation lock */
++#define KEY_REFRESH_RATE_TOGGLE	0x232	/* Display refresh rate toggle */
+ 
+ #define KEY_BUTTONCONFIG		0x240	/* AL Button Configuration */
+ #define KEY_TASKMANAGER		0x241	/* AL Task/Project Manager */
 -- 
 2.43.0
 
