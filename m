@@ -1,105 +1,107 @@
-Return-Path: <linux-input+bounces-2714-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2715-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05D7891F20
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 15:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1FA892442
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 20:30:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 563C328903C
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:58:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC831281BEC
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 19:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7461C0885;
-	Fri, 29 Mar 2024 12:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CAA139578;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RF7HNygk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVV3npmS"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F5A1C0882;
-	Fri, 29 Mar 2024 12:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C0B1EEE4;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716692; cv=none; b=t//V1KM7fmg8izcio5qNLNjo3Yr3q/o3B2UUgrtVo6Mk6SisUGacTQ0NFQV1psK6swbnseUGT8qb5w+IHR6xJKcHJEHqpFdNn7dNJjkSu2K54gJMvwsQv/T24gKM3rrryJaM4RmCt33/clq3q2oQ75795vSR1zddPv89wjJ3zHQ=
+	t=1711740633; cv=none; b=Y3AO3jOXTEgQYgdkbMV5ewrZXrVKIo6X4CYShjKv6NdKcjbw3VUuXTgX6iKbaKNUnVKVChX5FkkEdkpv3iXyTc2gQOx0ld+O0FfG7VjD1gKw/ao3DGZC7AyK12+hK3ag1Y2SAycLRM/tO1/Ih8FrgIdrAOgSzW7O5mNPsiyhcTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716692; c=relaxed/simple;
-	bh=ijg1+AKd926h7eK8HcJHmxSLnjig6arjVgXYBiHQTZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ApKRpS+P+ssPCx99R9tfBgWm1irVtjKvAi2tGawAo9N2zVLQh3aQmMoP0n2EOniXeXoBfH1VgqZNjbvhmpoqJGpRZM8C9QBGIoujFDwbk5FbhgZeDsmLNCw1egn456Jh+UfDQG0KT+aKpQRM/ko0FO30P4NDTUBHpHVl6CQSzHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RF7HNygk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5857DC433C7;
-	Fri, 29 Mar 2024 12:51:31 +0000 (UTC)
+	s=arc-20240116; t=1711740633; c=relaxed/simple;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UqowPDwocud2Wj+bZuOSSys0qv9GjoET7RZzSWGxGa3G6E/OBej94f4wXaAe8vZCZsubIQhZhS6gBt4K1VKYAff947m6odSezcJPV4n1DrxVukivW4s5hRZyS0HxXvAB5WBwYM8kjXxqlhP2jF38ZpDyzoX86MS8xRz258oc/PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVV3npmS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 293A4C43390;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716692;
-	bh=ijg1+AKd926h7eK8HcJHmxSLnjig6arjVgXYBiHQTZw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RF7HNygkLo3cqcJ1NmhXeOpsRe8/VhIjbBZxg6wL6hhJYuSS10M6HfIxsTUmphRqB
-	 3rr562brrSWVFnRzbLZ8oR+eybYrpQQKHBJDJO2gIp19r6tG9lDHxo3y5vDFco2m36
-	 NXRn624GDEPVCGWurcsaqVrEaHpHQKYNAW7INShZTDygFwPeojQYzsXe3jHGVn7PSr
-	 U6ygtPGY0D0sEHqGedzYVEwNU9XJvKtlOMDh2SJ4viXjaHnElP0b+A374cp/n8u9IV
-	 HKEMnHtYsE8ik3+xGIVS2HmvNI9P6ziY42SGoTw/gU6KDC5hRWlQo2NeZF2HS47hLr
-	 Re5BxDY8oZFog==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Gergo Koteles <soyer@irl.hu>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 18/19] Input: allocate keycode for Display refresh rate toggle
-Date: Fri, 29 Mar 2024 08:50:50 -0400
-Message-ID: <20240329125100.3094358-18-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329125100.3094358-1-sashal@kernel.org>
-References: <20240329125100.3094358-1-sashal@kernel.org>
+	s=k20201202; t=1711740633;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=IVV3npmSePL8advnxP77niTJn9r5VWn3Rp+dlR8NGJ9lX2oLIqkoGV+xDPWNxKxDQ
+	 Vy1L2g8YCGgRSXrLc/sQkv/2M4J9jxdAA8SAbhGR8ajFTlmfsqHLf0fvOTAPm2dcKv
+	 R1fVsKFXQ0PjDCVdjZFjTagXNRerIfdbo2okMOvrjklmOXE9qqZC9SCAN3EPi44fip
+	 ZCq07ahttvJ9JoOo07ITMoNBIgDCC6Y+Xv77EcLFfSARbiSqQFxIHg2hw6SwpkmRbP
+	 ts7yiXSanAtz/RnbfgXbCMeoFa7uggmPCtKepIwsnK9u0syfJQLIrvmxPSuoFye3BV
+	 B+EvADBhn/jTg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0FC90D2D0EE;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.311
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171174063305.18563.745216419087873927.git-patchwork-notify@kernel.org>
+Date: Fri, 29 Mar 2024 19:30:33 +0000
+References: <20240326223825.4084412-1-arnd@kernel.org>
+In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev, arnd@arndb.de, dmitry.torokhov@gmail.com,
+ claudiu.manoil@nxp.com, vladimir.oltean@nxp.com, kuba@kernel.org,
+ saeedm@nvidia.com, leon@kernel.org, aelior@marvell.com, manishc@marvell.com,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, luzmaximilian@gmail.com,
+ hare@kernel.org, martin.petersen@oracle.com, deller@gmx.de,
+ masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
+ johannes@sipsolutions.net, perex@perex.cz, tiwai@suse.com,
+ ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-From: Gergo Koteles <soyer@irl.hu>
+Hello:
 
-[ Upstream commit cfeb98b95fff25c442f78a6f616c627bc48a26b7 ]
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Newer Lenovo Yogas and Legions with 60Hz/90Hz displays send a wmi event
-when Fn + R is pressed. This is intended for use to switch between the
-two refresh rates.
+On Tue, 26 Mar 2024 23:37:59 +0100 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> With randconfig build testing, I found only eight files that produce
+> warnings with clang when -Wformat-truncation is enabled. This means
+> we can just turn it on by default rather than only enabling it for
+> "make W=1".
+> 
+> [...]
 
-Allocate a new KEY_REFRESH_RATE_TOGGLE keycode for it.
+Here is the summary with links:
+  - [2/9] enetc: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/9046d581ed58
+  - [3/9] qed: avoid truncating work queue length
+    https://git.kernel.org/netdev/net-next/c/954fd908f177
+  - [4/9] mlx5: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/b324a960354b
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Link: https://lore.kernel.org/r/15a5d08c84cf4d7b820de34ebbcf8ae2502fb3ca.1710065750.git.soyer@irl.hu
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/uapi/linux/input-event-codes.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 1c011379a9967..76b524895dea6 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -596,6 +596,7 @@
- 
- #define KEY_ALS_TOGGLE		0x230	/* Ambient light sensor */
- #define KEY_ROTATE_LOCK_TOGGLE	0x231	/* Display rotation lock */
-+#define KEY_REFRESH_RATE_TOGGLE	0x232	/* Display refresh rate toggle */
- 
- #define KEY_BUTTONCONFIG		0x240	/* AL Button Configuration */
- #define KEY_TASKMANAGER		0x241	/* AL Task/Project Manager */
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
