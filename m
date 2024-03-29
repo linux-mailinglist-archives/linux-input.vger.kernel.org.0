@@ -1,58 +1,57 @@
-Return-Path: <linux-input+bounces-2674-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2675-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2EC891C56
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:48:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C51F891C7B
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:50:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B63E6B27667
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 13:47:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD4FB1C2463A
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 13:50:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF3CD1836C5;
-	Fri, 29 Mar 2024 12:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67438188A87;
+	Fri, 29 Mar 2024 12:42:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1lQygJO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbQ7xpxp"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4CD181D1C;
-	Fri, 29 Mar 2024 12:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18708188A7E;
+	Fri, 29 Mar 2024 12:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716112; cv=none; b=MGX3jvcrRPU7gfliILFM68qvhhhlazkp4dhDcrdlygLNPJFZREiqk+r6CctpvRoCgCMY1UAXi36p71N36YbSuqkzV9MveOmceRMO/oRHCV5bzYpW+ZWtxaqdR1jCGP5qvnLWPeHCKTmuUkxh2Aff+u4r23J6swk7OWZvdvvR834=
+	t=1711716140; cv=none; b=NSRGo3E0anNIzcrzZFpHaE5ZD+DqSRO2cMuozQ2ffE3H57vulHt2yB+lZC6IWnpJIyEXkdkzEIVHnOTHICL4k1BGXVcN4AZATr2Fk5+OxyjfpcxcNbfHi7iNjl7wTqEa3jPTUqGdOz1lO0ZLVPXBlqGWo78jrgVs4OU+ZsSpk58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716112; c=relaxed/simple;
-	bh=N9NLZwnyfGXSjCFwpZS/eluPGucTnHJguKQARkgOkCY=;
+	s=arc-20240116; t=1711716140; c=relaxed/simple;
+	bh=nzUqvTnrnZZu0hffpYlA1dzFj49gKFtl/K2Yj1yQ5ss=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dDgTT+BY++zZSJvNVPt9z8JM2vs0x6POEiS/8VueUHOtcon5ADPxSRUg/zfXY3OP7GN89hrUmel1XVr+sTtuPjMDpe4AqWHytgap2FtQdG0eYzUfi2x1krTq/hIk334tOabqWwrGS/WMfwtY+4/0yeujxA+uy5Nw+SltCJt8aEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1lQygJO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7755EC433F1;
-	Fri, 29 Mar 2024 12:41:51 +0000 (UTC)
+	 MIME-Version; b=L1Na9UYfQN6HN8EnQQzVSyKS/CVPzJlLnj1fn4PseLFmslcICjRnSvErUAIkA3FxM72SlOWlUMej5I4oTlklyRCm2Zj3QRj7nEgtmqhSoA+TblGqseEPUmDkE/iYaExoUKz2NeaDu1c5oUJwjxXQ6c9YXnsOvUf8g60bCnau3H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbQ7xpxp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24B4C433B1;
+	Fri, 29 Mar 2024 12:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716112;
-	bh=N9NLZwnyfGXSjCFwpZS/eluPGucTnHJguKQARkgOkCY=;
+	s=k20201202; t=1711716139;
+	bh=nzUqvTnrnZZu0hffpYlA1dzFj49gKFtl/K2Yj1yQ5ss=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=h1lQygJO+jEeKqbIsHy8GCXS0loVjE1ZI7k/FqFO75SXXf7SAEdkjzV4aLRRBW1UU
-	 d9pMQMLOi0EoLFPyganir6UfAfBHgUNg/ZGrsfimZdzk9rdfj1pWtMzfER8n3aOAH6
-	 f5qdHNCukkEu4hgoB298PZYiM7RRbPNXTrjkpCOZXFpZuZ40wTwEoYKwoBnWnYiQMF
-	 97aDORCowQZwjaJ2eTMEJlvrlH/Je/yfiMcNsPn1ahNAXnIFORXyl3qkwoVOvd6yGT
-	 YIuxyhU8Tke3fpPxCDz8WxwgJXj2VlZ8+oYxoHEGVhpzvgDLd6TFqFE16W1dlWwe9P
-	 8BYjYDWeUThtw==
+	b=KbQ7xpxpiM1ZLyCJC4sXCxkwcOWcWOGRCfzEkmv1pHUdvb686eM5sZJgSFwBdEPh7
+	 6zDkAc0gAy1yqWUb8fx6kRroZ2jYfVqitQBEofg7aW+hTiJBO5HjUiruNgHvvNtv3n
+	 khOaU6zgdQIariesrXtd2cx5Ao8me9+yRqDFd5P1n/sQN2+s9LQ+/4O+PD1xUV17bT
+	 TM8QqiIc1x3TQHMEYFeGCJisVooZOw0gAVb3sf3BsGc7QRHX7wRA5yWMIWI5EB4EEr
+	 YELRroQk69UmtjO7evnn9eN3V4FJDO+2vOROmH0a/4SmxDQi4ih1bEF2oJM9ng/8zS
+	 mC9/66xUmVsZw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jkosina@suse.com>,
+Cc: Markuss Broks <markuss.broks@gmail.com>,
+	Karel Balej <balejk@matfyz.cz>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 61/98] HID: input: avoid polling stylus battery on Chromebook Pompom
-Date: Fri, 29 Mar 2024 08:37:32 -0400
-Message-ID: <20240329123919.3087149-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 76/98] input/touchscreen: imagis: Correct the maximum touch area value
+Date: Fri, 29 Mar 2024 08:37:47 -0400
+Message-ID: <20240329123919.3087149-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
 References: <20240329123919.3087149-1-sashal@kernel.org>
@@ -67,50 +66,35 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.2
 Content-Transfer-Encoding: 8bit
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From: Markuss Broks <markuss.broks@gmail.com>
 
-[ Upstream commit 9a5b1521e2d0d7ace70c6e5eed073babcec91409 ]
+[ Upstream commit 54a62ed17a705ef1ac80ebca2b62136b19243e19 ]
 
-Internal touchscreen on Trogdor Pompom (AKA Dynabook Chromebook C1)
-supports USI stylus. Unfortunately the HID descriptor for the stylus
-interface does not contain "Stylus" physical collection, which makes
-the kernel to try and pull battery information, resulting in errors.
+As specified in downstream IST3038B driver and proved by testing,
+the correct maximum reported value of touch area is 16.
 
-Apply HID_BATTERY_QUIRK_AVOID_QUERY to the device.
-
+Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+Signed-off-by: Karel Balej <balejk@matfyz.cz>
+Link: https://lore.kernel.org/r/20240301164659.13240-2-karelb@gimli.ms.mff.cuni.cz
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/input/touchscreen/imagis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 828a5c022c640..175b6680087e0 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -430,6 +430,7 @@
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
- #define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
-+#define I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM	0x2F81
+diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+index 07111ca244556..e67fd30110278 100644
+--- a/drivers/input/touchscreen/imagis.c
++++ b/drivers/input/touchscreen/imagis.c
+@@ -210,7 +210,7 @@ static int imagis_init_input_dev(struct imagis_ts *ts)
  
- #define USB_VENDOR_ID_ELECOM		0x056e
- #define USB_DEVICE_ID_ELECOM_BM084	0x0061
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index c8b20d44b1472..e03d300d2bac4 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -411,6 +411,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_CHROMEBOOK_TROGDOR_POMPOM),
-+	  HID_BATTERY_QUIRK_AVOID_QUERY },
- 	{}
- };
+ 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
+ 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
+-	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
++	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 16, 0, 0);
  
+ 	touchscreen_parse_properties(input_dev, true, &ts->prop);
+ 	if (!ts->prop.max_x || !ts->prop.max_y) {
 -- 
 2.43.0
 
