@@ -1,58 +1,61 @@
-Return-Path: <linux-input+bounces-2682-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2683-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A52C891CAF
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:55:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663E3891CB8
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 14:56:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3493A288D88
-	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 13:55:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 736941C20A87
+	for <lists+linux-input@lfdr.de>; Fri, 29 Mar 2024 13:56:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4DC190688;
-	Fri, 29 Mar 2024 12:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26EA1966B9;
+	Fri, 29 Mar 2024 12:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrEVfMEl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJPQaDMP"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAC2190681;
-	Fri, 29 Mar 2024 12:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB931966B7;
+	Fri, 29 Mar 2024 12:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716163; cv=none; b=Yw3SQ/McSnT1iIoL+SPgpW0+bT27nCkNtCdx3A82/Ju56MPhON1LSZLQ/z6BSrxcTw28RetdvzvYP2Yxstk8TrN/ScK2HAki9w3siJppevx0+gqd7NxhdMb2BlNAl8yqqg4Ac/BGhBs7jxphBasoXO68Vi8N4vrGUkQSQ6Vf2Os=
+	t=1711716171; cv=none; b=V1RqZcIm2JYbGvlyKlDr3UmTHZCWM/k10gRKLQBtcbZCZS26CILkOL/f0m3stoRQAUEOoaWIPqCRvs7H002rtXy5/Lj/HjY3V9uKrJEVKeYfAeGQjnV1c+vupkTZZtmNm/Y3ZxG8APJQRDXHqAsTIaP/V6ByKuFgXIl5hvFq0gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716163; c=relaxed/simple;
-	bh=2xC5XMYS0wCtsfNCx5VDLX0oiPi8F81qE/iLV7BLswc=;
+	s=arc-20240116; t=1711716171; c=relaxed/simple;
+	bh=bQ6t7H5CtU7xN2Szuq+lEthMgQEZWj/OElMP3vgr//k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YcoKPCxaN+yJ6fCL1rThlnBCEKKLyK3d6DLN0shVg/jT61jWBc5usoswsHzBZU9R6VMl7zN6/wH0Az+gLysroP2wlH0GIR59LHcU3gKQh6wYFf1E1Yl/dvwrbJTfpwxLjbFYGc7XcYXiqfD2RVsYqFzvbbLmKxa1VH4P9c05NEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrEVfMEl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76FBC43394;
-	Fri, 29 Mar 2024 12:42:41 +0000 (UTC)
+	 MIME-Version; b=qktn9xvslxXO957CEUIjicU8D/tJglcjdn6gUa4FlQSLaPWSc00CI9oszaSx3RnUCVCmOkYU/OoYIPcDxkKCBWYLwQx2aV2BkN3gAxQu4m7WVjTrdzmIhyFFRYDYGFcj+8XDGtLcwJrYS3tY8O73ynGUavnZMKPehY8ZKdsJ6Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJPQaDMP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FEDDC433F1;
+	Fri, 29 Mar 2024 12:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716162;
-	bh=2xC5XMYS0wCtsfNCx5VDLX0oiPi8F81qE/iLV7BLswc=;
+	s=k20201202; t=1711716171;
+	bh=bQ6t7H5CtU7xN2Szuq+lEthMgQEZWj/OElMP3vgr//k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jrEVfMEljhexTio74B6pjEP67gH2S2WJDSapadCnK7oNulO0cn4WMNFaZusmzG/tF
-	 WMQ7cckerAUq0+ErkscTOFPrdb8nk2jXrPcCXaIQRuUlCd2qPxZpsslW7iONIBEH+e
-	 Il9pEqa9Y+X+cO6OCG+BZUCnAhsESECcSbyREMIAzkxeiHXkMH/gRPubZRxm7IZ7Fa
-	 r2KCDFMGuhHJ3RDLIOJdI8JlEd4PYK9XYHS6eDI0xLLiOoihayfCtcrVtfPlIi/OcH
-	 LAAsFJ53gqFFkBdRNrGvW/d3XCIdA5jCVbhe543I3UxLVUmZJ6/BYgOVMnRl899F6b
-	 nMafSvJ5MUN4g==
+	b=sJPQaDMPUWN5u14UwhVvGX3aSx5HYGzbyUvXRXkhXVTSegggNRqksvqykyUwA6/M+
+	 BzT1Xp3iczVSGNrWEsxEaHHJUgS08z3YzDH3lLTsIoAB/uNJaAJUlJNgml3zjDlw6l
+	 6hjugFLws5Jl5xuFKCf7XN3psPUc3//crWV82JMmZ45QcN/pRnou09hJ+Qz/E0mwKO
+	 NM/v/jD6ZJjXUqO363rU6ppWhh6+VY+x6YnUkT3gIVtHBL6dzMV5NWDFbD0yaibB8M
+	 4ome5xrzAXJJfdHaGTNhn5kR9V0dmLFiMP8jpyylo3SQyKJAVg7FaRF/yfxoiv3RMn
+	 eFQTCjNQqiZ4Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Alban=20Boy=C3=A9?= <alban.boye@protonmail.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+Cc: Matt Scialabba <matt.git@fastmail.fm>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	hdegoede@redhat.com,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 93/98] platform/x86: touchscreen_dmi: Add an extra entry for a variant of the Chuwi Vi8 tablet
-Date: Fri, 29 Mar 2024 08:38:04 -0400
-Message-ID: <20240329123919.3087149-93-sashal@kernel.org>
+	vi@endrift.com,
+	maxwell.nguyen@hp.com,
+	appsforartists@google.com,
+	swyterzone@gmail.com,
+	matthias_berndt@gmx.de,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.8 97/98] Input: xpad - add support for Snakebyte GAMEPADs
+Date: Fri, 29 Mar 2024 08:38:08 -0400
+Message-ID: <20240329123919.3087149-97-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
 References: <20240329123919.3087149-1-sashal@kernel.org>
@@ -62,45 +65,47 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.2
 Content-Transfer-Encoding: 8bit
 
-From: Alban Boyé <alban.boye@protonmail.com>
+From: Matt Scialabba <matt.git@fastmail.fm>
 
-[ Upstream commit 1266e2efb7512dbf20eac820ca2ed34de6b1c3e7 ]
+[ Upstream commit 81c32343d04f8ca974681d5fb5d939d2e1f58851 ]
 
-Signed-off-by: Alban Boyé <alban.boye@protonmail.com>
-Link: https://lore.kernel.org/r/20240227223919.11587-1-alban.boye@protonmail.com
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Add Snakebyte GAMEPAD BASE X and Snakebyte GAMEPAD RGB X to the list
+of supported devices.
+
+Signed-off-by: Matt Scialabba <matt.git@fastmail.fm>
+Link: https://lore.kernel.org/r/efbfb428-06b0-48f9-8701-db291c2a9d65@app.fastmail.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/input/joystick/xpad.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 975cf24ae359a..c6a10ec2c83f6 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -1217,6 +1217,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- 		},
- 	},
-+	{
-+		/* Chuwi Vi8 dual-boot (CWI506) */
-+		.driver_data = (void *)&chuwi_vi8_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Insyde"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "i86"),
-+			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI2.D86JHBNR02"),
-+		},
-+	},
- 	{
- 		/* Chuwi Vi8 Plus (CWI519) */
- 		.driver_data = (void *)&chuwi_vi8_plus_data,
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 14c828adebf78..1fad51b51b0e1 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -366,6 +366,8 @@ static const struct xpad_device {
+ 	{ 0x24c6, 0x5d04, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0xfafe, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
+ 	{ 0x2563, 0x058d, "OneXPlayer Gamepad", 0, XTYPE_XBOX360 },
++	{ 0x294b, 0x3303, "Snakebyte GAMEPAD BASE X", 0, XTYPE_XBOXONE },
++	{ 0x294b, 0x3404, "Snakebyte GAMEPAD RGB X", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x2000, "8BitDo Pro 2 Wired Controller fox Xbox", 0, XTYPE_XBOXONE },
+ 	{ 0x2dc8, 0x3106, "8BitDo Pro 2 Wired Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x31e3, 0x1100, "Wooting One", 0, XTYPE_XBOX360 },
+@@ -507,6 +509,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA controllers */
+ 	XPAD_XBOX360_VENDOR(0x2563),		/* OneXPlayer Gamepad */
+ 	XPAD_XBOX360_VENDOR(0x260d),		/* Dareu H101 */
++       XPAD_XBOXONE_VENDOR(0x294b),            /* Snakebyte */
+ 	XPAD_XBOX360_VENDOR(0x2c22),		/* Qanba Controllers */
+ 	XPAD_XBOX360_VENDOR(0x2dc8),            /* 8BitDo Pro 2 Wired Controller */
+ 	XPAD_XBOXONE_VENDOR(0x2dc8),		/* 8BitDo Pro 2 Wired Controller for Xbox */
 -- 
 2.43.0
 
