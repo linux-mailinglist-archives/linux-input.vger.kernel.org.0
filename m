@@ -1,135 +1,183 @@
-Return-Path: <linux-input+bounces-2749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2750-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A72C8948F8
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 03:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8378894E3E
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 11:05:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89FED1C230A7
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 01:49:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFD8C1C211B8
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 09:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B45D502;
-	Tue,  2 Apr 2024 01:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE4858228;
+	Tue,  2 Apr 2024 09:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CTG48LGu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pCC4bfr3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF7FDDB1;
-	Tue,  2 Apr 2024 01:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADB157305;
+	Tue,  2 Apr 2024 09:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712022590; cv=none; b=JqEuOyJfh9quP716unrbxc1DiY8w1VbG02P+RFLJ+6kv6BVBeG8s147PZBeQkKbBjMhiJNNP/TMZyIbLDyqou/VYKYK6O8UBGNlgwfONE9tcCKroRBf74z3Iw0mZALFbCv+e2PepDc6UZWP/u5w71VvyRWCfBaqCPSqrajFkTn8=
+	t=1712048688; cv=none; b=n3qtJF5qpdQE5O1EcgdH/k5Hef1IxUPvEtNb8oRqe6AZj/ZlJK4swbfcUzIG8AM/bt5tjYo8QfwmoIBLCUeT95DE395FCN9JFMZpafqsSW5Y8MvzpYLmlY6igTI8i3Mt7hpwtXCAxS6S/9xKyGUuIOdyHuevbsAjK9nMggXdYxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712022590; c=relaxed/simple;
-	bh=xwgKT4QWg7PYY2MgtNiuW0lK0ZdOIRwkOV/Mdj/hbpw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AaBj/RViLPHyjaEnpn4EmM0e5/sZo8Q3gybN9aPH4TnMGOkabEP1pm6z0Im+a3+Xq95XU1aSS1uUVeT1AZiAjBbGN32aNEhlZ7P2cKS4FKDXCXjIXF8kUEiu4NdLfBjB4+NvZij/li5Tiz+LiCofDUQXUw4o3lPCPpBw/8z2BfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=CTG48LGu; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 431IKCQ9009659;
-	Tue, 2 Apr 2024 01:48:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2023-11-20;
- bh=L9IxItlvqA1yIzQ1+sVrLHxRvr61/Tb3C75G4rmCcAQ=;
- b=CTG48LGug34c6CkHKet8GhYB1nQVJyps9stIGiL2hqvslsOCRAnbCUzpzFEWEM18EoXs
- EB9+H+zbmdhOpo6dbXmJIKRAg882F7RZFi6eEjeKnpCBouaOCBa4tckN470B1QAIvSy6
- T9Rjy1wb38hRO/bXH+5oKDyqbHgajqQolR94I6D/dlIyKltmAGBPbfO7WO3BRTgruUA8
- AGgI3GOFll2Qo/cwy70tT/yq80qBikDcnhfAd96YVhvW+QJS+JE1JX1ZM0cEaRiAr5C1
- s81LKqWNXX7K4nSvYdTOaS0jY3QC5uNlzmudLs0vOK6xtHptVIFZWFKHXb15w8vOCIfL OA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3x7tb9sjps-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Apr 2024 01:48:47 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 4320lCLT018692;
-	Tue, 2 Apr 2024 01:48:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3x696cd6c1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Apr 2024 01:48:47 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4321mkN9030130;
-	Tue, 2 Apr 2024 01:48:46 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3x696cd6bp-1;
-	Tue, 02 Apr 2024 01:48:46 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: llvm@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Jakub Kicinski <kuba@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>, Ariel Elior <aelior@marvell.com>,
-        Manish Chopra <manishc@marvell.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hannes Reinecke <hare@kernel.org>, Helge Deller <deller@gmx.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Justin Stitt <justinstitt@google.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
-        linux-sound@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/9] enabled -Wformat-truncation for clang
-Date: Mon,  1 Apr 2024 21:48:35 -0400
-Message-ID: <171202249144.2135322.4411557752324466054.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
-References: <20240326223825.4084412-1-arnd@kernel.org>
+	s=arc-20240116; t=1712048688; c=relaxed/simple;
+	bh=YvAxsRirqP9WIUZqYwF0tiTfjgDxAvwrGrHJaBMhnbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJw0pWL92Na0iVJzfb+DbQLpuoRT3SiwP2Hzyq8x8XGkDZr9hSixS+AHGfNyVGcNFLIZCEoKEoqECIlKSQiadZA913auzQp1lAqgBYqa5SV3nvziOTuh4CE8g+FcX4eQxHsH9DJXkTLWR0fbqm4fN5jy9CVsBt4c71SP6cYuFnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=pCC4bfr3; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=/sLPoPRj7yaTMRifvssA4ocGQZQ13k50t3gTbGc6at4=; b=pCC4bfr3tEL7rd4uaTZq+6Fpyu
+	d+b3YySnKJPGaKKYgvve+kH+pO/ODBmZxycpxzsqacSBSdWqeYQDiEntqiuyA5cau6k33vgQiFDsO
+	qTlXke5NWkvtiCNdtwLxqrMeHOqaPZAmWI1PdAVLlcOnyjRqTOfUDAgYt7IIyRB97bgcLAVGHikxE
+	6FDGpSBr+ssVKqsGTlUYERTuxv8xLEMlCVg1uHs/VSLGiOfXKS+hO9Wxmm/9/x+Mpwtl6Z95AWH3e
+	Q6UlRsos1rowDkHF5p/nblE1JIq7nT7xR6M/TLYUUxuWJoHm2dDiLno9T0narThxj9NxMVoafbYWi
+	Xo6yfp7Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39088)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rrZwT-00061T-21;
+	Tue, 02 Apr 2024 09:56:29 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rrZwH-0006pd-Kx; Tue, 02 Apr 2024 09:56:17 +0100
+Date: Tue, 2 Apr 2024 09:56:17 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Vinod Koul <vkoul@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-input@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 00/19] amba: store owner from modules with
+ amba_driver_register()
+Message-ID: <ZgvIMRDfeQaeVxYt@shell.armlinux.org.uk>
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+ <f514d9e1-61fa-4c55-aea1-d70c955bb96a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-01_18,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 spamscore=0
- bulkscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2403210000
- definitions=main-2404020012
-X-Proofpoint-GUID: LNUyxeCija5WK7SmvL47CZEEitUJovRX
-X-Proofpoint-ORIG-GUID: LNUyxeCija5WK7SmvL47CZEEitUJovRX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f514d9e1-61fa-4c55-aea1-d70c955bb96a@linaro.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, 26 Mar 2024 23:37:59 +0100, Arnd Bergmann wrote:
-
-> With randconfig build testing, I found only eight files that produce
-> warnings with clang when -Wformat-truncation is enabled. This means
-> we can just turn it on by default rather than only enabling it for
-> "make W=1".
+On Sat, Mar 30, 2024 at 01:18:30PM +0100, Krzysztof Kozlowski wrote:
+> On 26/03/2024 21:23, Krzysztof Kozlowski wrote:
+> > Merging
+> > =======
+> > All further patches depend on the first amba patch, therefore please ack
+> > and this should go via one tree.
+> > 
+> > Description
+> > ===========
+> > Modules registering driver with amba_driver_register() often forget to
+> > set .owner field.
+> > 
+> > Solve the problem by moving this task away from the drivers to the core
+> > amba bus code, just like we did for platform_driver in commit
+> > 9447057eaff8 ("platform_device: use a macro instead of
+> > platform_driver_register").
+> > 
+> > Best regards,
 > 
-> Unfortunately, gcc produces a lot more warnings when the option
-> is enabled, so it's not yet possible to turn it on both both
-> compilers.
+> I tried to submit this series to Russell patch tracker and failed. This
+> is ridiculous. It's 2024 and instead of normal process, like every other
+> maintainer, so b4 or Patchwork, we have some unusable system rejecting
+> standard patches.
+
+Sorry but no. Stop being offensive.
+
+> First, it depends some weird, duplicated signed-off-by's.
+
+Eh? There is no such logic in there.
+
+> Second it > submitting patch-by-patch, all with clicking on some web
+> (!!!) interface.
+
+Again, no it doesn't, and you're just throwing crap out because you
+failed. Unlike most of the "normal" processes, the patch system allows
+you to submit both by *email* and also by *web* for those cases where
+the emails get screwed up by ones company mail server. That's why the
+web interface exists - to give people *flexibility*.
+
+The fact is, the web interface is merely a front end interface that
+generates an email and submits it in the usual way by email - an
+email that you can perfectly well generate that is *very* close to
+the standard email that git format-patch generates.
+
+The *only* difference is that the patch system wants a KernelVersion:
+tag in the email _somewhere_ and it doesn't matter where it appears.
+Git even has support to do this.
+
+  git format-patch --add-header="KernelVersion: $foo"
+
+Why does it want the kernel version? Because when we were running 2.4
+and 2.5 kernel versions in parallel, it was important to know which
+tree the patch was being submitted for. It has continued to be required
+because it means when there's problems applying a patch, it gives me
+the additional information about the base used for the patch (and it
+keeps on being useful to have.)
+
+> That's the response:
+> -------------
+> Your patch has not been logged because:
 > 
-> [...]
+> Error:   Please supply a summary subject line briefly describing
+>          your patch.
+> 
+> 
+> Error:   Please supply a "KernelVersion: " tag after "PATCH FOLLOWS" or
+> "---".
+> 
+> Error:   the patch you are submitting has one or more missing or incorrect
+>          Signed-off-by lines:
+> 
+>          - author signoff <krzkreg@gmail.com> is missing.
+> 
+>          Please see the file Documentation/SubmittingPatches, section 11
+>          for details on signing off patches.
 
-Applied to 6.9/scsi-fixes, thanks!
+Lots of people use it without a problem. I've just run the parser
+through its offline tests, and it parses email content correctly.
+I've no idea what you're doing wrong, but it looks like something
+pretty serious if it didn't parse the subject line.
 
-[7/9] scsi: mylex: fix sysfs buffer lengths
-      https://git.kernel.org/mkp/scsi/c/1197c5b2099f
+Rather than getting stressed about it, why don't you send me an email
+the first time something goes wrong so I can investigate, turn on
+debugging to capture the problem email?
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
