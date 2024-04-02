@@ -1,159 +1,248 @@
-Return-Path: <linux-input+bounces-2768-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2770-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41826895811
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 17:22:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3820C895B75
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 20:09:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C95ADB2296E
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 15:21:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E07A72857D0
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 18:09:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4508F12F362;
-	Tue,  2 Apr 2024 15:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C091F15AAD2;
+	Tue,  2 Apr 2024 18:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rPKCyS9K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rN1JPzb+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD5112DD96
-	for <linux-input@vger.kernel.org>; Tue,  2 Apr 2024 15:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C1615AAC4;
+	Tue,  2 Apr 2024 18:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071294; cv=none; b=Fs0OODxJyY+G+i9Kp/5ldJ8VDiZvnYg1SP7OApx+kvjzjcWR1T/fnK/bf0hNKUuNrCczEleSmSsgqheFE59Guw2nBBbuE+6MTLqMqbYMfF0EzNvSJfSemIokcfcIZcklZLOiksqbQgYYdpGbTjQXo3KgVojpIScxyoMy02T1XxA=
+	t=1712081376; cv=none; b=uNxdED/5Va9PUz07e0GQ3DLEHGfzWKQAGwqooUZs/C4RnqznBPllnLrApwP7FevdrOCWB2pk5W7dNaO7XzUBdIROyMF8C/myjxh8s4ndbqA3LUC4X/aOv8db69QoRln8kDBcHNjuqtx/1anuHeQoy9HCSmKmw+5FFtTJ5LmOYh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071294; c=relaxed/simple;
-	bh=t4Rytc9yyhGJnDzIG0fj0CFOC5rwPpFe3xdrheCzLGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y/Zi5yT1OqLrq93ejI0Dk0MqQnmiA8WIKWXa9VI+Tfyqt2wmh8otfh/x9IPpmD8IfwqIit37ud+FyIKurwABXbZZLiP4bwrnP2hIqMiBOhfCUIgJ1QmviVW7PxUXd4XXrQFtqxfFdwzkEMmiJdxX8+GVV3L2t+ASaTY/Yj/LmP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rPKCyS9K; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-515c3eeea5dso6216105e87.1
-        for <linux-input@vger.kernel.org>; Tue, 02 Apr 2024 08:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712071290; x=1712676090; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fdpXSEOMW5sDeABud6LY4+ygs1jkKgACgBrXVzT1mys=;
-        b=rPKCyS9KQkN442b0wwY7oRwtXNEATnFsCZYYro8OqWsRQtCWD+eN/f8IFnuJ7HSS0i
-         +5ryjGqgMK/oQo/eTksKh2xupcQBfa0mJ2OHrd6OVNXiOjnW6efLgFd98hsbmHNE/E2Z
-         jyupo1J7k5jhpE23h2uVi9oQWS6KMZDe47o+HPRP93OFQLZgAZ2m8Uiu7FE1+iTwRVKK
-         ny3vyG7M+H4Z1ieJwx3JOR4T3QArVfVuQTbqVJMuQba47+YQxNWG0zgx6l+8E50RrtCj
-         U6Vn3TbrFoVWzm3Ofgbz+nubaKwlDXZUdJsHc3yzpEmYUixXr0gVy2PQ+Y2OUwpf9wwT
-         yrXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712071290; x=1712676090;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fdpXSEOMW5sDeABud6LY4+ygs1jkKgACgBrXVzT1mys=;
-        b=RyPCLiysDym5VCSyLYkKe1H55d50yW7bMsw7G+uFiYSo0+FNq9LvNoY9d3gp9x3jAL
-         FmVQ89MOTI8xDKhpIeLi+KHYj2tPHbHh7Bgojnd4Io69rtU9gJzBCD8BPw2Gh0IiabKB
-         ba57F3QRy/FOcTZ348rDXwObuJj6HaItTcsVg5tmzZow1XnEK35vyW2xpcZMAfrR8/jP
-         tlATY0Gg8rN/KEX2dvJJ4py5GHATJV5kJgAepjxAaWSSnNGWxB7XEzOiePdoVTPqtswl
-         5F7Ph2yrDt5bYfdUBpmW0VbyX7p+sXEx6RfEagKb5gZzD4B7iPXHuDiyDTxKbI6VXnu1
-         LekA==
-X-Forwarded-Encrypted: i=1; AJvYcCW2Ucvykfm8DsFikGf/08b2LGFIjRos0WfpqtqMQ4m8jwO665rp0ApFN8I0QeeHBjMjgmYga+gxqjf3LKbxhTIy2X5fLdGj8XXJP9o=
-X-Gm-Message-State: AOJu0YwRuaV0/955wuhyG0/j+wltzVl8DD/xBLcQwXeEUQNkI15krzD7
-	bNgAdpZlV/xv7e2hQR8ZbZpBPZrAcdIDyXxL4hapxsVPU+yCfnNhElWGnCxJusY=
-X-Google-Smtp-Source: AGHT+IEnaASTdH9ozN9AmQUMgJ/N4NNp4A/EEmC9SNJjFf89H/Yz72c629rX/rGyrX0ey4KoqRteug==
-X-Received: by 2002:a05:6512:4010:b0:515:acdc:fcd5 with SMTP id br16-20020a056512401000b00515acdcfcd5mr10041553lfb.69.1712071290361;
-        Tue, 02 Apr 2024 08:21:30 -0700 (PDT)
-Received: from [192.168.92.47] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
-        by smtp.gmail.com with ESMTPSA id 22-20020a170906311600b00a4e8acaccb1sm880171ejx.132.2024.04.02.08.21.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 08:21:29 -0700 (PDT)
-Message-ID: <21641459-d7c0-412d-8244-6f2f2c458551@linaro.org>
-Date: Tue, 2 Apr 2024 17:21:28 +0200
+	s=arc-20240116; t=1712081376; c=relaxed/simple;
+	bh=v2yTSI5wVjubdh6O9XGd9XiQiEx2T9wjyrIYVBy4i5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ea2Vhw8Pu7OTY53cxbBc77duR2jddElT5vnsnEil7Rw612xw76HpGHVSfMEbuj9K4GhcGHMswJspDGCulkiYtj6MW/O26DCiLQYJf7jLjbWNv0pJeMXyP3pRRmqTyg77aAl4bUE2j11Sjf4ayFkXNXR80LL5emXo9Cewyrm1oUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rN1JPzb+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43682C433C7;
+	Tue,  2 Apr 2024 18:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712081376;
+	bh=v2yTSI5wVjubdh6O9XGd9XiQiEx2T9wjyrIYVBy4i5w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rN1JPzb+MARtU6UczxPQ7h9luhxp2nCHkJALKqKjYduvj/tMkpNJnwvDaWcqPceGZ
+	 LrsnSR3TI7oBn+DZSYRPdwkAQ/yTwpNdM2clC/L2MscHkqpZDMMjyoRXR1l77zF+Bt
+	 u8srvdubSsKoHr8CPvbbqqEQX2nlD+gVwVGTE2YRjsg7rJT2kPcRDNq12SUbLSPAU3
+	 7kbth671C937lhBHjXwLBaVsP4/QCi/ziYmyX8irs2jeFh97Zf5IuSwryLrzu4XSuj
+	 NlVefpZqL8ZKa1edzZjQXxM8Msy784onEpXwKltmZIHMDS1eklHcmiiBy+zI292XeG
+	 HueNZcfQlKAag==
+Date: Tue, 2 Apr 2024 19:09:32 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Allen_Lin <allencl_lin@hotmail.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org,
+	benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
+Message-ID: <20240402-doable-routine-8e8cb4f07ffb@spud>
+References: <20240402104930.1053016-1-allencl_lin@hotmail.com>
+ <TY0PR06MB5611C37640AA40B2B7716ABE9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/3] input: pm8xxx-vibrator: refactor to support new
- SPMI vibrator
-To: quic_fenglinw@quicinc.com, kernel@quicinc.com,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240401-pm8xxx-vibrator-new-design-v8-0-6f2b8b03b4c7@quicinc.com>
- <20240401-pm8xxx-vibrator-new-design-v8-1-6f2b8b03b4c7@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240401-pm8xxx-vibrator-new-design-v8-1-6f2b8b03b4c7@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wnkQWaX3HDVV3g+f"
+Content-Disposition: inline
+In-Reply-To: <TY0PR06MB5611C37640AA40B2B7716ABE9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
 
-On 1.04.2024 10:38 AM, Fenglin Wu via B4 Relay wrote:
-> From: Fenglin Wu <quic_fenglinw@quicinc.com>
-> 
-> Currently, vibrator control register addresses are hard coded,
-> including the base address and offsets, it's not flexible to
-> support new SPMI vibrator module which is usually included in
-> different PMICs with different base address. Refactor it by using
-> the base address defined in devicetree.
-> 
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+
+--wnkQWaX3HDVV3g+f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 02, 2024 at 06:49:27PM +0800, Allen_Lin wrote:
+> Add the HX83102j touchscreen device tree bindings documents.
+> HX83102j is a Himax TDDI touchscreen controller.
+> It's power sequence should be bound with a lcm driver, thus it
+> needs to be a panel follower. Others are the same as normal SPI
+> touchscreen controller.
+>=20
+> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
 > ---
+>  .../input/touchscreen/himax,hx83102j.yaml     | 100 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 ++
+>  2 files changed, 106 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/h=
+imax,hx83102j.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/himax,hx=
+83102j.yaml b/Documentation/devicetree/bindings/input/touchscreen/himax,hx8=
+3102j.yaml
+> new file mode 100644
+> index 000000000000..fe79129f704a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.=
+yaml
+> @@ -0,0 +1,100 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Himax hx83102j touchscreen
+> +
+> +maintainers:
+> +  - Allen Lin <allencl_lin@hotmail.com>
+> +
+> +description:
+> +  This Himax hx83102j touchscreen uses the spi protocol.
+> +
+> +allOf:
+> +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: himax,hx83102j
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  vccd-supply:
+> +    description: A phandle for the regualtor supplying IO power.
 
-[...]
+nit: regulator
 
->  	if (regs->enable_mask)
-> -		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
-> +		rc = regmap_update_bits(vib->regmap, vib->enable_addr,
->  					regs->enable_mask, on ? ~0 : 0);
+> +=20
+> +  vsn-supply:
+> +    description: Negative supply regulator.
+> +=20
+> +  vsp-supply:
+> +    description: Positive supply regulator.
 
-The idiomatic way across the kernel seems to be writing the mask value
-instead of ~0 (which also saves like 2 cpu instructions)
+Cool, thanks for adding these.
 
+> +
+> +  ddreset-gpios:
+> +    description: A phandle of gpio for display reset controlled by the L=
+CD driver.
+> +      This is the master reset, if this reset is triggered, the TP reset=
+ will=20
+> +      also be triggered.
+> + =20
+> +  spi-cpha: true
+> +
+> +  spi-cpol: true
+> +
+> +  spi-max-frequency: true
+> +
+> +  panel: true
+> +
+> +  himax,firmware-name:
 
-Not sure about how ssbi addressing works, but except for that lgtm
+firmware-name is a standard property, you don't need to vendor prefix it.
 
-Konrad
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description:
+> +      Specify the file name for firmware loading.
+> +
+> +  himax,pid:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      PID for HID device, used to validate firmware.
+
+Why do you need this _and_ firmware-name? You should be able to trust
+the firmware that the dt has told you to use, no?
+
+Cheers,
+Conor.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset-gpios
+> +  - panel
+> +  - vccd-supply
+> +  - vsn-supply
+> +  - vsp-supply
+> +  - ddreset-gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    spi {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +      ap_ts: touchscreen@0 {
+> +        compatible =3D "himax,hx83102j";
+> +        reg =3D <0>;
+> +        pinctrl-names =3D "default";
+> +        pinctrl-0 =3D <&touch_int0 &touch_reset>;
+> +        reset-gpios =3D <&gpio1 8 GPIO_ACTIVE_LOW>;
+> +        spi-cpha;
+> +        spi-cpol;
+> +        interrupt-parent =3D <&gpio1>;
+> +        interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
+> +        panel =3D <&panel>;
+> +        vccd-supply =3D <&regulator>;
+> +        vsn-supply =3D <&regulator>;
+> +        vsp-supply =3D <&regulator>;
+> +        ddreset-gpios =3D <&gpio1>;
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 43b39956694a..aa51c60fd66d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9669,6 +9669,12 @@ L:	linux-kernel@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/misc/hisi_hikey_usb.c
+> =20
+> +HIMAX HID HX83102J TOUCHSCREEN
+> +M:	Allen Lin <allencl_lin@hotmail.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.ya=
+ml
+> +
+>  HIMAX HX83112B TOUCHSCREEN SUPPORT
+>  M:	Job Noorman <job@noorman.info>
+>  L:	linux-input@vger.kernel.org
+> --=20
+> 2.34.1
+>=20
+
+--wnkQWaX3HDVV3g+f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgxJ3AAKCRB4tDGHoIJi
+0ngTAP9sAj6qdFZruDOlfI5qPpSzZ9xkZKy3Gcy8R5RWuWZ+WAD+ILoYLlHXju8g
+Vaim33nrtscHEM4CFV/YvdfiUdicvgY=
+=OLuM
+-----END PGP SIGNATURE-----
+
+--wnkQWaX3HDVV3g+f--
 
