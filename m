@@ -1,101 +1,135 @@
-Return-Path: <linux-input+bounces-2748-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2749-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A87D893CB8
-	for <lists+linux-input@lfdr.de>; Mon,  1 Apr 2024 17:18:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A72C8948F8
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 03:49:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9A57282B14
-	for <lists+linux-input@lfdr.de>; Mon,  1 Apr 2024 15:17:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89FED1C230A7
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 01:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D13045C07;
-	Mon,  1 Apr 2024 15:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B45D502;
+	Tue,  2 Apr 2024 01:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksV+VYSS"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CTG48LGu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A5245974;
-	Mon,  1 Apr 2024 15:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF7FDDB1;
+	Tue,  2 Apr 2024 01:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711984669; cv=none; b=Dr8TmlO86Nm32w0gbk5Y3O8DxJHog/qkkA/gNTBsbkSlu7h/XPahPvXsPwLyxNk0wnMONl4urQGEzKExtp9s2niTUXMqrjoLSP0KyAlS69DCeQN44L8HNwM0dCqWrVJUzy/gJ2VMfeeqH772JzOtNk1tpXFBczWEGqCV10WDN2o=
+	t=1712022590; cv=none; b=JqEuOyJfh9quP716unrbxc1DiY8w1VbG02P+RFLJ+6kv6BVBeG8s147PZBeQkKbBjMhiJNNP/TMZyIbLDyqou/VYKYK6O8UBGNlgwfONE9tcCKroRBf74z3Iw0mZALFbCv+e2PepDc6UZWP/u5w71VvyRWCfBaqCPSqrajFkTn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711984669; c=relaxed/simple;
-	bh=D83Xak9nDvDD3y92G9E1UTwi43wAfnHrgeFCBth+9FY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPBgzzihj9WQKHgobj4u3m8nvkz+DO2SY81Sz5xv0FJO243AkV0cDh+L1mFFk2l+22hd490P65Fm/cf+Vetv+VUupW3szWfaWvunDc3uL381ZXgdKbK4k06Pkz3/mksRah73BVX/k1Z1QuIcLGMWZnfz8iPbwlHggtwSyYmqXoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksV+VYSS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFC5C43390;
-	Mon,  1 Apr 2024 15:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711984668;
-	bh=D83Xak9nDvDD3y92G9E1UTwi43wAfnHrgeFCBth+9FY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ksV+VYSSXoXl39VJxMGapaLZJkt6ZsDvghxomF3OSk27xh9MkLI185twPxL1qUAkU
-	 RPVmlnXqaosJ6gXGBgfYSltYg9bweNT8ClWyeGJWTP++3zsKwwtAQO3tqS+Ae/LJeI
-	 AgojRiW+gidp/gADBEoAFf75qmctwtMscZ1dJBoNXLfv9x8dyurEFbHTdQfRw84S3b
-	 oXvf8YoCq8bNPkkcZrHYxRw+hPHdASdT2SVut9AFLKRPPj6T6OIQ4/zRn2+qmz7dqd
-	 FqwMkeNz5JXlp1R88xIMrJvnJhYFUfN2h/MCZZBqQexInU8MHuOn1PYMOyK8Ev5M6X
-	 TeVy2S8aYXKAw==
-Date: Mon, 1 Apr 2024 10:17:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: krzysztof.kozlowski+dt@linaro.org, linux@roeck-us.net,
-	devicetree@vger.kernel.org, wim@linux-watchdog.org,
-	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-	linux-rtc@vger.kernel.org, lee@kernel.org, conor+dt@kernel.org,
-	linux-watchdog@vger.kernel.org, sre@kernel.org,
-	linux-kernel@vger.kernel.org, alexandre.belloni@bootlin.com
-Subject: Re: [PATCH v3] dt-bindings: mfd: twl: Convert trivial subdevices to
- json-schema
-Message-ID: <171198466420.742996.8175303890554994940.robh@kernel.org>
-References: <20240401081831.456828-1-andreas@kemnade.info>
+	s=arc-20240116; t=1712022590; c=relaxed/simple;
+	bh=xwgKT4QWg7PYY2MgtNiuW0lK0ZdOIRwkOV/Mdj/hbpw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AaBj/RViLPHyjaEnpn4EmM0e5/sZo8Q3gybN9aPH4TnMGOkabEP1pm6z0Im+a3+Xq95XU1aSS1uUVeT1AZiAjBbGN32aNEhlZ7P2cKS4FKDXCXjIXF8kUEiu4NdLfBjB4+NvZij/li5Tiz+LiCofDUQXUw4o3lPCPpBw/8z2BfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=CTG48LGu; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 431IKCQ9009659;
+	Tue, 2 Apr 2024 01:48:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2023-11-20;
+ bh=L9IxItlvqA1yIzQ1+sVrLHxRvr61/Tb3C75G4rmCcAQ=;
+ b=CTG48LGug34c6CkHKet8GhYB1nQVJyps9stIGiL2hqvslsOCRAnbCUzpzFEWEM18EoXs
+ EB9+H+zbmdhOpo6dbXmJIKRAg882F7RZFi6eEjeKnpCBouaOCBa4tckN470B1QAIvSy6
+ T9Rjy1wb38hRO/bXH+5oKDyqbHgajqQolR94I6D/dlIyKltmAGBPbfO7WO3BRTgruUA8
+ AGgI3GOFll2Qo/cwy70tT/yq80qBikDcnhfAd96YVhvW+QJS+JE1JX1ZM0cEaRiAr5C1
+ s81LKqWNXX7K4nSvYdTOaS0jY3QC5uNlzmudLs0vOK6xtHptVIFZWFKHXb15w8vOCIfL OA== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3x7tb9sjps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 02 Apr 2024 01:48:47 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 4320lCLT018692;
+	Tue, 2 Apr 2024 01:48:47 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3x696cd6c1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 02 Apr 2024 01:48:47 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4321mkN9030130;
+	Tue, 2 Apr 2024 01:48:46 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3x696cd6bp-1;
+	Tue, 02 Apr 2024 01:48:46 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: llvm@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Jakub Kicinski <kuba@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>, Ariel Elior <aelior@marvell.com>,
+        Manish Chopra <manishc@marvell.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hannes Reinecke <hare@kernel.org>, Helge Deller <deller@gmx.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
+        linux-sound@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/9] enabled -Wformat-truncation for clang
+Date: Mon,  1 Apr 2024 21:48:35 -0400
+Message-ID: <171202249144.2135322.4411557752324466054.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
+References: <20240326223825.4084412-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240401081831.456828-1-andreas@kemnade.info>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-01_18,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 spamscore=0
+ bulkscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2403210000
+ definitions=main-2404020012
+X-Proofpoint-GUID: LNUyxeCija5WK7SmvL47CZEEitUJovRX
+X-Proofpoint-ORIG-GUID: LNUyxeCija5WK7SmvL47CZEEitUJovRX
 
+On Tue, 26 Mar 2024 23:37:59 +0100, Arnd Bergmann wrote:
 
-On Mon, 01 Apr 2024 10:18:31 +0200, Andreas Kemnade wrote:
-> Convert subdevices with just an interrupt and compatbile to
-> json-schema and wire up already converted subdevices.
-> RTC is available in all variants, so allow it unconditionally.
-> GPADC binding for TWL603X uses two different compatibles, so
-> specify just the compatible and do not include it.
+> With randconfig build testing, I found only eight files that produce
+> warnings with clang when -Wformat-truncation is enabled. This means
+> we can just turn it on by default rather than only enabling it for
+> "make W=1".
 > 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
-> ---
-> Changes in v3:
-> - added Ack
->   (apparantly many recipients did not receive the V2 patch,
->    so there is a need for a resend)
+> Unfortunately, gcc produces a lot more warnings when the option
+> is enabled, so it's not yet possible to turn it on both both
+> compilers.
 > 
-> Changes in v2:
-> - style cleanup
-> - absolute paths
-> - unevalutedProperties instead of additionalProperties
->   due to not accepting things in if: clauses without it
-> 
->  .../bindings/input/twl4030-pwrbutton.txt      | 21 ------
->  .../devicetree/bindings/mfd/ti,twl.yaml       | 72 ++++++++++++++++++-
->  .../devicetree/bindings/rtc/twl-rtc.txt       | 11 ---
->  .../bindings/watchdog/twl4030-wdt.txt         | 10 ---
->  4 files changed, 71 insertions(+), 43 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
->  delete mode 100644 Documentation/devicetree/bindings/rtc/twl-rtc.txt
->  delete mode 100644 Documentation/devicetree/bindings/watchdog/twl4030-wdt.txt
-> 
+> [...]
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied to 6.9/scsi-fixes, thanks!
 
+[7/9] scsi: mylex: fix sysfs buffer lengths
+      https://git.kernel.org/mkp/scsi/c/1197c5b2099f
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
