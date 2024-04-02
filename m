@@ -1,127 +1,117 @@
-Return-Path: <linux-input+bounces-2766-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2767-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7783289521B
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 13:43:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5218952A8
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 14:14:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 021521F21F24
-	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 11:43:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB285285420
+	for <lists+linux-input@lfdr.de>; Tue,  2 Apr 2024 12:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996E46997F;
-	Tue,  2 Apr 2024 11:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B97A762DC;
+	Tue,  2 Apr 2024 12:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fyOFvxxJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbDENW0l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F082C69954
-	for <linux-input@vger.kernel.org>; Tue,  2 Apr 2024 11:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE64B76C61;
+	Tue,  2 Apr 2024 12:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712058220; cv=none; b=PnW6ef42n7GEtYiIvc/KyOXy7WHHVVXqeXS2/EJP8FdwM0dgWLR7MGU5Ge+zmoGHBGAvW0G9EbaE7go2QMVwQgo7JBgGsof+BF3vjrtRkZkebOyAw6Ci5yJYRt41o5pl13EktI5OVWYhyd8/NnDZvuAAKFkLSbMrzBAVaFlO7i4=
+	t=1712060071; cv=none; b=PC0lLoxJ2Rh9i86y34W+E6OEPKeepFTl2reJquU1Gwsu5l6GYzSkuUlyR8tDMQllfVYvqrKmJUpDsgd6aIHmlzImF9yiCoN+WM3i7B8Ef2psImRH4NgKmml/uCFuo9waSDacaQPa0k+JDer61s1tOa4GY6UTmhcg1rl5b9PTzkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712058220; c=relaxed/simple;
-	bh=iMkAhuUU/al48UoHiTw/+mu5bf4d6o5qpZtlV4r74p8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvZBYe97CL9nHgLU0TTApITjRu1aD77qYrL+9zhhVXHacqJS7SM60MwiFt1PZMHEYoi+d6MLICDV+jgI/YNikvvAOWxS0LO1Wy6OKiC2XCqEcyOErhzxPbw+iUFqiVNLYsLS1Yp7MG0U/mpYM3/2cZomSpadN1mbPUgdg7x3MSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fyOFvxxJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712058217;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FXSimKNEDF9TDHj2e7uB69oP261aG/+4o76R5CJVdOc=;
-	b=fyOFvxxJHsE5yWqDj6PXLFekjpE2zrFcbnOEjnGicr7gJNXfkDP9zv9ymuQ6v/FoktuM/V
-	2v/EaP/CGlaAZevdAPTWnbxcUsfr8W1F5+Ql9xgMVn8Ew9kxcnjU4pbRDeQAZ5OMQijV9G
-	8hln6wVqtQH70VcimawFC2WjUAmIVF8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-197-tQbzGI5bPWyEHYAUR_A5aw-1; Tue, 02 Apr 2024 07:43:35 -0400
-X-MC-Unique: tQbzGI5bPWyEHYAUR_A5aw-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-56c25ebc347so1680997a12.1
-        for <linux-input@vger.kernel.org>; Tue, 02 Apr 2024 04:43:35 -0700 (PDT)
+	s=arc-20240116; t=1712060071; c=relaxed/simple;
+	bh=e7f9ClCzIprx8T/6sYnbbRpgI85tID2BPT+5Vs7gAwM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pVDK4+NaPZUB6R4BHxOOG+Jf6RiQIflrV9b3VSmV16fEeLnHMq6fkhzQVEST0tcFXze7VrPlgO2dkE6GqSVZrBYBF+Genj0TktjbCEAXtz282OoAL7BFzL+hC53S80Tv3hgKo8l8kjBP1FXUFYjGvUWhCSMa+Pg/ENc+tunSezQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbDENW0l; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a466e53f8c0so666530366b.1;
+        Tue, 02 Apr 2024 05:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712060067; x=1712664867; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lTHANYFS7U6nUICR+q0D94lhFAasgzjgVW1g2kkoD+8=;
+        b=RbDENW0l/EAUfsKfmkh1XTgPlOCh6LpozMPSfBFx7gyT6rBjYWfZ89Qv/H2sVtQjvI
+         l/6D8TL5DcmDdSnDjbwDiI+JtIB3V1n85mJwcuRfo/CiCPXOQ1eUFCXQt0n/dBBDTxR/
+         KmCuOC3AYtWVMMr2y98yVlGq81TT9/Nfw6RhcLg+AdTEw6xxCN1e7WjTE5QTr/02TVpq
+         l4ZSEtlKrb9MP0YVJTfJuERFPntJaJ8r2dXJYhc8odLY3mvbYntzc/nk/P/ZqaQ8onZj
+         P0gRTdvuWuiNHZd6dvKuvRdbAbr105FXoVnlqjI6uQwYBahkCT3VA99XjqB5L0zQF3I/
+         0eTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712058214; x=1712663014;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXSimKNEDF9TDHj2e7uB69oP261aG/+4o76R5CJVdOc=;
-        b=fr2mTgaDN+6EL42gFt6sfUqSWYbeBqar+p0u5ZS/77Je2jmZiwnZJmT/gIky2pEo5y
-         q3mE7ENUw0mcx1eOg/ahNyAdgUD3mM7feVe5nnCUyqnxJbIhqwC162Zr1XgPrQ6DIggB
-         YSx4RWPMeAVoAXij7YFET22XEn1J4TQJZC3OlxCnsRivMO2Pgm3HgKGWatY3IQ9JlyX4
-         Xz7tQR2bbDzocb+bP4iBBKmNMJ/LCfIAk9IcZpwd9NaoajTjMRh+q9HznoPz/piME+XV
-         KMjRBlSLVCcZ1ryEECtNDFmjoVtpkoTbvjglncPR7xi0zBdPI+M29HOzxSyRuQY/dNgC
-         SMHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcJ0dS/jx/+q0pxAJnrDBT/obl9NKCbD1SrNa1/unoBsHREOC2FgLyj6073Br0oqHqJihK9238MOgitYy/PJHEE4Yg7h6aHqBm8tU=
-X-Gm-Message-State: AOJu0YwCPjoEMpWUe+NFDRCXxEfpEgzf084xJuvgarpGaVUZPigcxalY
-	lGdc3BrLp8xbi5rvFQO7vLG42BcxA37IFrUiH3LXTbaqVeK6hvFzmkhQ56bo8KJptn9qgfKfD8W
-	eJPYbAYbQshulzLKi0CwF0g7dE+h8s8cC2opeQ7TSvHOJKlCf8mZWymWiKgbnZsnb+kqJ
-X-Received: by 2002:a50:cd02:0:b0:56d:c721:d0b2 with SMTP id z2-20020a50cd02000000b0056dc721d0b2mr6216170edi.33.1712058214678;
-        Tue, 02 Apr 2024 04:43:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEL+DiNQX4odVVBWGVTTJDWVnJ/DTH5CCQEceUrk2SSaDUrgeEFnbBlJOVVZUallwSdqjNguA==
-X-Received: by 2002:a50:cd02:0:b0:56d:c721:d0b2 with SMTP id z2-20020a50cd02000000b0056dc721d0b2mr6216154edi.33.1712058214422;
-        Tue, 02 Apr 2024 04:43:34 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id k7-20020aa7c047000000b0056c443ce781sm6662979edo.85.2024.04.02.04.43.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 04:43:34 -0700 (PDT)
-Message-ID: <c5ee5eec-b00e-41b3-bbef-6f0d58d70d66@redhat.com>
-Date: Tue, 2 Apr 2024 13:43:33 +0200
+        d=1e100.net; s=20230601; t=1712060067; x=1712664867;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lTHANYFS7U6nUICR+q0D94lhFAasgzjgVW1g2kkoD+8=;
+        b=i3RwkQ66JWzkS4kJ3OBvs1/6KDZjBPAx4gtrnigBy/Gisz0rQWmc21DHoPbwcnI0so
+         Zb56tPs4HuAKC4zuw9EsxFyVcpdH5Cxq8QTr9FMgguhOsTISjDqMSNp9ZbNAaNxCoh8Q
+         HZvKcbwcMey/NvGy+7jOryRpvxrwjqOoo28lxkzJd+ov7kXge9Tl9D0fLJi8/hIRKA4x
+         oGc1KVI9aP+OEOhG20LmGxKbUSHJLIh2F8XIw4OkC1yE+YnaV5d5j5cUtjfG2q9mE6Wm
+         WwWtUhrmm1MjJgD42u7Vo6PJFoS6kYnn944mYxMvWiAhQucIUiwqQTJXZIP59NFaz+17
+         0JbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFUSObaNLlgu78LUDxRJb3QapjXgZmLA4EGlfSS1uX6DqhFbeHtnd2XKtMb83+ZS9dveGJGfElELmcxVmakD5nI1s7R13m2ZUiCFKl
+X-Gm-Message-State: AOJu0Yy5BFvMcyVqzctRexGg3oC+DOeygDfcd5o7j9YZ8V/CNvMXm8+G
+	MjtuacllIxEJZfIxXubRJIqeKpqKnpNh+I/yTsBNxZlHu0sGqCWHC1v4YSHiAEE=
+X-Google-Smtp-Source: AGHT+IF04rWtU/s4ho0E40kFwkrILba273Bs094Jazm8h8eORDs9pC83NwZXAjAnJKmcsVgEzUt1VQ==
+X-Received: by 2002:a17:906:7f07:b0:a4e:14e5:5737 with SMTP id d7-20020a1709067f0700b00a4e14e55737mr9618569ejr.45.1712060067397;
+        Tue, 02 Apr 2024 05:14:27 -0700 (PDT)
+Received: from LMI-NB77.. ([2a02:908:1d8:8f00:cda9:e760:34d7:4af1])
+        by smtp.googlemail.com with ESMTPSA id js19-20020a170906ca9300b00a4e8353be19sm992638ejb.224.2024.04.02.05.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 05:14:27 -0700 (PDT)
+From: Abdelrahman Morsy <abdelrahmanhesham94@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	gupt21@gmail.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	Abdelrahman Morsy <abdelrahmanhesham94@gmail.com>
+Subject: [PATCH] HID: mcp-2221: cancel delayed_work only when CONFIG_IIO is enabled
+Date: Tue,  2 Apr 2024 14:14:06 +0200
+Message-Id: <20240402121406.1703500-1-abdelrahmanhesham94@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] HID: i2c-hid: Revert to await reset ACK before reading
- report descriptor
-Content-Language: en-US, nl
-To: Kenny Levinsen <kl@kl.wtf>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240331182440.14477-1-kl@kl.wtf>
- <391c60a4-b86f-48e4-ba64-abdcb79d71ef@redhat.com>
- <cae66cad-e49a-4fa7-83cc-70aaf3346419@kl.wtf>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <cae66cad-e49a-4fa7-83cc-70aaf3346419@kl.wtf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+If the device is unplugged and CONFIG_IIO is not supported, this will
+result in a warning message at kernel/workqueue.
 
-On 4/2/24 1:30 PM, Kenny Levinsen wrote:
-> On 4/2/24 1:06 PM, Hans de Goede wrote:
->> One small remark comment below. In the hope of getting this merged
->> soon I'll prepare a v3 addressing this myself (keeping you as the author).
-> 
-> 
-> A-OK from my side, the abort_reset label is indeed redundant now.
-> 
-> (The split between start and finish is also technically redundant when we always finish after start, but I wanted to keep the change minimal.)
+Only cancel delayed work in mcp2221_remove(), when CONFIG_IIO is enabled.
 
-Right actually for undoing the moving of the finish-reset
-you could also have done a straight forward revert:
+Signed-off-by: Abdelrahman Morsy <abdelrahmanhesham94@gmail.com>
+---
+ drivers/hid/hid-mcp2221.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-git revert af93a167eda9
-
-My v3 is pretty close to this, but not exactly a full revert
-since I kept your minimal approach.
-
-Undoing the split however does not cleanly revert.
-
-Regards,
-
-Hans
-
+diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+index f9cceaeffd08..da5ea5a23b08 100644
+--- a/drivers/hid/hid-mcp2221.c
++++ b/drivers/hid/hid-mcp2221.c
+@@ -944,9 +944,11 @@ static void mcp2221_hid_unregister(void *ptr)
+ /* This is needed to be sure hid_hw_stop() isn't called twice by the subsystem */
+ static void mcp2221_remove(struct hid_device *hdev)
+ {
++#if IS_REACHABLE(CONFIG_IIO)
+ 	struct mcp2221 *mcp = hid_get_drvdata(hdev);
+ 
+ 	cancel_delayed_work_sync(&mcp->init_work);
++#endif
+ }
+ 
+ #if IS_REACHABLE(CONFIG_IIO)
+-- 
+2.34.1
 
 
