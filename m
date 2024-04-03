@@ -1,60 +1,57 @@
-Return-Path: <linux-input+bounces-2809-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2810-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78D3897849
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 20:32:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED128977DC
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 20:11:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E4B5B2A72C
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 17:50:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 298B9281B9E
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 18:11:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F0CB155313;
-	Wed,  3 Apr 2024 17:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACE681534E4;
+	Wed,  3 Apr 2024 18:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/IrVZng"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuW9hdd6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6948B155308;
-	Wed,  3 Apr 2024 17:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8357D17C98;
+	Wed,  3 Apr 2024 18:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712165458; cv=none; b=CZE5UfuGLu5vUFjwWYaNwSNP3wJD/q/LbF62z3CGclX4iefVxS+cgNWvnK3+SFYfQ2qOS0Sg8x3VLinik9r0y1BKz2pI813rgEoO0eYRRhk3h06LvjtJe4kiDWxfTbIyeeCr9NRm8A6/UKsO6xipo9VYvO6MY46dAqDUDiM25iM=
+	t=1712167879; cv=none; b=YHJRtbiSvu5BYdBuJkavFl2cZB5Cp27gNbWFMTQ+73E+JY8TlcR1lN5QOd9tL9WAsBytPAxvszo11dGyuoChhNi0wjw+4WLOEiv4UOVuh6WF4o4WiDL+ssaOyDNOWK9lWErxcu4a8WK5PWdmVUkkcIgJsr1gwj8IiXiq1R71Afg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712165458; c=relaxed/simple;
-	bh=fCq5u0P/Wl77vMxDnid45k6WLZ1g+bNRf2GHj07WRhc=;
+	s=arc-20240116; t=1712167879; c=relaxed/simple;
+	bh=cW+1HWqnie4/n+kUXN9FoZATD7nr4nMkde58cSOxrkI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Yqyhq+y8PiKSeoCuZE/L2g0FacN4fHuVoNRy1rM9uQeroxSROw0DJSoYCPUWp2897mYVhNQd9jKZZT9G5J4YL+3Ruurg8d7XHd/WKIA28yH5LtuYJYp8OzJGHYNrV9yemV+xWJaFfZahdSu4kY3B6KHV7C4ccWleXlxto4wWwX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/IrVZng; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996B7C433F1;
-	Wed,  3 Apr 2024 17:30:57 +0000 (UTC)
+	 MIME-Version:Content-Type; b=KcniAXPOMVC4Fh+AJqNlWeCmJTdEM5epKqieE2S8ssd/jbxdxSYyI+TwcHAUw+RbuY+CGv6thl8cy+d8fV5d8K5k5ZPXg6h8CJ24AigQ6EEHBwls8GtEdzvYdfBASDAhoOJtdv2+yOTVSjRXEfVCRTEAW0h2VrXX1LzLEoyk6R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuW9hdd6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3577C433F1;
+	Wed,  3 Apr 2024 18:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712165458;
-	bh=fCq5u0P/Wl77vMxDnid45k6WLZ1g+bNRf2GHj07WRhc=;
+	s=k20201202; t=1712167879;
+	bh=cW+1HWqnie4/n+kUXN9FoZATD7nr4nMkde58cSOxrkI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=m/IrVZng47+UpwuZiANRbG7J5jLq9EaAbRin8XvZ3QXwIiD+1nLZp45uJ/uKWveFf
-	 /BKZl+jdVf0P3hYcGy8TESPqN7he/vVdqJYmUVuPLy+Fgr/F0qpAhKWvdLfzLTvzGY
-	 Onwf1aggOtpGEnvrwsZGyK6ppNgEReFMeDolp5tQ0y0eVNYRbe/pWqBooV1+ivKIVJ
-	 L2Z7QcFOGi+KBDDZDHgVbLtj6PS73ZFiij/nCUgqZZPz2JqfK61IlZnvAVbznlwzLb
-	 riVqOFEEMldlov2Muqh0TpUkLyyGhgbnaEmbkcVTQhthUwLhNadKnXASh2vSeOJ8My
-	 CUrGd5T1/VQIQ==
-Date: Wed, 3 Apr 2024 19:30:55 +0200 (CEST)
+	b=uuW9hdd6u7gpsFeThusi2JMFwN4+vxAt8XFb16nGKo1Nyp69VaGyDfoRackM4inlO
+	 DBbu+JCgKCrTS04jzUXkHojCJaPNT4745zjnw/9eufqgpzb3rSQCAXLtixJqqoZy9O
+	 Uw8cOCBMggl59tJfeIDd3UIJcvvUBu4biuFsJ/pLV7LOS25ChF16cTFs9RI0L0gRxx
+	 xBM0mMMTO5zwJBw5ZfaQMwPyS6xporcdMR6tgKxDPj+D60KIHf33qOuV+WVYQKP0Vh
+	 K848vaDgwX6lECAjkc8Yn7RHF0xyF9SkQUoZRCLGHPcQUqorhqZ5/kjvTeZBvnV5gA
+	 NuImwKmbCpmCg==
+Date: Wed, 3 Apr 2024 20:11:16 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-cc: Yaroslav Furman <yaro330@gmail.com>, 
+To: Max Staudt <max@enpas.org>
+cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
     Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Lucas Zampieri <lzampier@redhat.com>, 
-    =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>, 
-    "open list:HID LOGITECH DRIVERS" <linux-input@vger.kernel.org>, 
-    open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] HID: logitech-dj: allow mice to use all types of
- reports
-In-Reply-To: <02d348c8-4125-4f72-a431-e6d62b8533cb@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2404031930210.5680@cbobk.fhfr.pm>
-References: <6713652f-9a44-422e-b6a7-45501093cb08@redhat.com> <20240403165425.114844-1-Yaroslav.Furman@softeq.com> <02d348c8-4125-4f72-a431-e6d62b8533cb@redhat.com>
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] HID: playstation: DS4: LED bugfix, third-party
+ gamepad support
+In-Reply-To: <nycvar.YFH.7.76.2402271740260.21798@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2404032010320.5680@cbobk.fhfr.pm>
+References: <20240207163647.15792-1-max@enpas.org> <nycvar.YFH.7.76.2402271740260.21798@cbobk.fhfr.pm>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -64,24 +61,42 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 3 Apr 2024, Hans de Goede wrote:
+On Tue, 27 Feb 2024, Jiri Kosina wrote:
 
-> > From: Yaraslau Furman <yaro330@gmail.com>
+> > Dear hid-playstation maintainers,
 > > 
-> > You can bind whatever action you want to the mouse's reprogrammable
-> > buttons using Windows application. Allow Linux to receive multimedia keycodes.
+> > Here is v2 of my patch series, with the discussed changes.
 > > 
-> > Signed-off-by: Yaraslau Furman <yaro330@gmail.com>
+> > 
+> > Differences since v1:
+> >  - Dropped patch for 7545:0104 (SZ-MYPOWER controllers)
+> >  - Dropped patch for DS4 clones without a MAC address on USB
+> >  - Changed hid_err() to hid_warn() where things are no longer fatal
+> >  - Simplified goto as return in minimal report parsing
+> > 
+> > 
+> > I've included the patch to simplify the PID/VID mapping to controller
+> > types, since the previous discussion made it sound useful for future
+> > support of second-party controllers. Please feel free to drop it if you
+> > don't think it's relevant now.
+> > 
+> > 
+> > Thanks for your feedback!
+> > 
+> > Max
+> > 
+> > 
+> > Patches in this series:
+> >   [PATCH v2 1/5] HID: playstation: DS4: Fix LED blinking
+> >   [PATCH v2 2/5] HID: playstation: DS4: Don't fail on FW/HW version
+> >   [PATCH v2 3/5] HID: playstation: DS4: Don't fail on calibration data
+> >   [PATCH v2 4/5] HID: playstation: DS4: Parse minimal report 0x01
+> >   [PATCH v2 5/5] HID: playstation: Simplify device type ID
 > 
-> Thanks, patch looks good to me:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Roderick, any word on this series please?
 
-Thanks to both of you. I've added
-
-	Fixes: 3ed224e273ac ("HID: logitech-dj: Fix 064d:c52f receiver support")
-
-and applied.
+Roderick, please speak up now, or I'll queue this as-is for 6.10 in the 
+coming few days. Thanks,
 
 -- 
 Jiri Kosina
