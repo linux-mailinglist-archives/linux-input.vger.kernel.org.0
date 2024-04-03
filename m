@@ -1,57 +1,55 @@
-Return-Path: <linux-input+bounces-2794-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2795-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45619896E75
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:49:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAD0896E7F
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:51:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D8BEB2892A
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:48:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 176E71C21C8B
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:51:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A09E143869;
-	Wed,  3 Apr 2024 11:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3405143865;
+	Wed,  3 Apr 2024 11:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpcpFqrz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHHcIyW9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE9A17583;
-	Wed,  3 Apr 2024 11:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA3573506;
+	Wed,  3 Apr 2024 11:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712144920; cv=none; b=Mxzlmt1H2u36cDM5qnM9EIfDWzDPhmq8b1a2atHWdsxCRf9puETqmFZWTOrsNHefPBQzN87jXG+MyZBxn1kFPXI7e0+05Ly53NgbLvMiz3GIVoAbDCyLDlyIlfdBsjUcwIRwEAhXW2oJJIIXEeIRy2SxuJyRh4OWgYdPAjBPI4g=
+	t=1712145091; cv=none; b=PpRmOGGrmCNb8i0BGfG1hc/Hsc9ARnSUEVYYGRPJpYEXXO5KQ+8GhFjl58qi8gOE3IGya4jagmiidJYcwbXs4lMl9/T8M+CxiYXjxlvFqjo/IYmtIq0cBFsskizLlYNtWNXkawmP9g+L/cTZ5tSihfPveMcP+mmwuhdw4m+iqWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712144920; c=relaxed/simple;
-	bh=+bk5AVTGTLDyKn+7eW/2HRi0luW9LhNFv4tAhmqCL8Y=;
+	s=arc-20240116; t=1712145091; c=relaxed/simple;
+	bh=XlAG1mEPljxo5vG2IKqYuNqmgp2p50tEKUNOCO2+Tr0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Ih06VZFXIclFLISxpXV4wF+f3kIBAjj49bJPp/3eVJVDrtKTHL4syZACArdU5+fxngSPo/kUB4g5QT+iZK48y0tT3TEWgCYkH7RxWiQM1QPD2e7IFUHkm37DfC0ycD2SiN0YIFBX3nnrtvrTJiIpwS/lazxSAOqcgc42lV7XfK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpcpFqrz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3108EC433F1;
-	Wed,  3 Apr 2024 11:48:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=KxVthcjizTEGYIz+Hnsqm0G1PZCcAz4hjsxZ/IJXGu6xP22j+zEnzd2OlI0sFgcXKnfwELMnEbZ36lkptIl/44ml3Ezbpf7EAhvTdYhWcmF9muLeO5Co0+Iwrz3fmueAQA83Kn30JtipuOoSY5ASOK77H4lIazgJ7X3VFnylopE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHHcIyW9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE38C433C7;
+	Wed,  3 Apr 2024 11:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712144919;
-	bh=+bk5AVTGTLDyKn+7eW/2HRi0luW9LhNFv4tAhmqCL8Y=;
+	s=k20201202; t=1712145091;
+	bh=XlAG1mEPljxo5vG2IKqYuNqmgp2p50tEKUNOCO2+Tr0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=jpcpFqrzvkNCbNza0prjLjHUJZA7b0prlj+uu5ngEA4plxEH/X8NTEDkV+Uu35nAA
-	 eLZ6CaR7ytdQPFSnBCqP285hNioVeUv396n14xjNcyipbqm8/bSTbNJUgsbzLZkwZ7
-	 6KlDSdrKr+2C2I0Y9e59g2z6tfT677V4vGze2BNXbA3a9cKFy8j5H/j3Gyo7K9T7M5
-	 mF1G8NnBC5HithGcDrMoqNyxKWVsEq51DcqYCLViQSaxzDEtzwV74yBwtmhmyt9zLQ
-	 ByS+BvuTBHeSOaTTE1g8mC/bxHrR/pPtUKH8tIN8h4gh39rgAOqpugUOx5gF4CGQyB
-	 Cf/+8lMeAplqQ==
-Date: Wed, 3 Apr 2024 13:48:37 +0200 (CEST)
+	b=MHHcIyW921pqNb3RodYeBp5JKnRi6C0O3djSxTGfY+qJ5b3kKO7sQuC9O9nc/RZPB
+	 H9qyYFXwAQnsdPKTrE71QtNq9EwUb0r6KAewAHtUEMqyK+eJZSHv4efAeISKD/M83X
+	 yrdQX9eJohN6MdYWUUI6sTHSe+V0Db5Y6hf2FZ44WCJlWIasfmVAw/3CgZW3hE6E7O
+	 mqbW2kgT3IA3qakXfnnGGPWs4pNXrF+K3zgoQuo71smbHMz79mkhG5MNnsp+h6ZTVM
+	 X3IHCBaxe2LB09fX45PN6S+5P+WYPyPUQb9oqOiwLc6TO8ch6tfC+2EUXidM5jTudP
+	 U/S8wRyqPG2gg==
+Date: Wed, 3 Apr 2024 13:51:28 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Allen_Lin <allencl_lin@hotmail.com>
-cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
-    krzysztof.kozlowski+dt@linaro.org, conor@kernel.org, 
-    benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
-    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] HID: Add support for Himax HX83102j touchscreen
-In-Reply-To: <TY0PR06MB561132DF147C037093A1B94D9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
-Message-ID: <nycvar.YFH.7.76.2404031347540.20263@cbobk.fhfr.pm>
-References: <TY0PR06MB561132DF147C037093A1B94D9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
+To: =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc: benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] HID: uclogic: Expose firmware name
+In-Reply-To: <20240322100210.107152-2-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2404031351210.20263@cbobk.fhfr.pm>
+References: <20240322100210.107152-1-jose.exposito89@gmail.com> <20240322100210.107152-2-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -59,43 +57,30 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Tue, 2 Apr 2024, Allen_Lin wrote:
+On Fri, 22 Mar 2024, Jos=C3=A9 Exp=C3=B3sito wrote:
 
-> Hi,
-> This driver implements for Himax HID touchscreen HX83102j.
-> 
-> Using SPI interface to receive/send HID packets.
-> 
-> Changes in v2 :
-> -Added power description in YAML document. 
-> -Added ddreset-gpios property in YAML document.
-> -Added firmware-name property in YAML document.
-> -Modified the description of pid.
-> -Modified the example.
-> 
-> Allen_Lin (4):
->   dt-bindings: input: Add Himax HX83102J touchscreen
->   HID: Add Himax HX83102J touchscreen driver
->   HID: Add DRM panel follower function
->   HID: Load firmware directly from file to IC
-> 
->  .../input/touchscreen/himax,hx83102j.yaml     |  100 +
->  MAINTAINERS                                   |    7 +
->  drivers/hid/Kconfig                           |    7 +
->  drivers/hid/Makefile                          |    2 +
->  drivers/hid/hid-himax-83102j.c                | 3071 +++++++++++++++++
->  drivers/hid/hid-himax-83102j.h                |  460 +++
+> Some vendors reuse the same product ID for different tablets, making it
+> difficult for userspace to figure out which table is connected.
+> While matching the device name has been used in the past by userspace to
+> workaround this limitation, some devices have shown that this is not
+> always a valid approach [1].
+>=20
+> However, if userspace could access the firmware version name, it would
+> be possible to know which tablet is actually connected by matching it
+> against a list of known firmware names [2].
+>=20
+> This patch exposes the firmware version name in the hid->uniq field.
+>=20
+> Link: https://github.com/linuxwacom/libwacom/issues/609  [1]
+> Link: https://github.com/linuxwacom/libwacom/issues/610  [2]
+> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
 
-My only nit here -- could we please call the driver just hid-himax, to 
-follow the pattern we generally use in this subsystem (drivers named after 
-vendors).
+Applied, thanks.
 
-Please add Ack from Rob, rename the driver, resend, and I'll apply it. 
-Thanks,
-
--- 
+--=20
 Jiri Kosina
 SUSE Labs
 
