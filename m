@@ -1,54 +1,57 @@
-Return-Path: <linux-input+bounces-2793-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2794-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F5F896E6E
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:46:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45619896E75
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:49:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5334E1C20A84
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:46:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D8BEB2892A
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:48:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79BE017583;
-	Wed,  3 Apr 2024 11:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A09E143869;
+	Wed,  3 Apr 2024 11:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBJ74YzJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpcpFqrz"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560611419A2
-	for <linux-input@vger.kernel.org>; Wed,  3 Apr 2024 11:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE9A17583;
+	Wed,  3 Apr 2024 11:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712144768; cv=none; b=po2bFzXjM6kGyjT2wrQ0/TEKQsCmwBIO3bYRz1cINnMEcZvsp5xF/7csd6gmGIVrRRIk9hfXoVze5TjRcyrxaDujGRifnD9gxjamwjOxrETuBEzeKW9/lGIHVWRrnbN0vNZhHBEeXCJT6H9andVGmwOs/mF1M+ComRNKnjWWKCg=
+	t=1712144920; cv=none; b=Mxzlmt1H2u36cDM5qnM9EIfDWzDPhmq8b1a2atHWdsxCRf9puETqmFZWTOrsNHefPBQzN87jXG+MyZBxn1kFPXI7e0+05Ly53NgbLvMiz3GIVoAbDCyLDlyIlfdBsjUcwIRwEAhXW2oJJIIXEeIRy2SxuJyRh4OWgYdPAjBPI4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712144768; c=relaxed/simple;
-	bh=ea//ZnxqPcoeXvhwBiQKCY/roavyoDCRYqAGNL9wBrI=;
+	s=arc-20240116; t=1712144920; c=relaxed/simple;
+	bh=+bk5AVTGTLDyKn+7eW/2HRi0luW9LhNFv4tAhmqCL8Y=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=OEVlhBSObKGGzuT8i872SCndMPmrNeviw62p5sHtjAbGWvP4+AO/nwAMztO2k7Pbg9ZzS6QM2TWZtTMeWRb8dzU0m2HK+Dt8jpGKQsSFsNneaWE8s8nRZiqriwieTt4HaLyoop2JyUWQkGfI3TNe1V1LsGPpLV4HJj0fsd+ijoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBJ74YzJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852C1C433F1;
-	Wed,  3 Apr 2024 11:46:07 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Ih06VZFXIclFLISxpXV4wF+f3kIBAjj49bJPp/3eVJVDrtKTHL4syZACArdU5+fxngSPo/kUB4g5QT+iZK48y0tT3TEWgCYkH7RxWiQM1QPD2e7IFUHkm37DfC0ycD2SiN0YIFBX3nnrtvrTJiIpwS/lazxSAOqcgc42lV7XfK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpcpFqrz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3108EC433F1;
+	Wed,  3 Apr 2024 11:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712144767;
-	bh=ea//ZnxqPcoeXvhwBiQKCY/roavyoDCRYqAGNL9wBrI=;
+	s=k20201202; t=1712144919;
+	bh=+bk5AVTGTLDyKn+7eW/2HRi0luW9LhNFv4tAhmqCL8Y=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=bBJ74YzJsBWK0FBfdT4kUoQ7iBeGXqW4C/0IfKWvVDss3Re2GvB5/3jWlB2LMwKuk
-	 Zm7MmtnoFZdSAd694ZmS6N4D/rUtc7cUomeyqCxIDBrI/Mvw4DjTd6Jse1Tk68uCSP
-	 pzqKr7+iHK5Lz+/guB5y9lTzrzSgxZngFGOjJkgBL7z1D1XSKSy+SZQuG1FeIoshnE
-	 b49fjg6GzGkIShikJMZCAqJyt5hd20QyKvxnnFpO73TIkwVr1ABvSumLQPn1NjlUTn
-	 bTyUso+yBMKudjvRTdUjzGHWF7PPz50dyDXGTVi8UAynq2Z1KkwegAe275oL9U5+3a
-	 mJTDMUUfVHDNw==
-Date: Wed, 3 Apr 2024 13:46:05 +0200 (CEST)
+	b=jpcpFqrzvkNCbNza0prjLjHUJZA7b0prlj+uu5ngEA4plxEH/X8NTEDkV+Uu35nAA
+	 eLZ6CaR7ytdQPFSnBCqP285hNioVeUv396n14xjNcyipbqm8/bSTbNJUgsbzLZkwZ7
+	 6KlDSdrKr+2C2I0Y9e59g2z6tfT677V4vGze2BNXbA3a9cKFy8j5H/j3Gyo7K9T7M5
+	 mF1G8NnBC5HithGcDrMoqNyxKWVsEq51DcqYCLViQSaxzDEtzwV74yBwtmhmyt9zLQ
+	 ByS+BvuTBHeSOaTTE1g8mC/bxHrR/pPtUKH8tIN8h4gh39rgAOqpugUOx5gF4CGQyB
+	 Cf/+8lMeAplqQ==
+Date: Wed, 3 Apr 2024 13:48:37 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Thomas Kuehne <thomas.kuehne@gmx.li>
-cc: linux-input@vger.kernel.org, benjamin.tissoires@redhat.com
-Subject: Re: [PATCH v2 1/1] HID: hid-debug: add missing evdev and HID codes
-In-Reply-To: <ZgDSAzsYVzgnjyao@black>
-Message-ID: <nycvar.YFH.7.76.2404031345550.20263@cbobk.fhfr.pm>
-References: <ZgDSAzsYVzgnjyao@black>
+To: Allen_Lin <allencl_lin@hotmail.com>
+cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
+    krzysztof.kozlowski+dt@linaro.org, conor@kernel.org, 
+    benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] HID: Add support for Himax HX83102j touchscreen
+In-Reply-To: <TY0PR06MB561132DF147C037093A1B94D9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
+Message-ID: <nycvar.YFH.7.76.2404031347540.20263@cbobk.fhfr.pm>
+References: <TY0PR06MB561132DF147C037093A1B94D9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -58,21 +61,39 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 25 Mar 2024, Thomas Kuehne wrote:
+On Tue, 2 Apr 2024, Allen_Lin wrote:
 
-> Hid-debug's rdesc output for a game controller contained a few question
-> marks and numeric IDs instead of the expected descriptive names.
+> Hi,
+> This driver implements for Himax HID touchscreen HX83102j.
 > 
-> This happens because:
-> 1) the mapping data is missing event codes defined in input-event-codes.h
-> 2) HID usages aren't up to date
-> 3) hid_resolv_usage fails to account for the sensor pages' modifiers
+> Using SPI interface to receive/send HID packets.
 > 
-> Add missing event codes and update HID to HUT 1.5.
+> Changes in v2 :
+> -Added power description in YAML document. 
+> -Added ddreset-gpios property in YAML document.
+> -Added firmware-name property in YAML document.
+> -Modified the description of pid.
+> -Modified the example.
 > 
-> Signed-off-by: Thomas Kuehne <thomas.kuehne@gmx.li>
+> Allen_Lin (4):
+>   dt-bindings: input: Add Himax HX83102J touchscreen
+>   HID: Add Himax HX83102J touchscreen driver
+>   HID: Add DRM panel follower function
+>   HID: Load firmware directly from file to IC
+> 
+>  .../input/touchscreen/himax,hx83102j.yaml     |  100 +
+>  MAINTAINERS                                   |    7 +
+>  drivers/hid/Kconfig                           |    7 +
+>  drivers/hid/Makefile                          |    2 +
+>  drivers/hid/hid-himax-83102j.c                | 3071 +++++++++++++++++
+>  drivers/hid/hid-himax-83102j.h                |  460 +++
 
-Applied, thanks.
+My only nit here -- could we please call the driver just hid-himax, to 
+follow the pattern we generally use in this subsystem (drivers named after 
+vendors).
+
+Please add Ack from Rob, rename the driver, resend, and I'll apply it. 
+Thanks,
 
 -- 
 Jiri Kosina
