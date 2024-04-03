@@ -1,58 +1,56 @@
-Return-Path: <linux-input+bounces-2784-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2785-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D021896DF5
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64066896E02
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:22:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D10F91F23C55
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:19:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 034FB1F23C55
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:22:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494EE1353E2;
-	Wed,  3 Apr 2024 11:19:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD3F4142E7B;
+	Wed,  3 Apr 2024 11:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l22ceYeP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qhk4/Xye"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CB2259C
-	for <linux-input@vger.kernel.org>; Wed,  3 Apr 2024 11:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890E6142E78
+	for <linux-input@vger.kernel.org>; Wed,  3 Apr 2024 11:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712143187; cv=none; b=mxXfg70eCFMzM4xXRY0CaXPGK8oJ1/bMz/wy9OWJ4kgC+HBvWDlxl0yvLaKwZYFUc9+hZoeY/0hxuKE8f7V9iU5O+Aa1NhSDlrMWt3Rlu9zVCGgQf3w/SYuVMlNWTti6oOblx5OhX7Q/eR5CD0nAr0vqJgilVqUBhW9b+cj3R34=
+	t=1712143314; cv=none; b=KwedoBiGM8SbXK63KB5ow9vQxNVa2jfCcHsKTmJkl7TRdy/VHWwC2fcfooTUe2m2cr2eF+hsEXn8Kq+TgLqAYHkeTzUxabxMMHdtaUsB+yaXLhSd3KjsW8AraCBR1E8pviGbWgaTjNTw01GXfz4dy4HcEyIT0MkELR63FHX72+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712143187; c=relaxed/simple;
-	bh=3zAlxF6tTHbOBkKIjxeRFfuUf4kXJp32oAn753JHDYU=;
+	s=arc-20240116; t=1712143314; c=relaxed/simple;
+	bh=eE0PN7ZpqtcBonk3R4RVr9FW/N8RRT94nj9mO30rnUk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=rmdgwAczrqtpsQBw1nb9tj+UUPq5HQyaNctORvOSFIY6UGaCOCkQJHjS2Fow9gm3FkwNgcbyeXOnn5O8X1XBZPpb8s0kXH8ef3qR1v7RQzAMcv8c/8IextmBtgE5GGlrXJAiax24R/Ghu9sT6nFTSal2ypGYxf7xvaMGmepQKw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l22ceYeP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54ECAC433C7;
-	Wed,  3 Apr 2024 11:19:46 +0000 (UTC)
+	 MIME-Version:Content-Type; b=lt0Dzi7UQW1nFMEXkamCxcGD5Z64U8W48kAKH+TuaxuHXYFTWjL5S+kLQR424D03aNiQQoOV3NAqrrLEYtydJQHWTCXeUiylgyjxYAFX89x1G4MKUdKpHl06EY7sTy9AMWfacjKZNDAmCNiKEuL2G+JzqtvwBirN1a6YdABqdss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qhk4/Xye; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC368C433C7;
+	Wed,  3 Apr 2024 11:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712143186;
-	bh=3zAlxF6tTHbOBkKIjxeRFfuUf4kXJp32oAn753JHDYU=;
+	s=k20201202; t=1712143314;
+	bh=eE0PN7ZpqtcBonk3R4RVr9FW/N8RRT94nj9mO30rnUk=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=l22ceYePRFcvbLW2hdO7hQsai+h3jqJC6RTq/rqWNeWfrt6a4zxdH6+KyqDBZokxr
-	 GkUV5ZbTQbano58gT69BmS7VgFZ4Xx8REKPBlCBAbjwrXnZ6GzdpJUv56P3bKiRhmf
-	 LkevbKA34kVRYdjUFp94vInQZt/xoXvRfnlU8pSUAg/qgbfFJOYLQIqtLdrVKQHC2Q
-	 N0Pj7Z3ZHPphl/nYewQTFTOYvhKGWafU2J0bkT3oXPD/xnptsMyWPFvMVch5i0QiLK
-	 e+ZtUjH5HRAngkenPX6JazqQK9SABXEj82RROf5GX4sDEHRN/kPb/UTA825BNg4yyk
-	 qtnaOhzEqyJzg==
-Date: Wed, 3 Apr 2024 13:19:44 +0200 (CEST)
+	b=Qhk4/XyeDJn8OqW0RuQp2BUSLaPnPVl9Z8Oa61rYz0N85ZwPQSqxusAA/cRFBOB+F
+	 ve8T/5kZEA0pd+dpLf2tdwfz6trRfZu4hvQNX2Ec8ri0f7MK0uOdqERkhR6wuv4QLf
+	 jp/vk14PNUXgxPA34gt1d15BMf8uezrHsGz5fW5r/i3DZIG/nmdAc6KJe1cUGz/Yhz
+	 ccatJ5qCaOCbeCb0Y2rR5z53zC9l/r4B5XObb0GzXBWEVqxAGflqQaYZTxltFvvAFi
+	 45jTwXN9AxaiR1npglblOhOevLn+kx76w3sYRM1XkcqlckfKIxkeenJMNXBbjpVsSP
+	 Z64FLDq6PzJrQ==
+Date: Wed, 3 Apr 2024 13:21:51 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Nuno Pereira <nf.pereira@outlook.pt>
-cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
-    Daniel Ogorchock <djogorchock@gmail.com>, 
-    Ryan McClelland <rymcclel@gmail.com>, 
-    "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: nintendo: Fix N64 controller being identified as
- mouse
-In-Reply-To: <DU0P189MB2044EAF345CB76578D8C1A5CFD5A2@DU0P189MB2044.EURP189.PROD.OUTLOOK.COM>
-Message-ID: <nycvar.YFH.7.76.2404031319370.20263@cbobk.fhfr.pm>
-References: <DU0P189MB2044EAF345CB76578D8C1A5CFD5A2@DU0P189MB2044.EURP189.PROD.OUTLOOK.COM>
+To: "Zhang, Lixu" <lixu.zhang@intel.com>
+cc: linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com, 
+    benjamin.tissoires@redhat.com
+Subject: Re: [PATCH 0/2] HID: intel-ish-hid: ipc: Use PCI_VDEVICE() and add
+ Lunar Lake-M PCI device ID
+In-Reply-To: <20240306005638.2781839-1-lixu.zhang@intel.com>
+Message-ID: <nycvar.YFH.7.76.2404031321400.20263@cbobk.fhfr.pm>
+References: <20240306005638.2781839-1-lixu.zhang@intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -62,24 +60,14 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 26 Feb 2024, Nuno Pereira wrote:
+On Wed, 6 Mar 2024, Zhang, Lixu wrote:
 
-> This patch is regarding the recent addition of support for the NSO
-> controllers to hid-nintendo. All controllers are working correctly with the
-> exception of the N64 controller, which is being identified as a mouse by
-> udev. This results in the joystick controlling the mouse cursor and the
-> controller not being detected by games.
-> 
-> The reason for this is because the N64's C buttons have been attributed to
-> BTN_FORWARD, BTN_BACK, BTN_LEFT, BTN_RIGHT, which are buttons typically
-> attributed to mice.
-> 
-> This patch changes those buttons to controller buttons, making the
-> controller be correctly identified as such.
-> 
-> Signed-off-by: Nuno Pereira <nf.pereira@outlook.pt>
+> This patch series consists of two patches. The first patch simplifies
+> the device table by using the PCI_VDEVICE() macro and renames the device
+> ID macros to follow the pattern PCI_DEVICE_ID_INTEL_*. The second patch
+> adds the device ID of Lunar Lake-M to the ISHTP support list.
 
-Applied, thanks.
+Applied, thanks and sorry for the delay.
 
 -- 
 Jiri Kosina
