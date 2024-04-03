@@ -1,58 +1,54 @@
-Return-Path: <linux-input+bounces-2788-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2789-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CF7896E3E
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:34:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBCF896E4D
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 13:36:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E6D71C25406
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:34:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1E7E1F281DA
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 11:36:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB8D142E97;
-	Wed,  3 Apr 2024 11:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B04142E87;
+	Wed,  3 Apr 2024 11:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPYoONGP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O760GfrL"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A7313958E;
-	Wed,  3 Apr 2024 11:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D559B142E82;
+	Wed,  3 Apr 2024 11:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712144093; cv=none; b=jA+5n+Uy/d1VVDBJBzYTguktbknei4LHLTJ5/cwCvT5xTZfPfJC+Qv92wrFpurNplcbSyX+soLNymo3ZT2naqB0dPgPBgsePNOHNPIwbeC8Csg8/3pf6CmL2+I1HnyaITACqA3koNI+mrn/YfH+1pqCgV08J1Lq/2PoqEhZkam8=
+	t=1712144181; cv=none; b=GA7cV1AepbiHAxJcNbbNqBAdCyhbbTBvLizLDJa0RMNj55ZqLyK6MqSFQm9oLyQR0XY1o2i9Z7hIrCEY+NHrv6hw2AnRG/UDz5Us1/aJOzLJsrJO7ZlqnnSL7hINyy0IgvDwiyEDFGG9pfT/8jwWooPIzWjqB3mZK+ODdKpYj3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712144093; c=relaxed/simple;
-	bh=/1FdhJ9j3YsGxn2x6BZ0RA0uu6K60/KgnMao7N8mf9I=;
+	s=arc-20240116; t=1712144181; c=relaxed/simple;
+	bh=4tqxqDkSL01CbMJoeEiZbI5mx3er2mrAV85iI3zf/dA=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gumErw763k56hsAF1FCOhHhSnpJ6ul6zmLUa9jw5m+TqKrRQEDu4YfYTptEZ35HTy7q9iP3mfg5M0Od6s0fHYZxNN1ap8jUI/E6+r7fV1lxdSRYxZlT8nDUdLQwtMBWRqzWGorHh03pgEpiIVz93JeFMoczW6xqOb+WU3YBZp5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPYoONGP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BB9C433C7;
-	Wed,  3 Apr 2024 11:34:51 +0000 (UTC)
+	 MIME-Version:Content-Type; b=J27h3L0cf3QJQwMo2oIFQtBCT9xsI+Z+AnTCb+HHqJXzJPJNGdF7X8QsRCXnR+4kQaBKluLmp6n13tUpoQ395ExsUNTDrazs+1VZaw0yItSYt1UTim07V1hNGUK9W8z+NGSEjVzfdkgXFObEyGG+Rk/NRZp+DpZhHZyHmID53Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O760GfrL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E5CC433F1;
+	Wed,  3 Apr 2024 11:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712144092;
-	bh=/1FdhJ9j3YsGxn2x6BZ0RA0uu6K60/KgnMao7N8mf9I=;
+	s=k20201202; t=1712144181;
+	bh=4tqxqDkSL01CbMJoeEiZbI5mx3er2mrAV85iI3zf/dA=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=YPYoONGP9VG+OzIO9HijTwRnUDAEVbNhe3G6DttCorCsK8ZZR5gc44qDs66ibmzhp
-	 tdidGS4DAE1KHsSpKPY/lqY5dJF2s393LD5eWw4kbJxJYFe5GGSv4Lk++dU9ShVyC1
-	 f6IaDVCkjqxpLlq6jEUB/QXr/BioJLaxfyIXMXiOiYalSl7fH+kS0PDgXSrvpcNhJF
-	 RpjpT6Ra5R/+lgo+S36viFSbDHjgHwL+5gfP/zBBMiV3XTo7/Rqm5G8cfnDiua7ION
-	 Z1goY2uzodJxbr58oWljrtJjw5BQJ3i8X3d5Zlo0Lj3uNmp1hIj1mBZRVllT/Z6oYs
-	 fCxTUrdJhjjTg==
-Date: Wed, 3 Apr 2024 13:34:50 +0200 (CEST)
+	b=O760GfrLnT36YjFMwcl1+DBI9NoZYd0FWsRjpyVUnbbCQZRJYa58RVpdzLqU9kAjO
+	 V5FjjW99OZaas6RvYLDGLWqrL7jBGGxPfkq4tYWHX4VQMtXf0i8G3hyU96qWAe8W/C
+	 kURV+iIhUAgYFPhI+snvJHIEJ51lFw52qNQYlRjA9oiUqTY3oHIAt32/EvLhq0k+hT
+	 ME/jqzBlY3OKykp6G751Iu21zd1dD7ghNYJEJsch/gfG31o03sam8Orrjq5iZ/pH3A
+	 kcPZFIaR1mwEa5T1+W4t5GYBmKAliFMQjahehAfbKbKWeFuqljSFsrgZnjMZS4oCfE
+	 wKxPQaaASyERg==
+Date: Wed, 3 Apr 2024 13:36:19 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Christina Quast <contact@christina-quast.de>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-i2c@vger.kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, equinox@diac24.net, 
-    Daniel Beer <daniel.beer@igorinstitute.com>, 
-    Michael Zaidman <michael.zaidman@gmail.com>
-Subject: Re: [PATCH v5] hid-ft260: Add serial driver
-In-Reply-To: <20240216-ft260_review5-v5-1-36db44673ac7@christina-quast.de>
-Message-ID: <nycvar.YFH.7.76.2404031332560.20263@cbobk.fhfr.pm>
-References: <20240216-ft260_review5-v5-1-36db44673ac7@christina-quast.de>
+To: Ivan Gorinov <linux-kernel@altimeter.info>
+cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Input: WinWing Orion2 throttle support
+In-Reply-To: <20240216215447.426ca3e7@lxl-9drxzh3.na.joby.aero>
+Message-ID: <nycvar.YFH.7.76.2404031336070.20263@cbobk.fhfr.pm>
+References: <20240216215447.426ca3e7@lxl-9drxzh3.na.joby.aero>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -62,25 +58,31 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 16 Feb 2024, Christina Quast wrote:
+On Fri, 16 Feb 2024, Ivan Gorinov wrote:
 
-> Adds the serial driver for FT260 USB HID devices, providing direct and
-> simplified access to UART functionality without the need for FT260 HID
-> report format knowledge.
+> WinWing Orion2 throttle works with Linux out of box,
+> but the kernel sees only 16 of 47 buttons on the throttle base.
 > 
-> This chip implements an UART and I2C interface, but only the latter was
-> previously supported with a kernel driver. For the UART interface, only
-> FTDI example code using hidraw from userspace was available.
+> This module enables all buttons, and also adds LED controls.
 > 
-> This commit adds a serial interface /dev/ttyFTx (FT as in FT260), which
-> implements tty serial driver ops, facilitating baudrate configuration,
-> data transmission and reception, termios settings.
+> Button numbers 0 .. 63 on Orion2 are reserved for throttle grip;
+> the throttle base buttons have numbers 64 .. 110.
+> 
+> Linux kernel HID subsystem only supports up to 80 buttons.
+> 
+> Remap throttle base buttons to numbers 32 .. 78,
+> reserving only numbers 0 .. 31 for buttons on the grip handle.
+> 
+> Changes since v2:
+>    - Fixed automatic line wraps added by mail client
+> 
+> Changes since v1:
+>    - Fixed formatting of descriptor byte array;
+>    - Using product codes of Winwing grips in config.
+> 
+> Signed-off-by: Ivan Gorinov <ivan.gorinov@jobyaviation.com>
 
-I don't see a dependency on CONFIG_TTY being added, and I believe it 
-should be there (even though !CONFIG_TTY configurations are likely 
-super-rare).
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
