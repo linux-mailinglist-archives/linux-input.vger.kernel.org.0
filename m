@@ -1,60 +1,58 @@
-Return-Path: <linux-input+bounces-2774-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2775-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24627896837
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 10:17:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD5789683A
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 10:17:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8C371F21811
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 08:17:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 614381C20BEE
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 08:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE79E823DF;
-	Wed,  3 Apr 2024 08:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1A6F84FBA;
+	Wed,  3 Apr 2024 08:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxMBY/dL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cr/P1UqD"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C513584FBA;
-	Wed,  3 Apr 2024 08:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97DA839F7;
+	Wed,  3 Apr 2024 08:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712131719; cv=none; b=p/1m3M1E5RxwrtiIWG48aNV/sUEElzyBvpfCY2I6LQa4khjoZf8VyxdZqUhiuzvKCVciKprMTl0hK0hdKD0DKiH2usHsygxgtUS7qRzM4YQ8ZT47/wYIJUb57coNNx0avjSVsPkfF7Xl0kF/vxn+IV4yBeAN17RMY2ILTkO3qac=
+	t=1712131726; cv=none; b=T2fHEObanKcY/TCei58VdxDb9WxOpL3fuea49phwh2K9ccgucmLnYLOGCbh1fonJSdEZ/pX6qHcE422EazH6jkzzDGxkWZlhoPoi68XJRzxgmcEs3U3EwVyowVSzy02LLIo+IoTR2bxxU/9AIhEUGzz9NfSxeYhJhHa3IWOVPLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712131719; c=relaxed/simple;
-	bh=3FgSuQ7tiSYGFrQ5YgtJKC7vrKzdmqUOX9CzJzQDHso=;
+	s=arc-20240116; t=1712131726; c=relaxed/simple;
+	bh=FdHqMqMo9sUCpqipxuKBSJYP0dDiQNo82fvPaq1PpTc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PI37arfRXglia+LPQUTpcpxFo3RCZ2gZ5fqYTDsjfrgVFmsGSyBCiLFQegNIA+n5ohU7IQU3bJ1W5wCQvusb8lsyHVyWGp0CM2T/WkXYY1vxjYPbCLm5rXUDD83rqol9BF+VAPvCJBExKlG/lDq/XCeEt14uou3IjCuwwqopT+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxMBY/dL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1BBC433C7;
-	Wed,  3 Apr 2024 08:08:36 +0000 (UTC)
+	 MIME-Version; b=CJXR2LjZHxzQC6NZZ8hqT+omf+qy5YSfc43crrnRCL7dh6cPV97Knq9JrCeaVXUS+oFhMVuR6siMwSj1ulNCXk1HGlNBNyZe2FcBbIg1Xk0dmUHHgEi+h8uXJjFCReK8HkcolKoTh7CKLbBszFMTE2bE8mRkbPOcVimknyhZB0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cr/P1UqD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE870C433F1;
+	Wed,  3 Apr 2024 08:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712131719;
-	bh=3FgSuQ7tiSYGFrQ5YgtJKC7vrKzdmqUOX9CzJzQDHso=;
+	s=k20201202; t=1712131726;
+	bh=FdHqMqMo9sUCpqipxuKBSJYP0dDiQNo82fvPaq1PpTc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nxMBY/dLT6CayFR5A/KNDA9+vTisu7sftWa5Fvqb/eWp5hcNJVBZxE9PlPmmG0QXZ
-	 PMutL9J0QSHGMavbJbyARu2AUBjoIc+3iSnRqlG0axBXj/qfXEED6BpTlolCLYUMOj
-	 ezmb4Sd4u19bTzrzPZBjQ267Nwk8617FXcMyq6nCqmafQWbowELlaEoijdQv6RWuKJ
-	 ULjhPLhit5npJ+VXlpwMZ7Xdy6KT9Qph/ZBNCTOBM1xBHql8FNz7ybTgT3dzMFonXw
-	 T1Ga5mqfORgR30VA1C3RLnZnowT51tCaV2hczw1rvEgp7DBkjzev151PGQBnGvDbs3
-	 QJ2+o6Xmk6guw==
+	b=cr/P1UqDYRkzPKqWmBayNR3jsXD6jMn0kadZyFxqYE7IyvhZShvACgtnZHttX24IG
+	 r1JUFlP+XeTxLhjkf9rioOJNZDuspkIFHOuD9cjXIRhHsLmaiigk3Da/7Dui2ehupf
+	 nwl2kb0SRVwce6S20DGkI7cUjKWszmAY7dAiBNij74+qwVb7bS/ZkUweB77DTFIgbJ
+	 3C0HVjZAaX13S9UvkBLXDa1GUYxy0hSgmFu3aU9eSzT+AnfaZhKidYmlZtxl1cueEw
+	 +Um7ksYhBu/qR2i+ILNCm8u5Mj993Z+Ln7r4uL+NW3t2VrrExsYg/XvJROJrSjLbDg
+	 hFlY7HeYvOqxg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-input@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 07/34] Input: stmpe-ts - mark OF related data as maybe unused
-Date: Wed,  3 Apr 2024 10:06:25 +0200
-Message-Id: <20240403080702.3509288-8-arnd@kernel.org>
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+	Raul Rangel <rrangel@chromium.org>,
+	Jeffery Miller <jefferymiller@google.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH 08/34] Input: synaptics: hide unused smbus_pnp_ids[] array
+Date: Wed,  3 Apr 2024 10:06:26 +0200
+Message-Id: <20240403080702.3509288-9-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
 References: <20240403080702.3509288-1-arnd@kernel.org>
@@ -66,31 +64,40 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-When compile tested with W=1 on x86_64 with driver as built-in:
+When SMBUS is disabled, this is never referenced, causing a W=1 warning:
 
-  stmpe-ts.c:371:34: error: unused variable 'stmpe_ts_ids' [-Werror,-Wunused-const-variable]
+drivers/input/mouse/synaptics.c:164:27: error: 'smbus_pnp_ids' defined but not used [-Werror=unused-const-variable=]
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hide the array behind the same #ifdef as the code referencing it.
+
+Fixes: e839ffab0289 ("Input: synaptics - add support for Intertouch devices")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/input/touchscreen/stmpe-ts.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/mouse/synaptics.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/touchscreen/stmpe-ts.c b/drivers/input/touchscreen/stmpe-ts.c
-index b204fdb2d22c..022b3e94266d 100644
---- a/drivers/input/touchscreen/stmpe-ts.c
-+++ b/drivers/input/touchscreen/stmpe-ts.c
-@@ -366,7 +366,7 @@ static struct platform_driver stmpe_ts_driver = {
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 7a303a9d6bf7..bc22b75e64a7 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -161,6 +161,7 @@ static const char * const topbuttonpad_pnp_ids[] = {
+ 	NULL
  };
- module_platform_driver(stmpe_ts_driver);
  
--static const struct of_device_id stmpe_ts_ids[] = {
-+static const struct of_device_id stmpe_ts_ids[] __maybe_unused = {
- 	{ .compatible = "st,stmpe-ts", },
- 	{ },
++#ifdef CONFIG_MOUSE_PS2_SYNAPTICS_SMBUS
+ static const char * const smbus_pnp_ids[] = {
+ 	/* all of the topbuttonpad_pnp_ids are valid, we just add some extras */
+ 	"LEN0048", /* X1 Carbon 3 */
+@@ -195,6 +196,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"SYN3257", /* HP Envy 13-ad105ng */
+ 	NULL
  };
++#endif
+ 
+ static const char * const forcepad_pnp_ids[] = {
+ 	"SYN300D",
 -- 
 2.39.2
 
