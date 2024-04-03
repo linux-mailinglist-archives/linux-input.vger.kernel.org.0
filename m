@@ -1,124 +1,150 @@
-Return-Path: <linux-input+bounces-2804-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2805-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0585B89736A
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 17:07:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390B2897426
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 17:38:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 366F71C27FCD
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 15:07:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A62D11F26984
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 15:38:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F38BA14A613;
-	Wed,  3 Apr 2024 15:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF10149DF5;
+	Wed,  3 Apr 2024 15:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WY+HT+6C"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VeaCojPq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C47149DE3;
-	Wed,  3 Apr 2024 15:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1BE1369A0
+	for <linux-input@vger.kernel.org>; Wed,  3 Apr 2024 15:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712156804; cv=none; b=BOZbiWzrfoZx5De7FfUGEtxO64UL+d6HABp17bwGBR12tnHaRaHBNG5Tsvp4gknIGBOvdzjYN4Jf1QKW5F+IW+WObbQcLAX9lgt4fdyJaMwxXRfkwcrLEzCkQhWsaOkgBT+Lx5sLGNLTU4t2kpO/Qgo0X1iEXDFbmEqfFqxSHI8=
+	t=1712158725; cv=none; b=Iz737aciV5bZWhCilbD7WB+chcZLkw1idRdt+NfJpLRPbleX7thgOSi4iEyacM6ec5YHcaYGih1G/EmyH6xCkudENHEmpCXRc5EFWnFgmzeDaYORrAkf0LwHbxo4Z27B2FsJQVRa9VtjcokMu2xUyjxEVxwZCaRKQAV0608TIbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712156804; c=relaxed/simple;
-	bh=vKEnA46LNIYBD/r4zg6POqJ9fE49+HQ7ou3GmwNLpXk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n+krWyJ4MLN70L1kPhh2GWu7t6Kmj70MnZeeNqq7ZztnT5M/E39H851nbrMHPv45PU6t//EXv+vMnFN2c4CfnwFIeZNolQzE966eEmZKiBesUOuwsJtdlcWJ0ONUEsgvN2V54IQLGALRQfYjzF8CwnmSFXGWBq+GkZPK9+EMzmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WY+HT+6C; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4a393b699fso183918166b.0;
-        Wed, 03 Apr 2024 08:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712156802; x=1712761602; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nxHB0J6rX43HE9ciPEpBOcvr3yTZZIhFw+viwUxDb3A=;
-        b=WY+HT+6CqL3On0pQN+9jvcK1JVCUU23L2U0l+YNC7tyH0gNxUxannWRHIMX3S6ES+6
-         aaYZlhiDtvy+BSX7wRd9PlppwhBZHHBJAvgRonuhboiltaCel9Je6Ou/FRDFQSsEDFxe
-         QP7E7ZIuXxDN5MOm3dKZuTEFNNR8nmK3lkZofhXOOtBsDL75j2K5qMcjcyY9MD6TKAAL
-         bawy1HvG/CCizziKLT6ccekRE9mDJvBQJurEGQyyhJ4l9KU7kLjcGQLCB2c7WwJw8B0/
-         Kb7UGu3UP7FhJZEFzFXZOfLCvzDZuRY/6Rn9a2ViUZJx96GYmhxuJNf4Ql0UhKmubhyZ
-         aHHg==
+	s=arc-20240116; t=1712158725; c=relaxed/simple;
+	bh=gvXAN8FqAYyv/zTvnFyrftLXCVC6JR3X40KuZJIRr0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aIFJtUgnfJqU5ZMZtNAQwNTYrYroE1G5e4suS0wb5G1mZleRPoPNl7avmsQOE5TqMwMYxv6upRJYeo/ppdr/nPUr50G6VKkGVE/ABRPb181u8Kzrth2t6Dufie1QVsMc1uPaeWXEmJtLUIDQFspTlTL01GxOtl3w9bmm4QibCgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VeaCojPq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712158722;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7ulisZosQVDxfmEDrSXMzfQcC4WL56xkDy6UZQgPC9w=;
+	b=VeaCojPqVWI6i8xo4PYIYnmn+eLbSHnZb405DOFJiarXcDQWch3Jkfj/yNKpFbJxb0xFnq
+	Dw1o01r8EEO+krkqWaWPB9W5iyRbkr73drNfklB+dmr4GGP+udjFbrKDXUxT+0rM7EjJ4F
+	oobvOQsQIM9AHxh/Btu2wwpd8FLMKU8=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-237-FTtgcF-MM4S0T39O-Wj0PA-1; Wed, 03 Apr 2024 11:38:40 -0400
+X-MC-Unique: FTtgcF-MM4S0T39O-Wj0PA-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-513e31aef6cso5752400e87.1
+        for <linux-input@vger.kernel.org>; Wed, 03 Apr 2024 08:38:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712156802; x=1712761602;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nxHB0J6rX43HE9ciPEpBOcvr3yTZZIhFw+viwUxDb3A=;
-        b=BWa6Lbxm4TyUU1q1HL01GQJv9NFmtQBzs04d/chJQFtKoe6i2n3E4Xrt2UwvmjGpqc
-         wSLTQDOWAj/izZySJXbPd/a1MzAeUjcF3nQz9D1U8mZZoVIdZ8LW0qW/VnFpIn9CVS6P
-         Nz+k38dlf9rxsOkdd2dZWUeDOaVKOoptMzy+hy89GfsaM5Rltf7jSPy0R1zUQBkbjuv5
-         XYdCqmzMfNAnRvDo0Zw6KAcJzr012pkH5sh0l4K3H6xyax3C7qz/fofh5qEuRgmPE6Fu
-         BtB6wclDHcdgViFiPbKFRSeKjiMTBAc2bw0ofxULgQG/M7Dpu5P6njMJbJIjl4mwPZ1r
-         /AGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgcV0DiIYvzVq6qfxRvoNFNMIkd2wfa/rn+fb0kX2OE8tXmY73JjvmEjULIteda/TF3PtCBp6To3jjFb2XIaFe9wxTIXkdNdyjzjTb+s6nZaLkV85zxSiFkhYYgRQcJNrLtpk7umHwd20=
-X-Gm-Message-State: AOJu0YzSJ3EdtkLj24Y+bwXUo+i360JKSSICmDCVW/1qKDZbSVjK4+Ey
-	KtAKqw2MZByojSZj018DHUI3SbgH+7OJvYhwFLWcBgbBfLfbjSaN
-X-Google-Smtp-Source: AGHT+IG9kkRVouRP74AFp5q4dKHNdH85++1zsaBEZPIU2xrFn0qWTXZYX0aSlfvqFfWjTGc8nJd1rA==
-X-Received: by 2002:a17:906:d0c3:b0:a4e:539d:217f with SMTP id bq3-20020a170906d0c300b00a4e539d217fmr2510913ejb.33.1712156801375;
-        Wed, 03 Apr 2024 08:06:41 -0700 (PDT)
-Received: from localhost.localdomain ([84.32.202.14])
-        by smtp.gmail.com with ESMTPSA id h8-20020a1709060f4800b00a46d049ff63sm7744886ejj.21.2024.04.03.08.06.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 08:06:40 -0700 (PDT)
-From: Yaroslav Furman <yaro330@gmail.com>
-X-Google-Original-From: Yaroslav Furman <Yaroslav.Furman@softeq.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Lucas Zampieri <lzampier@redhat.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Yaraslau Furman <yaro330@gmail.com>,
-	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-	linux-input@vger.kernel.org (open list:HID LOGITECH DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] HID: logitech-dj: allow mice to report multimedia keycodes
-Date: Wed,  3 Apr 2024 18:06:37 +0300
-Message-ID: <20240403150638.18749-1-Yaroslav.Furman@softeq.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <7e34dc43-b70b-4a50-86fd-f021f2de4845@redhat.com>
-References: <7e34dc43-b70b-4a50-86fd-f021f2de4845@redhat.com>
+        d=1e100.net; s=20230601; t=1712158719; x=1712763519;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ulisZosQVDxfmEDrSXMzfQcC4WL56xkDy6UZQgPC9w=;
+        b=PEJJkvgtZXbiGUa/spjDXRpLtIXGGa+yZLwzAJUZOXxHiDI8a77bU8S8jX94w9Wj0J
+         7XlYXRPUlBJeaSgFn15Dkd9AtBEQMmdGzMrThN7M0LnCRwxbOFBWTsDpLRgmqfqkQz5X
+         cqY5asBMnwoTSWggMIEmYTmGQCsGI8wx5ojcfnmg+QocNJ7vhSMdxyiUnfzJ+F/m055j
+         nl03W+6h3vpUqwe98xQRjSHov13OlxLTYj4OoVFFMLIKEwaSnnNqxwG6i83LjehMrmKY
+         lWB2lUvNrU2B529kWYbnO0ZHsWbbLzGT5Q46wRVSev1BewxGqgsp/WACSRCfTungCfyk
+         AE7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUHePYy0iBk8tCI03DfV4Pjt44Aimg+SMaXsvkuteiUb/4sHnTevagGKiNyJgjoyViojiGPoa7mnuPRaByIGETXkn3MoJaJXDPFXzk=
+X-Gm-Message-State: AOJu0YxZHZjoK3Ult1FYz41U0iKQTLvbS36S6Lq2MhOM7D3GiEDVeOm1
+	6ur4RbURZflcMT2UqFPnLCgcYkQgD6pZpjJ4pROuPsVEUoe/Us4sn2e/P0pryzIXBgaFavz7naT
+	HDrxQy0Fa6EbFr7yPpAcZ0KdGz+8pWLvNuisKlVfQtixgVK5viirCj8PPH89/
+X-Received: by 2002:a19:c509:0:b0:515:af1f:5bad with SMTP id w9-20020a19c509000000b00515af1f5badmr3726478lfe.28.1712158719438;
+        Wed, 03 Apr 2024 08:38:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGWDpvKh5HePjjuSqDW7G2f74KFaLPXqg8tpOijWh7Nbj6ROZij9vpsI449A6cEWrPjqHuEJA==
+X-Received: by 2002:a19:c509:0:b0:515:af1f:5bad with SMTP id w9-20020a19c509000000b00515af1f5badmr3726444lfe.28.1712158718687;
+        Wed, 03 Apr 2024 08:38:38 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id o1-20020a1709064f8100b00a46baba1a0asm7870261eju.100.2024.04.03.08.38.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Apr 2024 08:38:38 -0700 (PDT)
+Message-ID: <6713652f-9a44-422e-b6a7-45501093cb08@redhat.com>
+Date: Wed, 3 Apr 2024 17:38:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] HID: logitech-dj: allow mice to report multimedia
+ keycodes
+To: Yaroslav Furman <yaro330@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Lucas Zampieri <lzampier@redhat.com>, =?UTF-8?Q?Filipe_La=C3=ADns?=
+ <lains@riseup.net>,
+ "open list:HID LOGITECH DRIVERS" <linux-input@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <7e34dc43-b70b-4a50-86fd-f021f2de4845@redhat.com>
+ <20240403150638.18749-1-Yaroslav.Furman@softeq.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240403150638.18749-1-Yaroslav.Furman@softeq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Yaraslau Furman <yaro330@gmail.com>
+Hi Yaroslav,
 
-So, I think this should work fine for now, but IMO we should see if it's
-possible to allow the driver to receive all events that a keyboard can send,
-since Windows application can assign pretty much any keycode to any mouse
-button (perhaps not the main ones though), and then we might see the same situation again.
+On 4/3/24 5:06 PM, Yaroslav Furman wrote:
+> From: Yaraslau Furman <yaro330@gmail.com>
+> 
+> So, I think this should work fine for now, but IMO we should see if it's
+> possible to allow the driver to receive all events that a keyboard can send,
+> since Windows application can assign pretty much any keycode to any mouse
+> button (perhaps not the main ones though), and then we might see the same situation again.
+> 
+> I tried doing that on my system but the driver stopped working completely.
 
-I tried doing that on my system but the driver stopped working completely.
----
- drivers/hid/hid-logitech-dj.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The actual code change itself looks fine, but the above should have gone
+into a cover-letter or something like that.
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index e6a8b6d8eab7..3c3c497b6b91 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -965,9 +965,7 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
- 		}
- 		break;
- 	case REPORT_TYPE_MOUSE:
--		workitem->reports_supported |= STD_MOUSE | HIDPP;
--		if (djrcv_dev->type == recvr_type_mouse_only)
--			workitem->reports_supported |= MULTIMEDIA;
-+		workitem->reports_supported |= STD_MOUSE | HIDPP | MULTIMEDIA;
- 		break;
- 	}
- }
--- 
-2.44.0
+This is not a proper commit message and this is also lacking
+your Signed-off-by (which you did correctly include in your
+original version:
+
+https://lore.kernel.org/linux-input/20240128214906.60606-1-yaro330@gmail.com/
+
+Please send a v3 with a proper commit-msg + Signed-off-by.
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/hid/hid-logitech-dj.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index e6a8b6d8eab7..3c3c497b6b91 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -965,9 +965,7 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
+>  		}
+>  		break;
+>  	case REPORT_TYPE_MOUSE:
+> -		workitem->reports_supported |= STD_MOUSE | HIDPP;
+> -		if (djrcv_dev->type == recvr_type_mouse_only)
+> -			workitem->reports_supported |= MULTIMEDIA;
+> +		workitem->reports_supported |= STD_MOUSE | HIDPP | MULTIMEDIA;
+>  		break;
+>  	}
+>  }
 
 
