@@ -1,322 +1,409 @@
-Return-Path: <linux-input+bounces-2772-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2773-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF81896542
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 09:01:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C57E68967FC
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 10:13:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A3571F23D26
-	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 07:01:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D94C1F272B1
+	for <lists+linux-input@lfdr.de>; Wed,  3 Apr 2024 08:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 391415336A;
-	Wed,  3 Apr 2024 07:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995F2762FF;
+	Wed,  3 Apr 2024 08:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="sJ17JrcO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9S2rWNS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from SG2PR03CU006.outbound.protection.outlook.com (mail-southeastasiaazolkn19010001.outbound.protection.outlook.com [52.103.65.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4183F17C64;
-	Wed,  3 Apr 2024 07:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.65.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712127690; cv=fail; b=iL5bcTKy+aiDPTF/FXDYImFVk99zWHfOElVRFbekZLfkKIbnV0oL9pwEJvKtL8qK5xDu6lsWTQanp/ISEq+q6Xc+5JkK/uYmqPF+qGWjU2D8zfql3KK+acJtIw7BWedBwGuKrnq/aTP20DsOGe79QKIUKfH56cfOa7MZqSME2dQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712127690; c=relaxed/simple;
-	bh=H60V+0kWIwupyfX8LiuhZW+j3UzDmQE/vZc2Ic8yR3k=;
-	h=References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:MIME-Version; b=gDGLY65Qevip7oQNaiWOepoTHoFno4ttAtUt4tPz8wixuVBOnE433aryPDxBWaB1ZpWw37n4P4TAlmuEGOjnvT4WpA6dI6J4kfsuc28Y5Marxddi/sPoeal9bgv6oaQ+2tYvCV+qaUURQPiHPRF8Lpc9Z6/ZYdXV90jbn43Q8Is=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=sJ17JrcO; arc=fail smtp.client-ip=52.103.65.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j3MjU8sZfb7wRJQdEgixCNKdvRnFKY5/6f0ARO68+PWoJJUHag8rD6hTI7mGThKK0cx/sJwok/Lg09sXpS3uJm4IrzRfc6X00qQJSXqGMwoVnJuTJKxYVGafPzkG0jI2j0imCWPUIVFm7KYdu8HTsWzp/jHaD/yOFG3OXvF2QqMEMNIONR1DujbkBHA7y488QnIH9Tfa+NWQ/82V9egbNRK/EHPtP0SkUw0Gn/VBUhKFHsxUQLLgHzAFYieL/xeojs1FNYqdGCxJhb0aXKlDLBGiY8NwkEv7s2cg9z7Sl5e1eVa8hdZDCojglDqBBHWARN3Z4g4a7/Mx0lEylVCp5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gKGTi1ZgvXJbZ7IBc9CNYpo9oehRZlmlZ4pQi9FlzT0=;
- b=KpbP5UEg3t7vBRBh2RyJQXkyjkMezV1eg4fZKSk20hhIiA3FJ/+XIBewMLDJbvn9HQm4cbS7ZvDVvZQnFT4pMRQQ5QwZ/fqQG1JMiI6pC35y9WsVVREkgUB4E97cGoyd7JDfQhOPPDj84uR3JujhVd0GjFQajdHkPhTEqDPLhPSvUHMBPm+YP6BjbdhqtGY0ll1od7AdKQqyLyP/1EjoQHTXRHua9O8Qd/9YzH61azmignPkT9cqy48PtdsqZzxHVzJke8J609IeNpOqJbqWgy/sip6/QxbjqTx6QyQ8UGbcHQCrmiuDbhkjQuXy9tIR2MEqShfwHOcX//AxDrX1rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gKGTi1ZgvXJbZ7IBc9CNYpo9oehRZlmlZ4pQi9FlzT0=;
- b=sJ17JrcOoy4EFg9NvgL7SbWQ8bF/JKCH1pLnlULUjVb/hlpcN6G0At9UOaUhspOPlLOX3EHXESGnoADsA3KWM9Sh3FYP1udAAg0Sx399ZvVC5Ex4LIYo9KrSSQCXBSsqOetELzEj2+ZoAQyiePQYxdE6tuj728Np1H+Dp8cZl26tQGE/JdWzgqAuS6bq/9LSFRw/Ua+TYveHuEQ3DNXl3dUOUOwDr1qGrggT6STcjQ3SlgdiNCqtV55JqQZe1IR0l0K3TUM4ynCBOsmLZK2E6HXaPOycBOHifvhcKgXJ/MVHA6DmqdThyG8mpH6Y4OMNiQfZHxD4EPZ+ZiLmzfjDRA==
-Received: from TY0PR06MB5611.apcprd06.prod.outlook.com (2603:1096:400:31e::8)
- by SG2PR06MB5106.apcprd06.prod.outlook.com (2603:1096:4:1c9::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
- 2024 07:01:24 +0000
-Received: from TY0PR06MB5611.apcprd06.prod.outlook.com
- ([fe80::d57a:9f0e:1ee7:85bf]) by TY0PR06MB5611.apcprd06.prod.outlook.com
- ([fe80::d57a:9f0e:1ee7:85bf%5]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
- 07:01:24 +0000
-X-Forwarded-Encrypted: i=1; AJvYcCWnMCspvVFyBDsidQi0s8mqMN05MJodJP0IcEvBm5BxFeUtIBHYptA8TIC9Hd7QMGAiDKuhNHDFAd6oir3LmvX6YwlaNRXpq8BZmubZWrxpvSKIqQYz2hw6CqHLDtEmT8nOwWRH3VcFdatgwSHfQIh3z4ae9FG9neynXNB1DYL7GabLeunw
-X-Gm-Message-State: AOJu0YwYbtKSuLisgJERhlVVKbOOomAJDO74ldHgzMXpPARiFZ3BHEaS
-	300+WIqF8xL/ZjJcj9FbmIsAm723uOmoYbq74mQ7wH+7+YYBh2KR6SCTA6I1yHH3GgkG61dHy5d
-	bxDuJDb0SF0CMkixybemou5AfVbk=
-X-Google-Smtp-Source: AGHT+IG9fQgqqTrzxdlhtlz4B9nRtzrY/gbDlxx/zNcwmdUHvwxuBujVSYzkUK8n/9nqlsHKIhI8bmjUTnm41AZwAso=
-X-Received: by 2002:a17:906:1390:b0:a4e:3a09:4854 with SMTP id
- f16-20020a170906139000b00a4e3a094854mr1194787ejc.61.1712127199729; Tue, 02
- Apr 2024 23:53:19 -0700 (PDT)
-References: <20240402104930.1053016-1-allencl_lin@hotmail.com>
- <TY0PR06MB5611C37640AA40B2B7716ABE9E3E2@TY0PR06MB5611.apcprd06.prod.outlook.com>
- <20240402-doable-routine-8e8cb4f07ffb@spud>
-In-Reply-To: <20240402-doable-routine-8e8cb4f07ffb@spud>
-From: Allen Lin <allencl_lin@hotmail.com>
-Date: Wed, 3 Apr 2024 14:53:08 +0800
-X-Gmail-Original-Message-ID: <CAEr79DWDD2rxnpgSAHiXYaO_cGpPr1d747PYFUxUsEP8cYA1tg@mail.gmail.com>
-Message-ID:
- <TY0PR06MB561132CACFD67235EFC76C219E3D2@TY0PR06MB5611.apcprd06.prod.outlook.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: Add Himax HX83102J touchscreen
-To: Conor Dooley <conor@kernel.org>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, jikos@kernel.org, 
-	benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-TMN: [Xuj2PbHvyVyWj8ITJFyGWMdroB6KGA8t]
-X-ClientProxiedBy: AS4P195CA0049.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:65a::25) To TY0PR06MB5611.apcprd06.prod.outlook.com
- (2603:1096:400:31e::8)
-X-Microsoft-Original-Message-ID:
- <CAEr79DWDD2rxnpgSAHiXYaO_cGpPr1d747PYFUxUsEP8cYA1tg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18966CDDB;
+	Wed,  3 Apr 2024 08:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712131649; cv=none; b=OrVdOvuQ6DQgAmvRW7m9scyyOCHXwaIHOmcnd2DQOMg5SQ7Twn680BFmDm6/wHKBH3rqFV3Of27iJyYxO7ySndSOAMbTINo38YlGdqej+y4KzBo6NNB6RRaBXXU+Z6OahRTo64wLBXJT/NBWXF50VWbiYUIJGRkWLyjleMaOOYc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712131649; c=relaxed/simple;
+	bh=K2ePQOaggCQbp9MAuVhX6tyGJTkfITqYlV3FRyD1b2w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JezOO/nkq485blJcO79UI2aEI9pmImzeBT9+F0QISHITGX2lbHoyWngZsBhrxLqlLf1/v8KdNrbI+63WxzaC8C7nlJbNGVxW3jBzfjC6WZDiCzaiAyAGd1aofoT/DCmOrN6XeKiyofXkCo60Ys1R/bTTKUO0S5jayMBIONTg1TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9S2rWNS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9555FC433C7;
+	Wed,  3 Apr 2024 08:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712131648;
+	bh=K2ePQOaggCQbp9MAuVhX6tyGJTkfITqYlV3FRyD1b2w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i9S2rWNSxBnVceX/PhEYHUL/8obuw7YBD3dJv3NpxgtqFmbZ6YmcytIk5F3iE5aJR
+	 I5RYRukVlaohxFlUlx3DoVo8ioTOKPq24ESuwErVo02d8QkqEyqWnOCLJPy3IIKQQU
+	 hPSJJJ28UFYnjJaOw9nBVZfRfW9z44J6zH3uuTF5it8w/Z071qPjEqTUM2WnMMrizN
+	 fO98GSAxPEoZV8r5mdONzcx9Bk+cWCKiyR3aI2XXY3Z1B5LcdC6almvWr6dDKTwDko
+	 dlyuak8JP+s7GrNn1iYACGO+Vywch0Qm7yXwZNXpNcwyBGG5wOlDd55NN/VlxGiFO6
+	 vEIx/q6HxkU2Q==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Corey Minyard <minyard@acm.org>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Tero Kristo <kristo@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Len Brown <lenb@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	John Allen <john.allen@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Vinod Koul <vkoul@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Moritz Fischer <mdf@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Peter Rosin <peda@axentia.se>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Lee Jones <lee@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>,
+	Kalle Valo <kvalo@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Alex Elder <elder@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Helge Deller <deller@gmx.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-ide@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-integrity@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-fpga@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/34] address all -Wunused-const warnings
+Date: Wed,  3 Apr 2024 10:06:18 +0200
+Message-Id: <20240403080702.3509288-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR06MB5611:EE_|SG2PR06MB5106:EE_
-X-MS-Office365-Filtering-Correlation-Id: 262654f8-7630-4bc3-a65c-08dc53abdfcf
-X-MS-Exchange-SLBlob-MailProps:
-	P1EfU6pZOd/JEwNiiJD34Jowu7eWn6ZGMFRCnmooCN08X5nZjL8UgRvkEIheGt09Rwmun5hB4IbKTQmCVyNt6+/5ejAN/bSO51WVzZ7zqpqB6KY/dJuclH5GmBcaDYRrlq23hY0D1wQzS4E6dpCEwpUn2Em8Azmz8fwwmlZ66IQ9IkU+0MjETiIRiCCfqmhrP2sxDZQHzoz7v7doXYOUPw2niu0KzEpBJ9PzOjoejmD23KWyUl1BKPBT+/3ET4ukDkUn/EliD8YImL+0s5739yKVNrt6AHGu/wizU3OoIVA+fTljrf8pCNO9G8FU2qk514SmRBEE8eS05V5Lf92Ffl6Y6XDntPFyT6DV5bj3b4hfjDuDoHsZMNlFlPbkKB6ihxwUETiuYUAH9HMIPZKHOAPBE/3hy4beimpcoy9a+DZDECk0Qudg7ysMq9InaqWmTrk4yOGEjfP4BE7W6QPSVs4xAaAn8Dtt+1CCrjwwVazyAHbRo9BC9aR1xfEr45gSqFMDzw1sBrYx4rCvlLKgIl5ikXOwF+cVQPNrGPbBmz7se9O12cN8OC+gf5d52jwdp1Xm+UffyzQT8g59RnFUuXic3oSol12tcdxPjyviQLkH83OGQI8MX3PL2msHvb/bgQjb5D/AoZ1vk0vTap0dMRgqKKelGiW54lSiQ0gOeaDEXOyrItkd8gpWPmh0+ZCt7hYFHaqS9UQAuq1I/b7lEL64gTBoNrwv+1/7izozu4BO2r313JvpaJkwq227xavPjv+CMKwWUpOOewBntwsn/rU+0Fr6ZVjQBPgfztR2mWJnEJjaWQIWow==
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	8ZZt4AmFdmL8gOoHIFFO3nM/NZWdtNA62mvrIN3w6GygBnCBySMN2c03h6zjcolkCRrfmUP12S0KfE0kfLiEPW7CQcjUq9cklWFeul2ARtWcD+kogifeMo98aOHZ5GFVh2q6yRg/FMVxLOMZai8l/3OB8yaE4J+LApcjnh7T1yz7LjrKSRq0lLRNW9T0G1IDvoJv8BrGq92vE6jvnk/tpyuCoM/5tSC6AinbPgARVjcQwWZs2VkXm6ZHpmNKIQoRfCDvE0z93A1Tu15aEdjXgh9eZWNwCRkA9tDgnVZrkyVpqaco+WToWIjnfft1c1JHaMw79Ql3/ITlFgTOAtFAkt603lC/XgWBGHb5u0FPnvtNwriCH0p4j9pLdVFcZfA6o0SwEsLbtBseZgWTVU+Z7PBMKS2mVX7IrZiw2ldr85bd3OefgSHz59/1IaEbFOydY1Rsrq597AD1heiqmAB67dpz9JU3KAMiKAdLl0Vbnc9e7BY7z5qC8XtZl3XqW8TXqI/1ggij19LxddLeauy35oQbomyHxfxrIhmPcg8cnuTjR5yVyWE6BMALo8laXaXkZIqMgEvUI76Jw/3Nm6oHSjpgnKmdEHDfz1NXlKCqtjhJ5ex2/0tDQf3pjSM8P/Hi2jerQQxFkLObZFCPIAk2BYus4RGeKFrolWRtUY9BGS4=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NitLeUhLS1JibmRwN29DNm92YktreEU5STlVaUtucnJIQllwK3oxa3NQS1NR?=
- =?utf-8?B?VlczTkdrM2ZrL1JpQTk2RmFpR1ZLVGtzUm5BaHpQdFF0MjIrbFFDYWF0QllI?=
- =?utf-8?B?QkNiTXBVbTh6QmJnWFMxVlQxUU41MnBrUlV5MlVjOEp0eHlKeFBKK1EwMk9P?=
- =?utf-8?B?dSs0M3o5U2JPc0YydHBQa1YrWlRoaHorZUlqOVdJdWd1MnRsR0VIbmlpU0Uz?=
- =?utf-8?B?b21JMVp3bTRXRlhtK0VSaFlsbmpaSzgxQkxQaXhQVWlZa2R3alMyRHhBdkUy?=
- =?utf-8?B?SlZJVnhjbU9TdFYweGRPNlEyb29Gc0kyTitFQVR2aDFjR0xtMjNwOGRJSVpk?=
- =?utf-8?B?R2FBamtJLzk3ZktWckVDL29RWVBiRW5zbWc1bmZyaDFIMVNoa3V4Y1kzTUMr?=
- =?utf-8?B?Vm93SDdMZVNUdlBCK1drNkxTeGJvWkljMnpzbTV5YTlFZ1pudmErbTFYY1hW?=
- =?utf-8?B?eWVnbWQ0WXpabDJGQlJ2M2lDcElZM2U3N2VGQWYwTHA2ajlUamVJZW1xME9u?=
- =?utf-8?B?YjhiVGViWk9hZjIrMlNoOUU2ZTNKdUN2R2UyVnhNWFlackxSRFJkZkRseUQ4?=
- =?utf-8?B?aHRKc0FlQjJhQUJoREF2Y0FrZ01YSVFiNnk5MVJxeHQxVXg2K2ZMVlJmYm01?=
- =?utf-8?B?K3l2MndEVnFBQmZ4RFBBTWFtbkxZam03dzRsZlZhSkw2T1R6dWptbEFGMWxJ?=
- =?utf-8?B?aEh1SHJ6NUlzOVFPb05oVjJGam41Tm5DZ29XOFhuSjhubld6c2lHUksyOGhj?=
- =?utf-8?B?NDk3UXdGQ0dDczFQc2IrSWJTWStBMmx3dVR5NFFEcExmYzVKTjB1U0cwc0tv?=
- =?utf-8?B?WWtndGs4citmSjEvbTQ0VWZMZkVxOC9NR3lMQ3F5YnhBd08xandIY2hIM1pq?=
- =?utf-8?B?N1JUT09FODBORmFDRGswYS94eWpLTlg3Ny9vSGtlUUQ2TytNSXVWdWJFNTdW?=
- =?utf-8?B?V2pSVlFZQXozWS9JeGZVRHRISDNFZE1xK0QvWjhWS1lMQnIxQm41eFAxZjIz?=
- =?utf-8?B?aFZDNGhBWC9YN0NFTXA4SFFnamRtZ0Y3QnM0c0lhalN5azlxWS96YzcrWHE2?=
- =?utf-8?B?VzZUUTI0OHFNREZkMjdKeEg4RHNNTlpOTnoveXU5UzVOU0ViN1BaVUovUU9o?=
- =?utf-8?B?bFNhclh0cG1XMC9iVUQ4emdFQXFSNTY4UlZUdlJpTE5FK2FjRW5MaUNnZURG?=
- =?utf-8?B?OTNDdWgrM0xSNG1PZ3VTcnJibld5RFN1Y2NLOXZnRjRjSXNsK0JpUDdlQktu?=
- =?utf-8?B?clpQaW5EZlBSaGh1N3M3c1ZSSDRsbENkeFNZdEJ4bWJTbHVVNy90TERDd3pq?=
- =?utf-8?B?KzYxd2Q3TTF6R0tQY1k1akJEbldwN0NRdm5kNFpicTV1bzdwTWpWK2p4ckVk?=
- =?utf-8?B?allhYjBJbWJRYnhuSDJwQVhHMmZGVUJZRVE4ZlMxN2J2QnVvWWlYWUdFWklu?=
- =?utf-8?B?RzcrUVp4MXJsNWtFK1hFbkU0ZHZPNTVaU2FvWVg2Ymg5aENGVEwrL0dkOUtk?=
- =?utf-8?B?QTl5aHFhcXdOdkJmVEs0ejdSNHl5K3NUYTBRalBEYnFHZzgxU0N0YjFvSTNX?=
- =?utf-8?B?UGc0ZWo2YVdUODdIWCtUa0pBWHVzR2J6QVBJR21qRXdXaHNqOFUrWFE5aE44?=
- =?utf-8?B?bHhNZHc5NnA0RmFUOFZKdThzRjN5NS8xazFRbTJNOGc1Q2VFcXNLV2FFQ0gv?=
- =?utf-8?Q?N38m0p8fTJLivtyLxdGg?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 262654f8-7630-4bc3-a65c-08dc53abdfcf
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5611.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 07:01:24.4034
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5106
+Content-Transfer-Encoding: 8bit
 
-Conor Dooley <conor@kernel.org> =E6=96=BC 2024=E5=B9=B44=E6=9C=883=E6=97=A5=
- =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=882:09=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Tue, Apr 02, 2024 at 06:49:27PM +0800, Allen_Lin wrote:
-> > Add the HX83102j touchscreen device tree bindings documents.
-> > HX83102j is a Himax TDDI touchscreen controller.
-> > It's power sequence should be bound with a lcm driver, thus it
-> > needs to be a panel follower. Others are the same as normal SPI
-> > touchscreen controller.
-> >
-> > Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> > ---
-> >  .../input/touchscreen/himax,hx83102j.yaml     | 100 ++++++++++++++++++
-> >  MAINTAINERS                                   |   6 ++
-> >  2 files changed, 106 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen=
-/himax,hx83102j.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/himax,=
-hx83102j.yaml b/Documentation/devicetree/bindings/input/touchscreen/himax,h=
-x83102j.yaml
-> > new file mode 100644
-> > index 000000000000..fe79129f704a
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/himax,hx83102=
-j.yaml
-> > @@ -0,0 +1,100 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.ya=
-ml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Himax hx83102j touchscreen
-> > +
-> > +maintainers:
-> > +  - Allen Lin <allencl_lin@hotmail.com>
-> > +
-> > +description:
-> > +  This Himax hx83102j touchscreen uses the spi protocol.
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: himax,hx83102j
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +
-> > +  vccd-supply:
-> > +    description: A phandle for the regualtor supplying IO power.
->
-> nit: regulator
->
-> > +
-> > +  vsn-supply:
-> > +    description: Negative supply regulator.
-> > +
-> > +  vsp-supply:
-> > +    description: Positive supply regulator.
->
-> Cool, thanks for adding these.
->
-> > +
-> > +  ddreset-gpios:
-> > +    description: A phandle of gpio for display reset controlled by the=
- LCD driver.
-> > +      This is the master reset, if this reset is triggered, the TP res=
-et will
-> > +      also be triggered.
-> > +
-> > +  spi-cpha: true
-> > +
-> > +  spi-cpol: true
-> > +
-> > +  spi-max-frequency: true
-> > +
-> > +  panel: true
-> > +
-> > +  himax,firmware-name:
->
-> firmware-name is a standard property, you don't need to vendor prefix it.
->
-> > +    $ref: /schemas/types.yaml#/definitions/string
-> > +    description:
-> > +      Specify the file name for firmware loading.
-> > +
-> > +  himax,pid:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    description:
-> > +      PID for HID device, used to validate firmware.
->
-> Why do you need this _and_ firmware-name? You should be able to trust
-> the firmware that the dt has told you to use, no?
->
-> Cheers,
-> Conor.
+From: Arnd Bergmann <arnd@arndb.de>
 
-OK, I should trust the dt document and fix these issues in next patch
-1. fix "regulator" spelling
-2. himax,firmware-name ->firmware-name
-3. remove himax,pid
+Compilers traditionally warn for unused 'static' variables, but not
+if they are constant. The reason here is a custom for C++ programmers
+to define named constants as 'static const' variables in header files
+instead of using macros or enums.
 
-Thanks
-Allen
+In W=1 builds, we get warnings only static const variables in C
+files, but not in headers, which is a good compromise, but this still
+produces warning output in at least 30 files. These warnings are
+almost all harmless, but also trivial to fix, and there is no
+good reason to warn only about the non-const variables being unused.
 
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - reset-gpios
-> > +  - panel
-> > +  - vccd-supply
-> > +  - vsn-supply
-> > +  - vsp-supply
-> > +  - ddreset-gpios
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    spi {
-> > +      #address-cells =3D <1>;
-> > +      #size-cells =3D <0>;
-> > +      ap_ts: touchscreen@0 {
-> > +        compatible =3D "himax,hx83102j";
-> > +        reg =3D <0>;
-> > +        pinctrl-names =3D "default";
-> > +        pinctrl-0 =3D <&touch_int0 &touch_reset>;
-> > +        reset-gpios =3D <&gpio1 8 GPIO_ACTIVE_LOW>;
-> > +        spi-cpha;
-> > +        spi-cpol;
-> > +        interrupt-parent =3D <&gpio1>;
-> > +        interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
-> > +        panel =3D <&panel>;
-> > +        vccd-supply =3D <&regulator>;
-> > +        vsn-supply =3D <&regulator>;
-> > +        vsp-supply =3D <&regulator>;
-> > +        ddreset-gpios =3D <&gpio1>;
-> > +      };
-> > +    };
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 43b39956694a..aa51c60fd66d 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9669,6 +9669,12 @@ L:     linux-kernel@vger.kernel.org
-> >  S:   Maintained
-> >  F:   drivers/misc/hisi_hikey_usb.c
-> >
-> > +HIMAX HID HX83102J TOUCHSCREEN
-> > +M:   Allen Lin <allencl_lin@hotmail.com>
-> > +L:   linux-input@vger.kernel.org
-> > +S:   Maintained
-> > +F:   Documentation/devicetree/bindings/input/touchscreen/himax,hx83102=
-j.yaml
-> > +
-> >  HIMAX HX83112B TOUCHSCREEN SUPPORT
-> >  M:   Job Noorman <job@noorman.info>
-> >  L:   linux-input@vger.kernel.org
-> > --
-> > 2.34.1
-> >
+I've gone through all the files that I found using randconfig and
+allmodconfig builds and created patches to avoid these warnings,
+with the goal of retaining a clean build once the option is enabled
+by default.
+
+Unfortunately, there is one fairly large patch ("drivers: remove
+incorrect of_match_ptr/ACPI_PTR annotations") that touches
+34 individual drivers that all need the same one-line change.
+If necessary, I can split it up by driver or by subsystem,
+but at least for reviewing I would keep it as one piece for
+the moment.
+
+Please merge the individual patches through subsystem trees.
+I expect that some of these will have to go through multiple
+revisions before they are picked up, so anything that gets
+applied early saves me from resending.
+
+        Arnd
+
+Arnd Bergmann (31):
+  powerpc/fsl-soc: hide unused const variable
+  ubsan: fix unused variable warning in test module
+  platform: goldfish: remove ACPI_PTR() annotations
+  i2c: pxa: hide unused icr_bits[] variable
+  3c515: remove unused 'mtu' variable
+  tracing: hide unused ftrace_event_id_fops
+  Input: synaptics: hide unused smbus_pnp_ids[] array
+  power: rt9455: hide unused rt9455_boost_voltage_values
+  efi: sysfb: don't build when EFI is disabled
+  clk: ti: dpll: fix incorrect #ifdef checks
+  apm-emulation: hide an unused variable
+  sisfb: hide unused variables
+  dma/congiguous: avoid warning about unused size_bytes
+  leds: apu: remove duplicate DMI lookup data
+  iio: ad5755: hook up of_device_id lookup to platform driver
+  greybus: arche-ctrl: move device table to its right location
+  lib: checksum: hide unused expected_csum_ipv6_magic[]
+  sunrpc: suppress warnings for unused procfs functions
+  comedi: ni_atmio: avoid warning for unused device_ids[] table
+  iwlegacy: don't warn for unused variables with DEBUG_FS=n
+  drm/komeda: don't warn for unused debugfs files
+  firmware: qcom_scm: mark qcom_scm_qseecom_allowlist as __maybe_unused
+  crypto: ccp - drop platform ifdef checks
+  usb: gadget: omap_udc: remove unused variable
+  isdn: kcapi: don't build unused procfs code
+  cpufreq: intel_pstate: hide unused intel_pstate_cpu_oob_ids[]
+  net: xgbe: remove extraneous #ifdef checks
+  Input: imagis - remove incorrect ifdef checks
+  sata: mv: drop unnecessary #ifdef checks
+  ASoC: remove incorrect of_match_ptr/ACPI_PTR annotations
+  spi: remove incorrect of_match_ptr annotations
+  drivers: remove incorrect of_match_ptr/ACPI_PTR annotations
+  kbuild: always enable -Wunused-const-variable
+
+Krzysztof Kozlowski (1):
+  Input: stmpe-ts - mark OF related data as maybe unused
+
+ arch/powerpc/sysdev/fsl_msi.c                 |  2 +
+ drivers/ata/sata_mv.c                         | 64 +++++++++----------
+ drivers/char/apm-emulation.c                  |  5 +-
+ drivers/char/ipmi/ipmb_dev_int.c              |  2 +-
+ drivers/char/tpm/tpm_ftpm_tee.c               |  2 +-
+ drivers/clk/ti/dpll.c                         | 10 ++-
+ drivers/comedi/drivers/ni_atmio.c             |  2 +-
+ drivers/cpufreq/intel_pstate.c                |  2 +
+ drivers/crypto/ccp/sp-platform.c              | 14 +---
+ drivers/dma/img-mdc-dma.c                     |  2 +-
+ drivers/firmware/efi/Makefile                 |  3 +-
+ drivers/firmware/efi/sysfb_efi.c              |  2 -
+ drivers/firmware/qcom/qcom_scm.c              |  2 +-
+ drivers/fpga/versal-fpga.c                    |  2 +-
+ .../gpu/drm/arm/display/komeda/komeda_dev.c   |  8 ---
+ drivers/hid/hid-google-hammer.c               |  6 +-
+ drivers/i2c/busses/i2c-pxa.c                  |  2 +-
+ drivers/i2c/muxes/i2c-mux-ltc4306.c           |  2 +-
+ drivers/i2c/muxes/i2c-mux-reg.c               |  2 +-
+ drivers/iio/dac/ad5755.c                      |  1 +
+ drivers/input/mouse/synaptics.c               |  2 +
+ drivers/input/touchscreen/imagis.c            |  4 +-
+ drivers/input/touchscreen/stmpe-ts.c          |  2 +-
+ drivers/input/touchscreen/wdt87xx_i2c.c       |  2 +-
+ drivers/isdn/capi/Makefile                    |  3 +-
+ drivers/isdn/capi/kcapi.c                     |  7 +-
+ drivers/leds/leds-apu.c                       |  3 +-
+ drivers/mux/adg792a.c                         |  2 +-
+ drivers/net/ethernet/3com/3c515.c             |  3 -
+ drivers/net/ethernet/amd/xgbe/xgbe-platform.c |  8 ---
+ drivers/net/ethernet/apm/xgene-v2/main.c      |  2 +-
+ drivers/net/ethernet/hisilicon/hns_mdio.c     |  2 +-
+ drivers/net/wireless/intel/iwlegacy/4965-rs.c | 15 +----
+ drivers/net/wireless/intel/iwlegacy/common.h  |  2 -
+ drivers/platform/goldfish/goldfish_pipe.c     |  2 +-
+ drivers/power/supply/rt9455_charger.c         |  2 +
+ drivers/regulator/pbias-regulator.c           |  2 +-
+ drivers/regulator/twl-regulator.c             |  2 +-
+ drivers/regulator/twl6030-regulator.c         |  2 +-
+ drivers/rtc/rtc-fsl-ftm-alarm.c               |  2 +-
+ drivers/scsi/hisi_sas/hisi_sas_v1_hw.c        |  2 +-
+ drivers/scsi/hisi_sas/hisi_sas_v2_hw.c        |  2 +-
+ drivers/spi/spi-armada-3700.c                 |  2 +-
+ drivers/spi/spi-img-spfi.c                    |  2 +-
+ drivers/spi/spi-meson-spicc.c                 |  2 +-
+ drivers/spi/spi-meson-spifc.c                 |  2 +-
+ drivers/spi/spi-orion.c                       |  2 +-
+ drivers/spi/spi-pic32-sqi.c                   |  2 +-
+ drivers/spi/spi-pic32.c                       |  2 +-
+ drivers/spi/spi-rockchip.c                    |  2 +-
+ drivers/spi/spi-s3c64xx.c                     |  2 +-
+ drivers/spi/spi-st-ssc4.c                     |  2 +-
+ drivers/staging/greybus/arche-apb-ctrl.c      |  1 +
+ drivers/staging/greybus/arche-platform.c      |  9 +--
+ drivers/staging/pi433/pi433_if.c              |  2 +-
+ drivers/tty/serial/amba-pl011.c               |  6 +-
+ drivers/tty/serial/ma35d1_serial.c            |  2 +-
+ drivers/usb/gadget/udc/omap_udc.c             | 10 +--
+ drivers/video/fbdev/sis/init301.c             |  3 +-
+ kernel/dma/contiguous.c                       |  2 +-
+ kernel/trace/trace_events.c                   |  4 ++
+ lib/checksum_kunit.c                          |  2 +
+ lib/test_ubsan.c                              |  2 +-
+ net/sunrpc/cache.c                            | 10 +--
+ scripts/Makefile.extrawarn                    |  1 -
+ sound/soc/atmel/sam9x5_wm8731.c               |  2 +-
+ sound/soc/codecs/rt5514-spi.c                 |  2 +-
+ sound/soc/qcom/lpass-sc7280.c                 |  2 +-
+ sound/soc/samsung/aries_wm8994.c              |  2 +-
+ 69 files changed, 121 insertions(+), 169 deletions(-)
+
+-- 
+2.39.2
+
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Damien Le Moal <dlemoal@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Corey Minyard <minyard@acm.org>
+Cc: Peter Huewe <peterhuewe@gmx.de>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Tero Kristo <kristo@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Ian Abbott <abbotti@mev.co.uk>
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Len Brown <lenb@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: John Allen <john.allen@amd.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Moritz Fischer <mdf@kernel.org>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>
+Cc: Peter Rosin <peda@axentia.se>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Markuss Broks <markuss.broks@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Cc: Iyappan Subramanian <iyappan@os.amperecomputing.com>
+Cc: Yisen Zhuang <yisen.zhuang@huawei.com>
+Cc: Stanislaw Gruszka <stf_xl@wp.pl>
+Cc: Kalle Valo <kvalo@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Xiang Chen <chenxiang66@hisilicon.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Heiko Stuebner <heiko@sntech.de>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>
+Cc: Alex Elder <elder@kernel.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: Jacky Huang <ychuang3@nuvoton.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Trond Myklebust <trond.myklebust@hammerspace.com>
+Cc: Anna Schumaker <anna@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: openipmi-developer@lists.sourceforge.net
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: dmaengine@vger.kernel.org
+Cc: linux-efi@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-fpga@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: netdev@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-spi@vger.kernel.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: greybus-dev@lists.linaro.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-serial@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: iommu@lists.linux.dev
+Cc: linux-trace-kernel@vger.kernel.org
+Cc: kasan-dev@googlegroups.com
+Cc: linux-hardening@vger.kernel.org
+Cc: linux-nfs@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
+Cc: linux-sound@vger.kernel.org
 
