@@ -1,131 +1,91 @@
-Return-Path: <linux-input+bounces-2814-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2815-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB53897DAD
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 04:23:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86838897E21
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 06:01:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 569041C22727
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 02:23:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25CC61F237AD
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 04:01:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6121B299;
-	Thu,  4 Apr 2024 02:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A791E101E6;
+	Thu,  4 Apr 2024 04:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhLfmLP7"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="NbOwCh9x"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87BE182BB
-	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 02:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53F73E476
+	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 04:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712197405; cv=none; b=qO0AakmdXRFejmP6uk5MJKXjtniVijxvqjAWZvRusMOgei+uYcHlJmaQqc8C/Q6cGu2Hnq2bzqRcZZkI6IcAu4ERNeETW9vUZqCi4AdKHFyII8MYwyASINkNY3yNxqdd0UUJusphvCpk2lg6noo87icBdoNP8bBfag85ScptXyk=
+	t=1712203256; cv=none; b=Y0Rj8chrDxmlbSHvFWYwlRyjQD3BAdHirIPX8T53xFoKrm0mgsQqBzg2K8lShDl5Fhm/h3OhC7aRKpCYnRIrmRY8UAJ5e/sZ1hPRm0E54KlObFFS8PQxCj/mKIcOwmV9TL2+Kibj8xYv0MBIVrzJmJMj3ROEQoYp7dPfN2OY1AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712197405; c=relaxed/simple;
-	bh=ZWTawStMb43NbIfFSkgGMLOisweD6qQRYXXH0zyCCkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=id88BZDLGB0rrcRp8pVWhkg3uqzcrRwdsQe1FXj5ukXRy+RFwpzNcY8MMQxWTJDRNdDrwkGaNNtNv4xkk7BDuokvPxaGyVmrtQ1VZMvQQLJ2dacjmNzbj9aUlknPLzVJDyo4zOId0Lpdk89o8emQ/PY60YT3FiE9UCiIX9DrBZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhLfmLP7; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712197403; x=1743733403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZWTawStMb43NbIfFSkgGMLOisweD6qQRYXXH0zyCCkg=;
-  b=YhLfmLP71T3GQTKY9oewN27x0aGo0mLq8S123N0RBI/sJe8YaJ3e4HAM
-   rMV5QEh+6z5zAhBXbL3aiGA58HcYsA6xZuIadAu6I55iUVPk5go8Sm6LF
-   n7Wb5lrZM9A3Z8HIJPT+sUE+pLIOMcSXerKTEDWxFUusNLHqX8o2OKihX
-   iWguJUNvOoHex2duxjBaYqhC8XxvX+txvy4AYGmMLU7Bmhrl98TFJvRB0
-   niDBcYnwW2ExUh7fN40itDsZ5sngzhP2dmXHGUkajSXXY+g9/xwBaccK7
-   WimLXsosFzXnGDVDPh17Yaqk5izV2MeY0ggnNwq7rRcwio1AWOKyGkoNQ
-   A==;
-X-CSE-ConnectionGUID: a09KJdBSSfmhdskamfXoOw==
-X-CSE-MsgGUID: 9x8902r9QtyY7ZI3c23EtA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7363670"
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="7363670"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 19:23:23 -0700
-X-CSE-ConnectionGUID: N4dTvXmRTtWMQEBLZ6PLNA==
-X-CSE-MsgGUID: 8aoDdwiVTheCTxvVtRsLbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="23388250"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2024 19:23:22 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsCl5-0000Us-29;
-	Thu, 04 Apr 2024 02:23:19 +0000
-Date: Thu, 4 Apr 2024 10:22:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ivan Gorinov <linux-kernel@altimeter.info>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>
-Subject: [hid:for-6.10/winwing 1/1] drivers/hid/hid-winwing.c:123:22:
- warning: variable 'minor' set but not used
-Message-ID: <202404041038.aQ0aRTSK-lkp@intel.com>
+	s=arc-20240116; t=1712203256; c=relaxed/simple;
+	bh=oCpeFPp5Jn/D6YRwZuhmZyieNnPGgk+37gsgTcTOZOA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWbkbzPLvWDpq5JaJC7biPCYp6s/U55CZ5/qgivR1rIn3b3U4FZVbNI5Vt18RVh1+7tHTx9JtqReme3VwHNJ+Z4axCr/EIxCqiHXTJQqAag01REVmYAGxl18JTT6F4pWXrL/eUe4y6XNs9Qj7MKL2i18vc+5imHn/f9xdLwbezM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=NbOwCh9x; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+Received: from nebulosa.vulpes.eutheria.net (71-212-26-68.tukw.qwest.net [71.212.26.68])
+	by endrift.com (Postfix) with ESMTPSA id 6F303A264;
+	Wed,  3 Apr 2024 20:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1712202837; bh=oCpeFPp5Jn/D6YRwZuhmZyieNnPGgk+37gsgTcTOZOA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NbOwCh9xFnewFNZFisWIZ9yOuW8/pvbK/biiHvaW2FYgGu/w8YzaB4qLEJ5mL7jZ2
+	 fab3cLT2M3EgQ0u7aQCnNt6N7jnH88TzpYujrWoMkwQdNBBpSSQtFzWwCaXoRkJI/z
+	 pMkvLH/N4iZh8QL+t5j4o58tK3qM3ry7PY25hKYgSrrlbSY5/RJnoTClPZoOqKMn7E
+	 1FkK07ULCUPjftw3/QikdH113ZdtxUiNXa+Ze0XIe4r4xOCH1O7LxGgNMIqKw4co5N
+	 X5DJwAJ3ZGdt6J0gtwqNEKgypAJv953BLH6iKvjeOoXqTuyJD5GiDl0Cv3kvCKkNPB
+	 Kz5vhjzmTBSNg==
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [PATCH] Input: xpad - add support for ASUS ROG RAIKIRI
+Date: Wed,  3 Apr 2024 20:53:45 -0700
+Message-ID: <20240404035345.159643-1-vi@endrift.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.10/winwing
-head:   266c990debad2f9589c7a412e897a8e312b09766
-commit: 266c990debad2f9589c7a412e897a8e312b09766 [1/1] HID: Add WinWing Orion2 throttle support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240404/202404041038.aQ0aRTSK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240404/202404041038.aQ0aRTSK-lkp@intel.com/reproduce)
+Add the VID/PID for ASUS ROG RAIKIRI to xpad_device and the VID to xpad_table
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404041038.aQ0aRTSK-lkp@intel.com/
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+---
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-All warnings (new ones prefixed by >>):
-
-   drivers/hid/hid-winwing.c: In function 'winwing_probe':
->> drivers/hid/hid-winwing.c:123:22: warning: variable 'minor' set but not used [-Wunused-but-set-variable]
-     123 |         unsigned int minor;
-         |                      ^~~~~
-
-
-vim +/minor +123 drivers/hid/hid-winwing.c
-
-   119	
-   120	static int winwing_probe(struct hid_device *hdev,
-   121			const struct hid_device_id *id)
-   122	{
- > 123		unsigned int minor;
-   124		int ret;
-   125	
-   126		ret = hid_parse(hdev);
-   127		if (ret) {
-   128			hid_err(hdev, "parse failed\n");
-   129			return ret;
-   130		}
-   131	
-   132		ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-   133		if (ret) {
-   134			hid_err(hdev, "hw start failed\n");
-   135			return ret;
-   136		}
-   137	
-   138		minor = ((struct hidraw *) hdev->hidraw)->minor;
-   139	
-   140		return 0;
-   141	}
-   142	
-
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index bf3a7c1824f8..a7ce6258a2fa 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -202,6 +202,7 @@ static const struct xpad_device {
+ 	{ 0x0738, 0xcb29, "Saitek Aviator Stick AV8R02", 0, XTYPE_XBOX360 },
+ 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
+ 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
++	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
+ 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
+@@ -474,6 +475,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	{ USB_DEVICE(0x0738, 0x4540) },		/* Mad Catz Beat Pad */
+ 	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
+ 	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
++	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
+ 	XPAD_XBOX360_VENDOR(0x0c12),		/* Zeroplus X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
+ 	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
 
