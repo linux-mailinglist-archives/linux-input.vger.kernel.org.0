@@ -1,91 +1,107 @@
-Return-Path: <linux-input+bounces-2815-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2816-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86838897E21
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 06:01:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C75D898302
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 10:18:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25CC61F237AD
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 04:01:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF651B211BF
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 08:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A791E101E6;
-	Thu,  4 Apr 2024 04:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC69F210E4;
+	Thu,  4 Apr 2024 08:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="NbOwCh9x"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MQe8ddn8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53F73E476
-	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 04:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E493167752
+	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 08:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712203256; cv=none; b=Y0Rj8chrDxmlbSHvFWYwlRyjQD3BAdHirIPX8T53xFoKrm0mgsQqBzg2K8lShDl5Fhm/h3OhC7aRKpCYnRIrmRY8UAJ5e/sZ1hPRm0E54KlObFFS8PQxCj/mKIcOwmV9TL2+Kibj8xYv0MBIVrzJmJMj3ROEQoYp7dPfN2OY1AU=
+	t=1712218723; cv=none; b=cQD/3e1kKkLdrwxnYJmOuF4A+XD9N1D39Qu6OZx5YRxXmQ5VtsU79VKTc3URImaHYKOa+2Iya+gDfUARAZc8yiYBaRcZCCwhBcEhaD+QUFOEH2k+AAhhEHr4qGL9E0xSnatiZMIxtNs8psW+ILh1yVH7JtH4sMG3a5S2k1ZWRUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712203256; c=relaxed/simple;
-	bh=oCpeFPp5Jn/D6YRwZuhmZyieNnPGgk+37gsgTcTOZOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWbkbzPLvWDpq5JaJC7biPCYp6s/U55CZ5/qgivR1rIn3b3U4FZVbNI5Vt18RVh1+7tHTx9JtqReme3VwHNJ+Z4axCr/EIxCqiHXTJQqAag01REVmYAGxl18JTT6F4pWXrL/eUe4y6XNs9Qj7MKL2i18vc+5imHn/f9xdLwbezM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=NbOwCh9x; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from nebulosa.vulpes.eutheria.net (71-212-26-68.tukw.qwest.net [71.212.26.68])
-	by endrift.com (Postfix) with ESMTPSA id 6F303A264;
-	Wed,  3 Apr 2024 20:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1712202837; bh=oCpeFPp5Jn/D6YRwZuhmZyieNnPGgk+37gsgTcTOZOA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NbOwCh9xFnewFNZFisWIZ9yOuW8/pvbK/biiHvaW2FYgGu/w8YzaB4qLEJ5mL7jZ2
-	 fab3cLT2M3EgQ0u7aQCnNt6N7jnH88TzpYujrWoMkwQdNBBpSSQtFzWwCaXoRkJI/z
-	 pMkvLH/N4iZh8QL+t5j4o58tK3qM3ry7PY25hKYgSrrlbSY5/RJnoTClPZoOqKMn7E
-	 1FkK07ULCUPjftw3/QikdH113ZdtxUiNXa+Ze0XIe4r4xOCH1O7LxGgNMIqKw4co5N
-	 X5DJwAJ3ZGdt6J0gtwqNEKgypAJv953BLH6iKvjeOoXqTuyJD5GiDl0Cv3kvCKkNPB
-	 Kz5vhjzmTBSNg==
-From: Vicki Pfau <vi@endrift.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH] Input: xpad - add support for ASUS ROG RAIKIRI
-Date: Wed,  3 Apr 2024 20:53:45 -0700
-Message-ID: <20240404035345.159643-1-vi@endrift.com>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1712218723; c=relaxed/simple;
+	bh=eyAd8Fm3t44gc7qEKT0d4Zv8xoYimRNogrja13Iomu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cpFbWsX0vtZzMOTz6ln5Bc6nZCjKz2qigecO8hGR11FivK2C3Q/8FEBtJejFeu5gSfArrbKlOp6rhN5cbDktdopbcz5UDk8XW4tnzLQd71kwMfjZsjwQu+fqOBC4pYSAABXrUrjO5YxHilwNJZtiKD35oGKS+iWJbTrSVrDPs94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MQe8ddn8; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dd10ebcd702so841655276.2
+        for <linux-input@vger.kernel.org>; Thu, 04 Apr 2024 01:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712218721; x=1712823521; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eyAd8Fm3t44gc7qEKT0d4Zv8xoYimRNogrja13Iomu4=;
+        b=MQe8ddn8hPCohkddiIdfjpxUkDgJfFcLgz578s90FL1abBGWq05W/lle5UAnhJLadA
+         EfqU4JIiFXsKnpC9HVNB227hiL69Yne4IdbsawEmjvi80kZuAtpopTdIccmEHVcXq+zD
+         Xz56eU0Wd1xhiuampa6zSfTZruO6Q+ePOgzKMeBqKYd90Ya1ygSjImtBE4Xud0KFnvpP
+         7WcL4GgiXD+SPPaH4OGUK9cdbdbMFFO9t1kK2UO2Hmp1gju0ScVA177lRivKSOCTlbl6
+         UTDva2eOtgb84bZJsHelg52wi5cOf7hiYaqx4E7SRGlWv405pZZEhby72I/YMxkfeWFQ
+         tauA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712218721; x=1712823521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eyAd8Fm3t44gc7qEKT0d4Zv8xoYimRNogrja13Iomu4=;
+        b=vbJnjYdNXXJEs580U+p0F4XLw+iq8hJZJHgvLpDr526FNGBvclxErYX+ka0r5EN1HR
+         C/SXY8BuofDikf+EV7ti5KUPpR+wRvPRmVhd+Cglsw+PIBacj7FNLusmirn13Hsi2XxH
+         6ZNAffI672DUgL6EM/zjar5++oAKKHSQNAlI67KExvi3Gk7japOJHPK1jAZQO2Njk+5k
+         tiXfE9+47BzcyvbYQRaiRf0onaLsLEJOMSgQ48xYNq8R++UW8Gz5jiCcVhpl5YJvjDYZ
+         0EMhWDkp0TOF3Y7av3baEesd8jA6AOxjsD93wiRhSkqsdBSBObiJXS1Xz/fvI6B1s+v9
+         28zA==
+X-Forwarded-Encrypted: i=1; AJvYcCXdgPu0HuFx3u2Ko/g2u2zA9eE8BkpTCQpb2zX1bNs45/E49Eta1P+47IYwE89uoAVD3oBllOC5UHTfHy0Cjder7/0qDxSwDoqx2Rw=
+X-Gm-Message-State: AOJu0Yx9w3UoDZKyzHOHW5qzrHS+tjEtfbknb2Ul4fnVJdF2Iibx7bUw
+	9Fs7QnI0o1WywxGNeuJ7X2ESfcoOQIupB+fiVxsDd78Oy044ehRn9ye/a+fyNBp0iWsZhwmGdKL
+	JH+J7YPxMlBN7sp/28bjRoOmvukDKmgPKJODzKA==
+X-Google-Smtp-Source: AGHT+IF10RS0Ghp5cgYZUvg6PBzUDvxfLN9KgcqveP0TSNC3zgxigAL30JAOcgZTHb+RkMpEFaPK7ZHMMNnVTswBtzY=
+X-Received: by 2002:a5b:d06:0:b0:dd0:6f7:bc3b with SMTP id y6-20020a5b0d06000000b00dd006f7bc3bmr1651889ybp.10.1712218721029;
+ Thu, 04 Apr 2024 01:18:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org> <20240326-module-owner-amba-v1-15-4517b091385b@linaro.org>
+In-Reply-To: <20240326-module-owner-amba-v1-15-4517b091385b@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Apr 2024 10:18:30 +0200
+Message-ID: <CACRpkdZa7mszi45M72qKPM=NJtou1A5DjVVUFzChFtZwzwVZyA@mail.gmail.com>
+Subject: Re: [PATCH 15/19] hwrng: nomadik: drop owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Russell King <linux@armlinux.org.uk>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>, 
+	Alex Williamson <alex.williamson@redhat.com>, linux-kernel@vger.kernel.org, 
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-input@vger.kernel.org, kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the VID/PID for ASUS ROG RAIKIRI to xpad_device and the VID to xpad_table
+On Tue, Mar 26, 2024 at 9:24=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+> Amba bus core already sets owner, so driver does not need to.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index bf3a7c1824f8..a7ce6258a2fa 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -202,6 +202,7 @@ static const struct xpad_device {
- 	{ 0x0738, 0xcb29, "Saitek Aviator Stick AV8R02", 0, XTYPE_XBOX360 },
- 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
- 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
-+	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
- 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
- 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
- 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
-@@ -474,6 +475,7 @@ static const struct usb_device_id xpad_table[] = {
- 	{ USB_DEVICE(0x0738, 0x4540) },		/* Mad Catz Beat Pad */
- 	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
- 	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
-+	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
- 	XPAD_XBOX360_VENDOR(0x0c12),		/* Zeroplus X-Box 360 controllers */
- 	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
- 	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
--- 
-2.44.0
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
 
