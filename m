@@ -1,115 +1,126 @@
-Return-Path: <linux-input+bounces-2823-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2825-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11343899132
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 00:20:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7A5899145
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 00:29:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42AB31C21E02
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 22:20:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FE6D28311F
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 22:29:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D0A413C665;
-	Thu,  4 Apr 2024 22:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB4113C668;
+	Thu,  4 Apr 2024 22:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="sGX0qgz5"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MRSqA7hR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38D613473D;
-	Thu,  4 Apr 2024 22:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFCC13C3F7
+	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 22:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712269225; cv=none; b=RHUqwcofh++lRkpcmdNhFsJuBPKwmKZ0XMFFHUQu8HlNeQld8LMbrsz6+TxKq3EyRUYJYm0DOKmEdUGRW0R1AB2F50KlBmou2zEnOgpY5qviuhlqKoy02z2fr0bmwL8cdXovZfL0iThOdJ84H1J3iqG12KR7Z6bHOX7MFFqcPGk=
+	t=1712269734; cv=none; b=JXrFsiZ88OJFvhrIOgDvH+3Ed4OsEuo2OEC8j8PHgn0UaWR+w3uuZs9EwTcbFxgSCSsQpKuPgY4LKQNfq3DF46iT7M5zoAmpkGgS7SQ9+fZtpdkPoKzJl0vL61jNpBAW9zsrJgeHC/HUokmKjEq/91ciQD9AMjXmhrcX+fg9o7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712269225; c=relaxed/simple;
-	bh=1amtG1tMvtsm2W9ukj3lLmNfIaNpzMvJZ/j8etMTEYY=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OpoWZxkHDh6hZTZSZdlzeGE+hR5pGK5mWGo2If1y/kziiWX9EcGetjXpId7Gn6z2xGtEW6iCEoI1Blb6xjdu4+0hnyxcKylH6LevBEC06xbgxrqF9L89il9olrzyE7QyBJhzTRlzi7/413gVWMyu6WX6dEj1L/3cOfoLwdhlCww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=sGX0qgz5; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rsVRR-003r6M-2c;
-	Fri, 05 Apr 2024 00:20:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=XI+TA2dvHhHhLvWbTaAQjVRQOBUokh+WbPMJYzMObwc=; b=sGX0qgz53gmLTGQ7Bew1xFzn1B
-	yDlEmdUZ0e13eiWAGlYS4IgZKRe7e1lCqBxQf6RlrW81g8sP2cavbeTiqMOqTAtX27qOP+rsr9C6M
-	ueEImF+ydnemTb7ojw570D25Y4+Utb+jaJ1D3U4LhMKNwvwHYw/c4pqvgVNo2a7ZIqKoknn6HjN68
-	J5Rvd75Bry0Yq5Olu1Msl1QINTt3eN4AL6RpOL8Gg2uI8B90LpnAOOSdYK6rJZkt+rUq/IP3Pcr++
-	BLqNhAcNrYV51xy37F0oSuZcISux7Po4fkt/2ie52etq9ZZF3I+/AYiANOBH65LbXY16UHD3+Am0q
-	cOoz71PA==;
-Received: from p2003010777026a001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7702:6a00:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rsVRP-000Nwr-1D;
-	Fri, 05 Apr 2024 00:20:15 +0200
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rsVRP-002oTv-0l;
-	Fri, 05 Apr 2024 00:20:15 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	andreas@kemnade.info,
-	o.rempel@pengutronix.de,
-	u.kleine-koenig@pengutronix.de,
-	hdegoede@redhat.com,
-	andy.shevchenko@gmail.com,
-	ye.xingchen@zte.com.cn,
-	p.puschmann@pironex.com,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	caleb.connolly@linaro.org
-Subject: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
-Date: Fri,  5 Apr 2024 00:20:09 +0200
-Message-Id: <20240404222009.670685-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240404222009.670685-1-andreas@kemnade.info>
-References: <20240404222009.670685-1-andreas@kemnade.info>
+	s=arc-20240116; t=1712269734; c=relaxed/simple;
+	bh=RxUgTHy6Q08KN0jBS41CMT9Ci5RsJ+C8p9GGt3Gfp6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mh1BbqtBN2L8XTewRgd7Ph4tuUeSTYKLrZVt+dlUUInGYTmtkm2VJLg0AjD19+bpma3ONgEitDbYW8d6gCRE5SMV2c5ElHw/RImYrmE7gxFmbflAJRB56tiTlNFA44g4J3kp2BYAJGvQdVeeTecLXQNZHIrSmt3Dk/KfiuMq6XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MRSqA7hR; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Thu, 4 Apr 2024 18:28:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1712269730;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cfxyCzvtzmWi1KSrX/XZIalfQOEPT3xbF6m5fU6kp1Y=;
+	b=MRSqA7hRXbZz0tmIJVXahqUTpqENt47k4TugvBcfJSyR0Cm1gh2WA4N6yRjmSx7aVgCNTP
+	AtxKikLCy/Cnvx95nkww4y4oLedWDdmjqq1jSIM2X6aubg8cqXD8PoPTacuEpfuX2MFiLW
+	VByPFt5v8rdJJuUvwqP0pi7SRB4TFpA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org, 
+	joro@8bytes.org, will@kernel.org, trond.myklebust@hammerspace.com, 
+	anna@kernel.org, arnd@arndb.de, herbert@gondor.apana.org.au, davem@davemloft.net, 
+	jikos@kernel.org, benjamin.tissoires@redhat.com, tytso@mit.edu, jack@suse.com, 
+	dennis@kernel.org, tj@kernel.org, cl@linux.com, jakub@cloudflare.com, 
+	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com, vbabka@suse.cz, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, linux-arch@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-mm@kvack.org, netdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH 1/1] mm: change inlined allocation helpers to account at
+ the call site
+Message-ID: <qwwylzjcezfdyznm25epghmynvybgnzw2cmwahsyvwtqjrptsl@xdag7w65kn7b>
+References: <20240404165404.3805498-1-surenb@google.com>
+ <Zg7dmp5VJkm1nLRM@casper.infradead.org>
+ <CAJuCfpHbTCwDERz+Hh+aLZzNdtSFKA+Q7sW-xzvmFmtyHCqROg@mail.gmail.com>
+ <CAJuCfpHy5Xo76S7h9rEuA3cQ1pVqurL=wmtQ2cx9-xN1aa_C_A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpHy5Xo76S7h9rEuA3cQ1pVqurL=wmtQ2cx9-xN1aa_C_A@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-As ft5426 seems to be compatible with this driver, add it.
-Debug output during identification: Model "generic ft5x06 (79)", Rev. "
+On Thu, Apr 04, 2024 at 03:17:43PM -0700, Suren Baghdasaryan wrote:
+> On Thu, Apr 4, 2024 at 10:08 AM Suren Baghdasaryan <surenb@google.com> wrote:
+> >
+> > On Thu, Apr 4, 2024 at 10:04 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > >
+> > > On Thu, Apr 04, 2024 at 09:54:04AM -0700, Suren Baghdasaryan wrote:
+> > > > +++ b/include/linux/dma-fence-chain.h
+> > > > @@ -86,10 +86,7 @@ dma_fence_chain_contained(struct dma_fence *fence)
+> > > >   *
+> > > >   * Returns a new struct dma_fence_chain object or NULL on failure.
+> > > >   */
+> > > > -static inline struct dma_fence_chain *dma_fence_chain_alloc(void)
+> > > > -{
+> > > > -     return kmalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+> > > > -};
+> > > > +#define dma_fence_chain_alloc()      kmalloc(sizeof(struct dma_fence_chain), GFP_KERNEL)
+> > >
+> > > You've removed some typesafety here.  Before, if I wrote:
+> > >
+> > >         struct page *page = dma_fence_chain_alloc();
+> > >
+> > > the compiler would warn me that I've done something stupid.  Now it
+> > > can't tell.  Suggest perhaps:
+> > >
+> > > #define dma_fence_chain_alloc()                                           \
+> > >         (struct dma_fence_chain *)kmalloc(sizeof(struct dma_fence_chain), \
+> > >                                                 GFP_KERNEL)
+> > >
+> > > but maybe there's a better way of doing that.  There are a few other
+> > > occurrences of the same problem in this monster patch.
+> >
+> > Got your point.
+> 
+> Ironically, checkpatch generates warnings for these type casts:
+> 
+> WARNING: unnecessary cast may hide bugs, see
+> http://c-faq.com/malloc/mallocnocast.html
+> #425: FILE: include/linux/dma-fence-chain.h:90:
+> + ((struct dma_fence_chain *)kmalloc(sizeof(struct dma_fence_chain),
+> GFP_KERNEL))
+> 
+> I guess I can safely ignore them in this case (since we cast to the
+> expected type)?
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- drivers/input/touchscreen/edt-ft5x06.c | 1 +
- 1 file changed, 1 insertion(+)
+Correct, it's not hiding bugs in this case, it's adding type safety.
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 2a1db1134476..4e7621a80175 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -1484,6 +1484,7 @@ static const struct of_device_id edt_ft5x06_of_match[] = {
- 	{ .compatible = "edt,edt-ft5206", .data = &edt_ft5x06_data },
- 	{ .compatible = "edt,edt-ft5306", .data = &edt_ft5x06_data },
- 	{ .compatible = "edt,edt-ft5406", .data = &edt_ft5x06_data },
-+	{ .compatible = "focaltech,ft5426", .data = &edt_ft5506_data },
- 	{ .compatible = "edt,edt-ft5506", .data = &edt_ft5506_data },
- 	{ .compatible = "evervision,ev-ft5726", .data = &edt_ft5506_data },
- 	/* Note focaltech vendor prefix for compatibility with ft6236.c */
--- 
-2.39.2
-
+checkpatch is definitely not authoritative, you really have to use your
+own judgement with it
 
