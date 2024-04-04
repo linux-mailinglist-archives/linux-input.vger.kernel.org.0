@@ -1,181 +1,109 @@
-Return-Path: <linux-input+bounces-2830-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2831-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16BB8991F6
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 01:16:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F013899226
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 01:32:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A0F61F22857
-	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 23:16:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93D7DB2255D
+	for <lists+linux-input@lfdr.de>; Thu,  4 Apr 2024 23:32:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5C113C678;
-	Thu,  4 Apr 2024 23:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 515DB13C672;
+	Thu,  4 Apr 2024 23:32:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GhQB4Lr2"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="bGmB8WLM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240EA13C3CD
-	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 23:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE1913BC38
+	for <linux-input@vger.kernel.org>; Thu,  4 Apr 2024 23:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712272591; cv=none; b=nN20xDeCrLTKt9dpBIR5U1cJ/KuWF57Uwtl5ON2j+ehT4rJvy5wbaNd9spyz9KmDIR5x9q/2wzwIV4d5kXHlIYj8gbqTysvK0cDkHsGpl+lObxHBD2tPI0aidvO/ryhEbIW+tLAbYLQ+3ZVYzHtfSdiELcSyqnAcpQC054ZWEXU=
+	t=1712273561; cv=none; b=iW2zBqoNT88lxJTNDcwigRdoSFGM8Z2QMMT3TXrgysx4ZtBVhm7mKtoMYsgAw3S9QqX26ND4P2XOzEgkAXUH2JTTe38TPxGlTCBXMcKKu4ktkOV5uNj3pZQqdnNmjj1SGd5xM9WuKPQCuUHAMbLUZXKKjR/6r7aUgJbTH9N3VTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712272591; c=relaxed/simple;
-	bh=APEooEWI1lH4C+bL4GyHHSZ5KchOvO14ONUoet0RRr0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cRhfsrWfcvdf0Ws96JVvKVoHN3/I2B8uhIH1HC8icJnJpLFDJAZE6NTTvJ6FuoenNMJAKf6xDpxocsLnRIXUUx/BlU4N7Picvo/uSE03JEJ8JAhR5jvfkQQXqK4CUvaR9DmjF2JOSKJ24c6j5wHWVN+8zfkPYiUS/yKigm3Iumw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GhQB4Lr2; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso1673003276.3
-        for <linux-input@vger.kernel.org>; Thu, 04 Apr 2024 16:16:29 -0700 (PDT)
+	s=arc-20240116; t=1712273561; c=relaxed/simple;
+	bh=R+JcGZWerA4/j0GP5BcYvILM9CMcZQ3Ab1BvbCrrzCs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=C66dA4PRX6WjGfI/ljnQm6PZldoiwXrJP6dxWWfJv8e6Xneig432h8US61n/tah9gwPR0c0XqMv6CD1TVhvnxWOmneIzejbVbpOQc5la28ILqo0deqJ/CSm+RaIvO6qeqnHni3QrmwlT+dpElw3DNg69erkblWWQdSTdVwo9KqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=bGmB8WLM; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e36b7e7dd2so949015ad.1
+        for <linux-input@vger.kernel.org>; Thu, 04 Apr 2024 16:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712272588; x=1712877388; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=broadcom.com; s=google; t=1712273559; x=1712878359; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=px33Bjt2eInHJiP0NeuRgUTO3pjhGqqLrEOvRjM23DI=;
-        b=GhQB4Lr2TOfRJr0yIbGk1UCRhhyf/EKVpCXPZqXmV/XkgG3+Ip4CUhh5q4gr0g9aWQ
-         bi/MtONwHxDMZ2USmEekynhmPdIj7XimYzkMyO6YIhdhd8laosX9Kqavzc0sEGt4s393
-         x3jIewExo36NNhoGC8fa0dDVejtUCmH++FNYSfkbwZ/UmhgU1sdlt3bN2hQJz5ko/8/2
-         ObAiMXaSN6L+F4xGADKQcR60IRWI0WYZxrQoJLkbTK4kPXRxqPMACqxkEQFVlYIVb5E4
-         NZ/mGrhb+ljA8cMBS1XGt9r2KxFFWpC0uxhpGDOwu+7sHOeMPE3IS3bKmZETlEo4VFCK
-         XvLw==
+        bh=R+JcGZWerA4/j0GP5BcYvILM9CMcZQ3Ab1BvbCrrzCs=;
+        b=bGmB8WLMFMwpMjjvJzDIeeDDlejXxOtkjvpAhmt3k5cboS576t5rzSkQhcTDcfowSe
+         gKymjunI/WKxZrVxk1qFg5J8RRC6fL+0gMa1anAy2C/LRM81kpB0MwoDIiOngb+mikN6
+         qXO1fS1lymojlSHxowZYu6rjJdZbgOTlj3hAQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712272588; x=1712877388;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1712273559; x=1712878359;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=px33Bjt2eInHJiP0NeuRgUTO3pjhGqqLrEOvRjM23DI=;
-        b=gMRugH1LPTYz5owN8K+4mcv5wC+TLTihXnlrsII+ow1+Pxl/Dw98j1YH2RBG7Cn53c
-         hkgDQEgr8364xerSDYxCH4BLBobOJQN8GR/4LrBMfT0wDqKwPGbPZoFn3iq6IjqXNacy
-         wreiUu82Da9L4IyvJxzhIeZ7y9FOZbYwEwbgs+U3qyCdH0UtZzD2eSyEfd5chFO5P+u5
-         AlYV+9h7bVXl4pFqMvxD7Eb35e2hfPVIrFpQlquSd0zw8JD6O2Fup0mR/4dZbyIz8J1p
-         JNjMan3rsW9t7x2Qz4mTuK28PeIbhPqCxPSuMRanP2R7d0098rAIpIkEpxRDGSBcBr4p
-         KxWA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMVKkEtii75y06QLwOtNa9OOlFoFWg2oCEEjgcSN0UUelYpgz+ftbo5cmgz+AFOGebk7udMcgI0nAbFI4DcxZWPxJLCTOi2J9aIpU=
-X-Gm-Message-State: AOJu0YwyhbwxUU1GFH1Ki3mjvwQiZM14Frp7ODiltsyulDyxPcDK0Y1y
-	EcHkiftHNDFTTGpjgVb+wb5UXCzLri20Zk396V/Tjko5Skwpzj7I5fknq4yhwTlgmzZiue2pfd9
-	JQdaLFNHOzR9XEY22iYfkDwTFQLKkmbtqVCrP
-X-Google-Smtp-Source: AGHT+IFqOT0sdB5Mq8Em3ez8wUqwsDenflcnFBaGGydYTj8cPQz4oQR3/fK7VmQ9yLCyTSRCqikRdMTTYcQR8Kj+db8=
-X-Received: by 2002:a25:c7c6:0:b0:dcc:d5aa:af36 with SMTP id
- w189-20020a25c7c6000000b00dccd5aaaf36mr1095387ybe.44.1712272587959; Thu, 04
- Apr 2024 16:16:27 -0700 (PDT)
+        bh=R+JcGZWerA4/j0GP5BcYvILM9CMcZQ3Ab1BvbCrrzCs=;
+        b=kPXHFi68AFJ15bopTebdUoi7nENVfLFZv2F0dNxCJvG4+u8pvEhUh7hX5YyLPRXac4
+         gE9iOEz6CKK+l/9rCmAt1bHb/Kp8/gzo+xS7WUl2/GKUoMaNWiFbPhFioXe0p9lCIhRp
+         QcIAGuuTkjyWPasCX+o/0HBsGYh9zRXTHaYxVozdBE+DWhUKTA2C0ZeLLqmuUS9QqDVj
+         e1Sl4Ak+aSAy7QEK2pNF0z/lJLpu6bCA4aUdZZqyhm8WljrVQoFhnjUMqH6Ws3XEIJYJ
+         7okPlchg/WNqqPIO6aZJWz85fsW0iKDAze8PYk9zJ4eIPcsgpy6xMPMTfrkeZxBiPU+R
+         CI2g==
+X-Forwarded-Encrypted: i=1; AJvYcCV9iriH6fBQCrw5Y6lQ4bp6Azo9B/69M4Ia0Kj+76t0VYsRzMpkcz5saP+A2WLgRmdjrn4UJHKhQ5VTcX5APpG8VT/e/j9ZKpFrZDI=
+X-Gm-Message-State: AOJu0YzYFsU62GWWMILiHojL0EN4nq89yFKyPVXXoT3wxY9ktjqhvnrm
+	lL33Jze2X6nGxz8m+8h0yufqYdksw9ajSGp3Z2a8/d2puLibDo55PQ498ZmH7g==
+X-Google-Smtp-Source: AGHT+IGG4uDv5A1Im5aEtkPraZjP1jqit8IkG6mPT5w+o0kvHdp78WkPTKabNTc/bYh7JTK+vQvnlQ==
+X-Received: by 2002:a17:902:f7cb:b0:1e0:157a:846c with SMTP id h11-20020a170902f7cb00b001e0157a846cmr3031022plw.55.1712273559198;
+        Thu, 04 Apr 2024 16:32:39 -0700 (PDT)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
+        by smtp.gmail.com with ESMTPSA id c5-20020a170902c1c500b001e2a4663179sm188177plc.258.2024.04.04.16.32.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 16:32:38 -0700 (PDT)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: hpa@zytor.com
+Cc: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	x86@kernel.org,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v7 0/7] VMware hypercalls enhancements
+Date: Thu,  4 Apr 2024 16:32:31 -0700
+Message-Id: <20240404233231.36294-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20240307212949.4166120-1-alexey.makhalov@broadcom.com>
+References: <20240307212949.4166120-1-alexey.makhalov@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404165404.3805498-1-surenb@google.com> <Zg7dmp5VJkm1nLRM@casper.infradead.org>
- <CAJuCfpHbTCwDERz+Hh+aLZzNdtSFKA+Q7sW-xzvmFmtyHCqROg@mail.gmail.com>
- <CAJuCfpHy5Xo76S7h9rEuA3cQ1pVqurL=wmtQ2cx9-xN1aa_C_A@mail.gmail.com>
- <Zg8qstJNfK07siNn@casper.infradead.org> <jb25mtkveqf63bv74jhynf6ncxmums5s37esveqsv52yurh4z7@5q55ttv34bia>
- <20240404154150.c25ba3a0b98023c8c1eff3a4@linux-foundation.org> <jpaw4hdd73ngt7mvtcdryqscivx6m2ic76ikfkcopceb47becp@vox5czt5bec3>
-In-Reply-To: <jpaw4hdd73ngt7mvtcdryqscivx6m2ic76ikfkcopceb47becp@vox5czt5bec3>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 4 Apr 2024 16:16:15 -0700
-Message-ID: <CAJuCfpF10COO2nh1nt3CcaZOFe4iSXszsup+a0qAEQ1ngyy5tQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: change inlined allocation helpers to account at
- the call site
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, joro@8bytes.org, 
-	will@kernel.org, trond.myklebust@hammerspace.com, anna@kernel.org, 
-	arnd@arndb.de, herbert@gondor.apana.org.au, davem@davemloft.net, 
-	jikos@kernel.org, benjamin.tissoires@redhat.com, tytso@mit.edu, jack@suse.com, 
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, jakub@cloudflare.com, 
-	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com, 
-	vbabka@suse.cz, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org, 
-	netdev@vger.kernel.org, linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 4, 2024 at 4:01=E2=80=AFPM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
->
-> On Thu, Apr 04, 2024 at 03:41:50PM -0700, Andrew Morton wrote:
-> > On Thu, 4 Apr 2024 18:38:39 -0400 Kent Overstreet <kent.overstreet@linu=
-x.dev> wrote:
-> >
-> > > On Thu, Apr 04, 2024 at 11:33:22PM +0100, Matthew Wilcox wrote:
-> > > > On Thu, Apr 04, 2024 at 03:17:43PM -0700, Suren Baghdasaryan wrote:
-> > > > > Ironically, checkpatch generates warnings for these type casts:
-> > > > >
-> > > > > WARNING: unnecessary cast may hide bugs, see
-> > > > > http://c-faq.com/malloc/mallocnocast.html
-> > > > > #425: FILE: include/linux/dma-fence-chain.h:90:
-> > > > > + ((struct dma_fence_chain *)kmalloc(sizeof(struct dma_fence_chai=
-n),
-> > > > > GFP_KERNEL))
-> > > > >
-> > > > > I guess I can safely ignore them in this case (since we cast to t=
-he
-> > > > > expected type)?
-> > > >
-> > > > I find ignoring checkpatch to be a solid move 99% of the time.
-> > > >
-> > > > I really don't like the codetags.  This is so much churn, and it co=
-uld
-> > > > all be avoided by just passing in _RET_IP_ or _THIS_IP_ depending o=
-n
-> > > > whether we wanted to profile this function or its caller.  vmalloc
-> > > > has done it this way since 2008 (OK, using __builtin_return_address=
-())
-> > > > and lockdep has used _THIS_IP_ / _RET_IP_ since 2006.
-> > >
-> > > Except you can't. We've been over this; using that approach for traci=
-ng
-> > > is one thing, using it for actual accounting isn't workable.
-> >
-> > I missed that.  There have been many emails.  Please remind us of the
-> > reasoning here.
->
-> I think it's on the other people claiming 'oh this would be so easy if
-> you just do it this other way' to put up some code - or at least more
-> than hot takes.
->
-> But, since you asked - one of the main goals of this patchset was to be
-> fast enough to run in production, and if you do it by return address
-> then you've added at minimum a hash table lookup to every allocate and
-> free; if you do that, running it in production is completely out of the
-> question.
->
-> Besides that - the issues with annotating and tracking the correct
-> callsite really don't go away, they just shift around a bit. It's true
-> that the return address approach would be easier initially, but that's
-> not all we're concerned with; we're concerned with making sure
-> allocations get accounted to the _correct_ callsite so that we're giving
-> numbers that you can trust, and by making things less explicit you make
-> that harder.
->
-> Additionally: the alloc_hooks() macro is for more than this. It's also
-> for more usable fault injection - remember every thread we have where
-> people are begging for every allocation to be __GFP_NOFAIL - "oh, error
-> paths are hard to test, let's just get rid of them" - never mind that
-> actually do have to have error paths - but _per callsite_ selectable
-> fault injection will actually make it practical to test memory error
-> paths.
->
-> And Kees working on stuff that'll make use of the alloc_hooks() macro
-> for segregating kmem_caches.
-
-Yeah, that pretty much summarizes it. Note that we don't have to make
-the conversions in this patch and accounting will still work but then
-all allocations from different callers will be accounted to the helper
-function and that's less useful than accounting at the call site.
-It's a sizable churn but the conversions are straight-forward and we
-do get accurate, performant and easy to use memory accounting.
-
->
-> This is all stuff that I've explained before; let's please dial back on
-> the whining - or I'll just bookmark this for next time...
+Peter, can you please review version 7 of "x86/vmware: Add TDX hypercall support" patch.
+It addresses the concern you had in previous version. Thanks.
 
