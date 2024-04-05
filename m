@@ -1,186 +1,119 @@
-Return-Path: <linux-input+bounces-2839-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2840-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F831899EC4
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 15:53:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B1D89A0C1
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 17:14:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5504A28510A
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 13:53:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6AA201F245B9
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 15:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A5A16D9D3;
-	Fri,  5 Apr 2024 13:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4616016F848;
+	Fri,  5 Apr 2024 15:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aYTVf2I+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NuAbHezG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F9F16D9C1
-	for <linux-input@vger.kernel.org>; Fri,  5 Apr 2024 13:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930B916F82E;
+	Fri,  5 Apr 2024 15:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712325203; cv=none; b=O7mEfU4nyXegPsTyynAmWSPAKJqLSP6Gk2Of1+jGpiN9bFV672B7ffFQvIUQTS5v9FLda7xhtMX5xkY7bsqTJvB0jFyRFdIClTazxI9pxZVOse02fxTSQTlLT5OkOhnqxCPBqffT/T+pnAlOOuhOmuuo+FHXLPpS3ouMAlQTIp4=
+	t=1712330065; cv=none; b=DRNMymWi9UeWVXOr78RntceBG9HTNk3gtdSPyPYtyC7jq2KiQEwQmGW0+hwagyCoxXKzI8VJsP+XI2mGgbPquvhfsBVHk/6BVjQo1ggFbt7q/54JI0Rtmx4zOMKE0++hHItrvXFe1azXw5eEQx2Y9fViWPZB88No6sb5Oj6D1NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712325203; c=relaxed/simple;
-	bh=0BksyQPOyLKGmYa0FEtepwJD1JDHx0EJaEKX0tpkO58=;
+	s=arc-20240116; t=1712330065; c=relaxed/simple;
+	bh=9D9DenBTVepGCiAnwWjmyy9NSqBU6RaDcI55bqc6d84=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ILNjJ+VlLB8IBKPqXxdy3PQKMuWqRYxyrztFyZcGjwLgApzUWdHFVCGTcRcr7E3T/jqTLSK3hHNe+nG/R0c6Z/o1l8DNEniFlda13Yu/vwfRYoxhCkL0f97aIrPyS4eHJFJ70sQqYGpIgqK8z6RjL+lIo4x4UZAX1KC4wLQqvuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aYTVf2I+; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcc80d6006aso2280295276.0
-        for <linux-input@vger.kernel.org>; Fri, 05 Apr 2024 06:53:21 -0700 (PDT)
+	 To:Cc:Content-Type; b=d4gLYdVGSkG/u7aF2PB4N+yNH3OGSS0eT7FLY1XJfj70xbegmvRuO5jtC5W1sssvyUKn2RUGrCKI7w8uUaD74oArMQY5jUfTmbfwSJAR4Y8O1OqN8m1AagXEP2d+g0xSc4FNPU/CAwUezKbbnvNEboxSxhWLoHHf8Jdw0FeB1mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NuAbHezG; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56c404da0ebso3482678a12.0;
+        Fri, 05 Apr 2024 08:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712325200; x=1712930000; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1712330062; x=1712934862; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lAHdE5NFk++ufix28SzhuwWBAI0pKipkj98VJiYe3GU=;
-        b=aYTVf2I+TyRnSSdH8+I/CVMYO1BJa7hB9/v01eKTU4OrNL9qd16Jg0wQfeflZu4I00
-         bJzKgnoYGjlF2wFjjjOIkrUvFIjP/gbka8Ca/nK2NNuY96Fo8i0pVlzBoXDg1TkGWJgh
-         e74bm5LQIwxwotdUhDKtFybHE4VYNE/OXkfP4r8mdYC/WVnYYO2zvp0is9rK/LvGlb1u
-         rNp+xyY2kEDgPEpFHmoCvWu4DRKLOea8E3f1pcxL98WGt6zjQX+gyOrqvrhhCb7mBZhQ
-         NliJCHdvq8o1zOgd+ypWl8ttBwBOiemAKjdJsQE5P4duBu286hd2IUmiV+Z3y72bJNxi
-         hYIA==
+        bh=qGKFgV43FD5U2mte5hGPJIMIz/YhsRwMZmsLfoC6f9I=;
+        b=NuAbHezGJSQs+GhQGccbNoskoQ05Ir03F+8fyUuZQ13zmgeDKNa0QxsJZZBTohFT0n
+         MBeQz0flgy1zyHnr7HIZxf/Pqln6WBWs/6FxyN2cRE6P6nPQUCXEYmt2+z97Gdqx/BKM
+         QZoi08WM9bnvyCV2Bj+4TbSVSaN9oeIGf8dn05q5AhdiPRUdLa/l7wjy9fUXsvkjmiGa
+         XZ53mQpPOU58bJN5t4xknilKOEAuoJWPpO68DsFtzAJC82MznKLJSQl+McvehXoMyJjj
+         o1rTVcSLZRoGcxF6+9CkoFFGpSOsKNwold+gf6WiFui+JVrh7SJb0elZJtQUj/nfgWei
+         eWHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712325200; x=1712930000;
+        d=1e100.net; s=20230601; t=1712330062; x=1712934862;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lAHdE5NFk++ufix28SzhuwWBAI0pKipkj98VJiYe3GU=;
-        b=vQmH1BrZHws/EmEUXCVnrLZPcp8ezGzLrRuwXlHWe6I49w1z9Ti85Minrv/Jr7g3qz
-         ae817HAYossxcVEvw2I5SYnocobfUEIFRmuPf9LPXRSTIMjeQ23HN4PqheDMHSuznqj6
-         cheau2NVvZTpwCim686P9YBuUAxCdubSrbS56B/Hm2lNsgOu+XGF5Cs7RpD91i48BoRk
-         qroTNxr2Q/DQiWkcrQGxOb/XCZ7RLwWqwcxdbmOIw3vfyiEt9I8PZvr+WQ5sdYuhDhX0
-         QVPj3/bv87/2K91qD0jvXwvh7BaLT7KgfxbG0xk1LSQumBYbDbTfXIiRRk9Y26/Lb8jG
-         NUuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUo4vMZ9IMnq42l03xhh++6y/rAUqdFIyAgZNTcyV0DD5FzFsNjOg5dd5tfN8QBSisSEG4cvbow2iPsKQb018OcrMT9bBSmeAbkIlk=
-X-Gm-Message-State: AOJu0YxSGZQJyy1pW/rnaEb5d3aTvE3hOynVh2ttImUDWAERT7YFuPRh
-	7JNIfI2NaIK6LpMQAmeGrRv1ruAOSiD9YKXXy+YSkf89I7f/+o9rFLgFSDSIZCEcuu0MBaEYfpE
-	hhsqK9xQstLaZcaj881fkSedsVukdOIwLwB/H
-X-Google-Smtp-Source: AGHT+IH/KRHN+9M5N1gYIB2bCPgMB25x0KPnvuKiHgvgSCGh43Ngn+0mkz51p67LhizDAcBL1UgazcYTNlxqGDPZP2o=
-X-Received: by 2002:a25:f454:0:b0:dcd:b624:3e55 with SMTP id
- p20-20020a25f454000000b00dcdb6243e55mr1115241ybe.54.1712325200128; Fri, 05
- Apr 2024 06:53:20 -0700 (PDT)
+        bh=qGKFgV43FD5U2mte5hGPJIMIz/YhsRwMZmsLfoC6f9I=;
+        b=BLbx5HnPLWunzatPX11RhsqDzO/gg/axJRILwx8sG0cUeCauet3P8HX8QCNhbtQL22
+         xBC6pTIhH7SqG2BuTuCcldG+OLmTWNec3XAPfBt8iSHTskrw91ZOdstSAj/+1Auwz8L1
+         4Pntz4Ypagm9x8I/m67fLN87vBvLnXYROeL4EIpZYkS2yVk2wRteEkDrmLx10V2/QJfF
+         J4bqswpVr0ezKNQ/r79ps5uBaRInOBptnW+1g4MeFeWO5Advpcin697t+7w3r9wRf6nw
+         CRg4vKTkYCSOw9RlgZF1R0/rZR0tSAFd/Bs9CvNb2Pp7TCKV/xgdYDSbIOWh3ehxt46a
+         7vKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnbCYZVinF9lDp6eyer+XFo/2jp5bPa8gTDEdfOqP5T8OAIzThbxWEZG7sHIPpl3Ryr4nmXW3OHVRF1qAoupBHoXKIgG/+2MZzTzKfdNpXyDYg4cIR+GvtM5wNc46TTYtNfew1GrkNfQAS/i38JyaP7QC3MeEp6GHSsZC61FjLIaLhxKuo
+X-Gm-Message-State: AOJu0Yznj8d0UNpUFCEmWb9T1KrQvUW7qPIW42Y0bggo1X6Pm6zrjo5H
+	vLTGgRTiVaSwIbcPI+SxCHTHVrciXRSyP/0SsLTWG/S9ICnzmztsQ3ygtb7vftnp495ukPs5yNg
+	YKPEDtUqZ8HT+0XuoRniobKBaFxQ=
+X-Google-Smtp-Source: AGHT+IF5lz7iBaNDwiKSZBytjKe8aT7ZrBPoZ/ExEFBBG7jmd0L3DU84p/NhC1TphTH+AMs0r6S2IzcuyVW6U7D4hQY=
+X-Received: by 2002:a17:907:ea3:b0:a51:adad:f5b2 with SMTP id
+ ho35-20020a1709070ea300b00a51adadf5b2mr1003886ejc.68.1712330061796; Fri, 05
+ Apr 2024 08:14:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404165404.3805498-1-surenb@google.com> <Zg7dmp5VJkm1nLRM@casper.infradead.org>
- <CAJuCfpHbTCwDERz+Hh+aLZzNdtSFKA+Q7sW-xzvmFmtyHCqROg@mail.gmail.com>
- <CAJuCfpHy5Xo76S7h9rEuA3cQ1pVqurL=wmtQ2cx9-xN1aa_C_A@mail.gmail.com>
- <Zg8qstJNfK07siNn@casper.infradead.org> <jb25mtkveqf63bv74jhynf6ncxmums5s37esveqsv52yurh4z7@5q55ttv34bia>
- <20240404154150.c25ba3a0b98023c8c1eff3a4@linux-foundation.org>
- <jpaw4hdd73ngt7mvtcdryqscivx6m2ic76ikfkcopceb47becp@vox5czt5bec3> <Zg_yHGKpw4HJHdpb@casper.infradead.org>
-In-Reply-To: <Zg_yHGKpw4HJHdpb@casper.infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 5 Apr 2024 06:53:09 -0700
-Message-ID: <CAJuCfpGMSHv7drSu7Veo5CVz3d_Upt8S6Rdx3isi7orct9-uNQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: change inlined allocation helpers to account at
- the call site
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	joro@8bytes.org, will@kernel.org, trond.myklebust@hammerspace.com, 
-	anna@kernel.org, arnd@arndb.de, herbert@gondor.apana.org.au, 
-	davem@davemloft.net, jikos@kernel.org, benjamin.tissoires@redhat.com, 
-	tytso@mit.edu, jack@suse.com, dennis@kernel.org, tj@kernel.org, cl@linux.com, 
-	jakub@cloudflare.com, penberg@kernel.org, rientjes@google.com, 
-	iamjoonsoo.kim@lge.com, vbabka@suse.cz, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org, 
-	netdev@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20240404222009.670685-1-andreas@kemnade.info> <20240404222009.670685-3-andreas@kemnade.info>
+In-Reply-To: <20240404222009.670685-3-andreas@kemnade.info>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 5 Apr 2024 18:13:45 +0300
+Message-ID: <CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de, hdegoede@redhat.com, 
+	ye.xingchen@zte.com.cn, p.puschmann@pironex.com, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	caleb.connolly@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 5, 2024 at 5:44=E2=80=AFAM Matthew Wilcox <willy@infradead.org>=
- wrote:
+On Fri, Apr 5, 2024 at 1:20=E2=80=AFAM Andreas Kemnade <andreas@kemnade.inf=
+o> wrote:
 >
-> On Thu, Apr 04, 2024 at 07:00:51PM -0400, Kent Overstreet wrote:
-> > On Thu, Apr 04, 2024 at 03:41:50PM -0700, Andrew Morton wrote:
-> > > On Thu, 4 Apr 2024 18:38:39 -0400 Kent Overstreet <kent.overstreet@li=
-nux.dev> wrote:
-> > >
-> > > > On Thu, Apr 04, 2024 at 11:33:22PM +0100, Matthew Wilcox wrote:
-> > > > > On Thu, Apr 04, 2024 at 03:17:43PM -0700, Suren Baghdasaryan wrot=
-e:
-> > > > > > Ironically, checkpatch generates warnings for these type casts:
-> > > > > >
-> > > > > > WARNING: unnecessary cast may hide bugs, see
-> > > > > > http://c-faq.com/malloc/mallocnocast.html
-> > > > > > #425: FILE: include/linux/dma-fence-chain.h:90:
-> > > > > > + ((struct dma_fence_chain *)kmalloc(sizeof(struct dma_fence_ch=
-ain),
-> > > > > > GFP_KERNEL))
-> > > > > >
-> > > > > > I guess I can safely ignore them in this case (since we cast to=
- the
-> > > > > > expected type)?
-> > > > >
-> > > > > I find ignoring checkpatch to be a solid move 99% of the time.
-> > > > >
-> > > > > I really don't like the codetags.  This is so much churn, and it =
-could
-> > > > > all be avoided by just passing in _RET_IP_ or _THIS_IP_ depending=
- on
-> > > > > whether we wanted to profile this function or its caller.  vmallo=
-c
-> > > > > has done it this way since 2008 (OK, using __builtin_return_addre=
-ss())
-> > > > > and lockdep has used _THIS_IP_ / _RET_IP_ since 2006.
-> > > >
-> > > > Except you can't. We've been over this; using that approach for tra=
-cing
-> > > > is one thing, using it for actual accounting isn't workable.
-> > >
-> > > I missed that.  There have been many emails.  Please remind us of the
-> > > reasoning here.
-> >
-> > I think it's on the other people claiming 'oh this would be so easy if
-> > you just do it this other way' to put up some code - or at least more
-> > than hot takes.
->
-> Well, /proc/vmallocinfo exists, and has existed since 2008, so this is
-> slightly more than a "hot take".
->
-> > But, since you asked - one of the main goals of this patchset was to be
-> > fast enough to run in production, and if you do it by return address
-> > then you've added at minimum a hash table lookup to every allocate and
-> > free; if you do that, running it in production is completely out of the
-> > question.
->
-> And yet vmalloc doesn't do that.
->
-> > Besides that - the issues with annotating and tracking the correct
-> > callsite really don't go away, they just shift around a bit. It's true
-> > that the return address approach would be easier initially, but that's
-> > not all we're concerned with; we're concerned with making sure
-> > allocations get accounted to the _correct_ callsite so that we're givin=
-g
-> > numbers that you can trust, and by making things less explicit you make
-> > that harder.
->
-> I'm not convinced that _THIS_IP_ is less precise than a codetag.  They
-> do essentially the same thing, except that codetags embed the source
-> location in the file while _THIS_IP_ requires a tool like faddr2line
-> to decode kernel_clone+0xc0/0x430 into a file + line number.
->
-> > This is all stuff that I've explained before; let's please dial back on
-> > the whining - or I'll just bookmark this for next time...
->
-> Please stop mischaracterising serious thoughtful criticism as whining.
-> I don't understand what value codetags bring over using _THIS_IP_ and
-> _RET_IP_ and you need to explain that.
+> As ft5426 seems to be compatible with this driver, add it.
+> Debug output during identification: Model "generic ft5x06 (79)", Rev. "
 
-The conceptual difference between codetag and _THIS_IP_/_RET_IP_ is
-that codetag injects counters at the call site, so you don't need to
-spend time finding the appropriate counter to operate on during
-allocation.
+...
+
+> @@ -1484,6 +1484,7 @@ static const struct of_device_id edt_ft5x06_of_matc=
+h[] =3D {
+>         { .compatible =3D "edt,edt-ft5206", .data =3D &edt_ft5x06_data },
+>         { .compatible =3D "edt,edt-ft5306", .data =3D &edt_ft5x06_data },
+>         { .compatible =3D "edt,edt-ft5406", .data =3D &edt_ft5x06_data },
+> +       { .compatible =3D "focaltech,ft5426", .data =3D &edt_ft5506_data =
+},
+
+Why a different vendor prefix?
+In case you need to use this one, keep the list sorted, currently this
+splits the edt,* ones.
+
+>         { .compatible =3D "edt,edt-ft5506", .data =3D &edt_ft5506_data },
+>         { .compatible =3D "evervision,ev-ft5726", .data =3D &edt_ft5506_d=
+ata },
+>         /* Note focaltech vendor prefix for compatibility with ft6236.c *=
+/
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
