@@ -1,158 +1,126 @@
-Return-Path: <linux-input+bounces-2833-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2834-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFD089984E
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 10:44:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DAC899892
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 10:53:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62A221F21EA4
-	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 08:44:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52D391C20EF6
+	for <lists+linux-input@lfdr.de>; Fri,  5 Apr 2024 08:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33FA214262B;
-	Fri,  5 Apr 2024 08:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5ED115FA79;
+	Fri,  5 Apr 2024 08:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tAqVdcaj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+xLWMXQk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tAqVdcaj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+xLWMXQk"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KH/O2kU4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C363DB97;
-	Fri,  5 Apr 2024 08:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9627615FA85
+	for <linux-input@vger.kernel.org>; Fri,  5 Apr 2024 08:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712306691; cv=none; b=KoPccRA6hdEKhfOlgOhGvGTzPalmpSrY4zSqAN51SUBEriRmJHbJAbkvVh9tHQoWwVdzd0/BXkz26NIo5MvAU7+rD1bMqK6J0O0h3RCgpQaH8Uhg8wavTIb42b5DHGSNFutAQuAECaVi9mzMp9jE0ZQL+1UaRIZSK/0Pleae0io=
+	t=1712307188; cv=none; b=rpGA+yxUnIYiTwtlclY0Q0x01UGsKZHznChMhqQ1zAlVyLLaWOFtd8+SYlj89O+OnbWYCLFbYCLogR/aMZ9SBvFj3Qq6vFvSHoFMJxYhhTgqk1Uu0act1MB7Q+EInY627vn5FM9sNCP2vi6ZjDZ1vxvnOj8jOptLMFUiBZBzvQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712306691; c=relaxed/simple;
-	bh=7YNRlrAcoyG/GgPjRSHx/EbzxzA7DFDQ3rI4N0VGfB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aib+mBonqRDU/3ziGsQJ7tF1dUaENh0FTXxnmMYVICTTp+ViKLjMG5DXNPhk9uFt8oWYkrCgHrvnIBGPvEeHAUD1yhLjw+Vd8IQt9cnZHtcxwGWw/Z6qeFrkwN8V8OBgt50l3iU2o4y+5glHBFLbe/UVQLiBxaF2lI1dQNiq0O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tAqVdcaj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+xLWMXQk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tAqVdcaj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+xLWMXQk; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8EF1421A24;
-	Fri,  5 Apr 2024 08:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712306687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i+O4AE3NAynzP6j5bH6pNrCGJTgFQPmATJfGRfm6Bqo=;
-	b=tAqVdcaj9srGaLf7j546xzWofOcBtByL1TDwjTFjZSiH+HIHb966txNiudG3KCli+1VLl9
-	7knPGWUAqdZiGuDSvApjZDgYlnvvhfUq1rHSOd4pgthAbNnkdC35ijOna9JtZrTBsfAqja
-	cFSnukJhCtqT6nCJJtpoEVYM69T7qOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712306687;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i+O4AE3NAynzP6j5bH6pNrCGJTgFQPmATJfGRfm6Bqo=;
-	b=+xLWMXQkKK8lVqtXG/C/NFrIWF2/HEzzVVwyzEgTs9N8/ZyebS6jw8umcAeutyDlC8CKLT
-	pIMJH6jcnJY4bPAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712306687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i+O4AE3NAynzP6j5bH6pNrCGJTgFQPmATJfGRfm6Bqo=;
-	b=tAqVdcaj9srGaLf7j546xzWofOcBtByL1TDwjTFjZSiH+HIHb966txNiudG3KCli+1VLl9
-	7knPGWUAqdZiGuDSvApjZDgYlnvvhfUq1rHSOd4pgthAbNnkdC35ijOna9JtZrTBsfAqja
-	cFSnukJhCtqT6nCJJtpoEVYM69T7qOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712306687;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i+O4AE3NAynzP6j5bH6pNrCGJTgFQPmATJfGRfm6Bqo=;
-	b=+xLWMXQkKK8lVqtXG/C/NFrIWF2/HEzzVVwyzEgTs9N8/ZyebS6jw8umcAeutyDlC8CKLT
-	pIMJH6jcnJY4bPAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 59763139E8;
-	Fri,  5 Apr 2024 08:44:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id b2QrFP+5D2bjSAAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Fri, 05 Apr 2024 08:44:47 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: psmouse: add NULL check to psmouse_from_serio()
-Date: Fri,  5 Apr 2024 10:44:46 +0200
-Message-ID: <20240405084448.15754-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1712307188; c=relaxed/simple;
+	bh=b58X/MIMUkzWJKfAi7xukhYyNxm3BVKa9wfMtsb3Sd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I0VWROAguo1q8jYmopDXK9IONlotJpnX/GpxhAypODYERfesmQ1swYZ4LQ14PY1vz7R3U35DYiReFLo2vh2OaGRQeNXryFBgbLObDepUmon6hJrNXwz9ytCzCfce4f3kahBl5ts5gRWTxR+RUxc2TleTI7KNypBPHaf3paavtGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KH/O2kU4; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=b58X
+	/MIMUkzWJKfAi7xukhYyNxm3BVKa9wfMtsb3Sd4=; b=KH/O2kU4AXBavxNzHugQ
+	Cr0XiXqp/GPDBSk990nWASPmI37jJSCyQb7Lmqf/oL1tdcIHRX8jcmo2vwR2Tob2
+	3MSo8HTQY7A27SYWA+SI/NfQ5pqpmi79n6McsjIcB3WFLNWrOIMRU9rOtunrND10
+	HWjAn9CXhCQ+B9a1mPUM02wRXvB9PLITUPY3IFp4RQdrilkojM5jzuhcnTiEv7VH
+	VYyQIaPUSbCJyxVg+Ps6gEY1GV7GeeCVXIVYwLifWiKRkws+ODNIdvmXrsiBWpB2
+	SNQ1HJX7xrINzXmGee9lezHXjMCnmDNUx7uK3emvEkF2ZwnnAUK7Pn+L+1Q5APd7
+	Jg==
+Received: (qmail 4047676 invoked from network); 5 Apr 2024 10:53:03 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2024 10:53:03 +0200
+X-UD-Smtp-Session: l3s3148p1@2SRllVUV0pYgAwDPXwEGAANOsN0UmmrN
+Date: Fri, 5 Apr 2024 10:53:02 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Russell King <linux@armlinux.org.uk>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@linaro.org>, 
+	James Clark <james.clark@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Vinod Koul <vkoul@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Michal Simek <michal.simek@amd.com>, 
+	Eric Auger <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, 
+	linux-kernel@vger.kernel.org, coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-input@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 14/19] i2c: nomadik: drop owner assignment
+Message-ID: <fgcn3ly4qk726eqv3lleqbrg7odgyklkyd6d7wmpyl73bbt5ir@tjui6nsxrlgk>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Russell King <linux@armlinux.org.uk>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@linaro.org>, 
+	James Clark <james.clark@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Vinod Koul <vkoul@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Michal Simek <michal.simek@amd.com>, 
+	Eric Auger <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, 
+	linux-kernel@vger.kernel.org, coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-input@vger.kernel.org, kvm@vger.kernel.org
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+ <20240326-module-owner-amba-v1-14-4517b091385b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: 0.20
-X-Spam-Level: 
-X-Spamd-Result: default: False [0.20 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.00)[21.76%];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="honofbm32v4z4vxk"
+Content-Disposition: inline
+In-Reply-To: <20240326-module-owner-amba-v1-14-4517b091385b@linaro.org>
 
-The serio drvdata can be still NULL while the PS/2 interrupt is
-processed.  This leaded to crash with a NULL dereference Oops, as
-psmouse_from_serio() blindly assumes the non-NULL ps2dev object.
 
-Add a NULL check and return NULL from psmouse_from_serio().  The
-returned NULL is handled properly in the caller side, skipping the
-rest gracefully.
+--honofbm32v4z4vxk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The log in the bugzilla entry showed that the probe of synaptics
-driver succeeded after that point.  So this is a stop-gap solution.
+On Tue, Mar 26, 2024 at 09:23:44PM +0100, Krzysztof Kozlowski wrote:
+> Amba bus core already sets owner, so driver does not need to.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
 
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1219522
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
- drivers/input/mouse/psmouse-base.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index a0aac76b1e41..fdeee7578d18 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -120,6 +120,8 @@ struct psmouse *psmouse_from_serio(struct serio *serio)
- {
- 	struct ps2dev *ps2dev = serio_get_drvdata(serio);
- 
-+	if (!ps2dev)
-+		return NULL;
- 	return container_of(ps2dev, struct psmouse, ps2dev);
- }
- 
--- 
-2.43.0
+--honofbm32v4z4vxk
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYPu+4ACgkQFA3kzBSg
+KbY+PhAAmNuSoACChosjYi33qGWzyeoBhz9tLue2x0d13airycgFlY6FyFx1aY+/
+NadTECwyu8TNhXdRAYk/Y1sTo9S+MezhsboJhiL8+5hiOBEZHXt7U5+8k/Pkg499
+9QHeM8PaeBfpoodRPGG7UCxHkjENntyyR4OV1X5eWgGheKFtzw6F2NwEMqTdus5H
+yGju+VYEMeH97wXMkPRPmqIAUfG140PY+fTfOInco1my/ejprCYy+OJdL+uMDBlG
+3MSIMIrLahtlKK6tkhnA9MdGaC3J4v5bzpo7lgDwM6qPcOHY6ftTfz726DpdI68w
+JLoRj/Ne4xKX4Munav7MMDCPGWaSY3fQ6F1xtzq+EdfVQHnSIxpuhH/zvpj7LDEz
+l+yVUvhjs41B3d8QkXmFp0ByjxaiIdO5EAkraw/OguBo6kv3N0TgEG1BZTdVa5+Q
+UfSRHLLAXCksCuADcBcHaRGXp3dlJB2Ywba2iCYBOeBD2DefxfHGcEurJyY3mp1h
+i+RlMmzHBKEoT5/nYkhzVZyQ8cosiJoL0LeK11p10xoexmDJzd7W8oshLhEDaB2L
+5zXqlT0JmawXt/SmDjByPFelFQPhEtWkIo/D65i4EBb0DnglGQSc4frb9FBiVP5U
+vPwuPyzkXVvObtEfHT2TL6wUD2IVZWJv4tCMQel7J/DK7WEJLjM=
+=o9jg
+-----END PGP SIGNATURE-----
+
+--honofbm32v4z4vxk--
 
