@@ -1,161 +1,83 @@
-Return-Path: <linux-input+bounces-2856-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2857-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C28689C6D1
-	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 16:20:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5E189C74E
+	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 16:44:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97E3E1F23196
-	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 14:20:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF3041C216B6
+	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 14:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A136712DD97;
-	Mon,  8 Apr 2024 14:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YuAljUOw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F9C13E414;
+	Mon,  8 Apr 2024 14:44:21 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F54912BEA0;
-	Mon,  8 Apr 2024 14:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AAF13E8A5;
+	Mon,  8 Apr 2024 14:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712585947; cv=none; b=TPgrV0ujlvEYoG3oqg+ZzPvE0WEAj/zSAq4eCTqCOXyCIL7HSbg9ICtRnK31/vF/SlTZJZllGkiYh5mrSUaNVbTNFDLXLbVMzMW6rVqa3ns2+vPzMGBAR/tRxky2KOFSR+bnIHNoej7VTB9Af8Xen70QFAix0WxWIZZSxw+L7Ow=
+	t=1712587461; cv=none; b=e1mJgZtbPrL8eViclofde9jKDNhXTGv3dF3NU/ZKrNtfRNZs5SWjWVz+n6zImktJFiqS6ZBJBEXHBs2fw9E0+GMkKEeZWVWgzi2l6go9Oi4G2I8xp1mC33ib/6XitB6kRIzIp4Fw/5WvsnMUIM2Y9pGIVyyCi6nVKRtVaYUtkZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712585947; c=relaxed/simple;
-	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LeIP1ZqvXdyUa/hZ7Do6hmea6oYfk45uRxEGl2DzWCH6bE2/aoBcsZMqICV4PbPOIIt/zF1EcOvsAJBKL5iiDn3J2T7HweO4YOkW9Y4A03aTB3U+84vm2KXGM/Kw9GLPk1ZF9udv/SpoBV8LYikec5YsOxV2euXrkf2WKdVXLPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YuAljUOw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB69EC41606;
-	Mon,  8 Apr 2024 14:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712585947;
-	bh=fCohwsfER8OLWfZl6LReGaQxXONj5RyinO1IgQBzs1s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YuAljUOw0VGTL6reKBytSgl0plRNv+TSjZRfD3ZKuqxOSYkzoXC5WrRi5cw+S+B+M
-	 D4nwox90lYEDvOC2kltYpVUw1dnHyUlGf0Vz9gQ+VSZQ6UY2PlnOXYtJXUxFO+DpNk
-	 45njopcwprSMB+gVFh0LkX6VN8kgR0mIB2295lbbV+KLETQgy8jgbddtYnqL+2OrFg
-	 vSHyTr4CwHU1Vo0rTAX5E99YyX7sNSwK1JC6glkOPrGKg9aBLjrx4igbUnczVMBXk5
-	 xW34dqGA0uX7ktND0DNuPaGnARMfTcEH0+2d19P/OCslQK+OlaTFr1JQ1fC4J87VDd
-	 UWSr4GruMWPXA==
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3be110bbff9so30077b6e.1;
-        Mon, 08 Apr 2024 07:19:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUWnu19PPY0u4kVmxIIQh3V/SM/BPfg0qTlHd1e4rM20PCoEN6dfWSHMDK8e2k4suvScCIAZ2gxzPYvL00HDQbYYniFMCi+YZzr5KKFTBRBzKr3m7itiKFRsotpYNLKXDVyDkcrMitWV3yS7MWyPxKMAT6ivqJgEqnY5RsSoEGzVdvj0BoSh37BKItReZWQnkC/AnFZnd0+eAZw7xASmwZnWtCH7WAvQebyD7Y/y9ASjzzIPlt/a9ipogHQXjuUVs+42A==
-X-Gm-Message-State: AOJu0Yy7ko1dqw+gs0xHuZ66keowJ/N5dPEWaommk6GVa95Bv3HM8fo3
-	feKxrZaqn9+YfMoJg740mOp+qLNWfnO9JlqRiUdqGqSJ4Nnamf4Vr/eVOiTfuC1vIpaeU+gM05A
-	+hJolD3LO6W7d/ZTTa1YcsN0opoo=
-X-Google-Smtp-Source: AGHT+IE2cd5MIHpLilsMOefxnD7lqhVeZau5m81/yoSXqMyOs4mTHwzl+84AR6mEi+xDVYbCBwtZjPGYOY8LlCssj9M=
-X-Received: by 2002:a05:6808:138e:b0:3c5:eab3:657 with SMTP id
- c14-20020a056808138e00b003c5eab30657mr5718403oiw.4.1712585945878; Mon, 08 Apr
- 2024 07:19:05 -0700 (PDT)
+	s=arc-20240116; t=1712587461; c=relaxed/simple;
+	bh=wdCqeWCNPqMNXMoEct0ohidFtAQJvY01dRzjjqnSPJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pp6eOr3Ow6HSrlHTSAZY0BHlIFiG/hgQgW+uZr6i8CVqGj4+GvqlHoyghDWm5DZ4yUMEQpQ2UWfo7zwnuriW0SQBndCUSEoCWaBTejdwNr+8/IMKPkaJqOeAHl/gB1l33tqfLwsp+I0KE3Bvdsva+PaKXW1WHSMLAJAZK7CjhsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 9C2CA1014A8;
+	Mon,  8 Apr 2024 14:44:08 +0000 (UTC)
+Message-ID: <07848795-14e3-4020-9e60-e3221ff6ef80@enpas.org>
+Date: Mon, 8 Apr 2024 16:44:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-In-Reply-To: <20240328-b4-module-owner-acpi-v2-0-1e5552c2c69f@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 8 Apr 2024 16:18:54 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
-Message-ID: <CAJZ5v0jd7FegkcnJyDn61uBEdGRKHWoaQ8SKJE+JX18W0QHh1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/19] ACPI: store owner from modules with acpi_bus_register_driver()
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Corentin Chary <corentin.chary@gmail.com>, 
-	"Luke D. Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Matan Ziv-Av <matan@svgalib.org>, Mattia Dongili <malattia@linux.it>, 
-	Azael Avalos <coproscefalo@gmail.com>, Ajay Kaher <akaher@vmware.com>, 
-	Alexey Makhalov <amakhalov@vmware.com>, VMware PV-Drivers Reviewers <pv-drivers@vmware.com>, 
-	Richard Cochran <richardcochran@gmail.com>, "Theodore Ts'o" <tytso@mit.edu>, 
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-input@vger.kernel.org, 
-	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] HID: playstation: DS4: Don't fail on calibration
+ data request
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, Jiri Kosina <jikos@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Roderick Colenbrander <roderick.colenbrander@sony.com>
+References: <d0e5bb97-3e18-44ac-89b0-503cfe16417f@moroto.mountain>
+From: Max Staudt <max@enpas.org>
+In-Reply-To: <d0e5bb97-3e18-44ac-89b0-503cfe16417f@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 28, 2024 at 8:49=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Changes in v2:
-> - Correct input and platform/chrome subjects.
-> - Add acks.
-> - Link to v1: https://lore.kernel.org/r/20240327-b4-module-owner-acpi-v1-=
-0-725241a2d224@linaro.org
->
-> Merging
-> =3D=3D=3D=3D=3D=3D=3D
-> All further patches depend on the first amba patch, therefore one way is
-> to ack and take it via one tree, e.g. ACPI.
->
-> Description
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Modules registering driver with acpi_bus_register_driver() often forget t=
-o
-> set .owner field.
->
-> Solve the problem by moving this task away from the drivers to the core
-> amba bus code, just like we did for platform_driver in commit
-> 9447057eaff8 ("platform_device: use a macro instead of
-> platform_driver_register").
->
-> Best regards,
-> Krzysztof
->
-> ---
-> Krzysztof Kozlowski (19):
->       ACPI: store owner from modules with acpi_bus_register_driver()
->       Input: atlas - drop owner assignment
->       net: fjes: drop owner assignment
->       platform/chrome: wilco_ec: drop owner assignment
->       platform: asus-laptop: drop owner assignment
->       platform: classmate-laptop: drop owner assignment
->       platform/x86/dell: drop owner assignment
->       platform/x86/eeepc: drop owner assignment
->       platform/x86/intel/rst: drop owner assignment
->       platform/x86/intel/smartconnect: drop owner assignment
->       platform/x86/lg-laptop: drop owner assignment
->       platform/x86/sony-laptop: drop owner assignment
->       platform/x86/toshiba_acpi: drop owner assignment
->       platform/x86/toshiba_bluetooth: drop owner assignment
->       platform/x86/toshiba_haps: drop owner assignment
->       platform/x86/wireless-hotkey: drop owner assignment
->       ptp: vmw: drop owner assignment
->       virt: vmgenid: drop owner assignment
->       ACPI: drop redundant owner from acpi_driver
->
->  drivers/acpi/bus.c                        | 9 +++++----
->  drivers/input/misc/atlas_btns.c           | 1 -
->  drivers/net/fjes/fjes_main.c              | 1 -
->  drivers/platform/chrome/wilco_ec/event.c  | 1 -
->  drivers/platform/x86/asus-laptop.c        | 1 -
->  drivers/platform/x86/classmate-laptop.c   | 5 -----
->  drivers/platform/x86/dell/dell-rbtn.c     | 1 -
->  drivers/platform/x86/eeepc-laptop.c       | 1 -
->  drivers/platform/x86/intel/rst.c          | 1 -
->  drivers/platform/x86/intel/smartconnect.c | 1 -
->  drivers/platform/x86/lg-laptop.c          | 1 -
->  drivers/platform/x86/sony-laptop.c        | 2 --
->  drivers/platform/x86/toshiba_acpi.c       | 1 -
->  drivers/platform/x86/toshiba_bluetooth.c  | 1 -
->  drivers/platform/x86/toshiba_haps.c       | 1 -
->  drivers/platform/x86/wireless-hotkey.c    | 1 -
->  drivers/ptp/ptp_vmw.c                     | 1 -
->  drivers/virt/vmgenid.c                    | 1 -
->  include/acpi/acpi_bus.h                   | 8 ++++++--
->  19 files changed, 11 insertions(+), 28 deletions(-)
-> ---
+On 4/8/24 09:41, Dan Carpenter wrote:
+> Hello Max Staudt,
+> 
+> Commit a48a7cd85f55 ("HID: playstation: DS4: Don't fail on
+> calibration data request") from Feb 8, 2024 (linux-next), leads to
+> the following Smatch static checker warning:
+> 
+> drivers/hid/hid-playstation.c:1904 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_x_minus'.
+> drivers/hid/hid-playstation.c:1904 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_x_plus'.
+> drivers/hid/hid-playstation.c:1910 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_y_minus'.
+> drivers/hid/hid-playstation.c:1910 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_y_plus'.
+> drivers/hid/hid-playstation.c:1916 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_z_minus'.
+> drivers/hid/hid-playstation.c:1916 dualshock4_get_calibration_data() error: uninitialized symbol 'acc_z_plus'.
 
-Whole series applied as 6.10 material, thanks!
+
+Hi Dan, Jiri,
+
+Thanks for the report!
+
+
+Jiri, if you prefer to do so, please feel free to stop/revert this patch for now, and I'll send a better one soon.
+
+The label "no_buffer_tail_check" was meant to jump straight to the sanity checks in order to have them write the fallback calibration values. But I missed that the part in between the two sanity checks can actually make the second sanity check pass with bogus values - as shown by Dan's check.
+
+
+Max
+
 
