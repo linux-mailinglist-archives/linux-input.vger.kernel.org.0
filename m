@@ -1,111 +1,115 @@
-Return-Path: <linux-input+bounces-2867-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2868-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDB989CDCD
-	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 23:48:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E60D689CEF1
+	for <lists+linux-input@lfdr.de>; Tue,  9 Apr 2024 01:31:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ACAE1F224C6
-	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 21:48:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 258B81C23BA5
+	for <lists+linux-input@lfdr.de>; Mon,  8 Apr 2024 23:31:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3380147C60;
-	Mon,  8 Apr 2024 21:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC5B146000;
+	Mon,  8 Apr 2024 23:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="LIQRiZQY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZkvfDXP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1878D11725;
-	Mon,  8 Apr 2024 21:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F528171B0;
+	Mon,  8 Apr 2024 23:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712612877; cv=none; b=BeCaecC4+9+wwSU9dz57DETbX7/7NppxvWU8wFlwfdAc7lhw/Mbq3x4YxNnvxz99wEM+32n+knt5DKE85MNzVPSLQ8pzbumNqSwciScpI8Ey8OhysRUk3P3HSnv6yFuEe/xH8URopSiX6TaYB6ApNqTU+eqV3GNGRTtZLfZjh4I=
+	t=1712619101; cv=none; b=tKAV1iQhoSnlutpyvPb1YOHpyVyhSebl4evtv+YMmRw393oKUO9T4e6XDuj2FCE4YA8Prwv/KS+VoLIfXUhbcPff5+BCCCE5w7/r0Sq6zbYOcaO7o8fN/sbVooK3MvZrJ9O8hfMqyGIdAaXXBnv5k2e//nIySEcZw7vudAgLMB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712612877; c=relaxed/simple;
-	bh=KsMcGgnYpOkBnyUVNH0sXZj0vS5Ooyn1csyDsVRybZg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Cc:Subject:
-	 References:In-Reply-To; b=Hu9dzJT2HmZNQe3sws7f4Jgd15Vwr3SAJiZPA/fhfxDdzJssEopJrq0aaKPrJIp1L+tyG4Tru0U7qDjMhNQCw6OdaRimYhuFQm1zmlXkvrFDTBrzBDZt1vgE47TjoclRvSrl5oKMi01iTRKCzl/F08GZT3lSerEt504IlzcOnkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=LIQRiZQY; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1712612844; x=1713912844;
-	bh=KsMcGgnYpOkBnyUVNH0sXZj0vS5Ooyn1csyDsVRybZg=; h=From;
-	b=LIQRiZQY0V2qO9N/8l1U9ZH3YsE1FtxdEFFxBB+2O4pWV5kO2uHc6bSAxnrPNroif
-	 k59n0J/+wulO+vjI51EpT3khxRxabkY346yeJpUI4w+fnVAyMD39mI99y/BOneXzKN
-	 GWDhC+6mUmAhOeqFthzrnLcCJhekvRe/f99egXlxwqN7dzKcfwTDYdKe23g4s7iB6J
-	 yR9E8qK8vEj2HZOiIpDS1iIjD1AWWDtarS8h7AEeoFgWLNfhMq3rQXs534WYk9Mc5i
-	 1X1ttT7YYFLk3p4VdR4TVPhDx0iuZBuqOeqV76LZCMuAFTSTX2q+lGxFb1yx92s8yg
-	 G+Vw1e8GTg9zQ==
-Received: from localhost (koleje-wifi-0017.koleje.cuni.cz [78.128.191.17])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 438LlN06005664
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Mon, 8 Apr 2024 23:47:24 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
+	s=arc-20240116; t=1712619101; c=relaxed/simple;
+	bh=Lf20BAMJDntTSPzEumiirtwvbuJ/TuNDUyWB6WEUaSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBNlUsN+JWls0JFLzlBBkX1P2Eja6b/ah0MgkYRml/rx1oCglJXY2KuIeAqM0lkTtc3zK1+tdQL7eqrRZmxBHqKWSHYsQrx/fyAB2pijQ0CQonDqckkUqmg+cCRzjXms5FFEKb8psuEBVqb37m0+3DoA7Pq1NcHmDiTzOdNv7tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZkvfDXP; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e2232e30f4so44333855ad.2;
+        Mon, 08 Apr 2024 16:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712619100; x=1713223900; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZzTpKViV2Dcm/KyMkuaFPP0/U/kgyCGskJ3yYQuoi34=;
+        b=DZkvfDXPv8GMGFHfnBtrdkqye0Zlh3e32nd/YYbFPkvEDotN6qBWDYWxGx2oHAx7ct
+         mI9Q+8hy4sFc5KjztOv9GXNWRjttyf2g//E8OsD/Xj3qFpmDfnHoWbLxIIueyB6k9Pj9
+         Z29lMSjEoZzwxIWORjl1BRGoe7Q9KiXfqRSJjvyByiVNMDKQQL0QuAk56IuMW9tW8Coq
+         +Om7lu+22tQvxR+xSyUhgdqaiwDkT5U/RE+o/tKzBFKNhYGg+Vp1dHivd0LpOl/ihv5B
+         UGz8Kxbb4TIhPf1didhscLG5v9IRP0V0vz4tA6Dfmjomch4cl3rmEYBToW9lcHxpvViN
+         KUHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712619100; x=1713223900;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZzTpKViV2Dcm/KyMkuaFPP0/U/kgyCGskJ3yYQuoi34=;
+        b=dMlhH5tSqXDKvReOYj+UrVoTfRoEZXDnOK89gWxi5TV9esvAcYZjJbQQaFF+tMd4ew
+         NJlXewIW+jKmFRjPyy+Th58LG0nyEcF74OidVKEZUlpNG5MtiMwQxVT7iaEPhHDK6sMD
+         K/AeS/ZijzxwGZvVqhOoc5PcTZdoAISGGncKX3R4snZSYZisnHPpel1uDpV65AZZTIp9
+         xMga5Q9EcY4d38hNLgnTlh7EDBsODuXTVrT5v2LFpuXoxhs5Q6k5ytt98bFc2jwjMYFo
+         Bh6UyTJxdewlH/2Tx70u8+O/2cjbJ//1KYuIeGJtVYjqcurDojdqa4pnfy4l1jCVIId5
+         CATg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtTtLm2uUO/b3OqZOyT51jzthHom30Qxxf2OrZTBH1umCsH1mJs1KTpmpI+fIuX/SK3aQ/pA/nAxt+BhTEC4PKfmTc71BOsZLJ6THpjgdZ7Qd6f1WpOPkBVGHl3wycInrpdZ+C9vLY+MMREM2TxnFxkiuuX+aP1DdsXwS8lT3wIjf6/Bs8768wzPXzpoYy
+X-Gm-Message-State: AOJu0Yw8eTxdpcCsfrW5bYxb0MidPyEH6zrspYWgUDCo92DGtV0WorZd
+	c9GmpaiSPJXkQcaF48V4LN0gfeaP7sXaOnSa7jDHOg71igWCinrq
+X-Google-Smtp-Source: AGHT+IFS3F36fsetJvUPZpbat4+TSuZ7yDpgMTewKajtRAYjXpPSRT5ZA67Q5InVAxnXRnhV/VFnHw==
+X-Received: by 2002:a17:902:c946:b0:1e4:24bc:48e with SMTP id i6-20020a170902c94600b001e424bc048emr4222078pla.22.1712619099622;
+        Mon, 08 Apr 2024 16:31:39 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a480:1072:3aaf:99a0])
+        by smtp.gmail.com with ESMTPSA id jj20-20020a170903049400b001dee9d80bdcsm7569687plb.107.2024.04.08.16.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 16:31:39 -0700 (PDT)
+Date: Mon, 8 Apr 2024 16:31:36 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, hmh@hmh.eng.br,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, njoshi1@lenovo.com,
+	vsankar@lenovo.com, peter.hutterer@redhat.com
+Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug
+ info keycodes
+Message-ID: <ZhR-WPx7dgKxziMb@google.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
+ <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Apr 2024 23:47:57 +0200
-Message-Id: <D0F2LIG40N4N.100NU783PULAH@matfyz.cz>
-To: "Sasha Levin" <sashal@kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-Cc: "Markuss Broks" <markuss.broks@gmail.com>,
-        "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <duje.mihanovic@skole.hr>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: Re: [PATCH AUTOSEL 6.8 78/98] input/touchscreen: imagis: add
- support for IST3032C
-References: <20240329123919.3087149-1-sashal@kernel.org>
- <20240329123919.3087149-78-sashal@kernel.org>
- <D06ZCKKYTQM5.3OJ6HCLHW3DZ9@matfyz.cz> <ZhMw3fwiSrbw9r6P@sashalap>
-In-Reply-To: <ZhMw3fwiSrbw9r6P@sashalap>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
 
-Sasha Levin, 2024-04-07T19:48:45-04:00:
-[...]
-> >sorry if I'm missing something, but I don't see why this should be
-> >backported: it doesn't fix anything, it's just adding support for new
-> >hardware.
-> >
-> >I can see that adding a device ID is permitted for -stable [1], but I
-> >thought it still has to bear some signs of a fix, such as maybe here
-> >[2].
->
-> It does not need to be a fix, it could just be plain device enablement.
+Hi Mark,
 
-OK, thank you, although I'm afraid I still don't follow the rationale
-behind this, except maybe for some really trivial additions which do not
-require any other changes.
+On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
+> Add support for new input events on Lenovo laptops that need exporting to
+> user space.
+> 
+> Lenovo trackpoints are adding the ability to generate a doubletap event.
+> Add a new keycode to allow this to be used by userspace.
 
-I was also initially having a hard time understanding what your email
-means -- I found no mention of AUTOSEL in the Documentation and was
-unsure whether this is already the review cycle or not. Only later I
-came across this article [1] which confirmed some of my suspicions and
-made things slightly clearer.
+What is the intended meaning of this keycode? How does it differ from
+the driver sending BTN_LEFT press/release twice?
+> 
+> Lenovo support is using FN+N with Windows to collect needed details for
+> support cases. Add a keycode so that we'll be able to provide similar
+> support on Linux.
 
-If I were to add a few words to briefly mention AUTOSEL to the
-stable-kernel-rules document according to my current understanding,
-would you take such patch?
+Is there a userspace consumer for this?
 
-Alternatively, I suggest adding some sort of brief
-description/explanation to these patches as is the case for patches from
-the review cycle.
+Thanks.
 
-[1] https://lwn.net/Articles/825536/
-
-Best regards,
-K. B.
+-- 
+Dmitry
 
