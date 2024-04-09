@@ -1,143 +1,127 @@
-Return-Path: <linux-input+bounces-2869-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2870-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3168589CF1E
-	for <lists+linux-input@lfdr.de>; Tue,  9 Apr 2024 02:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4199B89D1E1
+	for <lists+linux-input@lfdr.de>; Tue,  9 Apr 2024 07:24:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1B271F22D29
-	for <lists+linux-input@lfdr.de>; Tue,  9 Apr 2024 00:00:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 443CD1F25292
+	for <lists+linux-input@lfdr.de>; Tue,  9 Apr 2024 05:24:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3B9134CE3;
-	Tue,  9 Apr 2024 00:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86DC157334;
+	Tue,  9 Apr 2024 05:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="onb6kH+/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hx8VlIy2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E2ekprTL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079476FCC;
-	Tue,  9 Apr 2024 00:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ED2433BC
+	for <linux-input@vger.kernel.org>; Tue,  9 Apr 2024 05:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712620832; cv=none; b=pCki/npEAs3cQeDe3ys4qQud0RcU4qpk0FmdYXXQL7Uw47cp96TTRNwv5tEJTSe2cgoBPWbotRzOVFddYJu4hE5TCWzAjwBawNrvpS9pfsTtbd/eI2uKqUjSF5rcxo5JqaoS8bpLxhW2xWkGvdhZA4nRpMwkP7qiFoSq7FU08BY=
+	t=1712640250; cv=none; b=dw7/AnJG2W3xAJEtSxzyi5GVcUQkp5Dvdurw9YegcwjeR+qtxKnfDK/lA1VREkBBS1OVcOaX+iJB3OPUd3A8IYh7NDRrarA+WksoRohegWgnqAVDFrba30PjInp3rD14GXGP05JhLd/xmGovJUnP0b5sRwk2a19uIS8tnwkTDKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712620832; c=relaxed/simple;
-	bh=YLbAEexYffOfuWNkm4tRuuW0cy32tPBJSJ56rXHioTc=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=U+3ypuC0QY1h7V7OCxbz++S3F+GbpItdV45Gc/2ppRjhMnfIbE4ssq5/gGamNJievyuqryJIk+I5gVJZVMO6AHCy8nICTK5jhfH3C/gSds2ehNltW1jfZXtzMMGoXWiF/cp02r2b/d2EQZroVwoTQGSGcedLjXb7w4ZPW1WuuEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=onb6kH+/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hx8VlIy2; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id F295C114012F;
-	Mon,  8 Apr 2024 20:00:28 -0400 (EDT)
-Received: from imap52 ([10.202.2.102])
-  by compute3.internal (MEProxy); Mon, 08 Apr 2024 20:00:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1712620828; x=1712707228; bh=3jJTrn3M9P
-	nPBPpdaXwd3Dwyudp0ERNih8NQ9xLiPv0=; b=onb6kH+/eoNGbV/QZHdUzkd+ZE
-	7b92FM70Gc8HQOO5KN5/wQt8UVCF3TR7lGWPPBPzrlslu12hH27T0Kke/uQCNmOO
-	C80pO6G6ag0ouBlWv2PFBT6b3QaiCYAk2sJrILENZn85+ndrpyXaHAb7iJESkk+W
-	Mlg5hSsRwMYPBpXJNEiVCocogyFj0hJTfBremmT82x23pZMHwjZtIl8FaogA4fWI
-	phgkC8P/jnH4wGCGbtEUSHQ8GIhVPVIFfYJWHjUdv7mJpr1RWUAgEfc636ueGfqu
-	3H7yjp5J7+9WtrFK1Gypdi2yEN4DlzXivFjDHded2YAWubyuYqZ49/sAz/lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712620828; x=1712707228; bh=3jJTrn3M9PnPBPpdaXwd3Dwyudp0
-	ERNih8NQ9xLiPv0=; b=hx8VlIy2mYvNIWumG6XMu+XCDCrmaqTjFNO3ItLMYlH4
-	XhNzNJHaUGwIXQAczHTbvR6SMcBuoiWvsdqJ6X321w5jmxodYaoVlLD/SiTTgW4l
-	l7EwrN/S8KtAA2D6GamAS5HZR56ZbeJgjkXipOKL+MKrn1E3o84oqiOsL86Ibah5
-	nRdozI2+YMOHLObElsE+AOU8rL+r0Zww02w41mHXmDlTowUaq4+NchDbRZBXTSJ0
-	1OcRUXyr5WoKSQosBm3+5uhgdNTEaazocOF++e2zNmqRIxFXFcn8dGY4X5/QWgfz
-	yYkSDwXov70TIRT6AGunumJJGsrMwc2A5o5iWV2Gxg==
-X-ME-Sender: <xms:HIUUZmYKrqfu5if1nxPNdDOv8wW5Cp7Qx57uv0FJ6kl3zkke0s6czQ>
-    <xme:HIUUZpYtcBRddWDF_3c5pEgrTQ44w56sh2kkrcRBnWxqiNU8V6j8SeYhMvKXeCC0O
-    knx9i2JCfSPS1qri_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegkedgtdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfofgr
-    rhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssg
-    drtggrqeenucggtffrrghtthgvrhhnpeeiueefjeeiveetuddvkeetfeeltdevffevudeh
-    ffefjedufedvieejgedugeekhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggr
-X-ME-Proxy: <xmx:HIUUZg-FYI6_bB9Dkfd5Y-zkDTzr26pyv5cki8FoZWxZoaSlbSutqA>
-    <xmx:HIUUZoqNW0dzoT03O4jV4AzABptbAQP8wjtzoD_YIc0ep72NybdItA>
-    <xmx:HIUUZhoEoQa6gSgnE9Ade_-W6tRH7gMTP9gaxnCGGuVQQStyNLUCHA>
-    <xmx:HIUUZmS3HFEwfiodwz5E_bMWdXaAzAyshL2UNJhyT0kkaUf9ZahNbw>
-    <xmx:HIUUZujQGB0JJwgtnhiysPEdZVXZWRZHrlba0fAFZ-stgnDaZrZQdD4Z>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 4842EC60097; Mon,  8 Apr 2024 20:00:28 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-368-gc733b1d8df-fm-20240402.001-gc733b1d8
+	s=arc-20240116; t=1712640250; c=relaxed/simple;
+	bh=2yzdMPsQjZBKbu2RsG7bppQbPga9w4g4BiLWfpVbzx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mIvr8KxXFuPac1p41qnjPoOBcAPh5jCHqW0Ko3DdyLgy76nNpDHL4TogW5kCDzTXg0YY1GhG2+HBqGWgMIA393DLvizzxmx0GR4+rahFe53/jGHpJ8rgXZ53/B1lrLfloEKWBYwlZdDE7OWleAsN8yTMWQUf6UqxbTXFMHA+Cdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E2ekprTL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712640246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qdDr1Hl3PFGnhdknuMQtRh93bfh1USz5GSeKZpt2kZY=;
+	b=E2ekprTLWYci7tv78iEYcI+CyJtnPny3k4k9fcmNpLRbLxXMPBivNKE3BwyjGtvcJqjS35
+	iWFBdCLB1/ozpal+to2EEkDBeh9nijqaGae+D+aiC4ENLEo3QEno8mXspNU3XYwU4BthJE
+	+mYZZI7NFgkxuzGbZKLWMU9ewLqTUww=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-327-3FOxXVfKPgOBgYcvw9W6bg-1; Tue, 09 Apr 2024 01:24:04 -0400
+X-MC-Unique: 3FOxXVfKPgOBgYcvw9W6bg-1
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2a5457a8543so1012340a91.0
+        for <linux-input@vger.kernel.org>; Mon, 08 Apr 2024 22:24:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712640240; x=1713245040;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qdDr1Hl3PFGnhdknuMQtRh93bfh1USz5GSeKZpt2kZY=;
+        b=UH36NM2RonX2LSyeSCToXxxATqdeBKoQ/rFWcUKzlyjaEb94+LyeT4YJrU8mgOLZL3
+         xj874wbQqa9bkvQamqSxP15JhR8KIzrRJBC+HI5duad/po/vS5eG7jcIevy37KivfBki
+         ELz8X3Sp3WnOimFSYD5yXM6iQ+opo7L8Ky49CCLsyogMIF7qEaKTeYFsEMBf5LDnE4F1
+         8AN0u4pVWkQPnFQQmkc1mt+zsWQh/gpQsJx5xY1H/hZQCkfBDjN1hcX6Cu8zWYWjZjB0
+         NY3H2wS4xZ332OkWBdv5ovuikMEJAW5RqWokCdDzquLxZSQ03JRv9G7xypjCA6obMjoT
+         hHnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWt27xHa9SPpMlnQhgyXfMgZ4ypJgedQp4Kc5JEvp7jiSGN38Ix5HYdCoqfEmFp4CR0OkOH9oUis8V/w1hl8OR2Spex+4pzksKlvoc=
+X-Gm-Message-State: AOJu0YxameoipHIngGkdLY2bm5LPRsIzJ64FgR1zb7a8WH9C2wGHWyg5
+	OEQRm1cF5ei+RNKmf4KPB24ZjLt1MwgtRfxSrvx8twvkQItjfbTrtkIDOTHYtY5Ioh0qfR18iH5
+	hrPkqyWE7K3E3cq6FulKIPQjeSMP6I9GGB/Yxfb+vOBb45WXq8BXhOsyNGw53
+X-Received: by 2002:a17:90a:17c6:b0:2a2:bc9d:f44f with SMTP id q64-20020a17090a17c600b002a2bc9df44fmr7783874pja.13.1712640240442;
+        Mon, 08 Apr 2024 22:24:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHaRZwSrquXWFWvjYyvbfJbti9WAgNhMn8ACwIQ4BNfAmRp+5jeTjoHsnaXWUTVhQlgYU/Dw==
+X-Received: by 2002:a17:90a:17c6:b0:2a2:bc9d:f44f with SMTP id q64-20020a17090a17c600b002a2bc9df44fmr7783868pja.13.1712640240075;
+        Mon, 08 Apr 2024 22:24:00 -0700 (PDT)
+Received: from [192.168.1.240] (117-20-68-143.751444.bne.nbn.aussiebb.net. [117.20.68.143])
+        by smtp.gmail.com with ESMTPSA id cu12-20020a17090afa8c00b002a2f6da006csm7344186pjb.52.2024.04.08.22.23.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Apr 2024 22:23:59 -0700 (PDT)
+Message-ID: <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
+Date: Tue, 9 Apr 2024 15:23:52 +1000
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <c6427b27-3c9d-4aa4-abfa-c3588b5d9a42@app.fastmail.com>
-In-Reply-To: <ZhR-WPx7dgKxziMb@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug info
+ keycodes
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, hmh@hmh.eng.br,
+ ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ njoshi1@lenovo.com, vsankar@lenovo.com
 References: <mpearson-lenovo@squebb.ca>
  <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
  <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
  <ZhR-WPx7dgKxziMb@google.com>
-Date: Mon, 08 Apr 2024 20:00:30 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc: "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- ibm-acpi-devel@lists.sourceforge.net,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Nitin Joshi1" <njoshi1@lenovo.com>, "Vishnu Sankar" <vsankar@lenovo.com>,
- "Peter Hutterer" <peter.hutterer@redhat.com>
-Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug info keycodes
-Content-Type: text/plain
+Content-Language: en-US, en-AU
+From: Peter Hutterer <peter.hutterer@redhat.com>
+In-Reply-To: <ZhR-WPx7dgKxziMb@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Dmitry
-
-On Mon, Apr 8, 2024, at 7:31 PM, Dmitry Torokhov wrote:
+On 09/04/2024 09:31, Dmitry Torokhov wrote:
 > Hi Mark,
->
+> 
 > On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
 >> Add support for new input events on Lenovo laptops that need exporting to
 >> user space.
->> 
+>>
 >> Lenovo trackpoints are adding the ability to generate a doubletap event.
 >> Add a new keycode to allow this to be used by userspace.
->
+> 
 > What is the intended meaning of this keycode? How does it differ from
 > the driver sending BTN_LEFT press/release twice?
-
-Double tapping on the trackpoint is a unique event - it's not the same as BTN_LEFT twice. The BIOS will send a new ACPI event for it and it's not meant to be the same as mouse button clicks.
-
-For example, on Windows this launches a utility that let's you do various configurations on your laptop (some Lenovo specific), but that's not available on Linux (yet). We did want to make it flexible in this implementation so users could use it for whatever was useful to them.
-
->> 
+>>
 >> Lenovo support is using FN+N with Windows to collect needed details for
 >> support cases. Add a keycode so that we'll be able to provide similar
 >> support on Linux.
->
+> 
 > Is there a userspace consumer for this?
 
-There isn't yet, though we would like to implement something, and do plan to. 
-We still have to work through the details of the best way to do this, and if it's Lenovo specific, or (probably better) something generic.
+Funnily enough XKB has had a keysym for this for decades but it's not hooked up anywhere due to the way it's pointer keys accessibility feature was implemented. Theory is that most of userspace just needs to patch the various pieces together for the new evdev code + keysym, it's not really any different to handling a volume key (except this one needs to be assignable).
 
-I don't have as much knowledge on the user-space side development, and my experience is it tends to move a bit slower for getting things implemented. We thought we'd get the framework in, so it's available, and then work with user-space folk to deliver a solution in a suitable manner.
-Ultimately this is something we'll need in our Linux preloads and the aim is to make it easier for Linux users to get help from our support team (not always the easiest currently).
-I don't know if other vendors have something similar, but I wouldn't be surprised if this could be re-used in other cases so I hope it's not Lenovo specific. It felt like it would be useful functionality to have :)
+Cheers,
+   Peter
 
-Mark
 
