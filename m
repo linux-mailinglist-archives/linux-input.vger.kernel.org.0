@@ -1,159 +1,136 @@
-Return-Path: <linux-input+bounces-2881-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2882-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FF489E8EB
-	for <lists+linux-input@lfdr.de>; Wed, 10 Apr 2024 06:33:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFA089ECFC
+	for <lists+linux-input@lfdr.de>; Wed, 10 Apr 2024 10:02:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B88A287A69
-	for <lists+linux-input@lfdr.de>; Wed, 10 Apr 2024 04:33:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A3BC281D0B
+	for <lists+linux-input@lfdr.de>; Wed, 10 Apr 2024 08:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7571079D;
-	Wed, 10 Apr 2024 04:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="STNeliRk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E20713D537;
+	Wed, 10 Apr 2024 08:02:37 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F49BA2B
-	for <linux-input@vger.kernel.org>; Wed, 10 Apr 2024 04:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136613D505;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712723592; cv=none; b=XI6KayD0YotjKab+eag23hmQvvloSpyht0kG5mn9FKY1ZfQRt1oN/yK0h784OYwFfQxiRw5+gIIIX/4mWJ1lTBR+O/6urtUBV+rpSfLHqrxzXlKKejSc899nflQAkVEAzTNfXaaAkdS53UXKZXTRpYetM3TH8Z0vDKF7dwcdjNE=
+	t=1712736157; cv=none; b=nj/+XoOjnt/sStNX6gfPlRLy8FTwBCskCz30eSIsVqUodK36V209VjYYOJi5V2aZ6Zj9dQtWPi+X3Ja6/aJDWJWci3Id2lZkkUrr0XpNx1CbblCfphl+dhgBfkzTZ3lfCQOr3hTTA9hf372bgjVMkEX/rizVMYq3g1EvhPUutvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712723592; c=relaxed/simple;
-	bh=h9tgpqXFJcK+DYD0n9TmnkJ3NShANOlEk6vqoLQFEyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pJBN3/PmoO9mT6Up8B4a+E2m7nZGfNGxSC85tqFBoOnEutrNA7LsKva2XqTXPix54mlwzD7I8zfWc+XdR2ejH9PvaRQhDoz+nwox8TjqO13UDoT7UfOunJhMDZaFGhfvCDEMEyGJENEscavzEEziQ4YJcb5yrfsOjZJG6Ye1v+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=STNeliRk; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712723588;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D96eMegMNvGOobQPUAcgBWo3TgJJp8g0UMvgonFv028=;
-	b=STNeliRkm0u1uMCBGGHXPFMae4gfwqVepqJIUQHHYS0YZGQSpdQk/kROLPiQ5+6p9GpBOe
-	yY6WOhbCPCHAHX7Xwaci3hnPFqXt9s8aUoRcFCP0f+vMRu914olbCYKrZbn0MQ8LF+cCsg
-	PiLWiOZjRamIPKmRgRwRk/8uVmrRN74=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-Yxa5pkZNNmq4iqzkNkQ1Zg-1; Wed, 10 Apr 2024 00:33:04 -0400
-X-MC-Unique: Yxa5pkZNNmq4iqzkNkQ1Zg-1
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-6ed2a12e50aso2051854b3a.1
-        for <linux-input@vger.kernel.org>; Tue, 09 Apr 2024 21:33:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712723584; x=1713328384;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D96eMegMNvGOobQPUAcgBWo3TgJJp8g0UMvgonFv028=;
-        b=PxmzPDZwkqqnAk6A1tXRQJpUGpu+kKIcwHvGsy0UHwTJT1Qv9UO902RdPLhMtLCw3V
-         h+fBK0je1el9JHW92PYCT1uyj1AcNHJ8OoT6Ut3ZIQakMBLpanzqq6203TO4anKlmJIv
-         xkpp/wjrKQKrlAQNBA0auJxrKW5kNmM4/3Z4s/isvD4UP3KVHqh2UiTOVwdoRFf0BMYY
-         fxV6y3GZmDEm4evBTdZgMacDrM3oVxApdf5YWhaUP90ruzajn84gE26kKgc+xZOq+t7O
-         bY0GFIxVdfnPjIJzyqbYf5W/KXiNJe4y51ChBB9Qlik9q3kTBzy3NP7bijQYlK55RaKg
-         bncg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKXGYLBDTQGv0YHFxHzB8g0rKCiHETpVfz5nOXGNAYB1ETrP8Y+L5bf+kKLnHm3znMiRVLsVrMRuBrWshi/L/oTlxX1oDOTpz6IYc=
-X-Gm-Message-State: AOJu0YzhCy1Ah3A7E/jsb0bd8eIyTo8/bIDard6e8W1r/+ROvvcDJN7U
-	Bj3Ztpm/UP6XRWH3McjZu/qXgw48IDlhyg32K69U+nzWzzuCi0DZbyvTL/8U5y/9k2Kfj0dbCKG
-	sxv5BdNbnsDlD2TjqF+Abob9p9TZyhNRU7g0YwgiPlADcMGyggOEarqtTOPTE
-X-Received: by 2002:a05:6a00:4fd2:b0:6ed:4b2d:a764 with SMTP id le18-20020a056a004fd200b006ed4b2da764mr7587762pfb.11.1712723583670;
-        Tue, 09 Apr 2024 21:33:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHx0Sz3ojTpctz7giTqqx2R5V+bbs742ef5vHqDuJyANeevjTVtDt6gkz7oZGO6GFvy6D5EOg==
-X-Received: by 2002:a05:6a00:4fd2:b0:6ed:4b2d:a764 with SMTP id le18-20020a056a004fd200b006ed4b2da764mr7587733pfb.11.1712723583260;
-        Tue, 09 Apr 2024 21:33:03 -0700 (PDT)
-Received: from [192.168.1.240] (117-20-68-143.751444.bne.nbn.aussiebb.net. [117.20.68.143])
-        by smtp.gmail.com with ESMTPSA id it24-20020a056a00459800b006e6be006637sm9251859pfb.135.2024.04.09.21.32.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 21:33:02 -0700 (PDT)
-Message-ID: <5fe3b171-afc0-47de-802c-28470ce40674@redhat.com>
-Date: Wed, 10 Apr 2024 14:32:56 +1000
+	s=arc-20240116; t=1712736157; c=relaxed/simple;
+	bh=KElYbch9PwjyMMyu6DqQ19Q1q06S1GdiKB4kYIvJsOA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bBAtC04DaDVwHEUOOiFSRuslrl4QmXJkNwIxlynnpCJTLQoVrWUVTlO89Clpnhd/aF12w6oTjHuxnvrJymhY+Q8tm+0OxOvE8XUv/x2Dczi3ELoLd/y8qIsK+MyeonrFwSjZ3eR5Bs0oaVVpccWwZSXhKQxXPM80iFWgxUzQYEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+ Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Xiang Chen <chenxiang66@hisilicon.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Kees Cook <keescook@chromium.org>, 
+ Trond Myklebust <trond.myklebust@hammerspace.com>, 
+ Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+ linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
+Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
+Date: Wed, 10 Apr 2024 10:02:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug info
- keycodes
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, hmh@hmh.eng.br,
- ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- njoshi1@lenovo.com, vsankar@lenovo.com
-References: <mpearson-lenovo@squebb.ca>
- <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
- <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
- <ZhR-WPx7dgKxziMb@google.com>
- <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
- <ZhW3Wbn4YSGFBgfS@google.com> <ZhXpZe1Gm5e4xP6r@google.com>
-Content-Language: en-US, en-AU
-From: Peter Hutterer <peter.hutterer@redhat.com>
-In-Reply-To: <ZhXpZe1Gm5e4xP6r@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 10/04/2024 11:20, Dmitry Torokhov wrote:
-> On Tue, Apr 09, 2024 at 02:47:05PM -0700, Dmitry Torokhov wrote:
->> On Tue, Apr 09, 2024 at 03:23:52PM +1000, Peter Hutterer wrote:
->>> On 09/04/2024 09:31, Dmitry Torokhov wrote:
->>>> Hi Mark,
->>>>
->>>> On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
->>>>> Add support for new input events on Lenovo laptops that need exporting to
->>>>> user space.
->>>>>
->>>>> Lenovo trackpoints are adding the ability to generate a doubletap event.
->>>>> Add a new keycode to allow this to be used by userspace.
->>>>
->>>> What is the intended meaning of this keycode? How does it differ from
->>>> the driver sending BTN_LEFT press/release twice?
->>>>>
->>>>> Lenovo support is using FN+N with Windows to collect needed details for
->>>>> support cases. Add a keycode so that we'll be able to provide similar
->>>>> support on Linux.
->>>>
->>>> Is there a userspace consumer for this?
->>>
->>> Funnily enough XKB has had a keysym for this for decades but it's not
->>> hooked up anywhere due to the way it's pointer keys accessibility
->>> feature was implemented. Theory is that most of userspace just needs
->>> to patch the various pieces together for the new evdev code + keysym,
->>> it's not really any different to handling a volume key (except this
->>> one needs to be assignable).
->>
->> What is the keysym? If we can make them relatable to each other that
->> would be good. Or maybe we could find a matching usage from HID usage
->> tables...
 
-There's a set of  XK_Pointer_ keysyms defined in X11/keysym.h, including XK_Pointer_DblClick1 and XK_Pointer_DblClickDefault.
-Unfortunately they're not hooked up to anything atm, see this draft MR:
-   https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/merge_requests/659
-Because they're not hooked up anywhere they'll also need to be hooked into the client space, same as the various XF86FooBar symbols we've added over the years.
-
-If we were to add KEY_DOUBLECLICK we can patch xkeyboard-config to bind that to the existing XK_Pointer_DblClickDefault symbol (it would get XF86DoubleClick assigned by the current automated scripts), so in theory that key would work like any other key with that symbol assigned.
-
-> I was looking through the existing codes and I see:
+On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> #define KEY_INFO		0x166	/* AL OEM Features/Tips/Tutorial */
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
 > 
-> We also have KEY_VENDOR used in a few drivers/plafrom/x86, including
-> thinkkpad_acpi.c and I wonder if it would be suitable for this vendor
-> specific debug info collection application (which I honestly doubt will
-> materialize).
+> [...]
 
-fwiw, I suggested KEY_DOUBLECLICK because that is the action the user takes. Whether that starts a particular application is mostly a question of configuration, defaulting to something that emulates a double-click seems prudent though. And if someone wants to remap that to the compose key that'd be trivial too then.
+Applied, thanks!
 
-Cheers,
-   Peter
+[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
+        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
+
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
 
