@@ -1,201 +1,214 @@
-Return-Path: <linux-input+bounces-2932-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2933-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833328A14A7
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 14:30:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2949F8A1632
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 15:48:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 111741F23E06
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 12:30:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 930251F244FD
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 13:48:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB44B1DFF9;
-	Thu, 11 Apr 2024 12:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A28B14D715;
+	Thu, 11 Apr 2024 13:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g1O5XFpk"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fk9dgjL/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DB623C9
-	for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 12:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769FB1EB26;
+	Thu, 11 Apr 2024 13:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712838642; cv=none; b=BATiLfTY3qfgf5q1+mdjU6mKVsBEB2i2nCqkwNq5r0zkPmG2TR7YpKeEsS7AH7WDsO8eIbvZObjME5VZVeIIvHDDUYcCPB1pLcqpSAFqvIk9pHDOy74K2dNijdjcGc61kWrR+i6dLiGMjyBKzC/pnXgwI3C46qV/wxO4kGM7u8U=
+	t=1712843116; cv=none; b=IoZtqD2mXCQNpOJAdpXnXm0gl3DOqKLWzAyM9cQ6fPhzf3PnDF6Ycb5VTL+Ko12mYcn9gZQEdHHeMxr/HgIExvTfM1iSOF9RF2ZY5zI2nj//y4HcLLZLaU0LGeIpxcXUw23E96HfzDcySjUQMfrAhtddTXvvSwjLVJV+RcetO/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712838642; c=relaxed/simple;
-	bh=m6ZmLjNtsMal/jBiy3eS3fgwccfEbHpXSv38sFCq8QE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A20WjECycSgRznAFf9r8XlfIBBLgYZfOlviuMn3D4DjhOU2RP4npgtlrDfZvpi+MM7VQd1BR+HLdYMSL3T8Ngnx1FkzfEWFSepZ/AXG7tvBlElpLUOM5ci/msX7wLj2baJztVSWwfDzNv+lT+Oc9jVQdBOIbYnVjYGgMeABU3VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g1O5XFpk; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712838640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o39791NgVPOGygPt4yvbiHEMYNSCg3KIip+yEED7lns=;
-	b=g1O5XFpkK8u5KQpMwzhw1K6JVuY0UPL/0XEoHwK/nDmwxjPJKoVPoDzHS3HA1xK/GM+fZR
-	3Bi8CI3m0gMqk1NTOPeIEhH9kepfreGC5ZAeQUDDYHl0+2Cz9qz5sJroIkEnqFueWIxoOt
-	Gz0e2vGNtSireHfsjh82PfRT42sNtgQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-195-lf9SDTe4O92SvVfyNAlgFw-1; Thu, 11 Apr 2024 08:30:38 -0400
-X-MC-Unique: lf9SDTe4O92SvVfyNAlgFw-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-56c3dc8d331so5895283a12.2
-        for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 05:30:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712838637; x=1713443437;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o39791NgVPOGygPt4yvbiHEMYNSCg3KIip+yEED7lns=;
-        b=H6H06PaoyQ25aKy29vuCJamSgCII2E/moRBw25iRL7cXIse5Wv7/84cOVFnnv4ioYb
-         xOS4UmAN6q7aygXC9zRb8R38xn7ajmBHAf/E9NuglhUwcmuzPuXoHj7u++rNManMSLj1
-         oEphguN7dUAF/ZxbFBJM9MPMez1WLqkR1WO0bh0L2Kg1ktCoiAfh56pcPm+lV9E3q5XA
-         j3PAAdWh0EySVbXz6S02klU64iXqPI9hmmpFfel/PhC+4g8z8JXsqyrxR/q3YmF82xmW
-         0ekD+C90pOZ/4SyLUBCVzNe8HHFkI85q6xPVARAv2WMDmQAOvMTmMPmpfKSForCYoObL
-         7y4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXoJirTle2LaFL/AuHi3VDit0x830lYWtPandb7g6xWRoGYB+4+wz3n/en+v9B3pDBcUk23CzPFmeNxoTexlWnhD8nov4ll36JDeAw=
-X-Gm-Message-State: AOJu0Yz8Pts2wQ+lzmu4m/QCVykQBOJ4CeYS4zaRLq9Hr4mNTYWudmC1
-	010qw+55eNvJmTGLRqE9E6UedSbTpfSErPbVj/kB3PG/16cpJwcJNlZNYDXoE87JnHNtT4AvLdB
-	FZ+j0JI3x2VnFXas7q9EG79xzplRnZ3Dvx+34XJs64sqKcn7+Lbq+UVzqktsf
-X-Received: by 2002:a50:cd19:0:b0:56e:7751:ae4e with SMTP id z25-20020a50cd19000000b0056e7751ae4emr2253962edi.33.1712838637386;
-        Thu, 11 Apr 2024 05:30:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfczbrDYphsIXAmP5vXOQog7edYp3/hYYdYnPGuJW85oLkEvHop5fgUsPZglqMhlGlVlPhyg==
-X-Received: by 2002:a50:cd19:0:b0:56e:7751:ae4e with SMTP id z25-20020a50cd19000000b0056e7751ae4emr2253947edi.33.1712838636991;
-        Thu, 11 Apr 2024 05:30:36 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id n22-20020aa7c796000000b0056feeb85ed0sm177407eds.19.2024.04.11.05.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 05:30:36 -0700 (PDT)
-Message-ID: <411e6353-16ef-455b-98fa-2d38bb7bf9bd@redhat.com>
-Date: Thu, 11 Apr 2024 14:30:35 +0200
+	s=arc-20240116; t=1712843116; c=relaxed/simple;
+	bh=Vef2IPFjkusUWnM9mmNBw7GsUxZyGnBJjs80zDYEVf4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bsZAVDzgvqbw92zH4/RTLELDjkfFZfClUfNZ+/SxdK7nKzoEh9nXewHik+26l7zI55lRdRjNAGq+FC0+2i1/6xs4Jicv+buNdZwSqXOP6VtA0N7DJx7yLtoKlyT0qfV0rXpMrHCLgqyo+Fqp8nI6J/Cb3yWon4KemHKHddQ73jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fk9dgjL/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43BDcJ37013981;
+	Thu, 11 Apr 2024 13:45:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=8vWKNp5NOyzk1nvCBVyzQsUw06V4AN1AfvxUVSvqf1M=; b=fk
+	9dgjL/sycJIMj1SDfqZL9GDehjEIzHsBaoWJSHSg3Be0hYMAEwl7Fw9zI72aIctk
+	SCNjuIpqbgWxqdq2Odqki9wA0PTv0f5MTK/D8cooPfmrABfRoct2tPn5B+Qkrgs8
+	CDA47mKhDjDIe+TYv2p8CNaPJESNmbsg/cRqJpwQ4IZ0jCE+goQz/ifQE4ZWKHHH
+	bmLXrfgbl/7dTfCD5+UzGSFOpoyEEkxgIQHee6beTqPuWpCiL1BdWeWgNJ9YMWbm
+	M3o8XKeGiVNjnHftwhSaYBgAJUrs5TQGWSEYFVtI6q2VO68CFsmFRoMq5PTlVUPe
+	Vl1gdyCsZb0nBulw5gMQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xe9jsa148-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Apr 2024 13:44:47 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BDi7RD018671
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Apr 2024 13:44:07 GMT
+Received: from [10.253.34.126] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 11 Apr
+ 2024 06:44:02 -0700
+Message-ID: <fa6c8b30-11f3-bd80-67cb-713e4348eccf@quicinc.com>
+Date: Thu, 11 Apr 2024 21:43:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug info
- keycodes
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Peter Hutterer <peter.hutterer@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- ibm-acpi-devel@lists.sourceforge.net,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nitin Joshi1 <njoshi1@lenovo.com>, Vishnu Sankar <vsankar@lenovo.com>
-References: <mpearson-lenovo@squebb.ca>
- <20240324210817.192033-1-mpearson-lenovo@squebb.ca>
- <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
- <ZhR-WPx7dgKxziMb@google.com>
- <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
- <ZhW3Wbn4YSGFBgfS@google.com> <ZhXpZe1Gm5e4xP6r@google.com>
- <92ee5cb2-565e-413c-b968-81393a9211c4@app.fastmail.com>
- <ZhcogDESvZmUPEEf@google.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZhcogDESvZmUPEEf@google.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v9 2/4] input: pm8xxx-vibrator: refactor to support new
+ SPMI vibrator
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <kernel@quicinc.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Dmitry
+ Torokhov" <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20240411-pm8xxx-vibrator-new-design-v9-0-7bf56cb92b28@quicinc.com>
+ <20240411-pm8xxx-vibrator-new-design-v9-2-7bf56cb92b28@quicinc.com>
+ <CAA8EJpoL9vCAUgWmHcoxppo_gJqaw_xqdYqcJkS6Xza-5aSh3A@mail.gmail.com>
+From: Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <CAA8EJpoL9vCAUgWmHcoxppo_gJqaw_xqdYqcJkS6Xza-5aSh3A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: PsVZnEuLpXAM2rwWwkWHRnxLKI3hnFcy
+X-Proofpoint-GUID: PsVZnEuLpXAM2rwWwkWHRnxLKI3hnFcy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-11_06,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxlogscore=958
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404110099
 
-Hi Dmitry,
 
-On 4/11/24 2:02 AM, Dmitry Torokhov wrote:
-> On Tue, Apr 09, 2024 at 10:17:05PM -0400, Mark Pearson wrote:
->> Hi Dmitry
+
+On 2024/4/11 18:58, Dmitry Baryshkov wrote:
+> On Thu, 11 Apr 2024 at 11:32, Fenglin Wu via B4 Relay
+> <devnull+quic_fenglinw.quicinc.com@kernel.org> wrote:
 >>
->> On Tue, Apr 9, 2024, at 9:20 PM, Dmitry Torokhov wrote:
->>> On Tue, Apr 09, 2024 at 02:47:05PM -0700, Dmitry Torokhov wrote:
->>>> On Tue, Apr 09, 2024 at 03:23:52PM +1000, Peter Hutterer wrote:
->>>>> On 09/04/2024 09:31, Dmitry Torokhov wrote:
->>>>>> Hi Mark,
->>>>>>
->>>>>> On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
->>>>>>> Add support for new input events on Lenovo laptops that need exporting to
->>>>>>> user space.
->>>>>>>
->>>>>>> Lenovo trackpoints are adding the ability to generate a doubletap event.
->>>>>>> Add a new keycode to allow this to be used by userspace.
->>>>>>
->>>>>> What is the intended meaning of this keycode? How does it differ from
->>>>>> the driver sending BTN_LEFT press/release twice?
->>>>>>>
->>>>>>> Lenovo support is using FN+N with Windows to collect needed details for
->>>>>>> support cases. Add a keycode so that we'll be able to provide similar
->>>>>>> support on Linux.
->>>>>>
->>>>>> Is there a userspace consumer for this?
->>>>>
->>>>> Funnily enough XKB has had a keysym for this for decades but it's not
->>>>> hooked up anywhere due to the way it's pointer keys accessibility
->>>>> feature was implemented. Theory is that most of userspace just needs
->>>>> to patch the various pieces together for the new evdev code + keysym,
->>>>> it's not really any different to handling a volume key (except this
->>>>> one needs to be assignable).
->>>>
->>>> What is the keysym? If we can make them relatable to each other that
->>>> would be good. Or maybe we could find a matching usage from HID usage
->>>> tables...
->>>
->>> I was looking through the existing codes and I see:
->>>
->>> #define KEY_INFO		0x166	/* AL OEM Features/Tips/Tutorial */
->>>
->>> We also have KEY_VENDOR used in a few drivers/plafrom/x86, including
->>> thinkkpad_acpi.c and I wonder if it would be suitable for this vendor
->>> specific debug info collection application (which I honestly doubt will
->>> materialize).
->>>
+>> From: Fenglin Wu <quic_fenglinw@quicinc.com>
 >>
->> That's a somewhat disappointing note on your doubts, is that based on
->> anything? Just wondering what we've done to deserve that criticism.
+>> Currently, vibrator control register addresses are hard coded,
+>> including the base address and offsets, it's not flexible to
+>> support new SPMI vibrator module which is usually included in
+>> different PMICs with different base address. Refactor it by using
+>> the base address defined in devicetree.
+>>
+>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>> ---
+>>   drivers/input/misc/pm8xxx-vibrator.c | 42 ++++++++++++++++++++++++------------
+>>   1 file changed, 28 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+>> index 89f0f1c810d8..2959edca8eb9 100644
+>> --- a/drivers/input/misc/pm8xxx-vibrator.c
+>> +++ b/drivers/input/misc/pm8xxx-vibrator.c
+>> @@ -20,26 +20,26 @@
+>>   #define MAX_FF_SPEED           0xff
+>>
+>>   struct pm8xxx_regs {
+>> -       unsigned int enable_addr;
+>> +       unsigned int enable_offset;
+>>          unsigned int enable_mask;
+>>
+>> -       unsigned int drv_addr;
+>> +       unsigned int drv_offset;
+>>          unsigned int drv_mask;
+>>          unsigned int drv_shift;
+>>          unsigned int drv_en_manual_mask;
+>>   };
+>>
+>>   static const struct pm8xxx_regs pm8058_regs = {
+>> -       .drv_addr = 0x4A,
+>> +       .drv_offset = 0x4A,
 > 
-> Sorry, this was not meant as a criticism really, but you mentioned
-> yourself that there isn't anything in the works yet, you just have some
-> plans.
+> If the DT already has reg = <0x4a> and you add drv_offset = 0x4a,
+> which register will be used by the driver?
 > 
-> For such a project to succeed Lenovo needs to invest into selling
-> devices with Linux as a primary operating system, and it has to be
-> consumer segment (or small business, because for corporate they
-> typically roll their own support channels). The case of retrofitting
-> Linux onto a that device originally came with Windows OS rarely gets
-> much if any response from the normal support channels.
+> Also, while we are at it, please downcase all the hex numbers that you
+> are touching.
 > 
-> Is this something that is actually happening?
-
-Yes, Lenovo is actually offering Fedora as an OS choice when
-ordering ThinkPads directly from their website in many countries
-including when ordering as a consumer.
-
-And unlike other vendor's Linux preloads which often use a kernel
-with downstream laptop specific changes these laptops are running
-unmodified Fedora kernels, which themselves are almost pristine
-upstream kernels.
-
-Lenovo (Mark) has been really good the last couple of years in
-making sure that their hw just works with mainline kernels without
-any downstream vendor specific patches.
-
->> That aside, I guess KEY_INFO or KEY_VENDOR could be a good fit (I
->> personally don't think KEY_CONFIG matches well), but I would be
->> worried about clashing with existing functionality.
-
-Using KEY_INFO / KEY_VENDOR works for me too. So maybe we should
-just go with one of those 2 ?
-
-Regards,
-
-Hans
+For SSBI vibrator, the "reg" value defined in DT is not used, see below.
 
 
+>>          .drv_mask = 0xf8,
+>>          .drv_shift = 3,
+>>          .drv_en_manual_mask = 0xfc,
+>>   };
+>>
+>>   static struct pm8xxx_regs pm8916_regs = {
+>> -       .enable_addr = 0xc046,
+>> +       .enable_offset = 0x46,
 
+[...]
+
+>> @@ -170,7 +173,7 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+>>          struct pm8xxx_vib *vib;
+>>          struct input_dev *input_dev;
+>>          int error;
+>> -       unsigned int val;
+>> +       unsigned int val, reg_base = 0;
+>>          const struct pm8xxx_regs *regs;
+>>
+>>          vib = devm_kzalloc(&pdev->dev, sizeof(*vib), GFP_KERNEL);
+>> @@ -190,13 +193,24 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+>>
+>>          regs = of_device_get_match_data(&pdev->dev);
+>>
+>> +       if (regs->enable_offset != 0) {
+>> +               error = fwnode_property_read_u32(pdev->dev.fwnode, "reg", &reg_base);
+>> +               if (error < 0) {
+>> +                       dev_err(&pdev->dev, "Failed to read reg address, rc=%d\n", error);
+>> +                       return error;
+>> +               }
+>> +       }
+>> +
+>> +       vib->enable_addr = reg_base + regs->enable_offset;
+>> +       vib->drv_addr = reg_base + regs->drv_offset;
+
+The reg_base is initialized as 0 and it is assigned as the "reg" value 
+defined in DT only for SPMI vibrators.
+
+>> +
+>>          /* operate in manual mode */
+>> -       error = regmap_read(vib->regmap, regs->drv_addr, &val);
+>> +       error = regmap_read(vib->regmap, vib->drv_addr, &val);
+>>          if (error < 0)
+>>                  return error;
+>>
+>>          val &= regs->drv_en_manual_mask;
+>> -       error = regmap_write(vib->regmap, regs->drv_addr, val);
+>> +       error = regmap_write(vib->regmap, vib->drv_addr, val);
+>>          if (error < 0)
+>>                  return error;
+>>
+>>
+>> --
+>> 2.25.1
+>>
+>>
+> 
+> 
 
