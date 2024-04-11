@@ -1,102 +1,138 @@
-Return-Path: <linux-input+bounces-2938-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2939-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D3E8A1713
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 16:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7698A183C
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 17:09:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8726E1F21733
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 14:23:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CDAF1F20EDA
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 15:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5756214D70A;
-	Thu, 11 Apr 2024 14:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9803D10788;
+	Thu, 11 Apr 2024 15:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZIaEiIWe"
+	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="aZbdSLyI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85E214D6FD
-	for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 14:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EA8D534;
+	Thu, 11 Apr 2024 15:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712845422; cv=none; b=YnGA05ylLjfWFjhjVY7yVhs2r/4Pr056M5h1m76KPZJCl0xdZpK+DT7/3jPq5Gwyfbk+Wg6CZ78UNRx3PQqiURZmKDRfo3p1kKnHyTRWHEEhoM1f5D/EEB8QFG0Anu425MnuXuYbO2ZWZb02znEPeAsMm/x2LwWyjrNw49hgK0c=
+	t=1712848186; cv=none; b=GsPnhbzsbh8HiwH02qo+4HfOs+0VwGin7oEwumyELaYWq2Izt5toVkxKXHw25z1zW3QmWTRIq24VNo+JYaXVas2MdAHQnhHPBjWvZoUMzbGnJZopSWwYcIP426HUMzO7eu493A/hepGOBQFICLStSBm8HxF8EGGPf+sruKfuzyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712845422; c=relaxed/simple;
-	bh=LUtbADJQAYJxj/Ogfyr9IscI3lkrbxOS5D0BwfwnczY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r1Rzj8y4G6bfAMWNFzylb+L2YaHnUtspvCMWbrkbSKahBITS2w8PRqlQhMvEkrVio4Vtw67lDcGnb6cWSjDx6LwxZvPIBeKOY+4iYJbXrdgCK2S2bmdyLGBpeLA0e4octC6RtsmygqPrxlZ++0xG4HPZo8yw30yX8XqbAfGZGN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZIaEiIWe; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d6fd3cfaa6so96800111fa.2
-        for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 07:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712845419; x=1713450219; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LUtbADJQAYJxj/Ogfyr9IscI3lkrbxOS5D0BwfwnczY=;
-        b=ZIaEiIWebG2vtqDM3ZAa8oK7bMvVH5yIqVL1dgs+McEuEgzuiF0D0iFY0WKrWOcSmU
-         fq0FhbTHU67nMtnFX2Ix855HUg4nQCA4KtJZc6l5HfrVvjT7q33OKbiHlP0Q6rItep9q
-         t7JjgT1Nf/0gTgyUneHkrQiH8gkVnc5Jf+cVc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712845419; x=1713450219;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LUtbADJQAYJxj/Ogfyr9IscI3lkrbxOS5D0BwfwnczY=;
-        b=CHm7cNuxJExdM3qwtVJSmkuQbtEXKDzG12Fk80AiIeMNqLkV0jhCZV3I6/aajC84qh
-         rfBP3K2n0U2GHDSwQctuw/b3rN9S0Tgt7DE+YDE+Atp/+uu5rXiiJe6jiZGvuoRb78Q8
-         NJLiDQV09qr6nsdr0VskcwF/Io4uYcdDlXW0WklQWkqLhVf7rPV5zr4uB1O3/zp6w1SE
-         9MgJ94pbGEZGeCyMJ63VbvsTvsYMSAZq2GXTt9q9yx3C0RK/Zj4XP8jVBUI/Sa48yx2J
-         3W5kckD5y80KNI6Z4rxqXU8B0ImrFqmZJsjX6F9E3nzQgYG+tcax8/5SgdGF2rtUynv5
-         rZgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUF3iDoV+7n/qhbq1ZfAznir2ECwu+IfpiTF5ZJxwoG16pkFqVCeRHpUeGwoDxt8XiXZq1kCCSO4KrX9qNL9ekFbT/bTe1VZlqb1LA=
-X-Gm-Message-State: AOJu0YyHkElJPTzW+cnSX7nNr2nXf2OGeO+qGk+hg0p3jtFp+rOPiRLV
-	uDIYTeoVeKmOibF2TQiXgJLOCBrBs8lmV+zW4veja0gGmq0PM80J9cU2Xn1m/4j1zDVok5GfDjI
-	V3IDmmu4h1Zam/ZDiDe+3MColZFuslElXDb7A
-X-Google-Smtp-Source: AGHT+IFNVcyx8krFZBQPjsFLg9xfCidm6tFM482BIiTiDZp8tHCIzPhuHhKYCeZTeFT6FNZdUnqtE+lVlPb3l1XeNNQ=
-X-Received: by 2002:a2e:7d12:0:b0:2d8:7200:38ff with SMTP id
- y18-20020a2e7d12000000b002d8720038ffmr3769523ljc.24.1712845418803; Thu, 11
- Apr 2024 07:23:38 -0700 (PDT)
+	s=arc-20240116; t=1712848186; c=relaxed/simple;
+	bh=Weouvo161mz85+Ws3kWCHEAN8xCME/9Sry1jGNBqSMk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
+	 References:In-Reply-To; b=jSDbCY6qQws53GZUgVbNSNtz062+J71d1hcs7nycPv1yY6ocP7ZeoPV3dULSz7AYLbf/IomDudIpfvbEvMUNRleLaV0DIeGytQ/udepXPnH7eGlpeS6FcQbyTUcgGowP7A4YmjLA2dr+g8NXdTeXjw5lwUh39luxnSDb9qBF020=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=aZbdSLyI; arc=none smtp.client-ip=195.113.20.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
+X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
+	serial F5FD910E8FE2121B897F7E55B84E351D
+	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
+	auth type TLS.CUNI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
+	s=submission; t=1712848147; x=1714148147;
+	bh=cCeEsEVNtOvyeZAP8P6CFO9h6vuYp0g9sWCTeF8QBqc=; h=From;
+	b=aZbdSLyIVl3tvrFOIk+Zr5D1SzvZAbhOXUdHCwd0UGiy1HV/xtG2xvif53SQKGZVD
+	 GlSQSwoDJnZAU18Tn8N3UoMiINOwj2Eoh9Ohs4RAg/Qas/XfZmkqHLHTDowJHhz9Dn
+	 zGAK1q4EoU6T42iW01R3rM7xDiNXGiajh8N5VqD6uf4tPE55vigQj1M7/TdSu7MPVx
+	 PG9bfGFkXeRhofxZXZ56749LgtBba2obs6DrXTd+2FGglYVN5OVvLJXRVSjunagMRg
+	 iEE93/oB2n+Mdp12ees3RkmlxOcetPxmkq0hrmM17dPmR59egM5i/0fDQ48QZXOICh
+	 dhBomyUksKlPQ==
+Received: from localhost (koleje-wifi-0017.koleje.cuni.cz [78.128.191.17])
+	(authenticated)
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 43BF95MH032359
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 11 Apr 2024 17:09:07 +0200 (CEST)
+	(envelope-from balejk@matfyz.cz)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240405102436.3479210-1-lma@chromium.org> <ZhOccGFkTFkUkRUI@hovoldconsulting.com>
- <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com> <ZhVix-HJrqQbiPrB@hovoldconsulting.com>
-In-Reply-To: <ZhVix-HJrqQbiPrB@hovoldconsulting.com>
-From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Date: Thu, 11 Apr 2024 16:23:27 +0200
-Message-ID: <CAE5UKNp3uS9cqDbQjcP3SbfxVi3wPFG4LtP6z=WU_V+M9x6LtQ@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-To: Johan Hovold <johan@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Douglas Anderson <dianders@chromium.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, Johan Hovold <johan+linaro@kernel.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Radoslaw Biernacki <rad@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Apr 2024 17:09:40 +0200
+Message-Id: <D0HE07BHD1T8.HQLIBUHTRVGT@matfyz.cz>
+Cc: "Rob Herring" <robh@kernel.org>,
+        "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>,
+        "Conor Dooley" <conor+dt@kernel.org>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Liam Girdwood"
+ <lgirdwood@gmail.com>,
+        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        =?utf-8?q?Duje_Mihanovi=C4=87?=
+ <duje.mihanovic@skole.hr>,
+        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] mfd: add driver for Marvell 88PM886 PMIC
+To: "Lee Jones" <lee@kernel.org>
+From: "Karel Balej" <balejk@matfyz.cz>
+References: <20240331105608.7338-2-balejk@matfyz.cz>
+ <20240331105608.7338-4-balejk@matfyz.cz>
+ <20240411113726.GH1980182@google.com>
+In-Reply-To: <20240411113726.GH1980182@google.com>
 
-> Sure, but what about other transactions that are initiated by the host
-> (e.g. SET_POWER)?
+Lee Jones, 2024-04-11T12:37:26+01:00:
+[...]
+> > diff --git a/drivers/mfd/88pm886.c b/drivers/mfd/88pm886.c
+> > new file mode 100644
+> > index 000000000000..e06d418a5da9
+> > --- /dev/null
+> > +++ b/drivers/mfd/88pm886.c
+> > @@ -0,0 +1,157 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +#include <linux/i2c.h>
+> > +#include <linux/mfd/core.h>
+> > +#include <linux/module.h>
+> > +#include <linux/notifier.h>
+> > +#include <linux/of.h>
+> > +#include <linux/reboot.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#include <linux/mfd/88pm886.h>
+> > +
+> > +#define PM886_REG_INT_STATUS1			0x05
+> > +
+> > +#define PM886_REG_INT_ENA_1			0x0a
+> > +#define PM886_INT_ENA1_ONKEY			BIT(0)
+> > +
+> > +#define PM886_IRQ_ONKEY				0
+> > +
+> > +#define PM886_REGMAP_CONF_MAX_REG		0xef
 >
-Somehow it is problematic only on reboot and works just fine on
-suspend/resume and
-set_power.
-I will dig more and try to find out what the difference is.
+> Why have you split the defines up between here and the header?
 
-> Perhaps this hack at probe is enough for your use case, but is an
-> incomplete hack and at a minimum you'd need to add a comment explaining
-> why it is there.
+I tried to keep defines tied to the code which uses them and only put
+defines needed in multiple places in the header. With the exception of
+closely related things, such as register bits which I am keeping
+together with the respective register definitions for clarity. Does that
+not make sense?
+
+> Please place them all in the header.
+
+Would you then also have me move all the definitions from the regulators
+driver there?
+
+[...]
+
+> > +	err =3D devm_mfd_add_devices(dev, 0, pm886_devs, ARRAY_SIZE(pm886_dev=
+s),
 >
-You mean a comment in the code ?
+> Why 0?
 
-Lukasz
+PLATFORM_DEVID_AUTO then? Or will PLATFORM_DEVID_NONE suffice since the
+cells all have different names now (it would probably cause problems
+though if the driver was used multiple times for some reason, wouldn't
+it?)?
+
+Thank you,
+K. B.
 
