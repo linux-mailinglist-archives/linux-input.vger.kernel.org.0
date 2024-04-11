@@ -1,138 +1,95 @@
-Return-Path: <linux-input+bounces-2939-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2940-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7698A183C
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 17:09:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B71C8A1979
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 18:10:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CDAF1F20EDA
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 15:09:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 863271C239C0
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 16:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9803D10788;
-	Thu, 11 Apr 2024 15:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1428615E20A;
+	Thu, 11 Apr 2024 15:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="aZbdSLyI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CX5Di0Me"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EA8D534;
-	Thu, 11 Apr 2024 15:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FBF15E1FC;
+	Thu, 11 Apr 2024 15:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712848186; cv=none; b=GsPnhbzsbh8HiwH02qo+4HfOs+0VwGin7oEwumyELaYWq2Izt5toVkxKXHw25z1zW3QmWTRIq24VNo+JYaXVas2MdAHQnhHPBjWvZoUMzbGnJZopSWwYcIP426HUMzO7eu493A/hepGOBQFICLStSBm8HxF8EGGPf+sruKfuzyM=
+	t=1712849732; cv=none; b=lslZtCa84bDoY1ak2Tl17Q1Wr30Icoj0/sjb0AhKGqcQudm3vcRb+oHVwB5xi5CoDtykUN9G/5SxYO2/hE55FXpzyA549o4+peBwMzp3up1AN7qhjS01T5vGVbDoetXeJcHKSjINCuQwfXevVHcEOSbhiBMPTg5hB5anBSKaAJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712848186; c=relaxed/simple;
-	bh=Weouvo161mz85+Ws3kWCHEAN8xCME/9Sry1jGNBqSMk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=jSDbCY6qQws53GZUgVbNSNtz062+J71d1hcs7nycPv1yY6ocP7ZeoPV3dULSz7AYLbf/IomDudIpfvbEvMUNRleLaV0DIeGytQ/udepXPnH7eGlpeS6FcQbyTUcgGowP7A4YmjLA2dr+g8NXdTeXjw5lwUh39luxnSDb9qBF020=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=aZbdSLyI; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1712848147; x=1714148147;
-	bh=cCeEsEVNtOvyeZAP8P6CFO9h6vuYp0g9sWCTeF8QBqc=; h=From;
-	b=aZbdSLyIVl3tvrFOIk+Zr5D1SzvZAbhOXUdHCwd0UGiy1HV/xtG2xvif53SQKGZVD
-	 GlSQSwoDJnZAU18Tn8N3UoMiINOwj2Eoh9Ohs4RAg/Qas/XfZmkqHLHTDowJHhz9Dn
-	 zGAK1q4EoU6T42iW01R3rM7xDiNXGiajh8N5VqD6uf4tPE55vigQj1M7/TdSu7MPVx
-	 PG9bfGFkXeRhofxZXZ56749LgtBba2obs6DrXTd+2FGglYVN5OVvLJXRVSjunagMRg
-	 iEE93/oB2n+Mdp12ees3RkmlxOcetPxmkq0hrmM17dPmR59egM5i/0fDQ48QZXOICh
-	 dhBomyUksKlPQ==
-Received: from localhost (koleje-wifi-0017.koleje.cuni.cz [78.128.191.17])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 43BF95MH032359
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 11 Apr 2024 17:09:07 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
+	s=arc-20240116; t=1712849732; c=relaxed/simple;
+	bh=z0pcroyd11LnVMpI4mi43HQ7jDXW13QpWwjLygxhuGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttP+8ZEEQaCi3OKL044hm80U3qG3rWDDEPn3Sil30I4z0RLOODUqXSonUhHgh/Dvx5tnfxQEnDZT0sJpHrJLgQv+aJ1aNmybyJh1XdhwxVpxgTVhy3ZJ/Ja6itpVbbBeLw3zyBh3e2038OUdSWykVyOUUZMyZIgaqEj+RFBs+ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CX5Di0Me; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D6B9C072AA;
+	Thu, 11 Apr 2024 15:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712849730;
+	bh=z0pcroyd11LnVMpI4mi43HQ7jDXW13QpWwjLygxhuGo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CX5Di0MeJiiOLUI78MbeuBXjkRJntmpG2H/zV+uqpBdxEE3rsbOczeRF3FzbYGBsR
+	 h2wfrTgLAaQnPicJHaZ6NqGqpMGbAK9Xi7Fsqw4q8WuxNRbfm015QuU69OV+5gT/8f
+	 Sk0KqDXuwvQgcFX8FcAGFeY0WJACDnzBoRyYZMM0rSo5jdfPTE+Ut9WtspxL1AuwMK
+	 8PdRtp4D4+iRSoXLW+5mrtu4nkUeYo9F3utAJNiuHp5nGQAeN03we2PfU1vhX5DM6s
+	 y21K2PphWjyM4afWe2/25HNTeuFlJ1tLU2+9oTetnRTVUVuvM912MgZl+Mxvnysscx
+	 0D/SlDzMBaabw==
+Date: Thu, 11 Apr 2024 16:35:25 +0100
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	broonie@kernel.org, jeff@labundy.com, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH RESEND v10 3/5] mfd: cs40l50: Add support for CS40L50
+ core driver
+Message-ID: <20240411153525.GF2399047@google.com>
+References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
+ <20240408153214.42368-4-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Apr 2024 17:09:40 +0200
-Message-Id: <D0HE07BHD1T8.HQLIBUHTRVGT@matfyz.cz>
-Cc: "Rob Herring" <robh@kernel.org>,
-        "Krzysztof Kozlowski"
- <krzysztof.kozlowski+dt@linaro.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Liam Girdwood"
- <lgirdwood@gmail.com>,
-        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        =?utf-8?q?Duje_Mihanovi=C4=87?=
- <duje.mihanovic@skole.hr>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] mfd: add driver for Marvell 88PM886 PMIC
-To: "Lee Jones" <lee@kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-References: <20240331105608.7338-2-balejk@matfyz.cz>
- <20240331105608.7338-4-balejk@matfyz.cz>
- <20240411113726.GH1980182@google.com>
-In-Reply-To: <20240411113726.GH1980182@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240408153214.42368-4-jogletre@opensource.cirrus.com>
 
-Lee Jones, 2024-04-11T12:37:26+01:00:
-[...]
-> > diff --git a/drivers/mfd/88pm886.c b/drivers/mfd/88pm886.c
-> > new file mode 100644
-> > index 000000000000..e06d418a5da9
-> > --- /dev/null
-> > +++ b/drivers/mfd/88pm886.c
-> > @@ -0,0 +1,157 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +#include <linux/i2c.h>
-> > +#include <linux/mfd/core.h>
-> > +#include <linux/module.h>
-> > +#include <linux/notifier.h>
-> > +#include <linux/of.h>
-> > +#include <linux/reboot.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#include <linux/mfd/88pm886.h>
-> > +
-> > +#define PM886_REG_INT_STATUS1			0x05
-> > +
-> > +#define PM886_REG_INT_ENA_1			0x0a
-> > +#define PM886_INT_ENA1_ONKEY			BIT(0)
-> > +
-> > +#define PM886_IRQ_ONKEY				0
-> > +
-> > +#define PM886_REGMAP_CONF_MAX_REG		0xef
->
-> Why have you split the defines up between here and the header?
+On Mon, 08 Apr 2024, James Ogletree wrote:
 
-I tried to keep defines tied to the code which uses them and only put
-defines needed in multiple places in the header. With the exception of
-closely related things, such as register bits which I am keeping
-together with the respective register definitions for clarity. Does that
-not make sense?
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
+> 
+> The MFD component registers and initializes the device.
+> 
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> ---
+>  MAINTAINERS                 |   2 +
+>  drivers/mfd/Kconfig         |  30 ++
+>  drivers/mfd/Makefile        |   4 +
+>  drivers/mfd/cs40l50-core.c  | 570 ++++++++++++++++++++++++++++++++++++
+>  drivers/mfd/cs40l50-i2c.c   |  68 +++++
+>  drivers/mfd/cs40l50-spi.c   |  68 +++++
+>  include/linux/mfd/cs40l50.h | 137 +++++++++
+>  7 files changed, 879 insertions(+)
+>  create mode 100644 drivers/mfd/cs40l50-core.c
+>  create mode 100644 drivers/mfd/cs40l50-i2c.c
+>  create mode 100644 drivers/mfd/cs40l50-spi.c
+>  create mode 100644 include/linux/mfd/cs40l50.h
 
-> Please place them all in the header.
+Looks like this hasn't been updated since my last review.
 
-Would you then also have me move all the definitions from the regulators
-driver there?
-
-[...]
-
-> > +	err =3D devm_mfd_add_devices(dev, 0, pm886_devs, ARRAY_SIZE(pm886_dev=
-s),
->
-> Why 0?
-
-PLATFORM_DEVID_AUTO then? Or will PLATFORM_DEVID_NONE suffice since the
-cells all have different names now (it would probably cause problems
-though if the driver was used multiple times for some reason, wouldn't
-it?)?
-
-Thank you,
-K. B.
+-- 
+Lee Jones [李琼斯]
 
