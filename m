@@ -1,137 +1,112 @@
-Return-Path: <linux-input+bounces-2914-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2915-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90E58A08F5
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 08:58:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0CC8A0917
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 09:06:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 947F628541D
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 06:58:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 906491F21D06
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 07:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B8F613DDB7;
-	Thu, 11 Apr 2024 06:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AFBE13DB9C;
+	Thu, 11 Apr 2024 07:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iHG3m7pr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qiu8HGyu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D9713D622;
-	Thu, 11 Apr 2024 06:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D9713CAB3;
+	Thu, 11 Apr 2024 07:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712818713; cv=none; b=Aqfz92tuDp6WkuyJOdnKoAZ83Vhaw1xHznMHhnmTABgSaSH5Z38esy1yhfOGoifyxjfQqJwBEVtGjJzR7Rd8hd5QyCcKJyP6hekmkjLKIuAGEV+n+Jlrtn9caLeKZmQfX10NDEsVG19V4Yj6yC1nZD0yCIVLs6x6Qqsc6zFHdZs=
+	t=1712819166; cv=none; b=odZv3LkCeRmM1sbe/X+yvGXU+0rM4zVHv1oA0NJI8Rt0SSzU/ucsDelpBy8CFGOKXTtxK/DcIS+CXsQOCiNdYEwm7hRpp7b4Ld65g+/2Rd3h4UKDFzKb+oRAANH0RitHdexsgANo6/UHYnY6ddIrUJUE+cWAyKYCPFLp9UaIqvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712818713; c=relaxed/simple;
-	bh=kzfkR7Nf9Px5mfhdw6SO9VUjHqXz5tShkGg2fEBVLCI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ibOGnDbIwNeObixt9RMrtPMGsJAXbGHC96r4Iak+bHeonYoNOjdCalmRd0lG2/Z/84IMr3JUV37/9B92gTvNF2otFoEt7UbalTP8QbtRIyxkHaLJWiK3wQbyzpRnDxJ3w4xHVvzUjwB/rjAwv1Rjeu9c7DCvG5yhIyCI99YQQvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iHG3m7pr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43B5CP3m030910;
-	Thu, 11 Apr 2024 06:58:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=HznUP1GEpxyDEujedrVeW8QT40sNoRwnMZ5vjMKDYxI=; b=iH
-	G3m7prKdg1YHci8A8iJMAM2rsYfhG9MxFyKP0amMdBPY6TOIzxSd7axUEi2p1Axt
-	ZPS86bbVHGmOlyDbdnvUfEgCc7wwhE+q2IMW3/fP4tHma6nvi5B2+Tui+k/2j4EO
-	DJwo1jMT9fWO4dOhvHHcri/woRLVu5+FD3eNFjgghu+BytkZohOShjT874UpVudC
-	AxkNALTkSkZCo1Q1bW6iK1iFIShfGZlyc2NjoHbN9cDc0IYy6Q6E4ih/qvZ9xdA0
-	YKWr5Q8ZjoyzPZDthJbxAiRaoD0EXeAVZXpX3ifJV5lf+hKfkqr/jF3VyxzDVUKh
-	hh5n5JhRkK34ywiWGXUA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xdquhvsem-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 06:58:26 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43B6wP3L022483
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 06:58:25 GMT
-Received: from [10.253.12.44] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 10 Apr
- 2024 23:58:20 -0700
-Message-ID: <229fb5b2-34c9-402b-9812-f91e6cc31c57@quicinc.com>
-Date: Thu, 11 Apr 2024 14:58:18 +0800
+	s=arc-20240116; t=1712819166; c=relaxed/simple;
+	bh=Ms7MWhYSgoVLEWFhl7RcDsGUnMu4a3jpqyQRCc+1JyY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pvsQirx0KDYcGRSUUOKu1gYjTs3oXCMOwXmiLB22H06ojOyAy/bow2vSkIFeWiG50YqHcGm7m6jarj57pMULBj6ZGwvB75dscwes41mJHhVRZNPBZLNkyZBNAfbBaMh6x+Y7kuiR1gsWfMv88YbfLqSUDU0HIQORYfCxhErVXz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qiu8HGyu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA075C433F1;
+	Thu, 11 Apr 2024 07:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712819165;
+	bh=Ms7MWhYSgoVLEWFhl7RcDsGUnMu4a3jpqyQRCc+1JyY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Qiu8HGyuTMrzRYWC4zn1orwGBCW2MIpxyIuhmWW0E2KHCxu88kduNIZn9AHWMhbLM
+	 1rtMlBldX8rH2qJ2DwGchWjArr1tNrrH+9fJaV92hIM1vHUn1LMNjBJ3itBdWCoEgZ
+	 YL2i/Jfq1UABuZx4SxntZUBKAceTozQfGOY9pzC4lQPOZ3PWnFn8vSwV+kCVBsaLQK
+	 ZTFSYdo3SjiBita1Iz58OUJYtZu1YkRXqzt3byR1Hx3+0U4Y2nl6/4M5QxbWr6LBPM
+	 7ly0xVltPjVQGezwtWTP/aQ6Px4ULZTCwEiDPgYJZnh43u43nxW/zyBxrDccj8c6sT
+	 +stP4P7ToFjTw==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Date: Thu, 11 Apr 2024 09:05:56 +0200
+Subject: [PATCH] HID: bpf: fix hid_bpf_input_report() when hid-core is not
+ ready
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/3] input: pm8xxx-vibrator: add new SPMI vibrator
- support
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, <kernel@quicinc.com>,
-        Andy Gross
-	<agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20240401-pm8xxx-vibrator-new-design-v8-0-6f2b8b03b4c7@quicinc.com>
- <20240401-pm8xxx-vibrator-new-design-v8-3-6f2b8b03b4c7@quicinc.com>
- <3f8c970c-6a0d-4fc3-a2d3-e0797e7055cf@linaro.org>
-From: Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <3f8c970c-6a0d-4fc3-a2d3-e0797e7055cf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3rYAA5HCMwsUzQ4-R7R_mCoI_ADh6Or3
-X-Proofpoint-GUID: 3rYAA5HCMwsUzQ4-R7R_mCoI_ADh6Or3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-11_02,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- adultscore=0 clxscore=1015 mlxscore=0 malwarescore=0 mlxlogscore=685
- phishscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404110048
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240411-fix-hid-bpf-v1-1-4ae913031a8c@kernel.org>
+X-B4-Tracking: v=1; b=H4sIANOLF2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDE0ND3bTMCt2MzBTdpII03bQkM3OgWGKymamBElBHQVEqUBpsWnRsbS0
+ ANYJovl0AAAA=
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712819164; l=1376;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=Ms7MWhYSgoVLEWFhl7RcDsGUnMu4a3jpqyQRCc+1JyY=;
+ b=tLc066LRWOxZye4PVz2dESDMT6CmvYLPRXg7AV5V7wdt1ZyReiZsy3iLPsDz+F2G0j3jgiNP3
+ XyO3H/qDj6oA1L6putW3JnjQdIq6EextwtUn48ibUFZ5B0T8aYira7q
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Hi Konrad,
+Reported by linux-next:
+After merging the hid tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
 
-On 4/11/2024 2:10 AM, Konrad Dybcio wrote:
-> 
-> 
->> +    if (regs->drv2_mask) {
->> +        if (on)
->> +            val = (vib->level << regs->drv2_shift) & regs->drv2_mask;
->> +        else
->> +            val = 0;
->> +        rc = regmap_write(vib->regmap, vib->drv2_addr, val);
-> 
-> Are you purposefuly zeroing out the other bits?
-> 
-> If yes, consider regmap_write_bits here
-> If not, consider regmap_update_bits here
-> 
->> +        if (rc < 0)
->> +            return rc;
-> 
-> Ignore regmap_r/w errors, these mean a complete failure of the API and
-> we don't generally assume MMIO accesses can fail
-> 
-> Unless SPMI is known to have issues here
-> 
-Sorry, forgot to reply on this comment. Yes, SPMI transaction would fail 
-(even with very low odds) on some boards if the layout of SPMI lines is 
-not good enough. I'd like to keep the consistence since the whole driver 
-also checks the regmap_r/w errors.
+x86_64-linux-gnu-ld: vmlinux.o: in function `hid_bpf_input_report':
+(.text+0x1c75181): undefined reference to `hid_input_report'
 
+Caused by commit 9be50ac30a83 ("HID: bpf: allow to inject HID event
+from BPF")
+
+I just forgot to put the indirection in place.
+
+Link: https://lore.kernel.org/linux-kernel/20240411105131.7830f966@canb.auug.org.au/
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Seems like an overlook in my patch.
+---
+ drivers/hid/bpf/hid_bpf_dispatch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
+index 79ece3d1b9e2..10289f44d0cc 100644
+--- a/drivers/hid/bpf/hid_bpf_dispatch.c
++++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+@@ -534,7 +534,7 @@ hid_bpf_input_report(struct hid_bpf_ctx *ctx, enum hid_report_type type, u8 *buf
+ 
+ 	hdev = (struct hid_device *)ctx->hid; /* discard const */
+ 
+-	return hid_input_report(hdev, type, buf, size, 0);
++	return hid_bpf_ops->hid_input_report(hdev, type, buf, size, 0);
+ }
+ __bpf_kfunc_end_defs();
+ 
+
+---
+base-commit: 685dadafbde29dc3d6b7a13be284d684b06d4d4f
+change-id: 20240411-fix-hid-bpf-fb67411ac650
+
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
 
