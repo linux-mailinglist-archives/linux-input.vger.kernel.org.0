@@ -1,253 +1,397 @@
-Return-Path: <linux-input+bounces-2927-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2928-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C4F8A1270
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 13:02:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A56F8A1323
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 13:37:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01B9E1F28E8E
-	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 11:02:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 223A728213A
+	for <lists+linux-input@lfdr.de>; Thu, 11 Apr 2024 11:37:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8983A1474AA;
-	Thu, 11 Apr 2024 11:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC48214884C;
+	Thu, 11 Apr 2024 11:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J+ieevYi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1+kv548"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A751474B9
-	for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 11:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7988613D258;
+	Thu, 11 Apr 2024 11:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712833362; cv=none; b=uXXbQjNIoASP/1bQA4kD/zCwsdAEoRxsxWZaL0CC4VkTORMYkxjrAbj4cabtvQuGbMGrdI9bVX8DHuERB6s76vqfb+GPT1zAdJOUhiWoUPrP2UbZ/ifCI6Sw1ShUXaOqOkva+DxVDSCGH9wvRnmO8Tq7TyWQSenHRwr/Zm0jiTI=
+	t=1712835452; cv=none; b=hg7XyKSCxrfbqSN4qjf0YXUGZAghWoKEXXcH+ktPJ6tiNMOECWm8OmGnFZeTlGEnxw6IijCQotccVMWocTH8SF/HhrLZ5yNCcsiUMLsGKFXNCIaDdVNUZubvGUrWegw07lATcPXNH6hdir/uoV0ubOHXJgZRNATqOv0NF+K0d4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712833362; c=relaxed/simple;
-	bh=koAJ18xijCKpgh9Hxgs6EZ/agSJ7rjMVowQIHOKcihM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mh4yjlF7sFtxTXf6FVhbLC1ULOcckVhVSAW9+ZdFOB53DuY9ed6L7bpamhxoPU5c13gidrUqZLK3TT9Wu1TIDxag8Riz22ZMwgVuAhLLXQgAiArilUrxFm4pjEE5dkpINPt+Y8by0eCW82KKmC043dkbrt/NNC31B1LWUTzaezI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J+ieevYi; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-615053a5252so6800607b3.1
-        for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 04:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712833359; x=1713438159; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mHoLWByMG5hFDATGezwiAdEXftWUdi3XEvIaRp+Grs=;
-        b=J+ieevYidQPN/OMZMFD+/oVAUd2FRm41CrCahvabNUOqk60ERdCEUAQX5nsi7W/ppt
-         oxGhTQXMzvrBngTR5Age3zAectO1RQy2dE4XwMO6rcbRuppugtqHW0VOUntjrcDpS5bD
-         byHS2hI8ymnMhOvmC/GEsQ1EfQnRaB8nqBuOghA5o3BBzCu6NdswwKQFhO9YYoTDYZBd
-         xQxnEm7yRd1Qx9HWRS1yuzH2s38bcrMNTZ5HwEApJATkO08ODmSVgXYod11SdSSRwfs1
-         w5+Z5RspcvDYqXC07wzbvn65n+ylmRRZGduJT278EQ/qhsFvmOC0zdmO8pJ+H/8tw4PP
-         rM9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712833359; x=1713438159;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2mHoLWByMG5hFDATGezwiAdEXftWUdi3XEvIaRp+Grs=;
-        b=kuwl9ugTG5hE30bI0K7S2YYHRo+lFOn/rY6IJtsvfyVMrftNAm8t/I6ycXFeH0URtm
-         neX34vYk8YtPA5TurpuI22LK+3krCs5abMZ1k/xXB0/v29FvcEtfiQ02JtD7WapzAnrG
-         VH2jHuDufSuOCkxCeEflSFvaSZYH8uhw+eeFOCVN4waCB/1A5ic1ZzORDpuFecFE3+Z/
-         5zWnGP4l1e/97VWGM07Sta6xHcxt/mFwCWb5fxKvAb2DfPVPGBBwj51nJFqq0EpuTZzY
-         o7wlsxqZagJSMmO3mseK3aEfHGUeDPMfne3t+yclT0nc7Y8lZVOhlNUZZTJ4ZcrtDDtI
-         XNJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQEWL2Vqyk2R9hwU+2qquk5jjACLjcd8XlWPcNLwjh1plF4TL6+1SgV9M/xx4TqODYtkswvOdMK9DT7cKvZCMbmAf7hkwDvVIVbcY=
-X-Gm-Message-State: AOJu0Yw9VZ8TQpuFf0a7copHr6rjpyjxsLvSTLGAJNURMVr+dAhG9D5b
-	dRhRpKlk3Mj7HbmEFMfulycksUlmw3ytDMTchKvhhVBr7zyNEy0h6IMKU0H7btmXwDmrGeaGS+w
-	1aCfoJ5VRQX4SuvB7AtxTBwMO/MlfK8SZopuwFA==
-X-Google-Smtp-Source: AGHT+IHh3bUULY9MUYjKN8n1JEV1+Ozve/17NFF9n0p/vOM0uIES+twT0cn21u0mGgHaaPc0bylLuIv5XjeucA3l8cg=
-X-Received: by 2002:a05:690c:6a0e:b0:618:1eff:24e4 with SMTP id
- ih14-20020a05690c6a0e00b006181eff24e4mr1775777ywb.15.1712833358989; Thu, 11
- Apr 2024 04:02:38 -0700 (PDT)
+	s=arc-20240116; t=1712835452; c=relaxed/simple;
+	bh=R9Qx7TxMcEwjqshW3m2D1I/bGjxEyy5r1jfF0S/heEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RMRf8rHanO1Hqtw9PMyIhO9coiwZS1imst9bi0pE09eIn2apE+m23NOz/4eZzyKogi+1w0tu4aaAE4sQ406dk5yJ1SoQ34kMChb4cNXfOoIrEGZfz4zKTZQz4PhPr28/GO5Pek1n0+rgxzQ0oT/TMxEhZ+dWG43C32YyWL4U4/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1+kv548; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657DDC433F1;
+	Thu, 11 Apr 2024 11:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712835452;
+	bh=R9Qx7TxMcEwjqshW3m2D1I/bGjxEyy5r1jfF0S/heEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G1+kv548oYh5IRv4b3xAUPi4JLn+yXPPEYwqEZNqqcQE2rdg1jHJe5mXcQM55zu67
+	 S56WSK/YeYZtO5hJ4G4Bbu0TKGgTunrPs0UibRvsDipJXh7Pxdsuo6W+BRCznivmDI
+	 6fleGN5OPX3YgTU5n5WPR6jQxEyC5/RE7nhTGGJ4iSEbfeqsUxNVqyQHXWTE55r9TD
+	 jpAMECaS+sdnuEwwIXTeVVWsEO0c0zBKwgHJJQ64ASH1JVa5Cy6D1koQdYZ+jgr5tC
+	 U9JaUMcNd531cy4cbj1A09qQ64hGTsz2QoHUn8KjFTZ5dmwlxBgCsdafM+eACBmlaA
+	 4M/6bquJIlatw==
+Date: Thu, 11 Apr 2024 12:37:26 +0100
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <balejk@matfyz.cz>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH 2/5] mfd: add driver for Marvell 88PM886 PMIC
+Message-ID: <20240411113726.GH1980182@google.com>
+References: <20240331105608.7338-2-balejk@matfyz.cz>
+ <20240331105608.7338-4-balejk@matfyz.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240411-pm8xxx-vibrator-new-design-v9-0-7bf56cb92b28@quicinc.com>
- <20240411-pm8xxx-vibrator-new-design-v9-4-7bf56cb92b28@quicinc.com>
-In-Reply-To: <20240411-pm8xxx-vibrator-new-design-v9-4-7bf56cb92b28@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 11 Apr 2024 14:02:28 +0300
-Message-ID: <CAA8EJprJ4s-o1uPiPjRpq4nwG4cdV7K8XMhVLOQn2D=kJLiVzQ@mail.gmail.com>
-Subject: Re: [PATCH v9 4/4] input: pm8xxx-vibrator: add new SPMI vibrator support
-To: quic_fenglinw@quicinc.com
-Cc: kernel@quicinc.com, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240331105608.7338-4-balejk@matfyz.cz>
 
-On Thu, 11 Apr 2024 at 11:32, Fenglin Wu via B4 Relay
-<devnull+quic_fenglinw.quicinc.com@kernel.org> wrote:
->
-> From: Fenglin Wu <quic_fenglinw@quicinc.com>
->
-> Add support for a new SPMI vibrator module which is very similar
-> to the vibrator module inside PM8916 but has a finer drive voltage
-> step and different output voltage range, its drive level control
-> is expanded across 2 registers. The vibrator module can be found
-> in following Qualcomm PMICs: PMI632, PM7250B, PM7325B, PM7550BA.
->
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+On Sun, 31 Mar 2024, Karel Balej wrote:
+
+> Marvell 88PM886 is a PMIC which provides various functions such as
+> onkey, battery, charger and regulators. It is found for instance in the
+> samsung,coreprimevelte smartphone with which this was tested. Implement
+> basic support to allow for the use of regulators and onkey.
+> 
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
 > ---
->  drivers/input/misc/pm8xxx-vibrator.c | 51 +++++++++++++++++++++++++++++-------
->  1 file changed, 42 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-> index 2959edca8eb9..35bb6f450fd2 100644
-> --- a/drivers/input/misc/pm8xxx-vibrator.c
-> +++ b/drivers/input/misc/pm8xxx-vibrator.c
-> @@ -12,10 +12,10 @@
->  #include <linux/regmap.h>
->  #include <linux/slab.h>
->
-> -#define VIB_MAX_LEVEL_mV       (3100)
-> -#define VIB_MIN_LEVEL_mV       (1200)
-> -#define VIB_PER_STEP_mV        (100)
-> -#define VIB_MAX_LEVELS         (VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV + VIB_PER_STEP_mV)
-> +#define VIB_MAX_LEVEL_mV(vib)  (vib->drv2_addr ? 3544 : 3100)
-> +#define VIB_MIN_LEVEL_mV(vib)  (vib->drv2_addr ? 1504 : 1200)
-> +#define VIB_PER_STEP_mV(vib)   (vib->drv2_addr ? 8 : 100)
-> +#define VIB_MAX_LEVELS(vib)    (VIB_MAX_LEVEL_mV(vib) - VIB_MIN_LEVEL_mV(vib) + VIB_PER_STEP_mV(vib))
->
->  #define MAX_FF_SPEED           0xff
->
-> @@ -26,6 +26,9 @@ struct pm8xxx_regs {
->         unsigned int drv_offset;
->         unsigned int drv_mask;
->         unsigned int drv_shift;
-> +       unsigned int drv2_offset;
-> +       unsigned int drv2_mask;
-> +       unsigned int drv2_shift;
->         unsigned int drv_en_manual_mask;
->  };
->
-> @@ -45,6 +48,18 @@ static struct pm8xxx_regs pm8916_regs = {
->         .drv_en_manual_mask = 0,
->  };
->
-> +static struct pm8xxx_regs pmi632_regs = {
-> +       .enable_offset = 0x46,
-> +       .enable_mask = BIT(7),
-> +       .drv_offset = 0x40,
-> +       .drv_mask = GENMASK(7, 0),
-> +       .drv_shift = 0,
-> +       .drv2_offset = 0x41,
-> +       .drv2_mask = GENMASK(3, 0),
-> +       .drv2_shift = 8,
-> +       .drv_en_manual_mask = 0,
+> 
+> Notes:
+>     v1:
+>     - Address Mark's feedback:
+>       - Move regmap config back out of the header and rename it. Also lower
+>         its maximum register based on what's actually used in the downstream
+>         code.
+>     RFC v4:
+>     - Use MFD_CELL_* macros.
+>     - Address Lee's feedback:
+>       - Do not define regmap_config.val_bits and .reg_bits.
+>       - Drop everything regulator related except mfd_cell (regmap
+>         initialization, IDs enum etc.). Drop pm886_initialize_subregmaps.
+>       - Do not store regmap pointers as an array as there is now only one
+>         regmap. Also drop the corresponding enum.
+>       - Move regmap_config to the header as it is needed in the regulators
+>         driver.
+>       - pm886_chip.whoami -> chip_id
+>       - Reword chip ID mismatch error message and print the ID as
+>         hexadecimal.
+>       - Fix includes in include/linux/88pm886.h.
+>       - Drop the pm886_irq_number enum and define the (for the moment) only
+>         IRQ explicitly.
+>     - Have only one MFD cell for all regulators as they are now registered
+>       all at once in the regulators driver.
+>     - Reword commit message.
+>     - Make device table static and remove comma after the sentinel to signal
+>       that nothing should come after it.
+>     RFC v3:
+>     - Drop onkey cell .of_compatible.
+>     - Rename LDO page offset and regmap to REGULATORS.
+>     RFC v2:
+>     - Remove some abstraction.
+>     - Sort includes alphabetically and add linux/of.h.
+>     - Depend on OF, remove of_match_ptr and add MODULE_DEVICE_TABLE.
+>     - Use more temporaries and break long lines.
+>     - Do not initialize ret in probe.
+>     - Use the wakeup-source DT property.
+>     - Rename ret to err.
+>     - Address Lee's comments:
+>       - Drop patched in presets for base regmap and related defines.
+>       - Use full sentences in comments.
+>       - Remove IRQ comment.
+>       - Define regmap_config member values.
+>       - Rename data to sys_off_data.
+>       - Add _PMIC suffix to Kconfig.
+>       - Use dev_err_probe.
+>       - Do not store irq_data.
+>       - s/WHOAMI/CHIP_ID
+>       - Drop LINUX part of include guard name.
+>       - Merge in the regulator series modifications in order to have more
+>         devices and modify the commit message accordingly. Changes with
+>         respect to the original regulator series patches:
+>         - ret -> err
+>         - Add temporary for dev in pm88x_initialize_subregmaps.
+>         - Drop of_compatible for the regulators.
+>         - Do not duplicate LDO regmap for bucks.
+>     - Rewrite commit message.
+> 
+>  drivers/mfd/88pm886.c       | 157 ++++++++++++++++++++++++++++++++++++
+>  drivers/mfd/Kconfig         |  12 +++
+>  drivers/mfd/Makefile        |   1 +
+>  include/linux/mfd/88pm886.h |  30 +++++++
+>  4 files changed, 200 insertions(+)
+>  create mode 100644 drivers/mfd/88pm886.c
+>  create mode 100644 include/linux/mfd/88pm886.h
+> 
+> diff --git a/drivers/mfd/88pm886.c b/drivers/mfd/88pm886.c
+> new file mode 100644
+> index 000000000000..e06d418a5da9
+> --- /dev/null
+> +++ b/drivers/mfd/88pm886.c
+> @@ -0,0 +1,157 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#include <linux/i2c.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/module.h>
+> +#include <linux/notifier.h>
+> +#include <linux/of.h>
+> +#include <linux/reboot.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <linux/mfd/88pm886.h>
+> +
+> +#define PM886_REG_INT_STATUS1			0x05
+> +
+> +#define PM886_REG_INT_ENA_1			0x0a
+> +#define PM886_INT_ENA1_ONKEY			BIT(0)
+> +
+> +#define PM886_IRQ_ONKEY				0
+> +
+> +#define PM886_REGMAP_CONF_MAX_REG		0xef
+
+Why have you split the defines up between here and the header?
+
+Please place them all in the header.
+
+> +static const struct regmap_config pm886_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = PM886_REGMAP_CONF_MAX_REG,
 > +};
 > +
->  /**
->   * struct pm8xxx_vib - structure to hold vibrator data
->   * @vib_input_dev: input device supporting force feedback
-> @@ -53,6 +68,7 @@ static struct pm8xxx_regs pm8916_regs = {
->   * @regs: registers' info
->   * @enable_addr: vibrator enable register
->   * @drv_addr: vibrator drive strength register
-> + * @drv2_addr: vibrator drive strength upper byte register
->   * @speed: speed of vibration set from userland
->   * @active: state of vibrator
->   * @level: level of vibration to set in the chip
-> @@ -65,6 +81,7 @@ struct pm8xxx_vib {
->         const struct pm8xxx_regs *regs;
->         unsigned int enable_addr;
->         unsigned int drv_addr;
-> +       unsigned int drv2_addr;
->         int speed;
->         int level;
->         bool active;
-> @@ -82,6 +99,10 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
->         unsigned int val = vib->reg_vib_drv;
->         const struct pm8xxx_regs *regs = vib->regs;
->
-> +       /* vibrator without drv2_addr needs be programmed in step increments */
-
-How are these two items related? Are you using vib->drv2_addr as a
-marker for 'particular generation'? In such a case please use a flag
-instead.
-
-The rest looks good to me.
-
-> +       if (!vib->drv2_addr)
-> +               vib->level /= VIB_PER_STEP_mV(vib);
+> +static struct regmap_irq pm886_regmap_irqs[] = {
+> +	REGMAP_IRQ_REG(PM886_IRQ_ONKEY, 0, PM886_INT_ENA1_ONKEY),
+> +};
 > +
->         if (on)
->                 val |= (vib->level << regs->drv_shift) & regs->drv_mask;
->         else
-> @@ -93,6 +114,17 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
->
->         vib->reg_vib_drv = val;
->
-> +       if (regs->drv2_mask) {
-> +               if (on)
-> +                       val = (vib->level << regs->drv2_shift) & regs->drv2_mask;
-> +               else
-> +                       val = 0;
+> +static struct regmap_irq_chip pm886_regmap_irq_chip = {
+> +	.name = "88pm886",
+> +	.irqs = pm886_regmap_irqs,
+> +	.num_irqs = ARRAY_SIZE(pm886_regmap_irqs),
+> +	.num_regs = 4,
+> +	.status_base = PM886_REG_INT_STATUS1,
+> +	.ack_base = PM886_REG_INT_STATUS1,
+> +	.unmask_base = PM886_REG_INT_ENA_1,
+> +};
 > +
-> +               rc = regmap_write_bits(vib->regmap, vib->drv2_addr, regs->drv2_mask, val);
-> +               if (rc < 0)
-> +                       return rc;
-> +       }
+> +static struct resource pm886_onkey_resources[] = {
+> +	DEFINE_RES_IRQ_NAMED(PM886_IRQ_ONKEY, "88pm886-onkey"),
+> +};
 > +
->         if (regs->enable_mask)
->                 rc = regmap_update_bits(vib->regmap, vib->enable_addr,
->                                         regs->enable_mask, on ? regs->enable_mask : 0);
-> @@ -115,17 +147,16 @@ static void pm8xxx_work_handler(struct work_struct *work)
->                 return;
->
->         /*
-> -        * pmic vibrator supports voltage ranges from 1.2 to 3.1V, so
-> +        * pmic vibrator supports voltage ranges from MIN_LEVEL to MAX_LEVEL, so
->          * scale the level to fit into these ranges.
->          */
->         if (vib->speed) {
->                 vib->active = true;
-> -               vib->level = ((VIB_MAX_LEVELS * vib->speed) / MAX_FF_SPEED) +
-> -                                               VIB_MIN_LEVEL_mV;
-> -               vib->level /= VIB_PER_STEP_mV;
-> +               vib->level = VIB_MIN_LEVEL_mV(vib);
-> +               vib->level += mult_frac(VIB_MAX_LEVELS(vib), vib->speed, MAX_FF_SPEED);
->         } else {
->                 vib->active = false;
-> -               vib->level = VIB_MIN_LEVEL_mV / VIB_PER_STEP_mV;
-> +               vib->level = VIB_MIN_LEVEL_mV(vib);
->         }
->
->         pm8xxx_vib_set(vib, vib->active);
-> @@ -203,6 +234,7 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
->
->         vib->enable_addr = reg_base + regs->enable_offset;
->         vib->drv_addr = reg_base + regs->drv_offset;
-> +       vib->drv2_addr = reg_base + regs->drv2_offset;
->
->         /* operate in manual mode */
->         error = regmap_read(vib->regmap, vib->drv_addr, &val);
-> @@ -257,6 +289,7 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
->         { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
->         { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
->         { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
-> +       { .compatible = "qcom,pmi632-vib", .data = &pmi632_regs },
->         { }
->  };
->  MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
->
-> --
-> 2.25.1
->
->
+> +static struct mfd_cell pm886_devs[] = {
+> +	MFD_CELL_RES("88pm886-onkey", pm886_onkey_resources),
+> +	MFD_CELL_NAME("88pm886-regulator"),
+> +};
+> +
+> +static int pm886_power_off_handler(struct sys_off_data *sys_off_data)
+> +{
+> +	struct pm886_chip *chip = sys_off_data->cb_data;
+> +	struct regmap *regmap = chip->regmap;
+> +	struct device *dev = &chip->client->dev;
+> +	int err;
+> +
+> +	err = regmap_update_bits(regmap, PM886_REG_MISC_CONFIG1, PM886_SW_PDOWN,
+> +				PM886_SW_PDOWN);
 
+Use 100-chars to avoid the '\n'.
+
+> +	if (err) {
+> +		dev_err(dev, "Failed to power off the device: %d\n", err);
+> +		return NOTIFY_BAD;
+> +	}
+> +	return NOTIFY_DONE;
+> +}
+> +
+> +static int pm886_setup_irq(struct pm886_chip *chip,
+> +		struct regmap_irq_chip_data **irq_data)
+> +{
+> +	struct regmap *regmap = chip->regmap;
+> +	struct device *dev = &chip->client->dev;
+> +	int err;
+> +
+> +	/* Set interrupt clearing mode to clear on write. */
+> +	err = regmap_update_bits(regmap, PM886_REG_MISC_CONFIG2,
+> +			PM886_INT_INV | PM886_INT_CLEAR | PM886_INT_MASK_MODE,
+> +			PM886_INT_WC);
+> +	if (err) {
+> +		dev_err(dev, "Failed to set interrupt clearing mode: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	err = devm_regmap_add_irq_chip(dev, regmap, chip->client->irq,
+> +					IRQF_ONESHOT, -1, &pm886_regmap_irq_chip,
+> +					irq_data);
+> +	if (err) {
+> +		dev_err(dev, "Failed to request IRQ: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int pm886_probe(struct i2c_client *client)
+> +{
+> +	struct regmap_irq_chip_data *irq_data;
+> +	struct device *dev = &client->dev;
+> +	struct pm886_chip *chip;
+> +	struct regmap *regmap;
+> +	unsigned int chip_id;
+> +	int err;
+> +
+> +	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
+> +	if (!chip)
+> +		return -ENOMEM;
+> +
+> +	chip->client = client;
+> +	chip->chip_id = (uintptr_t)device_get_match_data(dev);
+> +	i2c_set_clientdata(client, chip);
+> +
+> +	regmap = devm_regmap_init_i2c(client, &pm886_regmap_config);
+> +	if (IS_ERR(regmap))
+> +		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to initialize regmap\n");
+> +	chip->regmap = regmap;
+> +
+> +	err = regmap_read(regmap, PM886_REG_ID, &chip_id);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to read chip ID\n");
+> +
+> +	if (chip->chip_id != chip_id)
+> +		return dev_err_probe(dev, -EINVAL, "Unsupported chip: 0x%x\n", chip_id);
+> +
+> +	err = pm886_setup_irq(chip, &irq_data);
+> +	if (err)
+> +		return err;
+> +
+> +	err = devm_mfd_add_devices(dev, 0, pm886_devs, ARRAY_SIZE(pm886_devs),
+
+Why 0?
+
+> +				NULL, 0, regmap_irq_get_domain(irq_data));
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to add devices\n");
+> +
+> +	err = devm_register_power_off_handler(dev, pm886_power_off_handler, chip);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to register power off handler\n");
+> +
+> +	device_init_wakeup(dev, device_property_read_bool(dev, "wakeup-source"));
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id pm886_of_match[] = {
+> +	{ .compatible = "marvell,88pm886-a1", .data = (void *)PM886_A1_CHIP_ID },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, pm886_of_match);
+> +
+> +static struct i2c_driver pm886_i2c_driver = {
+> +	.driver = {
+> +		.name = "88pm886",
+> +		.of_match_table = pm886_of_match,
+> +	},
+> +	.probe = pm886_probe,
+> +};
+> +module_i2c_driver(pm886_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("Marvell 88PM886 PMIC driver");
+> +MODULE_AUTHOR("Karel Balej <balejk@matfyz.cz>");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 4b023ee229cf..d6a762b2bd47 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -794,6 +794,18 @@ config MFD_88PM860X
+>  	  select individual components like voltage regulators, RTC and
+>  	  battery-charger under the corresponding menus.
+>  
+> +config MFD_88PM886_PMIC
+> +	bool "Marvell 88PM886 PMIC"
+> +	depends on I2C=y
+> +	depends on OF
+> +	select REGMAP_I2C
+> +	select REGMAP_IRQ
+> +	select MFD_CORE
+> +	help
+> +	  This enables support for Marvell 88PM886 Power Management IC.
+> +	  This includes the I2C driver and the core APIs _only_, you have to
+> +	  select individual components like onkey under the corresponding menus.
+> +
+>  config MFD_MAX14577
+>  	tristate "Maxim Semiconductor MAX14577/77836 MUIC + Charger Support"
+>  	depends on I2C
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index c66f07edcd0e..d016b7fed354 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -7,6 +7,7 @@
+>  obj-$(CONFIG_MFD_88PM860X)	+= 88pm860x.o
+>  obj-$(CONFIG_MFD_88PM800)	+= 88pm800.o 88pm80x.o
+>  obj-$(CONFIG_MFD_88PM805)	+= 88pm805.o 88pm80x.o
+> +obj-$(CONFIG_MFD_88PM886_PMIC)	+= 88pm886.o
+>  obj-$(CONFIG_MFD_ACT8945A)	+= act8945a.o
+>  obj-$(CONFIG_MFD_SM501)		+= sm501.o
+>  obj-$(CONFIG_ARCH_BCM2835)	+= bcm2835-pm.o
+> diff --git a/include/linux/mfd/88pm886.h b/include/linux/mfd/88pm886.h
+> new file mode 100644
+> index 000000000000..5ce30a3b85aa
+> --- /dev/null
+> +++ b/include/linux/mfd/88pm886.h
+> @@ -0,0 +1,30 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef __MFD_88PM886_H
+> +#define __MFD_88PM886_H
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/regmap.h>
+> +
+> +#define PM886_A1_CHIP_ID		0xa1
+> +
+> +#define PM886_REG_ID			0x00
+> +
+> +#define PM886_REG_STATUS1		0x01
+> +#define PM886_ONKEY_STS1		BIT(0)
+> +
+> +#define PM886_REG_MISC_CONFIG1		0x14
+> +#define PM886_SW_PDOWN			BIT(5)
+> +
+> +#define PM886_REG_MISC_CONFIG2		0x15
+> +#define PM886_INT_INV			BIT(0)
+> +#define PM886_INT_CLEAR			BIT(1)
+> +#define PM886_INT_RC			0x00
+> +#define PM886_INT_WC			BIT(1)
+> +#define PM886_INT_MASK_MODE		BIT(2)
+> +
+> +struct pm886_chip {
+> +	struct i2c_client *client;
+> +	unsigned int chip_id;
+> +	struct regmap *regmap;
+> +};
+> +#endif /* __MFD_88PM886_H */
+> -- 
+> 2.44.0
+> 
 
 -- 
-With best wishes
-Dmitry
+Lee Jones [李琼斯]
 
