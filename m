@@ -1,127 +1,222 @@
-Return-Path: <linux-input+bounces-2944-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2945-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B64A8A269B
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 08:29:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0048A2AA7
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 11:15:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87A611C2189E
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 06:28:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 654A4285E2F
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 09:15:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 236425C82;
-	Fri, 12 Apr 2024 06:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C6C3D3BC;
+	Fri, 12 Apr 2024 09:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="LIvnVQpN"
+	dkim=pass (2048-bit key) header.d=carewolf.com header.i=@carewolf.com header.b="bQLyD9fJ";
+	dkim=permerror (0-bit key) header.d=carewolf.com header.i=@carewolf.com header.b="tyaIgkyC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from mailrelay4-3.pub.mailoutpod3-cph3.one.com (mailrelay4-3.pub.mailoutpod3-cph3.one.com [46.30.212.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884472D600
-	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 06:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D9814006
+	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 09:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712903336; cv=none; b=QrIR4UHXXbw4v5zpP2MBL+l08lYrUs6KA7hEcSgJXKxCoDhGwkr1Japb5mHo2sh4H1W2CzQSsz0Rbn/+RP3vTPkr2cLa/PddQ7kKvz5d2cyeqr+yOSbbJonYh1JHizdbOAV2FHPYkeiI9w6zdZ8Q6kNKFX8ADuioyNTL86NR+xQ=
+	t=1712913111; cv=none; b=fgOBBzeG1V2OO7G9vinDy7kQ6R2SqVTcLUOn+lGWbOIYfaB38dr1scoc/KvEwG28zQkOXgDpYLv/4XFD5BxkdP5IsSZ+oprk8tlLkrDZnKEtibs60770k0F7pr5NYEVwxS/jVA7x95YEGbXFensQI/I3cbzuyqjjOTyL80qMJYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712903336; c=relaxed/simple;
-	bh=+RwbcFry8D89CJYvhce0MUVsj/oVUO7sMBwglPpCnGs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SSncdS3VnPgYcBls2hVBmPY3sTMQ38/qkUXg4aw7bqHf+StGsQFQZ3fB1lA8tSgrW8J+C7Rh4yQbx3j3tPIrdq0cyqfkDNuTchLteNvAfFZpD0reEvKkEBLmsU3cYiwOxhyVkgnEnyCDjYi7R2oSVEWoHkEpe2/5wQFW75+sSQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=LIvnVQpN; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 50D883F5CF
-	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 06:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1712903326;
-	bh=+RwbcFry8D89CJYvhce0MUVsj/oVUO7sMBwglPpCnGs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=LIvnVQpNGsTZBw7M6U8kjl1Grkjs30CcDSNpEkMt+tNQfMy6x1BhgCi5e2VGt1mMW
-	 o9909cz+Rkw2H9LvUaZys097VfbGx0PH57LuXkHGqjBeov+hsmKI2mSXwzFwQ5f5+r
-	 6NS/x08Mjsa6rqMvvRSS4M16uBp+DyR6AKD/47+Jx/6BITvU0qrUaAlZ0ORtfyr0Qt
-	 G16XTpzv86Ri3nCE1wNoqFuT4sSGX9iteMjUFZT5TQOkYB/HD5phzgwezU3DDqHra/
-	 5IzdrWE6+l/2opqAwzGx3eL+Wnb/ye8nCKPPb0WcsWZh07zlyKjT/SuaQsIZnB2sSP
-	 uAYJlUf4c6GyA==
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2a5066ddd4cso555319a91.0
-        for <linux-input@vger.kernel.org>; Thu, 11 Apr 2024 23:28:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712903324; x=1713508124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+RwbcFry8D89CJYvhce0MUVsj/oVUO7sMBwglPpCnGs=;
-        b=UltzpcK7QExE/7EZ7YVs1QfHYLZdH6RY7ltidP1CPaDBiUFlUwNbZYVd1hVQF3k8A/
-         25BTur3czKQX6/Jb7LjsdhwqXA6EsQlZgFZXac3slvfUeaCIfdOqfCtxfGKKxKNvQwS+
-         LZVnx/ABAlGsacxybq4gcOgG8iCfFPoVUxbJzYbQ41EUXjAogVU2oy+4H8gYa02kl9xo
-         waqhE42pml4BUoUj0hwzoaJucMkv71yGa9HWSgObWLnE5Rwx9p7Li6s/k1yRmXG0dKvG
-         OMtoQq1DRYBytWABlsNwSWsNcgilbyo5+h0NGArJF+zj+xFPqTVLfVNztW7ejHJzlckL
-         y2kw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtCalgsXsG56GDDuYIvvkyQnAu688fvuuSzqQOZ5uLu3aXesBNpVHmeUU5xHrSfrjj0mfA+b8GoOE4I5YnXljG14B9fAVv42r9IDA=
-X-Gm-Message-State: AOJu0Yycb9OcadHi42wkkQK8laup/ldQmJNm1nPrHoNj+XbsXx2/xbPF
-	mYKm/X3NwZTd3mqkYg9bR/TcEQ3H5wj/cD9/GsB/CpBnecrN3oFg46MfkgD5vYujGzuU+HzOup1
-	6xmcF21ew5LgL2GN1FgdvFFq9zY4bEZSSSyz8+mU2VITI0hp6ZemK78sJ8Lx/8A7IzndInGacJV
-	w2p8sD5hqwVcOufbo8arY4kD+W4CTr/PR3XZc742u9BGDVFnXTZW8=
-X-Received: by 2002:a17:90a:6f84:b0:2a3:ba0:d9f with SMTP id e4-20020a17090a6f8400b002a30ba00d9fmr1707267pjk.11.1712903324486;
-        Thu, 11 Apr 2024 23:28:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3ziXTJu0QamXxvs6gYNvz/UNmyeoJRNxjKRKuN6UjDuQ4mIcj3plCiuEPcjfLbDFMjUnt4dCG4AFXjDUNO/s=
-X-Received: by 2002:a17:90a:6f84:b0:2a3:ba0:d9f with SMTP id
- e4-20020a17090a6f8400b002a30ba00d9fmr1707254pjk.11.1712903324140; Thu, 11 Apr
- 2024 23:28:44 -0700 (PDT)
+	s=arc-20240116; t=1712913111; c=relaxed/simple;
+	bh=1ZVVC1pA6j6cTkrWftg2ePBFwgpPv5lTulpalSZt0Qg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PY9OS/Y4fBiVB8B1FdH6L3ltWddcBee/khM+Fn3YhPB3ghQuh+X242cSEcWc+Kce/Wn5Q2BNfI7lfxgycPtP2f6xoJmAIFhMiP2rV4qeT/2jDc4zNQLekzofvg3npnE0BvJPyG1faXCxbTi+NzOF9fE6v7cRpiBWPjz1QdGmcxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carewolf.com; spf=none smtp.mailfrom=carewolf.com; dkim=pass (2048-bit key) header.d=carewolf.com header.i=@carewolf.com header.b=bQLyD9fJ; dkim=permerror (0-bit key) header.d=carewolf.com header.i=@carewolf.com header.b=tyaIgkyC; arc=none smtp.client-ip=46.30.212.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carewolf.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=carewolf.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=carewolf.com; s=rsa2;
+	h=content-transfer-encoding:content-type:mime-version:message-id:date:subject:
+	 to:from:from;
+	bh=XzeOYiSi4w8ZLcha4Lq29J7a8rgNrSvDd98s7pvkXKE=;
+	b=bQLyD9fJYDZ64KYa51tZv71A6c5eZSRNuLSgvkQwhfQNwOQbFX7koiAtNZc99iJpmseuJ3FSEWSWI
+	 F+aHOmO4lZzZtjxYnmL5hVX7AeuOV7BK2nnStDBwTnJ2K4lKoit0mkfY31Yny+RcN7v+lskQcTHVRT
+	 lgTCX1NElItyOTTzoqqm84XjS3f+TRnIZDeCFvGzJlFNXdNywavSuUfVnNlFmTKMPqzkdw/6LeCYsV
+	 6FDmSttd/Ia9PxRC0Zl0SsjGFQRYPmGG8OYGKezXTNeDoTzEnFdzn4+JOyBOLpUbBc3pnPaRV3rotQ
+	 L88dMUdOufcf30In2dr4anE/CUPDvPw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=carewolf.com; s=ed2;
+	h=content-transfer-encoding:content-type:mime-version:message-id:date:subject:
+	 to:from:from;
+	bh=XzeOYiSi4w8ZLcha4Lq29J7a8rgNrSvDd98s7pvkXKE=;
+	b=tyaIgkyCQH2AOS7U+yqKlzbzJ6+vluL63m+P734zelcrUIXnopn2nNmn7wuPVQ2BY7L0jaJ3EQceL
+	 w9fkeh5AA==
+X-HalOne-ID: 84c8934d-f8ac-11ee-a62d-9f04b458b84a
+Received: from twilight.localnet (dynamic-2a02-3103-004c-5300-8ad6-eae4-4835-57f0.310.pool.telefonica.de [2a02:3103:4c:5300:8ad6:eae4:4835:57f0])
+	by mailrelay4.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id 84c8934d-f8ac-11ee-a62d-9f04b458b84a;
+	Fri, 12 Apr 2024 09:10:35 +0000 (UTC)
+From: Allan Sandfeld Jensen <kde@carewolf.com>
+To: Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+ linux-input@vger.kernel.org
+Subject: hid-logitech-dj support for Anywhere 3SB
+Date: Fri, 12 Apr 2024 11:10:35 +0200
+Message-ID: <4887001.GXAFRqVoOG@twilight>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240405102436.3479210-1-lma@chromium.org> <ZhOccGFkTFkUkRUI@hovoldconsulting.com>
- <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com>
- <ZhVix-HJrqQbiPrB@hovoldconsulting.com> <CAE5UKNp3uS9cqDbQjcP3SbfxVi3wPFG4LtP6z=WU_V+M9x6LtQ@mail.gmail.com>
-In-Reply-To: <CAE5UKNp3uS9cqDbQjcP3SbfxVi3wPFG4LtP6z=WU_V+M9x6LtQ@mail.gmail.com>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Fri, 12 Apr 2024 14:28:32 +0800
-Message-ID: <CAAd53p54HYPZEbK2aKQXjZt0V0-u-+F+6yqFjLzSVZx5BXG91w@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-To: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Cc: Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Dmitry Torokhov <dtor@chromium.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Douglas Anderson <dianders@chromium.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Maxime Ripard <mripard@kernel.org>, Johan Hovold <johan+linaro@kernel.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Radoslaw Biernacki <rad@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="nextPart1887162.tdWV9SEqCh"
+Content-Transfer-Encoding: 7Bit
 
-Hi =C5=81ukasz,
+This is a multi-part message in MIME format.
 
-On Thu, Apr 11, 2024 at 10:23=E2=80=AFPM =C5=81ukasz Majczak <lma@chromium.=
-org> wrote:
->
-> > Sure, but what about other transactions that are initiated by the host
-> > (e.g. SET_POWER)?
-> >
-> Somehow it is problematic only on reboot and works just fine on
-> suspend/resume and
-> set_power.
-> I will dig more and try to find out what the difference is.
+--nextPart1887162.tdWV9SEqCh
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-If cold boot doesn't have such issue, maybe I2C_HID_PWR_SLEEP
-shouldn't be used by reboot?
+Hello,
 
-Kai-Heng
+I am writing because you are listed as author of the hid-logitech-dj driver. I 
+recently bought a Logitech Anywhere 3SB mouse, and found Linux didn't 
+recognize it. Thinking it was a simple case of new IDs not recognized, I 
+quickly added them to the logitch HID++ drivers (patch attached), both for USB 
+with the new receiver and for the Bluetooth direct connection.
 
->
-> > Perhaps this hack at probe is enough for your use case, but is an
-> > incomplete hack and at a minimum you'd need to add a comment explaining
-> > why it is there.
-> >
-> You mean a comment in the code ?
->
-> Lukasz
+I have noticed however that the patch while causing them to be recognized and 
+interacted with as HID++ devices, it has a flaw. The scroll wheel events are 
+reported by the linux kernel as being in hires mode, while haven't actually 
+enabled it on the mouse. You can fix that using Solaar, but some piece is 
+missing to enable it correctly in the driver.  Since this is no longer a 
+trivial fix. I wanted to reach out. Do you have any suggestions?
+
+Best regards
+Allan
+--nextPart1887162.tdWV9SEqCh
+Content-Disposition: attachment;
+ filename="0001-Logitech-Anywhere-3SB-support.patch"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/x-patch; charset="utf-8";
+ name="0001-Logitech-Anywhere-3SB-support.patch"
+
+From 7bbe473e227ae1a16e604a3b94fa168db27fed1a Mon Sep 17 00:00:00 2001
+From: Allan Sandfeld Jensen <allan.jensen@qt.io>
+Date: Wed, 10 Apr 2024 15:23:40 +0200
+Subject: [PATCH] Logitech Anywhere 3SB support
+
+---
+ Makefile                         |  2 +-
+ arch/x86/boot/Makefile           |  2 +-
+ drivers/hid/hid-ids.h            |  1 +
+ drivers/hid/hid-logitech-dj.c    | 10 +++++++++-
+ drivers/hid/hid-logitech-hidpp.c |  2 ++
+ 5 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index e00c12240191..ae2e6b53ebdf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2131,7 +2131,7 @@ kernelversion:
+ 	@echo $(KERNELVERSION)
+ 
+ image_name:
+-	@echo $(KBUILD_IMAGE)
++	@$(PERL) -e 'print "$(KBUILD_IMAGE)"'
+ 
+ quiet_cmd_rmfiles = $(if $(wildcard $(rm-files)),CLEAN   $(wildcard $(rm-files)))
+       cmd_rmfiles = rm -rf $(rm-files)
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 9e38ffaadb5d..d1043cd635dd 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -83,7 +83,7 @@ cmd_image = $(obj)/tools/build $(obj)/setup.bin $(obj)/vmlinux.bin \
+ 
+ $(obj)/bzImage: $(obj)/setup.bin $(obj)/vmlinux.bin $(obj)/tools/build FORCE
+ 	$(call if_changed,image)
+-	@$(kecho) 'Kernel: $@ is ready' ' (#'$(or $(KBUILD_BUILD_VERSION),`cat .version`)')'
++	$(PERL) -e 'print "Kernel: $@ is ready"'
+ 
+ OBJCOPYFLAGS_vmlinux.bin := -O binary -R .note -R .comment -S
+ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 2235d78784b1..4b79c4578d32 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -849,6 +849,7 @@
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1_1	0xc53f
+ #define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_POWERPLAY	0xc53a
++#define USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER		0xc548
+ #define USB_DEVICE_ID_SPACETRAVELLER	0xc623
+ #define USB_DEVICE_ID_SPACENAVIGATOR	0xc626
+ #define USB_DEVICE_ID_DINOVO_DESKTOP	0xc704
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index c358778e070b..92b41ae5a47c 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -120,6 +120,7 @@ enum recvr_type {
+ 	recvr_type_27mhz,
+ 	recvr_type_bluetooth,
+ 	recvr_type_dinovo,
++	recvr_type_bolt,
+ };
+ 
+ struct dj_report {
+@@ -1068,6 +1069,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+ 		workitem.reports_supported |= STD_KEYBOARD;
+ 		break;
+ 	case 0x0f:
++	case 0x10:
+ 	case 0x11:
+ 		device_type = "eQUAD Lightspeed 1.2";
+ 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+@@ -1430,7 +1432,8 @@ static int logi_dj_ll_parse(struct hid_device *hid)
+ 		dbg_hid("%s: sending a mouse descriptor, reports_supported: %llx\n",
+ 			__func__, djdev->reports_supported);
+ 		if (djdev->dj_receiver_dev->type == recvr_type_gaming_hidpp ||
+-		    djdev->dj_receiver_dev->type == recvr_type_mouse_only)
++		    djdev->dj_receiver_dev->type == recvr_type_mouse_only ||
++		    djdev->dj_receiver_dev->type == recvr_type_bolt)
+ 			rdcat(rdesc, &rsize, mse_high_res_descriptor,
+ 			      sizeof(mse_high_res_descriptor));
+ 		else if (djdev->dj_receiver_dev->type == recvr_type_27mhz)
+@@ -1773,6 +1776,7 @@ static int logi_dj_probe(struct hid_device *hdev,
+ 	case recvr_type_dj:		no_dj_interfaces = 3; break;
+ 	case recvr_type_hidpp:		no_dj_interfaces = 2; break;
+ 	case recvr_type_gaming_hidpp:	no_dj_interfaces = 3; break;
++	case recvr_type_bolt:		no_dj_interfaces = 4; break;
+ 	case recvr_type_mouse_only:	no_dj_interfaces = 2; break;
+ 	case recvr_type_27mhz:		no_dj_interfaces = 2; break;
+ 	case recvr_type_bluetooth:	no_dj_interfaces = 2; break;
+@@ -1950,6 +1954,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_UNIFYING_RECEIVER_2),
+ 	 .driver_data = recvr_type_dj},
++	{ /* Logitech bolt receiver (0xc548) */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++		USB_DEVICE_ID_LOGITECH_BOLT_RECEIVER),
++	 .driver_data = recvr_type_bolt},
+ 
+ 	{ /* Logitech Nano mouse only receiver (0xc52f) */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 3c00e6ac8e76..509142982daa 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4380,6 +4380,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb023) },
+ 	{ /* MX Master 3S mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb034) },
++	{ /* MX Anywhere 3SB mouse over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb038) },
+ 	{}
+ };
+ 
+-- 
+2.39.2
+
+
+--nextPart1887162.tdWV9SEqCh--
+
+
+
 
