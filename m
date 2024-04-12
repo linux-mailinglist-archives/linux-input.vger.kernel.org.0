@@ -1,177 +1,139 @@
-Return-Path: <linux-input+bounces-2964-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2965-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7138A3694
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 21:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A48A3762
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 22:57:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 361A9B234C1
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 19:54:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20A3FB23C25
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 20:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 149B11509B9;
-	Fri, 12 Apr 2024 19:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30523502A9;
+	Fri, 12 Apr 2024 20:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="NpuqSg0I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kk4KEBKi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C01509B7
-	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 19:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1BD39FD5;
+	Fri, 12 Apr 2024 20:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712951635; cv=none; b=nfifvn3YWz6VO9HAHlMMotFbtJcKOvClmUa/CyGQmpmg81g+MNotoOty9jRh7LGuhqTuYaDsr7I0pb6W9b0wPcO4SXbQaHCawFX5NyoFK1R/7cxFENWMyMPzCymh4KkVoa4uU5Iw5Kd5Qjl55HBn5319tUJ7HWi+I6ppl36waPE=
+	t=1712955460; cv=none; b=JoqB5pvXaPNKRUUxvkvwF5uFW+4B9bSl8KFBOtZWrB1Um93zWpKVmRHxfWowASpGxCBOIPeRNySzq9YAy0Z3Z0ZiKrmDDRubkbUe6YfwXtZVQ8EF2W73Vhb88gzwN0nsVty86OoPGcyrOf/YXP1L98jwSCsKGJ+yGwQDzrbogRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712951635; c=relaxed/simple;
-	bh=0k+zQ2oHaJSsmVBvDBl9DPKcs99N8G9Zwv8t2JUGSvQ=;
-	h=Message-ID:Subject:From:To:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=cfLYUQbzUaXbvV06eI3tjtbX9X4Wd348k14KFOxso8AiKTWjgeonv6Qxj6uPWAlPdeTxMcp/+Bjf7je2tX8Nuo0GxPDKkToMC9V9ZsFFE+DXDFcqblWyZ2G88Rs4SgjgV7qBBcid2M8kSB2jeki8tD+TttLiP1llp3PwagHx3ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=NpuqSg0I; arc=none smtp.client-ip=198.252.153.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4VGS1Q5N3Dz9vwZ;
-	Fri, 12 Apr 2024 19:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1712951626; bh=0k+zQ2oHaJSsmVBvDBl9DPKcs99N8G9Zwv8t2JUGSvQ=;
-	h=Subject:From:To:In-Reply-To:References:Date:From;
-	b=NpuqSg0IfLNeZCJWnWHMYD9unYc0Kl8SJGCW2e9FhEIEyrqoeCYl12KpUR9kt98OC
-	 TM4GWDKqY8Ukf5saURrLTxophs2Od90F/MFBAwUDODYEy4y2IvcCY9sirAj02/gWPB
-	 a3HMKxxlsrFOw4438Ut2dTDFqdDtrIuevtAY0VYo=
-X-Riseup-User-ID: 941E939B8A8E8A2474A041EC1CC7E07A6CB42DC651DE16A2F1E99C6D2329AF8F
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4VGS1B6ZlhzJrv1;
-	Fri, 12 Apr 2024 19:53:34 +0000 (UTC)
-Message-ID: <fade9f2881f9b69c0bb3f3b63463c8e9b7656871.camel@riseup.net>
-Subject: Re: hid-logitech-dj support for Anywhere 3SB
-From: Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
-To: Allan Sandfeld Jensen <kde@carewolf.com>, linux-input@vger.kernel.org
-In-Reply-To: <4887001.GXAFRqVoOG@twilight>
-References: <4887001.GXAFRqVoOG@twilight>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-REB6eg34rueHUCJP3OWU"
-Date: Fri, 12 Apr 2024 20:53:31 +0100
+	s=arc-20240116; t=1712955460; c=relaxed/simple;
+	bh=LTfEH0OW5wceSR4OBc7/jsdPA8w7QFdiyqHte0fJzYM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q+w58MYugbJjVIXYaL2sILcmoqut+23lAjTsfLE8pUJkXMuUMMYqEod/9wzbfCCzf9YE9mhxywG1/9PZlLVpQ9tLUr8DG2/1v9izc2NUjvRu8ubI9f75VD5ubz1z+ubWnP9jCPNj0tFLD7oHyG9HyN+mC9ndo/vjtR4ZFopzVCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kk4KEBKi; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3462178fbf9so703594f8f.1;
+        Fri, 12 Apr 2024 13:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712955456; x=1713560256; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dg2ahnpNhhd49pJIzFyauGmvavc6mK+oTZvc0UBJgxY=;
+        b=kk4KEBKioDl7plYBwPWv+6G1EUNe0AXf2b16GdxBYUHgofQhq7j49yt+r59pW5H730
+         0Gfxktj15uRxKv+690i/ATMiGiQ8RXjpz+wmAnC9104wh++Wxnh4NPZdyHGIHfqRWgjT
+         62/RMbqSUPTQvQLSwxjqSLK7r3tS43/uslQr9VDOKRh9QycrCeGzbdPDzmKAolKTHo1I
+         g5D9F06fSntMM7XjHOjl9eOwXCEPv91GkQEfkPLERQOc9W8/EnIhFx3Tdv8aQPD6v+ld
+         ybn8k8Mj59mR+209od/F9zCxOZy+KJErMdNfG8DJ9/fAyWXM8+ivxac/5osUpTHaw1jq
+         k6ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712955456; x=1713560256;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dg2ahnpNhhd49pJIzFyauGmvavc6mK+oTZvc0UBJgxY=;
+        b=edoQv9EAiK+maBjy50Thfx9umbazUw0r3WeIkLSkIvLFV2Bwompeow2QmIDRkcNhHp
+         uS8APKQusIiTlMSutcQJzF3G7qDX3VQQU8IraaXkVO0iH27kxHH6kM99oKyLjP0x1hSG
+         VeWC8iWtMRsveG43DDMU8HWTbr8i3bdIxPKwpy6vYxBcoWzDbc3bsE/q0N9aevdosBKU
+         JLVMANfp/Ekn/l7bf1XC5oX76FHv1NBFAcgdDEkfmLI9ge/Ye14cs9lEezN9f05Xlf4h
+         0kV7wKo3/0p4KOcwKJaynaEbt/1WOPpwEK8y1mpl7PaXSYlquGBlgUFbo2Ij5qoQRa7s
+         +z/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVhr3GAJo03EQCjF5QxAMloCn9BDRKiSSUTHet5S/PHfop5Q0vP3LEGjArPZYlPjcpaz50zB/pKugT5JHnBZRZZiRf1ApCtcZXshhoq
+X-Gm-Message-State: AOJu0YyMW55y1qs56LSIWwQWcP9dnUi71uZkfuEBRCOBoa1swixeAjvq
+	fGYLBPMoheqM4GL7AZTxIlZpNjbMdmIbKML7YJ4orYLQ8lEDpDka42uAXUTf
+X-Google-Smtp-Source: AGHT+IG9CTjG81WWEOCd4+OLOjxVcWFAzOSSs3Au25Q+ubb759cApR0HrsQogS1sH9U6Hpz1gZiaUQ==
+X-Received: by 2002:a5d:6744:0:b0:343:a8cb:7990 with SMTP id l4-20020a5d6744000000b00343a8cb7990mr2762792wrw.29.1712955456093;
+        Fri, 12 Apr 2024 13:57:36 -0700 (PDT)
+Received: from [127.0.1.1] (84-115-213-64.cable.dynamic.surfer.at. [84.115.213.64])
+        by smtp.gmail.com with ESMTPSA id l8-20020a5d4808000000b0034599eca6c9sm4989203wrq.41.2024.04.12.13.57.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 13:57:35 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/6] input: use device_for_each_child_node_scoped()
+Date: Fri, 12 Apr 2024 22:57:29 +0200
+Message-Id: <20240412-input_device_for_each_child_node_scoped-v1-0-dbad1bc7ea84@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADmgGWYC/x2NUQrCMBAFr1L220AstgWvIrIs2ddmQZKQaBFK7
+ 26Q+RoY3juooRoa3YeDKnZrllOX62WgECVtcKbdafTjzXecpfJ5s/Y0gNdcGRIih2gv5ZQV3EI
+ uUOdlmmSZRReA+lqpWO37f3o8z/MHGZsZyXkAAAA=
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712955454; l=1795;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=LTfEH0OW5wceSR4OBc7/jsdPA8w7QFdiyqHte0fJzYM=;
+ b=IggHSVg34Jubfo9KeV3wgUEG6kpICuiSXv2zWHBXqWD2mnHsY2NVuMHm9RE+H+cDTL4RPq3CV
+ taaJVZY20iyCoBB6bv5l0MFGiwpmUw7qsnThJyBd6aLREe+Gtvyb0MB
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
+Switch to the _scoped() version introduced in commit 365130fd47af
+("device property: Introduce device_for_each_child_node_scoped()")
+to remove the need for manual calling of fwnode_handle_put() in the
+paths where the code exits the loop early. This modification simplifies
+the code and eliminates the risk of leaking memory if any early exit is
+added without de-allocating the child node.
 
---=-REB6eg34rueHUCJP3OWU
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+There are six users of the non-scoped version in the input subsystem:
 
-On Fri, 2024-04-12 at 11:10 +0200, Allan Sandfeld Jensen wrote:
-> Hello,
->=20
-> I am writing because you are listed as author of the hid-logitech-dj driv=
-er. I
-> recently bought a Logitech Anywhere 3SB mouse, and found Linux didn't=20
-> recognize it. Thinking it was a simple case of new IDs not recognized, I=
-=20
-> quickly added them to the logitch HID++ drivers (patch attached), both fo=
-r USB
-> with the new receiver and for the Bluetooth direct connection.
->=20
-> I have noticed however that the patch while causing them to be recognized=
- and=20
-> interacted with as HID++ devices, it has a flaw. The scroll wheel events =
-are=20
-> reported by the linux kernel as being in hires mode, while haven't actual=
-ly=20
-> enabled it on the mouse. You can fix that using Solaar, but some piece is=
-=20
-> missing to enable it correctly in the driver.=C2=A0 Since this is no long=
-er a=20
-> trivial fix. I wanted to reach out. Do you have any suggestions?
->=20
-> Best regards
-> Allan
+- iqs269a
+- qt1050
+- gpio_keys
+- gpio_keys_polled
+- adc-keys
+- adc-joystick
 
-Hi Allan,
+This series is based on the master branch of linux-next (next-20240412)
+to have access to the scoped version of device_for_each_child_node().
 
-Thank you for reaching out.
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Javier Carrasco (6):
+      input: iqs269a: use device_for_each_child_node_scoped()
+      input: qt1050: use device_for_each_child_node_scoped()
+      input: gpio_keys: use device_for_each_child_node_scoped()
+      input: gpio_keys_polled: use device_for_each_child_node_scoped()
+      input: adc-keys: use device_for_each_child_node_scoped()
+      input: adc-joystick: use device_for_each_child_node_scoped()
 
-What likely is happening here is Solaar overwriting the configuration that =
-the
-kernel driver sets, as that would happen after the driver talks to the devi=
-ce.
+ drivers/input/joystick/adc-joystick.c     | 16 +++++-----------
+ drivers/input/keyboard/adc-keys.c         |  5 +----
+ drivers/input/keyboard/gpio_keys.c        |  4 +---
+ drivers/input/keyboard/gpio_keys_polled.c |  4 +---
+ drivers/input/keyboard/qt1050.c           | 12 ++++--------
+ drivers/input/misc/iqs269a.c              |  7 ++-----
+ 6 files changed, 14 insertions(+), 34 deletions(-)
+---
+base-commit: 9ed46da14b9b9b2ad4edb3b0c545b6dbe5c00d39
+change-id: 20240404-input_device_for_each_child_node_scoped-0a55a76ad7ee
 
-The settings in question need support in both the kernel and the userspace =
-input
-stack (libinput) for them to work appropriately, it's not like configuring =
-RGB
-or other sort setting on the device that works standalone.
-I have, multiple times now, asked for Solaar to not expose these low level
-settings that need support from other parts of the input stack, leaving the=
-m to
-the kernel to configure.
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-I have been inactive in the Solaar project for quite some time now, so I do=
-n't
-feel like yet again make a big deal out of this there, so that this decisio=
-n is
-reconsidered. I have already spent a significant amount of effort there, an=
-d
-nowadays I barely have energy to go through my day and deal with my all my
-responsibilities and other OSS project involvements, so I sadly have no mor=
-e
-energy to spare there.
-
-My recommendation is: disable Solaar from running at startup, restart the
-system, and see if that solves your problem. If it does, report this issue =
-again
-to the Solaar upstream, then depending on that outcome, make a decision on =
-how
-to proceed. It may be that setting the high-resolution settings in Solaar, =
-which
-are expected by the driver, works, but it might not be super reliable, beca=
-use
-since Solaar is overwriting the settings configured by the kernel driver, i=
-f
-anything in the kernel driver changes, then the setting you have configured=
- in
-Solaar might no longer be correct.
-There are alternatives to Solaar that do not have this issue, like libratba=
-g,
-but these generally are feature lacking on the productivity line of Logitec=
-h
-projects.
-
-Sorry I wasn't able to help much, but I hope that this clarifies things a b=
-it,
-and helps you solve your problem.
-
-Cheers,
-Filipe La=C3=ADns
-
---=-REB6eg34rueHUCJP3OWU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEzZzJfXA4H9kwnLT5KhDNV3fI85UFAmYZkToACgkQKhDNV3fI
-85XGVw/+MAYnSyF6jZw3A6P+shY2iLb6HfvkupscHVp0dnej61rCyCqvQZxoy7xt
-XVsvRjcYhG/PMuTmM41aSxJAEwEiKLTh6kvs5ICU/1gQ3p/96AouIofuZNyo0v0d
-PTIcnf241vEtUzBiwuveleGAKawpV7wfz9kqSomS2R91bJl5E3RcfqH8dth+hajF
-GWnXkGYw5F7YX/upTQATFlVottutLxXJuPeVocEVSoNE4GGpFht/5WCTTg/ONKR/
-fwPWysQA+qDgYJqrXOlfxgh2VkI1tZhS+MVVl47WlmwSzvuZUl5zlGk54b9sS47z
-DXCiTtY4A4ep5bKGvJDCCHlAVu8pqdXURoNM/5I5nbuVjRxYwuKIGJS+8yz3MJTO
-PutrOu9tzxOOLWGBXtiFwJ9mBzNe1Nt5nL+vO3X9SUF/cJLoXBG6RNuqTEaWIRhE
-TgyxN5cJ0Gp8xOMhlTFI6GH5HxnivYvnvLff1Krw+sWE1PMnJn1udx1KJ1RxRlDg
-lqygIhPYHJ2JB76yWmTVF0podaKX+5LubkWAvnEVbJVrxSQPpT6ZidQXkNxfbmeP
-Ifu5TKeaIaYzW2ALEUWtBwzAtaf9VHwrT4wzglfu9YBLA6Kk4QdURBOZTNjPBcAe
-UBTYlL1FQI8LnjQjQASMQgSym88aNb60qQGJkOsX0yruDNyK1Hc=
-=oK/F
------END PGP SIGNATURE-----
-
---=-REB6eg34rueHUCJP3OWU--
 
