@@ -1,84 +1,99 @@
-Return-Path: <linux-input+bounces-2957-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2958-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC45E8A31A9
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 16:57:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C878A31B8
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 17:01:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC91E1C2156B
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 14:57:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A80C628165C
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 15:01:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A243146D53;
-	Fri, 12 Apr 2024 14:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9BCF1474A0;
+	Fri, 12 Apr 2024 15:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j3qg+hRz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE0D13DDAC;
-	Fri, 12 Apr 2024 14:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19511474B7;
+	Fri, 12 Apr 2024 15:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712933854; cv=none; b=iYxGjAN+RWUMND/tvV98MbziMWCyFJ0pbWoKxAH+46kQiRzb3BJOB3gJITLLF6HWpU88zbCO5+Siv0p17CDt44Qwiz9W/tfveYbuOKWSb7j2PHW7ymLPQQV2xvbZtqJXlSIuk9xJXbKBrpMFStkQyvmdOo8BVhMRNzFHCTTdQpo=
+	t=1712934090; cv=none; b=RuwRVieGOqG1JQhebxk7yOetnUZhutGh8g5iP2PmScxVeqylmOdWgca5h/5CTmXXf7NJIIHczbQzjQoWqHDMo1o2gSyE4kvwO6/hLUAkJkEADnhhxvXKNxxsVTXhwNRKhdTtCvUvspwxRK0z4k/LRCye/EPEUvPEmUK+hIlwfsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712933854; c=relaxed/simple;
-	bh=UPCVu988L4eoHjepWEh/X8oPhqda5hmF+SLEW/y0I/s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=mveUF7ATgT/x8itHBVkHETd73/OxdWu5qeVRPLz5noLZywnabLlZ8r/+CfR/+8pHwYSCEG51uU68SVUYIb2j9t9k0m81lD3NrXDsI57aWLvMNI+ItA14be7Y/VzuN8l1mNR12cR9wsxz3RM3d1K07KM1l81n5C57tfQ6h0DhGwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 7ABA2FFE4E;
-	Fri, 12 Apr 2024 14:57:21 +0000 (UTC)
-Message-ID: <4e486902-9238-48db-b0b2-2abce4f3b812@enpas.org>
-Date: Fri, 12 Apr 2024 23:57:11 +0900
+	s=arc-20240116; t=1712934090; c=relaxed/simple;
+	bh=ToxgLFg2Q1e6fGsBgZIQyTd8OjeYBKLeADeKze6ZKKY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=tNkqfjsP96JYgkMdMeTAP5McxqhxVDZIurabG45TZZcpzaNCvFHhAFRMrqPJIWa3g1Pllw0llTwRrFZYZ53ZCti22t9DakX8Z6mCbHchvnYMV2h3/DhOck8n86utX9ylV5CeVUYG6sVEJYaP+GMCqJAFW7U0ie6KSlZ2bXm50O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j3qg+hRz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD261C113CC;
+	Fri, 12 Apr 2024 15:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712934090;
+	bh=ToxgLFg2Q1e6fGsBgZIQyTd8OjeYBKLeADeKze6ZKKY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=j3qg+hRzowqgr6GV+Tu8cO3EUABQIgM5Av6iwSQ5y2cnPD6nc45VmudEw2h1Shj0t
+	 ptSSPXzAtlL/DouewCW3pbXQ+5dKWkFSxpvVRSCmASFvWHz1k+sGQt0kzgONilF3L1
+	 By2IrdsDXdNcpxWiYzvJMrTGKYzLODqI+I04EXdSmBIUItHbHQiFPSd/gp9QU2oc1B
+	 +CI8UMIw0vsYRRSLqKF6Tgfn/AJbgyQp+sMmZouWAz21KCMo/LZ7jsZsv8qti3X+s9
+	 ckgLwDtDfJ3a8IktS1YrkN3oZldY6BoRjmKq2B2FOwGGKZ0KF/I2YWcICSk+yfDJf7
+	 J9wzP4NcrN/EQ==
+Date: Fri, 12 Apr 2024 17:01:27 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Max Staudt <max@enpas.org>
+cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, 
+    Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [bug report] HID: playstation: DS4: Don't fail on calibration
+ data request
+In-Reply-To: <4e486902-9238-48db-b0b2-2abce4f3b812@enpas.org>
+Message-ID: <nycvar.YFH.7.76.2404121700540.5680@cbobk.fhfr.pm>
+References: <d0e5bb97-3e18-44ac-89b0-503cfe16417f@moroto.mountain> <07848795-14e3-4020-9e60-e3221ff6ef80@enpas.org> <4e486902-9238-48db-b0b2-2abce4f3b812@enpas.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] HID: playstation: DS4: Don't fail on calibration
- data request
-From: Max Staudt <max@enpas.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Jiri Kosina <jikos@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- Roderick Colenbrander <roderick.colenbrander@sony.com>
-References: <d0e5bb97-3e18-44ac-89b0-503cfe16417f@moroto.mountain>
- <07848795-14e3-4020-9e60-e3221ff6ef80@enpas.org>
-Content-Language: en-US
-In-Reply-To: <07848795-14e3-4020-9e60-e3221ff6ef80@enpas.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 4/8/24 23:44, Max Staudt wrote:
-> On 4/8/24 09:41, Dan Carpenter wrote:
->> Hello Max Staudt,
->>
->> Commit a48a7cd85f55 ("HID: playstation: DS4: Don't fail on
->> calibration data request") from Feb 8, 2024 (linux-next), leads to
->> the following Smatch static checker warning:
->>
->> [...]
-> 
-> 
-> Hi Dan, Jiri,
-> 
-> Thanks for the report!
-> 
-> 
-> Jiri, if you prefer to do so, please feel free to stop/revert this patch for now, and I'll send a better one soon.
-> 
-> [...]
+On Fri, 12 Apr 2024, Max Staudt wrote:
 
-Jiri,
+> >> Commit a48a7cd85f55 ("HID: playstation: DS4: Don't fail on 
+> >> calibration data request") from Feb 8, 2024 (linux-next), leads to 
+> >> the following Smatch static checker warning:
+> >>
+> >> [...]
+> > 
+> > 
+> > Hi Dan, Jiri,
+> > 
+> > Thanks for the report!
+> > 
+> > 
+> > Jiri, if you prefer to do so, please feel free to stop/revert this 
+> > patch for now, and I'll send a better one soon.
+> > 
+> > [...]
+> 
+> Jiri,
+> 
+> Would you like me to send a patch on top of the existing one, or a completely
+> fresh one?
 
-Would you like me to send a patch on top of the existing one, or a completely fresh one?
+Max,
 
+please send a followup one with proper Fixes: tag. We're generally not 
+rebasing the tree.
 
-Max
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
