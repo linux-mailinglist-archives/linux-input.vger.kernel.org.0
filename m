@@ -1,56 +1,55 @@
-Return-Path: <linux-input+bounces-2949-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2950-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A5B8A2DA6
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 13:38:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E602F8A2DB3
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 13:41:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 896381F22545
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 11:38:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6982DB21782
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 11:41:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0DA25491A;
-	Fri, 12 Apr 2024 11:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E9A554BEA;
+	Fri, 12 Apr 2024 11:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fwFVNXpi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KpW16t+E"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2A354918;
-	Fri, 12 Apr 2024 11:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E1D54BD3;
+	Fri, 12 Apr 2024 11:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712921896; cv=none; b=j/Yd6rvtHXrUpkVWEao32bNBLDqrTJU3xoebhLH07NtwZVLQcl0E4LsM+zF4frFRJEQflFMuh9Q8/vGH/tK+JC4K5O+RCZuG37Elg3OYmDeI4n7GyBnL6U/xSYaBmpnUh4bNTtpkLZzNbi+V7ssE9dsQvWkWc1GD9VfliGSwLn4=
+	t=1712922059; cv=none; b=pU/Tsl+dqI7yYU3VTHEvnU20g1l/8ILLHkCRFV3mz/Oq/ZeOt6Sg2otG+OZadXMrrlZIIK/TpQ32r5ZcwqOW120wxacKSeXN/lvmm+Mvjw4KxdtDL697gmyjoxO/NmSGiWanuWj6jVmqxWEw+wXvMYz86gTtXvTLQhOpGpy+Dis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712921896; c=relaxed/simple;
-	bh=pGc+Ksvp/3JDoauuu3KTD0EO0x9YqlaiRkeoKCKbnww=;
+	s=arc-20240116; t=1712922059; c=relaxed/simple;
+	bh=U92xJokYVHJr5H1O8Xzfx7z03ges1L0OJWlyaDwZUTc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=n3xYVGQQi3BVt3xauyodlmmcgc5nCCxDA5Xe8upMAbSs66wsRaqQVQZjcLN2Qkd66qugPoUcn5cVb6R3SYMVfc/aop3VDCG5kiZNfbqxC3ttgkJHJRghhdH1T8hgl5T4g06IKMbJNey9oWVHzhUprrkYIVx4WLeoacQ9ews3nEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fwFVNXpi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 544D4C113CC;
-	Fri, 12 Apr 2024 11:38:16 +0000 (UTC)
+	 MIME-Version:Content-Type; b=S4vzOZ5IERarOEDRUztTVfUqmm82m5eqBDLb1JZQodUnl3UMA3GUqDu3AEK4l/8imyXXf5xGsNkLxrIOiCwTCSrp2oT0R4dyjTLnMqG4ZhAPXEXo94kUDiHhx11YdAIYhZTf6flArKy4kt3axBSqJ+1nCQ03k8dxEyi2R8XDV04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KpW16t+E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A7F6C113CD;
+	Fri, 12 Apr 2024 11:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712921896;
-	bh=pGc+Ksvp/3JDoauuu3KTD0EO0x9YqlaiRkeoKCKbnww=;
+	s=k20201202; t=1712922058;
+	bh=U92xJokYVHJr5H1O8Xzfx7z03ges1L0OJWlyaDwZUTc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=fwFVNXpiPzNtRMkFN+9o4xt/MGLfatDVeS5YCcWOfh9hKW2ItvnsCV/i1OcT1n4cW
-	 gYQoyvFXPzbJX38Lr1+KeV2dt432MIBX3sdDwc0pvP6OORDpyAenICW22+4XPaFsI3
-	 bVLE9xeDvESfOM30eL9OuZDyHJBxkXW5bkc9wD/A808tjQ7ORoH1HqysxOnIL3ZSCX
-	 RVlbWRHPN2uqo5LbsRCFIWF/jfvXlDwbbcXJS2aqmtPUWLUztReeJIUT21UfPedfhB
-	 2YDcNpfzBHGk3BYQPo1dQINgcXRiAVaWp6PvQtF8kWqaf5wmCeDftEIBW2xDN7gQPA
-	 sumu4iglry+6Q==
-Date: Fri, 12 Apr 2024 13:38:14 +0200 (CEST)
+	b=KpW16t+EkgI918zNqvGZ4zeouI7sT38bJW5VZknpS/vZX3WW45bTd+FAL0/fntP41
+	 4/+YFbAxRJCASy+8MonIV9jUsUh9qZR4+CrG5ydP1XRIYf/GuQYEnytvZCp9yJVc9E
+	 HUNAPv2khTv6e7o9LJAIjmLWu8fuR9AVTXRch/x9IjnGBjvXBK3bvV3s08ZH/i1OiH
+	 bG36a90K6JQDEpeQwPFF6s0M8cK+gY5Gq7V0GXHBrc3715SQJjGUsDuYc6fzAuT9rs
+	 kMtV/jJHBdwWJQLZpfcv2BG2Q6uisBthFrepginxI+tFUgOJN0Nu2A70GUv2QF07vq
+	 ObwfbDCZxRQgg==
+Date: Fri, 12 Apr 2024 13:40:56 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>, 
-    Ivan Gorinov <linux-kernel@altimeter.info>
-Subject: Re: [PATCH] HID: Remove the unused variable minor
-In-Reply-To: <20240407022804.27081-1-jiapeng.chong@linux.alibaba.com>
-Message-ID: <nycvar.YFH.7.76.2404121337420.5680@cbobk.fhfr.pm>
-References: <20240407022804.27081-1-jiapeng.chong@linux.alibaba.com>
+cc: djogorchock@gmail.com, bentiss@kernel.org, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] HID: nintendo: Remove unused function
+In-Reply-To: <20240407021100.48008-1-jiapeng.chong@linux.alibaba.com>
+Message-ID: <nycvar.YFH.7.76.2404121340480.5680@cbobk.fhfr.pm>
+References: <20240407021100.48008-1-jiapeng.chong@linux.alibaba.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -62,19 +61,16 @@ Content-Type: text/plain; charset=US-ASCII
 
 On Sun, 7 Apr 2024, Jiapeng Chong wrote:
 
-> Variable minor is not effectively used, so delete it.
+> The function are defined in the hid-nintendo.c file, but not called
+> elsewhere, so delete the unused function.
 > 
-> drivers/hid/hid-winwing.c:123:15: warning: variable 'minor' set but not used.
+> drivers/hid/hid-nintendo.c:697:20: warning: unused function 'joycon_device_has_usb'.
 > 
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=8705
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=8704
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-I've added
-
-	Fixes: 266c990debad2 ("HID: Add WinWing Orion2 throttle support")
-
-CCed Ivan here, and applied. Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
