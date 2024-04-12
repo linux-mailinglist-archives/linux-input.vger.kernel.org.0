@@ -1,148 +1,177 @@
-Return-Path: <linux-input+bounces-2963-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2964-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86548A33B1
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 18:24:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7138A3694
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 21:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2527F1C21A82
-	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 16:24:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 361A9B234C1
+	for <lists+linux-input@lfdr.de>; Fri, 12 Apr 2024 19:54:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02D9114A095;
-	Fri, 12 Apr 2024 16:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 149B11509B9;
+	Fri, 12 Apr 2024 19:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SH4ffIlJ"
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="NpuqSg0I"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7373B14A085
-	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 16:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C01509B7
+	for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 19:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712938889; cv=none; b=XZIQkFdVlrhgBuITsrLkv+0wKXnpxvT8HJpMBTCbn0rm4y5g7f4cylq82TgVniaTrK+GC/mg9fovp5AGtslu0AozLvemzFPBhWc9kUS+bkJRbyNpMon5dNEd28cjZMxLT+8qt9AI+PB+P7uGl9DHgAfkbyb21l3LOYVBkKC0JPQ=
+	t=1712951635; cv=none; b=nfifvn3YWz6VO9HAHlMMotFbtJcKOvClmUa/CyGQmpmg81g+MNotoOty9jRh7LGuhqTuYaDsr7I0pb6W9b0wPcO4SXbQaHCawFX5NyoFK1R/7cxFENWMyMPzCymh4KkVoa4uU5Iw5Kd5Qjl55HBn5319tUJ7HWi+I6ppl36waPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712938889; c=relaxed/simple;
-	bh=/bBHf8+LhTSqvgNm4MM9zHrseS4i+FeUtlu8k8/NNp8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UDKQeurBuH7VXfHUQaqLjVOTQ0hCVabqkZ3C8T1kZXjBX8+x6Y4OsEDAbiKBfbDi3a4gK7cuDQKs7NS5nxNcJLaEzVxvdMaVVtoDlOuHQUTD8JJR0tacmC1vZSm+Jfhm599XP6+h0rKvv8TLtsfDsM6GPMrS5x8u2oUYtfU0FMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SH4ffIlJ; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso1012921276.2
-        for <linux-input@vger.kernel.org>; Fri, 12 Apr 2024 09:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712938887; x=1713543687; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1QDHavbQQqC9GC6PjPIJvqoa4bSQDzx9RT4mlUCMRk0=;
-        b=SH4ffIlJgdxPBfX/uf10HIlaPuQoH8KQCpIWonqXA2Xxm/3i2jcf7Kqpph/TXPjMfW
-         cBB9KEnUl6AC8BmcWyGi4tp/tcpdVQH5SquWRnFqS5XaLlCayEThS45c3irsOgWYo4cm
-         eJbR/ABn2CQwz1Ggb+ltSK2g+S/l+diMNLM6EweXsRnSo9ke6ZGPKJwGNi50luM5Fw+M
-         hDedPoALa8RcnJrx7Yqkkcy3cN5QRRtHbZ/STsFv74pa5ukjYF8+jIkfdOMOGQXA+l2i
-         Z52N5j72PLxBIZTVnq7iSXFLQuffJrijun1P3CXsSadu+cZRkmhqfpEsTGkIANPq3P4E
-         zAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712938887; x=1713543687;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1QDHavbQQqC9GC6PjPIJvqoa4bSQDzx9RT4mlUCMRk0=;
-        b=gZ1g3g5QImV3OX5C+ZWzvYNAA5UcF9gAVXVPF6+f5bEVcDHAkzQvNbp+XLVWr1lr/4
-         mzajDQ/L6FaMRXkmJWc2JXlDWELz6cJtPyYQqCge+b/VgSQ1sw0oq416ybY+mLjvvUUW
-         XwjLLH1dh0LYNK+gQaumVTam7W+ELZdRxB1Iv5BcxhXGee7SKNs9rkorUq1iCU388U+4
-         FAavJms9xyHQpERXR4F4rGXhlpFrZzYN6gahQPBtgM2RJOrdPf9Oy/DawkC789pAXAMc
-         X2oU4x5fcZ5S5ATu2j1Ccs032FbYfT3QIASLXbEhehkqDDEgoB9K7lk6zRxLVsYxslPY
-         0WXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkEinh/Rh/yLvhCCZQdfvgB6aa1lY6GChVmhaWEaNSlTuQtY/Qi0cCQ6E4GZ1U/ykzcV+GBv5ydVVCPesig096OTuL6UaNBicogkU=
-X-Gm-Message-State: AOJu0Yy11aFwo+XeBXuEAEyb9Y1vG5H9GHqSTN3oalQBIT8ntmDHK54U
-	g9jwk+oeuF+2JhA/cSXFfEfONZQHib89Re14IeLTohglyOJsGbGj7lLZw5vP8T/YTSAIc0ZPeBR
-	+lOgl/1tlZzACoPzZLJKFCSI3fTjuChzxpSFftND88eCcPcW+
-X-Google-Smtp-Source: AGHT+IEz3OKXrWLV/ZvgH28LAtC8lxPsu1c1fGVznFCJajSMmkV0jqGzuKxeinO2n+Acyg6VdAJNuyazJ5Qz39MvgvU=
-X-Received: by 2002:a05:6902:e13:b0:dc7:4367:2527 with SMTP id
- df19-20020a0569020e1300b00dc743672527mr3787576ybb.49.1712938887518; Fri, 12
- Apr 2024 09:21:27 -0700 (PDT)
+	s=arc-20240116; t=1712951635; c=relaxed/simple;
+	bh=0k+zQ2oHaJSsmVBvDBl9DPKcs99N8G9Zwv8t2JUGSvQ=;
+	h=Message-ID:Subject:From:To:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=cfLYUQbzUaXbvV06eI3tjtbX9X4Wd348k14KFOxso8AiKTWjgeonv6Qxj6uPWAlPdeTxMcp/+Bjf7je2tX8Nuo0GxPDKkToMC9V9ZsFFE+DXDFcqblWyZ2G88Rs4SgjgV7qBBcid2M8kSB2jeki8tD+TttLiP1llp3PwagHx3ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=NpuqSg0I; arc=none smtp.client-ip=198.252.153.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4VGS1Q5N3Dz9vwZ;
+	Fri, 12 Apr 2024 19:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1712951626; bh=0k+zQ2oHaJSsmVBvDBl9DPKcs99N8G9Zwv8t2JUGSvQ=;
+	h=Subject:From:To:In-Reply-To:References:Date:From;
+	b=NpuqSg0IfLNeZCJWnWHMYD9unYc0Kl8SJGCW2e9FhEIEyrqoeCYl12KpUR9kt98OC
+	 TM4GWDKqY8Ukf5saURrLTxophs2Od90F/MFBAwUDODYEy4y2IvcCY9sirAj02/gWPB
+	 a3HMKxxlsrFOw4438Ut2dTDFqdDtrIuevtAY0VYo=
+X-Riseup-User-ID: 941E939B8A8E8A2474A041EC1CC7E07A6CB42DC651DE16A2F1E99C6D2329AF8F
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4VGS1B6ZlhzJrv1;
+	Fri, 12 Apr 2024 19:53:34 +0000 (UTC)
+Message-ID: <fade9f2881f9b69c0bb3f3b63463c8e9b7656871.camel@riseup.net>
+Subject: Re: hid-logitech-dj support for Anywhere 3SB
+From: Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
+To: Allan Sandfeld Jensen <kde@carewolf.com>, linux-input@vger.kernel.org
+In-Reply-To: <4887001.GXAFRqVoOG@twilight>
+References: <4887001.GXAFRqVoOG@twilight>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-REB6eg34rueHUCJP3OWU"
+Date: Fri, 12 Apr 2024 20:53:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240412-pm8xxx-vibrator-new-design-v10-0-0ec0ad133866@quicinc.com>
- <20240412-pm8xxx-vibrator-new-design-v10-1-0ec0ad133866@quicinc.com>
-In-Reply-To: <20240412-pm8xxx-vibrator-new-design-v10-1-0ec0ad133866@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 12 Apr 2024 19:21:16 +0300
-Message-ID: <CAA8EJpp-awdTyfngeYyJaOObOWz=UCSK9U08TfFPA0v=8Naz=A@mail.gmail.com>
-Subject: Re: [PATCH v10 1/4] input: pm8xxx-vibrator: correct VIB_MAX_LEVELS calculation
-To: quic_fenglinw@quicinc.com
-Cc: kernel@quicinc.com, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
+
+
+--=-REB6eg34rueHUCJP3OWU
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Apr 2024 at 15:36, Fenglin Wu via B4 Relay
-<devnull+quic_fenglinw.quicinc.com@kernel.org> wrote:
->
-> From: Fenglin Wu <quic_fenglinw@quicinc.com>
->
-> The output voltage is inclusive hence the max level calculation is
-> off-by-one-step. Correct it.
+On Fri, 2024-04-12 at 11:10 +0200, Allan Sandfeld Jensen wrote:
+> Hello,
+>=20
+> I am writing because you are listed as author of the hid-logitech-dj driv=
+er. I
+> recently bought a Logitech Anywhere 3SB mouse, and found Linux didn't=20
+> recognize it. Thinking it was a simple case of new IDs not recognized, I=
+=20
+> quickly added them to the logitch HID++ drivers (patch attached), both fo=
+r USB
+> with the new receiver and for the Bluetooth direct connection.
+>=20
+> I have noticed however that the patch while causing them to be recognized=
+ and=20
+> interacted with as HID++ devices, it has a flaw. The scroll wheel events =
+are=20
+> reported by the linux kernel as being in hires mode, while haven't actual=
+ly=20
+> enabled it on the mouse. You can fix that using Solaar, but some piece is=
+=20
+> missing to enable it correctly in the driver.=C2=A0 Since this is no long=
+er a=20
+> trivial fix. I wanted to reach out. Do you have any suggestions?
+>=20
+> Best regards
+> Allan
 
-... while we are at it also add a define for the step size instead of
-using the magic value.
+Hi Allan,
 
-With that in place:
+Thank you for reaching out.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+What likely is happening here is Solaar overwriting the configuration that =
+the
+kernel driver sets, as that would happen after the driver talks to the devi=
+ce.
 
->
-> Fixes: 11205bb63e5c ("Input: add support for pm8xxx based vibrator driver")
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-> ---
->  drivers/input/misc/pm8xxx-vibrator.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-> index 04cb87efd799..844ca7e1f59f 100644
-> --- a/drivers/input/misc/pm8xxx-vibrator.c
-> +++ b/drivers/input/misc/pm8xxx-vibrator.c
-> @@ -14,7 +14,8 @@
->
->  #define VIB_MAX_LEVEL_mV       (3100)
->  #define VIB_MIN_LEVEL_mV       (1200)
-> -#define VIB_MAX_LEVELS         (VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV)
-> +#define VIB_PER_STEP_mV                (100)
-> +#define VIB_MAX_LEVELS         (VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV + VIB_PER_STEP_mV)
->
->  #define MAX_FF_SPEED           0xff
->
-> @@ -118,10 +119,10 @@ static void pm8xxx_work_handler(struct work_struct *work)
->                 vib->active = true;
->                 vib->level = ((VIB_MAX_LEVELS * vib->speed) / MAX_FF_SPEED) +
->                                                 VIB_MIN_LEVEL_mV;
-> -               vib->level /= 100;
-> +               vib->level /= VIB_PER_STEP_mV;
->         } else {
->                 vib->active = false;
-> -               vib->level = VIB_MIN_LEVEL_mV / 100;
-> +               vib->level = VIB_MIN_LEVEL_mV / VIB_PER_STEP_mV;
->         }
->
->         pm8xxx_vib_set(vib, vib->active);
->
-> --
-> 2.25.1
->
->
+The settings in question need support in both the kernel and the userspace =
+input
+stack (libinput) for them to work appropriately, it's not like configuring =
+RGB
+or other sort setting on the device that works standalone.
+I have, multiple times now, asked for Solaar to not expose these low level
+settings that need support from other parts of the input stack, leaving the=
+m to
+the kernel to configure.
 
+I have been inactive in the Solaar project for quite some time now, so I do=
+n't
+feel like yet again make a big deal out of this there, so that this decisio=
+n is
+reconsidered. I have already spent a significant amount of effort there, an=
+d
+nowadays I barely have energy to go through my day and deal with my all my
+responsibilities and other OSS project involvements, so I sadly have no mor=
+e
+energy to spare there.
 
--- 
-With best wishes
-Dmitry
+My recommendation is: disable Solaar from running at startup, restart the
+system, and see if that solves your problem. If it does, report this issue =
+again
+to the Solaar upstream, then depending on that outcome, make a decision on =
+how
+to proceed. It may be that setting the high-resolution settings in Solaar, =
+which
+are expected by the driver, works, but it might not be super reliable, beca=
+use
+since Solaar is overwriting the settings configured by the kernel driver, i=
+f
+anything in the kernel driver changes, then the setting you have configured=
+ in
+Solaar might no longer be correct.
+There are alternatives to Solaar that do not have this issue, like libratba=
+g,
+but these generally are feature lacking on the productivity line of Logitec=
+h
+projects.
+
+Sorry I wasn't able to help much, but I hope that this clarifies things a b=
+it,
+and helps you solve your problem.
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-REB6eg34rueHUCJP3OWU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEzZzJfXA4H9kwnLT5KhDNV3fI85UFAmYZkToACgkQKhDNV3fI
+85XGVw/+MAYnSyF6jZw3A6P+shY2iLb6HfvkupscHVp0dnej61rCyCqvQZxoy7xt
+XVsvRjcYhG/PMuTmM41aSxJAEwEiKLTh6kvs5ICU/1gQ3p/96AouIofuZNyo0v0d
+PTIcnf241vEtUzBiwuveleGAKawpV7wfz9kqSomS2R91bJl5E3RcfqH8dth+hajF
+GWnXkGYw5F7YX/upTQATFlVottutLxXJuPeVocEVSoNE4GGpFht/5WCTTg/ONKR/
+fwPWysQA+qDgYJqrXOlfxgh2VkI1tZhS+MVVl47WlmwSzvuZUl5zlGk54b9sS47z
+DXCiTtY4A4ep5bKGvJDCCHlAVu8pqdXURoNM/5I5nbuVjRxYwuKIGJS+8yz3MJTO
+PutrOu9tzxOOLWGBXtiFwJ9mBzNe1Nt5nL+vO3X9SUF/cJLoXBG6RNuqTEaWIRhE
+TgyxN5cJ0Gp8xOMhlTFI6GH5HxnivYvnvLff1Krw+sWE1PMnJn1udx1KJ1RxRlDg
+lqygIhPYHJ2JB76yWmTVF0podaKX+5LubkWAvnEVbJVrxSQPpT6ZidQXkNxfbmeP
+Ifu5TKeaIaYzW2ALEUWtBwzAtaf9VHwrT4wzglfu9YBLA6Kk4QdURBOZTNjPBcAe
+UBTYlL1FQI8LnjQjQASMQgSym88aNb60qQGJkOsX0yruDNyK1Hc=
+=oK/F
+-----END PGP SIGNATURE-----
+
+--=-REB6eg34rueHUCJP3OWU--
 
