@@ -1,56 +1,59 @@
-Return-Path: <linux-input+bounces-2978-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2979-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6D8A3C72
-	for <lists+linux-input@lfdr.de>; Sat, 13 Apr 2024 13:19:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DE58A3C73
+	for <lists+linux-input@lfdr.de>; Sat, 13 Apr 2024 13:22:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 983071F21E08
-	for <lists+linux-input@lfdr.de>; Sat, 13 Apr 2024 11:19:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CBB02829B0
+	for <lists+linux-input@lfdr.de>; Sat, 13 Apr 2024 11:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E193320B33;
-	Sat, 13 Apr 2024 11:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8F63D0D9;
+	Sat, 13 Apr 2024 11:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b="JlSv96M/"
+	dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b="nBo/ZaT0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49762C9D
-	for <linux-input@vger.kernel.org>; Sat, 13 Apr 2024 11:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7A814265;
+	Sat, 13 Apr 2024 11:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713007183; cv=none; b=n5TYCO/KYelhxScg9Ddsp7FNG6F1gPuVXmaIOA/BUKe6Efp2da6aYBVwJ+X9MYx6pdD789SUh/X2NhD76mg/jMYbUNyZbz0eClWjJN1lrV7Ne4HSDwAz+q+MufaeQ/lDQIJAUBftcD2Kwpg40eC1Fqw8sbbMzaWD7814fwB9MZ4=
+	t=1713007342; cv=none; b=BRyqS42GWK0+wi28JC6VMl9vdP+MMZrn4Us+i1zoWpdg2JbR83+etPtF3MJItIpiuBQbZikGItyAfrWoNfuN1xczy6+da+SAA9mSO+L/LkavD9DupaLlaPpWVT3ZQ2vjjOELk7tVqh2BoKZBebnoJOrYsf6lQWtcnyntfz81Duc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713007183; c=relaxed/simple;
-	bh=yWpMWcWdT2NAv9xJgDFQPi/OS84rtkRBNzvXC0whBDk=;
+	s=arc-20240116; t=1713007342; c=relaxed/simple;
+	bh=Axsr/nzrO25gt5TEC8AG/h4rGLgiv+48O8lzV6yGAUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uLZ2LYKggBEbbib2w41UY+G50MFoKhtZdG8/N8sqVxgDT9PBnh45zXqHfmTka+Ko2WeV2cLDSizMPGGyYDlP71hs6HqeXerg66i4DOdIxueZpY5V89VyMXiwBPizYEzRSnDduBXVFgvqA87vI5jnsykkbPe6ga8QZQlmMZ2FZ2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li; spf=pass smtp.mailfrom=gmx.li; dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b=JlSv96M/; arc=none smtp.client-ip=212.227.17.22
+	 Content-Disposition; b=VcPt69iWZZAZBHrN+6xf2katR0KuiVcGptocXaX3Od6hHfxL67MmUaYjCWhjghbBAlGlB51tPVmHtWi9MVIW+ZnVBVlJ40Pi/DxSkXbhF3QFMzm+STiBbEm4xiaAETxQMqNoHgk77GXXExYR4yWGnXZfhExSuqWJo6n3nV2oOQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li; spf=pass smtp.mailfrom=gmx.li; dkim=pass (2048-bit key) header.d=gmx.li header.i=thomas.kuehne@gmx.li header.b=nBo/ZaT0; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
-	s=s31663417; t=1713007175; x=1713611975; i=thomas.kuehne@gmx.li;
-	bh=IvCgLErZufudPOEFYl6Avu57wJLktPoQRJ1WjawI5Kw=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
-	b=JlSv96M/dWotTVNGEJgOaryZsDPJ8ijfPi242DcyeQhBKrJo0CDqbFMuZJYqSAtB
-	 tr45kphRk5nzZvAnwbIYbZt/fHktBTcnbt/L2/FVF0FwC4RAr8YVl9v7GNHA/87Nf
-	 4RE3PgWloH9YBkSoNLtzuxqWPPgrvLJCEd4i/h8URFJ1Fo3FpCrUcvmZQtwf7egCV
-	 QpgsZGABcUQ5FgfKlUjGLmdmM9uZPsU0iNbDGxKWx9Da3M8t7vzLMyJKhMycaO0Rp
-	 qYSD5PQBzPv67zKTYCsYOjgvcgh9fo9hgm4I1uuspi0JO5Y/ZObkZtYqVq/Quv/wl
-	 xd28r91psdHPHZ0KsQ==
+	s=s31663417; t=1713007335; x=1713612135; i=thomas.kuehne@gmx.li;
+	bh=xJgkLJ9NFMdCgJJK4+x3XxjEan/ok72qczaHR/gYZ3M=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=nBo/ZaT0QlgNpuX5JaqB9pu4tisf4w2AOGsnno8kI3zrnF7xSfPX+Enz2nyB9i2O
+	 Z6wAAU5csALq2BjqlFLelUqxJa+L/r6gO2Iea9FZ4/aRBH1/K4WYcWZz6ojSD7+l4
+	 5rd2CLRxSXMkC/s25EnT0oo9HlYy6IzfXryUjMEbZzjMktUhzQtVrkf9//QO01lWH
+	 KU3YPzpF/3D+0tLgYFV6wqok54gH1HHcQmnHP0qOBal+FECTblA0u4Cah7H7jtQnR
+	 NYDu7icC1zBYof6FhY/zf0r4tdWoLIkzCpMs3PkiWuiwngBvYBd8XHOrAfGuYMo91
+	 +GUuba0Fj/OAilwX+A==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from black ([2.59.120.154]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mlw3X-1sdQYu14N9-00iyzm; Sat, 13
- Apr 2024 13:19:35 +0200
-Date: Sat, 13 Apr 2024 12:20:51 +0000
+Received: from black ([2.59.120.154]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5GE1-1swc433c5l-0119yX; Sat, 13
+ Apr 2024 13:22:14 +0200
+Date: Sat, 13 Apr 2024 12:23:30 +0000
 From: Thomas Kuehne <thomas.kuehne@gmx.li>
 To: jikos@kernel.org, bentiss@kernel.org
-Cc: linux-input@vger.kernel.org
-Subject: [PATCH] HID: hid-debug: fix Moir -> Moire typo
-Message-ID: <Zhp4o/lIvW3bJ2kF@black>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: hid-debug: more informative output for EV_KEY
+Message-ID: <Zhp5QlMGazcW+RV5@black>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,51 +62,65 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:Yew90IY0MO3/uOTnMs9gbHEiP0wdZmsuBFzcSpDy/GTckMD78QJ
- GS1+CSBVMUPoNfW+XK8568RLI7+Ya11a13fVoXX4wSbOV2X/eTAWM2bk5XWBOJvOr8+yGF8
- T+vvsU9hZACMFRgNYnDWsXtpGlXQP6YfA2zxbs5iLpS13oWArDd4bKhv8wpXc22qwwB9oaD
- hiEhuTopmRStv+BWBF7DA==
+X-Provags-ID: V03:K1:FBWElY3FxUdH8MS8jlylJx/nxPhCcvvkObWTrVYQAgbb6rfPeKI
+ aebEh7XciVylwX7l1+9KFK4HFSIAXsZBkGB6NKH0Ena4SHSs5ImUgIot3swyrwLIe/UeUES
+ 78r4dSrMAmSVd7nQXJkTKZrVkP40CxT8DY9kkTxaSsn/LnrJad/oRNpwRQMAlgvzeThYpxf
+ 4EcBuhb+H3H0Gg+aKzKnw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gVtkdAxMc8E=;aywXWyxcFBxxMBtBGu6QZ5yNboX
- muUMV0Sk6QQJK4FnytttYrouW2dSuK6xuL1aTzdLa2rmN6BxXpQZ7ZU4fW0AVquhpC1fVSaS8
- 9kBuiG+Pim8pYLG61dYe1CIaF8R2vkwcgkqCm7v7nzACbpYFpxj1JkzxiegHKmNlZAJVwhJBv
- YFJuK1840EjCDAjhi1mNQG65PA13Wo2kvrQn4qss9GHbk4LCuGNEGanDRhUP36+JnCB0mSpHD
- /gViPIRGNmrgtUpdgzDKzuxvs+XCBCurS2p0jQdmDTRr4JxT5qnpSKP6xeh4lG3v4uuXiPV86
- AKY5dV2bT9rs3+uI7W2gpBeY2axwy6jep1Rt5VpEsMovhhNlNZZQIbIQyAXKU/HQZQAOWDW+Z
- B5EoWr2y9w2InAL5qeHA4YmdAEArZdXqqs4ol2O17up6i/mTHwAR2g8b49AASnVGt/7SYcdjB
- vpaZ37lzGUxI+UWb4D+n1KR9MNEvQsBclLDKBFlDaFptrEtr+2Xj2abPVSG/GrXT6FVcWKf7w
- 74YtF2kCsi13hQIKp946rFCXft/oJtXvvl5Pi+0C1UzxRMXEBo04tdRnyFTP6oaWI+5ZxBFrd
- e1qk1KC3/V7NkQejvDgTmS1UForgqPz7lzpw0GAKh6z4juifBBP5s6mb1YwIQlLfmO8EW4xdT
- B5I6GV/meZCZU3J2UjzE+uQUfd29ZZXLikONkLSU33y9qRaTqBTMHX/fpOsK6gW3w4QzzRYpQ
- SSjPWOwL/Op4gkmfdleNCR8Cva3zl0peL1/HZvpJCYTqioowHvnHGZwrZtPD7gQ6VkerDBA2k
- kDIM61gh/LY3e+5DuttPWzK0f/Ll9kinRxay4T94AuNyk=
+UI-OutboundReport: notjunk:1;M01:P0:OTqW0KqRI0A=;ve9dM0XsXOdiUM0XSwr9KaqU5TQ
+ RzbwYEn0wWgsSBg6lwaeXT+xiaqlDcLPXdI6NkQOp8Z8E+m8UDsMcjnFHCPDrqIqKYa4iNedD
+ 0g/RHrLGGPYgq307r+lsGdhjg4WgAsMgOeb9fdcFVHrAI5n9ciWV0w/X4uz4h2VdpW8BBzUOI
+ AwhOBi/uk2V8Ekk9pNLbvoA1ZtW9CyCyRdzchmOUYK73/dcQkalIRayo05ltNshR3hMqhuIEy
+ bf3l0+y5sth9QRO6ONsQq+HFgycyXJyglC35BzWFC3GcHXdD80QMW+AxR4bP93oAOT7CCHOo7
+ X555vL33rFKWCNGlc/WeKuRCk2SKv2PQyMOyBRLJdnVcfUZap7P4lqPAoHzIiGzP3elnaziZv
+ AaGnFYeNNoASP8HLkju16Q1aVNrO6ftB/mwapCE5iZq11V7yKBgl+8a23GdI3KnWyoH1NFGUD
+ 7GLu5gROaNJjfYb/e+6h0nFYMlHOyX8GFz9coshoH/fa0IC9XvOEXyMu6jp6sBcfPD4wMKUJK
+ Cp4AkSpUyq7N+ElshWWNPYzNTew/I7kWCx98wWS/j/MszQvUiBHGWcPBMy2f+72tsFnz+b2l4
+ 80v6LhakDquMjqOd/SPpQXdQSElP34AAXrqS8aNVOVd45cw5lMBlVf/3mlIrM8nVHM4bLfHn6
+ rwlJMeuyORnNCVEn0lkOMIMGFMTM1FgY3pBUUirzF+9BYYTb/bAU/ydWS6fPz52wxulgXPbn6
+ dR4mJ5/K2+To5ORv5G9bBMrHrK7n/oebSpQQYwYIAXeIxDr40urwFqrE+4yeVgZPhuj9QdWMV
+ bzN2PHb0PvWCkt6NpNJqVx0JLIzK+4UwSJ3d8d0bRORiA=
 Content-Transfer-Encoding: quoted-printable
 
-This adds the letter "e" to fix hid_usage_table' HorizontalMoir and
-VerticalMoir entries.
+Currently hid-debug's hid_resolv_event prints questions marks for
+all entries without explicit mapping information. This makes
+debugging unnecessarily complicated as multiple different
+keys may simply result in the same uninformative output.
 
-Signed-off-by: ThomasKuehne <2562574+ThomasKuehne@users.noreply.github.com=
->
+Some common event codes are deliberately not defined in
+input-event-codes.h. For example the 16th gamepad key.
+
+Instead, print the hexadecimal codes for all events without symbolic
+names.
+
+Signed-off-by: Thomas Kuehne <thomas.kuehne@gmx.li>
 =2D--
- drivers/hid/hid-debug.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-debug.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index add353a17853..a62e71a5ccef 100644
+index add353a17853..0a0c435a1284 100644
 =2D-- a/drivers/hid/hid-debug.c
 +++ b/drivers/hid/hid-debug.c
-@@ -2361,8 +2361,8 @@ static const struct hid_usage_entry hid_usage_table[=
-] =3D {
- 		{ 0x82, 0x0048, "TopCornerDistortionBalance" },
- 		{ 0x82, 0x004a, "BottomCornerDistortionControl" },
- 		{ 0x82, 0x004c, "BottomCornerDistortionBalance" },
--		{ 0x82, 0x0056, "HorizontalMoir" },
--		{ 0x82, 0x0058, "VerticalMoir" },
-+		{ 0x82, 0x0056, "HorizontalMoire" },
-+		{ 0x82, 0x0058, "VerticalMoire" },
- 		{ 0x82, 0x005e, "InputLevelSelect" },
- 		{ 0x82, 0x0060, "InputSourceSelect" },
- 		{ 0x82, 0x006c, "RedVideoBlackLevel" },
+@@ -3582,8 +3582,15 @@ static const char **names[EV_MAX + 1] =3D {
+
+ static void hid_resolv_event(__u8 type, __u16 code, struct seq_file *f)
+ {
+-	seq_printf(f, "%s.%s", events[type] ? events[type] : "?",
+-		names[type] ? (names[type][code] ? names[type][code] : "?") : "?");
++	if (events[type])
++		seq_printf(f, "%s.", events[type]);
++	else
++		seq_printf(f, "%02x.", type);
++
++	if (names[type] && names[type][code])
++		seq_printf(f, "%s", names[type][code]);
++	else
++		seq_printf(f, "%04x", code);
+ }
+
+ static void hid_dump_input_mapping(struct hid_device *hid, struct seq_fil=
+e *f)
 
 base-commit: 9ed46da14b9b9b2ad4edb3b0c545b6dbe5c00d39
 =2D-
