@@ -1,214 +1,148 @@
-Return-Path: <linux-input+bounces-2983-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2984-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACCE8A43B7
-	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 18:12:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C008A43CF
+	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 18:36:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA2501F22044
-	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 16:12:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD3111C21BC0
+	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 16:36:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8D7134CFE;
-	Sun, 14 Apr 2024 16:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD381350CD;
+	Sun, 14 Apr 2024 16:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejL/xz4E"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACFE134CC6;
-	Sun, 14 Apr 2024 16:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68F8134CC6;
+	Sun, 14 Apr 2024 16:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713111167; cv=none; b=H2rr0ulMr/5onj98fvu29ue/5R42MhIcb2dDkwmau+PFAHoCI+elGwCZOYVi92hHk+ChJl/m9Jvumh0h6c37RW7xAQs0M0tPj3HfzBvjGvxdNH3SAc8PAnU1zBrP+oG9+ZbQO4eG5JXqNwYKFX1827uE4fh5TgoYkJWFLEcyzeY=
+	t=1713112584; cv=none; b=BpdZG3/bg64SjfPr0LTQhj88asrAKYpSVSrpY+tojKH/aAuHPhgV6kJCc6SpjEELigVf2+Dj/971sEygEUR5JV2CsGoFhb50iyOM2kjqTJg0rKeCe8ikXrk3lE0NnCZIoIJWaesubki1v50amKKEmpm5A8mTpTrmibZ1GFBJrF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713111167; c=relaxed/simple;
-	bh=HGpvSN9IquzD1ptuHegwUc3/9SIdlA8wVLboJkGQQtk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pUuJWUiZk//OHZJ8xGZvNm7AhmSsm2velhPCSreCiBq6gOcTMnXZUaIisPuZiUzyttCioAWcN/gSHTEwhCkqxC0V+g0WZQ/ucNZH8kelNFz3Sy3Fawikz0Js1Ih7/B8U8RYU6O2q/M6D3GTs7NJHXP2SPLwmwzE/xoQbLvRMhy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 89823100BC4;
-	Sun, 14 Apr 2024 16:12:33 +0000 (UTC)
-From: Max Staudt <max@enpas.org>
-To: Roderick Colenbrander <roderick.colenbrander@sony.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	max@enpas.org
-Subject: [PATCH v1] HID: playstation: DS4: Fix calibration workaround for clone devices
-Date: Mon, 15 Apr 2024 01:12:23 +0900
-Message-Id: <20240414161223.117654-1-max@enpas.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1713112584; c=relaxed/simple;
+	bh=eNzOnZBoAvIfDYaYJCy+HYEyB3DpVs0pSukxdyTWkd0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cKzCW/QTMD9Povmndnmjxzsn7Ko/00PT8MjdexHQuIX/CLDqVxxA+1nm+gQrGDLrcmo2dRFAMRLTbxuJMs8v+7GBvHMxFwoLz2DInDJtAzaUDuuBgiX0y3P5tQED3V/MwWkZJskbm7WK5E/FHow8H2iHI4Uns9+v4Q209whOeuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejL/xz4E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EBC0C072AA;
+	Sun, 14 Apr 2024 16:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713112584;
+	bh=eNzOnZBoAvIfDYaYJCy+HYEyB3DpVs0pSukxdyTWkd0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ejL/xz4EMRQtIL8NFPoxCI7BA2WCz28U7xgpVypZZWpdJosTannIu+kkHbUgXlF1g
+	 XqUeOUUoyo2tBk188MJQ+ZD286korvAtpco7R0AqF+srxompcOH2o3bYxsARNS6+22
+	 RseGS5xk2EGB7dtHc+Xj1wdAcEymmLQKJ1hMPu+7fW1JYkuyu1D7EQzN5ZKj+XElcw
+	 WWy6zTNVcY6/fbR1xB7KfJjMt2I2uNzA3SQ5RIjYGVUWm8SWgMYhxdcLt1s+r9Vw6O
+	 A+VTqjum48dW4AS6DwV/smfJ7vZ+tY/j5sHdGeQqL4pXwWRs/u4dZ/bo9AXsBcBOze
+	 PLTo4g2+VwrzA==
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 00/18] backlight: Constify lcd_ops
+Date: Sun, 14 Apr 2024 18:35:58 +0200
+Message-Id: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO4FHGYC/x3MTQqAIBBA4avErBswk/6uEi1KRxuKDI0IpLsnL
+ b/FewkiBaYIQ5Eg0M2R/ZFRlQXodT4cIZtskEIqoSqFNxvyuMx629mtF+7aoD8jyrYxnap7a5c
+ Ocn0Gsvz853F63w82aO77aQAAAA==
+To: Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
+ =?utf-8?q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-omap@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2295; i=krzk@kernel.org;
+ h=from:subject:message-id; bh=eNzOnZBoAvIfDYaYJCy+HYEyB3DpVs0pSukxdyTWkd0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmHAXysXFQnYyvdqcs/X5FakY9Fo/FHxiGQeytV
+ tdgafVxAeSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZhwF8gAKCRDBN2bmhouD
+ 1+6rD/9zrg4QyHTGfati6i4s8LnmC6E8hhyOIATO04pH9rEDIPq7D9+7QUXi1gCd8nsDda+rGGc
+ lrjLvf++q6aPw/5rfGmp7sRunrZAkttgq8TQnqGRBnsxZL9pi3GBfbuPxFXsdbTq3DmPUdS0Kwb
+ IixWqSiF/PI9K3KXRmadIw4DQnZ/z6z8JBr0n2KJmrlf6cPHCEP8s6h2vHC0I635LJ8j1eXC2wF
+ UTt19KZsqIV/J7/Lv0EtVygFY2UWHfHUs6crKGUt7Q6HKcsJeol6XWix5ecLTaM4DKkyARJ80Ed
+ Ci+mO1BdAlczTrKKMpx8k26i0S9/oXsaqKhId2eCzKvOdOKytvhTq46mV0rOxGERh4cv69LJm7r
+ ph5flgoJf/BX7/blXsoMhYX2JiIYYt4SNrfEuBVj25G+DygfCs/Dsc598z26dXnuBywCU/p99eQ
+ MYGszfHkvKZUeri7xCiNHnNPnJ4Wn68mLl97KD+AWqc3pGJiClfVzoh/D3Xd8gaHfqX2MUK2EGZ
+ eCJaeaujMjxs+w4MqfFK8sbQ0KrWnNWjYvdnku55wherHqChzpSxnNXiJmx0pHKCTcqHB8MgeXJ
+ 6FlQJOQLB0BJC13I1l5/2uZxryjSeZn5sJBV+3UJDR8Q3oSdbfFP1EpYtpEKbJHCil9AME85b3e
+ 3ZOQeRpuPIdNFOQ==
+X-Developer-Key: i=krzk@kernel.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-The logic in dualshock4_get_calibration_data() used uninitialised data
-in case of a failed kzalloc() for the transfer buffer.
+Hi,
 
-The solution is to group all business logic and all sanity checks
-together, and jump only to the latter in case of an error.
-While we're at it, factor out the axes' labelling, since it must happen
-either way for input_report_abs() to succeed later on.
+Dependencies
+============
+All further patches depend on the first patch.  Therefore everything
+could go via backlight tree (please ack) or via cross-tree pulls. Or
+whatever maintainer choose, just coordinate this with backlight.
 
-Thanks to Dan Carpenter for the Smatch static checker warning.
+Best regards,
+Krzysztof
 
-Fixes: a48a7cd85f55 ("HID: playstation: DS4: Don't fail on calibration data request")
-Signed-off-by: Max Staudt <max@enpas.org>
 ---
- drivers/hid/hid-playstation.c | 63 ++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 30 deletions(-)
+Krzysztof Kozlowski (18):
+      backlight: Constify lcd_ops
+      backlight: ams369fg06: Constify lcd_ops
+      backlight: corgi_lcd: Constify lcd_ops
+      backlight: hx8357: Constify lcd_ops
+      backlight: ili922x: Constify lcd_ops
+      backlight: ili9320: Constify lcd_ops
+      backlight: jornada720_lcd: Constify lcd_ops
+      backlight: l4f00242t03: Constify lcd_ops
+      backlight: lms283gf05: Constify lcd_ops
+      backlight: lms501kf03: Constify lcd_ops
+      backlight: ltv350qv: Constify lcd_ops
+      backlight: otm3225a: Constify lcd_ops
+      backlight: platform_lcd: Constify lcd_ops
+      backlight: tdo24m: Constify lcd_ops
+      HID: picoLCD: Constify lcd_ops
+      fbdev: clps711x: Constify lcd_ops
+      fbdev: imx: Constify lcd_ops
+      fbdev: omap: lcd_ams_delta: Constify lcd_ops
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index edc46fc02e9a..998e79be45ac 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -1787,7 +1787,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
- 		buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
- 		if (!buf) {
- 			ret = -ENOMEM;
--			goto no_buffer_tail_check;
-+			goto transfer_failed;
- 		}
- 
- 		/* We should normally receive the feature report data we asked
-@@ -1807,6 +1807,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
- 
- 				hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
- 				ret = -EILSEQ;
-+				goto transfer_failed;
- 			} else {
- 				break;
- 			}
-@@ -1815,17 +1816,19 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
- 		buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, GFP_KERNEL);
- 		if (!buf) {
- 			ret = -ENOMEM;
--			goto no_buffer_tail_check;
-+			goto transfer_failed;
- 		}
- 
- 		ret = ps_get_report(hdev, DS4_FEATURE_REPORT_CALIBRATION_BT, buf,
- 				DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, true);
- 
--		if (ret)
-+		if (ret) {
- 			hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
-+			goto transfer_failed;
-+		}
- 	}
- 
--	/* Parse buffer. If the transfer failed, this safely copies zeroes. */
-+	/* Transfer succeeded - parse the calibration data received. */
- 	gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
- 	gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
- 	gyro_roll_bias   = get_unaligned_le16(&buf[5]);
-@@ -1854,71 +1857,71 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
- 	acc_z_plus       = get_unaligned_le16(&buf[31]);
- 	acc_z_minus      = get_unaligned_le16(&buf[33]);
- 
-+	/* Done parsing the buffer, so let's free it. */
-+	kfree(buf);
-+
- 	/*
- 	 * Set gyroscope calibration and normalization parameters.
- 	 * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S degree/s.
- 	 */
- 	speed_2x = (gyro_speed_plus + gyro_speed_minus);
--	ds4->gyro_calib_data[0].abs_code = ABS_RX;
- 	ds4->gyro_calib_data[0].bias = 0;
- 	ds4->gyro_calib_data[0].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
- 	ds4->gyro_calib_data[0].sens_denom = abs(gyro_pitch_plus - gyro_pitch_bias) +
- 			abs(gyro_pitch_minus - gyro_pitch_bias);
- 
--	ds4->gyro_calib_data[1].abs_code = ABS_RY;
- 	ds4->gyro_calib_data[1].bias = 0;
- 	ds4->gyro_calib_data[1].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
- 	ds4->gyro_calib_data[1].sens_denom = abs(gyro_yaw_plus - gyro_yaw_bias) +
- 			abs(gyro_yaw_minus - gyro_yaw_bias);
- 
--	ds4->gyro_calib_data[2].abs_code = ABS_RZ;
- 	ds4->gyro_calib_data[2].bias = 0;
- 	ds4->gyro_calib_data[2].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
- 	ds4->gyro_calib_data[2].sens_denom = abs(gyro_roll_plus - gyro_roll_bias) +
- 			abs(gyro_roll_minus - gyro_roll_bias);
- 
--	/* Done parsing the buffer, so let's free it. */
--	kfree(buf);
--
--no_buffer_tail_check:
--
--	/*
--	 * Sanity check gyro calibration data. This is needed to prevent crashes
--	 * during report handling of virtual, clone or broken devices not implementing
--	 * calibration data properly.
--	 */
--	for (i = 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
--		if (ds4->gyro_calib_data[i].sens_denom == 0) {
--			hid_warn(hdev, "Invalid gyro calibration data for axis (%d), disabling calibration.",
--					ds4->gyro_calib_data[i].abs_code);
--			ds4->gyro_calib_data[i].bias = 0;
--			ds4->gyro_calib_data[i].sens_numer = DS4_GYRO_RANGE;
--			ds4->gyro_calib_data[i].sens_denom = S16_MAX;
--		}
--	}
--
- 	/*
- 	 * Set accelerometer calibration and normalization parameters.
- 	 * Data values will be normalized to 1/DS4_ACC_RES_PER_G g.
- 	 */
- 	range_2g = acc_x_plus - acc_x_minus;
--	ds4->accel_calib_data[0].abs_code = ABS_X;
- 	ds4->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
- 	ds4->accel_calib_data[0].sens_numer = 2*DS4_ACC_RES_PER_G;
- 	ds4->accel_calib_data[0].sens_denom = range_2g;
- 
- 	range_2g = acc_y_plus - acc_y_minus;
--	ds4->accel_calib_data[1].abs_code = ABS_Y;
- 	ds4->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
- 	ds4->accel_calib_data[1].sens_numer = 2*DS4_ACC_RES_PER_G;
- 	ds4->accel_calib_data[1].sens_denom = range_2g;
- 
- 	range_2g = acc_z_plus - acc_z_minus;
--	ds4->accel_calib_data[2].abs_code = ABS_Z;
- 	ds4->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
- 	ds4->accel_calib_data[2].sens_numer = 2*DS4_ACC_RES_PER_G;
- 	ds4->accel_calib_data[2].sens_denom = range_2g;
- 
-+transfer_failed:
-+	ds4->gyro_calib_data[0].abs_code = ABS_RX;
-+	ds4->gyro_calib_data[1].abs_code = ABS_RY;
-+	ds4->gyro_calib_data[2].abs_code = ABS_RZ;
-+	ds4->accel_calib_data[0].abs_code = ABS_X;
-+	ds4->accel_calib_data[1].abs_code = ABS_Y;
-+	ds4->accel_calib_data[2].abs_code = ABS_Z;
-+
-+	/*
-+	 * Sanity check gyro calibration data. This is needed to prevent crashes
-+	 * during report handling of virtual, clone or broken devices not implementing
-+	 * calibration data properly.
-+	 */
-+	for (i = 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
-+		if (ds4->gyro_calib_data[i].sens_denom == 0) {
-+			hid_warn(hdev, "Invalid gyro calibration data for axis (%d), disabling calibration.",
-+					ds4->gyro_calib_data[i].abs_code);
-+			ds4->gyro_calib_data[i].bias = 0;
-+			ds4->gyro_calib_data[i].sens_numer = DS4_GYRO_RANGE;
-+			ds4->gyro_calib_data[i].sens_denom = S16_MAX;
-+		}
-+	}
-+
- 	/*
- 	 * Sanity check accelerometer calibration data. This is needed to prevent crashes
- 	 * during report handling of virtual, clone or broken devices not implementing calibration
+ drivers/hid/hid-picolcd_lcd.c            | 2 +-
+ drivers/video/backlight/ams369fg06.c     | 2 +-
+ drivers/video/backlight/corgi_lcd.c      | 2 +-
+ drivers/video/backlight/hx8357.c         | 2 +-
+ drivers/video/backlight/ili922x.c        | 2 +-
+ drivers/video/backlight/ili9320.c        | 2 +-
+ drivers/video/backlight/jornada720_lcd.c | 2 +-
+ drivers/video/backlight/l4f00242t03.c    | 2 +-
+ drivers/video/backlight/lcd.c            | 4 ++--
+ drivers/video/backlight/lms283gf05.c     | 2 +-
+ drivers/video/backlight/lms501kf03.c     | 2 +-
+ drivers/video/backlight/ltv350qv.c       | 2 +-
+ drivers/video/backlight/otm3225a.c       | 2 +-
+ drivers/video/backlight/platform_lcd.c   | 2 +-
+ drivers/video/backlight/tdo24m.c         | 2 +-
+ drivers/video/fbdev/clps711x-fb.c        | 2 +-
+ drivers/video/fbdev/imxfb.c              | 2 +-
+ drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
+ include/linux/lcd.h                      | 6 +++---
+ 19 files changed, 22 insertions(+), 22 deletions(-)
+---
+base-commit: 9ed46da14b9b9b2ad4edb3b0c545b6dbe5c00d39
+change-id: 20240414-video-backlight-lcd-ops-276d8439ffb8
+
+Best regards,
 -- 
-2.39.2
+Krzysztof Kozlowski <krzk@kernel.org>
 
 
