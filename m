@@ -1,64 +1,47 @@
-Return-Path: <linux-input+bounces-2982-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-2983-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D1C8A41BE
-	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 12:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACCE8A43B7
+	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 18:12:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 865641F214F0
-	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 10:12:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA2501F22044
+	for <lists+linux-input@lfdr.de>; Sun, 14 Apr 2024 16:12:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89E3F2374C;
-	Sun, 14 Apr 2024 10:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="afEGcyno"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8D7134CFE;
+	Sun, 14 Apr 2024 16:12:47 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from msa.smtpout.orange.fr (out-69.smtpout.orange.fr [193.252.22.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F532C848;
-	Sun, 14 Apr 2024 10:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACFE134CC6;
+	Sun, 14 Apr 2024 16:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713089535; cv=none; b=r+423BN1qS8ouhxvCvbxeaX83GTMWkabUh4snLW33+O8VxJCj4wqnwE9xCgz3NGG5ncaJG2aO+ijutQTIfssWAypJqvwbCcWcGiDtkrxms5jJ1Be68g/xbSkLwg2jfmBQBYvujuNFGgWIzOnepEAA7Gvv7+8m6yTdOESJbIGG3M=
+	t=1713111167; cv=none; b=H2rr0ulMr/5onj98fvu29ue/5R42MhIcb2dDkwmau+PFAHoCI+elGwCZOYVi92hHk+ChJl/m9Jvumh0h6c37RW7xAQs0M0tPj3HfzBvjGvxdNH3SAc8PAnU1zBrP+oG9+ZbQO4eG5JXqNwYKFX1827uE4fh5TgoYkJWFLEcyzeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713089535; c=relaxed/simple;
-	bh=lkq1lrzB9HxKNl03Hpci59UA0sfQ1vTlkLoKDGZGgc4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qBP7LbsC8vT45iLRAZp9pn/eD9el8c+i4SDGhie22casHLOBoeU367DA7yjedBtzkIUnClaX2dEbdyhkUmOnazCmIzbqCUmOM4GjFEsLSrvFDOeZ8s++Vzbb05CdVLdPTQ2sYt69Dv29x66fYPn1VT8OIE2UbmcD3svcjdXPKBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=afEGcyno; arc=none smtp.client-ip=193.252.22.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id vwhervJ5FwSN5vwherU9fE; Sun, 14 Apr 2024 12:03:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1713088996;
-	bh=vJwVeMXmnUN8m7oxlGG0PhRilSD1pyJWjsrWEGLWca8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=afEGcynoPMftMo0taM5DLQbyO5wId531Rxl3MdAcfn+qajL3mgP5c7PqKHAkz78s7
-	 ZQza+LIx3ob2WuE3j1pDK0ihGlBQ0hyKZvX2Q7nlO/phSkIR5+xPwbQZuqYHWG1E2v
-	 Q7BP0coNiSyuCCKuKixVvlKXtiHzaBX7bXO6zRKCWMzi9PlJEOM8kRqwNN98NS4xpN
-	 C0yiTasdHVeG3nkA18uBdDn3EiPgMcrfkQvcw3qnag0fkdnoL+ewoUsh2PWeRpw69/
-	 +Kw/7X6US5SNfVxdbV4soQuoGae1EGhYf1SJuNeJDprFewKdYDglyUk/EhBQT4aXZ2
-	 jcpClt8KvG7Ng==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 14 Apr 2024 12:03:16 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: akpm@linux-foundation.org,
+	s=arc-20240116; t=1713111167; c=relaxed/simple;
+	bh=HGpvSN9IquzD1ptuHegwUc3/9SIdlA8wVLboJkGQQtk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pUuJWUiZk//OHZJ8xGZvNm7AhmSsm2velhPCSreCiBq6gOcTMnXZUaIisPuZiUzyttCioAWcN/gSHTEwhCkqxC0V+g0WZQ/ucNZH8kelNFz3Sy3Fawikz0Js1Ih7/B8U8RYU6O2q/M6D3GTs7NJHXP2SPLwmwzE/xoQbLvRMhy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 89823100BC4;
+	Sun, 14 Apr 2024 16:12:33 +0000 (UTC)
+From: Max Staudt <max@enpas.org>
+To: Roderick Colenbrander <roderick.colenbrander@sony.com>,
 	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-input@vger.kernel.org
-Subject: [PATCH RESEND] HID: sony: Remove usage of the deprecated ida_simple_xx() API
-Date: Sun, 14 Apr 2024 12:03:11 +0200
-Message-ID: <9b7684381f9d09a7cd5840caa2a160d7764d6403.1713088684.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.44.0
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	max@enpas.org
+Subject: [PATCH v1] HID: playstation: DS4: Fix calibration workaround for clone devices
+Date: Mon, 15 Apr 2024 01:12:23 +0900
+Message-Id: <20240414161223.117654-1-max@enpas.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -67,73 +50,165 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ida_alloc() and ida_free() should be preferred to the deprecated
-ida_simple_get() and ida_simple_remove().
+The logic in dualshock4_get_calibration_data() used uninitialised data
+in case of a failed kzalloc() for the transfer buffer.
 
-This is less verbose.
+The solution is to group all business logic and all sanity checks
+together, and jump only to the latter in case of an error.
+While we're at it, factor out the axes' labelling, since it must happen
+either way for input_report_abs() to succeed later on.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Thanks to Dan Carpenter for the Smatch static checker warning.
+
+Fixes: a48a7cd85f55 ("HID: playstation: DS4: Don't fail on calibration data request")
+Signed-off-by: Max Staudt <max@enpas.org>
 ---
-This patch has been sent about 3 months ago [1].
-A gentle reminder has been sent 1 month later [2].
+ drivers/hid/hid-playstation.c | 63 ++++++++++++++++++-----------------
+ 1 file changed, 33 insertions(+), 30 deletions(-)
 
-Neither one got any reply.
-
-So, I'm adding Andrew Morton in To:, in order to help in the merge process.
-
-Context:
-=======
-All patches to remove the ida_simple API have been sent.
-Matthew Wilcox seems happy with the on going work. (see [3])
-
-Based on next-20240412
-$git grep ida_simple_get | wc -l
-25
-
-Based on next-20240220
-$git grep ida_simple_get | wc -l
-36
-
-https://elixir.bootlin.com/linux/v6.8-rc3/A/ident/ida_simple_get
-50
-
-https://elixir.bootlin.com/linux/v6.7.4/A/ident/ida_simple_get
-81
-
-Thanks
-CJ
-
-[1]: https://lore.kernel.org/all/9c092dc6db15984d98732510bb052bb00683489b.1705005258.git.christophe.jaillet@wanadoo.fr/https://lore.kernel.org/all/19b538bc05c11747a3dd9fa204fde91942063d52.1698831460.git.christophe.jaillet@wanadoo.fr/
-[2]: https://lore.kernel.org/all/a1af20a9-951f-4a5d-8a60-04ded8d6f9a0@wanadoo.fr/
-[3]: https://lore.kernel.org/all/ZaqruGVz734zjxrZ@casper.infradead.org/
----
- drivers/hid/hid-sony.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index ebc0aa4e4345..55c0ad61d524 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -1844,8 +1844,7 @@ static int sony_set_device_id(struct sony_sc *sc)
- 	 * All others are set to -1.
- 	 */
- 	if (sc->quirks & SIXAXIS_CONTROLLER) {
--		ret = ida_simple_get(&sony_device_id_allocator, 0, 0,
--					GFP_KERNEL);
-+		ret = ida_alloc(&sony_device_id_allocator, GFP_KERNEL);
- 		if (ret < 0) {
- 			sc->device_id = -1;
- 			return ret;
-@@ -1861,7 +1860,7 @@ static int sony_set_device_id(struct sony_sc *sc)
- static void sony_release_device_id(struct sony_sc *sc)
- {
- 	if (sc->device_id >= 0) {
--		ida_simple_remove(&sony_device_id_allocator, sc->device_id);
-+		ida_free(&sony_device_id_allocator, sc->device_id);
- 		sc->device_id = -1;
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index edc46fc02e9a..998e79be45ac 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -1787,7 +1787,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 		buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
+ 		if (!buf) {
+ 			ret = -ENOMEM;
+-			goto no_buffer_tail_check;
++			goto transfer_failed;
+ 		}
+ 
+ 		/* We should normally receive the feature report data we asked
+@@ -1807,6 +1807,7 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 
+ 				hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
+ 				ret = -EILSEQ;
++				goto transfer_failed;
+ 			} else {
+ 				break;
+ 			}
+@@ -1815,17 +1816,19 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 		buf = kzalloc(DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, GFP_KERNEL);
+ 		if (!buf) {
+ 			ret = -ENOMEM;
+-			goto no_buffer_tail_check;
++			goto transfer_failed;
+ 		}
+ 
+ 		ret = ps_get_report(hdev, DS4_FEATURE_REPORT_CALIBRATION_BT, buf,
+ 				DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, true);
+ 
+-		if (ret)
++		if (ret) {
+ 			hid_warn(hdev, "Failed to retrieve DualShock4 calibration info: %d\n", ret);
++			goto transfer_failed;
++		}
  	}
- }
+ 
+-	/* Parse buffer. If the transfer failed, this safely copies zeroes. */
++	/* Transfer succeeded - parse the calibration data received. */
+ 	gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
+ 	gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
+ 	gyro_roll_bias   = get_unaligned_le16(&buf[5]);
+@@ -1854,71 +1857,71 @@ static int dualshock4_get_calibration_data(struct dualshock4 *ds4)
+ 	acc_z_plus       = get_unaligned_le16(&buf[31]);
+ 	acc_z_minus      = get_unaligned_le16(&buf[33]);
+ 
++	/* Done parsing the buffer, so let's free it. */
++	kfree(buf);
++
+ 	/*
+ 	 * Set gyroscope calibration and normalization parameters.
+ 	 * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S degree/s.
+ 	 */
+ 	speed_2x = (gyro_speed_plus + gyro_speed_minus);
+-	ds4->gyro_calib_data[0].abs_code = ABS_RX;
+ 	ds4->gyro_calib_data[0].bias = 0;
+ 	ds4->gyro_calib_data[0].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[0].sens_denom = abs(gyro_pitch_plus - gyro_pitch_bias) +
+ 			abs(gyro_pitch_minus - gyro_pitch_bias);
+ 
+-	ds4->gyro_calib_data[1].abs_code = ABS_RY;
+ 	ds4->gyro_calib_data[1].bias = 0;
+ 	ds4->gyro_calib_data[1].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[1].sens_denom = abs(gyro_yaw_plus - gyro_yaw_bias) +
+ 			abs(gyro_yaw_minus - gyro_yaw_bias);
+ 
+-	ds4->gyro_calib_data[2].abs_code = ABS_RZ;
+ 	ds4->gyro_calib_data[2].bias = 0;
+ 	ds4->gyro_calib_data[2].sens_numer = speed_2x*DS4_GYRO_RES_PER_DEG_S;
+ 	ds4->gyro_calib_data[2].sens_denom = abs(gyro_roll_plus - gyro_roll_bias) +
+ 			abs(gyro_roll_minus - gyro_roll_bias);
+ 
+-	/* Done parsing the buffer, so let's free it. */
+-	kfree(buf);
+-
+-no_buffer_tail_check:
+-
+-	/*
+-	 * Sanity check gyro calibration data. This is needed to prevent crashes
+-	 * during report handling of virtual, clone or broken devices not implementing
+-	 * calibration data properly.
+-	 */
+-	for (i = 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
+-		if (ds4->gyro_calib_data[i].sens_denom == 0) {
+-			hid_warn(hdev, "Invalid gyro calibration data for axis (%d), disabling calibration.",
+-					ds4->gyro_calib_data[i].abs_code);
+-			ds4->gyro_calib_data[i].bias = 0;
+-			ds4->gyro_calib_data[i].sens_numer = DS4_GYRO_RANGE;
+-			ds4->gyro_calib_data[i].sens_denom = S16_MAX;
+-		}
+-	}
+-
+ 	/*
+ 	 * Set accelerometer calibration and normalization parameters.
+ 	 * Data values will be normalized to 1/DS4_ACC_RES_PER_G g.
+ 	 */
+ 	range_2g = acc_x_plus - acc_x_minus;
+-	ds4->accel_calib_data[0].abs_code = ABS_X;
+ 	ds4->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
+ 	ds4->accel_calib_data[0].sens_numer = 2*DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[0].sens_denom = range_2g;
+ 
+ 	range_2g = acc_y_plus - acc_y_minus;
+-	ds4->accel_calib_data[1].abs_code = ABS_Y;
+ 	ds4->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
+ 	ds4->accel_calib_data[1].sens_numer = 2*DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[1].sens_denom = range_2g;
+ 
+ 	range_2g = acc_z_plus - acc_z_minus;
+-	ds4->accel_calib_data[2].abs_code = ABS_Z;
+ 	ds4->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
+ 	ds4->accel_calib_data[2].sens_numer = 2*DS4_ACC_RES_PER_G;
+ 	ds4->accel_calib_data[2].sens_denom = range_2g;
+ 
++transfer_failed:
++	ds4->gyro_calib_data[0].abs_code = ABS_RX;
++	ds4->gyro_calib_data[1].abs_code = ABS_RY;
++	ds4->gyro_calib_data[2].abs_code = ABS_RZ;
++	ds4->accel_calib_data[0].abs_code = ABS_X;
++	ds4->accel_calib_data[1].abs_code = ABS_Y;
++	ds4->accel_calib_data[2].abs_code = ABS_Z;
++
++	/*
++	 * Sanity check gyro calibration data. This is needed to prevent crashes
++	 * during report handling of virtual, clone or broken devices not implementing
++	 * calibration data properly.
++	 */
++	for (i = 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
++		if (ds4->gyro_calib_data[i].sens_denom == 0) {
++			hid_warn(hdev, "Invalid gyro calibration data for axis (%d), disabling calibration.",
++					ds4->gyro_calib_data[i].abs_code);
++			ds4->gyro_calib_data[i].bias = 0;
++			ds4->gyro_calib_data[i].sens_numer = DS4_GYRO_RANGE;
++			ds4->gyro_calib_data[i].sens_denom = S16_MAX;
++		}
++	}
++
+ 	/*
+ 	 * Sanity check accelerometer calibration data. This is needed to prevent crashes
+ 	 * during report handling of virtual, clone or broken devices not implementing calibration
 -- 
-2.44.0
+2.39.2
 
 
