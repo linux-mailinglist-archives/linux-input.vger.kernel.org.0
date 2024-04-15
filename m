@@ -1,138 +1,230 @@
-Return-Path: <linux-input+bounces-3054-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3055-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097C88A5BCD
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 21:57:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 857628A5BD5
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 21:57:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A9921C203A7
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 19:57:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A89341C2127F
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 19:57:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24DC115667B;
-	Mon, 15 Apr 2024 19:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67877158D9B;
+	Mon, 15 Apr 2024 19:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rse/ptI2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EauUdL+g"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5CF156893
-	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 19:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C730615885D;
+	Mon, 15 Apr 2024 19:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713210759; cv=none; b=ARLFkPtO8EHv6Tn9L41l3csjPRJGGurA9VQL9ZeRrmYJ1gyi1mGsIfUsOT/+BKtkHTFWashG0+kUbjMmwyu4UYZDQX5YlewB3fOS4KT0E7+27OieCHqOvHmlcMpjzvVV3SD52fty4M7ELQFf37vtzMvu7FDlJpoacTMW+6ePPpI=
+	t=1713210925; cv=none; b=hRJbSeYtVjr7eak2JM1cdGIs/20SC3bqtc1jp+kXvqZVsGBPN4IMb+nxt86ikl5Y6ccDIDvsPF3brRMeUsHMroXHkhrr96DaJoVFvaJhuwnBxbyqWEBDOy2Ee2QYVCR46JQUxTYU3BZv6ZtR7lfp6pNTIKqw4R5YN6EuQSaIm2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713210759; c=relaxed/simple;
-	bh=J7nXo825g2LLNHOTbM+8C1BAkdGVZo0J2e5tsXt1TPc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OZIkpIdc7m6gN2fohijqv1kn1FA5NF8oKGo79UJRhD+lgknZgZ71NbRa7xAi44WxWv1s4iynoGr8hp5BJ7oEPcNo2Vwt+MS8x2nOyqc5/a5tIPUOuhZIduFUljJIr2D3TAOKupRL/q8n0HB6RaXzlPW4xjqM07I0PrfrxK9eWdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rse/ptI2; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-516d0161e13so4417144e87.3
-        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:52:35 -0700 (PDT)
+	s=arc-20240116; t=1713210925; c=relaxed/simple;
+	bh=ARAOqrIDibtoeRNfze5y9nA4xxZwROTg7nQXiXeve8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QVZn2ZzupaJ12qV1d7+vE76ux5i2yYFmLWMlFo0KDXj19d91XYLAk5dr1oYnQt6KleSKZP/4IunFGEYOT3JG79mqXGC0QHwFkLF37Jtu/rm1qpbcY8EOaxRGK6JHIYON2i1BNeJmSBp40gLt4eD0nyFZ6FQjyYdDiZlYDwNi1C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EauUdL+g; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-61804067da0so37023207b3.0;
+        Mon, 15 Apr 2024 12:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713210754; x=1713815554; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YEXHGjxAhZs0bYA15G3//QkZWLtdxl3JXDF1n5TYCXc=;
-        b=Rse/ptI2iG5kSiBOBjsvbH+IiHbN8uzilAGB9aGfs/g2t2M1hVa2jm+4AchE+VS24O
-         7saRVuIKM4gxiJNhZlhiNVAd/kcwk4/KuYtfpm7ll6sRtLmebQncyA+dCYo90vX5l6J1
-         mmqTv2OS0bBRkMWiuBfAd5IxRNwZ7dpICBxrP+0Qse6ChEuhNlu7ceUGl3iTKqMV2LkD
-         4EaZnTqX9nkiCT8e64IQkfajcdL858jSsTQSqA6CwQAfZdPv1dw85QRDKaDSj6KHMPTK
-         28eJBIzjGUIOTYFD6//Be0VDNpcHYT4AvXHNv+FNacIolEoqzrETrZVfsaFhL4KjxwWX
-         7M+w==
+        d=gmail.com; s=20230601; t=1713210923; x=1713815723; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C1pl77BkD4En2MiZRh8WnQAXld8tFBoXMAu8EB3HVBc=;
+        b=EauUdL+gxXQkLAvmKANIh0HxUVyA2wqC+Y8vfwPiNZLNaNuqHruetC2NxccWIrRal1
+         YvsJbSD18blO/zZnKhx/d22afbTElMhCuE1PaIBU5PH9ei4dQt3InMrxIsxL5kXlX/I8
+         ShSQyKYKizQ8ZQfqvWhJS1lEZJDoDcPvWesF7w+c/HvZElpPptP2ln3IGM5FG09MZ7SI
+         0kQul5iyuA1MFk+FDvwhevgMBWQXN946Tn7ecVLLuWdS9rlX71Xm83Y26xYqgoN+TVdt
+         +76OSmLb/i3ZmIdpwySfKPrgWqdZ69jJp/yOPRJAb/psIZdf4dWecAyxwwtqAXCoLLkK
+         xALw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713210754; x=1713815554;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YEXHGjxAhZs0bYA15G3//QkZWLtdxl3JXDF1n5TYCXc=;
-        b=shSxOj1H4ZTtXxyn2lR3MvZv80wC1luol87Us6+OiA02rR/IsYB391xtn1QItCGFG4
-         mRcN6WgmJGu/I+UTymfI5ZWSRQ2SUt4420S5t86kaYWqeKtiOezmtvysHqFlnfWP3RhB
-         Oj54+Vi5O/g8LMZFjZHODolg4KzA47I2d2dmzaArOXsEFrTJ2ugjOS3RIFG3ObR0lNhy
-         tqW7N8qmeHw77Bl2xbeMtDQ7g94RR76Qluj4RdkzyDbz10hXHKC8keViduNi6CkDuKf7
-         XAt88hY12LAlOYFfGlNn0i/UjkcHSG7tbt98zpPYHq9uuXo0iv+8z2R1EcTVVRh+It0a
-         V33w==
-X-Forwarded-Encrypted: i=1; AJvYcCVJs6bgR95C4JJl0YDo8kMtuICy3Wmd/o5GKii3TBI6b2MYu7HGq+VWn1A3l2cEkEU9L9PqBodoKQRy/ogpB/3L9l253pQM+rq9Fz8=
-X-Gm-Message-State: AOJu0Ywosi5BMN+7qOtUpjuDmljRK0CIxXzNgNbpABjPwI3fWmOEzWzV
-	7ES4uODmOPcyiF7KpZOwkDr1kCQRkw2vLl2HQnDeDpDnr7XF9pIXI5QMpYnhz2E=
-X-Google-Smtp-Source: AGHT+IEal04PxHzEYGFi8jHEhHfii3wvIFaJa5SsgptPYcD/6a7aBein+xl+JbCkDBh8KNrg33Rtug==
-X-Received: by 2002:a05:6512:b92:b0:518:872f:e4d with SMTP id b18-20020a0565120b9200b00518872f0e4dmr9145171lfv.15.1713210753936;
-        Mon, 15 Apr 2024 12:52:33 -0700 (PDT)
-Received: from [172.30.205.18] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id j5-20020ac25505000000b00517374e92ecsm1339725lfk.93.2024.04.15.12.52.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Apr 2024 12:52:33 -0700 (PDT)
-Message-ID: <daf1d116-5bad-46f6-ae6d-a33913f68506@linaro.org>
-Date: Mon, 15 Apr 2024 21:52:32 +0200
+        d=1e100.net; s=20230601; t=1713210923; x=1713815723;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C1pl77BkD4En2MiZRh8WnQAXld8tFBoXMAu8EB3HVBc=;
+        b=EgM77fA0pEjF12o+pbsE88W/fPxWefWpN9vQCWPSWJTHEN3AU9xevpkCq5wUvNoa+L
+         lJDHhHYytpjNPkUSFDafO6SXkQheGkZn7swg6dUk1khu/ceVtkDcc7VjGk9DiLZ9qr4h
+         yoaLQJrdQa8BXCINbeMP6WShqvcT2Dvu5R4/PL86Utbik0JGiysT/m6GmQJvKEzFEB1U
+         y4h8sZzzmShVUvtKSvNxLI6f6TRxXG1SjuBHLv3029BTZ+2Yyk1TgW/wqfFotulyzHSg
+         RCDNPXVk83ds9zublokbInXCH8rUPXBg0zxlNuMxdgKc9YNNNA+UafY34gziGGxQi0Ne
+         HFoA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/4pO0SxH+UhgLLNprEam4QXo0yu5RXmGcANDGcew+/C69jGNJL2nOXD4RKbSd81FMPzDlnlRc1WsTvm4zYXZuockE4DgKH9dGiVHsXf/hwraj7bjAhJXP6MlLwRsZbOyKx7q8ci0LAIbBmKNs8eN1tNv8JEyhMu1rvncpjaMapQaMc7HFbj6M5vttrzgX
+X-Gm-Message-State: AOJu0Yxx3kZYY7s17RlTVsoT4W7Wzf14sz8Hyku7KzrpjvAIAQfl5dQW
+	cIt65kkxfcSQ7yppahF1kpLeN0KYQ6VEOyFw+TZoLGxOeuRa+8Ui
+X-Google-Smtp-Source: AGHT+IERCVnlJIMh4ivcoxOfXGoxhmge+g0KbXB8gsJiO9uDfwAdGUEnPwvVQ5uMCzumWCx10dtO+Q==
+X-Received: by 2002:a25:848c:0:b0:dcc:f2a4:153e with SMTP id v12-20020a25848c000000b00dccf2a4153emr10642256ybk.46.1713210922427;
+        Mon, 15 Apr 2024 12:55:22 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:fbbe:421b:9296:f28c])
+        by smtp.gmail.com with ESMTPSA id u1-20020a25c401000000b00dcd56356c80sm2188395ybf.47.2024.04.15.12.55.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 12:55:22 -0700 (PDT)
+Date: Mon, 15 Apr 2024 12:55:18 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Peter Hutterer <peter.hutterer@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	ibm-acpi-devel@lists.sourceforge.net,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nitin Joshi1 <njoshi1@lenovo.com>,
+	Vishnu Sankar <vsankar@lenovo.com>
+Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug
+ info keycodes
+Message-ID: <Zh2GJmbHBbPxwztX@google.com>
+References: <20240324210817.192033-2-mpearson-lenovo@squebb.ca>
+ <ZhR-WPx7dgKxziMb@google.com>
+ <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
+ <ZhW3Wbn4YSGFBgfS@google.com>
+ <ZhXpZe1Gm5e4xP6r@google.com>
+ <92ee5cb2-565e-413c-b968-81393a9211c4@app.fastmail.com>
+ <ZhcogDESvZmUPEEf@google.com>
+ <411e6353-16ef-455b-98fa-2d38bb7bf9bd@redhat.com>
+ <Zh2BiqQdM7_n-Ih4@google.com>
+ <15507b66-723d-443c-aaae-c0097d16ef0a@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 4/4] input: pm8xxx-vibrator: add new SPMI vibrator
- support
-To: quic_fenglinw@quicinc.com, kernel@quicinc.com,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240412-pm8xxx-vibrator-new-design-v10-0-0ec0ad133866@quicinc.com>
- <20240412-pm8xxx-vibrator-new-design-v10-4-0ec0ad133866@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240412-pm8xxx-vibrator-new-design-v10-4-0ec0ad133866@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <15507b66-723d-443c-aaae-c0097d16ef0a@redhat.com>
 
-
-
-On 4/12/24 14:36, Fenglin Wu via B4 Relay wrote:
-> From: Fenglin Wu <quic_fenglinw@quicinc.com>
+On Mon, Apr 15, 2024 at 09:47:10PM +0200, Hans de Goede wrote:
+> Hi,
 > 
-> Add support for a new SPMI vibrator module which is very similar
-> to the vibrator module inside PM8916 but has a finer drive voltage
-> step and different output voltage range, its drive level control
-> is expanded across 2 registers. The vibrator module can be found
-> in following Qualcomm PMICs: PMI632, PM7250B, PM7325B, PM7550BA.
+> On 4/15/24 9:35 PM, Dmitry Torokhov wrote:
+> > On Thu, Apr 11, 2024 at 02:30:35PM +0200, Hans de Goede wrote:
+> >> Hi Dmitry,
+> >>
+> >> On 4/11/24 2:02 AM, Dmitry Torokhov wrote:
+> >>> On Tue, Apr 09, 2024 at 10:17:05PM -0400, Mark Pearson wrote:
+> >>>> Hi Dmitry
+> >>>>
+> >>>> On Tue, Apr 9, 2024, at 9:20 PM, Dmitry Torokhov wrote:
+> >>>>> On Tue, Apr 09, 2024 at 02:47:05PM -0700, Dmitry Torokhov wrote:
+> >>>>>> On Tue, Apr 09, 2024 at 03:23:52PM +1000, Peter Hutterer wrote:
+> >>>>>>> On 09/04/2024 09:31, Dmitry Torokhov wrote:
+> >>>>>>>> Hi Mark,
+> >>>>>>>>
+> >>>>>>>> On Sun, Mar 24, 2024 at 05:07:58PM -0400, Mark Pearson wrote:
+> >>>>>>>>> Add support for new input events on Lenovo laptops that need exporting to
+> >>>>>>>>> user space.
+> >>>>>>>>>
+> >>>>>>>>> Lenovo trackpoints are adding the ability to generate a doubletap event.
+> >>>>>>>>> Add a new keycode to allow this to be used by userspace.
+> >>>>>>>>
+> >>>>>>>> What is the intended meaning of this keycode? How does it differ from
+> >>>>>>>> the driver sending BTN_LEFT press/release twice?
+> >>>>>>>>>
+> >>>>>>>>> Lenovo support is using FN+N with Windows to collect needed details for
+> >>>>>>>>> support cases. Add a keycode so that we'll be able to provide similar
+> >>>>>>>>> support on Linux.
+> >>>>>>>>
+> >>>>>>>> Is there a userspace consumer for this?
+> >>>>>>>
+> >>>>>>> Funnily enough XKB has had a keysym for this for decades but it's not
+> >>>>>>> hooked up anywhere due to the way it's pointer keys accessibility
+> >>>>>>> feature was implemented. Theory is that most of userspace just needs
+> >>>>>>> to patch the various pieces together for the new evdev code + keysym,
+> >>>>>>> it's not really any different to handling a volume key (except this
+> >>>>>>> one needs to be assignable).
+> >>>>>>
+> >>>>>> What is the keysym? If we can make them relatable to each other that
+> >>>>>> would be good. Or maybe we could find a matching usage from HID usage
+> >>>>>> tables...
+> >>>>>
+> >>>>> I was looking through the existing codes and I see:
+> >>>>>
+> >>>>> #define KEY_INFO		0x166	/* AL OEM Features/Tips/Tutorial */
+> >>>>>
+> >>>>> We also have KEY_VENDOR used in a few drivers/plafrom/x86, including
+> >>>>> thinkkpad_acpi.c and I wonder if it would be suitable for this vendor
+> >>>>> specific debug info collection application (which I honestly doubt will
+> >>>>> materialize).
+> >>>>>
+> >>>>
+> >>>> That's a somewhat disappointing note on your doubts, is that based on
+> >>>> anything? Just wondering what we've done to deserve that criticism.
+> >>>
+> >>> Sorry, this was not meant as a criticism really, but you mentioned
+> >>> yourself that there isn't anything in the works yet, you just have some
+> >>> plans.
+> >>>
+> >>> For such a project to succeed Lenovo needs to invest into selling
+> >>> devices with Linux as a primary operating system, and it has to be
+> >>> consumer segment (or small business, because for corporate they
+> >>> typically roll their own support channels). The case of retrofitting
+> >>> Linux onto a that device originally came with Windows OS rarely gets
+> >>> much if any response from the normal support channels.
+> >>>
+> >>> Is this something that is actually happening?
+> >>
+> >> Yes, Lenovo is actually offering Fedora as an OS choice when
+> >> ordering ThinkPads directly from their website in many countries
+> >> including when ordering as a consumer.
+> > 
+> > Ah, very nice, I was not aware of this.
+> > 
+> >>
+> >> And unlike other vendor's Linux preloads which often use a kernel
+> >> with downstream laptop specific changes these laptops are running
+> >> unmodified Fedora kernels, which themselves are almost pristine
+> >> upstream kernels.
+> >>
+> >> Lenovo (Mark) has been really good the last couple of years in
+> >> making sure that their hw just works with mainline kernels without
+> >> any downstream vendor specific patches.
+> >>
+> >>>> That aside, I guess KEY_INFO or KEY_VENDOR could be a good fit (I
+> >>>> personally don't think KEY_CONFIG matches well), but I would be
+> >>>> worried about clashing with existing functionality.
+> >>
+> >> Using KEY_INFO / KEY_VENDOR works for me too. So maybe we should
+> >> just go with one of those 2 ?
+> > 
+> > It looks like Mark's preference is KEY_VENDOR, so let's go with it?
 > 
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-> ---
+> Ack KEY_VENDOR sounds good to me for the doubletap on the trackpoint event.
+> 
+> What about the new Fn + N keycombo which also generates a WMI
+> event which we want to translate to a key code to launch a
+> (to be written) debug-info collecting app for when the customer
+> calls Lenovo support.
+> 
+> Mark suggested a new KEY_SYS_DEBUG_INFO for that. So do we use:
+> 
+> #define KEY_INFO                0x166   /* AL OEM Features/Tips/Tutorial */
+> 
+> for this, or do we define a new keycode ?
+> 
+> Mark would using KEY_INFO for this work for you.
+> 
+> Dmitry any opinion on this ?
 
-[...]
+No, my understanding is that Mark was OK with using KEY_VENDOR for Fn+N
+combination that is supposed to start the utility that would collect
+the debug info.
 
+For double click there is still the discussion whether to have
+KEY_DOUBLECLICK (which I think will need to be tied to the pointer
+device somehow), or something else, like KEY_CONFIG or a new keycode if
+we continue keeping it separate from the pointer operations and match
+Windows behavior which invokes Lenovo configuration utility.
 
->   
-> +	if (regs->drv2_mask) {
-> +		if (on)
-> +			val = (vib->level << regs->drv2_shift) & regs->drv2_mask;
+Thanks.
 
-The point of regmap_foo_bits is that you no longer need to mask the
-value here.
-
-> +		else
-> +			val = 0;
-> +
-
-You can also save some LoC without compromising on legibility:
-
-if (regs->drv2_mask) {
-	val = vib->level << regs->drv2_shift;
-
-	rc = regmap_write_bits(vib->regmap, vib->drv2_addr,
-			       regs->drv2_mask, on ? val : 0)
-	if (rc < 0)
-		return rc;
-}
-
-Konrad
+-- 
+Dmitry
 
