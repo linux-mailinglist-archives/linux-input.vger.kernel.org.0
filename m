@@ -1,148 +1,297 @@
-Return-Path: <linux-input+bounces-3051-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3052-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8AF8A5BA3
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 21:53:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAE18A5BBD
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 21:55:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B01CF1C20BA2
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 19:53:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 784381F25EE1
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 19:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E68E715ECE9;
-	Mon, 15 Apr 2024 19:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1631635C9;
+	Mon, 15 Apr 2024 19:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZAeaetk4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="izOZuVGC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED99515E7E5
-	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 19:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDFE1635C7;
+	Mon, 15 Apr 2024 19:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713210439; cv=none; b=t1RrSbTJkjyU3i/iCmSEHMtIkP61GH0QvGqlJfDUj0NyLH2VHXTjSP42/2RyEnk1GM1F0pDVZ6zj7oIGGsY12pd8Q882eYUz86Y3c3IGTegv2K3bnFeYa5aIK7jeBhg38JDPlRdcv0f8JTQ63kOvYHwTNtqDMXjUa4HWa5vlJVQ=
+	t=1713210466; cv=none; b=FA6AKZYJkMLCSW8Wye40aMXWi3TQIwBs0X25M70gvgkM2xIsDJyB/8zioDTW7jt0bkYa+9a8BvFKJAWi1IUHa8GkTQ+oeiu/IWE/ubU8+yrzc8jHEOZBJ13Q6jNYOEVi54Mu+A52ZFl7dkkzYu4usRxN+Kux9KhPQYjFCa/RBEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713210439; c=relaxed/simple;
-	bh=EFZMygEZ5gxZXFRwxYGXefaLQZcRDsVuFTWNa8wxK5A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uny1Cu06qntQyVMJv9GaMO+BwCyggFvujMKe7nImtMBj5GtEjsNBhPWfr4oyfpQc8zHhSwHsldQ2pcCqR6bbFLZewUlHaI0nzCpWgZxaVbrOutWPIPRVdbqTXQ3HjSBR3Bt3XoSjYVA5Q58k7ecgIRK+1FAlyldgQ1FKcqyhXjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZAeaetk4; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-516f2e0edb7so4389842e87.1
-        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:47:17 -0700 (PDT)
+	s=arc-20240116; t=1713210466; c=relaxed/simple;
+	bh=HZUVP3Vy5ksk+PuXH/fxVRpubxd4AMAntQCujaM/ioI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qJyj9aGbdljCg3/2oh0CjMmy4NBWIJz6imDd1nA0zbnakllHsgdVqGUqiNz/lfiWTj0Y6xQWAjzvMCb439f9Bq0mzFiA9/c6mk9VTT98736N1BcDNV6VyBt7472HVOlZy7EbeIJJsdTgZv3mM7zk2WRNXy707Xl3/Qi97pukR1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=izOZuVGC; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d4a8bddc21so42416661fa.0;
+        Mon, 15 Apr 2024 12:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713210436; x=1713815236; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FbsGbbIdpP0nYrgFFND/WuAQtLVhF7S4V4B8K1xyJ58=;
-        b=ZAeaetk4kqgwvFkNnInhhHjpplyoka8Wr6HuILZdGny+kMAx9sRjU95A8KBIcMtzEn
-         SgNS/T17eXPIl3zshB/R6hRyXGozYYqaPdDARqj79AX+bEn5hP9rxAObs3I11wLEhEeB
-         fulb2Ej8T1xWGpd2ScP9RFTYHYJJTY8gNbiU+UvzkbAuLa7PY1uaabCrhiijUX6BeegB
-         zNIcTLfMduJ9AcLOEur8I9ufdW0oDOst9VMgr5wqLf9A/tyoJXVmcAtFQoZcSOWW480K
-         pVnUPeMe56CbpjNwDmZ28ZsapJ+6qpQeIPH4MM15o/PxiAXHEaNMYagSENXiQAfTKMRk
-         LPxQ==
+        d=gmail.com; s=20230601; t=1713210462; x=1713815262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QYvq10jH2xncVeyiDoCWfCHioMkzLdiiH2RWE0esuC0=;
+        b=izOZuVGCqTIRH7ZsXmK9TK5ckMRjqgIVlkfkjtevOsuKlXgLgQzKPJT3PFrANAFgHa
+         QnoUfeic5+YLqFLEnrKyQTro/lSS5GBlohZe0GLoxfN2G4zpHSjlEI+enJetqzFVlKR+
+         IdhNKWymjUK5BB9i9UOm1qAIY14TugBGg+EE8IQZTnt82p4xSSndTs6z3XnNxD3Kyr7I
+         PPGUPn8hStsP9PdmYUhFIwEwn+80ZTGePJL7XyJlrqogqi9jur9kDr2+rZ9iQvNuhbZU
+         St+XmyOEXLoHmgdU8kbk+XYyYytm9kkCv33SxZ/zlbYq87bRXnnLc8qWgRW9Re0ahhwd
+         OyKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713210436; x=1713815236;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FbsGbbIdpP0nYrgFFND/WuAQtLVhF7S4V4B8K1xyJ58=;
-        b=FAlgom1v94rCgC/JlO0YXAGOfFPgZRkjJCMBV9jYrVSBCQfDxBFVllt1mYfQcKR7cP
-         G2z5WL53BAN3NBtgtC5o9eL1sdHj4X6b4vceZzqLmcxQmmPmQkPJJEjRaTG+EBsJPFx8
-         7J0/pVj10kZVONnpdOqK6yOX3rvujaTvlWKzs8YrOmOhhQhofHGhBSY6TCl9g85lNI5W
-         Hg9/Gyil50OBoCjrYRid4MmR5S9x+BvSIXwd8hk4WvWCDgFR3yk76LODCrLCbih2u/Zq
-         Drm8ZjOb2zMUvl2nLUBuMM4VQ4ZF3hsJIDF6GueLZBps1w11R8+hWTFM+2sJXYb/hKFo
-         McXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHT5MmWQ/IhMSebJOqCeuFT0jEnF+mF53EJdHQO2LdR+E/2WpLYITZdym6komPQyLhos8RGkLPqPaN3sz+p+8pMjcHD5zpx+WQFII=
-X-Gm-Message-State: AOJu0YxkCniSytjnxlePSLnE/0nt++tcA8byHBqujPjFzL9tUeTPCiKF
-	CW3vhYG049HwAB0OpcG/3iDauC5nG783x06a6QdhUQGPsgl9eX6vHwHk6fGqVRQ=
-X-Google-Smtp-Source: AGHT+IFvj4dlZTtUkZthyV9lygQW3pdDOk2CpHBOggluFdI+nVVKU2ePFZDk29BmxKjrmYLHQN0VRA==
-X-Received: by 2002:ac2:4c52:0:b0:518:93b6:99f8 with SMTP id o18-20020ac24c52000000b0051893b699f8mr6980622lfk.14.1713210436053;
-        Mon, 15 Apr 2024 12:47:16 -0700 (PDT)
-Received: from [172.30.205.18] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id bi22-20020a0565120e9600b00518a2206654sm789809lfb.77.2024.04.15.12.47.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Apr 2024 12:47:15 -0700 (PDT)
-Message-ID: <ea0275bb-5520-41cb-be7e-71c00aa8fabf@linaro.org>
-Date: Mon, 15 Apr 2024 21:47:12 +0200
+        d=1e100.net; s=20230601; t=1713210462; x=1713815262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QYvq10jH2xncVeyiDoCWfCHioMkzLdiiH2RWE0esuC0=;
+        b=BvbQb4GvUC4t3jauWWt3vd6dikzDrxplPF8BByciPqs7UY58nGMKGVqjrbZswHjulV
+         i5uni7EL3CAB7Imm1cfxrsqEV9RxzRWFjss3gzzualBSPYZMqtEw2pCIU+/HnMH5zfMJ
+         bBmr2vccbL+051RnZyfKY2FUIDEtokEAKlSNKv+odKciIoE1uygSh9D2+5nlHzp9UpOj
+         7/R7apNZ0ZeRYKSZOAaQ9+1E8cBwUrhT2VJoTpcteel7IQW8eTWqG8zxBUD2bxTcTUUe
+         lfsUN7ay4cvdlR7CYXNpUSEXrkfmxySSJXRQnrZehUcVDetcKK6yXfgy24/xvWzOcQ97
+         kOdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmd697q5dChsAOrTbCPPHke9lp7zJlbNVYr6Z6SxSfoPj1+/JunLi3Ptjp9HnsRgDCj7VQDUZpi6VMfr9Zmu5QSY5Lk2+JcqWnaiRBFWb+6SHbAnjaobE4Es1HvD7f4f4BI7oJ3hRT8e4=
+X-Gm-Message-State: AOJu0YyeqoyT1kjJoGn4xh3hSvgOSg8VWbtmNS/MpXzFY9IsSYn0dDGH
+	mUWvUB2gYehv8613/Ajp6jyLyQuO/ZLayIKJojn5qzCWMdbHIh/E6C7+ASAn6Y13lMW6Wnwwlaa
+	54plMGlZXwyplrIsZo6Y6aaIrZN8aaM5W
+X-Google-Smtp-Source: AGHT+IEHWSH5dBDDblM5ZgBOcr7eTkb2Kek6TnvPd4akG6Lf9j7INAmo9WPj8gH/BB9m7kb+TNeI8etQc09L9xE4A9U=
+X-Received: by 2002:a2e:96d9:0:b0:2da:bbb5:2839 with SMTP id
+ d25-20020a2e96d9000000b002dabbb52839mr466429ljj.11.1713210461892; Mon, 15 Apr
+ 2024 12:47:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/4] input: pm8xxx-vibrator: refactor to support new
- SPMI vibrator
-To: quic_fenglinw@quicinc.com, kernel@quicinc.com,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240412-pm8xxx-vibrator-new-design-v10-0-0ec0ad133866@quicinc.com>
- <20240412-pm8xxx-vibrator-new-design-v10-2-0ec0ad133866@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240412-pm8xxx-vibrator-new-design-v10-2-0ec0ad133866@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240414161223.117654-1-max@enpas.org>
+In-Reply-To: <20240414161223.117654-1-max@enpas.org>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Mon, 15 Apr 2024 12:47:29 -0700
+Message-ID: <CAEc3jaBbOfouWJtJWjGvYkqLtd9WnV=8JC94nJuhtPvpp-39AQ@mail.gmail.com>
+Subject: Re: [PATCH v1] HID: playstation: DS4: Fix calibration workaround for
+ clone devices
+To: Max Staudt <max@enpas.org>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Max,
 
+Thanks for your patch. For readability, I would rather not move a lot
+of the ABS_X/ABS_RX related initialization code around. It is not my
+preference, but I think keeping the lines were they are, but doing
+this within the 'fail safe loops' is nicer:
 
-On 4/12/24 14:36, Fenglin Wu via B4 Relay wrote:
-> From: Fenglin Wu <quic_fenglinw@quicinc.com>
-> 
-> Currently, vibrator control register addresses are hard coded,
-> including the base address and offsets, it's not flexible to
-> support new SPMI vibrator module which is usually included in
-> different PMICs with different base address. Refactor it by using
-> the base address defined in devicetree.
-> 
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+ds4->gyro_calib_data[i].abs_code =3D ABS_RX + i;
+
+Thanks,
+Roderick
+
+On Sun, Apr 14, 2024 at 9:12=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
+>
+> The logic in dualshock4_get_calibration_data() used uninitialised data
+> in case of a failed kzalloc() for the transfer buffer.
+>
+> The solution is to group all business logic and all sanity checks
+> together, and jump only to the latter in case of an error.
+> While we're at it, factor out the axes' labelling, since it must happen
+> either way for input_report_abs() to succeed later on.
+>
+> Thanks to Dan Carpenter for the Smatch static checker warning.
+>
+> Fixes: a48a7cd85f55 ("HID: playstation: DS4: Don't fail on calibration da=
+ta request")
+> Signed-off-by: Max Staudt <max@enpas.org>
 > ---
-
-[...]
-
->   static const struct pm8xxx_regs pm8058_regs = {
-> -	.drv_addr = 0x4A,
-> +	.drv_offset = 0,
->   	.drv_mask = 0xf8,
-
-Since you're nearby anyway:
-
-GENMASK(7, 3)
-
->   	.drv_shift = 3,
->   	.drv_en_manual_mask = 0xfc,
->   };
->   
->   static struct pm8xxx_regs pm8916_regs = {
-> -	.enable_addr = 0xc046,
-> +	.enable_offset = 0x46,
->   	.enable_mask = BIT(7),
-> -	.drv_addr = 0xc041,
-> -	.drv_mask = 0x1F,
-> +	.drv_offset = 0x41,
-> +	.drv_mask = 0x1f,
-
-GENMASK(4, 0)
-
-[...]
-
->   
-> +	error = fwnode_property_read_u32(pdev->dev.fwnode, "reg", &reg_base);
-> +	if (error < 0) {
-> +		dev_err(&pdev->dev, "Failed to read reg address, rc=%d\n", error);
-> +		return error;
-
-return dev_err_probe() instead
-
-Konrad
+>  drivers/hid/hid-playstation.c | 63 ++++++++++++++++++-----------------
+>  1 file changed, 33 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
+c
+> index edc46fc02e9a..998e79be45ac 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -1787,7 +1787,7 @@ static int dualshock4_get_calibration_data(struct d=
+ualshock4 *ds4)
+>                 buf =3D kzalloc(DS4_FEATURE_REPORT_CALIBRATION_SIZE, GFP_=
+KERNEL);
+>                 if (!buf) {
+>                         ret =3D -ENOMEM;
+> -                       goto no_buffer_tail_check;
+> +                       goto transfer_failed;
+>                 }
+>
+>                 /* We should normally receive the feature report data we =
+asked
+> @@ -1807,6 +1807,7 @@ static int dualshock4_get_calibration_data(struct d=
+ualshock4 *ds4)
+>
+>                                 hid_warn(hdev, "Failed to retrieve DualSh=
+ock4 calibration info: %d\n", ret);
+>                                 ret =3D -EILSEQ;
+> +                               goto transfer_failed;
+>                         } else {
+>                                 break;
+>                         }
+> @@ -1815,17 +1816,19 @@ static int dualshock4_get_calibration_data(struct=
+ dualshock4 *ds4)
+>                 buf =3D kzalloc(DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, G=
+FP_KERNEL);
+>                 if (!buf) {
+>                         ret =3D -ENOMEM;
+> -                       goto no_buffer_tail_check;
+> +                       goto transfer_failed;
+>                 }
+>
+>                 ret =3D ps_get_report(hdev, DS4_FEATURE_REPORT_CALIBRATIO=
+N_BT, buf,
+>                                 DS4_FEATURE_REPORT_CALIBRATION_BT_SIZE, t=
+rue);
+>
+> -               if (ret)
+> +               if (ret) {
+>                         hid_warn(hdev, "Failed to retrieve DualShock4 cal=
+ibration info: %d\n", ret);
+> +                       goto transfer_failed;
+> +               }
+>         }
+>
+> -       /* Parse buffer. If the transfer failed, this safely copies zeroe=
+s. */
+> +       /* Transfer succeeded - parse the calibration data received. */
+>         gyro_pitch_bias  =3D get_unaligned_le16(&buf[1]);
+>         gyro_yaw_bias    =3D get_unaligned_le16(&buf[3]);
+>         gyro_roll_bias   =3D get_unaligned_le16(&buf[5]);
+> @@ -1854,71 +1857,71 @@ static int dualshock4_get_calibration_data(struct=
+ dualshock4 *ds4)
+>         acc_z_plus       =3D get_unaligned_le16(&buf[31]);
+>         acc_z_minus      =3D get_unaligned_le16(&buf[33]);
+>
+> +       /* Done parsing the buffer, so let's free it. */
+> +       kfree(buf);
+> +
+>         /*
+>          * Set gyroscope calibration and normalization parameters.
+>          * Data values will be normalized to 1/DS4_GYRO_RES_PER_DEG_S deg=
+ree/s.
+>          */
+>         speed_2x =3D (gyro_speed_plus + gyro_speed_minus);
+> -       ds4->gyro_calib_data[0].abs_code =3D ABS_RX;
+>         ds4->gyro_calib_data[0].bias =3D 0;
+>         ds4->gyro_calib_data[0].sens_numer =3D speed_2x*DS4_GYRO_RES_PER_=
+DEG_S;
+>         ds4->gyro_calib_data[0].sens_denom =3D abs(gyro_pitch_plus - gyro=
+_pitch_bias) +
+>                         abs(gyro_pitch_minus - gyro_pitch_bias);
+>
+> -       ds4->gyro_calib_data[1].abs_code =3D ABS_RY;
+>         ds4->gyro_calib_data[1].bias =3D 0;
+>         ds4->gyro_calib_data[1].sens_numer =3D speed_2x*DS4_GYRO_RES_PER_=
+DEG_S;
+>         ds4->gyro_calib_data[1].sens_denom =3D abs(gyro_yaw_plus - gyro_y=
+aw_bias) +
+>                         abs(gyro_yaw_minus - gyro_yaw_bias);
+>
+> -       ds4->gyro_calib_data[2].abs_code =3D ABS_RZ;
+>         ds4->gyro_calib_data[2].bias =3D 0;
+>         ds4->gyro_calib_data[2].sens_numer =3D speed_2x*DS4_GYRO_RES_PER_=
+DEG_S;
+>         ds4->gyro_calib_data[2].sens_denom =3D abs(gyro_roll_plus - gyro_=
+roll_bias) +
+>                         abs(gyro_roll_minus - gyro_roll_bias);
+>
+> -       /* Done parsing the buffer, so let's free it. */
+> -       kfree(buf);
+> -
+> -no_buffer_tail_check:
+> -
+> -       /*
+> -        * Sanity check gyro calibration data. This is needed to prevent =
+crashes
+> -        * during report handling of virtual, clone or broken devices not=
+ implementing
+> -        * calibration data properly.
+> -        */
+> -       for (i =3D 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
+> -               if (ds4->gyro_calib_data[i].sens_denom =3D=3D 0) {
+> -                       hid_warn(hdev, "Invalid gyro calibration data for=
+ axis (%d), disabling calibration.",
+> -                                       ds4->gyro_calib_data[i].abs_code)=
+;
+> -                       ds4->gyro_calib_data[i].bias =3D 0;
+> -                       ds4->gyro_calib_data[i].sens_numer =3D DS4_GYRO_R=
+ANGE;
+> -                       ds4->gyro_calib_data[i].sens_denom =3D S16_MAX;
+> -               }
+> -       }
+> -
+>         /*
+>          * Set accelerometer calibration and normalization parameters.
+>          * Data values will be normalized to 1/DS4_ACC_RES_PER_G g.
+>          */
+>         range_2g =3D acc_x_plus - acc_x_minus;
+> -       ds4->accel_calib_data[0].abs_code =3D ABS_X;
+>         ds4->accel_calib_data[0].bias =3D acc_x_plus - range_2g / 2;
+>         ds4->accel_calib_data[0].sens_numer =3D 2*DS4_ACC_RES_PER_G;
+>         ds4->accel_calib_data[0].sens_denom =3D range_2g;
+>
+>         range_2g =3D acc_y_plus - acc_y_minus;
+> -       ds4->accel_calib_data[1].abs_code =3D ABS_Y;
+>         ds4->accel_calib_data[1].bias =3D acc_y_plus - range_2g / 2;
+>         ds4->accel_calib_data[1].sens_numer =3D 2*DS4_ACC_RES_PER_G;
+>         ds4->accel_calib_data[1].sens_denom =3D range_2g;
+>
+>         range_2g =3D acc_z_plus - acc_z_minus;
+> -       ds4->accel_calib_data[2].abs_code =3D ABS_Z;
+>         ds4->accel_calib_data[2].bias =3D acc_z_plus - range_2g / 2;
+>         ds4->accel_calib_data[2].sens_numer =3D 2*DS4_ACC_RES_PER_G;
+>         ds4->accel_calib_data[2].sens_denom =3D range_2g;
+>
+> +transfer_failed:
+> +       ds4->gyro_calib_data[0].abs_code =3D ABS_RX;
+> +       ds4->gyro_calib_data[1].abs_code =3D ABS_RY;
+> +       ds4->gyro_calib_data[2].abs_code =3D ABS_RZ;
+> +       ds4->accel_calib_data[0].abs_code =3D ABS_X;
+> +       ds4->accel_calib_data[1].abs_code =3D ABS_Y;
+> +       ds4->accel_calib_data[2].abs_code =3D ABS_Z;
+> +
+> +       /*
+> +        * Sanity check gyro calibration data. This is needed to prevent =
+crashes
+> +        * during report handling of virtual, clone or broken devices not=
+ implementing
+> +        * calibration data properly.
+> +        */
+> +       for (i =3D 0; i < ARRAY_SIZE(ds4->gyro_calib_data); i++) {
+> +               if (ds4->gyro_calib_data[i].sens_denom =3D=3D 0) {
+> +                       hid_warn(hdev, "Invalid gyro calibration data for=
+ axis (%d), disabling calibration.",
+> +                                       ds4->gyro_calib_data[i].abs_code)=
+;
+> +                       ds4->gyro_calib_data[i].bias =3D 0;
+> +                       ds4->gyro_calib_data[i].sens_numer =3D DS4_GYRO_R=
+ANGE;
+> +                       ds4->gyro_calib_data[i].sens_denom =3D S16_MAX;
+> +               }
+> +       }
+> +
+>         /*
+>          * Sanity check accelerometer calibration data. This is needed to=
+ prevent crashes
+>          * during report handling of virtual, clone or broken devices not=
+ implementing calibration
+> --
+> 2.39.2
+>
+>
 
