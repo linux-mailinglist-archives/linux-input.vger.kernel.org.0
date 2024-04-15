@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-3030-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3031-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63768A50A2
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 15:14:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCCA8A50AA
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 15:14:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4889B1F2155C
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 13:14:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A17F11C21449
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 13:14:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A7B13C3FA;
-	Mon, 15 Apr 2024 12:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C9113C699;
+	Mon, 15 Apr 2024 12:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rlAA7S3N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d/BAcgST"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634513C3E8
-	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79C813C679
+	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185667; cv=none; b=ljZLMMYbgnJJlH9nUUsbI4F1U0sDr2fxzBekWer4QwBi/6EBq2bllm1HgHv5koDIZ6gD5XTFLOea2PdhQRPhgSCmmHXU/sAJ4+r8muT7+76sGPZDSZaRMCQpQVUQvm+WdOFlcT+5s93CqBq32d0nPfOFPirzp2sIqtDJ24Kcrgk=
+	t=1713185680; cv=none; b=HkYQf6G78gFELpM7pTnBtpaHmG2yKqMTfZZRc+w3hpGYpNGSlyvfTTLSitSeipX+PwNl0kn9CKzfUb8TQOF4v6gdonhIA2Kmp49ZjHC49MTUBrKGXxvCEECn2tD0JgFQmt/LITrXDg7TYiYNWFzepNFlUZTKOahOj5/qQWo0jvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185667; c=relaxed/simple;
-	bh=6hy9MHFehUy/zuX4NYpy8UxQhRHJAuB0rX2A35+Fa/0=;
+	s=arc-20240116; t=1713185680; c=relaxed/simple;
+	bh=QuhwG+KvJtimhWZKcxuFPkQLiPrb/07vzj/We9k9VWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3Cmyz5Nqe2rbdP6TNx+CVemwgYPa2Kc+WSCPrW5Ip7AC6p1+o8O850Laj+NNw6O5jElnBnqQ0/jwhY6hgBD6+hFdWDY+ENlSHDrjpmLiHgUbhsCiFj+4WKWjFg27BvT95iyl4sV7FdPB8LnlDsuzMN5srVFVZtYp1/9fj+G3q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rlAA7S3N; arc=none smtp.client-ip=209.85.167.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=kRRY9L9Uh3sZmW/RCvhnwnXPAI66kpZaqw5g4VFznSKIwRoPWqIHt5OIp45c9WCBsHRVlNKhNwux7G/A85kiLGdN85DDmW9NBJE0KKU+Xtyh4D1O8WwlQ3Tz60htSd6GaY5JD4TDL4woX0v+8a0EgDGNsK+dG9F8s8tbQ7O0HhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d/BAcgST; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5171a529224so3952543e87.0
-        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 05:54:25 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-343e46ec237so2690027f8f.2
+        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 05:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713185664; x=1713790464; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1713185676; x=1713790476; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6hy9MHFehUy/zuX4NYpy8UxQhRHJAuB0rX2A35+Fa/0=;
-        b=rlAA7S3N3Vgt/FjbnrDGQI0IeUDXdQYkzdF405wlU3tAIj54eneHEXybGcCxRdCd/0
-         PO7101V2peiftQ72u0hX0t0SDBYoRh++JFuGSApL3qd4AHxe+5VUx8tHphtWis/s5+Me
-         KVYPXEAiIee8ZVV/IleXpCOrh5yOOzyWqDXGBNNHhOdUeBJ9zgx0OhbGD87pLLd4hVW2
-         wNtVr+eXSBwYxf5VeTJMxreANDr+1DBgg69VebxyjrWZn5n3HpmmOKmgCdd7S6VPw0Wp
-         u3SwcM1su1ldiwQ2mzpUsTZxFDAQ9SfuTK+sG9z8xKMl93Slmm4eBt2nCrPrRePhVNjs
-         Fgdg==
+        bh=QuhwG+KvJtimhWZKcxuFPkQLiPrb/07vzj/We9k9VWQ=;
+        b=d/BAcgST47SaMiPPMJlp/T3YZ//KtPn/8jOpR499AaNRtFKQv38KWLIwSGsHuLK0Ph
+         f/8cIGW+tZtzwv7OVU7sL/CQjeiTm1uve+tL/KL0lOFhcJ6AOlrkIq7rbddA5TFfcKLt
+         k+mLMws2UQ4LAmSh22dfa9GS39UpY/6tU49s8WTCSjwKmeuUYOkx6t0rcHO2RAzukSuA
+         S3d6fzxWS9zvwzgDrAxo7g0t4CcUY3otBhE8K30wQRpkU4B1B0LI5dvY3oeABSZafK+e
+         8yETm2KVzeEiwILc69+UmmzPXlGRSF4cmYDVTlZ2NDhUrxtA28R9i0sWKtFGOUQZa2nz
+         GiYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713185664; x=1713790464;
+        d=1e100.net; s=20230601; t=1713185676; x=1713790476;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6hy9MHFehUy/zuX4NYpy8UxQhRHJAuB0rX2A35+Fa/0=;
-        b=MeWvVloNhzgKFKTlKk80/PBCxkqzo9LaDEjHF/wiSGePSGP3YXXy8qo1JNvujdrcrB
-         dh9mG4V5XO+wbbnr1HQlihVwHETdwE9E41bw+Mi7QBVOTd7nPlWFdLHzL0I8bp3opztD
-         ZBHsq7Tzc6zhwY4WXVTFWAciVbShFYNYryR1hEwzhu/Spnm08y2PMuHxljSa0OeUUCLl
-         Km18w9W6ht7u0DkRId4n0oxCdEqE2Dc1nzhx+hfH1rf8RP9PS1uWtIx6OOfXVxxUhhRu
-         Wq0fkIMbwIHOJF/NxdJtMbh3fY5BfnNRtRCQ4xaB8vbE0byMXwzvcYLgDpXgo80Z3/7M
-         t+GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSffQKfvdGrH+F33SxNSTodIJCNbSP6qOBWEl1GSnB3YNiDCCQTNRAuZG7uMkN3y+b9wCIrHIMUpcuMhnGwSc7Cq1R7m3YPUKcIwg=
-X-Gm-Message-State: AOJu0Yy+sEEVJcN0zv5vwSdWy+92ZB1u1MHRTzQOFllZDNJYjA7pHowQ
-	w1fd7oKMRcMtsmKsUKNOplcPe8VMNcPBdguxnuWT40Fzi8m/P3XDaZ8zZ4sy3y4=
-X-Google-Smtp-Source: AGHT+IHWAIlGaPkDWCdPgAXfWq/+MLUcSYotiH9LGBzmKnQ4SFxdrNrzwncOrZpKE9P8st08sqCGFg==
-X-Received: by 2002:a2e:7a16:0:b0:2d2:4637:63f with SMTP id v22-20020a2e7a16000000b002d24637063fmr5787093ljc.45.1713185663909;
-        Mon, 15 Apr 2024 05:54:23 -0700 (PDT)
+        bh=QuhwG+KvJtimhWZKcxuFPkQLiPrb/07vzj/We9k9VWQ=;
+        b=vd4qlwaFiQuZ3MZxti1Asi/cpO8Vvd9LtT3JRMpY0BoJsuPZl8pz7lRh/7GGfLfE7t
+         yrECrlTZmTy+ArRo7JW6D3m2Ep4wFrGozo8pSMthLGD6flVrjzIYUeyeH8mISvnxvBpS
+         8qmRFi2/Pvv6suPvBp3EwUmoLiENa+KlQWORvRfGqtFYAM2RFyhSroOqtW7pCpPUpaLm
+         N35iwNLb5f5IzxKq+eRiJbayHPAOX3W1uO6jtwYFOgG6qdRdm5tRsElht0UmOEoZY8Qv
+         WQ5rU2MVF7f4m+0fWlI6ERIwTlwJQwIYA3JOASNgdJu+RT4aPP6UcmHvIU8p+ZZ8UH0B
+         C21A==
+X-Forwarded-Encrypted: i=1; AJvYcCWFwvOdOLtwYLiUQ6lffeYcjcHxfYKqe7yE1Zev1NSNNSr6iNPfLVwuntweyoFySbC2pfPyxvGsyh3whnm0v6Jr1QZmitSL5wuOkM0=
+X-Gm-Message-State: AOJu0Yw2juf1+rvhQwuOT/qTgvEl2SeJw4xPNFe2mXqyAUv4RYKAp3tG
+	kvJzbre6ypP0Mpr0hRgAiER4HqKlpfV3s2wq30XkE+7ch7vwqijoIZlNNKC1TcM=
+X-Google-Smtp-Source: AGHT+IEPwOHcdqSsBfyETbLBvAQKa/2hIYBPy4DXezVg6jyWxDrnmy5YGJEuZgB1Fbd9ZZPXlD2MlA==
+X-Received: by 2002:adf:e545:0:b0:33e:7fbc:caea with SMTP id z5-20020adfe545000000b0033e7fbccaeamr7391360wrm.34.1713185676156;
+        Mon, 15 Apr 2024 05:54:36 -0700 (PDT)
 Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b004181ed7c033sm9730638wmq.24.2024.04.15.05.54.22
+        by smtp.gmail.com with ESMTPSA id w6-20020a5d4b46000000b00341c7129e28sm12009728wrs.91.2024.04.15.05.54.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 05:54:23 -0700 (PDT)
-Date: Mon, 15 Apr 2024 13:54:21 +0100
+        Mon, 15 Apr 2024 05:54:35 -0700 (PDT)
+Date: Mon, 15 Apr 2024 13:54:33 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -82,10 +82,10 @@ Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
 	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
 	linux-omap@vger.kernel.org
-Subject: Re: [PATCH 10/18] backlight: lms501kf03: Constify lcd_ops
-Message-ID: <20240415125421.GJ222427@aspen.lan>
+Subject: Re: [PATCH 11/18] backlight: ltv350qv: Constify lcd_ops
+Message-ID: <20240415125433.GK222427@aspen.lan>
 References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
- <20240414-video-backlight-lcd-ops-v1-10-9b37fcbf546a@kernel.org>
+ <20240414-video-backlight-lcd-ops-v1-11-9b37fcbf546a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,9 +94,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240414-video-backlight-lcd-ops-v1-10-9b37fcbf546a@kernel.org>
+In-Reply-To: <20240414-video-backlight-lcd-ops-v1-11-9b37fcbf546a@kernel.org>
 
-On Sun, Apr 14, 2024 at 06:36:08PM +0200, Krzysztof Kozlowski wrote:
+On Sun, Apr 14, 2024 at 06:36:09PM +0200, Krzysztof Kozlowski wrote:
 > 'struct lcd_ops' is not modified by core backlight code, so it can be
 > made const for increased code safety.
 >
