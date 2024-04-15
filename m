@@ -1,135 +1,215 @@
-Return-Path: <linux-input+bounces-3014-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3015-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9D38A4EB0
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 14:14:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4AD8A4EF1
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 14:24:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D27BF1F231DB
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 12:14:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C5CB28316A
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 12:24:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7183DB97;
-	Mon, 15 Apr 2024 12:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qreG0MaU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F34E6CDC0;
+	Mon, 15 Apr 2024 12:24:03 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A7C376E6
-	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432196BB48;
+	Mon, 15 Apr 2024 12:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713183241; cv=none; b=QaMLpK/cEmJ3I5gF4IYLphROguXESJwZnHJ7LKoZcsgE3aCU+lXMZUj7J32IBP+LYH1xZXIu1DNzjtbT8XZWfdq/2y+mNEkCR6m4w0dsEqc44xbMoVrSiUSHKCjuKLwuX2fgE0VtJIA8xO3uz+oeASCyfjtRM3uWotM81M6SdyQ=
+	t=1713183843; cv=none; b=IukvQuhA8iLTTgBP88v6fUXkvq7z+8XrBzBBzRY9kVShewRR2nr9FSD5cxe/LcNSTQzxoNWIDTL/yaf0+ejEELjTCbJ9UUa/F7xBjJatMqQ2TPl45M+RMJ/VYd+K9JfH1zzCfuE5l0iz+Xx38pHN7Wqge4RIs2EN80aNqdyR8Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713183241; c=relaxed/simple;
-	bh=0mq8B2Y6QndEDg7ovK+Rf6E2FOwt86MMHDQrr4rZ0qA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aiTw/UaAGSJxAYHkpTtE/EURjqVkaZUNVHchQK3quFgrY2M1cudmeKm8+Y52teQ2Y+jwJjloh2saYfITCK+VwhNjvnWG1BnY3PYgvc3iZQ3EM6a/E8l41IpOmqj2qYWo3+XNoZ8gjriadDUS26XUKN89V0dKecAeI4kkWR8MHGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qreG0MaU; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34665dd7610so1189006f8f.3
-        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 05:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713183238; x=1713788038; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0mq8B2Y6QndEDg7ovK+Rf6E2FOwt86MMHDQrr4rZ0qA=;
-        b=qreG0MaUbE5pypZsKg4u6HWqg3SHF/N4leQztjml0Mo/p3u8BVRFkQxNCLB3l1V0G/
-         YWdRli9GwiDEhZHArcuDhvnxKNOzdJc30Gs3xBbkxuqN3n0mylzOgzuJ/VQE0l4tl3SY
-         azaGEuEllFlzOmQzTWB6342YlNgtcFtJKxYBJP0iROivMi5M9f1ywpvDGRAz1odAq5TM
-         HiA9oUvDcxueC/d7DHsLPY25KeNHJQBimXMAPGNn2nYS1VXdeBwuA1RPdW5Qa/dsum9x
-         SBGtCvKb9+nB0cpCkmnP03mg7QaEz+6W+1zL9SJlt4FPb7oF7V5WTKUJfK6jR3SSGWsy
-         UHUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713183238; x=1713788038;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0mq8B2Y6QndEDg7ovK+Rf6E2FOwt86MMHDQrr4rZ0qA=;
-        b=CX1z6G/M5mtQ6OMql1jEuNkExxrMdY3JWUeSTkHzJ4Y9rsqM/Lo59S1UkVwoA1oo91
-         fNuu5ce5wq64hD2hUMngXa9EmOYq299v22cp15RtIaQZRFJy56o6DPb/jYA0OngXEYMM
-         HujGawejM5dsRX0OhESEpVFCcz+nFhrbFJcCuuflJFiohA22VV4K+x2wQFRIvuOdVwuB
-         cZorBIFQgxA5aDFfREvDB/Y8QsTL07HKJ6UVVGWNbeekyk9FC8nuaBtggfKBGH813fBq
-         aUpIfr8BHVO+l1boET0hJIKTK/E84dRxQsG/kNZd+dd41IbunZUgLhLlGWbuvDiezNOX
-         yp9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUv7PL4Z4wXHVy4e606n3j320cHqT0n+A0OeI5AbuSrDpNDfMZTU6oO11LJWa2pVvi+Re/+yNAryvwmq4z0UwDx7x3gGYCiDwwde5g=
-X-Gm-Message-State: AOJu0Yz9oURUzUGpUjrkH+3crhswpxm89uWR8qVhTdWngOJajlz34F53
-	oo28c2eYa0aWJPzTiN3Oke6Qs4+8WOle7jh8/KHHZO+hht5eGnD4/Y7oS0JA2n3cPgwXiOlfDOI
-	rYJPVBfXgFk4jSgyXDKa4ln8jNN9bJf0TvI0X
-X-Google-Smtp-Source: AGHT+IE5hwz0nX9ECesEBa2uw8/K1PUd5u27RsKg3i1MPN/NxrcguI0IE0R3jiksoq9NUfaqeDKXwe6biOaWtxlFiZ0=
-X-Received: by 2002:adf:e343:0:b0:343:772d:9349 with SMTP id
- n3-20020adfe343000000b00343772d9349mr6384118wrj.50.1713183237981; Mon, 15 Apr
- 2024 05:13:57 -0700 (PDT)
+	s=arc-20240116; t=1713183843; c=relaxed/simple;
+	bh=Ot6LYru/GwpS7tDhLGOixb+GsRfLIumFbU16Nr8dmbI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kvp7KQpbnNFIdl+SntbDF75AFscJdVCcwoA/HJZ9ZwV3K+Kl77o12GvUUWxaz8XBE2LSkSBE95y9wDO8d18JNb4/0qIjtrKSFYwqDIbdVSh13Mbgk3CNECB3g4Wgboz5mF5gwzePlphCeGMzRYGSqN5IITtNR2gmSzKEBbQNs8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3550DC113CC;
+	Mon, 15 Apr 2024 12:24:01 +0000 (UTC)
+Message-ID: <a0c8faf3-0043-4eed-9e5d-b1a50d7405f1@xs4all.nl>
+Date: Mon, 15 Apr 2024 14:23:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com>
- <81e1b870-37f9-4ef2-9a3d-87015f32546b@kl.wtf> <CAM4=RnJAe1wzi_+Nif0wiSeqC5GR6Aavz97mY7tm=hFu3mijhg@mail.gmail.com>
-In-Reply-To: <CAM4=RnJAe1wzi_+Nif0wiSeqC5GR6Aavz97mY7tm=hFu3mijhg@mail.gmail.com>
-From: Radoslaw Biernacki <biernacki@google.com>
-Date: Mon, 15 Apr 2024 14:13:22 +0200
-Message-ID: <CAM4=RnJ5rsscJfH6P-XzzK-RZ710YZ64wXnYnhgc3+ey57zOBw@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-To: Kenny Levinsen <kl@kl.wtf>
-Cc: lma@chromium.org, benjamin.tissoires@redhat.com, dianders@chromium.org, 
-	dtor@chromium.org, hdegoede@redhat.com, jikos@kernel.org, 
-	johan+linaro@kernel.org, johan@kernel.org, kai.heng.feng@canonical.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, mripard@kernel.org, 
-	rad@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: usb: siano: Fix allocation of urbs
+Content-Language: en-US, nl
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org
+References: <20240415-smatch-v2-1-65215936d398@chromium.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240415-smatch-v2-1-65215936d398@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-ps: "without knowing if the device is, or is not on the bus ..."
+On 15/04/2024 14:12, Ricardo Ribalda wrote:
+> USB urbs must be allocated with usb_alloc_urb. Quoting the manual
+> 
+> Only use this function (usb_init_urb) if you _really_ understand what you
+> are doing.
+> 
+> Fix the following smatch error:
+> 
+> drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Changes in v2: Thanks Hans
+> - Only leave 1/6, the other ones are in another PR
+> - Fix the return tag and NULLify the urbs on return
+> - Link to v1: https://lore.kernel.org/r/20240410-smatch-v1-0-785d009a852b@chromium.org
+> ---
+>  drivers/media/usb/siano/smsusb.c | 36 ++++++++++++++++++++++++++----------
+>  1 file changed, 26 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+> index 723510520d09..2e25b970946a 100644
+> --- a/drivers/media/usb/siano/smsusb.c
+> +++ b/drivers/media/usb/siano/smsusb.c
+> @@ -40,7 +40,7 @@ struct smsusb_urb_t {
+>  	struct smscore_buffer_t *cb;
+>  	struct smsusb_device_t *dev;
+>  
+> -	struct urb urb;
+> +	struct urb *urb;
+>  
+>  	/* For the bottom half */
+>  	struct work_struct wq;
+> @@ -160,7 +160,7 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+>  	}
+>  
+>  	usb_fill_bulk_urb(
+> -		&surb->urb,
+> +		surb->urb,
+>  		dev->udev,
+>  		usb_rcvbulkpipe(dev->udev, dev->in_ep),
+>  		surb->cb->p,
+> @@ -168,9 +168,9 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+>  		smsusb_onresponse,
+>  		surb
+>  	);
+> -	surb->urb.transfer_flags |= URB_FREE_BUFFER;
+> +	surb->urb->transfer_flags |= URB_FREE_BUFFER;
+>  
+> -	return usb_submit_urb(&surb->urb, GFP_ATOMIC);
+> +	return usb_submit_urb(surb->urb, GFP_ATOMIC);
+>  }
+>  
+>  static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+> @@ -178,7 +178,7 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+>  	int i;
+>  
+>  	for (i = 0; i < MAX_URBS; i++) {
+> -		usb_kill_urb(&dev->surbs[i].urb);
+> +		usb_kill_urb(dev->surbs[i].urb);
+>  		if (dev->surbs[i].wq.func)
+>  			cancel_work_sync(&dev->surbs[i].wq);
+>  
+> @@ -338,6 +338,8 @@ static void smsusb_term_device(struct usb_interface *intf)
+>  	struct smsusb_device_t *dev = usb_get_intfdata(intf);
+>  
+>  	if (dev) {
+> +		int i;
+> +
+>  		dev->state = SMSUSB_DISCONNECTED;
+>  
+>  		smsusb_stop_streaming(dev);
+> @@ -346,6 +348,11 @@ static void smsusb_term_device(struct usb_interface *intf)
+>  		if (dev->coredev)
+>  			smscore_unregister_device(dev->coredev);
+>  
+> +		for (i = 0; i < MAX_URBS; i++) {
+> +			usb_free_urb(dev->surbs[i].urb);
+> +			dev->surbs[i].urb = NULL;
 
-On Mon, Apr 15, 2024 at 2:10=E2=80=AFPM Radoslaw Biernacki <biernacki@googl=
-e.com> wrote:
->
-> Hi Kenny,
->
-> > If the device can enter deep-sleep arbitrarily, then we presumably also
-> > have problems in i2c_hid_output_raw_report() and
-> > i2c_hid_get_raw_report() which could happen after the device has gone t=
-o
-> > sleep from inactivity. These places would also need EREMOTEIO retry log=
-ic.
->
-> It does not enter deep-sleep arbitrarily and therefore it is not a proble=
-m with
-> other communication patterns.
-> The design which was chosen back in the day, to save the battery power
-> is event based
-> instead of level based (some HW line). Therefore to avoid power leak
-> we need to request
-> low power state (to prevent power leak in case the kernel will not
-> boot up soon).
->
-> Basically we need to take out the device from deep state logic by message=
-,
-> without knowing if the device is on the bus or it is on the bus but
-> not responding.
->
-> >
-> > All these places should have the same sleeping behavior as they are
-> > working around the same device glitch. I imagine the client ACK timeout
-> > is longer than your required 400=C2=B5s, in which case you don't need a=
-ny
-> > sleep on retry at all, as is the case in the current i2c_hid_set_power(=
-)
-> > implementation.
-> >
-> > However, as we litter retry-code all over the place, Johan's suggestion
-> > about doing this in the I2C driver does become a bit more relevant...
-> >
-> > Best regards,
-> > Kenny Levinsen
-> >
+You don't need to assign to NULL here...
+
+> +		}
+> +
+>  		pr_debug("device 0x%p destroyed\n", dev);
+>  		kfree(dev);
+
+...since here the whole dev struct is freed.
+
+>  	}
+> @@ -390,6 +397,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+>  	void *mdev;
+>  	int i, rc;
+>  	int align = 0;
+> +	int n_urb = 0;
+>  
+>  	/* create device object */
+>  	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
+> @@ -461,16 +469,18 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+>  	dev->coredev->is_usb_device = true;
+>  
+>  	/* initialize urbs */
+> -	for (i = 0; i < MAX_URBS; i++) {
+> -		dev->surbs[i].dev = dev;
+> -		usb_init_urb(&dev->surbs[i].urb);
+> +	for (n_urb = 0; n_urb < MAX_URBS; n_urb++) {
+> +		dev->surbs[n_urb].dev = dev;
+> +		dev->surbs[n_urb].urb = usb_alloc_urb(0, GFP_KERNEL);
+> +		if (!dev->surbs[n_urb].urb)
+> +			goto free_urbs;
+>  	}
+>  
+>  	pr_debug("smsusb_start_streaming(...).\n");
+>  	rc = smsusb_start_streaming(dev);
+>  	if (rc < 0) {
+>  		pr_err("smsusb_start_streaming(...) failed\n");
+> -		goto err_unregister_device;
+> +		goto free_urbs;
+>  	}
+>  
+>  	dev->state = SMSUSB_ACTIVE;
+> @@ -478,13 +488,19 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+>  	rc = smscore_start_device(dev->coredev);
+>  	if (rc < 0) {
+>  		pr_err("smscore_start_device(...) failed\n");
+> -		goto err_unregister_device;
+> +		goto free_urbs;
+>  	}
+>  
+>  	pr_debug("device 0x%p created\n", dev);
+>  
+>  	return rc;
+>  
+> +free_urbs:
+> +	for (i = 0; i < n_urb; i++) {
+> +		usb_free_urb(dev->surbs[n_urb].urb);
+> +		dev->surbs[n_urb].urb = NULL;
+
+This should use index 'i', right? Not 'n_urb'.
+
+I'll wait for v3 :-)
+
+Regards,
+
+	Hans
+
+> +	}
+> +
+>  err_unregister_device:
+>  	smsusb_term_device(intf);
+>  #ifdef CONFIG_MEDIA_CONTROLLER_DVB
+> 
+> ---
+> base-commit: 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8
+> change-id: 20240410-smatch-8f235d50753d
+> 
+> Best regards,
+
 
