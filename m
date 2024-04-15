@@ -1,124 +1,124 @@
-Return-Path: <linux-input+bounces-3037-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3038-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73C68A51CC
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 15:41:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8276A8A548C
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 16:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 654E71F2354D
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 13:41:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3F3A1C20AFE
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 14:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00CD76AF88;
-	Mon, 15 Apr 2024 13:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+Ec+RO+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7EC481AA7;
+	Mon, 15 Apr 2024 14:35:05 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC07A5A108;
-	Mon, 15 Apr 2024 13:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C2B84E11
+	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 14:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713188259; cv=none; b=LjDZbj7VllD7VzIAhuSfc6ECymuiTZV/TVHZawfWYt84hGpH6xoRc6KphRc5GNHLmU+eAoCcmZ/5PSlTGV5D1h2Vi8/ISOJeRS3XUWE5DNmXacYU47mwoGILJVy8VrAQtQ9EGdthafLEWvQrqX3GthozI5+un5xOr2nTA/LbLeM=
+	t=1713191705; cv=none; b=DxHsC03o+BZUzGvgk5gt/xPx3C91WjVIqC9RndvuvwuIOPvBKxv99rF2+YgN1sM0ZHPZeRKAdU708QUkQE5i1pkg6+ASBx5YbWZUV5gCtbZ1YwTAXXuyYL5XyzxFuN3IyKrwEow7IAXL2b5kTVfJL+17ouKKoojd8KjtjX0Oeqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713188259; c=relaxed/simple;
-	bh=oqsz7oTqnMzJEsE0FYNgIT8mwUtotzkcTfbnB4dWr8w=;
+	s=arc-20240116; t=1713191705; c=relaxed/simple;
+	bh=BHTUrnQani3RmIacngf5ncMhkchnk/Pc3hAKX542Xd0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XsAyIAk3cSXpf3aq0YpnExsaSzOtXRszqO0cUORaSWEu+6bp83v+UHzAtsmFGmD2/aAjloT8dJ9du9zFiyzyiEQMj5hhqWBvKyiJmq+Hs4znqFUqxBdXd4LUdbhrhsUnRDurpRHOtjxUmjuwY9e6FLxl8tCDS5F4ZPqc4cX0iUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+Ec+RO+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481EAC3277B;
-	Mon, 15 Apr 2024 13:37:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713188259;
-	bh=oqsz7oTqnMzJEsE0FYNgIT8mwUtotzkcTfbnB4dWr8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F+Ec+RO+oORajHbuTgqpouzHzAr/d57OOkvi3B1R11x5j1lL8X+uCR4pIIuSsKcNv
-	 2In1wwslzCaABBgELv2qfDN8xTmvwMzAkjmGSUusmh5/frgz2bl1MA31NDT0dg4wI1
-	 J3MaJzY2eSFebiR0VYMVcPDK/MWrqjbs4lAQcwhelzDl5EVwN+nRgCOhoMDPMBcsWB
-	 cuuQHReuEi4WQd4DqraBcQFcqE5+0sFrh3naazGWvyH+iCJ/tY3YqXXQAmOXDl8zlD
-	 c83EPLFc/ckeJORQLHOIy/7sMvzkk10EehsACOS+vLSGt5zLSKA+yVyoqmSSULSVNg
-	 2qBqaOEEyjh8w==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rwMWf-000000005C7-0Rph;
-	Mon, 15 Apr 2024 15:37:37 +0200
-Date: Mon, 15 Apr 2024 15:37:37 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Radoslaw Biernacki <biernacki@google.com>
-Cc: =?utf-8?Q?=C5=81ukasz?= Majczak <lma@chromium.org>,
-	Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>
-Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-Message-ID: <Zh0toTnoGBkJwOq7@hovoldconsulting.com>
-References: <20240405102436.3479210-1-lma@chromium.org>
- <ZhOccGFkTFkUkRUI@hovoldconsulting.com>
- <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com>
- <ZhVix-HJrqQbiPrB@hovoldconsulting.com>
- <CAE5UKNp3uS9cqDbQjcP3SbfxVi3wPFG4LtP6z=WU_V+M9x6LtQ@mail.gmail.com>
- <ZhzuoWgA88CeenMC@hovoldconsulting.com>
- <CAM4=RnLQRPmYDt_c+dpsia4WFZVA1vukXa35a0Uupu7jMZxtVQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ckFz6BpzNMHDqVRZWdZ+hKuqqM9C+A4DUld/TWdXc82vH9KT1Tp5TsHxqtETlxpgaKEvE6wuIw+YnuZFhqHnotYTae0rnl7fz1hz15aekIcR4l9W/em/fsqfStM1AjGxgO3JGjPHwegD4jwaOQ4C8uBGx9XmQsUOlAKdrkF6A70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwNQ6-0005Mx-91; Mon, 15 Apr 2024 16:34:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwNQ5-00CRSL-Sa; Mon, 15 Apr 2024 16:34:53 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rwNQ5-001gDX-2a;
+	Mon, 15 Apr 2024 16:34:53 +0200
+Date: Mon, 15 Apr 2024 16:34:53 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, kernel@pengutronix.de, 
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: amimouse - Mark driver struct with __refdata to
+ prevent section mismatch
+Message-ID: <ln446wvlcruoglseztao7jwywzxiixyxnx3qxqnm7nmdan6bzt@klbghdi3wwir>
+References: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zbu3mgd7jdx763c2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM4=RnLQRPmYDt_c+dpsia4WFZVA1vukXa35a0Uupu7jMZxtVQ@mail.gmail.com>
+In-Reply-To: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-On Mon, Apr 15, 2024 at 02:26:42PM +0200, Radoslaw Biernacki wrote:
-> On Mon, Apr 15, 2024 at 11:08 AM Johan Hovold <johan@kernel.org> wrote:
-> >
-> > On Thu, Apr 11, 2024 at 04:23:27PM +0200, Łukasz Majczak wrote:
-> > > > Sure, but what about other transactions that are initiated by the host
-> > > > (e.g. SET_POWER)?
-> > > >
-> > > Somehow it is problematic only on reboot and works just fine on
-> > > suspend/resume and
-> > > set_power.
-> > > I will dig more and try to find out what the difference is.
-> >
-> > Sounds like it may be related to the i2c_hid_set_power() on shutdown()
-> > then as Kai-Heng pointed out.
 
-> > Yes, if this turns out to be needed then there should be a comment
-> > explaining why it is there (and currently also as the delays you used
-> > seem specific for your particular platform).
-> >
-> > But hopefully you can find a generic solution to this.
-> 
-> Yes, we might need a more generic solution though it is not yet clear
-> for us which would be the cleanest one.
-> As I wrote in the reply to Kenny, the design back in the day was made
-> to use events rather than
-> level driven IO line, to drive the power state of the device.
-> Consequence is we need to request
-> a low power state before the kernel goes down as there is no guarantee
-> the kernel will wake up soon
-> (prevent battery power leak). This event/level logic problem (event
-> design for level type problem).
+--zbu3mgd7jdx763c2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok, and do I understand you correctly that it is indeed the SET_POWER
-command on shutdown() that makes the device enter the sleep state and
-which then needs an extra transaction on next boot to be woken up?
+Hello,
 
-And that the firmware will not enter that low power state on its own
-based on lack of activity as the current commit message suggests?
+On Fri, Mar 29, 2024 at 10:54:38PM +0100, Uwe Kleine-K=F6nig wrote:
+> As described in the added code comment, a reference to .exit.text is ok
+> for drivers registered via module_platform_driver_probe(). Make this
+> explicit to prevent the following section mismatch warning
+>=20
+> 	WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in refe=
+rence: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: .e=
+xit.text)
+>=20
+> that triggers on an allmodconfig W=3D1 build.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-If so, then it seems a variant of this patch would be ok as long as the
-commit message and a comment in the code explains the problem correctly.
+I'd like to enable these warnings even for W=3D0 builds, so it would be
+great to get it into the main line soon.
 
-Johan
+If you apply it, please notice that I fat-fingered the parameters to git
+send-email and it was sent in a thread. So (assuming you're using b4)
+you'd need:
+
+	b4 am -P _ -v1 2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.k=
+leine-koenig@pengutronix.de
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zbu3mgd7jdx763c2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYdOwwACgkQj4D7WH0S
+/k6RCQf/QgXoedmAW7uGY+b/iuS96b/xEsfbqrpApHnmRH8MStb7LJXuZVcoCzV3
+jilQ/jEeeBsVy1xcprMnigJCNYvQijRAPr1h1sHg6OtS0tC8UI7W60j96eAZJx/I
+Vf+61Nfe4U/65aSX4rUSGWDIo5qyKVCIRpHNdv5dPWv1BiOtd2cwnvgRZigdThdH
+9PoOp3WWDi1ziF+mCF3922e09vag9d0Gil5IzxlaJNEDxPLaVxe6TkYtRDMA9+uS
+A88Zw7J2k0lq2wkhfrkEGzce6PsmBT5i9KAlYJX3QSC2sDnI9ONLdlcFzOU+s14C
+2DKbnZV0Y5/CvGoJ4AlHAIuaOR3Yzw==
+=xNOK
+-----END PGP SIGNATURE-----
+
+--zbu3mgd7jdx763c2--
 
