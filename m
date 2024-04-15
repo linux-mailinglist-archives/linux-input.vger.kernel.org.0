@@ -1,86 +1,96 @@
-Return-Path: <linux-input+bounces-3058-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3059-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC018A5D3E
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 23:52:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C2D8A5DE5
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 00:55:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9DFB284AB0
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 21:52:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C568B1F21F24
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 22:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F0B157494;
-	Mon, 15 Apr 2024 21:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4499E54905;
+	Mon, 15 Apr 2024 22:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IRiLQj3F"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtwQ8J4u"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A3F1EF1A;
-	Mon, 15 Apr 2024 21:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4895158856;
+	Mon, 15 Apr 2024 22:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713217973; cv=none; b=a7KBq9GpTXvC2AUzIMu/Ld769TtwA7U/vPd22welGbrvmNFWcKjIxxPdsCAx4UA6wivHbnTHbWLKBkrOA5kcszxaPjC4Yh5FByLcslLX094fMIC2AB0a7IiueVbvsi4gaD0q/3VuFFCuwOifOjd/S7nLl017L/bWHDcsAt6GF3k=
+	t=1713221696; cv=none; b=ZEkjt/fI/bOLzbndmqayS4KPw5343UYhTEC/QnuS/F3AR65YAPLZIW3kAAMN0jChjUBzLDNq/CMKzlChswARZCLurQdQ0iNIBiL+7NOe/F5OF3CkaszjY67jq4mepefeExXPgr2bKhz6So7Z528SlB/shA48PpWxRpqtQ+U1+94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713217973; c=relaxed/simple;
-	bh=EIxqbtF7X8OJhkSZ34XcJldP6NaBP3TS/sc+R0KsL2E=;
+	s=arc-20240116; t=1713221696; c=relaxed/simple;
+	bh=Y/s6gxAhSIDQI8G7l/+6Qgj0UdQHTwKGgOtagcLo+oI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWRnSTh26e6G1wGzVQSxsHbuFa0ECuLM5klxo7anxePBdfaEZxYlqpzZfmzcOYlVu6b6tnaH+K7zcET2sdnBBlgy1i5gcJTuCHJqREsc0VI/MvfxM90EpKzbbbCt6LmRtmOYpMiPjv8GRQuKb/Xqv2inDuvFIuNubxA0GIeI0K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IRiLQj3F; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=s6sTQ6N8gonvLOYXWiFBgi0tcDW/lvJHpbN05BrdfyLQvi/oXLHBVyDLvZkMYzIxF+9yAs0Nve2P17STyM9PqJYxfKUFT0TrY7Yy25nsZzAGnyPv1TchBj0QuxiDWYQmFWRla0n7+dnNoWzDhBajVKiwcg9yIc2CrqefiiF0WSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtwQ8J4u; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6eff9dc1821so1315250b3a.3;
-        Mon, 15 Apr 2024 14:52:51 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e5c7d087e1so22473075ad.0;
+        Mon, 15 Apr 2024 15:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713217971; x=1713822771; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713221694; x=1713826494; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cS+AQ4/IMpU7MMSTgboRhawXdBLtuI6SDixG9B9jWWc=;
-        b=IRiLQj3FoxjfwfhcDPK8v2ja80lbjwIgTyRUnli1pxNpRlVMhCU1MIPvrgoLmeIMFK
-         Qm70lB37qyIA1/lVi/veAk51Ed8ynv7I0DUMGMEDk6US1vWQRlj/w4k2hLVEAJDwyLUW
-         BY/mmr0KbmX4cXpft3EheePnfimWz5RAL2+ijtRPVOWmI5cYiHVFGK+c0PxFv3UxqcyS
-         /bnPAkwQ2WxKqLsNzg+wKTuc9SlyYO87LZz+RYwvtYzHjBVCG9YKpvmyDluXtJXwJ3Wl
-         YwKV/smXwH8XYTYbMTjMCcthTRxtVBXuDmlPDLPQD2IZaAUKnM6a4HutQaT8enVSwiFe
-         zs+g==
+        bh=WsNr1h6wQ6+rX+nY8lyqGTb0yfOPxHbOIqfkCkSOqNw=;
+        b=GtwQ8J4uPNciDGrLbIPIBKk1uTgJ+7nUZvxZFlJN0goHpa1F6ig9E80GdEzn4cDgpx
+         Dhw0qD+0qP1OUwDeKraoBLHz8Ea6HoGsIf7aW7mXPQ2x2+Udn0aFwUAOlPIhfS+X26J9
+         ZzdcDwle9BDlnzaUxKOCWTSqXirNe3ihPe0tYYrhvBYHfKJFzJHbaWd9Pi5uLKT1nZ1i
+         MkPkKsvq6IKizJMGrCN31070EZZDK91mrwx0MmKaxCtHa3tieS/6RHfHZBbbB0iE8UGj
+         K4i7Qb47DnWY99YeowtWLH9LkkMMiKKnPGMkNLMU5F0ACSQn4K+g4aj0V3EqVOAl66QU
+         bfNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713217971; x=1713822771;
+        d=1e100.net; s=20230601; t=1713221694; x=1713826494;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cS+AQ4/IMpU7MMSTgboRhawXdBLtuI6SDixG9B9jWWc=;
-        b=Y5PXwVGagLxPzroqg94rsHfmgNjPQLUGRG0WpdPMk/vP70FB2DTHN1hQhTWBrJQywY
-         9m5uNPkUtLqwcpAsOxV4Q9o7HVecGgWKh/whZCGzMxHav/S6NrljJLTAHwCQofY6y10v
-         q+ZIgaeNvXfcHnFtZtuY1r6AgOYT4tjhZWXUp+SLAXcSO6fILaGbMTtvAVRSa4LSudqA
-         hZI9jLvObJIH9X3vxHapCsdY01kTsMKiwN5eYtJcJBRa0kW9w/6/WMRnB2FVrRHbl/Y1
-         U+XFkpniK8ank/R4oBb9rSPTFhQgLotYKKjI8I4+hsmRNO3PdomXT5WwatZeYDcBIZHK
-         OtRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhX7aO4aAYHzbACEjTC5QkNLH2tvWE+UFhe4UW9ZA55DWqiLt6L5Y/Qzuj14QK1dde4ywstbEHhNr+JCMi0bt78/Lo4ZTZkGJUf3LYvsFwo5X+wl7CHHHBNhqlXoX8uZ13474bRyBWLE744rEvNFr1Fis3uL5P6cuewWb4ghwWxbUJayUl2w==
-X-Gm-Message-State: AOJu0YzQWohgZ/3bLpPJZHuPD2s5/oPRV7XLFNdfDjzyIo/svlz11yYH
-	AJxwR5NPEvf6mDlhowPlOeTDMKpe5p+t2yC6olhfjrLubv2JDayq
-X-Google-Smtp-Source: AGHT+IF3SE/VJ1vR7YdcE8vEvkSOWp4GAlyCk9/WmmCdu+ql9saddBk2le+lxsTZR8+tF2YMZVzKQg==
-X-Received: by 2002:a05:6a21:8015:b0:1a9:9c20:6ca with SMTP id ou21-20020a056a21801500b001a99c2006camr8921350pzb.23.1713217971334;
-        Mon, 15 Apr 2024 14:52:51 -0700 (PDT)
+        bh=WsNr1h6wQ6+rX+nY8lyqGTb0yfOPxHbOIqfkCkSOqNw=;
+        b=geMaJYqEWtd0WPgGlrhXvubqAYb0b6bjXTOleHRRj94nITZc3gqaCcZYM6A1ahUsE9
+         RHQhTmBx//iHQUV85gB4eMw2qwoyu+H+fs401CpOJK5O0NaNmWdU5VR26hRcJjO/g9iT
+         XoQ19UUecdRbwrsCU6k+oTj9G82WwBsjqQeCnIySjd8e/m5noZZh5Y3TKxZhU/QRl+3F
+         aisWdrLeJ+/ktAfUl8dT1JNtqxs7BvKXA/5INxOYvVDbQmYQjC+srzO7z/d3himv79nF
+         2lOMB1/G260VmnrxVBUl2KWcFJfnu2Ao5WOIcOWJuyGpFVaQedFgE9YSOmHSkwwl4rfa
+         3vIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzhESqmd+IIrmYaWmkIJA+dJ2e6rbWlfsvdUv+BzTEvz+7EtqD86InYAoSaUyRLlFf7+yfSkZ+/8CMJqzwZkglQkYxxJKBn5jprnzaQYrHCqpv/Yks4TMYT4A9uIbWfhLnZYP8AkjSbPHGSQoWPgS0Erg2ylTbuh8oQDteMDwQeqGL8QDVQqfEWD5ND7pX
+X-Gm-Message-State: AOJu0YyVqiL6ahfJLtx+e7kqhoI2yalFpMrAVdxn0UAtI58l1vFWT7+Y
+	HuDYfNR9OOo72xsStSYPAEPa99GJE1DNfj/Au7dm7QF/9XBBKVt5
+X-Google-Smtp-Source: AGHT+IG0yCx4JCIkc1/JHWIUJZJksqByKLnZQ07Sm2LAI6p/FZsVKHr2qXc32SSlbQCfHhSEgmhKZg==
+X-Received: by 2002:a17:902:c244:b0:1dc:de65:623b with SMTP id 4-20020a170902c24400b001dcde65623bmr9195817plg.60.1713221694056;
+        Mon, 15 Apr 2024 15:54:54 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:fbbe:421b:9296:f28c])
-        by smtp.gmail.com with ESMTPSA id d18-20020a631d12000000b005e83b3ce8d9sm7486079pgd.8.2024.04.15.14.52.50
+        by smtp.gmail.com with ESMTPSA id d15-20020a170902654f00b001e41ffb9de7sm8620808pln.28.2024.04.15.15.54.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 14:52:51 -0700 (PDT)
-Date: Mon, 15 Apr 2024 14:52:48 -0700
+        Mon, 15 Apr 2024 15:54:53 -0700 (PDT)
+Date: Mon, 15 Apr 2024 15:54:51 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH 6/6] media: touchscreen: sur40: convert le16 to cpu
- before use
-Message-ID: <Zh2hsNpoaYs7GvCN@google.com>
-References: <20240410-smatch-v1-0-785d009a852b@chromium.org>
- <20240410-smatch-v1-6-785d009a852b@chromium.org>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Peter Hutterer <peter.hutterer@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	ibm-acpi-devel@lists.sourceforge.net,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nitin Joshi1 <njoshi1@lenovo.com>,
+	Vishnu Sankar <vsankar@lenovo.com>
+Subject: Re: [PATCH 1/4] Input: Add trackpoint doubletap and system debug
+ info keycodes
+Message-ID: <Zh2wO0Bnyr8vFSpc@google.com>
+References: <f3342c0b-fb31-4323-aede-7fb02192cf44@redhat.com>
+ <ZhW3Wbn4YSGFBgfS@google.com>
+ <ZhXpZe1Gm5e4xP6r@google.com>
+ <92ee5cb2-565e-413c-b968-81393a9211c4@app.fastmail.com>
+ <ZhcogDESvZmUPEEf@google.com>
+ <91593303-4a6a-49c9-87a0-bb6f72f512a1@app.fastmail.com>
+ <Zh2CtKy1NfKfojzS@google.com>
+ <484638e2-1565-454b-97f8-4fcc6514a69c@redhat.com>
+ <Zh2G85df29tPP6OK@google.com>
+ <539776c5-6243-464b-99ae-5b1b1fb40e4b@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,38 +99,93 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240410-smatch-v1-6-785d009a852b@chromium.org>
+In-Reply-To: <539776c5-6243-464b-99ae-5b1b1fb40e4b@app.fastmail.com>
 
-On Wed, Apr 10, 2024 at 09:54:43PM +0000, Ricardo Ribalda wrote:
-> Smatch found this issue:
-> drivers/input/touchscreen/sur40.c:424:55: warning: incorrect type in argument 2 (different base types)
-> drivers/input/touchscreen/sur40.c:424:55:    expected int key
-> drivers/input/touchscreen/sur40.c:424:55:    got restricted __le16 [usertype] blob_id
+On Mon, Apr 15, 2024 at 04:28:19PM -0400, Mark Pearson wrote:
+> Hi
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/input/touchscreen/sur40.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Mon, Apr 15, 2024, at 3:58 PM, Dmitry Torokhov wrote:
+> > On Mon, Apr 15, 2024 at 09:50:37PM +0200, Hans de Goede wrote:
+> >> Hi,
+> >> 
+> >> On 4/15/24 9:40 PM, Dmitry Torokhov wrote:
+> >> > On Wed, Apr 10, 2024 at 10:48:10PM -0400, Mark Pearson wrote:
+> >> >>
+> >> >> I have a stronger preference to keep the KEY_DOUBLECLICK - that one seems less controversial as a genuine new input event.
+> >> > 
+> >> > Please see my response to Peter's letter. I think it very much depends
+> >> > on how it will be used (associated with the pointer or standalone as it
+> >> > is now).
+> >> > 
+> >> > For standalone application, recalling your statement that on Win you
+> >> > have this gesture invoke configuration utility I would argue for
+> >> > KEY_CONFIG for it.
+> >> 
+> >> KEY_CONFIG is already generated by Fn + F# on some ThinkPads to launch
+> >> the GNOME/KDE control center/panel and I believe that at least GNOME
+> >> comes with a default binding to map KEY_CONFIG to the control-center.
+> >
+> > Not KEY_CONTROLPANEL?
+> >
+> > Are there devices that use both Fn+# and the doubleclick? Would it be an
+> > acceptable behavior for the users to have them behave the same?
+> >
+> Catching up with the thread, thanks for all the comments.
 > 
-> diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
-> index ae3aab4283370..5f2cf8881e724 100644
-> --- a/drivers/input/touchscreen/sur40.c
-> +++ b/drivers/input/touchscreen/sur40.c
-> @@ -421,7 +421,7 @@ static void sur40_report_blob(struct sur40_blob *blob, struct input_dev *input)
->  	if (blob->type != SUR40_TOUCH)
->  		return;
->  
-> -	slotnum = input_mt_get_slot_by_key(input, blob->blob_id);
-> +	slotnum = input_mt_get_slot_by_key(input, le16_to_cpu(blob->blob_id));
+> For FN+N (originally KEY_DEBUG_SYS_INFO) the proposal was to now use
+> KEY_VENDOR there. My conclusion was that this is targeting vendor
+> specific functionality, and that was the closest fit, if a new keycode
+> was not preferred.
 
-We are not really using the real value of the ID for computations but only
-as an opaque "key", so doing the conversion is not strictly necessary,
-but it is cheap so we may as well do it.
+Fn+N -> KEY_VENDOR mapping sounds good to me.
 
->  	if (slotnum < 0 || slotnum >= MAX_CONTACTS)
->  		return;
+> 
+> For the doubletap (which is a unique input event - not related to the
+> pointer) I would like to keep it as a new unique event. 
+> 
+> I think it's most likely use would be for control panel, but I don't
+> think it should be limited to that. I can see it being useful if users
+> are able to reconfigure it to launch something different (browser or
+> music player maybe?), hence it would be best if it did not conflict
+> with an existing keycode function. I also can't confirm it doesn't
+> clash on existing or future systems - it's possible.
 
-Applied, thank you.
+So here is the problem. Keycodes in linux input are not mere
+placeholders for something that will be decided later how it is to be
+used, they are supposed to communicate intent and userspace ideally does
+not need to have any additional knowledge about where the event is
+coming from. A keyboard either internal or external sends KEY_SCREENLOCK
+and the system should lock the screen. It should not be aware that one
+device was a generic USB external keyboard while another had an internal
+sensor that recognized hovering palm making swiping motion to the right
+because a vendor decided to make it. Otherwise you have millions of
+input devices all generating unique codes and you need userspace to
+decide how to interpret data coming from each device individually.
+
+If you truly do not have a defined use case for it you have a couple
+options:
+
+- assign it KEY_RESERVED, ensure your driver allows remapping to an
+  arbitrary keycode, let user or distro assign desired keycode to it
+
+- assign KEY_PROG1 .. KEY_PROG4 - pretty much the same - leave it in the
+  hand of the user to define a shortcut in their DE to make it useful
+
+> 
+> FWIW - I wouldn't be surprised with some of the new gaming systems
+> we're seeing (Steamdeck, Legion-Go, etc), that a doubletap event on a
+> joystick might be useful to have, if the HW supports it?
+
+What would it do exactly? Once we have this answer we can define key or
+button code (although I do agree that game controller buttons are
+different from "normal" keys because they map to the geometry of the
+controller which in turn defines their commonly understood function).
+
+But in any case you would not reuse the same keycode for something that
+is supposed to invoke a configuration utility and also to let's say
+drop a flash grenade in a game.
+
+Thanks.
 
 -- 
 Dmitry
