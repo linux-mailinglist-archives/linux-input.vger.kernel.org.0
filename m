@@ -1,210 +1,109 @@
-Return-Path: <linux-input+bounces-3022-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3023-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA638A4F75
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 14:48:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0234D8A4F7A
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 14:48:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9662B1F22625
-	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 12:48:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1F03282051
+	for <lists+linux-input@lfdr.de>; Mon, 15 Apr 2024 12:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C7987172D;
-	Mon, 15 Apr 2024 12:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F566FE36;
+	Mon, 15 Apr 2024 12:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ba5gLAks"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SSJcsbZV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002570CC7
-	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75AC71730
+	for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 12:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185298; cv=none; b=WOB5k7UDTryBxdMeNvgt5oH58XCYJUgg2dthcYwAMMtirZ4NWvSgWXBiY9LiPlWrhC1ETOX+9Gq5jtrjqzonvL2H1NCOC4kOmKWAuiDCWfa7Ov7XQJwSaeONl8veBi/xhf+oi/DlM71B5w1Mkio1wSwdR6jNafr8PY0nRAZ5ysM=
+	t=1713185330; cv=none; b=d2ZBLAtjSOkHLq6qtOJL6IS/m1naeW/pgwaRpaWb5ODCe3xo94KXn6bSKYHVK7ta9B4wiqmMgJI6j/5ve4tvENyfGjwpDVnf5MT6BUsMs+fsVNOLieWERUurYQVBRchpezMcdLFMutsCxpz7dCaTcTYgHcjC2+rlVj/k66XRvmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185298; c=relaxed/simple;
-	bh=GiAL7AQwqxatMiC1wtqf96rwk/+L3Y723maHiKd24mQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Vc8UHWLD64ni3Ch2Ep0o2V7bucwEomj9vDQtAE5zi3dU7MCgnv5/hmW/JdZAJrF6eAyNoYdEbHjjHhMZvQUBrDCNR/lWaTVqb2Tv+HF1xcRKK4tp0vyKzneu7fVQPrYC7YlBc5aOPl8MDxHPr7EGSVwaTsE59dUhaRWexsGKynI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ba5gLAks; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78d6bc947aeso262538085a.0
-        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 05:48:16 -0700 (PDT)
+	s=arc-20240116; t=1713185330; c=relaxed/simple;
+	bh=fYBgV11sH3JLVboFSXkJgCoU/xJb2f3Jo4YenY/vo9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bklvVuKDRbAp4cW/ZuiInMnr56C83dgMNgPFSzwzDRllf9JMzVwZ++cyWmhwe9YN7TpXXIlps/0S3zVe/OTuepMw/SU3yeCBQ9gMEd3uV7pmyCYM7WfZN10jmN3ckrGz+UdPf57T7gJVwmCWRfbWvf/IJUsYbOH7ooqHLKql60Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SSJcsbZV; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41868bb71cfso4136925e9.0
+        for <linux-input@vger.kernel.org>; Mon, 15 Apr 2024 05:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713185295; x=1713790095; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dve//qsVqFoPISv+fNeUNTT8BnSMNPQ+ikVvv/LniyI=;
-        b=Ba5gLAksCKmOFwSd5OnV1XD7iR8iESQDmFpJ3FzifOo6xZd/8U14sdUrM2GVnMLBDC
-         oS/uH60ybiujgm5ssoa5dxToFP6LZ8VVAaaQgvvPtdveW6vhWia2tcA0TIZlooGoR9xO
-         O/kj1AufiyoYa6fl8mXzLRcJom2CZ48e3ItIY=
+        d=linaro.org; s=google; t=1713185327; x=1713790127; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYBgV11sH3JLVboFSXkJgCoU/xJb2f3Jo4YenY/vo9Y=;
+        b=SSJcsbZV802A6FbFgaQ/sICCSCHOxZTqj276nqflCcLgmSVhR69xhwgRgYV1/ts15V
+         HQnsV3ZKaOljE8SfBHUnbp7f89J/0GVdW1c7/IyhuIV/VwCNTxcmkU4z3MVcvEvjJVeE
+         QdlxHE3oC3GqPVRSbjq7LR9qH5Phjx/zCNH6SgSRErE1psCN6ePnBRXS333zMHn0U2CJ
+         baqMc4zl5VIlU2TK2uxGDkMG2e78JT4T8SiJlBcYFPiLBJyrMeYzCZaxa+LfsneV+x1S
+         LzPocwv/DMXuaLO2ymTAAgwOkwStmr8N3rnpO7BtaQRGXHwjIPYTKes2kbY9iheiWjBq
+         EsIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713185295; x=1713790095;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dve//qsVqFoPISv+fNeUNTT8BnSMNPQ+ikVvv/LniyI=;
-        b=A4vb6KBlJ8dVTn+YdVhEn0J3iRycKQZ26U7WzL8FtaCu/WahkH1H0TSMAWAk6ZOrhj
-         UWIRM6d/heZQpEj4fBBMLFVvt/Iaq11UfME5sPMYOdAEHpITXYI+qmm/DQultwSOJwCC
-         We4EH7+mY5zu90fRnz8Y1M9SSdFYLcBLpMVGTEFVmwLkJ34z/U9dIW89zv1O4iQ+q24S
-         xgWTP4ZP6Ic2B/9maV3Xl/k3AghcI8TIgP/mB1n2zfabiihteHRTBD/wkiUx6L8Rc3Av
-         1t1TNhgtVxLx/dm92ugGBCD/LC9DF9/vpPH6PTfP8ywdO9cotFiVZkGAIQqh16zIw3Wi
-         zayg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCnz0U9/7HH5svERVCV5RoOBICFOLKzxeWKz7STgcE8u4I8UzSMxC0i5SuGhzQ1/xMrJQI7mEDyWch2ua5oaa48q3df+i7mPvp5Ag=
-X-Gm-Message-State: AOJu0YzSOfTi8UPcKIY7RPmGP4oL0LgLCncrQvErDWyBpyVIlzA5v0yp
-	zUDiVa6vPJJd0a+YYGQiSs/e1Xy3s8DClPtU4nbP+RAAslLwrtHUwgvFlqFPz7/3yqiBU1iCSos
-	QjBz2
-X-Google-Smtp-Source: AGHT+IGGMVMgU9pcekBy2o8Q4hRzW7aGYI9W6mUPy3Ru/xUnvMaPLLrOjste8+2tlkKDnbLOSF+kuA==
-X-Received: by 2002:a05:620a:31a7:b0:78e:f058:66ef with SMTP id bi39-20020a05620a31a700b0078ef05866efmr642944qkb.77.1713185295008;
-        Mon, 15 Apr 2024 05:48:15 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id ye2-20020a05620a3b8200b0078a54c25ea6sm6243453qkn.56.2024.04.15.05.48.14
+        d=1e100.net; s=20230601; t=1713185327; x=1713790127;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fYBgV11sH3JLVboFSXkJgCoU/xJb2f3Jo4YenY/vo9Y=;
+        b=Y5HN3dMwO4/yZRUaLYGMg7M/aHJaKv8J9R62vCe0zfX49dQx8Am5SBeTSrOWkYejT4
+         tSbyutlQwtIvHWbKMCXj1qAiyHw29WWSmdDoDMMDTcJK4bj4pzZ5Qwlb9JNGNyW9I3TC
+         OmPEOYQx+RXdqdxMcm5lVP591sj9Y4pR2CLDJj3O5DB/vm2TQpr3pDpIEGRlCOjxtft6
+         iReSTufy7wxAtfllLiVxvQcmINasYUKKozBmsX46PSyrpqfvzctDtFLD7rUKOZ4LF+ER
+         cO2qlr9iK2F8hv6KnmlQ2yV5eOdExOuIwH+SCfTxYx6YxX1vj+Im+sEKIFTD/nHoq6rH
+         YHFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpWrAqxc1E8AVTOIuvSnaj3uba65efpWj5pHm7iflq7gBZdVDR9C8QFO2ic2eXgishwmBp5zDzz4JqMk84Af5ePqBnOXeT/9diUmQ=
+X-Gm-Message-State: AOJu0Yy+RY4qIRaimMJSMlcQfWafObYNsIH8NF1VYu2PCGJGiPWhOPce
+	dPFevCkKDjqEaQRrswRuyGVagptwHhrwis/wyTpFROdIEZyXv3qLxP+qUOa7qa0=
+X-Google-Smtp-Source: AGHT+IHAa4VIIZPfYQm1PVHVmrI/agaXvepugvesuVkXOga7yarPxPBfCgzSQL+8bsNFdokUf2ibJw==
+X-Received: by 2002:a05:600c:3511:b0:418:3f54:1132 with SMTP id h17-20020a05600c351100b004183f541132mr3484001wmq.12.1713185327355;
+        Mon, 15 Apr 2024 05:48:47 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id a13-20020a05600c348d00b004186eb69a55sm2411188wmq.25.2024.04.15.05.48.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 05:48:14 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 12:48:13 +0000
-Subject: [PATCH v4] media: usb: siano: Fix allocation of urbs
+        Mon, 15 Apr 2024 05:48:47 -0700 (PDT)
+Date: Mon, 15 Apr 2024 13:48:45 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org
+Subject: Re: [PATCH 03/18] backlight: corgi_lcd: Constify lcd_ops
+Message-ID: <20240415124845.GC222427@aspen.lan>
+References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
+ <20240414-video-backlight-lcd-ops-v1-3-9b37fcbf546a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-smatch-v4-1-8dce3d80b64a@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAAwiHWYC/22OzQ6CMBAGX4X0bE1/WGg9+R7GA9KF9gA1LTYaw
- rtbOBijHOfLzmRnEjE4jORUzCRgctH5MUN5KEhrm7FH6kxmIpgoWckZjUMztZaqTkgwwGqQhuT
- je8DOPbfQ5ZrZujj58Nq6ia/rXyJxymitwDCmGwXidm5t8IN7DEcferJWkvg24WMKymkFgoOWl
- ZFa7Zhy35TZRCPz9502gPhjLsvyBoFEkfATAQAA
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>, 
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240414-video-backlight-lcd-ops-v1-3-9b37fcbf546a@kernel.org>
 
-USB urbs must be allocated with usb_alloc_urb. Quoting the manual
+On Sun, Apr 14, 2024 at 06:36:01PM +0200, Krzysztof Kozlowski wrote:
+> 'struct lcd_ops' is not modified by core backlight code, so it can be
+> made const for increased code safety.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Only use this function (usb_init_urb) if you _really_ understand what you
-are doing.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Fix the following smatch error:
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Changes in v4:
-- Remove unneeded label free_urbs
-- Link to v3: https://lore.kernel.org/r/20240415-smatch-v3-1-ed3f23f9d5ee@chromium.org
-
-Changes in v3: Thanks Hans
-- Remove unneeded NULL assignment
-- Use the proper variable :)
-- Link to v2: https://lore.kernel.org/r/20240415-smatch-v2-1-65215936d398@chromium.org
-
-Changes in v2: Thanks Hans
-- Only leave 1/6, the other ones are in another PR
-- Fix the return tag and NULLify the urbs on return
-- Link to v1: https://lore.kernel.org/r/20240410-smatch-v1-0-785d009a852b@chromium.org
----
- drivers/media/usb/siano/smsusb.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
-index 723510520d09..2c8179a84991 100644
---- a/drivers/media/usb/siano/smsusb.c
-+++ b/drivers/media/usb/siano/smsusb.c
-@@ -40,7 +40,7 @@ struct smsusb_urb_t {
- 	struct smscore_buffer_t *cb;
- 	struct smsusb_device_t *dev;
- 
--	struct urb urb;
-+	struct urb *urb;
- 
- 	/* For the bottom half */
- 	struct work_struct wq;
-@@ -160,7 +160,7 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
- 	}
- 
- 	usb_fill_bulk_urb(
--		&surb->urb,
-+		surb->urb,
- 		dev->udev,
- 		usb_rcvbulkpipe(dev->udev, dev->in_ep),
- 		surb->cb->p,
-@@ -168,9 +168,9 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
- 		smsusb_onresponse,
- 		surb
- 	);
--	surb->urb.transfer_flags |= URB_FREE_BUFFER;
-+	surb->urb->transfer_flags |= URB_FREE_BUFFER;
- 
--	return usb_submit_urb(&surb->urb, GFP_ATOMIC);
-+	return usb_submit_urb(surb->urb, GFP_ATOMIC);
- }
- 
- static void smsusb_stop_streaming(struct smsusb_device_t *dev)
-@@ -178,7 +178,7 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
- 	int i;
- 
- 	for (i = 0; i < MAX_URBS; i++) {
--		usb_kill_urb(&dev->surbs[i].urb);
-+		usb_kill_urb(dev->surbs[i].urb);
- 		if (dev->surbs[i].wq.func)
- 			cancel_work_sync(&dev->surbs[i].wq);
- 
-@@ -338,6 +338,8 @@ static void smsusb_term_device(struct usb_interface *intf)
- 	struct smsusb_device_t *dev = usb_get_intfdata(intf);
- 
- 	if (dev) {
-+		int i;
-+
- 		dev->state = SMSUSB_DISCONNECTED;
- 
- 		smsusb_stop_streaming(dev);
-@@ -346,6 +348,9 @@ static void smsusb_term_device(struct usb_interface *intf)
- 		if (dev->coredev)
- 			smscore_unregister_device(dev->coredev);
- 
-+		for (i = 0; i < MAX_URBS; i++)
-+			usb_free_urb(dev->surbs[i].urb);
-+
- 		pr_debug("device 0x%p destroyed\n", dev);
- 		kfree(dev);
- 	}
-@@ -463,7 +468,9 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
- 	/* initialize urbs */
- 	for (i = 0; i < MAX_URBS; i++) {
- 		dev->surbs[i].dev = dev;
--		usb_init_urb(&dev->surbs[i].urb);
-+		dev->surbs[i].urb = usb_alloc_urb(0, GFP_KERNEL);
-+		if (!dev->surbs[i].urb)
-+			goto err_unregister_device;
- 	}
- 
- 	pr_debug("smsusb_start_streaming(...).\n");
-@@ -486,6 +493,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
- 	return rc;
- 
- err_unregister_device:
-+	/* smsusb_term_device() frees any allocated urb. */
- 	smsusb_term_device(intf);
- #ifdef CONFIG_MEDIA_CONTROLLER_DVB
- 	media_device_unregister(mdev);
-
----
-base-commit: 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8
-change-id: 20240410-smatch-8f235d50753d
-
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
-
+Daniel.
 
