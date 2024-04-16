@@ -1,380 +1,168 @@
-Return-Path: <linux-input+bounces-3062-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3063-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6C68A60B9
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 04:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9DC8A60BF
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 04:13:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD1D31C20A3B
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 02:11:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 435591C204FA
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 02:12:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD3CDDBD;
-	Tue, 16 Apr 2024 02:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C66CE555;
+	Tue, 16 Apr 2024 02:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="RzI8+I4O"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="hqKoh8L8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn2095.outbound.protection.outlook.com [40.92.107.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394C4BA42;
-	Tue, 16 Apr 2024 02:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713233505; cv=none; b=Ioce3+S9P2eWcIP7NkyoMHq7Wi7Cs99A5/5yn2t8EYNg7jJfl7y9bEwUvx+pabghEk1jNqPtrOjpq5YrAlEdeqIV7hOzVYIFx0x5U2ZsYuquQWhuYSzPPLZLI7IgCmcTQdtORLZvRYff/0Z6WoaurCtteVT/Nfk3LrxeKw5oeZA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713233505; c=relaxed/simple;
-	bh=Nhh7ILCL16OSiya9DrKbKTUMiyLGX8n8n/J0Kg6WpFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aqn15KYxdkXzZyrRBxkF2IpthLOhjQRxPh7MAEC9hqatUWmVepEFqUh3CRGMZT2gWtlOtqDO/ee3In+ASamAwNRkVtOmbqC6DL261k7TNSDy7hhArM2VDROK+1vwn/14KGTwJEBftwSwDL7nJjKrcbQ6fSaSJ/WHrRCVQZsenBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=RzI8+I4O; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from [192.168.0.22] (71-212-26-68.tukw.qwest.net [71.212.26.68])
-	by endrift.com (Postfix) with ESMTPSA id C4FEBA037;
-	Mon, 15 Apr 2024 19:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1713233167; bh=Nhh7ILCL16OSiya9DrKbKTUMiyLGX8n8n/J0Kg6WpFY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RzI8+I4OYKJJZZq5gJkbPQYtN/Ds+c4NMwCDETwvFtMP1Ltb6Cs0HhNTyE2GlGZiX
-	 y2zgAh2g+FgUfae6SQ7gkJrVQtDGv4rdNLHDf+uIYBeVaDA+hCvjWfGv9Lgd5Ep26t
-	 exg3tNrxaI1qnXMfk9A648mS9SXvdNARTyQ9NtxtTj24O2HpGRfEXjCAS/6oQnxeFo
-	 sEu68SfHUCfjKAM+ha+UCKFXJraW++jz9Y7RT/CTXrDDE+wzy2Y6vEWPMI8pyDWe2v
-	 riCBbXn0JGQGD/h4qq55NUNTprCi+ols7ClbtKLfCjtczocD99y7I3EFOKpM/ektkr
-	 JKNRjr9RmotwA==
-Message-ID: <0a92f4da-9517-4c12-a265-eb06f909f18b@endrift.com>
-Date: Mon, 15 Apr 2024 19:06:06 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B556AC0;
+	Tue, 16 Apr 2024 02:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.107.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713233576; cv=fail; b=SBEEJYYvUAk8YbX2ngnZRulFxIInAp57apWtf+sU6IKnsudAAByXdYSg5W/+janmw0WRtbpsGuQbEsCpUljH2mcYO0MI5rZaiiH/Y8Z67mBiIcXIa4kWXGmaOY4JW5aAc+7Hgf8d3l/s0BaYViHmFcQpDek0UAxWAcjxNCYGxcQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713233576; c=relaxed/simple;
+	bh=2ZZlCXl+B0neqPeAkaA7Q+wRp/PXnnqRB8Pk5YyLuYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=P+ZpvbVey5d7RIxcoMxgiOHrA52uv+k6SfbE17s3wKN0XBVtWtz2k3JBkcpm/LT3xvNAL0a9ekrRSL0w33oG7HMBoSeBfgPgcmx/PrdsZRytdSHnYbHr6BRvi97xI9q2EYEv18qd4uM2jpTJTo2Cw5Zm5dS7XV6rRHE45LFIORM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=hqKoh8L8; arc=fail smtp.client-ip=40.92.107.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FJ9YzfkYalCBpEYZ2n0G1NcCHo1Rlk4oQz1LY8M4+qFI84J5qt9Skh6t4K1jGyT4x7Hzq01wvC2YPEhqBuV5OpX8Z8aoi64Kx8y17S+CvEAz/thDHvilq+AuVKVispfkehvIB8BLSEUblRz8MqItlVrQUI6IIqKvq2hnp0iQ3i/bYtOKizAGCYGNMsqGnVs3wxDk1J9Fa8QFr8JESf4kVM/o3tIc6JFZGYcujD+3AhowaZqXlKFDgttKJBI2IQYQy0XeVURSM2O3q3RgC4npNC529Qa5Hd/WXL8H0ehhVEfG3eh/ghflk4D0llCRWd+0FvxIOBQEquUiNdtcIiTArQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ATok7YqYwx6as4VbVNvLwyNzgjcNRikFm+smB+28NTk=;
+ b=HPrQ49n5gZufjN8RN6YdKYQvMq2N5FZqyTKYClxofR9Dxwh14EPm5OjQXdNr5cYvhQ2BOZ5yTZJ6e6cHQqzfth5ntWPz8fPEyT+9+5WhwgU5bH7O1BEcc6KgxzFeQ2FqQ3xL1/OlWwvSa7FkA/+AJ+yKjsYHfY4FWeHoYuY5pR115YTh7KM9a3Fwqwyi0uQN6P3k7MF6p2uGO90alZL63zthaFGCOzRXtVBBuf92uhWj1yRE4lsYnvfSQhLlg3FmNzP+GcXWlUv0L91ELD5nep7WeHHq7IVpwNCa1+3T4H7ypjL+9sN5haR9rrA51lxdl7HgP4AFrywTV3NuTtYe/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ATok7YqYwx6as4VbVNvLwyNzgjcNRikFm+smB+28NTk=;
+ b=hqKoh8L8NQ40fMx9xlvgy7d8buTRnWrlYAjCuGkt/B/Jo0+qMvpK/ReZh7lR91T8u+zJ/csM6VTM/smONkgvulJnyyBpjJ/JuwX6VH2o9+TOtC2XtD4wHNYq4M+ZU7iCmy9rpR3u9iPk7XKWdoA7fr1t3x5jrhjwCyD0nnrqA2vwNBDo7uNgifZZOcCJ41Uqv2CUXBl4POGan9ygpaQx6/s9bNU4OZwsuJY3D7gCu7YEvhJqx0Fg51qcHFV072mAxRME9GPyH4ZXX+CH5FqALsNvIqhCfVQJlp/IrjSMfAPi2FG7ntGOplvqJnB6MYwcEoAKNqrSsa55vSC+tIP4pA==
+Received: from TY0PR06MB5611.apcprd06.prod.outlook.com (2603:1096:400:31e::8)
+ by TYZPR06MB5323.apcprd06.prod.outlook.com (2603:1096:400:1f1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Tue, 16 Apr
+ 2024 02:12:51 +0000
+Received: from TY0PR06MB5611.apcprd06.prod.outlook.com
+ ([fe80::d57a:9f0e:1ee7:85bf]) by TY0PR06MB5611.apcprd06.prod.outlook.com
+ ([fe80::d57a:9f0e:1ee7:85bf%5]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
+ 02:12:51 +0000
+From: Allen_Lin <allencl_lin@hotmail.com>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor@kernel.org,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Allen_Lin <allencl_lin@hotmail.com>
+Subject: [PATCH v3 0/4] HID: Add support for Himax HX83102j touchscreen
+Date: Tue, 16 Apr 2024 10:12:24 +0800
+Message-ID:
+ <TY0PR06MB5611DC53BD4FA5C0F6A21EA99E082@TY0PR06MB5611.apcprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [7bQLXif/t9b4i7kgT6aJqgpaE/KcRHKX]
+X-ClientProxiedBy: PS2PR01CA0002.apcprd01.prod.exchangelabs.com
+ (2603:1096:300:2d::14) To TY0PR06MB5611.apcprd06.prod.outlook.com
+ (2603:1096:400:31e::8)
+X-Microsoft-Original-Message-ID:
+ <20240416021228.1092678-1-allencl_lin@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: hid-steam: Add Deck IMU support
-To: Jiri Kosina <jikos@kernel.org>, Max Maisel <mmm-1@posteo.net>
-Cc: benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
-References: <20240407121930.6012-1-mmm-1@posteo.net>
- <nycvar.YFH.7.76.2404121341570.5680@cbobk.fhfr.pm>
-Content-Language: en-US
-From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <nycvar.YFH.7.76.2404121341570.5680@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR06MB5611:EE_|TYZPR06MB5323:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5264acb2-440c-483e-43f2-08dc5dbab75a
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FEx/9ncApk6PjUgzDeumlGhg/THG4OzCLhNw/DjfvZQo1KIbaI540fCd0Y/HnfvQGu2cmY6/u7+WrR1lpyzvMcD9QbnhdR5iFj10OENXP4LiD/vN+NDGZdKxkS7ZpbgFCjrKR/jVTy8JYXeU/wtF2Xtvrz0NEyDTpYvgxA1V+dTvp7H90APSMuak+J+x9VL4e5NFWM6SBVIQL/v6CoGMdzVUUXi+TiHBAW+bl1qspQ9jGajm3EmflqJXQ6PegxG48D30vWRYkpLx4jZqrqQHtt38Up84R8wefsqumtghkIMteq9/gIl8zMupETitDqHMEhbz/WrdT0WZd+dFE0Dj8EyobSX844ND8au+j4GzUeTCLhVWl9LkYfYawcgHOXNXDG56cZdLX58rO6dE/Yy62QVei/DZldO1WqZpRXqua7To4HDLRXT6SOAjMjTJpLtddl8g0OBqi1sKa0hjvErvgVhFwwrEL6zvyV/99/W/Soa5vLG9snKhy2TnY5HjR7l7C8XPNBKtS+dP7XtYWl07+Anjq+u3+FmmLbVOUBbHjNBx3sV4TXkoGDSVK8cPSjklEu4OgXy1h4jB9fNixOoWqDKjOYmHYYvQYGi6VqYPqehZclH1/9Le09axw6ayUlOc
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4KsDcFJaInbuQ8wzZLd+1t9kN4flsR130KGYXSPG7aVjYnMw/di4FlMDpHE0?=
+ =?us-ascii?Q?zITQq2iRb4j8QuyLkcQ4TksIetIAxcLUVtQZIs3J8NhX5/nwzoSOYJswUOAd?=
+ =?us-ascii?Q?68J7LdBMIq52PZ0ai4nclWy8c5yuoQo58TsbTd1nCDMp/BqCj5L3d5sSJSPX?=
+ =?us-ascii?Q?Vc5jZXsk4tcBlXBTn8sKXyJolpcD6F6UbLgrQus/O1iTSmU1imoo9KKqaFJM?=
+ =?us-ascii?Q?8rDbwP2BRUiV8JFh4Bxv3JT+BopcUsX+PH/cCgKYCgSEx/okQR++ThYlRrrq?=
+ =?us-ascii?Q?zeD/dLJxM5WIMyc+08wqEHa4f1HSc2UiiFPmIxkuXaRcY69FCrRbhGgauJa6?=
+ =?us-ascii?Q?0gjyi7d8aetvckeRWoLOy1tolfD88+vxJrChaGDfgp7uKHS36ughryD5ZymB?=
+ =?us-ascii?Q?xVNTbKDmtnwFeg603rE1ALGYTPcw2l4z/UUjTpsJxIjizgP7ybHtJpeppaFJ?=
+ =?us-ascii?Q?GwnGOA3pvyab0XgerUI+EAAM+YjyUoJ9Iib//YlGWrbHM+RRdZm6IuNVhu4g?=
+ =?us-ascii?Q?YYlldCp/IzE6Bo1MNDTC5VTE8Y6kQ92OXuTeOvyfp9CmKqHMgz1yiegK+6RR?=
+ =?us-ascii?Q?TRLsiNgBUEB3dSDQCoUx30qvCRsSF9//BsvcJ/T/S16DCSXWneO5SahJ/++0?=
+ =?us-ascii?Q?zP8Lj77W1SXrZPJooj73/6jDd1LHQjLnXYC6WTukq0eGXoBiFDYAafqBXk4Y?=
+ =?us-ascii?Q?WJqnte0RFe2rs90wBYvHdzwo7f3IWTsQ4QY13EzJo3qN/eVb+wNfGDl7pyGX?=
+ =?us-ascii?Q?tBepOW+qBp5ppPLClFWyiwtGk8ErzWMbAFYSWZbMzlJcnubVZ59jX4vNm2l8?=
+ =?us-ascii?Q?aptAoMpGcVYiPXzHmZdm68WBdyaL/kx1kbUXVOIoou1+m6rzWZPI7PrXTFch?=
+ =?us-ascii?Q?XCOLegZqFxbX45Yd5Phm0wkrHUZ8ZeCvgLKo1P0GAH1EnAOpRh7+wWp75Y2l?=
+ =?us-ascii?Q?xpO3xyLVJSF5ap4Dit+6Sj3lLfAGsV8pkB30GE5Lt9pA7uqUa5lWYwQ9OOpb?=
+ =?us-ascii?Q?NHItqp2OemN40vStuwYI128WLZCr+lqYHH6nkNIEN616mF9f62rHggrCjwfh?=
+ =?us-ascii?Q?eHSL33UWQUwka8gBKT+DG4a39SDlNFQG+4bjbfSgmALo0MZ7OeoazIqGe1I2?=
+ =?us-ascii?Q?S5m4VtX2IulV998L7jahbLHzZa1acRBzld7J+vp0592ZGfOPZ/1frXhRKdCb?=
+ =?us-ascii?Q?rKyVSU43a8qV3/LP+AEZb2EAsypV07WLPCsz1IUTlH7UKyxtngRpLMTiU4tP?=
+ =?us-ascii?Q?RnG8rvuh5HylX2heyXv6?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5264acb2-440c-483e-43f2-08dc5dbab75a
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5611.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 02:12:50.8395
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5323
 
 Hi,
+This driver implements for Himax HID touchscreen HX83102j.
 
-On 4/12/24 4:42 AM, Jiri Kosina wrote:
-> On Sun, 7 Apr 2024, Max Maisel wrote:
-> 
->> The Deck's controller features an accelerometer and gyroscope which
->> send their measurement values by default in the main HID input report.
->> Expose both sensors to userspace through a separate evdev node as it
->> is done by the hid-nintendo and hid-playstation drivers.
->>
->> Signed-off-by: Max Maisel <mmm-1@posteo.net>
-> 
-> CCing Rodrigo and Vicki ... could you please take a look and Ack the patch 
-> below from Max?
-> 
-> Thanks.
-> 
->> ---
->>
->> This patch was tested on a Steam Deck running Arch Linux. With it,
->> applications using latest SDL2/3 git libraries will pick up the sensors
->> without hidraw access. This was tested against the antimicrox gamepad mapper.
->>
->> Measurement value scaling was tested by moving the deck and a dualsense
->> controller simultaneously and comparing their reported values in
->> userspace with SDL3's testcontroller tool.
->>
->>  drivers/hid/hid-steam.c | 158 ++++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 150 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
->> index b08a5ab58528..af6e6c3b1356 100644
->> --- a/drivers/hid/hid-steam.c
->> +++ b/drivers/hid/hid-steam.c
->> @@ -66,6 +66,12 @@ static LIST_HEAD(steam_devices);
->>  #define STEAM_DECK_TRIGGER_RESOLUTION 5461
->>  /* Joystick runs are about 5 mm and 32768 units */
->>  #define STEAM_DECK_JOYSTICK_RESOLUTION 6553
->> +/* Accelerometer has 16 bit resolution and a range of +/- 2g */
->> +#define STEAM_DECK_ACCEL_RES_PER_G 16384
->> +#define STEAM_DECK_ACCEL_RANGE 32768
->> +/* Gyroscope has 16 bit resolution and a range of +/- 2000 dps */
->> +#define STEAM_DECK_GYRO_RES_PER_DPS 16
->> +#define STEAM_DECK_GYRO_RANGE 32000
+Using SPI interface to receive/send HID packets.
 
-This value looks strange. How do you know it's not supposed to be 32768?
+Changes in v2 :
+-Added power description in YAML document. 
+-Added ddreset-gpios property in YAML document.
+-Added firmware-name property in YAML document.
+-Modified the description of pid.
+-Modified the example.
 
->>  
->>  #define STEAM_PAD_FUZZ 256
->>  
->> @@ -288,6 +294,7 @@ struct steam_device {
->>  	struct mutex report_mutex;
->>  	unsigned long client_opened;
->>  	struct input_dev __rcu *input;
->> +	struct input_dev __rcu *sensors;
->>  	unsigned long quirks;
->>  	struct work_struct work_connect;
->>  	bool connected;
->> @@ -302,6 +309,7 @@ struct steam_device {
->>  	struct work_struct rumble_work;
->>  	u16 rumble_left;
->>  	u16 rumble_right;
->> +	unsigned int sensor_timestamp_us;
->>  };
->>  
->>  static int steam_recv_report(struct steam_device *steam,
->> @@ -825,6 +833,74 @@ static int steam_input_register(struct steam_device *steam)
->>  	return ret;
->>  }
->>  
->> +static int steam_sensors_register(struct steam_device *steam)
->> +{
->> +	struct hid_device *hdev = steam->hdev;
->> +	struct input_dev *sensors;
->> +	int ret;
->> +
->> +	if (!(steam->quirks & STEAM_QUIRK_DECK))
->> +		return 0;
->> +
->> +	rcu_read_lock();
->> +	sensors = rcu_dereference(steam->sensors);
->> +	rcu_read_unlock();
->> +	if (sensors) {
->> +		dbg_hid("%s: already connected\n", __func__);
->> +		return 0;
->> +	}
->> +
->> +	sensors = input_allocate_device();
->> +	if (!sensors)
->> +		return -ENOMEM;
->> +
->> +	input_set_drvdata(sensors, steam);
->> +	sensors->dev.parent = &hdev->dev;
->> +
->> +	sensors->name = "Steam Deck Motion Sensors";
->> +	sensors->phys = hdev->phys;
->> +	sensors->uniq = steam->serial_no;
->> +	sensors->id.bustype = hdev->bus;
->> +	sensors->id.vendor = hdev->vendor;
->> +	sensors->id.product = hdev->product;
->> +	sensors->id.version = hdev->version;
->> +
->> +	__set_bit(INPUT_PROP_ACCELEROMETER, sensors->propbit);
->> +	__set_bit(EV_MSC, sensors->evbit);
->> +	__set_bit(MSC_TIMESTAMP, sensors->mscbit);
->> +
->> +	input_set_abs_params(sensors, ABS_X, -STEAM_DECK_ACCEL_RANGE,
->> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->> +	input_set_abs_params(sensors, ABS_Y, -STEAM_DECK_ACCEL_RANGE,
->> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->> +	input_set_abs_params(sensors, ABS_Z, -STEAM_DECK_ACCEL_RANGE,
->> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->> +	input_abs_set_res(sensors, ABS_X, STEAM_DECK_ACCEL_RES_PER_G);
->> +	input_abs_set_res(sensors, ABS_Y, STEAM_DECK_ACCEL_RES_PER_G);
->> +	input_abs_set_res(sensors, ABS_Z, STEAM_DECK_ACCEL_RES_PER_G);
->> +
->> +	input_set_abs_params(sensors, ABS_RX, -STEAM_DECK_GYRO_RANGE,
->> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->> +	input_set_abs_params(sensors, ABS_RY, -STEAM_DECK_GYRO_RANGE,
->> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->> +	input_set_abs_params(sensors, ABS_RZ, -STEAM_DECK_GYRO_RANGE,
->> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->> +	input_abs_set_res(sensors, ABS_RX, STEAM_DECK_GYRO_RES_PER_DPS);
->> +	input_abs_set_res(sensors, ABS_RY, STEAM_DECK_GYRO_RES_PER_DPS);
->> +	input_abs_set_res(sensors, ABS_RZ, STEAM_DECK_GYRO_RES_PER_DPS);
 
-I seem to recall hearing that this data is not calibrated coming off of the device, and the actual calibration data is in Steam somewhere, but I'm not sure which data this applies to. The gravitation acceleration looked fine when testing, but I didn't have a dualsense handy to test the gyro with. Have you tested this on more than one device?
+Changes in v3:
+-Fix "regulator" spelling in YAML file.
+-Change himax,firmware-name to firmware-name in YAML file.
+-Remove himax,pid in YAML file.
+-Change driver name from hid-himax-83102j to hid-himax.
 
->> +
->> +	ret = input_register_device(sensors);
->> +	if (ret)
->> +		goto sensors_register_fail;
->> +
->> +	rcu_assign_pointer(steam->sensors, sensors);
->> +	return 0;
->> +
->> +sensors_register_fail:
->> +	input_free_device(sensors);
->> +	return ret;
->> +}
->> +
->>  static void steam_input_unregister(struct steam_device *steam)
->>  {
->>  	struct input_dev *input;
->> @@ -838,6 +914,24 @@ static void steam_input_unregister(struct steam_device *steam)
->>  	input_unregister_device(input);
->>  }
->>  
->> +static void steam_sensors_unregister(struct steam_device *steam)
->> +{
->> +	struct input_dev *sensors;
->> +
->> +	if (!(steam->quirks & STEAM_QUIRK_DECK))
->> +		return;
->> +
->> +	rcu_read_lock();
->> +	sensors = rcu_dereference(steam->sensors);
->> +	rcu_read_unlock();
->> +
->> +	if (!sensors)
->> +		return;
->> +	RCU_INIT_POINTER(steam->sensors, NULL);
->> +	synchronize_rcu();
->> +	input_unregister_device(sensors);
->> +}
->> +
->>  static void steam_battery_unregister(struct steam_device *steam)
->>  {
->>  	struct power_supply *battery;
->> @@ -890,18 +984,28 @@ static int steam_register(struct steam_device *steam)
->>  	spin_lock_irqsave(&steam->lock, flags);
->>  	client_opened = steam->client_opened;
->>  	spin_unlock_irqrestore(&steam->lock, flags);
->> +
->>  	if (!client_opened) {
->>  		steam_set_lizard_mode(steam, lizard_mode);
->>  		ret = steam_input_register(steam);
->> -	} else
->> -		ret = 0;
->> +		if (ret != 0)
->> +			goto steam_register_input_fail;
->> +		ret = steam_sensors_register(steam);
->> +		if (ret != 0)
->> +			goto steam_register_sensors_fail;
->> +	}
->> +	return 0;
->>  
->> +steam_register_sensors_fail:
->> +	steam_input_unregister(steam);
->> +steam_register_input_fail:
->>  	return ret;
->>  }
->>  
->>  static void steam_unregister(struct steam_device *steam)
->>  {
->>  	steam_battery_unregister(steam);
->> +	steam_sensors_unregister(steam);
->>  	steam_input_unregister(steam);
->>  	if (steam->serial_no[0]) {
->>  		hid_info(steam->hdev, "Steam Controller '%s' disconnected",
->> @@ -1010,6 +1114,7 @@ static int steam_client_ll_open(struct hid_device *hdev)
->>  	steam->client_opened++;
->>  	spin_unlock_irqrestore(&steam->lock, flags);
->>  
->> +	steam_sensors_unregister(steam);
->>  	steam_input_unregister(steam);
->>  
->>  	return 0;
->> @@ -1030,6 +1135,7 @@ static void steam_client_ll_close(struct hid_device *hdev)
->>  	if (connected) {
->>  		steam_set_lizard_mode(steam, lizard_mode);
->>  		steam_input_register(steam);
->> +		steam_sensors_register(steam);
->>  	}
->>  }
->>  
->> @@ -1121,6 +1227,7 @@ static int steam_probe(struct hid_device *hdev,
->>  	INIT_DELAYED_WORK(&steam->mode_switch, steam_mode_switch_cb);
->>  	INIT_LIST_HEAD(&steam->list);
->>  	INIT_WORK(&steam->rumble_work, steam_haptic_rumble_cb);
->> +	steam->sensor_timestamp_us = 0;
->>  
->>  	/*
->>  	 * With the real steam controller interface, do not connect hidraw.
->> @@ -1380,12 +1487,12 @@ static void steam_do_input_event(struct steam_device *steam,
->>   *  18-19 | s16   | ABS_HAT0Y | left-pad Y value
->>   *  20-21 | s16   | ABS_HAT1X | right-pad X value
->>   *  22-23 | s16   | ABS_HAT1Y | right-pad Y value
->> - *  24-25 | s16   | --        | accelerometer X value
->> - *  26-27 | s16   | --        | accelerometer Y value
->> - *  28-29 | s16   | --        | accelerometer Z value
->> - *  30-31 | s16   | --        | gyro X value
->> - *  32-33 | s16   | --        | gyro Y value
->> - *  34-35 | s16   | --        | gyro Z value
->> + *  24-25 | s16   | IMU ABS_X | accelerometer X value
->> + *  26-27 | s16   | IMU ABS_Z | accelerometer Y value
->> + *  28-29 | s16   | IMU ABS_Y | accelerometer Z value
->> + *  30-31 | s16   | IMU ABS_RX | gyro X value
->> + *  32-33 | s16   | IMU ABS_RZ | gyro Y value
->> + *  34-35 | s16   | IMU ABS_RY | gyro Z value
->>   *  36-37 | s16   | --        | quaternion W value
->>   *  38-39 | s16   | --        | quaternion X value
->>   *  40-41 | s16   | --        | quaternion Y value
->> @@ -1546,6 +1653,32 @@ static void steam_do_deck_input_event(struct steam_device *steam,
->>  	input_sync(input);
->>  }
->>  
->> +static void steam_do_deck_sensors_event(struct steam_device *steam,
->> +		struct input_dev *sensors, u8 *data)
->> +{
->> +	/*
->> +	 * The deck input report is received every 4 ms on average,
->> +	 * with a jitter of +/- 4 ms even though the USB descriptor claims
->> +	 * that it uses 1 kHz.
->> +	 * Since the HID report does not include a sensor timestamp,
->> +	 * use a fixed increment here.
->> +	 *
->> +	 * The reported sensors data is factory calibrated by default so
->> +	 * no extra logic for handling calibratrion is necessary.
->> +	 */
->> +	steam->sensor_timestamp_us += 4000;
->> +	input_event(sensors, EV_MSC, MSC_TIMESTAMP, steam->sensor_timestamp_us);
->> +
->> +	input_report_abs(sensors, ABS_X, steam_le16(data + 24));
->> +	input_report_abs(sensors, ABS_Z, -steam_le16(data + 26));
->> +	input_report_abs(sensors, ABS_Y, steam_le16(data + 28));
->> +	input_report_abs(sensors, ABS_RX, steam_le16(data + 30));
->> +	input_report_abs(sensors, ABS_RZ, -steam_le16(data + 32));
->> +	input_report_abs(sensors, ABS_RY, steam_le16(data + 34));
->> +
->> +	input_sync(sensors);
->> +}
->> +
->>  /*
->>   * The size for this message payload is 11.
->>   * The known values are:
->> @@ -1583,6 +1716,7 @@ static int steam_raw_event(struct hid_device *hdev,
->>  {
->>  	struct steam_device *steam = hid_get_drvdata(hdev);
->>  	struct input_dev *input;
->> +	struct input_dev *sensors;
->>  	struct power_supply *battery;
->>  
->>  	if (!steam)
->> @@ -1629,6 +1763,14 @@ static int steam_raw_event(struct hid_device *hdev,
->>  		if (likely(input))
->>  			steam_do_deck_input_event(steam, input, data);
->>  		rcu_read_unlock();
->> +
->> +		if (steam->quirks & STEAM_QUIRK_DECK) {
+Allen_Lin (4):
+  dt-bindings: input: Add Himax HX83102J touchscreen
+  HID: Add Himax HX83102J touchscreen driver
+  HID: Add DRM panel follower function
+  HID: Load firmware directly from file to IC
 
-This report ID is only sent on the Steam Deck. Checking the quirk here is unnecessary, especially since it'll just be null and fail out if something weird happens and we get this report on a non-Deck device.
+ .../input/touchscreen/himax,hx83102j.yaml     |   93 +
+ MAINTAINERS                                   |    7 +
+ drivers/hid/Kconfig                           |    7 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/hid-himax.c                       | 3133 +++++++++++++++++
+ drivers/hid/hid-himax.h                       |  460 +++
+ 6 files changed, 3702 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.yaml
+ create mode 100644 drivers/hid/hid-himax.c
+ create mode 100644 drivers/hid/hid-himax.h
 
->> +			rcu_read_lock();
->> +			sensors = rcu_dereference(steam->sensors);
->> +			if (likely(sensors))
->> +				steam_do_deck_sensors_event(steam, sensors, data);
->> +			rcu_read_unlock();
->> +		}
->>  		break;
->>  	case ID_CONTROLLER_WIRELESS:
->>  		/*
->>
->> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
->> -- 
->> 2.44.0
->>
-> 
+-- 
+2.34.1
 
-Implementation looks mostly fine. However, I had some discussion with people at Valve about this who said they'd like the IMU to be silenced when gamepad mode is disabled the same way the gamepad data is.
-
-Vicki
 
