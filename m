@@ -1,141 +1,122 @@
-Return-Path: <linux-input+bounces-3081-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3082-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7178A66B1
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 11:05:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 997CD8A68D0
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 12:43:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 999D11C228EF
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 09:05:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 557D328AE98
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 10:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB9686634;
-	Tue, 16 Apr 2024 09:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="k3Ho+Itd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iFQTFJLg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7E73127E36;
+	Tue, 16 Apr 2024 10:42:06 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECB685C76;
-	Tue, 16 Apr 2024 09:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59D94127E32;
+	Tue, 16 Apr 2024 10:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713258273; cv=none; b=rOgvoCEQLQZ+Zcz8iNNSenZA0uDYTWqzhHHKgbM+OdsFKKzFis6UsyR0xpmJ+lN/ERriMxxkvohTUXWgSqgAUPbrAoSn7HMKRVD8O5bFjUK5R7xf+oaGCuI2XrQ1nlVyj8dpRo4ihRD0Hr54nMxgYMRyEosDVqM+eFwgBQ0gqo8=
+	t=1713264126; cv=none; b=eWwmMfSM8c1L+W0X4q1TMXCDoT3k1u70MPR3Pl7X9dDHzDps1Ww36VJxSVa2nN1+wj7qOq/uKyfxqv1oMVSgwGhjbGBRhKLovTGjHV5R79il0D2FUKdKOwMCajBswXqdsOHy0lhhVotZIlElCan37ekwss/FUDEGYAeaGWE66d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713258273; c=relaxed/simple;
-	bh=dQb7AShGD8SaOB+dpSBrbd+XQBhHaEC69BqBkprUBgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YxYpE6PhFZuydZj33rDJRUHroDT+HekEX82eufK4kvaQoin/7zcxOeAb8zxLODHAHj/TtPAUiO+SOxzV2xrlZh5zwXP1Me6xU3b5pnOiAnF2JATW4eljDGcyXBO7P0Pp11FhIuWHHPP3IzWm4BFqkajh3JbfLasiWvEmV2Y50s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=k3Ho+Itd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iFQTFJLg; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 206C2114015A;
-	Tue, 16 Apr 2024 05:04:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 16 Apr 2024 05:04:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1713258268; x=
-	1713344668; bh=o0VguGvkhfjanmvUkZrSpkY8KS8S4SNFR6TNBXk3LdQ=; b=k
-	3Ho+ItdpDXP83/Z37rW5CQDefRmQ11lfjJnz05KWiF8wpnCLisJ5FSa1WJfhdHb+
-	l7m3gYsr86ZXBp9+nIoKr+8Tgk/T7cj4gmRXW0BewM8p5LPmHX0JHYoCWGWqdKEM
-	TlmzGoYT7zA+uR5GP74ln/e9Liqy2lio+UCglZpOqLth5g0XyBw//B4A22cRPaSM
-	cVNxC6PGqW4Y40X8HV92jdf7PEi6PzeCQUscqxNtH/b9xAkq/aRs6OS/8gJOF3kk
-	5Ug+2384q/DvgllmN+blotR+tnPe8CVnBOI8wwWLoY62rQr03LAkCwLBObeTFTwP
-	ARyNBGx1VEAXUB+Oz3lzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713258268; x=
-	1713344668; bh=o0VguGvkhfjanmvUkZrSpkY8KS8S4SNFR6TNBXk3LdQ=; b=i
-	FQTFJLg4s10kss/qXxC+Ztbt76VHpEGyhjLWAN90IskvQWKA5kJIJhqXPrK+SklL
-	KeaxXTALtUJWcm9Z5TwYeqxU3hku9hiFMc533Biwcj4flaOxPx9AnqBgjeU+gZE4
-	p4WxbSTOuhjU8M73sC+FkSG8n65vZfkSDaAwosMybItrlmj0s4WbfrXnVzwksHNu
-	AmbL/zyN+C8nq86eb0OJghoY8gf4xMUukhJw3IJjECC2wgR+auThGEEr7/C713a0
-	ZbW74BzUPxXDdKljwOr4cLsMKvRm+cgLs5Vb+9sQPNlKBKFfAn/6kSfZHHxvP6pM
-	rL5E+z2Bk3y6QZwGGH5uQ==
-X-ME-Sender: <xms:Gz8eZvcG70iL1Lt-tXuZ9gqt8JQgHbf-Uy1rWwjJAz5-BxymmRQMng>
-    <xme:Gz8eZlP9sbNwuAsMruQbbd33OdtS1myIbQNj1g4KhFzl44K1HnFxTCtrWS63OKiUr
-    tEOhIa14jxQ-eDqjpA>
-X-ME-Received: <xmr:Gz8eZojGRebJxRWc3xfDR2jCat1BRm3K9wkyXzrV68XVrInEF9iatn4EuiDT>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgedgudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:Gz8eZg8kV_ZNZNAwVf5WC7HIxaw8CulCakEpSrUc_4xsauI11ow-_A>
-    <xmx:Gz8eZruYl6nSTHbdhzQoGLziUBSIdc3EwhwNuoWW21Z0NK_QQBTgQg>
-    <xmx:Gz8eZvGlDuAxWlFvS2aTj_4ujVlNqdEh89A7nOub10TvVuPoTO_xBQ>
-    <xmx:Gz8eZiO_HPq8ciON_nITvDVXjydQIPUQeIP9F6wlDNIVCi5_4yixew>
-    <xmx:HD8eZlLva8rQZlstAptXGTOeZZqTlNWQug62ARjnHX_yB10v2AbSu1M->
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Apr 2024 05:04:25 -0400 (EDT)
-From: "Luke D. Jones" <luke@ljones.dev>
-To: jikos@kernel.org
-Cc: benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH 4/4] HID: asus: add ROG Z13 lightbar
-Date: Tue, 16 Apr 2024 21:04:02 +1200
-Message-ID: <20240416090402.31057-5-luke@ljones.dev>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240416090402.31057-1-luke@ljones.dev>
-References: <20240416090402.31057-1-luke@ljones.dev>
+	s=arc-20240116; t=1713264126; c=relaxed/simple;
+	bh=TwIS/5qzT8RE4E2MZ5uzzz88SHtKz+6BRPI2AbQnAYc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gNEe/bhCh3HT7HQbxDE5z4O/mKzo8nwgfS1mCFBIMmZdKX0ThJR0aQTfLkP7vmhbQ5OEiERa0wwVd31yodYOWnucdgLRrKYaju0Jlyc4BkpjeNcztdgHKozrGEllTs0Kf4fy+Koj/UJ5SWnVsi0L5AbE1IC+L/uFxqWkqIobg5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB24D2F;
+	Tue, 16 Apr 2024 03:42:31 -0700 (PDT)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 316C43F64C;
+	Tue, 16 Apr 2024 03:41:58 -0700 (PDT)
+Message-ID: <8a8a8e8b-8256-4d33-a39b-9e3cbc4ccff2@arm.com>
+Date: Tue, 16 Apr 2024 11:41:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/19] amba: store owner from modules with
+ amba_driver_register()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Mike Leach <mike.leach@linaro.org>,
+ James Clark <james.clark@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
+ linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-input@vger.kernel.org, kvm@vger.kernel.org
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+ <171182151736.34189.6433134738765363803.b4-ty@linaro.org>
+ <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add init of the lightbar which is a small panel on the back of the ASUS
-ROG Z13 and uses the same MCU as keyboards.
++ Greg
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 3 +++
- drivers/hid/hid-ids.h  | 1 +
- 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 61820f7a6b25..02de2bf4f790 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1242,6 +1242,9 @@ static const struct hid_device_id asus_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD3),
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-+	    USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR),
-+	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
- 	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index f1e508a7ef06..94501dbdd463 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -208,6 +208,7 @@
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2	0x19b6
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD3	0x1a30
-+#define USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR		0x18c6
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY		0x1abe
- #define USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD	0x196b
- #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD	0x1869
--- 
-2.44.0
+Hi Krzysztof,
+
+On 30/03/2024 18:00, Krzysztof Kozlowski wrote:
+> On 30/03/2024 18:58, Krzysztof Kozlowski wrote:
+>>
+>> On Tue, 26 Mar 2024 21:23:30 +0100, Krzysztof Kozlowski wrote:
+>>> Merging
+>>> =======
+>>> All further patches depend on the first amba patch, therefore please ack
+>>> and this should go via one tree.
+>>>
+>>> Description
+>>> ===========
+>>> Modules registering driver with amba_driver_register() often forget to
+>>> set .owner field.
+>>>
+>>> [...]
+>>
+>> Applied, thanks!
+>>
+>> [01/19] amba: store owner from modules with amba_driver_register()
+>>          (no commit info)
+> 
+> Patchset applied here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git/log/?h=for-v6.10/module-owner-amba
+
+How do you plan to push this ? Given this affects most of the drivers/, 
+do you plan to send this to Greg ? We have changes in the coresight
+tree that would conflict with this "tag" ( I haven't merged them yet, 
+but is in my local queue). I want to make sure we can avoid the
+conflicts. I am happy to merge this to my local tree and base the
+changes on this, if this is going in for v6.10 and all are in agreement.
+
+Kind regards
+Suzuki
+
+
+
+
+> 
+> Best regards,
+> Krzysztof
+> 
 
 
