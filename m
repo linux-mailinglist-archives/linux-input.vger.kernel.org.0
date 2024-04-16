@@ -1,243 +1,109 @@
-Return-Path: <linux-input+bounces-3071-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3072-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0338A6129
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 04:45:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EE58A61B8
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 05:31:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCB581F22DF9
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 02:45:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7C0C1F228D2
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 03:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A01818EAB;
-	Tue, 16 Apr 2024 02:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9372A179B7;
+	Tue, 16 Apr 2024 03:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZ40ErWr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKvQde2f"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4480171D2;
-	Tue, 16 Apr 2024 02:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F4611C92;
+	Tue, 16 Apr 2024 03:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713235481; cv=none; b=YnkuggRMlpAbvY+1PggAMlmF5E2i5GbtYrbb20wG2/WQ7yaloxVvQRBScCF1rKD5o2YpAnr2BWvb/QD1X0lpf9pb1g1EJUY1m1RTDypilcSDhan7eP7SXyDcBe8/4o214Cimii/qSlIXj5JeoUTcC9Sg3t1KpOOVyRsWJEXpSvQ=
+	t=1713238268; cv=none; b=Ubnmd61Ep16391USb+rsEEpJOJbu2DZM9aDdYX0whmdOtOelSE0ilgY2buMR7gaVxVQHmvISs4cMLi/soVxQRtnRwR7Vq1Ort6OU3DO5olY79XIyXgYg2aWnoAzY+LyzkHI2ZArwFKIzZEdFtEcTTsfe/DBxPYD8j9rPwmaclMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713235481; c=relaxed/simple;
-	bh=3ygo566KgNes/y1LnnasDIozu4wqPQgtkAmJdJFtQ0U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DxCiqFfEdNO7EHDCJRaPnKXKS2RV0IZt580Y8HSt6dxIH9Qae/Z0lfLI/6eqg6gBRQ8mXF+ssR4l6XKQLIhmu5EZpI3MatvvlfIRhyHuni2wwHv5n7iAPKqEdwPgGyxjGJI177bZoawGCBvBAtvxGvQiAJq8vVzZxMOJMXtuFp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZ40ErWr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F17DC4AF0C;
-	Tue, 16 Apr 2024 02:44:41 +0000 (UTC)
+	s=arc-20240116; t=1713238268; c=relaxed/simple;
+	bh=a3rUP++5Bv6oCHr5Ncb6/p4PNJQiXGJ9THHHsW7MB4Q=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=qDehjeIwBHdy0jQ0ihdHtOhpjVrhIzUx5u6kJE0WNDzCupKC/Z6Y64A0QJDAEW18vLCf/bVSUgNGqPOykj4QNW9ViasAsDjafsR8k74zcqmxNaR6ral22Zfo8xs37JVs8JdBviyhz0Hje1u7Lx2FA5cz/7Ij4mMYNREwoXAf8oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKvQde2f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2231C113CE;
+	Tue, 16 Apr 2024 03:31:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713235481;
-	bh=3ygo566KgNes/y1LnnasDIozu4wqPQgtkAmJdJFtQ0U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=QZ40ErWrn5XtEtonMojY5vHzFnnHAwMKEGafsomu8FfPecoagy8UIaz6TJ5C9VvE2
-	 TpFJRy6PH+PayzGui8+OMBqhMFXrq3w9zaQ/KrE+VbRfMDnHRFNyvk//+cx/PA3KgV
-	 Mmmb40/5HnY0pMiiHTxszGpWPfwmFSo9vKw+ps2hXA7BUVaw/AhrcymyQzLRuFRnYe
-	 kIzzzgzFcygnb4SKwXDxipu9aol7b/m7qxELm6o0Cl8KTA3vTwfp1iVCzhleKBAB6M
-	 0znEDxieW3OG1GzqyJ9URbPiGi9THpBTtX9zkhOJ+Xuxw1CveYr9/S07EEiHcGBhBd
-	 1K3g3SuO7zvtQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59803C04FFE;
-	Tue, 16 Apr 2024 02:44:41 +0000 (UTC)
-From: Fenglin Wu via B4 Relay <devnull+quic_fenglinw.quicinc.com@kernel.org>
-Date: Tue, 16 Apr 2024 10:44:34 +0800
-Subject: [PATCH v11 3/3] input: pm8xxx-vibrator: add new SPMI vibrator
- support
+	s=k20201202; t=1713238267;
+	bh=a3rUP++5Bv6oCHr5Ncb6/p4PNJQiXGJ9THHHsW7MB4Q=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=oKvQde2fTTl4ezaTt7W17XKY2gPVYyatVLwcLP50yzzgH8y8zem9ouASl6Z3UsMmJ
+	 LG2hjXElS6d9t2S+ocPDQp9AzVh/bit3pHuJN399eys8c1K9eLFVyZ0ehWKnUR8JGo
+	 dsw6Fle2uKgAGzOtYTc683KI32xGCIUIjQOB0EgQP0+qk1F91g6XkJ8ZIKfi2sicJ+
+	 mR0N5qWHHVGGBt5O0iiqBZdyPIdxaemYn05PbV7OIJNN5zgXtlApTAWPOw1jTDxobL
+	 JGA4rv2TJa+VWFfD6gyjesGMf8MTTunE2XXZWbjUq2d7CQby1qPRWwnP4X5IrOrQsp
+	 pdctBb+/+L7PQ==
+Date: Mon, 15 Apr 2024 22:31:06 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-pm8xxx-vibrator-new-design-v11-3-7b1c951e1515@quicinc.com>
-References: <20240416-pm8xxx-vibrator-new-design-v11-0-7b1c951e1515@quicinc.com>
-In-Reply-To: <20240416-pm8xxx-vibrator-new-design-v11-0-7b1c951e1515@quicinc.com>
-To: kernel@quicinc.com, Andy Gross <agross@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Fenglin Wu <quic_fenglinw@quicinc.com>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1713235479; l=5248;
- i=quic_fenglinw@quicinc.com; s=20240327; h=from:subject:message-id;
- bh=O6jY1vE2jMlOuUDvAlQRyMO4JqLMmvGnt6KvdZSWoX4=;
- b=DoVE674AWh7yt0zyoiZS7k+TyNiecyJD6qsCJWj6VcIDOmE8qE0HfBZR8zD/tDtfLs4P4Die3
- wPTFMEcosIoC5u84zbHjJVsJI1xojlhrLWDyobziNQDybr+cg6EEK1H
-X-Developer-Key: i=quic_fenglinw@quicinc.com; a=ed25519;
- pk=BF8SA4IVDk8/EBCwlBehKtn2hp6kipuuAuDAHh9s+K4=
-X-Endpoint-Received: by B4 Relay for quic_fenglinw@quicinc.com/20240327
- with auth_id=146
-X-Original-From: Fenglin Wu <quic_fenglinw@quicinc.com>
-Reply-To: quic_fenglinw@quicinc.com
+From: Rob Herring <robh@kernel.org>
+To: Allen_Lin <allencl_lin@hotmail.com>
+Cc: benjamin.tissoires@redhat.com, krzysztof.kozlowski+dt@linaro.org, 
+ jikos@kernel.org, linux-input@vger.kernel.org, conor@kernel.org, 
+ dmitry.torokhov@gmail.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: 
+ <TY0PR06MB56112682F500F8761F76DBA99E082@TY0PR06MB5611.apcprd06.prod.outlook.com>
+References: <20240416021228.1092678-1-allencl_lin@hotmail.com>
+ <TY0PR06MB56112682F500F8761F76DBA99E082@TY0PR06MB5611.apcprd06.prod.outlook.com>
+Message-Id: <171323826551.687221.15997746992976614579.robh@kernel.org>
+Subject: Re: [PATCH v3 1/4] dt-bindings: input: Add Himax HX83102J
+ touchscreen
 
-From: Fenglin Wu <quic_fenglinw@quicinc.com>
 
-Add support for a new SPMI vibrator module which is very similar
-to the vibrator module inside PM8916 but has a finer drive voltage
-step and different output voltage range, its drive level control
-is expanded across 2 registers. The vibrator module can be found
-in following Qualcomm PMICs: PMI632, PM7250B, PM7325B, PM7550BA.
+On Tue, 16 Apr 2024 10:12:25 +0800, Allen_Lin wrote:
+> Add the HX83102j touchscreen device tree bindings documents.
+> HX83102j is a Himax TDDI touchscreen controller.
+> It's power sequence should be bound with a lcm driver, thus it
+> needs to be a panel follower. Others are the same as normal SPI
+> touchscreen controller.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+> ---
+>  .../input/touchscreen/himax,hx83102j.yaml     | 93 +++++++++++++++++++
+>  MAINTAINERS                                   |  6 ++
+>  2 files changed, 99 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.yaml
+> 
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
----
- drivers/input/misc/pm8xxx-vibrator.c | 52 +++++++++++++++++++++++++++++-------
- 1 file changed, 43 insertions(+), 9 deletions(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-index 2bcfa7ed3d6b..381b06473279 100644
---- a/drivers/input/misc/pm8xxx-vibrator.c
-+++ b/drivers/input/misc/pm8xxx-vibrator.c
-@@ -11,10 +11,11 @@
- #include <linux/regmap.h>
- #include <linux/slab.h>
- 
--#define VIB_MAX_LEVEL_mV	(3100)
--#define VIB_MIN_LEVEL_mV	(1200)
--#define VIB_PER_STEP_mV		(100)
--#define VIB_MAX_LEVELS		(VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV + VIB_PER_STEP_mV)
-+#define VIB_MAX_LEVEL_mV(vib)	(vib->drv2_addr ? 3544 : 3100)
-+#define VIB_MIN_LEVEL_mV(vib)	(vib->drv2_addr ? 1504 : 1200)
-+#define VIB_PER_STEP_mV(vib)	(vib->drv2_addr ? 8 : 100)
-+#define VIB_MAX_LEVELS(vib) \
-+	(VIB_MAX_LEVEL_mV(vib) - VIB_MIN_LEVEL_mV(vib) + VIB_PER_STEP_mV(vib))
- 
- #define MAX_FF_SPEED		0xff
- 
-@@ -25,7 +26,11 @@ struct pm8xxx_regs {
- 	unsigned int drv_offset;
- 	unsigned int drv_mask;
- 	unsigned int drv_shift;
-+	unsigned int drv2_offset;
-+	unsigned int drv2_mask;
-+	unsigned int drv2_shift;
- 	unsigned int drv_en_manual_mask;
-+	bool	     drv_in_step;
- };
- 
- static const struct pm8xxx_regs pm8058_regs = {
-@@ -33,6 +38,7 @@ static const struct pm8xxx_regs pm8058_regs = {
- 	.drv_mask = GENMASK(7, 3),
- 	.drv_shift = 3,
- 	.drv_en_manual_mask = 0xfc,
-+	.drv_in_step = true,
- };
- 
- static struct pm8xxx_regs pm8916_regs = {
-@@ -42,6 +48,20 @@ static struct pm8xxx_regs pm8916_regs = {
- 	.drv_mask = GENMASK(4, 0),
- 	.drv_shift = 0,
- 	.drv_en_manual_mask = 0,
-+	.drv_in_step = true,
-+};
-+
-+static struct pm8xxx_regs pmi632_regs = {
-+	.enable_offset = 0x46,
-+	.enable_mask = BIT(7),
-+	.drv_offset = 0x40,
-+	.drv_mask = GENMASK(7, 0),
-+	.drv_shift = 0,
-+	.drv2_offset = 0x41,
-+	.drv2_mask = GENMASK(3, 0),
-+	.drv2_shift = 8,
-+	.drv_en_manual_mask = 0,
-+	.drv_in_step = false,
- };
- 
- /**
-@@ -52,6 +72,7 @@ static struct pm8xxx_regs pm8916_regs = {
-  * @regs: registers' info
-  * @enable_addr: vibrator enable register
-  * @drv_addr: vibrator drive strength register
-+ * @drv2_addr: vibrator drive strength upper byte register
-  * @speed: speed of vibration set from userland
-  * @active: state of vibrator
-  * @level: level of vibration to set in the chip
-@@ -64,6 +85,7 @@ struct pm8xxx_vib {
- 	const struct pm8xxx_regs *regs;
- 	unsigned int enable_addr;
- 	unsigned int drv_addr;
-+	unsigned int drv2_addr;
- 	int speed;
- 	int level;
- 	bool active;
-@@ -81,6 +103,9 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 	unsigned int val = vib->reg_vib_drv;
- 	const struct pm8xxx_regs *regs = vib->regs;
- 
-+	if (regs->drv_in_step)
-+		vib->level /= VIB_PER_STEP_mV(vib);
-+
- 	if (on)
- 		val |= (vib->level << regs->drv_shift) & regs->drv_mask;
- 	else
-@@ -92,6 +117,14 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 
- 	vib->reg_vib_drv = val;
- 
-+	if (regs->drv2_mask) {
-+		val = vib->level << regs->drv2_shift;
-+		rc = regmap_write_bits(vib->regmap, vib->drv2_addr,
-+				regs->drv2_mask, on ? val : 0);
-+		if (rc < 0)
-+			return rc;
-+	}
-+
- 	if (regs->enable_mask)
- 		rc = regmap_update_bits(vib->regmap, vib->enable_addr,
- 					regs->enable_mask, on ? regs->enable_mask : 0);
-@@ -114,17 +147,16 @@ static void pm8xxx_work_handler(struct work_struct *work)
- 		return;
- 
- 	/*
--	 * pmic vibrator supports voltage ranges from 1.2 to 3.1V, so
-+	 * pmic vibrator supports voltage ranges from MIN_LEVEL to MAX_LEVEL, so
- 	 * scale the level to fit into these ranges.
- 	 */
- 	if (vib->speed) {
- 		vib->active = true;
--		vib->level = ((VIB_MAX_LEVELS * vib->speed) / MAX_FF_SPEED) +
--						VIB_MIN_LEVEL_mV;
--		vib->level /= VIB_PER_STEP_mV;
-+		vib->level = VIB_MIN_LEVEL_mV(vib);
-+		vib->level += mult_frac(VIB_MAX_LEVELS(vib), vib->speed, MAX_FF_SPEED);
- 	} else {
- 		vib->active = false;
--		vib->level = VIB_MIN_LEVEL_mV / VIB_PER_STEP_mV;
-+		vib->level = VIB_MIN_LEVEL_mV(vib);
- 	}
- 
- 	pm8xxx_vib_set(vib, vib->active);
-@@ -197,6 +229,7 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
- 	regs = of_device_get_match_data(&pdev->dev);
- 	vib->enable_addr = reg_base + regs->enable_offset;
- 	vib->drv_addr = reg_base + regs->drv_offset;
-+	vib->drv2_addr = reg_base + regs->drv2_offset;
- 
- 	/* operate in manual mode */
- 	error = regmap_read(vib->regmap, vib->drv_addr, &val);
-@@ -251,6 +284,7 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
- 	{ .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
- 	{ .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
- 	{ .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
-+	{ .compatible = "qcom,pmi632-vib", .data = &pmi632_regs },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/touchscreen/himax,hx83102j.yaml:93:7: [error] no new line character at the end of file (new-line-at-end-of-file)
 
--- 
-2.25.1
+dtschema/dtc warnings/errors:
 
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/TY0PR06MB56112682F500F8761F76DBA99E082@TY0PR06MB5611.apcprd06.prod.outlook.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
