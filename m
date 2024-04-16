@@ -1,122 +1,93 @@
-Return-Path: <linux-input+bounces-3082-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3083-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997CD8A68D0
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 12:43:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 835C98A6A90
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 14:17:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 557D328AE98
-	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 10:43:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFBE61C2037E
+	for <lists+linux-input@lfdr.de>; Tue, 16 Apr 2024 12:17:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7E73127E36;
-	Tue, 16 Apr 2024 10:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D22129E9C;
+	Tue, 16 Apr 2024 12:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJYJhJHp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59D94127E32;
-	Tue, 16 Apr 2024 10:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBD61DFEF;
+	Tue, 16 Apr 2024 12:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713264126; cv=none; b=eWwmMfSM8c1L+W0X4q1TMXCDoT3k1u70MPR3Pl7X9dDHzDps1Ww36VJxSVa2nN1+wj7qOq/uKyfxqv1oMVSgwGhjbGBRhKLovTGjHV5R79il0D2FUKdKOwMCajBswXqdsOHy0lhhVotZIlElCan37ekwss/FUDEGYAeaGWE66d4=
+	t=1713269859; cv=none; b=fytmuQNUwdal0vRCgVsZ5aKj9HE3o8b21jglg/aRWIC98GniwC6K7T5u2vuw/VwXbMs/CbdyBatwpebm9DYQVvJNkKFGXyw3nT8d60Q0Z1pI22u3+Nhst3oCoilA8frYjSYDTf9yPEnHZrq8SUZufxq+dGRDmmMEimAddJgDYBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713264126; c=relaxed/simple;
-	bh=TwIS/5qzT8RE4E2MZ5uzzz88SHtKz+6BRPI2AbQnAYc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gNEe/bhCh3HT7HQbxDE5z4O/mKzo8nwgfS1mCFBIMmZdKX0ThJR0aQTfLkP7vmhbQ5OEiERa0wwVd31yodYOWnucdgLRrKYaju0Jlyc4BkpjeNcztdgHKozrGEllTs0Kf4fy+Koj/UJ5SWnVsi0L5AbE1IC+L/uFxqWkqIobg5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB24D2F;
-	Tue, 16 Apr 2024 03:42:31 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 316C43F64C;
-	Tue, 16 Apr 2024 03:41:58 -0700 (PDT)
-Message-ID: <8a8a8e8b-8256-4d33-a39b-9e3cbc4ccff2@arm.com>
-Date: Tue, 16 Apr 2024 11:41:54 +0100
+	s=arc-20240116; t=1713269859; c=relaxed/simple;
+	bh=KUoqvIfp72VSJoG5DlTPcOVEPeLqujFVbiYLFnOG3Rs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+XBzF9DL8P3aBSeaeYxFRROU8Fn3dLVY7EL90FlhqhWspPJxIRqHfJI979J3Ve6idRFXVHnBAHU5swBqCbPt9LDiUYh5dZRsdAx56fC04KyWuLLzxrmV+5Ha7SgUmu5Gh29dOl7veZVgClYrsa++o1/cOOGcirmLNuCAAvAFmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJYJhJHp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95982C113CE;
+	Tue, 16 Apr 2024 12:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713269858;
+	bh=KUoqvIfp72VSJoG5DlTPcOVEPeLqujFVbiYLFnOG3Rs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bJYJhJHpWaR9fEXSKGb6ceVdVPpkVkFO5CLpLz1gLwxykLV0VmXc+EJnZjGB7WV9U
+	 IWLAUVln3CfDRumS9+hBhcGb83plwk9y+WCFN0cBjda1PnQ8PaLPKevZLQsFvAK2aD
+	 aGQ3kqFNvD3K1zAQkM6swrch7sSUiAg0TUFf6lIA7RtwTtIOE/hideOl8Kot5UnkvY
+	 6gaBO7clG9PBQVOJXrqAZrlMLA8rCjdR+pXczxYI8ck9OOGn6x3OTp0qBrRdpuEjAp
+	 33fOLjcCjVm0VJw9m6Ia4zFOKdpLHJTghqGxf/0sXGRQcErJKuGLZUNz4iisWFzgjW
+	 bmESs2+dcTUOw==
+Date: Tue, 16 Apr 2024 13:17:31 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org
+Subject: Re: [PATCH 00/18] backlight: Constify lcd_ops
+Message-ID: <20240416121731.GT2399047@google.com>
+References: <20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org>
+ <b4cafdd1-c1b0-4abd-a849-8132c19d1525@suse.de>
+ <65adee30-fd12-4cc7-a227-9a586bb9e6d5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] amba: store owner from modules with
- amba_driver_register()
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Russell King <linux@armlinux.org.uk>, Mike Leach <mike.leach@linaro.org>,
- James Clark <james.clark@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
- <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
- linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-input@vger.kernel.org, kvm@vger.kernel.org
-References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
- <171182151736.34189.6433134738765363803.b4-ty@linaro.org>
- <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <65adee30-fd12-4cc7-a227-9a586bb9e6d5@kernel.org>
 
-+ Greg
+On Mon, 15 Apr 2024, Krzysztof Kozlowski wrote:
 
-
-Hi Krzysztof,
-
-On 30/03/2024 18:00, Krzysztof Kozlowski wrote:
-> On 30/03/2024 18:58, Krzysztof Kozlowski wrote:
->>
->> On Tue, 26 Mar 2024 21:23:30 +0100, Krzysztof Kozlowski wrote:
->>> Merging
->>> =======
->>> All further patches depend on the first amba patch, therefore please ack
->>> and this should go via one tree.
->>>
->>> Description
->>> ===========
->>> Modules registering driver with amba_driver_register() often forget to
->>> set .owner field.
->>>
->>> [...]
->>
->> Applied, thanks!
->>
->> [01/19] amba: store owner from modules with amba_driver_register()
->>          (no commit info)
+> On 15/04/2024 08:56, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > for patches 16, 17 and 18:
+> > 
+> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Patchset applied here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git/log/?h=for-v6.10/module-owner-amba
+> This does not work like this. Toolset will apply your review tag for
+> EVERYTHING. You must provide tag under each individual patch.
 
-How do you plan to push this ? Given this affects most of the drivers/, 
-do you plan to send this to Greg ? We have changes in the coresight
-tree that would conflict with this "tag" ( I haven't merged them yet, 
-but is in my local queue). I want to make sure we can avoid the
-conflicts. I am happy to merge this to my local tree and base the
-changes on this, if this is going in for v6.10 and all are in agreement.
+And for that to not happen now, you have to resubmit the set. :)
 
-Kind regards
-Suzuki
-
-
-
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
+-- 
+Lee Jones [李琼斯]
 
