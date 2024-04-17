@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-3109-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3110-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31638A89FF
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 19:10:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF468A8BD9
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 21:09:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CF161F2526B
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 17:10:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73944B2515C
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 19:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B78171E6D;
-	Wed, 17 Apr 2024 17:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035F4224C9;
+	Wed, 17 Apr 2024 19:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QNhHx0Xq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rjTzTzDw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283CB17165E
-	for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 17:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A108E1CD38
+	for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 19:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713373819; cv=none; b=tpKR522uJCSLCRMV2s4JeDEGKyriMk5Wcqlgs20MV7UgbePA6zEUIrCwUuYRbC2s3lEaorcJuLnCmgZasO3nu+47MNucgQXqdRwNTg2JXs/7G8BEznJhrolFORu4vdzODt/lIAnFWtgiEzBwEB7VmqUtK/jfi6n4W9dKkZr1QSM=
+	t=1713380986; cv=none; b=Uoo4BYeUmr5oMuF3qdNCEWouXXBG1xiQA49MYChyRTLUTEzvvDRliWGnDJZkgN1SUv3tMpJ1NknXc9hK8itRhtZEkkN+jv7cB+enMsiiOtV9ROP5Dc9d99I+YhF4+6+ebLq3GZt5st+K485x+WHU4dtgRvxM0beXRh1AHxAlb9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713373819; c=relaxed/simple;
-	bh=LCvGS9UepmCWHpQ88fEQa2EXKGS1vIm8XTR6gb5r0BE=;
+	s=arc-20240116; t=1713380986; c=relaxed/simple;
+	bh=7F0omVEYl9aLdhKK64Qe55F30sKWhJSTnU314fKgRxQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aqUnF7XQIW2/ABz/6Ewz7T3hb8y1Ie9I85T1C7EULydnkXhPUjT3X9FN8G0OKj80ZYYjNitdAwqUkXmTmycLear0UXfMuU3FQ2yXbqTYpbtf0vjMADwq1+N+AHbfedNDS9kaqp90to6+FSJUv3astm/5aaKCEoriBjtApDWeCuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QNhHx0Xq; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:Content-Type; b=iocvPhIK36fFLFJUxbmQnkfXYVdOhmVwPTVPKXUYu+NsJ6TCXZre9B4yu7/BD4F9aU+wYIBzhGFfs8QZLestVszT3fqLqxGw7ydGw4UuSaDaFAiCSNc4vZSbStdwasgdBMlJ/pls6S9tQaoU1jHXU/trrh+pG9OHsXOCvfP3sNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rjTzTzDw; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e4266673bbso50788055ad.2
-        for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 10:10:16 -0700 (PDT)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so130747b3a.0
+        for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 12:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713373816; x=1713978616; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1713380985; x=1713985785; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=FUzDJY7t9H7U+uIUYVqmIVsezT70evHGuhSl2xA7NDc=;
-        b=QNhHx0XqzfVjZGdzlMCDPQjopN0MGC2KLPWqURrUWR4CRW2JLLLDgpxmznzGbJQydm
-         QE6eL/fxw7jh/4q8Y9vU9YeF3CvK3ZoO4zA+G6/rLYR6vsx4dyOPgd+gQuoO4GMiRNds
-         TTwB2oSbCU2yPs0R2u13yzLhtMyoCP4/l2FRMbLFSkaT5tHvRmIK0h+jrg5B4fnIbYFJ
-         rf5O5jqa8tQGOE34ZAPzTdHr/TyQdL1bFGgSMsKTX2OIPV2qc5BKveI9L6Ax7hyv9wFt
-         ws6wjX8qs4OoIPqGDKoITGmqaLFPG5PVd3XQ4mYg4q/Wz//tx5niAhNe1PMERiJ+g3aF
-         xBKg==
+        bh=EDnY7NG8tLjQYaJZVCkHJwJ7/O88b8QorT6FZnDHMMQ=;
+        b=rjTzTzDw5nz3bVNyQdNOlzjRs99CAB1L/OPsPGgCXMVHxuWPEaIiM43K7YoOtPYZWL
+         VgL2Fh8OOC/1vFzUfffDvI3HmoEvnryY4qGf+2jeN+3IxrqzFSyQIczjmVyLPp3pg9KL
+         P1tpBRbfp8XCX2yb6FGzZF1JPIvCq1rU7/D3L+V+WQcyJh8JWKhyRj69WtkQ+Jbj4Wes
+         opaZVQ6uAY7enDci8CowzAZK5Rk5ZsN7jLgvk72YsIiSco1g2TiDheOgDqqYtyiHnYGq
+         1H0XOzyvHi9tl+Hsv/rM8pvfGAHYmoFHNUmu8nrsRdgAjF9A6JXsAgsc0o4kZqS4UlTe
+         NT6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713373816; x=1713978616;
+        d=1e100.net; s=20230601; t=1713380985; x=1713985785;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FUzDJY7t9H7U+uIUYVqmIVsezT70evHGuhSl2xA7NDc=;
-        b=CQ13r6QNgW6XQX/OI0D7qaMWFgMrr7F8rTz+Fb7A7BAVJ4E+PghBq5/fDC4SqEHpD6
-         B8A/GitoBT1ChTMa67PeeG+6dtQbYzqkdDC8HHSnF5OxivWm3E0O5N4vr2RGUqPrUm81
-         NiPwub5j7Rr2x6H3CD3LRrMmhGJHFriLFIrATZxLSkBaIqYXvFVo3qJB1EVC0JvY4z9y
-         Pf08Ii3I8YLSHyimpDIfvJdK16oZ8F/Xgj83znbs1HIqaj7+tGHx3u6o6sDU6m/uyGin
-         lpGRbtJOd4PghfIdeUSpOUEDWirfih1eJ8xGMUhBItm93JBtKmLatxHwRPJreLCAhWym
-         d0ew==
-X-Forwarded-Encrypted: i=1; AJvYcCUnj+SK/3SBa+oY6SdnBW7kiVrmJqRTlAxZKU8n2EMEpzteRT4yZ8aa3DlYcbmB2Xpe6+yk7ub7seN5lF1f1zKfxbmOqCndH9oCIb4=
-X-Gm-Message-State: AOJu0YwpKIK+SGDc1p539+meW/9iiWhoD97c/oJI30pvB6c5lbdlwerR
-	Gr6q3cdd278kEDFqhiBO2NK5EaVfsACBYoFHs/LhE6qR6pYunnlHY6OMl6mr2tw=
-X-Google-Smtp-Source: AGHT+IH5PV2K/cfOZAuGQxOdypxVU3UbAHnIhIC9mRywjS+TQPh9qv3pbXlB2e33qDT/TIHIqPM7cw==
-X-Received: by 2002:a17:902:f7d5:b0:1dd:bf6a:2b97 with SMTP id h21-20020a170902f7d500b001ddbf6a2b97mr62194plw.60.1713373816426;
-        Wed, 17 Apr 2024 10:10:16 -0700 (PDT)
-Received: from [10.36.51.174] ([24.75.208.151])
-        by smtp.gmail.com with ESMTPSA id b11-20020a170902650b00b001e509d4d6ddsm12046145plk.1.2024.04.17.10.10.15
+        bh=EDnY7NG8tLjQYaJZVCkHJwJ7/O88b8QorT6FZnDHMMQ=;
+        b=QvK2AvoTtjTkir25rGUjpeTuLoA9MTJKWQfDldl/c56ZsZ5gaji277dogTzhEqsiZ7
+         lnqqpZFtkewPGEpc+D8UOSEyD9irLap9/x9JUmr7Q9dmp9xeujd1FOEJveB/SXunUWOQ
+         u5uzXW8zmWKqWc7ggNbBR23rMxO43pd3MRDVa1KVLwcxfpf0VPWpYK7UXgo7QrgfdQJz
+         EhM6/gf8WjpRtu530xO0RT7X5jJEb49Siz/HaYdPFltIR4bIHsG1U6S0SUzaIsxdy3Dd
+         M5QyYIuEvGGt5PeJyOrXA5g4QlzD/MWAFBx/6doA62v03S9t469amZ9lqeEcUfb9/znT
+         uTIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlU9q2gAoKmxyEfFL+bYGOmRSHQTlNda/vHdEtxTxBYWJCQlihQ/A/EBo46w5/XWsLbKBtWKAeOGiiiZNzN+IFw469rJnvWrBDSd8=
+X-Gm-Message-State: AOJu0YyPAgm6cjRJd62sBuvrRSPsRYhaDm5pXKvYP9/qhIRL4LyLgA94
+	rQ83YT6JWV0G1fbri5A1vSZ2WqQh8L++A/JAeGLeH3HgEk900ELSdQmMg+LqTDA=
+X-Google-Smtp-Source: AGHT+IFDEvak5wURqPaJeSKsqB5Y4HxeX2qM+g0DLupuKs1li99iFMqkzEhn7i/3qjRSC/5oh7CGAg==
+X-Received: by 2002:a05:6a21:8189:b0:1a8:1ecb:25b0 with SMTP id pd9-20020a056a21818900b001a81ecb25b0mr597826pzb.2.1713380985007;
+        Wed, 17 Apr 2024 12:09:45 -0700 (PDT)
+Received: from [10.36.51.174] ([24.75.208.154])
+        by smtp.gmail.com with ESMTPSA id hq6-20020a056a00680600b006ed14fed3a5sm11066397pfb.154.2024.04.17.12.09.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 10:10:15 -0700 (PDT)
-Message-ID: <294f9048-9756-4d8d-b770-ebaaa4023c54@linaro.org>
-Date: Wed, 17 Apr 2024 19:10:15 +0200
+        Wed, 17 Apr 2024 12:09:44 -0700 (PDT)
+Message-ID: <682c4f9d-3456-4527-a7ea-18b2ef517ad0@linaro.org>
+Date: Wed, 17 Apr 2024 21:09:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,33 +77,17 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] amba: store owner from modules with
- amba_driver_register()
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
- <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
- linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-input@vger.kernel.org, kvm@vger.kernel.org
-References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
- <171182151736.34189.6433134738765363803.b4-ty@linaro.org>
- <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
- <8a8a8e8b-8256-4d33-a39b-9e3cbc4ccff2@arm.com>
- <4e762eb1-864e-4bb5-ab5d-debeac19c8fa@linaro.org>
- <Zh/Tmarryr4TzHIA@shell.armlinux.org.uk>
+Subject: Re: [PATCH v11 0/3] Add support for vibrator in multiple PMICs
+To: quic_fenglinw@quicinc.com, kernel@quicinc.com,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240416-pm8xxx-vibrator-new-design-v11-0-7b1c951e1515@quicinc.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -150,62 +134,21 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <Zh/Tmarryr4TzHIA@shell.armlinux.org.uk>
+In-Reply-To: <20240416-pm8xxx-vibrator-new-design-v11-0-7b1c951e1515@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/04/2024 15:50, Russell King (Oracle) wrote:
-> On Wed, Apr 17, 2024 at 03:29:26PM +0200, Krzysztof Kozlowski wrote:
->> On 16/04/2024 12:41, Suzuki K Poulose wrote:
->>> + Greg
->>>
->>>
->>> Hi Krzysztof,
->>>
->>> On 30/03/2024 18:00, Krzysztof Kozlowski wrote:
->>>> On 30/03/2024 18:58, Krzysztof Kozlowski wrote:
->>>>>
->>>>> On Tue, 26 Mar 2024 21:23:30 +0100, Krzysztof Kozlowski wrote:
->>>>>> Merging
->>>>>> =======
->>>>>> All further patches depend on the first amba patch, therefore please ack
->>>>>> and this should go via one tree.
->>>>>>
->>>>>> Description
->>>>>> ===========
->>>>>> Modules registering driver with amba_driver_register() often forget to
->>>>>> set .owner field.
->>>>>>
->>>>>> [...]
->>>>>
->>>>> Applied, thanks!
->>>>>
->>>>> [01/19] amba: store owner from modules with amba_driver_register()
->>>>>          (no commit info)
->>>>
->>>> Patchset applied here:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git/log/?h=for-v6.10/module-owner-amba
->>>
->>> How do you plan to push this ? Given this affects most of the drivers/, 
->>> do you plan to send this to Greg ? We have changes in the coresight
->>> tree that would conflict with this "tag" ( I haven't merged them yet, 
->>> but is in my local queue). I want to make sure we can avoid the
->>> conflicts. I am happy to merge this to my local tree and base the
->>> changes on this, if this is going in for v6.10 and all are in agreement.
->>
->> I pushed it to arm-linux patches but it hasn't been picked up.
->>
->> I propose you take entire set then.
+On 16/04/2024 04:44, Fenglin Wu via B4 Relay wrote:
+> Add SW support for the vibrator module inside PMI632, PM7250B, PM7325B, PM7550BA.
+> It is very similar to the vibrator module inside PM8916 which is supported in
+> pm8xxx-vib driver but just the drive amplitude is controlled with 2 registers,
+> and the register base offset in each PMIC is different.
 > 
-> You are again being, IMHO, abrasive with your attitude. So far, every
-> interaction with you has been abrasive and bordering on abusive.
-> 
-> You haven't asked me whether I will take them. I will - just not at the
-> moment because 
+> Changes in v11:
+>   1. Drop the 1st patch since it has been applied
+>   2. Update to address review comments
 
-Thanks for confirming, I wanted to ping you because there was no feedback.
-
-Can you provide stable tag for coresight tree?
+Everything is an update. Such changelog is not really helping. Be specific.
 
 Best regards,
 Krzysztof
