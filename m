@@ -1,414 +1,213 @@
-Return-Path: <linux-input+bounces-3108-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3109-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EB38A897C
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 18:58:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E31638A89FF
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 19:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F448285A57
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 16:58:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CF161F2526B
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 17:10:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB6D17106F;
-	Wed, 17 Apr 2024 16:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B78171E6D;
+	Wed, 17 Apr 2024 17:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="oNX5JLR6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QNhHx0Xq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD7A171084
-	for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 16:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283CB17165E
+	for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 17:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713373055; cv=none; b=sEA56rHIm+O812n0t1iNEs+EPXsZMxYnXTqEbuTorOeCUtcw28vAxmZtMZR3BxGYazK2/6N4ZCIl/GqgaL60EEcbJeOXVIVHvqhQz4Vczz9xV5LAJ6UTTk+2QRLgUKx6nRW6O/+VV8YmZDqt6VCnMwyESnHLeUUkyhZsA8uidaI=
+	t=1713373819; cv=none; b=tpKR522uJCSLCRMV2s4JeDEGKyriMk5Wcqlgs20MV7UgbePA6zEUIrCwUuYRbC2s3lEaorcJuLnCmgZasO3nu+47MNucgQXqdRwNTg2JXs/7G8BEznJhrolFORu4vdzODt/lIAnFWtgiEzBwEB7VmqUtK/jfi6n4W9dKkZr1QSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713373055; c=relaxed/simple;
-	bh=3X7Nx0BOlywWch3wjFTXi0pVJrM/xP0s9sNSExU8afA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iAVDU4Cey3a8fm0/JYvasr3s/d70Sy9rB9vt2Z8XoCvC1mTNR8ENoGCASNkTY/FnTy301Ftxe/jtCsvnUHf6BdbvoDjbCPOSH6drZ2wvFtb6mTESgxv8YQiN7szoGxLX0cnrYiP0OOfPdDd6oeRrqZmy5MAJqGAnV3VLFhmwLKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=oNX5JLR6; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 47F4F240028
-	for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 18:57:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1713373050; bh=3X7Nx0BOlywWch3wjFTXi0pVJrM/xP0s9sNSExU8afA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=oNX5JLR6fyW/ppQvwYX1ZJ7+C/1teecidtnyYEnRK0OBb0iQjcEqKaiVcKfU+vN3m
-	 rmApGptv7PKO+sZI+mveMYfL3AHXzj+ws/7gIIbI2r75xXpn0eYQX6tlDNKOU6eNkM
-	 0MP97CTFnRAP9jCdlLIw8gWAymKe6/XVo4MOta7OXPSKp1AP7kzoiaCYocu/zZyIgr
-	 6wsfXJZNea09vjtzRVFHIAqtI7b+UX1YFfokWH6f52zkJvX2iTwIoPdM5lmfudBh5I
-	 ip2MKLOzUvV2AClz2agKOHA3TfOM1dj/GNXyM5MzlTJDsciq9Mp3vXL4MGqKgsm5og
-	 n6w7/7EyIKJJw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4VKRsj2GXVz6twx;
-	Wed, 17 Apr 2024 18:57:29 +0200 (CEST)
-From: Max Maisel <mmm-1@posteo.net>
-To: vi@endrift.com
-Cc: benjamin.tissoires@redhat.com,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mmm-1@posteo.net,
-	rodrigorivascosta@gmail.com
-Subject: Re: [PATCH] HID: hid-steam: Add Deck IMU support
-Date: Wed, 17 Apr 2024 16:56:41 +0000
-Message-ID: <20240417165641.12994-1-mmm-1@posteo.net>
-In-Reply-To: <0a92f4da-9517-4c12-a265-eb06f909f18b@endrift.com>
-References: <0a92f4da-9517-4c12-a265-eb06f909f18b@endrift.com>
+	s=arc-20240116; t=1713373819; c=relaxed/simple;
+	bh=LCvGS9UepmCWHpQ88fEQa2EXKGS1vIm8XTR6gb5r0BE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aqUnF7XQIW2/ABz/6Ewz7T3hb8y1Ie9I85T1C7EULydnkXhPUjT3X9FN8G0OKj80ZYYjNitdAwqUkXmTmycLear0UXfMuU3FQ2yXbqTYpbtf0vjMADwq1+N+AHbfedNDS9kaqp90to6+FSJUv3astm/5aaKCEoriBjtApDWeCuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QNhHx0Xq; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e4266673bbso50788055ad.2
+        for <linux-input@vger.kernel.org>; Wed, 17 Apr 2024 10:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713373816; x=1713978616; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUzDJY7t9H7U+uIUYVqmIVsezT70evHGuhSl2xA7NDc=;
+        b=QNhHx0XqzfVjZGdzlMCDPQjopN0MGC2KLPWqURrUWR4CRW2JLLLDgpxmznzGbJQydm
+         QE6eL/fxw7jh/4q8Y9vU9YeF3CvK3ZoO4zA+G6/rLYR6vsx4dyOPgd+gQuoO4GMiRNds
+         TTwB2oSbCU2yPs0R2u13yzLhtMyoCP4/l2FRMbLFSkaT5tHvRmIK0h+jrg5B4fnIbYFJ
+         rf5O5jqa8tQGOE34ZAPzTdHr/TyQdL1bFGgSMsKTX2OIPV2qc5BKveI9L6Ax7hyv9wFt
+         ws6wjX8qs4OoIPqGDKoITGmqaLFPG5PVd3XQ4mYg4q/Wz//tx5niAhNe1PMERiJ+g3aF
+         xBKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713373816; x=1713978616;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FUzDJY7t9H7U+uIUYVqmIVsezT70evHGuhSl2xA7NDc=;
+        b=CQ13r6QNgW6XQX/OI0D7qaMWFgMrr7F8rTz+Fb7A7BAVJ4E+PghBq5/fDC4SqEHpD6
+         B8A/GitoBT1ChTMa67PeeG+6dtQbYzqkdDC8HHSnF5OxivWm3E0O5N4vr2RGUqPrUm81
+         NiPwub5j7Rr2x6H3CD3LRrMmhGJHFriLFIrATZxLSkBaIqYXvFVo3qJB1EVC0JvY4z9y
+         Pf08Ii3I8YLSHyimpDIfvJdK16oZ8F/Xgj83znbs1HIqaj7+tGHx3u6o6sDU6m/uyGin
+         lpGRbtJOd4PghfIdeUSpOUEDWirfih1eJ8xGMUhBItm93JBtKmLatxHwRPJreLCAhWym
+         d0ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUnj+SK/3SBa+oY6SdnBW7kiVrmJqRTlAxZKU8n2EMEpzteRT4yZ8aa3DlYcbmB2Xpe6+yk7ub7seN5lF1f1zKfxbmOqCndH9oCIb4=
+X-Gm-Message-State: AOJu0YwpKIK+SGDc1p539+meW/9iiWhoD97c/oJI30pvB6c5lbdlwerR
+	Gr6q3cdd278kEDFqhiBO2NK5EaVfsACBYoFHs/LhE6qR6pYunnlHY6OMl6mr2tw=
+X-Google-Smtp-Source: AGHT+IH5PV2K/cfOZAuGQxOdypxVU3UbAHnIhIC9mRywjS+TQPh9qv3pbXlB2e33qDT/TIHIqPM7cw==
+X-Received: by 2002:a17:902:f7d5:b0:1dd:bf6a:2b97 with SMTP id h21-20020a170902f7d500b001ddbf6a2b97mr62194plw.60.1713373816426;
+        Wed, 17 Apr 2024 10:10:16 -0700 (PDT)
+Received: from [10.36.51.174] ([24.75.208.151])
+        by smtp.gmail.com with ESMTPSA id b11-20020a170902650b00b001e509d4d6ddsm12046145plk.1.2024.04.17.10.10.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 10:10:15 -0700 (PDT)
+Message-ID: <294f9048-9756-4d8d-b770-ebaaa4023c54@linaro.org>
+Date: Wed, 17 Apr 2024 19:10:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/19] amba: store owner from modules with
+ amba_driver_register()
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Michal Simek <michal.simek@amd.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-i2c@vger.kernel.org,
+ linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-input@vger.kernel.org, kvm@vger.kernel.org
+References: <20240326-module-owner-amba-v1-0-4517b091385b@linaro.org>
+ <171182151736.34189.6433134738765363803.b4-ty@linaro.org>
+ <cfa5aa01-44ef-4eb1-9ca6-541ed5908db4@linaro.org>
+ <8a8a8e8b-8256-4d33-a39b-9e3cbc4ccff2@arm.com>
+ <4e762eb1-864e-4bb5-ab5d-debeac19c8fa@linaro.org>
+ <Zh/Tmarryr4TzHIA@shell.armlinux.org.uk>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <Zh/Tmarryr4TzHIA@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 15. Apr 2024, Vicki Pfau wrote:
-> Hi,
->
-> On 4/12/24 4:42 AM, Jiri Kosina wrote:
->> On Sun, 7 Apr 2024, Max Maisel wrote:
->> 
->>> The Deck's controller features an accelerometer and gyroscope which
->>> send their measurement values by default in the main HID input report.
->>> Expose both sensors to userspace through a separate evdev node as it
->>> is done by the hid-nintendo and hid-playstation drivers.
+On 17/04/2024 15:50, Russell King (Oracle) wrote:
+> On Wed, Apr 17, 2024 at 03:29:26PM +0200, Krzysztof Kozlowski wrote:
+>> On 16/04/2024 12:41, Suzuki K Poulose wrote:
+>>> + Greg
 >>>
->>> Signed-off-by: Max Maisel <mmm-1@posteo.net>
->> 
->> CCing Rodrigo and Vicki ... could you please take a look and Ack the patch 
->> below from Max?
->> 
->> Thanks.
->> 
->>> ---
 >>>
->>> This patch was tested on a Steam Deck running Arch Linux. With it,
->>> applications using latest SDL2/3 git libraries will pick up the sensors
->>> without hidraw access. This was tested against the antimicrox gamepad mapper.
+>>> Hi Krzysztof,
 >>>
->>> Measurement value scaling was tested by moving the deck and a dualsense
->>> controller simultaneously and comparing their reported values in
->>> userspace with SDL3's testcontroller tool.
+>>> On 30/03/2024 18:00, Krzysztof Kozlowski wrote:
+>>>> On 30/03/2024 18:58, Krzysztof Kozlowski wrote:
+>>>>>
+>>>>> On Tue, 26 Mar 2024 21:23:30 +0100, Krzysztof Kozlowski wrote:
+>>>>>> Merging
+>>>>>> =======
+>>>>>> All further patches depend on the first amba patch, therefore please ack
+>>>>>> and this should go via one tree.
+>>>>>>
+>>>>>> Description
+>>>>>> ===========
+>>>>>> Modules registering driver with amba_driver_register() often forget to
+>>>>>> set .owner field.
+>>>>>>
+>>>>>> [...]
+>>>>>
+>>>>> Applied, thanks!
+>>>>>
+>>>>> [01/19] amba: store owner from modules with amba_driver_register()
+>>>>>          (no commit info)
+>>>>
+>>>> Patchset applied here:
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git/log/?h=for-v6.10/module-owner-amba
 >>>
->>>  drivers/hid/hid-steam.c | 158 ++++++++++++++++++++++++++++++++++++++--
->>>  1 file changed, 150 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
->>> index b08a5ab58528..af6e6c3b1356 100644
->>> --- a/drivers/hid/hid-steam.c
->>> +++ b/drivers/hid/hid-steam.c
->>> @@ -66,6 +66,12 @@ static LIST_HEAD(steam_devices);
->>>  #define STEAM_DECK_TRIGGER_RESOLUTION 5461
->>>  /* Joystick runs are about 5 mm and 32768 units */
->>>  #define STEAM_DECK_JOYSTICK_RESOLUTION 6553
->>> +/* Accelerometer has 16 bit resolution and a range of +/- 2g */
->>> +#define STEAM_DECK_ACCEL_RES_PER_G 16384
->>> +#define STEAM_DECK_ACCEL_RANGE 32768
->>> +/* Gyroscope has 16 bit resolution and a range of +/- 2000 dps */
->>> +#define STEAM_DECK_GYRO_RES_PER_DPS 16
->>> +#define STEAM_DECK_GYRO_RANGE 32000
->
-> This value looks strange. How do you know it's not supposed to be 32768?
+>>> How do you plan to push this ? Given this affects most of the drivers/, 
+>>> do you plan to send this to Greg ? We have changes in the coresight
+>>> tree that would conflict with this "tag" ( I haven't merged them yet, 
+>>> but is in my local queue). I want to make sure we can avoid the
+>>> conflicts. I am happy to merge this to my local tree and base the
+>>> changes on this, if this is going in for v6.10 and all are in agreement.
+>>
+>> I pushed it to arm-linux patches but it hasn't been picked up.
+>>
+>> I propose you take entire set then.
+> 
+> You are again being, IMHO, abrasive with your attitude. So far, every
+> interaction with you has been abrasive and bordering on abusive.
+> 
+> You haven't asked me whether I will take them. I will - just not at the
+> moment because 
 
-The "input-programming" documentation mentioned that the device must be able to
-reach its min and max values so I subtracted a little bit from the 32768.
-But with this in mind, the accelerometer max value looks wrong.
+Thanks for confirming, I wanted to ping you because there was no feedback.
 
-If you agree, I would change it to 32768 since the playstation and nintendo
-IMU drivers use powers of two derived maximum values as well.
+Can you provide stable tag for coresight tree?
 
->>>  
->>>  #define STEAM_PAD_FUZZ 256
->>>  
->>> @@ -288,6 +294,7 @@ struct steam_device {
->>>  	struct mutex report_mutex;
->>>  	unsigned long client_opened;
->>>  	struct input_dev __rcu *input;
->>> +	struct input_dev __rcu *sensors;
->>>  	unsigned long quirks;
->>>  	struct work_struct work_connect;
->>>  	bool connected;
->>> @@ -302,6 +309,7 @@ struct steam_device {
->>>  	struct work_struct rumble_work;
->>>  	u16 rumble_left;
->>>  	u16 rumble_right;
->>> +	unsigned int sensor_timestamp_us;
->>>  };
->>>  
->>>  static int steam_recv_report(struct steam_device *steam,
->>> @@ -825,6 +833,74 @@ static int steam_input_register(struct steam_device *steam)
->>>  	return ret;
->>>  }
->>>  
->>> +static int steam_sensors_register(struct steam_device *steam)
->>> +{
->>> +	struct hid_device *hdev = steam->hdev;
->>> +	struct input_dev *sensors;
->>> +	int ret;
->>> +
->>> +	if (!(steam->quirks & STEAM_QUIRK_DECK))
->>> +		return 0;
->>> +
->>> +	rcu_read_lock();
->>> +	sensors = rcu_dereference(steam->sensors);
->>> +	rcu_read_unlock();
->>> +	if (sensors) {
->>> +		dbg_hid("%s: already connected\n", __func__);
->>> +		return 0;
->>> +	}
->>> +
->>> +	sensors = input_allocate_device();
->>> +	if (!sensors)
->>> +		return -ENOMEM;
->>> +
->>> +	input_set_drvdata(sensors, steam);
->>> +	sensors->dev.parent = &hdev->dev;
->>> +
->>> +	sensors->name = "Steam Deck Motion Sensors";
->>> +	sensors->phys = hdev->phys;
->>> +	sensors->uniq = steam->serial_no;
->>> +	sensors->id.bustype = hdev->bus;
->>> +	sensors->id.vendor = hdev->vendor;
->>> +	sensors->id.product = hdev->product;
->>> +	sensors->id.version = hdev->version;
->>> +
->>> +	__set_bit(INPUT_PROP_ACCELEROMETER, sensors->propbit);
->>> +	__set_bit(EV_MSC, sensors->evbit);
->>> +	__set_bit(MSC_TIMESTAMP, sensors->mscbit);
->>> +
->>> +	input_set_abs_params(sensors, ABS_X, -STEAM_DECK_ACCEL_RANGE,
->>> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->>> +	input_set_abs_params(sensors, ABS_Y, -STEAM_DECK_ACCEL_RANGE,
->>> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->>> +	input_set_abs_params(sensors, ABS_Z, -STEAM_DECK_ACCEL_RANGE,
->>> +			STEAM_DECK_ACCEL_RANGE, 16, 0);
->>> +	input_abs_set_res(sensors, ABS_X, STEAM_DECK_ACCEL_RES_PER_G);
->>> +	input_abs_set_res(sensors, ABS_Y, STEAM_DECK_ACCEL_RES_PER_G);
->>> +	input_abs_set_res(sensors, ABS_Z, STEAM_DECK_ACCEL_RES_PER_G);
->>> +
->>> +	input_set_abs_params(sensors, ABS_RX, -STEAM_DECK_GYRO_RANGE,
->>> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->>> +	input_set_abs_params(sensors, ABS_RY, -STEAM_DECK_GYRO_RANGE,
->>> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->>> +	input_set_abs_params(sensors, ABS_RZ, -STEAM_DECK_GYRO_RANGE,
->>> +			STEAM_DECK_GYRO_RANGE, 16, 0);
->>> +	input_abs_set_res(sensors, ABS_RX, STEAM_DECK_GYRO_RES_PER_DPS);
->>> +	input_abs_set_res(sensors, ABS_RY, STEAM_DECK_GYRO_RES_PER_DPS);
->>> +	input_abs_set_res(sensors, ABS_RZ, STEAM_DECK_GYRO_RES_PER_DPS);
->
-> I seem to recall hearing that this data is not calibrated coming off of the device, and the actual calibration data is in Steam somewhere, but I'm not sure which data this applies to. The gravitation acceleration looked fine when testing, but I didn't have a dualsense handy to test the gyro with. Have you tested this on more than one device?
+Best regards,
+Krzysztof
 
-I tested it with a single Steam Deck and Dualsense controller and compared
-the rotation values by eye in SDL's testcontroller tool while holding the
-Deck and Dualsense in both hands. In this test the rotation data matched
-well if compared by eye.
-
-I repeated the test with a makeshift rotational plate and data-logging
-and got an average absolute angular velocity of about 49 degree per second
-for the Dualsense controller and 51 degree per second for the Steam Deck.
-Hence, I think the values and their scaling are fine.
-
-I'll remove my comment above about factory calibration in the next
-patchset.
-
->
->>> +
->>> +	ret = input_register_device(sensors);
->>> +	if (ret)
->>> +		goto sensors_register_fail;
->>> +
->>> +	rcu_assign_pointer(steam->sensors, sensors);
->>> +	return 0;
->>> +
->>> +sensors_register_fail:
->>> +	input_free_device(sensors);
->>> +	return ret;
->>> +}
->>> +
->>>  static void steam_input_unregister(struct steam_device *steam)
->>>  {
->>>  	struct input_dev *input;
->>> @@ -838,6 +914,24 @@ static void steam_input_unregister(struct steam_device *steam)
->>>  	input_unregister_device(input);
->>>  }
->>>  
->>> +static void steam_sensors_unregister(struct steam_device *steam)
->>> +{
->>> +	struct input_dev *sensors;
->>> +
->>> +	if (!(steam->quirks & STEAM_QUIRK_DECK))
->>> +		return;
->>> +
->>> +	rcu_read_lock();
->>> +	sensors = rcu_dereference(steam->sensors);
->>> +	rcu_read_unlock();
->>> +
->>> +	if (!sensors)
->>> +		return;
->>> +	RCU_INIT_POINTER(steam->sensors, NULL);
->>> +	synchronize_rcu();
->>> +	input_unregister_device(sensors);
->>> +}
->>> +
->>>  static void steam_battery_unregister(struct steam_device *steam)
->>>  {
->>>  	struct power_supply *battery;
->>> @@ -890,18 +984,28 @@ static int steam_register(struct steam_device *steam)
->>>  	spin_lock_irqsave(&steam->lock, flags);
->>>  	client_opened = steam->client_opened;
->>>  	spin_unlock_irqrestore(&steam->lock, flags);
->>> +
->>>  	if (!client_opened) {
->>>  		steam_set_lizard_mode(steam, lizard_mode);
->>>  		ret = steam_input_register(steam);
->>> -	} else
->>> -		ret = 0;
->>> +		if (ret != 0)
->>> +			goto steam_register_input_fail;
->>> +		ret = steam_sensors_register(steam);
->>> +		if (ret != 0)
->>> +			goto steam_register_sensors_fail;
->>> +	}
->>> +	return 0;
->>>  
->>> +steam_register_sensors_fail:
->>> +	steam_input_unregister(steam);
->>> +steam_register_input_fail:
->>>  	return ret;
->>>  }
->>>  
->>>  static void steam_unregister(struct steam_device *steam)
->>>  {
->>>  	steam_battery_unregister(steam);
->>> +	steam_sensors_unregister(steam);
->>>  	steam_input_unregister(steam);
->>>  	if (steam->serial_no[0]) {
->>>  		hid_info(steam->hdev, "Steam Controller '%s' disconnected",
->>> @@ -1010,6 +1114,7 @@ static int steam_client_ll_open(struct hid_device *hdev)
->>>  	steam->client_opened++;
->>>  	spin_unlock_irqrestore(&steam->lock, flags);
->>>  
->>> +	steam_sensors_unregister(steam);
->>>  	steam_input_unregister(steam);
->>>  
->>>  	return 0;
->>> @@ -1030,6 +1135,7 @@ static void steam_client_ll_close(struct hid_device *hdev)
->>>  	if (connected) {
->>>  		steam_set_lizard_mode(steam, lizard_mode);
->>>  		steam_input_register(steam);
->>> +		steam_sensors_register(steam);
->>>  	}
->>>  }
->>>  
->>> @@ -1121,6 +1227,7 @@ static int steam_probe(struct hid_device *hdev,
->>>  	INIT_DELAYED_WORK(&steam->mode_switch, steam_mode_switch_cb);
->>>  	INIT_LIST_HEAD(&steam->list);
->>>  	INIT_WORK(&steam->rumble_work, steam_haptic_rumble_cb);
->>> +	steam->sensor_timestamp_us = 0;
->>>  
->>>  	/*
->>>  	 * With the real steam controller interface, do not connect hidraw.
->>> @@ -1380,12 +1487,12 @@ static void steam_do_input_event(struct steam_device *steam,
->>>   *  18-19 | s16   | ABS_HAT0Y | left-pad Y value
->>>   *  20-21 | s16   | ABS_HAT1X | right-pad X value
->>>   *  22-23 | s16   | ABS_HAT1Y | right-pad Y value
->>> - *  24-25 | s16   | --        | accelerometer X value
->>> - *  26-27 | s16   | --        | accelerometer Y value
->>> - *  28-29 | s16   | --        | accelerometer Z value
->>> - *  30-31 | s16   | --        | gyro X value
->>> - *  32-33 | s16   | --        | gyro Y value
->>> - *  34-35 | s16   | --        | gyro Z value
->>> + *  24-25 | s16   | IMU ABS_X | accelerometer X value
->>> + *  26-27 | s16   | IMU ABS_Z | accelerometer Y value
->>> + *  28-29 | s16   | IMU ABS_Y | accelerometer Z value
->>> + *  30-31 | s16   | IMU ABS_RX | gyro X value
->>> + *  32-33 | s16   | IMU ABS_RZ | gyro Y value
->>> + *  34-35 | s16   | IMU ABS_RY | gyro Z value
->>>   *  36-37 | s16   | --        | quaternion W value
->>>   *  38-39 | s16   | --        | quaternion X value
->>>   *  40-41 | s16   | --        | quaternion Y value
->>> @@ -1546,6 +1653,32 @@ static void steam_do_deck_input_event(struct steam_device *steam,
->>>  	input_sync(input);
->>>  }
->>>  
->>> +static void steam_do_deck_sensors_event(struct steam_device *steam,
->>> +		struct input_dev *sensors, u8 *data)
->>> +{
->>> +	/*
->>> +	 * The deck input report is received every 4 ms on average,
->>> +	 * with a jitter of +/- 4 ms even though the USB descriptor claims
->>> +	 * that it uses 1 kHz.
->>> +	 * Since the HID report does not include a sensor timestamp,
->>> +	 * use a fixed increment here.
->>> +	 *
->>> +	 * The reported sensors data is factory calibrated by default so
->>> +	 * no extra logic for handling calibratrion is necessary.
->>> +	 */
->>> +	steam->sensor_timestamp_us += 4000;
->>> +	input_event(sensors, EV_MSC, MSC_TIMESTAMP, steam->sensor_timestamp_us);
->>> +
->>> +	input_report_abs(sensors, ABS_X, steam_le16(data + 24));
->>> +	input_report_abs(sensors, ABS_Z, -steam_le16(data + 26));
->>> +	input_report_abs(sensors, ABS_Y, steam_le16(data + 28));
->>> +	input_report_abs(sensors, ABS_RX, steam_le16(data + 30));
->>> +	input_report_abs(sensors, ABS_RZ, -steam_le16(data + 32));
->>> +	input_report_abs(sensors, ABS_RY, steam_le16(data + 34));
->>> +
->>> +	input_sync(sensors);
->>> +}
->>> +
->>>  /*
->>>   * The size for this message payload is 11.
->>>   * The known values are:
->>> @@ -1583,6 +1716,7 @@ static int steam_raw_event(struct hid_device *hdev,
->>>  {
->>>  	struct steam_device *steam = hid_get_drvdata(hdev);
->>>  	struct input_dev *input;
->>> +	struct input_dev *sensors;
->>>  	struct power_supply *battery;
->>>  
->>>  	if (!steam)
->>> @@ -1629,6 +1763,14 @@ static int steam_raw_event(struct hid_device *hdev,
->>>  		if (likely(input))
->>>  			steam_do_deck_input_event(steam, input, data);
->>>  		rcu_read_unlock();
->>> +
->>> +		if (steam->quirks & STEAM_QUIRK_DECK) {
->
-> This report ID is only sent on the Steam Deck. Checking the quirk here is unnecessary, especially since it'll just be null and fail out if something weird happens and we get this report on a non-Deck device.
-
-You're right, I'll change it.
-
->
->>> +			rcu_read_lock();
->>> +			sensors = rcu_dereference(steam->sensors);
->>> +			if (likely(sensors))
->>> +				steam_do_deck_sensors_event(steam, sensors, data);
->>> +			rcu_read_unlock();
->>> +		}
->>>  		break;
->>>  	case ID_CONTROLLER_WIRELESS:
->>>  		/*
->>>
->>> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
->>> -- 
->>> 2.44.0
->>>
->> 
->
-> Implementation looks mostly fine. However, I had some discussion with people at Valve about this who said they'd like the IMU to be silenced when gamepad mode is disabled the same way the gamepad data is.
->
-> Vicki
-
-I'll add a check for gamepad_mode to the sensors event.
-
-Thank you for your feedback.
-
-Max
 
