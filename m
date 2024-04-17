@@ -1,91 +1,92 @@
-Return-Path: <linux-input+bounces-3104-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3105-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25F08A7F38
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 11:06:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7A58A81C7
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 13:12:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5ECA1C21D4C
-	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 09:06:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E00A1C21E1C
+	for <lists+linux-input@lfdr.de>; Wed, 17 Apr 2024 11:12:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B420313A87C;
-	Wed, 17 Apr 2024 09:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 110C513C834;
+	Wed, 17 Apr 2024 11:12:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7ZDe6vE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mf5vo22U"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5338112BF30;
-	Wed, 17 Apr 2024 09:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E7813C80B;
+	Wed, 17 Apr 2024 11:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713344760; cv=none; b=M+iksfIqNwtoq7eJyBLCkZeQpEiUNxW+deX1Ksg9CcatP1NCiLEBjBOJ7M7mCey9hotjvzuI1T8d+8v21kYMzA3xQf7XPQlUxjkkXTzQn2wkKi8TbwG7YlRxz+9vdxssiyVcRme2x9fild8uOEs8bo8ycw2DJomm643ujyR04o4=
+	t=1713352369; cv=none; b=DSHxx2+Azolzh2TUSDJ8IwHPCDguE3A471LC3btp0H06ShnjFdudrxDNVvMAstgj7tNOfGIYc6E27opwt+Ibaspv4yRygpKfXnKvhKC4yA5RzO8QTRCu5N2qD37zWF/ZHTyOxgb/b1rU37X31VzMFbc4HQu7KQULQjvNdx6F5As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713344760; c=relaxed/simple;
-	bh=taU1a+PvqEj7zU9d98qqcwVmANraBiwZLPOEA43082Y=;
+	s=arc-20240116; t=1713352369; c=relaxed/simple;
+	bh=w7BHAEPiiQBc4yWKlXf5U4hFIr0GRkCDbTurNwZBGIk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lYJvViRUTnyLhv0nGjtXICvPTl2CE2AQmpbK4iPpEEaMDmLNjNUp1RA9OIP5OfmK2NDYadKpm97aKerYa9TZOQooKDmgAlzrKSbxgEYCLFGPL/Y6mlXjvM5KSHMpkMDhbE007bKVTjQxlUOXSo4vN2DRa7XQgMuuWLs4+EPKBto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7ZDe6vE; arc=none smtp.client-ip=209.85.167.44
+	 MIME-Version; b=uzahjZD5D6hA89A5CkgoCoaFyaJ0kWOUrAwEKdFQfAFTUsYO5K6IK0pBspq3+JlUS05RPnNdOZw2eYn1Shn6z9K133+I6I94MDX7RXoMiJJT9EgI1nQuohUB6gZDySoESzR5DVy7z5sE8rF9i3m8Ku5LxHz8M7w7verEG8skNNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mf5vo22U; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5176f217b7bso9476367e87.0;
-        Wed, 17 Apr 2024 02:05:54 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e83a2a4f2cso1456795ad.1;
+        Wed, 17 Apr 2024 04:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713344752; x=1713949552; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713352367; x=1713957167; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RapgrZErc/ITlKzcSUQIzooYAlK8fdOO3y65E56afes=;
-        b=N7ZDe6vE8un0C8X62FoeBZI0xVDVATzMKqoMXeeT2/GQH7UfiBetpDC/Sw4Tr+E7gT
-         1vDPprmet9IBSxqRzPD2IEYoBGvc34FGk0LTdUK1AF1UvhHu4YZfn1AiNhw2kq/Sb+gM
-         KUtQVQWPZ+z0EnXZdK2mhJQSB4YjX+Vx+qW5Ps5w4I9ePAjsf0lIGShg772DFUs6G269
-         h0Wt96vDQKX3lOJ65PR/peaAjtyz4lkQ2GMOczioDN6eIly5YxqaiMTBpzaW8K5PIlyx
-         v/M7e8Z6u4z4Q0OKiOI/KkbbhqCeG2ajlCXdRF+Cl5qSBBrFfF5n5JaFdSK0Xg3k4o0H
-         CyQQ==
+        bh=znDMqSNrCUVVeJoSgBWusZB6f7cZkebLOeep7UaYw2I=;
+        b=mf5vo22UZMzJ5IaOYqrPYnABt5A2F08KexElEYkKcXrjz5PMU/3Hg0/SrRtRcFKp+P
+         TOPu7cQPIRWZTPNLxGyRHpqwOzp0X+OBFzS7vrOEPfaPPFowvd3On4Ww7xUsuXiqIJG8
+         bk3Bn07vJyTlDo/2vidmMw3F8Cai/FySQvLhlWgPOZR4/A5nELXkLu+An8Pg3J3sxJae
+         SPFtOApmyFo5oGYNYfVvVXk43xh8IvEwc1FYHXqJs4/GnQCT6UEpgMmHEFaFcJY2VeMe
+         KxPwMlVxuQ771Eh6CYx8PdfMwx0rZoffQYSsc/EzyX25v86wNSUltqdItkloqSmYeBEB
+         eg9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713344752; x=1713949552;
+        d=1e100.net; s=20230601; t=1713352367; x=1713957167;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RapgrZErc/ITlKzcSUQIzooYAlK8fdOO3y65E56afes=;
-        b=oKog8jW1dYWrneaFYApLk0eMLc5QL/uLAJJX9ysBHhM4KdoIN1mJoOszyTpFznJuU+
-         tSSLO3UUdq640U4uyHEpTnkT/p0kvBLgE5geX4jL+b+YlIoVDSsnzumVBuoH7IRuY2Ha
-         FEgbmEchiGd+WxqXZbGePlbeIBQ4NDt89AAcB2tgpjMpOSkktgwcxyIJ/WBevcPH5+yT
-         74Fi3pAmYkpuijyBA/yDv5DMMOGJsNVENzsjUqB/lMPN32iJ84Tkp6Gfs93YJaTA07Vn
-         D+Hn01x0f6pBTaXa44tnUo2IC+L8FY79Ylz/NMUoilHUSLxlrLveb1sVFgUwvm2N88F6
-         nJ9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWAHSQX4FAtlO5GnojlN+69Li/eXc0pVOycNeMvlhwsJMNM9qMmPkD75qdmhOGn6ChqmYWbjhwZsUIsyo4RM/3rxcTtjEbEK7OYe6iN2wClKfEFvvyyECzriOlqwE9laJ42TgwVAhNf/A==
-X-Gm-Message-State: AOJu0YypbUQ6CdZGLl0qezDficeUCgNrFqDt8wjicMxDTcG9O+7R6DM3
-	kQ3T8kUqgHyHgRTvT2xU25C/+X2oqf9ns33rmf6thqHy/xvZm1Ar
-X-Google-Smtp-Source: AGHT+IGb9+72n5V0xsJVA67N8YPnU7MziiZfTlYdiLX0d1cdd/KwyS2M0kpZ/IL4HChGoZxSrp+hmw==
-X-Received: by 2002:a19:6a07:0:b0:513:c61c:7331 with SMTP id u7-20020a196a07000000b00513c61c7331mr11302672lfu.3.1713344752318;
-        Wed, 17 Apr 2024 02:05:52 -0700 (PDT)
-Received: from eichest-laptop.corp.toradex.com (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b00a51a7832a7asm7897814ejb.199.2024.04.17.02.05.51
+        bh=znDMqSNrCUVVeJoSgBWusZB6f7cZkebLOeep7UaYw2I=;
+        b=tk5AZTaASsu+GTN6mry2btbvIIJJuSpynvlywSYQ11zP4gLXRDQMXMJvBfXgMBz7Et
+         Y7ri/EOD4bEsKjdPfIdXv3FDeefFTd5SbrYxO0gojpjhpGit4jjf0rPg/a/yYqDcqyJD
+         X+1DxuhfdfZnbN3CkospsQj7p8VyRXqKh/v9WZoSynmCN35UCgLeWWRRuO9nd0e4s6JD
+         A7mqCSNre66bQI1Gu+48hE24jrB74kpznVX19SGxpOg+9jIZN3uD+otIwoqE+p8g0G5K
+         r9nTKLJw4tjv5/hZYf0gx0Zoa88l8bn53TUt2uq25TcTCH6EUYZgICNpsEfgfLVpR6Qu
+         XMlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjfd3hgCyeP7ebMfJyWH7LEK8HL1I+fH/xL9Tqm4nG8btPkD1kwL411WYOJCPyxP7afeaxxg/f2Bi8OYYKYDl6NAIaehWXunRSFTj0pXt/NClEueBw9WRCFr40u6C7UD5HCGKzG1TMUVM77F68vQh4iH0kuvShkbnyYvvL8sZckEjf32eq
+X-Gm-Message-State: AOJu0YyllOlFfeMUmJcAw4sVEW6u9x8+3cbGdUXakq2zxqojFQ4O3OJ/
+	U6D8eednlh/5XTz2iea3JiAtdLabm/VHHl82xDwArUU39hOZ2ZjA
+X-Google-Smtp-Source: AGHT+IE+7jE5rMkww8GfZhXX3Gzr8kiwnkpgZAPJUZevYXgXkmWFi8vPndhOEbfcR3EN8xOak2wB8A==
+X-Received: by 2002:a17:902:d512:b0:1e4:3dd0:8ce0 with SMTP id b18-20020a170902d51200b001e43dd08ce0mr17745005plg.20.1713352366808;
+        Wed, 17 Apr 2024 04:12:46 -0700 (PDT)
+Received: from joaog-nb.corp.toradex.com ([201.82.41.210])
+        by smtp.gmail.com with ESMTPSA id ju14-20020a170903428e00b001e2bb03893dsm11302713plb.198.2024.04.17.04.12.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 02:05:51 -0700 (PDT)
-From: Stefan Eichenberger <eichest@gmail.com>
-To: nick@shmanahar.org,
-	dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com,
+        Wed, 17 Apr 2024 04:12:46 -0700 (PDT)
+From: Joao Paulo Goncalves <jpaulo.silvagoncalves@gmail.com>
+To: eichest@gmail.com
+Cc: alexandre.belloni@bootlin.com,
 	claudiu.beznea@tuxon.dev,
-	linus.walleij@linaro.org
-Cc: linux-input@vger.kernel.org,
+	conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	linus.walleij@linaro.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH v4 4/4] Input: atmel_mxt_ts - add support for poweroff-sleep
-Date: Wed, 17 Apr 2024 11:05:27 +0200
-Message-Id: <20240417090527.15357-5-eichest@gmail.com>
-X-Mailer: git-send-email 2.40.1
+	nick@shmanahar.org,
+	nicolas.ferre@microchip.com,
+	robh@kernel.org,
+	Joao Paulo Goncalves <joao.goncalves@toradex.com>
+Subject: RE: [PATCH v4 0/4] Add a property to turn off the max touch controller if not used 
+Date: Wed, 17 Apr 2024 08:12:30 -0300
+Message-Id: <20240417111230.785623-1-jpaulo.silvagoncalves@gmail.com>
+X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240417090527.15357-1-eichest@gmail.com>
 References: <20240417090527.15357-1-eichest@gmail.com>
 Precedence: bulk
@@ -96,172 +97,45 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> Our hardware has a shared regulator that powers various peripherals such
+> as the display, touch, USB hub, etc. Since the Maxtouch controller
+> doesn't currently allow it to be turned off, this regulator has to stay
+> on when not used. This increases the overall power consumption. In order
+> to turn off the controller when the system does not use it, this series
+> adds a device tree property to the maxtouch driver that allows the
+> controller to be turned off completely and ensurs that it can resume
+> from the power off state.
+>
+> Changes since v3:
+> - Move the power on part to mxt_start and the power off part to
+>   mxt_stop. This allows to turn the touch controller off even when not
+>   in use and not only when being suspended (Dmitry)
+>
+> Changes since v2:
+> - Add Reviewed-by tags from Linus and Krzysztof to the dt-bindings patch
+>
+> Changes since v1:
+> - Rename the property and change the description (Krzysztof, Linus,
+> Dmitry, Conor)
+>
+> Stefan Eichenberger (4):
+>   Input: atmel_mxt_ts - add power off and power on functions
+>   Input: atmel_mxt_ts - move calls to register the input device to
+>     separate function
+>   dt-bindings: input: atmel,maxtouch: add poweroff-sleep property
+>   Input: atmel_mxt_ts - add support for poweroff-sleep
+>
+>  .../bindings/input/atmel,maxtouch.yaml        |   6 +
+>  drivers/input/touchscreen/atmel_mxt_ts.c      | 162 +++++++++++++-----
+>  2 files changed, 124 insertions(+), 44 deletions(-)
+>
+> --
+> 2.40.1
+>
 
-Add support for poweroff-sleep to the Atmel maXTouch driver. This allows
-us to power off the input device entirely and only power it on when it
-is opened. This will also automatically power it off when we suspend the
-system.
+Reviewed-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
 
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 71 +++++++++++++++++++-----
- 1 file changed, 57 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 7c807d1f1f9b..f92808be3f5b 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -317,6 +317,7 @@ struct mxt_data {
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *wake_gpio;
- 	bool use_retrigen_workaround;
-+	bool poweroff_sleep;
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2277,6 +2278,19 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
- 	release_firmware(cfg);
- }
- 
-+static int mxt_initialize_after_resume(struct mxt_data *data)
-+{
-+	const struct firmware *fw;
-+
-+	mxt_acquire_irq(data);
-+
-+	firmware_request_nowarn(&fw, MXT_CFG_NAME, &data->client->dev);
-+
-+	mxt_config_cb(fw, data);
-+
-+	return 0;
-+}
-+
- static void mxt_debug_init(struct mxt_data *data);
- 
- static int mxt_device_register(struct mxt_data *data)
-@@ -2341,17 +2355,23 @@ static int mxt_initialize(struct mxt_data *data)
- 	if (error)
- 		return error;
- 
--	error = mxt_acquire_irq(data);
--	if (error)
--		return error;
-+	if (data->poweroff_sleep) {
-+		error = mxt_device_register(data);
-+		if (error)
-+			return error;
-+	} else {
-+		error = mxt_acquire_irq(data);
-+		if (error)
-+			return error;
- 
--	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
--					&client->dev, GFP_KERNEL, data,
--					mxt_config_cb);
--	if (error) {
--		dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
--			error);
--		return error;
-+		error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
-+						&client->dev, GFP_KERNEL, data,
-+						mxt_config_cb);
-+		if (error) {
-+			dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
-+				error);
-+			return error;
-+		}
- 	}
- 
- 	return 0;
-@@ -3089,6 +3109,9 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	struct mxt_data *data = dev_get_drvdata(dev);
- 	int error;
- 
-+	if (data->poweroff_sleep && !data->in_bootloader)
-+		mxt_power_on(data);
-+
- 	error = mxt_load_fw(dev, MXT_FW_NAME);
- 	if (error) {
- 		dev_err(dev, "The firmware update failed(%d)\n", error);
-@@ -3101,6 +3124,9 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 			return error;
- 	}
- 
-+	if (data->poweroff_sleep && !data->in_bootloader)
-+		mxt_power_off(data);
-+
- 	return count;
- }
- 
-@@ -3123,7 +3149,12 @@ static const struct attribute_group mxt_attr_group = {
- 
- static void mxt_start(struct mxt_data *data)
- {
--	mxt_wakeup_toggle(data->client, true, false);
-+	if (data->poweroff_sleep) {
-+		mxt_power_on(data);
-+		mxt_initialize_after_resume(data);
-+	} else {
-+		mxt_wakeup_toggle(data->client, true, false);
-+	}
- 
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
-@@ -3160,7 +3191,12 @@ static void mxt_stop(struct mxt_data *data)
- 		break;
- 	}
- 
--	mxt_wakeup_toggle(data->client, false, false);
-+	if (data->poweroff_sleep) {
-+		disable_irq(data->irq);
-+		mxt_power_off(data);
-+	} else {
-+		mxt_wakeup_toggle(data->client, false, false);
-+	}
- }
- 
- static int mxt_input_open(struct input_dev *dev)
-@@ -3357,6 +3393,8 @@ static int mxt_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
-+	data->poweroff_sleep = device_property_read_bool(&client->dev,
-+							 "atmel,poweroff-sleep");
- 	/*
- 	 * Controllers like mXT1386 have a dedicated WAKE line that could be
- 	 * connected to a GPIO or to I2C SCL pin, or permanently asserted low.
-@@ -3387,6 +3425,9 @@ static int mxt_probe(struct i2c_client *client)
- 		goto err_free_object;
- 	}
- 
-+	if (data->poweroff_sleep && !data->in_bootloader)
-+		mxt_power_off(data);
-+
- 	return 0;
- 
- err_free_object:
-@@ -3406,7 +3447,8 @@ static void mxt_remove(struct i2c_client *client)
- 	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
--	mxt_power_off(data);
-+	if (!data->poweroff_sleep)
-+		mxt_power_off(data);
- }
- 
- static int mxt_suspend(struct device *dev)
-@@ -3439,7 +3481,8 @@ static int mxt_resume(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
--	enable_irq(data->irq);
-+	if (!data->poweroff_sleep)
-+		enable_irq(data->irq);
- 
- 	mutex_lock(&input_dev->mutex);
- 
--- 
-2.40.1
+Regards,
+Joao Paulo
 
 
