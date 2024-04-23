@@ -1,106 +1,127 @@
-Return-Path: <linux-input+bounces-3182-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3183-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46418AE1E2
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 12:15:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AD58AE41B
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 13:34:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2171BB210E1
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 10:15:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2547AB231B9
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 11:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE34604B3;
-	Tue, 23 Apr 2024 10:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E09B212F59E;
+	Tue, 23 Apr 2024 11:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C+acaH4q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF2825FB9B;
-	Tue, 23 Apr 2024 10:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399B784FB9
+	for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 11:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713867310; cv=none; b=sMQudguwiEGyiva0/+hE+KRIIieZmB6klaLdLTj3BKMddTayDrqK/tu/0o0gYlJ+HsIL6PH4VHSM3LzUoeuX07Xdtm1FlWbgCLIrj+9UgPry5IXUcxCNwkW8Ii8xEkspuoDKjsRYYqMEVyQoqmuUtTFmuK2qMzKsNgdnJXQnqA4=
+	t=1713871955; cv=none; b=mI9QWV59vqTP43havaKZxBwCYBiPMrx2Q6nfZr5KsitGIQHVV3MCEhK6XUUdxN5NbW8LNwkQbVbsASUzTtmEOtmDaUpxaQzCyTNRv7MJFjGxFGaZDIVua9w0lTaQkfTyXWHVOy5NXkEfskDEGkL/8azE35WsAVVXiTEmcNKnjzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713867310; c=relaxed/simple;
-	bh=Osr6rU3wttnnnQU9hjmDIEE+AedreEYJr8U4hs8XXDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XAORL+sGaHNJzTS0fIAPDkpK8QY0E/TygEj8VBiOIRapOLw1yhWZW9g1+IDsOhPC8THHT8TgzsjCrTQVY0z+WmtQ3aiR7yOuq+lKLwa4m7hPAgBJiKIxnMyp8S5lTyKmun+KdDSjYKgcvCVdWa0oVlktBmgexbLDRZE62RYWfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4150C339;
-	Tue, 23 Apr 2024 03:15:35 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98CD73F7BD;
-	Tue, 23 Apr 2024 03:15:05 -0700 (PDT)
-Date: Tue, 23 Apr 2024 11:15:02 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, James
- McGregor <jamcgregor@protonmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
- compatible
-Message-ID: <20240423111502.6e068887@donnerap.manchester.arm.com>
-In-Reply-To: <20240422164511.2488261-2-andre.przywara@arm.com>
-References: <20240422164511.2488261-1-andre.przywara@arm.com>
-	<20240422164511.2488261-2-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713871955; c=relaxed/simple;
+	bh=LdqZ/QWiaje++MLzUHTivAf9HQkerMZ5MNR1lT49cmw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tIwZ3Zr2xygdehVQNVsLc1AuoYSCP86zYR2dxId90gTaDLeczUcTm9IQN+RykN2x2Kcw4GySlJP2ciR1NOlWLzLEXQ5RC+io1zr3Oa6Wk5RCq5xejWOugUhMREtJWaeWSWJ394n1xKxK7LRtKO2U7UDgO85IB1ZKp+XwD0licRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C+acaH4q; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2da0f8f7b24so62417341fa.1
+        for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 04:32:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713871952; x=1714476752; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LdqZ/QWiaje++MLzUHTivAf9HQkerMZ5MNR1lT49cmw=;
+        b=C+acaH4qOUg9jybSC5MkIbc7e61DfUWCN0Zw0vxjfWACydLYvx2MKkuzR9xtpJ4bHj
+         Ei5MZF4wb4tToYmDrOItQlvhltPeW5HxwhuzT53PFxGAW4q/rQdzDKFEaRjdKwM6SSGq
+         2lmHu+MDS8AyBW8TsMPmQbaUV/3XxXU5qmZFc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713871952; x=1714476752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LdqZ/QWiaje++MLzUHTivAf9HQkerMZ5MNR1lT49cmw=;
+        b=rDx3kMA9/HU0Aakw/3JPOdVG9lc1pJw1g6uV885LWC3v0p0vTg/KTkUInJAlElUdgU
+         EKGUelpYmwubN9ygL9njHDzb2qIzk19YDiHj2F4wrPP/A6Qg44buy/IRLNqZ8Rng7gaH
+         dyybyplHc1bT7rFxudOYGMa4jHQPX3+1thc8anuX3D7RZ2ufzoGB4M3dKgz3zrRQmeN5
+         lejAso253xV0xHy21G0HXwxH2SKB9Nhl7Wy81Ig5/pDSrYHXBrP5EzArXQsceFm4aF/c
+         kQ3HG3fxQrYq22fII091foj7CB8ySe42xxyEy6R7/XZOvTzAYVrTCl73C2f8Nl1GTOWw
+         hFMA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7i6Hqg/kBN6OvKoDRVnKImVJI/oaMYl8Coxv+gXlpgTBXg1Z1UHgHtIszA26iet/iParXb6J2cOHsFlHUBIu3wcM+ciT+5Wd6tg8=
+X-Gm-Message-State: AOJu0YwhZapbqSC4Rn9A1EGrT9hxvXkhftXPWvKufsSulchr8y9FqVal
+	9JknYXoEvr1OzNZOMmJwUh6B7tgNZBk9q8kz/71MGzJ4e8ydj7miARu1iHN2wsar3T+KcMfwVDW
+	5awoC427lllz47sCa4YzkK1P/oaqdfQXz+Kxz
+X-Google-Smtp-Source: AGHT+IERajGx70v108Wf4eXuvycl6t3zVenYntzqbYq+/h/p6VvcDPumtQl29D9vFRK+LBHfWe/oUq0ddGwNxAxPMyU=
+X-Received: by 2002:a2e:9cd7:0:b0:2dc:f188:9945 with SMTP id
+ g23-20020a2e9cd7000000b002dcf1889945mr702989ljj.25.1713871952428; Tue, 23 Apr
+ 2024 04:32:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com>
+ <81e1b870-37f9-4ef2-9a3d-87015f32546b@kl.wtf> <Zh0qKeI-YPDE-NVT@hovoldconsulting.com>
+ <535f3756-80d9-4599-bf73-a8785d18c399@kl.wtf>
+In-Reply-To: <535f3756-80d9-4599-bf73-a8785d18c399@kl.wtf>
+From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+Date: Tue, 23 Apr 2024 13:32:21 +0200
+Message-ID: <CAE5UKNqPA4SnnXyaB7Hwk0kcKMMQ_DUuxogDphnnvSGP8g1nAQ@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
+ power-up transition
+To: Kenny Levinsen <kl@kl.wtf>
+Cc: Johan Hovold <johan@kernel.org>, benjamin.tissoires@redhat.com, dianders@chromium.org, 
+	dtor@chromium.org, hdegoede@redhat.com, jikos@kernel.org, 
+	johan+linaro@kernel.org, kai.heng.feng@canonical.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, mripard@kernel.org, 
+	rad@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 22 Apr 2024 17:45:10 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+On Mon, Apr 15, 2024 at 7:14=E2=80=AFPM Kenny Levinsen <kl@kl.wtf> wrote:
+>
+> On 4/15/24 3:22 PM, Johan Hovold wrote:
+> > We also use it for devices that may not be populated (e.g. an optional
+> > touchscreen) and in that case we should not print anything.
+>
+> I sent a patch series[0] that shows how the same can be achieved
+> (gracefully handling missing device + retry to wake device) without any
+> smbus probes, following the existing retry style in i2c_hid_set_power().
+>
+> Radoslaw and Lukasz, it somehow felt rude to tag and blame you for code
+> you hadn't seen yet. If my patch ends up favored we should make sure to
+> have the appropriate attribution tags added...
+>
+> [0]: https://lore.kernel.org/all/20240415170517.18780-1-kl@kl.wtf/
+>
+Hi Kenny,
 
-Hi,
+Unfortunately, your fix doesn't help in our case as there is no sleep
+before the second call to
+i2c_hid_fetch_hid_descriptor().
 
-> From: James McGregor <jamcgregor@protonmail.com>
-> 
-> The Allwinner H616 SoC has an LRADC which is compatible with the
-> versions in existing SoCs.
-> Add a compatible string for H616, with the R329 fallback. This is the
-> same as the D1, so put them into an enum.
-> 
-> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Saying more, this STM exposes two i2c addresses (connected physically
+to the same bus)
+one is the HID interface and the other one gives an access to the base
+firmware and is
+served by cros_ec_i2c driver and actually thanks to this driver,
+touchpad is woken up because
+In the resume path cros_ec_i2c "starts talking" through the i2c bus
+thus generating a wakeup
+interrupt.
 
-Compared the descriptions in the manual between the R392 and the H616, they
-look the same:
+So we need to send a dummy (or any other) transaction that may fail to
+wake up the controller after
+a whole chromebook rebook and on the resume path.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> index c384bf0bb25d..8cb5820774e0 100644
-> --- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> +++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> @@ -22,7 +22,9 @@ properties:
->            - const: allwinner,sun8i-a83t-r-lradc
->        - const: allwinner,sun50i-r329-lradc
->        - items:
-> -          - const: allwinner,sun20i-d1-lradc
-> +          - enum:
-> +              - allwinner,sun50i-h616-lradc
-> +              - allwinner,sun20i-d1-lradc
->            - const: allwinner,sun50i-r329-lradc
->  
->    reg:
-
+Best regards,
+Lukasz
 
