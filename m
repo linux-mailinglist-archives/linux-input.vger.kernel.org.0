@@ -1,103 +1,146 @@
-Return-Path: <linux-input+bounces-3190-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3197-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724FE8AE742
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 15:02:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 995B58AE886
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 15:47:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABBCCB241A3
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 13:02:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5272728436E
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 13:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0410512FB0F;
-	Tue, 23 Apr 2024 13:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 262B4138489;
+	Tue, 23 Apr 2024 13:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="Wyv+irvR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1YofQiA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CFA76048;
-	Tue, 23 Apr 2024 13:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32831369BE;
+	Tue, 23 Apr 2024 13:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713877320; cv=none; b=fqABQjbbMBpDXf08k6AxckbkA1Hc3vpq8SKCq+i/GWHL/mhPaW7WviWWOWtqQbqfE/afbU/WKu4D5/M5tgJorgTsRrTPVlI2/2s6+PQsPXqYdeZMQwWpBMOCKGf/Fw6JKmXy9Fmr5SQ/NnxadVSRYi5aHSfWD9zioQAKr1ROdPM=
+	t=1713880012; cv=none; b=HS/KxlOTRJM5dimZLLfUebBvEKas7XGw8TyGfqgyA4VchHJlbHcuJekAgm3r1NpUGXE0IHzq/7ZP50kd3YDRe4V0eVIIPWBFmyjRbca1qhuvyCaOmDMSCiiwa3Ch4LX/1N8I9qNlIM4NTSGbBEw9+0r8o4rmKkpU47BQ/4cS1gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713877320; c=relaxed/simple;
-	bh=3OdiHaW3XfhNrYYNY1DDe5kYJ8SC6l+BMHyms2q7tnU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qv4lsIS/yXQsJM/vaZduPyzAFkERkgZurLT8ar+skGbOoqIXiSz3v5+DcI5CEmLzpKDF315/EGi02dPUUv0RSApWxsuDeF9cx6A50k/P4ayo0JxTVygYPW2IpWKNc2uRhpza016iDu8rHWjGZ/I085CkY/RtIGnBL5GcW/TquE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=Wyv+irvR; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
-Message-ID: <25f3ac4f-0c0d-4183-93f1-e7069579420b@kl.wtf>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1713877316;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpVOPDgVjeP7Gtlmu1PRLEP/ygT17A2RK4mO+N4cqNo=;
-	b=Wyv+irvR4ZYduylvRUwSHbWf4iMmQpftpA/uNh2NL1nVlyetSHpb0fS8lB/5gsl+LwYi1u
-	q06elO7BC16qV59p3Y5R9jRlTvhyPwmBzq/2Uhf3vJkFjXSCxhZmfrrpIOcdpQy0N5nH7/
-	sE0yR/UTrfdcXO+owPbhlLf3+DnyVjSjcpCDM5bgSvWaUbeiCh1jSuxPrlVkX7D72NnrPF
-	qD4V1MGcotN3Fn01E5F4+OxnR8ImoXPQT4UBh2BPog7yTtiktXjovWe+FfT/dv8UyVqTjR
-	V/0rGl7Nhb2BraGMV/mFLb2XU4Rs0ZdPEUFy6ZbGvFJP0UUFkFkda1UzvE9x7A==
-Date: Tue, 23 Apr 2024 15:01:50 +0200
+	s=arc-20240116; t=1713880012; c=relaxed/simple;
+	bh=Wm1xdrgosT91TDDq0rbWVizXhaR6E3LE+4BSaV+vb6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QQTbnA4t5zPcw16ck6Pjcl2IYaLfx7HV2laUlKcMKbJaSea3+UjH75So/YGCdxHVrWYdDmA/2XRkoQdTBsewPNaJY3brrwUbInraFT2y2KBUsUz5an1IwUPnrEyID3y5R7ykpXFmlhvjky0ylA3w/LhbN/IaDpDWbS99IwkD9fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1YofQiA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEE8C4AF07;
+	Tue, 23 Apr 2024 13:46:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713880012;
+	bh=Wm1xdrgosT91TDDq0rbWVizXhaR6E3LE+4BSaV+vb6A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=n1YofQiAQSaaW+Ph9p5+IdGwbdhbsdJuuaWlpJp0P8IxtxOY0UdutduFzvWdMvCpp
+	 EMXcZJ9rSO2IuqjeRgM8qKfvW7c46pPvQt+NlDKhXK3ibVtf9kQ6fphCXOvmgEaxDi
+	 LMrPMXgXjxLqIUqKnTjbjudUl2DOmqlh1ILzJu3lwMb85XaHgjfrGmvZFo7jbA68OM
+	 qdFFrekPyvUDj/Wu3EJEYWU9Q0v8PzZ1Sqi00kus+a3mXpxv0pnn82qLai0jw5PSEW
+	 eafiFqCxKX9hJqcDTq1NsGe6C6vzaxm3oraGlstudxGm0c+REiQNn/4/1S7Lywxrq6
+	 X9vqv5Eya3hVQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rzGTx-000000008Ke-405K;
+	Tue, 23 Apr 2024 15:46:50 +0200
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH 0/6] HID/arm64: dts: qcom: sc8280xp-x13s: fix touchscreen power on
+Date: Tue, 23 Apr 2024 15:46:05 +0200
+Message-ID: <20240423134611.31979-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] HID: i2c-hid: wait for i2c touchpad deep-sleep to
- power-up transition
-To: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Cc: Johan Hovold <johan@kernel.org>, benjamin.tissoires@redhat.com,
- dianders@chromium.org, dtor@chromium.org, hdegoede@redhat.com,
- jikos@kernel.org, johan+linaro@kernel.org, kai.heng.feng@canonical.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, rad@chromium.org
-References: <CAE5UKNqufWZfKLAXLcpBYKQpJEVt6jPD4Xtr=Nesh34VkNOETg@mail.gmail.com>
- <81e1b870-37f9-4ef2-9a3d-87015f32546b@kl.wtf>
- <Zh0qKeI-YPDE-NVT@hovoldconsulting.com>
- <535f3756-80d9-4599-bf73-a8785d18c399@kl.wtf>
- <CAE5UKNqPA4SnnXyaB7Hwk0kcKMMQ_DUuxogDphnnvSGP8g1nAQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kenny Levinsen <kl@kl.wtf>
-In-Reply-To: <CAE5UKNqPA4SnnXyaB7Hwk0kcKMMQ_DUuxogDphnnvSGP8g1nAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 4/23/24 1:32 PM, Łukasz Majczak wrote:
-> Unfortunately, your fix doesn't help in our case as there is no sleep
-> before the second call to
-> i2c_hid_fetch_hid_descriptor().
+The Elan eKTH5015M touch controller on the X13s requires a 300 ms delay
+before sending commands after having deasserted reset during power on.
 
-Yeah, I checked with a logic analyzer and only see ~50µs delay from the 
-I2C timeout, and 50 is according to my quick math less than the 400 you 
-mention is the requirement. That means that the current resume path also 
-lacked a sleep, as it tried power commands in immediate succession.
+This series switches the X13s devicetree to use the Elan specific
+binding so that the OS can determine the required power-on sequence and
+make sure that the controller is always detected during boot. [1]
 
-I have made a v2 with your sleeps added, and added you as Co-developed-by.
+The Elan hid-i2c driver currently asserts reset unconditionally during
+suspend, which does not work on the X13s where the touch controller
+supply is shared with other peripherals that may remain powered. Holding
+the controller in reset can increase power consumption and also leaks
+current through the reset circuitry pull ups.
 
-Link: https://lore.kernel.org/all/20240423122518.34811-1-kl@kl.wtf/
+Note that the latter also affects X13s variants where the touchscreen is
+not populated as the driver also exits probe() with reset asserted.
 
-> Saying more, this STM exposes two i2c addresses (connected physically
-> to the same bus)
-> one is the HID interface and the other one gives an access to the base
-> firmware and is
-> served by cros_ec_i2c driver and actually thanks to this driver,
-> touchpad is woken up because
-> In the resume path cros_ec_i2c "starts talking" through the i2c bus
-> thus generating a wakeup
-> interrupt.
+Fix this by adding a new 'no-reset-on-power-off' devicetree property
+which can be used by the OS to determine when reset needs to be asserted
+on power down and when it safe and desirable to leave it deasserted.
 
-Ah, that explains why you did not find an issue with the resume path. In 
-the patch-series I sent, the boot (hid descriptor fetch) and resume 
-(power on) wake-up paths are fully aligned so neither have to rely on 
-such "adjacent drivers" waking up the i2c-hid device.
+I tried to look for drivers that had already addressed this but it was
+only after I finished implementing this that I noticed Doug's reference
+to commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the reset line to
+true state of the regulator"), which tried to solve a related problem.
+
+That commit has since been reverted but ultimately resulted in commit
+7607f12ba735 ("HID: i2c-hid: goodix: Add support for
+"goodix,no-reset-during-suspend" property") being merged to handle the
+related case where the touch controller supply is always on.
+
+The implementation is very similar, but I decided to use the slightly
+more generic 'no-reset-on-power-off' property name after considering a
+number of alternatives (including trying to describe the hardware
+configuration in the name). (And as this is not vendor specific, I left
+out the prefix.)
+
+Note that my X13s does not have a touchscreen, but I have done partial
+verification of the implementation using that machine and the sc8280xp
+CRD reference design. Bjorn has promised to help out with final
+verification on an X13s with a touchscreen.
+
+The devicetree changes are expected to go in through the Qualcomm tree
+once the binding and driver updates have been merged.
+
+Johan
+
+
+[1] The reset signal is currently deasserted using the pin configuration
+    and the controller would be detected if probe is deferred or if user
+    space triggers a reprobe through sysfs.
+
+
+Johan Hovold (6):
+  dt-bindings: HID: i2c-hid: add dedicated Ilitek ILI2901 schema
+  dt-bindings: HID: i2c-hid: elan: add Elan eKTH5015M
+  dt-bindings: HID: i2c-hid: elan: add 'no-reset-on-power-off' property
+  HID: i2c-hid: elan: fix reset suspend current leakage
+  arm64: dts: qcom: sc8280xp-x13s: fix touchscreen power on
+  arm64: dts: qcom: sc8280xp-crd: use external pull up for touch reset
+
+ .../bindings/input/elan,ekth6915.yaml         | 20 ++++--
+ .../bindings/input/ilitek,ili2901.yaml        | 66 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sc8280xp-crd.dts     |  3 +-
+ .../qcom/sc8280xp-lenovo-thinkpad-x13s.dts    | 15 +++--
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c         | 37 ++++++++---
+ 5 files changed, 118 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2901.yaml
+
+-- 
+2.43.2
+
 
