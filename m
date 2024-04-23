@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-3202-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3203-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4E38AF3DF
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 18:24:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B00A18AF3F7
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 18:27:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5192828A3DD
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 16:24:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B9151F24AC6
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 16:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C2B13D512;
-	Tue, 23 Apr 2024 16:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE161411FF;
+	Tue, 23 Apr 2024 16:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QWwJv7b2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z25gk13B"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C634713DDD1
-	for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 16:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116C913D627
+	for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 16:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713889434; cv=none; b=ihmtWBhJGrfsjBOpK7o+TMC/PvIcevfWyFpa3RKeHPMS4/JUgNP8xxJleUtKhNEBAdHxHeOeNCJQVUctKfc58SirBCjORtd/+/m9jDPFSdBO9oxjO/bXGnnAbbls59n6S9RwFr5xbCVxPxAEy2ygBY4WwicHyyuaxna7BtZ4dfc=
+	t=1713889484; cv=none; b=bsf53XRoBd/fIx/iy0gYwwTp6YnlAEWTHdkTLkFkJ2XkT5OafN6dehP7Ay4lCMo/HIDr8S4xedL75iPaha95LYue2hdgfnNZnSvV/vLXnSW37yz2fgSOLasEm1HheDdu5YKpRvRVmpGQhuAa+y9Cs0ArAdAXsY2g97HxuWEcb7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713889434; c=relaxed/simple;
-	bh=7DGRS56GPjR9jN13G1hcYN8IQqXWrcF2dE7DU0ubnPc=;
+	s=arc-20240116; t=1713889484; c=relaxed/simple;
+	bh=nMKR1OXDh8uCh6abbAyeChszOoYX3SIBRNUDEpCnZJw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VwW7HAgeTL6gug/wSqC7jmTOCDjE4gIil00whOkVocW6qFluZHLU7ccYSgoHDqDUkZm44Tjrs4xo/NNB2yJmru24MKnSsgvRRHBToa+IqgTX+RdTfpN7YxFXK44ZAxc69bJQXLZxjIr+q1U0mTs9BT/LHKUXTfOrTNtTkL1KGx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QWwJv7b2; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:Content-Type; b=sngx2DwW8LaTIY1ybYgkwO9IZkQjpckr/wDCEq6cOB6B9bz/Af111MUS/D2rr5ilCDyISEgRnjFVDuuH1VQEpvRWsvbvAC5+qYF9Z9ugkOENieQzp6XPYm6M6G1wFMK5QOTg6q4CxKGwyKJLHfSijGebhcNbYdq2Bpclq3KO1z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z25gk13B; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-346f4266e59so4276625f8f.3
-        for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 09:23:52 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34782453ffdso5954352f8f.1
+        for <linux-input@vger.kernel.org>; Tue, 23 Apr 2024 09:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713889431; x=1714494231; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1713889481; x=1714494281; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=bJvOdPBXFk/bDuzeH+zHs6VNJH1qJlIWX1daArUf4O4=;
-        b=QWwJv7b2qwAtHWw/JdG9BxoKB8sidZL3Yadii+tK7jhzJwzWEurYyyt9Rg+vC5e9jh
-         H71idGbJwMI3nPgUmUP1TnrhaYXea/RpY0kFxY9SR/vm3kadHzED1DQCsfrrGNbhwpQ6
-         20y1voQA+P5GZ2pnf8D/rCDfJnAAOpythUkCZmxv+WodLbXaAVIoedHKsgCDFfjooW7P
-         CvIgFjgRTcpYAqpy9hRLE5rOVTlSVe5Up6T+yyNWjf0+XzLdplqv11xss1BO7MSMoROu
-         kG5HVHiZsazYk3+aTnMkKD4TtnL6Pa6/MLUu1jgGlia3AOPGkkc/xgEHL5lJKG7UadEj
-         u3xg==
+        bh=e5NYtG6T0phEhzR89Dwb5uY89BKZqhxFNHYzmhXBBjU=;
+        b=Z25gk13BycCubkW2aNc7YwFIO8vehFbvF6JEqADHnr3V0tUJxaWqWJUewOES0HcrIx
+         K4LnB+dbnjKFIlRTrL6OtefWxpLuOzDvUd7bAtbzPlgc/7ytYjI5cGfk4rN99j2JUiNn
+         Ujfk28O+DhdHOWFuYLFoHQE3Lp6RKFyJMzh4g25ytlD1yI7iLvDH7gQr9d7Alj8kbrli
+         x3xMeN2r807t1wN0/WWtENJFxMiZ+RJMK+bSplvDSKDEZmlEZFN/BKx03u/Ob7oXuE4x
+         3MFCJ8+SFAGCj6hmvWEkpm1j8DTIY9GdoWi7vj9uj2z8ATuwDVwCffNPrdZOFTtXlhB1
+         7LMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713889431; x=1714494231;
+        d=1e100.net; s=20230601; t=1713889481; x=1714494281;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bJvOdPBXFk/bDuzeH+zHs6VNJH1qJlIWX1daArUf4O4=;
-        b=h1qYrrilLFKL2TJ5QD0XLu4CZJYg118zTqLSYCvlMxODvbx3QNSXZjrLT2turgkIt6
-         w+RRf3uaSxLfBDl1KuF3iLMD1VPB7G5UMVxQcHQSz/EkaOl9hGXzzNG5KLAhZTZ7KKde
-         sLEfOsgazPHcsb8Kz7JRxG9J2ZoaJLFDoD5Ss3YbWlTeVYThk0yQoHcfmkMe6xRI4lki
-         sctchzPEx51Se9HSZsbz35wpI+EyvCLTr2N7I5Bhv140g8WiQ5ReQ0fBpnUAtdYMNiOv
-         y1KwiixxrxqAC8/Role8oDK84IZxHJGfK7NNz3gP2/ULrEg2BshXTljPd1fb2nkQZAiH
-         +ZeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrcFnpKXC0uK98waX5HSLPIReJ0O0FUqzsfEtqIct3Ej1lM96IBIZO3dCsQKMCiVPYi06PlTfpN1fvfQcLjocQtvDLhXA70eNx+QI=
-X-Gm-Message-State: AOJu0Yz2f1lasx2Qnf7Hailf3KGRbkYXErze24D23a9++5drKPkFFvaM
-	gA28w3FxRQcUt/uQCI+1CUFsd8BhtF3pNjHsJ3edS8+lbNhqmDGer69VU6VjlvI=
-X-Google-Smtp-Source: AGHT+IEdQcLYJ/QzhHJkBdgViQmdOJxYR4LUOX8SHs7WRJuCBg3gtXdcaG+Enk0mXe9WOnSV80W15A==
-X-Received: by 2002:a05:6000:1950:b0:343:bb25:73d9 with SMTP id e16-20020a056000195000b00343bb2573d9mr8367158wry.22.1713889431029;
-        Tue, 23 Apr 2024 09:23:51 -0700 (PDT)
+        bh=e5NYtG6T0phEhzR89Dwb5uY89BKZqhxFNHYzmhXBBjU=;
+        b=e0y8B8wukXZt8bODMXga/q2yy9AQ4DCy1nXMQqjq2Shn1GUSwGESJucChTMhajHE6P
+         9h7WvFbdoyR3wJzTnVzH2XCBH4rlcUbQozMuaWM/Cna+IeVrnCn7szcLa60q53hCI+D0
+         PMwV6TmIujV+njRyqAkt3nafV3/iWy9GLcQfAJTLRAHLmrDqIGkbUSHWF5UDR6W5OYZd
+         iTnSk/ppNi+ju0Sz1xSF85gL6pzNktY5p5/J2QIdB/dz3SfZzXCfMSG+kqvo4HffT3uy
+         nqxQIh9TNoDfg3Uj1aMXmcFCBBTMSlsquZ8V2/viwRcPYVFfNcAs2Xgpj4vG5vA8PDY8
+         EDgg==
+X-Forwarded-Encrypted: i=1; AJvYcCX33c946b3r9JZL2fZeETTp5TB1Bo8DwEf2ZXsfL+mePOLeTAp+35Jg7aRxTLxch09vyGIqH53pjR2E2FUo1l3tzeoxVGMXmdl9DDM=
+X-Gm-Message-State: AOJu0YygVmpxFbb8HRlmoHXxL1GGM+B4qkV5z5TxkOI58yt6XjtGTbE/
+	e6vuUqYsBKhXXOKHi5M6R1mNjAptUVcVkrGdFzAUMoPEHfwNqYwkiDE9SzjxIcc=
+X-Google-Smtp-Source: AGHT+IE0kDYNK5cdmgVSGMVcO42sLrbBXbj0okxZEe5JhrhK39yNNupVFUgyG9+PIaD8Io0Hr0eFnQ==
+X-Received: by 2002:a5d:4ec1:0:b0:34a:e798:29fc with SMTP id s1-20020a5d4ec1000000b0034ae79829fcmr6891431wrv.52.1713889481235;
+        Tue, 23 Apr 2024 09:24:41 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id f8-20020adff8c8000000b0033e7b05edf3sm14909968wrq.44.2024.04.23.09.23.49
+        by smtp.gmail.com with ESMTPSA id w17-20020a5d6811000000b0034a2ba13588sm13871664wru.42.2024.04.23.09.24.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 09:23:50 -0700 (PDT)
-Message-ID: <d1933c48-ce81-4b29-8290-7ce0c8ecbeb3@linaro.org>
-Date: Tue, 23 Apr 2024 18:23:49 +0200
+        Tue, 23 Apr 2024 09:24:40 -0700 (PDT)
+Message-ID: <1dc47644-56c9-4fdc-80cf-756cf4cea54c@linaro.org>
+Date: Tue, 23 Apr 2024 18:24:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,8 +77,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: HID: i2c-hid: add dedicated Ilitek
- ILI2901 schema
+Subject: Re: [PATCH 2/6] dt-bindings: HID: i2c-hid: elan: add Elan eKTH5015M
 To: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
@@ -88,10 +87,9 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
  Linus Walleij <linus.walleij@linaro.org>,
  Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+ linux-kernel@vger.kernel.org
 References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-2-johan+linaro@kernel.org>
+ <20240423134611.31979-3-johan+linaro@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -138,53 +136,43 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240423134611.31979-2-johan+linaro@kernel.org>
+In-Reply-To: <20240423134611.31979-3-johan+linaro@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 23/04/2024 15:46, Johan Hovold wrote:
-> The Ilitek ILI2901 touch screen controller was apparently incorrectly
-> added to the Elan eKTH6915 schema simply because it also has a reset
-> gpio and is currently managed by the Elan driver in Linux.
+> Add a compatible string for the Elan eKTH5015M touch controller.
 > 
-> The two controllers are not related even if an unfortunate wording in
-> the commit message adding the Ilitek compatible made it sound like they
-> were.
+> Judging from the current binding and commit bd3cba00dcc6 ("HID: i2c-hid:
+> elan: Add support for Elan eKTH6915 i2c-hid touchscreens"), eKTH5015M
+> appears to be compatible with eKTH6915. Notably the power-on sequence is
+> the same.
 > 
-> Add a dedicated schema for the ILI2901 which does not specify the I2C
-> address (which is likely 0x41 rather than 0x10 as for other Ilitek touch
-> controllers) to avoid cluttering the Elan schema with unrelated devices
-> and to make it easier to find the correct schema when adding further
-> Ilitek controllers.
+> While at it, drop a redundant label from the example.
 > 
-> Fixes: d74ac6f60a7e ("dt-bindings: HID: i2c-hid: elan: Introduce Ilitek ili2901")
-> Cc: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->  .../bindings/input/elan,ekth6915.yaml         |  5 +-
->  .../bindings/input/ilitek,ili2901.yaml        | 66 +++++++++++++++++++
->  2 files changed, 68 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2901.yaml
+>  .../devicetree/bindings/input/elan,ekth6915.yaml    | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
 > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index dc4ac41f2441..3e2d216c6432 100644
+> index 3e2d216c6432..c3a6f901ff45 100644
 > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
 > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -18,9 +18,8 @@ allOf:
+> @@ -18,8 +18,13 @@ allOf:
 >  
 >  properties:
 >    compatible:
-> -    enum:
-> -      - elan,ekth6915
-> -      - ilitek,ili2901
-> +    items:
+> -    items:
+> -      - const: elan,ekth6915
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - elan,ekth5015m
+> +          - const: elan,ekth6915
+> +      - items:
 
-Drop items, that's just const. Or keep it as enum, which makes patch
-diff smaller here.
-
-> +      - const: elan,ekth6915
-
-With items dropped:
+Don't re-add the items for this entry. Just const.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
