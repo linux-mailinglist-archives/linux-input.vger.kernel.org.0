@@ -1,472 +1,270 @@
-Return-Path: <linux-input+bounces-3179-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3180-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB3E8AE117
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 11:34:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72A28AE15F
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 11:53:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 902861C21BAF
-	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 09:34:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA2961C2168B
+	for <lists+linux-input@lfdr.de>; Tue, 23 Apr 2024 09:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0E735FDA9;
-	Tue, 23 Apr 2024 09:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD995CDF2;
+	Tue, 23 Apr 2024 09:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="IbQo6Yo9"
+	dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b="d60iubmr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2139.outbound.protection.outlook.com [40.107.8.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB7759148;
-	Tue, 23 Apr 2024 09:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713864845; cv=none; b=m73EtnQEgduLpkURVk9xiO7CiD+Mdpky+jYJ3OjTDAQFSphkD44kM7XCSKOxHJ14Jh3erJub5v6c7gggGsuYnLkZXfdo33Kls6ostCjwFBzzamQ4QDGVxcCIlIXUUtkf6RFk0YsLUBH4QrTEn50Y83Q4PnbYkU7yfO4Hjl+EUCs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713864845; c=relaxed/simple;
-	bh=hW/MSIqixDoWTQPsb1jY1aJlgqcGAnzc07luQQKSUJY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sbanmUbkzHCt5TjoBn/3DNYXDc9lbaiEFejVq6O0pRekhXj4U83KqBSGmMUVgah6ljzVv6oJmpbVO2KbI0k43N9YGGdzhwbq8yy72O3GpsoEOfXdyOXpr5gKNxza00b0L+X+zmnjJ1doRyzy2UM2ID0fTZRSCsnFe/uGQZUUZCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=IbQo6Yo9; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=O7Ga/+MQslFYLFemzYWK7NMgPsWPI6GzChQN73PPCu8=; b=IbQo6Yo9ix8PPIhPR78eQvZZ5c
-	QzaJxedwlfH4Vfh3gJH+5ioI7g+9nB/8r/W8HruwIS6W6uAE2nM5//VU35RPBJD6eOhMub7YGP2Jy
-	EgwF6V+4o/48ML6pQBAY39H/ORMERYKouKnLdd59pbdQqRn4Z/VNgNrY311PeLMs9srA=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1rzCWy-001LNj-0F;
-	Tue, 23 Apr 2024 11:33:40 +0200
-Message-ID: <43a8b0484e5b4e7d550a665aa4f7b37186d030f7.camel@hexdev.de>
-Subject: Re: [PATCH 01/11] can: Add LIN bus as CAN abstraction
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-Reply-To: christoph.fritz@hexdev.de
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>, Marc Kleine-Budde
- <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, "David
- S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
- Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin
- Tissoires <bentiss@kernel.org>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andreas Lauser
- <andreas.lauser@mercedes-benz.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-can@vger.kernel.org, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-serial@vger.kernel.org
-Date: Tue, 23 Apr 2024 11:33:35 +0200
-In-Reply-To: <cf9109ac-f17b-4812-aa50-449b8fb9504e@kernel.org>
-References: <20240422065114.3185505-1-christoph.fritz@hexdev.de>
-	 <20240422065114.3185505-2-christoph.fritz@hexdev.de>
-	 <cf9109ac-f17b-4812-aa50-449b8fb9504e@kernel.org>
-Organization: hexDEV GmbH
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4-2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129731E863;
+	Tue, 23 Apr 2024 09:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713865986; cv=fail; b=PlEmbnIF18V1f5BiZLIMKtfxXstY7JXoh/C6sCrbOgB/fs+Vr4D/k1Zmt9v+5D7vIjEWlUVtCPJsbXrG31L32LOykK/Y2fXslGaHoQ5SBWYohPBUt27VhYBasSsdYROEjL7uSmzrx+PEBmwapl4y+C0ByMRrKRlscMo3ZCAcKNU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713865986; c=relaxed/simple;
+	bh=hOgw0GWf9fra+ddKgDiMQGavHEa4pmDIg1waKJEUc/I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=bXtRslq+QPAWOnz09Gx4jgAK2/mAM89XOqJfFb5bbT2DN6xvvRct8CbTAu0F0+TerqU4Uvb1vhbcVA7Xjnx2nZ39gMTpIzvwK6yWgESUJ0TP91AFQQZQMN9hM+8wH6pSHyvWF61GY0WesCfezBOfemtA1kbNQ1RnA/D5faXftUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axentia.se; spf=pass smtp.mailfrom=axentia.se; dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b=d60iubmr; arc=fail smtp.client-ip=40.107.8.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axentia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axentia.se
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gCwZEyLVxM2AYGFhcmhFknKl5LYVlGDOQ5IHcNRjA6AqAZBeVt1w4LcH2x5mHPxKf8jF0xSEJseFTGLJZsZ6MiWsi12b90y8N26e6pJoQX1jSZCVYj0Q9Yrn/Pr0wzX4J7FX6mijsTO3hht9NUPSvMaiNAg2CslLB7t1QukIUsL/L8uKDOxzzSCeInRY/Lw0KHaENIuiZhWeBSbFcTx781sZrPeeMj2KGnNeXQntZJvdvem1iurOx8WElFmGbstVb9NjsqGQi09AwBKJ8lDCld47yRg6FfMpbjQznFjHIxh7wWs9Ewd5De2k+OrJCKCA03+P9tj5KwSFQe8nOyrB/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+aqDDPtLW+03CjmA273kXqCvoB6TThtpLzHqTpQoWRU=;
+ b=KoZVnLUK4Cy+fupKJnosHdAlgma5S3JHZnH6b5kX8qnZp406IPKzX3sHMO+2SueDAVylef9awF+G80+Gq5kpyb8OEMd9V5B04dtcsGN5L3GoMYWmewy8hUiyuhmLY85HyUVyfXsj34vJqIH9mVkJ61R0LWr4QIqU44CAiJLqDc/1exUM8z5rk4yMQmRFdIFPblHs2YaRimPKTCsJUvHrbE0QRouXJG/fxDOoCyRRQ/vrLFVP24KzcVnZ8zYGYsQJz2XpdGhHfI2Z9M3aF25YtNMk6+P3+K3Up/NVELi3FnocssFL5GHwEQ0X7M0JLFO9NEZc0KAoU9Ia3BUAmK6W2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
+ dkim=pass header.d=axentia.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+aqDDPtLW+03CjmA273kXqCvoB6TThtpLzHqTpQoWRU=;
+ b=d60iubmrv8d39FFfuF4XItfndt6V9JvIfCVFYUZBzJn4MdxLFmt4VGBngpDPdnkZWUCJdeAHckHBtu0X/ntBKct3fov8IscqFoq9GbsKs5Cc7dCmLPfzZ3Y3JFHfITfQMERVL7A5NCrHbx+sjPDI3mJ5v459mhceWNsltdcz+so=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axentia.se;
+Received: from DU0PR02MB8500.eurprd02.prod.outlook.com (2603:10a6:10:3e3::8)
+ by DBAPR02MB6326.eurprd02.prod.outlook.com (2603:10a6:10:19a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 23 Apr
+ 2024 09:52:58 +0000
+Received: from DU0PR02MB8500.eurprd02.prod.outlook.com
+ ([fe80::aff4:cbc7:ff18:b827]) by DU0PR02MB8500.eurprd02.prod.outlook.com
+ ([fe80::aff4:cbc7:ff18:b827%4]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
+ 09:52:58 +0000
+Message-ID: <3f095b5d-ced2-1c8a-9bd2-2ff2a9480fa1@axentia.se>
+Date: Tue, 23 Apr 2024 11:52:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR
+ annotations
+Content-Language: sv-SE
+To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+ Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+ Xu Yilun <yilun.xu@intel.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+ Keyur Chudgar <keyur@os.amperecomputing.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Yisen Zhuang <yisen.zhuang@huawei.com>, Salil Mehta
+ <salil.mehta@huawei.com>, Tony Lindgren <tony@atomide.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Xiang Chen <chenxiang66@hisilicon.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Russell King <linux@armlinux.org.uk>, Jiri Slaby <jirislaby@kernel.org>,
+ Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Tom Rix <trix@redhat.com>, =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
+ <u.kleine-koenig@pengutronix.de>, Randy Dunlap <rdunlap@infradead.org>,
+ Rob Herring <robh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-fpga@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
+ netdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20240403080702.3509288-1-arnd@kernel.org>
+ <20240403080702.3509288-34-arnd@kernel.org>
+From: Peter Rosin <peda@axentia.se>
+In-Reply-To: <20240403080702.3509288-34-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GV3P280CA0033.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:9::26) To DU0PR02MB8500.eurprd02.prod.outlook.com
+ (2603:10a6:10:3e3::8)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR02MB8500:EE_|DBAPR02MB6326:EE_
+X-MS-Office365-Filtering-Correlation-Id: a390de60-815c-4b1e-f305-08dc637b27d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cmR0M09JeVB4b0NBeW1lNThHUlBNUDhlRC9QaURhNjhKTlFTeHZnK1F2TnNW?=
+ =?utf-8?B?c09Gd3BrakZXcVZsNzVXTVpkOWFwTUdoWmgyaU5iYTZhVGYvNkErc1hTbnpS?=
+ =?utf-8?B?b2pxSkFSektuS2JaUm44Z1VscldFTHgvUzB6RUFGTk1ycmJLL1FhY2wwQ2FB?=
+ =?utf-8?B?UEpBQUNodWQ2NE9rVDZjM2dpM0dDdXQ3TkhjdEtveTBBKzlqSS9uLzhVK1Fj?=
+ =?utf-8?B?QW5CZm0rMXFROW5VODkxZHlLTjYrUlpxdU15SUhEV1ozQjEzOUY2ZmtnREt5?=
+ =?utf-8?B?SjNlY2R4cnhhcUs3dzFkUWpkWWRaTzhiMlExSGxNL0Z2ZFc2aG1SOHh6TWgz?=
+ =?utf-8?B?aFA5dUpmcHVsTFFSd0hGNmoveFNPZ2I5bW10TEMzcVp2TzF0R2tQV0tjZ2ZM?=
+ =?utf-8?B?QWNUejQ3bFJJQk5HTndPUHBUNHFLVUw4R0wxRno2T0pjaVJkMUNlV3E4NHlN?=
+ =?utf-8?B?RFl2Y01reHg3eHBiYUthOWw1ZXI5UHE3YndyaU1FbEljenBIbkRaQUlWWXh6?=
+ =?utf-8?B?UGhuOE93ajFzZ3Y0bThtNitlZU5MczJkdk5SVCtTckw5b0pibzEydlZjV0Np?=
+ =?utf-8?B?eFRLWGhqOVlLUTh2VTVxRmx6THJoRnY3dUgzZFRmVGxQVlVxWmlYTjlVckVa?=
+ =?utf-8?B?N2g1SUQxbTNuenZ2aWFhU01PZUlzYkFMTUdhN2J2a3UwZHhJcElqdURtTlVw?=
+ =?utf-8?B?N2M2RDZaQldWRjhSamF3RnZmZjR0eWJERnhVZDB1ZGE1S3kybmFxbEtmZjk5?=
+ =?utf-8?B?NXdWZFRaRnR6OWNoaWovb3B6V0o2MTdtbWVDd1pQcThjQWx6Z2VmcXNlZnhP?=
+ =?utf-8?B?RWZvb1NJQ0FabUxacUVkT01uTDNKZkFrSkpORFBGWVZRVmxMaTdEdEVQYm9K?=
+ =?utf-8?B?WEtJVEtzUkZLMmNhYU1RdXRqaGcwVzlQQUZQVm9OSjZHd0FvMVFKZUxEckRF?=
+ =?utf-8?B?Y1piZWhEUUkzam1sUExZbDY0RlNGbTVBNlNMS2piS3g2WFZLaGJPVklsWkYr?=
+ =?utf-8?B?Uk92RkNqc0JlUm5sVzNiTzZpYU5aUE15Zi9waS9iM2FLb24zVWRYNXBuT0Vu?=
+ =?utf-8?B?UHEwb2J4c3o4K0dSaVM5UzRVU21vWjc2dVd4eW5sd0VFTnl0NnRCM2IwdFhP?=
+ =?utf-8?B?aHErNVRYUm9QNko0OFJISzJrK2Q4LzkzWHhBai9GQzV5dU9uOEU0b21iRWpr?=
+ =?utf-8?B?cGpjbGtoVzFRMjh4QmFjNmlwTU5qZTNQbUtQVk1TdkhVdklYVEpDUnZVU056?=
+ =?utf-8?B?MHlaNzNSL21UZkRsREM2cmU1MXF0T2VNcTljL1ROR2hiSngzb3BpWWFWOXFs?=
+ =?utf-8?B?NzlxQWpQYnV1bGNpM0hLVFF6NzBnM1RaRXh3US9VSFVQVDZiaEgzY2kxUEdW?=
+ =?utf-8?B?dnQ2ZWt5TXVDcjZzUlgzYTJyNlY1cHhsbVFhK0FPSXdpaW5aMTJsU3ZrcEVs?=
+ =?utf-8?B?UStrckx2N1dGekpOeWZKUEc5UnFSWFNvZ21tVjk1RktHenp2S2UvL2ppSTlX?=
+ =?utf-8?B?Yi9VdFFIRXBSWE1weWwrNkxaYk1CTEc5WGFhc3l6TWxQZ0NyQm9Yc2RhOU5l?=
+ =?utf-8?B?dzl4dmtHbUV5R1lmb0VvVTFHT1dpdUx2Qml2Q3lUZ3F3UytJYS9UR01oNEdI?=
+ =?utf-8?B?OU8xM24reGYwK3M0Q0t3TUlCMlQwMnhLVTk4blNGQUJ5YjNpZjN0em9PREhL?=
+ =?utf-8?B?OHdPZkhVZi85c2UvL0dmQzA3cURKeHprQVQ3bDMyV0RuVnhyRnYrU21YMFo4?=
+ =?utf-8?Q?T1MEmaG+ZFywJAjhH4mhA8Lvv2Kq+TD+89znL7w?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB8500.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005)(921011);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Unl1SEZCa28wWjJZUmFETU95a3FnVG4yYWMrSjJBZXpCcCtKRURDU3RxK0cz?=
+ =?utf-8?B?cmlBN2tzdml5ZlUvRE9xcEZXRG5ncXFhM3YwQ2NoVi9oY0ViRHJBR2RHVjlH?=
+ =?utf-8?B?RWZLaDNvUHdPRFBKc3lmaXk3aGVBRDUrVXlwV3VvOGNnM2RIQWJtNG1Ta3Jz?=
+ =?utf-8?B?U3MzYWZiM2hkVTl2L3F0c0trdTh3RzV5R0xoSVpyQld5czI0WGlHL2NCazJF?=
+ =?utf-8?B?YzNQT1JsYnNCUXhKS2hDZnFXZmNPV3NQMlg5cTk1ZmpGRUhNWk1jeE1HL0xT?=
+ =?utf-8?B?djhiSmcrT2tENnEzR1VTbk9kdVRSNlZ6bTBOcW1MK2x6dGJGZFJkUDVodDg3?=
+ =?utf-8?B?WnZ0UGVEMkYwK0Eyc29tamJpN1ZqMVU1VmR4S0VKbndlQ05QbmtCWXRuRURo?=
+ =?utf-8?B?S1BzZFc3ditKZThpSjdGZ2hlcjQ1aVNtWm9ycU9jMFc4UkljVFpmMmYzdk40?=
+ =?utf-8?B?WXBzMHk0SDFpcUVIR1hZM2t2MXlMc1YrcW1DekNBVzFld0gveUZZVEdaTnN0?=
+ =?utf-8?B?QjBWbzFXWHk1RzBBM3BrdU5ycnlmRWJoYm4xaU1nT2ZNOG5IYkExeUVYaEtJ?=
+ =?utf-8?B?NjZtczBwVVNVdXhzVHIvSXRMVGRjNy9Ud1JERWQvRFJSMFRpZ0J0REZ2bEJ1?=
+ =?utf-8?B?eDNGT0JLZmhHZHJmQUxOYTJ2aUhQaHZrUzkwa215MU41TjhJRzc1c0x1dGNt?=
+ =?utf-8?B?OGpUWjVVRWkvZnp4bjNUTDNBcjRCajV6OTZqZTZ6TjJ3bWdVcjRheDY0N2xH?=
+ =?utf-8?B?eUQyQ1pJWFFwM2NhbzA3Qko3NDhJb0c3M1Erd3dQN2dIdklLSjg2NEdDWDZL?=
+ =?utf-8?B?TFlXVThkWitnYVRoU29ZamZkWmYrajQ5NFdwbGJoRm9VdVFTYlU1WU01YXVj?=
+ =?utf-8?B?ZXJQKytJbW44WThSNGdHWGNES3dVNzNQWnNjRzBET2hRVHhiem9NUnIyWmM0?=
+ =?utf-8?B?ZzdkZ25XZFVrUmd3NVk4S2JVajBoMEhlZ0l0Mm9mQ29pajR4YmZ2RDVNN3dI?=
+ =?utf-8?B?Y3F1cG8wUS9BbmFBeU9mMktKZStVT0Z4c05oMVQvY1E1Q1dIRnloUHd1dURr?=
+ =?utf-8?B?amY5ZmdXUlQxZWpKeUtwM1orMk8rdFByLzVaWVZ0RGtxU240VVFqVmhhejh0?=
+ =?utf-8?B?Y3pQOEhIUjY4WENJRmd5RUFJMkRTd3ZyaTFlWUFIU1lEUFd2SmhFcXBGZDgy?=
+ =?utf-8?B?RHpKcEtSdndkMHV5R1lNR2N3SDY4QzRBYjg2R3FXTXRJOFl2SGtSLzkvTjVa?=
+ =?utf-8?B?RXBQazI2WXhTaWEweFhoVVZoN3dtN2RKUlliK011R3NkM2NKVVd1dEhxU2ZW?=
+ =?utf-8?B?VjJlT2Z4blFXNGVMLzh4YTRaeDVBRVE3bXBCK01GNytXYU5TNzZtQkxWZCsr?=
+ =?utf-8?B?WDYwT0hZSzFBNk9IR0NGWExhTkVld1VsQXVaalpHVm53UWlPbEY1MER5azdZ?=
+ =?utf-8?B?eTliWXFMVnU0RUtRQ3QzZmM5dXJBd2xXakpiTVVVK1NOZitrcVZROXlDNEU3?=
+ =?utf-8?B?UmlBRVg1NjVrZUNSY2NwVFlGMGo2VUc4dVdPZVlya3BOa3RVeUg4ZVl3VVBo?=
+ =?utf-8?B?RXQrQi9sbEdDaVp6T3FPRzlGSjJaRDJIa1M5U25zQjJTQmlDTC81OEVnTCtp?=
+ =?utf-8?B?MHNwSnlDN0xKcklMQklqOHBUVFdCM3ZZVVZOZWI2azM1MjdYZ0lXMkpsUVJi?=
+ =?utf-8?B?RGMxVEhORUo1cXJWU3kwcUVPdHFlN2JaZGdNTVBiaWhvekhQSU5MRnZoczhO?=
+ =?utf-8?B?bElXak9VRksrdE5tZW5aRVpySWZxNXdVbWFnRFR1QzZoK25JS2ltWlZXVmJj?=
+ =?utf-8?B?YUpXSzRjeVlZSWo5TEVvb2xSMFh0dm9UVExpdVhqeUVlOFRZcjg4Qm9ZeUY2?=
+ =?utf-8?B?VlJpT0VzWk1WQ2cvb2RTOVRNNlRuWXAyME1hSzg5ekNmbmxWMkRUTlFvS1J2?=
+ =?utf-8?B?ZnZVaUhzd1IyWmMyaVNHU0h0TEdxVEVKWExadWlhYnVtVXg3dVl1MlJiM1c2?=
+ =?utf-8?B?aWRaNCtNeHdXM2NabU9XVGZyM2Q2RUh0K2toOWtJaTA2cmhIa2UrL1lqbS8v?=
+ =?utf-8?B?R2JkVTFvZWRQVURlWWUxcDI3U0NLWk1va2psdGh5anNnalJka0VXRkNJODFZ?=
+ =?utf-8?Q?MeJcXB9SQvBhJipuMfESL3T51?=
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: a390de60-815c-4b1e-f305-08dc637b27d1
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB8500.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 09:52:58.2071
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pn1dpT9Y/3FlbsQdjJFMm1KIT6sGNi3KXACwth7VbQVikRHLkJV+FX8vIwXA5ynp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB6326
 
-...
-> > --- /dev/null
-> > +++ b/drivers/net/can/lin.c
-> ...> +static int lin_create_sysfs_id_files(struct net_device *ndev)
-> > +{
-> > +	struct lin_device *ldev = netdev_priv(ndev);
-> > +	struct kobj_attribute *attr;
-> > +	int ret;
-> > +
-> > +	for (int id = 0; id < LIN_NUM_IDS; id++) {
-> > +		ldev->sysfs_entries[id].ldev = ldev;
-> > +		attr = &ldev->sysfs_entries[id].attr;
-> > +		attr->attr.name = kasprintf(GFP_KERNEL, "%02x", id);
-> > +		if (!attr->attr.name)
-> > +			return -ENOMEM;
-> > +		attr->attr.mode = 0644;
-> > +		attr->show = lin_identifier_show;
-> > +		attr->store = lin_identifier_store;
-> > +
-> > +		sysfs_attr_init(&attr->attr);
-> > +		ret = sysfs_create_file(ldev->lin_ids_kobj, &attr->attr);
-> > +		if (ret) {
-> > +			kfree(attr->attr.name);
-> > +			kfree(attr);
+Hi!
+
+2024-04-03 at 10:06, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Is the latter kfree() right? It appears not.
-
-Thanks for the catch, it's wrong and will be removed in v2.
-
+> When building with CONFIG_OF and/or CONFIG_ACPI disabled but W=1 extra
+> warnings enabled, a lot of driver cause a warning about an unused
+> ID table:
 > 
-> > +			return -ENOMEM;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> ...
-> > +static void lin_tx_work_handler(struct work_struct *ws)
-> > +{
-> > +	struct lin_device *ldev = container_of(ws, struct lin_device,
-> > +					       tx_work);
-> > +	struct net_device *ndev = ldev->ndev;
-> > +	struct canfd_frame *cfd;
-> > +	struct lin_frame lf;
-> > +
-> > +	ldev->tx_busy = true;
+> drivers/char/tpm/tpm_ftpm_tee.c:356:34: error: unused variable 'of_ftpm_tee_ids' [-Werror,-Wunused-const-variable]
+> drivers/dma/img-mdc-dma.c:863:34: error: unused variable 'mdc_dma_of_match' [-Werror,-Wunused-const-variable]
+> drivers/fpga/versal-fpga.c:62:34: error: unused variable 'versal_fpga_of_match' [-Werror,-Wunused-const-variable]
+> drivers/i2c/muxes/i2c-mux-ltc4306.c:200:34: error: unused variable 'ltc4306_of_match' [-Werror,-Wunused-const-variable]
+> drivers/i2c/muxes/i2c-mux-reg.c:242:34: error: unused variable 'i2c_mux_reg_of_match' [-Werror,-Wunused-const-variable]
+> drivers/memory/pl353-smc.c:62:34: error: unused variable 'pl353_smc_supported_children' [-Werror,-Wunused-const-variable]
+> drivers/regulator/pbias-regulator.c:136:34: error: unused variable 'pbias_of_match' [-Werror,-Wunused-const-variable]
+> drivers/regulator/twl-regulator.c:552:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
+> drivers/regulator/twl6030-regulator.c:645:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
+> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3635:36: error: unused variable 'sas_v2_acpi_match' [-Werror,-Wunused-const-variable]
+> drivers/staging/pi433/pi433_if.c:1359:34: error: unused variable 'pi433_dt_ids' [-Werror,-Wunused-const-variable]
+> drivers/tty/serial/amba-pl011.c:2945:34: error: unused variable 'sbsa_uart_of_match' [-Werror,-Wunused-const-variable]
 > 
-> How is this store protected against reordering/race conditions?
-
-Falsely it is not, like in mcp251x.c I'll add a mutex.
-
+> The fix is always to just remove the of_match_ptr() and ACPI_PTR() wrappers
+> that remove the reference, rather than adding another #ifdef just for build
+> testing for a configuration that doesn't matter in practice.
 > 
-> > +
-> > +	cfd = (struct canfd_frame *)ldev->tx_skb->data;
-> > +	lf.checksum_mode = (cfd->can_id & LIN_ENHANCED_CKSUM_FLAG) ?
-> > +			   LINBUS_ENHANCED : LINBUS_CLASSIC;
-> > +	lf.lin_id = (u8)(cfd->can_id & LIN_ID_MASK);
+> I considered splitting up the large patch into per subsystem patches, but since
+> it's really just the same thing everywhere it feels better to do it all at once.
 > 
-> Why is that cast necessary?
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/char/ipmi/ipmb_dev_int.c          | 2 +-
+>  drivers/char/tpm/tpm_ftpm_tee.c           | 2 +-
+>  drivers/dma/img-mdc-dma.c                 | 2 +-
+>  drivers/fpga/versal-fpga.c                | 2 +-
+>  drivers/hid/hid-google-hammer.c           | 6 ++----
+>  drivers/i2c/muxes/i2c-mux-ltc4306.c       | 2 +-
+>  drivers/i2c/muxes/i2c-mux-reg.c           | 2 +-
+>  drivers/input/touchscreen/wdt87xx_i2c.c   | 2 +-
+>  drivers/mux/adg792a.c                     | 2 +-
+>  drivers/net/ethernet/apm/xgene-v2/main.c  | 2 +-
+>  drivers/net/ethernet/hisilicon/hns_mdio.c | 2 +-
+>  drivers/regulator/pbias-regulator.c       | 2 +-
+>  drivers/regulator/twl-regulator.c         | 2 +-
+>  drivers/regulator/twl6030-regulator.c     | 2 +-
+>  drivers/rtc/rtc-fsl-ftm-alarm.c           | 2 +-
+>  drivers/scsi/hisi_sas/hisi_sas_v1_hw.c    | 2 +-
+>  drivers/scsi/hisi_sas/hisi_sas_v2_hw.c    | 2 +-
+>  drivers/staging/pi433/pi433_if.c          | 2 +-
+>  drivers/tty/serial/amba-pl011.c           | 6 +++---
+>  drivers/tty/serial/ma35d1_serial.c        | 2 +-
+>  20 files changed, 23 insertions(+), 25 deletions(-)
 
-It's not.
+As far as I can tell, this triggers unconditional use of the
+.of_match_table, and the compiler will have a harder time dropping
+that data. However, the wasted data is negligible for the parts
+touching "my" drivers:
 
-> 
-> > +	lf.len = min(cfd->len, LIN_MAX_DLEN);
-> > +	memcpy(lf.data, cfd->data, lf.len);
-> > +
-> > +	ret = ldev->ldev_ops->ldo_tx(ldev, &lf);
-> > +	if (ret) {
-> > +		DEV_STATS_INC(ndev, tx_dropped);
-> > +		netdev_err_once(ndev, "transmission failure %d\n", ret);
-> > +		goto lin_tx_out;
-> 
-> Where is this label?
+drivers/i2c/muxes/i2c-mux-ltc4306.c
+drivers/i2c/muxes/i2c-mux-reg.c
+drivers/mux/adg729a.c
 
-In a later patch, let me fix the patchset accordingly.
+Acked-by: Peter Rosin <peda@axentia.se>
 
-> 
-> > +	}
-> > +
-> > +	DEV_STATS_INC(ndev, tx_packets);
-> > +	DEV_STATS_ADD(ndev, tx_bytes, lf.len);
-> > +	ldev->tx_busy = false;
-> 
-> The same as above.
-
-OK
-
-> 
-> > +	netif_wake_queue(ndev);
-> > +}
-> > +
-> > +static netdev_tx_t lin_start_xmit(struct sk_buff *skb,
-> > +				  struct net_device *ndev)
-> > +{
-> > +	struct lin_device *ldev = netdev_priv(ndev);
-> > +
-> > +	if (ldev->tx_busy)
-> > +		return NETDEV_TX_BUSY;
-> 
-> And here too.
-
-OK
-
-> 
-> > +
-> > +	netif_stop_queue(ndev);
-> > +	ldev->tx_skb = skb;
-> > +	queue_work(ldev->wq, &ldev->tx_work);
-> > +
-> > +	return NETDEV_TX_OK;
-> > +}
-> ...
-> > +u8 lin_get_checksum(u8 pid, u8 n_of_bytes, const u8 *bytes,
-> > +		    enum lin_checksum_mode cm)
-> > +{
-> > +	uint csum = 0;
-> 
-> Is "uint" of the preffered types in the kernel?
-
-OK, no sysv 'uint', will be changed in another patch too
-
-> 
-> > +	int i;
-> > +
-> > +	if (cm == LINBUS_ENHANCED)
-> > +		csum += pid;
-> > +
-> > +	for (i = 0; i < n_of_bytes; i++) {
-> > +		csum += bytes[i];
-> > +		if (csum > 255)
-> > +			csum -= 255;
-> > +	}
-> > +
-> > +	return (u8)(~csum & 0xff);
-> 
-> Unnecessary cast?
-
-Yes
-
-> 
-> > +}
-> 
-> 
-> > +int lin_rx(struct lin_device *ldev, const struct lin_frame *lf)
-> > +{
-> > +	struct net_device *ndev = ldev->ndev;
-> > +	struct can_frame *cf;
-> > +	struct sk_buff *skb;
-> > +	int ret;
-> > +
-> > +	if (!ndev)
-> > +		return -ENODEV;
-> 
-> Is this racy or is this only a sanity check?
-
-Just beeing cautious, I guess it can be removed
-
-> 
-> > +	netdev_dbg(ndev, "id:%02x, len:%u, data:%*ph, checksum:%02x (%s)\n",
-> > +		   lf->lin_id, lf->len, lf->len, lf->data, lf->checksum,
-> > +		   lf->checksum_mode ? "enhanced" : "classic");
-> > +
-> > +	ret = lin_bump_rx_err(ldev, lf);
-> > +	if (ret) {
-> > +		DEV_STATS_INC(ndev, rx_dropped);
-> > +		return ret;
-> > +	}
-> > +
-> > +	skb = alloc_can_skb(ndev, &cf);
-> > +	if (unlikely(!skb)) {
-> > +		DEV_STATS_INC(ndev, rx_dropped);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	cf->can_id = lf->lin_id;
-> > +	cf->len = min(lf->len, LIN_MAX_DLEN);
-> > +	memcpy(cf->data, lf->data, cf->len);
-> > +
-> > +	DEV_STATS_INC(ndev, rx_packets);
-> > +	DEV_STATS_ADD(ndev, rx_bytes, cf->len);
-> > +
-> > +	netif_receive_skb(skb);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(lin_rx);
-> > +
-> > +static int lin_set_bittiming(struct net_device *ndev)
-> > +{
-> > +	struct lin_device *ldev = netdev_priv(ndev);
-> > +	unsigned int bitrate;
-> > +	int ret;
-> > +
-> > +	bitrate = ldev->can.bittiming.bitrate;
-> > +	ret = ldev->ldev_ops->update_bitrate(ldev, bitrate);
-> > +
-> > +	return ret;
-> 
-> No need for ret then.
-
-Compact code, sure, will get adapted
-
-> 
-> > +}
-> > +
-> > +static const u32 lin_bitrate[] = { 1200, 2400, 4800, 9600, 19200 };
-> > +
-> > +struct lin_device *register_lin(struct device *dev,
-> > +				const struct lin_device_ops *ldops)
-> > +{
-> > +	struct net_device *ndev;
-> > +	struct lin_device *ldev;
-> > +	int ret;
-> > +
-> > +	if (!ldops || !ldops->ldo_tx || !ldops->update_bitrate) {
-> > +		netdev_err(ndev, "missing mandatory lin_device_ops\n");
-> > +		return ERR_PTR(-EOPNOTSUPP);
-> 
-> Would EINVAL fit better?
-
-no preference over the other, will use EINVAL
-
-> 
-> > +	}
-> > +
-> > +	ndev = alloc_candev(sizeof(struct lin_device), 1);
-> > +	if (!ndev)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	ldev = netdev_priv(ndev);
-> > +
-> > +	ldev->ldev_ops = ldops;
-> > +	ndev->netdev_ops = &lin_netdev_ops;
-> > +	ndev->flags |= IFF_ECHO;
-> > +	ndev->mtu = CANFD_MTU;
-> > +	ldev->can.bittiming.bitrate = LIN_DEFAULT_BAUDRATE;
-> > +	ldev->can.ctrlmode = CAN_CTRLMODE_LIN;
-> > +	ldev->can.ctrlmode_supported = 0;
-> > +	ldev->can.bitrate_const = lin_bitrate;
-> > +	ldev->can.bitrate_const_cnt = ARRAY_SIZE(lin_bitrate);
-> > +	ldev->can.do_set_bittiming = lin_set_bittiming;
-> > +	ldev->ndev = ndev;
-> > +	ldev->dev = dev;
-> > +
-> > +	SET_NETDEV_DEV(ndev, dev);
-> > +
-> > +	ret = lin_set_bittiming(ndev);
-> > +	if (ret) {
-> > +		netdev_err(ndev, "set bittiming failed\n");
-> > +		goto exit_candev;
-> > +	}
-> > +
-> > +	ret = register_candev(ndev);
-> > +	if (ret)
-> > +		goto exit_candev;
-> > +
-> > +	ldev->lin_ids_kobj = kobject_create_and_add("lin_ids", &ndev->dev.kobj);
-> > +	if (!ldev->lin_ids_kobj) {
-> > +		netdev_err(ndev, "Failed to create sysfs directory\n");
-> > +		ret = -ENOMEM;
-> > +		goto exit_unreg;
-> > +	}
-> > +
-> > +	ret = lin_create_sysfs_id_files(ndev);
-> > +	if (ret) {
-> > +		netdev_err(ndev, "Failed to create sysfs entry: %d\n", ret);
-> > +		goto exit_kobj_put;
-> > +	}
-> > +
-> > +	ldev->wq = alloc_workqueue(dev_name(dev), WQ_FREEZABLE | WQ_MEM_RECLAIM,
-> > +				   0);
-> 
-> It would be worth noting why you need your own WQ.
-
-I'll add a comment stating:
-
-/* Use workqueue as tx over USB/SPI/... may sleep */
-
-> 
-> > +	if (!ldev->wq)
-> > +		goto exit_rm_files;
-> > +
-> > +	INIT_WORK(&ldev->tx_work, lin_tx_work_handler);
-> > +
-> > +	netdev_info(ndev, "LIN initialized.\n");
-> > +
-> > +	return ldev;
-> > +
-> > +exit_rm_files:
-> > +	lin_remove_sysfs_id_files(ndev);
-> > +exit_kobj_put:
-> > +	kobject_put(ldev->lin_ids_kobj);
-> > +exit_unreg:
-> > +	unregister_candev(ndev);
-> > +exit_candev:
-> > +	free_candev(ndev);
-> > +	return ERR_PTR(ret);
-> > +}
-> > +EXPORT_SYMBOL_GPL(register_lin);
-> > +
-> > +void unregister_lin(struct lin_device *ldev)
-> > +{
-> > +	struct net_device *ndev = ldev->ndev;
-> > +
-> > +	lin_remove_sysfs_id_files(ndev);
-> > +	kobject_put(ldev->lin_ids_kobj);
-> > +	unregister_candev(ndev);
-> > +	destroy_workqueue(ldev->wq);
-> > +	free_candev(ndev);
-> > +}
-> > +EXPORT_SYMBOL_GPL(unregister_lin);
-> > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_AUTHOR("Christoph Fritz <christoph.fritz@hexdev.de>");
-> > +MODULE_DESCRIPTION("LIN bus to CAN glue driver");
-> > diff --git a/include/net/lin.h b/include/net/lin.h
-> > new file mode 100644
-> > index 0000000000000..2fe16e142db96
-> > --- /dev/null
-> > +++ b/include/net/lin.h
-> > @@ -0,0 +1,97 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/* Copyright (C) 2024 hexDEV GmbH - https://hexdev.de */
-> > +
-> > +#ifndef _NET_LIN_H_
-> > +#define _NET_LIN_H_
-> > +
-> > +#include <linux/can/dev.h>
-> > +#include <linux/device.h>
-> > +
-> > +#define LIN_NUM_IDS		64
-> > +#define LIN_HEADER_SIZE		3
-> > +#define LIN_MAX_DLEN		8
-> > +
-> > +#define LIN_MAX_BAUDRATE	20000
-> > +#define LIN_MIN_BAUDRATE	1000
-> > +#define LIN_DEFAULT_BAUDRATE	9600
-> > +#define LIN_SYNC_BYTE		0x55
-> > +
-> > +#define LIN_ID_MASK		0x0000003FU
-> 
-> GEN_MASK() ?
-
-In the upcoming v2 I'll use:
-
-#define LIN_ID_MASK   GENMASK(5, 0)
-
-> 
-> > +/* special ID descriptions for LIN */
-> > +#define LIN_ENHANCED_CKSUM_FLAG	0x00000100U
-> > +
-> > +static const unsigned char lin_id_parity_tbl[] = {
-> 
-> This ends up in every translation unit you include lin.h into. Bad.
-
-This is also being used by a serial lin driver. But I guess most of the drivers have no need for this. Mhm, ... any ideas?
-
-> And perhaps u8?
-
-OK
-
-> 
-> > +	0x80, 0xc0, 0x40, 0x00, 0xc0, 0x80, 0x00, 0x40,
-> > +	0x00, 0x40, 0xc0, 0x80, 0x40, 0x00, 0x80, 0xc0,
-> > +	0x40, 0x00, 0x80, 0xc0, 0x00, 0x40, 0xc0, 0x80,
-> > +	0xc0, 0x80, 0x00, 0x40, 0x80, 0xc0, 0x40, 0x00,
-> > +	0x00, 0x40, 0xc0, 0x80, 0x40, 0x00, 0x80, 0xc0,
-> > +	0x80, 0xc0, 0x40, 0x00, 0xc0, 0x80, 0x00, 0x40,
-> > +	0xc0, 0x80, 0x00, 0x40, 0x80, 0xc0, 0x40, 0x00,
-> > +	0x40, 0x00, 0x80, 0xc0, 0x00, 0x40, 0xc0, 0x80,
-> > +};
-> > +
-> > +#define LIN_GET_ID(PID)		((PID) & LIN_ID_MASK)
-> 
-> FIELD_GET() ?
-
-In the upcoming v2 I'll use:
-
-#define LIN_GET_ID(PID)		FIELD_GET(LIN_ID_MASK, PID)
-
-> 
-> > +#define LIN_FORM_PID(ID)	(LIN_GET_ID(ID) | \
-> > +					lin_id_parity_tbl[LIN_GET_ID(ID)])
-> > +#define LIN_GET_PARITY(PID)	((PID) & ~LIN_ID_MASK)
-> > +#define LIN_CHECK_PID(PID)	(LIN_GET_PARITY(PID) == \
-> > +					LIN_GET_PARITY(LIN_FORM_PID(PID)))
-> 
-
-Thanks for the feedback
-  -- Christoph
+Cheers,
+Peter
 
