@@ -1,130 +1,257 @@
-Return-Path: <linux-input+bounces-3238-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3239-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250788B0770
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:34:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F9B8B07C4
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:55:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6A49283CB7
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:34:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 987411C22E7A
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:55:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F14158200;
-	Wed, 24 Apr 2024 10:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d5QjoJCT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786F01598EC;
+	Wed, 24 Apr 2024 10:55:46 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FC413DBB2
-	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 10:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50FEF1598F9;
+	Wed, 24 Apr 2024 10:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713954885; cv=none; b=ltvK2twJbNnszL69Ql0myw4h8+vwt4ohOQy3AuuWPXquBnIhJ/fQvgJyZudbCwM4mKsgpfDLFRma2cSyQt1mzoJk6vJrZGEkQ4hOQ0BC3PGcAooqeNWnvk8PVhf7oUCmVWzGnFGDNLo/qHtVXHqeAeVlwN5SIkdYaYMY44168Ls=
+	t=1713956146; cv=none; b=AVp3iDGQnyqSilAsDLNYkzRtbtTv9oUHI/UpUi8eBTjkt6ECZaVRBDUE0j3Xg+iCt4JS9oEKC4pF2CgVjaVK/lrNRtteSVnYeEvisi2T/hiALiMOXGg0zHoaDJc0d7YMp5FOZqCbr419FfdnCs97m6O30ZFswdn1WGwDATz+pVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713954885; c=relaxed/simple;
-	bh=YTGioqHw4bG0d3wWLA0C6k3sKtV4jev6rrEIMgbLhO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j/GLrOhF3xIgkFCvR1KfHBAoefMgF2w7WG+hphb6ALhN00I7v04YBCVq3NGhwY4aEejcyqTaGpwcBWuLE2TFkYwAbMk7REYU2rxmXLmxfn3WX1dwecNdUqlcTmbcHuS8/yjs6IEVdz3xfVJQpNad1WIQFmSsTdgl8EnySVgEm1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d5QjoJCT; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2de2f5ca076so18064361fa.0
-        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 03:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713954882; x=1714559682; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YTGioqHw4bG0d3wWLA0C6k3sKtV4jev6rrEIMgbLhO4=;
-        b=d5QjoJCT4tGPOUizncdMovUNpMyoBw50xu8aeFD05oztfFAcqdy3Bdul0lreOWRwCo
-         /IZUPO6onAUVtXA5+RVzgIc5ZrLbM4AmKZ42OLHrE3wX9eLtEUX89LX59CaisXGvLJc/
-         Mq+zwfEP3QqhcR2gtyvJ8GE3qKWIDXvLWmcZo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713954882; x=1714559682;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YTGioqHw4bG0d3wWLA0C6k3sKtV4jev6rrEIMgbLhO4=;
-        b=hkzJ5SRvF5ZtvXZHJSaoLJD2Bk9g6QdQjgHmjqSfodjsL1KbOdnsVr3KId/ihua+6x
-         SyoK+ZcR6/0INP/HeNyUeQ51qmA1Op6bthiRKRtnD+wPJoz9Fhl6m3FBQmSBO+gsLn/d
-         F5MJ/NIclGNCeOODqd+aDN7w2/flU0O4EWHMcdv7NyMM9U4W6MAl32CojaUj/+GcrpgB
-         58AZ/RVRPCnR4FDunjPEhv0Gr880RYZyVkI/CgJWQpcpHwa02iVxOqQPEudc0LR6ecz+
-         g1EIntPdblgJbVfptpAz/PybQeibPtNt3jvzyTnXj5WcvPkRh1KJcddsGlZuP9TZdg5g
-         y/UA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbqW68erldbxUFbMPnWdwN3JaSxuVLWcqVB0affrOv73NfjKkPF/kNbscl2uHzbknHHA0sLFfPuhKmeQcPbZiZPHGXJekABWkD1SY=
-X-Gm-Message-State: AOJu0YzAGdoZZbmQV3loJYVqPx9Lyjbzk4gWiLjbYKGE6MzpSzoXVJsq
-	LEEw4ef8389L1gCRACKV62Z37lWkh7t+4CKzvUeR6Zdwx/ZvDfuYX9oPHQPsriTD5+gwihiKaGe
-	Fr0laZnIZTIetptO99kCX0O67ItbdKzaLmAhl
-X-Google-Smtp-Source: AGHT+IH1SKEuMcbXbVaOT7b6LPKCdH0Hxd/9lwuaSIGld/FRJW7iu8EV/TAGnf3V8FIPftxocbi/e/dy8Ket9y/FUsU=
-X-Received: by 2002:a2e:3c0b:0:b0:2d8:5e21:8ec5 with SMTP id
- j11-20020a2e3c0b000000b002d85e218ec5mr1359535lja.48.1713954882016; Wed, 24
- Apr 2024 03:34:42 -0700 (PDT)
+	s=arc-20240116; t=1713956146; c=relaxed/simple;
+	bh=Cj6K2pDKfACVdriDTBYVm1W83EbsVbS9eJGxYbfANjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EwQfJNula+OtpxRLSmj7lBTqxiM79i6VPMKKPdq8vpEIx4F/lJ//2ARhQyT0jmUVVWchWptCMVnNPf54iXBKkQ2iyyBEpWCP3cHnz7Ty4d82puahVmgaHMtgN7jXKjlSUx8pCeXp1yISSRWbarxWLnH75V6PEcFt3d5gx+6YL44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5CF49339;
+	Wed, 24 Apr 2024 03:56:11 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E20A93F73F;
+	Wed, 24 Apr 2024 03:55:41 -0700 (PDT)
+Date: Wed, 24 Apr 2024 11:55:39 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, James
+ McGregor <jamcgregor@protonmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
+ compatible
+Message-ID: <20240424115539.50efd2f0@donnerap.manchester.arm.com>
+In-Reply-To: <1714205b-39cf-4803-b251-a35f6b9ab3e9@linaro.org>
+References: <20240422164511.2488261-1-andre.przywara@arm.com>
+ <20240422164511.2488261-2-andre.przywara@arm.com>
+ <20240423111502.6e068887@donnerap.manchester.arm.com>
+ <f2021c5d-25fa-4bdf-8f8c-b0bc271eb54e@linaro.org>
+ <20240423135106.02ab4473@donnerap.manchester.arm.com>
+ <1714205b-39cf-4803-b251-a35f6b9ab3e9@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240423122518.34811-1-kl@kl.wtf>
-In-Reply-To: <20240423122518.34811-1-kl@kl.wtf>
-From: =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-Date: Wed, 24 Apr 2024 12:34:30 +0200
-Message-ID: <CAE5UKNpSNtPbdMKDb7pDTpSiCNndkYP7KC+m6xSd6aMMQvQ2tQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] HID: i2c-hid: Probe and wake device with HID
- descriptor fetch
-To: Kenny Levinsen <kl@kl.wtf>
-Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Douglas Anderson <dianders@chromium.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, Johan Hovold <johan+linaro@kernel.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Radoslaw Biernacki <rad@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 23, 2024 at 2:26=E2=80=AFPM Kenny Levinsen <kl@kl.wtf> wrote:
->
-> This revises my previous patch[0] to add the sleep STM chips seem to
-> require as per discussion on the original patch from Lukasz and
-> Radoslaw[1]. I had initially tried without as it had not previously been
-> needed in the similar logic in our resume path, but it would appear that
-> this was simply luck as the affected device was woken up in that case by
-> "noise" from other sources.
->
-> To reiterate, the idea is to add the retry that Lukasz and Radoslaw
-> discovered was necessary, but do away with the dummy smbus probe and
-> instead just let HID descriptor fetch retry as needed, aligning more
-> with the existing retry logic used after resume while saving some noise
-> on the bus and speeding up initialization a tiny bit.
->
-> I added Co-developed-by tags, I hope that's appropriate. We should await
-> an ACK from Lukasz on it fixing their hardware quirk.
->
-> [0]: https://lore.kernel.org/all/20240415170517.18780-1-kl@kl.wtf/
-> [1]: https://lore.kernel.org/all/CAE5UKNqPA4SnnXyaB7Hwk0kcKMMQ_DUuxogDphn=
-nvSGP8g1nAQ@mail.gmail.com/
->
-Hi Kenny,
+On Tue, 23 Apr 2024 16:59:31 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Your solution works as it should - I have tested it on my Eve with
-enabled debugs and
-the retries works as expected with power-on, reboot and suspend/resume path=
-s.
+Hi,
 
-I have also disabled cros_ec_i2c driver to be 100% sure it doesn't do
-any i2c transactions on the bus
-and again the touchpad initialized successfully (with a retry) on all paths=
-.
+> On 23/04/2024 14:51, Andre Przywara wrote:
+> > On Tue, 23 Apr 2024 14:18:23 +0200
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> > Hi,
+> >   
+> >> On 23/04/2024 12:15, Andre Przywara wrote:  
+> >>> On Mon, 22 Apr 2024 17:45:10 +0100
+> >>> Andre Przywara <andre.przywara@arm.com> wrote:
+> >>>
+> >>> Hi,
+> >>>     
+> >>>> From: James McGregor <jamcgregor@protonmail.com>
+> >>>>
+> >>>> The Allwinner H616 SoC has an LRADC which is compatible with the
+> >>>> versions in existing SoCs.
+> >>>> Add a compatible string for H616, with the R329 fallback. This is the
+> >>>> same as the D1, so put them into an enum.
+> >>>>
+> >>>> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
+> >>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>    
+> >>>
+> >>> Compared the descriptions in the manual between the R392 and the H616, they
+> >>> look the same:
+> >>>
+> >>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>    
+> >>
+> >> Why do you review your own patches? Does it mean that you contribute
+> >> code which you did not review before?  
+> > 
+> > I just merely sent the code on behalf of James, because he had trouble
+> > with the email setup (Protonmail has no SMTP), but didn't want to delay
+> > the post any longer.  
+> 
+> OK, thanks, I suggest using b4 relay in the future.
 
-So you can add:
-Tested-by: Lukasz Majczak <lma@chromium.org>
-Reviewed-by: Lukasz Majczak <lma@chromium.org>
+Sure, will relay that - though this is not trivial to setup either.
 
-Thank you Kenny for your work :)
+> >> This is odd process.  
+> > 
+> > I agree, I would have liked it more if James would have sent it himself,
+> > and then my review would look more natural, but with my review I
+> > wanted to explicitly point out the technical correctness. Besides: I found
+> > this ordering issue in the other patch only after sending, so needed to
+> > somehow respond anyway.
+> > Also I wanted to make the process transparent: someone posts a patch (in
+> > this case via a proxy), then it gets reviewed.
+> >   
+> >> Your Review is implied by sending the patch.  
+> > 
+> > Is that really true? I was under the impression that sending is  
+> 
+> For authorship, both tested and review are implied. You cannot send code
+> which you do not think is correct, therefore your authorship fulfills
+> entire Reviewer's statement of oversight. There is nothing new said in
+> statement of oversight comparing to what authorship says.
 
-Best regards,
-Lukasz
+Fair enough, and James did, but I am not the author, as shown by the
+explicit From: line, having a different name.
+I *did* have a look over the patch before sending it, running checkpatch
+etc.
+
+But I cannot find anything in submitting-patches.rst that would constitute
+that Signed-off-by: includes any kind of technical review, it just seems
+to cover the legal aspects of patch deliverance?
+
+And personally for me a *review* means a thorough look at the code,
+understanding what it does and how it does it, and checking various
+details, for instance by looking into a datasheet.
+This is what I did only later, hence the separate review mail.
+
+> Now for testing, I think it is also kind of obvious that whenever we can
+> test our own code, we test it.
+
+Granted. I do not have hardware to test, but I ran DT schema checks
+before sending, I guess this qualifies as "testing" to some degree.
+
+> For sending other people patches, we could disagree. I stand that I
+> would not ever send incorrect patch intentionally.
+
+Sure, and the patch was not incorrect, I trust James that far, because I
+know him and talked to him about this patch and the process before.
+
+> Therefore reviewer's statement of oversight is entirely redundant as well.
+
+Maybe I missed that, but I don't see anything in the documentation that
+would support this statement. The "reviewer's statement of oversight"
+is only expressed by an explicit Reviewed-by: tag, it seems, and none of
+the other tags seem to include that. I would agree that authorship does,
+somewhat naturally, but I don't see that sending or SoB does.
+
+> I just cannot send
+> someone's patch without reviewing, thus without adhering to points
+> expressed by statement of oversight.
+
+As you mention elsewhere, this seems to be individual.
+I personally feel that this assumed "implicit review", given through
+the SoB tag or through sending, is weaker than an explicit Rb tag. I agree
+that by sending a patch from someone else I take some kind of
+responsibility for the patch, but in this case I wanted to express
+that I did a proper review of the patch, going beyond the usual process
+checks. Hence the reply with the R-b tag.
+
+> > independent from review. I mean I doubt that every maintainer sending
+> > patches up the chain (when they add their SoB) implies a *review*? Surely  
+> 
+> Yes, every. This applies to mass-maintainers, like netdev, Greg, Andrew etc.
+> 
+> Every patch I apply to my subsystems is reviewed by me. I cannot do
+> else, because that is the requirement of maintainership.
+
+I don't see it that way, I guess many maintainers rely on (thorough)
+reviews from third parties, and just glance over each patch before
+sending? Doesn't mean that they can and do reviews, but I feel it's not a
+requirement to do so *yourself* for *every* patch?
+
+> There are however maintainers (see i2c patches or Intel DRM) who accept
+> patches and do not review them. When they review, they provide
+> additional Rb tag + Sob. This is weird because it means when they accept
+> patch, they take it unreviewed! Their SoB does not imply reviewing patch
+> and this is in contrast to kernel process.
+> 
+> BTW, Stephen Rothwell mentions this to every maintainer on adding their
+> tree to linux-next ("You will need to ensure that ... reviewed by you
+> (or another maintainer of your subsystem tree)").
+
+But this hints that there must be *some* review taking place, and it's the
+maintainer's responsibility to ensure this. But that doesn't mean that the
+maintainer cannot delegate? And then they would just forward patches
+reviewed by trusted people.
+
+> > they do agree on the patch (also typically expressed by an Ack), otherwise
+> > they wouldn't send it, but a "review" is still a different thing.  
+> 
+> IMO, this would mean such maintainers accept code which they do not
+> understand/review/care. They are just patch juggling monkeys who take
+> something and push it further without doing actual work.
+> 
+> That's not how maintainership should look like. Maintainer must take
+> reviewed code and, if other maintainers do not review, then they must
+> perform it.
+
+Of course, but I feel this discussion goes into a different direction. I am
+not a maintainer for the sunxi tree, I am a mere messenger here,
+forwarding a patch. And I didn't think this implies an implicit review.
+A did an explicit one, to stress that I did look into the patch more
+thoroughly, and also because we are not exactly drowning in reviewers ;-)
+
+> > The Linux history has both Rb + SoB from the same person and just SoB
+> > signatures, so I assume that it's not implied.  
+> 
+> It depends on people. As I said, I2C and DRM provide Review tag. For me
+> this is silly and suggest that all my work, that 1000 patches I took,
+> was not reviewed.
+
+If you forward a thousand patches, I wouldn't expect you did review all of
+them *yourself*. This would be an almost impossible task, unless "review"
+just means something like: "uses tabs for indentation".
+
+> >> And you have there SoB which indicates you sent it...  
+> > 
+> > Yes, but SoB just means I sign off on the legal aspects: that I got the
+> > patches legally, compliant with the GPL, and that I am fine with and
+> > allowed to release them under GPL conditions.
+> > That does not include any code review aspect, AFAICT.  
+> 
+> So you want to say, that you are fine in sending intentionally buggy
+> code, knowingly incorrect, because your SoB and your "git send-email"
+> does not mean you reviewed it?
+
+Where did I claim that? Of course I would not send intentionally buggy
+code, and of course I did some high level checking of the patch before I
+attached my name to it. But to me this is still different from a proper
+"review", hence my reply.
+
+Cheers,
+Andre
+
+
+> Best regards,
+> Krzysztof
+> 
+> 
+
 
