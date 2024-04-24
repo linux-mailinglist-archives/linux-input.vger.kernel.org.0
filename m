@@ -1,195 +1,221 @@
-Return-Path: <linux-input+bounces-3246-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3247-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC1B8B0FAC
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 18:25:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A48B105D
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 18:56:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C02E91F2492D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 16:25:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA6F72817BE
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 16:56:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1730B16C86B;
-	Wed, 24 Apr 2024 16:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED68716D31E;
+	Wed, 24 Apr 2024 16:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SiDzE8kQ"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="2UpQJN3A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831DB16C44D
-	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 16:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED5616C87B;
+	Wed, 24 Apr 2024 16:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713975912; cv=none; b=s1bbDAy407hJQBS+eBnTV0r0+uLnhmfwUXND850rDaRsExLvuCjXG96omCKiHYZaDo2Wv089S5g4f8wgPZ9bDiNelAiBkk/HPoqh493NWUv2fzQgjinBeXwucYF7lEVgvAMj4LkPjcvOiYrfCqZCdlcCwTzWD+saa08YnRsxT4w=
+	t=1713977784; cv=none; b=tfwIVM4rSq/JkZ4Wzsrje2uk3cJJmG7mUnEtYN+Xqf0SgONpk8qadPQ3FOwMdVfvF3/W9QLdBSc3XM6Iyc/ZKBTMoRPhibq3slSWaPVUIeCxGkTpcl4A6PaswJmQkrBzVSrfdVtN1wiek0w4D6kXbKhADmWXShceuvOUAKNGbKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713975912; c=relaxed/simple;
-	bh=F8U+eywUSK4O8B2yNFCJfPiNXX5n0S1cQ/ES1sXTwWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K5wM/wnS8lzEy6Ey9+N0UXLCKlYLwgtiHIt7zzzTP2PwEcT3vh5R6NQqvxbcX8xtkGavNIMcanICCz2p7Uvo/tGHGNOqX4X1S8bJIibY94X7Qrtnpt5wTiTv0jtLI/kKVJiOO4MfNv2JLcvyV2OQgPTUk3M4y2kSKQiSEt3tI9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SiDzE8kQ; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6eb7a0b3fe7so31431a34.2
-        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 09:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713975906; x=1714580706; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F8U+eywUSK4O8B2yNFCJfPiNXX5n0S1cQ/ES1sXTwWQ=;
-        b=SiDzE8kQeLGS5kT280DdgII8DgRk9fLXLW9xy019hEJ0vgbdS/duV61W7qqSoOatRk
-         VkpQ+5rEOI2ozL9sNfLIrd/saeD7ny5lqOh6Eh2BAwBUU2HClydV6X0orPjfoKpI+HwC
-         M4VjIAwbZ8zgi6mCoNO8Q7kCon+PkjRYhord4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713975906; x=1714580706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F8U+eywUSK4O8B2yNFCJfPiNXX5n0S1cQ/ES1sXTwWQ=;
-        b=aedCu8aXpe/b5wwOhyMwdYPdCIaTMjIRMSqL/V5U/Z/1LO67OWGRJ8Q3eAmtQzlMyQ
-         2/zlHssviU2l5vBzrtz+EAJEVyf4HqHRCLqokbhYl/MRndGAdvlwMsLfAXHaftpTxAPG
-         HL5Sfx3S2YM/CSAYekY12iFP4HMBvLGrVhSXxK0dGuopIusfH0ar/KKXB8vlvIkkTI/K
-         qOyNrlZcAu8sWW9Qny9nT5q4o8cX5vQm7kSdZm9nnPDK5hYtgmDDz77txz+ApnbYUSjU
-         asyZEmX0CjeP2f+bJbx1bpbXGQWGyYBbcY6t7Z37AOgmnKcIOHFPAj5IN9eotq6OerZ3
-         sK9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUaVXbP+yzuzTE9Ha0sjSV2B3NOQZWAP8nU58U552etq8bQ0ESemVdw713/ONcvQPp+iu/JPsF2gdtXBbBE6//j/hLRHT9Lp/FakhE=
-X-Gm-Message-State: AOJu0YxzaH44i7ee+gtVSEfl3t2MZ5+OqH7qZwdU+EMxFbVsstqs6oBT
-	+WfGybYzWiuMxtXG5jZS22SEVHo8wO9l9T06bERDxiAsVv/oNKRagmzTM7EkznQlP5JnU48rFqI
-	=
-X-Google-Smtp-Source: AGHT+IEJNmVJHis8y4//4llxLNl5o7MZfNrcqBzRCFnh94va7NWzu3bSkFIStI2HeU6mrq5a8WHggQ==
-X-Received: by 2002:a05:6358:b5ce:b0:186:29ce:397d with SMTP id wb14-20020a056358b5ce00b0018629ce397dmr3221599rwc.20.1713975906056;
-        Wed, 24 Apr 2024 09:25:06 -0700 (PDT)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com. [209.85.160.169])
-        by smtp.gmail.com with ESMTPSA id g6-20020ac870c6000000b004347627f12esm6172134qtp.11.2024.04.24.09.25.04
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 09:25:05 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-434ffc2b520so233131cf.0
-        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 09:25:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUSB6yYkjLE/pOa2ymOspYBq5To5Rt9FTkk+GBLQYJRaEmEcAhNKOkm1UP1i9r9WKA4uo459ALKePRMyY/oVltXFUjN/7eNvwjxQS0=
-X-Received: by 2002:ac8:498a:0:b0:439:9c1b:ce93 with SMTP id
- f10-20020ac8498a000000b004399c1bce93mr389740qtq.12.1713975904358; Wed, 24 Apr
- 2024 09:25:04 -0700 (PDT)
+	s=arc-20240116; t=1713977784; c=relaxed/simple;
+	bh=jFSAdj8Fg1g/sV31cy/CgP0Fejcy6/GdPi/dUTUgELU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=coZuX/3ThjKEYhmHCQuT+UEVz0Oc4lZ2nMmohAyG7w1XxNLzTgS2Vt8z1tfNOhazcE2Z746zjYMywcsP4R5v4ThgTc1RFeuyoRgexL6TQ+Dr/3IxYCyG7NW3zwNaCq3ePHclmyJMMhCS5I8vKXz0wG50ftTwdSvPXzBN4jAb+Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=2UpQJN3A; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=Gr5w+NNXaBuu9MFvS/3sV7owIcp9t8FJfSpSoyXuyTk=; t=1713977782;
+	x=1714409782; b=2UpQJN3AUCGtXaPA6BYlPw/2ltZGacGaU5IfAUgvQoN83avPhpYvLvb0X3p9A
+	8WqmDNCyDBHF3IGYGF/UoiB6y5V4i+FnbI1gOaN+fdjmSkjaWrIEQnNu1j5sVpGfoTh87fRPvrZG1
+	0pVoaqEE6r9gSpW7wu6LXHF0IAOXxQSv2yoPPlGcn8xNJRqSZghxHnJY+sYBqtBnqZpOfNyTJaGck
+	+CeNB8N9Ws42AIpahmx0OjuS+/FuYo32G58ikk3wXH0Fxt7FBU5nrtx2q23oUfw9Ki5NGRxsEudXI
+	mZs21UUrlNemneRqzYW+KYaLfNUFqo9jCOIxAwmQ6gxNK9ix2Q==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rzfus-0000lM-MC; Wed, 24 Apr 2024 18:56:18 +0200
+Message-ID: <a810561a-14f3-412e-9903-acaba7a36160@leemhuis.info>
+Date: Wed, 24 Apr 2024 18:56:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <CAD=FV=W2Y=Sr-=YkKb01XLQsbQJr2b981c9kcfvAc4_5E9XD7g@mail.gmail.com> <ZijH6EaqWKHWRcdK@hovoldconsulting.com>
-In-Reply-To: <ZijH6EaqWKHWRcdK@hovoldconsulting.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 24 Apr 2024 09:24:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X+RaSxsWtY704-si9vrqkoUey0W11R6X8pTxgJkt6Fiw@mail.gmail.com>
-Message-ID: <CAD=FV=X+RaSxsWtY704-si9vrqkoUey0W11R6X8pTxgJkt6Fiw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] HID/arm64: dts: qcom: sc8280xp-x13s: fix touchscreen
- power on
-To: Johan Hovold <johan@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: regression fixes sitting in subsystem git trees for a week or longer
+ (was: Re: [PATCH v2] HID: i2c-hid: Revert to await reset ACK before reading
+ report descriptor)
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Kenny Levinsen <kl@kl.wtf>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20240331182440.14477-1-kl@kl.wtf>
+ <14d1b38e-0f11-4852-9c52-92b4bedb0a77@leemhuis.info>
+ <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1713977782;880531d9;
+X-HE-SMSGID: 1rzfus-0000lM-MC
 
-Hi,
+Linus,
 
-On Wed, Apr 24, 2024 at 1:50=E2=80=AFAM Johan Hovold <johan@kernel.org> wro=
-te:
+On 23.04.24 16:59, Benjamin Tissoires wrote:
+> On Mon, Apr 22, 2024 at 7:11 PM Linux regression tracking (Thorsten
+> Leemhuis) <regressions@leemhuis.info> wrote:
+>> On 31.03.24 20:24, Kenny Levinsen wrote:
 >
-> On Tue, Apr 23, 2024 at 01:36:18PM -0700, Doug Anderson wrote:
-> > On Tue, Apr 23, 2024 at 6:46=E2=80=AFAM Johan Hovold <johan+linaro@kern=
-el.org> wrote:
-> > > The Elan eKTH5015M touch controller on the X13s requires a 300 ms del=
-ay
-> > > before sending commands after having deasserted reset during power on=
-.
-> > >
-> > > This series switches the X13s devicetree to use the Elan specific
-> > > binding so that the OS can determine the required power-on sequence a=
-nd
-> > > make sure that the controller is always detected during boot. [1]
-> > >
-> > > The Elan hid-i2c driver currently asserts reset unconditionally durin=
-g
-> > > suspend, which does not work on the X13s where the touch controller
-> > > supply is shared with other peripherals that may remain powered. Hold=
-ing
-> > > the controller in reset can increase power consumption and also leaks
-> > > current through the reset circuitry pull ups.
-> >
-> > Can you provide more details about which devices exactly it shares
-> > power with? I'm worried that you may be shooting yourself in the foot
-> > to avoid shooting yourself in the arm.
-> >
-> > Specifically, if those other peripherals that may remain powered ever
-> > power themselves off then you'll end up back-driving the touchscreen
-> > through the reset line, won't you? Since reset is active low then not
-> > asserting reset drives the reset line high and, if you power it off,
-> > it can leach power backwards through the reset line. The
-> > "goodix,no-reset-during-suspend" property that I added earlier
-> > specifically worked on systems where the rail was always-on so I could
-> > guarantee that didn't happen.
-> >
-> > From looking at your dts patch it looks like your power _is_ on an
-> > always-on rail so you should be OK, but it should be documented that
-> > this only works for always-on rails.
-> >
-> > ..also, from your patch description it sounds as if (maybe?) you
-> > intend to eventually let the rail power off if the trackpad isn't a
-> > wakeup source. If you eventually plan to do that then you definitely
-> > need something more complex here...
+> [previous subject: [PATCH v2] HID: i2c-hid: Revert to await reset ACK before reading report descriptor]
 >
-> No, that's the whole point: the hardware is designed so that the reset
-> line can be left deasserted by the CPU also when the supply is off.
->
-> The supply in this case is shared with the keyboard and touchpad, but
-> also some other devices which are not yet fully described. As you
-> rightly noted, the intention is to allow the supply to eventually be
-> disabled when none of these devices are enabled as wakeup sources.
->
-> I did not want to get in to too much details on exactly how this
-> particular reset circuit is designed, but basically you have a pull up
-> to an always-on 1.8 V rail on the CPU side, a FET level shifter, and a
-> pull up to the supply voltage on the peripheral side.
->
-> With this design, the reset line can be left deasserted by the CPU
-> (tri-stated or driven high), but the important part is that the reset
-> signal that goes into the controller will be pulled to 3.3 V only when
-> the supply is left on and otherwise it will be connected to ground.
+>>> In af93a167eda9, i2c_hid_parse was changed to continue with reading the
+>>> report descriptor before waiting for reset to be acknowledged.
+>>>
+>>> This has lead to two regressions:
+>>
+>> Lo! Jiri, Benjamin, quick question: is there a reason why this fix for a
+>> 6.8-rc1 regression after more than two and half weeks is not yet
+>> mainlined? Or is there some good reason why we should be should be extra
+>> cautious?
+> 
+> No special reasons I guess. Neither Jiri nor I have sent a HID update
+> for this rc cycle, so it's still there, waiting to be pushed.
+> I've been quite busy with BPF lately and dropped the ball slightly on
+> the HID maintainer side, but I'm sure we'll send the PR to Linus this
+> week or the next.
 
-Ah, got it. The level shifter isolating things makes sense.
+out of interest: what's your stance on regression fixes sitting in
+subsystem git trees for a week or longer before being mainlined?
 
+The quoted patch is such a case. It fixes a regression caused by a
+change that made it into 6.8-rc1, but the problem afaik was only
+reported on 2024-03-19, e.g. ~nine days after 6.8 was out[1]; Kenny, the
+author of the fix, apparently noticed and fixed the problem a bit later
+independently[2]. Jiri merged a newer version of the fix on
+2024-04-03[3], which was included in -next a day later -- the Thursday
+before 6.9-rc3.
 
-> > I guess one last thought is: what do we do if/when someone needs the
-> > same solution but they want multiple sources of touchscreens, assuming
-> > we ever get the second-sourcing problem solved well. In that case the
-> > different touchscreen drivers might have a different idea of how the
-> > GPIO should be left when the driver exits...
->
-> The second-source problem is arguable a separate one, and as we've
-> discussed in the past, the current approach of describing both devices
-> in the devicetree only works when the devices are truly compatible in
-> terms of external resources (supplies, gpios, pinconfig). For anything
-> more complex, we need a more elaborate implementation.
->
-> In this case it should not be a problem, though, as the reset circuit
-> should have the same properties regardless of which controller you
-> connect (e.g. both nodes would have the 'no-reset-on-power-off'
-> property).
+The fix thus would even have gotten two days of testing in -next, if
+Benjamin or Jiri would have send it your way for that pre-release. But
+from Benjamin's statement quoted above it seems the fix might even make
+-rc6.
 
-The reset circuitry may be the same, but the properties of the
-touchscreen might not be. It would be easy to imagine a different
-touchscreen that consumes less power when held in reset.
+That obviously heavily reduces the time the fix will be tested before
+6.9 is released.
 
-In any case, not a problem we need to solve right now.
+It obviously also means that 6.8.y is as of now still unfixed, as the
+stable team usually only applies fixes once they landed in mainline.
 
+Which also means that even more people ran into the problem with
+6.8.y[4] or mainline even after Jiri merged the patch into the hid tree
+-- and maybe some of those people wasted their time on a bisection only
+to find out that a fix exists.
 
--Doug
+That sounds, ehh, sub-optimal to me. Which is why I wonder what's your
+stance here, as I encounter similar situations frequently[5] -- which
+sometimes is kinda demotivating. :-/
+
+Ciao, Thorsten
+
+[1]
+https://lore.kernel.org/all/a587f3f3-e0d5-4779-80a4-a9f7110b0bd2@manjaro.org/
+
+[2] https://lore.kernel.org/all/20240331132332.6694-1-kl@kl.wtf/
+
+[3]
+https://lore.kernel.org/all/nycvar.YFH.7.76.2404031401411.20263@cbobk.fhfr.pm/
+
+[4] https://social.lol/@major/112294923280815017
+
+[5] This fix for example:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=master&id=afc89870ea677bd5a44516eb981f7a259b74280c
+Reports:
+https://lore.kernel.org/lkml/ZYhQ2-OnjDgoqjvt@wens.tw/
+https://lore.kernel.org/lkml/1553a526-6f28-4a68-88a8-f35bd22d9894@linumiz.com/
+
+> [...]
+>>> 1. We fail to handle reset acknowledgement if it happens while reading
+>>>    the report descriptor. The transfer sets I2C_HID_READ_PENDING, which
+>>>    causes the IRQ handler to return without doing anything.
+>>>
+>>>    This affects both a Wacom touchscreen and a Sensel touchpad.
+>>>
+>>> 2. On a Sensel touchpad, reading the report descriptor this quickly
+>>>    after reset results in all zeroes or partial zeroes.
+>>>
+>>> The issues were observed on the Lenovo Thinkpad Z16 Gen 2.
+>>>
+>>> The change in question was made based on a Microsoft article[0] stating
+>>> that Windows 8 *may* read the report descriptor in parallel with
+>>> awaiting reset acknowledgement, intended as a slight reset performance
+>>> optimization. Perhaps they only do this if reset is not completing
+>>> quickly enough for their tastes?
+>>>
+>>> As the code is not currently ready to read registers in parallel with a
+>>> pending reset acknowledgement, and as reading quickly breaks the report
+>>> descriptor on the Sensel touchpad, revert to waiting for reset
+>>> acknowledgement before proceeding to read the report descriptor.
+>>>
+>>> [0]: https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/plug-and-play-support-and-power-management
+>>>
+>>> Fixes: af93a167eda9 ("HID: i2c-hid: Move i2c_hid_finish_hwreset() to after reading the report-descriptor")
+>>> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+>>> ---
+>>>  drivers/hid/i2c-hid/i2c-hid-core.c | 13 ++++---------
+>>>  1 file changed, 4 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>> index 2df1ab3c31cc..72d2bccf5621 100644
+>>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+>>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>> @@ -735,9 +735,12 @@ static int i2c_hid_parse(struct hid_device *hid)
+>>>       mutex_lock(&ihid->reset_lock);
+>>>       do {
+>>>               ret = i2c_hid_start_hwreset(ihid);
+>>> -             if (ret)
+>>> +             if (ret == 0)
+>>> +                     ret = i2c_hid_finish_hwreset(ihid);
+>>> +             else
+>>>                       msleep(1000);
+>>>       } while (tries-- > 0 && ret);
+>>> +     mutex_unlock(&ihid->reset_lock);
+>>>
+>>>       if (ret)
+>>>               goto abort_reset;
+>>> @@ -767,16 +770,8 @@ static int i2c_hid_parse(struct hid_device *hid)
+>>>               }
+>>>       }
+>>>
+>>> -     /*
+>>> -      * Windows directly reads the report-descriptor after sending reset
+>>> -      * and then waits for resets completion afterwards. Some touchpads
+>>> -      * actually wait for the report-descriptor to be read before signalling
+>>> -      * reset completion.
+>>> -      */
+>>> -     ret = i2c_hid_finish_hwreset(ihid);
+>>>  abort_reset:
+>>>       clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+>>> -     mutex_unlock(&ihid->reset_lock);
+>>>       if (ret)
+>>>               goto out;
+>>>
+>>
+> 
+> 
+> 
 
