@@ -1,257 +1,154 @@
-Return-Path: <linux-input+bounces-3239-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3240-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F9B8B07C4
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B824B8B07CA
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:56:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 987411C22E7A
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:55:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7DCD1C231C2
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786F01598EC;
-	Wed, 24 Apr 2024 10:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F4C1598FA;
+	Wed, 24 Apr 2024 10:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PN2VIcZa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50FEF1598F9;
-	Wed, 24 Apr 2024 10:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262591598EA;
+	Wed, 24 Apr 2024 10:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713956146; cv=none; b=AVp3iDGQnyqSilAsDLNYkzRtbtTv9oUHI/UpUi8eBTjkt6ECZaVRBDUE0j3Xg+iCt4JS9oEKC4pF2CgVjaVK/lrNRtteSVnYeEvisi2T/hiALiMOXGg0zHoaDJc0d7YMp5FOZqCbr419FfdnCs97m6O30ZFswdn1WGwDATz+pVE=
+	t=1713956201; cv=none; b=qodBm91Tfr3qZWEehP+Lwooe5U+mNZT9cmKsB1ui/f2HOMeAuU9r0iZXRijUBY0aCenBuZBQ4q7CLCDM4I93xS/gWR+AJlc0MCpQtQDS2JnvhbO2VfQqKlwD15llqhLLZLeABOFLZ3wgaZgYnpnPso8VEuVE5Vwjl3O5bVR9BK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713956146; c=relaxed/simple;
-	bh=Cj6K2pDKfACVdriDTBYVm1W83EbsVbS9eJGxYbfANjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EwQfJNula+OtpxRLSmj7lBTqxiM79i6VPMKKPdq8vpEIx4F/lJ//2ARhQyT0jmUVVWchWptCMVnNPf54iXBKkQ2iyyBEpWCP3cHnz7Ty4d82puahVmgaHMtgN7jXKjlSUx8pCeXp1yISSRWbarxWLnH75V6PEcFt3d5gx+6YL44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5CF49339;
-	Wed, 24 Apr 2024 03:56:11 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E20A93F73F;
-	Wed, 24 Apr 2024 03:55:41 -0700 (PDT)
-Date: Wed, 24 Apr 2024 11:55:39 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, James
- McGregor <jamcgregor@protonmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
- compatible
-Message-ID: <20240424115539.50efd2f0@donnerap.manchester.arm.com>
-In-Reply-To: <1714205b-39cf-4803-b251-a35f6b9ab3e9@linaro.org>
-References: <20240422164511.2488261-1-andre.przywara@arm.com>
- <20240422164511.2488261-2-andre.przywara@arm.com>
- <20240423111502.6e068887@donnerap.manchester.arm.com>
- <f2021c5d-25fa-4bdf-8f8c-b0bc271eb54e@linaro.org>
- <20240423135106.02ab4473@donnerap.manchester.arm.com>
- <1714205b-39cf-4803-b251-a35f6b9ab3e9@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713956201; c=relaxed/simple;
+	bh=VlCUYJjJMdo3gKgoD+v70kTIJeDoxTMF1EJ27Rbviz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXJYjmpCRCWuapQPbFCS8XBFQZLjZHVwt0PUJYou5TWSDa/ivow5pGpjHpe4PP/Sf+c82Qx9KI33d7nzsnsaseOBS+pajFxjvV1fH3Sf36URQnqSMxtlXcnWxw6FhrPQeP14un6IP4lTZOMP6eCYOOzBIrITjsN4AD1YzqkBnxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PN2VIcZa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3999C113CE;
+	Wed, 24 Apr 2024 10:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713956201;
+	bh=VlCUYJjJMdo3gKgoD+v70kTIJeDoxTMF1EJ27Rbviz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PN2VIcZaLKC7POnmPWKv/9Dg7rlkUALbhBAqV6Ud2rVxTNG4y7aqR2/9zw6l90Wzd
+	 B7y4YYxIjtEQD8LEHVSRwpQG6pCLsX2F2PVFa2RD4OkwUT/0zpeJqdfNk2LzjgQLSO
+	 C5/RXeNSdIvYyps+F/5mhZs2fnYKV6QidjRJKq/gkXP/9Sdu2qYBAc0jSJ7fgQt2O0
+	 xKMN4AEx7gLlg3wdzVNhLYhfSIDR7+eNBVZ3EhoXdKjg99jaiAMHxml14Be7P73I/m
+	 ZBt7bJtlDUaN29PFj+UhAI5vDel/ufQDjXvddyuPmynMrYpCo4mQOgjzITp9Vav2Sd
+	 rmt5enLCOR0WA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rzaIp-0000000035o-3MJZ;
+	Wed, 24 Apr 2024 12:56:39 +0200
+Date: Wed, 24 Apr 2024 12:56:39 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 4/6] HID: i2c-hid: elan: fix reset suspend current leakage
+Message-ID: <ZijlZw6zm4R9ULBU@hovoldconsulting.com>
+References: <20240423134611.31979-1-johan+linaro@kernel.org>
+ <20240423134611.31979-5-johan+linaro@kernel.org>
+ <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
 
-On Tue, 23 Apr 2024 16:59:31 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Tue, Apr 23, 2024 at 01:37:14PM -0700, Doug Anderson wrote:
+> On Tue, Apr 23, 2024 at 6:46 AM Johan Hovold <johan+linaro@kernel.org> wrote:
 
-Hi,
-
-> On 23/04/2024 14:51, Andre Przywara wrote:
-> > On Tue, 23 Apr 2024 14:18:23 +0200
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > 
-> > Hi,
-> >   
-> >> On 23/04/2024 12:15, Andre Przywara wrote:  
-> >>> On Mon, 22 Apr 2024 17:45:10 +0100
-> >>> Andre Przywara <andre.przywara@arm.com> wrote:
-> >>>
-> >>> Hi,
-> >>>     
-> >>>> From: James McGregor <jamcgregor@protonmail.com>
-> >>>>
-> >>>> The Allwinner H616 SoC has an LRADC which is compatible with the
-> >>>> versions in existing SoCs.
-> >>>> Add a compatible string for H616, with the R329 fallback. This is the
-> >>>> same as the D1, so put them into an enum.
-> >>>>
-> >>>> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
-> >>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>    
-> >>>
-> >>> Compared the descriptions in the manual between the R392 and the H616, they
-> >>> look the same:
-> >>>
-> >>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>    
-> >>
-> >> Why do you review your own patches? Does it mean that you contribute
-> >> code which you did not review before?  
-> > 
-> > I just merely sent the code on behalf of James, because he had trouble
-> > with the email setup (Protonmail has no SMTP), but didn't want to delay
-> > the post any longer.  
+> > @@ -87,12 +104,14 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
+> >         ihid_elan->ops.power_up = elan_i2c_hid_power_up;
+> >         ihid_elan->ops.power_down = elan_i2c_hid_power_down;
+> >
+> > -       /* Start out with reset asserted */
+> > -       ihid_elan->reset_gpio =
+> > -               devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+> > +       ihid_elan->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> > +                                                       GPIOD_ASIS);
 > 
-> OK, thanks, I suggest using b4 relay in the future.
+> I'm not a huge fan of this part of the change. It feels like the GPIO
+> state should be initialized by the probe function. Right before we
+> call i2c_hid_core_probe() we should be in the state of "powered off"
+> and the reset line should be in a consistent state. If
+> "no_reset_on_power_off" then it should be de-asserted. Else it should
+> be asserted.
 
-Sure, will relay that - though this is not trivial to setup either.
+First, the reset gpio will be set before probe() returns, just not
+immediately when it is requested.
 
-> >> This is odd process.  
-> > 
-> > I agree, I would have liked it more if James would have sent it himself,
-> > and then my review would look more natural, but with my review I
-> > wanted to explicitly point out the technical correctness. Besides: I found
-> > this ordering issue in the other patch only after sending, so needed to
-> > somehow respond anyway.
-> > Also I wanted to make the process transparent: someone posts a patch (in
-> > this case via a proxy), then it gets reviewed.
-> >   
-> >> Your Review is implied by sending the patch.  
-> > 
-> > Is that really true? I was under the impression that sending is  
+[ Sure, your panel follower implementation may defer the actual probe of
+the touchscreen even further but I think that's a design flaw in the
+current implementation. ]
+
+Second, the device is not necessarily in the "powered off" state as the
+driver leaves the power supplies in whatever state that the boot
+firmware left them in.
+
+Not immediately asserting reset and instead leaving it in the state that
+the boot firmware left it in is also no different from what happens when
+a probe function bails out before requesting the reset line.
+
+> I think GPIOD_ASIS doesn't actually do anything useful for you, right?
+> i2c_hid_core_probe() will power on and the first thing that'll happen
+> there is that the reset line will be unconditionally asserted.
+
+It avoids asserting reset before we need to and thus also avoid the need
+to deassert it on early probe failures (e.g. if one of the regulator
+lookups fails).
+
+We also don't need to worry about timing requirements, which can all be
+handled in one place (i.e. in the power up and power down callbacks).
+ 
+> Having this as "GPIOD_ASIS" makes it feel like the kernel is somehow
+> able to maintain continuity of this GPIO line from the BIOS state to
+> the kernel, but I don't think it can. I've looked at the "GPIOD_ASIS"
+> property before because I've always wanted the ability to have GPIOs
+> that could more seamlessly transition their firmware state to their
+> kernel state. I don't think the API actually allows it. The fact that
+> GPIO regulators don't support this seamless transition (even though it
+> would be an obvious feature to add) supports my theory that the API
+> doesn't currently allow it. It may be possible to make something work
+> on some implementations but I think it's not guaranteed.
 > 
-> For authorship, both tested and review are implied. You cannot send code
-> which you do not think is correct, therefore your authorship fulfills
-> entire Reviewer's statement of oversight. There is nothing new said in
-> statement of oversight comparing to what authorship says.
-
-Fair enough, and James did, but I am not the author, as shown by the
-explicit From: line, having a different name.
-I *did* have a look over the patch before sending it, running checkpatch
-etc.
-
-But I cannot find anything in submitting-patches.rst that would constitute
-that Signed-off-by: includes any kind of technical review, it just seems
-to cover the legal aspects of patch deliverance?
-
-And personally for me a *review* means a thorough look at the code,
-understanding what it does and how it does it, and checking various
-details, for instance by looking into a datasheet.
-This is what I did only later, hence the separate review mail.
-
-> Now for testing, I think it is also kind of obvious that whenever we can
-> test our own code, we test it.
-
-Granted. I do not have hardware to test, but I ran DT schema checks
-before sending, I guess this qualifies as "testing" to some degree.
-
-> For sending other people patches, we could disagree. I stand that I
-> would not ever send incorrect patch intentionally.
-
-Sure, and the patch was not incorrect, I trust James that far, because I
-know him and talked to him about this patch and the process before.
-
-> Therefore reviewer's statement of oversight is entirely redundant as well.
-
-Maybe I missed that, but I don't see anything in the documentation that
-would support this statement. The "reviewer's statement of oversight"
-is only expressed by an explicit Reviewed-by: tag, it seems, and none of
-the other tags seem to include that. I would agree that authorship does,
-somewhat naturally, but I don't see that sending or SoB does.
-
-> I just cannot send
-> someone's patch without reviewing, thus without adhering to points
-> expressed by statement of oversight.
-
-As you mention elsewhere, this seems to be individual.
-I personally feel that this assumed "implicit review", given through
-the SoB tag or through sending, is weaker than an explicit Rb tag. I agree
-that by sending a patch from someone else I take some kind of
-responsibility for the patch, but in this case I wanted to express
-that I did a proper review of the patch, going beyond the usual process
-checks. Hence the reply with the R-b tag.
-
-> > independent from review. I mean I doubt that every maintainer sending
-> > patches up the chain (when they add their SoB) implies a *review*? Surely  
+> Specifically, the docs say:
 > 
-> Yes, every. This applies to mass-maintainers, like netdev, Greg, Andrew etc.
+> * GPIOD_ASIS or 0 to not initialize the GPIO at all. The direction must be set
+>   later with one of the dedicated functions.
 > 
-> Every patch I apply to my subsystems is reviewed by me. I cannot do
-> else, because that is the requirement of maintainership.
+> So that means that you can't read the pin without making it an input
+> (which might change the state if it was previously driving a value)
+> and you can't write the pin without making it an output and choosing a
+> value to set it to. Basically grabbing a pin with "asis" doesn't allow
+> you to do anything with it--it just claims it and doesn't let anyone
+> else have it.
 
-I don't see it that way, I guess many maintainers rely on (thorough)
-reviews from third parties, and just glance over each patch before
-sending? Doesn't mean that they can and do reviews, but I feel it's not a
-requirement to do so *yourself* for *every* patch?
+These properties may prevent it from being used by the regulator
+framework, but GPIOD_ASIS works well in the case of a reset gpio where
+we simply leave it in whatever state the firmware left it in if probe
+fails before we get to powering on the device.
 
-> There are however maintainers (see i2c patches or Intel DRM) who accept
-> patches and do not review them. When they review, they provide
-> additional Rb tag + Sob. This is weird because it means when they accept
-> patch, they take it unreviewed! Their SoB does not imply reviewing patch
-> and this is in contrast to kernel process.
-> 
-> BTW, Stephen Rothwell mentions this to every maintainer on adding their
-> tree to linux-next ("You will need to ensure that ... reviewed by you
-> (or another maintainer of your subsystem tree)").
-
-But this hints that there must be *some* review taking place, and it's the
-maintainer's responsibility to ensure this. But that doesn't mean that the
-maintainer cannot delegate? And then they would just forward patches
-reviewed by trusted people.
-
-> > they do agree on the patch (also typically expressed by an Ack), otherwise
-> > they wouldn't send it, but a "review" is still a different thing.  
-> 
-> IMO, this would mean such maintainers accept code which they do not
-> understand/review/care. They are just patch juggling monkeys who take
-> something and push it further without doing actual work.
-> 
-> That's not how maintainership should look like. Maintainer must take
-> reviewed code and, if other maintainers do not review, then they must
-> perform it.
-
-Of course, but I feel this discussion goes into a different direction. I am
-not a maintainer for the sunxi tree, I am a mere messenger here,
-forwarding a patch. And I didn't think this implies an implicit review.
-A did an explicit one, to stress that I did look into the patch more
-thoroughly, and also because we are not exactly drowning in reviewers ;-)
-
-> > The Linux history has both Rb + SoB from the same person and just SoB
-> > signatures, so I assume that it's not implied.  
-> 
-> It depends on people. As I said, I2C and DRM provide Review tag. For me
-> this is silly and suggest that all my work, that 1000 patches I took,
-> was not reviewed.
-
-If you forward a thousand patches, I wouldn't expect you did review all of
-them *yourself*. This would be an almost impossible task, unless "review"
-just means something like: "uses tabs for indentation".
-
-> >> And you have there SoB which indicates you sent it...  
-> > 
-> > Yes, but SoB just means I sign off on the legal aspects: that I got the
-> > patches legally, compliant with the GPL, and that I am fine with and
-> > allowed to release them under GPL conditions.
-> > That does not include any code review aspect, AFAICT.  
-> 
-> So you want to say, that you are fine in sending intentionally buggy
-> code, knowingly incorrect, because your SoB and your "git send-email"
-> does not mean you reviewed it?
-
-Where did I claim that? Of course I would not send intentionally buggy
-code, and of course I did some high level checking of the patch before I
-attached my name to it. But to me this is still different from a proper
-"review", hence my reply.
-
-Cheers,
-Andre
-
-
-> Best regards,
-> Krzysztof
-> 
-> 
-
+Johan
 
