@@ -1,129 +1,181 @@
-Return-Path: <linux-input+bounces-3244-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3245-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3198B0F5F
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 18:06:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C9B8B0FA5
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 18:25:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09F5A28850D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 16:06:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFBF41F25AAD
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 16:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6EE1607A7;
-	Wed, 24 Apr 2024 16:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A58E161322;
+	Wed, 24 Apr 2024 16:24:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QWF3TD5D"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LRio9Mca"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3CA15E1EA;
-	Wed, 24 Apr 2024 16:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D3216190B
+	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 16:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713974811; cv=none; b=NOI0qQ83BBhGNZpzjQx0ypvnXsoSLoUNeLp5xhxgK96l7wCAkWvL7Qf/u+P41JeGBZ67XSiAf2+OpPgAjaPRkOBrqDBKOEBIE+T1hp7VaMOsFIERPWr18uw2790wTc7aXvKBheE85JQ4UUaPsLFZtO5pt+iRgc8lobXK1z2G/VA=
+	t=1713975895; cv=none; b=hII0ZjdydvkKpT7Gn33NfJuslJrK9LX3zptQb+rhFq6Af1LcMpoxQP/vGm0gxDXOm5otMuAZKXq9rgVKw1yf6c8bdoKVL60KfuoLN3Sor/QhwxbpBYyjq4iP38fHOzOITj6pHlofJALAATIxwD5x0kBmaPnQoSeHwo30ynvsiBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713974811; c=relaxed/simple;
-	bh=pV+VrxGvpBc3cztS2k/grcbxt+d6cI6f1QkR7t0g/z8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVPvVP8uAV1MgfmWujzQTQ/8O1TucS9Sjra3NCIhs95qJChoh0Hg4YDkc4hmlRm6s/3tb/CpmypVMJiFQtsPZwBFNCVObF9iabNVa10P0m8+sCcSR/4ZQvkjeKEu8z63pAFId8qod+YiKVo3rEgGJi7Ohlp+RI7DWI7H8tnkeiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QWF3TD5D; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3C07440E0177;
-	Wed, 24 Apr 2024 16:06:44 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id a1whXnU_urG2; Wed, 24 Apr 2024 16:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1713974800; bh=eT/sJrq6XNpXYldhLxOFeSR6n1DYq3NDJUftCdjBaNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QWF3TD5DfjsDxjpmOqQmkDBvJqmy2ArfExGwOQxTl1ZUOlBsHM9dtYnlQhG69Fb/7
-	 iE8KAkqTm0OoHa0sqEnqNWcuhISoAq6YJGJLh2CTI2HJoTz0gwL3sxig0eL2t+XY2M
-	 7wcaIOfeHdUmZE9oVDfrIbgjpsMl6j0NStBevpmYsILuDiK2NinFpnprFt/Kj8uVA+
-	 CgGjjZ6BKlhY91FWBu4lXYHoICXTM/XrlbZghwGMPwi39FaWBenySPfMaq7snqnjLK
-	 DHGyOx9XcOjdHxhTvqrGTHO6iAOOp87i4FR5e4l8X/niXuR8947AHiBMYDsv+0p+ie
-	 t5by9FFOxn4v6FEVb6CCDgwFRUmOGmr9k5AGdoH/POcu1MD+4/6NYOsUNYV5EDjOg5
-	 PPfjXhZSgcHT6hAu1FyqGHmnFr86tOFQDX/vQ0hzX5nqQ/zkc40g+B1+8fLb8NhoeS
-	 sgaTO3Iq/7BGdS5CLYN1eCV/iCM3MzN8rlDKiRcnn3IIlulziuBtI2Sv48bI4kC/Xl
-	 AOXtU65xrJi/MHNBROsVykmeh3rLJlX0/ypKzomYRUxao3j+puNaybZVeElC4NGJWW
-	 ciPuepgMBQQkbIYhb89WOO2YsKOgl5TanEh8YSI9J8FxddQFkWw/8nsJP1lF9kclVP
-	 nGSR16o2/oCj2/GI5CzL2t9k=
-Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C440840E0192;
-	Wed, 24 Apr 2024 16:06:13 +0000 (UTC)
-Date: Wed, 24 Apr 2024 18:06:08 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
-	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
-Subject: Re: [PATCH v8 1/7] x86/vmware: Move common macros to vmware.h
-Message-ID: <20240424160608.GFZikt8JLrTN4M5PG2@fat_crate.local>
-References: <20240422225656.10309-1-alexey.makhalov@broadcom.com>
- <20240422225656.10309-2-alexey.makhalov@broadcom.com>
+	s=arc-20240116; t=1713975895; c=relaxed/simple;
+	bh=cND1PE1vSAdhfk2CRs7RXl5CX9byI+l280+lm5j+WZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sQsltwYd1XrvVdCOkrErDj75JNZNuwwi81wG5578kUb0tsV2EOUzXZmROg7F8xp9x0mbk6zmay9bGPZkfU+FENRayNE1kPAcfS4Fa5hwcHkvdrDvMg86e+32fIiqd9xnMbEHbxfNrth1YaMjcLp9q66PC/WH0dkptE3VFk8Qp1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LRio9Mca; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78ebc7e1586so107024585a.1
+        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 09:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713975891; x=1714580691; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7TxYW0LPM0T5UqY1oRd1cuem+oFb+5LidVbsapA3pB4=;
+        b=LRio9McanT5qsAfv8GtMZo4kdHMb3Is30CWRUz3lHoatihdsjZzZS1FSe/ZH8YxU9s
+         Sd5gpaAbw45ledP7R7Xgpg5ZWfAaDFTjoCrVT677r/j3yMameL4rhZ3kk3u1oYar9GHc
+         eiHwxl6JPCiicIw9G43TPYBmzUbyIQeoAeptE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713975891; x=1714580691;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7TxYW0LPM0T5UqY1oRd1cuem+oFb+5LidVbsapA3pB4=;
+        b=OJzOREp1EMrP4l52+RJontmbH72yGYk+zBFoDPaPFn0himf6MOsFNWemY0zfI/N7BX
+         muuIHwX8uqwHUx/+0rLBUsQNQ07Rx3Ql3HCFFJ/rNvDVZvGvPg5rcKxp9zuWYHqUlc3E
+         t2aPkHWZLpos0C9iXNftT0PETj7x7m7Z6A/wFGGxygnCUN7gh0UAP7iKxWkGjb0Dvg0D
+         6nCY+YwOavVHESGxrfVFPQaFLMisu3qexzf0Yz1ARy4hXw5s681VrfrJltz02qQkjoaK
+         blzJETfn1yOIr06KVZ3hmoeLHJY7ROMKik/3lrfZDNFoihiaHmYTinsGWgMno155lE9V
+         quLw==
+X-Forwarded-Encrypted: i=1; AJvYcCVywHCUTMRU4SLfbgGp8/udY7qIX4WNqvt+ZM+/8JY0ZoO9MH3EjR0Ak1OzRUscflNyNrYrOXJZoDUrFOo3aeM1MYvlA0klRMiBjS4=
+X-Gm-Message-State: AOJu0Yw8qRrhv9mq8EAYHol4g/OeTwIN36s8QfcbWJM2RVaSL1nyAJqm
+	z/cKCNaINIFYYlexViZKR9632dWI2lf1sAYNlODwnTzYcUSrj3Uo7OnRz5FBQr6vlRRmWIv9BTg
+	=
+X-Google-Smtp-Source: AGHT+IHYhtdBXzwNJPi1TBM9Q9JtjNgPzrVXHe5SbcMRbQ+kMoTw+KuJ+SkunKpahoWW4zfYuchsaQ==
+X-Received: by 2002:a05:620a:458b:b0:790:6c5c:5a41 with SMTP id bp11-20020a05620a458b00b007906c5c5a41mr306776qkb.16.1713975890933;
+        Wed, 24 Apr 2024 09:24:50 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com. [209.85.160.169])
+        by smtp.gmail.com with ESMTPSA id c12-20020a05620a134c00b0078f0ee3fcfbsm6134809qkl.46.2024.04.24.09.24.49
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 09:24:49 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-434ffc2b520so232941cf.0
+        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 09:24:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUFybvkcLtXUj6W9NY31P4FPpeH1EH39LHOUoBlw8hhqW6umSCj6UhVSrhJrsS7cifFsP1XgWt4IWEbDGjcM5yRcp4rD3gB40ClBpk=
+X-Received: by 2002:ac8:48c5:0:b0:439:9aa4:41ed with SMTP id
+ l5-20020ac848c5000000b004399aa441edmr389310qtr.16.1713975889167; Wed, 24 Apr
+ 2024 09:24:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240422225656.10309-2-alexey.makhalov@broadcom.com>
+References: <20240423134611.31979-1-johan+linaro@kernel.org>
+ <20240423134611.31979-5-johan+linaro@kernel.org> <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
+ <ZijlZw6zm4R9ULBU@hovoldconsulting.com>
+In-Reply-To: <ZijlZw6zm4R9ULBU@hovoldconsulting.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 24 Apr 2024 09:24:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vxgu==8Cv3sDydFpEdd6ws2stkZvxvajE1OAFm2BgmXw@mail.gmail.com>
+Message-ID: <CAD=FV=Vxgu==8Cv3sDydFpEdd6ws2stkZvxvajE1OAFm2BgmXw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] HID: i2c-hid: elan: fix reset suspend current leakage
+To: Johan Hovold <johan@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 22, 2024 at 03:56:50PM -0700, Alexey Makhalov wrote:
-> Move VMware hypercall macros to vmware.h. This is a prerequisite for
-> the introduction of vmware_hypercall API. No functional changes besides
-> exporting vmware_hypercall_mode symbol.
+Hi,
 
-Well, I see more.
+On Wed, Apr 24, 2024 at 3:56=E2=80=AFAM Johan Hovold <johan@kernel.org> wro=
+te:
+>
+> On Tue, Apr 23, 2024 at 01:37:14PM -0700, Doug Anderson wrote:
+> > On Tue, Apr 23, 2024 at 6:46=E2=80=AFAM Johan Hovold <johan+linaro@kern=
+el.org> wrote:
+>
+> > > @@ -87,12 +104,14 @@ static int i2c_hid_of_elan_probe(struct i2c_clie=
+nt *client)
+> > >         ihid_elan->ops.power_up =3D elan_i2c_hid_power_up;
+> > >         ihid_elan->ops.power_down =3D elan_i2c_hid_power_down;
+> > >
+> > > -       /* Start out with reset asserted */
+> > > -       ihid_elan->reset_gpio =3D
+> > > -               devm_gpiod_get_optional(&client->dev, "reset", GPIOD_=
+OUT_HIGH);
+> > > +       ihid_elan->reset_gpio =3D devm_gpiod_get_optional(&client->de=
+v, "reset",
+> > > +                                                       GPIOD_ASIS);
+> >
+> > I'm not a huge fan of this part of the change. It feels like the GPIO
+> > state should be initialized by the probe function. Right before we
+> > call i2c_hid_core_probe() we should be in the state of "powered off"
+> > and the reset line should be in a consistent state. If
+> > "no_reset_on_power_off" then it should be de-asserted. Else it should
+> > be asserted.
+>
+> First, the reset gpio will be set before probe() returns, just not
+> immediately when it is requested.
+>
+> [ Sure, your panel follower implementation may defer the actual probe of
+> the touchscreen even further but I think that's a design flaw in the
+> current implementation. ]
+>
+> Second, the device is not necessarily in the "powered off" state
 
-So code movement patches should be done this way:
+Logically, the driver treats it as being in "powered off" state,
+though. That's why the i2c-hid core makes the call to power it on. IMO
+we should strive to make it more of a consistent state, not less of
+one.
 
-* first patch: sole code movement, no changes whatsoever
 
-* follow-on patches: add changes and explain them
+> as the
+> driver leaves the power supplies in whatever state that the boot
+> firmware left them in.
 
-Because... (follow me down)...
+I guess it depends on the regulator. ;-) For GPIO-regulators they
+aren't in whatever state the boot firmware left them in. For non-GPIO
+regulators we (usually) do preserve the state that the boot firmware
+left them in.
 
-> @@ -476,8 +431,8 @@ static bool __init vmware_legacy_x2apic_available(void)
->  {
->  	uint32_t eax, ebx, ecx, edx;
->  	VMWARE_CMD(GETVCPU_INFO, eax, ebx, ecx, edx);
-> -	return !(eax & BIT(VMWARE_CMD_VCPU_RESERVED)) &&
-> -		(eax & BIT(VMWARE_CMD_LEGACY_X2APIC));
-> +	return !(eax & BIT(VCPU_RESERVED)) &&
-> +		(eax & BIT(VCPU_LEGACY_X2APIC));
 
-... what is that change for?
+> Not immediately asserting reset and instead leaving it in the state that
+> the boot firmware left it in is also no different from what happens when
+> a probe function bails out before requesting the reset line.
+>
+> > I think GPIOD_ASIS doesn't actually do anything useful for you, right?
+> > i2c_hid_core_probe() will power on and the first thing that'll happen
+> > there is that the reset line will be unconditionally asserted.
+>
+> It avoids asserting reset before we need to and thus also avoid the need
+> to deassert it on early probe failures (e.g. if one of the regulator
+> lookups fails).
 
-Those bit definitions are clearly vmware-specific. So why are you
-changing them to something generic-ish?
+I guess so, though I'm of the opinion that we should be robust against
+the state that firmware left things in. The firmware's job is to boot
+the kernel and make sure that the system is running in a safe/reliable
+way, not to optimize the power consumption of the board. If the
+firmware left the line configured as "output low" then you'd let that
+stand. If it's important for the line to be left in a certain state,
+isn't it better to make that explicit?
 
-In any case, this patch needs to be split as outlined above.
+Also note: if we really end up keeping GPIOD_ASIS, which I'm still not
+convinced is the right move, the docs seem to imply that you need to
+explicitly set a direction before using it. Your current patch doesn't
+do that.
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+-Doug
 
