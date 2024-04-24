@@ -1,125 +1,100 @@
-Return-Path: <linux-input+bounces-3230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA8B8B0234
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 08:39:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B384A8B02D1
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 09:03:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C0CA283F3E
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 06:39:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3BD11C22746
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 07:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7499C1598E6;
-	Wed, 24 Apr 2024 06:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34049157499;
+	Wed, 24 Apr 2024 07:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YXIwA+L5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H6sjQLiN"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429F7157E62;
-	Wed, 24 Apr 2024 06:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F371315442D;
+	Wed, 24 Apr 2024 07:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713940588; cv=none; b=LxH/B+1J3h9xFYjQjUCQ1amLMBGfCiU+Lrucl3IQALa5WuvMtoAQxlov283YdUnfZeOQG4zw4iZvbGOnmyjSgNJtCtxNI5GxMFLTPGg94eATNY5J2/+5I8DEXAL3EW9tutNlgH/k28v3mMtrnh7uKuNNftQBcnxomMQSdplOFhk=
+	t=1713942215; cv=none; b=WE9IkW5M+wI5BZDrUCJl/7VhH2olLQZfeMvJBY7RS1SwLSQicd5HlZhE7chgVeaG3vKhdod+ZN4hZTnEzduLY8QyrmTOm4NvKZnNPAX1TdZ3q7Jjcw6T6GFOp6Fxo1sQmhM63T156BUjuC1xfqX+HFzLldVNWeSkKw8C9NFnmYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713940588; c=relaxed/simple;
-	bh=q+qnEpK+l59jPIQe5UqWWsiYjfA7aXbDpteN/UQE4iA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CCTotrZkHKCfDUG5w+n3J4e+eXW8LCipj4oBDH2vAOfs20f85XXj5IOlSdI0lZRpetw26cF4rxgIenxziJOQymauiGHxqYHnje5ZNCaguxsHVgf4HsSnMZF/DWyYzb3xk1sNpChzjjKLcs4OgxKv+bVxUMV0/FbrLMMLesSDgSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YXIwA+L5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366E3C113CE;
-	Wed, 24 Apr 2024 06:36:22 +0000 (UTC)
+	s=arc-20240116; t=1713942215; c=relaxed/simple;
+	bh=VdK8Fuzd/eYU2FHWOzvzIXTwl7D2F6yWLkUOsvGwFSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UV7JZHg5ut2mVfvTMjgyoAWjZEdgr+n6d6i+zY/2aZrC+/A3ipVYgsHEN6usM96qXZu4WApUqqSn1deJacWlStCOphkRY22UlqVlXPLBI2Bkhf+aZFq1Wu5Tc2ulJNT60LcFR+ZbGTtOqPXJtL2CmLyU9hEzy/x0QL0OgZzA5Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6sjQLiN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F015C113CE;
+	Wed, 24 Apr 2024 07:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713940587;
-	bh=q+qnEpK+l59jPIQe5UqWWsiYjfA7aXbDpteN/UQE4iA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YXIwA+L5lnMLivG8Ty4VlkldYLZBJZPHVVZMR7CTjhW+GrLhvcLYVr97KR3EvltKy
-	 mxtpqmvPaHIZXvzV8eT0jlixtWZ3xh2QXaTMPa6IGG4p1VHEaxnlHdkZ+MOSUVEESj
-	 jmUAq+E9AcnjSHKsrj78MpyR7YYPeN4oPNUzJBG1rJRihgFkOJu4XbplXbCpzhDIUy
-	 fcBi/Cl8klNVmB4h4wO0XDMTkG4I7Ivgslvta3HSqjYYs/az22Y4ZG6p/b/qHEGtih
-	 9WsxJToWE/vq25/SJ1SqPJ9cWerEhS3jYmspvsRwsUqIFGq5P7adOML7RcGx4zgFSl
-	 KP5ImGssJdGIg==
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Wed, 24 Apr 2024 08:33:45 +0200
-Subject: [PATCH v2 19/19] const_structs.checkpatch: add lcd_ops
+	s=k20201202; t=1713942214;
+	bh=VdK8Fuzd/eYU2FHWOzvzIXTwl7D2F6yWLkUOsvGwFSQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H6sjQLiNYE34dpjw/kyqceO8MU+Yrdzy9ZYgThdr0DNfKUhAeF4i7SBiEb6LjlFfd
+	 AN3AMukrTFLph/AQsL1Dk3xSMHoggcbH32/UZP0lxpj/X6J4morHHyPIEM2MVnH1N0
+	 s1HQ0jWJAyeQW3qHeXxaVbMnBZLwvtZ3rrAad+1NWmykk6aIXqudZ9jqTShb/PZX0g
+	 U5jPs12w39/la+LQ8uiNcVvFZVrU3B3/4v7rbgUUT85CQ609i1I1tsLO/CI7cF2liL
+	 pWPyCmBSARuPchROm2eKsw00kZgDn9DrDJyyC5XljF3xiioQsLbRAJjZDFdgm/+wFP
+	 4gUHLLssdHlIg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rzWfE-0000000009x-3KM7;
+	Wed, 24 Apr 2024 09:03:32 +0200
+Date: Wed, 24 Apr 2024 09:03:32 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] dt-bindings: HID: i2c-hid: elan: add Elan eKTH5015M
+Message-ID: <ZiiuxI3GfJQIjxAG@hovoldconsulting.com>
+References: <20240423134611.31979-1-johan+linaro@kernel.org>
+ <20240423134611.31979-3-johan+linaro@kernel.org>
+ <1dc47644-56c9-4fdc-80cf-756cf4cea54c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
-References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
-In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
-To: Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- =?utf-8?q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=924; i=krzk@kernel.org;
- h=from:subject:message-id; bh=q+qnEpK+l59jPIQe5UqWWsiYjfA7aXbDpteN/UQE4iA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmKKfuTlvNIAwrbpIVvZdLwVKRUFDW99McbcRZO
- QcDFmCzNHWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZiin7gAKCRDBN2bmhouD
- 1yEQD/wNRPPVi0sZ02CXQxc7WhjX2fS8W+11eReyDlq0TrPblfN1uN5EMVeLOipf070lASAUEgU
- Gtb/gaAZ5okrFRW0X2hOeeIODr5KW1USIedvITCosTww6e0o9/cTpygkeVTOALUJOnVMgpLJY55
- XRMvMJ4qGnfcWgPBAbjF93sxBkG6/HFDtOpxQDDQY7SHg59WVwHZi5oBviEKsJAYPrV9HcUMQ+f
- 3NoMhI72z6PrcVfGF5cqmzjrohnUZ62BHJHta13v+PzzYI7MSKNL7cJ7yZ/IpxZoD98gBNLGad9
- 981Jw4EwZJDQ+SZkds/AN2cOvHrrCiR7H1ufn9aL7sMA+SMYsVdyZWNvxiYu4+x0SxlKB7nU3jt
- 2iLwQLhDJRdPEarPDky8Zb4NwSmci44wy+6CkYp5wt7CN+jJLGTMchJNos8QG22urVDwI/ioxVf
- gwkTBb55aKgzI7G/igaFKh/KyHdHZfxdKwtWKi9qNCi8rIWmr8obybUjejGetKkDveClRmLwX1G
- +upKHPFu6Tu5tH87v78kZ52gfA6f9kojKKKevH0+Lrsr+H41Al/5f7RJm3/5eoLmoLnWdSKxiYN
- 4zuMqxjysxD7OdAaSsdgxFdiZhtldi3P0icA+Ykb2lvqkxFh/X4AIunJukrYCK5w1CEf/fOHFTq
- UcMo7yh1XzNrCMQ==
-X-Developer-Key: i=krzk@kernel.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1dc47644-56c9-4fdc-80cf-756cf4cea54c@linaro.org>
 
-'struct lcd_ops' is not modified by core code.
+On Tue, Apr 23, 2024 at 06:24:39PM +0200, Krzysztof Kozlowski wrote:
+> On 23/04/2024 15:46, Johan Hovold wrote:
+ 
+> >  properties:
+> >    compatible:
+> > -    items:
+> > -      - const: elan,ekth6915
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - elan,ekth5015m
+> > +          - const: elan,ekth6915
+> > +      - items:
+> 
+> Don't re-add the items for this entry. Just const.
 
-Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Sure. But note that the example schema uses 'items' like this (e.g. for
+'compatible' and 'clock-names'):
 
----
+	https://docs.kernel.org/devicetree/bindings/writing-schema.html#annotated-example-schema
 
-Patch making lcd_ops const in progress:
-https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
-
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- scripts/const_structs.checkpatch | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/const_structs.checkpatch b/scripts/const_structs.checkpatch
-index fa96cfd16e99..52e5bfb61fd0 100644
---- a/scripts/const_structs.checkpatch
-+++ b/scripts/const_structs.checkpatch
-@@ -39,6 +39,7 @@ kgdb_arch
- kgdb_io
- kobj_type
- kset_uevent_ops
-+lcd_ops
- lock_manager_operations
- machine_desc
- microcode_ops
-
--- 
-2.43.0
-
+Johan
 
