@@ -1,221 +1,167 @@
-Return-Path: <linux-input+bounces-3247-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3248-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A48B105D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 18:56:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9BC8B106B
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 19:00:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA6F72817BE
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 16:56:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F19451C21E01
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 17:00:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED68716D31E;
-	Wed, 24 Apr 2024 16:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD18516D303;
+	Wed, 24 Apr 2024 17:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="2UpQJN3A"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LKqlAErN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED5616C87B;
-	Wed, 24 Apr 2024 16:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487A016C6B7
+	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 17:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713977784; cv=none; b=tfwIVM4rSq/JkZ4Wzsrje2uk3cJJmG7mUnEtYN+Xqf0SgONpk8qadPQ3FOwMdVfvF3/W9QLdBSc3XM6Iyc/ZKBTMoRPhibq3slSWaPVUIeCxGkTpcl4A6PaswJmQkrBzVSrfdVtN1wiek0w4D6kXbKhADmWXShceuvOUAKNGbKw=
+	t=1713978038; cv=none; b=t+1ZOFgXutT590RluAf+axkSHq84Y08kBEWcKN/p0FweUmVuyQVudHY1fWSrd/t+JEG0cm29ifb4S2Vthjwhd2Rj5OnyGWCMHI5ijBdHLKzC+FT7tavRNpN9bm3qYJlC/8Vl8hjo5QQhsXjZ0A7Yxm781wuJTg0gtL1GfXg57YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713977784; c=relaxed/simple;
-	bh=jFSAdj8Fg1g/sV31cy/CgP0Fejcy6/GdPi/dUTUgELU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=coZuX/3ThjKEYhmHCQuT+UEVz0Oc4lZ2nMmohAyG7w1XxNLzTgS2Vt8z1tfNOhazcE2Z746zjYMywcsP4R5v4ThgTc1RFeuyoRgexL6TQ+Dr/3IxYCyG7NW3zwNaCq3ePHclmyJMMhCS5I8vKXz0wG50ftTwdSvPXzBN4jAb+Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=2UpQJN3A; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=Gr5w+NNXaBuu9MFvS/3sV7owIcp9t8FJfSpSoyXuyTk=; t=1713977782;
-	x=1714409782; b=2UpQJN3AUCGtXaPA6BYlPw/2ltZGacGaU5IfAUgvQoN83avPhpYvLvb0X3p9A
-	8WqmDNCyDBHF3IGYGF/UoiB6y5V4i+FnbI1gOaN+fdjmSkjaWrIEQnNu1j5sVpGfoTh87fRPvrZG1
-	0pVoaqEE6r9gSpW7wu6LXHF0IAOXxQSv2yoPPlGcn8xNJRqSZghxHnJY+sYBqtBnqZpOfNyTJaGck
-	+CeNB8N9Ws42AIpahmx0OjuS+/FuYo32G58ikk3wXH0Fxt7FBU5nrtx2q23oUfw9Ki5NGRxsEudXI
-	mZs21UUrlNemneRqzYW+KYaLfNUFqo9jCOIxAwmQ6gxNK9ix2Q==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rzfus-0000lM-MC; Wed, 24 Apr 2024 18:56:18 +0200
-Message-ID: <a810561a-14f3-412e-9903-acaba7a36160@leemhuis.info>
-Date: Wed, 24 Apr 2024 18:56:18 +0200
+	s=arc-20240116; t=1713978038; c=relaxed/simple;
+	bh=casyLeEEBfK4ikHLS0W+RwKPDoHx/Ev9PSKWpfdKTKk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oHTd5czzsPcO+BCVa3EKPvqlqrxWhNhfm21IXYhQK8H8YRU8Ct6FnC45yCR7zuiLzYRuu1OmBKp0bNZYiwnwKJSa1FgBWYph10Gd9aE0oTHKlkwz9aeF9qsbXVZUG4ZHCvJIq2E7Z6kpTbkyHe+A8/p0gVAoouE/elgjiu/nAZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LKqlAErN; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c75075ad30so78169b6e.3
+        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 10:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713978033; x=1714582833; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jg/qAOTqmSx+R9zjCsmKNbYVeXAxK/pRxpkNV37yyXo=;
+        b=LKqlAErNVuRM1Lurs15Ln5KbTn5RhKZPjKpEf4SdEIBhSgynopx0tZJJeOxLahyaWg
+         YxTvKbD4XQOE/VMnfU2XjHvVaDxWh/qogXwzNFQHUID3ZINDwmz8k/NhCoYPyNOc/1Zf
+         5FJQmW2D1rU7WF6Qm2YdQEPQ0F/hbeu0e61nc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713978033; x=1714582833;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jg/qAOTqmSx+R9zjCsmKNbYVeXAxK/pRxpkNV37yyXo=;
+        b=gxZaamjH+LjVGcj9+H5827LUU4TlgNRolvsT2mOYrJ7kQOV7J02x8Qr1OOLF4fJVkm
+         I9LAcE4pR7ZzbxiRFs8TDaB4wIhak5SBip31Vd8518GOlmvUF8+iblklK6hYsvNeQYqM
+         EWHMwDl/NsKeNJij+/pBvKjOKTFkqMEdfJJmV9JyU2ZklHHe9LL7ZEDy03yHuDnTfg4p
+         cvliYmDcdO2H7ug+a9wtTkR4HFDzIgu8CY6m2niCXi/CURn2nK8fOMTSzP8heELjAvU0
+         o6oZcroJXbgB+KGJs6BsS9nYaAzYUEQnBCZiM0Bw6QePmN6b1Yh7KLk3QCzfzQDZbrlX
+         uOpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMzG2YVZ5iEzWcOidLsNautO4VqgwELCqMoyyIsEUmYQSJpyLwHUtt0LgD4t+YK85jQrL04GiKcy3pKg94qUuZ4Nnk/iy3dUTkNPI=
+X-Gm-Message-State: AOJu0YxJAwxD8dP8zbP9kUrmdSgKCD3PxYpwCJISO/jMhzA9Je3CL0nu
+	jHbGPJ7v82NaC1WwoVNys5Wi4Q+GyDc50W61f+SiwiCsSQyJz37eZHwtyxG0M8JaW0ecPrHuoMg
+	=
+X-Google-Smtp-Source: AGHT+IHIngbRo3RC5zwuJFWLfBJCMAX8fkdFWmftwe9O2tWsCVA4xJ1t0FJhEDyh4NX1fjMbAHvMvg==
+X-Received: by 2002:a05:6808:34e:b0:3c5:f365:16cb with SMTP id j14-20020a056808034e00b003c5f36516cbmr3124657oie.37.1713978033189;
+        Wed, 24 Apr 2024 10:00:33 -0700 (PDT)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
+        by smtp.gmail.com with ESMTPSA id qh30-20020a0562144c1e00b0069b50de8fd8sm5032437qvb.24.2024.04.24.10.00.32
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 10:00:32 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-434ffc2b520so5091cf.0
+        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 10:00:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXSddU5TEfEH+ZlwfBdoCqhJdnCl2R/tPB6MtqZcVaZtoBjp3FjlpzRsRX4DCkYhKTd1S/q+Ow+5Je7FVvz7TRm6FlAp0Q1rrt0sSw=
+X-Received: by 2002:ac8:498a:0:b0:439:9c1b:ce93 with SMTP id
+ f10-20020ac8498a000000b004399c1bce93mr403282qtq.12.1713978031476; Wed, 24 Apr
+ 2024 10:00:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: regression fixes sitting in subsystem git trees for a week or longer
- (was: Re: [PATCH v2] HID: i2c-hid: Revert to await reset ACK before reading
- report descriptor)
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, Kenny Levinsen <kl@kl.wtf>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-References: <20240331182440.14477-1-kl@kl.wtf>
- <14d1b38e-0f11-4852-9c52-92b4bedb0a77@leemhuis.info>
- <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-In-Reply-To: <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1713977782;880531d9;
-X-HE-SMSGID: 1rzfus-0000lM-MC
+References: <20240423122518.34811-1-kl@kl.wtf> <20240423122518.34811-2-kl@kl.wtf>
+In-Reply-To: <20240423122518.34811-2-kl@kl.wtf>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 24 Apr 2024 10:00:17 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xr6NsW085Sc+NhVmGDOn-zCCQ65CMNce_DsHxtXUgm9w@mail.gmail.com>
+Message-ID: <CAD=FV=Xr6NsW085Sc+NhVmGDOn-zCCQ65CMNce_DsHxtXUgm9w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] HID: i2c-hid: Rely on HID descriptor fetch to probe
+To: Kenny Levinsen <kl@kl.wtf>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Maxime Ripard <mripard@kernel.org>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>, 
+	Lukasz Majczak <lma@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Linus,
+Hi,
 
-On 23.04.24 16:59, Benjamin Tissoires wrote:
-> On Mon, Apr 22, 2024 at 7:11 PM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
->> On 31.03.24 20:24, Kenny Levinsen wrote:
+On Tue, Apr 23, 2024 at 5:26=E2=80=AFAM Kenny Levinsen <kl@kl.wtf> wrote:
 >
-> [previous subject: [PATCH v2] HID: i2c-hid: Revert to await reset ACK before reading report descriptor]
+> To avoid error messages when a device is not present, b3a81b6c4fc6 added
+> an initial bus probe using a dummy i2c_smbus_read_byte() call.
 >
->>> In af93a167eda9, i2c_hid_parse was changed to continue with reading the
->>> report descriptor before waiting for reset to be acknowledged.
->>>
->>> This has lead to two regressions:
->>
->> Lo! Jiri, Benjamin, quick question: is there a reason why this fix for a
->> 6.8-rc1 regression after more than two and half weeks is not yet
->> mainlined? Or is there some good reason why we should be should be extra
->> cautious?
-> 
-> No special reasons I guess. Neither Jiri nor I have sent a HID update
-> for this rc cycle, so it's still there, waiting to be pushed.
-> I've been quite busy with BPF lately and dropped the ball slightly on
-> the HID maintainer side, but I'm sure we'll send the PR to Linus this
-> week or the next.
+> Without this probe, i2c_hid_fetch_hid_descriptor() will fail with
+> EREMOTEIO. Propagate the error up so the caller can handle EREMOTEIO
+> gracefully, and remove the probe as it is no longer necessary.
+>
+> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 20 ++++++--------------
+>  1 file changed, 6 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c=
+-hid-core.c
+> index 2df1ab3c31cc..515a80dbf6c7 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -894,12 +894,8 @@ static int i2c_hid_fetch_hid_descriptor(struct i2c_h=
+id *ihid)
+>                                               ihid->wHIDDescRegister,
+>                                               &ihid->hdesc,
+>                                               sizeof(ihid->hdesc));
+> -               if (error) {
+> -                       dev_err(&ihid->client->dev,
+> -                               "failed to fetch HID descriptor: %d\n",
+> -                               error);
+> -                       return -ENODEV;
+> -               }
+> +               if (error)
+> +                       return error;
+>         }
+>
+>         /* Validate the length of HID descriptor, the 4 first bytes:
+> @@ -1014,17 +1010,13 @@ static int __i2c_hid_core_probe(struct i2c_hid *i=
+hid)
+>         struct hid_device *hid =3D ihid->hid;
+>         int ret;
+>
+> -       /* Make sure there is something at this address */
+> -       ret =3D i2c_smbus_read_byte(client);
+> -       if (ret < 0) {
+> +       ret =3D i2c_hid_fetch_hid_descriptor(ihid);
+> +       if (ret =3D=3D -EREMOTEIO) {
 
-out of interest: what's your stance on regression fixes sitting in
-subsystem git trees for a week or longer before being mainlined?
+I worry a little bit about keying just off of -EREMOTEIO. If I'm
+skimming the code properly it's up to the different i2c bus controller
+to decide which error code to return here. Looking at, for instance,
+"i2c-qcom-geni.c", I see:
 
-The quoted patch is such a case. It fixes a regression caused by a
-change that made it into 6.8-rc1, but the problem afaik was only
-reported on 2024-03-19, e.g. ~nine days after 6.8 was out[1]; Kenny, the
-author of the fix, apparently noticed and fixed the problem a bit later
-independently[2]. Jiri merged a newer version of the fix on
-2024-04-03[3], which was included in -next a day later -- the Thursday
-before 6.9-rc3.
+[NACK] =3D {-ENXIO, "NACK: slv unresponsive, check its power/reset-ln"},
 
-The fix thus would even have gotten two days of testing in -next, if
-Benjamin or Jiri would have send it your way for that pre-release. But
-from Benjamin's statement quoted above it seems the fix might even make
--rc6.
+Maybe we should just use dev_dbg() in all cases here when we fail to
+fetch the descriptor? ...otherwise I think some boards will start
+getting a noisy error message.
 
-That obviously heavily reduces the time the fix will be tested before
-6.9 is released.
+...and confirmed that my skim seemed to be accurate. i put your
+patches on my system and then changed the system to think my
+hid-over-i2c device was at 0x11 instead of the normal 0x10. Now, I
+get:
 
-It obviously also means that 6.8.y is as of now still unfixed, as the
-stable team usually only applies fixes once they landed in mainline.
+[    5.973417] i2c_hid_of 4-0011: failed to fetch HID descriptor: -6
+[    5.979701] i2c_hid_of 4-0011: Power on failed: -6
 
-Which also means that even more people ran into the problem with
-6.8.y[4] or mainline even after Jiri merged the patch into the hid tree
--- and maybe some of those people wasted their time on a bisection only
-to find out that a fix exists.
 
-That sounds, ehh, sub-optimal to me. Which is why I wonder what's your
-stance here, as I encounter similar situations frequently[5] -- which
-sometimes is kinda demotivating. :-/
-
-Ciao, Thorsten
-
-[1]
-https://lore.kernel.org/all/a587f3f3-e0d5-4779-80a4-a9f7110b0bd2@manjaro.org/
-
-[2] https://lore.kernel.org/all/20240331132332.6694-1-kl@kl.wtf/
-
-[3]
-https://lore.kernel.org/all/nycvar.YFH.7.76.2404031401411.20263@cbobk.fhfr.pm/
-
-[4] https://social.lol/@major/112294923280815017
-
-[5] This fix for example:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=master&id=afc89870ea677bd5a44516eb981f7a259b74280c
-Reports:
-https://lore.kernel.org/lkml/ZYhQ2-OnjDgoqjvt@wens.tw/
-https://lore.kernel.org/lkml/1553a526-6f28-4a68-88a8-f35bd22d9894@linumiz.com/
-
-> [...]
->>> 1. We fail to handle reset acknowledgement if it happens while reading
->>>    the report descriptor. The transfer sets I2C_HID_READ_PENDING, which
->>>    causes the IRQ handler to return without doing anything.
->>>
->>>    This affects both a Wacom touchscreen and a Sensel touchpad.
->>>
->>> 2. On a Sensel touchpad, reading the report descriptor this quickly
->>>    after reset results in all zeroes or partial zeroes.
->>>
->>> The issues were observed on the Lenovo Thinkpad Z16 Gen 2.
->>>
->>> The change in question was made based on a Microsoft article[0] stating
->>> that Windows 8 *may* read the report descriptor in parallel with
->>> awaiting reset acknowledgement, intended as a slight reset performance
->>> optimization. Perhaps they only do this if reset is not completing
->>> quickly enough for their tastes?
->>>
->>> As the code is not currently ready to read registers in parallel with a
->>> pending reset acknowledgement, and as reading quickly breaks the report
->>> descriptor on the Sensel touchpad, revert to waiting for reset
->>> acknowledgement before proceeding to read the report descriptor.
->>>
->>> [0]: https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/plug-and-play-support-and-power-management
->>>
->>> Fixes: af93a167eda9 ("HID: i2c-hid: Move i2c_hid_finish_hwreset() to after reading the report-descriptor")
->>> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
->>> ---
->>>  drivers/hid/i2c-hid/i2c-hid-core.c | 13 ++++---------
->>>  1 file changed, 4 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
->>> index 2df1ab3c31cc..72d2bccf5621 100644
->>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
->>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
->>> @@ -735,9 +735,12 @@ static int i2c_hid_parse(struct hid_device *hid)
->>>       mutex_lock(&ihid->reset_lock);
->>>       do {
->>>               ret = i2c_hid_start_hwreset(ihid);
->>> -             if (ret)
->>> +             if (ret == 0)
->>> +                     ret = i2c_hid_finish_hwreset(ihid);
->>> +             else
->>>                       msleep(1000);
->>>       } while (tries-- > 0 && ret);
->>> +     mutex_unlock(&ihid->reset_lock);
->>>
->>>       if (ret)
->>>               goto abort_reset;
->>> @@ -767,16 +770,8 @@ static int i2c_hid_parse(struct hid_device *hid)
->>>               }
->>>       }
->>>
->>> -     /*
->>> -      * Windows directly reads the report-descriptor after sending reset
->>> -      * and then waits for resets completion afterwards. Some touchpads
->>> -      * actually wait for the report-descriptor to be read before signalling
->>> -      * reset completion.
->>> -      */
->>> -     ret = i2c_hid_finish_hwreset(ihid);
->>>  abort_reset:
->>>       clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
->>> -     mutex_unlock(&ihid->reset_lock);
->>>       if (ret)
->>>               goto out;
->>>
->>
-> 
-> 
-> 
+-Doug
 
