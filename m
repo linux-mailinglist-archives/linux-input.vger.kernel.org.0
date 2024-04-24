@@ -1,170 +1,112 @@
-Return-Path: <linux-input+bounces-3236-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3237-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1058B04C6
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C7E8B06F4
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60C651C22C61
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 08:50:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5B3D1C23447
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:08:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E96A5158A14;
-	Wed, 24 Apr 2024 08:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AF41591EE;
+	Wed, 24 Apr 2024 10:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7bkm6bh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jqfmimjy"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA471581EB;
-	Wed, 24 Apr 2024 08:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA0B1E898
+	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 10:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713948651; cv=none; b=cDl9deSNScDwn10spnRDq43DmGwRIX9xrffnk++3TBvUfhguXoAZNCI/KbIk0RAdrULdK9m8XNRW2dAh4x4j6vCCU2vPivQlZ5o63ehJqSmswaMhWEOF66vB3Aq0MbJq+p785ZuA0nOFQ4z6w/jy9rHTApBcpw5TpTOODyyzKww=
+	t=1713953301; cv=none; b=S1W+2v/HusVf1EYbK6dJVtkfs3j5WjbOolihHdrEuFWmBLJcZiL+ILgfXjJVjHdleZJO3zhCqBCK12QFAC3BBpcSyodUbq2RZl6p4ZV6mn9jiKqHE/ch/nBhNWpzVYjdaowikW6s3vRwHht8g/miCz5ODngFMcvIOQ2Hwqsu4qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713948651; c=relaxed/simple;
-	bh=SoCDPr8M1Fw4mP+EiUCPkaLfHhVVC2cfI+W6y4qffnY=;
+	s=arc-20240116; t=1713953301; c=relaxed/simple;
+	bh=hWKDax4TuNvBE1FyIl8irPm+6EhpYQ3vGRHf4jX8q2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvabJxCsBllBV2FXjmmLQBga2VZXv781KGvMdn93LC8C5q3YV02m2WMxR7ftgMYtgv692eOKNQvpCgGnksA6lmvLCgKCzkmtHSNez1HqEOi0Q8992NU5Ok1m0XB9TGQyNwJrdoo37FrKHKNJMkG7hVy4HbgU4MSr7DpaDHxdv28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7bkm6bh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F16C32781;
-	Wed, 24 Apr 2024 08:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713948651;
-	bh=SoCDPr8M1Fw4mP+EiUCPkaLfHhVVC2cfI+W6y4qffnY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7bkm6bhC8IaAkHMDShhEZjGha+KoTqWGZ9El8Be30qGpo1JnySegNBj8FAicVDI+
-	 5jyQugWsInwMRMtUsW2ba1a5XJqeEC0SvVsXMSLRlJhyUP/tHG5mYPlgTI1W/a4HCw
-	 mWbv2Zf90cIs7Nd4DDQo5L9d7urNboMJrCZetwN7ejf+rfHbeafJcKI/WxQYgdTUmi
-	 JCY7FGsfVB5wYlOKrUFwiE//3El1Nwx86FLBMI5kl/NVVL29mOJM6KnXamqh7nn5sf
-	 WmkmLrlslwAAnlYuD9rmKE8eNqSpif4DtUIVzw6tJL8f4YHeM1OykfCuDWIcc0FVem
-	 5ovZULSNc1Vkw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rzYL2-000000001ZJ-3WVh;
-	Wed, 24 Apr 2024 10:50:49 +0200
-Date: Wed, 24 Apr 2024 10:50:48 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] HID/arm64: dts: qcom: sc8280xp-x13s: fix touchscreen
- power on
-Message-ID: <ZijH6EaqWKHWRcdK@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <CAD=FV=W2Y=Sr-=YkKb01XLQsbQJr2b981c9kcfvAc4_5E9XD7g@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5B6bGunhYyePBzkqYl1xIpkwuhoOflkPUx2cKP+y2PkiuEwWIcNKNPF+RZkLUCpv/UbM+qO+er3o9BSpsnX8h6ZhGZm5yJIdouuhA3X0vb9vinLRSeu1w/NA0YiEs3WpIgTj43MyHWOrZ0qoPjfiJF0ppJ3wNc+Lso9pQ1mOoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jqfmimjy; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41aa2f6ff2dso16620305e9.3
+        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 03:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713953298; x=1714558098; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hWKDax4TuNvBE1FyIl8irPm+6EhpYQ3vGRHf4jX8q2k=;
+        b=jqfmimjyh6Ph85Ik1D42j92UKFDe+J8sCm3BwsLMho4z4kb4JO878CtrnSZANbAzaZ
+         WNeZvgcnsJPFaC+BowwBDcbEIAXkawGnMA7D41FPCwfTiRgy+W6ZZQt6VQye4dEIYMX2
+         dzuP3zveiqLBJ8ebmzeW/0f+WxmJdxyeOGHalVUUsP/jotgUwCzrKZ5kJT0+LI1OQ3cc
+         sVVFkYxI1OgHO2nMaddsCH93J7pUPLc4NtDUJxDx8bfCVMmhhIuH0jVUsVhK5wQMPBPP
+         oeZ+YoLZNnNElMEXwWM0onrXm0775179DKNWsNdF2WEnWxKjVc07MXmf5lpX5ocTvaqI
+         M1rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713953298; x=1714558098;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWKDax4TuNvBE1FyIl8irPm+6EhpYQ3vGRHf4jX8q2k=;
+        b=c5ysjp55acQFVMx+uwnnZWhAe/mFrS6RNp0iHWo36f0Jgm0rXDUVcsapzh9qxovu9q
+         bDQjdLduXi5ba/a65MZbZe21NRPUO4F6HUZplbUJEM4BerjUQ3Gy0z+ZZRw+YKBImZBa
+         6Hoo2nniY//phHGc0Hm29pt5SJ6he16s4HzA1svdDGdoYPi7qRGEYKOHfrwcj7VbVYtZ
+         yGdtz86fcKw4v8+0kRrxhc85I2F5Y9uRjDAv5ycSjmfag0wxt3Rabe8xJmZen8hEq+90
+         373xYmpk2hfX3JZ+qZB+CuXAn8oQwMYhiwjCxNp/edzUxS397gCPswl68UyerPE2OGsZ
+         6bHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFRZvY5m7DjFdEMkl5nOtqIjwNk9PyNEImU/Oci9+MokhHUdGghZKfnU5EBx7UOLjGdf6yPDnKaDaapiGX9qG2UcYPmvG9l7lCYwc=
+X-Gm-Message-State: AOJu0YwUGwH1QFkPIog2nRjhuJ1iAFrk0YAOxNKGR5mTV4nWywkdowSu
+	odlCOjFiR2SedFIeKnhUt5lcTnZ337QX94ae87YiJDripv5xFTzHIwaMApCE+FE=
+X-Google-Smtp-Source: AGHT+IF77S0eO7Dutrp6EQMSf6hVu3p2iJBEOx/XxaPtob8SJQvhDdTvZkjJjS4pcN8hkeXUmu2lXw==
+X-Received: by 2002:a05:600c:45c6:b0:41a:a521:9699 with SMTP id s6-20020a05600c45c600b0041aa5219699mr1556544wmo.4.1713953297960;
+        Wed, 24 Apr 2024 03:08:17 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id jg3-20020a05600ca00300b0041affdeeb99sm1634085wmb.39.2024.04.24.03.08.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Apr 2024 03:08:17 -0700 (PDT)
+Date: Wed, 24 Apr 2024 11:08:15 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v2 19/19] const_structs.checkpatch: add lcd_ops
+Message-ID: <20240424100815.GE1567803@aspen.lan>
+References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+ <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=W2Y=Sr-=YkKb01XLQsbQJr2b981c9kcfvAc4_5E9XD7g@mail.gmail.com>
+In-Reply-To: <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
 
-On Tue, Apr 23, 2024 at 01:36:18PM -0700, Doug Anderson wrote:
-> On Tue, Apr 23, 2024 at 6:46â€¯AM Johan Hovold <johan+linaro@kernel.org> wrote:
-> > The Elan eKTH5015M touch controller on the X13s requires a 300 ms delay
-> > before sending commands after having deasserted reset during power on.
-> >
-> > This series switches the X13s devicetree to use the Elan specific
-> > binding so that the OS can determine the required power-on sequence and
-> > make sure that the controller is always detected during boot. [1]
-> >
-> > The Elan hid-i2c driver currently asserts reset unconditionally during
-> > suspend, which does not work on the X13s where the touch controller
-> > supply is shared with other peripherals that may remain powered. Holding
-> > the controller in reset can increase power consumption and also leaks
-> > current through the reset circuitry pull ups.
-> 
-> Can you provide more details about which devices exactly it shares
-> power with? I'm worried that you may be shooting yourself in the foot
-> to avoid shooting yourself in the arm.
-> 
-> Specifically, if those other peripherals that may remain powered ever
-> power themselves off then you'll end up back-driving the touchscreen
-> through the reset line, won't you? Since reset is active low then not
-> asserting reset drives the reset line high and, if you power it off,
-> it can leach power backwards through the reset line. The
-> "goodix,no-reset-during-suspend" property that I added earlier
-> specifically worked on systems where the rail was always-on so I could
-> guarantee that didn't happen.
-> 
-> From looking at your dts patch it looks like your power _is_ on an
-> always-on rail so you should be OK, but it should be documented that
-> this only works for always-on rails.
-> 
-> ..also, from your patch description it sounds as if (maybe?) you
-> intend to eventually let the rail power off if the trackpad isn't a
-> wakeup source. If you eventually plan to do that then you definitely
-> need something more complex here...
+On Wed, Apr 24, 2024 at 08:33:45AM +0200, Krzysztof Kozlowski wrote:
+> 'struct lcd_ops' is not modified by core code.
+>
+> Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-No, that's the whole point: the hardware is designed so that the reset
-line can be left deasserted by the CPU also when the supply is off.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-The supply in this case is shared with the keyboard and touchpad, but
-also some other devices which are not yet fully described. As you
-rightly noted, the intention is to allow the supply to eventually be
-disabled when none of these devices are enabled as wakeup sources.
 
-I did not want to get in to too much details on exactly how this
-particular reset circuit is designed, but basically you have a pull up
-to an always-on 1.8 V rail on the CPU side, a FET level shifter, and a
-pull up to the supply voltage on the peripheral side.
-
-With this design, the reset line can be left deasserted by the CPU
-(tri-stated or driven high), but the important part is that the reset
-signal that goes into the controller will be pulled to 3.3 V only when
-the supply is left on and otherwise it will be connected to ground.
-
-> > Note that the latter also affects X13s variants where the touchscreen is
-> > not populated as the driver also exits probe() with reset asserted.
-> 
-> I assume driving against an external pull is _probably_ not a huge
-> deal (should be a pretty small amount of power), but I agree it would
-> be nice to fix.
-> 
-> I'm a bit leery of actively driving the reset pin high (deasserting
-> the reset) just to match the pull. It feels like in your case it would
-> be better to make it an input w/ no pulls. It almost feels like
-> something in the pinctrl system should handle this. Something where
-> the pin is default "input no pull" at the board level and when the
-> driver exits it should go back to the pinctrl default...
-
-If you look at the DT patch that's essentially what I'm doing by
-describing the reset pin as open-drain so that it will be configured as
-an input (tristated) when reset is deasserted and only driven low when
-reset is asserted.
-
-> I guess one last thought is: what do we do if/when someone needs the
-> same solution but they want multiple sources of touchscreens, assuming
-> we ever get the second-sourcing problem solved well. In that case the
-> different touchscreen drivers might have a different idea of how the
-> GPIO should be left when the driver exits...
-
-The second-source problem is arguable a separate one, and as we've
-discussed in the past, the current approach of describing both devices
-in the devicetree only works when the devices are truly compatible in
-terms of external resources (supplies, gpios, pinconfig). For anything
-more complex, we need a more elaborate implementation.
-
-In this case it should not be a problem, though, as the reset circuit
-should have the same properties regardless of which controller you
-connect (e.g. both nodes would have the 'no-reset-on-power-off'
-property).
-
-Johan
+Daniel.
 
