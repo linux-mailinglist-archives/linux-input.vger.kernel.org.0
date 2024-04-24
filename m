@@ -1,154 +1,124 @@
-Return-Path: <linux-input+bounces-3240-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3241-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B824B8B07CA
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 12:56:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B92FE8B0857
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 13:31:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7DCD1C231C2
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 10:56:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57AC71F23127
+	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 11:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F4C1598FA;
-	Wed, 24 Apr 2024 10:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EAE315A49F;
+	Wed, 24 Apr 2024 11:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PN2VIcZa"
+	dkim=pass (2048-bit key) header.d=carewolf.com header.i=@carewolf.com header.b="Ql7E73PQ";
+	dkim=permerror (0-bit key) header.d=carewolf.com header.i=@carewolf.com header.b="emaho29s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailrelay3-3.pub.mailoutpod3-cph3.one.com (mailrelay3-3.pub.mailoutpod3-cph3.one.com [46.30.212.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262591598EA;
-	Wed, 24 Apr 2024 10:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D6113DDD9
+	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 11:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713956201; cv=none; b=qodBm91Tfr3qZWEehP+Lwooe5U+mNZT9cmKsB1ui/f2HOMeAuU9r0iZXRijUBY0aCenBuZBQ4q7CLCDM4I93xS/gWR+AJlc0MCpQtQDS2JnvhbO2VfQqKlwD15llqhLLZLeABOFLZ3wgaZgYnpnPso8VEuVE5Vwjl3O5bVR9BK4=
+	t=1713958285; cv=none; b=EXXcYunOMlHlGdL78VdA5OEbgcYzouFUWuGCysGWwN0CttiUOePgDUyyn6vikZ+iJEUPaeiG5mvIqPCHGIB5u+GSp1XoM1PHX9v86y7M/yy0LydQ6ij0W4zz54w80pQFzYGAlj1jlKOJlmnizuWKSZpR2Yl8GPDpnuJB57gNV7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713956201; c=relaxed/simple;
-	bh=VlCUYJjJMdo3gKgoD+v70kTIJeDoxTMF1EJ27Rbviz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mXJYjmpCRCWuapQPbFCS8XBFQZLjZHVwt0PUJYou5TWSDa/ivow5pGpjHpe4PP/Sf+c82Qx9KI33d7nzsnsaseOBS+pajFxjvV1fH3Sf36URQnqSMxtlXcnWxw6FhrPQeP14un6IP4lTZOMP6eCYOOzBIrITjsN4AD1YzqkBnxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PN2VIcZa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3999C113CE;
-	Wed, 24 Apr 2024 10:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713956201;
-	bh=VlCUYJjJMdo3gKgoD+v70kTIJeDoxTMF1EJ27Rbviz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PN2VIcZaLKC7POnmPWKv/9Dg7rlkUALbhBAqV6Ud2rVxTNG4y7aqR2/9zw6l90Wzd
-	 B7y4YYxIjtEQD8LEHVSRwpQG6pCLsX2F2PVFa2RD4OkwUT/0zpeJqdfNk2LzjgQLSO
-	 C5/RXeNSdIvYyps+F/5mhZs2fnYKV6QidjRJKq/gkXP/9Sdu2qYBAc0jSJ7fgQt2O0
-	 xKMN4AEx7gLlg3wdzVNhLYhfSIDR7+eNBVZ3EhoXdKjg99jaiAMHxml14Be7P73I/m
-	 ZBt7bJtlDUaN29PFj+UhAI5vDel/ufQDjXvddyuPmynMrYpCo4mQOgjzITp9Vav2Sd
-	 rmt5enLCOR0WA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rzaIp-0000000035o-3MJZ;
-	Wed, 24 Apr 2024 12:56:39 +0200
-Date: Wed, 24 Apr 2024 12:56:39 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 4/6] HID: i2c-hid: elan: fix reset suspend current leakage
-Message-ID: <ZijlZw6zm4R9ULBU@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-5-johan+linaro@kernel.org>
- <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
+	s=arc-20240116; t=1713958285; c=relaxed/simple;
+	bh=WocI+kydEoNLGIxyswwT0BVFsa3elCOtzeRHRUN1NhU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TGdcQ2YWj7Q5JoOdrlukJtVodjxeLWyegvQqb9XJ5NdlK9YqzD/Ft0RuTzrev31fs6DWKslN80hHnWY8sI2V1kMrL+IeKM6qvG557yOXB0IxEusL7xLlhHIQVDoFCBgit/kLKnDRiC1vXdl0+bGOF97StkQ3cB+9IiRIbgNNFG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carewolf.com; spf=none smtp.mailfrom=carewolf.com; dkim=pass (2048-bit key) header.d=carewolf.com header.i=@carewolf.com header.b=Ql7E73PQ; dkim=permerror (0-bit key) header.d=carewolf.com header.i=@carewolf.com header.b=emaho29s; arc=none smtp.client-ip=46.30.212.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carewolf.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=carewolf.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=carewolf.com; s=rsa2;
+	h=content-type:content-transfer-encoding:mime-version:references:in-reply-to:
+	 message-id:date:subject:cc:to:from:from;
+	bh=DgHUUp6tFzs7q+y8o0cewN7ouY8O3uwxHNhxLT5MdMM=;
+	b=Ql7E73PQaaBBz23wRVVjcFHxCVr3A30rOUfJr5j0RhyDsRuRgxuL+2+qDNZwk8lC4rqkCZtwtiOjT
+	 AG5SFXGrZHpQXf1cmSu6uZGUNKkoBL77RP3Rv/TEEEqz7SjrER/Aa+XZgwAecyDkR4PC6T3X6Ig3q4
+	 dfC+Q4h1KTgyWMS6TQNzzwldhvrOOsfykkWbEmPx+2DMgNrE0/M+wDGJHRKec1qRqWYCyElUOEXErz
+	 Hn1l+pDyd1zH1jTjsdY/XChCZjRYp9V9wrvB75uDt3S1xZUO8Jq3BhOPigbIrpAcyQ1UF/NpX21zWv
+	 OBFxiT0YtjDw2Rcm8ehqyKRRsH/UZFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=carewolf.com; s=ed2;
+	h=content-type:content-transfer-encoding:mime-version:references:in-reply-to:
+	 message-id:date:subject:cc:to:from:from;
+	bh=DgHUUp6tFzs7q+y8o0cewN7ouY8O3uwxHNhxLT5MdMM=;
+	b=emaho29soRfaI+vnYU/WNGFUp+Nv0XqGhdUj7wtaz6Kub+TnHLyRdFflcOVM+7qdUK7VisaziOvrm
+	 wnosuEsDA==
+X-HalOne-ID: 02c7ceba-022e-11ef-9981-5166eb5bc2d3
+Received: from twilight.localnet (dynamic-2a02-3103-004c-5300-7231-17da-dcd1-9a4a.310.pool.telefonica.de [2a02:3103:4c:5300:7231:17da:dcd1:9a4a])
+	by mailrelay3.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id 02c7ceba-022e-11ef-9981-5166eb5bc2d3;
+	Wed, 24 Apr 2024 11:30:12 +0000 (UTC)
+From: Allan Sandfeld Jensen <kde@carewolf.com>
+To: Benjamin Tissoires <bentiss@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
+Cc: benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Logitech Anywhere 3SB support
+Date: Wed, 24 Apr 2024 13:30:11 +0200
+Message-ID: <6092750.lOV4Wx5bFT@twilight>
+In-Reply-To: <fe2980e3-3204-4572-9c7c-1e960727e1d4@redhat.com>
+References:
+ <20240413095453.14816-1-kde@carewolf.com>
+ <ntsifcsfo5i6xisxbgfjdpe4uenygqxrt3v5sceflgipznw6cb@gnhvkjmglrtg>
+ <fe2980e3-3204-4572-9c7c-1e960727e1d4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Apr 23, 2024 at 01:37:14PM -0700, Doug Anderson wrote:
-> On Tue, Apr 23, 2024 at 6:46 AM Johan Hovold <johan+linaro@kernel.org> wrote:
-
-> > @@ -87,12 +104,14 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
-> >         ihid_elan->ops.power_up = elan_i2c_hid_power_up;
-> >         ihid_elan->ops.power_down = elan_i2c_hid_power_down;
-> >
-> > -       /* Start out with reset asserted */
-> > -       ihid_elan->reset_gpio =
-> > -               devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-> > +       ihid_elan->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-> > +                                                       GPIOD_ASIS);
+On Monday 15 April 2024 20:31:14 CEST Hans de Goede wrote:
+> Hi,
 > 
-> I'm not a huge fan of this part of the change. It feels like the GPIO
-> state should be initialized by the probe function. Right before we
-> call i2c_hid_core_probe() we should be in the state of "powered off"
-> and the reset line should be in a consistent state. If
-> "no_reset_on_power_off" then it should be de-asserted. Else it should
-> be asserted.
+> On 4/15/24 5:54 PM, Benjamin Tissoires wrote:
+> > [Ccing Hans as well for input]
+> > 
+> > On Apr 13 2024, kde@carewolf.com wrote:
+> >> From: Allan Sandfeld Jensen <allan.jensen@qt.io>
+> > 
+> > FWIW, this patch neesd a commit description and signed-offs
+> > 
 
-First, the reset gpio will be set before probe() returns, just not
-immediately when it is requested.
+Will add.
 
-[ Sure, your panel follower implementation may defer the actual probe of
-the touchscreen even further but I think that's a design flaw in the
-current implementation. ]
-
-Second, the device is not necessarily in the "powered off" state as the
-driver leaves the power supplies in whatever state that the boot
-firmware left them in.
-
-Not immediately asserting reset and instead leaving it in the state that
-the boot firmware left it in is also no different from what happens when
-a probe function bails out before requesting the reset line.
-
-> I think GPIOD_ASIS doesn't actually do anything useful for you, right?
-> i2c_hid_core_probe() will power on and the first thing that'll happen
-> there is that the reset line will be unconditionally asserted.
-
-It avoids asserting reset before we need to and thus also avoid the need
-to deassert it on early probe failures (e.g. if one of the regulator
-lookups fails).
-
-We also don't need to worry about timing requirements, which can all be
-handled in one place (i.e. in the power up and power down callbacks).
- 
-> Having this as "GPIOD_ASIS" makes it feel like the kernel is somehow
-> able to maintain continuity of this GPIO line from the BIOS state to
-> the kernel, but I don't think it can. I've looked at the "GPIOD_ASIS"
-> property before because I've always wanted the ability to have GPIOs
-> that could more seamlessly transition their firmware state to their
-> kernel state. I don't think the API actually allows it. The fact that
-> GPIO regulators don't support this seamless transition (even though it
-> would be an obvious feature to add) supports my theory that the API
-> doesn't currently allow it. It may be possible to make something work
-> on some implementations but I think it's not guaranteed.
 > 
-> Specifically, the docs say:
+> FWIW I'm also not in favor of stretching drivers/hid/hid-logitech-dj.c
+> even further to also support the new bolt stuff.
 > 
-> * GPIOD_ASIS or 0 to not initialize the GPIO at all. The direction must be set
->   later with one of the dedicated functions.
+> AFAIK the new bolt stuff is significantly different.
 > 
-> So that means that you can't read the pin without making it an input
-> (which might change the state if it was previously driving a value)
-> and you can't write the pin without making it an output and choosing a
-> value to set it to. Basically grabbing a pin with "asis" doesn't allow
-> you to do anything with it--it just claims it and doesn't let anyone
-> else have it.
+> Allan, I see in your other reply that you are mainly after
+> highres scrolling and since the bolt receiver does not do
+> per paired device addressing I wonder if you cannot just
+> get that by treating the bolt receiver as a wired HIDPP
+> device and just directly listing it as such in
+> hid-logitech-hidpp.c ?
+> 
+> The whole purpose of hid-logitech-dj.c is to create 1 virtual
+> hidpp devices per paired device and with bolt that is not
+> possible, so I think that we should circumvent hid-logitech-dj.c
+> for bolt and if we want to use any hidpp features do so
+> by directly listing the receivers in hid-logitech-hidpp.c .
+> 
+I think the bolt receiver is able to separate devices, but yes, it appears the 
+way it transmits device IDs and pairs has changed (some new registers it looks 
+like). I am removing this part of the patch. I am not adding the Bolt receiver 
+to hid-logitech-hidpp.c either though, because it doesnt work for me, and I 
+havent invested time yet to figure out what would be needed to get it to work.
 
-These properties may prevent it from being used by the regulator
-framework, but GPIOD_ASIS works well in the case of a reset gpio where
-we simply leave it in whatever state the firmware left it in if probe
-fails before we get to powering on the device.
+I will transmit a patch with just the new bluetooth ID, and add a few more I 
+managed to find to fill out hid-logitech-hidpp.c
 
-Johan
+Best regards
+Allan Sandfeld Jensen
+
+
 
