@@ -1,195 +1,117 @@
-Return-Path: <linux-input+bounces-3263-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3264-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B1C8B21F9
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 14:52:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F468B24F4
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 17:22:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D26BB23EC5
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 12:52:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66D28288510
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 15:22:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B701494D8;
-	Thu, 25 Apr 2024 12:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F7B14AD1A;
+	Thu, 25 Apr 2024 15:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3KG1MTY"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="f3Ob8V05"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5E1494C9;
-	Thu, 25 Apr 2024 12:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9D514A638;
+	Thu, 25 Apr 2024 15:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714049567; cv=none; b=f1TNpV857qN7q/Vk6vYjzwhw65g4q+xSnLfg47wOawMEHgfUwwJPkhmxhGq5mEoScg5ZCkvc5DBZR0dDoCMKONkb21WUxrxtLhfGU+L1ZSqp84IwqcG9qhZSWw8rn3FP/N2mX3WXiDhN2AbhGQby5PHIytqNKLAg0aPoiMNM5Kw=
+	t=1714058535; cv=none; b=eZVz53xVJUeIbAOnSOEE+KFA8UWoFjT8Ylbge9uprGbuzdU4zwyteplwrMhCfxDrMqBTQMBk3e9EhHh4hdlFo57ONjdLMYWIzE4queFeUTGcWvWykU6P//Uccz1l8VMN7t5EKOT6M222KowQkqaKkGX0yt1RtLU2zig9J/QNnBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714049567; c=relaxed/simple;
-	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
+	s=arc-20240116; t=1714058535; c=relaxed/simple;
+	bh=jizBKTX8MvHG0cRj+2IzEtYv+6KlE66nInc7exVUWzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XuWQSZLpelagdYUoReFvntTjgdXrFBgjpe516l9BLsA8PM+7AsmUgyVWCR/1Awzei7pV3XKxg4J6F3j1+MDYcg9CH4kBRkSqKlDVtHwtTaBXe3uzqUjuLeW0IGbRfyWQX2jMp8kAwA7wSiu/wx9Fgq9TUSqPTrAoy2qO7LAc4s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3KG1MTY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A09C113CC;
-	Thu, 25 Apr 2024 12:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714049566;
-	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPIS6XkjhuHnBuRhGrHHqZVKiZdri71xfcztPAtYOp6YDgTc9opImxqDo4IFi5JMHbynjTrvrwGMUmo0MY6rL1RTIjUO8wcoNnxBTI2HWb/wcX89L8Qd/A3432M7u6t5rWnqcGhQlu18kVQoB3l+74/lDqwkDqIYWXdwemXwDsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=f3Ob8V05; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C72B740E01C5;
+	Thu, 25 Apr 2024 15:22:05 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id zo89ggfrjeLT; Thu, 25 Apr 2024 15:22:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1714058521; bh=6wNh2/5WJqAiPo6RPMCDTroIUccA+3uUajnQfIANALw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k3KG1MTYYSb1+CInsc5Avd7n3qWz0gkAdM3piU+yEMosTNPbY1ktM31vKMvSSPDRM
-	 gxjAFE80HAmyW+GyjpQWyfexMJAgAZ/wwJ0IOtpt5NJNBFFczXptVm7+0NwLwdsJQr
-	 xhYNENSiaFWwA/l7xviDuZ3ot5jeIu9+jpNX8dv95MD5o+un2dvoP8L98ARsW7J8nb
-	 94iVF8WiooatLRDAGw6ar9r/6jF7HScz6yQtbHDSZeLiFwcz2Jt5BvEJ91JxpYHeQ6
-	 L0KJsU47hkK9u27DXtXKO1J1ezn/LzQpR4l7kGpYB4R4V1Qoev/GaOI7XiBsGGGYXA
-	 pF0bLNGJX13VQ==
-Date: Thu, 25 Apr 2024 14:52:42 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-Message-ID: <d2o5su7hxsnn3oarbowljss5fkmj2ttwiq4lf3g2putn7fc4it@uq2dui2tuxjk>
-References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
- <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
- <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
+	b=f3Ob8V057rdVSck90A83wZXeph/7GtAdQYLuTScSMYcMsRlDy322GITOZB08R+2zH
+	 WJAQPRKWgI6rGP5DekauVZRYVC6v+x0djmLHr4YM5x8Sn+yE6qw1+Tuw/dFLoxEgMt
+	 O4WWlkpuAoNiMRBJIWn6gaOqdtb0+P14QGl5fOYzlw1cGRu1xYEGnL3uxMdJKaBuJg
+	 R2OzjcscwRkLGZGJ3L9V1kttt6yFvrs+wGpvAlQIdZqVA1JLfMMFfr74b67uvPbPRS
+	 61vpzoxHqCtIK3bBjCPcbv3xBolTUaMjEqobmzgwaMNEViuOPbwbZLkVTaKtxPomon
+	 3wS2TjSW3M4l/KPIhyPrbevzhE8yRvOBxhxxkhaB0armH29aAtv0vcphTaf+tTHM8k
+	 69IEcBdf6tdGFrOUOn41HjjaBQyB0AtllH4DNANzvv/oerKUqq4NZ3AbGUpnosCefQ
+	 SAsCoJR+lxGWQL67jAC4kRYHVm12uzQyPEE0QCcHZbba2O+TG2976Zb9N7UsemohsT
+	 I9Y9qSmIgHdiLXC0hpawtrmiSpZ8y80rSue9T0oeWT5mdgSp2JwtFEfPzdeMkPY1Jv
+	 YTBrtpi4DOkMmVnoT1dzUQF30BsuCRgLfSnbYez9K4Kdomax740C14p2fW3I3gfpbh
+	 DxbQwYxgvWIRX+kxSk0WuNpo=
+Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D3DB40E0192;
+	Thu, 25 Apr 2024 15:21:36 +0000 (UTC)
+Date: Thu, 25 Apr 2024 17:21:30 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+	richardcochran@gmail.com, linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com, zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+	timothym@vmware.com, akaher@vmware.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v9 1/8] x86/vmware: Correct macro names
+Message-ID: <20240425152130.GJZip0-l040XCyUapN@fat_crate.local>
+References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
+ <20240424231407.14098-1-alexey.makhalov@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
+In-Reply-To: <20240424231407.14098-1-alexey.makhalov@broadcom.com>
 
-On Apr 24 2024, Benjamin Tissoires wrote:
-> On Apr 23 2024, Dan Carpenter wrote:
-> > Hi Benjamin,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
-> > base:   b912cf042072e12e93faa874265b30cc0aa521b9
-> > patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
-> > patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-> > config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
-> > 
-> > vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
-> > 
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
-> > 7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
-> >                                                                         ^^^^^^^^^^^^^^^^
-> > link isn't initialized.
-> 
-> Well spotted! Thanks
-> I'll send a v2 soon.
+On Wed, Apr 24, 2024 at 04:14:06PM -0700, Alexey Makhalov wrote:
+> VCPU_RESERVED and LEGACY_X2APIC are not VMware hypercall commands.
+> These are bits in return value of VMWARE_CMD_GETVCPU_INFO command.
+> Change VMWARE_CMD_ prefix to GETVCPU_INFO_ one. And move bit-shift
+> operation to the macro body.
 
-FWIW, this patch prevents the proper unloading of the HID-BPF programs.
-So not sure we'll want it as such just now.
+I don't understand:
 
-Cheers,
-Benjamin
+$ git grep GETVCPU_INFO
+arch/x86/kernel/cpu/vmware.c:51:#define VMWARE_CMD_GETVCPU_INFO  68
+arch/x86/kernel/cpu/vmware.c:478:       VMWARE_CMD(GETVCPU_INFO, eax, ebx, ecx, edx);
 
-> > 
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
-> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
-> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
-> >                                                               ^^^^
-> > 
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
-> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> > 
+so that's a VMWARE_CMD 68, at least the prefix says so.
+
+And those two are *bits* in that eax which that hypercall returns.
+
+Or are those two bits generic but defined in a vmware-specific
+hypercall?
+
+Hm.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
