@@ -1,174 +1,179 @@
-Return-Path: <linux-input+bounces-3259-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3260-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0808B1D00
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 10:45:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAC88B1E0F
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 11:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6819F2884E0
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 08:45:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BACB81F2169A
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 09:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B494B7F486;
-	Thu, 25 Apr 2024 08:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E3484D1C;
+	Thu, 25 Apr 2024 09:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RT9364VM"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="U5Ld14Nr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3C27764E;
-	Thu, 25 Apr 2024 08:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C14184D0D;
+	Thu, 25 Apr 2024 09:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714034697; cv=none; b=erzepz+FtBwi3mZQWoaSsiuqaq6HGLV5AJ2xhPaGZ0Cd/EoC8ymmahaMcGN/b+JC7w0ROxaKa5o8DM7FSTIVNcvz8+8+finoZruquwo2Wy8rcuq7oV/hLLCbk/+rK26JtmWY+DxQxyNlxWH25ADOnTHNGcawhW/HLABvFUeT0dY=
+	t=1714037601; cv=none; b=S+CIHUcEwpsBdA+FSlCGiYkr2iXhtN7ao5si3gizoEE/p9Urx1j1QGY9Zqmgu+7p7Qx6GBM18v0ihTn0vg1SeF2eddzE0D35P4SeymCTd0LuDBQtCp/Q28ozWrXE6brTtLnNkJ9YrymKTmFv91FnXT4HnMXhWY7m5yhgztr3Uys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714034697; c=relaxed/simple;
-	bh=bYe5R8EHZCktdj4e/a8hGUSDaDaAOflN35ZbtmFQOug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGlJJHa5nPmildqyVfGoJFYQo6YxmHND2Bu4qfTyZq0c5SKApRw6rPRd7ZH+SeMPd7lEr96IdAOMWFFKvHrEjatF+7aIHA5kC/TrDk18y06CmgbCTeWviXfxs51Cteed749SKCr2gsFPWVKWV4lWINQ+dVvvfK67FG95ds1f/vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RT9364VM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEC0C113CC;
-	Thu, 25 Apr 2024 08:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714034697;
-	bh=bYe5R8EHZCktdj4e/a8hGUSDaDaAOflN35ZbtmFQOug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RT9364VMwPqaI687iYiSycOppH2GlmKYhIuETBhADlzf2DE4hannuC/Qr7kjZJ9Ez
-	 KfR+1aDxDrbcRrIEiKWq1Lty6sMtEnwv831kUatNt3rnzuZ1XgfJn0mdqWTLmVBrZZ
-	 rcAsAKKg5kV9SRIrY0pqRn6vLY2Sh5+0NSA0lMjY1xXsxS/u9oONPZCZDGcWpWKLSD
-	 2TUuPEzaudNGpTq5ZYKeoS8yIP4V9gL1jPh22HRu51sfGslT7y/PvBAyn5H1AlB9tn
-	 91oqDt/dM0GK9VhYbxK5Prj94nXLuewk2WD59PckNxBThXAGLc+3tDEwK0OYO7S9il
-	 k+UWWBanQwh+g==
-Date: Thu, 25 Apr 2024 10:44:52 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
-	Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kenny Levinsen <kl@kl.wtf>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: regression fixes sitting in subsystem git trees for a week or
- longer
-Message-ID: <qcd5klmhyx23rowpbm4egshm6hemhh4stq7r6soblnuul55524@yyktdlowepw7>
-References: <20240331182440.14477-1-kl@kl.wtf>
- <14d1b38e-0f11-4852-9c52-92b4bedb0a77@leemhuis.info>
- <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
- <a810561a-14f3-412e-9903-acaba7a36160@leemhuis.info>
- <CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com>
- <87698732-5439-42bd-b2b2-864bb4f3b3ec@leemhuis.info>
+	s=arc-20240116; t=1714037601; c=relaxed/simple;
+	bh=bYBBBONI6emX61ioif4BoxQH1QXZYaWJIll/t+Fju9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kVAj7jYcix4KLdYVUSKqvzBFjZ7Xwv463qOVQLoHV68VV7EgbD2LNpbjqYwkQ5Yq+vBAs4sMD+qY5zQODfT903IWKn7HnXNB6MnkFLCz9OyJBvYEWn5qK9xUU4xrR5jNYST6SL/p/rItuocZeiv3Kmgq91/uEYB8nngbHEaYc3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=U5Ld14Nr; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=mTFvKavRYvl65ZTJWrbvt4xMi66fJbqKJd1ndJa0LB4=;
+	t=1714037599; x=1714469599; b=U5Ld14NrRC69jQ02N/CKP8u2KZ9HQ2pox/W8q66iMBpAMLh
+	+ADoYtyVOcY2TfabpHoikHkjGlQUIvdCbsrppr2n2sCv7BdgMkvUBLTLLg7ZseZx6R7IlZ3JFibgG
+	36+R2TxZ5PSoM+ua1hSlmajMYZ3j3YpphPu3e3TapvlaM2zt1r9jCBP+SoAwJv/GegS25Mx1lqDlO
+	/7mnmtntUNiFiiecuHfD3kZTJlk+ipJXMdFqPO+29i/UpX/aN3RU+XW1T2iEnUPh7xqzEOJuR/h5W
+	oEC2Cjrwb3mZLejnums7umo0+ZTl2ZeCNS2t4++fq0YthYIX7d8FrUcFui+N99bQ==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rzvTZ-0000vn-6B; Thu, 25 Apr 2024 11:33:09 +0200
+Message-ID: <9fb128b1-d625-477f-8a16-aade00b13bc6@leemhuis.info>
+Date: Thu, 25 Apr 2024 11:33:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87698732-5439-42bd-b2b2-864bb4f3b3ec@leemhuis.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: regression fixes sitting in subsystem git trees for a week or
+ longer
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Kenny Levinsen <kl@kl.wtf>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20240331182440.14477-1-kl@kl.wtf>
+ <14d1b38e-0f11-4852-9c52-92b4bedb0a77@leemhuis.info>
+ <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
+ <a810561a-14f3-412e-9903-acaba7a36160@leemhuis.info>
+ <CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com>
+ <87698732-5439-42bd-b2b2-864bb4f3b3ec@leemhuis.info>
+ <qcd5klmhyx23rowpbm4egshm6hemhh4stq7r6soblnuul55524@yyktdlowepw7>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <qcd5klmhyx23rowpbm4egshm6hemhh4stq7r6soblnuul55524@yyktdlowepw7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1714037599;69439cdb;
+X-HE-SMSGID: 1rzvTZ-0000vn-6B
 
-On Apr 25 2024, Thorsten Leemhuis wrote:
-> On 24.04.24 20:53, Linus Torvalds wrote:
-> > On Wed, 24 Apr 2024 at 09:56, Thorsten Leemhuis
-> > <regressions@leemhuis.info> wrote:
-> >>
-> >> out of interest: what's your stance on regression fixes sitting in
-> >> subsystem git trees for a week or longer before being mainlined?
-> > 
-> > Annoying, but probably depends on circumstances. The fact that it took
-> > a while to even be noticed presumably means it's not common or holding
-> > anything up.
+On 25.04.24 10:44, Benjamin Tissoires wrote:
+> On Apr 25 2024, Thorsten Leemhuis wrote:
+>> On 24.04.24 20:53, Linus Torvalds wrote:
+>>> On Wed, 24 Apr 2024 at 09:56, Thorsten Leemhuis
+>>> <regressions@leemhuis.info> wrote:
+>> [...]
+>> And the arch linux wiki even documents a workaround:
+>> https://wiki.archlinux.org/title/Lenovo_ThinkPad_Z16_Gen_2#Initialization_failure
+>>
+>> Those are just the reports and discussions I found. And you know how
+>> it is: many people that struggle will never report a problem.
 > 
-> Well, I searched and found quite a few users that reported the problem:
-> 
-> https://bbs.archlinux.org/viewtopic.php?id=293971 (at least 4 people)
-> https://bbs.archlinux.org/viewtopic.php?id=293978 (2 people)
-> https://bugzilla.redhat.com/show_bug.cgi?id=2271136 (1)
-> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2061040 (1)
-> https://forums.opensuse.org/t/no-touchpad-found-el-touchpad-a-veces-es-reconocido-por-el-sistema/174100 (1)
-> https://oldos.me/@jay/112294956758222518 (1)
-> 
-> There are also these two I mentioned earlier already:
-> https://social.lol/@major/112294920993272987 (1)
-> https://lore.kernel.org/all/9a880b2b-2a28-4647-9f0f-223f9976fdee@manjaro.org/ (1)
-> 
-> Side note: there were more discussions about it here:
-> https://forums.lenovo.com/t5/Fedora/PSA-Z16-Gen-2-touchpad-not-working-on-kernel-6-8/m-p/5299530
-> https://www.reddit.com/r/thinkpad/comments/1bwxwnr/review_thinkpad_z16_gen_2_with_arch_linux/
-> https://www.reddit.com/r/linuxhardware/comments/1bwxhwa/review_thinkpad_z16_gen_2_arch_linux/
-> 
-> And the arch linux wiki even documents a workaround:
-> https://wiki.archlinux.org/title/Lenovo_ThinkPad_Z16_Gen_2#Initialization_failure
-> 
-> Those are just the reports and discussions I found. And you know how
-> it is: many people that struggle will never report a problem.
-> 
+> short FYI, (I've Cc-ed you on the PR), but I just sent the PR for HID,
+> which includes this fix.
 
-short FYI, (I've Cc-ed you on the PR), but I just sent the PR for HID,
-which includes this fix.
+Great, many thx. Saw it right after sending my mail... :-/
 
+>> Is cherry picking from -next as easy for you? Maintainers sometimes
+>> improve small details when merging a fix, so it might be better to
+>> take fixes from there instead of pulling them from lore.
 > 
-> IMHO this all casts a bad light on our "no regression" rule, as the
-> fix is ready, just not mainlined and backported. And as I mentioned:
-> I see similar situations all the time. That's why I made noise here.
+> Maybe one suggestion that might help to reduce these kind of situations
+> in the future: can you configure your bot to notify the maintainers
+> after a couple of days that the patch has been merged that it would be
+> nice if they could send the PR to Linus?
+
+Yes, that is an idea in the long run, but I'm not sure if it's wise now
+or later. People easily get annoyed by these mails (which I totally
+understand!) and then will start hating the bot or regression tracking
+in general. That's why I'm really careful here.
+
+There are also the subsystems that regularly flush their fixes shortly
+before a new -rc, so they likely never want to see such reminders. And
+sending them right after a new -rc is better than nothing, but not ideal
+either.
+
+IOW: it's complicated. :-/
+
+> In this case I bet Jiri forgot to send it because he was overloaded and
+> so was I.
+
+Understood and no worries. But this became a good opportunity to raise
+the general problem, as that is something that bugs me. Sorry. Hope you
+don't mind to much that I used that chance.
+
+> So a friendly reminder could make things go faster.
+
+I'll already did this occasionally manually, but that of course does not
+scale. Sometimes I wonder if it would be more efficient for nearly all
+of us if subsystems just flushed their -fixes branch shortly before each
+new -rc, as Linus apparently is not bothered by PRs that contain just a
+change or two. But that of course creates work for each of the subsystem
+maintainers, unless they creates scripts to handle that work nearly for
+free (it seems to me the x86 folks have something like that).
+
+Of course that would mean...
+
+> And maybe, before sending the reminder, if you could also check that the
+> target branch hasn't been touched in 2 days that would prevent annoyances
+> when we just added a commit and want to let it stay in for-next for 24h
+> before sending the full branch.
+
+...that nothing big or slightly dangerous should be merged to -fixes
+branches on Fridays.
+
+>> P.S: Wondering if I should team up with the kernel package maintainers
+>> of Arch Linux, Fedora, and openSUSE and start a git tree based on the
+>> latest stable tree with additional fixes and reverts for regressions
+>> not yet fixed upstream...[1] But that feels kinda wrong: it IMHO
+>> would be better to resolve those problems quickly in the proper
+>> upstream trees.
 > 
-> 
-> > That said, th4e last HID pull I have is from March 14. If the issue is
-> > just that there's nothing else happening, I think people should just
-> > point me to the patch and say "can you apply this single fix?"
-> 
-> Then I'll likely do so in my regression reports more often.
-> 
-> Is cherry picking from -next as easy for you? Maintainers sometimes
-> improve small details when merging a fix, so it might be better to
-> take fixes from there instead of pulling them from lore.
+> I would also say that this is wrong. Unless all regressions go through
+> your tree and you then send PR to Linus, [...]
 
-Maybe one suggestion that might help to reduce these kind of situations
-in the future: can you configure your bot to notify the maintainers
-after a couple of days that the patch has been merged that it would be
-nice if they could send the PR to Linus?
+Ohh, sorry, I was not clear here, as that would be totally wrong --
+fixes definitely should go through the subsystems trees, as they have
+the knowledge and the infra to check them (hmm, maybe a dedicated tree
+might make sense for the smaller subsystems, but let's ignore that).
 
-In this case I bet Jiri forgot to send it because he was overloaded and
-so was I. So a friendly reminder could make things go faster.
+What I meant was just a tree those distros could merge into their
+kernels to quickly resolve issues that upstream is slow to fix. But that
+obviously has downsides, too. And is yet more work.
 
-And maybe, before sending the reminder, if you could also check that the
-target branch hasn't been touched in 2 days that would prevent annoyances
-when we just added a commit and want to let it stay in for-next for 24h
-before sending the full branch.
+> However, do you have some kind of dashboard that you could share with
+> the package maintainers? This way they could easily compare the not-yet
+> applied fixes with their bugs and decide to backport them themselves.
 
-> 
-> Ciao, Thorsten
-> 
-> P.S: Wondering if I should team up with the kernel package maintainers
-> of Arch Linux, Fedora, and openSUSE and start a git tree based on the
-> latest stable tree with additional fixes and reverts for regressions
-> not yet fixed upstream...[1] But that feels kinda wrong: it IMHO
-> would be better to resolve those problems quickly in the proper
-> upstream trees.
+I have for the kernel overall, but nothing subsystem specific. But that
+is pretty high on my todo list, as...
 
-I would also say that this is wrong. Unless all regressions go through
-your tree and you then send PR to Linus, you might quickly get
-overloaded because sometimes the fix can not be cherry-picked if there
-is one other change just before.
+> In other words: let others do the hard work, you are doing a lot already
 
-However, do you have some kind of dashboard that you could share with
-the package maintainers? This way they could easily compare the not-yet
-applied fixes with their bugs and decide to backport them themselves.
+...I'm very well aware of this. :-/
 
-In other words: let others do the hard work, you are doing a lot already
-:)
-
-Anyway, I really think a friendly reminder would help makes things go
-faster. Something like "Hey, it seems that you applied a regression fix
-that I am currently tracking and that you haven't sent the PR to Linus
-yet. Could you please send it ASAP as we already have several users
-reporting the issue?".
-
-Cheers,
-Benjamin
-
-> 
-> [1] yes, I'm fully aware that such a tree can only address some of the
-> issues; but from what I see that already would make quite a difference.
+Ciao, Thorsten
 
