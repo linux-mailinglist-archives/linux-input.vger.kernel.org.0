@@ -1,47 +1,52 @@
-Return-Path: <linux-input+bounces-3257-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3258-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B1A8B1978
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 05:26:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FCE8B1CC7
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 10:26:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52F251C21BD2
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 03:26:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9ACB61C21663
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 08:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC90208A1;
-	Thu, 25 Apr 2024 03:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D18997174F;
+	Thu, 25 Apr 2024 08:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="Y+jLAUpP"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="ISEK/6P7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682031CFBC;
-	Thu, 25 Apr 2024 03:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F08B6EB56;
+	Thu, 25 Apr 2024 08:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714015572; cv=none; b=D90XAff/2NnREsi/pwSdc/ExRjGIJBRr2R+nST3rvjzer4KNuA6YmzI+sSTTuzo9mwHiIH6n1E+HYneSHd15nLPeq6zfRd2UHXLGR5sT47RNljaDSyvhLkiONhRhQIkx74fORGUJ61BS16DD1HIqR1cBwimiOYElEg8a3/dhtXk=
+	t=1714033559; cv=none; b=mS+mnw06nc8MQXnBkXhXTeg95CVAE2NApaOa6s4ukJU4IBLoYCTlhs+sl5xq83+zbP311CTGDPK/1QT3TOvTHTUinFk2FGPIP9DdiY8/ODBxiYh/zSDxFd46Cn5iEqs1iwmrXn/rCE00t3hKGULnX9VJE3drE/D1MI0TcFpslxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714015572; c=relaxed/simple;
-	bh=wK5vyYcwPVAWU7hn2RU6otvN8hIlPdrQoWg66De1424=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=OwEM4hpPMGyf47ntXGdtosft1GcS3sycFFyQDiBEoFQ3cs7bLSwpfRL2d1S44xfJnwRDNVwhcuACDUJBx7/cg5hKmVbFIcaMRdqB34IpwAVVEHyHDot8iCyMfNOgbkLYcKC3DRVhuymReXkw4e9CFnggxLN1fC1TqiupwfHJV2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=Y+jLAUpP; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 511D5C005F;
-	Wed, 24 Apr 2024 23:27:32 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1714015654; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=wKQqhvjCnwePtvQuR8aaJD84f/wV5y4ev28hOd21474=;
-	b=Y+jLAUpP9rCQVlobVGwI+p2IoQe2g4z9xbgr1HoOwoU9MH936nMo2kcwBrvwNt2i5PNr27
-	XNY7V7w1NHVCX9luL2MzblAFN2HQ37uQ44/IEFYOq7UrBtgT60o4vGL2f0PBDjRonGsDr2
-	wOyDeuTaG4pW/ytfgeFdM6H2dPQRZ4o=
-Message-ID: <d51409a2-d336-4b93-9506-a2bb0c9a7ef4@kaechele.ca>
-Date: Wed, 24 Apr 2024 23:26:02 -0400
+	s=arc-20240116; t=1714033559; c=relaxed/simple;
+	bh=8OwDnxT/BWxIvNWqIts0KuoJtLvetaqykchXNQY8pXY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=IflAEFFE90c/yTuu4eKoBK9SrlVff80B5caR97gIATZE1kJf1y8mVq/msto6pwmvPYEN8JMjq5auCNyGRNgGzQKf7OU6ylhXQ6lOT7r9MdjXH1DmTseIRfmmXKzWmHW0brv+O2D2HcB1MKA/U4/RX7Q0UPwtUKjnvsnBfkExpfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=ISEK/6P7; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=3eKdcAaunz7UeynxgnkJpgqy7iwdenLUDp9NN2OrPJs=; t=1714033557;
+	x=1714465557; b=ISEK/6P7BAZTVGk7nb70YyzXJ28/TN8kGkUw8WPi98CzTh8uMwRiIu6Bx3gg0
+	YgcEcpqi6CZFYIfz2zxGMWW3qX5Fm0a8U3a8dohsbW3wrBaVHc9Uf1yiPPGr2SrtRjlPjj+0S+qJf
+	CrM4Mv9wsu1Gl54HUcYR1X/RF9sndGRLv+UCU5ss9d/Q3Rfq3QU9j4M6/fggwO1oBhY4YPb3h0nrF
+	AgNQcpjWisr6SCCwF0KnFTD8M8oSD2EXnKvZack8AGIIWe59a0BF9cIEjzWpnwnS8jaeZCbYVJFm/
+	TAjGnLRddN5MkB8rf4xxtNPr+wSwtfNb+X4D8VunsEst7w5qEw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rzuQO-0003Hx-Ec; Thu, 25 Apr 2024 10:25:48 +0200
+Message-ID: <87698732-5439-42bd-b2b2-864bb4f3b3ec@leemhuis.info>
+Date: Thu, 25 Apr 2024 10:25:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -49,297 +54,87 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] HID: Add Himax HX83102J touchscreen driver
-To: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor@kernel.org,
- jikos@kernel.org, benjamin.tissoires@redhat.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240417074115.1137885-1-allencl_lin@hotmail.com>
- <TY0PR06MB561105A3386E9D76F429110D9E0F2@TY0PR06MB5611.apcprd06.prod.outlook.com>
-Content-Language: en-US
-From: Felix Kaechele <felix@kaechele.ca>
-In-Reply-To: <TY0PR06MB561105A3386E9D76F429110D9E0F2@TY0PR06MB5611.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: Re: regression fixes sitting in subsystem git trees for a week or
+ longer
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Kenny Levinsen <kl@kl.wtf>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20240331182440.14477-1-kl@kl.wtf>
+ <14d1b38e-0f11-4852-9c52-92b4bedb0a77@leemhuis.info>
+ <CAO-hwJJtK2XRHK=HGaNUFb3mQhY5XbNGeCQwuAB0nmG2bjHX-Q@mail.gmail.com>
+ <a810561a-14f3-412e-9903-acaba7a36160@leemhuis.info>
+ <CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com>
+Content-Language: en-US, de-DE
+In-Reply-To: <CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1714033557;d16c12a9;
+X-HE-SMSGID: 1rzuQO-0003Hx-Ec
 
-Hey there,
-
-I've recently been working on adding HX83100A support to the already 
-existing himax_hx83112b driver. So I thought I'd take a look at this, too.
-
-First of all, thank you for providing documented code. The vendor 
-released code is much harder to parse and understand, especially given 
-that there is almost no commentary.
-With the chip family having strong similarities between chips this is 
-helpful for my HX83100A additions to the himax_hx83112b driver.
-
-As far as I understand (and given that I have no access to data sheets 
-and register maps) HX83112B and HX83100A are I2C, not SPI, and also 
-don't emit HID packets internally, but a custom event data structure.
-So there are certainly some differences with that.
-But registers and sequences are identical, even with the different 
-busses involved.
-
-I'm sure there could be some value in combining efforts for both 
-drivers. At the same time I see that this is supposed to go in as a hid 
-driver, not into input/touchscreen. So I don't know how practical 
-combining things would be. So  my comments below may possibly be 
-irrelevant if the HX83102J is the only HID over SPI chip in the family.
-
-My comments inline are based on what I learned from studying the vendor 
-driver at https://github.com/HimaxSoftware/HX83112_Android_Driver and 
-https://github.com/HimaxSoftware/HX83100_Android_Driver
-
-On 2024-04-17 03:41, Allen_Lin wrote:
-> Add a new driver for Himax HX83102J touchscreen controllers.
-> This driver supports Himax IC using the SPI interface to
-> acquire HID packets.
+On 24.04.24 20:53, Linus Torvalds wrote:
+> On Wed, 24 Apr 2024 at 09:56, Thorsten Leemhuis
+> <regressions@leemhuis.info> wrote:
+>>
+>> out of interest: what's your stance on regression fixes sitting in
+>> subsystem git trees for a week or longer before being mainlined?
 > 
-> After confirmed the IC's exsitence the driver loads the firmware
-> image from flash to get the HID report descriptor, VID and PID.
-> And use those information to register HID device.
-> 
-> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> ---
->   MAINTAINERS             |    1 +
->   drivers/hid/Kconfig     |    7 +
->   drivers/hid/Makefile    |    2 +
->   drivers/hid/hid-himax.c | 1768 +++++++++++++++++++++++++++++++++++++++
->   drivers/hid/hid-himax.h |  288 +++++++
->   5 files changed, 2066 insertions(+)
->   create mode 100644 drivers/hid/hid-himax.c
->   create mode 100644 drivers/hid/hid-himax.h
-> 
+> Annoying, but probably depends on circumstances. The fact that it took
+> a while to even be noticed presumably means it's not common or holding
+> anything up.
 
-...
+Well, I searched and found quite a few users that reported the problem:
 
-> diff --git a/drivers/hid/hid-himax.c b/drivers/hid/hid-himax.c
-> new file mode 100644
-> index 000000000000..f8a417e07f0c
-> --- /dev/null
-> +++ b/drivers/hid/hid-himax.c
-> @@ -0,0 +1,1768 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Himax hx83102j SPI Driver Code for HID.
-> + *
-> + * Copyright (C) 2024 Himax Corporation.
-> + */
+https://bbs.archlinux.org/viewtopic.php?id=293971 (at least 4 people)
+https://bbs.archlinux.org/viewtopic.php?id=293978 (2 people)
+https://bugzilla.redhat.com/show_bug.cgi?id=2271136 (1)
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2061040 (1)
+https://forums.opensuse.org/t/no-touchpad-found-el-touchpad-a-veces-es-reconocido-por-el-sistema/174100 (1)
+https://oldos.me/@jay/112294956758222518 (1)
 
-...
+There are also these two I mentioned earlier already:
+https://social.lol/@major/112294920993272987 (1)
+https://lore.kernel.org/all/9a880b2b-2a28-4647-9f0f-223f9976fdee@manjaro.org/ (1)
 
-> +/**
-> + * hx83102j_sense_off() - Stop MCU and enter safe mode
-> + * @ts: Himax touch screen data
-> + * @check_en: Check if need to ensure FW is stopped by its owne process
-> + *
-> + * Sense off is a process to make sure the MCU inside the touch chip is stopped.
-> + * The process has two stage, first stage is to request FW to stop. Write
-> + * HIMAX_REG_DATA_FW_GO_SAFEMODE to HIMAX_REG_ADDR_CTRL_FW tells the FW to stop by its own.
-> + * Then read back the FW status to confirm the FW is stopped. When check_en is true,
-> + * the function will resend the stop FW command until the retry limit reached.
-> + * There maybe a chance that the FW is not stopped by its own, in this case, the
-> + * safe mode in next stage still stop the MCU, but FW internal flag may not be
-> + * configured correctly. The second stage is to enter safe mode and reset TCON.
-> + * Safe mode is a mode that the IC circuit ensure the internal MCU is stopped.
-> + * Since this IC is TDDI, the TCON need to be reset to make sure the IC is ready
-> + * for next operation.
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +static int hx83102j_sense_off(struct himax_ts_data *ts, bool check_en)
-> +{
-> +	int ret;
-> +	u32 retry_cnt;
-> +	const u32 stop_fw_retry_limit = 35;
-> +	const u32 enter_safe_mode_retry_limit = 5;
-> +	const union himax_dword_data safe_mode = {
-> +		.dword = cpu_to_le32(HIMAX_REG_DATA_FW_GO_SAFEMODE)
-> +	};
-> +	union himax_dword_data data;
-> +
-> +	dev_info(ts->dev, "%s: check %s\n", __func__, check_en ? "True" : "False");
-> +	if (!check_en)
-> +		goto without_check;
-> +
-> +	for (retry_cnt = 0; retry_cnt < stop_fw_retry_limit; retry_cnt++) {
-> +		if (retry_cnt == 0 ||
-> +		    (data.byte[0] != HIMAX_REG_DATA_FW_GO_SAFEMODE &&
-> +		    data.byte[0] != HIMAX_REG_DATA_FW_RE_INIT &&
-> +		    data.byte[0] != HIMAX_REG_DATA_FW_IN_SAFEMODE)) {
-> +			ret = himax_mcu_register_write(ts, HIMAX_REG_ADDR_CTRL_FW,
-> +						       safe_mode.byte, 4);
-> +			if (ret < 0) {
-> +				dev_err(ts->dev, "%s: stop FW failed\n", __func__);
-> +				return ret;
-> +			}
-> +		}
-> +		usleep_range(10000, 11000);
-> +
-> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_FW_STATUS, data.byte, 4);
-> +		if (ret < 0) {
-> +			dev_err(ts->dev, "%s: read central state failed\n", __func__);
-> +			return ret;
-> +		}
-> +		if (data.byte[0] != HIMAX_REG_DATA_FW_STATE_RUNNING) {
-> +			dev_info(ts->dev, "%s: Do not need wait FW, Status = 0x%02X!\n", __func__,
-> +			  data.byte[0]);
-> +			break;
-> +		}
-> +
-> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_CTRL_FW, data.byte, 4);
-> +		if (ret < 0) {
-> +			dev_err(ts->dev, "%s: read ctrl FW failed\n", __func__);
-> +			return ret;
-> +		}
-> +		if (data.byte[0] == HIMAX_REG_DATA_FW_IN_SAFEMODE)
-> +			break;
-> +	}
-> +
-> +	if (data.byte[0] != HIMAX_REG_DATA_FW_IN_SAFEMODE)
-> +		dev_warn(ts->dev, "%s: Failed to stop FW!\n", __func__);
-> +
-> +without_check:
-> +	for (retry_cnt = 0; retry_cnt < enter_safe_mode_retry_limit; retry_cnt++) {
-> +		/* set Enter safe mode : 0x31 ==> 0x9527 */
-> +		data.word[0] = cpu_to_le16(HIMAX_HX83102J_SAFE_MODE_PASSWORD);
-> +		ret = himax_write(ts, HIMAX_AHB_ADDR_PSW_LB, NULL, data.byte, 2);
-> +		if (ret < 0) {
-> +			dev_err(ts->dev, "%s: enter safe mode failed\n", __func__);
-> +			return ret;
-> +		}
-> +
-> +		/* Check enter_save_mode */
-> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_FW_STATUS, data.byte, 4);
-> +		if (ret < 0) {
-> +			dev_err(ts->dev, "%s: read central state failed\n", __func__);
-> +			return ret;
-> +		}
-> +
-> +		if (data.byte[0] == HIMAX_REG_DATA_FW_STATE_SAFE_MODE) {
-> +			dev_info(ts->dev, "%s: Safe mode entered\n", __func__);
-> +			/* Reset TCON */
-> +			data.dword = cpu_to_le32(HIMAX_REG_DATA_TCON_RST);
-> +			ret = himax_mcu_register_write(ts, HIMAX_HX83102J_REG_ADDR_TCON_RST,
-> +						       data.byte, 4);
-> +			if (ret < 0) {
-> +				dev_err(ts->dev, "%s: reset TCON failed\n", __func__);
-> +				return ret;
-> +			}
-> +			usleep_range(1000, 1100);
-> +			return 0;
-> +		}
-> +		usleep_range(5000, 5100);
-> +		hx83102j_pin_reset(ts);
-> +	}
-> +	dev_err(ts->dev, "%s: failed!\n", __func__);
-> +
-> +	return -EIO;
-> +}
-> +
+Side note: there were more discussions about it here:
+https://forums.lenovo.com/t5/Fedora/PSA-Z16-Gen-2-touchpad-not-working-on-kernel-6-8/m-p/5299530
+https://www.reddit.com/r/thinkpad/comments/1bwxwnr/review_thinkpad_z16_gen_2_with_arch_linux/
+https://www.reddit.com/r/linuxhardware/comments/1bwxhwa/review_thinkpad_z16_gen_2_arch_linux/
 
-Used generically across HX831xx family (except HX83100A): 
-https://github.com/HimaxSoftware/HX83112_Android_Driver/blob/939400d4d4bf614bbeff51e1986760b47dde9eab/hxchipset/himax_ic_incell_core.c#L404
+And the arch linux wiki even documents a workaround:
+https://wiki.archlinux.org/title/Lenovo_ThinkPad_Z16_Gen_2#Initialization_failure
 
-Also, HIMAX_HX83102J_SAFE_MODE_PASSWORD doesn't seem specific to the 
-HX83102J.
-This actually apply to a number of the HIMAX_HX83102J_* defines 
-throughout the code.
+Those are just the reports and discussions I found. And you know how
+it is: many people that struggle will never report a problem.
 
-> +/**
-> + * hx83102j_chip_detect() - Check if the touch chip is HX83102J
-> + * @ts: Himax touch screen data
-> + *
-> + * This function is used to check if the touch chip is HX83102J. The process
-> + * start with a hardware reset to the touch chip, then knock the IC bus interface
-> + * to wakeup the IC bus interface. Then sense off the MCU to prevent bus conflict
-> + * when reading the IC ID. The IC ID is read from the IC register, and compare
-> + * with the expected ID. If the ID is matched, the chip is HX83102J. Due to display
-> + * IC initial code may not ready before the IC ID is read, the function will retry
-> + * to read the IC ID for several times to make sure the IC ID is read correctly.
-> + * In any case, the SPI bus shouldn't have error when reading the IC ID, so the
-> + * function will return error if the SPI bus has error. When the IC is not HX83102J,
-> + * the function will return -ENODEV.
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +static int hx83102j_chip_detect(struct himax_ts_data *ts)
-> +{
-> +	int ret;
-> +	u32 retry_cnt;
-> +	const u32 read_icid_retry_limit = 5;
-> +	const u32 ic_id_mask = GENMASK(31, 8);
-> +	union himax_dword_data data;
-> +
-> +	hx83102j_pin_reset(ts);
-> +	ret = himax_mcu_interface_on(ts);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = hx83102j_sense_off(ts, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (retry_cnt = 0; retry_cnt < read_icid_retry_limit; retry_cnt++) {
-> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_ICID, data.byte, 4);
-> +		if (ret) {
-> +			dev_err(ts->dev, "%s: Read IC ID Fail\n", __func__);
-> +			return ret;
-> +		}
-> +
-> +		data.dword = le32_to_cpu(data.dword);
-> +		if ((data.dword & ic_id_mask) == HIMAX_REG_DATA_ICID) {
-> +			ts->ic_data.icid = data.dword;
-> +			dev_info(ts->dev, "%s: Detect IC HX83102J successfully\n", __func__);
-> +			return 0;
-> +		}
-> +	}
-> +	dev_err(ts->dev, "%s: Read driver ID register Fail! IC ID = %X,%X,%X\n", __func__,
-> +	  data.byte[3], data.byte[2], data.byte[1]);
-> +
-> +	return -ENODEV;
-> +}
-> +
 
-Same here, this is also used generically across all chips in the family 
-(except HX83100A).
+IMHO this all casts a bad light on our "no regression" rule, as the
+fix is ready, just not mainlined and backported. And as I mentioned:
+I see similar situations all the time. That's why I made noise here.
 
-...
 
-> +/**
-> + * hx83102j_read_event_stack() - Read event stack from touch chip
-> + * @ts: Himax touch screen data
-> + * @buf: Buffer to store the data
-> + * @length: Length of data to read
-> + *
-> + * This function is used to read the event stack from the touch chip. The event stack
-> + * is an AHB output buffer, which store the touch report data.
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +static int hx83102j_read_event_stack(struct himax_ts_data *ts, u8 *buf, u32 length)
-> +{
-> +	u32 i;
-> +	int ret;
-> +	const u32 max_trunk_sz = ts->spi_xfer_max_sz - HIMAX_BUS_R_HLEN;
-> +
-> +	for (i = 0; i < length; i += max_trunk_sz) {
-> +		ret = himax_read(ts, HIMAX_AHB_ADDR_EVENT_STACK, buf + i,
-> +				 min(length - i, max_trunk_sz));
-> +		if (ret) {
-> +			dev_err(ts->dev, "%s: read event stack error!\n", __func__);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
+> That said, th4e last HID pull I have is from March 14. If the issue is
+> just that there's nothing else happening, I think people should just
+> point me to the patch and say "can you apply this single fix?"
 
-Again, generic across HX831xx (except HX83100A).
+Then I'll likely do so in my regression reports more often.
 
-Regards,
-Felix
+Is cherry picking from -next as easy for you? Maintainers sometimes
+improve small details when merging a fix, so it might be better to
+take fixes from there instead of pulling them from lore.
+
+Ciao, Thorsten
+
+P.S: Wondering if I should team up with the kernel package maintainers
+of Arch Linux, Fedora, and openSUSE and start a git tree based on the
+latest stable tree with additional fixes and reverts for regressions
+not yet fixed upstream...[1] But that feels kinda wrong: it IMHO
+would be better to resolve those problems quickly in the proper
+upstream trees.
+
+[1] yes, I'm fully aware that such a tree can only address some of the
+issues; but from what I see that already would make quite a difference.
 
