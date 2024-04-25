@@ -1,147 +1,201 @@
-Return-Path: <linux-input+bounces-3266-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3265-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650298B2763
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 19:14:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330F78B271A
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 19:04:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 200E328613A
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 17:14:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F6FA1F22422
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 17:04:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79D614D719;
-	Thu, 25 Apr 2024 17:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E74414D710;
+	Thu, 25 Apr 2024 17:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="BF09zJII"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cK9Z9xlq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D8614D715;
-	Thu, 25 Apr 2024 17:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3D014D717;
+	Thu, 25 Apr 2024 17:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714065226; cv=none; b=s5WGckP6PqTNN7cluaDtCmbDyZRyrwSZ9kGyH2hvS4FsXFGzeNKis7vRjNzs0X/eCAKJDJLGbijhOziyTntnPkTpGvmQu6/vGPMurnAMpagu7eE9ZNxDIirkalo3O441IS2zsfrbhCOzeuaGZClSoxOvyVYyjY7MZrB/GIjQArk=
+	t=1714064678; cv=none; b=ZJvhjPGzxPq18f3vy39qWrc/Ap5yEY7rGzHwMdlFC0xoXkm7zcUohMIHsA7BN1dLz/y6OY1GZ1LsMbnZVuOIubJyK+BNcA4t/qLpJafSfdr+BcwROniKHqXLJecTBP044TJskuI6UOEsoygdSc9VmdvOcCaRIWf+dPA92O2kWj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714065226; c=relaxed/simple;
-	bh=6foYH7QWE2i5RWLOdtEMwKdsb2KccYTN2Q/k4s5TAV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=csfUj3q6qKrnAA0fMe3TVWcBVY3aqY0tGIoOHtUQemZ4Uinoicn13fDqYcT77GV35Pz+7MVFRhv8eaoBf+c6f3goVSOlqCYbDkvHsdBUnrlzJwMsqZWRnqYCl+m+5+TKtx1RE075EXyUR3VcgnA31iQ35jM6VW8e+v4rewzEVwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=BF09zJII; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s02MW-000ZvV-2b;
-	Thu, 25 Apr 2024 18:54:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tiBrh8Wfbv/jy2lIqssR5GnzyzHFN9L4ULdDhyCPprk=; b=BF09zJIItbQMvEhpMdlWf3E8C0
-	JXoGZzZXjql074j600DVKUvMXesGkXx1Hoc1orZo2Bc68sp+DNB77gDM3H4nLdC9j1W/jCw83MSdw
-	zAZZ47RtPN89pHe4xcnuzg9ENcOrEs2Nqw723CCcgelqCFrGrgcnxALBOcmmtYUJt2LGlCpN2x5i5
-	ByadWtvFh7/fsn1wGHy/KjSCtfSSw3XDWq4ggOPt9j7czgGa1MxxpzDc0R1om9PwZwcatdgfT2JuR
-	S0nh5vN6V1XTz308JYoAWPm7pdkpD0fTKy2hIJQ6n34tIe6k3w8RchR/7kklYGVrtKEHWn7xMVLun
-	PD/tzQ5A==;
-Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s02MU-0001dn-1K;
-	Thu, 25 Apr 2024 18:54:19 +0200
-Date: Thu, 25 Apr 2024 18:54:17 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de,
- hdegoede@redhat.com, ye.xingchen@zte.com.cn, p.puschmann@pironex.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, caleb.connolly@linaro.org
-Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
-Message-ID: <20240425185417.0a5f9c19@aktux>
-In-Reply-To: <CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
-References: <20240404222009.670685-1-andreas@kemnade.info>
-	<20240404222009.670685-3-andreas@kemnade.info>
-	<CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
-	<20240405182832.4e457695@aktux>
-	<CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1714064678; c=relaxed/simple;
+	bh=10seaOuogLecZ+rmxfHQABFw/3RsOlWdgZz3zMbZs4o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fictwhkqxTdXjMSVFdtr9duACVESTS4Ph8gIS6ie1fpJ0sfMVqBhjKsq4wh/Bf7SATwi9wcmNAfP7gtsNl6+9sS3lw5wGVZ1nytA3RQL1oGq8+tsIfwE19OAJCSjibAFy8/UkW0EpC1zpSbpC+x+M0FK+9pSAVlAhJVRJwXHydI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cK9Z9xlq; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714064671;
+	bh=10seaOuogLecZ+rmxfHQABFw/3RsOlWdgZz3zMbZs4o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cK9Z9xlqxGw75YqQktQFKZFa7lA7SfBzHD82hMw2EXRSS3QIKCV+c1NsyVcG8lCCv
+	 jd9dAxh2IngIxZ36GtizEYTucrmZxZzPGut8E3uz78Mnqv0Xb/VjYtZsMQqBhJUIDc
+	 +d4FtjPycKi9gJk1O53nm+344LdA2Huw0SJ/teZEhhGmku5FC7jMFdrpisY2QpPMk1
+	 JdA04+DM3gOXapSbmeSTfSb+y0v7iCx8eJXmhvshZ8e58J9rI/YLSa9fjJ91ZWRVIa
+	 TO6+qqqbHF4+Az3A1yaITZwcXWUBiLcRA8FUPt9Z+NW2ytKZ497xT2rLjTnnxkROzj
+	 xSSCZikm/ZOrQ==
+Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 743FB378148F;
+	Thu, 25 Apr 2024 17:04:31 +0000 (UTC)
+Message-ID: <043e53c5-98a0-4205-8065-cd57dceacd3f@collabora.com>
+Date: Thu, 25 Apr 2024 19:04:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: cyapa - add missing input core locking to
+ suspend/resume functions
+To: Marek Szyprowski <m.szyprowski@samsung.com>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <CGME20231009121026eucas1p19ed2a6a88fa6b899ef9b915a73ad87b5@eucas1p1.samsung.com>
+ <20231009121018.1075318-1-m.szyprowski@samsung.com>
+ <5f9052f0-ef5f-4c4f-85f9-f07fffd2b5ef@samsung.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <5f9052f0-ef5f-4c4f-85f9-f07fffd2b5ef@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 5 Apr 2024 20:21:19 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Hi Marek,
 
-> On Fri, Apr 5, 2024 at 7:28=E2=80=AFPM Andreas Kemnade <andreas@kemnade.i=
-nfo> wrote:
-> > On Fri, 5 Apr 2024 18:13:45 +0300
-> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote: =20
-> > > On Fri, Apr 5, 2024 at 1:20=E2=80=AFAM Andreas Kemnade <andreas@kemna=
-de.info> wrote: =20
->=20
-> ...
->=20
-> > > > @@ -1484,6 +1484,7 @@ static const struct of_device_id edt_ft5x06_o=
-f_match[] =3D {
-> > > >         { .compatible =3D "edt,edt-ft5206", .data =3D &edt_ft5x06_d=
-ata },
-> > > >         { .compatible =3D "edt,edt-ft5306", .data =3D &edt_ft5x06_d=
-ata },
-> > > >         { .compatible =3D "edt,edt-ft5406", .data =3D &edt_ft5x06_d=
-ata },
-> > > > +       { .compatible =3D "focaltech,ft5426", .data =3D &edt_ft5506=
-_data }, =20
-> > >
-> > > Why a different vendor prefix?
-> > > In case you need to use this one, keep the list sorted, currently this
-> > > splits the edt,* ones.
-> > > =20
-> > How do I know whether to use evervision or edt instead? =20
->=20
-> Ask DT people, the vendor-prefixes lists both...
->=20
-> > I sorted by the numbers. Looking at datasheets for other controllers I =
-see
-> > https://www.displayfuture.com/Display/datasheet/controller/FT5x06.pdf
-> > it only mentions FocalTech Systems Co., Ltd. =20
->=20
-> But does the driver use that? AFAICS it uses edt. Perhaps it's due to
-> a business split, not to my knowledge anyway.
->=20
-Well, lets cite edt-ft5x06.rst:
+W dniu 25.04.2024 o 12:02, Marek Szyprowski pisze:
+> On 09.10.2023 14:10, Marek Szyprowski wrote:
+>> Grab input->mutex during suspend/resume functions like it is done in
+>> other input drivers. This fixes the following warning during system
+>> suspend/resume cycle on Samsung Exynos5250-based Snow Chromebook:
+>>
+>> ------------[ cut here ]------------
+>> WARNING: CPU: 1 PID: 1680 at drivers/input/input.c:2291 input_device_enabled+0x68/0x6c
+>> Modules linked in: ...
+>> CPU: 1 PID: 1680 Comm: kworker/u4:12 Tainted: G        W          6.6.0-rc5-next-20231009 #14109
+>> Hardware name: Samsung Exynos (Flattened Device Tree)
+>> Workqueue: events_unbound async_run_entry_fn
+>>    unwind_backtrace from show_stack+0x10/0x14
+>>    show_stack from dump_stack_lvl+0x58/0x70
+>>    dump_stack_lvl from __warn+0x1a8/0x1cc
+>>    __warn from warn_slowpath_fmt+0x18c/0x1b4
+>>    warn_slowpath_fmt from input_device_enabled+0x68/0x6c
+>>    input_device_enabled from cyapa_gen3_set_power_mode+0x13c/0x1dc
+>>    cyapa_gen3_set_power_mode from cyapa_reinitialize+0x10c/0x15c
+>>    cyapa_reinitialize from cyapa_resume+0x48/0x98
+>>    cyapa_resume from dpm_run_callback+0x90/0x298
+>>    dpm_run_callback from device_resume+0xb4/0x258
+>>    device_resume from async_resume+0x20/0x64
+>>    async_resume from async_run_entry_fn+0x40/0x15c
+>>    async_run_entry_fn from process_scheduled_works+0xbc/0x6a8
+>>    process_scheduled_works from worker_thread+0x188/0x454
+>>    worker_thread from kthread+0x108/0x140
+>>    kthread from ret_from_fork+0x14/0x28
+>> Exception stack(0xf1625fb0 to 0xf1625ff8)
+>> ...
+>> ---[ end trace 0000000000000000 ]---
+>> ...
+>> ------------[ cut here ]------------
+>> WARNING: CPU: 1 PID: 1680 at drivers/input/input.c:2291 input_device_enabled+0x68/0x6c
+>> Modules linked in: ...
+>> CPU: 1 PID: 1680 Comm: kworker/u4:12 Tainted: G        W          6.6.0-rc5-next-20231009 #14109
+>> Hardware name: Samsung Exynos (Flattened Device Tree)
+>> Workqueue: events_unbound async_run_entry_fn
+>>    unwind_backtrace from show_stack+0x10/0x14
+>>    show_stack from dump_stack_lvl+0x58/0x70
+>>    dump_stack_lvl from __warn+0x1a8/0x1cc
+>>    __warn from warn_slowpath_fmt+0x18c/0x1b4
+>>    warn_slowpath_fmt from input_device_enabled+0x68/0x6c
+>>    input_device_enabled from cyapa_gen3_set_power_mode+0x13c/0x1dc
+>>    cyapa_gen3_set_power_mode from cyapa_reinitialize+0x10c/0x15c
+>>    cyapa_reinitialize from cyapa_resume+0x48/0x98
+>>    cyapa_resume from dpm_run_callback+0x90/0x298
+>>    dpm_run_callback from device_resume+0xb4/0x258
+>>    device_resume from async_resume+0x20/0x64
+>>    async_resume from async_run_entry_fn+0x40/0x15c
+>>    async_run_entry_fn from process_scheduled_works+0xbc/0x6a8
+>>    process_scheduled_works from worker_thread+0x188/0x454
+>>    worker_thread from kthread+0x108/0x140
+>>    kthread from ret_from_fork+0x14/0x28
+>> Exception stack(0xf1625fb0 to 0xf1625ff8)
+>> ...
+>> ---[ end trace 0000000000000000 ]---
+>>
+>> Fixes: d69f0a43c677 ("Input: use input_device_enabled()")
+>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> 
+> Gentle ping?
 
-"The edt-ft5x06 driver is useful for the EDT "Polytouch" family of capaciti=
-ve
-touch screens. Note that it is *not* suitable for other devices based on the
-focaltec ft5x06 devices, since they contain vendor-specific firmware. In
-particular this driver is not suitable for the Nook tablet."
+Thanks for pinging this gently ;)
 
-So chips from focaltech which can be equipped with different firmware? So
-edt prefix means EDT firmware?
+Unfortunately I am unable to test it now, but I assume this
+fixes the problem for you. If so, you can add my
 
-Looking around I found this:
-            if (tsdata->version =3D=3D EV_FT)
-                        swap(x, y);
-...
-               case 0x59:  /* Evervision Display with FT5xx6 TS */
-                        tsdata->version =3D EV_FT;
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-I need swap(x.y), I am using touchscreen-swapped-x-y property now.
-So evervision prefix?
+> 
+>> ---
+>>    drivers/input/mouse/cyapa.c | 12 +++++++++++-
+>>    1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
+>> index a84098448f5b..cf23f95b5f11 100644
+>> --- a/drivers/input/mouse/cyapa.c
+>> +++ b/drivers/input/mouse/cyapa.c
+>> @@ -1347,10 +1347,16 @@ static int cyapa_suspend(struct device *dev)
+>>    	u8 power_mode;
+>>    	int error;
+>>    
+>> -	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
+>> +	error = mutex_lock_interruptible(&cyapa->input->mutex);
+>>    	if (error)
+>>    		return error;
+>>    
+>> +	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
+>> +	if (error) {
+>> +		mutex_unlock(&cyapa->input->mutex);
+>> +		return error;
+>> +	}
+>> +
+>>    	/*
+>>    	 * Runtime PM is enable only when device is in operational mode and
+>>    	 * users in use, so need check it before disable it to
+>> @@ -1385,6 +1391,8 @@ static int cyapa_suspend(struct device *dev)
+>>    		cyapa->irq_wake = (enable_irq_wake(client->irq) == 0);
+>>    
+>>    	mutex_unlock(&cyapa->state_sync_lock);
+>> +	mutex_unlock(&cyapa->input->mutex);
+>> +
+>>    	return 0;
+>>    }
+>>    
+>> @@ -1394,6 +1402,7 @@ static int cyapa_resume(struct device *dev)
+>>    	struct cyapa *cyapa = i2c_get_clientdata(client);
+>>    	int error;
+>>    
+>> +	mutex_lock(&cyapa->input->mutex);
+>>    	mutex_lock(&cyapa->state_sync_lock);
+>>    
+>>    	if (device_may_wakeup(dev) && cyapa->irq_wake) {
+>> @@ -1412,6 +1421,7 @@ static int cyapa_resume(struct device *dev)
+>>    	enable_irq(client->irq);
+>>    
+>>    	mutex_unlock(&cyapa->state_sync_lock);
+>> +	mutex_unlock(&cyapa->input->mutex);
+>>    	return 0;
+>>    }
+>>    
+> 
+> Best regards
 
-Regards,
-Andreas
 
