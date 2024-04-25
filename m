@@ -1,246 +1,195 @@
-Return-Path: <linux-input+bounces-3262-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3263-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A309F8B1EAA
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 12:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B1C8B21F9
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 14:52:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C325DB22C93
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 10:02:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D26BB23EC5
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 12:52:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B82785953;
-	Thu, 25 Apr 2024 10:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B701494D8;
+	Thu, 25 Apr 2024 12:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="W8DfLn07"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3KG1MTY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECCD8662B
-	for <linux-input@vger.kernel.org>; Thu, 25 Apr 2024 10:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5E1494C9;
+	Thu, 25 Apr 2024 12:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714039358; cv=none; b=lR9pta1s6ind7YYDJnh2jc0d188gPhVuMHRl5HkRYV9C4ZLj8Zj6vbq7zvdZTZHOXIg0RDKVGQ9HyOFV6khAJbvFM/8we2rLLwCv3kzS/aG7jGL9XAJb7uh9T/I/RC5f7E4bDQ4t2pvK3rbrYZX/LRQ8lnqhkxckJWCJIT4ZKkE=
+	t=1714049567; cv=none; b=f1TNpV857qN7q/Vk6vYjzwhw65g4q+xSnLfg47wOawMEHgfUwwJPkhmxhGq5mEoScg5ZCkvc5DBZR0dDoCMKONkb21WUxrxtLhfGU+L1ZSqp84IwqcG9qhZSWw8rn3FP/N2mX3WXiDhN2AbhGQby5PHIytqNKLAg0aPoiMNM5Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714039358; c=relaxed/simple;
-	bh=D43HqWGhew4NIlfYNq2zcvYW4hjhv7WDJP0gbSppSjk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=MiBaWpMOEDvgY1O7ES6l2jF+rMBKJyrM9Dl17FmclBZ7MPgK2nnA53eoY5UkHmbc2V4BZ/jY0Md51DTWgpWjxfP9s9BRxhfgiGRX07SwaWY1QRZGiBDG5TECMIcYUYUMsQRKWjebjMsVf/CbIe6t8XkBsc7yYhdc699z642KavE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=W8DfLn07; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240425100224euoutp02994502438d3dee2c65281855891c46b4~JfbPftHXW3095530955euoutp02M
-	for <linux-input@vger.kernel.org>; Thu, 25 Apr 2024 10:02:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240425100224euoutp02994502438d3dee2c65281855891c46b4~JfbPftHXW3095530955euoutp02M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1714039344;
-	bh=Y6uoDojVa9FO4WIczvH/+BJUzC+PPsT0muqBC0r2gWc=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=W8DfLn0716RZvl0n96ZdlqNw30VTExVehVwBvENIVmDTZS7ZmeewIbkF/eMzuiyQW
-	 u+UyU4DdC8XO/hSw9pEkRsdBy+0NtkMQCxoSk7/aLhq8erdX+5VYKCrZvUpYNA69Mr
-	 DI5NLUcsUbqoAsz2rxkuKAN8wFUWqBKgJfoxzvZ0=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20240425100224eucas1p2826dc59bf516e2775094366d4e02a2cb~JfbPZXAP62727127271eucas1p2M;
-	Thu, 25 Apr 2024 10:02:24 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id DF.9F.09875.03A2A266; Thu, 25
-	Apr 2024 11:02:24 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240425100224eucas1p2155f5d9988a5c4a14aeb3fb7318d0fe0~JfbPE9FH02304423044eucas1p2Z;
-	Thu, 25 Apr 2024 10:02:24 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240425100224eusmtrp190c7b8612e52a54c2f6a6bd5beff8adf~JfbPEV75V0846808468eusmtrp1K;
-	Thu, 25 Apr 2024 10:02:24 +0000 (GMT)
-X-AuditID: cbfec7f4-131ff70000002693-b6-662a2a300b70
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id E8.C2.09010.03A2A266; Thu, 25
-	Apr 2024 11:02:24 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240425100223eusmtip1fe4ba78b15c82c6ab9b1e6df341fe876~JfbOtxlDN2878028780eusmtip1s;
-	Thu, 25 Apr 2024 10:02:23 +0000 (GMT)
-Message-ID: <5f9052f0-ef5f-4c4f-85f9-f07fffd2b5ef@samsung.com>
-Date: Thu, 25 Apr 2024 12:02:23 +0200
+	s=arc-20240116; t=1714049567; c=relaxed/simple;
+	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuWQSZLpelagdYUoReFvntTjgdXrFBgjpe516l9BLsA8PM+7AsmUgyVWCR/1Awzei7pV3XKxg4J6F3j1+MDYcg9CH4kBRkSqKlDVtHwtTaBXe3uzqUjuLeW0IGbRfyWQX2jMp8kAwA7wSiu/wx9Fgq9TUSqPTrAoy2qO7LAc4s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3KG1MTY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A09C113CC;
+	Thu, 25 Apr 2024 12:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714049566;
+	bh=vGTPX1mGMzWhfu2p0ljQzf0CDffi47fwE8WPbIkK/14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k3KG1MTYYSb1+CInsc5Avd7n3qWz0gkAdM3piU+yEMosTNPbY1ktM31vKMvSSPDRM
+	 gxjAFE80HAmyW+GyjpQWyfexMJAgAZ/wwJ0IOtpt5NJNBFFczXptVm7+0NwLwdsJQr
+	 xhYNENSiaFWwA/l7xviDuZ3ot5jeIu9+jpNX8dv95MD5o+un2dvoP8L98ARsW7J8nb
+	 94iVF8WiooatLRDAGw6ar9r/6jF7HScz6yQtbHDSZeLiFwcz2Jt5BvEJ91JxpYHeQ6
+	 L0KJsU47hkK9u27DXtXKO1J1ezn/LzQpR4l7kGpYB4R4V1Qoev/GaOI7XiBsGGGYXA
+	 pF0bLNGJX13VQ==
+Date: Thu, 25 Apr 2024 14:52:42 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
+Message-ID: <d2o5su7hxsnn3oarbowljss5fkmj2ttwiq4lf3g2putn7fc4it@uq2dui2tuxjk>
+References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
+ <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
+ <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: cyapa - add missing input core locking to
- suspend/resume functions
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrzej Pietrasiewicz
-	<andrzej.p@collabora.com>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20231009121018.1075318-1-m.szyprowski@samsung.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42LZduznOV0DLa00gxMnFSyWPb7HYnF40QtG
-	i5ufvrFaXN41h82BxWPH3SWMHjtn3WX3+LxJLoA5issmJTUnsyy1SN8ugStj0qfFTAUdqhVd
-	e96yNDDekuti5OSQEDCROLHlGHMXIxeHkMAKRom1Uy8wQThfGCUmv9kP5XxmlHh3+AczTMvP
-	U8/ZIBLLGSX2Ll0KVfWRUaJn9gx2kCpeATuJ1U+XMoLYLAKqEp2TDzBBxAUlTs58wgJiiwrI
-	S9y/BVEvLJAg8bJ7OliNiICtxI4VEDazQJLEl0W/oGxxiVtP5oPZbAKGEl1vu9hAbE4BB4lJ
-	MyeyQ9TIS2x/Owfq0i0cEnPu1UDYLhILPz1gg7CFJV4d38IOYctInJ7cwwLygIRAO6PEgt/3
-	mSCcCYwSDc9vMUJUWUvcOfcLqJsDaIOmxPpd+hBhR4mWX3uZQMISAnwSN94KQtzAJzFp23Rm
-	iDCvREebEES1msSs4+vg1h68cIl5AqPSLKRQmYXky1lIvpmFsHcBI8sqRvHU0uLc9NRio7zU
-	cr3ixNzi0rx0veT83E2MwJRy+t/xLzsYl7/6qHeIkYmD8RCjBAezkgjvzY8aaUK8KYmVValF
-	+fFFpTmpxYcYpTlYlMR5VVPkU4UE0hNLUrNTUwtSi2CyTBycUg1MnRsl/vn02clVLnj65OAb
-	0Sl8jEzXzlScedi7SOOSsowZo5XClB8Pzr25KWmz4/9K98MeHQqXWaSaXPhu2t2YPYXX/tRh
-	UxGN5wmO3b94PU4eSiuXZt/EXeFl839afHT745KLx9n3L1eoni+4WEe+bLtukdR5xYfh9pte
-	aN89JslfNElWU/HP6aKXvKHNPufKvbcv+vhh1fPeRasfhOhbBc7cfYHJLW3Ri6zz4W/uTW8W
-	WLvRuvpWqwdzOYNKWV7ZVjGfT79N5t0x0PgsaKHlM+EI58eXUab7HhekrW1Nijw7Vdqr69es
-	Dv7G7W+ETxjsn3A4Nbxp/Sqrmb56e48tWbXypkr11y1WceKzlz//qsRSnJFoqMVcVJwIACde
-	VNeYAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xu7oGWlppBk8esFkse3yPxeLwoheM
-	Fjc/fWO1uLxrDpsDi8eOu0sYPXbOusvu8XmTXABzlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWe
-	kYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7GpE+LmQo6VCu69rxlaWC8JdfFyMkhIWAi8fPU
-	c7YuRi4OIYGljBKdK3awQCRkJE5Oa2CFsIUl/lzrYgOxhQTeM0qs++oJYvMK2EmsfrqUEcRm
-	EVCV6Jx8gAkiLihxcuYTsDmiAvIS92/NYAexhQUSJF52TwerERGwldixAsJmFkiSOLPnOSvE
-	EZMZJX5MWQ6VEJe49WQ+mM0mYCjR9RbiCE4BB4lJMyeyQ9SYSXRt7WKEsOUltr+dwzyBUWgW
-	kjtmIRk1C0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgTG0LZjP7fsYFz56qPe
-	IUYmDsZDjBIczEoivDc/aqQJ8aYkVlalFuXHF5XmpBYfYjQFBsZEZinR5HxgFOeVxBuaGZga
-	mphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTBZaDXcZz9w9PgBPvZ3DNzuW6Ji
-	+qonbvGX/tq9c9ay1Ee/Ly7rclfwLbzXZH3GPbDV7N7KXJ99wWdLzp32u+x3w8+wIOPiZXdB
-	yYNz2y0qour5apI+PH7LvH8Ln8RUj2CPAyvFf3FNE1rtyCw1f9UMaZsDuZO3SpQ6Ku1Xasra
-	6VonHfTq+r8zUmt/nJl+bXrLluOb2i8rffN7eWBCQvdK8bivX75++XL80901LbPnROYfKS9W
-	meO+p7F12rKEsulbl3P98IpN2flQsHTfHZvmzRvUZ6d9aPNePyHm2MXdga8u7Sl4Jh/y9FN+
-	oY3c6hMrvH7cTwietvO6z52XK27WLV9wx3dvX4aChJz3sqfhNUosxRmJhlrMRcWJACLDF00q
-	AwAA
-X-CMS-MailID: 20240425100224eucas1p2155f5d9988a5c4a14aeb3fb7318d0fe0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231009121026eucas1p19ed2a6a88fa6b899ef9b915a73ad87b5
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231009121026eucas1p19ed2a6a88fa6b899ef9b915a73ad87b5
-References: <CGME20231009121026eucas1p19ed2a6a88fa6b899ef9b915a73ad87b5@eucas1p1.samsung.com>
-	<20231009121018.1075318-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
 
-On 09.10.2023 14:10, Marek Szyprowski wrote:
-> Grab input->mutex during suspend/resume functions like it is done in
-> other input drivers. This fixes the following warning during system
-> suspend/resume cycle on Samsung Exynos5250-based Snow Chromebook:
->
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 1680 at drivers/input/input.c:2291 input_device_enabled+0x68/0x6c
-> Modules linked in: ...
-> CPU: 1 PID: 1680 Comm: kworker/u4:12 Tainted: G        W          6.6.0-rc5-next-20231009 #14109
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> Workqueue: events_unbound async_run_entry_fn
->   unwind_backtrace from show_stack+0x10/0x14
->   show_stack from dump_stack_lvl+0x58/0x70
->   dump_stack_lvl from __warn+0x1a8/0x1cc
->   __warn from warn_slowpath_fmt+0x18c/0x1b4
->   warn_slowpath_fmt from input_device_enabled+0x68/0x6c
->   input_device_enabled from cyapa_gen3_set_power_mode+0x13c/0x1dc
->   cyapa_gen3_set_power_mode from cyapa_reinitialize+0x10c/0x15c
->   cyapa_reinitialize from cyapa_resume+0x48/0x98
->   cyapa_resume from dpm_run_callback+0x90/0x298
->   dpm_run_callback from device_resume+0xb4/0x258
->   device_resume from async_resume+0x20/0x64
->   async_resume from async_run_entry_fn+0x40/0x15c
->   async_run_entry_fn from process_scheduled_works+0xbc/0x6a8
->   process_scheduled_works from worker_thread+0x188/0x454
->   worker_thread from kthread+0x108/0x140
->   kthread from ret_from_fork+0x14/0x28
-> Exception stack(0xf1625fb0 to 0xf1625ff8)
-> ...
-> ---[ end trace 0000000000000000 ]---
-> ...
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 1680 at drivers/input/input.c:2291 input_device_enabled+0x68/0x6c
-> Modules linked in: ...
-> CPU: 1 PID: 1680 Comm: kworker/u4:12 Tainted: G        W          6.6.0-rc5-next-20231009 #14109
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> Workqueue: events_unbound async_run_entry_fn
->   unwind_backtrace from show_stack+0x10/0x14
->   show_stack from dump_stack_lvl+0x58/0x70
->   dump_stack_lvl from __warn+0x1a8/0x1cc
->   __warn from warn_slowpath_fmt+0x18c/0x1b4
->   warn_slowpath_fmt from input_device_enabled+0x68/0x6c
->   input_device_enabled from cyapa_gen3_set_power_mode+0x13c/0x1dc
->   cyapa_gen3_set_power_mode from cyapa_reinitialize+0x10c/0x15c
->   cyapa_reinitialize from cyapa_resume+0x48/0x98
->   cyapa_resume from dpm_run_callback+0x90/0x298
->   dpm_run_callback from device_resume+0xb4/0x258
->   device_resume from async_resume+0x20/0x64
->   async_resume from async_run_entry_fn+0x40/0x15c
->   async_run_entry_fn from process_scheduled_works+0xbc/0x6a8
->   process_scheduled_works from worker_thread+0x188/0x454
->   worker_thread from kthread+0x108/0x140
->   kthread from ret_from_fork+0x14/0x28
-> Exception stack(0xf1625fb0 to 0xf1625ff8)
-> ...
-> ---[ end trace 0000000000000000 ]---
->
-> Fixes: d69f0a43c677 ("Input: use input_device_enabled()")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On Apr 24 2024, Benjamin Tissoires wrote:
+> On Apr 23 2024, Dan Carpenter wrote:
+> > Hi Benjamin,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
+> > base:   b912cf042072e12e93faa874265b30cc0aa521b9
+> > patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
+> > patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
+> > config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
+> > 
+> > vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
+> > 
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
+> > 7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
+> >                                                                         ^^^^^^^^^^^^^^^^
+> > link isn't initialized.
+> 
+> Well spotted! Thanks
+> I'll send a v2 soon.
 
-Gentle ping?
+FWIW, this patch prevents the proper unloading of the HID-BPF programs.
+So not sure we'll want it as such just now.
 
-> ---
->   drivers/input/mouse/cyapa.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
-> index a84098448f5b..cf23f95b5f11 100644
-> --- a/drivers/input/mouse/cyapa.c
-> +++ b/drivers/input/mouse/cyapa.c
-> @@ -1347,10 +1347,16 @@ static int cyapa_suspend(struct device *dev)
->   	u8 power_mode;
->   	int error;
->   
-> -	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
-> +	error = mutex_lock_interruptible(&cyapa->input->mutex);
->   	if (error)
->   		return error;
->   
-> +	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
-> +	if (error) {
-> +		mutex_unlock(&cyapa->input->mutex);
-> +		return error;
-> +	}
-> +
->   	/*
->   	 * Runtime PM is enable only when device is in operational mode and
->   	 * users in use, so need check it before disable it to
-> @@ -1385,6 +1391,8 @@ static int cyapa_suspend(struct device *dev)
->   		cyapa->irq_wake = (enable_irq_wake(client->irq) == 0);
->   
->   	mutex_unlock(&cyapa->state_sync_lock);
-> +	mutex_unlock(&cyapa->input->mutex);
-> +
->   	return 0;
->   }
->   
-> @@ -1394,6 +1402,7 @@ static int cyapa_resume(struct device *dev)
->   	struct cyapa *cyapa = i2c_get_clientdata(client);
->   	int error;
->   
-> +	mutex_lock(&cyapa->input->mutex);
->   	mutex_lock(&cyapa->state_sync_lock);
->   
->   	if (device_may_wakeup(dev) && cyapa->irq_wake) {
-> @@ -1412,6 +1421,7 @@ static int cyapa_resume(struct device *dev)
->   	enable_irq(client->irq);
->   
->   	mutex_unlock(&cyapa->state_sync_lock);
-> +	mutex_unlock(&cyapa->input->mutex);
->   	return 0;
->   }
->   
+Cheers,
+Benjamin
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+> > 
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
+> > 60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
+> > 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
+> >                                                               ^^^^
+> > 
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
+> > f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> > 
 
