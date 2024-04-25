@@ -1,117 +1,147 @@
-Return-Path: <linux-input+bounces-3264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3266-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F468B24F4
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 17:22:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 650298B2763
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 19:14:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66D28288510
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 15:22:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 200E328613A
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 17:14:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F7B14AD1A;
-	Thu, 25 Apr 2024 15:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79D614D719;
+	Thu, 25 Apr 2024 17:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="f3Ob8V05"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="BF09zJII"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9D514A638;
-	Thu, 25 Apr 2024 15:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D8614D715;
+	Thu, 25 Apr 2024 17:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714058535; cv=none; b=eZVz53xVJUeIbAOnSOEE+KFA8UWoFjT8Ylbge9uprGbuzdU4zwyteplwrMhCfxDrMqBTQMBk3e9EhHh4hdlFo57ONjdLMYWIzE4queFeUTGcWvWykU6P//Uccz1l8VMN7t5EKOT6M222KowQkqaKkGX0yt1RtLU2zig9J/QNnBs=
+	t=1714065226; cv=none; b=s5WGckP6PqTNN7cluaDtCmbDyZRyrwSZ9kGyH2hvS4FsXFGzeNKis7vRjNzs0X/eCAKJDJLGbijhOziyTntnPkTpGvmQu6/vGPMurnAMpagu7eE9ZNxDIirkalo3O441IS2zsfrbhCOzeuaGZClSoxOvyVYyjY7MZrB/GIjQArk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714058535; c=relaxed/simple;
-	bh=jizBKTX8MvHG0cRj+2IzEtYv+6KlE66nInc7exVUWzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPIS6XkjhuHnBuRhGrHHqZVKiZdri71xfcztPAtYOp6YDgTc9opImxqDo4IFi5JMHbynjTrvrwGMUmo0MY6rL1RTIjUO8wcoNnxBTI2HWb/wcX89L8Qd/A3432M7u6t5rWnqcGhQlu18kVQoB3l+74/lDqwkDqIYWXdwemXwDsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=f3Ob8V05; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C72B740E01C5;
-	Thu, 25 Apr 2024 15:22:05 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id zo89ggfrjeLT; Thu, 25 Apr 2024 15:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1714058521; bh=6wNh2/5WJqAiPo6RPMCDTroIUccA+3uUajnQfIANALw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f3Ob8V057rdVSck90A83wZXeph/7GtAdQYLuTScSMYcMsRlDy322GITOZB08R+2zH
-	 WJAQPRKWgI6rGP5DekauVZRYVC6v+x0djmLHr4YM5x8Sn+yE6qw1+Tuw/dFLoxEgMt
-	 O4WWlkpuAoNiMRBJIWn6gaOqdtb0+P14QGl5fOYzlw1cGRu1xYEGnL3uxMdJKaBuJg
-	 R2OzjcscwRkLGZGJ3L9V1kttt6yFvrs+wGpvAlQIdZqVA1JLfMMFfr74b67uvPbPRS
-	 61vpzoxHqCtIK3bBjCPcbv3xBolTUaMjEqobmzgwaMNEViuOPbwbZLkVTaKtxPomon
-	 3wS2TjSW3M4l/KPIhyPrbevzhE8yRvOBxhxxkhaB0armH29aAtv0vcphTaf+tTHM8k
-	 69IEcBdf6tdGFrOUOn41HjjaBQyB0AtllH4DNANzvv/oerKUqq4NZ3AbGUpnosCefQ
-	 SAsCoJR+lxGWQL67jAC4kRYHVm12uzQyPEE0QCcHZbba2O+TG2976Zb9N7UsemohsT
-	 I9Y9qSmIgHdiLXC0hpawtrmiSpZ8y80rSue9T0oeWT5mdgSp2JwtFEfPzdeMkPY1Jv
-	 YTBrtpi4DOkMmVnoT1dzUQF30BsuCRgLfSnbYez9K4Kdomax740C14p2fW3I3gfpbh
-	 DxbQwYxgvWIRX+kxSk0WuNpo=
-Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D3DB40E0192;
-	Thu, 25 Apr 2024 15:21:36 +0000 (UTC)
-Date: Thu, 25 Apr 2024 17:21:30 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
-	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v9 1/8] x86/vmware: Correct macro names
-Message-ID: <20240425152130.GJZip0-l040XCyUapN@fat_crate.local>
-References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
- <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+	s=arc-20240116; t=1714065226; c=relaxed/simple;
+	bh=6foYH7QWE2i5RWLOdtEMwKdsb2KccYTN2Q/k4s5TAV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=csfUj3q6qKrnAA0fMe3TVWcBVY3aqY0tGIoOHtUQemZ4Uinoicn13fDqYcT77GV35Pz+7MVFRhv8eaoBf+c6f3goVSOlqCYbDkvHsdBUnrlzJwMsqZWRnqYCl+m+5+TKtx1RE075EXyUR3VcgnA31iQ35jM6VW8e+v4rewzEVwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=BF09zJII; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s02MW-000ZvV-2b;
+	Thu, 25 Apr 2024 18:54:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tiBrh8Wfbv/jy2lIqssR5GnzyzHFN9L4ULdDhyCPprk=; b=BF09zJIItbQMvEhpMdlWf3E8C0
+	JXoGZzZXjql074j600DVKUvMXesGkXx1Hoc1orZo2Bc68sp+DNB77gDM3H4nLdC9j1W/jCw83MSdw
+	zAZZ47RtPN89pHe4xcnuzg9ENcOrEs2Nqw723CCcgelqCFrGrgcnxALBOcmmtYUJt2LGlCpN2x5i5
+	ByadWtvFh7/fsn1wGHy/KjSCtfSSw3XDWq4ggOPt9j7czgGa1MxxpzDc0R1om9PwZwcatdgfT2JuR
+	S0nh5vN6V1XTz308JYoAWPm7pdkpD0fTKy2hIJQ6n34tIe6k3w8RchR/7kklYGVrtKEHWn7xMVLun
+	PD/tzQ5A==;
+Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s02MU-0001dn-1K;
+	Thu, 25 Apr 2024 18:54:19 +0200
+Date: Thu, 25 Apr 2024 18:54:17 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de,
+ hdegoede@redhat.com, ye.xingchen@zte.com.cn, p.puschmann@pironex.com,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, caleb.connolly@linaro.org
+Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
+Message-ID: <20240425185417.0a5f9c19@aktux>
+In-Reply-To: <CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
+References: <20240404222009.670685-1-andreas@kemnade.info>
+	<20240404222009.670685-3-andreas@kemnade.info>
+	<CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
+	<20240405182832.4e457695@aktux>
+	<CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 24, 2024 at 04:14:06PM -0700, Alexey Makhalov wrote:
-> VCPU_RESERVED and LEGACY_X2APIC are not VMware hypercall commands.
-> These are bits in return value of VMWARE_CMD_GETVCPU_INFO command.
-> Change VMWARE_CMD_ prefix to GETVCPU_INFO_ one. And move bit-shift
-> operation to the macro body.
+On Fri, 5 Apr 2024 20:21:19 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-I don't understand:
+> On Fri, Apr 5, 2024 at 7:28=E2=80=AFPM Andreas Kemnade <andreas@kemnade.i=
+nfo> wrote:
+> > On Fri, 5 Apr 2024 18:13:45 +0300
+> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote: =20
+> > > On Fri, Apr 5, 2024 at 1:20=E2=80=AFAM Andreas Kemnade <andreas@kemna=
+de.info> wrote: =20
+>=20
+> ...
+>=20
+> > > > @@ -1484,6 +1484,7 @@ static const struct of_device_id edt_ft5x06_o=
+f_match[] =3D {
+> > > >         { .compatible =3D "edt,edt-ft5206", .data =3D &edt_ft5x06_d=
+ata },
+> > > >         { .compatible =3D "edt,edt-ft5306", .data =3D &edt_ft5x06_d=
+ata },
+> > > >         { .compatible =3D "edt,edt-ft5406", .data =3D &edt_ft5x06_d=
+ata },
+> > > > +       { .compatible =3D "focaltech,ft5426", .data =3D &edt_ft5506=
+_data }, =20
+> > >
+> > > Why a different vendor prefix?
+> > > In case you need to use this one, keep the list sorted, currently this
+> > > splits the edt,* ones.
+> > > =20
+> > How do I know whether to use evervision or edt instead? =20
+>=20
+> Ask DT people, the vendor-prefixes lists both...
+>=20
+> > I sorted by the numbers. Looking at datasheets for other controllers I =
+see
+> > https://www.displayfuture.com/Display/datasheet/controller/FT5x06.pdf
+> > it only mentions FocalTech Systems Co., Ltd. =20
+>=20
+> But does the driver use that? AFAICS it uses edt. Perhaps it's due to
+> a business split, not to my knowledge anyway.
+>=20
+Well, lets cite edt-ft5x06.rst:
 
-$ git grep GETVCPU_INFO
-arch/x86/kernel/cpu/vmware.c:51:#define VMWARE_CMD_GETVCPU_INFO  68
-arch/x86/kernel/cpu/vmware.c:478:       VMWARE_CMD(GETVCPU_INFO, eax, ebx, ecx, edx);
+"The edt-ft5x06 driver is useful for the EDT "Polytouch" family of capaciti=
+ve
+touch screens. Note that it is *not* suitable for other devices based on the
+focaltec ft5x06 devices, since they contain vendor-specific firmware. In
+particular this driver is not suitable for the Nook tablet."
 
-so that's a VMWARE_CMD 68, at least the prefix says so.
+So chips from focaltech which can be equipped with different firmware? So
+edt prefix means EDT firmware?
 
-And those two are *bits* in that eax which that hypercall returns.
+Looking around I found this:
+            if (tsdata->version =3D=3D EV_FT)
+                        swap(x, y);
+...
+               case 0x59:  /* Evervision Display with FT5xx6 TS */
+                        tsdata->version =3D EV_FT;
 
-Or are those two bits generic but defined in a vmware-specific
-hypercall?
+I need swap(x.y), I am using touchscreen-swapped-x-y property now.
+So evervision prefix?
 
-Hm.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Regards,
+Andreas
 
