@@ -1,287 +1,345 @@
-Return-Path: <linux-input+bounces-3256-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3257-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2698B16ED
-	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 01:14:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B1A8B1978
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 05:26:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A451C289846
-	for <lists+linux-input@lfdr.de>; Wed, 24 Apr 2024 23:14:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52F251C21BD2
+	for <lists+linux-input@lfdr.de>; Thu, 25 Apr 2024 03:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC4B16F265;
-	Wed, 24 Apr 2024 23:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC90208A1;
+	Thu, 25 Apr 2024 03:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="V6WKQAwp"
+	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="Y+jLAUpP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71B316F0DD
-	for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 23:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682031CFBC;
+	Thu, 25 Apr 2024 03:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714000472; cv=none; b=iGTdw61iqEz5/QCQQQTe50OI+OxpWuQDELLhCz3jJJEdo/wod+fB7dDWDntQzzEVtNvA+r34+aHmIlXnstRv4ZWnI74qxSDkYfCM8LLyyCd5GOrCM70VdrGe8FJki7thFzbblaWhski5rWcC8vzpmiXWCBxMFQBpg2h46Gh+hhc=
+	t=1714015572; cv=none; b=D90XAff/2NnREsi/pwSdc/ExRjGIJBRr2R+nST3rvjzer4KNuA6YmzI+sSTTuzo9mwHiIH6n1E+HYneSHd15nLPeq6zfRd2UHXLGR5sT47RNljaDSyvhLkiONhRhQIkx74fORGUJ61BS16DD1HIqR1cBwimiOYElEg8a3/dhtXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714000472; c=relaxed/simple;
-	bh=RjqHHh8+OvvgHWX6skeosEzS4N2AwclxB9HYRka+bGI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gpgDIAzYCYLgJjNm6XpDHkjon4c9uj18YrxVqN4brhLn6Vg8WzsxiQGhDG4kJK7qWPH9bigS/HzFv6Gr0D0sEXXn4mxDPRAiuIIo5c+Vdc6RPVebkDkgEoLwkeAK71VWxdkBuHqm1kLOIMPMn+LKB5q0LS2p84/zx6qeJDpq6+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=V6WKQAwp; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e51398cc4eso3527965ad.2
-        for <linux-input@vger.kernel.org>; Wed, 24 Apr 2024 16:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1714000470; x=1714605270; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yW3rWzRu2U3mMza79f2YiFDKKLiYjn35V/dUh+fOfas=;
-        b=V6WKQAwp44pm6l8lFwzXWMuvXTnpqtJVjYEmNEK4PgbJxXevetq0K6Z7r1xYaLSbO+
-         Lgi06LH3J3wUxwQu9VoFQtcfcmAElwWQSRvESKc6uo9AxKDaY2lxP2i/W3xosn8GIK2K
-         Susknq3PgCubXRfj6MnYmTZRWuUHJ8A6HDVtU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714000470; x=1714605270;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yW3rWzRu2U3mMza79f2YiFDKKLiYjn35V/dUh+fOfas=;
-        b=K2phc3Q1Xl5XCGQMOAJ+RNrcVfnt/IurKo5Xy9PUsIy1rXqH4XQeEFN+WGpcuOhcjf
-         NOXwHqcjYpM3Ll3aZfZDuIiK/JgGHBYi3ClIM7vrD0XFj9FEWRMGk4tISFfogL7L2QtK
-         9E3uqlsjjwO9fy/Tg0PK3e33AXKYJ1nuXJ9CF7zTQdWfKHLCfjhaoQdQoUfZiyQH6gKn
-         Dyvmumd2DTzq13Mc/Ymuzx4k8gRwEIziGU4A6kQqXPhE9Hy4bK3iwJbDID8G3grqDMGd
-         zQn4V3e9A/dfliRa1HupyNKXC4vqcMNGkaSq5xwSzgxLU5Imr2zeS7jGswyDkSaSI3rj
-         eRoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4oLLHWJZwbiUraHy4wHNRqTttBcyrctrTACDYUgE5eGnQv70LPk1c7FPyEK97Jw30r1IIGMOF3zh2Itj9b7VphzBkQx2hYwCtunE=
-X-Gm-Message-State: AOJu0YwlPBsZNV6R9iWd30yA5GcRASeLYCC5aYfsWjHiGGN+ATBQi4Q/
-	aNIQVVHZymaQGPi2HyYLFBxUw+ksFnoAFbyLPye9+K/fAq31Wif1KMh2QNmWAQ==
-X-Google-Smtp-Source: AGHT+IEr4i3DB4r3Qkm4dkUw7/0uwv+gx9Lch3vZC0mX7eYJ4jMuT6PuvlXOirfn5+jM9r3f/0CttQ==
-X-Received: by 2002:a17:903:18d:b0:1e0:b689:950b with SMTP id z13-20020a170903018d00b001e0b689950bmr5683142plg.16.1714000470208;
-        Wed, 24 Apr 2024 16:14:30 -0700 (PDT)
-Received: from amakhalov-build-vm.eng.vmware.com ([64.186.27.43])
-        by smtp.gmail.com with ESMTPSA id n17-20020a170903111100b001e520495f51sm12383936plh.124.2024.04.24.16.14.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 16:14:29 -0700 (PDT)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	bp@alien8.de,
-	hpa@zytor.com,
-	dave.hansen@linux.intel.com,
-	mingo@redhat.com,
-	tglx@linutronix.de
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	richardcochran@gmail.com,
-	linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com,
-	timothym@vmware.com,
-	akaher@vmware.com,
-	dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	tzimmermann@suse.de,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	horms@kernel.org,
-	kirill.shutemov@linux.intel.com,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Nadav Amit <nadav.amit@gmail.com>
-Subject: [PATCH v9 2/8] x86/vmware: Move common macros to vmware.h
-Date: Wed, 24 Apr 2024 16:14:07 -0700
-Message-Id: <20240424231407.14098-2-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20240424231407.14098-1-alexey.makhalov@broadcom.com>
-References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
- <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+	s=arc-20240116; t=1714015572; c=relaxed/simple;
+	bh=wK5vyYcwPVAWU7hn2RU6otvN8hIlPdrQoWg66De1424=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=OwEM4hpPMGyf47ntXGdtosft1GcS3sycFFyQDiBEoFQ3cs7bLSwpfRL2d1S44xfJnwRDNVwhcuACDUJBx7/cg5hKmVbFIcaMRdqB34IpwAVVEHyHDot8iCyMfNOgbkLYcKC3DRVhuymReXkw4e9CFnggxLN1fC1TqiupwfHJV2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=Y+jLAUpP; arc=none smtp.client-ip=54.39.219.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 511D5C005F;
+	Wed, 24 Apr 2024 23:27:32 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
+	t=1714015654; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=wKQqhvjCnwePtvQuR8aaJD84f/wV5y4ev28hOd21474=;
+	b=Y+jLAUpP9rCQVlobVGwI+p2IoQe2g4z9xbgr1HoOwoU9MH936nMo2kcwBrvwNt2i5PNr27
+	XNY7V7w1NHVCX9luL2MzblAFN2HQ37uQ44/IEFYOq7UrBtgT60o4vGL2f0PBDjRonGsDr2
+	wOyDeuTaG4pW/ytfgeFdM6H2dPQRZ4o=
+Message-ID: <d51409a2-d336-4b93-9506-a2bb0c9a7ef4@kaechele.ca>
+Date: Wed, 24 Apr 2024 23:26:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] HID: Add Himax HX83102J touchscreen driver
+To: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor@kernel.org,
+ jikos@kernel.org, benjamin.tissoires@redhat.com,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240417074115.1137885-1-allencl_lin@hotmail.com>
+ <TY0PR06MB561105A3386E9D76F429110D9E0F2@TY0PR06MB5611.apcprd06.prod.outlook.com>
+Content-Language: en-US
+From: Felix Kaechele <felix@kaechele.ca>
+In-Reply-To: <TY0PR06MB561105A3386E9D76F429110D9E0F2@TY0PR06MB5611.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Move VMware hypercall macros to vmware.h. This is a prerequisite for
-the introduction of vmware_hypercall API. No functional changes besides
-exporting vmware_hypercall_mode symbol.
+Hey there,
 
-Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Reviewed-by: Nadav Amit <nadav.amit@gmail.com>
----
- arch/x86/include/asm/vmware.h | 72 +++++++++++++++++++++++++++++------
- arch/x86/kernel/cpu/vmware.c  | 43 +--------------------
- 2 files changed, 62 insertions(+), 53 deletions(-)
+I've recently been working on adding HX83100A support to the already 
+existing himax_hx83112b driver. So I thought I'd take a look at this, too.
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index ac9fc51e2b18..de2533337611 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -8,25 +8,34 @@
- 
- /*
-  * The hypercall definitions differ in the low word of the %edx argument
-- * in the following way: the old port base interface uses the port
-- * number to distinguish between high- and low bandwidth versions.
-+ * in the following way: the old I/O port based interface uses the port
-+ * number to distinguish between high- and low bandwidth versions, and
-+ * uses IN/OUT instructions to define transfer direction.
-  *
-  * The new vmcall interface instead uses a set of flags to select
-  * bandwidth mode and transfer direction. The flags should be loaded
-  * into %dx by any user and are automatically replaced by the port
-- * number if the VMWARE_HYPERVISOR_PORT method is used.
-- *
-- * In short, new driver code should strictly use the new definition of
-- * %dx content.
-+ * number if the I/O port method is used.
-  */
- 
--/* Old port-based version */
--#define VMWARE_HYPERVISOR_PORT    0x5658
--#define VMWARE_HYPERVISOR_PORT_HB 0x5659
-+#define VMWARE_HYPERVISOR_HB		BIT(0)
-+#define VMWARE_HYPERVISOR_OUT		BIT(1)
-+
-+#define VMWARE_HYPERVISOR_PORT		0x5658
-+#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
-+					 VMWARE_HYPERVISOR_HB)
-+
-+#define VMWARE_HYPERVISOR_MAGIC		0x564d5868U
-+
-+#define VMWARE_CMD_GETVERSION		10
-+#define VMWARE_CMD_GETHZ		45
-+#define VMWARE_CMD_GETVCPU_INFO		68
-+#define VMWARE_CMD_STEALCLOCK		91
-+
-+#define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
-+#define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
--/* Current vmcall / vmmcall version */
--#define VMWARE_HYPERVISOR_HB   BIT(0)
--#define VMWARE_HYPERVISOR_OUT  BIT(1)
-+extern u8 vmware_hypercall_mode;
- 
- /* The low bandwidth call. The low word of edx is presumed clear. */
- #define VMWARE_HYPERCALL						\
-@@ -54,4 +63,43 @@
- 		      "rep insb",					\
- 		      "vmcall", X86_FEATURE_VMCALL,			\
- 		      "vmmcall", X86_FEATURE_VMW_VMMCALL)
-+
-+#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("inl (%%dx), %%eax" :					\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
-+		"memory")
-+
-+#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("vmcall" :						\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(0), "b"(UINT_MAX) :					\
-+		"memory")
-+
-+#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("vmmcall" :						\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(0), "b"(UINT_MAX) :					\
-+		"memory")
-+
-+#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
-+	switch (vmware_hypercall_mode) {			\
-+	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
-+		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
-+		break;						\
-+	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
-+		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
-+		break;						\
-+	default:						\
-+		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
-+		break;						\
-+	}							\
-+	} while (0)
-+
- #endif
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index f58c8d669bd3..acd9658f7c4b 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -41,8 +41,6 @@
- 
- #define CPUID_VMWARE_INFO_LEAF               0x40000000
- #define CPUID_VMWARE_FEATURES_LEAF           0x40000010
--#define CPUID_VMWARE_FEATURES_ECX_VMMCALL    BIT(0)
--#define CPUID_VMWARE_FEATURES_ECX_VMCALL     BIT(1)
- 
- #define VMWARE_HYPERVISOR_MAGIC	0x564D5868
- 
-@@ -58,44 +56,6 @@
- #define STEALCLOCK_DISABLED        0
- #define STEALCLOCK_ENABLED         1
- 
--#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
--	__asm__("inl (%%dx), %%eax" :					\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
--		"memory")
--
--#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
--	__asm__("vmcall" :						\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(0), "b"(UINT_MAX) :					\
--		"memory")
--
--#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)                         \
--	__asm__("vmmcall" :						\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(0), "b"(UINT_MAX) :					\
--		"memory")
--
--#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
--	switch (vmware_hypercall_mode) {			\
--	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
--		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
--		break;						\
--	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
--		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
--		break;						\
--	default:						\
--		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
--		break;						\
--	}							\
--	} while (0)
--
- struct vmware_steal_time {
- 	union {
- 		uint64_t clock;	/* stolen time counter in units of vtsc */
-@@ -109,7 +69,8 @@ struct vmware_steal_time {
- };
- 
- static unsigned long vmware_tsc_khz __ro_after_init;
--static u8 vmware_hypercall_mode     __ro_after_init;
-+u8 vmware_hypercall_mode __ro_after_init;
-+EXPORT_SYMBOL_GPL(vmware_hypercall_mode);
- 
- static inline int __vmware_platform(void)
- {
--- 
-2.39.0
+First of all, thank you for providing documented code. The vendor 
+released code is much harder to parse and understand, especially given 
+that there is almost no commentary.
+With the chip family having strong similarities between chips this is 
+helpful for my HX83100A additions to the himax_hx83112b driver.
 
+As far as I understand (and given that I have no access to data sheets 
+and register maps) HX83112B and HX83100A are I2C, not SPI, and also 
+don't emit HID packets internally, but a custom event data structure.
+So there are certainly some differences with that.
+But registers and sequences are identical, even with the different 
+busses involved.
+
+I'm sure there could be some value in combining efforts for both 
+drivers. At the same time I see that this is supposed to go in as a hid 
+driver, not into input/touchscreen. So I don't know how practical 
+combining things would be. So  my comments below may possibly be 
+irrelevant if the HX83102J is the only HID over SPI chip in the family.
+
+My comments inline are based on what I learned from studying the vendor 
+driver at https://github.com/HimaxSoftware/HX83112_Android_Driver and 
+https://github.com/HimaxSoftware/HX83100_Android_Driver
+
+On 2024-04-17 03:41, Allen_Lin wrote:
+> Add a new driver for Himax HX83102J touchscreen controllers.
+> This driver supports Himax IC using the SPI interface to
+> acquire HID packets.
+> 
+> After confirmed the IC's exsitence the driver loads the firmware
+> image from flash to get the HID report descriptor, VID and PID.
+> And use those information to register HID device.
+> 
+> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
+> ---
+>   MAINTAINERS             |    1 +
+>   drivers/hid/Kconfig     |    7 +
+>   drivers/hid/Makefile    |    2 +
+>   drivers/hid/hid-himax.c | 1768 +++++++++++++++++++++++++++++++++++++++
+>   drivers/hid/hid-himax.h |  288 +++++++
+>   5 files changed, 2066 insertions(+)
+>   create mode 100644 drivers/hid/hid-himax.c
+>   create mode 100644 drivers/hid/hid-himax.h
+> 
+
+...
+
+> diff --git a/drivers/hid/hid-himax.c b/drivers/hid/hid-himax.c
+> new file mode 100644
+> index 000000000000..f8a417e07f0c
+> --- /dev/null
+> +++ b/drivers/hid/hid-himax.c
+> @@ -0,0 +1,1768 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Himax hx83102j SPI Driver Code for HID.
+> + *
+> + * Copyright (C) 2024 Himax Corporation.
+> + */
+
+...
+
+> +/**
+> + * hx83102j_sense_off() - Stop MCU and enter safe mode
+> + * @ts: Himax touch screen data
+> + * @check_en: Check if need to ensure FW is stopped by its owne process
+> + *
+> + * Sense off is a process to make sure the MCU inside the touch chip is stopped.
+> + * The process has two stage, first stage is to request FW to stop. Write
+> + * HIMAX_REG_DATA_FW_GO_SAFEMODE to HIMAX_REG_ADDR_CTRL_FW tells the FW to stop by its own.
+> + * Then read back the FW status to confirm the FW is stopped. When check_en is true,
+> + * the function will resend the stop FW command until the retry limit reached.
+> + * There maybe a chance that the FW is not stopped by its own, in this case, the
+> + * safe mode in next stage still stop the MCU, but FW internal flag may not be
+> + * configured correctly. The second stage is to enter safe mode and reset TCON.
+> + * Safe mode is a mode that the IC circuit ensure the internal MCU is stopped.
+> + * Since this IC is TDDI, the TCON need to be reset to make sure the IC is ready
+> + * for next operation.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int hx83102j_sense_off(struct himax_ts_data *ts, bool check_en)
+> +{
+> +	int ret;
+> +	u32 retry_cnt;
+> +	const u32 stop_fw_retry_limit = 35;
+> +	const u32 enter_safe_mode_retry_limit = 5;
+> +	const union himax_dword_data safe_mode = {
+> +		.dword = cpu_to_le32(HIMAX_REG_DATA_FW_GO_SAFEMODE)
+> +	};
+> +	union himax_dword_data data;
+> +
+> +	dev_info(ts->dev, "%s: check %s\n", __func__, check_en ? "True" : "False");
+> +	if (!check_en)
+> +		goto without_check;
+> +
+> +	for (retry_cnt = 0; retry_cnt < stop_fw_retry_limit; retry_cnt++) {
+> +		if (retry_cnt == 0 ||
+> +		    (data.byte[0] != HIMAX_REG_DATA_FW_GO_SAFEMODE &&
+> +		    data.byte[0] != HIMAX_REG_DATA_FW_RE_INIT &&
+> +		    data.byte[0] != HIMAX_REG_DATA_FW_IN_SAFEMODE)) {
+> +			ret = himax_mcu_register_write(ts, HIMAX_REG_ADDR_CTRL_FW,
+> +						       safe_mode.byte, 4);
+> +			if (ret < 0) {
+> +				dev_err(ts->dev, "%s: stop FW failed\n", __func__);
+> +				return ret;
+> +			}
+> +		}
+> +		usleep_range(10000, 11000);
+> +
+> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_FW_STATUS, data.byte, 4);
+> +		if (ret < 0) {
+> +			dev_err(ts->dev, "%s: read central state failed\n", __func__);
+> +			return ret;
+> +		}
+> +		if (data.byte[0] != HIMAX_REG_DATA_FW_STATE_RUNNING) {
+> +			dev_info(ts->dev, "%s: Do not need wait FW, Status = 0x%02X!\n", __func__,
+> +			  data.byte[0]);
+> +			break;
+> +		}
+> +
+> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_CTRL_FW, data.byte, 4);
+> +		if (ret < 0) {
+> +			dev_err(ts->dev, "%s: read ctrl FW failed\n", __func__);
+> +			return ret;
+> +		}
+> +		if (data.byte[0] == HIMAX_REG_DATA_FW_IN_SAFEMODE)
+> +			break;
+> +	}
+> +
+> +	if (data.byte[0] != HIMAX_REG_DATA_FW_IN_SAFEMODE)
+> +		dev_warn(ts->dev, "%s: Failed to stop FW!\n", __func__);
+> +
+> +without_check:
+> +	for (retry_cnt = 0; retry_cnt < enter_safe_mode_retry_limit; retry_cnt++) {
+> +		/* set Enter safe mode : 0x31 ==> 0x9527 */
+> +		data.word[0] = cpu_to_le16(HIMAX_HX83102J_SAFE_MODE_PASSWORD);
+> +		ret = himax_write(ts, HIMAX_AHB_ADDR_PSW_LB, NULL, data.byte, 2);
+> +		if (ret < 0) {
+> +			dev_err(ts->dev, "%s: enter safe mode failed\n", __func__);
+> +			return ret;
+> +		}
+> +
+> +		/* Check enter_save_mode */
+> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_FW_STATUS, data.byte, 4);
+> +		if (ret < 0) {
+> +			dev_err(ts->dev, "%s: read central state failed\n", __func__);
+> +			return ret;
+> +		}
+> +
+> +		if (data.byte[0] == HIMAX_REG_DATA_FW_STATE_SAFE_MODE) {
+> +			dev_info(ts->dev, "%s: Safe mode entered\n", __func__);
+> +			/* Reset TCON */
+> +			data.dword = cpu_to_le32(HIMAX_REG_DATA_TCON_RST);
+> +			ret = himax_mcu_register_write(ts, HIMAX_HX83102J_REG_ADDR_TCON_RST,
+> +						       data.byte, 4);
+> +			if (ret < 0) {
+> +				dev_err(ts->dev, "%s: reset TCON failed\n", __func__);
+> +				return ret;
+> +			}
+> +			usleep_range(1000, 1100);
+> +			return 0;
+> +		}
+> +		usleep_range(5000, 5100);
+> +		hx83102j_pin_reset(ts);
+> +	}
+> +	dev_err(ts->dev, "%s: failed!\n", __func__);
+> +
+> +	return -EIO;
+> +}
+> +
+
+Used generically across HX831xx family (except HX83100A): 
+https://github.com/HimaxSoftware/HX83112_Android_Driver/blob/939400d4d4bf614bbeff51e1986760b47dde9eab/hxchipset/himax_ic_incell_core.c#L404
+
+Also, HIMAX_HX83102J_SAFE_MODE_PASSWORD doesn't seem specific to the 
+HX83102J.
+This actually apply to a number of the HIMAX_HX83102J_* defines 
+throughout the code.
+
+> +/**
+> + * hx83102j_chip_detect() - Check if the touch chip is HX83102J
+> + * @ts: Himax touch screen data
+> + *
+> + * This function is used to check if the touch chip is HX83102J. The process
+> + * start with a hardware reset to the touch chip, then knock the IC bus interface
+> + * to wakeup the IC bus interface. Then sense off the MCU to prevent bus conflict
+> + * when reading the IC ID. The IC ID is read from the IC register, and compare
+> + * with the expected ID. If the ID is matched, the chip is HX83102J. Due to display
+> + * IC initial code may not ready before the IC ID is read, the function will retry
+> + * to read the IC ID for several times to make sure the IC ID is read correctly.
+> + * In any case, the SPI bus shouldn't have error when reading the IC ID, so the
+> + * function will return error if the SPI bus has error. When the IC is not HX83102J,
+> + * the function will return -ENODEV.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int hx83102j_chip_detect(struct himax_ts_data *ts)
+> +{
+> +	int ret;
+> +	u32 retry_cnt;
+> +	const u32 read_icid_retry_limit = 5;
+> +	const u32 ic_id_mask = GENMASK(31, 8);
+> +	union himax_dword_data data;
+> +
+> +	hx83102j_pin_reset(ts);
+> +	ret = himax_mcu_interface_on(ts);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hx83102j_sense_off(ts, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (retry_cnt = 0; retry_cnt < read_icid_retry_limit; retry_cnt++) {
+> +		ret = himax_mcu_register_read(ts, HIMAX_REG_ADDR_ICID, data.byte, 4);
+> +		if (ret) {
+> +			dev_err(ts->dev, "%s: Read IC ID Fail\n", __func__);
+> +			return ret;
+> +		}
+> +
+> +		data.dword = le32_to_cpu(data.dword);
+> +		if ((data.dword & ic_id_mask) == HIMAX_REG_DATA_ICID) {
+> +			ts->ic_data.icid = data.dword;
+> +			dev_info(ts->dev, "%s: Detect IC HX83102J successfully\n", __func__);
+> +			return 0;
+> +		}
+> +	}
+> +	dev_err(ts->dev, "%s: Read driver ID register Fail! IC ID = %X,%X,%X\n", __func__,
+> +	  data.byte[3], data.byte[2], data.byte[1]);
+> +
+> +	return -ENODEV;
+> +}
+> +
+
+Same here, this is also used generically across all chips in the family 
+(except HX83100A).
+
+...
+
+> +/**
+> + * hx83102j_read_event_stack() - Read event stack from touch chip
+> + * @ts: Himax touch screen data
+> + * @buf: Buffer to store the data
+> + * @length: Length of data to read
+> + *
+> + * This function is used to read the event stack from the touch chip. The event stack
+> + * is an AHB output buffer, which store the touch report data.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int hx83102j_read_event_stack(struct himax_ts_data *ts, u8 *buf, u32 length)
+> +{
+> +	u32 i;
+> +	int ret;
+> +	const u32 max_trunk_sz = ts->spi_xfer_max_sz - HIMAX_BUS_R_HLEN;
+> +
+> +	for (i = 0; i < length; i += max_trunk_sz) {
+> +		ret = himax_read(ts, HIMAX_AHB_ADDR_EVENT_STACK, buf + i,
+> +				 min(length - i, max_trunk_sz));
+> +		if (ret) {
+> +			dev_err(ts->dev, "%s: read event stack error!\n", __func__);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
+Again, generic across HX831xx (except HX83100A).
+
+Regards,
+Felix
 
