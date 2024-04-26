@@ -1,187 +1,251 @@
-Return-Path: <linux-input+bounces-3271-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3272-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C589A8B2ECB
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 04:54:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 780088B2F80
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 06:42:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE99EB21A11
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 02:54:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60A57B21B82
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 04:42:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7EB01C3E;
-	Fri, 26 Apr 2024 02:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="fVBOUnvp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B369139D10;
+	Fri, 26 Apr 2024 04:42:28 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB81879;
-	Fri, 26 Apr 2024 02:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9077FB
+	for <linux-input@vger.kernel.org>; Fri, 26 Apr 2024 04:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714100073; cv=none; b=suNJd5ZeGdzRQV+Jdtg7o2I1PD/s8QMp1/TphP/KzjuI9MBJ5O7KZQDk32sKs/cIyNGBXsXMZHyXFCEuLtJ80v0FSObVku45LQLjGn1b9yO18NWwNCcLuRQtX20BQ26xQ+1TdobyyRQcyNqLVkD/8i1pfW06dNqgnCUlsTEYCEQ=
+	t=1714106548; cv=none; b=rq+fgj6KBZ7o/yga2HrXMYFndNm0uVvr94jGw5eH0OJeof+Gpmvy/DpcOlE0N5a/OP3HY8PAH4L8CWZsy2MpsX4vBpNgRtpjQUPrdnbknHpM1+iXD6qAFgu9iu6lvmyio6MSXxQ/f5SrREWK3Sfm+Ihx8tr/H7a9pFD2wr3pnAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714100073; c=relaxed/simple;
-	bh=vTSrCZbh96Ko4At3SJct0APLwL1NkC7AYO7d2RMk4kY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UzqNxy52vawY8KKVXpYhTfA4Ih3dSzocNnPY7ywKj3k/8Z5LtR6JkkwjjYYWkCp6KGuv/H1b7irqGFW3xKAVSw7mc6H5+cNSuhkxT/wvTfTySUDrXttedzPtMgPFtuFfEGFY/PEcVJ0T2hq8B99O81PfaVX2izUc4gOA6SirSFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=fVBOUnvp; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22D34C005F;
-	Thu, 25 Apr 2024 22:55:45 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1714100152; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=VFioysH9yUyQGrVMiRg1acctlzy9aYmlvYtITBCcttQ=;
-	b=fVBOUnvp29N1+NYfkHg2qnlzmqbD8LYpev8TUnKXdjTwalMPJZUxYnKskfweuGx2phUGsV
-	DQm8k0tPjZpC0TzuPajmvZSrZaK4aFmC9jY/Titp9PWFMQICub6BIoIErY5QvNqcGRkME+
-	7SARytKt8tYNsKyFMgmFo8TW09ZmDHU=
-Message-ID: <7dd1eb70-b011-4247-aea9-173ddcd17dc7@kaechele.ca>
-Date: Thu, 25 Apr 2024 22:54:13 -0400
+	s=arc-20240116; t=1714106548; c=relaxed/simple;
+	bh=ADLRAnQbB9NsvTAX6kpCXcmg8vWXsE/wlaBD0urQNSA=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=sP2C8josg5a0w5Qn0KkzrvGaywljGkOBIiJ9zmDfux2cvMKdPO1gUFDW6p7oU+s+RGMAjOhKpzLaswnRDEUft796uVPNXwE7eyWevgwqur033xxT/buDvCP2wXqV+C+dpayHffnZA72Umag0tzYTumEikqVC84XzuGhEXhJMCpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7dab89699a8so179489539f.2
+        for <linux-input@vger.kernel.org>; Thu, 25 Apr 2024 21:42:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714106546; x=1714711346;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YLMyuKda2xPHRkztxdZBggzq4y7PK0nY7x5M6U+fPUQ=;
+        b=HfsHPN4ZEVJLTEb8Be+SVWho+AWfoTsHn1h49QQex37ddE8ICTPgOR2AqcbAHua2L5
+         /VcS3AKhtciOgOsIUOxP+P/8hWGvAWg0AJE93z3iV/mokdVzniZndWhPlzBCvfvbUha3
+         EQBmiBnftsEDkg2EB27xaziVF6rbjmzFwFummxVbBPtchrRs7HDfTdRo5WxE4KWqYKgO
+         3LAe5Pe+ack12ovHDg2PC5XJaVCe5aTAIGYO2JGHd79WfQshPTNJfVYYkj6mKXxJWdu4
+         oBwZcBv6Ri+zDoAy6TeH1aHhVyd5j+6tDofhCa7xn+jZowDg8H6/9Qanr5p7L9jM9hEU
+         mHJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWa9CsWULV8/rn1f9vyLDbB4DUipQG0KhHiSYUfEhBf/diJUhfCr1s760wFmim5+wZbxzXV6nDSO/3WUmfN6gz8ZZnmUzx+KlGSFJQ=
+X-Gm-Message-State: AOJu0Yyq3YUd7hjlRd0GIqv2NJuVzIsBCgIqNmzB86xOwQccfkr2t6GW
+	81Xv/rN2glbCjLBNuM5uXTYhye6nQVk1B6RsYdi+eDt4x6wuNbawaBtdoYUhC8otxzYfmYzWAQM
+	Uh/S3q7bsGdda0TK0tgRfWtHjdmaauve3+QTADCC7/ttwi9iA/kUJGtU=
+X-Google-Smtp-Source: AGHT+IHwzRlt52Zv/PA1gArMdk0fM9fBC4PiBmIdglpkx/HW7P+MyeODxpT8hYq45Zvz+2Ua8FgMLgz2VUPs1ik8sPL1rSPVKjtm
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Felix Kaechele <felix@kaechele.ca>
-Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
-To: Andreas Kemnade <andreas@kemnade.info>,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de,
- hdegoede@redhat.com, ye.xingchen@zte.com.cn, p.puschmann@pironex.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, caleb.connolly@linaro.org
-References: <20240404222009.670685-1-andreas@kemnade.info>
- <20240404222009.670685-3-andreas@kemnade.info>
- <CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
- <20240405182832.4e457695@aktux>
- <CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
- <20240425185417.0a5f9c19@aktux>
-Content-Language: en-US
-In-Reply-To: <20240425185417.0a5f9c19@aktux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Received: by 2002:a05:6638:6d11:b0:487:3b5a:c97c with SMTP id
+ he17-20020a0566386d1100b004873b5ac97cmr90011jab.0.1714106546207; Thu, 25 Apr
+ 2024 21:42:26 -0700 (PDT)
+Date: Thu, 25 Apr 2024 21:42:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cb5a8d0616f8872d@google.com>
+Subject: [syzbot] [input?] [ext4?] possible deadlock in uinput_request_submit
+From: syzbot <syzbot+159077b1355b8cd72757@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2024-04-25 12:54, Andreas Kemnade wrote:
-> On Fri, 5 Apr 2024 20:21:19 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
->
->> On Fri, Apr 5, 2024 at 7:28 PM Andreas Kemnade <andreas@kemnade.info> wrote: >>> On Fri, 5 Apr 2024 18:13:45 +0300
->>> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Hello,
 
-...
+syzbot found the following issue on:
 
->>>> Why a different vendor prefix?
+HEAD commit:    7b4f2bc91c15 Add linux-next specific files for 20240418
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=12a07f67180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ae644165a243bf62
+dashboard link: https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1273c763180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14b59430980000
 
-...
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/524a18e6c5be/disk-7b4f2bc9.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/029f1b84d653/vmlinux-7b4f2bc9.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c02d1542e886/bzImage-7b4f2bc9.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/95b3c106e235/mount_6.gz
 
->>> I sorted by the numbers. Looking at datasheets for other controllers I see >>> https://www.displayfuture.com/Display/datasheet/controller/FT5x06.pdf
->>> it only mentions FocalTech Systems Co., Ltd.
->>
->> But does the driver use that? AFAICS it uses edt. Perhaps it's due to
->> a business split, not to my knowledge anyway.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+159077b1355b8cd72757@syzkaller.appspotmail.com
 
-I've been looking into this over the past few weeks as I was working on 
-mainline support for an Android device.
-And please forgive me if any of the following is not fully accurate, I'm 
-not an industry expert.
+WARNING: possible circular locking dependency detected
+6.9.0-rc4-next-20240418-syzkaller #0 Not tainted
+------------------------------------------------------
+syz-executor109/5116 is trying to acquire lock:
+ffff8880117e3870 (&newdev->mutex){+.+.}-{3:3}, at: uinput_request_send drivers/input/misc/uinput.c:151 [inline]
+ffff8880117e3870 (&newdev->mutex){+.+.}-{3:3}, at: uinput_request_submit+0x19c/0x740 drivers/input/misc/uinput.c:182
 
-After some research, my understanding of this is as follows:
+but task is already holding lock:
+ffff888015fb60b0
+ (&ff->mutex
+){+.+.}-{3:3}
+, at: input_ff_upload+0x3e4/0xb00 drivers/input/ff-core.c:120
 
-- There are companies that make touch ICs, LCD driver ICs and sometimes 
-even ICs that are both. Focaltech or Himax are examples of such companies.
+which lock already depends on the new lock.
 
-- There are companies that make LCMs. These are complete assemblies of 
-panel, backlight, touch layer and driver circuitry PCBs. This is what 
-OEMs generally purchase when they design a consumer device. Emerging 
-Display Technologies Corp. (EDT) is such a LCM manufacturing company. 
-More often than not LCM manufacturers do not make their own driver ICs.
 
-LCM manufacturers include ICs from Focaltech in their LCMs.
-To my knowledge Focaltech is not a manufacturer of LCMs.
+the existing dependency chain (in reverse order) is:
 
-As such, an interpretation of the compatible string "edt,edt-ft5406" 
-could be: Unspecified EDT LCM with Focaltech FT5406 IC.
+-> #3 (
+&ff->mutex){+.+.}-{3:3}
+:
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       input_ff_flush+0x5e/0x140 drivers/input/ff-core.c:240
+       input_flush_device+0x9c/0xc0 drivers/input/input.c:686
+       evdev_release+0xf9/0x7d0 drivers/input/evdev.c:444
+       __fput+0x406/0x8b0 fs/file_table.c:422
+       __do_sys_close fs/open.c:1555 [inline]
+       __se_sys_close fs/open.c:1540 [inline]
+       __x64_sys_close+0x7f/0x110 fs/open.c:1540
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
- From my perspective, more correct would either be something like 
-"edt,etm070001bdh6" (the LCM by EDT that contains this IC, especially if 
-it had model specific quirks) or "focaltech,ft5406".
-But "edt,edt-ft5406" is incorrect if being specific is the goal here.
-Given that the driver predates much of the DT binding rigour it's what 
-we have now though.
+-> #2 (
+&dev->mutex
+#2){+.+.}-{3:3}
+:
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       input_register_handle+0x6d/0x3b0 drivers/input/input.c:2555
+       kbd_connect+0xbf/0x130 drivers/tty/vt/keyboard.c:1589
+       input_attach_handler drivers/input/input.c:1064 [inline]
+       input_register_device+0xcfa/0x1090 drivers/input/input.c:2396
+       acpi_button_add+0x6c6/0xb90 drivers/acpi/button.c:604
+       acpi_device_probe+0xa5/0x2b0 drivers/acpi/bus.c:1063
+       really_probe+0x2b8/0xad0 drivers/base/dd.c:656
+       __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
+       driver_probe_device+0x50/0x430 drivers/base/dd.c:828
+       __driver_attach+0x45f/0x710 drivers/base/dd.c:1214
+       bus_for_each_dev+0x239/0x2b0 drivers/base/bus.c:368
+       bus_add_driver+0x346/0x670 drivers/base/bus.c:673
+       driver_register+0x23a/0x320 drivers/base/driver.c:246
+       do_one_initcall+0x248/0x880 init/main.c:1263
+       do_initcall_level+0x157/0x210 init/main.c:1325
+       do_initcalls+0x3f/0x80 init/main.c:1341
+       kernel_init_freeable+0x435/0x5d0 init/main.c:1574
+       kernel_init+0x1d/0x2b0 init/main.c:1463
+       ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
 
-> Well, lets cite edt-ft5x06.rst:
->
-> "The edt-ft5x06 driver is useful for the EDT "Polytouch" family of capacitive > touch screens. Note that it is *not* suitable for other devices based 
-on the
-> focaltec ft5x06 devices, since they contain vendor-specific firmware. In
-> particular this driver is not suitable for the Nook tablet."
+-> #1 (
+input_mutex){+.+.}-{3:3}
+:
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       input_register_device+0xae5/0x1090 drivers/input/input.c:2389
+       uinput_create_device+0x40e/0x630 drivers/input/misc/uinput.c:365
+       uinput_ioctl_handler+0x48b/0x1770 drivers/input/misc/uinput.c:904
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:907 [inline]
+       __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-That contradicts my experience with this driver. It works fine on a BOE 
-TV080WXM-LL4 LCM with a FT8201 without modifications.
+-> #0
+ (&newdev->mutex
+){+.+.}-{3:3}
+:
+       check_prev_add kernel/locking/lockdep.c:3134 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain+0x18cb/0x58e0 kernel/locking/lockdep.c:3869
+       __lock_acquire+0x1346/0x1fd0 kernel/locking/lockdep.c:5137
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5754
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+       uinput_request_send drivers/input/misc/uinput.c:151 [inline]
+       uinput_request_submit+0x19c/0x740 drivers/input/misc/uinput.c:182
+       uinput_dev_upload_effect+0x199/0x240 drivers/input/misc/uinput.c:257
+       input_ff_upload+0x5df/0xb00 drivers/input/ff-core.c:150
+       evdev_do_ioctl drivers/input/evdev.c:1183 [inline]
+       evdev_ioctl_handler+0x17d0/0x21b0 drivers/input/evdev.c:1272
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:907 [inline]
+       __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-> So chips from focaltech which can be equipped with different firmware?
+other info that might help us debug this:
 
-Firmware can change, the vendor drivers support handling firmware transfers.
-Apparently firmware is handled differently, depending on how a 
-manufacturer designs their LCM.
-They can be shipped without flash, with flash but no firmware programmed 
-or complete with firmware.
+Chain exists of:
+  &newdev->mutex
+ --> &dev->mutex
+#2 --> 
+&ff->mutex
 
-In all but the last scenario the driver would have to load (and possibly 
-program to flash) the firmware for the LCM to be fully operational to 
-specifications. Today, this driver doesn't do that. As such the 
-behaviour is unlikely to change and could as well be described in the 
-devicetree instead of having the driver try guessing.
+ Possible unsafe locking scenario:
 
-I personally would rather trust whoever is performing the integration 
-work to properly describe the hardware in the devicetree if the firmware 
-doesn't allow for a definitive way to identify how it would like to be 
-treated.
-If the driver ever gained firmware handling features I'd expect the 
-filename for the firmware to be defined in the devicetree together with 
-the properties describing the treatment it expects.
+       CPU0                    CPU1
+       ----                    ----
+  lock(
+&ff->mutex);
+                               lock(&dev->mutex
+#2);
+                               lock(&ff->mutex
+);
+  lock(&newdev->mutex
+);
 
-> So edt prefix means EDT firmware?
+ *** DEADLOCK ***
 
-I don't think that's how the compatible strings are used today, but it 
-is what would make sense in my opinion.
+2 locks held by syz-executor109/5116:
+ #0: ffff88801cac6110
+ (&evdev->mutex
+){+.+.}-{3:3}
+, at: evdev_ioctl_handler+0x125/0x21b0 drivers/input/evdev.c:1263
+ #1: ffff888015fb60b0
+ (&ff->mutex
+){+.+.}-{3:3}
 
-> Looking around I found this:
->              if (tsdata->version == EV_FT)
->                          swap(x, y);
-> ...
->                 case 0x59:  /* Evervision Display with FT5xx6 TS */
->                          tsdata->version = EV_FT;
->
-> I need swap(x.y), I am using touchscreen-swapped-x-y property now.
-> So evervision prefix?
 
-The compatible string doesn't have any bearing on whether x and y are 
-swapped. The driver relies on its device detection heuristic for that 
-determination.
-Ideally, the driver would allow describing this property
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-   1. in the devicetree using the "touchscreen-swapped-x-y" property 
-from the common touchscreen bindings
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-   2. by extending the edt_i2c_chip_data struct to hold that property 
-and set it based on the compatible string if it is, in fact, a property 
-of that specific IC
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-The only reason I created this wall of text is because I am intending to 
-submit a very similar patch, using the "focaltech,ft8201" string. So 
-getting a decision on this would be helpful for my efforts as well.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Regards,
-Felix
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
