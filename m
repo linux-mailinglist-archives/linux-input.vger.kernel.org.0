@@ -1,47 +1,49 @@
-Return-Path: <linux-input+bounces-3282-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3283-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4064A8B4265
-	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 00:58:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D081C8B4266
+	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 00:58:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72A6D1C20E30
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 22:58:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B114282F64
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 22:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8083939FF4;
-	Fri, 26 Apr 2024 22:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AC93B28F;
+	Fri, 26 Apr 2024 22:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="KJ8NL22f"
+	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="RYZd9Zxo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C7138F91
-	for <linux-input@vger.kernel.org>; Fri, 26 Apr 2024 22:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC4538FA1
+	for <linux-input@vger.kernel.org>; Fri, 26 Apr 2024 22:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714172278; cv=none; b=ZKjYURLri1Jrlw1UO5FZK1tYyo8H902luZP2WeeKG/W+Q9Q6lc9w75VqD/A54j+zsEIUZWlVNhUBkxf9+sIjVUpYUcwOWUHnlQf/hluKnFwX9X2KgRhftFwAuUlHWpciNolmcqEvwmV55XIQ53dggJqgPE4x7IAoVj2NMzWoc/4=
+	t=1714172279; cv=none; b=tAi7BWP/PilQsNytUwky1lZmQbqoxAz90TIc5KB1axClEzQLj62IiPMIlzUWz9/1SAeEAYOOJg+BH3q+o7HJ9+p3tyn7CvAVCfEfsk6+LHlOjFkPK2m146YvII9qt1ak947n/+JH3CHjxZrnHn5lPvU/Z4xRFW5FRZ3/Js48lr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714172278; c=relaxed/simple;
-	bh=n5M6hS5g6y3ojVoJvmxqMM1bsyrtPVnjINp3YLX9H2U=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VW/xlEKjCcreeT0cqrT6YfaWe26hJRZXFbZhxzRPMun9NVdpyyqVqfi6GS0wEtZhlft+nElXBQ8/+QjW90b0QgSniXqPt8S/fNYyFgVCQzTaZVMHwH57iqyvfj/oYfbpPlNjx6LI8KIbEIxh/5rc9k6A3Zn8y83yjHmC4Cjqs18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=KJ8NL22f; arc=none smtp.client-ip=91.218.175.189
+	s=arc-20240116; t=1714172279; c=relaxed/simple;
+	bh=bmGxBMb81JYd9eJGESmHcK3CwPvy/AwmJGpMgmU9o2o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OTJmkEydr7r37qQAjuv5xgv5KKreECVjV9K1ZqM/juZ198kdkBrrDzPmLFzfQU4CWXMXJfW8lsRBnhP6iI5Y02sXmiCeG6P8aHiNMYfuiWCMmAk1lNMaZ7ug4N9AV3E+17T2Ud2hPZTPOM47Z/OzISRmRvmDUZinkfl495Mn0V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=RYZd9Zxo; arc=none smtp.client-ip=91.218.175.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1714172274;
+	t=1714172275;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=n5M6hS5g6y3ojVoJvmxqMM1bsyrtPVnjINp3YLX9H2U=;
-	b=KJ8NL22fEE6M3mwOxelkjA4BVjJ/3jHnBZPP/dcyoAS2c1ho05tKVZmuhcp7CC01uZHqjm
-	5RB7uQMTiv7+dqKgzgr//HjodurVgOM+BNkAeOr1a8fhD9BXt0SFhv1zzzju0oHNnj3jrE
-	iLlW1hqIoleCSBUmIY8aO8eAs6AZq3wEHugwgyCWGbkI+CdzTAbA5Piyz7nKtuPzGNLfO6
-	6NeHMKV0bLr6pyy2tOzMfHNGCrWP5uoo3JUxQDReG2oR3ZWDmTjwDq5hrPYLUqb6csBaMc
-	Z6WeiAQnZaSx2xC9fLENf1SjnHjzRodvbkHLiDaSRC2TbZ20ovP7YyXEZBFPUA==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7SXRaVoQrN/XQKemgL4uLkkyAHkvGBUXAQSxAzF5ceM=;
+	b=RYZd9ZxoUP/vsNRSnoVMy0oEicyeddd/AkpJaaufnVB6kHdY6p1HJu/+AViwPfVDSWe2OS
+	qTys5Nsel+rb7n9QeVjXfPsCtOatVvY7aGzf3BpHs7wdBwDMgwihn9O7Gef4D7FgdVOqwr
+	wqfwLbGQOjS5W2TRZLvvzUJaCS/Nm5kGcShoLULJV8ahkebSFZBClnPX6w+Tiu3iiotpVW
+	k7V2N93qk6659A0WXxyOk/gqzdp8PRBjUfzEp3roOpfSN0vxxxYWcfVEbfm+/7HU0gbVcQ
+	CZ1MRvJSbuLqNQvFyAjVcowytTBsFXoUhwaCH2s+LROJS8L08WRrwMTqa3VGzw==
 From: Kenny Levinsen <kl@kl.wtf>
 To: Jiri Kosina <jikos@kernel.org>,
 	Dmitry Torokhov <dtor@chromium.org>,
@@ -55,29 +57,77 @@ To: Jiri Kosina <jikos@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Radoslaw Biernacki <rad@chromium.org>,
 	Lukasz Majczak <lma@chromium.org>
-Subject: [PATCH v3 0/3] HID: i2c-hid: Probe and wake device with HID descriptor fetch
-Date: Sat, 27 Apr 2024 00:47:06 +0200
-Message-ID: <20240426225739.2166-1-kl@kl.wtf>
+Cc: Kenny Levinsen <kl@kl.wtf>
+Subject: [PATCH v3 1/3] HID: i2c-hid: Rely on HID descriptor fetch to probe
+Date: Sat, 27 Apr 2024 00:47:07 +0200
+Message-ID: <20240426225739.2166-2-kl@kl.wtf>
+In-Reply-To: <20240426225739.2166-1-kl@kl.wtf>
+References: <20240426225739.2166-1-kl@kl.wtf>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-The previous iteration of this was a bit naïve about bus error code
-consistency from i2c drivers. Instead of trying to differentiate between
-them, we now handle all bus errors during HID descriptor fetch the same
-with a single debug log, as suggested by Doug[0].
+To avoid error messages when a device is not present, b3a81b6c4fc6 added
+an initial bus probe using a dummy i2c_smbus_read_byte() call.
 
-As the change is relatively minor, I have carried over Łukasz' Tested-by
-and Reviewed-by tags.
+Without this probe, i2c_hid_fetch_hid_descriptor() will fail internally
+on a bus error and log. Treat the bus error as a missing device and
+remove the error log so we can do away with the probe.
 
-Third time's the charm?
+Tested-by: Lukasz Majczak <lma@chromium.org>
+Reviewed-by: Lukasz Majczak <lma@chromium.org>
+Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-[1] https://lore.kernel.org/all/CAD=FV=Xr6NsW085Sc+NhVmGDOn-zCCQ65CMNce_DsHxtXUgm9w@mail.gmail.com/
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index d965382196c6..6ffa43d245b4 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -872,12 +872,11 @@ static int i2c_hid_fetch_hid_descriptor(struct i2c_hid *ihid)
+ 					      ihid->wHIDDescRegister,
+ 					      &ihid->hdesc,
+ 					      sizeof(ihid->hdesc));
+-		if (error) {
+-			dev_err(&ihid->client->dev,
+-				"failed to fetch HID descriptor: %d\n",
+-				error);
+-			return -ENODEV;
+-		}
++
++		/* The i2c drivers are a bit inconsistent with their error
++		 * codes, so treat everything as -ENXIO for now. */
++		if (error)
++			return -ENXIO;
+ 	}
+ 
+ 	/* Validate the length of HID descriptor, the 4 first bytes:
+@@ -992,17 +991,9 @@ static int __i2c_hid_core_probe(struct i2c_hid *ihid)
+ 	struct hid_device *hid = ihid->hid;
+ 	int ret;
+ 
+-	/* Make sure there is something at this address */
+-	ret = i2c_smbus_read_byte(client);
+-	if (ret < 0) {
+-		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
+-		return -ENXIO;
+-	}
+-
+ 	ret = i2c_hid_fetch_hid_descriptor(ihid);
+ 	if (ret < 0) {
+-		dev_err(&client->dev,
+-			"Failed to fetch the HID Descriptor\n");
++		i2c_hid_dbg(ihid, "failed to fetch HID descriptor: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-- 
+2.44.0
 
 
