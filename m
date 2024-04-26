@@ -1,196 +1,181 @@
-Return-Path: <linux-input+bounces-3273-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3274-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7DA8B31C0
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 09:56:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD6D8B33F5
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 11:29:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46F7AB21E99
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 07:56:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3B4228496F
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 09:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5321013C83E;
-	Fri, 26 Apr 2024 07:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1120513E8AE;
+	Fri, 26 Apr 2024 09:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="wW52gZZu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iUqfNMNx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682BC13A271;
-	Fri, 26 Apr 2024 07:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F6E282EA;
+	Fri, 26 Apr 2024 09:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714118191; cv=none; b=Q8EkFW4LSpxchrI8D6b3D7FyenxbGXL2+vtvqQ4sBE1IGI0Pv5w38q7SbEH+ZQ369VIDVEVF8AJdF9mOCicvBbKqjNR0Tzq5lxc8CsI1p6YYNy3HS+4hvQVCuhVkWnweIT6nCfv/YNCAUfAWP1XGvOmeKpB1+7BsYYn5aqjzOsg=
+	t=1714123777; cv=none; b=NZw9opJd2mLUZvFn+99J+qEYd6cgaDBMiSbJUbEbSuW/UeLShLl2SZHK7R8DpC5WbGJxtoGAARA0Mqz76kfr5bZjxdO39o7R26de9D574Crcy34yYpyLXmCSLswMmDzFc8LHAwRwo8xknkQs0OTK07rH1odcnrC2YVAq7m/gzzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714118191; c=relaxed/simple;
-	bh=/oA1gWLJ772cy7dGtf/b943XB9Mt5AyNlRJvMHs+7cQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WTatcABKHwbOQxO0d7zAt/TbjWyu38AP2JYjvhDJtA1U+Uqw+30HUHgPGkQ6lNNDK/asVVX1Okgdg8lQjgG1bwQelDMMerSam/n31M4A9coDTDmXNSOpFKCdVEbYRgvgRMGLGktz9w7GjwGNFjU0QX7Y7q7ntYtq6TUOFrm4x0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=wW52gZZu; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s0GRR-001Fow-2S;
-	Fri, 26 Apr 2024 09:56:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=eN3ukgRV0UMxzWE3czcAWiLOWP8d0N+EaAA0gs4p+vs=; b=wW52gZZuXVW6afGr8W9dJMtSAb
-	F7Bt1AV1GQFfX5W6n9ce6T43GsIkB3/iaXRY0QYDZj/JF3CjWWA+bE3wArpTnRb8o0Ej3RCK1S2HR
-	M5ogkpkh/rhwymhu3xzHMOgkWRoBkKEWyrB1vgy1Lk3bVbCaL1lhrj7bmkAVWhayx6beih6ROKPtc
-	QZm60ESl+JwH0xgVGfWAm3JV9pvGO9yj+o5waDq9vMSjlI3MunlOmk5JW+1nLNN/uraGQ5c5iaNiS
-	5axiVdrtu4nJhHKjmU+u5NORSZoxMJx6Bx6x+Z7RLf1u+W6sUcTD5hRSETzfCtX+SLV4dhjlBVCMi
-	srZlBGQg==;
-Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s0GRO-0003kO-1l;
-	Fri, 26 Apr 2024 09:56:19 +0200
-Date: Fri, 26 Apr 2024 09:56:17 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Felix Kaechele <felix@kaechele.ca>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, dmitry.torokhov@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de,
- hdegoede@redhat.com, ye.xingchen@zte.com.cn, p.puschmann@pironex.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, caleb.connolly@linaro.org
-Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
-Message-ID: <20240426095617.4e442681@aktux>
-In-Reply-To: <7dd1eb70-b011-4247-aea9-173ddcd17dc7@kaechele.ca>
-References: <20240404222009.670685-1-andreas@kemnade.info>
-	<20240404222009.670685-3-andreas@kemnade.info>
-	<CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
-	<20240405182832.4e457695@aktux>
-	<CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
-	<20240425185417.0a5f9c19@aktux>
-	<7dd1eb70-b011-4247-aea9-173ddcd17dc7@kaechele.ca>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1714123777; c=relaxed/simple;
+	bh=G92cwOhiPQS7Q5kYfxITNoEUqeEw92zFYUHW/hjpagc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L38RMI+afYhO4VFneyqOYXFUvRpVL+rtcYZal1mCAqUGd/MUoN1BV7zfWqyjuTtezYNYV42tHsPmmFCvKDEHC3NefepgXjA4igvWjYvVqMIEMiNV1GzyouhKIqULfgHFAaXCJOFkM9LNhLJADsTz3nPQedtcRw13FFCxBNwAMwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iUqfNMNx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FEFFC113CD;
+	Fri, 26 Apr 2024 09:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714123776;
+	bh=G92cwOhiPQS7Q5kYfxITNoEUqeEw92zFYUHW/hjpagc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iUqfNMNx7JSRrAXJvJBDJUeXLvPKDz8+GVpkqVRdxY8z9KaXmz7RK1sJrVTaBoWPN
+	 G6/3K2PysJY3ClJtgvNibwmWEkunQAum87+eIuagiO5CUZrF5DDT9cKB+RY2FwW4Cv
+	 f8BPBuSBFlgwSuXLihSNJVed/2hojzyyvxBz418X2mShdemMwpFL+fcSyy8UbqiDHA
+	 Bg021h3Yb4LJFb+V5xR1wuk+M9V+r1MkPtCjw6shabcUp2tbVUFpgB0ZudWKRC9Uwz
+	 rAOlGqCTRMC6PdBN8+WLgGbOhUZkwGXQomf510wCITZF+dUK9fU6KfynyNlUKkRmzC
+	 dOnPOFUhtjE+g==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1s0Htg-000000001bi-4A4q;
+	Fri, 26 Apr 2024 11:29:37 +0200
+Date: Fri, 26 Apr 2024 11:29:36 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 4/6] HID: i2c-hid: elan: fix reset suspend current leakage
+Message-ID: <Zit0ADAycyHp67Ax@hovoldconsulting.com>
+References: <20240423134611.31979-1-johan+linaro@kernel.org>
+ <20240423134611.31979-5-johan+linaro@kernel.org>
+ <CAD=FV=XP8aCjwE3LfgMy4oBL4xftFg5NkgUFso__54zNp_ZWiA@mail.gmail.com>
+ <ZijlZw6zm4R9ULBU@hovoldconsulting.com>
+ <CAD=FV=Vxgu==8Cv3sDydFpEdd6ws2stkZvxvajE1OAFm2BgmXw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=Vxgu==8Cv3sDydFpEdd6ws2stkZvxvajE1OAFm2BgmXw@mail.gmail.com>
 
-On Thu, 25 Apr 2024 22:54:13 -0400
-Felix Kaechele <felix@kaechele.ca> wrote:
+On Wed, Apr 24, 2024 at 09:24:33AM -0700, Doug Anderson wrote:
+> On Wed, Apr 24, 2024 at 3:56 AM Johan Hovold <johan@kernel.org> wrote:
+> > On Tue, Apr 23, 2024 at 01:37:14PM -0700, Doug Anderson wrote:
+> > > On Tue, Apr 23, 2024 at 6:46 AM Johan Hovold <johan+linaro@kernel.org> wrote:
 
-> On 2024-04-25 12:54, Andreas Kemnade wrote:
-> > On Fri, 5 Apr 2024 20:21:19 +0300
-> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > =20
-> >> On Fri, Apr 5, 2024 at 7:28=E2=80=AFPM Andreas Kemnade <andreas@kemnad=
-e.info> wrote: >>> On Fri, 5 Apr 2024 18:13:45 +0300 =20
-> >>> Andy Shevchenko <andy.shevchenko@gmail.com> wrote: =20
->=20
-> ...
->=20
-> >>>> Why a different vendor prefix? =20
->=20
-> ...
->=20
-> >>> I sorted by the numbers. Looking at datasheets for other controllers =
-I see >>> https://www.displayfuture.com/Display/datasheet/controller/FT5x06=
-.pdf
-> >>> it only mentions FocalTech Systems Co., Ltd. =20
-> >>
-> >> But does the driver use that? AFAICS it uses edt. Perhaps it's due to
-> >> a business split, not to my knowledge anyway. =20
->=20
-> I've been looking into this over the past few weeks as I was working on=20
-> mainline support for an Android device.
-> And please forgive me if any of the following is not fully accurate, I'm=
-=20
-> not an industry expert.
->=20
-> After some research, my understanding of this is as follows:
->=20
-> - There are companies that make touch ICs, LCD driver ICs and sometimes=20
-> even ICs that are both. Focaltech or Himax are examples of such companies.
->=20
-> - There are companies that make LCMs. These are complete assemblies of=20
-> panel, backlight, touch layer and driver circuitry PCBs. This is what=20
-> OEMs generally purchase when they design a consumer device. Emerging=20
-> Display Technologies Corp. (EDT) is such a LCM manufacturing company.=20
-> More often than not LCM manufacturers do not make their own driver ICs.
->=20
-> LCM manufacturers include ICs from Focaltech in their LCMs.
-> To my knowledge Focaltech is not a manufacturer of LCMs.
->=20
-> As such, an interpretation of the compatible string "edt,edt-ft5406"=20
-> could be: Unspecified EDT LCM with Focaltech FT5406 IC.
->=20
->  From my perspective, more correct would either be something like=20
-> "edt,etm070001bdh6" (the LCM by EDT that contains this IC, especially if=
-=20
-> it had model specific quirks) or "focaltech,ft5406".
-> But "edt,edt-ft5406" is incorrect if being specific is the goal here.
-> Given that the driver predates much of the DT binding rigour it's what=20
-> we have now though.
->=20
-I think focaltech,ft5406 is better because it is consistent with other driv=
-ers/
-bindings. We do not specify the display it is used on on other touchscreen
-bindings. We do not specify the actual LEDs behind a LED interface chip.
-And often the chip name is more easily to find out than the name of a
-display.
-[...]
+> > > > @@ -87,12 +104,14 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
+> > > >         ihid_elan->ops.power_up = elan_i2c_hid_power_up;
+> > > >         ihid_elan->ops.power_down = elan_i2c_hid_power_down;
+> > > >
+> > > > -       /* Start out with reset asserted */
+> > > > -       ihid_elan->reset_gpio =
+> > > > -               devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+> > > > +       ihid_elan->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> > > > +                                                       GPIOD_ASIS);
+> > >
+> > > I'm not a huge fan of this part of the change. It feels like the GPIO
+> > > state should be initialized by the probe function. Right before we
+> > > call i2c_hid_core_probe() we should be in the state of "powered off"
+> > > and the reset line should be in a consistent state. If
+> > > "no_reset_on_power_off" then it should be de-asserted. Else it should
+> > > be asserted.
 
-> I don't think that's how the compatible strings are used today, but it=20
-> is what would make sense in my opinion.
->=20
-> > Looking around I found this:
-> >              if (tsdata->version =3D=3D EV_FT)
-> >                          swap(x, y);
-> > ...
-> >                 case 0x59:  /* Evervision Display with FT5xx6 TS */
-> >                          tsdata->version =3D EV_FT;
+> > Second, the device is not necessarily in the "powered off" state
+> 
+> Logically, the driver treats it as being in "powered off" state,
+> though. That's why the i2c-hid core makes the call to power it on. IMO
+> we should strive to make it more of a consistent state, not less of
+> one.
+
+That's not really true. The device is often in an undefined power state
+and we try to make sure that the hand over is as smooth as possible to
+avoid resetting displays and similar unnecessarily.
+
+The power-on sequence is what brings the device into a defined power
+state.
+
+> > as the
+> > driver leaves the power supplies in whatever state that the boot
+> > firmware left them in.
+> 
+> I guess it depends on the regulator. ;-) For GPIO-regulators they
+> aren't in whatever state the boot firmware left them in. For non-GPIO
+> regulators we (usually) do preserve the state that the boot firmware
+> left them in.
+
+Even for GPIO regulators we have the "regulator-boot-on" devicetree
+property which is supposed to be set if the boot firmware has left a
+regulator on so that the regulator initialisation can preserve the
+state.
+
+> > Not immediately asserting reset and instead leaving it in the state that
+> > the boot firmware left it in is also no different from what happens when
+> > a probe function bails out before requesting the reset line.
 > >
-> > I need swap(x.y), I am using touchscreen-swapped-x-y property now.
-> > So evervision prefix? =20
->=20
-> The compatible string doesn't have any bearing on whether x and y are=20
-> swapped. The driver relies on its device detection heuristic for that=20
-> determination.
+> > > I think GPIOD_ASIS doesn't actually do anything useful for you, right?
+> > > i2c_hid_core_probe() will power on and the first thing that'll happen
+> > > there is that the reset line will be unconditionally asserted.
+> >
+> > It avoids asserting reset before we need to and thus also avoid the need
+> > to deassert it on early probe failures (e.g. if one of the regulator
+> > lookups fails).
+> 
+> I guess so, though I'm of the opinion that we should be robust against
+> the state that firmware left things in. The firmware's job is to boot
+> the kernel and make sure that the system is running in a safe/reliable
+> way, not to optimize the power consumption of the board.
 
-Well, I think, yes, it could have a bearing, on some models, maybe x is
-swapped with some pressure value in some record.
+Agreed.
 
-> Ideally, the driver would allow describing this property
->=20
->    1. in the devicetree using the "touchscreen-swapped-x-y" property=20
-> from the common touchscreen bindings
->=20
-It allows that right now.
-Well, the devicetree should be driver/os independent, so it describes the
-hardware. so the driver should spit out the records specified as x
-in the chip manual as x and the ones specified as y as y.
+> If the
+> firmware left the line configured as "output low" then you'd let that
+> stand. If it's important for the line to be left in a certain state,
+> isn't it better to make that explicit?
 
-If the display is then wired up to the controller in an unusual way,
-it can be compensated by the devicetree specification (if we go the
-focaltech,ftxxxx road instead of edt,etm070001bdh6).=20
+As I pointed out above we already do this for any error paths before
+requesting the reset line. And I also don't think we need to worry too
+much about power consumption in case of errors.
 
-But datasheets... where are you? So we need a heuristic. I guess
-the order used most is probably the one used in the data sheet.
+But there is one case I had not considered before, and that is your gpio
+regulator example but where the boot-on flag does not match the actual
+regulator state.
 
->    2. by extending the edt_i2c_chip_data struct to hold that property=20
-> and set it based on the compatible string if it is, in fact, a property=20
-> of that specific IC
->=20
-yes, agreed.
+If the supply is on and reset deasserted, but the regulator-boot-on
+flag is not set, then we want to make sure that reset is asserted before
+disabling the supply when requesting the regulator.
 
-Regards,
-Andreas
+> Also note: if we really end up keeping GPIOD_ASIS, which I'm still not
+> convinced is the right move, the docs seem to imply that you need to
+> explicitly set a direction before using it. Your current patch doesn't
+> do that.
+
+You're right. It will work in my case because of the gpiolib open-drain
+implementation, but not generally.
+
+I'll add back the reset during early probe and add error handling for
+deasserting reset on machines like the X13s. On these, the touchscreen
+may now be reset a couple of times in case of probe deferrals, but
+device links should generally prevent that.
+
+Johan
 
