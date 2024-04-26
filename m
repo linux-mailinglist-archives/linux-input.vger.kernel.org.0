@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-3276-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3277-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9D48B33FE
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 11:30:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020638B3401
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 11:30:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF726284B24
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 09:30:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE1A3284B66
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 09:30:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0717913F00B;
-	Fri, 26 Apr 2024 09:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05B9C13F42A;
+	Fri, 26 Apr 2024 09:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Mx0eGEJe"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="X5BgBOH+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8637513EFEE
-	for <linux-input@vger.kernel.org>; Fri, 26 Apr 2024 09:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7897513F422;
+	Fri, 26 Apr 2024 09:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714123788; cv=none; b=ApoCQNVDRHykfZ9LHR64k7scREbTtnmktQzBnhdhy+PvP4S7xMimz9BplDYQcqLXI9kA5M/jxikstXrDz2k5dZ8ZuGxtsdPPuIwbCOoG8GYJE/qYiGQeTU6Fz0o8FvQCeyS6wkv3OFVKKCnaV4SqdswUF4m0KS+/1P0W6SBnbTw=
+	t=1714123797; cv=none; b=D9k1t0ISSlhdggCjxnJmwS0hneCA/c1nFjrLlWyM7/p776ttwEqzPUmqCmgc0hCGPKeIG32b9M2xhdfPsVzAMb+XUggC+tOonFW110dF39G2SsPvNi6iQXrbe8h7CefkTgqVy8JFFtHzpzfNIBS1JzuAu8lHqVceLEkMTGa2Sws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714123788; c=relaxed/simple;
-	bh=//JbgZIN5eANcv7g5vxwtcD1t2hO+SxCxCUYY82lA5c=;
+	s=arc-20240116; t=1714123797; c=relaxed/simple;
+	bh=sx8Pxj3Yd+hfnhbKFAeUw/Vd9gJg8B/6v/pp8znps4M=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IdYZrE196YpFfPNmKV+z+w/+UE5c7oIUPbYnt9L3GaQcapSdl8O3g8yq6u0AmU4kGGBKBPzpidR9XufXCgdpwiR5IVrgE6hAAtGLhhblGmKyd8pE+/QJTRazvbwCNxD27RciHZLLeVRD10a/9j8bA+aJyObQMWE/2VZQtU/RcwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Mx0eGEJe; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=ejNy1ycn+vLtWRbQzpOhjQhwmTr8T0Tg925twK9W/0/IRj6p1yMzp/eMZhYKl6mJUUM8j5yZo3gcPWPit1OQwaTRYlOs+7bOz8o9fXT1/oVRgARvqpNDMrUIT0Gi3f3GtsvVewk2TZR5VpB74nLfj7acYf4qYogjOlgFIcCFPc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=X5BgBOH+; arc=none smtp.client-ip=185.70.43.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1714123785; x=1714382985;
-	bh=fybKVaKmnUC3dUBy4JewKRS5M3R47IsoL2CFDwlfp3o=;
+	s=protonmail3; t=1714123794; x=1714382994;
+	bh=7WxpZMdg3EZmGrATmPvkRyZYicG/SWQxlQq7eqn29DQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=Mx0eGEJe+h+Xtr/Ey/xqJsEFoyfzQHbxg7UrnPDWc86VPcbd9EXiHReASIp52owqa
-	 U7GUzcuCx5WVIjF5as/B6TZt87/S4NzOn4ntJPR9eO5uea2Nl70YVoWvFfIK8orVXv
-	 Vlf1gOYZ/EOJiBaw6i57bqGL+t79RpE0IcKPbDbW4eNWdnOBJ+me1Gpgzrx7J8lTvO
-	 18WI8ex/S4kZtiLMbd8C5Vb1r+pV6wANCz571tlSyB8FJDmVv2Jzz1C0CrFb9NFhHm
-	 saESE6mg3NnpXeF1nTV3Vur/K826po8/9j4EvjuKoX7RgvuD+5iD3DYNvVq4Lm8mCK
-	 vV6hfgnvCqsOw==
-Date: Fri, 26 Apr 2024 09:29:41 +0000
+	b=X5BgBOH+5p2Lg/t2MgOl4lqwnHbXTJNi1VegpmoXOecJOYuzCfxyj+jLKxsVJ4rFE
+	 r1xnPZlbCCOwYQFhspgf6fBrxLzWEc7zdZLnmOvKJPaDOHH6QAAHNKApZQuDHduyyz
+	 w9NBGz6KssNwUWK+bry1XJ1F5h8DmciaJFisKe1R4vZBrAIYsuXp7Zk0xRuKhDPZTy
+	 0CmhodEfJ00JIY4GQWT3qpuDWvqPpANo/V8TjmMUPOJf1voX4t7OENhHE23nVsmYO3
+	 LK8Xixt/JK+Xxf3Awk8cq0ak79lW76PkwGEllFpD28aKhcJQgBCzFAGBUm8G9sPSde
+	 sbaviabnWqabw==
+Date: Fri, 26 Apr 2024 09:29:48 +0000
 To: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
 From: James McGregor <jamcgregor@protonmail.com>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
-Message-ID: <20240426092924.15489-2-jamcgregor@protonmail.com>
+Subject: [PATCH v2 2/2] ARM: dts: sun50i: Add LRADC node
+Message-ID: <20240426092924.15489-3-jamcgregor@protonmail.com>
 In-Reply-To: <20240426092924.15489-1-jamcgregor@protonmail.com>
 References: <20240426092924.15489-1-jamcgregor@protonmail.com>
 Feedback-ID: 83670259:user:proton
-X-Pm-Message-ID: 83c881e8b3b3daa2d68e189fcdf822d5184f637b
+X-Pm-Message-ID: 000efd86400ecf223551e437dab467ed1dc8ad71
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,36 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-The Allwinner H616 SoC has an LRADC which is compatible with the
-versions in existing SoCs.
-Add a compatible string for H616, with the R329 fallback. This is the
-same as the D1, so put them into an enum.
+Add a DT node for the Allwinner H616 LRADC describing the base address,
+interrupt, reset and clock gates.
 
 Signed-off-by: James McGregor <jamcgregor@protonmail.com>
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+V1 -> V2: Moved DT node to correct place in tree order
 
-diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lr=
-adc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10=
--lradc-keys.yaml
-index c384bf0bb25d..6bdb8040be65 100644
---- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-key=
-s.yaml
-+++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-key=
-s.yaml
-@@ -22,7 +22,9 @@ properties:
-           - const: allwinner,sun8i-a83t-r-lradc
-       - const: allwinner,sun50i-r329-lradc
-       - items:
--          - const: allwinner,sun20i-d1-lradc
-+          - enum:
-+              - allwinner,sun50i-h616-lradc
-+              - allwinner,sun20i-d1-lradc
-           - const: allwinner,sun50i-r329-lradc
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/bo=
+ot/dts/allwinner/sun50i-h616.dtsi
+index a061b69c07c2..1e8538ca7db0 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -594,6 +594,16 @@ ths: thermal-sensor@5070400 {
+ =09=09=09#thermal-sensor-cells =3D <1>;
+ =09=09};
 =20
-   reg:
++=09=09lradc: lradc@5070800 {
++=09=09=09compatible =3D "allwinner,sun50i-h616-lradc",
++=09=09=09=09     "allwinner,sun50i-r329-lradc";
++=09=09=09reg =3D <0x05070800 0x400>;
++=09=09=09interrupts =3D <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
++=09=09=09clocks =3D <&ccu CLK_BUS_KEYADC>;
++=09=09=09resets =3D <&ccu RST_BUS_KEYADC>;
++=09=09=09status =3D "disabled";
++=09=09};
++
+ =09=09usbotg: usb@5100000 {
+ =09=09=09compatible =3D "allwinner,sun50i-h616-musb",
+ =09=09=09=09     "allwinner,sun8i-h3-musb";
 --=20
 2.34.1
 
