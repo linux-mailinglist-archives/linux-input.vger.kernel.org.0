@@ -1,99 +1,110 @@
-Return-Path: <linux-input+bounces-3280-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3281-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165168B3BBB
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 17:37:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E9A8B3FB7
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 20:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72B2AB2719F
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 15:36:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17E2E1C21545
+	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 18:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8AD6149018;
-	Fri, 26 Apr 2024 15:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3D57482;
+	Fri, 26 Apr 2024 18:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFXZNW3R"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="axkDQcPp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D8614901F;
-	Fri, 26 Apr 2024 15:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71F47470;
+	Fri, 26 Apr 2024 18:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145770; cv=none; b=e6MsW/1cNS6gfo3RnnpqDctXxHM4+woDNRhD1JEuugoP2vApH7mBiRxdXpbClMwVzoIC4UGfnxb77PGcJq4/zwyJxIoBioYI+6Z/tK9gQyUheju0Tc2sETuI9Bz2F358paQw08wr14pZou1DyHhTF3i9HiYZ/AyGm7vYRt8EYZo=
+	t=1714157601; cv=none; b=SOQK1UXx2oQCNWW1Sx58gxl8I+HJDifNaLpVwR7WReVwowx4BE7wNtLkbYQ1eqPieXNcYog8808VwZJRs4AHGuwGneQLV2nlX4Gz3RWJZ2KNIxDy/iSu0zIjuaBS4IBFOgDUKk2BmALo3e0F4R+dJgyCTEC8ZnqbXO99SerEhIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714145770; c=relaxed/simple;
-	bh=HPIphAQxeZzpTfRdrlFxSkbXT7u5cVbL25YurlmJS8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jLIWdZwjIJR+DoiHGp6Mp2OsWnz3i5kDsdsFh65oos1JBUfy2BpCOwoJHAd7/YdIhqO969mxgal+EV9Hyt8rV/2Dx5RZWeEz8VyXo4DGRO6UXxtvD2dbQlipo55QCjcsTd3c5bouihf/esPtmojnkRP+hC94Sz7LY9a5gJKJuPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFXZNW3R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12366C2BD10;
-	Fri, 26 Apr 2024 15:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714145770;
-	bh=HPIphAQxeZzpTfRdrlFxSkbXT7u5cVbL25YurlmJS8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CFXZNW3RspF6m1NZBikG6xkmt8VwnsiHjnwZ9VVCDHtnu4/mm3JFnt1WcpyEOa3M8
-	 +PRuRV0Sj+6auqQAbeBdGQACoudJZl0vo4T06E1W4cMAAQj1V80UZQ3lACC36KXyIe
-	 D7I1jaoQOP9B9zrC6FQbvyV4iAWmuiW9FVHNTTEtJ5KIKlEzDVFOtH8SpfjkrZ3nyM
-	 VVROtwI+8r1gOpOdaxh066BRa1BXGEuPrBv1mBe86bKVkgFLxZALjPvYhcS/jBsrMs
-	 SpYwSH0oR6nDh9fSH7hrarQlN/Cii6AWS3db/H48VeQGcHwYuWWfrhuJr5bW1HOnv6
-	 2PuHCpdxsgVkQ==
-Date: Fri, 26 Apr 2024 10:36:07 -0500
-From: Rob Herring <robh@kernel.org>
-To: James McGregor <jamcgregor@protonmail.com>
-Cc: linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
- compatible
-Message-ID: <171414571220.1955030.12605658865806218849.robh@kernel.org>
-References: <20240426092924.15489-1-jamcgregor@protonmail.com>
- <20240426092924.15489-2-jamcgregor@protonmail.com>
+	s=arc-20240116; t=1714157601; c=relaxed/simple;
+	bh=LYrhv94fXfJc/xrjaftEa5kLjlw/Ms5LsmooEzuSh+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VkvY9y5uiUcHgiEDGVYEIFd2vxYGJDN3k6mPBdB7Au2ionxGRZPg1HZqmtqQy9kwGr77h2miz9opye2lH4gv3Ty4ZO9RNTYvMAasBlE9Z2xPHg5VLGIjOUs4ZTLmj/yGqCQo6EN4pXBfXZ798tRcJD3syGhF5tj8hfgpNm4nK+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=axkDQcPp; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s0Qh1-002ipf-0T;
+	Fri, 26 Apr 2024 20:53:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=nPehlEQTssGP0G33zMbxlvgJ6Z2DjBR7Px27U6BzRnk=; b=axkDQcPpzxZxap1pRfnjMJ3Bvs
+	SJ0bDsZcQes8UzO6Oq2PTXvieDtFtY2/iJjljFu81inca4zfw1nwEHG2mSeGPTea2726RPnfjW5if
+	9E4fcyg2V8R39/9ragSmJN+jsab5mA8DvKrzgYiwH29rDQCc2CXBPDjpxSq4DdIKDV99pp4l5zbBh
+	thwc6/gkj4vtS5NbbZCof5SqVL1BqaDhqp2DaV9A+09sEWzYRNoJrAKJCKHzs55vqjI74bUG8I2A0
+	AciL7VnUxww0SWxXf1BJ3wjbdK80gC6eMfOKy8L1GP3A5SChDrDZ/wao8yqjtiz95QJxsz68Q3BUC
+	0deG5kdg==;
+Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s0Qgx-0005ao-0p;
+	Fri, 26 Apr 2024 20:53:04 +0200
+Date: Fri, 26 Apr 2024 20:53:02 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Felix Kaechele <felix@kaechele.ca>, dmitry.torokhov@gmail.com,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ o.rempel@pengutronix.de, u.kleine-koenig@pengutronix.de,
+ hdegoede@redhat.com, ye.xingchen@zte.com.cn, p.puschmann@pironex.com,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, caleb.connolly@linaro.org
+Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add ft5426
+Message-ID: <20240426205302.4acbdb11@aktux>
+In-Reply-To: <CAHp75VdA_peJBWXFWSs-vDxA86y6MG0J7ixzXExqDxJJzfJ7mA@mail.gmail.com>
+References: <20240404222009.670685-1-andreas@kemnade.info>
+	<20240404222009.670685-3-andreas@kemnade.info>
+	<CAHp75VeZ9U_+1rJQjr4KvvzjYQGzfKtk+BK00vqvKcVn2-yP3g@mail.gmail.com>
+	<20240405182832.4e457695@aktux>
+	<CAHp75VckoDheCN-KQ0KcSk9rE_-cXFUujurtA4sK6KAixDttQQ@mail.gmail.com>
+	<20240425185417.0a5f9c19@aktux>
+	<7dd1eb70-b011-4247-aea9-173ddcd17dc7@kaechele.ca>
+	<20240426095617.4e442681@aktux>
+	<CAHp75VdA_peJBWXFWSs-vDxA86y6MG0J7ixzXExqDxJJzfJ7mA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240426092924.15489-2-jamcgregor@protonmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On Fri, 26 Apr 2024 09:29:41 +0000, James McGregor wrote:
-> The Allwinner H616 SoC has an LRADC which is compatible with the
-> versions in existing SoCs.
-> Add a compatible string for H616, with the R329 fallback. This is the
-> same as the D1, so put them into an enum.
+On Fri, 26 Apr 2024 16:51:59 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+
+> > I think focaltech,ft5406 is better because it is consistent with other drivers/
+> > bindings. We do not specify the display it is used on on other touchscreen
+> > bindings. We do not specify the actual LEDs behind a LED interface chip.
+> > And often the chip name is more easily to find out than the name of a
+> > display.  
 > 
-> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+> I'm _not_ a DT person, you should clarify this with them. I just
+> pointed out the possible mistake (from Linux / DT perspective), and
+> not hardware / business related one. If they are fine with focaltech
+> prefix, then it's fine to me as well!
 
+as 1/2 is Acked-by DT, I think the compatible is fine, so I will probably
+just send a v3 with a sorted 2/2.
 
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
-
-If a tag was not added on purpose, please state why and what changed.
-
-Missing tags:
-
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
-
-
+Regards,
+Andreas
 
