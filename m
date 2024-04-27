@@ -1,126 +1,179 @@
-Return-Path: <linux-input+bounces-3285-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3286-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAA38B426A
-	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 00:58:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C078C8B43EA
+	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 05:22:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FD411F224C5
-	for <lists+linux-input@lfdr.de>; Fri, 26 Apr 2024 22:58:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30D022834DB
+	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 03:22:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 489983BBF3;
-	Fri, 26 Apr 2024 22:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BFD03A1CA;
+	Sat, 27 Apr 2024 03:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="FzJjArNr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cFS/ULaX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06283A1C4
-	for <linux-input@vger.kernel.org>; Fri, 26 Apr 2024 22:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB874374C3;
+	Sat, 27 Apr 2024 03:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714172280; cv=none; b=ViqrAPR8x45XxaMV9UBQba9pXB6QMhwO+0CpTzvX8RLmb4lR0WTvp/CJunvgGZqR5C8l9aBasQmwxKABJDLIhtHSOulE7sOBNBVuYX+uEsEqGlgkxw0ngpw1c+MKuJNLsHR110v8Bbbf/gpIfNeLtgGQBoDkw/KqyIwFDBXp1vA=
+	t=1714188119; cv=none; b=ZSsxq0O1CookP+jcISLINHF/EZA+z/wrsmvDI1WtArCHlS9LY3yM/G7jWvJ3MiIHLIxXYZOKOc8lwMXeHUU9G8FNguQ/dPY8qrqc6k3wns/qs6JNJw3yVhWAwAkT0ngQNzMelt/Y3bky+Nztny5LcXyaegPQH75sFZrQFmSkYl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714172280; c=relaxed/simple;
-	bh=BXBOryCRmdGU3MpjZtj/f9m+SVkcFk68TeUd1IaFwL0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fp3aqUAqlak7wQOwBGHZHHagOja+qRoouFYei1bf0jh+ObwGD/1Xd6Fn4MGuOYpbDIZzQjmgnH7LNQfVuKhMQFx7nhCjmExomjVmpLpmBaYkMOmTAtzXFbwvI6QIDAsSpieBN1fjUPLhh731YPrJ3xhP0RDyooZxYjShaXYZPXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=FzJjArNr; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1714172276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SqC2//5SbqmO7sl0eIyTlpelQ5K5dhBqbZvBw6LmbcE=;
-	b=FzJjArNrn0fjQZ78lse7C+m9UIX+MxlPLZVwrQyH/p8SIbdpp0/6cXQ422lnrlWKnO9/jZ
-	f0YIgQvTicvUvb/q9pPK4zsfb5/lqIHhOoVF2SkWz7MV0zuxtAsEUB3jLwINdu0BpjyCv3
-	mmsNj65FqDdirRB8dOutGxacL4tC1OWggiz9Ad1I04PKsDIgtNEO+oifxTZF5+rV/aLbWi
-	BXQYI0Y7v02OAOHDHTlA0aFsRUEg1FkvWk/tENbaUPDUUofiRsYAXovaes7k32rPKJasQK
-	WjKjNNipzuKHM7WvnNvB8P/G28YDRPPyT2fNuLZYSRjG7sIVUlbdHtVSycuM9A==
-From: Kenny Levinsen <kl@kl.wtf>
-To: Jiri Kosina <jikos@kernel.org>,
-	Dmitry Torokhov <dtor@chromium.org>,
+	s=arc-20240116; t=1714188119; c=relaxed/simple;
+	bh=hIwZF+sC085Vr0r9GvhS9ISzHFgm7sRbQ+ivQ3g0R3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgzptsuqWCjisaEJulR/UcVMkeasqMwrctCsV2HumCDRaCQujHvP1iyIJmwtWqrMNg8fdon7e0TTuADc7rASPA+AAZpc/YFvmgYyqBciDT8nR7ldg1RckKKjJN64qaEzUOJz473KzTlgc1fIJj/6pXwEErbCCAzklzK82zEUSak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cFS/ULaX; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-61587aa956eso30524837b3.1;
+        Fri, 26 Apr 2024 20:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714188116; x=1714792916; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RUUuVGg/SnTpcYpDAcB9MZTXxuDZ2REJ7oy7ikLy09c=;
+        b=cFS/ULaX7rSagTzi+ayGdDxql2g3ElsoHbeVI+2cLpTifymH5XiI+3ZgH8jWp9zugc
+         aZGIdei4JNPWMJtN8FWeAhMRsT1sH439eCFcABIKApJCYdaVILqqKhARNus6mflTQtSJ
+         h2A55S3PTdBgtxfp7dXzd5T1aCQQZGZxC7I/AsgIy/BqQeYPCdnhoGhRGqPNqQVC6mj+
+         Zw1bbCQdCJqPhSqvDZKL94yU5a3D6nvq1OMQYHCBrNtHSjQjOI6dWP5qAlbKrMRjkUNf
+         b8Lv1gnomILpskFjQf1UGRTfVQvN0fKR+GI5IfuT8kWAiDxlTNPyFznxPjhKTZtUMRP0
+         qI/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714188116; x=1714792916;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RUUuVGg/SnTpcYpDAcB9MZTXxuDZ2REJ7oy7ikLy09c=;
+        b=DbiZ3VbtWZLjs0bMWi6chi/4pk3LjTMN3sX6FTdft07GKyYxqpuhyq8TTlwFSTUAEQ
+         dDGxB/hlTsKECaHdpc3KkpTcBzTy39AXO7AvES1hMCIxUmkvoU7ALMpGdQSyi44uObIq
+         qHXnG81XUktN85YOpob4LAAZXxLtly18Q4BgcoMVA02keXhwIj/EhSieC4catyvHIO/E
+         rjaTlHi95BhQ1qA23+vqgtkbypPSJ+4SPoeoSrI7V6oDYOoJn3ty3CTPD3BsE4Bh5lCl
+         LPj4cS1944jrk6Yk8Kblbh0O7tpRTybFigeFJO4xV34dsCPsRBEXOfHBLh/3nV/B+A2t
+         wG/A==
+X-Forwarded-Encrypted: i=1; AJvYcCU60UEdEntjWqYg1vstgLMlEhb0dgHD5kUg0xouCu+KPFXnuABQkltWoKuBjcBCCFWP0/kxRMP0YBJAgiUxbIlb/Jtjs5POlMYah9jtipGI96BkwtXl2KHVUOui7EOwr2lsN7FgrgKuDOo=
+X-Gm-Message-State: AOJu0YzEzxGDVLVhWtRnw0siAcCySTJ7mO+XvGOXT/39Ax+wR7oK0wD9
+	aqSyayW5XitMxk35lWehTNnamuWXohHip2H/ssu5CWBacgPt/vlO
+X-Google-Smtp-Source: AGHT+IFRCXQq0LR1NVgLKhfkiN+fon7vvAmErPX4sJrlb9HVcw7tWFqTXBKnFQhlftZOhIYXIpKzAA==
+X-Received: by 2002:a05:690c:6089:b0:61a:ccfc:4543 with SMTP id hg9-20020a05690c608900b0061accfc4543mr4233674ywb.47.1714188116469;
+        Fri, 26 Apr 2024 20:21:56 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f5c4:246f:8229:da0])
+        by smtp.gmail.com with ESMTPSA id d14-20020a0ddb0e000000b0061871ed807fsm4407114ywe.32.2024.04.26.20.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 20:21:56 -0700 (PDT)
+Date: Fri, 26 Apr 2024 20:21:52 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Kenny Levinsen <kl@kl.wtf>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Radoslaw Biernacki <rad@chromium.org>,
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>,
 	Lukasz Majczak <lma@chromium.org>
-Cc: Kenny Levinsen <kl@kl.wtf>
-Subject: [PATCH v3 3/3] HID: i2c-hid: Align i2c_hid_set_power() retry with HID descriptor read
-Date: Sat, 27 Apr 2024 00:47:09 +0200
-Message-ID: <20240426225739.2166-4-kl@kl.wtf>
-In-Reply-To: <20240426225739.2166-1-kl@kl.wtf>
+Subject: Re: [PATCH v3 1/3] HID: i2c-hid: Rely on HID descriptor fetch to
+ probe
+Message-ID: <ZixvUNooESC02cJK@google.com>
 References: <20240426225739.2166-1-kl@kl.wtf>
+ <20240426225739.2166-2-kl@kl.wtf>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240426225739.2166-2-kl@kl.wtf>
 
-The retry for HID descriptor and for power commands deals with the same
-device quirk, so align the two.
+Hi Kenny, Lukasz,
 
-Tested-by: Lukasz Majczak <lma@chromium.org>
-Reviewed-by: Lukasz Majczak <lma@chromium.org>
-Signed-off-by: Kenny Levinsen <kl@kl.wtf>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+On Sat, Apr 27, 2024 at 12:47:07AM +0200, Kenny Levinsen wrote:
+> To avoid error messages when a device is not present, b3a81b6c4fc6 added
+> an initial bus probe using a dummy i2c_smbus_read_byte() call.
+> 
+> Without this probe, i2c_hid_fetch_hid_descriptor() will fail internally
+> on a bus error and log. Treat the bus error as a missing device and
+> remove the error log so we can do away with the probe.
+> 
+> Tested-by: Lukasz Majczak <lma@chromium.org>
+> Reviewed-by: Lukasz Majczak <lma@chromium.org>
+> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index d965382196c6..6ffa43d245b4 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -872,12 +872,11 @@ static int i2c_hid_fetch_hid_descriptor(struct i2c_hid *ihid)
+>  					      ihid->wHIDDescRegister,
+>  					      &ihid->hdesc,
+>  					      sizeof(ihid->hdesc));
+> -		if (error) {
+> -			dev_err(&ihid->client->dev,
+> -				"failed to fetch HID descriptor: %d\n",
+> -				error);
+> -			return -ENODEV;
+> -		}
+> +
+> +		/* The i2c drivers are a bit inconsistent with their error
+> +		 * codes, so treat everything as -ENXIO for now. */
+> +		if (error)
+> +			return -ENXIO;
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 6ac1b11fb675..4ec12c083714 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -385,25 +385,21 @@ static int i2c_hid_set_power(struct i2c_hid *ihid, int power_state)
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
- 	/*
--	 * Some devices require to send a command to wakeup before power on.
--	 * The call will get a return value (EREMOTEIO) but device will be
--	 * triggered and activated. After that, it goes like a normal device.
-+	 * Some STM-based devices need 400µs after a rising clock edge to wake
-+	 * from deep sleep, which in turn means that our first command will
-+	 * fail on a bus error. Certain Weida Tech devices also need this
-+	 * wake-up. Retry the command in this case.
- 	 */
--	if (power_state == I2C_HID_PWR_ON) {
-+	ret = i2c_hid_set_power_command(ihid, power_state);
-+	if (ret && power_state == I2C_HID_PWR_ON) {
-+		usleep_range(400, 500);
- 		ret = i2c_hid_set_power_command(ihid, I2C_HID_PWR_ON);
--
--		/* Device was already activated */
--		if (!ret)
--			goto set_pwr_exit;
- 	}
- 
--	ret = i2c_hid_set_power_command(ihid, power_state);
- 	if (ret)
- 		dev_err(&ihid->client->dev,
- 			"failed to change power setting.\n");
- 
--set_pwr_exit:
--
- 	/*
- 	 * The HID over I2C specification states that if a DEVICE needs time
- 	 * after the PWR_ON request, it should utilise CLOCK stretching.
+I really think we should differentiate the cases "we do not know if
+there is a device" vs "we do known that there is a device and we have
+strong expectation of what that device is, and we do not expect
+communication to fail".
+
+Because of that I think we should have separate retry for the original
+i2c_smbus_read_byte() (if you want you can make a wrapper around it,
+something like i2c_hid_check_device_present()", and if there is a
+concern that we will run into similar issue on resume (either from
+suspend or from hibernate) then we can have similar retry in
+i2c_hid_fetch_hid_descriptor().
+
+But I do think that i2c_hid_fetch_hid_descriptor() should not try to
+clobber the error but rather log the true one.
+
+>  	}
+>  
+>  	/* Validate the length of HID descriptor, the 4 first bytes:
+> @@ -992,17 +991,9 @@ static int __i2c_hid_core_probe(struct i2c_hid *ihid)
+>  	struct hid_device *hid = ihid->hid;
+>  	int ret;
+>  
+> -	/* Make sure there is something at this address */
+> -	ret = i2c_smbus_read_byte(client);
+> -	if (ret < 0) {
+> -		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
+> -		return -ENXIO;
+> -	}
+> -
+>  	ret = i2c_hid_fetch_hid_descriptor(ihid);
+>  	if (ret < 0) {
+> -		dev_err(&client->dev,
+> -			"Failed to fetch the HID Descriptor\n");
+> +		i2c_hid_dbg(ihid, "failed to fetch HID descriptor: %d\n", ret);
+>  		return ret;
+>  	}
+>  
+> -- 
+> 2.44.0
+> 
+> 
+
+Thanks.
+
 -- 
-2.44.0
-
+Dmitry
 
