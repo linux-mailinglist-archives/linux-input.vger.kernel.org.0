@@ -1,217 +1,256 @@
-Return-Path: <linux-input+bounces-3289-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3290-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0298B46CD
-	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 17:06:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E80A8B492B
+	for <lists+linux-input@lfdr.de>; Sun, 28 Apr 2024 04:06:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC5F01C20C51
-	for <lists+linux-input@lfdr.de>; Sat, 27 Apr 2024 15:06:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF4A7B21222
+	for <lists+linux-input@lfdr.de>; Sun, 28 Apr 2024 02:06:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A1D10E6;
-	Sat, 27 Apr 2024 15:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A70E2EDE;
+	Sun, 28 Apr 2024 02:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="DFSYnL4B"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pe5lSJYR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn2045.outbound.protection.outlook.com [40.92.91.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF53E817;
-	Sat, 27 Apr 2024 15:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.91.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714230385; cv=fail; b=TqIi6mrZaSA177KGOeu72PSKfYKLC7yT0WRMcifGd8Yp69t4w7DeexcLjzVB8RZ0oBsLoSxE8Ih+P+So50N/fKzTPpg0biEal97Sjvgvm4ndK9h54tJH9h0lo/yVcf65T2QxyO8Lf7A3MCihnQlGcKb0pMxTLf4Zx5p6WtVe1v4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714230385; c=relaxed/simple;
-	bh=Bg/aayAHjh+58y3AIhu2Jxl0578idrchmIo8sc5GMbc=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=RFyNNnjwGoAN7l140VEJ6X2ShxR+5Ut6ZlQFQddoza2i6dzwk8O4Q4zFqqGkQ2pteRSn6eYge61t0ER/EFnu/lAKUgImPfARSnkVGly597C7ldDJ2xrPnjkcoqIKoBOdOq2mKU99lckF+VFQOETNO43n/T6/ceN8VYNa6/mLLnU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=DFSYnL4B; arc=fail smtp.client-ip=40.92.91.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hWBYYdaMoKrl6e9kcc9iE7RpukS8Q/dkZbkw0orVffZLN1figR69l7qMtbIW6ParaLZFivXgEpL5dFXj2J+6dQyzSqQuznHofk3knI6am8Cua7l89ylhauIAb65t967YsuVumAvqPfA46fcVD+xn+XP0v8o+le/G3bW62C0vQRwabu2HTOMUKI3qi+gxu5WNNevNKe2oSGHyt6dlWdRYMTkQVCNvuqT3cnOIdkGrf5TRrNM9NL6vS/PcldkvJd0g4LLdtT0kliw2poayK/MWhhnRFo1vjIfdlkStBRaZfHX4UBZYB7cfsCOD+y+fyl3QVaasCL1nCuljPlyq6A5EPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H6DodiOXLR/LP1sokdvP0euRCk5iA/Zyl+3XhZVz9ag=;
- b=XhgRyLTkMqcFF3XclJeMMNJoSM7AilHx4eyd2AfRFRvQlmxJ3ksN/7r2wFyY+d2ba67379qeFhV2KXx5sBfuhbdBi6HKqp+An/2FwTT1n6GgsWc0n8KEPP5rxxnoJiKgxyUWTyKMHwl9ad+0Go1ELgbnybKnggupk6BN+eXCiug/To1qvf/gfq3Y40U5bKGEq77LHeHzcmcUl5eHlK6GNZZCYQ8XH7Hv5q+xD91VXZTILWmb1eqm+stpnyxEdbQSAFFh6ge6P+TsS114iPP2IfygmypQCsP2NItcyL3tLxpN1dEkHj4o3X8fD7kP/RtORqYQ98gK+37T1ZqSq3q3dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H6DodiOXLR/LP1sokdvP0euRCk5iA/Zyl+3XhZVz9ag=;
- b=DFSYnL4BtQ+/oX6aa4EoCAEQkeTty5VH28Q2xjBD2BZ5UulR8l5hQzitO6vPNuCe7O9Y60v58RxzL+qdAVXDz04Og0H3g/F7E9egYwTw0ZpQgIIGYuvLQrr1No0n0XumsH9aAXG6Kg4gfAiTRVR+H9p7v0uSSpDUqOOORBFbGbiMjZzuao1sT1hfRwux1wHENELoFJGb1AqRiH0KBh+2BUPMv0otw9FYCuP1cyifMSgXmsx86TEVAw51GjHBEzDgIIwfqc7o5BOEkm3aYV2zdbJrgIw0OLWlfyoFrPPvyyD4HvGt+rfMgToAkOgPZ8zSSnj2IX+EzztEee3zWLu8Gg==
-Received: from AS8PR02MB7237.eurprd02.prod.outlook.com (2603:10a6:20b:3f1::10)
- by DB9PR02MB6780.eurprd02.prod.outlook.com (2603:10a6:10:217::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.32; Sat, 27 Apr
- 2024 15:06:20 +0000
-Received: from AS8PR02MB7237.eurprd02.prod.outlook.com
- ([fe80::409b:1407:979b:f658]) by AS8PR02MB7237.eurprd02.prod.outlook.com
- ([fe80::409b:1407:979b:f658%5]) with mapi id 15.20.7519.030; Sat, 27 Apr 2024
- 15:06:13 +0000
-From: Erick Archer <erick.archer@outlook.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Erick Archer <erick.archer@outlook.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] Input: ff-core - prefer struct_size over open coded arithmetic
-Date: Sat, 27 Apr 2024 17:05:56 +0200
-Message-ID:
- <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [IHjNrb9xaWlw7D6/bwybrFFh+NMkoZNi]
-X-ClientProxiedBy: MA4P292CA0003.ESPP292.PROD.OUTLOOK.COM
- (2603:10a6:250:2d::15) To AS8PR02MB7237.eurprd02.prod.outlook.com
- (2603:10a6:20b:3f1::10)
-X-Microsoft-Original-Message-ID:
- <20240427150556.8440-1-erick.archer@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217CCEC3;
+	Sun, 28 Apr 2024 02:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714269971; cv=none; b=DXNGpD+oU2QoWH3uWqW06KWL6nzLTcN9VD6w9dQxUG8uUzs8B9PJdC0EeIhXy17dEv/K6fOLcT00kx1dGoms5xNG0sLIZ2z7SXDwLpRWk8w9QjTz7JjFSBhUJzUFvYeI6dbcI9IXB9x5vhWCUG4GPhngdGBqFRzFltp87wVbLRk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714269971; c=relaxed/simple;
+	bh=ng7UA1wMkoX0EkfTSyYAoFSCY+qn4UjiAXy3rtO3t8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JgUk3RPEreNxlhuGxhVokK+nQTUWQyNqE7wgI7knPGw/w+hbgfw1v9Eu4jc+o78nfKG4wrle9WMIfdfLtskSsL74g7npkJNuv8Zv3Or0UkbEKt6Qxw8uUKM29ISXYOdi8p6KJpWcRCD7gxaqXCh61N9Qjh1CCwS+mT9icJJvWXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pe5lSJYR; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e8bbcbc2b7so31234215ad.0;
+        Sat, 27 Apr 2024 19:06:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714269969; x=1714874769; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UVr/DsPFcrO1zzvU0JwqUmPsGbHr+7DKpdqoMyfPVh8=;
+        b=Pe5lSJYRyRt2cF08AXULExQECgw3bv+pe6v+CMOqfDM/LYfv/GfvVAQkDH0+tMjGKr
+         l9Vd3wQiU/rLtpmXoJmWB9tOOTJONMqUgZvw022/BEePftuTHiBtGlcfHXJ7OgcN/xgZ
+         sOTnPqQGl8nwAqCnU6eUpxS6UsKAlC7wNjE8+HwRsqlyTgDFtJ3LynHE3dVCAhk5GMTB
+         puV45Hh2zDjzXLVBxQdXAIMt47LstVrz1wxRv80qIaIbX/M0qBlM4fvhU25kYQVgcFRF
+         yKyQml2NEX4ae8OkqbIl1mwvGZhaaTM/bxUPZvJe6jGFbyPJhNUa351ExsjwajYi2XqW
+         H5cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714269969; x=1714874769;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UVr/DsPFcrO1zzvU0JwqUmPsGbHr+7DKpdqoMyfPVh8=;
+        b=fW7ekJu953MH91vhK7bP/tJR5luh/uJIYzGTEj5Pc407im2uRNfiIHSQKoxupyDtw2
+         gHNBS2NvDd6UeGKZA7dDmWaZsf/1kxx4cjjZA3c8cH6m8CARElaVeni38dQyonshKrWq
+         RcTKG9YqVXVazwRIuM6eQpTU3AHu9955wyxUlMAPJ5W/DsL7GmKGa4/EBY8BvYtndVyV
+         /0Sieyb1UkW24KVCzwTjwYwMQJ1bNo4cn4+ktjTHNFDJikK2FMtddIwHmXjgf83ICwJJ
+         PM4eIcL4G1pkNFw/jerzxzaeZ+4j1JmIY7qAxy+H3lR0lqjOVqlGtIBfjKB6GvSBaemQ
+         dOxw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyriamwFfKrEw3Jc1lLYGjl7h9S42AZOlGjU4ZA/ZahhuOecZ40UzUIqKtJyJvehQSAZjcuZhbXLGGrJy4wcXTcs9C7V+JnvK+WV+4
+X-Gm-Message-State: AOJu0YxtYwgwOdgRnUD2XDaxF2dQ++jisBRkq8AlY1K6mTmmamLywtV5
+	AniFkmE8T6tR13oQSxlp0YELQE9OU8dLh5w+30j1CKl20DalpnVhaOo1cQ==
+X-Google-Smtp-Source: AGHT+IEI5Ioi6VZREHu6xMA6dF8tohoFLcfdd3XXsgDg1psejZCJgNTvO5LXrzCV3vUQJ4JI/BbLjQ==
+X-Received: by 2002:a17:902:a9c5:b0:1e3:d0fd:236c with SMTP id b5-20020a170902a9c500b001e3d0fd236cmr7263411plr.37.1714269968848;
+        Sat, 27 Apr 2024 19:06:08 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:5ae9:912b:8980:d67c])
+        by smtp.gmail.com with ESMTPSA id i5-20020a170902c94500b001eb3dae7ef1sm2246243pla.16.2024.04.27.19.06.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Apr 2024 19:06:08 -0700 (PDT)
+Date: Sat, 27 Apr 2024 19:06:05 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: Jason Andryuk <jandryuk@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: try trimming too long modalias strings
+Message-ID: <Zi2vDUZuVAEh4-yS@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR02MB7237:EE_|DB9PR02MB6780:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c85e9c9-0fec-4849-64ef-08dc66cb942f
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199019|440099019|3412199016|1602099003|1710799017;
-X-Microsoft-Antispam-Message-Info:
-	vhhjigx7RfxPnm7B8V1ypjH6kHYXpWlPkar2CV1ZPi7z3MgFrLcrRXmeDXSh3twOHH/Urq+PLudppMlH4mxJafFVnUcPcrmyHYBGYAHTMqw2xF4V+FGK1A/lBNTElWRKL+menLXzJLhmrpUNECv+V/Hs2bFcDUoXjG1+rLzwn1MLqBctjTNzztT9Kw4BtnZQ4XXzepWrPg4qnZSiWWO+WCGDQ3pDX/GSUbqP8Jw2JH5YrrJGhHI7v24T9FDsPlGsZQqJiAljgHDTRAshpOjcCIKrBWEyyAVHd0Gs98Tb8GGmXJJ2jFEguhZLStUjLy4KHdGtUk+yi+YtADV6bgeVwzNwh1k7/aW3gX5twbdSiRGsCqPDwYCkpzOLfN8KMz7G1g+I8OOspMxJjmXFzUIh3WorSg0K/ghKLL3GETRRdoRadzu6ZUY36EzExxwGVoB07VUxtFhaP8dHUHWdpfB7GC58WXqYMBwEwvXorqqynPT3O8Iq3BiCJY/euy6lXFRQtLVo1dxpSq7mkvvPXLpWvXLtaVIMZ+mWhXNIuwOjaZDpDs/6i9C5bvzAtNo3cjS3uxhSffZa8B4gzGehxd4IQGl/DGjwB3UGHZQKKLz/8ivsi7NhgHaMICiPcFeII9KyLECrOxleqe5VLrWu6ZielvddtUy9OwKuZ5V3N7j7qK10dr7ZDW4QUyrBK01HfR1xZjMLSVvFfvygRDOM+aBEUg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XkOIhrISAXDsi/X5nKBXFHK2XRnEMei8O14ADKY+5fnL2gQ2LBXUSB0mPvnq?=
- =?us-ascii?Q?ooo3s6vfNtj636sidnYwfVCt4BzJqZditIdnGjYOiOQ7iTG9+/eCE4U5Vbq8?=
- =?us-ascii?Q?t8mq7LNwGDr4dOoj5CERMQhOhwUDkceDj6u5OuXrO4HIzC4jRyqACVoNXK4i?=
- =?us-ascii?Q?Fdz1QDrxOUGKD6YDCp5m1JVaVwlsOSC/u83jCuCpdQ3CdfL2Qm+YNCDEvSKq?=
- =?us-ascii?Q?+pk4J3U4YTqoV1B1Zc9XupefFwOKQwyKmHOdiWWzqnF0bb4826VXHSkmiMde?=
- =?us-ascii?Q?ZnvfUdXIRblgFWaZruqrEYmMuZswr27YixoXsHFsnDWeHV1mJ0dRcymHV+D5?=
- =?us-ascii?Q?txH4YrSuHQm7GyVzNn0TXJPZjWlxMCG7lHSWw13ioCGNxqZribxvmELk1x4/?=
- =?us-ascii?Q?ecv+de0EgZSoOIV1psbDkqfY4LAXqTvBLNzDltPkGGoOJWaKWNsJ9o0Gfpen?=
- =?us-ascii?Q?txCEsBPOBhxENIF/dsf5AjwUQtayJQf83el6z6XpBXRjzCHyt1TJPAPEP5ip?=
- =?us-ascii?Q?H1PTYvKHvrhXzvh/MPNV6dd9D0Ai1PG+VsuEXZVSbWIOJFdtllGM93jG646R?=
- =?us-ascii?Q?V7tN2rOGs4wpfeTr12SaNRLAEi4P8BQc88PycZ1/PgCkQ9pa6vGS6ZnfOlQW?=
- =?us-ascii?Q?YAoP/lPgC0uPbyvb5LnHTp5vJ4jNtWCutbOKV973hIpW6wp/AEKD/XiWlAug?=
- =?us-ascii?Q?BNha2xsC00H4tA1UycdElbvc7U8idePr1xFqz+ZESljSbX9/8WLdoM9suu5U?=
- =?us-ascii?Q?2D322lpCUfz9Gs9S/YpG/SEEZLqRHSF4lE5Rln0x3IQRHEOs+XEvTbcWGDmz?=
- =?us-ascii?Q?WDFKn7AnSWSYUWeKHIirq3McVWiXVTuTASv87lvuuaI+sgj+9ZzLxkalz9Hk?=
- =?us-ascii?Q?+vbd7vewcVw7g22GGPblFBRTkhB+dYP18xapnjwB0KUQJclxONLe+oB8j2mH?=
- =?us-ascii?Q?lG7NPQDMIIPTQ/REQl00zgnKxptcc5i5qmmr5n5zHiFClgxDFrSJCo4KD7h+?=
- =?us-ascii?Q?vWotDtEIvFX6CDbvuuW2tlJ+lcV7npoNN2ekOLVaqaVCr2Er7zhT7SoRN3fO?=
- =?us-ascii?Q?IwpIMljRWCmq+MUPVSN5ME5o1O6jRCG00ccDL5d9/FNwBAEso9APYu06FoGt?=
- =?us-ascii?Q?x6TZdUy8pDv4ZPtGSzg8WIwUxluZ4eWx3LRQ8v+qULt/bKgIslDIOX1PtLcd?=
- =?us-ascii?Q?7dQ2JdP2yWhn6x5QKHrXwNko4wGoQYu/Muev3gzYadncqqBPPsMhc9RlfyAv?=
- =?us-ascii?Q?90SnFRb6G1ECNB1/WBd2?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c85e9c9-0fec-4849-64ef-08dc66cb942f
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB7237.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2024 15:06:13.2206
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB6780
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is an effort to get rid of all multiplications from allocation
-functions in order to prevent integer overflows [1][2].
+If an input device declares too many capability bits then modalias
+string for such device may become too long and not fit into uevent
+buffer, resulting in failure of sending said uevent. This, in turn,
+may prevent userspace from recognizing existence of such devices.
 
-As the "ff" variable is a pointer to "struct ff_device" and this
-structure ends in a flexible array:
+This is typically not a concern for real hardware devices as they have
+limited number of keys, but happen with synthetic devices such as
+ones created by xen-kbdfront driver, which creates devices as being
+capable of delivering all possible keys, since it doesn't know what
+keys the backend may produce.
 
-struct ff_device {
-	[...]
-	struct file *effect_owners[] __counted_by(max_effects);
-};
+To deal with such devices input core will attempt to trim key data,
+in the hope that the rest of modalias string will fit in the given
+buffer. When trimming key data it will indicate that it is not
+complete by placing "+," sign, resulting in conversions like this:
 
-the preferred way in the kernel is to use the struct_size() helper to
-do the arithmetic instead of the calculation "size + count * size" in
-the kzalloc() function.
+old: k71,72,73,74,78,7A,7B,7C,7D,8E,9E,A4,AD,E0,E1,E4,F8,174,
+new: k71,72,73,74,78,7A,7B,7C,+,
 
-The struct_size() helper returns SIZE_MAX on overflow. So, refactor
-the comparison to take advantage of this.
+This should allow existing udev rules continue to work with existing
+devices, and will also allow writing more complex rules that would
+recognize trimmed modalias and check input device characteristics by
+other means (for example by parsing KEY= data in uevent or parsing
+input device sysfs attributes).
 
-This way, the code is more readable and safer.
-
-This code was detected with the help of Coccinelle, and audited and
-modified manually.
-
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
-Link: https://github.com/KSPP/linux/issues/160 [2]
-Signed-off-by: Erick Archer <erick.archer@outlook.com>
+Reported-by: Jason Andryuk <jandryuk@gmail.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
-Hi,
+ drivers/input/input.c | 85 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 70 insertions(+), 15 deletions(-)
 
-The Coccinelle script used to detect this code pattern is the following:
-
-virtual report
-
-@rule1@
-type t1;
-type t2;
-identifier i0;
-identifier i1;
-identifier i2;
-identifier ALLOC =~ "kmalloc|kzalloc|kmalloc_node|kzalloc_node|vmalloc|vzalloc|kvmalloc|kvzalloc";
-position p1;
-@@
-
-i0 = sizeof(t1) + sizeof(t2) * i1;
-...
-i2 = ALLOC@p1(..., i0, ...);
-
-@script:python depends on report@
-p1 << rule1.p1;
-@@
-
-msg = "WARNING: verify allocation on line %s" % (p1[0].line)
-coccilib.report.print_report(p1[0],msg)
-
-Regards,
-Erick
----
- drivers/input/ff-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-index 16231fe080b0..609a5f01761b 100644
---- a/drivers/input/ff-core.c
-+++ b/drivers/input/ff-core.c
-@@ -9,8 +9,10 @@
- /* #define DEBUG */
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index b04bcdeee557..947b514174e4 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1338,19 +1338,19 @@ static int input_print_modalias_bits(char *buf, int size,
+ 				     char name, const unsigned long *bm,
+ 				     unsigned int min_bit, unsigned int max_bit)
+ {
+-	int len = 0, i;
++	int bit = min_bit;
++	int len = 0;
  
- #include <linux/input.h>
-+#include <linux/limits.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/overflow.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
+ 	len += snprintf(buf, max(size, 0), "%c", name);
+-	for (i = min_bit; i < max_bit; i++)
+-		if (bm[BIT_WORD(i)] & BIT_MASK(i))
+-			len += snprintf(buf + len, max(size - len, 0), "%X,", i);
++	for_each_set_bit_from(bit, bm, max_bit)
++		len += snprintf(buf + len, max(size - len, 0), "%X,", bit);
+ 	return len;
+ }
  
-@@ -315,9 +317,8 @@ int input_ff_create(struct input_dev *dev, unsigned int max_effects)
- 		return -EINVAL;
- 	}
+-static int input_print_modalias(char *buf, int size, const struct input_dev *id,
+-				int add_cr)
++static int input_print_modalias_parts(char *buf, int size, int full_len,
++				      const struct input_dev *id)
+ {
+-	int len;
++	int len, klen, remainder, space;
  
--	ff_dev_size = sizeof(struct ff_device) +
--				max_effects * sizeof(struct file *);
--	if (ff_dev_size < max_effects) /* overflow */
-+	ff_dev_size = struct_size(ff, effect_owners, max_effects);
-+	if (ff_dev_size == SIZE_MAX) /* overflow */
- 		return -EINVAL;
+ 	len = snprintf(buf, max(size, 0),
+ 		       "input:b%04Xv%04Xp%04Xe%04X-",
+@@ -1359,8 +1359,48 @@ static int input_print_modalias(char *buf, int size, const struct input_dev *id,
  
- 	ff = kzalloc(ff_dev_size, GFP_KERNEL);
+ 	len += input_print_modalias_bits(buf + len, size - len,
+ 				'e', id->evbit, 0, EV_MAX);
+-	len += input_print_modalias_bits(buf + len, size - len,
++
++	/*
++	 * Calculate the remaining space in the buffer making sure we
++	 * have place for the terminating 0.
++	 */
++	space = max(size - (len + 1), 0);
++
++	klen = input_print_modalias_bits(buf + len, size - len,
+ 				'k', id->keybit, KEY_MIN_INTERESTING, KEY_MAX);
++	len += klen;
++
++	/*
++	 * If we have more data than we can fit in the buffer, check
++	 * if we can trim key data to fit in the rest. We will indicate
++	 * that key data is incomplete by adding "+" sign at the end, like
++	 * this: * "k1,2,3,45,+,".
++	 *
++	 * Note that we shortest key info (if present) is "k+," so we
++	 * can only try to trim if key data is longer than that.
++	 */
++	if (full_len && size < full_len + 1 && klen > 3) {
++		remainder = full_len - len;
++		/*
++		 * We can only trim if we have space for the remainder
++		 * and also for at least "k+," which is 3 more characters.
++		 */
++		if (remainder <= space - 3) {
++			/*
++			 * We are guaranteed to have 'k' in the buffer, so
++			 * we need at least 3 additional bytes for storing
++			 * "+," in addition to the remainder.
++			 */
++			for (int i = size - 1 - remainder - 3; i >= 0; i--) {
++				if (buf[i] == 'k' || buf[i] == ',') {
++					strcpy(buf + i + 1, "+,");
++					len = i + 3; /* Not counting '\0' */
++					break;
++				}
++			}
++		}
++	}
++
+ 	len += input_print_modalias_bits(buf + len, size - len,
+ 				'r', id->relbit, 0, REL_MAX);
+ 	len += input_print_modalias_bits(buf + len, size - len,
+@@ -1376,22 +1416,37 @@ static int input_print_modalias(char *buf, int size, const struct input_dev *id,
+ 	len += input_print_modalias_bits(buf + len, size - len,
+ 				'w', id->swbit, 0, SW_MAX);
+ 
+-	if (add_cr)
+-		len += snprintf(buf + len, max(size - len, 0), "\n");
+-
+ 	return len;
+ }
+ 
++static int input_print_modalias(char *buf, int size, const struct input_dev *id)
++{
++	int full_len;
++
++	/*
++	 * Printing is done in 2 passes: first one figures out total length
++	 * needed for the modalias string, second one will try to trim key
++	 * data in case when buffer is too small for the entire modalias.
++	 * If the buffer is too small regardless, it will fill as much as it
++	 * can (without trimming key data) into the buffer and leave it to
++	 * the caller to figure out what to do with the result.
++	 */
++	full_len = input_print_modalias_parts(NULL, 0, 0, id);
++	return input_print_modalias_parts(buf, size, full_len, id);
++}
++
+ static ssize_t input_dev_show_modalias(struct device *dev,
+ 				       struct device_attribute *attr,
+ 				       char *buf)
+ {
+ 	struct input_dev *id = to_input_dev(dev);
+-	ssize_t len;
++	size_t len;
+ 
+-	len = input_print_modalias(buf, PAGE_SIZE, id, 1);
++	len = input_print_modalias(buf, PAGE_SIZE, id);
++	if (len < PAGE_SIZE - 2)
++		len += snprintf(buf + len, PAGE_SIZE - len, "\n");
+ 
+-	return min_t(int, len, PAGE_SIZE);
++	return min(len, PAGE_SIZE);
+ }
+ static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
+ 
+@@ -1611,7 +1666,7 @@ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
+ 
+ 	len = input_print_modalias(&env->buf[env->buflen - 1],
+ 				   sizeof(env->buf) - env->buflen,
+-				   dev, 0);
++				   dev);
+ 	if (len >= (sizeof(env->buf) - env->buflen))
+ 		return -ENOMEM;
+ 
 -- 
-2.25.1
+2.44.0.769.g3c40516874-goog
 
+
+-- 
+Dmitry
 
