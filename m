@@ -1,67 +1,51 @@
-Return-Path: <linux-input+bounces-3293-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3294-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712238B5202
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 09:10:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6109E8B538F
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 10:55:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B17428152E
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 07:10:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0149A1F2184C
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 08:55:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D2F1171A;
-	Mon, 29 Apr 2024 07:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FCD17BB6;
+	Mon, 29 Apr 2024 08:55:34 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874976FCB
-	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 07:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9F817BB4;
+	Mon, 29 Apr 2024 08:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714374597; cv=none; b=XsFUh8FVoFA7e9Ux9TdFX/eGFbz8+taGg7XX8976p3NoKULJFOK5ktqSaekntK3EdwcH96soJmXzDLo4J+l1iXhVswA+6vntIMMVNKzyaOWqsSTHBdg0Gyq2p+22SuXT5op+/iUmR42Ne2ZkQ3y2JTEztNUYQlFFvonLRu0TfxI=
+	t=1714380934; cv=none; b=q/ZNrih6LhLgG/WMiRHL8lm5earSxScPWjBwK1dQwX9r9rUPQCyQMmImAmnbBnVzyshfCNde4ESHqsrBGfZtZ6agsCFhdRUcx0T1js5b53AdGtwYDbNYNXSyLoP6+SJaQt6gog2hH8MaBAttoXdUxKc8xs8EUuiAF4veQ5REi5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714374597; c=relaxed/simple;
-	bh=NFWdHg4LmKk/hkjf2G0rJ30m62FvLY4wiHRo8IeUUNI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iqj/71PUljrA7d086PiSskVymt48RpwfKRr+jt1msKpiN6uJj67xKZ9v+NG28K+NDmr7r3S5MyBWLBlmAV78nr9Cr2oZF6tlyASYFEMR+QLmqBj6cujVoeueHx+WG10W4ldZWAakQ4PVMEmtwx0p1YD7V0aSMaVG27eIuH6ptoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=moeller.io; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=moeller.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so2634718a12.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 00:09:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714374595; x=1714979395;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lcnpv9+fdGZK22wqh/w5qpi5eLU2yU0EOmeRd7Kx8zQ=;
-        b=p5p6oOPuVsudBLeaA2gsaQB7tEeJH/34BrLFVzL0JnI3CHrkOL/v1hk/g/jxVIB0j5
-         FfxPcCWlmFIjQ4ePYhygVDYwFfk9B7BjKpeH/QJeDeLc2vEja/PtB4AJA6gy0IqCFxtV
-         g6e+UaeXxzbVyYGEd8Xu89M6MGpKlk1jVIjMnYHrzFSixZ9PfpiZYeKok8hPRhcniI+m
-         sS46BzDj2l+5V0vMNWmYbKCSREj8HBFjfiRX9Xwo8ezhcGWV5VoA9QgX3YbAUvjYvH3c
-         2iEdNyuUdB5KZHwTxzU0oyHlUM1a+3v19gq8mgtGJyII97BvI5Ehd9j1ArVGaCASEWgK
-         S+fA==
-X-Gm-Message-State: AOJu0YxaajQ6LMFcTWIeTgf9ditFoEs5qQ1HwUoZr9gyHozAwD3TLjiw
-	2dp9PxKPYJCqZvAgiqmvLVEkOBAqCHSh6cIEgIZpcGEXI+6KK60WwYCvQ4mkrQ8=
-X-Google-Smtp-Source: AGHT+IFWPr3yIen7fQg3imxci/L8gqSseO5v0zqvFZI9EvnR32DfKTRxu8PBGhOwS1s1EgmEpnjOmQ==
-X-Received: by 2002:a05:6a21:6da2:b0:1a3:bb75:17ab with SMTP id wl34-20020a056a216da200b001a3bb7517abmr11233835pzb.59.1714374594813;
-        Mon, 29 Apr 2024 00:09:54 -0700 (PDT)
-Received: from 009958524e89.moeller.io (static-198-54-134-104.cust.tzulo.com. [198.54.134.104])
-        by smtp.gmail.com with ESMTPSA id gd26-20020a056a00831a00b006ea923678a6sm18575053pfb.137.2024.04.29.00.09.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2024 00:09:54 -0700 (PDT)
-Received: from spectre.moeller.io ([10.10.10.14])
-	by 009958524e89.moeller.io with esmtp (Exim 4.89)
-	(envelope-from <jon@moeller.io>)
-	id 1s1L97-00003w-3C; Mon, 29 Apr 2024 07:09:53 +0000
-From: Jon Moeller <jon@moeller.io>
-To: linux-input@vger.kernel.org
-Cc: Jon Moeller <jon@moeller.io>
-Subject: [PATCH] Adding quirks for 2024 HP Spectre x360 touchpads
-Date: Mon, 29 Apr 2024 00:09:39 -0700
-Message-ID: <20240429070950.247183-1-jon@moeller.io>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1714380934; c=relaxed/simple;
+	bh=rns7ha14qTiupCx4x3Wcc8y0CTICI8sh1Se/YizYD0I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CW7AqSLXNYSW+lXM8aRHPCe1+rSLgjbcdzCIvs0ocEWR82MedR6ov8cvBkMg9lmYr8oTBmvsRNgm/JHVWdN0syXdoc5CLB/UgdXdlzppIKshYm2pizndTdQY6qeTAgbFbyqO1zSe40jtgcB5cxtFIHtrdsGImUClC3sEcv2fHvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowAB3fgJpYC9mH+MbBw--.23909S2;
+	Mon, 29 Apr 2024 16:55:06 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: srinivas.pandruvada@linux.intel.com,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	even.xu@intel.com,
+	lixu.zhang@intel.com,
+	kai.heng.feng@canonical.com,
+	hongyan.song@intel.com
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] HID: intel-ish-hid: ipc: Add check for pci_alloc_irq_vectors
+Date: Mon, 29 Apr 2024 16:54:22 +0800
+Message-Id: <20240429085422.2434036-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -69,52 +53,51 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAB3fgJpYC9mH+MbBw--.23909S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jr4xtF43GFW3GF1kKrW3ZFb_yoWDJFgEkF
+	y0vw4xurZ7trs3trnFkry7ArW2vrW0gry8W34IqryakF97Aw47XrW8ZryrJFWfWryqyF1D
+	XFWDZr1rAF17ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7VUbqQ6JUUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
+Add check for the return value of pci_alloc_irq_vectors() and return
+the error if it fails in order to catch the error.
+
+Fixes: 74fbc7d371d9 ("HID: intel-ish-hid: add MSI interrupt support")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/hid/hid-multitouch.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 04a014cd2a2f..7a7918191628 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -212,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
- #define MT_CLS_GOOGLE				0x0111
- #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
- #define MT_CLS_SMART_TECH			0x0113
-+#define MT_CLS_HP_SPECTRE_ELAN_HAPTIC		0x0114
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index e79d72f7db2a..9b9bc58f0524 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -174,6 +174,11 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  
- #define MT_DEFAULT_MAXCONTACT	10
- #define MT_MAX_MAXCONTACT	250
-@@ -396,6 +397,13 @@ static const struct mt_class mt_classes[] = {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_SEPARATE_APP_REPORT,
- 	},
-+	{ .name = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-+		.quirks = MT_QUIRK_ALWAYS_VALID |
-+			MT_QUIRK_SLOT_IS_CONTACTID |
-+			MT_QUIRK_CONTACT_CNT_ACCURATE |
-+			MT_QUIRK_CONFIDENCE |
-+			MT_QUIRK_WIN8_PTP_BUTTONS,
-+	},
- 	{ }
- };
- 
-@@ -1992,6 +2000,12 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_ELAN, 0x3148) },
- 
-+	{ .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-+		HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x32c8) },
+ 	/* request and enable interrupt */
+ 	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
++	if (ret < 0) {
++		dev_err(dev, "ISH: Failed to allocate IRQ vectors\n");
++		return ret;
++	}
 +
-+	{ .driver_data = MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
-+		HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x310a) },
-+
- 	/* Elitegroup panel */
- 	{ .driver_data = MT_CLS_SERIAL,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
+ 	if (!pdev->msi_enabled && !pdev->msix_enabled)
+ 		irq_flag = IRQF_SHARED;
+ 
 -- 
-2.44.0
+2.25.1
 
-Signed-off-by: Jon Moeller <jon@moeller.io>
 
