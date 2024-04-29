@@ -1,185 +1,129 @@
-Return-Path: <linux-input+bounces-3296-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3297-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C9E8B603E
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 19:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B0C8B60E0
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 20:08:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 749741C22072
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 17:38:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72A2B1C20ECD
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 18:08:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 788E3126F2C;
-	Mon, 29 Apr 2024 17:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6528B127E24;
+	Mon, 29 Apr 2024 18:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LZJjv8nB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l8cAQKsk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F212780630
-	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 17:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FC2127E0E
+	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 18:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714412287; cv=none; b=n5KYMq/uA0TdMq9nfnX9SK8ZYHPfDr2dHoEw0m58BRAS+BzOm+LP2ZTGMri9bhG+b6XrXZY9mR+dvZul6rTK2zCaC0jTDNaVSXpgczHn7RI6Fv/u3M/+ASbstSsDY9T4RVVLWYxy3xrFNFcC8QRD5DBvWzYkMAb8jofslTu/gkQ=
+	t=1714414108; cv=none; b=mx29Dkpi3swwvMwd1Vym9ymfGbsIwuCKWT2QqIZfxSWtFbTAjPiwbDRbZwW3OzI6bedfIOEBknQAWA55zNlIrQ17hnAHSHXnJqg0qFrDc7X7uNuGJKi5K0CTvGQD8LVfFvjghvRr3qx4dLzRDNQxhp5JijuGjEiChNYVd3ERDxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714412287; c=relaxed/simple;
-	bh=jZICQhTLjVbGoXbLAw7fdChRrXlYrhHBQwoN7fp00Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxG3v7IFtWQi/J0oPhMHYU6PzVlZqPUNqgRTwQSuPZ5kr+fH5ZslkwdsPiI5fAaTC7nwiax/KhBaOg6IrrOpJ6fyv4OES/I29vjzjtqYAY9FKez72ZE44oNF4tr/UPGyFLbWhRy692fCyt4xVrjnxu3aEI9yeHuX1mv0UPuk4Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LZJjv8nB; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1714414108; c=relaxed/simple;
+	bh=ZdfPcczF7xRDV5aIKhhSE/OBvQACkiweQ02X0owtYuU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kNLV0O3cCv98fMQTvVIaKs932ckXDvzNgsmxvmT/AkgRRmNK4Qk/nsUPO4IBY7IiGn7k9Y9wxkvhkw1INJGQ38Z1zlSbcTU3sKhP2JtBC9PQRpK1IIvYBfm1lLCBYoYCrKBrYF5cCFEsAiVVgqfskMr+HuXYdpde7BaVQ/aCBxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l8cAQKsk; arc=none smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6eddff25e4eso4081385b3a.3
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 10:38:04 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-78f043eaee9so292888985a.3
+        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 11:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714412284; x=1715017084; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FZdX1Cezd33gwlmLv7IZxW/osMfveXEryHL7Jm8dSrs=;
-        b=LZJjv8nB5yK2CbMViEHtZlILSokwuxq5OdVsDEK8ye/foQuZHZ5xotoB14MNNuXQKM
-         umCJ1skdtCJntlrWnIwTdfb4nX3rgP4xYAE/sWi6Vdh452Oe4B83qKKnL+gQlgCqP7dY
-         N+lh+2mMEkBwUHJVbkKRD5zVshbS9L/1DViIA=
+        d=chromium.org; s=google; t=1714414106; x=1715018906; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nf84ojcMOq0M0VVKXZcmBf3YAZLtizS/AKsNC5U5GYU=;
+        b=l8cAQKskurRSjog+c7tB695KI+VrF0fVEz6ixKEw4hepxxHCY0sTzQNG+VPrrDg0J3
+         xd7UC9uhgEBZabdsGAgIyeJVOiILLg0w5taWgixi8dtIx09VyBN+0DDA5ZJcflV7LY9n
+         0+9/bs7IfOQpLiN2uaXMZSxPzxD0Ky6bzaxi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714412284; x=1715017084;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FZdX1Cezd33gwlmLv7IZxW/osMfveXEryHL7Jm8dSrs=;
-        b=X4cdXh0ecWvl/ajY4sUHvMvugU6k5pCQYeAhmtjc8HKFlgfaDTEieFyMLrslrULHm5
-         Bn/Mdh9tzRROl4zTks5FpsSGhHdBpQyvVgfKW4xxVQPdAWGIWztiGWjjUxH3XzIWBtGS
-         pe+5AMrbXas7y9m4nnLlw8xP+u+yKujFePAmtft/O6vYtK7wGx+BWNsMH7ec3HN5kBOX
-         O5PMO9NQ+8WUDAkYL9qy91Bw4c9JG0PTt0RYdn7nmiEVjjASGbDP2HwQ65hW/4pVzFQ6
-         VcUMECQV3txyYO08kA61MN+9JZhd1f/21cZtIN39BwF+lJBFD0au/czCmmHVx3LPNCZq
-         WuxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSj2WcS8HqIwU0K9O8M9RHLGiEFxHPHQUwTADmRzTqOffHxtR4EyHkBIYoVrpeXybddsMI6ecESOwmu8HZeWIKD72kYVyeGWyLISE=
-X-Gm-Message-State: AOJu0YyBY/JOhFwXzNAa7qvfuEQk03pdk4erV3XopmPgTN76Bs6lM6gs
-	fbLbdcrhvJvSO1g5m5wm5XSfjbfB1VIx0j8AQa57qn9sOdzawXjvGwi7yUIdUg==
-X-Google-Smtp-Source: AGHT+IG0Ug+Y9/YgxIBXiIws/D83aLQ8EE2Y9SjkanMbBtQN9P+XFAK2SptutXGuaucRfTEMzA8PzA==
-X-Received: by 2002:a05:6a00:850:b0:6f3:8479:290a with SMTP id q16-20020a056a00085000b006f38479290amr246404pfk.17.1714412284263;
-        Mon, 29 Apr 2024 10:38:04 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id le7-20020a056a004fc700b006e567c81d14sm19497081pfb.43.2024.04.29.10.38.03
+        d=1e100.net; s=20230601; t=1714414106; x=1715018906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nf84ojcMOq0M0VVKXZcmBf3YAZLtizS/AKsNC5U5GYU=;
+        b=B+DilXONBbzKIDjklQYGkGhvoPCKkDGIVOa3Poz3H8hnr/UCU8+jDaDg7hStlUM0Qp
+         Xv6Qp6LvX8UdmQBwAho366x6g+FVom+h79WAMu3mb/2xGUDvegenD9g/d86YNo6hC9/9
+         HLaX4xXLDONyZ+BVuL/wAzzbmai9TRabB8UwgroNMFnMfg66rY056jcdqvX82nqxHC67
+         /JnJ5C2EwWLclfJcsuDX1RXS1lSD7/PSPBtX41rllL9OcDYvydEEeJZwEwv4kgogYPp8
+         SK6LvkbvP/S6NvuXfjfyPwoo8OqewZTB6/SyjR9Mt+2P1ECLGoew+Qo81ANKmgangEiJ
+         dRpw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzKd79A2/98G7NXY6EwVbCg7Q06QsNqkC67nPfkBFnGmSeHoPJgxKofs2zgMkt3vuHn/vS0xKzVyF1NUaBQFBgdFhX+AmbJIUWAis=
+X-Gm-Message-State: AOJu0YxWVmAyPfzKTIuotArF7aikd4d9pCStVGXzzsrnSA9S6uQOgqn+
+	r/UiJHHdARBmWwHCzRQ8WSmoDQbs2iVjF0ZypTJQ2gYPEjpcEBYuXUce793POQ==
+X-Google-Smtp-Source: AGHT+IGP1JSt1zLTAdWv9/e6S2FAtWsol5Gu2tWZkbfJuYw18dt64uiBxNizrMEZPQkdCdYZac/8Vg==
+X-Received: by 2002:a05:620a:4551:b0:790:a3a7:7cab with SMTP id u17-20020a05620a455100b00790a3a77cabmr392969qkp.39.1714414105812;
+        Mon, 29 Apr 2024 11:08:25 -0700 (PDT)
+Received: from seobrien.c.googlers.com.com (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
+        by smtp.gmail.com with ESMTPSA id m6-20020ae9e006000000b0078efdcd9aa6sm10669039qkk.127.2024.04.29.11.08.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 10:38:03 -0700 (PDT)
-Date: Mon, 29 Apr 2024 10:38:03 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Erick Archer <erick.archer@outlook.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] Input: ff-core - prefer struct_size over open coded
- arithmetic
-Message-ID: <202404291037.1A42B7C6B@keescook>
-References: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
+        Mon, 29 Apr 2024 11:08:25 -0700 (PDT)
+From: Sean O'Brien <seobrien@chromium.org>
+To: Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org
+Cc: Sean O'Brien <seobrien@chromium.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: Add quirk for Logitech Casa touchpad
+Date: Mon, 29 Apr 2024 18:08:05 +0000
+Message-ID: <20240429180804.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
+X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 27, 2024 at 05:05:56PM +0200, Erick Archer wrote:
-> This is an effort to get rid of all multiplications from allocation
-> functions in order to prevent integer overflows [1][2].
-> 
-> As the "ff" variable is a pointer to "struct ff_device" and this
-> structure ends in a flexible array:
-> 
-> struct ff_device {
-> 	[...]
-> 	struct file *effect_owners[] __counted_by(max_effects);
-> };
-> 
-> the preferred way in the kernel is to use the struct_size() helper to
-> do the arithmetic instead of the calculation "size + count * size" in
-> the kzalloc() function.
-> 
-> The struct_size() helper returns SIZE_MAX on overflow. So, refactor
-> the comparison to take advantage of this.
-> 
-> This way, the code is more readable and safer.
-> 
-> This code was detected with the help of Coccinelle, and audited and
-> modified manually.
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
-> Link: https://github.com/KSPP/linux/issues/160 [2]
-> Signed-off-by: Erick Archer <erick.archer@outlook.com>
-> ---
-> Hi,
-> 
-> The Coccinelle script used to detect this code pattern is the following:
-> 
-> virtual report
-> 
-> @rule1@
-> type t1;
-> type t2;
-> identifier i0;
-> identifier i1;
-> identifier i2;
-> identifier ALLOC =~ "kmalloc|kzalloc|kmalloc_node|kzalloc_node|vmalloc|vzalloc|kvmalloc|kvzalloc";
-> position p1;
-> @@
-> 
-> i0 = sizeof(t1) + sizeof(t2) * i1;
-> ...
-> i2 = ALLOC@p1(..., i0, ...);
-> 
-> @script:python depends on report@
-> p1 << rule1.p1;
-> @@
-> 
-> msg = "WARNING: verify allocation on line %s" % (p1[0].line)
-> coccilib.report.print_report(p1[0],msg)
-> 
-> Regards,
-> Erick
-> ---
->  drivers/input/ff-core.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/ff-core.c b/drivers/input/ff-core.c
-> index 16231fe080b0..609a5f01761b 100644
-> --- a/drivers/input/ff-core.c
-> +++ b/drivers/input/ff-core.c
-> @@ -9,8 +9,10 @@
->  /* #define DEBUG */
->  
->  #include <linux/input.h>
-> +#include <linux/limits.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/overflow.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
->  
-> @@ -315,9 +317,8 @@ int input_ff_create(struct input_dev *dev, unsigned int max_effects)
->  		return -EINVAL;
->  	}
->  
-> -	ff_dev_size = sizeof(struct ff_device) +
-> -				max_effects * sizeof(struct file *);
-> -	if (ff_dev_size < max_effects) /* overflow */
-> +	ff_dev_size = struct_size(ff, effect_owners, max_effects);
-> +	if (ff_dev_size == SIZE_MAX) /* overflow */
->  		return -EINVAL;
->  
->  	ff = kzalloc(ff_dev_size, GFP_KERNEL);
-> -- 
-> 2.25.1
-> 
+This device sometimes doesn't send touch release signals when moving
+from >=4 fingers to <4 fingers. Using MT_QUIRK_NOT_SEEN_MEANS_UP instead
+of MT_QUIRK_ALWAYS_VALID makes sure that no touches become stuck.
 
-Yup, thanks. This looks right to me.
+MT_QUIRK_FORCE_MULTI_INPUT is not necessary for this device, but does no
+harm.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Sean O'Brien <seobrien@chromium.org>
+---
 
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8376fb5e2d0b4..68b0f39deaa9a 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -823,6 +823,7 @@
+ #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
+ #define USB_DEVICE_ID_LOGITECH_T651	0xb00c
+ #define USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD	0xb309
++#define USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD	0xbb00
+ #define USB_DEVICE_ID_LOGITECH_C007	0xc007
+ #define USB_DEVICE_ID_LOGITECH_C077	0xc077
+ #define USB_DEVICE_ID_LOGITECH_RECEIVER	0xc101
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 04a014cd2a2f6..56fc78841f245 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2081,6 +2081,12 @@ static const struct hid_device_id mt_devices[] = {
+ 			   USB_VENDOR_ID_LENOVO,
+ 			   USB_DEVICE_ID_LENOVO_X12_TAB) },
+ 
++	/* Logitech devices */
++	{ .driver_data = MT_CLS_NSMU,
++		HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_MULTITOUCH_WIN_8,
++			USB_VENDOR_ID_LOGITECH,
++			USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD) },
++
+ 	/* MosArt panels */
+ 	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
 -- 
-Kees Cook
+2.45.0.rc0.197.gbae5840b3b-goog
+
 
