@@ -1,103 +1,104 @@
-Return-Path: <linux-input+bounces-3294-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3295-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6109E8B538F
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 10:55:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1CE8B58A5
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 14:34:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0149A1F2184C
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 08:55:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B8071C23100
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 12:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FCD17BB6;
-	Mon, 29 Apr 2024 08:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A9510A1B;
+	Mon, 29 Apr 2024 12:34:26 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9F817BB4;
-	Mon, 29 Apr 2024 08:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECE2BE49
+	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 12:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714380934; cv=none; b=q/ZNrih6LhLgG/WMiRHL8lm5earSxScPWjBwK1dQwX9r9rUPQCyQMmImAmnbBnVzyshfCNde4ESHqsrBGfZtZ6agsCFhdRUcx0T1js5b53AdGtwYDbNYNXSyLoP6+SJaQt6gog2hH8MaBAttoXdUxKc8xs8EUuiAF4veQ5REi5U=
+	t=1714394066; cv=none; b=KfsObuX1wh/i6D/MVDzwKRZwAKoAFr6rI3giC5lIIM0YwLpg6zc2bCssl+siCKgBHHUNRtJQy4TQ16RF8IsS9LMTeOe55xcZEz5kuumzzmwDIuGmNgZvxm8XL5jEGWKnlaz1p4NAPTXyCMfYFfbmeqBle5VQmNIShQGyprf+J40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714380934; c=relaxed/simple;
-	bh=rns7ha14qTiupCx4x3Wcc8y0CTICI8sh1Se/YizYD0I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CW7AqSLXNYSW+lXM8aRHPCe1+rSLgjbcdzCIvs0ocEWR82MedR6ov8cvBkMg9lmYr8oTBmvsRNgm/JHVWdN0syXdoc5CLB/UgdXdlzppIKshYm2pizndTdQY6qeTAgbFbyqO1zSe40jtgcB5cxtFIHtrdsGImUClC3sEcv2fHvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAB3fgJpYC9mH+MbBw--.23909S2;
-	Mon, 29 Apr 2024 16:55:06 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	even.xu@intel.com,
-	lixu.zhang@intel.com,
-	kai.heng.feng@canonical.com,
-	hongyan.song@intel.com
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] HID: intel-ish-hid: ipc: Add check for pci_alloc_irq_vectors
-Date: Mon, 29 Apr 2024 16:54:22 +0800
-Message-Id: <20240429085422.2434036-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1714394066; c=relaxed/simple;
+	bh=iDqqQhIJJnghXktLHoDz5uJiq6Ni9j8TH6rY7fM7sqg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bqocu31HsVl5Qeyk3qp59a5u7dqdHlccYQoAux7m9Oc9hapgvUnsdpUaXLUtNOido9ryIY+m9ZC+n4vJhsSOh3q+XUuOeNAYxcL1/3kNjE5xCMMRtky6CvJv2WocSY+RZIA1rRNMsK5G3oJ5FJjLXFcE2AFL4pnbrqfgfAq71IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7da42114485so511671339f.2
+        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 05:34:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714394064; x=1714998864;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4OW9VaedrxWnfIaTNBG4Xp+9p47YfTdxxPG8bMoDoY8=;
+        b=vpu3oBPtcZEOehro1sI1RQa4j3/sVAjz/abNvaA3mnenWH8Phb/v2ikEOip36lR6jL
+         BPIMprMfP+eiqfGYBLa3e646cXrCDWoQZlcv9zFFKvM84UCFVPF9w0tPtxRyZDdB6YFa
+         DIb1aWENLL6QoupDXhTaI7wW3aNNjuOPwsRGhRHPVqLmd+l1e4OQ3oSDMMpd6UOJPwPU
+         eq14uwpnRcFV3TxfEnZF9LSWQcaBlU1tK9f9o75awiUhcAnp9VeqRJ++fieqliVyQtEf
+         2hp3yaxJCOySdZvjjAr9f3lp396IQJa1sxDnO9GxrOB2JLyNELN/s8B0ILE/2o2iQcNG
+         SoNQ==
+X-Gm-Message-State: AOJu0YwrJHgPxMiZjt5H7WebaK17YJJWWyf+xlNHCt0s3b3wMo6c5hj5
+	wMJNN1yQrTfrs2VorDsgaKE/GkzwOddj8zFqPHP9sHf/d5wC7zjXLNhQ2GXx2+PTIl1p2ltHdHf
+	Ik6/FSHxqfOUe0doS9Ldrt1JpDlMT9yRhmKbV5bNg4efUNkWrsV9UiW4=
+X-Google-Smtp-Source: AGHT+IGBj0PlrFBsMOATgy205RTj1TTdMNJYO3IUfPR3uqHlDBSkOEUUw2ycJCjIpx4mpIAw5rr5MpXO2b4XdFBa+O02VqULWTt3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB3fgJpYC9mH+MbBw--.23909S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jr4xtF43GFW3GF1kKrW3ZFb_yoWDJFgEkF
-	y0vw4xurZ7trs3trnFkry7ArW2vrW0gry8W34IqryakF97Aw47XrW8ZryrJFWfWryqyF1D
-	XFWDZr1rAF17ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUbqQ6JUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-Received: by 2002:a05:6602:2b82:b0:7da:bccd:c3e3 with SMTP id
+ r2-20020a0566022b8200b007dabccdc3e3mr196996iov.1.1714394064489; Mon, 29 Apr
+ 2024 05:34:24 -0700 (PDT)
+Date: Mon, 29 Apr 2024 05:34:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000381ef106173b790d@google.com>
+Subject: [syzbot] Monthly input report (Apr 2024)
+From: syzbot <syzbot+listc1af72bbe1a564d080e9@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add check for the return value of pci_alloc_irq_vectors() and return
-the error if it fails in order to catch the error.
+Hello input maintainers/developers,
 
-Fixes: 74fbc7d371d9 ("HID: intel-ish-hid: add MSI interrupt support")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+This is a 31-day syzbot report for the input subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/input
+
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 20 issues are still open and 52 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 8456    Yes   WARNING in input_mt_init_slots
+                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+<2> 952     Yes   WARNING in implement
+                  https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
+<3> 553     No    possible deadlock in evdev_pass_values (2)
+                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
+<4> 375     Yes   INFO: task hung in uhid_char_release
+                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
+<5> 250     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
+<6> 1       Yes   WARNING in bcm5974_start_traffic/usb_submit_urb (2)
+                  https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
+
 ---
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 5 +++++
- 1 file changed, 5 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index e79d72f7db2a..9b9bc58f0524 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -174,6 +174,11 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	/* request and enable interrupt */
- 	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0) {
-+		dev_err(dev, "ISH: Failed to allocate IRQ vectors\n");
-+		return ret;
-+	}
-+
- 	if (!pdev->msi_enabled && !pdev->msix_enabled)
- 		irq_flag = IRQF_SHARED;
- 
--- 
-2.25.1
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
