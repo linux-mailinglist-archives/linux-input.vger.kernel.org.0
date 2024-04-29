@@ -1,131 +1,155 @@
-Return-Path: <linux-input+bounces-3304-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3305-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF808B666D
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 01:40:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEEE8B6671
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 01:41:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F6DD1F23293
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 23:40:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE18B1C21120
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 23:41:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE613194C6F;
-	Mon, 29 Apr 2024 23:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 549B5199EA6;
+	Mon, 29 Apr 2024 23:40:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="SaNJQ6sI"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="n3CE4WKF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01425194C6E
-	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 23:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062B3199E84
+	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 23:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714434007; cv=none; b=o45paOo+zERb/XWaXVaCLK6K+3P53h17ZHR9ErryqDyp2a6jV0dS4zhu2m+UVFIN9fOFapbKaRItJIxfJt2mR1pr7LVtKfMM2R517AeGzvG8RH7R/X1WUM/vUHmzcWBAWVmEJ3TL1+nVbGhY2eM00ODpiHrbhF70me5OWtVbOm4=
+	t=1714434037; cv=none; b=FvP7AvBTYrl20Xrn+ZSjbQa0zQoEpGRyDa2FAARVqHJB4sJgb5yMDoLCHm4HzBqeyPug5j80m/kQNQy0A2FVjuYUoTeNT0L7xQkIrQrQp+zR51VzpQx/iy2UX7mb3q1kX/oG4NGmUbygboxvjMZ2dUCIQRufsyNmjI7tFzbN3Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714434007; c=relaxed/simple;
-	bh=rxAEVq+yifZnHDpSwnTFmxkZ/Y0BmsczwpqA4u2RUTA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PD9MTDwqOGCnsh06ubapoDwayd43SnnZ83WWTg/aLesA2ehUPk9h9+SgUKCpKaYLl/LfiK2+Lse0+alkIhTphtXUivNjxjMxC41aeCTvzRN077X49iLxuxhX5e4B5tYRs1ERdX8Lt37kfQsGipU9N4UhhQ0TGJ4gQOXbYzW8Qcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=SaNJQ6sI; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1714434004;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y0LgG9Ur/gE5LwaFx84ee4SVeTx5Bvd1sdclfM8Q3a4=;
-	b=SaNJQ6sI0gOg/Yf8qvx/TsNAUA3kHWmRGUo1ZM8nt3t0OW8V4dz+wYI/XnJQThFXdaZVUv
-	H6jhdu3OogLQMponF+tTPT15z3/KSEHoBQ0M9s1y8AnleyFhGo7ijA7SuelualTjPYNrd0
-	h/qQbebw+zJMkN/nvO77YAINjsVnVLLiAXtIlzN0PNdFuc1Y7F5hccYPdFI9ov0sMTT3bF
-	4exSD40FiaF4X6wCX5yjzIBfQGsVM/m4mlcFSQbJVhWHBFzR+MN9XlfPTKToaEshvT8FE+
-	k0YuGjFWT2nMMhIaS7JxNzdKed2WcNAMNYZh845gqUGXYUvEgjgx3oBqURQYbg==
-From: Kenny Levinsen <kl@kl.wtf>
-To: Jiri Kosina <jikos@kernel.org>,
-	Dmitry Torokhov <dtor@chromium.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	linux-input@vger.kernel.org,
+	s=arc-20240116; t=1714434037; c=relaxed/simple;
+	bh=lue8tGKQodCQW7f9Ah8mLVDqX/DjwpQuD96ROdxcrKw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mhbcMgwxfJwLpOtGW4EcsIy39Mmxjaplziaby45jjp3MDjaE1XWmyv9gpsUzF1P/Z+Ij+3JzVqC9nMNwY+ty7DpeGLEx+qZj3DMU7Km97V6Y5L7TB8rrv8b43Hou9Uf1U3Asr3A8tRe8Nah7pickakk8VB5++4wEpSMC9UfHLEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=n3CE4WKF; arc=none smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-233f389a61eso2596503fac.3
+        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 16:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434034; x=1715038834; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/RbyRopVLlo3z9muP6tADTHE5XtuugaNtZZWMLb0Jpk=;
+        b=n3CE4WKF3ND/TUY3+9YxfL3fys9TCoaqxOAoU2s5yl/wugLbbqjrmzy7hFZ97Glvmk
+         JyGNcQusHWdmW2pWMlEmf7dMRtSAIE5sqGVXlB4Z5DbOcXPYsvkkCqbLGYvlZxCnqScL
+         EgJYtYOJ/NNBhJDq+u88rCVD2EiUhU0R4MXeJxBQNmx57OIJBNrzhVKXJO4XuQGLr9P2
+         4yA1AKRkzUNft0nZGrH/PWcbFFCFE7+Nz+uA3/pbu6io5P/gxUqCgV70Y1ylzoK+QNrJ
+         MP8jLCPuqy+bKrkFUyYzafcI1oVYKyBNzyN48Axsc0+bgOP1kpCDNeofqGBvqT0z7JeJ
+         CHMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714434034; x=1715038834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/RbyRopVLlo3z9muP6tADTHE5XtuugaNtZZWMLb0Jpk=;
+        b=BjnqsCXED0Algbo/v3Gml0d0DtkxsBWpC/NxRLgdGw0nk1uG86Gaf9KZpo2MLW53uT
+         oyANwZ6lfG1gsPyPJZAYsnZpW/RKaDbiC6amT6KNfrl54kgsVCOXakWTIOl76MWoCq5S
+         FFS7aeBrgpoc339JaPLxrxXMAEhq7ZBbWi6ojSPC574ONB6D8UiOpGaFgN2KApzq2ACG
+         GbBQI7eAUMM3Km5sa2lT37UkSE9Vhotl2vDN+aPXNfc0ZijJKwS1m8KBpRTwwbZxk9oV
+         6qqzOZqPHyb36iYg2L6euD8IE1bSvyq6Fu8k3V6U2YlJ7hTPdG1zqMvuFPJaVJ+du6CU
+         lr0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWduER6qTWMHQt++6FrKIWX/KTfLpYInsE+0l5Ug2odPO1XHclqs1uNDFIEiQVUi1xjKnCTmXH2qXW7kc2oMso7SdlmXBWUHe4hQnA=
+X-Gm-Message-State: AOJu0Yw4JKGfTtE8KRkHApJm5GwhZOFLvFP+/dpvv4lvQhX/Urpwn8tO
+	oNM8aUDMbohhu8FTxBnO1FMc2tunl8g+9a6n1c+0/fgjaO1fRJVJcShMpkwvYLU=
+X-Google-Smtp-Source: AGHT+IGP5WuztYu6eAOehmTgcCwU3XFCxmv4osL3pF9V/oN2vHxn21J6GhNMYPv+HR2qW2NPzbUEJw==
+X-Received: by 2002:a05:6870:f22a:b0:22e:c787:5fa2 with SMTP id t42-20020a056870f22a00b0022ec7875fa2mr12446265oao.58.1714434033950;
+        Mon, 29 Apr 2024 16:40:33 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 16:40:33 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Radoslaw Biernacki <rad@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>
-Cc: Kenny Levinsen <kl@kl.wtf>
-Subject: [PATCH 2/2] HID: i2c-hid: Use address probe to wake on resume
-Date: Tue, 30 Apr 2024 01:33:15 +0200
-Message-ID: <20240429233924.6453-3-kl@kl.wtf>
-In-Reply-To: <20240429233924.6453-1-kl@kl.wtf>
-References: <20240429233924.6453-1-kl@kl.wtf>
+	linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 0/7] regulator: new API for voltage reference supplies
+Date: Mon, 29 Apr 2024 18:40:08 -0500
+Message-ID: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Certain devices, both from STM and Weida Tech, need to be woken up after
-having entered a deeper sleep state. The relevant places to wake up such
-device is during our initial HID probe, and after resuming.
+In the IIO subsystem, we noticed a pattern in many drivers where we need
+to get, enable and get the voltage of a supply that provides a reference
+voltage. In these cases, we only need the voltage and not a handle to
+the regulator. Another common pattern is for chips to have an internal
+reference voltage that is used when an external reference is not
+available. There are also a few drivers outside of IIO that do the same.
 
-A retry for power commands was previously added to i2c_hid_set_power to
-wake up Weida Tech devices, but lacked sufficient sleep for STM devices.
-Replace the power command retry with the same address probe we using
-during our initial HID probe.
+So we would like to propose a new regulator consumer API to handle these
+specific cases to avoid repeating the same boilerplate code in multiple
+drivers.
 
-Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+As an example of how these functions are used, I have included a few
+patches to consumer drivers. But to avoid a giant patch bomb, I have
+omitted the iio/adc and iio/dac patches I have prepared from this
+series. I will send those separately but these will add 36 more users
+of devm_regulator_get_enable_read_voltage() in addition to the 6 here.
+In total, this will eliminate nearly 1000 lines of similar code and will
+simplify writing and reviewing new drivers in the future.
+
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+Changes in v2:
+- Reworked regulator patch to remove dev_err_probe() and properly unwind
+- Combined two proposed functions into a single function
+- Renamed function to devm_regulator_get_enable_read_voltage() everywhere
+- Fixed other feedback on consumer patches (see individual patches)
+- Picked up Jonathan's Reviewed-bys (hopefully changes were trivial enough)
+- Link to v1: https://lore.kernel.org/r/20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index a40489bb7643..3e3885ae6ce2 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -402,19 +402,6 @@ static int i2c_hid_set_power(struct i2c_hid *ihid, int power_state)
- 
- 	i2c_hid_dbg(ihid, "%s\n", __func__);
- 
--	/*
--	 * Some devices require to send a command to wakeup before power on.
--	 * The call will get a return value (EREMOTEIO) but device will be
--	 * triggered and activated. After that, it goes like a normal device.
--	 */
--	if (power_state == I2C_HID_PWR_ON) {
--		ret = i2c_hid_set_power_command(ihid, I2C_HID_PWR_ON);
--
--		/* Device was already activated */
--		if (!ret)
--			goto set_pwr_exit;
--	}
--
- 	ret = i2c_hid_set_power_command(ihid, power_state);
- 	if (ret)
- 		dev_err(&ihid->client->dev,
-@@ -977,6 +964,14 @@ static int i2c_hid_core_resume(struct i2c_hid *ihid)
- 
- 	enable_irq(client->irq);
- 
-+	/* Make sure the device is awake on the bus */
-+	ret = i2c_hid_probe_address(ihid);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "nothing at address after resume: %d\n",
-+			ret);
-+		return -ENXIO;
-+	}
-+
- 	/* Instead of resetting device, simply powers the device on. This
- 	 * solves "incomplete reports" on Raydium devices 2386:3118 and
- 	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
--- 
-2.44.0
+---
+David Lechner (7):
+      regulator: devres: add API for reference voltage supplies
+      hwmon: (adc128d818) Use devm_regulator_get_enable_read_voltage()
+      hwmon: (da9052) Use devm_regulator_get_enable_read_voltage()
+      iio: addac: ad74115: Use devm_regulator_get_enable_read_voltage()
+      iio: frequency: admv1013: Use devm_regulator_get_enable_read_voltage()
+      staging: iio: impedance-analyzer: ad5933: Use devm_regulator_get_enable_read_voltage()
+      Input: mpr121: Use devm_regulator_get_enable_read_voltage()
 
+ Documentation/driver-api/driver-model/devres.rst |  1 +
+ drivers/hwmon/adc128d818.c                       | 57 +++++++----------------
+ drivers/hwmon/da9052-hwmon.c                     | 38 ++++-----------
+ drivers/iio/addac/ad74115.c                      | 40 ++++++----------
+ drivers/iio/frequency/admv1013.c                 | 40 ++++------------
+ drivers/input/keyboard/mpr121_touchkey.c         | 45 ++----------------
+ drivers/regulator/devres.c                       | 59 ++++++++++++++++++++++++
+ drivers/staging/iio/impedance-analyzer/ad5933.c  | 26 +----------
+ include/linux/regulator/consumer.h               |  7 +++
+ 9 files changed, 124 insertions(+), 189 deletions(-)
+---
+base-commit: 84c1815e46bdcb8bb0259db3d6cdd934cb70a0e9
+change-id: 20240326-regulator-get-enable-get-votlage-5dedf40ff338
 
