@@ -1,129 +1,129 @@
-Return-Path: <linux-input+bounces-3298-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3299-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EDE8B6101
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 20:21:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8608B6392
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 22:29:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4A79284694
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 18:21:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCAE51C21F4B
+	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 20:29:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42222128801;
-	Mon, 29 Apr 2024 18:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kuu472My"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B68A13AD2F;
+	Mon, 29 Apr 2024 20:29:45 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72FB83CBA
-	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 18:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2AF1419B4
+	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 20:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714414875; cv=none; b=fjRCycGzLj2z/NuSMJrU1z2GnTdOCN5GDOaeRMTX9d9/uFG4k1VsxURm3f/IIYg/SOKOiPBEkuwh8qLXxkRka5E+vVGleGmORGBm4YzO8kHXaL/SAxsYiBYvKemUTyrzP8CiEqBa7ROm321d5ScW8yutebkoiBw41Cm8E91NYzI=
+	t=1714422585; cv=none; b=IXxr0vCDrxEgvHd/mYduIdV7yi2lurpdChFyiGs7iH/VFb66Aw/NvtLWFf3x1nIHcsZWPSdPh4riH+Vvley4PQG0w/d0VIbI1gKomKjint3uRv1N3phpXp++v59Eu56+QME60lzKK6nhCdFfBgfYeHPcwavxRyXhIwfaX2x9G+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714414875; c=relaxed/simple;
-	bh=uz91hq17CnQ8Sh5zJn2MbtAhwZLCaoUgLNJ2BANazg4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hhsw8An4hG4GaPoh6v5t7wf+76izqkDDXKFOeN8E5tMSVCo8+M+JxShqrQyJ5Fzo9Kiq+6S7O7vVZDny0QbF53X/CxPbhGL19Cz2QYXiqS9wQPY1fJd9kCSy7enRPEDny6gl1UVFU5+aJKXHTli9ur3n/K/y65A1+/o1Koc0C9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kuu472My; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5aa27dba8a1so2960822eaf.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 11:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714414873; x=1715019673; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UBVxCic88av72rysgf6bYhkMGfNNdbGnMRLbJ+ADBuk=;
-        b=kuu472My1bvUXd76YNoHXd1+CIKzivEkuNBRzsT647zVTN8EmJgdi22cTcRfg24fQH
-         FnOnELVEDv89AgVDW7vucSSDtqTUI7+oeKpEbf4dhio85MeEcp/AsO5HhcAW9vci39X6
-         0npu+sia4RpU6spWIgAgdC4GQ3UP88W7SLFPo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714414873; x=1715019673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UBVxCic88av72rysgf6bYhkMGfNNdbGnMRLbJ+ADBuk=;
-        b=Lgqc44QSvwbm3ptvtDQSiZ7HMwk4SZgcFJulKDf+WBN+Tray5oJz3yQLJ0W93McPok
-         66XWQ+m0A8KY/9cV4YxGB/NbiiL5TDChUN7DjJF9LeKJBRaugqMXQeXQGO/xTRXVy2r/
-         Y1JhvLFC66mKqYQYhJrymcqaQ3vPli7QQmA39YVVzgrUrdIw9MBKkTculUR5LqpEYrHa
-         GskC9Tou6H5Hv/nQe21h8lkf0OlEHzhcrDiyKDdWiVwmkAuFnk2PpjCugj8LWO+iJNTm
-         exbETHNmS9dMQELAe9MmE2KeKnmd7Eb0vCm7yVYuLPhngU7U5jFUG8ApZaJIPWw3+G0C
-         sDaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXA/HlYdfKLbHm60W0u3YV10qEYsTE7A1T10oC6aZ3dtAZKyoJWg9CUHnNZYyS0ybKtdcK/kLyh6/jKG5pwszSglu9leYmD4yFlwCw=
-X-Gm-Message-State: AOJu0YyxfdWRGVLnsBZyqFCE2vyK/XMDZInAggPl0UyBMuD0d9SZV/ic
-	yvmY3P2P2UA6rPI1UWw2DSBKTQQZcd6sBFvvnEreoz+06sJIO8nr08vdhJATpQ==
-X-Google-Smtp-Source: AGHT+IGW1AClZt7yrZUX7DvN75b1Hy5u+Q/VGfw3SwSFCG6ZNRcO0lB67xbIFtPI1JNDURyCCGkxEA==
-X-Received: by 2002:a05:6358:102:b0:18e:b6a9:6412 with SMTP id f2-20020a056358010200b0018eb6a96412mr5292990rwa.18.1714414872815;
-        Mon, 29 Apr 2024 11:21:12 -0700 (PDT)
-Received: from seobrien.c.googlers.com.com (114.66.194.35.bc.googleusercontent.com. [35.194.66.114])
-        by smtp.gmail.com with ESMTPSA id y12-20020a0ceacc000000b006a0d04827e9sm1021160qvp.57.2024.04.29.11.21.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 11:21:12 -0700 (PDT)
-From: Sean O'Brien <seobrien@chromium.org>
-To: Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org
-Cc: Sean O'Brien <seobrien@chromium.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] HID: Add quirk for Logitech Casa touchpad
-Date: Mon, 29 Apr 2024 18:20:36 +0000
-Message-ID: <20240429182036.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
-X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
+	s=arc-20240116; t=1714422585; c=relaxed/simple;
+	bh=duOjByc8yIadUnTUFj4s3XDa68q3SsYJiP0qL2bpV4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EyN+rL7coHlcLTwnriPaLqXrzTXmzaVT+JGEP4UjljQqRNXqGhr3DlsITDV9CxER11sG5BZ9QPS3h3jCWTDl2W/lAjy7ptodmA8VPyAYl4fteb8PFTwoFvt0dDrqaww0rN+YaucrsOJ7ykSUqA8nWG/5PoR58a4Iawi+hLzxXYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1Xd7-0001Wm-RC; Mon, 29 Apr 2024 22:29:41 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1Xd7-00F2hk-EG; Mon, 29 Apr 2024 22:29:41 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1Xd7-00BjBf-1A;
+	Mon, 29 Apr 2024 22:29:41 +0200
+Date: Mon, 29 Apr 2024 22:29:41 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, kernel@pengutronix.de, 
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] Input: amimouse - Mark driver struct with __refdata to
+ prevent section mismatch
+Message-ID: <pkglwlztl5nj37j4i2ydh4y3ohfx6pt2dilzha5lng5aoaggid@ec2iszqt5nzj>
+References: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
+ <ln446wvlcruoglseztao7jwywzxiixyxnx3qxqnm7nmdan6bzt@klbghdi3wwir>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rnkta3uwbswxhja3"
+Content-Disposition: inline
+In-Reply-To: <ln446wvlcruoglseztao7jwywzxiixyxnx3qxqnm7nmdan6bzt@klbghdi3wwir>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-This device sometimes doesn't send touch release signals when moving
-from >=4 fingers to <4 fingers. Using MT_QUIRK_NOT_SEEN_MEANS_UP instead
-of MT_QUIRK_ALWAYS_VALID makes sure that no touches become stuck.
 
-MT_QUIRK_FORCE_MULTI_INPUT is not necessary for this device, but does no
-harm.
+--rnkta3uwbswxhja3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sean O'Brien <seobrien@chromium.org>
----
+Hello Dmitry,
 
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+On Mon, Apr 15, 2024 at 04:34:53PM +0200, Uwe Kleine-K=F6nig wrote:
+> On Fri, Mar 29, 2024 at 10:54:38PM +0100, Uwe Kleine-K=F6nig wrote:
+> > As described in the added code comment, a reference to .exit.text is ok
+> > for drivers registered via module_platform_driver_probe(). Make this
+> > explicit to prevent the following section mismatch warning
+> >=20
+> > 	WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in re=
+ference: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: =
+=2Eexit.text)
+> >=20
+> > that triggers on an allmodconfig W=3D1 build.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> I'd like to enable these warnings even for W=3D0 builds, so it would be
+> great to get it into the main line soon.
+>=20
+> If you apply it, please notice that I fat-fingered the parameters to git
+> send-email and it was sent in a thread. So (assuming you're using b4)
+> you'd need:
+>=20
+> 	b4 am -P _ -v1 2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u=
+=2Ekleine-koenig@pengutronix.de
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 8376fb5e2d0b4..68b0f39deaa9a 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -823,6 +823,7 @@
- #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
- #define USB_DEVICE_ID_LOGITECH_T651	0xb00c
- #define USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD	0xb309
-+#define USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD	0xbb00
- #define USB_DEVICE_ID_LOGITECH_C007	0xc007
- #define USB_DEVICE_ID_LOGITECH_C077	0xc077
- #define USB_DEVICE_ID_LOGITECH_RECEIVER	0xc101
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 04a014cd2a2f6..3df9e90693e3a 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2081,6 +2081,12 @@ static const struct hid_device_id mt_devices[] = {
- 			   USB_VENDOR_ID_LENOVO,
- 			   USB_DEVICE_ID_LENOVO_X12_TAB) },
- 
-+	/* Logitech devices */
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
-+		HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_LOGITECH,
-+			USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD) },
-+
- 	/* MosArt panels */
- 	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
--- 
-2.45.0.rc0.197.gbae5840b3b-goog
+Do you have this patch still on your radar? I guess it's to late to get
+it into v6.9 now, but do you plan to apply it for v6.10-rc1?
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--rnkta3uwbswxhja3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYwAzQACgkQj4D7WH0S
+/k5uVgf/TsvaHVZR9h5+inhjnjAz6/GCpmHNzK7x8Ypvb0A6p1kWLQTh6S0GoKV2
+RU4JpgD0eQveWyyf7rimVtD9a1dZQRI4ztVcZeR3jTt3sJrCamgyI8HyYS1nI/7O
+n5POjbu9FNLjN9jtrCjhKCmd+8ulI/HKis6wMubtwghs3nuYYv1IVjnErLV65kW+
+v58RhGWwNkuNzLs8LbrT8TfoQMPY7L7vwGbZGBZOMBCi/nAGhjg5s6w78wV/UwHx
+E8GrIpbyQwklliwjSDEqNoVasE2y2ZE7O5eMlK/GX1kcpVg2XVHkzSMUVyzBBlmB
+4PKX5NqGlXZmHHMxRjFEXqJxElrQ5A==
+=asuz
+-----END PGP SIGNATURE-----
+
+--rnkta3uwbswxhja3--
 
