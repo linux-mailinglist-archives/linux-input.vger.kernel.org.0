@@ -1,126 +1,121 @@
-Return-Path: <linux-input+bounces-3324-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3325-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1818B81AE
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 22:59:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A668B81BF
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 23:05:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA6422839AF
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 20:59:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2AD31C2351C
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 21:05:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7B3E1A0AF0;
-	Tue, 30 Apr 2024 20:59:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FEA1A0B09;
+	Tue, 30 Apr 2024 21:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="glexBrpf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5P+VeDa"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAC88F6E;
-	Tue, 30 Apr 2024 20:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC72C179B2;
+	Tue, 30 Apr 2024 21:05:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714510750; cv=none; b=X4yF7c+GD7gsnJvj5T2fSCqPb+AlZzWtvn4QfeaPb+YkCH2h4jlINQSGXj2Sz0YFCTSaDAAfOrGQYpZScfgd86SOweLS+DtnpDSfNTJsqIsOPzXDgaV87zpMS7NH+Sy5cXTN0/y/PbX1sqsePg4zXLZyrsrDsS9qOhAXi1SyjK8=
+	t=1714511105; cv=none; b=jNHj4HRV6JL2wDvONXvHnsB+KYIVLNFPrlVDnvQ2IhLbzNFRqKjPriorYCJm8spyRG/69BKUFktl+zdEkpR1L5PI4RzSMgsBec+lQ1j8h/7Z3dj8nIGLilndmI0cQ6cI+jPSv3HW/IS/IM2fjeiA1qdevQzgiFCASi+T8dEc8us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714510750; c=relaxed/simple;
-	bh=pjgtyfnh5tFTSw52lMGUaW48/HjGzACxafZOrZ7CAyk=;
+	s=arc-20240116; t=1714511105; c=relaxed/simple;
+	bh=F/rohq7qOnPPqVGaFInXQM5IP4eoAokppwhdkbE6i1M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HiDCXLutT7Y7rxBk6XY5nPKwskUKYOyXUW5kthFGu1vDA+OlBO0uVA96Rvnt0VjTnzTjDlpW0m5nvJlANViYV5Kj66GeA8+aU3mxxdCYovhJoXq56oThLurg5A5t3hyDPmmup4crgz1OhjINlHQLeBQQ2kA4YaYsXhMONwmNeYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=glexBrpf; arc=none smtp.client-ip=209.85.216.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=YT6+xvq/gs0iVSdnY6itXjVqL1ev7BB6z+Zzu8rxHHsH4OGadHyVq9hKt9amWC5t+AKZOIwPRGKOcUP/75rRC5BuD1sMW3xSLsoo00+wWCTNpa+qilkeHNphBI86AxN/L4e4B3aLeBWDYjaN8uz55c9PpRylABVjLBFjaBiu9iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5P+VeDa; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2af800ff18dso5166284a91.1;
-        Tue, 30 Apr 2024 13:59:09 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2b2769f017aso1068324a91.3;
+        Tue, 30 Apr 2024 14:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714510748; x=1715115548; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QUnRfl4tqgq8HasBCd3KnwmOL/6GB2kU7j+bDTzwvdw=;
-        b=glexBrpfc9eLv8UIay/NFaBV7Ei+kFBlMy3YURmIBBJtPg3qHni7bMDTR5o8umoyzA
-         vrmZcX7sEXxeN9MTXCefCsXEzerDdVgPnB+GcT/SY/uedgIM4gUrPqBUeFGAgz6QaElE
-         pierv5ugE4adEE0rcTnxlMj34aeMS3TlYoyIKs6wi1g++ptw3NPZj+EBJAKj7lmjzj2F
-         01mm9ZsVZ/fFEPOg2xHZR+aMtDlcvH+kQyFQIgxfEV4uGdhIMRsNov+6hVCCb1vNz7Zl
-         ceVck6j5KuGiap0fZ1TReeZvUdZRSJinKEwxe+hCZpF3lNUY0MqbnVxab8/FNjIl4Ctk
-         pncw==
+        d=gmail.com; s=20230601; t=1714511103; x=1715115903; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m4iHfZMligVtaN3PJeTsVRrBoDkEzMS8Sae0cv4zl38=;
+        b=k5P+VeDaaxfpeqoAcIxKn2QGf+HcaP9ATRiIHSlAOR4fQakk6pfikmlFTyQDXJOC1S
+         5eIJRGa0WhA1Q5vprmw7wTHgkZ2z7Fq6ZsaorGZvBwEGZAXn4ijY6QsNmDmi+FGOXdMU
+         ZAA7qxVrq9NnqWLHGa29pHrVjNXcq5G9oMGId/C7L99nyTq6dUPpwd9+iltkhMAiucrv
+         saz9b+bHNWXL/QygfIh/1CUaJvQQPnaxTw1pm7Zs6YaPUlk2ZjMHsk5p+6/YTa+HbAes
+         I0FdeFkLZ3a+h6xUAo8k6Pgi+S2PUjem9H6CjPZ29+Fq+/YqtUvM7kIlQPHp6Cp0BHRd
+         K3gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714510748; x=1715115548;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QUnRfl4tqgq8HasBCd3KnwmOL/6GB2kU7j+bDTzwvdw=;
-        b=jyf1tzdMhQR6KAaYjkf4PvvA510Lck7Xta1RO7U0VthcOItJuiwxr1eA6YyiSl2BSE
-         ikYMWEysgb3mY2GolKbur6zR/zx0pWWlQc/+Kf5iJ/ITzNoO78Y6NPPRIbZrq0INckI6
-         JkadhI4PJtarksDR28anbA/BaeW2Ey97Jzlz0xIN/6fUTy98GW7hdvUUCwkHwPRIacoE
-         snqxkBCtW33UmQfVpwp2Fo7qIOIJbFOKamf9QSlPolev8ENhfhmpE0v9/L/alJ/gFxLe
-         /A/7y/pIAzJcVPmf/tCUkAuYNbLdhVnGcNk3JYVTxEQatrhxO8LdLbdg9AcpuQXQ0Kf/
-         tnCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvj4Kr7cecolskiQek/0FA/gimi1IFRyEMNFqdwQLh0kVYOGF08iNlHfKsG8jUHRYyQNBbOtSiPWuSIciGbbSKcJlZ54Xnl/2b95a9
-X-Gm-Message-State: AOJu0YytDm74v+9NsprSH3E/B+4mkg2Pj/1mcscOqkMpCG37qXs+Kgy4
-	maNWlM6I3dRIzgD8AVOv/ez6bcHpMSV1zDa9WFzuI5YjEx8MR3BPWLeJLg==
-X-Google-Smtp-Source: AGHT+IHRmENx/NymYnVttDjBiRAmn1SJdIQxeE1kuKzsUBaoYTajsF13aFKFSiSX2CJ9tua920ouNA==
-X-Received: by 2002:a17:90a:15d0:b0:2a6:9c5f:828e with SMTP id w16-20020a17090a15d000b002a69c5f828emr642525pjd.22.1714510748395;
-        Tue, 30 Apr 2024 13:59:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714511103; x=1715115903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m4iHfZMligVtaN3PJeTsVRrBoDkEzMS8Sae0cv4zl38=;
+        b=POpSdBcPxZ0CSUNNEZlHUVKA9pWkszbdUJkdtuvx5CZrqC4ncaAFcrXPOSVDzQye3I
+         4noa5fv8eAE1fI1K2SQMXO33zdeMxab+CwaYzmqwdygLYS1OLwCDK2lmPXsMbhy1/qp3
+         lxa+Y/yBru8ePMLeprJ0lu58XrGTuhtKBooHlG+Dera1LLzEoE/ZYUWqv7QcSLFgaz3a
+         /aU6JaJsubq+60z6kgo3sl0GzhC+Jiok/xCjTSrTrBkmu5ermVb/xERV+7X0fCYubc2U
+         EW7wojERyUv1aJ7vEySh+Zsq14F7g/Z2E5JuO8DVSE8/05vVvuvwGqR6AuT5defYA500
+         hfzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNUmDuFVVgG5i+2iyXNuH8vdH7pFqh6pm6/+GbTgccqOu023YbQMsxyV2PDFRzOqhsVlOfT2P4UiCQ827R/plQ5jj9jzeOEL9rCLb4VOVeuotv4yNXDJS77wXMDSjCvzyyG6XegNvjyywPdWwLa+/C5g55C3DmnAnmdejoSdeftJGyZ+Iy9tUC1d8=
+X-Gm-Message-State: AOJu0YwVqm7PC8THz9SDZtLjecKCJKFqs/KdwSsxw/dvO5qWF9DY9Xgj
+	i7xU+5y5ntgCcYxX3UhrbkZEctijc8z7vABdL4oeH7IisbHgmDk7irtcbw==
+X-Google-Smtp-Source: AGHT+IHCNGsoBLeJ3fU8TFjhexfzHWOIYrM1UjKlIVT9yaZbnjjWa024wKqsRJmgw5t6qW1JejjlUg==
+X-Received: by 2002:a17:90a:1fc8:b0:2a5:2f48:1eba with SMTP id z8-20020a17090a1fc800b002a52f481ebamr619471pjz.13.1714511103054;
+        Tue, 30 Apr 2024 14:05:03 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:68d:41e7:d081:607d])
-        by smtp.gmail.com with ESMTPSA id b24-20020a17090acc1800b002a54222e694sm25618pju.51.2024.04.30.13.59.07
+        by smtp.gmail.com with ESMTPSA id sn7-20020a17090b2e8700b002a610ef880bsm36286pjb.6.2024.04.30.14.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 13:59:08 -0700 (PDT)
-Date: Tue, 30 Apr 2024 13:59:05 -0700
+        Tue, 30 Apr 2024 14:05:02 -0700 (PDT)
+Date: Tue, 30 Apr 2024 14:04:59 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-input@vger.kernel.org, kernel@pengutronix.de,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] Input: amimouse - Mark driver struct with __refdata to
- prevent section mismatch
-Message-ID: <ZjFbmSNUff72Fg8d@google.com>
-References: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
- <ln446wvlcruoglseztao7jwywzxiixyxnx3qxqnm7nmdan6bzt@klbghdi3wwir>
- <pkglwlztl5nj37j4i2ydh4y3ohfx6pt2dilzha5lng5aoaggid@ec2iszqt5nzj>
+To: Erick Archer <erick.archer@outlook.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] Input: ff-core - prefer struct_size over open coded
+ arithmetic
+Message-ID: <ZjFc--tMio1wmBpf@google.com>
+References: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <pkglwlztl5nj37j4i2ydh4y3ohfx6pt2dilzha5lng5aoaggid@ec2iszqt5nzj>
+In-Reply-To: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
 
-Hi Uwe,
-
-On Mon, Apr 29, 2024 at 10:29:41PM +0200, Uwe Kleine-König wrote:
-> Hello Dmitry,
+On Sat, Apr 27, 2024 at 05:05:56PM +0200, Erick Archer wrote:
+> This is an effort to get rid of all multiplications from allocation
+> functions in order to prevent integer overflows [1][2].
 > 
-> On Mon, Apr 15, 2024 at 04:34:53PM +0200, Uwe Kleine-König wrote:
-> > On Fri, Mar 29, 2024 at 10:54:38PM +0100, Uwe Kleine-König wrote:
-> > > As described in the added code comment, a reference to .exit.text is ok
-> > > for drivers registered via module_platform_driver_probe(). Make this
-> > > explicit to prevent the following section mismatch warning
-> > > 
-> > > 	WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in reference: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: .exit.text)
-> > > 
-> > > that triggers on an allmodconfig W=1 build.
-> > > 
-> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > 
-> > I'd like to enable these warnings even for W=0 builds, so it would be
-> > great to get it into the main line soon.
-> > 
-> > If you apply it, please notice that I fat-fingered the parameters to git
-> > send-email and it was sent in a thread. So (assuming you're using b4)
-> > you'd need:
-> > 
-> > 	b4 am -P _ -v1 2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de
+> As the "ff" variable is a pointer to "struct ff_device" and this
+> structure ends in a flexible array:
 > 
-> Do you have this patch still on your radar? I guess it's to late to get
-> it into v6.9 now, but do you plan to apply it for v6.10-rc1?
+> struct ff_device {
+> 	[...]
+> 	struct file *effect_owners[] __counted_by(max_effects);
+> };
+> 
+> the preferred way in the kernel is to use the struct_size() helper to
+> do the arithmetic instead of the calculation "size + count * size" in
+> the kzalloc() function.
+> 
+> The struct_size() helper returns SIZE_MAX on overflow. So, refactor
+> the comparison to take advantage of this.
+> 
+> This way, the code is more readable and safer.
+> 
+> This code was detected with the help of Coccinelle, and audited and
+> modified manually.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/160 [2]
+> Signed-off-by: Erick Archer <erick.archer@outlook.com>
 
-I'll get it into 6.9, it is not controversial.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
