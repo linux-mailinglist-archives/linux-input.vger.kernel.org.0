@@ -1,196 +1,152 @@
-Return-Path: <linux-input+bounces-3312-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3313-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AF78B6695
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 01:42:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19ED58B6721
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 03:04:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 502CF282ACF
-	for <lists+linux-input@lfdr.de>; Mon, 29 Apr 2024 23:42:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C78FC283746
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 01:04:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202821A38F5;
-	Mon, 29 Apr 2024 23:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE4472F28;
+	Tue, 30 Apr 2024 01:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pbHWLuh1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMJfN3+J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CC4199E87
-	for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 23:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408CB1FBA;
+	Tue, 30 Apr 2024 01:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714434045; cv=none; b=jmentpEyGIDGq5FS4CEYnSI34XfdwVIwzrIHjF5hC720AHLF+J45ukH1HIqSP/Ug4ZDuJxPczDhQfVLStWbMoamAg8m6ZLfIe0OBcJFCEcMJfrPEG5Qnfg/8WdJ4e8XbvxQpEluWKo4XXnYY83VPEFQrDGAN1k25FHb8/QPhDtY=
+	t=1714439078; cv=none; b=NttFJoev4rSE0b+91Ry2K4W6Tz1xQ42GDVov7TGph/ZB7cOap8N2rpTrfQxXQEAYPrXLjLBT+akqihoxQljGQkWj2++E7cbSDTbgE8kqCiarpOCXxwgD4m0pibudmEyNKadNUDI4L/Xu5k2w8s0eLPgePueWVUErHbg697I7m1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714434045; c=relaxed/simple;
-	bh=f4G2L1z1zSkKaPQHDBq/6+aryPTA/FbiB2tWbX2f5ms=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=buIjI2dZRfTvfShWTufmgLLrOIV+bweBSTNOeYcX/JT2xqE+MjRsjPTmtALc6137/V6mVzO8ad1X7coC5nns5YAJXHThQIOjPhfRUuakCb9JYEeAnr8anBAIj6T2/nU/xRAWBVwrpyY8gnpvG+oJIVuV9foF3/M7dCIL9n7ywGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pbHWLuh1; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-233e41de0caso2605107fac.0
-        for <linux-input@vger.kernel.org>; Mon, 29 Apr 2024 16:40:42 -0700 (PDT)
+	s=arc-20240116; t=1714439078; c=relaxed/simple;
+	bh=PfIZ2OzMF7H5BdktCnUKZd+MnhBoRHx3h3/g+0pDVmw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PYYE0RCskJSEL+1NoR7DpmNL87PM84/VlZ5PyMsq9fBMrPtWn2E+tqCRKTRZN1YHnSa7VUMwN+yyGb6mWmmn4AXPSVBMmLxKdRIr7lza7w6I9mbhM/ZgVabzP2s6r+keVXQIMvOtaSiL4O87OlTT3kQ8Ifdrl2ewjF4pMn6W150=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMJfN3+J; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5726716a006so3819093a12.2;
+        Mon, 29 Apr 2024 18:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434041; x=1715038841; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1714439075; x=1715043875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BJ+ZTMWPcJc+hIlvH7T2PbKtWet9tgeGz07/T80YEuU=;
-        b=pbHWLuh1Xtu6uL38XxK4B+0fCiYd7UAwdMdtMKEw/UnHF+S5JWR9mR8jvJ3OUqvOzN
-         +XZS726FcasBZjgbGGkIgIKBUfRivinxaNyiqaIrikWJeI8r7gNxTlyZzuzuXox2+/FT
-         2AQjVJCSbxn2GGKD3hKBaOv7Ht925iNAwn62flLi3MhStzwJnVi2znE9gcVZyG2WPGAO
-         YEr1UUDXrWCr3PhBrJg5FQuMcvfnvMhNLYeBrdaqvzMYX98mauFd7Ld/p8IUN//xEpFn
-         FLz2S3oonXYn8tsBuPNLQuA28PQpkvrdFT/GnsmpriwdnuiApTQACfseTpOKCR5GIwDz
-         hFpA==
+        bh=HmlXHYTP1JU1chg3YaCZTEhfqyjw0+XCv0tIk9SD3Mg=;
+        b=kMJfN3+JVJ3HvHeUx5tK00p1FTS2Uv9RpTDzgz+GcWDkR+Sew+9NY7ryukSpFxFzMe
+         ydp1Y0cQOxWKBhphtadlu0Xuzz5k95iCF4GFUHVl4IrldfXoy5CNbMcUcD7iQDkgU3NX
+         tUP/zMWWI5xccmov19mdHVzjiNokry29YykE6ESeyiVS/UfRswdWMG65H77ns6lCiEAP
+         LzFaaBGCW29KWarwPz+UpbQT65R8Wxv0wWoIjRoOJN7u2D4cbylbQoJ4dFkMc53TpS7m
+         /q39YAJiooMkkLITTLfkbTXBr8MqRUqWpXhGe98VXCyVz0pwrYBa9XUo3JpexGKAh5IN
+         CloQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714434041; x=1715038841;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1714439075; x=1715043875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BJ+ZTMWPcJc+hIlvH7T2PbKtWet9tgeGz07/T80YEuU=;
-        b=KKmPZG7qRgeErJkmPua75bPJEpoRPM8Qn/W4FQyyCmEfmsC/bXWcsz9bofv4Hdt4R6
-         OKoz2iB4geVnWLTcx8RyoxNZQJHt1zQczL2jdTMj1i1AFhCPHOoqXmI4UQELl6st924/
-         N6/vO/k/3VsxJv/QAX7RPuGRagDPnSL6w+iR8qShvr0cmEkwTYBWYjUR3ur7kg6sAATZ
-         fRFpyOXNSubp1oFQ+FaGzZ/a2ijBWE57fegXnuO4D1xNDPPsPnRdSxllylg0M4vmGrQy
-         oHkEiL0AxCgyb3ytOaRPru0pYWTSiWod4L+iFB5jWYcDu5YtG7qygad+c6vLQR85qd/1
-         Fm7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXj+H2ycHbtfArNHBUJ5/i8tSuFeOy5S/78iqKiT4kLTqJ6zkMF3fOogBk/+p4IOS/yGVRssfNUfpxXHUdU8Xv+q98xSFPzq/p/Mew=
-X-Gm-Message-State: AOJu0Ywim38yyEU+j/0WOCPbIGpB68tc27slyRXMPf1ODALXIkuyhEkC
-	6FyPfX0NFcTkv9IV0G3BAdRCzYKKJC5MuYrgT7JVhO/h5mFP+ErFEckD8kUbL5I=
-X-Google-Smtp-Source: AGHT+IGUMUBHGEj5nThSng3xMh0/uoevSE7AVeKx5UlHjVLAZMEu4Nr0mRW++UlSgbku/YpyKEuPfw==
-X-Received: by 2002:a05:6870:618a:b0:23b:4854:820b with SMTP id a10-20020a056870618a00b0023b4854820bmr12720046oah.2.1714434041609;
-        Mon, 29 Apr 2024 16:40:41 -0700 (PDT)
-Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 16:40:41 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v2 7/7] Input: mpr121: Use devm_regulator_get_enable_read_voltage()
-Date: Mon, 29 Apr 2024 18:40:15 -0500
-Message-ID: <20240429-regulator-get-enable-get-votlage-v2-7-b1f11ab766c1@baylibre.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+        bh=HmlXHYTP1JU1chg3YaCZTEhfqyjw0+XCv0tIk9SD3Mg=;
+        b=Si3ztAIDNjFAKjTe/oB568F8IzJn9U0JQ7HBcjrXDxgtXlc98hL7QmbS9F65xN5ZjT
+         CxOgoa5oAe91P0W6Tjxo5YGngq7Q5OEjlpjKycdEhpCOJ74vdDX+7PnYggGXCl0+M5FF
+         sFb//NDUbYQ8/iTaGXhybGY8rwKAd8kyaB0+rmr73bETH0mCdlpH84eRmUubxsrGGzTd
+         8EaMl31ZRy124n66B1i5v9xFaLVzHyk1luWdwAHs+nJ4Oqw3+bssi6nouBMx2ykDJnFC
+         rivw84RHKOZSTULHRu6AphjBOgZV8I1TnnFN3Ii651UFlzmajcThQDrEmx9fCXNFaTjy
+         kKzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxTXGFvgCWRHhhUsiySi+1A9NQguBWu1Q6LbGNonWPWMctjyqQ/ujEfG0nghptr4kov2cyI7TRQunneeVrFfFEgZRfprHD8hbU4faI
+X-Gm-Message-State: AOJu0Yw9fPEVrF3bdPNoh/XT4ai2BdTcl86wVAEbY01kYZ4Ghlp/amOB
+	QWBPByZSjI0iRxb7W6e5IR12XKDiziDx9ClbYwKaCe0kmEgH6z7wi1M22mJPXkrS5BVrxV7xtP/
+	QOxI9bDUT1IT5A0vCJeQZK5Lkqfc=
+X-Google-Smtp-Source: AGHT+IGrM7nX4xycFTF6rLoZ9A5f96CoTvHTE2HEqPMJ05yvBCkg7o9L/Cb8ibqoN8mRlt/tvkeBzd09DEOm2VGWjzQ=
+X-Received: by 2002:a50:bb26:0:b0:572:7089:7f78 with SMTP id
+ y35-20020a50bb26000000b0057270897f78mr5396986ede.34.1714439075311; Mon, 29
+ Apr 2024 18:04:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.12.4
-Content-Transfer-Encoding: 8bit
+References: <ZjAWMQCJdrxZkvkB@google.com>
+In-Reply-To: <ZjAWMQCJdrxZkvkB@google.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Mon, 29 Apr 2024 21:04:23 -0400
+Message-ID: <CAKf6xpvzrCHAsbokGu_+7P0H=n4T=dsRN81msJjW6yVMcEZi6g@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: try trimming too long modalias strings
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Peter Hutterer <peter.hutterer@who-t.net>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We can reduce boilerplate code by using
-devm_regulator_get_enable_read_voltage().
+On Mon, Apr 29, 2024 at 5:50=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> If an input device declares too many capability bits then modalias
+> string for such device may become too long and not fit into uevent
+> buffer, resulting in failure of sending said uevent. This, in turn,
+> may prevent userspace from recognizing existence of such devices.
+>
+> This is typically not a concern for real hardware devices as they have
+> limited number of keys, but happen with synthetic devices such as
+> ones created by xen-kbdfront driver, which creates devices as being
+> capable of delivering all possible keys, since it doesn't know what
+> keys the backend may produce.
+>
+> To deal with such devices input core will attempt to trim key data,
+> in the hope that the rest of modalias string will fit in the given
+> buffer. When trimming key data it will indicate that it is not
+> complete by placing "+," sign, resulting in conversions like this:
+>
+> old: k71,72,73,74,78,7A,7B,7C,7D,8E,9E,A4,AD,E0,E1,E4,F8,174,
+> new: k71,72,73,74,78,7A,7B,7C,+,
+>
+> This should allow existing udev rules continue to work with existing
+> devices, and will also allow writing more complex rules that would
+> recognize trimmed modalias and check input device characteristics by
+> other means (for example by parsing KEY=3D data in uevent or parsing
+> input device sysfs attributes).
+>
+> Note that the driver core may try adding more uevent environment
+> variables once input core is done adding its own, so when forming
+> modalias we can not use the entire available buffer, so we reduce
+> it by somewhat an arbitrary amount (96 bytes).
+>
+> Reported-by: Jason Andryuk <jandryuk@gmail.com>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
+Tested-by: Jason Andryuk <jandryuk@gmail.com>
 
-v2 changes:
-* renamed to devm_regulator_get_enable_read_voltage()
-* restored error message
----
- drivers/input/keyboard/mpr121_touchkey.c | 45 +++-----------------------------
- 1 file changed, 3 insertions(+), 42 deletions(-)
+I don't have the gdm setup available to test, but loginctl looks good
+showing the Xen Virtual Keyboard assigned to a seat:
+# loginctl seat-status seat0
+seat0
+         Devices:
+                  =E2=94=9C=E2=94=80/sys/devices/LNXSYSTM:00/LNXPWRBN:00/in=
+put/input0
+                  =E2=94=82 input:input0 "Power Button"
+                  =E2=94=9C=E2=94=80/sys/devices/LNXSYSTM:00/LNXSLPBN:00/in=
+put/input1
+                  =E2=94=82 input:input1 "Sleep Button"
+                  =E2=94=9C=E2=94=80/sys/devices/platform/i8042/serio0/inpu=
+t/input2
+                  =E2=94=82 input:input2 "AT Translated Set 2 keyboard"
+                  =E2=94=9C=E2=94=80/sys/devices/platform/i8042/serio1/inpu=
+t/input4
+                  =E2=94=82 input:input4 "ImExPS/2 Generic Explorer Mouse"
+                  =E2=94=9C=E2=94=80/sys/devices/virtual/input/input5
+                  =E2=94=82 input:input5 "Xen Virtual Keyboard"
+                  =E2=94=82 =E2=94=94=E2=94=80/sys/devices/virtual/input/in=
+put5/event4
+                  =E2=94=82   input:event4
+                  =E2=94=94=E2=94=80/sys/devices/virtual/input/input6
+                    input:input6 "Xen Virtual Pointer"
 
-diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
-index d434753afab1..0ea3ab9b8bbb 100644
---- a/drivers/input/keyboard/mpr121_touchkey.c
-+++ b/drivers/input/keyboard/mpr121_touchkey.c
-@@ -82,42 +82,6 @@ static const struct mpr121_init_register init_reg_table[] = {
- 	{ AUTO_CONFIG_CTRL_ADDR, 0x0b },
- };
- 
--static void mpr121_vdd_supply_disable(void *data)
--{
--	struct regulator *vdd_supply = data;
--
--	regulator_disable(vdd_supply);
--}
--
--static struct regulator *mpr121_vdd_supply_init(struct device *dev)
--{
--	struct regulator *vdd_supply;
--	int err;
--
--	vdd_supply = devm_regulator_get(dev, "vdd");
--	if (IS_ERR(vdd_supply)) {
--		dev_err(dev, "failed to get vdd regulator: %ld\n",
--			PTR_ERR(vdd_supply));
--		return vdd_supply;
--	}
--
--	err = regulator_enable(vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to enable vdd regulator: %d\n", err);
--		return ERR_PTR(err);
--	}
--
--	err = devm_add_action_or_reset(dev, mpr121_vdd_supply_disable,
--				       vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to add disable regulator action: %d\n",
--			err);
--		return ERR_PTR(err);
--	}
--
--	return vdd_supply;
--}
--
- static void mpr_touchkey_report(struct input_dev *dev)
- {
- 	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
-@@ -233,7 +197,6 @@ static int mpr121_phys_init(struct mpr121_touchkey *mpr121,
- static int mpr_touchkey_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct regulator *vdd_supply;
- 	int vdd_uv;
- 	struct mpr121_touchkey *mpr121;
- 	struct input_dev *input_dev;
-@@ -241,11 +204,9 @@ static int mpr_touchkey_probe(struct i2c_client *client)
- 	int error;
- 	int i;
- 
--	vdd_supply = mpr121_vdd_supply_init(dev);
--	if (IS_ERR(vdd_supply))
--		return PTR_ERR(vdd_supply);
--
--	vdd_uv = regulator_get_voltage(vdd_supply);
-+	vdd_uv = devm_regulator_get_enable_read_voltage(dev, "vdd");
-+	if (vdd_uv < 0)
-+		return dev_err_probe(dev, vdd_uv, "failed to get vdd voltage\n");
- 
- 	mpr121 = devm_kzalloc(dev, sizeof(*mpr121), GFP_KERNEL);
- 	if (!mpr121)
-
--- 
-2.43.2
-
+Thanks,
+Jason
 
