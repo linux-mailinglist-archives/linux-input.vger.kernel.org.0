@@ -1,121 +1,157 @@
-Return-Path: <linux-input+bounces-3325-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3326-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A668B81BF
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 23:05:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA6A8B820A
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 23:42:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2AD31C2351C
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 21:05:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABF631F23E1B
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 21:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FEA1A0B09;
-	Tue, 30 Apr 2024 21:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81A51BED78;
+	Tue, 30 Apr 2024 21:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5P+VeDa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BSetsOCw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC72C179B2;
-	Tue, 30 Apr 2024 21:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338ED1BED6D;
+	Tue, 30 Apr 2024 21:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714511105; cv=none; b=jNHj4HRV6JL2wDvONXvHnsB+KYIVLNFPrlVDnvQ2IhLbzNFRqKjPriorYCJm8spyRG/69BKUFktl+zdEkpR1L5PI4RzSMgsBec+lQ1j8h/7Z3dj8nIGLilndmI0cQ6cI+jPSv3HW/IS/IM2fjeiA1qdevQzgiFCASi+T8dEc8us=
+	t=1714513297; cv=none; b=LJwALdKtGccjYqZIVyj8xpL5C8sXZgJICElOEIjhAOiT37ao+l32weaAx0D9MDpCeyuIUvGMZVewZ4VTo+bCWCuYnLeuj6irY8l8qe2JrIbdhZQfGvAC00CnT2zhaf37sZ18P6KoFu3L2b9MQ3P+B8WN52I/MybtPM7cl0XeKYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714511105; c=relaxed/simple;
-	bh=F/rohq7qOnPPqVGaFInXQM5IP4eoAokppwhdkbE6i1M=;
+	s=arc-20240116; t=1714513297; c=relaxed/simple;
+	bh=BiF9GnuhVzLkqQztta/yMxvlsv4vBJvKKN7re09JxeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YT6+xvq/gs0iVSdnY6itXjVqL1ev7BB6z+Zzu8rxHHsH4OGadHyVq9hKt9amWC5t+AKZOIwPRGKOcUP/75rRC5BuD1sMW3xSLsoo00+wWCTNpa+qilkeHNphBI86AxN/L4e4B3aLeBWDYjaN8uz55c9PpRylABVjLBFjaBiu9iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5P+VeDa; arc=none smtp.client-ip=209.85.216.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=jd79G21IRSxdJvA9VjPIwDHYGngvz2L3h9crjPgspoD54q8Xj/Hv3IlFwBq16dEb5+VE9ZM0q3sgNUhyRilONlAaDIm5pZX64FBeyAO/80OTO6YxpR9v8msQjs55LgTMu0sEoIWWp527CMNfBJ1iBktjBMgp615ff/1Gs545e5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BSetsOCw; arc=none smtp.client-ip=209.85.166.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2b2769f017aso1068324a91.3;
-        Tue, 30 Apr 2024 14:05:03 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-36c546b7d04so8773715ab.0;
+        Tue, 30 Apr 2024 14:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714511103; x=1715115903; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4iHfZMligVtaN3PJeTsVRrBoDkEzMS8Sae0cv4zl38=;
-        b=k5P+VeDaaxfpeqoAcIxKn2QGf+HcaP9ATRiIHSlAOR4fQakk6pfikmlFTyQDXJOC1S
-         5eIJRGa0WhA1Q5vprmw7wTHgkZ2z7Fq6ZsaorGZvBwEGZAXn4ijY6QsNmDmi+FGOXdMU
-         ZAA7qxVrq9NnqWLHGa29pHrVjNXcq5G9oMGId/C7L99nyTq6dUPpwd9+iltkhMAiucrv
-         saz9b+bHNWXL/QygfIh/1CUaJvQQPnaxTw1pm7Zs6YaPUlk2ZjMHsk5p+6/YTa+HbAes
-         I0FdeFkLZ3a+h6xUAo8k6Pgi+S2PUjem9H6CjPZ29+Fq+/YqtUvM7kIlQPHp6Cp0BHRd
-         K3gQ==
+        d=gmail.com; s=20230601; t=1714513295; x=1715118095; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3ACMbtfXqDXl8mT86PD7W0UZrsuRE0FuMtjMTpD2oMs=;
+        b=BSetsOCw7+00c0xhg0Al9psckpm4s43CW+CQLbgMmd38vHFTBotGAFkwvWiX2rA1JP
+         kutJLxjFCnsPtknV8STq3+bafGyVx1QLk1zalgMFeLwGCwAeI/d6IX72j7Fd2elN73qK
+         qt1SoRYUpXifHxdIaLoAXFx09bKo2UHtKdz0PpvguNgetY5IM8KvOlE+IjrO2loEtsvu
+         vKWin9/ANts4IT0iphlhQMBFqT5FMyC6jrl2H3ki+atL8cCyji7JFk6OZQ0eSoJv/58E
+         P/er85IuR/bpL2P7UVBLPJIMDzDyWy6Yv+YF9B56ktp/DjZUwKjGgHKZndnBwzgMC7Wx
+         z/Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714511103; x=1715115903;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m4iHfZMligVtaN3PJeTsVRrBoDkEzMS8Sae0cv4zl38=;
-        b=POpSdBcPxZ0CSUNNEZlHUVKA9pWkszbdUJkdtuvx5CZrqC4ncaAFcrXPOSVDzQye3I
-         4noa5fv8eAE1fI1K2SQMXO33zdeMxab+CwaYzmqwdygLYS1OLwCDK2lmPXsMbhy1/qp3
-         lxa+Y/yBru8ePMLeprJ0lu58XrGTuhtKBooHlG+Dera1LLzEoE/ZYUWqv7QcSLFgaz3a
-         /aU6JaJsubq+60z6kgo3sl0GzhC+Jiok/xCjTSrTrBkmu5ermVb/xERV+7X0fCYubc2U
-         EW7wojERyUv1aJ7vEySh+Zsq14F7g/Z2E5JuO8DVSE8/05vVvuvwGqR6AuT5defYA500
-         hfzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNUmDuFVVgG5i+2iyXNuH8vdH7pFqh6pm6/+GbTgccqOu023YbQMsxyV2PDFRzOqhsVlOfT2P4UiCQ827R/plQ5jj9jzeOEL9rCLb4VOVeuotv4yNXDJS77wXMDSjCvzyyG6XegNvjyywPdWwLa+/C5g55C3DmnAnmdejoSdeftJGyZ+Iy9tUC1d8=
-X-Gm-Message-State: AOJu0YwVqm7PC8THz9SDZtLjecKCJKFqs/KdwSsxw/dvO5qWF9DY9Xgj
-	i7xU+5y5ntgCcYxX3UhrbkZEctijc8z7vABdL4oeH7IisbHgmDk7irtcbw==
-X-Google-Smtp-Source: AGHT+IHCNGsoBLeJ3fU8TFjhexfzHWOIYrM1UjKlIVT9yaZbnjjWa024wKqsRJmgw5t6qW1JejjlUg==
-X-Received: by 2002:a17:90a:1fc8:b0:2a5:2f48:1eba with SMTP id z8-20020a17090a1fc800b002a52f481ebamr619471pjz.13.1714511103054;
-        Tue, 30 Apr 2024 14:05:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714513295; x=1715118095;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ACMbtfXqDXl8mT86PD7W0UZrsuRE0FuMtjMTpD2oMs=;
+        b=BYlP1TRk7vtM2JFnaaQzgBVYsmaAieo6ZRjrYAXCgwwzuSQnorEs0zlOXVfdKnkwT0
+         zuR3KGJ9O8/7HIA7Tnqi1QZhzsXVpvwr9Nz2xuGxs/dDxP4LFpbOtZyU03QyEC5f0Q2p
+         40j+xXL2weQ+nQwcCBh62tzM4x69nEVbmpMMAifHAE0JFPQ19871Xj8m8tauozcwftJP
+         DgtWZ71fa9z9Na1V9JgyQmQwJJg2Zj7HxOH6s2wPN5CiRI2EQwPINiXPnB9zve6tMQuB
+         f0+OxdQVboRdMGLDYsuw371Tb2ExEip0cv3JtHULIsm5Ue2oV10ZHwfFfyhzBf1E8Lbr
+         o1Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCV9otNZ1tPPai2KITk6EITPtntGXibT3HSGgvz/QSvTYF+jGdZTm0husM0khV3ya1ijdITuZ2eg5QFpLDs+MeaIkxMNj7Fx6QxPSTdTAFn2JJZ5zCiJa1IvDTZ4gijlCTy/Y6WgDB3HCPc=
+X-Gm-Message-State: AOJu0YybpZ/SrfC7skBRz4MsvfWsFVW4n8zDm+m83sfGPopIJTrDdPHO
+	htD21TeulfrJhGrtHF+ksZY9kcm0Uma6AhBdDXRN2sZ/ATze1q4P
+X-Google-Smtp-Source: AGHT+IGTIFnik48YV7WtOVXqf4VkLiTiGC5at2Tx1p6PyWpgpa1LgotTyXKdvv4nWirg0ZXJHJECsQ==
+X-Received: by 2002:a05:6e02:13ae:b0:36a:1e55:535b with SMTP id h14-20020a056e0213ae00b0036a1e55535bmr1102908ilo.16.1714513295063;
+        Tue, 30 Apr 2024 14:41:35 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:68d:41e7:d081:607d])
-        by smtp.gmail.com with ESMTPSA id sn7-20020a17090b2e8700b002a610ef880bsm36286pjb.6.2024.04.30.14.05.02
+        by smtp.gmail.com with ESMTPSA id bn14-20020a056a02030e00b006089cf2cde5sm9023079pgb.26.2024.04.30.14.41.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 14:05:02 -0700 (PDT)
-Date: Tue, 30 Apr 2024 14:04:59 -0700
+        Tue, 30 Apr 2024 14:41:34 -0700 (PDT)
+Date: Tue, 30 Apr 2024 14:41:31 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Erick Archer <erick.archer@outlook.com>
-Cc: Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] Input: ff-core - prefer struct_size over open coded
- arithmetic
-Message-ID: <ZjFc--tMio1wmBpf@google.com>
-References: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
+To: Kenny Levinsen <kl@kl.wtf>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>
+Subject: Re: [PATCH v3 1/3] HID: i2c-hid: Rely on HID descriptor fetch to
+ probe
+Message-ID: <ZjFli4zOalXkDWx_@google.com>
+References: <20240426225739.2166-1-kl@kl.wtf>
+ <20240426225739.2166-2-kl@kl.wtf>
+ <ZixvUNooESC02cJK@google.com>
+ <5aa9f745-7f6a-4873-90ba-79c55335905c@kl.wtf>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <AS8PR02MB72371E646714BAE2E51A6A378B152@AS8PR02MB7237.eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5aa9f745-7f6a-4873-90ba-79c55335905c@kl.wtf>
 
-On Sat, Apr 27, 2024 at 05:05:56PM +0200, Erick Archer wrote:
-> This is an effort to get rid of all multiplications from allocation
-> functions in order to prevent integer overflows [1][2].
+On Sat, Apr 27, 2024 at 03:20:07PM +0200, Kenny Levinsen wrote:
+> On 4/27/24 5:21 AM, Dmitry Torokhov wrote:
+> > I really think we should differentiate the cases "we do not know if
+> > there is a device" vs "we do known that there is a device and we have
+> > strong expectation of what that device is, and we do not expect
+> > communication to fail".
 > 
-> As the "ff" variable is a pointer to "struct ff_device" and this
-> structure ends in a flexible array:
-> 
-> struct ff_device {
-> 	[...]
-> 	struct file *effect_owners[] __counted_by(max_effects);
-> };
-> 
-> the preferred way in the kernel is to use the struct_size() helper to
-> do the arithmetic instead of the calculation "size + count * size" in
-> the kzalloc() function.
-> 
-> The struct_size() helper returns SIZE_MAX on overflow. So, refactor
-> the comparison to take advantage of this.
-> 
-> This way, the code is more readable and safer.
-> 
-> This code was detected with the help of Coccinelle, and audited and
-> modified manually.
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
-> Link: https://github.com/KSPP/linux/issues/160 [2]
-> Signed-off-by: Erick Archer <erick.archer@outlook.com>
+> My reasoning was that there is no difference between looking for address
+> acknowledge on a probe read vs. a real command. Unfortunately, I ran into
+> some issues with error code consistency that Doug highlighted...
 
-Applied, thank you.
+I actually believe there is. On Chromebooks we may source components
+from several vendors and use them in our devices. The components
+are electrically compatible with each other, have exactly the same
+connector, and therefore interchangeable. Because of that at probe time
+we do not quite know if the device is there at given address, or not
+(i.e. the touchpad could be from a different vendor and listening on
+another address) and we need to make a quick determination whether we
+should continue with probe or not.
+
+Once we decided that the probe should continue we commit to it and all
+subsequent errors from the device should be treated as unexpected errors
+worthy of logging. On resume we do not expect hardware configuration to
+change, so again when resuming we also treat errors as errors and log
+them and fail resume.
+
+> 
+> Considering that the smbus probe bails on *any* error, it's really only
+> ACK'd address + NACK'd register that remains, and I thought it maybe
+> wouldn't be too harmful to just always have a debug log as suggested.
+> However, I would still like *more* good errors by being specific about the
+> error condition, and I plan to send some patches to get the number of
+> drivers sending ENXIO up so we can comfortably rely on it in a future
+> i2c-hid patch.
+> 
+> If you don't think it's acceptable to leave this as a pure debug print for
+> now, I'll send a patch with just a minor clean-up and Łukasz' delays - then
+> I'll try this again later when the driver situation has improved. I've been
+> rapid-firing revisions, so I'll await an ACK this time... :)
+> 
+> ---
+> 
+> For some context, I started looking at the i2c-hid driver after a recent
+> regression around assumed Windows behavior, and found that the actual
+> behavior differed a lot from our assumptions. Windows gets the job done
+> notably quicker, with fewer messages and with shorter albeit differently
+> placed delays.
+
+I am not sure we can fully unify what Windows does and what Linux does,
+mainly because our firmwares are different (I think Windows devices do a
+lot more device discovery in firmware, Chrome OS historically tried to
+limit amount of code in its firmware). We also need to make sure it
+works on non-ACPI systems/ARM.
+
+Thanks.
 
 -- 
 Dmitry
