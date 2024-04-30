@@ -1,152 +1,122 @@
-Return-Path: <linux-input+bounces-3313-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3314-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19ED58B6721
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 03:04:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640318B6B09
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 09:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C78FC283746
-	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 01:04:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CCBB283A6E
+	for <lists+linux-input@lfdr.de>; Tue, 30 Apr 2024 07:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE4472F28;
-	Tue, 30 Apr 2024 01:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE4D2209F;
+	Tue, 30 Apr 2024 07:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMJfN3+J"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DpyNNrZ5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408CB1FBA;
-	Tue, 30 Apr 2024 01:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED3ADDAA
+	for <linux-input@vger.kernel.org>; Tue, 30 Apr 2024 07:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714439078; cv=none; b=NttFJoev4rSE0b+91Ry2K4W6Tz1xQ42GDVov7TGph/ZB7cOap8N2rpTrfQxXQEAYPrXLjLBT+akqihoxQljGQkWj2++E7cbSDTbgE8kqCiarpOCXxwgD4m0pibudmEyNKadNUDI4L/Xu5k2w8s0eLPgePueWVUErHbg697I7m1o=
+	t=1714460634; cv=none; b=inMkBFou0C/iExucu0L9oCktkuOdUsIqHOsCBZroNprtIAgN4oBSakU7LS7kWODYZvA47ZN8i+OEhm1Un26qfFbTe27xecxsUExedpzje2jKYXR3mmbbGBbRjf6BePg6N41uUIh8+KWQVXhveSdzKQOAX+pYaSOlr+GToAYfJRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714439078; c=relaxed/simple;
-	bh=PfIZ2OzMF7H5BdktCnUKZd+MnhBoRHx3h3/g+0pDVmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PYYE0RCskJSEL+1NoR7DpmNL87PM84/VlZ5PyMsq9fBMrPtWn2E+tqCRKTRZN1YHnSa7VUMwN+yyGb6mWmmn4AXPSVBMmLxKdRIr7lza7w6I9mbhM/ZgVabzP2s6r+keVXQIMvOtaSiL4O87OlTT3kQ8Ifdrl2ewjF4pMn6W150=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMJfN3+J; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5726716a006so3819093a12.2;
-        Mon, 29 Apr 2024 18:04:36 -0700 (PDT)
+	s=arc-20240116; t=1714460634; c=relaxed/simple;
+	bh=G1k8CpKdg+bfIUwSdRenW5CRY3jxZAX4mgXlxWT1N1w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hVeWWn93ql6cLV71jrnQZjynvIi2UrcxITuf7obxDIRLG6ZXNiX4lk+7ilJh5rUVWv+Ac3qelkEAp1KbKjD4NIqB6KFYoy6xBJvK6Iu39JZC7+7Mw8qb6OS+x+3XoKhLOO1bKDbWSkqnno4tN0HAjM8x+AlXTD+8f5MPtky0kQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DpyNNrZ5; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-615019cd427so41172077b3.3
+        for <linux-input@vger.kernel.org>; Tue, 30 Apr 2024 00:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714439075; x=1715043875; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HmlXHYTP1JU1chg3YaCZTEhfqyjw0+XCv0tIk9SD3Mg=;
-        b=kMJfN3+JVJ3HvHeUx5tK00p1FTS2Uv9RpTDzgz+GcWDkR+Sew+9NY7ryukSpFxFzMe
-         ydp1Y0cQOxWKBhphtadlu0Xuzz5k95iCF4GFUHVl4IrldfXoy5CNbMcUcD7iQDkgU3NX
-         tUP/zMWWI5xccmov19mdHVzjiNokry29YykE6ESeyiVS/UfRswdWMG65H77ns6lCiEAP
-         LzFaaBGCW29KWarwPz+UpbQT65R8Wxv0wWoIjRoOJN7u2D4cbylbQoJ4dFkMc53TpS7m
-         /q39YAJiooMkkLITTLfkbTXBr8MqRUqWpXhGe98VXCyVz0pwrYBa9XUo3JpexGKAh5IN
-         CloQ==
+        d=linaro.org; s=google; t=1714460631; x=1715065431; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IInDItLrXNZ4XNBWelveHBo8SDn/BQxqaWUl2OaDTB0=;
+        b=DpyNNrZ5bpOiRbBkrVTpbFIVOWpuGiP3dTdf9esZJIu/vAw50WNmipAMnd/RYNxn6m
+         DF8048f71D0d6v6MTo1Cnmi5CtnUt5zRCYZqidwaGvXCdIKfMhwmgrhNJ/IG0wZhzewa
+         tJOfjAhlXdC4hF9OdP2YcIRyVldnwIwN/WZWDFia0xfz9hLIak8wO2n+CAoLnfxBNV0c
+         N1/74Dmj2tcCm1K3g/z///EbMLpGBMywsQl5hCJxJU6e0dEO+TbvdmYu6hp3noEh+K1P
+         VvS9ljT3zjNT2F5v92kzkixciv1IgJnu+mWhworADvCkEwdtx8Hrl5JRysSCK3ZEy0Ox
+         cpsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714439075; x=1715043875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HmlXHYTP1JU1chg3YaCZTEhfqyjw0+XCv0tIk9SD3Mg=;
-        b=Si3ztAIDNjFAKjTe/oB568F8IzJn9U0JQ7HBcjrXDxgtXlc98hL7QmbS9F65xN5ZjT
-         CxOgoa5oAe91P0W6Tjxo5YGngq7Q5OEjlpjKycdEhpCOJ74vdDX+7PnYggGXCl0+M5FF
-         sFb//NDUbYQ8/iTaGXhybGY8rwKAd8kyaB0+rmr73bETH0mCdlpH84eRmUubxsrGGzTd
-         8EaMl31ZRy124n66B1i5v9xFaLVzHyk1luWdwAHs+nJ4Oqw3+bssi6nouBMx2ykDJnFC
-         rivw84RHKOZSTULHRu6AphjBOgZV8I1TnnFN3Ii651UFlzmajcThQDrEmx9fCXNFaTjy
-         kKzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxTXGFvgCWRHhhUsiySi+1A9NQguBWu1Q6LbGNonWPWMctjyqQ/ujEfG0nghptr4kov2cyI7TRQunneeVrFfFEgZRfprHD8hbU4faI
-X-Gm-Message-State: AOJu0Yw9fPEVrF3bdPNoh/XT4ai2BdTcl86wVAEbY01kYZ4Ghlp/amOB
-	QWBPByZSjI0iRxb7W6e5IR12XKDiziDx9ClbYwKaCe0kmEgH6z7wi1M22mJPXkrS5BVrxV7xtP/
-	QOxI9bDUT1IT5A0vCJeQZK5Lkqfc=
-X-Google-Smtp-Source: AGHT+IGrM7nX4xycFTF6rLoZ9A5f96CoTvHTE2HEqPMJ05yvBCkg7o9L/Cb8ibqoN8mRlt/tvkeBzd09DEOm2VGWjzQ=
-X-Received: by 2002:a50:bb26:0:b0:572:7089:7f78 with SMTP id
- y35-20020a50bb26000000b0057270897f78mr5396986ede.34.1714439075311; Mon, 29
- Apr 2024 18:04:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714460631; x=1715065431;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IInDItLrXNZ4XNBWelveHBo8SDn/BQxqaWUl2OaDTB0=;
+        b=DN9bqMrR+V5x11AZlpghopYtuBNImnNjBYqZPfXkMExn5viLEsqE0vC+pDodq+eN+D
+         bUHSvM51MKL76TqDEWtOeFLZGEJKA39pO8FQQVxnQP7Uh9F2ItuO9JDQfKieBXjVbBK3
+         3GzRZb1u0tWsiBgMldkhCj8/mJBy6nRuAhuaBIosWB97/Sg4hVX7MVlPHPGYIrz2ejFz
+         gBdJk6slVe6qbtLOHG/DgzbqDhmEp/KnrTUYPD1u1hYNoY10yQJvkkVgMmxPYFYtBD7H
+         dG8av91l5vQqnyfXFIqCq6Uj4swo+0bHGkBDDvb0me6AT3puYp6J9iZjmsZstQP+QbbI
+         qqvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUS4xiGMPFni7/wX768fgP4fUUPudJNOHUxDEcDKghh6DqkeyAASWTe3CW+FaHD+OmRhPa3PHuRC0d+JyeoCLLh9nZi64esRvECWBM=
+X-Gm-Message-State: AOJu0Yz27Ki9bIJ2gXiM4dnsOftA+MYJG3XGX/PIQlUPwQKjRQKt5lqD
+	y6CB1xOrEPf4sWwyA2COP0GgNnXQDixibfdDFrQdMQbjwhQuRFytbyCBkVxUb7Q=
+X-Google-Smtp-Source: AGHT+IHNrNxsl7eqKfYPVs0+J4/3qJ1v/ED7s2T5bVKKWAFeZIDesnnJwNxwvf70mUgFPuqrS/Htrg==
+X-Received: by 2002:a05:690c:6f84:b0:61a:b7c8:ea05 with SMTP id je4-20020a05690c6f8400b0061ab7c8ea05mr15025816ywb.35.1714460631276;
+        Tue, 30 Apr 2024 00:03:51 -0700 (PDT)
+Received: from [192.168.1.140] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id z11-20020a05622a124b00b00437b4048972sm10610674qtx.18.2024.04.30.00.03.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:03:50 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/3] ARM: Modernize the PXA Spitz a bit
+Date: Tue, 30 Apr 2024 09:03:46 +0200
+Message-Id: <20240430-gpio-leds-miscarm-v1-0-9c94d7711f6c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZjAWMQCJdrxZkvkB@google.com>
-In-Reply-To: <ZjAWMQCJdrxZkvkB@google.com>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 29 Apr 2024 21:04:23 -0400
-Message-ID: <CAKf6xpvzrCHAsbokGu_+7P0H=n4T=dsRN81msJjW6yVMcEZi6g@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: try trimming too long modalias strings
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Peter Hutterer <peter.hutterer@who-t.net>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANKXMGYC/x3MQQqAIBBA0avErBswFcquEi1EpxrICgcikO6et
+ HyL/wsIZSaBsSmQ6Wbh86jo2gbC5o+VkGM1aKWtstrievGJO0XBxBJ8ThjdYEJvnFJdhNpdmRZ
+ +/uc0v+8HrGy7CmMAAAA=
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-spi@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.13.0
 
-On Mon, Apr 29, 2024 at 5:50=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> If an input device declares too many capability bits then modalias
-> string for such device may become too long and not fit into uevent
-> buffer, resulting in failure of sending said uevent. This, in turn,
-> may prevent userspace from recognizing existence of such devices.
->
-> This is typically not a concern for real hardware devices as they have
-> limited number of keys, but happen with synthetic devices such as
-> ones created by xen-kbdfront driver, which creates devices as being
-> capable of delivering all possible keys, since it doesn't know what
-> keys the backend may produce.
->
-> To deal with such devices input core will attempt to trim key data,
-> in the hope that the rest of modalias string will fit in the given
-> buffer. When trimming key data it will indicate that it is not
-> complete by placing "+," sign, resulting in conversions like this:
->
-> old: k71,72,73,74,78,7A,7B,7C,7D,8E,9E,A4,AD,E0,E1,E4,F8,174,
-> new: k71,72,73,74,78,7A,7B,7C,+,
->
-> This should allow existing udev rules continue to work with existing
-> devices, and will also allow writing more complex rules that would
-> recognize trimmed modalias and check input device characteristics by
-> other means (for example by parsing KEY=3D data in uevent or parsing
-> input device sysfs attributes).
->
-> Note that the driver core may try adding more uevent environment
-> variables once input core is done adding its own, so when forming
-> modalias we can not use the entire available buffer, so we reduce
-> it by somewhat an arbitrary amount (96 bytes).
->
-> Reported-by: Jason Andryuk <jandryuk@gmail.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+A few ARM machines still use global GPIO numbers to define
+GPIOs, convert them all to use GPIO descriptors instead.
 
-Tested-by: Jason Andryuk <jandryuk@gmail.com>
+This machine uses some input devices so we go the extra mile
+to use software nodes as desired by the input maintainer.
 
-I don't have the gdm setup available to test, but loginctl looks good
-showing the Xen Virtual Keyboard assigned to a seat:
-# loginctl seat-status seat0
-seat0
-         Devices:
-                  =E2=94=9C=E2=94=80/sys/devices/LNXSYSTM:00/LNXPWRBN:00/in=
-put/input0
-                  =E2=94=82 input:input0 "Power Button"
-                  =E2=94=9C=E2=94=80/sys/devices/LNXSYSTM:00/LNXSLPBN:00/in=
-put/input1
-                  =E2=94=82 input:input1 "Sleep Button"
-                  =E2=94=9C=E2=94=80/sys/devices/platform/i8042/serio0/inpu=
-t/input2
-                  =E2=94=82 input:input2 "AT Translated Set 2 keyboard"
-                  =E2=94=9C=E2=94=80/sys/devices/platform/i8042/serio1/inpu=
-t/input4
-                  =E2=94=82 input:input4 "ImExPS/2 Generic Explorer Mouse"
-                  =E2=94=9C=E2=94=80/sys/devices/virtual/input/input5
-                  =E2=94=82 input:input5 "Xen Virtual Keyboard"
-                  =E2=94=82 =E2=94=94=E2=94=80/sys/devices/virtual/input/in=
-put5/event4
-                  =E2=94=82   input:event4
-                  =E2=94=94=E2=94=80/sys/devices/virtual/input/input6
-                    input:input6 "Xen Virtual Pointer"
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (3):
+      ARM: spitz: Convert Spitz board to GPIO descriptors for LEDs
+      dt-bindings: ads7846: Add hsync-gpios
+      ARM: spitz: Use software nodes for the ADS7846 touchscreen
 
-Thanks,
-Jason
+ .../bindings/input/touchscreen/ads7846.txt         |  1 +
+ arch/arm/mach-pxa/devices.c                        | 16 ++++
+ arch/arm/mach-pxa/spitz.c                          | 89 ++++++++++++----------
+ drivers/input/touchscreen/ads7846.c                | 31 +++++---
+ include/linux/spi/ads7846.h                        |  1 -
+ include/linux/spi/pxa2xx_spi.h                     |  2 +
+ 6 files changed, 91 insertions(+), 49 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240424-gpio-leds-miscarm-d983c739001d
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
 
