@@ -1,164 +1,163 @@
-Return-Path: <linux-input+bounces-3353-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3354-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1ECF8B8FF7
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 21:11:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E33908B9000
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 21:20:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17B991C20FDB
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 19:11:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03738B21DEE
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 19:20:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FF301474B9;
-	Wed,  1 May 2024 19:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB7C11607BB;
+	Wed,  1 May 2024 19:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FebS1O+D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d/bz9Sca"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF4837E;
-	Wed,  1 May 2024 19:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685AC1C287;
+	Wed,  1 May 2024 19:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714590715; cv=none; b=gRK02dpDm3m+YHp+b5yo1y59EVqKYgrrYOtcJiTkJ/zNz12gSSwn0GbqKOvczN55dPpTt8UyY0hJIDbEk5cSI1obLHetu6sAbBWTXIsYoJ3yf2nyU6ewg9NyIS6MASHawEwBOz7aGEXgN0xIZQP2WYUr3OhI4a/Tq4DRjCTYBP8=
+	t=1714591208; cv=none; b=MsObkkZLk+Ns53XnM4jaisY7lJpO3qTXsm5uU6MDz63S2T8mxtiDd14aGSu4vKt7vLGgftuEbdr7GvIifxljLOMEP5k+nVsj+rL7o+xwe3LnBFEAflXKD4wgoiJOR7/0FYMmtzgX3VR6RoSm9cHJUbIAuI1vabPW5bsnYa+0LfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714590715; c=relaxed/simple;
-	bh=tMQZV9fHGSGxPJBBtUnKfp2Inz9V/QY8CXv91C6xmiU=;
+	s=arc-20240116; t=1714591208; c=relaxed/simple;
+	bh=2icMSh1KJRQHkfMpRS4no2f8fdq6UTlQRe2OM5Yszuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGwolYnkSohWYhY34QtfN6x9TXENvkIzYKVar4iHmHzwH3oKA5UDy+RGOR38kEJwSHqRl3Unp42Yhw677Ey/D0dfiH9m5LWSL/gCqdckA30k3DTfwPyAm4RBRMQ4wg99P5aL0ovZEY/PLp9cs2lZP9iwX4w64woM8a1sWzpRqZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FebS1O+D; arc=none smtp.client-ip=209.85.216.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=e38QcdCVttAFL8uEgGfX1QJ/zymYbkkplSa0Heb+Gdoelt/4EyR3pydRa2Sp70jAZj5sAVtd8j8EmwKcmUhOJR3PB5Y4iJ60FV/Not4prqkH/OXNroZe/VdKupFTDEQ+naAEFGswEoect8nkYLY6sXpfLdToWosOJJIIofAFZuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d/bz9Sca; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2b33e342c03so608884a91.0;
-        Wed, 01 May 2024 12:11:53 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e50a04c317so39552685ad.1;
+        Wed, 01 May 2024 12:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714590713; x=1715195513; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wRf2rHKBPCLYia00jxfTeMnUCgUqm7QyU6rnSroHoWY=;
-        b=FebS1O+D4/jI+LWR8j9dLBMLfZYbVFyyif+9Z4YCIK7A1oAGQ2mpHOPHiLF7CXwsxX
-         kdBIQCymR0oNxsA9Q+Dpj/+uvvjFkQA3W9BNRsz70Eh5S54hyoKV48Gy6QOVtxH8oDjq
-         GNN734Yk8yjiS8pHuvUyf3X0jYkVCRftLggPaPzkCitZ0mwqzdhD3AipODcwpbIDP6Uy
-         qh728XdMpzpbl5tTkh1scpMAaDfER2dIHsoa88re9a+G5lfZNZwjCWV0IDOrtZ1/vIKN
-         wOILsUSW0aenQa8K6xoljPya+9bxLge000vgFBT1Dadu/5BChlpyp+Rw7x0Y7W8+0P2+
-         HU5g==
+        d=gmail.com; s=20230601; t=1714591207; x=1715196007; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NQMIHTv3D4/FbFaMQCgt0UeLIRCHiGP+9OlGQP/6AIQ=;
+        b=d/bz9Scaa7BuPvz3nctbRQ8UuZ0zHTgFvD63K+KqLaScb6PGEk1x233HnxDN2gBZ/h
+         8JQfqCsLksHbuHQhJf7HY2jesXbSZIH4O0iQY2LIUQHsvX3yV3uJ2n3DEgXpb5aZ9LNb
+         HS9oaOGO46o7qxlAlh8G0++arBZLx6Lec57sygx9MkK4SxRvEgzL+sZSo1KEj+n3vHkv
+         G8A5brAcRSQsmuAW7XO+EWi04+fdF57Ngey4MPvc0iW1UGTj/pIFW8ueLAWLfgOJUmbn
+         F5gI/9tg+yPccKQcm3JB4w2UbDHAOTqW48h67b/K1pXeKFoHG3IiCO1t+F+Y0HBM//+y
+         5ERg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714590713; x=1715195513;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wRf2rHKBPCLYia00jxfTeMnUCgUqm7QyU6rnSroHoWY=;
-        b=A6KyVRDAxKOokeZ+uyDQ0wCMzcD6C9WKBJnGZRAWkDnYixktofs//4i+L81MWIGeCW
-         Ls7c9346Jl8m9jTECAXoKfu6nG7EcAVCDw3k5m8DcOYSH6G6LEMpIld18xcTGAhvvTq7
-         h27DbkPMTZ1fgsTVZV7sNODzI4WVR/cl5PvRpC9IIhJ4x+mgPlMojxphg2HAD4MiwsI5
-         gWkVBGCwQhPgQdEE2a0Q2qlDEvrqgB60VQfLlyWCrJyIMbRoanoyMTjSTm9I+Khd8nNY
-         vdB6TOb8mnZJcx0jbh/S1nu6s0a5nEgsEtAsX2faQUGlZ69GSfjR98YxT/0IE2wkR6YJ
-         lJMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVVOgisx9Np1sjwXhr+OF+bEdRUpPmjqsr/abwVV/8F7knBbh24qm/YFtBgDtJVrSQi+2EyORRUA6Ch2yyInVfxx8NAD0UMkmULLzT0
-X-Gm-Message-State: AOJu0YzEHCd0KqKxzn5GvgkG2MvUqC90gES65h42Yt5LQglgRuT+Do+/
-	fmb7C9dKLjJHr+ytjhVi4ChLkBEeBa/PbsEOmqOxN9zhCTejjG1u
-X-Google-Smtp-Source: AGHT+IGGgphCUXgegkHhqB4uM36UDoxOGPvxxub2dK7Go0WZGERBSZn/RJudjnUX1UyL8qlwBfxS7g==
-X-Received: by 2002:a17:90b:609:b0:2a2:7a00:f101 with SMTP id gb9-20020a17090b060900b002a27a00f101mr3180196pjb.47.1714590712812;
-        Wed, 01 May 2024 12:11:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714591207; x=1715196007;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NQMIHTv3D4/FbFaMQCgt0UeLIRCHiGP+9OlGQP/6AIQ=;
+        b=AEBSMVOkxetFgvTLv4h+Qv0S4Sd5VNNtvF9Fpak3Ho5FxxZozoeqbKOvHx7XrMBH5c
+         n3K9qWFoP98q7355NLTMtjS/Dx04nq+QRFDkr6vhGUDnQyG91IRyLoirfrdcp2X66Wpf
+         FG0ObyD4u5Y7qKcf5Bj7ql2JYlNHhbf6tqDkQ3WJiueVgkVbmmoIjBPb2/9CqYbGnC2A
+         6ehCih/At2P3w5Z7L+56vkb5r1HCpduxxDkCRfy67KLPTAVn3gVMXHLLOzl1s80Jngze
+         kRJM0zOcBSnKmYz/EL0aktVr9XZwk/gXByklK1TPBrmnoR6tsdlJGyOvHJFZQVxziEHm
+         hKAA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2MkLABgmVkWu1B6XWmbr0MLxH/XkOSUbg+KRKEgmV9tktMjMSuq+pyRM1u5EgVI3p5VJxZHCyHXwjqJyVHTPZfxTrlAsHS1qMoP4=
+X-Gm-Message-State: AOJu0Yx+/mYO5XCBcM348ygRlC1PH+cTEW8VvDvCiPovlfPqLR6HRc2K
+	XsrLIIJKfwh6SPjRRgyfV3XwhxtjQkop+CEO23N0lD5Y6+60tNFk
+X-Google-Smtp-Source: AGHT+IGd58y/IOmwV5M13fhinNX4nSAJNZ+EFLovipF4lfrEQyQp9BGMZPZfm9gGlJJy8nVMxvg6Dg==
+X-Received: by 2002:a17:903:1108:b0:1e2:307f:d283 with SMTP id n8-20020a170903110800b001e2307fd283mr3810879plh.1.1714591206533;
+        Wed, 01 May 2024 12:20:06 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:1cb4:dd50:d6f1:6308])
-        by smtp.gmail.com with ESMTPSA id sz15-20020a17090b2d4f00b002aff85b97dfsm1680453pjb.27.2024.05.01.12.11.51
+        by smtp.gmail.com with ESMTPSA id u8-20020a170902e5c800b001e420abf8c1sm24596381plf.165.2024.05.01.12.20.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 12:11:52 -0700 (PDT)
-Date: Wed, 1 May 2024 12:11:49 -0700
+        Wed, 01 May 2024 12:20:06 -0700 (PDT)
+Date: Wed, 1 May 2024 12:20:03 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jason Andryuk <jandryuk@gmail.com>
-Cc: linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Peter Hutterer <peter.hutterer@who-t.net>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: try trimming too long modalias strings
-Message-ID: <ZjKT9QYB1ScvYeIo@google.com>
-References: <ZjAWMQCJdrxZkvkB@google.com>
- <CAKf6xpvzrCHAsbokGu_+7P0H=n4T=dsRN81msJjW6yVMcEZi6g@mail.gmail.com>
- <CAKf6xpsiLbZN=v2G052kuwPLNxmmbt4uoZAM21Zr+RtH0YD8kA@mail.gmail.com>
+To: Jonathan Denose <jdenose@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeffery Miller <jefferymiller@google.com>,
+	Phoenix Huang <phoenix@emc.com.tw>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
+ Lenovo N24
+Message-ID: <ZjKV44wZWH4MBCrF@google.com>
+References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKf6xpsiLbZN=v2G052kuwPLNxmmbt4uoZAM21Zr+RtH0YD8kA@mail.gmail.com>
+In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 
-On Tue, Apr 30, 2024 at 06:25:13PM -0400, Jason Andryuk wrote:
-> On Mon, Apr 29, 2024 at 9:04 PM Jason Andryuk <jandryuk@gmail.com> wrote:
-> >
-> > On Mon, Apr 29, 2024 at 5:50 PM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > If an input device declares too many capability bits then modalias
-> > > string for such device may become too long and not fit into uevent
-> > > buffer, resulting in failure of sending said uevent. This, in turn,
-> > > may prevent userspace from recognizing existence of such devices.
-> > >
-> > > This is typically not a concern for real hardware devices as they have
-> > > limited number of keys, but happen with synthetic devices such as
-> > > ones created by xen-kbdfront driver, which creates devices as being
-> > > capable of delivering all possible keys, since it doesn't know what
-> > > keys the backend may produce.
-> > >
-> > > To deal with such devices input core will attempt to trim key data,
-> > > in the hope that the rest of modalias string will fit in the given
-> > > buffer. When trimming key data it will indicate that it is not
-> > > complete by placing "+," sign, resulting in conversions like this:
-> > >
-> > > old: k71,72,73,74,78,7A,7B,7C,7D,8E,9E,A4,AD,E0,E1,E4,F8,174,
-> > > new: k71,72,73,74,78,7A,7B,7C,+,
-> > >
-> > > This should allow existing udev rules continue to work with existing
-> > > devices, and will also allow writing more complex rules that would
-> > > recognize trimmed modalias and check input device characteristics by
-> > > other means (for example by parsing KEY= data in uevent or parsing
-> > > input device sysfs attributes).
-> > >
-> > > Note that the driver core may try adding more uevent environment
-> > > variables once input core is done adding its own, so when forming
-> > > modalias we can not use the entire available buffer, so we reduce
-> > > it by somewhat an arbitrary amount (96 bytes).
-> > >
-> > > Reported-by: Jason Andryuk <jandryuk@gmail.com>
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >
-> > Tested-by: Jason Andryuk <jandryuk@gmail.com>
-> >
-> > I don't have the gdm setup available to test, but loginctl looks good
-> > showing the Xen Virtual Keyboard assigned to a seat:
-> > # loginctl seat-status seat0
-> > seat0
-> >          Devices:
-> >                   ├─/sys/devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
-> >                   │ input:input0 "Power Button"
-> >                   ├─/sys/devices/LNXSYSTM:00/LNXSLPBN:00/input/input1
-> >                   │ input:input1 "Sleep Button"
-> >                   ├─/sys/devices/platform/i8042/serio0/input/input2
-> >                   │ input:input2 "AT Translated Set 2 keyboard"
-> >                   ├─/sys/devices/platform/i8042/serio1/input/input4
-> >                   │ input:input4 "ImExPS/2 Generic Explorer Mouse"
-> >                   ├─/sys/devices/virtual/input/input5
-> >                   │ input:input5 "Xen Virtual Keyboard"
-> >                   │ └─/sys/devices/virtual/input/input5/event4
-> >                   │   input:event4
-> >                   └─/sys/devices/virtual/input/input6
-> >                     input:input6 "Xen Virtual Pointer"
+On Wed, May 01, 2024 at 02:02:32PM +0000, Jonathan Denose wrote:
+> The Lenovo N24 on resume becomes stuck in a state where it
+> sends incorrect packets, causing elantech_packet_check_v4 to fail.
+> The only way for the device to resume sending the correct packets is for
+> it to be disabled and then re-enabled.
 > 
-> What do you think about Cc: stable@vger.kernel.org?  I'd like to get
-> the Xen Keyboard working as widely as possible, so I'd like it
-> backported if possible.
+> This change adds a dmi check to trigger this behavior on resume.
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
 
-I am open to it, but I'd like Benjamin/Hans to take a look at this
-as well (I see Peter already gave his Reviewed-by).
+Adding a couple more folks to take a look at this...
 
-Thanks.
+> ---
+> 
+>  drivers/input/mouse/elantech.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+> index 4e38229404b4b..e0f3095b4227e 100644
+> --- a/drivers/input/mouse/elantech.c
+> +++ b/drivers/input/mouse/elantech.c
+> @@ -1476,6 +1476,23 @@ static void elantech_disconnect(struct psmouse *psmouse)
+>  	psmouse->private = NULL;
+>  }
+>  
+> +/*
+> + * Some hw_version 4 models fail to properly activate absolute mode on
+> + * resume without going through disable/enable cycle.
+> + */
+> +static const struct dmi_system_id elantech_needs_reenable[] = {
+> +#if defined(CONFIG_DMI) && defined(CONFIG_X86)
+> +	{
+> +		/* Lenovo N24 */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
+> +		},
+> +	},
+> +#endif
+> +	{ }
+> +};
+> +
+>  /*
+>   * Put the touchpad back into absolute mode when reconnecting
+>   */
+> @@ -1486,6 +1503,22 @@ static int elantech_reconnect(struct psmouse *psmouse)
+>  	if (elantech_detect(psmouse, 0))
+>  		return -1;
+>  
+> +	if (dmi_check_system(elantech_needs_reenable)) {
+> +		int err;
+> +
+> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
+> +
+> +		if (err)
+> +			psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
+> +					psmouse->ps2dev.serio->phys, err);
+> +
+> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
+> +
+> +		if (err)
+> +			psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
+> +					psmouse->ps2dev.serio->phys, err);
+> +	}
+> +
+>  	if (elantech_set_absolute_mode(psmouse)) {
+>  		psmouse_err(psmouse,
+>  			    "failed to put touchpad back into absolute mode.\n");
+> -- 
+> 2.45.0.rc0.197.gbae5840b3b-goog
+> 
 
 -- 
 Dmitry
