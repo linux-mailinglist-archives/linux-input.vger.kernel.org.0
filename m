@@ -1,174 +1,107 @@
-Return-Path: <linux-input+bounces-3355-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3357-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB62A8B906D
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 22:10:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B466C8B90E0
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 22:48:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35E22281260
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 20:10:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 08D07B22EDC
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 20:48:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE3D161936;
-	Wed,  1 May 2024 20:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A03B165FA0;
+	Wed,  1 May 2024 20:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZAXi869"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="pLXtkvRu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F40642A96
-	for <linux-input@vger.kernel.org>; Wed,  1 May 2024 20:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB409163A80;
+	Wed,  1 May 2024 20:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714594248; cv=none; b=jneWLh7v2Qt5sZWmQQe71x9mLQqbesoBZSsrEHeyZjDCyPrLO/ID/169wDiQO2TB624wyBs8apxEzSxCu1X9wilWbTNvKSFplbxoI+md1bHj7LA57PrK8s7cJMHz7hL1/gzKkV2uGDnxo6HQCelL9mNE+UxvCpDa4+Qv1DQrIB0=
+	t=1714596497; cv=none; b=IBF+FOPzyVHSnES4cNdm12QEIknsQc8gWACIW/RU/PWe7CK6qnfgmLDNyiLVId6ZHUREHnyzfrLSQe+Y41Jm4GJLLpha1+dYZdqJ7TLPW/SpMNltXvNgNxLrnMdOIvqn30hY7qTPnzzLYUsKYGKTk6zbbrnSrNdwEATD1WGmSw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714594248; c=relaxed/simple;
-	bh=MWbKEJiaoqlRwXoBtNPahpZypFimn426XDgJYumAGDk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GDiPF6ROAfZ9FDKF1Ae++L77l3894Hgc7PGUs21K897kkNUo5RRGshhhB0mqWhbDk73vrQIKVkaESLA19gmDMlazF1lsUF/80xxdplaWOA2MFKqQ8G/tYYUTlQmcnpi1XHYW5tjMxrL41zE1bSz7Z66wodQ7wKNpvpY4F4ku3BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZAXi869; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714594246; x=1746130246;
-  h=date:from:to:cc:subject:message-id;
-  bh=MWbKEJiaoqlRwXoBtNPahpZypFimn426XDgJYumAGDk=;
-  b=UZAXi869lht5G05ylT7tMliaANOU66Vln5BkFY0IwQqC0s0ZRPenwm9B
-   AzIPNwGW0nFjgkCF1jjLIG4Y6+OavuEYybMiHj4L+u1qR/XbIxUPCcr0L
-   wIvLAuVB9iXWMup6dvOSkmj4uf5b4GvTophoZzfCIaXg6hPg92GabGxQl
-   fuGe/eWT1doyXCZRMoxfelE6patqqwcXv/YCIm1vJoG6IDP0Qh/3J/ZyZ
-   Q98R3libHc2PgfT6Q6mslbrUyCPDIMlSzMcRJzG2yKhboEB2reH6yTm12
-   7IItDibmmjuqUYX5jGdhu7Srv2HycSjoJ8ebJv3JlrBCsXVPOqY0i5yH4
-   A==;
-X-CSE-ConnectionGUID: 60m1iBSQTi+dtzDynKWTjA==
-X-CSE-MsgGUID: uhDXrUC6RiWeD1/o4WIHTA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21745111"
-X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="21745111"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 13:10:45 -0700
-X-CSE-ConnectionGUID: 2/6wuoWPRa6VoL6ePjiEdg==
-X-CSE-MsgGUID: RoI1sxFcRlCECYSMNcX1sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="27504949"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 May 2024 13:10:44 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2GHq-0009wm-14;
-	Wed, 01 May 2024 20:10:42 +0000
-Date: Thu, 02 May 2024 04:10:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 7b4e0b39182cf5e677c1fc092a3ec40e621c25b6
-Message-ID: <202405020415.qGB8Z3Wx-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1714596497; c=relaxed/simple;
+	bh=2Xv24IW461dx87lQvZYqfi3iIdL1HV0h2BUIUMEuDyI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=SgUQv4uudWSTj2prNXsnEAH0oXbgrTbBdJWwu1MhQPlQWkqAb4Wt8ga5JCfOx34ju+eC5umTulSjElOW3uFRIs7/tHfugj9j7XntyWArcgxqpfB23KpcpUdwxzOjzfG+U6SLUC5c2nxpfYdR2g9D0dRM5/hXb79jtDowiso4fuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=pLXtkvRu; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2Grz-005PNg-29;
+	Wed, 01 May 2024 22:48:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=EziAVVGoDGwvfXefxOEMQP944ZbxBIa11u0lLKfCvuE=; b=pLXtkvRu5bxzky+I5Z6IOiLCty
+	GYjbkq7sBI4GYlZYJSiDkpvQEd+EgdoLlqZ+idmVgwb842DxDpHVOxkhzXpf/8vPM1j01oHqM3btW
+	V/ICUPOvRBJtVssj2WM/bJHPlO0f1zcEPjGKbWPe1udgADayHRUq/8CJz5HbXnt2r9Rdgu80VuHHD
+	fgeUNMLo5b58HRz2Opk0cYLEHJf0fmGzfihzswul/SkeUKLBGRY40CHuPJZj2y9wTIV7tLXUC8598
+	YIjHJroDSIuJ8n5N6w3X5P6ArLlXQunHvFYKYK22Rz1uJDv41UtSboB8rbrO9kVF/QIQDUkneT+lB
+	xKa1clzQ==;
+Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2Grx-000OnR-1b;
+	Wed, 01 May 2024 22:48:02 +0200
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2Gry-003BKd-0p;
+	Wed, 01 May 2024 22:48:02 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	o.rempel@pengutronix.de,
+	andreas@kemnade.info,
+	u.kleine-koenig@pengutronix.de,
+	hdegoede@redhat.com,
+	oliver.graute@kococonnector.com,
+	ye.xingchen@zte.com.cn,
+	p.puschmann@pironex.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	andy.shevchenko@gmail.com,
+	felix@kaechele.ca
+Subject: [PATCH v3 0/2] Input: add ft5426
+Date: Wed,  1 May 2024 22:47:56 +0200
+Message-Id: <20240501204758.758537-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 7b4e0b39182cf5e677c1fc092a3ec40e621c25b6  Input: cyapa - add missing input core locking to suspend/resume functions
+Changes in v3:
+- reorder compatible also in driver
 
-elapsed time: 1480m
+Changes in v2:
+- reorder compatible
 
-configs tested: 81
-configs skipped: 2
+Andreas Kemnade (2):
+  dt-bindings: input: touchscreen: edt-ft5x06: Add ft5426
+  Input: edt-ft5x06 - add ft5426
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                                 defconfig   gcc  
-arm                               allnoconfig   clang
-arm                                 defconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240501   clang
-i386         buildonly-randconfig-002-20240501   gcc  
-i386         buildonly-randconfig-003-20240501   clang
-i386         buildonly-randconfig-004-20240501   gcc  
-i386         buildonly-randconfig-005-20240501   gcc  
-i386         buildonly-randconfig-006-20240501   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240501   gcc  
-i386                  randconfig-002-20240501   clang
-i386                  randconfig-003-20240501   gcc  
-i386                  randconfig-004-20240501   gcc  
-i386                  randconfig-005-20240501   clang
-i386                  randconfig-006-20240501   clang
-i386                  randconfig-011-20240501   gcc  
-i386                  randconfig-012-20240501   gcc  
-i386                  randconfig-013-20240501   gcc  
-i386                  randconfig-014-20240501   gcc  
-i386                  randconfig-015-20240501   gcc  
-i386                  randconfig-016-20240501   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   clang
-riscv                          rv32_defconfig   clang
-s390                              allnoconfig   clang
-s390                                defconfig   clang
-sh                                allnoconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+ .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml        | 1 +
+ drivers/input/touchscreen/edt-ft5x06.c                           | 1 +
+ 2 files changed, 2 insertions(+)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
 
