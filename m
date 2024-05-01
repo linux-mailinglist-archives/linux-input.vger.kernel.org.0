@@ -1,116 +1,95 @@
-Return-Path: <linux-input+bounces-3358-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3359-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231808B90E2
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 22:48:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C028B9207
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 01:09:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D15A5280E26
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 20:48:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BB7928885C
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 23:09:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A68F165FCE;
-	Wed,  1 May 2024 20:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0397B165FD0;
+	Wed,  1 May 2024 23:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="XckCldwC"
+	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="BoabnMbx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0511635A9;
-	Wed,  1 May 2024 20:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951611C68D
+	for <linux-input@vger.kernel.org>; Wed,  1 May 2024 23:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714596498; cv=none; b=PG3mGi/sctz/sW++49NwVwDmebruUgOWdqi+0ah5trGgFzV4Z9MH2vt3OjluDNLQujzHwxnDXm3SmE+0zCiTXX7DdPAhbKHh67+fOt0coxdo1lkEx7ne0Pkh1j0HXHW0J+FDTTZFwTsaOY7tH+RI0Xwg/Z5fUFiu16hn9Apwg8k=
+	t=1714604986; cv=none; b=KVRPtqmoBP2gve6aAKXDawodtyaKVN0A2XuW8gu5EB66g86r8zXb85g37TOmh5JzWGUUbFJ07dI08wqBGAalZ37jjqfRlv+BrkC1YTub7W7EchOL0fSerNMhqf9Qq6v0/K8AiKiWIJCjpSQIuZlskbuSY0mZj0Geh78RPGM41I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714596498; c=relaxed/simple;
-	bh=qACjeJ8WIuESunSMWPlu5A8R78ujFaqbQZlXKib7gwQ=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KSFwIIVhD2G4OG3QsQfnT86RIU3Y/22xdAFaslUf7Syx1U25N+7wY7ORCZJVA3LvxTP779PxZ6tArZnxVWI/iHYe2Kc44BRYgngc1IO9W71nT+VpDH+O+On4rt+CbwmdIqrCBSdcMD8OVVqqPmxS2lPQ9SwsR0nHgx0nX/RKXAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=XckCldwC; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2Grz-005PNh-2A;
-	Wed, 01 May 2024 22:48:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=h8RCSKC+enaAXM/E/bFJEcaWjvNfKRuAfVQEY1KJEF8=; b=XckCldwC2WffgnEb7L6zWrbTa0
-	+DKKWP1YE3eg/0y8cqYNOwx193BIU7KSmUzSfqfVOs6dU/72CPOkNqMtuCxHDWggRM97wJI5GwE4F
-	exTPomdKQoVBTeEEHOpNKViyWAAS38K4CCcXK+djshWFO3krG8AlNk+sxnFKAXe/xrxdc0CEMtbdW
-	QlE3kEyEdV/SNuji4wxToNj+2o7I1w7+BUDIZXnm+pG4Jk2SqIbfQZPnPul9WHw2BKqrqifKDeWtB
-	4ZXIQ+BRzRIkQgWj0Lj1aQbxVHwL1+/bnUS37NCL+a4nUJyGE32csxZY2Ck/OKALTkTJi5cZVb8+5
-	hBKXXeOA==;
-Received: from p200300c2071a02001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:71a:200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2Grx-000OnW-3B;
-	Wed, 01 May 2024 22:48:03 +0200
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2Gry-003BKm-3C;
-	Wed, 01 May 2024 22:48:02 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	o.rempel@pengutronix.de,
-	andreas@kemnade.info,
-	u.kleine-koenig@pengutronix.de,
-	hdegoede@redhat.com,
-	oliver.graute@kococonnector.com,
-	ye.xingchen@zte.com.cn,
-	p.puschmann@pironex.com,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	andy.shevchenko@gmail.com,
-	felix@kaechele.ca
-Subject: [PATCH v3 2/2] Input: edt-ft5x06 - add ft5426
-Date: Wed,  1 May 2024 22:47:58 +0200
-Message-Id: <20240501204758.758537-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240501204758.758537-1-andreas@kemnade.info>
-References: <20240501204758.758537-1-andreas@kemnade.info>
+	s=arc-20240116; t=1714604986; c=relaxed/simple;
+	bh=t4q6Euaprw/nf0vGYLeYR81pJ5UkdByENdJyjQJba1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AxXX9cft1lalimpjsGTLOtT3ZklyxwnB2QI02y82s8RzIT5WrYflbj0ttD4FzJCoFNxvKKM8+0Mcp5zbgTbqcERegQUqvbEk73jBcmiZwjBXdMGZ5VYUIIjkJ0yDnfGmDpCjCmOaCvbvDwlYpugnVn1fts13prFElOPdNgU1VRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=BoabnMbx; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
+Message-ID: <e85237b8-a572-4e45-aa08-18710635eea5@kl.wtf>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
+	t=1714604982;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZURTbaEpa10D59UB64Q5vJXaRFyLVPmbATsg9QGzvO0=;
+	b=BoabnMbxCfXCFoZ5Lq0H5UOSW6CGo+lInVzM1yMEfPrvavPlBu4QziWuqBRgt11VxwjYgr
+	AWoL2zv//RdcVJN9umPR0OyLecopMKOslTRfyF7FwF+/9gMdErZoF1SCikHrCq1qWF2ukx
+	7L3kyDGpUHxb1i2Z2BZMzYL6z7zg9OlgGQjaSEQDjn1g2eoLkaddbjuoxjWkjat4qna9iy
+	kD8n1UjTPtqgjMu3j7seLBNatsiZQLSbik3ZFmZme2RXkFi49ITaRy6DOYxc/TUi37iNq8
+	O9Al2jnydACoOodfBsdUcmWaA8yf/MTv9Qk+BOkYGp4YKYVE+NuRTlU1tUtyaw==
+Date: Thu, 2 May 2024 01:09:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 1/3] HID: i2c-hid: Rely on HID descriptor fetch to
+ probe
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Douglas Anderson <dianders@chromium.org>, Hans de Goede
+ <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>,
+ Lukasz Majczak <lma@chromium.org>
+References: <20240426225739.2166-1-kl@kl.wtf>
+ <20240426225739.2166-2-kl@kl.wtf> <ZixvUNooESC02cJK@google.com>
+ <5aa9f745-7f6a-4873-90ba-79c55335905c@kl.wtf> <ZjFli4zOalXkDWx_@google.com>
+ <26070c7a-4005-4bb4-b4af-779bfc415dea@kl.wtf> <ZjKTXaBrb1vs4har@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kenny Levinsen <kl@kl.wtf>
+In-Reply-To: <ZjKTXaBrb1vs4har@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-As ft5426 seems to be compatible with this driver, add it.
-Debug output during identification: Model "generic ft5x06 (79)", Rev. "
+On 5/1/24 9:09 PM, Dmitry Torokhov wrote:
+> Is it possible for a device to be wedged so hard that it refuses to
+> acknowledge the address?
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- drivers/input/touchscreen/edt-ft5x06.c | 1 +
- 1 file changed, 1 insertion(+)
+A slave is allowed to not acknowledge if not able (e.g., "because it's 
+performing some real time function"), but a slave that does not 
+acknowledge its address is electrically indistinguishable from a 
+disconnected device. In such case the device is impossible to detect 
+through I2C operations, and neither smbus probe nor a "real" command 
+will see it.
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 2a1db11344766..028ec66faa193 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -1486,6 +1486,7 @@ static const struct of_device_id edt_ft5x06_of_match[] = {
- 	{ .compatible = "edt,edt-ft5406", .data = &edt_ft5x06_data },
- 	{ .compatible = "edt,edt-ft5506", .data = &edt_ft5506_data },
- 	{ .compatible = "evervision,ev-ft5726", .data = &edt_ft5506_data },
-+	{ .compatible = "focaltech,ft5426", .data = &edt_ft5506_data },
- 	/* Note focaltech vendor prefix for compatibility with ft6236.c */
- 	{ .compatible = "focaltech,ft6236", .data = &edt_ft6236_data },
- 	{ /* sentinel */ }
--- 
-2.39.2
+Any logic we have to silence missing devices will also silence entirely 
+unresponsive or extremely non-cooperate devices. That is the price to 
+pay for avoiding the log message unfortunately.
 
+No other errors from the smbus probe or a real command would be related 
+to device presence, and some of them even suggest a device is present 
+but broken (arbitration loss, assuming no shorts).
 
