@@ -1,95 +1,93 @@
-Return-Path: <linux-input+bounces-3359-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3360-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C028B9207
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 01:09:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7B08B922D
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 01:19:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BB7928885C
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 23:09:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EFC11F22177
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 23:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0397B165FD0;
-	Wed,  1 May 2024 23:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDC617C6B;
+	Wed,  1 May 2024 23:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="BoabnMbx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuTqAG9Z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951611C68D
-	for <linux-input@vger.kernel.org>; Wed,  1 May 2024 23:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59EF168AE6
+	for <linux-input@vger.kernel.org>; Wed,  1 May 2024 23:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714604986; cv=none; b=KVRPtqmoBP2gve6aAKXDawodtyaKVN0A2XuW8gu5EB66g86r8zXb85g37TOmh5JzWGUUbFJ07dI08wqBGAalZ37jjqfRlv+BrkC1YTub7W7EchOL0fSerNMhqf9Qq6v0/K8AiKiWIJCjpSQIuZlskbuSY0mZj0Geh78RPGM41I8=
+	t=1714605572; cv=none; b=V22n98e2BGF1dyf6GEI76R/ttCdj3elXWK17Uflz41BoYCdEl+owx0BDob2cpqNNtjKHbcnL5OvnHD+2amwkbVrw8Sf3WRPwUv9hWN6WKKUqamzK0Xvx/Fl60xLtkpo4FFCNujnNgzzYFLR5xeLX7FvHZWSIUfKFXe3WMsz3BOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714604986; c=relaxed/simple;
-	bh=t4q6Euaprw/nf0vGYLeYR81pJ5UkdByENdJyjQJba1E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AxXX9cft1lalimpjsGTLOtT3ZklyxwnB2QI02y82s8RzIT5WrYflbj0ttD4FzJCoFNxvKKM8+0Mcp5zbgTbqcERegQUqvbEk73jBcmiZwjBXdMGZ5VYUIIjkJ0yDnfGmDpCjCmOaCvbvDwlYpugnVn1fts13prFElOPdNgU1VRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=BoabnMbx; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
-Message-ID: <e85237b8-a572-4e45-aa08-18710635eea5@kl.wtf>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1714604982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZURTbaEpa10D59UB64Q5vJXaRFyLVPmbATsg9QGzvO0=;
-	b=BoabnMbxCfXCFoZ5Lq0H5UOSW6CGo+lInVzM1yMEfPrvavPlBu4QziWuqBRgt11VxwjYgr
-	AWoL2zv//RdcVJN9umPR0OyLecopMKOslTRfyF7FwF+/9gMdErZoF1SCikHrCq1qWF2ukx
-	7L3kyDGpUHxb1i2Z2BZMzYL6z7zg9OlgGQjaSEQDjn1g2eoLkaddbjuoxjWkjat4qna9iy
-	kD8n1UjTPtqgjMu3j7seLBNatsiZQLSbik3ZFmZme2RXkFi49ITaRy6DOYxc/TUi37iNq8
-	O9Al2jnydACoOodfBsdUcmWaA8yf/MTv9Qk+BOkYGp4YKYVE+NuRTlU1tUtyaw==
-Date: Thu, 2 May 2024 01:09:37 +0200
+	s=arc-20240116; t=1714605572; c=relaxed/simple;
+	bh=nBY9S8c8QdfWD8g/CYSLZDWEaFAYcFdxxsLO0qvfL7g=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dnZ+6j2uDz44ZpCpUuTdEk2W1JGxHg29lDQtdXh344crwF36/godJ2ojcaSQsI6nZu3aj5oQjyApkIVHFsUDX05SGAapKFoHKqK6tkNawZ9Sc6XOOSahsVDMuZttReMRg3zyk3BSUos7425ADjCBaIncEBgFgG++/APf0r0dTpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuTqAG9Z; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-43969307359so45948921cf.2
+        for <linux-input@vger.kernel.org>; Wed, 01 May 2024 16:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714605569; x=1715210369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Faj6mBwkcM8+iwPfWFp7MzzCyHrRTO4Sz/v8daJosHI=;
+        b=LuTqAG9ZrIap8BPudlRxp8nPiYDp6w8LvVhO04S2BNDjEXnzzfHbIvzGV2MRmTOOfK
+         fV71HVpEavnAjD03VHJky6O00jD09jXktfY0dst4co+fGt3lbP7uhNZMkr6bGjrPIGIE
+         8hIV8GrEWmKVe8hZBb6eaWdcdPin7Ci5WrSzDSCWvPKHpxw87uJeGLCFHj1eH0zXk2um
+         F7a/69A66PXQh3oiqyzBVV9XMQM9gyvgFP8yRl2buw7gTnlkfbVyXFVQ/FoUA4wzhAPV
+         T/ncTsQt8aSgxxzCxApAPBb3tw04reg/UwvdH7tgIc7UXBTAETu77sCNOLNj4vk86/bK
+         FCIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714605569; x=1715210369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Faj6mBwkcM8+iwPfWFp7MzzCyHrRTO4Sz/v8daJosHI=;
+        b=dvK9XKt6F3Hj5Y5+s5Xl1/02Ec/WefVdvtWqflik6a1rDAOT1GGnRj2gUTfGb4aX0V
+         F0QFUbavygr9ZkQQN5VKZWqTSkN0W0Jf1c8u9veOQyNbJYiFvCuNG0dXMGe8IzAJbksv
+         mwxQmV1Qcz/vk+liYNGy7ae98+RD7FMv7erNK+tB847cQJMgR6uTfL7jxxGyV2IG+inf
+         6BdoolvS6J+KcnY512K7KZVqp4gNLL0eeYge65rYa0hkE4VtKdxPc7W8XUt3BkMuEcrg
+         r8Tjkih2etdPVMOROWjXI5mGD2I9ueCnQ+IllasrlKdceAOlEEdUECoL6MdqJGH5/+0z
+         SAng==
+X-Gm-Message-State: AOJu0YzW8hGFF2GSYwQCJqV1pWMN+XZP1KEgcy69oK+idpY11YqpA3RG
+	alKYme1/scHrhVroJXAsjKmfN71JEkBu+Cmt8h+9juWpaTHyg00AR8E2gg==
+X-Google-Smtp-Source: AGHT+IF1iseABXKfnkfMZwW0zIJbCanlyZxTiZwmxhewhhctxVSRKHLtF+YE3GrBJozi8Sx6ECCVWg==
+X-Received: by 2002:a05:622a:56:b0:43a:dedc:2f27 with SMTP id y22-20020a05622a005600b0043adedc2f27mr4730437qtw.47.1714605569003;
+        Wed, 01 May 2024 16:19:29 -0700 (PDT)
+Received: from mythra.localnet ([2603:6010:d800:cbd::b76])
+        by smtp.gmail.com with ESMTPSA id h2-20020ac85682000000b004365ab2894asm12770503qta.51.2024.05.01.16.19.28
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 16:19:28 -0700 (PDT)
+From: Carson <crange76@gmail.com>
+To: linux-input@vger.kernel.org
+Subject: gamecube wiiu adapter device driver
+Date: Wed, 01 May 2024 19:19:27 -0400
+Message-ID: <2513000.XAFRqVoOGU@mythra>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/3] HID: i2c-hid: Rely on HID descriptor fetch to
- probe
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Dmitry Torokhov <dtor@chromium.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Douglas Anderson <dianders@chromium.org>, Hans de Goede
- <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Johan Hovold <johan+linaro@kernel.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, Radoslaw Biernacki <rad@chromium.org>,
- Lukasz Majczak <lma@chromium.org>
-References: <20240426225739.2166-1-kl@kl.wtf>
- <20240426225739.2166-2-kl@kl.wtf> <ZixvUNooESC02cJK@google.com>
- <5aa9f745-7f6a-4873-90ba-79c55335905c@kl.wtf> <ZjFli4zOalXkDWx_@google.com>
- <26070c7a-4005-4bb4-b4af-779bfc415dea@kl.wtf> <ZjKTXaBrb1vs4har@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kenny Levinsen <kl@kl.wtf>
-In-Reply-To: <ZjKTXaBrb1vs4har@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 5/1/24 9:09 PM, Dmitry Torokhov wrote:
-> Is it possible for a device to be wedged so hard that it refuses to
-> acknowledge the address?
+Hi everyone! A friend suggested to me to try playing a game with a gamecube 
+controller and I had the hardware so I plugged it in and for the first time 
+ever it didn't just work. I found this program 
 
-A slave is allowed to not acknowledge if not able (e.g., "because it's 
-performing some real time function"), but a slave that does not 
-acknowledge its address is electrically indistinguishable from a 
-disconnected device. In such case the device is impossible to detect 
-through I2C operations, and neither smbus probe nor a "real" command 
-will see it.
+> https://github.com/ToadKing/wii-u-gc-adapter
 
-Any logic we have to silence missing devices will also silence entirely 
-unresponsive or extremely non-cooperate devices. That is the price to 
-pay for avoiding the log message unfortunately.
+which works but I felt like this should be moved into the kernel where it can 
+be maintained aswell. I feel like most the hard work has been done I just 
+wanted to reach out before I do any of it. Encase someone just merged it or is 
+already working on it.
 
-No other errors from the smbus probe or a real command would be related 
-to device presence, and some of them even suggest a device is present 
-but broken (arbitration loss, assuming no shorts).
+
 
