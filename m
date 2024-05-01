@@ -1,164 +1,174 @@
-Return-Path: <linux-input+bounces-3354-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3355-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33908B9000
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 21:20:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB62A8B906D
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 22:10:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03738B21DEE
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 19:20:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35E22281260
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 20:10:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB7C11607BB;
-	Wed,  1 May 2024 19:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE3D161936;
+	Wed,  1 May 2024 20:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d/bz9Sca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZAXi869"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685AC1C287;
-	Wed,  1 May 2024 19:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F40642A96
+	for <linux-input@vger.kernel.org>; Wed,  1 May 2024 20:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714591208; cv=none; b=MsObkkZLk+Ns53XnM4jaisY7lJpO3qTXsm5uU6MDz63S2T8mxtiDd14aGSu4vKt7vLGgftuEbdr7GvIifxljLOMEP5k+nVsj+rL7o+xwe3LnBFEAflXKD4wgoiJOR7/0FYMmtzgX3VR6RoSm9cHJUbIAuI1vabPW5bsnYa+0LfQ=
+	t=1714594248; cv=none; b=jneWLh7v2Qt5sZWmQQe71x9mLQqbesoBZSsrEHeyZjDCyPrLO/ID/169wDiQO2TB624wyBs8apxEzSxCu1X9wilWbTNvKSFplbxoI+md1bHj7LA57PrK8s7cJMHz7hL1/gzKkV2uGDnxo6HQCelL9mNE+UxvCpDa4+Qv1DQrIB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714591208; c=relaxed/simple;
-	bh=2icMSh1KJRQHkfMpRS4no2f8fdq6UTlQRe2OM5Yszuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e38QcdCVttAFL8uEgGfX1QJ/zymYbkkplSa0Heb+Gdoelt/4EyR3pydRa2Sp70jAZj5sAVtd8j8EmwKcmUhOJR3PB5Y4iJ60FV/Not4prqkH/OXNroZe/VdKupFTDEQ+naAEFGswEoect8nkYLY6sXpfLdToWosOJJIIofAFZuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d/bz9Sca; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e50a04c317so39552685ad.1;
-        Wed, 01 May 2024 12:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714591207; x=1715196007; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NQMIHTv3D4/FbFaMQCgt0UeLIRCHiGP+9OlGQP/6AIQ=;
-        b=d/bz9Scaa7BuPvz3nctbRQ8UuZ0zHTgFvD63K+KqLaScb6PGEk1x233HnxDN2gBZ/h
-         8JQfqCsLksHbuHQhJf7HY2jesXbSZIH4O0iQY2LIUQHsvX3yV3uJ2n3DEgXpb5aZ9LNb
-         HS9oaOGO46o7qxlAlh8G0++arBZLx6Lec57sygx9MkK4SxRvEgzL+sZSo1KEj+n3vHkv
-         G8A5brAcRSQsmuAW7XO+EWi04+fdF57Ngey4MPvc0iW1UGTj/pIFW8ueLAWLfgOJUmbn
-         F5gI/9tg+yPccKQcm3JB4w2UbDHAOTqW48h67b/K1pXeKFoHG3IiCO1t+F+Y0HBM//+y
-         5ERg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714591207; x=1715196007;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NQMIHTv3D4/FbFaMQCgt0UeLIRCHiGP+9OlGQP/6AIQ=;
-        b=AEBSMVOkxetFgvTLv4h+Qv0S4Sd5VNNtvF9Fpak3Ho5FxxZozoeqbKOvHx7XrMBH5c
-         n3K9qWFoP98q7355NLTMtjS/Dx04nq+QRFDkr6vhGUDnQyG91IRyLoirfrdcp2X66Wpf
-         FG0ObyD4u5Y7qKcf5Bj7ql2JYlNHhbf6tqDkQ3WJiueVgkVbmmoIjBPb2/9CqYbGnC2A
-         6ehCih/At2P3w5Z7L+56vkb5r1HCpduxxDkCRfy67KLPTAVn3gVMXHLLOzl1s80Jngze
-         kRJM0zOcBSnKmYz/EL0aktVr9XZwk/gXByklK1TPBrmnoR6tsdlJGyOvHJFZQVxziEHm
-         hKAA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2MkLABgmVkWu1B6XWmbr0MLxH/XkOSUbg+KRKEgmV9tktMjMSuq+pyRM1u5EgVI3p5VJxZHCyHXwjqJyVHTPZfxTrlAsHS1qMoP4=
-X-Gm-Message-State: AOJu0Yx+/mYO5XCBcM348ygRlC1PH+cTEW8VvDvCiPovlfPqLR6HRc2K
-	XsrLIIJKfwh6SPjRRgyfV3XwhxtjQkop+CEO23N0lD5Y6+60tNFk
-X-Google-Smtp-Source: AGHT+IGd58y/IOmwV5M13fhinNX4nSAJNZ+EFLovipF4lfrEQyQp9BGMZPZfm9gGlJJy8nVMxvg6Dg==
-X-Received: by 2002:a17:903:1108:b0:1e2:307f:d283 with SMTP id n8-20020a170903110800b001e2307fd283mr3810879plh.1.1714591206533;
-        Wed, 01 May 2024 12:20:06 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1cb4:dd50:d6f1:6308])
-        by smtp.gmail.com with ESMTPSA id u8-20020a170902e5c800b001e420abf8c1sm24596381plf.165.2024.05.01.12.20.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 12:20:06 -0700 (PDT)
-Date: Wed, 1 May 2024 12:20:03 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Denose <jdenose@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffery Miller <jefferymiller@google.com>,
-	Phoenix Huang <phoenix@emc.com.tw>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
- Lenovo N24
-Message-ID: <ZjKV44wZWH4MBCrF@google.com>
-References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+	s=arc-20240116; t=1714594248; c=relaxed/simple;
+	bh=MWbKEJiaoqlRwXoBtNPahpZypFimn426XDgJYumAGDk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GDiPF6ROAfZ9FDKF1Ae++L77l3894Hgc7PGUs21K897kkNUo5RRGshhhB0mqWhbDk73vrQIKVkaESLA19gmDMlazF1lsUF/80xxdplaWOA2MFKqQ8G/tYYUTlQmcnpi1XHYW5tjMxrL41zE1bSz7Z66wodQ7wKNpvpY4F4ku3BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZAXi869; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714594246; x=1746130246;
+  h=date:from:to:cc:subject:message-id;
+  bh=MWbKEJiaoqlRwXoBtNPahpZypFimn426XDgJYumAGDk=;
+  b=UZAXi869lht5G05ylT7tMliaANOU66Vln5BkFY0IwQqC0s0ZRPenwm9B
+   AzIPNwGW0nFjgkCF1jjLIG4Y6+OavuEYybMiHj4L+u1qR/XbIxUPCcr0L
+   wIvLAuVB9iXWMup6dvOSkmj4uf5b4GvTophoZzfCIaXg6hPg92GabGxQl
+   fuGe/eWT1doyXCZRMoxfelE6patqqwcXv/YCIm1vJoG6IDP0Qh/3J/ZyZ
+   Q98R3libHc2PgfT6Q6mslbrUyCPDIMlSzMcRJzG2yKhboEB2reH6yTm12
+   7IItDibmmjuqUYX5jGdhu7Srv2HycSjoJ8ebJv3JlrBCsXVPOqY0i5yH4
+   A==;
+X-CSE-ConnectionGUID: 60m1iBSQTi+dtzDynKWTjA==
+X-CSE-MsgGUID: uhDXrUC6RiWeD1/o4WIHTA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21745111"
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="21745111"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 13:10:45 -0700
+X-CSE-ConnectionGUID: 2/6wuoWPRa6VoL6ePjiEdg==
+X-CSE-MsgGUID: RoI1sxFcRlCECYSMNcX1sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="27504949"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 01 May 2024 13:10:44 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2GHq-0009wm-14;
+	Wed, 01 May 2024 20:10:42 +0000
+Date: Thu, 02 May 2024 04:10:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 7b4e0b39182cf5e677c1fc092a3ec40e621c25b6
+Message-ID: <202405020415.qGB8Z3Wx-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 
-On Wed, May 01, 2024 at 02:02:32PM +0000, Jonathan Denose wrote:
-> The Lenovo N24 on resume becomes stuck in a state where it
-> sends incorrect packets, causing elantech_packet_check_v4 to fail.
-> The only way for the device to resume sending the correct packets is for
-> it to be disabled and then re-enabled.
-> 
-> This change adds a dmi check to trigger this behavior on resume.
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 7b4e0b39182cf5e677c1fc092a3ec40e621c25b6  Input: cyapa - add missing input core locking to suspend/resume functions
 
-Adding a couple more folks to take a look at this...
+elapsed time: 1480m
 
-> ---
-> 
->  drivers/input/mouse/elantech.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index 4e38229404b4b..e0f3095b4227e 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -1476,6 +1476,23 @@ static void elantech_disconnect(struct psmouse *psmouse)
->  	psmouse->private = NULL;
->  }
->  
-> +/*
-> + * Some hw_version 4 models fail to properly activate absolute mode on
-> + * resume without going through disable/enable cycle.
-> + */
-> +static const struct dmi_system_id elantech_needs_reenable[] = {
-> +#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-> +	{
-> +		/* Lenovo N24 */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
-> +		},
-> +	},
-> +#endif
-> +	{ }
-> +};
-> +
->  /*
->   * Put the touchpad back into absolute mode when reconnecting
->   */
-> @@ -1486,6 +1503,22 @@ static int elantech_reconnect(struct psmouse *psmouse)
->  	if (elantech_detect(psmouse, 0))
->  		return -1;
->  
-> +	if (dmi_check_system(elantech_needs_reenable)) {
-> +		int err;
-> +
-> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
-> +
-> +		if (err)
-> +			psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
-> +					psmouse->ps2dev.serio->phys, err);
-> +
-> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
-> +
-> +		if (err)
-> +			psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
-> +					psmouse->ps2dev.serio->phys, err);
-> +	}
-> +
->  	if (elantech_set_absolute_mode(psmouse)) {
->  		psmouse_err(psmouse,
->  			    "failed to put touchpad back into absolute mode.\n");
-> -- 
-> 2.45.0.rc0.197.gbae5840b3b-goog
-> 
+configs tested: 81
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arm                               allnoconfig   clang
+arm                                 defconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240501   clang
+i386         buildonly-randconfig-002-20240501   gcc  
+i386         buildonly-randconfig-003-20240501   clang
+i386         buildonly-randconfig-004-20240501   gcc  
+i386         buildonly-randconfig-005-20240501   gcc  
+i386         buildonly-randconfig-006-20240501   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240501   gcc  
+i386                  randconfig-002-20240501   clang
+i386                  randconfig-003-20240501   gcc  
+i386                  randconfig-004-20240501   gcc  
+i386                  randconfig-005-20240501   clang
+i386                  randconfig-006-20240501   clang
+i386                  randconfig-011-20240501   gcc  
+i386                  randconfig-012-20240501   gcc  
+i386                  randconfig-013-20240501   gcc  
+i386                  randconfig-014-20240501   gcc  
+i386                  randconfig-015-20240501   gcc  
+i386                  randconfig-016-20240501   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   clang
+riscv                          rv32_defconfig   clang
+s390                              allnoconfig   clang
+s390                                defconfig   clang
+sh                                allnoconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
