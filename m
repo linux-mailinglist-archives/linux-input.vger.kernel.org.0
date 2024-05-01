@@ -1,63 +1,64 @@
-Return-Path: <linux-input+bounces-3347-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3348-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F17C8B85A1
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 08:40:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A428B85AE
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 08:50:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40A7928373B
-	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 06:40:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 148E31F2345C
+	for <lists+linux-input@lfdr.de>; Wed,  1 May 2024 06:50:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C5A2628C;
-	Wed,  1 May 2024 06:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB2E43A1AB;
+	Wed,  1 May 2024 06:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="WnkAf95+"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="PMaUfxN7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+Received: from msa.smtpout.orange.fr (smtp-82.smtpout.orange.fr [80.12.242.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B097F;
-	Wed,  1 May 2024 06:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0858F31A60;
+	Wed,  1 May 2024 06:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714545650; cv=none; b=FaNiP+gZTXL4W+RSZMEVeY8JzedGbXabUaPoPOLgomH4xL0zD7FDW6AY2kXCSOMpFs41/V6wFrZZV6wD8uXOfVawhkydRbPCydOro8VCYYOuX5HdJjH94g6oR7hZA6zpoFkP4XJVrf7hj80id3sxogSRlMbWpgPe1+C9VEA+OWk=
+	t=1714546203; cv=none; b=jFOdnGaAz+IeHmPsxbkZaEiABaqKY9dY2edrJDFVK7lPUtIcfSsp0ZuaineQqDtb/HrC6C1+39NAWyg8J4HhGgLgn9B9G25+ChDRci1GApljXADog1U2CjeWS0UzdOinKB83V/pdC83CEdGvAGnd2/bZGJYN/AB01YmibJnDncI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714545650; c=relaxed/simple;
-	bh=jwpq3kwYkzSPEXjkj9TFl0nGYtXu+Uj8RtrpLHaLqKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qzaNPUo+t4gi1eua0loyVKJciYZoHWKhi2YdgWghVp7z8bytjDBUaCSPw2077mjbdW3nAbhCLoQ5UO+KqikFgQxiUvXtBcq83ak49Wc7K3LxZtHbnnzEnVXfuXzWfKOs8hpcTF0pih13oR97My6VWNy7yaSRNOEuO0Go5EvyIsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=WnkAf95+; arc=none smtp.client-ip=80.12.242.20
+	s=arc-20240116; t=1714546203; c=relaxed/simple;
+	bh=t23Emc2T1F1Cw/U1i0QRPENn/kEZ49dN8BCNoYSr1nE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kpi5u2kiPmTgkaJh7t6TEg0TmaQOUzMMD7lhmHChIITFlBK3+hZ4fr59u64/MorpUztE66NtBURRsOYePTSq4iyfqHirsXm8N1bSCffQN+iOEsvTk8hQwJc+sPC/6BzuS5dm2hM+QWvLWoQTNBj0BLtyRmiBVtQIFnmg89sJ0gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=PMaUfxN7; arc=none smtp.client-ip=80.12.242.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Received: from localhost.localdomain ([86.243.17.157])
 	by smtp.orange.fr with ESMTPA
-	id 23cpsg4WsiGtU23cpsV8pf; Wed, 01 May 2024 08:39:34 +0200
+	id 23mvsRdFGq0Jb23mwsJg5c; Wed, 01 May 2024 08:49:58 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1714545574;
-	bh=M+oQc6JbU4H5ILw/Gp3smalwG/kTbPKlBTcVS0kEisI=;
+	s=t20230301; t=1714546198;
+	bh=xs+ZSpS0xVgBzBgXMojspa4y526RrOlky1cQlAdEKM8=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=WnkAf95+yRHSkMlpztZS8xaysBAf3t08wYpfMYHH0R9u0FbYZAvbG3PnynE9rdVQk
-	 WvqVpb3yQNf7CLlwv/jv7ns7vvvBk+ew/R8YyN6QSKLKHU28ns1HpEQ0NKPHcB8Oql
-	 a47Hil64smDlKkazEwBV4sH9ZtbOfB4fdRXtT1ekiY5D7HX1/gD08mYKZFiid/y6uz
-	 KaRB+0tB5cF/FtJSmDdzK+FUBmdw7KlxHEXeK2SjmmDeb5b5v5ZZoCM4N1hEEJHWOr
-	 U+7mcdbBu1wj8X3KnBvIivtJeO7h6mQ2mqXypTU3429ooU2ppu8W9Pae4O15liyPVB
-	 Orh0/FQA/aNUg==
+	b=PMaUfxN7fFAFoo7WAACYZc6MGZ1L2dp6k5zscZFxZ37GdlgxPwuq3VZMJZ3u5uWwf
+	 jCZ2X17Ixi1lVYxvQKZcTPv3Vq4lls6AzhTNjtqZbb116ABLr++XG6U2TajmkXBQLj
+	 d48fqCfUX4SLC7dCmxxi0bD+znrjFzgsNHw/+8c+Wprym5FKbY9kHRBKGUFCGsYe7s
+	 pIyun4gS31fiXkJhrVuWXt3Jk46x5NnwI2uv9H45u5a8OPa7VzI1prK28FwIR1rlos
+	 Gjs1E0wnKnL3a4wi3Aw3+ak3RTon2F4huY9tBBjUCO08JrkGMmvJDItxSmOtZMLkqJ
+	 r0jfS/jDOvQog==
 X-ME-Helo: localhost.localdomain
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 01 May 2024 08:39:34 +0200
+X-ME-Date: Wed, 01 May 2024 08:49:58 +0200
 X-ME-IP: 86.243.17.157
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
 Cc: linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-input@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] Input: lpc32xx-keys - Remove an unused field in struct lpc32xx_kscan_drv
-Date: Wed,  1 May 2024 08:39:23 +0200
-Message-ID: <e006dfb77e35762c6e4f8ba6ba792b0c52fde375.1714545542.git.christophe.jaillet@wanadoo.fr>
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] Input: cros_ec_keyb - Remove an unused field in struct cros_ec_keyb
+Date: Wed,  1 May 2024 08:49:47 +0200
+Message-ID: <6bab1449c01c4537aa2d9cb4481e1d5da8aa2389.1714546173.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -67,44 +68,41 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In "struct lpc32xx_kscan_drv", the 'irq' field is unused.
+In "struct cros_ec_keyb", the 'keymap_data' field is unused.
 Remove it.
 
 Found with cppcheck, unusedStructMember.
-
-While at it, move the 'row_shift' field in order to fill a hole in the
-structure (at least on 64 bits arch).
 
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
 Compile tested only.
 
-It was added in the initial commit 69690bec400e ("Input: add support for
-key scan interface of the LPC32xx SoC") but was never used.
+It was added in the initial commit 6af6dc2d2aa6 ("input: Add ChromeOS EC
+keyboard driver") but was never used.
 ---
- drivers/input/keyboard/lpc32xx-keys.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/input/keyboard/cros_ec_keyb.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/input/keyboard/lpc32xx-keys.c b/drivers/input/keyboard/lpc32xx-keys.c
-index 322a87807159..423035be86fb 100644
---- a/drivers/input/keyboard/lpc32xx-keys.c
-+++ b/drivers/input/keyboard/lpc32xx-keys.c
-@@ -57,14 +57,13 @@ struct lpc32xx_kscan_drv {
- 	struct input_dev *input;
- 	struct clk *clk;
- 	void __iomem *kscan_base;
--	unsigned int irq;
- 
- 	u32 matrix_sz;		/* Size of matrix in XxY, ie. 3 = 3x3 */
- 	u32 deb_clks;		/* Debounce clocks (based on 32KHz clock) */
- 	u32 scan_delay;		/* Scan delay (based on 32KHz clock) */
- 
--	unsigned short *keymap;	/* Pointer to key map for the scan matrix */
- 	unsigned int row_shift;
-+	unsigned short *keymap;	/* Pointer to key map for the scan matrix */
- 
- 	u8 lastkeystates[8];
- };
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index 30678a34cf64..12eb9df180ee 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -35,7 +35,6 @@
+  * @rows: Number of rows in the keypad
+  * @cols: Number of columns in the keypad
+  * @row_shift: log2 or number of rows, rounded up
+- * @keymap_data: Matrix keymap data used to convert to keyscan values
+  * @ghost_filter: true to enable the matrix key-ghosting filter
+  * @valid_keys: bitmap of existing keys for each matrix column
+  * @old_kb_state: bitmap of keys pressed last scan
+@@ -50,7 +49,6 @@ struct cros_ec_keyb {
+ 	unsigned int rows;
+ 	unsigned int cols;
+ 	int row_shift;
+-	const struct matrix_keymap_data *keymap_data;
+ 	bool ghost_filter;
+ 	uint8_t *valid_keys;
+ 	uint8_t *old_kb_state;
 -- 
 2.44.0
 
