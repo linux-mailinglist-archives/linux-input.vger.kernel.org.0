@@ -1,82 +1,80 @@
-Return-Path: <linux-input+bounces-3410-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3411-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036068BA086
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 20:30:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6891B8BA0CB
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 20:58:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3503A1C22291
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 18:30:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DAAF282DE8
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 18:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1468F18413F;
-	Thu,  2 May 2024 18:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4E915E7FE;
+	Thu,  2 May 2024 18:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="vnXQ9fsb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="cH6BO/we"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0CD181D09;
-	Thu,  2 May 2024 18:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE6F5F874;
+	Thu,  2 May 2024 18:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714674555; cv=none; b=bzPn42zd5YfjUxMOO7zTihtjomIBYIH/6IBGzAPxILnUsPDI2bv/STPX3B3qxNKJ7fjC20jgyLIu5/xjHQ8vSuTgttA9r+HzdEU7PYKkAGX/yTTTd5JYcYFxETeK01D7iBTl9OqdMq0/N8LJ3a8hli7OcnhXAyTOTphjHWAVGTM=
+	t=1714676310; cv=none; b=fBQ71uGw+MNBOI+f4qilr+FaZKbgWZCskYtLrYwMytqvOms3E3iLUrrQfLTISpW8kYrZIYsTWC38FXL4fdQXpYjpIs5yfYv3IYfDUNy3Zr3khyROvlqjBcBRyLPcsXLv3dF3U1YgMefyDox1xClGFQsW2DrhD9brUC8fhtWn0gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714674555; c=relaxed/simple;
-	bh=bMBvt+Lny9gltUtFkgHUIDgYVSPlUfopJMIv+FezAFI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TQTM49sML4A2tNk9ZE8fj5akA9Jx6toLem/srBG8cIVWwy+OX1OSagh1kMwPJmkuLfm2FTdBdRxH0i6I6wUv4Xh4803pkMV4JriBZvUAivTny+Vs08MpPA59xOq0r1gThDhGFnXaQY5DRJuIQMULqzmMP4l93aoHmpkVxqvW+cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=vnXQ9fsb; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	s=arc-20240116; t=1714676310; c=relaxed/simple;
+	bh=bl5dLedeVHinTwXbPr8vyAKTOVFkp3ArQKY63gLQgT8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=dbsQGU5CoIAd/3JKNF7uDed4WfnAw2WS2qu31TN+Y3bag0PjIizmpPR93i15ivIWCyaTz0o6zj2URzybvYol4QwdUo/SVwJXpP36cgv1Osq/TAu/pRoOdWdEY1hZOaLrc+hY+TeDGHle7+qQSbPeVSUkzg7P2rEOTS3mY47EG9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=cH6BO/we; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2bdQ-005SoR-14;
+	Thu, 02 May 2024 20:58:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=7E5q+Jclu2EnfpQbseAxE8rYQRfjMaRwwerkW79IgBU=; b=vnXQ9fsbyaYSGCfe9LMRKQ1jKF
-	V57IwJD8gNhVezB5jBY21dzZu66qDGvTuvdJC9VS4Sg5RPIcDB6n6OYlS2N64+r3YRKbOAWFMdrNk
-	lxNacJHg2A1a4wR9VyNIDFHCZab6wt8gL2t6ByYj6vbBeQTCWEbODojN8I/XpwYyvbFw=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s2bB3-001ZbZ-33;
-	Thu, 02 May 2024 20:29:06 +0200
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-To: Jiri Slaby <jirislaby@kernel.org>,
-	Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Andreas Lauser <andreas.lauser@mercedes-benz.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=k0L8BTxNF+69px0G08v0iOgQoWbsdwgMdGo71CzG22I=; b=cH6BO/we91ZSYRnlUMBlNeokn+
+	k8l+yPhzO93Y5sdhoZLwI6RzP23hv5PctvKsv5MBnw2DSG4pPTOLhSgPI/c8iv/PnHZsHvpeoLESk
+	OhCXfvpNgf+egEcNyxzw41YAtpBamrVf7hQzWCgbvgzWJs/ShgMkkkfXgWr9mK1Ne0hUDTDbsT/M8
+	AiE6EvatcR3zsavQ0dVERJB2YMqj1f3OIRJ2NJgmyT04o9kuXw9GGxqcTFbvnWriRiKLdt5de7KCz
+	ZgmGsQKikNJYRx0mAxnRw7V0JDiyQWGlVguQRjPl0bj2kC4h7PKO56IdYKCn4Wm+6MwZ/Ysuyt+lY
+	9i8pUXKw==;
+Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2bdO-000RVV-01;
+	Thu, 02 May 2024 20:58:23 +0200
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s2bdO-003JBr-28;
+	Thu, 02 May 2024 20:58:22 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andreas@kemnade.info,
+	hdegoede@redhat.com,
+	andy.shevchenko@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	siebren.vroegindeweij@hotmail.com,
 	linux-input@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: [PATCH v3 11/11] HID: hexLIN: Implement ability to update lin mode
-Date: Thu,  2 May 2024 20:28:04 +0200
-Message-Id: <20240502182804.145926-12-christoph.fritz@hexdev.de>
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Input: Add ektf2232 support
+Date: Thu,  2 May 2024 20:58:17 +0200
+Message-Id: <20240502185819.788716-1-andreas@kemnade.info>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240502182804.145926-1-christoph.fritz@hexdev.de>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,51 +83,22 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch enhances the hexLIN driver by implementing the newly
-introduced update_lin_mode() callback.  So that either commander or
-responder mode can be configured on this hardware.
+Add support for the EKTF2232 to the ektf2127 driver which
+contains support for similar chips.
 
-Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
----
- drivers/hid/hid-hexdev-hexlin.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Add the needed compatible to bindings and convert them.
 
-diff --git a/drivers/hid/hid-hexdev-hexlin.c b/drivers/hid/hid-hexdev-hexlin.c
-index 1ddc1e00ab2da..1723b272138ba 100644
---- a/drivers/hid/hid-hexdev-hexlin.c
-+++ b/drivers/hid/hid-hexdev-hexlin.c
-@@ -180,6 +180,8 @@ HEXLIN_GET_CMD(get_baudrate, HEXLIN_GET_BAUDRATE)
- 	}
- 
- HEXLIN_VAL_CMD(send_break, HEXLIN_SEND_BREAK, hexlin_val8_req, u8)
-+HEXLIN_VAL_CMD(set_mode_controller, HEXLIN_SET_MODE_CONTROLLER, hexlin_val8_req,
-+	       bool)
- 
- static int hexlin_queue_frames_insert(struct hexlin_priv_data *priv,
- 				      const u8 *raw_data, int sz)
-@@ -346,6 +348,14 @@ static int hexlin_ldo_tx(struct lin_device *ldev,
- 	return ret;
- }
- 
-+static int  hexlin_update_lin_mode(struct lin_device *ldev, enum lin_mode lm)
-+{
-+	struct hid_device *hdev = to_hid_device(ldev->dev);
-+	struct hexlin_priv_data *priv = hid_get_drvdata(hdev);
-+
-+	return hexlin_set_mode_controller(priv, lm == LINBUS_COMMANDER);
-+}
-+
- static int hexlin_update_bitrate(struct lin_device *ldev, u16 bitrate)
- {
- 	struct hid_device *hdev = to_hid_device(ldev->dev);
-@@ -417,6 +427,7 @@ static const struct lin_device_ops hexlin_ldo = {
- 	.ldo_open = hexlin_open,
- 	.ldo_stop = hexlin_stop,
- 	.ldo_tx = hexlin_ldo_tx,
-+	.update_lin_mode = hexlin_update_lin_mode,
- 	.update_bitrate = hexlin_update_bitrate,
- 	.get_responder_answer = hexlin_get_responder_answer,
- 	.update_responder_answer = hexlin_update_resp_answer,
+Andreas Kemnade (2):
+  dt-bindings: touchscreen: convert elan,ektf2127 to json-schema
+  Input: ektf2127 - add ektf2232 support
+
+ .../bindings/input/touchscreen/ektf2127.txt   | 25 --------
+ .../input/touchscreen/elan,ektf2127.yaml      | 59 +++++++++++++++++++
+ drivers/input/touchscreen/ektf2127.c          | 15 ++++-
+ 3 files changed, 72 insertions(+), 27 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
+
 -- 
 2.39.2
 
