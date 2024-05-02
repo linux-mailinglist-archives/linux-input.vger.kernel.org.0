@@ -1,164 +1,124 @@
-Return-Path: <linux-input+bounces-3414-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3415-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF5D8BA0DE
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:04:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D248BA0EF
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:16:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2453B28847A
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:04:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1E321C20F9D
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:16:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824C516FF55;
-	Thu,  2 May 2024 19:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E1517A931;
+	Thu,  2 May 2024 19:16:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNtG7Hdj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fv1+/p+k"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0F1161304;
-	Thu,  2 May 2024 19:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEDD17B4F1;
+	Thu,  2 May 2024 19:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714676639; cv=none; b=nDKYKaazrDsWpqwOCpqp8Y4NJYBEs8Acd5hobJk/2CiCHu1UnE6xUpbcGYTmTQoPWCzHJheUhIUaGia4chobVQh3Kx4IYbHGl3QZwzGhblmZrzs07iHZwAGjk2esCIn+JfMRN/AQ1z3+xrfosmN8Nq5JBa9bgtp4DPXRyyFX4IU=
+	t=1714677401; cv=none; b=bRr7km8+oucZOYpmumMRvmUUVLpUoVYyLVm6UdASpk+m6HBLWY6zzur3lroJ9m0f/o3/sjde5xx3LK9urlatHF2U3aTVg2ZGZCxlFzVrz3V8idtnrTcSNfJYl57xSgJBgT02eK4lkf3LJiV7cOTdEZvXArZDi7nlxg2U2+NLNAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714676639; c=relaxed/simple;
-	bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sM7o5JIozO//mwuJvitrQ5g3ixf/7iqhh4LinQfkgFtvaRWVUXMSvZDEp+76lBbeXy2xbvMpQn/gb9PSqebCceM5TlbfBCUzpkdvi67ZK8F7VVivgTggh56hhILdmP2N1KTbxTP/Q3wRBkY6x3PYwBKcvfGmnlonXiI4qmlHBXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNtG7Hdj; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714676638; x=1746212638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
-  b=HNtG7HdjMP1UJrDta3vc46HzKIDCgh271Ynb31QKtPwL6I4ekeeCfjGu
-   u6LIMZaV74gKRi4eD1elJ037tP/ESsDdXFmHaYPEvsa3We/c4cGrkmXlJ
-   YBP9mtGXzfMqhAxMwBy+00tJr6gBofjfAoHsczgw/D0amsJQ0mhDU48ZR
-   QG201nI3yGX+nfn2CzbWrQfqgeOEFMv40XoCZzOHbUprJxMy8bp5ET/sp
-   spvYucJEWwKm6hOEqgSXuiiRwpuSrAxqZvTE28grDqm8yGOWCU0Pcytju
-   L1h+YWUorKpZ7i4HeWlmbOwVtn5QSAo5cTR1wuTZBoFdy5nvQVw3kvOek
-   A==;
-X-CSE-ConnectionGUID: 6FIU4BbMRY+agvDhufdh2Q==
-X-CSE-MsgGUID: sPeGEydlQYuQ9EJm/hXhmw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10399727"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10399727"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:03:57 -0700
-X-CSE-ConnectionGUID: hIsS+t9vTdWnvfoomMjbOQ==
-X-CSE-MsgGUID: pNk0L24ZSrGX7MRYoWkhkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27324360"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 May 2024 12:03:54 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2bii-000AuK-02;
-	Thu, 02 May 2024 19:03:52 +0000
-Date: Fri, 3 May 2024 03:03:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Denose <jdenose@google.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@google.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffery Miller <jefferymiller@google.com>
-Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
- Lenovo N24
-Message-ID: <202405030210.izdCj8wZ-lkp@intel.com>
-References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+	s=arc-20240116; t=1714677401; c=relaxed/simple;
+	bh=TT47vrRaRN/6EIefMl1F/4OcvIvSeygmA+JHdGn8OQM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lvfqf1Yjs58WqCLSPFWKQuAFVgVUsF2wHFGgWxOfj4a1j3rMyPhNvjIoU4zhgWhIYXJNn3Ms26U+Z6QoWrWSYQLewLaZ7b4NacvIyVuNDo3UmDcBdpL42u+talhdJDErx3bBT/hqrKTvDdYAAgMSojbLyUionoFzMFgSRcenvU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fv1+/p+k; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-572babec735so1197377a12.0;
+        Thu, 02 May 2024 12:16:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714677397; x=1715282197; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T9Pt4LunRcuoSqyDxcU2IHHUezPKEgwmRljlzl98f0U=;
+        b=Fv1+/p+kiQNBR7EPk2Li6EjVWqJqFKUMu1ZBJMXD2WCEVCpXhZa1LbTG7daFlaCrl1
+         Hj4w9Vy+y1zlhv2Ud8PJaTzRW99GZsBX5fMxiPCTKdwpUOYIZiB1b2haoB7SvYyg4vMD
+         zBdByMOJV17+/JiDAgqrWC+gGUj6lQMrk0kx924fouXw2Eglm6oEXO2qBLaXbhGtVV+0
+         uJIaJs3BsRK246SIvlPFbtmvHmzTp2q68ZI7DLhUd+/5wmlzRKU4jYFVvpXqmGv0hwhN
+         3NcjxrAp5ZxMRiVLCPoZzZpqMyJPNClSOvys3aeBYqrupcNVjVnGnPQcJByWUmZ7SEIL
+         y2+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714677397; x=1715282197;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T9Pt4LunRcuoSqyDxcU2IHHUezPKEgwmRljlzl98f0U=;
+        b=oRLEhcSUNA2fNTMO/RdoL3pyNAROElwz4ttanc8y16sTe+0iLLqlvP6YGXNIpWMVje
+         ztRGPXvRGX4cXJp/UKL1OZTvf3zN2pAf3jo4HkEn6SbroHnKHJyJj2NaCQ00ndOMTA5l
+         NALcRVeD7XzqcXMxv1f6PjwCLUQl0TFf/XF0+6aKeOGDSYWew6QZdam67qyQFY+mxZn4
+         FdLpP0MSPEFavqnHi/oINQN1rpl6f4VxpCBWn7nk2d+5JVllwqdgXh8U/pLIQzU6KWlt
+         c93AQ3r8ppSyGtqwKK4LwZjEoN0bD3nYxUDn6emo5sulz795eUN5K39US72zg+2SCRC5
+         AbXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMJYF4hDlg1XbkOJICS6esyIrECFttmg0GB9/ENU0HULC62qjTOvdhLh8elJMZaUWxqv9W6qDM/hS8C4vV2tMRhCqXr7MGPffRo4nVwEjNPjwfeSbu0xQNup1YdrEN5hw9ZEc/rGOZWNQmjrly5nW/a8zdM8+xHJzm6hgR4EIHm7xOJyFH
+X-Gm-Message-State: AOJu0Yz0qbTkIgVp8FrrgwDbtB9Znm/4jh5Ahw1jRwNHH+OTYTDe6FnZ
+	hQlDlB4Rg++fcaFHsg/sLODvx6AkxXXQcKnMxqPZdXNOUT0KTk/aMfcV1btbOomCeO1sNNnwy20
+	uhXFO/wFcmAaRjiRGf5o2xSiSUlmnKzeM
+X-Google-Smtp-Source: AGHT+IHGvjzEzUwhbfnsN5ylBpZIHW+lskNYDCokbARhoq8LT4vlRCbRGeDTK35d5G85irUnsDWyY0xALprMDMW0Xww=
+X-Received: by 2002:a17:906:c8d8:b0:a58:921a:970d with SMTP id
+ gc24-20020a170906c8d800b00a58921a970dmr605540ejb.6.1714677397491; Thu, 02 May
+ 2024 12:16:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+References: <20240502185819.788716-1-andreas@kemnade.info> <20240502185819.788716-3-andreas@kemnade.info>
+In-Reply-To: <20240502185819.788716-3-andreas@kemnade.info>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 2 May 2024 22:16:01 +0300
+Message-ID: <CAHp75Vd1A8sy2Oky9TENUTAj0SCCyVQ8Zh49AN3X7t9cK2F+iw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Input: ektf2127 - add ektf2232 support
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, hdegoede@redhat.com, u.kleine-koenig@pengutronix.de, 
+	siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jonathan,
+On Thu, May 2, 2024 at 9:58=E2=80=AFPM Andreas Kemnade <andreas@kemnade.inf=
+o> wrote:
+>
+> The chip is similar, but has status bits at different positions,
+> so use the correct bits.
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +       if (ts->shifted_status) {
+> +               ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 1));
+> +               ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 2));
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
-patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/reproduce)
+BIT(0)
+BIT(1)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030210.izdCj8wZ-lkp@intel.com/
+> +       } else {
+> +               ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
+> +               ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
 
-All warnings (new ones prefixed by >>):
+BIT(1)
+BIT(2)
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/math.h:5,
-                    from include/linux/delay.h:22,
-                    from drivers/input/mouse/elantech.c:10:
-   drivers/input/mouse/elantech.c: In function 'elantech_reconnect':
->> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/input/mouse/elantech.c:1509:75: note: in expansion of macro 'NULL'
-    1509 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
-         |                                                                           ^~~~
-   In file included from drivers/input/mouse/elantech.c:19:
-   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
-      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
-         |                                                  ~~~~~~~~~~~~~^~~~~~~
->> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/input/mouse/elantech.c:1515:74: note: in expansion of macro 'NULL'
-    1515 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
-         |                                                                          ^~~~
-   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
-      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
-         |                                                  ~~~~~~~~~~~~~^~~~~~~
-   drivers/input/mouse/elantech.c: In function 'elantech_setup_ps2':
-   drivers/input/mouse/elantech.c:2123:65: warning: '/input1' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
-         |                                                                 ^~~~~~~
-   drivers/input/mouse/elantech.c:2123:17: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2124 |                         psmouse->ps2dev.serio->phys);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +       }
 
+...
 
-vim +/ps2_sendbyte +8 include/linux/stddef.h
+> +       if (dev->of_node &&
+> +           of_device_is_compatible(dev->of_node, "elan,ektf2232"))
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
+if (device_is_compatible(...))
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +               ts->shifted_status =3D true;
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
