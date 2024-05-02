@@ -1,136 +1,118 @@
-Return-Path: <linux-input+bounces-3379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6E68B95F4
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 09:58:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C67E88B9637
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 10:14:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB30B282013
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 07:58:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D7B11F24AC0
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 08:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C8BF54FA0;
-	Thu,  2 May 2024 07:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95BB92D04E;
+	Thu,  2 May 2024 08:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="CrK5D5t+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oe5h5XbK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8679954277;
-	Thu,  2 May 2024 07:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA5B28E11
+	for <linux-input@vger.kernel.org>; Thu,  2 May 2024 08:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714636617; cv=none; b=OLASDwYXjUBXTFNexPreDPHsZACop6iao5acfSZEOEgsTCkAmrzKdIeX4I9f9558pyOo8ZTwfu5y0ag4NClSrBjaonOpNutKtt/2i+GjIVmCtVqGxIojyiH7mCGYGUQnj0RtkDft2j2VVc7aCLobk2XFNHb1HP3kAM2Ie2a8RRA=
+	t=1714637637; cv=none; b=Yviz0g06NhXMbc6LIv7tTkgdVPzRCzYYkSvD+v6n/s6NQMQy5/dIjpCG5m5GiQwaWGnruFYxToDUVDFeaZ4kv5FZW+rKqhFcMxUxS9qCJogOaNDmVDNjENWqMuGTtFrHzS31c82Gb2bbvSSYOyIyln9jrkszmpxLAVvsxn9AAHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714636617; c=relaxed/simple;
-	bh=EqNe2Hv2CPPHgjp7xFwYFu75robyX6ah/DfzzEc5leM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OXHILNx3GT3NRQGYPyJ0yR30f6z+3qZZ7wvfOoNck90cnfy7LBxHtZ+mlO+dDysdEHdQmK19H+qlNWMzE0+OUH5RrTmTfyVwRsAg01U/HlE5rvYpl10f2/uwSpbHSH1cGdviHzbqoxZf7IINV0USF92sA+hGsyPh8MvA8VWVWbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=CrK5D5t+; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=YlFhQ3rwhJDgy3vyDj0hKBqSv4ZLIP4QMDO+nEa0Vc4=; b=CrK5D5t+ghYDT+W0nvalQIx3G9
-	GJcEqo9dZsZjBfE6TgnwTmhORJuYWzX8Z+6iEDxgLHArX8BkGvCWpSnu0MumXoW+14DuqWQ3P/roi
-	YHS7xNJSWGPcWAtVgAcwoeEaZ8Q0tLkGXjZBFsrteLpg6Ajcva6pRQXCeAvZtEcxITfY=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s2RJ8-001Yg7-04;
-	Thu, 02 May 2024 09:56:46 +0200
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-To: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Andreas Lauser <andreas.lauser@mercedes-benz.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: [PATCH v2 12/12] HID: hexLIN: Implement ability to update lin mode
-Date: Thu,  2 May 2024 09:55:34 +0200
-Message-Id: <20240502075534.882628-13-christoph.fritz@hexdev.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240502075534.882628-1-christoph.fritz@hexdev.de>
-References: <20240502075534.882628-1-christoph.fritz@hexdev.de>
+	s=arc-20240116; t=1714637637; c=relaxed/simple;
+	bh=c4ei+B0bZuZTMjTLn9BVRlxqJebKwU8kVr6r+UNiXgY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QhjPZ+lYw+LECD7oiRIucihN+QumFG20Ea3oSG66A7FsAyE9r10i6B5fKYQMwItdGY5Hn7unxHd7WnhcFfOZZmJb83Qwzf/3iq05Ah9/uCpnYbCPd7AfKdDaXR7t93puC4lK2OpcqczPS0sQpmxPkOrOlAn/wffAHw6qrfq8XSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oe5h5XbK; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-61b2218ab6fso60599957b3.1
+        for <linux-input@vger.kernel.org>; Thu, 02 May 2024 01:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714637635; x=1715242435; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c4ei+B0bZuZTMjTLn9BVRlxqJebKwU8kVr6r+UNiXgY=;
+        b=oe5h5XbKQfCS2R+4vTdlMj2ITH96D1emT3KxEUDqyv6qtjyQ/ZfdS/gNgDPtytXA2L
+         hYC1jJo15uBm32hq4cNmWCULezSMkiE0KtPKL02lWPVjW5vsw6YDhIF4R5ZRzkAsDC8r
+         GLPltf4dlkbkZgH/wnegXcvjUxy6Xe51UK4HsUJedPXoFVKcPnYfMXd37wpgiqBrP8th
+         t8sTI4ifyknKHnGDePqVPQlkavgy0I4Ao5dfs6MdrBvtQXvRwSrFOH0DPVRWeOUB9Ve8
+         gOSWWlYnktdGDxGjoNsAh+K5dP7C2U3a1ninvC8uiwRFz9v2ZxG2eouZRVQDJYarXwfN
+         D6wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714637635; x=1715242435;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c4ei+B0bZuZTMjTLn9BVRlxqJebKwU8kVr6r+UNiXgY=;
+        b=Ie1Ws0ALRYZ+QIyZKOIDWwxORNjnESFDTtF1RRO+DDP8TqKi5XbseqE4jE498hnK24
+         nNC7NMWFrVtXdEG6+Nsq6Z/zClX3CFdSGLPbDe1QFXh2auu3fnXxcjDEVN7paCXM0cXy
+         cic77isZ4gWXLbAXfC7z1SsRconbCzr12Nq2c0pzRzOqpb8xqw6fh+0FcbW/OI2tUdq8
+         qnKoNHaV3tzS1vip/DzNgQ3PvAccdPTmTNmNqqJnmOxS8mHDCeA1JPZi/wNtt74DileV
+         hnLrEETIcAo3QP1SBMNfLPA5T/6b0Ox/twIxJxDjd8PtsuxVlTBFqlhWykSeB4P219Pi
+         hkkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULu9gF2CtWytC1MhVeJbyQy5Bt5VpQ51nD3IS68ocAdA0ih2fUrHOooscxDXEJlS/v2U2GLpCV+s1owR5WGBurjuDlIL8Ia1rq1UQ=
+X-Gm-Message-State: AOJu0YyXfJQ8KRwdTb6AZDoSs1LM7ccUe+vWLuxoqV67u4HRKa8LamhC
+	lX5a8lk3F5XibufJmoXenzbwb4IawbWvIrNhg/o33IUjRw6Nxw2YGtaJjQVEOHCg2OeszDAGtEt
+	EqNbuO/gJXwrBSwvPZWm+Cun/v4zh+YnrosfQ7A==
+X-Google-Smtp-Source: AGHT+IGSx2+2EOxOtMI6T1K0GJwZd6pRkBLw/hNNJoiSWWhLgalhzC9BcMuTJQ/bM5ZXQ5fr1jnBWOsrSwUruZM3Mfc=
+X-Received: by 2002:a05:690c:6102:b0:60c:c31c:4f71 with SMTP id
+ hi2-20020a05690c610200b0060cc31c4f71mr5550534ywb.42.1714637635340; Thu, 02
+ May 2024 01:13:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240430-gpio-leds-miscarm-v1-0-9c94d7711f6c@linaro.org> <20240430-gpio-leds-miscarm-v1-3-9c94d7711f6c@linaro.org>
+In-Reply-To: <20240430-gpio-leds-miscarm-v1-3-9c94d7711f6c@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 2 May 2024 10:13:44 +0200
+Message-ID: <CACRpkdbY2R_DzCx48OdGBFh6Lgytt_+VN1QK1pRq+9dDB=zw9w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ARM: spitz: Use software nodes for the ADS7846 touchscreen
+To: Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch enhances the hexLIN driver by implementing the newly
-introduced update_lin_mode() callback.  So that either commander or
-responder mode can be configured on this hardware.
+On Tue, Apr 30, 2024 at 9:04=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
 
-Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
----
- drivers/hid/hid-hexdev-hexlin.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+> Convert the Spitz to use software nodes for SPI CS and the
+> ADS7846 touchscreen following the pattern used in the TI
+> platforms.
+>
+> The Spitz is the only user of the wait_for_sync() callback in
+> the platform data, so define that this is a separate GPIO
+> in the device tree bindings (previous patch) and handle this
+> directly inside the ADS7846 driver instead.
+>
+> Add some infrastructure to the PXA boardfile common code to
+> handle software nodes attached to the SPI bus instead of
+> platform data.
+>
+> The SPI core will investigate the numner of GPIO handles to
+> figure out the number of chipselects used on the platform, so
+> no explicit encoding of the number of the number of chipselects
+> is needed.
+>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/hid/hid-hexdev-hexlin.c b/drivers/hid/hid-hexdev-hexlin.c
-index 34019043f329e..64c1afcba0550 100644
---- a/drivers/hid/hid-hexdev-hexlin.c
-+++ b/drivers/hid/hid-hexdev-hexlin.c
-@@ -180,6 +180,8 @@ HEXLIN_GET_CMD(get_baudrate, HEXLIN_GET_BAUDRATE)
- 	}
- 
- HEXLIN_VAL_CMD(send_break, HEXLIN_SEND_BREAK, hexlin_val8_req, u8)
-+HEXLIN_VAL_CMD(set_mode_controller, HEXLIN_SET_MODE_CONTROLLER, hexlin_val8_req,
-+	       bool)
- 
- static int hexlin_queue_frames_insert(struct hexlin_priv_data *priv,
- 				      const u8 *raw_data, int sz)
-@@ -349,6 +351,14 @@ static int hexlin_ldo_tx(struct lin_device *ldev,
- 	return ret;
- }
- 
-+static int  hexlin_update_lin_mode(struct lin_device *ldev, enum lin_mode lm)
-+{
-+	struct hid_device *hdev = to_hid_device(ldev->dev);
-+	struct hexlin_priv_data *priv = hid_get_drvdata(hdev);
-+
-+	return hexlin_set_mode_controller(priv, lm == LINBUS_COMMANDER);
-+}
-+
- static int hexlin_update_bitrate(struct lin_device *ldev, u16 bitrate)
- {
- 	struct hid_device *hdev = to_hid_device(ldev->dev);
-@@ -420,6 +430,7 @@ static const struct lin_device_ops hexlin_ldo = {
- 	.ldo_open = hexlin_open,
- 	.ldo_stop = hexlin_stop,
- 	.ldo_tx = hexlin_ldo_tx,
-+	.update_lin_mode = hexlin_update_lin_mode,
- 	.update_bitrate = hexlin_update_bitrate,
- 	.get_responder_answer = hexlin_get_responder_answer,
- 	.update_responder_answer = hexlin_update_resp_answer,
--- 
-2.39.2
+Andy's patch series makes the Spitz SPI much cleaner to begin
+with so I will hold this off and rebase on top of Andy's stuff once
+that is in.
 
+Yours,
+Linus Walleij
 
