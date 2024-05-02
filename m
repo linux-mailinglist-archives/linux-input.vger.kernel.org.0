@@ -1,240 +1,166 @@
-Return-Path: <linux-input+bounces-3389-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3390-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B9F8B993F
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 12:45:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E97A08B9979
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 12:54:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64AD9B24B41
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 10:45:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B122128592F
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 10:54:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E12A651A4;
-	Thu,  2 May 2024 10:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="DDqJ6uWX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CE25FEF2;
+	Thu,  2 May 2024 10:54:14 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00B75C60D;
-	Thu,  2 May 2024 10:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B6B5F84F
+	for <linux-input@vger.kernel.org>; Thu,  2 May 2024 10:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.72.220.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714646489; cv=none; b=p7NCMXWlmc5l0TFrYKn+wubv2Ejxjf2gB+Vibr7l3DcS6HmuslFNApJELT9tGHKnbQxVb2wPZaXZslUYqThG+JE2qigiOQgRv0/uEQJnyUjz/hzWxqa73qvQEsogUoK/38lNjYY9AyXnGfwuHfKHXl87keEKxZjvbaROgbhTt14=
+	t=1714647254; cv=none; b=JIqLI094dfPfe/CnHMozS0uTzCGW73Yg9CmFd0c4pG0UTS62jI5VFOdYbpXwjKsgfw97Kc7v557nmUj47cyU1GAb2cZOeoyGXUjI5Wzih06eZFLMDyHhBVkzaQUg7sYn2Jdip3EkJCX6yzBNoUQ/L0U4ZMMaDEEEq0X2PFuKFd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714646489; c=relaxed/simple;
-	bh=OqJ+yIymupM8os2NNtWYxIDzuic0X9q0L/FNYuyp6NQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uLMzAxtLt+XgVp7LFnWf5hoRuWfyErgdq8swm6k7gHfjkR89a/h3/NHt3aCbf1SfVPE1PBNdB9ebzucGDriCB96KoLTxrFGONftbxkio4RiaF77sFvRHJr9A3j4dKCT/K1x45lPYu+tdLnEnMKsX/hHzvQqYyf0IZTqg3mJLIUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=DDqJ6uWX; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=4UUHAno7rypybrcQtRJnCbtjDnm2b3MTrzNRoHFFT+4=; b=DDqJ6uWXnxC+eCkZQ7gN9aIjkb
-	o+Ouhe7Rg91OXbK1/odgrwOFaA6dXxRBbs6uy+CzYzxCFJteto934oK/rKoev1Ntg9s9p+GYVVzIC
-	VfVAcwv8kpe+bOYZDEa5Jb6VBisVxPmFjJQH2n9IxGJJcuvjxi7NH887u+P62++5sogo=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s2TsE-001Z1U-1D;
-	Thu, 02 May 2024 12:41:11 +0200
-Message-ID: <2ab875b8216dd32d0d1e495a52a20c02a40e3e5d.camel@hexdev.de>
-Subject: Re: [PATCH v2 02/12] HID: hexLIN: Add support for USB LIN bus
- adapter
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-Reply-To: christoph.fritz@hexdev.de
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>, Marc Kleine-Budde
- <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, "David
- S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
- Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin
- Tissoires <bentiss@kernel.org>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sebastian Reichel <sre@kernel.org>, Linus
- Walleij <linus.walleij@linaro.org>, Andreas Lauser
- <andreas.lauser@mercedes-benz.com>,  Jonathan Corbet <corbet@lwn.net>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org,  linux-serial@vger.kernel.org
-Date: Thu, 02 May 2024 12:41:07 +0200
-In-Reply-To: <acf0251e-41b9-410d-a663-ff6c34d2bc3e@kernel.org>
-References: <20240502075534.882628-1-christoph.fritz@hexdev.de>
-	 <20240502075534.882628-3-christoph.fritz@hexdev.de>
-	 <acf0251e-41b9-410d-a663-ff6c34d2bc3e@kernel.org>
-Organization: hexDEV GmbH
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1714647254; c=relaxed/simple;
+	bh=+GRRN+lxAgTpny0qBHzOZB5GQipSuGqI3AqbrrFpiTE=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Gx4uf6I5rGyysa7fApdVH9XS+JM0jPuVoik53+8wWFumodi9T4b4hkdmJAOoBEk3Di8oiVwMKu1dFtpAmFW90jHly4GfImP8RTUkrMEQ77R6ngVMTZAjWeJr3slQWipBg+SnQ4aKuA1Y2Sa+kzlMVSCDIDq5jndaSnQFTOmI1zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emc.com.tw; spf=pass smtp.mailfrom=emc.com.tw; arc=none smtp.client-ip=192.72.220.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emc.com.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emc.com.tw
+X-IronPort-AV: E=Sophos;i="6.07,247,1708358400"; 
+   d="scan'208";a="6849213"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 02 May 2024 18:52:58 +0800
+Received: from 192.168.10.23
+	by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(194262:0:AUTH_RELAY)
+	(envelope-from <phoenix@emc.com.tw>); Thu, 02 May 2024 18:52:56 +0800 (CST)
+Received: from 192.168.33.24
+	by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2472:0:AUTH_RELAY)
+	(envelope-from <phoenix@emc.com.tw>); Thu, 02 May 2024 18:52:54 +0800 (CST)
+From: "Phoenix" <phoenix@emc.com.tw>
+To: "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+	"'Jonathan Denose'" <jdenose@google.com>
+Cc: "'LKML'" <linux-kernel@vger.kernel.org>,
+	<linux-input@vger.kernel.org>,
+	"'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>,
+	"'Jeffery Miller'" <jefferymiller@google.com>,
+	"'Hans de Goede'" <hdegoede@redhat.com>,
+	"'Josh.Chen'" <josh.chen@emc.com.tw>,
+	<jingle.wu@emc.com.tw>
+References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid> <ZjKV44wZWH4MBCrF@google.com>
+In-Reply-To: <ZjKV44wZWH4MBCrF@google.com>
+Subject: RE: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
+Date: Thu, 2 May 2024 18:52:54 +0800
+Message-ID: <003301da9c7e$e28cedb0$a7a6c910$@emc.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQNl6RFy0XqrrreO5MtCRWC09GhC+wHH6cKKrl7rqjA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IGFpPSIwIiBubT0iYm9keS50eHQiIHA9ImM6XHVzZXJzXDg4MDUxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctMjAxMGNhZWEtMDg3Mi0xMWVmLWE4OTAtMDhiZmI4ZDdiOWIxXGFtZS10ZXN0XDIwMTBjYWVjLTA4NzItMTFlZi1hODkwLTA4YmZiOGQ3YjliMWJvZHkudHh0IiBzej0iNTkwNiIgdD0iMTMzNTkxMjA3NzM5MjIwMzE5IiBoPSIwakp4bGxMYTlYUEhzcldsRUk4TWpJRXRyRWc9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-rorf: true
 
-On Thu, 2024-05-02 at 10:30 +0200, Jiri Slaby wrote:
-> On 02. 05. 24, 9:55, Christoph Fritz wrote:
-> > This patch introduces driver support for the hexLIN USB LIN bus adapter,
-> > enabling LIN communication over USB for both controller and responder
-> > modes. The driver interfaces with the CAN_LIN framework for userland
-> > connectivity.
-> > 
-> > For more details on the adapter, visit: https://hexdev.de/hexlin/
-> > 
-> > Tested-by: Andreas Lauser <andreas.lauser@mercedes-benz.com>
-> > Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
-> ...
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-hexdev-hexlin.c
-> > @@ -0,0 +1,630 @@
-> ...
-> > +static int hexlin_stop(struct lin_device *ldev)
-> > +{
-> > +	struct hid_device *hdev = to_hid_device(ldev->dev);
-> > +	struct hexlin_priv_data *priv = hid_get_drvdata(hdev);
-> > +
-> > +	hid_hw_close(hdev);
-> > +
-> > +	priv->is_error = true;
-> > +	complete(&priv->wait_in_report);
-> > +
-> > +	mutex_lock(&priv->tx_lock);
-> > +	mutex_unlock(&priv->tx_lock);
-> 
-> This is a weird way to implement a completion. It looks like you need 
-> another one.
+Loop Josh, Jingle
 
-They are not necessary, even more so when I can drop the
-mutex_destroy() below.
+-----Original Message-----
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com> 
+Sent: Thursday, May 2, 2024 3:20 AM
+To: Jonathan Denose <jdenose@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>; linux-input@vger.kernel.org; Greg
+Kroah-Hartman <gregkh@linuxfoundation.org>; Jeffery Miller
+<jefferymiller@google.com>; Phoenix Huang <phoenix@emc.com.tw>; Hans de
+Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
+Lenovo N24
 
+On Wed, May 01, 2024 at 02:02:32PM +0000, Jonathan Denose wrote:
+> The Lenovo N24 on resume becomes stuck in a state where it sends 
+> incorrect packets, causing elantech_packet_check_v4 to fail.
+> The only way for the device to resume sending the correct packets is 
+> for it to be disabled and then re-enabled.
 > 
-> > +	return 0;
-> > +}
-> ...> +static int hexlin_probe(struct hid_device *hdev,
-> > +			const struct hid_device_id *id)
-> > +{
-> > +	struct hexlin_priv_data *priv;
-> > +	int ret;
-> > +
-> > +	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-> > +	if (!priv)
-> > +		return -ENOMEM;
-> > +
-> > +	priv->hid_dev = hdev;
-> > +	hid_set_drvdata(hdev, priv);
-> > +
-> > +	mutex_init(&priv->tx_lock);
-> > +
-> > +	ret = hid_parse(hdev);
-> > +	if (ret) {
-> > +		hid_err(hdev, "hid parse failed with %d\n", ret);
-> > +		goto fail_and_free;
-> > +	}
-> > +
-> > +	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
-> > +	if (ret) {
-> > +		hid_err(hdev, "hid hw start failed with %d\n", ret);
-> > +		goto fail_and_stop;
-> > +	}
-> > +
-> > +	ret = hid_hw_open(hdev);
-> > +	if (ret) {
-> > +		hid_err(hdev, "hid hw open failed with %d\n", ret);
-> > +		goto fail_and_close;
-> > +	}
-> > +
-> > +	init_completion(&priv->wait_in_report);
-> > +
-> > +	hid_device_io_start(hdev);
-> > +
-> > +	ret = init_hw(priv);
-> > +	if (ret)
-> > +		goto fail_and_close;
-> > +
-> > +	priv->ldev = register_lin(&hdev->dev, &hexlin_ldo);
-> > +	if (IS_ERR_OR_NULL(priv->ldev)) {
-> > +		ret = PTR_ERR(priv->ldev);
-> > +		goto fail_and_close;
-> > +	}
-> > +
-> > +	hid_hw_close(hdev);
-> > +
-> > +	hid_info(hdev, "hexLIN (fw-version: %u) probed\n", priv->fw_version);
-> > +
-> > +	return 0;
-> > +
-> > +fail_and_close:
-> > +	hid_hw_close(hdev);
-> > +fail_and_stop:
-> > +	hid_hw_stop(hdev);
-> > +fail_and_free:
-> > +	mutex_destroy(&priv->tx_lock);
-> > +	return ret;
-> > +}
-> > +
-> > +static void hexlin_remove(struct hid_device *hdev)
-> > +{
-> > +	struct hexlin_priv_data *priv = hid_get_drvdata(hdev);
-> > +
-> > +	unregister_lin(priv->ldev);
-> > +	hid_hw_stop(hdev);
-> > +	mutex_destroy(&priv->tx_lock);
+> This change adds a dmi check to trigger this behavior on resume.
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
+
+Adding a couple more folks to take a look at this...
+
+> ---
 > 
-> It is unusual to destroy a mutex. Why do you do that?
+>  drivers/input/mouse/elantech.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elantech.c 
+> b/drivers/input/mouse/elantech.c index 4e38229404b4b..e0f3095b4227e 
+> 100644
+> --- a/drivers/input/mouse/elantech.c
+> +++ b/drivers/input/mouse/elantech.c
+> @@ -1476,6 +1476,23 @@ static void elantech_disconnect(struct psmouse
+*psmouse)
+>  	psmouse->private = NULL;
+>  }
+>  
+> +/*
+> + * Some hw_version 4 models fail to properly activate absolute mode 
+> +on
+> + * resume without going through disable/enable cycle.
+> + */
+> +static const struct dmi_system_id elantech_needs_reenable[] = { #if 
+> +defined(CONFIG_DMI) && defined(CONFIG_X86)
+> +	{
+> +		/* Lenovo N24 */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
+> +		},
+> +	},
+> +#endif
+> +	{ }
+> +};
+> +
+>  /*
+>   * Put the touchpad back into absolute mode when reconnecting
+>   */
+> @@ -1486,6 +1503,22 @@ static int elantech_reconnect(struct psmouse
+*psmouse)
+>  	if (elantech_detect(psmouse, 0))
+>  		return -1;
+>  
+> +	if (dmi_check_system(elantech_needs_reenable)) {
+> +		int err;
+> +
+> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE,
+NULL);
+> +
+> +		if (err)
+> +			psmouse_warn(psmouse, "Failed to deactivate mouse on
+%s: %d\n",
+> +					psmouse->ps2dev.serio->phys, err);
+> +
+> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE,
+NULL);
+> +
+> +		if (err)
+> +			psmouse_warn(psmouse, "Failed to reactivate mouse on
+%s: %d\n",
+> +					psmouse->ps2dev.serio->phys, err);
+> +	}
+> +
+>  	if (elantech_set_absolute_mode(psmouse)) {
+>  		psmouse_err(psmouse,
+>  			    "failed to put touchpad back into absolute
+mode.\n");
+> --
+> 2.45.0.rc0.197.gbae5840b3b-goog
 > 
 
-Just for code clarity and it should help if someone wants to use
-CONFIG_DEBUG_MUTEXES.
+-- 
+Dmitry
 
-To be able to drop the lock/unlock from above, I could add the
-lock/unlock here or just drop the mutex_destroy() completely.
-
-I'll just drop it in upcoming v3.
-
-> > +}
-> ...
-> > +static int __init hexlin_init(void)
-> > +{
-> > +	return hid_register_driver(&hexlin_driver);
-> > +}
-> > +
-> > +static void __exit hexlin_exit(void)
-> > +{
-> > +	hid_unregister_driver(&hexlin_driver);
-> > +}
-> 
-> 
-> 
-> > +
-> > +/*
-> > + * When compiled into the kernel, initialize after the hid bus.
-> > + */
-> > +late_initcall(hexlin_init);
-> 
-> Hmm, why not module_init() then? (And module_hid_driver().)
-
-Looking at the other hid drivers and testing with just
-
-module_hid_driver(hexlin_driver)
-
-works here fine for compiled into the kernel and as a module.
-
-> 
-> > +module_exit(hexlin_exit);
-> > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_AUTHOR("Christoph Fritz <christoph.fritz@hexdev.de>");
-> > +MODULE_DESCRIPTION("LIN bus driver for hexLIN USB adapter");
-
-Thanks
-  -- Christoph
 
