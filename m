@@ -1,193 +1,115 @@
-Return-Path: <linux-input+bounces-3363-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3364-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E8F8B9438
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 07:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7918B9529
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 09:21:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AECA282E54
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 05:27:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C879282D4D
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 07:21:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDDD200A0;
-	Thu,  2 May 2024 05:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9087621A1C;
+	Thu,  2 May 2024 07:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="UJCR0hkD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGcbvCrQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ADA1CA81;
-	Thu,  2 May 2024 05:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2301CD31;
+	Thu,  2 May 2024 07:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714627648; cv=none; b=iLcYAgyqKNARERkmNTbUyqIDaH+BuWG3/qBza3c+9n7Xaj/9enKurOEvBphOQ50cnP3gfPDv7te4CHpu0DZWzXi6PD7tMkslQ9yJp1sy35tlw+T3EDOPVQVmlKgJIp/v3UG+VH9MsWTRvkfiLns2QU9CUXfcDwAg7mAZw+zkg14=
+	t=1714634494; cv=none; b=Jkbi99AVOVotwta+DSMxHeKPV9Q3nU4sFMO7ccXZBaSXgg+JaiqEn659kGLBrHgroPtBKmuqxHl7xS2wkmtp4GO0XgCtFfGMzCXRfm/Z3OVdwHRJ+QDaY7Q4NjRBI7JoXp9gYhvU7wnP9uMd9UIhrSUtnIV09+bB/gqv0Ij7YpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714627648; c=relaxed/simple;
-	bh=ftHzH9qvJa3de0MGd82tHpZ8K22GEeMdMaS34WhIAiU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hbdwWQwKTsF4fTdG1OiijVO42PWmTK8b0MmHYNoZiY0/u2k5jHRsr1Z3dOC422mv6JJge7kyCvfiY1wQGnP5DzgAAvY8hSzNmL+FCY8oX9+O4lRV2WLDdbmjokS2i0HZgp6FS8eGjTq0D2qm/jlg9oqPNtNzC+9mQViPvCVIfJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=UJCR0hkD; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=iw9sb5bPm/obi3rgls3+3/4K0A0MuMZb4NR+Kz+bqj0=; b=UJCR0hkDNdfxATyaw5BU3n50vf
-	LphM+CQi668+Gn1auChFaligiaHZoThnzPncO/8TioOmvKhqkIbAUNFTdT1TKvKfRy38ufnVVwoiR
-	JqIZea/fWsEufV4vr/rJVO7A54QkB8nM0dT8OVu7PSUMrMKyl2x5N6JeMPXdnkc8eb6A=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s2OyD-001YZ2-2d;
-	Thu, 02 May 2024 07:27:02 +0200
-Message-ID: <77d0b2c62aad02c7c6f291676673b672ab35528a.camel@hexdev.de>
-Subject: Re: [PATCH 05/11] dt-bindings: net: can: Add serdev LIN bus dt
- bindings
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-Reply-To: christoph.fritz@hexdev.de
-To: Krzysztof Kozlowski <krzk@kernel.org>, Oliver Hartkopp
- <socketcan@hartkopp.net>, Marc Kleine-Budde <mkl@pengutronix.de>, Vincent
- Mailhol <mailhol.vincent@wanadoo.fr>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <bentiss@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri
- Slaby <jirislaby@kernel.org>
-Cc: Andreas Lauser <andreas.lauser@mercedes-benz.com>, Jonathan Corbet
-	 <corbet@lwn.net>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Date: Thu, 02 May 2024 07:26:59 +0200
-In-Reply-To: <784d78a8-3809-4a53-a9f2-7d9682b82c58@kernel.org>
-References: <20240422065114.3185505-1-christoph.fritz@hexdev.de>
-	 <20240422065114.3185505-6-christoph.fritz@hexdev.de>
-	 <784d78a8-3809-4a53-a9f2-7d9682b82c58@kernel.org>
-Organization: hexDEV GmbH
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1714634494; c=relaxed/simple;
+	bh=tX69CvEtAwgo4XZ4l/Uep5L3565GREJ/19F+uS2/KpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fOiWKRUsUS499Qo14p7RFZv+xHyHf+ooO+c8ruo6jmPbznLzLWLol6/DXsiDW12qDedOfYoaKV1aQUtO9TqjJVMQZ8GwokKcnuI/uREfj1IxIEMtsje3eFitKfvo3gmlPrCUO+r1EDBHUCEeMeJevrXKV7SBYSRtlHpXbu5wysQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGcbvCrQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD48C113CC;
+	Thu,  2 May 2024 07:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714634493;
+	bh=tX69CvEtAwgo4XZ4l/Uep5L3565GREJ/19F+uS2/KpI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MGcbvCrQDirSeDnPM0TpNimb91ucNM+8g3bD+PgHyc9ntVB+g2zov+7PyIdYgkvsU
+	 jtz4hactVTRvJISbUNUhpKLI+BBX6iqpPrUpbDLCcpvjR7DDeFB0R05Ou0BZh5TP83
+	 zhNKgRAdqM3mz/ke21ppHndeEXLoUBxjXf3wJ0WzpkBfzGYq25aX6HVu2Dx5RVmTyI
+	 20/F1/pZ70UB763380hHv6L+yrovyv0fDZcNO0MbOeSBT8MK4gpXlYosj28jQEEjsd
+	 i8xKnp6Z1NSnVOYsRSYFSbcVk4KpQIdp2hl3cYk4nUdwg5CfvMIUB1wnDtVletoO01
+	 /tNAKvXRfu0xQ==
+Date: Thu, 2 May 2024 08:21:26 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v2 19/19] const_structs.checkpatch: add lcd_ops
+Message-ID: <20240502072126.GC5338@google.com>
+References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+ <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
 
-Hello Krzysztof,
+On Wed, 24 Apr 2024, Krzysztof Kozlowski wrote:
 
- thanks for your feedback, please see my answers below.
-
-On Mon, 2024-04-22 at 09:54 +0200, Krzysztof Kozlowski wrote:
-> On 22/04/2024 08:51, Christoph Fritz wrote:
-> > Add documentation of device tree bindings for serdev UART LIN-Bus
-> > devices equipped with LIN transceivers.
+> 'struct lcd_ops' is not modified by core code.
 > 
-> A nit, subject: drop second/last, redundant "dt bindings". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-OK
-
+> Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > 
-> > 
-> > Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
-> > ---
-> >  .../bindings/net/can/linux,lin-serdev.yaml    | 29 +++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/net/can/linux,lin-serdev.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/can/linux,lin-serdev.yaml b/Documentation/devicetree/bindings/net/can/linux,lin-serdev.yaml
-> > new file mode 100644
-> > index 0000000000000..cb4e932ff249c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/net/can/linux,lin-serdev.yaml
-> > @@ -0,0 +1,29 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/net/can/linux,lin-serdev.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Linux serdev LIN-Bus Support
+> ---
 > 
-> This looks like Linux binding, but we expect here description of hardware.
-
-OK
-
-
-> > +
-> > +description: |
-> > +  LIN-Bus support for UART devices equipped with LIN transceivers,
-> > +  utilizing the Serial Device Bus (serdev) interface.
+> Patch making lcd_ops const in progress:
+> https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
 > 
-> serdev is Linux thingy, AFAIR. Please describe the hardware.
-
-OK, in v2 it will get changed to:
-
-"""
-LIN transceiver, mostly hard-wired to a serial device, used for
-communication on a LIN bus.
-"""
-
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  scripts/const_structs.checkpatch | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> > +
-> > +  For more details on an adapter, visit: https://hexdev.de/hexlin#tty
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: linux,lin-serdev
-> 
-> Feels confusing. Your link describes real hardware, but you wrote
-> bindings for software construct.
-> 
-> If you add this to DT, then it is hard-wired on the board, right?
+> diff --git a/scripts/const_structs.checkpatch b/scripts/const_structs.checkpatch
+> index fa96cfd16e99..52e5bfb61fd0 100644
+> --- a/scripts/const_structs.checkpatch
+> +++ b/scripts/const_structs.checkpatch
+> @@ -39,6 +39,7 @@ kgdb_arch
+>  kgdb_io
+>  kobj_type
+>  kset_uevent_ops
+> +lcd_ops
 
-Yes, it is hard-wired.
+Acked-by: Lee Jones <lee@kernel.org>
 
->  If so, how this could be a software construct?
+>  lock_manager_operations
+>  machine_desc
+>  microcode_ops
 
-It's not, but fairly generic, that's why I used 'linux,lin-serdev' as
-compatible string. In v2 I'll change it to 'hexdev,lin-serdev'.
-
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +examples:
-> > +  - |
-> > +    &uart2 {
-> 
-> & does not make much sense here. I think you wanted it to be serial bus,
-> so serial.
-
-OK
-
-> 
-> > +      status = "okay";
-> 
-> Drop, it was not disabled anywhere.
-
-OK
-
-> 
-> 
-> > +      linbus {
-> > +        compatible = "linux,lin-serdev";
-> > +      };
-> > +    };
-
-Let me address these points, fix warnings from dt_binding_check and
-reroll in v2.
-
-Thanks
-  -- Christoph
-
+-- 
+Lee Jones [李琼斯]
 
