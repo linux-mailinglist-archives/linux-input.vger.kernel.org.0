@@ -1,124 +1,161 @@
-Return-Path: <linux-input+bounces-3415-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3416-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D248BA0EF
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:16:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E188BA12B
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:58:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1E321C20F9D
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:16:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D158284001
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E1517A931;
-	Thu,  2 May 2024 19:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A39B17F37D;
+	Thu,  2 May 2024 19:58:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fv1+/p+k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzDVUiBM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEDD17B4F1;
-	Thu,  2 May 2024 19:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD91F17BA0;
+	Thu,  2 May 2024 19:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714677401; cv=none; b=bRr7km8+oucZOYpmumMRvmUUVLpUoVYyLVm6UdASpk+m6HBLWY6zzur3lroJ9m0f/o3/sjde5xx3LK9urlatHF2U3aTVg2ZGZCxlFzVrz3V8idtnrTcSNfJYl57xSgJBgT02eK4lkf3LJiV7cOTdEZvXArZDi7nlxg2U2+NLNAM=
+	t=1714679881; cv=none; b=AJ7OMbqXLtCWwj4Hsg6xi3v838j7ZT4lIklUVksapasa1P5v7LPt4mOU/xE93CT7QydOuDLr1izHPaaPwkSO6fD7NBIjE7XwIouJQnEF+olSJ+7XKAOnUOf/uPnnKpfHpALVEIAC0TxOcWBiEr2alL3xSuRV0AyG5AIb5aw8nOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714677401; c=relaxed/simple;
-	bh=TT47vrRaRN/6EIefMl1F/4OcvIvSeygmA+JHdGn8OQM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lvfqf1Yjs58WqCLSPFWKQuAFVgVUsF2wHFGgWxOfj4a1j3rMyPhNvjIoU4zhgWhIYXJNn3Ms26U+Z6QoWrWSYQLewLaZ7b4NacvIyVuNDo3UmDcBdpL42u+talhdJDErx3bBT/hqrKTvDdYAAgMSojbLyUionoFzMFgSRcenvU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fv1+/p+k; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-572babec735so1197377a12.0;
-        Thu, 02 May 2024 12:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714677397; x=1715282197; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T9Pt4LunRcuoSqyDxcU2IHHUezPKEgwmRljlzl98f0U=;
-        b=Fv1+/p+kiQNBR7EPk2Li6EjVWqJqFKUMu1ZBJMXD2WCEVCpXhZa1LbTG7daFlaCrl1
-         Hj4w9Vy+y1zlhv2Ud8PJaTzRW99GZsBX5fMxiPCTKdwpUOYIZiB1b2haoB7SvYyg4vMD
-         zBdByMOJV17+/JiDAgqrWC+gGUj6lQMrk0kx924fouXw2Eglm6oEXO2qBLaXbhGtVV+0
-         uJIaJs3BsRK246SIvlPFbtmvHmzTp2q68ZI7DLhUd+/5wmlzRKU4jYFVvpXqmGv0hwhN
-         3NcjxrAp5ZxMRiVLCPoZzZpqMyJPNClSOvys3aeBYqrupcNVjVnGnPQcJByWUmZ7SEIL
-         y2+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714677397; x=1715282197;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T9Pt4LunRcuoSqyDxcU2IHHUezPKEgwmRljlzl98f0U=;
-        b=oRLEhcSUNA2fNTMO/RdoL3pyNAROElwz4ttanc8y16sTe+0iLLqlvP6YGXNIpWMVje
-         ztRGPXvRGX4cXJp/UKL1OZTvf3zN2pAf3jo4HkEn6SbroHnKHJyJj2NaCQ00ndOMTA5l
-         NALcRVeD7XzqcXMxv1f6PjwCLUQl0TFf/XF0+6aKeOGDSYWew6QZdam67qyQFY+mxZn4
-         FdLpP0MSPEFavqnHi/oINQN1rpl6f4VxpCBWn7nk2d+5JVllwqdgXh8U/pLIQzU6KWlt
-         c93AQ3r8ppSyGtqwKK4LwZjEoN0bD3nYxUDn6emo5sulz795eUN5K39US72zg+2SCRC5
-         AbXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXMJYF4hDlg1XbkOJICS6esyIrECFttmg0GB9/ENU0HULC62qjTOvdhLh8elJMZaUWxqv9W6qDM/hS8C4vV2tMRhCqXr7MGPffRo4nVwEjNPjwfeSbu0xQNup1YdrEN5hw9ZEc/rGOZWNQmjrly5nW/a8zdM8+xHJzm6hgR4EIHm7xOJyFH
-X-Gm-Message-State: AOJu0Yz0qbTkIgVp8FrrgwDbtB9Znm/4jh5Ahw1jRwNHH+OTYTDe6FnZ
-	hQlDlB4Rg++fcaFHsg/sLODvx6AkxXXQcKnMxqPZdXNOUT0KTk/aMfcV1btbOomCeO1sNNnwy20
-	uhXFO/wFcmAaRjiRGf5o2xSiSUlmnKzeM
-X-Google-Smtp-Source: AGHT+IHGvjzEzUwhbfnsN5ylBpZIHW+lskNYDCokbARhoq8LT4vlRCbRGeDTK35d5G85irUnsDWyY0xALprMDMW0Xww=
-X-Received: by 2002:a17:906:c8d8:b0:a58:921a:970d with SMTP id
- gc24-20020a170906c8d800b00a58921a970dmr605540ejb.6.1714677397491; Thu, 02 May
- 2024 12:16:37 -0700 (PDT)
+	s=arc-20240116; t=1714679881; c=relaxed/simple;
+	bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tCDsByCppGItmLEeaArKqkyyukP6z8s3HYIk7enest5hm3hgyRcK4fIxqbYjzWpzgfisQSdPJGa5BjCXiRAHGBYRDD8j8pOacjh3sicxrMEAm9L9hmE8XNvdIHdjkERTESpHWAXr57tMKLoKalduOKOnvYvlvT7joOMLm7LUZcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzDVUiBM; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714679880; x=1746215880;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
+  b=XzDVUiBM88Fhi9tIgv0kZN6cFn/MgbbbhJq6g8dfKLFmRT0U76RdIgC9
+   Y6K6d1vn+4lx2/b6SCKEqDm3gAJtgExSG2Xvkbu24QFCwqeu95ZSmTZda
+   ek6kepHVjS0isYJ8C0Q/NGK7ksm0LkWtH9A8szRe26YQJbNZ1X3tGk0m6
+   bfIIQQNHaGWp/YxSsGpk61L0DnU/bK9aWpYhSi+Y8VyT8WzkZXYOCwcih
+   Hp8uoWBUqlEqIIC50W3SKAhIOxxed+LRY+HD+6yxINGzrqWsAgbikKnlb
+   LmWzdY+i4NilekiFyNbhxPeyQIuVWpCJMRLXuC/fOGf9Nvd4MTTbtzfeE
+   w==;
+X-CSE-ConnectionGUID: eorxqe6yTse3qWnZDQMEWQ==
+X-CSE-MsgGUID: 749uCBJuQNuLWFCvVNthIw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10596931"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="10596931"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:58:00 -0700
+X-CSE-ConnectionGUID: Gp62U2F4QnCUwMTyJqrJKQ==
+X-CSE-MsgGUID: f+UFLMA2TNqenvU5e7Kbuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27109402"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 02 May 2024 12:57:58 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2cZ0-000Awi-1a;
+	Thu, 02 May 2024 19:57:54 +0000
+Date: Fri, 3 May 2024 03:57:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Denose <jdenose@google.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jonathan Denose <jdenose@google.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeffery Miller <jefferymiller@google.com>
+Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
+ Lenovo N24
+Message-ID: <202405030346.3Q7ixiBD-lkp@intel.com>
+References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240502185819.788716-1-andreas@kemnade.info> <20240502185819.788716-3-andreas@kemnade.info>
-In-Reply-To: <20240502185819.788716-3-andreas@kemnade.info>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 2 May 2024 22:16:01 +0300
-Message-ID: <CAHp75Vd1A8sy2Oky9TENUTAj0SCCyVQ8Zh49AN3X7t9cK2F+iw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: ektf2127 - add ektf2232 support
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, hdegoede@redhat.com, u.kleine-koenig@pengutronix.de, 
-	siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 
-On Thu, May 2, 2024 at 9:58=E2=80=AFPM Andreas Kemnade <andreas@kemnade.inf=
-o> wrote:
->
-> The chip is similar, but has status bits at different positions,
-> so use the correct bits.
+Hi Jonathan,
 
-...
+kernel test robot noticed the following build warnings:
 
-> +       if (ts->shifted_status) {
-> +               ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 1));
-> +               ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 2));
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BIT(0)
-BIT(1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
+patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
+config: powerpc64-randconfig-r122-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/reproduce)
 
-> +       } else {
-> +               ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
-> +               ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030346.3Q7ixiBD-lkp@intel.com/
 
-BIT(1)
-BIT(2)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/mouse/elantech.c:1509:75: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
+   drivers/input/mouse/elantech.c:1509:75: sparse:     expected unsigned int timeout
+   drivers/input/mouse/elantech.c:1509:75: sparse:     got void *
+   drivers/input/mouse/elantech.c:1515:74: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
+   drivers/input/mouse/elantech.c:1515:74: sparse:     expected unsigned int timeout
+   drivers/input/mouse/elantech.c:1515:74: sparse:     got void *
 
-> +       }
+vim +1509 drivers/input/mouse/elantech.c
 
-...
+  1495	
+  1496	/*
+  1497	 * Put the touchpad back into absolute mode when reconnecting
+  1498	 */
+  1499	static int elantech_reconnect(struct psmouse *psmouse)
+  1500	{
+  1501		psmouse_reset(psmouse);
+  1502	
+  1503		if (elantech_detect(psmouse, 0))
+  1504			return -1;
+  1505	
+  1506		if (dmi_check_system(elantech_needs_reenable)) {
+  1507			int err;
+  1508	
+> 1509			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
+  1510	
+  1511			if (err)
+  1512				psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
+  1513						psmouse->ps2dev.serio->phys, err);
+  1514	
+  1515			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
+  1516	
+  1517			if (err)
+  1518				psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
+  1519						psmouse->ps2dev.serio->phys, err);
+  1520		}
+  1521	
+  1522		if (elantech_set_absolute_mode(psmouse)) {
+  1523			psmouse_err(psmouse,
+  1524				    "failed to put touchpad back into absolute mode.\n");
+  1525			return -1;
+  1526		}
+  1527	
+  1528		return 0;
+  1529	}
+  1530	
 
-> +       if (dev->of_node &&
-> +           of_device_is_compatible(dev->of_node, "elan,ektf2232"))
-
-if (device_is_compatible(...))
-
-> +               ts->shifted_status =3D true;
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
