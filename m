@@ -1,154 +1,141 @@
-Return-Path: <linux-input+bounces-3387-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3388-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD878B982F
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 11:56:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B31738B98C2
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 12:27:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5CB59281360
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 09:56:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45FB91F23AF7
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 10:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3BB5674A;
-	Thu,  2 May 2024 09:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A64458AA3;
+	Thu,  2 May 2024 10:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPqyRPF+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r9b5JR0i"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9AA56457;
-	Thu,  2 May 2024 09:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420405490A;
+	Thu,  2 May 2024 10:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714643758; cv=none; b=ib+ebqdVtzzYCjbDmO+YMNwjTm1oI0L+YCBEl7aIWZav+qRP9z8Xsh7FG6rEmDt799Dwm/i2C7QCFBivK2JrAHVRxzD/xCh/Zx/72/vZV+nh2HiBlNAj5HRhd7q4D57mlnTsukKX2NkXKAeaylv0P5Tuj48frINzHQgx8poyWU4=
+	t=1714645631; cv=none; b=HKg/cXO+55JbYF+9cyOEaM6SlE0bEPokD+dsSQKNaGuDaY/VmzG7uCjN3r5+0UvAqwogIEyCG6TxQlf05g2AKX9YVo8GN8bcGuXh9sRYGKpS6vgym1JOBnpQiEtleTAUbwjAP/tCevxnpXN5+tzZIDt0u8I5wW4eO2JVdYXKHiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714643758; c=relaxed/simple;
-	bh=ssWnVaIJikdkkjYTU5z1sAgnit9Q2Wj3oLCmC/RYMUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ADiVCo5yJHkWDwuN00X8dpC5oq3grEzNp9XELSHZ5LfbPpawONAvgef/711J0M+3jPpGLcBjOB6pLoqG2ZnYISbugbhYk+C/XTvtPddsrz5sksBlx9wdilp/+8RRUq131NnZhQ8EK2CRBEMigh3kaeUAPhcXzrST1YNHBUOwEfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pPqyRPF+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38056C113CC;
-	Thu,  2 May 2024 09:55:58 +0000 (UTC)
+	s=arc-20240116; t=1714645631; c=relaxed/simple;
+	bh=BCyZXZt6FD7sZpDZAjgQJNjvV0Fmgc+1bPvW/v/nsDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hx4XWC06rtgLGMdutN+MtdsNCPFkOHmo6C8YZy/TkAWzQtbZYFwZWdOk1O5eUbWVvhb/FLMCOJvb1/v0Gcl+0ZGIUM0cduz/PtPls2F9uLCbF0gjCh4eZuJRBJrSoHL/zwnYMIgdnRqU9A73pWfwnFnNf1jYzzQjj9DeskXYxVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r9b5JR0i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60AC9C113CC;
+	Thu,  2 May 2024 10:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714643758;
-	bh=ssWnVaIJikdkkjYTU5z1sAgnit9Q2Wj3oLCmC/RYMUA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pPqyRPF+pAOtrhqdNWI0T6K7VwtOspwfVEHF7RY5RiA64Uy0x55xE4V4E5oovDBek
-	 vNhUSznMh3uibGmR8HuvWwK1CrhxW7KtLDkiHd/OThIZqAJNsTMJYA4gQlnrMxyT1v
-	 KY1uW7Gun2w2dTNa3MEJS00KZHYFw/VSuwOM14xXRcdPgiYKDcjC6UqMAPRNEDUwbr
-	 tOT9sCpQfaye42bYFm8bnenFWISkMueXnpvH/01YohjPAjYUY/PKRyBp8ajug0TiPH
-	 9oKRqg+dg0kooHFCd3q6Ivhfu+C0nB31nmWuojp0YNZ8ymiQfnMjkHPPgzVln5FS/K
-	 loL2enV9q4GRQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1s2TAW-000000002lB-0cpt;
-	Thu, 02 May 2024 11:56:00 +0200
-Date: Thu, 2 May 2024 11:56:00 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: HID: i2c-hid: elan: add
- 'no-reset-on-power-off' property
-Message-ID: <ZjNjMBNMegmTgN5B@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-4-johan+linaro@kernel.org>
- <2e67e4e6-83a7-4153-b6a7-cdec0ab2c171@kernel.org>
- <Zii2CUeIyBwxzrBu@hovoldconsulting.com>
- <bde4884c-117b-4e6e-8c7b-401b8320655b@kernel.org>
+	s=k20201202; t=1714645630;
+	bh=BCyZXZt6FD7sZpDZAjgQJNjvV0Fmgc+1bPvW/v/nsDM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r9b5JR0i4dkX6N8ADvOExuaIqinDl9wSg6pzRxHjxqCOa48qt2N4P7Sq3WiKZRL93
+	 ia7FhiKv8Fjpyr9SwUGhvccSHd4iYtqVoEeuNsrC6caP6lXLWfbWtgQ0VU0KBYFFRP
+	 FSAp7wVMcIoqsjM1qTDmCdau/DlfS5bbStc5Q5etZAEDzclAIUzQiHc9NYZPR3iw9p
+	 cTq3AGqkdJyRlE3mVKxlSg6VfqyOyJPxrVbvvdcz5E1euoi7xXZhPwMAze0sE0iG1n
+	 6I0K5KkS3wo9brYKYhfR5yYGf16vIjOakaC/dlWBmH+FNzavB5JschCLtXA/UII7MB
+	 Dgr7uPNgbxTCg==
+Message-ID: <1c56d103-bc2c-489f-a72c-875b8b8cfe71@kernel.org>
+Date: Thu, 2 May 2024 12:27:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bde4884c-117b-4e6e-8c7b-401b8320655b@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/12] can: lin: Add special frame id for rx offload
+ config
+To: Christoph Fritz <christoph.fritz@hexdev.de>,
+ Oliver Hartkopp <socketcan@hartkopp.net>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Andreas Lauser <andreas.lauser@mercedes-benz.com>,
+ Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-serial@vger.kernel.org
+References: <20240502075534.882628-1-christoph.fritz@hexdev.de>
+ <20240502075534.882628-9-christoph.fritz@hexdev.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240502075534.882628-9-christoph.fritz@hexdev.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
-
-and sorry about the late reply. Got side-tracked.
-
-On Thu, Apr 25, 2024 at 11:39:24AM +0200, Krzysztof Kozlowski wrote:
-> On 24/04/2024 09:34, Johan Hovold wrote:
-> > On Tue, Apr 23, 2024 at 06:29:44PM +0200, Krzysztof Kozlowski wrote:
-> >> On 23/04/2024 15:46, Johan Hovold wrote:
-> >>> When the power supply is shared with other peripherals the reset line
-> >>> can be wired in such a way that it can remain deasserted regardless of
-> >>> whether the supply is on or not.
-
-> >>> This is important as it can be used to avoid holding the controller in
-> >>> reset for extended periods of time when it remains powered, something
-> >>> which can lead to increased power consumption. Leaving reset deasserted
-> >>> also avoids leaking current through the reset circuitry pull-up
-> >>> resistors.
-> >>>
-> >>> Add a new 'no-reset-on-power-off' devicetree property which can be used
-> >>> by the OS to determine when reset needs to be asserted on power down.
-> >>>
-> >>> Note that this property can also be used when the supply cannot be
-> >>> turned off by the OS at all.
-> > 
-> >>>    reset-gpios:
-> >>>      description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
-> >>>  
-> >>> +  no-reset-on-power-off:
- 
-> >> Anyway, the property sounds like what the OS should be doing, which is
-> >> not what we want. You basically instruct driver what to do. We want a
-> >> described hardware configuration or hardware specifics.
-> > 
-> > Right, and this was why I at first rejected a property name like this in
-> > favour of 'reset-pulled-to-supply' in my first draft. That name
-> > obviously does not work as the 'supply' suffix is already claimed, but I
-> > also realised that it doesn't really describe the hardware property that
-> > allows the reset line to remain asserted.
-> > 
-> > The key feature in this hardware design is that the reset line will not
-> > just be pulled to the supply voltage (what other voltage would it be
-> > pulled to), but that it is also pulled to ground when the supply is
-> > disabled.
+On 02/05/2024 09:55, Christoph Fritz wrote:
+> A LIN bus supports up to 64 identifiers in one byte. This commit adds a
+> special frame ID, beyond the actual LIN identifiers, for signaling RX
+> offload configuration requests. This ID will be utilized in future LIN
+> enhancements to the CAN broadcast manager.
 > 
-> OK, if the property was specific to the hardware, then I would propose
-> something more hardware-related, e.g. "reset-supply-tied". However :
-> 
-> > Rather than trying to encode this in the property name, I settled on the
-> > descriptive 'no-reset-on-power-off' after the seeing the prior art in
-> > 'goodix,no-reset-during-suspend' property. The latter is too specific
-> > and encodes policy, but the former could still be considered hardware
-> > description and would also apply to other designs which have the
-> > property that the reset line should be left deasserted.
-> > 
-> > One such example is when the supply can not be disabled at all (e.g. the
-> > Goodix case), but I can imagine there being more than one way to design
-> > such reset circuits.
-> 
-> It seems it is common problem. LEDs have property
-> "retain-state-shutdown", to indicate that during system shutdown we
-> should not touch them (like power off). Would some variant be applicable
-> here? First, do we talk here about power off like system shutdown or
-> runtime PM, thus suspend?
+> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
+> ---
+>  include/net/lin.h | 1 +
 
-A name like 'retain-state-shutdown' would also be too specific as what
-I'm describing here is that the reset line should be (or can be) left
-deasserted whenever the OS wants to power off the device.
+You just added this file in other patch. What is the point of splitting
+line-per-line additions? There is no user of this in this patch. Squash
+it with the patch adding the file.
 
-That could be during suspend, but more generally whenever the OS
-determines that the device does not need to be powered (e.g. when
-closing a character device).
+Best regards,
+Krzysztof
 
-Johan
 
