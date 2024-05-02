@@ -1,147 +1,164 @@
-Return-Path: <linux-input+bounces-3412-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3414-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A118BA0CD
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 20:58:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF5D8BA0DE
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:04:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA2862832D8
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 18:58:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2453B28847A
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:04:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB2A15FD1E;
-	Thu,  2 May 2024 18:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824C516FF55;
+	Thu,  2 May 2024 19:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="Ky+hkpkk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNtG7Hdj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEB2664DB;
-	Thu,  2 May 2024 18:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0F1161304;
+	Thu,  2 May 2024 19:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714676310; cv=none; b=Dq2BAtAu2dF9B71J8D6OLxLIQAS7eIGo/h7WBhrpP56yjpusqmob5qeI55O+DIwnQP/M7qvrEynvmAZBs4cfPKa58PrtvsBHPUN5Ne4VO6u5CH+IQar4leB/oLyA6vDNx0Qx4Le5e2GS3J049DD1TBTBLinNUZe4tNBx7sKpDCg=
+	t=1714676639; cv=none; b=nDKYKaazrDsWpqwOCpqp8Y4NJYBEs8Acd5hobJk/2CiCHu1UnE6xUpbcGYTmTQoPWCzHJheUhIUaGia4chobVQh3Kx4IYbHGl3QZwzGhblmZrzs07iHZwAGjk2esCIn+JfMRN/AQ1z3+xrfosmN8Nq5JBa9bgtp4DPXRyyFX4IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714676310; c=relaxed/simple;
-	bh=aCHIniCv0Tc+PYxGKN7qCxfa+STcvQCfgUcxyDpVlqI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W2JrB8fWn/0tGnLfzGXbc4qQL2FJQVSJxCiYckBJeOjiUOWCJ+L5K7M1uSTKSAUnbH4Opb5fSxvp913sHHkHs4ZEh+rfgDT8vQapBsjEqqQaXi429O6xc7A/qRLlTMuHIWTzqnb+nmj/Z1Ue8CpSpPlob0ZYx6IMjlQB0Wozjz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=Ky+hkpkk; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2bdQ-005SoT-15;
-	Thu, 02 May 2024 20:58:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0CDwM9oX6z8Z0kLm8cR2Bq5GdQPw7AnnpcL4J7ndwOg=; b=Ky+hkpkk3z2PboFTrISt8+jlhm
-	06uyU48sOjDH1samrFh8h7+jfflyqOIznBzV+sMpokvLvjS7oOwexMsfO2b6vMhv+l/HtfMunMQEe
-	2kTJ8cPnVmYuE5ba++9ruIB7m8vrRSfAKXSpghihe2+V/MMW3/1FaY1BaurRgLY8JkOUVXj7QbQms
-	8Jatu+s3xvyDi+HjWSNzcS9lkI2ByAsFbkZzNYB81O9wK2H8TKbTfSdRPH1YzO8HafUvj7OYO8T60
-	JKLOjrJyGegyFd9ofxuzzsIEgSvcEu3f/gG0UsKMkyGKOzqugzdVt900EdeJSotZzMUORS6PuAuCz
-	eXDIT25w==;
-Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2bdO-000RVZ-1U;
-	Thu, 02 May 2024 20:58:23 +0200
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s2bdP-003JC1-1V;
-	Thu, 02 May 2024 20:58:23 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	andreas@kemnade.info,
-	hdegoede@redhat.com,
-	andy.shevchenko@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	siebren.vroegindeweij@hotmail.com,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Input: ektf2127 - add ektf2232 support
-Date: Thu,  2 May 2024 20:58:19 +0200
-Message-Id: <20240502185819.788716-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240502185819.788716-1-andreas@kemnade.info>
-References: <20240502185819.788716-1-andreas@kemnade.info>
+	s=arc-20240116; t=1714676639; c=relaxed/simple;
+	bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sM7o5JIozO//mwuJvitrQ5g3ixf/7iqhh4LinQfkgFtvaRWVUXMSvZDEp+76lBbeXy2xbvMpQn/gb9PSqebCceM5TlbfBCUzpkdvi67ZK8F7VVivgTggh56hhILdmP2N1KTbxTP/Q3wRBkY6x3PYwBKcvfGmnlonXiI4qmlHBXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNtG7Hdj; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714676638; x=1746212638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EoWpaGahS9+7N/Tn7VrR0XBjpa7/lAxYqFMa8FhNZMQ=;
+  b=HNtG7HdjMP1UJrDta3vc46HzKIDCgh271Ynb31QKtPwL6I4ekeeCfjGu
+   u6LIMZaV74gKRi4eD1elJ037tP/ESsDdXFmHaYPEvsa3We/c4cGrkmXlJ
+   YBP9mtGXzfMqhAxMwBy+00tJr6gBofjfAoHsczgw/D0amsJQ0mhDU48ZR
+   QG201nI3yGX+nfn2CzbWrQfqgeOEFMv40XoCZzOHbUprJxMy8bp5ET/sp
+   spvYucJEWwKm6hOEqgSXuiiRwpuSrAxqZvTE28grDqm8yGOWCU0Pcytju
+   L1h+YWUorKpZ7i4HeWlmbOwVtn5QSAo5cTR1wuTZBoFdy5nvQVw3kvOek
+   A==;
+X-CSE-ConnectionGUID: 6FIU4BbMRY+agvDhufdh2Q==
+X-CSE-MsgGUID: sPeGEydlQYuQ9EJm/hXhmw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10399727"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="10399727"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:03:57 -0700
+X-CSE-ConnectionGUID: hIsS+t9vTdWnvfoomMjbOQ==
+X-CSE-MsgGUID: pNk0L24ZSrGX7MRYoWkhkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27324360"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 May 2024 12:03:54 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2bii-000AuK-02;
+	Thu, 02 May 2024 19:03:52 +0000
+Date: Fri, 3 May 2024 03:03:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Denose <jdenose@google.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Jonathan Denose <jdenose@google.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeffery Miller <jefferymiller@google.com>
+Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
+ Lenovo N24
+Message-ID: <202405030210.izdCj8wZ-lkp@intel.com>
+References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
 
-The chip is similar, but has status bits at different positions,
-so use the correct bits.
+Hi Jonathan,
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- drivers/input/touchscreen/ektf2127.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/input/touchscreen/ektf2127.c b/drivers/input/touchscreen/ektf2127.c
-index cc3103b9cbfba..5c2a6bfc63d84 100644
---- a/drivers/input/touchscreen/ektf2127.c
-+++ b/drivers/input/touchscreen/ektf2127.c
-@@ -46,6 +46,7 @@ struct ektf2127_ts {
- 	struct input_dev *input;
- 	struct gpio_desc *power_gpios;
- 	struct touchscreen_properties prop;
-+	bool shifted_status;
- };
- 
- static void ektf2127_parse_coordinates(const u8 *buf, unsigned int touch_count,
-@@ -112,8 +113,13 @@ static void ektf2127_report2_contact(struct ektf2127_ts *ts, int slot,
- 
- static void ektf2127_report2_event(struct ektf2127_ts *ts, const u8 *buf)
- {
--	ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
--	ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
-+	if (ts->shifted_status) {
-+		ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 1));
-+		ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 2));
-+	} else {
-+		ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
-+		ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
-+	}
- 
- 	input_mt_sync_frame(ts->input);
- 	input_sync(ts->input);
-@@ -303,6 +309,10 @@ static int ektf2127_probe(struct i2c_client *client)
- 		return error;
- 
- 	ts->input = input;
-+	if (dev->of_node &&
-+	    of_device_is_compatible(dev->of_node, "elan,ektf2232"))
-+		ts->shifted_status = true;
-+
- 	input_set_drvdata(input, ts);
- 
- 	error = devm_request_threaded_irq(dev, client->irq,
-@@ -329,6 +339,7 @@ static int ektf2127_probe(struct i2c_client *client)
- static const struct of_device_id ektf2127_of_match[] = {
- 	{ .compatible = "elan,ektf2127" },
- 	{ .compatible = "elan,ektf2132" },
-+	{ .compatible = "elan,ektf2232" },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, ektf2127_of_match);
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
+patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240503/202405030210.izdCj8wZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405030210.izdCj8wZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/math.h:5,
+                    from include/linux/delay.h:22,
+                    from drivers/input/mouse/elantech.c:10:
+   drivers/input/mouse/elantech.c: In function 'elantech_reconnect':
+>> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/input/mouse/elantech.c:1509:75: note: in expansion of macro 'NULL'
+    1509 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
+         |                                                                           ^~~~
+   In file included from drivers/input/mouse/elantech.c:19:
+   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
+      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
+         |                                                  ~~~~~~~~~~~~~^~~~~~~
+>> include/linux/stddef.h:8:14: warning: passing argument 3 of 'ps2_sendbyte' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   drivers/input/mouse/elantech.c:1515:74: note: in expansion of macro 'NULL'
+    1515 |                 err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
+         |                                                                          ^~~~
+   include/linux/libps2.h:64:63: note: expected 'unsigned int' but argument is of type 'void *'
+      64 | int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout);
+         |                                                  ~~~~~~~~~~~~~^~~~~~~
+   drivers/input/mouse/elantech.c: In function 'elantech_setup_ps2':
+   drivers/input/mouse/elantech.c:2123:65: warning: '/input1' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
+         |                                                                 ^~~~~~~
+   drivers/input/mouse/elantech.c:2123:17: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+    2123 |                 snprintf(etd->tp_phys, sizeof(etd->tp_phys), "%s/input1",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2124 |                         psmouse->ps2dev.serio->phys);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ps2_sendbyte +8 include/linux/stddef.h
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e218287432472 Richard Knutsson 2006-09-30  9  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
