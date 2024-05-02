@@ -1,80 +1,95 @@
-Return-Path: <linux-input+bounces-3416-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3417-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E188BA12B
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 21:58:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C24CE8BA366
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 00:41:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D158284001
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 19:58:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEFE71C20C90
+	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 22:41:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A39B17F37D;
-	Thu,  2 May 2024 19:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 811C01BF24;
+	Thu,  2 May 2024 22:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzDVUiBM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J8qjv+4O"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD91F17BA0;
-	Thu,  2 May 2024 19:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C7B1B948
+	for <linux-input@vger.kernel.org>; Thu,  2 May 2024 22:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714679881; cv=none; b=AJ7OMbqXLtCWwj4Hsg6xi3v838j7ZT4lIklUVksapasa1P5v7LPt4mOU/xE93CT7QydOuDLr1izHPaaPwkSO6fD7NBIjE7XwIouJQnEF+olSJ+7XKAOnUOf/uPnnKpfHpALVEIAC0TxOcWBiEr2alL3xSuRV0AyG5AIb5aw8nOA=
+	t=1714689663; cv=none; b=AjKp+qDgnN6mZx3e6BMllwouyNPegeQutZTIPmbeg5yxZXZ5Yp/IPV2K2SDoC6WOT1mFfH53A0EFJ3dbvkbxq+1a9+mRiNIcgphgl4C83FFfAvFejjzvY9qOhTAhuTY6Wz49+qULHYF0HFCCrI/jvB0Ixbn4F4ZmdEiPkP2miAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714679881; c=relaxed/simple;
-	bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
+	s=arc-20240116; t=1714689663; c=relaxed/simple;
+	bh=bzyP4Xdw6nGRMa8O/ZIWOZc2YGpey8Rpt1THkkiSlKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCDsByCppGItmLEeaArKqkyyukP6z8s3HYIk7enest5hm3hgyRcK4fIxqbYjzWpzgfisQSdPJGa5BjCXiRAHGBYRDD8j8pOacjh3sicxrMEAm9L9hmE8XNvdIHdjkERTESpHWAXr57tMKLoKalduOKOnvYvlvT7joOMLm7LUZcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzDVUiBM; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714679880; x=1746215880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1S0GzJBiUkMO5OirpjjonQ9h3h9HMGieZ3Re6gFYH6Y=;
-  b=XzDVUiBM88Fhi9tIgv0kZN6cFn/MgbbbhJq6g8dfKLFmRT0U76RdIgC9
-   Y6K6d1vn+4lx2/b6SCKEqDm3gAJtgExSG2Xvkbu24QFCwqeu95ZSmTZda
-   ek6kepHVjS0isYJ8C0Q/NGK7ksm0LkWtH9A8szRe26YQJbNZ1X3tGk0m6
-   bfIIQQNHaGWp/YxSsGpk61L0DnU/bK9aWpYhSi+Y8VyT8WzkZXYOCwcih
-   Hp8uoWBUqlEqIIC50W3SKAhIOxxed+LRY+HD+6yxINGzrqWsAgbikKnlb
-   LmWzdY+i4NilekiFyNbhxPeyQIuVWpCJMRLXuC/fOGf9Nvd4MTTbtzfeE
-   w==;
-X-CSE-ConnectionGUID: eorxqe6yTse3qWnZDQMEWQ==
-X-CSE-MsgGUID: 749uCBJuQNuLWFCvVNthIw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10596931"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10596931"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 12:58:00 -0700
-X-CSE-ConnectionGUID: Gp62U2F4QnCUwMTyJqrJKQ==
-X-CSE-MsgGUID: f+UFLMA2TNqenvU5e7Kbuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27109402"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 May 2024 12:57:58 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2cZ0-000Awi-1a;
-	Thu, 02 May 2024 19:57:54 +0000
-Date: Fri, 3 May 2024 03:57:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Denose <jdenose@google.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@google.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffery Miller <jefferymiller@google.com>
-Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
- Lenovo N24
-Message-ID: <202405030346.3Q7ixiBD-lkp@intel.com>
-References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSwJh+U4mYWVDJaVIJnEl1GtyaQ2ET1vnZZW8y65CNYRq4foUcH58od7SnAuVX4sB8GtC0iJcrc0Kt3qtAtQ5soyDWC41g40K0W2dQlSrYXxOFWc4Xn6P/fWLMZEieNEWtKeuMk8Dm+UsmTK5C9VevdEnIGe87Dn96yd/x+Gj+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J8qjv+4O; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6f44b390d5fso170680b3a.3
+        for <linux-input@vger.kernel.org>; Thu, 02 May 2024 15:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714689661; x=1715294461; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/L9jD35jpO4uNtUxWEojKtoKI6VMvNDOlsLmuwoeTBY=;
+        b=J8qjv+4OwWekS+smq2pAOO2aD+7G0zxDDskE6DxYIMEFCqOJDEWRbgw67BNbn/LqVp
+         /dF4BxMfu/exf8AdUS3KFyACeksI+tvM7dHgD2xT2KgOJi96dSQomKCnPmIE7NeiHkcA
+         3qUG8xEx6vCC85Cn4OMcuMtdSxHYd464PTSqM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714689661; x=1715294461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/L9jD35jpO4uNtUxWEojKtoKI6VMvNDOlsLmuwoeTBY=;
+        b=v0XfvogwD2GqE1gswPD3oLo+XFyvC1TdkUkRBIkRi4j+TRu318W+ohc4J4E/Ct+1mS
+         3FSXjv4/EhKDHqs1+vV5QCJc28QdS+1ksLMvvqVtQkXeOAyymZwbSHAIMXzCmFkuRC/v
+         mXJNcQnwbO/qpvKJIXoU0zK63JL/17do0dSPiKYdyz4qFV0bTEabxFqfLgxkXrKT2MiY
+         IvRl1bR+nRl4F1s8qXykT9ox8WiBFJmr/aaPX+BhRdolEHW8Fs77mQnnPoSsaKpewVBd
+         t67/SuYIhL34W4XJFbMitR0R9N/Ojnf3JMS/u4d8oNd8FN0A39mG2oQ8PklSCm5Uiw52
+         A+dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTDXwkQwBG6SgOdYell3lyUcxO1DkPu9OApBvlsOYjSbFvL82Quj+/GVYNekfouPxonHjVgJ8KWq48FSmGpcWMDf4dFL9rhpXFPXA=
+X-Gm-Message-State: AOJu0YxdiI4yuSqzLWFiuSV56wgxna1JBsV4IQOwIGquyikQ2FsrHSeD
+	uQwTGxZSqFpIabD0ZMuQaP1hffzphkDDITEYgjEvcWOkdtDDZLqxJWn5s0ekkg==
+X-Google-Smtp-Source: AGHT+IHT/crKZRZ/k6RhvANBVZPADnzOe9chhI8JjANxhrQb7VX4JbkZba2YNbbf5dsZ8cKd3o/FlQ==
+X-Received: by 2002:a05:6a20:5530:b0:1ad:8606:6484 with SMTP id ko48-20020a056a20553000b001ad86066484mr1120307pzb.8.1714689661156;
+        Thu, 02 May 2024 15:41:01 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id s185-20020a625ec2000000b006ed64f4767asm1845468pfb.112.2024.05.02.15.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 15:41:00 -0700 (PDT)
+Date: Thu, 2 May 2024 15:41:00 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Mark Brown <broonie@kernel.org>, Edward Liaw <edliaw@google.com>,
+	shuah@kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Bongsu Jeon <bongsu.jeon@samsung.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kernel-team@android.com, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, kvm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sgx@vger.kernel.org
+Subject: Re: [PATCH v1 00/10] Define _GNU_SOURCE for sources using
+Message-ID: <202405021540.3FF73DF47@keescook>
+References: <20240430235057.1351993-1-edliaw@google.com>
+ <ZjGiGq-_kUVht63m@finisterre.sirena.org.uk>
+ <ZjJClMYEIyGEo37e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -83,79 +98,42 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+In-Reply-To: <ZjJClMYEIyGEo37e@google.com>
 
-Hi Jonathan,
+On Wed, May 01, 2024 at 06:24:36AM -0700, Sean Christopherson wrote:
+> On Wed, May 01, 2024, Mark Brown wrote:
+> > On Tue, Apr 30, 2024 at 11:50:09PM +0000, Edward Liaw wrote:
+> > > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> > > asprintf into kselftest_harness.h, which is a GNU extension and needs
+> > > _GNU_SOURCE to either be defined prior to including headers or with the
+> > > -D_GNU_SOURCE flag passed to the compiler.
+> > 
+> > This seems like something that should be handled centrally rather than
+> > having to go round and audit the users every time some update is made.
+> 
+> +1.
+> 
+> And if for some reason unilaterally defining _GNU_SOURCE in
+> tools/testing/selftests/lib.mk isn't an option, we should at least have
+> kselftest_harness.h assert instead of making a futile attempt to provide its own
+> definition, e.g.
+> 
+> diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
+> index 4fd735e48ee7..6741b4f20f25 100644
+> --- a/tools/testing/selftests/kselftest_harness.h
+> +++ b/tools/testing/selftests/kselftest_harness.h
+> @@ -51,7 +51,7 @@
+>  #define __KSELFTEST_HARNESS_H
+>  
+>  #ifndef _GNU_SOURCE
+> -#define _GNU_SOURCE
+> +static_assert(0, "Using the kselftests harness requires building with _GNU_SOURCE");
+>  #endif
+>  #include <asm/types.h>
+>  #include <ctype.h>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.9-rc6 next-20240502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/Input-elantech-fix-touchpad-state-on-resume-for-Lenovo-N24/20240501-220739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6%40changeid
-patch subject: [PATCH] Input: elantech - fix touchpad state on resume for Lenovo N24
-config: powerpc64-randconfig-r122-20240502 (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240503/202405030346.3Q7ixiBD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405030346.3Q7ixiBD-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/mouse/elantech.c:1509:75: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
-   drivers/input/mouse/elantech.c:1509:75: sparse:     expected unsigned int timeout
-   drivers/input/mouse/elantech.c:1509:75: sparse:     got void *
-   drivers/input/mouse/elantech.c:1515:74: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int timeout @@     got void * @@
-   drivers/input/mouse/elantech.c:1515:74: sparse:     expected unsigned int timeout
-   drivers/input/mouse/elantech.c:1515:74: sparse:     got void *
-
-vim +1509 drivers/input/mouse/elantech.c
-
-  1495	
-  1496	/*
-  1497	 * Put the touchpad back into absolute mode when reconnecting
-  1498	 */
-  1499	static int elantech_reconnect(struct psmouse *psmouse)
-  1500	{
-  1501		psmouse_reset(psmouse);
-  1502	
-  1503		if (elantech_detect(psmouse, 0))
-  1504			return -1;
-  1505	
-  1506		if (dmi_check_system(elantech_needs_reenable)) {
-  1507			int err;
-  1508	
-> 1509			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
-  1510	
-  1511			if (err)
-  1512				psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
-  1513						psmouse->ps2dev.serio->phys, err);
-  1514	
-  1515			err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
-  1516	
-  1517			if (err)
-  1518				psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
-  1519						psmouse->ps2dev.serio->phys, err);
-  1520		}
-  1521	
-  1522		if (elantech_set_absolute_mode(psmouse)) {
-  1523			psmouse_err(psmouse,
-  1524				    "failed to put touchpad back into absolute mode.\n");
-  1525			return -1;
-  1526		}
-  1527	
-  1528		return 0;
-  1529	}
-  1530	
+Yeah, let's fix centrally. I like this approach.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
 
