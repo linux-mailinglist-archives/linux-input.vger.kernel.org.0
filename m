@@ -1,124 +1,199 @@
-Return-Path: <linux-input+bounces-3424-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3425-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E34E8BA92F
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 10:47:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF108BA984
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 11:11:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A312C1F2182F
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 08:47:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DBC61C225F9
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 09:11:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7918F14A4C6;
-	Fri,  3 May 2024 08:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB09714F9C6;
+	Fri,  3 May 2024 09:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ip/ZiwKh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C2bxxaql"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4586E14A097;
-	Fri,  3 May 2024 08:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975BA14EC61;
+	Fri,  3 May 2024 09:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714726065; cv=none; b=N5jgty+mNjeUvJq1vhWZ5ZSWR9nebFKROTfeUMSw7SzmZzZlblWL5jmV8vdCOx5OZUKkmC5XwQZpOvp2xMpQCr5hhXsUeryvie7SIedarPlCHlW9cuIuEKh72ALu5cASsfL9y76N6w/gGf3HYym88nah5DssjJZZIhcmOC03yGQ=
+	t=1714727483; cv=none; b=Mf8Vz1575K+k/tW5vc959RoPD1scT1BdU7KsfXJo48QxkB9bcn+k2F/+jfuilR8i+odFyFp8t889LRtAIrWyAWhUowIhK/gAgF5zzijZUiNrYhpvoNrlcvc1r1g0cqcFAq2ME7bjk7qHL7dx9NimpP5i0umf75lrxQvkuKdszG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714726065; c=relaxed/simple;
-	bh=A2/ehrj8UnAnTNHhbcvlCxq/D5HtiADTdCZbBYLQsgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ifXK3PfPDDe+kKGaWvGfJB71KU7Zzk5+sKroNAcIDmJ5AefL8vbOUFgjVigtcGhJ5iJAMFgojHz6y+/RLtBnTEtt6aKgcHSWakZIq4ZAOul1WQ8gyBUnx/EirgjZLXjjF3L/W3JYxlePNzZgq3EHwFFXWtwXqT+UHV0yL3biU0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ip/ZiwKh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADEE4C116B1;
-	Fri,  3 May 2024 08:47:44 +0000 (UTC)
+	s=arc-20240116; t=1714727483; c=relaxed/simple;
+	bh=VizUIb/OLvF1/i6uxSjEVxNNv4bH0BlLFRFnbhZrHoA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eLJDwiNqQMOyKmaRrjJ2mYPAVwVW8xoR7ZuzIXxd4ikYkN9NNi1DKq/GRgoCxRjlxp2Ib+qh/25Ygc7Xf36AQ2BnB7RKT2chRZqaPaPKftmTYK8nZwIrhEFTymc7K4uOfM2lGB4GTr8qaiRHYyNJ3yHaH58gT4svhDyGaV5U/mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C2bxxaql; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A57C4AF14;
+	Fri,  3 May 2024 09:11:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714726064;
-	bh=A2/ehrj8UnAnTNHhbcvlCxq/D5HtiADTdCZbBYLQsgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ip/ZiwKhJ6wXvXlo0UOeeiCuXrUSRp6xsDaa6aHWSvseLuwBF/xIJjdTACNZSEhv7
-	 SHg8OUk0nWy58is+iuh8p5n7I76iZQtWq1QpnPPqijEGIpqxmJzvQ1Fnzm66ocKPTG
-	 IanqU1ZbV4ufF+LAAj5LCn/C2kJx4cXVqrlvpc1wTG1DqFL1rJid6DyRl0zfP9PdxV
-	 vXZHmToHlwLMWgsZXMx2xKdqhGrzyslX3MImeIU9ZR6dnip8MYun/i+eRfD/73otQm
-	 d1IL9YK2tVuiYnKTFbh/vXyl3cVDWYllWL6lY90DpQy9+PZ2UlSW07lEZWxxq8avqP
-	 Fvb1rjxu6obUA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1s2oa0-000000004pD-3b9A;
-	Fri, 03 May 2024 10:47:45 +0200
-Date: Fri, 3 May 2024 10:47:44 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: HID: i2c-hid: elan: add
- 'no-reset-on-power-off' property
-Message-ID: <ZjSksM07OlgpE3yO@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-4-johan+linaro@kernel.org>
- <CACRpkdYXfZwBdLSTTPbruD9qynOPuQBOZjCwA_6eE+1MUBCkgA@mail.gmail.com>
+	s=k20201202; t=1714727483;
+	bh=VizUIb/OLvF1/i6uxSjEVxNNv4bH0BlLFRFnbhZrHoA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C2bxxaqlPCCCktx4zWYgfeVigiW4irgVLzFAy9Qa2UpEhqgm+wgrzwXraXaAqlP5e
+	 RKPGRS6C8+IRtOw/8SM7GVFiv6FTEp0p+438mrrOdWyeaKl0L3jXPWZwSYoEvGcugo
+	 2NQIYCsSBhza0a9/zpIFHx2csBjkVN4UDkA5AHX/rlkjjjQAwfEMzH3oLYuQ4hAnE4
+	 hcj10/JTz9Y9BnLLZ82J3u/3AbCfs9DlHcDPScXHEZV93L2vS4mVIQdF4/F35xjNJn
+	 br7JsZ3QGIesj4nBz5Y8ZvP+/hMkxHtfOkxwb0CWeXSWXJNQ5mypySfGtuZ5ssXK7M
+	 +6rV+3qDNB7Tw==
+Message-ID: <48ec0bb5-a06e-4f18-97c3-1370b7facea4@kernel.org>
+Date: Fri, 3 May 2024 11:11:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYXfZwBdLSTTPbruD9qynOPuQBOZjCwA_6eE+1MUBCkgA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] dt-bindings: HID: i2c-hid: elan: add
+ 'no-reset-on-power-off' property
+To: Johan Hovold <johan@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240423134611.31979-1-johan+linaro@kernel.org>
+ <20240423134611.31979-4-johan+linaro@kernel.org>
+ <2e67e4e6-83a7-4153-b6a7-cdec0ab2c171@kernel.org>
+ <Zii2CUeIyBwxzrBu@hovoldconsulting.com>
+ <bde4884c-117b-4e6e-8c7b-401b8320655b@kernel.org>
+ <ZjNjMBNMegmTgN5B@hovoldconsulting.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ZjNjMBNMegmTgN5B@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 03, 2024 at 09:40:43AM +0200, Linus Walleij wrote:
-
-> On Tue, Apr 23, 2024 at 3:46 PM Johan Hovold <johan+linaro@kernel.org> wrote:
+On 02/05/2024 11:56, Johan Hovold wrote:
+> Hi Krzysztof,
 > 
-> > When the power supply is shared with other peripherals the reset line
-> > can be wired in such a way that it can remain deasserted regardless of
-> > whether the supply is on or not.
-> >
-> > This is important as it can be used to avoid holding the controller in
-> > reset for extended periods of time when it remains powered, something
-> > which can lead to increased power consumption. Leaving reset deasserted
-> > also avoids leaking current through the reset circuitry pull-up
-> > resistors.
+> and sorry about the late reply. Got side-tracked.
 > 
-> So the reset line in this case is a GPIO as seen from the context above.
+> On Thu, Apr 25, 2024 at 11:39:24AM +0200, Krzysztof Kozlowski wrote:
+>> On 24/04/2024 09:34, Johan Hovold wrote:
+>>> On Tue, Apr 23, 2024 at 06:29:44PM +0200, Krzysztof Kozlowski wrote:
+>>>> On 23/04/2024 15:46, Johan Hovold wrote:
+>>>>> When the power supply is shared with other peripherals the reset line
+>>>>> can be wired in such a way that it can remain deasserted regardless of
+>>>>> whether the supply is on or not.
 > 
-> To me that means that the line should have the GPIO_OPEN_DRAIN flag
-> set in the device tree node for reset-gpios. As it has pull-up resistors,
-> setting the line to high impedance takes the device out of reset, and
-> thus it is effectively open drain.
-
-If you look at the devicetree patch later in the series this is exactly
-what is done.
- 
-> > Add a new 'no-reset-on-power-off' devicetree property which can be used
-> > by the OS to determine when reset needs to be asserted on power down.
+>>>>> This is important as it can be used to avoid holding the controller in
+>>>>> reset for extended periods of time when it remains powered, something
+>>>>> which can lead to increased power consumption. Leaving reset deasserted
+>>>>> also avoids leaking current through the reset circuitry pull-up
+>>>>> resistors.
+>>>>>
+>>>>> Add a new 'no-reset-on-power-off' devicetree property which can be used
+>>>>> by the OS to determine when reset needs to be asserted on power down.
+>>>>>
+>>>>> Note that this property can also be used when the supply cannot be
+>>>>> turned off by the OS at all.
+>>>
+>>>>>    reset-gpios:
+>>>>>      description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
+>>>>>  
+>>>>> +  no-reset-on-power-off:
+>  
+>>>> Anyway, the property sounds like what the OS should be doing, which is
+>>>> not what we want. You basically instruct driver what to do. We want a
+>>>> described hardware configuration or hardware specifics.
+>>>
+>>> Right, and this was why I at first rejected a property name like this in
+>>> favour of 'reset-pulled-to-supply' in my first draft. That name
+>>> obviously does not work as the 'supply' suffix is already claimed, but I
+>>> also realised that it doesn't really describe the hardware property that
+>>> allows the reset line to remain asserted.
+>>>
+>>> The key feature in this hardware design is that the reset line will not
+>>> just be pulled to the supply voltage (what other voltage would it be
+>>> pulled to), but that it is also pulled to ground when the supply is
+>>> disabled.
+>>
+>> OK, if the property was specific to the hardware, then I would propose
+>> something more hardware-related, e.g. "reset-supply-tied". However :
+>>
+>>> Rather than trying to encode this in the property name, I settled on the
+>>> descriptive 'no-reset-on-power-off' after the seeing the prior art in
+>>> 'goodix,no-reset-during-suspend' property. The latter is too specific
+>>> and encodes policy, but the former could still be considered hardware
+>>> description and would also apply to other designs which have the
+>>> property that the reset line should be left deasserted.
+>>>
+>>> One such example is when the supply can not be disabled at all (e.g. the
+>>> Goodix case), but I can imagine there being more than one way to design
+>>> such reset circuits.
+>>
+>> It seems it is common problem. LEDs have property
+>> "retain-state-shutdown", to indicate that during system shutdown we
+>> should not touch them (like power off). Would some variant be applicable
+>> here? First, do we talk here about power off like system shutdown or
+>> runtime PM, thus suspend?
 > 
-> If the above holds true, the driver can then just check for the open drain flag
-> in the reset-gpios phandle, and if that is set, conclude that it should not
-> actively drive the line low in the poweroff state.
+> A name like 'retain-state-shutdown' would also be too specific as what
+> I'm describing here is that the reset line should be (or can be) left
+> deasserted whenever the OS wants to power off the device.
 
-That is an alternative I considered but rejected as just knowing that
-the gpio is open-drain is not necessarily sufficient, for example, if
-the reset line is pulled to always-on rail while power to the device can
-be cut.
+I don't think it is more specific than yours. It is actually more
+generic. First, shutdown=poweroff, so that part is the same.
+retain-state means keep things enabled, asserted, deasserted, etc, so
+multiple cases. Your wording is specific - only one state is kept during
+power off: reset deassert.
 
-Perhaps no one would ever construct hardware like that, but it does not
-seem like the hardware property I'm trying to encode necessarily follows
-from having an open-drain reset line.
+Best regards,
+Krzysztof
 
-And then the OS should probably not make assumptions like that either,
-especially since getting it wrong can potentially lead to damaged
-hardware.
-
-Johan
 
