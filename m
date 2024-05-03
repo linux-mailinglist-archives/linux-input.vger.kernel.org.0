@@ -1,154 +1,160 @@
-Return-Path: <linux-input+bounces-3431-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3432-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9888BB09D
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 18:12:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395268BB183
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 19:13:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87820B22D4C
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 16:12:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0106284EB7
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 17:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2A2415532B;
-	Fri,  3 May 2024 16:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E7C157A7F;
+	Fri,  3 May 2024 17:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cDnDiyzQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5bpwIbT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433B5A955
-	for <linux-input@vger.kernel.org>; Fri,  3 May 2024 16:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8161178276;
+	Fri,  3 May 2024 17:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714752735; cv=none; b=Emg74fOoqmj6YbKJNO392R9KqouEwIOuVnItGp4haG2iUnsr08AkCqFBAtJIqOvpxEmQJyb2h0VqCBymn6sGyATDRobGfPewBJ+ab+LAPFGiljQoFS+vXCdpfvoTQUEmSjhgSh5fSEVoT2LSnGpxV2zml7bzixwVkQnqc/o/uW0=
+	t=1714756376; cv=none; b=XQJZ7DdZOTrRF3bKGrIX1qYQUU8KU/EuFomh4w8l2w/66gz1nTlfHd+7NN0HYUJ8m8H2bbNf1pDgheT8BrmQMxQDHKAdOP3+LmXbZ5E/jJ1uBw5FL0K5SFWfnQTvt/Yk5jlX1SJbih5+S2x7ZqlTb4jB+/IEfimr409sp9quFxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714752735; c=relaxed/simple;
-	bh=d4IuGFtalUbbFHdhNE+Kmfob/ZGfP/hZ2lAynUSJ3IE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iR8Tl7Hk4J6YhgtTDaMwq9gy/PHbFIful9FIWxxJz6MYGYqd9RIT5qzYv/1H55gR7lCeXZWirXGp2xn7AFIHj58o3FVicXeBtsbXpeCSp+347rfN17T6zWopKIvQj8VScoo/g1TvLYRJ69w5VjLq5Sxzl/oGYJPNdfok2HWU/n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cDnDiyzQ; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jdenose.bounces.google.com
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-61c9e368833so79193137b3.3
-        for <linux-input@vger.kernel.org>; Fri, 03 May 2024 09:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714752733; x=1715357533; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bPKPhF5hHSV72rXRuskt7REVZj/wmqzryYtSK+EmwAs=;
-        b=cDnDiyzQbvAADmzGrlOYPdFI8d06y61eOKNfA/Kx05I7WPpQ//fKg2PwrFNINPc4Ta
-         OD76VE+h3jrzTRdnQiBa2f/BaSLZ1BAkR/vEUX+ZgpeiQNQZxd4GY9lS2HrNpgtfHoDu
-         hrKLtDLcyVZTycqapNwKWEGDwOgfcoqE22DKrUFQZ9z4JNLkR5x9XaEbn3rCuCfjs0q4
-         Gb/1MNFOaZqoepST31p3xzOZf1uVhh++LmGpu4Hfed7ezOg2SNeQXzdBVCHLwCMqE/PD
-         +iwx/lyihg3ywydnBSV9U8Bwi+vjbpzpXtt/JSiP6HCCJZc1nQQ3wpgJF3w6uZJzUkfC
-         VMHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714752733; x=1715357533;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bPKPhF5hHSV72rXRuskt7REVZj/wmqzryYtSK+EmwAs=;
-        b=cK/znq8ENFBQ8/Soyxhfws4L/lJw6MzwBRtcoPNizXpeAzMDhl4TLw+EAMjcQrn0M1
-         iS+dm4hxW1P3i7V+WABDkhJCo1xXQttAdAMQbqFTJwljELgDX5Np6Oi3LDCUX+LBzwKT
-         +A7Gr6vQ3Hg6E1qdNdmCg9WnwrYgd1CoaLpqTDCeZul+rHDSxw/CNwx0ko1w0VfOtHsT
-         6TSGZdGRgrfgiMM8XVUif4hdbcnMQp+JtFHtogpA2FEA5Ql1Kd8VTEbza/fK2TlFRz21
-         t5lATRoRiwmJtGam9zYP/L5Nn2F7Lck6OXgMDzzpiS9FXBuze5qDHiytYihHEPW0cH38
-         Ym5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVuJtRgcNSzlg3/z+67j+hD1nnOjx9BXlf5V9EcBrhzHIZp9oytLRclOFq/yowUFnwGso5kKr3w7Js/2VFU5cuXsv6q8gubKyDF2jg=
-X-Gm-Message-State: AOJu0YwYOJ0Kq8QigVsVeh5Jfl/ZZy69yRNOZXBETWlOfq+/zfLBYRq8
-	Hx+9UfgEz7SBYOmRKSsGeeZ2uOs9tvjtGdiT3W+ul8x48qslwtrzT/EWHHNPQcaDUprl1TlWPhe
-	XyAgpCw==
-X-Google-Smtp-Source: AGHT+IH9YLvTTbCs+pigjyGOB76rOPYdVPQPbMQLFumi4iZDMdmJZ5B6gE7d+OC9FMN99jfTq+zqBSJuVkqT
-X-Received: from dynamight.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:17a])
- (user=jdenose job=sendgmr) by 2002:a25:ad9b:0:b0:de5:9f2c:c17c with SMTP id
- z27-20020a25ad9b000000b00de59f2cc17cmr891850ybi.9.1714752733280; Fri, 03 May
- 2024 09:12:13 -0700 (PDT)
-Date: Fri,  3 May 2024 16:12:07 +0000
-In-Reply-To: <ZjQeE643YAbK1hq5@google.com>
+	s=arc-20240116; t=1714756376; c=relaxed/simple;
+	bh=j1AlBmA8EvR89RnAFEz1pY/E0yUi35JufxzFz9CJ0aY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OUX9lwRAnq5roOimv/F4oVYdZpCiQHClY+XGwmFLsU/bwUi5rl2wMD/qMsGzPVA6qQVtKxYE6Gz6jZQLpyu1Ng4hHl6CoZOGi5QRul2jpODX2bFTT7Simjn2/X0NmT42+Yefv77TbaOf+TPXHdLl3qaTFIxn2DhZrErynryWa9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5bpwIbT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69D46C116B1;
+	Fri,  3 May 2024 17:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714756376;
+	bh=j1AlBmA8EvR89RnAFEz1pY/E0yUi35JufxzFz9CJ0aY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X5bpwIbT9mTSo+G1s5jqROstAZvjypQL7s6c2tLAQ7VbQitlkGrEhRbNW/j3ZsJMW
+	 zUud7VDAvN8lABU9AdCzSkl+VkSpWYl9DzDDXQK/+2ShanKw/XNteSUI+KGIIqXFS3
+	 UhRXda6SJsIgb5vtEP8M8LqEMCzijTSLy+j0paxRCh+FntKRbvJqb7p+VnVDslz+9E
+	 RPsN6jOcDc+d9yTqHLREDlVmSP9VCYug1ZuqQcH6oXuSc3SYeF1+WdGtbnSIJe4eWy
+	 cIn8Qs8Lg6N08dMOqCuNO1eXfM/akKJ5ayzKHHR0HlRSpR9iVAvFnXPjbwNIpvg/U8
+	 Gq6m0tOCYYiPg==
+Date: Fri, 3 May 2024 18:12:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Christoph Fritz <christoph.fritz@hexdev.de>
+Cc: Jiri Slaby <jirislaby@kernel.org>,
+	Oliver Hartkopp <socketcan@hartkopp.net>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andreas Lauser <andreas.lauser@mercedes-benz.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 06/11] dt-bindings: net/can: Add serial (serdev) LIN
+ adapter
+Message-ID: <20240503-fading-extruding-2105bbd8b479@spud>
+References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
+ <20240502182804.145926-7-christoph.fritz@hexdev.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <ZjQeE643YAbK1hq5@google.com>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240503155020.v2.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
-Subject: [PATCH v2] Input: elantech - fix touchpad state on resume for Lenovo N24
-From: Jonathan Denose <jdenose@google.com>
-To: dmitry.torokhov@gmail.com
-Cc: gregkh@linuxfoundation.org, jdenose@google.com, jefferymiller@google.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wALyyOjqkAbb5csW"
+Content-Disposition: inline
+In-Reply-To: <20240502182804.145926-7-christoph.fritz@hexdev.de>
 
-The Lenovo N24 on resume becomes stuck in a state where it
-sends incorrect packets, causing elantech_packet_check_v4 to fail.
-The only way for the device to resume sending the correct packets is for
-it to be disabled and then re-enabled.
 
-This change adds a dmi check to trigger this behavior on resume.
-Signed-off-by: Jonathan Denose <jdenose@google.com>
----
+--wALyyOjqkAbb5csW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes in v2:
-- change ps2_sendbyte() calls to ps2_command()
+On Thu, May 02, 2024 at 08:27:59PM +0200, Christoph Fritz wrote:
+> Add dt-bindings for serial LIN bus adapters. These adapters are
+> basically just LIN transceivers that are hard-wired to serial devices.
+>=20
+> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
+> ---
+>  .../bindings/net/can/hexdev,lin-serdev.yaml   | 32 +++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/can/hexdev,lin-=
+serdev.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.=
+yaml b/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml
+> new file mode 100644
+> index 0000000000000..c178eb9be1391
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml
+> @@ -0,0 +1,32 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/can/hexdev,lin-serdev.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Serial LIN Adapter
+> +
+> +description:
+> +  LIN transceiver, mostly hard-wired to a serial device, used for commun=
+ication
+> +  on a LIN bus.
+> +  For more details on an adapter, visit <https://hexdev.de/hexlin#tty>.
+> +
+> +maintainers:
+> +  - Christoph Fritz <christoph.fritz@hexdev.de>
+> +
+> +properties:
+> +  compatible:
+> +    const: hexdev,lin-serdev
 
- drivers/input/mouse/elantech.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Maybe I've just missed something on earlier versions that I didn't
+read, but the name of the device on the website you link is "hexLIN",
+so why is "lin-serdev" used here instead?
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 4e38229404b4b..18f26315cae25 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1476,6 +1476,23 @@ static void elantech_disconnect(struct psmouse *psmouse)
- 	psmouse->private = NULL;
- }
- 
-+/*
-+ * Some hw_version 4 models fail to properly activate absolute mode on
-+ * resume without going through disable/enable cycle.
-+ */
-+static const struct dmi_system_id elantech_needs_reenable[] = {
-+#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-+	{
-+		/* Lenovo N24 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
-+		},
-+	},
-+#endif
-+	{ }
-+};
-+
- /*
-  * Put the touchpad back into absolute mode when reconnecting
-  */
-@@ -1486,6 +1503,22 @@ static int elantech_reconnect(struct psmouse *psmouse)
- 	if (elantech_detect(psmouse, 0))
- 		return -1;
- 
-+	if (dmi_check_system(elantech_needs_reenable)) {
-+		int err;
-+
-+		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_DISABLE);
-+
-+		if (err)
-+			psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
-+					psmouse->ps2dev.serio->phys, err);
-+
-+		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_ENABLE);
-+
-+		if (err)
-+			psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
-+					psmouse->ps2dev.serio->phys, err);
-+	}
-+
- 	if (elantech_set_absolute_mode(psmouse)) {
- 		psmouse_err(psmouse,
- 			    "failed to put touchpad back into absolute mode.\n");
--- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    serial {
+> +        linbus {
+> +            compatible =3D "hexdev,lin-serdev";
+> +        };
+> +    };
+> --=20
+> 2.39.2
+>=20
 
+--wALyyOjqkAbb5csW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjUbEQAKCRB4tDGHoIJi
+0swqAQCF8l5qprfFPZ6cZ7vHJYmcFVMucGf+WHsQS/KyE583BwEAv8DFN0XXp2jS
+E0yi6lEyzextMZsTck5ziHMgFfOMZAk=
+=6TI4
+-----END PGP SIGNATURE-----
+
+--wALyyOjqkAbb5csW--
 
