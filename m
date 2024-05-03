@@ -1,110 +1,128 @@
-Return-Path: <linux-input+bounces-3426-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3427-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249618BA9D6
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 11:25:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC3C8BAA09
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 11:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD99A286AEB
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 09:25:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C74F21F21958
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 09:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 298D814F113;
-	Fri,  3 May 2024 09:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8825E14F9D8;
+	Fri,  3 May 2024 09:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s0wlK9a7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4rsNwSc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC81A139CE5;
-	Fri,  3 May 2024 09:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5296914F9D2;
+	Fri,  3 May 2024 09:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714728305; cv=none; b=iYUGlD0eGUpxFEGFQmrsRnYHI+EiIjmq+wkylH7VUDLTx1/cJgGVhq5hr0aR9evaI45wH4pKkpI0wsvkLiCW7yk1wDnRjTmJg9EHPkCGDmRk/Qw0c+5xMjUxzAnR6pilz+ABnx03rQSq9vDb/xD4huVYbpDmp+qqAJIKbWiDyaQ=
+	t=1714729289; cv=none; b=kMStaGsP8ArGWAsR85TCYY4CSDnR8AbS9cwQ+2PZ1IRlar1Rt3yxuxxVqD4EQk7mOd1WdDU7f0Mfdt1UY5mr8e8LOIToqhBLKMxgFaWx3KNLk8fcQEHYWsQUgIeBSAJ88fWfkCtLzDRn2YYTcUn/Egg3PtwOBWwQ4vnnY1XuBmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714728305; c=relaxed/simple;
-	bh=zK7UnGMi4p05jwvR3aEI2aFoiM1mhz4XLglPB41yM18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ap8zv9KBxyux9t681F+g0KB5IfsULxRBSgwO8D5xj3P5MJCv4nL8m3XoffU5MvotZuceDifjlhneRLAwINfykW5y/eJnCMwxt9f+gmLDFDIiuJ+ux38sDasPYn2ZCE9KiiQ6p99D0Tgsgn5KwbQHQKKIALu1afoBu6I4bAgvyg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s0wlK9a7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAA9C116B1;
-	Fri,  3 May 2024 09:25:04 +0000 (UTC)
+	s=arc-20240116; t=1714729289; c=relaxed/simple;
+	bh=xkVHQuN0QK1pV6FCvZWwjaK3ABs9JuiXHV7UeLNN/F8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZsMZwcv/1eti+5X3/sUkOTznv2+SGxSOY8PSZAbGFUXaAau8qaLJLlbSqBTlYdFYAJqqOvawikmCS195x+SSu3atS9prK5r7hVF55X+twvex/WLvd+STGHOA+9ZsxZdLfjHoQBYUZHPYUpJOmIG+p0OiT4G8QPfqeT7R/LQSYYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4rsNwSc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8B8C116B1;
+	Fri,  3 May 2024 09:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714728304;
-	bh=zK7UnGMi4p05jwvR3aEI2aFoiM1mhz4XLglPB41yM18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s0wlK9a72ouNQmoFhqXfgNKQI+xm31/6CJEtIYe198RlKClcGzA0e24vvV5nzjZYq
-	 6TIok9pF1J9VamFuQfUy7yg7pG2NN58/sPl8L8TFHVG8qP3Uw41zPjt+X4+iz4Fi+4
-	 QztH9oN5aKKBNLgua90geuYD2YIrv4DRX2Jvhu2enpkucIzsjI8pCPH72hHpqIp16W
-	 O4FNsfkGxcqKEId4ayl9a9X17cCHtHdCH1AkK68tw8htrMeCIjQkQc7yrwyGDQ5S8l
-	 Q5pkQazhInpMTXLXMlltCxzx+eS2Qlaq2xi+Wg4yaVoXscSsH2yj1CG6iMPDHa/mYq
-	 QmExpUd9z37aA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1s2pA8-000000005Of-0cRG;
-	Fri, 03 May 2024 11:25:04 +0200
-Date: Fri, 3 May 2024 11:25:04 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: HID: i2c-hid: elan: add
- 'no-reset-on-power-off' property
-Message-ID: <ZjStcGBPlpygpKki@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-4-johan+linaro@kernel.org>
- <2e67e4e6-83a7-4153-b6a7-cdec0ab2c171@kernel.org>
- <Zii2CUeIyBwxzrBu@hovoldconsulting.com>
- <bde4884c-117b-4e6e-8c7b-401b8320655b@kernel.org>
- <ZjNjMBNMegmTgN5B@hovoldconsulting.com>
- <48ec0bb5-a06e-4f18-97c3-1370b7facea4@kernel.org>
+	s=k20201202; t=1714729288;
+	bh=xkVHQuN0QK1pV6FCvZWwjaK3ABs9JuiXHV7UeLNN/F8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=t4rsNwSc6Oag1pK5kvocDG3jdrsGrw8xMMHm2DbMC/dAHL/rjP1jasl3fOq3sQ6sT
+	 mYcRq41TFgVg2ydSAPH2ZHU71Y1s8oP8fcwa01fViN/4Kj8yLNB/h/N3wZoSTkUxQ5
+	 ZS92MJT5rVfxVzRKK5RcU+OlQERguUMiR6nsVQyGG2n759Z8YoVerzxZIKC0KXD70n
+	 DbH8POgDU6CBf7YY/KhzUaUWJ20nyfUFKWkwZv9AlZKnPkjq9umNUoAcG/06p28ro0
+	 4svbrxeI04Ja42Jtru++TKUyN5kZ8mzKVSEHNeWWTYOarl1Pd8NbZE1LDzRFzzqJ0k
+	 dZWkxZ6fnACxA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
+ =?utf-8?q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+Subject: Re: [PATCH v2 00/19] backlight: Constify lcd_ops
+Message-Id: <171472928415.1323021.3458121588308140519.b4-ty@kernel.org>
+Date: Fri, 03 May 2024 10:41:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48ec0bb5-a06e-4f18-97c3-1370b7facea4@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 
-On Fri, May 03, 2024 at 11:11:16AM +0200, Krzysztof Kozlowski wrote:
-> On 02/05/2024 11:56, Johan Hovold wrote:
-> > On Thu, Apr 25, 2024 at 11:39:24AM +0200, Krzysztof Kozlowski wrote:
-
-> >> It seems it is common problem. LEDs have property
-> >> "retain-state-shutdown", to indicate that during system shutdown we
-> >> should not touch them (like power off). Would some variant be applicable
-> >> here? First, do we talk here about power off like system shutdown or
-> >> runtime PM, thus suspend?
-> > 
-> > A name like 'retain-state-shutdown' would also be too specific as what
-> > I'm describing here is that the reset line should be (or can be) left
-> > deasserted whenever the OS wants to power off the device.
+On Wed, 24 Apr 2024 08:33:26 +0200, Krzysztof Kozlowski wrote:
+> Changes in v2:
+> - Collect tags, including wrongly places Thomas' tag (which requires me
+>   to manually edit 15 other patches to drop it).
+> - Combine here checkpatch patch:
+>   https://lore.kernel.org/all/20240414185440.288812-1-krzk@kernel.org/
+> - Link to v1: https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
 > 
-> I don't think it is more specific than yours. It is actually more
-> generic. First, shutdown=poweroff, so that part is the same.
+> [...]
 
-My point is that 'shutdown' is a specific OS concept (i.e. turning the
-whole system off), while powering off a *device* can be done for a
-number of reasons including closing a character device, suspend and
-system-wide shutdown.
+Applied, thanks!
 
-The policy decision of when to power off a device is left up to kernel
-(e.g. if a device needs to be kept on as it is currently configured as a
-wakeup device).
+[01/19] backlight: Constify lcd_ops
+        commit: 9258e31adebf0ccf0797867841f3f9800695dba2
+[02/19] backlight: ams369fg06: Constify lcd_ops
+        commit: 8053c4fa200c3fef07859bac9469ad3f26f5aba1
+[03/19] backlight: corgi_lcd: Constify lcd_ops
+        commit: 18c5d4ab9f6312f2c9c6c409287d552112db810a
+[04/19] backlight: hx8357: Constify lcd_ops
+        commit: 1d669c1998b559393ec2eaac0449f4989a255049
+[05/19] backlight: ili922x: Constify lcd_ops
+        commit: e77fef89de954b1557cb91b64696cd4fc06c80ad
+[06/19] backlight: ili9320: Constify lcd_ops
+        commit: 06cfc92faa1eabb2ea226c58d6fd0b5ab117ee39
+[07/19] backlight: jornada720_lcd: Constify lcd_ops
+        commit: a54b4999dc204bc5839bb70602078c7c8e4a5010
+[08/19] backlight: l4f00242t03: Constify lcd_ops
+        commit: 657e6c1b270e9f4a890059f5d08a08ea842fa1a8
+[09/19] backlight: lms283gf05: Constify lcd_ops
+        commit: 66e5a10818fd332e973d36429e36f4c436a86a91
+[10/19] backlight: lms501kf03: Constify lcd_ops
+        commit: 31c205d1e8426dd0cce0143c500ff1ff71fe64d1
+[11/19] backlight: ltv350qv: Constify lcd_ops
+        commit: 24424f84d7568d9d794657622e080b1cba1e9290
+[12/19] backlight: otm3225a: Constify lcd_ops
+        commit: 02949072ee8fb6141cd8ac2be9867ef466580ddb
+[13/19] backlight: platform_lcd: Constify lcd_ops
+        commit: d217a8d5a39851caa16996756682715c9debb4a9
+[14/19] backlight: tdo24m: Constify lcd_ops
+        commit: c7a1809d1982f671e66a4b1c1ffd8bdd5ba260aa
+[15/19] HID: picoLCD: Constify lcd_ops
+        commit: 238724635763e7c5d82c0581b0c49e5dfdd5505a
+[16/19] fbdev: clps711x: Constify lcd_ops
+        commit: 55d9a955375af3b3fd5725a9b5cbc658d4bdd244
+[17/19] fbdev: imx: Constify lcd_ops
+        commit: a6abbb5783345c4c7cc9fbd583b81e167bd0207d
+[18/19] fbdev: omap: lcd_ams_delta: Constify lcd_ops
+        commit: ca991e8e096c9f0cff0300289e2d4813192b8ef3
+[19/19] const_structs.checkpatch: add lcd_ops
+        commit: f02aeccbec6108d768f54d31e7cb48b06c0e3814
 
-Johan
+--
+Lee Jones [李琼斯]
+
 
