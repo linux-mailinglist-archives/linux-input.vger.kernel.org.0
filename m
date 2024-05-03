@@ -1,164 +1,127 @@
-Return-Path: <linux-input+bounces-3419-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3420-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B148E8BA3DB
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 01:13:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671B58BA50A
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 03:46:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 514301F24DE9
-	for <lists+linux-input@lfdr.de>; Thu,  2 May 2024 23:13:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2177D284C53
+	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 01:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D81E31CD0C;
-	Thu,  2 May 2024 23:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83842FC0C;
+	Fri,  3 May 2024 01:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MhUYLwQ+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPjALbxq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B057C8D;
-	Thu,  2 May 2024 23:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B95DF5B;
+	Fri,  3 May 2024 01:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714691608; cv=none; b=UY/UZV5uIkLH3yLl9kAe7k8ruZVnqmEM8ixfoNKDBN12sTdKD0tRevztvkaQKnLGxIeTJ/di6U43hm6viP72AxgPFdchsL3W/tGeDmPzbrua+XaZAFl0DDFq/TaFpAJ+k0VJ5uhkhdMlqa20xwEoPZQdVcs9Qd85QjXERTy17n0=
+	t=1714700811; cv=none; b=hRq6vBYf9cFOof9/+Twza/+vVQJejzZSlzxN+ln2C0CQcDspjuN9iF9AQv3oHYIylt8M9fE9/fyywwLNXapcWfgdr66hWlLFqirC2GXIxcmZo844P95+epZZAFL9bDB31e9TyETuZ60KZziG6d0369jMSSNXo8vyC95O1UCdOhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714691608; c=relaxed/simple;
-	bh=u+yd1qxTMtqyA0JN8HqFvSkRkn69QG4mf+5MR06MfZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=unrR3lpUa0lhcNco1PwKV3eHBcDix/J0B+kOaTMvX4OAFL1RLVcvb1SzhGETq3WJBbyYnD1zKmMxDNnhhDHhYdCtUFne/DN0LXwTkTWXR5SM0eq+f66sezDjXBhw0fUevSduif0SeUOEGYG0H4phF08AExxb27E3e5dltao+2ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MhUYLwQ+; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-23df05526a5so568055fac.3;
-        Thu, 02 May 2024 16:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714691606; x=1715296406; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hZTQ8b08ADcpplkiE8GEsQC5kR1xohUpTi1jp5L+avM=;
-        b=MhUYLwQ+r9V1T7culMTpfxTNmjmt62gx3klk4GK80g/kF2PKmcHaf3wAZq8JMmHmr1
-         4dQiFNwPn4cqTschLbreu7TQKL8Hq8j5JtvJOfUvPPHFyBFLwiau5htiWWwzhex1nvAR
-         0+y+2SAq9uSMJJHBcvIFpPM2eEWHZWZ7cBQzdiahiSBLbo1/ZSUnvJKYkzt1ql9Ml1hj
-         29wWqK9gFa5OBmuWhqxvrVTjTMLQINj8hcFuWqFG+vxy4YMrS48KQQlAq7kAtYITZqwL
-         Zwnw77iS+gsP1IHlYhkhj3zTeikpie7FxwooYdb0WNoaejDFQF0xKC8B0lFxKimUy7ZG
-         Cc3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714691606; x=1715296406;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hZTQ8b08ADcpplkiE8GEsQC5kR1xohUpTi1jp5L+avM=;
-        b=GzYuzpjpTzjQpnofN8hB12d5Xy6XhHLnMXbn0zk0AHmKammqNw7A+RzBw83vMMQNoT
-         Gzaeqx7V5IJ8aKHGZtFW3SQcCHD6WbfNZ1EqrKrVi+jCaL/yAU5t4vfZMxfiNK+wfJf8
-         HBNu+3KeoJV2tzbTFZoMZingBCdn/afdRDbsEsgrJTGC9qJz2bSV68gmlg2AtMyr5gyf
-         eSAQlyS6eugu6o1xTzbCvt75g17Bhpur1BAwfbUja3WetHDPSd1NmRGJoHg6hSnpfg68
-         YIIW4q8ZSlqKbC6+2J+hT6eQjSDWaHZwgo428fHu1zFWcwbSiEs1A3ULEVjlReD+fsJa
-         HrPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJsmvl4zX2xBHmR3YQlwMzIxq3lxhNgxDICdXVisx4OpXXp5jdE/7nJuavsquxfoptJLLqBzPQPJd20XxF1CCxcImBH8UxnEGER+4=
-X-Gm-Message-State: AOJu0YwqsDZyOVL0HTneBnLvxLAZkSshfHfW+I70apvxBUrOC7trIzq8
-	vNnZR+XvxsZATifFGlz5ROg0eH5xAKo4Qzvn8pYKWqZnepzh2gQbilVO1w==
-X-Google-Smtp-Source: AGHT+IFPBPJQrhErzDfBkYnMLmaOKoyKcpLCyvu335M9CCXRZwkhQig1ifTf6ImNfUkQgjTpsiSaGg==
-X-Received: by 2002:a05:6870:a790:b0:239:8e67:6f10 with SMTP id x16-20020a056870a79000b002398e676f10mr1518423oao.30.1714691606271;
-        Thu, 02 May 2024 16:13:26 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e24:7949:ee02:ebf8])
-        by smtp.gmail.com with ESMTPSA id fi7-20020a056a00398700b006ed007b3596sm1820221pfb.69.2024.05.02.16.13.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 16:13:25 -0700 (PDT)
-Date: Thu, 2 May 2024 16:13:23 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Denose <jdenose@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffery Miller <jefferymiller@google.com>
-Subject: Re: [PATCH] Input: elantech - fix touchpad state on resume for
- Lenovo N24
-Message-ID: <ZjQeE643YAbK1hq5@google.com>
-References: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+	s=arc-20240116; t=1714700811; c=relaxed/simple;
+	bh=JKgTE6YUHTKq659Fh+4WxOwvtYqFaO/UHPdHf0PyxU8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=RJ4/L/ZJJSRT/o+dlvt/gOFYSILX/mwZESqCh5/MzQeJPNZgvPkPR5RRIYomfkwQBmtfnvVogUrmlWqyAKlFOINpp5ULJaz3xKJf0UzXy3MSm/geQAinPyMhsqix4iyq3chN5hufVf39WImVSpQsbVu/ML3KR+YqnD9V6mxcMEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPjALbxq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D76EC113CC;
+	Fri,  3 May 2024 01:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714700810;
+	bh=JKgTE6YUHTKq659Fh+4WxOwvtYqFaO/UHPdHf0PyxU8=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=PPjALbxqtye4I1DIDKjHVl3qcro5MlE9tek/ju94lTHQ9wY/pjbVv71TylRbsvFvW
+	 CreAHaLMHr1FL/n18IY54+vHGoxxHhpj2LSSdkdGE2XA5WU4uy97Bq/ZcEdTxqTaJu
+	 Nr5j403GWzpYiPXxaJV0a73HDuaPrDeeRiTQAyNx0x50uJCVjldPII9JL+L7BRBCF7
+	 VOEwB9bAfcnBooec5W605A00+FEMqc97nE1f9fjytDNUkxb0cxbgGBDl+GZY4E4r6t
+	 Qqc4adGqWtNz7GkLUA41T2o/j6mF1PCbadNmSnqlRreB2PpKAqYryTJoC3Nnbgq+N7
+	 BCl62C/NQ2Row==
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240501140231.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 May 2024 04:46:43 +0300
+Message-Id: <D0ZMPEICUP93.YHFFOSJBS27X@kernel.org>
+Cc: <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <kernel-team@android.com>, <linux-sound@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-sgx@vger.kernel.org>, "kernel test robot" <oliver.sang@intel.com>
+Subject: Re: [PATCH v1 01/10] selftests/sgx: Compile with -D_GNU_SOURCE
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Edward Liaw" <edliaw@google.com>, <shuah@kernel.org>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, "Jiri Kosina" <jikos@kernel.org>, "Benjamin Tissoires"
+ <bentiss@kernel.org>, "Sean Christopherson" <seanjc@google.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, "Bongsu Jeon" <bongsu.jeon@samsung.com>,
+ "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
+ <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni"
+ <pabeni@redhat.com>, "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Muhammad Usama Anjum"
+ <usama.anjum@collabora.com>
+X-Mailer: aerc 0.17.0
+References: <20240430235057.1351993-1-edliaw@google.com>
+ <20240430235057.1351993-2-edliaw@google.com>
+In-Reply-To: <20240430235057.1351993-2-edliaw@google.com>
 
-On Wed, May 01, 2024 at 02:02:32PM +0000, Jonathan Denose wrote:
-> The Lenovo N24 on resume becomes stuck in a state where it
-> sends incorrect packets, causing elantech_packet_check_v4 to fail.
-> The only way for the device to resume sending the correct packets is for
-> it to be disabled and then re-enabled.
-> 
-> This change adds a dmi check to trigger this behavior on resume.
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
+On Wed May 1, 2024 at 2:50 AM EEST, Edward Liaw wrote:
+> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> asprintf into kselftest_harness.h, which is a GNU extension and needs
+> _GNU_SOURCE to either be defined prior to including headers or with the
+> -D_GNU_SOURCE flag passed to the compiler.
+>
+> Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
+> Reported-by: kernel test robot <oliver.sang@intel.com>
+> Closes: https://lore.kernel.org/oe-lkp/202404301040.3bea5782-oliver.sang@=
+intel.com
+> Signed-off-by: Edward Liaw <edliaw@google.com>
 > ---
-> 
->  drivers/input/mouse/elantech.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index 4e38229404b4b..e0f3095b4227e 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -1476,6 +1476,23 @@ static void elantech_disconnect(struct psmouse *psmouse)
->  	psmouse->private = NULL;
->  }
->  
-> +/*
-> + * Some hw_version 4 models fail to properly activate absolute mode on
-> + * resume without going through disable/enable cycle.
-> + */
-> +static const struct dmi_system_id elantech_needs_reenable[] = {
-> +#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-> +	{
-> +		/* Lenovo N24 */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
-> +		},
-> +	},
-> +#endif
-> +	{ }
-> +};
-> +
->  /*
->   * Put the touchpad back into absolute mode when reconnecting
->   */
-> @@ -1486,6 +1503,22 @@ static int elantech_reconnect(struct psmouse *psmouse)
->  	if (elantech_detect(psmouse, 0))
->  		return -1;
->  
-> +	if (dmi_check_system(elantech_needs_reenable)) {
-> +		int err;
-> +
-> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_DISABLE, NULL);
-
-This and below should be ps2_command().
-
-> +
-> +		if (err)
-> +			psmouse_warn(psmouse, "Failed to deactivate mouse on %s: %d\n",
-> +					psmouse->ps2dev.serio->phys, err);
-> +
-> +		err = ps2_sendbyte(&psmouse->ps2dev, PSMOUSE_CMD_ENABLE, NULL);
-> +
-> +		if (err)
-> +			psmouse_warn(psmouse, "Failed to reactivate mouse on %s: %d\n",
-> +					psmouse->ps2dev.serio->phys, err);
-> +	}
-> +
->  	if (elantech_set_absolute_mode(psmouse)) {
->  		psmouse_err(psmouse,
->  			    "failed to put touchpad back into absolute mode.\n");
-> -- 
+>  tools/testing/selftests/sgx/Makefile    | 2 +-
+>  tools/testing/selftests/sgx/sigstruct.c | 2 --
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/tools/testing/selftests/sgx/Makefile b/tools/testing/selftes=
+ts/sgx/Makefile
+> index 867f88ce2570..272da790d9ae 100644
+> --- a/tools/testing/selftests/sgx/Makefile
+> +++ b/tools/testing/selftests/sgx/Makefile
+> @@ -12,7 +12,7 @@ OBJCOPY :=3D $(CROSS_COMPILE)objcopy
+>  endif
+>
+>  INCLUDES :=3D -I$(top_srcdir)/tools/include
+> -HOST_CFLAGS :=3D -Wall -Werror -g $(INCLUDES) -fPIC
+> +HOST_CFLAGS :=3D -Wall -Werror -g $(INCLUDES) -fPIC -D_GNU_SOURCE
+>  HOST_LDFLAGS :=3D -z noexecstack -lcrypto
+>  ENCL_CFLAGS +=3D -Wall -Werror -static-pie -nostdlib -ffreestanding -fPI=
+E \
+>  	       -fno-stack-protector -mrdrnd $(INCLUDES)
+> diff --git a/tools/testing/selftests/sgx/sigstruct.c b/tools/testing/self=
+tests/sgx/sigstruct.c
+> index d73b29becf5b..a0c2de7c5302 100644
+> --- a/tools/testing/selftests/sgx/sigstruct.c
+> +++ b/tools/testing/selftests/sgx/sigstruct.c
+> @@ -1,7 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*  Copyright(c) 2016-20 Intel Corporation. */
+> -
+> -#define _GNU_SOURCE
+>  #include <assert.h>
+>  #include <getopt.h>
+>  #include <stdbool.h>
+> --
 > 2.45.0.rc0.197.gbae5840b3b-goog
-> 
 
-Thanks.
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
--- 
-Dmitry
+BR, Jarkko
 
