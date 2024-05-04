@@ -1,148 +1,100 @@
-Return-Path: <linux-input+bounces-3433-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3436-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0398E8BB318
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 20:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A1F8BB937
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 04:15:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26E781C21709
-	for <lists+linux-input@lfdr.de>; Fri,  3 May 2024 18:30:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B6341C229F2
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 02:15:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEA5815887F;
-	Fri,  3 May 2024 18:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B1EBA42;
+	Sat,  4 May 2024 02:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="jcYIdUNN"
+	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="OhtppCQq"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0C8158866;
-	Fri,  3 May 2024 18:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FBF1FA1;
+	Sat,  4 May 2024 02:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714760992; cv=none; b=P2g4v4HWxauRbZOBMXaGkCPAj1QQeTQBjU73a8sfL+cmlm/0sv5btBm70zHblscjF/e+GfzKTyLCL0bz+GnROBv3GnoPrUYhFQjtdFtJVkBsFXIPFgwAAaQEIo7HGYs12+2UamrQ2/z1uPcPakb/AIDCeOwuzp+SgHoAd8Yytkg=
+	t=1714788923; cv=none; b=pDBUgq9Nu6v8AIyYtPXMOtyTNcewlmm6vTJhJ3Tv/jZ/6PxNeuFOlzsmZ3JNsJly/h8A05V2EQodhaaGFhqb8LNcp59d4PmDla5FSGgskxR8Du6141iavtC54zTJ3PFdyD79QbcGDwSgPxyEdQjnJsJhgzPJxvDHSpyDu8ymPZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714760992; c=relaxed/simple;
-	bh=e6ynbt8+QgxzbH/E73GTS+ubMG/h4wOsFbzFgj/kgyM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nhLfjdpv2NIJ+ouHl9mO+ny244RWGHNO25GhDAy2OzCQ4hZL0vCMkD1fyt9z8KFMUe9HrsanIyqtHBBR2XykkGmWiJCEut6cKIrPPDq7oEYRpXVCw+3Q5osLm28aa2OrHGfGluxWo0esAdUdsuB6cd4ujgOzbpl7o9w0doGvuVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=jcYIdUNN; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=gsmaW6yu2jr4Gxl/DMVyniBNsiaG9rH9ORl++Cua8YA=; b=jcYIdUNNrnGBnjJCd2kt159D5n
-	GZ7PdVcmuvmeEJg3t72W8DVoPl6nrYUZFNktgbaSVxnYtzKwYLdZNCfGoMSzlE2DOk94SbiRWszL7
-	+fMD4AhUVD2/UAwOZxo+Ub27B9PuY0a2SFGJ+8G5euEUsp6sbh7mbxXk7CwfGq3AFw/E=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s2xep-001awL-0X;
-	Fri, 03 May 2024 20:29:19 +0200
-Message-ID: <a5b894f8dc2ab0cf087a5b4972d7f752e6c17c16.camel@hexdev.de>
-Subject: Re: [PATCH v3 06/11] dt-bindings: net/can: Add serial (serdev) LIN
- adapter
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-Reply-To: christoph.fritz@hexdev.de
-To: Conor Dooley <conor@kernel.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>, Oliver Hartkopp
- <socketcan@hartkopp.net>,  Marc Kleine-Budde <mkl@pengutronix.de>, Vincent
- Mailhol <mailhol.vincent@wanadoo.fr>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <bentiss@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Andreas Lauser
- <andreas.lauser@mercedes-benz.com>,  Jonathan Corbet <corbet@lwn.net>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org,  linux-serial@vger.kernel.org
-Date: Fri, 03 May 2024 20:29:15 +0200
-In-Reply-To: <20240503-fading-extruding-2105bbd8b479@spud>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
-	 <20240502182804.145926-7-christoph.fritz@hexdev.de>
-	 <20240503-fading-extruding-2105bbd8b479@spud>
-Organization: hexDEV GmbH
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1714788923; c=relaxed/simple;
+	bh=faSOwVcykO18Wfl4IuRvnoB9ojJOirqEh7G+O9IVOmE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Y4LFpGOD0ymCrN+l5EQUDMJ5CbFMNpKA4nV7dRM51U157s9rcdw1mPUgP4EnmVr+E4egjHsdwjVDy+lu1gKo8jODZiXmS7JYtvahQTTfZF+fRU4hjPWvenurkIaw9F8NjVmglcDpbq9ywAPZTlNw3ydeU4JGXHdwkE7e8uYdjfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=OhtppCQq; arc=none smtp.client-ip=54.39.219.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A86F0C005F;
+	Fri,  3 May 2024 22:07:59 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
+	t=1714788484; h=from:subject:date:message-id:to:mime-version:
+	 content-transfer-encoding; bh=hBpfk745PJzZA78WwD307p1qbXyVdOfgUX8fjEBo+Ts=;
+	b=OhtppCQqEghly9KMZyqvlqvg8ez5Z17AxXfigAA2JsSQnHaEfUD6TPh329pAWl9LcWc0WH
+	G/62wraDZzxR7QCOR3AhbghUdxxQtGdj+n9jJiQoFc226wsAB7kSlzd1qYMsKzdwzIEneo
+	xRGz3jCB1vFHDhUB8ouuRGU4TZ2PzNo=
+From: Felix Kaechele <felix@kaechele.ca>
+To: Job Noorman <job@noorman.info>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] input: himax_hx83112b: add support for HX83100A
+Date: Fri,  3 May 2024 22:04:39 -0400
+Message-ID: <20240504020745.68525-1-felix@kaechele.ca>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Conor,
+This set of patches brings support for the Himax HX83100A touch
+controller.
+To properly bring the chip up, support for regulator handling is also
+added.
 
- thanks for having an eye on this, please see my answer below.
+I have no access to datasheets. So, like the original driver code
+that's being extended here, this code is mostly based on the quite
+convoluted, GPLv2 licensed manufacturer drivers for Android.
+I included links to sources and references where appropriate.
 
-On Fri, 2024-05-03 at 18:12 +0100, Conor Dooley wrote:
-> On Thu, May 02, 2024 at 08:27:59PM +0200, Christoph Fritz wrote:
-> > Add dt-bindings for serial LIN bus adapters. These adapters are
-> > basically just LIN transceivers that are hard-wired to serial devices.
-> > 
-> > Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
-> > ---
-> >  .../bindings/net/can/hexdev,lin-serdev.yaml   | 32 +++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml b/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml
-> > new file mode 100644
-> > index 0000000000000..c178eb9be1391
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/net/can/hexdev,lin-serdev.yaml
-> > @@ -0,0 +1,32 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/net/can/hexdev,lin-serdev.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Serial LIN Adapter
-> > +
-> > +description:
-> > +  LIN transceiver, mostly hard-wired to a serial device, used for communication
-> > +  on a LIN bus.
-> > +  For more details on an adapter, visit <https://hexdev.de/hexlin#tty>.
-> > +
-> > +maintainers:
-> > +  - Christoph Fritz <christoph.fritz@hexdev.de>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: hexdev,lin-serdev
-> 
-> Maybe I've just missed something on earlier versions that I didn't
-> read, but the name of the device on the website you link is "hexLIN",
-> so why is "lin-serdev" used here instead?
+A number of people tested this patch set on Lenovo ThinkSmart View
+(CD-18781Y) devices. That device has a variant utilizing a Innolux
+P080DDD-AB2 LCM. This LCM comes with the HX83100A.
 
-The USB one is called hexLIN and has it's own HID driver.
+I would really appreciate if people using HX83112B chips could give this
+set a run to ensure nothing broke.
 
-This serial LIN adapter doesn't really have a product name. Currently
-on our website it's generically called 'UART LIN Adapter'.
+Thanks,
+Felix
 
-This LIN adapter is basically just a LIN transceiver and very generic,
-so that one could solder it to any single-board computer with an uart.
+Felix Kaechele (6):
+  dt-bindings: input: touchscreen: himax,hx83112b: add HX83100A
+  input: himax_hx83112b: add regulator handling
+  input: himax_hx83112b: use more descriptive register defines
+  input: himax_hx83112b: implement MCU register reading
+  input: himax_hx83112b: add himax_chip struct for multi-chip support
+  input: himax_hx83112b: add support for HX83100A
 
-I think 'lin-serdev' for LIN and serial device fits great, also serdev
-is the name of the used kernel infrastructure (besides the LIN glue
-driver).
+ .../input/touchscreen/himax,hx83112b.yaml     |   9 +
+ drivers/input/touchscreen/himax_hx83112b.c    | 187 +++++++++++++++---
+ 2 files changed, 166 insertions(+), 30 deletions(-)
 
-If you still don't like it, I'm open to other names. What about
-"hexlin-uart" or "linser"?
 
-Thanks
-  -- Christoph
-> 
+base-commit: 7b4e0b39182cf5e677c1fc092a3ec40e621c25b6
+-- 
+2.44.0
+
 
