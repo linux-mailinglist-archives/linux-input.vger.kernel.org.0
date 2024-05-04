@@ -1,33 +1,34 @@
-Return-Path: <linux-input+bounces-3451-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3454-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C59A8BBDDF
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 21:47:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D2D8BBDE8
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 21:48:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C89DC2823FB
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 19:47:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F81E1C20CD0
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 19:48:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ACA383CDA;
-	Sat,  4 May 2024 19:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CBA284FAA;
+	Sat,  4 May 2024 19:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="Yxq1a95O"
+	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="YIzlC84L"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419CF1EF01;
-	Sat,  4 May 2024 19:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB5084A53;
+	Sat,  4 May 2024 19:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714852057; cv=none; b=oZOy/ZknX4k+Sr24OBlUwZLdjch5KlZYb7kzvVTE7eWnlRgHDBk5CcYIL5qOs96a7Z/+xRNU1BfKQzW/4sg6+g4rIKi+ZbTuvlRDokKKRIEOwkeKdv7gmC4uagi6WcgPWdKgguKtrt5hjwRKIHMf4w0faINLZOInjNnCJ+o1hnk=
+	t=1714852060; cv=none; b=jl8368+6l5fTwEaCKffW7upzKreXGiJjiquQtEyKA31X2CMXSlQidgDAyalx0wE9GVlDHXNKJMsRFV9yoFdJDY+MUlrBGIOLSAKhebzFPTZhj8PvohLCzlYfWjXUf1+DwAb6gaGbiu8gsD5HhfOb3LqhVzbhi6Pj/zzYH5v+YKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714852057; c=relaxed/simple;
-	bh=/WrnDCzpka+2oFw0aiMtpn86OKLmLTHlxxKb0BiZCSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WNRCcmbYTNs/RrzG27ikZJlOF2voGtbacLpj5XgbI2KZaCKfSkjx+2RV5MlMWSfJDxK9ECD/438gMsEnooJBB/kEvMwnHmW2jk2+E52U4zc09Z4Hn+aEmBTFwaEZVnNJ85L2SwCxiyMDY+wF1OsxyCO1qtZ3il24eR/U5MEorR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=Yxq1a95O; arc=none smtp.client-ip=195.113.20.234
+	s=arc-20240116; t=1714852060; c=relaxed/simple;
+	bh=pxdGHqYKtxSvHPrIVyd0Y84o9/pDLy//Ve22cvKWMW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BV6Z/452bGTdjlexPm4vFzz1lcapDk/Q2ulrUGo3pDTamHTnYmSM42DResSGINbDKp9u9LhQaqMnoRhB0wPlEd9x4H7cmIF8O9kYX5JaoZCbLxHhbouvhM5HvFQqgldE+AXHIMbE4tneU3MVqRWyGxKLdIPEkD4vusuDo0Cm0LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=YIzlC84L; arc=none smtp.client-ip=195.113.20.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
 X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
@@ -35,19 +36,19 @@ X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20K
 	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
 	auth type TLS.CUNI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1714852020; x=1716152020;
-	bh=yoXes3T8ZbZ3DnhYT18+cGNOATX7w7wWaeHO5qdkaRM=; h=From;
-	b=Yxq1a95ONuj7C+bbpEQYwiysE0hb3j4GgRwC13H7JQsARbvakBuyv6JlMQc03SqsB
-	 ynuW2FfFHNavPyck3qpnsEr663YpaNJr+jIfDU0ukBXk0pfaUfXV0HxHdGeHAKDzIU
-	 8gT924nMnvY2joGOrUNOk8v+dWDDTc5Emc9exTUNo/rLc+XSG9HZju0BJ9mr6xC3aG
-	 Zc9TW9u4p1zDuIW6cm29QKu4gUA7wgFQoMYiNS7Q5YL8vp4zb3I5kkwP4x59PkbPE6
-	 jxOx0hi75ASVU83FKsBZr8BiNG1dYSFV+m/f9VD0h0x6ZJJTzjjRFxkbXysrgrfV1M
-	 MLpt6/aM+Fy5w==
+	s=submission; t=1714852024; x=1716152024;
+	bh=SVNnWK/qcWbnoPIGMZtbef7rLPL/exkv8m8cWxVTupY=; h=From;
+	b=YIzlC84LqEvPUM58OhcUV6xV7W4W0tkPZrBHMiRbGZACp9knFzso9N9FCSfe28VXY
+	 XF2mnw+NFbAsHj+UrI0fS4lhHDzsJ+wlJTXx/UydWbFt+DmmvVMwjBsP9RU9PXfNsl
+	 TR5cU0byoIE7ObFW3XP/LFUUs/yREwBjuEMMMJYyWp8MGHyz+AV2QANZE1gK6yjntf
+	 aTQCvO8yXiU2uxBf5cv4cHP6h30sOu+E+f8DKkLKVgbYRZDJQNxq+Jhh1YMNzU4n7H
+	 zL8abpWRCK/WJ3ImgSXUmHuvzFol9Ef4R6Y0rRmMrBfys7mT9Q5NS/ZrRWGfx4j65v
+	 Rh0NTbRKfyryA==
 Received: from localhost (internet5.mraknet.com [185.200.108.250])
 	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 444JkwUn074171
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 444Jl3F2074191
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Sat, 4 May 2024 21:47:00 +0200 (CEST)
+	Sat, 4 May 2024 21:47:04 +0200 (CEST)
 	(envelope-from balejk@matfyz.cz)
 From: Karel Balej <balejk@matfyz.cz>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -60,10 +61,12 @@ To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
 Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         balejk@matfyz.cz
-Subject: [PATCH v6 0/5] initial support for Marvell 88PM886 PMIC
-Date: Sat,  4 May 2024 21:37:03 +0200
-Message-ID: <20240504194632.2456-1-balejk@matfyz.cz>
+Subject: [PATCH v6 1/5] dt-bindings: mfd: add entry for Marvell 88PM886 PMIC
+Date: Sat,  4 May 2024 21:37:04 +0200
+Message-ID: <20240504194632.2456-2-balejk@matfyz.cz>
 X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240504194632.2456-1-balejk@matfyz.cz>
+References: <20240504194632.2456-1-balejk@matfyz.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -72,75 +75,121 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Marvell 88PM886 is a PMIC with several subdevices such as onkey,
+regulators or battery and charger. It comes in at least two revisions,
+A0 and A1 -- only A1 is described here at the moment.
 
-the following implements basic support for Marvell's 88PM886 PMIC which
-is found for instance as a component of the samsung,coreprimevelte
-smartphone which inspired this and also serves as a testing platform.
-
-The code for the MFD is based primarily on this old series [1] with the
-addition of poweroff based on the smartphone's downstream kernel tree
-[2]. The onkey and regulators drivers are based on the latter. I am not
-in possesion of the datasheet.
-
-[1] https://lore.kernel.org/all/1434098601-3498-1-git-send-email-yizhang@marvell.com/
-[2] https://github.com/CoderCharmander/g361f-kernel
-
-Thank you and kind regards,
-K. B.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Karel Balej <balejk@matfyz.cz>
 ---
-v6:
-- Rebase to v6.9-rc6.
-- Fix patchset versioning: the previous version was marked as v1 because I
-  considered RFC to be its own thing. Thank you to Krzysztof for
-  explaining that that is not the case. The previous version is thus now
-  marked as v5 and this is v6, sorry for any confusion.
-- v5: https://lore.kernel.org/r/20240331105608.7338-2-balejk@matfyz.cz/
-v5:
-- RFC v4: https://lore.kernel.org/r/20240311160110.32185-1-karelb@gimli.ms.mff.cuni.cz/
-- Rebase to v6.9-rc1.
-- Thank you to everybody for their feedback on the RFC!
-RFC v4:
-- RFC v3: https://lore.kernel.org/all/20240303101506.4187-1-karelb@gimli.ms.mff.cuni.cz/
-RFC v3:
-- Address Rob's feedback:
-  - Drop onkey bindings patch.
-- Rename PM88X -> PM886 everywhere.
-- RFC v2: https://lore.kernel.org/all/20240211094609.2223-1-karelb@gimli.ms.mff.cuni.cz/
-RFC v2:
-- Merge with the regulators series to have multiple devices and thus
-  justify the use of the MFD framework.
-- Rebase on v6.8-rc3.
-- Reorder patches.
-- MFD RFC v1: https://lore.kernel.org/all/20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz/
-- regulators RFC v1: https://lore.kernel.org/all/20231228100208.2932-1-karelb@gimli.ms.mff.cuni.cz/
 
-Karel Balej (5):
-  dt-bindings: mfd: add entry for Marvell 88PM886 PMIC
-  mfd: add driver for Marvell 88PM886 PMIC
-  regulator: add regulators driver for Marvell 88PM886 PMIC
-  input: add onkey driver for Marvell 88PM886 PMIC
-  MAINTAINERS: add myself for Marvell 88PM886 PMIC
+Notes:
+    RFC v4:
+    - Address Krzysztof's comments:
+      - Fix regulators indentation.
+      - Add Krzysztof's trailer.
+    RFC v3:
+    - Add wakeup-source property.
+    - Address Rob's feedback:
+      - Move regulators into the MFD file.
+      - Remove interrupt-controller and #interrupt-cells properties.
+    RFC v2:
+    - Address Rob's feedback:
+      - Drop mention of 88PM880.
+      - Make sure the file passes bindings check (add the necessary header
+        and fix `interrupt-cells`).
+      - Other small changes.
+    - Add regulators. Changes with respect to the regulator RFC series:
+      - Address Krzysztof's comments:
+        - Drop unused compatible.
+        - Fix sub-node pattern.
 
- .../bindings/mfd/marvell,88pm886-a1.yaml      |  76 +++
- MAINTAINERS                                   |   9 +
- drivers/input/misc/88pm886-onkey.c            |  98 ++++
- drivers/input/misc/Kconfig                    |   7 +
- drivers/input/misc/Makefile                   |   1 +
- drivers/mfd/88pm886.c                         | 148 ++++++
- drivers/mfd/Kconfig                           |  12 +
- drivers/mfd/Makefile                          |   1 +
- drivers/regulator/88pm886-regulator.c         | 476 ++++++++++++++++++
- drivers/regulator/Kconfig                     |   6 +
- drivers/regulator/Makefile                    |   1 +
- include/linux/mfd/88pm886.h                   |  69 +++
- 12 files changed, 904 insertions(+)
+ .../bindings/mfd/marvell,88pm886-a1.yaml      | 76 +++++++++++++++++++
+ 1 file changed, 76 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
- create mode 100644 drivers/input/misc/88pm886-onkey.c
- create mode 100644 drivers/mfd/88pm886.c
- create mode 100644 drivers/regulator/88pm886-regulator.c
- create mode 100644 include/linux/mfd/88pm886.h
 
+diff --git a/Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml b/Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
+new file mode 100644
+index 000000000000..d6a71c912b76
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/marvell,88pm886-a1.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Marvell 88PM886 PMIC core
++
++maintainers:
++  - Karel Balej <balejk@matfyz.cz>
++
++description:
++  Marvell 88PM886 is a PMIC providing several functions such as onkey,
++  regulators or battery and charger.
++
++properties:
++  compatible:
++    const: marvell,88pm886-a1
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wakeup-source: true
++
++  regulators:
++    type: object
++    additionalProperties: false
++    patternProperties:
++      "^(ldo(1[0-6]|[1-9])|buck[1-5])$":
++        type: object
++        $ref: /schemas/regulator/regulator.yaml#
++        description: LDO or buck regulator.
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      pmic@30 {
++        compatible = "marvell,88pm886-a1";
++        reg = <0x30>;
++        interrupts = <0 4 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-parent = <&gic>;
++        wakeup-source;
++
++        regulators {
++          ldo2: ldo2 {
++            regulator-min-microvolt = <3100000>;
++            regulator-max-microvolt = <3300000>;
++          };
++
++          ldo15: ldo15 {
++            regulator-min-microvolt = <3300000>;
++            regulator-max-microvolt = <3300000>;
++          };
++
++          buck2: buck2 {
++            regulator-min-microvolt = <1800000>;
++            regulator-max-microvolt = <1800000>;
++          };
++        };
++      };
++    };
++...
 -- 
 2.45.0
 
