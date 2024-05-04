@@ -1,153 +1,92 @@
-Return-Path: <linux-input+bounces-3435-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3441-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5156E8BB930
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 04:08:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACDC8BBAB0
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 13:25:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0590F1F2423B
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 02:08:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B2001F21ECA
+	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 11:25:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 696FBBA4D;
-	Sat,  4 May 2024 02:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034EA1946F;
+	Sat,  4 May 2024 11:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="phcGVvHB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu1gtAgG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3183539C;
-	Sat,  4 May 2024 02:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5A12E4A;
+	Sat,  4 May 2024 11:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714788485; cv=none; b=jugULHSrd2tGjRuKFiZ/GAfXrhipIJoDcDpDrJIEXoVrRil/gqh6D3tt9gUqpUMzxQKJPu79InCIZ2iFaz+PpZ6l3V8fg2WCM+ucQSVTKqntQ5we7wzaWygtjuFk70Bx+eSEvMPOaAW9lOQ2qgeKwhK4lwsce0KD9D3LwvKpL7U=
+	t=1714821917; cv=none; b=d3UEIneovagY0rH7uZ1slvSvtKoiRRdR+uuPvqCtnMc0/JoFkTAs5fOUYpemli7KjLh6XsQJ5qqyqOGGR9IFp/y99lVxdRTYPRY+YsydUnnjz3mvMk8/o6s8gkXm6R1kIQUYLjgCe7qXg97MoNAYIWhPTMONhSqFVh0JxHQmJh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714788485; c=relaxed/simple;
-	bh=Pe7QETLG9b6pCpN9wEnqqft2nXgNoO+6kB1TkY+IC+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NSu6umkp4ABZOr2hYtTPXKJP24FYH7rR6MoDgA5FpVb14nBUrqBsMPMai1ohESCfqf7ZNH3FU6Sqy7aJDj1Rurngds02VIdLUJlVdGOM1ba7Fh4VCJljKxJzZZ2K9QUSVU92FkypQ4SFE+gfu6z6ufSS0QpejijpKFCRqL0+HnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=phcGVvHB; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 692DDC0076;
-	Fri,  3 May 2024 22:08:14 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1714788495; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Js+Zw4ZWqNvFMC47UtCh2KmzrfI0HQ6+4EhdmIXK07Q=;
-	b=phcGVvHB/akJpzBsxB0+PWlrLVr9iYWsvD+PQ44gOmxos0bcl7+3hBGhQwcSG/5z/j8iZK
-	pV0LGHODZZhNR8kDQy5CTyQ4sJ508B7AN1bAb7eiF7qtcBH9V0cZU55jogFzgLbo77sRRW
-	ftc/DfMawSkSFfh+t/eeAkmirR9rBkc=
-From: Felix Kaechele <felix@kaechele.ca>
-To: Job Noorman <job@noorman.info>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gale <paul@siliconpixel.com>
-Subject: [PATCH 6/6] input: himax_hx83112b: add support for HX83100A
-Date: Fri,  3 May 2024 22:04:45 -0400
-Message-ID: <20240504020745.68525-7-felix@kaechele.ca>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240504020745.68525-1-felix@kaechele.ca>
-References: <20240504020745.68525-1-felix@kaechele.ca>
+	s=arc-20240116; t=1714821917; c=relaxed/simple;
+	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Iw+p2gYXchSk9PxM3LRIXLjEDaluYG0/MgZXGR39cLALH5fOXpj+WG45yctgD1+IBsFqyy7vk8xjz/asYAFgOGu7fo3d+TKm6sHE47fqDdMu7P9rpNoqtQo64Zsz6w8YNpz25KC0wxMu7ep74wpotNazKcF0uUCj0jBlHt/oHJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu1gtAgG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C081C072AA;
+	Sat,  4 May 2024 11:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714821917;
+	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Tu1gtAgG9z5Y+yIvIEIVmQ2fgyjD9Tn/RCv0n/DVuQsXojxeIcNqTROwRA0zGng4j
+	 Ya5SpoaGi4SNih9n8Sq3x2yfWbKEhYzBOqQZnSxnGf5l7dtD3PWZLGjvO1Ih20FJQD
+	 TReESyKIdZ7IsVIZsuw+P7sRyIFVtAbV56r6zgRm45YQ57ybcMMkFIXvmtn8AJNS7L
+	 SXuEjrVx4AQy13Z4yg9Rs4OpkuCPiiSzKbCIBkbCtfS15qjAPrPWQ8hxsqGMzicPgt
+	 RLgbpCGMpBjeLONT4v4OjIUqu4JFCpK+1qh829hJZmLNgsXGxStgLOER2GggkuhHv7
+	 8TOSwx7Ys5crA==
+Date: Sat, 4 May 2024 12:25:04 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 4/7] iio: addac: ad74115: Use
+ devm_regulator_get_enable_read_voltage()
+Message-ID: <20240504122504.0389b872@jic23-huawei>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+	<20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The HX83100A is a bit of an outlier in the Himax HX831xxx series of
-touch controllers as it requires reading touch events through the AHB
-interface of the MCU rather than providing a dedicated FIFO address like
-the other chips do.
-This patch implements the specific read function and introduces the
-HX83100A chip with an appropriate i2c ID and DT compatible string.
+On Mon, 29 Apr 2024 18:40:12 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-The HX83100A doesn't have a straightforward way to do chip
-identification, which is why it is not implemented in this patch.
+> We can reduce boilerplate code by using
+> devm_regulator_get_enable_read_voltage().
+> 
+> To maintain backwards compatibility in the case a DT does not provide
+> an avdd-supply, we fall back to calling devm_regulator_get_enable()
+> so that there is no change in user-facing behavior (e.g. dummy regulator
+> will still be in sysfs).
+> 
+> Also add an informative error message when we failed to get the voltage
+> and knowing the voltage is required while we are touching this.
+> 
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+A somewhat fiddly case.  I think you've done it the best way possible though.
 
-Tested on: Lenovo ThinkSmart View (CD-18781Y) / Innolux P080DDD-AB2 LCM
-
-Signed-off-by: Felix Kaechele <felix@kaechele.ca>
-Tested-by: Paul Gale <paul@siliconpixel.com>
----
- drivers/input/touchscreen/himax_hx83112b.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
-index 667611c5a018..984baef495e1 100644
---- a/drivers/input/touchscreen/himax_hx83112b.c
-+++ b/drivers/input/touchscreen/himax_hx83112b.c
-@@ -4,6 +4,9 @@
-  *
-  * Copyright (C) 2022 Job Noorman <job@noorman.info>
-  *
-+ * HX83100A support
-+ * Copyright (C) 2024 Felix Kaechele <felix@kaechele.ca>
-+ *
-  * This code is based on "Himax Android Driver Sample Code for QCT platform":
-  *
-  * Copyright (C) 2017 Himax Corporation.
-@@ -37,6 +40,8 @@
- 
- #define HIMAX_REG_ADDR_ICID			0x900000d0
- 
-+#define HX83100A_REG_FW_EVENT_STACK		0x90060000
-+
- #define HIMAX_INVALID_COORD		0xffff
- 
- struct himax_event_point {
-@@ -291,6 +296,13 @@ static bool himax_verify_checksum(struct himax_ts_data *ts,
- 	return true;
- }
- 
-+static int hx83100a_read_events(struct himax_ts_data *ts,
-+				struct himax_event *event,
-+				size_t length)
-+{
-+	return himax_bus_read(ts, HX83100A_REG_FW_EVENT_STACK, event, length);
-+};
-+
- static int himax_read_events(struct himax_ts_data *ts,
- 			     struct himax_event *event,
- 			     size_t length)
-@@ -436,6 +448,10 @@ static int himax_resume(struct device *dev)
- 
- static DEFINE_SIMPLE_DEV_PM_OPS(himax_pm_ops, himax_suspend, himax_resume);
- 
-+static const struct himax_chip hx83100a_chip = {
-+	.read_events = hx83100a_read_events,
-+};
-+
- static const struct himax_chip hx83112b_chip = {
- 	.id = 0x83112b,
- 	.check_id = himax_check_product_id,
-@@ -443,6 +459,7 @@ static const struct himax_chip hx83112b_chip = {
- };
- 
- static const struct i2c_device_id himax_ts_id[] = {
-+	{ "hx83100a", (kernel_ulong_t) &hx83100a_chip },
- 	{ "hx83112b", (kernel_ulong_t) &hx83112b_chip },
- 	{ /* sentinel */ }
- };
-@@ -450,6 +467,7 @@ MODULE_DEVICE_TABLE(i2c, himax_ts_id);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id himax_of_match[] = {
-+	{ .compatible = "himax,hx83100a", .data = &hx83100a_chip },
- 	{ .compatible = "himax,hx83112b", .data = &hx83112b_chip },
- 	{ /* sentinel */ }
- };
--- 
-2.44.0
-
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
