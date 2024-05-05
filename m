@@ -1,120 +1,158 @@
-Return-Path: <linux-input+bounces-3456-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3457-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5348F8BBF1C
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 05:26:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D87108BBFD8
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 10:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80B5C1C20AEA
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 03:26:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B030B210D3
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 08:46:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A34217CD;
-	Sun,  5 May 2024 03:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B4E79D2;
+	Sun,  5 May 2024 08:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCMmv3MM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A3LNltPt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2573F57CA1;
-	Sun,  5 May 2024 03:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EF3566A
+	for <linux-input@vger.kernel.org>; Sun,  5 May 2024 08:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714879563; cv=none; b=dx8k2eWlv6xy8Lfz5i5aurxo53HASMUc4UpxjdMlmGx5Lrc/8wr3zsTrVmn8O7DJVnnDeNh5nkw1jUAcaZ5r20Ct1DytORhbsF8J/LO1pJzp46tuJA0eo28rVQ4vyl+M4Ke8bbVz7h0L32E+r2Nwrd2FnCt6pBwExet4ACSm5BE=
+	t=1714898787; cv=none; b=iZcjrX9Rw63mZb5B2ocVF8gRH2hfEI4xS6KgUZJrc/YRfCtJMeNweFw+pD2dQdw50jNbTPYPnrAh+cA+AC/OxrZBdkQt1zOuAZaRtNRGj7lf+pOichV7Qhm7MGlXD5MvdMLy49zvDYOIFruaB+Ud7wRrnhn7qf/5+h/B6Udz5MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714879563; c=relaxed/simple;
-	bh=qwhxciGn2PipbrhsGf+RvM7M0cAKkc2iSkWTiSfsEcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k6mVRFQINYD7x71Gy9LGkSJgTkuuND7lGM8569KXayM7njLaV7pAKIiIhZ9RCdlppCjNqw31DzbcBNNdrX97RiQTLDsj44hdJFCoanBDGFlEECSwAYpHOacHLbN2ydj5zaqRxBLJ+P+IrauXEOPHihAQGwVaktvppKtYQNB0Qso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCMmv3MM; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c8317d1f25so580110b6e.3;
-        Sat, 04 May 2024 20:26:01 -0700 (PDT)
+	s=arc-20240116; t=1714898787; c=relaxed/simple;
+	bh=fRj5AQbtFpPAQ5l9HTpcKDEJ0uqHi3XFIHVzaMmxJ68=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bJVOD3yjT0CvJuaeSGdnZgwMd30mqXBVpAA6Gre/IYdYhH6Gbvm6xZbLfW5yHE7VkX9PgIWOB42JSLi+wQD/pMSLbgVVO2M0HC6Eh5O5CK9RL1lk7Zd/Y75GBQ96BBKHjmJLgMXZLMgV4H6Awnf0fi843spsDetPU+wNqdmQ1+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A3LNltPt; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-34e28e32ea4so788878f8f.2
+        for <linux-input@vger.kernel.org>; Sun, 05 May 2024 01:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714879561; x=1715484361; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GyJIwsc9SksZNB9Kcpl3KAmQCI0F7dWlRViskv6/xSA=;
-        b=cCMmv3MM6R/peX9wSOmEqdRjwPi2QuC+mj80yjtqfh3NNaOS+xZfuCwMUzWlGFy96D
-         b0N9LCXb26Dlkv7HBxN8H4Xw0qw2/B5TvCcgVNlbUPW8DcJluSrwdZ/1REQKGHVK/FNp
-         568+rX7W4k4CQCbFJdXx+qHL5gShv5/6m42QaxNmB6Kq8D0SwE7Hb6TxuXxbhtxA7gsS
-         ZK7xY3U1iAbD35Akvs5PzEgGfjzt0+dwff1ak3sES3N2zUYfvUrE3rN72yQJGrfEWXyK
-         1mijFKMA1yYYP38fZ9MwgOr4/1K+5CpZtiCEwhwAE28HQKNXkZKgI/kSNo9y6xjG3zj5
-         al2g==
+        d=linaro.org; s=google; t=1714898783; x=1715503583; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8rvqUn0JVMmaEtYEVilljD5LiJGeISCvOsUZtPDUnlA=;
+        b=A3LNltPtC4xWNMbpMmDIxoexfABDgmW38k5kcxii7JLnPqhU4Bt8PZyTDuQvsZLV7y
+         wvT8CnkM8bXdiOJ82a/NEI+7dHEVegc1QZ7HnDBO6BR+J8gg40NBjyDN4bIOt1FO5qh+
+         LquE/KKnhN3HtGkatnWW0dpDclBpeMg/FidFB8s5s5IiSJTiox1H34mhbfYJOH1n0qOQ
+         ORvQnJqMQkljB9yLH0nrKVMI+mBM4it7vAEqJXxUHQmES74FWhQYWf51QjrIG+lGYDIX
+         nTWFXIoSBOsJmn9wCFpVOd/DaJX1/UEmY9jTY7je+G688MJIFJzXIbPRbp6ekc3VPMuA
+         0nRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714879561; x=1715484361;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GyJIwsc9SksZNB9Kcpl3KAmQCI0F7dWlRViskv6/xSA=;
-        b=L7yyOESfNZfh24smoDDjeQ0vewGyg+6vGlcEE+eP8nEeq/vTVgclvjQS8KmrR2KIIh
-         qP9/iKwiX94JToqzCRuTQIjrwCVP9qZXmIF20uMjdPcITr9cFC1huXhpPlSc9Y4DMHOh
-         GKWaIwNOshN2XR4/OP4766VQ9m/wpIQDjiry3PHjXAV6AJyjfo7Zcm3mzU7oJQGLuRXh
-         StDqiPxBORIbE+de20t1vy+fzL/bbNOCXjfopzMGICTVOMbfxQvJH3kWFrPPTVHLcaTR
-         6KPrkQB9Lv/ECJv0Aw/5aMQh+loxBeblfn0Hx2DNU6ZRjqHBwXOcaLABBWNtLipb56dq
-         Ackw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpRWujzqU0+dPTcuSA9DIC2DnlUKV2fXFzegJgnbkQ9h9Mp6syhWYh6jwOs/nEAmdsBZ6fpEy6lLvecfWcjND+Sg9VTn1ZJ/hBoa0=
-X-Gm-Message-State: AOJu0YwK3ZzYxZV89wCIvSLkG52MI2lbFkngEfUSvZU99B8rTPO5hKGP
-	ieKkWHoTH5skHUXbaNtdHRfeg0sLVvW7L33/iNdO776fZ8L8+hU57plilw==
-X-Google-Smtp-Source: AGHT+IFQ9MpIfoSbFw9ZetnVpORTn4QV6Vk0afKnm1IhVyVO2UEHSUQoh5yzxlzB7G3RF1u0TyplUA==
-X-Received: by 2002:a05:6808:1894:b0:3c9:65af:1935 with SMTP id bi20-20020a056808189400b003c965af1935mr2493289oib.29.1714879561165;
-        Sat, 04 May 2024 20:26:01 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4d8a:a433:4df7:fed8])
-        by smtp.gmail.com with ESMTPSA id fd18-20020a056a002e9200b006f44d32fc4bsm3479328pfb.78.2024.05.04.20.26.00
+        d=1e100.net; s=20230601; t=1714898783; x=1715503583;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8rvqUn0JVMmaEtYEVilljD5LiJGeISCvOsUZtPDUnlA=;
+        b=EklPCNOTil5ELnimDZqkRXfi9mnKt8ZdvcP5riJar9g8h3nxcT4/2bQtkeOJortJEu
+         yfWiNIi5FhfHLdOCEcJWVlVLlt2iabKA8VVxiA5JDgQfhsJ3Wf4kBQerBrB3jgYyzVqw
+         q0GckkcDy9FWALaXUSB6L+wUYHCaP1IDdM3uELQUwCkLDoO9vTwQjNEIj9tKSta51kyd
+         n3E9EMjub7OSFedoEgAeLy/Rl5C671oBegyLLRfzXSn7l3s0U2Aqe/meINzMT6g+JMQh
+         dRbLtDBGYxzIfNGKrYNAXyNuLyXnbeuHfOuSXDChwNqOtVRO2Forx9Gsip29dOJ9nteB
+         SvvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvwpZitiwI0WpfYngEP62igL31NSdOJrUYkbi51VgskYDUOh4m+FjGpBO00QuzrM3deZhcAQpemyvqpH/kZYyTg2nrTiSSJ2bWQ+4=
+X-Gm-Message-State: AOJu0Yyn/HDQkeP21qWb1k5dxVb/ikxmXJ9BkXB787S+oJ2AfcAvqyLi
+	bvfv0z0qTcqGbTMYn6jEFxA6AxctdHtiNHJJQm4mc8Ric8aJXAqqWfr2xc7r74A=
+X-Google-Smtp-Source: AGHT+IEAIRhFGaEyDg154ublccIoPbU+wBOiO4gHoxXjddQxdSA8q12a5Tt5YvOHYA6M/h8U+EvPGQ==
+X-Received: by 2002:a5d:55ca:0:b0:34d:aaca:2f6f with SMTP id i10-20020a5d55ca000000b0034daaca2f6fmr4816765wrw.69.1714898782639;
+        Sun, 05 May 2024 01:46:22 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id f20-20020a05600c4e9400b0041b5500e438sm11840163wmq.23.2024.05.05.01.46.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 20:26:00 -0700 (PDT)
-Date: Sat, 4 May 2024 20:25:58 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.9-rc6
-Message-ID: <Zjb8RrOFLHFSk_Gv@google.com>
+        Sun, 05 May 2024 01:46:22 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Shijie Qin <shijie.qin@nxp.com>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: Use full path to other schemas
+Date: Sun,  5 May 2024 10:46:18 +0200
+Message-ID: <20240505084618.135705-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+When referencing other schema, it is preferred to use an absolute path
+(/schemas/....), which allows also an seamless move of particular schema
+out of Linux kernel to dtschema.
 
-Please pull from:
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.9-rc6
+---
 
-to receive updates for the input subsystem. You will get:
+Rob, maybe you can take it directly? Should apply cleanly on your tree.
+---
+ Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml | 2 +-
+ Documentation/devicetree/bindings/media/amphion,vpu.yaml    | 2 +-
+ Documentation/devicetree/bindings/mtd/mtd.yaml              | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-- a new ID for ASUS ROG RAIKIRI controllers added to xpad driver
-
-- amimouse driver structure annotated with __refdata to prevent section
-  mismatch warnings.
-
-Changelog:
----------
-
-Uwe Kleine-König (1):
-      Input: amimouse - mark driver struct with __refdata to prevent section mismatch
-
-Vicki Pfau (1):
-      Input: xpad - add support for ASUS ROG RAIKIRI
-
-Diffstat:
---------
-
- drivers/input/joystick/xpad.c  | 2 ++
- drivers/input/mouse/amimouse.c | 8 +++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-Thanks.
-
-
+diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+index 5b1769c19b17..418c168b223b 100644
+--- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
++++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+@@ -784,7 +784,7 @@ patternProperties:
+       gpio-2: GPIO4
+ 
+     allOf:
+-      - $ref: ../pinctrl/pincfg-node.yaml#
++      - $ref: /schemas/pinctrl/pincfg-node.yaml#
+ 
+     properties:
+       drive-open-drain: true
+diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+index c0d83d755239..9801de3ed84e 100644
+--- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
++++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+@@ -44,7 +44,7 @@ patternProperties:
+     description:
+       Each vpu encoder or decoder correspond a MU, which used for communication
+       between driver and firmware. Implement via mailbox on driver.
+-    $ref: ../mailbox/fsl,mu.yaml#
++    $ref: /schemas/mailbox/fsl,mu.yaml#
+ 
+ 
+   "^vpu-core@[0-9a-f]+$":
+diff --git a/Documentation/devicetree/bindings/mtd/mtd.yaml b/Documentation/devicetree/bindings/mtd/mtd.yaml
+index ee442ecb11cd..bbb56216a4e2 100644
+--- a/Documentation/devicetree/bindings/mtd/mtd.yaml
++++ b/Documentation/devicetree/bindings/mtd/mtd.yaml
+@@ -48,8 +48,8 @@ patternProperties:
+     type: object
+ 
+     allOf:
+-      - $ref: ../nvmem/nvmem.yaml#
+-      - $ref: ../nvmem/nvmem-deprecated-cells.yaml#
++      - $ref: /schemas/nvmem/nvmem.yaml#
++      - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml#
+ 
+     unevaluatedProperties: false
+ 
 -- 
-Dmitry
+2.43.0
+
 
