@@ -1,112 +1,110 @@
-Return-Path: <linux-input+bounces-3461-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3462-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD418BC31D
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 20:52:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FEE8BC404
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 23:48:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED7F51F213DE
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 18:51:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D82631C209B7
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 21:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BF5B6BFB1;
-	Sun,  5 May 2024 18:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E90136E03;
+	Sun,  5 May 2024 21:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="QuRRHMOs"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="zKwFO1Hc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C8250297;
-	Sun,  5 May 2024 18:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F67823D0;
+	Sun,  5 May 2024 21:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714935114; cv=none; b=rdqXDtf4hFQo0AtkpiY392TAeVp7cdpYza1qHeSrszDTi9bnNN5JidXqV0P3y1swpoaFfp8tfjrYYalHNP83anqe9U/tnl04t6RvvNkfDPzJ+gSeK+xV2PzcEhBgUm5bzw9Qrgn2Sj2luTCoZEIHGEKaeEltLrPhby0QzYbVjp8=
+	t=1714945728; cv=none; b=uPfi2ArUOmuRiANWkj1hM3sWRKuUmhShnf7s9vWoTU9pm4F5UA8ib8SdbcnXtgi9prMpTC+lOQ8GXCcPpzDGgBrAm7APGAKUB5QHcTceELhRpLcVLdbVoPSz0ce4X1hVwl0ksvYfrnUrT3VCZ5GWyS+/wxFW9+ZDEkxihsSfSSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714935114; c=relaxed/simple;
-	bh=XV/wisvfDecsJK1pH+e3lMIkinGg4Z0g8h7jG8NBLfw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=Gq/E6lAwynOWbhJoQk816M7ddHngg2ZwAhbDYLvErklIEWR3RfIoNctHkqwW0l+AMW/ksGsO6YZXw/hczvKA1h41J2PduZHbe16E8soLosUgiCxYftbm622mORUl3sGDCCDZFQpNoJvtL6QsraxkETPImHNdOc4plb66eNqM/J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=QuRRHMOs; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1714935092; x=1716235092;
-	bh=YGxFQsbI+PnN98hU4cHyHP9LF765mb9ESjBSIrA+jBA=; h=From;
-	b=QuRRHMOskR69TFkqDXQ4lTIkl4bpFt1ARaYeCqJVTbIpnQeECM3zCn43TSNXlRMLY
-	 kdlrgioDh5gkt0j1ivNgNnwAlEPgIEjs8XEvsvBDbnKLI68na8xS+cSJy/VD04I6y6
-	 DnZ6gGV/zJSssINrELqjKRfR4JiWBXbUsgFG/RCJn6wF4fi2kFGaxIdupOsDdkWSJ4
-	 2ozcoGtgFqE7aeTtxs/ekOrMltieep3yFvFZVQ1e4MPEwRFm1VikvNRNHK7nRsHIvO
-	 vxzBEGmSeNL7GlHVh/mJq7acer4rusmQLnql2lswKBXyvlYK/4q9jBEvdzkr3JmRiK
-	 IyTyYsJtL5oPQ==
-Received: from localhost (koleje-wifi-0024.koleje.cuni.cz [78.128.191.24])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 445IpVNr027317
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Sun, 5 May 2024 20:51:32 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
+	s=arc-20240116; t=1714945728; c=relaxed/simple;
+	bh=ftSZBxPvk1GpwtZ2kcuLB/2CMjzvp6SUeCt6guu3Do0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=rjJDrKpWBL3Rv8EywGFbe9Hr9tv69ZwanAVq/7KN12bwjYbKFDs8ijpXmEDJg+cabusVmG8kWMij8WS0iF9bTXJJjo/FTJBif7IYuUDPrrcZl+woEq5iYLwsTrmKR6tyDWEMvIqAEtxQmCMnNwXuyPxzAep3yiF4KOA3po0oF8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=zKwFO1Hc; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s3jiq-005kk4-2I;
+	Sun, 05 May 2024 23:48:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=4A0Qn+DwuT308WfmIsaQKubV/VKtoQ5VwJ8k4+59Dso=; b=zKwFO1HcDZMFspYaCfvnZoWTBa
+	6ijuQJNOzDncobQ8FyiSEos1sVOewO8NHxh5+bj3EaMZEKjujrNfgh7je1K8jnNKo8FBIOWzbfWiO
+	iYBBYVvMHRwqfaXXdq5iPcdgccoR2A/50fkqIUH1AheRli1PWJ9mpP8Gt3VKCi6OL7YA5FPdWiGN6
+	/yf2eYNn2B1NL3CvwDg4I3opZnvG6aVRwM8trGxsPTA4TBHy3wbF3x059tBfN4ZUmPsOSPwkX52KM
+	KnqYHR9Ap88LEgFYQvrAvsP6JUzV1rwD+qypVwzd3LoOmde7Lh8iG2FxLWV7qh9d9uqk0hWPuwTXO
+	bqix/DGg==;
+Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s3jim-000cc7-0s;
+	Sun, 05 May 2024 23:48:37 +0200
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1s3jim-003jyR-2e;
+	Sun, 05 May 2024 23:48:36 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andreas@kemnade.info,
+	u.kleine-koenig@pengutronix.de,
+	hdegoede@redhat.com,
+	andy.shevchenko@gmail.com,
+	siebren.vroegindeweij@hotmail.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] Input: Add ektf2232 support
+Date: Sun,  5 May 2024 23:47:51 +0200
+Message-Id: <20240505214754.891700-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 05 May 2024 20:52:06 +0200
-Message-Id: <D11XRKUAK8EM.20N91SDPCH584@matfyz.cz>
-Cc: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
-        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
-        "Conor Dooley"
- <conor+dt@kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Liam
- Girdwood" <lgirdwood@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [PATCH v6 3/5] regulator: add regulators driver for Marvell
- 88PM886 PMIC
-To: "Mark Brown" <broonie@kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-References: <20240504194632.2456-1-balejk@matfyz.cz>
- <20240504194632.2456-4-balejk@matfyz.cz>
- <ZjeidfoIbjvejphU@finisterre.sirena.org.uk>
-In-Reply-To: <ZjeidfoIbjvejphU@finisterre.sirena.org.uk>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Mark Brown, 2024-05-06T00:15:01+09:00:
-> On Sat, May 04, 2024 at 09:37:06PM +0200, Karel Balej wrote:
->
-> > +static const struct regulator_ops pm886_ldo_ops =3D {
-> > +	.list_voltage =3D regulator_list_voltage_table,
-> > +	.map_voltage =3D regulator_map_voltage_iterate,
-> > +	.set_voltage_sel =3D regulator_set_voltage_sel_regmap,
-> > +	.get_voltage_sel =3D regulator_get_voltage_sel_regmap,
-> > +	.enable =3D regulator_enable_regmap,
-> > +	.disable =3D regulator_disable_regmap,
-> > +	.is_enabled =3D regulator_is_enabled_regmap,
-> > +	.get_current_limit =3D pm886_regulator_get_ilim,
->
-> Do these regulators actually enforce this limit or is this just a spec
-> limit beyond which regulation may fail?  If it's just a spec limit I'd
-> not expect this operation to be provided, it's more for a hard limit
-> where the regulator will detect and act on issues.  I don't see an error
-> interrupt or anything and this would be an unusual feature for a LDO.
+Add support for the EKTF2232 to the ektf2127 driver which
+contains support for similar chips.
 
-I'm afraid I don't have the answer -- my only reference is the vendor
-version of the driver and I don't see anything there based on which I
-would be able to tell.
+Add the needed compatible to bindings and convert them.
 
-But based on what you write, my guess would be that it's just a spec limit.
+Changes in v2:
+- separate patch for adding compatible
+- use match data for selecting status shift
 
-Should I then drop this op and the max_uA values from all the
-regulators?
+Andreas Kemnade (3):
+  dt-bindings: touchscreen: convert elan,ektf2127 to json-schema
+  dt-bindings: touchscreen: elan,ektf2127: Add EKTF2232
+  Input: ektf2127 - add ektf2232 support
 
-Thank you,
-K. B.
+ .../bindings/input/touchscreen/ektf2127.txt   | 25 --------
+ .../input/touchscreen/elan,ektf2127.yaml      | 58 +++++++++++++++++++
+ drivers/input/touchscreen/ektf2127.c          | 41 +++++++++++--
+ 3 files changed, 93 insertions(+), 31 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
+
+-- 
+2.39.2
+
 
