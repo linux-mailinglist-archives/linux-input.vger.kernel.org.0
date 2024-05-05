@@ -1,111 +1,79 @@
-Return-Path: <linux-input+bounces-3458-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3459-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DD28BC1A0
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 17:15:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0648BC2B5
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 19:12:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23AFF1F213D3
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 15:15:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20F601F211FE
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 17:12:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8BB336AE0;
-	Sun,  5 May 2024 15:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09F2374D3;
+	Sun,  5 May 2024 17:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/ELJ4Lr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ed24CtLB"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760B91CD38;
-	Sun,  5 May 2024 15:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BF62C1A3;
+	Sun,  5 May 2024 17:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714922105; cv=none; b=MdllWUOuVBq+U0j4qkQjkUZwJzAbsFzpXPZzWOoOYWog8n2KXHNUEJTPxChsEAv10XAUv0M2ghdGsqqWswjlbDVeA1xbG2bJx8X9tHqM7D3YJXWEL5z7Qpy699N4HDWnOXTp1ZUXTGGOdyaKBODe7gJkPIij+ZGkoNx8JrU9nPs=
+	t=1714929174; cv=none; b=YQwAMmmZkOy2hIFB/HzTPsXt7l6JRx+F6ZrIjV0GEZBBZMaz+amc0fsp1mVHh7REttgh1ODHUsbWJRkNvzvPr2AYyOxSqTkDieIqISCtYs16nIqhqKDYo95VqSdgOd0XiU+dQhsgCP/bkFNuWr6XZ+o4QKzcx8zMQr45HC6KZnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714922105; c=relaxed/simple;
-	bh=3Y6Ya7aQNSsFwpYMxH3lYUB7Xh+C9ZSem7RoTyTrDho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=msz0VijYbOxRY2uLRyu0UkhT55+d6/LxcL51DqB018SjKGB8TTuuxnC7GbDiUst8LwlgmStavtCQOEOwGrkX+5+KnXjeV0OQw5AEy1uBU/KEexaNDjwdFrcOoASaVTz0ote1+KtzLfrmzRF67wggGTf4sIbwtzSirUpU22TZebo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/ELJ4Lr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A44C113CC;
-	Sun,  5 May 2024 15:15:04 +0000 (UTC)
+	s=arc-20240116; t=1714929174; c=relaxed/simple;
+	bh=Q4cBm3A3Bh0oIjbxy0Mzt5mzryLQTcwmq9wZ6cdTsCo=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SjkZTsfg2kwWqnw/yN2lvGPXkHWALQtggt1bg+U74zUkKjnnnOMcSXilBopFPP1AonjYVeb17NWsuT8m59YfHOWRI0fnLCKh8ZC1kHVxOVyMu3jJuOXDdwvSTeUAHcTsl+L4psG0rtQPeYmcImjVsoWbRxh3QoN5AJD4EL+12/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ed24CtLB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 69B95C113CC;
+	Sun,  5 May 2024 17:12:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714922104;
-	bh=3Y6Ya7aQNSsFwpYMxH3lYUB7Xh+C9ZSem7RoTyTrDho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k/ELJ4LrM9ORUxUqlCfMupo9YSZBMJECkHdD9BMAJ61a8YQLlQovmZ9IG0suZpLdK
-	 seN/esI+XuR80NrjWv46kFX+1WF5S6x1wHdvh6KWH2FwUn2p6lZc4GLKh72hQgv6yd
-	 qYLulpsOSazFXaMtz7IphDmMB2iJ8zjbIMDHkZuKERPKqYjTYR4eNInve65ppqjuiz
-	 g1FOnhJnfyCXdszGCw3/jKoYtDLyQIT9SpsVrBZR4TOl9DEZcBCOanqnLFVhCcHGPD
-	 X5/BmO1i68hD6mi6Jn6RpxHmt6q4Ox5iRkQInwl0uRJnxQ0I984o/54Qpqe+K3GM+/
-	 a3/ug+jEOxpKw==
-Date: Mon, 6 May 2024 00:15:01 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Karel Balej <balejk@matfyz.cz>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v6 3/5] regulator: add regulators driver for Marvell
- 88PM886 PMIC
-Message-ID: <ZjeidfoIbjvejphU@finisterre.sirena.org.uk>
-References: <20240504194632.2456-1-balejk@matfyz.cz>
- <20240504194632.2456-4-balejk@matfyz.cz>
+	s=k20201202; t=1714929174;
+	bh=Q4cBm3A3Bh0oIjbxy0Mzt5mzryLQTcwmq9wZ6cdTsCo=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=ed24CtLBTpBWmdFVymWp3rBDi3c7fyuENTs92iBc0D4Dr8dV4mRxj7GqIv3EXVSNK
+	 yVNNZaREyl6xa40ydhexBF9GLWudRcvJigVX0LKQtshShvtUcQkQqdxNBCSkRsikwf
+	 hsPolsyKyxXgnOjdTwcyNsv39zB7E+M0Q9tDd3PNl7J4osRGALnS1XiHkLtwU34ffm
+	 lDpZ91FMxviHH4MQRU0QQhi+9Xc4j7KYiFv2eH/0VlG0+9ZR4mUiDkn8ZlyKWQMQaZ
+	 1CnqCQ261MLgpI7bCQQdTMu5KkmcIW38QRCAnq30vy2NbRL/n0Q2ipdCSRCZrqiLP1
+	 9voMRTaIQKqmw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 60961C433A2;
+	Sun,  5 May 2024 17:12:54 +0000 (UTC)
+Subject: Re: [git pull] Input updates for v6.9-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Zjb8RrOFLHFSk_Gv@google.com>
+References: <Zjb8RrOFLHFSk_Gv@google.com>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Zjb8RrOFLHFSk_Gv@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.9-rc6
+X-PR-Tracked-Commit-Id: 0537c8eef4f699aacdeb67c6181c66cccd63c7f5
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3f1d0865002795eb45c49e30a4fbc40f7956b6ae
+Message-Id: <171492917438.31500.11069855725465360882.pr-tracker-bot@kernel.org>
+Date: Sun, 05 May 2024 17:12:54 +0000
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uRnS6SowswNDaOxE"
-Content-Disposition: inline
-In-Reply-To: <20240504194632.2456-4-balejk@matfyz.cz>
-X-Cookie: lisp, v.:
 
+The pull request you sent on Sat, 4 May 2024 20:25:58 -0700:
 
---uRnS6SowswNDaOxE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.9-rc6
 
-On Sat, May 04, 2024 at 09:37:06PM +0200, Karel Balej wrote:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3f1d0865002795eb45c49e30a4fbc40f7956b6ae
 
-> +static const struct regulator_ops pm886_ldo_ops = {
-> +	.list_voltage = regulator_list_voltage_table,
-> +	.map_voltage = regulator_map_voltage_iterate,
-> +	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-> +	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-> +	.enable = regulator_enable_regmap,
-> +	.disable = regulator_disable_regmap,
-> +	.is_enabled = regulator_is_enabled_regmap,
-> +	.get_current_limit = pm886_regulator_get_ilim,
+Thank you!
 
-Do these regulators actually enforce this limit or is this just a spec
-limit beyond which regulation may fail?  If it's just a spec limit I'd
-not expect this operation to be provided, it's more for a hard limit
-where the regulator will detect and act on issues.  I don't see an error
-interrupt or anything and this would be an unusual feature for a LDO.
-
---uRnS6SowswNDaOxE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY3onUACgkQJNaLcl1U
-h9BvkQf/TjTKRxV/vksAq6WKXBKwSrc1pWsXIi51Exrv1IpdrCb58IvaAuFOykV8
-NZABo6A/hS4k1XF7IppT4XInmZj31Og0LnSXgF0VMe3NsM+plc1Wd50KogVI6zQw
-S4cyXayPYmuG1tr1MB2saXTsvKhmCLRsr3zfqcLrti77mX+qdr2Z35VC5zepXZdg
-+Dmbu8mYqbX6uW1vOn8DS9msb1FXeVAQKiQUoFd1cMe7/3EpzgOGZKE+FdIzBy2D
-Og0MXH689pniCS0lkbzTnnpq+q1GQqeIwgmqRXprHnnJKhbB6bOoRaK8+NAginEv
-8MMfIZqNOxcXrhh08DXhuUEc5mGgbg==
-=R4Zq
------END PGP SIGNATURE-----
-
---uRnS6SowswNDaOxE--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
