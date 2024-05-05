@@ -1,196 +1,211 @@
-Return-Path: <linux-input+bounces-3464-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3466-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061FB8BC409
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 23:49:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1CF8BC416
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 23:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 297A6B21535
-	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 21:49:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DCBC2811B2
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 21:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B9D136E2A;
-	Sun,  5 May 2024 21:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C128136E1D;
+	Sun,  5 May 2024 21:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="13Kc15T3"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SlD/5RPP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC13136982;
-	Sun,  5 May 2024 21:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714945728; cv=none; b=ofY7tWflgNQJOdAjegWiImJ1zRGtm5BZgmS8w43izKzqhypGuh9s5z+qA6TNzDxbFX4Wrm40zXRFB2Axu3NhfgLje1WjvCf00k4hVtCgW29qPoj8oDNG2wJIytkwrEAJoAukoFFKMLkEdL6PNQCN60EKZ5uCyKb7It9FXWNK1PI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714945728; c=relaxed/simple;
-	bh=G9h5ZxiGzASTMIdvxH0uhwND+SlOLksrdHwTgbps1FY=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=l97wl22v/XE9ZC0FQyO+DOTp9qQwWGbBvMUvc8mtGiARvBTCOmxL5Axj7DReMNDBLnleiMCScC/BBqCmaMOs7C4sUljo3a7vI6ssbcDIynTmRZENFDUb3VEUtCEQS8uzunOIxNfbzNOb80HXS1t9vs/MqGxjok4MTxn2u1hdyq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=13Kc15T3; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s3jir-005kkC-1E;
-	Sun, 05 May 2024 23:48:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wSAWZ7fK7sRoCuFqtN+GxwBPXM4pBzVJE8SYe+i46ys=; b=13Kc15T3+e95IK6a5RC0No20D0
-	MYHvfoJD2yjr2eYyZWjcbhZK1Mp9AS+8R349Y0G2jtJkH499kvBn/h8OQDuFjRc5kvPQQht4ONgEO
-	J1vvPLdm88yRhZdXwKAIFT59pELH/J/1FHhkMg1a5GwMF9b+crSK1eevUc2mCWvNqLEbaHwdMBaJ6
-	c7P9mb4qm4W3MWbPzLyNYsJZ3bnXFYiPseKD02k3nsRunXlj2TDffNkuHzf1uymhXdx1w26xlFMi7
-	/LCANFzKUV6pJtUGEq0xkuymYc84kN3dVaSARGTLo5cRT8gj2yx3QGRXYS9X09RQePbFdQTIxC+bk
-	0er998wQ==;
-Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s3jin-000ccD-2F;
-	Sun, 05 May 2024 23:48:38 +0200
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s3jio-003jyg-2I;
-	Sun, 05 May 2024 23:48:38 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	andreas@kemnade.info,
-	u.kleine-koenig@pengutronix.de,
-	hdegoede@redhat.com,
-	andy.shevchenko@gmail.com,
-	siebren.vroegindeweij@hotmail.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C8C2D60A;
+	Sun,  5 May 2024 21:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714946213; cv=fail; b=urqMb/o49ZQ6Eau4xB9Pmg91E7zMBJX/8iTTApZYQxLzrmM7RdzeQMKEqQCQk4CKd6fahydC6FrlnV7/a9adCpysRLH5EwKDaDSnN4SLEs75KhhMGaNVejuVxXxoSCtMobfpfKsl5AbxJdHdnQ2QDrneG6b+IAHCAlTFrfGn2TU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714946213; c=relaxed/simple;
+	bh=fBIm/dbmd9D9h6PDhu33+Fxf8X3zUDO50GVaoK2NJXw=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=WjTG9OxaNUFtz4IZ4Vt8HeYGeQZz54UWNr01idCrWnBkCMfpvdnhsBiuADNjaC24IabN91I66P5x6eBepah04mG/v+cBmyMAeC3dcdYnchQFby1O+5jDdLs6thrl49mHiisReJY4dhvJb3rg52RSrczJHZQVmM464V5a3ko4X4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SlD/5RPP; arc=fail smtp.client-ip=40.107.220.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VSmvIyS5He7YAPerOu+COP/5cDLWx/RTwsBCFDwucFH4VQ8OaNH/lUHf8IYxdOZFsxV3wu9Y/0VTd7mMY+cLmxsUrtx2s24h9pyq97oZ026Az4tmjS2PuT5952uIWeOHgpxZm9ctiCZ5dmknH0QzoCeouI9uz48dxKiPhgU/vugzuhmNMtJhtihxPX2AmvAaixM6qlzu5FKwbxmRSdJRtaMjb1Y+Vjr4wnTaiMq+fe5+aFWrvp7wGkTA2qD4Igo/cp8sjpXvSFvT1zC0Mt5zt0+0ESEe4Th61Qb1FTMVc0P+SggHA97i+4ZwZSvjhxIfXEQgjUyCq9r9c3B10Qd0SA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JUJ3ruv+gFeVCXUTDukxioEW4ZF3Y2kRJJo7siZyFUw=;
+ b=a6YcC/SY9Htt7Ee+pfJq9BtUknPG/ULSCLVs6ZGg3ab07yGrlA5iTqsKEBpmYp7x41oOv6U45lNA1uyf1ZQLyzCUbt6TcZhwKaR6bZmYFrTfcUJwdSyOud6ve31hxYQGWS/qb44uq0TfRlHdWl7Qh4Ue6tsA/sByu/+YTP4UfYXuvW8qWhQsq6Mr34PT390auaArsx3Fod59I13BMT1vm0lgccwLrwDP4Y22gYUIOdHXJaBzyeAOul9TO2QH1KK/TnH/YLXfHprVL0R2NwLRq+QGzGzG89Lkhv2MMWgAPbb3K8lDKL7Vi1s13rxnxnEOUtHGyLS3uORwP7deOdjlQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JUJ3ruv+gFeVCXUTDukxioEW4ZF3Y2kRJJo7siZyFUw=;
+ b=SlD/5RPPo/HjmNZOjKo0ROTeW+al3NBACOu79CRcuP2QPqWamfd2Kigw0p+WomcXMWaYvoPSOksRDKmxcZ7U0rQqwyo16YDRtpQ79Dc7SIRruVz9f5qlTgb62t4hnpiSMUR9lIK8lIqzQEo0tV63lr62wTp/41KrdJUJK82cRMmnU20zcPHqLvLsN2bs2qxQRtSEkjOlmkWI05ohn8d6alZbUcsQIrdKIr1fYOf4L2OcUc6DICxDrBnOi9ZY4I/paHM97Bys/50Q2VLKvyQ/xYl1nLQzgF2FshgUesIwSiMgilM4b/4ftA36a0FVvJEhyDDIaL14glcZ16NRU7XTxQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by MW4PR12MB7013.namprd12.prod.outlook.com (2603:10b6:303:218::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Sun, 5 May
+ 2024 21:56:48 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07%4]) with mapi id 15.20.7544.041; Sun, 5 May 2024
+ 21:56:48 +0000
+From: John Hubbard <jhubbard@nvidia.com>
+To: Shuah Khan <shuah@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Peter Hutterer <peter.hutterer@who-t.net>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Joshua Dickens <joshua@joshua-dickens.com>,
+	Quentin Monnet <qmo@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	bpf@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] Input: ektf2127 - add ektf2232 support
-Date: Sun,  5 May 2024 23:47:54 +0200
-Message-Id: <20240505214754.891700-4-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240505214754.891700-1-andreas@kemnade.info>
-References: <20240505214754.891700-1-andreas@kemnade.info>
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kselftest@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	llvm@lists.linux.dev,
+	John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH] bpftool, selftests/hid/bpf: fix 29 clang warnings
+Date: Sun,  5 May 2024 14:56:36 -0700
+Message-ID: <20240505215636.63592-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.45.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0289.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::24) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|MW4PR12MB7013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a03d6b2-bf5a-4d0c-4519-08dc6d4e42fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?AuPhHoFdhk/ki3CRNRAnZR2SfQogrW7Bv02RrSPdW/xx2gWwLCSgNp7/9P/e?=
+ =?us-ascii?Q?w7xnox6lBseAB2kvhf0ZKhIn+cVuqZK3tEARYd7DBV8wvsIAMm2P7f16eht7?=
+ =?us-ascii?Q?wkcoucLNy2+fGZdUM0jtnGyGlR6oSg40JlvHkchpPf694nfcaI/Tn/AgB8Fq?=
+ =?us-ascii?Q?GWV3BSLBEaffXlSRRc3AAZUptCURodp9NGP7Bjq6trPS+pUS+hNy07UGR+8N?=
+ =?us-ascii?Q?SDc38yiZoF8xl+jG9VahzBv4zyUKKMFGW2IcuohrBb7gPPQQ5JrYnvU0lkfn?=
+ =?us-ascii?Q?kMUXtyMeNo3l6teDplKGfsILvVQ9P+yrIAcHtfIEJKC5mUoT4+Z9XsLENfG3?=
+ =?us-ascii?Q?zYsjn5FyuhVugPMfZCAz2jI/hvujrd4/c62oQ/RDmmhhwCio1IX3lLBZcREV?=
+ =?us-ascii?Q?Etp4ENQKty+KqSAtLxbQAK+7V3s3c5lvadhirOs4mbOzAY1wN0L/QmblYBhA?=
+ =?us-ascii?Q?mTAlIuPZRQMzI71X4kzdJx+5N6DooFTlfeoARS6+0oQpXvwBYBfxaugJiETT?=
+ =?us-ascii?Q?B32ULFuMG9b0lG9g+X2th0+Djm9uxyqfUwcC2wliiBo6TtQrGWTW1jrpZ7M2?=
+ =?us-ascii?Q?ds0WeuIxd9LSo5hcIEt3xCsd4QDWXQG8MsaHFePLxPzob3MR5s7Jk5fotapJ?=
+ =?us-ascii?Q?ptL4U2jSYvhcKiXgemS28vkOa364jMjyA81wQSBu4KEpd/0lzsBRz0ImeKuH?=
+ =?us-ascii?Q?61OFm590T5V1wdiGPgg8BC99PRKSVUVpsQfbnzONo1RUBMtkpWJJSkYYenCa?=
+ =?us-ascii?Q?j6P4YWw1Lqqv5XOMv8K66IJBV7LjTQwQQl6yJoxuUdj7ZvHWiz+fZW46ctel?=
+ =?us-ascii?Q?rnaWPKZUux0uPrgwuUn3jTIYMr3B4OWMgJDa9Lao0eJJGEdtz/fiG70zpIc9?=
+ =?us-ascii?Q?+bCruwhg6+BhlibGmthIVq5HbZKbKNILpKcwpWwclwZ9Z2Arwhbz0R4ECYFb?=
+ =?us-ascii?Q?IsB/dde7oomEN392IPW5/dtANTQ2/S3TtPEEo4++h+bLMlKSul9bDSZn10eT?=
+ =?us-ascii?Q?95iDMm/+jKNTXUhHacdO6WvvIxvz4/KQ6hrk0AfWqyc3fuHNyKsWsy+L/y9A?=
+ =?us-ascii?Q?a/WbqZDW1ahUZBmahRcn7vXpFFRE1CLDaZZwLo1jHIimL2cj+CjIb+eaytUh?=
+ =?us-ascii?Q?B+NoO5kr/mk24WXN/IqPgzuhrR+BFXOMNJZO5LFJcs/ymxjAk4yLnXrOIS/p?=
+ =?us-ascii?Q?gHmHgtYiHRCkOd247+C58xFlli4iuQzbde54TarTL7SMzKkCU/QBIzgfpqkx?=
+ =?us-ascii?Q?deAXcMWN1kYypQ8QiEaY4iqCIyThRmH1qyjHEN5MQw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+BvI927ZtibyJrrnwUmC+jubUmjksn9AmVBr3dXMDiLjWjwdm0arZh3ArQQG?=
+ =?us-ascii?Q?m21/nN+3FJPTu6W73ZYrrCPXwzRcdAyjN2psLJLE1VmG/YT/mrRYb8UlUo37?=
+ =?us-ascii?Q?vq7LfjaLFEZdvQe8csP11AlG/sxb/F3WFcwqDkAfPYoGnE8+kC600obxqhi3?=
+ =?us-ascii?Q?BYMShrozLIWzjv8Si92n84UtEyRj59Yydh5qDeeSZUo55BnfYhOvkMT6HLeN?=
+ =?us-ascii?Q?XuVfbJqdLkRmiUqyWuJnd1bO1oaCQ74+rt+IvmkrsBiX4dE+8qFlSghPXYvR?=
+ =?us-ascii?Q?ZYLODHW3duAIkCXmcO1Uj6gVzvZUy/AeWpF0U2CD+fAEXYP20IybSOb8jcCe?=
+ =?us-ascii?Q?Dlgya2Dr5BTjKYSU5Hutj3Xa0WsE2rXnlC/K7FzUJ/meaASZjPR9NUTGzBAv?=
+ =?us-ascii?Q?xJJaAb2j7fBUxx1tN/MshsnAokgO+ZcuoJqvvNTU14xIBFDpKisKnEpMiZ9k?=
+ =?us-ascii?Q?lclPTajDdsvz4DXvvCOJJXozsVMFUv/VGEcmJ5tG+F0WMVGoqXDA7dFm+m02?=
+ =?us-ascii?Q?/S1PlfjetZwGd06UJcf/OcLtbEQZPoeHUM2kQTUlUzrpNgNS3Em3xnXs3TUT?=
+ =?us-ascii?Q?FQHVnNAsPz5dON4/0GBJqfWCaUNG/Py2YntrfQBHaIgCgxpYNKSmJzuBZmAY?=
+ =?us-ascii?Q?75jZkNm0bUM/RsUDoJWiA4CYro6JL0AVWXPFYLqlrZJb/dEJCSkEnR2HxwAH?=
+ =?us-ascii?Q?5JhWfU1S/Nx/oD81d+8a/Vm7gkiJyhna9j4phXnc/TPwzG2EUQrsrQBUk0PZ?=
+ =?us-ascii?Q?GCmxYyKJXBxQupGWCwU3BNHssAT+yAFosG3MX8UR6MnME5dCWZCthY19iFEs?=
+ =?us-ascii?Q?O4MKxywEDQY+ysAT2zRbYlRVEDq7ijhNeBq0ePXENaKr8lRk5OAkwSLo6h7+?=
+ =?us-ascii?Q?CmJmvX6hnZZtNgQ8kpwYq80TDDCXMzuGHwIX5Qf6FXr+rcTkfSNDbUkweWIU?=
+ =?us-ascii?Q?AP2D7uT34/diQ0th0pFCfoVeUwET8dkk/wlCKMRBPyww3oc2Bg03ZWQp6+dM?=
+ =?us-ascii?Q?CWb7Xi8Q1ypG8X/dA6eKUqTpqhsnt6fmFvsKT4mCUdyJkE9VWLvmy4vz585J?=
+ =?us-ascii?Q?VvyW9ZRRmr34zPQvyMQAyOoPdJUYhKquhzuQrykX/s3piGs+iqpZaOXifBP2?=
+ =?us-ascii?Q?hun1qh+WuivxNQQ17qIU0vnHxNTaMIYDpVU3IATv5gXJodIRKBYCFkA/so7R?=
+ =?us-ascii?Q?DrXbuLWdU1Y8A5YicIDoLtujEzOq1ax9/0LR81LQ7GFiGxhFQt9trLhFV8Tl?=
+ =?us-ascii?Q?eTF1A0kCnl9fWYSI6AzrnCgQI0fqQttqKAIrFR709WE2Npbl0thcXJGIEI+1?=
+ =?us-ascii?Q?1y/sZgBXITr9HHDT4e1DuMpYh7UXUsbuItU1kTluX3tvz7AaNrbhVVZXA4DQ?=
+ =?us-ascii?Q?6IjzWMgJcC4CUBpjMEazqZ230z1fHNiOnnHXGjCJHHNyhnfRtXXxd9RJYdJk?=
+ =?us-ascii?Q?FfnZhhHIl3N+jTkpTStno1ZnsRjEt+lTx2iOZCpcAnTHXZc4FQBx6/NIDIy/?=
+ =?us-ascii?Q?FmM1OOzmBN7ZPDmN5oK5H7lhkgdd6lMQMLvaWhVLseGbbh78HfXGOO++ap4C?=
+ =?us-ascii?Q?0wjub0+PhCchaAbwb9HwIGyVCoBm93cV8bYxNRoD7shFUDdDoVKbfUTMQeWm?=
+ =?us-ascii?Q?AA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a03d6b2-bf5a-4d0c-4519-08dc6d4e42fc
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2024 21:56:47.9724
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: go32feFVmAO679TObEYITs+g1oVh2JUs+aCNlZMPsJ6KwpQcQnT4lOYM1jjhMjKKIiZ/j00t7gq92psbDTpx0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7013
 
-The chip is similar, but has status bits at different positions,
-so use the correct bits.
+When building either tools/bpf/bpftool, or tools/testing/selftests/hid,
+(the same Makefile is used for these), clang generates many instances of
+a warning that is useless here:
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+    "clang: warning: -lLLVM-17: 'linker' input unused"
+
+Silence this in both locations, by disabling that warning when building
+with clang.
+
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- drivers/input/touchscreen/ektf2127.c | 41 ++++++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 6 deletions(-)
+ tools/bpf/bpftool/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/input/touchscreen/ektf2127.c b/drivers/input/touchscreen/ektf2127.c
-index cc3103b9cbfba..028b605d1bb74 100644
---- a/drivers/input/touchscreen/ektf2127.c
-+++ b/drivers/input/touchscreen/ektf2127.c
-@@ -13,6 +13,7 @@
-  * Hans de Goede <hdegoede@redhat.com>
-  */
+diff --git a/tools/bpf/bpftool/Makefile b/tools/bpf/bpftool/Makefile
+index e9154ace80ff..c7457921d136 100644
+--- a/tools/bpf/bpftool/Makefile
++++ b/tools/bpf/bpftool/Makefile
+@@ -133,6 +133,10 @@ CFLAGS += -DUSE_LIBCAP
+ LIBS += -lcap
+ endif
  
-+#include <linux/bits.h>
- #include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/i2c.h>
-@@ -46,6 +47,11 @@ struct ektf2127_ts {
- 	struct input_dev *input;
- 	struct gpio_desc *power_gpios;
- 	struct touchscreen_properties prop;
-+	int status_shift;
-+};
++ifneq ($(LLVM),)
++    CFLAGS += -Wno-unused-command-line-argument
++endif
 +
-+struct ektf2127_i2c_chip_data {
-+	int status_shift;
- };
+ include $(wildcard $(OUTPUT)*.d)
  
- static void ektf2127_parse_coordinates(const u8 *buf, unsigned int touch_count,
-@@ -112,8 +118,8 @@ static void ektf2127_report2_contact(struct ektf2127_ts *ts, int slot,
- 
- static void ektf2127_report2_event(struct ektf2127_ts *ts, const u8 *buf)
- {
--	ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
--	ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
-+	ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & BIT(ts->status_shift)));
-+	ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & BIT(ts->status_shift + 1)));
- 
- 	input_mt_sync_frame(ts->input);
- 	input_sync(ts->input);
-@@ -246,7 +252,9 @@ static int ektf2127_query_dimension(struct i2c_client *client, bool width)
- 
- static int ektf2127_probe(struct i2c_client *client)
- {
-+	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	struct device *dev = &client->dev;
-+	const struct ektf2127_i2c_chip_data *chip_data;
- 	struct ektf2127_ts *ts;
- 	struct input_dev *input;
- 	u8 buf[4];
-@@ -303,6 +311,17 @@ static int ektf2127_probe(struct i2c_client *client)
- 		return error;
- 
- 	ts->input = input;
-+
-+	chip_data = device_get_match_data(&client->dev);
-+	if (!chip_data)
-+		chip_data = (const struct ektf2127_i2c_chip_data *)id->driver_data;
-+	if (!chip_data) {
-+		dev_err(&client->dev, "missing chip data\n");
-+		return -EINVAL;
-+	}
-+
-+	ts->status_shift = chip_data->status_shift;
-+
- 	input_set_drvdata(input, ts);
- 
- 	error = devm_request_threaded_irq(dev, client->irq,
-@@ -325,18 +344,28 @@ static int ektf2127_probe(struct i2c_client *client)
- 	return 0;
- }
- 
-+static const struct ektf2127_i2c_chip_data ektf2127_data = {
-+	.status_shift = 1,
-+};
-+
-+static const struct ektf2127_i2c_chip_data ektf2232_data = {
-+	.status_shift = 0,
-+};
-+
- #ifdef CONFIG_OF
- static const struct of_device_id ektf2127_of_match[] = {
--	{ .compatible = "elan,ektf2127" },
--	{ .compatible = "elan,ektf2132" },
-+	{ .compatible = "elan,ektf2127",	.data = &ektf2127_data},
-+	{ .compatible = "elan,ektf2132",	.data = &ektf2127_data},
-+	{ .compatible = "elan,ektf2232",	.data = &ektf2232_data},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, ektf2127_of_match);
- #endif
- 
- static const struct i2c_device_id ektf2127_i2c_id[] = {
--	{ "ektf2127", 0 },
--	{ "ektf2132", 0 },
-+	{ .name = "ektf2127", .driver_data = (long)&ektf2127_data },
-+	{ .name = "ektf2132", .driver_data = (long)&ektf2127_data },
-+	{ .name = "ektf2232", .driver_data = (long)&ektf2232_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, ektf2127_i2c_id);
+ all: $(OUTPUT)bpftool
+
+base-commit: f462ae0edd3703edd6f22fe41d336369c38b884b
+prerequisite-patch-id: b901ece2a5b78503e2fb5480f20e304d36a0ea27
 -- 
-2.39.2
+2.45.0
 
 
