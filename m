@@ -1,118 +1,120 @@
-Return-Path: <linux-input+bounces-3452-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3456-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585048BBDE2
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 21:47:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5348F8BBF1C
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 05:26:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 078B31F21A94
-	for <lists+linux-input@lfdr.de>; Sat,  4 May 2024 19:47:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80B5C1C20AEA
+	for <lists+linux-input@lfdr.de>; Sun,  5 May 2024 03:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FCF84D11;
-	Sat,  4 May 2024 19:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A34217CD;
+	Sun,  5 May 2024 03:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="fwga94vN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCMmv3MM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D043AC0C;
-	Sat,  4 May 2024 19:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2573F57CA1;
+	Sun,  5 May 2024 03:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714852058; cv=none; b=J6TyXCgLDtPKrLHjvkYKejic5w/M6TtkCKrtLgxKuwqqRyQPw9wLLmXg+T54EZRCR196NHCB5PSl3Kjqk3vdUYy0/MxyIRFcDjh6ZUSbk7gft+8Bbso9t70wDlqxe63jm2lS2vM+EwuSKoURw4yxv9g5ZPgYnMVFwYYt3178m8I=
+	t=1714879563; cv=none; b=dx8k2eWlv6xy8Lfz5i5aurxo53HASMUc4UpxjdMlmGx5Lrc/8wr3zsTrVmn8O7DJVnnDeNh5nkw1jUAcaZ5r20Ct1DytORhbsF8J/LO1pJzp46tuJA0eo28rVQ4vyl+M4Ke8bbVz7h0L32E+r2Nwrd2FnCt6pBwExet4ACSm5BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714852058; c=relaxed/simple;
-	bh=WP/DYNvSKotR2gm471Emcoi2L5GfCI3FrPAL+CpOoaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QhKy74iKzdWwjs4OkgsoNa6xbToG4pXliOXDhCJFmZ5wnSRHuo1wAqwSj4bDQElDZvG9iGBHaPUse+lqUihvtA1CXksUYtRfIpmrw7SuL5KQ3hmcOFILxmkIGRS6xI7oVjUxzH4tlwpmY7WyJhtsqsJYP6+2Up66A+IE7aSVEBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=fwga94vN; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1714852041; x=1716152041;
-	bh=7yfSd6sy5ZEav7FZcqSBsdjeGxYbxF+Zqi0qMbzYWl4=; h=From;
-	b=fwga94vN3MXCflEOEfT9X70mkC+bnzjLh2UMGyrLf8JZuuUf1N4XF5cyEtFb5uCen
-	 WE8emMc4FHuXeQgIyH5dYdqUkLvx8066pLBDzsPlZ02v7pLzpRPW/jfLaXYHXhS8AA
-	 QRq2RBfi10d13qFY3L0nQ7vpGOBH4AxqfWVkv6fkFkhYkzt4FE+ealQbdfLzkpUyYr
-	 mUI7hgOu/MztolaPs9u+j5mtKtn5kEo57B6oyQHIqOHm8QkbqwEuVLEL5N73f15eXg
-	 3F6VTNY1wKCeOiPP65KvkTVWTelDZ/7jUb23i20pPcb62E08HsmX0iAbADrhWdzvmG
-	 P7kVgg22Bv+Kw==
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 444JlKT1074216
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Sat, 4 May 2024 21:47:21 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
-From: Karel Balej <balejk@matfyz.cz>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        balejk@matfyz.cz
-Subject: [PATCH v6 5/5] MAINTAINERS: add myself for Marvell 88PM886 PMIC
-Date: Sat,  4 May 2024 21:37:08 +0200
-Message-ID: <20240504194632.2456-6-balejk@matfyz.cz>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240504194632.2456-1-balejk@matfyz.cz>
-References: <20240504194632.2456-1-balejk@matfyz.cz>
+	s=arc-20240116; t=1714879563; c=relaxed/simple;
+	bh=qwhxciGn2PipbrhsGf+RvM7M0cAKkc2iSkWTiSfsEcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k6mVRFQINYD7x71Gy9LGkSJgTkuuND7lGM8569KXayM7njLaV7pAKIiIhZ9RCdlppCjNqw31DzbcBNNdrX97RiQTLDsj44hdJFCoanBDGFlEECSwAYpHOacHLbN2ydj5zaqRxBLJ+P+IrauXEOPHihAQGwVaktvppKtYQNB0Qso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCMmv3MM; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c8317d1f25so580110b6e.3;
+        Sat, 04 May 2024 20:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714879561; x=1715484361; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GyJIwsc9SksZNB9Kcpl3KAmQCI0F7dWlRViskv6/xSA=;
+        b=cCMmv3MM6R/peX9wSOmEqdRjwPi2QuC+mj80yjtqfh3NNaOS+xZfuCwMUzWlGFy96D
+         b0N9LCXb26Dlkv7HBxN8H4Xw0qw2/B5TvCcgVNlbUPW8DcJluSrwdZ/1REQKGHVK/FNp
+         568+rX7W4k4CQCbFJdXx+qHL5gShv5/6m42QaxNmB6Kq8D0SwE7Hb6TxuXxbhtxA7gsS
+         ZK7xY3U1iAbD35Akvs5PzEgGfjzt0+dwff1ak3sES3N2zUYfvUrE3rN72yQJGrfEWXyK
+         1mijFKMA1yYYP38fZ9MwgOr4/1K+5CpZtiCEwhwAE28HQKNXkZKgI/kSNo9y6xjG3zj5
+         al2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714879561; x=1715484361;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GyJIwsc9SksZNB9Kcpl3KAmQCI0F7dWlRViskv6/xSA=;
+        b=L7yyOESfNZfh24smoDDjeQ0vewGyg+6vGlcEE+eP8nEeq/vTVgclvjQS8KmrR2KIIh
+         qP9/iKwiX94JToqzCRuTQIjrwCVP9qZXmIF20uMjdPcITr9cFC1huXhpPlSc9Y4DMHOh
+         GKWaIwNOshN2XR4/OP4766VQ9m/wpIQDjiry3PHjXAV6AJyjfo7Zcm3mzU7oJQGLuRXh
+         StDqiPxBORIbE+de20t1vy+fzL/bbNOCXjfopzMGICTVOMbfxQvJH3kWFrPPTVHLcaTR
+         6KPrkQB9Lv/ECJv0Aw/5aMQh+loxBeblfn0Hx2DNU6ZRjqHBwXOcaLABBWNtLipb56dq
+         Ackw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpRWujzqU0+dPTcuSA9DIC2DnlUKV2fXFzegJgnbkQ9h9Mp6syhWYh6jwOs/nEAmdsBZ6fpEy6lLvecfWcjND+Sg9VTn1ZJ/hBoa0=
+X-Gm-Message-State: AOJu0YwK3ZzYxZV89wCIvSLkG52MI2lbFkngEfUSvZU99B8rTPO5hKGP
+	ieKkWHoTH5skHUXbaNtdHRfeg0sLVvW7L33/iNdO776fZ8L8+hU57plilw==
+X-Google-Smtp-Source: AGHT+IFQ9MpIfoSbFw9ZetnVpORTn4QV6Vk0afKnm1IhVyVO2UEHSUQoh5yzxlzB7G3RF1u0TyplUA==
+X-Received: by 2002:a05:6808:1894:b0:3c9:65af:1935 with SMTP id bi20-20020a056808189400b003c965af1935mr2493289oib.29.1714879561165;
+        Sat, 04 May 2024 20:26:01 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:4d8a:a433:4df7:fed8])
+        by smtp.gmail.com with ESMTPSA id fd18-20020a056a002e9200b006f44d32fc4bsm3479328pfb.78.2024.05.04.20.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 20:26:00 -0700 (PDT)
+Date: Sat, 4 May 2024 20:25:58 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.9-rc6
+Message-ID: <Zjb8RrOFLHFSk_Gv@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Add an entry to MAINTAINERS for the Marvell 88PM886 PMIC MFD, onkey and
-regulator drivers.
+Hi Linus,
 
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
----
+Please pull from:
 
-Notes:
-    RFC v3:
-    - Remove onkey bindings file.
-    RFC v2:
-    - Only mention 88PM886 in the commit message.
-    - Add regulator driver.
-    - Rename the entry.
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.9-rc6
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+to receive updates for the input subsystem. You will get:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f6dc90559341..e1a0e02e098d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13044,6 +13044,15 @@ F:	drivers/net/dsa/mv88e6xxx/
- F:	include/linux/dsa/mv88e6xxx.h
- F:	include/linux/platform_data/mv88e6xxx.h
- 
-+MARVELL 88PM886 PMIC DRIVER
-+M:	Karel Balej <balejk@matfyz.cz>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
-+F:	drivers/input/misc/88pm886-onkey.c
-+F:	drivers/mfd/88pm886.c
-+F:	drivers/regulators/88pm886-regulator.c
-+F:	include/linux/mfd/88pm886.h
-+
- MARVELL ARMADA 3700 PHY DRIVERS
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- S:	Maintained
+- a new ID for ASUS ROG RAIKIRI controllers added to xpad driver
+
+- amimouse driver structure annotated with __refdata to prevent section
+  mismatch warnings.
+
+Changelog:
+---------
+
+Uwe Kleine-König (1):
+      Input: amimouse - mark driver struct with __refdata to prevent section mismatch
+
+Vicki Pfau (1):
+      Input: xpad - add support for ASUS ROG RAIKIRI
+
+Diffstat:
+--------
+
+ drivers/input/joystick/xpad.c  | 2 ++
+ drivers/input/mouse/amimouse.c | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+Thanks.
+
+
 -- 
-2.45.0
-
+Dmitry
 
