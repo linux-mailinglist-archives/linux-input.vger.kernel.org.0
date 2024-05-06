@@ -1,124 +1,172 @@
-Return-Path: <linux-input+bounces-3504-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3505-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5188BD4C5
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 20:44:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC548BD4DC
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 20:50:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E871D1F22B8F
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 18:44:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0520A281EA8
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 18:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE72158D96;
-	Mon,  6 May 2024 18:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92894158D74;
+	Mon,  6 May 2024 18:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVxgVWuz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ltK+Y5q1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012F44AECA;
-	Mon,  6 May 2024 18:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598838494;
+	Mon,  6 May 2024 18:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715021035; cv=none; b=KpeVduOhVEV/ERlZBsV5zQ6PO9T6Ag03h4KwWb9NqmfFVBx8F1AQqnxHG2i3FiBiolJ+WmaBL6d1n0ylf+aadWlZwMzrFzzx3DMPMSq9IQChghGE8AtY6RWf101P5HxZTOlqOzUvq/ZBAPGa4H0Gp9Iaux/JY5piEqMYqxmvuxo=
+	t=1715021432; cv=none; b=r8b8JvUqHeL0vBpbAn6uRJVCZbdtG2eI7wt00l+Ve4/rYPL9+IDO5FUS4mJm/b9xm6/wmyKnOHXWyDplTvdSIBJiI7ak7U55JJEL3psPXnpWYElVUhUVcdCgcBS5G0yuloJpovVL0oxzl5VLr08EtQ0tIFg0ZF1ZnLiIXYIlB4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715021035; c=relaxed/simple;
-	bh=SjAYMMCURaX0+dhX9RQn0cnTZU/j27gh7PWnFEk+ab8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EsEl+eJqKrKuXqwxdiJfSloDL65MwMojEFS4fvxTD0+f4BXisobvow4OJbxLYblogkAbkb6ssQeP3YNcwVaMchxallH4igPkNBLbSyNbVPC+bqzXcfdBuixEau7OdhA1ihRC30Ng0qr1mM6DeXbHRoqzjxgOrQN2tn6EHk8ZcYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVxgVWuz; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2dd6a7ae2dcso38851941fa.1;
-        Mon, 06 May 2024 11:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715021032; x=1715625832; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qr+qysEHfAqmXZOmn1POXugpU0YxreOhrSJFEU0THm0=;
-        b=VVxgVWuzr0xuZ1mnTJT+MW4K+ffituK/7USNlKGmz24lZs619yPM1Htz7PWQbg1C72
-         BWaRRTXPQAnLVcqi7XqTUx6frOmelrvgQpKHN2jT5nLy2/fQ8gnaIpHYr0uD7tMPVgs3
-         WhjZDuT5DK5YMNm3Kx462AU6iGE+Q4Kn44JgghxT8B5JUcCS1bvMKxGuZVw3IAZ4BJj1
-         Nfzz7Zc/u9IPji8sJ8NdEmzgcGfjQJCDp83SgTdVzNS7LpWMMYlDoe6tRuC9jCsRQr+s
-         4wS0n3YrutBzc4ipzBZdXggjkjXjzaOHYykG+oRran1nRIFAnRAf/NCx9S+zT7u/qyn7
-         tS2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715021032; x=1715625832;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qr+qysEHfAqmXZOmn1POXugpU0YxreOhrSJFEU0THm0=;
-        b=e4FT7QrTjcWOuJnfoQAb7s0ywIGVyehUrLgD5HjxYDy1I1hwT6zcKNqzjj1iDsan/q
-         UDP//AqhzAWhBmi7i6zPXq/icOkf0e6fisrZUJ45KXGjFeZ1hUKRty9xO0gmIDipOA7w
-         CumJGPHXA1NCS258Wm2qh+u56ODuk8CbBiJS7Ui/gZi2YLJ7mkUcNmL5cTIqB90yQQ/J
-         ekGvJrrcMBl9Y+Azb3caIjU1XP4RhhUNI+1uUj4hparlZ1FPWfTOyQDsYCNeMsSjKbUj
-         mf69DIXASNJV0OJKtWilUW2S2y5zb2tBPWWR0zRDIuu2PBVDxFlzJJfrKB3Kh0p/NaMT
-         B7Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/2XXecI3j7ctUoUcdnOfnCtLppr5v1YLJgTF/Iff7hDjnVdtLIlLZ2wykZ862027HF7HXwfgV5cCqOQNddq/gjN6taff/5GwCgJxRz8lJH8I8mCwmt3lQktLGcNk++psaEDqYFTRD2vSslDmV929RSUObJ3l5fzwQoGsUchLgUJj19fNo
-X-Gm-Message-State: AOJu0YweCyBKvLgwmUm7I+bG88wOLzDsrJIo0mJBVbmzbJX6jjSGfZww
-	PX4Yy/ncXiRvAu4X3vJcdMT66bxwqQQmmnIJl2NZ5tYr64wrYfQtuyJSnFN0/rOXLU7Bqieun8t
-	g7tPh/tRVGOujjCYRWcXe3CBBMOA=
-X-Google-Smtp-Source: AGHT+IERi95t/Ei+7vR8pRyVjdKl796Yjlt/ZbtXfmRINRyR5DRRP1jEVzskgsDTX/AZhs2s0g0dDOGemWlVlWsZX2A=
-X-Received: by 2002:a2e:7d18:0:b0:2e2:5078:3277 with SMTP id
- y24-20020a2e7d18000000b002e250783277mr8213909ljc.48.1715021031853; Mon, 06
- May 2024 11:43:51 -0700 (PDT)
+	s=arc-20240116; t=1715021432; c=relaxed/simple;
+	bh=JqbYMohWS7rcxIUHdzYwfKs58oaJlLsiIk+ReIfeubk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PntToziR+OgW92akgKYNdlP7pFYMV4W3JJFR1eKStEc5Tdb6n15lgz3WaQpiDbxS0YtwpCOCQJJ8dBWGBFeufCJ5jL2NS3xA4kVVSLaIyZ7eBpgJ7zS6SI1CqTIGXks5Kr64nDuvxyKwv8J9ymQHDHPPk7ufcx2XR4zHZ1/Jsj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ltK+Y5q1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C8E3C116B1;
+	Mon,  6 May 2024 18:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715021431;
+	bh=JqbYMohWS7rcxIUHdzYwfKs58oaJlLsiIk+ReIfeubk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ltK+Y5q1DTnWyWKwKA3seoo2ZK9eSmTCVlbVy7MSDwVDlfrKYd8TzUX/zETI/VV5V
+	 81+Ip/09tjwyKRz5lLRcFnIwIln8zYLduUmCSeR9KyfVdNo69OUaCYU02m60og+T5P
+	 NnR3+C6oZFcKtPKhqaGYhuhu4NmllcRPvJLTincCXrJzM9L3v83jKR3dFcSOXbu80q
+	 wSlXtqAiXCjQNYQAHaxQISu5DB6OGnO6r+7JiuQ6jFe/vyW2mu8MsWAq6YL3U4vkrD
+	 9sSPd+Egyxi4EKgoQipdHzksG9qF8ZXVjGZ3fhN/Ev8syq1NzJaM1yh61iEWQewBVj
+	 xcVP7sYYtwuSQ==
+Message-ID: <f1173a7c-f18b-47cc-8873-30347489d1be@kernel.org>
+Date: Mon, 6 May 2024 20:50:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240505214754.891700-1-andreas@kemnade.info> <20240505214754.891700-4-andreas@kemnade.info>
- <CAHp75Vdnwrxw96prr9hyLdZ2u6t1uNcj6pyxCp52UoVOpatTpg@mail.gmail.com> <20240506182111.3c6673a0@aktux>
-In-Reply-To: <20240506182111.3c6673a0@aktux>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 6 May 2024 21:43:14 +0300
-Message-ID: <CAHp75VchLWQgmdxKPSbwH-m43zFHT9ADk4aH7-jvD5-MaVOtEw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] Input: ektf2127 - add ektf2232 support
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, u.kleine-koenig@pengutronix.de, hdegoede@redhat.com, 
-	siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/11] dt-bindings: net/can: Add serial (serdev) LIN
+ adapter
+To: Conor Dooley <conor@kernel.org>,
+ Christoph Fritz <christoph.fritz@hexdev.de>
+Cc: Jiri Slaby <jirislaby@kernel.org>,
+ Oliver Hartkopp <socketcan@hartkopp.net>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sre@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Andreas Lauser
+ <andreas.lauser@mercedes-benz.com>, Jonathan Corbet <corbet@lwn.net>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
+ <20240502182804.145926-7-christoph.fritz@hexdev.de>
+ <20240503-fading-extruding-2105bbd8b479@spud>
+ <a5b894f8dc2ab0cf087a5b4972d7f752e6c17c16.camel@hexdev.de>
+ <20240506-jaws-cheesy-bf94885651c1@spud>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240506-jaws-cheesy-bf94885651c1@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 6, 2024 at 7:21=E2=80=AFPM Andreas Kemnade <andreas@kemnade.inf=
-o> wrote:
-> On Mon, 6 May 2024 15:05:52 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > To: Andreas Kemnade <andreas@kemnade.info>
-> > Date: Mon, 6 May 2024 15:05:52 +0300
-> > On Mon, May 6, 2024 at 12:48=E2=80=AFAM Andreas Kemnade <andreas@kemnad=
-e.info> wrote:
+On 06/05/2024 18:16, Conor Dooley wrote:
+>>>> +maintainers:
+>>>> +  - Christoph Fritz <christoph.fritz@hexdev.de>
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: hexdev,lin-serdev
+>>>
+>>> Maybe I've just missed something on earlier versions that I didn't
+>>> read, but the name of the device on the website you link is "hexLIN",
+>>> so why is "lin-serdev" used here instead?
+>>
+>> The USB one is called hexLIN and has it's own HID driver.
+>>
+>> This serial LIN adapter doesn't really have a product name. Currently
+>> on our website it's generically called 'UART LIN Adapter'.
+>>
+>> This LIN adapter is basically just a LIN transceiver and very generic,
+>> so that one could solder it to any single-board computer with an uart.
+>>
+>> I think 'lin-serdev' for LIN and serial device fits great, also serdev
+>> is the name of the used kernel infrastructure (besides the LIN glue
+>> driver).
+>>
+>> If you still don't like it, I'm open to other names. What about
+>> "hexlin-uart" or "linser"?
+> 
+> I dunno, I don't really care about it being called "hexlin,lin-serdev",
+> all that much, I just found it confusing that the link in the description
+> sent me to the ""Hello World" in LIN" section of your site. If it had
+> dropped me off at the "UART LIN adapter" section things woud've been less
+> confusing.
+> 
+> That said, calling the compatible after a linux-ism is a bit odd to me
+> when the device seems to be called a "UART LIN adapter" on the page, not
+> a "serdev".
+> 
 
-...
+If there is no real, fixed model name, I would also propose to use
+whatever is on the website currently and avoid Linuxism.
 
-> > I'm wondering if you are using --histogram diff algo when preparing the=
- patches.
->
-> No, I am not using that, it seems to not make that chunk nicer.
-> Yes, we want
->
-> +       int status_shift;
->  };
-> +
-> +struct ektf2127_i2c_chip_data {
-> +       int status_shift;
-> +};
->
-> But that is not shorter or simpler, just more readable.
+Best regards,
+Krzysztof
 
-And that's exactly what histogram is about. I suggest making it
-default for the Linux kernel project (or globally in your
-~/.gitconfig).
-
-
---=20
-With Best Regards,
-Andy Shevchenko
 
