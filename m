@@ -1,57 +1,55 @@
-Return-Path: <linux-input+bounces-3509-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3510-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDE38BD6B3
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:12:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F4D8BD6B9
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:14:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09C991C215D5
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:12:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B85442835C0
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 265F615CD40;
-	Mon,  6 May 2024 21:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34AC915B553;
+	Mon,  6 May 2024 21:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GztjFMhK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkEVFJMv"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39DD15B54C;
-	Mon,  6 May 2024 21:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C767EBB;
+	Mon,  6 May 2024 21:14:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715029895; cv=none; b=sjofXgCh6egm+f9HPLA9okuWDGQUJ3qdHP8SRxcHuGTHxLp6oKT8UG5XaHFxqZyAgXPqWDh+8YnlBLUM0oSFTxFTGMarv488sbjNGrPlEhAgqrdEZeMAys6FZkcMsYOFZwKh/yx647vOdSFXNC/GdC8sS8bV3p227/fzRPxJ9s8=
+	t=1715030094; cv=none; b=GQUaDrnQo+dcu+2EfWTYtWRCZZn6lYDWGYen//vwX4e1dZCEG01bHK6t9GVErG9CJ7kSc5HoIWrQNiwUN1Mn+6hmLwUIq+yu1QO1afgjIjwwWsThB4RzG2QcjEtyPb9ZodZLwUgBBjUt3FWwa66Yj+xO4ZP/YI1LAPBfNYNckXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715029895; c=relaxed/simple;
-	bh=2F30VOhpKtoSecgFN5EBa2MmwVehY2mntE4Tq74HgCc=;
+	s=arc-20240116; t=1715030094; c=relaxed/simple;
+	bh=DL57WJ3pgMltw3b3vtF6CqcoODcClGWM1tPYWrB6ufs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MkqQNJ6JDzaB6ybcXKEY22PR2V1qzM6H5qGUVlM3kLZMJrIVQsPDkNxo5hH5kYLQZeoXQG7tn7MMWhaCDvMwd0bO2Ti0O1lRMBePkT3BIish1Jz71yfAwGJTL2/8KFmZSad3iz43JvxzjJ8Wl4vj68WesXX3QMDPPS170neLohI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GztjFMhK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04AA4C116B1;
-	Mon,  6 May 2024 21:11:33 +0000 (UTC)
+	 MIME-Version:Content-Type; b=JMIhny23eIJZ+fmqW9EtdXmhAzcpVtTIl8C/0iBRmmvOXl5KYVhexOMBiZcDAr0cAA5sSeeJKB3WEzA4lPoZdxke9I+sS8MWPr0Uq/WBeYPjKyHfWxjGQpeFKpPa40aMi8intwsT22iG8rw3u3kWceL6zLzagKHdA3jHUCejOFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkEVFJMv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A040C116B1;
+	Mon,  6 May 2024 21:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715029894;
-	bh=2F30VOhpKtoSecgFN5EBa2MmwVehY2mntE4Tq74HgCc=;
+	s=k20201202; t=1715030093;
+	bh=DL57WJ3pgMltw3b3vtF6CqcoODcClGWM1tPYWrB6ufs=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=GztjFMhK5ZLQpOYmKLLe8TTvcu8pKGtcRy5azKef8jVMb2w7BlZWuMjfd3KtVSb9q
-	 v5b9dGMd0ejveBtQm5toPu+IA2ig6GBVzp0Kos9ecGdkhAyuRI3yfTwK/eO/Sq3NKR
-	 YJ2/gT+BdU+m+XkdDcyugVyRJEvCWsIhnMVjrddJA9N56GF7Z0I32i/hH0ek7fSvkY
-	 HCKNFjffj9E0wCSS4fZfv/Ea3EAiQAZI67wikNA7HE4oTDuhHjTnt93RkGW4vLQSCs
-	 V7yBbdeqBaP0z3ihVoJRbNo+daLLa2nAYoUC5/eH0OaPSWzZiLRqTZwquF23LAo5wE
-	 /FjozgRAeoo8A==
-Date: Mon, 6 May 2024 23:11:31 +0200 (CEST)
+	b=fkEVFJMvvfBE4FLaDKgmhIZdFRqcm0MINC4dfL779WW6YQUA5CAwBEHcgjpv0nc5S
+	 qmrs4aA9QqlXwf1dpdrzNWbnMonzkWXqJkqk1cnTlviHTDHCdWLvWmPybEIc/HI3rK
+	 T7DTWsksngI1p1oJhoHm41PKL5UdsVsAh0e7aCewf2T1jxLx8hiPpS0k+YwsxcNVuY
+	 O4qPtvC6AkyCpkJlr4j3JntuOny9A7pooH2BPMEKZSRhXULK6g55Sd43+gkmOsg42w
+	 qypX39T0j2ePhKk6N8T1Tpqlf3pPdPf9kZtomuYYAYLhSAQcgKUkq769m5bfIsGREm
+	 g3fOVQi9ID8cQ==
+Date: Mon, 6 May 2024 23:14:50 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-cc: Chen Ni <nichen@iscas.ac.cn>, bentiss@kernel.org, even.xu@intel.com, 
-    lixu.zhang@intel.com, kai.heng.feng@canonical.com, hongyan.song@intel.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add check for
- pci_alloc_irq_vectors
-In-Reply-To: <95fadbf4772d575bff777ddb738cb6c25b85b779.camel@linux.intel.com>
-Message-ID: <nycvar.YFH.7.76.2405062311100.16865@cbobk.fhfr.pm>
-References: <20240429085422.2434036-1-nichen@iscas.ac.cn> <95fadbf4772d575bff777ddb738cb6c25b85b779.camel@linux.intel.com>
+To: Sean O'Brien <seobrien@chromium.org>
+cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: Add quirk for Logitech Casa touchpad
+In-Reply-To: <20240429180804.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
+Message-ID: <nycvar.YFH.7.76.2405062314420.16865@cbobk.fhfr.pm>
+References: <20240429180804.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,24 +59,18 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 2 May 2024, srinivas pandruvada wrote:
+On Mon, 29 Apr 2024, Sean O'Brien wrote:
 
-> On Mon, 2024-04-29 at 16:54 +0800, Chen Ni wrote:
-> > Add check for the return value of pci_alloc_irq_vectors() and return
-> > the error if it fails in order to catch the error.
-> > 
-> You can write as
-> "
-> Add a check for the return value of pci_alloc_irq_vectors() and return
-> error if it fails.
-> "
+> This device sometimes doesn't send touch release signals when moving
+> from >=4 fingers to <4 fingers. Using MT_QUIRK_NOT_SEEN_MEANS_UP instead
+> of MT_QUIRK_ALWAYS_VALID makes sure that no touches become stuck.
+> 
+> MT_QUIRK_FORCE_MULTI_INPUT is not necessary for this device, but does no
+> harm.
+> 
+> Signed-off-by: Sean O'Brien <seobrien@chromium.org>
 
-Srinivas,
-
-my understanding is that with the changelog rewroding this patch has your 
-Ack?
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
