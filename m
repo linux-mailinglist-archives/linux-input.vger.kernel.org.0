@@ -1,119 +1,202 @@
-Return-Path: <linux-input+bounces-3521-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3522-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0670C8BD6FD
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:52:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B5E8BD700
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:53:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC5031F220DA
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:52:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA7D71C21AA7
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D0D15B57D;
-	Mon,  6 May 2024 21:52:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879B515B995;
+	Mon,  6 May 2024 21:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IowHurbd"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="GPVTpu0T"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3E727269;
-	Mon,  6 May 2024 21:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0636927269
+	for <linux-input@vger.kernel.org>; Mon,  6 May 2024 21:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715032345; cv=none; b=eYZRhfkTCut+M8M86OtTFYUEVkL4i38kbB3Nqrik5S/Wvn+b3XqzYA5po1sS2Wh/2GDzQfoY0NRl+cFl7EhyMxDdG2RXnWCc+Uc9sz5aFEZhjqicon0aUqKAQJefq1CbUADyM9hnEC6rP0BhC/aT9vuVf3EZmr2MTCaYo8mn4K0=
+	t=1715032416; cv=none; b=D1TjY4OiD+NM8qHBFbVfF1xtVwRS3JHxWt+vfLeovVPf7KuM2B5QTc1HTtCKBl6/5IVoqyTIW9uzD80Z5EoT8Pu7/QhOSmsRKrGDo0B21gtSyBuLD6loXbTlrZyZ3OF7UV3NDqE5APKn5Rz/9Liy+biEExEGJ1inAy0fKu4rdPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715032345; c=relaxed/simple;
-	bh=BPrmCFqXtPEO1acXe62yITzXDjWL5bqKkX/XD8Q/GbM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=thZpJtqi1UTFtWDpaCTbCqHyQKeVkIoMT7I7/YdK8znvTusFaSUCIC4AOdVlP46SbWQ68p+GKc+WD0IePTOk0iq497SHQQB9EUXJI4Ci/7CHICBdSoZtwG5Ru/Ucew4PQAgNQlsrFpMBvj5pbF2CGUMffF4+EpY3T9x9ckO6U9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IowHurbd; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715032344; x=1746568344;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=BPrmCFqXtPEO1acXe62yITzXDjWL5bqKkX/XD8Q/GbM=;
-  b=IowHurbd1E3FDN2MgzGvDZm7DWPdYodiKt4PVB5rbIR2CMtqjehwMGbw
-   lsXQ8QWGGMLB6ctnYPAxL9FFpeFPsv0bA/+qbNjUJ7TeDpR2DBqsMy0uW
-   KykJVYg/ndAP+vr0kQM5sJhp06sbVxA7WzlkatbRv9lbOAolk6+savn+X
-   fjLovjUYOJ4XrVg16YXDUEq1zF2QYvdQt1ekn7ufd0YLoyfPPoJFR5e7S
-   npgy6fdOHTAGP72fSU91RmkZgaVlVPKSXO7fMuj78ov8pnF/GttvEhtql
-   eYMaKVsKqXjXQMGfdxqs35GnloI7xsyZDWUJ1ny/IMVTQs3yLpMW8F732
-   A==;
-X-CSE-ConnectionGUID: 6sbdjl75T5S2svmOxvC7ww==
-X-CSE-MsgGUID: fCD6D/EfT/+DoEY1MyzeHQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="10676304"
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="10676304"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 14:52:24 -0700
-X-CSE-ConnectionGUID: YeAAWZ6qSLmJtMaerwbNeA==
-X-CSE-MsgGUID: QTTafSZiQJ+oxSZrDSFWjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="28279688"
-Received: from penghsia-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.82.93])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 14:52:23 -0700
-Message-ID: <5523c4770ce2de9e804a3020e0bd5c60fb401fc2.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add check for
- pci_alloc_irq_vectors
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Chen Ni <nichen@iscas.ac.cn>, bentiss@kernel.org, even.xu@intel.com, 
-	lixu.zhang@intel.com, kai.heng.feng@canonical.com, hongyan.song@intel.com, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 06 May 2024 14:52:22 -0700
-In-Reply-To: <nycvar.YFH.7.76.2405062311100.16865@cbobk.fhfr.pm>
-References: <20240429085422.2434036-1-nichen@iscas.ac.cn>
-	 <95fadbf4772d575bff777ddb738cb6c25b85b779.camel@linux.intel.com>
-	 <nycvar.YFH.7.76.2405062311100.16865@cbobk.fhfr.pm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1715032416; c=relaxed/simple;
+	bh=2O+wP4vBQozHsluR1vc78YidgtjsHnoZsO3a7SO9cjQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=R2VFOtLZZ5+MIFQpcxhTVH7ITRtLaX7jyi0vz0GEHirf6wYeY26U0dNkQ2I5sV5MOrggID9judijtqzO8wPgTpU3AHvYXyhZF+VpmQb49FqWNOnumDHFDWnwFgTTHgdEhHnM6UhfLw5vtPAZJw+jGMOEq4YeOaYfOS1R91wxHZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=GPVTpu0T; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1ee5235f5c9so6780095ad.2
+        for <linux-input@vger.kernel.org>; Mon, 06 May 2024 14:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1715032414; x=1715637214; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XYUTFxlPB4t5BYAahm504Iew6H7+QkCuTotTXWPeyzI=;
+        b=GPVTpu0TRNUQp6j5SZyrlqFFrA6FtjxGvagJouk3wdRxfbqLutHsAHh/dlgWtsSiMb
+         ZrJiv99sr0kKK0yIwwrKZWjlFG4nDiqUxAm29HkKU98pI9hVQv7aJ0an3StG7w/dA4rq
+         iamgwT3fmQVdJVhZYYiRDGzeLTmKLJXCBP44Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715032414; x=1715637214;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XYUTFxlPB4t5BYAahm504Iew6H7+QkCuTotTXWPeyzI=;
+        b=KMTjvCxzUtVFOJdQ44pPqHaRsj/mVYySuTZA7ODK39qXdTpr2dzUIaTGD7bn002wac
+         ktqIfViAxuJhybLhHCkZE4ir1LddMQnorbD5AeEaZ536M1AeVxfRpyQqMa7jmIoBPC75
+         gOx5q3r/a60TS2IHZjogpUAmdZ8e+g3to+J2uGpyWikZ2WKYYJLlH927ePkjQXLRzqB1
+         RQeSsp2xfeBRrrHijwHxzMWdSP1zOK93D527Dqbmt5HFW35OfgKJHmJdBz9yK6+ZRCLA
+         ziol3FCGEEr1h1xSUgBVGR+xaZe65SWzZ/zyVQSqXaU1Tg5cuw0Wq/O8cZFLdFBRJdNE
+         9s/A==
+X-Forwarded-Encrypted: i=1; AJvYcCWTvZE0Vo6v/eQ/KgfCZX6wWisKGI41d6UM5mxk0FEk27MBD80fr5D0NYtqv/NB5yAYSkuNWElqzsJQhm6zVJkap2KVsozK8Ok3zps=
+X-Gm-Message-State: AOJu0Yw34w/p1fq0UIQoLIqHq/O8Ypj67i4QEgRh1piPM5exscwoeq52
+	6u+1R3HaQ96yNmQmIzLeUlzio/d9hunUrz5MSA20xT+ud0Dnh2bK+hb35ASOxQ==
+X-Google-Smtp-Source: AGHT+IHL5cRDZJngyMmvBrgy59n1mJBgkULgJqoOpSace5UDEB2m1G8X4xIxLf9cVYD04RkFRqN71A==
+X-Received: by 2002:a17:902:6bcc:b0:1e4:200e:9c2b with SMTP id m12-20020a1709026bcc00b001e4200e9c2bmr10847177plt.21.1715032414110;
+        Mon, 06 May 2024 14:53:34 -0700 (PDT)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
+        by smtp.gmail.com with ESMTPSA id h8-20020a170902f54800b001ed6868e257sm5664008plf.123.2024.05.06.14.53.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 14:53:33 -0700 (PDT)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>
+Subject: [PATCH v9 0/8] VMware hypercalls enhancements
+Date: Mon,  6 May 2024 14:52:57 -0700
+Message-Id: <20240506215305.30756-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
+References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2024-05-06 at 23:11 +0200, Jiri Kosina wrote:
-> On Thu, 2 May 2024, srinivas pandruvada wrote:
->=20
-> > On Mon, 2024-04-29 at 16:54 +0800, Chen Ni wrote:
-> > > Add check for the return value of pci_alloc_irq_vectors() and
-> > > return
-> > > the error if it fails in order to catch the error.
-> > >=20
-> > You can write as
-> > "
-> > Add a check for the return value of pci_alloc_irq_vectors() and
-> > return
-> > error if it fails.
-> > "
->=20
-Hi Jiri,
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-> Srinivas,
->=20
-> my understanding is that with the changelog rewroding this patch has
-> your=20
-> Ack?
-Yes, just to make it more clear. With that.
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-Thanks,
-Srinivas
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
+v8->v9 change:
+First patch "x86/vmware: Move common macros to vmware.h" was split on 2 pieces:
+  "x86/vmware: Move common macros to vmware.h" - just code movement, and
+  "x86/vmware: Correct macro names" - macro renaming.
 
->=20
-> Thanks,
->=20
+v7->v8 no functional changes. Updated authors and reviewers emails to
+@broadcom.com
+
+v6->v7 changes (only in patch 7):
+- Addressed comments from H. Peter Anvin:
+  1. Removed vmware_tdx_hypercall_args(), moved args handling inside
+     vmware_tdx_hypercall().
+  2. Added pr_warn_once() for !hypervisor_is_type(X86_HYPER_VMWARE) case.
+- Added ack by Dave Hansen.
+
+v5->v6 change:
+- Added ack by Kirill A. Shutemov in patch 7. 
+
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
+
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (8):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Correct macro names
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Undefine VMWARE_HYPERCALL
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 331 +++++++++++++++++++---
+ arch/x86/kernel/cpu/vmware.c              | 144 +++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 593 insertions(+), 525 deletions(-)
+
+-- 
+2.39.0
 
 
