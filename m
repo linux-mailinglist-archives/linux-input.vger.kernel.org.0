@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-3510-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3511-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F4D8BD6B9
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:14:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FC28BD6BE
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:17:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B85442835C0
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:14:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC6491F221EC
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34AC915B553;
-	Mon,  6 May 2024 21:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6AAC158D7B;
+	Mon,  6 May 2024 21:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkEVFJMv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZAP7jtBK"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C767EBB;
-	Mon,  6 May 2024 21:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F048EBB;
+	Mon,  6 May 2024 21:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715030094; cv=none; b=GQUaDrnQo+dcu+2EfWTYtWRCZZn6lYDWGYen//vwX4e1dZCEG01bHK6t9GVErG9CJ7kSc5HoIWrQNiwUN1Mn+6hmLwUIq+yu1QO1afgjIjwwWsThB4RzG2QcjEtyPb9ZodZLwUgBBjUt3FWwa66Yj+xO4ZP/YI1LAPBfNYNckXM=
+	t=1715030227; cv=none; b=R/JxbDhMRFFAHDK5NBJ/aZoyZZd3/X3b0owzbswOhOtwbA4lvoqvq0eESGWZAFhzFE6OPgbd08MUIXAbXGjEcmnp9d92UjBD8DVCsUb8T9lLS6pP3yOUfRKp8jiJodNHjtoUVo3xpATn40hcXmHIL60kGHXkBhn2sTzSNFIqc30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715030094; c=relaxed/simple;
-	bh=DL57WJ3pgMltw3b3vtF6CqcoODcClGWM1tPYWrB6ufs=;
+	s=arc-20240116; t=1715030227; c=relaxed/simple;
+	bh=YquaBrEpDPkqQRGGRnhFkafqZanD/kTCLFpD/qvs2aQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=JMIhny23eIJZ+fmqW9EtdXmhAzcpVtTIl8C/0iBRmmvOXl5KYVhexOMBiZcDAr0cAA5sSeeJKB3WEzA4lPoZdxke9I+sS8MWPr0Uq/WBeYPjKyHfWxjGQpeFKpPa40aMi8intwsT22iG8rw3u3kWceL6zLzagKHdA3jHUCejOFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkEVFJMv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A040C116B1;
-	Mon,  6 May 2024 21:14:52 +0000 (UTC)
+	 MIME-Version:Content-Type; b=f+MZzMmJNwXdXfMkQ5g6wyevoQAD7zVBj18h71WEWrQAXyzhwHAs78ax5bu1AWrO7jH5B3wZIb3YZfH1Ofv+3IV1McRes9fr4RKW4FhHMON9edIsN1gtfs6STMsGnyHHc0zxKB7c+/5VtKx5okS0XBp9Swlko/gOBA6gaXZJfTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZAP7jtBK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBDC8C116B1;
+	Mon,  6 May 2024 21:17:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715030093;
-	bh=DL57WJ3pgMltw3b3vtF6CqcoODcClGWM1tPYWrB6ufs=;
+	s=k20201202; t=1715030227;
+	bh=YquaBrEpDPkqQRGGRnhFkafqZanD/kTCLFpD/qvs2aQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=fkEVFJMvvfBE4FLaDKgmhIZdFRqcm0MINC4dfL779WW6YQUA5CAwBEHcgjpv0nc5S
-	 qmrs4aA9QqlXwf1dpdrzNWbnMonzkWXqJkqk1cnTlviHTDHCdWLvWmPybEIc/HI3rK
-	 T7DTWsksngI1p1oJhoHm41PKL5UdsVsAh0e7aCewf2T1jxLx8hiPpS0k+YwsxcNVuY
-	 O4qPtvC6AkyCpkJlr4j3JntuOny9A7pooH2BPMEKZSRhXULK6g55Sd43+gkmOsg42w
-	 qypX39T0j2ePhKk6N8T1Tpqlf3pPdPf9kZtomuYYAYLhSAQcgKUkq769m5bfIsGREm
-	 g3fOVQi9ID8cQ==
-Date: Mon, 6 May 2024 23:14:50 +0200 (CEST)
+	b=ZAP7jtBKRJZF5B5JqyxGgvYuaSu8XfvT2DtW1MHWsH2pACn95Fos7hf/BVaMUMmxz
+	 3x/iVwRpz3P5eCptQC0hepq6WJELgYHgOMPa7jganK6xWejt9SbBWt9//zveK4HpYw
+	 MypyZnYHiLYnvek7bst89/M2Ltd5+ahs3xlpFvj0Wkp6oIxHQEH8raQWZ4+250aE5P
+	 TPh9R34Uczsn2PjJEQB9t2QCkSg3cCBUvra/8LiZT1FAgGjw6JAIkR60qmpuqbKsrR
+	 vA/OKn76bNLqHxPaRLrwKVJIedC2/iYgmWdIYuMVffBffRf2Ix0zwgxl7yLFDDJBly
+	 cx6qGgg2+M61Q==
+Date: Mon, 6 May 2024 23:17:04 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Sean O'Brien <seobrien@chromium.org>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+To: Thomas Kuehne <thomas.kuehne@gmx.li>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: Add quirk for Logitech Casa touchpad
-In-Reply-To: <20240429180804.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
-Message-ID: <nycvar.YFH.7.76.2405062314420.16865@cbobk.fhfr.pm>
-References: <20240429180804.1.Ie7e8d0ba595f9e39f71cbe4ab3468f79c00b4581@changeid>
+Subject: Re: [PATCH] HID: hid-debug: add EV_FF and FF_STATUS mappings
+In-Reply-To: <Zhp89Q8k13Uua24f@black>
+Message-ID: <nycvar.YFH.7.76.2405062316560.16865@cbobk.fhfr.pm>
+References: <Zhp89Q8k13Uua24f@black>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -59,16 +59,16 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 29 Apr 2024, Sean O'Brien wrote:
+On Sat, 13 Apr 2024, Thomas Kuehne wrote:
 
-> This device sometimes doesn't send touch release signals when moving
-> from >=4 fingers to <4 fingers. Using MT_QUIRK_NOT_SEEN_MEANS_UP instead
-> of MT_QUIRK_ALWAYS_VALID makes sure that no touches become stuck.
+> Currently hid-debug only output question marks for all force
+> feedback related input mapping making debugging gamepads
+> with force feedback a challenge.
 > 
-> MT_QUIRK_FORCE_MULTI_INPUT is not necessary for this device, but does no
-> harm.
+> This adds the necessary mapping information to output
+> EV_FF and FF_STATUS related information.
 > 
-> Signed-off-by: Sean O'Brien <seobrien@chromium.org>
+> Signed-off-by: Thomas Kuehne <thomas.kuehne@gmx.li>
 
 Applied, thanks.
 
