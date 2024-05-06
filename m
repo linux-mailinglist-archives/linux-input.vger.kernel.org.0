@@ -1,57 +1,56 @@
-Return-Path: <linux-input+bounces-3518-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3519-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044C68BD6E7
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:32:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35658BD6EB
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:34:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACB0E1F21546
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:32:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 443D51F21300
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:34:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335C615B974;
-	Mon,  6 May 2024 21:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB8515B0FC;
+	Mon,  6 May 2024 21:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGRWUeZG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGsuEcfV"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0931415B0FC;
-	Mon,  6 May 2024 21:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BAF446AC
+	for <linux-input@vger.kernel.org>; Mon,  6 May 2024 21:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715031137; cv=none; b=hW4tJLIhrkSEgueS3hBQkgy+KZ+sIMBMYWY2aUwiJpPhzrF317z6g2Ym0DN9dzC04gcHWMtSg8ZVoQhbCMGQKj5PnyiI7eJxbB2V71y4XnpjWTnh0wOgZ8LS0x4faZgs9CwsG4wY1f0kgMZ+XcSdK7zEkW2Jb7ANeuai0TZcbzs=
+	t=1715031280; cv=none; b=AsbSAtgyp/tb2eKtopKJJ0jg7q+voavPIG+o2Aa6Jg/TADcLh7HZGIQsECbBdWmuswWVbhOwei234MlsQZgUUvJiMXjcriLiov7XJNf77uV4tvdJejhaPQa9ChZCMr8BBXk6k1U8p7ky3r6uU26vgcOS5uEjqeztr8laPkShy+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715031137; c=relaxed/simple;
-	bh=Ewip+AdAKCpL4v6StD/FXI4OK0nqlbKX8uj894inBtc=;
+	s=arc-20240116; t=1715031280; c=relaxed/simple;
+	bh=suDR7ao8iyifFiyqir9cRGwP6pm7Iss9bRiXwBg9Gos=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=FSXCAJwqGyOVcFAJQm5ohK01XKJ1CwsqvUj2EXhwwb841XVbBpY+puk6Sr+CYB1swgqC2rUJxIVi3vFDuKI6HccTJnWlPH4FbMPExQb2ethsCX3KIKgPXineTzFHeK/tzg+QjSjTmxDVWeFpC0pEc3W1MCFudicnXFZ2QhDFRtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGRWUeZG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40011C116B1;
-	Mon,  6 May 2024 21:32:16 +0000 (UTC)
+	 MIME-Version:Content-Type; b=PT1USn2QBRCa8PlGF16Ecu32sFPIVZJeSnvVufLh9EB4S+igVPE/GxWibn1XNOCHQ+chpr8iBXktKS61W9giAhxRCBoA3e5vq1ATO+W1GVYmp2naqX+DalCBQGeL0iCRJvbeyRHHTnLhTOTWmNve/NWDsv6ofBrdoTopHy1KLU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGsuEcfV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68C5EC116B1;
+	Mon,  6 May 2024 21:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715031136;
-	bh=Ewip+AdAKCpL4v6StD/FXI4OK0nqlbKX8uj894inBtc=;
+	s=k20201202; t=1715031279;
+	bh=suDR7ao8iyifFiyqir9cRGwP6pm7Iss9bRiXwBg9Gos=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=VGRWUeZGEieljxvi+vrdndEw7/2Q9zUlEvC4hN/1zVH1CU5gESL/bPGOp1BCES5yF
-	 8ZY4y7L9pVWvfqZPrtMJKFz9vkKcNpiwYoXnyaKQ40zZUgBh+1hUVtQFTLaCGUrw/W
-	 6hGlRUrS6m9YS1wKG6AoqwK4VE9j6VTX0FW/eJte7tYYx827lw8ZAr8VvDKl9PCfwr
-	 l8v5VzfgoyUv5I164JvfSuQzNTjHPvGe5k6UZOJXhVIE5L90bblOLtEhGdNfRTjL76
-	 w/2DnBAqFmICUFQ9F2YEqEir/Trc2zpYC4+p06zUVRD9/KPiu1/sex2SUFQFi1Orwc
-	 9OBoZG8Lj33oQ==
-Date: Mon, 6 May 2024 23:32:14 +0200 (CEST)
+	b=YGsuEcfVueS/r0nOZWV68fULjIzPDrmyYAVCebtBlmPXG0+qmWoyrG1tOSDQeibCK
+	 RM7RgK6iI3WTG4q+nrDMsVn8QRwoH2/VrqPFbYUjkiV41a9rvrdkCeqrJUT9aJqpiw
+	 sMUiJDECSM+JzpE3o3uTvIMHHEw+0ZufJfC8pBWcVtQ6BORSMpIeKqoaVgrcpomeyp
+	 3bK9hyd4F/7xYPIRCVzvWcWPb4znkCpf86w8RRkgeJ3eOOxzUeCCvh7CD78TYxdXfX
+	 ManVGX+bfZGXFfsfrFBENG1Gw8zkQRKqgTFYXPfps75A+m0wipzBR7ZgHaElyPrb5z
+	 es9hz24YPsb9Q==
+Date: Mon, 6 May 2024 23:34:37 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Max Staudt <max@enpas.org>
-cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: playstation: DS4: Fix calibration workaround
- for clone devices
-In-Reply-To: <20240504165531.21315-1-max@enpas.org>
-Message-ID: <nycvar.YFH.7.76.2405062331420.16865@cbobk.fhfr.pm>
-References: <20240504165531.21315-1-max@enpas.org>
+To: Zhang Lixu <lixu.zhang@intel.com>
+cc: linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com, 
+    benjamin.tissoires@redhat.com
+Subject: Re: [PATCH 0/5] HID: intel-ish-hid: Implement loading firmware from
+ host feature
+In-Reply-To: <20240506013040.10700-1-lixu.zhang@intel.com>
+Message-ID: <nycvar.YFH.7.76.2405062334210.16865@cbobk.fhfr.pm>
+References: <20240506013040.10700-1-lixu.zhang@intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,27 +60,33 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 5 May 2024, Max Staudt wrote:
+On Mon, 6 May 2024, Zhang Lixu wrote:
 
-> The logic in dualshock4_get_calibration_data() used uninitialised data
-> in case of a failed kzalloc() for the transfer buffer.
-
-Good catch, this completely escaped my attention during review.
-
+> This patch series is comprised of 5 patches. The first two patches are to add documentation
+> for firmware loading. The third and fourth patches introduce support for the 'Load Main
+> Firmware from Host' feature in the ISHTP driver, applicable to Lunar Lake and subsequent
+> platforms. The last patch enhances the firmware reset handler in the ISH driver. This
+> addresses an issue where the driver receives two MNG_RESET_NOTIFY messages upon implementing
+> the 'Load Main Firmware from Host' feature.
 > 
-> The solution is to group all business logic and all sanity checks
-> together, and jump only to the latter in case of an error.
-> While we're at it, factor out the axes' labelling, since it must happen
-> either way for input_report_abs() to succeed later on.
+> This patch series is based on the following 3 commits, which have already been included in the linux-next/master branch.
+> - HID: intel-ish-hid: ipc: Fix dev_err usage with uninitialized dev->devc
+> - HID: intel-ish-hid: Use PCI_VDEVICE() and rename device ID macros
+> - HID: intel-ish-hid: ipc: Add Lunar Lake-M PCI device ID
 > 
-> Thanks to Dan Carpenter for the Smatch static checker warning.
+> Qianru Huang (2):
+>   Documentation: hid: intel-ish-hid: remove section numbering
+>   Documentation: hid: intel-ish-hid: add section for firmware loading
 > 
-> Fixes: a48a7cd85f55 ("HID: playstation: DS4: Don't fail on calibration data request")
-> Signed-off-by: Max Staudt <max@enpas.org>
+> Zhang Lixu (3):
+>   HID: intel-ish-hid: Add driver_data for specifying the firmware
+>     filename
+>   HID: intel-ish-hid: Implement loading firmware from host feature
+>   HID: intel-ish-hid: handler multiple MNG_RESET_NOTIFY messages
 
-Now queued on top of the for-6.10/playstation pile in hid.git.
+This is now queued in hid.git#for-6.10/intel-ish.
 
-Thanks,
+Thanks!
 
 -- 
 Jiri Kosina
