@@ -1,139 +1,152 @@
-Return-Path: <linux-input+bounces-3486-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3487-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B424B8BCD70
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 14:06:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAF08BCE13
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 14:38:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69E901F23F7D
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 12:06:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D1C1B2534E
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 12:38:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 113E91422C3;
-	Mon,  6 May 2024 12:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MY1Fro45"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE4118C19;
+	Mon,  6 May 2024 12:38:22 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F4323D2;
-	Mon,  6 May 2024 12:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E7F1DA23
+	for <linux-input@vger.kernel.org>; Mon,  6 May 2024 12:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714997193; cv=none; b=DHCIHl+RdDAECf6gE6RFqf2TrCJM+BsAyVcjYnfL9/dNLvWHSAEMj7+jSeR62GcLACFvAEQ0qolU70v11YG18rgtX7pQQCLQ359QgpFWkuv32wOaduwL+R0yPBQGS6PB2WZt8+YOxG2bWWzix1+bFvMn2iFuN9iHOnTXdip3kVQ=
+	t=1714999102; cv=none; b=qbdLyIvrT+srjizyFybTE/DxoZlk4kWIZgBH6gNzz05tHs7MMxB1lj2NKSWL+xJk3Z8/Lqe5ukyiaUG8vuIZDxETyER7fbiYATQbb8ESvJpfbw/hKKdPPjbFXCfYRIvcPWTT4hvqd74TMHgaTpCIOzlVk6hbKdMpsgcm6pgJmSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714997193; c=relaxed/simple;
-	bh=HA03VMTWx7hFRDjISikCd5rAe3inSqQv3U+JhT9BpIU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EkXH1yZstpfOr650WvxNmX/9oGWFEy8SJ4ZtjiW7JKEbm7ouDh5rNpz8/xNye8AQ67d+xCArt91nzimheWg1qLfs9H9KofDc4SRJLvxtaE190AZYXvCOJM78m5mQXzGt9PbmI3LTBxAWrrs8SyJtjPKBpxyjq5QTFAl5V1nCXSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MY1Fro45; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a599a298990so464281366b.2;
-        Mon, 06 May 2024 05:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714997189; x=1715601989; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0/7y05oOvga1AY6RWQLcXXp5qLqEnvKHODSbHeXVGyU=;
-        b=MY1Fro45MT109KR8h4CFKw/UXXkT1iQTF42niuo58YBUxvMaDtRbKZZbMgfruxXmaY
-         VvQzHECIrXViUiaTpi42n4jc0kL2xxMVRfXkXGIFztWRDeDitdt05zwgn8nZpucSxxSj
-         RDOf09UhiTc7YjLfm0/WWDFHfwrxleA1Tztu6xxPdvVnJIfKusCIY2H0ptrwNC/7qR74
-         85trjinFv53Qgh+XjUiaE9k8uWtKhrdt8VxhgbgsA4e0LZ9oLVESS/1hoqSFcovdypEy
-         7k0YpIvI1wt6Wj5SFXC6IpHVngB2s/7woRmKs5JUXdqNGA39asX06lY4fQHmnlXZr61N
-         Kzsg==
+	s=arc-20240116; t=1714999102; c=relaxed/simple;
+	bh=PRXUBkliFGTGfr1tfr+DfmQxur1Pm/bGLIvgJ7Ir7+g=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=urgOVFjqIjIfBAvlqFFrcmR8HahjQGrSH1fo6pVQ1RjM/P5myeCJP/K2ON9HMhHJIw/nJxzfsJo3vbgfgaETfVaW7BN+GMeG+0a3UVqK5yf0P74yW9VzjRQrhKE+I0Lf5OGfSzX7Qo3QBBPPQAA6IxLfoSvXFnqpPy2l8tNLTo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-7def44d6078so301128239f.1
+        for <linux-input@vger.kernel.org>; Mon, 06 May 2024 05:38:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714997189; x=1715601989;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0/7y05oOvga1AY6RWQLcXXp5qLqEnvKHODSbHeXVGyU=;
-        b=szvDHpeZqomSKcQ4X46OMpHSJEmMrpcmIs66g6YHO9ZlQkD9SVE0YOoq4xNT4I1gjj
-         iePlqYxKKovEZWIn1Pv5kFlHLQN2/AAIaJhnCPZj2W7USMjz9v9t3UWFUfqpGowHF+Fk
-         tIdPhTrcb2/z7uoBAxk1WZO3fPdFqG4xifKcwEGxdV/DsD36+2nt4yuw/AEbLtdvJb6T
-         uOlLeDnIttSnMXCVEk+f5ptInLQ+ZAWCm2l0BXqWeol4Pc9TAUT7kZ55FRZAttj2iMBC
-         uIjqVETm70P2pU8jfmJFmAmrcsvzET2Ce49AC1fFKVYgspOojWqBSgVld4NIlUP2b2Jf
-         Oejw==
-X-Forwarded-Encrypted: i=1; AJvYcCVq2lwU8X1t4JWJm9jpu+M2OS9DAcw5ZroIELUKNJsEo22QFTn7ux5cRn1LFPpvZou0g+evYSDOnq0sEyFyyDeQpwStVcQCZPpycRBjA35UxRueFPfzF7jRPr5rDD2zyhakQpD9ztd3TvnOJcK1S5T5gEtUJijMdfRjPME6bM8sI+g4Wb69
-X-Gm-Message-State: AOJu0YzwC9aZUxpbXXpwPyl7uYTMsQQCdjARpTisBOMMTx4niWF4z5X1
-	1F3r8SiUbGkHtVUhiP5ufYC9U+606CkaZUJ70TKXLlIzma+LFChh96tylJTqDkjM9Mm6Mt9wlhn
-	1uEhNjMy8reVgOdsv2FRrZAogzXQ=
-X-Google-Smtp-Source: AGHT+IHYOQvdfPTTFrBUuHnnjBKaOyDGpkO8KwvWSje/sq7Hj4iOQq8UdxFrfB58gd/0Nlr4haiivWWz7SMhit2xpHg=
-X-Received: by 2002:a17:906:5482:b0:a55:a072:1ab8 with SMTP id
- r2-20020a170906548200b00a55a0721ab8mr6220034ejo.27.1714997188685; Mon, 06 May
- 2024 05:06:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714999100; x=1715603900;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Abg+C12vuc3bVok6svAeKzuLYYKsi9nik57pnOtqBbY=;
+        b=YDkyEczqdEhXbvTOrH/DwAZbfSsN6vf8L2eldjpCck43uN8o4ZJ2UHZx5RWffbEkD9
+         kEivbh7sbF7clWJHF184r8mNIH4e6xrLeKi1W+uFB58KVnfL+L9zdmvjOArts+FAOX1t
+         h5VNuXCzqIoz79zcInEYhpcshTZr66yx94AmGd8XIQVtyS1hj/ZeQbkdnkTa88JN5/9B
+         fJsqCvhXr8AXAWpkXYzU3Z//EPfGEQFB7io2QUFVlucBQAjDaN/3iPnjNNSVB9VQmE4t
+         5EnguP/1Eo+1AKtc/I1BLpZExSwdps1KpaQy5GSBy1ZyGJV4xSpG9ghe4BC+nnV18efz
+         ygvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZh9amLa5KL0Gdg1zWWFdakZWKZv51OCzX1rROp1RXOkQJzxulWf1IQg9ipkfnwIO/PfyLokMVuHsR5hYqPwWAHvucyjm+DX/KilY=
+X-Gm-Message-State: AOJu0YyVs6HyE+C4W1Qjarej8NdCXF6ZnxnKbSze+4Jyrk2KJZc8Pthr
+	fnkeRcuLUsXtO9FK3LydXOp+lVd9j/tBzzl/fveBZbC0eb4lHjtSphVB+qpBeSXL1mzu9y9CQsZ
+	6Fue/E0oUu2qCtr7aKeBQk2/Goui8/XhCfrDdojKgdnnXENwLv7zux/w=
+X-Google-Smtp-Source: AGHT+IHwU5f2yNHyWU2SkxS5iF84+HzbZt6CXFgp5MAZWVUYbr3F/z6SINyGOROcs1QGUmbzpDmofV6JFC90c5mYUHvjPM2bNt+B
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240505214754.891700-1-andreas@kemnade.info> <20240505214754.891700-4-andreas@kemnade.info>
-In-Reply-To: <20240505214754.891700-4-andreas@kemnade.info>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 6 May 2024 15:05:52 +0300
-Message-ID: <CAHp75Vdnwrxw96prr9hyLdZ2u6t1uNcj6pyxCp52UoVOpatTpg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] Input: ektf2127 - add ektf2232 support
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, u.kleine-koenig@pengutronix.de, hdegoede@redhat.com, 
-	siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Received: by 2002:a92:c50a:0:b0:36c:6080:753d with SMTP id
+ r10-20020a92c50a000000b0036c6080753dmr209113ilg.1.1714999100425; Mon, 06 May
+ 2024 05:38:20 -0700 (PDT)
+Date: Mon, 06 May 2024 05:38:20 -0700
+In-Reply-To: <000000000000ae4aa90614a58d7b@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002bde520617c85875@google.com>
+Subject: Re: [syzbot] [input?] WARNING in cm109_input_open/usb_submit_urb (3)
+From: syzbot <syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 6, 2024 at 12:48=E2=80=AFAM Andreas Kemnade <andreas@kemnade.in=
-fo> wrote:
->
-> The chip is similar, but has status bits at different positions,
-> so use the correct bits.
+syzbot has found a reproducer for the following issue on:
 
-...
+HEAD commit:    dd5a440a31fa Linux 6.9-rc7
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1792e8a7180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6d14c12b661fb43
+dashboard link: https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b7d354980000
 
-> @@ -46,6 +47,11 @@ struct ektf2127_ts {
->         struct input_dev *input;
->         struct gpio_desc *power_gpios;
->         struct touchscreen_properties prop;
-> +       int status_shift;
-> +};
-> +
-> +struct ektf2127_i2c_chip_data {
-> +       int status_shift;
->  };
->
->  static void ektf2127_parse_coordinates(const u8 *buf, unsigned int touch=
-_count,
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/58e2a4900479/disk-dd5a440a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/246a109c32d6/vmlinux-dd5a440a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d2719f7eb672/bzImage-dd5a440a.xz
 
-I'm wondering if you are using --histogram diff algo when preparing the pat=
-ches.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ac0f9c4cc1e034160492@syzkaller.appspotmail.com
 
-...
+------------[ cut here ]------------
+URB ffff8880293d7f00 submitted while active
+WARNING: CPU: 0 PID: 1141 at drivers/usb/core/urb.c:379 usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
+Modules linked in:
+CPU: 0 PID: 1141 Comm: kworker/0:2 Not tainted 6.9.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:usb_submit_urb+0x1039/0x18c0 drivers/usb/core/urb.c:379
+Code: 00 eb 66 e8 59 f2 7c fa e9 79 f0 ff ff e8 4f f2 7c fa c6 05 8f 7e 7a 08 01 90 48 c7 c7 a0 74 6c 8c 4c 89 ee e8 58 64 3f fa 90 <0f> 0b 90 90 e9 40 f0 ff ff e8 29 f2 7c fa eb 12 e8 22 f2 7c fa 41
+RSP: 0018:ffffc90004926b48 EFLAGS: 00010246
+RAX: 12b779fa952e9100 RBX: 0000000000000cc0 RCX: ffff8880229e8000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffff8880293d7f08 R08: ffffffff81587d32 R09: 1ffffffff25e6abf
+R10: dffffc0000000000 R11: fffffbfff25e6ac0 R12: 1ffff11005d6920a
+R13: ffff8880293d7f00 R14: dffffc0000000000 R15: ffff88802eb49010
+FS:  0000000000000000(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055555b1af938 CR3: 000000007c014000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ cm109_input_open+0x1f9/0x470 drivers/input/misc/cm109.c:572
+ input_open_device+0x193/0x2e0 drivers/input/input.c:654
+ kbd_connect+0xe9/0x130 drivers/tty/vt/keyboard.c:1593
+ input_attach_handler drivers/input/input.c:1064 [inline]
+ input_register_device+0xcfc/0x1090 drivers/input/input.c:2396
+ cm109_usb_probe+0x10cd/0x1600 drivers/input/misc/cm109.c:806
+ usb_probe_interface+0x647/0xbb0 drivers/usb/core/driver.c:399
+ really_probe+0x2ba/0xad0 drivers/base/dd.c:656
+ __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:828
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
+ bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
+ __device_attach+0x333/0x520 drivers/base/dd.c:1028
+ bus_probe_device+0x189/0x260 drivers/base/bus.c:532
+ device_add+0x8ff/0xca0 drivers/base/core.c:3720
+ usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
+ usb_probe_device+0x1ba/0x380 drivers/usb/core/driver.c:294
+ really_probe+0x2ba/0xad0 drivers/base/dd.c:656
+ __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:828
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
+ bus_for_each_drv+0x250/0x2e0 drivers/base/bus.c:457
+ __device_attach+0x333/0x520 drivers/base/dd.c:1028
+ bus_probe_device+0x189/0x260 drivers/base/bus.c:532
+ device_add+0x8ff/0xca0 drivers/base/core.c:3720
+ usb_new_device+0x104a/0x19a0 drivers/usb/core/hub.c:2652
+ hub_port_connect drivers/usb/core/hub.c:5522 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5662 [inline]
+ port_event drivers/usb/core/hub.c:5822 [inline]
+ hub_event+0x2d6a/0x5150 drivers/usb/core/hub.c:5904
+ process_one_work kernel/workqueue.c:3267 [inline]
+ process_scheduled_works+0xa12/0x17c0 kernel/workqueue.c:3348
+ worker_thread+0x86d/0xd70 kernel/workqueue.c:3429
+ kthread+0x2f2/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4d/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
 
-> +       chip_data =3D device_get_match_data(&client->dev);
-> +       if (!chip_data)
-> +               chip_data =3D (const struct ektf2127_i2c_chip_data *)id->=
-driver_data;
-> +       if (!chip_data) {
-> +               dev_err(&client->dev, "missing chip data\n");
-> +               return -EINVAL;
 
-First of all, there is a special combined API for this, please use it
-instead. Second, use dev_err_probe().
-
-> +       }
-
-...
-
->  #ifdef CONFIG_OF
-
-Side note: Ideally we should kill this ugliness. But it can be done later o=
-n.
-
-
---
-With Best Regards,
-Andy Shevchenko
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
