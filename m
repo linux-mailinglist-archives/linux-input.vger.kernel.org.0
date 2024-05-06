@@ -1,64 +1,64 @@
-Return-Path: <linux-input+bounces-3497-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3496-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A8C8BD2AF
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 18:24:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5478BD2AD
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 18:24:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4B02286B78
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 16:24:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 835DE1F22C50
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 16:24:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B173156991;
-	Mon,  6 May 2024 16:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEE7A156864;
+	Mon,  6 May 2024 16:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="VtXhDCsE"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="Jdlk4l0B"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F7215664D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492FF155A55;
 	Mon,  6 May 2024 16:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715012650; cv=none; b=tMIMvsPBQ+k0T/A9+M/5jjlP7CeQVMwtOVJEoVgoB2wA4XuFH6xWdpEm5M+J9ipzZJv2Wp3KPFp6n3u76pFnmP7fTt/He+mpTLPaMHLxNoM/jehcgbHWrYtuQuK1qQfrYJg4Dcvxq42pGT0fEn69lYqBBKL3l7cYtiJ8yTYnTnA=
+	t=1715012649; cv=none; b=fhoc+SimtRrmlUS8ffmRwNj60wz422bk39dgsE1HzAPM/j87aoHv3NNeRT3I5Vitx9dtnt9GRVyRAasRN36rHu2S3wWFGWITQ/2sPZEyzE6MmtX6fctTD0kwUjKlQmBDS2CRYvltOomJDETYNMuHSbbETFckRM67PHe7HU75QQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715012650; c=relaxed/simple;
-	bh=JmY/x2z6q1Q4af+tn6wc8WVCFrk0TIFyxVDD8495agM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u2DpYB/AKcMTPM2pJcJ0dNBh8QAYWxzvjz7LSZw2bIwqiJ9TDraqKCbTUuc4Fyc6A3mnP40bAeo1zEHnOHWOaUiZiJ0U7ywxol9HX/g9uudviXVxjkD26GfAsmKV+DEIk1ZezRXip9RRp5WzAVw0G/fgYbeny9KPOGNhvCofoq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=VtXhDCsE; arc=none smtp.client-ip=161.97.139.27
+	s=arc-20240116; t=1715012649; c=relaxed/simple;
+	bh=Uybd/th4afdJYueMsyszSrqC9bf6dhBOk6xYGLfGkrc=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=f6W5ZZg1KDInq1zRz5AvkRfdcQqeg3pXygGASqwuQAwuKiY6VVjbkRqeNW3QXiEy1wiBsgZTG1csUWeO87JzuvWqr3ehi7RWSSuEn7E406Ga2gB7a6/AN6bvcNw214WfvYWLuctHlWQO8GFZ5l7QmMTBF0VdFgv8FQrhRgRqxxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=Jdlk4l0B; arc=none smtp.client-ip=161.97.139.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
 	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <andreas@kemnade.info>)
-	id 1s418F-005r2d-0a;
+	id 1s418F-005r2l-2E;
 	Mon, 06 May 2024 18:24:04 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
 	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PGYb7xrswlXlviOfBdG+br1HD4qryj9qiptkmvxI+94=; b=VtXhDCsES+46UFjF+K0DpM2H1d
-	Ft7EGvxSxKg9wByOiqjjgonp1qbV8TVOAojeQgGJBO0zbGu33QMQV7AQZhvoJ4mvang6KYFYBOvN6
-	25SizJyMsPcWTzDpCCfmbRK/JNa4oqJFeU/qL14VoLW2tmjd2yqeaTlr1jOGMz9HJs1bzqXTF2Epa
-	adXlHyadTbyvjAbR70MBnd6ONsBqQcQqWe86wkpY55oAc+bu5FAt99PlsyzgCHCfTRSO+O8Fz71dh
-	cXTfvqJd4eEJBOKYpftE4DQKn1iXKdIvg7L/c6gh52UA2xaF9r5lcW7/Muo71c2u8PL+5mIP120tq
-	f2VCt3Pg==;
+	bh=VMoQa2KSRqpNbUkmMpoILf1hc3Bv7ijAt3K+kr38SlY=; b=Jdlk4l0BxQhOmMIGFhEO+QQY7s
+	8ubDsZSbNPVTxxUaYXQaSmfOBHrUu/9tzEgbfLmRui/XEu2hY06HnYKSWOzbqYF6G/n9p3jIM67dd
+	2OYyJgDuVNd07H3yZZS4wiLg4IDPwuCDkkASUHF9hXzAu14eYX7Su6gZZieSi6DM3HlR3ufsdJIw4
+	aM6sbj/DLDzaJqIhYvatWa47r+uZMHdAIFl4wtI1uFIJvXiWkHTvimhey9/a2aVJXR8W0Q/5Y7TjS
+	xoYjhmoZA9mVnul/r8CmYn4CaZP0ZaaSrDY+JP34JeCb1s+AK58EEGWH00btjoZtVk7/nN/LQoe1h
+	o02vsVfA==;
 Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
 	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <andreas@kemnade.info>)
-	id 1s418E-000fJs-1j;
-	Mon, 06 May 2024 18:24:03 +0200
+	id 1s418F-000fK1-02;
+	Mon, 06 May 2024 18:24:04 +0200
 Received: from andi by aktux with local (Exim 4.96)
 	(envelope-from <andreas@kemnade.info>)
-	id 1s418F-003pVK-1a;
-	Mon, 06 May 2024 18:24:03 +0200
+	id 1s418G-003pVP-02;
+	Mon, 06 May 2024 18:24:04 +0200
 From: Andreas Kemnade <andreas@kemnade.info>
 To: dmitry.torokhov@gmail.com,
 	robh@kernel.org,
@@ -72,10 +72,9 @@ To: dmitry.torokhov@gmail.com,
 	linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 2/3] dt-bindings: touchscreen: elan,ektf2127: Add EKTF2232
-Date: Mon,  6 May 2024 18:23:49 +0200
-Message-Id: <20240506162350.912950-3-andreas@kemnade.info>
+Subject: [PATCH v3 3/3] Input: ektf2127 - add ektf2232 support
+Date: Mon,  6 May 2024 18:23:50 +0200
+Message-Id: <20240506162350.912950-4-andreas@kemnade.info>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240506162350.912950-1-andreas@kemnade.info>
 References: <20240506162350.912950-1-andreas@kemnade.info>
@@ -87,27 +86,104 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a compatible for the EKTF2232, which is similar to other chips in this
-document.
+The chip is similar, but has status bits at different positions,
+so use the correct bits.
 
 Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/input/touchscreen/elan,ektf2127.yaml     | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/touchscreen/ektf2127.c | 36 +++++++++++++++++++++++-----
+ 1 file changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml b/Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
-index 5c4c29da0b11d..ff0ec3fd24c5d 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
-@@ -17,6 +17,7 @@ properties:
-     enum:
-       - elan,ektf2127
-       - elan,ektf2132
-+      - elan,ektf2232
+diff --git a/drivers/input/touchscreen/ektf2127.c b/drivers/input/touchscreen/ektf2127.c
+index cc3103b9cbfba..b6f5046f4b917 100644
+--- a/drivers/input/touchscreen/ektf2127.c
++++ b/drivers/input/touchscreen/ektf2127.c
+@@ -13,6 +13,7 @@
+  * Hans de Goede <hdegoede@redhat.com>
+  */
  
-   reg:
-     maxItems: 1
++#include <linux/bits.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+ #include <linux/i2c.h>
+@@ -46,6 +47,11 @@ struct ektf2127_ts {
+ 	struct input_dev *input;
+ 	struct gpio_desc *power_gpios;
+ 	struct touchscreen_properties prop;
++	int status_shift;
++};
++
++struct ektf2127_i2c_chip_data {
++	int status_shift;
+ };
+ 
+ static void ektf2127_parse_coordinates(const u8 *buf, unsigned int touch_count,
+@@ -112,8 +118,8 @@ static void ektf2127_report2_contact(struct ektf2127_ts *ts, int slot,
+ 
+ static void ektf2127_report2_event(struct ektf2127_ts *ts, const u8 *buf)
+ {
+-	ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & 2));
+-	ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & 4));
++	ektf2127_report2_contact(ts, 0, &buf[1], !!(buf[7] & BIT(ts->status_shift)));
++	ektf2127_report2_contact(ts, 1, &buf[4], !!(buf[7] & BIT(ts->status_shift + 1)));
+ 
+ 	input_mt_sync_frame(ts->input);
+ 	input_sync(ts->input);
+@@ -247,6 +253,7 @@ static int ektf2127_query_dimension(struct i2c_client *client, bool width)
+ static int ektf2127_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
++	const struct ektf2127_i2c_chip_data *chip_data;
+ 	struct ektf2127_ts *ts;
+ 	struct input_dev *input;
+ 	u8 buf[4];
+@@ -303,6 +310,13 @@ static int ektf2127_probe(struct i2c_client *client)
+ 		return error;
+ 
+ 	ts->input = input;
++
++	chip_data = i2c_get_match_data(client);
++	if (!chip_data)
++		return dev_err_probe(&client->dev, -EINVAL, "missing chip data\n");
++
++	ts->status_shift = chip_data->status_shift;
++
+ 	input_set_drvdata(input, ts);
+ 
+ 	error = devm_request_threaded_irq(dev, client->irq,
+@@ -325,18 +339,28 @@ static int ektf2127_probe(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++static const struct ektf2127_i2c_chip_data ektf2127_data = {
++	.status_shift = 1,
++};
++
++static const struct ektf2127_i2c_chip_data ektf2232_data = {
++	.status_shift = 0,
++};
++
+ #ifdef CONFIG_OF
+ static const struct of_device_id ektf2127_of_match[] = {
+-	{ .compatible = "elan,ektf2127" },
+-	{ .compatible = "elan,ektf2132" },
++	{ .compatible = "elan,ektf2127",	.data = &ektf2127_data},
++	{ .compatible = "elan,ektf2132",	.data = &ektf2127_data},
++	{ .compatible = "elan,ektf2232",	.data = &ektf2232_data},
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, ektf2127_of_match);
+ #endif
+ 
+ static const struct i2c_device_id ektf2127_i2c_id[] = {
+-	{ "ektf2127", 0 },
+-	{ "ektf2132", 0 },
++	{ .name = "ektf2127", .driver_data = (long)&ektf2127_data },
++	{ .name = "ektf2132", .driver_data = (long)&ektf2127_data },
++	{ .name = "ektf2232", .driver_data = (long)&ektf2232_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, ektf2127_i2c_id);
 -- 
 2.39.2
 
