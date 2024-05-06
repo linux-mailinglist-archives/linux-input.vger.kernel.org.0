@@ -1,163 +1,124 @@
-Return-Path: <linux-input+bounces-3503-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3504-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AB28BD3B3
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 19:11:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5188BD4C5
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 20:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A58301C21CD6
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 17:11:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E871D1F22B8F
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 18:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54EE215746D;
-	Mon,  6 May 2024 17:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE72158D96;
+	Mon,  6 May 2024 18:43:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdPBQwlU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVxgVWuz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC31156F38;
-	Mon,  6 May 2024 17:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012F44AECA;
+	Mon,  6 May 2024 18:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715015505; cv=none; b=Tgi09AAg0q01jvu51woce2rV9DvdYMBtEwNrWlGPayNGlJzfF0AMwanussWs5LWMJMIJttquD9elZ393OHgak9xFXdbpHbKPAsgXz1iR7mW66tYi9W/BY4ZdvPe8O2b6A6wTXgWKXax0Ef3oE78w+Ydi+zXk9zuYFW0Wg0yRcCg=
+	t=1715021035; cv=none; b=KpeVduOhVEV/ERlZBsV5zQ6PO9T6Ag03h4KwWb9NqmfFVBx8F1AQqnxHG2i3FiBiolJ+WmaBL6d1n0ylf+aadWlZwMzrFzzx3DMPMSq9IQChghGE8AtY6RWf101P5HxZTOlqOzUvq/ZBAPGa4H0Gp9Iaux/JY5piEqMYqxmvuxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715015505; c=relaxed/simple;
-	bh=LGFYdoQCzAi5HsZnju8zdzQ4E+Uk80WyqMqgG7ChIFw=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jEWSW+dvNp/qtFFDLYY8dFLUYtVHe9aaDnU+YSBgTxo50nF37K/Rszktpd1diH55dBCgzTRQ5ssir4gyW7Gq+aJcdRuLhtNk6qTskvr0DjGTP5wTpi6ETtHYIsm83w1CBmqCjm1R4HscuJIeFpmVjA0XlmvAlAwBiFIvHp/4U1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RdPBQwlU; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715015503; x=1746551503;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=LGFYdoQCzAi5HsZnju8zdzQ4E+Uk80WyqMqgG7ChIFw=;
-  b=RdPBQwlUK5L48iqe7p/UIrNbq80RLAq/iJb8PD4UuJrWlXIwkSuCide2
-   HubxPGdTozSbwnEnjLE0XH+d/DhCzSYJI8m40UsA2QLDU2iO/EJt3zKuq
-   MIBi0JI8w12rIqGe3+yDamcBgkSQMkPH0HReOVh2++GyegUaaoYZkmH//
-   DCsOFMi8u/kThr0fM7i9dRCvc1LiNnq8kmneNvFMOpJTbfol7zRPgY+IF
-   YNZ6CyZCPp3JL03SK80ORNGfyvvXvb4gl0CBnfsR3D+g86HXPWWmjYZGy
-   CwuFrv9/TzPqdRkGp4wgrz/35tnPgKnR5wTpl1K8doNqHL7MkT77AdCNg
-   w==;
-X-CSE-ConnectionGUID: ozx6vS5XQKS3gZl0M72bqQ==
-X-CSE-MsgGUID: rCHn4wSYRdeU1GRf7KEsZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="10649736"
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="10649736"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 10:11:42 -0700
-X-CSE-ConnectionGUID: tdGZxArMTJOh9yCIaQhkTA==
-X-CSE-MsgGUID: ufIanFWhRTi4J6CQpim4EA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; 
-   d="scan'208";a="28814581"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.68])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 10:11:34 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 6 May 2024 20:11:30 +0300 (EEST)
-To: Christoph Fritz <christoph.fritz@hexdev.de>
-cc: Jiri Slaby <jirislaby@kernel.org>, 
-    Oliver Hartkopp <socketcan@hartkopp.net>, 
-    Marc Kleine-Budde <mkl@pengutronix.de>, 
-    Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-    "David S . Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Sebastian Reichel <sre@kernel.org>, 
-    Linus Walleij <linus.walleij@linaro.org>, 
-    Andreas Lauser <andreas.lauser@mercedes-benz.com>, 
-    Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
-    linux-can@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-    devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-    linux-serial <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v3 09/11] can: lin: Handle rx offload config frames
-In-Reply-To: <20240502182804.145926-10-christoph.fritz@hexdev.de>
-Message-ID: <9cf35451-9d03-e487-c06b-580208ac3a3d@linux.intel.com>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de> <20240502182804.145926-10-christoph.fritz@hexdev.de>
+	s=arc-20240116; t=1715021035; c=relaxed/simple;
+	bh=SjAYMMCURaX0+dhX9RQn0cnTZU/j27gh7PWnFEk+ab8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EsEl+eJqKrKuXqwxdiJfSloDL65MwMojEFS4fvxTD0+f4BXisobvow4OJbxLYblogkAbkb6ssQeP3YNcwVaMchxallH4igPkNBLbSyNbVPC+bqzXcfdBuixEau7OdhA1ihRC30Ng0qr1mM6DeXbHRoqzjxgOrQN2tn6EHk8ZcYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVxgVWuz; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2dd6a7ae2dcso38851941fa.1;
+        Mon, 06 May 2024 11:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715021032; x=1715625832; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qr+qysEHfAqmXZOmn1POXugpU0YxreOhrSJFEU0THm0=;
+        b=VVxgVWuzr0xuZ1mnTJT+MW4K+ffituK/7USNlKGmz24lZs619yPM1Htz7PWQbg1C72
+         BWaRRTXPQAnLVcqi7XqTUx6frOmelrvgQpKHN2jT5nLy2/fQ8gnaIpHYr0uD7tMPVgs3
+         WhjZDuT5DK5YMNm3Kx462AU6iGE+Q4Kn44JgghxT8B5JUcCS1bvMKxGuZVw3IAZ4BJj1
+         Nfzz7Zc/u9IPji8sJ8NdEmzgcGfjQJCDp83SgTdVzNS7LpWMMYlDoe6tRuC9jCsRQr+s
+         4wS0n3YrutBzc4ipzBZdXggjkjXjzaOHYykG+oRran1nRIFAnRAf/NCx9S+zT7u/qyn7
+         tS2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715021032; x=1715625832;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qr+qysEHfAqmXZOmn1POXugpU0YxreOhrSJFEU0THm0=;
+        b=e4FT7QrTjcWOuJnfoQAb7s0ywIGVyehUrLgD5HjxYDy1I1hwT6zcKNqzjj1iDsan/q
+         UDP//AqhzAWhBmi7i6zPXq/icOkf0e6fisrZUJ45KXGjFeZ1hUKRty9xO0gmIDipOA7w
+         CumJGPHXA1NCS258Wm2qh+u56ODuk8CbBiJS7Ui/gZi2YLJ7mkUcNmL5cTIqB90yQQ/J
+         ekGvJrrcMBl9Y+Azb3caIjU1XP4RhhUNI+1uUj4hparlZ1FPWfTOyQDsYCNeMsSjKbUj
+         mf69DIXASNJV0OJKtWilUW2S2y5zb2tBPWWR0zRDIuu2PBVDxFlzJJfrKB3Kh0p/NaMT
+         B7Qw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/2XXecI3j7ctUoUcdnOfnCtLppr5v1YLJgTF/Iff7hDjnVdtLIlLZ2wykZ862027HF7HXwfgV5cCqOQNddq/gjN6taff/5GwCgJxRz8lJH8I8mCwmt3lQktLGcNk++psaEDqYFTRD2vSslDmV929RSUObJ3l5fzwQoGsUchLgUJj19fNo
+X-Gm-Message-State: AOJu0YweCyBKvLgwmUm7I+bG88wOLzDsrJIo0mJBVbmzbJX6jjSGfZww
+	PX4Yy/ncXiRvAu4X3vJcdMT66bxwqQQmmnIJl2NZ5tYr64wrYfQtuyJSnFN0/rOXLU7Bqieun8t
+	g7tPh/tRVGOujjCYRWcXe3CBBMOA=
+X-Google-Smtp-Source: AGHT+IERi95t/Ei+7vR8pRyVjdKl796Yjlt/ZbtXfmRINRyR5DRRP1jEVzskgsDTX/AZhs2s0g0dDOGemWlVlWsZX2A=
+X-Received: by 2002:a2e:7d18:0:b0:2e2:5078:3277 with SMTP id
+ y24-20020a2e7d18000000b002e250783277mr8213909ljc.48.1715021031853; Mon, 06
+ May 2024 11:43:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20240505214754.891700-1-andreas@kemnade.info> <20240505214754.891700-4-andreas@kemnade.info>
+ <CAHp75Vdnwrxw96prr9hyLdZ2u6t1uNcj6pyxCp52UoVOpatTpg@mail.gmail.com> <20240506182111.3c6673a0@aktux>
+In-Reply-To: <20240506182111.3c6673a0@aktux>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 6 May 2024 21:43:14 +0300
+Message-ID: <CAHp75VchLWQgmdxKPSbwH-m43zFHT9ADk4aH7-jvD5-MaVOtEw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] Input: ektf2127 - add ektf2232 support
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, u.kleine-koenig@pengutronix.de, hdegoede@redhat.com, 
+	siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2 May 2024, Christoph Fritz wrote:
+On Mon, May 6, 2024 at 7:21=E2=80=AFPM Andreas Kemnade <andreas@kemnade.inf=
+o> wrote:
+> On Mon, 6 May 2024 15:05:52 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > To: Andreas Kemnade <andreas@kemnade.info>
+> > Date: Mon, 6 May 2024 15:05:52 +0300
+> > On Mon, May 6, 2024 at 12:48=E2=80=AFAM Andreas Kemnade <andreas@kemnad=
+e.info> wrote:
 
-> The CAN Broadcast Manager now has the capability to dispatch CANFD
-> frames marked with the id LINBUS_RXOFFLOAD_ID. This patch introduces
-> functionality to interpret these specific frames, enabling the
-> configuration of RX offloading within the LIN driver.
-> 
-> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
-> ---
->  drivers/net/can/lin.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/net/can/lin.c b/drivers/net/can/lin.c
-> index 95906003666fb..ee2ebea2c865f 100644
-> --- a/drivers/net/can/lin.c
-> +++ b/drivers/net/can/lin.c
-> @@ -194,6 +194,27 @@ static void lin_remove_sysfs_id_files(struct net_device *ndev)
->  	}
->  }
->  
-> +static int lin_setup_rxoffload(struct lin_device *ldev,
-> +			       struct canfd_frame *cfd)
-> +{
-> +	struct lin_responder_answer answ;
+...
+
+> > I'm wondering if you are using --histogram diff algo when preparing the=
+ patches.
+>
+> No, I am not using that, it seems to not make that chunk nicer.
+> Yes, we want
+>
+> +       int status_shift;
+>  };
 > +
-> +	if (!(cfd->flags & CANFD_FDF))
-> +		return -EMSGSIZE;
+> +struct ektf2127_i2c_chip_data {
+> +       int status_shift;
+> +};
+>
+> But that is not shorter or simpler, just more readable.
 
-This seems a bit odd error code.
+And that's exactly what histogram is about. I suggest making it
+default for the Linux kernel project (or globally in your
+~/.gitconfig).
 
-> +	BUILD_BUG_ON(sizeof(struct lin_responder_answer) > sizeof(cfd->data));
-> +	memcpy(&answ, cfd->data, sizeof(struct lin_responder_answer));
 
-2x sizeof(answ)
-
-> +
-> +	answ.lf.checksum_mode = (cfd->can_id & LIN_ENHANCED_CKSUM_FLAG) ?
-> +			LINBUS_ENHANCED : LINBUS_CLASSIC;
-> +
-> +	if (answ.lf.lin_id > LIN_ID_MASK ||
-> +	    answ.event_associated_id > LIN_ID_MASK)
-> +		return -EINVAL;
-> +
-> +	return ldev->ldev_ops->update_responder_answer(ldev, &answ);
-> +}
-> +
->  static void lin_tx_work_handler(struct work_struct *ws)
->  {
->  	struct lin_device *ldev = container_of(ws, struct lin_device,
-> @@ -206,6 +227,14 @@ static void lin_tx_work_handler(struct work_struct *ws)
->  	ldev->tx_busy = true;
->  
->  	cfd = (struct canfd_frame *)ldev->tx_skb->data;
-> +
-> +	if (cfd->can_id & LIN_RXOFFLOAD_DATA_FLAG) {
-> +		ret = lin_setup_rxoffload(ldev, cfd);
-> +		if (ret < 0)
-> +			netdev_err(ndev, "setting up rx failed %d\n", ret);
-> +		goto lin_tx_out;
-> +	}
-> +
->  	lf.checksum_mode = (cfd->can_id & LIN_ENHANCED_CKSUM_FLAG) ?
->  			   LINBUS_ENHANCED : LINBUS_CLASSIC;
->  	lf.lin_id = cfd->can_id & LIN_ID_MASK;
-> 
-
--- 
- i.
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
