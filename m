@@ -1,125 +1,83 @@
-Return-Path: <linux-input+bounces-3507-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3508-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FE18BD63C
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 22:29:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3598BD6AF
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 23:12:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B4E71C20FCC
-	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 20:29:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 701AD1C213E5
+	for <lists+linux-input@lfdr.de>; Mon,  6 May 2024 21:12:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 551A115B10A;
-	Mon,  6 May 2024 20:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4157715B986;
+	Mon,  6 May 2024 21:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="WtNzAqqq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2lCfNL+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A271D156C6E;
-	Mon,  6 May 2024 20:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1897E15B54C;
+	Mon,  6 May 2024 21:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715027367; cv=none; b=lxHrBLqi4h2P5EbwQ8ai2raFT55jePDvweTGm0XngS2jCcczlnQaWhgwhlIR70fQutUmY9xjVMxlmCxtVJvow+wEOANOBHpgOZMv7fAjfRA8xyYFB8Eb/ycUTUXLGgLNIsjbSTF3RvsDdcPQTaW64Dh/fCb9Cr2UMXD7xm2bjZA=
+	t=1715029843; cv=none; b=RZlA0tRUBmqUkzjf1rVIaUT3Rphoe0xETAZJPUybOUabDc4FiLg5a8tCVNyLLXlLSpSR+0rQfmfSch5HLnZBdbIeN1poGhy6+ueGVfdHphXC/+Oe9S+6lTGp5PxyWjM46ocFUm1DiD9to2F++LFNTQvcWnrdmrYuRsYbYBwxas0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715027367; c=relaxed/simple;
-	bh=3rbdAlqqENUwmR+io8pbVt6gM09Tl1lcecSkcWkx2hw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIbCAWrKi81tSJDEWu/moKZ7wn6FOsZF56fhw0wsmZj4WRgU0mDO5tvCY5k95obRUcA7NIgzCjWl1R3UaiK07VSBZu4qvI2sQM7Er5Ts29mh8PC+cQ+Lj7hSs5vRdIfzbLQNuS1HS/280TT0uz5O7s1vfn3UC5i66QJmSR+NP4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=WtNzAqqq; arc=none smtp.client-ip=161.97.139.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s44xc-005rj3-0J;
-	Mon, 06 May 2024 22:29:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=EaZQSwVaLQHyh6ZFOpYXBHwPWumE2yzYKX72jIZHUEs=; b=WtNzAqqqMqocI2uasC4mZFzXuE
-	cMkzbOei+SwbulkgG7IWfBh0XH6ByUW7gsPI50qnjRCMn5Nn3R6/ULIWlMXR01qoS2Lpr1zeb5IZ8
-	/7N/ZZcrgJtFM+86s8+pFuL5+L3Vp6cdU565qY3u/jpGOZV/aHkBjN857u6nIR4wc/P8N/96nly9d
-	hTCdQ4CffeybHfMxKPns7l7F34r3CUdlUBS8o3Q+DEJS6tVMlEGU+bXSQmPyNr+r3eRqdNWBfnv0m
-	BXiZH3LqlPi4vs9j/x3/LoayTwPHktho0aCRzg3/zRPqvhkC/v9XobXUhUvuJS9ONw+xUAWT1KqWM
-	lUnkQs7w==;
-Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1s44xZ-000ffm-0c;
-	Mon, 06 May 2024 22:29:18 +0200
-Date: Mon, 6 May 2024 22:29:16 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, u.kleine-koenig@pengutronix.de, hdegoede@redhat.com,
- siebren.vroegindeweij@hotmail.com, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] Input: ektf2127 - add ektf2232 support
-Message-ID: <20240506222916.055443d8@aktux>
-In-Reply-To: <CAHp75VchLWQgmdxKPSbwH-m43zFHT9ADk4aH7-jvD5-MaVOtEw@mail.gmail.com>
-References: <20240505214754.891700-1-andreas@kemnade.info>
-	<20240505214754.891700-4-andreas@kemnade.info>
-	<CAHp75Vdnwrxw96prr9hyLdZ2u6t1uNcj6pyxCp52UoVOpatTpg@mail.gmail.com>
-	<20240506182111.3c6673a0@aktux>
-	<CAHp75VchLWQgmdxKPSbwH-m43zFHT9ADk4aH7-jvD5-MaVOtEw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1715029843; c=relaxed/simple;
+	bh=bk3lqN2XjY0mTMbPYQRW71134WoqYtSXZeRZhf5u08U=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=jRPIQwNRyzxpe3FxrBvEmUKE5/6gtjZIYnt3larnh5ITFt24veQUadwMxiInFKR3iD31N5cxnzZzAk6pdPg4M9MhRuHWkBVJtzgtNZRiaPlNIaq9b2GRFx/bh1VLEaQX2qZxJ+qmug/WZgpw9OwCyHtjhv/h74VCdgbKORwvDi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2lCfNL+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93FCAC116B1;
+	Mon,  6 May 2024 21:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715029842;
+	bh=bk3lqN2XjY0mTMbPYQRW71134WoqYtSXZeRZhf5u08U=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=a2lCfNL+qYOnjsL4OIbgfYBHto8sV3GOGQLQCH9JFrnQiBzj0KFPZiEcWJrzJGXD5
+	 lDCSxiaCTpbu+pGXYANMkSGFND8KkI6wfdUFzt3ng3qe9LHsswuFZogOzIFdvCMHKx
+	 RCokHFu3/HG2TPhGBvKkLdc+3AOFCr8NO+LROJKJNZtIeaavBQPr8Fa/20fTDZbIPJ
+	 ME9O72DQz1izLPXIkh8zgSTMT4Am65Ruy5TGiFM8WZ+lHnpS9D2beT4n5sj0m1s2F/
+	 A0d5JADh0ffyN5Bq9YBDsuC43tBb6tucIlCeS4iwCa5PJo6lRiqdQ0LVyW+Hq+eQNV
+	 INWywYdRQnLuA==
+Date: Mon, 6 May 2024 23:10:40 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Vicki Pfau <vi@endrift.com>
+cc: Max Maisel <mmm-1@posteo.net>, benjamin.tissoires@redhat.com, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: hid-steam: Add Deck IMU support
+In-Reply-To: <80573947-3f6b-4be7-b5cd-999a2113a434@endrift.com>
+Message-ID: <nycvar.YFH.7.76.2405062310240.16865@cbobk.fhfr.pm>
+References: <20240420123418.4938-1-mmm-1@posteo.net> <80573947-3f6b-4be7-b5cd-999a2113a434@endrift.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 6 May 2024 21:43:14 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+On Tue, 23 Apr 2024, Vicki Pfau wrote:
 
-> On Mon, May 6, 2024 at 7:21=E2=80=AFPM Andreas Kemnade <andreas@kemnade.i=
-nfo> wrote:
-> > On Mon, 6 May 2024 15:05:52 +0300
-> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote: =20
-> > > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > To: Andreas Kemnade <andreas@kemnade.info>
-> > > Date: Mon, 6 May 2024 15:05:52 +0300
-> > > On Mon, May 6, 2024 at 12:48=E2=80=AFAM Andreas Kemnade <andreas@kemn=
-ade.info> wrote: =20
->=20
-> ...
->=20
-> > > I'm wondering if you are using --histogram diff algo when preparing t=
-he patches. =20
-> >
-> > No, I am not using that, it seems to not make that chunk nicer.
-> > Yes, we want
-> >
-> > +       int status_shift;
-> >  };
-> > +
-> > +struct ektf2127_i2c_chip_data {
-> > +       int status_shift;
-> > +};
-> >
-> > But that is not shorter or simpler, just more readable. =20
->=20
-> And that's exactly what histogram is about. I suggest making it
-> default for the Linux kernel project (or globally in your
-> ~/.gitconfig).
->=20
->=20
-again, it does not do anything helpful in this case, I tried to run
-git format-patch --histogram with
-no improvements. But it might help in other places.
+> > The Deck's controller features an accelerometer and gyroscope which
+> > send their measurement values by default in the main HID input report.
+> > Expose both sensors to userspace through a separate evdev node as it
+> > is done by the hid-nintendo and hid-playstation drivers.
+> > 
+> > Signed-off-by: Max Maisel <mmm-1@posteo.net>
 
-Regards,
-Andreas
+[ .. snip ... ]
+
+> Looks good.
+> 
+> Reviewed-by: Vicki Pfau <vi@endrift.com>
+
+Applied, thanks.
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
