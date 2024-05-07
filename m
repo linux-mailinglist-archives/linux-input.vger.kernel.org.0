@@ -1,110 +1,110 @@
-Return-Path: <linux-input+bounces-3585-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3586-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAFE8BF1A3
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 01:30:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE018BF1F0
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 01:38:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A72328196B
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 23:30:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCB01283317
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 23:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6EFD1448F6;
-	Tue,  7 May 2024 23:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F0714A62D;
+	Tue,  7 May 2024 23:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htPpgi+s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avVUBa04"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEAD1448F1;
-	Tue,  7 May 2024 23:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A6314A62B;
+	Tue,  7 May 2024 23:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123347; cv=none; b=Wq1PeSoHEJJmGRJXrKYewto166muVBDir7OSAH9/dHytkBSG3RGN1ix/ZTl2ZXGlAfHR/ZL09yh99qmSEIBGrLnv0KpKxCxVF1IUWC96CWK/Nlftz2Ff+Re443lE0Pc5561Pc3P1d5Gz0kfmuTC03qj23EHF38d06+uzCvKyd54=
+	t=1715123464; cv=none; b=h89dx9J6+eUi3fSgIgMQdOMCPrNgOiJ5t9ZiL7DsmP0yKwoQ2DQS/fd6RMdUbjf84jM2beWWtyaf2Wsfgiptmf33akKaIFGEJ3CxqtasX+y9dNnz8uVmrHeMVi8XX6Bd1gGiP3TaoS0VZqQRTfjmVg6KiOzSmkRvSe+AeyigAq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123347; c=relaxed/simple;
-	bh=bx1UlMCjaomhWcxGibZRAgeKFjpnOPjnJG0euG0Q+Ss=;
+	s=arc-20240116; t=1715123464; c=relaxed/simple;
+	bh=91OSAVcq8c3ZAQ/ZXNJN5YVGla1vrLOT0Ct0XJll44w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VhwTstbiL9cPERjCxwvmtet6Hf4uiqhjru0VXp66M6IbJAFpJjAPL6OSLwz2IZzzaC0F+BjxZPBax7QMkKAi+fPs0iDWCEQShiSsW7BhciIsCAZsegSG6RbeRf+XOsD+BfqOy9gtRJE4rBhiQ+Yi4/k8mKWcDmK6jpkqfwoMzl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htPpgi+s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959EFC4AF17;
-	Tue,  7 May 2024 23:09:06 +0000 (UTC)
+	 MIME-Version; b=IOxM/tZOKPXYludS7L1e2/rtyyD5glj3Wcbv9YEi/FLyzOjYPh/NqFolzYk9aD10aOTB3G9Ip0aMXcMMkBub9F475iXIAIOYm/xgHcybBXgzcBArGVyYaMxWZRL1iuNIbXtqiige82IyfS3/7CclB4J/IvT2oJ/ayTi0CzIazfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avVUBa04; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C9FC4AF17;
+	Tue,  7 May 2024 23:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123347;
-	bh=bx1UlMCjaomhWcxGibZRAgeKFjpnOPjnJG0euG0Q+Ss=;
+	s=k20201202; t=1715123463;
+	bh=91OSAVcq8c3ZAQ/ZXNJN5YVGla1vrLOT0Ct0XJll44w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=htPpgi+sqJdKrVUWlF8u+h5t7DKHhLjDRNbizZjrIqXmwofKZVvsZRM42Dz498IRR
-	 q5u+VrbBEQmrblcwFxGQ6TLPRxTF5j3T92Ns3eiAqAsxTNvxkAqWnKWXQCN5QQiEYp
-	 tWrng0+uC/DTRHuClJSkeQJAzlAf1uYKOiWsfq7YRZ9kAOnxv0gkSevBeVt2INWNIh
-	 XUiIRKFUdyIZB8EXAQJh+Jhr6Ou35JGo9w9GL7wXdnsjhd0ctmQyBQU0aBjww0fcfU
-	 yT0FlGXRO1Dyrk7g78zSsHBJB9J1Rz+tog1Jpl276xuxJ1FUp5EWuOq8FKbknuO/7W
-	 oqMZyhWtuEzTA==
+	b=avVUBa04+gk7y0ENhy7f+ujOrnLSeaECqsOWvIP3A2SD7qZy9zt7/Cf78k3nZpHiJ
+	 AIYNT2oYQ//2UJwZcLIOgs5AuGoMIBM6torqUP7B5tV2Mju6r4731iRZdPqnD7u84N
+	 YFU4e9BS51ChBpyOxO67LSxnLQjIWInlK/2TWfFt86XfwS0XL9X41rQC6yufrXdG5t
+	 PrjTQMQdg9y8AEp11HcQIPPqUEEdIqPRi5C1sp0FHgCK0CKFs8qm3ADsmC0PsZ3Q+C
+	 txrjfHVSKvyhRpKbzYBSnfCl1CfxPWFn2zfS1iBKrliBKsZAOWyDyhioxu3KTsEfcc
+	 h51l5ntb1vWhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+Cc: Vicki Pfau <vi@endrift.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
+	appsforartists@google.com,
+	maxwell.nguyen@hp.com,
+	carl.ng@hp.com,
+	swyterzone@gmail.com,
+	slouken@libsdl.org,
+	christophe.jaillet@wanadoo.fr,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 34/52] Input: amimouse - mark driver struct with __refdata to prevent section mismatch
-Date: Tue,  7 May 2024 19:07:00 -0400
-Message-ID: <20240507230800.392128-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/43] Input: xpad - add support for ASUS ROG RAIKIRI
+Date: Tue,  7 May 2024 19:09:37 -0400
+Message-ID: <20240507231033.393285-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507230800.392128-1-sashal@kernel.org>
-References: <20240507230800.392128-1-sashal@kernel.org>
+In-Reply-To: <20240507231033.393285-1-sashal@kernel.org>
+References: <20240507231033.393285-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.9
+X-stable-base: Linux 6.6.30
 Content-Transfer-Encoding: 8bit
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+From: Vicki Pfau <vi@endrift.com>
 
-[ Upstream commit 0537c8eef4f699aacdeb67c6181c66cccd63c7f5 ]
+[ Upstream commit be81415a32ef6d8a8a85529fcfac03d05b3e757d ]
 
-As described in the added code comment, a reference to .exit.text is ok
-for drivers registered via module_platform_driver_probe(). Make this
-explicit to prevent the following section mismatch warning
+Add the VID/PID for ASUS ROG RAIKIRI to xpad_device and the VID to xpad_table
 
-	WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in reference: amimouse_driver+0x8 (section: .data) -> amimouse_remove (section: .exit.text)
-
-that triggers on an allmodconfig W=1 build.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Link: https://lore.kernel.org/r/2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+Link: https://lore.kernel.org/r/20240404035345.159643-1-vi@endrift.com
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/amimouse.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/mouse/amimouse.c b/drivers/input/mouse/amimouse.c
-index cda0c3ff5a288..2fbbaeb76d708 100644
---- a/drivers/input/mouse/amimouse.c
-+++ b/drivers/input/mouse/amimouse.c
-@@ -132,7 +132,13 @@ static void __exit amimouse_remove(struct platform_device *pdev)
- 	input_unregister_device(dev);
- }
- 
--static struct platform_driver amimouse_driver = {
-+/*
-+ * amimouse_remove() lives in .exit.text. For drivers registered via
-+ * module_platform_driver_probe() this is ok because they cannot get unbound at
-+ * runtime. So mark the driver struct with __refdata to prevent modpost
-+ * triggering a section mismatch warning.
-+ */
-+static struct platform_driver amimouse_driver __refdata = {
- 	.remove_new = __exit_p(amimouse_remove),
- 	.driver   = {
- 		.name	= "amiga-mouse",
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 9206253422016..cd97a7a9f812d 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -207,6 +207,7 @@ static const struct xpad_device {
+ 	{ 0x0738, 0xcb29, "Saitek Aviator Stick AV8R02", 0, XTYPE_XBOX360 },
+ 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
+ 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
++	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
+ 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
+@@ -482,6 +483,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	{ USB_DEVICE(0x0738, 0x4540) },		/* Mad Catz Beat Pad */
+ 	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
+ 	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
++	XPAD_XBOXONE_VENDOR(0x0b05),		/* ASUS controllers */
+ 	XPAD_XBOX360_VENDOR(0x0c12),		/* Zeroplus X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
+ 	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
 -- 
 2.43.0
 
