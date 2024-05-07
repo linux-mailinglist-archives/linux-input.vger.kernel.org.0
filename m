@@ -1,49 +1,49 @@
-Return-Path: <linux-input+bounces-3554-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BC78BE669
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:49:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF098BE67C
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:49:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0234D1C23519
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:49:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51EF01F2564E
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34E016079C;
-	Tue,  7 May 2024 14:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42B3F168AF1;
+	Tue,  7 May 2024 14:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2RQZtN8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcvRtjQi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980FC15FCF9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AA5161915;
 	Tue,  7 May 2024 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715093330; cv=none; b=jAcg27GMJ6RMBomQvAElMjoeWnCpysBxLCpdgOfrALmYp4wX8v13JOUhhA288fXfVSdzgM2WIKXGmpbTL+UgciIONSw5XzIia8+y5/k+HnHl2+GqMOqTczUKh5fCk685ggs2wwXUxUCZh8cclLFy+wAn/5fA8fd2mn2zvVeknbg=
+	t=1715093330; cv=none; b=uOJ6whi7n87NAkvbIkp9ZmatZIV6lN/H7uwJgQPV92LFI0TXEZ/CWOCIkznNf1zSVrbFUZTzDXq248pJnVTOpX56fiMXSf3lxqQu0CX4lUUNxyJ1OexDPnrlG0C/uuFSp0jcSZGPu+mpdvxHq0h9nEkEg4O5bJPUt3hEK+JB/NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715093330; c=relaxed/simple;
-	bh=QQXWL5yR1HiJCZ+WQ5ZsByv2gulWkZie9+fjYZTlccQ=;
+	bh=Him/mGIj3I301yB+D6WucDHFkIiyFtUIv20skypew9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LlHqJ8bYftSNHT2EClGCrAAyTEGCMstfoDcu7YLjTjmaewuYDjX968ANfa9bkECeXOM6VTRUyaR9xY2CKK6yrU2N1T+kn4wbH/7BYwpi9Qg5gQZM57GhbT/TwUeB2fyuhnnmndgVPK5ocQIIB+8HrCNyEAHbUwwcryy3AHCOYHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2RQZtN8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC73C4AF67;
+	 MIME-Version; b=B1+7UqJH9O9+gc0fkA4ZJmihFDuWNCMdnVyuVEDgWFArK0XlWddL5uHqZTJ+xo5cQnR1AvJXrL69jFoaWqh57KoqTvX0hHixaZemYL7pR2huhi7B+g+OVGeBvEhXn3uw9rTyj4+s6+8GIkqCsOOj+oyes64YPctyxjMXTv5lf/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcvRtjQi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E36C4DDFA;
 	Tue,  7 May 2024 14:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1715093330;
-	bh=QQXWL5yR1HiJCZ+WQ5ZsByv2gulWkZie9+fjYZTlccQ=;
+	bh=Him/mGIj3I301yB+D6WucDHFkIiyFtUIv20skypew9M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X2RQZtN8yZACEp4+OiKlSwk+eVhqNdNjAlU+SeIL43oJzchRfChl70dJNU4Srjpn1
-	 lHcJOv7oZpQdfaZERMioiHR7SP7n0Ptnl6+zoQQeBJJ3/+s1PXgll1kn50aPtOzuAt
-	 whwa0fz9qLL04/pE0KLiZCa83kKWhwwBdz8BoMAM9OTh+hZXGE04aBuomgwKNmI2Qr
-	 o4aLXBLYbd18K75b6F+2jQyGMtNerWvBcQFfd3WP+1PiWJIwMMvAY0BEUsiju4B0Nt
-	 40lRrRMKHQIzvpIrHvzEVXjDdfu3BWNfthN+ZImdaD7flZy0ucSrLAv5AzRzaYs+O+
-	 44PuGGbMu1RfA==
+	b=hcvRtjQifaNSUhMmdYSt45yob5sV2a/OgqGwU1EgQsClbBbqU8tyqNBOLWfHLvTk6
+	 6Rlc7J2H/mUOLZv8anlI/tFv6CHKcL6Bk8gaCpNNRG/VynA+o2R9CVB29udJbhugMr
+	 pJ2/06axKVn+qP2MfM9QSCVMfYSKABjGqNNrl145WrDwPSD3NuM+Cti96ROj5Iqvot
+	 QZ2G0hjY11AqHRbkFm4nyuWQipXXTjoCkc9Ku0flWNS+oZSenB40mX7f08WS286LAj
+	 cTVVhoGB9pseFko2pY695Uyn6oLbjGL5eTpCGusYxaTHTeMC7gYuKeAxEi2jO2OjWL
+	 Wk5AYz8lcI5Ng==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan+linaro@kernel.org>)
-	id 1s4M7g-000000003Cy-34Ll;
+	id 1s4M7g-000000003D0-3Ozv;
 	Tue, 07 May 2024 16:48:52 +0200
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Jiri Kosina <jikos@kernel.org>,
@@ -61,9 +61,9 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH v2 6/7] arm64: dts: qcom: sc8280xp-crd: use external pull up for touch reset
-Date: Tue,  7 May 2024 16:48:20 +0200
-Message-ID: <20240507144821.12275-7-johan+linaro@kernel.org>
+Subject: [PATCH v2 7/7] arm64: defconfig: enable Elan i2c-hid driver
+Date: Tue,  7 May 2024 16:48:21 +0200
+Message-ID: <20240507144821.12275-8-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240507144821.12275-1-johan+linaro@kernel.org>
 References: <20240507144821.12275-1-johan+linaro@kernel.org>
@@ -75,33 +75,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The touch controller reset line is currently not described by the
-devicetree except in the pin configuration which is used to deassert
-reset.
-
-As the reset line has an external pull up to an always-on rail there is
-no need to drive the pin high so just leave it configured as an input
-and disable the internal pull down.
+Enable the Elan i2c-hid driver which is needed for the touchscreen on
+machines like the Lenovo ThinkPad X13s.
 
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- arch/arm64/boot/dts/qcom/sc8280xp-crd.dts | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-index 41215567b3ae..372b35fb844f 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-@@ -977,8 +977,7 @@ int-n-pins {
- 		reset-n-pins {
- 			pins = "gpio99";
- 			function = "gpio";
--			output-high;
--			drive-strength = <16>;
-+			bias-disable;
- 		};
- 	};
- 
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index ac6fb3de1e3a..56fb9725d7c0 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1023,6 +1023,7 @@ CONFIG_SND_AUDIO_GRAPH_CARD2=m
+ CONFIG_HID_MULTITOUCH=m
+ CONFIG_I2C_HID_ACPI=m
+ CONFIG_I2C_HID_OF=m
++CONFIG_I2C_HID_OF_ELAN=m
+ CONFIG_USB=y
+ CONFIG_USB_OTG=y
+ CONFIG_USB_XHCI_HCD=y
 -- 
 2.43.2
 
