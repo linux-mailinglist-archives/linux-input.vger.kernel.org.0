@@ -1,70 +1,70 @@
-Return-Path: <linux-input+bounces-3576-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3577-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4B78BEF0D
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 23:45:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26728BEF15
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 23:46:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 908871C23AA6
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 21:45:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AEA328518E
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 21:46:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FE1214B978;
-	Tue,  7 May 2024 21:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 233A978269;
+	Tue,  7 May 2024 21:46:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EAOb0VTr"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qbCt4CZ+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5222478C6D
-	for <linux-input@vger.kernel.org>; Tue,  7 May 2024 21:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7117132817
+	for <linux-input@vger.kernel.org>; Tue,  7 May 2024 21:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715118339; cv=none; b=uhOMBSHFiLJccS/aQX3JKtwR2XxgzNWZ57L08bJmnkykBj+P57N8sD4Z2CffDhrotFeaf9JPVZhlKOwu7foEY9TZr9AE3ov9qoirbc+yc0cr/Rsz31wxzKePSI1E3yqgR7+buvgxpOfGTDMqwKTn0dhvDdFgkGir2GA+PCAhwGE=
+	t=1715118380; cv=none; b=nVew2HuLAs68ZSk0gB0JoYbr8cWuu2GHaPyuzwDXk6yyAVEpiqL+jMaXfXol5qZA2Y2y2/zFNZDX6wICoyAH4lzoucnVxov2MwMhDQ3wXAlxxjmJyXFBD+RviA5LNqSX9yI0O3nKSSh40v3QYMQHjyZsh4Z9VoI4i8HYZ2+5RFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715118339; c=relaxed/simple;
-	bh=u1WhBmcckAt2rdhPGlHMEW1L6rz0lHqek1WxWKv+Lpk=;
+	s=arc-20240116; t=1715118380; c=relaxed/simple;
+	bh=GVSC37q+WVUBvHotgiC9ngmMYaMRXiMQyXyyILui2QY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qRHQhLmFsgId3RZjMXlZz122JC5AVZ/BuN+XlCJAoqr9yzI86kRwENgrM1JE+GC3UbME3jLQKNq7LWvh3D8En8lZiWhe8HfGU+hGv4nSI27GAC9VL+WNl/6fMkKLV5L87d1P9oOR5i4wEkte6Pvj8pZg4ADmc+0esSVxuwSYDjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EAOb0VTr; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=OXJL9oocXAhXveM1txosH30GkbDvuo4F9VTVuzqcJ/jgzGDymUfCyme8e6U/oLTUbn2gshVnE18ROVr3IZdFttySuyt1z+lGDf65O8r4n3n4rt16bqy2cQXmMz0KvLqqWzxlygNMTjaY667sIZFHZUx+RAacP8Scgu/M/08XlFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qbCt4CZ+; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-de60321ce6cso6875801276.1
-        for <linux-input@vger.kernel.org>; Tue, 07 May 2024 14:45:37 -0700 (PDT)
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2b2a8bd5ee0so3037937a91.2
+        for <linux-input@vger.kernel.org>; Tue, 07 May 2024 14:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715118336; x=1715723136; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1715118377; x=1715723177; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PxqkolGdAHnL6PdsZ65UERLJRMYbiNDsN8K6maFf6SM=;
-        b=EAOb0VTrPa0tgInHil+vnvBckQGZucDqfwvtGJfDLsKxwUt6aDMz9FzfrLNEiKUiWx
-         A82FDY5UaQ3tDdNFRZxcjHUsG41rlv92k4eKKpZYWkYoWQsOO/xh7oRNXBkIT7COUfwN
-         Wqiu85thMq9c2nhmYYFmQ7jwvh0zx8Vn1B+Vxb88WGBqDtCl5BDXOnxGVrZlODe0VFnh
-         HnjqSQ3H5IkMdC+93OwNMVM52Pfid1yMsQyVoJjGrPgHTZgsDcH9TN39O1Xst2WX10ZQ
-         c15OvAuaaV6COMyBPjRJyQ1xTAusna1000y7vafImuBeX/te9uk9Q0HIehMo19kbpOTI
-         y5rQ==
+        bh=DviObgEc5the5KsTWi1wuA8Jrbq5crnmfaITqe27r7c=;
+        b=qbCt4CZ+bklyFSSW9hAZzEVD2hb+vUYovoFB6mo9TyF0prG9XbU9PPK5EhkJkasbra
+         mYel77QzyGlU5cP+fICfhmbZ0eZ1b2mAFWOjxJyiv+cGqMoJ9Zjgqd3l6wUsfbVtxSjm
+         SMRu6XHE2DIcc65kRWrRKaNRHK/V0ySJvCP7Mux2gcnpg+Lie7ckHLVZaO5cMU2oHDLr
+         uFh6VIstiCfI/MwNref+XdABr0ZP69AFzsvI2A3rk0+E+QjVRMgEOFDCS9vI/fxFkoqk
+         Tsh3Zs6tHNtCH+2ejoIrStJx722szFv09p4JIyryIzZyy9xbJJEAVR/SM7Cv+itpwoZm
+         nFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715118336; x=1715723136;
+        d=1e100.net; s=20230601; t=1715118377; x=1715723177;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PxqkolGdAHnL6PdsZ65UERLJRMYbiNDsN8K6maFf6SM=;
-        b=KzCkq6vcqxxLb9yETALXUkohOdjEgecOhg2Ll8KTcu2ek1mrn17x0qenJLdqhRgxvL
-         c8c2FcbJQ0LqdFmk4wkZjJAI5b+ZlCxO2qdsip4CZAApUZ16ShfZ4o7xQOfAo2iM38UH
-         a41UB/y15YKJK9wRpDN1+tOcjBEKawXV1ZWEmfi1nC4xzR505F74Ed2SqHpzD+8VPwBg
-         oQO8O0uBlP+7wOR+CZBz+rFpunw4e7dNNWPh1/WBH0yJR+P1+J15HdrTvoMfUIllSJvS
-         l1Z9M3qTR2QlSAw0KIHAJrTIZNuvnuBNhiyH3IFh7IWx6jHs/rZN2GUn0B4LHGmLQ8bz
-         WEmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDWWs6gB46uUJdcFKKgcMwUcpX3k6HJVSMzdYtscV1bpo9RMeOwHfF48gkyxEz9W4DS+hFGgcnz2t6jN8kqDog09nPsXSIKVHdGxY=
-X-Gm-Message-State: AOJu0YxOJBY5OGc8jTEPVOLZ1koYj+EzIgUbFPuE5S1YCiifUi0t9s/K
-	6JslVyr6L+JD3cHuVDjiOtSwD0d+AtdLUeoeicNqoGtMdC3gYKf0jGxKtOCwkqkrbGFudb7vU2q
-	lNA==
-X-Google-Smtp-Source: AGHT+IGJgoOMG1JaBSE0UtHVyyig8KidzCIEzcvbINCcSvOASMpuIMj9uEKB71a44HvjahOWnOHiagC8tKE=
+        bh=DviObgEc5the5KsTWi1wuA8Jrbq5crnmfaITqe27r7c=;
+        b=aptDA8VBckWEf+1ghlZI36r9DDT0jUgfPvATYk94pe21LxGKyglW2FyWgFr8hcHZgO
+         j05oHIfD0xm/SoOReUk5Vz4JJt8Ibqnf6648U5fGwlwYRZKKTYdjEDrDs7hM4lL9p3mE
+         yHlknJR+jF7f5Uk21MKihP++lGBtNO0PGmbd9T7MmqlxloKgg/7s4pEShFtLFM4Bxcdg
+         OZMDH9PGqFUeXjM3mxMAzLdPQzd6HafAsjwh4PC/WHb9TQRM9Fk6fF+wjEy2R8u2jz4E
+         peIGc4oW006YZPIf0HGseNMvHdK7ejrdcF/mAiFJzw0c99eRfQFwGXDm2Wa265QgDpP7
+         jxiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWJMicGHVXh27IVbLcrD/odpW8n3iQvF2RueuTGb8JU6gIaCMlpfZFPMeLM4C6DtU8FHN70uFz8C7BdPmiPFBf7Gtvzj6iV6nJ4Ww=
+X-Gm-Message-State: AOJu0YyQSt/YriGjrO3pLY/N5GqB9WxR1Sp6NchBko6dDCjQoKJYBOAn
+	LlYxqxpqn3eHaNv4UDGiSzLBPiMkjL71pRLdNml3yOwnwjb4hGtWW/YhePNgvCNJyyC/OCwF9jK
+	lEg==
+X-Google-Smtp-Source: AGHT+IEulH29x3uOVFbknFwsLl4WcM9naThMz9i2Ajy3QsMZqnbNUGap0hB8s9HU3OrwMNMNVbdGuRXxZUs=
 X-Received: from edliaw.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:305d])
- (user=edliaw job=sendgmr) by 2002:a05:6902:1007:b0:deb:8bc5:eb5b with SMTP id
- 3f1490d57ef6-debb9d87cd3mr271839276.5.1715118336096; Tue, 07 May 2024
- 14:45:36 -0700 (PDT)
-Date: Tue,  7 May 2024 21:38:27 +0000
+ (user=edliaw job=sendgmr) by 2002:a17:90a:5913:b0:29b:c2b7:7d29 with SMTP id
+ 98e67ed59e1d1-2b616ad9f91mr3776a91.9.1715118376985; Tue, 07 May 2024 14:46:16
+ -0700 (PDT)
+Date: Tue,  7 May 2024 21:38:28 +0000
 In-Reply-To: <20240507214254.2787305-1-edliaw@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -74,8 +74,8 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240507214254.2787305-1-edliaw@google.com>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240507214254.2787305-3-edliaw@google.com>
-Subject: [PATCH v2 2/5] selftests/sgx: Include KHDR_INCLUDES in Makefile
+Message-ID: <20240507214254.2787305-4-edliaw@google.com>
+Subject: [PATCH v2 3/5] selftests: Include KHDR_INCLUDES in Makefile
 From: Edward Liaw <edliaw@google.com>
 To: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
 	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
@@ -117,49 +117,164 @@ Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
 	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org, 
-	kernel test robot <oliver.sang@intel.com>
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Add KHDR_INCLUDES to the CFLAGS to pull in the kselftest harness
+Add KHDR_INCLUDES to CFLAGS to pull in the kselftest harness
 dependencies (-D_GNU_SOURCE).
 
-Also, remove redefinitions of _GNU_SOURCE in the source code.
-
 Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Closes: https://lore.kernel.org/oe-lkp/202404301040.3bea5782-oliver.sang@intel.com
 Signed-off-by: Edward Liaw <edliaw@google.com>
 ---
- tools/testing/selftests/sgx/Makefile    | 2 +-
- tools/testing/selftests/sgx/sigstruct.c | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ tools/testing/selftests/alsa/Makefile                  | 2 +-
+ tools/testing/selftests/arm64/signal/Makefile          | 2 +-
+ tools/testing/selftests/exec/Makefile                  | 2 +-
+ tools/testing/selftests/filesystems/overlayfs/Makefile | 2 +-
+ tools/testing/selftests/hid/Makefile                   | 2 +-
+ tools/testing/selftests/nci/Makefile                   | 2 +-
+ tools/testing/selftests/prctl/Makefile                 | 2 ++
+ tools/testing/selftests/proc/Makefile                  | 2 +-
+ tools/testing/selftests/riscv/mm/Makefile              | 2 +-
+ tools/testing/selftests/rtc/Makefile                   | 2 +-
+ tools/testing/selftests/tmpfs/Makefile                 | 2 +-
+ 11 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/tools/testing/selftests/sgx/Makefile b/tools/testing/selftests/sgx/Makefile
-index 867f88ce2570..26ea30fae23c 100644
---- a/tools/testing/selftests/sgx/Makefile
-+++ b/tools/testing/selftests/sgx/Makefile
-@@ -12,7 +12,7 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
+diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+index 5af9ba8a4645..9a0ef194522c 100644
+--- a/tools/testing/selftests/alsa/Makefile
++++ b/tools/testing/selftests/alsa/Makefile
+@@ -6,7 +6,7 @@ LDLIBS += $(shell pkg-config --libs alsa)
+ ifeq ($(LDLIBS),)
+ LDLIBS += -lasound
  endif
+-CFLAGS += -L$(OUTPUT) -Wl,-rpath=./
++CFLAGS += $(KHDR_INCLUDES) -L$(OUTPUT) -Wl,-rpath=./
  
- INCLUDES := -I$(top_srcdir)/tools/include
--HOST_CFLAGS := -Wall -Werror -g $(INCLUDES) -fPIC
-+HOST_CFLAGS := -Wall -Werror $(KHDR_INCLUDES) -g $(INCLUDES) -fPIC
- HOST_LDFLAGS := -z noexecstack -lcrypto
- ENCL_CFLAGS += -Wall -Werror -static-pie -nostdlib -ffreestanding -fPIE \
- 	       -fno-stack-protector -mrdrnd $(INCLUDES)
-diff --git a/tools/testing/selftests/sgx/sigstruct.c b/tools/testing/selftests/sgx/sigstruct.c
-index d73b29becf5b..200034a0fee5 100644
---- a/tools/testing/selftests/sgx/sigstruct.c
-+++ b/tools/testing/selftests/sgx/sigstruct.c
-@@ -1,7 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*  Copyright(c) 2016-20 Intel Corporation. */
+ LDLIBS+=-lpthread
  
--#define _GNU_SOURCE
- #include <assert.h>
- #include <getopt.h>
- #include <stdbool.h>
+diff --git a/tools/testing/selftests/arm64/signal/Makefile b/tools/testing/selftests/arm64/signal/Makefile
+index 8f5febaf1a9a..ae682ade615d 100644
+--- a/tools/testing/selftests/arm64/signal/Makefile
++++ b/tools/testing/selftests/arm64/signal/Makefile
+@@ -2,7 +2,7 @@
+ # Copyright (C) 2019 ARM Limited
+ 
+ # Additional include paths needed by kselftest.h and local headers
+-CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
++CFLAGS += $(KHDR_INCLUDES) -std=gnu99 -I.
+ 
+ SRCS := $(filter-out testcases/testcases.c,$(wildcard testcases/*.c))
+ PROGS := $(patsubst %.c,%,$(SRCS))
+diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
+index fb4472ddffd8..15e78ec7c55e 100644
+--- a/tools/testing/selftests/exec/Makefile
++++ b/tools/testing/selftests/exec/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ CFLAGS = -Wall
+ CFLAGS += -Wno-nonnull
+-CFLAGS += -D_GNU_SOURCE
++CFLAGS += $(KHDR_INCLUDES)
+ 
+ TEST_PROGS := binfmt_script.py
+ TEST_GEN_PROGS := execveat load_address_4096 load_address_2097152 load_address_16777216 non-regular
+diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/tools/testing/selftests/filesystems/overlayfs/Makefile
+index 56b2b48a765b..6c29c963c7a8 100644
+--- a/tools/testing/selftests/filesystems/overlayfs/Makefile
++++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
+@@ -2,6 +2,6 @@
+ 
+ TEST_GEN_PROGS := dev_in_maps
+ 
+-CFLAGS := -Wall -Werror
++CFLAGS := -Wall -Werror $(KHDR_INCLUDES)
+ 
+ include ../../lib.mk
+diff --git a/tools/testing/selftests/hid/Makefile b/tools/testing/selftests/hid/Makefile
+index 2b5ea18bde38..0661b34488ef 100644
+--- a/tools/testing/selftests/hid/Makefile
++++ b/tools/testing/selftests/hid/Makefile
+@@ -21,7 +21,7 @@ CXX ?= $(CROSS_COMPILE)g++
+ 
+ HOSTPKG_CONFIG := pkg-config
+ 
+-CFLAGS += -g -O0 -rdynamic -Wall -Werror -I$(OUTPUT)
++CFLAGS += -g -O0 -rdynamic -Wall -Werror $(KHDR_INCLUDES) -I$(OUTPUT)
+ CFLAGS += -I$(OUTPUT)/tools/include
+ 
+ LDLIBS += -lelf -lz -lrt -lpthread
+diff --git a/tools/testing/selftests/nci/Makefile b/tools/testing/selftests/nci/Makefile
+index 47669a1d6a59..bbc5b8ec3b17 100644
+--- a/tools/testing/selftests/nci/Makefile
++++ b/tools/testing/selftests/nci/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-CFLAGS += -Wl,-no-as-needed -Wall
++CFLAGS += -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
+ LDFLAGS += -lpthread
+ 
+ TEST_GEN_PROGS := nci_dev
+diff --git a/tools/testing/selftests/prctl/Makefile b/tools/testing/selftests/prctl/Makefile
+index 01dc90fbb509..1a0aefec9d6f 100644
+--- a/tools/testing/selftests/prctl/Makefile
++++ b/tools/testing/selftests/prctl/Makefile
+@@ -6,6 +6,8 @@ ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/x86/ -e s/x86_64/x86/)
+ ifeq ($(ARCH),x86)
+ TEST_PROGS := disable-tsc-ctxt-sw-stress-test disable-tsc-on-off-stress-test \
+ 		disable-tsc-test set-anon-vma-name-test set-process-name
++
++CFLAGS += $(KHDR_INCLUDES)
+ all: $(TEST_PROGS)
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index cd95369254c0..9596014c10a0 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ CFLAGS += -Wall -O2 -Wno-unused-function
+-CFLAGS += -D_GNU_SOURCE
++CFLAGS += $(KHDR_INCLUDES)
+ LDFLAGS += -pthread
+ 
+ TEST_GEN_PROGS :=
+diff --git a/tools/testing/selftests/riscv/mm/Makefile b/tools/testing/selftests/riscv/mm/Makefile
+index c333263f2b27..715a21241113 100644
+--- a/tools/testing/selftests/riscv/mm/Makefile
++++ b/tools/testing/selftests/riscv/mm/Makefile
+@@ -3,7 +3,7 @@
+ # Originally tools/testing/arm64/abi/Makefile
+ 
+ # Additional include paths needed by kselftest.h and local headers
+-CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
++CFLAGS += $(KHDR_INCLUDES) -std=gnu99 -I.
+ 
+ TEST_GEN_FILES := mmap_default mmap_bottomup
+ 
+diff --git a/tools/testing/selftests/rtc/Makefile b/tools/testing/selftests/rtc/Makefile
+index 55198ecc04db..654f9d58da3c 100644
+--- a/tools/testing/selftests/rtc/Makefile
++++ b/tools/testing/selftests/rtc/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-CFLAGS += -O3 -Wl,-no-as-needed -Wall
++CFLAGS += -O3 -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
+ LDLIBS += -lrt -lpthread -lm
+ 
+ TEST_GEN_PROGS = rtctest
+diff --git a/tools/testing/selftests/tmpfs/Makefile b/tools/testing/selftests/tmpfs/Makefile
+index aa11ccc92e5b..bcdc1bb6d2e6 100644
+--- a/tools/testing/selftests/tmpfs/Makefile
++++ b/tools/testing/selftests/tmpfs/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ CFLAGS += -Wall -O2
+-CFLAGS += -D_GNU_SOURCE
++CFLAGS += $(KHDR_INCLUDES)
+ 
+ TEST_GEN_PROGS :=
+ TEST_GEN_PROGS += bug-link-o-tmpfile
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
