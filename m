@@ -1,83 +1,99 @@
-Return-Path: <linux-input+bounces-3533-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3534-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F068BD950
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 04:13:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB748BDABA
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 07:44:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC241F227D5
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 02:13:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA8B01C21A16
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 05:44:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BC94A15;
-	Tue,  7 May 2024 02:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D395F6BB5C;
+	Tue,  7 May 2024 05:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cIVC3Ti/"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="QeQkweQ1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ADWUYd67"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155F04C63;
-	Tue,  7 May 2024 02:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C062E6BB20;
+	Tue,  7 May 2024 05:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715048024; cv=none; b=EJSekTzAAeeZrz98dO/vKMTv283Lwucl3q5Vf39NIohDeUsB68HfFSkQng94j7x4wdOm1s/X3YO53I2P4quTFHNJF2tSK6YU7hncsmJFB9AGupY9J+97R/fJD6wol+Ri9xW5Kg1J1IuEmlEuKmAkGZB97NmrvKkloqqumRzrQlk=
+	t=1715060652; cv=none; b=fWC3WYOFmLU1L5STQ6H5CwQGlzxhT0j7byhSOxrEuCQdJT3wqDmIKPOwsqwb3RtfBOxQRuR73nLvwDc6NE3mbw05kZtFXVK6MwZs0uVrhXgF696QghqkYgzIh8ms/pHJkhuVpP5A2EUmQx/Oy2RNLX51XmoASsaCnglvxWp55Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715048024; c=relaxed/simple;
-	bh=G7eAzDnjYsUquca5DgYURom3FGxQSVe5uDgKJypFTvc=;
+	s=arc-20240116; t=1715060652; c=relaxed/simple;
+	bh=xUUikjw73Z2SWVDsnoMEjL6NWbOu9X7Pm9owE8s4BBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XiVb6x4tvHaYg/5QmcT+BFpyehP6x71CEJjDkAzVltXfxm4EsUMGwYT9Gzdkza3Ky0mlHCKtqwPQfIR3jGYcv6CsTsyQeSVYhHf9kq5kgpKSJ8JYmA0/ZIlcgVc88r8R7PkFLu+XAVpAWrt5YWmOmnzeKL6JeGnUzYXHMxEbyrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cIVC3Ti/; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6f042ff9ddcso1191007a34.1;
-        Mon, 06 May 2024 19:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715048022; x=1715652822; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JrZ6SuQInLnc2+mgMTN2eZSIdJ1Vd4I7NVA29Tw+mFE=;
-        b=cIVC3Ti/cBQ/aciC1PKBHwiCgigXz0pOfihFAGNNpNLLCojegzgCxH9YJYzq0+Sd6u
-         ETb6wnaSkaD1T05Z/e5mqEDg59PycRLI8sydatgXcnPhpgpApHJJ2WWZxUaCqcJcXIVm
-         +drZgeOh9I0tb+JOigUPbqjr45p3p8FEmajcbrjPDtZP3ImU0TmuA2aGMILihlJAPDcd
-         Z9aSvTv7dQEbSIlgM5KdH8+qNRDEcfx6tZI62e5qVp3deP98IE8LD8RfK5C7wEJlCMXy
-         DN0XTan2U9BZk/zOjCHbXfhnNQsVPgnTb2ihyTmc3hvQV8cYSAcoz67JNT0m7UY+eWVI
-         jD+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715048022; x=1715652822;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JrZ6SuQInLnc2+mgMTN2eZSIdJ1Vd4I7NVA29Tw+mFE=;
-        b=U0FMRMelefURSmjQoMxZ90lvL+8brcFuNsQ1i9/oGXLG3UlJyDzvewMytl+g/r27gO
-         vy0h9dZNq/SZrecIRxNn3QYVfADIL3tgXqlInwpAmdFS+XVgNQDkJPu9yXR4Br0Yn/q4
-         21vmlrtsYjWeMYazPzi8XqF1PE4PuX7PycHsyE0ZZpr96e0Yme4gmV1Hn0HjXjgkwU8V
-         SapPXP1EW70IL4QMf7tO1+ziM7CKJEomKcVtch5/jN4X4wrPJ0pNMn1aXIzj0oowF3eb
-         tkLH6xhxArsiSkjvc1dto3z3Io9Gj8jmEtmXggDMKH49luex2qHsNcf5spyLSescWbra
-         7hhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtonQ4Ufk4eS84lIawxe+4YqsRAeAD88/8udI0oF59c4X1ULw2UrmZ8EJC0h0UOXiYghqHD9eR3XuA62qIyxZnrvi+E/EAg8NhIEKKtRayrKrd68eXaZ4wn0ZnmWpxc6XnEN3Iv2oGE18=
-X-Gm-Message-State: AOJu0YwpuUtT6nMtsNQyOpy+uJuG9yy+IzXDH0nB+im/TB0Y3CUdUAB8
-	R724f5NSsblfKgZlXZHAJPXzzSs97iqW1OqxE1OmBYtPof/aHo2emLsv9g==
-X-Google-Smtp-Source: AGHT+IFx1iTTLqW+a5zy+mrOU7H7PtN2kDBjD+ThTA/QprFo5oW3hrIgZguo6vcbcnI+TrSq5hHtqg==
-X-Received: by 2002:a05:6808:10ca:b0:3c9:6e4f:eeec with SMTP id s10-20020a05680810ca00b003c96e4feeecmr5933080ois.37.1715048021894;
-        Mon, 06 May 2024 19:13:41 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:da17:38c8:4449:eb9f])
-        by smtp.gmail.com with ESMTPSA id j6-20020aa78d06000000b006ecec1f4b08sm8370854pfe.118.2024.05.06.19.13.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 19:13:41 -0700 (PDT)
-Date: Mon, 6 May 2024 19:13:38 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net,
-	Richard Hughes <hughsient@gmail.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
- and writing touch IC registers
-Message-ID: <ZjmOUp725QTHrfcT@google.com>
-References: <20240506114752.47204-1-charles.goodix@gmail.com>
- <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIbiZ3EZo9N7gMLrkT9aaCsIhNDiXxTaqTxjrfQymNhxPN8pxksqwD7lwy+uHbIYTDLyGbM5Tz5KagcI6scZBDGcPuIcB8dgssuh1wqMdwDji9AnddBlatDuspAenFjzOgDjQ1QVOeKy0ZE/Wi6Fh3zzPrYhFCgUye/tL1i/c8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=QeQkweQ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ADWUYd67; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id CA3DA114010D;
+	Tue,  7 May 2024 01:44:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 07 May 2024 01:44:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1715060648; x=1715147048; bh=lkeboXyBVp
+	NmNRvKnjyj6x8sgel+2B8ncRxdOm+B4m4=; b=QeQkweQ1+bCG+NzV9FSr3Vpu4c
+	FR4kr6FpUMW/7D+ATsXbatQPO4TUNVgzI5xIsKhqsthkMm3PEyKqeuFj5QnVj7G2
+	YaCx7u00n3QYC9yZvbUrbGz8TQMw4VL96FI3LbAcQ9VGaLqddnlB9tIWgO1zJZfP
+	YJ3Xy1iAoLApjkDcBnBGSNr62XV8Cf5AUIbb74D8WjbDFlPavSyCqDv0TEFNfb2i
+	dmC/69b3+mvA8OLULvQCGBg1ycREVLf18qnD6sVq+iVYgyPPe6Y3qWZOO4M5Yop0
+	xDWRylj+tE8TPn72m+ACjbVm7VQW6eAjzye0st8Rd/dxm7Nz+uBXwJLxdtqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1715060648; x=1715147048; bh=lkeboXyBVpNmNRvKnjyj6x8sgel+
+	2B8ncRxdOm+B4m4=; b=ADWUYd67gU3t6wO84l5Ys2TG+vpv4c8/rxVA9/MiHsnO
+	yGtp70MFyvgpofeyz3UTGPyGP+fPOLLUq4jav5ck951pVKmUDn2R1pmXhoiUySoT
+	4ncAFm7yQwB8kJz8AGyZLd8E9sCX9VF61BvZNB2JpbfClwlz+i/UX+rD+hCgomCQ
+	2FXfObMv+NqtGjH3ZR9AqamjC1pQDhK5xRzPaRe7IwMVcJtuser+1qAvuQT0NvGZ
+	3f7eLmKjwzzdRTOJL7aEOnHgOcdYSTonvdj5XPscDwlOu588sKDqzeG4YKV+gRj5
+	z8Nk5R3QQbTOP2Au+jiaPv8qhlpkoqfZsVdz+h0LLQ==
+X-ME-Sender: <xms:qL85Zv5bpem87foY8yva3ZgY8BqwUbmp2beoqHOQkps6ny9if3FOgw>
+    <xme:qL85Zk57LGYs2HWA1h9x20PXqAJndsUbLChHcaqw7rK_1CNPefxDI2RN9IVoF1dbQ
+    vdlNbIARysCmXV9PyM>
+X-ME-Received: <xmr:qL85ZmfsAL_w_R1iWvzhNSGuVLfKiH7cuzTXo02qM0GGRu8sVifKr0B44FPINevuvkd9yzhvTZfXrHr9zS91FdgfopNixhamo0xp>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvjedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
+    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:qL85ZgKeoK0iG_pOUEJyngrRgD-qZQr_WVRyoGXxUmIebKdrh8Eqbw>
+    <xmx:qL85ZjLXdN2iGRSViUXKL1eHi372Qb2fMHNxOB3MDI3bKuTAT3YKjA>
+    <xmx:qL85ZpwoFYPnJ-VWosex2jtajpeCUaX8e4LZyj5jSygbS7JOvbtIIA>
+    <xmx:qL85ZvID7Py1eI5HiL8LHJKKqBawU-stWBtoQR8C2DUWfXGk03iyDA>
+    <xmx:qL85Zlya9pfG5BcaMtzX7R0zMqPC7mOPmDqMu59T_SNoal34jwQB_OmQ>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 May 2024 01:44:04 -0400 (EDT)
+Date: Tue, 7 May 2024 15:43:58 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: bentiss@kernel.org
+Cc: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	linux-input@vger.kernel.org, Martin Sivak <mars@montik.net>,
+	Ping Cheng <pinglinux@gmail.com>,
+	Jason Gerecke <killertofu@gmail.com>,
+	Aaron Armstrong Skomra <skomra@gmail.com>,
+	Joshua Dickens <Joshua@joshua-dickens.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 19/18] selftests/hid: skip tests with HID-BPF if
+ udev-hid-bpf is not installed
+Message-ID: <20240507054358.GA696790@quokka>
+References: <20240410-bpf_sources-v1-0-a8bf16033ef8@kernel.org>
+ <20240506143612.148031-1-bentiss@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,133 +102,62 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+In-Reply-To: <20240506143612.148031-1-bentiss@kernel.org>
 
-On Mon, May 06, 2024 at 02:03:13PM +0200, Hans de Goede wrote:
-> Hi,
+On Mon, May 06, 2024 at 04:36:12PM +0200, bentiss@kernel.org wrote:
+> From: Benjamin Tissoires <bentiss@kernel.org>
 > 
-> On 5/6/24 1:47 PM, Charles Wang wrote:
-> > Export a sysfs interface that would allow reading and writing touchscreen
-> > IC registers. With this interface many things can be done in usersapce
-> > such as firmware updates. An example tool that utilizes this interface
-> > for performing firmware updates can be found at [1].
+> udev-hid-bpf is still not installed everywhere, and we should probably
+> not assume it is installed automatically.
 > 
-> I'm not sure if I'm a fan of adding an interface to export raw register
-> access for fwupdate.
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/touchscreen/goodix_fwupload.c
-> 
-> Contains update support for older goodix touchscreens and it is not
-> that big. I think it might be better to just have an in kernel fwupdate
-> driver for this and have a sysfs file to which to write the new firmware.
-> 
-> Adding Richard Hughes, fwupd maintainer to the Cc. Richard, do you have
-> any input on the suggested method for firmware updating ?
-> 
-> If raw register access is seen as a good solution, then I think this
-> should use regmap + some generic helpers (to be written) to export
-> regmap r/w access to userspace.
+> I wanted to apply this series given that it wasn't reviewed in a month,
 
-I think the less code we have in kernel the better, especially if in
-cases where firmware flashing is not essential for device to work (i.e.
-it the controller has a flash memory). That said IIRC Mark felt very
-strongly about allowing regmap writes from userspace... but maybe he
-softened the stance or we could have this functionality opt-in?
+apologies. Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-> 
-> > [1] https://github.com/goodix/fwupdate_for_berlin_linux
-> 
-> Hmm, that tool seems to have some licensing issues there is an Apache License v2.0
-> LICENSE file, but the header of fwupdate.c claims it is confidential ...
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> > Signed-off-by: Charles Wang <charles.goodix@gmail.com>
-> > ---
-> >  drivers/input/touchscreen/goodix_berlin.h     |  2 +
-> >  .../input/touchscreen/goodix_berlin_core.c    | 52 +++++++++++++++++++
-> >  drivers/input/touchscreen/goodix_berlin_i2c.c |  6 +++
-> >  drivers/input/touchscreen/goodix_berlin_spi.c |  6 +++
-> >  4 files changed, 66 insertions(+)
-> > 
-> > diff --git a/drivers/input/touchscreen/goodix_berlin.h b/drivers/input/touchscreen/goodix_berlin.h
-> > index 1fd77eb69..1741f2d15 100644
-> > --- a/drivers/input/touchscreen/goodix_berlin.h
-> > +++ b/drivers/input/touchscreen/goodix_berlin.h
-> > @@ -19,6 +19,8 @@ struct regmap;
-> >  int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
-> >  			struct regmap *regmap);
-> >  
-> > +void goodix_berlin_remove(struct device *dev);
-> > +
-> >  extern const struct dev_pm_ops goodix_berlin_pm_ops;
-> >  
-> >  #endif
-> > diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
-> > index e7b41a926..e02160841 100644
-> > --- a/drivers/input/touchscreen/goodix_berlin_core.c
-> > +++ b/drivers/input/touchscreen/goodix_berlin_core.c
-> > @@ -672,6 +672,44 @@ static void goodix_berlin_power_off_act(void *data)
-> >  	goodix_berlin_power_off(cd);
-> >  }
-> >  
-> > +static ssize_t goodix_berlin_registers_read(struct file *filp, struct kobject *kobj,
-> > +	struct bin_attribute *bin_attr, char *buf, loff_t off, size_t count)
-> > +{
-> > +	struct goodix_berlin_core *cd;
-> > +	struct device *dev;
-> > +	int error;
-> > +
-> > +	dev = kobj_to_dev(kobj);
-> > +	cd = dev_get_drvdata(dev);
-> > +
-> > +	error = regmap_raw_read(cd->regmap, (unsigned int)off,
-> > +				buf, count);
-> > +
-> > +	return error ? error : count;
-> > +}
-> > +
-> > +static ssize_t goodix_berlin_registers_write(struct file *filp, struct kobject *kobj,
-> > +	struct bin_attribute *bin_attr, char *buf, loff_t off, size_t count)
-> > +{
-> > +	struct goodix_berlin_core *cd;
-> > +	struct device *dev;
-> > +	int error;
-> > +
-> > +	dev = kobj_to_dev(kobj);
-> > +	cd = dev_get_drvdata(dev);
-> > +
-> > +	error = regmap_raw_write(cd->regmap, (unsigned int)off,
-> > +				 buf, count);
-> > +
-> > +	return error ? error : count;
-> > +}
-> > +
-> > +static struct bin_attribute goodix_berlin_registers_attr = {
-> > +	.attr = {.name = "registers", .mode = 0600},
-> > +	.read = goodix_berlin_registers_read,
-> > +	.write = goodix_berlin_registers_write,
-> > +};
-> > +
-> >  int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
-> >  			struct regmap *regmap)
-> >  {
-> > @@ -743,6 +781,14 @@ int goodix_berlin_probe(struct device *dev, int irq, const struct input_id *id,
-> >  
-> >  	dev_set_drvdata(dev, cd);
-> >  
-> > +	error = sysfs_create_bin_file(&cd->dev->kobj,
-> > +				      &goodix_berlin_registers_attr);
+(I have a few improvement suggestions for the hidtools code but it's
+better to do those there and then sync back).
 
-If we want to instantiate attributes from the driver please utilize
-dev_groups in respective driver structures to create and remove the
-attributes automatically.
+Cheers,
+  Peter
 
-Thanks.
-
--- 
-Dmitry
+> but I thought that maybe I should not enforce ude-hid-bpf to be
+> installed everywhere.
+> 
+> I'll probably push this series tomorrow so it makes the 6.10 cut.
+> 
+> Cheers,
+> Benjamin
+> 
+>  tools/testing/selftests/hid/tests/base.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/hid/tests/base.py b/tools/testing/selftests/hid/tests/base.py
+> index 2d006c0f5fcd..3a465768e507 100644
+> --- a/tools/testing/selftests/hid/tests/base.py
+> +++ b/tools/testing/selftests/hid/tests/base.py
+> @@ -8,6 +8,7 @@
+>  import libevdev
+>  import os
+>  import pytest
+> +import shutil
+>  import subprocess
+>  import time
+>  
+> @@ -240,6 +241,10 @@ class BaseTestCase:
+>              root_dir = (script_dir / "../../../../..").resolve()
+>              bpf_dir = root_dir / "drivers/hid/bpf/progs"
+>  
+> +            udev_hid_bpf = shutil.which("udev-hid-bpf")
+> +            if not udev_hid_bpf:
+> +                pytest.skip("udev-hid-bpf not found in $PATH, skipping")
+> +
+>              wait = False
+>              for _, rdesc_fixup in self.hid_bpfs:
+>                  if rdesc_fixup:
+> -- 
+> 2.44.0
+> 
 
