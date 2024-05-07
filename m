@@ -1,49 +1,49 @@
-Return-Path: <linux-input+bounces-3555-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3556-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C0E8BE66C
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:49:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385388BE66F
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:49:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3EA11C2359F
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:49:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E701B28393D
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D484E16192D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5DC161939;
 	Tue,  7 May 2024 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGt5jbgH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huv6oeXF"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9814115FCFC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98189160781;
 	Tue,  7 May 2024 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715093330; cv=none; b=HO6JztUo4vzB6Rycqr5pwKOWLdZ9d3qu3G4lBMK6ys7vnGKTfLaVfd/kYXVwHBFM1D4fUDDvKq+aEUA4rKPhBLoO9n4SeUj0puRfvcsOzrV2xcGgezsBIZ6PhbehsHoIui1fNB7+qrUSX/oDP6K7pCaTw4WGHmklKtu5zzZjA+Y=
+	t=1715093330; cv=none; b=q6b7Xu4VZMupgDhj15HT42hqTpSMrltyXkdgkI4PbKKZjrPasVY3dOSXdvDVffx6YUgwzqS0Ht7EADPpl2+k/XRrcj8Fs7wWDENjbyGq8LOeo+noff6Yz3ur9zqaNYwS4GCLQEN2iguCop7fOzyDIyUyPetky3YLJSNjbFZ4X1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715093330; c=relaxed/simple;
-	bh=YIIm3nA6A0qem8v1BHDbNeu0AaDyLJhWVD2pEz5yb2s=;
+	bh=GIO4K7Jzi7e58ru4SZwn+yKyWIyZbt9nbponGMhXWbs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CWXIYFtgrMheNJFVq/5D+kExxjR9xv9ZofEVue5hVXm5KklZIUQw9r+yN+t8j7KHauBDlK1pbWFeu5zFCgVoWX/Nb+VLvWh80NCBQZjYi842Cyx3xcVxShWpDDv6oXiMLMrEA58xKk5o4VerRKsYLa5h06yeDq2naUGAq9F/yuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGt5jbgH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BA3C2BBFC;
+	 MIME-Version; b=JF4f9LURaIip+3wH3kEU4jU1SibhHFCNOxcjshRbH30jL8l8lEh/LxWeYJq++odgj5mzCb8ZQa2Tiis8Bg7FU64730zff7tnSwL8UgMxPba6zzVlOBnx9wGsLKD/z3xRUuNGfL96F0XCtet44/TDKuZrGvsyLBwis8OfqH6jJN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huv6oeXF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4017FC4AF68;
 	Tue,  7 May 2024 14:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1715093330;
-	bh=YIIm3nA6A0qem8v1BHDbNeu0AaDyLJhWVD2pEz5yb2s=;
+	bh=GIO4K7Jzi7e58ru4SZwn+yKyWIyZbt9nbponGMhXWbs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VGt5jbgHoMdcYgrhzFq7XaxAEKYapGeiW9qct1GQosuDopf/eAhKNtg/kTkPTxrIO
-	 Rzf5wIcfVGkp1S+8svUh0POVnMXoSkUs+HDhALkWa5/hVrzQ/JAK7RKYo7R2oVZL9G
-	 imZxGAaCorrIeDisyyy7gfdp09h4iylmwSQXoifovWI21nyopshKIFDZ76cb6EycJt
-	 fy99zRR3dy7X+xSE1aM0d7FA8xK4GTziKiuGqVkVwp/wD8Abd17EdnZOhcXSxdfdHe
-	 ZiMhERN3MaE0XIMHRvpUpValtUDJiRDlMfbtPEM/700MhLttnGbSaMU7sLQpyc4qbb
-	 76t1CgBuBoSoA==
+	b=huv6oeXFI2fbbRUp2ra+wqxFNEvKmHMWZFyGScm4lKhBIHOCLWf2cy0VjMX39V0/R
+	 CEDdludXc1Uh3+jjTRKWPmkpvYr92jy273U19grzAA8J2akyOBYY2SXzC7h3+8oSrq
+	 uNUg1gl+XESUcCzpfgYXcihcL5OeNNZTqHzxAEgfD4m3JiswHtmNBG0ApSodshmXt4
+	 YTTa2o+Pkz6eygeTXNqdimvwCTwxMz7orh9Rk087rEeS8HeYh0RTxwIGe89O5/IXK1
+	 bHrxf/n4tSsbwxTT+2TVfSk/UEWj12+AOzwOhbDUnLoMKuBnQKjz6Kui7m4anB8qWO
+	 nk2oLFxArl7Aw==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan+linaro@kernel.org>)
-	id 1s4M7g-000000003Cq-1cAt;
+	id 1s4M7g-000000003Cs-22KF;
 	Tue, 07 May 2024 16:48:52 +0200
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Jiri Kosina <jikos@kernel.org>,
@@ -60,11 +60,10 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 2/7] dt-bindings: HID: i2c-hid: elan: add Elan eKTH5015M
-Date: Tue,  7 May 2024 16:48:16 +0200
-Message-ID: <20240507144821.12275-3-johan+linaro@kernel.org>
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH v2 3/7] dt-bindings: HID: i2c-hid: elan: add 'no-reset-on-power-off' property
+Date: Tue,  7 May 2024 16:48:17 +0200
+Message-ID: <20240507144821.12275-4-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240507144821.12275-1-johan+linaro@kernel.org>
 References: <20240507144821.12275-1-johan+linaro@kernel.org>
@@ -76,51 +75,44 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a compatible string for the Elan eKTH5015M touch controller.
+When the power supply is shared with other peripherals the reset line
+can be wired in such a way that it can remain deasserted regardless of
+whether the supply is on or not.
 
-Judging from the current binding and commit bd3cba00dcc6 ("HID: i2c-hid:
-elan: Add support for Elan eKTH6915 i2c-hid touchscreens"), eKTH5015M
-appears to be compatible with eKTH6915. Notably the power-on sequence is
-the same.
+This is important as it can be used to avoid holding the controller in
+reset for extended periods of time when it remains powered, something
+which can lead to increased power consumption. Leaving reset deasserted
+also avoids leaking current through the reset circuitry pull-up
+resistors.
 
-While at it, drop a redundant label from the example.
+Add a new 'no-reset-on-power-off' devicetree property which can be used
+by the OS to determine when reset needs to be asserted on power down.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Note that this property can also be used when the supply cannot be
+turned off by the OS at all.
+
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- .../devicetree/bindings/input/elan,ekth6915.yaml     | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/input/elan,ekth6915.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-index c1fcf8c90c24..be84f7ed0abc 100644
+index be84f7ed0abc..a62916d07a08 100644
 --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
 +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-@@ -18,8 +18,12 @@ allOf:
+@@ -36,6 +36,12 @@ properties:
+   reset-gpios:
+     description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
  
- properties:
-   compatible:
--    enum:
--      - elan,ekth6915
-+    oneOf:
-+      - items:
-+          - enum:
-+              - elan,ekth5015m
-+          - const: elan,ekth6915
-+      - const: elan,ekth6915
++  no-reset-on-power-off:
++    type: boolean
++    description:
++      Reset line is wired so that it can (and should) be left deasserted when
++      the power supply is off.
++
+   vcc33-supply:
+     description: The 3.3V supply to the touchscreen.
  
-   reg:
-     const: 0x10
-@@ -57,8 +61,8 @@ examples:
-       #address-cells = <1>;
-       #size-cells = <0>;
- 
--      ap_ts: touchscreen@10 {
--        compatible = "elan,ekth6915";
-+      touchscreen@10 {
-+        compatible = "elan,ekth5015m", "elan,ekth6915";
-         reg = <0x10>;
- 
-         interrupt-parent = <&tlmm>;
 -- 
 2.43.2
 
