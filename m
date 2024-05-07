@@ -1,210 +1,105 @@
-Return-Path: <linux-input+bounces-3544-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3545-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AAC8BDF37
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 11:59:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25D58BE1BF
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:13:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9D9DB2556A
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 09:59:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FB781C22103
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 12:13:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F53714E2E0;
-	Tue,  7 May 2024 09:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2340F156F31;
+	Tue,  7 May 2024 12:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="blWi628G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrVqMLav"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BBA149C6F;
-	Tue,  7 May 2024 09:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1F9152526;
+	Tue,  7 May 2024 12:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715075974; cv=none; b=EXUXfdiuS2Z2flixL2flN81jYppcWUnWXUE2t/oNwvcSWNCiRJb3gNQt/qwRIke3e7IYVIIiWf/C0TLPfvHQ6gmALAxb1ayotkiJcdLeNDhQnt4a8owwv0yWQBos3rOFxWWuWn6iJVwYxqeumuRDDpjsqJYt5PpqOYamUyQK30c=
+	t=1715083981; cv=none; b=W3e5UESQhtQWg5djmH62EbQ2hJCNJ1z1OhToPYftvfRq31ESTKoblaZqwFUR8igpSL5/5zHcYIhYyaog6vl/Tu+OyyelajoKlbuW9jPdoVgH35AjFkEihDOSlaLPlq4jE6Lwx69p5DRJWANom8qw5ml5YypWJb4Lsc5ruY6zyfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715075974; c=relaxed/simple;
-	bh=LiSUAt9SnSmyfKULGCpk6O/gbOcV7Jv1Bv1kQR1ZWj0=;
+	s=arc-20240116; t=1715083981; c=relaxed/simple;
+	bh=bvIDTSm84sUMH/mDqBMl+V8D6rNNSPoNQe6YfHJTyiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfNYvYPkmbvhcPlNGxV6jNf21/iW+ho3ODsVOoGEhhxk/l2QbYrhz7r6YHBk27jUxSvKTwGhbyUHqXg91h6RYgUGH4qecSWZsnuZ3WDc3Rx835cevU/mOCQfUysiPNE/ka5a1SdXDagos6a1i8cRE97IVMt7gODLSWWPjf31+0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=blWi628G; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 527D540E0249;
-	Tue,  7 May 2024 09:59:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 1KZiywlRO9NV; Tue,  7 May 2024 09:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1715075966; bh=AmlHvKNbxyX5EjqLxHkwYjWvOPYtcywQG0Y+RGazmq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=blWi628GjWIDphbG4jdI2jEDN+IbBtP/gJYfExptDWnnFUrirEy+1/i3ACpbfLGeI
-	 k4Xp6qwOqZoqJDA5Tk6ZjmMcwl1oKeHDY/AkhRfXnfN7ZBGLqh6tXmgtFZH+7jcYKg
-	 eY9J1GaHJN3L2bJ1FFd+AkmOKXjHlTjAWa13Y7Sh11wXgazefG/xrup4pq4omjjnlc
-	 U309XL4JCNKHJfslwsHE8XNfbn4JR5uWp1Fqz3KvKbPb2giUqobXpuxU06qJGjszFg
-	 Kp+XrPCyU7T6oL+n7NVV0EM7uuRhgBYC/MSVKhHjIga7Itcz1QriTgjaoOjIMqNXZR
-	 Rh8x2jXrXjtft7qHVPeB6eOgbtmISV6RP3rkoCAKReZcqIb7SRQiwOdTFFYf4PIplz
-	 bl0g74xtP/pbjkI4mR0FGfsfIwQD3J+IdsqP+ZY7uzgoc2c5OhS/cSz2gnzxWwYNbQ
-	 59v5E9XKmI49Wxl/wCOvWmPNMmjFLczW9FxgFcAZIuRKKIY9LWtz6xi9yh15R79i2q
-	 RFUv9Yn1wmF7rUtDR/YcGIzFBsPdWh+WYS3AkjVtAeF1dBQREZoicvBJ7Odo4x+mSh
-	 y3nv9i+T/ZVq9hTIZ/QdHGsYZs1Zf3D/FNmKP702fe1rtxpX5zUQhIa2z09o3nd84O
-	 5iXQtqNNXWP8JEAgHb86o4vs=
-Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BA69240E024D;
-	Tue,  7 May 2024 09:58:58 +0000 (UTC)
-Date: Tue, 7 May 2024 11:58:52 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
-	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>,
-	Jeff Sipek <jsipek@vmware.com>
-Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240507095852.GVZjn7XM0VMXzBfKsd@fat_crate.local>
-References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
- <20240506215305.30756-1-alexey.makhalov@broadcom.com>
- <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nYR8qC0DacfOOR97UQF5xwPWqf95vD3427VvUj49q3AZQzoMGLOZBay5sAI1oSGHVKAdO7wnR/QP0c43rqyxcl8yaLvUUoG9YLVtYbQ1gpB2HemHwpMnCB8oVKtI5lJrHqHgAB+nNx2+mqx2uk+kvlfdEd6HjiG8EqwGmEO885E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrVqMLav; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ec41d82b8bso28175895ad.2;
+        Tue, 07 May 2024 05:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715083979; x=1715688779; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v57BawXs8F+27yVslLr4FsvfGmQpyJcAoi+psUsS6lg=;
+        b=LrVqMLavUdpV4GSIT1PRJ4a/2Y3OZCyAqBOzMJ8palJko1o70GgNhXFo2cfKM160mU
+         7u3Do2n5sxh62V/Q5eUGRXIj5e/MyBb5Yu6bUEFn0zytTM026IoXb9rXwy1aDhoQNAG2
+         nKL6pWmnnMFQ9rQ9yC5QbH2a1XrBtXnKuZ7Aa5z7kMna2/YiNE5HafD+vLyI31DlNJ+X
+         6cvMoMa6KCZZG+XKT+XB2ZCDiAGnPaF9k58NZaDm62sbvEv5jjG/loAjhpmlWltwJd3B
+         XViWdeGbz6czM4qkh4i9wHofvfTKW7QHpTBxtsh7NKmZ/FFSFx3bonWRkOoOnIvR0m0Y
+         +tsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715083979; x=1715688779;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v57BawXs8F+27yVslLr4FsvfGmQpyJcAoi+psUsS6lg=;
+        b=b3VEgP4/LqiPWF0hA6pDHZgp2t+f9HnoiuCiN9Tx5q8GY5LrfABpRrE1oEMXmQG/d/
+         0lFuBdrNkByve6tIJhr5075WFBBkGc5BwjxWpB3d7GG7/jCBSUJVTwnNBxcUT/C2+gUv
+         uT4HY3llDyVhmcx1YuVjF6M28dGQe7TajLIDLfY50kEiPvO3d8KXp0wFG6M3nj0ZtecC
+         +Bgiba9oJyRfIC/pA4fYSWzwIKO2c4qyPNNFt0dvA5HzdporeNH6Xlu1obhNfWH1MI8m
+         Fj+XzopNvi0zoyV3iPRIvkPm78cri34c9GsyNCZpJbDUlfCOzAjoUDIDhOKyJT4LY29D
+         Gg2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXKwHiaeOWGn3mpYjNhoPWi2ZdaPs944wxNMV5z+waJymblxkLYJgSvBe3rF7tP/gfXQbjbf5gpg823ZIbBc8kL1t3YG/tRpQdSQ47e
+X-Gm-Message-State: AOJu0Yy8362/GNueTpBhQ6jf4LJ65jLwXmkhwJ+UNSxM1Ka9qNLc38SZ
+	78nsCxGZN5mwJR24rs0MNdpeohOHshZyxEJC6UCiTpNzIXaHAFYB
+X-Google-Smtp-Source: AGHT+IEoA2U/HIe8xC0UjxqiGFVipp7RQ4PFkOo3k5FlAonbqOAzOOA6vvzVePmh9eEeCnj4umyrTQ==
+X-Received: by 2002:a17:903:2450:b0:1e5:10e5:b66e with SMTP id l16-20020a170903245000b001e510e5b66emr16833655pls.27.1715083979078;
+        Tue, 07 May 2024 05:12:59 -0700 (PDT)
+Received: from mb-board ([120.237.109.178])
+        by smtp.gmail.com with ESMTPSA id ix2-20020a170902f80200b001dde004b31bsm9923084plb.166.2024.05.07.05.12.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 05:12:58 -0700 (PDT)
+Date: Tue, 7 May 2024 20:12:49 +0800
+From: Charles Wang <charles.goodix@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>, hadess@hadess.net,
+	dmitry.torokhov@gmail.com, Richard Hughes <hughsient@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	neil.armstrong@linaro.org
+Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
+ and writing touch IC registers
+Message-ID: <ZjoaweS-czzySzPh@mb-board>
+References: <20240506114752.47204-1-charles.goodix@gmail.com>
+ <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+In-Reply-To: <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
 
-On Mon, May 06, 2024 at 02:53:00PM -0700, Alexey Makhalov wrote:
-> +#define VMWARE_HYPERCALL						\
-> +	ALTERNATIVE_3("cmpb $"						\
-> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
-> +			", %[mode]\n\t"					\
-> +		      "jg 2f\n\t"					\
-> +		      "je 1f\n\t"					\
-> +		      "movw %[port], %%dx\n\t"				\
-> +		      "inl (%%dx), %%eax\n\t"				\
-> +		      "jmp 3f\n\t"					\
-> +		      "1: vmmcall\n\t"					\
-> +		      "jmp 3f\n\t"					\
-> +		      "2: vmcall\n\t"					\
-> +		      "3:\n\t",						\
-> +		      "movw %[port], %%dx\n\t"				\
-> +		      "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR,	\
+Hi,
 
-That's a bunch of insns and their size would inadvertently go into the final
-image.
+On Mon, May 06, 2024 at 02:03:13PM +0200, Hans de Goede wrote:
+> > [1] https://github.com/goodix/fwupdate_for_berlin_linux
+> 
+> Hmm, that tool seems to have some licensing issues there is an Apache License v2.0
+> LICENSE file, but the header of fwupdate.c claims it is confidential ...
 
-What you should try to do is something like this:
+Thanks for pointing that out. The confidential claims has been removed from fwupdate.c
+in the latest commits.
 
-ALTERNATIVE_3("jmp .Lend_legacy_call", "", X86_FEATURE_HYPERVISOR,
-	      "vmcall; jmp .Lend_legacy_call", X86_FEATURE_VMCALL,
-	      "vmmcall; jmp .Lend_legacy_call", X86_FEATURE_VMW_VMMCALL)
+Thanks,
 
-		/* bunch of conditional branches and INs and V*MCALLs, etc go here */
+Charles
 
-		.Lend_legacy_call:
-
-so that you don't have these 26 bytes, as you say, of alternatives to patch but
-only the JMPs and the VM*CALLs.
-
-See for an example the macros in arch/x86/entry/calling.h which simply jump
-over the code when not needed.
-
-Also, you could restructure the alternative differently so that that bunch of
-insns call is completely out-of-line because all current machines support
-VM*CALL so you won't even need to patch. You only get to patch when running on
-some old rust and there you can just as well go completely out-of-line.
-
-Something along those lines, anyway.
-
-> - * The high bandwidth in call. The low word of edx is presumed to have the
-> - * HB bit set.
-> + * High bandwidth calls are not supported on encrypted memory guests.
-> + * The caller should check cc_platform_has(CC_ATTR_MEM_ENCRYPT) and use
-> + * low bandwidth hypercall it memory encryption is set.
-
-s/it/if/
-
-> -#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
-> -	__asm__("inl (%%dx), %%eax" :					\
-> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-> -		"c"(VMWARE_CMD_##cmd),					\
-> -		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
-> -		"memory")
-> -
-> -#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
-> -	__asm__("vmcall" :						\
-> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-> -		"c"(VMWARE_CMD_##cmd),					\
-> -		"d"(0), "b"(UINT_MAX) :					\
-> -		"memory")
-> -
-> -#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)				\
-> -	__asm__("vmmcall" :						\
-> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-> -		"c"(VMWARE_CMD_##cmd),					\
-> -		"d"(0), "b"(UINT_MAX) :					\
-> -		"memory")
-> -
-> -#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
-> -	switch (vmware_hypercall_mode) {			\
-> -	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
-> -		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
-> -		break;						\
-> -	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
-> -		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
-> -		break;						\
-> -	default:						\
-> -		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
-> -		break;						\
-> -	}							\
-> -	} while (0)
-
-You're kidding, right?
-
-You went to all that trouble in patch 1 to move those to the header only to
-*remove* them here?
-
-You do realize that that is a unnecessary churn for no good reason, right?
-
-So that set needs to be restructured differently.
-
-* first patch introduces those new API calls.
-
-* follow-on patches convert the callers to the new API
-
-* last patch removes the old API.
-
-Ok?
-
-And when you redo them, make sure you drop all Reviewed-by tags because the new
-versions are not reviewed anymore.
-
-Thx.
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
 
