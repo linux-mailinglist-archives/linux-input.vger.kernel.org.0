@@ -1,196 +1,114 @@
-Return-Path: <linux-input+bounces-3552-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3553-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13258BE5FC
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E40F8BE620
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:36:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1079B1C21C89
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:33:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61B5C1C21FD4
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:36:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6829B15F3EA;
-	Tue,  7 May 2024 14:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3DAA15EFD8;
+	Tue,  7 May 2024 14:36:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="GQ9axj59"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAEXXUXv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625C215F322;
-	Tue,  7 May 2024 14:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFC7154BFC;
+	Tue,  7 May 2024 14:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715092396; cv=none; b=XL3kCgZYRuFxwDMtJWstmq/VsCwGVNQ+HwlBzXTQtE4tQ5Ztb5QfwVUpELx2IRxzTzgyN/iV37CcUIrnHslpf0H9NF5dBifS6s/HRafNVQo4/0KuHoDpQKBOAfjRhhEePCHHy+f3xeRwmOenjIKz9GrJZpj42uZ0SoLu+WdjebY=
+	t=1715092604; cv=none; b=pTtw/kqkmR8Pkhgw5Manz8AEtuzULtQI2fQz/wVZOr31lEw3UULhooBzBRHO6NaOqNsVmsmCl7K82xZxARJ/9WdLE8jcsVTpV255S3wnxAEF46OJbQ66TAtDjkH/O0+ld8V/qRACeUN/YCML0aH7rrn/BHnHMgQ3QN0ZlKryRCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715092396; c=relaxed/simple;
-	bh=2bRKE40XKAnKAK3IOXbmvh2YbVgVOzuh6rhjPfP3L6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=HgQv06juTYVxpmpZeRJYUKsK1vNwuq11K4J4hpResSszkn9f9+9u7RlrdGSrklyosD2SXbAzOSkxOGRuQ+0UL8Vf2b7PtShcvaX4c4ykeH44QoNTMIAWF55veYua/2fZRMtC7uvi+vYBn8H6hIgLp24gQ5abY1cieeH7x8j3bBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=GQ9axj59; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 359B8C005F;
-	Tue,  7 May 2024 10:33:22 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1715092404; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=v+B8UAwdldlntNqSaN2SmWNVp3MgBr8FmyOkts8KjeM=;
-	b=GQ9axj59docgOj999lAQCRr/y/bWWaGVrj8JMTprOuAzxim0AB28DoPtasGIA9KGYOXBO+
-	7InvhrbEXK1UU+MMtjpA/kG3gT9E3bP+y6xjUdp51atbdG8nPMm7GWTqWEFBW9VUx/DvNF
-	zENf8weZIdIEJ7OG9nVv94wQkdOgxgI=
-Message-ID: <5e139685-02c3-4446-9b89-d68bf15f55b4@kaechele.ca>
-Date: Tue, 7 May 2024 10:33:00 -0400
+	s=arc-20240116; t=1715092604; c=relaxed/simple;
+	bh=tMTmRH5/GWPjl9T+PClN91yYJR6r89On46+/BeKoh6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qmLoIwAjK2Jg7MIh2FudhPIS9+ewTTdVfCRNmr5+Msk8V5bmtiSimUb3HLNCMI+nwCEczaX4HerPLh6DniOxQVN/jR5xUEGt5ziaMX6dTeqzcMMKlafZWekmMVfm1xm9b0XaFJBT7bQ2sS8UWsFYksMTMO0y/inA1jHrfgk1nHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAEXXUXv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBEEC2BBFC;
+	Tue,  7 May 2024 14:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715092604;
+	bh=tMTmRH5/GWPjl9T+PClN91yYJR6r89On46+/BeKoh6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TAEXXUXvP/RwXMufOxMcpdr0ktv6yxwsW7WAv9/h370YTCjXFYtnJUhRjnfUWyslu
+	 +LaWO4UEtWUnCDAbfm2GMxC0GdtC2ZUAYfABjbvYuAimQn5h7LvLT9N51BLY9YpM6t
+	 L0H17jUkUxj/47TYyxguGxRlqBPtGopQwDyCRaVSRYZLdD4vFAbNTueiqKVsE+9W0V
+	 cpQ5THDkwwmOTm4S2uhYLKLktFIpUxroiI6hixZ+/S6Y2Wk/WUReX2aBn3p3JiWQpG
+	 /J6wpeUm/bk67u57GqPOBJoE8YZL4RHhMvI3t2pMpndWL4ZXVIr57X0JcrD4CH5BLl
+	 w4KYGQzrl5w2A==
+Date: Tue, 7 May 2024 23:36:41 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net,
+	Richard Hughes <hughsient@gmail.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org
+Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
+ and writing touch IC registers
+Message-ID: <Zjo8eTQQS1LvzFgZ@finisterre.sirena.org.uk>
+References: <20240506114752.47204-1-charles.goodix@gmail.com>
+ <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+ <ZjmOUp725QTHrfcT@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] input: himax_hx83112b: add regulator handling
-To: Job Noorman <job@noorman.info>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240504020745.68525-1-felix@kaechele.ca>
- <20240504020745.68525-3-felix@kaechele.ca>
- <95f8d63a-0343-49c3-90b6-f91efe559841@linaro.org>
-Content-Language: en-US
-From: Felix Kaechele <felix@kaechele.ca>
-In-Reply-To: <95f8d63a-0343-49c3-90b6-f91efe559841@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lPiblj3fTQ4wDvEh"
+Content-Disposition: inline
+In-Reply-To: <ZjmOUp725QTHrfcT@google.com>
+X-Cookie: Accuracy, n.:
 
-Thanks, Krzysztof! Really appreciate your input, as I'm currently not a 
-regular contributor to the kernel.
 
-On 2024-05-04 08:37, Krzysztof Kozlowski wrote:
-> On 04/05/2024 04:04, Felix Kaechele wrote:
->> Handle regulators used on this chip family, namely AVDD and VDD. These
->> definitions are taken from the GPLv2 licensed vendor driver.
->>
->> Signed-off-by: Felix Kaechele <felix@kaechele.ca>
->> Link: https://github.com/HimaxSoftware/HX83112_Android_Driver
->> ---
->>   drivers/input/touchscreen/himax_hx83112b.c | 48 ++++++++++++++++++++--
->>   1 file changed, 44 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
->> index 4f6609dcdef3..0a797789e548 100644
->> --- a/drivers/input/touchscreen/himax_hx83112b.c
->> +++ b/drivers/input/touchscreen/himax_hx83112b.c
->> @@ -19,10 +19,12 @@
->>   #include <linux/interrupt.h>
->>   #include <linux/kernel.h>
->>   #include <linux/regmap.h>
->> +#include <linux/regulator/consumer.h>
->>   
->>   #define HIMAX_ID_83112B			0x83112b
->>   
->>   #define HIMAX_MAX_POINTS		10
->> +#define HIMAX_MAX_SUPPLIES		2
->>   
->>   #define HIMAX_REG_CFG_SET_ADDR		0x00
->>   #define HIMAX_REG_CFG_INIT_READ		0x0c
->> @@ -50,6 +52,7 @@ struct himax_event {
->>   static_assert(sizeof(struct himax_event) == 56);
->>   
->>   struct himax_ts_data {
->> +	struct regulator_bulk_data supplies[HIMAX_MAX_SUPPLIES];
->>   	struct gpio_desc *gpiod_rst;
->>   	struct input_dev *input_dev;
->>   	struct i2c_client *client;
->> @@ -63,6 +66,11 @@ static const struct regmap_config himax_regmap_config = {
->>   	.val_format_endian = REGMAP_ENDIAN_LITTLE,
->>   };
->>   
->> +static const char *const himax_supply_names[] = {
->> +	"avdd",
->> +	"vdd",
->> +};
->> +
-> 
-> That's confusing. Binding said only HX83100A family has regulators, but
-> you request for everyone.
-> 
+--lPiblj3fTQ4wDvEh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-You're right. Looking at the vendor driver for each of models I could 
-see that it defined AVDD and VDD in both drivers. So I thought it could 
-make sense to offer it for the entire chip family, with which I meant 
-all HX831xx in this case.
+On Mon, May 06, 2024 at 07:13:38PM -0700, Dmitry Torokhov wrote:
+> On Mon, May 06, 2024 at 02:03:13PM +0200, Hans de Goede wrote:
 
-But it seems after some more testing (and with this touch IC family 
-generally being a part of the display controller) the regulators are 
-sufficiently handled by the panel driver / bootloader for the use case 
-of having the touchscreen on when the display is on.
-It wouldn't allow for waking the screen by using the touchscreen, and 
-while I'd have to go back to the original OS on the device to verify 
-this again, I don't remember that working on the original OS either.
+> > If raw register access is seen as a good solution, then I think this
+> > should use regmap + some generic helpers (to be written) to export
+> > regmap r/w access to userspace.
 
-So I'm thinking I may drop the whole regulator part of the patchset to 
-keep it smaller.
+> I think the less code we have in kernel the better, especially if in
+> cases where firmware flashing is not essential for device to work (i.e.
+> it the controller has a flash memory). That said IIRC Mark felt very
+> strongly about allowing regmap writes from userspace... but maybe he
+> softened the stance or we could have this functionality opt-in?
 
->>   static int himax_read_config(struct himax_ts_data *ts, u32 address, u32 *dst)
->>   {
->>   	int error;
->> @@ -267,7 +275,7 @@ static irqreturn_t himax_irq_handler(int irq, void *dev_id)
->>   
->>   static int himax_probe(struct i2c_client *client)
->>   {
->> -	int error;
->> +	int error, i;
->>   	struct device *dev = &client->dev;
->>   	struct himax_ts_data *ts;
->>   
->> @@ -290,11 +298,31 @@ static int himax_probe(struct i2c_client *client)
->>   		return error;
->>   	}
->>   
->> +	int num_supplies = ARRAY_SIZE(himax_supply_names);
->> +
->> +	for (i = 0; i < num_supplies; i++)
->> +		ts->supplies[i].supply = himax_supply_names[i];
->> +
->> +	error = devm_regulator_bulk_get(dev,
-> 
-> devm_regulator_bulk_get_enable and drop rest of the code here.
-> 
+I think unmediated raw register access is a terrible idea, you can't
+safely write a driver if userspace can just go in and randomly write to
+registers with no coordination with the running driver and for some
+devices the kernel needs to ensure that any writes don't damage or
+destabalise the system.  If a driver provides an interface that looks
+like raw register accesses that's of course fine (I mean, a lot of
+firmware formats basically boil down to register write sequences which
+is clearly fine) but it should be the driver doing that and it should be
+looking at what's going on and ensure that it's joined up with the needs
+of the rest of the system.
 
-That's pretty neat. If I do decide to bring in regulator handling this 
-removes quite a bit of boilerplate.
+--lPiblj3fTQ4wDvEh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
->> +					num_supplies,
->> +					ts->supplies);
-> 
-> Wrap it properly at 80, not one argument in one line.
-> 
->> +	if (error) {
->> +		dev_err(dev, "Failed to get supplies: %d\n", error);
-> 
-> return dev_err_probe()
-> 
+-----BEGIN PGP SIGNATURE-----
 
-Same here. Thanks for the hint.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY6PHgACgkQJNaLcl1U
+h9D1eAf8CiFrx1FTof5H3G+5IPZ86vGYxnBqYnt4ClHpxIe7bCBCQTi2o0/+2eOr
+dbx61ihnlezPAkp+0cFqM7/Kzxruc9I0cEP6jp4LtOP6sDJgTz9Zj0zRht2i6A5b
+j+BOo/2UHk+Q7nhde9m/7tjL6MkwsHpvg+ydWB679H/PnBo8hm75lgjq3gy+3gGd
+EOMryKmKcnF/bPEk24QpI1BNf3mdbJ63Avcj0LCvack3yeaEoXPKJ89xN1SqLdAe
+LMzF9V0YqKi3H8llb0Jfccvta9feqUQ/k/XI2mq2j4nr2/M7UBh/ckThwHUZRT18
+nB7fKVugWFClUR8n/kKIp2fRdxsG9A==
+=4jXB
+-----END PGP SIGNATURE-----
 
->> +		return error;
->> +	}
->> +
->> +	error = regulator_bulk_enable(num_supplies,
->> +				      ts->supplies);
->> +	if (error) {
->> +		dev_err(dev, "Failed to enable supplies: %d\n", error);
->> +		goto error_out;
->> +	}
->> +
-
-I'll be sending a v2 shortly.
-
-Thanks again,
-Felix
+--lPiblj3fTQ4wDvEh--
 
