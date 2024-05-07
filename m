@@ -1,82 +1,84 @@
-Return-Path: <linux-input+bounces-3545-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3546-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25D58BE1BF
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:13:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBE88BE1E1
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:19:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FB781C22103
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 12:13:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF90E287D7C
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 12:19:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2340F156F31;
-	Tue,  7 May 2024 12:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7E8156F37;
+	Tue,  7 May 2024 12:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrVqMLav"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TP4B4qc7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1F9152526;
-	Tue,  7 May 2024 12:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD9D136E2D;
+	Tue,  7 May 2024 12:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715083981; cv=none; b=W3e5UESQhtQWg5djmH62EbQ2hJCNJ1z1OhToPYftvfRq31ESTKoblaZqwFUR8igpSL5/5zHcYIhYyaog6vl/Tu+OyyelajoKlbuW9jPdoVgH35AjFkEihDOSlaLPlq4jE6Lwx69p5DRJWANom8qw5ml5YypWJb4Lsc5ruY6zyfI=
+	t=1715084386; cv=none; b=b0ppW4ThixTiG5oTiGehwB1op3ir/EZFLYn7DOiBseyLTsBm14TKZn1Z2V8L3Zqrfz4KeNFDNHjDPAkagXLOia6lUTb3EUP3IgkYoA8TCVTCkWyqU/BMg1XRyqCpYyScIdmQdLUV8OV3P9y1SiGrPVk6zpX4xcwYjGQbP4SDjnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715083981; c=relaxed/simple;
-	bh=bvIDTSm84sUMH/mDqBMl+V8D6rNNSPoNQe6YfHJTyiw=;
+	s=arc-20240116; t=1715084386; c=relaxed/simple;
+	bh=YGysMvCWu5RbV+Xk3fie7lVqrYC9JdPd3T8gTRCAhYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nYR8qC0DacfOOR97UQF5xwPWqf95vD3427VvUj49q3AZQzoMGLOZBay5sAI1oSGHVKAdO7wnR/QP0c43rqyxcl8yaLvUUoG9YLVtYbQ1gpB2HemHwpMnCB8oVKtI5lJrHqHgAB+nNx2+mqx2uk+kvlfdEd6HjiG8EqwGmEO885E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrVqMLav; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+8wmS/i322o6VWN3dHd+RP3gqhxFX/oajCD+iPLygg+hx6hwfSSMur1uzW5wUHlp6FSPtGiZ/I+n2SV+wK9PEFXIP4eA1o9UpN0hGngXK/z9wa2Wy98jJQ5+RNQcwo1bOCHFUm+CDjYv/0UFx36dLgwxJ4vYkF5fw/bfr/i3aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TP4B4qc7; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ec41d82b8bso28175895ad.2;
-        Tue, 07 May 2024 05:12:59 -0700 (PDT)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f44b296e02so1503079b3a.2;
+        Tue, 07 May 2024 05:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715083979; x=1715688779; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1715084384; x=1715689184; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v57BawXs8F+27yVslLr4FsvfGmQpyJcAoi+psUsS6lg=;
-        b=LrVqMLavUdpV4GSIT1PRJ4a/2Y3OZCyAqBOzMJ8palJko1o70GgNhXFo2cfKM160mU
-         7u3Do2n5sxh62V/Q5eUGRXIj5e/MyBb5Yu6bUEFn0zytTM026IoXb9rXwy1aDhoQNAG2
-         nKL6pWmnnMFQ9rQ9yC5QbH2a1XrBtXnKuZ7Aa5z7kMna2/YiNE5HafD+vLyI31DlNJ+X
-         6cvMoMa6KCZZG+XKT+XB2ZCDiAGnPaF9k58NZaDm62sbvEv5jjG/loAjhpmlWltwJd3B
-         XViWdeGbz6czM4qkh4i9wHofvfTKW7QHpTBxtsh7NKmZ/FFSFx3bonWRkOoOnIvR0m0Y
-         +tsw==
+        bh=YGysMvCWu5RbV+Xk3fie7lVqrYC9JdPd3T8gTRCAhYE=;
+        b=TP4B4qc7ekvwz96An6ybwPTtN9BxJjDb7cT5Ty42xXL6t7cDyezQ5pxmnXjCo5xs7t
+         3o6WzneJyd2GzSn2jv6FhkHtLtLDLdmuzOvpPA9J+NS8B4CROiUkyw+mIg6vnCG/AXkg
+         9xnIff+DNoZ+i3ZWmtQObr/oL+004wL00MwpXNf6iyUNRwK5XqOF78bj/fTxYrpkXC23
+         Vj7amXfPwxy4On5K5B78AVh7VFbHhvcYikI2iVtKPk3e4pRdBq+pFjKV3823GPRo17Av
+         zyvMAzw7ecwpEIemgnF3s0airFwCSxR13STgj9IBLliMvQH0GUkiRvqZsDutXuEvw4P8
+         Hpqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715083979; x=1715688779;
+        d=1e100.net; s=20230601; t=1715084384; x=1715689184;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v57BawXs8F+27yVslLr4FsvfGmQpyJcAoi+psUsS6lg=;
-        b=b3VEgP4/LqiPWF0hA6pDHZgp2t+f9HnoiuCiN9Tx5q8GY5LrfABpRrE1oEMXmQG/d/
-         0lFuBdrNkByve6tIJhr5075WFBBkGc5BwjxWpB3d7GG7/jCBSUJVTwnNBxcUT/C2+gUv
-         uT4HY3llDyVhmcx1YuVjF6M28dGQe7TajLIDLfY50kEiPvO3d8KXp0wFG6M3nj0ZtecC
-         +Bgiba9oJyRfIC/pA4fYSWzwIKO2c4qyPNNFt0dvA5HzdporeNH6Xlu1obhNfWH1MI8m
-         Fj+XzopNvi0zoyV3iPRIvkPm78cri34c9GsyNCZpJbDUlfCOzAjoUDIDhOKyJT4LY29D
-         Gg2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXKwHiaeOWGn3mpYjNhoPWi2ZdaPs944wxNMV5z+waJymblxkLYJgSvBe3rF7tP/gfXQbjbf5gpg823ZIbBc8kL1t3YG/tRpQdSQ47e
-X-Gm-Message-State: AOJu0Yy8362/GNueTpBhQ6jf4LJ65jLwXmkhwJ+UNSxM1Ka9qNLc38SZ
-	78nsCxGZN5mwJR24rs0MNdpeohOHshZyxEJC6UCiTpNzIXaHAFYB
-X-Google-Smtp-Source: AGHT+IEoA2U/HIe8xC0UjxqiGFVipp7RQ4PFkOo3k5FlAonbqOAzOOA6vvzVePmh9eEeCnj4umyrTQ==
-X-Received: by 2002:a17:903:2450:b0:1e5:10e5:b66e with SMTP id l16-20020a170903245000b001e510e5b66emr16833655pls.27.1715083979078;
-        Tue, 07 May 2024 05:12:59 -0700 (PDT)
+        bh=YGysMvCWu5RbV+Xk3fie7lVqrYC9JdPd3T8gTRCAhYE=;
+        b=HYPydeRBx4pm5N5Kpu/OmIVkBjf4OZRfQJtjL5v+kXtvPWunmgQr1u/UHfmsRUhyvu
+         yVwET5lmdrm48os0DALb+qVSWcN9V6W1Z10H8MR8i6oQBNDyrIY/5oYKerQbxkGPuLU1
+         tYzAD/L3fA9nDGRFOdbI4FhTBN9Ybj1Ewf9M5wOIZpakYCGHREKDcmjWq0vA4eijmn9C
+         l5OC8nondLTmuN8dsTTY2elYxkxgyy/HnjaxogOH58GuTgCGgUDCMFpPvf1I5H7+v9m7
+         3pG4pBwclI2gxeZX5AyYm/EUFOkNpgSHOcU33b5Q8hRvw077PNi+eS8eQq4LCSCu/GwK
+         v33g==
+X-Forwarded-Encrypted: i=1; AJvYcCVq+GTT7VzUB+rMPJuNTf3ywmFEM63wY0aqAQ/jZ71jHnVCnf0P0Rz366+rEYvibR69Ws/YAkkCUmTXAyLmnJ/YpuQYGc/f8wsbnL0MgU3yUYanWXLA6ID94zGqXuUm8LPFQjMNsnxNjn4=
+X-Gm-Message-State: AOJu0YxIVNfR8vgKsT3WI1fuObkk47VimYiSiGxY7KDst9uc7mh607EY
+	NsKCF4mbLVersfcxzc5bBYVHbUm8C6g4IpsusqQRDdTKOY0Z0Uo6
+X-Google-Smtp-Source: AGHT+IEptPCXhFypDb0TiKoR0+50iaXQ8iNL1eYyk0yq0qqdN0M3zxQ8yK6QDrCxBcJVRd6JyPIggg==
+X-Received: by 2002:a05:6a00:189e:b0:6f4:3c65:d05a with SMTP id x30-20020a056a00189e00b006f43c65d05amr13559980pfh.30.1715084384195;
+        Tue, 07 May 2024 05:19:44 -0700 (PDT)
 Received: from mb-board ([120.237.109.178])
-        by smtp.gmail.com with ESMTPSA id ix2-20020a170902f80200b001dde004b31bsm9923084plb.166.2024.05.07.05.12.56
+        by smtp.gmail.com with ESMTPSA id ei32-20020a056a0080e000b006f44e64dfe3sm7527879pfb.177.2024.05.07.05.19.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 05:12:58 -0700 (PDT)
-Date: Tue, 7 May 2024 20:12:49 +0800
+        Tue, 07 May 2024 05:19:43 -0700 (PDT)
+Date: Tue, 7 May 2024 20:19:35 +0800
 From: Charles Wang <charles.goodix@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>, hadess@hadess.net,
-	dmitry.torokhov@gmail.com, Richard Hughes <hughsient@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	neil.armstrong@linaro.org
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, hadess@hadess.net,
+	Richard Hughes <hughsient@gmail.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org,
+	Mark Brown <broonie@kernel.org>
 Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
  and writing touch IC registers
-Message-ID: <ZjoaweS-czzySzPh@mb-board>
+Message-ID: <ZjocV1nvWnxr_qUI@mb-board>
 References: <20240506114752.47204-1-charles.goodix@gmail.com>
  <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+ <ZjmOUp725QTHrfcT@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,21 +87,18 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+In-Reply-To: <ZjmOUp725QTHrfcT@google.com>
 
 Hi,
 
-On Mon, May 06, 2024 at 02:03:13PM +0200, Hans de Goede wrote:
-> > [1] https://github.com/goodix/fwupdate_for_berlin_linux
-> 
-> Hmm, that tool seems to have some licensing issues there is an Apache License v2.0
-> LICENSE file, but the header of fwupdate.c claims it is confidential ...
+On Mon, May 06, 2024 at 07:13:38PM -0700, Dmitry Torokhov wrote:
+> If we want to instantiate attributes from the driver please utilize
+> dev_groups in respective driver structures to create and remove the
+> attributes automatically.
 
-Thanks for pointing that out. The confidential claims has been removed from fwupdate.c
-in the latest commits.
+Ack
 
 Thanks,
 
 Charles
-
 
