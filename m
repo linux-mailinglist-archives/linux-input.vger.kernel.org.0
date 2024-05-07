@@ -1,109 +1,196 @@
-Return-Path: <linux-input+bounces-3551-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3552-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119CF8BE5F0
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:30:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13258BE5FC
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 16:33:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3ECB91C22294
-	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:30:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1079B1C21C89
+	for <lists+linux-input@lfdr.de>; Tue,  7 May 2024 14:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6276315CD53;
-	Tue,  7 May 2024 14:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6829B15F3EA;
+	Tue,  7 May 2024 14:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpzj+KH+"
+	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="GQ9axj59"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0031DFEA;
-	Tue,  7 May 2024 14:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625C215F322;
+	Tue,  7 May 2024 14:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715092233; cv=none; b=PP28ex1PuXJPlAAsp5bqJsVphh0VXY5NLrtmCMyfoX1NMx0xSfhF5MPE8qIa4s99V4OPUi8pRxP341Uz/jSV15CIpkaSoWqXKZmGX7kLVJzyg6lAJEuJjJCRCGwtSXbv8XrmEyARf4jGKQE23EW+9eEJY+IT9VQ6H0OVakwVGmw=
+	t=1715092396; cv=none; b=XL3kCgZYRuFxwDMtJWstmq/VsCwGVNQ+HwlBzXTQtE4tQ5Ztb5QfwVUpELx2IRxzTzgyN/iV37CcUIrnHslpf0H9NF5dBifS6s/HRafNVQo4/0KuHoDpQKBOAfjRhhEePCHHy+f3xeRwmOenjIKz9GrJZpj42uZ0SoLu+WdjebY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715092233; c=relaxed/simple;
-	bh=o0lOuJYJuGexb0hyjD9GPEecAcOFpUWl3uozSm2KGHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h1bgDRv0Q9H5eT8XBh+y31tlvtdeIDpeIKoJyRN/4+akE525DlgM4pR1LnXoLC2EuDARw/Zl8R1AMzwhBztgD/oIMySzd6H8sVDHFkTw84v3y3S7rT7MnUWbimh2tvpmGdV45Iai/6ESSB+Odbs1Rs4lBarAqoF4pHrW3F93XAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpzj+KH+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A090BC2BBFC;
-	Tue,  7 May 2024 14:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715092232;
-	bh=o0lOuJYJuGexb0hyjD9GPEecAcOFpUWl3uozSm2KGHc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qpzj+KH+gkUheVxRL6XFPOxp8sBEtegOzZjQBdOGZoMCzi5fyRliO0IjMa1AuhFVk
-	 rvxNwMr7k8P7EjsXFUqiyjHZdCbzXYR3R8YvzXCJdLOSRdWkdLsz2a5GYW7x+G+Lrj
-	 6O5pfJQkBVI602nWS0BzXgWcMfAYDLvulliSUs4FL1tsdcsH0f+jflANFkz3ZPocPV
-	 mfJ2WWRnixUXZbuyfmamTkmjgaUMm1JymEJT/d/NXM85AOlIlzzcobciLd3lY7wE1a
-	 zG3JEyWf9Ce+hIUrwHUB0UxC8n35vz8RL/v5noKXiuyRZGumbltle+3C9CpLTaYgzV
-	 0R6jwbfWAd+sQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1s4Lpy-000000002rs-2neG;
-	Tue, 07 May 2024 16:30:34 +0200
-Date: Tue, 7 May 2024 16:30:34 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: HID: i2c-hid: elan: add
- 'no-reset-on-power-off' property
-Message-ID: <Zjo7CuT7UyQC57Rr@hovoldconsulting.com>
-References: <20240423134611.31979-1-johan+linaro@kernel.org>
- <20240423134611.31979-4-johan+linaro@kernel.org>
- <CACRpkdYXfZwBdLSTTPbruD9qynOPuQBOZjCwA_6eE+1MUBCkgA@mail.gmail.com>
- <ZjSksM07OlgpE3yO@hovoldconsulting.com>
- <CACRpkdYZWixc1E3=Y2j0etuDS7vNY3QcqK2Qiac_KPorr7s0Ug@mail.gmail.com>
+	s=arc-20240116; t=1715092396; c=relaxed/simple;
+	bh=2bRKE40XKAnKAK3IOXbmvh2YbVgVOzuh6rhjPfP3L6s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=HgQv06juTYVxpmpZeRJYUKsK1vNwuq11K4J4hpResSszkn9f9+9u7RlrdGSrklyosD2SXbAzOSkxOGRuQ+0UL8Vf2b7PtShcvaX4c4ykeH44QoNTMIAWF55veYua/2fZRMtC7uvi+vYBn8H6hIgLp24gQ5abY1cieeH7x8j3bBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=GQ9axj59; arc=none smtp.client-ip=54.39.219.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 359B8C005F;
+	Tue,  7 May 2024 10:33:22 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
+	t=1715092404; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=v+B8UAwdldlntNqSaN2SmWNVp3MgBr8FmyOkts8KjeM=;
+	b=GQ9axj59docgOj999lAQCRr/y/bWWaGVrj8JMTprOuAzxim0AB28DoPtasGIA9KGYOXBO+
+	7InvhrbEXK1UU+MMtjpA/kG3gT9E3bP+y6xjUdp51atbdG8nPMm7GWTqWEFBW9VUx/DvNF
+	zENf8weZIdIEJ7OG9nVv94wQkdOgxgI=
+Message-ID: <5e139685-02c3-4446-9b89-d68bf15f55b4@kaechele.ca>
+Date: Tue, 7 May 2024 10:33:00 -0400
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYZWixc1E3=Y2j0etuDS7vNY3QcqK2Qiac_KPorr7s0Ug@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] input: himax_hx83112b: add regulator handling
+To: Job Noorman <job@noorman.info>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240504020745.68525-1-felix@kaechele.ca>
+ <20240504020745.68525-3-felix@kaechele.ca>
+ <95f8d63a-0343-49c3-90b6-f91efe559841@linaro.org>
+Content-Language: en-US
+From: Felix Kaechele <felix@kaechele.ca>
+In-Reply-To: <95f8d63a-0343-49c3-90b6-f91efe559841@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, May 06, 2024 at 08:29:40AM +0200, Linus Walleij wrote:
+Thanks, Krzysztof! Really appreciate your input, as I'm currently not a 
+regular contributor to the kernel.
 
-> +  no-reset-on-power-off:
-> +    type: boolean
-> +    description:
-> +      Reset line is wired so that it can be left deasserted when the power
-> +      supply is off.
+On 2024-05-04 08:37, Krzysztof Kozlowski wrote:
+> On 04/05/2024 04:04, Felix Kaechele wrote:
+>> Handle regulators used on this chip family, namely AVDD and VDD. These
+>> definitions are taken from the GPLv2 licensed vendor driver.
+>>
+>> Signed-off-by: Felix Kaechele <felix@kaechele.ca>
+>> Link: https://github.com/HimaxSoftware/HX83112_Android_Driver
+>> ---
+>>   drivers/input/touchscreen/himax_hx83112b.c | 48 ++++++++++++++++++++--
+>>   1 file changed, 44 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
+>> index 4f6609dcdef3..0a797789e548 100644
+>> --- a/drivers/input/touchscreen/himax_hx83112b.c
+>> +++ b/drivers/input/touchscreen/himax_hx83112b.c
+>> @@ -19,10 +19,12 @@
+>>   #include <linux/interrupt.h>
+>>   #include <linux/kernel.h>
+>>   #include <linux/regmap.h>
+>> +#include <linux/regulator/consumer.h>
+>>   
+>>   #define HIMAX_ID_83112B			0x83112b
+>>   
+>>   #define HIMAX_MAX_POINTS		10
+>> +#define HIMAX_MAX_SUPPLIES		2
+>>   
+>>   #define HIMAX_REG_CFG_SET_ADDR		0x00
+>>   #define HIMAX_REG_CFG_INIT_READ		0x0c
+>> @@ -50,6 +52,7 @@ struct himax_event {
+>>   static_assert(sizeof(struct himax_event) == 56);
+>>   
+>>   struct himax_ts_data {
+>> +	struct regulator_bulk_data supplies[HIMAX_MAX_SUPPLIES];
+>>   	struct gpio_desc *gpiod_rst;
+>>   	struct input_dev *input_dev;
+>>   	struct i2c_client *client;
+>> @@ -63,6 +66,11 @@ static const struct regmap_config himax_regmap_config = {
+>>   	.val_format_endian = REGMAP_ENDIAN_LITTLE,
+>>   };
+>>   
+>> +static const char *const himax_supply_names[] = {
+>> +	"avdd",
+>> +	"vdd",
+>> +};
+>> +
 > 
-> To be nitpicky: *should* be left deasserted rather than *can* be left
-> deasserted, right? If the behaviour is desirable but not strictly
-> required.
+> That's confusing. Binding said only HX83100A family has regulators, but
+> you request for everyone.
+> 
 
-I considered that too, but settled on the above description as it is
-pure hardware description and leaving the decision to act on it up to
-the OS (e.g. if support is implemented).
+You're right. Looking at the vendor driver for each of models I could 
+see that it defined AVDD and VDD in both drivers. So I thought it could 
+make sense to offer it for the entire chip family, with which I meant 
+all HX831xx in this case.
 
-On the other hand, the "should" is already implied by the property name
-so perhaps there's no reason not to include it also in the description:
+But it seems after some more testing (and with this touch IC family 
+generally being a part of the display controller) the regulators are 
+sufficiently handled by the panel driver / bootloader for the use case 
+of having the touchscreen on when the display is on.
+It wouldn't allow for waking the screen by using the touchscreen, and 
+while I'd have to go back to the original OS on the device to verify 
+this again, I don't remember that working on the original OS either.
 
-+  no-reset-on-power-off:
-+    type: boolean
-+    description:
-+      Reset line is wired so that it can (and should) be left
-+      deasserted when the power supply is off.
+So I'm thinking I may drop the whole regulator part of the patchset to 
+keep it smaller.
 
-And "should" (unlike "shall") still leaves room for an OS to ignore it
-at the cost of increased power consumption.
+>>   static int himax_read_config(struct himax_ts_data *ts, u32 address, u32 *dst)
+>>   {
+>>   	int error;
+>> @@ -267,7 +275,7 @@ static irqreturn_t himax_irq_handler(int irq, void *dev_id)
+>>   
+>>   static int himax_probe(struct i2c_client *client)
+>>   {
+>> -	int error;
+>> +	int error, i;
+>>   	struct device *dev = &client->dev;
+>>   	struct himax_ts_data *ts;
+>>   
+>> @@ -290,11 +298,31 @@ static int himax_probe(struct i2c_client *client)
+>>   		return error;
+>>   	}
+>>   
+>> +	int num_supplies = ARRAY_SIZE(himax_supply_names);
+>> +
+>> +	for (i = 0; i < num_supplies; i++)
+>> +		ts->supplies[i].supply = himax_supply_names[i];
+>> +
+>> +	error = devm_regulator_bulk_get(dev,
+> 
+> devm_regulator_bulk_get_enable and drop rest of the code here.
+> 
 
-Johan
+That's pretty neat. If I do decide to bring in regulator handling this 
+removes quite a bit of boilerplate.
+
+> 
+>> +					num_supplies,
+>> +					ts->supplies);
+> 
+> Wrap it properly at 80, not one argument in one line.
+> 
+>> +	if (error) {
+>> +		dev_err(dev, "Failed to get supplies: %d\n", error);
+> 
+> return dev_err_probe()
+> 
+
+Same here. Thanks for the hint.
+
+>> +		return error;
+>> +	}
+>> +
+>> +	error = regulator_bulk_enable(num_supplies,
+>> +				      ts->supplies);
+>> +	if (error) {
+>> +		dev_err(dev, "Failed to enable supplies: %d\n", error);
+>> +		goto error_out;
+>> +	}
+>> +
+
+I'll be sending a v2 shortly.
+
+Thanks again,
+Felix
 
