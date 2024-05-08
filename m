@@ -1,114 +1,140 @@
-Return-Path: <linux-input+bounces-3588-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3589-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81898BF4A1
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 04:37:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 688B08BF70A
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 09:29:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48623B22345
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 02:37:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24701280D22
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 07:29:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6901210A2C;
-	Wed,  8 May 2024 02:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A8A22EF5;
+	Wed,  8 May 2024 07:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuiAqF3B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFItLBxk"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4137BEAD0;
-	Wed,  8 May 2024 02:37:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A7F2C856;
+	Wed,  8 May 2024 07:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715135868; cv=none; b=Yr6/dSBg4s50qkJtcudJQjgUsTYAZV/aAyAZpK0yh/6qsJTiJv+XL1Qi5BC4BanqacLR4zN7j9gfzbpeBj+Ks+fcXNSQUu1k/mQST13gYgW5H/xtvfKisVJ775WPkT11R8Ckdcn11/C4nVvHpA6brbKogeX4MajnGxUNBamGqLc=
+	t=1715153368; cv=none; b=RYrESMCEuCdlV90J51gnySOCLhshCuuAzJ4Y99Ff4Fjz3fl524jQx5ROWH+rYxJia8pnFGSu0wzBcU+0o4CtJ3hchEWkMZDNwyWax8tFcVNoCwpZgspxNDZRDiXEa7fCSBfahE304nfCh4MUQKxzuWp0nHFGE+VcDXLPpCLwF68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715135868; c=relaxed/simple;
-	bh=ABIHuAol1RkqvO67SLAalaYd+ekF8teyJLNahtOn3xQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cg/Wt3HQ/khCaNDmteNMArG4bi3fMmHokzcO8aS76Vvl1bcjy3D3nZARv1n9O6eU3bs1XdigiGdrj5n31936tSYbLVErlnO0hnTDwS6KORZpf6HU+TYhMH7pyKinhOxR49/L7gvMiVNk4CvUPUNUcvNvmjRnVww1QGZ+px+3f6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuiAqF3B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8BAC2BBFC;
-	Wed,  8 May 2024 02:37:47 +0000 (UTC)
+	s=arc-20240116; t=1715153368; c=relaxed/simple;
+	bh=32ioLqPM7lnDwXJD99G8P6IhwH1PO1nE9mcgPc5umFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JUwp5fpsim5gWFgal2g1JTdPrXx/JMyBhdk0+zcZiQrVBqbyV0UHhmxSNEWM3vW5rbD9dnXsNME2R8HMdtxcb2WF1ru50i024/+FD5IZL62i8ED73qOJ/dwOIELN/BPGPzDNk4NsLEadKifWGdn+enXJYogUVmadDB/cTZ4g72c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFItLBxk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2E2C4AF18;
+	Wed,  8 May 2024 07:29:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715135867;
-	bh=ABIHuAol1RkqvO67SLAalaYd+ekF8teyJLNahtOn3xQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EuiAqF3BdoPrwlz++LYhqIM49/GJvGRGrQQIVXUnAmQxZie7fmk8uEUjCDyMTTazl
-	 5CDNXr0lrGrh8jqEKIfSSN7B7JXDdq+IOq0Or2lxPjIrkH5ZauuRWzXKjoQIrl67UW
-	 1hZ7Qp36DSrxugHVWBWFkUwhM1rCHOg5FSeKaLNRufQI/AnsRJMTHAt+UP72eIn/A7
-	 6OlACuIRdCRjN22ovlMKdx+BC4u6IJq6aMf+2X21mcGBXYnhr570zIKyL5OMnMPbNn
-	 BbfxEHqdbCeknorwM3D2XEp/Yoz3lcDkSjjpYaSyPQyp7x/VMAblhlsxJYf5lMgtcW
-	 V2LEXsiAeDebw==
-Date: Wed, 8 May 2024 11:37:45 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jeff LaBundy <jeff@labundy.com>, Hans de Goede <hdegoede@redhat.com>,
-	Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net,
-	Richard Hughes <hughsient@gmail.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org
-Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
- and writing touch IC registers
-Message-ID: <ZjrledLjn8RsGiwC@finisterre.sirena.org.uk>
-References: <20240506114752.47204-1-charles.goodix@gmail.com>
- <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
- <ZjmOUp725QTHrfcT@google.com>
- <Zjo8eTQQS1LvzFgZ@finisterre.sirena.org.uk>
- <ZjpFVGw6PgjRcZY3@nixie71>
- <ZjqYp1oxPPWcF3jW@google.com>
+	s=k20201202; t=1715153368;
+	bh=32ioLqPM7lnDwXJD99G8P6IhwH1PO1nE9mcgPc5umFs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mFItLBxk0t3ORVVyP+Uw3/iq1vLTpubeQsj5frHza1Gp6X646wV1f2WM8uM4wDECP
+	 KOqsWeys1ZdIWR3duGlXMvO9i7AI+WJEwxMQ7h9BrgLAbZ6yIovQBV+saMRU1wXD3G
+	 SKPGKCBTfean3w/gA7MA42YX+8EMfRcZDFyKLJxRAgCcTaOSs0B8xKJiLXqVtFGsry
+	 ijatMDEyG9ws/DfoFHg/CMQOmk5qLq6o5LWZ+d8XIRCQA99O83uC4W7G2Aot4AKOJf
+	 isrCVR/ahVwwIXaOU5twMHdoEYcCk5pgF2QGTQpf5x4b1Irq/TT2k9xPDLwCKJCRx0
+	 R34QBFJ3OXhyQ==
+Message-ID: <a4479812-63aa-4f10-a4a0-0f0a44acb468@kernel.org>
+Date: Wed, 8 May 2024 09:29:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7rZlMyEu+j77dzs2"
-Content-Disposition: inline
-In-Reply-To: <ZjqYp1oxPPWcF3jW@google.com>
-X-Cookie: Accuracy, n.:
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/7] dt-bindings: HID: i2c-hid: elan: add
+ 'no-reset-on-power-off' property
+To: Johan Hovold <johan+linaro@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240507144821.12275-1-johan+linaro@kernel.org>
+ <20240507144821.12275-4-johan+linaro@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240507144821.12275-4-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 07/05/2024 16:48, Johan Hovold wrote:
+> When the power supply is shared with other peripherals the reset line
+> can be wired in such a way that it can remain deasserted regardless of
+> whether the supply is on or not.
+> 
+> This is important as it can be used to avoid holding the controller in
+> reset for extended periods of time when it remains powered, something
+> which can lead to increased power consumption. Leaving reset deasserted
+> also avoids leaking current through the reset circuitry pull-up
+> resistors.
+> 
+> Add a new 'no-reset-on-power-off' devicetree property which can be used
+> by the OS to determine when reset needs to be asserted on power down.
+> 
+> Note that this property can also be used when the supply cannot be
+> turned off by the OS at all.
+> 
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
---7rZlMyEu+j77dzs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Tue, May 07, 2024 at 02:09:59PM -0700, Dmitry Torokhov wrote:
-> On Tue, May 07, 2024 at 10:14:28AM -0500, Jeff LaBundy wrote:
+Best regards,
+Krzysztof
 
-> > For example, many devices must be placed in a bootloader mode during
-> > the FW update, and may clamp or toggle an interrupt pin during this
-> > mode switch. If user space initiates this sequence while the driver is
-> > unaware of this process, it may attempt to read status registers from
-> > an I2C address that is temporarily offline.
-
-> And yet we have i2c-dev and hidraw that are often successfully used to
-> flash the firmware, do diagnostics, etc. without encumbering the kernel.
-
-Yeah, those seem like a reasonable enough model for safer devices - they
-do the exclusion thing so you don't have a real driver running at the
-same time.  For things like PMICs there's some concerns of course.
-
-The other model I've seen used BTW is to expose a MTD device, if the
-device actually looks like a MTD device (perhaps even is just a flash
-that's fairly directly exposed) that minimises the kernel code quite
-well.
-
---7rZlMyEu+j77dzs2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY65XgACgkQJNaLcl1U
-h9BwWAf/UP+aNwRClILavfD13cThg00n7zwWD9uhBnaRChYB9X1iTj6+IoVXwHRW
-gO4qxaTP/uzc+Q4vahodQjkHIe3l3t4pegJ/+BKursC9ACilGMPLuf1KBnJIQRfZ
-i/4n2DqCOVXj7AYTl52TJWwzv85l9b1sbvkhFHRPFTQCNcUWZhL6H7q2XuQJWsTo
-zDHOqqE9vcAEkzPJJEbr1wWfCcJRZ9bE+cHJgNJfXU2izOily6RfiJ9uFcWtaehD
-oHYYdBe6YbnwyPkorEqIRhRTO5D2snGctfbUnfxCmGbIuR8Ob+rIbIxd3siJDu5y
-vb5eJWjLE+iXONTQ3zx6HWctftpcuA==
-=+Mn4
------END PGP SIGNATURE-----
-
---7rZlMyEu+j77dzs2--
 
