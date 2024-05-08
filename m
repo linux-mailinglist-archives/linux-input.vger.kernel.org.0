@@ -1,74 +1,63 @@
-Return-Path: <linux-input+bounces-3620-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3621-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCEA8C0497
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 20:48:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12F48C04BC
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 21:10:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 534001F22031
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 18:48:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B3B41F247F8
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 19:10:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E379F82D93;
-	Wed,  8 May 2024 18:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C20130A42;
+	Wed,  8 May 2024 19:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u3xwpj8W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJ5vKu5V"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BEE1E521;
-	Wed,  8 May 2024 18:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D356E1DFC5;
+	Wed,  8 May 2024 19:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715194101; cv=none; b=YRFjv/MGdIpjxLwlfF3/6OZcBJ5rOoQg60yeurQhDQJmXbWXxHU3JJQaZV3eiakEUMAn9cuKwXMPLFzbr19MJmdy6QXppSmaUEN2H0ivIhkyYTQ6TZzfCeMGs6wSo/KdJCoJiDk05zNENq0nb+3asao7068JjUHXHfNB5HuJpPo=
+	t=1715195428; cv=none; b=SueTpz6e5uq0pZV3iC9RXj+mI/IYpYRPvks/ObpTWrSVWp82Nol9lZsVv7P6mkR1+E2nlA/Mzu/kr2jLmBGImbyDfLMzDI67TpoQYEJLnEVaTFeRa0aNRPLRC8TyogAfm7lxs2KJy6y1dYwmJQi3NSrxhQAw6f//Ijl/MVba6Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715194101; c=relaxed/simple;
-	bh=JSN51QMeVWBL5ZlNRHJJjZtaLYDfa+v+XlsqBseMV0M=;
+	s=arc-20240116; t=1715195428; c=relaxed/simple;
+	bh=8X6+44daOTVhYsmsLkXUJSkQDo/m4CLnbDr06hibE2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k5Z6GaroAIQ4q+BTt0Je37DsTljvXX7Xzv2QFC4I08PJuoBRHiLP/VdV0SiSWV9vuqkGjzFG+IdKkm5n8t3+ipJGnOOM+vfY1uyIBF3RD9KaEBWnbRrWrDscdH8J46mJSZ4cp9CfocS2A4uEeCSVLvklZamnaMu8AK1lm0pIVgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u3xwpj8W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9144BC113CC;
-	Wed,  8 May 2024 18:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1715194101;
-	bh=JSN51QMeVWBL5ZlNRHJJjZtaLYDfa+v+XlsqBseMV0M=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xv300LiUFT1oyN5xJk8kSs5WcRNnatCzMKKZ7fgVjMiF7Kd1KaeSmHz1VRBKCkYJughGBQuTzZqEVbb0GasU7cZZ8Aqa6qA8Q/TL310mmCuU4l20fjAOYnpAoE6as43UyYMVW22yus9lWvorD3B6Weq0AORnWOlDWlkUKPkvPi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJ5vKu5V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38FFCC113CC;
+	Wed,  8 May 2024 19:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715195427;
+	bh=8X6+44daOTVhYsmsLkXUJSkQDo/m4CLnbDr06hibE2c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u3xwpj8WHxR3j6K/wO1YBf5Uei8unwUijfe08+sBEUavcKFc+bBq7sz8L15Vij6gX
-	 e6N0Bizv0tdTlsMbKBpzpZ2hvE9AzlAw1jJ10GEw5Vicq+qzfAwuqeimPvey2ZTBN4
-	 tzrZUNvjR4rs8vnZuyQoHz4keOTmHKnahmluP9nM=
-Date: Wed, 8 May 2024 19:48:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christoph Fritz <christoph.fritz@hexdev.de>
-Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
+	b=hJ5vKu5V89xWFWP1uYZlLrERK6CfxhPrCY6a8jb/ySjrZpqFudFLNPgiHXJNwT0Vz
+	 jNNAgxaY722wbJG58KXTBXYeaE9qCJa5MBu4cHlnEZVyiZJRxBcEsNPGbtSylESxro
+	 7IYzzLEACMQIlfR13GffPC2zgaGBcES3tE7JUXokXFDc5Q87AUCEppAl68YAiWwQA2
+	 rUKh1AakYlWWOHHva2U4Mm31oZYoA3D7aFvUhPxMKCGzH1HEJnFgaJBTLzQu1P6e23
+	 MLL2+Y958qtYm8LI1ZcYA6C2S1aG3+vjWDYCxq6j0dsOrAXeNfU4Z373ZncS/wHAbH
+	 0L2Waj4d4EsVw==
+Date: Wed, 8 May 2024 14:10:25 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Shijie Qin <shijie.qin@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Zhou Peng <eagle.zhou@nxp.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andreas Lauser <andreas.lauser@mercedes-benz.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
-	Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-serial <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v3 01/11] can: Add LIN bus as CAN abstraction
-Message-ID: <2024050852-vixen-arson-cb42@gregkh>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
- <20240502182804.145926-2-christoph.fritz@hexdev.de>
- <61adf428-2205-1563-d0b6-fa843e08559d@linux.intel.com>
- <e0f3d0716ed2f4281561f08bbcd3050dddcf1831.camel@hexdev.de>
- <4e8a50a0-f938-8aaf-fe4b-d18765407d4d@linux.intel.com>
- <215d898a0244d717467d44a8e93f186e2f282daa.camel@hexdev.de>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
+	Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH] dt-bindings: Use full path to other schemas
+Message-ID: <171519542260.2430941.15049314403040181204.robh@kernel.org>
+References: <20240505084618.135705-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,59 +66,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <215d898a0244d717467d44a8e93f186e2f282daa.camel@hexdev.de>
+In-Reply-To: <20240505084618.135705-1-krzysztof.kozlowski@linaro.org>
 
-On Wed, May 08, 2024 at 08:20:51PM +0200, Christoph Fritz wrote:
-> ...
-> > ...
-> > > > > +static int lin_create_sysfs_id_files(struct net_device *ndev)
-> > > > > +{
-> > > > > +	struct lin_device *ldev = netdev_priv(ndev);
-> > > > > +	struct kobj_attribute *attr;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	for (int id = 0; id < LIN_NUM_IDS; id++) {
-> > > > > +		ldev->sysfs_entries[id].ldev = ldev;
-> > > > > +		attr = &ldev->sysfs_entries[id].attr;
-> > > > > +		attr->attr.name = kasprintf(GFP_KERNEL, "%02x", id);
-> > > > > +		if (!attr->attr.name)
-> > > > > +			return -ENOMEM;
-> > > > > +		attr->attr.mode = 0644;
-> > > > > +		attr->show = lin_identifier_show;
-> > > > > +		attr->store = lin_identifier_store;
-> > > > > +
-> > > > > +		sysfs_attr_init(&attr->attr);
-> > > > > +		ret = sysfs_create_file(ldev->lin_ids_kobj, &attr->attr);
-> > > > > +		if (ret) {
-> > > > > +			kfree(attr->attr.name);
-> > > > > +			return -ENOMEM;
-> > > > > +		}
-> > > > > +	}
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > 
-> > > > Can you use .dev_groups instead ?
-> > > 
-> > > I'm not sure where to attach this in this glue code here. Should I do a
-> > > class_register() and add the .dev_groups there?
-> > 
-> > I guess struct class would be correct direction but I'm not sure if it's 
-> > viable in this case. It would avoid the need for custom sysfs setup code
-> > if it's workable.
+
+On Sun, 05 May 2024 10:46:18 +0200, Krzysztof Kozlowski wrote:
+> When referencing other schema, it is preferred to use an absolute path
+> (/schemas/....), which allows also an seamless move of particular schema
+> out of Linux kernel to dtschema.
 > 
-> I just tried to find a way, but these are 64 sysfs files and declaring
-> them all static looks a bit odd to me. I might be missing something
-> here.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> For v4 I would stick to the dynamic setup and fix the rollback.
+> ---
 > 
-> Any objections?
+> Rob, maybe you can take it directly? Should apply cleanly on your tree.
+> ---
+>  Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml | 2 +-
+>  Documentation/devicetree/bindings/media/amphion,vpu.yaml    | 2 +-
+>  Documentation/devicetree/bindings/mtd/mtd.yaml              | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
 
-Yes, you race with userspace and loose by trying to do this "by hand".
-Make this static please.
+Applied, thanks!
 
-thanks,
-
-greg k-h
 
