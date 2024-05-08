@@ -1,104 +1,143 @@
-Return-Path: <linux-input+bounces-3598-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3599-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E178BF8E7
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 10:41:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C18798BF907
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 10:48:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93B94286C2F
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 08:41:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CABCB23271
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 08:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 925A3745C2;
-	Wed,  8 May 2024 08:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522D3535B6;
+	Wed,  8 May 2024 08:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndCYK31U"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="E/Lq6AFw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EDF535DD;
-	Wed,  8 May 2024 08:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51E79476;
+	Wed,  8 May 2024 08:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715157595; cv=none; b=A3A022oMRm2KrJ2RAN3DyC/jFMgpjZb+xPU6BPOUeuqp8uteAe4+wokV6+Xmvp8tpebQNkVirUwxNuVR/v74lA+M9rYBvmZgQ2V6YTqT0qZSqttLrdYIIdeVl241l0CaIrEzzEnMBvWorWcVeWoa6gV6gA1+BQC71DBVfPnQaCs=
+	t=1715158115; cv=none; b=Qx6+w5CTsvOg1izSWmQ3HHGVSv4KbTcvwGpbr6ShN5U87TgSUBo18NEw2QFyJjup0243njBky+H3b13F7jdASjZ7Nw/I5ZhjA01MCCE090AuNghY80EHrKcfByLSC+NYG3CSegcgRKH0ICQoSiqA+Wz5+lk0ud1DJ5Roc7JGLNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715157595; c=relaxed/simple;
-	bh=J+PQfd29qCEkIFqLYMfOqB2KUwrBfTwfwKZYBhSKYzc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S5yCoQedA8YtjtHqLkj2q5dlFV5wTUl/no3j+bAlrh8f0oZgZ3G1vVcuVjhUSufTnkCYUuHDOnhcw0mU7sVoWPEpT82hks/Gpw6NkZhm/08MxpGI9hOXpzv3YXB4QACrqW/dlncY7Ta/GfutrGvE6i28ZU7HGb8dZlaP0jo+tYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ndCYK31U; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-43dda802bb3so246991cf.0;
-        Wed, 08 May 2024 01:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715157593; x=1715762393; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J+PQfd29qCEkIFqLYMfOqB2KUwrBfTwfwKZYBhSKYzc=;
-        b=ndCYK31UOffe5aitstDpIoOp5urizJCGFMLMvQv0nxuHWZOaMHOViAM+wvatEjIsNc
-         TUzgVHU9eXf3UG1IGcvi7RN//ee4iEoQB7g2ECWRQUrULWqv1MLabF39MsAVwh9tKB+F
-         3lnyteN7OZbzfh0qadMfDeDOl7JRpiPcp2tqusRaOzEoMgfYjzv++XRmgtsH+GrSvM4E
-         W/Y2eKozKKvgZ24TfJpn+jo4rW9Q/HZjF/OK/AJXvdprKKw0bAZHO4nS0vCNkRKlJgJt
-         SFJD4prW8SSEc94Mz27q6Zmb3XHqOsye+GmT+YWY1bdyGSB8o9cUkbe4+d6YiyMR4sk4
-         /PQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715157593; x=1715762393;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J+PQfd29qCEkIFqLYMfOqB2KUwrBfTwfwKZYBhSKYzc=;
-        b=rQbI1UAGI1cC6BUQE+vPOYE3V85frxxwE5T9177lH5275jVHZncOuwwshlbFe95XNo
-         zlDLUHbWDpRIyn3MRu9h7DyomvloOijwaOBC/H4Ifn+jg1feCaDW476RUcA6gKtm34Lw
-         ede4JAsrcLgUF56U8TLzwWkj0yZAgE7RIFxD6WKZ2JBBNGm+aycyf30XWokV+HFAumZl
-         fvgc9ZvMGRWOlf5FoaaVjwZFKpnZonrIOVzWX2YjKIcTyrAPyFB0l4urev3SeUK2zQ0J
-         syMFLI2GNYZvYx9Aq8+zkUaiG+B8IsYqveR5fMVPpaIcGglClTtKIUS81RTYL+wAWxPF
-         MR8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXDMX0H8O/z+pGKzwiDLM1u/w0p3VcvoChAGnwGgpwu0txtVt5eZMHPXggljwqiwbzH+CBOqGb9v/4Dts/rfNVouj/D05KLXfK8YZa0Loxay8r74jtOtL4J9tbqNzobiLyE3Y95eZMIDbM=
-X-Gm-Message-State: AOJu0YzZMx2Xq1CumzdAC2x3I0XMth9qsP6+oW2kIRAfHV/pCnxdeyV4
-	JDDl8TF0LdB8a8W/6cfubprRggz9bcisQ9OkIhjq2gYobrcnIDlpsqulz2G/pOBAfawTRoIIj3m
-	0bCD8KlEZVlwssHZyjkeciAtzjJc=
-X-Google-Smtp-Source: AGHT+IFbHvBVS6LvE9VyyUxGe4Dx+/5XNZJwJY9GdUXiicZzhTZ+bu9VFrTJNH4aWCT0/TwiOvIkRq5mW32Bb71ptGA=
-X-Received: by 2002:a05:6214:2aac:b0:699:4d3:98dc with SMTP id
- 6a1803df08f44-6a151418127mr23321276d6.0.1715157593085; Wed, 08 May 2024
- 01:39:53 -0700 (PDT)
+	s=arc-20240116; t=1715158115; c=relaxed/simple;
+	bh=KFMj3U7Obl/qOELPmA1G8lQsydYqYK1yXc1XYG2gwpM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qkQokaU8CnyNK/h7wI4593BfmvCuxUZGFVrfK3r6iyqUs3vtN6bVCW75pD1lFWyCAYXVSs3+Ouj9ShShBFSKaxBXvx4HuASpsgbv1VpwLuBsFGHsACAcvyTd3ce5WFN0EofuoBhAPoEnvigNUYgmv88S51H9hQLx/SPPTz18M1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=E/Lq6AFw; arc=none smtp.client-ip=213.160.72.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
+	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=/zOyVvtd4hHv6CKYy7zMjS3W53YqU2ozpdmDgVx4s6Y=; b=E/Lq6AFw4vjvpx20b7f7bacPYa
+	Q7jIGpOHSFZqz28PYM10ruDXqZ4t9fmlDxsNpFFNw0FTwKB0MWw64tCk8Y7pnfQ0NZM+vbQz80l6c
+	9IFVivOdwvcWD11NfMIrwMrTJmgBLkmu9OZTuBH4mLMGC8rd/me/MyZlHbM34U0nOT/4=;
+Received: from 127.0.0.1
+	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim latest)
+	(envelope-from <christoph.fritz@hexdev.de>)
+	id 1s4cyO-001hNS-1B;
+	Wed, 08 May 2024 10:48:24 +0200
+Message-ID: <663ea6b946a1a18637a1eae9bd8abe43607d9619.camel@hexdev.de>
+Subject: Re: [PATCH v3 03/11] tty: serdev: Add flag buffer aware
+ receive_buf_fp()
+From: Christoph Fritz <christoph.fritz@hexdev.de>
+Reply-To: christoph.fritz@hexdev.de
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Oliver Hartkopp
+ <socketcan@hartkopp.net>,  Marc Kleine-Budde <mkl@pengutronix.de>, Vincent
+ Mailhol <mailhol.vincent@wanadoo.fr>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <bentiss@kernel.org>,  Sebastian Reichel <sre@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Andreas Lauser
+ <andreas.lauser@mercedes-benz.com>, Jonathan Corbet <corbet@lwn.net>, Pavel
+ Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org,  linux-serial@vger.kernel.org
+Date: Wed, 08 May 2024 10:48:23 +0200
+In-Reply-To: <2024050410-gigolo-giddily-97b6@gregkh>
+References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
+	 <20240502182804.145926-4-christoph.fritz@hexdev.de>
+	 <2024050410-gigolo-giddily-97b6@gregkh>
+Organization: hexDEV GmbH
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240506114752.47204-1-charles.goodix@gmail.com>
- <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com> <ZjmOUp725QTHrfcT@google.com>
- <Zjo8eTQQS1LvzFgZ@finisterre.sirena.org.uk> <ZjpFVGw6PgjRcZY3@nixie71>
- <ZjqYp1oxPPWcF3jW@google.com> <ZjrledLjn8RsGiwC@finisterre.sirena.org.uk>
-In-Reply-To: <ZjrledLjn8RsGiwC@finisterre.sirena.org.uk>
-From: Richard Hughes <hughsient@gmail.com>
-Date: Wed, 8 May 2024 09:39:41 +0100
-Message-ID: <CAD2FfiE+VFa+7sHQg=LGkBy556msNyyFUhmWW_cAfZd0V4DPYQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
- and writing touch IC registers
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jeff LaBundy <jeff@labundy.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 8 May 2024 at 03:37, Mark Brown <broonie@kernel.org> wrote:
-> The other model I've seen used BTW is to expose a MTD device, if the
-> device actually looks like a MTD device (perhaps even is just a flash
-> that's fairly directly exposed) that minimises the kernel code quite
-> well.
+On Sat, 2024-05-04 at 18:00 +0200, Greg Kroah-Hartman wrote:
+> On Thu, May 02, 2024 at 08:27:56PM +0200, Christoph Fritz wrote:
+> > This patch introduces an additional receive buffer callback variation
+> > besides the already existing receive_buf(). This new callback function
+> > also passes the flag buffer (TTY_NORMAL, TTY_BREAK, and friends).
+> > 
+> > If defined, this function gets prioritized and called instead of the
+> > standard receive_buf().
+> > 
+> > An alternative approach could have been to enhance the receive_buf()
+> > function and update all drivers that use it.
+> 
+> Please, let's do that instead of adding random letters at the end of a
+> function pointer :)
 
-If it helps, fwupd already uses mtd for other devices too, although at
-the moment we're using it only for system firmware -- e.g. intel-spi
-style. The MTD subsystem doesn't give fwupd much info about the
-{removable} device itself, and that can pose a problem unless you
-start using heuristics about the parent device to match firmware to
-the mtd device.
+:) sure
 
-Richard.
+> 
+> > Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
+> > ---
+> >  drivers/tty/serdev/serdev-ttyport.c |  2 +-
+> >  include/linux/serdev.h              | 17 ++++++++++++++---
+> >  2 files changed, 15 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
+> > index 3d7ae7fa50186..bb47691afdb21 100644
+> > --- a/drivers/tty/serdev/serdev-ttyport.c
+> > +++ b/drivers/tty/serdev/serdev-ttyport.c
+> > @@ -32,7 +32,7 @@ static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp,
+> >  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
+> >  		return 0;
+> >  
+> > -	ret = serdev_controller_receive_buf(ctrl, cp, count);
+> > +	ret = serdev_controller_receive_buf(ctrl, cp, fp, count);
+> >  
+> >  	dev_WARN_ONCE(&ctrl->dev, ret > count,
+> >  				"receive_buf returns %zu (count = %zu)\n",
+> > diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+> > index ff78efc1f60df..c6ef5a8988e07 100644
+> > --- a/include/linux/serdev.h
+> > +++ b/include/linux/serdev.h
+> > @@ -23,11 +23,17 @@ struct serdev_device;
+> >   * struct serdev_device_ops - Callback operations for a serdev device
+> >   * @receive_buf:	Function called with data received from device;
+> >   *			returns number of bytes accepted; may sleep.
+> > + * @receive_buf_fp:	Function called with data and flag buffer received
+> > + *			from device; If defined, this function gets called
+> > + *			instead of @receive_buf;
+> > + *			returns number of bytes accepted; may sleep.
+> 
+> I don't remember waht "fp" means here, and you don't document it, so
+> let's just have one recieve_buf() callback please.
+
+OK, that is a great opportunity for me to use Coccinelle. In the
+upcoming revision v4 I'll add the "flag buffer pointer" treewide, then
+named "flags".
+
+thanks
+  -- Christoph
 
