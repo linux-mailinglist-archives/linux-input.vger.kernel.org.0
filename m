@@ -1,150 +1,109 @@
-Return-Path: <linux-input+bounces-3608-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3609-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750598BFC23
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:34:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3508BFCA5
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:48:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5F161C20846
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 11:34:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 980CC287992
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 11:48:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFD6F823BF;
-	Wed,  8 May 2024 11:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BEB8287F;
+	Wed,  8 May 2024 11:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="ARyzWnXk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PzMa+iHl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9888120A;
-	Wed,  8 May 2024 11:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4DC82492;
+	Wed,  8 May 2024 11:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715168092; cv=none; b=oI4QXn+Nht2/7KbBYUINsVM7Hth0EDyQ+s+ZljMxQBx/E/AlJ+3BPSAY8mB/+ljayPb9CuQ/RURpx0AIaufHJg9VXM48eye0mC8COEVbzjlGn99g7s3OLJjKZg561xsLYUPWypU17fsl6/j8wydxzjFR8kqJSQD0X0otIj7kuQ4=
+	t=1715168874; cv=none; b=OeQxuHfqMNroZFyBFTLWZra98e72ImojDfuN3bGHV6TE70/Zo2ZmHThD1uce0uVT8DbqRdJR3DwDNqKnD1mvu/bnDdsSTShBFMmHckzdPgcGK2cnjTthWbK9bbPHwxujYz00LIaP8+HrmAbufrY32BS9lZJvlaJlLl+ZKqrLd2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715168092; c=relaxed/simple;
-	bh=tixuWnWaApHZa88I9VH9uCSdEVSxkxdW1LaQ2M+1bwY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EZcMT3SdXXmWPoBwXfG2fOJHZGo3pUcyrDA3qS0V5CFoKOl8I69pon31IADkbfTXIKI0nleX2j53a0mPLSPOHUvw06xiCsY6d3l9XwWtHEdtchXDFKws1fnWgeyqbYSuzI7d4WgX94W9i7i85bd3Q7QrtwQ4jUaAXTS5GnJx1Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=ARyzWnXk; arc=none smtp.client-ip=213.160.72.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
-	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=JT/pKnPhOXs9FuvMeUswkfzbqk7jg11xjzMVg++jEag=; b=ARyzWnXkp1DVrw7gVTuJiQcgnN
-	cfynAutb8zVYBi3YJWPh/Qt4kzmN6krzwKNDrDKuTD0ZS9UI1W8OfIxAtRX4C1udDhwyO1ls7/TcF
-	NLrrfGnoyF2qxjVtuz9qubprP0xl4p4bw29Re61gTZA2FPP35+JoCYKRNffXbQH+ADro=;
-Received: from 127.0.0.1
-	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim latest)
-	(envelope-from <christoph.fritz@hexdev.de>)
-	id 1s4fZD-001hfX-1W;
-	Wed, 08 May 2024 13:34:35 +0200
-Message-ID: <b716f34ce54dfed2595690d37c121d242a18ff64.camel@hexdev.de>
-Subject: Re: [PATCH v3 06/11] dt-bindings: net/can: Add serial (serdev) LIN
- adapter
-From: Christoph Fritz <christoph.fritz@hexdev.de>
-Reply-To: christoph.fritz@hexdev.de
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>, Oliver Hartkopp
- <socketcan@hartkopp.net>,  Marc Kleine-Budde <mkl@pengutronix.de>, Vincent
- Mailhol <mailhol.vincent@wanadoo.fr>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <bentiss@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Andreas Lauser
- <andreas.lauser@mercedes-benz.com>,  Jonathan Corbet <corbet@lwn.net>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org,  linux-serial@vger.kernel.org
-Date: Wed, 08 May 2024 13:34:34 +0200
-In-Reply-To: <f1173a7c-f18b-47cc-8873-30347489d1be@kernel.org>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de>
-	 <20240502182804.145926-7-christoph.fritz@hexdev.de>
-	 <20240503-fading-extruding-2105bbd8b479@spud>
-	 <a5b894f8dc2ab0cf087a5b4972d7f752e6c17c16.camel@hexdev.de>
-	 <20240506-jaws-cheesy-bf94885651c1@spud>
-	 <f1173a7c-f18b-47cc-8873-30347489d1be@kernel.org>
-Organization: hexDEV GmbH
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1715168874; c=relaxed/simple;
+	bh=uDG480PUhwe0ESIDmugza7mKOq0B7fW09PsYqfZWf+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQD9hDbdereDTM4di/juqy383T6o6AEYOO0uPzbYwWZV4P1iYhXH4XWMkHKiLcIMRUsFW0dg1ipHig8LBdX7lCAYmGT8TiJZEn2Tlx3YRjfuM0lduX7llgSU6KK2lqO7qa0a3t248pbypCVtlShdK0q8wihPCYQGm6/TiC9eYII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PzMa+iHl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB8DC113CC;
+	Wed,  8 May 2024 11:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715168874;
+	bh=uDG480PUhwe0ESIDmugza7mKOq0B7fW09PsYqfZWf+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PzMa+iHlmGnMVBsjCPWjPeHvQZtIFYHrHr70MzejGo9K494+r1vUTzSegQVW8tQe5
+	 4sUy59+h9vZq4b9MeGcfSzeIbX1WFy2YC0l0twTGv1vU2MrnxQRTW5TftBIgr+Ikyx
+	 bldlW9k2RqgO/E7/oVymFWM+DbeXyUNgCQBfgjmfsvG3zXvMvV6fV1itm5qze0o1fv
+	 +NIH/NEeG5uUqyX/2ThBI7VfoU9JRN+Y6mEQvXUYb3ypEsGepAqWZaka9YXE7/C1Nd
+	 8xgXxwAY0Ay/0FQQvw6wthkJUVAUxbxCbUlEm3xRjDvRl2YOIZFymdHNUzdw2wF8U2
+	 Z6jj9cQfnDiMg==
+Date: Wed, 8 May 2024 20:47:51 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Richard Hughes <hughsient@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	neil.armstrong@linaro.org
+Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
+ and writing touch IC registers
+Message-ID: <ZjtmZ6Jrj6vn6sv3@finisterre.sirena.org.uk>
+References: <20240506114752.47204-1-charles.goodix@gmail.com>
+ <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+ <ZjmOUp725QTHrfcT@google.com>
+ <Zjo8eTQQS1LvzFgZ@finisterre.sirena.org.uk>
+ <ZjpFVGw6PgjRcZY3@nixie71>
+ <ZjqYp1oxPPWcF3jW@google.com>
+ <ZjrledLjn8RsGiwC@finisterre.sirena.org.uk>
+ <CAD2FfiE+VFa+7sHQg=LGkBy556msNyyFUhmWW_cAfZd0V4DPYQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nDq691KZs7iF1YOg"
+Content-Disposition: inline
+In-Reply-To: <CAD2FfiE+VFa+7sHQg=LGkBy556msNyyFUhmWW_cAfZd0V4DPYQ@mail.gmail.com>
+X-Cookie: Accuracy, n.:
 
-On Mon, 2024-05-06 at 20:50 +0200, Krzysztof Kozlowski wrote:
-> On 06/05/2024 18:16, Conor Dooley wrote:
-> > > > > +maintainers:
-> > > > > +  - Christoph Fritz <christoph.fritz@hexdev.de>
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: hexdev,lin-serdev
-> > > > 
-> > > > Maybe I've just missed something on earlier versions that I didn't
-> > > > read, but the name of the device on the website you link is "hexLIN",
-> > > > so why is "lin-serdev" used here instead?
-> > > 
-> > > The USB one is called hexLIN and has it's own HID driver.
-> > > 
-> > > This serial LIN adapter doesn't really have a product name. Currently
-> > > on our website it's generically called 'UART LIN Adapter'.
-> > > 
-> > > This LIN adapter is basically just a LIN transceiver and very generic,
-> > > so that one could solder it to any single-board computer with an uart.
-> > > 
-> > > I think 'lin-serdev' for LIN and serial device fits great, also serdev
-> > > is the name of the used kernel infrastructure (besides the LIN glue
-> > > driver).
-> > > 
-> > > If you still don't like it, I'm open to other names. What about
-> > > "hexlin-uart" or "linser"?
-> >
-> > I dunno, I don't really care about it being called "hexlin,lin-serdev",
-> > all that much, I just found it confusing that the link in the description
-> > sent me to the ""Hello World" in LIN" section of your site. If it had
-> > dropped me off at the "UART LIN adapter" section things woud've been less
-> > confusing.
 
-Hi Conor and Krzysztof,
+--nDq691KZs7iF1YOg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I guess this is a chromium oddity, because browsing to
+On Wed, May 08, 2024 at 09:39:41AM +0100, Richard Hughes wrote:
 
- https://hexdev.de/hexlin#hexLINSER
+> If it helps, fwupd already uses mtd for other devices too, although at
+> the moment we're using it only for system firmware -- e.g. intel-spi
+> style. The MTD subsystem doesn't give fwupd much info about the
+> {removable} device itself, and that can pose a problem unless you
+> start using heuristics about the parent device to match firmware to
+> the mtd device.
 
-brings the user to another headline ("hexLIN" not "hexLINSER") as long
-as headline "hexLINSER" can be also displayed.
+FWIW I know SolareFlare network cards used to do this too, though I
+don't know about current products.
 
-When using firefox, the top headline is hexLINSER as expected (at least
-I do).
+--nDq691KZs7iF1YOg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > 
-> > That said, calling the compatible after a linux-ism is a bit odd to me
-> > when the device seems to be called a "UART LIN adapter" on the page, not
-> > a "serdev".
-> > 
-> 
-> If there is no real, fixed model name, I would also propose to use
-> whatever is on the website currently and avoid Linuxism.
+-----BEGIN PGP SIGNATURE-----
 
-OK, I changed it to hexLINSER on the website and in the upcoming v4
-revision of this patchset. LINSER for LIN and serial, or like in
-"Linsen & Spätzle" :)
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY7ZmcACgkQJNaLcl1U
+h9Bivgf8C+o2DfqpMLI8yUtww0Hmq/ALfX3f27DBHJBMrIuD/k475jxEPHnIbIJH
+lzizEAs4ZZW+LU5Yl+kmdYikVAv3pelrRnjHlEI5TL47wypIft3/Nh3iRHMflPkt
+oskqPewUw52nQVijTLjXeT+lDPt5WhtVPohVTZPOqAeF/Gq+hen059KvvizBF6id
+f6iGzbZuNTGuCOJ6xrysqjZtK+7nZxqHyhRhG2+GjV2Dxri6YQEETSCc//Nl+o2D
+PE5gJ4YPIIuscbi0BINKgiYa/mIB4/HkOK2cG/lvLM1UCMWeX7uZ1GllSp5KC49q
+DDYFT4Gih3hzgVzilxTxF+XKGS1D4g==
+=XTWh
+-----END PGP SIGNATURE-----
 
-Thanks
-  -- Christoph 
-
+--nDq691KZs7iF1YOg--
 
