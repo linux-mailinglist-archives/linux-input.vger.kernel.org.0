@@ -1,181 +1,153 @@
-Return-Path: <linux-input+bounces-3612-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44788BFE02
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 15:08:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2647C8BFF4A
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 15:48:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7BC91C21105
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:08:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D14D32875D5
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:48:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F9F6A340;
-	Wed,  8 May 2024 13:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9863484FBF;
+	Wed,  8 May 2024 13:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfcCtNYT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bPR2FNMY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD77B26AFF;
-	Wed,  8 May 2024 13:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4622284E04
+	for <linux-input@vger.kernel.org>; Wed,  8 May 2024 13:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715173712; cv=none; b=WMOx/B+9yYpTMQV8PcmMrnBNOFarUHMbOJuM2+BNPSbL8zWKPISdBmcyQA2lSYEHEc3Qz4aPWLqaDh8Dpvs1KoSaIw8WNxMm3a0SI24DN5Z8mdTP2xpKj92pPJrSlYYfspFIJ+7f4WDLK1yWY7oaWE3HSc+bcUk0m9LHz50lMV4=
+	t=1715176027; cv=none; b=D2F+oyO8MIanh5tFdbMd7Udec5kXbWAqIh+fa+1pVbFavzmPUoSCIm4ChOWPq/lh3Uq48VuZUWLb99MG4ptkoB7sgcwsq6sTvp6EKdAxzkZaVAm7bLsv1a/W05VX0/FAIM4BTTYm+vaxC0CZaeQJje97DgRfrU8BKnosddfBMwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715173712; c=relaxed/simple;
-	bh=Nhek7t2kXbSnyS4ynbhye8pjdTcB5x58ll+RArMjhG4=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=IqOYgm185x3drXKw42ZvrL//8m89SGId8XBqkSkbRFX8lyr+8zNDJRZHJpP+Q081FITzBE0/86KC7456THMakYoawf4TmZIAA+fkjk4eUwrndL2kUlcxj+WEufLlKpg0MqEJuKzZv5LTjuSI4IfjYfp128tzg5M23Kq3q62TplQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfcCtNYT; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715173711; x=1746709711;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=Nhek7t2kXbSnyS4ynbhye8pjdTcB5x58ll+RArMjhG4=;
-  b=jfcCtNYTHirOcv6y7VMtVHK9Zbk6Qo6r/cIpzvvYi6mbfw5G/uZOminI
-   UzJbnvTJa331N0/AsnXDBRiKcsiN1fozENd7elmIlPiMopy6ihkvK/09S
-   DewJFIlM5P0MfWtzbyhvD4EeJ7mHt24/QjIhoc/+iTdR63TUvgzNx1UVj
-   ExaIvxb15RedOpuSuey2R7HKG3wzeaH8wCEeGRGPBKqNbMjHTf17HDsIV
-   5KvSTE2NNOnC6Nx15+r2yXfzj1tfnc3L2fUkg/VXtN+8MhIwlk0fu/GFr
-   EQ7/7wjrL3OoYpsp+r/eWnIHhOvmpmVqUb/h3iAVKiqtHPTlCU4CVho40
-   A==;
-X-CSE-ConnectionGUID: 6LniEL/vR6q3cpvYYkh/FA==
-X-CSE-MsgGUID: hgUNPgKbTzSodfZyjqDoCQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="14837324"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="14837324"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:08:28 -0700
-X-CSE-ConnectionGUID: gag7DJvuRZGkzb+94mIYag==
-X-CSE-MsgGUID: unnb3CkzTJ23HcfMHdTsww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="28858984"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.80])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:08:21 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 8 May 2024 16:08:15 +0300 (EEST)
-To: Christoph Fritz <christoph.fritz@hexdev.de>
-cc: Oliver Hartkopp <socketcan@hartkopp.net>, 
-    Marc Kleine-Budde <mkl@pengutronix.de>, Jiri Slaby <jirislaby@kernel.org>, 
-    Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-    "David S . Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Sebastian Reichel <sre@kernel.org>, 
-    Linus Walleij <linus.walleij@linaro.org>, 
-    Andreas Lauser <andreas.lauser@mercedes-benz.com>, 
-    Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
-    linux-can@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-    devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-    linux-serial <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v3 01/11] can: Add LIN bus as CAN abstraction
-In-Reply-To: <e0f3d0716ed2f4281561f08bbcd3050dddcf1831.camel@hexdev.de>
-Message-ID: <4e8a50a0-f938-8aaf-fe4b-d18765407d4d@linux.intel.com>
-References: <20240502182804.145926-1-christoph.fritz@hexdev.de>  <20240502182804.145926-2-christoph.fritz@hexdev.de>  <61adf428-2205-1563-d0b6-fa843e08559d@linux.intel.com> <e0f3d0716ed2f4281561f08bbcd3050dddcf1831.camel@hexdev.de>
+	s=arc-20240116; t=1715176027; c=relaxed/simple;
+	bh=u6EyzHXd27fFGrN9Et656hCo/08PPyT+hT+CjlkxkTU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ilLRk3tfjWXSZ785bdz7ERh0jzlT32LyB3dEWbS5a5NG/D7UmJMyufz4ZlCm9CZDsgbdYTaXE+Xc1J6xeRbkfFTo6oEQ6F2IJ7YyYCF76NpK6On75+k4W7ahv+iiew2RsLKiMFXdKt4nfAs3zAkQfNbDzKlpYQs/g50tY8gdbVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bPR2FNMY; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2b432dfdcf6so3635763a91.3
+        for <linux-input@vger.kernel.org>; Wed, 08 May 2024 06:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715176025; x=1715780825; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
+        b=bPR2FNMYRrL08LQZsHzX4L6KUGDoby1D7kq9CdVilnTl6CW9lrBNQYoFJsegU0aGHp
+         4Rvak8c4UmtoXc6S3fFjOZBo01YZflQzqFYbXxLIMfFX6eOvhYD8CtmBrq+Mb4rYJAd4
+         2TsYLBRRZ5lpklLD11TRJUBP059D2HhrmxyI4sMyN7bd6vthUJHtxs4RdEeGguR3wo9D
+         30qJITdawJLGFg0swiui7xrCU72XGr5q34hiCJUVBCjHrubNk4EFfWZpBaPVUzsm1Ifx
+         +T4FgDSpNbi6t6XMJh7DSzyQHM216u9cGZYXYgPB8SaOhyO6WycTJJETY3cK0TX2A9N0
+         gIog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715176025; x=1715780825;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
+        b=WuD4l9/iVvihddyVXmHxeEq+6aLRdzehJ876bd06DyAePhnurJZFCN8rLiI0VLSb+h
+         23A+1mUSYtybLMDVD1pmf+xi+ejsQEjtGn/UgfVqIJqZKAdSnNDZi91aJuO45b29Lzo1
+         Zi4Ap4ssfGF6ShKJ+dDFITsZKB3+mkwUnzBcvh1W9bTCNH8t5CC2b74xV4Sk2pRi75z9
+         vwIcoLk8eHxusW3wVpPDOPfYtuf+bgP4XwQcMOs9JZBeUeLd/zRh9EfkDoDLXUZy2iUJ
+         8OMN6XdfKMEo6YPfKvVT4xbB6zBnT5RkOvdH5kUAPxvey7OFxAtx9vNN3h/9bKi22r4X
+         oL6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVY5NN8gZBcRSgrdzQxNt13o3oulRpVQjt7LrNpMrn3LUR9+vZfjxY4CN0ekjV5pm+Eq41U116gVmnY7oNWnCb0WJJHNKNjNpKSwYU=
+X-Gm-Message-State: AOJu0YxH5hpY7LKRUTA9ivIDTfdMUGlRqCxiWdOSqx6IGpPWuK9CYeTi
+	Yt9B++cN7DfX1O+yQLgDzjA5jsm1JR38HvXbhF9mNFL90GcGn6ZguyI7DOrDiVdD3SPnCU2ZA5d
+	k3w==
+X-Google-Smtp-Source: AGHT+IGkEzt3rrLCYEAc2MIkDJ4rSudkNPJV/ZI7YDr6FjDNwR59XbPWzyPuXmQfxq7n/1Jp45z9S3futCA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90b:128d:b0:2b4:32ae:483e with SMTP id
+ 98e67ed59e1d1-2b61638c780mr8658a91.2.1715176024465; Wed, 08 May 2024 06:47:04
+ -0700 (PDT)
+Date: Wed, 8 May 2024 06:47:03 -0700
+In-Reply-To: <20240507214254.2787305-1-edliaw@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1801532953-1715173426=:3164"
-Content-ID: <48adb666-4c9a-aa9a-24fb-3a1d33c5cc32@linux.intel.com>
+Mime-Version: 1.0
+References: <20240507214254.2787305-1-edliaw@google.com>
+Message-ID: <ZjuA3aY_iHkjP7bQ@google.com>
+Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+From: Sean Christopherson <seanjc@google.com>
+To: Edward Liaw <edliaw@google.com>
+Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, "=?utf-8?B?QW5kcsOp?= Almeida" <andrealmeid@igalia.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
+	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	David Hildenbrand <david@redhat.com>, "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Seth Forshee <sforshee@kernel.org>, 
+	Bongsu Jeon <bongsu.jeon@samsung.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"Andreas =?utf-8?Q?F=C3=A4rber?=" <afaerber@suse.de>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+	Geliang Tang <geliang@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, May 07, 2024, Edward Liaw wrote:
+> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> asprintf into kselftest_harness.h, which is a GNU extension and needs
+> _GNU_SOURCE to either be defined prior to including headers or with the
+> -D_GNU_SOURCE flag passed to the compiler.
+> 
+> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
+> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
+> location.  Remove #define _GNU_SOURCE from source code to resolve
+> redefinition warnings.
+> 
+> Edward Liaw (5):
+>   selftests: Compile kselftest headers with -D_GNU_SOURCE
+>   selftests/sgx: Include KHDR_INCLUDES in Makefile
+>   selftests: Include KHDR_INCLUDES in Makefile
+>   selftests: Drop define _GNU_SOURCE
+>   selftests: Drop duplicate -D_GNU_SOURCE
 
---8323328-1801532953-1715173426=:3164
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <109eb976-de37-c302-06dc-7d4f63b0cbac@linux.intel.com>
+Can you rebase this on top of linux-next?  I have a conflicting fix[*] for the
+KVM selftests queued for 6.10, and I would prefer not to drop that commit at
+this stage as it would require a rebase of a pile of other commits.
 
-On Wed, 8 May 2024, Christoph Fritz wrote:
+And I doubt KVM is the only subsystem that has a targeted fix for the _GNU_SOURCE
+mess.
 
-> On Mon, 2024-05-06 at 19:24 +0300, Ilpo J=E4rvinen wrote:
-> > On Thu, 2 May 2024, Christoph Fritz wrote:
-> >=20
-> > > This patch adds a LIN (local interconnect network) bus abstraction on
-> > > top of CAN.  It is a glue driver adapting CAN on one side while offer=
-ing
-> > > LIN abstraction on the other side. So that upcoming LIN device driver=
-s
-> > > can make use of it.
+If we want/need to get a fix into 6.9, then IMO we should just revert 809216233555
+("selftests/harness: remove use of LINE_MAX"), as that came in quite late in the
+6.9 cycle, and I don't think it's feasible to be 100% confident that globally
+defining _GNU_SOURCE works for all selftests, i.e. we really should have a full
+cycle for folks to test.
 
-> > > +static int lin_create_sysfs_id_files(struct net_device *ndev)
-> > > +{
-> > > +=09struct lin_device *ldev =3D netdev_priv(ndev);
-> > > +=09struct kobj_attribute *attr;
-> > > +=09int ret;
-> > > +
-> > > +=09for (int id =3D 0; id < LIN_NUM_IDS; id++) {
-> > > +=09=09ldev->sysfs_entries[id].ldev =3D ldev;
-> > > +=09=09attr =3D &ldev->sysfs_entries[id].attr;
-> > > +=09=09attr->attr.name =3D kasprintf(GFP_KERNEL, "%02x", id);
-> > > +=09=09if (!attr->attr.name)
-> > > +=09=09=09return -ENOMEM;
-> > > +=09=09attr->attr.mode =3D 0644;
-> > > +=09=09attr->show =3D lin_identifier_show;
-> > > +=09=09attr->store =3D lin_identifier_store;
-> > > +
-> > > +=09=09sysfs_attr_init(&attr->attr);
-> > > +=09=09ret =3D sysfs_create_file(ldev->lin_ids_kobj, &attr->attr);
-> > > +=09=09if (ret) {
-> > > +=09=09=09kfree(attr->attr.name);
-> > > +=09=09=09return -ENOMEM;
-> > > +=09=09}
-> > > +=09}
-> > > +
-> > > +=09return 0;
-> > > +}
-> >=20
-> > Can you use .dev_groups instead ?
->=20
-> I'm not sure where to attach this in this glue code here. Should I do a
-> class_register() and add the .dev_groups there?
-
-I guess struct class would be correct direction but I'm not sure if it's=20
-viable in this case. It would avoid the need for custom sysfs setup code
-if it's workable.
-
-> > FWIW, this function doesn't do rollback when error occurs.
->=20
-> OK, this issue can be fixed in revision v4.
->=20
-> ...
-
-> > > diff --git a/include/uapi/linux/can/netlink.h b/include/uapi/linux/ca=
-n/netlink.h
-> > > index 02ec32d694742..51b0e2a7624e4 100644
-> > > --- a/include/uapi/linux/can/netlink.h
-> > > +++ b/include/uapi/linux/can/netlink.h
-> > > @@ -103,6 +103,7 @@ struct can_ctrlmode {
-> > >  #define CAN_CTRLMODE_CC_LEN8_DLC=090x100=09/* Classic CAN DLC option=
- */
-> > >  #define CAN_CTRLMODE_TDC_AUTO=09=090x200=09/* CAN transiver automati=
-cally calculates TDCV */
-> > >  #define CAN_CTRLMODE_TDC_MANUAL=09=090x400=09/* TDCV is manually set=
- up by user */
-> >=20
-> > BIT(x) is these days available also for uapi I think.
-> >=20
-> > > +#define CAN_CTRLMODE_LIN=09=090x800=09/* LIN bus mode */
->=20
-> So, should I use just BIT(11) for the new define, or should I also
-> refactor the whole list while at it?
-
-Either is fine for me.
-
---=20
- i.
---8323328-1801532953-1715173426=:3164--
+[*] https://github.com/kvm-x86/linux/commit/730cfa45b5f4
 
