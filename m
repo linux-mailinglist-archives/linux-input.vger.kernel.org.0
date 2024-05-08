@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-3613-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3614-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2647C8BFF4A
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 15:48:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD608BFF8E
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 15:55:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D14D32875D5
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:48:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F8241F22809
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 13:55:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9863484FBF;
-	Wed,  8 May 2024 13:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00D4184DE8;
+	Wed,  8 May 2024 13:54:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bPR2FNMY"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sChzYj2r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4622284E04
-	for <linux-input@vger.kernel.org>; Wed,  8 May 2024 13:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D99284DF8
+	for <linux-input@vger.kernel.org>; Wed,  8 May 2024 13:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715176027; cv=none; b=D2F+oyO8MIanh5tFdbMd7Udec5kXbWAqIh+fa+1pVbFavzmPUoSCIm4ChOWPq/lh3Uq48VuZUWLb99MG4ptkoB7sgcwsq6sTvp6EKdAxzkZaVAm7bLsv1a/W05VX0/FAIM4BTTYm+vaxC0CZaeQJje97DgRfrU8BKnosddfBMwc=
+	t=1715176485; cv=none; b=hR8w31pV5BYCh4dva8w207e3fzhmmTNrYpl2PFdlgcshLa2uMPnpPZSESclPK+v0YCPtTXVmTQ4PB+eolajCZsDVuJsQOv7KCRytCIH8ngv5YtGdWyS+iog6j4xB1IdQBWwzzulK6cidfNDniPnig3XmMWXPN811r9nNRKjG+mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715176027; c=relaxed/simple;
-	bh=u6EyzHXd27fFGrN9Et656hCo/08PPyT+hT+CjlkxkTU=;
+	s=arc-20240116; t=1715176485; c=relaxed/simple;
+	bh=c4rrNnRvo0cBlTP42xOOVWUGWry3TUGUYL7wXej88eM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ilLRk3tfjWXSZ785bdz7ERh0jzlT32LyB3dEWbS5a5NG/D7UmJMyufz4ZlCm9CZDsgbdYTaXE+Xc1J6xeRbkfFTo6oEQ6F2IJ7YyYCF76NpK6On75+k4W7ahv+iiew2RsLKiMFXdKt4nfAs3zAkQfNbDzKlpYQs/g50tY8gdbVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bPR2FNMY; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=G/j83NMMEw9nB2lSaS0wfEucalWwXFc6gq81Nhb6lOVDlwnulIpUGVeoqowkzL6kpVDBShseAOX4tH2hScWmkGInJ9MxeNtizQ91sEnXRSmV0VYbESo4k8tHlklvjtOuUpb1D+UeGn2PawGEFWEWTZJToLuw5j30IJVHkxPK6Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sChzYj2r; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2b432dfdcf6so3635763a91.3
-        for <linux-input@vger.kernel.org>; Wed, 08 May 2024 06:47:05 -0700 (PDT)
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc743cc50a6so5314113276.2
+        for <linux-input@vger.kernel.org>; Wed, 08 May 2024 06:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715176025; x=1715780825; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1715176482; x=1715781282; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
-        b=bPR2FNMYRrL08LQZsHzX4L6KUGDoby1D7kq9CdVilnTl6CW9lrBNQYoFJsegU0aGHp
-         4Rvak8c4UmtoXc6S3fFjOZBo01YZflQzqFYbXxLIMfFX6eOvhYD8CtmBrq+Mb4rYJAd4
-         2TsYLBRRZ5lpklLD11TRJUBP059D2HhrmxyI4sMyN7bd6vthUJHtxs4RdEeGguR3wo9D
-         30qJITdawJLGFg0swiui7xrCU72XGr5q34hiCJUVBCjHrubNk4EFfWZpBaPVUzsm1Ifx
-         +T4FgDSpNbi6t6XMJh7DSzyQHM216u9cGZYXYgPB8SaOhyO6WycTJJETY3cK0TX2A9N0
-         gIog==
+        bh=qrxifLi18HwIXN/paZijnWPdESXfJJzxe/+u8UtVff4=;
+        b=sChzYj2rtzH+m82eJTwVi4o6/zZb4Tlo57BCb+n1FPzSPtq6p6xORd6/DYyI7qb5wx
+         UIAsEztjkkh7Kk0ZcUkYVI7Keczqp57Eoy2dlm1HhY+gT7XI9MskBF90x3ohX5x57RMr
+         /K6Em/fk4vBVDRGJLDa1BUOO5qbYbAJqvbq+reXWKTlKMSiyIaiF3vsAJTmdOeaR2wHU
+         1plsfxD3xB3uD6q0MIa/idAEY33bOCWrKRLQylsaNnDzG2mFjvkjkHlW0BU3ZPWU9lcf
+         hAI4kR0t1rm3WCfEMP/R+Doq90LDP6FOZ6/hdOBJRWc/btr+nMEmQ0RQQfu7qVl5XQ0n
+         1k8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715176025; x=1715780825;
+        d=1e100.net; s=20230601; t=1715176482; x=1715781282;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
-        b=WuD4l9/iVvihddyVXmHxeEq+6aLRdzehJ876bd06DyAePhnurJZFCN8rLiI0VLSb+h
-         23A+1mUSYtybLMDVD1pmf+xi+ejsQEjtGn/UgfVqIJqZKAdSnNDZi91aJuO45b29Lzo1
-         Zi4Ap4ssfGF6ShKJ+dDFITsZKB3+mkwUnzBcvh1W9bTCNH8t5CC2b74xV4Sk2pRi75z9
-         vwIcoLk8eHxusW3wVpPDOPfYtuf+bgP4XwQcMOs9JZBeUeLd/zRh9EfkDoDLXUZy2iUJ
-         8OMN6XdfKMEo6YPfKvVT4xbB6zBnT5RkOvdH5kUAPxvey7OFxAtx9vNN3h/9bKi22r4X
-         oL6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVY5NN8gZBcRSgrdzQxNt13o3oulRpVQjt7LrNpMrn3LUR9+vZfjxY4CN0ekjV5pm+Eq41U116gVmnY7oNWnCb0WJJHNKNjNpKSwYU=
-X-Gm-Message-State: AOJu0YxH5hpY7LKRUTA9ivIDTfdMUGlRqCxiWdOSqx6IGpPWuK9CYeTi
-	Yt9B++cN7DfX1O+yQLgDzjA5jsm1JR38HvXbhF9mNFL90GcGn6ZguyI7DOrDiVdD3SPnCU2ZA5d
-	k3w==
-X-Google-Smtp-Source: AGHT+IGkEzt3rrLCYEAc2MIkDJ4rSudkNPJV/ZI7YDr6FjDNwR59XbPWzyPuXmQfxq7n/1Jp45z9S3futCA=
+        bh=qrxifLi18HwIXN/paZijnWPdESXfJJzxe/+u8UtVff4=;
+        b=s/qGEvkKJjnHTn1xcOAwnpahFzbJ331t3+Up43+RLRFu1wHll5kbi/HER7S2BD4AmI
+         5eX6Fi1a864hjFajl7/QBk/eNoqhDGDpIXPnaX/c524IChAlC4RxoZUdLWoHBSdmdjhl
+         R05VDRgvWEtWI3L8cd2W69VIdU7NeWWX/bFx54K2R6CTU8hAKnWDtszLO7H8emYCZ+5R
+         skbOfsjCnG+GrbO6vQIDDPT7z3Xswu5iPus/Wt5uFtYzRvQrs6GSu6MU8vwKaX4es9ix
+         OkTvZ55kNg/KIcHJ+JdiCqzuxyul0nrdFS0pZyWxgQSj+SvQRRbw5EkyS8wyYdYyo7yO
+         75iw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5DfIjdHxc6I+RJs5D9fvEfkyn6JWuNepjW7qzjBZQx5Bk4UqwNK7SLfp8BpJOk/TYHN5QclOyalGKTjJ5XdaaBLPmNUmFH2Sb7vo=
+X-Gm-Message-State: AOJu0YziKwmulo2QXlPGxgw32a2g8Q82UGYaaAgU4dmmV3biKOO+oMLW
+	Uvi+rYyOW9eqwvsfD8L40Vqu6rC51efS9ueAgrdeUCmCn6j915dA9ScCf9Y35K2HWFS1ln6WXGV
+	VOw==
+X-Google-Smtp-Source: AGHT+IGJRBi1UvMX9yVwIeeKPJ5i4MXrMA7fvNEnU0sh0JI0w6+2/9z2FlMIObyx5JUsUOMhiA6kQPpm0zI=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90b:128d:b0:2b4:32ae:483e with SMTP id
- 98e67ed59e1d1-2b61638c780mr8658a91.2.1715176024465; Wed, 08 May 2024 06:47:04
- -0700 (PDT)
-Date: Wed, 8 May 2024 06:47:03 -0700
-In-Reply-To: <20240507214254.2787305-1-edliaw@google.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6902:18c8:b0:dd9:2789:17fb with SMTP id
+ 3f1490d57ef6-debb9cfd19bmr223701276.3.1715176481930; Wed, 08 May 2024
+ 06:54:41 -0700 (PDT)
+Date: Wed, 8 May 2024 06:54:40 -0700
+In-Reply-To: <20240507214254.2787305-5-edliaw@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240507214254.2787305-1-edliaw@google.com>
-Message-ID: <ZjuA3aY_iHkjP7bQ@google.com>
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+References: <20240507214254.2787305-1-edliaw@google.com> <20240507214254.2787305-5-edliaw@google.com>
+Message-ID: <ZjuEILj0SZRuTL9I@google.com>
+Subject: Re: [PATCH v2 4/5] selftests: Drop define _GNU_SOURCE
 From: Sean Christopherson <seanjc@google.com>
 To: Edward Liaw <edliaw@google.com>
 Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
@@ -119,35 +119,30 @@ Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@pe
 Content-Type: text/plain; charset="us-ascii"
 
 On Tue, May 07, 2024, Edward Liaw wrote:
-> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> asprintf into kselftest_harness.h, which is a GNU extension and needs
-> _GNU_SOURCE to either be defined prior to including headers or with the
-> -D_GNU_SOURCE flag passed to the compiler.
-> 
-> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
-> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
-> location.  Remove #define _GNU_SOURCE from source code to resolve
-> redefinition warnings.
-> 
-> Edward Liaw (5):
->   selftests: Compile kselftest headers with -D_GNU_SOURCE
->   selftests/sgx: Include KHDR_INCLUDES in Makefile
->   selftests: Include KHDR_INCLUDES in Makefile
->   selftests: Drop define _GNU_SOURCE
->   selftests: Drop duplicate -D_GNU_SOURCE
+> _GNU_SOURCE is provided by KHDR_INCLUDES, so it should be dropped to
+> prevent _GNU_SOURCE redefined warnings.
 
-Can you rebase this on top of linux-next?  I have a conflicting fix[*] for the
-KVM selftests queued for 6.10, and I would prefer not to drop that commit at
-this stage as it would require a rebase of a pile of other commits.
+...
 
-And I doubt KVM is the only subsystem that has a targeted fix for the _GNU_SOURCE
-mess.
+> diff --git a/tools/testing/selftests/x86/test_syscall_vdso.c b/tools/testing/selftests/x86/test_syscall_vdso.c
+> index 8965c311bd65..5cd13279bba5 100644
+> --- a/tools/testing/selftests/x86/test_syscall_vdso.c
+> +++ b/tools/testing/selftests/x86/test_syscall_vdso.c
+> @@ -8,10 +8,6 @@
+>   * Can be built statically:
+>   * gcc -Os -Wall -static -m32 test_syscall_vdso.c thunks_32.S
+>   */
+> -#undef _GNU_SOURCE
+> -#define _GNU_SOURCE 1
+> -#undef __USE_GNU
+> -#define __USE_GNU 1
 
-If we want/need to get a fix into 6.9, then IMO we should just revert 809216233555
-("selftests/harness: remove use of LINE_MAX"), as that came in quite late in the
-6.9 cycle, and I don't think it's feasible to be 100% confident that globally
-defining _GNU_SOURCE works for all selftests, i.e. we really should have a full
-cycle for folks to test.
+AFAICT, manually defining __USE_GNU is frowned upon, so I'm guessing the __USE_GNU
+stuff is just the result of misguided copy+paste.  But it would be nice to get
+confirmation that this test isn't doing something clever.  Or at the very least,
+explain the removal of __USE_GNU in the changelog.
 
-[*] https://github.com/kvm-x86/linux/commit/730cfa45b5f4
+>  #include <unistd.h>
+>  #include <stdlib.h>
+>  #include <string.h>
 
