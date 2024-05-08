@@ -1,177 +1,114 @@
-Return-Path: <linux-input+bounces-3587-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3588-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0058E8BF2E8
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 02:02:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A81898BF4A1
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 04:37:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C4571F237B1
-	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 00:02:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48623B22345
+	for <lists+linux-input@lfdr.de>; Wed,  8 May 2024 02:37:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B747F12C464;
-	Tue,  7 May 2024 23:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6901210A2C;
+	Wed,  8 May 2024 02:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YSKyRV2q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuiAqF3B"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91D812BF02
-	for <linux-input@vger.kernel.org>; Tue,  7 May 2024 23:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4137BEAD0;
+	Wed,  8 May 2024 02:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715124536; cv=none; b=sgx8qI9JELk2m7JNgt17F84ddj7LgszM28ZuAICjFXaHvRIksDM3qGElzmiV3lcxIo2l4BNJHvh6AGIIXCyY36wlybljAKb8xusbvCKGT9Yxo7ocK0rbvo72TPwbwc4Nmb+qDpLnVGwJWiOfGGWEvg2wqnd7JARlOtk/rvOaheU=
+	t=1715135868; cv=none; b=Yr6/dSBg4s50qkJtcudJQjgUsTYAZV/aAyAZpK0yh/6qsJTiJv+XL1Qi5BC4BanqacLR4zN7j9gfzbpeBj+Ks+fcXNSQUu1k/mQST13gYgW5H/xtvfKisVJ775WPkT11R8Ckdcn11/C4nVvHpA6brbKogeX4MajnGxUNBamGqLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715124536; c=relaxed/simple;
-	bh=JX0XCKXr1thgDPxaTecjtKr6rIsRQAHKTIazy9OBhDc=;
+	s=arc-20240116; t=1715135868; c=relaxed/simple;
+	bh=ABIHuAol1RkqvO67SLAalaYd+ekF8teyJLNahtOn3xQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7VZsiaWmxh5B8Rd605vpzaee1r33ZLxZ5/x3qAqyUd79CXWFC7MEr43FBEuXqJKE/gaKgfwdY5iEDB1hxWUcauUcGFgpbMQMlRx2nXrp0hScoZPC5YphALsCnAG6jqU/Au9dvxWvTjBkFRKyS9FkKF+qY688aefUf6mDqBl7Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YSKyRV2q; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f453d2c5a1so3485199b3a.2
-        for <linux-input@vger.kernel.org>; Tue, 07 May 2024 16:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715124534; x=1715729334; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tt8XgRQm+eA+VmBxGqEcvvy66oE9R2AfbLeL3WkCPuU=;
-        b=YSKyRV2qjy0ljrYgd0U6Ch3uzgizQZe+4pSJYHsZSP01gcra909Tiz1I1roMahHF4f
-         R02+dz1KaKB4os+ZuM06R3OW4OuuE5O+jtzs5QpwOMbe9ciAbxWjG0HBoTz/GjMb/HTS
-         JZzkAPMzRCPpiJPnaz9ioUHMig2uiUqQfpOOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715124534; x=1715729334;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tt8XgRQm+eA+VmBxGqEcvvy66oE9R2AfbLeL3WkCPuU=;
-        b=DRq+71evdSb2QgqocuaHlUKdLu30EdSYYUEWAJ8nSaCRc94Q4oFSInYfCF6bQuSmyN
-         OqThOxsx/gmc2idMJs/Vo6P9j2I1sQ82T93cKMDgHtGh2cbXVVTqQS+5hiD+V9PxsmaM
-         POBLubVWCOYinR0usjIb+Q2lp8R7WrRnuZlPKhVT7bJzPKf8Gi7Ed+YPA2mYyQ0a8ho2
-         vjVrI4pAg2gKIZJ8GW45dbSLvOl5g53i26ktWbBiRr0VZgVI9M0p5XoEj172uQQjzG6c
-         7Yr7AuPd7kIjjl+8Z0aSis61iDswaJJc7DddUQnQEhqiaKLrwurRnJjfxD/HNVVNQUXL
-         kUuA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0kzWz1txuQGWjb1IITXxGX6HlYYbTuzVKGo6D8KjK/Zmlrc0SAhvxNMy1l3GNA4GdJnY4yFeQsPmIBey13WLRvcj1i+9726Xd56s=
-X-Gm-Message-State: AOJu0YwUYCUxbqAnRvn3WYxPRwY2jaW6ZSHfsb8mCvY5z4HST8d3ik52
-	E9Sj4KWge9IiSn4zeEmA/qd6DShsrEyipYelbo0Xc8sM7c1qJmJb0ArsLdAcJg==
-X-Google-Smtp-Source: AGHT+IElkYKkPF9F5WlZiOfJXRbgeCSMUqbJ3Z1JrZ5HzzcuDvdHCUlR3LVeoTae63dQgTdtTlamYA==
-X-Received: by 2002:a05:6a20:9f88:b0:1ad:6c5:4ea1 with SMTP id adf61e73a8af0-1afc8db5479mr1525582637.41.1715124534335;
-        Tue, 07 May 2024 16:28:54 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 60-20020a17090a09c200b002b624b0161fsm80422pjo.19.2024.05.07.16.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 16:28:53 -0700 (PDT)
-Date: Tue, 7 May 2024 16:28:53 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Edward Liaw <edliaw@google.com>
-Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Seth Forshee <sforshee@kernel.org>,
-	Bongsu Jeon <bongsu.jeon@samsung.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kernel-team@android.com, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-	linux-input@vger.kernel.org, iommu@lists.linux.dev,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-actions@lists.infradead.org, mptcp@lists.linux.dev,
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
-Message-ID: <202405071628.7F8C3EC@keescook>
-References: <20240507214254.2787305-1-edliaw@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cg/Wt3HQ/khCaNDmteNMArG4bi3fMmHokzcO8aS76Vvl1bcjy3D3nZARv1n9O6eU3bs1XdigiGdrj5n31936tSYbLVErlnO0hnTDwS6KORZpf6HU+TYhMH7pyKinhOxR49/L7gvMiVNk4CvUPUNUcvNvmjRnVww1QGZ+px+3f6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuiAqF3B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8BAC2BBFC;
+	Wed,  8 May 2024 02:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715135867;
+	bh=ABIHuAol1RkqvO67SLAalaYd+ekF8teyJLNahtOn3xQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EuiAqF3BdoPrwlz++LYhqIM49/GJvGRGrQQIVXUnAmQxZie7fmk8uEUjCDyMTTazl
+	 5CDNXr0lrGrh8jqEKIfSSN7B7JXDdq+IOq0Or2lxPjIrkH5ZauuRWzXKjoQIrl67UW
+	 1hZ7Qp36DSrxugHVWBWFkUwhM1rCHOg5FSeKaLNRufQI/AnsRJMTHAt+UP72eIn/A7
+	 6OlACuIRdCRjN22ovlMKdx+BC4u6IJq6aMf+2X21mcGBXYnhr570zIKyL5OMnMPbNn
+	 BbfxEHqdbCeknorwM3D2XEp/Yoz3lcDkSjjpYaSyPQyp7x/VMAblhlsxJYf5lMgtcW
+	 V2LEXsiAeDebw==
+Date: Wed, 8 May 2024 11:37:45 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jeff LaBundy <jeff@labundy.com>, Hans de Goede <hdegoede@redhat.com>,
+	Charles Wang <charles.goodix@gmail.com>, hadess@hadess.net,
+	Richard Hughes <hughsient@gmail.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org
+Subject: Re: [PATCH] Input: goodix-berlin - Add sysfs interface for reading
+ and writing touch IC registers
+Message-ID: <ZjrledLjn8RsGiwC@finisterre.sirena.org.uk>
+References: <20240506114752.47204-1-charles.goodix@gmail.com>
+ <6362e889-7df2-4c61-8ad5-bfe199e451ec@redhat.com>
+ <ZjmOUp725QTHrfcT@google.com>
+ <Zjo8eTQQS1LvzFgZ@finisterre.sirena.org.uk>
+ <ZjpFVGw6PgjRcZY3@nixie71>
+ <ZjqYp1oxPPWcF3jW@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7rZlMyEu+j77dzs2"
+Content-Disposition: inline
+In-Reply-To: <ZjqYp1oxPPWcF3jW@google.com>
+X-Cookie: Accuracy, n.:
+
+
+--7rZlMyEu+j77dzs2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507214254.2787305-1-edliaw@google.com>
 
-On Tue, May 07, 2024 at 09:38:25PM +0000, Edward Liaw wrote:
-> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> asprintf into kselftest_harness.h, which is a GNU extension and needs
-> _GNU_SOURCE to either be defined prior to including headers or with the
-> -D_GNU_SOURCE flag passed to the compiler.
-> 
-> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
-> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
-> location.  Remove #define _GNU_SOURCE from source code to resolve
-> redefinition warnings.
-> 
-> Edward Liaw (5):
->   selftests: Compile kselftest headers with -D_GNU_SOURCE
->   selftests/sgx: Include KHDR_INCLUDES in Makefile
->   selftests: Include KHDR_INCLUDES in Makefile
->   selftests: Drop define _GNU_SOURCE
->   selftests: Drop duplicate -D_GNU_SOURCE
+On Tue, May 07, 2024 at 02:09:59PM -0700, Dmitry Torokhov wrote:
+> On Tue, May 07, 2024 at 10:14:28AM -0500, Jeff LaBundy wrote:
 
-It's a lot of churn, but I don't see a way to do it differently. :)
+> > For example, many devices must be placed in a bootloader mode during
+> > the FW update, and may clamp or toggle an interrupt pin during this
+> > mode switch. If user space initiates this sequence while the driver is
+> > unaware of this process, it may attempt to read status registers from
+> > an I2C address that is temporarily offline.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> And yet we have i2c-dev and hidraw that are often successfully used to
+> flash the firmware, do diagnostics, etc. without encumbering the kernel.
 
--- 
-Kees Cook
+Yeah, those seem like a reasonable enough model for safer devices - they
+do the exclusion thing so you don't have a real driver running at the
+same time.  For things like PMICs there's some concerns of course.
+
+The other model I've seen used BTW is to expose a MTD device, if the
+device actually looks like a MTD device (perhaps even is just a flash
+that's fairly directly exposed) that minimises the kernel code quite
+well.
+
+--7rZlMyEu+j77dzs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY65XgACgkQJNaLcl1U
+h9BwWAf/UP+aNwRClILavfD13cThg00n7zwWD9uhBnaRChYB9X1iTj6+IoVXwHRW
+gO4qxaTP/uzc+Q4vahodQjkHIe3l3t4pegJ/+BKursC9ACilGMPLuf1KBnJIQRfZ
+i/4n2DqCOVXj7AYTl52TJWwzv85l9b1sbvkhFHRPFTQCNcUWZhL6H7q2XuQJWsTo
+zDHOqqE9vcAEkzPJJEbr1wWfCcJRZ9bE+cHJgNJfXU2izOily6RfiJ9uFcWtaehD
+oHYYdBe6YbnwyPkorEqIRhRTO5D2snGctfbUnfxCmGbIuR8Ob+rIbIxd3siJDu5y
+vb5eJWjLE+iXONTQ3zx6HWctftpcuA==
+=+Mn4
+-----END PGP SIGNATURE-----
+
+--7rZlMyEu+j77dzs2--
 
