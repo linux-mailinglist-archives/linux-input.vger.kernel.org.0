@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-3658-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3659-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDDC8C19A0
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 00:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6AF8C1A00
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 01:42:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DA401C2197D
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 22:57:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADFFA1C20D62
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 23:42:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A0C12D210;
-	Thu,  9 May 2024 22:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B00512FF9F;
+	Thu,  9 May 2024 23:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="TpMvt0Rk"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="aiL8EzfA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E43A12CDB6
-	for <linux-input@vger.kernel.org>; Thu,  9 May 2024 22:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEEC81741
+	for <linux-input@vger.kernel.org>; Thu,  9 May 2024 23:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715295451; cv=none; b=XsnR4d+HZRYAXgE3Ewowj2TfOhKFnL3H3ysp0UJJ7rm5jUQ3pUjgCMAcg37IOCVDnhtCozNsredS3Ttgt1Rd1rwlXu1swIDq050j9dMx4kcnpMFZKQfIUmZUOO81tafjFSNL16Ojc2vcZwnutz4K5aFA+q7lIXvFUtBydY3tFpY=
+	t=1715298126; cv=none; b=DpvyVMAR/iBLmtpzBQtKTcnjn51ADdrVo+N/pcnHZZjmqWsBWtrm4KnuE25CD/BolzrcEBUAhu+cAc/sQAInWa3pBdmHmIS8iXWPgAPr94kXYqUqzCCFRIf/VeSDOciT/fUvzkfUs49Ez+OjODwVjVBoJeMtPAMdpukyQFQYvlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715295451; c=relaxed/simple;
-	bh=uiL7tsWYwrlh7fw6jqps72CQNxzNakd76Qcq3x7pifU=;
+	s=arc-20240116; t=1715298126; c=relaxed/simple;
+	bh=liAIFAR0glyuJJFMxq3gQatxiT2/acVSfwl2Gt6U1ns=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oSosWOApPjngS4ILXPtFGbzS7arBGAEo7LoTxaEePg+PQN8SxE4Y5w2dIKdMG8WCn/W3KWqF7inPqOFnDm+IFs1D+i7zQWYI5uoVBUUjIcA8ZeBuQI5XajEaOxA45wucfJQRdPEPaKAFsM6MOe0ygHO+me338m1OduhYeapW+0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=TpMvt0Rk; arc=none smtp.client-ip=209.85.215.178
+	 In-Reply-To:Content-Type; b=bBgxhHBVjmjTyy3iIKObJRWQ1PKW9FCF3dfBcK7NWQ3irupPi42Eqbm5gzpXN7MgVCM9Q1DGmmoVEi4DFDtDx1wIr6eld8C3MzeuI13Dmm2KxxR/qA262iaiLUDVPE6wMJn90Jg5ArGp2yFQY4zdQNKs9oJTH1h6tIPVgfFPnYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=aiL8EzfA; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-61be599ab77so783280a12.1
-        for <linux-input@vger.kernel.org>; Thu, 09 May 2024 15:57:30 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e4bf0b3e06so12922295ad.1
+        for <linux-input@vger.kernel.org>; Thu, 09 May 2024 16:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1715295450; x=1715900250; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1715298124; x=1715902924; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
-        b=TpMvt0Rk7EPdP++brMqlFjTX1QSsJpbQxmH6kghKNIg1q7zqRxaTeli63AZkVhL8no
-         woIKbUxcxq3YVNwdGux4jTc2RGq5bXanosKUXHo24E6nv3wXsARh0CADvEeafgl8KKL8
-         sAgQ7v1y+rvYAU1R1f+tuebjRsvow91U5lo3A=
+        bh=qcQ+E1QA8l+ah/ENXdvarlO1w5eDBmEI+kx8d052/jY=;
+        b=aiL8EzfARiwhzt5jd76ck4lSqjuQxAELokIUMzzOQJ+U/b7OshlpHDLelxppKsTwIA
+         qeG3m6RQbnsKI3HjQAmkfe1RIah0nD3EM17vvFGhbHnan1AhqlGfwD8q/Rlgs/HBls39
+         A7OKWwpGeS/oYJVDJQ6fmnpFl4e14MJNTyp9U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715295450; x=1715900250;
+        d=1e100.net; s=20230601; t=1715298124; x=1715902924;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
-        b=wjFkWCCoiWi1Wyr2qCPgzcNJWH9VheRJE1edN4w6SKhVLnulLzbn6D5xeX6q7RKU15
-         ynKh8KPKz4NF5mvKEwWqAPAtzFDXoYc5pHUjYwhj+qIRiK4NqRE4pCQwAbcz2J4Y0W05
-         nXUB2dUEFqZAFtt48IMz0xSch1fkwRhymYCL+m+SDoudcaZWsPbxQGjcievbBODfaa/f
-         PDrlqWzMXCPqqEYrpG84zwLBJz+TTwaE8dnZAxG7umnzyAzJNlMUpLrwFFmUKFdtFLnt
-         p6YT2uLT2T/ozgjOtl4Ld9EtneASE894dKsPMZT+53QlhILlr7WlLijpSQ+GyDTV1mv/
-         m2vw==
-X-Forwarded-Encrypted: i=1; AJvYcCWd3KtYmMqyIM2yFF5TCqKOMoU3IQiHmBHkogVpN7BDOBP2dvcGc/M77RZhI/qPy9vEQx6xbDO+p9a7oKYA4k5Sjf3qDz6YXRFksC0=
-X-Gm-Message-State: AOJu0YxcWcWaZnk8OYIM9VeTQwJ8U84nkxtidsjI8BMEj9de1LsXlRUW
-	FgvWjwUWyCyN9/WCRoomIX8bMu9tL6/vtm2GI8udkrFQE1RgVa9nsAD8v50ESg==
-X-Google-Smtp-Source: AGHT+IH5vOP57x3V1CiZy66ayl1ctIudQSQY6XNjhzRbK0HQXXM6WPYJ1nKRuqnzXEdfc1QIL40KYw==
-X-Received: by 2002:a17:90b:2252:b0:2b1:8210:56bb with SMTP id 98e67ed59e1d1-2b6cc342e4amr894347a91.3.1715295449675;
-        Thu, 09 May 2024 15:57:29 -0700 (PDT)
+        bh=qcQ+E1QA8l+ah/ENXdvarlO1w5eDBmEI+kx8d052/jY=;
+        b=Nw0f7fFNp6puPEHEvY94g1vTxqRwwVIsFWaF8RbSVxwRBKVfJYQxKceM3SxuZdMps3
+         7DAE205nrJ909peVh0USLOPXikmk+BLlHHMg/hA5A96cLeqelJwo4H0Qxt8NfJvTKDvK
+         MwXYRqt1oqiKrCCELCwz6weIq/6iH98VU6MuTy5KqCaUIrBFTuNG8yuEK+jFeFY2oaal
+         VXiru4IKTnxisERy3gCVTrsyv/u+QI8kAEWI9+H3RAF5WLft+W7+Dq8EOpFUnkbJWMq0
+         tgWrRL7bDA6IfIpnuY/D9ocMNqk2q/ST3s1WMk8er4MSlwycQrkGZ+JvdwQdZmu3+Gf7
+         R5kA==
+X-Forwarded-Encrypted: i=1; AJvYcCWi9veSc/QJQ/IxXoCA3CvzeYqEOnFshBdNVQinB+BRgUHrO3oJZr8hKK4Nl1BTau8j34MAk2nwgrAboAQb4fmD8POk8pB4FmndUUQ=
+X-Gm-Message-State: AOJu0Yy8v/ew6i+xTYFw8HIyF+zj3SPfBpyDRZefPFigBGguL19V+ZzJ
+	/FrpLhALaE1mDpBpHoKdZ4AvW9Eb3KopFg3MB2FzMFHc4jok2XYAzGQlWCVe1g==
+X-Google-Smtp-Source: AGHT+IEUXVntNOdIl0JFIcu3FbFOnabVgHUgiNiHs/V/L6l5se4Qx1VFF0gI5J1ocymcGEaLDXx4BQ==
+X-Received: by 2002:a17:903:120e:b0:1e4:6519:816d with SMTP id d9443c01a7336-1ef43f51feamr13083235ad.48.1715298124022;
+        Thu, 09 May 2024 16:42:04 -0700 (PDT)
 Received: from [10.62.14.240] ([128.177.82.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67178353bsm2016548a91.56.2024.05.09.15.57.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0b9d176fsm19965805ad.58.2024.05.09.16.42.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 May 2024 15:57:29 -0700 (PDT)
-Message-ID: <53ff9535-d4cc-4d72-9e60-f43aaba5485c@broadcom.com>
-Date: Thu, 9 May 2024 15:57:25 -0700
+        Thu, 09 May 2024 16:42:03 -0700 (PDT)
+Message-ID: <a503d8b3-d31c-46e9-a4a2-538312e850c5@broadcom.com>
+Date: Thu, 9 May 2024 16:42:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/8] x86/vmware: Move common macros to vmware.h
+Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
 To: Borislav Petkov <bp@alien8.de>
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
@@ -85,11 +85,12 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
  daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
+ kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>,
+ Jeff Sipek <jsipek@vmware.com>
 References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
  <20240506215305.30756-1-alexey.makhalov@broadcom.com>
- <20240506215305.30756-2-alexey.makhalov@broadcom.com>
- <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+ <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+ <20240507095852.GVZjn7XM0VMXzBfKsd@fat_crate.local>
 Content-Language: en-US
 From: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
@@ -135,36 +136,138 @@ Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
  fqqZgi3rxgu4sc5lmR846emZ/Tx85/nizqWCv7xUBxQwmhRPZRW+37vS2OLpyrTtBj3/tEM9
  m9GMmTZqaJFeK7WCpprJV4jNHpWZuNAsQrdK1MrceIxb0/6wYe0xK79lScxms+zs9pGTrO4U
  5RoS4gXK65ECcBH8/mumV6oBmLrNxKUrzTczdo9PnkmRyZcAa6AndbjmQDznwxvTZu2LjMPC EuY0
-In-Reply-To: <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+In-Reply-To: <20240507095852.GVZjn7XM0VMXzBfKsd@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/7/24 2:14 AM, Borislav Petkov wrote:
-> On Mon, May 06, 2024 at 02:52:58PM -0700, Alexey Makhalov wrote:
->> +#define VMWARE_HYPERVISOR_PORT		0x5658
->> +#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
->> +					 VMWARE_HYPERVISOR_HB)
+On 5/7/24 2:58 AM, Borislav Petkov wrote:
+> On Mon, May 06, 2024 at 02:53:00PM -0700, Alexey Makhalov wrote:
+>> +#define VMWARE_HYPERCALL						\
+>> +	ALTERNATIVE_3("cmpb $"						\
+>> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
+>> +			", %[mode]\n\t"					\
+>> +		      "jg 2f\n\t"					\
+>> +		      "je 1f\n\t"					\
+>> +		      "movw %[port], %%dx\n\t"				\
+>> +		      "inl (%%dx), %%eax\n\t"				\
+>> +		      "jmp 3f\n\t"					\
+>> +		      "1: vmmcall\n\t"					\
+>> +		      "jmp 3f\n\t"					\
+>> +		      "2: vmcall\n\t"					\
+>> +		      "3:\n\t",						\
+>> +		      "movw %[port], %%dx\n\t"				\
+>> +		      "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR,	\
 > 
-> You can't help yourself not sneaking in any changes which are not code
-> movement, can ya?
-Indeed! My fault.
+> That's a bunch of insns and their size would inadvertently go into the final
+> image.
+> 
+> What you should try to do is something like this:
+> 
+> ALTERNATIVE_3("jmp .Lend_legacy_call", "", X86_FEATURE_HYPERVISOR,
+> 	      "vmcall; jmp .Lend_legacy_call", X86_FEATURE_VMCALL,
+> 	      "vmmcall; jmp .Lend_legacy_call", X86_FEATURE_VMW_VMMCALL)
+> 
+> 		/* bunch of conditional branches and INs and V*MCALLs, etc go here */
+> 
+> 		.Lend_legacy_call:
+> 
+> so that you don't have these 26 bytes, as you say, of alternatives to patch but
+> only the JMPs and the VM*CALLs.
+> 
+> See for an example the macros in arch/x86/entry/calling.h which simply jump
+> over the code when not needed.
+Good idea!
 
 > 
-> The purpose of a sole code movement patch is to ease the review. Not to
-> have to look at the code movement *and* some *additional* changes which
-> you've done in-flight. Just because you felt like it. But which is nasty
-> to review.
+> Also, you could restructure the alternative differently so that that bunch of
+> insns call is completely out-of-line because all current machines support
+> VM*CALL so you won't even need to patch. You only get to patch when running on
+> some old rust and there you can just as well go completely out-of-line.
+> 
+Alternatives patching has not been performed at platform detection time.
+And platform detection hypercalls should work on all machines.
+That is the reason we have IN as a default hypercall behavior.
 
-Agree. I should not claim it as sole code movement then.
-At least moving macros from .c to .h file requires changing 
-vmware_hypercall_mode variable visibility from static to global.
+> Something along those lines, anyway.
+> 
+>> - * The high bandwidth in call. The low word of edx is presumed to have the
+>> - * HB bit set.
+>> + * High bandwidth calls are not supported on encrypted memory guests.
+>> + * The caller should check cc_platform_has(CC_ATTR_MEM_ENCRYPT) and use
+>> + * low bandwidth hypercall it memory encryption is set.
+> 
+> s/it/if/
+Acked.
 
-If you think this type of changes is Ok for sole code movement patch,
-then I'll continue following this path. Otherwise, will change patch
-description.
+> 
+>> -#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("inl (%%dx), %%eax" :					\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
+>> -		"memory")
+>> -
+>> -#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("vmcall" :						\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(0), "b"(UINT_MAX) :					\
+>> -		"memory")
+>> -
+>> -#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("vmmcall" :						\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(0), "b"(UINT_MAX) :					\
+>> -		"memory")
+>> -
+>> -#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
+>> -	switch (vmware_hypercall_mode) {			\
+>> -	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
+>> -		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
+>> -		break;						\
+>> -	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
+>> -		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
+>> -		break;						\
+>> -	default:						\
+>> -		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
+>> -		break;						\
+>> -	}							\
+>> -	} while (0)
+> 
+> You're kidding, right?
+> 
+> You went to all that trouble in patch 1 to move those to the header only to
+> *remove* them here?
+> 
+> You do realize that that is a unnecessary churn for no good reason, right?
+> 
+> So that set needs to be restructured differently.
+> 
+> * first patch introduces those new API calls.
+> 
+> * follow-on patches convert the callers to the new API
+> 
+> * last patch removes the old API.
+> 
+> Ok?
+My intention was to have a implementation transformation from locals 
+macro through common macros to common API.
 
-Thanks for the patience.
+What you are suggesting will eliminate unnecessary patches. It makes sense.
+
+Will perform this restructuring in v10.
+
+> 
+> And when you redo them, make sure you drop all Reviewed-by tags because the new
+> versions are not reviewed anymore.
+Noted.
+
+Thanks again,
 --Alexey
 
