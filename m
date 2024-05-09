@@ -1,182 +1,142 @@
-Return-Path: <linux-input+bounces-3655-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3656-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45B38C1443
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 19:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA758C1481
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 20:09:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 134811C21D23
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 17:46:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60A9E1C21DC1
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 18:09:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3475770FE;
-	Thu,  9 May 2024 17:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 356C4770E2;
+	Thu,  9 May 2024 18:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fxjG3anD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pcWbs/r1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A84C53E32
-	for <linux-input@vger.kernel.org>; Thu,  9 May 2024 17:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2FB4A21;
+	Thu,  9 May 2024 18:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715276763; cv=none; b=SQACKrUzro9zFzMi2pBAnBlubYJzXBQ12xBc61lgy9Z6GsN35M0IBtnODK2OMiPpJz654DowohmY3CjUoGqCeXLUEPTNAB4AQr8UGI3sh+0Yn+JY3sRXjzpMo3vULcWOykep3jIxD1fEWBE08fSdukdUdymmuyMy0Gyi3JyAo64=
+	t=1715278185; cv=none; b=jqjUccbNx8kjy3idHsiIIaTnUNUHOb1GxXiTqu0PBAq7W8j/qU6szcj8ZlysYSzP+R2QbgHcDX2YNT8WyE4XPgsCeIHGudHIhRvJSglADpdpr87v+DKaTaM6uekf9UIFxPA3dH7mdERpe1QnNBKcCV7TijUkmw91+9OOdpUML38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715276763; c=relaxed/simple;
-	bh=/oSWOWjkap8fv/UuIsI6Isx0EXquObmcwzLznfIJKkQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SlcXOxukjJH1Z2odCciDVAFQ7wykaTAm3WdPOmhFxxshwqVDmBKjLeNFW2oTtd1nkGVLPFe8pvMoJWHJH62hKHvHPStMMO5Cz3jCODIB9IR0JQfw0anppbcKxHnND+VoVHWHNX87BGBnn42aVNuZCUmffrVp3LtfMnPMUfX/PWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fxjG3anD; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-572aad902baso1506a12.0
-        for <linux-input@vger.kernel.org>; Thu, 09 May 2024 10:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715276760; x=1715881560; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R9dUf6h0ZONDc1o4IvKX4JCSR1LfcFcW4NQit96LWug=;
-        b=fxjG3anD83hFoJAGJtRblIDGAlzmSLRG8ntKPrhQt+HieXxnkLfNrfeXZDA4DRCfMe
-         sREmIk4QaB74Bb5+DiGkytekIaBjk/rvNTyhi/v/+B08R+Q8xkpAkxzNLVstuVDGDd25
-         GEmOAe0DeZO+QlgQrqL3aR3rKTQi9U4Emep9ofkbHs2DXyOlZ4NdO4/806fVK2YkNxcS
-         68XAqfV/h5ZcRctT01utJ8bJz8tN/N7w4zhbOHBNLRylB0WWfQX5euwEKpNKnO8tR0BU
-         G2FjQBn80cFSqwU79je9zjjKho3HbMYZc8xJ1oeIamcwBM68P2fSXUSvRXeo5wFqsQOv
-         z1BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715276760; x=1715881560;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R9dUf6h0ZONDc1o4IvKX4JCSR1LfcFcW4NQit96LWug=;
-        b=BgKpJd+g71BKoy3tSZAlALNyxevbi16extfJmeCXCSxR09l4dn5FPIm+q9Xo/dTqRw
-         cDDRhUznDxNCUtJP87ZktD0huXK2cH3G3yx7wWHjpO9FJ8RtGb7oWdjtAwarpUoWtjlL
-         kdM5grkZTpsbkCwesiSxzkohWoKwxW/jwNis7Gyton13Z0Ip8P8j2b9ZITroC9/s7Jrm
-         CPMJE8k4ovg3m2N/rdwXoe0pCWvE+Q7g0QoAcFwcOsFqVvSPvNCBZWdCtVRtAqklhi/R
-         d6OpLi+KRrdOqCE+nMW+pC68DbWODWgLxpdWsJUrnhq03ybWk+2s8HGbE8cchh1ABcfG
-         KT7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXiu1lGBD9FRw7lJ5jSBAGc3mKqrDTUcijqoGQ3L3VPjlXbir9kFS3Pkexae0++1A5NqyY1nTxo/eYVQKtSSdQhVEkGqrnwJMqiXt8=
-X-Gm-Message-State: AOJu0Yw9Whxlo/WFCVKe3PQvEyJ7/rvEs7l4tSPg0arJ1YBD4Q/nct/y
-	hYMXrnn/ot+67HraodWBJyvbDF9SlGH9lN8z8x6SqlEa9YEIsvH9CUzAw+lAMXkd65/ScIfVXp/
-	fJ87/WG7YwYu5JY5OBW2D2JInnr4h3CGgNFo8
-X-Google-Smtp-Source: AGHT+IFG+qZVP+GdGsJ0bfuXNwufKAJIRBglqYr60vsLU06TQKxk62S9P+fDwyd1v4jS3rVgg+dEQp+BJ2xOYW96LJk=
-X-Received: by 2002:a50:cac7:0:b0:572:988f:2f38 with SMTP id
- 4fb4d7f45d1cf-5734f8fe9f6mr3018a12.6.1715276759326; Thu, 09 May 2024 10:45:59
- -0700 (PDT)
+	s=arc-20240116; t=1715278185; c=relaxed/simple;
+	bh=jwv2fzzjt0cfgGB3Brq3DaNH87PYRXNR2e6rGYGOafE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y82mLFY9ueoQfAwtLzvVH2zRHyVkivHPSbOCvb6AQUI1nBLoR6eBW5/wl20MZuxjA0SnHo92wzCfmjjQfL1szgPRdO4jp4thyC6Iuf8P065nFWOmf1leO9J87wd8Bm7M35y1yWj0fS09lo+ovsgLSwmgoRAL2Ha4B0zpOtgqT2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pcWbs/r1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B79C116B1;
+	Thu,  9 May 2024 18:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715278184;
+	bh=jwv2fzzjt0cfgGB3Brq3DaNH87PYRXNR2e6rGYGOafE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pcWbs/r1G654QjExkZzDw+Ye8SGuO5KNSoJXgb3ZcHmQu3x4E4I2S1EyboJZJ69Pm
+	 mQGtOZps9Mk4n5oD3NC0m6qaZEA2R4B3yV8ziliaYQKJuVPbeega5VLoJMM7bdEW8w
+	 QsO0dRoyLJXReH4e+Gr2o/o8rwX7eRPfNmNxtDhq2odx+5HXePP3adhAZMwihdufgm
+	 TJYZN9r45oB8RBk9LJ07YyNdaLx0jXiIe+uuIlXoZ3rnG7UWq+TcvufvwhgqAcdXUj
+	 IWIJQk7xiKk8ZMCAMycm8EUrbMdGg/3MJ+w5ZJHt/4Fmr2dZhqKHu/Lwo0Trc23XnT
+	 53sTqY3R2bs6Q==
+Date: Thu, 9 May 2024 19:09:37 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Christoph Fritz <christoph.fritz@hexdev.de>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Jiri Slaby <jirislaby@kernel.org>, Simon Horman <horms@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Oliver Hartkopp <socketcan@hartkopp.net>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andreas Lauser <andreas.lauser@mercedes-benz.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v4 06/11] dt-bindings: net/can: Add serial LIN adapter
+ hexLINSER
+Message-ID: <20240509-kindred-cauterize-ced967ec9d73@spud>
+References: <20240509171736.2048414-1-christoph.fritz@hexdev.de>
+ <20240509171736.2048414-7-christoph.fritz@hexdev.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507214254.2787305-1-edliaw@google.com> <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
- <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com> <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
-In-Reply-To: <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
-From: Edward Liaw <edliaw@google.com>
-Date: Thu, 9 May 2024 10:45:31 -0700
-Message-ID: <CAG4es9V2CcBJr0josSoGNsD+ZPQ6vasVXh_Hc_j88oeSqn__yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
-	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Seth Forshee <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>, 
-	Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="36g1c/htqkz0JRR5"
+Content-Disposition: inline
+In-Reply-To: <20240509171736.2048414-7-christoph.fritz@hexdev.de>
+
+
+--36g1c/htqkz0JRR5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 9, 2024 at 7:37=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.or=
-g> wrote:
->
-> On 5/9/24 00:13, Edward Liaw wrote:
-> > On Wed, May 8, 2024 at 4:10=E2=80=AFPM Shuah Khan <skhan@linuxfoundatio=
-n.org> wrote:
-> >>
-> >> On 5/7/24 15:38, Edward Liaw wrote:
-> >>> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> >>> asprintf into kselftest_harness.h, which is a GNU extension and needs
-> >>> _GNU_SOURCE to either be defined prior to including headers or with t=
-he
-> >>> -D_GNU_SOURCE flag passed to the compiler.
-> >>>
-> >>> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-=
-edliaw@google.com/
-> >>> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
-> >>> location.  Remove #define _GNU_SOURCE from source code to resolve
-> >>> redefinition warnings.
-> >>>
-> >>> Edward Liaw (5):
-> >>>     selftests: Compile kselftest headers with -D_GNU_SOURCE
-> >>>     selftests/sgx: Include KHDR_INCLUDES in Makefile
-> >>
-> >> I appled patches 1/5 and 2.5 - The rest need to be split up.
-> >>
-> >>>     selftests: Include KHDR_INCLUDES in Makefile
-> >>>     selftests: Drop define _GNU_SOURCE
-> >>>     selftests: Drop duplicate -D_GNU_SOURCE
-> >>>
-> >>
-> >> Please split these patches pwe test directory. Otherwise it will
-> >> cause merge conflicts which can be hard to resolve.
-> >
-> > Hi Shuah,
-> > Sean asked that I rebase the patches on linux-next, and I will need to
-> > remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
-> > be reviewed, then split it afterwards?  I'm concerned that it will be
-> > difficult to review with ~70 patches once split.
->
-> Please send them split - it will be easier to review and apply. You
-> might as well wait until the merge window is done. I don't think
-> anybody would have time to review now since merge window starts
-> next week.
+On Thu, May 09, 2024 at 07:17:31PM +0200, Christoph Fritz wrote:
+> Add dt-bindings for hexDEV hexLINSER serial LIN adapters. These adapters
+> are basically just LIN transceivers that are mostly hard-wired to serial
+> devices.
+>=20
+> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
+> ---
+>  .../bindings/net/can/hexdev,hex-linser.yaml   | 32 +++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/can/hexdev,hex-=
+linser.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/net/can/hexdev,hex-linser.=
+yaml b/Documentation/devicetree/bindings/net/can/hexdev,hex-linser.yaml
+> new file mode 100644
+> index 0000000000000..42dce3348f73c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/can/hexdev,hex-linser.yaml
+> @@ -0,0 +1,32 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/can/hexdev,hex-linser.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: hexDEV hexLINSER serial LIN adapter
+> +
+> +description:
+> +  LIN transceiver, mostly hard-wired to a serial device, used for commun=
+ication
+> +  on a LIN bus.
+> +  For more details on the adapter, visit <https://hexdev.de/hexlin#hexLI=
+NSER>.
 
-Sorry, I have them split already; is it ok if I send them now?  I will
-be on leave soon and may not be able to get back to it in a while.
+I figured I should check in firefox this time, link works fine :)
 
-Thanks,
-Edward
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
->
->
-> thanks,
-> -- Shuah
+Cheers,
+Conor.
+
+--36g1c/htqkz0JRR5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0RYQAKCRB4tDGHoIJi
+0rn9AP9GeUrrcK2lOZklZKtI73PoesLELNp3iickgJOn7nnz3gEA2+jfFsbOdudy
+aNhI8GeBNvUtapOXQ7u6wpXTXsMdLgQ=
+=CoEI
+-----END PGP SIGNATURE-----
+
+--36g1c/htqkz0JRR5--
 
