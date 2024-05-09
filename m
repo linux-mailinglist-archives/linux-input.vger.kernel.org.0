@@ -1,167 +1,184 @@
-Return-Path: <linux-input+bounces-3635-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA428C0F59
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 14:10:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E1F8C1155
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 16:37:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7D7928145F
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 12:10:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0FEFB22F3E
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 14:37:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40EEA14B08A;
-	Thu,  9 May 2024 12:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FA3113174A;
+	Thu,  9 May 2024 14:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="Ph7A3Lic";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="Vkx+UJ/E"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NTo7eWSD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB34E18E0E;
-	Thu,  9 May 2024 12:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=24.134.29.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48964369A
+	for <linux-input@vger.kernel.org>; Thu,  9 May 2024 14:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715256511; cv=none; b=oAcLX8RZ59jYoTVOiejdWaORwnGzJhv+CKbx5C56DfdXdO7pgSmwqden2x7GB0YjsYIRSJtXyJqI1xVg+q44uks2iAe1j7dMujyfKhvTls9stEPbKfddC7keTNDsz31qh5HpNitpkY1YG5n7n6eDm6aFPJdVK+wOfT7jIZj+YcM=
+	t=1715265430; cv=none; b=FM+iwdy/D8p15uDXBl2RSOBFLA7Co8CEmzCAnXKS9zZu76yzTRW5+oAgdQJfgBzz2l2CpZIk2egEZkY/wuN7cEfaiuy7IClJaodkTpFNMlGSU/HX5//w7AlWPXOtWrySHgG6v184WCZbNro+Nh0J0WnkvKN7gERhEcS6LIwf2sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715256511; c=relaxed/simple;
-	bh=k+8ktLJhujlCEcrtylMtNbUYtqQY1OvRPCIur+o7it0=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IUWbP2kQUVLS7vFZUCGN5GqUUMyMbqyccbLB5Qwse9IzwAwKd6RtNi0bC/ybCrb/g9IR1h/XMc7Q0K1T/QIyHlbkGenmrQ7XDIgaqSDBdit8JHmJkVkkBmVoiEomuuTB+tgdWnRf3wXWv2JZ4yAFu/OFUWeW5NZ3RG6Rxwtx+cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org; spf=pass smtp.mailfrom=sigxcpu.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=Ph7A3Lic; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=Vkx+UJ/E; arc=none smtp.client-ip=24.134.29.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigxcpu.org
-Received: from localhost (localhost [127.0.0.1])
-	by honk.sigxcpu.org (Postfix) with ESMTP id 1A27CFB03;
-	Thu,  9 May 2024 14:00:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
-	t=1715256051; bh=k+8ktLJhujlCEcrtylMtNbUYtqQY1OvRPCIur+o7it0=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Ph7A3LicOVk/nBXEyXfAlunaorM4dMrLkzLXKHKotd8w56qjjUfdyYLEAx4QaGiA1
-	 9J+DiXMSDq3EhbUZbIQq/wT2Vq4EFR1r8p9GwhiBbPDAV8YnGQ575xFlGbtdq8Ekp0
-	 XoqLqgCOgzY5CiqnT1p+1ILJzwBkwmCJyVl6IR93Lxw8XiXdn4pt4TD2fUXCurSTK2
-	 jVF/IptTJNiow9Y7b9Sztr8oxMeDwEm2+b8bWK+CvWj7MElnSaLhrutknqAwyLR0Cu
-	 JtwCwNEWQ4hPGDykmaQndAApWvZhc4x2PHeH4yh9vjURDtPUJtRNsZN4FAl0RIgPau
-	 a4KxoPztoK9pg==
-Received: from honk.sigxcpu.org ([127.0.0.1])
-	by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8-h3AaQ5H_a7; Thu,  9 May 2024 14:00:50 +0200 (CEST)
-From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
-	t=1715256049; bh=k+8ktLJhujlCEcrtylMtNbUYtqQY1OvRPCIur+o7it0=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Vkx+UJ/Exq6tecjLez5mqSdHP7b7mwB+rJ5xt2OhMz5Mg6o72pQo8Ot7CZ2651eic
-	 Ltv/j8WEmkbEMf9xAemSyNXXcRrgDAbax5/TnwQCy8tYbXuzVplaTCmgSPe3h0Cbee
-	 9EeF9rFIt4coF6ZI3t/TXkEEMU6KO6/gfunLwoWO7Zh1GxH5U+9lhUQ2LpthR680PA
-	 9VKauEOqmgwbO+q1L2zVDUTXqatkhoznShsofquBU7uYXP0UBNjPN43Numg5yF86vX
-	 i6xinTWAMN7jktf70Unb7e/eVkV14yHyE753GZhztm/+aaAEv0+r2FsSxWmErPD0hf
-	 1xK8jEupLRqHw==
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hermes Zhang <chenhuiz@axis.com>,
-	Tony Lindgren <tony@atomide.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org
-Subject: [PATCH v1 1/1] Input: gpio-keys - expose wakeup keys in sysfs
-Date: Thu,  9 May 2024 14:00:28 +0200
-Message-ID: <2b6eb6c3f68509aa35cdf2e2a586689ae97681ab.1715255980.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1715255980.git.agx@sigxcpu.org>
-References: <cover.1715255980.git.agx@sigxcpu.org>
+	s=arc-20240116; t=1715265430; c=relaxed/simple;
+	bh=rX2HhaPr9XjslEz/iELt3o8cY4WdThK1YOL4qhZC7cc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QRAGVXflKo23MXxrT4s0g3rvzk1B1ammXFbwKKf24iKk4djWFb6RQ1RkQm/Hx5xZBCJxiWP5FsBA8xm5FjX43UgC0pcHjJO076wXtGmH7j46arixvQsVKe7FK9HFVd4GPvJeE5Hs7BYwmn0zY5m1Cfa93OjR1mfby0lemdt0JOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NTo7eWSD; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7d9ef422859so8306939f.0
+        for <linux-input@vger.kernel.org>; Thu, 09 May 2024 07:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1715265427; x=1715870227; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qhunxhR/OF2icvm3HmEsNbbwCxzb74IsXbKxDT8qkPs=;
+        b=NTo7eWSDMbAgSOT7CINCmQClTKuqqKFXzf8sF9h8V2D/TL6uzIk6kNIRhOOZdzEMTW
+         mJ9+zmh148SCPZPrjx1yCxIGvBo6MHnlbazDh1HqKyqkHbDHYDUog3Z/huvB7M1KruTH
+         G4D/ZyTmCb4BjkMlKuDOLN5gYiVRGa28cjD1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715265427; x=1715870227;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhunxhR/OF2icvm3HmEsNbbwCxzb74IsXbKxDT8qkPs=;
+        b=lv3h8i5XbZK/J9ng/SODQS+J4+A1YGjdDVdqXp/97tSIzbzX6EDv+M5x5ioinNLDMu
+         UOhD3ebyNS1oUuzIisV5B7ByRQQ1EX45B6y1fnig6Qlu4ENrzcfX57qKrHFhJNITuwHn
+         uikffXkiSiZGbiSQDuhUEpOks/Qfoi9tL1jGPX/e9s6IgF2lUXJVnhCiqLqLHSi4LrxO
+         85mEa+28xsvOIqT4EP2ctITOJEYrqAXqAR0nOE/sDO+pIPQDI3MDF4jDNVpYwblO9yv2
+         8NF681rv2JYjBdxMq7sP2YTow+qKT1Gc9vLqtQsvTfKwChxcKTF9f+1rzDGhNBPlY1iW
+         M1lw==
+X-Forwarded-Encrypted: i=1; AJvYcCUR6lfVJU5uSQTLe1Aa//aErHCamv2RRUZ7RP7uhk3VYJs10BK7YBBV7XyTixrPoeWo1zkJEsfgZqiHr77k57X7Vi7+kzS2LF8tFBk=
+X-Gm-Message-State: AOJu0YyckjL5qKmcFCs62p6/VkvsoYhbs0y60DyuKLJtSr2m8BrSiM7m
+	8qgAbJTV/D9Sii30Vf6Iyz3FUUXTST74OophcVrn6kQttSw6gsmOR/N7Nf1oPuE=
+X-Google-Smtp-Source: AGHT+IFLPV3hTUAqtiZSXFMZ3nZtJrVA8/PdzJcN3v/yjJF832scb22cGE7mYooNXziODVFLnPMOaA==
+X-Received: by 2002:a6b:e618:0:b0:7e1:86e1:cd46 with SMTP id ca18e2360f4ac-7e18fd9a35cmr655432839f.2.1715265426750;
+        Thu, 09 May 2024 07:37:06 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4893703c0c8sm386684173.48.2024.05.09.07.37.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 07:37:06 -0700 (PDT)
+Message-ID: <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
+Date: Thu, 9 May 2024 08:37:03 -0600
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+To: Edward Liaw <edliaw@google.com>
+Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
+ Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?=
+ <andrealmeid@igalia.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>,
+ Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>,
+ Atish Patra <atishp@atishpatra.org>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Seth Forshee
+ <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>, Manivannan Sadhasivam
+ <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>,
+ Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Fenghua Yu <fenghua.yu@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kernel-team@android.com, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+ linux-input@vger.kernel.org, iommu@lists.linux.dev, kvmarm@lists.linux.dev,
+ kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-actions@lists.infradead.org, mptcp@lists.linux.dev,
+ linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240507214254.2787305-1-edliaw@google.com>
+ <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
+ <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-This helps user space to figure out which keys should be used to unidle a
-device. E.g on phones the volume rocker should usually not unblank the
-screen.
+On 5/9/24 00:13, Edward Liaw wrote:
+> On Wed, May 8, 2024 at 4:10 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 5/7/24 15:38, Edward Liaw wrote:
+>>> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+>>> asprintf into kselftest_harness.h, which is a GNU extension and needs
+>>> _GNU_SOURCE to either be defined prior to including headers or with the
+>>> -D_GNU_SOURCE flag passed to the compiler.
+>>>
+>>> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
+>>> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
+>>> location.  Remove #define _GNU_SOURCE from source code to resolve
+>>> redefinition warnings.
+>>>
+>>> Edward Liaw (5):
+>>>     selftests: Compile kselftest headers with -D_GNU_SOURCE
+>>>     selftests/sgx: Include KHDR_INCLUDES in Makefile
+>>
+>> I appled patches 1/5 and 2.5 - The rest need to be split up.
+>>
+>>>     selftests: Include KHDR_INCLUDES in Makefile
+>>>     selftests: Drop define _GNU_SOURCE
+>>>     selftests: Drop duplicate -D_GNU_SOURCE
+>>>
+>>
+>> Please split these patches pwe test directory. Otherwise it will
+>> cause merge conflicts which can be hard to resolve.
+> 
+> Hi Shuah,
+> Sean asked that I rebase the patches on linux-next, and I will need to
+> remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
+> be reviewed, then split it afterwards?  I'm concerned that it will be
+> difficult to review with ~70 patches once split.
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/input/keyboard/gpio_keys.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+Please send them split - it will be easier to review and apply. You
+might as well wait until the merge window is done. I don't think
+anybody would have time to review now since merge window starts
+next week.
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 9f3bcd41cf67..84f43d1d4375 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -198,7 +198,8 @@ static void gpio_keys_enable_button(struct gpio_button_data *bdata)
-  */
- static ssize_t gpio_keys_attr_show_helper(struct gpio_keys_drvdata *ddata,
- 					  char *buf, unsigned int type,
--					  bool only_disabled)
-+					  bool only_disabled,
-+					  bool only_wakeup)
- {
- 	int n_events = get_n_events_by_type(type);
- 	unsigned long *bits;
-@@ -218,6 +219,9 @@ static ssize_t gpio_keys_attr_show_helper(struct gpio_keys_drvdata *ddata,
- 		if (only_disabled && !bdata->disabled)
- 			continue;
- 
-+		if (only_wakeup && !bdata->button->wakeup)
-+			continue;
-+
- 		__set_bit(*bdata->code, bits);
- 	}
- 
-@@ -297,7 +301,7 @@ static ssize_t gpio_keys_attr_store_helper(struct gpio_keys_drvdata *ddata,
- 	return error;
- }
- 
--#define ATTR_SHOW_FN(name, type, only_disabled)				\
-+#define ATTR_SHOW_FN(name, type, only_disabled, only_wakeup)		\
- static ssize_t gpio_keys_show_##name(struct device *dev,		\
- 				     struct device_attribute *attr,	\
- 				     char *buf)				\
-@@ -306,22 +310,26 @@ static ssize_t gpio_keys_show_##name(struct device *dev,		\
- 	struct gpio_keys_drvdata *ddata = platform_get_drvdata(pdev);	\
- 									\
- 	return gpio_keys_attr_show_helper(ddata, buf,			\
--					  type, only_disabled);		\
-+					  type, only_disabled,		\
-+					  only_wakeup);			\
- }
- 
--ATTR_SHOW_FN(keys, EV_KEY, false);
--ATTR_SHOW_FN(switches, EV_SW, false);
--ATTR_SHOW_FN(disabled_keys, EV_KEY, true);
--ATTR_SHOW_FN(disabled_switches, EV_SW, true);
-+ATTR_SHOW_FN(keys, EV_KEY, false, false);
-+ATTR_SHOW_FN(switches, EV_SW, false, false);
-+ATTR_SHOW_FN(disabled_keys, EV_KEY, true, false);
-+ATTR_SHOW_FN(disabled_switches, EV_SW, true, false);
-+ATTR_SHOW_FN(wakeup_keys, EV_KEY, false, true);
- 
- /*
-  * ATTRIBUTES:
-  *
-  * /sys/devices/platform/gpio-keys/keys [ro]
-  * /sys/devices/platform/gpio-keys/switches [ro]
-+ * /sys/devices/platform/gpio-keys/wakeup_keys [ro]
-  */
- static DEVICE_ATTR(keys, S_IRUGO, gpio_keys_show_keys, NULL);
- static DEVICE_ATTR(switches, S_IRUGO, gpio_keys_show_switches, NULL);
-+static DEVICE_ATTR(wakeup_keys, S_IRUGO, gpio_keys_show_wakeup_keys, NULL);
- 
- #define ATTR_STORE_FN(name, type)					\
- static ssize_t gpio_keys_store_##name(struct device *dev,		\
-@@ -361,6 +369,7 @@ static struct attribute *gpio_keys_attrs[] = {
- 	&dev_attr_switches.attr,
- 	&dev_attr_disabled_keys.attr,
- 	&dev_attr_disabled_switches.attr,
-+	&dev_attr_wakeup_keys.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(gpio_keys);
--- 
-2.43.0
 
+thanks,
+-- Shuah
 
