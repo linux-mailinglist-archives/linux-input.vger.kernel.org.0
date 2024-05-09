@@ -1,55 +1,72 @@
-Return-Path: <linux-input+bounces-3657-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3658-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A358C149F
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 20:20:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDDC8C19A0
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 00:57:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0854A1F22E5F
-	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 18:20:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DA401C2197D
+	for <lists+linux-input@lfdr.de>; Thu,  9 May 2024 22:57:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CFCF7710E;
-	Thu,  9 May 2024 18:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A0C12D210;
+	Thu,  9 May 2024 22:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y0vwhbgp"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="TpMvt0Rk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399E2770FE;
-	Thu,  9 May 2024 18:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E43A12CDB6
+	for <linux-input@vger.kernel.org>; Thu,  9 May 2024 22:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715278820; cv=none; b=FMnsZIY44/vqA75SH/j64Qx9W8BkojnH0OKF/6pHkqu+PSJXJZw3KgOwzamhxeDDDd2UoJjPJ4El4zKeCoTPZXmZo4wYuCKbM9qDoCzMro2p7Q2N6LhcUDD4xBfWsG0O9b66ynchtn0OhjY2aPSdQzdUIauiyXuQhEJW2oA0v74=
+	t=1715295451; cv=none; b=XsnR4d+HZRYAXgE3Ewowj2TfOhKFnL3H3ysp0UJJ7rm5jUQ3pUjgCMAcg37IOCVDnhtCozNsredS3Ttgt1Rd1rwlXu1swIDq050j9dMx4kcnpMFZKQfIUmZUOO81tafjFSNL16Ojc2vcZwnutz4K5aFA+q7lIXvFUtBydY3tFpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715278820; c=relaxed/simple;
-	bh=JCJaK6QpOrmmUJdi/1h2/P/m5VnuJoQJ8ijlBJBZs2E=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=E8cxY7+zC++X+urFqgMQxq9ZHtP3Hq7NmNm/UjICxXOYm1BDbRQBrLLrvkcx4eevo3SS4zdA7JPsxuskc651xjxDmubUe41XgC+ZoOYcC5nW0OBgZSnXB0PfR7hC1vsJ14nkqv5QoQeYiiGCoshy1wqB//9TaELbAy9RKwmTkVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y0vwhbgp; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715278815;
-	bh=JCJaK6QpOrmmUJdi/1h2/P/m5VnuJoQJ8ijlBJBZs2E=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=Y0vwhbgpxSGiErJBlZANaCoV14K1sUaA4F/ooMPA8bO48t72Fpno5DrnfALIMJiFY
-	 oMSvCEfOkwdTnfzldtNTgWgnNeYnX0lnmSBwYV+uUcXI50biIzPUgTSdbJDAk9h9/N
-	 bVUTOACTMW2U5cMSjfFt9b0R/BiIAN1Kzg0OIMCCtoqr8O1bj2D1Led/rtVGtGTVC8
-	 kz3S35qqjR2mswHsIzoVynyPqK+vGV6uTv4IAVR+VARRqE/hZwUo8M6kQ1/zzNJO7N
-	 IQqLkWeZKdjhwuxngilpfTAlT58QqNdElQbuZGDixBXFgx76yRt8hchoMtP4P0BWps
-	 4uG5Wxt7oOVIg==
-Received: from [100.113.15.66] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3ED82378214F;
-	Thu,  9 May 2024 18:19:55 +0000 (UTC)
-Message-ID: <57f47bc1-972c-45b5-81ef-d8269dcadebb@collabora.com>
-Date: Thu, 9 May 2024 23:20:19 +0500
+	s=arc-20240116; t=1715295451; c=relaxed/simple;
+	bh=uiL7tsWYwrlh7fw6jqps72CQNxzNakd76Qcq3x7pifU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oSosWOApPjngS4ILXPtFGbzS7arBGAEo7LoTxaEePg+PQN8SxE4Y5w2dIKdMG8WCn/W3KWqF7inPqOFnDm+IFs1D+i7zQWYI5uoVBUUjIcA8ZeBuQI5XajEaOxA45wucfJQRdPEPaKAFsM6MOe0ygHO+me338m1OduhYeapW+0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=TpMvt0Rk; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-61be599ab77so783280a12.1
+        for <linux-input@vger.kernel.org>; Thu, 09 May 2024 15:57:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1715295450; x=1715900250; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
+        b=TpMvt0Rk7EPdP++brMqlFjTX1QSsJpbQxmH6kghKNIg1q7zqRxaTeli63AZkVhL8no
+         woIKbUxcxq3YVNwdGux4jTc2RGq5bXanosKUXHo24E6nv3wXsARh0CADvEeafgl8KKL8
+         sAgQ7v1y+rvYAU1R1f+tuebjRsvow91U5lo3A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715295450; x=1715900250;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
+        b=wjFkWCCoiWi1Wyr2qCPgzcNJWH9VheRJE1edN4w6SKhVLnulLzbn6D5xeX6q7RKU15
+         ynKh8KPKz4NF5mvKEwWqAPAtzFDXoYc5pHUjYwhj+qIRiK4NqRE4pCQwAbcz2J4Y0W05
+         nXUB2dUEFqZAFtt48IMz0xSch1fkwRhymYCL+m+SDoudcaZWsPbxQGjcievbBODfaa/f
+         PDrlqWzMXCPqqEYrpG84zwLBJz+TTwaE8dnZAxG7umnzyAzJNlMUpLrwFFmUKFdtFLnt
+         p6YT2uLT2T/ozgjOtl4Ld9EtneASE894dKsPMZT+53QlhILlr7WlLijpSQ+GyDTV1mv/
+         m2vw==
+X-Forwarded-Encrypted: i=1; AJvYcCWd3KtYmMqyIM2yFF5TCqKOMoU3IQiHmBHkogVpN7BDOBP2dvcGc/M77RZhI/qPy9vEQx6xbDO+p9a7oKYA4k5Sjf3qDz6YXRFksC0=
+X-Gm-Message-State: AOJu0YxcWcWaZnk8OYIM9VeTQwJ8U84nkxtidsjI8BMEj9de1LsXlRUW
+	FgvWjwUWyCyN9/WCRoomIX8bMu9tL6/vtm2GI8udkrFQE1RgVa9nsAD8v50ESg==
+X-Google-Smtp-Source: AGHT+IH5vOP57x3V1CiZy66ayl1ctIudQSQY6XNjhzRbK0HQXXM6WPYJ1nKRuqnzXEdfc1QIL40KYw==
+X-Received: by 2002:a17:90b:2252:b0:2b1:8210:56bb with SMTP id 98e67ed59e1d1-2b6cc342e4amr894347a91.3.1715295449675;
+        Thu, 09 May 2024 15:57:29 -0700 (PDT)
+Received: from [10.62.14.240] ([128.177.82.146])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67178353bsm2016548a91.56.2024.05.09.15.57.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 15:57:29 -0700 (PDT)
+Message-ID: <53ff9535-d4cc-4d72-9e60-f43aaba5485c@broadcom.com>
+Date: Thu, 9 May 2024 15:57:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,129 +74,97 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>, shuah@kernel.org,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Christian Brauner
- <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>,
- Kees Cook <keescook@chromium.org>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
- Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?=
- <andrealmeid@igalia.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>,
- Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Andrew Morton <akpm@linux-foundation.org>, Seth Forshee
- <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, =?UTF-8?Q?Andreas_F=C3=A4rber?=
- <afaerber@suse.de>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>,
- Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Fenghua Yu <fenghua.yu@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kernel-team@android.com,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev,
- kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
- linux-actions@lists.infradead.org, mptcp@lists.linux.dev,
- linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
-To: Edward Liaw <edliaw@google.com>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240507214254.2787305-1-edliaw@google.com>
- <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
- <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com>
- <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
- <CAG4es9V2CcBJr0josSoGNsD+ZPQ6vasVXh_Hc_j88oeSqn__yQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/8] x86/vmware: Move common macros to vmware.h
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
+References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
+ <20240506215305.30756-1-alexey.makhalov@broadcom.com>
+ <20240506215305.30756-2-alexey.makhalov@broadcom.com>
+ <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
 Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <CAG4es9V2CcBJr0josSoGNsD+ZPQ6vasVXh_Hc_j88oeSqn__yQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 5/9/24 10:45 PM, Edward Liaw wrote:
-> On Thu, May 9, 2024 at 7:37 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->> On 5/9/24 00:13, Edward Liaw wrote:
->>> On Wed, May 8, 2024 at 4:10 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>>>
->>>> On 5/7/24 15:38, Edward Liaw wrote:
->>>>> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
->>>>> asprintf into kselftest_harness.h, which is a GNU extension and needs
->>>>> _GNU_SOURCE to either be defined prior to including headers or with the
->>>>> -D_GNU_SOURCE flag passed to the compiler.
->>>>>
->>>>> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
->>>>> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
->>>>> location.  Remove #define _GNU_SOURCE from source code to resolve
->>>>> redefinition warnings.
->>>>>
->>>>> Edward Liaw (5):
->>>>>     selftests: Compile kselftest headers with -D_GNU_SOURCE
->>>>>     selftests/sgx: Include KHDR_INCLUDES in Makefile
->>>>
->>>> I appled patches 1/5 and 2.5 - The rest need to be split up.
->>>>
->>>>>     selftests: Include KHDR_INCLUDES in Makefile
->>>>>     selftests: Drop define _GNU_SOURCE
->>>>>     selftests: Drop duplicate -D_GNU_SOURCE
->>>>>
->>>>
->>>> Please split these patches pwe test directory. Otherwise it will
->>>> cause merge conflicts which can be hard to resolve.
->>>
->>> Hi Shuah,
->>> Sean asked that I rebase the patches on linux-next, and I will need to
->>> remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
->>> be reviewed, then split it afterwards?  I'm concerned that it will be
->>> difficult to review with ~70 patches once split.
->>
->> Please send them split - it will be easier to review and apply. You
->> might as well wait until the merge window is done. I don't think
->> anybody would have time to review now since merge window starts
->> next week.
+
+
+On 5/7/24 2:14 AM, Borislav Petkov wrote:
+> On Mon, May 06, 2024 at 02:52:58PM -0700, Alexey Makhalov wrote:
+>> +#define VMWARE_HYPERVISOR_PORT		0x5658
+>> +#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
+>> +					 VMWARE_HYPERVISOR_HB)
 > 
-> Sorry, I have them split already; is it ok if I send them now?  I will
-> be on leave soon and may not be able to get back to it in a while.
-Feel free to send the patches. There is no restriction on that.
+> You can't help yourself not sneaking in any changes which are not code
+> movement, can ya?
+Indeed! My fault.
 
 > 
-> Thanks,
-> Edward
-> 
->>
->>
->> thanks,
->> -- Shuah
-> 
+> The purpose of a sole code movement patch is to ease the review. Not to
+> have to look at the code movement *and* some *additional* changes which
+> you've done in-flight. Just because you felt like it. But which is nasty
+> to review.
 
--- 
-BR,
-Muhammad Usama Anjum
+Agree. I should not claim it as sole code movement then.
+At least moving macros from .c to .h file requires changing 
+vmware_hypercall_mode variable visibility from static to global.
+
+If you think this type of changes is Ok for sole code movement patch,
+then I'll continue following this path. Otherwise, will change patch
+description.
+
+Thanks for the patience.
+--Alexey
 
