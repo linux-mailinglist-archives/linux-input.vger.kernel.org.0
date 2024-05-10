@@ -1,135 +1,162 @@
-Return-Path: <linux-input+bounces-3661-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3662-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7DB8C1F00
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 09:33:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151F68C20F2
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 11:31:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7E632829D4
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 07:33:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBB021F226F6
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 09:31:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B10015ECDF;
-	Fri, 10 May 2024 07:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A96161333;
+	Fri, 10 May 2024 09:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edgCFKau"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezKgTlxb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5681311B9;
-	Fri, 10 May 2024 07:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36F0161320;
+	Fri, 10 May 2024 09:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715326380; cv=none; b=WrCZE10nZhqLIPTefOo9U0zU2WYbskAaVL+CU7h/KtL3dVj4s/2iraZS97c7Ht3TJfKVLmlkSCi2nU2ikHGzeJIwK2BRzc+PJq+Add+ni2njbRv8AaODmRoxrCb7TQUhHmdkLqwZAuuaeYtLaxM6UCGJApDL7IPki1eF00ddzHA=
+	t=1715333505; cv=none; b=ItpJItFN46twCQFDqtZpxk10lm4xBFGs8dNNZHxqiT1DiqMaQXkth5PooyzgrEEtPVOEg2XjvCBtqWqzjdFQ/R6D5hoa1QeqZ2LeYDHyH0rfsY8fVAs0WW4e5ckgW2EHAXo8NUPP8yhOfBFMHyT23WHtdEz9gz/AzjWglVkc/hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715326380; c=relaxed/simple;
-	bh=ByEC9kiMaabF3vVkEOp8v75OMBj+coHKSUUUS2mNNEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+/O89H9F9Ry9HlNUrNjYwMFOehPCeRSjywsDWC+sxTU7xv8I6xZ5zlvrW5hIyCTwt9nMjFDGB4UOA4qTEHuOP1pcZLDD4yILpIH2ghchJ4N+KrmSKiPquj6sDitZfX32QyomtR9ROYPBEHNS1FQVG0YT8K1uTxgOF/+1g0X1xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edgCFKau; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715333505; c=relaxed/simple;
+	bh=CmhmnGOQuXsOk0dotnePWkVJo7uvjGnh1DT+ouho8lg=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=p+ujbxVxILWV0P7cNQiW6eHlZCaFFZgbTb4ORckQmS4EdAxhNHoTXLwA+MiXxFGvRSRxdPggxfKTJ85Oub4KrdYzcDFJukAOrphIi4XqpZPb3vs78acB0Clky+y7dVWpz9dmFVbqxKQd+aETVgKvfp0w3ZAMYZgatcySQnvABzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezKgTlxb; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715326378; x=1746862378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ByEC9kiMaabF3vVkEOp8v75OMBj+coHKSUUUS2mNNEA=;
-  b=edgCFKauxBiN6Fvb2QgyEqZvaoVcoCK8xIhGWzVcxo8kEf+LLmO68tPN
-   sT7dI9zDb443eoYEzJsE5S9kHr+ot9jNJX14n+JhcGTUEqjNEOBFUYOdh
-   udJZ1R9IaGP709RSeUSgeA8pWiRlquVRGR+5ZpBuiDU//zPoJHk2PIa4n
-   1qCfxztafrEva7MtdmIZF4DSfiL6IaNcOlwG90+MU8a3mmfM83PKjjK5P
-   yMbeQ4wtQqz54ZsnAR98IDGGootS036hVf+Ph3J+G8gb1m+GlAU+/UI5+
-   gXGoaFGDMkB+TVr6Pvkq/uDbIpwp2zB3kRo1T/ivB2OGDN1YBnkh2weOo
-   w==;
-X-CSE-ConnectionGUID: iNgg0imQSbCJeGBncwQCyw==
-X-CSE-MsgGUID: Al4nNiqbTF61MpUASuzhBQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14245272"
+  t=1715333504; x=1746869504;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=CmhmnGOQuXsOk0dotnePWkVJo7uvjGnh1DT+ouho8lg=;
+  b=ezKgTlxbFwImueLJ9bvzMAup2EEfcfX6LvJWdgk2y1pQAZCybhQcPxjO
+   7FpAOlsjNv6iW6XeCxB+ikHV73kpGRUuKxjgB5zWPX2DyKIt/TOYoI5RC
+   6hDkHbL1uGcDSkL2ZTx+T4emCZiEmg/54C7WUPPPxuf7tdanJzTP4NwBl
+   0qoiIzB5EdYFAp/soolIah0DNva01rARNQAhiLBltnw4+GZZlnwbDwSnP
+   wLrrnBregfS7Eh96851ch4SswPDCX8+rTOnlNjxQkSF6+2Jni5JNF/ro8
+   rtCwR3PoyDtm5eo6oC4vMLdz1Ac82FxS92kXlOXXsFVCHmpp2vFL4JtoY
+   Q==;
+X-CSE-ConnectionGUID: av0GeApZTOyJt9vUhbi0mA==
+X-CSE-MsgGUID: 50uVox6kTA2DAgW11d0DNQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15102054"
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="14245272"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 00:32:58 -0700
-X-CSE-ConnectionGUID: ybRwEvJsRIG5YlmeO+pHBg==
-X-CSE-MsgGUID: mvMVWbM1Qkmt1ZMeJojlcQ==
+   d="scan'208";a="15102054"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 02:31:43 -0700
+X-CSE-ConnectionGUID: ODFNwHZvR8OKLwhEHP4wkQ==
+X-CSE-MsgGUID: GUk6LxVGQcGmFr9T2LaERw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="29589840"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 May 2024 00:32:51 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s5KkK-0005qp-2s;
-	Fri, 10 May 2024 07:32:48 +0000
-Date: Fri, 10 May 2024 15:31:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	mingo@redhat.com, tglx@linutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Nadav Amit <nadav.amit@gmail.com>,
-	Zack Rusin <zack.rusin@broadcom.com>
-Subject: Re: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
-Message-ID: <202405101512.NJRbYcaH-lkp@intel.com>
-References: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
+   d="scan'208";a="34092610"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.85])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 02:31:35 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 10 May 2024 12:31:31 +0300 (EEST)
+To: Christoph Fritz <christoph.fritz@hexdev.de>
+cc: Jiri Slaby <jirislaby@kernel.org>, 
+    Oliver Hartkopp <socketcan@hartkopp.net>, 
+    Marc Kleine-Budde <mkl@pengutronix.de>, 
+    Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+    "David S . Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+    Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+    Benjamin Tissoires <bentiss@kernel.org>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    Sebastian Reichel <sre@kernel.org>, 
+    Linus Walleij <linus.walleij@linaro.org>, 
+    Andreas Lauser <andreas.lauser@mercedes-benz.com>, 
+    Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
+    linux-can@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
+    devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+    linux-serial <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v3 02/11] HID: hexLIN: Add support for USB LIN bus
+ adapter
+In-Reply-To: <02d9e48619cff27fb846b5d8f367bc033bbf91e6.camel@hexdev.de>
+Message-ID: <f558341c-288a-533c-1fcc-6c18f68e311e@linux.intel.com>
+References: <20240502182804.145926-1-christoph.fritz@hexdev.de>  <20240502182804.145926-3-christoph.fritz@hexdev.de>  <422e0d3a-3eb9-ff78-8419-56e894e04137@linux.intel.com> <02d9e48619cff27fb846b5d8f367bc033bbf91e6.camel@hexdev.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
+Content-Type: multipart/mixed; BOUNDARY="8323328-1639080712-1715333388=:1562"
+Content-ID: <e3cb9b45-d6d0-3a2e-0556-568fa992ae76@linux.intel.com>
 
-Hi Alexey,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-kernel test robot noticed the following build errors:
+--8323328-1639080712-1715333388=:1562
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <fec66c8d-f78a-b62f-9231-3713e918c1cc@linux.intel.com>
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.9-rc7 next-20240509]
-[cannot apply to tip/x86/vmware]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Thu, 9 May 2024, Christoph Fritz wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20240507-055606
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240506215305.30756-7-alexey.makhalov%40broadcom.com
-patch subject: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
-config: x86_64-buildonly-randconfig-003-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/reproduce)
+> On Mon, 2024-05-06 at 19:53 +0300, Ilpo J=E4rvinen wrote:
+> > On Thu, 2 May 2024, Christoph Fritz wrote:
+> >=20
+> > > This patch introduces driver support for the hexLIN USB LIN bus adapt=
+er,
+> > > enabling LIN communication over USB for both controller and responder
+> > > modes. The driver interfaces with the CAN_LIN framework for userland
+> > > connectivity.
+> > >=20
+> > > For more details on the adapter, visit: https://hexdev.de/hexlin/
+> > >=20
+> > > Tested-by: Andreas Lauser <andreas.lauser@mercedes-benz.com>
+> > > Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
+> > > ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101512.NJRbYcaH-lkp@intel.com/
+> > > +=09le32_to_cpus(hxf.flags);
+> >=20
+> > You must use correct endianess typing. The struct hexlin_frame should h=
+ave=20
+> > __le32 flags so sparse's endianness check is happy.
+>=20
+> OK
+>=20
+> >=20
+> > But .flags are not used at all so why is this required in the first pla=
+ce?
+>=20
+> Was necessary in the development process and will be used in hid_dbg()
+> below in v4.
 
-All errors (new ones prefixed by >>):
+Ok, I was expecting you'd print it out there but since it wasn't, I made=20
+the unused comment.
 
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_port_hb_out':
-   vmwgfx_msg.c:(.text+0x182): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_send_msg':
-   vmwgfx_msg.c:(.text+0x46d): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
-   vmwgfx_msg.c:(.text+0x6f4): undefined reference to `vmware_hypercall_mode'
->> ld: vmwgfx_msg.c:(.text+0x875): undefined reference to `vmware_hypercall_mode'
-   ld: vmwgfx_msg.c:(.text+0xae0): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x136e): more undefined references to `vmware_hypercall_mode' follow
+BTW, you don't need to reply "OK" to me for the review comments which=20
+you're going to do in the next version. I trust you'll address those=20
+comments which are not replied into. It saves us both time :-).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > +=09lf.len =3D hxf.len;
+> > > +=09lf.lin_id =3D hxf.lin_id;
+> > > +=09memcpy(lf.data, hxf.data, LIN_MAX_DLEN);
+> > > +=09lf.checksum =3D hxf.checksum;
+> > > +=09lf.checksum_mode =3D hxf.checksum_mode;
+> > > +
+> > > +=09hid_dbg(hdev, "id:%02x, len:%u, data:%*ph, checksum:%02x (%s)\n",
+> > > +=09=09   lf.lin_id, lf.len, lf.len, lf.data, lf.checksum,
+> > > +=09=09   lf.checksum_mode ? "enhanced" : "classic");
+> > > +
+> > > +=09lin_rx(priv->ldev, &lf);
+> > > +
+> > > +=09return 0;
+> > > +}
+
+
+--=20
+ i.
+--8323328-1639080712-1715333388=:1562--
 
