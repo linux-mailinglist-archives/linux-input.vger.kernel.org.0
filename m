@@ -1,241 +1,139 @@
-Return-Path: <linux-input+bounces-3669-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3670-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C68C2706
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 16:39:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 409BF8C2738
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 16:55:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4D581F24A1B
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 14:39:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C44C3286F0A
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 14:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2523117089E;
-	Fri, 10 May 2024 14:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C1A17108E;
+	Fri, 10 May 2024 14:55:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SvXgBHQj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qk+QHBRU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C78914B08C;
-	Fri, 10 May 2024 14:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69ABC168AFC;
+	Fri, 10 May 2024 14:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715351969; cv=none; b=TWjeIPYKDWrDPN3SC+MhbQS7FV99CPwfB3CM7yVq0F3PvVno0PgGecHZFuU2go7WXYXXsw9IiHVNjbwKzfPeB18qLQ2x3N22daO6HsxcUfuzCwXuq9RE5M3g+3iva3Q+PLiLLU9khkLPUxZ9CrB7oOfYbLoDu1EVvRaWh+LgejE=
+	t=1715352942; cv=none; b=ZGYUFXvxWMHPFUU7kbYZIr023198we/j+wiGZ86sv7GOygbLOOY8fmr4xchowQFNEVQTtDzwDwxFBcp0cIOfw2qa1ZdT0qTkHYSgUcG+VEzeldlH4zKY5rnX+DE1epxWakWCkgw1mZfYc87i6KYfHsjkuKpvv5HM3UA6DRDh0p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715351969; c=relaxed/simple;
-	bh=1mZQpCNgLHeL3u0oeK2XgbI336g5gF4n4i2zz/VMjDM=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=OLE8PG9JQDp1PtCNlVC31oFKvsdP4KQFk6nmFHzTHWx3stVOvessrHl9J3y9ZgOBm0rsYUSc7u9WE7BzEqKS8iv1Qnwj4qGDJriUDG0SewbqYmEBml5Lf9FLnH7ZRJXWMI1N2nCNV59TbLApbeVt83fIgwFE5HHOBcCrqHw7PtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SvXgBHQj; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715351967; x=1746887967;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=1mZQpCNgLHeL3u0oeK2XgbI336g5gF4n4i2zz/VMjDM=;
-  b=SvXgBHQjNX2wMKP4lWONzlnSFTJLCH/2xHX8FqcTNZAT2bMcq57W5RJO
-   Pc3O6bsEelc00UYinwyX0VwvRCdOG5mTCoNy5QlC3Hdq8zjHm7NhcXPFi
-   i8VL7mcYLT3bEPxAVSnFDtS+Vn2mSKRo63NZSj+qtYtbzVvFD+Fd0IMLb
-   Ch7TqGyrVAA3Cx9TWgdyKfRBDiNbhvixFswQ7yKwHCt37AEJgGa8uoWxZ
-   ag7xehK04+b1oavmd7My5IQOlcQYRBGrgTJ81JmkSlSGxknw2s6QIzeq3
-   6FIVVYftIBGdriv2M/beQw88fGYPXxQXcM2KRMVPHqtbRi5Tk5MisojRH
-   Q==;
-X-CSE-ConnectionGUID: VH9LRxpWTqmMk5oEfLJ9fA==
-X-CSE-MsgGUID: 10qs1WjSSCSOscoBysG28w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22006598"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="22006598"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 07:39:26 -0700
-X-CSE-ConnectionGUID: VVDy6M/OSrqsiWz0tSC0nA==
-X-CSE-MsgGUID: uxmhq12gTaSaAmPHBnqdFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="30018377"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.85])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 07:39:19 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 10 May 2024 17:39:14 +0300 (EEST)
-To: Christoph Fritz <christoph.fritz@hexdev.de>
-cc: Jiri Slaby <jirislaby@kernel.org>, Simon Horman <horms@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Marc Kleine-Budde <mkl@pengutronix.de>, 
-    Oliver Hartkopp <socketcan@hartkopp.net>, 
-    Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-    "David S . Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-    Benjamin Tissoires <bentiss@kernel.org>, 
-    Sebastian Reichel <sre@kernel.org>, 
-    Linus Walleij <linus.walleij@linaro.org>, 
-    Andreas Lauser <andreas.lauser@mercedes-benz.com>, 
-    Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
-    linux-can@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-    devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-    linux-serial <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v4 10/11] can: lin: Support setting LIN mode
-In-Reply-To: <20240509171736.2048414-11-christoph.fritz@hexdev.de>
-Message-ID: <b796b3ac-df5e-e39a-7ae2-db7b7829abaa@linux.intel.com>
-References: <20240509171736.2048414-1-christoph.fritz@hexdev.de> <20240509171736.2048414-11-christoph.fritz@hexdev.de>
+	s=arc-20240116; t=1715352942; c=relaxed/simple;
+	bh=sLxTchYz896sDj6qbtwDuUDSEIrv3OIFfIsIipZpE5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sGwqQCepcSKbgbemV/dptfixidGWezFD6/dE4IploauNfCurmQ5myBjBLUPnlODCanzScemsDf440nwX/Jbbk4vq+lvPirAb6YSAx1lZhBb2jm+YZaQyYCazmvkCNs2Azor6W0tb0mugwJy6b6SJKqN55pOATTlw/bgdf3OKCnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qk+QHBRU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B805BC113CC;
+	Fri, 10 May 2024 14:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715352942;
+	bh=sLxTchYz896sDj6qbtwDuUDSEIrv3OIFfIsIipZpE5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qk+QHBRUz835G4CYflpo32U3bgdyaL3BSq2dIP7JPTBxppCQBluDy5JvM3o97jF80
+	 iEALaNAdz3a/+xGsLAEiu9b9vQ8IOnPt5tIhImEP0eGpneYwpJjwpuG02fLkJ3yi68
+	 nhbRbKKys1TrAkL5vW0TVsZ1OZcRgEjvN426FUx7zeuaqiU+tMqyApz+JEHhGlVjsp
+	 zDEVo4rZ2XssiB7JTh43TEhLtOPYXIZhhcknhTJmh/C+HOdQCExA3ZWfYGTj7MIeOv
+	 FQzyk2hH6uVo11vyU+GDq7RXKXBnosQk38Lr2DJANEJLXeauHqnO5s9JAJ0Ew2Q7b5
+	 NjdJU+QN1zb3Q==
+Date: Fri, 10 May 2024 15:55:34 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: [GIT PULL] Immutable branch between Backlight, HID and fbdev due for
+ the v6.10 merge window
+Message-ID: <20240510145534.GD6146@google.com>
+References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
 
-On Thu, 9 May 2024, Christoph Fritz wrote:
+Enjoy!
 
-> A LIN node can work as commander or responder, so introduce a new
-> control mode (CAN_CTRLMODE_LIN_COMMANDER) for configuration.
-> 
-> This enables e.g. the userland tool ip from iproute2 to turn on
-> commander mode when the device is being brought up.
-> 
-> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
-> ---
->  drivers/net/can/lin.c            | 40 +++++++++++++++++++++++++++++++-
->  include/net/lin.h                |  7 ++++++
->  include/uapi/linux/can/netlink.h |  1 +
->  3 files changed, 47 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/can/lin.c b/drivers/net/can/lin.c
-> index f77abd7d7d21c..03ddf5d5a31b8 100644
-> --- a/drivers/net/can/lin.c
-> +++ b/drivers/net/can/lin.c
-> @@ -262,11 +262,40 @@ static netdev_tx_t lin_start_xmit(struct sk_buff *skb,
->  	return NETDEV_TX_OK;
->  }
->  
-> +static int lin_update_mode(struct net_device *ndev)
-> +{
-> +	struct lin_device *ldev = netdev_priv(ndev);
-> +	u32 ctrlmode = ldev->can.ctrlmode;
-> +	enum lin_mode lm;
-> +	int ret = 0;
-> +
-> +	lm = (ctrlmode & CAN_CTRLMODE_LIN_COMMANDER) ? LINBUS_COMMANDER :
-> +						       LINBUS_RESPONDER;
-> +	if (ldev->lmode != lm) {
-> +		if (!ldev->ldev_ops->update_lin_mode) {
-> +			netdev_err(ndev, "setting lin mode unsupported\n");
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-In user visible messages, it would be best to use the expected 
-capitalization, which I suppose is LIN given you use capitals in the 
-commit message yourself?
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-> +			return -EINVAL;
-> +		}
-> +		ret = ldev->ldev_ops->update_lin_mode(ldev, lm);
-> +		if (ret) {
-> +			netdev_err(ndev, "Failed to set lin mode: %d\n", ret);
+are available in the Git repository at:
 
-Ditto.
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-hid-fbdev-lcd-scripts-v6.10
 
-There might be other cases in any of the patches, please check.
+for you to fetch changes up to 82b9007bc4f8c22975d640d7df6743366f25a353:
 
-> +			return ret;
-> +		}
-> +		ldev->lmode = lm;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int lin_open(struct net_device *ndev)
->  {
->  	struct lin_device *ldev = netdev_priv(ndev);
->  	int ret;
->  
-> +	ret = lin_update_mode(ndev);
-> +	if (ret)
-> +		return ret;
-> +
->  	ldev->tx_busy = false;
->  
->  	ret = open_candev(ndev);
-> @@ -443,7 +472,7 @@ struct lin_device *register_lin(struct device *dev,
->  	ndev->sysfs_groups[0] = &lin_sysfs_group;
->  	ldev->can.bittiming.bitrate = LIN_DEFAULT_BAUDRATE;
->  	ldev->can.ctrlmode = CAN_CTRLMODE_LIN;
-> -	ldev->can.ctrlmode_supported = 0;
-> +	ldev->can.ctrlmode_supported = CAN_CTRLMODE_LIN_COMMANDER;
->  	ldev->can.bitrate_const = lin_bitrate;
->  	ldev->can.bitrate_const_cnt = ARRAY_SIZE(lin_bitrate);
->  	ldev->can.do_set_bittiming = lin_set_bittiming;
-> @@ -458,6 +487,15 @@ struct lin_device *register_lin(struct device *dev,
->  		goto exit_candev;
->  	}
->  
-> +	ldev->lmode = LINBUS_RESPONDER;
-> +	if (ldev->ldev_ops->update_lin_mode) {
-> +		ret = ldev->ldev_ops->update_lin_mode(ldev, ldev->lmode);
-> +		if (ret) {
-> +			netdev_err(ndev, "updating lin mode failed\n");
+  const_structs.checkpatch: add lcd_ops (2024-05-03 10:45:55 +0100)
 
-Ditto.
+----------------------------------------------------------------
+Immutable branch between Backlight, HID and fbdev due for the v6.10 merge window
 
-> +			goto exit_candev;
-> +		}
-> +	}
-> +
->  	ret = register_candev(ndev);
->  	if (ret)
->  		goto exit_candev;
-> diff --git a/include/net/lin.h b/include/net/lin.h
-> index 31bb0feefd188..63ac870a0ab6f 100644
-> --- a/include/net/lin.h
-> +++ b/include/net/lin.h
-> @@ -36,6 +36,11 @@ struct lin_attr {
->  	struct lin_device *ldev;
->  };
->  
-> +enum lin_mode {
-> +	LINBUS_RESPONDER = 0,
-> +	LINBUS_COMMANDER,
-> +};
-> +
->  struct lin_device {
->  	struct can_priv can;  /* must be the first member */
->  	struct net_device *ndev;
-> @@ -45,6 +50,7 @@ struct lin_device {
->  	struct work_struct tx_work;
->  	bool tx_busy;
->  	struct sk_buff *tx_skb;
-> +	enum lin_mode lmode;
->  };
->  
->  enum lin_checksum_mode {
-> @@ -71,6 +77,7 @@ struct lin_device_ops {
->  	int (*ldo_open)(struct lin_device *ldev);
->  	int (*ldo_stop)(struct lin_device *ldev);
->  	int (*ldo_tx)(struct lin_device *ldev, const struct lin_frame *frame);
-> +	int (*update_lin_mode)(struct lin_device *ldev, enum lin_mode lm);
->  	int (*update_bitrate)(struct lin_device *ldev, u16 bitrate);
->  	int (*update_responder_answer)(struct lin_device *ldev,
->  				       const struct lin_responder_answer *answ);
-> diff --git a/include/uapi/linux/can/netlink.h b/include/uapi/linux/can/netlink.h
-> index a37f56d86c5f2..cc390f6444d59 100644
-> --- a/include/uapi/linux/can/netlink.h
-> +++ b/include/uapi/linux/can/netlink.h
-> @@ -104,6 +104,7 @@ struct can_ctrlmode {
->  #define CAN_CTRLMODE_TDC_AUTO		0x200	/* CAN transiver automatically calculates TDCV */
->  #define CAN_CTRLMODE_TDC_MANUAL		0x400	/* TDCV is manually set up by user */
->  #define CAN_CTRLMODE_LIN		BIT(11)	/* LIN bus mode */
-> +#define CAN_CTRLMODE_LIN_COMMANDER	BIT(12)	/* LIN bus specific commander mode */
->  
->  /*
->   * CAN device statistics
-> 
+----------------------------------------------------------------
+Krzysztof Kozlowski (19):
+      backlight: lcd: Constify lcd_ops
+      backlight: ams369fg06: Constify lcd_ops
+      backlight: corgi_lcd: Constify lcd_ops
+      backlight: hx8357: Constify lcd_ops
+      backlight: ili922x: Constify lcd_ops
+      backlight: ili9320: Constify lcd_ops
+      backlight: jornada720_lcd: Constify lcd_ops
+      backlight: l4f00242t03: Constify lcd_ops
+      backlight: lms283gf05: Constify lcd_ops
+      backlight: lms501kf03: Constify lcd_ops
+      backlight: ltv350qv: Constify lcd_ops
+      backlight: otm3225a: Constify lcd_ops
+      backlight: platform_lcd: Constify lcd_ops
+      backlight: tdo24m: Constify lcd_ops
+      HID: picoLCD: Constify lcd_ops
+      fbdev: clps711x: Constify lcd_ops
+      fbdev: imx: Constify lcd_ops
+      fbdev: omap: lcd_ams_delta: Constify lcd_ops
+      const_structs.checkpatch: add lcd_ops
+
+ drivers/hid/hid-picolcd_lcd.c            | 2 +-
+ drivers/video/backlight/ams369fg06.c     | 2 +-
+ drivers/video/backlight/corgi_lcd.c      | 2 +-
+ drivers/video/backlight/hx8357.c         | 2 +-
+ drivers/video/backlight/ili922x.c        | 2 +-
+ drivers/video/backlight/ili9320.c        | 2 +-
+ drivers/video/backlight/jornada720_lcd.c | 2 +-
+ drivers/video/backlight/l4f00242t03.c    | 2 +-
+ drivers/video/backlight/lcd.c            | 4 ++--
+ drivers/video/backlight/lms283gf05.c     | 2 +-
+ drivers/video/backlight/lms501kf03.c     | 2 +-
+ drivers/video/backlight/ltv350qv.c       | 2 +-
+ drivers/video/backlight/otm3225a.c       | 2 +-
+ drivers/video/backlight/platform_lcd.c   | 2 +-
+ drivers/video/backlight/tdo24m.c         | 2 +-
+ drivers/video/fbdev/clps711x-fb.c        | 2 +-
+ drivers/video/fbdev/imxfb.c              | 2 +-
+ drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
+ include/linux/lcd.h                      | 6 +++---
+ scripts/const_structs.checkpatch         | 1 +
+ 20 files changed, 23 insertions(+), 22 deletions(-)
 
 -- 
- i.
-
+Lee Jones [李琼斯]
 
