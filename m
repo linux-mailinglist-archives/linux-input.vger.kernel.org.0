@@ -1,139 +1,208 @@
-Return-Path: <linux-input+bounces-3670-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3671-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409BF8C2738
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 16:55:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505A18C2DA6
+	for <lists+linux-input@lfdr.de>; Sat, 11 May 2024 01:36:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C44C3286F0A
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 14:55:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07A3E28675C
+	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 23:36:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C1A17108E;
-	Fri, 10 May 2024 14:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A29E013CF93;
+	Fri, 10 May 2024 23:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qk+QHBRU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EOp+hEZP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69ABC168AFC;
-	Fri, 10 May 2024 14:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6DA16F0DA
+	for <linux-input@vger.kernel.org>; Fri, 10 May 2024 23:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715352942; cv=none; b=ZGYUFXvxWMHPFUU7kbYZIr023198we/j+wiGZ86sv7GOygbLOOY8fmr4xchowQFNEVQTtDzwDwxFBcp0cIOfw2qa1ZdT0qTkHYSgUcG+VEzeldlH4zKY5rnX+DE1epxWakWCkgw1mZfYc87i6KYfHsjkuKpvv5HM3UA6DRDh0p4=
+	t=1715384189; cv=none; b=S3RM5CIYwvokE/4UbFcu/uc9wL2F8HDtrCE4spsPeSPhlUk6i67etYt6Zn5vuGiZXY5tHyZVcQfn4Iewg/DtNlX7hcCr0gq8xwrjh/5w2JOrYHA3rzI8XDaJaBEru76LlqrhO9Wc8tsdHScNOSC4hWIRisypmzKn9xpmVBPmxZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715352942; c=relaxed/simple;
-	bh=sLxTchYz896sDj6qbtwDuUDSEIrv3OIFfIsIipZpE5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGwqQCepcSKbgbemV/dptfixidGWezFD6/dE4IploauNfCurmQ5myBjBLUPnlODCanzScemsDf440nwX/Jbbk4vq+lvPirAb6YSAx1lZhBb2jm+YZaQyYCazmvkCNs2Azor6W0tb0mugwJy6b6SJKqN55pOATTlw/bgdf3OKCnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qk+QHBRU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B805BC113CC;
-	Fri, 10 May 2024 14:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715352942;
-	bh=sLxTchYz896sDj6qbtwDuUDSEIrv3OIFfIsIipZpE5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qk+QHBRUz835G4CYflpo32U3bgdyaL3BSq2dIP7JPTBxppCQBluDy5JvM3o97jF80
-	 iEALaNAdz3a/+xGsLAEiu9b9vQ8IOnPt5tIhImEP0eGpneYwpJjwpuG02fLkJ3yi68
-	 nhbRbKKys1TrAkL5vW0TVsZ1OZcRgEjvN426FUx7zeuaqiU+tMqyApz+JEHhGlVjsp
-	 zDEVo4rZ2XssiB7JTh43TEhLtOPYXIZhhcknhTJmh/C+HOdQCExA3ZWfYGTj7MIeOv
-	 FQzyk2hH6uVo11vyU+GDq7RXKXBnosQk38Lr2DJANEJLXeauHqnO5s9JAJ0Ew2Q7b5
-	 NjdJU+QN1zb3Q==
-Date: Fri, 10 May 2024 15:55:34 +0100
-From: Lee Jones <lee@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: [GIT PULL] Immutable branch between Backlight, HID and fbdev due for
- the v6.10 merge window
-Message-ID: <20240510145534.GD6146@google.com>
-References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+	s=arc-20240116; t=1715384189; c=relaxed/simple;
+	bh=tdd3mEPr8R8mB7AxgVNrZK4bwy+sTsONs5ChPMw/qCk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PkQaTdHRMMSDx8o5hFQve7jCLlfoQXFaaP4SdPhZ7eygovoh2OjKLf9JXKVvIP03QwILYoO750OsgM5sA+rbyrk6tDQ81ttvHgj32aJkmcuwyFksvy7WQA4U75kVJ09Dzq0Jtpw4kM9BIBsTSCfPeJDjjIzBHVukTPgpSniSr/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EOp+hEZP; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-792b8d30075so185280385a.1
+        for <linux-input@vger.kernel.org>; Fri, 10 May 2024 16:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715384184; x=1715988984; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RUDP9S9qW3rGQGeBPladTmxRNiWuw5gzHHPdJQsB0VM=;
+        b=EOp+hEZPbLHdVERIbjfrCMKS3QGHGpU7p0BTHls+mSapjVASRd/SSmmQLKhGOy8FiC
+         FUZit4smyMsrXe9rWZWIE34+jq1OLFjRRVB5IeRoqLg8H+8XhwrROU9fFgCcX8bSQ8bt
+         1a4FXbNNvve8n28VeOYjJEVSwE/uax+k1MgIs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715384184; x=1715988984;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RUDP9S9qW3rGQGeBPladTmxRNiWuw5gzHHPdJQsB0VM=;
+        b=YhZ95T8bhMFBHQ/XJ+AzDWcCLHWEl9/HVtKFZ+Fi2Xqic3HqaDhA+9bw7J0ACU5igZ
+         iIvoaqkzO8AKK8xsLpfbrtP4/D2vevzmKOVL8w83Tp/dpye/bePRVUdyL1OcXl21FoqD
+         gZA4cQLoNCOkc4pDMe6qWdpP7xTjjjj93Zf85yqLL94Lwxhq7P2F4Ma+nsV2UtBWxppn
+         aEhC2mp9IA9nLI47kGY3aBeaQNWU8NJnX+GM9LXpRAn5zIZK7plbEyweNpx7tKfI8MLg
+         QBbG8atd0b4bCrxp7KkuIR99AEOnYWjaP6t0LEPV1PAPU0r+ZUqjoTtEFW83VJ1hpOtd
+         PPkw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+IPKbsJ6GlTCgRp1Ne6zyZJ5wF/QOoPZLVLiN06exmfwh7AsJ8GnYhU0W/PCPi+AUUcPIk617/Yp23mjkxh8Sa9qsO3Yk/UEA9ZI=
+X-Gm-Message-State: AOJu0YzJvfVRWH+SwS95mDiIq3qWbyo6ZZAbWSdMp5dnH9xN6aEUl0Vf
+	z9IrxEOVCNH5xXFAToOkp12Yd84b03zbEpV6CUdgyA64MDjZlLRj6iighJnONwnIpUOCVkm9fZo
+	=
+X-Google-Smtp-Source: AGHT+IFpm/bJoY8pLcRzzquzzCrRG+tatkasN+9/y14Y0qFLbx0s7U/X5b/RJG6Rr8trjlHEv/SYmw==
+X-Received: by 2002:a05:620a:1095:b0:792:c5f7:e199 with SMTP id af79cd13be357-792c75986c1mr408656985a.19.1715384184556;
+        Fri, 10 May 2024 16:36:24 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com. [209.85.160.182])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf2fd1a6sm224888785a.91.2024.05.10.16.36.23
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 May 2024 16:36:23 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-43dfe020675so178361cf.0
+        for <linux-input@vger.kernel.org>; Fri, 10 May 2024 16:36:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWOXJK3Ih7Yr8aBxf99NIKT+gvy3WzTBpWMs2qY/Ckigf6yoKuZo3XzUoMwASmfw/q2ADX92YH0u8jxpV5DLzjwg4wdxVpoCAt1lgA=
+X-Received: by 2002:a05:622a:1f13:b0:43d:fce9:684f with SMTP id
+ d75a77b69052e-43e094d0423mr1201921cf.10.1715384182762; Fri, 10 May 2024
+ 16:36:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+References: <20240507144821.12275-1-johan+linaro@kernel.org> <20240507144821.12275-5-johan+linaro@kernel.org>
+In-Reply-To: <20240507144821.12275-5-johan+linaro@kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 10 May 2024 16:36:08 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V59t_tZ9Xk=uhbgOdTRYLKu+kZt8cpaksTkJo+D4yt8Q@mail.gmail.com>
+Message-ID: <CAD=FV=V59t_tZ9Xk=uhbgOdTRYLKu+kZt8cpaksTkJo+D4yt8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] HID: i2c-hid: elan: fix reset suspend current leakage
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Steev Klimaszewski <steev@kali.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Enjoy!
+Hi,
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+On Tue, May 7, 2024 at 7:48=E2=80=AFAM Johan Hovold <johan+linaro@kernel.or=
+g> wrote:
+>
+> @@ -40,17 +41,17 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *o=
+ps)
+>                 container_of(ops, struct i2c_hid_of_elan, ops);
+>         int ret;
+>
+> +       gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+Could probably use a comment above it saying that this is important
+when we have "no_reset_on_power_off" and doesn't do anything bad when
+we don't so we can just do it unconditionally.
 
-are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-hid-fbdev-lcd-scripts-v6.10
+> +
+>         if (ihid_elan->vcc33) {
+>                 ret =3D regulator_enable(ihid_elan->vcc33);
+>                 if (ret)
+> -                       return ret;
+> +                       goto err_deassert_reset;
+>         }
+>
+>         ret =3D regulator_enable(ihid_elan->vccio);
+> -       if (ret) {
+> -               regulator_disable(ihid_elan->vcc33);
+> -               return ret;
+> -       }
+> +       if (ret)
+> +               goto err_disable_vcc33;
+>
+>         if (ihid_elan->chip_data->post_power_delay_ms)
+>                 msleep(ihid_elan->chip_data->post_power_delay_ms);
+> @@ -60,6 +61,15 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *op=
+s)
+>                 msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms)=
+;
+>
+>         return 0;
+> +
+> +err_disable_vcc33:
+> +       if (ihid_elan->vcc33)
+> +               regulator_disable(ihid_elan->vcc33);
+> +err_deassert_reset:
+> +       if (ihid_elan->no_reset_on_power_off)
+> +               gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
 
-for you to fetch changes up to 82b9007bc4f8c22975d640d7df6743366f25a353:
+Small nit about the error label: it sounds as if when you go here you
+_will_ deassert reset when in actuality you might or might not
+(depending on no_reset_on_power_off). Personally I prefer to label
+error jumps based on things I've done instead of things that the error
+jump needs to do, so you could call them "err_enabled_vcc33" and
+"err_asserted_reset"...
 
-  const_structs.checkpatch: add lcd_ops (2024-05-03 10:45:55 +0100)
+I don't feel that strongly about it, though, so if you love the label
+you have then no need to change it.
 
-----------------------------------------------------------------
-Immutable branch between Backlight, HID and fbdev due for the v6.10 merge window
 
-----------------------------------------------------------------
-Krzysztof Kozlowski (19):
-      backlight: lcd: Constify lcd_ops
-      backlight: ams369fg06: Constify lcd_ops
-      backlight: corgi_lcd: Constify lcd_ops
-      backlight: hx8357: Constify lcd_ops
-      backlight: ili922x: Constify lcd_ops
-      backlight: ili9320: Constify lcd_ops
-      backlight: jornada720_lcd: Constify lcd_ops
-      backlight: l4f00242t03: Constify lcd_ops
-      backlight: lms283gf05: Constify lcd_ops
-      backlight: lms501kf03: Constify lcd_ops
-      backlight: ltv350qv: Constify lcd_ops
-      backlight: otm3225a: Constify lcd_ops
-      backlight: platform_lcd: Constify lcd_ops
-      backlight: tdo24m: Constify lcd_ops
-      HID: picoLCD: Constify lcd_ops
-      fbdev: clps711x: Constify lcd_ops
-      fbdev: imx: Constify lcd_ops
-      fbdev: omap: lcd_ams_delta: Constify lcd_ops
-      const_structs.checkpatch: add lcd_ops
+> @@ -67,7 +77,14 @@ static void elan_i2c_hid_power_down(struct i2chid_ops =
+*ops)
+>         struct i2c_hid_of_elan *ihid_elan =3D
+>                 container_of(ops, struct i2c_hid_of_elan, ops);
+>
+> -       gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
+> +       /*
+> +        * Do not assert reset when the hardware allows for it to remain
+> +        * deasserted regardless of the state of the (shared) power suppl=
+y to
+> +        * avoid wasting power when the supply is left on.
+> +        */
+> +       if (!ihid_elan->no_reset_on_power_off)
+> +               gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
+> +
+>         if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
+>                 msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms=
+);
 
- drivers/hid/hid-picolcd_lcd.c            | 2 +-
- drivers/video/backlight/ams369fg06.c     | 2 +-
- drivers/video/backlight/corgi_lcd.c      | 2 +-
- drivers/video/backlight/hx8357.c         | 2 +-
- drivers/video/backlight/ili922x.c        | 2 +-
- drivers/video/backlight/ili9320.c        | 2 +-
- drivers/video/backlight/jornada720_lcd.c | 2 +-
- drivers/video/backlight/l4f00242t03.c    | 2 +-
- drivers/video/backlight/lcd.c            | 4 ++--
- drivers/video/backlight/lms283gf05.c     | 2 +-
- drivers/video/backlight/lms501kf03.c     | 2 +-
- drivers/video/backlight/ltv350qv.c       | 2 +-
- drivers/video/backlight/otm3225a.c       | 2 +-
- drivers/video/backlight/platform_lcd.c   | 2 +-
- drivers/video/backlight/tdo24m.c         | 2 +-
- drivers/video/fbdev/clps711x-fb.c        | 2 +-
- drivers/video/fbdev/imxfb.c              | 2 +-
- drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
- include/linux/lcd.h                      | 6 +++---
- scripts/const_structs.checkpatch         | 1 +
- 20 files changed, 23 insertions(+), 22 deletions(-)
+Shouldn't  the above two lines be inside the "if
+(!ihid_elan->no_reset_on_power_off)" test? If you're not setting the
+reset GPIO then you don't need to do the delay, right?
 
--- 
-Lee Jones [李琼斯]
+
+> @@ -79,6 +96,7 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *=
+ops)
+>  static int i2c_hid_of_elan_probe(struct i2c_client *client)
+>  {
+>         struct i2c_hid_of_elan *ihid_elan;
+> +       int ret;
+>
+>         ihid_elan =3D devm_kzalloc(&client->dev, sizeof(*ihid_elan), GFP_=
+KERNEL);
+>         if (!ihid_elan)
+> @@ -93,21 +111,38 @@ static int i2c_hid_of_elan_probe(struct i2c_client *=
+client)
+>         if (IS_ERR(ihid_elan->reset_gpio))
+>                 return PTR_ERR(ihid_elan->reset_gpio);
+>
+> +       ihid_elan->no_reset_on_power_off =3D of_property_read_bool(client=
+->dev.of_node,
+> +                                               "no-reset-on-power-off");
+
+Personally, I'd rather you query for the property before you request
+the GPIO and then request the GPIO in the "powered off" state just to
+keep everything in the most consistent state possible.
+
+
+-Doug
 
