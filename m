@@ -1,147 +1,260 @@
-Return-Path: <linux-input+bounces-3672-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3673-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BD48C2DAA
-	for <lists+linux-input@lfdr.de>; Sat, 11 May 2024 01:43:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DBA8C3034
+	for <lists+linux-input@lfdr.de>; Sat, 11 May 2024 10:15:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 057081F212AF
-	for <lists+linux-input@lfdr.de>; Fri, 10 May 2024 23:43:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7D9F1C21441
+	for <lists+linux-input@lfdr.de>; Sat, 11 May 2024 08:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEBFB4F1F2;
-	Fri, 10 May 2024 23:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7995229CF7;
+	Sat, 11 May 2024 08:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=joshua-dickens-com.20230601.gappssmtp.com header.i=@joshua-dickens-com.20230601.gappssmtp.com header.b="ExfGNFv5"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="qrzd/Q6C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB3918EA1
-	for <linux-input@vger.kernel.org>; Fri, 10 May 2024 23:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F233CF65;
+	Sat, 11 May 2024 08:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715384616; cv=none; b=H9oT7HNDx7VnNPILr2TuZsRafdlyJg8+QlL/wt9fOKzQT8mu2Dv31abbN+VXFJCH8NTmoPKB7AnvEOhpaJM1vV4RWRCGLEiKioOsJ6ZCYCpoRyokfW3vaXBbtPEJPyKeaa5p+LeyueAgVcH902Bw9WiVFO9kpanLq4XXtBaqbnM=
+	t=1715415330; cv=none; b=nWCHj8s+Y+a/kf7nNv+dOVxCPdk86bhLNkUgvfkS0bL3cFTkILUr0HlE1Z4w7WNs6cheTD3d7jOssY+VOJ6ba6Q8rpUJeO8wkvg0GBZhLQ2iTRvz5ktCNgAWLcV4+24Cx1Gm9HGFZbctrbPyrx/k9jI0rULtuPngIR6Z+WhJw+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715384616; c=relaxed/simple;
-	bh=/tpdzZfc7PfSXuzlIcKQEJNpziCkuy7gOGAd7RDm1JE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tprgln06lxiDWEWRMpSXyduqymszgvdOWgnbmDhRuQEuF1B5h7T1cm4H7UXw++7gSEBc98gpbooOPCTGaTdcrwzLCE6VoZbvmR221qJB0pclMMQu9NYRB3GfN7sZjcnlbJuntyfqvF3Y8Sd6YZyBliBahTgwnsGSUbdwHfYsuo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshua-dickens.com; spf=none smtp.mailfrom=joshua-dickens.com; dkim=pass (2048-bit key) header.d=joshua-dickens-com.20230601.gappssmtp.com header.i=@joshua-dickens-com.20230601.gappssmtp.com header.b=ExfGNFv5; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshua-dickens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=joshua-dickens.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f44dc475f4so2190100b3a.2
-        for <linux-input@vger.kernel.org>; Fri, 10 May 2024 16:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joshua-dickens-com.20230601.gappssmtp.com; s=20230601; t=1715384614; x=1715989414; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=trGdlosVOWlGVjSJUZ+mMquAep7OtT9u/9p8UqDc47Q=;
-        b=ExfGNFv5/0oPGUvG/hb46WVWt0EBRo+pFLW7yFNbdwtRd8ohwaGU5ur6i0sCgA5m+K
-         LIVjpSZrqwTLK4Tmh2CKCsl0SCXZt8fF43P0tivb2qFS2g2hskcHU1diKOZzxY1JaLWp
-         vTo34xSrVYutIKAebxbHC3G8/MOtcvsXmItJn15KK9KfTR5oEcLmrVMK6GOXt/i6KQTZ
-         Vln1TECNk2YTk7E5SkcexkZ4VFQT4szO6Rsd0F65dPVluIN4jT4cbiYuQvvtWHMdMHSH
-         jkg8sYbY2pYSy+5YzPAzeFahK+2XJQ8emNn+MkHIUG0IcqKLQU6FJxeSBZXkgcsP8/OC
-         PPGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715384614; x=1715989414;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=trGdlosVOWlGVjSJUZ+mMquAep7OtT9u/9p8UqDc47Q=;
-        b=L2sLC1Otfv2LykrNW2xLdkc6X/ijYVaEPFYNMIbiT+akwX4eaZkbQXC7xIyTTwBvK/
-         c/gShuoDUP60L/ij+S291FQAR++F+OI1s030ivPkVNiBaVfW5TE8IxD1ELVEmGn1hkZE
-         6t7Nikcu5MEJaALrIM0vMr5v367jGFWNJhT/l6ibIUIUpxnoHWgNGfpUvJ4WUvMN3Aur
-         BfLd4/MBJM/wvX0PTV7+iFl7QGZRquhBk8100apvSVfEvPka4pOf0arP9qMO6RwiYSBC
-         MbNG73sCsPb7q98olRWkvhp2pbEGVge6u9DZtPANqQXmQ4H0RfOIbL4cIHY4O8T4V1FZ
-         A3Ow==
-X-Gm-Message-State: AOJu0YxHjKmUN6Atrbp3U9HUiJpkR0EnIkFBWB1glXJUkuyEc9ZESFg9
-	qTllBcvujlU0twFiicubBEw0mO/8KGGBNOB2qi2yaw/My/Pxt6ERWZdeuGX8qzejQRRsIpX4rH6
-	J9GU=
-X-Google-Smtp-Source: AGHT+IGFiWS2j3N1/pGzien1koQe0imcGMuEDntAHWQGeqLsGf7rdmS3cLksCzXSBGIQV0XpAjqwqQ==
-X-Received: by 2002:a05:6a00:1407:b0:6ec:fdfe:9bea with SMTP id d2e1a72fcca58-6f4e0347e16mr4347297b3a.26.1715384613819;
-        Fri, 10 May 2024 16:43:33 -0700 (PDT)
-Received: from fedora.. ([50.46.160.143])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2ade2b3sm3450860b3a.115.2024.05.10.16.43.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 16:43:33 -0700 (PDT)
-From: joshua@joshua-dickens.com
-X-Google-Original-From: Joshua@Joshua-Dickens.com
-To: linux-input@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Ping Cheng <pinglinux@gmail.com>,
-	Aaron Armstrong Skomra <skomra@gmail.com>,
-	Jason Gerecke <killertofu@gmail.com>,
-	Joshua Dickens <Joshua@Joshua-Dickens.com>,
-	Joshua Dickens <joshua.dickens@wacom.com>
-Subject: [PATCH] Input: wacom_w8001: Check for string overflow from strscpy calls
-Date: Fri, 10 May 2024 16:43:32 -0700
-Message-ID: <20240510234332.139038-1-Joshua@Joshua-Dickens.com>
-X-Mailer: git-send-email 2.45.0
+	s=arc-20240116; t=1715415330; c=relaxed/simple;
+	bh=jUCqp7mbe1MgeyRsxbECoRThdo43Iu1WuFBlIsZaXMk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YLjE89dgSHeO3uaC/LxNxvJs+tqwO/89LF23OEvzfrrR0yIgDQqTX6O2y9ea1QmyHZoT6c4sxoYserkpkkfOgmD/ktUJDRD5VcXPJ3i+AwQnZXhLSezVf3LM21PyYJjmvxIJTweBzC/XAR6GbSUlXU3Sk890jctLNcoVFAGqjP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=qrzd/Q6C; arc=none smtp.client-ip=213.160.72.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
+	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=JcD1RWz5//JWV1w0Jl43QQMXM9Jjam+DZ+mIDPZQTFw=; b=qrzd/Q6C+yjvVfmaP8CM53oHBP
+	yt1nUxTRAPrNE6qINHezlr0FAZWe/fEGCkhHp3m+chFZIIeuuwnK46rt23xOdkzhcE/EVnpBfzCqv
+	sMTQioQcQm3iEGsOL+r1coQ6zh7oMq8YOe8tdTFX/ZMM2DrFJjOis/k0ZpzSoNh3XvoU=;
+Received: from 127.0.0.1
+	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim latest)
+	(envelope-from <christoph.fritz@hexdev.de>)
+	id 1s5hsY-001mUp-12;
+	Sat, 11 May 2024 10:14:51 +0200
+Message-ID: <8738628a5c1b87c6521fdd8d05a3b36e5c32b48a.camel@hexdev.de>
+Subject: Re: [PATCH v4 02/11] HID: hexLIN: Add support for USB LIN adapter
+From: Christoph Fritz <christoph.fritz@hexdev.de>
+Reply-To: christoph.fritz@hexdev.de
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Simon Horman <horms@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Marc Kleine-Budde
+ <mkl@pengutronix.de>, Oliver Hartkopp <socketcan@hartkopp.net>, Vincent
+ Mailhol <mailhol.vincent@wanadoo.fr>,  "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <bentiss@kernel.org>, Sebastian Reichel <sre@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Andreas Lauser
+ <andreas.lauser@mercedes-benz.com>, Jonathan Corbet <corbet@lwn.net>, Pavel
+ Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org, Netdev
+ <netdev@vger.kernel.org>,  devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-serial <linux-serial@vger.kernel.org>
+Date: Sat, 11 May 2024 10:14:46 +0200
+In-Reply-To: <4bf1a5e9-904c-584e-72df-71abc3f99bd2@linux.intel.com>
+References: <20240509171736.2048414-1-christoph.fritz@hexdev.de>
+	 <20240509171736.2048414-3-christoph.fritz@hexdev.de>
+	 <4bf1a5e9-904c-584e-72df-71abc3f99bd2@linux.intel.com>
+Organization: hexDEV GmbH
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Joshua Dickens <Joshua@Joshua-Dickens.com>
+...
+> > diff --git a/drivers/hid/hid-hexdev-hexlin.c b/drivers/hid/hid-hexdev-hexlin.c
+> > new file mode 100644
+> > index 0000000000000..a9ed080b3e33e
+> > --- /dev/null
+> > +++ b/drivers/hid/hid-hexdev-hexlin.c
+> > 
+...
+> 
+> > +}
+> > +
+> > +#define HEXLIN_GET_CMD(name, enum_cmd)					\
+> > +	static int hexlin_##name(struct hexlin_priv_data *p)		\
+> > +	{								\
+> > +		u8 *req;						\
+> > +		int ret;						\
+> > +									\
+> > +		req = kmalloc(sizeof(*req), GFP_KERNEL)	;		\
+> 
+> Extra space.
+> 
+> Use:
+> 
+> u8 *req __free(kfree) = kmalloc(sizeof(*req), GFP_KERNEL);
+> 
+> > +		if (!req)						\
+> > +			return -ENOMEM;					\
+> > +									\
+> > +		*req = enum_cmd;					\
+> > +									\
+> > +		ret = hexlin_tx_req_status(p, req, sizeof(*req));	\
+> > +		if (ret)						\
+> > +			hid_err(p->hid_dev, "%s failed, error: %d\n",	\
+> > +				#name, ret);				\
+> > +									\
+> > +		kfree(req);						\
+> 
+> Not needed after using __free().
+> 
+> > +		return ret;						\
+> > +	}
+> > +
+> > +HEXLIN_GET_CMD(get_version, HEXLIN_GET_VERSION)
+> > +HEXLIN_GET_CMD(reset_dev, HEXLIN_RESET)
+> > +HEXLIN_GET_CMD(get_baudrate, HEXLIN_GET_BAUDRATE)
+> 
+> Could you convert the function in the macro into a helper function which 
+> is just called by a simple function with the relevant parameters for 
+> these 3 cases?
 
-The strscpy function is able to return an error code when a copy would
-overflow the size of the destination. The copy is stopped and the buffer
-terminated before overflow actually occurs so it is safe to continue
-execution, but we should still produce a warning should this occur.
+The device actually has a lot more features that I'm using in my debug
+version and which might end up here in the future. So I would like to
+keep it. Any objections?
 
-Signed-off-by: Joshua Dickens <joshua.dickens@wacom.com>
----
- drivers/input/touchscreen/wacom_w8001.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+...
+> > +
+> > +static int hexlin_set_baudrate(struct hexlin_priv_data *priv, u16 baudrate)
+> > +{
+> > +	struct hexlin_baudrate_req *req;
+> > +	int ret;
+> > +
+> > +	if (baudrate < LIN_MIN_BAUDRATE || baudrate > LIN_MAX_BAUDRATE)
+> > +		return -EINVAL;
+> > +
+> > +	req = kmalloc(sizeof(*req), GFP_KERNEL);
+> 
+> Hmm... Why do you alloc this small structure (3 bytes?) with kmalloc() and 
+> not just have it in stack as a local variable?
 
-diff --git a/drivers/input/touchscreen/wacom_w8001.c b/drivers/input/touchscreen/wacom_w8001.c
-index 928c5ee3ac36..b8acf196a09a 100644
---- a/drivers/input/touchscreen/wacom_w8001.c
-+++ b/drivers/input/touchscreen/wacom_w8001.c
-@@ -625,7 +625,10 @@ static int w8001_connect(struct serio *serio, struct serio_driver *drv)
- 	/* For backwards-compatibility we compose the basename based on
- 	 * capabilities and then just append the tool type
- 	 */
--	strscpy(basename, "Wacom Serial", sizeof(basename));
-+	if (strscpy(basename, "Wacom Serial", sizeof(basename)) < 0) {
-+		dev_warn(&w8001->pen_dev->dev,
-+			"String overflow while assembling basename");
-+	}
- 
- 	err_pen = w8001_setup_pen(w8001, basename, sizeof(basename));
- 	err_touch = w8001_setup_touch(w8001, basename, sizeof(basename));
-@@ -635,7 +638,11 @@ static int w8001_connect(struct serio *serio, struct serio_driver *drv)
- 	}
- 
- 	if (!err_pen) {
--		strscpy(w8001->pen_name, basename, sizeof(w8001->pen_name));
-+		if (strscpy(w8001->pen_name, basename,
-+			sizeof(w8001->pen_name)) < 0) {
-+			dev_warn(&w8001->pen_dev->dev,
-+				"String overflow while assembling pen_name");
-+		}
- 		strlcat(w8001->pen_name, " Pen", sizeof(w8001->pen_name));
- 		input_dev_pen->name = w8001->pen_name;
- 
-@@ -651,7 +658,11 @@ static int w8001_connect(struct serio *serio, struct serio_driver *drv)
- 	}
- 
- 	if (!err_touch) {
--		strscpy(w8001->touch_name, basename, sizeof(w8001->touch_name));
-+		if (strscpy(w8001->touch_name, basename,
-+			sizeof(w8001->touch_name)) < 0) {
-+			dev_warn(&w8001->touch_dev->dev,
-+				"String overflow while assembling touch_name");
-+		}
- 		strlcat(w8001->touch_name, " Finger",
- 			sizeof(w8001->touch_name));
- 		input_dev_touch->name = w8001->touch_name;
--- 
-2.45.0
+
+This buffer must be suitable for DMA (see docu for struct urb).
+
+So with a stack variable we would need to use kmemdup() before the
+actual sending call, but that's what you did not like since v3 so I
+changed it to this which now you also don't like.
+
+Let's dial it back to the original kmemdup() usage, ok?
+
+...
+> > +static int hexlin_queue_frames_insert(struct hexlin_priv_data *priv,
+> > +				      const struct hexlin_frame *hxf)
+> > +{
+> > +	struct hid_device *hdev = priv->hid_dev;
+> > +	struct lin_frame lf;
+> > +
+> > +	lf.len = hxf->len;
+> > +	lf.lin_id = hxf->lin_id;
+> > +	memcpy(lf.data, hxf->data, LIN_MAX_DLEN);
+> > +	lf.checksum = hxf->checksum;
+> > +	lf.checksum_mode = hxf->checksum_mode;
+> > +
+> > +	hid_dbg(hdev, "id:%02x, len:%u, data:%*ph, chk:%02x (%s), flg:%08x\n",
+> > +		lf.lin_id, lf.len, lf.len, lf.data, lf.checksum,
+> > +		lf.checksum_mode ? "enhanced" : "classic", hxf->flags);
+> > +
+> > +	lin_rx(priv->ldev, &lf);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int hexlin_raw_event(struct hid_device *hdev,
+> > +			    struct hid_report *report, u8 *data, int sz)
+> > +{
+> > +	struct hexlin_priv_data *priv;
+> > +	struct hexlin_baudrate_req *br;
+> > +	struct hexlin_responder_answer_req *rar;
+> > +	struct hexlin_unconditional_req *hfr;
+> > +	struct hexlin_val8_req *vr;
+> > +
+> > +	if (sz < 1 || sz > HEXLIN_PKGLEN_MAX)
+> > +		return -EREMOTEIO;
+> > +
+> > +	priv = hid_get_drvdata(hdev);
+> > +
+> > +	hid_dbg(hdev, "%s, size:%i, data[0]: 0x%02x\n", __func__, sz, data[0]);
+> > +
+> > +	priv->is_error = false;
+> > +
+> > +	switch (data[0]) {
+> > +	case HEXLIN_SUCCESS:
+> > +		if (sz != HEXLIN_LEN_RETCODE)
+> > +			return -EREMOTEIO;
+> > +		hid_dbg(hdev, "HEXLIN_SUCCESS: 0x%02x\n", data[0]);
+> > +		complete(&priv->wait_in_report);
+> > +		break;
+> > +	case HEXLIN_FAIL:
+> > +		if (sz != HEXLIN_LEN_RETCODE)
+> > +			return -EREMOTEIO;
+> > +		hid_err(hdev, "HEXLIN_FAIL: 0x%02x\n", data[0]);
+> > +		priv->is_error = true;
+> > +		complete(&priv->wait_in_report);
+> > +		break;
+> > +	case HEXLIN_GET_VERSION:
+> > +		if (sz != sizeof(*vr))
+> > +			return -EREMOTEIO;
+> > +		vr = (struct hexlin_val8_req *) data;
+> > +		priv->fw_version = vr->v;
+> > +		complete(&priv->wait_in_report);
+> > +		break;
+> > +	case HEXLIN_GET_RESPONDER_ANSWER_ID:
+> > +		if (sz != sizeof(*rar))
+> > +			return -EREMOTEIO;
+> > +		rar = (struct hexlin_responder_answer_req *) data;
+> > +		memcpy(&priv->answ, &rar->answ, sizeof(priv->answ));
+> > +		complete(&priv->wait_in_report);
+> > +		break;
+> > +	case HEXLIN_GET_BAUDRATE:
+> > +		if (sz != sizeof(*br))
+> > +			return -EREMOTEIO;
+> > +		br = (struct hexlin_baudrate_req *) data;
+> > +		le16_to_cpus(br->baudrate);
+> > +		priv->baudrate = br->baudrate;
+> > +		complete(&priv->wait_in_report);
+> > +		break;
+> > +	/* following cases not initiated by us, so no complete() */
+> > +	case HEXLIN_FRAME:
+> > +		if (sz != sizeof(*hfr)) {
+> > +			hid_err_once(hdev, "frame size mismatch: %i\n", sz);
+> > +			return -EREMOTEIO;
+> > +		}
+> > +		hfr = (struct hexlin_unconditional_req *) data;
+> > +		le32_to_cpus(hfr->frm.flags);
+> 
+> I'm bit worried about this from endianness perspective. Perhaps there's 
+> some struct reusing that shouldn't be happening because the same field 
+> cannot be __le32 and u32 at the same time.
+
+Can you propose a solution?
+
+> 
+...
+
+thanks
+  -- Christoph
+
 
 
