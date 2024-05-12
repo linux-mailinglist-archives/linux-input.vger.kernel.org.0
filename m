@@ -1,100 +1,116 @@
-Return-Path: <linux-input+bounces-3685-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3686-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7174A8C35E4
-	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 11:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0F88C364F
+	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 14:05:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CCD82815FC
-	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 09:59:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FF64281620
+	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 12:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C73041C69D;
-	Sun, 12 May 2024 09:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50152208D0;
+	Sun, 12 May 2024 12:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="XWh1fYaN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ucv4hU31"
 X-Original-To: linux-input@vger.kernel.org
-Received: from msa.smtpout.orange.fr (smtp-71.smtpout.orange.fr [80.12.242.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769B21C2AD;
-	Sun, 12 May 2024 09:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9EAF9F7;
+	Sun, 12 May 2024 12:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715507973; cv=none; b=I3zJUiZUWl8Ds3jAevzR4IkDbZteNAprT2cIosvxhFK4mlUmGKboWBGQD14zt/QhV7OdYHoH2M+QPby4q5ZhHy1k6QatudSenhX5Ys6L8TLDs/ida+8zws5VYW16Qv7lWhA4nbTr8BiqrGDI74Ji17rwFpNOgBzNg8I57Dfvk3s=
+	t=1715515495; cv=none; b=kbsSgVACrhaL2/Ci32IPWEY8FHM15JS7TxIO2BZl5JyMRhb1jIQLOCR2+K+3GhhGZsP+SHvYbSf51/XUJeHyOfz5i+4BdVMj30zwDhSVhAIRlUhMm+k79ZoUjblu8Z4h1XG2LytVNpGE0L3kfGdws0bYy9VJ07zOc2w8FrL/4GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715507973; c=relaxed/simple;
-	bh=8FO2pFl3lkJJbZeEoxEUP35Je1WWVwtKCL9O+iPwV/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ewYyYCTpMOfz9Oyv96yVRqt1u53rQhJZng/G1La1pXDe46FRT4QX/+7qs/bxg5UHGZxrfuzlyXoUeYvK+Nw44ZXG4+RWZLghvGDyX4kiOXTo9XEPULgBStG03+DfRrrmAkdHQVNZ8jsVoKs0u2lTxLMAe49LvBCCrvqga63VKpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=XWh1fYaN; arc=none smtp.client-ip=80.12.242.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from localhost.localdomain ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id 65y5sl8nbps3t65y5sKfZD; Sun, 12 May 2024 11:58:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1715507890;
-	bh=QeVJXEiY1Oon2HgNphnIfoNk7xFyqVbQ0qMzYFx+tac=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=XWh1fYaNBjRRqIrGr7bVdGScLFrdVssVwtuJUPA8N+VXm6Uhf5TZDSFaNEAi3sC7h
-	 EcjjYCoFZQjARhO6GBZuAmGTwOnOzOf/iDnBF7AEHsX7lH1nIRZgkSYxTN/RznqepJ
-	 Zs0v0G1NW6fJ/2HtM6ff9kzlN4rSNW1ZLN6cfYXKtohF/v80kh3oXmY+lLE9oUTvmf
-	 HpYsAxBEpTW5tMvHIXcFMoZF7Bgi3+pIxMROex8LqcrsBTTRzHzn27cKOB8PyXaq9w
-	 KauHc2Fe0MoGt4SH9H9feM8OngtyDF7GFxNPccTCfLLvzYrbMU4jwBn9y6liuFlrsM
-	 PFHpcNLoG/IdQ==
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 12 May 2024 11:58:10 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-input@vger.kernel.org
-Subject: [PATCH] Input: zet6223 - remove an unused field in struct zet6223_ts
-Date: Sun, 12 May 2024 11:58:00 +0200
-Message-ID: <3065d885341e2730dd3e7905d75514796a8c25e4.1715507858.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.0
+	s=arc-20240116; t=1715515495; c=relaxed/simple;
+	bh=KJmHfyH6mlZJ/m0XwcieNIyf8Qx2hjId1Vn0YiHi4tY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V6Oy+FgXJJyhGdo3BSY1/tf3v/GPgR85foeHB4TRzXHkKAjj/byNcQg5NIqHLUh4mklEhsh9xMTxw5FdcxlscjYNGJeUjhlxLUZY3N2GpOeXlcfa/Q9LPG3TbOPOAwA68KMSQT0v4QOZDOY7e9P9FlT1PZc5cs30uUoaUKg/N30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ucv4hU31; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B179FC116B1;
+	Sun, 12 May 2024 12:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715515494;
+	bh=KJmHfyH6mlZJ/m0XwcieNIyf8Qx2hjId1Vn0YiHi4tY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ucv4hU319txPNUxw3tX8uYnMFOXqZ634eGAw6UzW3URMD2nFzveUY+gxIkPSkUuxd
+	 pT+BfLdAIokszleGFrDGkUTPfvUpGz24sn7I7MkHqY1T/l1dTAkinPJQHVsZuwX3hL
+	 1rF1pA7wEaCNJAoNjbkr9zTQ7azPjdJqpQTGyj1MCYHoOm4WQ2LxQLOJDeN6UHSuSe
+	 HPZbdEH0t73ZN62oYeZ8k1+eIcaTFMXyow1ArJ8C0IuL8JhsQdLGY/pNy/UA447cFa
+	 G56lWHkrpyg3wiJsUa4F2+ixU6hN5hUPm/DTWyzRX4ZrQke4KvZZvYfUjWU8yCZuZQ
+	 kv5umxncG0TrA==
+Date: Sun, 12 May 2024 13:04:50 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Felix Kaechele <felix@kaechele.ca>
+Cc: Job Noorman <job@noorman.info>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: input: touchscreen: himax,hx83112b:
+ add HX83100A
+Message-ID: <20240512-trailing-wad-0b9553d03d30@spud>
+References: <20240511121245.109644-1-felix@kaechele.ca>
+ <20240511121245.109644-2-felix@kaechele.ca>
+ <20240511-passage-obstruct-70e4c3b37dbd@spud>
+ <dab1dddd-57ae-445e-bce7-879e8d73d809@kaechele.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1Zr+TJl8NhKVw3HF"
+Content-Disposition: inline
+In-Reply-To: <dab1dddd-57ae-445e-bce7-879e8d73d809@kaechele.ca>
 
-In "struct zet6223_ts", the 'vcc' and 'vio' fields are unused.
 
-So, remove them.
+--1Zr+TJl8NhKVw3HF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Found with cppcheck, unusedStructMember.
+On Sat, May 11, 2024 at 10:10:08AM -0400, Felix Kaechele wrote:
+> On 2024-05-11 08:38, Conor Dooley wrote:
+> > On Sat, May 11, 2024 at 08:12:22AM -0400, Felix Kaechele wrote:
+> > > Add a compatible string for the Himax HX83100A touch controller.
+> > >=20
+> > > Signed-off-by: Felix Kaechele <felix@kaechele.ca>
+> >=20
+> > Commit message should mention what makes this device incompatible with
+> > the existing device.
+>=20
+> Thanks!
+>=20
+> I have added this note in the commit message which will be part of a v3,
+> coming after I hopefully receive a few more comments on the other parts of
+> this change:
+>=20
+> The HX83100A presents touch events on its internal bus rather than offeri=
+ng
+> a dedicated event register like the other chips in this family do.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
+Ye, that sounds good. W/ that,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-It was added in the initial commit 83f66a6f08fa ("Input: add driver for
-Zeitec ZET6223") but was never used.
----
- drivers/input/touchscreen/zet6223.c | 2 --
- 1 file changed, 2 deletions(-)
+Cheers,
+Conor.
 
-diff --git a/drivers/input/touchscreen/zet6223.c b/drivers/input/touchscreen/zet6223.c
-index 1a034471f103..ec3fca4a48c0 100644
---- a/drivers/input/touchscreen/zet6223.c
-+++ b/drivers/input/touchscreen/zet6223.c
-@@ -25,8 +25,6 @@
- struct zet6223_ts {
- 	struct i2c_client *client;
- 	struct input_dev *input;
--	struct regulator *vcc;
--	struct regulator *vio;
- 	struct touchscreen_properties prop;
- 	struct regulator_bulk_data supplies[2];
- 	u16 max_x;
--- 
-2.45.0
 
+--1Zr+TJl8NhKVw3HF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkCwYgAKCRB4tDGHoIJi
+0ukQAP4tdPpHCiS+aYv9tr4OD64LFywGL9bFq4elfXmGBza0bgD/fr8b5baNVflq
+Fj62Y4D36caKcEeKcT6HFxA4nTFrRQ8=
+=WlBl
+-----END PGP SIGNATURE-----
+
+--1Zr+TJl8NhKVw3HF--
 
