@@ -1,116 +1,118 @@
-Return-Path: <linux-input+bounces-3686-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3687-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0F88C364F
-	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 14:05:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6038C3698
+	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 15:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FF64281620
-	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 12:05:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C0681F21CAB
+	for <lists+linux-input@lfdr.de>; Sun, 12 May 2024 13:08:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50152208D0;
-	Sun, 12 May 2024 12:04:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FCF2230F;
+	Sun, 12 May 2024 13:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ucv4hU31"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b="RVaywzD1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fritzc.com (mail.fritzc.com [213.160.72.247])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9EAF9F7;
-	Sun, 12 May 2024 12:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5200E12E75;
+	Sun, 12 May 2024 13:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.72.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715515495; cv=none; b=kbsSgVACrhaL2/Ci32IPWEY8FHM15JS7TxIO2BZl5JyMRhb1jIQLOCR2+K+3GhhGZsP+SHvYbSf51/XUJeHyOfz5i+4BdVMj30zwDhSVhAIRlUhMm+k79ZoUjblu8Z4h1XG2LytVNpGE0L3kfGdws0bYy9VJ07zOc2w8FrL/4GE=
+	t=1715519329; cv=none; b=mn+6tuEadr4grLaCBaB9JFVVhHN2sBVwqWJGpM+Dksa4XMAOuYhy5a8BbIiDjjAHcWlc9DGQYB7npiKz6NjfljLXcsUWDex8L5KGP3BOT9EOZbEPmsKb3B1h0XGwt2EUOFVTPGMJ0cKhb9eBWQ8CE5swslGMR1hn4fNFNI2+16o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715515495; c=relaxed/simple;
-	bh=KJmHfyH6mlZJ/m0XwcieNIyf8Qx2hjId1Vn0YiHi4tY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V6Oy+FgXJJyhGdo3BSY1/tf3v/GPgR85foeHB4TRzXHkKAjj/byNcQg5NIqHLUh4mklEhsh9xMTxw5FdcxlscjYNGJeUjhlxLUZY3N2GpOeXlcfa/Q9LPG3TbOPOAwA68KMSQT0v4QOZDOY7e9P9FlT1PZc5cs30uUoaUKg/N30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ucv4hU31; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B179FC116B1;
-	Sun, 12 May 2024 12:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715515494;
-	bh=KJmHfyH6mlZJ/m0XwcieNIyf8Qx2hjId1Vn0YiHi4tY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ucv4hU319txPNUxw3tX8uYnMFOXqZ634eGAw6UzW3URMD2nFzveUY+gxIkPSkUuxd
-	 pT+BfLdAIokszleGFrDGkUTPfvUpGz24sn7I7MkHqY1T/l1dTAkinPJQHVsZuwX3hL
-	 1rF1pA7wEaCNJAoNjbkr9zTQ7azPjdJqpQTGyj1MCYHoOm4WQ2LxQLOJDeN6UHSuSe
-	 HPZbdEH0t73ZN62oYeZ8k1+eIcaTFMXyow1ArJ8C0IuL8JhsQdLGY/pNy/UA447cFa
-	 G56lWHkrpyg3wiJsUa4F2+ixU6hN5hUPm/DTWyzRX4ZrQke4KvZZvYfUjWU8yCZuZQ
-	 kv5umxncG0TrA==
-Date: Sun, 12 May 2024 13:04:50 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Felix Kaechele <felix@kaechele.ca>
-Cc: Job Noorman <job@noorman.info>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: input: touchscreen: himax,hx83112b:
- add HX83100A
-Message-ID: <20240512-trailing-wad-0b9553d03d30@spud>
-References: <20240511121245.109644-1-felix@kaechele.ca>
- <20240511121245.109644-2-felix@kaechele.ca>
- <20240511-passage-obstruct-70e4c3b37dbd@spud>
- <dab1dddd-57ae-445e-bce7-879e8d73d809@kaechele.ca>
+	s=arc-20240116; t=1715519329; c=relaxed/simple;
+	bh=4dtMV0+T4itEZ3njDueGsSSCXg2qaZAkJUDSJVtpRuM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bGonAyGT9bkKFqpIq6DHnfCss+gJR06a1mImaAwfIB2nXKLzTSJdWl9A6IyH2zrz1nDi7orLcpkm8VrndqvWLf3Aa7iSKAIhVHymgojWPr9zIvNmVSmz+IxLsWEstMQgUI+R3tGov1YDOYKMMYQGQ6vh9zDcZmfBDkylCHHKNFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de; spf=pass smtp.mailfrom=hexdev.de; dkim=pass (1024-bit key) header.d=fritzc.com header.i=@fritzc.com header.b=RVaywzD1; arc=none smtp.client-ip=213.160.72.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hexdev.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hexdev.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fritzc.com;
+	s=dkim; h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=/RDTDK04LS9aHKEZT1A3pPZvNdlGdHaOcAg8MrbVz+Q=; b=RVaywzD1qiDcNS0derDvlImqod
+	J3qrmVjaO1x0b16KkAV/CmFAdc99Al8n95tuzFqQk8ssvD6OyJJ6n+9FFjFudPv8BrYU0ZaaBLVQ+
+	vW5LtCThUmLUoSxZy53eDqTuSNY0j5ZvYLejDciQy+awCZzP7k/k+bPSd8CNaMw5tWlM=;
+Received: from 127.0.0.1
+	by fritzc.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim latest)
+	(envelope-from <christoph.fritz@hexdev.de>)
+	id 1s68w0-001uX7-29;
+	Sun, 12 May 2024 15:08:13 +0200
+Message-ID: <3070ec70b2477560f205cc4c34dd84b320831365.camel@hexdev.de>
+Subject: Re: [PATCH v4 04/11] tty: serdev: Add method to enable break flags
+From: Christoph Fritz <christoph.fritz@hexdev.de>
+Reply-To: christoph.fritz@hexdev.de
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Simon Horman <horms@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Marc Kleine-Budde
+ <mkl@pengutronix.de>, Oliver Hartkopp <socketcan@hartkopp.net>, Vincent
+ Mailhol <mailhol.vincent@wanadoo.fr>,  "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <bentiss@kernel.org>, Sebastian Reichel <sre@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Andreas Lauser
+ <andreas.lauser@mercedes-benz.com>, Jonathan Corbet <corbet@lwn.net>, Pavel
+ Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org, Netdev
+ <netdev@vger.kernel.org>,  devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-serial <linux-serial@vger.kernel.org>
+Date: Sun, 12 May 2024 15:08:08 +0200
+In-Reply-To: <36b0d460-1d96-89d8-db4a-76d735f7ee6b@linux.intel.com>
+References: <20240509171736.2048414-1-christoph.fritz@hexdev.de>
+	 <20240509171736.2048414-5-christoph.fritz@hexdev.de>
+	 <36b0d460-1d96-89d8-db4a-76d735f7ee6b@linux.intel.com>
+Organization: hexDEV GmbH
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1Zr+TJl8NhKVw3HF"
-Content-Disposition: inline
-In-Reply-To: <dab1dddd-57ae-445e-bce7-879e8d73d809@kaechele.ca>
+Content-Transfer-Encoding: 8bit
+
+On Fri, 2024-05-10 at 17:21 +0300, Ilpo Järvinen wrote:
+> On Thu, 9 May 2024, Christoph Fritz wrote:
+...
+> > diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> > index 613cb356b918d..23a1e76cb553b 100644
+> > --- a/drivers/tty/serdev/core.c
+> > +++ b/drivers/tty/serdev/core.c
+> > @@ -339,6 +339,17 @@ unsigned int serdev_device_set_baudrate(struct serdev_device *serdev, unsigned i
+> >  }
+> >  EXPORT_SYMBOL_GPL(serdev_device_set_baudrate);
+> >  
+> > +void serdev_device_set_break_detection(struct serdev_device *serdev, bool enable)
+> > +{
+> > +	struct serdev_controller *ctrl = serdev->ctrl;
+> > +
+> > +	if (!ctrl || !ctrl->ops->set_break_detection)
+> > +		return;
+> 
+> Why you need to test for !ctrl?
+
+In our case we don't, it's an extra check like all the other functions
+here:
+
+https://elixir.bootlin.com/linux/v6.9-rc7/source/drivers/tty/serdev/core.c#L330
+
+> 
+> > +	ctrl->ops->set_break_detection(ctrl, enable);
+> 
+> I'd use positive logic here:
+> 
+> 	if (ctrl->ops->set_break_detection)
+> 		ctrl->ops->set_break_detection(ctrl, enable);
 
 
---1Zr+TJl8NhKVw3HF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, May 11, 2024 at 10:10:08AM -0400, Felix Kaechele wrote:
-> On 2024-05-11 08:38, Conor Dooley wrote:
-> > On Sat, May 11, 2024 at 08:12:22AM -0400, Felix Kaechele wrote:
-> > > Add a compatible string for the Himax HX83100A touch controller.
-> > >=20
-> > > Signed-off-by: Felix Kaechele <felix@kaechele.ca>
-> >=20
-> > Commit message should mention what makes this device incompatible with
-> > the existing device.
->=20
-> Thanks!
->=20
-> I have added this note in the commit message which will be part of a v3,
-> coming after I hopefully receive a few more comments on the other parts of
-> this change:
->=20
-> The HX83100A presents touch events on its internal bus rather than offeri=
-ng
-> a dedicated event register like the other chips in this family do.
-
-Ye, that sounds good. W/ that,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
-
---1Zr+TJl8NhKVw3HF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkCwYgAKCRB4tDGHoIJi
-0ukQAP4tdPpHCiS+aYv9tr4OD64LFywGL9bFq4elfXmGBza0bgD/fr8b5baNVflq
-Fj62Y4D36caKcEeKcT6HFxA4nTFrRQ8=
-=WlBl
------END PGP SIGNATURE-----
-
---1Zr+TJl8NhKVw3HF--
 
