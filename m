@@ -1,157 +1,131 @@
-Return-Path: <linux-input+bounces-3689-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3690-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875C68C3AF7
-	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 07:26:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EBB8C3E67
+	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 11:53:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BFE12814D9
-	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 05:26:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A5AE283267
+	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 09:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC4914601A;
-	Mon, 13 May 2024 05:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11BC0148853;
+	Mon, 13 May 2024 09:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDH8BtR7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6EF146006;
-	Mon, 13 May 2024 05:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFFA147C91;
+	Mon, 13 May 2024 09:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715577972; cv=none; b=ZvpHvaTywDqs6Fh5Imk89+0k2Aqd2Zr3XyBdgSZps1+WUAF3l2Ycw4WMVh37h+NmOTv9H/K6WjwUJFWvyzsm8zn1S1nEtYcAUVpL32A4qo8tSDmCRP/9WNAQxAKeaexGoORqK9F0o7CtX7TcwqseDaNV8NhzgX/uQGGdiWa5p3E=
+	t=1715594021; cv=none; b=gTXABifL8+mEdgZM1EeGSo92A7no2/mt5IsuCUk7istVFh3J745YEnP2gOmUqNH+o0LwMjZzbbR8oqI1TORg9JeP0IbYA2OUrx873MedZDQXDsoOSolUG7DbsrtqJ7wcA+9b/C7wAFIVC5Mi3nqnLrMJr3XsrHwN0mNUKJ8nBds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715577972; c=relaxed/simple;
-	bh=h/nNwkdROHIhqlfkjh2JQ26tRYtuEy/4mF4v+a+sLKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MkDksrSf3vstHax0CM+Knqmj8/TUCMW2y+WhkqBCrKe+gMs5kLS3iuNkLoBhef5aQH5GuPWn4vqtNuESiii5A9oJfV0GltYgcdQPuWuMPY2ziACvtCorC01WGLbWM7OGbFskC2dvFvpDzvsEQdAIvuAGR5QssNFbxNeu2XiDPmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a59ad344f7dso795005466b.0;
-        Sun, 12 May 2024 22:26:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715577968; x=1716182768;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qHLzZwQi5gHnfmzUd/O46iK9xy6a6Bk4cuL6KxXx1po=;
-        b=tbFq95sSv2sjFw5DklzmRm2LYSC3m7e0+Snj9Upcm3VgDSCNdrO4TlsT+3qbMqWrKE
-         O1D7eipsFKKDFSXru0vSnjoMVVk0QkrOb3TfU04Sz58ymEdcTkwTUGspXJTgd2p9G+tU
-         P8ncl8TFUHpsFU1xDhyaCLTbsHoujXZA3OU5veyDbJb4gBAWVSkwzRCasVNAuRNYNZJt
-         dz+KidcI0ZwB33jXkvsB5cuWEr7GQ+duCNPG0owmyv3E2N4SGn+NwNCetI6iOXPaqvZl
-         cr468ztqNKsE1a52v/QGR1Z4OuF7CAiP/rrAo26VPqBvcLRS3z14q2VgFmE2w87IppcY
-         x9Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCVnYdAox/9nf0Icl6u419fDW83mXBx1Xi1ZRMm3wewBIJd6INnhTGPtOSFirBIt3fAnu4ZJfYSLfNJhXUMfj6o+d+b/iqepFhTn3kgUMZGcXj476JCqlaPR+uYRAOs6G/nmMjVrBw/6yzBLK2ALYUFdQgEhK0wNG7InxAMa5UY3Aa5dsao8O2y2zBqqoISUtVbn9HnA4aQ6s+8+WEjsHoZGucNpNmKO5nfKcN/u6vyA+x3fW62L/Zk/
-X-Gm-Message-State: AOJu0YxxiVffvhoPM6V5Ofn2NJzS+6MdiWp99q9t1AE01lRDAS/xKI+Q
-	M7Q94v+I+xaAl3f4e/2B6dSjjV2K95t9Gsq6hPFhYMLn5rJtsIHlNO8xh/hf
-X-Google-Smtp-Source: AGHT+IEQmj/CsAUX+RnrSsR/oOFTJkE8oGAEEKYrgMbWKGWvf2Q5jg/FggAEQ3LnT71BavYqOh1+AA==
-X-Received: by 2002:a17:906:4a42:b0:a59:ae6e:486f with SMTP id a640c23a62f3a-a5a2d68098fmr526771166b.65.1715577967912;
-        Sun, 12 May 2024 22:26:07 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a179c822fsm541509966b.138.2024.05.12.22.26.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 May 2024 22:26:07 -0700 (PDT)
-Message-ID: <1405110f-5a1b-40d5-b607-72081e5153d3@kernel.org>
-Date: Mon, 13 May 2024 07:26:06 +0200
+	s=arc-20240116; t=1715594021; c=relaxed/simple;
+	bh=pSaP0oKyXtPiLCTwVDsndP7Da0tNxbGDydC7EAOZaOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqzfSCuhqO96ADpsZCr4mobXXZlxtDfbKwDCCc9NAlKWsuoOnAa8TB1dUUWdu6Y9tmgWDpYf3c60dTA1MrpMw2KwetrjEEzp1lgkaTZqosGP9yZ7JHKJ0k2LPIlP8qghP4esWlri+AusACHfFti7N6r67BfrW5tPnyUToTi/FIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDH8BtR7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A134FC113CC;
+	Mon, 13 May 2024 09:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715594020;
+	bh=pSaP0oKyXtPiLCTwVDsndP7Da0tNxbGDydC7EAOZaOc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oDH8BtR7U1DF64D91khI6qNkuu0IIMeFSn6k0bWuBvr6N7gvCZE+agcNrkqSUmjul
+	 xqcun+22g6m4282s6JvtoQDvBKxrtOgNFNQgEQlXePsE9Z9yrWBmAyYdt4o+n6F5NM
+	 btbDXu6kHmA08Ep1pgAKCLcTS+1i5iJZE0VfvoY0YA2XrQ7zVdVCP/bniB/1hR7BwZ
+	 XsJzN7zfTVjyqBdSOeva+VKdYH39d3sq2EKXkIuOpZg0qjDo2p8A1TU9D6JbhUpbWZ
+	 8O4bI70twUxCU6nRnI5ZXnghsNWD8+3muRVF1Zr4TQH005zkZVi7ll9WwQhA9PXKnv
+	 Ny/3PndzxRSWQ==
+Date: Mon, 13 May 2024 10:52:03 +0100
+From: Simon Horman <horms@kernel.org>
+To: Christoph Fritz <christoph.fritz@hexdev.de>
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Oliver Hartkopp <socketcan@hartkopp.net>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andreas Lauser <andreas.lauser@mercedes-benz.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v4 01/11] can: Add LIN bus as CAN abstraction
+Message-ID: <20240513095203.GJ2787@kernel.org>
+References: <20240509171736.2048414-1-christoph.fritz@hexdev.de>
+ <20240509171736.2048414-2-christoph.fritz@hexdev.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/11] HID: hexLIN: Add support for USB LIN adapter
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Christoph Fritz <christoph.fritz@hexdev.de>
-Cc: Simon Horman <horms@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Marc Kleine-Budde <mkl@pengutronix.de>,
- Oliver Hartkopp <socketcan@hartkopp.net>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Andreas Lauser <andreas.lauser@mercedes-benz.com>,
- Jonathan Corbet <corbet@lwn.net>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- linux-can@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-serial <linux-serial@vger.kernel.org>
-References: <20240509171736.2048414-1-christoph.fritz@hexdev.de>
- <20240509171736.2048414-3-christoph.fritz@hexdev.de>
- <4bf1a5e9-904c-584e-72df-71abc3f99bd2@linux.intel.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <4bf1a5e9-904c-584e-72df-71abc3f99bd2@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240509171736.2048414-2-christoph.fritz@hexdev.de>
 
-On 10. 05. 24, 15:46, Ilpo Järvinen wrote:
->> +	reinit_completion(&priv->wait_in_report);
->> +
->> +	n = hid_hw_output_report(priv->hid_dev, (__u8 *) out_report, len);
+On Thu, May 09, 2024 at 07:17:26PM +0200, Christoph Fritz wrote:
+> Introduce a LIN (local interconnect network) abstraction on top of CAN.
+> This is a glue driver adapting CAN on one side while offering LIN
+> abstraction on the other side. So that upcoming LIN device drivers can
+> make use of it.
 > 
-> The usual is to not leave space between cast and what is being cast. I
-> know hid functions seem to use __u8 but that's intended for uapi and in
-> kernel, u8 should be used (somebody should eventually cleanup the hid
-> function types too).
+> Tested-by: Andreas Lauser <andreas.lauser@mercedes-benz.com>
+> Signed-off-by: Christoph Fritz <christoph.fritz@hexdev.de>
 
-Apart from that, you are attached to USB, so this goes down to usbhid 
-(the ll driver). Are you sure the put-const-away cast is right thing to 
-do here? (usbhid passes it to usb_interrupt_msg().)
+...
 
-That is the only reason why you have the cast in there in the first place…
+> +#define LID(_name) \
+> +	struct device_attribute linid_##_name = __ATTR(_name, 0644, \
+> +	lin_identifier_show, lin_identifier_store)
+> +
+> +LID(00); LID(01); LID(02); LID(03); LID(04); LID(05); LID(06); LID(07);
+> +LID(08); LID(09); LID(0a); LID(0b); LID(0c); LID(0d); LID(0e); LID(0f);
+> +LID(10); LID(11); LID(12); LID(13); LID(14); LID(15); LID(16); LID(17);
+> +LID(18); LID(19); LID(1a); LID(1b); LID(1c); LID(1d); LID(1e); LID(1f);
+> +LID(20); LID(21); LID(22); LID(23); LID(24); LID(25); LID(26); LID(27);
+> +LID(28); LID(29); LID(2a); LID(2b); LID(2c); LID(2d); LID(2e); LID(2f);
+> +LID(30); LID(31); LID(32); LID(33); LID(34); LID(35); LID(36); LID(37);
+> +LID(38); LID(39); LID(3a); LID(3b); LID(3c); LID(3d); LID(3e); LID(3f);
 
-regards,
--- 
-js
+Hi Christoph,
 
+Sparse flags that the structures defined by the above code are not
+declared elsewhere, and therefore likely should be static.
+> +
+> +static struct attribute *lin_sysfs_attrs[] = {
+> +	&linid_00.attr, &linid_01.attr, &linid_02.attr, &linid_03.attr,
+> +	&linid_04.attr, &linid_05.attr, &linid_06.attr, &linid_07.attr,
+> +	&linid_08.attr, &linid_09.attr, &linid_0a.attr, &linid_0b.attr,
+> +	&linid_0c.attr, &linid_0d.attr, &linid_0e.attr, &linid_0f.attr,
+> +	&linid_10.attr, &linid_11.attr, &linid_12.attr, &linid_13.attr,
+> +	&linid_14.attr, &linid_15.attr, &linid_16.attr, &linid_17.attr,
+> +	&linid_18.attr, &linid_19.attr, &linid_1a.attr, &linid_1b.attr,
+> +	&linid_1c.attr, &linid_1d.attr, &linid_1e.attr, &linid_1f.attr,
+> +	&linid_20.attr, &linid_21.attr, &linid_22.attr, &linid_23.attr,
+> +	&linid_24.attr, &linid_25.attr, &linid_26.attr, &linid_27.attr,
+> +	&linid_28.attr, &linid_29.attr, &linid_2a.attr, &linid_2b.attr,
+> +	&linid_2c.attr, &linid_2d.attr, &linid_2e.attr, &linid_2f.attr,
+> +	&linid_30.attr, &linid_31.attr, &linid_32.attr, &linid_33.attr,
+> +	&linid_34.attr, &linid_35.attr, &linid_36.attr, &linid_37.attr,
+> +	&linid_38.attr, &linid_39.attr, &linid_3a.attr, &linid_3b.attr,
+> +	&linid_3c.attr, &linid_3d.attr, &linid_3e.attr, &linid_3f.attr,
+> +	NULL
+> +};
+
+...
 
