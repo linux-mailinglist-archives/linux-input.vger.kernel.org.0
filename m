@@ -1,103 +1,200 @@
-Return-Path: <linux-input+bounces-3699-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3700-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7851A8C49C4
-	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 00:53:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F038C49D6
+	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 01:02:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06025282C85
-	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 22:53:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 663C31C21480
+	for <lists+linux-input@lfdr.de>; Mon, 13 May 2024 23:02:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ACA084D3E;
-	Mon, 13 May 2024 22:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E40D584DF1;
+	Mon, 13 May 2024 23:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dw7d1Bdu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDOjzt5G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D674E53E30
-	for <linux-input@vger.kernel.org>; Mon, 13 May 2024 22:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0E2433C5;
+	Mon, 13 May 2024 23:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715640813; cv=none; b=HTVawC0IkV+PlrJnOGVS2ugAeIcmg5LVhbrNGwAavNW8tk0uclfcHyVG9JDg+8sqB0Jp/EuUXXHwwqSNiYkbXOZ/LxrNXWg/77fabQ0dwPuCwgEdBAk5VwfbXUNJCTuk/rkBoNOi+chiw5jjxy1AHk3itVWYJvkbbsUmtatnYtA=
+	t=1715641324; cv=none; b=Yytc7nNu2MzCLWZtr66Dpg0p9CoAxqHLtIK3PGRMgi2mW1hY/oBBdBhqjaZ9W0ltnN0xnRKMgGGL1bXv9g11lNXW3fbUwTyt3RVhPjWLiq7vkfZaPraZ7PulXwcXoiAcIpRP9jc+4szJUhcNQp6Iew9x96SpIeiHE173dpndYRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715640813; c=relaxed/simple;
-	bh=UaeIValdHfp6KCenFcrUUpTsYhya9Yyltm2YX2Lupxc=;
+	s=arc-20240116; t=1715641324; c=relaxed/simple;
+	bh=eCmhF+W5lLreJ4G8pKBhmRZ6BpomICcH/3M7iRYdRJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=doVCIAcIBrNaYGKJzOt+4RkYnWX94vpzput+iSa7sWC256bT7XeUeN2AOSo0DGbU16WqGnsnOMDcu8IXHyaVsmc/wq0FJ1725M6mfS481yZ9rzlDPXMruTuYtZc2iPgCAvjGzp2+MU9whl7pLx/LEjrbLO/S66JRiRhIxiy5X54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dw7d1Bdu; arc=none smtp.client-ip=209.85.128.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=anX+JsByX+Kmx2zxOZUAgSwf2P6p5Wji7DWVDiN1edQkYrW7bDmd8NB18Z6MyXLkSPwftANal7iiv353yK+F32ehwo3MbnUb98tPxc6ztQ/oG17L0gx579kI7UEKbSB8CNJ+wZpaaAjBVupmSbbEf0VEhzjO7bEqum3rHf/E0sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDOjzt5G; arc=none smtp.client-ip=209.85.166.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6114c9b4d83so43896947b3.3
-        for <linux-input@vger.kernel.org>; Mon, 13 May 2024 15:53:31 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-36c8bdc30f7so20338025ab.1;
+        Mon, 13 May 2024 16:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715640811; x=1716245611; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sTD+56+GV1P4r64zY9H6r0MKrTADiblrUwZZQLL/jjU=;
-        b=dw7d1BdutcKTfD70z+hxMs4DeD/7d+f5em/8JzsRN0u+TBpuc4eSSTGCPU77v7jrEi
-         cd+kRUVznOVYi34wTzYoG0JlhHdlxYV6m75MQil8fWmpdN1Rg36uebvR72kla3PfjT/I
-         i0BRVkMuJvtm+qUvOE3VkCzkw1VfarC/YRdjumQtxlq8br6nBbSu9ZYzrrCIjd0yvtP8
-         7nSIe1MeH5p8yU4znVRG2D55rVSXV56hXKeh+gcc6olOQqQsjc6Uhxu+y9yIEO0e1Hcq
-         AOSRMEOLEiQ1OtKo8cISC44EvBNuIAcGs3s6TorQfZF3QoudmjJh3lhDAfq7ewcBSHs+
-         9eVg==
+        d=gmail.com; s=20230601; t=1715641322; x=1716246122; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+7BhooU6bHeR/fWEX79jtV3kxO2cLbs/OzgM/zbHXBw=;
+        b=GDOjzt5GHDds68yaIxKhSE79+xkuLFrMpBpfhwx7HsIVxOcBTl9ph8rEOkpyjhT0iR
+         OhQLHUMnSjS2AdqUPyo1FRiwcmbcS/6+LLVgyHK19sTh4DQDGRRjc7G9B6DJeHmSFN11
+         gXfFeJfOAnmMtIiNr1PvwopdY8wzm2nxe7R6vVR6buOJ2EubMqbM8ip9AFTdChqaFbAX
+         vba3FK5V/vj1yozO+aF9Z+5MATzZsKsuXOfTC3FjYu0jZZw60BLeiawW/GfivHCCm32F
+         1ilj9hwbrks08al4kcSbkqKO1pwnctlkUHm/ffRhPeixR74sBbm3DGGNewDKqe65mAm7
+         mlgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715640811; x=1716245611;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sTD+56+GV1P4r64zY9H6r0MKrTADiblrUwZZQLL/jjU=;
-        b=vAqYjekHJys+4HtZa36KBYim+8glhg9t9levxEynvD828mC34mO0rrO2dRLRQu0wRi
-         k6Ho7AZMCGn/rhqiqCBJ++9aAPUc/tVMHajI8tqjEJsD8m4yvshCGdbu1uV/hOehWAvD
-         o5tXgqUaL/94OsSxPTmIrJjjjcrcI6JIzkhAQhns8WcszGZaVJCsClj6AdwI0Mobjwvm
-         iG/6Mk9HzaTAzQisDzC3fCBpVkER861Srg3Ym1pORVT89ar0qG2bL6iwcIeQIk3YVw9U
-         PX8naRz8XtB53gn/sUcaRt+x36Bk2P3NMQj/056QXf7u3v+u/YyEK2nRtKAEi1b60S/m
-         OBwQ==
-X-Gm-Message-State: AOJu0Yy5ailB+OgU8A2FG90KUSjEtPYGOMkkFKHlBEx72PaDo6RF+++b
-	QkniLJksS8L9VfJtw45a4rS32swFQZPsU0S2xpY3PSobyt+PXf+g
-X-Google-Smtp-Source: AGHT+IFuAaOdPHENaX6sVpSlSfxkL/lxipjXeSvQxk6mMNejmS56eBg1zQT424pHegtvsrqiR/Y/Mg==
-X-Received: by 2002:a81:ac23:0:b0:61b:3348:34c0 with SMTP id 00721157ae682-622b016d1a7mr94290047b3.50.1715640810691;
-        Mon, 13 May 2024 15:53:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715641322; x=1716246122;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+7BhooU6bHeR/fWEX79jtV3kxO2cLbs/OzgM/zbHXBw=;
+        b=CJicAPJXru6l4iNXeUPeYtslK4+PlfOelQUZ3J8i5cL6zA3Ysmw+jV7S+izg2coGH+
+         UMaR4lebIU3erS/ButTdCdmHS1pS/dV3v3A77/f8ZRA64glEsBQ8ZbwUR8jmivLssQQh
+         1caHUwXe+YdYFw0i+672bZuA55JSTcGos6xNm4dJj+CpcfSoFKb95W1dyEnK46/eOIbV
+         2746gCzi9H9HwFGEvJUHxOEx/Q+KmzF53QzNtvDHzeBPV2dwsk779Imqc2Ry6uaB2w2F
+         Z7ciSFC4jzvfl8qWm8cXUwupuPVOXjCnFUz/4h3xLA1yNgyQEBaqYGf8M4eoAaUUY9gU
+         1KFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCViWwD/PPhaDvrM5mXb+dZiL1Hh31n9pxcmUfxYwOk60FAr9LLUMoyOa0BC1urIV+FdSBzispIU4/upUQh2nrCTJ/POpDGrCmc9R1DBllf7WjsmH+pAVdAh/0jc5HaUWA6QYNjBUmLhUp0xZPnDIhEk73US5Fqy0VbWO6vzqbrNTRCRuuWR
+X-Gm-Message-State: AOJu0YxsIFCjGFXoouQg+40TiVRm8R6+9qkqpT5NmzBhsvEF817m+ftU
+	1ur9FYNHwAurTf8R5+9UaUbGO+xARllHDDUN8z//LD0I01MdZoDiTmmNZA==
+X-Google-Smtp-Source: AGHT+IHIJ+Fq6kvwZ7I5DeZYMNNP2kTEydDf/w9IZPwHT3WLru1cSHF6NHgNyr5f44LXhZUDok96+A==
+X-Received: by 2002:a05:6e02:12ee:b0:36c:51c0:5564 with SMTP id e9e14a558f8ab-36cc1499419mr146904555ab.22.1715641322181;
+        Mon, 13 May 2024 16:02:02 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:7704:86a9:2c56:6794])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6209e2347d2sm23314077b3.12.2024.05.13.15.53.30
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6340a449ffbsm8394685a12.2.2024.05.13.16.02.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 15:53:30 -0700 (PDT)
-Date: Mon, 13 May 2024 15:53:27 -0700
+        Mon, 13 May 2024 16:02:01 -0700 (PDT)
+Date: Mon, 13 May 2024 16:01:59 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] Input - Drop explicit initialization of struct
- i2c_device_id::driver_data to 0
-Message-ID: <ZkKZ50fQGdr8Opv0@google.com>
-References: <20240509174158.2211071-2-u.kleine-koenig@pengutronix.de>
+To: Felix Kaechele <felix@kaechele.ca>, Mark Brown <broonie@kernel.org>
+Cc: Job Noorman <job@noorman.info>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] input: himax_hx83112b: implement MCU register
+ reading
+Message-ID: <ZkKb5_SRNwG1pRou@google.com>
+References: <20240511121245.109644-1-felix@kaechele.ca>
+ <20240511121245.109644-4-felix@kaechele.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240509174158.2211071-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240511121245.109644-4-felix@kaechele.ca>
 
-On Thu, May 09, 2024 at 07:41:59PM +0200, Uwe Kleine-König wrote:
-> These drivers don't use the driver_data member of struct i2c_device_id,
-> so don't explicitly initialize this member.
-> 
-> This prepares putting driver_data in an anonymous union which requires
-> either no initialization or named designators. But it's also a nice
-> cleanup on its own.
-> 
-> While add it, also remove commas after the sentinel entries.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Sat, May 11, 2024 at 08:12:24AM -0400, Felix Kaechele wrote:
+> Implement reading from the MCU in a more universal fashion. This allows
+> properly handling reads of more than 4 bytes using the AHB FIFO
+> implemented in the chip.
 
-Applied, thank you.
+Mark, do we have anything in regmap to support this better or having a
+wrapper is the best solution here?
+
+Thanks!
+
+> 
+> Signed-off-by: Felix Kaechele <felix@kaechele.ca>
+> ---
+>  drivers/input/touchscreen/himax_hx83112b.c | 50 ++++++++++++++++++++--
+>  1 file changed, 47 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
+> index 2da2920d43f9..67ef3255cc8b 100644
+> --- a/drivers/input/touchscreen/himax_hx83112b.c
+> +++ b/drivers/input/touchscreen/himax_hx83112b.c
+> @@ -27,9 +27,13 @@
+>  #define HIMAX_AHB_ADDR_BYTE_0			0x00
+>  #define HIMAX_AHB_ADDR_RDATA_BYTE_0		0x08
+>  #define HIMAX_AHB_ADDR_ACCESS_DIRECTION		0x0c
+> +#define HIMAX_AHB_ADDR_INCR4			0x0d
+> +#define HIMAX_AHB_ADDR_CONTI			0x13
+>  #define HIMAX_AHB_ADDR_EVENT_STACK		0x30
+>  
+>  #define HIMAX_AHB_CMD_ACCESS_DIRECTION_READ	0x00
+> +#define HIMAX_AHB_CMD_INCR4			0x10
+> +#define HIMAX_AHB_CMD_CONTI			0x31
+>  
+>  #define HIMAX_REG_ADDR_ICID			0x900000d0
+>  
+> @@ -65,10 +69,34 @@ static const struct regmap_config himax_regmap_config = {
+>  	.val_format_endian = REGMAP_ENDIAN_LITTLE,
+>  };
+>  
+> -static int himax_read_config(struct himax_ts_data *ts, u32 address, u32 *dst)
+> +static int himax_bus_enable_burst(struct himax_ts_data *ts)
+>  {
+>  	int error;
+>  
+> +	error = regmap_write(ts->regmap, HIMAX_AHB_ADDR_CONTI,
+> +			     HIMAX_AHB_CMD_CONTI);
+> +	if (error)
+> +		return error;
+> +
+> +	error = regmap_write(ts->regmap, HIMAX_AHB_ADDR_INCR4,
+> +			     HIMAX_AHB_CMD_INCR4);
+> +	if (error)
+> +		return error;
+> +
+> +	return 0;
+> +}
+> +
+> +static int himax_bus_read(struct himax_ts_data *ts, u32 address, void *dst,
+> +			  size_t length)
+> +{
+> +	int error;
+> +
+> +	if (length > 4) {
+> +		error = himax_bus_enable_burst(ts);
+> +		if (error)
+> +			return error;
+> +	}
+> +
+>  	error = regmap_write(ts->regmap, HIMAX_AHB_ADDR_BYTE_0, address);
+>  	if (error)
+>  		return error;
+> @@ -78,7 +106,23 @@ static int himax_read_config(struct himax_ts_data *ts, u32 address, u32 *dst)
+>  	if (error)
+>  		return error;
+>  
+> -	error = regmap_read(ts->regmap, HIMAX_AHB_ADDR_RDATA_BYTE_0, dst);
+> +	if (length > 4)
+> +		error = regmap_noinc_read(ts->regmap, HIMAX_AHB_ADDR_RDATA_BYTE_0,
+> +					  dst, length);
+> +	else
+> +		error = regmap_read(ts->regmap, HIMAX_AHB_ADDR_RDATA_BYTE_0,
+> +				    dst);
+> +	if (error)
+> +		return error;
+> +
+> +	return 0;
+> +}
+> +
+> +static int himax_read_mcu(struct himax_ts_data *ts, u32 address, u32 *dst)
+> +{
+> +	int error;
+> +
+> +	error = himax_bus_read(ts, address, dst, sizeof(dst));
+>  	if (error)
+>  		return error;
+>  
+> @@ -104,7 +148,7 @@ static int himax_read_product_id(struct himax_ts_data *ts, u32 *product_id)
+>  {
+>  	int error;
+>  
+> -	error = himax_read_config(ts, HIMAX_REG_ADDR_ICID, product_id);
+> +	error = himax_read_mcu(ts, HIMAX_REG_ADDR_ICID, product_id);
+>  	if (error)
+>  		return error;
+>  
+> -- 
+> 2.45.0
+> 
 
 -- 
 Dmitry
