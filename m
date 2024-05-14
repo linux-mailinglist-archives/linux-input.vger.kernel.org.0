@@ -1,105 +1,122 @@
-Return-Path: <linux-input+bounces-3709-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3710-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68808C577C
-	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 16:01:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 624388C594F
+	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 18:05:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DEC728271C
-	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 14:01:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93F781C21F1E
+	for <lists+linux-input@lfdr.de>; Tue, 14 May 2024 16:05:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BE591448C0;
-	Tue, 14 May 2024 14:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66B4817F384;
+	Tue, 14 May 2024 16:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="QUvGf7HF"
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="ip6XRIMP";
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="C3mQK4qN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ACE6D1A7;
-	Tue, 14 May 2024 14:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413AC1448C0;
+	Tue, 14 May 2024 16:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=24.134.29.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715695295; cv=none; b=KHRXNE1xyN4lGXjKI206ELUbRp9aWf+6icDQ6VdIZtQ/rkJRr6kB3DUmCCB6vqs3jGKoRxwv0Gh71BgDSMH/O+9sITfO1UPG8SkiPmmPniaE7eW7pG0E55WQEWaLi9vfsKsK+yf66cnEwlLohfJFHXAvZkEOgNaMdpADwi/iZ84=
+	t=1715702740; cv=none; b=Wq6UVVMxsCm0maCk1XBcmYuwyUA8xNKQS9yLtRw00rrxZvgvQpEoVzuIISMCfFhT3JTpTAWCeJXUHCEmfToqPUdekgJKH6flkpGw2iteoxugtQ2xDtGtmTX7jmuyhCMMbVEttQZ+e/HEmErxmX0Iv/i1+3UBUTFMpVkc9c87iv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715695295; c=relaxed/simple;
-	bh=YgSzUyN9lZ6Q/NxD40/+BCSIfvnuzEnChocl9jnMGTQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b8PSVopjIy6AKmi2Tc/tZaVNE6+otFmefomoHqrORoNwLbgOA7QOyP8bnsnSKv+rb7FJNH/1n53g/3wyMYtba7VxgEZYlbeK/L1TQurj/dGy/uGueQFnqRBQZWdRDReG/0e5zDBWI19XWhTKy6SdnY4wfgKYnh8eNYFQICnGrwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=QUvGf7HF; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F33FAC005F;
-	Tue, 14 May 2024 10:01:53 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1715695316; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=1DbleZUcyOeQ+xpwumpPDRNYNQ1wnxSzV1kZWNcVPl0=;
-	b=QUvGf7HFPDJHo1Q4joPoI5npTTCt2hRNsggtpbakvsSqo1z4JsgMLXwnChNvTTy4caxnRx
-	/t7ClUZt7vbM8ma+CvBLRvUmUOBgYcmQAVUCf8C0iPVgX9XMWdJaRsUwR/tFU9oHi5oMSv
-	br+1tMeaMVogDffiLhITByQJf15/MxA=
-Message-ID: <afab9026-e843-4cc4-8733-f45e9ab34276@kaechele.ca>
-Date: Tue, 14 May 2024 10:01:19 -0400
+	s=arc-20240116; t=1715702740; c=relaxed/simple;
+	bh=/1oqQZPs3WqoeEwclXSM+7tygrmu8dr8chc8eGTmRQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KefMuqedRW8JrJIGCgyAR6ITeS8YqLf5k63DdCKd9O6SZStORAvZO9RMGqcpWaxjVmxPG+aF6QAb6uavEnF7m0e3NendOoh+0Cg+wUazRMB3TVCluIXNXmkx27LuCtpEv/xKq/DEVDql26xVpvT6gdfbJ0WVziCi6hwAYsmMhtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org; spf=pass smtp.mailfrom=sigxcpu.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=ip6XRIMP; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=C3mQK4qN; arc=none smtp.client-ip=24.134.29.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigxcpu.org
+Received: from localhost (localhost [127.0.0.1])
+	by honk.sigxcpu.org (Postfix) with ESMTP id 4B17AFB03;
+	Tue, 14 May 2024 18:05:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1715702726; bh=/1oqQZPs3WqoeEwclXSM+7tygrmu8dr8chc8eGTmRQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ip6XRIMPsGM47s+BdcpcMTS9Kd8139GHXiF2LOQ01E8wd5g4jMsbR2f6ECSzHb73c
+	 WTOURN2sgR+hw5qYKoLVH7V/Ry0QB3IIrjPgCVMCkhCDWVVp8uHfJw+c804sL1RCGk
+	 IDohlwBqa2HR2jFIWw9MWoEPldI/ti1N7jHdQQREA13wFwO6z89PB4BIyc8fjb81hg
+	 7q9zCeQXc+RiDJ7NVIuM+MW99+WCFJaw7VxuytOSUdFEa9/Kjp2XvGvUOqwtw6IHOO
+	 9jcEYBVT8lNKaz1y2oefRaMSXJ2GJdQ5TZoavMhaM24hOC1u3l6ub01zM8ZVa0Dv9t
+	 3IlQKB9W6T7vQ==
+Received: from honk.sigxcpu.org ([127.0.0.1])
+	by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id K40O2fvKpbDj; Tue, 14 May 2024 18:05:24 +0200 (CEST)
+Date: Tue, 14 May 2024 18:05:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1715702723; bh=/1oqQZPs3WqoeEwclXSM+7tygrmu8dr8chc8eGTmRQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C3mQK4qNLh8xnbfsvV/nLhpxRj3AC2XHxmsan7Z5CuYvUkqp9Xr24/rjQhBRky2vP
+	 NxuxXAz7xabdDB0j9mN5Ca8NdxQPaPQO22Tfa9nVyuew/N9sii+z2ELVWI07yz2f3z
+	 e9zougneAV2JoSUeZI6IymzJ1TMO+pEsB7S0iCWxxyXOAQig3OMcRE14zW1xD6yHKP
+	 tSaHzlGx6ePIwlYEKVwnFRK/3eHoDHG1eb5Vfx5eLEFt8ZqwJrRjWhgK430feuAyYR
+	 kan9mfzy0LqtVxoEwVECXMytou6ePJNv6zBPPU30cHL+FQZNcmFls+yRF1rlAtogi/
+	 BP7QlxbvTU/NA==
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hermes Zhang <chenhuiz@axis.com>, Tony Lindgren <tony@atomide.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] Input: gpio-keys - expose wakeup keys in sysfs
+Message-ID: <ZkOLwIEuZ8hfzO4M@qwark.sigxcpu.org>
+References: <cover.1715255980.git.agx@sigxcpu.org>
+ <2b6eb6c3f68509aa35cdf2e2a586689ae97681ab.1715255980.git.agx@sigxcpu.org>
+ <ZkKQoTq2xyNvJlHE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] input: himax_hx83112b: implement MCU register
- reading
-To: Mark Brown <broonie@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Job Noorman <job@noorman.info>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240511121245.109644-1-felix@kaechele.ca>
- <20240511121245.109644-4-felix@kaechele.ca> <ZkKb5_SRNwG1pRou@google.com>
- <44570cd2-9540-47f8-a409-26220b0812fb@sirena.org.uk>
-Content-Language: en-US, en-CA
-From: Felix Kaechele <felix@kaechele.ca>
-In-Reply-To: <44570cd2-9540-47f8-a409-26220b0812fb@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZkKQoTq2xyNvJlHE@google.com>
 
-On 2024-05-14 05:46, Mark Brown wrote:
-> On Mon, May 13, 2024 at 04:01:59PM -0700, Dmitry Torokhov wrote:
->> On Sat, May 11, 2024 at 08:12:24AM -0400, Felix Kaechele wrote:
->>> Implement reading from the MCU in a more universal fashion. This allows
->>> properly handling reads of more than 4 bytes using the AHB FIFO
->>> implemented in the chip.
+Hi,
+On Mon, May 13, 2024 at 03:13:53PM -0700, Dmitry Torokhov wrote:
+> Hi Guido,
 > 
->> Mark, do we have anything in regmap to support this better or having a
->> wrapper is the best solution here?
+> On Thu, May 09, 2024 at 02:00:28PM +0200, Guido Günther wrote:
+> > This helps user space to figure out which keys should be used to unidle a
+> > device. E.g on phones the volume rocker should usually not unblank the
+> > screen.
 > 
-> No, I've not seen something that explicitly requires toggling a burst
-> mode on and off to do a bulk operation.  Off the top of my head I'd
-> suggest just always leaving the burst mode enabled but I assume there's
-> some downside to doing that.  We could add something but I'm not sure if
-> it's worth it without having seen any other devices with the same need.
+> How exactly this is supposed to be used? We have "disabled" keys and
+> switches attribute because this function can be controlled at runtime
+> from userspace while wakeup control is a static device setting.
 
-I can experiment some more with just leaving burst mode enabled.
+Current Linux userspace usually unblanks/unidles a device on every
+keypress. That is usually not the expected result on phones where often
+only the power button and e.g. some home buttons should do this.
 
-Since the vendor driver invariably enables burst mode before any 
-transaction of more than 4 bytes I'll have to see if burst mode does 
-remain enabled under all circumstances of normal operation.
-Since I don't have access to the datasheet I cannot know what the 
-intended behaviour and/or downsides are. Due to that I played it safe 
-and mimicked the behaviour of the vendor driver.
+These keys usually match the keys that are used as wakeup sources to
+bring a device out of suspend. So if we export the wakeup keys to
+userspace we can pick some sensible defaults (overridable via hwdb¹).
 
-I'm guessing not having to enable burst mode on every touch event 
-interrupt could also mean an improvement in latency, since we save two 
-write cycles on the bus for each fetching of the event data.
-Not sure how measurable that would be though.
-I'm thinking to myself Himax at some point recognized this and that is 
-why we see a dedicated touch event read register on later models in this 
-chip family.
+> Kernel also does not really know if the screen should be unblanked or
+> not, if a button or switch is configured for wake up the kernel will go
+> through wakeup process all the same and then userspace can decide if it
+> should stay woken up or not.
 
-Regards,
-Felix
+Yes, we merely want that as a hint to figure out sensible defaults in
+userspace (which might be a subset of the wakeup keys).
+
+Cherrs,
+ -- Guido
+
+¹) See https://gitlab.gnome.org/World/Phosh/gmobile/-/blob/main/data/61-gmobile-wakeup.hwdb?ref_type=heads#L57-L59
+
+> 
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
 
