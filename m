@@ -1,112 +1,137 @@
-Return-Path: <linux-input+bounces-3729-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3730-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C3B8C87D1
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2024 16:19:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B89CE8C8DAE
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2024 23:27:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5C96B209B1
-	for <lists+linux-input@lfdr.de>; Fri, 17 May 2024 14:19:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59069B22859
+	for <lists+linux-input@lfdr.de>; Fri, 17 May 2024 21:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9415B1E9;
-	Fri, 17 May 2024 14:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034BE1411DC;
+	Fri, 17 May 2024 21:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b6Da8imk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8C054F95;
-	Fri, 17 May 2024 14:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33D51411CE
+	for <linux-input@vger.kernel.org>; Fri, 17 May 2024 21:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715955575; cv=none; b=jSOLwyviHtmC+7ShF4m1spPBOh1QxKWFjGjiQ8bLvW3m8nqT9MG148f1XNPUWAFAbnMwJqdpORpM5xahJ8Myv0jyR/MzRlomndbPB5tsrTzbQD99CQnWYUUL6rTju9uful7oGMoDW4Rwo+uSDli6jdunPXXr6szpYJto2iGyfCM=
+	t=1715981258; cv=none; b=I4u/Zezrzh/GsMPoIM+qbYme6zi5f2Y4YTBqJcgOVmFQdkbZ81hyoQ3LEwta2aa+xl5wTWSYOq+E7lL4j8geiOrcdvnfz5+yzjtvjHB1+b55Q7+AtmMGnMYrDEjjD+m772mbuBiuOI+SpLiLaDgRLBMe8i2QmwszxrfVBqK0yx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715955575; c=relaxed/simple;
-	bh=0Z19W0lYssVtBpmc2IGLBgu9eupgPGN+qoB0RUqW9UU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tYzdaW3pJ4ycA1MqGU5nH5JNbiwqFvZJhUNLowNm5B3O2T3ICCBYMTzWSyn/HCg1Vta6vRQlgchFzsT/+DTP79YozsKdG0Qur5ujJuapxOo9Il/Et0ZmNzvXODngVyVneKLnz4Z7ZbuAKpWkZnrwK5RymYyLeyElHH/swgLReKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 17 May
- 2024 17:19:20 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 17 May
- 2024 17:19:20 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Jiri Kosina <jikos@kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Benjamin Tissoires
-	<bentiss@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, "Douglas
- Anderson" <dianders@chromium.org>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
-	<syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com>
-Subject: [PATCH] HID: core: remove unnecessary WARN_ON() in implement()
-Date: Fri, 17 May 2024 07:19:14 -0700
-Message-ID: <20240517141914.8604-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1715981258; c=relaxed/simple;
+	bh=mZcbn9pTbHdvbEiKdVCqeMJrWb4nqNiC86MZdFsD0r0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gf56E1mgRu7pa60vh/P5cNIzvSz7vn8SSGBTgmOjgXZvNaoq5p0sKcNxpOmAUl/+ACwIGDvF+FhT53Qq1ZYUvYlF/wDFzuIMhfOmzhlSkwtEeCFqryrlvnSyvMb023eI3Pumf+Om1j5s+aoSFNMXuDHuzyYEAOkp1wj1uF7Mo7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b6Da8imk; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eca195a7c8so22456525ad.2
+        for <linux-input@vger.kernel.org>; Fri, 17 May 2024 14:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715981257; x=1716586057; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwumsOFzLhcSRvtv4E4XIjWS9Wdw51QyanOFC9u3vrw=;
+        b=b6Da8imk/8gNmVRmYGGLEwQhRFhk/mMpo33gVKEfmfcgQPdk0Zwys3suUOqqyu7Xys
+         EE/ww405sMpTuu9o+efr9ZgadxYEdCkmU9QkNnYvm8efavBQGbxHx0h2/r/bc+MWQ7sT
+         I+qcM9DR2v65iGT5xJE1h2aPz2B/l5t+uWaws=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715981257; x=1716586057;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nwumsOFzLhcSRvtv4E4XIjWS9Wdw51QyanOFC9u3vrw=;
+        b=SDfn6OeHIOakdyRYwznIkXnpiDsWtfrq34agAQ7x3fQhzJmuZYugaQqhg/c6rIY1pY
+         qJsBkYDguha8neHz+Wge9rT/lSdTLeC4gtcGq/KCPy7HU2TRZAGHoulfl8dhixCIN8jK
+         Y6ckI0OfMjSgEpmVJ24IRamnReSl3mdmbw2UuZt5WVH6AgsYb7khTP2zJ8C9aAC4v593
+         N+3j6IolZ9FFlKF+5Web01Po7jGa+GAU80J62ndUbvNE3I4aHy1IHRDtht/OWgumnWZq
+         X//YfJuok5M3gbpZeAhlDF6lX3I2GzMpiWoTCvWLGMZbhyPWY+TsSO1TcuGiCAxlkb0F
+         FmOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8dm4kVfJT4E75Ozuu7wlLJhDQQVBpXwGLIldkZBk870otoGqNLZJ4luPvrnxW2R4Fm6bTQNvRsiR6mGKqJC26x43427oys2h8DcU=
+X-Gm-Message-State: AOJu0Yz/mpLiy3/lF2QlLWVdvXOl7kWMrA4pFw+8/hyqELFScMbFY5MQ
+	SVRbFM2SKx4xZuviplC9jAjUpmFhUm+kMUlByD0ys5VeWq8l0IMaD7i7BPi3rw==
+X-Google-Smtp-Source: AGHT+IFluK3Eyorpte5TQvgACdUYQTNtTr1OkCqbBB7MpwGA6ZSBRPFcAQ5PudVW8axjuibL4dnJqQ==
+X-Received: by 2002:a17:902:9886:b0:1e2:577:f694 with SMTP id d9443c01a7336-1ef440596a9mr187163085ad.61.1715981256849;
+        Fri, 17 May 2024 14:27:36 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c2567absm160788595ad.297.2024.05.17.14.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 May 2024 14:27:35 -0700 (PDT)
+Date: Fri, 17 May 2024 14:27:35 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	bpf@vger.kernel.org, kvm@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 0/2] selftests: harness: refactor __constructor_order
+Message-ID: <202405171426.B1ED9AD@keescook>
+References: <20240517114506.1259203-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240517114506.1259203-1-masahiroy@kernel.org>
 
-Syzkaller hit a warning [1] in a call to implement() when trying
-to write a value into a field of smaller size in an output report.
+On Fri, May 17, 2024 at 08:45:04PM +0900, Masahiro Yamada wrote:
+> 
+> This series refactors __constructor_order because
+> __constructor_order_last() is unneeded.
+> 
+> BTW, the comments in kselftest_harness.h was confusing to me.
+> 
+> As far as I tested, all arches executed constructors in the forward
+> order.
+> 
+> [test code]
+> 
+>   #include <stdio.h>
+> 
+>   static int x;
+> 
+>   static void __attribute__((constructor)) increment(void)
+>   {
+>            x += 1;
+>   }
+> 
+>   static void __attribute__((constructor)) multiply(void)
+>   {
+>           x *= 2;
+>   }
+> 
+>   int main(void)
+>   {
+>           printf("foo = %d\n", x);
+>           return 0;
+>   }
+> 
+> It should print 2 for forward order systems, 1 for reverse order systems.
+> 
+> I executed it on some archtes by using QEMU. I always got 2.
 
-Since implement() already has a warn message printed out with the
-help of hid_warn() and value in question gets trimmed with:
-	...
-	value &= m;
-	...
-WARN_ON may be considered superfluous. Remove it to suppress future
-syzkaller triggers.
+IIRC, and it was a long time ago now, it was actually a difference
+between libc implementations where I encountered the problem. Maybe
+glibc vs Bionic?
 
-[1]
-WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 implement drivers/hid/hid-core.c:1451 [inline]
-WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
-Modules linked in:
-CPU: 0 PID: 5084 Comm: syz-executor424 Not tainted 6.9.0-rc7-syzkaller-00183-gcf87f46fd34d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
-RIP: 0010:implement drivers/hid/hid-core.c:1451 [inline]
-RIP: 0010:hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
-...
-Call Trace:
- <TASK>
- __usbhid_submit_report drivers/hid/usbhid/hid-core.c:591 [inline]
- usbhid_submit_report+0x43d/0x9e0 drivers/hid/usbhid/hid-core.c:636
- hiddev_ioctl+0x138b/0x1f00 drivers/hid/usbhid/hiddev.c:726
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:904 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:890
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-...
+-Kees
 
-Fixes: 95d1c8951e5b ("HID: simplify implement() a bit")
-Reported-by: syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
- drivers/hid/hid-core.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index b1fa0378e8f4..74efda212c55 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1448,7 +1448,6 @@ static void implement(const struct hid_device *hid, u8 *report,
- 			hid_warn(hid,
- 				 "%s() called with too large value %d (n: %d)! (%s)\n",
- 				 __func__, value, n, current->comm);
--			WARN_ON(1);
- 			value &= m;
- 		}
- 	}
+-- 
+Kees Cook
 
