@@ -1,316 +1,289 @@
-Return-Path: <linux-input+bounces-3733-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3734-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C948C8F76
-	for <lists+linux-input@lfdr.de>; Sat, 18 May 2024 05:29:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423728C916B
+	for <lists+linux-input@lfdr.de>; Sat, 18 May 2024 16:18:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E99C282BB4
-	for <lists+linux-input@lfdr.de>; Sat, 18 May 2024 03:29:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6599B1C20C0E
+	for <lists+linux-input@lfdr.de>; Sat, 18 May 2024 14:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F045F4C8B;
-	Sat, 18 May 2024 03:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjoNvqOz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2A33EA72;
+	Sat, 18 May 2024 14:18:39 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C041A2C03;
-	Sat, 18 May 2024 03:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EF33BBE1
+	for <linux-input@vger.kernel.org>; Sat, 18 May 2024 14:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716002978; cv=none; b=RicBhEVF2uIsn08zrPJAvlUjpiFBSSvoXA3LkvXwVMZdcgRg/KdEHZxoc1RvwDGlvfq8P78w5hswuFtnGhACuLdr+wS7ddaZOgS/yPGoa6l1YPA9C4DJ7y3NSnyPhBe8o3uxDMBFG525r571iE0FTIUA2jTXWPpzr2ao09ewOlg=
+	t=1716041919; cv=none; b=Rq4h03MbAkvImdq9MxHb0ilF3mUCJMx9C0GDUmXhYNq16VQ73I0Yx9+H0GaMyvjxfmEi7Sn52hHd+kODUDZHQmWF9oHBvxU8zcFrpsmP6DBDY0LYNlgizTv0kdzUzTALqscyYEeRcOJD+nI+mtspbj+wvqIpOkyPQwPgMj3prac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716002978; c=relaxed/simple;
-	bh=kkyl4Oabc5KFglNOe80Nz61jeWKai1MJfXMkEUXwnmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b1kDV2Zn9OHarVbYodo8HNMgC0zbwriS2pfF0HaJKfFqmJCdzCN8dwsOD01XoGabxXbQh9p70HnGCQQgwaX+jUZ4pHqVF0qBORPNfDdXfpOMYkIjDZC2clgVxdE1BbmccxA1dS+LNQb2RVJugbRtHO1qq8ee8HpnsCqdhMaPfrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjoNvqOz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24DD6C113CC;
-	Sat, 18 May 2024 03:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716002978;
-	bh=kkyl4Oabc5KFglNOe80Nz61jeWKai1MJfXMkEUXwnmU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rjoNvqOzo3HdnCeU+KmVqyS7dlVzyuiOyXi+GfeZT+PrEdOGm5eXgAKqNBDjCP74i
-	 KdN3NnxQRn1nlaoug/cLc+tKQtZPi3M3u3wr3tz/cg6DJ4FygUGUNzwquCe873tVFF
-	 KnyYkspXItQ8KzSNo3hAcGrC0ugmx6+45rNT0iLJ8ERFnZQHABzMCWtO1igPTr9QX1
-	 D7ND6kmhn6HxddN7fuB1ZETN6kKhjmNlYtyMaCkaCv1bpMqGXecXRK06lr57C8Y15E
-	 +u1bWRz8msvvNg7DbCgQ/7pu+0ll9aSJZrPlvavVisdii/k12lVdzq9RlcwzV4yKuW
-	 ShT7OB+k3qYdQ==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51fcb7dc722so2402308e87.1;
-        Fri, 17 May 2024 20:29:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUpD4v8a+xMIMnnTahEfVSRuTTwy9NYDIS9AlBJ8RtK5rNfFyFjqohjw4lBNorJ64W0UEpKSqMWBusee1ZFFU+Deg3UPe5zFjvky+gG1y778ilbl6uq0N/ULpMD1IBKENOAvoprCbW1ZRNSQ+zrwFxZieTSMxmJwwTDq/+78832lGTVx5gZi3LNXJvTqenNcDoHpv8wsqATOJNed9UVcL4piF2Qkr7z9lavF/uy5hPaKKDoYl3ILo7t4h1M2U8I85lLv4jNbTTFs489lnjZ01s=
-X-Gm-Message-State: AOJu0YwamY5BkZLPU4VsvnCiXgGbFMcwDn6lkadrlrYnzA2AgiiveVjv
-	LAHpJTCOo69+QdwXq7MgP7Ax6Ke+9kFXSY98NaduHh4nq+pnB8QBC62CicSVVjaKRd4EIhOnhFd
-	VBDnnIYOMVjujSWKq7qa3as5Vj3Y=
-X-Google-Smtp-Source: AGHT+IHjKSQhzhnm8QEyFc5lZeQyVnNhe9kiBHVN3rnespbtU+DOI88/Xq5mDvMdVlJFl+tDAt3va5hG2q/WRWWlhDk=
-X-Received: by 2002:ac2:514d:0:b0:51f:5f6d:3fba with SMTP id
- 2adb3069b0e04-52407cddc4amr204791e87.27.1716002976823; Fri, 17 May 2024
- 20:29:36 -0700 (PDT)
+	s=arc-20240116; t=1716041919; c=relaxed/simple;
+	bh=bkOtlhAGwGu5qV1jeigsH45EaGJCKIRA44rktLHO/0E=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZT6S/Jtr6806wm7K8KkP51GIaO3ebxhqOa06XEynWs9WcZ1ce/fEWFkH6T8ABL4V79xjisDGnSKV9fgdeR2HcFt7yjeW0Z9YpT5dX0Ca4lv5h9wxhejWWgMWDr7EepOJjOe4MYaxa5qNc/phzGusBloRSa/+XQ8NNbhv6YJOZSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-36c510983e2so69630305ab.0
+        for <linux-input@vger.kernel.org>; Sat, 18 May 2024 07:18:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716041916; x=1716646716;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Td8n7eAsFg5U1JlLsiDY9FO/9R6VpwwWeYUXdaRq1kU=;
+        b=ubrfRrdJI/wwVep6oJ79VTYKOhw2Ghvmx1rR6BP3ff+wJdpGGE4rEZ5eOHkFQtxBv1
+         VjuqSKXe5X3vpBTON0eFvTJVoQ7PM/q5y9HYdtH3PwUTCB2418baJfKOZlsOUPclcEjw
+         QIbfm6nnRpoZlIiVwWLN1O8m5XISh7eZ6XPjGl4cFO3aReSpWSQSAjd2fC4Sz9kzeDa/
+         +239MfpfMxJQqAn6X3WesUCmbyH2vHUJfRofvssoqrtCAN4lZWBj6qDI+oEz5yPscUyS
+         jY8XcKj+upt54sFcWBVZ9e9y6tlYDStEFqb/VeKnoSCnfM3qTx2jzg5JmjlLM32fG1uU
+         gidQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWPmKe2hhPEEWIl0kZ7B3cKCwATofZ4sG/Vcu9FsO6p96aDhQ3Tzo5WZeM7OPcFWSQx5r+aCQxkKnf1PwWsu9jtDiYiv0s/Z7+csQY=
+X-Gm-Message-State: AOJu0YzSx2i7WNJw/9F4+L8Ir+7xwAbTUf104SjM7fi1Qgw6bMWwnymp
+	kpIDrvrhLw4mg3qPK8ZluwqZqrDs+mGbWyUJeUY9yV21JvJTRc4Z/VYTjdfjCx027Z58u/wH5N/
+	b5YRWqmxignOs0tHczA0ar1n648nBdGe5fpX3Uxg7pufJ9QFUlPBOXFM=
+X-Google-Smtp-Source: AGHT+IEqcBdOsLYXbAyX0XV4aY9pAgMxg2QKn4hAmvYKfRkwpWT6VyomsrjiuKoIpV5IZKepQ/Gj3S3wUdSjF4MCowXo1TkaB68y
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240517114506.1259203-1-masahiroy@kernel.org>
- <20240517114506.1259203-2-masahiroy@kernel.org> <202405171621.A178606D8@keescook>
-In-Reply-To: <202405171621.A178606D8@keescook>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 18 May 2024 12:29:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARpvZ5AeH9HXFPupD_Jj0Gw4D6MZ5iR7uvVwnm9nSg9CA@mail.gmail.com>
-Message-ID: <CAK7LNARpvZ5AeH9HXFPupD_Jj0Gw4D6MZ5iR7uvVwnm9nSg9CA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] selftests: harness: remove unneeded __constructor_order_last()
-To: Kees Cook <keescook@chromium.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	David Hildenbrand <david@redhat.com>, Janosch Frank <frankja@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>, 
-	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-rtc@vger.kernel.org
+X-Received: by 2002:a05:6e02:13c3:b0:36d:b197:70c1 with SMTP id
+ e9e14a558f8ab-36dd09a5911mr410415ab.0.1716041916750; Sat, 18 May 2024
+ 07:18:36 -0700 (PDT)
+Date: Sat, 18 May 2024 07:18:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000de2ee50618bb2490@google.com>
+Subject: [syzbot] [input?] possible deadlock in evdev_cleanup (2)
+From: syzbot <syzbot+77a2ec57108df22d5c63@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, May 18, 2024 at 8:26=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> On Fri, May 17, 2024 at 08:45:05PM +0900, Masahiro Yamada wrote:
-> > __constructor_order_last() is unneeded.
-> >
-> > If __constructor_order_last() is not called on reverse-order systems,
-> > __constructor_order will remain 0 instead of being set to
-> > _CONSTRUCTOR_ORDER_BACKWARD (=3D -1).
-> >
-> > __LIST_APPEND() will still take the 'else' branch, so there is no
-> > difference in the behavior.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  .../selftests/drivers/s390x/uvdevice/test_uvdevice.c   |  6 ------
-> >  tools/testing/selftests/hid/hid_bpf.c                  |  6 ------
-> >  tools/testing/selftests/kselftest_harness.h            | 10 +---------
-> >  tools/testing/selftests/rtc/rtctest.c                  |  7 -------
-> >  4 files changed, 1 insertion(+), 28 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/drivers/s390x/uvdevice/test_uvdevi=
-ce.c b/tools/testing/selftests/drivers/s390x/uvdevice/test_uvdevice.c
-> > index ea0cdc37b44f..7ee7492138c6 100644
-> > --- a/tools/testing/selftests/drivers/s390x/uvdevice/test_uvdevice.c
-> > +++ b/tools/testing/selftests/drivers/s390x/uvdevice/test_uvdevice.c
-> > @@ -257,12 +257,6 @@ TEST_F(attest_fixture, att_inval_addr)
-> >       att_inval_addr_test(&self->uvio_attest.meas_addr, _metadata, self=
-);
-> >  }
-> >
-> > -static void __attribute__((constructor)) __constructor_order_last(void=
-)
-> > -{
-> > -     if (!__constructor_order)
-> > -             __constructor_order =3D _CONSTRUCTOR_ORDER_BACKWARD;
-> > -}
-> > -
-> >  int main(int argc, char **argv)
-> >  {
-> >       int fd =3D open(UV_PATH, O_ACCMODE);
-> > diff --git a/tools/testing/selftests/hid/hid_bpf.c b/tools/testing/self=
-tests/hid/hid_bpf.c
-> > index 2cf96f818f25..f47feef2aced 100644
-> > --- a/tools/testing/selftests/hid/hid_bpf.c
-> > +++ b/tools/testing/selftests/hid/hid_bpf.c
-> > @@ -853,12 +853,6 @@ static int libbpf_print_fn(enum libbpf_print_level=
- level,
-> >       return 0;
-> >  }
-> >
-> > -static void __attribute__((constructor)) __constructor_order_last(void=
-)
-> > -{
-> > -     if (!__constructor_order)
-> > -             __constructor_order =3D _CONSTRUCTOR_ORDER_BACKWARD;
-> > -}
-> > -
-> >  int main(int argc, char **argv)
-> >  {
-> >       /* Use libbpf 1.0 API mode */
-> > diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testin=
-g/selftests/kselftest_harness.h
-> > index ba3ddeda24bf..60c1cf5b0f0d 100644
-> > --- a/tools/testing/selftests/kselftest_harness.h
-> > +++ b/tools/testing/selftests/kselftest_harness.h
-> > @@ -444,12 +444,6 @@
-> >   * Use once to append a main() to the test file.
-> >   */
-> >  #define TEST_HARNESS_MAIN \
-> > -     static void __attribute__((constructor)) \
-> > -     __constructor_order_last(void) \
-> > -     { \
-> > -             if (!__constructor_order) \
-> > -                     __constructor_order =3D _CONSTRUCTOR_ORDER_BACKWA=
-RD; \
-> > -     } \
-> >       int main(int argc, char **argv) { \
-> >               return test_harness_run(argc, argv); \
-> >       }
->
-> This won't work. All constructors are executed, so we have to figure
-> out which is run _first_. Switching this to a boolean means we gain no
-> information about ordering: it'll always be set to "true".
 
-
-
-It will be set to "true" eventually,
-but __LIST_APPEND() still sees "false"
-on backward-order systems.
-
-
-
-
-Let's see how the following is expanded.
-
-
- #include "kselftest_harness.h"
-
- TEST(foo) { ... }
-
- TEST(bar) { ... }
-
-
-
-You will get something as follows:
-
-
-
-void _attribute__((constructor)) __constructor_order_first(void)
-{
-        __constructor_order_forward =3D true;
-}
-
-void __attribute__((constructor)) _register_foo(void)
-{
-      __register_test(&foo_object); // call __LIST_APPEND() for foo
-}
-
-
-void __attribute__((constructor)) _register_bar(void)
-{
-      __register_test(&bar_object); // call __LIST_APPEND() for bar
-}
-
-
-
-
-On forward-order systems, the constructors are executed in this order:
-
-
-  __constructor_order_first() -> _register_foo() -> _register_bar()
-
-
-So, __LIST_APPEND will see "true".
-
-
-
-
-On backward-order systems, the constructors are executed in this order:
-
-
-  _register_bar() -> _register_foo() -> __constructor_order_first()
-
-
-So, __LIST_APPEND will see "false" since __construtor_order_first()
-has not been called yet.
-
-
-
-Correct me if I am wrong.
-
-
-
-
-> We need to
-> detect which constructor sets it first so that we can walk the lists
-> (that are built via all the constructors in between)
-
-
-You have a wrong assumption here.
-
-TEST() macros may not be placed in-between.
-
-
-   #include "kselftest_harness.h"
-
-   TEST_HARNESS_MAIN
-   TEST(foo) { ... }
-   TEST(bar) { ... }
-
-
-This is perfectly correct code, because there is no reason to force
-"Please put TEST_HARNESS_MAIN at the end of the file".
-
-It is just a "coding style".
-
-
-If the test code were written in such style with
-the current harness implementation, __constructor_order
-would be zero instead of _CONSTRUCTOR_ORDER_BACKWARD
-on backward-order systems.
-__LIST_APPEND() still works correctly, though.
-
-
-
-
-
-
-
-
-
-> >  #endif  /* __KSELFTEST_HARNESS_H */
-> > diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/self=
-tests/rtc/rtctest.c
-> > index 63ce02d1d5cc..9647b14b47c5 100644
-> > --- a/tools/testing/selftests/rtc/rtctest.c
-> > +++ b/tools/testing/selftests/rtc/rtctest.c
-> > @@ -410,13 +410,6 @@ TEST_F_TIMEOUT(rtc, alarm_wkalm_set_minute, 65) {
-> >       ASSERT_EQ(new, secs);
-> >  }
-> >
-> > -static void __attribute__((constructor))
-> > -__constructor_order_last(void)
-> > -{
-> > -     if (!__constructor_order)
-> > -             __constructor_order =3D _CONSTRUCTOR_ORDER_BACKWARD;
-> > -}
-> > -
-> >  int main(int argc, char **argv)
-> >  {
-> >       switch (argc) {
->
-> A better question is why these tests are open-coding the execution of
-> "main"...
-
-
-
-It is open __unnecessary__ coding.
-
-
-
-If __constructor_order_last() had not existed in the first place,
-such things would not have occured.
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    fda5695d692c Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=14de17c0980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=95dc1de8407c7270
+dashboard link: https://syzkaller.appspot.com/bug?extid=77a2ec57108df22d5c63
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10298620980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=134d3182980000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/07f3214ff0d9/disk-fda5695d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/70e2e2c864e8/vmlinux-fda5695d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b259942a16dc/Image-fda5695d.gz.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+77a2ec57108df22d5c63@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc7-syzkaller-gfda5695d692c #0 Not tainted
+------------------------------------------------------
+syz-executor144/6248 is trying to acquire lock:
+ffff0000d6b65110 (&evdev->mutex){+.+.}-{3:3}, at: evdev_mark_dead drivers/input/evdev.c:1314 [inline]
+ffff0000d6b65110 (&evdev->mutex){+.+.}-{3:3}, at: evdev_cleanup+0x38/0x16c drivers/input/evdev.c:1323
+
+but task is already holding lock:
+ffff800090ffb888 (input_mutex){+.+.}-{3:3}, at: __input_unregister_device+0x2a4/0x5c0 drivers/input/input.c:2219
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 (input_mutex){+.+.}-{3:3}:
+       __mutex_lock_common+0x190/0x21a0 kernel/locking/mutex.c:608
+       __mutex_lock kernel/locking/mutex.c:752 [inline]
+       mutex_lock_interruptible_nested+0x2c/0x38 kernel/locking/mutex.c:826
+       input_register_device+0x8dc/0xde8 drivers/input/input.c:2389
+       uinput_create_device+0x360/0x528 drivers/input/misc/uinput.c:365
+       uinput_ioctl_handler+0x8b0/0x16c0 drivers/input/misc/uinput.c:904
+       uinput_ioctl+0x38/0x4c drivers/input/misc/uinput.c:1075
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl fs/ioctl.c:890 [inline]
+       __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:890
+       __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:133
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:152
+       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+       el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+       el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+-> #2 (&newdev->mutex){+.+.}-{3:3}:
+       __mutex_lock_common+0x190/0x21a0 kernel/locking/mutex.c:608
+       __mutex_lock kernel/locking/mutex.c:752 [inline]
+       mutex_lock_interruptible_nested+0x2c/0x38 kernel/locking/mutex.c:826
+       uinput_request_send drivers/input/misc/uinput.c:151 [inline]
+       uinput_request_submit+0x188/0x654 drivers/input/misc/uinput.c:182
+       uinput_dev_upload_effect+0x170/0x218 drivers/input/misc/uinput.c:257
+       input_ff_upload+0x49c/0x834 drivers/input/ff-core.c:150
+       evdev_do_ioctl drivers/input/evdev.c:1183 [inline]
+       evdev_ioctl_handler+0x1fd0/0x2d58 drivers/input/evdev.c:1272
+       evdev_ioctl+0x38/0x4c drivers/input/evdev.c:1281
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl fs/ioctl.c:890 [inline]
+       __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:890
+       __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:133
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:152
+       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+       el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+       el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+-> #1 (&ff->mutex){+.+.}-{3:3}:
+       __mutex_lock_common+0x190/0x21a0 kernel/locking/mutex.c:608
+       __mutex_lock kernel/locking/mutex.c:752 [inline]
+       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:804
+       input_ff_upload+0x31c/0x834 drivers/input/ff-core.c:120
+       evdev_do_ioctl drivers/input/evdev.c:1183 [inline]
+       evdev_ioctl_handler+0x1fd0/0x2d58 drivers/input/evdev.c:1272
+       evdev_ioctl+0x38/0x4c drivers/input/evdev.c:1281
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl fs/ioctl.c:890 [inline]
+       __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:890
+       __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:133
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:152
+       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+       el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+       el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+-> #0 (&evdev->mutex){+.+.}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3134 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x3384/0x763c kernel/locking/lockdep.c:5137
+       lock_acquire+0x248/0x73c kernel/locking/lockdep.c:5754
+       __mutex_lock_common+0x190/0x21a0 kernel/locking/mutex.c:608
+       __mutex_lock kernel/locking/mutex.c:752 [inline]
+       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:804
+       evdev_mark_dead drivers/input/evdev.c:1314 [inline]
+       evdev_cleanup+0x38/0x16c drivers/input/evdev.c:1323
+       evdev_disconnect+0x58/0xc0 drivers/input/evdev.c:1407
+       __input_unregister_device+0x31c/0x5c0 drivers/input/input.c:2222
+       input_unregister_device+0xb0/0xfc drivers/input/input.c:2440
+       uinput_destroy_device+0x5a4/0x79c drivers/input/misc/uinput.c:299
+       uinput_release+0x44/0x60 drivers/input/misc/uinput.c:744
+       __fput+0x30c/0x738 fs/file_table.c:422
+       ____fput+0x20/0x30 fs/file_table.c:450
+       task_work_run+0x230/0x2e0 kernel/task_work.c:180
+       exit_task_work include/linux/task_work.h:38 [inline]
+       do_exit+0x4e4/0x1ac8 kernel/exit.c:878
+       do_group_exit+0x194/0x22c kernel/exit.c:1027
+       __do_sys_exit_group kernel/exit.c:1038 [inline]
+       __se_sys_exit_group kernel/exit.c:1036 [inline]
+       pid_child_should_wake+0x0/0x1dc kernel/exit.c:1036
+       __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
+       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
+       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:133
+       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:152
+       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+       el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+       el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+other info that might help us debug this:
+
+Chain exists of:
+  &evdev->mutex --> &newdev->mutex --> input_mutex
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(input_mutex);
+                               lock(&newdev->mutex);
+                               lock(input_mutex);
+  lock(&evdev->mutex);
+
+ *** DEADLOCK ***
+
+1 lock held by syz-executor144/6248:
+ #0: ffff800090ffb888 (input_mutex){+.+.}-{3:3}, at: __input_unregister_device+0x2a4/0x5c0 drivers/input/input.c:2219
+
+stack backtrace:
+CPU: 0 PID: 6248 Comm: syz-executor144 Not tainted 6.9.0-rc7-syzkaller-gfda5695d692c #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+Call trace:
+ dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:317
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:324
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:114
+ dump_stack+0x1c/0x28 lib/dump_stack.c:123
+ print_circular_bug+0x150/0x1b8 kernel/locking/lockdep.c:2060
+ check_noncircular+0x310/0x404 kernel/locking/lockdep.c:2187
+ check_prev_add kernel/locking/lockdep.c:3134 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x3384/0x763c kernel/locking/lockdep.c:5137
+ lock_acquire+0x248/0x73c kernel/locking/lockdep.c:5754
+ __mutex_lock_common+0x190/0x21a0 kernel/locking/mutex.c:608
+ __mutex_lock kernel/locking/mutex.c:752 [inline]
+ mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:804
+ evdev_mark_dead drivers/input/evdev.c:1314 [inline]
+ evdev_cleanup+0x38/0x16c drivers/input/evdev.c:1323
+ evdev_disconnect+0x58/0xc0 drivers/input/evdev.c:1407
+ __input_unregister_device+0x31c/0x5c0 drivers/input/input.c:2222
+ input_unregister_device+0xb0/0xfc drivers/input/input.c:2440
+ uinput_destroy_device+0x5a4/0x79c drivers/input/misc/uinput.c:299
+ uinput_release+0x44/0x60 drivers/input/misc/uinput.c:744
+ __fput+0x30c/0x738 fs/file_table.c:422
+ ____fput+0x20/0x30 fs/file_table.c:450
+ task_work_run+0x230/0x2e0 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x4e4/0x1ac8 kernel/exit.c:878
+ do_group_exit+0x194/0x22c kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ pid_child_should_wake+0x0/0x1dc kernel/exit.c:1036
+ __invoke_syscall arch/arm64/kernel/syscall.c:34 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:48
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:133
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:152
+ el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
