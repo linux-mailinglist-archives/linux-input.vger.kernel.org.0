@@ -1,549 +1,137 @@
-Return-Path: <linux-input+bounces-3739-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3740-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414CC8C9622
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 22:23:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918708C96D2
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 23:30:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 580A1281043
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 20:23:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2597EB20A57
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 21:30:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF474D9E8;
-	Sun, 19 May 2024 20:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF15523BB;
+	Sun, 19 May 2024 21:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkOhhavl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vy5MdXFi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6DCD2EE
-	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 20:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118CE101CE
+	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 21:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716150216; cv=none; b=r3rVn6b/etz01I76KwzFjI5mZWG+rgu6SAvpNI9U+jWla8o6TK6O70rMvcIHG3ZqLB5IH53YK6w2A3+OxBya0rKMQjk7VvBG1FzKvX0Q4owX3MiU3eD7sR9g6dcz+Xpr9FLQQl/GrY3ENB7ak3QiTDC1b/2w9kg/mTzSCo7aqgQ=
+	t=1716154221; cv=none; b=ZqBWLjk7z5j40fcvS8hWALOQHajJRiXpW8uq2LguPAe1nGKwJIYydUBCdHO66AKtn1dEXJV2yxR3hVuKpudmVy2II+FjurHGB3OIwtrS7ZgIua2kkfF5WTBo/Oc07PriwSi2VDcbaz7VTPHAHMre3b9xdtn34z1DsagRbkENAjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716150216; c=relaxed/simple;
-	bh=BdBAfhA39kgNCceWMI2VX2j+wRSwSrlwHc2aZzsZJPQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=rq7aCCajG0iA2QzXeAR+Nv9I8DPcedgfJbI9XaG+FxAmqQZNGxzEr4NMmyCPRGt86Pv7cdkNFDh5NZhw3aNlLhxQsC/dNCn9D0IZ8SPrdu2MDCMGU04QIO2IS44r7oQU7pTErxpcrOstDRc7F4kYDBVafQYX3g+h4Q3GoKp5c70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkOhhavl; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-574d1a1c36aso6529094a12.3
-        for <linux-input@vger.kernel.org>; Sun, 19 May 2024 13:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716150212; x=1716755012; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YbaHAWdmaA2cqVV95grWhk4eA7rAqw0CfJHqK1FHE5M=;
-        b=fkOhhavleetWU+Nz3pjc5l1phSYc2vG2TAmYW7jWTTZnX4j4uvqyDOBqKN9olq53hj
-         BXgaTOtpKH2p/YBmZWuJxEZnenmrsbDw5IqX7VZ9jvTevYdtGye54vallbravUkHZFDi
-         HoLxJlNlnPNvuaU3lCteranaY13W+Pfp0GlwH9GA1yA4EDMv6dOViQLbMhSY5PVqmu2v
-         918/CXASyjIJkSWHoTsYkdwQArpHIYOeQ5Mt3Ul+AgaAnAuOI8v9jsWcJrCW7x0Uh6+n
-         E8bZoGglOxJf4Ew+NLXQoig+BVkIcOJARGUkZdlj9pHq0HvypyBydfzgo/7gZV9UOf6p
-         Vsfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716150212; x=1716755012;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YbaHAWdmaA2cqVV95grWhk4eA7rAqw0CfJHqK1FHE5M=;
-        b=hozEIZIp2qhyS82K0mpTAfZD/5zVgAThObxIA+NHWJEiBCpcLh/1EAqwNhEwQnBXm9
-         0h9AbTM/+yOhrXtsqSl1eTU25/eUSCJwdLm51+QdkEkWtjSPT6/P0hgCC9+KAAKIb+Mg
-         FOQ5ehny/W2sVl6A69AOgiT/Bc2uBo89LwWPDmsTNfnCeFB3pW/5MruODg6ZJ9mzS9fL
-         h/uXxix0eSuPrc8jnG6y+kwY0zSJu2DgczLrAPFNYtPPcHPIz/Ug1plbmLK9/1IXtmS+
-         QrYwd9xs3NesW29+GayrKwIWNv7qxY22529tlWsh1ILP6gBHVZH80xFEuwm4vFf8IFUZ
-         FRTA==
-X-Gm-Message-State: AOJu0YxBJQ8xsEVxcfd/0QqxoURkv/ebsDTlkkv40FSoH9C8q8Ri14lx
-	XK+0EQCTVzVyyk6hgrT7Z7DXCu3u79Y062sFSdqztQx4CURygHKAPbbvE2AFQ/FHIJp3ei4ZU5P
-	nTpyeMse3qOuUCdf5MyyzzO3ekHyYBXTxbbA=
-X-Google-Smtp-Source: AGHT+IFZwkXFFMJ2n5Y4ZJaVrB/ZZVXkfJmtPkY9PW9TUm+t1PoQJc9wRsBgfmDRO+y0bEMIa29EJAkuLsMelh2pCzo=
-X-Received: by 2002:a50:a6dc:0:b0:574:ebfb:6d90 with SMTP id
- 4fb4d7f45d1cf-574ebfb6e1amr9135746a12.4.1716150212015; Sun, 19 May 2024
- 13:23:32 -0700 (PDT)
+	s=arc-20240116; t=1716154221; c=relaxed/simple;
+	bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gqO5vXfzS6oH2Caqf/mBxciSkbydgMJMXC+2t419yuG01cpVxJ8LzfIyOXmYgfwBoi1nhplV5NVSrwTll+tU9HDCTi4W/N1gxGsdP2h9g+kiygLCKVMMSYac0MmLZIuFge8E+r0nbRhHaKh4Eq5TsSW3bjlCh0qOmNlf4UWTjbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vy5MdXFi; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716154219; x=1747690219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
+  b=Vy5MdXFiLaOC7N4xnFkeAcUxs9pj1P3A/l0yT/WwnhaRgRBMILcDbhw4
+   spl0seCEYPc4Dg5w5I/+9Rizk7D25sh9jgwS2dx+MLUhg3KqIF3c7zRoA
+   jeKPjBoVme6gJq8v0gAaCFzuG/7+eqH+fEr8JY477Y3gvoCgZNhnfdOzD
+   ifXJTQuP2ityW9rDS1BuuIY55F+9fCfDD1rFn3O+pDRNb279Ybn+ppAZ6
+   7MEseWbTAb++GVANfZAU+blg74tIUmYntYP3bKcNS78OpI2uGd+IJN3Re
+   vQz9aHdLdXH1zRc3BoP2B/x2zO3HZSmVFAfJBGUWg9THzdS88BhZ1kPfl
+   g==;
+X-CSE-ConnectionGUID: jzmdSQvySC6ZgXKC9uKtUA==
+X-CSE-MsgGUID: UigkMipjTcK4fTAMK6RnLw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="29788064"
+X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
+   d="scan'208";a="29788064"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 14:30:18 -0700
+X-CSE-ConnectionGUID: uGFmu/JiRZmh64jjFICdmw==
+X-CSE-MsgGUID: XZkp08ilQuC/QJwiNCOuBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
+   d="scan'208";a="32488997"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 19 May 2024 14:30:15 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s8o6b-0004Bg-2q;
+	Sun, 19 May 2024 21:30:12 +0000
+Date: Mon, 20 May 2024 05:29:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Peter Hutterer <peter.hutterer@who-t.net>
+Subject: [dtor-input:next 188/188] drivers/input/input.c:1489:9: warning:
+ comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int
+ *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *'))
+Message-ID: <202405200547.y7iHuRu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Andres David Ortiz <andresdortiz@gmail.com>
-Date: Sun, 19 May 2024 16:23:21 -0400
-Message-ID: <CAMBU0EA486=59mQCK_qL5Q=W0tho67VhAYqQYUES0cxq=rwZBA@mail.gmail.com>
-Subject: Scuf Envision Pro controller support
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello. I would like to help get the sucf envision pro controller
-supported in the Linux kernel. Currently, everything works except
-mappings and rumble.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   c1307f8a152ac69f7efb759edfb8d71b4aa228f4
+commit: c1307f8a152ac69f7efb759edfb8d71b4aa228f4 [188/188] Input: try trimming too long modalias strings
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/reproduce)
 
-Mappings can be worked around in userspace, and I created the relevant
-pull rule requests to SDL to get them working in Steam and other SDL
-applications.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405200547.y7iHuRu6-lkp@intel.com/
 
-What would be needed to get force feedback support working for this controller?
+All warnings (new ones prefixed by >>):
 
-here is a lsusb -vd of the  controller in question
+>> drivers/input/input.c:1489:9: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    1489 |         return min(len, PAGE_SIZE);
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
 
-sudo lsusb -vd 2e95:434d
 
-Bus 001 Device 005: ID 2e95:434d SCUF Gaming SCUF Envision Pro Controller
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0 [unknown]
-  bDeviceSubClass         0 [unknown]
-  bDeviceProtocol         0
-  bMaxPacketSize0         8
-  idVendor           0x2e95 SCUF Gaming
-  idProduct          0x434d SCUF Envision Pro Controller
-  bcdDevice            0.00
-  iManufacturer           1 Scuf Gaming
-  iProduct                2 SCUF Envision Pro Controller
-  iSerial                 3 18f6f23000070215
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x01b5
-    bNumInterfaces          5
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              250mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      1 Control Device
-      bInterfaceProtocol      0
-      iInterface              0
-      AudioControl Interface Descriptor:
-        bLength                10
-        bDescriptorType        36
-        bDescriptorSubtype      1 (HEADER)
-        bcdADC               1.00
-        wTotalLength       0x005d
-        bInCollection           2
-        baInterfaceNr(0)        1
-        baInterfaceNr(1)        2
-      AudioControl Interface Descriptor:
-        bLength                12
-        bDescriptorType        36
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-        bTerminalID             1
-        wTerminalType      0x0402 Headset
-        bAssocTerminal          0
-        bNrChannels             1
-        wChannelConfig     0x0004
-          Center Front (C)
-        iChannelNames           0
-        iTerminal               0
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-        bUnitID                 3
-        bSourceID               1
-        bControlSize            1
-        bmaControls(0)       0x01
-          Mute Control
-        bmaControls(1)       0x02
-          Volume Control
-        iFeature                0
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-        bTerminalID             4
-        wTerminalType      0x0101 USB Streaming
-        bAssocTerminal          0
-        bSourceID               3
-        iTerminal               0
-      AudioControl Interface Descriptor:
-        bLength                12
-        bDescriptorType        36
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-        bTerminalID             5
-        wTerminalType      0x0101 USB Streaming
-        bAssocTerminal          0
-        bNrChannels             2
-        wChannelConfig     0x0003
-          Left Front (L)
-          Right Front (R)
-        iChannelNames           0
-        iTerminal               0
-      AudioControl Interface Descriptor:
-        bLength                10
-        bDescriptorType        36
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-        bUnitID                 8
-        bSourceID               7
-        bControlSize            1
-        bmaControls(0)       0x01
-          Mute Control
-        bmaControls(1)       0x02
-          Volume Control
-        bmaControls(2)       0x02
-          Volume Control
-        iFeature                0
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-        bUnitID                 6
-        bSourceID               1
-        bControlSize            1
-        bmaControls(0)       0x03
-          Mute Control
-          Volume Control
-        bmaControls(1)       0x00
-        iFeature                0
-      AudioControl Interface Descriptor:
-        bLength                13
-        bDescriptorType        36
-        bDescriptorSubtype      4 (MIXER_UNIT)
-        bUnitID                 7
-        bNrInPins               2
-        baSourceID(0)           5
-        baSourceID(1)           6
-        bNrChannels             2
-        wChannelConfig     0x0003
-          Left Front (L)
-          Right Front (R)
-        iChannelNames           0
-        bmControls(0)        0x00
-        iMixer                  0
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-        bTerminalID             9
-        wTerminalType      0x0402 Headset
-        bAssocTerminal          0
-        bSourceID               8
-        iTerminal               0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       1
-      bNumEndpoints           1
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      AudioStreaming Interface Descriptor:
-        bLength                 7
-        bDescriptorType        36
-        bDescriptorSubtype      1 (AS_GENERAL)
-        bTerminalLink           4
-        bDelay                  1 frames
-        wFormatTag         0x0001 PCM
-      AudioStreaming Interface Descriptor:
-        bLength                32
-        bDescriptorType        36
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-        bFormatType             1 (FORMAT_TYPE_I)
-        bNrChannels             1
-        bSubframeSize           2
-        bBitResolution         16
-        bSamFreqType            8 Discrete
-        tSamFreq[ 0]         8000
-        tSamFreq[ 1]        11025
-        tSamFreq[ 2]        16000
-        tSamFreq[ 3]        22050
-        tSamFreq[ 4]        24000
-        tSamFreq[ 5]        32000
-        tSamFreq[ 6]        44100
-        tSamFreq[ 7]        48000
-      Endpoint Descriptor:
-        bLength                 9
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes           13
-          Transfer Type            Isochronous
-          Synch Type               Synchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0062  1x 98 bytes
-        bInterval               1
-        bRefresh                0
-        bSynchAddress           0
-        AudioStreaming Endpoint Descriptor:
-          bLength                 7
-          bDescriptorType        37
-          bDescriptorSubtype      1 (EP_GENERAL)
-          bmAttributes         0x01
-            Sampling Frequency
-          bLockDelayUnits         1 Milliseconds
-          wLockDelay         0x0001
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       2
-      bNumEndpoints           1
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      AudioStreaming Interface Descriptor:
-        bLength                 7
-        bDescriptorType        36
-        bDescriptorSubtype      1 (AS_GENERAL)
-        bTerminalLink           4
-        bDelay                  1 frames
-        wFormatTag         0x0001 PCM
-      AudioStreaming Interface Descriptor:
-        bLength                32
-        bDescriptorType        36
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-        bFormatType             1 (FORMAT_TYPE_I)
-        bNrChannels             1
-        bSubframeSize           3
-        bBitResolution         24
-        bSamFreqType            8 Discrete
-        tSamFreq[ 0]         8000
-        tSamFreq[ 1]        11025
-        tSamFreq[ 2]        16000
-        tSamFreq[ 3]        22050
-        tSamFreq[ 4]        24000
-        tSamFreq[ 5]        32000
-        tSamFreq[ 6]        44100
-        tSamFreq[ 7]        48000
-      Endpoint Descriptor:
-        bLength                 9
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes           13
-          Transfer Type            Isochronous
-          Synch Type               Synchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0093  1x 147 bytes
-        bInterval               1
-        bRefresh                0
-        bSynchAddress           0
-        AudioStreaming Endpoint Descriptor:
-          bLength                 7
-          bDescriptorType        37
-          bDescriptorSubtype      1 (EP_GENERAL)
-          bmAttributes         0x01
-            Sampling Frequency
-          bLockDelayUnits         1 Milliseconds
-          wLockDelay         0x0001
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       1
-      bNumEndpoints           1
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      AudioStreaming Interface Descriptor:
-        bLength                 7
-        bDescriptorType        36
-        bDescriptorSubtype      1 (AS_GENERAL)
-        bTerminalLink           5
-        bDelay                  1 frames
-        wFormatTag         0x0001 PCM
-      AudioStreaming Interface Descriptor:
-        bLength                26
-        bDescriptorType        36
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-        bFormatType             1 (FORMAT_TYPE_I)
-        bNrChannels             2
-        bSubframeSize           2
-        bBitResolution         16
-        bSamFreqType            6 Discrete
-        tSamFreq[ 0]        32000
-        tSamFreq[ 1]        44100
-        tSamFreq[ 2]        48000
-        tSamFreq[ 3]        64000
-        tSamFreq[ 4]        88200
-        tSamFreq[ 5]        96000
-      Endpoint Descriptor:
-        bLength                 9
-        bDescriptorType         5
-        bEndpointAddress     0x03  EP 3 OUT
-        bmAttributes           13
-          Transfer Type            Isochronous
-          Synch Type               Synchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0184  1x 388 bytes
-        bInterval               1
-        bRefresh                0
-        bSynchAddress           0
-        AudioStreaming Endpoint Descriptor:
-          bLength                 7
-          bDescriptorType        37
-          bDescriptorSubtype      1 (EP_GENERAL)
-          bmAttributes         0x01
-            Sampling Frequency
-          bLockDelayUnits         1 Milliseconds
-          wLockDelay         0x0001
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       2
-      bNumEndpoints           1
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      AudioStreaming Interface Descriptor:
-        bLength                 7
-        bDescriptorType        36
-        bDescriptorSubtype      1 (AS_GENERAL)
-        bTerminalLink           5
-        bDelay                  1 frames
-        wFormatTag         0x0001 PCM
-      AudioStreaming Interface Descriptor:
-        bLength                26
-        bDescriptorType        36
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-        bFormatType             1 (FORMAT_TYPE_I)
-        bNrChannels             2
-        bSubframeSize           3
-        bBitResolution         24
-        bSamFreqType            6 Discrete
-        tSamFreq[ 0]        32000
-        tSamFreq[ 1]        44100
-        tSamFreq[ 2]        48000
-        tSamFreq[ 3]        64000
-        tSamFreq[ 4]        88200
-        tSamFreq[ 5]        96000
-      Endpoint Descriptor:
-        bLength                 9
-        bDescriptorType         5
-        bEndpointAddress     0x03  EP 3 OUT
-        bmAttributes           13
-          Transfer Type            Isochronous
-          Synch Type               Synchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0246  1x 582 bytes
-        bInterval               1
-        bRefresh                0
-        bSynchAddress           0
-        AudioStreaming Endpoint Descriptor:
-          bLength                 7
-          bDescriptorType        37
-          bDescriptorSubtype      1 (EP_GENERAL)
-          bmAttributes         0x01
-            Sampling Frequency
-          bLockDelayUnits         1 Milliseconds
-          wLockDelay         0x0001
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        3
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0
-      iInterface              0
-        HID Device Descriptor:
-          bLength                 9
-          bDescriptorType        33
-          bcdHID               1.11
-          bCountryCode            0 Not supported
-          bNumDescriptors         1
-          bDescriptorType        34 Report
-          wDescriptorLength     156
-          Report Descriptors:
-            ** UNAVAILABLE **
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x01  EP 1 OUT
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        4
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0
-      iInterface              0
-        HID Device Descriptor:
-          bLength                 9
-          bDescriptorType        33
-          bcdHID               1.11
-          bCountryCode            0 Not supported
-          bNumDescriptors         1
-          bDescriptorType        34 Report
-          wDescriptorLength     154
-          Report Descriptors:
-            ** UNAVAILABLE **
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-Device Status:     0x0000
-  (Bus Powered)
+vim +1489 drivers/input/input.c
 
-Regards
-Andres
+  1477	
+  1478	static ssize_t input_dev_show_modalias(struct device *dev,
+  1479					       struct device_attribute *attr,
+  1480					       char *buf)
+  1481	{
+  1482		struct input_dev *id = to_input_dev(dev);
+  1483		size_t len;
+  1484	
+  1485		len = input_print_modalias(buf, PAGE_SIZE, id);
+  1486		if (len < PAGE_SIZE - 2)
+  1487			len += snprintf(buf + len, PAGE_SIZE - len, "\n");
+  1488	
+> 1489		return min(len, PAGE_SIZE);
+  1490	}
+  1491	static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
+  1492	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
