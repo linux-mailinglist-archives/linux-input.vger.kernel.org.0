@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-3737-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3738-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300D28C9485
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 13:47:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4EB8C9486
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 13:49:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3B5E2812AE
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 11:47:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 550C61F215D8
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 11:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0941918030;
-	Sun, 19 May 2024 11:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F0331A89;
+	Sun, 19 May 2024 11:49:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oe6ZbWk2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1ri1xvM"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81C08BEA
-	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 11:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145FE8BEA
+	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 11:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716119217; cv=none; b=VjoQcKpxilrnnas1dV2NECAR5uGCek0anOibq7CY6qW9RnzlOMhDJ/LltLfefVPzoD0rJNc4ZRwhhIEifE3FzOlPfq/xVYB4oZp8AhTMIjhjnD3dq6EKtHKIfX9jGlH7Xq4Vm7UWaQ2RMWLU9RrRpw0tfFvqHtgLBrpxEWM1CEk=
+	t=1716119380; cv=none; b=TeqxIhZoqXeLabEUeDKGJOfPoVebnhDTtENxyCQlRJNMr3T3mPQvZXkATDB4A7gt8BX9/EEDsxBX9zD/K1kgLDRTy1DuHGAFeCMVDije0v/nghR6s/2XD7jkydHvPNqJrJpxbzaZMqg74PpPpg0U76nynKYl/5mTWLc+1hFmHdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716119217; c=relaxed/simple;
-	bh=HCe/NufUJPAu3sXZi1+LTsjORmr3XnW+MFHn0Qedb/w=;
+	s=arc-20240116; t=1716119380; c=relaxed/simple;
+	bh=HlRrCIn6H3MAivbwI3riFvrtsBJOVeQNSluihl1ct3M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y4h/EAiciTRtlOmUg8cnCZRWltmKxsjjUTDHRSGISuhPqw/xqm8t1IAnSHhI/6g6zDOw79l8EeAmVr65GFr99FDOLkDqnSq5lRLP5gvuvqUG0KM0YSQwuMtZ1R7lHRaJo3FuGyQny+Mug0V24vSFQJRMYKzk0v2giZ+xtNcKaYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oe6ZbWk2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9108AC32781;
-	Sun, 19 May 2024 11:46:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fMUkfNlIJbHbiYMPxV/+8a7m6dTurfnIHBC8UmGeE/Jj7AytEvwYp0U1k3T/prdy8Tyw23qTpKfvNgi68KUD0orD8HJXJ4IMRRj5bDs60RJoPdMqAjSGnsXql1W/dTDD5JZN7XICSU1l3a6kj36EYfd6X9Kk/zKpGT9illbXoV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1ri1xvM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2943C32781;
+	Sun, 19 May 2024 11:49:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716119217;
-	bh=HCe/NufUJPAu3sXZi1+LTsjORmr3XnW+MFHn0Qedb/w=;
+	s=k20201202; t=1716119379;
+	bh=HlRrCIn6H3MAivbwI3riFvrtsBJOVeQNSluihl1ct3M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oe6ZbWk2Odquezo1HnyuxBYI7rC18l3KeuqKFHTWJtymK1xGZpwBndn7yRG/fUSVo
-	 bLGDO/x1Z7RqtZOOMyqkX+r0G9yPNQ+TwpypC8YhCg5ID99GvhjsWHVT/L17O5vpJ1
-	 lWDDswioHDVZZ0tGl5BJBInquLF5qFBlO4Tv6R438iE1EWTWlM9cIK1c9vH7+O8C1/
-	 UdDw8P3NjmI9pAGGxO3c5/e21Ai8QZqYMJIE1ALqaet4049RCUZ/mtXn4z2z7g0EM7
-	 PrY+hUUbX0cLPcquUeBN/W3C2ElxifLhPNtSlow58eNqMu1OhXvHh4IRorkOAoZSft
-	 HhNqMfx7DiqCg==
-Message-ID: <7116f18c-00f8-467f-ad3a-de057ec51cf1@kernel.org>
-Date: Sun, 19 May 2024 13:46:53 +0200
+	b=R1ri1xvMCeMSUx8W1wEmAgASfXt2rt+aUlfRejld91JePx9xNAuz6Rx0QLGSw+C38
+	 GUw6VoWPcVAL17m3y7B2k/sjjt8qwBcTtAk4azJndt+Bu2mYWoNF/LtglnL+6U0KBd
+	 g+Hpt2IqI8Y7rThe/hMZexVsjkbySymQRDom1UR3a5MOnvPo17a6WzvijB8IYWTvNP
+	 Xpckvp5A9Ly8gLfBt2oSq+bf4OJP05naNUNLMAgigxU7Na3453Qt2KVLcN/E6NxHli
+	 d6cAI6shq0eiUgXasTgCUEi/Yo773oTlc1UZUiG0FfnQRgsCDEvi/oBs+ya2ZOybwY
+	 R6RtyGh8aWbpQ==
+Message-ID: <c7f43a40-40ab-4029-9446-84e46c4fb5ab@kernel.org>
+Date: Sun, 19 May 2024 13:49:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,12 +50,11 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: input: touchscreen: add Hynitron CST816X
+Subject: Re: [PATCH 1/2] input: add driver for Hynitron CST816X touchscreen
 To: Oleh Kuzhylnyi <kuzhylol@gmail.com>, linux-input@vger.kernel.org
 Cc: dmitry.torokhov@gmail.com, artur.serhiienko@gmail.com,
  igor.opaniuk@gmail.com
 References: <20240517092732.47715-1-kuzhylol@gmail.com>
- <20240517092732.47715-2-kuzhylol@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,69 +100,115 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240517092732.47715-2-kuzhylol@gmail.com>
+In-Reply-To: <20240517092732.47715-1-kuzhylol@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 17/05/2024 11:27, Oleh Kuzhylnyi wrote:
-> Add documentation for the Hynitron CST816X touchscreen bindings.
+> Introduce support for the Hynitron CST816X touchscreen controller
+> used for 240×240 1.28-inch Round LCD Display Module manufactured
+> by Waveshare Electronics. The driver is designed based on an Arduino
+> implementation marked as under MIT License. This driver is written
+> for a particular round display based on the CST816S controller, which
+> is not compatiable with existing driver for Hynitron controllers.
+> 
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
-
-Please kindly resend and include all necessary To/Cc entries.
-
-Also incorrect order - bindings come before users.
 ...
 
+> +static int cst816x_process_touch(struct cst816x_priv *priv)
+> +{
+> +	u8 *raw;
+> +	int rc;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      cst816s: cst816s@15 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-> +        compatible = "hynitron,cst816s";
-> +        reg = <0x15>;
-> +        interrupt-parent = <&gpio>;
-> +        interrupts = <4 1>;
-
-Use proper defines. Why did you include headers if you are not using them?
-
-> +        reset-gpios = <&gpio 17 0>;
-
-Same question.
-
-> +        status="okay";
-
-Drop.
-
-> +      };
-> +    };
+> +	rc = cst816x_i2c_read_reg(priv, CST816X_FRAME);
+> +	if (!rc) {
+> +		raw = priv->rxtx;
 > +
-> +...
+> +		priv->info.gesture = raw[0];
+> +		priv->info.x = ((raw[2] & 0x0F) << 8) | raw[3];
+> +		priv->info.y = ((raw[4] & 0x0F) << 8) | raw[5];
+> +
+> +		dev_dbg(priv->dev, "x: %d, y: %d, gesture: 0x%x\n",
+> +			priv->info.x, priv->info.y, priv->info.gesture);
+> +	} else {
+> +		dev_warn(priv->dev, "request was dropped\n");
+
+Not a warn. First, it feels like really spamming the log, second,
+drivers should be moderately quiet.
+
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static int cst816x_register_input(struct cst816x_priv *priv)
+> +{
+> +	int rc;
+> +
+> +	priv->input = devm_input_allocate_device(priv->dev);
+> +	if (!priv->input) {
+> +		rc = -ENOMEM;
+> +		dev_err(priv->dev, "input device alloc err: %d\n", rc);
+
+Memory allocation errors are *never* printk'ed by drivers.
+
+> +		goto err;
+> +	}
+
+...
+
+
+> +static int cst816x_resume(struct device *dev)
+> +{
+> +	struct cst816x_priv *priv = i2c_get_clientdata(to_i2c_client(dev));
+> +	int rc;
+> +
+> +	cst816x_reset(priv);
+> +	rc = cst816x_regs_setup(priv);
+> +	if (!rc)
+> +		enable_irq(priv->irq);
+> +
+> +	return rc;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(cst816x_pm_ops, cst816x_suspend, cst816x_resume);
+> +
+> +static int cst816x_probe(struct i2c_client *client)
+> +{
+> +	struct cst816x_priv *priv;
+> +	struct device *dev = &client->dev;
+> +	int rc;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv) {
+> +		rc = -ENOMEM;
+
+No, just return.
+
+> +		dev_err(dev, "devm alloc failed: %d\n", rc);
+
+No, drop. This is some ancient, downstream code. Do you see anything
+like this anywhere else?
+
+> +		goto err;
+> +	}
+> +
+> +	INIT_DELAYED_WORK(&priv->dw, cst816x_dw_cb);
+> +	timer_setup(&priv->timer, cst816x_timer_cb, 0);
+> +
+> +	priv->dev = dev;
+> +	priv->client = client;
+> +
+> +	priv->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (priv->reset == NULL) {
+> +		rc = -EIO;
+
+Syntax is return dev_err_probe().
+
+Same everywhere else.
+
+
 
 Best regards,
 Krzysztof
