@@ -1,67 +1,67 @@
-Return-Path: <linux-input+bounces-3740-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3741-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918708C96D2
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 23:30:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156C78C96DA
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 23:40:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2597EB20A57
-	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 21:30:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6D461F2106C
+	for <lists+linux-input@lfdr.de>; Sun, 19 May 2024 21:40:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF15523BB;
-	Sun, 19 May 2024 21:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC6671B24;
+	Sun, 19 May 2024 21:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vy5MdXFi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qv3LBc/l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118CE101CE
-	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 21:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC2D71743
+	for <linux-input@vger.kernel.org>; Sun, 19 May 2024 21:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716154221; cv=none; b=ZqBWLjk7z5j40fcvS8hWALOQHajJRiXpW8uq2LguPAe1nGKwJIYydUBCdHO66AKtn1dEXJV2yxR3hVuKpudmVy2II+FjurHGB3OIwtrS7ZgIua2kkfF5WTBo/Oc07PriwSi2VDcbaz7VTPHAHMre3b9xdtn34z1DsagRbkENAjY=
+	t=1716154826; cv=none; b=LM2EOgARmqpPvpxIumqrzqZleDlQX43DmU3tTYtrs3qk8ROcx9z0iBP3Y0a+9xUYC1Vvab4ANBS3QdLTvvQrCir7Jpl3AqIwWvFmRRZ17d6gY6svvvtlhDSbbp62YlzhcFzPksIqlbzPb7wwjFwuFOpdEwzFW78U64Nd7xfC5T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716154221; c=relaxed/simple;
-	bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
+	s=arc-20240116; t=1716154826; c=relaxed/simple;
+	bh=T01XMr8BH0Z8iBUKhgRqEY1ug7lZRqe9/cbbglE8Ms8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gqO5vXfzS6oH2Caqf/mBxciSkbydgMJMXC+2t419yuG01cpVxJ8LzfIyOXmYgfwBoi1nhplV5NVSrwTll+tU9HDCTi4W/N1gxGsdP2h9g+kiygLCKVMMSYac0MmLZIuFge8E+r0nbRhHaKh4Eq5TsSW3bjlCh0qOmNlf4UWTjbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vy5MdXFi; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=KbTZmrDgf3Oc/PKcpD8CmWFkOBoLZS4p5j5eIZGV95ULgEQWAkbZKi8cWK8AeqKFd/qHxvrqAmGDwGNIUyM6dbZD12oOsKf4xgwspqpsjyRmNg/BwTgTVJN6O5OhwQOGJWN3tvP9xR1YfDmOT16kKgaI07Zvb3LNdL8CrjTwhiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qv3LBc/l; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716154219; x=1747690219;
+  t=1716154825; x=1747690825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JhCzOiXMH17suymuHy5UuNk2aRjcue8i6vGsriKK2M0=;
-  b=Vy5MdXFiLaOC7N4xnFkeAcUxs9pj1P3A/l0yT/WwnhaRgRBMILcDbhw4
-   spl0seCEYPc4Dg5w5I/+9Rizk7D25sh9jgwS2dx+MLUhg3KqIF3c7zRoA
-   jeKPjBoVme6gJq8v0gAaCFzuG/7+eqH+fEr8JY477Y3gvoCgZNhnfdOzD
-   ifXJTQuP2ityW9rDS1BuuIY55F+9fCfDD1rFn3O+pDRNb279Ybn+ppAZ6
-   7MEseWbTAb++GVANfZAU+blg74tIUmYntYP3bKcNS78OpI2uGd+IJN3Re
-   vQz9aHdLdXH1zRc3BoP2B/x2zO3HZSmVFAfJBGUWg9THzdS88BhZ1kPfl
+  bh=T01XMr8BH0Z8iBUKhgRqEY1ug7lZRqe9/cbbglE8Ms8=;
+  b=Qv3LBc/l9WCG+quWRB1z7G7IfwWxWYwkGBAWgE10+mkis3HQPjX4f7Uo
+   1nR/InWU/PrjwPMmENdghFoH7t9V6du7a/Wuzh+ULiInYA8jP9iNMod00
+   6GnWU1nXF0YJvwj3yz7kgV8ef6CdWKhIM2mWcQwOtIf5t5urcxozAxD9D
+   J0Jlzq45LcSiOPUDg34WHOghgqL++OQJnP27h/R2z1MLz035AvqeebZz+
+   AvOsC071EO6fM1LvMlFCN6BMRmiIqzt6Yb2FUpXRWI1iA/F3tUygkPOoo
+   QONs78mK+q0xJgNekvZEEDGxIMUmwnh0u1ipTjtI9qjcApCYxQSCkTWUl
    g==;
-X-CSE-ConnectionGUID: jzmdSQvySC6ZgXKC9uKtUA==
-X-CSE-MsgGUID: UigkMipjTcK4fTAMK6RnLw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="29788064"
+X-CSE-ConnectionGUID: GGsp7toHS3+GylBRlEDugQ==
+X-CSE-MsgGUID: y9p8gz9PQGOEywvAziNWOA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="16060288"
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="29788064"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 14:30:18 -0700
-X-CSE-ConnectionGUID: uGFmu/JiRZmh64jjFICdmw==
-X-CSE-MsgGUID: XZkp08ilQuC/QJwiNCOuBw==
+   d="scan'208";a="16060288"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2024 14:40:24 -0700
+X-CSE-ConnectionGUID: kjxgIgPiSh2cJbFCrXIUQA==
+X-CSE-MsgGUID: Gga8NalqRSOvcUPJ3Nrw2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,173,1712646000"; 
-   d="scan'208";a="32488997"
+   d="scan'208";a="63564390"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 19 May 2024 14:30:15 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 May 2024 14:40:22 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8o6b-0004Bg-2q;
-	Sun, 19 May 2024 21:30:12 +0000
-Date: Mon, 20 May 2024 05:29:14 +0800
+	id 1s8oGS-0004C0-0s;
+	Sun, 19 May 2024 21:40:20 +0000
+Date: Mon, 20 May 2024 05:39:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
@@ -69,8 +69,8 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Peter Hutterer <peter.hutterer@who-t.net>
 Subject: [dtor-input:next 188/188] drivers/input/input.c:1489:9: warning:
  comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int
- *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *'))
-Message-ID: <202405200547.y7iHuRu6-lkp@intel.com>
+ *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *'))
+Message-ID: <202405200512.hpbZWegE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -83,18 +83,18 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
 head:   c1307f8a152ac69f7efb759edfb8d71b4aa228f4
 commit: c1307f8a152ac69f7efb759edfb8d71b4aa228f4 [188/188] Input: try trimming too long modalias strings
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/config)
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20240520/202405200512.hpbZWegE-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200547.y7iHuRu6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240520/202405200512.hpbZWegE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405200547.y7iHuRu6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405200512.hpbZWegE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/input/input.c:1489:9: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof (((1UL) << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+>> drivers/input/input.c:1489:9: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
     1489 |         return min(len, PAGE_SIZE);
          |                ^~~~~~~~~~~~~~~~~~~
    include/linux/minmax.h:67:19: note: expanded from macro 'min'
