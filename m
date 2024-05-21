@@ -1,144 +1,107 @@
-Return-Path: <linux-input+bounces-3758-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3760-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFE38CAF98
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 15:44:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1254B8CAFF1
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 16:04:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B82F2B21910
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 13:44:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A9B9B23F3E
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 14:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1C47EF08;
-	Tue, 21 May 2024 13:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A937FBA3;
+	Tue, 21 May 2024 14:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="zIkjlHMh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYHlSeKh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6B971B48;
-	Tue, 21 May 2024 13:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6171D7F7EB;
+	Tue, 21 May 2024 14:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716299074; cv=none; b=HR83lD+8u/UFF4CxEtV5oXwmbHFJni/Cmbg2EPNhZKa30mLVSYtt49P1HG8oZIMjKYQaT93a1sFbjPboe+ZNB994WqqY/W54XHepWwMjLckJ170wjFYqXGnWs9fCtx1Qe7Q5FtNW4q6GU5qPFxZn2nzxmhZ0aLP1Ir4XBHOuYpw=
+	t=1716300187; cv=none; b=YpwTb9un71C2U9oHL7lt7OzwtqqVrz5J2HjCInTupFhjdB4pGHKQQbzBWW6VbpnfE+Z9AhGiomZDPCzxMqkeqSl4gwBxOoWXem697qPvOwiRDu+xd4XPDrsDEQJjSBQA6becyQ9X/2m4CqQLl9t7+6tJL8EpwrK3p+GUyZkMm/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716299074; c=relaxed/simple;
-	bh=avfaquBLiabJK+NWspAcIo7IYcWZcY1k597OcwfKryE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qclc9ojmDyiUtajb5kR4F50ksHCIdFF242NtKL7g6OWeK0MK2Va/XwVtxRGe3SoZX6RGnPQr1lgrwGzaafACEhLnovxiH83j2ZsK7MPjR6Mto3jNUR6zt3fJpFtm8M3DSP6sHSGOdqeXXiqNJmoeZG2yyYnqFPVK+LFWXclGPw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=zIkjlHMh; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=GgRuBOpasoNF/joUeeZUqQr+iEJyi6OYHgdAIIl1wqU=;
-	t=1716299072; x=1716731072; b=zIkjlHMhM15RFb+9GHqQaC9aZzLdbBqHyUT+oP2MMMXQLAM
-	FK061lij+lz9t/b8nmoerD4JYCYKLEU07ysZTY9Tc52m4W6n5BN6lFet2gvODF0nBHs+shCZyeOPQ
-	xdVG3aPbIRGW/Z+/KGLxxQ6mtLDn7IdtEIOgS4QFZykNQTFSW/427PM95rHl54kELLBsVbZ2gyN3E
-	ALVjyw2vi45VNYS77rk30MQXNJctCbrPMN8715zEb2/ui78JNK5tPvQSdlVuESC69b3y1hGZ2dG7G
-	cIdJVswphX/Rj1g7lSQW7XIvP/xaDmdC8gVEIxKdgp8aN8nyvUjO2/rPdiNfHDzA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1s9Pn3-0005Nd-IX; Tue, 21 May 2024 15:44:29 +0200
-Message-ID: <75053193-92db-40ad-9658-3cdeb0f553be@leemhuis.info>
-Date: Tue, 21 May 2024 15:44:29 +0200
+	s=arc-20240116; t=1716300187; c=relaxed/simple;
+	bh=+Jy4m7MNDpofjaRM2AsMooq8RhxTCuUViL7IQLY/GDs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oODWbZES6DPYvx3xn4ZDhoINdOAMcKpf+XxDUUA3amSr7DE0keDenjFM6P2tn/kgxONtPnVt175l9j4YbL9eU4L4VWR7AiTYmZRDPCqzN4TabKcDb8mmQFfwk3VAUfkwp+x6ooTXzp7BdyrGt7xHT0wSZbP6NyK+9prllyCunSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYHlSeKh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F32BBC2BD11;
+	Tue, 21 May 2024 14:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716300187;
+	bh=+Jy4m7MNDpofjaRM2AsMooq8RhxTCuUViL7IQLY/GDs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=BYHlSeKhp5/6+3JEmF8quhUenzDVjzpfRw1biR+7mYIeDpzj/0hhcoD4fGGAz5EbV
+	 B0VcJv7wwk3h1rf/aZtN6kSi32xloVcFYYad9Ajr52DRgUQyqFplyET2MaYXSgG0Ei
+	 BbgaKpbs2qzrJMDzhWK5ac/LSNDbpn1jKrRw7k6cuMfPtjlfTEc3/6Nvt6CH6BlvBH
+	 F3lDB/lLIvInbMEN8TMVptwDL4fa58J1tPXU7ab+v1SPQhmm7rYy8y8uioq02fpffF
+	 +deDzxj9CTjnjQKDOmQp6PbI1zwdjsRL1dGr4KUi5fa6ywycjt2xspwEneL6qACl9h
+	 ZX9mzWaHbvyWw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7AD3C25B74;
+	Tue, 21 May 2024 14:03:06 +0000 (UTC)
+From: Joel Selvaraj via B4 Relay <devnull+joelselvaraj.oss.gmail.com@kernel.org>
+Subject: [PATCH 0/2] Input: edt-ft5x06 - add support for FocalTech FT5452
+ and FT8719
+Date: Tue, 21 May 2024 09:02:56 -0500
+Message-Id: <20240521-add-support-ft5452-and-ft8719-touchscreen-v1-0-2a648ac7176b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: BUG: Framework Laptop 16 i2c-hid Based Touchpad Sometimes Fails
- To Initialize Properly On Early Boot
-To: Arazil Songweaver <arazil@arazil.net>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Benjamin Tissoires <bentiss@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-References: <0111018f7508efb1-1206661a-d4b5-4bd1-b54f-ccb8504b8b4a-000000@us-west-1.amazonses.com>
- <f0dd90aa-78b0-4253-96b0-3241e8b2a11b@leemhuis.info>
- <0111018f9b597531-d4643a7e-c27a-46f9-9e25-90530d648d65-000000@us-west-1.amazonses.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <0111018f9b597531-d4643a7e-c27a-46f9-9e25-90530d648d65-000000@us-west-1.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1716299072;0ac60004;
-X-HE-SMSGID: 1s9Pn3-0005Nd-IX
+X-B4-Tracking: v=1; b=H4sIAJCpTGYC/x2NQQrDIBAAvxL23IW4VZL2K6UH0d3Gi8pqQiHk7
+ 5XeZi4zJzTWxA2e0wnKR2qp5CHmNkHYfP4wpjgcaCY7OzLoY8S211q0o3RnHaHPceC6mAf2soe
+ tBWXOKCvdw2JZvBgYvaos6ft/vd7X9QOkqX22ewAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Joel Selvaraj <joelselvaraj.oss@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716300186; l=1251;
+ i=joelselvaraj.oss@gmail.com; s=20240420; h=from:subject:message-id;
+ bh=+Jy4m7MNDpofjaRM2AsMooq8RhxTCuUViL7IQLY/GDs=;
+ b=GPJ6+3sTUcxQbqe7Q2jq/hSWNe3OTVkl1ZUdn4wrZgvg7dNBv2fIvPkzaZSANCp5YZIXhMMGV
+ 8LNL3nhf8RBDBfDayHlMd+at/RSHJznFSMSFxA8Q6Y2801ZcCzzmRQl
+X-Developer-Key: i=joelselvaraj.oss@gmail.com; a=ed25519;
+ pk=qT4gsuVtlPE0Dpr+tQA/Fumm7wzVP6qfeVaY+6pX04s=
+X-Endpoint-Received: by B4 Relay for joelselvaraj.oss@gmail.com/20240420
+ with auth_id=165
+X-Original-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+Reply-To: joelselvaraj.oss@gmail.com
 
-On 21.05.24 15:31, Arazil Songweaver wrote:
-> I was able to reproduce bug again with: Linux version
-> 6.9.0-1-git-10323-g8f6a15f095a6 (linux-git@archlinux) (gcc (GCC) 14.1.1
-> 20240507, GNU ld (GNU Binutils) 2.42.0) #1 SMP PREEMPT_DYNAMIC Tue, 21
-> May 2024 11:58:24 +0000 (not an official Arch Linux package)
-> 
-> The relevant I2C_HID module needs to be built in to the kernel for the
-> bug to trigger on a consistent basis. Arch Linux and mkinitcpio is
-> currently getting around this issue by building I2C_HID as a module and
-> delaying the load of that module until the part when autoprobe starts
-> loading relevant kernel modules. The bug became (more) visible on Arch
-> Linux after an update to mkinitcpio moved the I2C_HID module up to the
-> beginning of the boot process.
-> 
-> This is not a recent regression. In my testing, I was able to reproduce
-> this issue as far back as version 6.8. I did not test 6.7 or earlier
-> revisions yet.
+The driver is compatible with FocalTech FT5452 and FT8719 touchscreens 
+too. FT5452 supports up to 5 touch points. FT8719 supports up to 10 touch
+points. Add compatible data for both of them. Currently in mainline,
+FT8719 touchscreen is present in Xiaomi Poco F1 (EBBG variant)[1] and 
+FT5452 touchscreen is present in Shift6mq[2].
 
-Okay, then I won't track this as a regression; might still be worth
-trying a few older kernels in a spare minute to see if it was introduced
-in the last 12 or 18 months and can be bisected.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts?h=v6.9
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts?h=v6.9
 
-CCed Jiri and Benjamin nevertheless in case they missed this report on
-the lists.
+Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+---
+Joel Selvaraj (2):
+      dt-bindings: input: touchscreen: edt-ft5x06: Document FT5452 and FT8719 support
+      Input: edt-ft5x06 - add support for FocalTech FT5452 and FT8719
 
-Ciao, Thorsten
+ .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml    |  2 ++
+ drivers/input/touchscreen/edt-ft5x06.c                       | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
+---
+base-commit: 6595aff3307919c5866493ea994af4edd24582ab
+change-id: 20240521-add-support-ft5452-and-ft8719-touchscreen-f823c74efaf1
 
-> On 5/21/24 5:57 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 14.05.24 04:57, Arazil Songweaver wrote:
->>> We are experiencing an issue where the touch pad on the Framework Laptop
->>> 16 fails to initialize properly when the "i2c-hid" is loaded early in
->>> the boot process. This issue is especially prominent when "i2c-hid" is
->>> built directly into the kernel. When the "i2c-hid" module is built in,
->>> the issue occurs roughly 50% of the time.
->>> (https://community.frame.work/t/touchpad-not-working-since-update-archlinux/50304) Moving the module load to later in the boot process appears to resolve this issue by making initialization more likely to succeed. (https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio/-/releases/v39.1)
->>>
->>> Kernel version: Linux artemis 6.9.0-1-git-01560-ga7c840ba5fa7 #1 SMP
->>> PREEMPT_DYNAMIC Tue, 14 May 2024 01:49:25 +0000 x86_64 GNU/Linux
->>>
->>> I'm using the standard Arch Linux AUR "linux-git" package with the
->>> following kernel configuration changes:
->>>
->>> CONFIG_I2C_DEBUG_CORE=y
->>> CONFIG_I2C_DEBUG_ALGO=y
->>> CONFIG_I2C_DEBUG_BUS=y
->>> CONFIG_I2C_HID=y
->>> CONFIG_I2C_HID_ACPI=y
->>> CONFIG_I2C_HID_OF=y
->>> CONFIG_I2C_HID_CORE=y
->>>
->>> We tried reverting the following patches without any behavior impact
->>> (good or bad):
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.8.y&id=fb49deec375aa5beca4a5d71d7a74ec951872f28
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.8.y&id=418c5575d56410c6e186ab727bf32ae32447d497
->>>
->>> Impacted devices seem to include: "PIXA3854:00" and "i2c_designware
->>> AMDI0010:03"
->> Any news on this? If this is still unresolved I'll bring this to the
->> attention of the right developer, if this is a recent regressions (it
->> sounds like it, but it's not exactly clear; and from the first link
->> above it sounds like it's partly due to a change in arch's approach to
->> the initramfs).
->>
->> Ciao, Thorsten
-> 
-> 
+Best regards,
+-- 
+Joel Selvaraj <joelselvaraj.oss@gmail.com>
+
+
 
