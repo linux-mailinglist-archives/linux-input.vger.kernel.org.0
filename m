@@ -1,97 +1,110 @@
-Return-Path: <linux-input+bounces-3750-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3751-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C7B8CA53C
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 01:51:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7778CA729
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 05:55:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB1A31C2090F
-	for <lists+linux-input@lfdr.de>; Mon, 20 May 2024 23:51:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3FD511F218A0
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 03:55:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89961847;
-	Mon, 20 May 2024 23:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBB7318040;
+	Tue, 21 May 2024 03:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYN/qaJM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BMhc7n/a"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4721CA2D
-	for <linux-input@vger.kernel.org>; Mon, 20 May 2024 23:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD0817722
+	for <linux-input@vger.kernel.org>; Tue, 21 May 2024 03:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716249105; cv=none; b=dGiQ5HGjaGs4YNCBuIqpQEiej+14xDU7RbK03tAu1HGcYACdsGNL4meoEsgYkbI+pmEVeQT191jImnZEVW9ManfOHwK9TlT9hOx3Wsk5kr4d2zeu7xiTheSIlamwlOEZC9gL1KM23hfdHlytn9TA2ezVPcdvufvQlE/yoXP5ERw=
+	t=1716263745; cv=none; b=f+yQmhTfUCj0n4NnOtmmtqpGLfG7rwYILjHV87WRlEKOqrHMDTW4tndV8yriXReyAC5ZcyEeM3d9e4KXu7g1gNii5MkjelGDmemgzqaahLWHzjJ+yyQXk8vNk1hw8XXQFUhH2kJs/pDxO5bnH7JsAD+nPddE+6XsbfPsA/4vVik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716249105; c=relaxed/simple;
-	bh=CtChkje/Fex1PM/PMCy1mwTc9atq1r1kozeR4XfqDIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=js8iKEM/gurJOgF4NU3LLIsWfmh+tziEL5TkGCYxnrFY2CfYWfvhpVNfRYVU072sYPW9FCTWElKPRu96RvoE6VK42RQoUGL6wnqnfGuzI/9+y8UJIXXZfnul9vrf9jB8/cBmfk1SsVwbjLcAov20FLMGXg4YrIpCW1b/JKNj2/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYN/qaJM; arc=none smtp.client-ip=209.85.128.169
+	s=arc-20240116; t=1716263745; c=relaxed/simple;
+	bh=bbD3KapDN+EeLs2p7Olx+ECrtwEiBhEogRJzOYwGdpo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Diq+uS8+eOUjpoDCo75JirbUL0kanQP7651mi9xzyESwiV6QocBp39jEErrW5yUZ3TyDroOiVteTP9iXC5JDozAriRZUCV6mzjr8S5c49gr6sq5A+kqmiDNzZAtvKaBTdNiF3voPv2JYQuY0+eEfUJav+vsKHviG8mw9VPabocU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BMhc7n/a; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-61d35d266e7so33871317b3.1
-        for <linux-input@vger.kernel.org>; Mon, 20 May 2024 16:51:44 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5750954fe30so415751a12.3
+        for <linux-input@vger.kernel.org>; Mon, 20 May 2024 20:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716249103; x=1716853903; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e0jxEpGkaZkYyFKZrbmBCyiDQCFRcjjjtirvZkuTBjQ=;
-        b=FYN/qaJMd+anUVW2TqnR2P8DLDwL6klPYCFg0KEO2Dfg8wurdt/nOkNaAzG/dqVn1E
-         xSJNUcXwE61qPGv6wsu4cZIHfniblG9u10XnlrF01r2+aWMZ4GkZB0UPPYHq3+FB2hWa
-         wFdAqLCMDBX/bSVXvne0zCKgr3H3Hf+mc3jZ9uPZpx8lJ7YSPqjegkDLGXqdd9mh695O
-         tUnBVFRpgbu3bnAXYrFmHeAccGVd+jXGWHLVpLLzNmko3ZBtfE5mrArUPkkB7Dt7xxMQ
-         tSY2m10Y5THUj8+3S95g1CBXoGlAJXVL6lBzXz8GFCX3AF5sVoGYxTRHI8WB6yAWyn3Q
-         8g1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716249103; x=1716853903;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1716263742; x=1716868542; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e0jxEpGkaZkYyFKZrbmBCyiDQCFRcjjjtirvZkuTBjQ=;
-        b=cfvQXevNXmRbCWuQjXX5TVXVPw7jzlTJLvYMJBExqIkY2Tmw+altmhX5Z8G5lHKZQS
-         NSb9QB/7M+11JMxFYTDXrT39sw6JAKPbYAhyuQq7EXwYZ6cRDdNPnlkV6ChMigMR0PZp
-         xfvP1xHQFkiCHW/dJkO3w6xTuGio0iO57EOSqY9TjUsytj5tk+bVtr44wiUKFAMF+Nsm
-         tzRF4wj8bRacv3WbwkmlBqyLALzWlJ95CmsFEB7boT+fX+R9AsBvhK2kykJ0btGuKtDA
-         TI6pBifFhwEGF3KO2tt+IlxmaIUclWylN/K4sDTHXwKTszkbNZk+r3c36fYZD0Zs4y/j
-         +aag==
-X-Gm-Message-State: AOJu0YwjuZFi619inBO3PBmR/OVKixVBC667R5tWX90X6bjMSKZMHgv7
-	oz5nbdorRwK/O5KAVSZqiY2GF4YHXrn+ORQgBor+pRXxzy+pdVlXET8UKg==
-X-Google-Smtp-Source: AGHT+IHzyVEFxpys4DnpQKSmnFgkc+cVZ/Z0sJIz2oGLHvg0xVBHcimdBJ2wE5tQEtOMRy8EEtYOkQ==
-X-Received: by 2002:a81:4c4b:0:b0:61b:1b51:371f with SMTP id 00721157ae682-622affdea5cmr315181187b3.12.1716249103201;
-        Mon, 20 May 2024 16:51:43 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:2e3e:3013:ba6f:ef71])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6209e48a06dsm51477487b3.130.2024.05.20.16.51.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 16:51:42 -0700 (PDT)
-Date: Mon, 20 May 2024 16:51:40 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Kirill Artemev <artewar6767@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] Input: xpad - add support for Machenike G5 Pro
- Controller
-Message-ID: <ZkviDOUnhET5dVQn@google.com>
-References: <20240516032926.12501-2-artewar6767@gmail.com>
+        bh=bbD3KapDN+EeLs2p7Olx+ECrtwEiBhEogRJzOYwGdpo=;
+        b=BMhc7n/aqGTC9shJv6rLXpHg05U/ALwR48mrGU+zLQpNkeScnFzaWmdrdkT+5mSFJb
+         BwejS++e978dU0Zja1lDAMSGP5bfZqcgGnbiFf643NlPJ8MsP8o7Mwg2Iw2TVRhVyHVs
+         vK8N5LFN/vgb/pw3Lv39VQ/Af8ZATYT0RLrxLlmK8fybEl3v/kHUuSIFTs51zHadssg3
+         fL8X4WxDR6xBqcJOrLW8IxIf9QLiWswJK+tHEdlyP2hMTcU6cMTCbBwcvOhOcJTVaAfB
+         oeUjNl1yxyNBKWd09ppkFnWAkdcEeiwWcWoEbcxRy3IV7TRxrZo6qlYKkqFQQIpHKmx6
+         9S0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716263742; x=1716868542;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bbD3KapDN+EeLs2p7Olx+ECrtwEiBhEogRJzOYwGdpo=;
+        b=G8CDu0gcfkAXYRc0AH0tR5sgISucgeDNO/UV050a1P/pMqjfnix/EuFODTivzy4G+Q
+         aLC262XpHm1dWfYFsMG87h19DefzeqW0gKP1yei/EYtpygu1QukcFp1DmS6nGBRZH2O3
+         fOh5bFwmCbWYvuWqwLV8sbcF2zn4i26ummlXXa1Z8FfJBXjLa6ASXOsQO6lkww3at5sk
+         yyfukUVNEBMEIpINUcatwxzimTcRSBBP5mN6G0T6g9HRWH7GpD8qKUeOZYjV1/jB5FFA
+         WZbMuodLz6rJdeF+8WCcRnXKqvDps3Sb5TV6ksY7IXPOcygFWJPsUa3UIdDN1hAkhoKR
+         GTsQ==
+X-Gm-Message-State: AOJu0YwEuk1Gdf50OUCQzgJUlpr5j7wV91tc4GivBRBdM+xgf/cjChtm
+	mCo/lI2AXAfL50NQeLErJ+kEMJmaaItTzH/jAdFR5P+VvDpC/Nnzfr2meM4NtV6slTMVC0gzCI4
+	oZybLfO+AJggwJXWBUrTJIrja7H/V98cR
+X-Google-Smtp-Source: AGHT+IGq9+cjPya6EXzz5qBEls9OtKCmirfD/VCQ4uydBNGCx3D//Y7s5tBIRfS/P+Wz9xC6S1xa3e+E5wTeB1fK1wU=
+X-Received: by 2002:a05:6402:26d3:b0:574:ffa9:7f7 with SMTP id
+ 4fb4d7f45d1cf-574ffa9095bmr11710080a12.2.1716263742347; Mon, 20 May 2024
+ 20:55:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240516032926.12501-2-artewar6767@gmail.com>
+References: <20240510234332.139038-1-Joshua@Joshua-Dickens.com>
+ <CAF8JNhKKCCwRzUxookmv9VUecT37fR8psoz7uSVBQqDhnYEBgQ@mail.gmail.com> <Zkvcs0yg1ltamZPY@google.com>
+In-Reply-To: <Zkvcs0yg1ltamZPY@google.com>
+From: Ping Cheng <pinglinux@gmail.com>
+Date: Mon, 20 May 2024 20:55:30 -0700
+Message-ID: <CAF8JNhKqAOvxo3C1SaecaVP0uj4QeYpttybBgq_Jw7n18MLpcA@mail.gmail.com>
+Subject: Re: [PATCH] Input: wacom_w8001: Check for string overflow from
+ strscpy calls
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Aaron Armstrong Skomra <skomra@gmail.com>, 
+	Jason Gerecke <killertofu@gmail.com>, Joshua Dickens <joshua.dickens@wacom.com>, 
+	Joshua Dickens <Joshua@joshua-dickens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2024 at 08:29:27AM +0500, Kirill Artemev wrote:
-> Add VID and PID to the xpad_device and VID to the xpad_table
-> to allow driver to use Machenike G5 Pro Controller, which is
-> XTYPE_XBOX360 compatible in Xinput mode.
-> 
-> Signed-off-by: Kirill Artemev <artewar6767@gmail.com>
+On Mon, May 20, 2024 at 4:28=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Applied, thank you.
+Hi Dmitry,
 
--- 
-Dmitry
+> > This fix is the same as [1]. Without checking the return value,
+> > Wolfram's patch [2] fails our downstream build script. I'm adding my
+> > r-b, if it makes any difference ;).
+>
+> Could you please tell me how exactly it makes your build script to fail?
+
+We got an "unused-result warning". Jason made a temporary workaround
+at https://github.com/linuxwacom/input-wacom/commit/e83a9bb3e48d2d1b52ec709=
+e60f73b9960d568e5.
+
+> My concern is that the warnings are not actionable and therefore pretty
+> much worthless.
+
+The return value tells us which strscpy call(s) didn't have enough space.
+
+Cheers,
+Ping
 
