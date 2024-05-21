@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-3763-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3764-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2A18CB203
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 18:16:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5536D8CB26C
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 18:48:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0A851F2233D
-	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 16:16:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4010B21CF6
+	for <lists+linux-input@lfdr.de>; Tue, 21 May 2024 16:48:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66EA11C697;
-	Tue, 21 May 2024 16:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A3E2B9BC;
+	Tue, 21 May 2024 16:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5eD8BpH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e4Pgt4Bt"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3682F4C66;
-	Tue, 21 May 2024 16:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACA91FBB;
+	Tue, 21 May 2024 16:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716308163; cv=none; b=L2D583PmcFwmcw2AG1OAMTDnBn4Yy0QYFEOqvTryTclx7lzl0B4QRT6WBpmhCneo4IxLQOviYa+HfLow6lRX1OBMudkXyjeLOY77nUnqb5e6wuDXnSMyd2tg8LRZH7NxPo8f8KoLxSiIvU0KmHzf/88pW9TIn7OALjTn4WGegrg=
+	t=1716310102; cv=none; b=sdIiZ9iPr3toS6UhP75UILblXfBWUKTd+okPuq8Y3IQol9vuN4o6NJhTtOWdmojiCIZP6lu5/azwvwKM0i+r5o19aY9suiXCuEDzmIZypAf/kcv/MvguK00r2uyDO6dJWj307J6PDYKsSXyG+TEdrcNn88Qn2NzZxAb6Cxmc1kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716308163; c=relaxed/simple;
-	bh=Ffl4YjyiwAllPz+bXhCRCjUbYCfqZaJBaF/bOHsT6MU=;
+	s=arc-20240116; t=1716310102; c=relaxed/simple;
+	bh=WgiyazXq30INIPevxDZtx4QQPtzHv491tTjHb8WEY6s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cw8WGgqm35n2VhZwuWD8XnXcg3XWb3LrwB1VqY9uQtbOKUComJORrSuZJsUQXMLFQGM1q4Ic4b11iZLQ2qyQ0BJ/iEbW/8HOnoTNiNGppWUl2Z6A5Bk+YpDMTHzpp0uCGqvRs7RDMF30KMyEhTbc3KpZ4WZgLdLkkGPr0J9BYS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5eD8BpH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572E3C2BD11;
-	Tue, 21 May 2024 16:16:00 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ie2YsD8fleo8vXn5YdtkaeSjWE+BSd2Vnv7XA83EOPD6uyFu+zPAa4F1/VPDJqswiBt6rCkYWlJ2sihDbsfRo2eW0NJmkOz4m1MuxvT3i7Oc8crEA7kl6whTGMApxxzn9mBQEWfnMX5BP+LQpcdl6gwJDaIeppbLidMuYkyAOQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e4Pgt4Bt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17406C2BD11;
+	Tue, 21 May 2024 16:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716308163;
-	bh=Ffl4YjyiwAllPz+bXhCRCjUbYCfqZaJBaF/bOHsT6MU=;
+	s=k20201202; t=1716310102;
+	bh=WgiyazXq30INIPevxDZtx4QQPtzHv491tTjHb8WEY6s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F5eD8BpHD5HNPGXU40vIdplIiq6PDOv+dwJUNuQPdUhdGb325raBuLF1jCyDo3fXp
-	 gcqkjVy4Dzb7Tn1SbkqfOth4eIMlvM5OAvegMx8n/nsFxifCNpe0hcKBs1ZtjN4hYI
-	 0zSJ02lgvlzFl7gGq21eKR2WFnwo7aHn1y0bcfMMn3IaA5exyUMfJ4235yp0x4derj
-	 6v8ZqG+KyxL4WypulhVdUSBZ+TQE22iPEdLlRCczUQ8w+GqTpVNZWSLKziQYOJNX8q
-	 QjtmQZv+U4WRJdPpyC/II7CpcWMg6eL27QBp8/fzG9QIX/5LTKuCG1WYQBiXIRnXJj
-	 y1mMg2SpE0U0A==
-Message-ID: <3acb4bc9-4dfa-418d-ba9f-b01d6faf38f1@kernel.org>
-Date: Tue, 21 May 2024 18:15:57 +0200
+	b=e4Pgt4BtM99YXlOU3PR9zUX4YYkKb2rjy84fwcNmvKR8jNJToSwOclGRtbS0ERGTZ
+	 VXKYey+XNqpw9m+A9f9p/39VqkjG3XuEU5JYn6ZxBXx1A+EsqicpdRKIxI4e1dRBQK
+	 VnQBSW5yyabMrstJvhP6TMhfuE07KPC8RnjxZgMYlCLxx8hxSC27lZZt9AXWiEiDSV
+	 ApPuE6yRhSmdefzdnvTs8bS8XZPe8KpSY1GIDQYQR5G44wecnm72lh66258ewp8fAE
+	 ZRcmW4zdIS2zryRrAqoN+UhcSIHQf/mnd59ex5qKtF53JPuifh6t70jViffOQXE+t3
+	 kx7bvkbEOkp5g==
+Message-ID: <6f22e42d-8a06-4c24-93bd-25b6ac141cea@kernel.org>
+Date: Tue, 21 May 2024 18:48:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,15 +50,15 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: edt-ft5x06: Document
- FT5452 and FT8719 support
-To: joelselvaraj.oss@gmail.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: document Novatek NVT touchscreen
+ controller
+To: joelselvaraj.oss@gmail.com, Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240521-add-support-ft5452-and-ft8719-touchscreen-v1-0-2a648ac7176b@gmail.com>
- <20240521-add-support-ft5452-and-ft8719-touchscreen-v1-1-2a648ac7176b@gmail.com>
+References: <20240521-nvt-ts-devicetree-regulator-support-v1-0-8d766c639dca@gmail.com>
+ <20240521-nvt-ts-devicetree-regulator-support-v1-1-8d766c639dca@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,21 +104,84 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240521-add-support-ft5452-and-ft8719-touchscreen-v1-1-2a648ac7176b@gmail.com>
+In-Reply-To: <20240521-nvt-ts-devicetree-regulator-support-v1-1-8d766c639dca@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/05/2024 16:02, Joel Selvaraj via B4 Relay wrote:
+On 21/05/2024 14:09, Joel Selvaraj via B4 Relay wrote:
 > From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
 > 
-> Document FocalTech FT5452 and FT8719 support by adding their compatibles.
+> Document the Novatek NVT touchscreen driver which is used in devices like
+
+driver? or device?
+
+> the Xiaomi Poco F1 [1]. Also, include the devictree binding file in the
+> MAINTAINERS file.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dts?h=v6.9
 > 
 > Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
 > ---
->  Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/input/touchscreen/novatek,nvt-ts.yaml | 62 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 63 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml
+> new file mode 100644
+> index 0000000000000..7839c6a028e4a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml
+> @@ -0,0 +1,62 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nvt-ts.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Novatek NVT Touchscreen Controller
+> +
+> +maintainers:
+> +  - Hans de Goede <hdegoede@redhat.com>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - novatek,nvt-ts
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+That's too generic. Looking at your driver change, it is not even needed.
+
+> +      - novatek,nt36672a-ts
+
+Eh, we have already panel. Why there is a need for touchscreen binding
+(binding, not driver)?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  vcc-supply: true
+> +  iovcc-supply: true
+> +
+> +unevaluatedProperties: false
+
+This goes after required:
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+
 
 Best regards,
 Krzysztof
