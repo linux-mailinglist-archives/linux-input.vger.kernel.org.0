@@ -1,117 +1,175 @@
-Return-Path: <linux-input+bounces-3781-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3782-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474448CC7AB
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2024 22:25:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AF58CC7B7
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2024 22:34:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A43C9B214C7
-	for <lists+linux-input@lfdr.de>; Wed, 22 May 2024 20:25:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04974282D1E
+	for <lists+linux-input@lfdr.de>; Wed, 22 May 2024 20:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84C917E112;
-	Wed, 22 May 2024 20:25:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9AA146001;
+	Wed, 22 May 2024 20:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="l6pyeiSJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4+kguVP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20C828F0;
-	Wed, 22 May 2024 20:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C96C7E575;
+	Wed, 22 May 2024 20:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716409533; cv=none; b=d/1B3H4trBfX7iA5ytkfW7NjDpzxa2Ant1hWj/4N590Wa6ViB4LUE1nI4KoG3eoLoa5axgVMEq5S2Rp3xcuXBH9RzCYLJiWKUtjEXoc5jevw+uuC9Ik7s3Q2HN1xIdE/RY4TxSAb0zDLmboGSTUc6itX8GSBvTcA5GXI5X5xjaU=
+	t=1716410050; cv=none; b=YnzAYVrYv25hA67JTN6c7H1oc8c5r26VxUm7U2sa8+KxoJn7It6n0YDWfcGvxB9ZF214xVSQdUS0h00u1bYH5CLMLrCRQ5E8a8soVI/W46Vskjwy6h1yxn0z4FKWZpS6O4Rf2btrprgA26QUwaRnGM9eMe1xs5u37yjb1uIWy6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716409533; c=relaxed/simple;
-	bh=i5YeBElyyeAgBzFvmLeCign/ZZTOXVpIXph9q9KRSNU=;
-	h=Message-ID:Date:MIME-Version:To:References:Subject:From:Cc:
-	 In-Reply-To:Content-Type; b=BO8OFbjY7kVCEtuzkeqYwlT4AiDcZdno4ZLwkZTawNPOSwdUsZ3Y8CYG8bhvLIJtVDjXaFgBqNczIug7dXSEHTkA4GU1Au3SkHhc+uRUdKyNrhIgOk3sJp97mR5JlHkwIFUhHMaVx8mJi5twfrDrLVLExlWSDZv3Wo0rgRcE96Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=l6pyeiSJ; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716409520; x=1717014320; i=markus.elfring@web.de;
-	bh=HkwD7TSpNFck9Pz42Pa/zrMVWZu+W0Oh5FLIwzj9QLg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:References:
-	 Subject:From:Cc:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=l6pyeiSJrV1Szt1VVh7n6lgikHN6RLpaXjpXFxs41UzLOU5cZ3kCivjkKCAD/klM
-	 fthgmVJjSSrjneDGE8+ot7Aa1h3EqKmxtm1KukElsk/vaZ51kSkZCv1CWMA/MAUn0
-	 RknIhrJ5n9F7//j9xJYBacAQ/Nm8CSznXoetiraxQWeD0mOKAtq4MHXisUvkpUEmi
-	 5vXbySkZxwF6WTTDFdljaBoF54GTRkkkEuQYOAKsxVLFPhjZmWpX08YhEmlsrQVpq
-	 62fqBdg0SkoaNGbotSvD1mqvUqlQHYQYnB8wkJlXg1HNBOjg7Z+vJaNM5cCfpw/2U
-	 O5yXxvYOV2kOrlQs2g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MmQYX-1ssK4s3ojB-00iK6Q; Wed, 22
- May 2024 22:25:19 +0200
-Message-ID: <5ed339a9-82cb-403d-92fd-fdcb18653f72@web.de>
-Date: Wed, 22 May 2024 22:25:17 +0200
+	s=arc-20240116; t=1716410050; c=relaxed/simple;
+	bh=/6RBSwUUWg/HR/XrYDouHPaKrC8vOaWXZq2wcQh9Vhk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JbsGfZOHtHwVPIbZpj2pYRqsRHbn7j8buN1sWHjIL8ZFbHXQq7SoKJVyCRzn59McVKFk1G0zaplwMduZgRAehvOdJIjUWC+OQLIbJswW7CyPwQPPuNj2/6cs0+quAJeKTQm4wtM7V+1ne92QqfmPBkzeDGjDmnrwPqkcbIYr4g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4+kguVP; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e6f2534e41so55807711fa.0;
+        Wed, 22 May 2024 13:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716410047; x=1717014847; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=juCkMaHMrzaKXgLhLu9+/j0ickUzidNday1E+cJ916c=;
+        b=c4+kguVPIJoktOJTS+AazTlGetLNZZKRCXaU7Z3XG2OCxpygpZTw0PR9iw3QQr9/Qv
+         QdB3Cgc0A5dCALGg7cDzhgnVkB/UhpwxHv9/9PV6IQbaRxvkH778W0ZIFhg84rEFrnE2
+         9BtMC3VZ8Wz695ZZkrhu7g1MZP1gYIs/DDsWaT+dyz9bpNqhM3xTrIGXH8Gp46mwmS1T
+         Vn5SuxN1TAmninx03THzqwbkAFq0UfsDdHL1KpWln4hTfaUjmTos2eWZFqoyd8aEbUO4
+         /GEBVMc6C6bGLQew2mLVDCbQaZD9o5S+q6sTAC+3fdB266WBK5IAm/WM1fx3beKkTCnY
+         vwPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716410047; x=1717014847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=juCkMaHMrzaKXgLhLu9+/j0ickUzidNday1E+cJ916c=;
+        b=W1XfojPSkF5v4ISapxZ9ai79pVfhEJi4mC+7dOfOrBpkJGVhi9Mc9v7e5dxM9mzVKS
+         ZQ7tHGMXS6GlRGvw+PYiZRt+3EaDELyrdL/AALVBKsu0iU3E4fg8E3u2vOBYYpf9iy1/
+         DeB7jm1JlTldLSBNjg2TBYfE8RTTUQFtow9CQdXHHH5ryyawdR5PkkIvxTwgvMxV+0Ng
+         bfZb+WN969N9qYxjVsO98jq7TZj+RDopOxlY2Q2kFA/+9nygAbRyoww3mUX8TIDGnFGJ
+         1TjALFRbup4wzglKWOcc+f2/s7SYo95vXFnrAuxH+1+nSjrmn8ufm2Oksl222o3y8lSG
+         cy9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW0/rpZQoYIeUpFCwQ6UI9XoPbM0EH7W17fjJ1SsUnx708A80Bjz6p5SaJqR+Botij1fgDvi24YX8FWfdFlQ2lBSu1/+Lqv5BPkCm2zcb8M+gutgm04b1c/gafx9stoQCA9U70+WSIB5g==
+X-Gm-Message-State: AOJu0Yzsg2iSntbDOHS4RN35nRehetsaxEhbwTIzVtLx0IqUP6C+t6Vs
+	wHbZuk6QU7Th0yTDLssv1+GtU3f/0OrofM9xD8A2OGqO/eoXdv/vnh2Uevzvk6Q=
+X-Google-Smtp-Source: AGHT+IF/RlGn1Aaddcf4QEPpAcrsp+lceodnSjZlFNLFzQPFFKa1tt4y8BjqBA5+mQIC8SRizt3Mjg==
+X-Received: by 2002:a2e:330a:0:b0:2e5:67a9:4dcf with SMTP id 38308e7fff4ca-2e9494be817mr18094341fa.18.1716410046915;
+        Wed, 22 May 2024 13:34:06 -0700 (PDT)
+Received: from localhost.localdomain (89-64-18-73.dynamic.chello.pl. [89.64.18.73])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e4d0ce35dcsm41575161fa.34.2024.05.22.13.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 13:34:06 -0700 (PDT)
+From: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: dmitry.torokhov@gmail.com,
+	jeff@labundy.com,
+	neil.armstrong@linaro.org,
+	schnelle@linux.ibm.com,
+	arnd@kernel.org,
+	kuzhylol@gmail.com,
+	hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	artur.serhiienko@gmail.com,
+	igor.opaniuk@gmail.com
+Subject: [PATCH v2 1/2] dt-bindings: input: touchscreen: add Hynitron CST816X
+Date: Wed, 22 May 2024 17:33:46 -0300
+Message-Id: <20240522203347.2263425-1-kuzhylol@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: John Keeping <jkeeping@inmusicbrands.com>, linux-input@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240522100341.1650842-1-jkeeping@inmusicbrands.com>
-Subject: Re: [PATCH] Input: ili210x - fix ili251x_read_touch_data() return
- value
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-In-Reply-To: <20240522100341.1650842-1-jkeeping@inmusicbrands.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hCnH6YciGuPD/GgNskigEv6YNstG+WJ2woxlLKGBJXmNkJsC0ja
- rZ2LmOdFKo+44VhhVAW4pfU75My0zLSWzoGt6qAlKcyqILvKDwxiopEple6/pk55Es9fMiL
- eZE2DvGlVPxI+2I976W/O0Dt8VNQWjAuQwpBzckbFn+E6mkCFi6htpw0ot3rSsZZkQjzQIc
- P5ZfbOC9mHrftrDY2/heA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bEXtXTs4R90=;egPiOca3X35QYWaxy65sV6JrrHD
- bF1FNBgp0aY082IBCstnJrg0arJuqdYiV3/f0fc4wlqSYEnLKpIulQbfoiNnptFUWlplsIGTs
- 6qi7KMXZ5k9Iq1L4UzrG4NlHa0rifdci9MNKPagknLxagUfCoPajvQkpkNYrJUO56Ct77+p9+
- YeBEzUvD0YBgHuGG7D7BunoXOaTS6iKY4E02r05wniJbaoUY0POTNg2FiDXzHuQYAHZ+ZZbyK
- NRxf5ngk5d9eQH2iwELHhtfVxFmRS8Qj3F378pj7xmJ7Bl1D0yDHHzr69qGc4S/msjWm5En1Q
- lfpkpfp1l9Y8JBuDcJlJSU3lGemZEGOa0bwAA5dfqPfS0+zaB/OAUDtbHE4kSnbrstnkhzZz1
- xuLlGP7bQD+/yWDXzGpB0DuVHXoP1P1VS29v2XR0HsUHxFubdebuoyqJ3QEbR0QNypLHvsIvB
- NgkF3yS/62Q3P3LOjM5Xs7KW3yJhBs2lw4ix8p8ZSCfkwf7ymZnWOuAxvUBoAuG9V57+rz1xw
- wCWQccFYWVPfgq5ZBhWnTMQkXe8T0ISZm5UPoQUpx0NjxkIYOwrccZzKIdR5DXIBOl1AzQIR7
- rNmfeV9Ayb2vM63Kz4as3kpO2Y2XuHFjWGOcjyQS2PUCthvgm7spLrDFvbdRKqFWHW4r3EhDI
- YNorHHp/6b6GzhV/cTrxqXC1XMoGuKxoVRJSSWnqtYmSL2CedadkzhboxGwuWgG+82KFFA36U
- 6yT0C9S3kBt+2pdWp+IFaLABYESPFpiWsN1fe9nNzwkFloyfbhTyMhsCGN0Ri0cJ3azMJ4zNl
- AH1Z4YOmLo2WtNqRJmGVdO16cjEuPGWdFBuaVYZUmtEco=
+Content-Transfer-Encoding: 8bit
 
-=E2=80=A6
-> This fixes touch reporting when there are more than 6 active touches.
+Add documentation for the Hynitron CST816X touchscreen bindings.
 
-Does such information indicate a need for the tag =E2=80=9CFixes=E2=80=9D?
+Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
+---
 
+Changes in v2:
+ - Apply pin definitions and DT headers
+ - Use generic name for DT node
+ - Drop status field
 
-=E2=80=A6
-> +++ b/drivers/input/touchscreen/ili210x.c
-> @@ -255,14 +255,15 @@ static int ili251x_read_reg(struct i2c_client *cli=
-ent,
->  static int ili251x_read_touch_data(struct i2c_client *client, u8 *data)
->  {
->  	int error;
-> +	int ret;
->
->  	error =3D ili251x_read_reg_common(client, REG_TOUCHDATA,
->  					data, ILI251X_DATA_SIZE1, 0);
->  	if (!error && data[0] =3D=3D 2) {
-=E2=80=A6
+ .../input/touchscreen/hynitron,cst816x.yaml   | 56 +++++++++++++++++++
+ 1 file changed, 56 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
 
-I suggest to define the variable =E2=80=9Cret=E2=80=9D in the shown if bra=
-nch.
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+new file mode 100644
+index 000000000000..22bd145db5ee
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/hynitron,cst816x.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/hynitron,cst816x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Hynitron CST816X series touchscreen controller
++
++description: |
++  Bindings for Hynitron CST816X series touchscreen controllers.
++
++maintainers:
++  - Oleh Kuzhylnyi <kuzhylol@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - hynitron,cst816s
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - reset-gpios
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      touchscreen@15 {
++        compatible = "hynitron,cst816s";
++        reg = <0x15>;
++        interrupt-parent = <&gpio>;
++        interrupts = <4 IRQ_TYPE_EDGE_RISING>;
++        reset-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;
++      };
++    };
++
++...
+-- 
+2.30.2
 
-Regards,
-Markus
 
