@@ -1,254 +1,210 @@
-Return-Path: <linux-input+bounces-3800-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3801-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9568CDA24
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 20:45:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A7B8CDA8F
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 21:15:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07A931C2198C
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 18:45:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF23B282C94
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 19:15:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E9D2C694;
-	Thu, 23 May 2024 18:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA2D74E2E;
+	Thu, 23 May 2024 19:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJ97QJn6"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="J4Fvytsx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5401A849C
-	for <linux-input@vger.kernel.org>; Thu, 23 May 2024 18:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9AC82D9E
+	for <linux-input@vger.kernel.org>; Thu, 23 May 2024 19:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716489940; cv=none; b=LPQRkTH9//hrsUu3U1rLd8tXDYZJFh+IDKmx4AsjvysBsq1CCYRwojQ9VZW5ssalz4SQ9N2p0dhocR1wnqY0IyJHLRAzfMHoWk3rKKbVQqbM17JPEvidD3m4LT5XeN+4sWpAr8hfo6E2RhAMd0f/MGsZ/e1DiyHrUezfZSwA/Jw=
+	t=1716491707; cv=none; b=pB2dYcVbQPMeNRCez2Oj4nucrtB5uY7CbnaanhWncbpgwddQ89vxyUIypzMtUk7wZNJOz4QtVw96ZrHCSBKNAZ9B8RIMaEg6pm6ncuyJxuLaeSFuAq/T9aju9BaBwigz/JgAIK+hY6EDydHk3CG0DP2AM+a/prReN5Eyeb3q2Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716489940; c=relaxed/simple;
-	bh=G2Otw1GMa7zXBTsrwJmSGddalMNPo5L7+A0LBqF1+j8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N5T3uwuumjJ0fF2NDf2SiVpyoPDpJrlYHxcbspA72Lre8wdGgw7vQK0YPa0GZJBKiE6cB5s7lILfXEIymsq/8YpdsuNWCOxJjh5mdgUIAZK/ZcoJ8D+Rted5QH6xAWr5C7OvXY5ph7cDQIOaJf0zBGQTMvXXhZOs53sd3rwpXBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJ97QJn6; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716489938; x=1748025938;
-  h=date:from:to:cc:subject:message-id;
-  bh=G2Otw1GMa7zXBTsrwJmSGddalMNPo5L7+A0LBqF1+j8=;
-  b=AJ97QJn6SRYaYbpG4aK/xDpBTtczdvqg6nTe844O3/0bcXbEmsOiXtrT
-   W+DxtHpIQ/3d1l7V1/d6dOt/9o6aukrZxF8jZ3HiO7aYBac9hAZo2b7hQ
-   0p57wXG9Z3dBf+HOKyIWvCxm9ArWJV47ZwNqw7wYtAmGtWGlIZCbHVaJK
-   rQtIaAexMCOXBtcp8iwl3F4QXPbcv7DQRBCXFfH7n/XlbR8UFzMD+3rPZ
-   VdCyR/1JNKx/vBTLLmG4YPURDLfDxsseKPqJySm6UonBhnPJS9L1VScjs
-   xUQo3DK+xqAJGkxn4evWejDb5c6f44/IoSJWOuR+GivWn7Iu/L7YkFqpB
-   g==;
-X-CSE-ConnectionGUID: on/gPAEeRpiX2ag5GQ/oQQ==
-X-CSE-MsgGUID: aVtEvaYoTHOFqZG8NzXWIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="23405062"
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="23405062"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 11:45:38 -0700
-X-CSE-ConnectionGUID: Rd0yFSCMQqCKXEs+9PkKFQ==
-X-CSE-MsgGUID: PbeFra4OR56J0vq+amETrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="33865542"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 May 2024 11:45:37 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sADRW-0003Ev-1J;
-	Thu, 23 May 2024 18:45:34 +0000
-Date: Fri, 24 May 2024 02:44:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 2ec0028a1cadfb88d912435c1eb1ac5de76071f0
-Message-ID: <202405240250.LP3VIFQz-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1716491707; c=relaxed/simple;
+	bh=1TBF/VNkoH1JflS/P6I+j9LKBPOuIDfXCd97BmtR6mc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BaEEdgB27uCr+I6CE6PA+voLHWC96jVQBewDP9fTUewHWDQb9FbnGNChfEZFLS1BPUpKxjyUnnDmDKFzFe3LagEJST7c7/TnLgU4Kvoi21+el/09/eqNK7pLpvuvyvdXokh573ZuEBwihmqzDBmaTKTrw75UMXCNfzJ0kL3L+qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=J4Fvytsx; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3c9d0671dfaso3647324b6e.2
+        for <linux-input@vger.kernel.org>; Thu, 23 May 2024 12:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1716491704; x=1717096504; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=neX9Rj9kbD2Mta30BndIslB9399YLTZUQPcD/TShwW8=;
+        b=J4Fvytsx1zreOCeEJ8DbzxXHPX7UQuxdAl619MQ8rNHzPr/detum8hxCYXrLf2mQvT
+         6R64Uv+zW9XgYYHHfSyn/BNI6Z5LRq/xNvQrhcaR8klP2SFaZqy91XT9pNsqD/tlNbSx
+         yTduUkTjurvxWdRh9e1pqG0C7eANjrWhRb0LM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716491704; x=1717096504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=neX9Rj9kbD2Mta30BndIslB9399YLTZUQPcD/TShwW8=;
+        b=sIAmhaRK6l9eOo59MMxkjbxdaAX3Xvkf/ZMSTz6xifde9sZn+fo+KulwtLdblysDQA
+         EI7YAG4fR3UmJEEA3CD1OZD2hx6+3Ma1JHj6PPYJcydtRj4zBiAfWPQAzACZT1rIZxlZ
+         6r1cyPGsJgZjSim5Dnc5XsnMyGuWzz1Tt9wMWEenJIqTce+kJaw/RPDrb3ck1avNu+ky
+         wzuDF5XpMZ8PmLn96mMjvdoMvAlJfjJDyQkqtzBcUtnzgKeo/WZplv6bncJQkIC7+9zA
+         3HPGRbSFPL8U/YqDwof7iL6zCL92p+60Md67spKZByuZhXQ1T+hJpoMvgHZTOJmFtkRk
+         sPag==
+X-Forwarded-Encrypted: i=1; AJvYcCUkGpv8gZdB23Oh+6oZLPfhHTA105gWBsw8YqSHlE1WlBy5LbtpCapuW0dopLCPrunw3tLpsxa2vtKBxlOA8bdCk9lwAUqUf5rJx2U=
+X-Gm-Message-State: AOJu0YxaX5GD1XLvfEZcWfQjTT3r8c+Zp0cJYfmwNkXK0tYr+0b3HGRY
+	alUiLwKzXjl0fyr2J6rB9DkOebwTfXp3UrbQ5kDYk6K0Mgvzrha+Qz6eLTleAQ==
+X-Google-Smtp-Source: AGHT+IH/Ysnno2TkFzRL2UNNhoEarRPKJ9VjuR8XSFIlVnpcZKrEaxTEc2+rptviFCowPSempZ9ABw==
+X-Received: by 2002:a05:6808:10d4:b0:3c7:366b:980a with SMTP id 5614622812f47-3d1a54835c7mr396574b6e.5.1716491704120;
+        Thu, 23 May 2024 12:15:04 -0700 (PDT)
+Received: from amakhalov-build-vm.eng.vmware.com ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43e4a89b61dsm21219821cf.45.2024.05.23.12.14.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 12:15:03 -0700 (PDT)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>
+Subject: [PATCH v10 0/8] VMware hypercalls enhancements
+Date: Thu, 23 May 2024 12:14:38 -0700
+Message-Id: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 2ec0028a1cadfb88d912435c1eb1ac5de76071f0  Merge branch 'next' into for-linus
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-elapsed time: 1041m
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-configs tested: 161
-configs skipped: 5
+First patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there. And the last
+patch adds tdx hypercall support
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                         haps_hs_defconfig   gcc  
-arc                   randconfig-001-20240523   gcc  
-arc                   randconfig-002-20240523   gcc  
-arm                              alldefconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240523   gcc  
-arm                   randconfig-002-20240523   gcc  
-arm                   randconfig-003-20240523   gcc  
-arm                   randconfig-004-20240523   gcc  
-arm                          sp7021_defconfig   gcc  
-arm                           spitz_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-002-20240523   gcc  
-arm64                 randconfig-004-20240523   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240523   gcc  
-csky                  randconfig-002-20240523   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240523   clang
-i386         buildonly-randconfig-002-20240523   gcc  
-i386         buildonly-randconfig-003-20240523   clang
-i386         buildonly-randconfig-004-20240523   clang
-i386         buildonly-randconfig-005-20240523   clang
-i386         buildonly-randconfig-006-20240523   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240523   gcc  
-i386                  randconfig-002-20240523   clang
-i386                  randconfig-003-20240523   clang
-i386                  randconfig-004-20240523   clang
-i386                  randconfig-005-20240523   gcc  
-i386                  randconfig-006-20240523   clang
-i386                  randconfig-011-20240523   gcc  
-i386                  randconfig-012-20240523   clang
-i386                  randconfig-013-20240523   clang
-i386                  randconfig-014-20240523   gcc  
-i386                  randconfig-015-20240523   gcc  
-i386                  randconfig-016-20240523   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240523   gcc  
-loongarch             randconfig-002-20240523   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     cu1830-neo_defconfig   gcc  
-mips                       rbtx49xx_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240523   gcc  
-nios2                 randconfig-002-20240523   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20240523   gcc  
-parisc                randconfig-002-20240523   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240523   gcc  
-powerpc               randconfig-002-20240523   gcc  
-powerpc               randconfig-003-20240523   gcc  
-powerpc                     tqm8540_defconfig   gcc  
-powerpc64             randconfig-001-20240523   gcc  
-powerpc64             randconfig-002-20240523   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-002-20240523   gcc  
-riscv                          rv32_defconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240523   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         ap325rxa_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20240523   gcc  
-sh                    randconfig-002-20240523   gcc  
-sh                           se7751_defconfig   gcc  
-sh                           sh2007_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240523   gcc  
-sparc64               randconfig-002-20240523   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-004-20240523   clang
-x86_64       buildonly-randconfig-005-20240523   clang
-x86_64       buildonly-randconfig-006-20240523   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-002-20240523   clang
-x86_64                randconfig-003-20240523   clang
-x86_64                randconfig-004-20240523   clang
-x86_64                randconfig-005-20240523   clang
-x86_64                randconfig-006-20240523   clang
-x86_64                randconfig-011-20240523   clang
-x86_64                randconfig-013-20240523   clang
-x86_64                randconfig-014-20240523   clang
-x86_64                randconfig-016-20240523   clang
-x86_64                randconfig-076-20240523   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240523   gcc  
-xtensa                randconfig-002-20240523   gcc  
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
+
+v9->v10 changes:
+- Restructure the patchset as was suggested by Borislav Petkov to
+  introduce vmware_hypercalls API first, then move callers to use this
+  API, and then remove the old mechanism.  
+- Reduce alternative portion of VMWARE_HYPERCALL by moving common code
+  outside of alternative block. Suggested by Borislav Petkov.
+- Use u32 instead of uint32_t in vmware_hypercall API and across vmware.c
+  as was suggested by Simon Horman.
+- Remove previous Reviewed-by and Acked-by.
+- Fix typos in comments and commit descriptions.
+- No major changes in patches 2,3,4,8 compare to v9.
+
+v8->v9 change:
+First patch "x86/vmware: Move common macros to vmware.h" was split on 2 pieces:
+  "x86/vmware: Move common macros to vmware.h" - just code movement, and
+  "x86/vmware: Correct macro names" - macro renaming.
+
+v7->v8 no functional changes. Updated authors and reviewers emails to
+@broadcom.com
+
+v6->v7 changes (only in patch 7):
+- Addressed comments from H. Peter Anvin:
+  1. Removed vmware_tdx_hypercall_args(), moved args handling inside
+     vmware_tdx_hypercall().
+  2. Added pr_warn_once() for !hypervisor_is_type(X86_HYPER_VMWARE) case.
+- Added ack by Dave Hansen.
+
+v5->v6 change:
+- Added ack by Kirill A. Shutemov in patch 7. 
+
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
+
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (8):
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Use VMware hypercall API
+  x86/vmware: Correct macro names
+  x86/vmware: Remove legacy VMWARE_HYPERCALL* macros
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 333 +++++++++++++++++++---
+ arch/x86/kernel/cpu/vmware.c              | 165 ++++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 196 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 602 insertions(+), 538 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.0
+
 
