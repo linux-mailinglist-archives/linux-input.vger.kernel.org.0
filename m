@@ -1,299 +1,195 @@
-Return-Path: <linux-input+bounces-3809-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3810-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E7E8CDABA
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 21:17:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4CD8CDCE3
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 00:33:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CD7B284DAD
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 19:17:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA1521F23301
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 22:33:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C23185653;
-	Thu, 23 May 2024 19:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3185B823B0;
+	Thu, 23 May 2024 22:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="cgI4moMm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SktQAQx7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D324D85640
-	for <linux-input@vger.kernel.org>; Thu, 23 May 2024 19:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC58101E2
+	for <linux-input@vger.kernel.org>; Thu, 23 May 2024 22:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716491752; cv=none; b=p2NHIW0g00ZgFufbrKMr8zQvTiFylqHBbBqXtntwNGW8szieR3INdDvjdPE7nroerLNlVf3u0q1jMA94/PVyInNVThP+IIk9qsqlQQZZiP5PAObBg+8uUZOXxOMVbsyGIkwXdoID81JcFEnf+jMizbxllVJexbKL1fZzUHpJdNA=
+	t=1716503625; cv=none; b=NfkKPzK6GOutbEwDuFPxXX5Id3suNqPAlMCuxpzHIGWdGzFE0GCjfhMEkUqY9WK8JFF1F8omtDn2k5Dw8OIoonCz04WuyVuhX6siJUDE+iT8PQ2iw+3oILmJ5/WvNzDkp2Dn6xzWvDVh7o6GY74LJSXut1uyjSsgR2Or2WzdhPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716491752; c=relaxed/simple;
-	bh=CtLXgavYKdr/P8ISBNI90oH6x47hhuCLLXFyLqS812I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=O+Z2b3PPsWoYas7ta4qXPYxxwBMQOBgb02HKiPOe+DmC/BxA8u5vyg+T5dgfgQXNRoISlb+naxuBMJRKDgerwjseBiFl0dEeq+OKliJdNA0tfEg5HaPLiBR81oXrCOTGfb6Oc7SWp0gOl9rPI4eMjOANt5/dAaKaEqWrgcrFvaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=cgI4moMm; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6f0f728d373so3646112a34.0
-        for <linux-input@vger.kernel.org>; Thu, 23 May 2024 12:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1716491749; x=1717096549; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fgzBKFVe3W/OltftBIQOvr5AHwhCBi+hZRdG/bf/ttU=;
-        b=cgI4moMm9F+RgkeoK0uq6bvHfLI4iChKy9tCEWbicj5aRmBp+SmfoJEwCE0rXiuRkR
-         CvHiYtWQg0ze3HAXSLFc00jWuk0GHEd4WPiF46NDuz0vs/ZrUNVWuGkjx9d8MUL+mFli
-         0qOQU7WbNuHnB2dNdIY8q1Jwo1AhbUzJIRCaU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716491749; x=1717096549;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fgzBKFVe3W/OltftBIQOvr5AHwhCBi+hZRdG/bf/ttU=;
-        b=qOZEhXv+pMra26mYXAkFa1VLPtfUlQkKVbeFQoLRRoka+m18VN1fQ+ved96VAZm3PH
-         ygHJPSQ4S/5E/1AY2rKSgtStsM2fgPe11F/uqIrqEy275atBLCtLZT8x2WbUtClkbHo4
-         ewcwOk85gkFZPcIpDFoC57uLbqot37M4R7iuoqeyBAW26RNIjxnfPjBGd/uqaK0E6x04
-         xl6JiYPFJPrNsJAS+a8Qc+jwbhuoyjVzKxSnndnmfJ2W9pRL3MRq08QB0qkV9ld6HTKN
-         2ghEtavdo4VOYOA5FcGjedGT+u2JSqRLWVd07Nrk6Ftpp74uegU2B3Pi1p/bm18jJJ2S
-         clvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhpcpVc2n3e6homZz1ciZQAxOLMPHnm2xrb3gNZJeRghpdxBpNLmT1leZ4oLkYVmZ+m9tVic4p6wUZZlSj4jxTgnSYqcQtaLvE0FY=
-X-Gm-Message-State: AOJu0YzPo3f6dOAuNf+/1OQDdoMmWL+VT2s4Jv5NCKYll9cub+Ro1V1V
-	RNdbrWSGqeOf+VppAXbnpMcZuCJ71EPeAmHfIMiXE5UFi8sFiihzoWYXg8wrgA==
-X-Google-Smtp-Source: AGHT+IFIES0y9tyA39bbH0WcsYXfN6xUHyXubvmnxKL37VPcvXYxEo1GXmXuPClunC8egt2W/hJcDQ==
-X-Received: by 2002:a9d:6c11:0:b0:6f0:e8a8:da6b with SMTP id 46e09a7af769-6f8d0b30fd1mr116700a34.36.1716491748866;
-        Thu, 23 May 2024 12:15:48 -0700 (PDT)
-Received: from amakhalov-build-vm.eng.vmware.com ([192.19.161.250])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43e4a89b61dsm21219821cf.45.2024.05.23.12.15.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 12:15:48 -0700 (PDT)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	bp@alien8.de,
-	hpa@zytor.com,
-	dave.hansen@linux.intel.com,
-	mingo@redhat.com,
-	tglx@linutronix.de
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	richardcochran@gmail.com,
-	linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com,
-	timothym@vmware.com,
-	akaher@vmware.com,
-	dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	tzimmermann@suse.de,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	horms@kernel.org,
-	kirill.shutemov@linux.intel.com,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Tim Merrifield <tim.merrifield@broadcom.com>
-Subject: [PATCH v10 8/8] x86/vmware: Add TDX hypercall support
-Date: Thu, 23 May 2024 12:14:46 -0700
-Message-Id: <20240523191446.54695-9-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
-References: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
+	s=arc-20240116; t=1716503625; c=relaxed/simple;
+	bh=fEFB35mhnq8J3C7OKoY+HCM8AhzzI+SEmG2PVeKjefg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dCICnQGSpkgyVtqJdiTkm2NFHd1YdbYvu4K4kF3SVF8HD1j73H4fS+vMJ4S+L+RIFuFzNVBLDO2ScjmJmOTG2gDxpQQfiE5dlX6g+fMoY17AnFqpEH8peINk1Yqbe7jDDF+/BDKj8HT+xSeDC63aP+wzb/3y8u4DOKkPYX0Bpx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SktQAQx7; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716503623; x=1748039623;
+  h=date:from:to:cc:subject:message-id;
+  bh=fEFB35mhnq8J3C7OKoY+HCM8AhzzI+SEmG2PVeKjefg=;
+  b=SktQAQx7HKYHU1TfqVx1v1tLXsoNyr1Nt29Q8//09CwG9+afxt6h7zAL
+   /yPQ7XWO0nj9W+RPgzLU5FtItRYAlFxq3omNz2eHQ/3cwXghX7ROb6oVq
+   crYI8NHwxBIyhpK1+0/i03kGfiHsgbP5FWwwiM3BJ4iaiihqEhhrrsuep
+   39IAPyRiGFxDpHg/sEtlQYFm2ZJOWX1mUx360UYVUQrMqxK5ADzavzO+S
+   /UPQ/6vSH1s8TpFhg0sxH4BaahksGO8FO5VpngUwRNwrd9pN2udl6WqRp
+   w7WYbMLwF+gBzuGF4mmremCPpesFGpbk1gbTUtzr1PuptgkEeWd05p1Qv
+   w==;
+X-CSE-ConnectionGUID: rua6OKlgQi2josSvifFCBg==
+X-CSE-MsgGUID: u+l0lHJySS+VPxaT3cXNzg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="30391220"
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
+   d="scan'208";a="30391220"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 15:33:43 -0700
+X-CSE-ConnectionGUID: hQ+qec4qTCKtxruI26vztw==
+X-CSE-MsgGUID: KNdTjN31SDmqv5Bg8RPLAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
+   d="scan'208";a="33826475"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 23 May 2024 15:33:42 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sAH0G-0003aH-0V;
+	Thu, 23 May 2024 22:33:40 +0000
+Date: Fri, 24 May 2024 06:33:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 832f54c9ccd3a3f32d1db905462d3c58b4df52bd
+Message-ID: <202405240637.ngrt2HOl-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-Add __tdx_hypercall path to support TDX guests.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 832f54c9ccd3a3f32d1db905462d3c58b4df52bd  Input: edt-ft5x06 - add support for FocalTech FT5452 and FT8719
 
-No change in high bandwidth hypercalls, as only low bandwidth
-ones are supported for TDX guests.
+elapsed time: 1270m
 
-Co-developed-by: Tim Merrifield <tim.merrifield@broadcom.com>
-Signed-off-by: Tim Merrifield <tim.merrifield@broadcom.com>
-Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
----
- arch/x86/include/asm/vmware.h | 45 +++++++++++++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c  | 51 +++++++++++++++++++++++++++++++++++
- 2 files changed, 96 insertions(+)
+configs tested: 102
+configs skipped: 3
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 78567920b23f..e9acce119be0 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -18,6 +18,12 @@
-  * arg2 - Hypercall command
-  * arg3 bits [15:0] - Port number, LB and direction flags
-  *
-+ * - Low bandwidth TDX hypercalls (x86_64 only) are similar to LB
-+ * hypercalls. They also have up to 6 input and 6 output on registers
-+ * arguments, with different argument to register mapping:
-+ * %r12 (arg0), %rbx (arg1), %r13 (arg2), %rdx (arg3),
-+ * %rsi (arg4), %rdi (arg5).
-+ *
-  * - High bandwidth (HB) hypercalls are I/O port based only. They have
-  * up to 7 input and 7 output arguments passed and returned using
-  * registers: %eax (arg0), %ebx (arg1), %ecx (arg2), %edx (arg3),
-@@ -54,12 +60,27 @@
- #define VMWARE_CMD_GETHZ		45
- #define VMWARE_CMD_GETVCPU_INFO		68
- #define VMWARE_CMD_STEALCLOCK		91
-+/*
-+ * Hypercall command mask:
-+ *   bits [6:0] command, range [0, 127]
-+ *   bits [19:16] sub-command, range [0, 15]
-+ */
-+#define VMWARE_CMD_MASK			0xf007fU
- 
- #define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
- #define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
- extern u8 vmware_hypercall_mode;
- 
-+#define VMWARE_TDX_VENDOR_LEAF 0x1af7e4909ULL
-+#define VMWARE_TDX_HCALL_FUNC  1
-+
-+extern unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+					  unsigned long in1, unsigned long in3,
-+					  unsigned long in4, unsigned long in5,
-+					  u32 *out1, u32 *out2, u32 *out3,
-+					  u32 *out4, u32 *out5);
-+
- /*
-  * The low bandwidth call. The low word of %edx is presumed to have OUT bit
-  * set. The high word of %edx may contain input data from the caller.
-@@ -88,6 +109,10 @@ unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0,
-+					    NULL, NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -106,6 +131,10 @@ unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0,
-+					    out1, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -124,6 +153,10 @@ unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0,
-+					    out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -143,6 +176,10 @@ unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, in4, in5,
-+					    NULL, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -164,6 +201,10 @@ unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, 0, 0,
-+					    NULL, out2, out3, out4, out5);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2), "=d" (*out3), "=S" (*out4),
- 		  "=D" (*out5)
-@@ -185,6 +226,10 @@ unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, in4, in5,
-+					    out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 58442c2581e7..5bea95039690 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -428,6 +428,57 @@ static bool __init vmware_legacy_x2apic_available(void)
- 		(eax & GETVCPU_INFO_LEGACY_X2APIC);
- }
- 
-+#ifdef CONFIG_INTEL_TDX_GUEST
-+/*
-+ * TDCALL[TDG.VP.VMCALL] uses %rax (arg0) and %rcx (arg2). Therefore,
-+ * we remap those registers to %r12 and %r13, respectively.
-+ */
-+unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+				   unsigned long in1, unsigned long in3,
-+				   unsigned long in4, unsigned long in5,
-+				   u32 *out1, u32 *out2, u32 *out3,
-+				   u32 *out4, u32 *out5)
-+{
-+	struct tdx_module_args args;
-+
-+	if (!hypervisor_is_type(X86_HYPER_VMWARE)) {
-+		pr_warn_once("Incorrect usage\n");
-+		return ULONG_MAX;
-+	}
-+
-+	if (cmd & ~VMWARE_CMD_MASK) {
-+		pr_warn_once("Out of range command %lx\n", cmd);
-+		return ULONG_MAX;
-+	}
-+
-+	args.rbx = in1;
-+	args.rdx = in3;
-+	args.rsi = in4;
-+	args.rdi = in5;
-+	args.r10 = VMWARE_TDX_VENDOR_LEAF;
-+	args.r11 = VMWARE_TDX_HCALL_FUNC;
-+	args.r12 = VMWARE_HYPERVISOR_MAGIC;
-+	args.r13 = cmd;
-+	args.r15 = 0; /* CPL */
-+
-+	__tdx_hypercall(&args);
-+
-+	if (out1)
-+		*out1 = args.rbx;
-+	if (out2)
-+		*out2 = args.r13;
-+	if (out3)
-+		*out3 = args.rdx;
-+	if (out4)
-+		*out4 = args.rsi;
-+	if (out5)
-+		*out5 = args.rdi;
-+
-+	return args.r12;
-+}
-+EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-+#endif
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
- 					struct pt_regs *regs)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240523   clang
+i386         buildonly-randconfig-002-20240523   gcc  
+i386         buildonly-randconfig-003-20240523   clang
+i386         buildonly-randconfig-004-20240523   clang
+i386         buildonly-randconfig-005-20240523   clang
+i386         buildonly-randconfig-006-20240523   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240523   gcc  
+i386                  randconfig-002-20240523   clang
+i386                  randconfig-003-20240523   clang
+i386                  randconfig-004-20240523   clang
+i386                  randconfig-005-20240523   gcc  
+i386                  randconfig-006-20240523   clang
+i386                  randconfig-011-20240523   gcc  
+i386                  randconfig-012-20240523   clang
+i386                  randconfig-013-20240523   clang
+i386                  randconfig-014-20240523   gcc  
+i386                  randconfig-015-20240523   gcc  
+i386                  randconfig-016-20240523   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+
 -- 
-2.39.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
