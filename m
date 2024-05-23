@@ -1,93 +1,100 @@
-Return-Path: <linux-input+bounces-3795-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3796-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A8B8CD223
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 14:18:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE7F8CD2D2
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 14:53:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57CBC1C20E16
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 12:18:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6EC31F234F3
+	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 12:53:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F86413B5B3;
-	Thu, 23 May 2024 12:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E685A14B082;
+	Thu, 23 May 2024 12:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tkB7Q8tk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwjod96j"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6B91E4B3;
-	Thu, 23 May 2024 12:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16CC14B07B;
+	Thu, 23 May 2024 12:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716466680; cv=none; b=g+IxmpA7AFsNBO/u60KUXxSUF8TzM4GQ12qPeZeIiJOgH9oUoev9JwS7HzCn64HbtOnQOMMFSwc3qZEM3HOWbLmxG3NHysATazKZaGvV4Wpr/SiQ+trMJ+/BUDgt9ihWnYzAIlQN+RLNYF5lSPxwrUDtd6r7en6mS+nMXPgA5ok=
+	t=1716468662; cv=none; b=cg4bGN58HyioD4qOH6RCp3Arm6y/2HP6QrWJAC7xQng2qz/UuG54wsGsBuk1u70LCT3FxGlDpyWkk9bJCfPY4jiqGeEBAbsFlA5X7DdPEJc8Ch5PjqbU7YnuC2iEBK7DVqI0SKFoBcKBhH94WN1dpmpwvlot6yiNG7otedhuNVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716466680; c=relaxed/simple;
-	bh=7aO37F9CiT6mvhwAwSHzC9znFgm9Bnyz4DIrdvAUdKA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ufIK2pmg52+Uqw7tZPYaQydiHukGiC4MMNJ0q3hXjbHCZwWj37OIjqSwYGJwRLqbgg6/02gYDFjjLR9LHiDTRgndFs77fNgWCp9jSRKejiO0VRzTbD8w2hTDo13E8mzB/SHyghMMpzZNkIJnDfSOHFVD17J2BaLXac9F0sP15hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tkB7Q8tk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3285C2BD10;
-	Thu, 23 May 2024 12:17:58 +0000 (UTC)
+	s=arc-20240116; t=1716468662; c=relaxed/simple;
+	bh=SE/AcBnibbHXcnZ3edG7LB2eAeI51NeMqnEBvDf6bKI=;
+	h=Date:From:To:Cc:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lF2ZAsfTiWMOabX9+3oK2Zm5Ytz+ZvhmJaG0mI5m31lBRJJMY9U/fl1lJ5+TsMnKTo/oUS0dgZwBiJQ89KMoNIlwKVOFANGI34bzGTXcxIRjBLhrdWlepNyaznSIs6SifYIvyzxHEwdGdsg5KWrZUXVVn4C1xdqUl0+9SQWb8Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwjod96j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3862C2BD10;
+	Thu, 23 May 2024 12:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716466679;
-	bh=7aO37F9CiT6mvhwAwSHzC9znFgm9Bnyz4DIrdvAUdKA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=tkB7Q8tk3Lz6sRa7u6f7tGj44Cm9blizkajVawGuvum9IhxNpw51pcIfbAPlwdAIT
-	 AVrXkqJIRVj0/wEwgmo1tnNEu+L3FCyrRVQsiKHHrPP/BLdQP8IjyaXaooGZfDVZsC
-	 7VcL9/DHrO74hCuL2Tvj6abQiRvaiAHpqLCrgMFBAMlGqo0YUql+8G8EqZtz6+G3uG
-	 hpXhvrkOoZVI8v6aKZXKUcJb1ESmFaFuDz52e7M6dAQ7vRAXVnW/wg+PGlGsE6PLit
-	 rvszT5EA+aPFHJoZ7GaI8VuGiXtHGqAHbj+h/Ok+m29oankEy3sbbH5IiwaXaNEQXQ
-	 pcQ2ZAO7L1k5Q==
-Date: Thu, 23 May 2024 14:17:56 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-cc: rrameshbabu@nvidia.com, bentiss@kernel.org, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: nvidia-shield: Add missing check for
- input_ff_create_memless
-In-Reply-To: <20240515033051.2693390-1-nichen@iscas.ac.cn>
-Message-ID: <nycvar.YFH.7.76.2405231417500.16865@cbobk.fhfr.pm>
-References: <20240515033051.2693390-1-nichen@iscas.ac.cn>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=k20201202; t=1716468662;
+	bh=SE/AcBnibbHXcnZ3edG7LB2eAeI51NeMqnEBvDf6bKI=;
+	h=Date:From:To:Cc:From;
+	b=pwjod96jVg2xfUFRbx1AaDAhg/huX+Go3KIY3xoGIES2JihxdndxYdDOOaT6dTa+Y
+	 /hyEiwsOnDAqhXATBfo9rHljyfVeazHPUHeOJbhFo4i3tLT//g/I7A8HFhWj8Aa9no
+	 eD3M+WDVzJzF7nNnFoDEtr71XfoJNU7l6U6Yl/ExLIgXltUngo9rXpH9OEMeZbf68W
+	 Ouxzf5qcD88qlLWvgvqGRkAenpfDLvLiGsB1F2tvgPiYKCnfvG44xM0gKESlxII5S6
+	 517Ij8Cm9z/urcfd8gViiw2UhGug/eztfiPExUnCCqk6RzlVxk1zTCDssZ28UNBcEG
+	 MEAAlhgearz6w==
+Date: Thu, 23 May 2024 13:50:54 +0100
+From: Simon Horman <horms@kernel.org>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+	mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
+	netdev@vger.kernel.org, richardcochran@gmail.com,
+	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+	zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com, timothym@vmware.com, akaher@vmware.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, kirill.shutemov@linux.intel.com,
+	Nadav Amit <nadav.amit@gmail.com>, Jeff Sipek <jsipek@vmware.com>,
+	Joe Perches <joe@perches.com>
+Message-ID: <20240523125054.GL883722@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 15 May 2024, Chen Ni wrote:
+Bcc: 
+Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
+Reply-To: 
+In-Reply-To: <683225e0-1cd3-4dea-bb68-086d46b233e8@broadcom.com>
 
-> Add check for the return value of input_ff_create_memless() and return
-> the error if it fails in order to catch the error.
++ Joe Perches
+
+On Wed, May 22, 2024 at 04:39:57PM -0700, Alexey Makhalov wrote:
+> Hi Simon, apologize for long delay
 > 
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-> ---
->  drivers/hid/hid-nvidia-shield.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shield.c
-> index 58b15750dbb0..ff9078ad1961 100644
-> --- a/drivers/hid/hid-nvidia-shield.c
-> +++ b/drivers/hid/hid-nvidia-shield.c
-> @@ -283,7 +283,9 @@ static struct input_dev *shield_haptics_create(
->  		return haptics;
->  
->  	input_set_capability(haptics, EV_FF, FF_RUMBLE);
-> -	input_ff_create_memless(haptics, NULL, play_effect);
-> +	ret = input_ff_create_memless(haptics, NULL, play_effect);
-> +	if (ret)
-> +		goto err;
->  
+> On 5/11/24 8:02 AM, Simon Horman wrote:
+> > > diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
+> > 
+> > ...
+> > 
+> > > +static inline
+> > > +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
+> > > +				uint32_t *out1, uint32_t *out2)
+> > 
+> > nit: u32 is preferred over uint32_t.
+> >       Likewise elsewhere in this patch-set.
+> Good to know. Can you please shed a light on the reason?
+> I still see bunch of stdint style uint32_t in arch/x86.
 
-Applied, thanks.
+Perhaps there is a document on this that I should know about.
+But AFAIK, u32 and so on are Linux kernel types,
+while uint32_t are C99-standard types.
 
--- 
-Jiri Kosina
-SUSE Labs
+Joe, are you able to shed any further light on this?
 
+...
 
