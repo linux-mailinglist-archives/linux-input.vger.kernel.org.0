@@ -1,119 +1,115 @@
-Return-Path: <linux-input+bounces-3818-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3819-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD2B8CE500
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 14:01:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0778CE5B0
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 15:06:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E28D8282491
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 12:01:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 787771F21ECD
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 13:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C35AF84FAF;
-	Fri, 24 May 2024 12:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B6086640;
+	Fri, 24 May 2024 13:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PdjqiMk7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4C0839FC;
-	Fri, 24 May 2024 12:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7F886263;
+	Fri, 24 May 2024 13:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716552090; cv=none; b=FG4sea7d5qSC3tyXj+j+Rue+6dy3h0IdyqoKpSM0dm9x9ihi3TQEf0TymFlNGkgwX/XtIRTKsiN0VLYBalairtu1vuhEQRRxSy18rPPc0/3xzIArVkKKHfp0aTMvt488STYmFXC+QAS/q9uspJJmvllRobHhe6DERwwV3mDYwEo=
+	t=1716555967; cv=none; b=rpBF6IH5Bx8uR+dCxWhoqWuYyWFAzH522ouncyBSVfDBkvALuI5uHf1ZeYNtV/Eeh7M7yEObQi6rzYSE3u9hywvMhT5y05GogqZf+G0vr2B+YitbT7bwMcHcSwkkDECD0vj3foODRzBoWrWaXYyaOcj7NL+JLvgW+6hM0wjFTeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716552090; c=relaxed/simple;
-	bh=sjXQpdVuxVaMrcZZhjQ9Ud+3LbVMqNdFY3q2eDxl45I=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nVtixYKWRX03A6nojuOnGzu0sVjwEKG6zCuqzo9rX+gOUUHfNF38Li632B0lhH8EzwKqMAzrVUuuBw1eWGW8agpYywGYi5gqDlV/2qNSma7VDvC75HrutJYk53ORij3wbDeeCss+LULG/W5oyvXA6SoUxWYo3hqYuN8sIbUejPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 24 May
- 2024 15:01:20 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 24 May
- 2024 15:01:20 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Kees Cook
-	<keescook@chromium.org>, <linux-usb@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>,
-	<syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com>
-Subject: [PATCH] HID: usbhid: fix recurrent out-of-bounds bug in usbhid_parse()
-Date: Fri, 24 May 2024 05:01:12 -0700
-Message-ID: <20240524120112.28076-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1716555967; c=relaxed/simple;
+	bh=DoWs5BPUI9cxJ0X+dQ+0JUONSFZr+7WHS2zegtsXtpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tlv76QYbo+/0St8SB6X8cXN5lMXqqAKksFu1GAl4qhwFwNXmKdT8V/eZgY1+wcdipfeFsvsNHpc0GiVsTLR8vKPgZzsntzHBy6r/aVTPKtcloIvWEMWg2S2Zmq1O7yE4lfYbwU5o/k7n1mGkh8feeFiBXJTBcv8HZUmkcpJCBBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PdjqiMk7; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-354e0cc9c5cso2654095f8f.0;
+        Fri, 24 May 2024 06:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716555964; x=1717160764; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=afPh9P2vN9D4alg4S+/YGRy8MrT0d+ItioNuY/3leJk=;
+        b=PdjqiMk75wUcHYpJtysTt2CmehJMC2JZVkkqyBUYsPdvCNLhRW0sO6lFfjS60RNMNw
+         q2nNlRseL/U8s9xeGNyzmsVYLRg5oKWSruhcOzTQZ0+FKjCr+B3cM0qMwQ7XFT9YeS16
+         B/EKjGflkrr+pfzZ3Ze8W4u/992ySF/ODGbMoP0ZUiO0Hqa6D6eVfTPnFl+NDKELe4f6
+         eo+jOOXaHKIKVMyH+7XEQw9w5o3ni59dZkOpw4TXWu64eZ76Mq2QKdBz7Vxyr0KTJ6vG
+         jRSEx/vbFprkKIrjU1+Qpm7ZikVPW5aJ0aVInHR1kX/uURcUS0+Say9I2rDEqhOxhD2y
+         ALzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716555964; x=1717160764;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=afPh9P2vN9D4alg4S+/YGRy8MrT0d+ItioNuY/3leJk=;
+        b=ds5uLIvu5KOl77vQm1eMDskE6wVEnd/WlTQZpiVcDoPR2PMn+Bh74Oiu4wUbxAnlpF
+         /w7JgCed39rwuClz+4CJ6w649kRtZXv8uICNrxsxGRihvc83rasDzQQWJD+K/DJHeW7p
+         AGVquew8TByjF5lSqiZL0YShkL9a3PtuZcRy17Mjj7XT8o04xoB04qGOWikJkOpF/SbQ
+         A5GTU7b9yDL9lL6sYCoi1M3PBYByMeJ4OxAAEx/9gluGm7/ObWuBZ7n936lksJboe28i
+         A8lGaION8tOj2Ekd1MolyorLLjWZSdge0c6d+DwdPApPgaKqxtpQ/No27znSrB7plBgI
+         gGaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsH/y0Edax3r8uKcMp1WlLqHARgVz9SBPrQ+bVlUK9DQCyZvzm/Jt3DO3c/pC6oWXJil1A7Ia3elXATLmH5E5+7Iujl4i+LseksMocPU7F80cLoXU2MhNK18CQ/FAp9FU9k1gogMTrLVc=
+X-Gm-Message-State: AOJu0YwGwTU6nYmY9TdoPn29uCFwkPbtQWmQatZk5ea6gVYt/DuKCt/E
+	6p+6ft9qcbZQ2qZTNTZ4nO2MmDNEQaUqZULwFkmqFUrq2AQiBv8V
+X-Google-Smtp-Source: AGHT+IGPXI9JqXB12zg9HUB94hfAt4AWZBgnbpkF/gJYhJZtb1fO/ujOTpFiS0fhn/EduG7W2NCjEw==
+X-Received: by 2002:adf:e546:0:b0:354:e0c9:f620 with SMTP id ffacd0b85a97d-35526c38c7bmr1344527f8f.24.1716555964301;
+        Fri, 24 May 2024 06:06:04 -0700 (PDT)
+Received: from fedora.. ([213.94.26.172])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35579d7db6bsm1595633f8f.2.2024.05.24.06.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 06:06:03 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: jikos@kernel.org
+Cc: bentiss@kernel.org,
+	lains@riseup.net,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] HID: logitech-dj: Fix memory leak in logi_dj_recv_switch_to_dj_mode()
+Date: Fri, 24 May 2024 15:05:39 +0200
+Message-ID: <20240524130600.275577-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
 
-Syzbot reports [1] a reemerging out-of-bounds bug regarding hid
-descriptors possibly having incorrect bNumDescriptors values in
-usbhid_parse().
+Fix a memory leak on logi_dj_recv_send_report() error path.
 
-Build on the previous fix in "HID: usbhid: fix out-of-bounds bug"
-and run a sanity-check ensuring that number of descriptors doesn't
-exceed the size of desc[] in struct hid_descriptor.
-
-[1] Syzbot report:
-Link: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
-
-UBSAN: array-index-out-of-bounds in drivers/hid/usbhid/hid-core.c:1024:7
-index 1 is out of range for type 'struct hid_class_descriptor[1]'
-CPU: 0 PID: 8 Comm: kworker/0:1 Not tainted 6.9.0-rc6-syzkaller-00290-gb9158815de52 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
- ubsan_epilogue lib/ubsan.c:231 [inline]
- __ubsan_handle_out_of_bounds+0x121/0x150 lib/ubsan.c:429
- usbhid_parse+0x5a7/0xc80 drivers/hid/usbhid/hid-core.c:1024
- hid_add_device+0x132/0x520 drivers/hid/hid-core.c:2790
- usbhid_probe+0xb38/0xea0 drivers/hid/usbhid/hid-core.c:1429
- usb_probe_interface+0x645/0xbb0 drivers/usb/core/driver.c:399
- really_probe+0x2b8/0xad0 drivers/base/dd.c:656
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
- driver_probe_device+0x50/0x430 drivers/base/dd.c:828
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1028
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x8ff/0xca0 drivers/base/core.c:3720
- usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
- usb_probe_device+0x1b8/0x380 drivers/usb/core/driver.c:294
-
-Reported-and-tested-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
-Fixes: f043bfc98c19 ("HID: usbhid: fix out-of-bounds bug")
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Fixes: 6f20d3261265 ("HID: logitech-dj: Fix error handling in logi_dj_recv_switch_to_dj_mode()")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/hid/usbhid/hid-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/hid/hid-logitech-dj.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index a90ed2ceae84..f38a4bd3a20e 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -1020,6 +1020,9 @@ static int usbhid_parse(struct hid_device *hid)
- 	num_descriptors = min_t(int, hdesc->bNumDescriptors,
- 	       (hdesc->bLength - offset) / sizeof(struct hid_class_descriptor));
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 3c3c497b6b91..37958edec55f 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1284,8 +1284,10 @@ static int logi_dj_recv_switch_to_dj_mode(struct dj_receiver_dev *djrcv_dev,
+ 		 */
+ 		msleep(50);
  
-+	if (num_descriptors > ARRAY_SIZE(hdesc->desc))
-+		num_descriptors = ARRAY_SIZE(hdesc->desc);
-+
- 	for (n = 0; n < num_descriptors; n++)
- 		if (hdesc->desc[n].bDescriptorType == HID_DT_REPORT)
- 			rsize = le16_to_cpu(hdesc->desc[n].wDescriptorLength);
+-		if (retval)
++		if (retval) {
++			kfree(dj_report);
+ 			return retval;
++		}
+ 	}
+ 
+ 	/*
+-- 
+2.45.1
+
 
