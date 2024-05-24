@@ -1,578 +1,794 @@
-Return-Path: <linux-input+bounces-3813-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3814-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C528CE0EF
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 08:18:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22178CE44C
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 12:35:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA69A2816D2
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 06:18:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 409891F2255B
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 10:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846FE128366;
-	Fri, 24 May 2024 06:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A93485269;
+	Fri, 24 May 2024 10:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kk1FgOpC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432BF2230C
-	for <linux-input@vger.kernel.org>; Fri, 24 May 2024 06:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835088526A;
+	Fri, 24 May 2024 10:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716531509; cv=none; b=NKziormIMkYJBKU5oz9N0772qJHYsdynGrs1NT/W7bv2+OsT2UN3rlfSwskfFYUGng/9183vEGAYqvw8wPtV/8um1o43FCb5ByxdK3gUl9UlDjdHXBCH7egRNVFwx4JQ+bn4rNdGlkkwa9hFJxdCNGitkzUFTZZKv308U4hSDTM=
+	t=1716546865; cv=none; b=TG3M1erREu1LKBJixAcqe7L2bOktzkhwUhLzwqtFqLt0P2g8HDeS/gQq2etlIL6dXzXArW8XP1MI5X8gHltldbE836OSMbxUfhR9rPgp3inEO0VlwMBe3gbazi+fEGgcopUBI3ydcFQySP3E5Hiy5M3hWbFLNZVVO5tofYsskQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716531509; c=relaxed/simple;
-	bh=irwvMJuabM/LE3ZP5E9X062DdIUthg83LdFaKiToKyQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=r2O7sz+i19g5i3uAEV0MxiqtAFXl2frciJd31J4NvFzfrIyslmO30TbCaZZyK8UPV17fe7a8XaeSzeI6AI/Zyxvb0mkGmeO/jZuZeaB+gYiBRFjhvzpAqRA8eWjpFgHMT0cbC9rGDrUTQVdfAZr+J8f7LceeLaQp0wFPsszmz7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3713862bcefso21004605ab.0
-        for <linux-input@vger.kernel.org>; Thu, 23 May 2024 23:18:27 -0700 (PDT)
+	s=arc-20240116; t=1716546865; c=relaxed/simple;
+	bh=xH63uunu/SF6mE8yocoIn3gECgdkOxHIDHwB6w3qYXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ETivI6H34G67SscLlEinQ6jOGVEwQZllh2n9e6jm0Anq0vXROvvobLwv4s8NvkW+i2gf/C+XNwEVHBKKZ5+dYJ+mVd8/nY4xvnyNYI87FI4IEq1ZAn/6RtFO4ZgMreYef5nf0BavBzCd5Jj7dDFDhNQ7jCrh4sMkmZNnV2mW35w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kk1FgOpC; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f3469382f2so11586315ad.0;
+        Fri, 24 May 2024 03:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716546863; x=1717151663; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vYMu7C5ARNcXBAFvq1OXephr77WiWJ+EuoCs7JAllrM=;
+        b=Kk1FgOpC8jFkRhz0BENFgHuyiQTZX6K/Iuf0KNyeOv9fC82MgIvGUXbPatAm9VaZqI
+         +ijiz8LKkaFBOBfjSlgDEeaafEIxJzXMBZ0SAKrSbyGthyDZZ+EKwx3AeeeesBFA5hc9
+         aks1Rd1FUDTv4VbYqxMCRX6Wm4Y0es6iX6/V5bj3LQyFA2JJKpUvhePOdGjr6sZpUjMw
+         uOKMzRalSrARMNwPop/dKdts9BlS+eblIhG7fazMa2Wi2b61xesNXNwJI1ftIw9QUikQ
+         llvvkI6Voo9lm8rDbiW8rHV9+mAUPAf8GeJUYAfLAGdu6tBGh+E5c3fOrH6NHvd9mdxo
+         Wj2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716531506; x=1717136306;
-        h=content-transfer-encoding:to:from:subject:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1716546863; x=1717151663;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BNgu4oddCQYnVQUvBsGea594F0HKpe6UHOO7M9fsFuc=;
-        b=pLpSwkecfx63aU9YnYiE1FtAhiXQPW79KqYFp1L6cwRP42dQmfdOlwHK9Bm7D+kSkr
-         vSlRZauIYXknOIq+DSYuxgFwl5w0VG8LlbfYZ5bFtG4l3ef2Ls9CzVVsu3u/Qo/zL7i0
-         /Efb7OdnKi2QBJmqaF7RYPVEpE45wLQrxCdnGYpSnelEFqeYkQA1HwBC40Kmi8nIJzXm
-         RM5wsG4erAp8A0ez7x1BXEi8+HOSdJs8XJ0se2p6G5TzX/h8lTI+XF6VZRAVavNosEaB
-         0GBkxt6KeutRPi+U0+sJZuIfpm8P9MuE3z1+2ymWWDtKOeavaj2+Cp26PVpVVZkKGrSj
-         AMeg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+DmqA4xoSPYDFeEHpOY5rWmhUth010oEP+yYS12YX7V3l+FmdFUzj+lp2pzj93N0Na1CdUiY9/11Bat9NT/cZxI+wzTXzvIWyM6s=
-X-Gm-Message-State: AOJu0YxB2atHElDRJsDoE/unSzRxOS2rzBt3AXC31dNN5t1sNAfQN8e8
-	MpDHSz1jta2aWXLC65caZPhAMgzUlUT6PB4VrfMazC5+0aTTN0H2gKyzkuVNgvuCGT2V+lG8op1
-	mdWikoVFjDX6+/yNtjInP9/YlsEImDpVaNc7bCd0ID6tXOAiE8MBCBfE=
-X-Google-Smtp-Source: AGHT+IGX/IoYA4ysHtyGmoHYjoFauld/xbpuOYFS7/TY05ffRVlnIETC6a1+jU0LC3iGAjmOdg0Fm6EhTUdO1YhxZQN0MnNWUi3m
+        bh=vYMu7C5ARNcXBAFvq1OXephr77WiWJ+EuoCs7JAllrM=;
+        b=SXw7saeoj2TzUJEY28JS2h2wK+oi5oPxQl6+EY5cynwAzTVCmiyem8MKbStSeEC90Z
+         oUtY8d7mrwZh4NTBM+6hzPnUi0En9kV30Ekun379MadP+bcjZdLTa/ahff48b2Cj5C6H
+         Plas86kvgg9OB+5a9qznGL7porzgohKxfPWZ+UqsfA+itTEhsmQ0n0QucWb9bicaa86j
+         Da9dQvGxvPr+Jb1y96QpcSwdLZthMQbFTOz8u8a8pd/K4aeQS64S9QagiFUYAA8CbLip
+         A5iHBD3K9ZgW3xYyKfs0JRcaADW1ENUnYWMLlzrXU4JRYhkZz6nfeJ0bisKiAXUv8tA8
+         10vA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTKF52siEZPR6nqF+C78yN8nb3CzrVlOO0NRI3tqMisjrL58NhwdEIsB/m+cnrDXF5nHGEwjKms7Be/fRN10bm6g7B5jY1uK8TJP2HbfpuWrjPF19iKa7I7v0UGGbgKe0zcqpJqd+TeIA=
+X-Gm-Message-State: AOJu0YzTLnQ5N4mAXqF3PjB8Jgc7jHdn+F84mpS3586FTxpuNFTzSZuj
+	rKiSr2SMxTRWlD9ymdS4mV5SzW8fXmVagLcoNDmeKuocizoQFa7Q
+X-Google-Smtp-Source: AGHT+IGt5u5y74GnD7Hbts7ZrGdlL4mL6vGXJIr9GDlBMt+P/NDvr3VDjFEfNmkp7/Z/Pqe6XJRCUg==
+X-Received: by 2002:a17:903:648:b0:1e8:92:c5e2 with SMTP id d9443c01a7336-1f4497df79fmr19029485ad.47.1716546862664;
+        Fri, 24 May 2024 03:34:22 -0700 (PDT)
+Received: from mb-board.. ([120.237.109.178])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c993fa7sm10823345ad.196.2024.05.24.03.34.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 03:34:22 -0700 (PDT)
+From: Charles Wang <charles.goodix@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: jingliang@chromium.org,
+	hbarnor@chromium.org,
+	dianders@chromium.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: [PATCH] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Date: Fri, 24 May 2024 18:34:06 +0800
+Message-ID: <20240524103407.36861-1-charles.goodix@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1887:b0:371:a225:45b5 with SMTP id
- e9e14a558f8ab-3737ac8695emr1192695ab.1.1716531506472; Thu, 23 May 2024
- 23:18:26 -0700 (PDT)
-Date: Thu, 23 May 2024 23:18:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b07bfb06192d228b@google.com>
-Subject: [syzbot] [net?] [input?] [usb?] INFO: rcu detected stall in sendmsg (4)
-From: syzbot <syzbot+9c0539eda655673bdaa4@syzkaller.appspotmail.com>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello,
+This patch introduces a new driver to support the Goodix GT7986U
+touch controller. The data reported is packaged according to the
+HID protocol but uses SPI for communication to improve speed. This
+enables the device to transmit not only coordinate data but also
+corresponding raw data that can be accessed by user-space programs
+through the hidraw interface. The raw data can be utilized for
+functions like palm rejection, thereby improving the touch experience.
 
-syzbot found the following issue on:
+Key features:
+- Device connection confirmation and initialization
+- IRQ-based event reporting to the input subsystem
+- Support for HIDRAW operations (GET_REPORT and SET_REPORT)
 
-HEAD commit:    61307b7be41a Merge tag 'mm-stable-2024-05-17-19-19' of git.=
-.
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=3D13f55634980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3De7d2f006659b877
-dashboard link: https://syzkaller.appspot.com/bug?extid=3D9c0539eda655673bd=
-aa4
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Deb=
-ian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D10311eb298000=
-0
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D12e9f1dc980000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0de598381836/disk-=
-61307b7b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/69ea7aec70a4/vmlinux-=
-61307b7b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/07111fc20846/bzI=
-mage-61307b7b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit=
-:
-Reported-by: syzbot+9c0539eda655673bdaa4@syzkaller.appspotmail.com
-
-rcu: INFO: rcu_preempt self-detected stall on CPU
-rcu: 	0-...!: (7 ticks this GP) idle=3D5024/1/0x4000000000000000 softirq=3D=
-8175/8175 fqs=3D0
-rcu: 	(t=3D11029 jiffies g=3D8665 q=3D111 ncpus=3D2)
-rcu: rcu_preempt kthread starved for 11029 jiffies! g8665 f0x0 RCU_GP_WAIT_=
-FQS(5) ->state=3D0x0 ->cpu=3D0
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expec=
-ted behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:28752 pid:17    tgid:1=
-7    ppid:2      flags:0x00004000
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5408 [inline]
- __schedule+0xf15/0x5d00 kernel/sched/core.c:6745
- __schedule_loop kernel/sched/core.c:6822 [inline]
- schedule+0xe7/0x350 kernel/sched/core.c:6837
- schedule_timeout+0x136/0x2a0 kernel/time/timer.c:2581
- rcu_gp_fqs_loop+0x1eb/0xb00 kernel/rcu/tree.c:2000
- rcu_gp_kthread+0x271/0x380 kernel/rcu/tree.c:2202
- kthread+0x2c1/0x3a0 kernel/kthread.c:389
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
-CPU: 0 PID: 4533 Comm: udevd Not tainted 6.9.0-syzkaller-09429-g61307b7be41=
-a #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Goo=
-gle 04/02/2024
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152=
- [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:1=
-94
-Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 16 10 82 f6 48 89 df e8 =
-fe 8c 82 f6 f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e=
-8 75 cd 73 f6 65 8b 05 06 1b 1a 75 85 c0 74 16 5b
-RSP: 0018:ffffc90000007a48 EFLAGS: 00000246
-RAX: 0000000000000002 RBX: ffff888023414000 RCX: 1ffffffff285644e
-RDX: 0000000000000000 RSI: ffffffff8b2cab60 RDI: ffffffff8b8faa00
-RBP: 0000000000000246 R08: 0000000000000001 R09: fffffbfff284be6a
-R10: ffffffff9425f357 R11: 0000000000000003 R12: ffff8880243de478
-R13: ffff8880243de480 R14: dffffc0000000000 R15: ffff8880243de478
-FS:  00007f58b93bdc80(0000) GS:ffff8880b9200000(0000) knlGS:000000000000000=
-0
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f58b9410d80 CR3: 000000007cfb8000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <IRQ>
- spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
- dummy_timer+0x1e16/0x3940 drivers/usb/gadget/udc/dummy_hcd.c:2001
- call_timer_fn+0x1a0/0x610 kernel/time/timer.c:1792
- expire_timers kernel/time/timer.c:1843 [inline]
- __run_timers+0x74b/0xaf0 kernel/time/timer.c:2417
- __run_timer_base kernel/time/timer.c:2428 [inline]
- __run_timer_base kernel/time/timer.c:2421 [inline]
- run_timer_base+0x111/0x190 kernel/time/timer.c:2437
- run_timer_softirq+0x1a/0x40 kernel/time/timer.c:2447
- handle_softirqs+0x216/0x8f0 kernel/softirq.c:554
- __do_softirq kernel/softirq.c:588 [inline]
- invoke_softirq kernel/softirq.c:428 [inline]
- __irq_exit_rcu kernel/softirq.c:637 [inline]
- irq_exit_rcu+0xbb/0x120 kernel/softirq.c:649
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline=
-]
- sysvec_apic_timer_interrupt+0x95/0xb0 arch/x86/kernel/apic/apic.c:1043
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:=
-702
-RIP: 0010:arch_static_branch arch/x86/include/asm/jump_label.h:27 [inline]
-RIP: 0010:__slub_debug_enabled mm/slab.h:510 [inline]
-RIP: 0010:kmem_cache_debug_flags mm/slab.h:531 [inline]
-RIP: 0010:kmem_cache_debug mm/slub.c:230 [inline]
-RIP: 0010:__slab_free+0x39/0x4d0 mm/slub.c:4253
-Code: 41 54 53 48 83 e4 f0 48 83 c4 80 48 89 54 24 08 48 8d 54 24 40 48 89 =
-7c 24 30 48 89 d7 48 89 4c 24 10 b9 08 00 00 00 f3 48 ab <0f> 1f 44 00 00 4=
-8 c7 04 24 00 00 00 00 c6 44 24 3e 00 66 44 89 44
-RSP: 0018:ffffc90003d27730 EFLAGS: 00000287
-RAX: 0000000000000000 RBX: ffff888015442140 RCX: 0000000000000000
-RDX: ffffc90003d27770 RSI: ffffea00008e5200 RDI: ffffc90003d277b0
-RBP: ffffc90003d277e0 R08: 0000000000000001 R09: ffffffff81e9db49
-R10: 0000000000000000 R11: 0000000000000001 R12: ffff888078e4a000
-R13: 0000000000000000 R14: ffffc90003d27828 R15: ffffea00008e5200
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x4e/0x140 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x192/0x1e0 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:322
- kasan_slab_alloc include/linux/kasan.h:201 [inline]
- slab_post_alloc_hook mm/slub.c:3940 [inline]
- slab_alloc_node mm/slub.c:4000 [inline]
- kmem_cache_alloc_node_noprof+0x153/0x310 mm/slub.c:4043
- kmalloc_reserve+0x18b/0x2c0 net/core/skbuff.c:575
- __alloc_skb+0x164/0x380 net/core/skbuff.c:666
- alloc_skb include/linux/skbuff.h:1308 [inline]
- netlink_alloc_large_skb+0x69/0x130 net/netlink/af_netlink.c:1210
- netlink_sendmsg+0x689/0xd70 net/netlink/af_netlink.c:1880
- sock_sendmsg_nosec net/socket.c:730 [inline]
- __sock_sendmsg net/socket.c:745 [inline]
- ____sys_sendmsg+0xab5/0xc90 net/socket.c:2585
- ___sys_sendmsg+0x135/0x1e0 net/socket.c:2639
- __sys_sendmsg+0x117/0x1f0 net/socket.c:2668
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f58b8f24a4b
-Code: ff 89 ef 48 89 04 24 e8 22 56 f9 ff 48 8b 04 24 48 83 c4 20 5d c3 c3 =
-64 8b 04 25 18 00 00 00 85 c0 75 20 b8 2e 00 00 00 0f 05 <48> 3d 00 f0 ff f=
-f 76 6d 48 8b 15 ae c3 0c 00 f7 d8 64 89 02 48 83
-RSP: 002b:00007ffe73c0e2d8 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
-RAX: ffffffffffffffda RBX: 00005610f4ae1240 RCX: 00007f58b8f24a4b
-RDX: 0000000000000000 RSI: 00007ffe73c0e2e8 RDI: 0000000000000004
-RBP: 00005610f4b0e290 R08: 0000000000000001 R09: 3039abbe55c8e597
-R10: 1999999999999999 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000000000c4 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Mem-Info:
-active_anon:3729 inactive_anon:0 isolated_anon:0
- active_file:0 inactive_file:15360 isolated_file:0
- unevictable:768 dirty:3 writeback:0
- slab_reclaimable:9244 slab_unreclaimable:79848
- mapped:2131 shmem:1251 pagetables:547
- sec_pagetables:0 bounce:0
- kernel_misc_reclaimable:0
- free:1491166 free_pcp:372 free_cma:0
-Node 0 active_anon:14916kB inactive_anon:0kB active_file:0kB inactive_file:=
-61364kB unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:852=
-4kB dirty:8kB writeback:0kB shmem:3468kB shmem_thp:0kB shmem_pmdmapped:0kB =
-anon_thp:0kB writeback_tmp:0kB kernel_stack:8496kB pagetables:2188kB sec_pa=
-getables:0kB all_unreclaimable? no
-Node 1 active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:76kB=
- unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:0kB dirty:=
-4kB writeback:0kB shmem:1536kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0=
-kB writeback_tmp:0kB kernel_stack:16kB pagetables:0kB sec_pagetables:0kB al=
-l_unreclaimable? no
-Node 0 DMA free:15360kB boost:0kB min:204kB low:252kB high:300kB reserved_h=
-ighatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB inactive_fi=
-le:0kB unevictable:0kB writepending:0kB present:15992kB managed:15360kB mlo=
-cked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 2565 2567 0 0
-Node 0 DMA32 free:1992068kB boost:0kB min:35052kB low:43812kB high:52572kB =
-reserved_highatomic:0KB active_anon:14892kB inactive_anon:0kB active_file:0=
-kB inactive_file:59552kB unevictable:1536kB writepending:8kB present:312933=
-2kB managed:2654792kB mlocked:0kB bounce:0kB free_pcp:1456kB local_pcp:760k=
-B free_cma:0kB
-lowmem_reserve[]: 0 0 1 0 0
-Node 0 Normal free:28kB boost:0kB min:24kB low:28kB high:32kB reserved_high=
-atomic:0KB active_anon:24kB inactive_anon:0kB active_file:0kB inactive_file=
-:1812kB unevictable:0kB writepending:0kB present:1048576kB managed:1896kB m=
-locked:0kB bounce:0kB free_pcp:32kB local_pcp:8kB free_cma:0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 1 Normal free:3957208kB boost:0kB min:54828kB low:68532kB high:82236kB=
- reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB =
-inactive_file:76kB unevictable:1536kB writepending:4kB present:4194304kB ma=
-naged:4109120kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:=
-0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 1*1024=
-kB (U) 1*2048kB (M) 3*4096kB (M) =3D 15360kB
-Node 0 DMA32: 724*4kB (UM) 1149*8kB (UME) 213*16kB (UME) 15*32kB (UME) 5*64=
-kB (E) 1*128kB (U) 3*256kB (ME) 1*512kB (U) 2*1024kB (ME) 1*2048kB (E) 481*=
-4096kB (M) =3D 1991976kB
-Node 0 Normal: 1*4kB (M) 1*8kB (M) 1*16kB (M) 0*32kB 0*64kB 0*128kB 0*256kB=
- 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 28kB
-Node 1 Normal: 6*4kB (UM) 8*8kB (UM) 8*16kB (UM) 12*32kB (UM) 6*64kB (U) 2*=
-128kB (U) 1*256kB (M) 2*512kB (UM) 0*1024kB 1*2048kB (U) 965*4096kB (M) =3D=
- 3957208kB
-Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 0 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-Node 1 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 1 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-16611 total pagecache pages
-0 pages in swap cache
-Free swap  =3D 0kB
-Total swap =3D 0kB
-2097051 pages RAM
-0 pages HighMem/MovableOnly
-401759 pages reserved
-0 pages cma reserved
-Mem-Info:
-active_anon:3734 inactive_anon:0 isolated_anon:0
- active_file:0 inactive_file:15360 isolated_file:0
- unevictable:768 dirty:0 writeback:0
- slab_reclaimable:9186 slab_unreclaimable:79492
- mapped:2131 shmem:1229 pagetables:570
- sec_pagetables:0 bounce:0
- kernel_misc_reclaimable:0
- free:1491784 free_pcp:96 free_cma:0
-Node 0 active_anon:14936kB inactive_anon:0kB active_file:0kB inactive_file:=
-61364kB unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:852=
-4kB dirty:0kB writeback:0kB shmem:3380kB shmem_thp:0kB shmem_pmdmapped:0kB =
-anon_thp:0kB writeback_tmp:0kB kernel_stack:8624kB pagetables:2280kB sec_pa=
-getables:0kB all_unreclaimable? no
-Node 1 active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:76kB=
- unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:0kB dirty:=
-0kB writeback:0kB shmem:1536kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0=
-kB writeback_tmp:0kB kernel_stack:16kB pagetables:0kB sec_pagetables:0kB al=
-l_unreclaimable? no
-Node 0 DMA free:15360kB boost:0kB min:204kB low:252kB high:300kB reserved_h=
-ighatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB inactive_fi=
-le:0kB unevictable:0kB writepending:0kB present:15992kB managed:15360kB mlo=
-cked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 2565 2567 0 0
-Node 0 DMA32 free:1994540kB boost:0kB min:35052kB low:43812kB high:52572kB =
-reserved_highatomic:0KB active_anon:14912kB inactive_anon:0kB active_file:0=
-kB inactive_file:59552kB unevictable:1536kB writepending:0kB present:312933=
-2kB managed:2654792kB mlocked:0kB bounce:0kB free_pcp:352kB local_pcp:160kB=
- free_cma:0kB
-lowmem_reserve[]: 0 0 1 0 0
-Node 0 Normal free:28kB boost:0kB min:24kB low:28kB high:32kB reserved_high=
-atomic:0KB active_anon:24kB inactive_anon:0kB active_file:0kB inactive_file=
-:1812kB unevictable:0kB writepending:0kB present:1048576kB managed:1896kB m=
-locked:0kB bounce:0kB free_pcp:32kB local_pcp:8kB free_cma:0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 1 Normal free:3957208kB boost:0kB min:54828kB low:68532kB high:82236kB=
- reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB =
-inactive_file:76kB unevictable:1536kB writepending:0kB present:4194304kB ma=
-naged:4109120kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:=
-0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 1*1024=
-kB (U) 1*2048kB (M) 3*4096kB (M) =3D 15360kB
-Node 0 DMA32: 815*4kB (UM) 1206*8kB (UME) 56*16kB (UME) 58*32kB (UME) 49*64=
-kB (UME) 3*128kB (UM) 2*256kB (ME) 1*512kB (U) 2*1024kB (ME) 1*2048kB (E) 4=
-81*4096kB (M) =3D 1994476kB
-Node 0 Normal: 1*4kB (M) 1*8kB (M) 1*16kB (M) 0*32kB 0*64kB 0*128kB 0*256kB=
- 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 28kB
-Node 1 Normal: 6*4kB (UM) 8*8kB (UM) 8*16kB (UM) 12*32kB (UM) 6*64kB (U) 2*=
-128kB (U) 1*256kB (M) 2*512kB (UM) 0*1024kB 1*2048kB (U) 965*4096kB (M) =3D=
- 3957208kB
-Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 0 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-Node 1 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 1 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-16589 total pagecache pages
-0 pages in swap cache
-Free swap  =3D 0kB
-Total swap =3D 0kB
-2097051 pages RAM
-0 pages HighMem/MovableOnly
-401759 pages reserved
-0 pages cma reserved
-Mem-Info:
-active_anon:3734 inactive_anon:0 isolated_anon:0
- active_file:0 inactive_file:15360 isolated_file:0
- unevictable:768 dirty:0 writeback:0
- slab_reclaimable:9186 slab_unreclaimable:79492
- mapped:2131 shmem:1229 pagetables:570
- sec_pagetables:0 bounce:0
- kernel_misc_reclaimable:0
- free:1491583 free_pcp:285 free_cma:0
-Node 0 active_anon:14936kB inactive_anon:0kB active_file:0kB inactive_file:=
-61364kB unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:852=
-4kB dirty:0kB writeback:0kB shmem:3380kB shmem_thp:0kB shmem_pmdmapped:0kB =
-anon_thp:0kB writeback_tmp:0kB kernel_stack:8652kB pagetables:2280kB sec_pa=
-getables:0kB all_unreclaimable? no
-Node 1 active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:76kB=
- unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:0kB dirty:=
-0kB writeback:0kB shmem:1536kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0=
-kB writeback_tmp:0kB kernel_stack:16kB pagetables:0kB sec_pagetables:0kB al=
-l_unreclaimable? no
-Node 0 DMA free:15360kB boost:0kB min:204kB low:252kB high:300kB reserved_h=
-ighatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB inactive_fi=
-le:0kB unevictable:0kB writepending:0kB present:15992kB managed:15360kB mlo=
-cked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 2565 2567 0 0
-Node 0 DMA32 free:1993736kB boost:0kB min:35052kB low:43812kB high:52572kB =
-reserved_highatomic:0KB active_anon:14912kB inactive_anon:0kB active_file:0=
-kB inactive_file:59552kB unevictable:1536kB writepending:0kB present:312933=
-2kB managed:2654792kB mlocked:0kB bounce:0kB free_pcp:1108kB local_pcp:916k=
-B free_cma:0kB
-lowmem_reserve[]: 0 0 1 0 0
-Node 0 Normal free:28kB boost:0kB min:24kB low:28kB high:32kB reserved_high=
-atomic:0KB active_anon:24kB inactive_anon:0kB active_file:0kB inactive_file=
-:1812kB unevictable:0kB writepending:0kB present:1048576kB managed:1896kB m=
-locked:0kB bounce:0kB free_pcp:32kB local_pcp:8kB free_cma:0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 1 Normal free:3957208kB boost:0kB min:54828kB low:68532kB high:82236kB=
- reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB =
-inactive_file:76kB unevictable:1536kB writepending:0kB present:4194304kB ma=
-naged:4109120kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:=
-0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 1*1024=
-kB (U) 1*2048kB (M) 3*4096kB (M) =3D 15360kB
-Node 0 DMA32: 654*4kB (UM) 1192*8kB (UME) 56*16kB (UME) 58*32kB (UME) 49*64=
-kB (UME) 3*128kB (UM) 2*256kB (ME) 1*512kB (U) 2*1024kB (ME) 1*2048kB (E) 4=
-81*4096kB (M) =3D 1993720kB
-Node 0 Normal: 1*4kB (M) 1*8kB (M) 1*16kB (M) 0*32kB 0*64kB 0*128kB 0*256kB=
- 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 28kB
-Node 1 Normal: 6*4kB (UM) 8*8kB (UM) 8*16kB (UM) 12*32kB (UM) 6*64kB (U) 2*=
-128kB (U) 1*256kB (M) 2*512kB (UM) 0*1024kB 1*2048kB (U) 965*4096kB (M) =3D=
- 3957208kB
-Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 0 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-Node 1 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 1 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-16589 total pagecache pages
-0 pages in swap cache
-Free swap  =3D 0kB
-Total swap =3D 0kB
-2097051 pages RAM
-0 pages HighMem/MovableOnly
-401759 pages reserved
-0 pages cma reserved
-Mem-Info:
-active_anon:3721 inactive_anon:0 isolated_anon:0
- active_file:0 inactive_file:15360 isolated_file:0
- unevictable:768 dirty:0 writeback:0
- slab_reclaimable:9222 slab_unreclaimable:79492
- mapped:2131 shmem:1239 pagetables:556
- sec_pagetables:0 bounce:0
- kernel_misc_reclaimable:0
- free:1491351 free_pcp:502 free_cma:0
-Node 0 active_anon:14884kB inactive_anon:0kB active_file:0kB inactive_file:=
-61364kB unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:852=
-4kB dirty:0kB writeback:0kB shmem:3420kB shmem_thp:0kB shmem_pmdmapped:0kB =
-anon_thp:0kB writeback_tmp:0kB kernel_stack:8624kB pagetables:2224kB sec_pa=
-getables:0kB all_unreclaimable? no
-Node 1 active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:76kB=
- unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:0kB dirty:=
-0kB writeback:0kB shmem:1536kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0=
-kB writeback_tmp:0kB kernel_stack:16kB pagetables:0kB sec_pagetables:0kB al=
-l_unreclaimable? no
-Node 0 DMA free:15360kB boost:0kB min:204kB low:252kB high:300kB reserved_h=
-ighatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB inactive_fi=
-le:0kB unevictable:0kB writepending:0kB present:15992kB managed:15360kB mlo=
-cked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 2565 2567 0 0
-Node 0 DMA32 free:1992808kB boost:0kB min:35052kB low:43812kB high:52572kB =
-reserved_highatomic:0KB active_anon:14860kB inactive_anon:0kB active_file:0=
-kB inactive_file:59552kB unevictable:1536kB writepending:0kB present:312933=
-2kB managed:2654792kB mlocked:0kB bounce:0kB free_pcp:1976kB local_pcp:1008=
-kB free_cma:0kB
-lowmem_reserve[]: 0 0 1 0 0
-Node 0 Normal free:28kB boost:0kB min:24kB low:28kB high:32kB reserved_high=
-atomic:0KB active_anon:24kB inactive_anon:0kB active_file:0kB inactive_file=
-:1812kB unevictable:0kB writepending:0kB present:1048576kB managed:1896kB m=
-locked:0kB bounce:0kB free_pcp:32kB local_pcp:8kB free_cma:0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 1 Normal free:3957208kB boost:0kB min:54828kB low:68532kB high:82236kB=
- reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB =
-inactive_file:76kB unevictable:1536kB writepending:0kB present:4194304kB ma=
-naged:4109120kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:=
-0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 1*1024=
-kB (U) 1*2048kB (M) 3*4096kB (M) =3D 15360kB
-Node 0 DMA32: 638*4kB (UM) 1185*8kB (UE) 13*16kB (UM) 62*32kB (UE) 49*64kB =
-(UME) 3*128kB (UM) 1*256kB (E) 1*512kB (U) 2*1024kB (ME) 1*2048kB (E) 481*4=
-096kB (M) =3D 1992784kB
-Node 0 Normal: 1*4kB (M) 1*8kB (M) 1*16kB (M) 0*32kB 0*64kB 0*128kB 0*256kB=
- 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 28kB
-Node 1 Normal: 6*4kB (UM) 8*8kB (UM) 8*16kB (UM) 12*32kB (UM) 6*64kB (U) 2*=
-128kB (U) 1*256kB (M) 2*512kB (UM) 0*1024kB 1*2048kB (U) 965*4096kB (M) =3D=
- 3957208kB
-Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 0 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-Node 1 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 1 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-16599 total pagecache pages
-0 pages in swap cache
-Free swap  =3D 0kB
-Total swap =3D 0kB
-2097051 pages RAM
-0 pages HighMem/MovableOnly
-401759 pages reserved
-0 pages cma reserved
-Mem-Info:
-active_anon:3748 inactive_anon:0 isolated_anon:0
- active_file:0 inactive_file:15360 isolated_file:0
- unevictable:768 dirty:0 writeback:0
- slab_reclaimable:9238 slab_unreclaimable:79752
- mapped:2131 shmem:1237 pagetables:570
- sec_pagetables:0 bounce:0
- kernel_misc_reclaimable:0
- free:1491436 free_pcp:153 free_cma:0
-Node 0 active_anon:14992kB inactive_anon:0kB active_file:0kB inactive_file:=
-61364kB unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:852=
-4kB dirty:0kB writeback:0kB shmem:3412kB shmem_thp:0kB shmem_pmdmapped:0kB =
-anon_thp:0kB writeback_tmp:0kB kernel_stack:8624kB pagetables:2280kB sec_pa=
-getables:0kB all_unreclaimable? no
-Node 1 active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:76kB=
- unevictable:1536kB isolated(anon):0kB isolated(file):0kB mapped:0kB dirty:=
-0kB writeback:0kB shmem:1536kB shmem_thp:0kB shmem_pmdmapped:0kB anon_thp:0=
-kB writeback_tmp:0kB kernel_stack:16kB pagetables:0kB sec_pagetables:0kB al=
-l_unreclaimable? no
-Node 0 DMA free:15360kB boost:0kB min:204kB low:252kB high:300kB reserved_h=
-ighatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB inactive_fi=
-le:0kB unevictable:0kB writepending:0kB present:15992kB managed:15360kB mlo=
-cked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 2565 2567 0 0
-Node 0 DMA32 free:1993148kB boost:0kB min:35052kB low:43812kB high:52572kB =
-reserved_highatomic:0KB active_anon:14968kB inactive_anon:0kB active_file:0=
-kB inactive_file:59552kB unevictable:1536kB writepending:0kB present:312933=
-2kB managed:2654792kB mlocked:0kB bounce:0kB free_pcp:580kB local_pcp:0kB f=
-ree_cma:0kB
-lowmem_reserve[]: 0 0 1 0 0
-Node 0 Normal free:28kB boost:0kB min:24kB low:28kB high:32kB reserved_high=
-atomic:0KB active_anon:24kB inactive_anon:0kB active_file:0kB inactive_file=
-:1812kB unevictable:0kB writepending:0kB present:1048576kB managed:1896kB m=
-locked:0kB bounce:0kB free_pcp:32kB local_pcp:8kB free_cma:0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 1 Normal free:3957208kB boost:0kB min:54828kB low:68532kB high:82236kB=
- reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB active_file:0kB =
-inactive_file:76kB unevictable:1536kB writepending:0kB present:4194304kB ma=
-naged:4109120kB mlocked:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:=
-0kB
-lowmem_reserve[]: 0 0 0 0 0
-Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB 0*256kB 0*512kB 1*1024=
-kB (U) 1*2048kB (M) 3*4096kB (M) =3D 15360kB
-Node 0 DMA32: 975*4kB (UM) 1198*8kB (UME) 281*16kB (UE) 30*32kB (UME) 6*64k=
-B (UE) 2*128kB (UM) 3*256kB (UME) 1*512kB (U) 2*1024kB (ME) 2*2048kB (UE) 4=
-80*4096kB (M) =3D 1993084kB
-Node 0 Normal: 1*4kB (M) 1*8kB (M) 1*16kB (M) 0*32kB 0*64kB 0*128kB 0*256kB=
- 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 28kB
-Node 1 Normal: 6*4kB (UM) 8*8kB (UM) 8*16kB (UM) 12*32kB (UM) 6*64kB (U) 2*=
-128kB (U) 1*256kB (M) 2*512kB (UM) 0*1024kB 1*2048kB (U) 965*4096kB (M) =3D=
- 3957208kB
-Node 0 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 0 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-Node 1 hugepages_total=3D0 hugepages_free=3D0 hugepages_surp=3D0 hugepages_=
-size=3D1048576kB
-Node 1 hugepages_total=3D2 hugepages_free=3D2 hugepages_surp=3D0 hugepages_=
-size=3D2048kB
-16597 total pagecache pages
-0 pages in swap cache
-Free swap  =3D 0kB
-Total swap =3D 0kB
-2097051 pages RAM
-0 pages HighMem/MovableOnly
-401759 pages reserved
-0 pages cma reserved
-
-
+Signed-off-by: Charles Wang <charles.goodix@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/hid/Kconfig      |   6 +
+ drivers/hid/Makefile     |   1 +
+ drivers/hid/hid-goodix.c | 646 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 653 insertions(+)
+ create mode 100644 drivers/hid/hid-goodix.c
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4c682c650..f57d8fb88 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -404,6 +404,12 @@ config HID_VIVALDI_COMMON
+ 	  option so that drivers can use common code to parse the HID
+ 	  descriptors for vivaldi function row keymap.
+ 
++config HID_GOODIX
++	tristate "Goodix GT7986U SPI HID touchscreen"
++	depends on SPI_MASTER
++	help
++	  Support for Goodix GT7986U SPI HID touchscreen device.
++
+ config HID_GOOGLE_HAMMER
+ 	tristate "Google Hammer Keyboard"
+ 	select HID_VIVALDI_COMMON
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 082a728ea..4e799f7e5 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -54,6 +54,7 @@ obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
+ obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
+ obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
+ obj-$(CONFIG_HID_VIVALDI_COMMON) += hid-vivaldi-common.o
++obj-$(CONFIG_HID_GOODIX)	+= hid-goodix.o
+ obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
+ obj-$(CONFIG_HID_GOOGLE_STADIA_FF)	+= hid-google-stadiaff.o
+ obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
+diff --git a/drivers/hid/hid-goodix.c b/drivers/hid/hid-goodix.c
+new file mode 100644
+index 000000000..8e14807fb
+--- /dev/null
++++ b/drivers/hid/hid-goodix.c
+@@ -0,0 +1,646 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Goodix GT7986U SPI Driver Code for HID.
++ *
++ * Copyright (C) 2024 Godix, Inc.
++ */
++#include <asm/unaligned.h>
++#include <linux/delay.h>
++#include <linux/hid.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/sizes.h>
++#include <linux/spi/spi.h>
++
++#define GOODIX_DEV_CONFIRM_ADDR		0x10000
++#define GOODIX_FW_VERSION_ADDR		0x10014
++#define GOODIX_HID_DESC_ADDR		0x1058C
++#define GOODIX_HID_REPORT_DESC_ADDR	0x105AA
++#define GOODIX_HID_SIGN_ADDR		0x10D32
++#define GOODIX_HID_REPORT_ADDR		0x22C8C
++
++#define GOODIX_HID_GET_REPORT_CMD	0x02
++#define GOODIX_HID_SET_REPORT_CMD	0x03
++
++#define GOODIX_HID_MAX_INBUF_SIZE	128
++#define GOODIX_HID_ACK_READY_FLAG	0x01
++#define GOODIX_HID_REPORT_READY_FLAG	0x80
++
++#define GOODIX_DEV_CONFIRM_VAL		0xAA
++
++#define GOODIX_SPI_WRITE_FLAG		0xF0
++#define GOODIX_SPI_READ_FLAG		0xF1
++#define GOODIX_SPI_TRANS_PREFIX_LEN	1
++#define GOODIX_REGISTER_WIDTH		4
++#define GOODIX_SPI_READ_DUMMY_LEN	3
++#define GOODIX_SPI_READ_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
++					 GOODIX_REGISTER_WIDTH + \
++					 GOODIX_SPI_READ_DUMMY_LEN)
++#define GOODIX_SPI_WRITE_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
++					 GOODIX_REGISTER_WIDTH)
++
++#define GOODIX_CHECKSUM_SIZE		sizeof(u16)
++#define GOODIX_NORMAL_RESET_DELAY_MS	150
++
++struct goodix_hid_report_header {
++	u8 flag;
++	__le16 size;
++} __packed;
++#define GOODIX_HID_ACK_HEADER_SIZE	sizeof(struct goodix_hid_report_header)
++
++struct goodix_hid_report_package {
++	__le16 size;
++	u8 data[];
++};
++
++#define GOODIX_HID_PKG_LEN_SIZE		sizeof(u16)
++#define GOODIX_HID_COOR_DATA_LEN	82
++#define GOODIX_HID_COOR_PKG_LEN		(GOODIX_HID_PKG_LEN_SIZE + \
++					 GOODIX_HID_COOR_DATA_LEN)
++
++#define GOODIX_REPORT_DATA_ADDR		(GOODIX_HID_REPORT_ADDR + \
++					 GOODIX_HID_ACK_HEADER_SIZE + \
++					 GOODIX_HID_PKG_LEN_SIZE)
++
++struct goodix_hid_report_event {
++	struct goodix_hid_report_header hdr;
++	u8 data[GOODIX_HID_COOR_PKG_LEN];
++} __packed;
++
++struct goodix_hid_desc {
++	__le16 desc_length;
++	__le16 bcd_version;
++	__le16 report_desc_lenght;
++	__le16 report_desc_register;
++	__le16 input_register;
++	__le16 max_input_length;
++	__le16 output_register;
++	__le16 max_output_length;
++	__le16 cmd_register;
++	__le16 data_register;
++	__le16 vendor_id;
++	__le16 product_id;
++	__le16 version_id;
++	__le32 reserved;
++} __packed;
++
++struct goodix_ts_data {
++	struct device *dev;
++	struct spi_device *spi;
++	struct hid_device *hid;
++	struct goodix_hid_desc hid_desc;
++
++	struct gpio_desc *reset_gpio;
++
++	/* Buffer used to store hid report data */
++	u8 xfer_buf[SZ_4K];
++};
++
++static int goodix_spi_read(struct goodix_ts_data *ts, u32 addr,
++			   u8 *data, unsigned int len)
++{
++	struct spi_device *spi = to_spi_device(&ts->spi->dev);
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	u8 *buf;
++	int error;
++
++	buf = kzalloc(GOODIX_SPI_READ_PREFIX_LEN + len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
++	buf[0] = GOODIX_SPI_READ_FLAG;
++	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
++	memset(buf + GOODIX_SPI_TRANS_PREFIX_LEN + GOODIX_REGISTER_WIDTH,
++	       0xff, GOODIX_SPI_READ_DUMMY_LEN);
++
++	xfers.tx_buf = buf;
++	xfers.rx_buf = buf;
++	xfers.len = GOODIX_SPI_READ_PREFIX_LEN + len;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error)
++		dev_err(ts->dev, "spi transfer error:%d", error);
++	else
++		memcpy(data, buf + GOODIX_SPI_READ_PREFIX_LEN, len);
++
++	kfree(buf);
++	return error;
++}
++
++static int goodix_spi_write(struct goodix_ts_data *ts, u32 addr,
++			    u8 *data, unsigned int len)
++{
++	struct spi_device *spi = to_spi_device(&ts->spi->dev);
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	u8 *buf;
++	int error;
++
++	buf = kzalloc(GOODIX_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	/* buffer format: 0xF0 + addr(4bytes) + data */
++	buf[0] = GOODIX_SPI_WRITE_FLAG;
++	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
++	memcpy(buf + GOODIX_SPI_WRITE_PREFIX_LEN, data, len);
++
++	xfers.tx_buf = buf;
++	xfers.len = GOODIX_SPI_WRITE_PREFIX_LEN + len;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error)
++		dev_err(ts->dev, "spi transfer error:%d", error);
++
++	kfree(buf);
++	return error;
++}
++
++static int goodix_dev_confirm(struct goodix_ts_data *ts)
++{
++	u8 tx_buf[8], rx_buf[8];
++	int retry = 3;
++	int error;
++
++	gpiod_set_value_cansleep(ts->reset_gpio, 0);
++	usleep_range(4000, 4100);
++
++	memset(tx_buf, GOODIX_DEV_CONFIRM_VAL, sizeof(tx_buf));
++	while (retry--) {
++		error = goodix_spi_write(ts, GOODIX_DEV_CONFIRM_ADDR,
++					 tx_buf, sizeof(tx_buf));
++		if (error)
++			return error;
++
++		error = goodix_spi_read(ts, GOODIX_DEV_CONFIRM_ADDR,
++					rx_buf, sizeof(rx_buf));
++		if (error)
++			return error;
++
++		if (!memcmp(tx_buf, rx_buf, sizeof(tx_buf)))
++			return 0;
++
++		usleep_range(5000, 5100);
++	}
++
++	dev_err(ts->dev, "device confirm failed, rx_buf:%*ph", 8, rx_buf);
++	return -EINVAL;
++}
++
++/**
++ * goodix_hid_parse() - hid-core .parse() callback
++ * @hid: hid device instance
++ *
++ * This function gets called during call to hid_add_device
++ *
++ * Return: 0 on success and non zero on error
++ */
++static int goodix_hid_parse(struct hid_device *hid)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	u16 rsize;
++	u8 *rdesc;
++	int error;
++
++	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
++	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
++		dev_err(ts->dev, "invalid report desc size %d", rsize);
++		return -EINVAL;
++	}
++
++	rdesc = kzalloc(rsize, GFP_KERNEL);
++	if (!rdesc)
++		return -ENOMEM;
++
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
++	if (error) {
++		dev_err(ts->dev, "failed get report desc, %d", error);
++		goto free_mem;
++	}
++
++	error = hid_parse_report(hid, rdesc, rsize);
++	if (error)
++		dev_err(ts->dev, "failed parse report, %d", error);
++
++free_mem:
++	kfree(rdesc);
++	return error;
++}
++
++/* Empty callbacks with success return code */
++static int goodix_hid_start(struct hid_device *hid)
++{
++	return 0;
++}
++
++static void goodix_hid_stop(struct hid_device *hid)
++{
++}
++
++static int goodix_hid_open(struct hid_device *hid)
++{
++	return 0;
++}
++
++static void goodix_hid_close(struct hid_device *hid)
++{
++}
++
++/* Return date length of response data */
++static int goodix_hid_check_ack_status(struct goodix_ts_data *ts)
++{
++	struct goodix_hid_report_header hdr;
++	int retry = 20;
++	int error;
++
++	while (retry--) {
++		/*
++		 * 3 bytes of hid request response data
++		 * - byte 0:    Ack flag, value of 1 for data ready
++		 * - bytes 1-2: Response data length
++		 */
++		error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR,
++					(u8 *)&hdr, sizeof(hdr));
++		if (!error && (hdr.flag & GOODIX_HID_ACK_READY_FLAG))
++			return le16_to_cpu(hdr.size);
++
++		/* Wait 10ms for another try */
++		usleep_range(10000, 11000);
++	}
++
++	return -EINVAL;
++}
++
++/**
++ * goodix_hid_get_raw_report() - Process hidraw GET REPORT operation
++ * @hid: hid device instance
++ * @reportnum: Report ID
++ * @buf: Buffer for store the reprot date
++ * @len: Length fo reprot data
++ * @report_type: Report type
++ *
++ * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
++ * get report request. The transmitted data follows the standard i2c-hid
++ * protocol with a specified header.
++ *
++ * Return: The length of the data in the buf on success, negative error code
++ */
++static int goodix_hid_get_raw_report(struct hid_device *hid,
++				     unsigned char reportnum,
++				     __u8 *buf, size_t len,
++				     unsigned char report_type)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
++	int tx_len = 0, args_len = 0;
++	int response_data_len;
++	u8 args[3];
++	int error;
++
++	if (report_type == HID_OUTPUT_REPORT)
++		return -EINVAL;
++
++	if (reportnum == 3) {
++		/* Get win8 signature data */
++		error = goodix_spi_read(ts, GOODIX_HID_SIGN_ADDR, buf, len);
++		if (error) {
++			dev_err(ts->dev, "failed get win8 sign:%d", error);
++			return -EINVAL;
++		}
++		return len;
++	}
++
++	if (reportnum >= 0x0F) {
++		args[args_len++] = reportnum;
++		reportnum = 0x0F;
++	}
++	put_unaligned_le16(ts->hid_desc.data_register, args + args_len);
++	args_len += sizeof(ts->hid_desc.data_register);
++
++	/* Clean 3 bytes of hid ack header data */
++	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
++	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
++
++	put_unaligned_le16(ts->hid_desc.cmd_register, tmp_buf + tx_len);
++	tx_len += sizeof(ts->hid_desc.cmd_register);
++
++	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x01) << 4) | reportnum;
++	tmp_buf[tx_len++] = GOODIX_HID_GET_REPORT_CMD;
++
++	memcpy(tmp_buf + tx_len, args, args_len);
++	tx_len += args_len;
++
++	/* Step1: write report request info */
++	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
++	if (error) {
++		dev_err(ts->dev, "failed send read feature cmd, %d", error);
++		return error;
++	}
++
++	/* No need read response data */
++	if (!len)
++		return 0;
++
++	/* Step2: check response data status */
++	response_data_len = goodix_hid_check_ack_status(ts);
++	if (response_data_len <= 0)
++		return -EINVAL;
++
++	/* Step3: read response data(skip 2bytes of hid pkg length) */
++	error = goodix_spi_read(ts, GOODIX_REPORT_DATA_ADDR, buf,
++				response_data_len - GOODIX_HID_PKG_LEN_SIZE);
++	if (error) {
++		dev_err(ts->dev, "failed read hid response data, %d", error);
++		return error;
++	}
++
++	return response_data_len - GOODIX_HID_PKG_LEN_SIZE;
++}
++
++/**
++ * goodix_hid_set_raw_report() - process hidraw SET REPORT operation
++ * @hid: HID device
++ * @reportnum: Report ID
++ * @buf: Buffer for communication
++ * @len: Length of data in the buffer
++ * @report_type: Report type
++ *
++ * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
++ * set report request. The transmitted data follows the standard i2c-hid
++ * protocol with a specified header.
++ *
++ * Return: The length of the data sent, negative error code on failure
++ */
++static int goodix_hid_set_raw_report(struct hid_device *hid,
++				     unsigned char reportnum,
++				     __u8 *buf, size_t len,
++				     unsigned char report_type)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	int tx_len = 0, args_len = 0;
++	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
++	u8 args[5];
++	int error;
++
++	if (reportnum >= 0x0F) {
++		args[args_len++] = reportnum;
++		reportnum = 0x0F;
++	}
++
++	put_unaligned_le16(ts->hid_desc.data_register, args + args_len);
++	args_len += sizeof(ts->hid_desc.data_register);
++
++	put_unaligned_le16(GOODIX_HID_PKG_LEN_SIZE + len, args + args_len);
++	args_len += GOODIX_HID_PKG_LEN_SIZE;
++
++	/* Clean 3 bytes of hid ack header data */
++	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
++	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
++
++	put_unaligned_le16(ts->hid_desc.cmd_register, tmp_buf + tx_len);
++	tx_len += sizeof(ts->hid_desc.cmd_register);
++
++	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x02) << 4) | reportnum;
++	tmp_buf[tx_len++] = GOODIX_HID_SET_REPORT_CMD;
++
++	memcpy(tmp_buf + tx_len, args, args_len);
++	tx_len += args_len;
++
++	memcpy(tmp_buf + tx_len, buf, len);
++	tx_len += len;
++
++	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
++	if (error) {
++		dev_err(ts->dev, "failed send report %*ph", tx_len, tmp_buf);
++		return error;
++	}
++	return len;
++}
++
++static int goodix_hid_raw_request(struct hid_device *hid,
++				  unsigned char reportnum,
++				  __u8 *buf, size_t len,
++				  unsigned char rtype, int reqtype)
++{
++	switch (reqtype) {
++	case HID_REQ_GET_REPORT:
++		return goodix_hid_get_raw_report(hid, reportnum, buf,
++						 len, rtype);
++	case HID_REQ_SET_REPORT:
++		if (buf[0] != reportnum)
++			return -EINVAL;
++		return goodix_hid_set_raw_report(hid, reportnum, buf,
++						 len, rtype);
++	default:
++		return -EIO;
++	}
++
++	return -EINVAL;
++}
++
++static struct hid_ll_driver goodix_hid_ll_driver = {
++	.parse = goodix_hid_parse,
++	.start = goodix_hid_start,
++	.stop = goodix_hid_stop,
++	.open = goodix_hid_open,
++	.close = goodix_hid_close,
++	.raw_request = goodix_hid_raw_request
++};
++
++static irqreturn_t goodix_hid_irq(int irq, void *data)
++{
++	struct goodix_ts_data *ts = data;
++	struct goodix_hid_report_event event;
++	struct goodix_hid_report_package *pkg;
++	int error;
++
++	/*
++	 * First, read buffer with space for header and coordinate package:
++	 * - event header = 3 bytes
++	 * - coordinate event = GOODIX_HID_COOR_PKG_LEN bytes
++	 *
++	 * If the data size info in the event header exceeds
++	 * GOODIX_HID_COOR_PKG_LEN, it means that there are other packages
++	 * besides the coordinate package.
++	 */
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR, (u8 *)&event,
++				sizeof(event));
++	if (error) {
++		dev_err(ts->dev, "failed get coordinate data, %d", error);
++		return IRQ_HANDLED;
++	}
++
++	/* Check coordinate data valid falg */
++	if (event.hdr.flag != GOODIX_HID_REPORT_READY_FLAG) {
++		dev_err(ts->dev, "invalid event flag 0x%x", event.hdr.flag);
++		return IRQ_HANDLED;
++	}
++
++	pkg = (struct goodix_hid_report_package *)event.data;
++	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
++			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
++
++	event.hdr.size = le16_to_cpu(event.hdr.size);
++	/* Check if there are other packages */
++	if (event.hdr.size <= GOODIX_HID_COOR_PKG_LEN)
++		return IRQ_HANDLED;
++
++	if (event.hdr.size - GOODIX_HID_COOR_PKG_LEN > sizeof(ts->xfer_buf)) {
++		dev_err(ts->dev, "invalid package size, %d", event.hdr.size);
++		return IRQ_HANDLED;
++	}
++
++	/* Read the package behind the coordinate data */
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR + sizeof(event),
++				ts->xfer_buf,
++				event.hdr.size - GOODIX_HID_COOR_PKG_LEN);
++	if (error) {
++		dev_err(ts->dev, "failed read data, %d", error);
++		return IRQ_HANDLED;
++	}
++
++	pkg = (struct goodix_hid_report_package *)ts->xfer_buf;
++	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
++			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
++
++	return IRQ_HANDLED;
++}
++
++static int goodix_hid_init(struct goodix_ts_data *ts)
++{
++	struct hid_device *hid;
++	int error;
++
++	/* Get hid descriptor */
++	error = goodix_spi_read(ts, GOODIX_HID_DESC_ADDR, (u8 *)&ts->hid_desc,
++				sizeof(ts->hid_desc));
++	if (error) {
++		dev_err(ts->dev, "failed get hid desc, %d", error);
++		return error;
++	}
++
++	hid = hid_allocate_device();
++	if (IS_ERR(hid))
++		return PTR_ERR(hid);
++
++	hid->driver_data = ts;
++	hid->ll_driver = &goodix_hid_ll_driver;
++	hid->bus = BUS_SPI;
++	hid->dev.parent = &ts->spi->dev;
++
++	hid->version = le16_to_cpu(ts->hid_desc.bcd_version);
++	hid->vendor = le16_to_cpu(ts->hid_desc.vendor_id);
++	hid->product = le16_to_cpu(ts->hid_desc.product_id);
++	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X", "hid-gdix",
++		 hid->vendor, hid->product);
++
++	error = hid_add_device(hid);
++	if (error) {
++		dev_err(ts->dev, "failed add hid device, %d", error);
++		hid_destroy_device(hid);
++		return error;
++	}
++
++	ts->hid = hid;
++	return 0;
++}
++
++static int goodix_spi_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	struct goodix_ts_data *ts;
++	int error;
++
++	/* init spi_device */
++	spi->mode            = SPI_MODE_0;
++	spi->bits_per_word   = 8;
++	error = spi_setup(spi);
++	if (error)
++		return error;
++
++	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
++	if (!ts)
++		return -ENOMEM;
++
++	spi_set_drvdata(spi, ts);
++	ts->spi = spi;
++	ts->dev = dev;
++	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
++				     "Failed to request reset gpio\n");
++
++	error = goodix_dev_confirm(ts);
++	if (error)
++		return error;
++
++	/* Waits 150ms for firmware to fully boot */
++	msleep(GOODIX_NORMAL_RESET_DELAY_MS);
++
++	error = devm_request_threaded_irq(&ts->spi->dev, ts->spi->irq,
++					  NULL, goodix_hid_irq,
++					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					  "goodix_spi_hid", ts);
++	if (error < 0) {
++		dev_err(ts->dev, "could not register interrupt, irq = %d, %d",
++			ts->spi->irq, error);
++		return error;
++	}
++
++	error = goodix_hid_init(ts);
++	if (error) {
++		dev_err(dev, "failed init hid device");
++		return error;
++	}
++
++	return 0;
++}
++
++static void goodix_spi_remove(struct spi_device *spi)
++{
++	struct goodix_ts_data *ts = spi_get_drvdata(spi);
++
++	hid_destroy_device(ts->hid);
++}
++
++static void goodix_spi_shutdown(struct spi_device *spi)
++{
++	struct goodix_ts_data *ts = spi_get_drvdata(spi);
++
++	disable_irq_nosync(spi->irq);
++	hid_destroy_device(ts->hid);
++}
++
++static const struct acpi_device_id goodix_spi_acpi_match[] = {
++	{ "GXTS7986" },
++	{ },
++};
++MODULE_DEVICE_TABLE(acpi, goodix_spi_acpi_match);
++
++static struct spi_driver goodix_spi_driver = {
++	.driver = {
++		.name = "goodix-spi-hid",
++		.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
++	},
++	.probe =	goodix_spi_probe,
++	.remove =	goodix_spi_remove,
++	.shutdown =	goodix_spi_shutdown,
++};
++module_spi_driver(goodix_spi_driver);
++
++MODULE_DESCRIPTION("Goodix SPI driver for HID touchscreen");
++MODULE_AUTHOR("Goodix, Inc.");
++MODULE_LICENSE("GPL");
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
