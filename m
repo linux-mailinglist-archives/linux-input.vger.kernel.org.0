@@ -1,195 +1,258 @@
-Return-Path: <linux-input+bounces-3810-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3811-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4CD8CDCE3
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 00:33:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CFF8CDF1F
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 03:20:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA1521F23301
-	for <lists+linux-input@lfdr.de>; Thu, 23 May 2024 22:33:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A08E8B220B0
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 01:20:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3185B823B0;
-	Thu, 23 May 2024 22:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AB44A3C;
+	Fri, 24 May 2024 01:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SktQAQx7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHW8UOdR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC58101E2
-	for <linux-input@vger.kernel.org>; Thu, 23 May 2024 22:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0267816;
+	Fri, 24 May 2024 01:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716503625; cv=none; b=NfkKPzK6GOutbEwDuFPxXX5Id3suNqPAlMCuxpzHIGWdGzFE0GCjfhMEkUqY9WK8JFF1F8omtDn2k5Dw8OIoonCz04WuyVuhX6siJUDE+iT8PQ2iw+3oILmJ5/WvNzDkp2Dn6xzWvDVh7o6GY74LJSXut1uyjSsgR2Or2WzdhPU=
+	t=1716513634; cv=none; b=gH3Cxv7anwrm44QiqKaUuyfVdKv1rXa2HeAuduD/DYOV6C5kGFbqXMn63e5vTCPMtzLFniojbijOtQptCi+mmIvnh77rtSTPN7i0dltcEVqKRwUW7I7mplYprMMYDIXR4sL7ba1CwwBiudMQ12NjLFNEBHLYmLr15PNH1NqbA24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716503625; c=relaxed/simple;
-	bh=fEFB35mhnq8J3C7OKoY+HCM8AhzzI+SEmG2PVeKjefg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dCICnQGSpkgyVtqJdiTkm2NFHd1YdbYvu4K4kF3SVF8HD1j73H4fS+vMJ4S+L+RIFuFzNVBLDO2ScjmJmOTG2gDxpQQfiE5dlX6g+fMoY17AnFqpEH8peINk1Yqbe7jDDF+/BDKj8HT+xSeDC63aP+wzb/3y8u4DOKkPYX0Bpx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SktQAQx7; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716503623; x=1748039623;
-  h=date:from:to:cc:subject:message-id;
-  bh=fEFB35mhnq8J3C7OKoY+HCM8AhzzI+SEmG2PVeKjefg=;
-  b=SktQAQx7HKYHU1TfqVx1v1tLXsoNyr1Nt29Q8//09CwG9+afxt6h7zAL
-   /yPQ7XWO0nj9W+RPgzLU5FtItRYAlFxq3omNz2eHQ/3cwXghX7ROb6oVq
-   crYI8NHwxBIyhpK1+0/i03kGfiHsgbP5FWwwiM3BJ4iaiihqEhhrrsuep
-   39IAPyRiGFxDpHg/sEtlQYFm2ZJOWX1mUx360UYVUQrMqxK5ADzavzO+S
-   /UPQ/6vSH1s8TpFhg0sxH4BaahksGO8FO5VpngUwRNwrd9pN2udl6WqRp
-   w7WYbMLwF+gBzuGF4mmremCPpesFGpbk1gbTUtzr1PuptgkEeWd05p1Qv
-   w==;
-X-CSE-ConnectionGUID: rua6OKlgQi2josSvifFCBg==
-X-CSE-MsgGUID: u+l0lHJySS+VPxaT3cXNzg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="30391220"
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="30391220"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 15:33:43 -0700
-X-CSE-ConnectionGUID: hQ+qec4qTCKtxruI26vztw==
-X-CSE-MsgGUID: KNdTjN31SDmqv5Bg8RPLAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; 
-   d="scan'208";a="33826475"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 23 May 2024 15:33:42 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sAH0G-0003aH-0V;
-	Thu, 23 May 2024 22:33:40 +0000
-Date: Fri, 24 May 2024 06:33:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 832f54c9ccd3a3f32d1db905462d3c58b4df52bd
-Message-ID: <202405240637.ngrt2HOl-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1716513634; c=relaxed/simple;
+	bh=Bv2fqhQ6crAKHzkoPOocX3L0IkAyD764R4uF+Tbxds0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DL5FVGe3vIll3L7cQ0UxHnnk8ziEkCqn0gGv+JMDmxR+rAncbQkJlYUMfWZ/SjnUdsg1+GvT08VoZAeZVZflkdvrKG/Z1NuFAHzXcYrifHlEmoQfuYX7xsKm1MmfXLuuQUtsuIUEETRo2xCnzxP1b95X0UOjAqXUcCg7dQjS55k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHW8UOdR; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-68197de7400so315495a12.3;
+        Thu, 23 May 2024 18:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716513632; x=1717118432; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5ZRrj1cO5N3KcB91sUzwO9xthNjY98nDSWRAaw3nnWA=;
+        b=fHW8UOdRTiR4Pyr4OaoS9nC0LEAXc2yLz66VLxT3ZjGAnKiruE49v+DcdDxiTbrxnP
+         T1S2XxZs59dkZIsKKAWp802pPFjTPPxulcSIt0yN/qM3cu/bbNfvPkDgGBlumRQgsO54
+         9HNAY5pAzFGq7affXhE+HkVh2r8t2N2cKh6AmZbftmXejTTc8Fd9Siom3C65xMX680yv
+         TcHmA+jIzA6qYR0EBy4OjGOO3GUOFwglViccq9q2OO3Ab0yiVmqpC18fbCaUb3szatHg
+         xnTI08aWaIDXCG4I9G+lax5T+SgFgp+EY+aitJwZVBkP3bChJMdaXbytDCsGtACO6TaW
+         jYXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716513632; x=1717118432;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5ZRrj1cO5N3KcB91sUzwO9xthNjY98nDSWRAaw3nnWA=;
+        b=Lrb3KTI6gDRJLA1oYRX5Ye48MtNF9CbiVVvyUaNDiLjULeZO0fPZLo/JJdMnAWAB+B
+         ZLYVIf2w39FcgDpXuo/ID62r8j4Vn/Fe2xH+jBlm/E7Tw5dvkGnN5PFBnBVKS3tudiZc
+         T8j+xgIVq3XwYSAt2i2tD0TQASVj9DfAwWzcZgSvnyykwFuPQIlouvSZyAh+OhTunroI
+         hG8dtSy6564O943Bwr1PB8pxKppvLZKB1qnkiChx0FCz0Su7mGSu5038jvNJsmaV+jNU
+         ASA/KMjWStFEYMC+uoOju2jW8DZqRBxPSBqw4fecZRjc8h6m3LR1fhf4DX44MgVuGOFS
+         DNHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXc5l/SA46qEu/zxMj24tXLdG9p8aylhewcWz5R1QhBU0hGR00fCx5r5h6axlKAPTELUAvDtZEBABg+FMEtAX6TAZwaUWXnICkn8f8=
+X-Gm-Message-State: AOJu0YzKYXzwE67Zd1qcTK4mV6Q53co/xPADRBpDqtrANrLJekpZcTHL
+	7BpQKUVSAZMAyUZont2ovkxy2ngEQ5NGcgzspBZnyOSKrivkR8bRPqrgsQ==
+X-Google-Smtp-Source: AGHT+IGaRhvfa+ezMVGd/cYSBoxHIDvzXdZkGZ7er9nlTiTC1zKnr/SCVo9JJSjlGOQnnaJX5ssgHQ==
+X-Received: by 2002:a05:6a20:3c88:b0:1af:baf9:fef6 with SMTP id adf61e73a8af0-1b212d18054mr1406254637.16.1716513631231;
+        Thu, 23 May 2024 18:20:31 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a2db:c673:b8d1:3097])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9b4588sm2098185ad.259.2024.05.23.18.20.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 18:20:30 -0700 (PDT)
+Date: Thu, 23 May 2024 18:20:28 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.10-rc0
+Message-ID: <Zk_rXBV8E8Hwu04W@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 832f54c9ccd3a3f32d1db905462d3c58b4df52bd  Input: edt-ft5x06 - add support for FocalTech FT5452 and FT8719
+Hi Linus,
 
-elapsed time: 1270m
+Please pull from:
 
-configs tested: 102
-configs skipped: 3
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.10-rc0
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+to receive updates for the input subsystem. You will get:
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240523   clang
-i386         buildonly-randconfig-002-20240523   gcc  
-i386         buildonly-randconfig-003-20240523   clang
-i386         buildonly-randconfig-004-20240523   clang
-i386         buildonly-randconfig-005-20240523   clang
-i386         buildonly-randconfig-006-20240523   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240523   gcc  
-i386                  randconfig-002-20240523   clang
-i386                  randconfig-003-20240523   clang
-i386                  randconfig-004-20240523   clang
-i386                  randconfig-005-20240523   gcc  
-i386                  randconfig-006-20240523   clang
-i386                  randconfig-011-20240523   gcc  
-i386                  randconfig-012-20240523   clang
-i386                  randconfig-013-20240523   clang
-i386                  randconfig-014-20240523   gcc  
-i386                  randconfig-015-20240523   gcc  
-i386                  randconfig-016-20240523   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+- a change to input core to trim amount of keys data in modalias string
+  in case when a device declares too many keys and they do not fit in
+  uevent buffer instead of reporting an error which results in uevent
+  not being generated at all
+
+- support for Machenike G5 Pro Controller added to xpad driver
+
+- support for FocalTech FT5452 and FT8719 added to edt-ft5x06
+
+- support for new SPMI vibrator added to pm8xxx-vibrator driver
+
+- missing locking added to cyapa touchpad driver
+
+- removal of unused fields in various driver structures
+
+- explicit initialization of i2c_device_id::driver_data to 0 dropped
+  from input drivers
+
+- other assorted fixes and cleanups.
+
+
+Changelog:
+---------
+
+Arnd Bergmann (1):
+      Input: ims-pcu - fix printf string overflow
+
+Christophe JAILLET (8):
+      Input: da7280 - remove an unused field in struct da7280_haptic
+      Input: tca6416-keypad - remove an unused field in struct tca6416_keypad_chip
+      Input: tca6416-keypad - remove unused struct tca6416_drv_data
+      Input: matrix_keypad - remove an unused field in struct matrix_keypad
+      Input: lpc32xx-keys - remove an unused field in struct lpc32xx_kscan_drv
+      Input: cros_ec_keyb - remove an unused field in struct cros_ec_keyb
+      Input: chipone_icn8505 - remove an unused field in struct icn8505_data
+      Input: zet6223 - remove an unused field in struct zet6223_ts
+
+Dmitry Torokhov (2):
+      Input: adafruit-seesaw - only report buttons that changed state
+      Input: try trimming too long modalias strings
+
+Erick Archer (1):
+      Input: ff-core - prefer struct_size over open coded arithmetic
+
+Fenglin Wu (4):
+      Input: pm8xxx-vibrator - correct VIB_MAX_LEVELS calculation
+      input: pm8xxx-vibrator: refactor to support new SPMI vibrator
+      dt-bindings: input: qcom,pm8xxx-vib: add new SPMI vibrator module
+      input: pm8xxx-vibrator: add new SPMI vibrator support
+
+Joel Selvaraj (2):
+      dt-bindings: input: touchscreen: edt-ft5x06: Document FT5452 and FT8719 support
+      Input: edt-ft5x06 - add support for FocalTech FT5452 and FT8719
+
+Karel Balej (1):
+      Input: ioc3kbd - add device table
+
+Kirill Artemev (1):
+      Input: xpad - add support for Machenike G5 Pro Controller
+
+Krzysztof Kozlowski (1):
+      Input: stmpe - drop driver owner assignment
+
+Marek Szyprowski (1):
+      Input: cyapa - add missing input core locking to suspend/resume functions
+
+Ricardo Ribalda (1):
+      Input: sur40 - convert le16 to cpu before use
+
+Uwe Kleine-König (1):
+      Input: drop explicit initialization of struct i2c_device_id::driver_data to 0
+
+Diffstat:
+--------
+
+ .../devicetree/bindings/input/qcom,pm8xxx-vib.yaml |  16 +++-
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |   2 +
+ drivers/input/ff-core.c                            |   7 +-
+ drivers/input/input.c                              | 104 ++++++++++++++++++---
+ drivers/input/joystick/adafruit-seesaw.c           |  21 ++++-
+ drivers/input/joystick/as5011.c                    |   2 +-
+ drivers/input/joystick/qwiic-joystick.c            |   4 +-
+ drivers/input/joystick/xpad.c                      |   2 +
+ drivers/input/keyboard/adp5588-keys.c              |   4 +-
+ drivers/input/keyboard/cros_ec_keyb.c              |   2 -
+ drivers/input/keyboard/cypress-sf.c                |   2 +-
+ drivers/input/keyboard/dlink-dir685-touchkeys.c    |   2 +-
+ drivers/input/keyboard/lm8323.c                    |   2 +-
+ drivers/input/keyboard/lm8333.c                    |   2 +-
+ drivers/input/keyboard/lpc32xx-keys.c              |   3 +-
+ drivers/input/keyboard/matrix_keypad.c             |   1 -
+ drivers/input/keyboard/max7359_keypad.c            |   2 +-
+ drivers/input/keyboard/mpr121_touchkey.c           |   2 +-
+ drivers/input/keyboard/qt1070.c                    |   4 +-
+ drivers/input/keyboard/qt2160.c                    |   2 +-
+ drivers/input/keyboard/stmpe-keypad.c              |   1 -
+ drivers/input/keyboard/tca6416-keypad.c            |   6 --
+ drivers/input/keyboard/tm2-touchkey.c              |   4 +-
+ drivers/input/misc/ad714x-i2c.c                    |  10 +-
+ drivers/input/misc/adxl34x-i2c.c                   |   2 +-
+ drivers/input/misc/apanel.c                        |   2 +-
+ drivers/input/misc/atmel_captouch.c                |   2 +-
+ drivers/input/misc/bma150.c                        |   6 +-
+ drivers/input/misc/cma3000_d0x_i2c.c               |   4 +-
+ drivers/input/misc/da7280.c                        |   1 -
+ drivers/input/misc/drv260x.c                       |   2 +-
+ drivers/input/misc/drv2665.c                       |   2 +-
+ drivers/input/misc/drv2667.c                       |   2 +-
+ drivers/input/misc/ims-pcu.c                       |   4 +-
+ drivers/input/misc/kxtj9.c                         |   4 +-
+ drivers/input/misc/mma8450.c                       |   4 +-
+ drivers/input/misc/pcf8574_keypad.c                |   2 +-
+ drivers/input/misc/pm8xxx-vibrator.c               |  92 +++++++++++++-----
+ drivers/input/mouse/cyapa.c                        |  16 +++-
+ drivers/input/mouse/elan_i2c_core.c                |   4 +-
+ drivers/input/mouse/synaptics_i2c.c                |   4 +-
+ drivers/input/rmi4/rmi_i2c.c                       |   2 +-
+ drivers/input/rmi4/rmi_smbus.c                     |   2 +-
+ drivers/input/serio/ioc3kbd.c                      |   7 ++
+ drivers/input/touchscreen/ad7879-i2c.c             |   4 +-
+ drivers/input/touchscreen/ar1021_i2c.c             |   4 +-
+ drivers/input/touchscreen/atmel_mxt_ts.c           |  10 +-
+ drivers/input/touchscreen/auo-pixcir-ts.c          |   2 +-
+ drivers/input/touchscreen/bu21013_ts.c             |   2 +-
+ drivers/input/touchscreen/bu21029_ts.c             |   2 +-
+ drivers/input/touchscreen/chipone_icn8505.c        |   1 -
+ drivers/input/touchscreen/cy8ctma140.c             |   2 +-
+ drivers/input/touchscreen/cyttsp4_i2c.c            |   2 +-
+ drivers/input/touchscreen/cyttsp5.c                |   2 +-
+ drivers/input/touchscreen/cyttsp_i2c.c             |   2 +-
+ drivers/input/touchscreen/edt-ft5x06.c             |  12 +++
+ drivers/input/touchscreen/eeti_ts.c                |   2 +-
+ drivers/input/touchscreen/egalax_ts.c              |   2 +-
+ drivers/input/touchscreen/ektf2127.c               |   4 +-
+ drivers/input/touchscreen/goodix.c                 |   2 +-
+ drivers/input/touchscreen/goodix_berlin_i2c.c      |   2 +-
+ drivers/input/touchscreen/hideep.c                 |   2 +-
+ drivers/input/touchscreen/himax_hx83112b.c         |   2 +-
+ drivers/input/touchscreen/ilitek_ts_i2c.c          |   4 +-
+ drivers/input/touchscreen/max11801_ts.c            |   2 +-
+ drivers/input/touchscreen/mcs5000_ts.c             |   2 +-
+ drivers/input/touchscreen/melfas_mip4.c            |   4 +-
+ drivers/input/touchscreen/migor_ts.c               |   2 +-
+ drivers/input/touchscreen/mms114.c                 |   2 +-
+ drivers/input/touchscreen/raydium_i2c_ts.c         |   4 +-
+ drivers/input/touchscreen/rohm_bu21023.c           |   2 +-
+ drivers/input/touchscreen/s6sy761.c                |   4 +-
+ drivers/input/touchscreen/silead.c                 |  12 +--
+ drivers/input/touchscreen/sis_i2c.c                |   4 +-
+ drivers/input/touchscreen/stmfts.c                 |   4 +-
+ drivers/input/touchscreen/sur40.c                  |   2 +-
+ drivers/input/touchscreen/tsc2004.c                |   2 +-
+ drivers/input/touchscreen/tsc2007_core.c           |   2 +-
+ drivers/input/touchscreen/wacom_i2c.c              |   4 +-
+ drivers/input/touchscreen/wdt87xx_i2c.c            |   2 +-
+ drivers/input/touchscreen/zet6223.c                |   4 +-
+ drivers/input/touchscreen/zforce_ts.c              |   2 +-
+ 82 files changed, 328 insertions(+), 168 deletions(-)
+
+Thanks.
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
 
