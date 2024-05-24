@@ -1,100 +1,109 @@
-Return-Path: <linux-input+bounces-3825-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3826-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575A78CE8ED
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 18:50:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E93A58CE8F7
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 18:58:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1491B20CCD
-	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 16:50:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F26D1F2201F
+	for <lists+linux-input@lfdr.de>; Fri, 24 May 2024 16:58:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A112812CD81;
-	Fri, 24 May 2024 16:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89E3F12DDAD;
+	Fri, 24 May 2024 16:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IHWvqFSU"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="D5lcRmF2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0EC12837E
-	for <linux-input@vger.kernel.org>; Fri, 24 May 2024 16:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6138012C464;
+	Fri, 24 May 2024 16:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716569437; cv=none; b=KaIJdGY7l9CsnPMe4UJfCVPg2cZ0aDolbwPvt3e9w7TnY6vBojCH4tJ6b099o7bpmuzKbNIhOGAd7+zc9RyjLU5/5YrqvNVssMoP3zgeR9aq/PVQ50k5VcmcjFl6gL/IqAGQYjeiIQXaIa92c5JoX57yHCgHFm481Yp3ki15Nss=
+	t=1716569907; cv=none; b=EA0rCSo4TpuHhsIJFNtzXvVGU9NSQHfuBRGzrSjjcKx6vYFUS+0ktQXZPXr9WnarpIqjBXA1JKlsexUhUoafy1j7tqOMXZodLiPtNyAiEPf0qMX7oUldY29F0EZEsJpn1lzvdyNGGJ+8erIfXbpuJZMkDEibcOxhFabDXIWhC2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716569437; c=relaxed/simple;
-	bh=HcJ3lytpbQnXo443M5BAMEUyaYSBLtuCf2kCkQUnnPQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vAdSqYnQngKyeCOw2qIsy0fgzbRyaKVH0m7C8JkiPnlQlWef9JHpfd6SLkxSIFbXFTop8G4HwMadYT8SpYA/OOKvgaZuN/3y138p1EkHThLa8yuDXe5ZaDSLTl/BUaljzdvBTj7QsPzd6Q9GD6Hbc3ixs3gbXbwevS+KNQ48gAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=IHWvqFSU; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-529644ec0ebso1608516e87.3
-        for <linux-input@vger.kernel.org>; Fri, 24 May 2024 09:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1716569434; x=1717174234; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/wd0aVWeaab4pkRhA/5Mkwde91KCNjgTYomFjikwQ9E=;
-        b=IHWvqFSUUdak0YQMUAlHb4mzO76TO1wwpddI2HAy89X9ah0f1uLMJCMk6CgqDdoEoH
-         2xJXWb6uyoSYvsIZoDDTAVbtzBKo2LLFRUR/qVtBXcSfEyns5kqoCql8+Ieoflxwr5BI
-         jH5qSIgo09fwRUsOr4mIaF2V+iX5WlhGM2tWU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716569434; x=1717174234;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/wd0aVWeaab4pkRhA/5Mkwde91KCNjgTYomFjikwQ9E=;
-        b=VpKMLfN0earw7aFCQ65pjAiqUpoZ1YwkyKCF4FTNj/PtJGdDlpKt2NB2wLmZSX3Sse
-         p44f9Jc1YDAy4a0OAjurHaiLZMrFmtYbECoFu5uyphey6n9jTfwOCB77LsZLu/8KzcOl
-         f4scBfZ2RHpkIfnX1tq9c8Zc+VjLXsa+njORnLCNp882NdkAj20sGyieaBw557lj9LVb
-         WSK6UpHjbODCHvhtaK5U8Pf6cBLPRUxoJ9b309gm9odSIb/63VanK2LCzNKjrxiTvLS3
-         KfyWNjxd0CrbyNmhmzJr3B0u7jJbQ8ERPyF2hCrLOceMB8yD/kobByt2VAyeYRfUJeu8
-         SBZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUU3Dzyd4H2L5WS3WQTf/g3e7MphJk1qPjBq+fuPP4WtyTedGD5aEXoL0675bUcmtuCXDxxtiJmGlfcpb5Ebd1KYN8MjhoJhqreqcs=
-X-Gm-Message-State: AOJu0Yx9ItDhrCqUciMGVVD6AxbmJ+x5/pd/zToSroagGtI1EOPpsEBE
-	mhQN5O4hcmJp3kTVMDEFdafWEd6c3/x/5omNLTsaKhMVRr8nw+RgPixgjWEIAVK3y3/OqDANF+f
-	GxJ36Zw==
-X-Google-Smtp-Source: AGHT+IFdJBY2Sd0fu7L/MJLh1Xu4Mu0NhmZjEm/SmVwabCK6ikzJB/ENEmgTlWi+typKwTzhX0moKQ==
-X-Received: by 2002:a05:6512:3d15:b0:51d:2af8:2e7b with SMTP id 2adb3069b0e04-529679318demr2923684e87.57.1716569433662;
-        Fri, 24 May 2024 09:50:33 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52970c33111sm207877e87.202.2024.05.24.09.50.32
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 May 2024 09:50:33 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e6f51f9de4so105737221fa.3
-        for <linux-input@vger.kernel.org>; Fri, 24 May 2024 09:50:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUf3v3NeJ+gcG5uGxjFBlYHszbj+yZuBUfjdnlisXGfT1R3iYdduCZgpivpGSZaA8jIBXVOVAzsUy27/ZM+37hTPvrBVrxa+9kohaQ=
-X-Received: by 2002:a2e:7407:0:b0:2e9:485d:45a4 with SMTP id
- 38308e7fff4ca-2e95b096de2mr23558551fa.16.1716569432516; Fri, 24 May 2024
- 09:50:32 -0700 (PDT)
+	s=arc-20240116; t=1716569907; c=relaxed/simple;
+	bh=vyV7Nc3wlmfIWioWQ2BsumXb2wAaUL29TJtLLBo79GQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGrdIPAIzWzvCNzvHrloZtaXkoDTHvnGzYH0iBV1qIsGUKesemgNqsMX560BdbkDcc18e+Doc6tpUvIhXe+3xrLTaFjaStZ/U+EiRPvUSPY7KFlJOMAYnTmS2UkchrHQ9CB3dWjNwV4Fcsac9XObkyAjib+q66MVDNQDm5FhQDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=D5lcRmF2; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=+PoKy2cdF3pAHZeUroDK0C95HEcjrlws4+7j8Gz00ZU=; b=D5lcRmF28GtIKKU2
+	h7gcO0sH1sBA2VhBcwrQnomsfV/hxtXLeZL5Jh9sqyKeSkxy8QwuGG+2zjZFDtccPz9O6DxzL8E40
+	98avY3bFKvEwsJrIQBXyJfsEQuJqMiyi5RkO/1rjctwkTg4HGG5c0TAgNHvqJ+ObRoswUcL6orc0y
+	RqjQ6C0iIS0dY7M9ZFVIF76oMjaVWsNqsPdH/tKsp3eFAIYFCJLpD61De7FdiM1RK1SWtskkacmNS
+	6AJ1ZKNAhZw0D1XjI7uBpG90qYT4mcHfwRkpAllubxHAvXDZzdLEabx9p8L91dRbjKE2XKEUuIYyP
+	2BkYAQXljdTEpDb+DQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1sAYFK-002Qw9-2c;
+	Fri, 24 May 2024 16:58:22 +0000
+Date: Fri, 24 May 2024 16:58:22 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: dmitry.torokhov@gmail.com, christophe.jaillet@wanadoo.fr
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: tca6416 remove unused struct 'tca6416_drv_data'
+Message-ID: <ZlDHLrkv6oHl_EaF@gallifrey>
+References: <20240523002910.492558-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Zk_rXBV8E8Hwu04W@google.com> <ZlCv3HNhfcaEYjHf@google.com>
-In-Reply-To: <ZlCv3HNhfcaEYjHf@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 24 May 2024 09:50:15 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgXJcLOGizFGmVyY3cd9+oBwsh3-PYPdVBdqCW+Djgz8Q@mail.gmail.com>
-Message-ID: <CAHk-=wgXJcLOGizFGmVyY3cd9+oBwsh3-PYPdVBdqCW+Djgz8Q@mail.gmail.com>
-Subject: Re: [git pull] Input updates for v6.10-rc0
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20240523002910.492558-1-linux@treblig.org>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 16:57:45 up 16 days,  4:11,  1 user,  load average: 0.05, 0.01, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Fri, 24 May 2024 at 08:18, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->
-> Oops, forgot to push the tag, sorry about it. Should be there now.
+* linux@treblig.org (linux@treblig.org) wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> 'tca6416_drv_data' is unused since the original
+> commit 30ba3ead0576 ("Input: add keypad driver for keys interfaced to
+> TCA6416").
+> Remove it.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-Possibly related to that, you didn't get a pr-tracker-bot notification either.
+Oops, looks like Christophe got there first!
 
-So beep-boop, this is your manual robot notification.
+Dave
 
-              Linus
+> ---
+>  drivers/input/keyboard/tca6416-keypad.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
+> index 677bc4baa5d1..b2060229bd0f 100644
+> --- a/drivers/input/keyboard/tca6416-keypad.c
+> +++ b/drivers/input/keyboard/tca6416-keypad.c
+> @@ -32,11 +32,6 @@ static const struct i2c_device_id tca6416_id[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, tca6416_id);
+>  
+> -struct tca6416_drv_data {
+> -	struct input_dev *input;
+> -	struct tca6416_button data[];
+> -};
+> -
+>  struct tca6416_keypad_chip {
+>  	uint16_t reg_output;
+>  	uint16_t reg_direction;
+> -- 
+> 2.45.1
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
 
