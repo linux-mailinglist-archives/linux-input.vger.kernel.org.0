@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-3876-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3877-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4730D8D0490
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 16:49:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7488D058B
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 17:12:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 619331C216A3
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 14:49:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6543B33BB2
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 14:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF454168C1C;
-	Mon, 27 May 2024 14:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B837F16938B;
+	Mon, 27 May 2024 14:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mcW5E8s2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tVA0uv9Q"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86EB168C17;
-	Mon, 27 May 2024 14:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEA4169378;
+	Mon, 27 May 2024 14:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716819574; cv=none; b=J7G/I2A3VTZ2CdXO18W58OECKnFIkKXs0yyGAX1LbvLbUJvQO1mvMzo055FWZbXRgQpMher5bXbNY/ZxutYLPro/Pqo3cQrfZbDx/zKKN5F2qaLGEO53DtzR2MphHtv9qwSp3KNitZX3ayHqPMlxtM1C8IGhY0FRQZybAl68s3w=
+	t=1716819582; cv=none; b=bwaVNF9dMIyMQEt6LZ2HW7z7mcBcYeXhXblLD3mvzjMe7hfMmFjPMwaKsXe0qGYWQsL2sRz9s2PlIJcZPzznQbNruSDA/qChpyKKeGvp+0rX/1HHNbSZ+kSX2fX/j3SOOyscf//2+kvH0GceuUYYerbicWKnpkqcPPD7Z8omNqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716819574; c=relaxed/simple;
-	bh=NXAqXjPE/NMeldOeBm2byS+kMVIl+2R4hN11reIED+8=;
+	s=arc-20240116; t=1716819582; c=relaxed/simple;
+	bh=HksO7wi2Tu4etRYRKkyII0g6QFyH1LvtCOoKVJ36MLg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J75Va3haYz76bKfe7BZNOxdGiMaVTf3OmbYkFBa+8WxRyz3y8VYMCjvCifp4bsgsAcXxoBFDqiu3QKlxhG5+1nCQ7LbH820w4VN1a12dNVqv6OQDgokkTk1YlEvodGgrkID5s3HZ9meQNtc6j99Ojintmzdzft3MBrDrxrQynrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mcW5E8s2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA90C4AF07;
-	Mon, 27 May 2024 14:19:33 +0000 (UTC)
+	 MIME-Version; b=XsL8COQW1KP+4OxvmiTGBxDF23HWExodGYfs3CgExrmO/hqJ2GANy9/IrdHUHCcts2R3Y9WOf26y+6Lb1vzigaRYZC95Rz0oSYgvHRHUkLG/8c4FSoYT/h015ME4ZWg/VjvdxrvHkh9PQmzADg57i1kTEiRUifez61r4HbSdV0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tVA0uv9Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21EFDC32781;
+	Mon, 27 May 2024 14:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716819574;
-	bh=NXAqXjPE/NMeldOeBm2byS+kMVIl+2R4hN11reIED+8=;
+	s=k20201202; t=1716819582;
+	bh=HksO7wi2Tu4etRYRKkyII0g6QFyH1LvtCOoKVJ36MLg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mcW5E8s26bu1SzTB5vPd9qEDDs5CCw2L00DUsHYfxDGXbNSWij21l/DqMQcYju1Xe
-	 7ESALwDZVCrNEH6vrDagwM+bkpYuNRO0KWDI5O+zqc9+jyjfYZ2weE8xhhfiugNcVy
-	 i3UwQk7+Y7JpGCvTrxjrM3Zce5AXnpJOdRoEOVNnfV+PqEgAqF3vmnUW7LR3BmLzNS
-	 dZeMaD4waN69MViFYpCKEI/8nSDb/kYVv4+0Mgb81GJ/NGJL98OQGogxA1x86GFKlb
-	 RV+Pvh2w8UYF41wAr0+z1mC3Oxk8SDZHIZMZtkaYXWiIDsgQgg+WLqG9mKZQWShZgH
-	 XEJHnxjZ3Gh0A==
+	b=tVA0uv9Qm+44cXSkHStDJy0zM89Kpe8CmrF9swBuwJz0240yLv7l3IWWSIYtq8Mdo
+	 BKBa/xirAQeUnc0j53L6J/SUujcV8oSMJKxD1csNW9qUEn7mlpv/7bofUrLuHdZunU
+	 vD6ohsC6RjEmKAmmf24iP8OJTwwbwFV3x9dzyXRZRpo0e9wBHD2oDXBw9s5yO/tHYK
+	 EnIQgNEJlBQbzq0rq6CdnPAwtCQ17nWqkbaHizdPGRbIuyYY95qH0/5z8sAcWks2Q/
+	 vvsGz+wV8Ws1z9kT+Lz69mofonKcVQFyZnrhiQeQcgUXqXVQVz9sLSAaKZCczvMlQH
+	 uuj7eZeI69TBA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sean O'Brien <seobrien@chromium.org>,
-	Jiri Kosina <jkosina@suse.com>,
+Cc: Benjamin Tissoires <bentiss@kernel.org>,
+	Peter Hutterer <peter.hutterer@who-t.net>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 10/13] HID: Add quirk for Logitech Casa touchpad
-Date: Mon, 27 May 2024 10:18:47 -0400
-Message-ID: <20240527141901.3854691-10-sashal@kernel.org>
+	linux-input@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 12/13] HID: bpf: add in-tree HID-BPF fix for the HP Elite Presenter Mouse
+Date: Mon, 27 May 2024 10:18:49 -0400
+Message-ID: <20240527141901.3854691-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527141901.3854691-1-sashal@kernel.org>
 References: <20240527141901.3854691-1-sashal@kernel.org>
@@ -67,54 +67,92 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.218
 Content-Transfer-Encoding: 8bit
 
-From: Sean O'Brien <seobrien@chromium.org>
+From: Benjamin Tissoires <bentiss@kernel.org>
 
-[ Upstream commit dd2c345a94cfa3873cc20db87387ee509c345c1b ]
+[ Upstream commit 4e6d2a297dd5be26ad409b7a05b20bd033d1c95e ]
 
-This device sometimes doesn't send touch release signals when moving
-from >=4 fingers to <4 fingers. Using MT_QUIRK_NOT_SEEN_MEANS_UP instead
-of MT_QUIRK_ALWAYS_VALID makes sure that no touches become stuck.
+Duplicate of commit 0db117359e47 ("HID: add quirk for 03f0:464a HP Elite
+Presenter Mouse"), but in a slightly better way.
 
-MT_QUIRK_FORCE_MULTI_INPUT is not necessary for this device, but does no
-harm.
+This time we actually change the application collection, making clearer
+for userspace what the second mouse is.
 
-Signed-off-by: Sean O'Brien <seobrien@chromium.org>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Note that having both hid-quirks fix and this HID-BPF fix is not a
+problem at all.
+
+Link: https://lore.kernel.org/r/20240410-bpf_sources-v1-4-a8bf16033ef8@kernel.org
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+ .../hid/bpf/progs/HP__Elite-Presenter.bpf.c   | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0732fe6c7a853..9f3f7588fe46d 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -765,6 +765,7 @@
- #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
- #define USB_DEVICE_ID_LOGITECH_T651	0xb00c
- #define USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD	0xb309
-+#define USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD	0xbb00
- #define USB_DEVICE_ID_LOGITECH_C007	0xc007
- #define USB_DEVICE_ID_LOGITECH_C077	0xc077
- #define USB_DEVICE_ID_LOGITECH_RECEIVER	0xc101
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 8dcd636daf270..e7b047421f3d9 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1998,6 +1998,12 @@ static const struct hid_device_id mt_devices[] = {
- 			   USB_VENDOR_ID_LENOVO,
- 			   USB_DEVICE_ID_LENOVO_X12_TAB) },
- 
-+	/* Logitech devices */
-+	{ .driver_data = MT_CLS_NSMU,
-+		HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_LOGITECH,
-+			USB_DEVICE_ID_LOGITECH_CASA_TOUCHPAD) },
+diff --git a/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c b/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
+new file mode 100644
+index 0000000000000..3d14bbb6f2762
+--- /dev/null
++++ b/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
+@@ -0,0 +1,58 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2023 Benjamin Tissoires
++ */
 +
- 	/* MosArt panels */
- 	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
++#include "vmlinux.h"
++#include "hid_bpf.h"
++#include "hid_bpf_helpers.h"
++#include <bpf/bpf_tracing.h>
++
++#define VID_HP 0x03F0
++#define PID_ELITE_PRESENTER 0x464A
++
++HID_BPF_CONFIG(
++	HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_GENERIC, VID_HP, PID_ELITE_PRESENTER)
++);
++
++/*
++ * Already fixed as of commit 0db117359e47 ("HID: add quirk for 03f0:464a
++ * HP Elite Presenter Mouse") in the kernel, but this is a slightly better
++ * fix.
++ *
++ * The HP Elite Presenter Mouse HID Record Descriptor shows
++ * two mice (Report ID 0x1 and 0x2), one keypad (Report ID 0x5),
++ * two Consumer Controls (Report IDs 0x6 and 0x3).
++ * Prior to these fixes it registers one mouse, one keypad
++ * and one Consumer Control, and it was usable only as a
++ * digital laser pointer (one of the two mouses).
++ * We replace the second mouse collection with a pointer collection,
++ * allowing to use the device both as a mouse and a digital laser
++ * pointer.
++ */
++
++SEC("fmod_ret/hid_bpf_rdesc_fixup")
++int BPF_PROG(hid_fix_rdesc, struct hid_bpf_ctx *hctx)
++{
++	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 4096 /* size */);
++
++	if (!data)
++		return 0; /* EPERM check */
++
++	/* replace application mouse by application pointer on the second collection */
++	if (data[79] == 0x02)
++		data[79] = 0x01;
++
++	return 0;
++}
++
++SEC("syscall")
++int probe(struct hid_bpf_probe_args *ctx)
++{
++	ctx->retval = ctx->rdesc_size != 264;
++	if (ctx->retval)
++		ctx->retval = -EINVAL;
++
++	return 0;
++}
++
++char _license[] SEC("license") = "GPL";
 -- 
 2.43.0
 
