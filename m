@@ -1,251 +1,802 @@
-Return-Path: <linux-input+bounces-3854-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3855-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB0F8CF816
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 05:26:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB28B8CF863
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 06:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72ADE1C2108F
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 03:26:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 910F6281CEF
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 04:30:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8FF8BF0;
-	Mon, 27 May 2024 03:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4127679E1;
+	Mon, 27 May 2024 04:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UroemmQb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5OKTE2e"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA3B6FCB;
-	Mon, 27 May 2024 03:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB25C121;
+	Mon, 27 May 2024 04:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716780395; cv=none; b=LPteHRgqCjpwXyBidxdOw5m95p+k5t0HkpH55bNS+iFmh2Y+V9lOdP41U++bBlzFkXRGuUGQciRCoJ2PCRfUtWUOAaEn94w10x2WNFW4If2gA0ScWcDRN7sjlBKRFsoWLvITXtWZdOfOr2a0hDvLLNy+xI7C8kfj2CmCn4WMJsI=
+	t=1716784205; cv=none; b=Gg/IC0AUaxPvfL3i12gycX/QwpGKq1u6huebKngp5jAm8/GWekWfnDxtY1DEdvuC6RuV2gn0xV1ppHYQMUzKBlf62aQjh+JFd4Q7/4/MhdhiVWJvdJ0dAH1RPUt819/dp2ADDmlSeHorNO5iGaK4Obzqv8d7X9L6qJGXcz6urKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716780395; c=relaxed/simple;
-	bh=sRnU5qC2PxVrGwCNhW2CRwScmAF/9srHVz76HkT1GDY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ba3DXN6A6DzQODg1Ss1kMrNjStnelRtPnFKiYSWO+rHCHXDdZyfqVIwrG4jASu1YslFWsbXFTDrw6JjJDz/jK1M0h7I+FKH+q/GnI0t+7gQoL0YT+nPpH4z5td6sbtcKxIRaYhCjppnR7tjinOptC8K7voilrMS6qgSu43HVap0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UroemmQb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 498CAC4AF08;
-	Mon, 27 May 2024 03:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716780395;
-	bh=sRnU5qC2PxVrGwCNhW2CRwScmAF/9srHVz76HkT1GDY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UroemmQb1iS8M22O9HDplMfp2oH2nX7Ms//Park4TtfLTG0CrESsk617sABLDbNOC
-	 0vZRF7c2I5yn/crhT7WktLhW2ZYg08r5emUf++20sSSP1k9VQTOAHgX6rJZc8li754
-	 I7tXzNqfXYpObcaukBZNqpCS75ajwBmDPOJPUDqosQAyh9S+VJBVxEwI1X09aR/us3
-	 NqBsvb4ZLJSW3GHuhHM8rZSLTDqloJsqTJtoLmrA2200l0TEJ15UbyTcnRoVYL46Rh
-	 b6vs2RtthHO5z9pcW4ZxANh3ZyxHXi+6KkDXEJ5VAksC/K6/Qf+1SrntLAo5BfCBp7
-	 qLI7MWXn3vj5Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0EEC25B74;
-	Mon, 27 May 2024 03:26:35 +0000 (UTC)
-From: Joel Selvaraj via B4 Relay <devnull+joelselvaraj.oss.gmail.com@kernel.org>
-Date: Sun, 26 May 2024 22:26:26 -0500
-Subject: [PATCH v3 3/3] Input: novatek-nvt-ts: add support for NT36672A
- touchscreen
+	s=arc-20240116; t=1716784205; c=relaxed/simple;
+	bh=MyW7162hhil9njXkACywqnGqUuStOTDFXvP0qYnyaCQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LHBneBHxy9TvAl+kY4uDJAHkIB1Wx7EO5Ytoucjl82cAkC80siHmM7LJpU88lt1YdaBZRspG29vO53miAslqcGs0SzAVOkG4U6tzPRlol0oNBLlqzl3ykMSd6XuAKXK8LRvo+51PxW9pVNgYQeH2HSMpIuukDA757SVRU+FiAJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5OKTE2e; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f8eba8dcfcso2345826b3a.3;
+        Sun, 26 May 2024 21:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716784202; x=1717389002; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FPeDGuJUx+ow1fp5hpZcNlGfukxk1yzvKoVJsDLM8TA=;
+        b=G5OKTE2e1ok0uLFhbEK5HW1o4cWuvEsahKtuzM/kYaRKEav5rdSgsvuyY2Qa3fZBwK
+         4D4Hs5R1KE4PPrD0/79kKjAkzOYH9Tp/LPOvMsONl58j3NrS2omIUBEYAQRIiucuxxiV
+         OthxnqBV5wcqIBpnheSoBl4rV/97jzwBjTg50M+E+mgiFywrV12ZQSYpslcm84Fb9FOJ
+         pOzpjZshcnYH0bM1Mwo5xRuL/qWYXLazZta3y4MWA3Mb2028FfZ2tm8bVN5rgn/Vt0TE
+         5Lqrc2DFP6o5zPtuL3VSO9US6isKPllZdKhTxpFUHWJf8YFLwHRvsuiaw+Mk7s8nltwu
+         Pmow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716784202; x=1717389002;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FPeDGuJUx+ow1fp5hpZcNlGfukxk1yzvKoVJsDLM8TA=;
+        b=ZTw87qMzHJSmXucMkUePERPmWFWJhpVanNcuqkHx72RDcSTsg4qrNgAY2vjphNWAGO
+         OlgpfglFowJta5O20UpD3DxnpZf6vw23/n2+TsHcoimoA+aXf456GWeKewSZDMDC+pXL
+         +D8SmM43JeW6b4kJUuW9LJVCxBVECw5+e29o4PLKkwzrIm9A/0BdJ9GSukkluAVHtynI
+         Mp37dPCzLOvDazeftITbNjfcLqwaWwBAQFt+TARBBAKptRo3u/xDBVxzoCROYlhfjnRo
+         n8+sJy/xSkSwgW2KVexbmzQBZX9E956NVR10ewgskL3YJD/PNOSqwGZU+JO3KMLkAP09
+         zn5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXVHeCgbg8PG/h8+FP37/PBwxpqeiqJXWSxeyvKMPGFLqVmd0AmnK7J3M5g+sX2N4GDw6zkCmQrOKifniwJzfd6xrm9+y1mbsEsz4IhJJuzbOXJw08PifqhFpF9RcXD+ihRpgCSHPy23ec=
+X-Gm-Message-State: AOJu0YxMwTCom7rZcZUhVZsQgPoY4hPWaUYslHTk4edJ/33whxXuqJOl
+	JxYBAC31c5kcTTMzNb+whqOIUyYUI2dEdJ3w6+46tboE6IfmouwO
+X-Google-Smtp-Source: AGHT+IGdVhUULIRxSNxBHzb+bseOVAygKpQ49sIWH+IGBIsRLH9sjUTsJ1yty8ZFXArgO5BdOKY03A==
+X-Received: by 2002:a05:6a20:914b:b0:1a7:60d8:a6dd with SMTP id adf61e73a8af0-1b212e65034mr11181969637.53.1716784202059;
+        Sun, 26 May 2024 21:30:02 -0700 (PDT)
+Received: from mb-board.. ([120.237.109.178])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3eb67sm4262560b3a.19.2024.05.26.21.29.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 May 2024 21:30:01 -0700 (PDT)
+From: Charles Wang <charles.goodix@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: hbarnor@chromium.org,
+	dianders@chromium.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: [PATCH v2] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Date: Mon, 27 May 2024 12:28:40 +0800
+Message-ID: <20240527042945.57054-1-charles.goodix@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240526-nvt-ts-devicetree-regulator-support-v3-3-aa88d10ccd9a@gmail.com>
-References: <20240526-nvt-ts-devicetree-regulator-support-v3-0-aa88d10ccd9a@gmail.com>
-In-Reply-To: <20240526-nvt-ts-devicetree-regulator-support-v3-0-aa88d10ccd9a@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- Joel Selvaraj <joelselvaraj.oss@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716780394; l=5304;
- i=joelselvaraj.oss@gmail.com; s=20240420; h=from:subject:message-id;
- bh=MB6mu8tW7G0nPCXhHpubqPGJ+o4YFgHR52Qhx/rofXY=;
- b=SdHqukimWtDJ9sPHoMQR0BVDdUPCUQol75wSA8aMy9UBE7zjfzP9wP/J0Y1CwdPukDdm+GIQe
- B49CcwhH0vUCbLKsbMew7ntMe02WY+vFGD0kJnRg/cHGWBtNDHY7aAd
-X-Developer-Key: i=joelselvaraj.oss@gmail.com; a=ed25519;
- pk=qT4gsuVtlPE0Dpr+tQA/Fumm7wzVP6qfeVaY+6pX04s=
-X-Endpoint-Received: by B4 Relay for joelselvaraj.oss@gmail.com/20240420
- with auth_id=165
-X-Original-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-Reply-To: joelselvaraj.oss@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+This patch introduces a new driver to support the Goodix GT7986U
+touch controller. The data reported is packaged according to the
+HID protocol but uses SPI for communication to improve speed. This
+enables the device to transmit not only coordinate data but also
+corresponding raw data that can be accessed by user-space programs
+through the hidraw interface. The raw data can be utilized for
+functions like palm rejection, thereby improving the touch experience.
 
-Extend the novatek touchscreen driver to support NT36672A chip which
-is found in phones like qcom/sdm845-xiaomi-beryllium-tianma.dts.
-Added devicetree support for the driver and used i2c chip data to handle
-the variation in chip id and wake type. Also added vcc and iovcc
-regulators which are used to power the touchscreen hardware.
+Key features:
+- Device connection confirmation and initialization
+- IRQ-based event reporting to the input subsystem
+- Support for HIDRAW operations (GET_REPORT and SET_REPORT)
 
-Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+Signed-off-by: Charles Wang <charles.goodix@gmail.com>
 ---
- drivers/input/touchscreen/novatek-nvt-ts.c | 78 +++++++++++++++++++++++++++---
- 1 file changed, 72 insertions(+), 6 deletions(-)
+Changes in v2:
+- Fixed build warnings reported by kernel test robot
+---
+ drivers/hid/Kconfig      |   6 +
+ drivers/hid/Makefile     |   1 +
+ drivers/hid/hid-goodix.c | 652 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 659 insertions(+)
+ create mode 100644 drivers/hid/hid-goodix.c
 
-diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
-index 224fd112b25a9..7a82a1b09f9d5 100644
---- a/drivers/input/touchscreen/novatek-nvt-ts.c
-+++ b/drivers/input/touchscreen/novatek-nvt-ts.c
-@@ -31,9 +31,6 @@
- #define NVT_TS_PARAMS_CHIP_ID		0x0e
- #define NVT_TS_PARAMS_SIZE		0x0f
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4c682c650..f57d8fb88 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -404,6 +404,12 @@ config HID_VIVALDI_COMMON
+ 	  option so that drivers can use common code to parse the HID
+ 	  descriptors for vivaldi function row keymap.
  
--#define NVT_TS_SUPPORTED_WAKE_TYPE	0x05
--#define NVT_TS_SUPPORTED_CHIP_ID	0x05
--
- #define NVT_TS_MAX_TOUCHES		10
- #define NVT_TS_MAX_SIZE			4096
- 
-@@ -51,11 +48,18 @@ static const int nvt_ts_irq_type[4] = {
- 	IRQF_TRIGGER_HIGH
- };
- 
-+struct nvt_ts_i2c_chip_data {
-+	u8 wake_type;
-+	u8 chip_id;
++config HID_GOODIX
++	tristate "Goodix GT7986U SPI HID touchscreen"
++	depends on SPI_MASTER
++	help
++	  Support for Goodix GT7986U SPI HID touchscreen device.
++
+ config HID_GOOGLE_HAMMER
+ 	tristate "Google Hammer Keyboard"
+ 	select HID_VIVALDI_COMMON
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 082a728ea..4e799f7e5 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -54,6 +54,7 @@ obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
+ obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
+ obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
+ obj-$(CONFIG_HID_VIVALDI_COMMON) += hid-vivaldi-common.o
++obj-$(CONFIG_HID_GOODIX)	+= hid-goodix.o
+ obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
+ obj-$(CONFIG_HID_GOOGLE_STADIA_FF)	+= hid-google-stadiaff.o
+ obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
+diff --git a/drivers/hid/hid-goodix.c b/drivers/hid/hid-goodix.c
+new file mode 100644
+index 000000000..a67f7d9ef
+--- /dev/null
++++ b/drivers/hid/hid-goodix.c
+@@ -0,0 +1,652 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Goodix GT7986U SPI Driver Code for HID.
++ *
++ * Copyright (C) 2024 Godix, Inc.
++ */
++#include <asm/unaligned.h>
++#include <linux/delay.h>
++#include <linux/hid.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/sizes.h>
++#include <linux/spi/spi.h>
++
++#define GOODIX_DEV_CONFIRM_ADDR		0x10000
++#define GOODIX_HID_DESC_ADDR		0x1058C
++#define GOODIX_HID_REPORT_DESC_ADDR	0x105AA
++#define GOODIX_HID_SIGN_ADDR		0x10D32
++#define GOODIX_HID_REPORT_ADDR		0x22C8C
++
++#define GOODIX_HID_GET_REPORT_CMD	0x02
++#define GOODIX_HID_SET_REPORT_CMD	0x03
++
++#define GOODIX_HID_MAX_INBUF_SIZE	128
++#define GOODIX_HID_ACK_READY_FLAG	0x01
++#define GOODIX_HID_REPORT_READY_FLAG	0x80
++
++#define GOODIX_DEV_CONFIRM_VAL		0xAA
++
++#define GOODIX_SPI_WRITE_FLAG		0xF0
++#define GOODIX_SPI_READ_FLAG		0xF1
++#define GOODIX_SPI_TRANS_PREFIX_LEN	1
++#define GOODIX_REGISTER_WIDTH		4
++#define GOODIX_SPI_READ_DUMMY_LEN	3
++#define GOODIX_SPI_READ_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
++					 GOODIX_REGISTER_WIDTH + \
++					 GOODIX_SPI_READ_DUMMY_LEN)
++#define GOODIX_SPI_WRITE_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
++					 GOODIX_REGISTER_WIDTH)
++
++#define GOODIX_CHECKSUM_SIZE		sizeof(u16)
++#define GOODIX_NORMAL_RESET_DELAY_MS	150
++
++struct goodix_hid_report_header {
++	u8 flag;
++	__le16 size;
++} __packed;
++#define GOODIX_HID_ACK_HEADER_SIZE	sizeof(struct goodix_hid_report_header)
++
++struct goodix_hid_report_package {
++	__le16 size;
++	u8 data[];
 +};
 +
- struct nvt_ts_data {
- 	struct i2c_client *client;
- 	struct input_dev *input;
- 	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data regulators[2];
- 	struct touchscreen_properties prop;
-+	const struct nvt_ts_i2c_chip_data *chip;
- 	int max_touches;
- 	u8 buf[NVT_TS_TOUCH_SIZE * NVT_TS_MAX_TOUCHES];
- };
-@@ -139,9 +143,23 @@ static irqreturn_t nvt_ts_irq(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+static void nvt_ts_disable_regulators(void *_data)
++#define GOODIX_HID_PKG_LEN_SIZE		sizeof(u16)
++#define GOODIX_HID_COOR_DATA_LEN	82
++#define GOODIX_HID_COOR_PKG_LEN		(GOODIX_HID_PKG_LEN_SIZE + \
++					 GOODIX_HID_COOR_DATA_LEN)
++
++#define GOODIX_REPORT_DATA_ADDR		(GOODIX_HID_REPORT_ADDR + \
++					 GOODIX_HID_ACK_HEADER_SIZE + \
++					 GOODIX_HID_PKG_LEN_SIZE)
++
++struct goodix_hid_report_event {
++	struct goodix_hid_report_header hdr;
++	u8 data[GOODIX_HID_COOR_PKG_LEN];
++} __packed;
++
++struct goodix_hid_desc {
++	__le16 desc_length;
++	__le16 bcd_version;
++	__le16 report_desc_lenght;
++	__le16 report_desc_register;
++	__le16 input_register;
++	__le16 max_input_length;
++	__le16 output_register;
++	__le16 max_output_length;
++	__le16 cmd_register;
++	__le16 data_register;
++	__le16 vendor_id;
++	__le16 product_id;
++	__le16 version_id;
++	__le32 reserved;
++} __packed;
++
++struct goodix_ts_data {
++	struct device *dev;
++	struct spi_device *spi;
++	struct hid_device *hid;
++	struct goodix_hid_desc hid_desc;
++
++	struct gpio_desc *reset_gpio;
++
++	/* Buffer used to store hid report data */
++	u8 xfer_buf[SZ_4K];
++};
++
++static int goodix_spi_read(struct goodix_ts_data *ts, u32 addr,
++			   u8 *data, unsigned int len)
 +{
-+	struct nvt_ts_data *data = _data;
-+
-+	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
-+}
-+
- static int nvt_ts_start(struct input_dev *dev)
- {
- 	struct nvt_ts_data *data = input_get_drvdata(dev);
++	struct spi_device *spi = to_spi_device(&ts->spi->dev);
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	u8 *buf;
 +	int error;
 +
-+	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators), data->regulators);
-+	if (error) {
-+		dev_err(&data->client->dev, "failed to enable regulators\n");
-+		return error;
++	buf = kzalloc(GOODIX_SPI_READ_PREFIX_LEN + len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
++	buf[0] = GOODIX_SPI_READ_FLAG;
++	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
++	memset(buf + GOODIX_SPI_TRANS_PREFIX_LEN + GOODIX_REGISTER_WIDTH,
++	       0xff, GOODIX_SPI_READ_DUMMY_LEN);
++
++	xfers.tx_buf = buf;
++	xfers.rx_buf = buf;
++	xfers.len = GOODIX_SPI_READ_PREFIX_LEN + len;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error)
++		dev_err(ts->dev, "spi transfer error:%d", error);
++	else
++		memcpy(data, buf + GOODIX_SPI_READ_PREFIX_LEN, len);
++
++	kfree(buf);
++	return error;
++}
++
++static int goodix_spi_write(struct goodix_ts_data *ts, u32 addr,
++			    u8 *data, unsigned int len)
++{
++	struct spi_device *spi = to_spi_device(&ts->spi->dev);
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	u8 *buf;
++	int error;
++
++	buf = kzalloc(GOODIX_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	/* buffer format: 0xF0 + addr(4bytes) + data */
++	buf[0] = GOODIX_SPI_WRITE_FLAG;
++	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
++	memcpy(buf + GOODIX_SPI_WRITE_PREFIX_LEN, data, len);
++
++	xfers.tx_buf = buf;
++	xfers.len = GOODIX_SPI_WRITE_PREFIX_LEN + len;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error)
++		dev_err(ts->dev, "spi transfer error:%d", error);
++
++	kfree(buf);
++	return error;
++}
++
++static int goodix_dev_confirm(struct goodix_ts_data *ts)
++{
++	u8 tx_buf[8], rx_buf[8];
++	int retry = 3;
++	int error;
++
++	gpiod_set_value_cansleep(ts->reset_gpio, 0);
++	usleep_range(4000, 4100);
++
++	memset(tx_buf, GOODIX_DEV_CONFIRM_VAL, sizeof(tx_buf));
++	while (retry--) {
++		error = goodix_spi_write(ts, GOODIX_DEV_CONFIRM_ADDR,
++					 tx_buf, sizeof(tx_buf));
++		if (error)
++			return error;
++
++		error = goodix_spi_read(ts, GOODIX_DEV_CONFIRM_ADDR,
++					rx_buf, sizeof(rx_buf));
++		if (error)
++			return error;
++
++		if (!memcmp(tx_buf, rx_buf, sizeof(tx_buf)))
++			return 0;
++
++		usleep_range(5000, 5100);
 +	}
- 
- 	enable_irq(data->client->irq);
- 	gpiod_set_value_cansleep(data->reset_gpio, 0);
-@@ -155,6 +173,7 @@ static void nvt_ts_stop(struct input_dev *dev)
- 
- 	disable_irq(data->client->irq);
- 	gpiod_set_value_cansleep(data->reset_gpio, 1);
-+	nvt_ts_disable_regulators(data);
- }
- 
- static int nvt_ts_suspend(struct device *dev)
-@@ -199,9 +218,37 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	if (!data)
- 		return -ENOMEM;
- 
-+	data->chip = device_get_match_data(&client->dev);
-+	if (!data->chip)
++
++	dev_err(ts->dev, "device confirm failed, rx_buf:%*ph", 8, rx_buf);
++	return -EINVAL;
++}
++
++/**
++ * goodix_hid_parse() - hid-core .parse() callback
++ * @hid: hid device instance
++ *
++ * This function gets called during call to hid_add_device
++ *
++ * Return: 0 on success and non zero on error
++ */
++static int goodix_hid_parse(struct hid_device *hid)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	u16 rsize;
++	u8 *rdesc;
++	int error;
++
++	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
++	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
++		dev_err(ts->dev, "invalid report desc size %d", rsize);
++		return -EINVAL;
++	}
++
++	rdesc = kzalloc(rsize, GFP_KERNEL);
++	if (!rdesc)
++		return -ENOMEM;
++
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
++	if (error) {
++		dev_err(ts->dev, "failed get report desc, %d", error);
++		goto free_mem;
++	}
++
++	error = hid_parse_report(hid, rdesc, rsize);
++	if (error)
++		dev_err(ts->dev, "failed parse report, %d", error);
++
++free_mem:
++	kfree(rdesc);
++	return error;
++}
++
++/* Empty callbacks with success return code */
++static int goodix_hid_start(struct hid_device *hid)
++{
++	return 0;
++}
++
++static void goodix_hid_stop(struct hid_device *hid)
++{
++}
++
++static int goodix_hid_open(struct hid_device *hid)
++{
++	return 0;
++}
++
++static void goodix_hid_close(struct hid_device *hid)
++{
++}
++
++/* Return date length of response data */
++static int goodix_hid_check_ack_status(struct goodix_ts_data *ts)
++{
++	struct goodix_hid_report_header hdr;
++	int retry = 20;
++	int error;
++
++	while (retry--) {
++		/*
++		 * 3 bytes of hid request response data
++		 * - byte 0:    Ack flag, value of 1 for data ready
++		 * - bytes 1-2: Response data length
++		 */
++		error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR,
++					(u8 *)&hdr, sizeof(hdr));
++		if (!error && (hdr.flag & GOODIX_HID_ACK_READY_FLAG))
++			return le16_to_cpu(hdr.size);
++
++		/* Wait 10ms for another try */
++		usleep_range(10000, 11000);
++	}
++
++	return -EINVAL;
++}
++
++/**
++ * goodix_hid_get_raw_report() - Process hidraw GET REPORT operation
++ * @hid: hid device instance
++ * @reportnum: Report ID
++ * @buf: Buffer for store the reprot date
++ * @len: Length fo reprot data
++ * @report_type: Report type
++ *
++ * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
++ * get report request. The transmitted data follows the standard i2c-hid
++ * protocol with a specified header.
++ *
++ * Return: The length of the data in the buf on success, negative error code
++ */
++static int goodix_hid_get_raw_report(struct hid_device *hid,
++				     unsigned char reportnum,
++				     __u8 *buf, size_t len,
++				     unsigned char report_type)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	u16 data_register = le16_to_cpu(ts->hid_desc.data_register);
++	u16 cmd_register = le16_to_cpu(ts->hid_desc.cmd_register);
++	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
++	int tx_len = 0, args_len = 0;
++	int response_data_len;
++	u8 args[3];
++	int error;
++
++	if (report_type == HID_OUTPUT_REPORT)
 +		return -EINVAL;
 +
- 	data->client = client;
- 	i2c_set_clientdata(client, data);
- 
++	if (reportnum == 3) {
++		/* Get win8 signature data */
++		error = goodix_spi_read(ts, GOODIX_HID_SIGN_ADDR, buf, len);
++		if (error) {
++			dev_err(ts->dev, "failed get win8 sign:%d", error);
++			return -EINVAL;
++		}
++		return len;
++	}
++
++	if (reportnum >= 0x0F) {
++		args[args_len++] = reportnum;
++		reportnum = 0x0F;
++	}
++	put_unaligned_le16(data_register, args + args_len);
++	args_len += sizeof(data_register);
++
++	/* Clean 3 bytes of hid ack header data */
++	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
++	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
++
++	put_unaligned_le16(cmd_register, tmp_buf + tx_len);
++	tx_len += sizeof(cmd_register);
++
++	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x01) << 4) | reportnum;
++	tmp_buf[tx_len++] = GOODIX_HID_GET_REPORT_CMD;
++
++	memcpy(tmp_buf + tx_len, args, args_len);
++	tx_len += args_len;
++
++	/* Step1: write report request info */
++	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
++	if (error) {
++		dev_err(ts->dev, "failed send read feature cmd, %d", error);
++		return error;
++	}
++
++	/* No need read response data */
++	if (!len)
++		return 0;
++
++	/* Step2: check response data status */
++	response_data_len = goodix_hid_check_ack_status(ts);
++	if (response_data_len <= 0)
++		return -EINVAL;
++
++	/* Step3: read response data(skip 2bytes of hid pkg length) */
++	error = goodix_spi_read(ts, GOODIX_REPORT_DATA_ADDR, buf,
++				response_data_len - GOODIX_HID_PKG_LEN_SIZE);
++	if (error) {
++		dev_err(ts->dev, "failed read hid response data, %d", error);
++		return error;
++	}
++
++	return response_data_len - GOODIX_HID_PKG_LEN_SIZE;
++}
++
++/**
++ * goodix_hid_set_raw_report() - process hidraw SET REPORT operation
++ * @hid: HID device
++ * @reportnum: Report ID
++ * @buf: Buffer for communication
++ * @len: Length of data in the buffer
++ * @report_type: Report type
++ *
++ * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
++ * set report request. The transmitted data follows the standard i2c-hid
++ * protocol with a specified header.
++ *
++ * Return: The length of the data sent, negative error code on failure
++ */
++static int goodix_hid_set_raw_report(struct hid_device *hid,
++				     unsigned char reportnum,
++				     __u8 *buf, size_t len,
++				     unsigned char report_type)
++{
++	struct goodix_ts_data *ts = hid->driver_data;
++	u16 data_register = le16_to_cpu(ts->hid_desc.data_register);
++	u16 cmd_register = le16_to_cpu(ts->hid_desc.cmd_register);
++	int tx_len = 0, args_len = 0;
++	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
++	u8 args[5];
++	int error;
++
++	if (reportnum >= 0x0F) {
++		args[args_len++] = reportnum;
++		reportnum = 0x0F;
++	}
++
++	put_unaligned_le16(data_register, args + args_len);
++	args_len += sizeof(data_register);
++
++	put_unaligned_le16(GOODIX_HID_PKG_LEN_SIZE + len, args + args_len);
++	args_len += GOODIX_HID_PKG_LEN_SIZE;
++
++	/* Clean 3 bytes of hid ack header data */
++	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
++	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
++
++	put_unaligned_le16(cmd_register, tmp_buf + tx_len);
++	tx_len += sizeof(cmd_register);
++
++	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x02) << 4) | reportnum;
++	tmp_buf[tx_len++] = GOODIX_HID_SET_REPORT_CMD;
++
++	memcpy(tmp_buf + tx_len, args, args_len);
++	tx_len += args_len;
++
++	memcpy(tmp_buf + tx_len, buf, len);
++	tx_len += len;
++
++	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
++	if (error) {
++		dev_err(ts->dev, "failed send report %*ph", tx_len, tmp_buf);
++		return error;
++	}
++	return len;
++}
++
++static int goodix_hid_raw_request(struct hid_device *hid,
++				  unsigned char reportnum,
++				  __u8 *buf, size_t len,
++				  unsigned char rtype, int reqtype)
++{
++	switch (reqtype) {
++	case HID_REQ_GET_REPORT:
++		return goodix_hid_get_raw_report(hid, reportnum, buf,
++						 len, rtype);
++	case HID_REQ_SET_REPORT:
++		if (buf[0] != reportnum)
++			return -EINVAL;
++		return goodix_hid_set_raw_report(hid, reportnum, buf,
++						 len, rtype);
++	default:
++		return -EIO;
++	}
++
++	return -EINVAL;
++}
++
++static struct hid_ll_driver goodix_hid_ll_driver = {
++	.parse = goodix_hid_parse,
++	.start = goodix_hid_start,
++	.stop = goodix_hid_stop,
++	.open = goodix_hid_open,
++	.close = goodix_hid_close,
++	.raw_request = goodix_hid_raw_request
++};
++
++static irqreturn_t goodix_hid_irq(int irq, void *data)
++{
++	struct goodix_ts_data *ts = data;
++	struct goodix_hid_report_event event;
++	struct goodix_hid_report_package *pkg;
++	u16 report_size;
++	int error;
++
 +	/*
-+	 * VCC is the analog voltage supply
-+	 * IOVCC is the digital voltage supply
++	 * First, read buffer with space for header and coordinate package:
++	 * - event header = 3 bytes
++	 * - coordinate event = GOODIX_HID_COOR_PKG_LEN bytes
++	 *
++	 * If the data size info in the event header exceeds
++	 * GOODIX_HID_COOR_PKG_LEN, it means that there are other packages
++	 * besides the coordinate package.
 +	 */
-+	data->regulators[0].supply = "vcc";
-+	data->regulators[1].supply = "iovcc";
-+	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(data->regulators), data->regulators);
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR, (u8 *)&event,
++				sizeof(event));
 +	if (error) {
-+		dev_err(dev, "cannot get regulators: %d\n", error);
++		dev_err(ts->dev, "failed get coordinate data, %d", error);
++		return IRQ_HANDLED;
++	}
++
++	/* Check coordinate data valid falg */
++	if (event.hdr.flag != GOODIX_HID_REPORT_READY_FLAG) {
++		dev_err(ts->dev, "invalid event flag 0x%x", event.hdr.flag);
++		return IRQ_HANDLED;
++	}
++
++	pkg = (struct goodix_hid_report_package *)event.data;
++	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
++			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
++
++	report_size = le16_to_cpu(event.hdr.size);
++	/* Check if there are other packages */
++	if (report_size <= GOODIX_HID_COOR_PKG_LEN)
++		return IRQ_HANDLED;
++
++	if (report_size - GOODIX_HID_COOR_PKG_LEN > sizeof(ts->xfer_buf)) {
++		dev_err(ts->dev, "invalid package size, %d", report_size);
++		return IRQ_HANDLED;
++	}
++
++	/* Read the package behind the coordinate data */
++	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR + sizeof(event),
++				ts->xfer_buf,
++				report_size - GOODIX_HID_COOR_PKG_LEN);
++	if (error) {
++		dev_err(ts->dev, "failed read data, %d", error);
++		return IRQ_HANDLED;
++	}
++
++	pkg = (struct goodix_hid_report_package *)ts->xfer_buf;
++	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
++			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
++
++	return IRQ_HANDLED;
++}
++
++static int goodix_hid_init(struct goodix_ts_data *ts)
++{
++	struct hid_device *hid;
++	int error;
++
++	/* Get hid descriptor */
++	error = goodix_spi_read(ts, GOODIX_HID_DESC_ADDR, (u8 *)&ts->hid_desc,
++				sizeof(ts->hid_desc));
++	if (error) {
++		dev_err(ts->dev, "failed get hid desc, %d", error);
 +		return error;
 +	}
 +
-+	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators), data->regulators);
++	hid = hid_allocate_device();
++	if (IS_ERR(hid))
++		return PTR_ERR(hid);
++
++	hid->driver_data = ts;
++	hid->ll_driver = &goodix_hid_ll_driver;
++	hid->bus = BUS_SPI;
++	hid->dev.parent = &ts->spi->dev;
++
++	hid->version = le16_to_cpu(ts->hid_desc.bcd_version);
++	hid->vendor = le16_to_cpu(ts->hid_desc.vendor_id);
++	hid->product = le16_to_cpu(ts->hid_desc.product_id);
++	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X", "hid-gdix",
++		 hid->vendor, hid->product);
++
++	error = hid_add_device(hid);
 +	if (error) {
-+		dev_err(dev, "failed to enable regulators\n");
++		dev_err(ts->dev, "failed add hid device, %d", error);
++		hid_destroy_device(hid);
 +		return error;
 +	}
 +
-+	error = devm_add_action_or_reset(dev, nvt_ts_disable_regulators, data);
-+	if (error) {
-+		dev_err(dev, "failed to install regulator disable handler\n");
++	ts->hid = hid;
++	return 0;
++}
++
++static int goodix_spi_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	struct goodix_ts_data *ts;
++	int error;
++
++	/* init spi_device */
++	spi->mode            = SPI_MODE_0;
++	spi->bits_per_word   = 8;
++	error = spi_setup(spi);
++	if (error)
++		return error;
++
++	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
++	if (!ts)
++		return -ENOMEM;
++
++	spi_set_drvdata(spi, ts);
++	ts->spi = spi;
++	ts->dev = dev;
++	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
++				     "Failed to request reset gpio\n");
++
++	error = goodix_dev_confirm(ts);
++	if (error)
++		return error;
++
++	/* Waits 150ms for firmware to fully boot */
++	msleep(GOODIX_NORMAL_RESET_DELAY_MS);
++
++	error = devm_request_threaded_irq(&ts->spi->dev, ts->spi->irq,
++					  NULL, goodix_hid_irq,
++					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					  "goodix_spi_hid", ts);
++	if (error < 0) {
++		dev_err(ts->dev, "could not register interrupt, irq = %d, %d",
++			ts->spi->irq, error);
 +		return error;
 +	}
 +
- 	data->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
- 	error = PTR_ERR_OR_ZERO(data->reset_gpio);
- 	if (error) {
-@@ -225,8 +272,8 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	if (width > NVT_TS_MAX_SIZE || height >= NVT_TS_MAX_SIZE ||
- 	    data->max_touches > NVT_TS_MAX_TOUCHES ||
- 	    irq_type >= ARRAY_SIZE(nvt_ts_irq_type) ||
--	    data->buf[NVT_TS_PARAMS_WAKE_TYPE] != NVT_TS_SUPPORTED_WAKE_TYPE ||
--	    data->buf[NVT_TS_PARAMS_CHIP_ID] != NVT_TS_SUPPORTED_CHIP_ID) {
-+	    data->buf[NVT_TS_PARAMS_WAKE_TYPE] != data->chip->wake_type ||
-+	    data->buf[NVT_TS_PARAMS_CHIP_ID] != data->chip->chip_id) {
- 		dev_err(dev, "Unsupported touchscreen parameters: %*ph\n",
- 			NVT_TS_PARAMS_SIZE, data->buf);
- 		return -EIO;
-@@ -277,8 +324,26 @@ static int nvt_ts_probe(struct i2c_client *client)
- 	return 0;
- }
- 
-+static const struct nvt_ts_i2c_chip_data nvt_nt11205_ts_data = {
-+	.wake_type = 0x05,
-+	.chip_id = 0x05,
-+};
++	error = goodix_hid_init(ts);
++	if (error) {
++		dev_err(dev, "failed init hid device");
++		return error;
++	}
 +
-+static const struct nvt_ts_i2c_chip_data nvt_nt36672a_ts_data = {
-+	.wake_type = 0x01,
-+	.chip_id = 0x08,
-+};
++	return 0;
++}
 +
-+static const struct of_device_id nvt_ts_of_match[] = {
-+	{ .compatible = "novatek,nt11205-ts", .data = &nvt_nt11205_ts_data },
-+	{ .compatible = "novatek,nt36672a-ts", .data = &nvt_nt36672a_ts_data },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, nvt_ts_of_match);
++static void goodix_spi_remove(struct spi_device *spi)
++{
++	struct goodix_ts_data *ts = spi_get_drvdata(spi);
 +
- static const struct i2c_device_id nvt_ts_i2c_id[] = {
--	{ "NT11205-ts" },
-+	{ "NT11205-ts", (unsigned long) &nvt_nt11205_ts_data },
-+	{ "NT36672A-ts", (unsigned long) &nvt_nt36672a_ts_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, nvt_ts_i2c_id);
-@@ -287,6 +352,7 @@ static struct i2c_driver nvt_ts_driver = {
- 	.driver = {
- 		.name	= "novatek-nvt-ts",
- 		.pm	= pm_sleep_ptr(&nvt_ts_pm_ops),
-+		.of_match_table = nvt_ts_of_match,
- 	},
- 	.probe = nvt_ts_probe,
- 	.id_table = nvt_ts_i2c_id,
-
++	hid_destroy_device(ts->hid);
++}
++
++static void goodix_spi_shutdown(struct spi_device *spi)
++{
++	struct goodix_ts_data *ts = spi_get_drvdata(spi);
++
++	disable_irq_nosync(spi->irq);
++	hid_destroy_device(ts->hid);
++}
++
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id goodix_spi_acpi_match[] = {
++	{ "GXTS7986" },
++	{ },
++};
++MODULE_DEVICE_TABLE(acpi, goodix_spi_acpi_match);
++#endif
++
++static struct spi_driver goodix_spi_driver = {
++	.driver = {
++		.name = "goodix-spi-hid",
++		.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
++	},
++	.probe =	goodix_spi_probe,
++	.remove =	goodix_spi_remove,
++	.shutdown =	goodix_spi_shutdown,
++};
++module_spi_driver(goodix_spi_driver);
++
++MODULE_DESCRIPTION("Goodix SPI driver for HID touchscreen");
++MODULE_AUTHOR("Goodix, Inc.");
++MODULE_LICENSE("GPL");
 -- 
-2.45.1
-
+2.43.0
 
 
