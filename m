@@ -1,167 +1,237 @@
-Return-Path: <linux-input+bounces-3887-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3888-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEEB8D067C
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 17:47:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD8C8D093E
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 19:15:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3081EB36A57
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 15:11:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF4951F21F85
+	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 17:15:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD38F16936A;
-	Mon, 27 May 2024 14:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB99C7345D;
+	Mon, 27 May 2024 17:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfvIE6If"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UqEHkVvt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E71168C2E;
-	Mon, 27 May 2024 14:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648EF1DA58;
+	Mon, 27 May 2024 17:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716821407; cv=none; b=Ldx8CEkzdxB2W+NHE/k2UmTtRr7BeVLbxDKUlKy9VahiWuAh8EBdTJGqmfYbicmePXz8fjS73sfuxb7Dy5j4H90Izdq4kep4HHPRcbtORVzm4elPXAPcLPZ85FEvkntoOSMo+vxoDcvXA1eYmCxQmvRhpRIcIM6kH102Vu9lce0=
+	t=1716830142; cv=none; b=Na84P9U1yQR9rtAVzuZPKhfLkZjJUB7GjOuB3eWMYkBDZboOgfmQuaPSGmNwnChxkB49HYEQF1pJA8IJ65HxBVOtQkZj2Ycnchx8jpfidio6BmfEK6rDS4r46YgKLQl4OcK4fJviVf3axrO3zqFb8ACFfDBBS0ozUrFwoc7/gcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716821407; c=relaxed/simple;
-	bh=V01owRMSGbHKVTfD/05++xO+/+N+LoOPgcGpNbPVVTw=;
+	s=arc-20240116; t=1716830142; c=relaxed/simple;
+	bh=pt31EGsdEkZo53lwke3HcCRzxGGuWyxitKe94ccVdnc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3hARgcARSmAsVsvC7Ms0BkJof+ZdkzPVXOwwg/adegLjwMKrRIGr+jP+PzBIRipPDGHpFEADl9PtlcrlHy63TIucYZPLYCFlv6/eQz2OwRVWqUA0A/p4WfLEpzHW0RTOKiSmIoq8GAPUbIL4HsrOMtGf7X47a9EVaTdWZTevCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfvIE6If; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71852C2BBFC;
-	Mon, 27 May 2024 14:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716821407;
-	bh=V01owRMSGbHKVTfD/05++xO+/+N+LoOPgcGpNbPVVTw=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=aqwtRQGWtsX2y7Hd5szTU0/3skq47uNHB+JFgz0/ToGtqYHrQJASBDf3lvw3e+GmXQPAJSCuGforz9TghXWpUBUEcLcr6Mwh36o2SOzZ9J9WWkxKCy/NU/2zffDm/m+oIqMckJfAR0stL/taGZ0lQANWDdC2Jgy/i3u9KYP+Ouc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UqEHkVvt; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4533540E01E8;
+	Mon, 27 May 2024 17:08:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id bimxyUlM5shO; Mon, 27 May 2024 17:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1716829686; bh=zzMPJ6U6LHHCwo8zSeCN578JvIc5clkBHFvMwav3ulA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfvIE6IfxbLNHEEXdqx3P8WJXaxzCsLBXnSuxd40tdpNB0ly+pXCygbLSmJbliuDw
-	 1Dcni9K0GC9RBKSsSXAT0gUDiAH/WWqkevLaFFMc5fW0UFiSY0obq973EL68eV9CWB
-	 fr/PLuKfDle2+IXs9JNTK9yt+Pu73JGdegPfdZDfJTULwY5RHgI/Si/OQ8vUDC0J8J
-	 XRhi3h9TNe2W6Rb00QUFuquxmMFnaEx5vnj75jxaooriM5BOBjMZ09gpBFz23IuPyk
-	 KkTngPinyi5zzJQOVB9Nk9jo/mHWxo+f88UKCTWRJ+n7c1zW3bjBkq6YxGQ7M99ocm
-	 G4oPT/9sMtYqQ==
-Date: Mon, 27 May 2024 16:50:02 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Peter Hutterer <peter.hutterer@who-t.net>, jikos@kernel.org, linux-input@vger.kernel.org, 
-	bpf@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.9 31/35] HID: bpf: add in-tree HID-BPF fix for
- the HP Elite Presenter Mouse
-Message-ID: <k4j2pjxg23i6tggjc7beodock2q7pbjbgzombidzlowb7rpr37@ziaqvisevijj>
-References: <20240527141214.3844331-1-sashal@kernel.org>
- <20240527141214.3844331-31-sashal@kernel.org>
+	b=UqEHkVvtmndf7yBXhPjClvB23jAwbCH2y9mrqWuQVDLzPL5LKRkma5X0WAIXAslDI
+	 OWVmIJ6/GQh6MyHgNXH12gJzDPwF0OdhwM57t/S13aSva8RZqSNOaZBXycdRifKOfv
+	 0nvKCVZHTyaWAw7nHg6JeCT936cjd8IHWbDZetP9R64GkqGGbhn/Rq2o5O1lyk3xV/
+	 nYbgRJAb6ONjxRmC5hUl9xcu+okxrmSuyhHurHx00V4k20COwpr6rwpzQwAnyXHLMV
+	 m+czfkJWEL1NjV2TVhDcJ7mBL7mIdcM1fI5dycnLvxv1o9EI8YpByQh6R2sDWMk4An
+	 cyNP5dzV8x2tieKXMH4ReySNhZogLEwuhTGWdRnt928uQUmNRt4zprDoIAHQL2n21X
+	 lXVQ8ULIoVGrW3v4XqisVCko5CYOCA7b7kJ3zZKQ0w+pU8jRgndQBA4PekevN9v4C/
+	 w3YVJhZ84GxfQ2Jik3lPfedBlRPhMRAq2l2f+Vcoqu4HBD5/+MgUTgLY61H9GyG6+u
+	 foPRRlYX+NMMmBytfFA9fURUfzSdFIQaPgb/IPIcecIx2VtLoNK4Odm8q386PsdDba
+	 yPB0wl/TmUP+FPiUpIIrpy1wELmaq/xXv7yeZPb769FOhG57ozS+Z17YhfsAIYc+rJ
+	 8LVjMkN2N08NqOt51W4fqTAo=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CF0E40E016A;
+	Mon, 27 May 2024 17:07:41 +0000 (UTC)
+Date: Mon, 27 May 2024 19:07:34 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+	richardcochran@gmail.com, linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com, zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+	timothym@vmware.com, akaher@vmware.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v10 1/8] x86/vmware: Introduce VMware hypercall API
+Message-ID: <20240527170734.GCZlS91uXD68HRN1na@fat_crate.local>
+References: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
+ <20240523191446.54695-2-alexey.makhalov@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240527141214.3844331-31-sashal@kernel.org>
+In-Reply-To: <20240523191446.54695-2-alexey.makhalov@broadcom.com>
 
-On May 27 2024, Sasha Levin wrote:
-> From: Benjamin Tissoires <bentiss@kernel.org>
-> 
-> [ Upstream commit 4e6d2a297dd5be26ad409b7a05b20bd033d1c95e ]
-> 
-> Duplicate of commit 0db117359e47 ("HID: add quirk for 03f0:464a HP Elite
-> Presenter Mouse"), but in a slightly better way.
-> 
-> This time we actually change the application collection, making clearer
-> for userspace what the second mouse is.
-> 
-> Note that having both hid-quirks fix and this HID-BPF fix is not a
-> problem at all.
+On Thu, May 23, 2024 at 12:14:39PM -0700, Alexey Makhalov wrote:
+> +#define VMWARE_HYPERCALL						\
+> +	ALTERNATIVE_3("",						\
+> +		      "jmp .Lport_call%=", X86_FEATURE_HYPERVISOR,	\
+> +		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
+> +		      "vmmcall\n\t"					\
+> +		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
+> +		      "cmpb $"						\
+> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
+> +			", %[mode]\n\t"					\
+> +		      "jg .Lvmcall%=\n\t"				\
+> +		      "je .Lvmmcall%=\n\t"				\
+> +		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
+> +		      "inl (%%dx), %%eax\n\t"				\
+> +		      "jmp .Lend%=\n\t"					\
+> +		      ".Lvmmcall%=: vmmcall\n\t"			\
+> +		      "jmp .Lend%=\n\t"					\
+> +		      ".Lvmcall%=: vmcall\n\t"				\
+> +		      ".Lend%=:"
 
-Please drop this patch in all backports (and FWIW, any fix in drivers/hid/bpf/progs/).
+So applied (and with minor fixups for the proper indentation, see end of
+this mail) this looks like this:
 
-HID-BPF is only available since kernel v6.3, and the compilation output
-of the in-tree file is not used directly, but shipped from udev-hid-bpf.
+.pushsection .altinstructions,"a"
+ .long 661b - .
+ .long 6641f - .
+ .4byte ( 4*32+31)
+ .byte 663b-661b
+ .byte 6651f-6641f
+ .long 661b - .
+ .long 6642f - .
+ .4byte ( 8*32+18)
+ .byte 663b-661b
+ .byte 6652f-6642f
+ .long 661b - .
+ .long 6643f - .
+ .4byte ( 8*32+19)
+ .byte 663b-661b
+ .byte 6653f-6643f
+.popsection
+.pushsection .altinstr_replacement, "ax"
+# ALT: replacement 1
+6641:
+        jmp .Lport_call72
+6651:
+# ALT: replacement 2
+6642:
+        jmp .Lvmcall72
+6652:
+# ALT: replacement 3
+6643:
+        vmmcall
+        jmp .Lend72
+6653:
+.popsection
+        cmpb $((((1UL))) << (0)), vmware_hypercall_mode(%rip)   # vmware_hypercall_mode
+        jg .Lvmcall72
+        je .Lvmmcall72
+.Lport_call72:
+        movw $22104, %dx        #
+        inl (%dx), %eax
+        jmp .Lend72
+.Lvmmcall72:
+        vmmcall
+        jmp .Lend72 
+.Lvmcall72:
+        vmcall
+.Lend72:
 
-TL;DR: this just adds noise to those stable kernel trees.
+---
 
-Cheers,
-Benjamin
+so AFAICT, you want three things:
+
+1. X86_FEATURE_HYPERVISOR - that is always set when running as a guest.
+   For that it should do:
+
+        movw $22104, %dx        #
+        inl (%dx), %eax
+
+2. X86_FEATURE_VMCALL:
+
+	vmcall
+
+3. X86_FEATURE_VMW_VMMCALL:
+
+	vmmcall
+
+So why don't you simply do that?
+
+vmware_set_capabilities() sets vmware_hypercall_mode *and* those feature
+flags at the same time.
+
+And you either support VMCALL or VMMCALL so the first thing should be the
+fallback for some ancient crap.
+
+IOW, your hypercall alternative should simply be:
+
+	ALTERNATIVE_2("vmcall", "vmmcall", X86_FEATURE_VMW_VMMCALL, "movw %[port], %%dx; "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR);
+
+without any more silly dance?
+
+Hmmm?
+
+---
+
+Fixup indentation for proper .s output:
+
+diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
+index 5114f4c75c54..8be877d8bb7c 100644
+--- a/arch/x86/include/asm/vmware.h
++++ b/arch/x86/include/asm/vmware.h
+@@ -70,17 +70,18 @@ extern u8 vmware_hypercall_mode;
+ 		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
+ 		      "vmmcall\n\t"					\
+ 		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
+-		      "cmpb $"						\
+-			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
+-			", %[mode]\n\t"					\
++		      "\tcmpb $" __stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL) ", %[mode]\n\t" \
+ 		      "jg .Lvmcall%=\n\t"				\
+-		      "je .Lvmmcall%=\n\t"				\
+-		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
++		      "je .Lvmmcall%=\n"				\
++		      ".Lport_call%=:\n\t"				\
++		      "movw %[port], %%dx\n\t"				\
+ 		      "inl (%%dx), %%eax\n\t"				\
+-		      "jmp .Lend%=\n\t"					\
+-		      ".Lvmmcall%=: vmmcall\n\t"			\
+-		      "jmp .Lend%=\n\t"					\
+-		      ".Lvmcall%=: vmcall\n\t"				\
++		      "jmp .Lend%=\n"					\
++		      ".Lvmmcall%=:\n\t"				\
++		      "vmmcall\n\t"					\
++		      "jmp .Lend%=\n"					\
++		      ".Lvmcall%=:\n\t"					\
++		      "vmcall\n"					\
+ 		      ".Lend%=:"
+ 
+ static inline
 
 
-> 
-> Link: https://lore.kernel.org/r/20240410-bpf_sources-v1-4-a8bf16033ef8@kernel.org
-> Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  .../hid/bpf/progs/HP__Elite-Presenter.bpf.c   | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
-> 
-> diff --git a/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c b/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
-> new file mode 100644
-> index 0000000000000..3d14bbb6f2762
-> --- /dev/null
-> +++ b/drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c
-> @@ -0,0 +1,58 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2023 Benjamin Tissoires
-> + */
-> +
-> +#include "vmlinux.h"
-> +#include "hid_bpf.h"
-> +#include "hid_bpf_helpers.h"
-> +#include <bpf/bpf_tracing.h>
-> +
-> +#define VID_HP 0x03F0
-> +#define PID_ELITE_PRESENTER 0x464A
-> +
-> +HID_BPF_CONFIG(
-> +	HID_DEVICE(BUS_BLUETOOTH, HID_GROUP_GENERIC, VID_HP, PID_ELITE_PRESENTER)
-> +);
-> +
-> +/*
-> + * Already fixed as of commit 0db117359e47 ("HID: add quirk for 03f0:464a
-> + * HP Elite Presenter Mouse") in the kernel, but this is a slightly better
-> + * fix.
-> + *
-> + * The HP Elite Presenter Mouse HID Record Descriptor shows
-> + * two mice (Report ID 0x1 and 0x2), one keypad (Report ID 0x5),
-> + * two Consumer Controls (Report IDs 0x6 and 0x3).
-> + * Prior to these fixes it registers one mouse, one keypad
-> + * and one Consumer Control, and it was usable only as a
-> + * digital laser pointer (one of the two mouses).
-> + * We replace the second mouse collection with a pointer collection,
-> + * allowing to use the device both as a mouse and a digital laser
-> + * pointer.
-> + */
-> +
-> +SEC("fmod_ret/hid_bpf_rdesc_fixup")
-> +int BPF_PROG(hid_fix_rdesc, struct hid_bpf_ctx *hctx)
-> +{
-> +	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 4096 /* size */);
-> +
-> +	if (!data)
-> +		return 0; /* EPERM check */
-> +
-> +	/* replace application mouse by application pointer on the second collection */
-> +	if (data[79] == 0x02)
-> +		data[79] = 0x01;
-> +
-> +	return 0;
-> +}
-> +
-> +SEC("syscall")
-> +int probe(struct hid_bpf_probe_args *ctx)
-> +{
-> +	ctx->retval = ctx->rdesc_size != 264;
-> +	if (ctx->retval)
-> +		ctx->retval = -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +char _license[] SEC("license") = "GPL";
-> -- 
-> 2.43.0
-> 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
