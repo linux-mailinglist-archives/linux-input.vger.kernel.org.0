@@ -1,50 +1,53 @@
-Return-Path: <linux-input+bounces-3910-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3911-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6D88D1CAD
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 15:20:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32BF8D20A3
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 17:42:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88382284022
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 13:20:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CEC1B227D5
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 15:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6602C176FCE;
-	Tue, 28 May 2024 13:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwMtJSDW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2341171641;
+	Tue, 28 May 2024 15:42:12 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358EE16F292;
-	Tue, 28 May 2024 13:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29E216C456;
+	Tue, 28 May 2024 15:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716902147; cv=none; b=SyrjlGbd+8ozr92O48C+Evim2dQP2HUbjKMFS8MebmyxBpn1J3csTNfLwG+OZF1P/LOnhGYIk69g2KamCs6OXqJq1rxtnbXSkLASn15muYxGpS38NIM0Lm3O/1D92VlGGBFRjojtdCzT/NA3c6ycsjwwLONWgScHBxShA6fbisw=
+	t=1716910932; cv=none; b=IMHSxStX6L4rSq0H94WFMsTWf1RywlsPc+DV5Fz39m75uOtF6DaNyGtFXyXu3ekU5Fns09YKwOP9NyHTkQ+ABzMR7OuRfQlLfkKsn1mVkSSxyQCw4JS2B5lFAttseM+acB5tAIRB2FBMlJD0iFl5hZX/nIODSsV97zC9x4Nui6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716902147; c=relaxed/simple;
-	bh=Tr1yyl5glZHjQNVjRPObhpi0VbS6TeTAGCRSkl0ml0o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bG7c8HvsDFOtfYsoP/9b1GDZCChwkWLDz2KcX2J7H5M7FXRo8XztBdDzeBBPsLapXnVX3MLZ2370rw5S9H1cg3OP56uvdVr2nEA5D2VTN4DpCStjJ+F0AMEffVTpxxtq3QYpKRoJ0tueLGDA18mKKqSDsBOSAhFc+RNePbTqzyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwMtJSDW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7CA4C3277B;
-	Tue, 28 May 2024 13:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716902146;
-	bh=Tr1yyl5glZHjQNVjRPObhpi0VbS6TeTAGCRSkl0ml0o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=TwMtJSDWPlzw5fDvIRqsukaJzOvsTmwKO7Un/0JdBdOdTfgD1/ceFpckunTXnRS1B
-	 3DfhAj6WRP/p8mXGE26jZqwAgBiFk1w2rSAHhjyIK4ea9qMc2FKgrMiLLUUtTd5E1Q
-	 TxHmmzKvTV9A41HSxhhcOu76csJkauFYMaPWemJWE5Lhj7JZLDyXkBrehzv478E0Nl
-	 Cfux73/Tsh3G8xowzc7fqV3wFF07nbNaEU0IdGVjJ3nr1P55NR7+s/JqyZAmnEbfZ7
-	 k1p9UsKpaG7e12fZmJUOawIt9b8JtUITIRCRfMlLMtnxouFFxFin6ZMfCCJMwPjVZl
-	 N2fWBYOMnjEkw==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Tue, 28 May 2024 15:14:51 +0200
-Subject: [PATCH HID 13/13] HID: bpf: error on warnings when compiling bpf
- objects
+	s=arc-20240116; t=1716910932; c=relaxed/simple;
+	bh=bfpy5G4RtMHHpcTdRExNjKl9hXkG8+T/fn5rO7ns+Q8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hXvTcN41/H4E3N+f9k0CXKgeLDz1Rh7N0GnKFwmMYKAl9d3UynebPre3bheDBdreVp+2w5xQDubHgujmW1/hZFIpQSBN4QgQxOOuWEHVSi4e4Uy8Ctl+sRiThS8tCZuk8EGyLUNHR99mBVy4PC9zBtvMCC8MJVc+CJMikPhN8Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F38CC32786;
+	Tue, 28 May 2024 15:42:12 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id C77175FA0C;
+	Tue, 28 May 2024 23:42:09 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Hans de Goede <hdegoede@redhat.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ James McGregor <jamcgregor@protonmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20240426092924.15489-1-jamcgregor@protonmail.com>
+References: <20240426092924.15489-1-jamcgregor@protonmail.com>
+Subject: Re: [PATCH v2 0/2] arm64: dts: allwinner: H616: Add LRADC
+Message-Id: <171691092979.680152.13758975851829859883.b4-ty@csie.org>
+Date: Tue, 28 May 2024 23:42:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -53,45 +56,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240528-hid_bpf_struct_ops-v1-13-8c6663df27d8@kernel.org>
-References: <20240528-hid_bpf_struct_ops-v1-0-8c6663df27d8@kernel.org>
-In-Reply-To: <20240528-hid_bpf_struct_ops-v1-0-8c6663df27d8@kernel.org>
-To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Benjamin Tissoires <bentiss@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716902113; l=738;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=Tr1yyl5glZHjQNVjRPObhpi0VbS6TeTAGCRSkl0ml0o=;
- b=qxiMEpLA+Im0ChWCITPIRK6TeeA/TJVdvPQGZsHorM0DpzVPYNhMnXntGCTYXbSlMKw16m8on
- rlOPAfnnqQDB6Wir5YKJ+ohEXsRXC4xGagLLtLa8oWalMqZiQMk6HEi
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-There is no real reasons to paper over warnings for such small programs.
+On Fri, 26 Apr 2024 09:29:37 +0000, James McGregor wrote:
+> Version 2 moves the LRADC DT node to the right place. It was out of
+> order before.
+> 
+> The Allwinner H616 series of SoCs have a low-rate ADC (LRADC) with
+> 6-bit resolution and one input channel. They're compatible with the
+> existing drivers, so it only needs to be enabled in the DT.
+> 
+> [...]
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- drivers/hid/bpf/progs/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 
-diff --git a/drivers/hid/bpf/progs/Makefile b/drivers/hid/bpf/progs/Makefile
-index 63ed7e02adf1..ec1fc642fd63 100644
---- a/drivers/hid/bpf/progs/Makefile
-+++ b/drivers/hid/bpf/progs/Makefile
-@@ -56,7 +56,7 @@ clean:
- 
- %.bpf.o: %.bpf.c vmlinux.h $(BPFOBJ) | $(OUTPUT)
- 	$(call msg,BPF,$@)
--	$(Q)$(CLANG) -g -O2 --target=bpf $(INCLUDES)			      \
-+	$(Q)$(CLANG) -g -O2 --target=bpf -Wall -Werror $(INCLUDES)	      \
- 		 -c $(filter %.c,$^) -o $@ &&				      \
- 	$(LLVM_STRIP) -g $@
- 
+[1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
+      https://git.kernel.org/sunxi/linux/c/3086803a1f43
+[2/2] ARM: dts: sun50i: Add LRADC node
+      https://git.kernel.org/sunxi/linux/c/7adc2d68f4a6
 
+Best regards,
 -- 
-2.44.0
+Chen-Yu Tsai <wens@csie.org>
 
 
