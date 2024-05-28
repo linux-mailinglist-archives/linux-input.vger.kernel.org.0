@@ -1,237 +1,235 @@
-Return-Path: <linux-input+bounces-3888-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3889-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD8C8D093E
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 19:15:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EEB8D1187
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 03:40:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF4951F21F85
-	for <lists+linux-input@lfdr.de>; Mon, 27 May 2024 17:15:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4771A1C22F05
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 01:40:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB99C7345D;
-	Mon, 27 May 2024 17:15:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4918825;
+	Tue, 28 May 2024 01:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UqEHkVvt"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="jmxvTzE7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DxPSZSUe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648EF1DA58;
-	Mon, 27 May 2024 17:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4897DF49;
+	Tue, 28 May 2024 01:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716830142; cv=none; b=Na84P9U1yQR9rtAVzuZPKhfLkZjJUB7GjOuB3eWMYkBDZboOgfmQuaPSGmNwnChxkB49HYEQF1pJA8IJ65HxBVOtQkZj2Ycnchx8jpfidio6BmfEK6rDS4r46YgKLQl4OcK4fJviVf3axrO3zqFb8ACFfDBBS0ozUrFwoc7/gcI=
+	t=1716860414; cv=none; b=eYl2vbZ7T11EdMi+bB2iUNK5o0y9t5nhlsf29nAA6mkoAbKrZLPExI3N22hCf18oTnBMuTSkcQyZxsE1dpfEnM5WPeJynWan2QlZI5AESvqOL3ZJZsSHXe+2GE9sSGODJpqKDN95GQtweapWJ+jfS9O5QfTRJn8LmN6LchjYnJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716830142; c=relaxed/simple;
-	bh=pt31EGsdEkZo53lwke3HcCRzxGGuWyxitKe94ccVdnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aqwtRQGWtsX2y7Hd5szTU0/3skq47uNHB+JFgz0/ToGtqYHrQJASBDf3lvw3e+GmXQPAJSCuGforz9TghXWpUBUEcLcr6Mwh36o2SOzZ9J9WWkxKCy/NU/2zffDm/m+oIqMckJfAR0stL/taGZ0lQANWDdC2Jgy/i3u9KYP+Ouc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UqEHkVvt; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4533540E01E8;
-	Mon, 27 May 2024 17:08:10 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bimxyUlM5shO; Mon, 27 May 2024 17:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1716829686; bh=zzMPJ6U6LHHCwo8zSeCN578JvIc5clkBHFvMwav3ulA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UqEHkVvtmndf7yBXhPjClvB23jAwbCH2y9mrqWuQVDLzPL5LKRkma5X0WAIXAslDI
-	 OWVmIJ6/GQh6MyHgNXH12gJzDPwF0OdhwM57t/S13aSva8RZqSNOaZBXycdRifKOfv
-	 0nvKCVZHTyaWAw7nHg6JeCT936cjd8IHWbDZetP9R64GkqGGbhn/Rq2o5O1lyk3xV/
-	 nYbgRJAb6ONjxRmC5hUl9xcu+okxrmSuyhHurHx00V4k20COwpr6rwpzQwAnyXHLMV
-	 m+czfkJWEL1NjV2TVhDcJ7mBL7mIdcM1fI5dycnLvxv1o9EI8YpByQh6R2sDWMk4An
-	 cyNP5dzV8x2tieKXMH4ReySNhZogLEwuhTGWdRnt928uQUmNRt4zprDoIAHQL2n21X
-	 lXVQ8ULIoVGrW3v4XqisVCko5CYOCA7b7kJ3zZKQ0w+pU8jRgndQBA4PekevN9v4C/
-	 w3YVJhZ84GxfQ2Jik3lPfedBlRPhMRAq2l2f+Vcoqu4HBD5/+MgUTgLY61H9GyG6+u
-	 foPRRlYX+NMMmBytfFA9fURUfzSdFIQaPgb/IPIcecIx2VtLoNK4Odm8q386PsdDba
-	 yPB0wl/TmUP+FPiUpIIrpy1wELmaq/xXv7yeZPb769FOhG57ozS+Z17YhfsAIYc+rJ
-	 8LVjMkN2N08NqOt51W4fqTAo=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CF0E40E016A;
-	Mon, 27 May 2024 17:07:41 +0000 (UTC)
-Date: Mon, 27 May 2024 19:07:34 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
-	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v10 1/8] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240527170734.GCZlS91uXD68HRN1na@fat_crate.local>
-References: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
- <20240523191446.54695-2-alexey.makhalov@broadcom.com>
+	s=arc-20240116; t=1716860414; c=relaxed/simple;
+	bh=6Zda21Jo8keaOvTrsU69xa03MnSQfCWrWoWucqAQV+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LhZsZy5Q3ncLSyPDy1DUTLSD5U6eeNz4y2j9uZbJPuNgPy6zHb41K4Snp20TokZd6un9PDVRytXq3WZko0dB6PJb95cxmjAz+ukXFACVCb22fT+JpPd4TrJSY8MNnCGxSXAFWVF8ZiR+KHNnVvprwIpTggMkhdYK3hJolW8OMKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=jmxvTzE7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DxPSZSUe; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id B5AA71380149;
+	Mon, 27 May 2024 21:40:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 27 May 2024 21:40:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1716860411; x=1716946811; bh=hfv8F1e+/1YTGPoUag9mn
+	Dwd8gl58J8C/k+Vg3dKLvM=; b=jmxvTzE7v/CTRheWzJ6QaKn73IjXvyqy+Sgls
+	DmqB/CSHo9kgZD+qv/rI33Jq9Eruo38TSAvlCLQWxDixdVqVcrUJa0U+eDZLRQ+U
+	AdFxACu3wD8aHKAratNzpxXq1tnzP+Zy85rIkLbMO4CobBL/Ymhqg4jJUtRBFrxu
+	E4EixCOy4fjy4+/8pCEGhwAe9ml1DWg05/8e8R372sfiAvH7E5x58DfPQlAUayqh
+	76To/XQ9uzicOsSxCNBTcfRSKdvdcCaEqedwmflpjc4k2AAbjT43+rdb3z78NtJG
+	5LxSrce/xBSqnETS1IQsyDkby/9yxK2nfcGDn5R6VuPY3rU6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1716860411; x=1716946811; bh=hfv8F1e+/1YTGPoUag9mnDwd8gl5
+	8J8C/k+Vg3dKLvM=; b=DxPSZSUeqnPC1GmkiHIT+QvdJ3zUImvc5TVCZWkWSREg
+	kyBF6l9z2QaODn/cTgx8V6RDBdBSnZa+g+OIytpaCcLkvGutvC4kggiWpbN3Sqkq
+	qLQEbYGZBp+D0FKR1Gyuq1lKI5+bkHIouRZtTXFczarzFAldDOah3MrpezVsxPpG
+	mDraPw3HjhhUcPjhQ9SXX2FkKK/lSNAcjx/+UZO39GKcItmwovgO9eDlC+EYCUdd
+	PnHCmxdFBee4tZXm+3eqQHLzwxHbpf+cGEaheltb7mAnoeVnV73Oo0Yr1Asr6AK0
+	iwxpKHnK14C2zkdXjaW6J8CG9KtB4G6OiWxXWckgIQ==
+X-ME-Sender: <xms:-zVVZr_kdEvkwVZHm1WqGTbiErXG4VHOnCC-nbXtTWKjfnKoNxjwrQ>
+    <xme:-zVVZnsbU_D7AsUWV1uvBH-lAwk9ElmajmH4ghNOM2hCO83Np6zirI4ga5Eiaj8Zr
+    wPVmQ6pzPCSGi9FOeA>
+X-ME-Received: <xmr:-zVVZpCN1_QCz4XyOc1aW7YKcnRQdV9DzL8r0bAg7WhA25UuIpD6mOP-Ka0G>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejhedggeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
+    nhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfdujedthfduudekffefkeeiffdttd
+    dvhfegudduueffuefhfefggeefteevvdegnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
+X-ME-Proxy: <xmx:-zVVZncSmo54-I5NG64Y50FOCL1H8g0wdzeu2OUf7yC9pZqULz5CQA>
+    <xmx:-zVVZgOLKJhxROJ_uxF5EM_f-8X8tNYVtEViFK8oUStTo2VxYS64ag>
+    <xmx:-zVVZpl-0nfIX8ThnaP5FBN5OgAJf2kh6s7Ob-76qv5pBCAsqk86Kg>
+    <xmx:-zVVZqvuBvifBhR__VzfvK9UwPVnskj79u3vcAXLnsDi46Yl3wYyGA>
+    <xmx:-zVVZhj6xDbN3qZ1qd2bd3coYnuyecs-Ea9YqhoUMEibBF8rbaN1to4d>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 21:40:07 -0400 (EDT)
+From: "Luke D. Jones" <luke@ljones.dev>
+To: jikos@kernel.org
+Cc: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	corentin.chary@gmail.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	bentiss@kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH] hid-asus: use hid for brightness control on keyboard
+Date: Tue, 28 May 2024 13:39:59 +1200
+Message-ID: <20240528013959.14661-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240523191446.54695-2-alexey.makhalov@broadcom.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 23, 2024 at 12:14:39PM -0700, Alexey Makhalov wrote:
-> +#define VMWARE_HYPERCALL						\
-> +	ALTERNATIVE_3("",						\
-> +		      "jmp .Lport_call%=", X86_FEATURE_HYPERVISOR,	\
-> +		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
-> +		      "vmmcall\n\t"					\
-> +		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
-> +		      "cmpb $"						\
-> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
-> +			", %[mode]\n\t"					\
-> +		      "jg .Lvmcall%=\n\t"				\
-> +		      "je .Lvmmcall%=\n\t"				\
-> +		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
-> +		      "inl (%%dx), %%eax\n\t"				\
-> +		      "jmp .Lend%=\n\t"					\
-> +		      ".Lvmmcall%=: vmmcall\n\t"			\
-> +		      "jmp .Lend%=\n\t"					\
-> +		      ".Lvmcall%=: vmcall\n\t"				\
-> +		      ".Lend%=:"
+On almost all ASUS ROG series laptops the MCU used for the USB keyboard
+also has a HID packet used for setting the brightness. This is usually
+the same as the WMI method. But in some laptops the WMI method either
+is missing or doesn't work, so we should default to the HID control.
 
-So applied (and with minor fixups for the proper indentation, see end of
-this mail) this looks like this:
-
-.pushsection .altinstructions,"a"
- .long 661b - .
- .long 6641f - .
- .4byte ( 4*32+31)
- .byte 663b-661b
- .byte 6651f-6641f
- .long 661b - .
- .long 6642f - .
- .4byte ( 8*32+18)
- .byte 663b-661b
- .byte 6652f-6642f
- .long 661b - .
- .long 6643f - .
- .4byte ( 8*32+19)
- .byte 663b-661b
- .byte 6653f-6643f
-.popsection
-.pushsection .altinstr_replacement, "ax"
-# ALT: replacement 1
-6641:
-        jmp .Lport_call72
-6651:
-# ALT: replacement 2
-6642:
-        jmp .Lvmcall72
-6652:
-# ALT: replacement 3
-6643:
-        vmmcall
-        jmp .Lend72
-6653:
-.popsection
-        cmpb $((((1UL))) << (0)), vmware_hypercall_mode(%rip)   # vmware_hypercall_mode
-        jg .Lvmcall72
-        je .Lvmmcall72
-.Lport_call72:
-        movw $22104, %dx        #
-        inl (%dx), %eax
-        jmp .Lend72
-.Lvmmcall72:
-        vmmcall
-        jmp .Lend72 
-.Lvmcall72:
-        vmcall
-.Lend72:
-
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
+ drivers/hid/hid-asus.c                     | 19 ++++++++++++-
+ drivers/platform/x86/asus-wmi.c            |  3 ++-
+ include/linux/platform_data/x86/asus-wmi.h | 31 ++++++++++++++++++++++
+ 3 files changed, 51 insertions(+), 2 deletions(-)
 
-so AFAICT, you want three things:
-
-1. X86_FEATURE_HYPERVISOR - that is always set when running as a guest.
-   For that it should do:
-
-        movw $22104, %dx        #
-        inl (%dx), %eax
-
-2. X86_FEATURE_VMCALL:
-
-	vmcall
-
-3. X86_FEATURE_VMW_VMMCALL:
-
-	vmmcall
-
-So why don't you simply do that?
-
-vmware_set_capabilities() sets vmware_hypercall_mode *and* those feature
-flags at the same time.
-
-And you either support VMCALL or VMMCALL so the first thing should be the
-fallback for some ancient crap.
-
-IOW, your hypercall alternative should simply be:
-
-	ALTERNATIVE_2("vmcall", "vmmcall", X86_FEATURE_VMW_VMMCALL, "movw %[port], %%dx; "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR);
-
-without any more silly dance?
-
-Hmmm?
-
----
-
-Fixup indentation for proper .s output:
-
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 5114f4c75c54..8be877d8bb7c 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -70,17 +70,18 @@ extern u8 vmware_hypercall_mode;
- 		      "jmp .Lvmcall%=", X86_FEATURE_VMCALL,		\
- 		      "vmmcall\n\t"					\
- 		      "jmp .Lend%=", X86_FEATURE_VMW_VMMCALL)		\
--		      "cmpb $"						\
--			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
--			", %[mode]\n\t"					\
-+		      "\tcmpb $" __stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL) ", %[mode]\n\t" \
- 		      "jg .Lvmcall%=\n\t"				\
--		      "je .Lvmmcall%=\n\t"				\
--		      ".Lport_call%=: movw %[port], %%dx\n\t"		\
-+		      "je .Lvmmcall%=\n"				\
-+		      ".Lport_call%=:\n\t"				\
-+		      "movw %[port], %%dx\n\t"				\
- 		      "inl (%%dx), %%eax\n\t"				\
--		      "jmp .Lend%=\n\t"					\
--		      ".Lvmmcall%=: vmmcall\n\t"			\
--		      "jmp .Lend%=\n\t"					\
--		      ".Lvmcall%=: vmcall\n\t"				\
-+		      "jmp .Lend%=\n"					\
-+		      ".Lvmmcall%=:\n\t"				\
-+		      "vmmcall\n\t"					\
-+		      "jmp .Lend%=\n"					\
-+		      ".Lvmcall%=:\n\t"					\
-+		      "vmcall\n"					\
- 		      ".Lend%=:"
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 02de2bf4f790..9389a3e733e3 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -101,6 +101,7 @@ struct asus_kbd_leds {
+ 	unsigned int brightness;
+ 	spinlock_t lock;
+ 	bool removed;
++	int report_id;
+ };
  
- static inline
-
-
+ struct asus_touchpad_info {
+@@ -473,7 +474,7 @@ static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
+ static void asus_kbd_backlight_work(struct work_struct *work)
+ {
+ 	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
+-	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
++	u8 buf[] = { led->report_id, 0xba, 0xc5, 0xc4, 0x00 };
+ 	int ret;
+ 	unsigned long flags;
+ 
+@@ -492,12 +493,18 @@ static void asus_kbd_backlight_work(struct work_struct *work)
+  */
+ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
+ {
++	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+ 	u32 value;
+ 	int ret;
+ 
+ 	if (!IS_ENABLED(CONFIG_ASUS_WMI))
+ 		return false;
+ 
++	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && asus_use_hidraw_led()) {
++		hid_info(hdev, "using hidraw for asus::kbd_backlight\n");
++		return false;
++	}
++
+ 	ret = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DSTS,
+ 				       ASUS_WMI_DEVID_KBD_BACKLIGHT, 0, &value);
+ 	hid_dbg(hdev, "WMI backlight check: rc %d value %x", ret, value);
+@@ -507,6 +514,12 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
+ 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
+ }
+ 
++static bool asus_kbd_is_input_led(void)
++{
++	return dmi_match(DMI_PRODUCT_NAME, "GU605")
++	    || dmi_match(DMI_PRODUCT_NAME, "GA403");
++}
++
+ static int asus_kbd_register_leds(struct hid_device *hdev)
+ {
+ 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+@@ -549,6 +562,10 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+ 	if (!drvdata->kbd_backlight)
+ 		return -ENOMEM;
+ 
++	drvdata->kbd_backlight->report_id = FEATURE_KBD_REPORT_ID;
++	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && asus_kbd_is_input_led())
++		drvdata->kbd_backlight->report_id = FEATURE_KBD_LED_REPORT_ID1;
++
+ 	drvdata->kbd_backlight->removed = false;
+ 	drvdata->kbd_backlight->brightness = 0;
+ 	drvdata->kbd_backlight->hdev = hdev;
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 3f9b6285c9a6..a58df18a70ad 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -1681,7 +1681,8 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+ 			goto error;
+ 	}
+ 
+-	if (!kbd_led_read(asus, &led_val, NULL)) {
++	if (!kbd_led_read(asus, &led_val, NULL) && !asus_use_hidraw_led()) {
++		pr_info("using asus-wmi for asus::kbd_backlight\n");
+ 		asus->kbd_led_wk = led_val;
+ 		asus->kbd_led.name = "asus::kbd_backlight";
+ 		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 3eb5cd6773ad..79a50102440d 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -160,4 +160,35 @@ static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+ }
+ #endif
+ 
++/* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
++#if IS_REACHABLE(CONFIG_ASUS_WMI)
++static bool asus_use_hidraw_led(void)
++{
++	const char *product, *board;
++
++	product = dmi_get_system_info(DMI_PRODUCT_FAMILY);
++	if (!product)
++		return false;
++
++	/* These product ranges should all be using HID for keyboard LED */
++	if (strstr(product, "ROG Zephyrus")
++	|| strstr(product, "ROG Strix")
++	|| strstr(product, "ROG Flow")
++	|| strstr(product, "GA403")
++	|| strstr(product, "GU605"))
++		return true;
++
++	board = dmi_get_system_info(DMI_BOARD_NAME);
++	if (!board)
++		return false;
++
++	return strstr(board, "RC71L"); /* ROG Ally specific */
++}
++#else
++static inline bool asus_use_hidraw_led(void)
++{
++	return true;
++}
++#endif
++
+ #endif	/* __PLATFORM_DATA_X86_ASUS_WMI_H */
 -- 
-Regards/Gruss,
-    Boris.
+2.45.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
 
