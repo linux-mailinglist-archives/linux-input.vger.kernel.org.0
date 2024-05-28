@@ -1,81 +1,79 @@
-Return-Path: <linux-input+bounces-3914-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3915-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7954F8D25A1
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 22:18:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A96E8D26BF
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 23:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35599282B71
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 20:18:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CACDDB23952
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 21:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F1653A1A8;
-	Tue, 28 May 2024 20:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB32017BB16;
+	Tue, 28 May 2024 21:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEE9O1mx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8YJb+qj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E09F38DE0
-	for <linux-input@vger.kernel.org>; Tue, 28 May 2024 20:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3203717B4F1;
+	Tue, 28 May 2024 21:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716927509; cv=none; b=JRzzxhQKiV7E+EvOcs+l8CjHP/DdL8tS1ghp5eHiPjbD7fT5wCShyLhjQa39OF3TUTdOnHG9UaJtjKukdl/ghAYqec4BJcfuz8CVwNvIH1rTB1eUZQ56gSYfPD+Bt8BnSuiRbfZ7v71F2P6ROf0sdzJcW/6q2RVPsjm6CVaMK4s=
+	t=1716930462; cv=none; b=q1Lbcwr5ET2+cTbBauKayGrt7a4vCEQG0Re560IQxl0MvbmPGg2IBYpXDcs0vRKufK0s3n9j1aHvd2vxYxV6SnJ363nC2WCNQ0YlDo1nrBfRuFqOMK2Ky7npGilLnVdKKfil6FjpQiNF2yk504BoG1f/hfMhKNxpvS4IsERFzQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716927509; c=relaxed/simple;
-	bh=WunYGauulfa81tKzxaEG0r2CS07jSQUDvdAz3YcPzHQ=;
+	s=arc-20240116; t=1716930462; c=relaxed/simple;
+	bh=Y4gOOWyilWi1IqWRonAatEZd0PGLv4JQJ/gDqGNN/Eg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5RUoDrQQluRIvEPoVAQQuv5KCM07ElzDWErJSJtekkYDZR9echLX5dc/sO0eAB0utJecnUBGliIvbTkDEE6jkCmV/5Jqysitt/x0j2osp8tzGuIDio9p6ynWSxpPhx3lLlt9aIkcWb9pYKz13nMdbqZlRpoHsy6eGnvzNYEDVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEE9O1mx; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f3469382f2so10256705ad.0
-        for <linux-input@vger.kernel.org>; Tue, 28 May 2024 13:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716927507; x=1717532307; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KCwffUv+Txy9oQpxyxy6b6DR3cnzz+sISJwiP62qY78=;
-        b=kEE9O1mxz7F6ytFZ/qQIoEM235IofqqikhI3/O7Qf8ijLCCjIHHZiVuxk3kwOTLoee
-         9piJwMr1l3G/tuqW1/2bOLPXX1/vtH/snHm0jgVAII03sQF9TbMUxAAvM1hVtK/AveJa
-         pDnXwaXrE1CZ0OMjEt6aPJWYsLH1BoUGMnP/i1QaeCoXp4LyCmEk4oTBtotdL+I6Gfnr
-         CNWiFa7U8VNDDy1pglBh2NMD11R1octLpozXkAG4VmXI5lzzjn2uf4joxkBA9zZucTI9
-         tRnq2veeQ568PhewfbiKbp9e1VpVLSiu0l3Q0fcO6xewWnIpWBUwzIRH7YKkNhH7Ka5T
-         VziA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716927507; x=1717532307;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KCwffUv+Txy9oQpxyxy6b6DR3cnzz+sISJwiP62qY78=;
-        b=Qc6YL7IrXiSBSZ6xbpO7sBcJcXi1ejMz5fIm3yWmKB4krK7tXQRUoBy/LE/tRb/ddk
-         SwXNH1c5NI6FoM6C+stRsz1xKtdLd/HGCLZcVBYSJNoo53s1A0sts4F7Ag8QaIeH2VaO
-         ewSXrzj3+vRtjppauTkdH8T0H9MEc15GeTlLX018+2MoN+FZF/WZP5sRy9vUcYm/Ey9O
-         0263GcWBx46itp3ecVxkxAt+TTxCUgvLQjJPVxUSvoFlY4kNoYK8UdhzhIfljspTgsW4
-         rZNzeWnaRMeTwetsZF/5KiPSNMGZ66BoLYAu1mBIL6JOvf7JOY2cm9rRx7kHLsTd8aFa
-         TDaA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVNpxX3BIoc+OSkblf/czYKUkzjKJjE9frpoODVq6tm6qiBMRyfSPCOg4aJ1LP/RQCR92n2iy7Iao7S8dsOIQ4QEUSJ9tQ+wHwuMw=
-X-Gm-Message-State: AOJu0YwzzPIFYvKQjTahxPcmI0ef5OyVDURJsD4TSGh2yA8AmyZtBWh8
-	NKfVQMSY0+J+cFOVgX5i3xrCwvTvucJOob9G+doektohvjkCGkl2
-X-Google-Smtp-Source: AGHT+IGHCMNPonlPNehWzqZwMu1+KAjutryBKyik/8MQxrN8GxKzflBos2BLsdzPNEOzqg3IJ/aYcg==
-X-Received: by 2002:a17:902:c405:b0:1f4:5278:5bed with SMTP id d9443c01a7336-1f45278630emr185373205ad.42.1716927506776;
-        Tue, 28 May 2024 13:18:26 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1181:b338:a9d5:263e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a4e67sm85066215ad.223.2024.05.28.13.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 13:18:26 -0700 (PDT)
-Date: Tue, 28 May 2024 13:18:24 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Aseda Aboagye <aaboagye@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/2] input: Add support for "Do Not Disturb"
-Message-ID: <ZlY8EGee1UOWUeua@google.com>
-References: <Zk7bbiOwF4ODEE6H@google.com>
- <Zk7csk3RHEqCruWU@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4dVmOusDRJs9lBmsVMR2j3x5N9IVxZjhxyWZmwLnwtf9HRpud+7IdOLwo4d1V9oE/Gt5k1Bew5vYgtzjy7qNjWkYJQAVbU9Jb/Ye1I/nh99Ws4QV5Aq92VIYRrcU+Me65CgOnjlxS5C4r537xU4d2NAsLtvFJzkrzTYoBxt6/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8YJb+qj; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716930461; x=1748466461;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y4gOOWyilWi1IqWRonAatEZd0PGLv4JQJ/gDqGNN/Eg=;
+  b=L8YJb+qjEvDGuu2SDbwYVjDr6Kgsd9nSrDqscHEb1t2DTciiZdj+WXHf
+   jCUGfzoYRaSUo0vSMWU+4IyH9M6Osd+U2A62Dv7/wV5GAZdijuIrAOCm5
+   wt1Je43b772+3kyyOuX9ip1cJeyde9qJPLs0YLTqHohM+2tcPni5N6+O0
+   yYqywVVMAxotHpckwRLpy2yPWl9vw/9CMl8T8YQ8B4QqWjfy1iKQJRIHc
+   e/06S/rp3vH268l/5fX6mNQCK4+ckRmUsEvrDTxyFxqGBOn801WQtcWOy
+   5/q/QiTiCHjJYmpgi4V2JPdWam1rje2egoK2+zJ9ttmxH/oItMIcu3xJX
+   w==;
+X-CSE-ConnectionGUID: +qg5gJTJRPSQLDvAJg+Phw==
+X-CSE-MsgGUID: UWsx7/eOTrS+xQEIRiPREg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38690491"
+X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
+   d="scan'208";a="38690491"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 14:07:40 -0700
+X-CSE-ConnectionGUID: NbNJR+pOSXCoWhLKc3u2eQ==
+X-CSE-MsgGUID: WomeDv4NRsu0RthZMCbeJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
+   d="scan'208";a="39643188"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2024 14:07:38 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sC42h-000ClH-1j;
+	Tue, 28 May 2024 21:07:35 +0000
+Date: Wed, 29 May 2024 05:06:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Zhang Lixu <lixu.zhang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
+Message-ID: <202405290420.DtwUdg3b-lkp@intel.com>
+References: <20240528115802.3122955-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,71 +82,89 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zk7csk3RHEqCruWU@google.com>
+In-Reply-To: <20240528115802.3122955-2-arnd@kernel.org>
 
-On Thu, May 23, 2024 at 01:05:38AM -0500, Aseda Aboagye wrote:
-> HUTRR94 added support for a new usage titled "System Do Not Disturb"
-> which toggles a system-wide Do Not Disturb setting. This commit simply
-> adds a new event code for the usage.
-> 
-> Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
-> ---
->  drivers/hid/hid-debug.c                |  1 +
->  drivers/hid/hid-input.c                | 11 +++++++++++
->  include/uapi/linux/input-event-codes.h |  2 ++
->  3 files changed, 14 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index 7749c81b6227..78b2dd10cba2 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -975,6 +975,7 @@ static const char *keys[KEY_MAX + 1] = {
->         [KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
->         [KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
->         [KEY_ACCESSIBILITY] = "Accessibility",
-> +       [KEY_DONOTDISTURB] = "DoNotDisturb",
->         [KEY_DICTATE] = "Dictate",
->         [KEY_MICMUTE] = "MicrophoneMute",
->         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 6d2dbb75ba65..7fda66f7b437 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -826,6 +826,17 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->                         break;
->                 }
->  
-> +               if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
-> +                       switch (usage->hid & 0xf) {
-> +                       case 0xb:
-> +                               map_key_clear(KEY_DONOTDISTURB);
-> +                               break;
-> +                       default:
-> +                               goto ignore;
-> +                       }
-> +                       break;
-> +               }
-> +
->                 if ((usage->hid & 0xf0) == 0xa0) {      /* SystemControl */
->                         switch (usage->hid & 0xf) {
->                         case 0x9: map_key_clear(KEY_MICMUTE); break;
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 980ef7fefd2b..b8abc239d660 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -619,6 +619,8 @@
->  #define KEY_CAMERA_ACCESS_TOGGLE       0x24d   /* Toggles the current state of the camera access control. (HUTRR72) */
->  /* Toggles the system bound accessibility UI/command (HUTRR116) */
->  #define KEY_ACCESSIBILITY              0x24e
-> +/* Toggles the system-wide "Do Not Disturb" control (HUTRR94)*/
-> +#define KEY_DONOTDISTURB               0x24f
+Hi Arnd,
 
-Could we have this as KEY_DO_NOT_DISTURB?
+kernel test robot noticed the following build errors:
 
-Also the same comments as on the previous patch.
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on next-20240528]
+[cannot apply to linus/master v6.10-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/HID-intel-ish-hid-fix-endian-conversion/20240528-200100
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240528115802.3122955-2-arnd%40kernel.org
+patch subject: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405290420.DtwUdg3b-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290420.DtwUdg3b-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290420.DtwUdg3b-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hid/intel-ish-hid/ishtp/loader.c: In function 'prepare_dma_bufs':
+>> drivers/hid/intel-ish-hid/ishtp/loader.c:178:51: error: 'dma' undeclared (first use in this function); did you mean 'cma'?
+     178 |                                                  &dma, GFP_KERNEL);
+         |                                                   ^~~
+         |                                                   cma
+   drivers/hid/intel-ish-hid/ishtp/loader.c:178:51: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +178 drivers/hid/intel-ish-hid/ishtp/loader.c
+
+   154	
+   155	/**
+   156	 * prepare_dma_bufs() - Prepare the DMA buffer for transferring firmware fragments
+   157	 * @dev: The ISHTP device
+   158	 * @ish_fw: The ISH firmware
+   159	 * @fragment: The ISHTP firmware fragment descriptor
+   160	 * @dma_bufs: The array of DMA fragment buffers
+   161	 * @fragment_size: The size of a single DMA fragment
+   162	 *
+   163	 * Return: 0 on success, negative error code on failure
+   164	 */
+   165	static int prepare_dma_bufs(struct ishtp_device *dev,
+   166				    const struct firmware *ish_fw,
+   167				    struct loader_xfer_dma_fragment *fragment,
+   168				    void **dma_bufs, u32 fragment_size, u32 fragment_count)
+   169	{
+   170		dma_addr_t dma_addr;
+   171		u32 offset = 0;
+   172		u32 length;
+   173		int i;
+   174	
+   175		for (i = 0; i < fragment->fragment_cnt && offset < ish_fw->size; i++) {
+   176			dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size, &dma_addr, GFP_KERNEL);
+   177			dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size,
+ > 178							 &dma, GFP_KERNEL);
+   179			if (!dma_bufs[i])
+   180				return -ENOMEM;
+   181	
+   182			fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma_addr);
+   183	
+   184			memcpy(dma_bufs[i], ish_fw->data + offset, le32_to_cpu(fragment->fragment_tbl[i].length));
+   185			dma_wmb();
+   186			fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma);
+   187			length = clamp(ish_fw->size - offset, 0, fragment_size);
+   188			fragment->fragment_tbl[i].length = cpu_to_le32(length);
+   189			fragment->fragment_tbl[i].fw_off = cpu_to_le32(offset);
+   190	
+   191			offset += length;
+   192		}
+   193	
+   194		return 0;
+   195	}
+   196	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
