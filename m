@@ -1,78 +1,79 @@
-Return-Path: <linux-input+bounces-3915-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3916-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A96E8D26BF
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 23:07:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 135418D26F5
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 23:18:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CACDDB23952
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 21:07:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBF2F283007
+	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 21:18:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB32017BB16;
-	Tue, 28 May 2024 21:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AEAD17B42D;
+	Tue, 28 May 2024 21:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8YJb+qj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uipdfcm4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3203717B4F1;
-	Tue, 28 May 2024 21:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D5B224D1;
+	Tue, 28 May 2024 21:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716930462; cv=none; b=q1Lbcwr5ET2+cTbBauKayGrt7a4vCEQG0Re560IQxl0MvbmPGg2IBYpXDcs0vRKufK0s3n9j1aHvd2vxYxV6SnJ363nC2WCNQ0YlDo1nrBfRuFqOMK2Ky7npGilLnVdKKfil6FjpQiNF2yk504BoG1f/hfMhKNxpvS4IsERFzQc=
+	t=1716931079; cv=none; b=UrGCOw2OGoIgpg4Kdu2VZsacGIqCrEDvS7+rRAhfT5JkFG5q5Q+C+7f8BzzmZ0qU2UBVw6+xZ1jU1MLhpxrfUVw6Zi08tzCgFPi97kFlTPtShuonMyh/7LDQq7GLr7dO699XkH3JW7vLd6FhRQav7RyqjNeZJV9RB15oDKIqtj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716930462; c=relaxed/simple;
-	bh=Y4gOOWyilWi1IqWRonAatEZd0PGLv4JQJ/gDqGNN/Eg=;
+	s=arc-20240116; t=1716931079; c=relaxed/simple;
+	bh=df6P1xfVcWeYr0Prst7JHR/lRDenSZqOcvbQYQ8TnsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l4dVmOusDRJs9lBmsVMR2j3x5N9IVxZjhxyWZmwLnwtf9HRpud+7IdOLwo4d1V9oE/Gt5k1Bew5vYgtzjy7qNjWkYJQAVbU9Jb/Ye1I/nh99Ws4QV5Aq92VIYRrcU+Me65CgOnjlxS5C4r537xU4d2NAsLtvFJzkrzTYoBxt6/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8YJb+qj; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgMAYQBkjUFfwn5PPJp3b0aBLQOE911GGGRQnbpsW1YWY3CW5QUyHN3YPmq3CJOH089+vwRCCwavB76ukKkJ3CMIJlWa5YrUyvdBzWxV3lKYjcROimOoUBxH3OlUVXEf3/XjbELJKJGn1PAPp6s6lHoPhuElIazUA8wMsvzRhwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uipdfcm4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716930461; x=1748466461;
+  t=1716931077; x=1748467077;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Y4gOOWyilWi1IqWRonAatEZd0PGLv4JQJ/gDqGNN/Eg=;
-  b=L8YJb+qjEvDGuu2SDbwYVjDr6Kgsd9nSrDqscHEb1t2DTciiZdj+WXHf
-   jCUGfzoYRaSUo0vSMWU+4IyH9M6Osd+U2A62Dv7/wV5GAZdijuIrAOCm5
-   wt1Je43b772+3kyyOuX9ip1cJeyde9qJPLs0YLTqHohM+2tcPni5N6+O0
-   yYqywVVMAxotHpckwRLpy2yPWl9vw/9CMl8T8YQ8B4QqWjfy1iKQJRIHc
-   e/06S/rp3vH268l/5fX6mNQCK4+ckRmUsEvrDTxyFxqGBOn801WQtcWOy
-   5/q/QiTiCHjJYmpgi4V2JPdWam1rje2egoK2+zJ9ttmxH/oItMIcu3xJX
-   w==;
-X-CSE-ConnectionGUID: +qg5gJTJRPSQLDvAJg+Phw==
-X-CSE-MsgGUID: UWsx7/eOTrS+xQEIRiPREg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="38690491"
+  bh=df6P1xfVcWeYr0Prst7JHR/lRDenSZqOcvbQYQ8TnsY=;
+  b=Uipdfcm4a1vElnrAjN/KJJzM1laW0j9c+ZiN+KQHP44g+n2/+0A8/uOr
+   rRBVgKA8aThU/0oIm1xHcaG12cciawjMoFVzXYHdS9I+P3o59BLJuU+tv
+   hKiFA6IUUD9G8GqUKL/hsiAcH0HRdLA5qsqbyVmMAyS2LH3K2v5XMOw1b
+   raYH1CWB0E3NfEYRW6B474L7p8pZZmj/UHtM8skNGL92mBpsLeXAGOqVP
+   o19xr2dC2shZy/dR9gACj3J/S+4Nq1UYy7ABY9JI6d6LwQDDgG/3SqO3G
+   KCYt6G8hBly5t37e87aCQ7iosGz8SyCHpc13URLyTDdge5Fy1/G96GBGX
+   Q==;
+X-CSE-ConnectionGUID: mwC8VMBXQu6DsDRXqOAqfA==
+X-CSE-MsgGUID: 4bLoXLVUQDOBo2NWaeYgKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24433713"
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="38690491"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 14:07:40 -0700
-X-CSE-ConnectionGUID: NbNJR+pOSXCoWhLKc3u2eQ==
-X-CSE-MsgGUID: WomeDv4NRsu0RthZMCbeJQ==
+   d="scan'208";a="24433713"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 14:17:57 -0700
+X-CSE-ConnectionGUID: 52dP+MQSTjGafcuMc8lliw==
+X-CSE-MsgGUID: 9ajn04XiQ+KcTDxH1ciLeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="39643188"
+   d="scan'208";a="40196234"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 28 May 2024 14:07:38 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 14:17:54 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC42h-000ClH-1j;
-	Tue, 28 May 2024 21:07:35 +0000
-Date: Wed, 29 May 2024 05:06:41 +0800
+	id 1sC4Cd-000Clf-1k;
+	Tue, 28 May 2024 21:17:51 +0000
+Date: Wed, 29 May 2024 05:17:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@kernel.org>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
 	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>,
 	Zhang Lixu <lixu.zhang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
-Message-ID: <202405290420.DtwUdg3b-lkp@intel.com>
+Message-ID: <202405290447.n14W21hZ-lkp@intel.com>
 References: <20240528115802.3122955-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -99,26 +100,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/HID-intel-i
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
 patch link:    https://lore.kernel.org/r/20240528115802.3122955-2-arnd%40kernel.org
 patch subject: [PATCH 2/2] HID: intel-ish-hid: fix endian-conversion
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240529/202405290420.DtwUdg3b-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290420.DtwUdg3b-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240529/202405290447.n14W21hZ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290447.n14W21hZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290420.DtwUdg3b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290447.n14W21hZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hid/intel-ish-hid/ishtp/loader.c: In function 'prepare_dma_bufs':
->> drivers/hid/intel-ish-hid/ishtp/loader.c:178:51: error: 'dma' undeclared (first use in this function); did you mean 'cma'?
+>> drivers/hid/intel-ish-hid/ishtp/loader.c:178:9: error: use of undeclared identifier 'dma'
      178 |                                                  &dma, GFP_KERNEL);
-         |                                                   ^~~
-         |                                                   cma
-   drivers/hid/intel-ish-hid/ishtp/loader.c:178:51: note: each undeclared identifier is reported only once for each function it appears in
+         |                                                   ^
+   drivers/hid/intel-ish-hid/ishtp/loader.c:186:52: error: use of undeclared identifier 'dma'
+     186 |                 fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma);
+         |                                                                  ^
+   include/linux/byteorder/generic.h:86:21: note: expanded from macro 'cpu_to_le64'
+      86 | #define cpu_to_le64 __cpu_to_le64
+         |                     ^
+   2 errors generated.
 
 
-vim +178 drivers/hid/intel-ish-hid/ishtp/loader.c
+vim +/dma +178 drivers/hid/intel-ish-hid/ishtp/loader.c
 
    154	
    155	/**
