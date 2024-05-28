@@ -1,151 +1,134 @@
-Return-Path: <linux-input+bounces-3920-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3924-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43698D28BF
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 01:32:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E12658D29E4
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 03:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 139AD1C23F87
-	for <lists+linux-input@lfdr.de>; Tue, 28 May 2024 23:32:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F1671F2741A
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 01:21:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE1D83AC0F;
-	Tue, 28 May 2024 23:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUm9D5op"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02B3632;
+	Wed, 29 May 2024 01:21:23 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6F42940D
-	for <linux-input@vger.kernel.org>; Tue, 28 May 2024 23:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31CF2B9A9
+	for <linux-input@vger.kernel.org>; Wed, 29 May 2024 01:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716939159; cv=none; b=Fnr72FAFkdOconstEgOPjJgL34VF1Uf9qHxslX576OA+G2Y/hno9f6+4ugjkdzHj5MwjhKfqQK6j4rYkteE5lwOS84LXx5dqjf5PETj8Oylsw5F80yhFuakvuItij9gFd94KEEsLTyQc8mt3QpmrkzIjId2P+5xIIvPR4RbyLkw=
+	t=1716945683; cv=none; b=nlegc8eQX8m1umQt1VCknv8IQJkaCgvXpPJw8CPBOcaNX3g+iHB6v+wiGOgGTIwjEX0FHdxcEodsrQ5vdvhXJ5u4z27GrkyFC6E5a3HLiaktNVvo6RRjOAxUm8/YHcY6y+bYnlCsUWD3ikwZonrbrHYx9NSpK88APrRl6K/TSzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716939159; c=relaxed/simple;
-	bh=ZuXakEmcWu67DRh77v5wzRMdyF+Ich6CIO7btxyvnfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aD36wjcOAVWw4NZtgX0DP8sIYdUk/7fP9bqA6MLcNkmVbgMq01EIJIhOdLaoBVUJemrY5SmtxhZR6tACollpt88bvewNgehzo3HdawTET/DWrMH706QLwsgtpKxhsQEr1zsZU4e4FaotCWeG3l4Vnb/+oG0k0Sgxb8vi6GTBsQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUm9D5op; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1716945683; c=relaxed/simple;
+	bh=fRDuONy6QzMxYX98b8awx7ih4nM00Yas8UAdlH8+7N8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FEFiAealXLz/ooNVSFjwuT9aHUnSjQRdgZKq9T1YiCoXE/+qZMmfEfbWJV23+1l9CdKFB6pKbRvFIa79TGzGeBScIQN7qk0+aGb1+ZovKc7fQsy+pYnBxEDPBiAFQ31RNKAgEhRHG/pvoIkZ87AKsbQCNr2g/1inP2hpn7M+6Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=moeller.io; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=moeller.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-627e3368394so15614737b3.2
-        for <linux-input@vger.kernel.org>; Tue, 28 May 2024 16:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716939157; x=1717543957; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XA4I7/no4c5SVbo0gJooK2DPrYzqf+87ovLxfbPDNjw=;
-        b=fUm9D5opCSlEl0RgB9/MLJupIPRqaOEZCkpDVeIk4So2ulAbdN58ls1qh+crokmXCs
-         TFDHfS42uE6o/TzOLrioy+XMlt+GsE6mTjGaeHeRMe+YB9gUxQhY1WE2fTMyzFBP483v
-         X4YR82xA6KVkCN0hKu8afPjtaGdM5Q9UUsx9x8aL9Im+qcWxQNBwzaaFGOlW3i01h/9D
-         QIHuAGFZjaEHyA6jFLgBTEuqNsSpMQ3FjcF7rbXQu+U5pLdVxuNGzVfuLCbCKlhUI8XO
-         C6kM7p8uz4gugI6nTYjcDBQs+SXCdx0d8hE3G32l+FWmv27u2iK5ctUPtIG+RO/BL9Sp
-         h14g==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a62972c88a9so185528966b.1
+        for <linux-input@vger.kernel.org>; Tue, 28 May 2024 18:21:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716939157; x=1717543957;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XA4I7/no4c5SVbo0gJooK2DPrYzqf+87ovLxfbPDNjw=;
-        b=QKFEMVWb3r2ndZcuG3QZRsI+Xu8OqEvgOFxwx8/O/1ZLLzh93D4TTn9fSFh4pBeUW+
-         kap18raSr1fQdAf6pH1zS+eJyX9YZ8OdW2+Fco1EOWe0ZpOsj52zo9f6ftuzEMR/jUi5
-         CDcZrUrXeM0k6Xr0dyUzOdDW3dN99HgDNC3pbdeJRB1J/uFTwLdDKzJkipllwC1IMa/U
-         hXaDKgg5Dcx1Kka3mYhTL9dbNb/+C8Q6TpzOlciV5JBQ6Y2BJLKYj1h2d8bF9QQnrUcZ
-         VClb0do1lkthNyf7KHb9unr/eK9RLsDlgf9cRp2omdVQSCr44Obrh9TVeDjAFXhoV75Q
-         H13w==
-X-Forwarded-Encrypted: i=1; AJvYcCVzXiFbOSpSfLffCavmbZIu6+wOKMFfuOLqNy7ZXOocIYQi/xvSbtKjch1kF2H7KaGcG/9jlhIVDUsRpFK6hKCqmAP27JSlnh3CdNE=
-X-Gm-Message-State: AOJu0YxF+eH9wKmvbz925ooxoGy3AsY4u+lbm0jXdcMFdUau93iXtH+w
-	DdzK2zh8EIzB+TjpOb34wK4KMXnQggp1PJccc18tPHsotq8Ti2fy
-X-Google-Smtp-Source: AGHT+IGRXrzdLMHZQKYwCJ0UvYSGegJzyZstv3vQVpPs8pXWynpMkotoD3j9BdpWtyfl5dosvhVOMQ==
-X-Received: by 2002:a0d:e812:0:b0:620:33dc:8341 with SMTP id 00721157ae682-62a08da80famr127568877b3.25.1716939156914;
-        Tue, 28 May 2024 16:32:36 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:1181:b338:a9d5:263e])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a4f0205sm22206867b3.84.2024.05.28.16.32.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 16:32:36 -0700 (PDT)
-Date: Tue, 28 May 2024 16:32:34 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Aseda Aboagye <aaboagye@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] input: Add support for "Do Not Disturb"
-Message-ID: <ZlZpkrUuBonHDPaj@google.com>
-References: <ZlZeMVHsquYbQzGG@google.com>
- <ZlZgByQ3TlycC-A_@google.com>
+        d=1e100.net; s=20230601; t=1716945680; x=1717550480;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FuuAWdxCmRzs75Q4GZxnHik/Fklc5HH5Xf5RNHB1a6g=;
+        b=VA39wWi354pbEwsP86rVaNproleKlSzBrWl22kxOAO0XyaPV2C9eob/3rMxKrpzjPP
+         skMWOYLswp1ThiiUbNbQyMd4DocADd5ABu74JUNRLqM7/8OnLo3kAC/HdVgVohrrZM04
+         g9ZaOQoNw0n9roTWkFcEtvNGGt/RWhigI0+SB569zvqswaTUlWIACBB01DxlSfXOaSCs
+         51q7f6Rj3Tg5MWeTMcEwhGksKM3JZWkoG/+8WhixcAw6NEohkAMl74eGOkZ9vKvqIIb0
+         gMMaecAOB2cYI7MplTg3/AaijgMYara8JgdEKPUXoQm+kTFp+I3UfaatcCv1Koo3mbAC
+         CkIQ==
+X-Gm-Message-State: AOJu0Yz6OUOD/Rs4QWZo3VyftGI8hYAyAT9QFDj3Vf5uomzGEaZVeVs+
+	vTIa5qofeai1WQ1IwbTXmYvDqYglS4VYtjO/eihUoWLQuOUKWQM1bjMCTbCOALo=
+X-Google-Smtp-Source: AGHT+IFPPbjZKtqL1e8iXEWjESu7j97mSk3NjLdPtJzNA3p1A23mNOdHjb/E0fKVkGfS92YAF5gFrw==
+X-Received: by 2002:a17:906:3c05:b0:a59:cf0a:4e4d with SMTP id a640c23a62f3a-a626407d4f5mr979725966b.12.1716945679622;
+        Tue, 28 May 2024 18:21:19 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a632fde2922sm158736866b.195.2024.05.28.18.21.19
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 18:21:19 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5786988ae9bso1823906a12.3
+        for <linux-input@vger.kernel.org>; Tue, 28 May 2024 18:21:19 -0700 (PDT)
+X-Received: by 2002:a50:cd13:0:b0:578:60ab:2b8f with SMTP id
+ 4fb4d7f45d1cf-57860ab3133mr6859303a12.42.1716945679238; Tue, 28 May 2024
+ 18:21:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZlZgByQ3TlycC-A_@google.com>
+References: <20240429070950.247183-1-jon@moeller.io>
+In-Reply-To: <20240429070950.247183-1-jon@moeller.io>
+From: Jon Moeller <jon@moeller.io>
+Date: Tue, 28 May 2024 11:21:10 -0700
+X-Gmail-Original-Message-ID: <CABWf9sbtpJMCPrHRu1jtL7d_ozPmyXO11QedXuTww3nAyzP0vA@mail.gmail.com>
+Message-ID: <CABWf9sbtpJMCPrHRu1jtL7d_ozPmyXO11QedXuTww3nAyzP0vA@mail.gmail.com>
+Subject: Re: [PATCH] Adding quirks for 2024 HP Spectre x360 touchpads
+To: Jon Moeller <jon@moeller.io>
+Cc: linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 05:51:51PM -0500, Aseda Aboagye wrote:
-> HUTRR94 added support for a new usage titled "System Do Not Disturb"
-> which toggles a system-wide Do Not Disturb setting. This commit simply
-> adds a new event code for the usage.
-> 
-> Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
+Is there anything special I need to do to get this merged? I was
+hoping this would get worked into 6.10.
+
+On Mon, Apr 29, 2024 at 12:09=E2=80=AFAM Jon Moeller <jon@moeller.io> wrote=
+:
+>
 > ---
-> Changes from v1:
->  - Modified formatting to match existing code, ignoring checkpatch.pl.
-> 
->  drivers/hid/hid-debug.c                | 1 +
->  drivers/hid/hid-input.c                | 8 ++++++++
->  include/uapi/linux/input-event-codes.h | 1 +
->  3 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index 7749c81b6227..78b2dd10cba2 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -975,6 +975,7 @@ static const char *keys[KEY_MAX + 1] = {
->         [KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
->         [KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
->         [KEY_ACCESSIBILITY] = "Accessibility",
-> +       [KEY_DONOTDISTURB] = "DoNotDisturb",
->         [KEY_DICTATE] = "Dictate",
->         [KEY_MICMUTE] = "MicrophoneMute",
->         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 1ecc5ad57b56..f023f51b9c08 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -826,6 +826,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->                         break;
->                 }
->  
-> +               if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
-> +                       switch (usage->hid & 0xf) {
-> +                       case 0xb: map_key_clear(KEY_DONOTDISTURB); break;
-> +                       default: goto ignore;
-> +                       }
-> +                       break;
-> +               }
+>  drivers/hid/hid-multitouch.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 04a014cd2a2f..7a7918191628 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -212,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struc=
+t mt_application *app);
+>  #define MT_CLS_GOOGLE                          0x0111
+>  #define MT_CLS_RAZER_BLADE_STEALTH             0x0112
+>  #define MT_CLS_SMART_TECH                      0x0113
+> +#define MT_CLS_HP_SPECTRE_ELAN_HAPTIC          0x0114
+>
+>  #define MT_DEFAULT_MAXCONTACT  10
+>  #define MT_MAX_MAXCONTACT      250
+> @@ -396,6 +397,13 @@ static const struct mt_class mt_classes[] =3D {
+>                         MT_QUIRK_CONTACT_CNT_ACCURATE |
+>                         MT_QUIRK_SEPARATE_APP_REPORT,
+>         },
+> +       { .name =3D MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
+> +               .quirks =3D MT_QUIRK_ALWAYS_VALID |
+> +                       MT_QUIRK_SLOT_IS_CONTACTID |
+> +                       MT_QUIRK_CONTACT_CNT_ACCURATE |
+> +                       MT_QUIRK_CONFIDENCE |
+> +                       MT_QUIRK_WIN8_PTP_BUTTONS,
+> +       },
+>         { }
+>  };
+>
+> @@ -1992,6 +2000,12 @@ static const struct hid_device_id mt_devices[] =3D=
+ {
+>                 HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+>                         USB_VENDOR_ID_ELAN, 0x3148) },
+>
+> +       { .driver_data =3D MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
+> +               HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x32c8) },
 > +
->                 if ((usage->hid & 0xf0) == 0xa0) {      /* SystemControl */
->                         switch (usage->hid & 0xf) {
->                         case 0x9: map_key_clear(KEY_MICMUTE); break;
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 7ff6eeef1af0..c971d542e525 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -618,6 +618,7 @@
->  #define KEY_CAMERA_ACCESS_DISABLE      0x24c   /* Disables programmatic access to camera devices. (HUTRR72) */
->  #define KEY_CAMERA_ACCESS_TOGGLE       0x24d   /* Toggles the current state of the camera access control. (HUTRR72) */
->  #define KEY_ACCESSIBILITY              0x24e   /* Toggles the system bound accessibility UI/command (HUTRR116) */
-> +#define KEY_DONOTDISTURB               0x24f   /* Toggles the system-wide "Do Not Disturb" control (HUTRR94)*/
-
-Please spare a few underscores: KEY_DO_NOT_DISTURB.
-
-Thanks.
-
--- 
-Dmitry
+> +       { .driver_data =3D MT_CLS_HP_SPECTRE_ELAN_HAPTIC,
+> +               HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 0x310a) },
+> +
+>         /* Elitegroup panel */
+>         { .driver_data =3D MT_CLS_SERIAL,
+>                 MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
+> --
+> 2.44.0
+>
+> Signed-off-by: Jon Moeller <jon@moeller.io>
 
