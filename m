@@ -1,137 +1,139 @@
-Return-Path: <linux-input+bounces-3952-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3953-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AF98D3ADA
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 17:29:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8998D3E3E
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 20:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADD781C22241
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 15:29:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37D142855E6
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 18:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B5F7746E;
-	Wed, 29 May 2024 15:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5094D15B99D;
+	Wed, 29 May 2024 18:19:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VXFnmRrq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TSf/XFRJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5B81802BC
-	for <linux-input@vger.kernel.org>; Wed, 29 May 2024 15:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D7815CD4D
+	for <linux-input@vger.kernel.org>; Wed, 29 May 2024 18:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716996545; cv=none; b=kQRPVd0GV4GusXUawdQWLBXsZUXvSe38dDrhm5v5wl7O0Z7AzA1syVn8fPU/FiU+gkRPfEm3fteaoOguElellPn5rw7zuYNS53rwf/R7KFDC5hyhcMHd5dxhMv4yRoOG/gg+ID8X95ZGFpWkdCUchVfu3rQZrY4t7IY2Ik4GsJg=
+	t=1717006758; cv=none; b=XfWLFJf+xwBWqo6amyZ/c19vnqlwhxI5jmm4PSkXobiDZA6PlU+58pJydA6As02skOJ2AFsEIzCJ+937LF2b7enifWZNhXibrkeQxu924CV+eOMVFCgh99YISM4v/JSEhj6S7L8jzEPrAokz7qr4Etvm6TuQG3PEHvZvpHoouJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716996545; c=relaxed/simple;
-	bh=8TSpQpuVN6z+ZuZk68PMhyHU89nHlEi7bQ43I1w48bQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k0OZADA1ATkkLKXZOVe+DIv/A+a5A0jJvBU8BgULMlMetlB0mJDhbrXeCh/92/Z/juTDvMjflqrAhDjDnplWIdAEe9MCQwKSBZSUPQmhR13K+C8t5cz2oconOhggYZOyZfd8zudyLOx17YJKgi6gb9cq68QJDFFS6BfkrCrgQQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VXFnmRrq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716996543;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mFHpztQhwU5HG7lA94/ryMM368oC6ZMtci9dOyduPBc=;
-	b=VXFnmRrqBcYQeCj33Ko6o1M+blOOutoUFfHlt+GYHSh3Tn3uNDwZipRKXQqSq33FHLAUYN
-	8U7doRgBydhGIq2gsKAbLEMdyDenw+VH/dQW/XU8VxpCbzGib1HQLOclqMzTwqCzRMIOAF
-	k7f25tQjFRKdjc/fxtF8Lc7jKJgGui0=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-LVRxFfTSPwWeKMZBd0_vtw-1; Wed, 29 May 2024 11:29:01 -0400
-X-MC-Unique: LVRxFfTSPwWeKMZBd0_vtw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a6266c77502so131938066b.1
-        for <linux-input@vger.kernel.org>; Wed, 29 May 2024 08:29:00 -0700 (PDT)
+	s=arc-20240116; t=1717006758; c=relaxed/simple;
+	bh=Szd+qwgEVBc/H7WPiyM9OWkEiu1LzzCqxafhPlPcX5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kQsiFKpRjSMhjFpNkKk/Xw679ftuopjjX7t8+5H4zDaHd4j2uc7QXZkQqlvCGNvoQV7EYyo19R1/CtoolBlBM7pzexu/ScblVD83h9ryCWs6dYobnRB5XfCSqRdrOxtdxf/nD2i0R8rwTEDcJuWLOr2vuWamWsJL8s0IA8jiKyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TSf/XFRJ; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2503cb65a90so100476fac.1
+        for <linux-input@vger.kernel.org>; Wed, 29 May 2024 11:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717006756; x=1717611556; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Rb3M8864h8W5eTlqo96+omU63jkjg7ujMwjIFXZ++CU=;
+        b=TSf/XFRJugNoiWAa71SAE8yF3fJMy2qLRmTYN+qNfySEdyh+TlCFvwTmydNtA79j1E
+         /ODNI3Oy08EKNVUFLpV5m/cFcmrjK1Sm57wzFA3tYPIlu8x/WPAnVKIIeVO+JZwhwl/O
+         TioDCQFNLeNUQ/kd2I5nAcdGgyulrwWDVCFtk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716996539; x=1717601339;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1717006756; x=1717611556;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mFHpztQhwU5HG7lA94/ryMM368oC6ZMtci9dOyduPBc=;
-        b=PnikcXFKVoqcBtCpuJkj7rPfvfKJvYivvznpkfcmjfsZRJoFuvgduW9Aduv+ILFcIr
-         PUHoMfPRqXir7/KsrIIG4r/EwHjWCOzv3oxNzw4GXGvWCXa4bksSqaEL68W74tfajXPv
-         fGZGRgSaPE4SL2GGMRzDDXJPZ7tC7Akwd+WoAa3RJYclPPa3TKNsAPVpoJ+9PASZV1VN
-         Fhjvs3/FtIPCGOoNFKMt/wqMfYmu2LIli6taxKyl2Vu2EirqvB6vc8GqOnzMrAVwUZDq
-         UEP9kZsBkwz5TER9f/3XVR4fNntgpQUQqZ8OXsRG3v5+r9yoIZbIXiCYyTTqBWO3XJhS
-         hxiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUuU8xJ2vWdegNw24HEGTFgyNLRnaHtiy1C17dlvrsFey+58o/i5SyjsUvj2p3I8zog3FHIEXb9LEy2P/W+wSbXdIZeQjSUpNyZrTc=
-X-Gm-Message-State: AOJu0YxBNtTtERVwGMHbHt7ElcYXJ5XIMxYiB6Ab8069Ef127Wvzk8di
-	VDxECZYbrCMrJS2lLn2CArWKClRWvXU9EVjL4TPpXswbXkhTVRe+mTfn+EW98el5y94xdxVhsjV
-	Uyt9K9aqUKXJwt9PAydKcF3TWcaNRzhhgVyVXOZfb9nq27m47lXCeS1dwaFiR
-X-Received: by 2002:a17:906:6d95:b0:a59:bbd6:bb39 with SMTP id a640c23a62f3a-a6264f0ebfamr1092763066b.55.1716996539681;
-        Wed, 29 May 2024 08:28:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFHMNDZWVKqgo3ZdTUnkxjQybulw1cBwoyxNnQ5p2eVfu24cekgVLMgE/SKbIjgInYFIJtxtA==
-X-Received: by 2002:a17:906:6d95:b0:a59:bbd6:bb39 with SMTP id a640c23a62f3a-a6264f0ebfamr1092760466b.55.1716996539217;
-        Wed, 29 May 2024 08:28:59 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c8182edsm734297466b.9.2024.05.29.08.28.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 08:28:58 -0700 (PDT)
-Message-ID: <b0d8eebc-5abb-4ec0-898c-af7eedc730d9@redhat.com>
-Date: Wed, 29 May 2024 17:28:57 +0200
+        bh=Rb3M8864h8W5eTlqo96+omU63jkjg7ujMwjIFXZ++CU=;
+        b=DGqYSNvS3dXrRhBA/jWQR/uQdHSKgEdlAtTixLHSHNJ3/7jpDeozGlG6c1rEFdDdtj
+         lGTWcdL5uVexo3fEkPX8bz96YthsboVz6T+9xCq6NXUMtmtz65BM2Mcyg5EdxBuCBmuF
+         Vtxl7Mbj3hiViTpSSmOUq+H9KWKsLiEkHq50O3R/Q/+umDTINDNje9+peRHOMQr/ybNb
+         9GFb2B7y5utgiQjeIgR2KnbG6o3xchHDDK3KqaP/PvGMAKqwPBTj1vsDy3iTw7X8YA9g
+         TSZuQuNynwfajKA5HW0KeKvYqWJQ8MMqtU67RKc+DIxen6yo/u1XnHzxFX4B2zRw2Iok
+         GHZA==
+X-Gm-Message-State: AOJu0YxjHAH0oFaePB3a4lDJ3weoJP9XsLG5LG8xLIVgg/kZxW3i6vyU
+	caiDyv5iZgWbcCIcS2Fc1pLXf+jzUz8HODCzk1aUudwxZWYeMBM+VHLsIEmAaw==
+X-Google-Smtp-Source: AGHT+IGHSyoKnNJiKUg7dVG8MXRruY6aIZgAmfB6CvjTXjxqX59uRvaVKdxVwukYP5wjnrckodQATA==
+X-Received: by 2002:a05:6870:f110:b0:22e:7e11:9e73 with SMTP id 586e51a60fabf-2503e2f3b95mr1196701fac.27.1717006755520;
+        Wed, 29 May 2024 11:19:15 -0700 (PDT)
+Received: from google.com (syn-076-186-130-074.res.spectrum.com. [76.186.130.74])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25029b1e798sm883163fac.27.2024.05.29.11.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 11:19:15 -0700 (PDT)
+Date: Wed, 29 May 2024 13:19:13 -0500
+From: Aseda Aboagye <aaboagye@chromium.org>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [PATCH v3 1/2] input: Add event code for accessibility key
+Message-ID: <ZldxNQGXy4zWVPu1@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] asus wmi and hid: use HID LED for brightness
-To: "Luke D. Jones" <luke@ljones.dev>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: ilpo.jarvinen@linux.intel.com, corentin.chary@gmail.com,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-References: <20240529012827.146005-1-luke@ljones.dev>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240529012827.146005-1-luke@ljones.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+HUTRR116 added support for a new usage titled "System Accessibility
+Binding" which toggles a system-wide bound accessibility UI or command.
+This commit simply adds a new event code for the usage.
 
-On 5/29/24 3:28 AM, Luke D. Jones wrote:
-> Changelog:
-> - v1
->   - Split the patch in two
->   - Move function body to asus-wmi and export
->   - Use array of names and for loops
-> 
-> History:
-> - https://lore.kernel.org/linux-input/20240528013959.14661-1-luke@ljones.dev/T/#u
-> 
-> Luke D. Jones (2):
->   hid-asus: use hid for brightness control on keyboard
->   hid-asus: change the report_id used for HID LED control
-> 
->  drivers/hid/hid-asus.c                     | 32 +++++++++++++++++++-
->  drivers/platform/x86/asus-wmi.c            | 35 +++++++++++++++++++++-
->  include/linux/platform_data/x86/asus-wmi.h | 10 +++++++
->  3 files changed, 75 insertions(+), 2 deletions(-)
+Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+Changes from v2:
+ - None
 
-Jiri, Benjamin since the first patch now also touches pdx86 files
-we need to coordinate merging this.
+Changes from v1:
+ - Modified formatting to match existing code, ignoring checkpatch.pl.
 
-There also is a long list of patches pending for
-drivers/platform/x86/asus-wmi.c
+ drivers/hid/hid-debug.c                | 1 +
+ drivers/hid/hid-input.c                | 1 +
+ include/uapi/linux/input-event-codes.h | 1 +
+ 3 files changed, 3 insertions(+)
 
-So I would prefer to take this series (both patches) upstream through
-the pdx86 tree to avoid conflicts.
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index e7ef1ea107c9..7749c81b6227 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -974,6 +974,7 @@ static const char *keys[KEY_MAX + 1] = {
+        [KEY_CAMERA_ACCESS_ENABLE] = "CameraAccessEnable",
+        [KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
+        [KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
++       [KEY_ACCESSIBILITY] = "Accessibility",
+        [KEY_DICTATE] = "Dictate",
+        [KEY_MICMUTE] = "MicrophoneMute",
+        [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 851ee86eff32..1ecc5ad57b56 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -829,6 +829,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+                if ((usage->hid & 0xf0) == 0xa0) {      /* SystemControl */
+                        switch (usage->hid & 0xf) {
+                        case 0x9: map_key_clear(KEY_MICMUTE); break;
++                       case 0xa: map_key_clear(KEY_ACCESSIBILITY); break;
+                        default: goto ignore;
+                        }
+                        break;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 022a520e31fc..7ff6eeef1af0 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -617,6 +617,7 @@
+ #define KEY_CAMERA_ACCESS_ENABLE       0x24b   /* Enables programmatic access to camera devices. (HUTRR72) */
+ #define KEY_CAMERA_ACCESS_DISABLE      0x24c   /* Disables programmatic access to camera devices. (HUTRR72) */
+ #define KEY_CAMERA_ACCESS_TOGGLE       0x24d   /* Toggles the current state of the camera access control. (HUTRR72) */
++#define KEY_ACCESSIBILITY              0x24e   /* Toggles the system bound accessibility UI/command (HUTRR116) */
+ 
+ #define KEY_BRIGHTNESS_MIN             0x250   /* Set Brightness to Minimum */
+ #define KEY_BRIGHTNESS_MAX             0x251   /* Set Brightness to Maximum */
 
-May we have an ack from one of you for merging this through pdx86/for-next ?
-
-Regards,
-
-Hans
-
-
-
-
+base-commit: 5128de84d8fc849400d00f7a6982711f129699ea
+-- 
+2.45.1.288.g0e0cd299f1-goog
 
