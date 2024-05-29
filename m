@@ -1,38 +1,38 @@
-Return-Path: <linux-input+bounces-3944-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3949-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83638D3708
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 15:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12A28D373C
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 15:12:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDCAB1C214EE
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 13:06:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC0501C233F2
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 13:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0595CC8CE;
-	Wed, 29 May 2024 13:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B64712B82;
+	Wed, 29 May 2024 13:12:14 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from out28-53.mail.aliyun.com (out28-53.mail.aliyun.com [115.124.28.53])
+Received: from out28-194.mail.aliyun.com (out28-194.mail.aliyun.com [115.124.28.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B2A819;
-	Wed, 29 May 2024 13:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504E8DDD4;
+	Wed, 29 May 2024 13:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716988006; cv=none; b=R51PY22ZjUIZ3Lw+f4byHsU/VZXbkXVyiiP3r0fNjosuJAI7cNBCSmQCN06RjC5EWqFbGnyMKPTIDhrkFe6gmMvfEPPduAxIe8M7MVCiBDaa50q8S5Xn7hrVFSAKRVNSpuTm2mRHI+5U8x5lPGFTQFIUnoHZEoMo0L91g9Dv0YQ=
+	t=1716988334; cv=none; b=OjCFg3IwHlmgODM0Nf8AlIBn2eL3y0Mh/bhWtmNcqEkQfP1wDQ8+lIvft5M2QY7lJ9AB/uNZ3+OO995IwQZOuKvsuZk7k3Z+PykR92G58MMzpIIvRe/j8nkxLMY7BtMRyQ+n9RwmQPZI5TWDsFQ+1Z0+yg8u58sd3IUY7m1g9AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716988006; c=relaxed/simple;
-	bh=fW7ch+kBpeeulrsf3Lb6gteTH5agfBBB3nsP0pArmSE=;
+	s=arc-20240116; t=1716988334; c=relaxed/simple;
+	bh=OMJ9PB36IBjjWKfvIPxohdafw5pUCCIH5qbW9cqa9Uo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PBIVtDrnxyaD+qZ9mPSn7XiY3ELqSGeYZfjmKKA9EEYsiUPgryPHmUc7prKtYbC7IeQVr8+j8hnTQqSLuc5ObZCHeDlJ1/crxcokfR5RnTw2xKo6n1/Jjs7PKcSQ+VMIwAPZtJ6CnKGctR8bcrOkEJBOYErWTGhU7UzWyybOkkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.53
+	 MIME-Version; b=TMKXIT8hGHBMVhw5k6ukFJ4FYCvxx/5MkWCkTV9UeaISTMwkpUkQTpbPTWe/5LOx9K/jWyB04a16V2E9XBvUmh99+lczZOJNzbFYv/ylmLtjRss5itaxmB+ATsMCsc6Qlp3wUPz9k8HaWbggEFsRAh9tKPbxeubOvfwyjhdtUHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.158036-0.000322952-0.841641;FP=0|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068155186;MF=wangshuaijie@awinic.com;NM=1;PH=DS;RN=11;RT=11;SR=0;TI=SMTPD_---.XqPpuJV_1716987994;
-Received: from awinic..(mailfrom:wangshuaijie@awinic.com fp:SMTPD_---.XqPpuJV_1716987994)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0378758-0.000531947-0.961592;FP=0|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033040120151;MF=wangshuaijie@awinic.com;NM=1;PH=DS;RN=11;RT=11;SR=0;TI=SMTPD_---.XqPpuL8_1716987996;
+Received: from awinic..(mailfrom:wangshuaijie@awinic.com fp:SMTPD_---.XqPpuL8_1716987996)
           by smtp.aliyun-inc.com;
-          Wed, 29 May 2024 21:06:36 +0800
+          Wed, 29 May 2024 21:06:37 +0800
 From: wangshuaijie@awinic.com
 To: dmitry.torokhov@gmail.com,
 	robh@kernel.org,
@@ -45,9 +45,9 @@ To: dmitry.torokhov@gmail.com,
 Cc: wangshuaijie@awinic.com,
 	liweilei@awinic.com,
 	kangjiajun@awinic.com
-Subject: [PATCH V1 4/5] Add aw963xx series related interfaces to the aw_sar driver.
-Date: Wed, 29 May 2024 13:06:07 +0000
-Message-ID: <20240529130608.783624-5-wangshuaijie@awinic.com>
+Subject: [PATCH V1 5/5] Add support for Awinic sar sensor.
+Date: Wed, 29 May 2024 13:06:08 +0000
+Message-ID: <20240529130608.783624-6-wangshuaijie@awinic.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240529130608.783624-1-wangshuaijie@awinic.com>
 References: <20240529130608.783624-1-wangshuaijie@awinic.com>
@@ -63,1758 +63,2116 @@ From: shuaijie wang <wangshuaijie@awinic.com>
 
 Signed-off-by: shuaijie wang <wangshuaijie@awinic.com>
 ---
- drivers/input/misc/aw_sar/aw963xx/aw963xx.c | 986 ++++++++++++++++++++
- drivers/input/misc/aw_sar/aw963xx/aw963xx.h | 749 +++++++++++++++
- 2 files changed, 1735 insertions(+)
- create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.c
- create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.h
+ drivers/input/misc/Kconfig         |    9 +
+ drivers/input/misc/Makefile        |    1 +
+ drivers/input/misc/aw_sar/Makefile |    2 +
+ drivers/input/misc/aw_sar/aw_sar.c | 2039 ++++++++++++++++++++++++++++
+ drivers/input/misc/aw_sar/aw_sar.h |   15 +
+ 5 files changed, 2066 insertions(+)
+ create mode 100644 drivers/input/misc/aw_sar/Makefile
+ create mode 100644 drivers/input/misc/aw_sar/aw_sar.c
+ create mode 100644 drivers/input/misc/aw_sar/aw_sar.h
 
-diff --git a/drivers/input/misc/aw_sar/aw963xx/aw963xx.c b/drivers/input/misc/aw_sar/aw963xx/aw963xx.c
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 6ba984d7f0b1..ac56fdd21839 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -939,4 +939,13 @@ config INPUT_STPMIC1_ONKEY
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called stpmic1_onkey.
+ 
++config AWINIC_SAR
++	tristate "Awinic sar sensor support"
++	depends on I2C
++	help
++	  Say Y to enable support for the Awinic sar sensor driver.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called awinic_sar.
++
+ endif
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 04296a4abe8e..6ee1870ea677 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -90,3 +90,4 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
+ obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
+ obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
+ obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
++obj-$(CONFIG_AWINIC_SAR)		+= aw_sar/
+diff --git a/drivers/input/misc/aw_sar/Makefile b/drivers/input/misc/aw_sar/Makefile
 new file mode 100644
-index 000000000000..4105756749d7
+index 000000000000..c357ecaa4f98
 --- /dev/null
-+++ b/drivers/input/misc/aw_sar/aw963xx/aw963xx.c
-@@ -0,0 +1,986 @@
++++ b/drivers/input/misc/aw_sar/Makefile
+@@ -0,0 +1,2 @@
++obj-$(CONFIG_AWINIC_SAR) += awinic_sar.o
++awinic_sar-objs := ./comm/aw_sar_comm_interface.o aw_sar.o ./aw9610x/aw9610x.o ./aw963xx/aw963xx.o
+diff --git a/drivers/input/misc/aw_sar/aw_sar.c b/drivers/input/misc/aw_sar/aw_sar.c
+new file mode 100644
+index 000000000000..c0c37658a482
+--- /dev/null
++++ b/drivers/input/misc/aw_sar/aw_sar.c
+@@ -0,0 +1,2039 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * AWINIC sar sensor driver (aw963xx)
++ * AWINIC sar sensor driver
 + *
 + * Author: Shuaijie Wang<wangshuaijie@awinic.com>
 + *
 + * Copyright (c) 2024 awinic Technology CO., LTD
 + */
-+#include "aw963xx.h"
-+#include "../aw_sar.h"
++#include "./comm/aw_sar_chip_interface.h"
++#include "aw_sar.h"
 +
-+#define AW963XX_I2C_NAME "aw963xx_sar"
++#define AW_SAR_I2C_NAME		"awinic_sar"
 +
-+static void aw963xx_set_cs_as_irq(struct aw_sar *p_sar, int flag);
-+static void aw963xx_get_ref_ch_enable(struct aw_sar *p_sar);
++/*
++ * Please check which power_supply on your platform
++ * can get the charger insertion information, then select it.
++ * eg: "usb"/"charger"/"mtk-master-charger"/"mtk_charger_type"
++ */
++#define USB_POWER_SUPPLY_NAME   "charger"
++/*
++ * Check which of your power_supply properties is available
++ * for the charger insertion information and select it.
++ * eg: POWER_SUPPLY_PROP_ONLINE/POWER_SUPPLY_PROP_PRESENT
++ */
++#define AW_USB_PROP_ONLINE	POWER_SUPPLY_PROP_ONLINE
 +
-+static int32_t aw963xx_read_init_over_irq(void *load_bin_para)
++#define AW_I2C_RW_RETRY_TIME_MIN		(2000)
++#define AW_I2C_RW_RETRY_TIME_MAX		(3000)
++#define AW_RETRIES				(5)
++
++#define AW_SAR_AWRW_OffSET			(20)
++#define AW_SAR_AWRW_DATA_WIDTH			(5)
++#define AW_DATA_OffSET_2			(2)
++#define AW_DATA_OffSET_3			(3)
++#define AW_POWER_ON_SYSFS_DELAY_MS		(5000)
++#define AW_SAR_MONITOR_ESD_DELAY_MS		(5000)
++#define AW_SAR_OFFSET_LEN			(15)
++#define AW_SAR_VCC_MIN_UV			(1700000)
++#define AW_SAR_VCC_MAX_UV			(3600000)
++
++static struct mutex aw_sar_lock;
++
++static int32_t aw_sar_get_chip_info(struct aw_sar *p_sar);
++static void aw_sar_sensor_free(struct aw_sar *p_sar);
++
++//Because disable/enable_irq api Therefore, IRQ is embedded
++void aw_sar_disable_irq(struct aw_sar *p_sar)
 +{
-+	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-+	uint32_t cnt = 1000;
-+	uint32_t reg;
-+	int32_t ret;
++	if (p_sar->irq_init.host_irq_stat == IRQ_ENABLE) {
++		disable_irq(p_sar->irq_init.to_irq);
++		p_sar->irq_init.host_irq_stat = IRQ_DISABLE;
++	}
++}
 +
-+	while (cnt--) {
-+		ret = aw_sar_i2c_read(p_sar->i2c, REG_IRQSRC, &reg);
-+		if (ret != 0) {
-+			dev_err(p_sar->dev, "i2c error %d", ret);
++void aw_sar_enable_irq(struct aw_sar *p_sar)
++{
++	if (p_sar->irq_init.host_irq_stat == IRQ_DISABLE) {
++		enable_irq(p_sar->irq_init.to_irq);
++		p_sar->irq_init.host_irq_stat = IRQ_ENABLE;
++	}
++}
++
++//Chip logic part start
++//Load default array function
++static int32_t
++aw_sar_para_loaded_func(struct i2c_client *i2c, const struct aw_sar_para_load_t *para_load)
++{
++	int32_t ret;
++	int32_t i;
++
++	for (i = 0; i < para_load->reg_arr_len; i = i + 2) {
++		ret = aw_sar_i2c_write(i2c, (uint16_t)para_load->reg_arr[i],
++						para_load->reg_arr[i + 1]);
++		if (ret != 0)
 +			return ret;
-+		}
-+		if ((reg & 0x01) == 0x01) {
-+			aw_sar_i2c_read(p_sar->i2c, REG_FWVER, &reg);
-+			return 0;
-+		}
-+		mdelay(1);
 +	}
 +
-+	aw_sar_i2c_read(p_sar->i2c, REG_FWVER, &reg);
++	return 0;
++}
++
++//Mode setting function
++static void aw_sar_mode_set_func(struct i2c_client *i2c, int to_irq,
++		struct aw_sar_mode_set_t *mode_set_para,
++		const struct aw_sar_mode_set_t *mode_set, uint8_t len)
++{
++	uint8_t i;
++
++	for (i = 0; i < len; i++) {
++		if ((mode_set[i].chip_mode.curr_mode == mode_set_para->chip_mode.curr_mode) &&
++				(mode_set[i].chip_mode.last_mode == mode_set_para->chip_mode.last_mode) &&
++				((mode_set[i].chip_id == AW_SAR_NONE_CHECK_CHIP) ||
++				 ((mode_set[i].chip_id & mode_set_para->chip_id) != 0))) {
++			if (mode_set[i].mode_switch_ops.enable_clock != NULL)
++				mode_set[i].mode_switch_ops.enable_clock(i2c);
++			if (mode_set[i].mode_switch_ops.rc_irqscr != NULL)
++				mode_set[i].mode_switch_ops.rc_irqscr(i2c);
++			if (mode_set[i].mode_switch_ops.mode_update != NULL)
++				mode_set[i].mode_switch_ops.mode_update(i2c);
++			break;
++		}
++	}
++}
++
++static int32_t aw_sar_check_init_over_irq_func(struct i2c_client *i2c,
++					const struct aw_sar_init_over_irq_t *p_check_irq)
++{
++	int16_t cnt = p_check_irq->wait_times;
++	uint32_t irq_stat;
++	int32_t ret;
++
++	do {
++		ret = aw_sar_i2c_read(i2c, p_check_irq->reg_irqsrc, &irq_stat);
++		if (ret < 0)
++			return ret;
++		if (((irq_stat >> p_check_irq->irq_offset_bit) & p_check_irq->irq_mask) ==
++				p_check_irq->irq_flag)
++			return 0;
++		mdelay(1);
++	} while (cnt--);
++
++	if (cnt < 0)
++		dev_err(&i2c->dev, "init over irq error!");
++
++	return AW_ERR_IRQ_INIT_OVER;
++}
++
++static int32_t
++aw_sar_soft_reset_func(struct i2c_client *i2c, const struct aw_sar_soft_rst_t *p_soft_rst)
++{
++	int32_t ret;
++
++	ret = aw_sar_i2c_write(i2c, p_soft_rst->reg_rst, p_soft_rst->reg_rst_val);
++	if (ret < 0) {
++		dev_err(&i2c->dev, "soft_reset error: %d", ret);
++		return ret;
++	}
++
++	msleep(p_soft_rst->delay_ms);
++
++	return 0;
++}
++//Chip logic part end
++
++static int32_t aw_sar_parse_bin(const struct firmware *cont, struct aw_sar *p_sar)
++{
++	enum aw_bin_err_val bin_ret;
++	struct aw_bin *aw_bin;
++	int32_t ret;
++
++	if (!cont) {
++		dev_err(p_sar->dev, "def_reg_bin request error!");
++		return -EINVAL;
++	}
++
++	dev_dbg(p_sar->dev, "Bin file size: %d", (uint32_t)cont->size);
++
++	aw_bin = devm_kzalloc(p_sar->dev, cont->size + sizeof(struct aw_bin), GFP_KERNEL);
++	if (!aw_bin) {
++		release_firmware(cont);
++		dev_err(p_sar->dev, "failed to allcating memory!");
++		return -ENOMEM;
++	}
++
++	aw_bin->info.len = cont->size;
++	memcpy(aw_bin->info.data, cont->data, cont->size);
++
++	bin_ret = aw_sar_parsing_bin_file(aw_bin);
++	if (bin_ret < 0) {
++		dev_err(p_sar->dev, "parse bin fail! bin_ret = %d", bin_ret);
++		goto err;
++	}
++
++	//Write bin file execution process
++	if (p_sar->load_bin.bin_opera_func != NULL) {
++		ret = p_sar->load_bin.bin_opera_func(aw_bin, p_sar);
++		if (ret != 0) {
++			dev_err(p_sar->dev, "load_bin_to_chip error!");
++			if (p_sar->load_bin.bin_load_fail_opera_func != NULL) {
++				ret = p_sar->load_bin.bin_load_fail_opera_func(aw_bin, p_sar);
++				if (ret != 0) {
++					dev_err(p_sar->dev, "bin_load_fail_opera_func error!");
++					goto err;
++				}
++			} else {
++				goto err;
++			}
++		}
++	} else {
++		dev_err(p_sar->dev, "bin_opera_func is null error!");
++	}
++
++	if (aw_bin != NULL)
++		devm_kfree(p_sar->dev, aw_bin);
++
++	return 0;
++err:
++	if (aw_bin != NULL)
++		devm_kfree(p_sar->dev, aw_bin);
 +
 +	return -EINVAL;
 +}
 +
-+static void aw963xx_convert_little_endian_2_big_endian(struct aw_bin *aw_bin)
++static int32_t aw_sar_load_bin_comm(struct aw_sar *p_sar)
 +{
-+	uint32_t start_index = aw_bin->header_info[0].valid_data_addr;
-+	uint32_t fw_len = aw_bin->header_info[0].reg_num;
-+	uint32_t uints = fw_len / AW963XX_SRAM_UPDATE_ONE_UINT_SIZE;
-+	uint8_t tmp1;
-+	uint8_t tmp2;
-+	uint8_t tmp3;
-+	uint8_t tmp4;
-+	int i;
-+
-+	for (i = 0; i < uints; i++) {
-+		tmp1 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 3];
-+		tmp2 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 2];
-+		tmp3 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 1];
-+		tmp4 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE];
-+		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE]     = tmp1;
-+		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 1] = tmp2;
-+		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 2] = tmp3;
-+		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 3] = tmp4;
-+	}
-+}
-+
-+/**
-+ * @brief  |----------------code ram-----------------|
-+ *       0x2000                                    0x4fff
-+ *         |--- app wrote here ---|--fill with 0xff--|
-+ *
-+ *         if the size of app is less than the size of code ram, the rest of the
-+ *         ram is filled with 0xff.
-+ * @param load_bin_para
-+ * @param offset the rear addr of app
-+ * @return int32_t
-+ */
-+static int32_t aw963xx_sram_fill_not_wrote_area(void *load_bin_para, uint32_t offset)
-+{
-+	uint32_t last_pack_len = (AW963XX_SRAM_END_ADDR - offset) %
-+						AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-+	uint32_t pack_cnt = last_pack_len == 0 ?
-+			((AW963XX_SRAM_END_ADDR - offset) / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) :
-+			((AW963XX_SRAM_END_ADDR - offset) / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) + 1;
-+	uint8_t buf[AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2] = { 0 };
-+	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-+	uint32_t download_addr_with_ofst;
-+	uint8_t *r_buf;
-+	int32_t ret;
-+	uint32_t i;
-+
-+	r_buf = devm_kzalloc(p_sar->dev, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE, GFP_KERNEL);
-+	if (!r_buf)
-+		return -ENOMEM;
-+
-+	memset(buf, 0xff, sizeof(buf));
-+	for (i = 0; i < pack_cnt; i++) {
-+		memset(r_buf, 0, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-+		download_addr_with_ofst = offset + i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-+		buf[0] = (uint8_t)(download_addr_with_ofst >> OFFSET_BIT_8);
-+		buf[1] = (uint8_t)(download_addr_with_ofst);
-+		if (i != (pack_cnt - 1)) {
-+			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf,
-+					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-+				devm_kfree(p_sar->dev, r_buf);
-+				return ret;
-+			}
-+			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf,
-+					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-+				devm_kfree(p_sar->dev, r_buf);
-+				return ret;
-+			}
-+			if (memcmp(&buf[2], r_buf, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) != 0) {
-+				dev_err(p_sar->dev, "read is not equal to write ");
-+				devm_kfree(p_sar->dev, r_buf);
-+				return -EINVAL;
-+			}
-+		} else {
-+			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf, last_pack_len + 2);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-+				devm_kfree(p_sar->dev, r_buf);
-+				return ret;
-+			}
-+			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf, last_pack_len);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-+				devm_kfree(p_sar->dev, r_buf);
-+				return ret;
-+			}
-+			if (memcmp(&buf[2], r_buf, last_pack_len) != 0) {
-+				dev_err(p_sar->dev, "read is not equal to write ");
-+				devm_kfree(p_sar->dev, r_buf);
-+				return -EINVAL;
-+			}
-+		}
-+	}
-+
-+	devm_kfree(p_sar->dev, r_buf);
-+
-+	return 0;
-+}
-+
-+static int32_t aw963xx_sram_data_write(struct aw_bin *aw_bin, void *load_bin_para)
-+{
-+	uint8_t buf[AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2] = { 0 };
-+	uint32_t start_index = aw_bin->header_info[0].valid_data_addr;
-+	uint32_t fw_bin_version = aw_bin->header_info[0].app_version;
-+	uint32_t download_addr = AW963XX_RAM_START_ADDR;
-+	uint32_t fw_len = aw_bin->header_info[0].reg_num;
-+	uint32_t last_pack_len = fw_len % AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-+	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-+	uint32_t download_addr_with_ofst = 0;
-+	uint32_t pack_cnt;
-+	uint8_t *r_buf;
-+	int32_t ret;
-+	uint32_t i;
-+
-+	r_buf = devm_kzalloc(p_sar->dev, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE, GFP_KERNEL);
-+	if (!r_buf)
-+		return -ENOMEM;
-+
-+	pack_cnt = ((fw_len % AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) == 0) ?
-+			(fw_len / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) :
-+			(fw_len / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) + 1;
-+
-+	dev_info(p_sar->dev, "fw_bin_version = 0x%x", fw_bin_version);
-+	for (i = 0; i < pack_cnt; i++) {
-+		memset(r_buf, 0, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-+		download_addr_with_ofst = download_addr + i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-+		buf[0] = (uint8_t)(download_addr_with_ofst >> OFFSET_BIT_8);
-+		buf[1] = (uint8_t)(download_addr_with_ofst);
-+		if (i != (pack_cnt - 1)) {
-+			memcpy(&buf[2], &aw_bin->info.data[start_index +
-+					i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE],
-+					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-+			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf,
-+					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-+				goto err_out;
-+			}
-+			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf,
-+					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-+				goto err_out;
-+			}
-+			if (memcmp(&buf[2], r_buf, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) != 0) {
-+				dev_err(p_sar->dev, "read is not equal to write ");
-+				ret = -EIO;
-+				goto err_out;
-+			}
-+		} else { // last pack process
-+			memcpy(&buf[2], &aw_bin->info.data[start_index +
-+					i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE], last_pack_len);
-+			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf, last_pack_len + 2);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-+				goto err_out;
-+			}
-+			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf, last_pack_len);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-+				goto err_out;
-+			}
-+			if (memcmp(&buf[2], r_buf, last_pack_len) != 0) {
-+				dev_err(p_sar->dev, "read is not equal to write ");
-+				ret = -EIO;
-+				goto err_out;
-+			}
-+			/* fill 0xff in the area that not worte. */
-+			ret = aw963xx_sram_fill_not_wrote_area(load_bin_para,
-+					download_addr_with_ofst + last_pack_len);
-+			if (ret != 0) {
-+				dev_err(p_sar->dev, "cnt%d, sram_fill_not_wrote_area error!", i);
-+				goto err_out;
-+			}
-+		}
-+	}
-+
-+err_out:
-+	devm_kfree(p_sar->dev, r_buf);
-+
-+	return ret;
-+}
-+
-+static int32_t aw963xx_update_firmware(struct aw_bin *aw_bin, void *load_bin_para)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-+	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-+	struct i2c_client *i2c = p_sar->i2c;
++	const struct firmware *fw;
 +	int32_t ret;
 +
-+	if (aw963xx->start_mode == AW963XX_ROM_MODE) {
-+		dev_info(p_sar->dev, "no need to update fw.");
-+		return 0;
-+	}
-+
-+	//step1: close coderam shutdown mode
-+	aw_sar_i2c_write(i2c, 0xfff4, 0x3c00d11f);
-+	aw_sar_i2c_write(i2c, 0xc400, 0x21660000);
-+
-+	// step 2: reset mcu only and set boot mode to 1. (0xf800 0x00010100)
-+	aw_sar_i2c_write(i2c, REG_CPU_MODE_SET, AW963XX_RESET_CPU_SET_BOOT_SATRT);
-+
-+	// step 3: enable data ram. (0xFFE4 0x3C000000)
-+	aw_sar_i2c_write(i2c, REG_RAM_PASSWORD, AW963XX_NO_ENCRYPTION);
-+
-+	// setp 4: convert LD to BD
-+	aw963xx_convert_little_endian_2_big_endian(aw_bin);
-+
-+	// step 5: write ram data.
-+	ret = aw963xx_sram_data_write(aw_bin, load_bin_para);
-+	if (ret == 0)
-+		dev_info(p_sar->dev, "sram_data_write OK");
-+	else
-+		dev_err(p_sar->dev, "sram_data_write error");
-+
-+	mdelay(3);
-+
-+	// step 6: exit reset mcu and boot cpu in ram. (0xf800 0x00000100)
-+	aw_sar_i2c_write(i2c, REG_CPU_MODE_SET, AW963XX_EXIT_RESET_CPU_SET_BOOT_SATRT);
-+
-+	// step 7: reset cpu (0xFF0C 0x0)
-+	aw_sar_i2c_write(i2c, REG_CPU_RESET, AW963XX_RESET_SET);
-+
-+	//step 8: Wait for chip initialization to complete
-+	msleep(AW963XX_CHIP_INIT_MAX_TIME_MS);
-+
-+	return aw963xx_read_init_over_irq(load_bin_para);
-+}
-+
-+static int32_t aw963xx_load_reg_bin(struct aw_bin *aw_bin, void *load_bin_para)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-+	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-+	int32_t ret;
-+
-+	dev_dbg(p_sar->dev, "reg chip name: %s, soc chip name: %s, len = %d",
-+			p_sar->chip_name, aw_bin->header_info[0].chip_type, aw_bin->info.len);
-+
-+	ret = strncmp(p_sar->chip_name, aw_bin->header_info[0].chip_type,
-+			sizeof(aw_bin->header_info[0].chip_type));
-+	if (ret != 0)
-+		dev_err(p_sar->dev, "load_binname(%s) incompatible with chip type(%s)",
-+			p_sar->chip_name, aw_bin->header_info[0].chip_type);
-+
-+	p_sar->load_bin.bin_data_ver = aw_bin->header_info[0].bin_data_ver;
-+
-+	ret = aw_sar_load_reg(aw_bin, p_sar->i2c);
-+
-+	if (!strncmp(p_sar->chip_name, AW96308, sizeof(AW96308)) ||
-+		!strncmp(p_sar->chip_name, AW96305BFOR, sizeof(AW96305BFOR))) {
-+		dev_dbg(p_sar->dev, "set cs%d as irq", aw963xx->irq_mux);
-+		aw963xx_set_cs_as_irq(p_sar, aw963xx->irq_mux);
-+	}
-+
-+	return ret;
-+}
-+
-+static void aw963xx_irq_handle_func(uint32_t irq_status, void *data)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	uint32_t ch_th[AW963XX_CHANNEL_NUM_MAX] = { 0 };
-+	uint32_t curr_status_val[4] = { 0 };
-+	int32_t ret;
-+	int8_t i;
-+	int8_t j;
-+
-+	if (((irq_status & 0x01) == 1) && (p_sar->driver_code_initover_flag == 1)) {
-+		dev_dbg(p_sar->dev, "not healthy!");
-+		p_sar->fault_flag = AW_SAR_UNHEALTHY;
-+	}
-+
-+	for (i = 0; i < AW963XX_VALID_TH; i++)
-+		ret = aw_sar_i2c_read(p_sar->i2c, REG_STAT0 + i * (REG_STAT1 - REG_STAT0),
-+					&curr_status_val[i]);
-+
-+	for (j = 0; j < AW963XX_CHANNEL_NUM_MAX; j++) {
-+		if (!p_sar->channels_arr[j].input)
-+			continue;
-+
-+		for (i = 0; i < AW963XX_VALID_TH; i++)
-+			ch_th[j] |= ((curr_status_val[i] >> j) & 0x01) << i;
-+
-+		if (p_sar->channels_arr[j].last_channel_info != ch_th[j]) {
-+			if ((ch_th[j] >> 3 & 0x01) == 1) {	//th3
-+				input_report_abs(p_sar->channels_arr[j].input, ABS_DISTANCE, 4);
-+			} else if ((ch_th[j] >> 2 & 0x01) == 1) { //th2
-+				input_report_abs(p_sar->channels_arr[j].input, ABS_DISTANCE, 3);
-+			} else if ((ch_th[j] >> 1 & 0x01) == 1) { //th1
-+				input_report_abs(p_sar->channels_arr[j].input, ABS_DISTANCE, 2);
-+			} else if ((ch_th[j] >> 0 & 0x01) == 1) { //th0
-+				input_report_abs(p_sar->channels_arr[j].input, ABS_DISTANCE, 1);
-+			} else {	//far
-+				input_report_abs(p_sar->channels_arr[j].input, ABS_DISTANCE, 0);
-+			}
-+			input_sync(p_sar->channels_arr[j].input);
-+			p_sar->channels_arr[j].last_channel_info = ch_th[j];
-+		}
-+	}
-+}
-+
-+static ssize_t aw963xx_operation_mode_get(void *data, char *buf)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	ssize_t len = 0;
-+
-+	if (p_sar->last_mode == AW963XX_ACTIVE_MODE)
-+		len += snprintf(buf + len, PAGE_SIZE - len, "operation mode: Active\n");
-+	else if (p_sar->last_mode == AW963XX_SLEEP_MODE)
-+		len += snprintf(buf + len, PAGE_SIZE - len, "operation mode: Sleep\n");
-+	else if (p_sar->last_mode == AW963XX_DEEPSLEEP_MODE)
-+		len += snprintf(buf + len, PAGE_SIZE - len, "operation mode: DeepSleep\n");
-+	else
-+		len += snprintf(buf + len, PAGE_SIZE - len, "operation mode: Unconfirmed\n");
-+
-+	return len;
-+}
-+
-+static void aw963xx_sar_chip_info_get(void *data, char *buf, ssize_t *p_len)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	uint32_t reg_data;
-+
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len,
-+			"sar%u\n", p_sar->dts_info.sar_num);
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len, "The driver supports UI\n");
-+
-+	aw_sar_i2c_read(p_sar->i2c, REG_CHIP_ID0, &reg_data);
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len, "chipid is 0x%08x\n", reg_data);
-+
-+	aw_sar_i2c_read(p_sar->i2c, REG_IRQEN, &reg_data);
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len, "REG_HOSTIRQEN is 0x%08x\n", reg_data);
-+
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len, "aw963xx Bin data version:0x%08x\n",
-+			p_sar->load_bin.bin_data_ver);
-+}
-+
-+static int32_t aw963xx_get_signed_cap(void *data, uint16_t reg_addr)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	int32_t s_ofst_c = 0;
-+	uint32_t off_m_bit;
-+	uint32_t off_c_bit;
-+	uint32_t reg_data;
-+	uint32_t off_c;
-+	uint32_t off_m;
-+	int32_t off_f;
-+	uint32_t i;
-+
-+	aw_sar_i2c_read(p_sar->i2c, reg_addr, &reg_data);
-+
-+	off_f = ((reg_data >> AW_BIT16) & ONE_WORD) * AW963XX_STEP_LEN_UNSIGNED_CAP_FINE_ADJ;
-+	off_c = (reg_data >> AW_BIT8) & ONE_WORD;
-+	off_m = reg_data & ONE_WORD;
-+
-+	for (i = 0; i < 8; i++) {
-+		off_m_bit = (off_m >> i) & 0x01;
-+		off_c_bit = (off_c >> i) & 0x01;
-+		s_ofst_c += ((1 - 2 * off_m_bit) * off_c_bit * aw_sar_pow2(i)) *
-+			AW963XX_STEP_LEN_UNSIGNED_CAP_ROUGH_ADJ;
-+	}
-+
-+	return (s_ofst_c + off_f);
-+}
-+
-+static uint32_t aw963xx_get_unsigned_cap(void *data, uint16_t reg_addr)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	uint32_t reg_data;
-+	uint32_t rough;
-+	uint32_t fine;
-+
-+	aw_sar_i2c_read(p_sar->i2c, reg_addr, &reg_data);
-+
-+	rough = ((reg_data >> AW_BIT8) & ONE_WORD) * AW963XX_STEP_LEN_UNSIGNED_CAP_ROUGH_ADJ;
-+	fine = ((reg_data >> AW_BIT16) & ONE_WORD) * AW963XX_STEP_LEN_UNSIGNED_CAP_FINE_ADJ;
-+
-+	return (rough + fine);
-+}
-+
-+static void aw963xx_get_ref_ch_enable(struct aw_sar *p_sar)
-+{
-+	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-+	uint32_t refa_ch;
-+	uint32_t refb_ch;
-+	uint32_t reg_data;
-+	int32_t i;
-+
-+	for (i = 0; i < AW963XX_CHANNEL_NUM_MAX; i++) {
-+		aw_sar_i2c_read(p_sar->i2c,
-+				REG_FILTCTRL0_CH0 +
-+				i * (REG_FILTCTRL0_CH1 - REG_FILTCTRL0_CH0),
-+				&reg_data);
-+		if ((reg_data >> AW963XX_FILTCTRL0_CHX_REFAEN) & 0x01) {
-+			refa_ch = (reg_data >> AW963XX_FILTCTRL0_CHX_REFASEL) & 0x1f;
-+			aw963xx->ref_ch_en[refa_ch] = AW963XX_REF_EN;
-+		}
-+		if ((reg_data >> AW963XX_FILTCTRL0_CHX_REFBEN) & 0x01) {
-+			refb_ch = (reg_data >> AW963XX_FILTCTRL0_CHX_REFBSEL) & 0x1f;
-+			aw963xx->ref_ch_en[refb_ch] = AW963XX_REF_EN;
-+		}
-+	}
-+}
-+
-+//Note: Because the kernel cannot handle floating-point types, it expands mul by 10 times
-+static uint8_t aw963xx_get_offset_multiple(struct aw_sar *p_sar, uint8_t ch)
-+{
-+	uint32_t reg_data;
-+	uint8_t mul = 1;
-+
-+	aw_sar_i2c_read(p_sar->i2c, REG_AFECFG2_CH0 + ch * (REG_AFECFG2_CH1 - REG_AFECFG2_CH0),
-+			&reg_data);
-+	if ((reg_data >> 27) & 0x1) {
-+		if (((reg_data >> 29) & 0x3) == 0)
-+			mul = 16;
-+		else if (((reg_data >> 29) & 0x3) == 1)
-+			mul = 20;
-+		else if (((reg_data >> 29) & 0x3) == 2)
-+			mul = 26;
-+		else if (((reg_data >> 29) & 0x3) == 3)
-+			mul = 40;
-+		return mul;
-+	}
-+
-+	aw_sar_i2c_read(p_sar->i2c, REG_AFECFG3_CH0 +
-+			ch * (REG_AFECFG3_CH1 - REG_AFECFG3_CH0),
-+			&reg_data);
-+	if ((reg_data >> 11) & 0x1)
-+		mul = 20;
-+	else
-+		mul = 10;
-+
-+	return mul;
-+}
-+
-+static ssize_t aw963xx_get_cap_offset(void *data, char *buf)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-+	int32_t signed_cap_ofst;
-+	uint32_t mode = 0xff;
-+	uint32_t reg_data;
-+	uint32_t cap_ofst;
-+	uint8_t mul = 10;
-+	ssize_t len = 0;
-+	uint32_t tmp;
-+	uint32_t i;
-+
-+	aw963xx_get_ref_ch_enable(p_sar);
-+
-+	for (i = 0; i < AW963XX_CHANNEL_NUM_MAX; i++) {
-+		aw_sar_i2c_read(p_sar->i2c,
-+				REG_AFESOFTCFG0_CH0 +
-+				i * (REG_AFESOFTCFG0_CH1 - REG_AFESOFTCFG0_CH0),
-+				&reg_data);
-+		mul = aw963xx_get_offset_multiple(p_sar, i);
-+		mode = reg_data & 0x0ff;
-+		switch (mode) {
-+		case AW963XX_UNSIGNED_CAP:	//self-capacitance mode unsigned cail
-+			cap_ofst = aw963xx_get_unsigned_cap(p_sar,
-+				REG_AFECFG1_CH0 + i * (REG_AFECFG1_CH1 - REG_AFECFG1_CH0));
-+		//Because it has been expanded by 1000 times before,
-+		//the accuracy of removing mul's expansion loss can be ignored
-+			cap_ofst = cap_ofst * mul / 10;
-+			len += snprintf(buf + len, PAGE_SIZE - len,
-+					"unsigned cap ofst ch%u: %u.%u pf\r\n",
-+					i,
-+					cap_ofst / AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+					cap_ofst % AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+			break;
-+		case AW963XX_SIGNED_CAP:	//self-capacitance mode signed cail
-+			signed_cap_ofst = aw963xx_get_signed_cap(p_sar,
-+					REG_AFECFG1_CH0 + i * (REG_AFECFG1_CH1 - REG_AFECFG1_CH0));
-+			signed_cap_ofst = signed_cap_ofst * mul / 10;
-+			if (signed_cap_ofst < 0) {
-+				tmp = -signed_cap_ofst;
-+						dev_info(p_sar->dev, "cap_ofst2 = 0x%x",
-+								signed_cap_ofst);
-+				len += snprintf(buf + len, PAGE_SIZE - len,
-+						"signed cap ofst ch%u: -%u.%upf\r\n",
-+						i,
-+						tmp / AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+						tmp % AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+			} else {
-+				len += snprintf(buf + len, PAGE_SIZE - len,
-+						"signed cap ofst ch%u: %d.%dpf\r\n",
-+						i,
-+						signed_cap_ofst /
-+						AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+						signed_cap_ofst %
-+						AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+			}
-+			break;
-+		case AW963XX_MUTUAL_CAP:	//mutual-capacitance mode
-+			if (aw963xx->ref_ch_en[i] == AW963XX_REF_EN) {
-+				cap_ofst = aw963xx_get_unsigned_cap(p_sar,
-+					REG_AFECFG1_M_CH0 +
-+					i * (REG_AFECFG1_M_CH1 - REG_AFECFG1_M_CH0));
-+				cap_ofst = cap_ofst * mul / 10;
-+				len += snprintf(buf + len, PAGE_SIZE - len,
-+						"ref unsigned cap ofst ch%u: %u.%udpf\r\n",
-+						i,
-+						cap_ofst / AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+						cap_ofst % AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+			} else {
-+				signed_cap_ofst = aw963xx_get_signed_cap(p_sar,
-+							REG_AFECFG1_CH0 +
-+							i * (REG_AFECFG1_CH1 - REG_AFECFG1_CH0));
-+				signed_cap_ofst = signed_cap_ofst * mul / 10;
-+				if (signed_cap_ofst < 0) {
-+					tmp = -signed_cap_ofst;
-+						dev_info(p_sar->dev,
-+								"cap_ofst2 = 0x%x",
-+								signed_cap_ofst);
-+					len += snprintf(buf + len, PAGE_SIZE - len,
-+							"mutual cap ofst ch%u: -%u.%udpf\r\n",
-+							i,
-+							tmp / AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+							tmp % AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+				} else {
-+					len += snprintf(buf + len, PAGE_SIZE - len,
-+							"mutual cap ofst ch%u: %d.%dpf\r\n",
-+							i,
-+							signed_cap_ofst /
-+							AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE,
-+							signed_cap_ofst %
-+							AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE);
-+				}
-+			}
-+			break;
-+		default:
-+			dev_info(p_sar->dev, "aw963xx ofst error 0x%x", reg_data & 0x0f);
-+			break;
-+		}
-+	}
-+
-+	return len;
-+}
-+
-+static void aw963xx_set_cs_as_irq(struct aw_sar *p_sar, int flag)
-+{
-+	if (flag == AW963XX_CS2_IRQ) {
-+		aw_sar_i2c_write(p_sar->i2c, 0xfff4, 0x3c00d013);
-+		aw_sar_i2c_write(p_sar->i2c, 0xc100, 0x00000020);
-+		aw_sar_i2c_write(p_sar->i2c, 0xe018, 0x00000004);
-+	} else if (flag == AW963XX_CS5_IRQ) {
-+		aw_sar_i2c_write(p_sar->i2c, 0xfff4, 0x3c00d013);
-+		aw_sar_i2c_write(p_sar->i2c, 0xc100, 0x00000800);
-+		aw_sar_i2c_write(p_sar->i2c, 0xe018, 0x00000020);
-+	} else {
-+		aw_sar_i2c_write(p_sar->i2c, 0xfff4, 0x3c00d013);
-+		aw_sar_i2c_write(p_sar->i2c, 0xc100, 0x00000000);
-+		aw_sar_i2c_write(p_sar->i2c, 0xe018, 0x00000000);
-+	}
-+}
-+
-+int32_t aw963xx_check_chipid(void *data)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	uint32_t reg_val;
-+	int32_t ret;
-+
-+	if (!p_sar)
-+		return -EINVAL;
-+
-+	ret = aw_sar_i2c_read(p_sar->i2c, REG_CHIP_ID0, &reg_val);
-+	if (ret < 0) {
-+		dev_err(p_sar->dev, "read CHIP ID failed: %d", ret);
++	ret = request_firmware(&fw, p_sar->load_bin.bin_name, p_sar->dev);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "parse %s error!", p_sar->load_bin.bin_name);
 +		return ret;
 +	}
 +
-+	switch (reg_val) {
-+	case AW96303_CHIP_ID:
-+		dev_info(p_sar->dev, "aw96303 detected, 0x%04x", reg_val);
-+		memcpy(p_sar->chip_name, AW96303, 8);
-+		ret = 0;
-+		break;
-+	case AW96305_CHIP_ID:
-+		dev_info(p_sar->dev, "aw96305 detected, 0x%04x", reg_val);
-+		memcpy(p_sar->chip_name, AW96305, 8);
-+		ret = 0;
-+		break;
-+	case AW96305BFOR_CHIP_ID:
-+		dev_info(p_sar->dev, "aw96305bfor detected, 0x%04x", reg_val);
-+		memcpy(p_sar->chip_name, AW96305BFOR, 8);
-+		ret = 0;
-+		break;
-+	case AW96308_CHIP_ID:
-+		dev_info(p_sar->dev, "aw96308 detected, 0x%04x", reg_val);
-+		memcpy(p_sar->chip_name, AW96308, 8);
-+		ret = 0;
-+		break;
-+	case AW96310_CHIP_ID:
-+		dev_info(p_sar->dev, "aw96310 detected, 0x%04x", reg_val);
-+		memcpy(p_sar->chip_name, AW96310, 8);
-+		ret = 0;
-+		break;
-+	default:
-+		dev_info(p_sar->dev, "chip id error, 0x%04x", reg_val);
-+		ret =  -EIO;
-+		break;
++	ret = aw_sar_parse_bin(fw, p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "reg_bin %s load error!", p_sar->load_bin.bin_name);
++		return ret;
++	}
++	release_firmware(fw);
++
++	return 0;
++}
++
++static int32_t aw_sar_parse_dts_comm(struct device *dev, struct device_node *np,
++		struct aw_sar_dts_info *p_dts_info)
++{
++	int32_t val;
++
++	val = of_property_read_u32(np, "sar-num", &p_dts_info->sar_num);
++	dev_info(dev, "sar num = %d", p_dts_info->sar_num);
++	if (val != 0) {
++		dev_err(dev, "multiple sar failed!");
++		return -EINVAL;
++	}
++
++	p_dts_info->irq_gpio = of_get_named_gpio(np, "irq-gpio", 0);
++	if (p_dts_info->irq_gpio < 0) {
++		p_dts_info->irq_gpio = -1;
++		dev_err(dev, "no irq gpio provided.");
++		return -EINVAL;
++	}
++
++	val = of_property_read_u32(np, "channel_use_flag", &p_dts_info->channel_use_flag);
++	if (val != 0) {
++		dev_err(dev, "channel_use_flag failed!");
++		return -EINVAL;
++	}
++
++	//GPIO is set as internal pull-up input
++	p_dts_info->use_inter_pull_up = of_property_read_bool(np, "aw_sar,pin_set_inter_pull-up");
++	p_dts_info->use_pm = of_property_read_bool(np, "aw_sar,using_pm_ops");
++	p_dts_info->update_fw_flag = of_property_read_bool(np, "aw_sar,update_fw");
++	p_dts_info->use_plug_cail_flag = of_property_read_bool(np, "aw_sar,use_plug_cail");
++	p_dts_info->monitor_esd_flag = of_property_read_bool(np, "aw_sar,monitor_esd");
++
++	return 0;
++}
++
++static int32_t aw_sar_parse_dts(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	ret = aw_sar_parse_dts_comm(p_sar->dev, p_sar->i2c->dev.of_node, &p_sar->dts_info);
++
++	//Special requirements of SAR chip
++	if (p_sar->p_sar_para->p_platform_config->p_add_parse_dts_fn != NULL)
++		ret |= p_sar->p_sar_para->p_platform_config->p_add_parse_dts_fn(p_sar);
++
++	return ret;
++}
++
++static irqreturn_t aw_sar_irq(int32_t irq, void *data)
++{
++	struct aw_sar *p_sar = (struct aw_sar *)data;
++	uint32_t irq_status;
++
++	//step1: read clear interrupt
++	if (p_sar->p_sar_para->p_platform_config->p_irq_init->rc_irq_fn != NULL)
++		irq_status = p_sar->p_sar_para->p_platform_config->p_irq_init->rc_irq_fn(p_sar->i2c);
++
++	//step2: Read the status register for status reporting
++	if (p_sar->p_sar_para->p_platform_config->p_irq_init->irq_spec_handler_fn != NULL)
++		p_sar->p_sar_para->p_platform_config->p_irq_init->irq_spec_handler_fn(irq_status,
++				p_sar);
++
++	//step3: The chip
++
++	if ((!p_sar->dts_info.monitor_esd_flag) && (p_sar->fault_flag == AW_SAR_UNHEALTHY)) {
++		p_sar->fault_flag = AW_SAR_HEALTHY;
++		disable_irq_nosync(p_sar->irq_init.to_irq);
++		p_sar->irq_init.host_irq_stat = IRQ_DISABLE;
++		//aw_sar_soft_reset(p_sar);
++		schedule_delayed_work(&p_sar->update_work, msecs_to_jiffies(500));
++	}
++
++	return IRQ_HANDLED;
++}
++
++static int32_t aw_sar_irq_init_comm(struct aw_sar *p_sar, const struct aw_sar_irq_init_t *p_irq_init)
++{
++	irq_handler_t thread_fn = p_irq_init->thread_fn;
++	int32_t ret;
++
++	snprintf(p_sar->irq_init.label, sizeof(p_sar->irq_init.label),
++				"aw_sar%u_gpio", p_sar->dts_info.sar_num);
++	snprintf(p_sar->irq_init.dev_id, sizeof(p_sar->irq_init.dev_id),
++				"aw_sar%u_irq", p_sar->dts_info.sar_num);
++
++	if (gpio_is_valid(p_sar->dts_info.irq_gpio)) {
++		p_sar->irq_init.to_irq = gpio_to_irq(p_sar->dts_info.irq_gpio);
++		ret = devm_gpio_request_one(p_sar->dev,
++						p_sar->dts_info.irq_gpio,
++						p_irq_init->flags,
++						p_sar->irq_init.label);
++		if (ret) {
++			dev_err(p_sar->dev,
++				"request irq gpio failed, ret = %d", ret);
++			return ret;
++		}
++		if (!thread_fn)
++			thread_fn = aw_sar_irq;
++		ret = devm_request_threaded_irq(p_sar->dev,
++				p_sar->irq_init.to_irq,
++				p_irq_init->handler,
++				thread_fn,
++				p_irq_init->irq_flags,
++				p_sar->irq_init.dev_id,
++				p_sar);
++		if (ret != 0) {
++			dev_err(p_sar->dev,
++					"failed to request IRQ %d: %d",
++					p_sar->irq_init.to_irq, ret);
++			return ret;
++		}
++	} else {
++		dev_err(p_sar->dev, "irq gpio invalid!");
++		return -EINVAL;
++	}
++
++	p_sar->irq_init.host_irq_stat = IRQ_DISABLE;
++	disable_irq(p_sar->irq_init.to_irq);
++
++	return 0;
++}
++
++static int32_t aw_sar_irq_init(struct aw_sar *p_sar)
++{
++
++	if (!p_sar->p_sar_para->p_platform_config->p_irq_init) {
++		dev_err(p_sar->dev, "AW_INVALID_PARA");
++		return -EINVAL;
++	}
++
++	if (p_sar->p_sar_para->p_platform_config->p_irq_init->p_irq_init_fn != NULL) {
++		dev_err(p_sar->dev, "p_irq_init_fn");
++		return p_sar->p_sar_para->p_platform_config->p_irq_init->p_irq_init_fn(p_sar);
++	}
++
++	return aw_sar_irq_init_comm(p_sar, p_sar->p_sar_para->p_platform_config->p_irq_init);
++}
++
++static void aw_sar_irq_free(struct aw_sar *p_sar)
++{
++	if ((p_sar->p_sar_para->p_platform_config != NULL) &&
++		(p_sar->p_sar_para->p_platform_config->p_irq_init != NULL) &&
++		(p_sar->p_sar_para->p_platform_config->p_irq_init->p_irq_deinit_fn != NULL)) {
++		p_sar->p_sar_para->p_platform_config->p_irq_init->p_irq_deinit_fn(p_sar);
++		dev_err(p_sar->dev, "AW_INVALID_PARA");
++		return;
++	}
++}
++
++static int32_t aw_sar_input_init_comm(struct aw_sar *p_sar)
++{
++	int32_t ret;
++	uint32_t i;
++
++	p_sar->channels_arr = devm_kzalloc(p_sar->dev,
++				sizeof(struct aw_channels_info) *
++				p_sar->p_sar_para->ch_num_max,
++				GFP_KERNEL);
++	if (!p_sar->channels_arr) {
++		dev_err(p_sar->dev, "devm_kzalloc err");
++		return -ENOMEM;
++	}
++
++	for (i = 0; i < p_sar->p_sar_para->ch_num_max; i++) {
++		snprintf(p_sar->channels_arr[i].name,
++				sizeof(p_sar->channels_arr->name),
++				"aw_sar%u_ch%ud",
++				p_sar->dts_info.sar_num, i);
++
++		p_sar->channels_arr[i].last_channel_info = 0;
++
++		if ((p_sar->dts_info.channel_use_flag >> i) & 0x01) {
++			p_sar->channels_arr[i].used = AW_TRUE;
++			p_sar->channels_arr[i].input = devm_input_allocate_device(p_sar->dev);
++			if (!p_sar->channels_arr[i].input)
++				return -EINVAL;
++			p_sar->channels_arr[i].input->name = p_sar->channels_arr[i].name;
++			input_set_abs_params(p_sar->channels_arr[i].input,
++						ABS_DISTANCE, -1, 100, 0, 0);
++			ret = input_register_device(p_sar->channels_arr[i].input);
++			if (ret) {
++				dev_err(p_sar->dev, "failed to register input device");
++				return ret;
++			}
++		} else {
++			p_sar->channels_arr[i].used = AW_FALSE;
++			p_sar->channels_arr[i].input = NULL;
++		}
++	}
++
++	return 0;
++}
++
++static int32_t aw_sar_input_init(struct aw_sar *p_sar)
++{
++	if (p_sar->p_sar_para->p_platform_config->p_input_init_fn != NULL)
++		return p_sar->p_sar_para->p_platform_config->p_input_init_fn(p_sar);
++
++	return aw_sar_input_init_comm(p_sar);
++}
++
++static void aw_sar_input_free(struct aw_sar *p_sar)
++{
++	if ((p_sar->p_sar_para->p_platform_config != NULL) &&
++		(p_sar->p_sar_para->p_platform_config->p_input_deinit_fn != NULL)) {
++		p_sar->p_sar_para->p_platform_config->p_input_deinit_fn(p_sar);
++	}
++}
++
++static int32_t aw_sar_check_init_over_irq_comm(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	if (!p_sar->p_sar_para->p_init_over_irq)
++		return -EINVAL;
++
++	ret = aw_sar_check_init_over_irq_func(p_sar->i2c, p_sar->p_sar_para->p_init_over_irq);
++	if (ret == AW_ERR_IRQ_INIT_OVER) {
++		if (p_sar->p_sar_para->p_init_over_irq->p_get_err_type_fn != NULL) {
++			//Consider the abnormality reasonable
++			if (p_sar->p_sar_para->p_init_over_irq->p_get_err_type_fn(p_sar) == 0) {
++				p_sar->fw_fail_flag = AW_TRUE;
++				return 0;
++			}
++		}
++		return -EINVAL;
 +	}
 +
 +	return ret;
 +}
 +
-+/**********************mode operation start*******************************/
-+static void aw963xx_enable_clock(void *i2c)
++//If there is no special operation on the chip, execute the common process
++int32_t aw_sar_check_init_over_irq(struct aw_sar *p_sar)
 +{
-+	aw_sar_i2c_write_bits(i2c, REG_CHIPSTAT, ~AW963XX_CPU_OSC_CTRL_MASK,
-+			AW963XX_CPU_OSC_CTRL_MASK);
-+}
-+
-+static uint32_t aw963xx_rc_irqscr(void *i2c)
-+{
-+	uint32_t val;
-+
-+	aw_sar_i2c_read(i2c, REG_IRQSRC, &val);
-+
-+	return val;
-+}
-+
-+static void aw963xx_set_active_cmd(void *i2c)
-+{
-+	aw_sar_i2c_write(i2c, REG_CMD, AW963XX_ACTIVE_MODE);
-+}
-+
-+static void aw963xx_set_sleep_cmd(void *i2c)
-+{
-+	aw_sar_i2c_write(i2c, REG_CMD, AW963XX_SLEEP_MODE);
-+}
-+
-+static void aw963xx_set_deepsleep_cmd(void *i2c)
-+{
-+	aw_sar_i2c_write(i2c, REG_CMD, AW963XX_DEEPSLEEP_MODE);
-+}
-+
-+static const struct aw_sar_mode_set_t g_aw963xx_mode_set[] = {
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_ACTIVE_MODE,
-+			.last_mode = AW963XX_DEEPSLEEP_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = aw963xx_enable_clock,
-+			.rc_irqscr = NULL,
-+			.mode_update = aw963xx_set_active_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_ACTIVE_MODE,
-+			.last_mode = AW963XX_SLEEP_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = NULL,
-+			.rc_irqscr = NULL,
-+			.mode_update = aw963xx_set_active_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_ACTIVE_MODE,
-+			.last_mode = AW963XX_ACTIVE_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = NULL,
-+			.rc_irqscr = NULL,
-+			.mode_update = aw963xx_set_active_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_SLEEP_MODE,
-+			.last_mode = AW963XX_DEEPSLEEP_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = aw963xx_enable_clock,
-+			.rc_irqscr = aw963xx_rc_irqscr,
-+			.mode_update = aw963xx_set_sleep_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_SLEEP_MODE,
-+			.last_mode = AW963XX_ACTIVE_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = NULL,
-+			.rc_irqscr = aw963xx_rc_irqscr,
-+			.mode_update = aw963xx_set_sleep_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_DEEPSLEEP_MODE,
-+			.last_mode = AW963XX_SLEEP_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = NULL,
-+			.rc_irqscr = aw963xx_rc_irqscr,
-+			.mode_update = aw963xx_set_deepsleep_cmd,
-+		},
-+	},
-+	{
-+		.chip_id = AW_SAR_NONE_CHECK_CHIP,
-+		.chip_mode = {
-+			.curr_mode = AW963XX_DEEPSLEEP_MODE,
-+			.last_mode = AW963XX_ACTIVE_MODE,
-+		},
-+		.mode_switch_ops = {
-+			.enable_clock = NULL,
-+			.rc_irqscr = aw963xx_rc_irqscr,
-+			.mode_update = aw963xx_set_deepsleep_cmd,
-+		},
-+	},
-+};
-+
-+static void aw963xx_sar_get_firmware_info(void *data, char *buf, ssize_t *p_len)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	uint32_t reg_data;
-+
-+	aw_sar_i2c_read(p_sar->i2c, REG_FWVER, &reg_data);
-+	*p_len += snprintf(buf + *p_len, PAGE_SIZE - *p_len, "firmware is 0x%08x\n", reg_data);
-+}
-+
-+static int32_t aw963xx_parse_dts(void *data)
-+{
-+	struct aw_sar *p_sar = (struct aw_sar *)data;
-+	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-+	struct device_node *np = p_sar->i2c->dev.of_node;
-+	int32_t val;
-+
-+	val = of_property_read_u32(np, "irq-mux", &aw963xx->irq_mux);
-+	if (val != 0)
-+		dev_err(p_sar->dev, "irq-mux not detected");
-+	else
-+		dev_info(p_sar->dev, "irq-mux =  %d", aw963xx->irq_mux);
-+
-+	val = of_property_read_u32(np, "start-mode", &aw963xx->start_mode);
-+	if (val != 0)
-+		dev_err(p_sar->dev, "start-mode not detected");
-+	else
-+		dev_info(p_sar->dev, "start-mode =  %d", aw963xx->start_mode);
-+
-+	return 0;
-+}
-+
-+static const struct aw_sar_mode_t g_aw963xx_mode = {
-+	.mode_set_arr = &g_aw963xx_mode_set[0],
-+	.mode_set_arr_len = ARRAY_SIZE(g_aw963xx_mode_set),
-+	.p_set_mode_node_fn = NULL,
-+	.p_get_mode_node_fn = aw963xx_operation_mode_get,
-+};
-+
-+static const struct aw_sar_diff_t g_aw963xx_diff = {
-+	.diff0_reg = REG_DIFF_CH0,
-+	.diff_step = REG_DIFF_CH1 - REG_DIFF_CH0,
-+	.rm_float = AW963XX_DATA_PROCESS_FACTOR,
-+	.p_get_diff_node_fn = NULL,
-+};
-+
-+static const struct aw_sar_offset_t g_aw963xx_offset = {
-+	.p_get_offset_node_fn = aw963xx_get_cap_offset,
-+};
-+
-+static const struct aw_sar_aot_t g_aw963xx_aot = {
-+	.aot_reg = REG_SCANCTRL1,
-+	.aot_mask = ~0xfff,
-+	.aot_flag = 0xfff,
-+};
-+
-+static const struct aw_sar_para_load_t g_aw963xx_reg_arr_para = {
-+	.reg_arr = aw963xx_reg_default,
-+	.reg_arr_len = ARRAY_SIZE(aw963xx_reg_default),
-+};
-+
-+static const struct aw_sar_regulator_config_t g_regulator_config = {
-+	.vcc_name = "vcc",
-+	.min_uV = AW963XX_SAR_VCC_MIN_UV,
-+	.max_uV = AW963XX_SAR_VCC_MAX_UV,
-+};
-+
-+static const struct aw_sar_reg_list_t g_aw963xx_reg_list = {
-+	.reg_none_access = REG_NONE_ACCESS,
-+	.reg_rd_access = REG_RD_ACCESS,
-+	.reg_wd_access = REG_WR_ACCESS,
-+	.reg_perm = (struct aw_sar_reg_data *)&g_aw963xx_reg_access[0],
-+	.reg_num = ARRAY_SIZE(g_aw963xx_reg_access),
-+};
-+
-+static const struct aw_sar_chip_mode_t g_aw963xx_chip_mode = {
-+	.init_mode = AW963XX_ACTIVE_MODE,
-+	.active = AW963XX_ACTIVE_MODE,
-+	.pre_init_mode = AW963XX_SLEEP_MODE,
-+};
-+
-+static const struct aw_sar_load_bin_t g_aw963xx_load_reg_bin = {
-+	.bin_name = "aw963xx_reg",
-+	.bin_opera_func = aw963xx_load_reg_bin,
-+	.p_update_fn = NULL,
-+};
-+
-+static const struct aw_sar_load_bin_t g_aw963xx_load_fw_bin = {
-+	.bin_name = "aw963xx_fw",
-+	.bin_opera_func = aw963xx_update_firmware,
-+	.p_get_prot_update_fw_node_fn = aw963xx_sar_get_firmware_info,
-+	.bin_load_fail_opera = NULL,
-+};
-+
-+static const struct aw_sar_get_chip_info_t g_aw963xx_get_chip_info = {
-+	.p_get_chip_info_node_fn = aw963xx_sar_chip_info_get,
-+};
-+
-+static const struct aw_sar_check_chipid_t g_aw963xx_check_chipid = {
-+	.p_check_chipid_fn = aw963xx_check_chipid,
-+};
-+
-+static const struct aw_sar_irq_init_t g_aw963xx_irq_init = {
-+	.flags = GPIOF_DIR_IN | GPIOF_INIT_HIGH,
-+	.irq_flags = IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+	.handler = NULL,
-+	.thread_fn = NULL,
-+	.rc_irq_fn = aw963xx_rc_irqscr,
-+	.irq_spec_handler_fn = aw963xx_irq_handle_func,
-+
-+	.p_irq_init_fn = NULL,
-+	.p_irq_deinit_fn = NULL,
-+};
-+
-+static const struct aw_sar_soft_rst_t g_aw963xx_soft_rst = {
-+	.reg_rst = REG_SA_RSTNALL,
-+	.reg_rst_val = AW963XX_SOFT_RST_EN,
-+	.delay_ms = AW963XX_CHIP_INIT_MAX_TIME_MS,
-+	.p_soft_reset_fn = NULL,
-+};
-+
-+static const struct aw_sar_init_over_irq_t g_aw963xx_init_over_irq = {
-+	.wait_times = 100,
-+	.daley_step = 1,
-+	.reg_irqsrc = REG_IRQSRC,
-+	.irq_offset_bit = 0,
-+	.irq_mask = 0x1,
-+	.irq_flag = 0x1,
-+
-+	.p_check_init_over_irq_fn = NULL,
-+	.p_get_err_type_fn = NULL,
-+};
-+
-+static const struct aw_sar_pm_t g_aw963xx_pm_chip_mode = {
-+	.suspend_set_mode = AW963XX_SLEEP_MODE,
-+	.resume_set_mode = AW963XX_ACTIVE_MODE,
-+	.shutdown_set_mode = AW963XX_SLEEP_MODE,
-+};
-+
-+static const struct aw_sar_platform_config g_aw963xx_platform_config = {
-+	.p_add_parse_dts_fn = &aw963xx_parse_dts,
-+	.p_regulator_config = &g_regulator_config,
-+	.p_irq_init = &g_aw963xx_irq_init,
-+	.p_pm_chip_mode = &g_aw963xx_pm_chip_mode,
-+};
-+
-+static void aw963xx_power_on_prox_detection(void *data, uint8_t en_flag)
-+{
-+
-+}
-+
-+static const struct aw_sar_power_on_prox_detection_t g_aw933xx_power_on_prox_detection = {
-+	.p_power_on_prox_detection_en_fn = aw963xx_power_on_prox_detection,
-+	.irq_en_cali_bit = 3,
-+	.power_on_prox_en_flag = true,
-+};
-+
-+static const struct aw_sar_chip_config g_aw963xx_chip_config = {
-+	.ch_num_max = AW963XX_CHANNEL_NUM_MAX,
-+	.p_platform_config = &g_aw963xx_platform_config,
-+
-+	.p_check_chipid = &g_aw963xx_check_chipid,
-+	.p_soft_rst = &g_aw963xx_soft_rst,
-+	.p_init_over_irq = &g_aw963xx_init_over_irq,
-+	.p_fw_bin = &g_aw963xx_load_fw_bin,
-+	.p_reg_bin = &g_aw963xx_load_reg_bin,
-+	.p_chip_mode = &g_aw963xx_chip_mode,
-+
-+	//Node usage parameters
-+	.p_reg_list = &g_aw963xx_reg_list,
-+	.p_reg_arr = &g_aw963xx_reg_arr_para,
-+	.p_aot = &g_aw963xx_aot,
-+	.p_diff = &g_aw963xx_diff,
-+	.p_offset = &g_aw963xx_offset,
-+	.p_mode = &g_aw963xx_mode,
-+	.p_prox_fw = &g_aw963xx_load_fw_bin,
-+	.p_get_chip_info = &g_aw963xx_get_chip_info,
-+	.p_aw_sar_awrw = NULL,
-+	.p_boot_bin = NULL,
-+
-+	.p_other_operation = NULL,
-+	.p_other_opera_free = NULL,
-+
-+	.power_on_prox_detection = &g_aw933xx_power_on_prox_detection,
-+};
-+
-+int32_t aw963xx_init(struct aw_sar *p_sar)
-+{
-+	struct aw963xx *aw963xx;
-+
-+	if (!p_sar)
++	if (!p_sar->p_sar_para->p_init_over_irq)
 +		return -EINVAL;
 +
-+	p_sar->priv_data = devm_kzalloc(p_sar->dev, sizeof(struct aw963xx), GFP_KERNEL);
-+	if (!p_sar->priv_data)
-+		return -ENOMEM;
++	if (p_sar->p_sar_para->p_init_over_irq->p_check_init_over_irq_fn != NULL)
++		return p_sar->p_sar_para->p_init_over_irq->p_check_init_over_irq_fn(p_sar);
 +
-+	//Chip private function operation
-+	p_sar->p_sar_para = &g_aw963xx_chip_config;
++	return aw_sar_check_init_over_irq_comm(p_sar);
++}
 +
-+	aw963xx = (struct aw963xx *)p_sar->priv_data;
++static int32_t aw_sar_chip_other_operation(struct aw_sar *p_sar)
++{
++	if (p_sar->p_sar_para->p_other_operation != NULL)
++		return p_sar->p_sar_para->p_other_operation(p_sar);
 +
 +	return 0;
 +}
 +
-+void aw963xx_deinit(struct aw_sar *p_sar)
++static void aw_sar_chip_other_operation_free(struct aw_sar *p_sar)
 +{
-+	struct aw963xx *aw963xx;
++	if (p_sar->p_sar_para->p_other_opera_free != NULL)
++		p_sar->p_sar_para->p_other_opera_free(p_sar);
++}
 +
-+	if ((!p_sar) || (!p_sar->priv_data))
++int32_t aw_sar_soft_reset(struct aw_sar *p_sar)
++{
++	if (!p_sar->p_sar_para->p_soft_rst)
++		return -EINVAL;
++
++	//If a private interface is defined, the private interface is used
++	if (p_sar->p_sar_para->p_soft_rst->p_soft_reset_fn != NULL)
++		return p_sar->p_sar_para->p_soft_rst->p_soft_reset_fn(p_sar);
++
++	return aw_sar_soft_reset_func(p_sar->i2c, p_sar->p_sar_para->p_soft_rst);
++}
++
++static int32_t aw_sar_check_chipid(struct aw_sar *p_sar)
++{
++	if (!p_sar->p_sar_para)
++		return -EINVAL;
++
++	if (p_sar->p_sar_para->p_check_chipid != NULL) {
++		if (p_sar->p_sar_para->p_check_chipid->p_check_chipid_fn != NULL)
++			return p_sar->p_sar_para->p_check_chipid->p_check_chipid_fn(p_sar);
++	}
++
++	return -EINVAL;
++}
++
++int32_t aw_sar_load_def_reg_bin(struct aw_sar *p_sar)
++{
++	if ((!p_sar->p_sar_para->p_reg_bin) ||
++		(!p_sar->p_sar_para->p_reg_bin->bin_name)) {
++		dev_err(p_sar->dev, "p_reg_bin is NULL or bin_name is NULL error");
++		p_sar->ret_val = AW_BIN_PARA_INVALID;
++		return -EINVAL;
++	}
++
++	snprintf(p_sar->load_bin.bin_name, sizeof(p_sar->load_bin.bin_name),
++			"%s_%u.bin", p_sar->p_sar_para->p_reg_bin->bin_name,
++			p_sar->dts_info.sar_num);
++
++	p_sar->load_bin.bin_opera_func = p_sar->p_sar_para->p_reg_bin->bin_opera_func;
++
++	return aw_sar_load_bin_comm(p_sar);
++}
++
++static int32_t aw_sar_para_loaded(struct aw_sar *p_sar)
++{
++	if (!p_sar->p_sar_para->p_reg_arr)
++		return -EINVAL;
++
++	aw_sar_para_loaded_func(p_sar->i2c, p_sar->p_sar_para->p_reg_arr);
++
++	return 0;
++}
++
++static int32_t aw_sar_reg_update_boot_work(struct aw_sar *p_sar)
++{
++	if ((!p_sar->p_sar_para->p_boot_bin) || (!p_sar->p_sar_para->p_boot_bin->bin_name))
++		return -EINVAL;
++
++	snprintf(p_sar->load_bin.bin_name, sizeof(p_sar->load_bin.bin_name),
++			"%s_%u.bin", p_sar->p_sar_para->p_boot_bin->bin_name,
++			p_sar->dts_info.sar_num);
++
++	p_sar->load_bin.bin_opera_func = p_sar->p_sar_para->p_boot_bin->bin_opera_func;
++
++	return aw_sar_load_bin_comm(p_sar);
++}
++
++static int32_t aw_sar_update_fw_para(struct aw_sar *p_sar, const struct aw_sar_load_bin_t *p_bin)
++{
++	if ((!p_bin) || (!p_bin->bin_name))
++		return -EINVAL;
++
++	p_sar->load_bin.bin_opera_func = p_bin->bin_opera_func;
++	p_sar->load_bin.bin_load_fail_opera_func = p_bin->bin_load_fail_opera;
++
++	snprintf(p_sar->load_bin.bin_name, sizeof(p_sar->load_bin.bin_name),
++			"%s_%u.bin", p_bin->bin_name, p_sar->dts_info.sar_num);
++
++	return 0;
++}
++
++int32_t aw_sar_update_fw(struct aw_sar *p_sar)
++{
++	if (aw_sar_update_fw_para(p_sar, p_sar->p_sar_para->p_fw_bin) != 0)
++		return -EINVAL;
++
++	return aw_sar_load_bin_comm(p_sar);
++}
++
++static int32_t aw_sar_node_prox_update_fw(struct aw_sar *p_sar)
++{
++	if (aw_sar_update_fw_para(p_sar, p_sar->p_sar_para->p_prox_fw) != 0)
++		return -EINVAL;
++
++	return aw_sar_load_bin_comm(p_sar);
++}
++
++static int32_t aw_sar_node_reg_update_fw(struct aw_sar *p_sar)
++{
++	if (aw_sar_update_fw_para(p_sar, p_sar->p_sar_para->p_reg_fw))
++		return -EINVAL;
++
++	return aw_sar_load_bin_comm(p_sar);
++}
++
++static int32_t aw_sar_awrw_data_analysis(struct aw_sar *p_sar, const char *buf, uint8_t len)
++{
++	uint32_t theory_len = len * AW_SAR_AWRW_DATA_WIDTH + AW_SAR_AWRW_OffSET;
++	uint32_t actual_len = strlen(buf);
++	uint8_t data_temp[2] = { 0 };
++	uint32_t tranfar_data_temp;
++	uint8_t index = 0;
++	uint32_t i;
++
++	if (theory_len != actual_len) {
++		dev_err(p_sar->dev, "error theory_len = %d actual_len = %d",
++				theory_len, actual_len);
++		return -EINVAL;
++	}
++
++	for (i = 0; i < len * AW_SAR_AWRW_DATA_WIDTH; i += AW_SAR_AWRW_DATA_WIDTH) {
++		data_temp[0] = buf[AW_SAR_AWRW_OffSET + i + AW_DATA_OffSET_2];
++		data_temp[1] = buf[AW_SAR_AWRW_OffSET + i + AW_DATA_OffSET_3];
++
++		if (sscanf(data_temp, "%02x", &tranfar_data_temp) == 1)
++			p_sar->awrw_info.p_i2c_tranfar_data[index] = (uint8_t)tranfar_data_temp;
++		index++;
++	}
++
++	return 0;
++}
++
++static int32_t aw_sar_awrw_write(struct aw_sar *p_sar, const char *buf)
++{
++	int32_t ret;
++
++	ret = aw_sar_awrw_data_analysis(p_sar, buf, p_sar->awrw_info.i2c_tranfar_data_len);
++	if (ret == 0)
++		aw_sar_i2c_write_seq(p_sar->i2c, p_sar->awrw_info.p_i2c_tranfar_data,
++					p_sar->awrw_info.i2c_tranfar_data_len);
++
++	return ret;
++}
++
++static int32_t aw_sar_awrw_read(struct aw_sar *p_sar, const char *buf)
++{
++	int32_t ret = 0;
++	uint8_t *p_buf = p_sar->awrw_info.p_i2c_tranfar_data + p_sar->awrw_info.addr_len;
++	uint32_t len = (uint16_t)(p_sar->awrw_info.data_len * p_sar->awrw_info.reg_num);
++
++	ret = aw_sar_awrw_data_analysis(p_sar, buf, p_sar->awrw_info.addr_len);
++	if (ret == 0) {
++		ret = aw_sar_i2c_read_seq(p_sar->i2c,
++				p_sar->awrw_info.p_i2c_tranfar_data,
++				p_sar->awrw_info.addr_len,
++				p_sar->awrw_info.p_i2c_tranfar_data + p_sar->awrw_info.addr_len,
++				(uint16_t)(p_sar->awrw_info.data_len * p_sar->awrw_info.reg_num));
++		if (ret != 0)
++			memset(p_buf, 0xff, len);
++	}
++
++	return ret;
++}
++
++static int32_t aw_sar_awrw_get_func(struct aw_sar *p_sar, char *buf)
++{
++	uint32_t len = 0;
++	uint32_t i;
++
++	if (!p_sar->awrw_info.p_i2c_tranfar_data) {
++		dev_err(p_sar->dev, "p_i2c_tranfar_data is NULL");
++		return len;
++	}
++
++	if (p_sar->awrw_info.rw_flag == AW_SAR_PACKAGE_RD) {
++		for (i = 0; i < p_sar->awrw_info.i2c_tranfar_data_len; i++) {
++			len += snprintf(buf + len, PAGE_SIZE - len, "0x%02x,",
++				p_sar->awrw_info.p_i2c_tranfar_data[i]);
++		}
++	} else {
++		for (i = 0; i < (p_sar->awrw_info.data_len) * (p_sar->awrw_info.reg_num); i++) {
++			len += snprintf(buf + len, PAGE_SIZE - len, "0x%02x,",
++				p_sar->awrw_info.p_i2c_tranfar_data[p_sar->awrw_info.addr_len + i]);
++		}
++	}
++	snprintf(buf + len - 1, PAGE_SIZE - len, "\n");
++
++	devm_kfree(p_sar->dev, p_sar->awrw_info.p_i2c_tranfar_data);
++	p_sar->awrw_info.p_i2c_tranfar_data = NULL;
++
++	return len;
++}
++
++//Function: continuous read register interface
++static ssize_t awrw_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	ssize_t ret;
++
++	mutex_lock(&aw_sar_lock);
++	if ((p_sar->p_sar_para->p_aw_sar_awrw != NULL) &&
++		(p_sar->p_sar_para->p_aw_sar_awrw->p_get_awrw_node_fn != NULL)) {
++		ret = (ssize_t)p_sar->p_sar_para->p_aw_sar_awrw->p_get_awrw_node_fn(p_sar, buf);
++		mutex_unlock(&aw_sar_lock);
++		return ret;
++	}
++
++	ret = (ssize_t)aw_sar_awrw_get_func(p_sar, buf);
++
++	mutex_unlock(&aw_sar_lock);
++
++	return ret;
++}
++
++static int32_t aw_sar_awrw_handle(struct aw_sar *p_sar, const char *buf)
++{
++	int32_t ret;
++
++	p_sar->awrw_info.i2c_tranfar_data_len = p_sar->awrw_info.addr_len +
++						p_sar->awrw_info.data_len *
++						p_sar->awrw_info.reg_num;
++
++	if (p_sar->awrw_info.p_i2c_tranfar_data != NULL) {
++		devm_kfree(p_sar->dev, p_sar->awrw_info.p_i2c_tranfar_data);
++		p_sar->awrw_info.p_i2c_tranfar_data = NULL;
++	}
++
++	p_sar->awrw_info.p_i2c_tranfar_data = devm_kzalloc(p_sar->dev,
++			p_sar->awrw_info.i2c_tranfar_data_len, GFP_KERNEL);
++	if (!p_sar->awrw_info.p_i2c_tranfar_data)
++		return -ENOMEM;
++
++	if (p_sar->awrw_info.rw_flag == AW_SAR_I2C_WR) {
++		ret = aw_sar_awrw_write(p_sar, buf);
++		if (ret != 0)
++			dev_err(p_sar->dev, "awrw_write error");
++		if (p_sar->awrw_info.p_i2c_tranfar_data != NULL) {
++			devm_kfree(p_sar->dev, p_sar->awrw_info.p_i2c_tranfar_data);
++			p_sar->awrw_info.p_i2c_tranfar_data = NULL;
++		}
++	} else if (p_sar->awrw_info.rw_flag == AW_SAR_I2C_RD) {
++		ret = aw_sar_awrw_read(p_sar, buf);
++		if (ret != 0)
++			dev_err(p_sar->dev, "awrw_read error");
++	} else {
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int32_t aw_sar_awrw_set_func(struct aw_sar *p_sar, const char *buf)
++{
++	uint32_t rw_flag;
++	uint32_t addr_bytes;
++	uint32_t data_bytes;
++	uint32_t package_nums;
++	uint32_t addr_tmp;
++	uint32_t buf_index0;
++	uint32_t buf_index1;
++	uint32_t r_buf_len = 0;
++	uint32_t tr_offset = 0;
++	uint8_t addr[4] = { 0 };
++	uint32_t theory_len;
++	uint32_t actual_len;
++	uint32_t reg_num;
++	uint32_t i;
++	uint32_t j;
++
++	//step1: Parse frame header
++	if (sscanf(buf, "0x%02x 0x%02x 0x%02x ", &rw_flag, &addr_bytes, &data_bytes) != 3) {
++		dev_err(p_sar->dev, "sscanf0 parse error!");
++		return -EINVAL;
++	}
++	p_sar->awrw_info.rw_flag = (uint8_t)rw_flag;
++	p_sar->awrw_info.addr_len = (uint8_t)addr_bytes;
++	p_sar->awrw_info.data_len = (uint8_t)data_bytes;
++
++	if (addr_bytes > 4) {
++		dev_err(p_sar->dev, "para error!");
++		return -EINVAL;
++	}
++
++	if ((rw_flag == AW_SAR_I2C_WR) || (rw_flag == AW_SAR_I2C_RD)) {
++		if (sscanf(buf + AW_SAR_OFFSET_LEN, "0x%02x ", &reg_num) != 1) {
++			dev_err(p_sar->dev, "sscanf1 parse error!");
++			return -EINVAL;
++		}
++		p_sar->awrw_info.reg_num = (uint8_t)reg_num;
++		aw_sar_awrw_handle(p_sar, buf);
++	} else if (rw_flag == AW_SAR_PACKAGE_RD) {
++		//step2: Get number of packages
++		if (sscanf(buf + AW_SAR_OFFSET_LEN, "0x%02x ", &package_nums) != 1) {
++			dev_err(p_sar->dev, "sscanf2 parse error!");
++			return -EINVAL;
++		}
++		theory_len = AW_SAR_OFFSET_LEN + AW_SAR_AWRW_DATA_WIDTH +
++				package_nums * (AW_SAR_AWRW_DATA_WIDTH +
++				AW_SAR_AWRW_DATA_WIDTH * addr_bytes);
++		actual_len = strlen(buf);
++		if (theory_len != actual_len) {
++			dev_err(p_sar->dev, "theory_len:%d, actual_len:%d error!",
++					theory_len, actual_len);
++			return -EINVAL;
++		}
++
++		//step3: Get the size of read data and apply for space
++		for (i = 0; i < package_nums; i++) {
++			buf_index0 = AW_SAR_OFFSET_LEN + AW_SAR_AWRW_DATA_WIDTH +
++				(AW_SAR_AWRW_DATA_WIDTH * addr_bytes +
++				 AW_SAR_AWRW_DATA_WIDTH) * i;
++			if (sscanf(buf + buf_index0, "0x%02x", &reg_num) != 1) {
++				dev_err(p_sar->dev, "sscanf3 parse error!");
++				return -EINVAL;
++			}
++			r_buf_len += reg_num * data_bytes;
++		}
++
++		p_sar->awrw_info.i2c_tranfar_data_len = r_buf_len;
++
++		if (p_sar->awrw_info.p_i2c_tranfar_data != NULL) {
++			devm_kfree(p_sar->dev, p_sar->awrw_info.p_i2c_tranfar_data);
++			p_sar->awrw_info.p_i2c_tranfar_data = NULL;
++		}
++		p_sar->awrw_info.p_i2c_tranfar_data = devm_kzalloc(p_sar->dev,
++								r_buf_len, GFP_KERNEL);
++		if (!p_sar->awrw_info.p_i2c_tranfar_data)
++			return -ENOMEM;
++
++		//step3: Resolve register address and read data in packets
++		for (i = 0; i < package_nums; i++) {
++			buf_index0 = AW_SAR_OFFSET_LEN + AW_SAR_AWRW_DATA_WIDTH +
++				(AW_SAR_AWRW_DATA_WIDTH * addr_bytes + AW_SAR_AWRW_DATA_WIDTH) * i;
++			if (sscanf(buf + buf_index0, "0x%02x", &reg_num) != 1) {
++				dev_err(p_sar->dev, "sscanf4 parse error!");
++				return -EINVAL;
++			}
++
++			for (j = 0; j < addr_bytes; j += 1) {
++				buf_index1 = buf_index0 + AW_SAR_AWRW_DATA_WIDTH +
++					(j * AW_SAR_AWRW_DATA_WIDTH);
++				if (sscanf(buf + buf_index1, "0x%02x", &addr_tmp) == 1) {
++					addr[j] = (uint8_t)addr_tmp;
++				} else {
++					dev_err(p_sar->dev, "sscanf5 parse error!");
++					return -EINVAL;
++				}
++			}
++			aw_sar_i2c_read_seq(p_sar->i2c,
++					addr,
++					addr_bytes,
++					p_sar->awrw_info.p_i2c_tranfar_data + tr_offset,
++					(uint16_t)(data_bytes * reg_num));
++			tr_offset += data_bytes * reg_num;
++		}
++	}
++
++	return 0;
++}
++
++//Function: continuous write register interface
++static ssize_t
++awrw_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++
++	mutex_lock(&aw_sar_lock);
++
++	if ((p_sar->p_sar_para->p_aw_sar_awrw != NULL) &&
++		(p_sar->p_sar_para->p_aw_sar_awrw->p_set_awrw_node_fn != NULL)) {
++		p_sar->p_sar_para->p_aw_sar_awrw->p_set_awrw_node_fn(p_sar, buf, count);
++		mutex_unlock(&aw_sar_lock);
++		return count;
++	}
++
++	aw_sar_awrw_set_func(p_sar, buf);
++
++	mutex_unlock(&aw_sar_lock);
++
++	return count;
++}
++//Print all readable register values
++static ssize_t reg_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint8_t reg_rd_access;
++	uint32_t reg_data;
++	ssize_t len = 0;
++	int32_t ret;
++	uint16_t i;
++
++	if (!p_sar->p_sar_para->p_reg_list)
++		return len;
++
++	reg_rd_access = p_sar->p_sar_para->p_reg_list->reg_rd_access;
++
++	for (i = 0; i < p_sar->p_sar_para->p_reg_list->reg_num; i++) {
++		if (p_sar->p_sar_para->p_reg_list->reg_perm[i].rw & reg_rd_access) {
++			ret = aw_sar_i2c_read(p_sar->i2c,
++					p_sar->p_sar_para->p_reg_list->reg_perm[i].reg, &reg_data);
++			if (ret < 0)
++				len += snprintf(buf + len, PAGE_SIZE - len,
++						"i2c read error ret = %d\n", ret);
++			len += snprintf(buf + len, PAGE_SIZE - len,
++						"%x,%x\n",
++						p_sar->p_sar_para->p_reg_list->reg_perm[i].reg,
++						reg_data);
++		}
++	}
++
++	return len;
++}
++
++//Write register interface with write permission
++static ssize_t
++reg_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint32_t databuf[2] = { 0, 0 };
++	uint8_t reg_wd_access;
++	uint16_t i;
++
++	if (!p_sar->p_sar_para->p_reg_list) {
++		dev_err(p_sar->dev, "AW_INVALID_PARA");
++		return count;
++	}
++
++	reg_wd_access = p_sar->p_sar_para->p_reg_list->reg_wd_access;
++
++	if (sscanf(buf, "%x %x", &databuf[0], &databuf[1]) != 2)
++		return count;
++
++	for (i = 0; i < p_sar->p_sar_para->p_reg_list->reg_num; i++) {
++		if ((uint16_t)databuf[0] == p_sar->p_sar_para->p_reg_list->reg_perm[i].reg) {
++			if (p_sar->p_sar_para->p_reg_list->reg_perm[i].rw & reg_wd_access) {
++				aw_sar_i2c_write(p_sar->i2c,
++					(uint16_t)databuf[0], (uint32_t)databuf[1]);
++			}
++			break;
++		}
++	}
++
++	return count;
++}
++
++//set chip Soft reset
++static ssize_t
++soft_rst_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint32_t flag;
++
++	if (kstrtouint(buf, 0, &flag) != 0) {
++		dev_err(p_sar->dev, "kstrtouint parse err");
++		return count;
++	}
++
++	if (flag == AW_TRUE)
++		aw_sar_soft_reset(p_sar);
++
++	return count;
++}
++
++static int32_t aw_sar_aot(struct aw_sar *p_sar)
++{
++	if (!p_sar->p_sar_para->p_aot)
++		return -EINVAL;
++
++	if (p_sar->p_sar_para->p_aot->p_set_aot_node_fn != NULL)
++		return p_sar->p_sar_para->p_aot->p_set_aot_node_fn(p_sar);
++
++	return aw_sar_i2c_write_bits(p_sar->i2c, p_sar->p_sar_para->p_aot->aot_reg,
++					p_sar->p_sar_para->p_aot->aot_mask,
++					p_sar->p_sar_para->p_aot->aot_flag);
++}
++
++//Perform Auto-Offset-Tuning (AOT)
++static ssize_t
++aot_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint32_t cali_flag;
++
++	if (kstrtouint(buf, 0, &cali_flag) != 0)
++		return count;
++
++	if (cali_flag == AW_TRUE)
++		aw_sar_aot(p_sar);
++	else
++		dev_err(p_sar->dev, "fail to set aot cali");
++
++	return count;
++}
++
++//update Register configuration and set the chip active mode
++int32_t aw_sar_update_reg_set_func(struct aw_sar *p_sar)
++{
++	aw_sar_load_def_reg_bin(p_sar);
++	aw_sar_mode_set(p_sar, p_sar->p_sar_para->p_chip_mode->active);
++
++	return 0;
++}
++
++//Update register configuration
++static ssize_t
++update_reg_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint32_t flag;
++
++	if (kstrtouint(buf, 0, &flag) != 0) {
++		dev_err(p_sar->dev, "kstrtouint parse error");
++		return count;
++	}
++
++	if (flag == AW_TRUE) {
++		mutex_lock(&aw_sar_lock);
++		aw_sar_soft_reset(p_sar);
++		aw_sar_update_reg_set_func(p_sar);
++		mutex_unlock(&aw_sar_lock);
++	}
++
++	return count;
++}
++
++//get chip diff val
++static ssize_t aw_sar_get_diff(struct aw_sar *p_sar, char *buf)
++{
++	const struct aw_sar_diff_t *diff = p_sar->p_sar_para->p_diff;
++	int32_t diff_val;
++	ssize_t len = 0;
++	uint32_t data;
++	int32_t ret;
++	uint32_t i;
++
++	if (!p_sar->p_sar_para->p_diff)
++		return -EINVAL;
++
++	//If a private interface is defined, the private interface is used
++	if (p_sar->p_sar_para->p_diff->p_get_diff_node_fn != NULL)
++		return p_sar->p_sar_para->p_diff->p_get_diff_node_fn(p_sar, buf);
++
++	for (i = 0; i < p_sar->p_sar_para->ch_num_max; i++) {
++		ret = aw_sar_i2c_read(p_sar->i2c, diff->diff0_reg + i * diff->diff_step, &data);
++		if (ret != 0) {
++			dev_err(p_sar->dev, "read diff err: %d", ret);
++			return ret;
++		}
++		diff_val = (int32_t)data / (int32_t)diff->rm_float;
++		len += snprintf(buf + len, PAGE_SIZE - len, "DIFF_CH%u = %d\n", i, diff_val);
++	}
++
++	return len;
++}
++
++
++//Print diff values of all channels of the chip.
++static ssize_t diff_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++
++	return aw_sar_get_diff(p_sar, buf);
++}
++
++void aw_sar_mode_set(struct aw_sar *p_sar, uint8_t curr_mode)
++{
++	struct aw_sar_mode_set_t mode_set_para;
++
++	if (!p_sar->p_sar_para->p_mode)
 +		return;
 +
-+	aw963xx = (struct aw963xx *)p_sar->priv_data;
++	//If a private interface is defined, the private interface is used
++	if (p_sar->p_sar_para->p_mode->p_set_mode_node_fn != NULL) {
++		p_sar->p_sar_para->p_mode->p_set_mode_node_fn(p_sar, curr_mode);
++		return;
++	}
 +
++	mode_set_para.chip_id = p_sar->chip_type;
++	mode_set_para.chip_mode.curr_mode = curr_mode;
++	mode_set_para.chip_mode.last_mode = p_sar->last_mode;
 +
-+	if (p_sar->priv_data != NULL)
-+		devm_kfree(p_sar->dev, p_sar->priv_data);
++	aw_sar_mode_set_func(p_sar->i2c, p_sar->irq_init.to_irq, &mode_set_para,
++		p_sar->p_sar_para->p_mode->mode_set_arr,
++		p_sar->p_sar_para->p_mode->mode_set_arr_len);
++	p_sar->last_mode = curr_mode;
 +}
-diff --git a/drivers/input/misc/aw_sar/aw963xx/aw963xx.h b/drivers/input/misc/aw_sar/aw963xx/aw963xx.h
++
++//Set the chip to enter different modes
++static ssize_t mode_operation_store(struct device *dev, struct device_attribute *attr,
++						const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	uint32_t mode;
++
++	if (kstrtouint(buf, 0, &mode) != 0) {
++		dev_err(p_sar->dev, "kstrtouint parse err");
++		return count;
++	}
++	aw_sar_mode_set(p_sar, mode);
++
++	return count;
++}
++
++//Get the current mode of the chip
++static ssize_t mode_operation_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	ssize_t len = 0;
++
++	if (!p_sar->p_sar_para->p_mode)
++		return len;
++
++	if (p_sar->p_sar_para->p_mode->p_get_mode_node_fn != NULL)
++		len = p_sar->p_sar_para->p_mode->p_get_mode_node_fn(p_sar, buf);
++
++	return len;
++}
++
++//Print information related information
++static ssize_t chip_info_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	ssize_t len = 0;
++
++	len += snprintf(buf + len, PAGE_SIZE - len, "reg_load_state: %d\n", p_sar->ret_val);
++
++	if ((p_sar->p_sar_para->p_get_chip_info != NULL) &&
++		(p_sar->p_sar_para->p_get_chip_info->p_get_chip_info_node_fn != NULL)) {
++		p_sar->p_sar_para->p_get_chip_info->p_get_chip_info_node_fn(p_sar, buf, &len);
++	}
++
++	return len;
++}
++
++static ssize_t offset_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	ssize_t len = 0;
++
++	if ((p_sar->p_sar_para->p_offset != NULL) &&
++		(p_sar->p_sar_para->p_offset->p_get_offset_node_fn != NULL))
++		len = (ssize_t)p_sar->p_sar_para->p_offset->p_get_offset_node_fn(p_sar, buf);
++
++	return len;
++}
++
++static DEVICE_ATTR_RW(awrw);
++static DEVICE_ATTR_RW(reg);
++static DEVICE_ATTR_WO(soft_rst);
++static DEVICE_ATTR_WO(aot);
++static DEVICE_ATTR_WO(update_reg);
++static DEVICE_ATTR_RO(diff);
++static DEVICE_ATTR_RW(mode_operation);
++static DEVICE_ATTR_RO(chip_info);
++static DEVICE_ATTR_RO(offset);
++
++static struct attribute *aw_sar_attributes[] = {
++	&dev_attr_awrw.attr,
++	&dev_attr_reg.attr,
++	&dev_attr_soft_rst.attr,
++	&dev_attr_aot.attr,
++	&dev_attr_update_reg.attr,
++	&dev_attr_diff.attr,
++	&dev_attr_mode_operation.attr,
++	&dev_attr_chip_info.attr,
++	&dev_attr_offset.attr,
++	NULL
++};
++
++static const struct attribute_group aw_sar_attribute_group = {
++	.attrs = aw_sar_attributes,
++};
++
++//firmware upgrade through write register mode, and the operation is supported by flash chip
++static ssize_t prot_update_fw_store(struct device *dev,
++						struct device_attribute *attr,
++						const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++
++
++	mutex_lock(&aw_sar_lock);
++	aw_sar_disable_irq(p_sar);
++
++	p_sar->prot_update_state = aw_sar_node_prox_update_fw(p_sar);
++
++	aw_sar_enable_irq(p_sar);
++	mutex_unlock(&aw_sar_lock);
++
++	return count;
++}
++
++//firmware upgrade throughr Write register mode,and the operation is supported by flash chip
++static ssize_t reg_update_fw_store(struct device *dev,
++						struct device_attribute *attr,
++						const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++
++	mutex_lock(&aw_sar_lock);
++	aw_sar_disable_irq(p_sar);
++
++	aw_sar_node_reg_update_fw(p_sar);
++
++	aw_sar_enable_irq(p_sar);
++	mutex_unlock(&aw_sar_lock);
++
++	return count;
++}
++
++//boot upgrade throughr Write register mode,and the operation is supported by flash chip
++static ssize_t reg_update_boot_store(struct device *dev,
++						struct device_attribute *attr,
++						const char *buf, size_t count)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++
++	if (!p_sar->p_sar_para->p_boot_bin)
++		return count;
++
++	mutex_lock(&aw_sar_lock);
++	aw_sar_disable_irq(p_sar);
++
++	aw_sar_reg_update_boot_work(p_sar);
++
++	aw_sar_enable_irq(p_sar);
++	mutex_unlock(&aw_sar_lock);
++
++	return count;
++}
++
++//Print the protocol upgrade status. 0 is success, Not 0 is failure
++//Print the current firmware version number
++static ssize_t prot_update_fw_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct aw_sar *p_sar = dev_get_drvdata(dev);
++	ssize_t len = 0;
++
++	len += snprintf(buf + len, PAGE_SIZE - len,
++		"protocol update state:%s!\n",
++		(p_sar->prot_update_state == 0) ? "ok" : "error");
++	if ((p_sar->p_sar_para->p_prox_fw != NULL) &&
++		(p_sar->p_sar_para->p_prox_fw->p_get_prot_update_fw_node_fn != NULL))
++		p_sar->p_sar_para->p_prox_fw->p_get_prot_update_fw_node_fn(p_sar, buf, &len);
++
++	return len;
++}
++
++static DEVICE_ATTR_RW(prot_update_fw);
++static DEVICE_ATTR_WO(reg_update_fw);
++static DEVICE_ATTR_WO(reg_update_boot);
++
++static struct attribute *aw_sar_update_attributes[] = {
++	&dev_attr_prot_update_fw.attr,
++	&dev_attr_reg_update_fw.attr,
++	&dev_attr_reg_update_boot.attr,
++	NULL
++};
++
++static const struct attribute_group aw_sar_update_attribute_group = {
++	.attrs = aw_sar_update_attributes,
++};
++
++static void aw_sar_update_work(struct work_struct *work)
++{
++	struct aw_sar *p_sar = container_of(work, struct aw_sar, update_work.work);
++	int32_t ret;
++
++	mutex_lock(&aw_sar_lock);
++
++	if (p_sar->dts_info.update_fw_flag == true) {
++		ret = aw_sar_update_fw(p_sar);
++		if (ret != 0) {
++			dev_err(p_sar->dev, "protocol upgrade firmware error!");
++			p_sar->ret_val = AW_PROT_UPDATE_ERR;
++		}
++	}
++
++	//2.Parse the bin file and load the register configuration
++	ret = aw_sar_load_def_reg_bin(p_sar);
++	if (ret != 0) {
++		p_sar->ret_val = AW_REG_LOAD_ERR;
++		dev_err(p_sar->dev, "reg_bin load err!");
++		aw_sar_para_loaded(p_sar);
++	}
++
++	//3.active chip
++	aw_sar_mode_set(p_sar, p_sar->p_sar_para->p_chip_mode->init_mode);
++	if (p_sar->irq_init.host_irq_stat == IRQ_DISABLE) {
++		enable_irq(p_sar->irq_init.to_irq);
++		p_sar->irq_init.host_irq_stat = IRQ_ENABLE;
++	}
++	p_sar->driver_code_initover_flag = 1;
++	mutex_unlock(&aw_sar_lock);
++}
++
++static void aw_sar_update(struct aw_sar *p_sar)
++{
++	if (!p_sar->p_sar_para->p_reg_bin)
++		return;
++
++	if (p_sar->p_sar_para->p_reg_bin->p_update_fn != NULL)
++		p_sar->p_sar_para->p_reg_bin->p_update_fn(p_sar);
++
++	if (p_sar->driver_code_initover_flag) {
++		schedule_delayed_work(&p_sar->update_work, msecs_to_jiffies(0));
++	} else {
++		INIT_DELAYED_WORK(&p_sar->update_work, aw_sar_update_work);
++		schedule_delayed_work(&p_sar->update_work,
++				msecs_to_jiffies(AW_POWER_ON_SYSFS_DELAY_MS));
++	}
++}
++
++static int32_t aw_sar_create_node(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	i2c_set_clientdata(p_sar->i2c, p_sar);
++
++	ret = sysfs_create_group(&p_sar->i2c->dev.kobj, &aw_sar_attribute_group);
++
++	if (p_sar->dts_info.update_fw_flag == true)
++		ret |= sysfs_create_group(&p_sar->i2c->dev.kobj, &aw_sar_update_attribute_group);
++
++	//Special requirements of SAR chip
++	if (p_sar->p_sar_para->p_platform_config->p_add_node_create_fn != NULL)
++		ret |= p_sar->p_sar_para->p_platform_config->p_add_node_create_fn(p_sar);
++
++	return ret;
++}
++
++static void aw_sar_node_free(struct aw_sar *p_sar)
++{
++	sysfs_remove_group(&p_sar->i2c->dev.kobj, &aw_sar_attribute_group);
++
++	if (p_sar->dts_info.update_fw_flag == true)
++		sysfs_remove_group(&p_sar->i2c->dev.kobj, &aw_sar_update_attribute_group);
++
++	//Special requirements of SAR chip
++	if ((p_sar->p_sar_para->p_platform_config != NULL) &&
++		(p_sar->p_sar_para->p_platform_config->p_add_node_free_fn != NULL))
++		p_sar->p_sar_para->p_platform_config->p_add_node_free_fn(p_sar);
++}
++
++//The interrupt pin is set to internal pull-up start
++static void aw_sar_int_output(struct aw_sar *p_sar, int32_t level)
++{
++	if (level == 0) {
++		if (p_sar->pinctrl.pinctrl)
++			pinctrl_select_state(p_sar->pinctrl.pinctrl, p_sar->pinctrl.int_out_low);
++		else
++			dev_err(p_sar->dev, "Failed set int pin output low\n");
++	} else if (level == 1) {
++		if (p_sar->pinctrl.pinctrl)
++			pinctrl_select_state(p_sar->pinctrl.pinctrl, p_sar->pinctrl.int_out_high);
++		else
++			dev_err(p_sar->dev, "Failed set int pin output high\n");
++	}
++}
++
++static int32_t aw_sar_pinctrl_init(struct aw_sar *p_sar)
++{
++	struct aw_sar_pinctrl *pinctrl = &p_sar->pinctrl;
++	uint8_t pin_default_name[50] = { 0 };
++	uint8_t pin_output_low_name[50] = { 0 };
++	uint8_t pin_output_high_name[50] = { 0 };
++
++	pinctrl->pinctrl = devm_pinctrl_get(p_sar->dev);
++	if (IS_ERR_OR_NULL(pinctrl->pinctrl)) {
++		dev_err(p_sar->dev, "No pinctrl found\n");
++		pinctrl->pinctrl = NULL;
++		return -EINVAL;
++	}
++
++	snprintf(pin_default_name, sizeof(pin_default_name),
++					"aw_default_sar%u", p_sar->dts_info.sar_num);
++	pinctrl->default_sta = pinctrl_lookup_state(pinctrl->pinctrl, pin_default_name);
++	if (IS_ERR_OR_NULL(pinctrl->default_sta)) {
++		dev_err(p_sar->dev, "Failed get pinctrl state:default state");
++		goto exit_pinctrl_init;
++	}
++
++	snprintf(pin_output_high_name, sizeof(pin_output_high_name),
++				"aw_int_output_high_sar%u", p_sar->dts_info.sar_num);
++	pinctrl->int_out_high = pinctrl_lookup_state(pinctrl->pinctrl, pin_output_high_name);
++	if (IS_ERR_OR_NULL(pinctrl->int_out_high)) {
++		dev_err(p_sar->dev, "Failed get pinctrl state:output_high");
++		goto exit_pinctrl_init;
++	}
++
++	snprintf(pin_output_low_name, sizeof(pin_output_low_name),
++				"aw_int_output_low_sar%u", p_sar->dts_info.sar_num);
++	pinctrl->int_out_low = pinctrl_lookup_state(pinctrl->pinctrl, pin_output_low_name);
++	if (IS_ERR_OR_NULL(pinctrl->int_out_low)) {
++		dev_err(p_sar->dev, "Failed get pinctrl state:output_low");
++		goto exit_pinctrl_init;
++	}
++
++	return 0;
++
++exit_pinctrl_init:
++	devm_pinctrl_put(pinctrl->pinctrl);
++	pinctrl->pinctrl = NULL;
++
++	return -EINVAL;
++}
++
++static void aw_sar_pinctrl_deinit(struct aw_sar *p_sar)
++{
++	if (p_sar->pinctrl.pinctrl)
++		devm_pinctrl_put(p_sar->pinctrl.pinctrl);
++}
++//The interrupt pin is set to internal pull-up end
++
++//AW_SAR_REGULATOR_POWER_ON start
++static int32_t aw_sar_regulator_power_init(struct aw_sar *p_sar)
++{
++	uint8_t vcc_name[20] = { 0 };
++	int32_t rc;
++
++	snprintf(vcc_name, sizeof(vcc_name), "vcc%u", p_sar->dts_info.sar_num);
++	p_sar->vcc = regulator_get(p_sar->dev, vcc_name);
++	if (IS_ERR(p_sar->vcc)) {
++		rc = PTR_ERR(p_sar->vcc);
++		dev_err(p_sar->dev, "regulator get failed vcc rc = %d", rc);
++		return rc;
++	}
++
++	if (regulator_count_voltages(p_sar->vcc) > 0) {
++		rc = regulator_set_voltage(p_sar->vcc, AW_SAR_VCC_MIN_UV, AW_SAR_VCC_MAX_UV);
++		if (rc) {
++			dev_err(p_sar->dev, "regulator set vol failed rc = %d", rc);
++			goto reg_vcc_put;
++		}
++	}
++
++	return 0;
++
++reg_vcc_put:
++	regulator_put(p_sar->vcc);
++	return rc;
++}
++
++static void aw_sar_power_deinit(struct aw_sar *p_sar)
++{
++	if (p_sar->power_enable) {
++		//Turn off the power output. However,
++		//it may not be turned off immediately
++		//There are scenes where power sharing can exist
++		regulator_disable(p_sar->vcc);
++		regulator_put(p_sar->vcc);
++	}
++}
++
++static void aw_sar_power_enable(struct aw_sar *p_sar, bool on)
++{
++	int32_t rc;
++
++	if (on) {
++		rc = regulator_enable(p_sar->vcc);
++		if (rc) {
++			dev_err(p_sar->dev, "regulator_enable vol failed rc = %d", rc);
++		} else {
++			p_sar->power_enable = AW_TRUE;
++			msleep(20);
++		}
++	} else {
++		rc = regulator_disable(p_sar->vcc);
++		if (rc)
++			dev_err(p_sar->dev, "regulator_disable vol failed rc = %d", rc);
++		else
++			p_sar->power_enable = AW_FALSE;
++	}
++}
++
++static int32_t regulator_is_get_voltage(struct aw_sar *p_sar)
++{
++	uint32_t cnt = 10;
++	int32_t voltage_val;
++
++	while (cnt--) {
++		voltage_val = regulator_get_voltage(p_sar->vcc);
++		if (voltage_val >= AW_SAR_VCC_MIN_UV)
++			return 0;
++		mdelay(1);
++	}
++	//Ensure that the chip initialization is completed
++	msleep(20);
++
++	return -EINVAL;
++}
++//AW_SAR_REGULATOR_POWER_ON end
++
++static void aw_sar_init_lock(struct aw_sar *p_sar)
++{
++	//Initialize lock, To protect the thread safety of updating bin file
++	mutex_init(&aw_sar_lock);
++	//Required for mode setting
++	p_sar->last_mode = p_sar->p_sar_para->p_chip_mode->pre_init_mode;
++	p_sar->fw_fail_flag = AW_FALSE;
++	p_sar->ret_val = 0;
++}
++
++// AW_SAR_USB_PLUG_CAIL start
++static void aw_sar_ps_notify_callback_work(struct work_struct *work)
++{
++	struct aw_sar *p_sar = container_of(work, struct aw_sar, ps_notify_work);
++
++	aw_sar_aot(p_sar);
++}
++
++static int aw_sar_ps_get_state(struct aw_sar *p_sar, struct power_supply *psy, bool *present)
++{
++	union power_supply_propval pval = { 0 };
++	int retval;
++
++	retval = power_supply_get_property(psy, AW_USB_PROP_ONLINE, &pval);
++	if (retval) {
++		dev_err(p_sar->dev, "%s psy get property failed", psy->desc->name);
++		return retval;
++	}
++	*present = (pval.intval) ? true : false;
++
++	return 0;
++}
++
++static int aw_sar_ps_notify_callback(struct notifier_block *self,
++		unsigned long event, void *p)
++{
++	struct aw_sar *p_sar = container_of(self, struct aw_sar, ps_notif);
++	struct power_supply *psy = p;
++	bool present;
++	int retval;
++
++	if (event == PSY_EVENT_PROP_CHANGED
++		&& psy && psy->desc->get_property && psy->desc->name &&
++		!strncmp(psy->desc->name, USB_POWER_SUPPLY_NAME,
++			sizeof(USB_POWER_SUPPLY_NAME))) {
++		retval = aw_sar_ps_get_state(p_sar, psy, &present);
++		if (retval) {
++			dev_err(p_sar->dev, "psy get property failed");
++			return retval;
++		}
++		if (event == PSY_EVENT_PROP_CHANGED) {
++			if (p_sar->ps_is_present == present)
++				return 0;
++		}
++		p_sar->ps_is_present = present;
++		schedule_work(&p_sar->ps_notify_work);
++	}
++	return 0;
++}
++
++static int aw_sar_ps_notify_init(struct aw_sar *p_sar)
++{
++	struct power_supply *psy;
++	int ret;
++
++	INIT_WORK(&p_sar->ps_notify_work, aw_sar_ps_notify_callback_work);
++	p_sar->ps_notif.notifier_call = (notifier_fn_t)aw_sar_ps_notify_callback;
++	ret = power_supply_reg_notifier(&p_sar->ps_notif);
++	if (ret) {
++		dev_err(p_sar->dev, "Unable to register ps_notifier: %d", ret);
++		return ret;
++	}
++	psy = power_supply_get_by_name(USB_POWER_SUPPLY_NAME);
++	if (!psy) {
++		dev_err(p_sar->dev, "Unable to get power_supply: %s", USB_POWER_SUPPLY_NAME);
++		goto free_ps_notifier;
++	}
++	ret = aw_sar_ps_get_state(p_sar, psy, &p_sar->ps_is_present);
++	if (ret) {
++		dev_err(p_sar->dev, "psy get property failed rc=%d", ret);
++		goto free_ps_notifier;
++	}
++	return 0;
++
++free_ps_notifier:
++	power_supply_unreg_notifier(&p_sar->ps_notif);
++
++	return -EINVAL;
++}
++// AW_SAR_USB_PLUG_CAIL end
++
++static int32_t aw_sar_platform_rsc_init(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	if (!p_sar->p_sar_para->p_platform_config)
++		return -EINVAL;
++
++	//step 1.parsing dts data
++	ret = aw_sar_parse_dts(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "parse dts error!");
++		return ret;
++	}
++
++	//Initialization lock and some variables
++	aw_sar_init_lock(p_sar);
++
++	//Configure whether to use USB plug-in calibration in DTS according to customer requirements
++	if (p_sar->dts_info.use_plug_cail_flag == true) {
++		ret = aw_sar_ps_notify_init(p_sar);
++		if (ret < 0) {
++			dev_err(p_sar->dev, "error creating power supply notify");
++			goto err_ps_notify_init;
++		}
++	}
++
++	//The interrupt pin is set to internal pull-up and configured by DTS
++	if (p_sar->dts_info.use_inter_pull_up == true) {
++		ret = aw_sar_pinctrl_init(p_sar);
++		if (ret < 0) {
++			/* if define pinctrl must define the following state
++			 * to let int-pin work normally: default, int_output_high,
++			 * int_output_low, int_input
++			 */
++			dev_err(p_sar->dev, "Failed get wanted pinctrl state");
++			goto err_pinctrl_init;
++		}
++		aw_sar_int_output(p_sar, 1);
++	}
++
++	//step 2.Create debug file node
++	ret = aw_sar_create_node(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "create node error!");
++		goto err_sysfs_nodes;
++	}
++
++	//step 3.Initialization interrupt
++	ret = aw_sar_irq_init(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "interrupt initialization error!");
++		goto err_irq_init;
++	}
++
++	//step 4.Initialization input Subsystem
++	ret = aw_sar_input_init(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "input_init error!");
++		goto err_input_init;
++	}
++
++	return 0;
++
++err_input_init:
++	aw_sar_input_free(p_sar);
++	aw_sar_irq_free(p_sar);
++err_irq_init:
++	aw_sar_node_free(p_sar);
++err_sysfs_nodes:
++	if (p_sar->dts_info.use_inter_pull_up == true)
++		aw_sar_pinctrl_deinit(p_sar);
++err_pinctrl_init:
++	if (p_sar->dts_info.use_plug_cail_flag == true)
++		power_supply_unreg_notifier(&p_sar->ps_notif);
++err_ps_notify_init:
++	mutex_destroy(&aw_sar_lock);
++
++	return ret;
++}
++
++/**
++ * @brief sar sensor initialization logic.
++ *
++ * @param p_sar  data stored in type 'struct aw_sar *'.
++ * @return 0 if init succeeded. others if unpack error.
++ */
++static int32_t aw_sar_chip_init(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	//step 1.check chipid,Verify whether the chip communication is successful
++	ret = aw_sar_check_chipid(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "check_chipid error!");
++		goto communication_fail;
++	}
++
++	//step 2.Check chip initialization completed,
++	ret = aw_sar_soft_reset(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "soft_reset error!");
++		goto communication_fail;
++	}
++
++	ret = aw_sar_check_init_over_irq(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "check_init_over_irqt error!");
++		goto communication_fail;
++	}
++
++	//step 3.chip other operation
++	ret = aw_sar_chip_other_operation(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "chip_other_operation error!");
++		goto free_other_opera;
++	}
++
++	//step 4.Parse the bin file, upgrade the firmware, and load the register prize
++	aw_sar_update(p_sar);
++
++	return 0;
++
++free_other_opera:
++	aw_sar_chip_other_operation_free(p_sar);
++communication_fail:
++
++	return ret;
++}
++
++static int32_t aw_sar_init(struct aw_sar *p_sar)
++{
++	int32_t ret;
++
++	//step 1: Platform resource initialization
++	ret = aw_sar_platform_rsc_init(p_sar);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "platform_rsc_init error!");
++		return ret;
++	}
++
++	//step 2: Chip initialization
++	ret = aw_sar_chip_init(p_sar);
++	if (ret != 0) {
++		aw_sar_input_free(p_sar);
++		aw_sar_irq_free(p_sar);
++		aw_sar_node_free(p_sar);
++		if (p_sar->dts_info.use_inter_pull_up == true)
++			aw_sar_pinctrl_deinit(p_sar);
++		if (p_sar->dts_info.use_plug_cail_flag == true)
++			power_supply_unreg_notifier(&p_sar->ps_notif);
++		mutex_destroy(&aw_sar_lock);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int32_t aw_sar_regulator_power(struct aw_sar *p_sar)
++{
++	struct aw_sar_dts_info *p_dts_info = &p_sar->dts_info;
++	int32_t ret = 0;
++
++	p_dts_info->use_regulator_flag =
++		of_property_read_bool(p_sar->i2c->dev.of_node, "aw_sar,regulator-power-supply");
++
++	//Configure the use of regulator power supply in DTS
++	if (p_sar->dts_info.use_regulator_flag == true) {
++		ret = aw_sar_regulator_power_init(p_sar);
++		if (ret != 0) {
++			dev_err(p_sar->dev, "power init failed");
++			return ret;
++		}
++		aw_sar_power_enable(p_sar, AW_TRUE);
++		ret = regulator_is_get_voltage(p_sar);
++		if (ret != 0) {
++			dev_err(p_sar->dev, "get_voltage failed");
++			aw_sar_power_deinit(p_sar);
++		}
++	}
++
++	return ret;
++}
++
++/**
++ * @brief Distinguish different chips by chip name and obtain relevant chip information
++ *
++ * @param p_sar Structure to be filled
++ * @return 0 if init succeeded.
++ */
++static int32_t aw_sar_get_chip_info(struct aw_sar *p_sar)
++{
++	int32_t ret;
++	uint8_t i;
++
++	for (i = 0; i < AW_SAR_DRIVER_MAX; i++) {
++		if (g_aw_sar_driver_list[i].p_who_am_i != NULL) {
++			ret = g_aw_sar_driver_list[i].p_who_am_i(p_sar);
++			if (ret == 0) {
++				p_sar->curr_use_driver_type = g_aw_sar_driver_list[i].driver_type;
++				if (!g_aw_sar_driver_list[i].p_chip_init) {
++					dev_err(p_sar->dev,
++							"drvier:%d p_chip_init is null  error!", i);
++					continue;
++				}
++				g_aw_sar_driver_list[i].p_chip_init(p_sar);
++				dev_info(p_sar->dev, "current use drvier is :%d",
++						g_aw_sar_driver_list[i].driver_type);
++				return 0;
++			}
++		}
++	}
++
++	return -EINVAL;
++}
++
++static void aw_sar_monitor_work(struct work_struct *aw_work)
++{
++	struct aw_sar *p_sar = container_of(aw_work, struct aw_sar, monitor_work.work);
++	uint32_t data;
++	int32_t ret;
++
++	ret = aw_sar_i2c_read(p_sar->i2c, 0x0000, &data);
++	if (ret != 0) {
++		dev_err(p_sar->dev, "read 0x0000 err: %d", ret);
++		return;
++	}
++	if (data == 0 && p_sar->driver_code_initover_flag) {
++		dev_err(p_sar->dev, "aw_chip may reset");
++		aw_sar_disable_irq(p_sar);
++		ret = aw_sar_chip_init(p_sar);
++		if (ret != 0)
++			return;
++	}
++	queue_delayed_work(p_sar->monitor_wq, &p_sar->monitor_work,
++			msecs_to_jiffies(AW_SAR_MONITOR_ESD_DELAY_MS));
++}
++
++static int32_t aw_sar_monitor_esd_init(struct aw_sar *p_sar)
++{
++	p_sar->monitor_wq = create_singlethread_workqueue("aw_sar_workqueue");
++	if (!p_sar->monitor_wq) {
++		dev_err(&p_sar->i2c->dev, "aw_sar_workqueue error");
++		return -EINVAL;
++	}
++	INIT_DELAYED_WORK(&p_sar->monitor_work, aw_sar_monitor_work);
++	queue_delayed_work(p_sar->monitor_wq, &p_sar->monitor_work,
++			msecs_to_jiffies(AW_SAR_MONITOR_ESD_DELAY_MS));
++
++	return 0;
++}
++
++static void aw_sar_sensor_free(struct aw_sar *p_sar)
++{
++	if (g_aw_sar_driver_list[p_sar->curr_use_driver_type].p_chip_deinit != NULL)
++		g_aw_sar_driver_list[p_sar->curr_use_driver_type].p_chip_deinit(p_sar);
++}
++
++
++/**
++ * @brief Drive logic entry
++ *
++ */
++static int32_t aw_sar_i2c_probe(struct i2c_client *i2c)
++{
++	struct aw_sar *p_sar;
++	int32_t ret;
++
++	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C)) {
++		pr_err("check_functionality failed!\n");
++		return -EIO;
++	}
++
++	p_sar = devm_kzalloc(&i2c->dev, sizeof(struct aw_sar), GFP_KERNEL);
++	if (!p_sar) {
++		ret = -ENOMEM;
++		goto err_malloc;
++	}
++
++	p_sar->dev = &i2c->dev;
++	p_sar->i2c = i2c;
++	i2c_set_clientdata(i2c, p_sar);
++
++	//1.Judge whether to use regular power supply. If yes, supply power
++	ret = aw_sar_regulator_power(p_sar);
++	if (ret != 0) {
++		dev_err(&i2c->dev, "regulator_power error!");
++		goto err_malloc;
++	}
++
++	//2.Get chip initialization resources
++	ret = aw_sar_get_chip_info(p_sar);
++	if (ret != 0) {
++		dev_err(&i2c->dev, "chip_init error!");
++		goto err_chip_init;
++	}
++
++	//3.Chip initialization process
++	ret = aw_sar_init(p_sar);
++	if (ret != 0) {
++		dev_err(&i2c->dev, "sar_init error!");
++		goto err_sar_init;
++	}
++
++	if (p_sar->dts_info.monitor_esd_flag) {
++		ret = aw_sar_monitor_esd_init(p_sar);
++		if (ret != 0) {
++			dev_err(&i2c->dev, "monitor_esd_init error!");
++			goto err_esd_init;
++		}
++	}
++
++	dev_dbg(&i2c->dev, "probe success!");
++
++	return 0;
++
++err_esd_init:
++	aw_sar_input_free(p_sar);
++	aw_sar_irq_free(p_sar);
++	aw_sar_node_free(p_sar);
++	if (p_sar->dts_info.use_inter_pull_up == true)
++		aw_sar_pinctrl_deinit(p_sar);
++	if (p_sar->dts_info.use_plug_cail_flag == true)
++		power_supply_unreg_notifier(&p_sar->ps_notif);
++	mutex_destroy(&aw_sar_lock);
++err_sar_init:
++	aw_sar_sensor_free(p_sar);
++err_chip_init:
++if (p_sar->dts_info.use_regulator_flag == true)
++	aw_sar_power_deinit(p_sar);
++err_malloc:
++	return ret;
++}
++
++static void aw_sar_i2c_remove(struct i2c_client *i2c)
++{
++	struct aw_sar *p_sar  = i2c_get_clientdata(i2c);
++
++	aw_sar_chip_other_operation_free(p_sar);
++
++	aw_sar_node_free(p_sar);
++
++	aw_sar_irq_free(p_sar);
++
++	aw_sar_input_free(p_sar);
++
++	if (p_sar->dts_info.use_inter_pull_up == true)
++		aw_sar_pinctrl_deinit(p_sar);
++
++	if (p_sar->dts_info.use_regulator_flag == true)
++		aw_sar_power_deinit(p_sar);
++
++	if (p_sar->dts_info.use_plug_cail_flag == true)
++		power_supply_unreg_notifier(&p_sar->ps_notif);
++
++	aw_sar_sensor_free(p_sar);
++}
++
++static int aw_sar_suspend(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct aw_sar *p_sar = i2c_get_clientdata(client);
++
++	if (p_sar->dts_info.use_pm == true) {
++		if ((!p_sar->p_sar_para->p_platform_config) ||
++			(!p_sar->p_sar_para->p_platform_config->p_pm_chip_mode))
++			return 0;
++		if (p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_suspend_fn) {
++			p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_suspend_fn(p_sar);
++			return 0;
++		}
++		aw_sar_mode_set(p_sar,
++			p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->suspend_set_mode);
++	}
++
++	if (p_sar->dts_info.monitor_esd_flag)
++		cancel_delayed_work_sync(&p_sar->monitor_work);
++
++	return 0;
++}
++
++static int aw_sar_resume(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct aw_sar *p_sar = i2c_get_clientdata(client);
++
++	if (p_sar->dts_info.use_pm == true) {
++		if ((!p_sar->p_sar_para->p_platform_config) ||
++			(!p_sar->p_sar_para->p_platform_config->p_pm_chip_mode))
++			return 0;
++		if (p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_resume_fn) {
++			p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_resume_fn(p_sar);
++			return 0;
++		}
++		aw_sar_mode_set(p_sar,
++			p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->resume_set_mode);
++	}
++
++	if (p_sar->dts_info.monitor_esd_flag)
++		queue_delayed_work(p_sar->monitor_wq, &p_sar->monitor_work,
++				msecs_to_jiffies(AW_SAR_MONITOR_ESD_DELAY_MS));
++
++	return 0;
++}
++
++static void aw_sar_i2c_shutdown(struct i2c_client *i2c)
++{
++	struct aw_sar *p_sar  = i2c_get_clientdata(i2c);
++
++	if ((!p_sar->p_sar_para->p_platform_config) ||
++		(!p_sar->p_sar_para->p_platform_config->p_pm_chip_mode))
++		return;
++
++	if (p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_shutdown_fn) {
++		p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->p_shutdown_fn(p_sar);
++		return;
++	}
++
++	aw_sar_mode_set(p_sar,
++		p_sar->p_sar_para->p_platform_config->p_pm_chip_mode->shutdown_set_mode);
++}
++
++static const struct dev_pm_ops aw_sar_pm_ops = {
++	.suspend = aw_sar_suspend,
++	.resume = aw_sar_resume,
++};
++
++static const struct of_device_id aw_sar_dt_match[] = {
++	{ .compatible = "awinic,aw96103" },
++	{ .compatible = "awinic,aw96105" },
++	{ .compatible = "awinic,aw96303" },
++	{ .compatible = "awinic,aw96305" },
++	{ .compatible = "awinic,aw96308" },
++};
++
++static const struct i2c_device_id aw_sar_i2c_id[] = {
++	{ AW_SAR_I2C_NAME, 0 },
++	{ },
++};
++MODULE_DEVICE_TABLE(i2c, aw_sar_i2c_id);
++
++static struct i2c_driver aw_sar_i2c_driver = {
++	.driver = {
++		.name = AW_SAR_I2C_NAME,
++		.owner = THIS_MODULE,
++		.of_match_table = of_match_ptr(aw_sar_dt_match),
++		.pm = &aw_sar_pm_ops,
++	},
++	.probe = aw_sar_i2c_probe,
++	.remove = aw_sar_i2c_remove,
++	.shutdown = aw_sar_i2c_shutdown,
++	.id_table = aw_sar_i2c_id,
++};
++
++static int32_t __init aw_sar_i2c_init(void)
++{
++	int32_t ret;
++
++	ret = i2c_add_driver(&aw_sar_i2c_driver);
++	if (ret) {
++		pr_err("fail to add aw_sar device into i2c\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++module_init(aw_sar_i2c_init);
++static void __exit aw_sar_i2c_exit(void)
++{
++	i2c_del_driver(&aw_sar_i2c_driver);
++}
++module_exit(aw_sar_i2c_exit);
++MODULE_DESCRIPTION("AWINIC SAR Driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/input/misc/aw_sar/aw_sar.h b/drivers/input/misc/aw_sar/aw_sar.h
 new file mode 100644
-index 000000000000..a9ebbf2334b2
+index 000000000000..7a139f56e9c3
 --- /dev/null
-+++ b/drivers/input/misc/aw_sar/aw963xx/aw963xx.h
-@@ -0,0 +1,749 @@
++++ b/drivers/input/misc/aw_sar/aw_sar.h
+@@ -0,0 +1,15 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef AW963XX_H_
-+#define AW963XX_H_
-+#include "../comm/aw_sar_type.h"
++#ifndef AW_SAR_H_
++#define AW_SAR_H_
 +
-+#define AW963XX_CHANNEL_NUM_MAX				(12)
-+#define AW963XX_VALID_TH				(2)
-+#define AW963XX_DATA_PROCESS_FACTOR			(1024)
-+#define AW963XX_SAR_VCC_MIN_UV				(1700000)
-+#define AW963XX_SAR_VCC_MAX_UV				(3600000)
-+#define AW963XX_SRAM_UPDATE_ONE_PACK_SIZE		(1024)
-+#define AW963XX_SRAM_UPDATE_ONE_UINT_SIZE		(4)
-+#define AW963XX_SRAM_START_ADDR				(0x2000)
-+#define AW963XX_SRAM_END_ADDR				(0x4ff4 + 4)
-+#define AW963XX_SRAM_SIZE	(AW963XX_SRAM_END_ADDR - AW963XX_SRAM_START_ADDR)
++void aw_sar_disable_irq(struct aw_sar *p_sar);
++void aw_sar_enable_irq(struct aw_sar *p_sar);
 +
-+#define AW963XX_STEP_LEN_UNSIGNED_CAP_ROUGH_ADJ		(9900)
-+#define AW963XX_STEP_LEN_UNSIGNED_CAP_FINE_ADJ		(152)
-+#define AW963XX_STEP_LEN_UNSIGNED_CAP_ENLARGE		(10000)
++int32_t aw_sar_soft_reset(struct aw_sar *p_sar);
++int32_t aw_sar_check_init_over_irq(struct aw_sar *p_sar);
++int32_t aw_sar_update_fw(struct aw_sar *p_sar);
++int32_t aw_sar_load_def_reg_bin(struct aw_sar *p_sar);
++void aw_sar_mode_set(struct aw_sar *p_sar, uint8_t curr_mode);
++int32_t aw_sar_update_reg_set_func(struct aw_sar *p_sar);
 +
-+#define AW963XX_CPU_OSC_CTRL_MASK			(1)
-+
-+#define ONE_WORD					(0xff)
-+#define AW_BIT8						(8)
-+#define AW_BIT16					(16)
-+#define AW96303						("AW96303")
-+#define AW96305						("AW96305")
-+#define AW96305BFOR					("AW96305BFOR")
-+#define AW96308						("AW96308")
-+#define AW96310						("AW96310")
-+
-+enum aw963xx_cap_mode {
-+	AW963XX_UNSIGNED_CAP = 0,
-+	AW963XX_SIGNED_CAP = 4,
-+	AW963XX_MUTUAL_CAP = 5,
-+};
-+
-+enum aw963xx_approach_state {
-+	AW963XX_FAR_AWAY = 0,
-+	AW963XX_APPROACH = 1,
-+};
-+
-+enum aw963xx_cs_2_irq {
-+	AW963XX_CS2_IRQ = 2,
-+	AW963XX_CS5_IRQ = 5,
-+};
-+
-+enum aw963xx_operation_mode {
-+	AW963XX_ACTIVE_MODE = 0x01,
-+	AW963XX_SLEEP_MODE = 0x02,
-+	AW963XX_DEEPSLEEP_MODE = 0x03,
-+};
-+
-+enum aw963xx_chip_id {
-+	AW96303_CHIP_ID = 0xA9630340,
-+	AW96305_CHIP_ID = 0xA9630520,
-+	AW96305BFOR_CHIP_ID = 0xA9630500,
-+	AW96308_CHIP_ID = 0xA9630810,
-+	AW96310_CHIP_ID = 0xA9631010,
-+};
-+
-+enum aw963xx_boot_mode {
-+	AW963XX_ROM_MODE = 0,
-+	AW963XX_RAM_MODE = 1,
-+};
-+
-+struct aw963xx {
-+	uint32_t irq_mux;
-+	uint32_t start_mode;
-+	uint32_t ref_ch_en[AW963XX_CHANNEL_NUM_MAX];
-+	void *p_aw_sar;
-+
-+	uint32_t last_blfilta[AW963XX_CHANNEL_NUM_MAX];
-+	uint32_t last_irq_en;
-+
-+};
-+
-+#define REG_CPU_MODE_SET				(0xf800)
-+#define AW963XX_RESET_CPU_SET_BOOT_SATRT		(0x00010100)
-+#define AW963XX_EXIT_RESET_CPU_SET_BOOT_SATRT		(0x00000100)
-+#define REG_CPU_RESET					(0XFF0C)
-+#define AW963XX_RESET_SET				(0)
-+#define REG_RAM_PASSWORD				(0xFFE4)
-+#define AW963XX_NO_ENCRYPTION				(0x3C000000)
-+#define AW963XX_FILTCTRL0_CHX_REFAEN			(16)
-+#define AW963XX_FILTCTRL0_CHX_REFASEL			(11)
-+#define AW963XX_FILTCTRL0_CHX_REFBEN			(9)
-+#define AW963XX_FILTCTRL0_CHX_REFBSEL			(4)
-+#define AW963XX_REF_EN					(1)
-+#define REG_SA_RSTNALL					(0xFF0C)
-+#define AW963XX_SOFT_RST_EN				(0)
-+#define AW963XX_CHIP_INIT_MAX_TIME_MS			(30)
-+
-+#define AW963XX_RAM_START_ADDR				(0x2000)
-+
-+#define AFE_BASE_ADDR					(0x0000)
-+#define DSP_BASE_ADDR					(0x0000)
-+#define STAT_BASE_ADDR					(0x0000)
-+#define DATA_BASE_ADDR					(0x0000)
-+#define SFR_BASE_ADDR					(0x0000)
-+#define HIDDEN_BASE_ADDR				(0x0000)
-+
-+#define REG_STAT0					((0x0020) + STAT_BASE_ADDR)
-+#define REG_STAT1					((0x0024) + STAT_BASE_ADDR)
-+#define REG_FWVER					((0x005C) + STAT_BASE_ADDR)
-+
-+#define REG_DIFF_CH0					((0x01EC) + DATA_BASE_ADDR)
-+#define REG_DIFF_CH1					((0x0304) + DATA_BASE_ADDR)
-+
-+#define REG_FILTCTRL0_CH0				((0x0130) + DSP_BASE_ADDR)
-+#define REG_FILTCTRL0_CH1				((0x0248) + DSP_BASE_ADDR)
-+
-+#define REG_SCANCTRL1					((0x0004) + AFE_BASE_ADDR)
-+#define REG_AFESOFTCFG0_CH0				((0x010C) + AFE_BASE_ADDR)
-+#define REG_AFECFG1_CH0					((0x0118) + AFE_BASE_ADDR)
-+#define REG_AFECFG3_CH0					((0x0120) + AFE_BASE_ADDR)
-+#define REG_AFESOFTCFG0_CH1				((0x0224) + AFE_BASE_ADDR)
-+#define REG_AFECFG1_CH1					((0x0230) + AFE_BASE_ADDR)
-+#define REG_AFECFG3_CH1					((0x0238) + AFE_BASE_ADDR)
-+
-+#define REG_AFECFG1_M_CH0				((0x10F8) + HIDDEN_BASE_ADDR)
-+#define REG_AFECFG1_M_CH1				((0x1184) + HIDDEN_BASE_ADDR)
-+
-+#define REG_IRQSRC					((0xF080) + SFR_BASE_ADDR)
-+#define REG_IRQEN					((0xF084) + SFR_BASE_ADDR)
-+#define REG_CHIPSTAT					((0xFF00) + SFR_BASE_ADDR)
-+#define REG_CHIP_ID0					((0xFF10) + SFR_BASE_ADDR)
-+
-+#define	REG_CMD						((0xf008) + SFR_BASE_ADDR)
-+#define REG_AFECFG2_CH0					((0x011c) + AFE_BASE_ADDR)
-+#define REG_AFECFG2_CH1					((0x0234) + AFE_BASE_ADDR)
-+
-+struct reg_data {
-+	unsigned char rw;
-+	unsigned short reg;
-+};
-+/********************************************
-+ * Register Access
-+ *******************************************/
-+#define REG_NONE_ACCESS					(0)
-+#define REG_RD_ACCESS					(1 << 0)
-+#define REG_WR_ACCESS					(1 << 1)
-+static const struct reg_data g_aw963xx_reg_access[] = {
-+	{ .reg = REG_SCANCTRL1,			.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFESOFTCFG0_CH0,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG1_CH0,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG3_CH0,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFESOFTCFG0_CH1,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG1_CH1,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG3_CH1,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_STAT0,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_STAT1,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_FWVER,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_DIFF_CH0,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_DIFF_CH1,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_FILTCTRL0_CH0,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_FILTCTRL0_CH1,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG1_M_CH0,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_AFECFG1_M_CH1,		.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_IRQSRC,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_IRQEN,			.rw = REG_RD_ACCESS | REG_WR_ACCESS, },
-+	{ .reg = REG_CHIPSTAT,			.rw = REG_RD_ACCESS, },
-+	{ .reg = REG_CHIP_ID0,			.rw = REG_RD_ACCESS, },
-+};
-+static const uint32_t aw963xx_reg_default[] = {
-+	0x0000, 0x000000FF,
-+	0x0004, 0x00000FFF,
-+	0x0008, 0x00000FFF,
-+	0x000C, 0x00000064,
-+	0x0010, 0x0000705F,
-+	0x0014, 0x80000000,
-+	0x0060, 0x00000000,
-+	0x0064, 0x00000000,
-+	0x0068, 0x00000000,
-+	0x006C, 0x00000000,
-+	0x0070, 0x00000000,
-+	0x0074, 0x00000000,
-+	0x0078, 0x00000000,
-+	0x007C, 0x00000000,
-+	0x0080, 0x00000000,
-+	0x0084, 0x00000000,
-+	0x0088, 0x00000000,
-+	0x008C, 0x00000000,
-+	0x0168, 0x00000000,
-+	0x016C, 0x003F0000,
-+	0x0170, 0x00050100,
-+	0x0174, 0x00000000,
-+	0x0178, 0x341C9207,
-+	0x017C, 0x00008000,
-+	0x0180, 0x00000909,
-+	0x0184, 0x00000001,
-+	0x0188, 0x00000000,
-+	0x0318, 0x00000000,
-+	0x031C, 0x003F0000,
-+	0x0320, 0x00050100,
-+	0x0324, 0x00000000,
-+	0x0328, 0x341C9207,
-+	0x032C, 0x00008000,
-+	0x0330, 0x00000909,
-+	0x0334, 0x00000008,
-+	0x0338, 0x00000000,
-+	0x04C8, 0x00000000,
-+	0x04CC, 0x003F0000,
-+	0x04D0, 0x00050100,
-+	0x04D4, 0x00000000,
-+	0x04D8, 0x341C9207,
-+	0x04DC, 0x00008000,
-+	0x04E0, 0x00000909,
-+	0x04E4, 0x00000040,
-+	0x04E8, 0x00000000,
-+	0x0678, 0x00000000,
-+	0x067C, 0x003F0000,
-+	0x0680, 0x00050100,
-+	0x0684, 0x00000000,
-+	0x0688, 0x341C9207,
-+	0x068C, 0x00008000,
-+	0x0690, 0x00000909,
-+	0x0694, 0x00000200,
-+	0x0698, 0x00000000,
-+	0x0828, 0x00000000,
-+	0x082C, 0x003F0000,
-+	0x0830, 0x00050100,
-+	0x0834, 0x00000000,
-+	0x0838, 0x341C9207,
-+	0x083C, 0x00008000,
-+	0x0840, 0x00000909,
-+	0x0844, 0x00001000,
-+	0x0848, 0x00000000,
-+	0x09D8, 0x00000000,
-+	0x09DC, 0x003F0000,
-+	0x09E0, 0x00050100,
-+	0x09E4, 0x00000000,
-+	0x09E8, 0x341C9207,
-+	0x09EC, 0x00008000,
-+	0x09F0, 0x00000909,
-+	0x09F4, 0x00008000,
-+	0x09F8, 0x00000000,
-+	0x0B88, 0x00000000,
-+	0x0B8C, 0x003F0000,
-+	0x0B90, 0x00050100,
-+	0x0B94, 0x00000000,
-+	0x0B98, 0x341C9207,
-+	0x0B9C, 0x00008000,
-+	0x0BA0, 0x00000909,
-+	0x0BA4, 0x00040000,
-+	0x0BA8, 0x00000000,
-+	0x0D38, 0x00000000,
-+	0x0D3C, 0x003F0000,
-+	0x0D40, 0x00050100,
-+	0x0D44, 0x00000000,
-+	0x0D48, 0x341C9207,
-+	0x0D4C, 0x00008000,
-+	0x0D50, 0x00000909,
-+	0x0D54, 0x00200000,
-+	0x0D58, 0x00000000,
-+	0x0EE8, 0x00000000,
-+	0x0EEC, 0x003F0000,
-+	0x0EF0, 0x00050100,
-+	0x0EF4, 0x00000000,
-+	0x0EF8, 0x341C9207,
-+	0x0EFC, 0x00008000,
-+	0x0F00, 0x00000909,
-+	0x0F04, 0x00000000,
-+	0x0F08, 0x00000000,
-+	0x1098, 0x00000000,
-+	0x109C, 0x003F0000,
-+	0x10A0, 0x00050100,
-+	0x10A4, 0x00000000,
-+	0x10A8, 0x341C9207,
-+	0x10AC, 0x00008000,
-+	0x10B0, 0x00000909,
-+	0x10B4, 0x00000000,
-+	0x10B8, 0x00000000,
-+	0x1248, 0x00000000,
-+	0x124C, 0x003F0000,
-+	0x1250, 0x00050100,
-+	0x1254, 0x00000000,
-+	0x1258, 0x341C9207,
-+	0x125C, 0x00008000,
-+	0x1260, 0x00000909,
-+	0x1264, 0x00000000,
-+	0x1268, 0x00000000,
-+	0x13F8, 0x00000000,
-+	0x13FC, 0x003F0000,
-+	0x1400, 0x00050100,
-+	0x1404, 0x00000000,
-+	0x1408, 0x341C9207,
-+	0x140C, 0x00008000,
-+	0x1410, 0x00000909,
-+	0x1414, 0x00000000,
-+	0x1418, 0x00000000,
-+	0x018C, 0xE0400000,
-+	0x0190, 0x00000000,
-+	0x0194, 0x00000000,
-+	0x0198, 0x000A0000,
-+	0x019C, 0x000008D2,
-+	0x01A0, 0x00000000,
-+	0x01A4, 0x00000040,
-+	0x01A8, 0x000186A0,
-+	0x01AC, 0x00030D40,
-+	0x01B0, 0x00061A80,
-+	0x01B4, 0x000C3500,
-+	0x01B8, 0x00000000,
-+	0x01BC, 0x00000000,
-+	0x01C0, 0x00000000,
-+	0x01C4, 0x00000000,
-+	0x01C8, 0x00000000,
-+	0x01CC, 0x00000000,
-+	0x033C, 0xE0400000,
-+	0x0340, 0x00000000,
-+	0x0344, 0x00000000,
-+	0x0348, 0x000A0000,
-+	0x034C, 0x000008D2,
-+	0x0350, 0x00000000,
-+	0x0354, 0x00000040,
-+	0x0358, 0x000186A0,
-+	0x035C, 0x00030D40,
-+	0x0360, 0x00061A80,
-+	0x0364, 0x000C3500,
-+	0x0368, 0x00000000,
-+	0x036C, 0x00000000,
-+	0x0370, 0x00000000,
-+	0x0374, 0x00000000,
-+	0x0378, 0x00000000,
-+	0x037C, 0x00000000,
-+	0x04EC, 0xE0400000,
-+	0x04F0, 0x00000000,
-+	0x04F4, 0x00000000,
-+	0x04F8, 0x000A0000,
-+	0x04FC, 0x000008D2,
-+	0x0500, 0x00000000,
-+	0x0504, 0x00000040,
-+	0x0508, 0x000186A0,
-+	0x050C, 0x00030D40,
-+	0x0510, 0x00061A80,
-+	0x0514, 0x000C3500,
-+	0x0518, 0x00000000,
-+	0x051C, 0x00000000,
-+	0x0520, 0x00000000,
-+	0x0524, 0x00000000,
-+	0x0528, 0x00000000,
-+	0x052C, 0x00000000,
-+	0x069C, 0xE0400000,
-+	0x06A0, 0x00000000,
-+	0x06A4, 0x00000000,
-+	0x06A8, 0x000A0000,
-+	0x06AC, 0x000008D2,
-+	0x06B0, 0x00000000,
-+	0x06B4, 0x00000040,
-+	0x06B8, 0x000186A0,
-+	0x06BC, 0x00030D40,
-+	0x06C0, 0x00061A80,
-+	0x06C4, 0x000C3500,
-+	0x06C8, 0x00000000,
-+	0x06CC, 0x00000000,
-+	0x06D0, 0x00000000,
-+	0x06D4, 0x00000000,
-+	0x06D8, 0x00000000,
-+	0x06DC, 0x00000000,
-+	0x084C, 0xE0400000,
-+	0x0850, 0x00000000,
-+	0x0854, 0x00000000,
-+	0x0858, 0x000A0000,
-+	0x085C, 0x000008D2,
-+	0x0860, 0x00000000,
-+	0x0864, 0x00000040,
-+	0x0868, 0x000186A0,
-+	0x086C, 0x00030D40,
-+	0x0870, 0x00061A80,
-+	0x0874, 0x000C3500,
-+	0x0878, 0x00000000,
-+	0x087C, 0x00000000,
-+	0x0880, 0x00000000,
-+	0x0884, 0x00000000,
-+	0x0888, 0x00000000,
-+	0x088C, 0x00000000,
-+	0x09FC, 0xE0400000,
-+	0x0A00, 0x00000000,
-+	0x0A04, 0x00000000,
-+	0x0A08, 0x000A0000,
-+	0x0A0C, 0x000008D2,
-+	0x0A10, 0x00000000,
-+	0x0A14, 0x00000040,
-+	0x0A18, 0x000186A0,
-+	0x0A1C, 0x00030D40,
-+	0x0A20, 0x00061A80,
-+	0x0A24, 0x000C3500,
-+	0x0A28, 0x00000000,
-+	0x0A2C, 0x00000000,
-+	0x0A30, 0x00000000,
-+	0x0A34, 0x00000000,
-+	0x0A38, 0x00000000,
-+	0x0A3C, 0x00000000,
-+	0x0BAC, 0xE0400000,
-+	0x0BB0, 0x00000000,
-+	0x0BB4, 0x00000000,
-+	0x0BB8, 0x000A0000,
-+	0x0BBC, 0x000008D2,
-+	0x0BC0, 0x00000000,
-+	0x0BC4, 0x00000040,
-+	0x0BC8, 0x000186A0,
-+	0x0BCC, 0x00030D40,
-+	0x0BD0, 0x00061A80,
-+	0x0BD4, 0x000C3500,
-+	0x0BD8, 0x00000000,
-+	0x0BDC, 0x00000000,
-+	0x0BE0, 0x00000000,
-+	0x0BE4, 0x00000000,
-+	0x0BE8, 0x00000000,
-+	0x0BEC, 0x00000000,
-+	0x0D5C, 0xE0400000,
-+	0x0D60, 0x00000000,
-+	0x0D64, 0x00000000,
-+	0x0D68, 0x000A0000,
-+	0x0D6C, 0x000008D2,
-+	0x0D70, 0x00000000,
-+	0x0D74, 0x00000040,
-+	0x0D78, 0x000186A0,
-+	0x0D7C, 0x00030D40,
-+	0x0D80, 0x00061A80,
-+	0x0D84, 0x000C3500,
-+	0x0D88, 0x00000000,
-+	0x0D8C, 0x00000000,
-+	0x0D90, 0x00000000,
-+	0x0D94, 0x00000000,
-+	0x0D98, 0x00000000,
-+	0x0D9C, 0x00000000,
-+	0x0F0C, 0xE0400000,
-+	0x0F10, 0x00000000,
-+	0x0F14, 0x00000000,
-+	0x0F18, 0x000A0000,
-+	0x0F1C, 0x000008D2,
-+	0x0F20, 0x00000000,
-+	0x0F24, 0x00000040,
-+	0x0F28, 0x000186A0,
-+	0x0F2C, 0x00000000,
-+	0x0F30, 0x00000000,
-+	0x0F34, 0x00000000,
-+	0x0F38, 0x00000000,
-+	0x0F3C, 0x00000000,
-+	0x0F40, 0x00000000,
-+	0x0F44, 0x00000000,
-+	0x0F48, 0x00000000,
-+	0x0F4C, 0x00000000,
-+	0x10BC, 0xE0400000,
-+	0x10C0, 0x00000000,
-+	0x10C4, 0x00000000,
-+	0x10C8, 0x000A0000,
-+	0x10CC, 0x000008D2,
-+	0x10D0, 0x00000000,
-+	0x10D4, 0x00000040,
-+	0x10D8, 0x00000000,
-+	0x10DC, 0x00000000,
-+	0x10E0, 0x00000000,
-+	0x10E4, 0x00000000,
-+	0x10E8, 0x00000000,
-+	0x10EC, 0x00000000,
-+	0x10F0, 0x00000000,
-+	0x10F4, 0x00000000,
-+	0x10F8, 0x00000000,
-+	0x10FC, 0x00000000,
-+	0x126C, 0xE0400000,
-+	0x1270, 0x00000000,
-+	0x1274, 0x00000000,
-+	0x1278, 0x000A0000,
-+	0x127C, 0x000008D2,
-+	0x1280, 0x00000000,
-+	0x1284, 0x00000040,
-+	0x1288, 0x00000000,
-+	0x128C, 0x00000000,
-+	0x1290, 0x00000000,
-+	0x1294, 0x00000000,
-+	0x1298, 0x00000000,
-+	0x129C, 0x00000000,
-+	0x12A0, 0x00000000,
-+	0x12A4, 0x00000000,
-+	0x12A8, 0x00000000,
-+	0x12AC, 0x00000000,
-+	0x141C, 0xE0400000,
-+	0x1420, 0x00000000,
-+	0x1424, 0x00000000,
-+	0x1428, 0x000A0000,
-+	0x142C, 0x000008D2,
-+	0x1430, 0x00000000,
-+	0x1434, 0x00000040,
-+	0x1438, 0x00000000,
-+	0x143C, 0x00000000,
-+	0x1440, 0x00000000,
-+	0x1444, 0x00000000,
-+	0x1448, 0x00000000,
-+	0x144C, 0x00000000,
-+	0x1450, 0x00000000,
-+	0x1454, 0x00000000,
-+	0x1458, 0x00000000,
-+	0x145C, 0x00000000,
-+	0x01D0, 0x00000000,
-+	0x01D4, 0x00000000,
-+	0x01D8, 0x00000000,
-+	0x01DC, 0x00000000,
-+	0x01E0, 0x00000000,
-+	0x01E4, 0xFFFFFFFF,
-+	0x01E8, 0x00000000,
-+	0x01EC, 0x00000000,
-+	0x01F0, 0x00000000,
-+	0x01F4, 0x00000000,
-+	0x01F8, 0x070004B0,
-+	0x01FC, 0x0E000000,
-+	0x0200, 0xF2000000,
-+	0x0204, 0x02000000,
-+	0x0208, 0x02000000,
-+	0x020C, 0x00002000,
-+	0x0210, 0x00010000,
-+	0x0214, 0x80007530,
-+	0x0220, 0x00000000,
-+	0x0224, 0x00000000,
-+	0x0380, 0x00000000,
-+	0x0384, 0x00000000,
-+	0x0388, 0x00000000,
-+	0x038C, 0x00000000,
-+	0x0390, 0x00000000,
-+	0x0394, 0xFFFFFFFF,
-+	0x0398, 0x00000000,
-+	0x039C, 0x00000000,
-+	0x03A0, 0x00000000,
-+	0x03A4, 0x00000000,
-+	0x03A8, 0x070004B0,
-+	0x03AC, 0x0E000000,
-+	0x03B0, 0xF2000000,
-+	0x03B4, 0x02000000,
-+	0x03B8, 0x02000000,
-+	0x03BC, 0x00002000,
-+	0x03C0, 0x00010000,
-+	0x03C4, 0x80007530,
-+	0x03D0, 0x00000000,
-+	0x03D4, 0x00000000,
-+	0x0530, 0x00000000,
-+	0x0534, 0x00000000,
-+	0x0538, 0x00000000,
-+	0x053C, 0x00000000,
-+	0x0540, 0x00000000,
-+	0x0544, 0xFFFFFFFF,
-+	0x0548, 0x00000000,
-+	0x054C, 0x00000000,
-+	0x0550, 0x00000000,
-+	0x0554, 0x00000000,
-+	0x0558, 0x070004B0,
-+	0x055C, 0x0E000000,
-+	0x0560, 0xF2000000,
-+	0x0564, 0x02000000,
-+	0x0568, 0x02000000,
-+	0x056C, 0x00002000,
-+	0x0570, 0x00010000,
-+	0x0574, 0x80007530,
-+	0x0580, 0x00000000,
-+	0x0584, 0x00000000,
-+	0x06E0, 0x00000000,
-+	0x06E4, 0x00000000,
-+	0x06E8, 0x00000000,
-+	0x06EC, 0x00000000,
-+	0x06F0, 0x00000000,
-+	0x06F4, 0xFFFFFFFF,
-+	0x06F8, 0x00000000,
-+	0x06FC, 0x00000000,
-+	0x0700, 0x00000000,
-+	0x0704, 0x00000000,
-+	0x0708, 0x070004B0,
-+	0x070C, 0x0E000000,
-+	0x0710, 0xF2000000,
-+	0x0714, 0x02000000,
-+	0x0718, 0x02000000,
-+	0x071C, 0x00002000,
-+	0x0720, 0x00010000,
-+	0x0724, 0x80007530,
-+	0x0730, 0x00000000,
-+	0x0734, 0x00000000,
-+	0x0890, 0x00000000,
-+	0x0894, 0x00000000,
-+	0x0898, 0x00000000,
-+	0x089C, 0x00000000,
-+	0x08A0, 0x00000000,
-+	0x08A4, 0xFFFFFFFF,
-+	0x08A8, 0x00000000,
-+	0x08AC, 0x00000000,
-+	0x08B0, 0x00000000,
-+	0x08B4, 0x00000000,
-+	0x08B8, 0x070004B0,
-+	0x08BC, 0x0E000000,
-+	0x08C0, 0xF2000000,
-+	0x08C4, 0x02000000,
-+	0x08C8, 0x02000000,
-+	0x08CC, 0x00002000,
-+	0x08D0, 0x00010000,
-+	0x08D4, 0x80007530,
-+	0x08E0, 0x00000000,
-+	0x08E4, 0x00000000,
-+	0x0A40, 0x00000000,
-+	0x0A44, 0x00000000,
-+	0x0A48, 0x00000000,
-+	0x0A4C, 0x00000000,
-+	0x0A50, 0x00000000,
-+	0x0A54, 0xFFFFFFFF,
-+	0x0A58, 0x00000000,
-+	0x0A5C, 0x00000000,
-+	0x0A60, 0x00000000,
-+	0x0A64, 0x00000000,
-+	0x0A68, 0x070004B0,
-+	0x0A6C, 0x0E000000,
-+	0x0A70, 0xF2000000,
-+	0x0A74, 0x02000000,
-+	0x0A78, 0x02000000,
-+	0x0A7C, 0x00002000,
-+	0x0A80, 0x00010000,
-+	0x0A84, 0x80007530,
-+	0x0A90, 0x00000000,
-+	0x0A94, 0x00000000,
-+	0x0BF0, 0x00000000,
-+	0x0BF4, 0x00000000,
-+	0x0BF8, 0x00000000,
-+	0x0BFC, 0x00000000,
-+	0x0C00, 0x00000000,
-+	0x0C04, 0xFFFFFFFF,
-+	0x0C08, 0x00000000,
-+	0x0C0C, 0x00000000,
-+	0x0C10, 0x00000000,
-+	0x0C14, 0x00000000,
-+	0x0C18, 0x070004B0,
-+	0x0C1C, 0x0E000000,
-+	0x0C20, 0xF2000000,
-+	0x0C24, 0x02000000,
-+	0x0C28, 0x02000000,
-+	0x0C2C, 0x00002000,
-+	0x0C30, 0x00010000,
-+	0x0C34, 0x80007530,
-+	0x0C40, 0x00000000,
-+	0x0C44, 0x00000000,
-+	0x0DA0, 0x00000000,
-+	0x0DA4, 0x00000000,
-+	0x0DA8, 0x00000000,
-+	0x0DAC, 0x00000000,
-+	0x0DB0, 0x00000000,
-+	0x0DB4, 0xFFFFFFFF,
-+	0x0DB8, 0x00000000,
-+	0x0DBC, 0x00000000,
-+	0x0DC0, 0x00000000,
-+	0x0DC4, 0x00000000,
-+	0x0DC8, 0x070004B0,
-+	0x0DCC, 0x0E000000,
-+	0x0DD0, 0xF2000000,
-+	0x0DD4, 0x02000000,
-+	0x0DD8, 0x02000000,
-+	0x0DDC, 0x00002000,
-+	0x0DE0, 0x00010000,
-+	0x0DE4, 0x80007530,
-+	0x0DF0, 0x00000000,
-+	0x0DF4, 0x00000000,
-+	0x0F50, 0x00000000,
-+	0x0F54, 0x00000000,
-+	0x0F58, 0x00000000,
-+	0x0F5C, 0x00000000,
-+	0x0F60, 0x00000000,
-+	0x0F64, 0xFFFFFFFF,
-+	0x0F68, 0x00000000,
-+	0x0F6C, 0x00000000,
-+	0x0F70, 0x00000000,
-+	0x0F74, 0x00000000,
-+	0x0F78, 0x070004B0,
-+	0x0F7C, 0x0E000000,
-+	0x0F80, 0xF2000000,
-+	0x0F84, 0x02000000,
-+	0x0F88, 0x02000000,
-+	0x0F8C, 0x00002000,
-+	0x0F90, 0x00010000,
-+	0x0F94, 0x80007530,
-+	0x0FA0, 0x00000000,
-+	0x0FA4, 0x00000000,
-+	0x1100, 0x00000000,
-+	0x1104, 0x00000000,
-+	0x1108, 0x00000000,
-+	0x110C, 0x00000000,
-+	0x1110, 0x00000000,
-+	0x1114, 0xFFFFFFFF,
-+	0x1118, 0x00000000,
-+	0x111C, 0x00000000,
-+	0x1120, 0x00000000,
-+	0x1124, 0x00000000,
-+	0x1128, 0x070004B0,
-+	0x112C, 0x0E000000,
-+	0x1130, 0xF2000000,
-+	0x1134, 0x02000000,
-+	0x1138, 0x02000000,
-+	0x113C, 0x00002000,
-+	0x1140, 0x00010000,
-+	0x1144, 0x80007530,
-+	0x1150, 0x00000000,
-+	0x1154, 0x00000000,
-+	0x12B0, 0x00000000,
-+	0x12B4, 0x00000000,
-+	0x12B8, 0x00000000,
-+	0x12BC, 0x00000000,
-+	0x12C0, 0x00000000,
-+	0x12C4, 0xFFFFFFFF,
-+	0x12C8, 0x00000000,
-+	0x12CC, 0x00000000,
-+	0x12D0, 0x00000000,
-+	0x12D4, 0x00000000,
-+	0x12D8, 0x070004B0,
-+	0x12DC, 0x0E000000,
-+	0x12E0, 0xF2000000,
-+	0x12E4, 0x02000000,
-+	0x12E8, 0x02000000,
-+	0x12EC, 0x00002000,
-+	0x12F0, 0x00010000,
-+	0x12F4, 0x80007530,
-+	0x1300, 0x00000000,
-+	0x1304, 0x00000000,
-+	0x1460, 0x00000000,
-+	0x1464, 0x00000000,
-+	0x1468, 0x00000000,
-+	0x146C, 0x00000000,
-+	0x1470, 0x00000000,
-+	0x1474, 0xFFFFFFFF,
-+	0x1478, 0x00000000,
-+	0x147C, 0x00000000,
-+	0x1480, 0x00000000,
-+	0x1484, 0x00000000,
-+	0x1488, 0x070004B0,
-+	0x148C, 0x0E000000,
-+	0x1490, 0xF2000000,
-+	0x1494, 0x02000000,
-+	0x1498, 0x02000000,
-+	0x149C, 0x00002000,
-+	0x14A0, 0x00010000,
-+	0x14A4, 0x80007530,
-+	0x14B0, 0x00000000,
-+	0x14B4, 0x00000000,
-+	0xF084, 0x00000006,
-+	0x004C, 0xFFFFFFFF,
-+	0x0050, 0xFFFFFFFF,
-+	0x0054, 0xFFFFFFFF,
-+	0x0058, 0xFFFFFFFF,
-+	0x0090, 0x00000000,
-+	0x0094, 0x00000064,
-+	0x0098, 0x40000000,
-+	0x009C, 0x00000000,
-+	0x00A0, 0x00140014,
-+	0x00A4, 0x0019000D,
-+	0x00A8, 0x0096004B,
-+};
 +#endif
 -- 
 2.45.1
