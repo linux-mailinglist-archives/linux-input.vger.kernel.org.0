@@ -1,85 +1,83 @@
-Return-Path: <linux-input+bounces-3926-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3927-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871D58D29EA
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 03:25:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6657E8D29F4
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 03:28:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0AC71F27445
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 01:25:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94A481C230E0
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 01:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB4715AD9C;
-	Wed, 29 May 2024 01:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B262315A862;
+	Wed, 29 May 2024 01:28:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="nOadKEtI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hWb3U2Vd"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="Lg/nZYQq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M4ruKhwf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wfhigh7-smtp.messagingengine.com (wfhigh7-smtp.messagingengine.com [64.147.123.158])
+Received: from wfout4-smtp.messagingengine.com (wfout4-smtp.messagingengine.com [64.147.123.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432B215AAD5;
-	Wed, 29 May 2024 01:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FB01E86E;
+	Wed, 29 May 2024 01:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716945904; cv=none; b=dHV6DR86gHvTinC1nfHV23GFrhTP/sN/BxZI8t+TrglKD5i7pDb8LnG59j4IgyO5yqFYAG4AObNJJnFNZH3tDRULQMkQ5XUPMKRrQcemMuUE4TKAeUONrfqUJYYwdkEX60Iy6OV2K7Wr7OnOmowQi3zmq5kAk25M6eB4K2av84M=
+	t=1716946118; cv=none; b=jJaQw7WFui/8GgaXhN2s4n0nCAiG2hFrvBX2dS5A9ZGwsRpQ/3yl8cJfKyiTmqFxNuP/UVikHsB2Rj/V1KztMqL2CHWybCRH6wNx66HKxiEv3CLn6DyXi178Nfzo5JNjc6F+MOkygP5jrqa95ePBn4bh8AbV5ovt/pAh9+UZh04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716945904; c=relaxed/simple;
-	bh=LDZLCHZzuZFdB9MB2gzeXB2ldjxyM30EyBUTBHEphxw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ks297CcRUejt5FCF1YvhR5ixd9OcRSSG9U0bAdwQPYIkY4dkrnOhjOL0eVHr9YqwMFC0u57Et/soM1Enc6KMJEe+DEulQ3Ees37hSaU70vXNUq0ZwNNhRmpiwZ3PGK8vmfGeh0ByDwqj5WtJzhAYYAyO+DHY1+FVKKF3LBYKJq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=nOadKEtI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hWb3U2Vd; arc=none smtp.client-ip=64.147.123.158
+	s=arc-20240116; t=1716946118; c=relaxed/simple;
+	bh=ZWosJ0fbkD48d2sZzTj9+El9CMbzfLfzV5S6oJTU+XY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oxp9V09TsEbh2pbECetCfzbCykujTq2Mjn1jMahl0vHfokV4+8mngMTIXL8k1BIQEgmstXmgFcuDfPUTG1Smai2uYXTno0bs1cqC4+zUn7d8DSC2wZGG2pJWmJ9+uH6AT/cq541omfTOx32CNIyqvbNge/AClx4V+IFvsdi8BQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=Lg/nZYQq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=M4ruKhwf; arc=none smtp.client-ip=64.147.123.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 0AA3C180006F;
-	Tue, 28 May 2024 21:25:01 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.west.internal (Postfix) with ESMTP id 130A51C0018C;
+	Tue, 28 May 2024 21:28:36 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 28 May 2024 21:25:02 -0400
+  by compute4.internal (MEProxy); Tue, 28 May 2024 21:28:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1716945901; x=
-	1717032301; bh=LNipYAkSRLIdv0+aK0KD7aPesVOUo+kH+La70D2FdvE=; b=n
-	OadKEtI9dfN8TrSk4rPnGFSIm5ymCm0TmEE1vyb/P2ebMW3Z039PTjP0MsyFNWLG
-	TgSWgyhlayjTejTYMoK0blm6gEw/dFwqhVTz5JJI5I9t3Hy/fnrRtcCXZmZCxb1y
-	dCju55qrNppAJV0OAstM4pygPm2O6+VmLsPyiRIFH/LmevxZJE3hph9BnNKIq7K6
-	Qz5CY0PPoo/V8zjORi02PNEXeUwD5Qgu4U85LxAnsmxxqa5RRpiHSTsqstChgA6y
-	bw1zqtiMrE1cs7ZIsTRAdHeXohp6Lp4RTahy8F9FFFTke2uIRiZMcAqXFdfTLNnV
-	BNo8FSbOMSLJ0fOk3Yh+w==
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1716946115; x=1717032515; bh=B7nzPoEheZ64prYro48RW
+	JsH3qkc1hldm9XfgJ9HjO8=; b=Lg/nZYQq9v661uPB/359R44VKEGPu4UggDeaa
+	fyT2x4Vtgq7coGZgU/3Ty2iG1bszgedefVdQeE65AC3L2rMyAQgNpZwktmpiWX8W
+	Zy+2WewWGbNa58fRFQdf4gPsoY3GfsgSji8zV8jaIr+QKbDXSx/FvvJCCgAV5WZc
+	MVGV6rcO20U/+w20c/DtXni+lMtLx+9TJHNddG81NGQ/WFPquIl8IlD8cbgiYm6M
+	RsA/EjqwrnRLPRFZr/BopuDSciB456LQu2G3IG8+r9YkRS9pFDabL6+M5S2WmfFk
+	YIyU3NYGGRrAGIX92IqUeURc5FSEDkV1Q5IRHo6w4QvVKS2pQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716945901; x=
-	1717032301; bh=LNipYAkSRLIdv0+aK0KD7aPesVOUo+kH+La70D2FdvE=; b=h
-	Wb3U2VdjNW2q4ilXZm6OhRujqENsb1qXu+rKMi9yOsJJwjwr7Lc3bFFgY6cTLNGC
-	ORD+Xfds8prs/9MwNdmWvPOlQUJXNInh/z10sFNr+B7gl6Iq7f2/WDugwcmNTscW
-	kPS4TMFgTQ2HA/svEpvEfH+I6fqQi/DW5GxUDlaJR2Sah7GCetrUlKVJ86gUV5QS
-	4J1C5DtCgzzIJLvgz5HJ6sPAsuPCKsgk8Bcb0DC+amOSgi63uCt1in65sBR+cOgV
-	DT8jyGEjSKFh8C1lIqDZaO59BJMP6us3zmPkNs3iJGxS/XgKuQo92dGFJIpmPIdX
-	gOC5Qt74h/e8kwT+EFjbQ==
-X-ME-Sender: <xms:7YNWZrAzUScn_LHtiIsG15ngo4VlMTPcSO9GejXsj7hrdlbM5-Wo2g>
-    <xme:7YNWZhg-OUBQcImYsZp-dyO6_7kbl0CatRkL8rfvsZAhsMd1FBbEv90wjfVp2K9Q4
-    K1nBVGph5tWWsFM5nY>
-X-ME-Received: <xmr:7YNWZmlYqcuzlqbsTuOlmiP-U9NP3cvT3oLJQoSgokKHaXL6cPtji_muzJsM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejledggeeiucetufdoteggodetrfdotf
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1716946115; x=1717032515; bh=B7nzPoEheZ64prYro48RWJsH3qkc
+	1hldm9XfgJ9HjO8=; b=M4ruKhwfEKeln17/yhrDxsCZ0UZFY7R2/TSAoJ1yTM5r
+	YQE/ilpWUwCQVzNl7n7/7FhHnmeJbQmyqE9DCV0ybTj5b2Sha3zAMoEFGrgJNoj8
+	Sf/BunOyG7tPgBpwDI1XC/A22MlU2cS8M/xC3Jt32ooigSRkrU3sct66Vmo3mtwO
+	35aHyi1hskz3juk+YsEG6iMVPG5yAhI5cLHFOnA0KEgo4ApRxySRFZzmNoPDRcPU
+	ZDHNDhdTatx2JDCwIYvEri5ZPrJ9hKI8K0rpVQsJzj3Zw50v7XRmJuQ7OXnhg1fs
+	oMTIfV4peEmTgcvy+tubIPi/6oJFPIy4UpZEf2+9/A==
+X-ME-Sender: <xms:w4RWZjEJuP1xzh0gW4hdIge9oXgAuh9MF7FiaIDRzQI_nur_rWm6vg>
+    <xme:w4RWZgUMwJ6U2n6AHmrP7_if4S8ASR5PwV70NXZoufJIv9aKzr134aWG1lBKegF5K
+    0YmyEqkq4yNtSL5-28>
+X-ME-Received: <xmr:w4RWZlL0jYQ1lkwrLuoCBC7D4CR9I8vvAdc4KNrgz6DSRvZzvNFFc7Bxst7f>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejledggeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:7YNWZtxmOLCwM1FADRWkXF0rGS3cf0S0TSJryFWWiNs48uIXPVOCoA>
-    <xmx:7YNWZgQ4gYvBSYRYitlXODypwNCpHzwogNRyUF0vV8PsECGvPViZog>
-    <xmx:7YNWZgYO7xqQIChca8alO2H8zFZaPq4fTAmb_aruM6KMaxehUn-lQg>
-    <xmx:7YNWZhTuh9LTW-3QKA5pTLyKAKWGm5UDFk_xdN71v2Df61M8IiPHxw>
-    <xmx:7YNWZjEt86-hcEwH1qtFsIN5oK0JxIcyAHVWNjUjduRZ6McnDh7kk3he>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
+    nhgvshdruggvvheqnecuggftrfgrthhtvghrnheptdehkeeigeeggfelkeeufeefjeduvd
+    ejveduvdehtdegveeftdeugeetvdeltdejnecuffhomhgrihhnpehkvghrnhgvlhdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluh
+    hkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:w4RWZhEfbpYPus4Hi4zvXX60nVxb0hquqXuDP73MNBaqLqDdNmViBg>
+    <xmx:w4RWZpVEvJpLncFDrDCVWB4JnsU1nRdPyFwW0D3AMJy_JT5mukWlVw>
+    <xmx:w4RWZsOtCfjb92otYYnATiJtrJZ2S_7iMIL3zTqXooFKgjE1S48l4Q>
+    <xmx:w4RWZo2_nQpdP31d4Dg05K-B_K-6gUVui5GWeQjifHnbz8lTrd2fWg>
+    <xmx:w4RWZlqVynADFDu5dJ2cNnX5FjV-5aO09vVlWoRzpA3C0jS4y15kZfa3>
 Feedback-ID: i5ec1447f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 May 2024 21:24:57 -0400 (EDT)
+ 28 May 2024 21:28:32 -0400 (EDT)
 From: "Luke D. Jones" <luke@ljones.dev>
 To: jikos@kernel.org
 Cc: hdegoede@redhat.com,
@@ -90,12 +88,10 @@ Cc: hdegoede@redhat.com,
 	linux-input@vger.kernel.org,
 	bentiss@kernel.org,
 	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH v1 2/2] hid-asus: change the report_id used for HID LED control
-Date: Wed, 29 May 2024 13:24:47 +1200
-Message-ID: <20240529012447.145088-2-luke@ljones.dev>
+Subject: [PATCH v1 0/2] asus wmi and hid: use HID LED for brightness
+Date: Wed, 29 May 2024 13:28:25 +1200
+Message-ID: <20240529012827.146005-1-luke@ljones.dev>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240529012447.145088-1-luke@ljones.dev>
-References: <20240529012447.145088-1-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -104,79 +100,24 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On some laptops the report_id used for LED brightness control must be
-0x5D instead of 0x5A.
+Changelog:
+- v1
+  - Split the patch in two
+  - Move function body to asus-wmi and export
+  - Use array of names and for loops
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+History:
+- https://lore.kernel.org/linux-input/20240528013959.14661-1-luke@ljones.dev/T/#u
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 4cba8e143031..ec3556cc4eef 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -94,6 +94,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- 
- #define TRKID_SGN       ((TRKID_MAX + 1) >> 1)
- 
-+static const char * const use_alt_led_report_id[] = { "GU605", "GA403" };
-+
- struct asus_kbd_leds {
- 	struct led_classdev cdev;
- 	struct hid_device *hdev;
-@@ -101,6 +103,7 @@ struct asus_kbd_leds {
- 	unsigned int brightness;
- 	spinlock_t lock;
- 	bool removed;
-+	int report_id;
- };
- 
- struct asus_touchpad_info {
-@@ -473,7 +476,7 @@ static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
- static void asus_kbd_backlight_work(struct work_struct *work)
- {
- 	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
--	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-+	u8 buf[] = { led->report_id, 0xba, 0xc5, 0xc4, 0x00 };
- 	int ret;
- 	unsigned long flags;
- 
-@@ -513,6 +516,23 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
- 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
- 
-+static bool asus_kbd_is_input_led(void)
-+{
-+	const char *product;
-+	int i;
-+
-+	product = dmi_get_system_info(DMI_PRODUCT_NAME);
-+	if (!product)
-+		return false;
-+
-+	for (i = 0; i < ARRAY_SIZE(use_alt_led_report_id); i++) {
-+		if (strstr(product, use_alt_led_report_id[i]))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- static int asus_kbd_register_leds(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-@@ -555,6 +575,10 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
- 	if (!drvdata->kbd_backlight)
- 		return -ENOMEM;
- 
-+	drvdata->kbd_backlight->report_id = FEATURE_KBD_REPORT_ID;
-+	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && asus_kbd_is_input_led())
-+		drvdata->kbd_backlight->report_id = FEATURE_KBD_LED_REPORT_ID1;
-+
- 	drvdata->kbd_backlight->removed = false;
- 	drvdata->kbd_backlight->brightness = 0;
- 	drvdata->kbd_backlight->hdev = hdev;
+Luke D. Jones (2):
+  hid-asus: use hid for brightness control on keyboard
+  hid-asus: change the report_id used for HID LED control
+
+ drivers/hid/hid-asus.c                     | 32 +++++++++++++++++++-
+ drivers/platform/x86/asus-wmi.c            | 35 +++++++++++++++++++++-
+ include/linux/platform_data/x86/asus-wmi.h | 10 +++++++
+ 3 files changed, 75 insertions(+), 2 deletions(-)
+
 -- 
 2.45.1
 
