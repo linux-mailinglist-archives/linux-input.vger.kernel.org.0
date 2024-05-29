@@ -1,201 +1,485 @@
-Return-Path: <linux-input+bounces-3942-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3943-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8296D8D32EB
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 11:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E438D3396
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 11:49:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4FBF1C20C65
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 09:28:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F1B51C22874
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 09:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7946A169AE6;
-	Wed, 29 May 2024 09:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392D816EC12;
+	Wed, 29 May 2024 09:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="H2CJ+GkO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bt3YND7e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxHlf6Ca"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wfhigh4-smtp.messagingengine.com (wfhigh4-smtp.messagingengine.com [64.147.123.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F33039FD6;
-	Wed, 29 May 2024 09:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F73116EBF2;
+	Wed, 29 May 2024 09:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716974897; cv=none; b=RV1mbgGMey4XPO+DRw3+gf3sRMC6yfi2CZs0pOzK9bTGC09izjcuUFtE0cnUN8IvGdx1ckPRSwG7vl3EdK7EUtv3saP+HYCHlvx2JJXAkbHG+km8EPGf2G4rPzDC4WkNu5FIVxmUbSGgHMMseuYEkSqq47kR6bu6wlBqx19o8s0=
+	t=1716976102; cv=none; b=IHmoijwPquarj6QNmTnVIfmvl1LcYoET0DFgwRR+tGXHO0GcuubgCOk5BL2vesz5mOP/rcJ6TF8RO9ePxa9sGt7zRo/yc/xCWQ7Nsg0LDbP+5yEy3NUAt/Kag/S17iT5fUwXUi10bm09+yis8VZLn2NERLatxUSRU3dRmtDlopM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716974897; c=relaxed/simple;
-	bh=Fxy6nPjwcvo0790dgPQleUfz1YfV4rRLl+LfuHSPsos=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=EGq3S1vxIhAOHxc8Suf+hLFkcUih0EezGYUsemfspwC8jU3exBkZqAYlYTE/jYEIZeSrD5vOO7zqxt5IdV5V40c+rO0cmB+WwQZBhgp6FUbsTMfKbNdX1N/1M+wxSSOHyXj6aBm8sjULPidIgRtS/rvxPg96KclKji+bQMeAves=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=H2CJ+GkO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bt3YND7e; arc=none smtp.client-ip=64.147.123.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id CCD99180009E;
-	Wed, 29 May 2024 05:28:13 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute2.internal (MEProxy); Wed, 29 May 2024 05:28:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1716974893; x=1717061293; bh=OHTgLSr14Z
-	6UcDGeqo2Na6jF5x1uXQBwvVchxSidF8A=; b=H2CJ+GkOLxaBy8Zxvtx5lDEUn8
-	Deh/bs7vMhBYVsQQMvaJ5ZMPGzqRDRJ4qlUTKCZpHNX3gMx2QMSX4tZZA6cxUk1D
-	bBSKICv4/LWXnk2kAMSyymrN11vFtgyKli7QUQnrjNXz+uO1Qa1knSsm9DuSyp2I
-	yXQcBN5Aqzh9ohg3T8GY62c/WlKVPVeUAA+TijBWQejhLxOFKfiD3R5D0FH1P8Tj
-	Y3xvb3rcO94HbwrhQ0s1NUCP4VaB7oshLILxN/WJe+e09CuxMStCDngN/JrmdGg3
-	A2Hw2jMYKEyF5h/VALOPlOB4HHh4YvQLgsn9VLjXet3kZCUboEAyI4jtlr+Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1716974893; x=1717061293; bh=OHTgLSr14Z6UcDGeqo2Na6jF5x1u
-	XQBwvVchxSidF8A=; b=bt3YND7eJLss3ATpjGVeCRt0Yf3nF8b236V/4rkgy/GA
-	tJ+ukeeaXxJdhRFw2apW3x6NQQWZtzi4ieznBFXMUPXSPP+UMB2BGztr/qLQQaLO
-	C+lAgUHNkPAbLJPX0geHxnRJVa3zBr89W0d+aR/tCcyMH7Bw9OG7WOjEV6ZpqmQQ
-	afwWkpNeM5ZK0Kmx9RBMJq/LAoDmqMaG2qfCXvV7Dig3Ei+Gx1jfwZLq4q6XfRWc
-	CHSPlRwC6vsfZNTldQcb2gCDon0G7Njo6JCZi9T69IV18sLCBQezsYaQQYn+1pzL
-	9lMSnYrUiH/3Oa0x3ROQK3qIZd//9e+JTb6k7jXnJw==
-X-ME-Sender: <xms:LfVWZij0QDue_HQEnXKtSJHZAGisujyJn327rlhWdArXNLrnNyEZgw>
-    <xme:LfVWZjAB2qJgBXuwZxXBc_O6zTF5xGsO-dgcysOzZCvy5R9brQfFOKjVfrmYwJgwP
-    vrAmDGzD_YxWu3-ANo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdekuddgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfnfhu
-    khgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtth
-    gvrhhnpedutdelgfdvgeekueeuteevffelfedukeeitedugfdvtdeutdetjeduudeuvdeg
-    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluh
-    hkvgeslhhjohhnvghsrdguvghv
-X-ME-Proxy: <xmx:LfVWZqH5g-Pi6E1CbFAOgVSvpQloFHPTqoXM6sX3uQHuXQV8fOvBzw>
-    <xmx:LfVWZrRbx3QVuXRcjdrKy-ushItT2vdBkZkXhLClOQlEzPorkE4jJQ>
-    <xmx:LfVWZvyHebNMc7ccTgPAHTNmoo8PdrZdDT64G6pXHiPWrcvSQOb_nA>
-    <xmx:LfVWZp7qIQDfdUFYfQtXfKDrMUEPSe6bKiNa4_Ln3sUQPzzZ1MLcug>
-    <xmx:LfVWZmmz89qcbuz2H8iCdf3SLlvDjkrjo4oQWmcpW9NMnj3LrUE8y4SW>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 231482340080; Wed, 29 May 2024 05:28:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+	s=arc-20240116; t=1716976102; c=relaxed/simple;
+	bh=kZ74HGSw/ZLoeBlbkmNWDrz3gQ2DhvypIlvMdAhkZ+M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YL3AcB/3glaLcyMPZ1C+MJmrRAjvLWR0PaLtYnWIVxiEnt5b8c9WeBdSwCtgLoDnJJSFJA39A3u8U5oJ4OkJL7DBxMhVJoZoH1n4Ahx6fTJalk+I6hhM00/JswbdsrJKrDRjGUs420jmvftTFDfTihUaMo0NLl/thtILZZ8oOVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxHlf6Ca; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E0EC2BD10;
+	Wed, 29 May 2024 09:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716976101;
+	bh=kZ74HGSw/ZLoeBlbkmNWDrz3gQ2DhvypIlvMdAhkZ+M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VxHlf6CaetgSh5NzXLSEhK1fbzJTLm0ywjtb0Ji/n3zQDYeCplqNeyK705qDM7iYC
+	 gN5B0iLLhmkuZilnpm6O8RumnDYB4jpzQ2hhAfo6suip753xgoeM3nTHtBiqe0OIeq
+	 V/O9Y7AexJHyv7V4qos8/R6jpMwt8cHPkSnYeigJ5cap30sAbzirfHEz81uLtqKzCd
+	 BIOJ3tkyLaX99vQBdwLpzrl46mtYUapGL55dQ33wN1qaZl/fv716sXejyESHaAvxkS
+	 /F4ZuGvzuAqMmPlEkJ4eGdSO2B4XnChCw1Wbpizd7Vc+EM+IQjflTMVcSybuxiHLJc
+	 mLkT7z4JjYHAw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Fabio Baltieri <fabiobaltieri@chromium.org>,
+	Ivan Gorinov <linux-kernel@altimeter.info>,
+	Johannes Roith <johannes@gnu-linux.rocks>,
+	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: uclogic: avoid linking common code into multiple modules
+Date: Wed, 29 May 2024 11:48:05 +0200
+Message-Id: <20240529094816.1859073-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ac50e89e-b0e9-48f8-a4e5-074c19f684e6@app.fastmail.com>
-In-Reply-To: <ea85df16-53b4-4e25-b7c7-3f74486cdcf9@redhat.com>
-References: <20240529012827.146005-1-luke@ljones.dev>
- <20240529012827.146005-3-luke@ljones.dev>
- <ea85df16-53b4-4e25-b7c7-3f74486cdcf9@redhat.com>
-Date: Wed, 29 May 2024 21:27:52 +1200
-From: "Luke Jones" <luke@ljones.dev>
-To: "Hans de Goede" <hdegoede@redhat.com>, "Jiri Kosina" <jikos@kernel.org>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- corentin.chary@gmail.com, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, bentiss@kernel.org
-Subject: Re: [PATCH v1 2/2] hid-asus: change the report_id used for HID LED control
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
+The hid-uclogic-params.o and hid-uclogic-rdesc.o files are linked
+into both the driver module and the unit test, which triggers a
+W=1 warning:
 
-On Wed, 29 May 2024, at 8:25 PM, Hans de Goede wrote:
-> Hi,
-> 
-> On 5/29/24 3:28 AM, Luke D. Jones wrote:
-> > On some laptops the report_id used for LED brightness control must be
-> > 0x5D instead of 0x5A.
-> > 
-> > Signed-off-by: Luke D. Jones <luke@ljones.dev>
-> > ---
-> >  drivers/hid/hid-asus.c | 26 +++++++++++++++++++++++++-
-> >  1 file changed, 25 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> > index 4cba8e143031..ec3556cc4eef 100644
-> > --- a/drivers/hid/hid-asus.c
-> > +++ b/drivers/hid/hid-asus.c
-> > @@ -94,6 +94,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
-> >  
-> >  #define TRKID_SGN       ((TRKID_MAX + 1) >> 1)
-> >  
-> > +static const char * const use_alt_led_report_id[] = { "GU605", "GA403" };
-> > +
-> >  struct asus_kbd_leds {
-> >  struct led_classdev cdev;
-> >  struct hid_device *hdev;
-> > @@ -101,6 +103,7 @@ struct asus_kbd_leds {
-> >  unsigned int brightness;
-> >  spinlock_t lock;
-> >  bool removed;
-> > + int report_id;
-> >  };
-> >  
-> >  struct asus_touchpad_info {
-> > @@ -473,7 +476,7 @@ static enum led_brightness asus_kbd_backlight_get(struct led_classdev *led_cdev)
-> >  static void asus_kbd_backlight_work(struct work_struct *work)
-> >  {
-> >  struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
-> > - u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-> > + u8 buf[] = { led->report_id, 0xba, 0xc5, 0xc4, 0x00 };
-> >  int ret;
-> >  unsigned long flags;
-> >  
-> > @@ -513,6 +516,23 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
-> >  return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
-> >  }
-> >  
-> > +static bool asus_kbd_is_input_led(void)
-> > +{
-> > + const char *product;
-> > + int i;
-> > +
-> > + product = dmi_get_system_info(DMI_PRODUCT_NAME);
-> > + if (!product)
-> > + return false;
-> > +
-> > + for (i = 0; i < ARRAY_SIZE(use_alt_led_report_id); i++) {
-> > + if (strstr(product, use_alt_led_report_id[i]))
-> > + return true;
-> > + }
-> > +
-> > + return false;
-> > +}
-> > +
-> 
-> 
-> This again feels like you are re-inventing dmi_check_system() please
-> change use_alt_led_report_id to a dmi_system_id array and drop this
-> function (you can directly call dmi_check_system(use_alt_led_report_id)
-> instead).
+scripts/Makefile.build:236: drivers/hid/Makefile: hid-uclogic-rdesc.o is added to multiple modules: hid-uclogic hid-uclogic-test
+scripts/Makefile.build:236: drivers/hid/Makefile: hid-uclogic-params.o is added to multiple modules: hid-uclogic hid-uclogic-test
 
-I wasn't actually aware of that, so i guess I've learned a whole lot of new stuff today :)
+Avoids this by moving these two files into a separate module
+that is used by the driver and the unit test.
 
-Thanks mate, I'll get round to a v2 in the next few days.
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+I have made patches for all such warnings in the tree, this is one I'm not
+sure about, maybe there is a better fix.
+---
+ drivers/hid/Makefile             | 12 ++----
+ drivers/hid/hid-uclogic-params.c |  8 ++++
+ drivers/hid/hid-uclogic-rdesc.c  | 72 ++++++++++++++++++++++++++++++++
+ 3 files changed, 84 insertions(+), 8 deletions(-)
 
-> 
-> >  static int asus_kbd_register_leds(struct hid_device *hdev)
-> >  {
-> >  struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> > @@ -555,6 +575,10 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
-> >  if (!drvdata->kbd_backlight)
-> >  return -ENOMEM;
-> >  
-> > + drvdata->kbd_backlight->report_id = FEATURE_KBD_REPORT_ID;
-> > + if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && asus_kbd_is_input_led())
-> > + drvdata->kbd_backlight->report_id = FEATURE_KBD_LED_REPORT_ID1;
-> > +
-> >  drvdata->kbd_backlight->removed = false;
-> >  drvdata->kbd_backlight->brightness = 0;
-> >  drvdata->kbd_backlight->hdev = hdev;
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index ce71b53ea6c5..864dfbae8ace 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -133,10 +133,8 @@ obj-$(CONFIG_HID_TOPSEED)	+= hid-topseed.o
+ obj-$(CONFIG_HID_TOPRE)	+= hid-topre.o
+ obj-$(CONFIG_HID_TWINHAN)	+= hid-twinhan.o
+ obj-$(CONFIG_HID_U2FZERO)	+= hid-u2fzero.o
+-hid-uclogic-objs		:= hid-uclogic-core.o \
+-				   hid-uclogic-rdesc.o \
+-				   hid-uclogic-params.o
+-obj-$(CONFIG_HID_UCLOGIC)	+= hid-uclogic.o
++hid-uclogic-objs		:= hid-uclogic-core.o
++obj-$(CONFIG_HID_UCLOGIC)	+= hid-uclogic.o hid-uclogic-rdesc.o hid-uclogic-params.o
+ obj-$(CONFIG_HID_UDRAW_PS3)	+= hid-udraw-ps3.o
+ obj-$(CONFIG_HID_LED)		+= hid-led.o
+ obj-$(CONFIG_HID_XIAOMI)	+= hid-xiaomi.o
+@@ -154,10 +152,8 @@ obj-$(CONFIG_HID_WINWING)	+= hid-winwing.o
+ obj-$(CONFIG_HID_SENSOR_HUB)	+= hid-sensor-hub.o
+ obj-$(CONFIG_HID_SENSOR_CUSTOM_SENSOR)	+= hid-sensor-custom.o
+ 
+-hid-uclogic-test-objs		:= hid-uclogic-rdesc.o \
+-				   hid-uclogic-params.o \
+-				   hid-uclogic-rdesc-test.o
+-obj-$(CONFIG_HID_KUNIT_TEST)	+= hid-uclogic-test.o
++hid-uclogic-test-objs		:= hid-uclogic-rdesc-test.o
++obj-$(CONFIG_HID_KUNIT_TEST)	+= hid-uclogic-test.o hid-uclogic-params.o hid-uclogic-params.o
+ 
+ obj-$(CONFIG_USB_HID)		+= usbhid/
+ obj-$(CONFIG_USB_MOUSE)		+= usbhid/
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 5bab006ec165..97ae7e4f61e1 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -133,6 +133,7 @@ void uclogic_params_hid_dbg(const struct hid_device *hdev,
+ 	}
+ 	hid_dbg(hdev, "}\n");
+ }
++EXPORT_SYMBOL_GPL(uclogic_params_hid_dbg);
+ 
+ /**
+  * uclogic_params_get_str_desc - retrieve a string descriptor from a HID
+@@ -660,6 +661,7 @@ void uclogic_params_cleanup(struct uclogic_params *params)
+ 		memset(params, 0, sizeof(*params));
+ 	}
+ }
++EXPORT_SYMBOL_GPL(uclogic_params_cleanup);
+ 
+ /**
+  * uclogic_params_get_desc() - Get a replacement report descriptor for a
+@@ -732,6 +734,7 @@ int uclogic_params_get_desc(const struct uclogic_params *params,
+ 	kfree(desc);
+ 	return rc;
+ }
++EXPORT_SYMBOL_GPL(uclogic_params_get_desc);
+ 
+ /**
+  * uclogic_params_init_invalid() - initialize tablet interface parameters,
+@@ -1859,7 +1862,12 @@ int uclogic_params_init(struct uclogic_params *params,
+ 	uclogic_params_cleanup(&p);
+ 	return rc;
+ }
++EXPORT_SYMBOL_GPL(uclogic_params_init);
+ 
+ #ifdef CONFIG_HID_KUNIT_TEST
+ #include "hid-uclogic-params-test.c"
+ #endif
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Nikolai Kondrashov");
++MODULE_DESCRIPTION("HID driver for UC-Logic devices tablet initialization and parameter retrieval");
+diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
+index b6dfdf6356a6..d4f1ee79e0a1 100644
+--- a/drivers/hid/hid-uclogic-rdesc.c
++++ b/drivers/hid/hid-uclogic-rdesc.c
+@@ -59,9 +59,11 @@ __u8 uclogic_rdesc_wp4030u_fixed_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp4030u_fixed_arr);
+ 
+ const size_t uclogic_rdesc_wp4030u_fixed_size =
+ 			sizeof(uclogic_rdesc_wp4030u_fixed_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp4030u_fixed_size);
+ 
+ /* Fixed WP5540U report descriptor */
+ __u8 uclogic_rdesc_wp5540u_fixed_arr[] = {
+@@ -136,9 +138,11 @@ __u8 uclogic_rdesc_wp5540u_fixed_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp5540u_fixed_arr);
+ 
+ const size_t uclogic_rdesc_wp5540u_fixed_size =
+ 			sizeof(uclogic_rdesc_wp5540u_fixed_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp5540u_fixed_size);
+ 
+ /* Fixed WP8060U report descriptor */
+ __u8 uclogic_rdesc_wp8060u_fixed_arr[] = {
+@@ -213,9 +217,11 @@ __u8 uclogic_rdesc_wp8060u_fixed_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp8060u_fixed_arr);
+ 
+ const size_t uclogic_rdesc_wp8060u_fixed_size =
+ 			sizeof(uclogic_rdesc_wp8060u_fixed_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp8060u_fixed_size);
+ 
+ /* Fixed WP1062 report descriptor */
+ __u8 uclogic_rdesc_wp1062_fixed_arr[] = {
+@@ -261,9 +267,11 @@ __u8 uclogic_rdesc_wp1062_fixed_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp1062_fixed_arr);
+ 
+ const size_t uclogic_rdesc_wp1062_fixed_size =
+ 			sizeof(uclogic_rdesc_wp1062_fixed_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_wp1062_fixed_size);
+ 
+ /* Fixed PF1209 report descriptor */
+ __u8 uclogic_rdesc_pf1209_fixed_arr[] = {
+@@ -338,9 +346,11 @@ __u8 uclogic_rdesc_pf1209_fixed_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_pf1209_fixed_arr);
+ 
+ const size_t uclogic_rdesc_pf1209_fixed_size =
+ 			sizeof(uclogic_rdesc_pf1209_fixed_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_pf1209_fixed_size);
+ 
+ /* Fixed PID 0522 tablet report descriptor, interface 0 (stylus) */
+ __u8 uclogic_rdesc_twhl850_fixed0_arr[] = {
+@@ -384,9 +394,11 @@ __u8 uclogic_rdesc_twhl850_fixed0_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed0_arr);
+ 
+ const size_t uclogic_rdesc_twhl850_fixed0_size =
+ 			sizeof(uclogic_rdesc_twhl850_fixed0_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed0_size);
+ 
+ /* Fixed PID 0522 tablet report descriptor, interface 1 (mouse) */
+ __u8 uclogic_rdesc_twhl850_fixed1_arr[] = {
+@@ -424,9 +436,11 @@ __u8 uclogic_rdesc_twhl850_fixed1_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed1_arr);
+ 
+ const size_t uclogic_rdesc_twhl850_fixed1_size =
+ 			sizeof(uclogic_rdesc_twhl850_fixed1_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed1_size);
+ 
+ /* Fixed PID 0522 tablet report descriptor, interface 2 (frame buttons) */
+ __u8 uclogic_rdesc_twhl850_fixed2_arr[] = {
+@@ -450,9 +464,11 @@ __u8 uclogic_rdesc_twhl850_fixed2_arr[] = {
+ 	0x80,               /*      Input,                          */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed2_arr);
+ 
+ const size_t uclogic_rdesc_twhl850_fixed2_size =
+ 			sizeof(uclogic_rdesc_twhl850_fixed2_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twhl850_fixed2_size);
+ 
+ /* Fixed TWHA60 report descriptor, interface 0 (stylus) */
+ __u8 uclogic_rdesc_twha60_fixed0_arr[] = {
+@@ -499,9 +515,11 @@ __u8 uclogic_rdesc_twha60_fixed0_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twha60_fixed0_arr);
+ 
+ const size_t uclogic_rdesc_twha60_fixed0_size =
+ 			sizeof(uclogic_rdesc_twha60_fixed0_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twha60_fixed0_size);
+ 
+ /* Fixed TWHA60 report descriptor, interface 1 (frame buttons) */
+ __u8 uclogic_rdesc_twha60_fixed1_arr[] = {
+@@ -527,9 +545,11 @@ __u8 uclogic_rdesc_twha60_fixed1_arr[] = {
+ 	0x81, 0x01, /*      Input (Constant),       */
+ 	0xC0        /*  End Collection              */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twha60_fixed1_arr);
+ 
+ const size_t uclogic_rdesc_twha60_fixed1_size =
+ 			sizeof(uclogic_rdesc_twha60_fixed1_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_twha60_fixed1_size);
+ 
+ /* Fixed report descriptor template for (tweaked) v1 pen reports */
+ const __u8 uclogic_rdesc_v1_pen_template_arr[] = {
+@@ -581,9 +601,11 @@ const __u8 uclogic_rdesc_v1_pen_template_arr[] = {
+ 	0xC0,                   /*      End Collection,                     */
+ 	0xC0                    /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v1_pen_template_arr);
+ 
+ const size_t uclogic_rdesc_v1_pen_template_size =
+ 			sizeof(uclogic_rdesc_v1_pen_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v1_pen_template_size);
+ 
+ /* Fixed report descriptor template for (tweaked) v2 pen reports */
+ const __u8 uclogic_rdesc_v2_pen_template_arr[] = {
+@@ -647,9 +669,11 @@ const __u8 uclogic_rdesc_v2_pen_template_arr[] = {
+ 	0xC0,                   /*      End Collection,                     */
+ 	0xC0                    /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_pen_template_arr);
+ 
+ const size_t uclogic_rdesc_v2_pen_template_size =
+ 			sizeof(uclogic_rdesc_v2_pen_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_pen_template_size);
+ 
+ /*
+  * Expand to the contents of a generic frame buttons report descriptor.
+@@ -702,16 +726,22 @@ const size_t uclogic_rdesc_v2_pen_template_size =
+ const __u8 uclogic_rdesc_v1_frame_arr[] = {
+ 	UCLOGIC_RDESC_FRAME_BUTTONS_BYTES(UCLOGIC_RDESC_V1_FRAME_ID, 8)
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v1_frame_arr);
++
+ const size_t uclogic_rdesc_v1_frame_size =
+ 			sizeof(uclogic_rdesc_v1_frame_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v1_frame_size);
+ 
+ /* Fixed report descriptor for (tweaked) v2 frame button reports */
+ const __u8 uclogic_rdesc_v2_frame_buttons_arr[] = {
+ 	UCLOGIC_RDESC_FRAME_BUTTONS_BYTES(UCLOGIC_RDESC_V2_FRAME_BUTTONS_ID,
+ 					  12)
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_buttons_arr);
++
+ const size_t uclogic_rdesc_v2_frame_buttons_size =
+ 			sizeof(uclogic_rdesc_v2_frame_buttons_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_buttons_size);
+ 
+ /* Fixed report descriptor for (tweaked) v2 frame touch ring reports */
+ const __u8 uclogic_rdesc_v2_frame_touch_ring_arr[] = {
+@@ -758,8 +788,11 @@ const __u8 uclogic_rdesc_v2_frame_touch_ring_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_touch_ring_arr);
++
+ const size_t uclogic_rdesc_v2_frame_touch_ring_size =
+ 			sizeof(uclogic_rdesc_v2_frame_touch_ring_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_touch_ring_size);
+ 
+ /* Fixed report descriptor for (tweaked) v2 frame touch strip reports */
+ const __u8 uclogic_rdesc_v2_frame_touch_strip_arr[] = {
+@@ -806,8 +839,11 @@ const __u8 uclogic_rdesc_v2_frame_touch_strip_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_touch_strip_arr);
++
+ const size_t uclogic_rdesc_v2_frame_touch_strip_size =
+ 			sizeof(uclogic_rdesc_v2_frame_touch_strip_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_touch_strip_size);
+ 
+ /* Fixed report descriptor for (tweaked) v2 frame dial reports */
+ const __u8 uclogic_rdesc_v2_frame_dial_arr[] = {
+@@ -856,14 +892,22 @@ const __u8 uclogic_rdesc_v2_frame_dial_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_dial_arr);
++
+ const size_t uclogic_rdesc_v2_frame_dial_size =
+ 			sizeof(uclogic_rdesc_v2_frame_dial_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_v2_frame_dial_size);
+ 
+ const __u8 uclogic_ugee_v2_probe_arr[] = {
+ 	0x02, 0xb0, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ };
++EXPORT_SYMBOL_GPL(uclogic_ugee_v2_probe_arr);
++
+ const size_t uclogic_ugee_v2_probe_size = sizeof(uclogic_ugee_v2_probe_arr);
++EXPORT_SYMBOL_GPL(uclogic_ugee_v2_probe_size);
++
+ const int uclogic_ugee_v2_probe_endpoint = 0x03;
++EXPORT_SYMBOL_GPL(uclogic_ugee_v2_probe_endpoint);
+ 
+ /* Fixed report descriptor template for UGEE v2 pen reports */
+ const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[] = {
+@@ -935,8 +979,11 @@ const __u8 uclogic_rdesc_ugee_v2_pen_template_arr[] = {
+ 	0xc0,               /*      End Collection,                     */
+ 	0xc0,               /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_pen_template_arr);
++
+ const size_t uclogic_rdesc_ugee_v2_pen_template_size =
+ 			sizeof(uclogic_rdesc_ugee_v2_pen_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_pen_template_size);
+ 
+ /* Fixed report descriptor template for UGEE v2 frame reports (buttons only) */
+ const __u8 uclogic_rdesc_ugee_v2_frame_btn_template_arr[] = {
+@@ -964,8 +1011,11 @@ const __u8 uclogic_rdesc_ugee_v2_frame_btn_template_arr[] = {
+ 	0xC0,               /*      End Collection,                     */
+ 	0xC0                /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_btn_template_arr);
++
+ const size_t uclogic_rdesc_ugee_v2_frame_btn_template_size =
+ 			sizeof(uclogic_rdesc_ugee_v2_frame_btn_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_btn_template_size);
+ 
+ /* Fixed report descriptor template for UGEE v2 frame reports (dial) */
+ const __u8 uclogic_rdesc_ugee_v2_frame_dial_template_arr[] = {
+@@ -1004,8 +1054,11 @@ const __u8 uclogic_rdesc_ugee_v2_frame_dial_template_arr[] = {
+ 	0xC0,               /*      End Collection,                     */
+ 	0xC0                /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_dial_template_arr);
++
+ const size_t uclogic_rdesc_ugee_v2_frame_dial_template_size =
+ 			sizeof(uclogic_rdesc_ugee_v2_frame_dial_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_dial_template_size);
+ 
+ /* Fixed report descriptor template for UGEE v2 frame reports (mouse) */
+ const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[] = {
+@@ -1038,8 +1091,11 @@ const __u8 uclogic_rdesc_ugee_v2_frame_mouse_template_arr[] = {
+ 	0xC0,               /*      End Collection,                     */
+ 	0xC0                /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_mouse_template_arr);
++
+ const size_t uclogic_rdesc_ugee_v2_frame_mouse_template_size =
+ 			sizeof(uclogic_rdesc_ugee_v2_frame_mouse_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_frame_mouse_template_size);
+ 
+ /* Fixed report descriptor template for UGEE v2 battery reports */
+ const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[] = {
+@@ -1072,8 +1128,11 @@ const __u8 uclogic_rdesc_ugee_v2_battery_template_arr[] = {
+ 	0x81, 0x01,         /*      Input (Constant),                   */
+ 	0xC0                /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_battery_template_arr);
++
+ const size_t uclogic_rdesc_ugee_v2_battery_template_size =
+ 			sizeof(uclogic_rdesc_ugee_v2_battery_template_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_v2_battery_template_size);
+ 
+ /* Fixed report descriptor for Ugee EX07 frame */
+ const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
+@@ -1099,8 +1158,11 @@ const __u8 uclogic_rdesc_ugee_ex07_frame_arr[] = {
+ 	0xC0,                   /*      End Collection,                     */
+ 	0xC0                    /*  End Collection                          */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_ex07_frame_arr);
++
+ const size_t uclogic_rdesc_ugee_ex07_frame_size =
+ 			sizeof(uclogic_rdesc_ugee_ex07_frame_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_ex07_frame_size);
+ 
+ /* Fixed report descriptor for Ugee G5 frame controls */
+ const __u8 uclogic_rdesc_ugee_g5_frame_arr[] = {
+@@ -1153,8 +1215,10 @@ const __u8 uclogic_rdesc_ugee_g5_frame_arr[] = {
+ 	0xC0,               /*      End Collection,                 */
+ 	0xC0                /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_g5_frame_arr);
+ const size_t uclogic_rdesc_ugee_g5_frame_size =
+ 			sizeof(uclogic_rdesc_ugee_g5_frame_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_ugee_g5_frame_size);
+ 
+ /* Fixed report descriptor for XP-Pen Deco 01 frame controls */
+ const __u8 uclogic_rdesc_xppen_deco01_frame_arr[] = {
+@@ -1187,9 +1251,11 @@ const __u8 uclogic_rdesc_xppen_deco01_frame_arr[] = {
+ 	0xC0,       /*      End Collection,                 */
+ 	0xC0        /*  End Collection                      */
+ };
++EXPORT_SYMBOL_GPL(uclogic_rdesc_xppen_deco01_frame_arr);
+ 
+ const size_t uclogic_rdesc_xppen_deco01_frame_size =
+ 			sizeof(uclogic_rdesc_xppen_deco01_frame_arr);
++EXPORT_SYMBOL_GPL(uclogic_rdesc_xppen_deco01_frame_size);
+ 
+ /**
+  * uclogic_rdesc_template_apply() - apply report descriptor parameters to a
+@@ -1242,3 +1308,9 @@ __u8 *uclogic_rdesc_template_apply(const __u8 *template_ptr,
+ 
+ 	return rdesc_ptr;
+ }
++EXPORT_SYMBOL_GPL(uclogic_rdesc_template_apply);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Martin Rusko");
++MODULE_AUTHOR("Nikolai Kondrashov");
++MODULE_DESCRIPTION("HID driver for UC-Logic devices original and fixed report descriptors");
+-- 
+2.39.2
+
 
