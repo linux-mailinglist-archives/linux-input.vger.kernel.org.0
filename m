@@ -1,74 +1,76 @@
-Return-Path: <linux-input+bounces-3953-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3954-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8998D3E3E
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 20:19:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845798D3E52
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 20:28:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37D142855E6
-	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 18:19:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F3692887D4
+	for <lists+linux-input@lfdr.de>; Wed, 29 May 2024 18:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5094D15B99D;
-	Wed, 29 May 2024 18:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED34815CD74;
+	Wed, 29 May 2024 18:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TSf/XFRJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dajPJVbS"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D7815CD4D
-	for <linux-input@vger.kernel.org>; Wed, 29 May 2024 18:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF6A15D5A0
+	for <linux-input@vger.kernel.org>; Wed, 29 May 2024 18:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717006758; cv=none; b=XfWLFJf+xwBWqo6amyZ/c19vnqlwhxI5jmm4PSkXobiDZA6PlU+58pJydA6As02skOJ2AFsEIzCJ+937LF2b7enifWZNhXibrkeQxu924CV+eOMVFCgh99YISM4v/JSEhj6S7L8jzEPrAokz7qr4Etvm6TuQG3PEHvZvpHoouJc=
+	t=1717007285; cv=none; b=EKpXjIT32lYqXRzqsFXI62dXuyCy7zJcUp/XxJrZuxKHP8hrlvuHXqZKxNsMH3U7zUHZ2clZhol5icxLIds1QWGS8JLvbqhbCldidsRdC+j59c2LM5p/ufDOVXws973MAvafAq/OrpHPSt+tpKdK36QO4W93bpdBHQX2ugsUlUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717006758; c=relaxed/simple;
-	bh=Szd+qwgEVBc/H7WPiyM9OWkEiu1LzzCqxafhPlPcX5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kQsiFKpRjSMhjFpNkKk/Xw679ftuopjjX7t8+5H4zDaHd4j2uc7QXZkQqlvCGNvoQV7EYyo19R1/CtoolBlBM7pzexu/ScblVD83h9ryCWs6dYobnRB5XfCSqRdrOxtdxf/nD2i0R8rwTEDcJuWLOr2vuWamWsJL8s0IA8jiKyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TSf/XFRJ; arc=none smtp.client-ip=209.85.160.45
+	s=arc-20240116; t=1717007285; c=relaxed/simple;
+	bh=uWX+Ko1i2jOhOsl/QbSP7eJl3uvztLZSkVu/Kcxhzkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hguy/MrweHxUvgoojJfNCN9p30lJm/lgsv16888ejElDtRmGyWzXW+/aeoJ9uEdGwV1BdHWKWH7hb2b1mmQKk6g+Z37QZlRohRwfDfvvNmVxqBBr9DrSdrQT+/lSxhpJcxqp2xxaiZOlhes/bf7gMOB1ivzY07tlXvkH80kSiYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dajPJVbS; arc=none smtp.client-ip=209.85.160.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2503cb65a90so100476fac.1
-        for <linux-input@vger.kernel.org>; Wed, 29 May 2024 11:19:16 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-24c9f6338a4so25142fac.1
+        for <linux-input@vger.kernel.org>; Wed, 29 May 2024 11:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717006756; x=1717611556; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Rb3M8864h8W5eTlqo96+omU63jkjg7ujMwjIFXZ++CU=;
-        b=TSf/XFRJugNoiWAa71SAE8yF3fJMy2qLRmTYN+qNfySEdyh+TlCFvwTmydNtA79j1E
-         /ODNI3Oy08EKNVUFLpV5m/cFcmrjK1Sm57wzFA3tYPIlu8x/WPAnVKIIeVO+JZwhwl/O
-         TioDCQFNLeNUQ/kd2I5nAcdGgyulrwWDVCFtk=
+        d=chromium.org; s=google; t=1717007283; x=1717612083; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fvt0ERXbqMGE3HmDRGSJ2txHk8mZEX0V9/S9QPIIKbk=;
+        b=dajPJVbS8RFxusOKt+F+Fb/RDIjBzWP+F3QU/47J39xC7LWyC77QYKPAdGRsi5h25a
+         nSo8o38YjMWArfW8z1mRpZNPaBIEEPJ5CeY4iiKTciPE1ChEgAjjr55YmGpmTDFDKA/S
+         Z+l3KanJHbxR+OhkwHEkoQAMb2MBXHdaovvUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717006756; x=1717611556;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rb3M8864h8W5eTlqo96+omU63jkjg7ujMwjIFXZ++CU=;
-        b=DGqYSNvS3dXrRhBA/jWQR/uQdHSKgEdlAtTixLHSHNJ3/7jpDeozGlG6c1rEFdDdtj
-         lGTWcdL5uVexo3fEkPX8bz96YthsboVz6T+9xCq6NXUMtmtz65BM2Mcyg5EdxBuCBmuF
-         Vtxl7Mbj3hiViTpSSmOUq+H9KWKsLiEkHq50O3R/Q/+umDTINDNje9+peRHOMQr/ybNb
-         9GFb2B7y5utgiQjeIgR2KnbG6o3xchHDDK3KqaP/PvGMAKqwPBTj1vsDy3iTw7X8YA9g
-         TSZuQuNynwfajKA5HW0KeKvYqWJQ8MMqtU67RKc+DIxen6yo/u1XnHzxFX4B2zRw2Iok
-         GHZA==
-X-Gm-Message-State: AOJu0YxjHAH0oFaePB3a4lDJ3weoJP9XsLG5LG8xLIVgg/kZxW3i6vyU
-	caiDyv5iZgWbcCIcS2Fc1pLXf+jzUz8HODCzk1aUudwxZWYeMBM+VHLsIEmAaw==
-X-Google-Smtp-Source: AGHT+IGHSyoKnNJiKUg7dVG8MXRruY6aIZgAmfB6CvjTXjxqX59uRvaVKdxVwukYP5wjnrckodQATA==
-X-Received: by 2002:a05:6870:f110:b0:22e:7e11:9e73 with SMTP id 586e51a60fabf-2503e2f3b95mr1196701fac.27.1717006755520;
-        Wed, 29 May 2024 11:19:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717007283; x=1717612083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fvt0ERXbqMGE3HmDRGSJ2txHk8mZEX0V9/S9QPIIKbk=;
+        b=Kvp5NmPJ5u39lUkjldcUI/BoUMM7kVoFbufKfxqXb+B89AXP0X0jd1Q3xmPPPgEkO3
+         0qtHoaaz3Pe3x2pJIu2TTSFYL6fytkcHZesuMit3327jOEzczko/cda5YX5Zw+LUGuLw
+         TFjh7lKqk8jtGuLlsp86JTj9R3rI6FsyGM4Z2XaGllxnig5RZIF3i6oB9Q/Ja1vLIM37
+         ZPmfo+xfDnwbnRQdDYem58zvhVRl0HZpPt+Jb3XUvQynZPpJFI4ndN+7FQzWQB8GZtlc
+         J4+DP00uJevtqwBe1hF3cykKklE7p7/0iGXsSXNkckEmzLoWYabWjTpMsXEflOL1900W
+         Y+2g==
+X-Gm-Message-State: AOJu0YzVjBt8QHC1qIhNsJ/sZh95goTLJFbQx5WshTJNl3OGZgLDwm0f
+	56tatMnTxC2GYgo0QAwL6cXz5gEWbggMWFygsx7DJmKiW/ACTvxi9WAbSGbZhg==
+X-Google-Smtp-Source: AGHT+IGqOdNd1a2q67HNuoE87pnrWh4IosbiiK5xv8K98QX0LrLeaknXBXmaHugVxX4X3WJyvZX18w==
+X-Received: by 2002:a05:6871:3390:b0:24c:b769:3cfe with SMTP id 586e51a60fabf-25060bda4f2mr58711fac.28.1717007283235;
+        Wed, 29 May 2024 11:28:03 -0700 (PDT)
 Received: from google.com (syn-076-186-130-074.res.spectrum.com. [76.186.130.74])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25029b1e798sm883163fac.27.2024.05.29.11.19.14
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-24fd869f532sm2486045fac.57.2024.05.29.11.28.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 11:19:15 -0700 (PDT)
-Date: Wed, 29 May 2024 13:19:13 -0500
+        Wed, 29 May 2024 11:28:02 -0700 (PDT)
+Date: Wed, 29 May 2024 13:28:00 -0500
 From: Aseda Aboagye <aaboagye@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
-Subject: [PATCH v3 1/2] input: Add event code for accessibility key
-Message-ID: <ZldxNQGXy4zWVPu1@google.com>
+Subject: [PATCH v3 2/2] input: Add support for "Do Not Disturb"
+Message-ID: <ZldzsCybMzSWnZaQ@google.com>
+References: <ZldxNQGXy4zWVPu1@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -77,63 +79,69 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZldxNQGXy4zWVPu1@google.com>
 
-HUTRR116 added support for a new usage titled "System Accessibility
-Binding" which toggles a system-wide bound accessibility UI or command.
-This commit simply adds a new event code for the usage.
+HUTRR94 added support for a new usage titled "System Do Not Disturb"
+which toggles a system-wide Do Not Disturb setting. This commit simply
+adds a new event code for the usage.
 
 Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 Changes from v2:
- - None
+ - Added underscores to make `KEY_DO_NOT_DISTURB`.
 
 Changes from v1:
  - Modified formatting to match existing code, ignoring checkpatch.pl.
 
  drivers/hid/hid-debug.c                | 1 +
- drivers/hid/hid-input.c                | 1 +
+ drivers/hid/hid-input.c                | 8 ++++++++
  include/uapi/linux/input-event-codes.h | 1 +
- 3 files changed, 3 insertions(+)
+ 3 files changed, 10 insertions(+)
 
 diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index e7ef1ea107c9..7749c81b6227 100644
+index 7749c81b6227..4ccfbd860bbe 100644
 --- a/drivers/hid/hid-debug.c
 +++ b/drivers/hid/hid-debug.c
-@@ -974,6 +974,7 @@ static const char *keys[KEY_MAX + 1] = {
-        [KEY_CAMERA_ACCESS_ENABLE] = "CameraAccessEnable",
+@@ -975,6 +975,7 @@ static const char *keys[KEY_MAX + 1] = {
         [KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
         [KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
-+       [KEY_ACCESSIBILITY] = "Accessibility",
+        [KEY_ACCESSIBILITY] = "Accessibility",
++       [KEY_DO_NOT_DISTURB] = "DoNotDisturb",
         [KEY_DICTATE] = "Dictate",
         [KEY_MICMUTE] = "MicrophoneMute",
         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 851ee86eff32..1ecc5ad57b56 100644
+index 1ecc5ad57b56..31feb5e0714f 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -829,6 +829,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+@@ -826,6 +826,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+                        break;
+                }
+ 
++               if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
++                       switch (usage->hid & 0xf) {
++                       case 0xb: map_key_clear(KEY_DO_NOT_DISTURB); break;
++                       default: goto ignore;
++                       }
++                       break;
++               }
++
                 if ((usage->hid & 0xf0) == 0xa0) {      /* SystemControl */
                         switch (usage->hid & 0xf) {
                         case 0x9: map_key_clear(KEY_MICMUTE); break;
-+                       case 0xa: map_key_clear(KEY_ACCESSIBILITY); break;
-                        default: goto ignore;
-                        }
-                        break;
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 022a520e31fc..7ff6eeef1af0 100644
+index 7ff6eeef1af0..07038fd9682d 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
-@@ -617,6 +617,7 @@
- #define KEY_CAMERA_ACCESS_ENABLE       0x24b   /* Enables programmatic access to camera devices. (HUTRR72) */
+@@ -618,6 +618,7 @@
  #define KEY_CAMERA_ACCESS_DISABLE      0x24c   /* Disables programmatic access to camera devices. (HUTRR72) */
  #define KEY_CAMERA_ACCESS_TOGGLE       0x24d   /* Toggles the current state of the camera access control. (HUTRR72) */
-+#define KEY_ACCESSIBILITY              0x24e   /* Toggles the system bound accessibility UI/command (HUTRR116) */
+ #define KEY_ACCESSIBILITY              0x24e   /* Toggles the system bound accessibility UI/command (HUTRR116) */
++#define KEY_DO_NOT_DISTURB             0x24f   /* Toggles the system-wide "Do Not Disturb" control (HUTRR94)*/
  
  #define KEY_BRIGHTNESS_MIN             0x250   /* Set Brightness to Minimum */
  #define KEY_BRIGHTNESS_MAX             0x251   /* Set Brightness to Maximum */
-
-base-commit: 5128de84d8fc849400d00f7a6982711f129699ea
 -- 
 2.45.1.288.g0e0cd299f1-goog
+
 
