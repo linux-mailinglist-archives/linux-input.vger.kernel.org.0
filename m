@@ -1,131 +1,208 @@
-Return-Path: <linux-input+bounces-3969-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3970-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD00E8D493E
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 12:06:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C278D5089
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 19:07:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF5EF1C2130A
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 10:06:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 965701C22589
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 17:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC99A1761A7;
-	Thu, 30 May 2024 10:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8BBB4436C;
+	Thu, 30 May 2024 17:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V83AqyIs"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="deA1kXVY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB7118399A;
-	Thu, 30 May 2024 10:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC49346544;
+	Thu, 30 May 2024 17:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717063560; cv=none; b=kIpPK2mjHXm0I2ObbHnXgzLDsiWt/i1k6lSRsCPnKUC5OSHCl4ZFqZTza6SAeYYzVS+pteUUJxr8jYuSHjr9tiSQ++nbKvJ6n/0+0wPwhbpDKseEcGGvPGH2bP1erAxTeIhEU/4DhZgZuC93vKWSZwh7J2v2++hynq/SBB4XyqM=
+	t=1717088862; cv=none; b=ZIELqDCoAl+INNYpwnYMm13pjlIjYmD3ioSOIAuTiqITYtaE9qt4++uP67HjrYBJKqa91pREeEumeZ6dRHk73tdeQivuQJLO9hz5VFusxmbYJk2+McjQwY7nM6/YX+7eqyWPTCEdlWSpGklSz2Ji+HW0/rI5NGIZHMGmWwdVDZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717063560; c=relaxed/simple;
-	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjGNcmEFWlhpa8/GttWRJI1ami+7nDlZ9yztnweBtXT0BFXrFmNwSnGJyZgkZFhMsvrMwg4rYGU1yxJYqp/VkBE60R52YxiipAoB0Hxooj9elhuLhIbhzKTC0NfZFRnv408PR456S0aJfXXcmdBvjbhqLcN827AiCt8HG5pYESw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V83AqyIs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7848EC2BBFC;
-	Thu, 30 May 2024 10:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717063560;
-	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V83AqyIsEU4RQhpQCNN89inqjoKbRLjNJd0VI0b+j2hILtvzCDsNTZ/Yfxp6DwIIc
-	 l3GxkKnia2EWPrDf5tMF52ke5xLj8N5DCeUDBT9rtJX6jqTUCKOiG5jEVFh4LW8njv
-	 smnM3FasCayduxxtVsxQHb0Wxu50Utv1OCBL8NuvYaIifn6P4OBwc1D2w8RGyYFpi7
-	 3NqqDKTyjB4VoKsqv4eO1PIFxfDUhqe5HxUB0b4IQZJT1BVUfjhgNuITiOcWh4L8Hd
-	 7PNxTJNL4lHViSaEBm8e2KQ2L+B66y14nMrxOenmPCl2P0uTlAp1katPOOAOZqJBFX
-	 0O3GZHh/kPhrg==
-Date: Thu, 30 May 2024 11:05:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	David Rhodes <drhodes@opensource.cirrus.com>
-Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
- CS40L50
-Message-ID: <f39508da-4241-46b2-a9e9-0e8b782ebf3f@sirena.org.uk>
-References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
- <20240408153214.42368-6-jogletre@opensource.cirrus.com>
- <425AC5F6-6324-41F8-993F-E8B91DDEFC23@cirrus.com>
- <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
+	s=arc-20240116; t=1717088862; c=relaxed/simple;
+	bh=MJ2wuaCd/2ZiUIPAA4eoz+c/Cwyu0XqjDw22ygKEx5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JdK09GybHJ22N1//J8w5pqrGoebA6QYXaCPT/nnoTjMnMCDu6jZ19chm7iB5U3nXjegg8wu3n97tg/yvZUOvIVZj7A5Ipju7CFETU7XPcjqTT9F9OdAoeCkdqMjuRg/MGeeJw5IWk+oAiPIiLw7g7QpwoWFQK6T8U1+OkxpkwiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=deA1kXVY; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44U4xJXV021359;
+	Thu, 30 May 2024 12:07:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=+9ZyUc5MMmPZs6k5uP+TG3Et3UMyDITZlWUysquJE+k=; b=
+	deA1kXVY3kVDo4/abGabWIPCgnjSq7x0XnHoVvddsGi8Js72NpyMwztv1KG0bgKP
+	plRCPZMsyLDvZb+MctmqISZMc2IQslS8McPodAiLwTUQlYLzdklwxWoLSWfQihrN
+	po2ogelgXrQiFxla46iNfTByXTgYsjr0yui61cc3rw/G98wRhzjKbs7espX/U7Ey
+	2dw4tGNbAbknUztLVokwHG2MW2rHDv9Ei4mnxTBbvYdBXKEUsuuS7SOJ5LEOG2Bt
+	Eru4l4iqFMQ9KVFuIvhSmx3NXyV5FMlMQSe3BFOe6CSqhMyD4kj71jEpylO1lFB8
+	0BXER34DXRcsDmGS4Ej3Lg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ybdcww1ad-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 May 2024 12:07:20 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 30 May
+ 2024 18:07:18 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 30 May 2024 18:07:18 +0100
+Received: from [141.131.156.155] (macC02FN0GLMD6T.ad.cirrus.com [141.131.156.155])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3EF6982F2A4;
+	Thu, 30 May 2024 17:07:16 +0000 (UTC)
+Message-ID: <abf5d0d6-30f4-44f4-b01b-ad9e4321db58@opensource.cirrus.com>
+Date: Thu, 30 May 2024 12:07:15 -0500
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+vduDYRBK43jhePc"
-Content-Disposition: inline
-In-Reply-To: <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
-X-Cookie: To err is human, to moo bovine.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
+ CS40L50
+To: James Ogletree <jogletre@opensource.cirrus.com>,
+        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        David Rhodes
+	<drhodes@opensource.cirrus.com>
+References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
+ <20240408153214.42368-6-jogletre@opensource.cirrus.com>
+Content-Language: en-US
+From: "Rivera-Matos, Ricardo" <rriveram@opensource.cirrus.com>
+In-Reply-To: <20240408153214.42368-6-jogletre@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: nlHNiblfpo6Och6cb1w5RqC1P5Fkj7aO
+X-Proofpoint-ORIG-GUID: nlHNiblfpo6Och6cb1w5RqC1P5Fkj7aO
+X-Proofpoint-Spam-Reason: safe
 
 
---+vduDYRBK43jhePc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/8/24 10:32 AM, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
+>
+> The ASoC driver enables I2S streaming to the device.
+>
+> Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> ---
+>   MAINTAINERS                      |   1 +
+>   sound/soc/codecs/Kconfig         |  11 ++
+>   sound/soc/codecs/Makefile        |   2 +
+>   sound/soc/codecs/cs40l50-codec.c | 308 +++++++++++++++++++++++++++++++
+>   4 files changed, 322 insertions(+)
+>   create mode 100644 sound/soc/codecs/cs40l50-codec.c
+>
+<cut>
+> diff --git a/sound/soc/codecs/cs40l50-codec.c b/sound/soc/codecs/cs40l50-codec.c
+> new file mode 100644
+> index 000000000000..6d4a0970b219
+> --- /dev/null
+> +++ b/sound/soc/codecs/cs40l50-codec.c
+> @@ -0,0 +1,308 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// CS40L50 Advanced Haptic Driver with waveform memory,
+> +// integrated DSP, and closed-loop algorithms
+> +//
+> +// Copyright 2024 Cirrus Logic, Inc.
+> +//
+> +// Author: James Ogletree <james.ogletree@cirrus.com>
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/mfd/cs40l50.h>
+> +#include <linux/pm_runtime.h>
+Is pm_runtime.h being used in the context of the codec driver? If not, 
+you should drop it.
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc.h>
+> +
+<cut>
+> +
+> +static const struct cs40l50_pll_config cs40l50_pll_cfg[] = {
+> +	{ 32768, 0x00 },
+> +	{ 1536000, 0x1B },
+> +	{ 3072000, 0x21 },
+> +	{ 6144000, 0x28 },
+> +	{ 9600000, 0x30 },
+> +	{ 12288000, 0x33 },
+> +};
+> +
+> +static int cs40l50_get_clk_config(unsigned int freq, unsigned int *cfg)
+You could constify freq.
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(cs40l50_pll_cfg); i++) {
+> +		if (cs40l50_pll_cfg[i].freq == freq) {
+> +			*cfg = cs40l50_pll_cfg[i].cfg;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int cs40l50_swap_ext_clk(struct cs40l50_codec *codec, unsigned int clk_src)
+You could constify clk_src.
+> +{
+> +	unsigned int cfg;
+> +	int ret;
+> +
+> +	switch (clk_src) {
+> +	case CS40L50_PLL_REFCLK_BCLK:
+> +		ret = cs40l50_get_clk_config(codec->bclk_ratio * codec->rate, &cfg);
+> +		if (ret)
+> +			return ret;
+> +		break;
+> +	case CS40L50_PLL_REFCLK_MCLK:
+> +		cfg = CS40L50_PLL_REEFCLK_MCLK_CFG;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
+> +				 CS40L50_PLL_REFCLK_LOOP_MASK,
+> +				 CS40L50_PLL_REFCLK_OPEN_LOOP <<
+> +				 CS40L50_PLL_REFCLK_LOOP_SHIFT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
+> +				 CS40L50_PLL_REFCLK_FREQ_MASK |
+> +				 CS40L50_PLL_REFCLK_SEL_MASK,
+> +				 (cfg << CS40L50_PLL_REFCLK_FREQ_SHIFT) | clk_src);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
+> +				  CS40L50_PLL_REFCLK_LOOP_MASK,
+> +				  CS40L50_PLL_REFCLK_CLOSED_LOOP <<
+> +				  CS40L50_PLL_REFCLK_LOOP_SHIFT);
+> +}
+> +
+<cut>
+> +
+> +MODULE_DESCRIPTION("ASoC CS40L50 driver");
+> +MODULE_AUTHOR("James Ogletree <james.ogletree@cirrus.com>");
+> +MODULE_LICENSE("GPL");
 
-On Wed, May 29, 2024 at 10:03:00PM +0000, James Ogletree wrote:
+This gets my Reviewed-by pending these edits.
 
-> This file has not had any feedback yet for this version. For the sake of =
-efficiency, I
-> would appreciate your review. That way I can make any needed changes
-> in the already-planned v11.
+Ricardo
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
-
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
-Please don't ignore review comments, people are generally making them
-for a reason and are likely to have the same concerns if issues remain
-unaddressed.  Having to repeat the same comments can get repetitive and
-make people question the value of time spent reviewing.  If you disagree
-with the review comments that's fine but you need to reply and discuss
-your concerns so that the reviewer can understand your decisions.
-
---+vduDYRBK43jhePc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZYT4EACgkQJNaLcl1U
-h9CrSAf+K9K/JlGRMOmpo/y/ORRpLSd23L7FQ2MpuVUIgxwCW85kWhvJ3G8xFTtJ
-uLrD0qGmAindSOFHI3OsSWvH1nh2w9V+0rFJMY0ilTnWSjUwQ15AQx7KEWAjmA09
-TUDEP3lAteNkvI09aimVAaiZKcu+KeB9e4E5mPFv7FbHE4qnvw6HArMCjP8EwkE9
-zhEJUzUrPHUDhzcRtsXp0GOMi3aQPTGJ1EDUCRF2Pydo78t6jnQLZ8cEBFodWUIa
-8Mo1K5zVfSItzqgfMlgtMuTbQ0NNGX7c//jOmLuu3QMmhzP02+zwYTuo95bJZJNy
-js/Z5HoEhHYYxcwXniK8XJI4ayEDtA==
-=Sw18
------END PGP SIGNATURE-----
-
---+vduDYRBK43jhePc--
 
