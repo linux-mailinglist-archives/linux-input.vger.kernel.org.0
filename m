@@ -1,81 +1,94 @@
-Return-Path: <linux-input+bounces-3971-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3972-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56078D53E0
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 22:29:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA5A8D53FB
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 22:44:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47B962834B5
-	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 20:29:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A823A1F24063
+	for <lists+linux-input@lfdr.de>; Thu, 30 May 2024 20:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93DC17406C;
-	Thu, 30 May 2024 20:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5698E768EE;
+	Thu, 30 May 2024 20:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHcwjo26"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acrC+i0L"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095657316F
-	for <linux-input@vger.kernel.org>; Thu, 30 May 2024 20:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76E425634;
+	Thu, 30 May 2024 20:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717100974; cv=none; b=KKiLrdVF0aK4Tu4oYAkWZ2qR1vPN8WTWoCQJDb7mCXWtj3zORUWPEUnxb1AeLW0jeJ1yMVK+DAmAYZgnuVb+brXElcr8vv4TltsMRVE/AmwMAnrmClgf3Yv9PINVv6Y7oNJS1W85cfV0qtYrKDQCmcrneyLmDL6ET47WlYbZeBo=
+	t=1717101853; cv=none; b=ixHPwWhRmW/jHdq0hLg3wBzLJ8rXQBUmc912HPTR0N5rcOBDnEY/FiFScZNpH6qKBR3exyHZOnftcR+omKfQY/TIHM5/2SqHEksGQoohxwqCObuaKlKskN9nIjQ8r+UNoxXeItZYxMZOxe63UdHZzvMDIb5uOcglwS/x7QhjVX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717100974; c=relaxed/simple;
-	bh=g5QgVVgh3mq1kHOyslN0CixT/eOHDuT3hNCbg/qABDo=;
+	s=arc-20240116; t=1717101853; c=relaxed/simple;
+	bh=iIv8OvYeES0t/JaFGpjVn8VOyxh5v0yLgFssAm2zZJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0W7mjmejg8y0ymw9TXSTHINZbrpj5B33H5W2C16PTwXnJxXGyEk72SMMbDBKfi30I/6FqRuqV0xKrWakwPMqlA2l76jNlWD3P87TgsJYwj/UgaSHUpq7/HcFC1hmRKBkJYUUUWd2uHh46SlqNrwmufasvKoraKLl/ett301II4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHcwjo26; arc=none smtp.client-ip=209.85.128.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=TQVU5J9aWil4rOY8z3iWKoVJG2WxOd8C7Mo+IV3XVfmpOQ5+HKYgp6TVBxb58eNvXJqt/G3MjVTW4z+iN1kYo2lvY/fh0aEd3KNjQjpoGI9+42a4ZWxxC0+u0n5/F+Av+XQHM049LipnwWWCNZvkmtNrBaMueMmx5V9BTt0+yi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acrC+i0L; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-62a08b1a81bso10407597b3.3
-        for <linux-input@vger.kernel.org>; Thu, 30 May 2024 13:29:32 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70244776719so78480b3a.2;
+        Thu, 30 May 2024 13:44:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717100972; x=1717705772; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717101851; x=1717706651; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sByVNTazrtLYaoeQYnfF36ldr/q+Uo9Euk+pI4wwpJk=;
-        b=YHcwjo26Z+9XbHFdaRRGct0hmhpJ1/bre1OslAUVUQSrw9QZ5I7HQj4dtjKVTx697R
-         kEVaZxoP/LlTcL8VSaESpPSJ/FT3xtoKMT3y8FFU+PFEjvknux0RwAXPQMVqeLwfdQRv
-         VE0T7PgC+SxPQUwB2LUCqsE7gsK46FnAUkUb3mUUb7ehC/EdDLv9OQhOJUGzNxTX0ktH
-         Ne1AvqadDNytYZUgY8/daD+68ITqiRFC1jVwL3dRbURrGgSI35KP+KX9E6hyhrY8ZiMG
-         W4u1atRDLBK3LlexHDCPUzcBDf5g2fefldLiIfiAjis+J1JAFFYu3hBa9ZzkvDTSjAEv
-         rVwQ==
+        bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
+        b=acrC+i0LNWQDNPbx0azRUCU+nBcaIhx600qu3eeDKu/vDz1LHQ6AOYY+10wQa3MT4c
+         Df8ox8BaXdBo6V6ESpxn5kylG+4X/2aphd9EcYh+zUGK5aiCj2VNQYWQXzMC9GomhoMb
+         /V2EzG/MPYB6Jm9IivqBQYvOsjkZYx/tPeM85rWGH11/oP2m+LU28x/6loff843LA6GS
+         jpYmbSWFi32vnwlUWro9C07vVaW3mR4MKVD/rbwxjDfkG0wOb9q+H5cLeHoEFsroX0aY
+         sKnE51AfWLqQ2dBRdmrnmJV2F7vcgDBrG4nMgaDhTMPQpC+CdP27GlZqF/YnyNS7zP4C
+         E4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717100972; x=1717705772;
+        d=1e100.net; s=20230601; t=1717101851; x=1717706651;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sByVNTazrtLYaoeQYnfF36ldr/q+Uo9Euk+pI4wwpJk=;
-        b=pWY9F0JuERal64qDo49vcLceRP40KDmFvjTGITREdB4wJK7D2/kE0OtuX8BGnklSbK
-         /XzoLIZ4c1Mrrf7oCZrUM3N3Rn3pmEkyQ4nYuTNGnCqLZbzuO6dTP5sWTfeIAcML9Vjx
-         rRLoRGe/vGDarqSHzsobRmGZTiu9I0H5YsOsnBm9jOBRoV19ecp47Pw/1S7ZFb5bn+gX
-         F/RFH8uz96fuXdtGHCYauY4tPfyCRyjYWsJqTckDMY/tV1JaRCLMVlEUKcMmus6t3PGi
-         /C1n42KqSm3nVQ6AcyWzi+vKBtsYihi1WU8KwpwUIzeuGZOGfLKXk2w5WNS23UKQOX87
-         jZXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfhe1lv3yOb/JJq+WBd2YGru6qxHxIHZFcABVMXyBHm8/J0UV/O8zdg9PdJcbFKoYVbxBBbKznRAUHwVitxL6pA8iRH8hYO6JcunM=
-X-Gm-Message-State: AOJu0YwK6LCPwhXEoic8ZAR0jyn9eJa/ye6JuhS41wem5LsQi8+6Rnx7
-	I+Tae+HJZ5qOI8u2Qs0U5CwfQp++4Z4NGK6ZKhP7kE3jUC9SWRDd
-X-Google-Smtp-Source: AGHT+IFz0HwZs3VSOCCjTQ6uT6L8pyhTkLJwYkH0NdWvSEhpLWjdKqJFljMd7XoPP4OX5sSfSHQSZQ==
-X-Received: by 2002:a0d:fb85:0:b0:618:2f6d:ca80 with SMTP id 00721157ae682-62c6bbfa055mr33820167b3.12.1717100970375;
-        Thu, 30 May 2024 13:29:30 -0700 (PDT)
+        bh=X1/q38ajc2cigpnUWtYXKrDTQJnogN5TA72dnoPxc4w=;
+        b=eFIhh13ugVMNEzWYyQPmRnY9v8PEx5VgwJXEGP1SUWHqLj2E3q5hj9nJfOrpCy66zd
+         Ch245klIzgEhuutbadUHbMkSeIrza1UbLP0l5q2UAg+4jOyyBYfMR3wdLw/+apTkPr0K
+         gp+vYZy0HsyQ8owZnZkzQII+mwfnX5ZHe7YALcK5NHqoAbA+OU2v/zzi+JLuSRnrYJRx
+         /ChagylEmoGcP/Eb5n7l5SlFm5vBA16s5wLJE691PlQs19W0gpM7kaiF/c0v9xGp/sZ2
+         dVi0Mnv+GAGyHymlpvh+ozr0XLCjMQtNYF/dcdOE3S+v8bDcePA3ODi7C7AZS5RBxl7k
+         VNHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpY9LlgnhoYLSt0V9uOIV+FV9OPRN5yhNXZH6lKlDy062oKN5UpN2WNYezAreq0tGGog24X/CVs0zJPlyNCkAEKwltYhckkY1H5BcM91LOsxBMkj/8mQRMaq390RoI3+sBRGQOzqxRtiw=
+X-Gm-Message-State: AOJu0Ywfe3Cw+IE79XQRZHXIELXE2xzJBxYSOf7yOYoQ3I7IQ1wpIeyU
+	nPdzAh0wH0Ny8xJhJzDtwxYicD5PKfrOPnMiR9vIJLOQpwM1yGJA
+X-Google-Smtp-Source: AGHT+IHj8j/zqaOBcjIT/XxOQNe1B+xo2dkm5mX/TzMHOSAr352c3GTLXoqD+H9hb7VWqXR5OoAM0g==
+X-Received: by 2002:a05:6a20:3206:b0:1af:dae8:5eac with SMTP id adf61e73a8af0-1b26f23d501mr82943637.46.1717101850942;
+        Thu, 30 May 2024 13:44:10 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:509f:4b2e:3586:eb1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c765b7ec1sm802877b3.10.2024.05.30.13.29.29
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423cb359sm146595b3a.5.2024.05.30.13.44.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 13:29:29 -0700 (PDT)
-Date: Thu, 30 May 2024 13:29:27 -0700
+        Thu, 30 May 2024 13:44:10 -0700 (PDT)
+Date: Thu, 30 May 2024 13:44:07 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Aseda Aboagye <aaboagye@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "Limonciello, Mario" <mario.limonciello@amd.com>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Chris Bainbridge <chris.bainbridge@gmail.com>, hughsient@gmail.com,
 	linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] input: Add support for "Do Not Disturb"
-Message-ID: <Zljhp-u-s-RPPXDj@google.com>
-References: <ZldxNQGXy4zWVPu1@google.com>
- <ZldzsCybMzSWnZaQ@google.com>
+Subject: Re: [PATCH v2] drm/client: Detect when ACPI lid is closed during
+ initialization
+Message-ID: <ZljlF1fE5ypKWoGk@google.com>
+References: <20240528210319.1242-1-mario.limonciello@amd.com>
+ <Zlc4V1goFvU2antl@intel.com>
+ <197d195f-9206-41dd-8ff1-f4bb4988fb9b@amd.com>
+ <ZldMKZ1MzSDXOheJ@intel.com>
+ <g34f3sdk22grheq2vaaonkl543dtk7nb5sffqgmkl5ywtj5skk@p5ht5ug33q4z>
+ <873b7a7b-139d-498e-89da-098cb3d7599d@amd.com>
+ <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,70 +97,48 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZldzsCybMzSWnZaQ@google.com>
+In-Reply-To: <CAA8EJpqODpGX-RthQ8qu3oU80qXp8a-N1Chz-dcQXjKYoDfEgw@mail.gmail.com>
 
-On Wed, May 29, 2024 at 01:28:00PM -0500, Aseda Aboagye wrote:
-> HUTRR94 added support for a new usage titled "System Do Not Disturb"
-> which toggles a system-wide Do Not Disturb setting. This commit simply
-> adds a new event code for the usage.
+On Thu, May 30, 2024 at 11:07:53AM +0300, Dmitry Baryshkov wrote:
+> On Thu, 30 May 2024 at 07:41, Limonciello, Mario
+> <mario.limonciello@amd.com> wrote:
+> >
+> >
+> > >> Also a direct acpi_lid_open() call seems a bit iffy. But I guess if
+> > >> someone needs this to work on non-ACPI system they get to figure out
+> > >> how to abstract it better. acpi_lid_open() does seem to return != 0
+> > >> when ACPI is not supported, so at least it would err on the side
+> > >> of enabling everything.
+> > >
+> > > Thanks. I was going to comment, but you got it first. I think a proper
+> > > implementation should check for SW_LID input device instead of simply
+> > > using acpi_lid_open(). This will handle the issue for other,
+> > > non-ACPI-based laptops.
+> > >
+> >
+> > Can you suggest how this would actually work?  AFAICT the only way to
+> > discover if input devices support SW_LID would be to iterate all the
+> > input devices in the kernel and look for whether ->swbit has SW_LID set.
+> >
+> > This then turns into a dependency problem of whether any myriad of
+> > drivers have started to report SW_LID.  It's also a state machine
+> > problem because other drivers can be unloaded at will.
+> >
+> > And then what do you if more than one sets SW_LID?
 > 
-> Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
-> ---
-> Changes from v2:
->  - Added underscores to make `KEY_DO_NOT_DISTURB`.
-> 
-> Changes from v1:
->  - Modified formatting to match existing code, ignoring checkpatch.pl.
-> 
->  drivers/hid/hid-debug.c                | 1 +
->  drivers/hid/hid-input.c                | 8 ++++++++
->  include/uapi/linux/input-event-codes.h | 1 +
->  3 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-> index 7749c81b6227..4ccfbd860bbe 100644
-> --- a/drivers/hid/hid-debug.c
-> +++ b/drivers/hid/hid-debug.c
-> @@ -975,6 +975,7 @@ static const char *keys[KEY_MAX + 1] = {
->         [KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
->         [KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
->         [KEY_ACCESSIBILITY] = "Accessibility",
-> +       [KEY_DO_NOT_DISTURB] = "DoNotDisturb",
->         [KEY_DICTATE] = "Dictate",
->         [KEY_MICMUTE] = "MicrophoneMute",
->         [KEY_BRIGHTNESS_MIN] = "BrightnessMin",
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 1ecc5ad57b56..31feb5e0714f 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -826,6 +826,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->                         break;
->                 }
->  
-> +               if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
-> +                       switch (usage->hid & 0xf) {
-> +                       case 0xb: map_key_clear(KEY_DO_NOT_DISTURB); break;
-> +                       default: goto ignore;
-> +                       }
-> +                       break;
-> +               }
-> +
->                 if ((usage->hid & 0xf0) == 0xa0) {      /* SystemControl */
->                         switch (usage->hid & 0xf) {
->                         case 0x9: map_key_clear(KEY_MICMUTE); break;
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 7ff6eeef1af0..07038fd9682d 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -618,6 +618,7 @@
->  #define KEY_CAMERA_ACCESS_DISABLE      0x24c   /* Disables programmatic access to camera devices. (HUTRR72) */
->  #define KEY_CAMERA_ACCESS_TOGGLE       0x24d   /* Toggles the current state of the camera access control. (HUTRR72) */
->  #define KEY_ACCESSIBILITY              0x24e   /* Toggles the system bound accessibility UI/command (HUTRR116) */
-> +#define KEY_DO_NOT_DISTURB             0x24f   /* Toggles the system-wide "Do Not Disturb" control (HUTRR94)*/
+> It might be easier to handle this in the input subsystem. For example
+> by using a refcount-like variable which handles all the LIDs and
+> counts if all of them are closed. Or if any of the LIDs is closed.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Yes, install an input handler matching on EV_SW/SW_LID so you will get
+notified when input devices capable of reporting SW_LID appear and
+disappear and also when SW_LID event is being generated, and handle as
+you wish. Something like
 
-Feel free to merge through HID tree.
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/40e9f6a991856ee7d504ac1ccd587e435775cfc4%5E%21/#F0
+
+In practice I think it is pretty safe to assume only 1 lid for a
+laptop/device.
 
 Thanks.
 
