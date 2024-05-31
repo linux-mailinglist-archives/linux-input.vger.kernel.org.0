@@ -1,160 +1,357 @@
-Return-Path: <linux-input+bounces-3987-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3988-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049E78D61C2
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 14:31:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CA18D66CF
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 18:28:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A0DD1C244F7
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 12:31:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F15528CB90
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 16:28:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F86158A2D;
-	Fri, 31 May 2024 12:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DEF1158D90;
+	Fri, 31 May 2024 16:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3R8Tcdz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pCGLo0ze"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B65158862;
-	Fri, 31 May 2024 12:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B4645016;
+	Fri, 31 May 2024 16:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717158639; cv=none; b=dF0BGf1SJ7YCPvlZzSsK6dLGQSobs8VvAw06pSiYf+lhrYVPpHDZnsK2LkScW5x2/V2akjTN8SN5vW1LqaZ1BVZE4ZQqsBaEMCruwXDnSLMVx28NI9LAJVvAsl/4AH5q78WijDirJocEi5sX2SjtyWcBkxuYhg+KxgDp+IW5jmE=
+	t=1717172927; cv=none; b=mZJjj03NpACrDwpjT8NVXHC/SXMvpszR1WwHBKOtZnJi64mNqqNRzqGa4VeVF4dLQx8KFo3SJXTdQzxedgn9CIHy8Jfzngp/89mYvZwkTYD/FT/qh0Ahz6AIm7HCll+ynAv3p99OixDC+MT+hxQkCo7rRxCU9NdsFjz2C8eTPiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717158639; c=relaxed/simple;
-	bh=elMV5nlVUCpXGxL/arb3/iQCax33bq4ad5idfGKdJL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tzbGuvdJ3Ozqwr+u6QnXjpxvHgV7pqYUPezO7naT74O+mjVb4ftOO6bldceelTfTUVRXoCbAga2LOtNAS4fXxBDe5b9BVku+oeBKpW7H9fjMiDWHltfP8T2qL4HuCoOqwoKBYf8Evc5Laj0TqgRHvEtK25RuHmsr8AJoN363TCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3R8Tcdz; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717158638; x=1748694638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=elMV5nlVUCpXGxL/arb3/iQCax33bq4ad5idfGKdJL8=;
-  b=U3R8TcdzJZWV8rKGKK6HC74C4JJypA+e60JfAzFF3dHyA4Vq4qtt2yuV
-   26IEGpISfc4OgDVKUxqlZopJ3rTV1VtYmBznKIJT5/7b7gWWrzke8rwuz
-   uv2CVIEI9ITvfpgSNWu5iZdb6kuhIeoHMnnguSJ0SlG2jh831L8/PIe0W
-   RwXAlbk/Ak4A67mQ5ArU4AczWouLk6xPoI7Y1hmWGqNOH8cRMuyWkotR1
-   Qd7myVd90IFnBbWj5ReL5odTSVMLTw0iyHEp1iUNaRSXuybU3NrHUdVst
-   tIhjqlFybuxsxGl9Lbqg92TALJhj65sy1JSuaTzdGuP6b8zWZGMEyCaxR
-   w==;
-X-CSE-ConnectionGUID: 0FDGtSiYQsiM/jgrw0thZg==
-X-CSE-MsgGUID: Q1q3DAzURoGm8yBpXIReJQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="39093349"
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="39093349"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 05:30:28 -0700
-X-CSE-ConnectionGUID: i98rGWf7SXK/HkAiegwFTA==
-X-CSE-MsgGUID: 6ibuqBWfQRe899Pf5ixvdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="59321521"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 May 2024 05:30:25 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sD1Oo-000H4b-2B;
-	Fri, 31 May 2024 12:30:22 +0000
-Date: Fri, 31 May 2024 20:29:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Tissoires <bentiss@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH HID 03/13] HID: bpf: implement HID-BPF through
- bpf_struct_ops
-Message-ID: <202405312035.U1rZN04z-lkp@intel.com>
-References: <20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8@kernel.org>
+	s=arc-20240116; t=1717172927; c=relaxed/simple;
+	bh=12332fJP6tlJByBDZMAch3+QeR97jfaHw70RX1lYe7Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RxbrhILXuMEtewNjJKU6fBfw+c/TCrE3usEH9Z+/PFYaxOONjR25Ctrgmvzn3OxhiZ/0AVrbV0FvPq1cBSY73oFFC+H0x8XZs6MPzkE8k6lwAgN1OV1sykRutZV3MsoHjsvhTATWMBs9AR5EpsRyYSduKClYv8lxwZ91pGRlFWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pCGLo0ze; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52128C116B1;
+	Fri, 31 May 2024 16:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717172926;
+	bh=12332fJP6tlJByBDZMAch3+QeR97jfaHw70RX1lYe7Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pCGLo0zeLFJa6rFXbBIADFMpljFW93IF45aWsSdIZWLxyUl778ct4mf09kZBwfLJi
+	 Jf2m0y0t/o6/WumqvrP3SFu8kydC8/w4s/0Yasdtvfex+cm60Kh/kDJw2iwWmAWl2K
+	 uG7Xi7fdSffKaSRQAt58k9E2fMRTUxTR9ZmrtaPqr8uqrvN7jYrNHekeWT1z8xYqTg
+	 X9I4EZLBZ6HdA8A7kXTlLqi6zoTF5PRK0vbpbjBzCbGi/riAG2xS1IYIb5mY2qjNIL
+	 7zyuZQCJY9/Z0+eTM2etPAVRfVzdDR/p4Nu38uKzI7NFV7i7VHXXTJ6xesMql4PGyW
+	 MS4GaoJTqyeWw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Zhang Lixu <lixu.zhang@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] HID: intel-ish-hid: fix endian-conversion
+Date: Fri, 31 May 2024 18:28:17 +0200
+Message-Id: <20240531162836.157891-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+From: Arnd Bergmann <arnd@arndb.de>
 
-kernel test robot noticed the following build warnings:
+The newly added file causes a ton of sparse warnings about the
+incorrect use of __le32 and similar types:
 
-[auto build test WARNING on 70ec81c2e2b4005465ad0d042e90b36087c36104]
+drivers/hid/intel-ish-hid/ishtp/loader.h:41:23: error: invalid bitfield specifier for type restricted __le32.
+drivers/hid/intel-ish-hid/ishtp/loader.h:42:27: error: invalid bitfield specifier for type restricted __le32.
+drivers/hid/intel-ish-hid/ishtp/loader.h:43:24: error: invalid bitfield specifier for type restricted __le32.
+drivers/hid/intel-ish-hid/ishtp/loader.h:44:24: error: invalid bitfield specifier for type restricted __le32.
+drivers/hid/intel-ish-hid/ishtp/loader.h:45:22: error: invalid bitfield specifier for type restricted __le32.
+drivers/hid/intel-ish-hid/ishtp/loader.c:172:33: warning: restricted __le32 degrades to integer
+drivers/hid/intel-ish-hid/ishtp/loader.c:178:50: warning: incorrect type in assignment (different base types)
+drivers/hid/intel-ish-hid/ishtp/loader.c:178:50:    expected restricted __le32 [usertype] length
+drivers/hid/intel-ish-hid/ishtp/loader.c:178:50:    got unsigned long
+drivers/hid/intel-ish-hid/ishtp/loader.c:179:50: warning: incorrect type in assignment (different base types)
+drivers/hid/intel-ish-hid/ishtp/loader.c:179:50:    expected restricted __le32 [usertype] fw_off
+drivers/hid/intel-ish-hid/ishtp/loader.c:179:50:    got unsigned int [usertype] offset
+drivers/hid/intel-ish-hid/ishtp/loader.c:180:17: warning: cast from restricted __le32
+drivers/hid/intel-ish-hid/ishtp/loader.c:183:24: warning: invalid assignment: +=
+drivers/hid/intel-ish-hid/ishtp/loader.c:183:24:    left side has type unsigned int
+drivers/hid/intel-ish-hid/ishtp/loader.c:183:24:    right side has type restricted __le32
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-rename-struct-hid_bpf_ops-into-hid_ops/20240528-212222
-base:   70ec81c2e2b4005465ad0d042e90b36087c36104
-patch link:    https://lore.kernel.org/r/20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8%40kernel.org
-patch subject: [PATCH HID 03/13] HID: bpf: implement HID-BPF through bpf_struct_ops
-config: i386-buildonly-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240531/202405312035.U1rZN04z-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405312035.U1rZN04z-lkp@intel.com/reproduce)
+Add the necessary conversions and use temporary variables where appropriate
+to avoid converting back.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405312035.U1rZN04z-lkp@intel.com/
+Fixes: 579a267e4617 ("HID: intel-ish-hid: Implement loading firmware from host feature")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2:
+ - fix minor issues introduced in rebasing
+ - rebase again on linux-next without the cache management patch
+ - fix up changelog text
+---
+ drivers/hid/intel-ish-hid/ishtp/loader.c | 68 +++++++++++++-----------
+ drivers/hid/intel-ish-hid/ishtp/loader.h | 33 +++++++-----
+ 2 files changed, 56 insertions(+), 45 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/bpf_verifier.h:7:0,
-                    from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   drivers/hid/bpf/hid_bpf_struct_ops.c: In function 'hid_bpf_struct_ops_init':
->> include/linux/bpf.h:1844:50: warning: statement with no effect [-Wunused-value]
-    #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-                                                     ^~~~~~~~~~~~~~~~
-   drivers/hid/bpf/hid_bpf_struct_ops.c:244:9: note: in expansion of macro 'register_bpf_struct_ops'
-     return register_bpf_struct_ops(&bpf_hid_bpf_ops, hid_bpf_ops);
-            ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1844 include/linux/bpf.h
-
-c196906d50e360d Hou Tao          2021-10-25  1834  
-c196906d50e360d Hou Tao          2021-10-25  1835  int bpf_struct_ops_test_run(struct bpf_prog *prog, const union bpf_attr *kattr,
-c196906d50e360d Hou Tao          2021-10-25  1836  			    union bpf_attr __user *uattr);
-c196906d50e360d Hou Tao          2021-10-25  1837  #endif
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1838  int bpf_struct_ops_desc_init(struct bpf_struct_ops_desc *st_ops_desc,
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1839  			     struct btf *btf,
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1840  			     struct bpf_verifier_log *log);
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1841  void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map);
-1611603537a4b88 Kui-Feng Lee     2024-02-08  1842  void bpf_struct_ops_desc_release(struct bpf_struct_ops_desc *st_ops_desc);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  1843  #else
-f6be98d19985411 Kui-Feng Lee     2024-01-19 @1844  #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1845  static inline bool bpf_try_module_get(const void *data, struct module *owner)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1846  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1847  	return try_module_get(owner);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1848  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1849  static inline void bpf_module_put(const void *data, struct module *owner)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1850  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1851  	module_put(owner);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1852  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1853  static inline int bpf_struct_ops_map_sys_lookup_elem(struct bpf_map *map,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1854  						     void *key,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1855  						     void *value)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1856  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1857  	return -EINVAL;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1858  }
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1859  static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1860  {
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1861  	return -EOPNOTSUPP;
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1862  }
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1863  static inline void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map)
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1864  {
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1865  }
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1866  
-
+diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.c b/drivers/hid/intel-ish-hid/ishtp/loader.c
+index 2785b04a2f5a..d2ebf63d0b3e 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp/loader.c
+@@ -84,8 +84,8 @@ static int loader_write_message(struct ishtp_device *dev, void *buf, int len)
+ static int loader_xfer_cmd(struct ishtp_device *dev, void *req, int req_len,
+ 			   void *resp, int resp_len)
+ {
+-	struct loader_msg_header *req_hdr = req;
+-	struct loader_msg_header *resp_hdr = resp;
++	union loader_msg_header req_hdr;
++	union loader_msg_header resp_hdr;
+ 	struct device *devc = dev->devc;
+ 	int rv;
+ 
+@@ -93,34 +93,37 @@ static int loader_xfer_cmd(struct ishtp_device *dev, void *req, int req_len,
+ 	dev->fw_loader_rx_size = resp_len;
+ 
+ 	rv = loader_write_message(dev, req, req_len);
++	req_hdr.val32 = le32_to_cpup(req);
++
+ 	if (rv < 0) {
+-		dev_err(devc, "write cmd %u failed:%d\n", req_hdr->command, rv);
++		dev_err(devc, "write cmd %u failed:%d\n", req_hdr.command, rv);
+ 		return rv;
+ 	}
+ 
+ 	/* Wait the ACK */
+ 	wait_event_interruptible_timeout(dev->wait_loader_recvd_msg, dev->fw_loader_received,
+ 					 ISHTP_LOADER_TIMEOUT);
++	resp_hdr.val32 = le32_to_cpup(resp);
+ 	dev->fw_loader_rx_size = 0;
+ 	dev->fw_loader_rx_buf = NULL;
+ 	if (!dev->fw_loader_received) {
+-		dev_err(devc, "wait response of cmd %u timeout\n", req_hdr->command);
++		dev_err(devc, "wait response of cmd %u timeout\n", req_hdr.command);
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-	if (!resp_hdr->is_response) {
+-		dev_err(devc, "not a response for %u\n", req_hdr->command);
++	if (!resp_hdr.is_response) {
++		dev_err(devc, "not a response for %u\n", req_hdr.command);
+ 		return -EBADMSG;
+ 	}
+ 
+-	if (req_hdr->command != resp_hdr->command) {
+-		dev_err(devc, "unexpected cmd response %u:%u\n", req_hdr->command,
+-			resp_hdr->command);
++	if (req_hdr.command != resp_hdr.command) {
++		dev_err(devc, "unexpected cmd response %u:%u\n", req_hdr.command,
++			resp_hdr.command);
+ 		return -EBADMSG;
+ 	}
+ 
+-	if (resp_hdr->status) {
+-		dev_err(devc, "cmd %u failed %u\n", req_hdr->command, resp_hdr->status);
++	if (resp_hdr.status) {
++		dev_err(devc, "cmd %u failed %u\n", req_hdr.command, resp_hdr.status);
+ 		return -EIO;
+ 	}
+ 
+@@ -163,24 +166,26 @@ static void release_dma_bufs(struct ishtp_device *dev,
+ static int prepare_dma_bufs(struct ishtp_device *dev,
+ 			    const struct firmware *ish_fw,
+ 			    struct loader_xfer_dma_fragment *fragment,
+-			    void **dma_bufs, u32 fragment_size)
++			    void **dma_bufs, u32 fragment_size, u32 fragment_count)
+ {
+ 	dma_addr_t dma_addr;
+ 	u32 offset = 0;
++	u32 length;
+ 	int i;
+ 
+-	for (i = 0; i < fragment->fragment_cnt && offset < ish_fw->size; i++) {
++	for (i = 0; i < fragment_count && offset < ish_fw->size; i++) {
+ 		dma_bufs[i] = dma_alloc_coherent(dev->devc, fragment_size, &dma_addr, GFP_KERNEL);
+ 		if (!dma_bufs[i])
+ 			return -ENOMEM;
+ 
+ 		fragment->fragment_tbl[i].ddr_adrs = cpu_to_le64(dma_addr);
+-		fragment->fragment_tbl[i].length = clamp(ish_fw->size - offset, 0, fragment_size);
+-		fragment->fragment_tbl[i].fw_off = offset;
+-		memcpy(dma_bufs[i], ish_fw->data + offset, fragment->fragment_tbl[i].length);
++		length = clamp(ish_fw->size - offset, 0, fragment_size);
++		fragment->fragment_tbl[i].length = cpu_to_le32(length);
++		fragment->fragment_tbl[i].fw_off = cpu_to_le32(offset);
++		memcpy(dma_bufs[i], ish_fw->data + offset, length);
+ 		clflush_cache_range(dma_bufs[i], fragment_size);
+ 
+-		offset += fragment->fragment_tbl[i].length;
++		offset += length;
+ 	}
+ 
+ 	return 0;
+@@ -208,17 +213,17 @@ void ishtp_loader_work(struct work_struct *work)
+ {
+ 	DEFINE_RAW_FLEX(struct loader_xfer_dma_fragment, fragment, fragment_tbl, FRAGMENT_MAX_NUM);
+ 	struct ishtp_device *dev = container_of(work, struct ishtp_device, work_fw_loader);
+-	struct loader_xfer_query query = {
+-		.header.command = LOADER_CMD_XFER_QUERY,
+-	};
+-	struct loader_start start = {
+-		.header.command = LOADER_CMD_START,
+-	};
++	union loader_msg_header query_hdr = { .command = LOADER_CMD_XFER_QUERY, };
++	union loader_msg_header start_hdr = { .command = LOADER_CMD_START, };
++	union loader_msg_header fragment_hdr = { .command = LOADER_CMD_XFER_FRAGMENT, };
++	struct loader_xfer_query query = { .header = cpu_to_le32(query_hdr.val32), };
++	struct loader_start start = { .header = cpu_to_le32(start_hdr.val32), };
+ 	union loader_recv_message recv_msg;
+ 	char *filename = dev->driver_data->fw_filename;
+ 	const struct firmware *ish_fw;
+ 	void *dma_bufs[FRAGMENT_MAX_NUM] = {};
+ 	u32 fragment_size;
++	u32 fragment_count;
+ 	int retry = ISHTP_LOADER_RETRY_TIMES;
+ 	int rv;
+ 
+@@ -228,23 +233,24 @@ void ishtp_loader_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	fragment->fragment.header.command = LOADER_CMD_XFER_FRAGMENT;
+-	fragment->fragment.xfer_mode = LOADER_XFER_MODE_DMA;
+-	fragment->fragment.is_last = 1;
+-	fragment->fragment.size = ish_fw->size;
++	fragment->fragment.header = cpu_to_le32(fragment_hdr.val32);;
++	fragment->fragment.xfer_mode = cpu_to_le32(LOADER_XFER_MODE_DMA);
++	fragment->fragment.is_last = cpu_to_le32(1);
++	fragment->fragment.size = cpu_to_le32(ish_fw->size);
+ 	/* Calculate the size of a single DMA fragment */
+ 	fragment_size = PFN_ALIGN(DIV_ROUND_UP(ish_fw->size, FRAGMENT_MAX_NUM));
+ 	/* Calculate the count of DMA fragments */
+-	fragment->fragment_cnt = DIV_ROUND_UP(ish_fw->size, fragment_size);
++	fragment_count = DIV_ROUND_UP(ish_fw->size, fragment_size);
++	fragment->fragment_cnt = cpu_to_le32(fragment_count);
+ 
+-	rv = prepare_dma_bufs(dev, ish_fw, fragment, dma_bufs, fragment_size);
++	rv = prepare_dma_bufs(dev, ish_fw, fragment, dma_bufs, fragment_size, fragment_count);
+ 	if (rv) {
+ 		dev_err(dev->devc, "prepare DMA buffer failed.\n");
+ 		goto out;
+ 	}
+ 
+ 	do {
+-		query.image_size = ish_fw->size;
++		query.image_size = cpu_to_le32(ish_fw->size);
+ 		rv = loader_xfer_cmd(dev, &query, sizeof(query), recv_msg.raw_data,
+ 				     sizeof(struct loader_xfer_query_ack));
+ 		if (rv)
+@@ -257,7 +263,7 @@ void ishtp_loader_work(struct work_struct *work)
+ 			recv_msg.query_ack.version_build);
+ 
+ 		rv = loader_xfer_cmd(dev, fragment,
+-				     struct_size(fragment, fragment_tbl, fragment->fragment_cnt),
++				     struct_size(fragment, fragment_tbl, fragment_count),
+ 				     recv_msg.raw_data, sizeof(struct loader_xfer_fragment_ack));
+ 		if (rv)
+ 			continue; /* try again if failed */
+diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.h b/drivers/hid/intel-ish-hid/ishtp/loader.h
+index 7aa45ebc3f7b..308b96085a4d 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/loader.h
++++ b/drivers/hid/intel-ish-hid/ishtp/loader.h
+@@ -30,19 +30,23 @@ struct work_struct;
+ #define LOADER_XFER_MODE_DMA BIT(0)
+ 
+ /**
+- * struct loader_msg_header - ISHTP firmware loader message header
++ * union loader_msg_header - ISHTP firmware loader message header
+  * @command: Command type
+  * @is_response: Indicates if the message is a response
+  * @has_next: Indicates if there is a next message
+  * @reserved: Reserved for future use
+  * @status: Status of the message
+- */
+-struct loader_msg_header {
+-	__le32 command:7;
+-	__le32 is_response:1;
+-	__le32 has_next:1;
+-	__le32 reserved:15;
+-	__le32 status:8;
++ * @val32: entire header as a 32-bit value
++ */
++union loader_msg_header {
++	struct {
++		__u32 command:7;
++		__u32 is_response:1;
++		__u32 has_next:1;
++		__u32 reserved:15;
++		__u32 status:8;
++	};
++	__u32 val32;
+ };
+ 
+ /**
+@@ -51,7 +55,7 @@ struct loader_msg_header {
+  * @image_size: Size of the image
+  */
+ struct loader_xfer_query {
+-	struct loader_msg_header header;
++	__le32 header;
+ 	__le32 image_size;
+ };
+ 
+@@ -103,7 +107,7 @@ struct loader_capability {
+  * @capability: Loader capability
+  */
+ struct loader_xfer_query_ack {
+-	struct loader_msg_header header;
++	__le32 header;
+ 	__le16 version_major;
+ 	__le16 version_minor;
+ 	__le16 version_hotfix;
+@@ -122,7 +126,7 @@ struct loader_xfer_query_ack {
+  * @is_last: Is last
+  */
+ struct loader_xfer_fragment {
+-	struct loader_msg_header header;
++	__le32 header;
+ 	__le32 xfer_mode;
+ 	__le32 offset;
+ 	__le32 size;
+@@ -134,7 +138,7 @@ struct loader_xfer_fragment {
+  * @header: Header of the message
+  */
+ struct loader_xfer_fragment_ack {
+-	struct loader_msg_header header;
++	__le32 header;
+ };
+ 
+ /**
+@@ -170,7 +174,7 @@ struct loader_xfer_dma_fragment {
+  * @header: Header of the message
+  */
+ struct loader_start {
+-	struct loader_msg_header header;
++	__le32 header;
+ };
+ 
+ /**
+@@ -178,10 +182,11 @@ struct loader_start {
+  * @header: Header of the message
+  */
+ struct loader_start_ack {
+-	struct loader_msg_header header;
++	__le32 header;
+ };
+ 
+ union loader_recv_message {
++	__le32 header;
+ 	struct loader_xfer_query_ack query_ack;
+ 	struct loader_xfer_fragment_ack fragment_ack;
+ 	struct loader_start_ack start_ack;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
 
