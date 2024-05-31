@@ -1,127 +1,162 @@
-Return-Path: <linux-input+bounces-3984-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3985-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF428D5D64
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 11:00:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A183F8D5FAD
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 12:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4A811C21E9F
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 09:00:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E8381F2237E
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 10:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF68155CB5;
-	Fri, 31 May 2024 08:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 131A4152500;
+	Fri, 31 May 2024 10:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MP/0lW7Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHg9/wm3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D19E155A47
-	for <linux-input@vger.kernel.org>; Fri, 31 May 2024 08:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA77E152188;
+	Fri, 31 May 2024 10:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717145987; cv=none; b=cTcoBBgGFdjAVkfvsedMrViCNWLt2AMMc7virnvALJth+cp536cM9n/2JQxCQLzjDhe5pc06J00osUVozL6r/pVeW3U6iCWM/EMe0ISfbtSSqTMiFc+eslvEePXkTHmBjwc/JHHqQUVRMiF6rBGnDX2epmakg8lv3XMVuNNXytA=
+	t=1717151099; cv=none; b=QTTvNW1XQ9G2o8MQIcQUrhnpCF8PENaPgYXGnqi80jolV4EvcdwdINqG4aoFhGJmuE42+w2ODQshB36nF4Hp6bXUlNVgACgpkpasT91sw1bPLBRR+jioOVCAnKYYsPHPBINOXG+EIs9brwvCtCcLAxqqMLPX2/+XQpeaZKA0S9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717145987; c=relaxed/simple;
-	bh=jOivSIzkd4jtGmFStyLd/I4XqpFlRP41SuJUQMMG2sU=;
+	s=arc-20240116; t=1717151099; c=relaxed/simple;
+	bh=8maQ6Q3charUiy3VU7HJTXAXtan7ZZFMKnes9nHGVx4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eHKVzqxSu+JKyfJDn2BBK5fc6SDNrp1vcbbPMZMj1KkTxB7Stv8PZXI2jfiWqodqJFGYQnEEHaTzfhXld12O8qfDAHnkMbAOwWsMjTc8BWM5UXNqHjbFDcpg04Gxc7mmBfDYs3J+puPX9cUBazcXK9WB40P6wEMKNmhN3vXKNV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MP/0lW7Z; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57857e0f45eso2075741a12.0
-        for <linux-input@vger.kernel.org>; Fri, 31 May 2024 01:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717145984; x=1717750784; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AEAJOPIhEWOmImkEnnoVh+jLPad4uMXeH/NY3H2GRI0=;
-        b=MP/0lW7Z7Gx7/lw/h/sW3uhHQB3eVQSX9BbobHhUfN4vFm6oIzytGz1b+7N/9Zx6AV
-         r5d4UMWjKYoqik4cmwDKP78Hv1HaZgj2K8HJ9a+VFmpovr1RTDc3MWdVWmWKD7x3J+fH
-         FuP//KfOjqJR7PvUVxnrXQnVrp42Y6ch5tv4SVhDp+jB5bqGQpF8v/Jh6zG4r34mv72h
-         /6wXe4WD1kHBhAM4mxuSo/GK1gNxPvhWWCwpPkJXP04V1Mt/3g1gEGK6OYvaTlwRDxt6
-         S73FtD+MLwj83nyRNMVd9pSXUwwNdV7jY3t3w5khU3Ql2f7+uXcTeh6uSpBToPfl0Hcy
-         4z2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717145984; x=1717750784;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AEAJOPIhEWOmImkEnnoVh+jLPad4uMXeH/NY3H2GRI0=;
-        b=XXy7UintRd5yryAffLKZtYTIvj5G9PF2IEBuYWnxV4YQ7FgxBf/px35AcXeL5aBRMe
-         IBs5p9RMBc+9MmSt+D2GbNz5tAz+ORbDhyyRFERZIZcWET8VOoOfGpZppdcoF59yBJFN
-         TW39hGl4mrryLRIXjJBoes3EK5OEGLclLwMcgwppeD6XfPqyTNJPl++VwN2l+hdGEfvL
-         i80HxSN7H78LM3B5c1u92r5oBBjhjh+zgzD42qK9zjBcNhlFnmTz5zGe6RQwU+Rsxo+6
-         5szrIHlH5RCGomUGzZ3EWIlUvyHWryA/mHXJwvoGU1ffSjjKT1oRe+pqNSb+eP2KCGwR
-         wicA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6htbaHBoGpmYcK7oETukKa3Gz72YeHU0gdVXpjjz1DRog2xgTd3M8Zk6n0Ey0ha14qbwzytvTcMIcmjirp8acGgIMhi7PUyiDZ84=
-X-Gm-Message-State: AOJu0YxZV2bueOsprBmJ56dCBBcgT4TZp1o5jxicgGp8yDvfW/QT6PQw
-	sZYZ6HDN0y3WmtETh6rcZCG9DjtBMqkpuXOzw63QpyYCsdVjQ0mQ28prrWUMEBE=
-X-Google-Smtp-Source: AGHT+IF/+rHvuamC5rV6HuoONHpBWDQh8Vzl/UQvPqxXxUfAJx1CxKPhaOOB+FzJQ17g2/141Srb7w==
-X-Received: by 2002:a50:a414:0:b0:579:7b6c:5ab3 with SMTP id 4fb4d7f45d1cf-57a364e3615mr984027a12.22.1717145983629;
-        Fri, 31 May 2024 01:59:43 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31c9c125sm770024a12.90.2024.05.31.01.59.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 01:59:43 -0700 (PDT)
-Date: Fri, 31 May 2024 11:59:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: syzbot+07762f019fd03d01f04c@syzkaller.appspotmail.com,
-	benjamin.tissoires@redhat.com, bentiss@kernel.org, jikos@kernel.org,
-	jkosina@suse.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	luke@ljones.dev, syzkaller-bugs@googlegroups.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] hid: asus: asus_report_fixup: fix potential read out of
- bounds
-Message-ID: <d87335b8-9eae-4689-87b4-b581c0b28c9b@moroto.mountain>
-References: <000000000000915d550619389e8a@google.com>
- <20240528050555.1150628-1-andrewjballance@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNZRJC0deWggZwGB3sZwW+kNpmf31v19efbG9ds06ZtcXDI5XGZrYcgW1/Gz3bXWtFVrrQXmhHFTyLWL+FUr/1rP674KY/R+5bW7QL/NBgCrqfioPJaPYNe/x2bJlNbL69BiORFDAqF+iEGwHrwGakgazhAwgp17ObG1qAs8OUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHg9/wm3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C55F2C32786;
+	Fri, 31 May 2024 10:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717151098;
+	bh=8maQ6Q3charUiy3VU7HJTXAXtan7ZZFMKnes9nHGVx4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jHg9/wm3QJFLM7y46xYnGT2OcRoyqJGSga8lKn5AeWDpQCL5vgWpOT+zT3yXZuUee
+	 l2Uot/6viN949g8jOi6QZ5BsyNzFywSjNAuMidmRnrk+8/0viNTlRXvyk6U38peEcG
+	 an7pEvjzxUkadT52eQWITt0Vg4DbKGNOOfdu1RlAf5USxD3kPawNPvrEgpsowZ4fRn
+	 rmfbhmtBkkJH3woz9/UcwuOfE0+Gf5lMosbkIYrLQ2Lvx/yCDxuyXSFi3xhXD94oXH
+	 8LK+4fQJ+l3CxYFUMN0DuydYJhSHZcTahs6HQy2gNO2I8psRwsRAEjzsRf4j3dx9rE
+	 0/3I/+fdZvK2g==
+Date: Fri, 31 May 2024 11:24:52 +0100
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <balejk@matfyz.cz>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] mfd: add driver for Marvell 88PM886 PMIC
+Message-ID: <20240531102409.GB1005600@google.com>
+References: <20240504194632.2456-1-balejk@matfyz.cz>
+ <20240504194632.2456-3-balejk@matfyz.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240528050555.1150628-1-andrewjballance@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240504194632.2456-3-balejk@matfyz.cz>
 
-On Tue, May 28, 2024 at 12:05:39AM -0500, Andrew Ballance wrote:
-> #syz test
+On Sat, 04 May 2024, Karel Balej wrote:
+
+> Marvell 88PM886 is a PMIC which provides various functions such as
+> onkey, battery, charger and regulators. It is found for instance in the
+> samsung,coreprimevelte smartphone with which this was tested. Implement
+> basic support to allow for the use of regulators and onkey.
 > 
-> there may be a read out of the bounds of rdesc.
-> this adds bounds checks
-> 
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
 > ---
->  drivers/hid/hid-asus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-> index 02de2bf4f790..37e6d25593c2 100644
-> --- a/drivers/hid/hid-asus.c
-> +++ b/drivers/hid/hid-asus.c
-> @@ -1204,8 +1204,8 @@ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
->  	}
->  
->  	/* match many more n-key devices */
-> -	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-> -		for (int i = 0; i < *rsize + 1; i++) {
-> +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && *rsize > 15) {
-> +		for (int i = 0; i < *rsize - 15; i++) {
+> Notes:
+>     v6:
+>     - Address Lee's comments:
+>       - Don't break long line in the power off handler.
+>       - Set PLATFORM_DEVID_NONE. This should be safe with respect to
+>         collisions since there are no known devices with more than one of
+>         these PMICs, plus given their general purpose nature it is unlikely
+>         that there would ever be. Also include the corresponding header.
+>       - Move all defines to the header.
+>     - Give the base page's maximum register its real name.
+>     - Set irq_base to 0.
+>     v5:
+>     - Address Mark's feedback:
+>       - Move regmap config back out of the header and rename it. Also lower
+>         its maximum register based on what's actually used in the downstream
+>         code.
+>     RFC v4:
+>     - Use MFD_CELL_* macros.
+>     - Address Lee's feedback:
+>       - Do not define regmap_config.val_bits and .reg_bits.
+>       - Drop everything regulator related except mfd_cell (regmap
+>         initialization, IDs enum etc.). Drop pm886_initialize_subregmaps.
+>       - Do not store regmap pointers as an array as there is now only one
+>         regmap. Also drop the corresponding enum.
+>       - Move regmap_config to the header as it is needed in the regulators
+>         driver.
+>       - pm886_chip.whoami -> chip_id
+>       - Reword chip ID mismatch error message and print the ID as
+>         hexadecimal.
+>       - Fix includes in include/linux/88pm886.h.
+>       - Drop the pm886_irq_number enum and define the (for the moment) only
+>         IRQ explicitly.
+>     - Have only one MFD cell for all regulators as they are now registered
+>       all at once in the regulators driver.
+>     - Reword commit message.
+>     - Make device table static and remove comma after the sentinel to signal
+>       that nothing should come after it.
+>     RFC v3:
+>     - Drop onkey cell .of_compatible.
+>     - Rename LDO page offset and regmap to REGULATORS.
+>     RFC v2:
+>     - Remove some abstraction.
+>     - Sort includes alphabetically and add linux/of.h.
+>     - Depend on OF, remove of_match_ptr and add MODULE_DEVICE_TABLE.
+>     - Use more temporaries and break long lines.
+>     - Do not initialize ret in probe.
+>     - Use the wakeup-source DT property.
+>     - Rename ret to err.
+>     - Address Lee's comments:
+>       - Drop patched in presets for base regmap and related defines.
+>       - Use full sentences in comments.
+>       - Remove IRQ comment.
+>       - Define regmap_config member values.
+>       - Rename data to sys_off_data.
+>       - Add _PMIC suffix to Kconfig.
+>       - Use dev_err_probe.
+>       - Do not store irq_data.
+>       - s/WHOAMI/CHIP_ID
+>       - Drop LINUX part of include guard name.
+>       - Merge in the regulator series modifications in order to have more
+>         devices and modify the commit message accordingly. Changes with
+>         respect to the original regulator series patches:
+>         - ret -> err
+>         - Add temporary for dev in pm88x_initialize_subregmaps.
+>         - Drop of_compatible for the regulators.
+>         - Do not duplicate LDO regmap for bucks.
+>     - Rewrite commit message.
+> 
+>  drivers/mfd/88pm886.c       | 148 ++++++++++++++++++++++++++++++++++++
+>  drivers/mfd/Kconfig         |  12 +++
+>  drivers/mfd/Makefile        |   1 +
+>  include/linux/mfd/88pm886.h |  69 +++++++++++++++++
+>  4 files changed, 230 insertions(+)
+>  create mode 100644 drivers/mfd/88pm886.c
+>  create mode 100644 include/linux/mfd/88pm886.h
 
-Yep.  This looks correct.  Please resend with a complete commit message
-and a fixes tag etc.
+I don't see any more issues.
 
->  			/* offset to the count from 0x5a report part always 14 */
->  			if (rdesc[i] == 0x85 && rdesc[i + 1] == 0x5a &&
->  			    rdesc[i + 14] == 0x95 && rdesc[i + 15] == 0x05) {
+Are you planning on seeing to Mark's review comments?
 
-regards,
-dan carpenter
+-- 
+Lee Jones [李琼斯]
 
