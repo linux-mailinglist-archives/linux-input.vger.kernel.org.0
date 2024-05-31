@@ -1,118 +1,165 @@
-Return-Path: <linux-input+bounces-3994-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3996-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27088D688B
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 19:54:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFCA8D693A
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 20:53:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1098B1C258B1
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 17:54:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7979288466
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 18:53:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB42F17E477;
-	Fri, 31 May 2024 17:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FFA87E78B;
+	Fri, 31 May 2024 18:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="WhhlDm8+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RxUr6zS1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF3B17E44F;
-	Fri, 31 May 2024 17:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D545C7E0FB;
+	Fri, 31 May 2024 18:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717178001; cv=none; b=t6uANsp1vhq61zKVc62oCLdwQZZXXLpMtV87XzeaYz097514BM4gpR5YdWRytGu5mFxzpsUkEnYaRp39N6VVkm5Omj5ogHZr7ugs+XaFrBek+53gP2mJPoDwt6TcSHS4wGBYjwzCpRcWY0K63D7sjTvcusm55F1jHunu3uTQ8m0=
+	t=1717181582; cv=none; b=fxXLi01DaN4snlu2to1hhcRKXq4W1+iLJFFE7YpdVyLYlShvtiAQaoOQ/L7BAhNJkOGGVc7aN/IFymICbOZncpJ9qsSj7ND5olbgreYtJMKfUUzWPN9MuGRPwUFRs1v65YbiBH46k2BKjLeq4FuYde4kmbCCwz7/QKxFRZ+nBnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717178001; c=relaxed/simple;
-	bh=/1bazwq8/5ZIffTP9cbZUkwd86uwrXjzRtAHrHiL2vk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sTHt6RRQNeE/4XktMbcM2N+8Xz6Y+qqj8wK2QbATqGKlVfmv+P+mLBRwK7l+Lhh7oSCLgqMt3ZmR2t3f/MKbcYbWXDlFJ2JyzZrtk6uJPgm7Z36NzE7TCT740xHhIzeOi8qOWHcJJUYWGDiPbDByU7mhSa7+Z4AEy5jkDHpbj4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=WhhlDm8+; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1717177980; x=1718477980;
-	bh=My4LXhXbb9BOpUof0ahRmEdjI75iWQ/EFNjZ8MlgZrg=; h=From;
-	b=WhhlDm8+P5hbDnR/U8kiAn2A4f7Zc7v5CVE4/wBGRE+LGHaLdGuWxD0uQZwnhx0GM
-	 t+ceQjFzs7EFlqZpFiSt2F+fQapECr0CX+r64YlHztxuB1WSV1RlL9gFsXF+qzhVh0
-	 2DlwxSORJiI2ZyqakKq5/rQfO9xJECyYXYeMxMNH/NjQXBJMIQtZmE8Msnacyb2BHN
-	 eZXyxEtVtAbOALc/5IXf0mDhdRQKXMTAZKTmb6wFL0fk3AG711Kv8HSWCZCDbzyKyw
-	 v7GKfTkiN7qMI8OuYjfLC5mog262Bc7I+H4yDcT8kWXCbaKr8NE0vGVxEv3w5hc26Q
-	 XX4GCERRstPsw==
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 44VHqxRU001124
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Fri, 31 May 2024 19:53:00 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
-From: Karel Balej <balejk@matfyz.cz>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        balejk@matfyz.cz
-Subject: [PATCH v7 5/5] MAINTAINERS: add myself for Marvell 88PM886 PMIC
-Date: Fri, 31 May 2024 19:35:00 +0200
-Message-ID: <20240531175109.15599-6-balejk@matfyz.cz>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240531175109.15599-1-balejk@matfyz.cz>
-References: <20240531175109.15599-1-balejk@matfyz.cz>
+	s=arc-20240116; t=1717181582; c=relaxed/simple;
+	bh=alAGf+hoGe9w4xNackz5+NTh5YYwaN66OO8rFdNrCI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IlPDwHoAmHD0eQwGZypsWAc/apu19SVjk1JJobBpIaGy6P8NZYVLd4/5nvdCnvO4zHgoLfYaqnpUpTKELsatLkYCk66Wox7KoZdULXRbpyjGpIE7/C65zU7nKZnodC52SwZQidTcYQxzUEBTGwF3mlL73oGgEu7H/AFSr5BzXEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RxUr6zS1; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4211245e889so22375565e9.2;
+        Fri, 31 May 2024 11:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717181579; x=1717786379; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fvFU/amD5xfx3xyLZtbEi3anS8Y5e06mWisgXrkvZ00=;
+        b=RxUr6zS1TlfwEF6KYxCLcOsGY/rMEANQpBx4GLDlY7qQsQWpu1v7mwrIPXIsAeDFuJ
+         gEal9L8TeSICgdzGIYMTh3vwS+hps0awEN4s3p11bTE9HL6mz4kvzbAruKF0Zc9wRrwN
+         DsJYS2B3c35a2Aqb76l4WuFgqOgUhfHTKeXFhgS2jpbhpg2//PAzBJJV8U1xwlO1icFX
+         DMPZaHYLhP49zozc517glOkS9CK6rgjni+RtkkqZrJn8CcPrjbmV7oMyohBqCjvlCqyM
+         RcCOwy7QXix0n5W30cxJexXv9Xl1OOMxxpkM4XQc+jEqfeQBlj7DZ6n25EZeD5ux8Xfd
+         +Cjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717181579; x=1717786379;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fvFU/amD5xfx3xyLZtbEi3anS8Y5e06mWisgXrkvZ00=;
+        b=VEoCPS9kh3VMOrvubAlGUbAN1es+VARFhDKCHKYH7vwf0DwyDpXbizYA6JRWmElE50
+         xC24RyBYQfea+AlJTo2C6RroKu3nz8Uez2ROQaE3sOV1abXoCEv3LAjN4/h6vEsBUky8
+         Rm7sRZ+kEAb3rqFiNZWjGycKR48rllZFwuJGAJXnVv15XXoRMM/al8nN3ZSnjWMWROWF
+         kKZ73Lua+GFloz0Qq3xkx3myHC8XnshM4yUEJXCOLub18FwUANO+aC7iRaxJ/CuZtkDm
+         /MZC9UbJiExD07wr/ZncZ3FS1vjhZ1BUdKBcmNPUt5mu0QavrsBIc4U3UTtpn/f/smvd
+         aT9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVxC7wWsJRyhbNcwAlx1EKo9Ao27gPbr6R5/gpNRPIO7RdZ8TN7cHVR1btxC10y++XU2OSUvvvGBJa2Mgdj98BQ0TC5hYHp7JZ2bStWvTj/s6woML5/9ZbZ/8tAc8/wQtGEBbfKS8gtEfiA5OWQx3tjTjp3qLHLwdO1ErTLZbLenDfgBPB2NkysMnqOksWc9hPddz2+fD+zRD0NWSdtIyxrz5VNdZwrTZNd1fjDYtV8aPBk8yTXsPxrANU=
+X-Gm-Message-State: AOJu0YwQNMUedlX8ozSv2yFscrqz0Ff9+doB+3Dp4Wf9ag1M5kQXTHyR
+	ahrbfNbtw+/wY0DMUN7LgMXcqD7TBCcFulScOETN8nwSWBLfFHCu04FS8ehAZRMxi6x/Mgip8DH
+	cjqevYzXmTOUWM/zGiM7Ht4+j1yAE5dT4
+X-Google-Smtp-Source: AGHT+IHBMg21qPkjzFruK+M1hbzn0tWuB5gx1V6I+5jFW7DiW6MxJ30/c5hGpj7fcavQD5SeN1bli1hplIYDuByDrVU=
+X-Received: by 2002:a05:600c:1d85:b0:421:2efe:5aa8 with SMTP id
+ 5b1f17b1804b1-4212efe5bebmr18344335e9.18.1717181578869; Fri, 31 May 2024
+ 11:52:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240528-hid_bpf_struct_ops-v1-0-8c6663df27d8@kernel.org>
+ <20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8@kernel.org>
+ <CAADnVQJbc4uVmhh+ABPMBGFjTYwQQp3wGLeTBYEUWti3R8V8aw@mail.gmail.com> <bbmrcmm2tsbxm3f7bdjbdprqt62hkrw3d7w4w4taxaxx24rlu5@iu5krfvhcaru>
+In-Reply-To: <bbmrcmm2tsbxm3f7bdjbdprqt62hkrw3d7w4w4taxaxx24rlu5@iu5krfvhcaru>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 31 May 2024 11:52:47 -0700
+Message-ID: <CAADnVQJfNxdZebtu9f8a+JwXn0tJLhRK7bnG+dhcnb0BN2kOSw@mail.gmail.com>
+Subject: Re: [PATCH HID 03/13] HID: bpf: implement HID-BPF through bpf_struct_ops
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexei Starovoitov <ast@kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	bpf <bpf@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add an entry to MAINTAINERS for the Marvell 88PM886 PMIC MFD, onkey and
-regulator drivers.
+On Wed, May 29, 2024 at 12:38=E2=80=AFAM Benjamin Tissoires <bentiss@kernel=
+.org> wrote:
+>
+> > Take a look at include/linux/bpf_mprog.h
+> > I suspect it might be useful here too.
+>
+> From the quick look of it this is interesting, but for plain struct
+> bpf_prog, right?
+>
+> So I would have to adapt this include for struct_ops?
 
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
----
+yeah. It needs work to be adapted to work with struct-ops.
+I mentioned it mainly from uapi perspective.
+BPF_F_BEFORE, BPF_F_AFTER, BPF_F_REPLACE.
+Would be good to keep things consistent.
 
-Notes:
-    RFC v3:
-    - Remove onkey bindings file.
-    RFC v2:
-    - Only mention 88PM886 in the commit message.
-    - Add regulator driver.
-    - Rename the entry.
+> > > @@ -112,6 +113,63 @@ struct hid_ops {
+> > >
+> > >  extern struct hid_ops *hid_ops;
+> > >
+> > > +/**
+> > > + * struct hid_bpf_ops - A BPF struct_ops of callbacks allowing to at=
+tach HID-BPF
+> > > + *                     programs to a HID device
+> > > + * @hid_id: the HID uniq ID to attach to. This is writeable before `=
+`load()``, and
+> > > + *         cannot be changed after
+> > > + * @flags: &enum hid_bpf_attach_flags to assign flags before ``load(=
+)``.
+> > > + *        Writeable only before ``load()``
+> > > + */
+> > > +struct hid_bpf_ops {
+> > > +       /* hid_id needs to stay first so we can easily change it
+> > > +        * from userspace.
+> > > +        */
+> >
+> > hmm.
+> > patch 5 just does:
+> > +       skel->struct_ops.mouse_invert->hid_id =3D hid_id;
+> >
+> > I don't see a reason why it needs to be first.
+>
+> See the selftests (and my external loader, udev-hid-bpf):
+>
+>                 map =3D bpf_object__find_map_by_name(*self->skel->skeleto=
+n->obj,
+>                                                           programs[i].nam=
+e + 4);
+>                 ASSERT_OK_PTR(map) TH_LOG("can not find struct_ops by nam=
+e '%s'",
+>                                           programs[i].name + 4);
+>
+>                 /* hid_id is the first field of struct hid_bpf_ops */
+>                 ops_hid_id =3D bpf_map__initial_value(map, NULL);
+>                 ASSERT_OK_PTR(ops_hid_id) TH_LOG("unable to retrieve stru=
+ct_ops data");
+>
+>                 *ops_hid_id =3D self->hid_id;
+>
+> Basically, I want to have to deal with .bpf.o and not the skeletons for
+> the generic case. I want to be able to drop a file in /lib/firmware/hid
+> and have udev-hid-bpf load it without having to recompile udev-hid-bpf.
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+and with additional restriction of only one struct-ops prog per elf file,
+right?
+Otherwise multiple hid_bpf_ops will be in the same elf section and
+the same map.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6c90161c7bf..9d6c940029b8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13295,6 +13295,15 @@ F:	drivers/net/dsa/mv88e6xxx/
- F:	include/linux/dsa/mv88e6xxx.h
- F:	include/linux/platform_data/mv88e6xxx.h
- 
-+MARVELL 88PM886 PMIC DRIVER
-+M:	Karel Balej <balejk@matfyz.cz>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
-+F:	drivers/input/misc/88pm886-onkey.c
-+F:	drivers/mfd/88pm886.c
-+F:	drivers/regulators/88pm886-regulator.c
-+F:	include/linux/mfd/88pm886.h
-+
- MARVELL ARMADA 3700 PHY DRIVERS
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- S:	Maintained
--- 
-2.45.1
+> I couldn't seem to be able to access the struct_ops BTF information from
+> libbpf, so I decided to have hid_id and flags first and consider this to
+> be ABI while I figure out how to get to the real offsets :)
 
+I see. I guess it's ok for now.
 
