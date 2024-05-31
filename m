@@ -1,34 +1,34 @@
-Return-Path: <linux-input+bounces-3993-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-3994-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4BF8D688A
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D27088D688B
 	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 19:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9277B2755B
-	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 17:54:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1098B1C258B1
+	for <lists+linux-input@lfdr.de>; Fri, 31 May 2024 17:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB81917E46A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB42F17E477;
 	Fri, 31 May 2024 17:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="aRNRf7hD"
+	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="WhhlDm8+"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B5917E456;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF3B17E44F;
 	Fri, 31 May 2024 17:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717178001; cv=none; b=J9p/IGDXCJTcrmMBOtHXF7ZyTl/6Fhlw19SFNPfNBWpB4WmYf6x/FRYLaQrh7wRUVsWHEA7TPD8gO0LMtdlSlC4o5KbIIN3mtoLBlaTC4/WOa2T4ZHS1tDJGrrongmpf8BJC0EEDfZ+dDklUkFP2sbtOmp4xHmmiY1SJ8jELKnc=
+	t=1717178001; cv=none; b=t6uANsp1vhq61zKVc62oCLdwQZZXXLpMtV87XzeaYz097514BM4gpR5YdWRytGu5mFxzpsUkEnYaRp39N6VVkm5Omj5ogHZr7ugs+XaFrBek+53gP2mJPoDwt6TcSHS4wGBYjwzCpRcWY0K63D7sjTvcusm55F1jHunu3uTQ8m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717178001; c=relaxed/simple;
-	bh=6FRu3M63iROY9AFEk7kkSdRycHp4RajNb4bBVXTOofY=;
+	bh=/1bazwq8/5ZIffTP9cbZUkwd86uwrXjzRtAHrHiL2vk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aHcmpcTqGah3gQvsZczQeswVlDr4LNho5Wj1gRQNdXLwyYlSyv2yjBxwnsZL/eeTxzQNVlKas5o6vNEyS9IgvW+6l1ehtXMlFM8zh6B1y6LFl1tNRyB+lFRv0GChtSMFV5WTo3kvOQJonXcV+dXA91TYczINCjWK1hb1WWm2KnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=aRNRf7hD; arc=none smtp.client-ip=195.113.20.234
+	 MIME-Version; b=sTHt6RRQNeE/4XktMbcM2N+8Xz6Y+qqj8wK2QbATqGKlVfmv+P+mLBRwK7l+Lhh7oSCLgqMt3ZmR2t3f/MKbcYbWXDlFJ2JyzZrtk6uJPgm7Z36NzE7TCT740xHhIzeOi8qOWHcJJUYWGDiPbDByU7mhSa7+Z4AEy5jkDHpbj4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=WhhlDm8+; arc=none smtp.client-ip=195.113.20.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
 X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
@@ -36,19 +36,19 @@ X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20K
 	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
 	auth type TLS.CUNI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1717177976; x=1718477976;
-	bh=e4Mue6P5b/tRppDhF+0j1kQVD13oKlxkev/pr805xWw=; h=From;
-	b=aRNRf7hDIQ6S9IlyIlH8+kiy6C1y0Xcxkzs8Eqwr8cNJmekBdadUxUAt1Bqgc4U3j
-	 ySQ0mEUqfzNwVs+XZmsceBm4vjIhMi0k4rjZBmWI0HBuNT9lP36PzNtpaGMBpGB20R
-	 0Z8lDwhLkjMfcHfbKcN2ZT/O/M0O+mnj0fx+FWqyzrFSjVOrqWz9mfjzaigS96fsFY
-	 STm2WYsvbD8lwWo9Txd8ythBKFOs+tWWr1ziMiFI5Wj8kBequt6KRqU/kHZtmxCNRE
-	 dp0Xkfhz7FWtUizt3jah9RDja+EfCO4DYtV44qapCXJFwtEAsGSMNxDTWwjBl7xuSW
-	 NTeqiLZF8TN6Q==
+	s=submission; t=1717177980; x=1718477980;
+	bh=My4LXhXbb9BOpUof0ahRmEdjI75iWQ/EFNjZ8MlgZrg=; h=From;
+	b=WhhlDm8+P5hbDnR/U8kiAn2A4f7Zc7v5CVE4/wBGRE+LGHaLdGuWxD0uQZwnhx0GM
+	 t+ceQjFzs7EFlqZpFiSt2F+fQapECr0CX+r64YlHztxuB1WSV1RlL9gFsXF+qzhVh0
+	 2DlwxSORJiI2ZyqakKq5/rQfO9xJECyYXYeMxMNH/NjQXBJMIQtZmE8Msnacyb2BHN
+	 eZXyxEtVtAbOALc/5IXf0mDhdRQKXMTAZKTmb6wFL0fk3AG711Kv8HSWCZCDbzyKyw
+	 v7GKfTkiN7qMI8OuYjfLC5mog262Bc7I+H4yDcT8kWXCbaKr8NE0vGVxEv3w5hc26Q
+	 XX4GCERRstPsw==
 Received: from localhost (internet5.mraknet.com [185.200.108.250])
 	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 44VHqsW1001121
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 44VHqxRU001124
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Fri, 31 May 2024 19:52:56 +0200 (CEST)
+	Fri, 31 May 2024 19:53:00 +0200 (CEST)
 	(envelope-from balejk@matfyz.cz)
 From: Karel Balej <balejk@matfyz.cz>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -61,9 +61,9 @@ To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
 Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         balejk@matfyz.cz
-Subject: [PATCH v7 4/5] input: add onkey driver for Marvell 88PM886 PMIC
-Date: Fri, 31 May 2024 19:34:59 +0200
-Message-ID: <20240531175109.15599-5-balejk@matfyz.cz>
+Subject: [PATCH v7 5/5] MAINTAINERS: add myself for Marvell 88PM886 PMIC
+Date: Fri, 31 May 2024 19:35:00 +0200
+Message-ID: <20240531175109.15599-6-balejk@matfyz.cz>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240531175109.15599-1-balejk@matfyz.cz>
 References: <20240531175109.15599-1-balejk@matfyz.cz>
@@ -75,181 +75,43 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Marvell 88PM886 PMIC provides onkey among other things. Add client
-driver to handle it. The driver currently only provides a basic support
-omitting additional functions found in the vendor version, such as long
-onkey and GPIO integration.
+Add an entry to MAINTAINERS for the Marvell 88PM886 PMIC MFD, onkey and
+regulator drivers.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Karel Balej <balejk@matfyz.cz>
 ---
 
 Notes:
-    v5:
-    - Remove kernel.h include.
-    RFC v4:
-    - Reflect MFD driver changes:
-      - chip->regmaps[...] -> chip->regmap
-    - Address Dmitry's feedback:
-      - Add ID table.
-      - Add Ack.
     RFC v3:
-    - Drop wakeup-source.
+    - Remove onkey bindings file.
     RFC v2:
-    - Address Dmitry's feedback:
-      - Sort includes alphabetically.
-      - Drop onkey->irq.
-      - ret -> err in irq_handler and no initialization.
-      - Break long lines and other formatting.
-      - Do not clobber platform_get_irq error.
-      - Do not set device parent manually.
-      - Use input_set_capability.
-      - Use the wakeup-source DT property.
-      - Drop of_match_table.
-      - Use more temporaries.
-      - Use dev_err_probe.
-    - Modify Kconfig description.
+    - Only mention 88PM886 in the commit message.
+    - Add regulator driver.
+    - Rename the entry.
 
- drivers/input/misc/88pm886-onkey.c | 98 ++++++++++++++++++++++++++++++
- drivers/input/misc/Kconfig         |  7 +++
- drivers/input/misc/Makefile        |  1 +
- 3 files changed, 106 insertions(+)
- create mode 100644 drivers/input/misc/88pm886-onkey.c
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/input/misc/88pm886-onkey.c b/drivers/input/misc/88pm886-onkey.c
-new file mode 100644
-index 000000000000..284ff5190b6e
---- /dev/null
-+++ b/drivers/input/misc/88pm886-onkey.c
-@@ -0,0 +1,98 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#include <linux/mfd/88pm886.h>
-+
-+struct pm886_onkey {
-+	struct input_dev *idev;
-+	struct pm886_chip *chip;
-+};
-+
-+static irqreturn_t pm886_onkey_irq_handler(int irq, void *data)
-+{
-+	struct pm886_onkey *onkey = data;
-+	struct regmap *regmap = onkey->chip->regmap;
-+	struct input_dev *idev = onkey->idev;
-+	struct device *parent = idev->dev.parent;
-+	unsigned int val;
-+	int err;
-+
-+	err = regmap_read(regmap, PM886_REG_STATUS1, &val);
-+	if (err) {
-+		dev_err(parent, "Failed to read status: %d\n", err);
-+		return IRQ_NONE;
-+	}
-+	val &= PM886_ONKEY_STS1;
-+
-+	input_report_key(idev, KEY_POWER, val);
-+	input_sync(idev);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int pm886_onkey_probe(struct platform_device *pdev)
-+{
-+	struct pm886_chip *chip = dev_get_drvdata(pdev->dev.parent);
-+	struct device *dev = &pdev->dev;
-+	struct pm886_onkey *onkey;
-+	struct input_dev *idev;
-+	int irq, err;
-+
-+	onkey = devm_kzalloc(dev, sizeof(*onkey), GFP_KERNEL);
-+	if (!onkey)
-+		return -ENOMEM;
-+
-+	onkey->chip = chip;
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return dev_err_probe(dev, irq, "Failed to get IRQ\n");
-+
-+	idev = devm_input_allocate_device(dev);
-+	if (!idev) {
-+		dev_err(dev, "Failed to allocate input device\n");
-+		return -ENOMEM;
-+	}
-+	onkey->idev = idev;
-+
-+	idev->name = "88pm886-onkey";
-+	idev->phys = "88pm886-onkey/input0";
-+	idev->id.bustype = BUS_I2C;
-+
-+	input_set_capability(idev, EV_KEY, KEY_POWER);
-+
-+	err = devm_request_threaded_irq(dev, irq, NULL, pm886_onkey_irq_handler,
-+					IRQF_ONESHOT | IRQF_NO_SUSPEND, "onkey",
-+					onkey);
-+	if (err)
-+		return dev_err_probe(dev, err, "Failed to request IRQ\n");
-+
-+	err = input_register_device(idev);
-+	if (err)
-+		return dev_err_probe(dev, err, "Failed to register input device\n");
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id pm886_onkey_id_table[] = {
-+	{ "88pm886-onkey", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(platform, pm886_onkey_id_table);
-+
-+static struct platform_driver pm886_onkey_driver = {
-+	.driver = {
-+		.name = "88pm886-onkey",
-+	},
-+	.probe = pm886_onkey_probe,
-+	.id_table = pm886_onkey_id_table,
-+};
-+module_platform_driver(pm886_onkey_driver);
-+
-+MODULE_DESCRIPTION("Marvell 88PM886 onkey driver");
-+MODULE_AUTHOR("Karel Balej <balejk@matfyz.cz>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 6ba984d7f0b1..16a079d9f0f2 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -33,6 +33,13 @@ config INPUT_88PM80X_ONKEY
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called 88pm80x_onkey.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d6c90161c7bf..9d6c940029b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13295,6 +13295,15 @@ F:	drivers/net/dsa/mv88e6xxx/
+ F:	include/linux/dsa/mv88e6xxx.h
+ F:	include/linux/platform_data/mv88e6xxx.h
  
-+config INPUT_88PM886_ONKEY
-+	tristate "Marvell 88PM886 onkey support"
-+	depends on MFD_88PM886_PMIC
-+	help
-+	  Support the onkey of Marvell 88PM886 PMIC as an input device
-+	  reporting power button status.
++MARVELL 88PM886 PMIC DRIVER
++M:	Karel Balej <balejk@matfyz.cz>
++S:	Maintained
++F:	Documentation/devicetree/bindings/mfd/marvell,88pm886-a1.yaml
++F:	drivers/input/misc/88pm886-onkey.c
++F:	drivers/mfd/88pm886.c
++F:	drivers/regulators/88pm886-regulator.c
++F:	include/linux/mfd/88pm886.h
 +
- config INPUT_AB8500_PONKEY
- 	tristate "AB8500 Pon (PowerOn) Key"
- 	depends on AB8500_CORE
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 04296a4abe8e..054a6dc1ac27 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -7,6 +7,7 @@
- 
- obj-$(CONFIG_INPUT_88PM860X_ONKEY)	+= 88pm860x_onkey.o
- obj-$(CONFIG_INPUT_88PM80X_ONKEY)	+= 88pm80x_onkey.o
-+obj-$(CONFIG_INPUT_88PM886_ONKEY)	+= 88pm886-onkey.o
- obj-$(CONFIG_INPUT_AB8500_PONKEY)	+= ab8500-ponkey.o
- obj-$(CONFIG_INPUT_AD714X)		+= ad714x.o
- obj-$(CONFIG_INPUT_AD714X_I2C)		+= ad714x-i2c.o
+ MARVELL ARMADA 3700 PHY DRIVERS
+ M:	Miquel Raynal <miquel.raynal@bootlin.com>
+ S:	Maintained
 -- 
 2.45.1
 
