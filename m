@@ -1,112 +1,130 @@
-Return-Path: <linux-input+bounces-4001-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4005-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508878D70C9
-	for <lists+linux-input@lfdr.de>; Sat,  1 Jun 2024 17:09:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EAB8D70E8
+	for <lists+linux-input@lfdr.de>; Sat,  1 Jun 2024 17:30:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0717D1F266D5
-	for <lists+linux-input@lfdr.de>; Sat,  1 Jun 2024 15:09:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2C78B21EA6
+	for <lists+linux-input@lfdr.de>; Sat,  1 Jun 2024 15:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD6115278C;
-	Sat,  1 Jun 2024 15:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06CB152E1D;
+	Sat,  1 Jun 2024 15:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBFgqTZI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnU2+cMV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D8F1CD3D;
-	Sat,  1 Jun 2024 15:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C35C823CE;
+	Sat,  1 Jun 2024 15:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717254534; cv=none; b=mj/PZoThuv8cABshiZWgJs1GtkJDB235JtvLOth3tQdvqxEKuUXJlWKWby8XkwKchZ1kLE8EUepLsSg1OicUb1ZGj09AzsTwpaFDg0rfHXVsZYQLUIFCf8svXUOBG/eH7Qgss9AT8aRbhWfaLwKvZalTmJ/uJ/WvH9CmZM4Mnyg=
+	t=1717255825; cv=none; b=mJk6xGtnbs9pYCyCte6oja+xT5ticTvINYC9p3LXrWz0L+NKohmxCUvvi6L/zfomlb6qIiM0cmmXyabI0ivcNmh6XkvieL0viuREEgUuRE3/43M22yRTvGRR/4YejOItYVqXNDpf6EK7SLiGiP7u0mFPG7CbqCJndT3pqtsx4Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717254534; c=relaxed/simple;
-	bh=1oVKVqQgdKTr5SQqEoXNfoaiRhZ43/gYviSPxoYVDCc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JacTh2GpTep5Tk2nU9SvqWGw9JLkjfEefPWh4zRJ5RZgdR1wRHUtauZTZ6IVJsxJJJUBPfuGSp+FpCNzjDgahnsI98u7TDZBIOU3DtQnasDqQ4iFnX0zHAGOE73twbGRh2s/14DiYoFAZKD/wvGAEGP+dc+27cUddGUfHBu2jNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBFgqTZI; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6af538c750eso108006d6.1;
-        Sat, 01 Jun 2024 08:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717254532; x=1717859332; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d8x4+MRtwD32I6N1x72QTvMbn3LCLaG3WhWmmoOO4kg=;
-        b=GBFgqTZIZQGofTs+Ve2jR6ynhIu51hc7aHbHWbvnZs2n+sSR/uofeFW1u5aJ+AQcT7
-         8eMf959kqGo/qGItPLOjZ0wHHyrkt2UQiS1A+Tm+C8E6wnjryyi4fHrr/E3AJG0VkB6q
-         ZRBBiVY+Vu8r1vGsm8HtOmXjQgIlNNVkbZWTrUOCCWHZ+3JBJ6nl0HEwnXm080Sp/EtY
-         hEc4D/6APWTT5A4W30Vntf3wtizviNPVvx5Kw2dBqD4VDcV+m6Nn1yHIBwXhKLRGmWJe
-         8Fb3sYiCXRCZd3cJ174YokTCDxMQqjxnbNJJuFxkA+4ePPXFFufv8TGSj0K/ZJig7FOI
-         dhbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717254532; x=1717859332;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8x4+MRtwD32I6N1x72QTvMbn3LCLaG3WhWmmoOO4kg=;
-        b=fu3vSOE5FhvEyII1mvy0r+E4EeAdoMHz89qMyOOeyW4tD8hNnUD96oLEKIvbHVvEo9
-         +5Zz4djQq49c0E+pUocJJoP62l/edmT1JK1yBzIHW9E3+Qbz+kNaX0gllW5KG6PYk1Kr
-         11PXm31xgcYRnDWQMqJ3D8YaGyvndh4xY4+c/7pKpQAW5xdLL+H8MEn3tO+Q6nu8iB/w
-         FyT9Pes7g8hcwaeaRUX68+3nQIOo4/vrH4o+OEBmARkKeoBMia+mAdIB8vyS00FoFvEM
-         Ax0nB04byg+g1XR1wWToo3etkJk4uUuJqGhwH6mHutqwKP1aLwZTicVqa/WaO3ay1Q7i
-         rxPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWslet6s0DIY5N8oq3zzNGKKDmeEJlRNiauGhHwZYJt8p6Nor688q24bh4u9U0PZwTuPf0z6Efz3+/shCycnh5df3XzCMUjxcU6mViqNpIIPP77juZxyl7PiEL6mthHh1HgJAIZkmhrv+WiRBud8u4kWC/iAO3mv/ikzp/AKOwVTwUH9FaQuG6O6tBdPIY=
-X-Gm-Message-State: AOJu0YyROA5zv5kb57rGw5ZmghS1um0CRa9iaUVwK/aRG/qROBCxiiS9
-	DBI1yoViMrkvMvlDQ2gJqcenLr81CBv73JiL+mRT7pKMxQfmD/qf
-X-Google-Smtp-Source: AGHT+IG1T/hp6o7zkkb5+oFcjirqY1NXo+A6couRFfEo2eooW4Dbt+1SecgfOPduKlbcqakOYQFEGg==
-X-Received: by 2002:ac8:574e:0:b0:43f:edee:9219 with SMTP id d75a77b69052e-43ff4f79747mr51031171cf.0.1717254526665;
-        Sat, 01 Jun 2024 08:08:46 -0700 (PDT)
-Received: from [192.168.0.98] ([67.6.32.220])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43ff23a18e3sm19794811cf.10.2024.06.01.08.08.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Jun 2024 08:08:46 -0700 (PDT)
-Message-ID: <f9e26fac-5ab0-4cfb-a721-8290656c11a9@gmail.com>
-Date: Sat, 1 Jun 2024 10:08:44 -0500
+	s=arc-20240116; t=1717255825; c=relaxed/simple;
+	bh=n8FgRSqS/0SH93OR/rSR5u3qt1CP4ZpLuUxyPWB99QQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YXcSIClZ3u52iKM/w7EQ7iDlqllYz1Cg5DuJyIeEA1WYcTlwOBml/7+YgEWuc3l2HnJeCRYKy5kLzgFLIv++esMDPapqyyh8/uxIF97VwAqRoCxXiA5MjkRrrDwWnikt8oOISqJs8wLL4xMrdfrGf1hdp9wBB2SpydDk+Edj14M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnU2+cMV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F318BC116B1;
+	Sat,  1 Jun 2024 15:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717255825;
+	bh=n8FgRSqS/0SH93OR/rSR5u3qt1CP4ZpLuUxyPWB99QQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=HnU2+cMVXMJpyCL07v1DvBCsrGKY686c8dB6Q8nnF/FFpDuYqBOwiyGMkqao6goUA
+	 Cub3niKvs62ik0iqCLsL0Ftc3NnS1fpk/0I8CREUXEabt+JUxVToVJ/zk3cgwAtUem
+	 pmFscLqYzEZG/yC038/8DffZSJqQIAJ/WO37RAcO5dzPlWzEH9xEoSwMJG9H7nzOi7
+	 oXfH8tq1xl1OgB5IA9Q2+VDEeP8kvMf+HeS0WhDy9q/LJtSjJaOrprgpSnLCWDY2jc
+	 TqGqKWevJ741FyUve3zyuVCF33NzkCcTtJLxAuxBo34lGqU+jxc257n1b9v0AFAnVV
+	 CJTTWEAj3qzZw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CD6C25B76;
+	Sat,  1 Jun 2024 15:30:24 +0000 (UTC)
+From: Joel Selvaraj via B4 Relay <devnull+joelselvaraj.oss.gmail.com@kernel.org>
+Subject: [PATCH v4 0/3] novatek-nvt-ts: add support for NT36672A
+ touchscreen
+Date: Sat, 01 Jun 2024 10:30:17 -0500
+Message-Id: <20240601-nvt-ts-devicetree-regulator-support-v4-0-e0c0174464c4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] Input: novatek-nvt-ts: add support for NT36672A
- touchscreen
-To: Hans de Goede <hdegoede@redhat.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20240526-nvt-ts-devicetree-regulator-support-v3-0-aa88d10ccd9a@gmail.com>
- <20240526-nvt-ts-devicetree-regulator-support-v3-3-aa88d10ccd9a@gmail.com>
- <55272a3b-575d-4212-a40b-7245beed5d80@redhat.com>
- <a2f68c56-e6d6-4626-8d05-b5e808da60da@gmail.com>
- <cbc86440-5065-448d-b83c-83602de6651c@redhat.com>
-Content-Language: en-US
-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <cbc86440-5065-448d-b83c-83602de6651c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIk+W2YC/43OQQ7CIBAF0KsY1o4BihRceQ/jAoexkmjbABKN6
+ d1F40JddfknP+/PgyWKgRLbLB4sUgkpDH0NarlgeHJ9RxB8zUxyqfhaGOhLhpzA1y5SjkQQqbu
+ eXR4ipOs4DjGDQ0vKHlrjhGZVGiMdw+29stvXfAqp1u/v0SJe148vxSy/COBgfKs16sZ6dNvu4
+ sJ5hcOFvfwiv001z5TVPLTKqpY3BpX6N5tvU88zm2o6Z4wXHNHbnz+naXoCVIju4X4BAAA=
+To: Hans de Goede <hdegoede@redhat.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ Joel Selvaraj <joelselvaraj.oss@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717255824; l=2072;
+ i=joelselvaraj.oss@gmail.com; s=20240420; h=from:subject:message-id;
+ bh=n8FgRSqS/0SH93OR/rSR5u3qt1CP4ZpLuUxyPWB99QQ=;
+ b=3AMsyFGEo6VG5DEWahrUosuEQQpoCSe3tGbUVCSBQkn5X5r0mynSkXUb0mQ2BFYeZybdiKpAP
+ W9Q34YsH6tkBQbQndqobUTg7k11XAwVb9vGKea+6UwE5iGDqvGSmrlc
+X-Developer-Key: i=joelselvaraj.oss@gmail.com; a=ed25519;
+ pk=qT4gsuVtlPE0Dpr+tQA/Fumm7wzVP6qfeVaY+6pX04s=
+X-Endpoint-Received: by B4 Relay for joelselvaraj.oss@gmail.com/20240420
+ with auth_id=165
+X-Original-From: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+Reply-To: joelselvaraj.oss@gmail.com
 
-Hi Hans de Goede,
+Extend the novatek touchscreen driver to support NT36672A chip which
+is found in phones like qcom/sdm845-xiaomi-beryllium-tianma.dts.
+Added devicetree support for the driver and used i2c chip data to handle
+the variation in chip id and wake type. Also added vcc and iovcc
+regulators which are used to power the touchscreen hardware.
 
-On 6/1/24 09:07, Hans de Goede wrote:
-> Sounds good.
-> 
-> It is great to see people working on getting mainline
-> kernels to work on phones like the work you are doing here.
-> Thank you for doing this work!
+Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+---
+Changes in v4:
+- Use lowercase i2c device id as suggested by Hans de Goede.
+- Disable the regulators after nvt_ts_read_data during probe.
+- Link to v3: https://lore.kernel.org/r/20240526-nvt-ts-devicetree-regulator-support-v3-0-aa88d10ccd9a@gmail.com
 
-Thanks! :)
+Changes in v3:
+- Fix indentation in the binding as suggested by Krzysztof Kozlowski.
+- Picked up Krzysztof Kozlowski's Reviewed-by tag for the binding.
+- Link to v2: https://lore.kernel.org/r/20240524-nvt-ts-devicetree-regulator-support-v2-0-b74947038c44@gmail.com
 
-Regards,
-Joel Selvaraj
+Changes in v2:
+- The generic i2c device id is now replaced with the correct IC variant
+  provided by Hans de Goede
+- Updated the bindings to reflect the latest changes and also incorporated
+  the suggestions provided by Krzysztof Kozlowski
+- Link to v1: https://lore.kernel.org/r/20240521-nvt-ts-devicetree-regulator-support-v1-0-8d766c639dca@gmail.com
+
+---
+Joel Selvaraj (3):
+      Input: novatek-nvt-ts: replace generic i2c device id with specific IC variant
+      dt-bindings: input: document Novatek NVT touchscreen controller
+      Input: novatek-nvt-ts: add support for NT36672A touchscreen
+
+ .../bindings/input/touchscreen/novatek,nvt-ts.yaml | 62 +++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ drivers/input/touchscreen/novatek-nvt-ts.c         | 70 ++++++++++++++++++++--
+ drivers/platform/x86/x86-android-tablets/other.c   |  2 +-
+ 4 files changed, 128 insertions(+), 7 deletions(-)
+---
+base-commit: 6578aac6a270bd6deb9f9319b991dd430de263dd
+change-id: 20240518-nvt-ts-devicetree-regulator-support-ac9e49b78a16
+
+Best regards,
+-- 
+Joel Selvaraj <joelselvaraj.oss@gmail.com>
+
+
 
