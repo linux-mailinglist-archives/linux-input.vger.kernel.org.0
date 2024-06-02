@@ -1,93 +1,57 @@
-Return-Path: <linux-input+bounces-4012-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4016-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FC48D7450
-	for <lists+linux-input@lfdr.de>; Sun,  2 Jun 2024 10:51:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 778BB8D7466
+	for <lists+linux-input@lfdr.de>; Sun,  2 Jun 2024 11:03:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCF87281894
-	for <lists+linux-input@lfdr.de>; Sun,  2 Jun 2024 08:51:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0332DB216FD
+	for <lists+linux-input@lfdr.de>; Sun,  2 Jun 2024 09:03:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CBA6224CE;
-	Sun,  2 Jun 2024 08:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtFdSVVw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058FB39FCF;
+	Sun,  2 Jun 2024 09:02:58 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3311E535;
-	Sun,  2 Jun 2024 08:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674B4374F5
+	for <linux-input@vger.kernel.org>; Sun,  2 Jun 2024 09:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717318312; cv=none; b=Ec/pRrZTq4dQXvQq+uVRzZXcKleNnz3YhTxohGL9GwLChTo7UxQbeCzaAhZKCfJNs7uZvMujyjaFLsihhOmhR+aPk5SlL0dI4X4HngLkKJUz/D9ITfjt937yJgGFWuSSLWqx6lx6eUDaWpFoLxcq3DA/aKFy1qobJpEy3gQ0bgc=
+	t=1717318977; cv=none; b=IJSHAG2n0RnmTCLeGML0MBxOASCD0HzMhw0JncTk1vOV3nxWg6/gORvOw9ok2H88X2wuCpkrjBL4kN/mQIbvVoFzSPwkk1VJ+jFMzwT/+ppif8cTSfnciKskz7PXUKn/aaJgFR9yAAQaGuoyTC7QYL3/aP6Dk/aCqFYXVz5xpN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717318312; c=relaxed/simple;
-	bh=e65MDGgz/5t6pNJjm2h6eNurKKcTphF0Q2NEmJmIwI8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G2XKzPxvH4608GwX6BHnq/cxWfUJ7QGEOWaZet7ZEriuz0IZ2pMNuUJYqCRCRgiTbuHloBzOfga/sHOPWzsBVGJFz7W+RamAd/xlGqw3zqH8XT8lVIbL729evx7vsozYHQ3SaqCAwd8MeSqCI5K+/M43U/KgTwKUQsgXb1EgBww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtFdSVVw; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6f8d0a215deso1685489a34.0;
-        Sun, 02 Jun 2024 01:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717318309; x=1717923109; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B4hYHmgrY/sSpNoKlBUHQFCOVOO+xIhSM1LWCgBv6E8=;
-        b=jtFdSVVwxMJN+IfM/Qj0maZbLCSUFQHHaaGeWQKBMMEuptqbyqB6XzjZH++P3MQ8zT
-         TcSDMy/ZM4w5nXK453/tZq8N3iNB+3kGZM+BBMqvjMO4ZCIpFJZEVwC4910ZONv6AS51
-         kfY8J+7HU90M+nKB8TYBWIwzPKZHpqQ32N1WcQESI+Jm5V44Es9PX+R42NAe8zeXlic0
-         KnXZo+1tvxddtwtJ8yGry25HrQXto8YQrKpGnGv/h5F0MLWT4dALG39wGIF1B8PONGfv
-         UWIIP1RrYj/5St3oxiG5Fv4lRPKk2jlMx0jCKxsqlZE5QVCueuLYsfv4wfKCSTt8gBZ+
-         pqWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717318309; x=1717923109;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B4hYHmgrY/sSpNoKlBUHQFCOVOO+xIhSM1LWCgBv6E8=;
-        b=WennGhYAEgQpK0EXIxcv3ZIXQQy/JCSwBLtaC2kVqBBbGEXNeGqEcfm4jky2MfZZTy
-         BZAIsYZSpO75JGiQgnoRWt9bVCsG/DHw5bKx6AQNqhfJW6Wjv0DbymH0/O1K4PNNkYpk
-         y8kkWowmkJ6/V5zGmMfZYkT/ltwh4LlS2wcn8TvB4ZLUUmqt3ap+DStZ3ZNZFsNVlkTh
-         bOviKXBakFHuF6jJmO03ToeC5s2nAQazAfWu7vTga3EM2B2zdoPsiw1HUq0q7hgcBzwX
-         0AwKx4jeUG6QV9FxhSirfd9TtVRQ3m0NY3SxL8N1ggG+f4c781zAc8Zggf9r6QjTIMrv
-         siGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDMYk4qUoQ7Bj0Df9YjQXQoSW4ICA7uBQ6H+1I+SEKsF4UYT772//giJ24SzSWtcBUwNUN+xTHo0wgaR+Wi9cA4GlaKvJE8bO8bcIfTdXME1ZnS4FvzUIu14tpvHVIbGMRgQWANGk4Y/tf7qT6721A0t+D+4wUixCT5sIQ15Dkgpp4tCY=
-X-Gm-Message-State: AOJu0Yx3mP6cK49M+s+E0BSSqcnF06GEOeweAI1X5R8/TSLOyCtaBzL/
-	jj5C/dRVpjnGUgbVgtD7TM/VA5Ehr0//AHmOTpVREkWHkuqr11VN
-X-Google-Smtp-Source: AGHT+IEoQt9fiVgS/wUK8ZbhbZqDxwqVnEkmcyWbSOlcPJ7KPfGB5ccFde9C7qL7s2kTgPWdscxIPg==
-X-Received: by 2002:a9d:3e0c:0:b0:6f0:360d:d730 with SMTP id 46e09a7af769-6f911a8e5d6mr2783523a34.6.1717318309450;
-        Sun, 02 Jun 2024 01:51:49 -0700 (PDT)
-Received: from my-computer.lan (c-98-39-68-68.hsd1.tx.comcast.net. [98.39.68.68])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-6f91054f672sm1016350a34.46.2024.06.02.01.51.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 01:51:49 -0700 (PDT)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: dan.carpenter@linaro.org
-Cc: andrewjballance@gmail.com,
-	benjamin.tissoires@redhat.com,
-	bentiss@kernel.org,
-	jikos@kernel.org,
-	jkosina@suse.com,
-	linux-input@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
+	s=arc-20240116; t=1717318977; c=relaxed/simple;
+	bh=kvjM+fA8m/X7nFchC9GtlIpylkN/zyU5xhYjmg6++aU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rj8+hvi606ia9Hr4IYrcOgJzGCHyoCjVgk3n95cmrTM3aC2pU3u0vs8yMd198SAuPN3kFlj99+LI1ynq6pRQMatxfjU3odHU2RmxcWpmRNXbuykbe/bBJSABc9xmmBd8XTrXV2mfuHLjxuCx25bYkVO8TRoEoCWIz/R0gnEEs+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
+	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+	id e0b351d6-20be-11ef-8e3d-005056bdf889;
+	Sun, 02 Jun 2024 12:02:48 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Jorge Lopez <jorge.lopez2@hp.com>,
+	Li Zetao <lizetao1@huawei.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	platform-driver-x86@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	luke@ljones.dev,
-	skhan@linuxfoundation.org,
-	syzbot+07762f019fd03d01f04c@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH v2] hid: asus: asus_report_fixup: fix potential read out of bounds
-Date: Sun,  2 Jun 2024 03:50:23 -0500
-Message-ID: <20240602085023.1720492-1-andrewjballance@gmail.com>
+	ibm-acpi-devel@lists.sourceforge.net,
+	linux-input@vger.kernel.org
+Cc: Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Mark Pearson <markpearson@lenovo.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Subject: [PATCH v1 0/7] platform/x86: Move to 2-argument strscpy()
+Date: Sun,  2 Jun 2024 11:57:53 +0300
+Message-ID: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <d87335b8-9eae-4689-87b4-b581c0b28c9b@moroto.mountain>
-References: <d87335b8-9eae-4689-87b4-b581c0b28c9b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -96,33 +60,34 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-syzbot reported a potential read out of bounds in asus_report_fixup.
+Move to 2-argument strscpy() to make code shorter and have an additional check.
+No functional change intended.
 
-this patch adds checks so that a read out of bounds will not occur
+Some cases are let untouched where it looks better with the 3rd argument.
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-Reported-by: syzbot+07762f019fd03d01f04c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=07762f019fd03d01f04c
-Fixes: 59d2f5b73921 ("HID: asus: fix more n-key report descriptors if n-key quirked")
----
- drivers/hid/hid-asus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Andy Shevchenko (7):
+  platform/x86: asus-tf103c-dock: Use 2-argument strscpy()
+  platform/x86: hp: hp-bioscfg: Use 2-argument strscpy()
+  platform/x86: intel: chtwc_int33fe: Use 2-argument strscpy()
+  platform/x86: serial-multi-instantiate: Use 2-argument strscpy()
+  platform/x86: think-lmi: Use 2-argument strscpy()
+  platform/x86: thinkpad_acpi: Use 2-argument strscpy()
+  platform/x86: touchscreen_dmi: Use 2-argument strscpy()
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 02de2bf4f790..37e6d25593c2 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1204,8 +1204,8 @@ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 	}
- 
- 	/* match many more n-key devices */
--	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
--		for (int i = 0; i < *rsize + 1; i++) {
-+	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && *rsize > 15) {
-+		for (int i = 0; i < *rsize - 15; i++) {
- 			/* offset to the count from 0x5a report part always 14 */
- 			if (rdesc[i] == 0x85 && rdesc[i + 1] == 0x5a &&
- 			    rdesc[i + 14] == 0x95 && rdesc[i + 15] == 0x05) {
+ drivers/platform/x86/asus-tf103c-dock.c       | 10 +++++-----
+ .../x86/hp/hp-bioscfg/enum-attributes.c       | 18 +++++-------------
+ .../x86/hp/hp-bioscfg/int-attributes.c        |  7 ++-----
+ .../x86/hp/hp-bioscfg/order-list-attributes.c | 18 +++++-------------
+ .../x86/hp/hp-bioscfg/passwdobj-attributes.c  | 19 +++++--------------
+ .../x86/hp/hp-bioscfg/spmobj-attributes.c     |  3 +--
+ .../x86/hp/hp-bioscfg/string-attributes.c     | 12 ++++--------
+ drivers/platform/x86/intel/chtwc_int33fe.c    |  6 +++---
+ .../platform/x86/serial-multi-instantiate.c   |  4 ++--
+ drivers/platform/x86/think-lmi.c              |  4 ++--
+ drivers/platform/x86/thinkpad_acpi.c          |  6 ++----
+ drivers/platform/x86/touchscreen_dmi.c        |  2 +-
+ 12 files changed, 37 insertions(+), 72 deletions(-)
+
 -- 
 2.45.1
 
