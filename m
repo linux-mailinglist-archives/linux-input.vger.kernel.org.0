@@ -1,107 +1,140 @@
-Return-Path: <linux-input+bounces-4041-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4042-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7E38D7DA3
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 10:43:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4568D7E3E
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 11:15:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F7731F23849
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 08:43:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55E11B238CC
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 09:15:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D943B6EB5B;
-	Mon,  3 Jun 2024 08:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D888080039;
+	Mon,  3 Jun 2024 09:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PXt++toj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iWzm5vrN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2D6A032;
-	Mon,  3 Jun 2024 08:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533E770F1
+	for <linux-input@vger.kernel.org>; Mon,  3 Jun 2024 09:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717404208; cv=none; b=pdpwco5uzmj2zOR+e2ekunxuKscZOmwCo4fISIrGe5QykSCc39nOdnip8NxLi6CZHAMli4RSbfoy5ssSy9nZ7F3ywQbtF722qwUtoR0yS1RwyrRv+NHKvuq/aXbeBULXtzGy6Yy12kOk+PcoSnSdiJlKk8RvIHlJgtiTzg7Xlyo=
+	t=1717406100; cv=none; b=jlnXLTBPNK8jvuGP/x79TTWq5VpCA4EhK6egu44pfTyGyat2tKa88vjB9PnrE8oqME/fzweBuSktpQOG/hzPkenyfTzk7y4FZOoRcY4wdMybiMHJ6QuAf18TarQ3Xszc+Bgn7TXfXzVK3FaNu6d97990OYK3Mm4sPXcsyYIkpOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717404208; c=relaxed/simple;
-	bh=eJIV/jebYVXPHvZaB9P06fnUZf5mzRKSx+cI6OfoOnU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EBXtZEmbnhCYu0xaOXsBg83BFExzuLNncYNbpH5WX5IW2MmvfeE1THCBxPTYUsyaWRJ7A/zZMEeBy8Ilbzq+CV8eHKe98GQJPRpJ4qgfUQfyMch1CAkddnd7jW+S5GtytvrmGryCMArdAcrrpNQAK5/R/Ta/0yOfwzSpHL6Y9HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PXt++toj; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717404208; x=1748940208;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=eJIV/jebYVXPHvZaB9P06fnUZf5mzRKSx+cI6OfoOnU=;
-  b=PXt++tojED4gVYMYfC2Dn7hH7lZ3eSWiSp4MOtX3vMZfqlgTewqDvlT+
-   A4qH2/Fl0eW2R9lu4P0Qazw33E5nutNHpf4aAGk7ijBeuriMVeUSgYoNv
-   xY44HPnNctnsn5UecZbybLulaH8pRZZY3BmqzgCp+EQr3uW093QMFelNl
-   lxiIYcMW3apg2tSpC9vhamnK/GG0/aGcoWR46q5pQOXOB+VmCsJ2WksTj
-   qP6YJM/n7Q0VzDJnXn4C7LbKCtVZ1WTH3hahhwJvYj2VhSF9GO2TR3Gw2
-   msBLY0O1quZZsxEqP23Tk7p2tRb3e9LDcTPpau/xTPq2/bQBpZl5h+13u
-   Q==;
-X-CSE-ConnectionGUID: xu8qiJASQV6eBOLfdqT77g==
-X-CSE-MsgGUID: 0LIuUtBoSqG/knUbKEWA/A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="17713349"
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="17713349"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 01:43:27 -0700
-X-CSE-ConnectionGUID: XYwI3YB6RTS6Kp9xhYRVvw==
-X-CSE-MsgGUID: I78gk7t/QWmI3Hgclw0h6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="41257037"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.19])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 01:43:26 -0700
-Message-ID: <b0d758c495b7dd16076d896c41f5c38af48b863f.camel@linux.intel.com>
-Subject: Re: [PATCH 2/2] HID: intel-ish-hid: add MODULE_DESCRIPTION()
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, Jiri Kosina
- <jikos@kernel.org>,  Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org
-Date: Mon, 03 Jun 2024 01:43:26 -0700
-In-Reply-To: <20240525-kd-ishtp_wait_resume-v1-2-fec87a6f7916@quicinc.com>
-References: <20240525-kd-ishtp_wait_resume-v1-0-fec87a6f7916@quicinc.com>
-	 <20240525-kd-ishtp_wait_resume-v1-2-fec87a6f7916@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1717406100; c=relaxed/simple;
+	bh=RUdhv/rV66TofoZ/+ZusaQUHGKegZw/ZPFoN3z59CkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JTehNzbrxVcMZC1AwLBqAXG5AQ+Wj8U3wpF5kucsEt6p200oMSrkCYKqVj5AoQYvMGUHTGlsC4d3RpIiodvW/E2MuJ04uUNZthigoPcNOW79rXQVrWfJkBmijAKeW5rTXxrcrYCyTyAKcvxvNOxrBrJlFAKHdFGYheQa3FK6pbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iWzm5vrN; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717406098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=elJN2/S+zNiKtT9pH96MRDhhv69WvQATNgXhmP4Js+w=;
+	b=iWzm5vrNAV1uL+KWuPbs0mn4IoPZCBBg4T7z67AvhgXGXGT/e5B4THaRw3+4Cdv+uYgAGe
+	+pe6YZMEH45fPidAR7gDsr4y1WapwqH/JtqQfEAcQQF23SbgGOywIaF+cLuao+DV+PT50Q
+	cDFCl/4qvOnLEtCt6IryEPfGmuvYwLQ=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-44-1eiiIrhHOv-vqeIC2f3fzA-1; Mon, 03 Jun 2024 05:14:56 -0400
+X-MC-Unique: 1eiiIrhHOv-vqeIC2f3fzA-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2ea9aeae4e6so19363851fa.0
+        for <linux-input@vger.kernel.org>; Mon, 03 Jun 2024 02:14:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717406095; x=1718010895;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=elJN2/S+zNiKtT9pH96MRDhhv69WvQATNgXhmP4Js+w=;
+        b=mNqPus0kAztvF3WYEDoVUkHFZxh7K0zgCABcw5/LpBClxKGhxcCdPVfSA0YHK8NmI5
+         nbBjCeYuyCChTdI3iVAHNDlVHNw6DI9g6IW4s0rtU7a7916fnI7wdnw1IrcEItMxOVjs
+         japmN0AvW1I5lOFBKqQpJqAXyAMgIQwLvWx6FbGk1IKi7tmTgKJwVRuWBFoFrkdrGat1
+         hh+P3b94FANrCVNtiYMmluWb+ciOUvnbG09+BNKUkmIYaVB3WB9aSkHf85Xvd7R8E9ra
+         4CpAKRYzHxtCof5n7Jb9B7MsU9uw2YkLVsE2ux1ZZmidTPs9Q9CyEWmTuzw4bhWqYwa2
+         rYrg==
+X-Gm-Message-State: AOJu0YyhS1WN5t7dLivEcNFNOt1eB6sB/3kQkyLpbUtvDvvJnIBKn4OX
+	SkJKJPPv4uFdVtgNq+/1D6Rscai7ZuGTS6wrM+ekSnsmIZCaWPrQNi3U0/4jApE2l04ZaZP+guu
+	JucVYLi+c+WIQYveVCAhqetjDBptRbi12a/X4XjltIWVm7C8/fiAj0nVukVMm
+X-Received: by 2002:a05:651c:2112:b0:2ea:7dc3:bdc with SMTP id 38308e7fff4ca-2ea951ddecfmr84042741fa.40.1717406095115;
+        Mon, 03 Jun 2024 02:14:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGNrbHFnrr7U2i5f2P28bJU9GNKZDttPSaEpiR/axgOakGkvJT++VeRbq1nIOoBMsJWVbBVCA==
+X-Received: by 2002:a05:651c:2112:b0:2ea:7dc3:bdc with SMTP id 38308e7fff4ca-2ea951ddecfmr84042501fa.40.1717406094649;
+        Mon, 03 Jun 2024 02:14:54 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68f77ec99dsm199907566b.106.2024.06.03.02.14.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jun 2024 02:14:54 -0700 (PDT)
+Message-ID: <dd3f15f6-6e42-4da1-8ed3-3d526f08369c@redhat.com>
+Date: Mon, 3 Jun 2024 11:14:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Input: silead - Always support 10 fingers
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>
+Cc: linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20240525193854.39130-1-hdegoede@redhat.com>
+Content-Language: en-US
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240525193854.39130-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2024-05-25 at 08:17 -0700, Jeff Johnson wrote:
-> Fix the 'make W=3D1' warning:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/intel-
-> ish-hid/intel-ishtp.o
->=20
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Hi,
 
-> ---
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/bus.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> index f3042c4b8710..cc76b295b632 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-> +++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-> @@ -932,4 +932,5 @@ static void __exit ishtp_bus_unregister(void)
-> =C2=A0module_init(ishtp_bus_register);
-> =C2=A0module_exit(ishtp_bus_unregister);
-> =C2=A0
-> +MODULE_DESCRIPTION("ISHTP bus driver");
-> =C2=A0MODULE_LICENSE("GPL");
->=20
+On 5/25/24 9:38 PM, Hans de Goede wrote:
+> Hi all,
+> 
+> The first patch in this series stops making the maximum number of supported
+> fingers in silead_ts configurable, replacing this with simply hardcoding it
+> to 10.
+> 
+> The main reason for doing so is to avoid the need to have a boiler-plate
+> "silead,max-fingers=10" property in each silead touchscreen config.
+> The second patch removes this boilerplate from all silead touchscreen
+> configs in touchscreen_dmi.c .
+> 
+> Dmitry, since touchscreen_dmi.c sees regular updates I believe it is
+> best to merge the 2 patches separately. As long as I know that patch 1/2
+> is queued for merging for say 6.11 then I can merge patch 2/2 independently
+> for the same cycle.
+
+As discussed I've added this series my review-hans (soon to be fixes) branch now.
+This is more of a cleanup then a pure fix, but since the DMI quirks always get
+updated through the fixes branch this avoids conflicts.
+
+Regards,
+
+Hans
+
+
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> Hans de Goede (2):
+>   Input: silead - Always support 10 fingers
+>   platform/x86: touchscreen_dmi: Drop "silead,max-fingers" property
+> 
+>  drivers/input/touchscreen/silead.c     | 19 +++------
+>  drivers/platform/x86/touchscreen_dmi.c | 56 --------------------------
+>  2 files changed, 5 insertions(+), 70 deletions(-)
+> 
 
 
