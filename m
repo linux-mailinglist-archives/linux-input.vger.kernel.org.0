@@ -1,106 +1,172 @@
-Return-Path: <linux-input+bounces-4045-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4047-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F33D8D81A9
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 13:54:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D15F48D8638
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 17:40:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59A20281483
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 11:54:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E89CB2337D
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jun 2024 15:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F1C98625D;
-	Mon,  3 Jun 2024 11:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE140132110;
+	Mon,  3 Jun 2024 15:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lw0TtGBh"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KT8IO7EZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A968595B;
-	Mon,  3 Jun 2024 11:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3767A12DD95;
+	Mon,  3 Jun 2024 15:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717415652; cv=none; b=Kl7Qyn5AX8YfeH8xBhhouVr0RZ/dCBhcVALKv3sovcUt94TFSOkkQtO4oTV7LHM4qCPAilkv4aJpxWHmYzA/l9ulUYGOC41t1UKKU7XL0ujNsnkXQ3FjUDwNS6uS1//HFabqSBw7p4WCCHmFpOlwFiDjIrhKPfrb8lv4DHf/TxY=
+	t=1717429239; cv=none; b=lJ4qG/CP/Q6ZMrdZ7n2+OL78v1vAwSGkOgCI6/pAWFkR/nKtF7V3B5utVtRcpRiF5SM2XIzgd81LzG25HWbqCoaC6exLZZh0ZE+I+adoRXRxj0gZse/z0+sscSCEHfFWgtCb5AxBf4N14lQBc5h4NHye4M+h/npsxVwMVAXeBa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717415652; c=relaxed/simple;
-	bh=GPMUJJ53l+0ecXS1pAoUJQYrHF+UZHS+9Mt++PXszzU=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=s04M1AUnkBiAJyDhMwQ8TAYVxc2f1bRm7Ss//LTss3YA365RoeqQiLtmLtu5FUIC+g32rC9yVkjcml2GnDO4WkxPPzg3ASBg8Zn9s8QkNLJbr1c0Ic2rsvrswwSutrUVVdI4aRkfHNS9+JdWcp0Rmbd6ysT0/2xT7xx834RDiE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lw0TtGBh; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717415651; x=1748951651;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=GPMUJJ53l+0ecXS1pAoUJQYrHF+UZHS+9Mt++PXszzU=;
-  b=lw0TtGBh+DQXKWh1iIb8hLe1oY/jwgiSCBSdtzV7OnmkHauzTkfDHQvW
-   WuVNnZkLb2LudwyRzIooHNcODTnpZS7YHnZQwkmDhmIZcrRVY4iocy8a/
-   LaEHpqAU0loYeOiJkSXrF5VbkHte99yfms+aThhDCnf0AnQGDRLdfm8n3
-   4JdfDa1Gd5Z1kxUuJFF6iv+iKM1fO9KXYj9KvHag3yEHutIWiQLziiI5d
-   NpfRXt6SjpcATUJrCPZyKJ0nu1TX888C0lMliYlwJ/JhwCO6capW4CBeD
-   1LxupYrzeUlD+cyNE4rwA1DQ4MhiT9gzM5AfqRF7t0Pp938kes2MC5rmm
-   Q==;
-X-CSE-ConnectionGUID: Rr2AK2xvQiCcl4NkXv3hxQ==
-X-CSE-MsgGUID: fzzvlTjCRMySF9qe+lMITg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13650913"
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="13650913"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 04:54:10 -0700
-X-CSE-ConnectionGUID: eHH8JyTaRQ2o1D3/0McGlQ==
-X-CSE-MsgGUID: UO/ceDCRQKu7ajfICb02Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="36753925"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.161])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 04:54:06 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 3 Jun 2024 14:54:01 +0300 (EEST)
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-cc: Hans de Goede <hdegoede@redhat.com>, Jorge Lopez <jorge.lopez2@hp.com>, 
-    Li Zetao <lizetao1@huawei.com>, 
-    Simon Trimmer <simont@opensource.cirrus.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    ibm-acpi-devel@lists.sourceforge.net, linux-input@vger.kernel.org, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D. Jones" <luke@ljones.dev>, Mark Pearson <markpearson@lenovo.com>, 
-    Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: Re: [PATCH v1 0/7] platform/x86: Move to 2-argument strscpy()
-In-Reply-To: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
-Message-ID: <35a722b6-995b-25d9-189c-5283a52a379f@linux.intel.com>
-References: <20240602090244.1666360-1-andy.shevchenko@gmail.com>
+	s=arc-20240116; t=1717429239; c=relaxed/simple;
+	bh=QMKBERARQh+aEmyxPKqRKzXoqlEfVpsBXidX22h4xRw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lEEBlCMa44edR666n2eO0kN5lhYl9QDqblAPTWc6saRYGxMB6pciQ7jeAxJOgRXiNT9RKRg13qUmjt9okNiNXyfpQ/z8uqXGaEpNY5XOBfYeORTscoZDCr6xw/Igba07nIKLdjdlFlcTAknALi9GGUjSz9PJMgKVjdGz7ZV8trs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KT8IO7EZ; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CB1FA1C0004;
+	Mon,  3 Jun 2024 15:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1717429228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FkFl+MFpTJonp1P30dypjdjGMEjZ4vm1ME+Y9uPEE/c=;
+	b=KT8IO7EZyntx5Ag6iNsJs8KOR7RPyZdoQR4BrpftccXo5lQ8Ti2V/alL1m7tLwgJvHUrpV
+	k8ycifSragZ2x3FWWvHitHXu6ILnIIg2GCijlQeD6A+bqDYBtoO3zOnjmbsIwdTiUNpPRY
+	GJtxlrySV1tc4TOo56gSulZ4wopFs82u455cVJM46hs6MlbrIrw8H2a59kBpkBDWGq3YlN
+	p5hAU86NxzMn5FowBYSO1OMGt1gjLTL9KqJfCrIDtUbJdog2mL9K+27mKyKY0CLZ7GpfEI
+	V4f+nDGhOK6UO5479khttcY9h7zveAvdr5H8ltKJCq4dfbBeTO3ubMSr8TfMDA==
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [PATCH v13 0/3] Input: Add TouchNetix axiom touchscreen driver
+Date: Mon,  3 Jun 2024 17:39:22 +0200
+Message-ID: <20240603153929.29218-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: kamel.bouhara@bootlin.com
 
-On Sun, 2 Jun 2024, Andy Shevchenko wrote:
+Add a new driver for the TouchNetix's axiom family of touchscreen
+controller. This driver only support i2c and can be later adapted for
+SPI and USB support.
 
-> Move to 2-argument strscpy() to make code shorter and have an additional check.
-> No functional change intended.
-> 
-> Some cases are let untouched where it looks better with the 3rd argument.
-> 
-> Andy Shevchenko (7):
->   platform/x86: asus-tf103c-dock: Use 2-argument strscpy()
->   platform/x86: hp: hp-bioscfg: Use 2-argument strscpy()
->   platform/x86: intel: chtwc_int33fe: Use 2-argument strscpy()
->   platform/x86: serial-multi-instantiate: Use 2-argument strscpy()
->   platform/x86: think-lmi: Use 2-argument strscpy()
->   platform/x86: thinkpad_acpi: Use 2-argument strscpy()
->   platform/x86: touchscreen_dmi: Use 2-argument strscpy()
+--
+Changes in v13:
+ - Fix CRC16 not selected reported in:https://lore.kernel.org/oe-kbuild-all/202405311035.5QZSREJv-lkp@intel.com/
+ - Rebase on v6.10-rc2
 
-Patches 1-6 applied to review-ilpo branch.
+Changes in v12:
+ - Fix REGMAP_I2C not selected
+ - Rebase on v6.10-rc1
 
--- 
- i.
+Changes in v11:
+ - Fix regulators name to match dt-binding
+ - Enable regulators before reset is asserted
+
+Changes in v10:
+ - Set regulators as required
+ - Enable power supply before reset
+ - Fix ref count due to regulator requested twice
+ - Rebase on v6.9-rc4
+
+Changes in v9:
+ - Fix issue reported in https://lore.kernel.org/oe-kbuild-all/202402201157.BKo97uWl-lkp@intel.com/
+ - Rebase on v6.8-rc2
+
+Changes in v8:
+ - Fix missing call to input_report_slot_state()
+ - Fix issue reported in https://lore.kernel.org/oe-kbuild-all/202402020623.8T1Ah513-lkp@intel.com/
+
+Changes in v7:
+ - Remove startup time from dt-binding
+ - Fix usage table not correctly populated
+
+Changes in v6:
+ - Fix missing unevaluatedProperties.in dt-binding
+ - Use __le16 to correctly deal with device endianness
+ - Use standart kernel types s/char/u8/
+ - Use regmap api as driver might support spi later
+ - Use get_unaligned_le16() for the sake of clarity
+ - Use devm_regulator_enable_optional()
+
+Changes in v5:
+ - Fix wrong message constructed in axiom_i2c_read
+ - Delay required between i2c reads is >= 250us
+ - Do not split report reading in two phases as we'll
+   have to wait 500us
+ - Use lower-case in properties names
+ - Make regulators properties are required in dt-binding
+ - Fix bug report: https://lore.kernel.org/lkml/202312051457.y3N1q3sZ-lkp@intel.com/
+ - Fix bug report: https://lore.kernel.org/lkml/6f8e3b64-5b21-4a50-8680-063ef7a93bdb@suswa.mountain/
+
+Changes in v4:
+ - Cleanup unused headers and macros
+ - Use standard kernel type
+ - Namespace structures and functions
+ - Use packed struct when possible to avoid bitfield operators
+ - Fix missing break when address is found in axiom_populate_target_address()
+ - Split reads in two steps for the reports, first length then report
+   itself so we only read required bytes
+ - Get poll-interval from devicetree
+ - Add VDDI/VDDA regulators
+ - Add a startup delay of 110 ms required after VDDA/VDDI is applied
+ - Remove axiom_i2c_write() as it is no more used
+
+Changes in v3:
+ - Remove irq-gpios property in dt-binding
+ - Use a generic node name
+ - Fix issues reported in https://lore.kernel.org/oe-kbuild-all/202310100300.oAC2M62R-lkp@intel.com/
+
+Changes in v2:
+ - Add device tree binding documentation
+ - Move core functions in axiom_i2c as we only care about i2c support now
+ - Use static function when required
+ - Use syntax dev_err_probe()
+ - Add an hardware based reset
+
+Kamel Bouhara (3):
+  dt-bindings: vendor-prefixes: Add TouchNetix AS
+  dt-bindings: input: Add TouchNetix axiom touchscreen
+  Input: Add TouchNetix axiom i2c touchscreen driver
+
+ .../input/touchscreen/touchnetix,ax54a.yaml   |  62 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ drivers/input/touchscreen/Kconfig             |  14 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/touchnetix_axiom.c  | 657 ++++++++++++++++++
+ 6 files changed, 744 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
+ create mode 100644 drivers/input/touchscreen/touchnetix_axiom.c
+
+--
+2.25.1
 
 
