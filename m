@@ -1,118 +1,120 @@
-Return-Path: <linux-input+bounces-4073-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4074-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313E68FAF54
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 11:57:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA958FB0FC
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 13:23:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 622F51C203B1
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 09:57:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0020028328C
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 11:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5881B14372F;
-	Tue,  4 Jun 2024 09:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F68D14532B;
+	Tue,  4 Jun 2024 11:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfWTU/yC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A39763A5
-	for <linux-input@vger.kernel.org>; Tue,  4 Jun 2024 09:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33B41442E3;
+	Tue,  4 Jun 2024 11:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717495070; cv=none; b=sgYQqIjHdQwvqd7NUYSbBlfuwUd0/Kfo+PQV2Hgu8zfQ7FYlBiYL8+u1JohiO4uipSltoj0O1CZ4ix0i5PfkUKSjQoPtsJKMSUoO617PcPIcFqM6KGHwtwLDBv+rezYyrIyg9hGoJJRgQasVCkiVqBRMPvfrl/vp7tbeRwjbL+k=
+	t=1717500206; cv=none; b=Z6hkysnGTBfL8ytFkWJKIibkT09ur+JoFxTHt4M2WDbh7U6v0Pmn/oinFtP7OH+BKFm8ChHf/gd5vgJLg67yFiSFBN6zuj5K01lLLnLRu35RBmnMVfTs1konsqozrrt3RL7TOoUgvqb27p+XpZtZLEMdJwihVvJwqDpy5mPrvMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717495070; c=relaxed/simple;
-	bh=QVHxEpr0WQ94Cald7rpZEKG+280vBGJxTVyGdS/dlFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JoBEUYY5bcpXRU+lnw/2E/ngO9Rkb8yhMHsLHOe4etMmWXRn3bMLV6OA0xYii1oF02LOzmC4Q8jjnmKxYr4VWBICV3g2CGTrs8n6IyoMXFHuAYZaKJCZMlelFLF14ETqXHvmw6ixCC88erbh1Lpc8hBRrqEmB3zrjWtT5gIzhDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ontake.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ontake.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e724bc46c4so60571011fa.2
-        for <linux-input@vger.kernel.org>; Tue, 04 Jun 2024 02:57:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717495065; x=1718099865;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TF/BCZILBUFHNUU4I2tKZHNtRu2x3ZjcJUu5t32H3io=;
-        b=JZ22OSw9FT0Mbbg/ZoARHGAzYcDDr47tqq6rKw0ivAMStoT/1WFyYe5zw6+j2K60kp
-         kAw6eDo4kaIEpGA2CPEgCHUZW1Db8w2ZdYiIXOPtfNORviHIHxBKALezfhoTZpDlt1xb
-         LAfh9StTw6InXWO9dVKhSOWQ+zvcKToGT5MxLUPRDqNJAD8CbGOXPR2xVSHUno+5z0Qk
-         Tjn5Hindzcb7TM6Q1+lFXsRWi0bVToyGuKl1mw8Ho4psNd/fnb8V1SOnSEs8gm0JJdlO
-         7M3U8thhpeJG84XqjyQrESi0AC/Rc+ZQYfrttZvLaXCYQzpfkwkjHNzAx2n4tGT0gYBo
-         hKRg==
-X-Gm-Message-State: AOJu0Yybmg6CsOTSoIQ0JfBb7H6SZHHJoN3da3WD7yFs5u/Md8JkMNhr
-	H7/Z9hlixvKi2KTcpgLbMlaDyo6zOQBhbCAO5TJvOUeSBP8XYVrHVHcwYKpz
-X-Google-Smtp-Source: AGHT+IEOsCX47XO3v728bYyE2GqMQJqlDP8PmM7vblbP7yg38cngGZcjudO7r4/updM3DJb0Eb5uwg==
-X-Received: by 2002:a05:651c:1423:b0:2ea:83fb:3e1f with SMTP id 38308e7fff4ca-2ea951e0982mr66316661fa.37.1717495064909;
-        Tue, 04 Jun 2024 02:57:44 -0700 (PDT)
-Received: from yuki-p.localnet (2a01cb080b6cd900a25451af8350d755.ipv6.abo.wanadoo.fr. [2a01:cb08:b6c:d900:a254:51af:8350:d755])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4212b8a758csm146691165e9.36.2024.06.04.02.57.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:57:44 -0700 (PDT)
-From: Louis Dalibard <ontake@ontake.dev>
-To: linux-input@vger.kernel.org
-Cc: jikos@kernel.org, bentiss@kernel.org
-Subject:
- [PATCH] HID: Ignore battery for ELAN touchscreens 2F2C and 4116 on ASUS
- Zenbook 14 OLED (2023) and ASUS Zenbook Pro 14 OLED (2023)
-Date: Tue, 04 Jun 2024 11:57:44 +0200
-Message-ID: <2747286.mvXUDI8C0e@yuki-p>
+	s=arc-20240116; t=1717500206; c=relaxed/simple;
+	bh=IoD1rYuc39XAqZaHhZqHonxQQWSS0sseJz2Cx9pU6QM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=B95hz/lT6qk6DK/pcunoR13hQUwJEJS1QoaqAiJ58GAQ3UnO4CP2gfuV+pEYDQ8KrD1R2yY7RFsTWh01z9b/cR3cpi4j/ZE0b53xLJ1vO/USNWT1yJn97EAMwuxKwRlVH7WFabRKkYCQTek8ULtwwQx7yZDbFPtW01Aa6EzldYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfWTU/yC; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717500205; x=1749036205;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=IoD1rYuc39XAqZaHhZqHonxQQWSS0sseJz2Cx9pU6QM=;
+  b=PfWTU/yCpNqykBsUyIfilYn/ULiNVVlYVyllnL+QYdACPzaWoWBzIZK3
+   BRELxGTzC2NS5xz02D4h0xtWle/+PZ+ZwPALLrKB0GgM2wabz81i9gNBh
+   JNKnkOqyi/QdlYlJObE5bCrXrW2tLHxE8xbB0VJMOp1csTBJphAU+6dKF
+   RYlU8z5uawfPCBlm5Mx7bEyuF1JX1OpRWitfEfezzC0gLW0EvzbYBNmPy
+   P1VPAHxQVripiJLO24ZQmfhhMRbcvRV8e/VYdCNn3/L54jBnbb2d6d/Dl
+   8tgYGjYbGWku+70kWt27T8AQWtWXBfOG0eEq8eejXqwN6RyGC+ofTDqp7
+   A==;
+X-CSE-ConnectionGUID: uU70syWiRPew/34hMJ4LDA==
+X-CSE-MsgGUID: DTqOgGtbT8GdqAiqgXLhtQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="17876668"
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="17876668"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 04:23:24 -0700
+X-CSE-ConnectionGUID: 28UDohSwQWa2LEZzzXR+Yg==
+X-CSE-MsgGUID: yjHFfmnYS2ytERv+7dqn5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="37075851"
+Received: from thankacx-mobl3.gar.corp.intel.com ([10.215.124.111])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 04:23:21 -0700
+Message-ID: <ade5ed726ad79a3111f90370eac670c3cb1c7161.camel@linux.intel.com>
+Subject: Re: [PATCH] [v3] HID: intel-ish-hid: fix endian-conversion
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: "Zhang, Lixu" <lixu.zhang@intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>, 
+	"linux-input@vger.kernel.org"
+	 <linux-input@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>
+Date: Tue, 04 Jun 2024 04:23:15 -0700
+In-Reply-To: <DM4PR11MB599501461E04F76B9F32374093FF2@DM4PR11MB5995.namprd11.prod.outlook.com>
+References: <20240603074125.2963801-1-arnd@kernel.org>
+	 <DM4PR11MB599501461E04F76B9F32374093FF2@DM4PR11MB5995.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
 
-The touchscreen reports a battery status of 0% and jumps to 1% when a 
-stylus is used.
-The device ID was added and the battery ignore quirk was enabled for it.
+On Mon, 2024-06-03 at 08:38 +0000, Zhang, Lixu wrote:
+> > -----Original Message-----
+> > From: Arnd Bergmann <arnd@kernel.org>
+> > Sent: Monday, June 3, 2024 3:41 PM
+> > To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>; Jiri
+> > Kosina
+> > <jikos@kernel.org>; Zhang, Lixu <lixu.zhang@intel.com>
+> > Cc: Arnd Bergmann <arnd@arndb.de>; Benjamin Tissoires
+> > <bentiss@kernel.org>; linux-input@vger.kernel.org; linux-
+> > kernel@vger.kernel.org
+> > Subject: [PATCH] [v3] HID: intel-ish-hid: fix endian-conversion
+> >=20
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >=20
+> > The newly added file causes a ton of sparse warnings about the
+> > incorrect use of
+> > __le32 and similar types:
+> >=20
+> > Add the necessary conversions and use temporary variables where
+> > appropriate
+> > to avoid converting back.
+> >=20
+> > Fixes: 579a267e4617 ("HID: intel-ish-hid: Implement loading
+> > firmware from
+> > host feature")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Zhang Lixu <lixu.zhang@intel.com>
+> Tested-by: Zhang Lixu <lixu.zhang@intel.com>
 
-Signed-off-by: Louis Dalibard <ontake@ontake.dev>
----
-  drivers/hid/hid-ids.h   | 2 ++
-  drivers/hid/hid-input.c | 4 ++++
-  2 files changed, 6 insertions(+)
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 61d2a21affa2..72d56ee7ce1b 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -423,6 +423,8 @@
-  #define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
-  #define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8
-  #define I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN 0x2C82
-+#define I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN 0x2F2C
-+#define I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN 0x4116
-  #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN 0x2544
-  #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN 0x2706
-  #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN 0x261A
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index e03d300d2bac..0d21590e2d2c 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -377,6 +377,10 @@ static const struct hid_device_id 
-hid_battery_quirks[] = {
-    HID_BATTERY_QUIRK_IGNORE },
-   { HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, 
-I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN),
-    HID_BATTERY_QUIRK_IGNORE },
-+ { HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN),
-+  HID_BATTERY_QUIRK_IGNORE },
-+ { HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN),
-+  HID_BATTERY_QUIRK_IGNORE },
-   { HID_USB_DEVICE(USB_VENDOR_ID_ELAN, 
-USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
-    HID_BATTERY_QUIRK_IGNORE },
-   { HID_USB_DEVICE(USB_VENDOR_ID_ELAN, 
-USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN),
--- 
-2.45.1
-
-
+>=20
+> Thanks,
+> Lixu
+> > ---
 
 
