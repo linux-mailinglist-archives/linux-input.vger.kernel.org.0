@@ -1,58 +1,56 @@
-Return-Path: <linux-input+bounces-4058-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4059-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44BD8FAC82
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 09:50:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968268FACF7
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 09:59:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D41A11C20F09
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 07:50:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8AB31C211CE
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 07:59:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45ACD1411CA;
-	Tue,  4 Jun 2024 07:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFF71411FD;
+	Tue,  4 Jun 2024 07:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzC8td35"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfoLU4/R"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C43913FD9B;
-	Tue,  4 Jun 2024 07:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C1C1411CA;
+	Tue,  4 Jun 2024 07:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717487419; cv=none; b=cruc4W9pSTzRLubHv4ybX3r2ttucLXYWP4R7Z4evNidWXKhSHjZW658w84o0KRaIKcsKZDGx4u9CZTZZ3zORmeMY/OoB9fCy7akVzVbIbOnakgRiUk9Ioz5vJzoE+VKfw9RBC6Fj0cyUuP6PuXOQNM/AFWpnLArusgxbPya+6FA=
+	t=1717487932; cv=none; b=W8CQCf4UfAgvqjazmH9a6QJDs9pRVaFxaSYGZAVjWzXArM/Jk2xETux6Q8cuGc1txXcfL9Y6OKIPfczvgsOfQJlH5iX35aPPE13epxcbmyFSWZkXM3nv4ayZdyXK1+zcVUQsfNSaokJ3SAVkDrDGYDsEpWUlq6fjeVNSGoEECjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717487419; c=relaxed/simple;
-	bh=CYiHCznNrYVF2mfPgnIV/nPZVLc+CZ3quRbhg61G0TU=;
+	s=arc-20240116; t=1717487932; c=relaxed/simple;
+	bh=/2h304tkOJFnFlQMxg3EG6MI/HuME1XtmAEkjVrYmYY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=NT2VHlLjxjxhtYcB4udD8lo4hwqINOaBY156VoRKPWAgHpZCZ/+3KpL22S/1DOxzevUmZ7lh9xjDseT2458Lxb3ThvByrbtSo8vYH0mdKI6hj/LG3vsl9Yctr/EaVAjjpUtUFU01f3pWiCEUTa8+FBqtNLP4uS6OVmOzWFFcf+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzC8td35; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D48C2BBFC;
-	Tue,  4 Jun 2024 07:50:17 +0000 (UTC)
+	 MIME-Version:Content-Type; b=KirDxwB7PqVAHrXXDd4njxY8p2ws3bKXUVvohxGSdD9W4w4jNCPIuLbmqhJO4uVKXnCq8dLAsO9VT7nQSxqUFoyzNFlLZ0YJ8Hgz3zUdYCo9+1YHbX4/wLAomUdS80ueUjJPMjNUG0R5U2ST0oxCGakCRw4ffD9AXlht3g+egTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfoLU4/R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD1BC2BBFC;
+	Tue,  4 Jun 2024 07:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717487418;
-	bh=CYiHCznNrYVF2mfPgnIV/nPZVLc+CZ3quRbhg61G0TU=;
+	s=k20201202; t=1717487931;
+	bh=/2h304tkOJFnFlQMxg3EG6MI/HuME1XtmAEkjVrYmYY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=VzC8td35o1lkH89Wd9QkG1Ov7TI3VXXrSeDzkZTU6I8rBxZtGky6Ys2WL8laGzdwr
-	 CIk8j/RCoJQbttLHXuSqmoi7s0reG8iHY0hGp/MsNRUVu47xSmbCJgGAV+Sbl54SWc
-	 Rtt1dv0kIT+ee+mP16Bic10J6Xk3KhV/mbQ+5lfglMq2b0iB4xcJ0dzKOCM3E+0ZA3
-	 xArTxYGVoKWt289itVhquCnlh8jRpbl3nGzSfIZL8nXsH1KFYSe+LQNLUFyIdjpNeF
-	 /rWElhQLhCgeWXy3wc0x7Sj4AC8lY+u2FM44KdB1fYRMSOCjkTWWRTCU9sGc3QxFa+
-	 DaQpF2XIxhLUw==
-Date: Tue, 4 Jun 2024 09:50:15 +0200 (CEST)
+	b=FfoLU4/Rw1RAUN1Ww+rsMTdeA1C0zktNuV7DVFFartqRjRUWC72cr6+Iy8lTssqya
+	 +F9a+yR0qD35AhleNxWSrCKwRqj112IL6hJtu7SN0pvYuoausgWlbDsjBM4GGFoQO9
+	 mkPiHgXe/i353/szgViaRzUHEynzpTy5bqFzRNrFAECPI5X1f9Amqjmig4ejTuEZjm
+	 KxMtnaQOGdCBMLovnIR5LmiJcnKtxEjs0tZKwwNSDITcekKklMDG0Q75SzDmMp+kBX
+	 q7axmSh2tcDoBilsNvWT8y3vYTZQgfBU7u81KJ2G6E2noenkiwErbF/Be22Cj1W6uH
+	 9EqqHakY8rM2A==
+Date: Tue, 4 Jun 2024 09:58:48 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-    Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, 
-    syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com
-Subject: Re: [PATCH] HID: core: remove unnecessary WARN_ON() in implement()
-In-Reply-To: <20240517141914.8604-1-n.zhandarovich@fintech.ru>
-Message-ID: <nycvar.YFH.7.76.2406040949170.16865@cbobk.fhfr.pm>
-References: <20240517141914.8604-1-n.zhandarovich@fintech.ru>
+To: "Hailong.Liu" <hailong.liu@oppo.com>
+cc: benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, 21cnbao@gmail.com
+Subject: Re: [PATCH] HID: Use kvzalloc instead of kzalloc in
+ hid_register_field()
+In-Reply-To: <20240522080328.12317-1-hailong.liu@oppo.com>
+Message-ID: <nycvar.YFH.7.76.2406040958380.16865@cbobk.fhfr.pm>
+References: <20240522080328.12317-1-hailong.liu@oppo.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -60,54 +58,61 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Fri, 17 May 2024, Nikita Zhandarovich wrote:
+On Wed, 22 May 2024, hailong.liu@oppo.com wrote:
 
-> Syzkaller hit a warning [1] in a call to implement() when trying
-> to write a value into a field of smaller size in an output report.
-> 
-> Since implement() already has a warn message printed out with the
-> help of hid_warn() and value in question gets trimmed with:
-> 	...
-> 	value &= m;
-> 	...
-> WARN_ON may be considered superfluous. Remove it to suppress future
-> syzkaller triggers.
-> 
-> [1]
-> WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 implement drivers/hid/hid-core.c:1451 [inline]
-> WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
-> Modules linked in:
-> CPU: 0 PID: 5084 Comm: syz-executor424 Not tainted 6.9.0-rc7-syzkaller-00183-gcf87f46fd34d #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
-> RIP: 0010:implement drivers/hid/hid-core.c:1451 [inline]
-> RIP: 0010:hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
-> ...
-> Call Trace:
->  <TASK>
->  __usbhid_submit_report drivers/hid/usbhid/hid-core.c:591 [inline]
->  usbhid_submit_report+0x43d/0x9e0 drivers/hid/usbhid/hid-core.c:636
->  hiddev_ioctl+0x138b/0x1f00 drivers/hid/usbhid/hiddev.c:726
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:904 [inline]
->  __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:890
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> ...
-> 
-> Fixes: 95d1c8951e5b ("HID: simplify implement() a bit")
-> Reported-by: syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> From: "Hailong.Liu" <hailong.liu@oppo.com>
+>=20
+> The function hid_register_field() might allocate more than 32k, which
+> would use order-4 contiguous memory if the parameter usage exceeds
+> 1024. However, after the system runs for a while, the memory can
+> become heavily fragmented. This increases the likelihood of order-4 page
+> allocation failure. Here=E2=80=99s the relevant log.
+>=20
+> [71553.093623]kworker/1: 0: page allocation failure: order:4, mode:0x40dc=
+0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO), nodemask=3D(null),cpuset=3D/,mems_allo=
+wed=3D0
+> [71553.093669]Workqueue: events uhid_device_add_worker
+> [71553.093683]Call trace:
+> [71553.093687]: dump_backtrace+0xf4/0x118
+> [71553.093696]: show_stack+0x18/0x24
+> [71553.093702]: dump_stack_lvl+0x60/0x7c
+> [71553.093710]: dump_stack+0x18/0x3c
+> [71553.093717]: warn_alloc+0xf4/0x174
+> [71553.093725]: __alloc_pages_slowpath+0x1ba0/0x1cac
+> [71553.093732]: __alloc_pages+0x460/0x560
+> [71553.093738]: __kmalloc_large_node+0xbc/0x1f8
+> [71553.093746]: __kmalloc+0x144/0x254
+> [71553.093752]: hid_add_field+0x13c/0x308
+> [71553.093758]: hid_parser_main+0x250/0x298
+> [71553.093765]: hid_open_report+0x214/0x30c
+> [71553.093771]: mt_probe+0x130/0x258
+> [71553.093778]: hid_device_probe+0x11c/0x1e4
+> [71553.093784]: really_probe+0xe4/0x388
+> [71553.093791]: __driver_probe_device+0xa0/0x12c
+> [71553.093798]: driver_probe_device+0x44/0x214
+> [71553.093804]: __device_attach_driver+0xdc/0x124
+> [71553.093812]: bus_for_each_drv+0x88/0xec
+> [71553.093818]: __device_attach+0x84/0x170
+> [71553.093824]: device_initial_probe+0x14/0x20
+> [71553.093831]: bus_probe_device+0x48/0xd0
+> [71553.093836]: device_add+0x248/0x928
+> [71553.093844]: hid_add_device+0xf8/0x1a4
+> [71553.093850]: uhid_device_add_worker+0x24/0x144
+> [71553.093857]: process_one_work+0x158/0x804
+> [71553.093865]: worker_thread+0x15c/0x494
+> [71553.093872]: kthread+0xf4/0x1e4
+> [71553.093880]: ret_from_fork+0x10/0x20
+>=20
+> To fix the allocation failure, use kvzalloc() instead of kzalloc().
+>=20
+> Signed-off-by: Hailong.Liu <hailong.liu@oppo.com>
 
-I've added
+Applied, thanks.
 
-	Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-
-and applied. Thanks,
-
--- 
+--=20
 Jiri Kosina
 SUSE Labs
 
