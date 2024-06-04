@@ -1,91 +1,80 @@
-Return-Path: <linux-input+bounces-4053-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4054-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882B28FA6B9
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 02:02:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 065318FA735
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 02:50:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC9431C21C01
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 00:02:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 294981C20A53
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 00:50:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4A21FA5;
-	Tue,  4 Jun 2024 00:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F133D62;
+	Tue,  4 Jun 2024 00:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/Q5H8Dy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjU8yUVR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674C1B674;
-	Tue,  4 Jun 2024 00:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1899449;
+	Tue,  4 Jun 2024 00:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717459360; cv=none; b=IiFziItpzHgnoAgJ3XOz3KhtHnPovgYk/Cs/sNal0IsXZn26yfHMeeaif5v+lPjxW8kHhtiQSIzWuG6/SFgXRB0Cvx7k+JQLeVbVWToNbHOMkUQBy3vFq8NejN/cGyhAudD6pf/dNhVWK51bCgPsr8/cBv0aoYlGONbGGfiHPdU=
+	t=1717462230; cv=none; b=tWsWEFA5mAljMzL4SDVEYWl8rm94mtftHFy9sq6BkTLE8yLo7WbyKdHax1RmgfWSyHaBWtelK9Ux+H/+UnHqmd4/5SCwwBmZ0KDaPNlrBIPf2Z35A4qXZ43iXZCA7uvlSu6BMSB1fndtwu7gERFRfZfR65qAIsCbvldKQWkM6W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717459360; c=relaxed/simple;
-	bh=YTEIsAlfdWgwmR39quKLWZ+2CN66tC8B47AR2KgG7uA=;
+	s=arc-20240116; t=1717462230; c=relaxed/simple;
+	bh=8san4X9JMQjaMdagTvH3mOPKeTv7XpdW7tG7I0MVf/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ko6rbqsckFCnwAIVUqvbaVventosgQglpFYFnT9oZLKZWamKWNGZKil2m/bZQtHUUtIm4bwfNHY3INVDtly7N6dO19BDVgQXOolQdvtJB+WBEpF8R7hl7v6ny6/60b+tRr6qvNFOwbCQtf4Hyqa6fSGmggaz9ibQo1ykqkc967g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/Q5H8Dy; arc=none smtp.client-ip=209.85.215.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=VecCP4VDQ7zpMUdDquOrC6ALlxa1j/QCOZq/vJLyjjBmu275izJm5uA/igSw72t2qLeHhEsdduXms0IypWTM1ndPnXmYVHwe/vSnmUBIxWRNoI3jfZz+szqrzFdCQTqpFOwGkIZA96YvVaDIAY+3F0/0ZQSuOTwg1P6Juy851I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjU8yUVR; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6c7bf648207so2112924a12.0;
-        Mon, 03 Jun 2024 17:02:38 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f6134df05fso45773095ad.1;
+        Mon, 03 Jun 2024 17:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717459358; x=1718064158; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717462227; x=1718067027; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6RPcTzdQbmoPVYpLi+1a7XJcQtNQNlrqNbV6GVX/mVE=;
-        b=j/Q5H8DytXb+r/Vw7O6UpArrO36gNqHCc0wmTcuFaBZYt8v8X759YXDRe6r+MUxkG5
-         dxT2XuBV4cfGf8cF1i2HltuaQmZzKFb0JRouIZXHc3Upa0mQviptqYV1nb93alBcwNT6
-         +BTHCadTVcDmiYt3XnFbbs3N2UxAU/BrWp7VDhLxkOsU3ZXOQkp3xc3hw/dYRavK+Hko
-         psUVuvq0VaUQs+hZ0/Ck17qONwzvAM11YbDfem27uZirkFj6g7uz3Lo6heVQdu3fxhdu
-         KApGOHv4eb8HNr8D77kTmGcoRBAmPxoyyNrfVCCJT06u4qMJ/rdg//hXVPTzSDGjFJWY
-         tfjw==
+        bh=//SRNc30i1R7aCxXHEB8EPNobSp6uMkitX0SFQZ4jJM=;
+        b=BjU8yUVRyBbzMh52XzegXNwwBmWKvhM+in1K4TTrx8iuDO4BrEPp10F4KfQV57jAZW
+         tspGmERb+dq+DV/XEXsenP+wYfNN8s2HVHCItOn2gboM3GuV2ccOTsH5wYeiUXHTqV5G
+         j9kx9yb0IqY7ngghHlfHUL3Bnq25vxOZfwggdmsatd4RcrdS2k1VndHooMcAQH5MBIUf
+         /yD0GhQNjXy57AAmNHzrEUg5fivIa+BodCNj3+Tj+AmyhzGvd6K+LlHp0vhDqvgVce2v
+         p02nTUNKr3ZfSIU/u0TcJq0m1NdIeGH9RlBAKhh6WW6wuVLl3aW4uPvkr5BzbtjX0G4d
+         /TPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717459358; x=1718064158;
+        d=1e100.net; s=20230601; t=1717462227; x=1718067027;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6RPcTzdQbmoPVYpLi+1a7XJcQtNQNlrqNbV6GVX/mVE=;
-        b=NwKmaOA6eh2KgB1UDct1x8QfE6DzT1lbErUvkOEW7XZ+bSlw+nSFwCCWXyIQoWw3bb
-         BShtyWtgNlo/zE8Aenw0Hi2qbN+cXSIX1kWTWBGW5TSUN1UBxSnmAhts8BX9Rka7uujE
-         eUqbUvp0ByRT8z1qMBfMvtVuYFqYoO1AGNsOwihikSPZKE6lVcys/B91izsRLEhCX6MB
-         XWvXggK3j6ADS21QhEPX0xnfysLcOGHAbgGgwvyL288xLvSOqp7OyJGI8J+KniPeUiEt
-         8nb1gUOM6O5uEe0p02lA60Q6LH5Lcs+12lLU5Ks5N8IhWIvn/QR4Mg4xYGxvz0i8YvXq
-         5ViQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2JIHdP9HuvMxg6SuMtO38ZNTeDrkljVD+FKt6tLCuvuPSN2SZXRxbcOnOd4gZjLcuNnYis1xFQzkzXrvgEFYyEQVGDfDmPXJfTEPeNtZX+UAHJCruPtC+/CiAMH76eobvlzBTGNv5CVxuWNbErMjnzxyNWxwmD2GBzduwhmvHFpj1fO13
-X-Gm-Message-State: AOJu0YxI0p0DeeDyXhiIIKIgoVWREcuwG16viMuikS3EwQxnj0a++Ze5
-	P81/Xb3kwhpW+IQIhEi+Xk8GRIrlAu3zsuS5Rdd3mpXmry/Rb5kt
-X-Google-Smtp-Source: AGHT+IE7Mu3FdBaD+SAdFtZ7C45gRh30/LKckhW8YANrbdupiabvfl4z7L56LzeBYDURRU3JG2pwow==
-X-Received: by 2002:a17:90a:f3cc:b0:2c1:9469:11bd with SMTP id 98e67ed59e1d1-2c1dc566890mr9673617a91.3.1717459357320;
-        Mon, 03 Jun 2024 17:02:37 -0700 (PDT)
+        bh=//SRNc30i1R7aCxXHEB8EPNobSp6uMkitX0SFQZ4jJM=;
+        b=b0E69nsTX9KbXftYEC+4z77Af+Lpb+nbekLm+Dj8hU8HPZ38MZt/FhbY7kf+ZvlxCZ
+         RsU5vgDxRa3HAVL4snmTKdRl3+wHd9wwkcd6BOhAUgMXhVkyaNBoRODH0ILAJQ3sZqC1
+         +6aWANsQ1OXSn3RQmyJHwI+Zx9/aQkU2z4sfDAsxhQH/ZOlwSDyf8Tz+tbbbXd5eK07x
+         Cc1qt6G/NgqUyHeB1Yeo1SvW7i0KJ0Dylpm2BDpilnNI1sEQvBfZG3cEoBx1orxG9qrz
+         XxNN8CZrQDYbWimlsOUWUNmfVU9NToBOfn+Dx1GWE+Bn5dhBdFWCCFbfOkeusgcEfpkP
+         pv8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWLWHNDPhK/PxYmjLMTeIRGU29CXkVVTQRVeK5CNR6S1EsFGUmfO2idEWjHYyqxVhLbi+Y1A8AJDP3SVeoA5IeIMRN/gQxi5TSJGl4ScUp+CteGqVyNyWjM9CNH3PKDovdNvsTZoMzv3BQ=
+X-Gm-Message-State: AOJu0YxWjBiG7S9O42LG1RpQmZxSwT36aeE+Ei3HaBPW8/h2f7PVmQlB
+	HGhKiHjAcersfEuQ+UOXOwHhV9hmpJVJJf6diXAHNNJ37/MZ/6Vr
+X-Google-Smtp-Source: AGHT+IH1626IG64BWaKqbHgAmgrQZB3RaByqqNtei8LBTIuGoRGXKYi7d4ZBi0z+ovD/D9P1dXd0MA==
+X-Received: by 2002:a17:902:7ec8:b0:1f6:62c:96fb with SMTP id d9443c01a7336-1f637016951mr88432445ad.30.1717462226798;
+        Mon, 03 Jun 2024 17:50:26 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:17fd:ad4d:2690:4ce2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a77ae986sm8570224a91.39.2024.06.03.17.02.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f634146d7fsm69899055ad.133.2024.06.03.17.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 17:02:36 -0700 (PDT)
-Date: Mon, 3 Jun 2024 17:02:33 -0700
+        Mon, 03 Jun 2024 17:50:26 -0700 (PDT)
+Date: Mon, 3 Jun 2024 17:50:23 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v13 3/3] Input: Add TouchNetix axiom i2c touchscreen
- driver
-Message-ID: <Zl5ZmYyntq7OJOvZ@google.com>
-References: <20240603153929.29218-1-kamel.bouhara@bootlin.com>
- <20240603153929.29218-4-kamel.bouhara@bootlin.com>
+To: Charles Wang <charles.goodix@gmail.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, hbarnor@chromium.org,
+	dianders@chromium.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Message-ID: <Zl5kz_S4FJaGzfiW@google.com>
+References: <20240527042945.57054-1-charles.goodix@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,772 +83,792 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603153929.29218-4-kamel.bouhara@bootlin.com>
+In-Reply-To: <20240527042945.57054-1-charles.goodix@gmail.com>
 
-Hi Kamel,
+Hi Charles,
 
-On Mon, Jun 03, 2024 at 05:39:25PM +0200, Kamel Bouhara wrote:
-> Add a new driver for the TouchNetix's axiom family of
-> touchscreen controllers. This driver only supports i2c
-> and can be later adapted for SPI and USB support.
+> This patch introduces a new driver to support the Goodix GT7986U
+> touch controller. The data reported is packaged according to the
+> HID protocol but uses SPI for communication to improve speed. This
+> enables the device to transmit not only coordinate data but also
+> corresponding raw data that can be accessed by user-space programs
+> through the hidraw interface. The raw data can be utilized for
+> functions like palm rejection, thereby improving the touch experience.
 > 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> Key features:
+> - Device connection confirmation and initialization
+> - IRQ-based event reporting to the input subsystem
+> - Support for HIDRAW operations (GET_REPORT and SET_REPORT)
+
+Can you  please mention in the patch description that this device is not
+compatible with Microsoft's HID-over-SPI protocol and therefore needs to
+implement its own flavor.
+
+> 
+> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
 > ---
->  MAINTAINERS                                  |   2 +
->  drivers/input/touchscreen/Kconfig            |  14 +
->  drivers/input/touchscreen/Makefile           |   1 +
->  drivers/input/touchscreen/touchnetix_axiom.c | 657 +++++++++++++++++++
->  4 files changed, 674 insertions(+)
->  create mode 100644 drivers/input/touchscreen/touchnetix_axiom.c
+> Changes in v2:
+> - Fixed build warnings reported by kernel test robot
+> ---
+>  drivers/hid/Kconfig      |   6 +
+>  drivers/hid/Makefile     |   1 +
+>  drivers/hid/hid-goodix.c | 652 +++++++++++++++++++++++++++++++++++++++
+
+Do you have similar i2c parts that are not compatible with MS
+HID-over-I2C, and if you do have them do you have plans to add support
+for them to this driver? If not maybe call this hid-goodix-spi.c?
+Or maybe create drivers/hid/spi-hid/hid-goodix.c to separate HID upper
+layer drivers from the HID low layer/transport drivers?
+
+
+>  3 files changed, 659 insertions(+)
+>  create mode 100644 drivers/hid/hid-goodix.c
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 225309db4110..a3ece12e32d7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22744,9 +22744,11 @@ F:	drivers/platform/x86/toshiba-wmi.c
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 4c682c650..f57d8fb88 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -404,6 +404,12 @@ config HID_VIVALDI_COMMON
+>  	  option so that drivers can use common code to parse the HID
+>  	  descriptors for vivaldi function row keymap.
 >  
->  TOUCHNETIX AXIOM I2C TOUCHSCREEN DRIVER
->  M:	Kamel Bouhara <kamel.bouhara@bootlin.com>
-> +M:	bsp-development.geo@leica-geosystems.com
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
-> +F:	drivers/input/touchscreen/touchnetix_axiom.c
->  
->  TPM DEVICE DRIVER
->  M:	Peter Huewe <peterhuewe@gmx.de>
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index c821fe3ee794..1ce8f1c25625 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -834,6 +834,20 @@ config TOUCHSCREEN_MIGOR
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called migor_ts.
->  
-> +config TOUCHSCREEN_TOUCHNETIX_AXIOM
-> +	tristate "TouchNetix AXIOM based touchscreen controllers"
-> +	depends on I2C
-> +	select CRC16
-> +	select REGMAP_I2C
+> +config HID_GOODIX
+> +	tristate "Goodix GT7986U SPI HID touchscreen"
+> +	depends on SPI_MASTER
 > +	help
-> +	  Say Y here if you have a axiom touchscreen connected to
-> +	  your system.
+> +	  Support for Goodix GT7986U SPI HID touchscreen device.
 > +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called axiom.
-> +
->  config TOUCHSCREEN_TOUCHRIGHT
->  	tristate "Touchright serial touchscreen"
->  	select SERIO
-> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-> index a81cb5aa21a5..6ce7b804adc7 100644
-> --- a/drivers/input/touchscreen/Makefile
-> +++ b/drivers/input/touchscreen/Makefile
-> @@ -91,6 +91,7 @@ obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
->  obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI)	+= surface3_spi.o
->  obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
-> +obj-$(CONFIG_TOUCHSCREEN_TOUCHNETIX_AXIOM)	+= touchnetix_axiom.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)	+= touchwin.o
->  obj-$(CONFIG_TOUCHSCREEN_TS4800)	+= ts4800-ts.o
-> diff --git a/drivers/input/touchscreen/touchnetix_axiom.c b/drivers/input/touchscreen/touchnetix_axiom.c
+>  config HID_GOOGLE_HAMMER
+>  	tristate "Google Hammer Keyboard"
+>  	select HID_VIVALDI_COMMON
+> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+> index 082a728ea..4e799f7e5 100644
+> --- a/drivers/hid/Makefile
+> +++ b/drivers/hid/Makefile
+> @@ -54,6 +54,7 @@ obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
+>  obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
+>  obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
+>  obj-$(CONFIG_HID_VIVALDI_COMMON) += hid-vivaldi-common.o
+> +obj-$(CONFIG_HID_GOODIX)	+= hid-goodix.o
+>  obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
+>  obj-$(CONFIG_HID_GOOGLE_STADIA_FF)	+= hid-google-stadiaff.o
+>  obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
+> diff --git a/drivers/hid/hid-goodix.c b/drivers/hid/hid-goodix.c
 > new file mode 100644
-> index 000000000000..09550847392e
+> index 000000000..a67f7d9ef
 > --- /dev/null
-> +++ b/drivers/input/touchscreen/touchnetix_axiom.c
-> @@ -0,0 +1,657 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/drivers/hid/hid-goodix.c
+> @@ -0,0 +1,652 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
 > +/*
-> + * TouchNetix axiom Touchscreen Driver
+> + * Goodix GT7986U SPI Driver Code for HID.
 > + *
-> + * Copyright (C) 2020-2023 TouchNetix Ltd.
-> + *
-> + * Author(s): Bart Prescott <bartp@baasheep.co.uk>
-> + *            Pedro Torruella <pedro.torruella@touchnetix.com>
-> + *            Mark Satterthwaite <mark.satterthwaite@touchnetix.com>
-> + *            Hannah Rossiter <hannah.rossiter@touchnetix.com>
-> + *            Kamel Bouhara <kamel.bouhara@bootlin.com>
-> + *
+> + * Copyright (C) 2024 Godix, Inc.
 > + */
-> +#include <linux/bitfield.h>
-> +#include <linux/crc16.h>
+> +#include <asm/unaligned.h>
 > +#include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/input.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
+> +#include <linux/hid.h>
 > +#include <linux/interrupt.h>
 > +#include <linux/kernel.h>
 > +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/regmap.h>
+> +#include <linux/sizes.h>
+> +#include <linux/spi/spi.h>
 > +
-> +#include <asm/unaligned.h>
-> +#define AXIOM_PROX_LEVEL		-128
-> +#define AXIOM_DMA_OPS_DELAY_USEC	250
-> +#define AXIOM_STARTUP_TIME_MS		110
-> +/*
-> + * Register group u31 has 2 pages for usage table entries.
-> + */
-> +#define AXIOM_U31_MAX_USAGES		0xff
-> +#define AXIOM_U31_BYTES_PER_USAGE	6
-> +#define AXIOM_U31_PAGE0_LENGTH		0x0C
-> +#define AXIOM_U31_BOOTMODE_MASK		BIT(7)
-> +#define AXIOM_U31_DEVID_MASK		GENMASK(14, 0)
+> +#define GOODIX_DEV_CONFIRM_ADDR		0x10000
+> +#define GOODIX_HID_DESC_ADDR		0x1058C
+> +#define GOODIX_HID_REPORT_DESC_ADDR	0x105AA
+> +#define GOODIX_HID_SIGN_ADDR		0x10D32
+> +#define GOODIX_HID_REPORT_ADDR		0x22C8C
+
+I wonder if some if not all of these should come from DT/device
+properties.
+
 > +
-> +#define AXIOM_MAX_REPORT_LEN		0x7f
+> +#define GOODIX_HID_GET_REPORT_CMD	0x02
+> +#define GOODIX_HID_SET_REPORT_CMD	0x03
 > +
-> +#define AXIOM_CMD_HEADER_READ_MASK	BIT(15)
-> +#define AXIOM_U41_MAX_TARGETS		10
+> +#define GOODIX_HID_MAX_INBUF_SIZE	128
+> +#define GOODIX_HID_ACK_READY_FLAG	0x01
+> +#define GOODIX_HID_REPORT_READY_FLAG	0x80
 > +
-> +#define AXIOM_U46_AUX_CHANNELS		4
-> +#define AXIOM_U46_AUX_MASK		GENMASK(11, 0)
+> +#define GOODIX_DEV_CONFIRM_VAL		0xAA
 > +
-> +#define AXIOM_COMMS_MAX_USAGE_PAGES	3
-> +#define AXIOM_COMMS_PAGE_SIZE		256
-> +#define AXIOM_COMMS_REPORT_LEN_MASK	GENMASK(6, 0)
+> +#define GOODIX_SPI_WRITE_FLAG		0xF0
+> +#define GOODIX_SPI_READ_FLAG		0xF1
+> +#define GOODIX_SPI_TRANS_PREFIX_LEN	1
+> +#define GOODIX_REGISTER_WIDTH		4
+> +#define GOODIX_SPI_READ_DUMMY_LEN	3
+> +#define GOODIX_SPI_READ_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
+> +					 GOODIX_REGISTER_WIDTH + \
+> +					 GOODIX_SPI_READ_DUMMY_LEN)
+> +#define GOODIX_SPI_WRITE_PREFIX_LEN	(GOODIX_SPI_TRANS_PREFIX_LEN + \
+> +					 GOODIX_REGISTER_WIDTH)
 > +
-> +#define AXIOM_REPORT_USAGE_ID		0x34
-> +#define AXIOM_DEVINFO_USAGE_ID		0x31
-> +#define AXIOM_USAGE_2HB_REPORT_ID	0x01
-> +#define AXIOM_USAGE_2AUX_REPORT_ID	0x46
-> +#define AXIOM_USAGE_2DCTS_REPORT_ID	0x41
+> +#define GOODIX_CHECKSUM_SIZE		sizeof(u16)
+> +#define GOODIX_NORMAL_RESET_DELAY_MS	150
 > +
-> +#define AXIOM_PAGE_OFFSET_MASK		GENMASK(6, 0)
+> +struct goodix_hid_report_header {
+> +	u8 flag;
+> +	__le16 size;
+> +} __packed;
+> +#define GOODIX_HID_ACK_HEADER_SIZE	sizeof(struct goodix_hid_report_header)
 > +
-> +struct axiom_devinfo {
-> +	__le16 device_id;
-> +	u8 fw_minor;
-> +	u8 fw_major;
-> +	u8 fw_info_extra;
-> +	u8 tcp_revision;
-> +	u8 bootloader_fw_minor;
-> +	u8 bootloader_fw_major;
-> +	__le16 jedec_id;
-> +	u8 num_usages;
+> +struct goodix_hid_report_package {
+> +	__le16 size;
+> +	u8 data[];
+> +};
+> +
+> +#define GOODIX_HID_PKG_LEN_SIZE		sizeof(u16)
+> +#define GOODIX_HID_COOR_DATA_LEN	82
+> +#define GOODIX_HID_COOR_PKG_LEN		(GOODIX_HID_PKG_LEN_SIZE + \
+> +					 GOODIX_HID_COOR_DATA_LEN)
+> +
+> +#define GOODIX_REPORT_DATA_ADDR		(GOODIX_HID_REPORT_ADDR + \
+> +					 GOODIX_HID_ACK_HEADER_SIZE + \
+> +					 GOODIX_HID_PKG_LEN_SIZE)
+> +
+> +struct goodix_hid_report_event {
+> +	struct goodix_hid_report_header hdr;
+> +	u8 data[GOODIX_HID_COOR_PKG_LEN];
 > +} __packed;
 > +
-> +/*
-> + * Describes parameters of a specific usage, essentially a single element of
-> + * the "Usage Table"
-> + */
-> +struct axiom_usage_entry {
-> +	u8 id;
-> +	u8 is_report;
-
-This is probably a 'bool'.
-
-> +	u8 start_page;
-> +	u8 num_pages;
-> +};
-> +
-> +/*
-> + * Represents state of a touch or target when detected prior to a touch (eg.
-> + * hover or proximity events).
-> + */
-> +enum axiom_target_state {
-> +	AXIOM_TARGET_STATE_NOT_PRESENT = 0,
-> +	AXIOM_TARGET_STATE_PROX = 1,
-> +	AXIOM_TARGET_STATE_HOVER = 2,
-> +	AXIOM_TARGET_STATE_TOUCHING = 3,
-> +};
-> +
-> +struct axiom_u41_target {
-> +	enum axiom_target_state state;
-> +	u16 x;
-> +	u16 y;
-> +	s8 z;
-> +	bool insert;
-
-What does "insert" mean here?
-
-> +	bool touch;
-> +};
-> +
-> +struct axiom_target_report {
-> +	u8 index;
-> +	u8 present;
-
-bool?
-
-> +	u16 x;
-> +	u16 y;
-> +	s8 z;
-> +};
-> +
-> +struct axiom_cmd_header {
-> +	__le16 target_address;
-> +	__le16 length;
+> +struct goodix_hid_desc {
+> +	__le16 desc_length;
+> +	__le16 bcd_version;
+> +	__le16 report_desc_lenght;
+> +	__le16 report_desc_register;
+> +	__le16 input_register;
+> +	__le16 max_input_length;
+> +	__le16 output_register;
+> +	__le16 max_output_length;
+> +	__le16 cmd_register;
+> +	__le16 data_register;
+> +	__le16 vendor_id;
+> +	__le16 product_id;
+> +	__le16 version_id;
+> +	__le32 reserved;
 > +} __packed;
-
-You do not need to declare this as packed, it is naturally aligned. You
-can also make it a union with __le32 to ensure overall alignment.
-
 > +
-> +struct axiom_data {
-> +	struct axiom_devinfo devinfo;
+> +struct goodix_ts_data {
 > +	struct device *dev;
+> +	struct spi_device *spi;
+> +	struct hid_device *hid;
+> +	struct goodix_hid_desc hid_desc;
+> +
 > +	struct gpio_desc *reset_gpio;
-> +	struct i2c_client *client;
-> +	struct input_dev *input_dev;
-> +	u32 max_report_len;
-> +	u8 rx_buf[AXIOM_COMMS_MAX_USAGE_PAGES * AXIOM_COMMS_PAGE_SIZE];
-> +	struct axiom_u41_target targets[AXIOM_U41_MAX_TARGETS];
-> +	struct axiom_usage_entry usage_table[AXIOM_U31_MAX_USAGES];
-> +	bool usage_table_populated;
-> +	struct regmap *regmap;
-> +	struct touchscreen_properties	prop;
+> +
+> +	/* Buffer used to store hid report data */
+> +	u8 xfer_buf[SZ_4K];
+
+Maybe have it as ____cacheline_aligned to allow SPI controller to DMA to
+it directly. 
+
 > +};
 > +
-> +static const struct regmap_config axiom_i2c_regmap_config = {
-> +	.reg_bits = 32,
-> +	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-> +	.val_bits = 8,
-> +	.val_format_endian = REGMAP_ENDIAN_LITTLE,
-> +};
-> +
-> +/*
-> + * axiom devices are typically configured to report touches at a rate
-> + * of 100Hz (10ms) for systems that require polling for reports.
-> + * When reports are polled, it will be expected to occasionally
-> + * observe the overflow bit being set in the reports.
-> + * This indicates that reports are not being read fast enough.
-> + */
-> +#define POLL_INTERVAL_DEFAULT_MS 10
-> +
-> +/* Translate usage/page/offset triplet into physical address. */
-> +static u16 axiom_usage_to_target_address(struct axiom_data *ts, u8 usage, u8 page,
-> +					 char offset)
+> +static int goodix_spi_read(struct goodix_ts_data *ts, u32 addr,
+> +			   u8 *data, unsigned int len)
 > +{
-> +	/* At the moment the convention is that u31 is always at physical address 0x0 */
-> +	if (!ts->usage_table_populated) {
-> +		if (usage == AXIOM_DEVINFO_USAGE_ID)
-> +			return ((page << 8) + offset);
-> +		else
-> +			return 0xffff;
-> +	}
+> +	struct spi_device *spi = to_spi_device(&ts->spi->dev);
+> +	struct spi_transfer xfers;
+> +	struct spi_message spi_msg;
+> +	u8 *buf;
+> +	int error;
 > +
-> +	if (page >= ts->usage_table[usage].num_pages) {
-> +		dev_err(ts->dev, "Invalid usage table! usage: u%02x, page: %02x, offset: %02x\n",
-> +			usage, page, offset);
-> +		return 0xffff;
-> +	}
+> +	buf = kzalloc(GOODIX_SPI_READ_PREFIX_LEN + len, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+
+Can you try using ts->xfer_buf without making allocations and copies?
+Maybe have goodix_spi_read() have data as u8 **data, and do
+
+	*data = buf + GOODIX_SPI_READ_PREFIX_LEN;
+	return 0;
+
+at the end. I.e. callers do not supply buffer but rather are given one.
+Of course you need to make sure there are no concurrent calls to
+goodix_spi_read(), but I do not think you have them anyways.
+
+
 > +
-> +	return ((ts->usage_table[usage].start_page + page) << 8) + offset;
+> +	spi_message_init(&spi_msg);
+> +	memset(&xfers, 0, sizeof(xfers));
+> +
+> +	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
+> +	buf[0] = GOODIX_SPI_READ_FLAG;
+> +	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
+> +	memset(buf + GOODIX_SPI_TRANS_PREFIX_LEN + GOODIX_REGISTER_WIDTH,
+> +	       0xff, GOODIX_SPI_READ_DUMMY_LEN);
+
+Does the "data" have to be set to 0xff?
+
+> +
+> +	xfers.tx_buf = buf;
+> +	xfers.rx_buf = buf;
+> +	xfers.len = GOODIX_SPI_READ_PREFIX_LEN + len;
+> +	xfers.cs_change = 0;
+> +	spi_message_add_tail(&xfers, &spi_msg);
+> +
+> +	error = spi_sync(spi, &spi_msg);
+> +	if (error)
+> +		dev_err(ts->dev, "spi transfer error:%d", error);
+> +	else
+> +		memcpy(data, buf + GOODIX_SPI_READ_PREFIX_LEN, len);
+> +
+> +	kfree(buf);
+> +	return error;
 > +}
 > +
-> +static int axiom_read(struct axiom_data *ts, u8 usage, u8 page, void *buf, u16 len)
+> +static int goodix_spi_write(struct goodix_ts_data *ts, u32 addr,
+> +			    u8 *data, unsigned int len)
 > +{
-> +	struct axiom_cmd_header cmd_header;
-> +	u32 preamble;
-> +	int ret;
+> +	struct spi_device *spi = to_spi_device(&ts->spi->dev);
+> +	struct spi_transfer xfers;
+> +	struct spi_message spi_msg;
+> +	u8 *buf;
+> +	int error;
 > +
-> +	cmd_header.target_address = cpu_to_le16(axiom_usage_to_target_address(ts, usage, page, 0));
-> +	cmd_header.length = cpu_to_le16(len | AXIOM_CMD_HEADER_READ_MASK);
-> +
-> +	preamble = get_unaligned_le32(&cmd_header);
-> +
-> +	ret = regmap_write(ts->regmap, preamble, 0);
-> +	if (ret) {
-> +		dev_err(ts->dev, "failed to write preamble, error %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_raw_read(ts->regmap, 0, buf, len);
-> +	if (ret) {
-> +		dev_err(ts->dev, "failed to read target address %04x, error %d\n",
-> +			cmd_header.target_address, ret);
-> +		return ret;
-> +	}
-> +
-> +	/* Wait device's DMA operations */
-> +	usleep_range(AXIOM_DMA_OPS_DELAY_USEC, AXIOM_DMA_OPS_DELAY_USEC + 50);
+> +	buf = kzalloc(GOODIX_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
 
-What exactly are we waiting for after getting the data?
+Same comments here as for goodix_spi_write()...
 
 > +
+> +	spi_message_init(&spi_msg);
+> +	memset(&xfers, 0, sizeof(xfers));
+> +
+> +	/* buffer format: 0xF0 + addr(4bytes) + data */
+> +	buf[0] = GOODIX_SPI_WRITE_FLAG;
+> +	put_unaligned_be32(addr, buf + GOODIX_SPI_TRANS_PREFIX_LEN);
+> +	memcpy(buf + GOODIX_SPI_WRITE_PREFIX_LEN, data, len);
+> +
+> +	xfers.tx_buf = buf;
+> +	xfers.len = GOODIX_SPI_WRITE_PREFIX_LEN + len;
+> +	xfers.cs_change = 0;
+> +	spi_message_add_tail(&xfers, &spi_msg);
+> +
+> +	error = spi_sync(spi, &spi_msg);
+> +	if (error)
+> +		dev_err(ts->dev, "spi transfer error:%d", error);
+> +
+> +	kfree(buf);
+> +	return error;
+> +}
+> +
+> +static int goodix_dev_confirm(struct goodix_ts_data *ts)
+> +{
+> +	u8 tx_buf[8], rx_buf[8];
+> +	int retry = 3;
+> +	int error;
+> +
+> +	gpiod_set_value_cansleep(ts->reset_gpio, 0);
+> +	usleep_range(4000, 4100);
+> +
+> +	memset(tx_buf, GOODIX_DEV_CONFIRM_VAL, sizeof(tx_buf));
+> +	while (retry--) {
+> +		error = goodix_spi_write(ts, GOODIX_DEV_CONFIRM_ADDR,
+> +					 tx_buf, sizeof(tx_buf));
+> +		if (error)
+> +			return error;
+> +
+> +		error = goodix_spi_read(ts, GOODIX_DEV_CONFIRM_ADDR,
+> +					rx_buf, sizeof(rx_buf));
+> +		if (error)
+> +			return error;
+> +
+> +		if (!memcmp(tx_buf, rx_buf, sizeof(tx_buf)))
+> +			return 0;
+> +
+> +		usleep_range(5000, 5100);
+> +	}
+> +
+> +	dev_err(ts->dev, "device confirm failed, rx_buf:%*ph", 8, rx_buf);
+> +	return -EINVAL;
+> +}
+> +
+> +/**
+> + * goodix_hid_parse() - hid-core .parse() callback
+> + * @hid: hid device instance
+> + *
+> + * This function gets called during call to hid_add_device
+> + *
+> + * Return: 0 on success and non zero on error
+> + */
+> +static int goodix_hid_parse(struct hid_device *hid)
+> +{
+> +	struct goodix_ts_data *ts = hid->driver_data;
+> +	u16 rsize;
+> +	u8 *rdesc;
+> +	int error;
+> +
+> +	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
+> +	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+> +		dev_err(ts->dev, "invalid report desc size %d", rsize);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rdesc = kzalloc(rsize, GFP_KERNEL);
+
+We now have nifty
+
+	u8 *rdesc __free(kfree) = kzalloc(rsize, GFP_KERNEL);
+
+(see include/linux/cleanup.h) and you do not need to free memory by
+hand.
+
+> +	if (!rdesc)
+> +		return -ENOMEM;
+> +
+> +	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed get report desc, %d", error);
+> +		goto free_mem;
+> +	}
+> +
+> +	error = hid_parse_report(hid, rdesc, rsize);
+> +	if (error)
+> +		dev_err(ts->dev, "failed parse report, %d", error);
+> +
+> +free_mem:
+> +	kfree(rdesc);
+> +	return error;
+> +}
+> +
+> +/* Empty callbacks with success return code */
+
+Hmm, I see you are using falling edge interrupt. Don't you have concern
+of having it "stuck" here? I do not think all these should be stubs...
+
+Does the device have low power mode that can be used when controller is
+not in use (inhibited for example)?
+
+> +static int goodix_hid_start(struct hid_device *hid)
+> +{
 > +	return 0;
 > +}
 > +
-> +/*
-> + * One of the main purposes for reading the usage table is to identify
-> + * which usages reside at which target address.
-> + * When performing subsequent reads or writes to AXIOM, the target address
-> + * is used to specify which usage is being accessed.
-> + * Consider the following discovery code which will build up the usage table.
-> + */
-> +static u32 axiom_populate_usage_table(struct axiom_data *ts)
+> +static void goodix_hid_stop(struct hid_device *hid)
 > +{
-> +	struct axiom_usage_entry *usage_table;
-> +	u8 *rx_data = ts->rx_buf;
-> +	u32 max_report_len = 0;
-> +	u32 usage_id;
-> +	int error;
-> +
-> +	usage_table = ts->usage_table;
-> +
-> +	/* Read the second page of usage u31 to get the usage table */
-> +	error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 1, rx_data,
-> +			   (AXIOM_U31_BYTES_PER_USAGE * ts->devinfo.num_usages));
-> +
-> +	if (error)
-> +		return error;
-> +
-> +	for (usage_id = 0; usage_id < ts->devinfo.num_usages; usage_id++) {
-> +		u16 offset = (usage_id * AXIOM_U31_BYTES_PER_USAGE);
-> +		u8 id = rx_data[offset + 0];
-> +		u8 start_page = rx_data[offset + 1];
-> +		u8 num_pages = rx_data[offset + 2];
-> +		u32 max_offset = ((rx_data[offset + 3] & AXIOM_PAGE_OFFSET_MASK) + 1) * 2;
-> +
-> +		usage_table[id].is_report = !num_pages;
-> +
-> +		/* Store the entry into the usage table */
-> +		usage_table[id].id = id;
-> +		usage_table[id].start_page = start_page;
-> +		usage_table[id].num_pages = num_pages;
-> +
-> +		dev_dbg(ts->dev, "Usage u%02x Info: %*ph\n", id, AXIOM_U31_BYTES_PER_USAGE,
-> +			&rx_data[offset]);
-> +
-> +		/* Identify the max report length the module will receive */
-> +		if (usage_table[id].is_report && max_offset > max_report_len)
-> +			max_report_len = max_offset;
-> +	}
-> +
-> +	ts->usage_table_populated = true;
-> +
-> +	return max_report_len;
 > +}
 > +
-> +static int axiom_discover(struct axiom_data *ts)
+> +static int goodix_hid_open(struct hid_device *hid)
 > +{
+> +	return 0;
+> +}
+> +
+> +static void goodix_hid_close(struct hid_device *hid)
+> +{
+> +}
+> +
+> +/* Return date length of response data */
+> +static int goodix_hid_check_ack_status(struct goodix_ts_data *ts)
+> +{
+> +	struct goodix_hid_report_header hdr;
+> +	int retry = 20;
+> +	int error;
+> +
+> +	while (retry--) {
+> +		/*
+> +		 * 3 bytes of hid request response data
+> +		 * - byte 0:    Ack flag, value of 1 for data ready
+> +		 * - bytes 1-2: Response data length
+> +		 */
+> +		error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR,
+> +					(u8 *)&hdr, sizeof(hdr));
+> +		if (!error && (hdr.flag & GOODIX_HID_ACK_READY_FLAG))
+> +			return le16_to_cpu(hdr.size);
+> +
+> +		/* Wait 10ms for another try */
+> +		usleep_range(10000, 11000);
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +/**
+> + * goodix_hid_get_raw_report() - Process hidraw GET REPORT operation
+> + * @hid: hid device instance
+> + * @reportnum: Report ID
+> + * @buf: Buffer for store the reprot date
+> + * @len: Length fo reprot data
+> + * @report_type: Report type
+> + *
+> + * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
+> + * get report request. The transmitted data follows the standard i2c-hid
+> + * protocol with a specified header.
+> + *
+> + * Return: The length of the data in the buf on success, negative error code
+> + */
+> +static int goodix_hid_get_raw_report(struct hid_device *hid,
+> +				     unsigned char reportnum,
+> +				     __u8 *buf, size_t len,
+> +				     unsigned char report_type)
+> +{
+> +	struct goodix_ts_data *ts = hid->driver_data;
+> +	u16 data_register = le16_to_cpu(ts->hid_desc.data_register);
+> +	u16 cmd_register = le16_to_cpu(ts->hid_desc.cmd_register);
+> +	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
+> +	int tx_len = 0, args_len = 0;
+> +	int response_data_len;
+> +	u8 args[3];
+> +	int error;
+> +
+> +	if (report_type == HID_OUTPUT_REPORT)
+> +		return -EINVAL;
+> +
+> +	if (reportnum == 3) {
+> +		/* Get win8 signature data */
+> +		error = goodix_spi_read(ts, GOODIX_HID_SIGN_ADDR, buf, len);
+> +		if (error) {
+> +			dev_err(ts->dev, "failed get win8 sign:%d", error);
+> +			return -EINVAL;
+> +		}
+> +		return len;
+> +	}
+> +
+> +	if (reportnum >= 0x0F) {
+> +		args[args_len++] = reportnum;
+> +		reportnum = 0x0F;
+> +	}
+> +	put_unaligned_le16(data_register, args + args_len);
+> +	args_len += sizeof(data_register);
+> +
+> +	/* Clean 3 bytes of hid ack header data */
+> +	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
+> +	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
+> +
+> +	put_unaligned_le16(cmd_register, tmp_buf + tx_len);
+> +	tx_len += sizeof(cmd_register);
+> +
+> +	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x01) << 4) | reportnum;
+> +	tmp_buf[tx_len++] = GOODIX_HID_GET_REPORT_CMD;
+> +
+> +	memcpy(tmp_buf + tx_len, args, args_len);
+> +	tx_len += args_len;
+> +
+> +	/* Step1: write report request info */
+> +	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed send read feature cmd, %d", error);
+> +		return error;
+> +	}
+> +
+> +	/* No need read response data */
+> +	if (!len)
+> +		return 0;
+> +
+> +	/* Step2: check response data status */
+> +	response_data_len = goodix_hid_check_ack_status(ts);
+> +	if (response_data_len <= 0)
+> +		return -EINVAL;
+> +
+> +	/* Step3: read response data(skip 2bytes of hid pkg length) */
+> +	error = goodix_spi_read(ts, GOODIX_REPORT_DATA_ADDR, buf,
+> +				response_data_len - GOODIX_HID_PKG_LEN_SIZE);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed read hid response data, %d", error);
+> +		return error;
+> +	}
+> +
+> +	return response_data_len - GOODIX_HID_PKG_LEN_SIZE;
+> +}
+> +
+> +/**
+> + * goodix_hid_set_raw_report() - process hidraw SET REPORT operation
+> + * @hid: HID device
+> + * @reportnum: Report ID
+> + * @buf: Buffer for communication
+> + * @len: Length of data in the buffer
+> + * @report_type: Report type
+> + *
+> + * The function for hid_ll_driver.get_raw_report to handle the HIDRAW ioctl
+> + * set report request. The transmitted data follows the standard i2c-hid
+> + * protocol with a specified header.
+> + *
+> + * Return: The length of the data sent, negative error code on failure
+> + */
+> +static int goodix_hid_set_raw_report(struct hid_device *hid,
+> +				     unsigned char reportnum,
+> +				     __u8 *buf, size_t len,
+> +				     unsigned char report_type)
+> +{
+> +	struct goodix_ts_data *ts = hid->driver_data;
+> +	u16 data_register = le16_to_cpu(ts->hid_desc.data_register);
+> +	u16 cmd_register = le16_to_cpu(ts->hid_desc.cmd_register);
+> +	int tx_len = 0, args_len = 0;
+> +	u8 tmp_buf[GOODIX_HID_MAX_INBUF_SIZE];
+> +	u8 args[5];
+> +	int error;
+> +
+> +	if (reportnum >= 0x0F) {
+> +		args[args_len++] = reportnum;
+> +		reportnum = 0x0F;
+> +	}
+> +
+> +	put_unaligned_le16(data_register, args + args_len);
+> +	args_len += sizeof(data_register);
+> +
+> +	put_unaligned_le16(GOODIX_HID_PKG_LEN_SIZE + len, args + args_len);
+> +	args_len += GOODIX_HID_PKG_LEN_SIZE;
+> +
+> +	/* Clean 3 bytes of hid ack header data */
+> +	memset(tmp_buf, 0, GOODIX_HID_ACK_HEADER_SIZE);
+> +	tx_len += GOODIX_HID_ACK_HEADER_SIZE;
+> +
+> +	put_unaligned_le16(cmd_register, tmp_buf + tx_len);
+> +	tx_len += sizeof(cmd_register);
+> +
+> +	tmp_buf[tx_len++] = ((report_type == HID_FEATURE_REPORT ? 0x03 : 0x02) << 4) | reportnum;
+> +	tmp_buf[tx_len++] = GOODIX_HID_SET_REPORT_CMD;
+> +
+> +	memcpy(tmp_buf + tx_len, args, args_len);
+> +	tx_len += args_len;
+> +
+> +	memcpy(tmp_buf + tx_len, buf, len);
+> +	tx_len += len;
+> +
+> +	error = goodix_spi_write(ts, GOODIX_HID_REPORT_ADDR, tmp_buf, tx_len);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed send report %*ph", tx_len, tmp_buf);
+> +		return error;
+> +	}
+> +	return len;
+> +}
+> +
+> +static int goodix_hid_raw_request(struct hid_device *hid,
+> +				  unsigned char reportnum,
+> +				  __u8 *buf, size_t len,
+> +				  unsigned char rtype, int reqtype)
+> +{
+> +	switch (reqtype) {
+> +	case HID_REQ_GET_REPORT:
+> +		return goodix_hid_get_raw_report(hid, reportnum, buf,
+> +						 len, rtype);
+> +	case HID_REQ_SET_REPORT:
+> +		if (buf[0] != reportnum)
+> +			return -EINVAL;
+> +		return goodix_hid_set_raw_report(hid, reportnum, buf,
+> +						 len, rtype);
+> +	default:
+> +		return -EIO;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static struct hid_ll_driver goodix_hid_ll_driver = {
+> +	.parse = goodix_hid_parse,
+> +	.start = goodix_hid_start,
+> +	.stop = goodix_hid_stop,
+> +	.open = goodix_hid_open,
+> +	.close = goodix_hid_close,
+> +	.raw_request = goodix_hid_raw_request
+> +};
+> +
+> +static irqreturn_t goodix_hid_irq(int irq, void *data)
+> +{
+> +	struct goodix_ts_data *ts = data;
+> +	struct goodix_hid_report_event event;
+> +	struct goodix_hid_report_package *pkg;
+> +	u16 report_size;
 > +	int error;
 > +
 > +	/*
-> +	 * Fetch the first page of usage u31 to get the
-> +	 * device information and the number of usages
+> +	 * First, read buffer with space for header and coordinate package:
+> +	 * - event header = 3 bytes
+> +	 * - coordinate event = GOODIX_HID_COOR_PKG_LEN bytes
+> +	 *
+> +	 * If the data size info in the event header exceeds
+> +	 * GOODIX_HID_COOR_PKG_LEN, it means that there are other packages
+> +	 * besides the coordinate package.
 > +	 */
-> +	error = axiom_read(ts, AXIOM_DEVINFO_USAGE_ID, 0, &ts->devinfo, AXIOM_U31_PAGE0_LENGTH);
-> +	if (error)
-> +		return error;
-> +
-> +	dev_dbg(ts->dev, "  Boot Mode      : %s\n",
-> +		FIELD_GET(AXIOM_U31_BOOTMODE_MASK,
-> +			  le16_to_cpu(ts->devinfo.device_id)) ? "BLP" : "TCP");
-> +	dev_dbg(ts->dev, "  Device ID      : %04lx\n",
-> +		FIELD_GET(AXIOM_U31_DEVID_MASK, le16_to_cpu(ts->devinfo.device_id)));
-> +	dev_dbg(ts->dev, "  Firmware Rev   : %02x.%02x\n", ts->devinfo.fw_major,
-> +		ts->devinfo.fw_minor);
-> +	dev_dbg(ts->dev, "  Bootloader Rev : %02x.%02x\n", ts->devinfo.bootloader_fw_major,
-> +		ts->devinfo.bootloader_fw_minor);
-> +	dev_dbg(ts->dev, "  FW Extra Info  : %04x\n", ts->devinfo.fw_info_extra);
-> +	dev_dbg(ts->dev, "  Silicon        : %04x\n", le16_to_cpu(ts->devinfo.jedec_id));
-> +	dev_dbg(ts->dev, "  Number usages        : %04x\n", ts->devinfo.num_usages);
-> +
-> +	ts->max_report_len = axiom_populate_usage_table(ts);
-> +	if (!ts->max_report_len || !ts->devinfo.num_usages ||
-> +	    ts->max_report_len > AXIOM_MAX_REPORT_LEN) {
-> +		dev_err(ts->dev, "Invalid report length or usages number");
-> +		return -EINVAL;
+> +	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR, (u8 *)&event,
+> +				sizeof(event));
+> +	if (error) {
+> +		dev_err(ts->dev, "failed get coordinate data, %d", error);
+> +		return IRQ_HANDLED;
 > +	}
 > +
-> +	dev_dbg(ts->dev, "Max Report Length: %u\n", ts->max_report_len);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Support function to axiom_process_u41_report.
-> + * Generates input-subsystem events for every target.
-> + * After calling this function the caller shall issue
-> + * a Sync to the input sub-system.
-> + */
-> +static bool axiom_process_u41_report_target(struct axiom_data *ts,
-> +					    struct axiom_target_report *target)
-> +{
-> +	struct input_dev *input_dev = ts->input_dev;
-> +	struct axiom_u41_target *target_prev_state;
-> +	enum axiom_target_state current_state;
-> +	int id;
-> +
-> +	/* Verify the target index */
-> +	if (target->index >= AXIOM_U41_MAX_TARGETS) {
-> +		dev_err(ts->dev, "Invalid target index! %u\n", target->index);
-> +		return false;
+> +	/* Check coordinate data valid falg */
+> +	if (event.hdr.flag != GOODIX_HID_REPORT_READY_FLAG) {
+> +		dev_err(ts->dev, "invalid event flag 0x%x", event.hdr.flag);
+> +		return IRQ_HANDLED;
 > +	}
 > +
-> +	target_prev_state = &ts->targets[target->index];
+> +	pkg = (struct goodix_hid_report_package *)event.data;
+> +	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
+> +			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
 > +
-> +	current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
+> +	report_size = le16_to_cpu(event.hdr.size);
+> +	/* Check if there are other packages */
+> +	if (report_size <= GOODIX_HID_COOR_PKG_LEN)
+> +		return IRQ_HANDLED;
 > +
-> +	if (target->present) {
-> +		if (target->z >= 0)
-> +			current_state = AXIOM_TARGET_STATE_TOUCHING;
-> +		else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
-> +			current_state = AXIOM_TARGET_STATE_HOVER;
-> +		else if (target->z == AXIOM_PROX_LEVEL)
-> +			current_state = AXIOM_TARGET_STATE_PROX;
+> +	if (report_size - GOODIX_HID_COOR_PKG_LEN > sizeof(ts->xfer_buf)) {
+> +		dev_err(ts->dev, "invalid package size, %d", report_size);
+> +		return IRQ_HANDLED;
 > +	}
 > +
-> +	if (target_prev_state->state == current_state &&
-> +	    target_prev_state->x == target->x &&
-> +	    target_prev_state->y == target->y &&
-> +	    target_prev_state->z == target->z)
-> +		return false;
-
-Why is this needed? Input/MT core already tries to suppress duplicate
-events, I do not think we need to do it here.
-
-> +
-> +	id = target->index;
-> +
-> +	dev_dbg(ts->dev, "U41 Target T%u, present:%u, x:%u, y:%u, z:%d\n",
-> +		target->index, target->present,
-> +		target->x, target->y, target->z);
-> +
-> +	switch (current_state) {
-> +	case AXIOM_TARGET_STATE_NOT_PRESENT:
-> +	case AXIOM_TARGET_STATE_PROX:
-> +		if (!target_prev_state->insert)
-> +			break;
-> +		target_prev_state->insert = false;
-> +
-> +		if (!id)
-> +			input_report_key(input_dev, BTN_TOUCH, 0);
-> +
-> +		input_mt_report_slot_inactive(input_dev);
-> +		/*
-> +		 * make sure the previous coordinates are
-> +		 * all off screen when the finger comes back
-> +		 */
-> +		target->x = 65535;
-> +		target->y = 65535;
-> +		target->z = AXIOM_PROX_LEVEL;
-> +		break;
-> +	case AXIOM_TARGET_STATE_HOVER:
-> +	case AXIOM_TARGET_STATE_TOUCHING:
-> +		target_prev_state->insert = true;
-> +		input_report_abs(input_dev, ABS_MT_TRACKING_ID, id);
-> +		input_report_abs(input_dev, ABS_MT_POSITION_X, target->x);
-> +		input_report_abs(input_dev, ABS_MT_POSITION_Y, target->y);
-> +
-> +		if (current_state == AXIOM_TARGET_STATE_TOUCHING) {
-> +			input_report_abs(input_dev, ABS_MT_DISTANCE, 0);
-> +			input_report_abs(input_dev, ABS_DISTANCE, 0);
-> +			input_report_abs(input_dev, ABS_MT_PRESSURE, target->z);
-> +			input_report_abs(input_dev, ABS_PRESSURE, target->z);
-
-You only need to emit ABS_MT_DISTANCE and ABS_MT_PRESSURE. The
-single-touch variants should be generated by the input core as part of
-sending out the frame.
-
-> +		} else {
-> +			input_report_abs(input_dev, ABS_MT_DISTANCE, -target->z);
-> +			input_report_abs(input_dev, ABS_DISTANCE, -target->z);
-> +			input_report_abs(input_dev, ABS_MT_PRESSURE, 0);
-> +			input_report_abs(input_dev, ABS_PRESSURE, 0);
-> +		}
-> +
-> +		if (!id)
-> +			input_report_key(input_dev, BTN_TOUCH, (current_state ==
-> +					 AXIOM_TARGET_STATE_TOUCHING));
-
-Why do you emit BTN_TOUCH manually instead of replying on
-input_mt_sync_frame() calling input_mt_pointer_emulation().
-
-> +		break;
-> +	default:
-> +		break;
+> +	/* Read the package behind the coordinate data */
+> +	error = goodix_spi_read(ts, GOODIX_HID_REPORT_ADDR + sizeof(event),
+> +				ts->xfer_buf,
+> +				report_size - GOODIX_HID_COOR_PKG_LEN);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed read data, %d", error);
+> +		return IRQ_HANDLED;
 > +	}
 > +
-> +	target_prev_state->state = current_state;
-> +	target_prev_state->x = target->x;
-> +	target_prev_state->y = target->y;
-> +	target_prev_state->z = target->z;
-> +
-> +	return true;
-> +}
-> +
-> +/*
-> + * U41 is the output report of the 2D CTS and contains the status of targets
-> + * (including contacts and pre-contacts) along with their X,Y,Z values.
-> + * When a target has been removed (no longer detected),
-> + * the corresponding X,Y,Z values will be zeroed.
-> + */
-> +static bool axiom_process_u41_report(struct axiom_data *ts, u8 *rx_buf)
-> +{
-> +	struct axiom_target_report target;
-> +	bool update_done = false;
-> +	u16 target_status;
-> +	int i;
-> +
-> +	target_status = get_unaligned_le16(rx_buf + 1);
-> +
-> +	for (i = 0; i < AXIOM_U41_MAX_TARGETS; i++) {
-> +		u8 *target_step = &rx_buf[i * 4];
-> +
-> +		target.index = i;
-> +		input_mt_slot(ts->input_dev, i);
-> +		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER, true);
-> +		target.present = ((target_status & (1 << i)) != 0) ? 1 : 0;
-> +		target.x = get_unaligned_le16(target_step + 3);
-> +		target.y = get_unaligned_le16(target_step + 5);
-> +		target.z = (s8)(rx_buf[i + 43]);
-> +		touchscreen_report_pos(ts->input_dev, &ts->prop, target.x, target.y, true);
-
-I find it confusing that you send out coordinates here, and the rest of
-events in axiom_process_u41_report_target()... Can it all be done in one
-place?
-
-> +		update_done |= axiom_process_u41_report_target(ts, &target);
-> +	}
-> +
-> +	return update_done;
-> +}
-> +
-> +/*
-> + * U46 report contains a low level measurement data generated by the capacitive
-> + * displacement sensor (CDS) algorithms from the auxiliary channels.
-> + * This information is useful when tuning multi-press to assess mechanical
-> + * consistency in the unit's construction.
-> + */
-> +static void axiom_process_u46_report(struct axiom_data *ts, u8 *rx_buf)
-> +{
-> +	struct input_dev *input_dev = ts->input_dev;
-> +	u32 event_value;
-> +	u16 aux_value;
-> +	int i;
-> +
-> +	for (i = 0; i < AXIOM_U46_AUX_CHANNELS; i++) {
-> +		u8 *target_step = &rx_buf[i * 2];
-> +
-> +		input_mt_slot(input_dev, i);
-> +		input_mt_report_slot_state(input_dev, MT_TOOL_FINGER, true);
-> +		aux_value = get_unaligned_le16(target_step + 1) & AXIOM_U46_AUX_MASK;
-> +		event_value = (i << 16) | (aux_value);
-> +		input_event(input_dev, EV_MSC, MSC_RAW, event_value);
-
-This does not really belong to the input subsystem. I recommend using
-debugfs to provide this data. Some drivers also use v4l to provide a
-"picture" of the heat map.
-
-> +	}
-> +}
-> +
-> +/*
-> + * Validates the crc and demultiplexes the axiom reports to the appropriate
-> + * report handler
-> + */
-> +static int axiom_handle_events(struct axiom_data *ts)
-> +{
-> +	struct input_dev *input_dev = ts->input_dev;
-> +	u8 *report_data = ts->rx_buf;
-> +	struct device *dev = ts->dev;
-> +	u16 crc_report;
-> +	u8 *crc_bytes;
-> +	u16 crc_calc;
-> +	int error;
-> +	u8 len;
-> +
-> +	error = axiom_read(ts, AXIOM_REPORT_USAGE_ID, 0, report_data, ts->max_report_len);
-> +	if (error)
-> +		return error;
-> +
-> +	len = (report_data[0] & AXIOM_COMMS_REPORT_LEN_MASK) << 1;
-> +	if (len <= 2) {
-> +		dev_err(dev, "Zero length report discarded.\n");
-> +		return -ENODATA;
-> +	}
-> +
-> +	/* Validate the report CRC */
-> +	crc_bytes = &report_data[len];
-> +
-> +	crc_report = get_unaligned_le16(crc_bytes - 2);
-> +	/* Length is in 16 bit words and remove the size of the CRC16 itself */
-> +	crc_calc = crc16(0, report_data, (len - 2));
-> +
-> +	if (crc_calc != crc_report) {
-> +		dev_err(dev,
-> +			"CRC mismatch! Expected: %#x, Calculated CRC: %#x.\n",
-> +			crc_report, crc_calc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (report_data[1]) {
-> +	case AXIOM_USAGE_2DCTS_REPORT_ID:
-> +		if (axiom_process_u41_report(ts, &report_data[1])) {
-> +			input_mt_sync_frame(input_dev);
-> +			input_sync(input_dev);
-> +		}
-> +		break;
-> +
-> +	case AXIOM_USAGE_2AUX_REPORT_ID:
-> +		/* This is an aux report (force) */
-> +		axiom_process_u46_report(ts, &report_data[1]);
-> +		input_mt_sync(input_dev);
-> +		input_sync(input_dev);
-> +		break;
-> +
-> +	case AXIOM_USAGE_2HB_REPORT_ID:
-> +		/* This is a heartbeat report */
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void axiom_i2c_poll(struct input_dev *input_dev)
-> +{
-> +	struct axiom_data *ts = input_get_drvdata(input_dev);
-> +
-> +	axiom_handle_events(ts);
-> +}
-> +
-> +static irqreturn_t axiom_irq(int irq, void *dev_id)
-> +{
-> +	struct axiom_data *ts = dev_id;
-> +
-> +	axiom_handle_events(ts);
+> +	pkg = (struct goodix_hid_report_package *)ts->xfer_buf;
+> +	hid_input_report(ts->hid, HID_INPUT_REPORT, pkg->data,
+> +			 le16_to_cpu(pkg->size) - GOODIX_HID_PKG_LEN_SIZE, 1);
 > +
 > +	return IRQ_HANDLED;
 > +}
 > +
-> +static void axiom_reset(struct gpio_desc *reset_gpio)
+> +static int goodix_hid_init(struct goodix_ts_data *ts)
 > +{
-> +	gpiod_set_value_cansleep(reset_gpio, 1);
-> +	usleep_range(1000, 2000);
-> +	gpiod_set_value_cansleep(reset_gpio, 0);
-> +	msleep(AXIOM_STARTUP_TIME_MS);
+> +	struct hid_device *hid;
+> +	int error;
+> +
+> +	/* Get hid descriptor */
+> +	error = goodix_spi_read(ts, GOODIX_HID_DESC_ADDR, (u8 *)&ts->hid_desc,
+> +				sizeof(ts->hid_desc));
+> +	if (error) {
+> +		dev_err(ts->dev, "failed get hid desc, %d", error);
+> +		return error;
+> +	}
+> +
+> +	hid = hid_allocate_device();
+> +	if (IS_ERR(hid))
+> +		return PTR_ERR(hid);
+> +
+> +	hid->driver_data = ts;
+> +	hid->ll_driver = &goodix_hid_ll_driver;
+> +	hid->bus = BUS_SPI;
+> +	hid->dev.parent = &ts->spi->dev;
+> +
+> +	hid->version = le16_to_cpu(ts->hid_desc.bcd_version);
+> +	hid->vendor = le16_to_cpu(ts->hid_desc.vendor_id);
+> +	hid->product = le16_to_cpu(ts->hid_desc.product_id);
+> +	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X", "hid-gdix",
+> +		 hid->vendor, hid->product);
+> +
+> +	error = hid_add_device(hid);
+> +	if (error) {
+> +		dev_err(ts->dev, "failed add hid device, %d", error);
+> +		hid_destroy_device(hid);
+> +		return error;
+> +	}
+> +
+> +	ts->hid = hid;
+> +	return 0;
 > +}
 > +
-> +static int axiom_i2c_probe(struct i2c_client *client)
+> +static int goodix_spi_probe(struct spi_device *spi)
 > +{
-> +	struct device *dev = &client->dev;
-> +	struct input_dev *input_dev;
-> +	struct axiom_data *ts;
-> +	u32 poll_interval;
-> +	int target;
+> +	struct device *dev = &spi->dev;
+> +	struct goodix_ts_data *ts;
 > +	int error;
+> +
+> +	/* init spi_device */
+> +	spi->mode            = SPI_MODE_0;
+> +	spi->bits_per_word   = 8;
+> +	error = spi_setup(spi);
+> +	if (error)
+> +		return error;
 > +
 > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
 > +	if (!ts)
 > +		return -ENOMEM;
 > +
-> +	i2c_set_clientdata(client, ts);
-> +	ts->client = client;
+> +	spi_set_drvdata(spi, ts);
+> +	ts->spi = spi;
 > +	ts->dev = dev;
-> +
-> +	ts->regmap = devm_regmap_init_i2c(client, &axiom_i2c_regmap_config);
-> +	error = PTR_ERR_OR_ZERO(ts->regmap);
-> +	if (error) {
-> +		dev_err(dev, "Failed to initialize regmap: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	error = devm_regulator_get_enable(dev, "vddi");
-> +	if (error)
-> +		return dev_err_probe(&client->dev, error,
-> +				     "Failed to enable VDDI regulator\n");
-> +
-> +	error = devm_regulator_get_enable(dev, "vdda");
-> +	if (error)
-> +		return dev_err_probe(&client->dev, error,
-> +				     "Failed to enable VDDA regulator\n");
-> +
 > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
 > +	if (IS_ERR(ts->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
+> +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio),
+> +				     "Failed to request reset gpio\n");
 > +
-> +	if (ts->reset_gpio)
-> +		axiom_reset(ts->reset_gpio);
-> +	else
-> +		msleep(AXIOM_STARTUP_TIME_MS);
-
-Should this be called unconditionally (and matching msleep() be removed
-from axiom_i2c_probe)?
-
-> +
-> +	error = axiom_discover(ts);
-> +	if (error)
-> +		return dev_err_probe(dev, error, "Failed touchscreen discover\n");
-> +
-> +	input_dev = devm_input_allocate_device(ts->dev);
-> +	if (!input_dev)
-> +		return -ENOMEM;
-> +
-> +	input_dev->name = "TouchNetix axiom Touchscreen";
-> +	input_dev->phys = "input/axiom_ts";
-> +
-> +	input_set_abs_params(input_dev, ABS_MT_POSITION_X, 0, 65535, 0, 0);
-> +	input_set_abs_params(input_dev, ABS_MT_POSITION_Y, 0, 65535, 0, 0);
-> +	input_set_abs_params(input_dev, ABS_MT_TOOL_TYPE, 0, MT_TOOL_MAX, 0, 0);
-
-The only tool you report is finger, who do you declare more?
-
-> +	input_set_abs_params(input_dev, ABS_MT_DISTANCE, 0, 127, 0, 0);
-> +	input_set_abs_params(input_dev, ABS_MT_PRESSURE, 0, 127, 0, 0);
-> +
-> +	touchscreen_parse_properties(input_dev, true, &ts->prop);
-> +
-> +	/* Registers the axiom device as a touchscreen instead of a mouse pointer */
-> +	error = input_mt_init_slots(input_dev, AXIOM_U41_MAX_TARGETS, INPUT_MT_DIRECT);
+> +	error = goodix_dev_confirm(ts);
 > +	if (error)
 > +		return error;
 > +
-> +	/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
-> +	set_bit(EV_REL, input_dev->evbit);
+> +	/* Waits 150ms for firmware to fully boot */
+> +	msleep(GOODIX_NORMAL_RESET_DELAY_MS);
+> +
+> +	error = devm_request_threaded_irq(&ts->spi->dev, ts->spi->irq,
+> +					  NULL, goodix_hid_irq,
+> +					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> +					  "goodix_spi_hid", ts);
+> +	if (error < 0) {
+> +		dev_err(ts->dev, "could not register interrupt, irq = %d, %d",
+> +			ts->spi->irq, error);
+> +		return error;
+> +	}
 
-The driver does not emit any relative events...
+I do not think it is safe. Your interrupt is hot here, but you are
+allocating and registering HID device instance in goodix_hid_init(). If
+interrupt arrives right away you will likely crash.
 
-> +	set_bit(EV_MSC, input_dev->evbit);
-> +	/* Declare that we support "RAW" Miscellaneous events */
-> +	set_bit(MSC_RAW, input_dev->mscbit);
 > +
-> +	ts->input_dev = input_dev;
-> +	input_set_drvdata(ts->input_dev, ts);
-> +
-> +	/* Ensure that all reports are initialised to not be present. */
-> +	for (target = 0; target < AXIOM_U41_MAX_TARGETS; target++)
-> +		ts->targets[target].state = AXIOM_TARGET_STATE_NOT_PRESENT;
-> +
-> +	error = devm_request_threaded_irq(dev, client->irq, NULL,
-> +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
+> +	error = goodix_hid_init(ts);
 > +	if (error) {
-> +		dev_info(dev, "Request irq failed, falling back to polling mode");
-
-I do not think you should fall back to polling mode if you fail to get
-interrupt. If it was not specified (client->irq) then I can see that we
-might want to fall back, but if the system configured for using
-interrupt and you can not get it you should bail out.
-
-> +
-> +		error = input_setup_polling(input_dev, axiom_i2c_poll);
-> +		if (error)
-> +			return dev_err_probe(ts->dev, error, "Unable to set up polling mode\n");
-> +
-> +		if (!device_property_read_u32(ts->dev, "poll-interval", &poll_interval))
-> +			input_set_poll_interval(input_dev, poll_interval);
-> +		else
-> +			input_set_poll_interval(input_dev, POLL_INTERVAL_DEFAULT_MS);
+> +		dev_err(dev, "failed init hid device");
+> +		return error;
 > +	}
 > +
-> +	return input_register_device(input_dev);
+> +	return 0;
+> +}
+> +
+> +static void goodix_spi_remove(struct spi_device *spi)
+> +{
+> +	struct goodix_ts_data *ts = spi_get_drvdata(spi);
+> +
+> +	hid_destroy_device(ts->hid);
 
-Please use
+This is not safe either, you destroy the device, but interrupts are
+enabled and nothing stops them from coming...
 
-	error = input_register_device(..);
-	if (error)
-		return dev_err_probe(...);
+> +}
+> +
+> +static void goodix_spi_shutdown(struct spi_device *spi)
+> +{
+> +	struct goodix_ts_data *ts = spi_get_drvdata(spi);
+> +
+> +	disable_irq_nosync(spi->irq);
 
-	return 0;
+Why nosync? Seems dangerous. Please add a comment why nosync is needed
+and why it is safe.
+
+> +	hid_destroy_device(ts->hid);
+> +}
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id goodix_spi_acpi_match[] = {
+> +	{ "GXTS7986" },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(acpi, goodix_spi_acpi_match);
+> +#endif
+> +
+> +static struct spi_driver goodix_spi_driver = {
+> +	.driver = {
+> +		.name = "goodix-spi-hid",
+> +		.acpi_match_table = ACPI_PTR(goodix_spi_acpi_match),
+> +	},
+> +	.probe =	goodix_spi_probe,
+> +	.remove =	goodix_spi_remove,
+> +	.shutdown =	goodix_spi_shutdown,
+> +};
+> +module_spi_driver(goodix_spi_driver);
+> +
+> +MODULE_DESCRIPTION("Goodix SPI driver for HID touchscreen");
+> +MODULE_AUTHOR("Goodix, Inc.");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.43.0
+> 
+> 
 
 Thanks.
 
