@@ -1,124 +1,114 @@
-Return-Path: <linux-input+bounces-4057-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4058-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC208FAA64
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 08:01:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A44BD8FAC82
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 09:50:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EA5D1C21941
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 06:01:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D41A11C20F09
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jun 2024 07:50:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66D001C695;
-	Tue,  4 Jun 2024 06:01:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45ACD1411CA;
+	Tue,  4 Jun 2024 07:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o5ocVEPq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzC8td35"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04933A5F;
-	Tue,  4 Jun 2024 06:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C43913FD9B;
+	Tue,  4 Jun 2024 07:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717480873; cv=none; b=kINz3Xn1tKa2Eat9OFuS05/CfDStVrMaSvO9hvUqKxHrDwTWG4DVPmUB/GGdWFQbIUEt4kFOw0f9yYK+Q5wn+jeZIXqrHPK/NsgpmV+z3NME/Wb4diFgS0kOg81qFspZPOyG584CA4ejdUIRVKiXjhWsQtfrTr7LbWU/HSviHcQ=
+	t=1717487419; cv=none; b=cruc4W9pSTzRLubHv4ybX3r2ttucLXYWP4R7Z4evNidWXKhSHjZW658w84o0KRaIKcsKZDGx4u9CZTZZ3zORmeMY/OoB9fCy7akVzVbIbOnakgRiUk9Ioz5vJzoE+VKfw9RBC6Fj0cyUuP6PuXOQNM/AFWpnLArusgxbPya+6FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717480873; c=relaxed/simple;
-	bh=Jd4fUlb0i7EadQ2VxIkjPkJAQ7Q9m454Ry4odrQcn3g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=SfEA5PNcvLm2u7CPj2z7SGUjIqz+mSXQwIF8xXBX9vmPJr3BTofZldRK5p+bkSp4sElDYCsy09d9C+A7J8C05i+iuIIX3esD47miop/uN+RrecUqwC2prAzs3kwkmurfSZkiaq+LNjOTjC11yrqjB4MsM0lYh1a9hP7b2ac7PwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=o5ocVEPq; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 453K0tDG005301;
-	Tue, 4 Jun 2024 06:01:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=51ZA9OiJpjlX0ruhcneVre
-	O/iIJUTw0mzhQfZaG+KDA=; b=o5ocVEPqNyxdwR7hpCdb3JcV5OAxJyVGHVbuEc
-	4SYSTBQnKhRLiMDc0YK57BzgT51IviK1Nd1ialbWU5LEehsaa71IdZrM5xOZZUBP
-	zvL8Q29X8FPBDmIL/EnkG7bPQWVdpfIJYD0INa/DYFhd2qwwTsMWC4WSGvnV52Zn
-	Q/5/wmCKm0Wbd9i8o/4sJ/ooh5xqsJdydJp+/rLDA+E7x/S/6gNTwFyUbwUc88/o
-	W5CTUuerxdTw2V5e4x05eQhezQu3CxJx6FOJ9doccISmEjsDCfBKMkyUspVPSGhR
-	kl6toRsh+mwYOB5SFY4fEu/i2qtBIn+N8sz+07RR3kUebGBw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw5kp2my-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Jun 2024 06:01:01 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 454610HC003914
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 4 Jun 2024 06:01:00 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
- 23:01:00 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Mon, 3 Jun 2024 23:00:59 -0700
-Subject: [PATCH] HID: logitech-hidpp: add missing MODULE_DESCRIPTION()
- macro
+	s=arc-20240116; t=1717487419; c=relaxed/simple;
+	bh=CYiHCznNrYVF2mfPgnIV/nPZVLc+CZ3quRbhg61G0TU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=NT2VHlLjxjxhtYcB4udD8lo4hwqINOaBY156VoRKPWAgHpZCZ/+3KpL22S/1DOxzevUmZ7lh9xjDseT2458Lxb3ThvByrbtSo8vYH0mdKI6hj/LG3vsl9Yctr/EaVAjjpUtUFU01f3pWiCEUTa8+FBqtNLP4uS6OVmOzWFFcf+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzC8td35; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D48C2BBFC;
+	Tue,  4 Jun 2024 07:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717487418;
+	bh=CYiHCznNrYVF2mfPgnIV/nPZVLc+CZ3quRbhg61G0TU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=VzC8td35o1lkH89Wd9QkG1Ov7TI3VXXrSeDzkZTU6I8rBxZtGky6Ys2WL8laGzdwr
+	 CIk8j/RCoJQbttLHXuSqmoi7s0reG8iHY0hGp/MsNRUVu47xSmbCJgGAV+Sbl54SWc
+	 Rtt1dv0kIT+ee+mP16Bic10J6Xk3KhV/mbQ+5lfglMq2b0iB4xcJ0dzKOCM3E+0ZA3
+	 xArTxYGVoKWt289itVhquCnlh8jRpbl3nGzSfIZL8nXsH1KFYSe+LQNLUFyIdjpNeF
+	 /rWElhQLhCgeWXy3wc0x7Sj4AC8lY+u2FM44KdB1fYRMSOCjkTWWRTCU9sGc3QxFa+
+	 DaQpF2XIxhLUw==
+Date: Tue, 4 Jun 2024 09:50:15 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+    Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, 
+    syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com
+Subject: Re: [PATCH] HID: core: remove unnecessary WARN_ON() in implement()
+In-Reply-To: <20240517141914.8604-1-n.zhandarovich@fintech.ru>
+Message-ID: <nycvar.YFH.7.76.2406040949170.16865@cbobk.fhfr.pm>
+References: <20240517141914.8604-1-n.zhandarovich@fintech.ru>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240603-md-hid-logitech-hidpp-v1-1-060f06e4529f@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAJqtXmYC/x3MwQqDMAyA4VeRnBfoqgjbq4wdYprZgNbSuCGI7
- 27d8Tv8/w4mRcXg2exQ5KemS6q43xrgSGkU1FAN3vnO9a7FOWDUgNMy6iocL+SM3j1Yeib2roX
- a5iIf3f7f17t6IBMcCiWO123S9N1wJlulwHGclIMc9oYAAAA=
-To: =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Bastien Nocera
-	<hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires
-	<bentiss@kernel.org>
-CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: i3oyWRPZ8PX9b7siS9EgUDdGUjiZ2Eex
-X-Proofpoint-ORIG-GUID: i3oyWRPZ8PX9b7siS9EgUDdGUjiZ2Eex
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-04_02,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 suspectscore=0 malwarescore=0 clxscore=1011 phishscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0
- mlxlogscore=934 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406040047
+Content-Type: text/plain; charset=US-ASCII
 
-make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+On Fri, 17 May 2024, Nikita Zhandarovich wrote:
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+> Syzkaller hit a warning [1] in a call to implement() when trying
+> to write a value into a field of smaller size in an output report.
+> 
+> Since implement() already has a warn message printed out with the
+> help of hid_warn() and value in question gets trimmed with:
+> 	...
+> 	value &= m;
+> 	...
+> WARN_ON may be considered superfluous. Remove it to suppress future
+> syzkaller triggers.
+> 
+> [1]
+> WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 implement drivers/hid/hid-core.c:1451 [inline]
+> WARNING: CPU: 0 PID: 5084 at drivers/hid/hid-core.c:1451 hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
+> Modules linked in:
+> CPU: 0 PID: 5084 Comm: syz-executor424 Not tainted 6.9.0-rc7-syzkaller-00183-gcf87f46fd34d #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
+> RIP: 0010:implement drivers/hid/hid-core.c:1451 [inline]
+> RIP: 0010:hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
+> ...
+> Call Trace:
+>  <TASK>
+>  __usbhid_submit_report drivers/hid/usbhid/hid-core.c:591 [inline]
+>  usbhid_submit_report+0x43d/0x9e0 drivers/hid/usbhid/hid-core.c:636
+>  hiddev_ioctl+0x138b/0x1f00 drivers/hid/usbhid/hiddev.c:726
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:904 [inline]
+>  __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:890
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> ...
+> 
+> Fixes: 95d1c8951e5b ("HID: simplify implement() a bit")
+> Reported-by: syzbot+5186630949e3c55f0799@syzkaller.appspotmail.com
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/hid/hid-logitech-hidpp.c | 1 +
- 1 file changed, 1 insertion(+)
+I've added
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b81d5bcc76a7..400d70e6dbe2 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -27,6 +27,7 @@
- #include "usbhid/usbhid.h"
- #include "hid-ids.h"
- 
-+MODULE_DESCRIPTION("Support for Logitech devices relying on the HID++ specification");
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Benjamin Tissoires <benjamin.tissoires@gmail.com>");
- MODULE_AUTHOR("Nestor Lopez Casado <nlopezcasad@logitech.com>");
+	Suggested-by: Alan Stern <stern@rowland.harvard.edu>
 
----
-base-commit: a693b9c95abd4947c2d06e05733de5d470ab6586
-change-id: 20240603-md-hid-logitech-hidpp-209ce6cac203
+and applied. Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
