@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-4108-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4109-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E238FC8D1
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 12:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E922E8FC8DF
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 12:22:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E1DD1C21A45
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 10:20:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 191421C227BB
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 10:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98AD5190076;
-	Wed,  5 Jun 2024 10:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11BC819047A;
+	Wed,  5 Jun 2024 10:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSOLuGWL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5Lw+8H7"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666241946D5;
-	Wed,  5 Jun 2024 10:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF3C1946D2;
+	Wed,  5 Jun 2024 10:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717582836; cv=none; b=LOre75C4EIwhQFhrAT6zK+IJeKlPjufKa7qDhkqebg9s0xnePUQHfGF+QcUeSzuvayueQsLkkpwxf9NVLN4qbSybmilMPEIWli0PjldiOvZdiIwBq2xjFSO/6sxWPchEIQdm0O6OKz0ztW9HWrt/c0/3+jNvbVU1zCLORkyjo14=
+	t=1717582942; cv=none; b=rzo66HIN9i7LMfJsae+id92SPI4lE0vu8wggG71BmBF1pnTS8yJcfJAo8MsMi8AUuTVUp5luyrgQn1JExblee+Ler+gFc9BSVBfH5pnOXfoeDXDqfQstSrx3/wRejzi5HjG1mQf7Yd4BNMIuBQyaudGud1kbDOWF/VbfaAfT8FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717582836; c=relaxed/simple;
-	bh=K/NNlu7lMhUcMk9rYOthlm/0NsBQrYRQmAec9h6uSdg=;
+	s=arc-20240116; t=1717582942; c=relaxed/simple;
+	bh=jIRscIuPUGy630eFqO8dPIPCeaaXVjFacY0w2qRNuUY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rUpyN/PwyiMWmOTF+amlLx/AWPKc0MLcUaCxNMgX6Z4oVPQ0JujiimaA6GaosRZ0+qDyeYEHAggt6ANwLd589R98iuwakmqGGFD/wiDSM+dl1DMgjlaDv0Ug9iuDMUSb1mo09M3IJLz8116DFQrecvEPQ2fgwqxEjVH0KSZndEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSOLuGWL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A8CC3277B;
-	Wed,  5 Jun 2024 10:20:32 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gaXAMva03Zvj8439R1Y/hKaH0kuAhiYKIiLtqWm+reTEyuxQ1XN1uLvIFSm9aDIKQkWqh6A2aR0sFWiQMGthH7gf3bFRcRyYAz+m2ULmXGNbiVuU0U8U7KhZsC4GnxRqKEvROMJ+o3sUliKcr+PJ7FEygXseHEhj8ol4TGdjOqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5Lw+8H7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CC6FC3277B;
+	Wed,  5 Jun 2024 10:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717582835;
-	bh=K/NNlu7lMhUcMk9rYOthlm/0NsBQrYRQmAec9h6uSdg=;
+	s=k20201202; t=1717582941;
+	bh=jIRscIuPUGy630eFqO8dPIPCeaaXVjFacY0w2qRNuUY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dSOLuGWLxQfe63XXTAVpn9dxYda1Slkq0IuX5oTLEQ7PWAuZGOD8DX4E5pAu+RdZw
-	 sEDojp2vYlvFgGvnUN3L1Wp+8LQsdMbSxhF8t1JEHlFWY2OfcYc0DPmcE+/N6ttMkC
-	 ZJbbPjcN+t/qc6LNGk2EEc/oNnENfcJp9NIU8vGvqmUjWcQ5kqZeQHcuKmdVMxYXGI
-	 O1I0ZNP90UarlBd+5XNkUHz9gOx1i2xl2rJXcPWvvLYmx56CXsDUlWjzmytMPlYDyy
-	 gr706mgo+fvIB9/LNPbrkC5Ah9EN9RpBvVMJu1AW3/tY/We/De8QjOMfAE66fsasfA
-	 p4ozRqWdmpWDw==
-Message-ID: <1c61d5b5-d9c0-4fa3-8267-8aaf6c441b75@kernel.org>
-Date: Wed, 5 Jun 2024 12:20:31 +0200
+	b=u5Lw+8H7nWih2bzvafldRz9FgNDZi7yduX2tGeuh6hdu2IOL+WdOkrfpIRHv5F8va
+	 ZYwWhPuNxw6R43NA7BkGZdTTJa/iZ0vQXhHAVGxffXj28Ly2naa1CV/fmMUbO9ZpMg
+	 Wwjvrb2euEvyMRUZHXi/dhi9D/xoxRsZNza2Dpe+Mp9oGWwlx7Zl16Tj/wt2aATKxK
+	 gOxyEdEfVztwp1tcjyDvLHezO7lp8J5T76Q/KH/6zSub/+rMLLIrk/zsg3xv57KC/c
+	 E5CfMIhA1JcpzKdp+oeEPLF0bX0knQl5XTdqlK6iHyKXHRLoQ72ElduoAOjCYX9Uh6
+	 Z3BT5/nc7Al4Q==
+Message-ID: <4d8b7fe5-a566-49f7-8924-3c310af2f7cd@kernel.org>
+Date: Wed, 5 Jun 2024 12:22:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,14 +50,15 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/5] dt-bindings: input: Add YAML to Awinic sar sensor.
+Subject: Re: [PATCH V2 3/5] Add aw9610x series related interfaces to the
+ aw_sar driver.
 To: wangshuaijie@awinic.com, dmitry.torokhov@gmail.com, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, jeff@labundy.com,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: liweilei@awinic.com, kangjiajun@awinic.com
 References: <20240605091143.163789-1-wangshuaijie@awinic.com>
- <20240605091143.163789-2-wangshuaijie@awinic.com>
+ <20240605091143.163789-4-wangshuaijie@awinic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,166 +104,46 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240605091143.163789-2-wangshuaijie@awinic.com>
+In-Reply-To: <20240605091143.163789-4-wangshuaijie@awinic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 05/06/2024 11:11, wangshuaijie@awinic.com wrote:
 > From: shuaijie wang <wangshuaijie@awinic.com>
 > 
-> Add the awinic,aw_sar.yaml file to adapt to the awinic sar sensor driver.
 
-Subject: drop final stops. From all your patches.
+No commit msg, no proper subject prefix.
 
-> 
 > Signed-off-by: shuaijie wang <wangshuaijie@awinic.com>
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+
+Drop all these, this is some bogus tags. Tag never starts with pipe, btw.
+
 > ---
-
-No changelog, so nothing improved?
-
->  .../bindings/input/awinic,aw_sar.yaml         | 125 ++++++++++++++++++
-
-No underscores, but rather awinic,aw96103.yaml
-
->  1 file changed, 125 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/awinic,aw_sar.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/awinic,aw_sar.yaml b/Documentation/devicetree/bindings/input/awinic,aw_sar.yaml
-> new file mode 100644
-> index 000000000000..2560ef09d3d0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/awinic,aw_sar.yaml
-> @@ -0,0 +1,125 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/awinic,aw_sar.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Awinic sar sensor driver family
-
-driver as Linux driver or some other hardware meaning? If first, then
-drop and describe hardware.
-
-
-> +
-> +maintainers:
-> +  - Shuaijie Wang <wangshuaijie@awinic.com>
-
-Missing description. You already got question about meaning of sar and
-indeed nothing improved.
-
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - awinic,aw96103
-> +      - awinic,aw96105
-> +      - awinic,aw96303
-> +      - awinic,aw96305
-> +      - awinic,aw96308
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  irq-gpio:
-> +    maxItems: 1
-> +
-> +  awinic,sar-label:
-
-label is a string, not number.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Set the label of the SAR(Specific Absorption Rate) sensor.
-> +      It is set to 0 if one awinic sar chip is used.
-> +      If two awinic sar chips are used, awinic,sar-label in the first
-> +      awinic-sar should be set to 0 and awinic,sar-label in the second
-> +      awinic-sar should be set to 1.
-
-Sorry, no instance indexing. Drop.
-
-> +
-> +
-
-No need for two line breaks.
-
-> +  awinic,regulator-power-supply:
-> +    description:
-> +      Choose if you want to use a regulator to power the chip. Then the
-> +      vccX-supply has to be set.
-> +
-> +  vcc0-supply:
-> +    description:
-> +      Optional regulator for chip, 1.7V-3.6V.
-> +      If two awinic sar chips are used, the first regulator
-> +      should set the ID to vcc0-supply and the second regulator
-> +      should set the ID to vcc1-supply.
-> +
-> +  awinic,channel-use-mask:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      The mask of channels used.
-> +      Configure according to the specific chip channel used.
-> +      Bit[31:0] Each bit represents a channel.
-> +      If the customer uses ch0 and ch2, then channel_use_mask=<0x05>
-> +      For a 3-channel chip, the maximum value is 0x07;
-> +      For a 5-channel chip, the maximum value is 0x1F;
-> +      For a 8-channel chip, the maximum value is 0xFF;
-> +
-> +  awinic,update-fw:
-> +    type: boolean
-> +    description:
-> +      Choose if you want to update the firmware.
-
-Not much improve in explanation or rationale. Why do you want to update
-FW every time? Explain this in property description.
-
-I mostly skipped the rest, because it does not look like you addresses
-previous feedback.
+>  drivers/input/misc/aw_sar/aw9610x/aw9610x.c | 884 ++++++++++++++++++++
+>  drivers/input/misc/aw_sar/aw9610x/aw9610x.h | 327 ++++++++
+>  2 files changed, 1211 insertions(+)
+>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.c
+>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.h
 
 ...
+
+> +struct aw_reg_data {
+> +	unsigned char rw;
+> +	unsigned short reg;
+> +};
+> +/********************************************
+> + * Register Access
+> + *******************************************/
+> +#define REG_NONE_ACCESS					(0)
+> +#define REG_RD_ACCESS					(1 << 0)
+> +#define REG_WR_ACCESS					(1 << 1)
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - irq-gpio
-> +  - awinic,sar-label
-> +  - awinic,channel-use-mask
-> +
-> +unevaluatedProperties: false
+> +static const struct aw_reg_data g_aw9610x_reg_access[] = {
 
-Missing some ref, like dai-common or component... or this is supposed to
-be additionalProperties: false instead.
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        awinic-sar@12 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-I still have no clue what is sar and there is no description in this
-binding.
-
-> +            compatible = "awinic,aw96308";
-> +            reg = <0x12>;
-> +            irq-gpio = <&tlmm 72 0>;
-
-Use proper defines.
-
-> +            awinic,sar-label = < 0 >;
-
-Do not introduce different coding style. Drop spaces. See DTS coding style.
-
+Ehh... so we are at basics of C. Data structures do not go to headers.
 
 
 Best regards,
