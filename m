@@ -1,40 +1,40 @@
-Return-Path: <linux-input+bounces-4100-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4101-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19D58FC731
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 11:04:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B03DE8FC735
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 11:04:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A91728678A
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 09:04:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C78731C20965
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 09:04:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D2218F2D5;
-	Wed,  5 Jun 2024 09:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8615918F2E4;
+	Wed,  5 Jun 2024 09:04:20 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from out28-49.mail.aliyun.com (out28-49.mail.aliyun.com [115.124.28.49])
+Received: from out28-217.mail.aliyun.com (out28-217.mail.aliyun.com [115.124.28.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BB484FDA;
-	Wed,  5 Jun 2024 09:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3EC84FDA;
+	Wed,  5 Jun 2024 09:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717578241; cv=none; b=lVE9oruEom8Y81F1jtxZpmn/AYg49kQ0fKQhbzWdtVigKQb5dBipAs3O78QZOrDfapnS+fvRv8xeatpohwFJULU3iwfru3hLXe+TkeGuIluzLAZ9ZYJhTMI8ULieyvG+yz2mN8+9ezUkLQ6QfkeRgE6+y+AZPz/YJyc2k2dWYQ0=
+	t=1717578260; cv=none; b=lsTt2HQcaYOLf5s5Q3cBhCA+e7IvrLXNiqCxyXz1UieD+XM5VANmfWySAQvZIToJqrR0HeBbfH22vRYMNxxh6i3lbJRi8Repv2rGgQdNZ98oX4oaujJat413UJk0Eo/T+QouZF0r5g9v0Hqi85VDI04o+SejSSM8zJuPNVkSthQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717578241; c=relaxed/simple;
-	bh=6NaMjgNd8caQE/oT0hM+viIfh2A6X0bRzORPkj0paVs=;
+	s=arc-20240116; t=1717578260; c=relaxed/simple;
+	bh=VNcyT37lBxpbTqPwnQEHMn1V1EwcpC+O6YxwPLQmCbg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l3lofE+rHepzVDSeL1ZdEXtBk/saB2VqJE/Ey210wE/yr/CC78ErMaHBfGMnB4QKyonxxjYKmgIkzbWQyj0hqvW9d8G9GojQcowi1n734rtbLTcngX9tPJ9FWLFb+qU0TSS+F9ExeZh1F+6UBE3kn4O1nE0hPvRrh8NVjQrr7fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.49
+	 MIME-Version; b=uxEIgyxDMMTPkzMCupygfCCRe6L9BYHODvtYaiz+coSb1BX9lglvEJTWbxkAh4q8MPF7oujXXcBjIO+19vechw7n1WjBU/QrX7xWGXl/6SqiJU8qVZnG+Oa9P/ZqZ90rx/3RkZRG7t4cRRyWyxuM371vhjApasIGOV3My8oqGHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.217
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.335459-0.000118111-0.664423;FP=0|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033070021168;MF=wangshuaijie@awinic.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.Xwc5QOE_1717578222;
-Received: from awinic..(mailfrom:wangshuaijie@awinic.com fp:SMTPD_---.Xwc5QOE_1717578222)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.0743626|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0136088-0.000444171-0.985947;FP=0|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033070043001;MF=wangshuaijie@awinic.com;NM=1;PH=DS;RN=11;RT=11;SR=0;TI=SMTPD_---.XwcOocV_1717578240;
+Received: from awinic..(mailfrom:wangshuaijie@awinic.com fp:SMTPD_---.XwcOocV_1717578240)
           by smtp.aliyun-inc.com;
-          Wed, 05 Jun 2024 17:03:49 +0800
+          Wed, 05 Jun 2024 17:04:08 +0800
 From: wangshuaijie@awinic.com
-To: lkp@intel.com
+To: robh@kernel.org
 Cc: conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
 	dmitry.torokhov@gmail.com,
@@ -44,281 +44,232 @@ Cc: conor+dt@kernel.org,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	liweilei@awinic.com,
-	oe-kbuild-all@lists.linux.dev,
-	robh@kernel.org,
 	wangshuaijie@awinic.com
-Subject: Re: [PATCH V1 5/5] Add support for Awinic sar sensor.
-Date: Wed,  5 Jun 2024 09:03:42 +0000
-Message-ID: <20240605090342.158059-1-wangshuaijie@awinic.com>
+Subject: Re: [PATCH V1 1/5] dt-bindings: input: Add YAML to Awinic sar sensor.
+Date: Wed,  5 Jun 2024 09:04:00 +0000
+Message-ID: <20240605090400.158245-1-wangshuaijie@awinic.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <202405300600.3YW7nPfV-lkp@intel.com>
-References: <202405300600.3YW7nPfV-lkp@intel.com>
+In-Reply-To: <171699272363.2444823.13570711738209030716.robh@kernel.org>
+References: <171699272363.2444823.13570711738209030716.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 30 May 2024 06:49:02 +0800, lkp@intel.com wrote:
->Hi,
+On Wed, 29 May 2024 09:25:23 -0500, robh@kernel.org Wrote:
+>On Wed, 29 May 2024 13:06:04 +0000, wangshuaijie@awinic.com wrote:
+>> From: shuaijie wang <wangshuaijie@awinic.com>
+>>=20
+>> Add the awinic,aw_sar.yaml file to adapt to the awinic sar sensor driver.
+>>=20
+>> Signed-off-by: shuaijie wang <wangshuaijie@awinic.com>
+>> ---
+>>  .../bindings/input/awinic,aw_sar.yaml         | 110 ++++++++++++++++++
+>>  1 file changed, 110 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/input/awinic,aw_sa=
+r.yaml
+>>=20
 >
->kernel test robot noticed the following build warnings:
+>My bot found errors running 'make dt_binding_check' on your patch:
 >
->[auto build test WARNING on e0cce98fe279b64f4a7d81b7f5c3a23d80b92fbc]
+>yamllint warnings/errors:
 >
->url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-input-Add-YAML-to-Awinic-sar-sensor/20240529-211303
->base:   e0cce98fe279b64f4a7d81b7f5c3a23d80b92fbc
->patch link:    https://lore.kernel.org/r/20240529130608.783624-6-wangshuaijie%40awinic.com
->patch subject: [PATCH V1 5/5] Add support for Awinic sar sensor.
->config: riscv-randconfig-r071-20240530 (https://download.01.org/0day-ci/archive/20240530/202405300600.3YW7nPfV-lkp@intel.com/config)
->compiler: riscv64-linux-gcc (GCC) 13.2.0
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405300600.3YW7nPfV-lkp@intel.com/reproduce)
+>dtschema/dtc warnings/errors:
+>/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/in=
+put/awinic,aw_sar.example.dtb: awinic_sar@12: 'aw_sar,update_fw' does not m=
+atch any of the regexes: '^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab=
+]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|ma=
+x8997|max8998|mpmc),.*', '^(pinctrl-single|#pinctrl-single|PowerPC),.*', '^=
+(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audi=
+o-card|st-plgpio|st-spics|ts),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '=
+^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+=
+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,=
+.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*', '^ac=
+me,.*', '^actions,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapt=
+eva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adieng,.*', '^admatec,.*',=
+ '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*', '^airoha,.*', '^al,.*=
+', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '^allegro,.*', '^alliedv=
+ision,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt=
+,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^ame=
+diatech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^a=
+ms,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^a=
+nvo,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*', '^arasan,.*', =
+'^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^aries,.*', '^arm=
+,.*', '^armadeus,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,=
+.*', '^asix,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*', =
+'^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avago,=
+.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^ax=
+is,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.*', '^beacon,.*'=
+, '^beagle,.*', '^belling,.*', '^bhf,.*', '^bigtreetech,.*', '^bitmain,.*',=
+ '^blutek,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadm=
+obi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^bytedance,.*=
+', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*', '^canaan,.=
+*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^cavium,.=
+*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^chargebyte,.*',=
+ '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*', '^chipspar=
+k,.*', '^chongzhou,.*', '^chrontel,.*', '^chrp,.*', '^chunghwa,.*', '^chuwi=
+,.*', '^ciaa,.*', '^cirrus,.*', '^cisco,.*', '^clockwork,.*', '^cloos,.*', =
+'^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compulab,.*', =
+'^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.*',=
+ '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.*',=
+ '^csq,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.*', '^cui,.*', '^cypress,.=
+*', '^cyx,.*', '^cznic,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '=
+^dell,.*', '^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi=
+,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*', =
+'^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^dmo,.*', '^d=
+omintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', '^ds,.*', '^=
+dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*', '^ebbg,.*', '^ebs-systa=
+rt,.*', '^ebv,.*', '^eckelmann,.*', '^edgeble,.*', '^edimax,.*', '^edt,.*',=
+ '^ees,.*', '^eeti,.*', '^einfochips,.*', '^eink,.*', '^elan,.*', '^element=
+14,.*', '^elgin,.*', '^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*=
+', '^embest,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emt=
+rion,.*', '^enclustra,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^e=
+ngicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*'=
+, '^est,.*', '^ettus,.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^ev=
+ervision,.*', '^exar,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^faceb=
+ook,.*', '^fairchild,.*', '^fairphone,.*', '^faraday,.*', '^fascontek,.*', =
+'^fastrax,.*', '^fcs,.*', '^feixin,.*', '^feiyang,.*', '^fii,.*', '^firefly=
+,.*', '^focaltech,.*', '^forlinx,.*', '^freebox,.*', '^freecom,.*', '^frida=
+,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^fxtec,.*', '^galaxycor=
+e,.*', '^gardena,.*', '^gateway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', =
+'^geekbuying,.*', '^gef,.*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^ge=
+niatech,.*', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*=
+', '^globaltop,.*', '^gmt,.*', '^goldelico,.*', '^goodix,.*', '^google,.*',=
+ '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*=
+', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*', '^hech=
+uang,.*', '^hideep,.*', '^himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisili=
+con,.*', '^hit,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', =
+'^honeywell,.*', '^hoperf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*=
+', '^htc,.*', '^huawei,.*', '^hugsun,.*', '^hwacom,.*', '^hxt,.*', '^hycon,=
+.*', '^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '=
+^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^im=
+agis,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^indiedroid=
+,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^ingenic,.*', '^ingra=
+sys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^inside-secure,.*'=
+, '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol,.*', '^invensen=
+se,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^irondevice,.*', '^i=
+see,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^itian,.*', '^ivo=
+,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', '^jedec,.*', '^j=
+esurun,.*', '^jethome,.*', '^jianda,.*', '^jide,.*', '^joz,.*', '^kam,.*', =
+'^karo,.*', '^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*=
+', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,=
+.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,=
+.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '=
+^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo=
+,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,=
+.*', '^lineartechnology,.*', '^linksprite,.*', '^linksys,.*', '^linutronix,=
+.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^litex,.*', '^lltc,.*', '^logi=
+cpd,.*', '^logictechno,.*', '^longcheer,.*', '^lontium,.*', '^loongmasses,.=
+*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.=
+*', '^m5stack,.*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marante=
+c,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^mbvl,=
+.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '^megachips,.*',=
+ '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^memsensing,.*',=
+ '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^merrii,.*', '^met=
+hode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*', '^micron,.*', =
+'^microsoft,.*', '^microsys,.*', '^mikroe,.*', '^mikrotik,.*', '^milkv,.*',=
+ '^miniand,.*', '^minix,.*', '^mips,.*', '^miramems,.*', '^mitsubishi,.*', =
+'^mitsumi,.*', '^mixel,.*', '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^mod=
+tronix,.*', '^moortec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*=
+', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*',=
+ '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^=
+murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^nec,.*',=
+ '^neonode,.*', '^netgear,.*', '^netlogic,.*', '^netron-dy,.*', '^netronix,=
+.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^newvision,.*', '^nexbo=
+x,.*', '^nextthing,.*', '^ni,.*', '^nintendo,.*', '^nlt,.*', '^nokia,.*', '=
+^nordic,.*', '^novatek,.*', '^novtech,.*', '^numonyx,.*', '^nutsboard,.*', =
+'^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^ocs,.*'=
+, '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^oneplus,.*=
+', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*', '^ope=
+nailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^openrisc=
+,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^ortustech,.*', '^osddi=
+splays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^ovti,.*', '^oxsemi,.*'=
+, '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^parallax,.*', '^pda,.*',=
+ '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec,.*', '^picochip,.*=
+', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,.*', '^plathome=
+,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocketbook,.*', '^pola=
+roid,.*', '^polyhex,.*', '^portwell,.*', '^poslab,.*', '^pov,.*', '^powerti=
+p,.*', '^powervr,.*', '^powkiddy,.*', '^primux,.*', '^probox2,.*', '^prt,.*=
+', '^pulsedlight,.*', '^purism,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi=
+,.*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta,=
+.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberry=
+pi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^remarkable,.*', '^renesa=
+s,.*', '^rervision,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.=
+*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*=
+', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', '^=
+saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^sandisk,.*', '^sat=
+oz,.*', '^sbs,.*', '^schindler,.*', '^seagate,.*', '^seeed,.*', '^seiroboti=
+cs,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^=
+sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '=
+^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*'=
+, '^si-linux,.*', '^siemens,.*', '^sifive,.*', '^sigma,.*', '^sii,.*', '^si=
+l,.*', '^silabs,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insi=
+ght,.*', '^siliconfile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*'=
+, '^sinlinx,.*', '^sinovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*'=
+, '^sis,.*', '^sitronix,.*', '^skov,.*', '^skyworks,.*', '^smartlabs,.*', '=
+^smartrg,.*', '^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,=
+.*', '^solidrun,.*', '^solomon,.*', '^sony,.*', '^sophgo,.*', '^sourceparts=
+,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd,.*', '^square=
+,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-ericsson,.*', '^sta=
+rfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^ste,.*', '^ster=
+icsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^summit,.*', '^s=
+unchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', '^swir,.*', '^=
+syna,.*', '^synology,.*', '^synopsys,.*', '^tbs,.*', '^tbs-biometrics,.*', =
+'^tcg,.*', '^tcl,.*', '^tcs,.*', '^tdo,.*', '^team-source-display,.*', '^te=
+chnexion,.*', '^technologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.=
+*', '^teltonika,.*', '^tempo,.*', '^terasic,.*', '^tesla,.*', '^tfc,.*', '^=
+thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercomm,.*', '^thwc,.*', '^ti=
+,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^topic,.*', '^topp=
+oly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^toumaz,.*', '^tpk,.=
+*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^traverse,.*', '^t=
+ronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turing,.*', '^tyan,.*=
+', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^=
+ufispace,.*', '^ugoos,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi,.*', '^urt=
+,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*', '^vamrs,.*=
+', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^via,.*', '^vialab,.*', '^=
+vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtual,.*', '^vishay,.*', '^=
+visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax,.*', '^vocore,.*', '^vo=
+ipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*', '^vxt,.*', '^wacom,.*',=
+ '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*', '^we,.*', '^wel=
+ltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi,.*', '^widora,.=
+*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlin=
+k,.*', '^winstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '=
+^wobo,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xillybus,.=
+*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*'=
+, '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectron=
+ics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*'=
+, '^ys,.*', '^ysoft,.*', '^zarlink,.*', '^zealz,.*', '^zeitec,.*', '^zidoo,=
+.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxel,.*', 'pinc=
+trl-[0-9]+'
+>	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml#
+>Documentation/devicetree/bindings/input/awinic,aw_sar.example.dtb: /exampl=
+e-0/i2c/awinic_sar@12: failed to match any schema with compatible: ['awinic=
+,aw_sar']
 >
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202405300600.3YW7nPfV-lkp@intel.com/
+
+The patch for version v2 will fix these issues.
+
+>doc reference errors (make refcheckdocs):
 >
->All warnings (new ones prefixed by >>):
+>See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2024052=
+9130608.783624-2-wangshuaijie@awinic.com
 >
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:489:28: warning: conflicting types for 'aw_parse_bin_header_1_0_0' due to enum/integer mismatch; have 'enum aw_bin_err_val(struct aw_bin *)' [-Wenum-int-mismatch]
->     489 | static enum aw_bin_err_val aw_parse_bin_header_1_0_0(struct aw_bin *bin)
->         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
->   drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:234:12: note: previous declaration of 'aw_parse_bin_header_1_0_0' with type 'int(struct aw_bin *)'
->     234 | static int aw_parse_bin_header_1_0_0(struct aw_bin *bin);
->         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->--
-
-The patch for version v2 will fix this issue.
-
->>> drivers/input/misc/aw_sar/./aw9610x/aw9610x.c:166:9: warning: no previous prototype for 'aw9610x_check_chipid' [-Wmissing-prototypes]
->     166 | int32_t aw9610x_check_chipid(void *data)
->         |         ^~~~~~~~~~~~~~~~~~~~
->>> drivers/input/misc/aw_sar/./aw9610x/aw9610x.c:863:9: warning: no previous prototype for 'aw9610x_init' [-Wmissing-prototypes]
->     863 | int32_t aw9610x_init(struct aw_sar *p_sar)
->         |         ^~~~~~~~~~~~
->>> drivers/input/misc/aw_sar/./aw9610x/aw9610x.c:880:6: warning: no previous prototype for 'aw9610x_deinit' [-Wmissing-prototypes]
->     880 | void aw9610x_deinit(struct aw_sar *p_sar)
->         |      ^~~~~~~~~~~~~~
->--
-
-The patch for version v2 will fix this issue.
-
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c: In function 'aw963xx_irq_handle_func':
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:309:17: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
->     309 |         int32_t ret;
->         |                 ^~~
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c: At top level:
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:602:9: warning: no previous prototype for 'aw963xx_check_chipid' [-Wmissing-prototypes]
->     602 | int32_t aw963xx_check_chipid(void *data)
->         |         ^~~~~~~~~~~~~~~~~~~~
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:955:9: warning: no previous prototype for 'aw963xx_init' [-Wmissing-prototypes]
->     955 | int32_t aw963xx_init(struct aw_sar *p_sar)
->         |         ^~~~~~~~~~~~
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c: In function 'aw963xx_init':
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:957:25: warning: variable 'aw963xx' set but not used [-Wunused-but-set-variable]
->     957 |         struct aw963xx *aw963xx;
->         |                         ^~~~~~~
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c: At top level:
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:974:6: warning: no previous prototype for 'aw963xx_deinit' [-Wmissing-prototypes]
->     974 | void aw963xx_deinit(struct aw_sar *p_sar)
->         |      ^~~~~~~~~~~~~~
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c: In function 'aw963xx_deinit':
->   drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:976:25: warning: variable 'aw963xx' set but not used [-Wunused-but-set-variable]
->     976 |         struct aw963xx *aw963xx;
->         |                         ^~~~~~~
->--
-
-The patch for version v2 will fix this issue.
-
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:39: warning: Cannot understand  * @brief Read register interface
->    on line 39 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:80: warning: Cannot understand  * @brief write register interface
->    on line 80 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:125: warning: Cannot understand  * @brief Write the corresponding bit of the register
->    on line 125 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:147: warning: Cannot understand  * @brief Continuously write data to the chip
->    on line 147 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:177: warning: Cannot understand  * @brief Continuously Read data from chip
->    on line 177 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:237: warning: Cannot understand  *
->    on line 237 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:544: warning: Cannot understand  * @brief Parse bin file
->    on line 544 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:599: warning: Cannot understand  * @brief Calculate the second power
->    on line 599 - I thought it was a doc line
->   drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c:620: warning: Cannot understand  * @brief Calculate the second power
->    on line 620 - I thought it was a doc line
->--
-
-The patch for version v2 will fix this issue.
-
->>> drivers/input/misc/aw_sar/./aw963xx/aw963xx.c:66: warning: Cannot understand  * @brief  |----------------code ram-----------------|
->    on line 66 - I thought it was a doc line
->--
-
-The patch for version v2 will fix this issue.
-
->>> drivers/input/misc/aw_sar/aw_sar.c:1647: warning: Cannot understand  * @brief sar sensor initialization logic.
->    on line 1647 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/aw_sar.c:1750: warning: Cannot understand  * @brief Distinguish different chips by chip name and obtain relevant chip information
->    on line 1750 - I thought it was a doc line
->>> drivers/input/misc/aw_sar/aw_sar.c:1825: warning: Cannot understand  * @brief Drive logic entry
->    on line 1825 - I thought it was a doc line
+>The base for the series is generally the latest rc1. A different dependency
+>should be noted in *this* patch.
 >
-
-The patch for version v2 will fix this issue.
-
+>If you already ran 'make dt_binding_check' and didn't see the above
+>error(s), then make sure 'yamllint' is installed and dt-schema is up to
+>date:
 >
->vim +489 drivers/input/misc/aw_sar/./comm/aw_sar_comm_interface.c
+>pip3 install dtschema --upgrade
 >
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  477  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  478  /********************************************************
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  479   *
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  480   * If the bin framework header version is 1.0.0,
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  481   * determine the data type of bin, and then perform different processing
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  482   * according to the data type
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  483   * If it is a single bin data type, write the data directly into the structure array
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  484   * If it is a multi-bin data type, first obtain the number of bins,
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  485   * and then recursively call the bin frame header processing function
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  486   * according to the bin number to process the frame header information of each bin separately
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  487   *
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  488   ********************************************************/
->b01a8a3a3fadc9 shuaijie wang 2024-05-29 @489  static enum aw_bin_err_val aw_parse_bin_header_1_0_0(struct aw_bin *bin)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  490  {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  491  	unsigned int bin_data_type;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  492  	enum aw_bin_err_val ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  493  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  494  	bin_data_type = AW_SAR_GET_32_DATA(*(bin->p_addr + 11),
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  495  				    *(bin->p_addr + 10),
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  496  				    *(bin->p_addr + 9), *(bin->p_addr + 8));
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  497  	switch (bin_data_type) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  498  	case DATA_TYPE_REGISTER:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  499  	case DATA_TYPE_DSP_REG:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  500  	case DATA_TYPE_SOC_APP:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  501  		// Divided into two processing methods,
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  502  		// one is single bin processing,
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  503  		// and the other is single bin processing in multi bin
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  504  		bin->single_bin_parse_num += 1;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  505  		if (!bin->multi_bin_parse_num)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  506  			bin->header_info[bin->all_bin_parse_num].valid_data_addr = 60;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  507  		aw_get_single_bin_header_1_0_0(bin);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  508  		break;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  509  	case DATA_TYPE_MULTI_BINS:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  510  		/* Get the number of times to enter multi bins */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  511  		bin->multi_bin_parse_num += 1;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  512  		ret = aw_get_multi_bin_header_1_0_0(bin);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  513  		if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  514  			return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  515  		break;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  516  	default:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  517  		return AW_BIN_ERROR_DATA_TYPE;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  518  	}
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  519  	return AW_BIN_ERROR_NONE;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  520  }
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  521  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  522  /* get the bin's header version */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  523  static enum aw_bin_err_val aw_check_bin_header_version(struct aw_bin *bin)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  524  {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  525  	unsigned int header_version;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  526  	enum aw_bin_err_val ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  527  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  528  	header_version = AW_SAR_GET_32_DATA(*(bin->p_addr + 7), *(bin->p_addr + 6),
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  529  				     *(bin->p_addr + 5), *(bin->p_addr + 4));
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  530  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  531  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  532  	// Write data to the corresponding structure array
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  533  	// according to different formats of the bin frame header version
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  534  	switch (header_version) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  535  	case HEADER_VERSION_1_0_0:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  536  		ret = aw_parse_bin_header_1_0_0(bin);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  537  		return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  538  	default:
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  539  		return AW_BIN_ERROR_HEADER_VERSION;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  540  	}
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  541  }
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  542  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  543  /**
->b01a8a3a3fadc9 shuaijie wang 2024-05-29 @544   * @brief Parse bin file
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  545   *
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  546   * @param bin: Store the contents of the parsed bin file
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  547   * @return 0 if init succeeded, other if error
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  548   */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  549  enum aw_bin_err_val aw_sar_parsing_bin_file(struct aw_bin *bin)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  550  {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  551  	enum aw_bin_err_val ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  552  	int i;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  553  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  554  	if (!bin)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  555  		return AW_BIN_ERROR_NULL_POINT;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  556  	bin->p_addr = bin->info.data;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  557  	bin->all_bin_parse_num = 0;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  558  	bin->multi_bin_parse_num = 0;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  559  	bin->single_bin_parse_num = 0;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  560  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  561  	/* filling bins header info */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  562  	ret = aw_check_bin_header_version(bin);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  563  	if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  564  		return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  565  	bin->p_addr = NULL;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  566  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  567  	/* check bin header info */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  568  	for (i = 0; i < bin->all_bin_parse_num; i++) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  569  		/* check sum */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  570  		ret = aw_check_sum(bin, i);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  571  		if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  572  			return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  573  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  574  		/* check register num */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  575  		if (bin->header_info[i].bin_data_type == DATA_TYPE_REGISTER) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  576  			ret = aw_check_register_num_v1(bin, i);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  577  			if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  578  				return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  579  			/* check dsp reg num */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  580  		} else if (bin->header_info[i].bin_data_type == DATA_TYPE_DSP_REG) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  581  			ret = aw_check_dsp_reg_num_v1(bin, i);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  582  			if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  583  				return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  584  			/* check soc app num */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  585  		} else if (bin->header_info[i].bin_data_type == DATA_TYPE_SOC_APP) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  586  			ret = aw_check_soc_app_num_v1(bin, i);
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  587  			if (ret < 0)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  588  				return ret;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  589  		} else {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  590  			bin->header_info[i].valid_data_len = bin->header_info[i].bin_data_len;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  591  		}
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  592  	}
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  593  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  594  	return AW_BIN_ERROR_NONE;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  595  }
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  596  /*********************************Parse bin file code end************************************/
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  597  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  598  /**
->b01a8a3a3fadc9 shuaijie wang 2024-05-29 @599   * @brief Calculate the second power
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  600   *
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  601   * @param cnt: ifrequency
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  602   * @return the second power
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  603   */
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  604  uint32_t aw_sar_pow2(uint32_t cnt)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  605  {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  606  	uint32_t sum = 1;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  607  	uint32_t i;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  608  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  609  	if (cnt == 0) {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  610  		sum = 1;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  611  	} else {
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  612  		for (i = 0; i < cnt; i++)
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  613  			sum *= 2;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  614  	}
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  615  
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  616  	return sum;
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  617  }
->b01a8a3a3fadc9 shuaijie wang 2024-05-29  618  
->
->-- 
->0-DAY CI Kernel Test Service
+>Please check and re-submit after running the above command yourself. Note
+>that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+>your schema. However, it must be unset to test all examples with your sche=
+ma.
 --
 
 Thanks,
