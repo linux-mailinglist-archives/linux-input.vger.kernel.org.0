@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-4110-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4111-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C6F8FC917
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 12:29:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F138FC926
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 12:33:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 011582814B8
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 10:29:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D51BC2857E1
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jun 2024 10:33:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72EB3190490;
-	Wed,  5 Jun 2024 10:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CF47191475;
+	Wed,  5 Jun 2024 10:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4G5NntM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTQWtmJ2"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46ECE1946D2;
-	Wed,  5 Jun 2024 10:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D591191466;
+	Wed,  5 Jun 2024 10:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717583351; cv=none; b=cGWquWMVO9o7kWxKw1uclYVLTMM1tBdVelqjj6nbwwZhj9waj0xExio6OmZrK9GLWvtfi5MZA1K8Zu301n5t4YPDpmbnIOr1Uvp89kim/MGFuOM6l81SYxGRmAXzjCckepL4qN4Y4U57DNAuhDE/muOvWACy+zVXFYTRhaRKYqI=
+	t=1717583596; cv=none; b=kJz+ca4WJICtK9LQK+/AlMOxzfayZkt82a/x6cr3bqigCgLsKqTTMsOGo69qExFbQQzFKOCXENr1IVXQbuKk4bo5gXz7Ax3opYJDAJ6tGp4Id8u9PWA2dn+n08iyqSU9/eKCLmEeui/LdmkV/IbXtg+PxYA9C3R/I/tWkEadr7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717583351; c=relaxed/simple;
-	bh=KJFx8mLLSIvcgUcKxYg+ceOAwzffFdULwa5Tt+9dI5M=;
+	s=arc-20240116; t=1717583596; c=relaxed/simple;
+	bh=I7P66n+OSdPW8kJ03BZQmqoFzlJDohdqidrXH+yerCs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YsprxCRsrILFR79P9FuPh44G/cy4DuzYIXvRKnObilDUEilsha7nma6Vtkq6uu6bfE+tmf1MdEzgmoXPOx0npkPDoE+JN3jo18etvd1X/f3ZpdXh3drcfl0yNfz1SHiemM2GdIzJTSP7M4GH5Gy+pu72WmGLCn9tXXNL8KkdB54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4G5NntM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF68C3277B;
-	Wed,  5 Jun 2024 10:29:07 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=rv3hRfDTv5fwNq7HZHnHskmvlkLUKUhJg4gXDEq3rVkp79wFUjg5PejsPhUAA6VYQ+pZcTlrIH/N/JbXpVqc0dAeoi5xV4WmpWigJwbNxCu/bKu/Rx3j9jgnAuZngUzrZPa/2E3UF6jAL54OggD+kKA88CVMtai6NZdb94+gcNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTQWtmJ2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51369C3277B;
+	Wed,  5 Jun 2024 10:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717583350;
-	bh=KJFx8mLLSIvcgUcKxYg+ceOAwzffFdULwa5Tt+9dI5M=;
+	s=k20201202; t=1717583596;
+	bh=I7P66n+OSdPW8kJ03BZQmqoFzlJDohdqidrXH+yerCs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=u4G5NntMM2wDB31s4HGsO6c4LRBVahT/UZcCeSvfkSI3qnIVBk/TuPR/VAXBKqCrX
-	 htmjEhYk2809GORu/1+2DNLEC+Ycf84OAsS4YBvEgXCvVdVbQU6RwzRrO8SsusqAyk
-	 dXXUntteXLNzhz5rCGIFxi3leWQi6idIF4Ipn6szdaSgPTOuL/x7fD9V+cl3u0bD0Q
-	 uogm4jFNQUwMf4s++43uh8IBeaXieCBzpIvZzqGLRH6K+JEPrTX6EWuNyAFaizG836
-	 +iu6huLB4GWUWXvqZjwU97m7dwC2NWmo62fsKf1TTDhjwzOKUD4RbCmssPkNkUR6kv
-	 1H+tWpapWYkdA==
-Message-ID: <869a876f-6ad8-40ff-85f2-268fb49fd475@kernel.org>
-Date: Wed, 5 Jun 2024 12:29:06 +0200
+	b=OTQWtmJ27ofd/eMoopUUgGUbfFiC7quhKUGR+lKEllCS+GNEwz36D7JlrxtpWmgMb
+	 joKjVwPFzZ+PttcchQY3Uftv+zUBqKVmJj11P/QY0DjDYr/oVqo/L42ZAfSi3yqY+O
+	 /pDhX853QIVfkfaN3MMdPuSEY8a8WSw9f7EYayllZlFOUNEyJF+t3rBtamatJBGrGM
+	 KzfO8Hq7u9Pnihbx2qevQMwzGMFCxBo2+nnHh+r15yBJkk+isAiObehtUaWX/5rr8m
+	 GE5LsRGOHixYJbdu3tA3y1KWxYF9qdSg0O4GtHfL7oa+Mqiuxrhdu5ZI0QucHce8PY
+	 nMFmzkcowZwqA==
+Message-ID: <d659cd9c-86e6-4f77-9157-fd6a7b47ea31@kernel.org>
+Date: Wed, 5 Jun 2024 12:33:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,15 +50,14 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 4/5] Add aw963xx series related interfaces to the
- aw_sar driver.
+Subject: Re: [PATCH V2 5/5] Add support for Awinic sar sensor.
 To: wangshuaijie@awinic.com, dmitry.torokhov@gmail.com, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, jeff@labundy.com,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: liweilei@awinic.com, kangjiajun@awinic.com
 References: <20240605091143.163789-1-wangshuaijie@awinic.com>
- <20240605091143.163789-5-wangshuaijie@awinic.com>
+ <20240605091143.163789-6-wangshuaijie@awinic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240605091143.163789-5-wangshuaijie@awinic.com>
+In-Reply-To: <20240605091143.163789-6-wangshuaijie@awinic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -116,344 +115,329 @@ On 05/06/2024 11:11, wangshuaijie@awinic.com wrote:
 > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 > | Reported-by: Dan Carpenter <error27@gmail.com>
 > ---
->  drivers/input/misc/aw_sar/aw963xx/aw963xx.c | 974 ++++++++++++++++++++
->  drivers/input/misc/aw_sar/aw963xx/aw963xx.h | 753 +++++++++++++++
->  2 files changed, 1727 insertions(+)
->  create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.c
->  create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.h
+>  drivers/input/misc/Kconfig         |    9 +
+>  drivers/input/misc/Makefile        |    1 +
+>  drivers/input/misc/aw_sar/Makefile |    2 +
+>  drivers/input/misc/aw_sar/aw_sar.c | 2036 ++++++++++++++++++++++++++++
+>  drivers/input/misc/aw_sar/aw_sar.h |   15 +
+>  5 files changed, 2063 insertions(+)
+>  create mode 100644 drivers/input/misc/aw_sar/Makefile
+>  create mode 100644 drivers/input/misc/aw_sar/aw_sar.c
+>  create mode 100644 drivers/input/misc/aw_sar/aw_sar.h
 > 
-> diff --git a/drivers/input/misc/aw_sar/aw963xx/aw963xx.c b/drivers/input/misc/aw_sar/aw963xx/aw963xx.c
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 6ba984d7f0b1..ac56fdd21839 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -939,4 +939,13 @@ config INPUT_STPMIC1_ONKEY
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called stpmic1_onkey.
+>  
+> +config AWINIC_SAR
+> +	tristate "Awinic sar sensor support"
+> +	depends on I2C
+> +	help
+> +	  Say Y to enable support for the Awinic sar sensor driver.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called awinic_sar.
+> +
+>  endif
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index 04296a4abe8e..6ee1870ea677 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -90,3 +90,4 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
+>  obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
+>  obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
+>  obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
+> +obj-$(CONFIG_AWINIC_SAR)		+= aw_sar/
+> diff --git a/drivers/input/misc/aw_sar/Makefile b/drivers/input/misc/aw_sar/Makefile
 > new file mode 100644
-> index 000000000000..7ce40174a089
+> index 000000000000..c357ecaa4f98
 > --- /dev/null
-> +++ b/drivers/input/misc/aw_sar/aw963xx/aw963xx.c
-> @@ -0,0 +1,974 @@
+> +++ b/drivers/input/misc/aw_sar/Makefile
+> @@ -0,0 +1,2 @@
+> +obj-$(CONFIG_AWINIC_SAR) += awinic_sar.o
+> +awinic_sar-objs := ./comm/aw_sar_comm_interface.o aw_sar.o ./aw9610x/aw9610x.o ./aw963xx/aw963xx.o
+> diff --git a/drivers/input/misc/aw_sar/aw_sar.c b/drivers/input/misc/aw_sar/aw_sar.c
+> new file mode 100644
+> index 000000000000..ab89fed65a6a
+> --- /dev/null
+> +++ b/drivers/input/misc/aw_sar/aw_sar.c
+> @@ -0,0 +1,2036 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * AWINIC sar sensor driver (aw963xx)
+> + * AWINIC sar sensor driver
 > + *
 > + * Author: Shuaijie Wang<wangshuaijie@awinic.com>
 > + *
 > + * Copyright (c) 2024 awinic Technology CO., LTD
 > + */
-> +#include "aw963xx.h"
-> +#include "../aw_sar.h"
+> +#include "./comm/aw_sar_chip_interface.h"
+> +#include "aw_sar.h"
 > +
-> +#define AW963XX_I2C_NAME "aw963xx_sar"
+> +#define AW_SAR_I2C_NAME		"awinic_sar"
 > +
-> +static void aw963xx_set_cs_as_irq(struct aw_sar *p_sar, int flag);
-> +static void aw963xx_get_ref_ch_enable(struct aw_sar *p_sar);
-> +
-> +static int32_t aw963xx_read_init_over_irq(void *load_bin_para)
-> +{
-> +	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-> +	uint32_t cnt = 1000;
-> +	uint32_t reg;
-> +	int32_t ret;
-> +
-> +	while (cnt--) {
-> +		ret = aw_sar_i2c_read(p_sar->i2c, REG_IRQSRC, &reg);
-> +		if (ret != 0) {
-> +			dev_err(p_sar->dev, "i2c error %d", ret);
-> +			return ret;
-> +		}
-> +		if ((reg & 0x01) == 0x01) {
-> +			aw_sar_i2c_read(p_sar->i2c, REG_FWVER, &reg);
-> +			return 0;
-> +		}
-> +		mdelay(1);
-> +	}
-> +
-> +	aw_sar_i2c_read(p_sar->i2c, REG_FWVER, &reg);
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static void aw963xx_convert_little_endian_2_big_endian(struct aw_bin *aw_bin)
-> +{
-> +	uint32_t start_index = aw_bin->header_info[0].valid_data_addr;
-> +	uint32_t fw_len = aw_bin->header_info[0].reg_num;
-> +	uint32_t uints = fw_len / AW963XX_SRAM_UPDATE_ONE_UINT_SIZE;
-> +	uint8_t tmp1;
-> +	uint8_t tmp2;
-> +	uint8_t tmp3;
-> +	uint8_t tmp4;
-> +	int i;
-> +
-> +	for (i = 0; i < uints; i++) {
-> +		tmp1 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 3];
-> +		tmp2 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 2];
-> +		tmp3 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 1];
-> +		tmp4 = aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE];
-> +		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE]     = tmp1;
-> +		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 1] = tmp2;
-> +		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 2] = tmp3;
-> +		aw_bin->info.data[start_index + i * AW963XX_SRAM_UPDATE_ONE_UINT_SIZE + 3] = tmp4;
-> +	}
-> +}
-> +
-> +/**
-> + * @aw963xx_sram_fill_not_wrote_area()
-> + *         |----------------code ram-----------------|
-> + *       0x2000                                    0x4fff
-> + *         |--- app wrote here ---|--fill with 0xff--|
-> + *
-> + *         if the size of app is less than the size of code ram, the rest of the
-> + *         ram is filled with 0xff.
-> + * @load_bin_para
-> + * @offset the rear addr of app
-> + * @return int32_t
+> +/*
+> + * Please check which power_supply on your platform
+> + * can get the charger insertion information, then select it.
+> + * eg: "usb"/"charger"/"mtk-master-charger"/"mtk_charger_type"
 > + */
-> +static int32_t aw963xx_sram_fill_not_wrote_area(void *load_bin_para, uint32_t offset)
+> +#define USB_POWER_SUPPLY_NAME   "charger"
+> +/*
+> + * Check which of your power_supply properties is available
+> + * for the charger insertion information and select it.
+> + * eg: POWER_SUPPLY_PROP_ONLINE/POWER_SUPPLY_PROP_PRESENT
+> + */
+> +#define AW_USB_PROP_ONLINE	POWER_SUPPLY_PROP_ONLINE
+> +
+> +#define AW_I2C_RW_RETRY_TIME_MIN		(2000)
+> +#define AW_I2C_RW_RETRY_TIME_MAX		(3000)
+> +#define AW_RETRIES				(5)
+> +
+> +#define AW_SAR_AWRW_OffSET			(20)
+> +#define AW_SAR_AWRW_DATA_WIDTH			(5)
+> +#define AW_DATA_OffSET_2			(2)
+> +#define AW_DATA_OffSET_3			(3)
+> +#define AW_POWER_ON_SYSFS_DELAY_MS		(5000)
+> +#define AW_SAR_MONITOR_ESD_DELAY_MS		(5000)
+> +#define AW_SAR_OFFSET_LEN			(15)
+> +#define AW_SAR_VCC_MIN_UV			(1700000)
+> +#define AW_SAR_VCC_MAX_UV			(3600000)
+> +
+> +static struct mutex aw_sar_lock;
+> +
+> +static int32_t aw_sar_get_chip_info(struct aw_sar *p_sar);
+> +static void aw_sar_sensor_free(struct aw_sar *p_sar);
+> +
+> +//Because disable/enable_irq api Therefore, IRQ is embedded
+> +void aw_sar_disable_irq(struct aw_sar *p_sar)
 > +{
-> +	uint32_t last_pack_len = (AW963XX_SRAM_END_ADDR - offset) %
-> +						AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-> +	uint32_t pack_cnt = last_pack_len == 0 ?
-> +			((AW963XX_SRAM_END_ADDR - offset) / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) :
-> +			((AW963XX_SRAM_END_ADDR - offset) / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) + 1;
-> +	uint8_t buf[AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2] = { 0 };
-> +	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-> +	uint32_t download_addr_with_ofst;
-> +	uint8_t *r_buf;
-> +	int32_t ret;
-> +	uint32_t i;
-> +
-> +	r_buf = devm_kzalloc(p_sar->dev, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE, GFP_KERNEL);
-> +	if (!r_buf)
-> +		return -ENOMEM;
-> +
-> +	memset(buf, 0xff, sizeof(buf));
-> +	for (i = 0; i < pack_cnt; i++) {
-> +		memset(r_buf, 0, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-> +		download_addr_with_ofst = offset + i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-> +		buf[0] = (uint8_t)(download_addr_with_ofst >> OFFSET_BIT_8);
-> +		buf[1] = (uint8_t)(download_addr_with_ofst);
-> +		if (i != (pack_cnt - 1)) {
-> +			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf,
-> +					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return ret;
-> +			}
-> +			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf,
-> +					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return ret;
-> +			}
-> +			if (memcmp(&buf[2], r_buf, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) != 0) {
-> +				dev_err(p_sar->dev, "read is not equal to write ");
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return -EINVAL;
-> +			}
-> +		} else {
-> +			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf, last_pack_len + 2);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return ret;
-> +			}
-> +			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf, last_pack_len);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return ret;
-> +			}
-> +			if (memcmp(&buf[2], r_buf, last_pack_len) != 0) {
-> +				dev_err(p_sar->dev, "read is not equal to write ");
-> +				devm_kfree(p_sar->dev, r_buf);
-> +				return -EINVAL;
-> +			}
-> +		}
+> +	if (p_sar->irq_init.host_irq_stat == IRQ_ENABLE) {
+> +		disable_irq(p_sar->irq_init.to_irq);
+> +		p_sar->irq_init.host_irq_stat = IRQ_DISABLE;
 > +	}
-> +
-> +	devm_kfree(p_sar->dev, r_buf);
-> +
-> +	return 0;
 > +}
 > +
-> +static int32_t aw963xx_sram_data_write(struct aw_bin *aw_bin, void *load_bin_para)
+> +void aw_sar_enable_irq(struct aw_sar *p_sar)
 > +{
-> +	uint8_t buf[AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2] = { 0 };
-> +	uint32_t start_index = aw_bin->header_info[0].valid_data_addr;
-> +	uint32_t fw_bin_version = aw_bin->header_info[0].app_version;
-> +	uint32_t download_addr = AW963XX_RAM_START_ADDR;
-> +	uint32_t fw_len = aw_bin->header_info[0].reg_num;
-> +	uint32_t last_pack_len = fw_len % AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-> +	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-> +	uint32_t download_addr_with_ofst = 0;
-> +	uint32_t pack_cnt;
-> +	uint8_t *r_buf;
-> +	int32_t ret = -EINVAL;
-> +	uint32_t i;
-> +
-> +	r_buf = devm_kzalloc(p_sar->dev, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE, GFP_KERNEL);
-> +	if (!r_buf)
-> +		return -ENOMEM;
-> +
-> +	pack_cnt = ((fw_len % AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) == 0) ?
-> +			(fw_len / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) :
-> +			(fw_len / AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) + 1;
-> +
-> +	dev_info(p_sar->dev, "fw_bin_version = 0x%x", fw_bin_version);
-> +	for (i = 0; i < pack_cnt; i++) {
-> +		memset(r_buf, 0, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-> +		download_addr_with_ofst = download_addr + i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE;
-> +		buf[0] = (uint8_t)(download_addr_with_ofst >> OFFSET_BIT_8);
-> +		buf[1] = (uint8_t)(download_addr_with_ofst);
-> +		if (i != (pack_cnt - 1)) {
-> +			memcpy(&buf[2], &aw_bin->info.data[start_index +
-> +					i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE],
-> +					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-> +			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf,
-> +					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE + 2);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-> +				goto err_out;
-> +			}
-> +			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf,
-> +					AW963XX_SRAM_UPDATE_ONE_PACK_SIZE);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-> +				goto err_out;
-> +			}
-> +			if (memcmp(&buf[2], r_buf, AW963XX_SRAM_UPDATE_ONE_PACK_SIZE) != 0) {
-> +				dev_err(p_sar->dev, "read is not equal to write ");
-> +				ret = -EIO;
-> +				goto err_out;
-> +			}
-> +		} else { // last pack process
-> +			memcpy(&buf[2], &aw_bin->info.data[start_index +
-> +					i * AW963XX_SRAM_UPDATE_ONE_PACK_SIZE], last_pack_len);
-> +			ret = aw_sar_i2c_write_seq(p_sar->i2c, buf, last_pack_len + 2);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, write_seq error!", i);
-> +				goto err_out;
-> +			}
-> +			ret = aw_sar_i2c_read_seq(p_sar->i2c, buf, 2, r_buf, last_pack_len);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, read_seq error!", i);
-> +				goto err_out;
-> +			}
-> +			if (memcmp(&buf[2], r_buf, last_pack_len) != 0) {
-> +				dev_err(p_sar->dev, "read is not equal to write ");
-> +				ret = -EIO;
-> +				goto err_out;
-> +			}
-> +			/* fill 0xff in the area that not worte. */
-> +			ret = aw963xx_sram_fill_not_wrote_area(load_bin_para,
-> +					download_addr_with_ofst + last_pack_len);
-> +			if (ret != 0) {
-> +				dev_err(p_sar->dev, "cnt%d, sram_fill_not_wrote_area error!", i);
-> +				goto err_out;
-> +			}
-> +		}
+> +	if (p_sar->irq_init.host_irq_stat == IRQ_DISABLE) {
+> +		enable_irq(p_sar->irq_init.to_irq);
+> +		p_sar->irq_init.host_irq_stat = IRQ_ENABLE;
 > +	}
-> +
-> +err_out:
-> +	devm_kfree(p_sar->dev, r_buf);
-
-Why do you use managed interface?
-
-> +
-> +	return ret;
 > +}
 > +
-> +static int32_t aw963xx_update_firmware(struct aw_bin *aw_bin, void *load_bin_para)
+> +//Chip logic part start
+> +//Load default array function
+> +static int32_t
+> +aw_sar_para_loaded_func(struct i2c_client *i2c, const struct aw_sar_para_load_t *para_load)
 > +{
-> +	struct aw_sar *p_sar = (struct aw_sar *)load_bin_para;
-> +	struct aw963xx *aw963xx = (struct aw963xx *)p_sar->priv_data;
-> +	struct i2c_client *i2c = p_sar->i2c;
 > +	int32_t ret;
-> +
-> +	if (aw963xx->start_mode == AW963XX_ROM_MODE) {
-> +		dev_info(p_sar->dev, "no need to update fw.");
-> +		return 0;
-> +	}
-> +
-> +	//step1: close coderam shutdown mode
+> +	int32_t i;
 
-Plaese fix your style to be consistent. There is a space after //.
-Always, so fix all your patches.
-
+int32_t? So you send user-space driver to the kernel? That would explain
+this terrible coding style, but it is a clear no-go.
 
 
 ...
 
-> +
-> +int32_t aw963xx_check_chipid(void *data)
+> +static void aw_sar_monitor_work(struct work_struct *aw_work)
 > +{
-> +	struct aw_sar *p_sar = (struct aw_sar *)data;
-> +	uint32_t reg_val;
+> +	struct aw_sar *p_sar = container_of(aw_work, struct aw_sar, monitor_work.work);
+> +	uint32_t data;
 > +	int32_t ret;
 > +
-> +	if (!p_sar)
-> +		return -EINVAL;
-> +
-> +	ret = aw_sar_i2c_read(p_sar->i2c, REG_CHIP_ID0, &reg_val);
-> +	if (ret < 0) {
-> +		dev_err(p_sar->dev, "read CHIP ID failed: %d", ret);
-> +		return ret;
+> +	ret = aw_sar_i2c_read(p_sar->i2c, 0x0000, &data);
+> +	if (ret != 0) {
+> +		dev_err(p_sar->dev, "read 0x0000 err: %d", ret);
+> +		return;
 > +	}
-> +
-> +	switch (reg_val) {
-> +	case AW96303_CHIP_ID:
-> +		dev_info(p_sar->dev, "aw96303 detected, 0x%04x", reg_val);
-
-Your driver is quite noisy. Reduce the severity of informational
-messages, because driver should be quiet on success.
-
-I don't understand why even having dev_info in 5 places instead of one
-place.
-
-> +		memcpy(p_sar->chip_name, AW96303, 8);
-> +		ret = 0;
-> +		break;
-> +	case AW96305_CHIP_ID:
-> +		dev_info(p_sar->dev, "aw96305 detected, 0x%04x", reg_val);
-> +		memcpy(p_sar->chip_name, AW96305, 8);
-> +		ret = 0;
-> +		break;
-> +	case AW96305BFOR_CHIP_ID:
-> +		dev_info(p_sar->dev, "aw96305bfor detected, 0x%04x", reg_val);
-> +		memcpy(p_sar->chip_name, AW96305BFOR, 8);
-> +		ret = 0;
-> +		break;
-> +	case AW96308_CHIP_ID:
-> +		dev_info(p_sar->dev, "aw96308 detected, 0x%04x", reg_val);
-> +		memcpy(p_sar->chip_name, AW96308, 8);
-> +		ret = 0;
-> +		break;
-> +	case AW96310_CHIP_ID:
-> +		dev_info(p_sar->dev, "aw96310 detected, 0x%04x", reg_val);
-> +		memcpy(p_sar->chip_name, AW96310, 8);
-
-No, all these memcpy are just silly. You later compare strings instead
-of comparing the detected chip id (integer).
-
-> +		ret = 0;
-> +		break;
-> +	default:
-> +		dev_info(p_sar->dev, "chip id error, 0x%04x", reg_val);
-> +		ret =  -EIO;
-
-Fix your style, just one space after =. This applies in multiple places.
-
-> +		break;
+> +	if (data == 0 && p_sar->driver_code_initover_flag) {
+> +		dev_err(p_sar->dev, "aw_chip may reset");
+> +		aw_sar_disable_irq(p_sar);
+> +		ret = aw_sar_chip_init(p_sar);
+> +		if (ret != 0)
+> +			return;
 > +	}
-> +
-> +	return ret;
+> +	queue_delayed_work(p_sar->monitor_wq, &p_sar->monitor_work,
+> +			msecs_to_jiffies(AW_SAR_MONITOR_ESD_DELAY_MS));
 > +}
 > +
+> +static int32_t aw_sar_monitor_esd_init(struct aw_sar *p_sar)
+> +{
+> +	p_sar->monitor_wq = create_singlethread_workqueue("aw_sar_workqueue");
+> +	if (!p_sar->monitor_wq) {
+> +		dev_err(&p_sar->i2c->dev, "aw_sar_workqueue error");
+> +		return -EINVAL;
+> +	}
+> +	INIT_DELAYED_WORK(&p_sar->monitor_work, aw_sar_monitor_work);
+> +	queue_delayed_work(p_sar->monitor_wq, &p_sar->monitor_work,
+> +			msecs_to_jiffies(AW_SAR_MONITOR_ESD_DELAY_MS));
+> +
+> +	return 0;
+> +}
+> +
+> +static void aw_sar_sensor_free(struct aw_sar *p_sar)
+> +{
+> +	if (g_aw_sar_driver_list[p_sar->curr_use_driver_type].p_chip_deinit != NULL)
+> +		g_aw_sar_driver_list[p_sar->curr_use_driver_type].p_chip_deinit(p_sar);
+> +}
+> +
+> +
+> +/* Drive logic entry */
+> +static int32_t aw_sar_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct aw_sar *p_sar;
+> +	int32_t ret;
+> +
+> +	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C)) {
+> +		pr_err("check_functionality failed!\n");
+> +		return -EIO;
+> +	}
+> +
+> +	p_sar = devm_kzalloc(&i2c->dev, sizeof(struct aw_sar), GFP_KERNEL);
 
-There are so many trivial issues in this driver that I think you should
-start from huge cleanup from all these trivialities before sending to
-review. You try to upstream a downstream, poor quality code. This is
-always a pain. Instead you should take moderately recent driver, which
-passed review, as a template and work on top of it with Linux coding
-uniformed style.
+Heh, so you upstream 10 year old code?
+
+sizeof(*)
+
+> +	if (!p_sar) {
+> +		ret = -ENOMEM;
+> +		goto err_malloc;
+
+That's just return.
+
+> +	}
+> +
+> +	p_sar->dev = &i2c->dev;
+> +	p_sar->i2c = i2c;
+> +	i2c_set_clientdata(i2c, p_sar);
+> +
+> +	//1.Judge whether to use regular power supply. If yes, supply power
+> +	ret = aw_sar_regulator_power(p_sar);
+> +	if (ret != 0) {
+> +		dev_err(&i2c->dev, "regulator_power error!");
+> +		goto err_malloc;
+> +	}
+> +
+> +	//2.Get chip initialization resources
+> +	ret = aw_sar_get_chip_info(p_sar);
+> +	if (ret != 0) {
+> +		dev_err(&i2c->dev, "chip_init error!");
+
+DON't SCREAM! No need!
+
+> +		goto err_chip_init;
+> +	}
+> +
+> +	//3.Chip initialization process
+> +	ret = aw_sar_init(p_sar);
+> +	if (ret != 0) {
+> +		dev_err(&i2c->dev, "sar_init error!");
+> +		goto err_sar_init;
+> +	}
+> +
+> +	if (p_sar->dts_info.monitor_esd_flag) {
+> +		ret = aw_sar_monitor_esd_init(p_sar);
+> +		if (ret != 0) {
+> +			dev_err(&i2c->dev, "monitor_esd_init error!");
+> +			goto err_esd_init;
+> +		}
+> +	}
+> +
+> +	dev_dbg(&i2c->dev, "probe success!");
+
+No. Drop all silly function entry/exit/success messages.
+
+EVERYWHERE.
+
+> +
+> +	return 0;
+> +
+
+
+> +static const struct of_device_id aw_sar_dt_match[] = {
+> +	{ .compatible = "awinic,aw96103" },
+> +	{ .compatible = "awinic,aw96105" },
+> +	{ .compatible = "awinic,aw96303" },
+> +	{ .compatible = "awinic,aw96305" },
+> +	{ .compatible = "awinic,aw96308" },
+
+So all are compatible... express it in bindings.
+
+> +	{ },
+> +};
+> +
+> +static const struct i2c_device_id aw_sar_i2c_id[] = {
+> +	{ AW_SAR_I2C_NAME, 0 },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(i2c, aw_sar_i2c_id);
+> +
+> +static struct i2c_driver aw_sar_i2c_driver = {
+> +	.driver = {
+> +		.name = AW_SAR_I2C_NAME,
+> +		.owner = THIS_MODULE,
+
+NAK
+
+> +		.of_match_table = aw_sar_dt_match,
+> +		.pm = &aw_sar_pm_ops,
+> +	},
+> +	.probe = aw_sar_i2c_probe,
+> +	.remove = aw_sar_i2c_remove,
+> +	.shutdown = aw_sar_i2c_shutdown,
+> +	.id_table = aw_sar_i2c_id,
+> +};
+> +
+> +static int32_t __init aw_sar_i2c_init(void)
+> +{
+> +	int32_t ret;
+> +
+> +	ret = i2c_add_driver(&aw_sar_i2c_driver);
+> +	if (ret) {
+> +		pr_err("fail to add aw_sar device into i2c\n");
+> +		return ret;
+> +	}
+
+Srsly, this is just NAK. This code is way too poor. Get some internal
+help from awinic, because this should not be sent.
+
+> +
+> +	return 0;
+> +}
+> +
+> +module_init(aw_sar_i2c_init);
+> +static void __exit aw_sar_i2c_exit(void)
+> +{
+> +	i2c_del_driver(&aw_sar_i2c_driver);
+> +}
+> +module_exit(aw_sar_i2c_exit);
+> +MODULE_DESCRIPTION("AWINIC SAR Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/input/misc/aw_sar/aw_sar.h b/drivers/input/misc/aw_sar/aw_sar.h
+> new file mode 100644
+> index 000000000000..7a139f56e9c3
+> --- /dev/null
+> +++ b/drivers/input/misc/aw_sar/aw_sar.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef AW_SAR_H_
+> +#define AW_SAR_H_
+> +
+> +void aw_sar_disable_irq(struct aw_sar *p_sar);
+> +void aw_sar_enable_irq(struct aw_sar *p_sar);
+> +
+> +int32_t aw_sar_soft_reset(struct aw_sar *p_sar);
+> +int32_t aw_sar_check_init_over_irq(struct aw_sar *p_sar);
+> +int32_t aw_sar_update_fw(struct aw_sar *p_sar);
+> +int32_t aw_sar_load_def_reg_bin(struct aw_sar *p_sar);
+> +void aw_sar_mode_set(struct aw_sar *p_sar, uint8_t curr_mode);
+> +int32_t aw_sar_update_reg_set_func(struct aw_sar *p_sar);
+
+
+Why is all this needed for one file and why is it here?
 
 Best regards,
 Krzysztof
