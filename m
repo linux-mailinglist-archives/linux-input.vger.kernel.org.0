@@ -1,53 +1,53 @@
-Return-Path: <linux-input+bounces-4145-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4146-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11D28FDB16
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 02:00:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E397A8FDB18
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 02:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C27041C22B25
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 00:00:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D2362882D9
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 00:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99FB364;
-	Thu,  6 Jun 2024 00:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC65910E9;
+	Thu,  6 Jun 2024 00:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="ePfx+9b1"
+	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="epOS53Gb"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0b-0046e701.pphosted.com (mx0b-0046e701.pphosted.com [67.231.157.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EF123C9;
-	Thu,  6 Jun 2024 00:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF927E6;
+	Thu,  6 Jun 2024 00:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.157.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717632040; cv=none; b=XnYsZtOn+LSnoqACvWiAwD74MkEnVUY/bzhBcrW+V0nHQ/95a9KO4IH2lHzTTlceNHSmAKIPCSzeJZQz51bnWiHf84xtRKv/63ElQGZofdh8vZDKBmAp/yJzZ3cchnwOxVsR9zp1iKM8mxqmOW0POKyYXrt+9Ir/D2eLD/9Sqq4=
+	t=1717632042; cv=none; b=aq2eTt8QQOZVoTOGd4+fE2ivCRuedf2japwB/Jyu9HU45bMQrzCJ12NUX+8gq4vukp1tDAVdha4Xx7mH0+iRdTBCnjznVIjYD6TJEPK+SwnaTQGAoCD+FhRR2Enyp2hGe/8vfHf4N0RHV50HVS6rjhYhT2WtOwC/fOTvplDhMes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717632040; c=relaxed/simple;
-	bh=bD6OdL68EaJAFx8NMGIrSd33wCJ8XWh9kWoYIyfKz8w=;
+	s=arc-20240116; t=1717632042; c=relaxed/simple;
+	bh=3KQ324a+aNFxbZCXFok2y2weO4PJIGknu/daWhVhMsU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=t3iYcVrVWD8kKJoyZ0ow58idQ/3epo0TeFzQcNU92E44uIdVHDncV5EYrsTl7+m9+nY0Iau8uZkwba+qBokd86TKWnfE1Wx7rMShcbhNhk4GCDtVJBJ0WlzJFZVoLthlcqqjbHjJPXr+pU+fu1yQIxG0uIGisSVVWskikdilfW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=ePfx+9b1; arc=none smtp.client-ip=67.231.157.77
+	 In-Reply-To:To:CC; b=YwSWau/82bQw3frVY+P46lPqWOfKyGaOZwjGTok6IHFD8GI0lD5QTVkeMArJzeISMe6Pox+QRXGlO4qQMxcqLRFwYtiVGiFnyY3LCH/tpm9bdxnrbrAcnRHy9MLe80HKIjWKNmU1DeAbWqQOdnGEuwPit2UcEhlUzXVKFNWBBc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=epOS53Gb; arc=none smtp.client-ip=67.231.157.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
 Received: from pps.filterd (m0341555.ppops.net [127.0.0.1])
-	by mx0b-0046e701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455MCwgq016418;
+	by mx0b-0046e701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455MCwgr016418;
 	Wed, 5 Jun 2024 23:17:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps1; bh=AhU2D
-	ZJBcuW78r8ntcxANy5fqvNuhWgM86A5vqDna+4=; b=ePfx+9b1hEZnUXUiNyJkF
-	Rwex0Ifqq1TIMT2rV1sXRIDNqmch+f72otO2lrU7F8YIESL9OFaXF5A+RPhyRDqo
-	lFX58PZDhHosbkZNfwOG1zEExNJgWb+BjNz9ZsTDLXSNZ71Boi3BIsZXXyvoq4uC
-	fJqd5RZEsbLwAzTZl56y663Rf+isJ6Nwh2DFS/UK/fnHEPaOejpC2/D6kAKNZcIy
-	vVPC/9XWZ2V3JgdHoZEig9nnwhw1IQWNNsyi+srwBPrtZNL5I8/alr3iHV9WDXcE
-	ei5xsOVOv927jm3SrtnqX8Xt+Brpr1ewLlB9HNM/Sl6Gb5fKX3A0H3VA8UCXphH4
-	A==
+	:message-id:mime-version:references:subject:to; s=pps1; bh=bLKrX
+	vKovutwmShMXcjlyb9MfMXa88poPhCWGdD55zs=; b=epOS53GbklWyAbK6INZfD
+	xANzm7YNgHoyUO4YHPH9L+rTpKarFwJqcHzoBOF3/DFumcIRI2GdkBFUIc2zX/zC
+	8/SvYp+okHxdK+ipHbaDdTp1Toj1RfuKH0I059in8IMWXNSxf8Q73946FosZiGiY
+	AY1loae7rk+/OfFSjQWxMR0LTZF4EaduTI5S2bgdIAT1yx5mBVamn4pmRScdhxp8
+	x3bUKdu7tBDyh0bhaLBzQr+RF9RaB1u+Ft7M9hVLKzRFteIF+hOUi2ioYRKvgeIW
+	27ukj7m3YsYc4wYgVtFImzG1MZ8Cqr71bMuiaAY3PaB3Ns/I1hlcEzxLXAnlf7OW
+	g==
 Received: from gcc-mail-mx-001.na.plexus.com (outbound.plexus.com [64.215.193.254])
-	by mx0b-0046e701.pphosted.com (PPS) with ESMTPS id 3yjyu387kk-2
+	by mx0b-0046e701.pphosted.com (PPS) with ESMTPS id 3yjyu387kk-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 23:17:49 +0000 (GMT)
+	Wed, 05 Jun 2024 23:17:50 +0000 (GMT)
 Received: from gcc-mail-mx-004.Na.Plexus.com (10.255.51.224) by
  gcc-mail-mx-001.na.plexus.com (10.255.51.220) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -56,9 +56,9 @@ Received: from LNDCL34533.neenah.na.plexus.com (10.255.48.203) by
  gcc-mail-mx-004.Na.Plexus.com (10.255.51.224) with Microsoft SMTP Server id
  15.1.2507.37 via Frontend Transport; Wed, 5 Jun 2024 23:17:48 +0000
 From: Danny Kaehn <danny.kaehn@plexus.com>
-Date: Wed, 5 Jun 2024 18:12:44 -0500
-Subject: [PATCH v11 1/4] dt-bindings: i2c: Add CP2112 HID USB to SMBus
- Bridge
+Date: Wed, 5 Jun 2024 18:12:45 -0500
+Subject: [PATCH v11 2/4] HID: usbhid: Share USB device firmware node with
+ child HID device
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240605-cp2112-dt-v11-1-d55f0f945a62@plexus.com>
+Message-ID: <20240605-cp2112-dt-v11-2-d55f0f945a62@plexus.com>
 References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
 In-Reply-To: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -82,15 +82,15 @@ CC: Jiri Kosina <jikos@kernel.org>, <devicetree@vger.kernel.org>,
         Ethan Twardy
 	<ethan.twardy@plexus.com>
 X-Mailer: b4 0.14-dev-d4707
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717629180; l=3233;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717629180; l=1293;
  i=danny.kaehn@plexus.com; s=20240605; h=from:subject:message-id;
- bh=bD6OdL68EaJAFx8NMGIrSd33wCJ8XWh9kWoYIyfKz8w=;
- b=f6B8R1Cbg4GmuaImdj6iWAkHWF5H4DjMuFBE2OuVNC6ijJUNXEvVQOtuyyN9jhcEds19rR6AY
- TANKAWTu4ZpDKCep9KeGZQJmJWnIi52Qn7KVeG7HYYr1WWvF7Ch2V1p
+ bh=3KQ324a+aNFxbZCXFok2y2weO4PJIGknu/daWhVhMsU=;
+ b=QKgUhwHbZIeSw9lDNLuu430rukdCxcluVwJCNsqFHRNwfb0xiIRhT08qtRtZeQD0H3bpe0Rl+
+ w8mlnAubQytCIKz8+V09nTn4sAkaiMBO9vO+NqBQ//+IIQt9ZntD6dL
 X-Developer-Key: i=danny.kaehn@plexus.com; a=ed25519;
  pk=+a/HbfS1U7uuw+5dRHN5PsUDyPWbx4dXDnblK41GI2s=
-X-Proofpoint-GUID: gWH8qvVIsWnRP6WjBfEgjFps3BggmZJb
-X-Proofpoint-ORIG-GUID: gWH8qvVIsWnRP6WjBfEgjFps3BggmZJb
+X-Proofpoint-GUID: owUuMiyDXE05DgzQ6ijn3gO0OGJq_NmE
+X-Proofpoint-ORIG-GUID: owUuMiyDXE05DgzQ6ijn3gO0OGJq_NmE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
@@ -100,129 +100,37 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowprio
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2405170001 definitions=main-2406050175
 
-This is a USB HID device which includes an I2C controller and 8 GPIO pins.
-
-The binding allows describing the chip's gpio and i2c controller in DT
-using the subnodes named "gpio" and "i2c", respectively. This is
-intended to be used in configurations where the CP2112 is permanently
-connected in hardware.
+USB HID core now shares its fwnode with its child HID device.
+Since there can only be one HID device on a USB interface, it is redundant
+to specify a hid node under the USB device. This allows usb HID device
+drivers to be described in firmware and make use of device properties.
 
 Signed-off-by: Danny Kaehn <danny.kaehn@plexus.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- .../devicetree/bindings/i2c/silabs,cp2112.yaml     | 105 +++++++++++++++++++++
- 1 file changed, 105 insertions(+)
+ drivers/hid/usbhid/hid-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
-new file mode 100644
-index 000000000000..0108f2e43c8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i2c/silabs,cp2112.yaml
-@@ -0,0 +1,105 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/i2c/silabs,cp2112.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: CP2112 HID USB to SMBus/I2C Bridge
-+
-+maintainers:
-+  - Danny Kaehn <danny.kaehn@plexus.com>
-+
-+description:
-+  The CP2112 is a USB HID device which includes an integrated I2C controller
-+  and 8 GPIO pins. Its GPIO pins can each be configured as inputs, open-drain
-+  outputs, or push-pull outputs.
-+
-+properties:
-+  compatible:
-+    const: usb10c4,ea90
-+
-+  reg:
-+    maxItems: 1
-+    description: The USB port number on the host controller
-+
-+  i2c:
-+    description: The SMBus/I2C controller node for the CP2112
-+    $ref: /schemas/i2c/i2c-controller.yaml#
-+    unevaluatedProperties: false
-+
-+    properties:
-+      sda-gpios:
-+        maxItems: 1
-+
-+      scl-gpios:
-+        maxItems: 1
-+
-+      clock-frequency:
-+        minimum: 10000
-+        default: 100000
-+        maximum: 400000
-+
-+  interrupt-controller: true
-+  "#interrupt-cells":
-+    const: 2
-+
-+  gpio-controller: true
-+  "#gpio-cells":
-+    const: 2
-+
-+  gpio-line-names:
-+    minItems: 1
-+    maxItems: 8
-+
-+patternProperties:
-+  "-hog(-[0-9]+)?$":
-+    type: object
-+
-+    required:
-+      - gpio-hog
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    usb {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      cp2112: device@1 {
-+        compatible = "usb10c4,ea90";
-+        reg = <1>;
-+
-+        i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+          sda-gpios = <&cp2112 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-+          scl-gpios = <&cp2112 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-+
-+          temp@48 {
-+            compatible = "national,lm75";
-+            reg = <0x48>;
-+          };
-+        };
-+
-+        gpio-controller;
-+        interrupt-controller;
-+        #gpio-cells = <2>;
-+        gpio-line-names = "CP2112_SDA", "CP2112_SCL", "TEST2",
-+          "TEST3","TEST4", "TEST5", "TEST6";
-+
-+        fan-rst-hog {
-+            gpio-hog;
-+            gpios = <7 GPIO_ACTIVE_HIGH>;
-+            output-high;
-+            line-name = "FAN_RST";
-+        };
-+      };
-+    };
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index a90ed2ceae84..cb687ea7325c 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -19,6 +19,7 @@
+ #include <linux/list.h>
+ #include <linux/mm.h>
+ #include <linux/mutex.h>
++#include <linux/property.h>
+ #include <linux/spinlock.h>
+ #include <asm/unaligned.h>
+ #include <asm/byteorder.h>
+@@ -1374,6 +1375,7 @@ static int usbhid_probe(struct usb_interface *intf, const struct usb_device_id *
+ 	hid->hiddev_report_event = hiddev_report_event;
+ #endif
+ 	hid->dev.parent = &intf->dev;
++	device_set_node(&hid->dev, dev_fwnode(&intf->dev));
+ 	hid->bus = BUS_USB;
+ 	hid->vendor = le16_to_cpu(dev->descriptor.idVendor);
+ 	hid->product = le16_to_cpu(dev->descriptor.idProduct);
 
 -- 
 2.25.1
