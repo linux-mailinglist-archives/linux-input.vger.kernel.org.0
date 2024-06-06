@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-4154-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4155-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64388FDEB4
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 08:27:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D45938FDEBE
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 08:28:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C1581F23A98
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 06:27:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54368285E0C
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 06:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE4A131E3C;
-	Thu,  6 Jun 2024 06:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E4339FEF;
+	Thu,  6 Jun 2024 06:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ByycvQeZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DINx/1th"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C0482D98;
-	Thu,  6 Jun 2024 06:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E630331A8F;
+	Thu,  6 Jun 2024 06:28:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717655227; cv=none; b=eQYt5B5qZ91b1Rwbcd3qHGTK8xwK0+Ee3rHrPn7s+kE3FaO9B2CKPEj05PjHSgIKGeWk4ZFIgESiPfeVQM7gcS5WrhVdf9qGRtKbRkW8ez0cFNR5jzWzfaDqbKbch07GhnI7Av9/81fOQrHe90OXol8Yb7PWhFg2fSuhA1p4Oi4=
+	t=1717655320; cv=none; b=BDxnAWCAoIYbpcHX3KfC4+ypBPGwcriMPp32/d2O4BzMa/MNVb4KUBrRyh4RAa2i1CjvOHbQph5yLge9ML1+ljP5yCgqs2G+g/JYteT5gxw5Xwb+p8WdZ2iAQ8Vl5/3UMfcVZFn/RZlNuvd/h4hRdJLZCTSzNfiBL69mcYJH1W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717655227; c=relaxed/simple;
-	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
+	s=arc-20240116; t=1717655320; c=relaxed/simple;
+	bh=+sx3ktTRPqKtmLUzuuYYnmSkwQS0fJjmjcAzUDd+Znk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nmT/Q/Bua2djclIE27cXlWjKicfLYyld2AKQzgRnxAhKSIPMCzIpDfaLGdSRhmGAiiDIbI9+kVp2NlccFrSiC+TbMrfw3/BLPaAEWYL1tJWLGFk0gPak/dogqCGUi5n1XoSfA1pQ4zlwTJLLdwcH9c4fGvufygMXC5gKiC5HbAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ByycvQeZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A4FC2BD10;
-	Thu,  6 Jun 2024 06:27:03 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LGcdH+sYpJyzTuLiaFWzWxjCiOopFfpZkz2FKWSMuScTUFFlhNgH+SnIhtVKBx8+gDBXq6v97D2Hmt7vPT6+f8F28i2s3W3MaEpq4W2pLP3s90JkBhU86UU6XILw7+75ocbHDQuqBaTT/W9hiN1EXrjNx0qhN6jG4KOjEAUTPzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DINx/1th; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8652BC4AF0E;
+	Thu,  6 Jun 2024 06:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717655226;
-	bh=22Hvv7bgtTFkBDfU3ODfX7WTvqajrXaE+U6VPgjbX8k=;
+	s=k20201202; t=1717655319;
+	bh=+sx3ktTRPqKtmLUzuuYYnmSkwQS0fJjmjcAzUDd+Znk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ByycvQeZlZiDJ+/tf9b4ON7Ly6IuRxFeafc5Pgy9DK9k1ivk3bFENzrgPVum/GsR1
-	 KypDx3H/S21qSb+NVm0GWvE4c91R6e6bP9JnrCsDJqGfb98A3PMyNoioS9xBalM1Zf
-	 NINO6fjcAkrS+Qv9q30l77AgJvIPLIkc7XJ+dZf4NdmBCYxeRL+TNcTwi8qyNdr4HY
-	 N+/jGmeo1YS5fAgnnOodWYPgrpWhdFZF5EPnmrOzvkAcG1WC3ubl1g1ywfaMK2YHON
-	 cNdDSLC4OtMFf6HY7HV9sWUdpbxB6TXDWGgtq5qceJdUf3XDNzvMOzRnVQYsGpJ0sF
-	 9d+VdHFTtjMDw==
-Message-ID: <8a197b98-8a7b-4675-b175-6d8ddaeb072e@kernel.org>
-Date: Thu, 6 Jun 2024 08:27:00 +0200
+	b=DINx/1the1ptWSkcAZqX7fPEa8qrQAnNXSKHvVxPYko4oSzP4fRMO/6jA2nnLHw2E
+	 3z5/bER7Pj+H3a3c5GgjeejrKy6M5ZbQP8cukt6g5wkwVj7EW5ugwM3NrBN/SyoX7y
+	 kb25odJeqS8WbOUIuQzRu4ucYdSsnGrUWw2lhea0Pt/I4E7wXPf/h6eDmV0h5uSHLP
+	 QbPyfKmv/Iqjbh8W8OGz7dt2l/fcUAGjN/QIrQrh1/AIEH1/GrIIVaYnIN0t0nm4Vu
+	 3u+4LXWp8kYTec7uzzl58W9ggHZZSBVo5tx/hH1XUO+RhMS79D5kvkf7s++CVHqQuo
+	 U8z1uEZ3SRkow==
+Message-ID: <e183c4ab-e48e-4c9f-be31-13b16ad466b6@kernel.org>
+Date: Thu, 6 Jun 2024 08:28:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,17 +50,18 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] dt-bindings: cros-ec-keyboard: Add keyboard matrix
- v3.0
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240604005354.2294468-1-dnojiri@chromium.org>
- <20240606010808.27069-1-dnojiri@chromium.org>
+Subject: Re: [PATCH v11 1/4] dt-bindings: i2c: Add CP2112 HID USB to SMBus
+ Bridge
+To: Danny Kaehn <danny.kaehn@plexus.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Ethan Twardy <ethan.twardy@plexus.com>
+References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
+ <20240605-cp2112-dt-v11-1-d55f0f945a62@plexus.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,28 +107,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240606010808.27069-1-dnojiri@chromium.org>
+In-Reply-To: <20240605-cp2112-dt-v11-1-d55f0f945a62@plexus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/06/2024 03:08, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0.
-
-Not much improved.
-
+On 06/06/2024 01:12, Danny Kaehn wrote:
+> This is a USB HID device which includes an I2C controller and 8 GPIO pins.
 > 
-> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+> The binding allows describing the chip's gpio and i2c controller in DT
+> using the subnodes named "gpio" and "i2c", respectively. This is
+> intended to be used in configurations where the CP2112 is permanently
+> connected in hardware.
+> 
+> Signed-off-by: Danny Kaehn <danny.kaehn@plexus.com>
+> ---
+>  .../devicetree/bindings/i2c/silabs,cp2112.yaml     | 105 +++++++++++++++++++++
+>  1 file changed, 105 insertions(+)
 
-This is a friendly reminder during the review process.
+So this is v11 but was never tested?
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+Changelog does not help me understanding what happened with this binding...
 
 Best regards,
 Krzysztof
