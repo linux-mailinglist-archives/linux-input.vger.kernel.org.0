@@ -1,38 +1,42 @@
-Return-Path: <linux-input+bounces-4176-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4178-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5C08FF45C
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 20:10:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B72D8FF485
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 20:18:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD1751F2551C
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 18:10:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB602B272EE
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 18:18:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FE08199383;
-	Thu,  6 Jun 2024 18:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9757C1990DB;
+	Thu,  6 Jun 2024 18:18:00 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from forward100c.mail.yandex.net (forward100c.mail.yandex.net [178.154.239.211])
+Received: from forward206c.mail.yandex.net (forward206c.mail.yandex.net [178.154.239.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DE7198E77;
-	Thu,  6 Jun 2024 18:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B982110E;
+	Thu,  6 Jun 2024 18:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717697445; cv=none; b=sk0nk9bxxRh5axfcwSpz6dm8zMtF6xf6oYseGRsFDQnSjaDT/jfnqNiPPN9IoHbOxlX1L9FSuw31lcYcxqXggNxS89MGJWb2ZsGqD7fk4aktj0FOLHasuI02/Qi0+Kn8zrIwtteeQFyoSQRmsxjOvZeGMQluzOVs/IxmCrhDTEI=
+	t=1717697880; cv=none; b=FvRxStI+6yH4yIKPjp6o2s3+1Mu57pHIBpVhxilL+jDD+o7qIcNTC1bDueggmGGT/iwc9DCWVBjvCre1Tw5HFX93/5b5rvk208stIi/8pDGMiN37EIuRW+0rcgyM1+sAjtSDNgJOlLlgbJ17xJo2WdAMiLNEW9VtlnfRk0W5ffo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717697445; c=relaxed/simple;
-	bh=52LjFDx2UnKsDrChCuy7Bg9nNgeFFHZSfU13BKjLK74=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hIdKXKFl9rQuSdDLb2GJFdsnNdJPOgGXRt/bbyRFn5mf2F1+Boi+qWsciseMJVerTadLSFbvlf4zdLSG5G7Tn4DUwtEUHCa9Qbb3gDyRpq7aHoKR5UhWZHXzSxCf0xVMchitjq2+9Vg4Qhj+V/1P7DcWeBpCcLD0v3CNfNeAT1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz; spf=none smtp.mailfrom=travitia.xyz; arc=none smtp.client-ip=178.154.239.211
+	s=arc-20240116; t=1717697880; c=relaxed/simple;
+	bh=sb1zLUYbrl2SIUPBtYUmpKxgCNkIxRuR8jn/SsRGZeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KLuQcmSZld9hlbZYCxnZo4/kRPv5VAtoRbFigYbdrxTU7kAbSTZIrx2DJzokOIxK7fuZs7YIB1OuewytU0yav5HkesZ8Ab/sY51pNRBMAMH12utBn7vvZ7yWS+hSL74x1lPLWj0TdfdC7GFUFBqoVRegxUsIQ/d1Sli1Gk6also=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz; spf=none smtp.mailfrom=travitia.xyz; arc=none smtp.client-ip=178.154.239.215
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=travitia.xyz
+Received: from forward101c.mail.yandex.net (forward101c.mail.yandex.net [IPv6:2a02:6b8:c03:500:1:45:d181:d101])
+	by forward206c.mail.yandex.net (Yandex) with ESMTPS id 318516710C;
+	Thu,  6 Jun 2024 21:10:56 +0300 (MSK)
 Received: from mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:5c02:0:640:1c2d:0])
-	by forward100c.mail.yandex.net (Yandex) with ESMTPS id 06EA460B2B;
-	Thu,  6 Jun 2024 21:10:35 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id SAexc4cOm4Y0-PWs1ce6a;
-	Thu, 06 Jun 2024 21:10:34 +0300
+	by forward101c.mail.yandex.net (Yandex) with ESMTPS id 26A3D60904;
+	Thu,  6 Jun 2024 21:10:48 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id SAexc4cOm4Y0-fLJE0kDS;
+	Thu, 06 Jun 2024 21:10:47 +0300
 X-Yandex-Fwd: 1
 Authentication-Results: mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net; dkim=pass
 From: Jens Reidel <adrian@travitia.xyz>
@@ -47,10 +51,12 @@ Cc: linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jens Reidel <adrian@travitia.xyz>
-Subject: [PATCH 0/2] Add vibrator support for PM6150 PMIC
-Date: Thu,  6 Jun 2024 20:10:25 +0200
-Message-ID: <20240606181027.98537-1-adrian@travitia.xyz>
+Subject: [PATCH 1/2] dt-bindings: input: qcom,pm8xxx-vib: Document PM6150 compatible
+Date: Thu,  6 Jun 2024 20:10:26 +0200
+Message-ID: <20240606181027.98537-2-adrian@travitia.xyz>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240606181027.98537-1-adrian@travitia.xyz>
+References: <20240606181027.98537-1-adrian@travitia.xyz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -59,29 +65,27 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds vibrator support for PM6150. Was tested on SM7150
-(xiaomi-davinci).
+The PM6150 vibrator module is compatible with the PMI632 vibrator
+module, document the PM6150 vibrator compatible as fallback for the
+PMI632 vibrator.
 
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Jens Reidel (2):
-  dt-bindings: input: qcom,pm8xxx-vib: Document PM6150 compatible
-  arm64: dts: qcom: pm6150: Add vibrator
-
- .../devicetree/bindings/input/qcom,pm8xxx-vib.yaml          | 1 +
- arch/arm64/boot/dts/qcom/pm6150.dtsi                        | 6 ++++++
- 2 files changed, 7 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+index 2025d6a5423e..76a286ec5959 100644
+--- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
++++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+@@ -19,6 +19,7 @@ properties:
+           - qcom,pmi632-vib
+       - items:
+           - enum:
++              - qcom,pm6150-vib
+               - qcom,pm7250b-vib
+               - qcom,pm7325b-vib
+               - qcom,pm7550ba-vib
 -- 
 2.45.1
 
