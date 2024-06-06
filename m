@@ -1,218 +1,261 @@
-Return-Path: <linux-input+bounces-4152-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4153-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC2F8FDC06
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 03:08:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83E48FDD1E
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 05:04:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBD271C21F6E
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 01:08:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4969F285495
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jun 2024 03:04:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6500C749A;
-	Thu,  6 Jun 2024 01:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A0B18E29;
+	Thu,  6 Jun 2024 03:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TrAqwHEe"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="fglMZXQO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2102.outbound.protection.outlook.com [40.107.93.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B74EAF6
-	for <linux-input@vger.kernel.org>; Thu,  6 Jun 2024 01:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717636095; cv=none; b=h4XP3Sd2O7f/AX7ZQFbrHwrjYZMCXoS1ksNIKS5TlY9NsAvRNgJvR6okuMnOV38LfAvUJwGkwcdad5ndVSSM1u0AcnYvWKgKOlwfESEA7hlMcbCNoljhHnqsNClNCkL/Rt2v89n/3d1EIsu9KJWCpZIJNYvUZyP6pbly45CfR+M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717636095; c=relaxed/simple;
-	bh=FdUGTn7E60U9mVrfNwiBBTHr4mXPhN4m20DVQeiCDtA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ua6wyMnoGGucQjxqcIIxBc7Jr4M5IAwRBKT9837Sv6aEGtxBNFVdrafAz9hDU1bXNJyTunKEDFSNXTtrIEs3AAJpN8MfVRmi+BBk3dHufcSOJ74yyps0kicsvSauI93zIUo4lxNOTPmrOIF5bZzBSBZM+FlPP3Hhe2oAUxSKvjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TrAqwHEe; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5b970e90ab8so209251eaf.3
-        for <linux-input@vger.kernel.org>; Wed, 05 Jun 2024 18:08:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7311DFD1;
+	Thu,  6 Jun 2024 03:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717643071; cv=fail; b=FOS8j3LaDF385bUks8WTlb1IkMMZYcgmvTUzE9y4Tnt+nKygpXitbbjp+NhcUZjzhoRVptwngKq9//kgDnhU6GQoCSpbmGFD7SQT/L6LwT7uR8T0hLBcUOMGuhNG61D73nZDUrKBtLBRqXFzAPUscZl/4c73b+J42o2YqTfN3Tk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717643071; c=relaxed/simple;
+	bh=nXzJ4KOlUJ3CDU1n8P7jhVQqtSz5ihtNB+2Ocmocstg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ty4Gtnf8tTy/c9HF4+l3yH8PkcdnZGbPrJEmlN3cmHuCnPsB760HxB+oXxTCCwrSuvHl3n/XbjqKq8FVbkJLOnl1XnV8jbLzEMheQ/R4nRL/JF3A6m+0A2wLhEVyPn4e9xFaYPiDPLdSz+jEkKCicDajL9dLvVHh6Us8t5V16Fs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=fglMZXQO; arc=fail smtp.client-ip=40.107.93.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PtC/N6uGBja+iMP/7ConU4nr7ljFV842iSGH98OSusr+dky2MWH4HkZR4av+wJMW7h4psjpllxOp78ESPcQvzhscwSEapQGC7xXOh32R6zNLhezpivVv4f7MEMRUVs3m3CA5wIJPew8WuioZmub7sL9iipLl0ta9ZqnS7PBnYVM62FdYt03hyitLVQZYezVUYhDjIclfbLybzR944n9MzZ4IqOpXrNhHhje9keLCMdX8oU4NDRe3XAYK0ZlvPSDjAE1JzxVrbj5D5v5qUL/cPHfpyN+ObVmnN9RcRj7tr2FDWIy34JLUjtRC6tEP5zxnvZxjYcXyoDQNNNyXN0EJNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mQ2maVuF2C9d4HcH8OITICnyo6T9KuAgZFlkkpe+ZIA=;
+ b=K9GVqvU16AipntFbRwltZ2WkbW95mJvF4nxpTdyyvlyRPmm+K17NakpDktD087qg4aBM/xFUpeOVqSB+KnYp80yQu5adwuR/igMSW4gBj6PGKsp4HRqP9IDJl94SiRis9rFfCwfjGqzgfGFjiXkPxx8+pDzpWU2GBLJPz7vsIJvQwHJr+AWzKm0B8BYqCmzRoMBpd943P4uECmTE6fDd/yIa1AS3cPfKD6nobwcVCi6qkYh4SvYvHlfo/Lq/h08wItx9+56FsQGg7K+gcr1eUWylah6tOlbk99xvSHPoiaQRVHcHLBvrDit4ZwEnargsqkdBYVpjBhSU9JqTtl6XMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717636093; x=1718240893; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IAfEoh3LN14COjXOglCY4ucRHkZygl/xVI6d4vTPlIQ=;
-        b=TrAqwHEe+g/3UkwrtP1hKuraRzPTnUjrAilQKmxPrMK7VWQBDM0zhOiFc4sWMkn/Gs
-         rkt7Ut0mNJ5a6lcSpbcECngReBmKT7BYgvuCikzhrt0uY9+yK/bhEbV0FYt15cgfE5Gp
-         S2NgIHssSElTt4cIlW9m8xpmVqSVZIvVQhTow=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717636093; x=1718240893;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IAfEoh3LN14COjXOglCY4ucRHkZygl/xVI6d4vTPlIQ=;
-        b=YycZbLTFIcpLJTGN+nSlRNQm4bHjmod7p5qZmZkX8w59Wmul6aYu53lfjt1TnrbX6E
-         2HCnGfwMfFuzJNJyJTwMXAenF9SGRVD2WT4Zloi0nrnUYRJtFE4CK0QNpEF80dqcdsvl
-         OUq0vvisp4EEPRSam7oQzUw2qF5KKGA5EC/fLZ5CjKTaZmpHL9OvNIKc26kmZZb//WfI
-         5SEvY7KPaP6k1vw/HPVo2NdfS+AUIjxkNq6DcX1Ih2u7g5dEIVCWHRh4a74VNdE5C+vr
-         dlZTZ02J8K8gGyKeYBi9Cros0zNO/QgP3IDZ96Jh1aWuClJYAMS7wUYC57gQgcWmOIqx
-         CDbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgIQePbQH1SgeRKqm+sGxhSMRGvu5y8ScAXjPJQzyPIFPGEqazsyj0x9G5skUDjQsKvWenrWWSQvf8w5CrgsDA2HmtRqGnlQN+NcQ=
-X-Gm-Message-State: AOJu0YzQ2113b9Ehf4Qc/jlEy8OdaOn8BOyCmWLvmfrOLMHCEcLZBo5M
-	8Slihq4++yslebKuE3D3M0NyGLUAWnqVIQHemzBEZ1C/w2Hp1Fst2ePm6fVdDVFksKlf1UbhVEw
-	=
-X-Google-Smtp-Source: AGHT+IHSjbXTe7hjbnqJqHf+umAtZglpbm8pt6ap9RzoS5sYamm7xsZMvad9OnY6FvW9Lge+U3QurA==
-X-Received: by 2002:a05:6358:63aa:b0:186:c06f:435c with SMTP id e5c5f4694b2df-19c6c9f3073mr554881755d.24.1717636092690;
-        Wed, 05 Jun 2024 18:08:12 -0700 (PDT)
-Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:3fe9:f321:712c:442f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6de177eefd5sm109548a12.0.2024.06.05.18.08.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 18:08:11 -0700 (PDT)
-From: Daisuke Nojiri <dnojiri@chromium.org>
-To: 
-Cc: Daisuke Nojiri <dnojiri@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] dt-bindings: cros-ec-keyboard: Add keyboard matrix v3.0
-Date: Wed,  5 Jun 2024 18:08:06 -0700
-Message-ID: <20240606010808.27069-1-dnojiri@chromium.org>
-X-Mailer: git-send-email 2.45.1.467.gbab1589fc0-goog
-In-Reply-To: <20240604005354.2294468-1-dnojiri@chromium.org>
-References: <20240604005354.2294468-1-dnojiri@chromium.org>
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mQ2maVuF2C9d4HcH8OITICnyo6T9KuAgZFlkkpe+ZIA=;
+ b=fglMZXQOdL6EwXehrlNPnp5FAKiE0CYOMRhkxOUvwobXNJQZNb30dvI6PEVyQGUKcrjVQUFvLzTSD5TR4pHIrpuZn0njaKVpszjYPjp+y7NQYPBeA9Wv39a/2xMy1H3XPXz9WsUZiiU1w/9S6jdZbzdjft+ahB5/HGVY+J8jIsE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com (2603:10b6:406:8f::25)
+ by BN8PR08MB6289.namprd08.prod.outlook.com (2603:10b6:408:79::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Thu, 6 Jun
+ 2024 03:04:27 +0000
+Received: from BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::b729:b21d:93b4:504d]) by BN7PR08MB3937.namprd08.prod.outlook.com
+ ([fe80::b729:b21d:93b4:504d%4]) with mapi id 15.20.7633.033; Thu, 6 Jun 2024
+ 03:04:27 +0000
+Date: Wed, 5 Jun 2024 22:04:16 -0500
+From: Jeff LaBundy <jeff@labundy.com>
+To: wangshuaijie@awinic.com
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liweilei@awinic.com, kangjiajun@awinic.com
+Subject: Re: [PATCH V2 0/5] Add support for Awinic SAR sensor.
+Message-ID: <ZmEnMPhKzqkJssQE@nixie71>
+References: <20240605091143.163789-1-wangshuaijie@awinic.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605091143.163789-1-wangshuaijie@awinic.com>
+X-ClientProxiedBy: DM6PR08CA0015.namprd08.prod.outlook.com
+ (2603:10b6:5:80::28) To BN7PR08MB3937.namprd08.prod.outlook.com
+ (2603:10b6:406:8f::25)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|BN8PR08MB6289:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f06f197-7907-4d15-7332-08dc85d56032
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|7416005|1800799015;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Fz5ARuZ+Mcc81adV/7Kyn8sBV3Q/NMEbxHgEqmq9rMOg3srfHn5vEY4KDbmw?=
+ =?us-ascii?Q?qQ2GpElL7eWR6BaB6Vs1K80wp5dliefKmXlUg40BEf/k3fbkyn3GwyGvpCGE?=
+ =?us-ascii?Q?V+iqKaDhHzng3ND7grMloqwfOYrTXyFxBa+tWRQIOt0dzsaRjYkX8SwTkyuu?=
+ =?us-ascii?Q?4Y5gQFrCStLAW+s6bzhJsdDQFBQ8ms5bxATYR3oAvsbpjX/KJ66zEhtWkHi4?=
+ =?us-ascii?Q?0Md2w6Z6xN2joiEUAsQKcIZjsDnWcY8SAvQ5m4dJEorIiUF/0CqISGl2lXq8?=
+ =?us-ascii?Q?tkHfiiVoJZA3fpu+1fxMKAFdksXGhL3M+8hV0znmYKCqD71XD43DuKm9FJfo?=
+ =?us-ascii?Q?OQzzWWai8m2zAyDO4Bmc+0YGT3CJh7McMXpiC3bBBowsCiNr29jOQaKGY7Gd?=
+ =?us-ascii?Q?s1WGP4OxpcFW2kKWeVGs1K/Tbp7rCThtCIA3cbzLte5WKUflmAfiDfzdbSzj?=
+ =?us-ascii?Q?4rvEbp6/h612fl3nkvDTFqHxYj8mZS2Y3xP+GnyXhhAf9WmUlX6mYbxs2Id7?=
+ =?us-ascii?Q?t5AmWhjISDmJ8iMEZkWnkOGg5hR9k1OzfeWUbwe/1XgjRy3pxWbrO6etg+pi?=
+ =?us-ascii?Q?ReO3c3SJ6O5JeCVhxMK+CT5oO0DPtc2KBCOvc8iT6vvWSjrAUIWOcAQrnJbd?=
+ =?us-ascii?Q?H6S7D2xXz9tDm3t3E52x9aJ4c0hY0rM1HGq8L/ttOL1PXcEdn1RSFiYp4WQF?=
+ =?us-ascii?Q?IaZ22Tq+ytCO0BXwT3ZM/3TT4VgIp56KXbBkgE/GVlxzYcD0D23dyY6CfCdQ?=
+ =?us-ascii?Q?84/Li/XiwXyvyPwE5MUwQoUI/uuJoeyZioGP/2gD8m0TPyCPiVCy3FanOIX2?=
+ =?us-ascii?Q?KAqItb6CC7oShJpgpVWuKRsVm70UlvfoDNCeFXRW+I+Mf0ECeUD+4shkE5Vp?=
+ =?us-ascii?Q?uF51+QqwsyOeGZ6cvfX6GUFWmgmflE8xmHDOypv4nymuOe2Vll/o2yKQIpKF?=
+ =?us-ascii?Q?GndHNDqnPHyvRf/swHivyDbknVNGOxs3E/3bTrVX58ilFVDHbiDTxnoYpmZ+?=
+ =?us-ascii?Q?uHDCRxg44uPgAwPFhoCzeSsIzx5KSYteZDlrm9EBdPAorutaxrcvlwk+ocGH?=
+ =?us-ascii?Q?tNeH/82eqLs0LQZokSg55hYnacs49vgHZldpRTg2lfPxBLwtE0fIaO0lA92N?=
+ =?us-ascii?Q?DFaxJtxm9HHmKZODgXQczW6OhPQzG0B+ipWV599BOmMtVgI/btsMIgQm90JG?=
+ =?us-ascii?Q?EbnV5p4/2vBAmgJ79Xiq+MyH7qiL62UPbiHZZaDgEjElKmdAKsaDRKrLZnnZ?=
+ =?us-ascii?Q?D7mhwNtPcxPQgYLVP6XWb1lJkkk4KnoSikUrBuaQAg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xQaJU0f/7P6F+4OtSwrLoODQOG2DVakqvYeFAo0Bvgyvd0+VQ8ehUptsvKfC?=
+ =?us-ascii?Q?FZ5P/RmuIREnKLz58bImVnuPzECEmXZGC81f+bcuD/YC8/OzlU4YnBPeq1ML?=
+ =?us-ascii?Q?WNcfL7rLdXP0q+Gy7QzA+XZPlAF7kg5hgtP4wp0hzkhBFFiAXUKkOXzYpeMG?=
+ =?us-ascii?Q?Fq8SIarM/CpdFn9KJOVbUg3eHfljKLOF9oPDbUu+QNIx/i3Aj0LPaW4CKUKu?=
+ =?us-ascii?Q?rIGWKa3h/8r5EhRXugiop+uxzcZJhICv+FQmuYkHKJlQULT33gBJLb68rhEF?=
+ =?us-ascii?Q?3a1WqBavhlHD+MeLf1KoB0q+KHIC/QYqVwBkuFXR/HWPGxzWRP8DRKAFAsW3?=
+ =?us-ascii?Q?oeOrr+L0c+lpRJzJKg6hE+NSGGN+qgQmpye9FniTcIdDLpoPA2gLR+BSLjcf?=
+ =?us-ascii?Q?DAqYpKT1fU/iVKRuyg85COLTEzYA3KlGdTiFXJbYKsGdT2WD5/jtY7Un1wyu?=
+ =?us-ascii?Q?2fDaM9S5DQZyQ2HD5Ew+dSzI33HwhPJux7zMzCwUF9vVGi08OHo0iifLXSbo?=
+ =?us-ascii?Q?N6UCObNP7lGm8DP2TSjEvTKzYB/eoYezXRVG3ebpx+GuwiZjBJYadIP4bfiq?=
+ =?us-ascii?Q?h7ERd3hDrCaH60s/jO1ClSgj79yKfL07lNkYJsJN4EBkf35ZNQnv2YH9IkOk?=
+ =?us-ascii?Q?FXYEX87z+osBUEhiLA+phlLISGx1YjjBlV3Yrx3mureF5rvMPoj1vG9i6IRe?=
+ =?us-ascii?Q?4wOxVWX7EWb4rA4KvcerWBh10Sk6o4n0HSS424LI7z7xsnA926zYTeSMa3gQ?=
+ =?us-ascii?Q?vQHnHtndq0Xk9g5KjFByowb7pafrOUbzmAJLeyziUt9P+bPahoV/Wqyls8G2?=
+ =?us-ascii?Q?woKz4AH8HpZ8lfshCJQrclYkAByvBPofjKlCKbMXM0/9lyYihXUi/pzQVVUd?=
+ =?us-ascii?Q?rWL02xkMAoWzJPmperkrBpwLWAqJkwUxbUUvJTZiIvCG6gKHWttfQT+DiYbH?=
+ =?us-ascii?Q?PodVXhJMQ1oHKI/457BMV8juPOj31XSbHymp6ozNkeDIui2aniEno+4kRQMd?=
+ =?us-ascii?Q?hgRdmdrTWVfifBT8wz0mZPUVgmH9LDFR22AbDJvX8QJuZZaE2rOc90GKdCkW?=
+ =?us-ascii?Q?8CVI6ra35Qp0N8THa+llZQZ0V5v10/4mcJUZdtODX38hnmh7Zf76JvkDEieL?=
+ =?us-ascii?Q?yc5+tisTcDTIq6qMqyQdtN2E5H+uAmcTXyrKixHODHr9S+awXOi837Tq1Mjh?=
+ =?us-ascii?Q?uwTibC4yBiWMlLaydt2ZX0XfxOVU/WcZ56iiQG1RmpZGugbHRO/O61rdUTu6?=
+ =?us-ascii?Q?vACZz4CiH2tFxCsz+aUEBdSUQBHsqvdXAYNG3XLykvhp53OdprHnOYFE61hn?=
+ =?us-ascii?Q?PaDsAMnzZk5+qYT025yagAI+ybYZQUPP2fxro/lbrD3I2qSOZ7AJPee/13ib?=
+ =?us-ascii?Q?mNC6i9r3h9cFsiH51by6ZsTmBS8kJwKkKD2dX9E7eIfcfEmVatVedkJN5+Pd?=
+ =?us-ascii?Q?j6tOaJ0wDIowLCxPeJnJep3bx9JpKoJqMhe3fKesd/2DKz2Su+BS4UaapZs9?=
+ =?us-ascii?Q?XUg/xB5+BoDN3Ob0ghKfnx7GtUOQ54BVz9iSE1RhAMfE2GUjHsljwOnJfpMr?=
+ =?us-ascii?Q?UXE9bGN3NMxedRgYfFUXl9KuG8fXoldyRAh/mFfd?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f06f197-7907-4d15-7332-08dc85d56032
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR08MB3937.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 03:04:27.1666
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nUP3r9KJ4eFeE28FmH3INDvw309C/DRdqci5MC+LgIFI/2nFnlWY6byfT/hZbWXFrCsSFndjjMjnYIhOAYHpoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR08MB6289
 
-Add support for keyboard matrix version 3.0.
+Hi Shuaijie,
 
-Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
----
- include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
- 1 file changed, 104 insertions(+)
+On Wed, Jun 05, 2024 at 09:11:38AM +0000, wangshuaijie@awinic.com wrote:
+> From: shuaijie wang <wangshuaijie@awinic.com>
+> 
+> Add drivers that support Awinic SAR (Specific Absorption Rate)
+> sensors to the Linux kernel.
+> 
+> The AW9610X series and AW963XX series are high-sensitivity
+> capacitive proximity detection sensors.
+> 
+> This device detects human proximity and assists electronic devices
+> in reducing SAR to pass SAR related certifications.
+> 
+> The device reduces RF power and reduces harm when detecting human proximity.
+> Increase power and improve signal quality when the human body is far away.
+> 
+> This patch implements device initialization, registration,
+> I/O operation handling and interrupt handling, and passed basic testing.
 
-diff --git a/include/dt-bindings/input/cros-ec-keyboard.h b/include/dt-bindings/input/cros-ec-keyboard.h
-index f0ae03634a96..afc12f6aa642 100644
---- a/include/dt-bindings/input/cros-ec-keyboard.h
-+++ b/include/dt-bindings/input/cros-ec-keyboard.h
-@@ -100,4 +100,108 @@
- 	MATRIX_KEY(0x07, 0x0b, KEY_UP)		\
- 	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)
- 
-+/* No numpad */
-+#define CROS_TOP_ROW_KEYMAP_V30 \
-+	MATRIX_KEY(0x00, 0x01, KEY_F11)		/* T11 */	\
-+	MATRIX_KEY(0x00, 0x02, KEY_F1)		/* T1 */	\
-+	MATRIX_KEY(0x00, 0x04, KEY_F10)		/* T10 */	\
-+	MATRIX_KEY(0x00, 0x0b, KEY_F14)		/* T14 */	\
-+	MATRIX_KEY(0x00, 0x0c, KEY_F15)		/* T15 */	\
-+	MATRIX_KEY(0x01, 0x02, KEY_F4)		/* T4 */	\
-+	MATRIX_KEY(0x01, 0x04, KEY_F7)		/* T7 */	\
-+	MATRIX_KEY(0x01, 0x05, KEY_F12)		/* T12 */	\
-+	MATRIX_KEY(0x01, 0x09, KEY_F9)		/* T9 */	\
-+	MATRIX_KEY(0x02, 0x02, KEY_F3)		/* T3 */	\
-+	MATRIX_KEY(0x02, 0x04, KEY_F6)		/* T6 */	\
-+	MATRIX_KEY(0x02, 0x0b, KEY_F8)		/* T8 */	\
-+	MATRIX_KEY(0x03, 0x02, KEY_F2)		/* T2 */	\
-+	MATRIX_KEY(0x03, 0x05, KEY_F13)		/* T13 */	\
-+	MATRIX_KEY(0x04, 0x04, KEY_F5)		/* T5 */
-+
-+#define CROS_MAIN_KEYMAP_V30			/* Keycode */	\
-+	MATRIX_KEY(0x00, 0x03, KEY_B)		/* 50 */	\
-+	MATRIX_KEY(0x00, 0x05, KEY_N)		/* 51 */	\
-+	MATRIX_KEY(0x00, 0x06, KEY_RO)		/* 56 (JIS) */	\
-+	MATRIX_KEY(0x00, 0x08, KEY_EQUAL)	/* 13 */	\
-+	MATRIX_KEY(0x00, 0x09, KEY_HOME)	/* 80 (Numpad) */	\
-+	MATRIX_KEY(0x00, 0x0a, KEY_RIGHTALT)	/* 62 */	\
-+	MATRIX_KEY(0x00, 0x10, KEY_FN)		/* 127 */	\
-+								\
-+	MATRIX_KEY(0x01, 0x01, KEY_ESC)		/* 110 */	\
-+	MATRIX_KEY(0x01, 0x03, KEY_G)		/* 35 */	\
-+	MATRIX_KEY(0x01, 0x06, KEY_H)		/* 36 */	\
-+	MATRIX_KEY(0x01, 0x08, KEY_APOSTROPHE)	/* 41 */	\
-+	MATRIX_KEY(0x01, 0x0b, KEY_BACKSPACE)	/* 15 */	\
-+	MATRIX_KEY(0x01, 0x0c, KEY_HENKAN)	/* 65 (JIS) */	\
-+	MATRIX_KEY(0x01, 0x0e, KEY_LEFTCTRL)	/* 58 */	\
-+								\
-+	MATRIX_KEY(0x02, 0x01, KEY_TAB)		/* 16 */	\
-+	MATRIX_KEY(0x02, 0x03, KEY_T)		/* 21 */	\
-+	MATRIX_KEY(0x02, 0x05, KEY_RIGHTBRACE)	/* 28 */	\
-+	MATRIX_KEY(0x02, 0x06, KEY_Y)		/* 22 */	\
-+	MATRIX_KEY(0x02, 0x08, KEY_LEFTBRACE)	/* 27 */	\
-+	MATRIX_KEY(0x02, 0x09, KEY_DELETE)	/* 76 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x0c, KEY_PAGEUP)	/* 85 (Numpad) */	\
-+	MATRIX_KEY(0x02, 0x011, KEY_YEN)	/* 14 (JIS) */	\
-+								\
-+	MATRIX_KEY(0x03, 0x00, KEY_LEFTMETA)	/* Launcher */	\
-+	MATRIX_KEY(0x03, 0x01, KEY_GRAVE)	/* 1 */	\
-+	MATRIX_KEY(0x03, 0x03, KEY_5)		/* 6 */	\
-+	MATRIX_KEY(0x03, 0x04, KEY_S)		/* 32 */	\
-+	MATRIX_KEY(0x03, 0x06, KEY_MINUS)	/* 12 */	\
-+	MATRIX_KEY(0x03, 0x08, KEY_6)		/* 7 */		\
-+	MATRIX_KEY(0x03, 0x09, KEY_SLEEP)	/* Lock */	\
-+	MATRIX_KEY(0x03, 0x0b, KEY_BACKSLASH)	/* 29 */	\
-+	MATRIX_KEY(0x03, 0x0c, KEY_MUHENKAN)	/* 63 (JIS) */	\
-+	MATRIX_KEY(0x03, 0x0e, KEY_RIGHTCTRL)	/* 64 */	\
-+								\
-+	MATRIX_KEY(0x04, 0x01, KEY_A)		/* 31 */	\
-+	MATRIX_KEY(0x04, 0x02, KEY_D)		/* 33 */	\
-+	MATRIX_KEY(0x04, 0x03, KEY_F)		/* 34 */	\
-+	MATRIX_KEY(0x04, 0x05, KEY_K)		/* 38 */	\
-+	MATRIX_KEY(0x04, 0x06, KEY_J)		/* 37 */	\
-+	MATRIX_KEY(0x04, 0x08, KEY_SEMICOLON)	/* 40 */	\
-+	MATRIX_KEY(0x04, 0x09, KEY_L)		/* 39 */	\
-+	MATRIX_KEY(0x04, 0x0b, KEY_ENTER)	/* 43 */	\
-+	MATRIX_KEY(0x04, 0x0c, KEY_END)		/* 81 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x05, 0x01, KEY_1)		/* 2 */	\
-+	MATRIX_KEY(0x05, 0x02, KEY_COMMA)	/* 53 */	\
-+	MATRIX_KEY(0x05, 0x03, KEY_DOT)		/* 54 */	\
-+	MATRIX_KEY(0x05, 0x04, KEY_SLASH)	/* 55 */	\
-+	MATRIX_KEY(0x05, 0x05, KEY_C)		/* 48 */	\
-+	MATRIX_KEY(0x05, 0x06, KEY_SPACE)	/* 61 */	\
-+	MATRIX_KEY(0x05, 0x07, KEY_LEFTSHIFT)	/* 44 */	\
-+	MATRIX_KEY(0x05, 0x08, KEY_X)		/* 47 */	\
-+	MATRIX_KEY(0x05, 0x09, KEY_V)		/* 49 */	\
-+	MATRIX_KEY(0x05, 0x0b, KEY_M)		/* 52 */	\
-+	MATRIX_KEY(0x05, 0x0c, KEY_PAGEDOWN)	/* 86 (Numpad) */	\
-+								\
-+	MATRIX_KEY(0x06, 0x01, KEY_Z)		/* 46 */	\
-+	MATRIX_KEY(0x06, 0x02, KEY_3)		/* 4 */		\
-+	MATRIX_KEY(0x06, 0x03, KEY_4)		/* 5 */		\
-+	MATRIX_KEY(0x06, 0x04, KEY_2)		/* 3 */		\
-+	MATRIX_KEY(0x06, 0x05, KEY_8)		/* 9 */		\
-+	MATRIX_KEY(0x06, 0x06, KEY_0)		/* 11 */	\
-+	MATRIX_KEY(0x06, 0x08, KEY_7)		/* 8 */		\
-+	MATRIX_KEY(0x06, 0x09, KEY_9)		/* 10 */	\
-+	MATRIX_KEY(0x06, 0x0b, KEY_DOWN)	/* 84 */	\
-+	MATRIX_KEY(0x06, 0x0c, KEY_RIGHT)	/* 89 */	\
-+	MATRIX_KEY(0x06, 0x0d, KEY_LEFTALT)	/* 60 */	\
-+	MATRIX_KEY(0x06, 0x0f, KEY_ASSISTANT)	/* 128 */	\
-+	MATRIX_KEY(0x06, 0x11, KEY_BACKSLASH)	/* 42 (JIS, ISO) */	\
-+								\
-+	MATRIX_KEY(0x07, 0x01, KEY_U)		/* 23 */	\
-+	MATRIX_KEY(0x07, 0x02, KEY_I)		/* 24 */	\
-+	MATRIX_KEY(0x07, 0x03, KEY_O)		/* 25 */	\
-+	MATRIX_KEY(0x07, 0x04, KEY_P)		/* 26 */	\
-+	MATRIX_KEY(0x07, 0x05, KEY_Q)		/* 17 */	\
-+	MATRIX_KEY(0x07, 0x06, KEY_W)		/* 18 */	\
-+	MATRIX_KEY(0x07, 0x07, KEY_RIGHTSHIFT)	/* 57 */	\
-+	MATRIX_KEY(0x07, 0x08, KEY_E)		/* 19 */	\
-+	MATRIX_KEY(0x07, 0x09, KEY_R)		/* 20 */	\
-+	MATRIX_KEY(0x07, 0x0b, KEY_UP)		/* 83 */	\
-+	MATRIX_KEY(0x07, 0x0c, KEY_LEFT)	/* 79 */	\
-+	MATRIX_KEY(0x07, 0x11, KEY_102ND)	/* 45 (ISO) */
-+
- #endif /* _CROS_EC_KEYBOARD_H */
--- 
-2.45.1.467.gbab1589fc0-goog
+Thank you for your submission! It's always great to see new devices
+introduced to the kernel. Maybe I can give some high-level feedback
+first.
 
+Unfortunately, I don't think we can review this driver in its current
+form; the style and structure are simply too different from what is
+expected in mainline. Many of these problems can be identified with
+checkpatch [1].
+
+To that point, I don't think this driver belongs as an input driver.
+The input subsystem tends to be a catch-all for sensors in downstream
+kernels, and some bespoke SOC vendor HALs tend to follow this approach,
+but that does not necessarily mean input is always the best choice.
+
+SAR devices are a special case where an argument could be made for the
+driver to be an input driver, or an IIO/proximity driver. If the device
+emits binary near/far events, then an input driver is a good choice;
+typically the near/far event could be mapped to a switch code such as
+SW_FRONT_PROXIMITY.
+
+If the device emits continuous proximity data (in arbitrary units or
+otherwise), however, IIO/proximity seems like a better choice here. This
+driver seems to report proximity using ABS_DISTANCE, which is kind of an
+abuse of the input subsystem, and a strong indicator that this driver
+should really be an IIO/proximity driver. If you disagree, I think we
+at least need some compelling reasoning in the commit message.
+
+Regardless of this choice, this driver should really only be 2-3 patches
+(not counting cover letter): one for the binding, and one for a single,
+homogenous driver for each of the two devices, unless they have enough
+in common that they can be supported by a single driver. Mainline tends
+to avoid vendor-specific (and especially part-specific) entire directories.
+
+I agree with Krzysztof's advice in one of the other patches; I think it
+would be best to study some existing drivers in mainline to gain a
+better sense of how they are organized, then use those as a model. If I
+may suggest, consider referring to drivers such as [2] and its cousins
+in the same directory; these are capacitive proximity sensors that can
+be used as buttons, but SAR devices tend to be built upon the same principle.
+
+[1] https://docs.kernel.org/dev-tools/checkpatch.html
+[2] drivers/iio/proximity/sx9500.c
+
+> 
+> shuaijie wang (5):
+>   dt-bindings: input: Add YAML to Awinic sar sensor.
+>   Add universal interface for the aw_sar driver.
+>   Add aw9610x series related interfaces to the aw_sar driver.
+>   Add aw963xx series related interfaces to the aw_sar driver.
+>   Add support for Awinic sar sensor.
+> 
+>  .../bindings/input/awinic,aw_sar.yaml         |  125 +
+>  drivers/input/misc/Kconfig                    |    9 +
+>  drivers/input/misc/Makefile                   |    1 +
+>  drivers/input/misc/aw_sar/Makefile            |    2 +
+>  drivers/input/misc/aw_sar/aw9610x/aw9610x.c   |  884 +++++++
+>  drivers/input/misc/aw_sar/aw9610x/aw9610x.h   |  327 +++
+>  drivers/input/misc/aw_sar/aw963xx/aw963xx.c   |  974 ++++++++
+>  drivers/input/misc/aw_sar/aw963xx/aw963xx.h   |  753 ++++++
+>  drivers/input/misc/aw_sar/aw_sar.c            | 2036 +++++++++++++++++
+>  drivers/input/misc/aw_sar/aw_sar.h            |   15 +
+>  .../misc/aw_sar/comm/aw_sar_chip_interface.h  |   27 +
+>  .../misc/aw_sar/comm/aw_sar_comm_interface.c  |  639 ++++++
+>  .../misc/aw_sar/comm/aw_sar_comm_interface.h  |  172 ++
+>  drivers/input/misc/aw_sar/comm/aw_sar_type.h  |  396 ++++
+>  14 files changed, 6360 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/awinic,aw_sar.yaml
+>  create mode 100644 drivers/input/misc/aw_sar/Makefile
+>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.c
+>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.h
+>  create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.c
+>  create mode 100644 drivers/input/misc/aw_sar/aw963xx/aw963xx.h
+>  create mode 100644 drivers/input/misc/aw_sar/aw_sar.c
+>  create mode 100644 drivers/input/misc/aw_sar/aw_sar.h
+>  create mode 100644 drivers/input/misc/aw_sar/comm/aw_sar_chip_interface.h
+>  create mode 100644 drivers/input/misc/aw_sar/comm/aw_sar_comm_interface.c
+>  create mode 100644 drivers/input/misc/aw_sar/comm/aw_sar_comm_interface.h
+>  create mode 100644 drivers/input/misc/aw_sar/comm/aw_sar_type.h
+> 
+> 
+> base-commit: 32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+> -- 
+> 2.45.1
+> 
+
+Kind regards,
+Jeff LaBundy
 
