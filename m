@@ -1,139 +1,220 @@
-Return-Path: <linux-input+bounces-4238-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4239-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0416900E27
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 00:37:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC06900E6D
+	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 01:24:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7AEF1C21415
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 22:37:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 310022841C5
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 23:24:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879591553BC;
-	Fri,  7 Jun 2024 22:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DEC678C95;
+	Fri,  7 Jun 2024 23:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="lNEDrV/f";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UkXYsMaQ"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="FaO38iqN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iOQRv3OG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wfout8-smtp.messagingengine.com (wfout8-smtp.messagingengine.com [64.147.123.151])
+Received: from wfhigh2-smtp.messagingengine.com (wfhigh2-smtp.messagingengine.com [64.147.123.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DD8155312;
-	Fri,  7 Jun 2024 22:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7745A1BC43;
+	Fri,  7 Jun 2024 23:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717799868; cv=none; b=uaQIFVLheS9dV9bvYsI07XiIwiAzo67GWnGAv/DGwsW3OfWHyrTiaHnnq5D+Lg/F0USErF/hNXIkY5MEkzrotP9x0JteOiz9nWwzZ+OyqhT0PK2AjNVTJaqHaWzHAl3PbvWEWhj8/o2RtJDxlkN6Afr/dTrugxR7qeEgXJbt5cE=
+	t=1717802679; cv=none; b=pN4OMZdhvsMj/saoZjoqiPk37BUq/AjjllZXwgoy8zGN5BXI90ou/uEgxZaMia+n9sP0pFHBMJZzW+DKIwiBxEDHajUEAMSULrHZ3hSiJ+vYvFpR717PoyeGLI6wOpP3Scune5hIf6PcBTr53ZunRKlgJLXzLPmuwbfMWczfNkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717799868; c=relaxed/simple;
-	bh=21KYqmMsJodopUyHtIt0YM7A851WqDpfy10WbXgK1/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AwvZxxWiWyJ9ZKEyVXDJmhwovWMsP6T0tQqDJPsEnq/yxUmZGDnnox88Ry0VU4pTkzkIdiwQ9Oa0PquSBTjROspYAO9ZePObL2EiQSUc2oRxZyv1oxyqUdcLecmiZ/mfD5Yg05ZZiL7bZ0GDiePXTIvwoRl5z6gund0Fe3owNNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=lNEDrV/f; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UkXYsMaQ; arc=none smtp.client-ip=64.147.123.151
+	s=arc-20240116; t=1717802679; c=relaxed/simple;
+	bh=zIeqne16BwDiZQ1VqsqawTkYKwGdDB54W8llrRudiuA=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=DdFTqkvGlKiLPUNltjfaQExmmUz9CLaVWgT/zFLX9z7CJBHbo4FXsJVmhrMn0ACaWU3VAiISYbpzEmqvoBfcblsmdV3GVE4VZ7dyCk2CQhxZmzGVhjnTUqJJ2tfZfPDuR2zqHKtMkus5K9sLRiOq9SXuLfuXm9anBSJii7Q8rFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=FaO38iqN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iOQRv3OG; arc=none smtp.client-ip=64.147.123.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.west.internal (Postfix) with ESMTP id 656D51C00185;
-	Fri,  7 Jun 2024 18:37:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Fri, 07 Jun 2024 18:37:45 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 658DD180010B;
+	Fri,  7 Jun 2024 19:24:36 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute2.internal (MEProxy); Fri, 07 Jun 2024 19:24:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1717799864; x=1717886264; bh=arjxTVPYQ9PKxgxS01/4z
-	syKupYyuINExddKmUuoAIE=; b=lNEDrV/feIrZiM+J03eAHFasKbr+I0NBVOQ1P
-	lM0i6egtevxlqPZe1jiCx0TFmXdpsO5N1hddLT/31ZenlbGBcqbSDVnAQ8JqT0tq
-	71X5z/piXFekJ/844CAiz/jaA9H9zcu1s2oQyI/+PZPSMbLXR3gBqy06iiz8T90p
-	3ghcz7yQeQyhwH/N3i6i6bVGVWBQtI9Ml54nBSdyXyK8pXWpR2hbQLnb/HqhJpYe
-	gg5R5QVdyhqLvMkBKaOPf64uy3cSCcwz9OiP3fR96U84o0wTQTwk4yvwE9Ms54ra
-	pp1QEMrsD8hUjWmc1eIEDV7Ad8wCeTyoB5s8HahotjWGbmddQ==
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1717802676; x=1717889076; bh=D3BVDpFGac
+	nL62lkOUcLI8ChMXesyNkzJLZOKjAF7kM=; b=FaO38iqNKFOQXD5ozxJmCsLWUn
+	aJFZ6uCT4DtWJ+rUL6MvWZt+om/ovudqCWC68rmxt2S8INXIGOuStFHsUnh5vIji
+	rOdxRTbwHL6UWlB+w6MMtqcxhXATQNzOP17aQpvgkMi/kKFh/jQiW9nP9o0fMr1a
+	7UVwlhh5s7PO2kX8bFHAdzA7JQdPpwk6XSrpFTv0BN0QRuvxs97yHJ4EvwIEBzmQ
+	2WIh5xZhHi+P/0GE9Ften36HaSzZHluP5l7bt9tCPRcxeZxAMIN8ctS4fOcGR6PP
+	c4Vsv1a5gafQDeKG84QrUGzzx4oKrix9mQ+BqG4KXTGez34g+wfOu/L514hw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1717799864; x=1717886264; bh=arjxTVPYQ9PKxgxS01/4zsyKupYy
-	uINExddKmUuoAIE=; b=UkXYsMaQto8C4H+vyob79pbodDghAUo3a7g8YY4XKb+3
-	8z1f1T3sBGEnZzWVYVTqz8fcSS1Ao8g+OL0IrE1bhm+HDll92uML8ylW168YJkMV
-	SKp4+dxAEQu06I0hRkIskSE6+kpbzi7/LGGGnzFqqeEsWcEdJxay5DEDuwTP+w/w
-	tgEr3pjMt3q6CGBezm25M2pZV4MysPAsLyajturJ5wWgMIbypDJ/s28c5a3Ppdv0
-	tIREoyNfGBunbM6AD63YKxwJ3f8ttL+3YpOZhisEJn6TLtsSlrspIScvTTz+2H+4
-	M1KmOfwU091ApgIuXXOjTqcSZC39cAnERcU1aG5Gnw==
-X-ME-Sender: <xms:t4tjZrGFRfLM4Uh0MQl54XHVoLrvLNld-VSjlJ0HaBGnpGmgg9DLgQ>
-    <xme:t4tjZoUO2aLtBoFG9ybn-4dt8Gb_KBc5y6tPaoxVmgHXJJq1nikKHN808uF9QlITx
-    a8J8w_oAFRCI2uBhb0>
-X-ME-Received: <xmr:t4tjZtIEcwl4ZHWfcY1CSIML5X0T0nT6ac2zP64Na3iIEUWm88N5NG-OYDCP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtvddgudduucetufdoteggodetrfdotf
+	fm1; t=1717802676; x=1717889076; bh=D3BVDpFGacnL62lkOUcLI8ChMXes
+	yNkzJLZOKjAF7kM=; b=iOQRv3OGdYiw5MU8hheyjZLWdZ7aVSSgtJruv4wXtO9l
+	eoP4zX8IofklGus8JtwY9StFtw8R0ggKTo8UfA5dUaZxRRtSL11aZtiSUPZ8A5Zg
+	NIw1m8KjD8ElUhw11TDGb3fUevCyRg7llkjqv8m/SZStITNOjno4TaX6aH8lYXfw
+	JM8hT/7M0eEbgdJbLRd0zVd+E1GkxL7Jb/Kx7NDGHNx5icSF1LSO5UsaGCXhRHi8
+	P58Ex4lDZcAOAcJdddB/9YyK/uwxXAxhXc6EIyvJ7RrsYRtyqwVdFnHx4e3FUYk0
+	NNQtmHu5VHBH4EB9efMcbOLTwZNQimHviSKr/sAbAw==
+X-ME-Sender: <xms:s5ZjZl_PPA21X50Zjdur1c_lqHxrdL2T6IrxdEv-tXEmATqqyDQ5hQ>
+    <xme:s5ZjZpvBvRoHlmgoWjUPHyGZna3R4nFvMUwoYmgwnINJM-Mzj8rBhNthl8a2bzy_X
+    JVMF7fNmYe9vgBIbQQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtvddgvddtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
-    nhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfdujedthfduudekffefkeeiffdttd
-    dvhfegudduueffuefhfefggeefteevvdegnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:t4tjZpElyS4QdCBzXlP5rmqyXVIj1NYOads4MXOPHRLMLPSZZ661Uw>
-    <xmx:t4tjZhUJVT8JTpesJxfcsOgWz-KpnJnGeIBOv3Sc4oADuTRDSjJYjw>
-    <xmx:t4tjZkNYoHNNqQpTAO2lwQEkufYMaGr87YNYKyWseYkhpJr2fr49Fg>
-    <xmx:t4tjZg1Y8zRKB8dEkXF_WzKnLp74Q0_8D1rPdNPIyEl-_jGeO70qFA>
-    <xmx:uItjZpTMJvZ0x4ZtRkutsBmS_iY-0eLGVa48sf-gJLrs7IMH9RLhnun0>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfnfhu
+    khgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtth
+    gvrhhnpedutdelgfdvgeekueeuteevffelfedukeeitedugfdvtdeutdetjeduudeuvdeg
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluh
+    hkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:s5ZjZjAJAbskuz5giznyezVHHBJ-66dPU8cUiLfNnSi8HMawaZQ75g>
+    <xmx:s5ZjZpd11erRylIrkE3X5BpdZgmm5pfGLiaBgHAjEs9c3of339KxUA>
+    <xmx:s5ZjZqN_AFrMln_fBv9apBfbWyvEHqWKYwPSEiSOYj3287aLmM8gag>
+    <xmx:s5ZjZrlmDUrNMPMUtZhjkxZYFzs7khwru6GYVCN3gEZOlVsknVvh8g>
+    <xmx:tJZjZja-sFVJw9rumwGHcakArg6b23QWCf1XMowcF3o7FdXiUunAI0qN>
 Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Jun 2024 18:37:39 -0400 (EDT)
-From: "Luke D. Jones" <luke@ljones.dev>
-To: linux-input@vger.kernel.org
-Cc: dmitry.torokhov@gmail.com,
-	vi@endrift.com,
-	maxwell.nguyen@hp.com,
-	appsforartists@google.com,
-	carl.ng@hp.com,
-	christophe.jaillet@wanadoo.fr,
-	matt.git@fastmail.fm,
-	linux-kernel@vger.kernel.org,
-	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH] Input: xpad - add support for ASUS ROG RAIKIRI PRO
-Date: Sat,  8 Jun 2024 10:37:22 +1200
-Message-ID: <20240607223722.1170776-1-luke@ljones.dev>
-X-Mailer: git-send-email 2.45.2
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C03572340082; Fri,  7 Jun 2024 19:24:35 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-497-g97f96844c-fm-20240526.001-g97f96844
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <dd0a211a-bef1-4eb2-8d1f-2d63799af94c@app.fastmail.com>
+In-Reply-To: <20240607040532.1074379-2-luke@ljones.dev>
+References: <20240607040532.1074379-1-luke@ljones.dev>
+ <20240607040532.1074379-2-luke@ljones.dev>
+Date: Sat, 08 Jun 2024 11:24:14 +1200
+From: "Luke Jones" <luke@ljones.dev>
+To: "Jiri Kosina" <jikos@kernel.org>
+Cc: "Benjamin Tissoires" <bentiss@kernel.org>, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] hid-asus: use hid for brightness control on keyboard
+Content-Type: text/plain
 
-Add the VID/PID for ASUS ROG RAIKIRI PRO to
-xpad_device and the VID to xpad_table.
+I thought this was finalised but I'm still getting conflicting reports.
+Please don't merge until I confirm the fix.
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/hid/hid-ids.h         | 1 +
- drivers/input/joystick/xpad.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 61d2a21affa2..31c522fa4e87 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -209,6 +209,7 @@
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD2	0x19b6
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD3	0x1a30
- #define USB_DEVICE_ID_ASUSTEK_ROG_Z13_LIGHTBAR		0x18c6
-+#define USB_DEVICE_ID_ASUSTEK_ROG_RAIKIRI_PAD		0x1abb
- #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY		0x1abe
- #define USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD	0x196b
- #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD	0x1869
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 6fadaddb2b90..3a5af0909233 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -209,6 +209,7 @@ static const struct xpad_device {
- 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
- 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
- 	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
-+	{ 0x0b05, 0x1abb, "ASUS ROG RAIKIRI PRO", 0, XTYPE_XBOXONE },
- 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
- 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
- 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
--- 
-2.45.2
-
+On Fri, 7 Jun 2024, at 4:05 PM, Luke D. Jones wrote:
+> On almost all ASUS ROG series laptops the MCU used for the USB keyboard
+> also has a HID packet used for setting the brightness. This is usually
+> the same as the WMI method. But in some laptops the WMI method either
+> is missing or doesn't work, so we should default to the HID control.
+> 
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> ---
+> drivers/hid/hid-asus.c                     |  7 ++++
+> drivers/platform/x86/asus-wmi.c            |  3 +-
+> include/linux/platform_data/x86/asus-wmi.h | 45 ++++++++++++++++++++++
+> 3 files changed, 54 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 02de2bf4f790..0ed3708ef7e2 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -492,12 +492,19 @@ static void asus_kbd_backlight_work(struct work_struct *work)
+>   */
+> static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
+> {
+> + struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+> u32 value;
+> int ret;
+>  
+> if (!IS_ENABLED(CONFIG_ASUS_WMI))
+> return false;
+>  
+> + if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
+> + dmi_check_system(asus_use_hid_led_dmi_ids)) {
+> + hid_info(hdev, "using HID for asus::kbd_backlight\n");
+> + return false;
+> + }
+> +
+> ret = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DSTS,
+>        ASUS_WMI_DEVID_KBD_BACKLIGHT, 0, &value);
+> hid_dbg(hdev, "WMI backlight check: rc %d value %x", ret, value);
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 3f9b6285c9a6..799d928c7d3d 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -1681,7 +1681,8 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+> goto error;
+> }
+>  
+> - if (!kbd_led_read(asus, &led_val, NULL)) {
+> + if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
+> + pr_info("using asus-wmi for asus::kbd_backlight\n");
+> asus->kbd_led_wk = led_val;
+> asus->kbd_led.name = "asus::kbd_backlight";
+> asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index 3eb5cd6773ad..6ba0015e4386 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -4,6 +4,7 @@
+>  
+> #include <linux/errno.h>
+> #include <linux/types.h>
+> +#include <linux/dmi.h>
+>  
+> /* WMI Methods */
+> #define ASUS_WMI_METHODID_SPEC         0x43455053 /* BIOS SPECification */
+> @@ -160,4 +161,48 @@ static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+> }
+> #endif
+>  
+> +/* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
+> +#if IS_ENABLED(CONFIG_ASUS_WMI)
+> +bool asus_use_hid_led(void);
+> +#else
+> +static inline bool asus_use_hid_led(void)
+> +{
+> + return true;
+> +}
+> +#endif
+> +
+> +static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
+> + },
+> + },
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
+> + },
+> + },
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
+> + },
+> + },
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_BOARD_NAME, "GA403"),
+> + },
+> + },
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_BOARD_NAME, "GU605"),
+> + },
+> + },
+> + {
+> + .matches = {
+> + DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+> + },
+> + },
+> + NULL,
+> +};
+> +
+> #endif /* __PLATFORM_DATA_X86_ASUS_WMI_H */
+> -- 
+> 2.45.1
+> 
+> 
 
