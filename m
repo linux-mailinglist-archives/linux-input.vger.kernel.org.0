@@ -1,177 +1,209 @@
-Return-Path: <linux-input+bounces-4229-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4230-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BCF900AFB
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 19:05:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CE0900B1C
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 19:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D480B222BF
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 17:05:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1ADF4B2460A
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 17:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F16E9197501;
-	Fri,  7 Jun 2024 17:05:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F30199EBE;
+	Fri,  7 Jun 2024 17:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ghhL+aS8"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="otFcK7Qr"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05olkn2070.outbound.protection.outlook.com [40.92.89.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A18EC2;
-	Fri,  7 Jun 2024 17:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717779943; cv=none; b=OXGePNo2DrOWAokjizbKUcArhHeuZw4/hVMsG+1nDkZ1ip4YzMWcTLFEZTiyLHxS7av/I/MjLPucpY1FRN+RXOKL2qE69U4ZaRu7cPci/OgEZ2GbcFjUWkHwBTXbd+qTIsIdDCjhTbzYh4bkxlwbdoTssVsbBf3ShjlBfqf7IjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717779943; c=relaxed/simple;
-	bh=Am2/Z8lsAFupWmwCt+Zbzylg4sC7Q8nztArl9OEkYIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dodn23L/HaOU0ndnQ0nr2/cc70KFeXUclRxdQ1lsCDufrgSroc1QWNU4RG85b5QuqKOhHYaBOcWJpQ4u7fELNvihqDzrbPTFRsoK8uo6tkNJrYTX5uv5Ggn1rmWZe7uBJDJtOVaIeHe3qy81Bjl0f7311kZIYyaEe1lMBR5KaPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ghhL+aS8; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f480624d10so22134785ad.1;
-        Fri, 07 Jun 2024 10:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717779942; x=1718384742; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zHj/K79H43xlfqHPi++1hQlZOi9fT45WBsM4gL6Ozy0=;
-        b=ghhL+aS8IXZhsLPynxQktX6uYzp7PjIapkJAX5h79YASvoXD9Z4zTZbrE4N6vxdAtC
-         3vwn+JLmfQCoPT2vxmDqKL1N7FfyPWHNemITB5MYv1m+jWbGf7ad9rZnOETYbnVfbhyx
-         GkIh2rYRPzmUS2x0/fHEqY/smwGqRK1CbwfNSnEvojdAbq9P8QgC5+4pbnbqVcv737mw
-         YQGzDceari/YdzZL32Yd6UEcx02WDRBMLn0cJYe6warMiSBAvAJebxNkOJU1AQMgRBEF
-         UQycdlQoI8qq7Nzh3vG6M+JdMHU0Ddccmk6n9tEMAChMGy8C7z2BFlEv5xR+KMnP8Umx
-         6tzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717779942; x=1718384742;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zHj/K79H43xlfqHPi++1hQlZOi9fT45WBsM4gL6Ozy0=;
-        b=NNih8cs1spb0uUiB12YXiHHJEbe/ASrrjBMaBLmva1plmgHdOvIxes5+CXqMqxOAsq
-         9PtVRdIjwpP9JMcB4YE1bqX8vc9pXW8tlWdqiccxjUgegbG0xnyXSC2QiKJKSedAhlNs
-         sf4gComjzPM/K1SLlwq0Ol73Lq+W+m+9+vp3yBQAPWMaCmnwZ49X4t7H8NY2WwtJ2WHU
-         FzaYZsFIAteets4WoU2s5CZKL7gt+T+fXp5zn7ABksaUW7tP0AZ+k9aYOssyvwuSQH2P
-         fsCX6ZrQ5lZq4ennEl6bSSr31OFvWJqG6acA4vtbu807d7BN/muPJH2GwsIvz8fSQroN
-         CDPw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5gGgIR+FZz87apZTdIaV3JaHKKKPhvy3aEIFhvMSejUt8ekjbP8Iy/oRV9OtdwbGmHAcP+9kDS9rRBu/h1J+24ikpF1ZlRCqUrWLid8fuwkCZb4g/SXO0J6PCCV2ZpFsZwyQzYKePpNayC7zodyeVRlbYpCtrikULy7CK096923E2driT
-X-Gm-Message-State: AOJu0YwaSHs6YefblYlnyIiHzDxfBhDqlXCLmZM63SLckcopsIWDs6lS
-	zGf06fuONtSEzhlyT2H4Q4tl2XaNhyqb92Ipr/tKKE2ipmJrBuF6
-X-Google-Smtp-Source: AGHT+IHXZ1fiScEjvfYMxnaznJDXzLlTLYXF9DRYPlV/e2tsfx6QSK86x/T2rx2f5e/Zm0ZKb5qdfQ==
-X-Received: by 2002:a17:902:c952:b0:1f6:80e2:e448 with SMTP id d9443c01a7336-1f6d0398fadmr36477375ad.51.1717779941605;
-        Fri, 07 Jun 2024 10:05:41 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b8e9:3447:a54a:310b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76cc90sm36923965ad.84.2024.06.07.10.05.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 10:05:41 -0700 (PDT)
-Date: Fri, 7 Jun 2024 10:05:38 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Gregory CLEMENT <gregory.clement@bootlin.com>
-Cc: Kamel BOUHARA <kamel.bouhara@bootlin.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>,
-	catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v13 3/3] Input: Add TouchNetix axiom i2c touchscreen
- driver
-Message-ID: <ZmM94i98R-UMv30V@google.com>
-References: <20240603153929.29218-1-kamel.bouhara@bootlin.com>
- <20240603153929.29218-4-kamel.bouhara@bootlin.com>
- <Zl5ZmYyntq7OJOvZ@google.com>
- <20240605124746.GA57733@tpx1.home>
- <7ca4a22f903313128de5c0f65a49b319@bootlin.com>
- <ZmIq9jmkZtEaGw19@google.com>
- <87bk4dfc7b.fsf@BLaptop.bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFFF16D338;
+	Fri,  7 Jun 2024 17:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.89.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717780696; cv=fail; b=FdZY3VzPRtnjhonM0Eb3Gi74n4uSBPJjnuw3L9afNeSt6PwGF/IJaAfvE1fWCxe2Y2v0zLzIlYhpE7xFDITYlN0lYT/qIHIvTHGLMREDvKJYKuRjCig9lY1Dw4y6wHKjo9Md8u3NEPqN+rs+qOajFPCFBRJwbXTY5FJOGe9HVtk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717780696; c=relaxed/simple;
+	bh=hNqvvMmFtm+KUDtVgFDySpMNZ5jfEKKj69PMRQJGGzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=EcrasLtUEt+D514ZP+rg+snI7Q4Xu8MyRLfVJ6WbJ55t1mAhUODe9+6Jz6XEwBwWP4UBZ2sjjaQvYwO8eK2Sct7Qh0UcaKdv48NMIpEaS6y6reZAMJ2r+uieMMJWCgWe2fby/2YCCnXNiojmlwQn2y66Qk1LqdKEnSgysEkx0P8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=otFcK7Qr; arc=fail smtp.client-ip=40.92.89.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i3/b4UNbJb0hXKf91qsYWDDJ/hQqRfkA7xvqBY8w98X8B9Ji0WJmsoGcqIaz7U4y1XF/IlLhHLJ5UhH+Q3AOOmlsUoYzAJ9XsqhEyP08LSX7pqcpa5qDi4JGirgBL0lFH0l01qQx/eGQbk7tkCk0MIU+bCLMNon5+mCSl2oeVZmRJjOB+3spy7irMlzA8x9oXzIaNtxB50TTIa4/qUf441NfhfpqH4ZxSXu5pjnuSXvLdWrmg+hdguHyhyJZFkLHuweo8DKSU60elNnlJRW02IhHdgpgpL4Nl4wYP7Ke+W5Z0rZGMO6NvGldTcdTzjhd4FDKwP2jK32+GBE+ndfzbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/XREG9g6kiJWZRhiTfGDqFfGtNxQi+q3NxyQo6Humyo=;
+ b=QyVub8eATYEGU9RunsHg865g/MHfAdj9ioYrikSQ4VBJZ/R6ACZGib9oJqwVujAc3IN9l10i2C+m+g+xdxMKLbOJCmqmGb+uv2s7Ezm7dq5CCu2IJuSlZxPdyYO3U3F9NDPTlZMvPZMaG8l7UWv6u4K+l3FC86Y6yUbRxMPLApix6tSz8h7T79wG23mUKWzFwOS0B2t647g7raH2IhKFmFkFThHCkuQIAUHeGVzhylgWiMdNxK2XM6xFqNaMiROsXfX6cMEg0qUT8yxKHRU+IjuZZhMC/0qrpPOwWy8x0O7ylzdLE0jsFp8HmdUshk+UvVdhtTv7V4XwbykZLRloXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/XREG9g6kiJWZRhiTfGDqFfGtNxQi+q3NxyQo6Humyo=;
+ b=otFcK7QrZHHOGb2jue4hulncLFJ5I1P6GtC6+gof6abhUZ2T2de1uDd/imFYGDFvPqCIOG0YuGNzydgw5/yPtBilGhb7ZdqxQsp1OFcRwQ/g2e4vif39osQmG64FpEb+hCDL4nRvTguYntpMp+lah8DvbeLJJaOpm+BM6C9HhEV2EAkcDJb5APlbnIMlSUA5wOllvcshBDCsqcXxyF7TGe9n2P3TEbMkCBUVEr9w2g8H+PEHua/pKk72fGvIZQw5ecAGYoK1qCAQo4iR0wTR9H7iHXR60ArQAuHLHspo2ovVFvC+9NVTkHvX5Uoq5dUbZTsqzdL/BqIx6vIVUHiaxg==
+Received: from PAXPR02MB7248.eurprd02.prod.outlook.com (2603:10a6:102:1c7::13)
+ by AS1PR02MB8049.eurprd02.prod.outlook.com (2603:10a6:20b:4c5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31; Fri, 7 Jun
+ 2024 17:18:11 +0000
+Received: from PAXPR02MB7248.eurprd02.prod.outlook.com
+ ([fe80::72f5:8a03:5810:be20]) by PAXPR02MB7248.eurprd02.prod.outlook.com
+ ([fe80::72f5:8a03:5810:be20%6]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
+ 17:18:11 +0000
+From: Erick Archer <erick.archer@outlook.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	"Ricardo B. Marliere" <ricardo@marliere.net>,
+	Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Justin Stitt <justinstitt@google.com>
+Cc: Erick Archer <erick.archer@outlook.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] Input: gameport - use sizeof(*pointer) instead of sizeof(type)
+Date: Fri,  7 Jun 2024 19:17:55 +0200
+Message-ID:
+ <PAXPR02MB72483F512F863C74A4AECA2B8BFB2@PAXPR02MB7248.eurprd02.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [0f7S5K1H/acP37tmgmkcfaY+34AR+dYT]
+X-ClientProxiedBy: MA4P292CA0012.ESPP292.PROD.OUTLOOK.COM
+ (2603:10a6:250:2d::9) To PAXPR02MB7248.eurprd02.prod.outlook.com
+ (2603:10a6:102:1c7::13)
+X-Microsoft-Original-Message-ID:
+ <20240607171755.11948-1-erick.archer@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87bk4dfc7b.fsf@BLaptop.bootlin.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR02MB7248:EE_|AS1PR02MB8049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00da58dc-3783-49b6-fade-08dc8715ceab
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199019|3412199016|440099019|1710799017;
+X-Microsoft-Antispam-Message-Info:
+	/r592CNKkysc4rhHdRNjuZVJwJBZK6O+9ufLNDC/t3yxwVrZg/jC4bARQqzrp24+JOHsv9mowviGPWlz2BR+DpQcSw89/BT9oklqgRftPsGQyAO976DtdR8CrLNvh76Bw8dWbAjib8IyCIXlCzsXHTkQbobF5IgNpgYtlZoDOtRbsMjatirVywnD8D/rBTvXPdCf9b4Y4IhzIo7T83na/4ts5R4o03eb26NfmNSm8vJPLjiY+xKvrvKNjIKhVCjIH7rDyH+03nenCBiDJLUaBKJnw6z70TlTNrwZErfA3pDJ+kxzbC+g5zwrJdnM939zpVMoQi51O6Wt3LXGVrkmWKmXZoFSV/7SdMNwlkw75m5UICnevskoYuc9f4KyZ7bxpaz1Ti09MugaA0k7+TprmAd8Mg3QYtBLVL7XaOQlfUfqYowX9kz3Ot8RUFmTm5IuVNUM9LV928Ln4sa5pvbDRPs/+0NKxEfUW7xRaaVdHbA4SMq1I6wxQJ/Yv8v3ANC//gvr8ZYUYNTG5tP1QuZf7c+6JZhvZNXDViTlat1ORT1fPv1VsC4x8Ld4rSJWgFCSsB1Kg+N97gKczvx6WfGjooMIIJsIZq2XI7x0hrE4QXCP0ht5WFTqfMI6YANlushf
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MSFnjq7mVsxhr4jbsiDlk5wu47H/deq8C2mlmE7hPD9WoWq2kydKwVk+sf9V?=
+ =?us-ascii?Q?1tfe+FWANecgcXHiGLblX+Lt3xZPVvYn7TEltpRGmNdQKi2MNZMraSw9I5Cn?=
+ =?us-ascii?Q?vkNNjHXdOkmnHpbcE7+bOz7Dtqq3ZmdUOWhyzYB2clTJ32BUi1DIJjbXM82a?=
+ =?us-ascii?Q?u0qMAaIYoRsI1F6ZqXQg/N9xPFlGOl9mjYRhx4PKhVHgaauliyGVUu0UuRbb?=
+ =?us-ascii?Q?WSU/NLzoUp0823M6uIcIFShPh6sILbFZmdtDCn/iB/bR2wKmjp4MZpvU25VX?=
+ =?us-ascii?Q?BtNXUYoZIcSlFuAe8BsLspizG8fpxT3wAhJuTyzJCw2I0N9d7kHp3K3yBkRo?=
+ =?us-ascii?Q?9r19q6awarwz4Snngnl0t7ZvfedbmuiFjskBGskpuJMXJQLi/OkWMOaCBXcu?=
+ =?us-ascii?Q?pI1PVmSnCUxuqlely8eCqVIegb3dEK/vxX82/Qr6uRbDQchVRP7v8r6nWjrE?=
+ =?us-ascii?Q?s4uKTt2Ejv71WMdFxPB74u/uIQg5JvAUn0xy3iVw3APVLC6m25nqGRvOrAAo?=
+ =?us-ascii?Q?eb5aya3JHESPoMOnS2prtweo+8QjKcr9TEyI/j+f0f2IjDrjgkLH+BANBNxT?=
+ =?us-ascii?Q?XhTnnwi67YWjdbRp4cGFRDxI+vJwMUYNcCVB4JOne5DCG+rDMsqdOfSXg4W1?=
+ =?us-ascii?Q?q0JE4Cao4Y0MPlWnL+Y71lyh/vpx5YR+qNm0wJfD/EBpdUwXe/ja4U5tnuB2?=
+ =?us-ascii?Q?emDMbt0ELImeVznbY1+AiVhAXI1HnvbNDAYCHVp4qqoQ08NE1Cne/9b6JoTJ?=
+ =?us-ascii?Q?c2EvpBVHki2vTg552MgA7yhRalZbprhuABVZDyyOE8w3yvQ25T1Vy3xom0hv?=
+ =?us-ascii?Q?AyJUmkmgxSAqnaQ2NGhjKWX3cZEmR5XtFm3sWLWX7BSt8utVvLma/cSRnl7u?=
+ =?us-ascii?Q?Wx58xSwvc5xXvjgarH5mfQTqqt8C8AcPMEu3IYBCgbkzHCPa9f8c+JttD6ou?=
+ =?us-ascii?Q?lC/ZFfF+9g+1g4/j1YWljeZxVUsUJesELWPlkTFuhSeMsURkObkJiNfukmnj?=
+ =?us-ascii?Q?H4BS1qZ/p+bmyowsmf+dsz9x7Xc77sZNHAVoFQct44l4+QNUwEBYQAMIV8YF?=
+ =?us-ascii?Q?rYoS4jFKFWnqf/VrpJA4u3VqH/mS70PXEYmYtqyRbCVNFkec4GrzbqJDvtv7?=
+ =?us-ascii?Q?uAQDmtblG1AVg233vIRGug4kCZeSOHZPnMLj+qON2++VfQUa5lQ9z7NRx7/v?=
+ =?us-ascii?Q?jhx9bN6ilaJwyMpj1ee3x0dY2BRdQkYcueOpZthSCK7WimFY9UOVQMpzAKrY?=
+ =?us-ascii?Q?qmUpMUvcZzdtzVZgkl2R?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00da58dc-3783-49b6-fade-08dc8715ceab
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7248.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 17:18:11.3049
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR02MB8049
 
-Hi Gregory,
+It is preferred to use sizeof(*pointer) instead of sizeof(type)
+due to the type of the variable can change and one needs not
+change the former (unlike the latter). This patch has no effect
+on runtime behavior.
 
-On Fri, Jun 07, 2024 at 09:23:36AM +0200, Gregory CLEMENT wrote:
-> Hello Dmitry,
-> 
-> > On Wed, Jun 05, 2024 at 03:48:20PM +0200, Kamel BOUHARA wrote:
-> >> [...]
-> >> 
-> >> > > > +
-> >> > > > +	error = devm_request_threaded_irq(dev, client->irq, NULL,
-> >> > > > +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
-> >> > > > +	if (error) {
-> >> > > > +		dev_info(dev, "Request irq failed, falling back to polling mode");
-> >> > > 
-> >> > > I do not think you should fall back to polling mode if you fail to get
-> >> > > interrupt. If it was not specified (client->irq) then I can see that
-> >> > > we
-> >> > > might want to fall back, but if the system configured for using
-> >> > > interrupt and you can not get it you should bail out.
-> >> > > 
-> >> > 
-> >> > Yes, clear, the polling mode can be decorrelated to the irq not provided
-> >> > case.
-> >> 
-> >> Just to make sure I understood, is this what you propose ?
-> >> 
-> >> if (client->irq) {
-> >>         error = devm_request_threaded_irq(...)
-> >>         if (error) {
-> >> 		dev_warn(dev, "failed to request IRQ\n");
-> >> 		client->irq = 0;
-> >>          }
-> >> }
-> >> 
-> >> if(!client->irq) {
-> >>     // setup polling stuff
-> >>     ...
-> >> }
-> >
-> > No, if you fail to acquire interrupt that was described in ACPI/DT it
-> > should be treated as an error, like this:
-> >
-> > 	if (client->irq) {
-> > 		error = devm_request_threaded_irq(...)
-> > 		if (error)
-> > 			return dev_err_probe(...);
-> > 	} else {
-> > 		.. set up polling ..
-> > 	}
-> >
-> > This also makes sure that if interrupt controller is not ready and
-> > requests probe deferral we will not end up with device in polling
-> > mode.
-> 
-> In the case of probe deferral, I see the benefit of treating it as an
-> error. However, in the other case, I find it better to fall back to
-> polling mode with a big error message than just exiting in error. As a
-> user, I think we prefer having a degraded feature over not having the
-> feature at all.
+Signed-off-by: Erick Archer <erick.archer@outlook.com>
+---
+ drivers/input/gameport/emu10k1-gp.c | 2 +-
+ drivers/input/gameport/fm801-gp.c   | 2 +-
+ drivers/input/gameport/gameport.c   | 2 +-
+ drivers/input/gameport/ns558.c      | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-No, this is not how the drivers work, we do not simply ignore errors and
-hope for the best. If resources are described in platform definition (be
-it ACPI or device tree) they need to be there and they need to work. It
-is true for regulators and reset gpios (you do not ignore errors if you
-fail to obtain a them in the hope that the device is operable), and you
-should not ignore errors when trying to set up interrupt.
-
-Thanks.
-
+diff --git a/drivers/input/gameport/emu10k1-gp.c b/drivers/input/gameport/emu10k1-gp.c
+index 76ce41e58df0..4f4583048f24 100644
+--- a/drivers/input/gameport/emu10k1-gp.c
++++ b/drivers/input/gameport/emu10k1-gp.c
+@@ -43,7 +43,7 @@ static int emu_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	struct gameport *port;
+ 	int error;
+ 
+-	emu = kzalloc(sizeof(struct emu), GFP_KERNEL);
++	emu = kzalloc(sizeof(*emu), GFP_KERNEL);
+ 	port = gameport_allocate_port();
+ 	if (!emu || !port) {
+ 		printk(KERN_ERR "emu10k1-gp: Memory allocation failed\n");
+diff --git a/drivers/input/gameport/fm801-gp.c b/drivers/input/gameport/fm801-gp.c
+index e785d36b1926..7ae5009385cc 100644
+--- a/drivers/input/gameport/fm801-gp.c
++++ b/drivers/input/gameport/fm801-gp.c
+@@ -68,7 +68,7 @@ static int fm801_gp_probe(struct pci_dev *pci, const struct pci_device_id *id)
+ 	struct gameport *port;
+ 	int error;
+ 
+-	gp = kzalloc(sizeof(struct fm801_gp), GFP_KERNEL);
++	gp = kzalloc(sizeof(*gp), GFP_KERNEL);
+ 	port = gameport_allocate_port();
+ 	if (!gp || !port) {
+ 		printk(KERN_ERR "fm801-gp: Memory allocation failed\n");
+diff --git a/drivers/input/gameport/gameport.c b/drivers/input/gameport/gameport.c
+index cfcc81c47b50..ad39ac6fa96d 100644
+--- a/drivers/input/gameport/gameport.c
++++ b/drivers/input/gameport/gameport.c
+@@ -372,7 +372,7 @@ static int gameport_queue_event(void *object, struct module *owner,
+ 		}
+ 	}
+ 
+-	event = kmalloc(sizeof(struct gameport_event), GFP_ATOMIC);
++	event = kmalloc(sizeof(*event), GFP_ATOMIC);
+ 	if (!event) {
+ 		pr_err("Not enough memory to queue event %d\n", event_type);
+ 		retval = -ENOMEM;
+diff --git a/drivers/input/gameport/ns558.c b/drivers/input/gameport/ns558.c
+index 91a8cd346e9b..880e714b49bc 100644
+--- a/drivers/input/gameport/ns558.c
++++ b/drivers/input/gameport/ns558.c
+@@ -120,7 +120,7 @@ static int ns558_isa_probe(int io)
+ 			return -EBUSY;
+ 	}
+ 
+-	ns558 = kzalloc(sizeof(struct ns558), GFP_KERNEL);
++	ns558 = kzalloc(sizeof(*ns558), GFP_KERNEL);
+ 	port = gameport_allocate_port();
+ 	if (!ns558 || !port) {
+ 		printk(KERN_ERR "ns558: Memory allocation failed.\n");
+@@ -192,7 +192,7 @@ static int ns558_pnp_probe(struct pnp_dev *dev, const struct pnp_device_id *did)
+ 	if (!request_region(ioport, iolen, "ns558-pnp"))
+ 		return -EBUSY;
+ 
+-	ns558 = kzalloc(sizeof(struct ns558), GFP_KERNEL);
++	ns558 = kzalloc(sizeof(*ns558), GFP_KERNEL);
+ 	port = gameport_allocate_port();
+ 	if (!ns558 || !port) {
+ 		printk(KERN_ERR "ns558: Memory allocation failed\n");
 -- 
-Dmitry
+2.25.1
+
 
