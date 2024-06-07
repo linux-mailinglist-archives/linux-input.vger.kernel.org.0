@@ -1,76 +1,172 @@
-Return-Path: <linux-input+bounces-4204-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4205-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86114900839
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 17:06:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4BB9008D7
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 17:28:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C3B928E5E9
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 15:06:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F4F91C21A9C
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 15:28:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FE4454660;
-	Fri,  7 Jun 2024 15:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846A0195F23;
+	Fri,  7 Jun 2024 15:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPFGtNlO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rP16TPHT"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFF6187336
-	for <linux-input@vger.kernel.org>; Fri,  7 Jun 2024 15:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503F81847;
+	Fri,  7 Jun 2024 15:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717772669; cv=none; b=aTf7DhMHqg8T7wqScBYHT4qtjJBRoL3/+o/JAyy6ucOCqaNTG2CE5CiXjGWKBNzZbVbAsHSK5uKYBFkZNKDZfpSbb2SUC0j7ZKHCRrHqEwkLkwnrqAWTTpDA/Anxf0hpVdppmT9Q8vaoikNTz9tKmceFZ6Pimu3hpRTq5tc8VyU=
+	t=1717774112; cv=none; b=LG9MuQ8Lmk1U8Rb+9jXg/iq5f8ap5xPtf3UU9LH14u+/blk7wXuLSBrnL/oo4vb1boZpBgMa+S7YoXYv9Y3zYgAD71wom2oWMCjsjDsoygyMJrE3appUnWjXnDJm6oDjfv4dSZfpd5Ucu3dSqUUE6ee4EDw+WsxyWMRxn4KeQUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717772669; c=relaxed/simple;
-	bh=zrZC+YjR1FZzEcStKKeEXzc+JOZ10w7l9GwF1j6Le1Y=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=pUPscbEE9FzEZWXedZ9g2cOqCineb1CunLpnJ9qwKS6WQ6WvNuDn56Av5fETmYoew1FhFk99YCNPb7ObIxSI79TnDjdBUTAvNnOk3tex11warETbg9TphfCi3uSinwjY4RKgIC1KYf5wnrqn3EehbPZ004sfUWMhicO8p9vwzws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPFGtNlO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7796C2BBFC;
-	Fri,  7 Jun 2024 15:04:28 +0000 (UTC)
+	s=arc-20240116; t=1717774112; c=relaxed/simple;
+	bh=GElVRuD+0p0S/IMmlhrZvU2cPAkDJYLHz+KKSQ3Dzv4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=slZMkeBjsAOkiWNxKTXf7E650Vshh1vslyafeCDIbxjzsjlzZlj2mDNnEcwN3A3aFW+rWh38504FbJFHHR4qwDibbp2k/z1DLqCVVFzhbgcjM3ZpiCLlbwiBvL/Xr9/yktLGYx/pBk+1eYlyQDI6aOaRpqLBA2QvrbqvwTKPQb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rP16TPHT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DF6C2BBFC;
+	Fri,  7 Jun 2024 15:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717772669;
-	bh=zrZC+YjR1FZzEcStKKeEXzc+JOZ10w7l9GwF1j6Le1Y=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=CPFGtNlOlPioXju/4GqpgweAS0AlYo84ko4LKH/lek3u+70rvvdbpCIbT8ilrTbh7
-	 To39jY19Z0QKDL99uOVdhv+QqLKolDB0gMwn1IKJ4XtS2RYXAclqpdPAB33GZXlezG
-	 853LIfAa/wON7R7G85VOLEIeiTh++htXBBqv/EWAyxbg9zVabqkEwmBSDkebdrUDp7
-	 AaCV7cmiwR7La2+gQdEWhwhzmtOxpmBYwriMmAo81kSDEFK0P4MVhFw6hYqpjw3xtu
-	 8LZU5guGOqpgKmaP0eUWgsS/D3RWeRIzwNS47SzQmzjRI+D+c9ic8oRNaAiSm24HZm
-	 0o4ZqsLtGvTjA==
-Date: Fri, 7 Jun 2024 17:04:25 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Louis Dalibard <ontake@ontake.dev>
-cc: linux-input@vger.kernel.org, bentiss@kernel.org
-Subject: Re: [PATCH] HID: Ignore battery for ELAN touchscreens 2F2C and  4116
- on ASUS Zenbook 14 (2023) and ASUS Zenbook 14 Pro (2023)
-In-Reply-To: <12450414.O9o76ZdvQC@yuki-p>
-Message-ID: <nycvar.YFH.7.76.2406071704130.24940@cbobk.fhfr.pm>
-References: <12450414.O9o76ZdvQC@yuki-p>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=k20201202; t=1717774112;
+	bh=GElVRuD+0p0S/IMmlhrZvU2cPAkDJYLHz+KKSQ3Dzv4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=rP16TPHTVxqovblcXgQTiDn0IIH+OjnKf/W+Efu2JDFro3i68rGeG7Z+t7JbHHJc0
+	 R7Y9NKoknXHhUJ6KWwElFe9CFNopQ+WGyFAHinsF63R0hKZ75TSVhwsNzECEzFWcft
+	 O47Pyp1ngRp3eqSuDBf0ITcnat3RG/Ah8RIQmk9R3M5ZA5Z/wp3PzBMrcHrkkVOGpy
+	 AFGqe61z3YYc0612lKQPHXvy7szocWqP4D4Bwr0ONfKAbb5pfShOxmO8Ah6ajf1zel
+	 z1TyRCDOj/TrEjpnOXZ+7pEp+nsiRuGngxwisL070ZEqnWBtBn/0caMzffqxC/M1JG
+	 OoJthb0392hLQ==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH HID v2 00/16] HID: convert HID-BPF into using
+ bpf_struct_ops
+Date: Fri, 07 Jun 2024 17:28:20 +0200
+Message-Id: <20240607-hid_bpf_struct_ops-v2-0-3f95f4d02292@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABUnY2YC/22NwQ6CMBBEf4Xs2Rq6UCSePHjQbzCkQbrARkPJF
+ omG8O82ePX4ZjJvFggkTAGOyQJCMwf2QwTcJdD09dCRYhcZMMU8NTpTPTt7H1sbJnk1k/VjUJS
+ hxhoxN8ZAHI5CLb836Q0u1zNUMew5TF4+29Gst+rnxPKfc9YqVWVTFEXmWjy48vQgGei599JBt
+ a7rF2CaTHW6AAAA
+To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717774109; l=4712;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=GElVRuD+0p0S/IMmlhrZvU2cPAkDJYLHz+KKSQ3Dzv4=;
+ b=+q4XRskmsyQrQvBA78fRG6/EkIyhBx/TqVZc7ewoZNwkh4THHjSeSpeWEJK6gSUx/KnrC53Ay
+ +57w6VtRzsFAtEqO40xt2nkrrc8idtf7sGA2xY0fujmG2zSS1OwvKFr
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Fri, 7 Jun 2024, Louis Dalibard wrote:
+The purpose of this series is to rethink how HID-BPF is invoked.
+Currently it implies a jmp table, a prog fd bpf_map, a preloaded tracing
+bpf program and a lot of manual work for handling the bpf program
+lifetime and addition/removal.
 
-> The touchscreen reports a battery status of 0% and jumps to 1% when a 
-> stylus is used.
-> The device ID was added and the battery ignore quirk was enabled for it.
-> 
-> Signed-off-by: Louis Dalibard <ontake@ontake.dev>
+OTOH, bpf_struct_ops take care of most of the bpf handling leaving us
+with a simple list of ops pointers, and we can directly call the
+struct_ops program from the kernel as a regular function.
 
-Applied, thanks.
+The net gain right now is in term of code simplicity and lines of code
+removal (though is an API breakage), but udev-hid-bpf is able to handle
+such breakages.
 
+In the near future, we will be able to extend the HID-BPF struct_ops
+with entrypoints for hid_hw_raw_request() and hid_hw_output_report(),
+allowing for covering all of the initial use cases:
+- firewalling a HID device
+- fixing all of the HID device interactions (not just device events as
+  it is right now).
+
+The matching user-space loader (udev-hid-bpf) MR is at
+https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/86
+
+I'll put it out of draft once this is merged.
+
+Cheers,
+Benjamin
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Changes in v2:
+- drop HID_BPF_FLAGS enum and use BPF_F_BEFORE instead
+- fix .init_members to not open code member->offset
+- allow struct hid_device to be writeable from HID-BPF for its name,
+  uniq and phys
+- Link to v1: https://lore.kernel.org/r/20240528-hid_bpf_struct_ops-v1-0-8c6663df27d8@kernel.org
+
+---
+Benjamin Tissoires (16):
+      HID: rename struct hid_bpf_ops into hid_ops
+      HID: bpf: add hid_get/put_device() helpers
+      HID: bpf: implement HID-BPF through bpf_struct_ops
+      selftests/hid: convert the hid_bpf selftests with struct_ops
+      HID: samples: convert the 2 HID-BPF samples into struct_ops
+      HID: bpf: add defines for HID-BPF SEC in in-tree bpf fixes
+      HID: bpf: convert in-tree fixes into struct_ops
+      HID: bpf: remove tracing HID-BPF capability
+      selftests/hid: add subprog call test
+      Documentation: HID: amend HID-BPF for struct_ops
+      Documentation: HID: add a small blurb on udev-hid-bpf
+      HID: bpf: Artist24: remove unused variable
+      HID: bpf: error on warnings when compiling bpf objects
+      bpf: allow bpf helpers to be used into HID-BPF struct_ops
+      HID: bpf: rework hid_bpf_ops_btf_struct_access
+      HID: bpf: make part of struct hid_device writable
+
+ Documentation/hid/hid-bpf.rst                      | 173 ++++---
+ drivers/hid/bpf/Makefile                           |   2 +-
+ drivers/hid/bpf/entrypoints/Makefile               |  93 ----
+ drivers/hid/bpf/entrypoints/README                 |   4 -
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c      |  25 -
+ drivers/hid/bpf/entrypoints/entrypoints.lskel.h    | 248 ---------
+ drivers/hid/bpf/hid_bpf_dispatch.c                 | 266 +++-------
+ drivers/hid/bpf/hid_bpf_dispatch.h                 |  12 +-
+ drivers/hid/bpf/hid_bpf_jmp_table.c                | 565 ---------------------
+ drivers/hid/bpf/hid_bpf_struct_ops.c               | 298 +++++++++++
+ drivers/hid/bpf/progs/FR-TEC__Raptor-Mach-2.bpf.c  |   9 +-
+ drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c    |   6 +-
+ drivers/hid/bpf/progs/Huion__Kamvas-Pro-19.bpf.c   |   9 +-
+ .../hid/bpf/progs/IOGEAR__Kaliber-MMOmentum.bpf.c  |   6 +-
+ drivers/hid/bpf/progs/Makefile                     |   2 +-
+ .../hid/bpf/progs/Microsoft__XBox-Elite-2.bpf.c    |   6 +-
+ drivers/hid/bpf/progs/Wacom__ArtPen.bpf.c          |   6 +-
+ drivers/hid/bpf/progs/XPPen__Artist24.bpf.c        |  10 +-
+ drivers/hid/bpf/progs/XPPen__ArtistPro16Gen2.bpf.c |  24 +-
+ drivers/hid/bpf/progs/hid_bpf.h                    |   5 +
+ drivers/hid/hid-core.c                             |   6 +-
+ include/linux/hid_bpf.h                            | 125 ++---
+ samples/hid/Makefile                               |   5 +-
+ samples/hid/hid_bpf_attach.bpf.c                   |  18 -
+ samples/hid/hid_bpf_attach.h                       |  14 -
+ samples/hid/hid_mouse.bpf.c                        |  26 +-
+ samples/hid/hid_mouse.c                            |  39 +-
+ samples/hid/hid_surface_dial.bpf.c                 |  10 +-
+ samples/hid/hid_surface_dial.c                     |  53 +-
+ tools/testing/selftests/hid/hid_bpf.c              | 100 +++-
+ tools/testing/selftests/hid/progs/hid.c            | 100 +++-
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |  19 +-
+ 32 files changed, 805 insertions(+), 1479 deletions(-)
+---
+base-commit: 70ec81c2e2b4005465ad0d042e90b36087c36104
+change-id: 20240513-hid_bpf_struct_ops-e3212a224555
+
+Best regards,
 -- 
-Jiri Kosina
-SUSE Labs
+Benjamin Tissoires <bentiss@kernel.org>
 
 
