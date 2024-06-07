@@ -1,158 +1,97 @@
-Return-Path: <linux-input+bounces-4196-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4197-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC6D8FFD0B
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 09:25:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3A18FFF1D
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 11:20:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC3501C20C50
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 07:25:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8DD928688B
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 09:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65DFE154424;
-	Fri,  7 Jun 2024 07:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFC7215B131;
+	Fri,  7 Jun 2024 09:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cLOvVjG/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzKCedMX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A54153BF6;
-	Fri,  7 Jun 2024 07:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBC3525D;
+	Fri,  7 Jun 2024 09:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717745021; cv=none; b=GOhJmxaYJW0zSx5/gwoqYj6gV22kwDnyxrVQuLfo+1XmOdHr6dFo0aeJ+D8KDMWrB5Pkwfiv5BrqCg+WUTPROhRsLnzikU2X8VhdvnzKcKojCWwlWQi4hPT7CUeDOiYf98VECtc8wiMH29oSZpct2Ns1YVHboiJbveTXLY/UESA=
+	t=1717751994; cv=none; b=bXGqTPH3PbBia9hCpqhBa430ik1METTCQpr5SezJt0xslbEN8z3RknfkbbwaRcO82TwQteJTsxWRwrYURo9z/GnWg1Kk7bl99FJOKcmq8GwK9s1B2nPkTCqYx58p1UwuzJjjAd7Gfxej6aHuRlcmqfQViwTJZ/ZrMBuSzttxXNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717745021; c=relaxed/simple;
-	bh=6AjstlSgvqy5Myga4SE3f4mOcGOy21gQsyvN4ZBIWe0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=W9kyaZSAzJMuYHiw1y1L1SAHKznUkCepUroKWLVntCszkB0sxz4pPo+3e5uhairHXkrVBsFI2p/klrQ8bHnXoJyBcrTMbFQtQNde6Z3fuMXR2F22MGiEqL92Z1YanK9NaWIS3FZnkK0B/vYeiYI/g+l3eDAjOHIYBSd9k6fEIFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cLOvVjG/; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CA9C41BF204;
-	Fri,  7 Jun 2024 07:23:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1717745017;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I6tMAb+dn3fe7Mnc885F0j2M5rYeGbZyeUY/YOGiMQ4=;
-	b=cLOvVjG/AGwEYg9ropFA8ur+BGiRrnLmuSl/vLSQgHkj1UB7y1577VXzoiE2NsjoWTBU1d
-	4Pm3o6+BcL18ql7j5+tM2Tjp5kQFN7XFQJJA5h8rBW4weCEkNSYqnBcyNmUjlpyk/QKXAI
-	8J4+8k8efAgaoRYKYme5R2ePqfNCeQDX6CYXTtnKfV83kg1TBHuPpbA+9QvzcgJItzCMlJ
-	AxqI0Ryuop8xRqDo+yb4i0+w7I38cBnr8yWxmm60GTIJpQLR4mGmcmdPGRHyqR8OVWj5w2
-	VGBRHXEX7+2ZR2WyDhv5V+Bhu7lYhBb51pbOokVs93fEbXwQ2RmuWSulFdwOJg==
-From: Gregory CLEMENT <gregory.clement@bootlin.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Kamel BOUHARA
- <kamel.bouhara@bootlin.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Marco Felsch
- <m.felsch@pengutronix.de>, Jeff LaBundy <jeff@labundy.com>,
- catalin.popescu@leica-geosystems.com, mark.satterthwaite@touchnetix.com,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v13 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-In-Reply-To: <ZmIq9jmkZtEaGw19@google.com>
-References: <20240603153929.29218-1-kamel.bouhara@bootlin.com>
- <20240603153929.29218-4-kamel.bouhara@bootlin.com>
- <Zl5ZmYyntq7OJOvZ@google.com> <20240605124746.GA57733@tpx1.home>
- <7ca4a22f903313128de5c0f65a49b319@bootlin.com>
- <ZmIq9jmkZtEaGw19@google.com>
-Date: Fri, 07 Jun 2024 09:23:36 +0200
-Message-ID: <87bk4dfc7b.fsf@BLaptop.bootlin.com>
+	s=arc-20240116; t=1717751994; c=relaxed/simple;
+	bh=1xgRUotaCgHquP4MwSoL0WEQhyxCOUipAIyH5fdf2Gs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kidMgSadO7BEr7VGnMtkSpWRs6Ysqsrk4HzArDcHYnlX/L0W2AHkfDu2cwBxo+hi4OTHr7wIBdbTQJg37Ry2uAh17sY77L6Wk+IM6UF0nPzcWfsHeEGwLjsLvDnRmO4i+wJQLKsAQy1f56HEjdvLOvlo4h0swKzGTEOcfG4HrZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzKCedMX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87990C2BBFC;
+	Fri,  7 Jun 2024 09:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717751994;
+	bh=1xgRUotaCgHquP4MwSoL0WEQhyxCOUipAIyH5fdf2Gs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=bzKCedMXmGeiGeepYcjF08r1Z3qYSndyuPtGVjuzCHDjozZz+6Vh3i92+UzUm1OBO
+	 erz1c+t4Wf63U3pw1EDDJuVy8NqdmyoU/o+8zPC/gX+EcHTT0yApFRPwSiJoU9AQW3
+	 dJafK/+BMrx2P38R1SbSY6dH9PIAqIu5Mok7aFgGZVhQl3ytLTdKSDMtHFc4s4F2zM
+	 KQ33s8wpiJ0fZ59h6oHvcsfpzmqTy4j/L+W17zRjbp1ZTf8ilksBjpB3K776DvBtAe
+	 Tc89SlLxDhFoA71tYbFeVqVBVyUpkUjSbysR8/vTdjj08ZTNvNbceqwc9jvl7CBBA2
+	 zWhKjKj6bghpA==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Johan Hovold <johan+linaro@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Douglas Anderson <dianders@chromium.org>, linux-input@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240507144821.12275-1-johan+linaro@kernel.org>
+References: <20240507144821.12275-1-johan+linaro@kernel.org>
+Subject: Re: (subset) [PATCH v2 0/7] HID/arm64: dts: qcom: sc8280xp-x13s:
+ fix touchscreen power on
+Message-Id: <171775199124.3024895.440336395574423157.b4-ty@kernel.org>
+Date: Fri, 07 Jun 2024 11:19:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: gregory.clement@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 
-Hello Dmitry,
+On Tue, 07 May 2024 16:48:14 +0200, Johan Hovold wrote:
+> The Elan eKTH5015M touch controller on the X13s requires a 300 ms delay
+> before sending commands after having deasserted reset during power on.
+> 
+> This series switches the X13s devicetree to use the Elan specific
+> binding so that the OS can determine the required power-on sequence and
+> make sure that the controller is always detected during boot. [1]
+> 
+> [...]
 
-> On Wed, Jun 05, 2024 at 03:48:20PM +0200, Kamel BOUHARA wrote:
->> [...]
->>=20
->> > > > +
->> > > > +	error =3D devm_request_threaded_irq(dev, client->irq, NULL,
->> > > > +					  axiom_irq, IRQF_ONESHOT, dev_name(dev), ts);
->> > > > +	if (error) {
->> > > > +		dev_info(dev, "Request irq failed, falling back to polling mode=
-");
->> > >=20
->> > > I do not think you should fall back to polling mode if you fail to g=
-et
->> > > interrupt. If it was not specified (client->irq) then I can see that
->> > > we
->> > > might want to fall back, but if the system configured for using
->> > > interrupt and you can not get it you should bail out.
->> > >=20
->> >=20
->> > Yes, clear, the polling mode can be decorrelated to the irq not provid=
-ed
->> > case.
->>=20
->> Just to make sure I understood, is this what you propose ?
->>=20
->> if (client->irq) {
->>         error =3D devm_request_threaded_irq(...)
->>         if (error) {
->> 		dev_warn(dev, "failed to request IRQ\n");
->> 		client->irq =3D 0;
->>          }
->> }
->>=20
->> if(!client->irq)=C2=A0{
->>     // setup polling stuff
->>     ...
->> }
->
-> No, if you fail to acquire interrupt that was described in ACPI/DT it
-> should be treated as an error, like this:
->
-> 	if (client->irq) {
-> 		error =3D devm_request_threaded_irq(...)
-> 		if (error)
-> 			return dev_err_probe(...);
-> 	} else {
-> 		.. set up polling ..
-> 	}
->
-> This also makes sure that if interrupt controller is not ready and
-> requests probe deferral we will not end up with device in polling
-> mode.
+Applied to hid/hid.git (for-6.10/upstream-fixes), thanks!
 
-In the case of probe deferral, I see the benefit of treating it as an
-error. However, in the other case, I find it better to fall back to
-polling mode with a big error message than just exiting in error. As a
-user, I think we prefer having a degraded feature over not having the
-feature at all.
+[1/7] dt-bindings: HID: i2c-hid: add dedicated Ilitek ILI2901 schema
+      https://git.kernel.org/hid/hid/c/8d3ae46c6433
+[2/7] dt-bindings: HID: i2c-hid: elan: add Elan eKTH5015M
+      https://git.kernel.org/hid/hid/c/07fc16fa5552
+[3/7] dt-bindings: HID: i2c-hid: elan: add 'no-reset-on-power-off' property
+      https://git.kernel.org/hid/hid/c/e538d4b85b8f
+[4/7] HID: i2c-hid: elan: fix reset suspend current leakage
+      https://git.kernel.org/hid/hid/c/0eafc58f2194
 
-So what about something like:
+Cheers,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
-	if (client->irq) {
-		error =3D devm_request_threaded_irq(...)
-		if (error =3D=3D -EPROBE_DEFER)
-			return dev_err_probe(...);
-		dev_warn("Big error message");
-                client->irq =3D 0;
-	}
-	if (!client->irq) {
-		.. set up polling ..
-	}
-
-Gregory
-
->
-> Thanks.
->
-> --=20
-> Dmitry
 
