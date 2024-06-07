@@ -1,152 +1,93 @@
-Return-Path: <linux-input+bounces-4232-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4233-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F602900BF0
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 20:40:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D1F900C03
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 20:48:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E0712876D1
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 18:40:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00580B22E77
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jun 2024 18:48:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7AD513F440;
-	Fri,  7 Jun 2024 18:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2051C5024E;
+	Fri,  7 Jun 2024 18:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b="e1WwCWtM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ee3lp7YW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-0046e701.pphosted.com (mx0b-0046e701.pphosted.com [67.231.157.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F7F7347D;
-	Fri,  7 Jun 2024 18:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.157.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19E51A270;
+	Fri,  7 Jun 2024 18:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717785603; cv=none; b=a+X5qifsZrBItGcupFHlx0b47dMg/UE74x7ohv6/ZR2eKlMKb0OYCVyFB8Lle/ZiMq6yBHHEbOn9PpxZsZeGAl0nDDfmW/dxp7h97TWyBtH2M4Lxk5ECjoedcGCSHC5oX95EoH6e5VP5sujYphBTNKH7wmWWhFUG+PpEEA2bMkQ=
+	t=1717786095; cv=none; b=lhg6dbV3yzg0EtgXXJtCt5Lx7NPVDw5ZjBnbNvPpqR9uwyKF5sgVJY31Schu+NwMWemAcElpzvuIqout2mrC+7aGCraAWToIqwmEn7jlLT6LILryTLVX50lA0PJUyHV7W/XKPPttmcAN+k+9mVhegbFgpnX1NnbBFjFLX2N2+Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717785603; c=relaxed/simple;
-	bh=XrnAZQPy5MleIUFVrbjajyCw8B0veQFWvMp+ZkNsN/0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YNiO0hRRMNYTDOlZwHFVUQE0EKu8erBcasaQxbd0X1sWUG+YOSQBphAPzgEjTPFMIpLeIY8B4QY0FaUYozdcBWxife6D7Y2JIrbL0HtGIlOV5bJ1GB1LiPRt+a477Z9SyvgHXqmTDtuNJL+/zWs4uUPqItUOTm0hpcujyXPcbnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com; spf=pass smtp.mailfrom=plexus.com; dkim=pass (2048-bit key) header.d=plexus.com header.i=@plexus.com header.b=e1WwCWtM; arc=none smtp.client-ip=67.231.157.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plexus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plexus.com
-Received: from pps.filterd (m0341555.ppops.net [127.0.0.1])
-	by mx0b-0046e701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 457HbHAV024025;
-	Fri, 7 Jun 2024 18:39:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=plexus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps1; bh=f9NZN
-	JGk65djRz0rGyG5q4sFjM+L20Q+9R0VIHl7O7o=; b=e1WwCWtMu3GRh/SPc/J8h
-	tUe5Fc25Q98iVPuWCiKDPVKkrFd5WDyigtqRydTU+EtsAgAdtVkd8K3ikcbglpMI
-	Oy8ZFARdERPHy7op3T8e2MOrjdyqKt9C8BRCQ6yHHjGJWklj+O7cRI94PHZAf2nk
-	PXaad+mpkdJjosUMPWCVkAlLyTY2h8A6YiX/g20+e2ZnWKPIKmxqIZY79rI/urhQ
-	M0aei3V09MUCU3MhW7Qvt/Sxk3MwOGhDNQT+YPDlDnQK3Yzjg9U16RJiGLld8svh
-	wPaX6RY6T/fv6ROlMtZb8Y8hy6ws6NUJ46M+2MfR17exCWi5cvpcJKwoJvDaiCwh
-	Q==
-Received: from gcc-mail-mx-003.na.plexus.com (outbound.plexus.com [64.215.193.254])
-	by mx0b-0046e701.pphosted.com (PPS) with ESMTPS id 3ykv8ha1gy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 07 Jun 2024 18:39:53 +0000 (GMT)
-Received: from gcc-mail-mx-004.Na.Plexus.com (10.255.51.224) by
- gcc-mail-mx-003.na.plexus.com (10.255.51.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Fri, 7 Jun 2024 18:39:52 +0000
-Received: from localhost (10.255.48.203) by gcc-mail-mx-004.Na.Plexus.com
- (10.255.51.224) with Microsoft SMTP Server id 15.1.2507.37 via Frontend
- Transport; Fri, 7 Jun 2024 18:39:52 +0000
-Date: Fri, 7 Jun 2024 13:38:36 -0500
-From: Danny Kaehn <danny.kaehn@plexus.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Benjamin Tissoires <bentiss@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>,
-        Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski
-	<bartosz.golaszewski@linaro.org>,
-        Ethan Twardy <ethan.twardy@plexus.com>
-Subject: Re: [PATCH v11 1/4] dt-bindings: i2c: Add CP2112 HID USB to SMBus
- Bridge
-Message-ID: <20240607183836.GA965006@LNDCL34533.neenah.na.plexus.com>
-References: <20240605-cp2112-dt-v11-0-d55f0f945a62@plexus.com>
- <20240605-cp2112-dt-v11-1-d55f0f945a62@plexus.com>
- <20240606151859.GA3605325-robh@kernel.org>
- <20240606162438.GA77976@LNDCL34533.neenah.na.plexus.com>
- <ZmISrFrUVadRS1Do@smile.fi.intel.com>
+	s=arc-20240116; t=1717786095; c=relaxed/simple;
+	bh=DtGgDy+D5KM3EF/EaCxohZ818IYKLcFGHBkvEIlLjoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DJ6gNGDx4MuucxVCUnvC3LWaZoLThoj6luIoOsFlv2zjXgwsVrP9Y/FGnCjer/k4VhNMpQW8S/to8QJ0rjw0t2wiOxyIAEpJbelWFsk3hh07c8N5exXgQITKKng9gRA+AxegQGKr/BuX2YPQdW9uW2BLWp0C4cqaHqVaybDTna0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ee3lp7YW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED11C32781;
+	Fri,  7 Jun 2024 18:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717786094;
+	bh=DtGgDy+D5KM3EF/EaCxohZ818IYKLcFGHBkvEIlLjoo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ee3lp7YWd80nonZ8cGDbIUHpkB6GiiBD5a4S2yQPTQLz+ZiUJWM3Ffxm/kF6o2SbE
+	 ALLh9uNXxvhWYNZtieW5N9DCfp7oLxZep2VEITrQGbaNscLowYzU90Kf/9ouX1QsdM
+	 jN2NjKKBoOjmcKM3h27UCcdLoCK/dRSxQi8vo4H9NXNFwaMHmwFTZ90qLDgieciAh1
+	 RvtaTYwqxaxdoS92V9QMXT7UAuo1GBjYqePWJ4SAQ77pwUamZWBnBmGbHvYoQk6cdM
+	 y+efsj5fxjPib0H+Nr2wIyKGvfwmUR2eK7HA1jHKaefsLTGM3+YfA7y5kTs9j80swl
+	 1xRTlTqlOtuaQ==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Johan Hovold <johan+linaro@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/7] HID/arm64: dts: qcom: sc8280xp-x13s: fix touchscreen power on
+Date: Fri,  7 Jun 2024 13:48:11 -0500
+Message-ID: <171778608823.816738.7581855560296370875.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240507144821.12275-1-johan+linaro@kernel.org>
+References: <20240507144821.12275-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZmISrFrUVadRS1Do@smile.fi.intel.com>
-X-Proofpoint-GUID: IKZCxLKVn9kZKbAyueu-J3-gCvVn1dh9
-X-Proofpoint-ORIG-GUID: IKZCxLKVn9kZKbAyueu-J3-gCvVn1dh9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-07_11,2024-06-06_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 mlxlogscore=797 priorityscore=1501 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406070136
 
-On Thu, Jun 06, 2024 at 10:49:00PM +0300, Andy Shevchenko wrote:
-> On Thu, Jun 06, 2024 at 11:24:38AM -0500, Danny Kaehn wrote:
-> > On Thu, Jun 06, 2024 at 09:18:59AM -0600, Rob Herring wrote:
-> > > On Wed, Jun 05, 2024 at 06:12:44PM -0500, Danny Kaehn wrote:
+
+On Tue, 07 May 2024 16:48:14 +0200, Johan Hovold wrote:
+> The Elan eKTH5015M touch controller on the X13s requires a 300 ms delay
+> before sending commands after having deasserted reset during power on.
 > 
-> ...
+> This series switches the X13s devicetree to use the Elan specific
+> binding so that the OS can determine the required power-on sequence and
+> make sure that the controller is always detected during boot. [1]
 > 
-> > > > +  i2c:
-> > > > +    description: The SMBus/I2C controller node for the CP2112
-> > > > +    $ref: /schemas/i2c/i2c-controller.yaml#
-> > > > +    unevaluatedProperties: false
-> > > > +
-> > > > +    properties:
-> > > > +      sda-gpios:
-> > > > +        maxItems: 1
-> > > > +
-> > > > +      scl-gpios:
-> > > > +        maxItems: 1
-> > > 
-> > > These are because I2C can be on any of the pins? It's a bit odd if they 
-> > > aren't used as gpios. Probably should be pinmux, but that's overkill for 
-> > > 2 pins.
-> > >
-> > 
-> > I'm beginning to realize now that this may be a bit non-standard, but it
-> > did solve a stuck bus issue under some conditions.
-> > 
-> > The CP2112's I2C controller is self-contained and can only be on the
-> > specific pins it is attached to (no pinmux, etc..).
-> > 
-> > In this case, these properties are ment to specify additional gpio pins
-> > which are connected to the SCL and SDA lines (this then also assumes those
-> > are configured to be open drain / inputs to not interfere with the bus
-> > during normal operation). This was inspired by what is done ini2c-imx.yaml,
-> > but I realize this is a bit different due to using external pins rather
-> > than pinmuxing to the GPIOs.
-> > 
-> > How I used this was to actually connect some of the CP2112's own GPIO pins
-> > to the SDA and SCL lines to be able to use those pins to recover the
-> > bus. This was able to solve a stuck bus under some real-world cases with
-> > the v2 of the CP2112 containing an errata which caused this
-> > semi-frequently.
-> 
-> Aren't they just for I²C recovery?
+> [...]
 
-Not sure if you were looking for my reply here, but yes. I guess the
-only "non-standard" thing really here is the idea of using
-external/separate GPIO pins to do the recovery, rather than pinmuxing the
-I2C pins to GPIO which most current implementations seem to do.
+Applied, thanks!
 
-Thanks,
+[7/7] arm64: defconfig: enable Elan i2c-hid driver
+      commit: e706474d8428f420bba11f2c49c3083fd1b31d88
 
-Danny Kaehn
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
