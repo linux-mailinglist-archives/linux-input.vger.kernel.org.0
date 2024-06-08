@@ -1,152 +1,125 @@
-Return-Path: <linux-input+bounces-4242-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4243-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A50900ED3
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 02:19:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E9A900F3E
+	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 04:23:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C00C5281471
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 00:18:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7228C1F2263C
+	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 02:23:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1438EEC2;
-	Sat,  8 Jun 2024 00:18:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CBBBE4D;
+	Sat,  8 Jun 2024 02:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BeJDMOVE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdtUBxd/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD7B7F
-	for <linux-input@vger.kernel.org>; Sat,  8 Jun 2024 00:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330E58C05;
+	Sat,  8 Jun 2024 02:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717805937; cv=none; b=RCh0nmuJRVeOij7+t3UyLnRuBjqOr9fqxjpYZjkxQ1QyWUMmsE2urxq53dpxH0V+7t5yBjy+QFc4sicgipZdXgsh4Cujgtp3BO/hrWJTwGGO3Zy/rBSdn4RouKlV+A1gNXKVawjQFmTYzwYnyJLnpy6cCLrfeVsME78V+L4+GJw=
+	t=1717813386; cv=none; b=AbbD41DL5Kv6BvI1lNRtMuYXLPtqMimzYPWN9uojzM7+ckkKOL+xSSJot9ZuOYC74Dw5HvQAA8TeKGggE/ZX7PmmejTgDtzOA63ccZgsJVfR/WgJZenhKiBqq1rojV9IZck09fpMBBUoiS7nmxUegn5cHLWTheDZk6mOg3181pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717805937; c=relaxed/simple;
-	bh=0AyF4HqGQUZJBvidnZ8f5KVI3Cy2aaumqsWBUA662R0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KU4J0Dg2OKrvduYtFtx+vIc/u80wdM2VpvnUrjBp/3i1dlNh0rEFlEKpwkGxuvTOThudXDtbnB8DfcaCCpp+lXa+q1MkaEtHlfvYSxSisXfWDW28bGCXy4XKYJuWTzeZFX09VoBpNoumLiTkSospigyFH1Z6dDWUl7mCV8AfVcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BeJDMOVE; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1717813386; c=relaxed/simple;
+	bh=jxTmO74D+6vADQ2Xmg68XfWJXA/J18hIQnFFA7Ko9u8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MAia10MXgg6lf2X/KhX6QMHyzvrQf33igJcznlnvWk7draYXT4BdZVhtg9YdsYwYSBdmGIlKKMvVoOErsX74tN4gFaa91ve75qkj3stTdz5hKJXfWaU4eHbPhN90llrKQ+kN6+ASda6s6phpIxyuxZeN4nXDr8BnFXOHYIXDNCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdtUBxd/; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717805935; x=1749341935;
-  h=date:from:to:cc:subject:message-id;
-  bh=0AyF4HqGQUZJBvidnZ8f5KVI3Cy2aaumqsWBUA662R0=;
-  b=BeJDMOVESMMDderFk/panxE5CyyX1OsJmg/ykFpqGr5bYLhp5Z+Bbyb4
-   9/S5Uo4p9b1tCDq33oPHFGukV6mewj9x32XX1jApCpiIlUN905o9ng/Z8
-   br8S47dmQ5KOHgEwMIC4+C7z5yqvDLF1PEZs8cCwN+CDJ36NnAui0+Pi7
-   HzMJ1FPcDLzvhp20zs7mUaRzf20mnvLuyNqpwIYnArTnbGUCBtTw12699
-   P2HsvoX711v2yp5hocyL77tYEvXzD2siG9bFwsH8KcSeQXvW3NXnr2Ugq
-   p0lEpOmTStnllT2iyP9ajcltOoH2ffCfVePEvBfWzN8AOnuQsVqIzx+pn
-   Q==;
-X-CSE-ConnectionGUID: 0VfMbHtTT1+qZ5udhE5MSQ==
-X-CSE-MsgGUID: 3Adbbpn9RxyMSJmD4c1O2g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14349453"
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="14349453"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 17:18:54 -0700
-X-CSE-ConnectionGUID: AV5g5nbpQDakEdWASanmWA==
-X-CSE-MsgGUID: UkIqfsWISXyL9UiOLma+3Q==
+  t=1717813384; x=1749349384;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jxTmO74D+6vADQ2Xmg68XfWJXA/J18hIQnFFA7Ko9u8=;
+  b=AdtUBxd/1NxVtOraWJAvkU+Vh20opPDfzlRMRgKAOcpJd9onAiFYFoGH
+   2+d6hcWWzCz/Q3dCrVllySKM1xANJUnBGK2AnlETOFsOcr2V1wpy3MKwW
+   KbXkWdO+J1pA4TEUza5R2UmgZ61A+7hcCPbrB87SgMOfiH64F0dTVcBjD
+   1EBPNPfNl0gzPXCLxMrxz8Rv2g19/bvddbFZJ5uTPTmq9itFqHxtduL/L
+   PYIsIuwlLv95YlxRLcrJF9GT17xWnTT8v9FyVVXkXD7xSZ02VF/1DRtGD
+   0o/99ahcE3lVBqzfdmTVv/gDRfQ0s3SLI4GRQOuG1SXOtxN5BerIV5ZkQ
+   A==;
+X-CSE-ConnectionGUID: 02vEoETXRhWNqOt/n/APzQ==
+X-CSE-MsgGUID: Y4EnGjqZRLae/mPaYedPHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="25126116"
+X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
+   d="scan'208";a="25126116"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 19:23:03 -0700
+X-CSE-ConnectionGUID: a6eIpv6YTWupXaVjcl4nLQ==
+X-CSE-MsgGUID: 5KjNWwhaRXejfETX6IKdHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="38581835"
+X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
+   d="scan'208";a="38444895"
 Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2024 17:18:53 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Jun 2024 19:23:00 -0700
 Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFjnH-0000kC-1o;
-	Sat, 08 Jun 2024 00:18:51 +0000
-Date: Sat, 08 Jun 2024 08:18:35 +0800
+	id 1sFljN-0000r6-2F;
+	Sat, 08 Jun 2024 02:22:57 +0000
+Date: Sat, 8 Jun 2024 10:22:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:ib/6.9-disable-irq-guard] BUILD SUCCESS
- c76494768761aef7630e7e0db820ba7b375964da
-Message-ID: <202406080833.ZXzaKxTv-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+To: wangshuaijie@awinic.com, dmitry.torokhov@gmail.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, jeff@labundy.com,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, wangshuaijie@awinic.com,
+	liweilei@awinic.com, kangjiajun@awinic.com
+Subject: Re: [PATCH V2 5/5] Add support for Awinic sar sensor.
+Message-ID: <202406081000.gRWyFGXO-lkp@intel.com>
+References: <20240605091143.163789-6-wangshuaijie@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605091143.163789-6-wangshuaijie@awinic.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git ib/6.9-disable-irq-guard
-branch HEAD: c76494768761aef7630e7e0db820ba7b375964da  linux/interrupt.h: allow "guard" notation to disable and reenable IRQ
+Hi,
 
-elapsed time: 1513m
+kernel test robot noticed the following build errors:
 
-configs tested: 61
-configs skipped: 3
+[auto build test ERROR on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-input-Add-YAML-to-Awinic-sar-sensor/20240605-172023
+base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
+patch link:    https://lore.kernel.org/r/20240605091143.163789-6-wangshuaijie%40awinic.com
+patch subject: [PATCH V2 5/5] Add support for Awinic sar sensor.
+config: arm-randconfig-r061-20240608 (https://download.01.org/0day-ci/archive/20240608/202406081000.gRWyFGXO-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081000.gRWyFGXO-lkp@intel.com/reproduce)
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240608   gcc  
-arc                   randconfig-002-20240608   gcc  
-arm                               allnoconfig   clang
-arm                                 defconfig   clang
-arm                   randconfig-001-20240608   gcc  
-arm                   randconfig-002-20240608   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                                defconfig   clang
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   clang
-s390                              allnoconfig   clang
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406081000.gRWyFGXO-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: power_supply_reg_notifier
+   >>> referenced by aw_sar.c
+   >>>               drivers/input/misc/aw_sar/aw_sar.o:(aw_sar_i2c_probe) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: power_supply_unreg_notifier
+   >>> referenced by aw_sar.c
+   >>>               drivers/input/misc/aw_sar/aw_sar.o:(aw_sar_i2c_probe) in archive vmlinux.a
+   >>> referenced by aw_sar.c
+   >>>               drivers/input/misc/aw_sar/aw_sar.o:(aw_sar_i2c_probe) in archive vmlinux.a
+   >>> referenced by aw_sar.c
+   >>>               drivers/input/misc/aw_sar/aw_sar.o:(aw_sar_i2c_probe) in archive vmlinux.a
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: power_supply_get_property
+   >>> referenced by aw_sar.c
+   >>>               drivers/input/misc/aw_sar/aw_sar.o:(aw_sar_ps_notify_callback) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
