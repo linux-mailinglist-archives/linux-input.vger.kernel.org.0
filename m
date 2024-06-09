@@ -1,76 +1,80 @@
-Return-Path: <linux-input+bounces-4281-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4282-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B5B9018CE
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 01:51:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D572E9018D0
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 01:51:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F44A1F2115E
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 23:51:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB5371C209F4
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 23:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E761B4315F;
-	Sun,  9 Jun 2024 23:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C84CB55889;
+	Sun,  9 Jun 2024 23:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aM8Vn4FJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZlJMHbjl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5311CF9B;
-	Sun,  9 Jun 2024 23:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583701F932;
+	Sun,  9 Jun 2024 23:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717977100; cv=none; b=WiHmUJw7jIVu/EhyE6eM4lfN8LWprCOy/7kxgsHUf0TXQhC+QBAw6EMECaSDfgZQWiAlHLX6G1NLsJ1HEQFaM9/1GTJ7xUWsJXyAcWP/3zc3y2YqLzCkMG92PyjRdqaekv04ttGcU4ypj1SFnPn12pz6CqrH4u4ay8PTbuQHrpM=
+	t=1717977101; cv=none; b=o2DtobznLNVjjhxeQPkPzmFHLCWYyBbnWBhsD0bjVMiW+aI4EYri0wL+2mpQBf9Uze2krupB+JxwPyhlRs0UBX2dS3lhGaYXKfhvHGEYZGhba1HWrWLf0R35VeNA/ev+J6F0R2tdryTj5HLFikLhdCrs6hccaHN8SmHP7j2ljjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717977100; c=relaxed/simple;
-	bh=QfJXZWN1aAAuPSN6rqBZFArPNWvXGjthvGQVIq1WSnQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hG+6M+z7UgcZH5sWv59Ez33lFzOTFGLhwdEGKzk3RM1GU1fuy/+B8nGaPHm3qeovy9XmcMt0AQAwgxAIUq9PCcHsWud/36OsJDVy/NvbZ4+HwMaj38VGealpvDPdnV/Am24v5M1GdCz+ecwSDAY3iOUDOrjoC9UmdAeSWwqv02s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aM8Vn4FJ; arc=none smtp.client-ip=209.85.160.46
+	s=arc-20240116; t=1717977101; c=relaxed/simple;
+	bh=IdNAFIg/Cxi3s4opGkIjs/mr3l+mlhCuw9VS9AZo6pU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=swBGbw3SNV3Puji8KZ6zh7VMBNiVsXDKEagH9ZeEn+/vE/V1Qodfwx4W2ILsqWp/zs9qS2bti5s/3JmJPyAzCWiMYw8MNDlLT6DRvabwxu+xsXKz6JMlLy9GmL8ICWf3ZDjAExJlqyXz233XJl5t/2OJPbMMSwkxwzoyiekCcEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZlJMHbjl; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-250ca14422aso2091727fac.0;
-        Sun, 09 Jun 2024 16:51:39 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7041a7d4beeso1691758b3a.2;
+        Sun, 09 Jun 2024 16:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717977098; x=1718581898; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SVIaAx3x412TkipycxEGUU2uFvDryTHNfZAKZgr8qfg=;
-        b=aM8Vn4FJ8cwu9AE+EQ5qNaAri799xhMLRvHMck7uizyTUgfiPtgsK2UUJXcNRqhoyG
-         CqlSDZLDA/701zjThO38AEMBfxUNhBAwotbSHgXIP8+DYz2l6+1OLGLKWP6K/5Z+Jay+
-         duBDLInnn7JDMmIp5dOopTF63elVoxfVBU7jZfTChK7usDL/VuJb9b4Ag6qvyik4dCdd
-         PC0xfMWbeVtmUoG+DeUTYe0gjLNtRnoZ/eV+uPhTKgiQK4B/wdTmA9XWMmrnROB1jckj
-         Ae33sPUBNSBh7lETs0YmK3bXuUdXf2+pwf9WYs8x9+/HLQdPXDZWpjgsEgMY93Juyh6/
-         hknA==
+        d=gmail.com; s=20230601; t=1717977099; x=1718581899; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=69ZRYoeJIjb5lPtozp0DKNWI1DepqEmMRNyk8JYLpHw=;
+        b=ZlJMHbjlsm8HpSMcSz64gMoWyucI7KPr5LAVdPQ6VBeNZd4iBiPEc439tAcq77/2Qk
+         Sk/dba9EIT1ZJ6l1zV51FMDb6P6YUSwtWliN+Q8A6zclMKp9AnyvTsVnfq+ebRX4fjoG
+         XRAXOLLcpuC5IuD6FK3FFhM+7SZVwm/MgauqYycQHK+9jor0VFw7Ry6sh3KU3YlfLCKJ
+         1mpiX2cPiLMCEzwlu79dzbX1xB7+YkN/UsOHfZDhKdfsgjUtxmYIGErhuzghAbrws9/b
+         bJHJrKdk3Asod+h65GEOeE5F0Fcg0s3NECycb0qnhYStpJ4j+9Z7oSPHlREcADG2GUfr
+         il7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717977098; x=1718581898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SVIaAx3x412TkipycxEGUU2uFvDryTHNfZAKZgr8qfg=;
-        b=up0Gdhe/y+hY4zrZLsde1lmhmsTvFT8Q+8gqmQugPqpW31Q3mOURsyr8t4DvuuK0Jl
-         gj5ChDJCbScfLXJho5nXc6aaEKIFBFVB1K1NzsKHTH+plCjxtPcUFP4/OdilaLW4NeWh
-         w+cIBwKY4itcvB/76du+TTAWGifR0kVe8cu2/C5R3AFSJrvlHnup4FeMD1Fu6RZ22UBI
-         arD1nBIyTlNgctcA4zYc5RAXcRxmEVzMsEyooWOPL1h+Fvpfd1+sPqMnQcNL141RTROH
-         Z7FTfTgVLWG83mtyChRB2nTlWOo+JrWnU5mcNyEmL+RSXGs4JmHDrUs1abgHbaDp2EjL
-         oINw==
-X-Gm-Message-State: AOJu0YwMUEQ6KhYDplkBI6qFiMrshjbThOf2L7fMnE6jtxOSWwYA6zvl
-	Ie6HrlWVVZbN8PApAAZRdSHx4tprGWI4Yfa2JwuzAgSnyjcz1BIHhjHt/w==
-X-Google-Smtp-Source: AGHT+IGpmI1jNSVXx0xYJ+Mp5swmpw+ohybJ87ulQdMuFT4BkypTUae5IK5FSbUpW6qhawe1DnCbYg==
-X-Received: by 2002:a05:6870:3122:b0:24f:ee90:4556 with SMTP id 586e51a60fabf-25463f50643mr9673618fac.0.1717977098037;
-        Sun, 09 Jun 2024 16:51:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717977099; x=1718581899;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=69ZRYoeJIjb5lPtozp0DKNWI1DepqEmMRNyk8JYLpHw=;
+        b=FRwIEfQCAiq7yV/5F3HdmHu6ARYPRjxfQ9qTcbXsklAQnN2YDZlEUNAbhX80qnDYSH
+         A+OMRhDckiyWwzcvfNWlb5iKaFN4TKStQLBeQG6q9KRtFmsMcFqJQr/b+SUt+gGyTqJx
+         a1SsWpptHp0uxVZn7eIT9rGnucuWE1OOd5NosZ81xn+UX5bJNHTnjLWD3ZqfzYglL0ew
+         N5M8uDalTUSUyxdDlt8WiC1Co/Rg+oQUf6fs7r5FUdlGEu+276OoOpF3mcuoc8Lv4eH6
+         N3bs4j+dosGcv/rutwDdHCDdFQoJzkSsahZEOtHXrz7ZeDgbuofh5mp2L71X3fMfWvuV
+         3qpA==
+X-Gm-Message-State: AOJu0YxOkGkjVA5eRl05a1CbUjvfRRfzeDpI1ogJ81Hp4B7tDWvXKVTc
+	mtwNUW2CpkmQDMdmiRLfQyLXbctlGcUTCbvuIKWEtaMNYejTeKDYuKH3YA==
+X-Google-Smtp-Source: AGHT+IF7eoB2J8mctyoEsInWXQPHUz4HtgXN+9OrYtXifK4moqzyc3RsQ0gEGUP4SmHlDURPiTeqxw==
+X-Received: by 2002:a05:6a00:14c2:b0:705:9748:7ba9 with SMTP id d2e1a72fcca58-70597487fcemr1303582b3a.0.1717977099272;
+        Sun, 09 Jun 2024 16:51:39 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:55a9:13e9:dec7:f9d3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7042f37f33asm2090356b3a.3.2024.06.09.16.51.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7042f37f33asm2090356b3a.3.2024.06.09.16.51.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 16:51:37 -0700 (PDT)
+        Sun, 09 Jun 2024 16:51:38 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] Input: rohm_bu21023 - factor out settings update code
-Date: Sun,  9 Jun 2024 16:51:30 -0700
-Message-ID: <20240609235134.614592-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 2/3] Input: rohm_bu21023 - switch to using sysfs_emit()
+Date: Sun,  9 Jun 2024 16:51:31 -0700
+Message-ID: <20240609235134.614592-2-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
+In-Reply-To: <20240609235134.614592-1-dmitry.torokhov@gmail.com>
+References: <20240609235134.614592-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -79,123 +83,44 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The code to toggle axis swapping and inversion is repetitive and can
-be factored out.
+sysfs_emit() is preferred over snprintf() for sysfs attribute handling.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/rohm_bu21023.c | 77 +++++++++---------------
- 1 file changed, 29 insertions(+), 48 deletions(-)
+ drivers/input/touchscreen/rohm_bu21023.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/rohm_bu21023.c b/drivers/input/touchscreen/rohm_bu21023.c
-index 06fa3a19d266..c432ed682d31 100644
+index c432ed682d31..7be2549fde85 100644
 --- a/drivers/input/touchscreen/rohm_bu21023.c
 +++ b/drivers/input/touchscreen/rohm_bu21023.c
-@@ -727,6 +727,29 @@ static int rohm_ts_load_firmware(struct i2c_client *client,
- 	return error ? error : error2;
+@@ -756,7 +756,7 @@ static ssize_t swap_xy_show(struct device *dev, struct device_attribute *attr,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct rohm_ts_data *ts = i2c_get_clientdata(client);
+ 
+-	return sprintf(buf, "%d\n", !!(ts->setup2 & SWAP_XY));
++	return sysfs_emit(buf, "%d\n", !!(ts->setup2 & SWAP_XY));
  }
  
-+static int rohm_ts_update_setting(struct rohm_ts_data *ts,
-+				  unsigned int setting_bit, bool on)
-+{
-+	int error;
-+
-+	error = mutex_lock_interruptible(&ts->input->mutex);
-+	if (error)
-+		return error;
-+
-+	if (on)
-+		ts->setup2 |= setting_bit;
-+	else
-+		ts->setup2 &= ~setting_bit;
-+
-+	if (ts->initialized)
-+		error = i2c_smbus_write_byte_data(ts->client, COMMON_SETUP2,
-+						  ts->setup2);
-+
-+	mutex_unlock(&ts->input->mutex);
-+
-+	return error;
-+}
-+
- static ssize_t swap_xy_show(struct device *dev, struct device_attribute *attr,
- 			    char *buf)
- {
-@@ -748,22 +771,8 @@ static ssize_t swap_xy_store(struct device *dev, struct device_attribute *attr,
- 	if (error)
- 		return error;
+ static ssize_t swap_xy_store(struct device *dev, struct device_attribute *attr,
+@@ -781,7 +781,7 @@ static ssize_t inv_x_show(struct device *dev, struct device_attribute *attr,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct rohm_ts_data *ts = i2c_get_clientdata(client);
  
--	error = mutex_lock_interruptible(&ts->input->mutex);
--	if (error)
--		return error;
--
--	if (val)
--		ts->setup2 |= SWAP_XY;
--	else
--		ts->setup2 &= ~SWAP_XY;
--
--	if (ts->initialized)
--		error = i2c_smbus_write_byte_data(ts->client, COMMON_SETUP2,
--						  ts->setup2);
--
--	mutex_unlock(&ts->input->mutex);
--
--	return error ? error : count;
-+	error = rohm_ts_update_setting(ts, SWAP_XY, val);
-+	return error ?: count;
+-	return sprintf(buf, "%d\n", !!(ts->setup2 & INV_X));
++	return sysfs_emit(buf, "%d\n", !!(ts->setup2 & INV_X));
  }
  
- static ssize_t inv_x_show(struct device *dev, struct device_attribute *attr,
-@@ -787,22 +796,8 @@ static ssize_t inv_x_store(struct device *dev, struct device_attribute *attr,
- 	if (error)
- 		return error;
+ static ssize_t inv_x_store(struct device *dev, struct device_attribute *attr,
+@@ -806,7 +806,7 @@ static ssize_t inv_y_show(struct device *dev, struct device_attribute *attr,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct rohm_ts_data *ts = i2c_get_clientdata(client);
  
--	error = mutex_lock_interruptible(&ts->input->mutex);
--	if (error)
--		return error;
--
--	if (val)
--		ts->setup2 |= INV_X;
--	else
--		ts->setup2 &= ~INV_X;
--
--	if (ts->initialized)
--		error = i2c_smbus_write_byte_data(ts->client, COMMON_SETUP2,
--						  ts->setup2);
--
--	mutex_unlock(&ts->input->mutex);
--
--	return error ? error : count;
-+	error = rohm_ts_update_setting(ts, INV_X, val);
-+	return error ?: count;
+-	return sprintf(buf, "%d\n", !!(ts->setup2 & INV_Y));
++	return sysfs_emit(buf, "%d\n", !!(ts->setup2 & INV_Y));
  }
  
- static ssize_t inv_y_show(struct device *dev, struct device_attribute *attr,
-@@ -826,22 +821,8 @@ static ssize_t inv_y_store(struct device *dev, struct device_attribute *attr,
- 	if (error)
- 		return error;
- 
--	error = mutex_lock_interruptible(&ts->input->mutex);
--	if (error)
--		return error;
--
--	if (val)
--		ts->setup2 |= INV_Y;
--	else
--		ts->setup2 &= ~INV_Y;
--
--	if (ts->initialized)
--		error = i2c_smbus_write_byte_data(client, COMMON_SETUP2,
--						  ts->setup2);
--
--	mutex_unlock(&ts->input->mutex);
--
--	return error ? error : count;
-+	error = rohm_ts_update_setting(ts, INV_Y, val);
-+	return error ?: count;
- }
- 
- static DEVICE_ATTR_RW(swap_xy);
+ static ssize_t inv_y_store(struct device *dev, struct device_attribute *attr,
 -- 
 2.45.2.505.gda0bf45e8d-goog
 
