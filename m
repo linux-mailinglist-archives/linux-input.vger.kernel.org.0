@@ -1,114 +1,113 @@
-Return-Path: <linux-input+bounces-4267-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4268-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0069013E2
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 00:24:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 992BE90140E
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 02:15:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58F9AB212EB
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jun 2024 22:24:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4352A1F222EC
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 00:15:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFDD51BF24;
-	Sat,  8 Jun 2024 22:24:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C45A3D;
+	Sun,  9 Jun 2024 00:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mail.de header.i=@mail.de header.b="hk13Gt31"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elQ2KJ+C"
 X-Original-To: linux-input@vger.kernel.org
-Received: from shout11.mail.de (shout11.mail.de [62.201.172.57])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D71E2E84E
-	for <linux-input@vger.kernel.org>; Sat,  8 Jun 2024 22:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.201.172.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DD67FF
+	for <linux-input@vger.kernel.org>; Sun,  9 Jun 2024 00:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717885441; cv=none; b=HjzEul5MQNT740+bjDhrH7hrtKAdNVW8hQdMMIA7CeqKofHSyVNuQyBk4lAVajrEq4ezgBcBPxPdzru78IcUfuKGV9eiFEE5qYpb29c+ytii5UPfMV2+7xASKG+olvoBuNSpTPraUUESzBGIKm5LJ0nWY2SgzVhG//uhbKfnOI8=
+	t=1717892137; cv=none; b=lCrGNtyO9fCY/5T6ZoLArEU4AtcIPn0fNjJOEzSGV3bnw290OFHJB2uszbnOl9s/sZ5g9hqmETQRYw0/guLzxWTCUXr8FGWDwYGJnqiDvlKc1Ifx8Bf+9OFDJfMuNsNubZM4Ensrt7xZvZovcZDN8jQccmjcRTmmRf1P7e2yQaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717885441; c=relaxed/simple;
-	bh=qQUJI9G8Jm15ZRsiHhnAvWbhd8iCXT7pmWx5q8PDMqk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=KCXJXC/GRCbyKoVXCZI0plnFeJ4foI60ntLiSmsQzioRIfoYI0vuMQsn5GbiJkdmtzIAB7o826lQehb5UyANRqgfEwmePARDeSrbyPyaak85wiLLPQUZ/jpP/FFlrodNZTOZgitTbktBgI5aFd0PJDK2GpCowT4qM0mg4tCrxTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.de; spf=pass smtp.mailfrom=mail.de; dkim=pass (2048-bit key) header.d=mail.de header.i=@mail.de header.b=hk13Gt31; arc=none smtp.client-ip=62.201.172.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.de
-Received: from shout01.mail.de (unknown [10.0.120.221])
-	by shout11.mail.de (Postfix) with ESMTPS id 1A79B241946;
-	Sun,  9 Jun 2024 00:23:58 +0200 (CEST)
-Received: from postfix02.mail.de (postfix02.bt.mail.de [10.0.121.126])
-	by shout01.mail.de (Postfix) with ESMTP id 093C1240B7C;
-	Sun,  9 Jun 2024 00:23:58 +0200 (CEST)
-Received: from smtp01.mail.de (smtp01.bt.mail.de [10.0.121.211])
-	by postfix02.mail.de (Postfix) with ESMTP id E152EA00E2;
-	Sun,  9 Jun 2024 00:23:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mail.de;
-	s=mailde202009; t=1717885437;
-	bh=qQUJI9G8Jm15ZRsiHhnAvWbhd8iCXT7pmWx5q8PDMqk=;
-	h=Message-ID:Date:From:Subject:To:Cc:From:To:CC:Subject:Reply-To;
-	b=hk13Gt31WU0boKa6qrnvKVV1HrvsgHtp5z7ZUzkXzOMWJjWmgCqqjBdQFE3hifCrH
-	 8ihWf8m91hUnVRLo6K7WyQBs3I1fGn8iS8qbcP4oQra1l705+edIrbTKeo7A9bwSSg
-	 X8SnMU0yeqQPxzqUl0ZTg8n3+bbEYUrOYu1bTbuCj7+ydk2fQeh3C+psKoAR39TBEb
-	 lMzym5/T6PRMff4Y2olWyJmDozJlw+EZa+PSYL9KbR9wSJ57w/nwGfHpWBEFdiNKUI
-	 4gyVF0+Mkg+TxDIGDwHC4hpBaCPgNpjls+Wr71yO/OB16uCjd/ULIJI3lWKM+vqpHQ
-	 6JWFFUjDz8cyA==
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp01.mail.de (Postfix) with ESMTPSA id 93E2D240C7C;
-	Sun,  9 Jun 2024 00:23:57 +0200 (CEST)
-Message-ID: <a4bed14a-ffa1-4985-bfd2-517999a8ca54@mail.de>
-Date: Sun, 9 Jun 2024 00:23:56 +0200
+	s=arc-20240116; t=1717892137; c=relaxed/simple;
+	bh=qA5t+P5HaEdX4WGRYzfkL6WVwlF/BUqS2BiHsV8z/0k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B9XPJUVm1VXlL99K8bOHhIEgaGiko0wuwLO6sKXoqfZagstsKAirq/4+u1VMsPHp+wmfdQuMbc5iLebfRuvaLQXquq67NBqKmtiMjn8417mib6yrmhak2YX9aQI6pzieaycI2dAqUtIkQMjUy/ArHOmm9vsRXtIRQoWxdTy0U0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elQ2KJ+C; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717892136; x=1749428136;
+  h=date:from:to:cc:subject:message-id;
+  bh=qA5t+P5HaEdX4WGRYzfkL6WVwlF/BUqS2BiHsV8z/0k=;
+  b=elQ2KJ+CRV0cx/C10vvka0fhGTzFAGgTzEJ1aKUUQr27lj0zU3DaC2fS
+   hbC1JMc2BJfoBllr1gdZw6ixBewwcwrUSaCJHQcuuqESVTfl3E5nZrqRi
+   8PZpqlrGVmapJiFC81BVqzHai6nWoG1VTrC62xpCEicgvpBW7AbJzlIrU
+   knP6C5gRw10EMHvUJyrypEtzv0arUTor9MOF273PowQmz54E43KyvkIJz
+   TfkKZRzFk9MXKl6VMUR+BGG3GGKQwkpyfAw+WxXAFLQt5J1VFzPYD68tY
+   ddcIs1UbAAI8iStDRDQtrvslELLIy6aP26NT3gLsat+aXS2JtcFlJ/yJs
+   w==;
+X-CSE-ConnectionGUID: TBNMwXhjSsS/f7Es4yYO5Q==
+X-CSE-MsgGUID: 4+E8f6MRSbm7s3l1qW0ReQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="18417897"
+X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
+   d="scan'208";a="18417897"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 17:15:35 -0700
+X-CSE-ConnectionGUID: o86SbRQCRaaCidlS9qx3TA==
+X-CSE-MsgGUID: 8RlolfxNRWeiLgcF65Eonw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
+   d="scan'208";a="43115714"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2024 17:15:33 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sG6Db-0000fu-1K;
+	Sun, 09 Jun 2024 00:15:31 +0000
+Date: Sun, 09 Jun 2024 08:15:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ cee77149ebe9cd971ba238d87aa10e09bd98f1c9
+Message-ID: <202406090814.FvF4JyyO-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Sebastian Kropatsch <seb-dev@mail.de>
-Subject: input: Adding definitions for recovery and maskrom button?
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-purgate: clean
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-purgate-size: 1360
-X-purgate-ID: 154282::1717885437-FE5BF670-F736BF3E/0/0
 
-Hello!
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: cee77149ebe9cd971ba238d87aa10e09bd98f1c9  Input: xpad - add support for ASUS ROG RAIKIRI PRO
 
-Many Single Board Computers (SBCs), especially those based on Rockchip
-SoCs, come with on-board buttons labeled "Recovery" (for entering some
-recovery mode) and "MaskROM" (for entering MaskROM mode for software
-flashing). These are usually GPIO-based keys or ADC attached resistor
-ladder buttons.
+elapsed time: 1452m
 
-When defining devicetrees for these boards, the current approaches
-include e.g. using "linux,code = <KEY_VENDOR>;", <KEY_SETUP>,
-<KEY_PROG2> or <BTN_1> if these butons are even defined in the
-devicetree source. So basically, there is no common approach
-currently, since a clearly defined key label is missing.
+configs tested: 20
+configs skipped: 1
 
-The "linux,code" symbols used in the .dts files come from
-"include/uapi/linux/input-event-codes.h" which is included by
-"#include <dt-bindings/input/input.h>".
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Would it be a sensible approach to add two defines to input-event-codes.h
-e.g. KEY_RECOVERY and KEY_MASKROM (or a more generalized name)? Or is
-this out-of-scope for input-event-codes.h?
+tested configs:
+openrisc                          allnoconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   clang
+s390                              allnoconfig   clang
+s390                                defconfig   clang
+sh                                allnoconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                             defconfig   gcc  
+um                                allnoconfig   clang
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+xtensa                            allnoconfig   gcc  
 
-Please let me know. Thanks! I can send a patch if I get green light :)
-
-In case you'd like to see examples of these buttons, you may have
-a look at devices like FriendlyElec NanoPC T6 [1] or Orange Pi 5 Plus [2].
-
-
-Cheers,
-Sebastian
-
-[1] https://wiki.friendlyelec.com/wiki/index.php/NanoPC-T6
-[2] http://www.orangepi.org/orangepiwiki/index.php/Orange_Pi_5_Plus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
