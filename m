@@ -1,89 +1,79 @@
-Return-Path: <linux-input+bounces-4272-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4273-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDDA901854
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 23:41:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EB0901856
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 23:41:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBDC31F2118C
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 21:41:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3D0C1F21279
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jun 2024 21:41:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE38B4E1C8;
-	Sun,  9 Jun 2024 21:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F32C52F9E;
+	Sun,  9 Jun 2024 21:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtvHpyYv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2pqihU5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6D21865C;
-	Sun,  9 Jun 2024 21:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D394558B9;
+	Sun,  9 Jun 2024 21:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717969281; cv=none; b=kJ+dIs4WzvDa5fy1x9PLU67eELtxRgYVW9867Yn8Glwq7s5GPfwCGBoldHZTa9XZG2IgDvUEUYNUWWbTWiUVRa9e/euzKkgVeMNYk5ZXRGtKDQrM68TphcK7qHDXZihXc6Jab/nRzDP4Ek8tkdrBqHfb0MCW/fnWjtpvb9Mpex8=
+	t=1717969293; cv=none; b=cQqDtsdGpBCyLyMAJe8luRjWKRpEqOW5pbUtpouVxNqteAqRmNnROCQpi9z9ZKzReG12PlhGMzcVYpjPeMF+8Ne/BDRuY79ioPQitMJk2YvDpm4DMeqtlhPsaRbUp8XrQu/oGZ4U8K/vSeuqNw8iKM+oVqEJnHwo94fq0SOwxaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717969281; c=relaxed/simple;
-	bh=kRTX5mjZmUNWGLllyyHVNH3c1pTK9xaLXWAa/EivX3U=;
+	s=arc-20240116; t=1717969293; c=relaxed/simple;
+	bh=Ti1lCadmrkvVtjeAn4RXvBoHq+kyH8MlfVFoXz9WGVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WblZyi18t/z9GVB9VIyRMWxE3h2ooNmnrOseUT9ebAnj59Gft1mGvp3unFzFnBZILPNI9LdKsHl82B/SIyV3RkkwX0L1vWqshI5dJJ6OETZNaPjK92MS3yB+F1oziWe6maZCIqgMem+PEH11uzvRhR1ZegKNuORMta39W2Bs9Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XtvHpyYv; arc=none smtp.client-ip=209.85.166.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=qoSxSKJms/lp7XRI/cPec5AMQgA9Csln6juhfejbvJ/9RQ33hDmOEdutH5fhHeSWKSY46ccjuwDJD8yBgPSbtrbKYi+vLcQnyS6yhxPYR+ZN4MBlmMhUYEUTrEsllqOScn9ofw15UHd6UGjuvyTbcfw70GwTeYVkJNpYOdOgHdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2pqihU5; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-37594abcee7so5972275ab.0;
-        Sun, 09 Jun 2024 14:41:20 -0700 (PDT)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2c2c6b27428so1550474a91.3;
+        Sun, 09 Jun 2024 14:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717969279; x=1718574079; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717969291; x=1718574091; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mcjlMxR8WC9GvF7wR1CGHb3xg0yhlQrP3Q+QhW8JPRs=;
-        b=XtvHpyYvYdcLaU9a7sIxY8flkiDUSfnLneBTBYKEtauMZSCwsX/M9G9I8H6jbocosM
-         A66puiYlC4BsERxyEqsZL5MsaJflbm/2UxbHjTcgK4+9HjlYhqRfhWp/oOM3GpZpc5fx
-         tnqiIaa3p7qflt+i3Mde7haJHZC3mq1E1XIeMCLuY4uGSrRax67C4QVB4vC0pzoReROG
-         ziuVZqNLPEgVJ6ptNglgUyF3zgsj+2/D+pxgR/JlZNqT0SN+f5Oxk9Gxec/9BJTZjfgw
-         rSMO8Xyw7QE4sJU5896PAVF0kxAT6ZzxlM4QwIStgpFvhO4exRoorj7VEbk8lFriE8zC
-         MsHA==
+        bh=e1/NQGBcniwOGtlfkKFY4bfViy5G6/qqoA0oBFSyyOU=;
+        b=Z2pqihU5bGr/bMMj3et7/Sl5a/b8M+MkU8FAe4/StJcmqrqXO1hoQMZFWRMTWMO6xU
+         gdhQLF5B96BPffNFVZErpoMVynTNiDx2e/dQ1JoAnxQmqVpsr7zmfnUgzPfu3nEq6bkJ
+         KYLQRkoWwTf57v9qNI2DS6fAdBooHpZPjLr5RJewDp/Jtkd+D2lcJFTI1yvKBVIakYn4
+         kQGrsnofjRU9VMO2P/XpQ30uMgG0G3Tw28i7hkAT6ivzjS65p3BfL2geQ2lBo2OgvxKe
+         vny3a0gMxDY0ECOAtV88uDxBaSMvNbtzzqCHN93g4/LFbAigj0kGuAYhxsbKSwiQkvPZ
+         Excg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717969279; x=1718574079;
+        d=1e100.net; s=20230601; t=1717969291; x=1718574091;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mcjlMxR8WC9GvF7wR1CGHb3xg0yhlQrP3Q+QhW8JPRs=;
-        b=TnMrWwUHsHLUunr3AFjVGdhod8sI1n46u2r10e9lDRTBHW4iNC2NJe2NuxXLt+i/D2
-         CKJkGJR2ZUk/1MXUXi821RPA3gZpLAVyhDT5jDkObHEhbwNV3KPP/gYnTaTB23e0tpTc
-         7tQ/WmVhxoRDUpQ6VR9q/FatB2qnXSU8/hkyE6pvuIJ+nuvFv7T3NZ7vOTKESK5RJjFl
-         IIZfPC2BU2m+5e/CFFcwMXkqK6M9XQdEXQX7L0lF5fBc0OnmZTtgOQv9mrNq/tPW4Kg6
-         t1I0QttzeGZKaw8okqNu+Gp/aKN2xzy7/ZuYs8UrcNeDnNKgdVmF/4dzJ0JH4QejNhqK
-         cgaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDshg2KkbhQKGobaGQaAzhMPXZK5XlHEmdlqS/498GBQTwYjLeu6ws4UuvS7HGHz9W1fgg/lGDapXiIlHZlfRf1nBuUVuFZQrnQNism6cEDUORSxlo6W+oMbdCeax+6rX4mVeu3hAKKpxkQatPA5drRA0ExdZqPPI3oudPjawJhv3i1mvi2He/hnM=
-X-Gm-Message-State: AOJu0YxnZfXAo8VWdWHHB5hQHv2y/J8K3WjcO7LJH//Z33gP1mPqMvtu
-	6A4TCYymp1jTPXTOLz1vydCqQ5scXNFqXxDv+RU77L39i43GT/D5
-X-Google-Smtp-Source: AGHT+IG6YLP9mR9wBI7joN7g3FWK9wAdt5wGRHlhq8r+NXoPDq8kp2OdWVqpdrh0BzbfcOM1WuYOog==
-X-Received: by 2002:a92:cdaf:0:b0:374:a963:be9b with SMTP id e9e14a558f8ab-37580331e2cmr105686145ab.12.1717969279412;
-        Sun, 09 Jun 2024 14:41:19 -0700 (PDT)
+        bh=e1/NQGBcniwOGtlfkKFY4bfViy5G6/qqoA0oBFSyyOU=;
+        b=FY1f5oX8IhHhTFJsfH1AeGq2XtKk/6/+ALxJ3YLSR/dbHqfmWmKHXeSp8Qgr1uwKu0
+         btPNiBlLaEqfiax6G8vg+Dq79N9jTnlx1aP/1p2fBfWkXJ6DbvCXJChc13zZaX617rCT
+         tkD9llyNkrbisMBCiRE4jDTYrzYsMYO+Zd9oOzwqeu6chpzVc4ZKSjB3AW76oCN9vVH0
+         +sd2aZ5e7sTjFslpG7vqzjkenHA0UElFQmvsHDkpyJSkSNSIgSBMRc7deUL61+YNTg4R
+         npqmUKfScYCVtldPbLt7kOWKT0YyHqu39szNwD7btn0sep7dPWpUupBXFGI11CeCUlcD
+         /gpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmFAbQei8iizIedSVC5pFuBi7eTsOWM301Pf40LqTWvDbAxxKEqWrP3Q5BMLrT8oZ2tShGEh+8U/e74Ov3lzEAVvlUtLlSYyFJ9sm/qrmhaDLysRVeAacjpX0HuxD0Y86L/XpZe+pzD7PaqEcKiEdRRlhtsii39IWhfz0iYZ40eE9LcY6NqBJ3lFM=
+X-Gm-Message-State: AOJu0YywazrNGmDLHeMi+1QxYPByhOtBcaa1H+TLOaunySz5+C1TQjVo
+	Zvu0aQ4KDc/FiIC+lA1iru5nzEtWjw2mIRvhVUak+NIKAyVjbweE0T3c2A==
+X-Google-Smtp-Source: AGHT+IHJJsfWu0z4qAJiwFg5/tkSiQXhyKVwNBCsm+WCSX3/V+8Aq8is+U/owQSeGL6hBruGzHR03A==
+X-Received: by 2002:a17:90a:bc9:b0:2c2:c670:8a4b with SMTP id 98e67ed59e1d1-2c2c6708b6amr6051432a91.26.1717969291333;
+        Sun, 09 Jun 2024 14:41:31 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:55a9:13e9:dec7:f9d3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e3575b6c73sm3549648a12.78.2024.06.09.14.41.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c2ebc8b49bsm2593241a91.50.2024.06.09.14.41.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 14:41:19 -0700 (PDT)
-Date: Sun, 9 Jun 2024 14:41:16 -0700
+        Sun, 09 Jun 2024 14:41:31 -0700 (PDT)
+Date: Sun, 9 Jun 2024 14:41:28 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Erick Archer <erick.archer@outlook.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Vicki Pfau <vi@endrift.com>,
-	Brenton Simpson <appsforartists@google.com>,
-	Max Nguyen <maxwell.nguyen@hp.com>, Carl Ng <carl.ng@hp.com>,
-	Matt Scialabba <matt.git@fastmail.fm>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Justin Stitt <justinstitt@google.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] Input: joystick - use sizeof(*pointer) instead of
- sizeof(type)
-Message-ID: <ZmYhfNmyjX6OiJP4@google.com>
-References: <AS8PR02MB7237FEA55FAC8A9453F2DA6F8BC42@AS8PR02MB7237.eurprd02.prod.outlook.com>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: add missing MODULE_DESCRIPTION() macros
+Message-ID: <ZmYhiDpM65GbEWgG@google.com>
+References: <20240609-md-drivers-input-v1-1-a2f394e0f9d8@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -92,19 +82,25 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <AS8PR02MB7237FEA55FAC8A9453F2DA6F8BC42@AS8PR02MB7237.eurprd02.prod.outlook.com>
+In-Reply-To: <20240609-md-drivers-input-v1-1-a2f394e0f9d8@quicinc.com>
 
-On Sat, Jun 08, 2024 at 05:13:57PM +0200, Erick Archer wrote:
-> It is preferred to use sizeof(*pointer) instead of sizeof(type)
-> due to the type of the variable can change and one needs not
-> change the former (unlike the latter).
+On Sun, Jun 09, 2024 at 01:03:30PM -0700, Jeff Johnson wrote:
+> On x86, make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/misc/soc_button_array.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
 > 
-> At the same time refactor the code to not use assignment in "if"
-> conditions.
+> Add the missing invocation of the MODULE_DESCRIPTION() macro to all
+> files which have a MODULE_LICENSE().
 > 
-> This patch has no effect on runtime behavior.
+> This includes drivers/input/misc/sgi_btns.c which, although it did not
+> produce a warning with the x86 allmodconfig configuration, may cause
+> this warning with other configurations when either CONFIG_SGI_IP22 or
+> CONFIG_SGI_IP32 is enabled.
 > 
-> Signed-off-by: Erick Archer <erick.archer@outlook.com>
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
 Applied, thank you.
 
