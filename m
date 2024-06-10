@@ -1,104 +1,188 @@
-Return-Path: <linux-input+bounces-4295-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4296-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2F690250E
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 17:11:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AB9902760
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 19:02:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21D4A1C22AD1
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 15:11:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ADBDB2AE63
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 16:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF269136E2E;
-	Mon, 10 Jun 2024 15:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD1315956E;
+	Mon, 10 Jun 2024 16:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Qgnpjarw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGN7TOZO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F441E4A0;
-	Mon, 10 Jun 2024 15:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67192158DCA;
+	Mon, 10 Jun 2024 16:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032297; cv=none; b=HH+GptyEkAb1JqcQVvwYq5EUiNe10ZN/Au+/KsSXbfSidZkOpeLdj78cCThD5CIdmHvLWX/0b3dULN9/2mAtO5YDOJvNKE9U1CupPPOYYqqLNOdBdMLnWo9IC1iECDPNp2jPB0ZYukma8YK2Tsw52qnKy7XjdzkLbgrcWHY0F7g=
+	t=1718037789; cv=none; b=fQNVaUQLeV1esEOipyzaG4Ok+8IGzJbAjeOeoHhnjkfs6pUZ2sGVgI/RZVJ6jSMIruay8S5W6XRHJrP4kVKB32+x3lRWS8ylLnFT9dP7X3ouHBmW4L5LFb43Mh678I7xk75J+klQvQklbfqi1teVtSC1xLrKrVukZ56JHLYZasw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032297; c=relaxed/simple;
-	bh=2MRFIZHEDXMO59T2YYB546qg4m19ZfuyPNpaTj4oPmE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXZ2USSKWzzm9/+k2IkKLVgkzjUORQ3mgR6ZMy3Iw5oOmpfnNSoCSzpSy7/QK/m7wqpupZ0AfWZ99PQ/ywBOuWq0oOqnQvkIV403Xa51MrGPV9pMfAOlWAWCUUZnWcr5nGzDOSBo54LLeBT+Ginoh0r18xxZSGZaERwndTLf6o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Qgnpjarw; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AEOOUb020276;
-	Mon, 10 Jun 2024 10:11:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=Aeq3fpVnqki4diYYjp
-	/uVIFurTx413cN+qB6SABonpY=; b=QgnpjarwJEnP2pQylyOrlsymbCi58E5Vqc
-	uTZD90SX6ft/6q5NHGths6YwJlMcqJLvWl9MaGYaaOJtt2IW3cJTGpqfuCW5p/5M
-	gefX7/wV5ZX/OppUCR7IBlw6GzBy1fepy2ZTBF0pabfsuCeTgRZpO5FZ9GShKvIq
-	JJj1lLMxneOxYO4blvZ7FmRIWtyOH2UztlZCPik0EypX/DuULtY5NlEaX78n8OZ+
-	Hdti3LRZjdVCyD57J9risGdGNaH84VSvtcjGnxxMD2b8uPbg3eol0RUk9ppJdSva
-	PAupBNEyaDorIfa9FntPHa8JAWDJcUBnXtYPMKrvwIwJjAC2Q+oQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ymmq09n4w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Jun 2024 10:11:27 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
- 2024 16:11:25 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 10 Jun 2024 16:11:25 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7EA9E820249;
-	Mon, 10 Jun 2024 15:11:25 +0000 (UTC)
-Date: Mon, 10 Jun 2024 15:11:24 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>
-CC: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v11 1/5] firmware: cs_dsp: Add write sequence interface
-Message-ID: <ZmcXnL3xQ0IyJ6TF@opensource.cirrus.com>
-References: <20240605135249.361082-1-jogletre@opensource.cirrus.com>
- <20240605135249.361082-2-jogletre@opensource.cirrus.com>
+	s=arc-20240116; t=1718037789; c=relaxed/simple;
+	bh=IwQTSFOWJavyEcAjjcodGL3Y5hzxqdXA53v2nXnt/u8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G1rEOwdQJGUXCffzdheiDf6OKbe6J0JjuCH1+K9K2931WyDoD9kYup9irjBoE+6EW1TsM29+uC49NDlB1q/l0XYG1d1jlyQSYV2GsziUVzLPj0I9jMogyv8OO/IognXm6z9MBxiCYUnb4+0KYmRfPgT7hE96fZz542yphF9yIME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGN7TOZO; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-6819d785528so3075427a12.3;
+        Mon, 10 Jun 2024 09:43:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718037786; x=1718642586; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aknRXtfNpDT3/xW3+oSc9LSjDIZNf+C1csd3Fn/F4Pc=;
+        b=WGN7TOZOtukQpT1tcpzEXy4aTNFYSqav5snLmMslY8wEDIDGWl6/4Kadmvr8KFiyoD
+         6MDEAmn6I0IvWHd+p76bZZEZOKRgstO5sT0W0U1G1ULwXmxFG9wH1DT4eOSa4nabwyuJ
+         cESrvSpJT6StggS+DLSj+W/ChodXoVYg7wJw7244qaJuWgpnxksJWvI/NzNMm3IniHgH
+         w6hUL5gKjs4tL+t+0LCUwmBZuYJGIO2MBX6fjS8kIvHw4j+6llGJ6JDP8dfxOon+cn9I
+         x8B9MbiO2or52h2E26la5x0Vpd949exOCysyaEgB0gfiu3nONbiAPlBgOnt0Cx4yU29K
+         ZoxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718037786; x=1718642586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aknRXtfNpDT3/xW3+oSc9LSjDIZNf+C1csd3Fn/F4Pc=;
+        b=UOUEftlUaHv/r2mVvW+6Ma8gAIIabQY1UWGAhhdNKqn0N795xTBgmfriElzPF+5FQT
+         2zn1PTGRAPWLprdQB1XgDnGTP2IS/LhlkdVKKlwA/feVjaG88iP9GG8R03PbCswEfsZG
+         bw/Up3lK1Veay3ePStwTBeQc+zBN9YHJ8T+GcpZsUQaTD5BOvKTEHd9MN89/VUcMxuXm
+         uIcb3gDS0D2/H+bCruf1P0JZgmPLCeN8K1ab3MopmTh2JZr4zGZ1Czu7G0HYWztm3huY
+         viOLsJ0DZNFIF7UztaaXZpJHxMVLYbfOoUQqRGLurD4JDcXnN/g8Bscq6WB4ZQSPfeZE
+         goMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXv9vVKl4cIcwbvMPNRSK8nSFNhkqF1ZzIK8KvYCyzu+qs6Fpxf9vn7HP0ZF3kCZRmARhEGoCi+i6+AnYskRsx4F5bIzj/sranuCLwp
+X-Gm-Message-State: AOJu0YzmtEMuLtrrA7tASWnrTHYjzYLYYodtu/yIOJMNf/napmkCf166
+	zoPbSF69mtScIQ0bk17mQAjYZFPGLrEMoqRfcJTlQSFb3PcTN7qiIWvXSw==
+X-Google-Smtp-Source: AGHT+IGQYbGCW3K8Egt7GL8o0/riJ5NpNxqOn/9udrMNHxZvhUzXPvqmDpxeSsd78eWiFeGORJ2cow==
+X-Received: by 2002:a17:902:c404:b0:1f7:2135:ce7c with SMTP id d9443c01a7336-1f72135cfdfmr15024635ad.28.1718037786016;
+        Mon, 10 Jun 2024 09:43:06 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:83cc:2314:b3bd:bf64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f72479ab2esm5235845ad.308.2024.06.10.09.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jun 2024 09:43:05 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: linux-input@vger.kernel.org,
+	Nuno Sa <nuno.sa@analog.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/4] Input: adxl34x - use device core to create driver-specific device attributes
+Date: Mon, 10 Jun 2024 09:42:57 -0700
+Message-ID: <20240610164301.1048482-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240605135249.361082-2-jogletre@opensource.cirrus.com>
-X-Proofpoint-GUID: cpT-NqtVu1njgP8mEQQqgX7w6pof0QqB
-X-Proofpoint-ORIG-GUID: cpT-NqtVu1njgP8mEQQqgX7w6pof0QqB
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 05, 2024 at 01:52:45PM +0000, James Ogletree wrote:
-> A write sequence is a sequence of register addresses
-> and values executed by some Cirrus DSPs following
-> certain power state transitions.
-> 
-> Add support for Cirrus drivers to update or add to a
-> write sequence present in firmware.
-> 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
-> ---
+Instead of creating driver-specific device attributes with
+sysfs_create_group() have device core do this by setting up dev_groups
+pointer in the driver structure.
 
-I would suggest we just apply this patch, it is unlikely to
-change from review comments on the rest of the series and could
-well be useful to other parts in the meantime. It would also
-mean less traffic each time this series is sent up.
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
 
-Thanks,
-Charles
+v2: added Nono's ACK
+
+ drivers/input/misc/adxl34x-i2c.c |  1 +
+ drivers/input/misc/adxl34x-spi.c |  1 +
+ drivers/input/misc/adxl34x.c     | 15 +++++++--------
+ drivers/input/misc/adxl34x.h     |  1 +
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/input/misc/adxl34x-i2c.c b/drivers/input/misc/adxl34x-i2c.c
+index d4014e367c77..7531c7b2d657 100644
+--- a/drivers/input/misc/adxl34x-i2c.c
++++ b/drivers/input/misc/adxl34x-i2c.c
+@@ -132,6 +132,7 @@ MODULE_DEVICE_TABLE(of, adxl34x_of_id);
+ static struct i2c_driver adxl34x_driver = {
+ 	.driver = {
+ 		.name = "adxl34x",
++		.dev_groups = adxl34x_groups,
+ 		.pm = pm_sleep_ptr(&adxl34x_pm),
+ 		.of_match_table = adxl34x_of_id,
+ 	},
+diff --git a/drivers/input/misc/adxl34x-spi.c b/drivers/input/misc/adxl34x-spi.c
+index f1094a8ccdd5..2befcc4df0be 100644
+--- a/drivers/input/misc/adxl34x-spi.c
++++ b/drivers/input/misc/adxl34x-spi.c
+@@ -97,6 +97,7 @@ static void adxl34x_spi_remove(struct spi_device *spi)
+ static struct spi_driver adxl34x_driver = {
+ 	.driver = {
+ 		.name = "adxl34x",
++		.dev_groups = adxl34x_groups,
+ 		.pm = pm_sleep_ptr(&adxl34x_pm),
+ 	},
+ 	.probe   = adxl34x_spi_probe,
+diff --git a/drivers/input/misc/adxl34x.c b/drivers/input/misc/adxl34x.c
+index a3f45e0ee0c7..fbe5a56c19d1 100644
+--- a/drivers/input/misc/adxl34x.c
++++ b/drivers/input/misc/adxl34x.c
+@@ -664,6 +664,12 @@ static const struct attribute_group adxl34x_attr_group = {
+ 	.attrs = adxl34x_attributes,
+ };
+ 
++const struct attribute_group *adxl34x_groups[] = {
++	&adxl34x_attr_group,
++	NULL
++};
++EXPORT_SYMBOL_GPL(adxl34x_groups);
++
+ static int adxl34x_input_open(struct input_dev *input)
+ {
+ 	struct adxl34x *ac = input_get_drvdata(input);
+@@ -823,13 +829,9 @@ struct adxl34x *adxl34x_probe(struct device *dev, int irq,
+ 		goto err_free_mem;
+ 	}
+ 
+-	err = sysfs_create_group(&dev->kobj, &adxl34x_attr_group);
+-	if (err)
+-		goto err_free_irq;
+-
+ 	err = input_register_device(input_dev);
+ 	if (err)
+-		goto err_remove_attr;
++		goto err_free_irq;
+ 
+ 	AC_WRITE(ac, OFSX, pdata->x_axis_offset);
+ 	ac->hwcal.x = pdata->x_axis_offset;
+@@ -889,8 +891,6 @@ struct adxl34x *adxl34x_probe(struct device *dev, int irq,
+ 
+ 	return ac;
+ 
+- err_remove_attr:
+-	sysfs_remove_group(&dev->kobj, &adxl34x_attr_group);
+  err_free_irq:
+ 	free_irq(ac->irq, ac);
+  err_free_mem:
+@@ -903,7 +903,6 @@ EXPORT_SYMBOL_GPL(adxl34x_probe);
+ 
+ void adxl34x_remove(struct adxl34x *ac)
+ {
+-	sysfs_remove_group(&ac->dev->kobj, &adxl34x_attr_group);
+ 	free_irq(ac->irq, ac);
+ 	input_unregister_device(ac->input);
+ 	dev_dbg(ac->dev, "unregistered accelerometer\n");
+diff --git a/drivers/input/misc/adxl34x.h b/drivers/input/misc/adxl34x.h
+index f9272a2e7a96..67e0ddc5c3eb 100644
+--- a/drivers/input/misc/adxl34x.h
++++ b/drivers/input/misc/adxl34x.h
+@@ -26,5 +26,6 @@ struct adxl34x *adxl34x_probe(struct device *dev, int irq,
+ void adxl34x_remove(struct adxl34x *ac);
+ 
+ extern const struct dev_pm_ops adxl34x_pm;
++extern const struct attribute_group *adxl34x_groups[];
+ 
+ #endif
+-- 
+2.45.2.505.gda0bf45e8d-goog
+
 
