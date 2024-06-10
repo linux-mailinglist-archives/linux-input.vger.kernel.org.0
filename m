@@ -1,157 +1,157 @@
-Return-Path: <linux-input+bounces-4292-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4291-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5ACF901E74
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 11:40:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5C3901E71
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 11:40:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E498283616
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 09:40:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EA991C215D8
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 09:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD4C55887;
-	Mon, 10 Jun 2024 09:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 975451DFD0;
+	Mon, 10 Jun 2024 09:40:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b="5eM+KJEu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GQlh0vnA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.valdk.tel (mail.valdk.tel [185.177.150.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FAB1DFD0
-	for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 09:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.177.150.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47F574404
+	for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 09:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718012445; cv=none; b=eBrOYFdmQMzD2STkQj1ixxjQT3UHtHwlEPtCrGvd/dVKku4VN9LUU/7grtQWBV4Gjo2RWFPCP5QGnM8R53OGDBbOVZyHLGdwQm9cK2jL/FmWyJT5nf0oqWsUfugOZxaD60JvTg255F5kPok44/RQGwlCwjkOlzqrDguumzJjgOA=
+	t=1718012402; cv=none; b=hzDrb5TZ9w6yMaO+Nt1C8jlRLecf/yd2Q7A1w9Zb/QFug3w8WADkc/tqb9s7rEJjQKBBO9gMTTw0Yz82qr/ssMHvOVJpT4X/oNFtu2MsCYaHVcXmyPBYAtHbG1FDPbdamE/7kwYatNd20egVDtdpn8cKXG6Elqe8nMmq2pdkFY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718012445; c=relaxed/simple;
-	bh=1j5h7SZtcCpdm/PNu0Rd18xrSRdfsYA7qD09rjSNJnw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=DNJwx4T4Ixtp6VxLzXxd6zS7NMxrn09V96NQnKo629TolJoMfbRTWXAElx6D6KVkDnO1kCVyuncWUR6KUJ+JjFmyD0qdh8Ntpw3whHzV3dlfXf/ylRm92+uvoOpYRvxXmzg3s7WGSkt0OxUqOlTNQK7QQgS9DyMvIzT7iCLRJe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru; spf=pass smtp.mailfrom=valdikss.org.ru; dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b=5eM+KJEu; arc=none smtp.client-ip=185.177.150.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valdikss.org.ru
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0F2021396E25;
-	Mon, 10 Jun 2024 12:31:49 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
-	s=msrv; t=1718011912;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-language:in-reply-to:references:autocrypt;
-	bh=1j5h7SZtcCpdm/PNu0Rd18xrSRdfsYA7qD09rjSNJnw=;
-	b=5eM+KJEu43xZx5tQN3Q4ebOWwdZMVhIlA7qw38SPMheELPMBG6IqVk5SCENJpaerHrN2Jl
-	cEMzJ5ltZeZt/cAxa32Pj/LlcxjNgOGIst8aCNbJCZBm5cEnrlc0OytTHmWh7gj2xsuzCF
-	BHYQYIZnvvAmqO+vPT7NphKzKrl6re7Wr86kDvMvNTOdamLlduwyssIKhKYaAOgnhsf/Ug
-	af+a/C4qxxRfKSqs2jGBCcuqESBgUSQyf0et2bR6Hb1CGfL/BrrPrt4z8xA3lOpoVJnhG4
-	sNfFffKHb1wltUtAWaTmc9QooFhDaL2rLLUdVAAUGe/412ThOdoYOsmstu5J0g==
-Message-ID: <33e85797-61c8-4228-9cbd-b72b06d8c94b@valdikss.org.ru>
-Date: Mon, 10 Jun 2024 12:31:48 +0300
+	s=arc-20240116; t=1718012402; c=relaxed/simple;
+	bh=Td/N4E9UURCdvg10DSgcFTNUdT3qZG8vl6zhjaJaZbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IfAf5//y9CDmPYigQj8dvjxjnB/3ou0Ux1BS955V3loLGPNDTNl9EG7rPxNJszPOuvAs/R/vSoiNmk5gJFCbp2MMZvT16EyA3xbpThmdc4n3CGQcNcOgWRUcl/yqYJeFuaKx34DMnymBUcJebTZ6rcf0cDmFrHGdW3yc4cJov/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GQlh0vnA; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-35f1c209893so1490115f8f.2
+        for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 02:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718012399; x=1718617199; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ocMM4wK0KoJUr2SNgjlZ+bFq4hxDtEwVWf5fWyCNQzA=;
+        b=GQlh0vnA/ENo9JZ5o/IbR+H28DbzWybrVyUvMVcnVB30OF/Bh4+Ld+c1Zdpn+8QMx1
+         ZHHwbcwHUgKOCiNf/Jx+fHc7jQKIwd94Hf//0aJJXDoZf6klysH6i8z0/FLVQo0iDq5G
+         8AB4qNdUapHrJsaElTk6hDGQKiFZiwsByfRLDJaR8OIjVQcpR7jhwiH70GDEqTAA+Qv+
+         +zNPnetzCcOzlvTcfYXUPfVhYiR56JbdDhuOVAyfP9p27XEseDIYjziVFHP/jB9C81No
+         DO3gbi+MGXRbOOflXbou4EhRo7Y3etBkAHczGlVNkbzbWkrZ20YOmrvA/MWuMluSjnNE
+         riVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718012399; x=1718617199;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ocMM4wK0KoJUr2SNgjlZ+bFq4hxDtEwVWf5fWyCNQzA=;
+        b=OVuXKqKW+hZcZZVrShmjbeDvVFTHTuK5jTV7wMxMNaFYerpjOMdXyDu1mrT2jkEljp
+         /vhi50ygq3cS+fJAImdlWEoN0eVRHtVG7COdtTpi5E9XbdIU4R8tyNi+blNBubHFisJt
+         AuiXBMwZZCTsAQLePc70r+Mw89oVgfwSpCUfYDOzMFwYa3yjxFIqymh0ERLq6128ePJA
+         n0H93oVi3HPV9geCO+4e4pTJORD5MZX2l6iww9zLG++jjUnEdMgWrepR6fnuIfhZD/Ls
+         cD0N9GQWAL1E2h9e47Wh26pAoQNSup3ME05fB66xVUTygbaDbO7hf5mADU3m58olNjrY
+         x/dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLQWT8uwBqUgkRyaZ6EzuZumSQ97HQrehYbTdII7m9q2v8SHF7V9qmB1K5uFwjhm0gOehnrOREZRpI0G16Dzxmc+clzXZfS7EkPvo=
+X-Gm-Message-State: AOJu0Ywued8g0IVSADa+PzqSPqdrHPn20Ko9fb0ISdjqtRH65M5BbW90
+	Q87N3qral8/W2IpXw3kcwFoPep9DjQAmM1IYqTKtBy3QB99HmNDiMkaQQ9xUkZI=
+X-Google-Smtp-Source: AGHT+IG9mD8/x+WVTXsrh8hQTA7ERg9+SENT0a0IkJ0cM7ILrlB0FyR88e3665ehddKLwYaoQrystQ==
+X-Received: by 2002:a5d:5987:0:b0:355:4cb:5048 with SMTP id ffacd0b85a97d-35efedd95f9mr7952708f8f.43.1718012398839;
+        Mon, 10 Jun 2024 02:39:58 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c19e567sm136806365e9.1.2024.06.10.02.39.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jun 2024 02:39:58 -0700 (PDT)
+Date: Mon, 10 Jun 2024 12:39:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Charles Wang <charles.goodix@gmail.com>,
+	dmitry.torokhov@gmail.com, jikos@kernel.org, bentiss@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, hbarnor@chromium.org,
+	dianders@chromium.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: Re: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Message-ID: <030b639e-f5d1-40a2-8980-f436ca686e6e@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: iam@valdikss.org.ru
-Cc: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
- rodrigoaguileraparraga@gmail.com
-References: <20240520000527.203644-1-iam@valdikss.org.ru>
-Subject: Re: [PATCH] HID: lenovo: fix Fn-Lock on Lenovo TrackPoint Keyboard II
- in USB mode
-Content-Language: ru, en-US
-From: ValdikSS <iam@valdikss.org.ru>
-Autocrypt: addr=iam@valdikss.org.ru; keydata=
- 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
- OEcVmRU/pw5/zoQyQg==
-In-Reply-To: <20240520000527.203644-1-iam@valdikss.org.ru>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------unBHJNMx4iaykPZdotDe3GvO"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240607133709.3518-1-charles.goodix@gmail.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------unBHJNMx4iaykPZdotDe3GvO
-Content-Type: multipart/mixed; boundary="------------ST1gkEJqEFIiNL6fnkyzuKDL";
- protected-headers="v1"
-From: ValdikSS <iam@valdikss.org.ru>
-To: iam@valdikss.org.ru
-Cc: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org,
- rodrigoaguileraparraga@gmail.com
-Message-ID: <33e85797-61c8-4228-9cbd-b72b06d8c94b@valdikss.org.ru>
-Subject: Re: [PATCH] HID: lenovo: fix Fn-Lock on Lenovo TrackPoint Keyboard II
- in USB mode
-References: <20240520000527.203644-1-iam@valdikss.org.ru>
-In-Reply-To: <20240520000527.203644-1-iam@valdikss.org.ru>
+Hi Charles,
 
---------------ST1gkEJqEFIiNL6fnkyzuKDL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+kernel test robot noticed the following build warnings:
 
-S2luZGx5IGFza2luZyB0byByZXZpZXcgdGhlIHBhdGNoLCBpdCdzIHNtYWxsIGJ1dCBmaXhl
-cyB0aGUgcmVhbCBhbmQgDQphbm5veWluZyBpc3N1ZS4NCg0K
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---------------ST1gkEJqEFIiNL6fnkyzuKDL--
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Wang/HID-hid-goodix-Add-Goodix-HID-over-SPI-driver/20240607-214042
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240607133709.3518-1-charles.goodix%40gmail.com
+patch subject: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
+config: sparc64-randconfig-r071-20240609 (https://download.01.org/0day-ci/archive/20240610/202406101633.1RJnij1Y-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
---------------unBHJNMx4iaykPZdotDe3GvO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406101633.1RJnij1Y-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+smatch warnings:
+drivers/hid/hid-goodix-spi.c:217 goodix_hid_parse() error: uninitialized symbol 'rdesc'.
 
-wsF5BAABCAAjFiEEMiogvXcpmS32v71gXNcgLu+I93IFAmZmyAQFAwAAAAAACgkQXNcgLu+I93JO
-qQ/+KKnYAfNrJUDixZHUELAoeX/Z6/v72JC/sRo1QdB8r+V8EzkyOTcOyi9IUGNw2fP7GVXEz2Su
-W0yWyB/9XUcCbWvpkfwwBFBKFOrpgMMvEEATuF5zMVUW+k1OoMocmYGZXBerkmUnmeo6rNSvpyuW
-IQOcYsZTViK4XKiWjBUZ51zxsF1GG6Fvnw4RoW3Ig+qVJ2qmBywZAZ/wBNvPVDEpWDrOdAKntgJN
-qp/SEaXug7yvtjypuoUGzunHfApNpl8BKGD1u7O7LTBnnHbMQTTO6e5kR/egTolNqR0/A3KULCmn
-Bsoz0b9oMKxcGRfjH/lLR22UByv79hYK2tOEAJQU6OYfJokB3LqFTGn+YqWEYe3cYzlgepPX1Dcy
-apf7MoZ02Q+paDaItEtEVX9xgGF9XcHuXcxtYbrsdPJO9b5kVrBZN8wU0GD8CKXSYAs8Ac8Um/XW
-nDxqpO+ygoVILxCSxCwxSUTtuS9sPO1rceQSgP22N183tXpmyMKPP7+jrT13/c8EGQtTndElEbvf
-hiI1w8vqFmhdRIi1qQrDlwVoPwqWEjyeZyAHjwzqISuSpYrt+rGa0a1MD4uK8ELOeJXTTBlbIqpw
-LQOHZKdXL0/IMZ3QOVHxklP+X5ShQSdVjTQcw/dSShDuioFBFt/Xbs8GVeqnmag49Eg1hHiNNU6z
-4eU=
-=JUuB
------END PGP SIGNATURE-----
+vim +/rdesc +217 drivers/hid/hid-goodix-spi.c
 
---------------unBHJNMx4iaykPZdotDe3GvO--
+bb11c3a1740813 Charles Wang 2024-06-07  214  static int goodix_hid_parse(struct hid_device *hid)
+bb11c3a1740813 Charles Wang 2024-06-07  215  {
+bb11c3a1740813 Charles Wang 2024-06-07  216  	struct goodix_ts_data *ts = hid->driver_data;
+bb11c3a1740813 Charles Wang 2024-06-07 @217  	u8 *rdesc __free(kfree);
+bb11c3a1740813 Charles Wang 2024-06-07  218  	u16 rsize;
+bb11c3a1740813 Charles Wang 2024-06-07  219  	int error;
+bb11c3a1740813 Charles Wang 2024-06-07  220  
+bb11c3a1740813 Charles Wang 2024-06-07  221  	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
+bb11c3a1740813 Charles Wang 2024-06-07  222  	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+bb11c3a1740813 Charles Wang 2024-06-07  223  		dev_err(ts->dev, "invalid report desc size %d", rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  224  		return -EINVAL;
+                                                        ^^^^^^^^^^^^^^^
+rdesc isn't initialized here.  It should be declared as:
+
+	u8 *rdesc __free(kfree) = NULL;
+
+bb11c3a1740813 Charles Wang 2024-06-07  225  	}
+bb11c3a1740813 Charles Wang 2024-06-07  226  
+bb11c3a1740813 Charles Wang 2024-06-07  227  	rdesc = kzalloc(rsize, GFP_KERNEL);
+
+Or it could be declared here instead.
+
+	u8 *rdesc __free(kfree) = kzalloc(rsize, GFP_KERNEL);
+
+bb11c3a1740813 Charles Wang 2024-06-07  228  	if (!rdesc)
+bb11c3a1740813 Charles Wang 2024-06-07  229  		return -ENOMEM;
+bb11c3a1740813 Charles Wang 2024-06-07  230  
+bb11c3a1740813 Charles Wang 2024-06-07  231  	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  232  	if (error) {
+bb11c3a1740813 Charles Wang 2024-06-07  233  		dev_err(ts->dev, "failed get report desc, %d", error);
+bb11c3a1740813 Charles Wang 2024-06-07  234  		return error;
+bb11c3a1740813 Charles Wang 2024-06-07  235  	}
+bb11c3a1740813 Charles Wang 2024-06-07  236  
+bb11c3a1740813 Charles Wang 2024-06-07  237  	error = hid_parse_report(hid, rdesc, rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  238  	if (error)
+bb11c3a1740813 Charles Wang 2024-06-07  239  		dev_err(ts->dev, "failed parse report, %d", error);
+bb11c3a1740813 Charles Wang 2024-06-07  240  
+bb11c3a1740813 Charles Wang 2024-06-07  241  	return error;
+bb11c3a1740813 Charles Wang 2024-06-07  242  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
