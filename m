@@ -1,152 +1,283 @@
-Return-Path: <linux-input+bounces-4304-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4305-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94632902A3A
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 22:50:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79B9902B82
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 00:23:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DAAC2822E0
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 20:50:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1088B2169F
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jun 2024 22:23:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558024DA09;
-	Mon, 10 Jun 2024 20:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEDD4745F4;
+	Mon, 10 Jun 2024 22:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CT0d8IAG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqMTlGmL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD80D17545
-	for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 20:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2474E18E2A
+	for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 22:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718052651; cv=none; b=rXcdy0Jr0SB0/FJpQwN1m2AqyASG2p22DOKbSbLh2bnLIy9vn2oK5k9nELGD/UPNeWxdKxTHyAMIYJR9gXYppEkDzshIVS7Y8qgx3myFNTbAG/ZFDSpKSVthBRGLi6cTharkWYO2fqPPXXMC883qskFcqg4Sn0MuwJmqKDFL97E=
+	t=1718058201; cv=none; b=fpXacH2PW3OXcWZy0SQYnd9IM6H2wHmx5HnDidW8NSnfysTI6vfVau7OvKXCsc2j2VjYdag6nGfHxa9kOz8iEkIBKhejVV8cHHXwKtIwJo8s1PCqol3bz/1LAoAefpbvlimpJZpY9yGNTILIWr2TaqB/xUTOFYtgJMB+SHFBXnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718052651; c=relaxed/simple;
-	bh=E/a42XWSrOneZ6DLYzwc0Uxt7YbBDjH8f4MJTZBG4Vo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=JdoxFH+xNv3zi/VLgWNZ8hpVZ3oQNujPGkmk8QDVhFHj0J2HyWJGavWVyEKRrcyTdD7VoD7CCwxmlHryNffDyHiwjZW5N+oMP/qJi/Vqkf0QC9nBVM26LqM2CA9eqM151LUbRjEuVqbW5vjLLcHA/XnQLh7lpel4EgLGXU4pRTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CT0d8IAG; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-df771b45e13so4970567276.2
-        for <linux-input@vger.kernel.org>; Mon, 10 Jun 2024 13:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718052649; x=1718657449; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E/a42XWSrOneZ6DLYzwc0Uxt7YbBDjH8f4MJTZBG4Vo=;
-        b=CT0d8IAG9B1l4L7/dWCeN0kKZRbfnxGV8Ngru0RGjvOBpG9KaLjsMd7p5ywoChVkEk
-         sbPz8HbrMvhlqShAQeOMQ6NDBojm94gDuAbGHzlo+Aj3xuVjs7Bruten6fKl2AqbB7cm
-         /V32dSMWvuSPZl28TVEKPc1Rme3LrNy9Qhb+/9Qj2BeLcHBg4vfFPeuqXIa1B6KqJ+15
-         /U1tOX0ulDLkw/oggikGzYjYrdMLn5fx6ypQ2uxfI+K3teR9XoMpPLXUAGjqts3Q91UX
-         QI3KK3pri059tcbWnWztT6fgWqcZXS4FQigviU1M3PDnGTMUs7N6SAqVj2wP7OPSdbzR
-         O2rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718052649; x=1718657449;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E/a42XWSrOneZ6DLYzwc0Uxt7YbBDjH8f4MJTZBG4Vo=;
-        b=VRc3IIs9XWP/DBFBlQJivZRYYNlOxsOokfr5sZvJGStGiLS6XOev8D9Muii3wrMB75
-         4I7dGjvOlC4f5TxboYaQheHnhST2G4VIlYr7oy+aMCc3sxq1f0c3/lhjA6sSQMoYpcN3
-         HaqJjKHEF0ZQkwa+YNSxxSCGuuiSsFzXIyDB1xdmEXN5vV8GoL5fYfAZLbZbtsIueaaC
-         AJpa5MnHkQBT9IlQRCgzREzg7FwUaWsKJCwmi3DmVfL+zgN5bZbXpcR+zF9/iPXnVuOw
-         cFTMiCgrBVNu56B6AIWC72q2/ycLpOGiCc7WeXRSNsCsXA3Wrz4A+iVx28Yh2l/6mUGB
-         4zrA==
-X-Gm-Message-State: AOJu0YyUD0c4JfvaFNgrNfnBpzWP5AJkkG0HXdwyoqp/EVHOXa7MX+mp
-	zIhYwBDjr6AoV9/Jg1eheHZDSp1OiweCr97McXM97P3EJ1zF0IpKAsEvQWlPzabABSg9FFh9rHt
-	X/KeSb9dyrHojsLEasTEbg5dZGAw1FVLT
-X-Google-Smtp-Source: AGHT+IEkqoogwGxjsaOFpJnVFxPK3yWBZijLNkSQXHeDiU8DYdXsKExNluCFnOw013d1W0u3ESZEvqNspmNSgseDi7E=
-X-Received: by 2002:a25:c7d2:0:b0:dee:7fc3:ad6a with SMTP id
- 3f1490d57ef6-dfaf670aa2cmr9081321276.56.1718052648545; Mon, 10 Jun 2024
- 13:50:48 -0700 (PDT)
+	s=arc-20240116; t=1718058201; c=relaxed/simple;
+	bh=WpRdJ/d9GSdlodnFeW+F4BFxd6uhIB576d7wqwi4Z0k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XftdwYqRD0h+SgH1HEYq3Qnq1KbKglqtMOc2+otTe2F3O8NxvMqrPOGohA4G7jiyx77mxVIlXXGLhMYQmwUFbsUx6+zBiknXNwDFEeZ5U4T7PMIGmBCVcA+oY1Y4dFI1rfjZM1/Nd1NLYgP5BVVL1VGkBFCNYNfXDdP5WhND4VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqMTlGmL; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718058199; x=1749594199;
+  h=date:from:to:cc:subject:message-id;
+  bh=WpRdJ/d9GSdlodnFeW+F4BFxd6uhIB576d7wqwi4Z0k=;
+  b=CqMTlGmLaqpeewYKQyJiyUgyWvKW1B4zb+2ETAUBjwc25NaPeqXb9tep
+   +/ze0+hR5bqMyRQKug8GmOjwQaPw6uvA0xtxgT9hd4YDBGCOnQEzDvV1z
+   M8LRPBt6KyhqErY5IJLA8NbcgQDoM102JOAyuLnF1wgvatYH1xvWyL09M
+   fsbeiS1Jfs6qpsbP1txFUjpl1uz9xrRHahQEDZmku/frGZnDwf+/80Onh
+   zTwrMs2lZj3SfhOf9RoNRzW7hhM+sMnBSwrl8WN8urFPB2DZsbvTcgRMC
+   E+0ETmRj25gz/yWNxW5J0zsHIMfJkIY+MyfqWBEf3Yp8/TY9kHZLfkHXY
+   g==;
+X-CSE-ConnectionGUID: O5+QuakSTLW2Egvw4FprcA==
+X-CSE-MsgGUID: ZwA9gwnASX2V62B3gVe/Ow==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14867970"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="14867970"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 15:23:19 -0700
+X-CSE-ConnectionGUID: nbh6MJshRoWaGZtLvbtHLw==
+X-CSE-MsgGUID: nMV6u5MjSN+VRXNJq48SRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="44342652"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Jun 2024 15:23:18 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGnQ3-0002XN-0f;
+	Mon, 10 Jun 2024 22:23:15 +0000
+Date: Tue, 11 Jun 2024 06:22:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ e17fb91cd4cde13001dc75ad99a378ab28dd44df
+Message-ID: <202406110646.vnj2Z1ZZ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Markus Rathgeb <maggu2810@gmail.com>
-Date: Mon, 10 Jun 2024 22:50:37 +0200
-Message-ID: <CAOcK=CMO2YKouZkDz=9oCfEjeYp-uB51trovG3Wru7J++eT31A@mail.gmail.com>
-Subject: reporting: psmouse.synaptics_intertouch=1 for "PNP: DLL060d PNP0f13"
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-my kernel log tells me I could try to set psmouse.synaptics_intertouch
-to 1 and report it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: e17fb91cd4cde13001dc75ad99a378ab28dd44df  Input: add missing MODULE_DESCRIPTION() macros
 
-kernel: psmouse serio1: synaptics: Your touchpad (PNP: DLL060d
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi
-are not used, you might want to try setting
-psmouse.synaptics_intertouch to 1 and report this to
-linux-input@vger.kernel.org.
+elapsed time: 1449m
 
-As i2c-hid and hid-rmi modules are not used I added
-"psmouse.synaptics_intertouch=1" to the kernel command line and reboot
-the system.
+configs tested: 190
+configs skipped: 3
 
-After that the message does not appear anymore.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-AFAIK my touchpad works before and after that change without any
-problems. At least I did not realize any.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240610   gcc  
+arc                   randconfig-002-20240610   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                                 defconfig   clang
+arm                            hisi_defconfig   gcc  
+arm                          ixp4xx_defconfig   gcc  
+arm                        keystone_defconfig   gcc  
+arm                          moxart_defconfig   gcc  
+arm                        mvebu_v5_defconfig   gcc  
+arm                          pxa168_defconfig   clang
+arm                   randconfig-001-20240610   gcc  
+arm                   randconfig-002-20240610   gcc  
+arm                   randconfig-003-20240610   clang
+arm                   randconfig-004-20240610   gcc  
+arm                           sama5_defconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240610   gcc  
+arm64                 randconfig-002-20240610   gcc  
+arm64                 randconfig-003-20240610   gcc  
+arm64                 randconfig-004-20240610   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240610   gcc  
+csky                  randconfig-002-20240610   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240610   clang
+hexagon               randconfig-002-20240610   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240610   clang
+i386         buildonly-randconfig-002-20240610   gcc  
+i386         buildonly-randconfig-003-20240610   gcc  
+i386         buildonly-randconfig-004-20240610   clang
+i386         buildonly-randconfig-005-20240610   gcc  
+i386         buildonly-randconfig-006-20240610   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240610   gcc  
+i386                  randconfig-002-20240610   gcc  
+i386                  randconfig-003-20240610   gcc  
+i386                  randconfig-004-20240610   gcc  
+i386                  randconfig-005-20240610   clang
+i386                  randconfig-006-20240610   gcc  
+i386                  randconfig-011-20240610   clang
+i386                  randconfig-012-20240610   clang
+i386                  randconfig-013-20240610   clang
+i386                  randconfig-014-20240610   clang
+i386                  randconfig-015-20240610   clang
+i386                  randconfig-016-20240610   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240610   gcc  
+loongarch             randconfig-002-20240610   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+mips                            gpr_defconfig   clang
+mips                      pic32mzda_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240610   gcc  
+nios2                 randconfig-002-20240610   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240610   gcc  
+parisc                randconfig-002-20240610   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                       ebony_defconfig   clang
+powerpc                     ep8248e_defconfig   gcc  
+powerpc                     kilauea_defconfig   clang
+powerpc                    klondike_defconfig   gcc  
+powerpc                     ksi8560_defconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   clang
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc                  mpc866_ads_defconfig   clang
+powerpc               randconfig-001-20240610   clang
+powerpc               randconfig-002-20240610   clang
+powerpc               randconfig-003-20240610   clang
+powerpc                     redwood_defconfig   clang
+powerpc                      walnut_defconfig   gcc  
+powerpc64             randconfig-001-20240610   clang
+powerpc64             randconfig-002-20240610   clang
+powerpc64             randconfig-003-20240610   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240610   gcc  
+riscv                 randconfig-002-20240610   gcc  
+s390                             alldefconfig   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240610   gcc  
+s390                  randconfig-002-20240610   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         apsh4a3a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          landisk_defconfig   gcc  
+sh                    randconfig-001-20240610   gcc  
+sh                    randconfig-002-20240610   gcc  
+sh                           se7619_defconfig   gcc  
+sh                           se7750_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                   sh7724_generic_defconfig   gcc  
+sh                        sh7763rdp_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240610   gcc  
+sparc64               randconfig-002-20240610   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240610   gcc  
+um                    randconfig-002-20240610   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240610   gcc  
+x86_64       buildonly-randconfig-002-20240610   clang
+x86_64       buildonly-randconfig-003-20240610   gcc  
+x86_64       buildonly-randconfig-004-20240610   gcc  
+x86_64       buildonly-randconfig-005-20240610   gcc  
+x86_64       buildonly-randconfig-006-20240610   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240610   gcc  
+x86_64                randconfig-002-20240610   gcc  
+x86_64                randconfig-003-20240610   clang
+x86_64                randconfig-004-20240610   gcc  
+x86_64                randconfig-005-20240610   gcc  
+x86_64                randconfig-006-20240610   clang
+x86_64                randconfig-011-20240610   clang
+x86_64                randconfig-012-20240610   gcc  
+x86_64                randconfig-013-20240610   gcc  
+x86_64                randconfig-014-20240610   gcc  
+x86_64                randconfig-015-20240610   clang
+x86_64                randconfig-016-20240610   clang
+x86_64                randconfig-071-20240610   gcc  
+x86_64                randconfig-072-20240610   clang
+x86_64                randconfig-073-20240610   clang
+x86_64                randconfig-074-20240610   gcc  
+x86_64                randconfig-075-20240610   clang
+x86_64                randconfig-076-20240610   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                          iss_defconfig   gcc  
+xtensa                randconfig-001-20240610   gcc  
+xtensa                randconfig-002-20240610   gcc  
 
-Without enabling intertouch the kernel message looks like:
-
-May 01 18:44:01 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried max coordinates: x [..5660], y [..4646]
-May 01 18:44:01 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried min coordinates: x [1386..], y [1252..]
-May 01 18:44:01 m3800.localdomain kernel: psmouse serio1: synaptics:
-Your touchpad (PNP: DLL060d PNP0f13) says it can support a different
-bus. If i2c-hid and hid-rmi are not used, you might want to try
-setting psmouse.synaptics_intertouch to 1 and report this to
-linux-input@vger.kernel.org.
-May 01 18:44:01 m3800.localdomain kernel: psmouse serio1: synaptics:
-Touchpad model: 1, fw: 8.1, id: 0x1e2b1, caps:
-0xd00123/0x840300/0x126800/0x0, board id: 2733, fw id: 1515627
-
-and another one
-
-May 18 21:27:26 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried max coordinates: x [..5660], y [..4646]
-May 18 21:27:26 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried min coordinates: x [1386..], y [1252..]
-May 18 21:27:26 m3800.localdomain kernel: psmouse serio1: synaptics:
-Your touchpad (PNP: DLL060d PNP0f13) says it can support a different
-bus. If i2c-hid and hid-rmi are not used, you might want to try
-setting psmouse.synaptics_intertouch to 1 and report this to
-linux-input@vger.kernel.org.
-May 18 21:27:26 m3800.localdomain kernel: psmouse serio1: synaptics:
-Touchpad model: 1, fw: 8.1, id: 0x1e2b1, caps:
-0xd00123/0x840300/0x126800/0x0, board id: 2733, fw id: 1515627
-
-After adding the kernel parameter it looks like
-
-Jun 10 22:18:57 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried max coordinates: x [..5660], y [..4646]
-Jun 10 22:18:57 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried min coordinates: x [1386..], y [1252..]
-Jun 10 22:18:57 m3800.localdomain kernel: psmouse serio1: synaptics:
-Trying to set up SMBus access
-Jun 10 22:18:57 m3800.localdomain kernel: psmouse serio1: synaptics:
-SMbus companion is not ready yet
-Jun 10 22:18:57 m3800.localdomain kernel: psmouse serio1: synaptics:
-Touchpad model: 1, fw: 8.1, id: 0x1e2b1, caps:
-0xd00123/0x840300/0x126800/0x0, board id: 2733, fw id: 1515627
-Jun 10 22:19:03 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried max coordinates: x [..5660], y [..4646]
-Jun 10 22:19:03 m3800.localdomain kernel: psmouse serio1: synaptics:
-queried min coordinates: x [1386..], y [1252..]
-Jun 10 22:19:03 m3800.localdomain kernel: psmouse serio1: synaptics:
-Trying to set up SMBus access
-
-So, the SMBus part is new.
-
-Hopefully the report is helpful for you.
-
-Best regards,
-Markus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
