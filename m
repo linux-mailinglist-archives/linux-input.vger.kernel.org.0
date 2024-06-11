@@ -1,147 +1,174 @@
-Return-Path: <linux-input+bounces-4310-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4311-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBD8904207
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 18:58:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4D290433A
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 20:11:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A47E128DDAA
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 16:58:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0CD41C2243E
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 18:11:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABA75674A;
-	Tue, 11 Jun 2024 16:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4038971B30;
+	Tue, 11 Jun 2024 18:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="brD3ms6z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfbDL/sC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B7654F8C;
-	Tue, 11 Jun 2024 16:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04356F301;
+	Tue, 11 Jun 2024 18:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718125042; cv=none; b=ZlvJJKdpti2kh7TGw30MwyYA7w93bSAaR3eCufIXfSzWEapsxQdeUDQhLyjgOr/2gL9juX+5KQpj8YaaMeUP4c8DNzz2RARcRHereBqpZTs7QrW+3sDH+WvElBer7HfIL/NUkitz5N33OU5PkFrwIseMOkbf4R4VTFTNXPcBKo0=
+	t=1718129466; cv=none; b=fySkpygTHB90phzCdU/vEOpYje5VUW+P3WWYjRjZjyTq1XBPPYFi+1Wk1HIMtf2FkNVya6ZMmLunJkp2GrtHNEM2x8rU53YgZ9AMNGykprvo+9mVaseTmI/GzwS8HhT+oOn5+Lyqs642ZzLMzMwpqIS06Q7mtHc8q4QL645KzbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718125042; c=relaxed/simple;
-	bh=tHF+I96GJM1DzMeNe73SXmMclgaDAk6heGWpVzWBfTM=;
+	s=arc-20240116; t=1718129466; c=relaxed/simple;
+	bh=/xKGhKlVtckIy/7F23998tEUprsrx5eNTrMKCF2kraE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g5vDwyonZ9qyHwYs3NFVB5tw4FtJivTcZU5lP4mfasMmTX6Shjkt/JGhJiQ5mWZIB83X5TYLhhvSHyucGQCjlJdNRb/gaf1Cay6iwN+E+OGLIJ7Ag7HbDqSiXNv5qdhlxZLnMMMbD4XFvsMYka51FxK8x4kbT8gipq90AR6TqW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=brD3ms6z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5479BC2BD10;
-	Tue, 11 Jun 2024 16:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718125041;
-	bh=tHF+I96GJM1DzMeNe73SXmMclgaDAk6heGWpVzWBfTM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=brD3ms6zQ1YOwd+qZdO7hJFbRuL5RewFTcIduEDgHxJi+AszN70l5plDVBVOOeGYB
-	 bPJTKc39Jll+ArjvI8Bd6q0h5ayJ22AK9QIiGO/AIFj+npQPi6g7aVEwM7wKQ5s8Et
-	 xx3yE1vcjcPCCfOPMkbumaO/uPIEeL3T3mWYPlHYiDzFsnSPaiAHRMEgIMex9w/E/4
-	 GoHGojEfMX65I+E0f+Z59Xn4OJuBuBbET0OjcYAVSR78et+FAnseJOoEXKD/qUi3Dl
-	 s5lf6xNqdFoTjLXV1B3MjBymNHKHvdgQj/X16puDSz9K933USqNV6ts7vW1pL1DJoi
-	 y3ubVi1cI0wvg==
-Date: Tue, 11 Jun 2024 18:57:16 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH HID v3 15/16] HID: bpf: rework
- hid_bpf_ops_btf_struct_access
-Message-ID: <lqyoauxovbelrzbnohxqc7tluibn72vqlps4lz4dxsxmgpyli3@qwzt4etxntyj>
-References: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
- <20240608-hid_bpf_struct_ops-v3-15-6ac6ade58329@kernel.org>
- <CAADnVQLCyEZMyThCH6QNopBbWbNcpR+h2AaLhT0apEO7pOWrRQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=UD8P4WRudq0qg6Ss616OJIapaxG65Q/bieHZIfhFG6VxHjgAJIPLqgUrc/8i7J0l1lT4HxPRqT9wGpB9oBeb8UWBGTlE+bkP2LN0O78OaS9dzix1bvZedgBbO6pTYpMUtmqjf9ldUaVLj44V7K6ymYaHqVrI3ZTonW0BEUpE4hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfbDL/sC; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f480624d0fso11486855ad.1;
+        Tue, 11 Jun 2024 11:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718129464; x=1718734264; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6yx/QSwtRUfzJxtU0mEMF/+Zp84UMg5zsjelSYKknQk=;
+        b=MfbDL/sCQptPLKB1qjR5CHtcba1aJHmifFXazh1NnlqUE502ROiOgqDAvBX/bGV0tX
+         fMV8kSKFWkKa58okiGqz0cljaVVkVCTvtby55vCFK1XpBMzApZFk6AqIvba5eBhfm6RV
+         OmkgyYaRhgLGsIJf14SbUixDexr/wM1DMtnYOriRLJoaF8P7wXwhi/S+utt/UAMzfN/v
+         QYdManooHChT/vDS5EqE6mwI48m+4cG8uRydRLh4ZWAOQ9Ks9ui1qxDUiD2y1qjuSs+4
+         d+dqGMuGn9OBRMsN0J8kbAjW0vjIRonHC2BC3LVL2xfkcsEjg6neS2IYhGR5qpPCXDE6
+         deAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718129464; x=1718734264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yx/QSwtRUfzJxtU0mEMF/+Zp84UMg5zsjelSYKknQk=;
+        b=o7/cHQMt95j58dOWctLOcQ44RFgrcU9tulGOZlTF1QhiOr6ztbDxOqCxy+yF/BQfjF
+         FD9NbS7Y9b+3mO8KttG0W/b/p30uyPuScvTYX1hgzNfu+RdJnbRGGDzzh0nK0SLOrPtv
+         I39zS4ASnX3nayfWfNX0e4NObFDwYzO9wOMUQumDhhEr/99lNUFGXuK2JRvHSuDDoS11
+         YL0vsp6CfDNdOsTm8DnGpCdCl1bONfh+Mg+KnEzvPskNYexReIGOBrafRbOqNDcuKHIc
+         xGoJrcymobHPc7hPH1v5K8AfEljw85bFbEtWYUAh5f9ezSHuik10DKeXpTs3aCD7IHF7
+         UDNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQPZa7WWKVgTI1qPsXRD5f4HhaFiyd9S8XgLWEQIEB8ng+RvUnyzf5+8WueWNUA7+upohtXGppoqmpcW7M6puUBgEIill7E5zCwTY5oFhp5IHc6ushaYcao1/rtnlfSjspXGgUaxQ7nWjX4p1A/rMuRRy4OTJ4RWt8bNgdu+DX4YoAoNOa
+X-Gm-Message-State: AOJu0YwOGbVWkLcSl19DYizL67YuSftXwKZOfkmYYlm7hphIoDSDakdY
+	zmp/Gk1tifYYtzeHfIGuVnnZk1r5XLtO4huQXdv49Q4ZhVcUsTTLwzHllg==
+X-Google-Smtp-Source: AGHT+IGCIHAzQY/mnDlVo5lnk26RTRbDcrjvObXR8MxjwovVfl11tONs9+ylnI51Lr9jyeCjcjK5IQ==
+X-Received: by 2002:a17:902:ea0e:b0:1f7:2dca:ea42 with SMTP id d9443c01a7336-1f72dcaf4acmr29493525ad.60.1718129463715;
+        Tue, 11 Jun 2024 11:11:03 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:d73f:b49c:626c:fac7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ed8ee0f1sm71482315ad.124.2024.06.11.11.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 11:11:03 -0700 (PDT)
+Date: Tue, 11 Jun 2024 11:11:00 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Daisuke Nojiri <dnojiri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Reka Norman <rekanorman@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Pavan Holla <pholla@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] platform/chrome: Add struct
+ ec_response_get_next_event_v3
+Message-ID: <ZmiTNEjxE-ZCotNu@google.com>
+References: <cover.1717779167.git.dnojiri@chromium.org>
+ <979b1fdaa5b3d3165e53f5429470c42581394d14.1717779167.git.dnojiri@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAADnVQLCyEZMyThCH6QNopBbWbNcpR+h2AaLhT0apEO7pOWrRQ@mail.gmail.com>
+In-Reply-To: <979b1fdaa5b3d3165e53f5429470c42581394d14.1717779167.git.dnojiri@chromium.org>
 
-On Jun 10 2024, Alexei Starovoitov wrote:
-> On Sat, Jun 8, 2024 at 2:01 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
-> >
-> > The idea is to provide a list of stucts and their editable fields.
-> >
-> > Currently no functional changes are introduced here, we will add some
-> > more writeable fields in the next patch.
-> >
-> > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> >
-> > ---
-> >
-> > changes in v3:
-> > - rewrote WRITE_RANGE macro to not deal with offset from the caller side
-> >
-> > new in v2
-> > ---
-> >  drivers/hid/bpf/hid_bpf_struct_ops.c | 91 +++++++++++++++++++++++++++---------
-> >  1 file changed, 69 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > index 056d05d96962..b14eccb121e0 100644
-> > --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > @@ -16,6 +16,7 @@
-> >  #include <linux/hid_bpf.h>
-> >  #include <linux/init.h>
-> >  #include <linux/module.h>
-> > +#include <linux/stddef.h>
-> >  #include <linux/workqueue.h>
-> >  #include "hid_bpf_dispatch.h"
-> >
-> > @@ -52,40 +53,86 @@ static int hid_bpf_ops_check_member(const struct btf_type *t,
-> >         return 0;
-> >  }
-> >
-> > +struct hid_bpf_offset_write_range {
-> > +       const char *struct_name;
-> > +       u32 struct_length;
-> > +       u32 start;
-> > +       u32 end;
-> > +};
-> > +
-> >  static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
-> >                                            const struct bpf_reg_state *reg,
-> >                                            int off, int size)
-> >  {
-> > -       const struct btf_type *state;
-> > -       const struct btf_type *t;
-> > -       s32 type_id;
-> > +#define WRITE_RANGE(_name, _field, _is_string)                                 \
-> > +       {                                                                       \
-> > +               .struct_name = #_name,                                          \
-> > +               .struct_length = sizeof(struct _name),                          \
-> > +               .start = offsetof(struct _name, _field),                        \
-> > +               .end = offsetofend(struct _name, _field) - !!(_is_string),
+Hi Daisuke,
+
+On Fri, Jun 07, 2024 at 10:02:56AM -0700, Daisuke Nojiri wrote:
+> Add struct ec_response_get_next_event_v3 to upgrade
+> EC_CMD_GET_NEXT_EVENT to version 3.
 > 
-> so it works because char name[128]; had last byte as zero
-> before prog writes into it (in addition to potentially having
-> earlier 0 bytes), so the string is guaranteed
-> to be null-terminated regardless of what prog writes into it.
-> Right?
-
-Yeah, struct hid_device is created through hid_allocate_device(), which
-does a kzalloc. Then all operations are supposedly safe in the current
-transport layers, so the last byte should always be \0.
-
+> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
+> ---
+>  .../linux/platform_data/cros_ec_commands.h    | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 > 
-> Overall:
-> Acked-by: Alexei Starovoitov <ast@kernel.org>
+> diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+> index 070e49c5381e..fff191a8d413 100644
+> --- a/include/linux/platform_data/cros_ec_commands.h
+> +++ b/include/linux/platform_data/cros_ec_commands.h
+> @@ -3527,6 +3527,34 @@ union __ec_align_offset1 ec_response_get_next_data_v1 {
+>  };
+>  BUILD_ASSERT(sizeof(union ec_response_get_next_data_v1) == 16);
+>  
+> +union __ec_align_offset1 ec_response_get_next_data_v3 {
+> +	uint8_t key_matrix[18];
+> +
+> +	/* Unaligned */
+> +	uint32_t host_event;
+> +	uint64_t host_event64;
+> +
+> +	struct __ec_todo_unpacked {
+> +		/* For aligning the fifo_info */
+> +		uint8_t reserved[3];
+> +		struct ec_response_motion_sense_fifo_info info;
+> +	} sensor_fifo;
+> +
+> +	uint32_t buttons;
+> +
+> +	uint32_t switches;
+> +
+> +	uint32_t fp_events;
+> +
+> +	uint32_t sysrq;
+> +
+> +	/* CEC events from enum mkbp_cec_event */
+> +	uint32_t cec_events;
+> +
+> +	uint8_t cec_message[16];
+> +};
+> +BUILD_ASSERT(sizeof(union ec_response_get_next_data_v3) == 18);
+> +
+>  struct ec_response_get_next_event {
+>  	uint8_t event_type;
+>  	/* Followed by event data if any */
+> @@ -3539,6 +3567,12 @@ struct ec_response_get_next_event_v1 {
+>  	union ec_response_get_next_data_v1 data;
+>  } __ec_align1;
+>  
+> +struct ec_response_get_next_event_v3 {
+> +	uint8_t event_type;
+> +	/* Followed by event data if any */
+> +	union ec_response_get_next_data_v3 data;
+> +} __ec_align1;
+> +
 
-Thanks a lot.
+It is not really obvious that ec_response_get_next_event and
+ec_response_get_next_event_v3 are layout compatible. I would simply
+extend the union and add key_matrix_v3 field instead of defining
+a brand new union.
 
-I might send a v4 or not depending if I get other reviews, but I'll make
-sure to take your nitpick in 3/16 into account (cast kdata/udate in the
-beginning of the function to make the lines shorter and less verbose).
+And I would drop ec_response_get_next_event_v1 and added missing fields
+to the original union as well...
 
-Cheers,
-Benjamin
+Thanks.
+
+-- 
+Dmitry
 
