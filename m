@@ -1,76 +1,76 @@
-Return-Path: <linux-input+bounces-4318-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4319-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4884904AE9
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 07:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C23904AFF
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 07:42:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A0D41F22A0C
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 05:31:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E0601F23465
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 05:42:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3E12E417;
-	Wed, 12 Jun 2024 05:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C4CE36124;
+	Wed, 12 Jun 2024 05:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l3fyLFvd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQ6Nx+Vh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3746E22092;
-	Wed, 12 Jun 2024 05:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2395422092;
+	Wed, 12 Jun 2024 05:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718170307; cv=none; b=WPBl5PRWDWdt30bpeNsfj5hyAw6/CAQAjOELBja6sMXzGDHijl/gR0AXO8WvFLIH4y9qbGrKnCOh7+7Tp+aveWwm3gJZb8heZ2+xz7zQACIRHlIt6ZHV+BMAod6DjFQc9RTENtfsWTga0+mMwsK6Ur+YpRU/TR/zCbf8DvHLRTo=
+	t=1718170957; cv=none; b=F3Vzvf6YZDGNRi07vO2tBneXFeEoDTvutuMpX+bWv09lVXT4NKmtKKJG5HM8ALl4ALiC6YcVyqUzQlhpKCBpwzvsDYPO2kR4MJvDt7t9RlFfxWTTJ92q6pSaamBF3HqylpGmRKNPe8IqSbd7ZHbD9yA7U5cSZBzQL8WHgH0dXLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718170307; c=relaxed/simple;
-	bh=tpXpYk02XunfGAs+UGnMoSZ1SSbgmpeXpxB1InHLaOs=;
+	s=arc-20240116; t=1718170957; c=relaxed/simple;
+	bh=3eTHdH1CLexChiBsmBR7oeS5IoJk5ge3XGY2CXt1GOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i2twsNCuuz1FOvbv8ZplRWpgLDXH8imonDuYVJBKwjPbHyGuehvZLsjcjuoYol/GG4AiEBAK6BnzPweAt0J1LzyIAXbMteRxIWZ6Ci+TlYSK96zNQfiMAtQN9DPHIDlf6AOxo2+EgqCZtXPck0RKLh+q18UHsjvNRmpX3EFv/zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l3fyLFvd; arc=none smtp.client-ip=209.85.215.175
+	 Content-Disposition; b=mmbuxqgwJSkxvtJkCDCF8SWFu7PtDamledybd5R5m/ScYxG+pQBIPzAOXQnqgTXrzHa3lO86u3OtAEnpkubXn1TwUL56UoXIHK+KIWgpryJ1uq76ddw5iz10nHexj0a1rGBazfhtrLNIBcQFLlr8VaZjhcM46MbdL0+NJZNki8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQ6Nx+Vh; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-681ad26f4a5so1214131a12.2;
-        Tue, 11 Jun 2024 22:31:45 -0700 (PDT)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-6818e31e5baso5309755a12.1;
+        Tue, 11 Jun 2024 22:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718170305; x=1718775105; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718170955; x=1718775755; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q8O4evamKXuWqTPGHIl46sPGNgVHjOBdlOE3EoJxFkw=;
-        b=l3fyLFvdMQL+DEEXgAekN8KGpKg958QeDWBs7JUuJJKZ+Or4Sukr9BquwcaNj7psPB
-         4eIwzf4XTqAVI2Y8eaK2zWJF+o8JXcJDtHUcnb3KvZutT++NfnsKkCzZ9ZZ4TAQsRXTw
-         deEpTpWx6OS595LJgtxWM2i2SXDSwkmYT+Wgnt+gXoGYABlWawhLLhxAcO8zJZlvPz/T
-         yZmAKDNzyqP0ZxHz544ipxdg5bmU6gWodHiqHOfwofGnXciaiMageyLKe4igysgP3dzU
-         MxCH33ncD1O1MY+F+IWBd5L03JTouRn6ahSE81x730A1EQ4goR9775UflxJHHn40fm14
-         k/KQ==
+        bh=zOLVUBLo6Bm7rFnndVTWve69iEQA2tjI5eQ9qpYaawU=;
+        b=lQ6Nx+VhuThrnG3SuMytHqlg0/nzPJUarU+jxdSX5Uz5BcU+OLa6V8zNu2z2kGX6Le
+         fBuZVM4nekBW21K57B2ZInTMAhyCTobmOg/4A65YP7rZz/4apbkwjeZPGKNit34Vqc/Y
+         vB6edSQCGte1GoPKSBfG08p11aUxJ80kSNGn3gPEFUfwB7sPZ9a2Ho8C7MSJMwAgeBAh
+         MxInrcGcAfr8MEMh1Ff5AhyvSbZN/7JAMaPct5R2lwfTa6Lga6hsIHG621dKoN9azNS8
+         1W1MLxyvCpgikg8ttUzTGPflW13kWqVc59+WocPQiCaO+IJnHzG+9F3CoKwrfgYNFHbs
+         U7Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718170305; x=1718775105;
+        d=1e100.net; s=20230601; t=1718170955; x=1718775755;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q8O4evamKXuWqTPGHIl46sPGNgVHjOBdlOE3EoJxFkw=;
-        b=StLxRuiPczDBsk5eCLy/gH6NI55jcP1NsvF9jvkbH8sioRZ5S4AQNR2Xzf0XIpBfsj
-         pPd5jzOBOF9V0/OCQejuDStAQltQCt+zv/Oeu9CTrh/HukWjDCuYgAC34W8KOGIuzyn2
-         R2bX4f+zCl2F/JB7jnbVQ8cLdNdSF/JnXWJnhkhgmsoZU17jYeKeZMFOBSmFT9n0/fVi
-         ICb/G2T7x9dfQpc3DM/0nJjy5VGiTvP8nVz1ts156eq6cZ1OEGLZANbMuyZRyz0TnAJS
-         EAK/StOni0dj0wp4PUWv6DEz7E4b1y1WNQxrJZWdWlhhhsmkkvbuTKM0C39eLH6zBpK0
-         3FVw==
-X-Gm-Message-State: AOJu0YxATGwyb7RtJxQZRrfMbzsNkD/ih+2IjEYU8WZwlAp8t/GmHBjt
-	NlePSZ8q8hTWcbACHriDAU3YrZx3CSk15axOcd/XiCXMwFlI76elDlVyug==
-X-Google-Smtp-Source: AGHT+IEPfzLFXMsfONTi2WiTACZo/K5z/KK+5Q1dCTxygk62WcXlzjPYv74Cp7+7k/vZ36JbOUoitQ==
-X-Received: by 2002:a05:6a20:841d:b0:1b8:b517:9bf9 with SMTP id adf61e73a8af0-1b8b5179cecmr615437637.25.1718170304923;
-        Tue, 11 Jun 2024 22:31:44 -0700 (PDT)
+        bh=zOLVUBLo6Bm7rFnndVTWve69iEQA2tjI5eQ9qpYaawU=;
+        b=aKpVnOmUZjZ8SC7msuNyKbDgLRoqwko97+WECyvCemYQsH09SYpT7fPLNCKmYuEMuR
+         AIXgtkiLyo90W56t6WEIziVpEoQMFGZd+KkqE6wXzodcn/HyRNYQTM5AnQbT0zzwnpx/
+         k9B020txeryLN2/Vyr5MbGkOoc6zPSKIKQU1KNPTgR/NBWj/WLbU/EBk31lTrB8EKAl9
+         LN6lrjw6z48m+3Itfq8cJ/X3ZT0EFAjva0RlSNPpUmayWY8PNohBj1K2QAxlZTyeTyod
+         taT19pVyMOVBQudL5D3yB5JGCbyvW8zvzePvDaYOo+ZzvBrqbJizjgT9dovWij+15ee6
+         cc1w==
+X-Forwarded-Encrypted: i=1; AJvYcCV15wbxhOqdLm7A2BSu/RjlNAJr2CYUHHORgUVskscSgh1v8DmnIGaqSS3bdE7x2ZkQViuR+Gre/btvVn+h8rZx/zyc+VMEpTS2y2/T
+X-Gm-Message-State: AOJu0YxiuKF0eqhQR6N2ow/qw6ZlOps9JCiRSq8hFF1p7vqtMNkMcwbZ
+	p2mXnrvSD5kLR9u0vA5TfxWV1pOduSjaH7QbaY36zbG00cF2AbWu
+X-Google-Smtp-Source: AGHT+IFF108IBExi8ESRPaaskRirkTJnMv0sYa2Lt7pbAmuJH3hOvGjfRpVCXAISZ+1gMdz159mabw==
+X-Received: by 2002:a05:6a20:748e:b0:1b8:622a:cf8f with SMTP id adf61e73a8af0-1b8a9c7d554mr1147172637.57.1718170955232;
+        Tue, 11 Jun 2024 22:42:35 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:3077:52c7:3e56:8d61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4a75defafsm679440a91.7.2024.06.11.22.31.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f71b9dec2bsm42794015ad.186.2024.06.11.22.42.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 22:31:44 -0700 (PDT)
-Date: Tue, 11 Jun 2024 22:31:42 -0700
+        Tue, 11 Jun 2024 22:42:34 -0700 (PDT)
+Date: Tue, 11 Jun 2024 22:42:32 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: linux-input@vger.kernel.org, Jason Gerecke <jason.gerecke@wacom.com>
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: wacom_w8001 - use "guard" notation when acquiring
- mutex
-Message-ID: <Zmkyvkr9AFyywy1V@google.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: goodix_berlin - use __free() cleanup in SPI transport
+Message-ID: <Zmk1SGwVt3rIbbMU@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,59 +80,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Switch the driver to use guard notation when acquiring mutex to
-have it released automatically.
+Switch the driver to use __free(kfree) cleanup facility instead of
+freeing memory by hand.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/wacom_w8001.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ drivers/input/touchscreen/goodix_berlin_spi.c | 24 ++++++++++---------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/input/touchscreen/wacom_w8001.c b/drivers/input/touchscreen/wacom_w8001.c
-index c8abb9557ee8..ed2ca8a689d5 100644
---- a/drivers/input/touchscreen/wacom_w8001.c
-+++ b/drivers/input/touchscreen/wacom_w8001.c
-@@ -380,30 +380,28 @@ static int w8001_open(struct input_dev *dev)
- 	struct w8001 *w8001 = input_get_drvdata(dev);
- 	int err;
+diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
+index fe57390975ee..a2d80e84391b 100644
+--- a/drivers/input/touchscreen/goodix_berlin_spi.c
++++ b/drivers/input/touchscreen/goodix_berlin_spi.c
+@@ -36,13 +36,14 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
+ 	struct spi_transfer xfers;
+ 	struct spi_message spi_msg;
+ 	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
+-	u8 *buf;
+ 	int error;
  
--	err = mutex_lock_interruptible(&w8001->mutex);
--	if (err)
--		return err;
-+	scoped_guard(mutex_intr, &w8001->mutex) {
-+		if (w8001->open_count == 0) {
-+			err = w8001_command(w8001, W8001_CMD_START, false);
-+			if (err)
-+				return err;
-+		}
+ 	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
+ 		return -EINVAL;
  
--	if (w8001->open_count++ == 0) {
--		err = w8001_command(w8001, W8001_CMD_START, false);
--		if (err)
--			w8001->open_count--;
-+		w8001->open_count++;
-+		return 0;
- 	}
+-	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
++	u8 *buf __free(kfree) =
++		kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size,
++			GFP_KERNEL);
+ 	if (!buf)
+ 		return -ENOMEM;
  
--	mutex_unlock(&w8001->mutex);
--	return err;
-+	return -EINTR;
+@@ -62,12 +63,12 @@ static int goodix_berlin_spi_read(void *context, const void *reg_buf,
+ 	spi_message_add_tail(&xfers, &spi_msg);
+ 
+ 	error = spi_sync(spi, &spi_msg);
+-	if (error < 0)
++	if (error < 0) {
+ 		dev_err(&spi->dev, "spi transfer error, %d", error);
+-	else
+-		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
++		return error;
++	}
+ 
+-	kfree(buf);
++	memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
+ 	return error;
  }
  
- static void w8001_close(struct input_dev *dev)
- {
- 	struct w8001 *w8001 = input_get_drvdata(dev);
+@@ -79,10 +80,10 @@ static int goodix_berlin_spi_write(void *context, const void *data,
+ 	struct spi_transfer xfers;
+ 	struct spi_message spi_msg;
+ 	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
+-	u8 *buf;
+ 	int error;
  
--	mutex_lock(&w8001->mutex);
-+	guard(mutex)(&w8001->mutex);
+-	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
++	u8 *buf __free(kfree) =
++		kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
+ 	if (!buf)
+ 		return -ENOMEM;
  
- 	if (--w8001->open_count == 0)
- 		w8001_command(w8001, W8001_CMD_STOP, false);
--
--	mutex_unlock(&w8001->mutex);
+@@ -100,11 +101,12 @@ static int goodix_berlin_spi_write(void *context, const void *data,
+ 	spi_message_add_tail(&xfers, &spi_msg);
+ 
+ 	error = spi_sync(spi, &spi_msg);
+-	if (error < 0)
++	if (error < 0) {
+ 		dev_err(&spi->dev, "spi transfer error, %d", error);
++		return error;
++	}
+ 
+-	kfree(buf);
+-	return error;
++	return 0;
  }
  
- static int w8001_detect(struct w8001 *w8001)
+ static const struct regmap_config goodix_berlin_spi_regmap_conf = {
 -- 
 2.45.2.505.gda0bf45e8d-goog
 
