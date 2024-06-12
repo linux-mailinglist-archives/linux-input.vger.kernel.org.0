@@ -1,111 +1,79 @@
-Return-Path: <linux-input+bounces-4312-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4313-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C520990433D
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 20:12:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA915904973
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 05:21:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44408B25702
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jun 2024 18:12:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D9472860BB
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jun 2024 03:21:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A466A5BAF0;
-	Tue, 11 Jun 2024 18:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8402214AB4;
+	Wed, 12 Jun 2024 03:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2qfA+12"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="OQ7cf4T+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBA3482D7;
-	Tue, 11 Jun 2024 18:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA67257D
+	for <linux-input@vger.kernel.org>; Wed, 12 Jun 2024 03:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.77.79.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718129518; cv=none; b=Q1L5pf/LUBqnQwRBFv22RCreFF3ikFf/svBrG4sbezeqV2zQYDX9+Z2jtlIKACWZAtOF9yzY9eecbNZfhNbhYBWD5hxl/aNHRMNgtSt8iMgjbwHQ9q1vHPtVrZ7uktWRY0hQ1TZNfDl/lrFNRofu7pps21lH5arYz5yYaqitIzE=
+	t=1718162473; cv=none; b=u+536NAHH7a0zJ07/cu+M2iMsG/WLTtEotYqqEmTVVl+qk4wLoECjnVZqhNu8HKYa4wd5rV6YFXrlBZ6LqH96T5Isp5a6TJYbsicE1dlq7WzQs3zkli+DrGGnA5EHFhA6UnhY412jnHyx5emC14BwP1m1czjm5Ybj0mYDyYJP7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718129518; c=relaxed/simple;
-	bh=Wg3BSKO9ze3H/vJA4+FngTXyThJMVk6fPylh5P0KmEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NPAZNLWwGa88tesfdOZmlobS0fh48t0JoIQrpThN3hqv6GEGMZTFouQ8jSf0GeKlDFGGc7YkCCM5A+F+fhNFDzbpPRmw/DYiRIw+nX2I+ppENtLY8FoVYSrwq6jC+Zx1MEea8TRN4f/XWp/i9OfqWrnz+04S63xwSsTJJUHung8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q2qfA+12; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3758fa1cc8eso5752205ab.3;
-        Tue, 11 Jun 2024 11:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718129516; x=1718734316; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2Q7/e2RL6Iylt0JNf4WH+s+kRIK0AByBK4aInpj5Wk=;
-        b=Q2qfA+12Alxn70+UtZ4tGwF2UwRKVqQwF42o8w+kP+iNYEnAlqu07o8qqJeckyswcL
-         s8p8X1WiZbXSLs6+pV8LI0m3P2zxX/HxxTyz/SeyUOfK2lv6voFbJYl2Nj/DQMhHFInH
-         aYuy6fAiw8bazkoHSg170O87Y3/AsB1gRgHMp7emzrhBXlU6/0WZ6D711+PCYnIdTY5P
-         fWInZIuOtAFJ4N0DSV5UKmNib8zS6MNj6OMlsZI4Ame4zu79sEzJypz3bBqvdd9yRVSk
-         /nE3ZOl2yFzSm4DWNcWDDMtRogqC4ptldAZ2mqsWEhOON9MVetjDzw6/S1/4TY/X86OW
-         VKEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718129516; x=1718734316;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v2Q7/e2RL6Iylt0JNf4WH+s+kRIK0AByBK4aInpj5Wk=;
-        b=lpSH131KYYedXR9fUUzxX4q0BDlRHe0mr1CpANs3Lxgq2bUPYG8JaInic2k8ARc+iH
-         JmMw0EoKOrNQtGWZ5+WsOloc5ov8+ikuat91Y0U5VxP15KLVGDQJIqE5wogL0StaRXXk
-         bWHV3aspjCbgQbPslWVIFl5omlVKX421HEg+sPRSbOr3Sx4lOys7wL3eFYm+Dr59XJY/
-         tSoFx4NZE2GG6qTnC0ncoTXBukEBU8DswrAPTM5+iSekhfRNtaW5IgdR1+tnt5EZddsj
-         Z+qcL1yRUaBBu9LKS6CEUZt187yxK/d5ZWGPLsrZjc6AvazfW7x3xpM2PU6g+DXlVLff
-         JBuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVGIpAJmOi+/t/y6QlZ5EKp1Lv/cMe/rMLq600sciJJZbC0p9jpzKKLDK21B8YBmoe7WA+6fW4YbJLfD/C13pA0dTIk87j0o7vllO4WS2v8t8pDjp17pKrQ6qMIcUS09IiypowX8sa44IB7NaUTlDxuSeTBDRfh7xHoThi1RywYGndV+ED
-X-Gm-Message-State: AOJu0YyS/AIzU5sY3o3hA1uqiGvnev75rzHj+EPU8R/FR+D2iqXiLXAB
-	4bbe1kZb4x69qbVXxR/1jNUlTuct9gkxvKWQi/dXcJe8lE7+vZ2m3Toonw==
-X-Google-Smtp-Source: AGHT+IHw3P6f5tmKGmSxzYYgPWvSLMNz4wApyPpb1GXPY82fpYCq2naoiYWVgJSvHA78LgqnOUEcLA==
-X-Received: by 2002:a05:6e02:184a:b0:375:9dd4:d693 with SMTP id e9e14a558f8ab-3759dd4d92amr97091195ab.3.1718129516156;
-        Tue, 11 Jun 2024 11:11:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:d73f:b49c:626c:fac7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6de211c93b0sm8061308a12.27.2024.06.11.11.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 11:11:55 -0700 (PDT)
-Date: Tue, 11 Jun 2024 11:11:53 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Pavan Holla <pholla@chromium.org>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>,
-	Ching-Kang Yen <chingkang@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] dt-bindings: cros-ec-keyboard: Add keyboard
- matrix v3.0
-Message-ID: <ZmiTaXQd6Y1N3W8X@google.com>
-References: <cover.1717779167.git.dnojiri@chromium.org>
- <2fdd4a2cb8526e60ba7143ec868e835f8ba8f55b.1717779167.git.dnojiri@chromium.org>
+	s=arc-20240116; t=1718162473; c=relaxed/simple;
+	bh=xoraK43U16pXlakxdHI1pgYWCBDNzBssPxameDeDePM=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=YVhdnkq6cV0QJvfrDP8tvvuJs+ROKk0E31JrFssFTnBWKyzQHLtSfj9Lof+8HH9svLw8SqWyGsaa1UZMbw7YieZH1SkdcciEAUYVz0z4NEPLR8ak4EEcz4nEwlwJbW9CM0t2wxpT+NS3O6Cs8Gto6Hu4MgdDmPsYF81riJQnMmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=OQ7cf4T+; arc=none smtp.client-ip=51.77.79.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1718162461; x=1718421661;
+	bh=xoraK43U16pXlakxdHI1pgYWCBDNzBssPxameDeDePM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=OQ7cf4T+ezoHkxugoTjXFGbL/7XU5YYbdCLpT+YpfPoylRZ7MH6zbOCpA1WovWgR/
+	 V8kDC/KQgIe9a2rc7PBZsPwrldsQxKehqGz49jx67/tdoOpEsJKMgJGyFTuTpC7k7U
+	 MXCkz/9q0bsJwNgVkVtS96+ICSkkvgEmIYMa452kBAOp1NuaPzcdagl+q7e8dqHpfX
+	 vSBnyScC5b66E+GgGJxp3hpLS3WZ0nm3W/6OWTbx9ke3D7qrKgbn140hEalPCSVEM8
+	 A4wqGH3BW6h6LAFaFzv+mEA87iQJPR8a4Lz4cgppLp3XLLN5avkX8iweaPGYc2SeGM
+	 3aypE1wsaDX7g==
+Date: Wed, 12 Jun 2024 03:20:55 +0000
+To: linux-kernel@vger.kernel.org
+From: Raymond Hackley <raymondhackley@protonmail.com>
+Cc: Markuss Broks <markuss.broks@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, Nikita Travkin <nikita@trvn.ru>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH 0/3] Add support for Imagis IST3038 and clarify the usage of protocol_b
+Message-ID: <20240612032036.33103-1-raymondhackley@protonmail.com>
+Feedback-ID: 49437091:user:proton
+X-Pm-Message-ID: 30ee4ca33747296f4316c28bf11e4877e14966c1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fdd4a2cb8526e60ba7143ec868e835f8ba8f55b.1717779167.git.dnojiri@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 07, 2024 at 10:02:58AM -0700, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
+Imagis IST3038 is another variant of Imagis IST3038 IC, which has
+a different register interface from IST3038C (possibly firmware defined).
 
-Could you add to the patch description an example of how this should be used?
+Unlike IST3038C/IST3032C, IST3038 has different registers for commands,
+which means IST3038 doesn't use protocol B.
+Similar to IST3032C and maybe the other variants, IST3038 has touch keys
+support, which provides KEY_APPSELECT and KEY_BACK.
 
-Thanks.
+Add support for IST3038 with touch keys.
 
--- 
-Dmitry
+protocol_b is a property, which tells Imagis panel to use a different
+format for coordinates.
+
+IST30XXC series is known for using protocol B, while the other series
+aren't. Note this could be confusing, unlike the model name implies.
+
+Adjust the usage of protocol_b to avoid confusion.
+
 
