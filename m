@@ -1,106 +1,119 @@
-Return-Path: <linux-input+bounces-4338-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4339-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BF5906A8A
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 12:57:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BCE907423
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 15:45:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 742DB1F24CE5
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 10:57:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D641C22A78
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 13:45:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 350B11428EC;
-	Thu, 13 Jun 2024 10:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47EE88F68;
+	Thu, 13 Jun 2024 13:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="kNWiB2Mg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDb7IeDh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3923DDB1;
-	Thu, 13 Jun 2024 10:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FF610FF;
+	Thu, 13 Jun 2024 13:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718276225; cv=none; b=WQ6ReaxENkJ2zzp3cz9IBhFI4tmCMKdnHVpaX4BguL63j02Sim6edxdOAmx1fT5z1Xb+WVNovyeze90bAWnTmj7pJ6gyFr3bv3s6O85a5492KJQr88Kb6MqVnrNaLdY7bg7lO6sRbOtdbqVxbv1Qpm03r0YrJagfCUkuhRr5Y3Y=
+	t=1718286340; cv=none; b=rtxTqUYm6teLS24zxJZbgyn/uvyk5H5G+Nc6h8+mVmc/6gFUSKf9YxeIisgjeS4ZgRwisYnm71k0/FWrA/PLZERPdU1Nwf00Jc7Ahp2P4N4DcFlCdJYd/0yeFh3arHdFnBDxt/XknRKOzrQNGAKEscRqc+nfoKpDY7VVVlPdgHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718276225; c=relaxed/simple;
-	bh=k2Ywj6S/aj3jQl2/FwtOonbWt/mPoRiF349h2px3ZHk=;
+	s=arc-20240116; t=1718286340; c=relaxed/simple;
+	bh=BADMAGvyZtj+GsRfT/NDr2Jvk9KXxvpLyvmYPtJjSAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rTPymj0I5s38VWP8lUZsPU7lJS0iZKPF+Qx3hupUoP9e7m3l9ZTUNPuJfA3D+q54E6zp8fc3N7EbuXOFUyMTONtaigNMqhzEspTOthDQ0vVhiV2pzFAbyC7yKzmr47b/6PDSDV3NP9od3pFsSPaIUQxgx/aIbYejHRfFq5jibn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=kNWiB2Mg; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
-	t=1718276219; bh=k2Ywj6S/aj3jQl2/FwtOonbWt/mPoRiF349h2px3ZHk=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=TLc8Tl0z7sAtagPGdQ6ky9qIItxhmKIXJ0e+tT2/T4N1xYi/L8SwEbinSKbc3De1YxFZA7QF9kSbtNbz7C6mam9kctjUNr4m6lcGWaPahLdDUBnG/dLdgVGrPkciB+BR4IlFrdS90WdKxNI6SfZWMv+dzodK/72pssjuGf3BwbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDb7IeDh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158F1C2BBFC;
+	Thu, 13 Jun 2024 13:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718286339;
+	bh=BADMAGvyZtj+GsRfT/NDr2Jvk9KXxvpLyvmYPtJjSAY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kNWiB2MgXS5oqh0omzHtXljggate1ANe/pYoqNHtmgQky1JjtpDSVyGzq43PnVDFi
-	 3FysTeQYLJWyRc5kjvADTbh+igXkT17n22sQLQ2/Wc/E8dwa/Uwn0+W4MiV6qly2gP
-	 sebS1XCYc2ppMwwJu6LRGrNZhHkt0BnjxMdDcCs0=
-Date: Thu, 13 Jun 2024 12:56:59 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: dmitry.torokhov@gmail.com, jikos@kernel.org, bentiss@kernel.org, 
-	hbarnor@chromium.org, dianders@chromium.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
-Message-ID: <a6f557c6-4ebc-4c47-af32-5d8d695681ce@t-8ch.de>
-References: <20240607133709.3518-1-charles.goodix@gmail.com>
+	b=TDb7IeDhIRZlRAwjN4O9eeUdvNarZGkmUanL2dReujN3n4jgUgZrFfff+4cgjhhb4
+	 h6BiHUHjvOGNs/5l0eGs54fVRaWmPL08N5/eCrNtIYSOI0hZPwv6jzwcrVnbvKYK6g
+	 4TCeZZZHpJHOJZ9RK+eMYj9B+3TR/tHdGwfpHdWsOyhqKZ2KRHn8QvtJHRt1YN8wj9
+	 N/swWlg2lAoJ8ZnQM9JDvGW7OyZsYAPH1C7e2Pcdf+MVLzU7x1cJDt7ZfKYNzta8Wy
+	 7LhBi++W/G/igZ1SNghloo1y/OOW4mfAVa1pK1tX10cXV1x48oJ44GW9KeuwDtIzvY
+	 8D2gty4PyMrkg==
+Date: Thu, 13 Jun 2024 14:45:34 +0100
+From: Lee Jones <lee@kernel.org>
+To: Karel Balej <balejk@matfyz.cz>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v7 3/5] regulator: add regulators driver for Marvell
+ 88PM886 PMIC
+Message-ID: <20240613134534.GB2561462@google.com>
+References: <20240531175109.15599-1-balejk@matfyz.cz>
+ <20240531175109.15599-4-balejk@matfyz.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240607133709.3518-1-charles.goodix@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240531175109.15599-4-balejk@matfyz.cz>
 
-On 2024-06-07 21:36:02+0000, Charles Wang wrote:
+On Fri, 31 May 2024, Karel Balej wrote:
 
-<snip>
+> Support the LDO and buck regulators of the Marvell 88PM886 PMIC.
+> 
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+> ---
+> 
+> Notes:
+>     v7:
+>     - Address Mark's feedback:
+>       - Drop get_current_limit op, max_uA values and thus unneeded struct
+>         pm886_regulator and adapt the code accordingly.
+>     v6:
+>     - Remove all definitions (now present in the header).
+>     v5:
+>     - Add remaining regulators.
+>     - Clean up includes.
+>     - Address Mark's feedback:
+>       - Use dedicated regmap config.
+>     RFC v4:
+>     - Initialize regulators regmap in the regulators driver.
+>     - Register all regulators at once.
+>     - Drop regulator IDs.
+>     - Add missing '\n' to dev_err_probe message.
+>     - Fix includes.
+>     - Add ID table.
+>     RFC v3:
+>     - Do not have a variable for each regulator -- define them all in the
+>       pm886_regulators array.
+>     - Use new regulators regmap index name.
+>     - Use dev_err_probe.
+>     RFC v2:
+>     - Drop of_compatible and related code.
+>     - Drop unused include.
+>     - Remove some abstraction: use only one regmap for all regulators and
+>       only mention 88PM886 in Kconfig description.
+>     - Reword commit message.
+> 
+>  drivers/regulator/88pm886-regulator.c | 392 ++++++++++++++++++++++++++
+>  drivers/regulator/Kconfig             |   6 +
+>  drivers/regulator/Makefile            |   1 +
+>  3 files changed, 399 insertions(+)
+>  create mode 100644 drivers/regulator/88pm886-regulator.c
 
-> diff --git a/drivers/hid/hid-goodix-spi.c b/drivers/hid/hid-goodix-spi.c
-> new file mode 100644
-> index 000000000..7ba7016e1
-> --- /dev/null
-> +++ b/drivers/hid/hid-goodix-spi.c
-> @@ -0,0 +1,687 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Goodix GT7986U SPI Driver Code for HID.
-> + *
-> + * Copyright (C) 2024 Godix, Inc.
+I'm fine with this set - just waiting for Mark to review.
 
-Goodix, Inc
-
-> + */
-> +#include <asm/unaligned.h>
-> +#include <linux/delay.h>
-> +#include <linux/hid.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/sizes.h>
-> +#include <linux/spi/spi.h>
-
-<snip>
-
-> +static struct hid_ll_driver goodix_hid_ll_driver = {
-
-const
-
-> +	.parse = goodix_hid_parse,
-> +	.start = goodix_hid_start,
-> +	.stop = goodix_hid_stop,
-> +	.open = goodix_hid_open,
-> +	.close = goodix_hid_close,
-> +	.raw_request = goodix_hid_raw_request
-
-comma
-
-> +};
-
-<snip>
+-- 
+Lee Jones [李琼斯]
 
