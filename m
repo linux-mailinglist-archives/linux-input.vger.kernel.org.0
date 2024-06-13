@@ -1,108 +1,158 @@
-Return-Path: <linux-input+bounces-4336-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4337-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D8A90661F
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 10:04:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E87906840
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 11:13:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50A9F1F21CDC
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 08:04:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8134B20BE1
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jun 2024 09:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 600A113CAB8;
-	Thu, 13 Jun 2024 08:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BDF13D8B3;
+	Thu, 13 Jun 2024 09:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="f/V7kgni"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vt19qWGJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE4813A3F4;
-	Thu, 13 Jun 2024 08:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE91135A6F
+	for <linux-input@vger.kernel.org>; Thu, 13 Jun 2024 09:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718265856; cv=none; b=Bjknf+Gw0nX/Esfrf2NVnMqAUUtxeK4iyiF5s5AoMF2dhXGJqtiNbbijOBQIt3buM+Ery3GANF9ZEZpF2ehHmYRUtx+l70KSeOvuPu7HS3MM8W5VmywyvifxG4ouLXT6XKArgriF0+pWY08Pnop3bnlOJb0S84dbgS16Q9GjpHU=
+	t=1718269990; cv=none; b=IR58NxIxm8ux72gzypGMMpMku59mWVE+Zn8GyZmw+0pp4CnEyze6SLHFGxzdcPdk4AA3Pha+imceoo4TfzBta6SKgEagWi3JSqH90Wav79+h7f/HmqqT54KQ280yW0gIzy0YIW6/i/Jyxso4HypnA41FiH/laesuaGuxhuYa2SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718265856; c=relaxed/simple;
-	bh=IdG4D2c8cFs3v1ttE/xT9pEvTorNWoMLU1M7kAVEwCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yf1mXuZdADOD0Q445kYMXgLuwrouIrIfUrL/1kD50CQMhR392lQD8QSRZni9JVJnSzdwk50lp3iYg6acmUNLBMBF/dhioETUhm0SwH9yz325PavrbtexK/4frT/vbiCSUWan1Vkgx25We97JFs+2/O/wVqF3Q+cInPj7F7dj6R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=f/V7kgni; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3393040E0176;
-	Thu, 13 Jun 2024 08:04:12 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id h8uzvgyUn1Zb; Thu, 13 Jun 2024 08:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1718265849; bh=CXGamu8jKIXOAZLQQMPeCyqZUI6y95bTPViTuHGstrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f/V7kgni8MqGhgjd1en6uOEtdwzlwB8Q2ophMmCKYH0x0BIGKhGrf/U4tDU9Z+r+E
-	 GFxFwsCFd2CbJH/BbvPS8WZdwaguKOG4tIAsK8qhJ3VGp2xYore3f+/v/Nr8NHd10J
-	 CcH5j9ouqky30cO9L4BjtaNSLT+i0+5nmHw65zm5kgj5Xjcn8aHAadAFy99Hyu37pt
-	 /o6us2VJ1Pj89anyKx9T2oT0x3gdYWab14MxsnCgCQBxNo7DFpfM6o4uKhEt/PpCs6
-	 krh3bqaLuyoVyYn9PI6aUMm+VCmPu/fnQJ8acvH418iRp6fcsshmpfOarlpb15Ipea
-	 KYtRwriJfgWFy2MGOSzhozF9cN/v4vMUwodLQ3++rdBOdhVbO29ZqVrjT8h7vNTbkf
-	 GgrldhecCOfOR+1Z7LvEunSZBbdxu4kvABVAHSlegdY98TsPKc/xAdNeJKSDrJGLbq
-	 A0DfJJhxhbfzS/v0mvPbqwHxdj7fBST5Da98BEDg0Xi2BDehXtFDIQuUSmmBXH0YTC
-	 D/R6ZlcnBKeN1TXRKe/2ZXkKn7eLsmVmX3Jhh04A+tyEQLOc3ZQOwBCFnZuR7jNMB3
-	 yCY2zCE6SPnQ7fdp3OHyaBEH7Do63qUZc0gjRzJwC8PLe9HmsE1jXBkP/fYk3oMRae
-	 Jvme4X2fj40CBrvKXHkfzjgM=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B125E40E00C9;
-	Thu, 13 Jun 2024 08:03:43 +0000 (UTC)
-Date: Thu, 13 Jun 2024 10:03:35 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
-	tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	timothym@vmware.com, akaher@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org,
-	kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v11 1/8] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240613080335.GBZmqn12gqzWlNZHGH@fat_crate.local>
-References: <3d6ec46c-53c2-4a13-90ff-eb419863c1d5@broadcom.com>
- <20240606232334.41384-1-alexey.makhalov@broadcom.com>
- <d366491d-2f5b-478c-8968-b0a3a298827c@broadcom.com>
+	s=arc-20240116; t=1718269990; c=relaxed/simple;
+	bh=chBCFZsoyeYNNgwF3trl0wRLM6NJk5eql0o4EWrZIqo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P7FMLX3LeMxo4u/IbenQLM74mkwySndYTB5Qy7d5s2Q8IcXqd+uDMPSvqkEuHI8HI8zHC1wbNLwFEC4txaAhZMbTs2VHE10B8rMZJVB03Xg68Ne/EegxWer06xR5vwNa3I6rSE00c7tlqXLhfDZxrQTP0jsZqnpriz5C1TGdl4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vt19qWGJ; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52c7fbad011so979433e87.0
+        for <linux-input@vger.kernel.org>; Thu, 13 Jun 2024 02:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718269987; x=1718874787; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tC/xjcrjFJo0No2NJtBl1Trd5UcmBwU7b4n6sOTwHQk=;
+        b=vt19qWGJ6eSBhxZzIOP4sldb2qphOHO5TKd7P3YI8ytgq69Hyw7gQYwh8SXtCLui8L
+         1d4l2gDl/Vbp5OPIlpLWtqPJS9Gqi+0drqS3pcWSMwsoFG2Wng4H73IShu2wNFifTh7b
+         D8Wv6zkJ4ByWS0ugRjbxUpZuPTWJsrNIWAKvzl0cEW1c19lXzkZ818iovNsU5COmwai5
+         QNNjV6fmw/2su+/Mqpm1xEr94HSdscjWM0D6aBD6WWxEVmMgUUpd8UBNF4YYyn2Pllg6
+         x1QqTf/P1OlASA1/5IRWml5bG+i9G98GwUfWdk46pLOzH1jEDQ6l0eJwSqvisUxKJcQh
+         fOwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718269987; x=1718874787;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tC/xjcrjFJo0No2NJtBl1Trd5UcmBwU7b4n6sOTwHQk=;
+        b=pbBhYRAFFh2iOBms+k4Qr+Ng6ANORstucRNsWDE14bZhpWLWDQPXuKhcwz0qQdTTEU
+         ZfM80Spgrg5/53zj/75TNFsV79OV3gsQbM9nm37y4wq3voNIf5AiMeIpP5lpMS9vbIhu
+         ehEdOnYHVuZvZiwcNawjLX7mfv6bWttt74Jo1EQgYdNdVAApJhbSyMdlSKvU2wfeichp
+         Qulnl543S4dedeL8JBo8xknyeW2Ed337HF6awhr69PO7QLZnKeHoh3z2XGx8He3TinRj
+         RPr4U6TNiQ9EEpaoh3MdOoTLAR2vdzqMURjPyg7Riz+IskbevPsUpyIpJ4TuygYJh3t8
+         v6Mg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMT9eTUwr1DNpWzu2PNcEjiq2Mg1cHTtXFpJjUxy5hBEv/3JtvLeaaSYr1RBPRCn/DS4QFDXTkHpPeG7PVNvFIdCdnfPp5rqtFnoA=
+X-Gm-Message-State: AOJu0Yxs7mgZMJ7kLsDx03KgnvMNPSLQjWaoW5S3fmpoHJNBGwty6BL3
+	siYVU3xyvzZauQrgrqCetcNU48vsMbH0FDH7jixWOARHeoQ4lGxebJo47Sa0Frc=
+X-Google-Smtp-Source: AGHT+IHjySitS/JVozozvQQru+fBOOLFkwqD3nOCSx9EabUL6DrL8FoHu8mrXfKNms6T1KaySaF0vw==
+X-Received: by 2002:ac2:4c4a:0:b0:52c:8a12:3d3b with SMTP id 2adb3069b0e04-52c9a4053ccmr3147259e87.56.1718269987115;
+        Thu, 13 Jun 2024 02:13:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422870e9681sm54021205e9.28.2024.06.13.02.13.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jun 2024 02:13:06 -0700 (PDT)
+Message-ID: <6a54ea62-05b9-4e8e-876f-285fbe213310@linaro.org>
+Date: Thu, 13 Jun 2024 11:13:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d366491d-2f5b-478c-8968-b0a3a298827c@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] dt-bindings: input/touchscreen: imagis: Document
+ ist3038
+To: Raymond Hackley <raymondhackley@protonmail.com>,
+ linux-kernel@vger.kernel.org
+Cc: Markuss Broks <markuss.broks@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Stephan Gerhold <stephan@gerhold.net>, Nikita Travkin <nikita@trvn.ru>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+References: <20240613025631.5425-1-raymondhackley@protonmail.com>
+ <20240613025631.5425-3-raymondhackley@protonmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240613025631.5425-3-raymondhackley@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 12, 2024 at 03:11:54PM -0700, Alexey Makhalov wrote:
-> Borislav, please review v11 implementation of 1/8 based on your proposal.
-> I'm waiting for your feedback before sending full v11 patchset.
+On 13/06/2024 04:57, Raymond Hackley wrote:
+> Imagis IST3038 is a variant of Imagis touchscreen IC. Document it in
+> imagis,ist3038c bindings.
+> 
+> Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
+> ---
+>  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Sorry about that - -ETOOMUCHEMAIL. :-(
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Yeah, that patch looks all good and regular now, and at a quick glance you know
-what's what. I think that's definitely better than what you started with. :-)
+Best regards,
+Krzysztof
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
 
