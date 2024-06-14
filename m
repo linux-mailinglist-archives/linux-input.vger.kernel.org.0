@@ -1,169 +1,161 @@
-Return-Path: <linux-input+bounces-4366-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4367-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E55490900B
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2024 18:22:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860AA90924F
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2024 20:32:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF9131F22242
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2024 16:22:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19E791F242BB
+	for <lists+linux-input@lfdr.de>; Fri, 14 Jun 2024 18:32:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A6216D9D5;
-	Fri, 14 Jun 2024 16:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EE5619DF7C;
+	Fri, 14 Jun 2024 18:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KcbTtm8a"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="AaukQLHD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C502116B751;
-	Fri, 14 Jun 2024 16:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB94409
+	for <linux-input@vger.kernel.org>; Fri, 14 Jun 2024 18:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718382173; cv=none; b=h1QU6T87EGIPY3DlSTtw7J38qb/xJLK15YAsN480dPYI1OUmvrMDck4N8M9f3iH2WWSUosOXZH9OmGSbmi7TkJsQTsLYFKv63i1A509qmx6ppgdZkmrP8h0Q18u/33Wj1D/uuP7mktMN602quDBpPjsBzfy1r51tLJs+hRkRNaA=
+	t=1718389946; cv=none; b=Joez2w/eUVp8Cf7bNlsYiivNwmIMu9HVmlFk041BF3TfhmP5GdcPcu0pyIRiYvUT9HhXE3NHNKdEwsTG4cor1kfXx4uuif23NC0JDoS8inRU9PaK2Jsy/UjNPOlyAxREQTFJgNvM80QKd7NB9Wc0onVav4VeMjywoDPe9OVRQ7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718382173; c=relaxed/simple;
-	bh=fnbAgLOTfMMiJeUuSE5XbkbSe0qtEODYCIGVydsfSfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZUHZtnqfZ+FZ3GsfHwISnYzQGgvQeT7JSTZVGdnl3edy6UaDP0U4R1r1JXZyvXp+vKZgnQaIbzXxwC4+K0AdECv30WVB7q3XOkEG7BffjDev57y/9Q9tk+pK9Bn3lb5v3ZJEW24/PToVCHbQRs4VvPGBew55m/WEgAvO2yk8YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KcbTtm8a; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-421757d217aso26020765e9.3;
-        Fri, 14 Jun 2024 09:22:51 -0700 (PDT)
+	s=arc-20240116; t=1718389946; c=relaxed/simple;
+	bh=pQIr6kyiB9T7RTOGhQzU4XxML3cjRb50MpUy3V+mOcQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j3UZpHUT9FGRSaWsynV4428EAiAvDitfrZ3RlFU1zEhd9Vtbg9NU62lECmm6UKSVc6107SEBGxrR/1v9KVMKzgOCvDwcOFVw4lzhqwZruYqgy57emWrSAAnkUHF3a5gglDaLQQ8ALwdHMmtU7xDXeq6d1PHy+w3iVWsWPC9MK8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=AaukQLHD; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b06e63d288so12514216d6.0
+        for <linux-input@vger.kernel.org>; Fri, 14 Jun 2024 11:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718382170; x=1718986970; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mHoUDsPBAFKjfdKT2Wcw7fH+ZbNcrP0Oy7YLPMG/sbY=;
-        b=KcbTtm8aNLnqD2RRn/UprMEj2qky6ffWZHBptC1rtHNVAKrxSED57LKjuUYBtZtHR5
-         KBHOnLAPHaOT4vtxOPL0tMp/F3jBfIZZMAa+G0etzRlPqa+dY40amGlDmTSzqmlYEl4g
-         bTHL9qepD6P2E087UZN2Lv5hRNhpoZLJH78u3h9/eHNLInJtaMGMfSfvlCAWLQVuhcr2
-         T3Ib3AAuNjS+MvsnY91ms0TBEU2UQg8GFKN7lBjknW03ITVRrY2INvpGJwaTjOk1Ab7H
-         PpMszVgyiXWLdJ1tFfF2bAvAKd9JI6iL+sz5WqaH2TGmA5gQrRh/qw/2FwhkoAe2/GKo
-         zZGQ==
+        d=broadcom.com; s=google; t=1718389944; x=1718994744; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=a+ZJEh6x6Lv8M2AN3cpcyYkfsWGE1WXAQKMbV67aTJY=;
+        b=AaukQLHDUtytaY2h4tQtfQ/DxJVmdXSg2upaveL5r33UIr68Xet8i8w9pUSMR205ee
+         C9sKlaW+RB/vGC8ON9TM2YaqSA3yB2q5VrpQKNhtxCn4/HGEkLhMTmUZyE+qTa9Sczxy
+         dbeiIQ4Y1PpCUJaE0l+PDV7VTpAfFLk+9R/Dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718382170; x=1718986970;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHoUDsPBAFKjfdKT2Wcw7fH+ZbNcrP0Oy7YLPMG/sbY=;
-        b=XSxe/1nzCW8aY7ImkfMMAltbWwONtYcg0k9oi4tGN22b48hZolrhXNG2xs8I7yESyd
-         Ia/Xpap0QiE8AeOHsg09CL7mTc2i6p14Gt7wawq83FkNqhNVlv+SwxHDnkVX6GiKx+XP
-         W2GDvlJoeUR30/VpXAl5xjPPlnu2ajzeyHjvFm8Xw2/U00LEKuVGUkBWGuNP82QGjrpT
-         iLXJMjBbzCxavIVoKgu44fgfxbiYMnZO+oeYp664Xe0tTxVx5jcb8fFDV8Yv0bn34qLC
-         R4zR2zAfcTaJBIrxIsni1EiPk4GyRljSA7CMW38tVpkwX6LiIBDoomSrXyTxzMixoK6Q
-         MaPw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7/Qi9faH7SuUhG8PnndrIqS+n7SmyrfP1rL86PUpT/BilKs12ZcVW5VwF4hb7kcOrO1YawYfoY9m1MUnVkUGR9gb8OanFjeL621NfVIjQ0HPCvv6eLGRAVI2+9GHsUN/1RqtC6GbKwHE=
-X-Gm-Message-State: AOJu0YzE6TBjCF3bHaSILHgtCEl5mYUMx6+TkggwF0Pb+9wXO1DviZ+K
-	UM/KLLwyOVgTDYQ3wvZ+Kla5eXjmx8XXgRFsUsmYvO+f/j+eBxmD
-X-Google-Smtp-Source: AGHT+IHwPKb1oVe0OzriUhNOuh2dGKMPOr/keG0NpDIvE0NFORARtKt4Neke5HYOGPm38GZt1pemrQ==
-X-Received: by 2002:a05:600c:32a7:b0:422:1a82:3ed2 with SMTP id 5b1f17b1804b1-423b506058amr4577075e9.27.1718382169973;
-        Fri, 14 Jun 2024 09:22:49 -0700 (PDT)
-Received: from fedora ([213.94.26.172])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f602e0c2sm66620215e9.14.2024.06.14.09.22.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 09:22:49 -0700 (PDT)
-Date: Fri, 14 Jun 2024 18:22:48 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	Fabio Baltieri <fabiobaltieri@chromium.org>,
-	Ivan Gorinov <linux-kernel@altimeter.info>,
-	Johannes Roith <johannes@gnu-linux.rocks>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: uclogic: avoid linking common code into multiple
- modules
-Message-ID: <ZmxuWKX9lFv3pHqG@fedora>
-References: <20240529094816.1859073-1-arnd@kernel.org>
- <ZmSi5_-4mD4AaIJW@fedora>
- <54c19328-35e2-4506-aa3a-a0b08813d873@app.fastmail.com>
- <Zmcwlt6Kfpt09tKi@fedora>
- <8d93cdd6-379b-48e7-8a10-9df190b12623@app.fastmail.com>
+        d=1e100.net; s=20230601; t=1718389944; x=1718994744;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a+ZJEh6x6Lv8M2AN3cpcyYkfsWGE1WXAQKMbV67aTJY=;
+        b=tAvGlDLKH2vY0PlEIE88LjUlNKoppH6ihIkxVD2KUcSbDNyFZHzV5g7ANc5jigJZIP
+         CSz1IXqwBSFhJUJkWsfGeUXwhlOJVNcqYcXwBqvNHocSuaw0CepyTj5Wk7aXNNHfPAGI
+         /lWsz1d03P4oRbLJaaQ4/FFF3znTydnn4HMWDzxCf9Lqa87OBfDxsCKGpCsud8KGtheA
+         2xq8Q4gI+kq91G/VOKXNfNH5QG3+0TEK5yLnMPsbC0hxhjlEh8wXgU2qshrcPzSfDohe
+         8xoxWdHcVbtL7Ao3AimZRiTAyAFlLyib9noVg9dR09YlswxmqnYtixvIOuJuZXUvl3sE
+         UMhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfQWP5T3Pr4JmRqBLgmQeH5YgT/6CbaD5ZHfrzSd0jknJHkeAlogCLLrcMqckKOJ6PN20Ar80sqr0Bz7GKTGN1cwZwEVBUTHOcYIk=
+X-Gm-Message-State: AOJu0YzmNZLPYxi14gHk/hYk3ogSDfYiJk4yu49UiXir+ADucG6pzNdn
+	I9m7uKmAb3s2gaA+ztd4kIFLQWh3TkmwMuCgzu6t0yxIvHBggQBgPuy3gtNY8Q==
+X-Google-Smtp-Source: AGHT+IGioDtYzmWk+SYhqfm9DebuWAb/mp0AENVr2ydYI4ZP81ROYuzpODtzdxlMQipzCd3UYBAVtw==
+X-Received: by 2002:ad4:55c3:0:b0:6b0:8041:8ae1 with SMTP id 6a1803df08f44-6b2afd94baamr30167806d6.61.1718389944507;
+        Fri, 14 Jun 2024 11:32:24 -0700 (PDT)
+Received: from [10.66.192.68] ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5c10580sm21164366d6.32.2024.06.14.11.32.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jun 2024 11:32:24 -0700 (PDT)
+Message-ID: <1750e44f-f9a9-4c2a-afb3-f1ae8237ccb0@broadcom.com>
+Date: Fri, 14 Jun 2024 11:32:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d93cdd6-379b-48e7-8a10-9df190b12623@app.fastmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 8/8] x86/vmware: Add TDX hypercall support
+To: Dave Hansen <dave.hansen@intel.com>, Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Tim Merrifield <tim.merrifield@broadcom.com>
+References: <20240613191650.9913-1-alexey.makhalov@broadcom.com>
+ <20240613191650.9913-9-alexey.makhalov@broadcom.com>
+ <844ef200-aabe-4497-85c9-44fc46c9133a@intel.com>
+ <20240614161404.GCZmxsTNLSoYTqoRoj@fat_crate.local>
+ <74f8300b-3520-4824-81e3-71464e3da3b6@intel.com>
+Content-Language: en-US
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <74f8300b-3520-4824-81e3-71464e3da3b6@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 10, 2024 at 08:25:15PM +0200, Arnd Bergmann wrote:
-> On Mon, Jun 10, 2024, at 18:57, José Expósito wrote:
-> > On Mon, Jun 10, 2024 at 08:24:51AM +0200, Arnd Bergmann wrote:
-> >> On Sat, Jun 8, 2024, at 20:28, José Expósito wrote:
-> >
-> > Turns out that, since the last time I checked the KUnit docs,
-> > we have "EXPORT_SYMBOL_IF_KUNIT" available now.
-> >
-> > I think we can use it and your final patch, without the MODULE_*
-> > changes, could look like:
+
+
+On 6/14/24 9:19 AM, Dave Hansen wrote:
+> On 6/14/24 09:14, Borislav Petkov wrote:
+>> On Fri, Jun 14, 2024 at 09:03:22AM -0700, Dave Hansen wrote:
+> ...
+>>> You need to zero out all of 'args' somehow.
+>>
+>> You mean like this:
+>>
+>> 	struct tdx_module_args args = {};
+>>
+>> ?
 > 
-> Looks good to me, can you send that with
-> 
-> Reported-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Yes, or do all the assignments with the initializer.  We seem to do it
+> both ways, so whatever works.
 
-I couldn't add the "Reported-by" tag because check-patch throws a
-warning if it is used without a "Closes" tag.
-
-Other than that, I sent v2:
-https://lore.kernel.org/linux-input/20240614161935.230529-1-jose.exposito89@gmail.com/T/
-
-Thanks a lot for looking into these warnings!
-
-Jose
-
-> ?
-> 
-> Feel free to take my original changelog text if that helps
-> 
->      Arnd
-> 
-> > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > index ce71b53ea6c5..e40f1ddebbb7 100644
-> > --- a/drivers/hid/Makefile
-> > +++ b/drivers/hid/Makefile
-> > @@ -154,10 +154,8 @@ obj-$(CONFIG_HID_WINWING)  += hid-winwing.o
-> >  obj-$(CONFIG_HID_SENSOR_HUB)   += hid-sensor-hub.o
-> >  obj-$(CONFIG_HID_SENSOR_CUSTOM_SENSOR) += hid-sensor-custom.o
-> > 
-> > -hid-uclogic-test-objs          := hid-uclogic-rdesc.o \
-> > -                                  hid-uclogic-params.o \
-> > -                                  hid-uclogic-rdesc-test.o
-> > -obj-$(CONFIG_HID_KUNIT_TEST)   += hid-uclogic-test.o
-> > +hid-uclogic-test-objs          := hid-uclogic-rdesc-test.o
-> > +obj-$(CONFIG_HID_KUNIT_TEST)   += hid-uclogic.o hid-uclogic-test.o
-> > 
-> >  obj-$(CONFIG_USB_HID)          += usbhid/
-> >  obj-$(CONFIG_USB_MOUSE)                += usbhid/
-> > diff --git a/drivers/hid/hid-uclogic-rdesc.c b/drivers/hid/hid-uclogic-rdesc.c
-> > index b6dfdf6356a6..6c7a90417569 100644
-> > --- a/drivers/hid/hid-uclogic-rdesc.c
-> > +++ b/drivers/hid/hid-uclogic-rdesc.c
-> > @@ -17,6 +17,7 @@
-> >  #include "hid-uclogic-rdesc.h"
-> >  #include <linux/slab.h>
-> >  #include <asm/unaligned.h>
-> > +#include <kunit/visibility.h>
-> > 
-> >  /* Fixed WP4030U report descriptor */
-> >  __u8 uclogic_rdesc_wp4030u_fixed_arr[] = {
-> > @@ -1242,3 +1243,4 @@ __u8 *uclogic_rdesc_template_apply(const __u8 
-> > *template_ptr,
-> > 
-> >         return rdesc_ptr;
-> >  }
-> > +EXPORT_SYMBOL_IF_KUNIT(uclogic_rdesc_template_apply);
-> >
-> > I hope that helps,
-> > Jose
+Thanks Dave for pointing that out. I missed that at v7.
 
