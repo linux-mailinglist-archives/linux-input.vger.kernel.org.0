@@ -1,155 +1,164 @@
-Return-Path: <linux-input+bounces-4379-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4380-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADF290AC6B
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2024 12:59:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3A890AF7C
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2024 15:35:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D300C28B2B6
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2024 10:59:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DC871F209B0
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jun 2024 13:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62CCB194120;
-	Mon, 17 Jun 2024 10:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D7F1AD9C5;
+	Mon, 17 Jun 2024 13:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3ddtES0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cbxkO72c"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5B75025E;
-	Mon, 17 Jun 2024 10:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEA01AED41;
+	Mon, 17 Jun 2024 13:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718621942; cv=none; b=PhyG4e9Chl10awX8ElTvOukSpto5d+MZqRORWtKBIcwnUIuxBPld6lmHRExnhwcwI+frz8ogbbMC2lVQXjtlQIT1BbPBB2rcVnXrTXhRNFpfkvOFbzQqeEZJSCaJPY+wMEGwAz3CjEuMIdtaH4c1fYHi2S0E8QiM22tavY1ilIg=
+	t=1718630526; cv=none; b=Q6z+iA/1+wx+22dRpLQJpX6wO23fWseXHbg2uwPDZc7i3GSERFIwFv/XV65Td08oDxwacHZtPkmYvQAl0x+BNEbuEehGDrdL7+KaaRKLTqbt2puG+imTL82mSx/lwVRTmfp1IwtvdpwGP3845MuWilh2lz+LphVlJdCzNbc2ttk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718621942; c=relaxed/simple;
-	bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tmSL8pHWP7tXChYqmQ4L9lut8TUNjQJA7qNleqICbF9gXTry/4g98x9EgrAmdRwXRZtVzNyNXgOGXh0UQuT/OLhcjz347ixgqKgfOrvQnmOPwB/Y7m7OMGrDufCbMgqHuk4O0JofMDXafhWZXcNpRtDTRtYgywjH/U1HmAJjI4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3ddtES0; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6efae34c83so526291566b.0;
-        Mon, 17 Jun 2024 03:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718621939; x=1719226739; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
-        b=G3ddtES05KBngq6UHWH+bLeDVjHVfJjrer71x1oClPjFqQBWo5q9UMK1VfJW6kJjJq
-         F4PZsQestdbLeUKH8unSqie5VDD7EagbCBXSZaSHuKvJxjTFA/00cMjlFbvezuyidolY
-         8IJb1AK6waFkrjIHxm7K2jDf6tFJR0iyUq90OZ/4DYyR6qbWKG66yZWTuedKtIqlm8W5
-         z4+SG4bxj3pYqXnzunZrkvLOprES3JCkbQ5t/523EXHIeWZN+QHdYZwKrt/L9C8QlQPV
-         PqKllIoFKQiOiLgDsIpjcCywPn+fn1M61OU6KA6imYIqeZ1vynt+cI/1YCXgPb1rWNm9
-         QYdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718621939; x=1719226739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
-        b=Cem9PGTanUq25o7phJ/RZGVY6Fpz35uWfNYKsGpdnXX0rElhFVmgGP6Rrbje9nyAtx
-         NE54dUSFZtoOAJa5sj9dDnNckeTkqQ8/kk6MQUeNvSPggSXKCRYVClQaZ7hk458B2v2b
-         GLOcjRAvV+53S8o1kDhSdBCs3m+FS23qVsf0umL7PczsUqqdK/Agg899XxTdVZr5un84
-         AoH5wT4ZNz6tOzfnptMPeISwSWBiphVQohjan6l0x7LDYKpIIZn0VvDYDCkHD6FuyRMe
-         YlfXnzfqlGgFUZZNP7aY4G/UvmOpnx4P6z0MqxjjyVcqS71crNSmCMU/7Z5RJTK8EMf9
-         cx1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXAoM7IbF4e2rcIclY5h762jyQSucTNkLrD1Euq0cJADoK/mEztSfuiQ78x0JeizEcchdTzju5NKh3G9SaF+VGrSV/rK7krkENH2e7qRK5DavQ4pVAevFe8x0Mn3jB7Hg2kiq43LmavSpsdjDh07LxqqNde3hqzi1dr3zeXkuBeZeH/2BZ9+0lRqvc3tQOzfU94er3VowrZ75uV8sr9HiYAOHJ4qDqQzyEtvEFaTb7DqC5WzsZv4IUfnuQHOdORpeTNxsKSynsSyEOyMg5Moxi9xMaXkXKDCw1r3C3S/gcbSQyBCU6J02FbV4/bRkDFvCOBPyOpM1xXnRbB03w5+O7BauI+6ZATcO6orxmdmRNVG5Q/7wrcDhuSFxlAdtv3w1Zr23MPqM2kCzjanP/BNourXGHl23JmDSvhdAIh4f208KUpeEosZ3LvPokFg9xO9A23MYBYQMtCvey1Hx/dqcAEiGbId9RB2JWBvaVgwzSkjgwOV8mJcwE8U+NwTETTrg9F7ilwpITU22TB4or+sYQJ17CnWqGdcw==
-X-Gm-Message-State: AOJu0YwDIXeuRJwaLI4H401MKf5j+cAUX/r4xUQja9OxSvnLuZ9M+2WY
-	dtJO0KPQnet/MhpGT+GXwov5CXnBDWDEF09Fcua+E1aLv53pVi3/mLPFrs35TGOr+BtRwrdybUu
-	xjNN4gi2Cdat2K5oceKxYGXHsoi0=
-X-Google-Smtp-Source: AGHT+IFLQNwGHlc2x1pJKtfDQbxygWK6Gf7QAcGKtHzYeiun/g/cbs2h4qNhFprWOgm/WKjClpcVLvXhnCvHBWIHCLQ=
-X-Received: by 2002:a17:906:f8c6:b0:a6f:d1d:b523 with SMTP id
- a640c23a62f3a-a6f60d430e6mr561654166b.36.1718621938822; Mon, 17 Jun 2024
- 03:58:58 -0700 (PDT)
+	s=arc-20240116; t=1718630526; c=relaxed/simple;
+	bh=hrFQYKSoSedno6t/TMSRyd6Lxlx09BkJvdjqaOsR+cQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pW2yfLmxugoXcipB1eeYzcpLxooA7t2uasB7ls5b4yAVE31MouX3pz53A68EQasC11Mf8uBO+IOuENZOdRv9yv8V6Zl48wxfRt5cNpt62DEXzgGflRQMghiO/9senPQbfeneOiyngRxDxfXvv0Cq3mTOv5NxZWDVHhuZ8xR11lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cbxkO72c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758CCC4AF49;
+	Mon, 17 Jun 2024 13:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718630526;
+	bh=hrFQYKSoSedno6t/TMSRyd6Lxlx09BkJvdjqaOsR+cQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cbxkO72cYbLevNrSHoe7JacwYEJSDsRQKo2nHQVFxtd7WmtDqdnEmy4DWHTjNU12/
+	 NtXv2/1eiPcCNej1pQNB7BE3FwX2tB5OBydK9UlOHyvVnfeXhpcvQSjkrD6s/hq3E1
+	 +2AA7Sw+aFUzRlrzUgTLjx7XikGJe9EGDZK2N4sC+aZcoGLTXcfMW2gqJOLYFnzsPd
+	 UboCAtUVhZx8LvGQqGy6/senO/4CEMFwLH2KcGWuSJSCWGTnLgDbciOuzQwthU5+e+
+	 bVzZzRg5g4D8GD7y6QHzeaJp8Nvwf5PaWmQQ6C7Dsok1vVur+nCNSiC8s37C4CB8Sz
+	 nYcbz6D/hUg7A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-input@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.9 32/44] Input: silead - Always support 10 fingers
+Date: Mon, 17 Jun 2024 09:19:45 -0400
+Message-ID: <20240617132046.2587008-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240617132046.2587008-1-sashal@kernel.org>
+References: <20240617132046.2587008-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-In-Reply-To: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 17 Jun 2024 12:58:22 +0200
-Message-ID: <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
-Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
-To: nikita.shubin@maquefel.me
-Cc: Arnd Bergmann <arnd@arndb.de>, Hartley Sweeten <hsweeten@visionengravers.com>, 
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.5
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
-<devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
->
-> The goal is to recieve ACKs for all patches in series to merge it via Arn=
-d branch.
+From: Hans de Goede <hdegoede@redhat.com>
 
-'receive'
+[ Upstream commit 38a38f5a36da9820680d413972cb733349400532 ]
 
-> Unfortunately, CLK subsystem suddenly went silent on clk portion of serie=
-s V2 reroll,
-> tried to ping them for about a month but no luck.
->
-> Link: https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
-uefel.me
->
-> Some changes since last version (v9) - see "Changes in v10", mostly
-> cosmetic.
+When support for Silead touchscreens was orginal added some touchscreens
+with older firmware versions only supported 5 fingers and this was made
+the default requiring the setting of a "silead,max-fingers=10" uint32
+device-property for all touchscreen models which do support 10 fingers.
 
-...
+There are very few models with the old 5 finger fw, so in practice the
+setting of the "silead,max-fingers=10" is boilerplate which needs to
+be copy and pasted to every touchscreen config.
 
-> Patches should be formated with '--histogram'
+Reporting that 10 fingers are supported on devices which only support
+5 fingers doesn't cause any problems for userspace in practice, since
+at max 4 finger gestures are supported anyways. Drop the max_fingers
+configuration and simply always assume 10 fingers.
 
-'formatted'
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Link: https://lore.kernel.org/r/20240525193854.39130-2-hdegoede@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/silead.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-...
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 62f562ad50263..050fa9ca4ec94 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -71,7 +71,6 @@ struct silead_ts_data {
+ 	struct regulator_bulk_data regulators[2];
+ 	char fw_name[64];
+ 	struct touchscreen_properties prop;
+-	u32 max_fingers;
+ 	u32 chip_id;
+ 	struct input_mt_pos pos[SILEAD_MAX_FINGERS];
+ 	int slots[SILEAD_MAX_FINGERS];
+@@ -136,7 +135,7 @@ static int silead_ts_request_input_dev(struct silead_ts_data *data)
+ 	touchscreen_parse_properties(data->input, true, &data->prop);
+ 	silead_apply_efi_fw_min_max(data);
+ 
+-	input_mt_init_slots(data->input, data->max_fingers,
++	input_mt_init_slots(data->input, SILEAD_MAX_FINGERS,
+ 			    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED |
+ 			    INPUT_MT_TRACK);
+ 
+@@ -256,10 +255,10 @@ static void silead_ts_read_data(struct i2c_client *client)
+ 		return;
+ 	}
+ 
+-	if (buf[0] > data->max_fingers) {
++	if (buf[0] > SILEAD_MAX_FINGERS) {
+ 		dev_warn(dev, "More touches reported then supported %d > %d\n",
+-			 buf[0], data->max_fingers);
+-		buf[0] = data->max_fingers;
++			 buf[0], SILEAD_MAX_FINGERS);
++		buf[0] = SILEAD_MAX_FINGERS;
+ 	}
+ 
+ 	if (silead_ts_handle_pen_data(data, buf))
+@@ -315,7 +314,6 @@ static void silead_ts_read_data(struct i2c_client *client)
+ 
+ static int silead_ts_init(struct i2c_client *client)
+ {
+-	struct silead_ts_data *data = i2c_get_clientdata(client);
+ 	int error;
+ 
+ 	error = i2c_smbus_write_byte_data(client, SILEAD_REG_RESET,
+@@ -325,7 +323,7 @@ static int silead_ts_init(struct i2c_client *client)
+ 	usleep_range(SILEAD_CMD_SLEEP_MIN, SILEAD_CMD_SLEEP_MAX);
+ 
+ 	error = i2c_smbus_write_byte_data(client, SILEAD_REG_TOUCH_NR,
+-					data->max_fingers);
++					  SILEAD_MAX_FINGERS);
+ 	if (error)
+ 		goto i2c_write_err;
+ 	usleep_range(SILEAD_CMD_SLEEP_MIN, SILEAD_CMD_SLEEP_MAX);
+@@ -591,13 +589,6 @@ static void silead_ts_read_props(struct i2c_client *client)
+ 	const char *str;
+ 	int error;
+ 
+-	error = device_property_read_u32(dev, "silead,max-fingers",
+-					 &data->max_fingers);
+-	if (error) {
+-		dev_dbg(dev, "Max fingers read error %d\n", error);
+-		data->max_fingers = 5; /* Most devices handle up-to 5 fingers */
+-	}
+-
+ 	error = device_property_read_string(dev, "firmware-name", &str);
+ 	if (!error)
+ 		snprintf(data->fw_name, sizeof(data->fw_name),
+-- 
+2.43.0
 
-> Changes in v10:
->
-> Reordered SoB tags to make sure they appear before Rb and Acked tags.
-
-This is not required. The importance is only the order of SoBs
-themselves. If they are interleaved with other tags, it's fine.
-
-...
-
-
-Hopefully to see this series being eventually applied soon.
-Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
-
-
---=20
-With Best Regards,
-Andy Shevchenko
 
