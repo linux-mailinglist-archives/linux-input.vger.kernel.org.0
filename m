@@ -1,116 +1,192 @@
-Return-Path: <linux-input+bounces-4458-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4459-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBFA90DA05
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 18:54:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AFC90DADA
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 19:43:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C30C28AC10
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 16:54:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34E6A1F21650
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 17:43:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A4AD142E80;
-	Tue, 18 Jun 2024 16:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92821145353;
+	Tue, 18 Jun 2024 17:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GK8Nog0G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRgzssJY"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183BD13F016;
-	Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CBB143C4D;
+	Tue, 18 Jun 2024 17:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718729641; cv=none; b=koqm17h8Fly4si+SRye455z139zLAwaJpBwCMTgnZokR/kXDoUBKKfQ6wAl9W1fLiFM8QFySvcasmr4ooQ0l1ux3MVfz2BlB14/KgpQMOLOhAlufeI0LuRjoYvDrE008CtlJaLdggmT8N6rS2vYSjkPA6EcfE2zCgnRpcII4JsE=
+	t=1718732603; cv=none; b=mR3apmHQcYuMEELVICSj5alifN9+V80/wHXlimrmAktzJVTYDP9B/B/gbSgwCeLvltF7XiM5tAWjZtTXOPYjXrzt+u+DH5YsM/GIqHPaaYAYOdXVjpbesNYALZIKn0cStmV18bZwK0veEEt7gkmZA0MkCLQ3z2dlrztGnpBBx8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718729641; c=relaxed/simple;
-	bh=pi1s9JzXbV/imk2EIUojuF6yHVD4/lluGwnh58k352E=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=gCQ0w1s2Ni8Dqk0At1ERc36we477n7n5kAbq8gq+OKVOeCqNQOdFOTjopiFYSTGoT0o4ZprAmlqxoNkDYIScWfDNCPGAwAf8FdvNyfw1HC//bDPlvCHp7pjegp1sP+JZHchv9BlPZD2iVfBT3hM2FDEu3az20hcaY6wgAmXOq+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GK8Nog0G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA0FC4AF64;
-	Tue, 18 Jun 2024 16:54:00 +0000 (UTC)
+	s=arc-20240116; t=1718732603; c=relaxed/simple;
+	bh=GWwyjFLchn+E7WR5x6dLMTSPxlYLUUbdMMdnUh8n06U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXpz6/hxzcNuLUQcsyjYVUACUCNd5SLHcZI11ivodMxasKyUOU2uEscmfVfwRhN7tWdu9OG91d+NWhODdgnA/uX5Fao61s/x96U49sUBUgbcW67AXhc/1v4trdWrXoH2545xSKnH6EY6MvWn5ig12DLc2rP1CLS5iA+jzQmV6Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRgzssJY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D24BC3277B;
+	Tue, 18 Jun 2024 17:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718729640;
-	bh=pi1s9JzXbV/imk2EIUojuF6yHVD4/lluGwnh58k352E=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=GK8Nog0GRPQFKv4Bfioz4q801P9MX5gLhJJ5Kjvcl1VR+0ZUukb2CL1FMiKZ5ye4r
-	 tYXSTjDQYOiJOtY944SglSxxtZvRN02hIWk1OEcECVDiur5hjXLkDnsDg6L+/uS0na
-	 hd9XmxrIBipeGMozPvpqkTU3RK3i55zNrvwmJdaeR7Q5SI+JGIlLgVLd3KLNDIfqt9
-	 LRRmFZujT8xd2Zm1tOXonz63uJY/zky0jeF4IVtlPgnUBRzOnRx6jOc5nKBwh4kz5P
-	 pbt6GWIviEmxO2JLnOuX9LGWIuB57pxCgbZnH5riGuw6MU+FSw6J6JcRBEwJFWllb0
-	 4yeYwmEW89tDw==
-Date: Tue, 18 Jun 2024 10:53:59 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1718732603;
+	bh=GWwyjFLchn+E7WR5x6dLMTSPxlYLUUbdMMdnUh8n06U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GRgzssJYFzCiDz+tnBb1nBG1YsvJsP63zDUD0WEXjx9i+dH82xjaQ3QUTN66OQlHj
+	 agBsblRTVnTtwecixpjDPsk2Phrw+tzOEuimxwuR4hfbiITNxljzJ7tWWjv3UGP/PP
+	 4Ugujn/bHjLtuo7NcV1/HaFdJ+oC6Uq+pMOx1kkcKfCLyIQIxvGigy+pUP90RbaGoV
+	 lKRMqdMay77ZjZzk0sp0ZQ9GZ8gXuzEM0iZzXcz4BxVOvlb75ReTfgjimwUhtVVgDS
+	 FOnaw6pT44PJ3wN2db1VIJA/EQ2JTiFVfDn2/g80/7VAHKjuHslJuB3Z/kT9CsNaGj
+	 +78/8/nMv0I7g==
+Date: Tue, 18 Jun 2024 18:43:18 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charles Wang <charles.goodix@gmail.com>
+Cc: dmitry.torokhov@gmail.com, dan.carpenter@linaro.org, robh@kernel.org,
+	dianders@chromium.org, krzk+dt@kernel.org, jikos@kernel.org,
+	bentiss@kernel.org, hbarnor@chromium.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] dt-bindings: input: Goodix SPI HID Touchscreen
+Message-ID: <20240618-affluent-unroasted-e6d5d34d1ea2@spud>
+References: <20240618084455.1451461-1-charles.goodix@gmail.com>
+ <20240618084455.1451461-3-charles.goodix@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
- linux-input@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Mark Brown <broonie@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
- Stephen Boyd <sboyd@kernel.org>, Lee Jones <lee@kernel.org>, 
- linux-samsung-soc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
- linux-clk@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
- linux-leds@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
- Chanwoo Choi <cw00.choi@samsung.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, 
- David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com>
-Message-Id: <171872963565.3062659.8558146217368306841.robh@kernel.org>
-Subject: Re: [PATCH v3 09/23] dt-bindings: mfd: add samsung,s2dos05
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="b2mnwhhJp1+h6YJB"
+Content-Disposition: inline
+In-Reply-To: <20240618084455.1451461-3-charles.goodix@gmail.com>
 
 
-On Tue, 18 Jun 2024 16:59:43 +0300, Dzmitry Sankouski wrote:
-> add samsung,s2dos05 core MFD module binding
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+--b2mnwhhJp1+h6YJB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 18, 2024 at 04:44:54PM +0800, Charles Wang wrote:
+> The Goodix GT7986U touch controller report touch data according to the
+> HID protocol through the SPI bus. However, it is incompatible with
+> Microsoft's HID-over-SPI protocol.
+>=20
+> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
 > ---
->  .../devicetree/bindings/mfd/samsung,s2dos05.yaml   | 89 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 90 insertions(+)
-> 
+>  .../bindings/input/goodix,gt7986u.yaml        | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986=
+u.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml =
+b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+> new file mode 100644
+> index 000000000..25a26b4ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/goodix,gt7986u.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: GOODIX GT7986U SPI HID Touchscreen
+> +
+> +maintainers:
+> +  - Charles Wang <charles.goodix@gmail.com>
+> +
+> +description: Supports the Goodix GT7986U touchscreen.
+> +  This touch controller reports data packaged according to the HID proto=
+col,
+> +  but is incompatible with Microsoft's HID-over-SPI protocol.
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - goodix,gt7986u
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: reset gpio the chip is connected to.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+The description here isn't needed, it's obvious :)
 
-yamllint warnings/errors:
+> +  goodix,hid-report-addr:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/mfd/samsung,s2dos05.example.dtb: /example-0/i2c/pmic@60: failed to match any schema with compatible: ['samsung,s2dos05']
+This | is not needed, there's no formatting to preserve.
 
-doc reference errors (make refcheckdocs):
+Those are nits:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240618-starqltechn_integration_upstream-v3-9-e3f6662017ac@gmail.com
+Thanks,
+Conor.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+> +      The register address for retrieving HID report data.
+> +      This address is related to the device firmware and may
+> +      change after a firmware update.
+> +
+> +  spi-max-frequency: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset-gpios
+> +  - goodix,hid-report-addr
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      touchscreen@0 {
+> +        compatible =3D "goodix,gt7986u";
+> +        reg =3D <0>;
+> +        interrupt-parent =3D <&gpio>;
+> +        interrupts =3D <25 IRQ_TYPE_LEVEL_LOW>;
+> +        reset-gpios =3D <&gpio1 1 GPIO_ACTIVE_LOW>;
+> +        spi-max-frequency =3D <10000000>;
+> +        goodix,hid-report-addr =3D <0x22c8c>;
+> +      };
+> +    };
+> +
+> +...
+> --=20
+> 2.43.0
+>=20
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+--b2mnwhhJp1+h6YJB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-pip3 install dtschema --upgrade
+-----BEGIN PGP SIGNATURE-----
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnHHNgAKCRB4tDGHoIJi
+0pnZAQDBrH8CGjYVAnK86ReUnVo+hZqPoGqeJbVFbL8iWw74xgD4s0nX1GXmv1Ji
+Zuxw1P4FItJU/A1IV1sh4S6ec1e/DA==
+=5u54
+-----END PGP SIGNATURE-----
 
+--b2mnwhhJp1+h6YJB--
 
