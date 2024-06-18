@@ -1,58 +1,58 @@
-Return-Path: <linux-input+bounces-4415-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4416-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9328490CCC8
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 14:57:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6641990CCCD
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 14:57:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 408261F2317C
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 12:57:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A92B8282750
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 12:57:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F2B19E7DA;
-	Tue, 18 Jun 2024 12:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231BE19E808;
+	Tue, 18 Jun 2024 12:39:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6nY7orL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfywaxyO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B0419E7D6;
-	Tue, 18 Jun 2024 12:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFB019E7C6;
+	Tue, 18 Jun 2024 12:39:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718714392; cv=none; b=RQxevui/+0enA4aursWCVinclYSiArZhMS8oEhtCWjjjmI64n6EwaD4rdGC6OXB7hWtJnnowIe1a5PfT0+saiQXaLE+01mtg2YWZjFDdxl1dyDghSl2K9lQsh9hVwzfagLP7KeyI4zUB/rM0of0/6OcgHJGe+9o/e5ozTDvlc/0=
+	t=1718714394; cv=none; b=lfhb75ndpKdyKX9jSiMHx0sn96MjTvXi27TKpVjvOW4IqhKyiLkdSxNEpIhdvqBJ/7jnTTo1YaEVF42AJLBazRtw3J9aKZK69TzvQU1G5sDcCfiTReIlQrnY9RFGHI+1E+SFAJBTlg4b0ShMCtEw0BLXh8qVvtP6MnBKEXbKwoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718714392; c=relaxed/simple;
-	bh=fTypj0pLySXTgmrYxzbve/VcRyKTFDL9FMJi/IuO0xE=;
+	s=arc-20240116; t=1718714394; c=relaxed/simple;
+	bh=pYh4gCCVzgUCjIgAwrsYEXm3gW9eBwn7MWaFe1upkUs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mIXQNU1AVWSaQSz5/Ljb5DvTsL9x/Tliv0qQo+Wy8p6j/XnBNhcLNASSOcvjJkJixpYCv+MebYyKVwmMzynb2iCTlgcA60ZJZ1ThmWyjkLVd3idzb14UjgvQmHabcvOoS2crkbZ4PX3TKjQHhYq6fxWAyu/gXoJNajNCEu5g6rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6nY7orL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7636BC32786;
-	Tue, 18 Jun 2024 12:39:51 +0000 (UTC)
+	 MIME-Version; b=m26ry9t9oGDYBWZY55iJbloe0WgKMiLQoXT9rYKVli09FlBntyaFBtcwGGf3e0ZPMAP4QTw+kbaSEFZch4kxpw3VU/LhC4Lcu9SI5LCxR5sDN/1K3NUIjY1qs+iqKy/e5Euxu78E2wRJdn+x1+hZZOV+PHsZPKiF1OlwLqMIc5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfywaxyO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC27FC3277B;
+	Tue, 18 Jun 2024 12:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718714392;
-	bh=fTypj0pLySXTgmrYxzbve/VcRyKTFDL9FMJi/IuO0xE=;
+	s=k20201202; t=1718714393;
+	bh=pYh4gCCVzgUCjIgAwrsYEXm3gW9eBwn7MWaFe1upkUs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V6nY7orLHpJF9TkkShSuLveCf5UNC7c15nFddTYwWU2wHGbONSwB9kPy4Il00gWkc
-	 vPm7SvZTDN8QEEwJWJraCq7rxagp8yGHFUIqAIWBQArifeG3w4HM/zD61Mv/asUISe
-	 EaZaaYaw9+RMk4Eyi6c/JX0boQ3EJ2QqZvo3ZTLB7lFTRXlLS/whE4KpfuD7XY0xvb
-	 /GUeaQZ66RIhF4Mp9py3xGY/7GaYbujt73cwbJYUzvaDWCE3bByUQ5bQBGe89mkwPy
-	 7ZbZuwk3fcafMGyduZQnUvXoBLKyGKFcERIXkmH4qrmZlTzMfLGaRQmRmriqzayHUw
-	 tPmkLe2ttFA+Q==
+	b=mfywaxyOuf1and4eGzxFoJtrYHw4lw/D6cQZ3iOpFxHW39E21zwvgP+MbMsCinPAB
+	 FrAitRHLOTHFmB0YM20fsvijlZuseJu71VGajU2yEjgoeQ9YxA2O+HdT2hk9+k2tko
+	 6+hzJN6pz4XCAOhHse86edXLcyTIGYVz6i9q3xcEkVq3bAC6D/ArxXbFa/PQRQDpS7
+	 0Y97Kok9oFCm5kxsFEzfd5FJyJt49MqmFy3V+cyrPdXISBjAO4k4bQ228aCg5M0fVE
+	 Qx5s50ZfBFjLpDNsRzv9FMgLN6dhZakBvwP5biOzg6wBL5TwcltfT+mAwdXtjy9p+q
+	 CCztbjY0jhCrg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Aseda Aboagye <aaboagye@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
+Cc: Louis Dalibard <ontake@ontake.dev>,
+	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
 	jikos@kernel.org,
+	bentiss@kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 34/35] input: Add support for "Do Not Disturb"
-Date: Tue, 18 Jun 2024 08:37:54 -0400
-Message-ID: <20240618123831.3302346-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 35/35] HID: Ignore battery for ELAN touchscreens 2F2C and 4116
+Date: Tue, 18 Jun 2024 08:37:55 -0400
+Message-ID: <20240618123831.3302346-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240618123831.3302346-1-sashal@kernel.org>
 References: <20240618123831.3302346-1-sashal@kernel.org>
@@ -67,68 +67,54 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.34
 Content-Transfer-Encoding: 8bit
 
-From: Aseda Aboagye <aaboagye@chromium.org>
+From: Louis Dalibard <ontake@ontake.dev>
 
-[ Upstream commit 22d6d060ac77955291deb43efc2f3f4f9632c6cb ]
+[ Upstream commit a3a5a37efba11b7cf1a86abe7bccfbcdb521764e ]
 
-HUTRR94 added support for a new usage titled "System Do Not Disturb"
-which toggles a system-wide Do Not Disturb setting. This commit simply
-adds a new event code for the usage.
+At least ASUS Zenbook 14 (2023) and ASUS Zenbook 14 Pro (2023) are affected.
 
-Signed-off-by: Aseda Aboagye <aaboagye@chromium.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Link: https://lore.kernel.org/r/Zl-gUHE70s7wCAoB@google.com
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+The touchscreen reports a battery status of 0% and jumps to 1% when a
+stylus is used.
+
+The device ID was added and the battery ignore quirk was enabled for it.
+
+[jkosina@suse.com: reformatted changelog a bit]
+Signed-off-by: Louis Dalibard <ontake@ontake.dev>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-debug.c                | 1 +
- drivers/hid/hid-input.c                | 8 ++++++++
- include/uapi/linux/input-event-codes.h | 1 +
- 3 files changed, 10 insertions(+)
+ drivers/hid/hid-ids.h   | 2 ++
+ drivers/hid/hid-input.c | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index c629ab161d5b2..5302bfd527d86 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -975,6 +975,7 @@ static const char *keys[KEY_MAX + 1] = {
- 	[KEY_CAMERA_ACCESS_DISABLE] = "CameraAccessDisable",
- 	[KEY_CAMERA_ACCESS_TOGGLE] = "CameraAccessToggle",
- 	[KEY_ACCESSIBILITY] = "Accessibility",
-+	[KEY_DO_NOT_DISTURB] = "DoNotDisturb",
- 	[KEY_DICTATE] = "Dictate",
- 	[KEY_MICMUTE] = "MicrophoneMute",
- 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 0a4daff4846ff..cee09538c9aa2 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -418,6 +418,8 @@
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_13_AW0020NG  0x29DF
+ #define I2C_DEVICE_ID_ASUS_TP420IA_TOUCHSCREEN 0x2BC8
+ #define I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN 0x2C82
++#define I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN 0x2F2C
++#define I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN 0x4116
+ #define USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN	0x2544
+ #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
+ #define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index d5a6e89c3086e..8bb16e9b94aa5 100644
+index 8bb16e9b94aa5..c9094a4f281e9 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -833,6 +833,14 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 			break;
- 		}
- 
-+		if ((usage->hid & 0xf0) == 0x90) { /* SystemControl*/
-+			switch (usage->hid & 0xf) {
-+			case 0xb: map_key_clear(KEY_DO_NOT_DISTURB); break;
-+			default: goto ignore;
-+			}
-+			break;
-+		}
-+
- 		if ((usage->hid & 0xf0) == 0xa0) {	/* SystemControl */
- 			switch (usage->hid & 0xf) {
- 			case 0x9: map_key_clear(KEY_MICMUTE); break;
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 39f11ec676fae..a4206723f5033 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -619,6 +619,7 @@
- #define KEY_CAMERA_ACCESS_DISABLE	0x24c	/* Disables programmatic access to camera devices. (HUTRR72) */
- #define KEY_CAMERA_ACCESS_TOGGLE	0x24d	/* Toggles the current state of the camera access control. (HUTRR72) */
- #define KEY_ACCESSIBILITY		0x24e	/* Toggles the system bound accessibility UI/command (HUTRR116) */
-+#define KEY_DO_NOT_DISTURB		0x24f	/* Toggles the system-wide "Do Not Disturb" control (HUTRR94)*/
- 
- #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
- #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
+@@ -377,6 +377,10 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_GV301RA_TOUCHSCREEN),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX3402_TOUCHSCREEN),
++	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_ASUS_UX6404_TOUCHSCREEN),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550VE_TOUCHSCREEN),
 -- 
 2.43.0
 
