@@ -1,159 +1,151 @@
-Return-Path: <linux-input+bounces-4403-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4404-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F9490C63C
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 12:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A229F90C752
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 12:41:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B63E1C2121C
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 10:17:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FC9A1C220FF
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jun 2024 10:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3DDC13A250;
-	Tue, 18 Jun 2024 07:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4CD715E5A4;
+	Tue, 18 Jun 2024 08:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="3i17D+4H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wao62wT0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF417EF04;
-	Tue, 18 Jun 2024 07:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A23841C71;
+	Tue, 18 Jun 2024 08:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718696661; cv=none; b=Up0j2M+5mdwYaINd5tuH6Rr8z9nvRGOwQaPAfMQxr9v6eZnKw2DIO9z8Q2cl3O4nF3Xcxlh4MWtutJ31m+bj0Y/S5dIKGNJMV+JKm/KChICoh8mEcvn1LCwY11rA++2eiBr8OfpCZKPc4ieYzYGfnIduwgSc8c1RS8TsGDFIeKI=
+	t=1718700321; cv=none; b=BPzA5d/icyVLvlN460EBFs5Sa7m7U95I2t6nJk7GxPIPUxrESaUIm1Zg/glzu/nexebv+hJ0sJp3jKR9XVSMzolw3hjzRvslT6s18YFfp9+7+7eYE0ziWnQ3rP1J0xBWKwRs2qT2d8yJED2i96YKL2pAfR41IwBfarFSavXG0Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718696661; c=relaxed/simple;
-	bh=quE7CbA+hJK4Q3E7v2W+XYSGoUEBpSjGu7J/FkZiGn4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=uNSIM1JeXfwkKcav23glnZZYMYdcuMAYtoigIzkPp0PO4meKFqtqzGP/7HzOzESRI+7rCuhE/HN8UrLP/Nm3BCkAIwq0gJojqLC/mek7zUKIotuME53IWWvQMUXQHCYQ2nR69fSdZyqCGVAC7+mKm5J+eO4X+Avmui/DLT2NaeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=3i17D+4H; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=Nw4bJ4tSdfxhTXYp9MZQqf/Uh23gcXIcn+IQdoRdAUc=;
-	t=1718696659; x=1719128659; b=3i17D+4H0L6Wa/T9TPZ2mrGBxSyqEtmwZ2onp+i6sIKNwI4
-	56Cigv/Iy4B7JCnSp3NjYUFQBQ1gcgIwxomNhmKTwIynWVjsbbSS8k+X/UMnLiaXf+fNuNZiAf3aH
-	JJs1wmIzHmVfKn0mXCXMt1TRcLvpvkKv8c5yMyvw979PTjbEOicY+Ics5XvELZDzd4+khJ7qe5NUg
-	K0vAQEhlxh6naV/QgA86G9NwFRtx7iDeHSNqi2BosXPUF71XHboeOZVdtIrEFL7XWgyxVPka5AzkU
-	bP5cb1pDTdiUs3kf7f2dtTEKsivDGMERnhI1DvAlLOwTNZLUD6qJzbeDqDA11CxQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sJTVm-00028g-Pc; Tue, 18 Jun 2024 09:44:14 +0200
-Message-ID: <3eae9fcc-14fa-4292-945e-3339011825b9@leemhuis.info>
-Date: Tue, 18 Jun 2024 09:44:14 +0200
+	s=arc-20240116; t=1718700321; c=relaxed/simple;
+	bh=kpiQvaQ2ZnnLK5Xsby0sRe0KylNedZz1Emu3YYp3ZQ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0dHtgfyFOWtlK4NWjhNp3MC3HVwWVutQpBa4WN0nDq8te8urIhApSEihakEzYG6emQWINAsclE3sH2jk4JGrucsTH1MPFOWM/rgDM3XzKUPK3DN+a4qAG/pq8QJCRJUbkNknRFRwF45NKKVMpw0rvxnZm537zNgjmGjrgRtuUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wao62wT0; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-24c0dbd2866so2714897fac.0;
+        Tue, 18 Jun 2024 01:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718700319; x=1719305119; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yPYUtELosA8xnl39GhJPcApPe0HIs0EBkpVaQuScTEU=;
+        b=Wao62wT0SaznPme4jDiiMwuV37ekYfclE92SNQzRpt+c7biY8792E9rsQBnPnFHCX+
+         Pm0/IEv/Osb2ke4pba31mCZt1dEkaLl9BJ09frhbfomc8fm+iuXlVfU//OBv2nr/8da5
+         T0GOsBgQFs+AeT20j2R/u5RWWZIAd0LBWp2RCP7j0Rf2/oa77gx6fKwcbeoLlni8a1Vb
+         8o13e4SwT8Ch5l2/19D7lnNSpogZ9eorf+dygWPpsHz7G6sW7BSG/Qxu6GsWNVIZSQM1
+         77nNMcwhxN0s8bdybSEcnUpFxHUqFh2EOM9TFvAD+ccDQ/WhTpJVr74P26qpC85ymNGu
+         1rQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718700319; x=1719305119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yPYUtELosA8xnl39GhJPcApPe0HIs0EBkpVaQuScTEU=;
+        b=J/+BGl9NmGYBM8MW9CsJV37fP6H4aqp+SgMV+nCqMFmb3RS6oxAWJ9bQy+MBDAIyFN
+         bEHo1T/X7uwcO+hgt0GPcm6Vd8OnMisc3/sKCoMw3r5gMCoc+XvLbDPJmNt6wwZMfcap
+         lPdMxT5TVGqnDYMxkr5ZaAv/pylHEb5tZARgkh6slpxEcdXxD2Ei9ImHrQtDLd6fwPSV
+         W+TLFVmFfiElyUZTWuuckOkuiRroFNYRbnuPDnhpUuUlZoEASIbW/PC3CnknkXLW0BpN
+         qZnoWY9DC+rU3/pPtN2ybcRvdsAXiOHFKbXflIZ8pAuWBJU21moJnlooXKGXvMShD3Vi
+         lvkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGNK2ghZ6uaCg08ij21HyM7GNxNcfTkpZEpITJ5DmhPDILpX+SAWDq1bGlLA586RKH77rsqEZ5m5eQNrRFt0GFLUlCRjnCL5snPJx6erqt+9ZHC2XYluOeRlKySFuLf++DoI2plamBV/ux7opjJGnhsOXgslpV7Myt8df8IJoSUrPq8wor
+X-Gm-Message-State: AOJu0Yy07hRHFPChzicyRhv5+YSHl76DAP6uoD6Q7COb0KNdN4oVgdEB
+	HWqqZqI55ATV7xyubxYMz8NlrVsEZmo8ezeziArhtSQNTXAW4O+l
+X-Google-Smtp-Source: AGHT+IF3uENCwWKypgIUCO9FrGgaFoeFk9JoeBqoSGbpjuPy6usbJUCO3x1MbLPHVs4AfJyYCLQK/g==
+X-Received: by 2002:a05:6870:440e:b0:24f:c715:a4d4 with SMTP id 586e51a60fabf-25842ba206fmr13076694fac.40.1718700319126;
+        Tue, 18 Jun 2024 01:45:19 -0700 (PDT)
+Received: from ux-UP-WHL01.. (mailgw01.goodix.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705ccb6b4efsm8512152b3a.151.2024.06.18.01.45.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 01:45:18 -0700 (PDT)
+From: Charles Wang <charles.goodix@gmail.com>
+To: dmitry.torokhov@gmail.com,
+	dan.carpenter@linaro.org,
+	conor@kernel.org,
+	robh@kernel.org
+Cc: dianders@chromium.org,
+	krzk+dt@kernel.org,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	hbarnor@chromium.org,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charles Wang <charles.goodix@gmail.com>
+Subject: [PATCH v5 0/2] HID: add initial support for Goodix HID-over-SPI touchscreen
+Date: Tue, 18 Jun 2024 16:44:52 +0800
+Message-ID: <20240618084455.1451461-1-charles.goodix@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Xinput Controllers No Longer Working
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <CABRw72orHLEqpAS=cW1ThGkVUW0juqc7Y_-N2=o-k0rSqgpLxA@mail.gmail.com>
- <bb96d22d-250f-4d5d-9c21-c2568d37b27b@leemhuis.info>
- <CABRw72rifuVjs+LU5bB-2va11h=COyPpeBzWYkEMP+dW_h6MQQ@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Cc: Edward Wawrzynski <ewawrzynski16@gmail.com>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CABRw72rifuVjs+LU5bB-2va11h=COyPpeBzWYkEMP+dW_h6MQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1718696659;31951e46;
-X-HE-SMSGID: 1sJTVm-00028g-Pc
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
+This patch introduces a new driver to support the Goodix GT7986U
+touch controller. This device is not compatible with Microsoft's
+HID-over-SPI protocol and therefore needs to implement its own
+flavor. The data reported is packaged according to the HID
+protocol but uses SPI for communication to improve speed. This
+enables the device to transmit not only coordinate data but also
+corresponding raw data that can be accessed by user-space programs
+through the hidraw interface. The raw data can be utilized for
+functions like palm rejection, thereby improving the touch experience.
 
-Dmitry, Edward seems to have some regression with Xinput Controllers no
-Longer Working since v6.8..v6.9 and still not working with mainline. The
-thread starts here:
-https://lore.kernel.org/all/CABRw72orHLEqpAS%3DcW1ThGkVUW0juqc7Y_-N2%3Do-k0rSqgpLxA@mail.gmail.com/
+Key features:
+- Device connection confirmation and initialization
+- IRQ-based event reporting to the input subsystem
+- Support for HIDRAW operations (GET_REPORT and SET_REPORT)
 
-Dmesg files are attached to the parent of this mail. I briefly looked
-into them but no obvious problem jumped out to me untrained eyes.
+Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+---
+Changes in v5:
+- Add additional descriptive information to the dt-binding file.
+- Fixed build warnings reported by kernel test robot.
 
-Edward, with a bit of luck Dmitry might have an idea what's wrong here.
-But if not you might need to perform a git bisection to find the change
-that broke things:
-https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html
+Changes in v4:
+- Allocate memory based on the report information.
+- Added a new function goodix_get_event_report() to retrieve report data,
+  reducing memory copy operations and avoiding the use of reg_rw_lock.
+- Add low power control operations.
+- Implemented power management operations.
+- Introduced GOODIX_HID_STARTED to record the current device operating state.
+- Add OF match table.
 
-That process would also rule out that some config change on the Fedora
-side causes this.
+Changes in v3:
+- Renamed the driver file to hid-goodix-spi.c.
+- Mentioned in the commit message that this implementation is not compatible with
+  Microsoft's HID-over-SPI protocol.
+- Modified the driver to fetch the GOODIX_HID_REPORT_ADDR from device properties.
+- Add a lock to prevent concurrent hid feature request operations.
+- Optimized the SPI read/write functions by reducing the number of malloc calls.
 
-Ciao, Thorsten
+Changes in v2:
+- Fixed build warnings reported by kernel test robot
 
-On 18.06.24 02:03, Edward Wawrzynski wrote:
-> Hi Thorsten - I've removed the stable mailing list.
-> 
-> Sorry I took so long to respond. I just got the information you
-> requested. To add onto the previous report, the kernel I booted into
-> this time is 6.8.12, and the Xinput controllers still work perfectly.
-> 
-> I've attached two separate files I've generated, one on 6.9.4 (the
-> broken one) and one on 6.8.12 (the working one). Please let me know if
-> I can be of any further assistance.
-> 
-> On Mon, Jun 17, 2024 at 12:14 PM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
->>
->> [to anyone that replies to this: please drop the stable mailing list
->> from CC, as this sounds like a mainline regressin]
->>
->> Hi Edward! Thx for your report
->>
->> On 17.06.24 17:37, Edward Wawrzynski wrote:
->>>
->>> I was reaching out to report that there's been a regression in the
->>> latest stable 6.9.4 kernel. I'm using Fedora 40 and 6.9.4 just got
->>> pushed to the repos recently. Upon updating, my wired USB Xinput
->>> controllers no longer get detected.
->>>
->>> I've tried two 8BitDo controllers, the one being the 8BitDo Pro 2
->>> Bluetooth (with a USB cable) and the other being the 8BitDo Pro 2
->>> Wired Controller for Xbox. Neither of them are being detected on
->>> Kernel 6.9.4, despite previously working throughout the lifetime of
->>> Fedora 40's 6.8.x kernel versions, the latest being 6.8.11. I've also
->>> tried the vanilla kernel, as well as the latest vanilla mainline
->>> kernel from Fedora's COPR: 6.10.0-0.rc4.337.vanilla.fc40.x86_64.
->>>
->>> To reproduce, simply load Kernel 6.9.4+
->>
->> That sounds a lot like it is a mainline regression that was introduced
->> between 6.8.y and 6.9;
->>
->>> and plug a USB controller in
->>> with XInput (either an Xbox controller or something else that emulates
->>> one). It won't be detected. I plugged in a PS5 controller and it
->>> worked, but when I plugged in an Xbox Series S controller, it didn't
->>> work. The 8BitDo Pro 2 Bluetooth controller has four different
->>> settings (Switch, Android, DirectInput, Xinput), and it was detected
->>> and worked on every setting except for the Xinput setting. Reverting
->>> to version 6.8.11 fixes the issues immediately.
->>
->> Could you please share the output of "journalctl --dmesg --output=short"
->> for both a working and a broken kernel?
+---
+Charles Wang (2):
+  HID: hid-goodix: Add Goodix HID-over-SPI driver
+  dt-bindings: input: Goodix SPI HID Touchscreen
 
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+ .../bindings/input/goodix,gt7986u.yaml        |  72 ++
+ drivers/hid/Kconfig                           |   6 +
+ drivers/hid/Makefile                          |   1 +
+ drivers/hid/hid-goodix-spi.c                  | 811 ++++++++++++++++++
+ 4 files changed, 890 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+ create mode 100644 drivers/hid/hid-goodix-spi.c
 
-P.S.: let me add this to the tracking:
+-- 
+2.43.0
 
-#regzbot report /
-#regzbot introduced v6.8..v6.9
-#regzbot title input: Xinput Controllers No Longer Working
-#regzbot ignore-activity
 
