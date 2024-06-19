@@ -1,145 +1,132 @@
-Return-Path: <linux-input+bounces-4467-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4468-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CB690E373
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 08:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2916690EB1B
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 14:27:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 882EC1F23C4A
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 06:32:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D48C71F21CDD
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 12:27:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D3AE6A8D2;
-	Wed, 19 Jun 2024 06:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A31FE1422A2;
+	Wed, 19 Jun 2024 12:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BKz5xUPQ"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="E0k1+2Lq";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="jtFWxLql"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72C6F2E1
-	for <linux-input@vger.kernel.org>; Wed, 19 Jun 2024 06:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784F913AA51;
+	Wed, 19 Jun 2024 12:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718778725; cv=none; b=DzWlTft/LKEvpgKyczsmexu+1WA5ybkww42MIpPWqM5zzE44VNgPcVpBIIwcwACh6c6EEKU2+Q9P9RSpxbegPMhsTH49hNZ7SogDwDcqnZqbiAYAZUU+Giuv0IYMpOIquPCuem8/I0oErmZHNPIS/mOhjx/cS5EMq8YgKdLuEmw=
+	t=1718800033; cv=none; b=pXnjRLcRvQgDLrii10JJSkAuFV2bsO12toO6XiqsyATNzddpGZF+OTQpq9jQt1JoKSi1eyVu6wC6m6h9IJlNDfF+gck8cT0FQ/Yn2IcFr3Brb6g/c50VHwEwr0nnoKCDyJhCYButyLq+AdYzp48QGxm3jbsBXx/jPxb3qYZsAyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718778725; c=relaxed/simple;
-	bh=wFDerXuVfghJpTiIPsRtXmgYzrOV0DCn7nuFZy90qrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JireZSVJ0d2wgzl4E+k+yDcD50qLWZLfSrbKNFwd68xiZIAAPtMXgtZsazojhwE8+t8+MBc/6AZYlfO8/4hMmPyOLJ2IoScGNCwp0HAJsj3bPPMd/ghjkZB+AnejWlC0R2IhnsbzOz+pkK9W3MZGy3xZgOvStKNSQhhjZ9BEY0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BKz5xUPQ; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52cccd44570so216837e87.2
-        for <linux-input@vger.kernel.org>; Tue, 18 Jun 2024 23:32:02 -0700 (PDT)
+	s=arc-20240116; t=1718800033; c=relaxed/simple;
+	bh=gRdkF7mZaNLgISxMnEZRh0igfQ2rhmP3se3KFsPnfPU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kQxfDs8vuLqYPAWZABJ58dCFcX3U7mbj7qfWtNCQtjdzZMXr68R1Lvw1dM9YibBTSzZIu1rbiWI6Y2Eitu/su8A4RdTZrRxlVjaMc4P1haXQTmRwFROdkfUmQWzSqDCb5uSRZYVB//N23EdgBotd4LjdE2UUd7x88YB5ZpNYhQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=E0k1+2Lq; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=jtFWxLql reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718778721; x=1719383521; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWA6TxZL/MZl6HZnFwnJJBsYFPvFUHxiD6fzJli2OEU=;
-        b=BKz5xUPQH5oe2m+oz6FIakh8YZgserhH9FwPYhDJIV7S3mTJ2hL6AXVPD2P3ceKBP3
-         d9JdM4lEru3xVZL5maYySHMxhFQ1gccubinwgylgdTZE4qKRwq/vIA+eltXrqzsbLitM
-         FGYcfMhG3ZcMv9+33hWSoBJaA3Suza9xdPjx/qxerRghj8r4Hf/tfm6C37uiiOFXBht3
-         /Zu/yp1Duwm/o1OdtskCt7sJ0f6PXXaqI0NUq+DSy4EakEeKk1XWubK3H2BMmRvv8b9T
-         FftwEDmm7DCTPHg5h6WBzj3hZ16MDviwmStE3cpL/sagMj+p0dpsCFRoV7zdKVUUA+El
-         44LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718778721; x=1719383521;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kWA6TxZL/MZl6HZnFwnJJBsYFPvFUHxiD6fzJli2OEU=;
-        b=vpgBC7DvQ3yXc+WlAlyFYSNp6ynqfbcvbIqdhl5+bnZJky6REaAjGtW4DQOwiAezE2
-         qDHySzjRU+4DUfdxi6Xcgpe7Vee07T2uYdIo10Q3q+yzWjoNLk1v6WJ/WS3Jz6KSsLK7
-         EOjm2nCPAroGEwuKCKqHL1TsJZHd5+c+PVtCKo5ckQ+nZ9qYSNwsSFZkLIiDOeHYuZhc
-         ABZ28eimd5D8392T+cATWAVYZPZ+C9GkG3ilLw5rugeIHeYbI8h0zthiQ5aqeQ5PZPLA
-         usLfeQ4Ult4yiyzLyCjVu24DMv8YvqYl7X9k5eUGmX/5GvSY9nHoB314NoFQXuUGv4AA
-         YC3A==
-X-Forwarded-Encrypted: i=1; AJvYcCW33+fJ1NHQijMVBVgELIqeDVOCvt6H5oaAWZ7QWfbAC7m3dRgvcvnuIMcUwGO03G1LesjRuvc3QJxx5DB9rKiOlRrb80iPoIDjcbQ=
-X-Gm-Message-State: AOJu0YwPoej9JehQ2aHlDk0X1lvRoJLOcY8CXTrsYxTEHCeB9ZPAtlXN
-	ju+ydKPovkDmYbrsW0GlERvqQxlWOv4hwBI3hgs/1p64znbwBzEWWHCCBzjD3sU=
-X-Google-Smtp-Source: AGHT+IEESoHV+TTf90PdN7pLxmBm3gZ0xMUk7VRL1azohO9LT1Z72CZ3oFQjtGbrIy3x/5u5Qu0uhQ==
-X-Received: by 2002:a05:6512:3d04:b0:52b:c262:99b3 with SMTP id 2adb3069b0e04-52ccaa5693emr1070573e87.11.1718778719107;
-        Tue, 18 Jun 2024 23:31:59 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cba181738sm920583e87.255.2024.06.18.23.31.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jun 2024 23:31:58 -0700 (PDT)
-Date: Wed, 19 Jun 2024 09:31:57 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>, 
-	Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	phone-devel@vger.kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/23] gcc-sdm845: Add rates to the GP clocks
-Message-ID: <n7gvt4e6kt33lpnfivv4t2waro2t4qi4evkrfot3j2en7ubffb@gpzwolihwemr>
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-2-e3f6662017ac@gmail.com>
- <wnf3mfgdm4p4f5wrxdtlx4wccnizdvohc7iiyu5t22eeb67r57@xun3r73hksrg>
- <ad04e203-4244-4cd3-9c9a-fae002962990@linaro.org>
- <lwrz4rvn6ogseea5v6j7plc3yi3xnzo76dvrsl3muat3iswlkb@zmwa3xo3xgw4>
- <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1718800030; x=1750336030;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=byQ4uziYan99fHxdyCuRDt0WvxLvcZqE4rHrS7A3/yo=;
+  b=E0k1+2LqfNTUv7zQWQudjJPb9u9kajprkqb5R6Tf50m+g4DfXBsCDq8b
+   yysw1IclrJXshVLLws8efRK/Qc4jBKYRb/ixylK4qUUNPwS1xWyyWDJqN
+   m4j0vY9B8bP+815Ob+Eq42aD19dLl8GQBuAaZUmDzWXsKarwxTGCm9nD4
+   r2HtjzmlxM86B6HbcJVt4CPd88notibsPNzisALY81qwCA7A6SamCArPV
+   465TA+CxWRPdLqHBUi8uy9RruE6bhB4ekp5wMmVRTc0aIvJ5su8guamqk
+   vtzsgiZcC89miLxKXv+Fb/ortQTYktr3jeQaLtLgcb74EFJILiH5c7PcX
+   Q==;
+X-CSE-ConnectionGUID: MeeSjGaKSr6816QEtHAzMw==
+X-CSE-MsgGUID: rpSzCAnURkGollncxAo/4w==
+X-IronPort-AV: E=Sophos;i="6.08,250,1712613600"; 
+   d="scan'208";a="37476419"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 19 Jun 2024 14:27:08 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BAA69166A94;
+	Wed, 19 Jun 2024 14:27:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1718800024; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=byQ4uziYan99fHxdyCuRDt0WvxLvcZqE4rHrS7A3/yo=;
+	b=jtFWxLqlPAtanWAeudZUrzhoGaFv1/IKXR/75+XopLBCivCCLxwQWZ1uqKVKudc4AvaRQW
+	3mhvoHCZBOvRdHTmfk9//Gwc2cd8AsT4YpxVMjZWFs85Ey/Axa4e7yz+LGUSBUfySUiIk0
+	tr7zfvLrfYTj+hpS/TjP49RmKuk1jSAzOo2zbjdFZkbMDIbPHt/utTme0H1f8ekJAIc7VR
+	SUElD14DZ8MMUiteYL0QDjPT5GQJ9cvNrWYqoIDKzb4cCSDE8hf0Hya85tf9stq6lfTroq
+	WaP9zUNQ9Tg7s4erkhvNTEAw1xcRWDMHT8VwRu8nxnqF3Fx9YYF1abKhpJvnIA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] Input: ads7846 - Use spi_device_id table
+Date: Wed, 19 Jun 2024 14:27:02 +0200
+Message-Id: <20240619122703.2081476-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85e03d10-59a2-4f15-bb85-7b2c0354a5d1@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Jun 18, 2024 at 09:11:58PM GMT, Konrad Dybcio wrote:
-> 
-> 
-> On 6/18/24 20:55, Dmitry Baryshkov wrote:
-> > On Tue, Jun 18, 2024 at 08:50:52PM GMT, Konrad Dybcio wrote:
-> > > 
-> > > 
-> > > On 6/18/24 19:50, Dmitry Baryshkov wrote:
-> > > > On Tue, Jun 18, 2024 at 04:59:36PM GMT, Dzmitry Sankouski wrote:
-> > > > > sdm845 has "General Purpose" clocks that can be muxed to
-> > > > > SoC pins.
-> > > > > 
-> > > > > Those clocks may be used as e.g. PWM sources for external peripherals.
-> > > > > Add more frequencies to the table for those clocks so it's possible
-> > > > > for arbitrary peripherals to make use of them.
-> > > > > 
-> > > > > See also: bf8bb8eaccf(clk: qcom: gcc-msm8916: Add rates to the GP clocks)
-> > > > 
-> > > > Each time I look at the table attached to the GP CLK, I feel that it's
-> > > > plain wrong. In the end the GPCLK can in theory have arbitrary value
-> > > > depending on the usecase.
-> > > > 
-> > > > Bjorn, Konrad, maybe we should add special clk_ops for GP CLK which
-> > > > allow more flexibility than a default clk_rcg2_ops?
-> > > 
-> > > If we can somehow get max m/n/d values for all possible parents, sure
-> > 
-> > Calculate them at runtime?
-> 
-> We'd be calculating the mnd values for a frequency that's either equal or
-> reasonably close to the one requested. My worry is that we somehow need
-> to get the maximum values they can take (unless they're well-known)
+As the driver supports more devices over time the single MODULE_ALIAS
+is complete and raises several warnings:
+SPI driver ads7846 has no spi_device_id for ti,tsc2046
+SPI driver ads7846 has no spi_device_id for ti,ads7843
+SPI driver ads7846 has no spi_device_id for ti,ads7845
+SPI driver ads7846 has no spi_device_id for ti,ads7873
 
-One of the options might be to force devices to use
-assigned-clock-parent to set GP CLK sorource and pwm-clk as an actual
-device using the clock.
+Fix this by adding a spi_device_id table and removing the manual
+MODULE_ALIAS.
 
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ drivers/input/touchscreen/ads7846.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+index d2bbb436a77df..4d13db13b9e57 100644
+--- a/drivers/input/touchscreen/ads7846.c
++++ b/drivers/input/touchscreen/ads7846.c
+@@ -1111,6 +1111,16 @@ static const struct of_device_id ads7846_dt_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ads7846_dt_ids);
+ 
++static const struct spi_device_id ads7846_spi_ids[] = {
++	{ "tsc2046", 7846 },
++	{ "ads7843", 7843 },
++	{ "ads7845", 7845 },
++	{ "ads7846", 7846 },
++	{ "ads7873", 7873 },
++	{ },
++};
++MODULE_DEVICE_TABLE(spi, ads7846_spi_ids);
++
+ static const struct ads7846_platform_data *ads7846_get_props(struct device *dev)
+ {
+ 	struct ads7846_platform_data *pdata;
+@@ -1386,10 +1396,10 @@ static struct spi_driver ads7846_driver = {
+ 	},
+ 	.probe		= ads7846_probe,
+ 	.remove		= ads7846_remove,
++	.id_table	= ads7846_spi_ids,
+ };
+ 
+ module_spi_driver(ads7846_driver);
+ 
+ MODULE_DESCRIPTION("ADS7846 TouchScreen Driver");
+ MODULE_LICENSE("GPL");
+-MODULE_ALIAS("spi:ads7846");
 -- 
-With best wishes
-Dmitry
+2.34.1
+
 
