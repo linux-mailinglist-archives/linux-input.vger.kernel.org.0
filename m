@@ -1,116 +1,120 @@
-Return-Path: <linux-input+bounces-4476-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4477-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329B990F5BB
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 20:09:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 427CD90F84D
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 23:13:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F97B285BD6
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 18:09:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6F0FB24AE6
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 21:13:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA362156F21;
-	Wed, 19 Jun 2024 18:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CF2115A87E;
+	Wed, 19 Jun 2024 21:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VfznPObf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQAdtsMe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF81082495;
-	Wed, 19 Jun 2024 18:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05F215A846;
+	Wed, 19 Jun 2024 21:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718820550; cv=none; b=RYUH5fFulrzqdNYP8yLOwuC5tCW9L949RnwS0cE/T/+97fGM3tZrOej0isbR1ZQHBkJe0NJqdeAUxUpd+ESTjNcx7SYuHwVfftuWogbvUQwk8Wq3a5Y9l1PjihmsfRrmeaAYRin6KTu2AH3rPD1Dy+O6Ajzr8ICqp6PvgF6QzzM=
+	t=1718831606; cv=none; b=K3TXEa8+sFH1n6ntX8yFlcmSgnxYYwgrWUJbPjc419MhgA6NMRHbakH2pGTrCWkGFlPB3r0+jMJblCOCSBWr11TuvV4rWqhBUD8VHrozVe098doRAhS7NHnkdDSaWSfL2fwW/mxPaN6mjbdTOxTygYOimwdj7wa1kmFo+RVsvN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718820550; c=relaxed/simple;
-	bh=xQUMdfGptqNCoM+PXtRPaJVHRXrzeIqBVJkn4+hGA+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qyPSw771dcq2miKHtL1Q6Yt7h/A/0tuWHbb5m1ptJKLlMjbED/ka4fzqL58JfvqlOAtp5FZCSo4jrSG6AyfGeF3FFOl61p2YpB5XFwWUYPSPU6C93SEaXbGRSaUhrCMoZ8vs2kAZeJPhU/jXGt4uO+1eMHEMuNJYRyoj2etrjoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VfznPObf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8F1C2BBFC;
-	Wed, 19 Jun 2024 18:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718820550;
-	bh=xQUMdfGptqNCoM+PXtRPaJVHRXrzeIqBVJkn4+hGA+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VfznPObfU1O+XE2wsjaB+US4qnXrGLQxqSQzoJqJiNHYh84SCUSx5A157KA2aEgbg
-	 tks4zp0jMGBXQjWphplwlp3Eb2FW/6kPmLqwJeDj7Z49O6PynncBus5hS7JPJJgYQ4
-	 k7RNZlM8XqlJIw5QuZ38pji5SATwk4uUOHnszMYVgecw05x/s8pOZx8HtAnGZJ7+Hn
-	 e0W+0IibcO0hpwAxkc2TXs+5yxU3il4o0f+UMyvwzhVG15YWTEkTLn8mXYi4Rj6pUQ
-	 nFZx4Z9PLzYdbV+FBsW3T6k2Bn3mJkL4Ixtr4D925FsErqPdAU3oCTJ9YK1kMFrnHP
-	 rrYPzrdnKtAPw==
-Date: Wed, 19 Jun 2024 19:09:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: dmitry.torokhov@gmail.com, dan.carpenter@linaro.org, robh@kernel.org,
-	dianders@chromium.org, krzk+dt@kernel.org, jikos@kernel.org,
-	bentiss@kernel.org, hbarnor@chromium.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] dt-bindings: input: Goodix SPI HID Touchscreen
-Message-ID: <20240619-browsing-discount-cee3b686f505@spud>
-References: <20240618084455.1451461-1-charles.goodix@gmail.com>
- <20240618084455.1451461-3-charles.goodix@gmail.com>
- <20240618-affluent-unroasted-e6d5d34d1ea2@spud>
- <ZnI_kt3APuF6NWvR@ux-UP-WHL01>
+	s=arc-20240116; t=1718831606; c=relaxed/simple;
+	bh=I/hTuc/zP+bvnQXWL0T7cIQLz1sFe7PWnKke4/qHAeA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YVvBjcMAJPOcYbcLmiEPg6JEAZw960Rydgw4lZ4mFmrsKUQXjtvmfZjN0KvU/iLMYvX1vkEEjD7o97QQ8RhFAgmshW5oMLlWzjfnb2nh7wr1fereCsDsZaHyDISfGZaE0WhkqVwzvxoEqo9ncERwta5E161gIKicaehxraarzoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQAdtsMe; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so3920831fa.0;
+        Wed, 19 Jun 2024 14:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718831603; x=1719436403; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tebfRDKDwaxkvRaUg9Ir9nQNTVbshwJLHwNpt88dOII=;
+        b=mQAdtsMeWJ8PO6XD7WN47RG5p9IP75Vl/QCymPfp1P9PcUMcgO+RaSici5nDRiJEtl
+         larr5+pkv6sUakJWCJVVhZ9r3cnnaGYkopohEBWBv5VyWSsISx+sFXv/767+jznReHba
+         jvvkGL6cbuFWwGj+k17SfG7naN5dYydkh9gsFzuPx4SMIDXg3XmNjkOKYNUkP+Zajzhb
+         MsZmJ6MLgXuaimI1zhmBhXSOyHV4XckCFB1PSO7RLkHYpvgoxW1goEyMwTGatGYvj34A
+         PffmsvFnOpqpjw1HRz5bj2maHyXt8HnEAROo4ICxOSPHhAsc+kQUPk1+vMxkDyGuN4cq
+         mu8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718831603; x=1719436403;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tebfRDKDwaxkvRaUg9Ir9nQNTVbshwJLHwNpt88dOII=;
+        b=xJ23/jlrjdfKidQ8qYbDp07FBqAWXtWqqPQHx0GpEEX7qWk2hN/oPpPIMNFfbuMKRa
+         bfJJVxj0ejMaAQTCM9szMHBcfsBLns1Q6vE6xS+8q5GAhFtYHCDWn35ps8JbI8mJ/C6F
+         CH64DvUCvzilcp+/Avj3Mn4q+H6BjG13KJYebufGDmkEciMQoe3W9KHAKqAgdD1tOKtF
+         1bO+jcWaUOz0x/7/XxSLwTQAFO6wo4xUgrehmVPgiFYfcuTrY2mw/+Wwl2pI3zKjuH4B
+         0cJpbbTQEDcUHHDFRD3bVuwjrsANQyq8pH2O1d2OdUmd+Zx+eaW5VGQbGH0OsXKIdkNm
+         sXXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMf41kR5/h84ml+82bbpabzT3gQ1EwwjlsBUK53gsOdbn+gybjfutqrYELT00RYI9ZWgFjA426zETcuaSsm/H42/OmhETbkhRrzcSPj5N0L5634BcGSfbq0NH2VMe78kQtdikzG1JpgW7MLmIy
+X-Gm-Message-State: AOJu0YxeaA3npvLgDFgVPK+t1aUzks9GCkb+/ouCMbpRn7rxVixVxBJS
+	43VjgA6VLUw0edj9PG3SPRDadBbgYyzffxOIkKmEyV2RqfN0Qfonk3vrtfy3
+X-Google-Smtp-Source: AGHT+IE7VDhOKX8nAICfRhzVRk8lM5uPHxAy0HhZ8N8AMg6Nt/WT5TPoj42A5OYCKdk4WjaAEsO6zg==
+X-Received: by 2002:a2e:98cf:0:b0:2ec:43fa:25ad with SMTP id 38308e7fff4ca-2ec43fa26cemr6643101fa.7.1718831602764;
+        Wed, 19 Jun 2024 14:13:22 -0700 (PDT)
+Received: from [127.0.1.1] (84-115-213-103.cable.dynamic.surfer.at. [84.115.213.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f41700sm698738166b.152.2024.06.19.14.13.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 14:13:22 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/2] Input: ims-pcu - annotate struct ims_pcu_flash_fmt
+ with __counted_by
+Date: Wed, 19 Jun 2024 23:13:20 +0200
+Message-Id: <20240619-ims-pcu-counted_by-v1-0-3ee0ead2e57d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0Eg8AtMpp+Soaosq"
-Content-Disposition: inline
-In-Reply-To: <ZnI_kt3APuF6NWvR@ux-UP-WHL01>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPBJc2YC/x3MQQ5AMBBA0avIrE3Slmi4iohQU2ahpFUh4u4ay
+ 7f4/4FAnilAkz3g6eTAm0uQeQZmGdxMyFMyKKFKUckaeQ24m4hmi+6gqR9v1NaqctCFFLqAFO6
+ eLF//tO3e9wNMtTSNZAAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718831601; l=776;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=I/hTuc/zP+bvnQXWL0T7cIQLz1sFe7PWnKke4/qHAeA=;
+ b=VT0L280BZkvMlEAERFyMG/5nvfVfexUCgDSHGhpjwX/h8hEkIG8tMhPlPWj7oP84sNRLuDTOc
+ hhIbbRzr9i1C7qQiKgMwxhoWVaMeELADy3KeHJ6rPW2seEwL8ddHofM
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
+The length is assigned before the first reference to the data flexible
+array (see ims_pcu_flash_firmware()), which allows for a straightforward
+annotation without further modifications.
 
---0Eg8AtMpp+Soaosq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When at it, I also fixed an error message that repeats the word "input".
 
-On Wed, Jun 19, 2024 at 10:16:50AM +0800, Charles Wang wrote:
-> Hi Conor,
->=20
-> On Tue, Jun 18, 2024 at 06:43:18PM +0100, Conor Dooley wrote:
-> > On Tue, Jun 18, 2024 at 04:44:54PM +0800, Charles Wang wrote:
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Javier Carrasco (2):
+      Input: ims-pcu - annotate struct ims_pcu_flash_fmt with __counted_by
+      Input: ims-pcu - drop repeated "input" in error message
 
-> > > +  reset-gpios:
-> > > +    maxItems: 1
-> > > +    description: reset gpio the chip is connected to.
-> >=20
-> > The description here isn't needed, it's obvious :)
-> >
->=20
-> Ack.
->=20
-> > > +  goodix,hid-report-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description: |
-> >=20
-> > This | is not needed, there's no formatting to preserve.
-> >=20
-> > Those are nits:
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> >=20
->=20
-> Thank you. If there is a next version, I will fix these.
+ drivers/input/misc/ims-pcu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+---
+base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
+change-id: 20240619-ims-pcu-counted_by-7ff24a731073
 
-Sounds good, thank you!
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
---0Eg8AtMpp+Soaosq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnMewQAKCRB4tDGHoIJi
-0le3AP9V2KpfI8sEVe0Lj4eV/WlOwTZ3i1T60Q6aoOIM0o349wEA1xOgCzFo9Us4
-PJiiCKh8fY1RQAcX+Jdd57pq6DCh5Qk=
-=WtQJ
------END PGP SIGNATURE-----
-
---0Eg8AtMpp+Soaosq--
 
