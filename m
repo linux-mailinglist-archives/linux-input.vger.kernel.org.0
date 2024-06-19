@@ -1,118 +1,93 @@
-Return-Path: <linux-input+bounces-4469-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4470-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B1B90EE5A
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 15:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CE190F080
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 16:29:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E29B71F22E8E
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 13:28:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF6281F22379
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jun 2024 14:29:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611E214B975;
-	Wed, 19 Jun 2024 13:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C7118633;
+	Wed, 19 Jun 2024 14:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QP3fv3+W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ItVtshbH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3196814373E;
-	Wed, 19 Jun 2024 13:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAAA18029;
+	Wed, 19 Jun 2024 14:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718803676; cv=none; b=TGM01Qzez7deyC/Z0SmgIgxov7xfwp7qf6Tx7Up0DjetHicOmZhsUCQgvIJWQOCcwFy3y0B2ukVjSsoTbfa5HQzmfFyx3GKRBEj8V9BjXVPuBVEbbrcloe/ohG4SF0SiaJJrZ9TeITu0sVHSMYS+vTRYmr3pDc86mtuuSrwp6DE=
+	t=1718807371; cv=none; b=EZLc/WE3Cl4HVG5pjEEHCQXeraRKCVXsKaCtjCjCBxh2qXTIZpJ/M3r8xTBD/JzIQ0b3XqZ1jPt3DFKzBfdmgut/00TQbRHHZVJlLRfTaHn5oOo6FCyyQtE2X7Y+CBIJM8XiyEmRKAScZXuuk6dGBNNA0v75dN/NlenzYco9Sd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718803676; c=relaxed/simple;
-	bh=rCR7QuMaFcOz1m7J9fyPFPxCKL6AfHbaF5fRTnWNcm4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k0V5Cc1bkJ+JeWgRWrV+yj5uXjljiSSan5034spXnBfrPKmq2fuwhKGhlvj+FZDQX4szPWzz1wguJgUk8RNSpejDJMJAt7S59aBT8DbFKSFJuVp/4/U/ymDF+dXuS6lKjq6wSVEv0jniym6xJNEbrsWjG/rLQ9/9YqGpkCefRRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QP3fv3+W; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-80f50dadadfso490368241.1;
-        Wed, 19 Jun 2024 06:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718803673; x=1719408473; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U+EdAOsIyAeNB2MEPeOqJ21gcXQroPI9pOzshoyJ47o=;
-        b=QP3fv3+W56QV7UuVAXuiJlym4GgyYQHId/jUXlxwzwPkMwHrMdvANdAlqqQYMtGf5p
-         Bzssto5mHvsI/GD0o5EwMsTuNtACFimiOk3542PgeSyqcACHrOyDAQLAFtL+iNumAaIt
-         WnhIixWXnpONc+3KewbACFsIR100GanZADsNZWTLCCUe1su5Yw1BM8g4vqkqhMNVq2qw
-         JaTxazc0JJze4U+9j5aNpQkqHIrVXoKACjXkHK2yrUqYGYiu8DYOkMlNe9oIqtAEeKKX
-         cnTRFB03yMhxG7e5iROZsYGDxfgKLlCcB8/WRhNrLHHtU1Ksz4u67kK1m8WAeYtf/4W1
-         sgsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718803673; x=1719408473;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U+EdAOsIyAeNB2MEPeOqJ21gcXQroPI9pOzshoyJ47o=;
-        b=pfLzGOYytYSReNVLknEBZU8zrvehkZbkIVHtTHHY/jtoriWdOm4hcqok7OVkxShRg8
-         xk02bX0nkeNQwJb2wlo1+Mf24v3gk0jqInZJ+FcEliR231DwY9NlAXRPKODpLw8IThri
-         A9irogKS/vrdyNoTO3uroaZm/1oaVakOWDzBz+5Pre2lmXePGDJirYjeoSd+QzbtCLLz
-         kGZ6z5yFjQran20suzkCc7Pzbyq/lAQ4laAM1VOtmvM/aWYFayEMuoO0J0bewU575Gt2
-         EoBabAGScHakjYsQHW6sL+SQiGeIxfClmaayeTAtCRORq7wopnGd80hR9z6pDsiuEEUr
-         nDHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbYDxjS5dK7irEhd57hm+ApgPu20AaBJrz+5KTDMtSVfV/xoerJHqnY1pyidvreYa2UdYk6GM6RqNkIT4UmOFOozRycbwzPh8IAHJJLbT4Ba54dO/1umBTOkmfiU70/OMIE4lR5DOwkuisTW2FHV//koLVmb6G2bmVKw2B4j4hJhHCEjsbAv4bT4CKgqsXke6njx02hKHrZ4e0FUf/UwfikHLE/5ofgflCO9hnDcjUlTQcv5NNQe6rrYgxcfl0+ahjC2AbXdXmRybTJh06z0cwkrRj/4o9NRaX3k33nkC3zFE4bJ4lPcfBLsTRigMQkH+xZez2AxHU1mUmD4cAYsZnrVKNSaUjK5xmEnhns5HfyIzmSS+ytMchdVxA7TWJgZBdcyn1pHlZS+aug3prhgL4/IlTp5EzaFhpkAt09w4dh8kvFgCpNcFJdCIebM1pmrg=
-X-Gm-Message-State: AOJu0YwL+uZy8sFlSUBlunvKpmdjSUJkYl9ZmHhlLB6qoX1KkJA1OuFl
-	RcoADOg20Y4ZFFQEPPigLHjcSex1aHxpMFW9ebZRLf3ANBOiJi6GHvBcHcXIX/EC5OYDh7JurtD
-	w+yZLDvBPXRmTIuEuN7lEGgb1EA8=
-X-Google-Smtp-Source: AGHT+IGwE8bFf/VlY/jk/YXUnYkoze8GDMP6nvE5vZma8oxX1CjkKEtLu+mwZHIrK4bFz/7xDykwdahIAJ7lHkmGhA4=
-X-Received: by 2002:a67:ee4b:0:b0:48d:8904:3dad with SMTP id
- ada2fe7eead31-48f13140716mr2780689137.32.1718803671634; Wed, 19 Jun 2024
- 06:27:51 -0700 (PDT)
+	s=arc-20240116; t=1718807371; c=relaxed/simple;
+	bh=LY0WnLp+W/1ARBwbKbyLgeTCAST9Fx+qA+xH79e35zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8SeEgOh2lxRnMNQaAXwEJR1VLDDFGjzt0TEQNHJjlemD2IGSSni0gUUliEMXEJdyl8SmCh4OcRHU0wJJDs35FHlgsn0ymtOyO8tPNaSve1YW1dsJ/92Kb83JAz3ZQe4RIBqAA7bDtBi5VbixCj4hL8ReS899Ty2Iftvim35mZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ItVtshbH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41DD7C32781;
+	Wed, 19 Jun 2024 14:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718807370;
+	bh=LY0WnLp+W/1ARBwbKbyLgeTCAST9Fx+qA+xH79e35zU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ItVtshbHcoOexpDp5RGraVN4BcxbYtPdgo2JqhUXOCioZVxFnbrNOyqkIDJbXDX5J
+	 jO4Ar9PsrbYnmnvAsIuaeQlCmUAYVL6ELEglRqCSadn2irCOQQ5MorSG2tdXUPH4Py
+	 rQDXcdrLKxigbm7CKBX74wcWeh5+Y+wg++GPmpWPHjq2/cy+3Z8baRghJdxTtyspl/
+	 6TMOSLUusvZ+TI+rdtsbv7nyl5b4Qt6lQTDYZy4Z86JbInkRaK1I8K7ysLl0Y20Mav
+	 VOzjE/zgOSYPG/iYzHo56681mv6hfWiJK0SEuPXzfUlrW021m6scMCd/4wzwPgWyK1
+	 ki+04RD4kLj4w==
+Date: Wed, 19 Jun 2024 10:29:28 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Peter Hutterer <peter.hutterer@who-t.net>, jikos@kernel.org,
+	linux-input@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.9 31/35] HID: bpf: add in-tree HID-BPF fix for
+ the HP Elite Presenter Mouse
+Message-ID: <ZnLrSNTUjy73J9o9@sashalap>
+References: <20240527141214.3844331-1-sashal@kernel.org>
+ <20240527141214.3844331-31-sashal@kernel.org>
+ <k4j2pjxg23i6tggjc7beodock2q7pbjbgzombidzlowb7rpr37@ziaqvisevijj>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-11-e3f6662017ac@gmail.com> <pkmxbxoc4sno6mbjsftz6hp5lxefc6yhwxjlhiy2pd4wbkzpvl@as43z4t64mm6>
-In-Reply-To: <pkmxbxoc4sno6mbjsftz6hp5lxefc6yhwxjlhiy2pd4wbkzpvl@as43z4t64mm6>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Wed, 19 Jun 2024 16:27:40 +0300
-Message-ID: <CABTCjFABEY0urmgrr5E3-oq9u_aNR8KcCTMpJpoGLOTPOfKAGg@mail.gmail.com>
-Subject: Re: [PATCH v3 11/23] drm/panel: Add support for S6E3HA8 panel driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <k4j2pjxg23i6tggjc7beodock2q7pbjbgzombidzlowb7rpr37@ziaqvisevijj>
 
-=D0=B2=D1=82, 18 =D0=B8=D1=8E=D0=BD. 2024=E2=80=AF=D0=B3. =D0=B2 21:39, Dmi=
-try Baryshkov <dmitry.baryshkov@linaro.org>:
+On Mon, May 27, 2024 at 04:50:02PM +0200, Benjamin Tissoires wrote:
+>On May 27 2024, Sasha Levin wrote:
+>> From: Benjamin Tissoires <bentiss@kernel.org>
+>>
+>> [ Upstream commit 4e6d2a297dd5be26ad409b7a05b20bd033d1c95e ]
+>>
+>> Duplicate of commit 0db117359e47 ("HID: add quirk for 03f0:464a HP Elite
+>> Presenter Mouse"), but in a slightly better way.
+>>
+>> This time we actually change the application collection, making clearer
+>> for userspace what the second mouse is.
+>>
+>> Note that having both hid-quirks fix and this HID-BPF fix is not a
+>> problem at all.
 >
-> > +     ret =3D mipi_dsi_compression_mode(dsi, true);
-> > +     if (ret < 0) {
-> > +             dev_err(dev, "Failed to set compression mode: %d\n", ret)=
-;
-> > +             return ret;
-> > +     }
+>Please drop this patch in all backports (and FWIW, any fix in drivers/hid/bpf/progs/).
 >
-> Interesting, compression mode is being set before the PPS programming?
+>HID-BPF is only available since kernel v6.3, and the compilation output
+>of the in-tree file is not used directly, but shipped from udev-hid-bpf.
 >
-Yes, as per vendor kernel:
-https://github.com/klabit87/twrp_android_samsung_kernel_sdm845/blob/e8bb630=
-39008e1704a2f1bde68d39ded9c16ea88/drivers/gpu/drm/msm/samsung/S6E3HA8_AMB57=
-7PX01/dsi_panel_S6E3HA8_AMB577PX01_wqhd_octa_cmd.dtsi#L5508
+>TL;DR: this just adds noise to those stable kernel trees.
+
+I'll drop it, thanks!
+
+-- 
+Thanks,
+Sasha
 
