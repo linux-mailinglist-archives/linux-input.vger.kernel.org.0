@@ -1,300 +1,298 @@
-Return-Path: <linux-input+bounces-4518-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4519-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5599112DA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 22:15:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 490EC91142B
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 23:14:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FCA82832AF
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 20:15:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C38B11F23070
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 21:14:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B2531BA080;
-	Thu, 20 Jun 2024 20:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K3Q5hlmF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8BB0139CE5;
+	Thu, 20 Jun 2024 21:13:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBC01B9AC7;
-	Thu, 20 Jun 2024 20:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABAD7C6EB;
+	Thu, 20 Jun 2024 21:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718914514; cv=none; b=cq+Y4XTgzkx7/lfMPb0lnMQhHhKT+CcVrr9BtLR0SiR7DLMt+eFZyDI4MGsvoX/RON/hlvhWV9iMtrWlmvTADJYVxrEmaI7TK+Mw8kGwPOU5sK5XmnJzwGESpRUi8gZOCJalElQMTpJsTyYWDHY7D7FHvL8QJfuK5DJsHwZ//4s=
+	t=1718918013; cv=none; b=Fi8ioAiVfqRbVPtQYS6qCFqhA0QZ22y+sXDwyj7v4ERXzmvWHTXlkoLriYyk9qDa3DYhm2CQs0quWovjLJsH2fbnBYTvM5XeXKdOMcT1kx8abwYvjnojdZDCByKqnvDxRoWrA+MdKr4p+/nozE4TYbn4Aa5v4ptw0V7IjKTC9n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718914514; c=relaxed/simple;
-	bh=dx88qbfA3v0QDgtBAfkX2p+KZ894xqWOi1spAiEK79Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Af1zBzOILsRT342BYc8pOqu58eZzLRPucJ2hy4qpUAjwBgLyg+Q152fSU1v+SeVVGp/anlP8bErqF5pRaxb7By4Z8Dl0SOPLUlBYguzLA8RSDELdMUyyWLFny044WCNEgm/u6asLO7AK3iA0xEODUST4kdNLDq6pjF8JE58bQ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K3Q5hlmF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3088C2BD10;
-	Thu, 20 Jun 2024 20:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718914513;
-	bh=dx88qbfA3v0QDgtBAfkX2p+KZ894xqWOi1spAiEK79Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K3Q5hlmFTV2StGeAqV1ad3ALvO+at6HlmCfy/QXw80XBHI+CtCSJkAB6T0ljm1Cla
-	 h1FXTkMlJVy3YH8tdyanjrUGrMb+VoRevwm6fnqvKUM57OyG/H15yfbdSIVTdZCLh3
-	 37/vSJq/jpQHMF3G47KlhSq+OSUt8sc0+DmRekUGL9Bje93H8KLMY/PBtbK1Sh5Uks
-	 mrnDLEAMdFXzxRAKsxZtF13sVSaXwSWqY3ZjjuVcQ0QzyFwy2lQCNQLs4U6Y5wLWZ6
-	 YcyobmsG93CE3GImMYQqPd3ezOFin5JLavDjJQF6mCPAWzDHNK11PoA1fh2iITVrMb
-	 s0XuW0DNn177w==
-Message-ID: <dafab4dc-34ef-4abd-9f3f-1dee675a1a56@kernel.org>
-Date: Thu, 20 Jun 2024 22:14:59 +0200
+	s=arc-20240116; t=1718918013; c=relaxed/simple;
+	bh=Dp2GZavLhHcBZK10vk+hzuD37zn4qR0z/2JselQ9tPA=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=FjTgzoiwkaCm9R+zjPjI7GrckDrwRZcF1yRRh160jzKvCnv5cTUPzCo+6i9LWlSor4IcaoGWhP0XNerOf+o2yf5IfM3NmWAs+t1s/U+sd2UuxUojAIeDtlAWEyl5S9xpdBgE1qBYgKXVWM6DsAwuSxREzFiOe6bAMxF/o3lOBFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu; spf=pass smtp.mailfrom=artur-rojek.eu; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=artur-rojek.eu
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C8BAC60003;
+	Thu, 20 Jun 2024 21:13:27 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/23] leds: max77705: Add LEDs support
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
- <20240618-starqltechn_integration_upstream-v3-16-e3f6662017ac@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240618-starqltechn_integration_upstream-v3-16-e3f6662017ac@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Jun 2024 23:13:27 +0200
+From: Artur Rojek <contact@artur-rojek.eu>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: adc-joystick - move axes data into the main
+ structure
+In-Reply-To: <ZmkrgTlxNwm_oHxv@google.com>
+References: <ZmkrgTlxNwm_oHxv@google.com>
+Message-ID: <af45d1dd82b6abf5ec3633fdef5093d2@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: contact@artur-rojek.eu
 
-On 18/06/2024 15:59, Dzmitry Sankouski wrote:
-> This adds basic support for LEDs for the max77705 PMIC.
+Hi Dmitry,
+
+On 2024-06-12 07:00, Dmitry Torokhov wrote:
+> There is no need to allocate axes information separately from the main
+> joystick structure so let's fold the allocation and also drop members
+> (such as range, flat and fuzz) that are only used during initialization
+> of the device.
 > 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  MAINTAINERS                  |   1 +
->  drivers/leds/Kconfig         |   6 ++
->  drivers/leds/Makefile        |   1 +
->  drivers/leds/leds-max77705.c | 166 +++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 174 insertions(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f66f08825db9..f3c245d432d9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13691,6 +13691,7 @@ F:	drivers/*/max14577*.c
->  F:	drivers/*/max77686*.c
->  F:	drivers/*/max77693*.c
->  F:	drivers/*/max77705*.c
-> +F:	drivers/leds/leds-max77705.c
->  F:	drivers/clk/clk-max77686.c
->  F:	drivers/extcon/extcon-max14577.c
->  F:	drivers/extcon/extcon-max77693.c
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 05e6af88b88c..14d483011308 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -728,6 +728,12 @@ config LEDS_MAX77650
->  	help
->  	  LEDs driver for MAX77650 family of PMICs from Maxim Integrated.
->  
-> +config LEDS_MAX77705
-> +	tristate "LED support for Maxim MAX77705 RGB"
-> +	depends on MFD_MAX77705 && LEDS_CLASS && I2C
-> +	help
-> +	  LED driver for MAX77705 MFD chip from Maxim Integrated.
+> v2:
+> 
+> - fixed issue with uninitialized "axes" in adc_joystick_set_axes()
+>   pointed out by Dan Carpenter
+> - fixed issue with checking wrong variable in adc_joystick_probe()
+>   pointed out by Dan Carpenter
+> 
+>  drivers/input/joystick/adc-joystick.c | 113 ++++++++++++++------------
+>  1 file changed, 60 insertions(+), 53 deletions(-)
+> 
+> diff --git a/drivers/input/joystick/adc-joystick.c 
+> b/drivers/input/joystick/adc-joystick.c
+> index 916e78e4dc9f..1e30cbcd8c61 100644
+> --- a/drivers/input/joystick/adc-joystick.c
+> +++ b/drivers/input/joystick/adc-joystick.c
+> @@ -15,19 +15,15 @@
+> 
+>  struct adc_joystick_axis {
+>  	u32 code;
+> -	s32 range[2];
+> -	s32 fuzz;
+> -	s32 flat;
+>  	bool inverted;
+>  };
+> 
+>  struct adc_joystick {
+>  	struct input_dev *input;
+>  	struct iio_cb_buffer *buffer;
+> -	struct adc_joystick_axis *axes;
+>  	struct iio_channel *chans;
+> -	int num_chans;
+> -	bool polled;
+> +	unsigned int num_chans;
+> +	struct adc_joystick_axis axes[] __counted_by(num_chans);
+>  };
+> 
+>  static int adc_joystick_invert(struct input_dev *dev,
+> @@ -135,9 +131,11 @@ static void adc_joystick_cleanup(void *data)
+> 
+>  static int adc_joystick_set_axes(struct device *dev, struct 
+> adc_joystick *joy)
+>  {
+> -	struct adc_joystick_axis *axes;
+> +	struct adc_joystick_axis *axes = joy->axes;
+>  	struct fwnode_handle *child;
+> -	int num_axes, error, i;
+> +	s32 range[2], fuzz, flat;
+> +	unsigned int num_axes;
+> +	int error, i;
+> 
+>  	num_axes = device_get_child_node_count(dev);
+>  	if (!num_axes) {
+> @@ -151,10 +149,6 @@ static int adc_joystick_set_axes(struct device 
+> *dev, struct adc_joystick *joy)
+>  		return -EINVAL;
+>  	}
+> 
+> -	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
+> -	if (!axes)
+> -		return -ENOMEM;
+> -
+>  	device_for_each_child_node(dev, child) {
+>  		error = fwnode_property_read_u32(child, "reg", &i);
+>  		if (error) {
+> @@ -176,29 +170,25 @@ static int adc_joystick_set_axes(struct device 
+> *dev, struct adc_joystick *joy)
+>  		}
+> 
+>  		error = fwnode_property_read_u32_array(child, "abs-range",
+> -						       axes[i].range, 2);
+> +						       range, 2);
+>  		if (error) {
+>  			dev_err(dev, "abs-range invalid or missing\n");
+>  			goto err_fwnode_put;
+>  		}
+> 
+> -		if (axes[i].range[0] > axes[i].range[1]) {
+> +		if (range[0] > range[1]) {
+>  			dev_dbg(dev, "abs-axis %d inverted\n", i);
+>  			axes[i].inverted = true;
+> -			swap(axes[i].range[0], axes[i].range[1]);
+> +			swap(range[0], range[1]);
+>  		}
+> 
+> -		fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
+> -		fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
+> +		fwnode_property_read_u32(child, "abs-fuzz", &fuzz);
+> +		fwnode_property_read_u32(child, "abs-flat", &flat);
+> 
+>  		input_set_abs_params(joy->input, axes[i].code,
+> -				     axes[i].range[0], axes[i].range[1],
+> -				     axes[i].fuzz, axes[i].flat);
+> -		input_set_capability(joy->input, EV_ABS, axes[i].code);
+> +				     range[0], range[1], fuzz, flat);
+>  	}
+> 
+> -	joy->axes = axes;
+> -
+>  	return 0;
+> 
+>  err_fwnode_put:
+> @@ -206,23 +196,49 @@ static int adc_joystick_set_axes(struct device 
+> *dev, struct adc_joystick *joy)
+>  	return error;
+>  }
+> 
 > +
->  config LEDS_MAX8997
->  	tristate "LED support for MAX8997 PMIC"
->  	depends on LEDS_CLASS && MFD_MAX8997
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index effdfc6f1e95..be064e3d678e 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -58,6 +58,7 @@ obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
->  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
->  obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
->  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
-> +obj-$(CONFIG_LEDS_MAX77705)		+= leds-max77705.o
->  obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
->  obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
->  obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
-> diff --git a/drivers/leds/leds-max77705.c b/drivers/leds/leds-max77705.c
-> new file mode 100644
-> index 000000000000..f91c0e41056c
-> --- /dev/null
-> +++ b/drivers/leds/leds-max77705.c
-> @@ -0,0 +1,166 @@
-> +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Based on leds-max77650 driver:
-> + *		Copyright (C) 2018 BayLibre SAS
-> + *		Author: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> + *
-> + * LED driver for MAXIM 77705 MFD.
-> + * Copyright (C) 2024 Dzmitry Sankouski <dsankouski@gmail.org>
+> + * Count how many channels we got. NULL terminated.
+> + * Do not check the storage size if using polling.
 > + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/mfd/max77705.h>
-> +#include <linux/mfd/max77705-private.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define MAX77705_LED_NUM_LEDS		4
-> +#define MAX77705_LED_EN_MASK		GENMASK(1, 0)
-> +#define MAX77705_LED_MAX_BRIGHTNESS	0xff
-> +
-> +#define LEDBLNK_ON(time)	((time < 100) ? 0 :			\
-> +				(time < 500) ? time/100-1 :		\
-> +				(time < 3250) ? (time-500)/250+4 : 15)
-> +
-> +#define LEDBLNK_OFF(time)	((time < 1) ? 0x00 :			\
-> +				(time < 500) ? 0x01 :			\
-> +				(time < 5000) ? time/500 :		\
-> +				(time < 8000) ? (time-5000)/1000+10 :	 \
-> +				(time < 12000) ? (time-8000)/2000+13 : 15)
+> +static int adc_joystick_count_channels(struct device *dev,
+> +				       const struct iio_channel *chans,
+> +				       bool polled,
+> +				       unsigned int *num_chans)
 
-Make both static functions, if really needed, but these appear only in
-one place, so maybe just code it directly.
+You forgot to assign *num_chans = i; at the end of this function,
+which leaves it uninitialized in the caller context.
 
-
-> +
-> +struct max77705_led {
-> +	struct led_classdev cdev;
-> +	struct regmap *regmap;
-> +	unsigned int en_shift;
-> +	unsigned int reg_brightness;
-> +	unsigned int regB;
-
-noCamelCase.
-
-> +};
-> +
-> +static struct max77705_led *max77705_to_led(struct led_classdev *cdev)
 > +{
-> +	return container_of(cdev, struct max77705_led, cdev);
-> +}
+> +	int bits;
+> +	int i;
 > +
 
+Let's move that "NULL terminated." comment here, since it's about the
+for loop.
 
-> +		led = &leds[reg];
-> +		led->regmap = map;
-> +		led->reg_brightness = MAX77705_RGBLED_REG_LED0BRT + reg;
-> +		led->en_shift = 2 * reg;
-> +		led->cdev.brightness_set_blocking = max77705_led_brightness_set;
-> +		led->cdev.blink_set = max77705_rgb_blink;
-> +		led->cdev.max_brightness = MAX77705_LED_MAX_BRIGHTNESS;
-> +
-> +		init_data.fwnode = child;
-> +		init_data.devicename = "max77705";
-> +		/* for backwards compatibility if `label` is not present */
-> +		init_data.default_label = ":";
+With the above comments addressed:
+Acked-by: Artur Rojek <contact@artur-rojek.eu>
 
-There is no backwards compatibility - it's fresh driver.
+Cheers,
+Artur
 
-> +
-> +		rv = devm_led_classdev_register_ext(dev, &led->cdev,
-> +							&init_data);
-> +		if (rv)
-> +			goto err_node_put;
-> +
-> +		rv = max77705_led_brightness_set(&led->cdev, LED_OFF);
-> +		if (rv)
-> +			goto err_node_put;
+> +	for (i = 0; chans[i].indio_dev; i++) {
+> +		if (polled)
+> +			continue;
+> +		bits = chans[i].channel->scan_type.storagebits;
+> +		if (!bits || bits > 16) {
+> +			dev_err(dev, "Unsupported channel storage size\n");
+> +			return -EINVAL;
+> +		}
+> +		if (bits != chans[0].channel->scan_type.storagebits) {
+> +			dev_err(dev, "Channels must have equal storage size\n");
+> +			return -EINVAL;
+> +		}
 > +	}
 > +
-> +	return 0;
-> +err_node_put:
-> +	fwnode_handle_put(child);
-> +	return rv;
+> +	return i;
 > +}
 > +
-> +static const struct of_device_id max77705_led_of_match[] = {
-> +	{ .compatible = "maxim,max77705-led" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, max77705_led_of_match);
+>  static int adc_joystick_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> +	struct iio_channel *chans;
+>  	struct adc_joystick *joy;
+>  	struct input_dev *input;
+> +	unsigned int poll_interval = 0;
+> +	unsigned int num_chans;
+>  	int error;
+> -	int bits;
+> -	int i;
+> -	unsigned int poll_interval;
+> -
+> -	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
+> -	if (!joy)
+> -		return -ENOMEM;
+> 
+> -	joy->chans = devm_iio_channel_get_all(dev);
+> -	if (IS_ERR(joy->chans)) {
+> -		error = PTR_ERR(joy->chans);
+> +	chans = devm_iio_channel_get_all(dev);
+> +	error = PTR_ERR_OR_ZERO(chans);
+> +	if (error) {
+>  		if (error != -EPROBE_DEFER)
+>  			dev_err(dev, "Unable to get IIO channels");
+>  		return error;
+> @@ -236,28 +252,19 @@ static int adc_joystick_probe(struct 
+> platform_device *pdev)
+>  	} else if (poll_interval == 0) {
+>  		dev_err(dev, "Unable to get poll-interval\n");
+>  		return -EINVAL;
+> -	} else {
+> -		joy->polled = true;
+>  	}
+> 
+> -	/*
+> -	 * Count how many channels we got. NULL terminated.
+> -	 * Do not check the storage size if using polling.
+> -	 */
+> -	for (i = 0; joy->chans[i].indio_dev; i++) {
+> -		if (joy->polled)
+> -			continue;
+> -		bits = joy->chans[i].channel->scan_type.storagebits;
+> -		if (!bits || bits > 16) {
+> -			dev_err(dev, "Unsupported channel storage size\n");
+> -			return -EINVAL;
+> -		}
+> -		if (bits != joy->chans[0].channel->scan_type.storagebits) {
+> -			dev_err(dev, "Channels must have equal storage size\n");
+> -			return -EINVAL;
+> -		}
+> -	}
+> -	joy->num_chans = i;
+> +	error = adc_joystick_count_channels(dev, chans, poll_interval != 0,
+> +					    &num_chans);
+> +	if (error)
+> +		return error;
 > +
-> +static struct platform_driver max77705_led_driver = {
-> +	.driver = {
-> +		.name = "max77705-led",
-> +		.of_match_table = max77705_led_of_match,
-> +	},
-> +	.probe = max77705_led_probe,
-> +};
-> +module_platform_driver(max77705_led_driver);
+> +	joy = devm_kzalloc(dev, struct_size(joy, axes, num_chans), 
+> GFP_KERNEL);
+> +	if (!joy)
+> +		return -ENOMEM;
 > +
-> +MODULE_DESCRIPTION("MAXIM 77705 LED driver");
-> +MODULE_AUTHOR("Bartosz Golaszewski <bgolaszewski@baylibre.com>");
-> +MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:max77705-led");
-
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong (e.g. misses either
-entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-for incomplete ID table.
-
-
-Best regards,
-Krzysztof
+> +	joy->chans = chans;
+> +	joy->num_chans = num_chans;
+> 
+>  	input = devm_input_allocate_device(dev);
+>  	if (!input) {
+> @@ -273,7 +280,7 @@ static int adc_joystick_probe(struct 
+> platform_device *pdev)
+>  	if (error)
+>  		return error;
+> 
+> -	if (joy->polled) {
+> +	if (poll_interval != 0) {
+>  		input_setup_polling(input, adc_joystick_poll);
+>  		input_set_poll_interval(input, poll_interval);
+>  	} else {
+> --
+> 2.45.2.505.gda0bf45e8d-goog
 
 
