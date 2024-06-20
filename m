@@ -1,152 +1,205 @@
-Return-Path: <linux-input+bounces-4489-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4494-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EA09108F5
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 16:50:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C635B910A0F
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 17:38:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10E7CB23AEC
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 14:50:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4843B1F22907
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 15:38:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE4A1AE851;
-	Thu, 20 Jun 2024 14:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4044B1B150A;
+	Thu, 20 Jun 2024 15:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b="E9rXJphZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yv6aWu0u"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.kaechele.ca (mail.kaechele.ca [54.39.219.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FFD1AE08E;
-	Thu, 20 Jun 2024 14:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.39.219.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12C91B1422;
+	Thu, 20 Jun 2024 15:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718895036; cv=none; b=OKtuNqa/R8ht6WHzQ9K3RPtI+Xcoh85sxqJWgfVYkb3g9eL9uVCo8tFvSf3KDtYo3VWPB2xU2vPDGcTSrkZw/uCtg2XgGL8AVeOf+45zD3hBx1rLH/cBNDXjz69Q5OhelwV+YeJ4wkiqWE3atwOxlvfoQSRRj4TTCZxsax7Q9wE=
+	t=1718897866; cv=none; b=Yq51XR3RQD9kZR+7psLACSmuIqe8FL/KZjmHxfM0qjT7uriwmYclzhpc23mNOfv5VRq4gLXC4RIqhvIS824BidoTEyTsGY+hmwApnGB9uX/7CS1Pj3biViDbt8yNfExcJJjXv+wPOTiCU6EeIcJuzoM5lTByv5xY9jGfJ0FK7fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718895036; c=relaxed/simple;
-	bh=2DzxvjV6MvKhNUdCZmu80xYkWaZG1Zm5C2Gtma+Iq1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r1z7vxm16aWWsCoMmwL3+GFjfamk6HJIFdeb0dHs7LqRyq32dJhs2k89mkgRaihwAjfJWf2rVRBb9F39yje0ofFdO5r2zz4EKhDBLYDXt8WW+eCb2aP7jxmIYk5qT7H8L8MX7da6+uUV8K+tX8ImJWBjPshw7xR0wqOXkU/9U1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca; spf=pass smtp.mailfrom=kaechele.ca; dkim=pass (1024-bit key) header.d=kaechele.ca header.i=@kaechele.ca header.b=E9rXJphZ; arc=none smtp.client-ip=54.39.219.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaechele.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaechele.ca
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 60CFDC0072;
-	Thu, 20 Jun 2024 10:52:13 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaechele.ca; s=201907;
-	t=1718895134; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=K6yI03A8YX5AxufGKnNrR+pc9BLu4Q5cOZcnXlwV5G4=;
-	b=E9rXJphZGhN4S6CmjEvA6PdMbMcrSpFkJaoiDBfr68ID8nM6Iw15+dWQv/AXLUg7MsF156
-	E660eXuJftvqEpcp8WtJEY/1XwKXT0IWDxPDIu6HMxcFgUMmoCjV0UsntS1ae7fHIEStOn
-	jZR584DHqM0+FnSHDq53ilscClvaWLE=
-From: Felix Kaechele <felix@kaechele.ca>
-To: Job Noorman <job@noorman.info>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gale <paul@siliconpixel.com>
-Subject: [PATCH v3 5/5] input: himax_hx83112b: add support for HX83100A
-Date: Thu, 20 Jun 2024 10:50:06 -0400
-Message-ID: <20240620145019.156187-6-felix@kaechele.ca>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240620145019.156187-1-felix@kaechele.ca>
-References: <20240620145019.156187-1-felix@kaechele.ca>
+	s=arc-20240116; t=1718897866; c=relaxed/simple;
+	bh=RsIlLBhJcyE3XwRqtVP46pxZY2iyfW8Fw1s+960Es2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbYhhAXx/McBP61pvs66XIPlTuXg6AmlF7/ZNBNKYHpjEIubmPmuGinJqCGHBFuGwk786cIw894bMX4WIXSmVOtGD2kDwwKQi2XkSnmr8D4NECHDgPe8YkT6n3hX0Oq3uicDdbZdYzzo4CZA1DC9Y8Q8N/S3CsZIGAJE+mUVvPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yv6aWu0u; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70633f0812dso948513b3a.0;
+        Thu, 20 Jun 2024 08:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718897864; x=1719502664; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+h387lf4ounMi+iVhkJYXBLUErzSRJimx+T0EIiAWQ=;
+        b=Yv6aWu0umi75kF+yz3Ur3Wo2+DRG0PU621TduJ+cqqIN6cq4qRDX5KlayaO/lQopvA
+         IqeCCc8LrQZ5JrSlrYL1TpVHH8Q7AIZH7JRoZfcO03uJlatIQWsBnoXhWNAwV37Aqr4g
+         nvXPKUDlCHeEX7HEN/BTGXHtnwNIvXggWWUew1OGqTZybPZRLI9+Ks9Nj0Vlbwhcs5MG
+         vgo9E60l5Ci/gzIiD9PlfWI4kVovAfBF2y07JeVrygM0ocZVTHsFfWdf3nuEve26K42o
+         lw4tSjVOYYWXJNSqFrgKNvopdRFEy1y9Cm0wdcsllKD9LFWG0Z3GayVJJRmRrgWwMCeg
+         aD/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718897864; x=1719502664;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s+h387lf4ounMi+iVhkJYXBLUErzSRJimx+T0EIiAWQ=;
+        b=P2gRBpdKPxG4+3aJ+Oyq8JHs/LNemjQTs2Bn5XMQ1VMshpXowdXd8ee/elG6+Kc1wS
+         O20hIgms4dFpvnRP4UZ6wkM+/S1tTMh1DNUw+D5kgqf/m1PvEkSUVZIGlxjmFyZRK/bY
+         Uu4TwfyHkLlCknXHsSHALsjnl1/U1gwODsTr3QltyLnLazVAM7TTGv8AJpAwS3UsKjwV
+         87Okqj+XbTMOM2aD5346pfz7FG/1s4biAh9UPA+PEpn5MRVH99Xa8sHDJ+PKf1hf+LBt
+         rukZyrEtlo3isbs76VAVOr+gYFDbgDXgKJJc5J8uboai7Djub8W2bWgrH1flA5kW9F8p
+         3eMA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0BizlvR+v9XOp/Ky5Gififq+TN+naABANcMgjRFGszUQT4v+7ZWaIxt4yCVaS21MSxZC/fCm9xPdGRMpVb1z8Tzx5J6aPp8p1aoLR4bMJrQhv9NNwO5WOCQjDmGkQhlLcj+6Dqtf9Ttv1zDI1Z7iL/li26ok7XdbrccMt4y2tehhUxyhk
+X-Gm-Message-State: AOJu0YyCiSZPe+9OfS6YUov4ATKxnO5DaLl5O2n7gCPtmWndmYnpxklD
+	OohW27qZBFcSw9jQhcdD0bgnz/yFh7QBeaWi2ld3jZGEbX/Y7u5h
+X-Google-Smtp-Source: AGHT+IEdhGZIHUC59cCIO/mixYH72/cV9kIvYVpyNXHNqjJuo4SpZGFWObBqJtoJBrKvWs1VeIZvuQ==
+X-Received: by 2002:a05:6a00:189b:b0:705:cade:1f50 with SMTP id d2e1a72fcca58-70629d012c0mr7919791b3a.34.1718897863773;
+        Thu, 20 Jun 2024 08:37:43 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:36d9:2b1f:59f:8e9e])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc91e133sm12441315b3a.24.2024.06.20.08.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 08:37:43 -0700 (PDT)
+Date: Thu, 20 Jun 2024 08:37:40 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Stefan Eichenberger <eichest@gmail.com>
+Cc: nick@shmanahar.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
+	linus.walleij@linaro.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Subject: Re: [PATCH v4 1/4] Input: atmel_mxt_ts - add power off and power on
+ functions
+Message-ID: <ZnRMxONryyi5uZ8a@google.com>
+References: <20240417090527.15357-1-eichest@gmail.com>
+ <20240417090527.15357-2-eichest@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417090527.15357-2-eichest@gmail.com>
 
-The HX83100A is a bit of an outlier in the Himax HX831xxx series of
-touch controllers as it requires reading touch events through the AHB
-interface of the MCU rather than providing a dedicated FIFO address like
-the other chips do.
-This patch implements the specific read function and introduces the
-HX83100A chip with an appropriate i2c ID and DT compatible string.
+Hi Stefan,
 
-The HX83100A doesn't have a straightforward way to do chip
-identification, which is why it is not implemented in this patch.
+On Wed, Apr 17, 2024 at 11:05:24AM +0200, Stefan Eichenberger wrote:
+> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> 
+> Add a separate function for power off and power on instead of calling
+> regulator_bulk_enable and regulator_bulk_disable directly.
+> 
+> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 59 +++++++++++++++---------
+>  1 file changed, 37 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index 542a31448c8f..52867ce3b9b6 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -1307,6 +1307,38 @@ static int mxt_soft_reset(struct mxt_data *data)
+>  	return 0;
+>  }
+>  
+> +static int mxt_power_on(struct mxt_data *data)
+> +{
+> +	int error;
+> +
+> +	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
+> +				      data->regulators);
+> +	if (error) {
+> +		dev_err(&data->client->dev, "failed to enable regulators: %d\n",
+> +			error);
+> +		return error;
+> +	}
+> +
+> +	msleep(MXT_BACKUP_TIME);
+> +
+> +	if (data->reset_gpio) {
+> +		/* Wait a while and then de-assert the RESET GPIO line */
+> +		msleep(MXT_RESET_GPIO_TIME);
+> +		gpiod_set_value(data->reset_gpio, 0);
+> +		msleep(MXT_RESET_INVALID_CHG);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void mxt_power_off(struct mxt_data *data)
+> +{
+> +	if (data->reset_gpio)
+> +		gpiod_set_value(data->reset_gpio, 1);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
+> +}
+> +
+>  static void mxt_update_crc(struct mxt_data *data, u8 cmd, u8 value)
+>  {
+>  	/*
+> @@ -3305,25 +3337,9 @@ static int mxt_probe(struct i2c_client *client)
+>  		return error;
+>  	}
+>  
+> -	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
+> -				      data->regulators);
+> -	if (error) {
+> -		dev_err(&client->dev, "failed to enable regulators: %d\n",
+> -			error);
+> +	error = mxt_power_on(data);
+> +	if (error)
+>  		return error;
+> -	}
+> -	/*
+> -	 * The device takes 40ms to come up after power-on according
+> -	 * to the mXT224 datasheet, page 13.
+> -	 */
+> -	msleep(MXT_BACKUP_TIME);
+> -
+> -	if (data->reset_gpio) {
+> -		/* Wait a while and then de-assert the RESET GPIO line */
+> -		msleep(MXT_RESET_GPIO_TIME);
+> -		gpiod_set_value(data->reset_gpio, 0);
+> -		msleep(MXT_RESET_INVALID_CHG);
+> -	}
+>  
+>  	/*
+>  	 * Controllers like mXT1386 have a dedicated WAKE line that could be
+> @@ -3361,8 +3377,8 @@ static int mxt_probe(struct i2c_client *client)
+>  	mxt_free_input_device(data);
+>  	mxt_free_object_table(data);
+>  err_disable_regulators:
+> -	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
+> -			       data->regulators);
+> +	mxt_power_off(data);
+> +
+>  	return error;
+>  }
+>  
+> @@ -3374,8 +3390,7 @@ static void mxt_remove(struct i2c_client *client)
+>  	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
+>  	mxt_free_input_device(data);
+>  	mxt_free_object_table(data);
+> -	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
+> -			       data->regulators);
+> +	mxt_power_off(data);
 
-Tested on: Lenovo ThinkSmart View (CD-18781Y) / Innolux P080DDD-AB2 LCM
+This change means that on unbind we will leave with GPIO line asserted.
+Won't this potentially cause some current leakage? Why do we need to
+have reset asserted here?
 
-Signed-off-by: Felix Kaechele <felix@kaechele.ca>
-Tested-by: Paul Gale <paul@siliconpixel.com>
----
- drivers/input/touchscreen/himax_hx83112b.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Thanks.
 
-diff --git a/drivers/input/touchscreen/himax_hx83112b.c b/drivers/input/touchscreen/himax_hx83112b.c
-index 5092a357c332..9ed3bccde4ac 100644
---- a/drivers/input/touchscreen/himax_hx83112b.c
-+++ b/drivers/input/touchscreen/himax_hx83112b.c
-@@ -4,6 +4,9 @@
-  *
-  * Copyright (C) 2022 Job Noorman <job@noorman.info>
-  *
-+ * HX83100A support
-+ * Copyright (C) 2024 Felix Kaechele <felix@kaechele.ca>
-+ *
-  * This code is based on "Himax Android Driver Sample Code for QCT platform":
-  *
-  * Copyright (C) 2017 Himax Corporation.
-@@ -35,6 +38,8 @@
- 
- #define HIMAX_REG_ADDR_ICID			0x900000d0
- 
-+#define HX83100A_REG_FW_EVENT_STACK		0x90060000
-+
- #define HIMAX_INVALID_COORD		0xffff
- 
- struct himax_event_point {
-@@ -288,6 +293,12 @@ static int himax_read_events(struct himax_ts_data *ts,
- 			       length);
- }
- 
-+static int hx83100a_read_events(struct himax_ts_data *ts,
-+				struct himax_event *event, size_t length)
-+{
-+	return himax_bus_read(ts, HX83100A_REG_FW_EVENT_STACK, event, length);
-+};
-+
- static int himax_handle_input(struct himax_ts_data *ts)
- {
- 	int error;
-@@ -394,6 +405,10 @@ static int himax_resume(struct device *dev)
- 
- static DEFINE_SIMPLE_DEV_PM_OPS(himax_pm_ops, himax_suspend, himax_resume);
- 
-+static const struct himax_chip hx83100a_chip = {
-+	.read_events = hx83100a_read_events,
-+};
-+
- static const struct himax_chip hx83112b_chip = {
- 	.id = 0x83112b,
- 	.check_id = himax_check_product_id,
-@@ -401,6 +416,7 @@ static const struct himax_chip hx83112b_chip = {
- };
- 
- static const struct i2c_device_id himax_ts_id[] = {
-+	{ "hx83100a", (kernel_ulong_t)&hx83100a_chip },
- 	{ "hx83112b", (kernel_ulong_t)&hx83112b_chip },
- 	{ /* sentinel */ }
- };
-@@ -408,6 +424,7 @@ MODULE_DEVICE_TABLE(i2c, himax_ts_id);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id himax_of_match[] = {
-+	{ .compatible = "himax,hx83100a", .data = &hx83100a_chip },
- 	{ .compatible = "himax,hx83112b", .data = &hx83112b_chip },
- 	{ /* sentinel */ }
- };
 -- 
-2.45.2
-
+Dmitry
 
