@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-4513-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4512-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B39910BF3
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 18:19:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D57910BF1
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 18:19:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 754E71C2423F
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 16:19:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61FCF287833
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 16:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED7521B3F38;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9CB1B3F29;
 	Thu, 20 Jun 2024 16:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DQAvjdle"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="j0zjZ7zT"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11CB1B3F04;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B116D1B3F00;
 	Thu, 20 Jun 2024 16:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718900304; cv=none; b=NHGdr0thDz7PLN/BYsfxHoeHPOxMQerq6YsBbrkKZgwZdFoMf7cKKNvCYZvPboBzGnOlSuZ9N464yBw3soR35xLTg6mU4SNhhFkP2XIFcgFOJHbAJjZDl8eA7iUE1PuUfRX80g5Ol+QMQY0DlL41R4vRGzUs6o7PF0fm9QKmbVc=
+	t=1718900304; cv=none; b=lQ4P3Bp8kHbMIOgPpHasnDCruzYVkwKSQSUGqzMIu4lkLElxyUXkfuH69RBtu3Pfl7oN28jd2EPidmUkvhHXo58KTo3h5M8psJVRxpr8xSvil/iA7AHuMIu2Y4ZZ2EdYT2ae78kKO/uImid+HmbzROJq6g5FqNCcIhyYoB43yh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718900304; c=relaxed/simple;
-	bh=svUL6maAW5mAWVqiquCXY3UxaLgIaJEIl1orNBcNMfs=;
+	bh=p9FS55sVWPPGP62XgRTpSwJRof6LmsxlJdk3vwWo2lI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SzDsm4M+iPJGVfWc794vZq4ul/6tfM9UC/8RTkQj9kNAjluNEXbj8AxUdgwSvfPl31+I+kCjodsURbCI1xJ4IxyI7icb91F2ous7GgzVbseVT4xX31yBbmp598NU8i+0AOr2JkxzoGz/BBneJMGFxrp7Lmy2wyMHYgClgmXaKJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DQAvjdle; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=EV0nh6rx1MmvYX+Tlb5MxdLTKUrMEpgZjU5IU3luq/vt0o2/5kCBj+bf9gBVfIp7IuhGGaVjfYyVNo0qAIUYRU7zFinH08y2rTnyEjQh3lpvBVDKij8BsjV60AC2tNfUqor7uc//A/3JMKikDl3srYhKLmQN2+yam/XApQT/2to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=j0zjZ7zT; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45K5k0PF015796;
-	Thu, 20 Jun 2024 11:18:06 -0500
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45K5kLgU016004;
+	Thu, 20 Jun 2024 11:18:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=sok9K5f/EFSzWprEhXbH7AcxqkKThcVEINkAwHfKQHU=; b=
-	DQAvjdleN/cDU1HTbI++aAJ7QstSJkMaMTTEBlOZNXQrLKbObdsRQB6lpn//vEoI
-	eDbtvGLSRH+Jxj3MoJU7TBrGFeZsX/8a4gx79/oBSB9O6mwT+6pdFWYzrRGVAd2O
-	vXeN//VoVOimrwYTEg6gUD0ZNZsUxao5Di2/jwI/kaL36NXi/BDZEio5SeQ1vMWM
-	2TeJjtnAC4lLpMm4YQbJyQg/h4KV0KN5KPcqrCFcbEFGk7fatJI1zp9g+pgRGAY/
-	Ok0QpyAZICS0Ql27Gbf2ve+8EeTpRB6EhiOg1USgpghzXVRgD6uawsNfjSkQz69I
-	oLLxfvFK05N9GuumtYvZMw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3yujb12a2x-1
+	PODMain02222019; bh=Q3JTcrGXXyM2L8TxxmCI2bzNXnKKi72mxePhEJkPreM=; b=
+	j0zjZ7zT+ZWID2q0zvqVchFLprdE+4Pf0LczuzBLTsebtzecz5c0GnozLUyqVtmd
+	sbZJ3+EF8+ZYOfy5hay4nRVvAwUw+IUnKt1mD8MNu4pcouB+vVgB7IYldHMg4/R8
+	ZvdC3xiBuQl72WcrMUB6tI1BcuJRzszvivb+Wkr1oem+7h9VjJq0gCUrsR9NWZy7
+	c/2nGMC0HvResGgX0S719/EyoawHHYdGjhzs/WslrpgWE2cQKNPY2p4IWWMXxkEl
+	6YmnTnMMKmsEw5dCWSDI1RZ4JxMsUYy+MpoMaPRAQEfkVM0GTdGSuioI+k3Th3S7
+	SZ5SjPdKlgOYWZoOTNa/+w==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3yujb12a2v-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Jun 2024 11:18:05 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 20 Jun 2024 11:18:07 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
- 2024 17:17:57 +0100
+ 2024 17:18:00 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 20 Jun 2024 17:17:57 +0100
+ 15.2.1544.9 via Frontend Transport; Thu, 20 Jun 2024 17:18:00 +0100
 Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 4B5C6820248;
-	Thu, 20 Jun 2024 16:17:56 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 364D4820248;
+	Thu, 20 Jun 2024 16:17:58 +0000 (UTC)
 From: James Ogletree <jogletre@opensource.cirrus.com>
 To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
@@ -65,10 +65,12 @@ To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
 CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
         <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
         James Ogletree
-	<jogletre@opensource.cirrus.com>
-Subject: [PATCH RESEND v11 4/5] Input: cs40l50 - Add support for the CS40L50 haptic driver
-Date: Thu, 20 Jun 2024 16:17:44 +0000
-Message-ID: <20240620161745.2312359-5-jogletre@opensource.cirrus.com>
+	<jogletre@opensource.cirrus.com>,
+        David Rhodes
+	<drhodes@opensource.cirrus.com>
+Subject: [PATCH RESEND v11 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
+Date: Thu, 20 Jun 2024 16:17:45 +0000
+Message-ID: <20240620161745.2312359-6-jogletre@opensource.cirrus.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
 References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
@@ -80,635 +82,399 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Pd2U6CjZOWDjJ83LQohk_6xHt-ocq4YW
-X-Proofpoint-GUID: Pd2U6CjZOWDjJ83LQohk_6xHt-ocq4YW
+X-Proofpoint-ORIG-GUID: 1_vfgL0RH6Rgpa8O2_QaxeuU_f7H9o8a
+X-Proofpoint-GUID: 1_vfgL0RH6Rgpa8O2_QaxeuU_f7H9o8a
 X-Proofpoint-Spam-Reason: safe
 
 Introduce support for Cirrus Logic Device CS40L50: a
 haptic driver with waveform memory, integrated DSP,
 and closed-loop algorithms.
 
-The input driver provides the interface for control of
-haptic effects through the device.
+The ASoC driver enables I2S streaming to the device.
 
+Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
 Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
 ---
-These comments may need attention:
-https://lore.kernel.org/linux-input/BC84DC9F-65FB-4553-A0B9-52151DD549DB@cirrus.com/
-Some have been partially addressed already.
-
- MAINTAINERS                        |   1 +
- drivers/input/misc/Kconfig         |  10 +
- drivers/input/misc/Makefile        |   1 +
- drivers/input/misc/cs40l50-vibra.c | 555 +++++++++++++++++++++++++++++
- 4 files changed, 567 insertions(+)
- create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ MAINTAINERS                      |   1 +
+ sound/soc/codecs/Kconfig         |  11 ++
+ sound/soc/codecs/Makefile        |   2 +
+ sound/soc/codecs/cs40l50-codec.c | 307 +++++++++++++++++++++++++++++++
+ 4 files changed, 321 insertions(+)
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index e804f3766cba..49c2e6e57b09 100644
+index 49c2e6e57b09..62701b13f741 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -4940,6 +4940,7 @@ M:	Ben Bright <ben.bright@cirrus.com>
- L:	patches@opensource.cirrus.com
- S:	Supported
- F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-+F:	drivers/input/misc/cs40l*
+@@ -4943,6 +4943,7 @@ F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ F:	drivers/input/misc/cs40l*
  F:	drivers/mfd/cs40l*
  F:	include/linux/mfd/cs40l*
++F:	sound/soc/codecs/cs40l*
  
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 6ba984d7f0b1..ee45dbb0636e 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -140,6 +140,16 @@ config INPUT_BMA150
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called bma150.
+ CIRRUS LOGIC DSP FIRMWARE DRIVER
+ M:	Simon Trimmer <simont@opensource.cirrus.com>
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index f1e1dbc509f6..1a81bedfdbe3 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -73,6 +73,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_CS35L56_I2C
+ 	imply SND_SOC_CS35L56_SPI
+ 	imply SND_SOC_CS35L56_SDW
++	imply SND_SOC_CS40L50
+ 	imply SND_SOC_CS42L42
+ 	imply SND_SOC_CS42L42_SDW
+ 	imply SND_SOC_CS42L43
+@@ -800,6 +801,16 @@ config SND_SOC_CS35L56_SDW
+ 	help
+ 	  Enable support for Cirrus Logic CS35L56 boosted amplifier with SoundWire control
  
-+config INPUT_CS40L50_VIBRA
-+	tristate "CS40L50 Haptic Driver support"
++config SND_SOC_CS40L50
++	tristate "Cirrus Logic CS40L50 CODEC"
 +	depends on MFD_CS40L50_CORE
 +	help
-+	  Say Y here to enable support for Cirrus Logic's CS40L50
-+	  haptic driver.
++	  This option enables support for I2S streaming to Cirrus Logic CS40L50.
 +
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called cs40l50-vibra.
++	  CS40L50 is a haptic driver with waveform memory, an integrated
++	  DSP, and closed-loop algorithms. If built as a module, it will be
++	  called snd-soc-cs40l50.
 +
- config INPUT_E3X0_BUTTON
- 	tristate "NI Ettus Research USRP E3xx Button support."
- 	default n
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index 04296a4abe8e..88279de6d3d5 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_INPUT_CMA3000)		+= cma3000_d0x.o
- obj-$(CONFIG_INPUT_CMA3000_I2C)		+= cma3000_d0x_i2c.o
- obj-$(CONFIG_INPUT_COBALT_BTNS)		+= cobalt_btns.o
- obj-$(CONFIG_INPUT_CPCAP_PWRBUTTON)	+= cpcap-pwrbutton.o
-+obj-$(CONFIG_INPUT_CS40L50_VIBRA)	+= cs40l50-vibra.o
- obj-$(CONFIG_INPUT_DA7280_HAPTICS)	+= da7280.o
- obj-$(CONFIG_INPUT_DA9052_ONKEY)	+= da9052_onkey.o
- obj-$(CONFIG_INPUT_DA9055_ONKEY)	+= da9055_onkey.o
-diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40l50-vibra.c
+ config SND_SOC_CS42L42_CORE
+ 	tristate
+ 
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index b4df22186e25..3afd7c16c959 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -78,6 +78,7 @@ snd-soc-cs35l56-shared-y := cs35l56-shared.o
+ snd-soc-cs35l56-i2c-y := cs35l56-i2c.o
+ snd-soc-cs35l56-spi-y := cs35l56-spi.o
+ snd-soc-cs35l56-sdw-y := cs35l56-sdw.o
++snd-soc-cs40l50-objs := cs40l50-codec.o
+ snd-soc-cs42l42-y := cs42l42.o
+ snd-soc-cs42l42-i2c-y := cs42l42-i2c.o
+ snd-soc-cs42l42-sdw-y := cs42l42-sdw.o
+@@ -475,6 +476,7 @@ obj-$(CONFIG_SND_SOC_CS35L56_SHARED)	+= snd-soc-cs35l56-shared.o
+ obj-$(CONFIG_SND_SOC_CS35L56_I2C)	+= snd-soc-cs35l56-i2c.o
+ obj-$(CONFIG_SND_SOC_CS35L56_SPI)	+= snd-soc-cs35l56-spi.o
+ obj-$(CONFIG_SND_SOC_CS35L56_SDW)	+= snd-soc-cs35l56-sdw.o
++obj-$(CONFIG_SND_SOC_CS40L50)		+= snd-soc-cs40l50.o
+ obj-$(CONFIG_SND_SOC_CS42L42_CORE)	+= snd-soc-cs42l42.o
+ obj-$(CONFIG_SND_SOC_CS42L42)	+= snd-soc-cs42l42-i2c.o
+ obj-$(CONFIG_SND_SOC_CS42L42_SDW)	+= snd-soc-cs42l42-sdw.o
+diff --git a/sound/soc/codecs/cs40l50-codec.c b/sound/soc/codecs/cs40l50-codec.c
 new file mode 100644
-index 000000000000..03bdb7c26ec0
+index 000000000000..aa629ef53db4
 --- /dev/null
-+++ b/drivers/input/misc/cs40l50-vibra.c
-@@ -0,0 +1,555 @@
++++ b/sound/soc/codecs/cs40l50-codec.c
+@@ -0,0 +1,307 @@
 +// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CS40L50 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2024 Cirrus Logic, Inc.
-+ *
-+ * Author: James Ogletree <james.ogletree@cirrus.com>
-+ */
++//
++// CS40L50 Advanced Haptic Driver with waveform memory,
++// integrated DSP, and closed-loop algorithms
++//
++// Copyright 2024 Cirrus Logic, Inc.
++//
++// Author: James Ogletree <james.ogletree@cirrus.com>
 +
 +#include <linux/bitfield.h>
-+#include <linux/input.h>
 +#include <linux/mfd/cs40l50.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
 +
-+/* Wavetables */
-+#define CS40L50_RAM_INDEX_START		0x1000000
-+#define CS40L50_RAM_INDEX_END		0x100007F
-+#define CS40L50_RTH_INDEX_START		0x1400000
-+#define CS40L50_RTH_INDEX_END		0x1400001
-+#define CS40L50_ROM_INDEX_START		0x1800000
-+#define CS40L50_ROM_INDEX_END		0x180001A
-+#define CS40L50_TYPE_PCM		8
-+#define CS40L50_TYPE_PWLE		12
-+#define CS40L50_PCM_ID			0x0
-+#define CS40L50_OWT_CUSTOM_DATA_SIZE	2
-+#define CS40L50_CUSTOM_DATA_MASK	0xFFFFU
++#define CS40L50_REFCLK_INPUT		0x2C04
++#define CS40L50_ASP_CONTROL2		0x4808
++#define CS40L50_ASP_DATA_CONTROL5	0x4840
 +
-+/* DSP */
-+#define CS40L50_GPIO_BASE		0x2804140
-+#define CS40L50_OWT_BASE		0x2805C34
-+#define CS40L50_OWT_SIZE		0x2805C38
-+#define CS40L50_OWT_NEXT		0x2805C3C
-+#define CS40L50_EFFECTS_MAX		1
++/* PLL Config */
++#define CS40L50_PLL_REFCLK_BCLK		0x0
++#define CS40L50_PLL_REFCLK_MCLK		0x5
++#define CS40L50_PLL_REEFCLK_MCLK_CFG	0x00
++#define CS40L50_PLL_REFCLK_LOOP_MASK	BIT(11)
++#define CS40L50_PLL_REFCLK_OPEN_LOOP	1
++#define CS40L50_PLL_REFCLK_CLOSED_LOOP	0
++#define CS40L50_PLL_REFCLK_LOOP_SHIFT	11
++#define CS40L50_PLL_REFCLK_FREQ_MASK	GENMASK(10, 5)
++#define CS40L50_PLL_REFCLK_FREQ_SHIFT	5
++#define CS40L50_PLL_REFCLK_SEL_MASK	GENMASK(2, 0)
++#define CS40L50_BCLK_RATIO_DEFAULT	32
 +
-+/* GPIO */
-+#define CS40L50_GPIO_NUM_MASK		GENMASK(14, 12)
-+#define CS40L50_GPIO_EDGE_MASK		BIT(15)
-+#define CS40L50_GPIO_MAPPING_NONE	0
-+#define CS40L50_GPIO_DISABLE		0x1FF
++/* ASP Config */
++#define CS40L50_ASP_RX_WIDTH_SHIFT	24
++#define CS40L50_ASP_RX_WIDTH_MASK	GENMASK(31, 24)
++#define CS40L50_ASP_RX_WL_MASK		GENMASK(5, 0)
++#define CS40L50_ASP_FSYNC_INV_MASK	BIT(2)
++#define CS40L50_ASP_BCLK_INV_MASK	BIT(6)
++#define CS40L50_ASP_FMT_MASK		GENMASK(10, 8)
++#define CS40L50_ASP_FMT_I2S		0x2
 +
-+enum cs40l50_bank_type {
-+	CS40L50_WVFRM_BANK_RAM,
-+	CS40L50_WVFRM_BANK_ROM,
-+	CS40L50_WVFRM_BANK_OWT,
-+	CS40L50_WVFRM_BANK_NUM,
++struct cs40l50_pll_config {
++	unsigned int freq;
++	unsigned int cfg;
 +};
 +
-+/* Describes an area in DSP memory populated by effects */
-+struct cs40l50_bank {
-+	enum cs40l50_bank_type type;
-+	u32 base_index;
-+	u32 max_index;
-+};
-+
-+struct cs40l50_effect {
-+	enum cs40l50_bank_type type;
-+	struct list_head list;
-+	u32 gpio_reg;
-+	u32 index;
-+	int id;
-+};
-+
-+/* Describes haptic interface of loaded DSP firmware */
-+struct cs40l50_vibra_dsp {
-+	struct cs40l50_bank *banks;
-+	u32 gpio_base_reg;
-+	u32 owt_offset_reg;
-+	u32 owt_size_reg;
-+	u32 owt_base_reg;
-+	u32 push_owt_cmd;
-+	u32 delete_owt_cmd;
-+	u32 stop_cmd;
-+	int (*write)(struct device *dev, struct regmap *regmap, u32 val);
-+};
-+
-+/* Describes configuration and state of haptic operations */
-+struct cs40l50_vibra {
++struct cs40l50_codec {
 +	struct device *dev;
 +	struct regmap *regmap;
-+	struct input_dev *input;
-+	struct workqueue_struct *vib_wq;
-+	struct list_head effect_head;
-+	struct cs40l50_vibra_dsp dsp;
++	unsigned int daifmt;
++	unsigned int bclk_ratio;
++	unsigned int rate;
 +};
 +
-+struct cs40l50_work {
-+	struct cs40l50_vibra *vib;
-+	struct ff_effect *effect;
-+	struct work_struct work;
-+	s16 *custom_data;
-+	int custom_len;
-+	int count;
-+	int error;
++static const struct cs40l50_pll_config cs40l50_pll_cfg[] = {
++	{ 32768, 0x00 },
++	{ 1536000, 0x1B },
++	{ 3072000, 0x21 },
++	{ 6144000, 0x28 },
++	{ 9600000, 0x30 },
++	{ 12288000, 0x33 },
 +};
 +
-+static struct cs40l50_bank cs40l50_banks[] = {
-+	{
-+		.type =		CS40L50_WVFRM_BANK_RAM,
-+		.base_index =	CS40L50_RAM_INDEX_START,
-+		.max_index =	CS40L50_RAM_INDEX_END,
-+	},
-+	{
-+		.type =		CS40L50_WVFRM_BANK_ROM,
-+		.base_index =	CS40L50_ROM_INDEX_START,
-+		.max_index =	CS40L50_ROM_INDEX_END,
-+	},
-+	{
-+		.type =		CS40L50_WVFRM_BANK_OWT,
-+		.base_index =	CS40L50_RTH_INDEX_START,
-+		.max_index =	CS40L50_RTH_INDEX_END,
-+	},
-+};
-+
-+static struct cs40l50_vibra_dsp cs40l50_dsp = {
-+	.banks =		cs40l50_banks,
-+	.gpio_base_reg =	CS40L50_GPIO_BASE,
-+	.owt_base_reg =		CS40L50_OWT_BASE,
-+	.owt_offset_reg =	CS40L50_OWT_NEXT,
-+	.owt_size_reg =		CS40L50_OWT_SIZE,
-+	.push_owt_cmd =		CS40L50_OWT_PUSH,
-+	.delete_owt_cmd =	CS40L50_OWT_DELETE,
-+	.stop_cmd =		CS40L50_STOP_PLAYBACK,
-+	.write =		cs40l50_dsp_write,
-+};
-+
-+static struct cs40l50_effect *cs40l50_find_effect(int id, struct list_head *effect_head)
++static int cs40l50_get_clk_config(const unsigned int freq, unsigned int *cfg)
 +{
-+	struct cs40l50_effect *effect;
++	int i;
 +
-+	list_for_each_entry(effect, effect_head, list)
-+		if (effect->id == id)
-+			return effect;
-+
-+	return NULL;
-+}
-+
-+static int cs40l50_effect_bank_set(struct cs40l50_work *work_data,
-+				   struct cs40l50_effect *effect)
-+{
-+	s16 bank_type = work_data->custom_data[0] & CS40L50_CUSTOM_DATA_MASK;
-+
-+	if (bank_type >= CS40L50_WVFRM_BANK_NUM) {
-+		dev_err(work_data->vib->dev, "Invalid bank (%d)\n", bank_type);
-+		return -EINVAL;
++	for (i = 0; i < ARRAY_SIZE(cs40l50_pll_cfg); i++) {
++		if (cs40l50_pll_cfg[i].freq == freq) {
++			*cfg = cs40l50_pll_cfg[i].cfg;
++			return 0;
++		}
 +	}
 +
-+	if (work_data->custom_len > CS40L50_OWT_CUSTOM_DATA_SIZE)
-+		effect->type = CS40L50_WVFRM_BANK_OWT;
-+	else
-+		effect->type = bank_type;
-+
-+	return 0;
++	return -EINVAL;
 +}
 +
-+static int cs40l50_effect_index_set(struct cs40l50_work *work_data,
-+				    struct cs40l50_effect *effect)
++static int cs40l50_swap_ext_clk(struct cs40l50_codec *codec, const unsigned int clk_src)
 +{
-+	struct cs40l50_vibra *vib = work_data->vib;
-+	struct cs40l50_effect *owt_effect;
-+	u32 base_index, max_index;
++	unsigned int cfg;
++	int ret;
 +
-+	base_index = vib->dsp.banks[effect->type].base_index;
-+	max_index = vib->dsp.banks[effect->type].max_index;
-+
-+	effect->index = base_index;
-+
-+	switch (effect->type) {
-+	case CS40L50_WVFRM_BANK_OWT:
-+		list_for_each_entry(owt_effect, &vib->effect_head, list)
-+			if (owt_effect->type == CS40L50_WVFRM_BANK_OWT)
-+				effect->index++;
++	switch (clk_src) {
++	case CS40L50_PLL_REFCLK_BCLK:
++		ret = cs40l50_get_clk_config(codec->bclk_ratio * codec->rate, &cfg);
++		if (ret)
++			return ret;
 +		break;
-+	case CS40L50_WVFRM_BANK_ROM:
-+	case CS40L50_WVFRM_BANK_RAM:
-+		effect->index += work_data->custom_data[1] & CS40L50_CUSTOM_DATA_MASK;
++	case CS40L50_PLL_REFCLK_MCLK:
++		cfg = CS40L50_PLL_REEFCLK_MCLK_CFG;
 +		break;
 +	default:
-+		dev_err(vib->dev, "Bank type %d not supported\n", effect->type);
 +		return -EINVAL;
 +	}
 +
-+	if (effect->index > max_index || effect->index < base_index) {
-+		dev_err(vib->dev, "Index out of bounds: %u\n", effect->index);
-+		return -ENOSPC;
-+	}
++	ret = regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
++				 CS40L50_PLL_REFCLK_LOOP_MASK,
++				 CS40L50_PLL_REFCLK_OPEN_LOOP <<
++				 CS40L50_PLL_REFCLK_LOOP_SHIFT);
++	if (ret)
++		return ret;
 +
-+	return 0;
++	ret = regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
++				 CS40L50_PLL_REFCLK_FREQ_MASK |
++				 CS40L50_PLL_REFCLK_SEL_MASK,
++				 (cfg << CS40L50_PLL_REFCLK_FREQ_SHIFT) | clk_src);
++	if (ret)
++		return ret;
++
++	return regmap_update_bits(codec->regmap, CS40L50_REFCLK_INPUT,
++				  CS40L50_PLL_REFCLK_LOOP_MASK,
++				  CS40L50_PLL_REFCLK_CLOSED_LOOP <<
++				  CS40L50_PLL_REFCLK_LOOP_SHIFT);
 +}
 +
-+static int cs40l50_effect_gpio_mapping_set(struct cs40l50_work *work_data,
-+					   struct cs40l50_effect *effect)
++static int cs40l50_clk_en(struct snd_soc_dapm_widget *w,
++			  struct snd_kcontrol *kcontrol,
++			  int event)
 +{
-+	u16 gpio_edge, gpio_num, button = work_data->effect->trigger.button;
-+	struct cs40l50_vibra *vib = work_data->vib;
++	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
++	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(comp);
++	int ret;
 +
-+	if (button) {
-+		gpio_num = FIELD_GET(CS40L50_GPIO_NUM_MASK, button);
-+		gpio_edge = FIELD_GET(CS40L50_GPIO_EDGE_MASK, button);
-+		effect->gpio_reg = vib->dsp.gpio_base_reg + (gpio_num * 8) - gpio_edge;
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		ret = cs40l50_dsp_write(codec->dev, codec->regmap, CS40L50_STOP_PLAYBACK);
++		if (ret)
++			return ret;
 +
-+		return regmap_write(vib->regmap, effect->gpio_reg, button);
-+	}
++		ret = cs40l50_dsp_write(codec->dev, codec->regmap, CS40L50_START_I2S);
++		if (ret)
++			return ret;
 +
-+	effect->gpio_reg = CS40L50_GPIO_MAPPING_NONE;
-+
-+	return 0;
-+}
-+
-+struct cs40l50_owt_header {
-+	u32 type;
-+	u32 data_words;
-+	u32 offset;
-+} __packed;
-+
-+static int cs40l50_upload_owt(struct cs40l50_work *work_data)
-+{
-+	u8 *new_owt_effect_data __free(kfree) = NULL;
-+	struct cs40l50_vibra *vib = work_data->vib;
-+	size_t len = work_data->custom_len * 2;
-+	struct cs40l50_owt_header header;
-+	u32 offset, size;
-+	int error;
-+
-+	error = regmap_read(vib->regmap, vib->dsp.owt_size_reg, &size);
-+	if (error)
-+		return error;
-+
-+	if ((size * sizeof(u32)) < sizeof(header) + len) {
-+		dev_err(vib->dev, "No space in open wavetable for effect\n");
-+		return -ENOSPC;
-+	}
-+
-+	header.type = work_data->custom_data[0] == CS40L50_PCM_ID ? CS40L50_TYPE_PCM :
-+								    CS40L50_TYPE_PWLE;
-+	header.offset = sizeof(header) / sizeof(u32);
-+	header.data_words = len / sizeof(u32);
-+
-+	new_owt_effect_data = kmalloc(sizeof(header) + len, GFP_KERNEL);
-+
-+	memcpy(new_owt_effect_data, &header, sizeof(header));
-+	memcpy(new_owt_effect_data + sizeof(header), work_data->custom_data, len);
-+
-+	error = regmap_read(vib->regmap, vib->dsp.owt_offset_reg, &offset);
-+	if (error)
-+		return error;
-+
-+	error = regmap_bulk_write(vib->regmap, vib->dsp.owt_base_reg +
-+				  (offset * sizeof(u32)), new_owt_effect_data,
-+				  sizeof(header) + len);
-+	if (error)
-+		return error;
-+
-+	error = vib->dsp.write(vib->dev, vib->regmap, vib->dsp.push_owt_cmd);
-+	if (error)
-+		return error;
-+
-+	return 0;
-+}
-+
-+static void cs40l50_add_worker(struct work_struct *work)
-+{
-+	struct cs40l50_work *work_data = container_of(work, struct cs40l50_work, work);
-+	struct cs40l50_vibra *vib = work_data->vib;
-+	struct cs40l50_effect *effect;
-+	bool is_new = false;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(vib->dev);
-+	if (error)
-+		goto err_exit;
-+
-+	/* Update effect if already uploaded, otherwise create new effect */
-+	effect = cs40l50_find_effect(work_data->effect->id, &vib->effect_head);
-+	if (!effect) {
-+		effect = kzalloc(sizeof(*effect), GFP_KERNEL);
-+		if (!effect) {
-+			error = -ENOMEM;
-+			goto err_pm;
-+		}
-+
-+		effect->id = work_data->effect->id;
-+		is_new = true;
-+	}
-+
-+	error = cs40l50_effect_bank_set(work_data, effect);
-+	if (error)
-+		goto err_free;
-+
-+	error = cs40l50_effect_index_set(work_data, effect);
-+	if (error)
-+		goto err_free;
-+
-+	error = cs40l50_effect_gpio_mapping_set(work_data, effect);
-+	if (error)
-+		goto err_free;
-+
-+	if (effect->type == CS40L50_WVFRM_BANK_OWT)
-+		error = cs40l50_upload_owt(work_data);
-+err_free:
-+	if (is_new) {
-+		if (error)
-+			kfree(effect);
-+		else
-+			list_add(&effect->list, &vib->effect_head);
-+	}
-+err_pm:
-+	pm_runtime_mark_last_busy(vib->dev);
-+	pm_runtime_put_autosuspend(vib->dev);
-+err_exit:
-+	work_data->error = error;
-+}
-+
-+static int cs40l50_add(struct input_dev *dev, struct ff_effect *effect,
-+		       struct ff_effect *old)
-+{
-+	struct ff_periodic_effect *periodic = &effect->u.periodic;
-+	struct cs40l50_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l50_work work_data;
-+
-+	if (effect->type != FF_PERIODIC || periodic->waveform != FF_CUSTOM) {
-+		dev_err(vib->dev, "Type (%#X) or waveform (%#X) unsupported\n",
-+			effect->type, periodic->waveform);
++		ret = cs40l50_swap_ext_clk(codec, CS40L50_PLL_REFCLK_BCLK);
++		if (ret)
++			return ret;
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		ret = cs40l50_swap_ext_clk(codec, CS40L50_PLL_REFCLK_MCLK);
++		if (ret)
++			return ret;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	work_data.custom_data = memdup_array_user(effect->u.periodic.custom_data,
-+						  effect->u.periodic.custom_len,
-+						  sizeof(s16));
-+	if (IS_ERR(work_data.custom_data))
-+		return PTR_ERR(work_data.custom_data);
-+
-+	work_data.custom_len = effect->u.periodic.custom_len;
-+	work_data.vib = vib;
-+	work_data.effect = effect;
-+	INIT_WORK(&work_data.work, cs40l50_add_worker);
-+
-+	/* Push to the workqueue to serialize with playbacks */
-+	queue_work(vib->vib_wq, &work_data.work);
-+	flush_work(&work_data.work);
-+
-+	kfree(work_data.custom_data);
-+
-+	return work_data.error;
-+}
-+
-+static void cs40l50_start_worker(struct work_struct *work)
-+{
-+	struct cs40l50_work *work_data = container_of(work, struct cs40l50_work, work);
-+	struct cs40l50_vibra *vib = work_data->vib;
-+	struct cs40l50_effect *start_effect;
-+
-+	if (pm_runtime_resume_and_get(vib->dev) < 0)
-+		goto err_free;
-+
-+	start_effect = cs40l50_find_effect(work_data->effect->id, &vib->effect_head);
-+	if (start_effect) {
-+		while (--work_data->count >= 0) {
-+			vib->dsp.write(vib->dev, vib->regmap, start_effect->index);
-+			usleep_range(work_data->effect->replay.length,
-+				     work_data->effect->replay.length + 100);
-+		}
-+	} else {
-+		dev_err(vib->dev, "Effect to play not found\n");
-+	}
-+
-+	pm_runtime_mark_last_busy(vib->dev);
-+	pm_runtime_put_autosuspend(vib->dev);
-+err_free:
-+	kfree(work_data);
-+}
-+
-+static void cs40l50_stop_worker(struct work_struct *work)
-+{
-+	struct cs40l50_work *work_data = container_of(work, struct cs40l50_work, work);
-+	struct cs40l50_vibra *vib = work_data->vib;
-+
-+	if (pm_runtime_resume_and_get(vib->dev) < 0)
-+		return;
-+
-+	vib->dsp.write(vib->dev, vib->regmap, vib->dsp.stop_cmd);
-+
-+	pm_runtime_mark_last_busy(vib->dev);
-+	pm_runtime_put_autosuspend(vib->dev);
-+
-+	kfree(work_data);
-+}
-+
-+static int cs40l50_playback(struct input_dev *dev, int effect_id, int val)
-+{
-+	struct cs40l50_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l50_work *work_data;
-+
-+	work_data = kzalloc(sizeof(*work_data), GFP_ATOMIC);
-+	if (!work_data)
-+		return -ENOMEM;
-+
-+	work_data->vib = vib;
-+
-+	if (val > 0) {
-+		work_data->effect = &dev->ff->effects[effect_id];
-+		work_data->count = val;
-+		INIT_WORK(&work_data->work, cs40l50_start_worker);
-+	} else {
-+		/* Stop the amplifier as device drives only one effect */
-+		INIT_WORK(&work_data->work, cs40l50_stop_worker);
-+	}
-+
-+	queue_work(vib->vib_wq, &work_data->work);
-+
 +	return 0;
 +}
 +
-+static void cs40l50_erase_worker(struct work_struct *work)
-+{
-+	struct cs40l50_work *work_data = container_of(work, struct cs40l50_work, work);
-+	struct cs40l50_effect *erase_effect, *owt_effect;
-+	struct cs40l50_vibra *vib = work_data->vib;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(vib->dev);
-+	if (error)
-+		goto err_exit;
-+
-+	erase_effect = cs40l50_find_effect(work_data->effect->id, &vib->effect_head);
-+	if (!erase_effect) {
-+		dev_err(vib->dev, "Effect to erase not found\n");
-+		error = -EINVAL;
-+		goto err_pm;
-+	}
-+
-+	if (erase_effect->gpio_reg != CS40L50_GPIO_MAPPING_NONE) {
-+		error = regmap_write(vib->regmap, erase_effect->gpio_reg,
-+				     CS40L50_GPIO_DISABLE);
-+		if (error)
-+			goto err_pm;
-+	}
-+
-+	if (erase_effect->type == CS40L50_WVFRM_BANK_OWT) {
-+		error = vib->dsp.write(vib->dev, vib->regmap,
-+				       vib->dsp.delete_owt_cmd |
-+				       (erase_effect->index & 0xFF));
-+		if (error)
-+			goto err_pm;
-+
-+		list_for_each_entry(owt_effect, &vib->effect_head, list)
-+			if (owt_effect->type == CS40L50_WVFRM_BANK_OWT &&
-+			    owt_effect->index > erase_effect->index)
-+				owt_effect->index--;
-+	}
-+
-+	list_del(&erase_effect->list);
-+	kfree(erase_effect);
-+err_pm:
-+	pm_runtime_mark_last_busy(vib->dev);
-+	pm_runtime_put_autosuspend(vib->dev);
-+err_exit:
-+	work_data->error = error;
-+}
-+
-+static int cs40l50_erase(struct input_dev *dev, int effect_id)
-+{
-+	struct cs40l50_vibra *vib = input_get_drvdata(dev);
-+	struct cs40l50_work work_data;
-+
-+	work_data.vib = vib;
-+	work_data.effect = &dev->ff->effects[effect_id];
-+
-+	INIT_WORK(&work_data.work, cs40l50_erase_worker);
-+
-+	/* Push to workqueue to serialize with playbacks */
-+	queue_work(vib->vib_wq, &work_data.work);
-+	flush_work(&work_data.work);
-+
-+	return work_data.error;
-+}
-+
-+static void cs40l50_remove_wq(void *data)
-+{
-+	flush_workqueue(data);
-+	destroy_workqueue(data);
-+}
-+
-+static int cs40l50_vibra_probe(struct platform_device *pdev)
-+{
-+	struct cs40l50 *cs40l50 = dev_get_drvdata(pdev->dev.parent);
-+	struct cs40l50_vibra *vib;
-+	int error;
-+
-+	vib = devm_kzalloc(pdev->dev.parent, sizeof(*vib), GFP_KERNEL);
-+	if (!vib)
-+		return -ENOMEM;
-+
-+	vib->dev = cs40l50->dev;
-+	vib->regmap = cs40l50->regmap;
-+	vib->dsp = cs40l50_dsp;
-+
-+	vib->input = devm_input_allocate_device(vib->dev);
-+	if (!vib->input)
-+		return -ENOMEM;
-+
-+	vib->input->id.product = cs40l50->devid;
-+	vib->input->id.version = cs40l50->revid;
-+	vib->input->name = "cs40l50_vibra";
-+
-+	input_set_drvdata(vib->input, vib);
-+	input_set_capability(vib->input, EV_FF, FF_PERIODIC);
-+	input_set_capability(vib->input, EV_FF, FF_CUSTOM);
-+
-+	error = input_ff_create(vib->input, CS40L50_EFFECTS_MAX);
-+	if (error) {
-+		dev_err(vib->dev, "Failed to create input device\n");
-+		return error;
-+	}
-+
-+	vib->input->ff->upload = cs40l50_add;
-+	vib->input->ff->playback = cs40l50_playback;
-+	vib->input->ff->erase = cs40l50_erase;
-+
-+	INIT_LIST_HEAD(&vib->effect_head);
-+
-+	vib->vib_wq = alloc_ordered_workqueue("vib_wq", WQ_HIGHPRI);
-+	if (!vib->vib_wq)
-+		return -ENOMEM;
-+
-+	error = devm_add_action_or_reset(vib->dev, cs40l50_remove_wq, vib->vib_wq);
-+	if (error)
-+		return error;
-+
-+	error = input_register_device(vib->input);
-+	if (error)
-+		return error;
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id cs40l50_vibra_id_match[] = {
-+	{ "cs40l50-vibra", },
-+	{}
++static const struct snd_soc_dapm_widget cs40l50_dapm_widgets[] = {
++	SND_SOC_DAPM_SUPPLY_S("ASP PLL", 0, SND_SOC_NOPM, 0, 0, cs40l50_clk_en,
++			      SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_AIF_IN("ASPRX1", NULL, 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_IN("ASPRX2", NULL, 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_OUTPUT("OUT"),
 +};
-+MODULE_DEVICE_TABLE(platform, cs40l50_vibra_id_match);
 +
-+static struct platform_driver cs40l50_vibra_driver = {
-+	.probe		= cs40l50_vibra_probe,
-+	.id_table	= cs40l50_vibra_id_match,
-+	.driver		= {
-+		.name	= "cs40l50-vibra",
++static const struct snd_soc_dapm_route cs40l50_dapm_routes[] = {
++	{ "ASP Playback", NULL, "ASP PLL" },
++	{ "ASPRX1", NULL, "ASP Playback" },
++	{ "ASPRX2", NULL, "ASP Playback" },
++
++	{ "OUT", NULL, "ASPRX1" },
++	{ "OUT", NULL, "ASPRX2" },
++};
++
++static int cs40l50_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
++{
++	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(codec_dai->component);
++
++	if ((fmt & SND_SOC_DAIFMT_MASTER_MASK) != SND_SOC_DAIFMT_CBC_CFC)
++		return -EINVAL;
++
++	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
++	case SND_SOC_DAIFMT_NB_NF:
++		codec->daifmt = 0;
++		break;
++	case SND_SOC_DAIFMT_NB_IF:
++		codec->daifmt = CS40L50_ASP_FSYNC_INV_MASK;
++		break;
++	case SND_SOC_DAIFMT_IB_NF:
++		codec->daifmt = CS40L50_ASP_BCLK_INV_MASK;
++		break;
++	case SND_SOC_DAIFMT_IB_IF:
++		codec->daifmt = CS40L50_ASP_FSYNC_INV_MASK | CS40L50_ASP_BCLK_INV_MASK;
++		break;
++	default:
++		dev_err(codec->dev, "Invalid clock invert\n");
++		return -EINVAL;
++	}
++
++	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
++	case SND_SOC_DAIFMT_I2S:
++		codec->daifmt |= FIELD_PREP(CS40L50_ASP_FMT_MASK, CS40L50_ASP_FMT_I2S);
++		break;
++	default:
++		dev_err(codec->dev, "Unsupported DAI format\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int cs40l50_hw_params(struct snd_pcm_substream *substream,
++			     struct snd_pcm_hw_params *params,
++			     struct snd_soc_dai *dai)
++{
++	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(dai->component);
++	unsigned int asp_rx_wl = params_width(params);
++	int ret;
++
++	codec->rate = params_rate(params);
++
++	ret = regmap_update_bits(codec->regmap, CS40L50_ASP_DATA_CONTROL5,
++				 CS40L50_ASP_RX_WL_MASK, asp_rx_wl);
++	if (ret)
++		return ret;
++
++	codec->daifmt |= (asp_rx_wl << CS40L50_ASP_RX_WIDTH_SHIFT);
++
++	return regmap_update_bits(codec->regmap, CS40L50_ASP_CONTROL2,
++				  CS40L50_ASP_FSYNC_INV_MASK |
++				  CS40L50_ASP_BCLK_INV_MASK |
++				  CS40L50_ASP_FMT_MASK |
++				  CS40L50_ASP_RX_WIDTH_MASK, codec->daifmt);
++}
++
++static int cs40l50_set_dai_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio)
++{
++	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(dai->component);
++
++	codec->bclk_ratio = ratio;
++
++	return 0;
++}
++
++static const struct snd_soc_dai_ops cs40l50_dai_ops = {
++	.set_fmt = cs40l50_set_dai_fmt,
++	.set_bclk_ratio = cs40l50_set_dai_bclk_ratio,
++	.hw_params = cs40l50_hw_params,
++};
++
++static struct snd_soc_dai_driver cs40l50_dai[] = {
++	{
++		.name = "cs40l50-pcm",
++		.id = 0,
++		.playback = {
++			.stream_name = "ASP Playback",
++			.channels_min = 1,
++			.channels_max = 2,
++			.rates = SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE,
++		},
++		.ops = &cs40l50_dai_ops,
 +	},
 +};
-+module_platform_driver(cs40l50_vibra_driver);
 +
-+MODULE_DESCRIPTION("CS40L50 Advanced Haptic Driver");
-+MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
++static int cs40l50_codec_probe(struct snd_soc_component *component)
++{
++	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(component);
++
++	codec->bclk_ratio = CS40L50_BCLK_RATIO_DEFAULT;
++
++	return 0;
++}
++
++static const struct snd_soc_component_driver soc_codec_dev_cs40l50 = {
++	.probe = cs40l50_codec_probe,
++	.dapm_widgets = cs40l50_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(cs40l50_dapm_widgets),
++	.dapm_routes = cs40l50_dapm_routes,
++	.num_dapm_routes = ARRAY_SIZE(cs40l50_dapm_routes),
++};
++
++static int cs40l50_codec_driver_probe(struct platform_device *pdev)
++{
++	struct cs40l50 *cs40l50 = dev_get_drvdata(pdev->dev.parent);
++	struct cs40l50_codec *codec;
++
++	codec = devm_kzalloc(&pdev->dev, sizeof(*codec), GFP_KERNEL);
++	if (!codec)
++		return -ENOMEM;
++
++	codec->regmap = cs40l50->regmap;
++	codec->dev = &pdev->dev;
++
++	return devm_snd_soc_register_component(&pdev->dev, &soc_codec_dev_cs40l50,
++					       cs40l50_dai, ARRAY_SIZE(cs40l50_dai));
++}
++
++static const struct platform_device_id cs40l50_id[] = {
++	{ "cs40l50-codec", },
++	{}
++};
++MODULE_DEVICE_TABLE(platform, cs40l50_id);
++
++static struct platform_driver cs40l50_codec_driver = {
++	.probe = cs40l50_codec_driver_probe,
++	.id_table = cs40l50_id,
++	.driver = {
++		.name = "cs40l50-codec",
++	},
++};
++module_platform_driver(cs40l50_codec_driver);
++
++MODULE_DESCRIPTION("ASoC CS40L50 driver");
++MODULE_AUTHOR("James Ogletree <james.ogletree@cirrus.com>");
 +MODULE_LICENSE("GPL");
 -- 
 2.34.1
