@@ -1,103 +1,210 @@
-Return-Path: <linux-input+bounces-4495-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4496-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C9C910A35
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 17:42:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7E1910A43
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 17:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D545A2825E0
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 15:42:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E5DC1F21F04
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 15:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 075E51B0104;
-	Thu, 20 Jun 2024 15:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49DB21B011E;
+	Thu, 20 Jun 2024 15:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkPvyY4T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCGhAfXB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D6E1E51E;
-	Thu, 20 Jun 2024 15:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2C81B0109;
+	Thu, 20 Jun 2024 15:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718898160; cv=none; b=XCE8KGH5ZskbD83PUKGHDgbpfAv/ARv+CPkuwEfLhJ48NL5qefhN8YPjbmenmSKCIrZlDQfecHkaPpLzif5m1+AxxKzJoYeVfB7RpLufzEXfBjZnDHNmUhO/0/hNTrVqtDa8IvRanqa7XPi4m7g3fldHbarS5zIqyMEwUVgnXlM=
+	t=1718898265; cv=none; b=rwgcBmhHdL+I+iGsy2rI5y035THMmK4m69opb2o5q/a0JgIXGif0VR7Jcs6PxrRWrvphbXDwol4yggf4l7D8sCRuVoKhTUCGkL6ae2fi2wD13BuIqUH1iVpsdxzcsp+B0SS4G+IuiEfpnhrN+DYzAm4yvDOWjlrh0z218JBZ3jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718898160; c=relaxed/simple;
-	bh=kfe4B5jV/9NSh1rK+lsYDgNAGNsHJAd5proacfFFmvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TJ87bPhMn/D3AuiVelQDRE3UukARqKU9ui8MCFjIMwTAlo5ssANl0e89cHoXPnj+ZF/QD1aXBF4HlMnhY6Dnzrwmx0P6lBnkzyd+LnR3p5ypUW/sAwelxaqEajUxkMkPrJsugc1d+c1LQbSVS6TZsJy+td7d+3C/nE0YQbLFGQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkPvyY4T; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-70df2135426so715606a12.2;
-        Thu, 20 Jun 2024 08:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718898159; x=1719502959; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ygOijMwQj4RvlxsjHJZqT1HfHPexAo9x8mXgAR6tGk=;
-        b=dkPvyY4TWq3mhSRp6NZPcio25BAV3c2JAnqJUgXyc6PrGhb1Jp+2IUFnEzRPPOA6f6
-         VRv3iHGjcKse8MlXbMzUglyYjq5hgtMgkuMmjj4zbdQV2BJopfji85UcqSIXhZdn+cCi
-         PoxEUTpJgZPVM7OIRHuF8Pw1Pn6nZPn3KIPa/zPoU6D8mOLLoJ/VTo4K8CywiJhMp7NF
-         yIATVRggKoZkgADu9JvHXDhapDHyQsE7PIixzY8kWPMPjPx4qw4g2+g7wLqFhIsJNU/B
-         U+aCgBqIpBHqsbC9lINDE9tA68vZ/6XdZ/g+8tO1Hww1px9IFbHax5Xut4PrlnPaaEV2
-         VMtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718898159; x=1719502959;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4ygOijMwQj4RvlxsjHJZqT1HfHPexAo9x8mXgAR6tGk=;
-        b=ez/wh3kVCkwIzQPRfMB/JPcTEHeH4uJv2owzMv9XYgiKq2+BAviN+mpHhCtrTRLM1u
-         GNOWiQLBNjFXs3cALNRSovpaaboLyYcn+tlq2CmzY+M9CVfwbumV6ov+zzwwaQlAv5Oj
-         TBBuvhHZkaEFjgFJevKSVEBmMWHbNLBQTyvFEbMAhhtHISETIpNExovykYspNfvXiTyU
-         XxA7DqCM2Hv53IZU7ToAraNt0Z6zG3TUqYO+X0z6+QWWb4emR/qKVDI8Mp9LKOF4ub45
-         CPMvt3b9mCXSRgbTbNflkSpit9M/c5/TaO0Ld5DSs7bopMP+45ou2udSx09zkVBy6DXB
-         qAAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBZCJYZBMa9GBAceBCyWUF7FhNmYBaN0zuhi3s0aEACocl9qp2RUkabe8xUIBvuWtBkx+1owzwPn8NZHBL8+ewOayzVnxNnBLmCIFz
-X-Gm-Message-State: AOJu0YzHRfNMhfcB53Un1em9LKLkpeyXxj+wEDmcuVz/Q8rhcRxMxjwy
-	n0BhAT2CwPPv41LtstYNCpxnQzZyeyVTzhTZ64pCeitG11WCWCbdsydW3A==
-X-Google-Smtp-Source: AGHT+IGgTPkJv+cypyDxLOVHWGctGnq3mNwdLo0LkRYjtUGphx08ykpHTsCGkqsL6pEwfUXgz/UYsg==
-X-Received: by 2002:a17:90a:df07:b0:2c1:ebc4:4f1f with SMTP id 98e67ed59e1d1-2c7b5d56b91mr5461405a91.33.1718898158566;
-        Thu, 20 Jun 2024 08:42:38 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:36d9:2b1f:59f:8e9e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c7e55dcdffsm1847997a91.33.2024.06.20.08.42.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 08:42:38 -0700 (PDT)
-Date: Thu, 20 Jun 2024 08:42:36 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] Input: ads7846 - Use spi_device_id table
-Message-ID: <ZnRN7LXAc3lujLFX@google.com>
-References: <20240619122703.2081476-1-alexander.stein@ew.tq-group.com>
+	s=arc-20240116; t=1718898265; c=relaxed/simple;
+	bh=NDXoArYoOi42/owc5Xd/tf23JKVgVR3hxxrlHPGBiaQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PoLrKmU/Kmo5eD/RJWF5N8xxi99e7+OJcyFbIcP6a4MKXJsA2ck7ScUj38esJKtwXKv8yTKL/7VfMVafEAtk1EQER5XTGK5ufiKGl4c0NUq69WxvGEnpka7a/zUls0QJb8860OaJy5ZDlgB1Qjb4ScPpUnfwHMuEePK82tqUI4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCGhAfXB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4C6C2BD10;
+	Thu, 20 Jun 2024 15:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718898264;
+	bh=NDXoArYoOi42/owc5Xd/tf23JKVgVR3hxxrlHPGBiaQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SCGhAfXB6TvNGpmFq4tkdAMjT0BGXqUhPg0hCTxr4beUuDJ7W29IQNBlij8Cf97ul
+	 tMAx8kSFiZsGyzK+EgtVuGcVinfB1I5FxjCd9puEHkPe/IwygmoKhclQPxjek8s+9F
+	 NFGGcW/AKfDQAnIzbFrpKn/wXoT0A1L9DmQX9o/HtHSo9mCs3xypVAjykhijQM218T
+	 PgvBX+5tM24zkzmwOofxt0PICy2ZsV/tAvomvknU3jOd7PvTJ2KOn5eoARpX/scLHo
+	 T++IMGjqjR3IGx+v2EdrMge7LGse2qKcePLOIz1LkXT6OAYWH46HsykEJ+j6PnoAm5
+	 aqzl4xqMU9vMw==
+Message-ID: <5e263066-5d05-4645-a695-0e7e62562666@kernel.org>
+Date: Thu, 20 Jun 2024 17:44:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240619122703.2081476-1-alexander.stein@ew.tq-group.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/23] dt-bindings: panel: add Samsung s6e3ha8
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, phone-devel@vger.kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+References: <20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com>
+ <20240618-starqltechn_integration_upstream-v3-3-e3f6662017ac@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240618-starqltechn_integration_upstream-v3-3-e3f6662017ac@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 19, 2024 at 02:27:02PM +0200, Alexander Stein wrote:
-> As the driver supports more devices over time the single MODULE_ALIAS
-> is complete and raises several warnings:
-> SPI driver ads7846 has no spi_device_id for ti,tsc2046
-> SPI driver ads7846 has no spi_device_id for ti,ads7843
-> SPI driver ads7846 has no spi_device_id for ti,ads7845
-> SPI driver ads7846 has no spi_device_id for ti,ads7873
+On 18/06/2024 15:59, Dzmitry Sankouski wrote:
+> Add binding for the Samsung s6e3ha8 panel found in the Samsung S9.
 > 
-> Fix this by adding a spi_device_id table and removing the manual
-> MODULE_ALIAS.
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+>  .../bindings/display/panel/samsung,s6e3ha8.yaml    | 76 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 81 insertions(+)
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+> new file mode 100644
+> index 000000000000..9d7d747264dd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+> @@ -0,0 +1,76 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/samsung,s6e3ha8.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung s6e3ha8 AMOLED DSI panel
+> +
+> +description: The s6e3ha8 is a 1440x2960 DPI display panel from Samsung Mobile
+> +  Displays (SMD).
+> +
+> +maintainers:
+> +  - Dzmitry Sankouski <dsankouski@gmail.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: samsung,s6e3ha8
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: reset gpio
 
-Applied, thank you.
+Pointless description. I think this can be reset-gpios: true, because
+gpio-consumer-common provides constrain.
 
--- 
-Dmitry
+> +
+> +  port: true
+> +
+> +  vdd3-supply:
+> +    description: VDD regulator
+> +
+> +  vci-supply:
+> +    description: VCI regulator
+> +
+> +  vddr-supply:
+> +    description: VDDR regulator
+> +
+> +required:
+> +  - compatible
+> +  - reset-gpios
+> +  - vdd3-supply
+> +  - vddr-supply
+> +  - vci-supply
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      panel@0 {
+> +      	compatible = "samsung,s6e3ha8";
+> +      	reg = <0>;
+
+Messed indentation. Keep consistent one.
+
+
+
+Best regards,
+Krzysztof
+
 
