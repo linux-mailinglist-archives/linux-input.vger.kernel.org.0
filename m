@@ -1,298 +1,101 @@
-Return-Path: <linux-input+bounces-4519-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4520-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490EC91142B
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 23:14:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8D3911533
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 23:58:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C38B11F23070
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 21:14:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DACADB212C6
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 21:58:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8BB0139CE5;
-	Thu, 20 Jun 2024 21:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B668F8005C;
+	Thu, 20 Jun 2024 21:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKMXSHPV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABAD7C6EB;
-	Thu, 20 Jun 2024 21:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD2459148;
+	Thu, 20 Jun 2024 21:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718918013; cv=none; b=Fi8ioAiVfqRbVPtQYS6qCFqhA0QZ22y+sXDwyj7v4ERXzmvWHTXlkoLriYyk9qDa3DYhm2CQs0quWovjLJsH2fbnBYTvM5XeXKdOMcT1kx8abwYvjnojdZDCByKqnvDxRoWrA+MdKr4p+/nozE4TYbn4Aa5v4ptw0V7IjKTC9n0=
+	t=1718920684; cv=none; b=V4Sh4pop6OlRGX2QqXM+AkaYYmP8PteNGCnLYbES6nkSaoQq/Y5ISTNwowNFLP21R9bIE4DBo6qsoRez84oPF1qh4FbNAS1RVZ0JGfQndbd7zeHnI108QomSuU1Orrdn5jWwCEJPgJNFSLuLO+Wsm2/h+qmGN1xdnGFkc7ZDGG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718918013; c=relaxed/simple;
-	bh=Dp2GZavLhHcBZK10vk+hzuD37zn4qR0z/2JselQ9tPA=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=FjTgzoiwkaCm9R+zjPjI7GrckDrwRZcF1yRRh160jzKvCnv5cTUPzCo+6i9LWlSor4IcaoGWhP0XNerOf+o2yf5IfM3NmWAs+t1s/U+sd2UuxUojAIeDtlAWEyl5S9xpdBgE1qBYgKXVWM6DsAwuSxREzFiOe6bAMxF/o3lOBFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu; spf=pass smtp.mailfrom=artur-rojek.eu; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=artur-rojek.eu
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C8BAC60003;
-	Thu, 20 Jun 2024 21:13:27 +0000 (UTC)
+	s=arc-20240116; t=1718920684; c=relaxed/simple;
+	bh=beYmCT+ltRjbD4/v+kRgI7K1zSXG/s6cP+YEOZspq7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BT2AWKOBBWRtcqZDWdJA/NIB98awhctDCortfynrgZdN7txiuH8d321CJmKT73yPJgUt/kTDn1Fm2WvqECBoAzJSN5MRKl2SuWZMVJtsPMRqA1+i0afs5Ja+dgadIP/SyXGZIYdh4lbgVrbVJGorkV7v/50oYRh1APiQKRw3QFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKMXSHPV; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f6da06ba24so10397335ad.2;
+        Thu, 20 Jun 2024 14:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718920683; x=1719525483; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gfB3QZ8xBZzZ655uwkS4EQea5sVZRz3H+t/hBs6DLOg=;
+        b=nKMXSHPV56YBLjC9vXDzWqRe6gRrtge2jA17RpqzOtlWOqQ0JZZCIlpDnArGJK5gy9
+         U5A1AFS/y9NO78t387dqe5Ezyo+o+zFkx08waie3VWlD/WmLafQOcPrWwPUE0Pdtjzn1
+         6LWXOVFCHSAuTnOA4HP4+MjWBDFICiEmXPIleutifjRF96Bsmaq9NRL0bFcyeh0uBumm
+         wUA9JOLmOWzq+kA5vnjxSIXdSX4ITekiplhQ03wldgLu1+s9VpPzuwMcniARq2XERJHZ
+         eCSiqvUmkg4F59Lgp2RxYvbDw7qnepR/N0vEffIz/mpG1U4LohtL6qwxnwma/q8vFUyo
+         j5dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718920683; x=1719525483;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gfB3QZ8xBZzZ655uwkS4EQea5sVZRz3H+t/hBs6DLOg=;
+        b=wbBBRdtHs+j6cQ7hN9BvscPjEHRQpVCmhcOZwLzFhgEzbpv5PDxgNF/g0mNPU6vrPI
+         DA60zJ/9eMp3isWVolh4FgoFi8fdk2K9yanrDriOlVo0TSL5olODGNe6PGuSLvkHMhPF
+         q6D2wGLpMAL1EkxaNxNE3HNH0Uy3XSOkAXKctIC+3lt+NXg2eVRX15GHxPIMNMw7dqbz
+         KLe9tY6GqUYgUazPvsUZ9CEa8UqeqfbGnN2OJYy1leViwnoKWJLhImScgT7fEN5Dl//M
+         sma6ZgCafKCzpol8FY+BoWlFrseEbZqLrzV7TTB+O92XzQAPQ4QIVNOIBF22VvJ22RFu
+         fyJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUou8TCrFmY9aK4vtrSIr0VVj7c4Wz78YzvFgBCLCmkrfMxajCFDbUVgxIcAwc5DKnQinn12b8VRTYm+unk7U5y9dtBHRlYjG7HYHAs4NeYSZ7fxpGJaPflSZ9eSvBsSpFSix/cE19Evs3I9x1ELhE0T1XMdYayhxkfzppjZlNv6F8nP/V/+67A1aw=
+X-Gm-Message-State: AOJu0YyDrqdRsX35dqAQfhUbOYXkQ0zP0H2TZxyhpb5yW5iM3+2DbiuH
+	6RI9QDc952ZYVs7iIREswDpvyUQgocEkNV2UYmC3kSSBnlh5rdWAWtgyFg==
+X-Google-Smtp-Source: AGHT+IHhfKN93+OlEKnOu65UteLFJfwRWhteLznYzQcgnpXqLZVg54gJbJBGs701omSJzURRA+pxbg==
+X-Received: by 2002:a17:902:d484:b0:1f6:eb56:7831 with SMTP id d9443c01a7336-1f9aa47c414mr76645005ad.63.1718920682510;
+        Thu, 20 Jun 2024 14:58:02 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:36d9:2b1f:59f:8e9e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3d507csm922165ad.192.2024.06.20.14.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 14:58:02 -0700 (PDT)
+Date: Thu, 20 Jun 2024 14:57:59 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: ims-pcu - annotate struct ims_pcu_flash_fmt
+ with __counted_by
+Message-ID: <ZnSl50-Q9GCFHe_P@google.com>
+References: <20240619-ims-pcu-counted_by-v1-0-3ee0ead2e57d@gmail.com>
+ <20240619-ims-pcu-counted_by-v1-1-3ee0ead2e57d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 20 Jun 2024 23:13:27 +0200
-From: Artur Rojek <contact@artur-rojek.eu>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: adc-joystick - move axes data into the main
- structure
-In-Reply-To: <ZmkrgTlxNwm_oHxv@google.com>
-References: <ZmkrgTlxNwm_oHxv@google.com>
-Message-ID: <af45d1dd82b6abf5ec3633fdef5093d2@artur-rojek.eu>
-X-Sender: contact@artur-rojek.eu
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: contact@artur-rojek.eu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619-ims-pcu-counted_by-v1-1-3ee0ead2e57d@gmail.com>
 
-Hi Dmitry,
+On Wed, Jun 19, 2024 at 11:13:21PM +0200, Javier Carrasco wrote:
+> Use the __counted_by compiler attribute for the data[] flexible array
+> member to improve the results of array bound sanitizers.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-On 2024-06-12 07:00, Dmitry Torokhov wrote:
-> There is no need to allocate axes information separately from the main
-> joystick structure so let's fold the allocation and also drop members
-> (such as range, flat and fuzz) that are only used during initialization
-> of the device.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
-> 
-> v2:
-> 
-> - fixed issue with uninitialized "axes" in adc_joystick_set_axes()
->   pointed out by Dan Carpenter
-> - fixed issue with checking wrong variable in adc_joystick_probe()
->   pointed out by Dan Carpenter
-> 
->  drivers/input/joystick/adc-joystick.c | 113 ++++++++++++++------------
->  1 file changed, 60 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/input/joystick/adc-joystick.c 
-> b/drivers/input/joystick/adc-joystick.c
-> index 916e78e4dc9f..1e30cbcd8c61 100644
-> --- a/drivers/input/joystick/adc-joystick.c
-> +++ b/drivers/input/joystick/adc-joystick.c
-> @@ -15,19 +15,15 @@
-> 
->  struct adc_joystick_axis {
->  	u32 code;
-> -	s32 range[2];
-> -	s32 fuzz;
-> -	s32 flat;
->  	bool inverted;
->  };
-> 
->  struct adc_joystick {
->  	struct input_dev *input;
->  	struct iio_cb_buffer *buffer;
-> -	struct adc_joystick_axis *axes;
->  	struct iio_channel *chans;
-> -	int num_chans;
-> -	bool polled;
-> +	unsigned int num_chans;
-> +	struct adc_joystick_axis axes[] __counted_by(num_chans);
->  };
-> 
->  static int adc_joystick_invert(struct input_dev *dev,
-> @@ -135,9 +131,11 @@ static void adc_joystick_cleanup(void *data)
-> 
->  static int adc_joystick_set_axes(struct device *dev, struct 
-> adc_joystick *joy)
->  {
-> -	struct adc_joystick_axis *axes;
-> +	struct adc_joystick_axis *axes = joy->axes;
->  	struct fwnode_handle *child;
-> -	int num_axes, error, i;
-> +	s32 range[2], fuzz, flat;
-> +	unsigned int num_axes;
-> +	int error, i;
-> 
->  	num_axes = device_get_child_node_count(dev);
->  	if (!num_axes) {
-> @@ -151,10 +149,6 @@ static int adc_joystick_set_axes(struct device 
-> *dev, struct adc_joystick *joy)
->  		return -EINVAL;
->  	}
-> 
-> -	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
-> -	if (!axes)
-> -		return -ENOMEM;
-> -
->  	device_for_each_child_node(dev, child) {
->  		error = fwnode_property_read_u32(child, "reg", &i);
->  		if (error) {
-> @@ -176,29 +170,25 @@ static int adc_joystick_set_axes(struct device 
-> *dev, struct adc_joystick *joy)
->  		}
-> 
->  		error = fwnode_property_read_u32_array(child, "abs-range",
-> -						       axes[i].range, 2);
-> +						       range, 2);
->  		if (error) {
->  			dev_err(dev, "abs-range invalid or missing\n");
->  			goto err_fwnode_put;
->  		}
-> 
-> -		if (axes[i].range[0] > axes[i].range[1]) {
-> +		if (range[0] > range[1]) {
->  			dev_dbg(dev, "abs-axis %d inverted\n", i);
->  			axes[i].inverted = true;
-> -			swap(axes[i].range[0], axes[i].range[1]);
-> +			swap(range[0], range[1]);
->  		}
-> 
-> -		fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
-> -		fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
-> +		fwnode_property_read_u32(child, "abs-fuzz", &fuzz);
-> +		fwnode_property_read_u32(child, "abs-flat", &flat);
-> 
->  		input_set_abs_params(joy->input, axes[i].code,
-> -				     axes[i].range[0], axes[i].range[1],
-> -				     axes[i].fuzz, axes[i].flat);
-> -		input_set_capability(joy->input, EV_ABS, axes[i].code);
-> +				     range[0], range[1], fuzz, flat);
->  	}
-> 
-> -	joy->axes = axes;
-> -
->  	return 0;
-> 
->  err_fwnode_put:
-> @@ -206,23 +196,49 @@ static int adc_joystick_set_axes(struct device 
-> *dev, struct adc_joystick *joy)
->  	return error;
->  }
-> 
-> +
-> +/*
-> + * Count how many channels we got. NULL terminated.
-> + * Do not check the storage size if using polling.
-> + */
-> +static int adc_joystick_count_channels(struct device *dev,
-> +				       const struct iio_channel *chans,
-> +				       bool polled,
-> +				       unsigned int *num_chans)
+Applied, thank you.
 
-You forgot to assign *num_chans = i; at the end of this function,
-which leaves it uninitialized in the caller context.
-
-> +{
-> +	int bits;
-> +	int i;
-> +
-
-Let's move that "NULL terminated." comment here, since it's about the
-for loop.
-
-With the above comments addressed:
-Acked-by: Artur Rojek <contact@artur-rojek.eu>
-
-Cheers,
-Artur
-
-> +	for (i = 0; chans[i].indio_dev; i++) {
-> +		if (polled)
-> +			continue;
-> +		bits = chans[i].channel->scan_type.storagebits;
-> +		if (!bits || bits > 16) {
-> +			dev_err(dev, "Unsupported channel storage size\n");
-> +			return -EINVAL;
-> +		}
-> +		if (bits != chans[0].channel->scan_type.storagebits) {
-> +			dev_err(dev, "Channels must have equal storage size\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	return i;
-> +}
-> +
->  static int adc_joystick_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> +	struct iio_channel *chans;
->  	struct adc_joystick *joy;
->  	struct input_dev *input;
-> +	unsigned int poll_interval = 0;
-> +	unsigned int num_chans;
->  	int error;
-> -	int bits;
-> -	int i;
-> -	unsigned int poll_interval;
-> -
-> -	joy = devm_kzalloc(dev, sizeof(*joy), GFP_KERNEL);
-> -	if (!joy)
-> -		return -ENOMEM;
-> 
-> -	joy->chans = devm_iio_channel_get_all(dev);
-> -	if (IS_ERR(joy->chans)) {
-> -		error = PTR_ERR(joy->chans);
-> +	chans = devm_iio_channel_get_all(dev);
-> +	error = PTR_ERR_OR_ZERO(chans);
-> +	if (error) {
->  		if (error != -EPROBE_DEFER)
->  			dev_err(dev, "Unable to get IIO channels");
->  		return error;
-> @@ -236,28 +252,19 @@ static int adc_joystick_probe(struct 
-> platform_device *pdev)
->  	} else if (poll_interval == 0) {
->  		dev_err(dev, "Unable to get poll-interval\n");
->  		return -EINVAL;
-> -	} else {
-> -		joy->polled = true;
->  	}
-> 
-> -	/*
-> -	 * Count how many channels we got. NULL terminated.
-> -	 * Do not check the storage size if using polling.
-> -	 */
-> -	for (i = 0; joy->chans[i].indio_dev; i++) {
-> -		if (joy->polled)
-> -			continue;
-> -		bits = joy->chans[i].channel->scan_type.storagebits;
-> -		if (!bits || bits > 16) {
-> -			dev_err(dev, "Unsupported channel storage size\n");
-> -			return -EINVAL;
-> -		}
-> -		if (bits != joy->chans[0].channel->scan_type.storagebits) {
-> -			dev_err(dev, "Channels must have equal storage size\n");
-> -			return -EINVAL;
-> -		}
-> -	}
-> -	joy->num_chans = i;
-> +	error = adc_joystick_count_channels(dev, chans, poll_interval != 0,
-> +					    &num_chans);
-> +	if (error)
-> +		return error;
-> +
-> +	joy = devm_kzalloc(dev, struct_size(joy, axes, num_chans), 
-> GFP_KERNEL);
-> +	if (!joy)
-> +		return -ENOMEM;
-> +
-> +	joy->chans = chans;
-> +	joy->num_chans = num_chans;
-> 
->  	input = devm_input_allocate_device(dev);
->  	if (!input) {
-> @@ -273,7 +280,7 @@ static int adc_joystick_probe(struct 
-> platform_device *pdev)
->  	if (error)
->  		return error;
-> 
-> -	if (joy->polled) {
-> +	if (poll_interval != 0) {
->  		input_setup_polling(input, adc_joystick_poll);
->  		input_set_poll_interval(input, poll_interval);
->  	} else {
-> --
-> 2.45.2.505.gda0bf45e8d-goog
-
+-- 
+Dmitry
 
