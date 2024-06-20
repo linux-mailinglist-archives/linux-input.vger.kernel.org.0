@@ -1,86 +1,74 @@
-Return-Path: <linux-input+bounces-4483-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4484-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B8790FACB
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 03:12:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C2B90FC9C
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 08:18:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D345B1F22A93
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 01:12:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B3B8B21BEE
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jun 2024 06:18:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E570F9CB;
-	Thu, 20 Jun 2024 01:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFB5B1946F;
+	Thu, 20 Jun 2024 06:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IplBurGl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dEqA1U1h"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CC9DDB8;
-	Thu, 20 Jun 2024 01:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1401F17736
+	for <linux-input@vger.kernel.org>; Thu, 20 Jun 2024 06:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718845971; cv=none; b=GafLqjRKzJ41sbBu1ksmyWWb+xpldPVr0icj6nXBxfGRc/DiA07glHQu5bBXik2VHPOwgxQbSRalYDQ5dsVuDJB1jzf3qEwWjqJClBJjZYVN4bT5w/mAa9vCHLL+QJsq5XcEuUCgoaGjO2fKJ2dnIRRkE08OxlamkWCXYsjPXuw=
+	t=1718864319; cv=none; b=uQ2HEkkBSJ+ZQtci72Z3raVZUq1jfvCPZgUfL8hvL3ODVEAlEcbRDyWaBw3kFKBJyuHUrdLIrpNitXloKj8s+P8q920nXUM1moBay1rkCz28qg0iiTLBoOEi4lc+7IxFanZyLpkYqC/DEFHN0dBUopYWAhiCcEssxPD7oInr7Pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718845971; c=relaxed/simple;
-	bh=3HNIuZoo+ROzi0VRAp8ZG2s8jhkxEgXvZlwP6uxaGdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KCXxX26XHRPFp9gL3kKJ0ReXBoyPpbs4z+eCqYGOTytgY6YMs7RrBi+/2HKdrppPw/IU9nRrOMuHn6e88cRYDbulkI9vNABNgmgVSK7NWmHSiw+2xsmFTbkaS22n3FlHPBU2LnNwLVTyTgU9WV36lcMTtRgCUNnQB6C4CdjfW2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IplBurGl; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c2c6277ef3so311532a91.3;
-        Wed, 19 Jun 2024 18:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718845969; x=1719450769; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UtvZzPbiVDm2fGC/hNhp/8eLXltMc47O/VCFEAdXX3g=;
-        b=IplBurGlxCnW/T80MuXZ/fDwf00G9CwddY7rPtBtyuOzCtUQ5qyehhSN1gNH3tT4K3
-         HQqiNOMv2GzJF6mgsiU3S6HMBCAOHH9kW1dTWVn9PjaRVDNvllI+q9wn4jeRrBowqh0x
-         RMKPNonMrtGlwUUiWJ5xNpN7s774WHMBF5+qLzluWhlsL8v2txyY86dRYXhu3ZYHP3Sr
-         3QhI+R01yhKmaXvPnh311MT3Q05G1ZyJR8VosBrczgNXF5FGTJG1f+kwZdr8fCH1Nutf
-         UQBVEanWa8AG+GrQgG2K3Bfmo/YWYPtMnDfzcLPsebBa2WwCVPS0GJ1qUsUJqnLOx2Al
-         kdTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718845969; x=1719450769;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UtvZzPbiVDm2fGC/hNhp/8eLXltMc47O/VCFEAdXX3g=;
-        b=OaQTMpACVJkD0Tws29yIKI/lsVd25FffPBtLompHP7c6y9IN1nkg+4o+m0mmBz1AoZ
-         /jxaYV1kfQd/sLIEoIZ+vC0gu5C8y360UnVF+6cCRB4qovzPsQgTANdTzIcIfvF8bmDb
-         t7OP2u/xRUCn3SGIjbSgQ0TIFzXQhp7nALRNiFxpwwSfvxRT9bdZ4yjsnWEgCpSE6YJZ
-         IywKSgVneo+/hhkRe4gDqYCG/MC5ezyKHO0DkXZFa/USCmcPFdiUPah2o9fLYbA+3Czu
-         +VZnw3ZaocW1MBxGiAJWTlBXboIunGjekp1nK247SSCsDx5SLapFhjvVPE9rcxAdYx1s
-         T3iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtK4fANqmeLKgUVp4N4VsZPmlmSv8KZjC7zT5awo549vkuhQzJbQeiDZuPcOda+76Xr2qHFVc2YsH3xknda3HtEQaVoYF+8IVgtCKr52grAfyuyM0AmyDKyRur0jvEBInih+RaQbENGVQVLyyRBlEqlg/Liwnowe8vAc8R6iJtiMMgDeAs
-X-Gm-Message-State: AOJu0Yw3JKSoKsS7NidGWGswM/X1QCU9F32Ejfz0JVe7xGQRbW0Ivs63
-	rIlHn9d8A+l5YT7XnMWdgjP9UOYZgBCxQPlRRnqD53msnwMphakH
-X-Google-Smtp-Source: AGHT+IEcLf7lv1yrtj40upN5wlspygK1BImuzVSjfItDZZ1Ahzzekk8L9Ndysr+GKBxGEvT0LQS66w==
-X-Received: by 2002:a17:90a:cf02:b0:2c7:b045:254a with SMTP id 98e67ed59e1d1-2c7b5daeac7mr3566594a91.46.1718845968950;
-        Wed, 19 Jun 2024 18:12:48 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:36d9:2b1f:59f:8e9e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c7e4ffe7b0sm340390a91.3.2024.06.19.18.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 18:12:48 -0700 (PDT)
-Date: Wed, 19 Jun 2024 18:12:45 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Stefan Eichenberger <eichest@gmail.com>
-Cc: nick@shmanahar.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
-	linus.walleij@linaro.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: Re: [PATCH v4 4/4] Input: atmel_mxt_ts - add support for
- poweroff-sleep
-Message-ID: <ZnOCDaetFnsg09if@google.com>
-References: <20240417090527.15357-1-eichest@gmail.com>
- <20240417090527.15357-5-eichest@gmail.com>
+	s=arc-20240116; t=1718864319; c=relaxed/simple;
+	bh=yfqVUN8sg32yr2yCpZpkroOFWCo56dRtfu0lzYaaTGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Le70o31zA8axNoMDAKmShFg3mKldNOa82mzN8HnWnxfUPYJxdsvP3BUVwoVa36qhfvgBeQpKK6c6eui8Zl872vQzU7eYipTlMbwpSr22cnJee2nE5LuDFt7ii6Yry7sZJavEJ1uWKu+Dz7P6Auac+dVvvHY3KIxNqvgCaLD3+N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dEqA1U1h; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718864318; x=1750400318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yfqVUN8sg32yr2yCpZpkroOFWCo56dRtfu0lzYaaTGQ=;
+  b=dEqA1U1hHKHgDpQizS9q53Z+0jcvxm31s2giNBzRiePcdZqbwmb1/as6
+   Qa/ST5NUBAbG+reV2SaQPnn/cLd1NqChWmzqLbSvlU3iu0LGwietOjiff
+   SjOLw86Pm0XT9C5Y20fEAAfzZO1kcrftmcgKksavoQ7OOPwtf2K4ok73Q
+   VfSOuKycUMMz8Q/WkMK628GtDbMpOcUGkMhmM/WkpOsK6GI7xfPV32Cw6
+   JEx5LxuabL44ccmVGDtrZzN89AOQOmdDIJYtYhgal1wRQuS8QNVKk0JkQ
+   6yMRzcVl0ZrdEV8/qkcOo8Sz5Qsv2BhLTOVqALgNJLvCz6s203ufHkglT
+   g==;
+X-CSE-ConnectionGUID: KeYuo7jgTwiR3NBiqwjgfg==
+X-CSE-MsgGUID: QOq8HNYeTbmHnA6VLJp5ZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="41225657"
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="41225657"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 23:18:37 -0700
+X-CSE-ConnectionGUID: oHk5aynXQq+May8+xoV1Xg==
+X-CSE-MsgGUID: bye25CQMRyKFxSDVSdT7sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="42249609"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 19 Jun 2024 23:18:36 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKB7x-0007NS-1j;
+	Thu, 20 Jun 2024 06:18:33 +0000
+Date: Thu, 20 Jun 2024 14:17:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Luke D. Jones" <luke@ljones.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>
+Subject: [hid:for-next 1/2] include/linux/platform_data/x86/asus-wmi.h:205:2:
+ warning: suggest braces around initialization of subobject
+Message-ID: <202406201404.NGl8SOi4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -89,65 +77,71 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240417090527.15357-5-eichest@gmail.com>
 
-Hi Stefan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+head:   fa9057ccb9c323816e0f2599a2d91f5c856b0004
+commit: bda38f9a41d89b47dce54932f88d0e0edee00cae [1/2] HID: asus: use hid for brightness control on keyboard
+config: i386-buildonly-randconfig-006-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201404.NGl8SOi4-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406201404.NGl8SOi4-lkp@intel.com/reproduce)
 
-On Wed, Apr 17, 2024 at 11:05:27AM +0200, Stefan Eichenberger wrote:
-> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-> 
-> Add support for poweroff-sleep to the Atmel maXTouch driver. This allows
-> us to power off the input device entirely and only power it on when it
-> is opened. This will also automatically power it off when we suspend the
-> system.
-> 
-> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-> ---
->  drivers/input/touchscreen/atmel_mxt_ts.c | 71 +++++++++++++++++++-----
->  1 file changed, 57 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index 7c807d1f1f9b..f92808be3f5b 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -317,6 +317,7 @@ struct mxt_data {
->  	struct gpio_desc *reset_gpio;
->  	struct gpio_desc *wake_gpio;
->  	bool use_retrigen_workaround;
-> +	bool poweroff_sleep;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406201404.NGl8SOi4-lkp@intel.com/
 
-Why is this separate from "enum mxt_suspend_mode suspend_mode"? Can we
-make MXT_SUSPEND_POWEROFF and use it in mxt_start() and others? It still
-can be driven by the "atmel,poweroff-sleep" device property. 
+All warnings (new ones prefixed by >>):
 
->  
->  	/* Cached parameters from object table */
->  	u16 T5_address;
-> @@ -2277,6 +2278,19 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
->  	release_firmware(cfg);
->  }
->  
-> +static int mxt_initialize_after_resume(struct mxt_data *data)
-> +{
-> +	const struct firmware *fw;
-> +
-> +	mxt_acquire_irq(data);
-> +
-> +	firmware_request_nowarn(&fw, MXT_CFG_NAME, &data->client->dev);
-> +
-> +	mxt_config_cb(fw, data);
+   In file included from drivers/hid/hid-asus.c:29:
+>> include/linux/platform_data/x86/asus-wmi.h:205:2: warning: suggest braces around initialization of subobject [-Wmissing-braces]
+     205 |         NULL,
+         |         ^~~~
+         |         {   }
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   1 warning generated.
 
-Is this really required? As far as I know all maXTouch controllers have
-NVRAM for their configs and should not lose configuration even if power
-is cut off. In fact, the whole automatic request of firmware/config upon
-probe I think was a mistake and I would like to get rid of it. In fact,
-on Chrome OS the version of the driver in use does not do that and
-instead relies on userspace to check if firmware update is needed.
 
-If this is actually required you need to add error handling.
+vim +205 include/linux/platform_data/x86/asus-wmi.h
 
-Thanks.
+   173	
+   174	static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+   175		{
+   176			.matches = {
+   177				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
+   178			},
+   179		},
+   180		{
+   181			.matches = {
+   182				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
+   183			},
+   184		},
+   185		{
+   186			.matches = {
+   187				DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
+   188			},
+   189		},
+   190		{
+   191			.matches = {
+   192				DMI_MATCH(DMI_BOARD_NAME, "GA403"),
+   193			},
+   194		},
+   195		{
+   196			.matches = {
+   197				DMI_MATCH(DMI_BOARD_NAME, "GU605"),
+   198			},
+   199		},
+   200		{
+   201			.matches = {
+   202				DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+   203			},
+   204		},
+ > 205		NULL,
+   206	};
+   207	
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
