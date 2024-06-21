@@ -1,195 +1,244 @@
-Return-Path: <linux-input+bounces-4549-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4550-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CBD912B4E
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 18:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FBA912C4D
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 19:16:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C50F1C236DA
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 16:26:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8D1E1C21BA0
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 17:16:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A956515FCFB;
-	Fri, 21 Jun 2024 16:26:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5031D40856;
+	Fri, 21 Jun 2024 17:16:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aid5b4T7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMiWg0Pc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C5410A39;
-	Fri, 21 Jun 2024 16:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B151E48B;
+	Fri, 21 Jun 2024 17:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718987175; cv=none; b=TlWBFeEbw/Lyj1Rd7n9GniNrefJ9OQdYxS1/CoCj0eVMCcX22u3WWi+s5qTYcSzbl28tJnFEQof0GEmq0Z/5pQtpR3G3itStU7RhK9y52DlW8HGSp0S+G253hY0erjuAkWRmWAvufy7y0++SbMHu69ZfA1v8WpiC8BbmWP5t/TY=
+	t=1718990180; cv=none; b=E1rfyj8ynfCOTPZFgkJ98hWtzqBhKXu5CJQtAoxPVMwecEwE6rOD7urOKzVG5KT8ThhKofm4KKI4ezX/KRtNdGtnhLfHrXl0j+FPsFB/tVV7OzFjsKRQ7lXocQGlWUIbKb7i8Q8/O5g+wL5HClqlAYgxzuTwmCYMI/eHcl+Ktcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718987175; c=relaxed/simple;
-	bh=syaw2j1CKNhKileFRhZaU0gaJjIh+YpnaVjx+YB5jbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JIRWPwqAfi6HQMumrgbeciWomlY3V8l+7gDOV2/56lm36B2XZFwe/efsdRiTb472cZxfd1eGJw9jqtclKgX0DlPOnaH+LRkGJxzLIoRQx0+sxVWufhDAqRa2fAiIneM8jZG/1HMrv6RkSLYVVR/cgfK0DLtmEtRrMjQ7aFeqqbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aid5b4T7; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1718990180; c=relaxed/simple;
+	bh=1dINPmcDfd4B9O1+P613nZtnQngLi1KpoprMS1q4DjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B+p2yYdSK4MU8A98A4hTlOI2u5ZOAUkXPa73p8Q4pUMuPqRs/YZ2w3NqGdg5DJKwY5xIcBI4Gpfi2zpCjH4exRCduUOCy39TUktZEwv1qZ6gvX/j9LeKCb5cY8zG14yduGs6+p4cWmoGXzSvAsJzax2Y+qhXl8C/od/T+vpPUFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMiWg0Pc; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso24593105e9.2;
-        Fri, 21 Jun 2024 09:26:13 -0700 (PDT)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2c7cd714268so1636575a91.1;
+        Fri, 21 Jun 2024 10:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718987172; x=1719591972; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2G5sctyY5+akJotF0NYZBVeqJ4gLFW6IE6iMuGoc2hc=;
-        b=Aid5b4T7HqsUpD2CeIijka/5BYSfZX2u67OiQNvQEMNtbd3mUYD+8ti1CwIMJONcnY
-         kby1LW1FC2CG1t9dsLKOgNjCDbGS344LPkYTwHQSBgr9BjMLx84I4G3dxOfJVP1P/1aF
-         Iyh0/C4VzxTLyRgC3k5GHbNphkCAiGrh1J4TKQSGJWbYDNt9KuinjiVWiDD42srsdwvp
-         qSyBrPpkQP3JxMoJ8KkPA3pCULL8lHXERqAB2UlXBlo+eL0C0VJj3sM0HxptRnnMLpa5
-         Am+4r6hWt1ZOx2yX2KVxktSdu4YVcwqKAFkfsMoArHdRzH/E8zbKt4TcQ5+GP8xTzrJ0
-         IwSw==
+        d=gmail.com; s=20230601; t=1718990178; x=1719594978; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8z4gVvCzxeZlUeiVl+daSgFA3zxEp4uopDr2HvEl3M=;
+        b=YMiWg0PccrtaqFjm+R5OIbEjHFqdQGMnNfSK6kki4d8LFysaEE98VAlN0PlnhRlPII
+         aquyeKJU2pw9DOVU+EAdGmAi4Byb/v/LFSdjtzzpeUg1etoRh6dHXxmz2hpA5eOxbisL
+         TIkqHIOTZHSD7JAIuZvEbD+nq6u53n/rp8W+CcTh3rq8yjYRdJEAMj9+/FI/gk2eyrvm
+         /xjUUAwjHzg/JSAlI6qfA5zp7twrYR0K6xUgwCbeE+TqH90u8Zmp6hRiJ9VzOKBqRImG
+         1rMiq11lowWRn5E4aAmS7c3T/B0HGAjourDUVZZWGNNj63LKuoJtuNq+XKcGcI1fF8+F
+         r0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718987172; x=1719591972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2G5sctyY5+akJotF0NYZBVeqJ4gLFW6IE6iMuGoc2hc=;
-        b=sX4PTazIsenMU6EtxHDYvpP8qEtn+JhnPP7NKXk5Zq3fiOE+JEqabVvVsjeERmLYew
-         twiqpVI5G6qtLJyhA45oF8EFomevQ92LqxuOyc1y7UhoDS6AchgBQzaD00iUr9+kM2hc
-         zCbq/ZjGXRBgsj5c5Or54gE/TdbujMDinQl6hqau/v4WrJbo59hu+MQoz7r8WmXHcIIK
-         aQNcL5JTldUX7xPivhwrpFNPis0ZH34uGYJuz6VWVqGFcD7aGuxKVso2pO6KO1ZRz1T8
-         41cwyB9hri7EzGzzG7BYaZGq8dFvS3aPuw04vCYYnLri+X+NB4nW+f/zn2jDzypLdC/b
-         lrbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVomdJeHiYxc9eDA+NiLSOP3uIFuMTvj7uALfkYWYHqXi6R61CCwaKLhPcy7Hmk//fOHlbWy+eoI0F5qux9buWopOO+oH9iS0NWYfT60W6bxOtfCR9BGATglA1gnTPfUAw1cDAIO+yIm8GkJBEpsDn4s9On/cpyBV7vrsrBilYrWI+UjJOJhA1LiWNWFYzBaRCJqs/t/LG4q7kYc1C1PVWUglfj78wMxldx64fepnmqkMx6z/qwJJGGDLY=
-X-Gm-Message-State: AOJu0Yz/2Tmu4PXP2rmdEKkd4ZX+fA8KUvrykZvw2vhQaseKUsjxv62q
-	mem9RbbprAiso/vH1xsISFq+ktm0Te5Wxz1howDd6Ct0mJt51E1tfieHHx6Hx4ZsCSh1PZqBp1s
-	2p3SGlRq2MhLTNrPjCyH0zo35rbc=
-X-Google-Smtp-Source: AGHT+IFSihQV0lS2A8sdrIWW8qjAtXJa85Cfo+eO9dbfvheawX77yi34eO4/SQ3D/TDwMdwQ6G6tYXsv4r3cj5RyB98=
-X-Received: by 2002:a05:600c:181c:b0:422:1a82:3ed2 with SMTP id
- 5b1f17b1804b1-424752969b0mr86309965e9.27.1718987172113; Fri, 21 Jun 2024
- 09:26:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718990178; x=1719594978;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m8z4gVvCzxeZlUeiVl+daSgFA3zxEp4uopDr2HvEl3M=;
+        b=giLd+vFxHz4CF82NqIo1R0gaIsOxioATEtE4iT5/oHTh/NPaFy59j6TTx6kRa8BYU+
+         dFvvI9/rUdlagnpQE3/wr35S7d3uQ2D6bA41xOUwG+NHcaHydR2aP6YXozR92ie1jiTJ
+         OfX/cBTwQm/SHO4O3iNjAkVup4kgCwvTaPOZPr12YDaY+wrlyIn2tBfHtI8pkg1UtSTY
+         ObmhweEimLsaxu5jYP5YkxnfumTY3aL4sf1BVKau5aQLJOgXpTJw6gvmqYchxBI2WnLx
+         ST46p5xce+fO3+Yz5NtLaTpV9FrrpSR/Nyj46xITjBHiN+wvu1HG2+Eh1+c4d18n5i3Z
+         WDTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMiodD4T46MEkki8H6G3p8aVv9w5OVNZFojUYaHsuqlz4Mrw76W0r2vofJ7zbIgEcM8ol0PiA/k7dtcG0+UgBVGmwYDcm8r8+8ewNY
+X-Gm-Message-State: AOJu0YwQCrBtyYJelWcuk+SOiv6FgjstaCjwbAmWYKe3Bidre/uTROtv
+	mqnuQJf1pxUUzeeDRMvesgOUmAmpspPks6vNVJgdVyjAJATEJ0mR
+X-Google-Smtp-Source: AGHT+IEYq+hNMBU7XQxy2OeQX6CVGBNXO66sdnB0/uq7gtUmZqi4Gs6ongNrb46YKZgMaIwgJ9jYRA==
+X-Received: by 2002:a17:90a:ea97:b0:2c6:f5bf:5175 with SMTP id 98e67ed59e1d1-2c83c200b30mr520197a91.10.1718990177516;
+        Fri, 21 Jun 2024 10:16:17 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:30ae:a791:227a:a35f])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c819a622fdsm1847939a91.6.2024.06.21.10.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 10:16:17 -0700 (PDT)
+Date: Fri, 21 Jun 2024 10:16:14 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Artur Rojek <contact@artur-rojek.eu>
+Cc: linux-input@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: adc-joystick - move axes data into the main
+ structure
+Message-ID: <ZnW1XmYET39CwGsu@google.com>
+References: <ZmkrgTlxNwm_oHxv@google.com>
+ <af45d1dd82b6abf5ec3633fdef5093d2@artur-rojek.eu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
- <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org> <CAADnVQ+us6cQepSGWbOB4K1bb_0Wh43Cpo4zXJxB2d+SVpYinQ@mail.gmail.com>
- <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
-In-Reply-To: <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 21 Jun 2024 09:26:00 -0700
-Message-ID: <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
-Subject: Re: [PATCH HID 06/12] HID: bpf: add HID-BPF hooks for hid_hw_output_report
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af45d1dd82b6abf5ec3633fdef5093d2@artur-rojek.eu>
 
-On Fri, Jun 21, 2024 at 9:08=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> On Jun 21 2024, Alexei Starovoitov wrote:
-> > On Fri, Jun 21, 2024 at 1:56=E2=80=AFAM Benjamin Tissoires <bentiss@ker=
-nel.org> wrote:
-> > >
-> > > Same story than hid_hw_raw_requests:
-> > >
-> > > This allows to intercept and prevent or change the behavior of
-> > > hid_hw_output_report() from a bpf program.
-> > >
-> > > The intent is to solve a couple of use case:
-> > >   - firewalling a HID device: a firewall can monitor who opens the hi=
-draw
-> > >     nodes and then prevent or allow access to write operations on tha=
-t
-> > >     hidraw node.
-> > >   - change the behavior of a device and emulate a new HID feature req=
-uest
-> > >
-> > > The hook is allowed to be run as sleepable so it can itself call
-> > > hid_hw_output_report(), which allows to "convert" one feature request=
- into
-> > > another or even call the feature request on a different HID device on=
- the
-> > > same physical device.
-> > >
-> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > >
-> > > ---
-> > >
-> > > Here checkpatch complains about:
-> > > WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU =
-code
-> > >
-> > > However, we are jumping in BPF code, so I think this is correct, but =
-I'd
-> > > like to have the opinion on the BPF folks.
-> > > ---
-> > >  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++=
-++++++----
-> > >  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
-> > >  drivers/hid/hid-core.c               | 10 ++++++++--
-> > >  drivers/hid/hidraw.c                 |  2 +-
-> > >  include/linux/hid.h                  |  3 ++-
-> > >  include/linux/hid_bpf.h              | 24 ++++++++++++++++++++++-
-> > >  6 files changed, 68 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid=
-_bpf_dispatch.c
-> > > index 8d6e08b7c42f..2a29a0625a3b 100644
-> > > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > @@ -111,6 +111,38 @@ int dispatch_hid_bpf_raw_requests(struct hid_dev=
-ice *hdev,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
-> > >
-> > > +int dispatch_hid_bpf_output_report(struct hid_device *hdev,
-> > > +                                  __u8 *buf, u32 size, __u64 source,
-> > > +                                  bool from_bpf)
-> > > +{
-> > > +       struct hid_bpf_ctx_kern ctx_kern =3D {
-> > > +               .ctx =3D {
-> > > +                       .hid =3D hdev,
-> > > +                       .allocated_size =3D size,
-> > > +                       .size =3D size,
-> > > +               },
-> > > +               .data =3D buf,
-> > > +               .from_bpf =3D from_bpf,
-> > > +       };
-> > > +       struct hid_bpf_ops *e;
-> > > +       int ret;
-> > > +
-> > > +       rcu_read_lock_trace();
-> > > +       list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-> > > +               if (e->hid_hw_output_report) {
-> > > +                       ret =3D e->hid_hw_output_report(&ctx_kern.ctx=
-, source);
-> > > +                       if (ret)
-> > > +                               goto out;
-> > > +               }
-> > > +       }
-> > > +       ret =3D 0;
-> > > +
-> > > +out:
-> > > +       rcu_read_unlock_trace();
-> >
-> > same question.
->
-> re What is this for?:
->
-> e->hid_hw_output_report might sleep, so using a plain rcu_read_lock()
-> introduces warnings.
+Hi Artur,
 
-Ok, but just replacing rcu_read_lock() with rcu_read_lock_trace()
-doesn't fix it.
-rcu and rcu_tasks_trace are different.
-If you're using call_rcu to wait for GP to free an element in that
-list the thing will go wrong.
+On Thu, Jun 20, 2024 at 11:13:27PM +0200, Artur Rojek wrote:
+> Hi Dmitry,
+> 
+> On 2024-06-12 07:00, Dmitry Torokhov wrote:
+> > There is no need to allocate axes information separately from the main
+> > joystick structure so let's fold the allocation and also drop members
+> > (such as range, flat and fuzz) that are only used during initialization
+> > of the device.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> > 
+> > v2:
+> > 
+> > - fixed issue with uninitialized "axes" in adc_joystick_set_axes()
+> >   pointed out by Dan Carpenter
+> > - fixed issue with checking wrong variable in adc_joystick_probe()
+> >   pointed out by Dan Carpenter
+> > 
+> >  drivers/input/joystick/adc-joystick.c | 113 ++++++++++++++------------
+> >  1 file changed, 60 insertions(+), 53 deletions(-)
+> > 
+> > diff --git a/drivers/input/joystick/adc-joystick.c
+> > b/drivers/input/joystick/adc-joystick.c
+> > index 916e78e4dc9f..1e30cbcd8c61 100644
+> > --- a/drivers/input/joystick/adc-joystick.c
+> > +++ b/drivers/input/joystick/adc-joystick.c
+> > @@ -15,19 +15,15 @@
+> > 
+> >  struct adc_joystick_axis {
+> >  	u32 code;
+> > -	s32 range[2];
+> > -	s32 fuzz;
+> > -	s32 flat;
+> >  	bool inverted;
+> >  };
+> > 
+> >  struct adc_joystick {
+> >  	struct input_dev *input;
+> >  	struct iio_cb_buffer *buffer;
+> > -	struct adc_joystick_axis *axes;
+> >  	struct iio_channel *chans;
+> > -	int num_chans;
+> > -	bool polled;
+> > +	unsigned int num_chans;
+> > +	struct adc_joystick_axis axes[] __counted_by(num_chans);
+> >  };
+> > 
+> >  static int adc_joystick_invert(struct input_dev *dev,
+> > @@ -135,9 +131,11 @@ static void adc_joystick_cleanup(void *data)
+> > 
+> >  static int adc_joystick_set_axes(struct device *dev, struct
+> > adc_joystick *joy)
+> >  {
+> > -	struct adc_joystick_axis *axes;
+> > +	struct adc_joystick_axis *axes = joy->axes;
+> >  	struct fwnode_handle *child;
+> > -	int num_axes, error, i;
+> > +	s32 range[2], fuzz, flat;
+> > +	unsigned int num_axes;
+> > +	int error, i;
+> > 
+> >  	num_axes = device_get_child_node_count(dev);
+> >  	if (!num_axes) {
+> > @@ -151,10 +149,6 @@ static int adc_joystick_set_axes(struct device
+> > *dev, struct adc_joystick *joy)
+> >  		return -EINVAL;
+> >  	}
+> > 
+> > -	axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
+> > -	if (!axes)
+> > -		return -ENOMEM;
+> > -
+> >  	device_for_each_child_node(dev, child) {
+> >  		error = fwnode_property_read_u32(child, "reg", &i);
+> >  		if (error) {
+> > @@ -176,29 +170,25 @@ static int adc_joystick_set_axes(struct device
+> > *dev, struct adc_joystick *joy)
+> >  		}
+> > 
+> >  		error = fwnode_property_read_u32_array(child, "abs-range",
+> > -						       axes[i].range, 2);
+> > +						       range, 2);
+> >  		if (error) {
+> >  			dev_err(dev, "abs-range invalid or missing\n");
+> >  			goto err_fwnode_put;
+> >  		}
+> > 
+> > -		if (axes[i].range[0] > axes[i].range[1]) {
+> > +		if (range[0] > range[1]) {
+> >  			dev_dbg(dev, "abs-axis %d inverted\n", i);
+> >  			axes[i].inverted = true;
+> > -			swap(axes[i].range[0], axes[i].range[1]);
+> > +			swap(range[0], range[1]);
+> >  		}
+> > 
+> > -		fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
+> > -		fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
+> > +		fwnode_property_read_u32(child, "abs-fuzz", &fuzz);
+> > +		fwnode_property_read_u32(child, "abs-flat", &flat);
+> > 
+> >  		input_set_abs_params(joy->input, axes[i].code,
+> > -				     axes[i].range[0], axes[i].range[1],
+> > -				     axes[i].fuzz, axes[i].flat);
+> > -		input_set_capability(joy->input, EV_ABS, axes[i].code);
+> > +				     range[0], range[1], fuzz, flat);
+> >  	}
+> > 
+> > -	joy->axes = axes;
+> > -
+> >  	return 0;
+> > 
+> >  err_fwnode_put:
+> > @@ -206,23 +196,49 @@ static int adc_joystick_set_axes(struct device
+> > *dev, struct adc_joystick *joy)
+> >  	return error;
+> >  }
+> > 
+> > +
+> > +/*
+> > + * Count how many channels we got. NULL terminated.
+> > + * Do not check the storage size if using polling.
+> > + */
+> > +static int adc_joystick_count_channels(struct device *dev,
+> > +				       const struct iio_channel *chans,
+> > +				       bool polled,
+> > +				       unsigned int *num_chans)
+> 
+> You forgot to assign *num_chans = i; at the end of this function,
+> which leaves it uninitialized in the caller context.
 
-If you really need rcu life times here use srcu. It's a much better fit.
-There will be srcu_read_lock() here, paired with call_srcu().
+Indeed, and it needs to return 0 on success, not "i". Fixed.
+
+> 
+> > +{
+> > +	int bits;
+> > +	int i;
+> > +
+> 
+> Let's move that "NULL terminated." comment here, since it's about the
+> for loop.
+
+Done and pushed out.
+
+> 
+> With the above comments addressed:
+> Acked-by: Artur Rojek <contact@artur-rojek.eu>
+
+Thanks.
+
+-- 
+Dmitry
 
