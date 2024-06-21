@@ -1,135 +1,114 @@
-Return-Path: <linux-input+bounces-4552-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4553-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0DD91304B
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 00:26:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C862691307E
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 00:43:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C83D1F2224C
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 22:26:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F9FBB27476
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jun 2024 22:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D17F16DEBB;
-	Fri, 21 Jun 2024 22:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0DC16F835;
+	Fri, 21 Jun 2024 22:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FAUgaXIc"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="G4MJ77J/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E0216DEBD;
-	Fri, 21 Jun 2024 22:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAA516F282;
+	Fri, 21 Jun 2024 22:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.97.139.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719008779; cv=none; b=ZgntGv1/hs/cEcLOvxn6cOL/04MLgZKLx+aVdbkbOI0FQDb78nbM4lbm6S+HreBQYYu0hONkexTscIwdYHw5aDmUBA7Ox8Hx25UUK7f8NG9KZUw6N+SO1Gl4kq4p1Oh0qS4BiGgNPb3PicMDmyA0QCG8266dMaylZs/6GqgESOc=
+	t=1719009642; cv=none; b=tQcgC8K+d7Jc0Z4BWXsDry9ZoG2rfVmz7edc+eYlTC1zg4I+c+fEavFSInASA691zSZk94fbDT0xQ3RXgYyK7xg7dqAIXpM/96cg3q/Mm55v815+NgKXZqzOHB805Wxn5yBVCkc+E+hvnJ/ET6wd4h7lxmDz/xnfDGmC1qPwXPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719008779; c=relaxed/simple;
-	bh=7V2AV6gMML4TYmsRjYb5X9NDqDOEzLcM8OjThqwlX2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZkrGbHNo8aOzqVUl0sdC/A6U1y2KuZVZkiU+XmoPMau0t6bu2VkYvZKqzJKs7yVwLu173fRBbwfTC29zivOZcuzYktKb7NcAOHavnTwudhZZUmglRk2ldtcKQClJW+hntCBE6LlYaLtS3BkEgVGPKveHPLFRFvifsPZqN3xldk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FAUgaXIc; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f9d9b57b90so16299645ad.0;
-        Fri, 21 Jun 2024 15:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719008777; x=1719613577; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A/oMLkGRAuHveOGoBUIAcexGzHKYwSyRCCoVkHqIRHs=;
-        b=FAUgaXIc+o4bmxEiIpeWG+B/98GLU8VeiK+3q208oJPfYmZQYn5sA6nXQG2/mUP2M1
-         HI/B1w4OuwUf4tsCqWwYX2BriJRvSJcGSNXEZ9PkZ4XL8BMXS+9NP9dXQ2s88r7uQI2R
-         nnFjymfF78FpYFKiupu3appMxXnkAKwTc2s7Y9+UPfh1Y6/YjVImKk3de56nG+B69pFM
-         6CpTC/6wFBEGLpyMfsD3830XN3605ybfwConQZ/9jbVCu7HiuwKY99fwAft59ED22Fqr
-         1W6lr7KiWfMat8R7orn8G765bn/azvYbkCmnZsYtZY28jqkU5smC48WWbfWcqAeEpc/S
-         2W3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719008777; x=1719613577;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/oMLkGRAuHveOGoBUIAcexGzHKYwSyRCCoVkHqIRHs=;
-        b=LICyyjlcBzsNgIwPi/wdmi8PVfss0EXVvBfCgFhJdhvIxKGi6XOu1VMFW/ZRYBJOqo
-         KrrRr3YrLLaXxgvslCLOaXafN26RBY1J52Gga+U6zTrrSfHZZemxyZJ7+paIwrdRhKIm
-         E3vBKJgRBnkHuW4S6jQ5aPsSCcMD6H6KRVXNYVshXd1UJS6/tsprCQUxRrZwf/MKjGmj
-         Vcd+Yfdv99WYWIX0wC8RwRQZdDbn3GI4AVTc/KB86Jof7Wmk4s96mJiK4LrNLmeL/qwk
-         EyCX+PtmApMb06F0ri9PiJPMvxMTpWKk07oyuXOSEtyP0z6mruVoiDda9X4lMWH6aF35
-         aiQw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1zkLxWXGjpOoTrazTLAvYFGu5uyJ3JpT+MEigbM3Af8CaVlKj5CrlVn/AzGTQVNsoCXItWnXEwjCyrW9cQtR0ri3kBPb0zPf29BC+1D/P/GIGvpat9nNN9FBbO/irofu9kCmSe9P+o9HqfWKXy1oCimq/RhL4PQFnJY/z944HvqIG
-X-Gm-Message-State: AOJu0Yz94lQ+DdPSPt37DzAYhXqgpiciiboFAIw68zuQrMFwN6nKmvSi
-	k8SKrYFCIYFx3tryZ6C/Sg5gFPVnB7M9SyXVHhuYLsAUCohUAptXdYavPA==
-X-Google-Smtp-Source: AGHT+IE+oAAlNIWdbMvSh2ltAuh+aqhb5dx31ZRjlQ45hp03kkn60gGTd6b0wPKm1eDTlWvgQdoOmQ==
-X-Received: by 2002:a17:902:a503:b0:1f8:393e:8b9a with SMTP id d9443c01a7336-1f9aa3faf67mr86173915ad.33.1719008776842;
-        Fri, 21 Jun 2024 15:26:16 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:30ae:a791:227a:a35f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9ebbb589dsm18957885ad.269.2024.06.21.15.26.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 15:26:16 -0700 (PDT)
-Date: Fri, 21 Jun 2024 15:26:14 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH 3/3] ARM: spitz: Use software nodes for the ADS7846
- touchscreen
-Message-ID: <ZnX-Bs1dSQZS8sMP@google.com>
-References: <20240430-gpio-leds-miscarm-v1-0-9c94d7711f6c@linaro.org>
- <20240430-gpio-leds-miscarm-v1-3-9c94d7711f6c@linaro.org>
- <CACRpkdbY2R_DzCx48OdGBFh6Lgytt_+VN1QK1pRq+9dDB=zw9w@mail.gmail.com>
+	s=arc-20240116; t=1719009642; c=relaxed/simple;
+	bh=eFOl7PcsP3agx3qzdhbJJDR4zXY2SAfO3NMK3tEzZdQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=jsJu1Peak6hjSWFgJkLT0+Idfy6dkLS0Cn/ctOS0eTupuZJZkDPT6UPWYe+UlxAO05VCxRymoPyp7MWssWq56xAVKqkIR8z2i7sWoqYSj6OJ8D/XIGRz00+rm2Sg1+j32Im6flbYQGL+PJG3Bv/FwKQHcggu7wRoOD3+o2+FLQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=G4MJ77J/; arc=none smtp.client-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
+	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1sKmvi-000Utr-3C;
+	Sat, 22 Jun 2024 00:40:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=utpz7iYXHktEzXWIgy4GD/ao0gKYmCpXe/gyJxy70Cg=; b=G4MJ77J/2S5l+fJbgJ8ldn4cVi
+	ODiG79zUspt+f6hkGB7Wo6sRgl8QCCUQu3HsUPcGKEp//Wjcy1X+4J4/bk4kxxaobMsIUhvWvTnbv
+	D7PVk8UfBMbiFW1Imlq6HT6XKVAtA89WdTcxY/iLp+zVLY5bZFA95R9CtGmuYRJLkeDSzYeBUQjMz
+	H450bhdl92E8NDRbuzqzSIJ4SO3DZt1Yfsh/Njh+nYjehBEXxixcVGKvG2+pywr1J/4lZgtIXLsj/
+	7z0JTtwxCCOrgcmhYR3RqbdvL+JLUuv8vn4EuZBQwD38C642dbvRI6Q945GQLVYIP8lB4SxlVioxZ
+	WYcW2yJg==;
+Received: from p200300c20737c2001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:c2:737:c200:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1sKmvh-003Pl3-08;
+	Sat, 22 Jun 2024 00:40:26 +0200
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1sKmvh-006nff-30;
+	Sat, 22 Jun 2024 00:40:25 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andreas@kemnade.info,
+	hdegoede@redhat.com,
+	andy.shevchenko@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	siebren.vroegindeweij@hotmail.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND v3 0/3] Input: Add ektf2232 support
+Date: Sat, 22 Jun 2024 00:40:19 +0200
+Message-Id: <20240621224022.1620897-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdbY2R_DzCx48OdGBFh6Lgytt_+VN1QK1pRq+9dDB=zw9w@mail.gmail.com>
 
-On Thu, May 02, 2024 at 10:13:44AM +0200, Linus Walleij wrote:
-> On Tue, Apr 30, 2024 at 9:04 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> 
-> > Convert the Spitz to use software nodes for SPI CS and the
-> > ADS7846 touchscreen following the pattern used in the TI
-> > platforms.
-> >
-> > The Spitz is the only user of the wait_for_sync() callback in
-> > the platform data, so define that this is a separate GPIO
-> > in the device tree bindings (previous patch) and handle this
-> > directly inside the ADS7846 driver instead.
-> >
-> > Add some infrastructure to the PXA boardfile common code to
-> > handle software nodes attached to the SPI bus instead of
-> > platform data.
-> >
-> > The SPI core will investigate the numner of GPIO handles to
-> > figure out the number of chipselects used on the platform, so
-> > no explicit encoding of the number of the number of chipselects
-> > is needed.
-> >
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> Andy's patch series makes the Spitz SPI much cleaner to begin
-> with so I will hold this off and rebase on top of Andy's stuff once
-> that is in.
+Add support for the EKTF2232 to the ektf2127 driver which
+contains support for similar chips.
 
-I dropped spitz parts from the patch leaving only the new hsync gpio
-handling (and keeping the old legacy way of doing hsync) and applied.
+Add the needed compatible to bindings and convert them.
 
-There's an immutable branch ib/ads6746-hsync in my tree to help us
-iterate on spitz changes.
+Changes in v3:
+- use dev_err_probe
+- use i2c_get_match_data
 
-Thanks.
+Changes in v2:
+- separate patch for adding compatible
+- use match data for selecting status shift
+
+Andreas Kemnade (3):
+  dt-bindings: touchscreen: convert elan,ektf2127 to json-schema
+  dt-bindings: touchscreen: elan,ektf2127: Add EKTF2232
+  Input: ektf2127 - add ektf2232 support
+
+ .../bindings/input/touchscreen/ektf2127.txt   | 25 --------
+ .../input/touchscreen/elan,ektf2127.yaml      | 58 +++++++++++++++++++
+ drivers/input/touchscreen/ektf2127.c          | 36 ++++++++++--
+ 3 files changed, 88 insertions(+), 31 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/elan,ektf2127.yaml
 
 -- 
-Dmitry
+2.39.2
+
 
