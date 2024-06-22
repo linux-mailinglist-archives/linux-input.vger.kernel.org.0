@@ -1,82 +1,83 @@
-Return-Path: <linux-input+bounces-4559-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4560-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B759132AA
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 10:00:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BB99132B5
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 10:18:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E11B828434D
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 08:00:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C958284864
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 08:18:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC05C14B081;
-	Sat, 22 Jun 2024 08:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E8714B97A;
+	Sat, 22 Jun 2024 08:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGyoeWGF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSD18QR0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BCE8C1E;
-	Sat, 22 Jun 2024 08:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D8679FE;
+	Sat, 22 Jun 2024 08:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719043218; cv=none; b=rFzySLtNgFYozYpM4I2jR/Z+UQFzeDpQ6joBet0aLdIEzV5Ug0iA6XjfCQDFOiT4vFMymjiL1dyY2wx/nCOnWo9JEN9ZuebbZLe8j61CzdM/EyHrnNrAHMWE2MXJR6RSZzMWPA4u0z7ahzHg+KR7bQ0lG0Sgmgh7mjs5f5gYKuk=
+	t=1719044324; cv=none; b=mlq4Hp2BjVeQv6f+8ggt86FceG8+0WsLf40Kxl+qOyprNLmNYLBtjOOxLnbwyRUx4mSmYIPVrG6p4pxkXPSyPmvEfDRu75xHNMM639bWhC/nPMaZyYGOklQC6Y1cQh1z1voYrQhkKAQ5duc94aOPcbimT4Y8YoRv/7B+LGtEZmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719043218; c=relaxed/simple;
-	bh=cd3riKQbSVvZIDGK6cFLZWO9vlD/GEJs/5iKK9Vh+Oo=;
+	s=arc-20240116; t=1719044324; c=relaxed/simple;
+	bh=pKv2Hji6vCGl1/fWTDRVVwNmWO5EdcUhPV/D5Gro1VA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OnKNo5Pme6gqWZtZV64XGSeCalnQ8O63v4xYOGBC6yiZKAUKN6bjHnrRId9dn08JftxWjcUULATUfPLFlObDaByJIUlMIRbCL7eFnhzN+ZHtQFyJgUpiXjWU5C+woA6g6OYRvsi/Lxnh9lfVcRJJ5//lPghyOHUY6Q1WfKU4LCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGyoeWGF; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f9b364faddso23879245ad.3;
-        Sat, 22 Jun 2024 01:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719043217; x=1719648017; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zi7qYJ+Cc9L08AGcw5CWS0ONWqZOSTdwApkjkkQiLSs=;
-        b=XGyoeWGFJsDyNDbv/oFnpx7z+avxx10MNkK8HjP9X/LplZ2E+2F8R2LbzyFuGsD/l5
-         GyleR0KuNSjH76WvNd2Xp9Zhqn+u18PGrn2sZ7GV6P7vFIZQGvn611lZXdwFwuROvTrK
-         6XAFzs4Ri3WQZg/VETTvO/o2Ufxj+L/R5h8xUMabbPgjmcTQlxu9H1zwPfGmq3vt5Fkc
-         kpEkPFKHww13w6G4amN3/lzC2HkNscFWGvNYZ79ZDPRio+MWvr/+CSZYPdeZrFLi8YCz
-         MK+atvZj74Mm6dcsgw1zQq5RPahhVAX69MVAR+YgYjh5mts5xrYCs3o7h7T1mI1sbQ+h
-         vftA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719043217; x=1719648017;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zi7qYJ+Cc9L08AGcw5CWS0ONWqZOSTdwApkjkkQiLSs=;
-        b=cKZVr9XjnR82vRLZncGi5Im0SQXfjvIxdvZOI8bz+ZtukL37cH6y+6fTncru9JV5Ah
-         SaLxa04wzYZTFwY2gYlLcxQHAV6jvC1pFJtUnD4mGN3NjExNESooAOhWeLh8KSgXRwQ9
-         50ia1ZNwQDrMaVxeWXpXGywMeDHPQEaeBOgTdLfF50VhSOk2CzCLkkxxM7U1A5wqQ9Aj
-         9OkIhHIjD28uu9gms9HWdp8lAMDne0RXZyt1chBruBgLHVxaGzo7JjkDBPMzbqLRW5pn
-         RFGu5/SPNXnOpXN7v0Jy0qxeXD+X9QDBxYJ0d+8o3hUk/cNyiC3bv+dBoGuh2piMraQL
-         LkVg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1WkhKLuiq7m2NXeeieIz6DAc+YQJNEXYBRZ3j7kbpgpsOnwjno8pAv3HOYD4uWsMS2qVyKo9j/SbSpQX71PkyFGocahUGq9X2C/ooGBZBm4+acaaAhkOhWIqL2eTzr3JqQswCJ+TDlIfnuAOu1lyylz6XsLBP5mIRirHujQUmP3OTeVU4
-X-Gm-Message-State: AOJu0YzJK68ObCKB8nBw3lij1Hb+zSpQ1fDIVvhBMB5OuG66+LmlZUm+
-	rqBeYM2LwbQgm2XpUc4lnrSfzgbudZtl3v8KKHvYlybItQiefvzz
-X-Google-Smtp-Source: AGHT+IG+TBV+6TAldW0qxMbdLhVk2Innkjd6us0xd6aUe1L94M9eLU9khvx/qEhjH9KNWS4ofY545g==
-X-Received: by 2002:a17:902:d484:b0:1f6:eb56:7831 with SMTP id d9443c01a7336-1f9aa47c414mr124576955ad.63.1719043216450;
-        Sat, 22 Jun 2024 01:00:16 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:d2ec:59a0:2c5f:4460])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9ebbb29c6sm25579255ad.263.2024.06.22.01.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Jun 2024 01:00:16 -0700 (PDT)
-Date: Sat, 22 Jun 2024 01:00:13 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	hdegoede@redhat.com, andy.shevchenko@gmail.com,
-	u.kleine-koenig@pengutronix.de, siebren.vroegindeweij@hotmail.com,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 0/3] Input: Add ektf2232 support
-Message-ID: <ZnaEjahUtNZGJ7iR@google.com>
-References: <20240621224022.1620897-1-andreas@kemnade.info>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iRJe7atjUuWOlSXINISINtoOtKTOmGdiXRKezBwRjsbNeKObBqOtUxvF4RbvqQ/3kM8Fba9f8LOyU+idAWiTq6HSQDD/3hfWNzSnDRy0qBCKWX8rB1YGr2/vegoOS3DNnGhTnIM3tRxChMPZ8CcmR1kFeDZY2rwL4kcoGUhzRhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cSD18QR0; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719044322; x=1750580322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pKv2Hji6vCGl1/fWTDRVVwNmWO5EdcUhPV/D5Gro1VA=;
+  b=cSD18QR03AB+nGiwDoZv1Ekwrvt5a2NBz+oSLbHBol8vYM8vBhyI3pOW
+   f52KTNBVT3fJmW47CbGeSaag945kVcd8WGNvIbyINZ8wUcXLCGyJONOmg
+   eFqWZD8BlvDY/sD9uoagvOFy8sUkm0oFuEr55Dgq5Jp+4RN7RM188s6IY
+   +WgXM8EvIN2gbE367FDnr9XeYJsNCwXDye7GjxyXSlP/hgEkzWxZpkTyj
+   ps/vwbxEUPsDyICyiE5gpZVjFS6COFbrQxn+qFTz8Qs31W2N6zpkTSA7N
+   N9DZKNWAbXnjlq3rYufhA3LAO/kH1UXW/7ywpXhUMCucZjFxI6xXntn5P
+   w==;
+X-CSE-ConnectionGUID: s/oow2L4Qv+xt9BTm2odfQ==
+X-CSE-MsgGUID: PBynriEVSOin9vdEzQoABQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="16314756"
+X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
+   d="scan'208";a="16314756"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 01:18:42 -0700
+X-CSE-ConnectionGUID: SAMQt/BMQvyOuM1Rmm6xsw==
+X-CSE-MsgGUID: JpDBx54CTtGaRKZSNuzE8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
+   d="scan'208";a="74023802"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2024 01:18:38 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKvxE-0009RU-1n;
+	Sat, 22 Jun 2024 08:18:36 +0000
+Date: Sat, 22 Jun 2024 16:17:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
+	Networking <netdev@vger.kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Kui-Feng Lee <thinker.li@gmail.com>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	linux-input@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the bpf-next tree
+Message-ID: <202406221655.xSqDIUk6-lkp@intel.com>
+References: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -85,29 +86,59 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621224022.1620897-1-andreas@kemnade.info>
+In-Reply-To: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
 
-On Sat, Jun 22, 2024 at 12:40:19AM +0200, Andreas Kemnade wrote:
-> Add support for the EKTF2232 to the ektf2127 driver which
-> contains support for similar chips.
-> 
-> Add the needed compatible to bindings and convert them.
-> 
-> Changes in v3:
-> - use dev_err_probe
-> - use i2c_get_match_data
-> 
-> Changes in v2:
-> - separate patch for adding compatible
-> - use match data for selecting status shift
-> 
-> Andreas Kemnade (3):
->   dt-bindings: touchscreen: convert elan,ektf2127 to json-schema
->   dt-bindings: touchscreen: elan,ektf2127: Add EKTF2232
->   Input: ektf2127 - add ektf2232 support
+Hi Mark,
 
-Applied the lot, thank you.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[cannot apply to linus/master v6.10-rc4 next-20240621]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-build-failure-after-merge-of-the-bpf-next-tree/20240618-022240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/ZnB9X1Jj6c04ufC0%40sirena.org.uk
+patch subject: linux-next: build failure after merge of the bpf-next tree
+config: x86_64-randconfig-r122-20240622 (https://download.01.org/0day-ci/archive/20240622/202406221655.xSqDIUk6-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406221655.xSqDIUk6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406221655.xSqDIUk6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/bpf/hid_bpf_struct_ops.c:280:9: error: incompatible function pointer types initializing 'int (*)(void *)' with an expression of type 'int (void *, struct bpf_link *)' [-Wincompatible-function-pointer-types]
+     280 |         .reg = hid_bpf_reg,
+         |                ^~~~~~~~~~~
+>> drivers/hid/bpf/hid_bpf_struct_ops.c:281:11: error: incompatible function pointer types initializing 'void (*)(void *)' with an expression of type 'void (void *, struct bpf_link *)' [-Wincompatible-function-pointer-types]
+     281 |         .unreg = hid_bpf_unreg,
+         |                  ^~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +280 drivers/hid/bpf/hid_bpf_struct_ops.c
+
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  274  
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  275  static struct bpf_struct_ops bpf_hid_bpf_ops = {
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  276  	.verifier_ops = &hid_bpf_verifier_ops,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  277  	.init = hid_bpf_ops_init,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  278  	.check_member = hid_bpf_ops_check_member,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  279  	.init_member = hid_bpf_ops_init_member,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @280  	.reg = hid_bpf_reg,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @281  	.unreg = hid_bpf_unreg,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  282  	.name = "hid_bpf_ops",
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  283  	.cfi_stubs = &__bpf_hid_bpf_ops,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  284  	.owner = THIS_MODULE,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  285  };
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  286  
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
