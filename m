@@ -1,83 +1,82 @@
-Return-Path: <linux-input+bounces-4560-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BB99132B5
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 10:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33559132BA
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 10:21:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C958284864
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 08:18:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A3D9284867
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jun 2024 08:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E8714B97A;
-	Sat, 22 Jun 2024 08:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBBB214AD0D;
+	Sat, 22 Jun 2024 08:21:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSD18QR0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ie1VabeU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D8679FE;
-	Sat, 22 Jun 2024 08:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FEF376E7;
+	Sat, 22 Jun 2024 08:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719044324; cv=none; b=mlq4Hp2BjVeQv6f+8ggt86FceG8+0WsLf40Kxl+qOyprNLmNYLBtjOOxLnbwyRUx4mSmYIPVrG6p4pxkXPSyPmvEfDRu75xHNMM639bWhC/nPMaZyYGOklQC6Y1cQh1z1voYrQhkKAQ5duc94aOPcbimT4Y8YoRv/7B+LGtEZmY=
+	t=1719044467; cv=none; b=EopiFB57SLV9pg7MIcWOBYp48SuP+PJ3gYrosjXgLWbL0p4DmF6dXggX8zKvzXvSXIOmXkhW3qZg+P/VLihkfZgek3EY4UKybuXiONrTPiKa/4z1sPuQ+yDWB9KbWd0C0Uhqn2Zs526mLDdA/+NAH7BTDw7aGwgalU7k9Y4NO2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719044324; c=relaxed/simple;
-	bh=pKv2Hji6vCGl1/fWTDRVVwNmWO5EdcUhPV/D5Gro1VA=;
+	s=arc-20240116; t=1719044467; c=relaxed/simple;
+	bh=VEQ15w085ucv6hv/bbJz6/KokNRIvSOvXcyfUrg3DYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iRJe7atjUuWOlSXINISINtoOtKTOmGdiXRKezBwRjsbNeKObBqOtUxvF4RbvqQ/3kM8Fba9f8LOyU+idAWiTq6HSQDD/3hfWNzSnDRy0qBCKWX8rB1YGr2/vegoOS3DNnGhTnIM3tRxChMPZ8CcmR1kFeDZY2rwL4kcoGUhzRhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cSD18QR0; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719044322; x=1750580322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pKv2Hji6vCGl1/fWTDRVVwNmWO5EdcUhPV/D5Gro1VA=;
-  b=cSD18QR03AB+nGiwDoZv1Ekwrvt5a2NBz+oSLbHBol8vYM8vBhyI3pOW
-   f52KTNBVT3fJmW47CbGeSaag945kVcd8WGNvIbyINZ8wUcXLCGyJONOmg
-   eFqWZD8BlvDY/sD9uoagvOFy8sUkm0oFuEr55Dgq5Jp+4RN7RM188s6IY
-   +WgXM8EvIN2gbE367FDnr9XeYJsNCwXDye7GjxyXSlP/hgEkzWxZpkTyj
-   ps/vwbxEUPsDyICyiE5gpZVjFS6COFbrQxn+qFTz8Qs31W2N6zpkTSA7N
-   N9DZKNWAbXnjlq3rYufhA3LAO/kH1UXW/7ywpXhUMCucZjFxI6xXntn5P
-   w==;
-X-CSE-ConnectionGUID: s/oow2L4Qv+xt9BTm2odfQ==
-X-CSE-MsgGUID: PBynriEVSOin9vdEzQoABQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="16314756"
-X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="16314756"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2024 01:18:42 -0700
-X-CSE-ConnectionGUID: SAMQt/BMQvyOuM1Rmm6xsw==
-X-CSE-MsgGUID: JpDBx54CTtGaRKZSNuzE8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,257,1712646000"; 
-   d="scan'208";a="74023802"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Jun 2024 01:18:38 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sKvxE-0009RU-1n;
-	Sat, 22 Jun 2024 08:18:36 +0000
-Date: Sat, 22 Jun 2024 16:17:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
-	Networking <netdev@vger.kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kui-Feng Lee <thinker.li@gmail.com>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	linux-input@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the bpf-next tree
-Message-ID: <202406221655.xSqDIUk6-lkp@intel.com>
-References: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPH3XxDTMpkmGocnOV14aXyOERzNxNSj8t/eL6/xOJ5+oEgWXQz7eHmtnjvUUZXQzDm0CW1sp3XPJ8I2oCjYC2oVz+E8Vl4SCLWss8/PzDJytg1RmZtNykaY92t/kg093E1gYm9Bs0O2/TdLITDiKa88P3MTxJ+s0GOtD+nHoO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ie1VabeU; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-70b2421471aso2011791a12.0;
+        Sat, 22 Jun 2024 01:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719044465; x=1719649265; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f2D16OwazkGDYbKnGneFBjhT7c55Frq79Esclmq6VK8=;
+        b=Ie1VabeUwyFFA9ipgSUwjZGLBvfjsVmH/b8t7T/p/Jfk6jl4NFplQnjKNYZe9C3a3c
+         HgJ4+1uOFwB5cU010iurJQX3gFoFU9jmYzk45pcHg8cdnia/c9f9I2j3oMJcnCHt5a4a
+         xKF7dJlOrVv2vgtgtqReoSodQNcwdkk0TMvR7LrIJla1+BV4IH0nhNnOzEPy7EKLA8JD
+         3a9G3BoDQS7eNY/XcYO0eWJ2OD6ezFQwjTHvOOihbGJmGYiBT6wpABjPfcu6Oir0o4j/
+         YZO5Zq/oO/qxALThV+0WhWOc/jAoIHDRncku1EyK2IQjXf5zDYSrq4povQ0np/ujMwlc
+         aX9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719044465; x=1719649265;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f2D16OwazkGDYbKnGneFBjhT7c55Frq79Esclmq6VK8=;
+        b=C4xGLqN5dVzLgqghEn+CEntcLuGLZ4LqxkVig6NeOWcBllNnY7QvndsLe0KuRqiKcx
+         IabFI9GBtrg3w16/xt8jF5IQb4k8rEYi55x8HqoEYtPJS8OYa7d0Qxq6nHghJOYDynWR
+         2G+c9HXZ3wFZLXRdirywKWwKY0Dk5kyMrTlLQrtmGXhGlHXrk72ED8w5kAhxdQbR1Nkt
+         RrLB0W7sBIc0MMb2bjqJe+pHEheWx2DQz1hHbwi48aNjSfHWO7uRNRR9hgmj7xW3mj4E
+         m+GYCXViD0vbR5/nVuGOMW4fNr8NHXn82YdeZFONkfpt7aQVMw9uRtNj08YfikCBp3Kj
+         RTPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXh0BBOESE974W9YCQP4ZF8UqNjEFOVzQ78agEqfabWFS2sfFUs9tk1Coxh04UJOhVtO3pZMfk3HjG0n0IaaP0Xj7Kagq8VL4E1TJLq2yJvDz4/1by0Nk3LHOc9WcdAOlgMrEBpd67TGP0=
+X-Gm-Message-State: AOJu0YwNcwf0Rx1hU8xKE5dsQs2RNjWF+R3+tm2syqw/4s4Tsd893Wx2
+	4WunJQwizEV0B5zmbZEViinDlWXJv1jOKt2cllZaJt5lmUPQCU6t
+X-Google-Smtp-Source: AGHT+IGyewybrzmmQWedWZJ6utBpDNQKs30KQ2in5Wb/vf6wkHBgEjIdGXop7cUG1q9oCU2ZfF3qlg==
+X-Received: by 2002:a17:90b:182:b0:2c7:8d53:dece with SMTP id 98e67ed59e1d1-2c7b5c8ab27mr9693815a91.24.1719044465407;
+        Sat, 22 Jun 2024 01:21:05 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:d2ec:59a0:2c5f:4460])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c844f55783sm808069a91.7.2024.06.22.01.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Jun 2024 01:21:05 -0700 (PDT)
+Date: Sat, 22 Jun 2024 01:21:02 -0700
+From: "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+To: "Agarwal, Utsav" <Utsav.Agarwal@analog.com>
+Cc: "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Artamonovs, Arturs" <Arturs.Artamonovs@analog.com>,
+	"Bimpikas, Vasileios" <Vasileios.Bimpikas@analog.com>
+Subject: Re: [PATCH] adp5588-keys: Support for dedicated gpio operation
+Message-ID: <ZnaJbqXcABKGIj83@google.com>
+References: <SJ0PR03MB6343CB033C1005A36B102BF89BC92@SJ0PR03MB6343.namprd03.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,59 +85,113 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
+In-Reply-To: <SJ0PR03MB6343CB033C1005A36B102BF89BC92@SJ0PR03MB6343.namprd03.prod.outlook.com>
 
-Hi Mark,
+Hi Utsav,
 
-kernel test robot noticed the following build errors:
+On Fri, Jun 21, 2024 at 10:44:12AM +0000, Agarwal, Utsav wrote:
+> From: UtsavAgarwalADI <utsav.agarwal@analog.com>
+> 
+> We have a SoC which uses ADP5587 exclusively as an I2C GPIO expander.
+> The current state of the driver for the ADP5588/87 only allows
+> partial I/O to be used as GPIO. This support was present before as a
+> separate gpio driver, which was dropped with the commit
+> 5ddc896088b0 ("gpio: gpio-adp5588: drop the driver") since the
+> functionality was deemed to have been merged with adp5588-keys.
+> 
+> To restore this functionality, the "gpio-only" property allows
+> indicating if the device is to be used for GPIO only.
+> When specified, the driver skips relevant input device
+> checks/parsing and allows all GPINS to be registered as GPIO.
+> 
+> Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+> ---
+>  drivers/input/keyboard/adp5588-keys.c | 30 ++++++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
+> index 1b0279393df4..78770b2dfe1b 100644
+> --- a/drivers/input/keyboard/adp5588-keys.c
+> +++ b/drivers/input/keyboard/adp5588-keys.c
+> @@ -719,7 +719,7 @@ static int adp5588_probe(struct i2c_client *client)
+>  	struct input_dev *input;
+>  	struct gpio_desc *gpio;
+>  	unsigned int revid;
+> -	int ret;
+> +	int ret, gpio_mode_only;
+>  	int error;
+>  
+>  	if (!i2c_check_functionality(client->adapter,
+> @@ -739,13 +739,17 @@ static int adp5588_probe(struct i2c_client *client)
+>  	kpad->client = client;
+>  	kpad->input = input;
+>  
+> -	error = adp5588_fw_parse(kpad);
+> -	if (error)
+> -		return error;
+> +	gpio_mode_only = device_property_present(&client->dev, "gpio-only");
 
-[auto build test ERROR on hid/for-next]
-[cannot apply to linus/master v6.10-rc4 next-20240621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Do we really need a new property? Can we simply allow omitting
+keypad,num-rows/cols properties in case where we only want to have
+GPIO functionality?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-build-failure-after-merge-of-the-bpf-next-tree/20240618-022240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/ZnB9X1Jj6c04ufC0%40sirena.org.uk
-patch subject: linux-next: build failure after merge of the bpf-next tree
-config: x86_64-randconfig-r122-20240622 (https://download.01.org/0day-ci/archive/20240622/202406221655.xSqDIUk6-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240622/202406221655.xSqDIUk6-lkp@intel.com/reproduce)
+In any case this requires DT binding update.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406221655.xSqDIUk6-lkp@intel.com/
+> +	if (!gpio_mode_only) {
+> +		error = adp5588_fw_parse(kpad);
+> +		if (error)
+> +			return error;
+>  
+> -	error = devm_regulator_get_enable(&client->dev, "vcc");
+> -	if (error)
+> -		return error;
+> +		error = devm_regulator_get_enable(&client->dev, "vcc");
+> +		if (error)
+> +			return error;
 
-All errors (new ones prefixed by >>):
+Why regulator is not needed for the pure GPIO mode? Please add a
+comment.
 
->> drivers/hid/bpf/hid_bpf_struct_ops.c:280:9: error: incompatible function pointer types initializing 'int (*)(void *)' with an expression of type 'int (void *, struct bpf_link *)' [-Wincompatible-function-pointer-types]
-     280 |         .reg = hid_bpf_reg,
-         |                ^~~~~~~~~~~
->> drivers/hid/bpf/hid_bpf_struct_ops.c:281:11: error: incompatible function pointer types initializing 'void (*)(void *)' with an expression of type 'void (void *, struct bpf_link *)' [-Wincompatible-function-pointer-types]
-     281 |         .unreg = hid_bpf_unreg,
-         |                  ^~~~~~~~~~~~~
-   2 errors generated.
+> +
+> +	}
+>  
+>  	gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(gpio))
+> @@ -790,6 +794,11 @@ static int adp5588_probe(struct i2c_client *client)
+>  	if (error)
+>  		return error;
+>  
+> +	if (!client->irq && gpio_mode_only) {
+> +		dev_info(&client->dev, "Rev.%d, started as GPIO only\n", revid);
+> +		return 0;
+> +	}
+> +
 
+What is the reason for requesting interrupt in pure GPIO mode? Can we
+program the controller to not raise attention in this case?
 
-vim +280 drivers/hid/bpf/hid_bpf_struct_ops.c
+>  	error = devm_request_threaded_irq(&client->dev, client->irq,
+>  					  adp5588_hard_irq, adp5588_thread_irq,
+>  					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> @@ -800,6 +809,13 @@ static int adp5588_probe(struct i2c_client *client)
+>  		return error;
+>  	}
+>  
+> +
+> +	if (gpio_mode_only) {
+> +		dev_info(&client->dev, "Rev.%d irq %d, started as GPIO only\n",
+> +				revid, client->irq);
+> +		return 0;
+> +	}
+> +
+>  	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
+>  	return 0;
+>  }
+> -- 
+> 2.34.1
 
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  274  
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  275  static struct bpf_struct_ops bpf_hid_bpf_ops = {
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  276  	.verifier_ops = &hid_bpf_verifier_ops,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  277  	.init = hid_bpf_ops_init,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  278  	.check_member = hid_bpf_ops_check_member,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  279  	.init_member = hid_bpf_ops_init_member,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @280  	.reg = hid_bpf_reg,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @281  	.unreg = hid_bpf_unreg,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  282  	.name = "hid_bpf_ops",
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  283  	.cfi_stubs = &__bpf_hid_bpf_ops,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  284  	.owner = THIS_MODULE,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  285  };
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  286  
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
 
