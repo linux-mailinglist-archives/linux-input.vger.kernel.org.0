@@ -1,173 +1,109 @@
-Return-Path: <linux-input+bounces-4571-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4572-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD4F913985
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2024 12:27:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35240913D9C
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2024 20:58:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20AD11C20C3A
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2024 10:27:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E631E282DA4
+	for <lists+linux-input@lfdr.de>; Sun, 23 Jun 2024 18:58:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CA577442F;
-	Sun, 23 Jun 2024 10:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B2CD138E;
+	Sun, 23 Jun 2024 18:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eq45bLc6"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Mmjv3F9K"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFE763D
-	for <linux-input@vger.kernel.org>; Sun, 23 Jun 2024 10:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE95148314
+	for <linux-input@vger.kernel.org>; Sun, 23 Jun 2024 18:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719138416; cv=none; b=OV8SM9j+xkbLZTBET6GLGQaO6MiPZXUflXRU/faQn8s6YNQJufRPuu+oITjd9Tr1vkRyqm1Mv150/Px3MgH6Iqx7MVYujbozNSDJ0UIkbyFWiDtX3Vcg+/QLhoPLP3IMLED8T7GD+tmpoZz0SlXyN9WcokgsG8+Ogdz9Qi0a2Go=
+	t=1719169124; cv=none; b=EY0b6yu4lBCButxxypR/b1zUn46kWuczclhVnemSvNT2aHAZY2UgFcadpIJAxg8YwmzpYHlt1Z8Rz62WvcC7KptTdmBJCAf8jPCTV+sFPzf6oFJxFtRmOGxD4orQoIEKtJtndUNqvWB1Ua7Xls5NYoChW0FVTd8Vv3DnBjNsL74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719138416; c=relaxed/simple;
-	bh=fruz0eC7yQg12ddj8ijxHNMd/I0fhjsOD+N03K5fjCA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hswbGpXFGDWViOJ1E0dqYuSIT2v5FBmKULAdF8AYOcQBScCmXiPQaxTvjkZOzRQhMMJFmr0/uKZZS1h1Akm04wOUuCGl+aFm1FRSWtRg9th0XMF0C4pdY9vbMoKpmV/3XnpAVxMHR0knVxv/dJOMrh/7IuQDJV2E7zWVExYrARc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eq45bLc6; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719138414; x=1750674414;
-  h=date:from:to:cc:subject:message-id;
-  bh=fruz0eC7yQg12ddj8ijxHNMd/I0fhjsOD+N03K5fjCA=;
-  b=Eq45bLc6Q8LReHFTvzyOfMBags6pNfWW5uqTAlwdLgUgUS/Eb26SfgEc
-   3Ipu6cJ8R43/Z8fTjRSMeXIejjnzdHz1qThFOWlRatl+XCpaxf9w1Jvb1
-   2QH57WwXMjY1l4po7RA9qF9yXz4p5OHz8X6jCJzSacTGWj9SxOknfK+Ll
-   du3Jeuk/BHTo1nxEH5Tb3r3FVEKsh1iltR0+fs2AlaYVz2XUvJYzBRgJZ
-   ZoyFDQfHsY0daa4clUC2EuqhvYYNzPFANZwRAiIoaJU4DX6WhmF8MMCZV
-   2ldE+eefnCOEp4wiiyHPByBa5uzxdr6qVOCt+Or4H7CpSlYyEPtd96VLI
-   w==;
-X-CSE-ConnectionGUID: npT1A+PDR76nJmi/2DX5Yg==
-X-CSE-MsgGUID: tvM5XdzIS7CcFPQGkhhnng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="15997218"
-X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
-   d="scan'208";a="15997218"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 03:26:53 -0700
-X-CSE-ConnectionGUID: 91MOxHrDSoWoBiQC+qPTXw==
-X-CSE-MsgGUID: xSIbYliZSyqoZ1Tw/wwt4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
-   d="scan'208";a="43715737"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 Jun 2024 03:26:52 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLKQs-000ARM-0D;
-	Sun, 23 Jun 2024 10:26:50 +0000
-Date: Sun, 23 Jun 2024 18:26:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 0ca1323c6aba8fd9309ca33a4bf57c1c9fc06171
-Message-ID: <202406231822.T8da4rKw-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1719169124; c=relaxed/simple;
+	bh=ohWdDHCv4AKBamtg2RD0lJhPtwkOYoy5OrL63dfFv18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQ3oz6MHD0QgKsVMTBRyn0HFBuK5VBotk7evwOAAMhmcuLtM8GMTLNx7lLWZFbkUOv5yAY3U4DIet5f35k55dcLFgbqwPOtpiIrwXkGrmjb8ES97u1ICZuXTprv6KCAjFxPC4v2aFrUb1s/1pWe0dhy+d8t5bAedzCndYN5QX2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Mmjv3F9K; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 5FE2B87DC7;
+	Sun, 23 Jun 2024 20:58:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1719169119;
+	bh=wGeVAu0t0xa9lrV8E0WY9Qm7MzrprBwclRjTiFCxNXk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Mmjv3F9KcP/LyDMMBfZtVk3cwcJhZpD2Tk9Vmsau2EzFGjBT5cgvE8txJN4bkXFSQ
+	 YuFLfcfP0pzkvbll4pi2eboRHXMYYdUAukVKLX9PbxE/j+mz1LHTWAAsVEAbIMhDfF
+	 +JfoexzSOIZBjw58xOwRwYbk/6iUFxdJlRRxLP/y74f3ZWhX1+SkKhKoJxlhPOiLXn
+	 rtxlCL+Lg0AH6nHyq5z0L10LXAkAj6V5teuy+olaszZ0hJ/FdhwBqDQvhrIAZGPDB1
+	 cBO2IyBD4RkHSM7wtXnjX+Rz2/Pa0bdQR5Tnpa4UpJscJLV9V9JydatO6Cbld5GrpC
+	 7Ov3TkiSHtqGQ==
+Message-ID: <dfc1b846-24ea-42c4-adfe-2b762e2f8851@denx.de>
+Date: Sun, 23 Jun 2024 20:21:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: ads7846 - add dummy command register clearing
+ cycle
+To: linux-input@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>,
+ kernel@dh-electronics.com
+References: <20240320072533.170029-1-marex@denx.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240320072533.170029-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 0ca1323c6aba8fd9309ca33a4bf57c1c9fc06171  Input: edt-ft5x06 - add ft5426
+On 3/20/24 8:23 AM, Marek Vasut wrote:
+> On STM32MP135F with XPT2046 touch controller attached to SPI bus, it has
+> been observed that the touch controller locks up after Linux kernel has
+> finished booting. Adding a dummy cycle on the SPI bus seems to mitigate
+> the lock up.
+> 
+> The XPTEK XPT2046 controller seems to be an identical clone of TI TSC2046,
+> the datasheet seems to be a clone of the TI part as well, text seem to be
+> word to word identical, except all the pictures have been drawn again.
+> 
+> This touch controller is present e.g. on WaveShare 3.2inch RPi LCD (B)
+> panel, the DTO provided by WaveShare uses 50 kHz SPI clock for this
+> touch controller, which is unusually low and possibly might have been
+> used as some sort of workaround for an issue. The SPI LCD on the same
+> bus uses 16 MHz clock.
+> 
+> SPI bus DT properties spi-cs-setup-delay-ns, spi-cs-hold-delay-ns,
+> spi-cs-inactive-delay-ns, spi-rx-delay-us, spi-tx-delay-us set to
+> range of 500ns..5us seem to have no impact on the behavior of the
+> touch controller, the lock up always occurs. The STM32MP13xx SPI
+> controller users GPIO control for the nCS pins.
+> 
+> Since the dummy cycle happens after the controller has been put into
+> power down mode and both ADC and REF regulators have been disabled,
+> the cycle should have no impact on the configuration of the controller,
+> i.e. it should be a NOP.
+> 
+> It is unclear whether this problem is specific to this cloned XPT2046
+> controller, or whether this is also present on TSC2046. A test on
+> either TSC2046 or ADS7846 would be very welcome.
 
-elapsed time: 1520m
+Hi,
 
-configs tested: 80
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-arc                   randconfig-001-20240623   gcc-13.2.0
-arc                   randconfig-002-20240623   gcc-13.2.0
-arm                   randconfig-001-20240623   gcc-13.2.0
-arm                   randconfig-002-20240623   gcc-13.2.0
-arm                   randconfig-003-20240623   gcc-13.2.0
-arm                   randconfig-004-20240623   gcc-13.2.0
-arm64                 randconfig-001-20240623   clang-15
-arm64                 randconfig-002-20240623   clang-19
-arm64                 randconfig-003-20240623   clang-19
-arm64                 randconfig-004-20240623   clang-19
-csky                  randconfig-001-20240623   gcc-13.2.0
-csky                  randconfig-002-20240623   gcc-13.2.0
-hexagon               randconfig-001-20240623   clang-19
-hexagon               randconfig-002-20240623   clang-19
-i386         buildonly-randconfig-001-20240622   gcc-13
-i386         buildonly-randconfig-002-20240622   clang-18
-i386         buildonly-randconfig-003-20240622   clang-18
-i386         buildonly-randconfig-004-20240622   gcc-13
-i386         buildonly-randconfig-005-20240622   gcc-13
-i386         buildonly-randconfig-006-20240622   clang-18
-i386                  randconfig-001-20240622   gcc-10
-i386                  randconfig-002-20240622   clang-18
-i386                  randconfig-003-20240622   gcc-13
-i386                  randconfig-004-20240622   gcc-13
-i386                  randconfig-005-20240622   clang-18
-i386                  randconfig-006-20240622   gcc-13
-i386                  randconfig-011-20240622   gcc-9
-i386                  randconfig-012-20240622   gcc-7
-i386                  randconfig-013-20240622   clang-18
-i386                  randconfig-014-20240622   clang-18
-i386                  randconfig-015-20240622   clang-18
-i386                  randconfig-016-20240622   clang-18
-loongarch             randconfig-001-20240623   gcc-13.2.0
-loongarch             randconfig-002-20240623   gcc-13.2.0
-nios2                 randconfig-001-20240623   gcc-13.2.0
-nios2                 randconfig-002-20240623   gcc-13.2.0
-parisc                randconfig-001-20240623   gcc-13.2.0
-parisc                randconfig-002-20240623   gcc-13.2.0
-powerpc               randconfig-001-20240623   gcc-13.2.0
-powerpc               randconfig-002-20240623   clang-15
-powerpc               randconfig-003-20240623   clang-19
-powerpc64             randconfig-001-20240623   gcc-13.2.0
-powerpc64             randconfig-002-20240623   clang-19
-powerpc64             randconfig-003-20240623   gcc-13.2.0
-riscv                 randconfig-001-20240623   clang-19
-riscv                 randconfig-002-20240623   clang-19
-s390                  randconfig-001-20240623   gcc-13.2.0
-s390                  randconfig-002-20240623   gcc-13.2.0
-sh                    randconfig-001-20240623   gcc-13.2.0
-sh                    randconfig-002-20240623   gcc-13.2.0
-sparc64               randconfig-001-20240623   gcc-13.2.0
-sparc64               randconfig-002-20240623   gcc-13.2.0
-um                    randconfig-001-20240623   gcc-7
-um                    randconfig-002-20240623   clang-19
-x86_64       buildonly-randconfig-001-20240623   clang-18
-x86_64       buildonly-randconfig-002-20240623   clang-18
-x86_64       buildonly-randconfig-003-20240623   clang-18
-x86_64       buildonly-randconfig-004-20240623   clang-18
-x86_64       buildonly-randconfig-005-20240623   clang-18
-x86_64       buildonly-randconfig-006-20240623   clang-18
-x86_64                randconfig-001-20240623   gcc-13
-x86_64                randconfig-002-20240623   gcc-13
-x86_64                randconfig-003-20240623   clang-18
-x86_64                randconfig-004-20240623   gcc-13
-x86_64                randconfig-005-20240623   gcc-8
-x86_64                randconfig-006-20240623   clang-18
-x86_64                randconfig-011-20240623   clang-18
-x86_64                randconfig-012-20240623   gcc-13
-x86_64                randconfig-013-20240623   clang-18
-x86_64                randconfig-014-20240623   clang-18
-x86_64                randconfig-015-20240623   gcc-13
-x86_64                randconfig-016-20240623   clang-18
-x86_64                randconfig-071-20240623   gcc-13
-x86_64                randconfig-072-20240623   gcc-13
-x86_64                randconfig-073-20240623   clang-18
-x86_64                randconfig-074-20240623   clang-18
-x86_64                randconfig-075-20240623   gcc-13
-x86_64                randconfig-076-20240623   clang-18
-xtensa                randconfig-001-20240623   gcc-13.2.0
-xtensa                randconfig-002-20240623   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Are there still any open topics with this patch ?
 
