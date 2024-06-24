@@ -1,288 +1,529 @@
-Return-Path: <linux-input+bounces-4589-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4590-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EF09141F6
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 07:31:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9265B914308
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 08:54:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C99BD284B10
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 05:31:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 146D41F238ED
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 06:54:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4247C10A3E;
-	Mon, 24 Jun 2024 05:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hdkbigkC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D4D18AE4;
+	Mon, 24 Jun 2024 06:54:10 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9CBDDCD
-	for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 05:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1160A3B1A2
+	for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 06:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719207084; cv=none; b=RqhjGot60lbQNkUHQaNCJyXL1iLGVCPUPFOjErUgo/uPaGlBRr+NIuvPcpHRngUmaqt2Ve5YAu5EzDhqIFP4ueOCj0pge+zTW2qOKm6jSXhweWNnu/2CGPC0xxWDPmD/nG+KnSpKhkY/p6lIwx/2a5NJQkjc33aw5K7sDxfTLYM=
+	t=1719212050; cv=none; b=H5SXw3BbcetzIiiokYjrLm2a/TJiRK8SPg4HQ4Sbp+NkDX1CXpJbEeZy+rFHGkJY9Crs/5xAxtbzPNcSdzlGDiGMmYOpBSnD/mHDFDb2im7gc7kDvxCEBz7oPb7h9luzhQjG5kOFFrh4DhGnOrNSSA3GUjKDsmvVaFt1r7FWJ2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719207084; c=relaxed/simple;
-	bh=mC6YmdP6iUZsMpkTlQTL5Lttmys4aoXQHGhQ9fwz4Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UD6sLaMG1H5KmBZgnMfnA/tZa3d7mFMHz7g3geu57ORxy0byPUQ9X+kiQdqPbjjBTxVowmPu8hP7vhYg0vhH3VdCItsVu5iSd5OyTTTCJSTjstcSZ6YCEZHqs96joPFd+STC0Txip+jV/FSRWBdNkIi388Ztj/xsfmSOjTGQ8BM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hdkbigkC; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52cd87277d8so2288665e87.2
-        for <linux-input@vger.kernel.org>; Sun, 23 Jun 2024 22:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719207080; x=1719811880; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
-        b=hdkbigkCrZQHwPxv77Co/+CRs2dOzi8OLAaMYGGP8Jzv4Z/ZGhI3TFTPYgqfTDe2cw
-         VOH/wTl9DgD9FuyJ/WtsRSFPVkyPaIJKIT4EQ3QY6+QUbeb/R3jPesAEVImJvWfZ9IJA
-         lJXEGSDEX2MMcXdhWnAZLePGYQ8xlDrXfiAx8GIAcRGVDwZJl9YKMA4aJ0UgfecUB2LV
-         +lTXFMIirsRRGnOAzQI/4PV9lMOty3V8ailkKpAomA+VxHj8vR/fz+bjhLRwacV6++hq
-         NpuH6LBfvWdL515CvKyIghjEjEemFg1FhHqPDEFJEZJRdsIQd9lctvBnWa85EXuj0/sd
-         2Cig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719207080; x=1719811880;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oEeMqLzWPtuHbd7DMdLxKIfGpNKakGZfL/lhpzQLB6U=;
-        b=uRqtwzLcNX3TcW1gW/84KTbDLhVvTqTvlbtYspHWM3tMgsSyGSHRRNNpvGRnizKqdv
-         BaoWiR0KCuMu+9thNWaCGLnF/dlnPfvMChSU6KPQlkK4v8Md8G3ijx5g/n8rKVELrIck
-         vKZhL7dSH3m1DBjwkzuykExhGr/Alx2Oj67tLAMkfv8rkrEeS69Sfsrywp6WUtubk6Sj
-         XBTnuahEEA5spCFRgIHL8Irvcn3eX8odJsd8qoSlZCXdW0d1SLI8faOxL07MB8qBLmLx
-         OWE25HWr5ZilfQFuVE9q8VmbpvXr2UKSyc6XOw25pwtQrBWdjCsncTYTLqtrkauND6y7
-         iWcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWOLq/ymmly07kgO5kwFmTiq30ZQHUAeBjD6KhkoMJCGcOms3inqmeaPaZMlJKPRjADljhhhdVtipy5gRqRMG+sJ0mbmOZ00Z7YL4=
-X-Gm-Message-State: AOJu0YwEFLPDFeOPtnGHdCWk92GXC131ZIJpPlgE175g8nkYbeBeCE90
-	dUCTyHt+4cCsP9wlSatMZ4r5GTpqyhiJRvqBUu2SLusjM/ptjj6CSCFLgC3JxKI=
-X-Google-Smtp-Source: AGHT+IGDR4WXp3BrtdW/oZ54TDqH52mJ/FrYWjDaLO9Oi22YZv6nU3DEUmhIjwPYW7xV1aybF8+z8Q==
-X-Received: by 2002:ac2:5e83:0:b0:52c:e41a:b666 with SMTP id 2adb3069b0e04-52ce41ab71fmr1575041e87.7.1719207080428;
-        Sun, 23 Jun 2024 22:31:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd810d633sm864075e87.165.2024.06.23.22.31.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 22:31:19 -0700 (PDT)
-Date: Mon, 24 Jun 2024 08:31:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 5/7] drm/panel: add driver for samsung amb655x
-Message-ID: <mnxpybk4nqdyp2xo22dxbprtxt5v6spr2ax4p3vrpwafqcbonv@ga4o2xxtkkov>
-References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
+	s=arc-20240116; t=1719212050; c=relaxed/simple;
+	bh=n/0KpZNq5y52oAFUzHeUx7g4v7KdwNA6NG302z2ckB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fj7LsBqothFBQVgtoaux1heYaTZcfstdg7Z3BRJnioQ7A6888/Ip0U1gY85SKyCrTnOHAeKlJHYSg8t0nQP2AMFIfYzdXIp0q1BpZzC9/LfNue+2qJ+VLRezTMNr+0KW2PpGDDjLpcO9eciESjClBDPA3mN+9kzweFHBwYk/FB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.110.225])
+	by gateway (Coremail) with SMTP id _____8Axz+sLGHlmAXAJAA--.22119S3;
+	Mon, 24 Jun 2024 14:54:03 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.110.225])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxZcUIGHlmOdUuAA--.35596S2;
+	Mon, 24 Jun 2024 14:54:01 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Jon Xie <jon_xie@pixart.com>,
+	Jay Lee <jay_lee@pixart.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	loongson-kernel@lists.loongnix.cn,
+	linux-input@vger.kernel.org,
+	Xiaotian Wu <wuxiaotian@loongson.cn>,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH v2] Input: Add driver for PixArt PS/2 touchpad
+Date: Mon, 24 Jun 2024 14:53:59 +0800
+Message-ID: <20240624065359.2985060-1-zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-5-388eecf2dff7@postmarketos.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8CxZcUIGHlmOdUuAA--.35596S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj9fXoW3Zr1fZFy5GF1rCrWxXF1rXwc_yoW8Jw1fCo
+	WfArZIvw45tw13A3s8K3Wxt3W3WanFka93Zw4akrZ0vryUA34YgFyUtw1UJa13K34YqFs3
+	Xrn3tr18Xr4fZrn5l-sFpf9Il3svdjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf
+	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+	UjIYCTnIWjp_UUUY17kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+	wI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+	0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280
+	aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28Icx
+	kI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+	xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
+	IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY
+	6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
+	CY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7_MaUUUUU
 
-On Mon, Jun 24, 2024 at 03:30:29AM GMT, Caleb Connolly wrote:
-> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
-> uses non-standard DCS commands.
+This patch introduces a driver for the PixArt PS/2 touchpad, which
+supports both clickpad and touchpad types.
 
-Please add a note regarding the panel using long packets for all the
-commands.
+At the same time, we extended the single data packet length to 16,
+because according to the current PixArt hardware and FW design, we need
+11 bytes/15 bytes to represent the complete three-finger/four-finger data.
 
-Also the cover letter had a mention of the panel not fully comming up
-after being reset, is that still true? If so, it should be mentioned in
-the commit message too.
+Co-developed-by: Jon Xie <jon_xie@pixart.com>
+Signed-off-by: Jon Xie <jon_xie@pixart.com>
+Co-developed-by: Jay Lee <jay_lee@pixart.com>
+Signed-off-by: Jay Lee <jay_lee@pixart.com>
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+V2:
+ - Rebased on input/next;
+ - Merge two patches from the V1 patchset;
+ - Initialize local variables to prevent random garbage;
+ - Remove some noisy debug message;
+ - Check ps2_command() return value;
+ - Use macros to represent bit operations for better readability, such
+   as abs_x;
+ - Remove the code related to rel packets, for the normal
+   intellimouse detection is well in PixArt.
 
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
->  MAINTAINERS                                   |   7 +
->  drivers/gpu/drm/panel/Kconfig                 |   9 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  drivers/gpu/drm/panel/panel-samsung-amb655x.c | 420 ++++++++++++++++++++++++++
->  4 files changed, 437 insertions(+)
+Link to V1:
+https://lore.kernel.org/all/cover.1715224143.git.zhoubinbin@loongson.cn/
 
+ drivers/input/mouse/Kconfig        |  12 ++
+ drivers/input/mouse/Makefile       |   1 +
+ drivers/input/mouse/pixart_ps2.c   | 267 +++++++++++++++++++++++++++++
+ drivers/input/mouse/pixart_ps2.h   |  36 ++++
+ drivers/input/mouse/psmouse-base.c |  17 ++
+ drivers/input/mouse/psmouse.h      |   3 +-
+ 6 files changed, 335 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/mouse/pixart_ps2.c
+ create mode 100644 drivers/input/mouse/pixart_ps2.h
 
-
-> +static int samsung_amb655x_on(struct samsung_amb655x *amb655x)
-> +{
-> +	struct drm_dsc_picture_parameter_set pps;
-> +	struct mipi_dsi_device *dsi = amb655x->dsi;
-> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	drm_dsc_pps_payload_pack(&pps, &amb655x->dsc);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_buffer_multi(&ctx, &pps, sizeof(pps));
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9d, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-
-_multi. Shouldn't it be a long package too?
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +	usleep_range(11000, 12000);
-
-mipi_dsi_msleep() or add mipi_dsi_usleep_range().
-
-> +	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 1080 - 1);
-
-_multi, adding the function as required
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set column address: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 2400 - 1);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set page address: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* FD Setting */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x8d);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x0a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xd5, 0x05);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	/* FFC Function */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xe4, 0xa6, 0x75, 0xa3);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xe9,
-> +			       0x11, 0x75, 0xa6, 0x75, 0xa3, 0x4b, 0x17, 0xac,
-> +			       0x4b, 0x17, 0xac, 0x00, 0x19, 0x19);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xfc, 0xa5, 0xa5);
-> +	msleep(61);
-
-mipi_dsi_msleep
-
-> +
-> +	/* Dimming Setting */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x06);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x05);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x13);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb0, 0x01);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xb7, 0x4c);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-> +
-> +	/* refresh rate Transition */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	/* 60 Hz */
-> +	//mipi_dsi_dcs_write_long(&ctx, 0x60, 0x00);
-> +	/* 120 Hz */
-> +	mipi_dsi_dcs_write_long(&ctx, 0x60, 0x10);
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +
-> +	/* ACL Mode */
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_long(&ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> +	mipi_dsi_dcs_write_long(&ctx, 0xf0, 0xa5, 0xa5);
-> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-
-_multi
-
-> +	msleep(110);
-
-mipi_dsi_msleep()
-
-> +
-> +	/* Enable backlight */
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0x5A, 0x5A);
-> +	mipi_dsi_dcs_set_display_on(dsi);
-
-_multi
-
-> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_ENTER_NORMAL_MODE);
-
-_multi
-
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9F, 0xA5, 0xA5);
-> +
-> +	return ctx.accum_err;
-> +}
-> +
-> +static int samsung_amb655x_off(struct samsung_amb655x *amb655x)
-> +{
-> +	struct mipi_dsi_device *dsi = amb655x->dsi;
-> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0x5a, 0x5a);
-> +
-> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display on: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(20);
-
-mipi_dsi_msleep
-
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display off: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(20);
-
-mipi_dsi_msleep
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-
-_multi
-
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	mipi_dsi_dcs_write_long(&ctx, 0x9f, 0xa5, 0xa5);
-> +	msleep(150);
-> +
-> +	return ctx.accum_err;
-> +}
-> +
-
+diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+index 833b643f0616..8a27a20d04b0 100644
+--- a/drivers/input/mouse/Kconfig
++++ b/drivers/input/mouse/Kconfig
+@@ -69,6 +69,18 @@ config MOUSE_PS2_LOGIPS2PP
+ 
+ 	  If unsure, say Y.
+ 
++config MOUSE_PS2_PIXART
++	bool "PixArt PS/2 touchpad protocol extension" if EXPERT
++	default y
++	depends on MOUSE_PS2
++	help
++	  This driver supports the PixArt PS/2 touchpad found in some
++	  laptops.
++	  Say Y here if you have a PixArt PS/2 TouchPad connected to
++	  your system.
++
++	  If unsure, say Y.
++
+ config MOUSE_PS2_SYNAPTICS
+ 	bool "Synaptics PS/2 mouse protocol extension" if EXPERT
+ 	default y
+diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
+index a1336d5bee6f..563029551529 100644
+--- a/drivers/input/mouse/Makefile
++++ b/drivers/input/mouse/Makefile
+@@ -32,6 +32,7 @@ psmouse-$(CONFIG_MOUSE_PS2_ELANTECH)	+= elantech.o
+ psmouse-$(CONFIG_MOUSE_PS2_OLPC)	+= hgpk.o
+ psmouse-$(CONFIG_MOUSE_PS2_LOGIPS2PP)	+= logips2pp.o
+ psmouse-$(CONFIG_MOUSE_PS2_LIFEBOOK)	+= lifebook.o
++psmouse-$(CONFIG_MOUSE_PS2_PIXART)	+= pixart_ps2.o
+ psmouse-$(CONFIG_MOUSE_PS2_SENTELIC)	+= sentelic.o
+ psmouse-$(CONFIG_MOUSE_PS2_TRACKPOINT)	+= trackpoint.o
+ psmouse-$(CONFIG_MOUSE_PS2_TOUCHKIT)	+= touchkit_ps2.o
+diff --git a/drivers/input/mouse/pixart_ps2.c b/drivers/input/mouse/pixart_ps2.c
+new file mode 100644
+index 000000000000..d1443a41a034
+--- /dev/null
++++ b/drivers/input/mouse/pixart_ps2.c
+@@ -0,0 +1,267 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Pixart Touchpad Controller 1336U PS2 driver
++ *
++ * Author: Jon Xie <jon_xie@pixart.com>
++ *         Jay Lee <jay_lee@pixart.com>
++ * Further cleanup and restructuring by:
++ *         Binbin Zhou <zhoubinbin@loongson.cn>
++ *
++ * Copyright (C) 2021-2024 Pixart Imaging.
++ * Copyright (C) 2024 Loongson Technology Corporation Limited.
++ *
++ */
++
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/libps2.h>
++#include <linux/input/mt.h>
++#include <linux/serio.h>
++#include <linux/slab.h>
++
++#include "pixart_ps2.h"
++
++static int pixart_read_tp_mode(struct psmouse *psmouse)
++{
++	struct ps2dev *ps2dev = &psmouse->ps2dev;
++	u8 param[1] = { 0 };
++
++	if (ps2_command(ps2dev, param, PIXART_CMD_REPORT_FORMAT))
++		return -EIO;
++
++	return (param[0] == 1) ? PIXART_MODE_ABS : PIXART_MODE_REL;
++}
++
++static int pixart_read_tp_type(struct psmouse *psmouse)
++{
++	struct ps2dev *ps2dev = &psmouse->ps2dev;
++	u8 param[3] = { 0 };
++
++	param[0] = 0x0a;
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE))
++		return -EIO;
++
++	param[0] = 0x0;
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES))
++		return -EIO;
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES))
++		return -EIO;
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES))
++		return -EIO;
++
++	param[0] = 0x03;
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES))
++		return -EIO;
++
++	if (ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO))
++		return -EIO;
++
++	return (param[0] == 0x0e) ? PIXART_TYPE_TOUCHPAD : PIXART_TYPE_CLICKPAD;
++}
++
++static void pixart_reset(struct psmouse *psmouse)
++{
++	ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
++	msleep(100);
++	psmouse_reset(psmouse);
++}
++
++static void pixart_process_packet(struct psmouse *psmouse)
++{
++	struct pixart_data *priv = psmouse->private;
++	struct input_dev *dev = psmouse->dev;
++	int i, id, fingers = 0, abs_x, abs_y;
++	u8 *pkt = psmouse->packet;
++	u8 contact_cnt = CONTACT_CNT(pkt[0]);
++	bool tip;
++
++	for (i = 0; i < contact_cnt; i++) {
++		id = SLOT_ID_MASK(pkt[3 * i + 3]);
++		abs_y = ABS_Y_MASK(pkt[3 * i + 3]) | pkt[3 * i + 1];
++		abs_x = ABS_X_MASK(pkt[3 * i + 3]) | pkt[3 * i + 2];
++
++		if (i == PIXART_MAX_FINGERS - 1)
++			tip = pkt[14] & BIT(1);
++		else
++			tip = pkt[3 * contact_cnt + 1] & (0x01 << (2 * i + 1));
++
++		input_mt_slot(dev, id);
++		if (input_mt_report_slot_state(dev, MT_TOOL_FINGER, tip)) {
++			fingers++;
++			input_report_abs(dev, ABS_MT_POSITION_Y, abs_y);
++			input_report_abs(dev, ABS_MT_POSITION_X, abs_x);
++		}
++	}
++
++	input_mt_sync_frame(dev);
++	input_mt_report_finger_count(dev, fingers);
++
++	if (priv->type == PIXART_TYPE_CLICKPAD) {
++		input_report_key(dev, BTN_LEFT, pkt[0] & 0x03);
++	} else {
++		input_report_key(dev, BTN_LEFT, pkt[0] & 0x01);
++		input_report_key(dev, BTN_RIGHT, pkt[0] & 0x02);
++	}
++
++	input_sync(dev);
++}
++
++static psmouse_ret_t pixart_protocol_handler(struct psmouse *psmouse)
++{
++	u8 *pkt = psmouse->packet;
++	u8 contact_cnt = CONTACT_CNT(pkt[0]);
++
++	if (contact_cnt > PIXART_MAX_FINGERS || ((pkt[0] & 0x8c) != 0x80))
++		return PSMOUSE_BAD_DATA;
++
++	if (contact_cnt == PIXART_MAX_FINGERS && psmouse->pktcnt < psmouse->pktsize)
++		return PSMOUSE_GOOD_DATA;
++
++	if (contact_cnt == 0 && psmouse->pktcnt < 5)
++		return PSMOUSE_GOOD_DATA;
++
++	if (psmouse->pktcnt < (3 * contact_cnt + 2))
++		return PSMOUSE_GOOD_DATA;
++
++	pixart_process_packet(psmouse);
++
++	return PSMOUSE_FULL_PACKET;
++}
++
++static void pixart_disconnect(struct psmouse *psmouse)
++{
++	pixart_reset(psmouse);
++	kfree(psmouse->private);
++	psmouse->private = NULL;
++}
++
++static int pixart_reconnect(struct psmouse *psmouse)
++{
++	int mode;
++
++	pixart_reset(psmouse);
++	mode = pixart_read_tp_mode(psmouse);
++	if (mode != PIXART_MODE_ABS)
++		return mode;
++
++	if (ps2_command(&psmouse->ps2dev, NULL, PIXART_CMD_SWITCH_PROTO))
++		return -EIO;
++
++	return 0;
++}
++
++static int pixart_set_input_params(struct input_dev *dev, struct pixart_data *priv)
++{
++	/* No relative support */
++	__clear_bit(EV_REL, dev->evbit);
++	__clear_bit(REL_X, dev->relbit);
++	__clear_bit(REL_Y, dev->relbit);
++	__clear_bit(BTN_MIDDLE, dev->keybit);
++
++	/* Buttons */
++	__set_bit(EV_KEY, dev->evbit);
++	__set_bit(BTN_LEFT, dev->keybit);
++	if (priv->type == PIXART_TYPE_CLICKPAD)
++		__set_bit(INPUT_PROP_BUTTONPAD, dev->propbit);
++	else
++		__set_bit(BTN_RIGHT, dev->keybit);
++
++	/* Touchpad */
++	__set_bit(BTN_TOUCH, dev->keybit);
++	__set_bit(BTN_TOOL_FINGER, dev->keybit);
++	__set_bit(BTN_TOOL_DOUBLETAP, dev->keybit);
++	__set_bit(BTN_TOOL_TRIPLETAP, dev->keybit);
++	__set_bit(BTN_TOOL_QUADTAP, dev->keybit);
++	__set_bit(INPUT_PROP_POINTER, dev->propbit);
++
++	/* Absolute position */
++	__set_bit(EV_ABS, dev->evbit);
++	input_set_abs_params(dev, ABS_X, 0, PIXART_PAD_WIDTH, 0, 0);
++	input_set_abs_params(dev, ABS_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
++
++	input_set_abs_params(dev, ABS_MT_POSITION_X, 0, PIXART_PAD_WIDTH, 0, 0);
++	input_set_abs_params(dev, ABS_MT_POSITION_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
++
++	return input_mt_init_slots(dev, PIXART_SLOTS_NUM, 0);
++}
++
++static int pixart_query_hardware(struct psmouse *psmouse)
++{
++	struct pixart_data *priv = psmouse->private;
++
++	priv->type = pixart_read_tp_type(psmouse);
++	if (priv->type < 0)
++		return -EIO;
++
++	priv->mode = pixart_read_tp_mode(psmouse);
++	if (priv->mode < 0)
++		return -EIO;
++
++	return 0;
++}
++
++int pixart_detect(struct psmouse *psmouse, bool set_properties)
++{
++	int type;
++
++	pixart_reset(psmouse);
++	type = pixart_read_tp_type(psmouse);
++	if (type < 0)
++		return -EIO;
++
++	if (set_properties) {
++		psmouse->vendor = "PixArt";
++		psmouse->name = (type == PIXART_TYPE_TOUCHPAD) ?
++				"touchpad" : "clickpad";
++	}
++
++	return 0;
++}
++
++int pixart_init(struct psmouse *psmouse)
++{
++	struct pixart_data *priv;
++
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	psmouse->private = priv;
++	pixart_reset(psmouse);
++
++	if (pixart_query_hardware(psmouse)) {
++		psmouse_err(psmouse, "Unable to query PixArt touchpad hardware.\n");
++		goto err_exit;
++	}
++
++	/* Relative mode follows standard PS/2 mouse protocol */
++	if (priv->mode != PIXART_MODE_ABS)
++		goto err_exit;
++
++	/* Set absolute mode */
++	if (ps2_command(&psmouse->ps2dev, NULL, PIXART_CMD_SWITCH_PROTO)) {
++		psmouse_err(psmouse, "init: Unable to initialize PixArt absolute mode.\n");
++		goto err_exit;
++	}
++
++	if (pixart_set_input_params(psmouse->dev, priv) < 0) {
++		psmouse_err(psmouse, "init: Unable to set input params.\n");
++		goto err_exit;
++	}
++
++	psmouse->pktsize = 15;
++	psmouse->protocol_handler = pixart_protocol_handler;
++	psmouse->disconnect = pixart_disconnect;
++	psmouse->reconnect = pixart_reconnect;
++	psmouse->cleanup = pixart_reset;
++	/* resync is not supported yet */
++	psmouse->resync_time = 0;
++
++	return 0;
++
++err_exit:
++	pixart_reset(psmouse);
++	kfree(priv);
++	psmouse->private = NULL;
++	return -EIO;
++}
+diff --git a/drivers/input/mouse/pixart_ps2.h b/drivers/input/mouse/pixart_ps2.h
+new file mode 100644
+index 000000000000..f7f16cb9fbb0
+--- /dev/null
++++ b/drivers/input/mouse/pixart_ps2.h
+@@ -0,0 +1,36 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++#ifndef _PIXART_PS2_H
++#define _PIXART_PS2_H
++
++#include "psmouse.h"
++
++#define PIXART_PAD_WIDTH	1023
++#define PIXART_PAD_HEIGHT	579
++#define PIXART_MAX_FINGERS	4
++#define PIXART_SLOTS_NUM	PIXART_MAX_FINGERS
++
++#define PIXART_CMD_REPORT_FORMAT	0x01d8
++#define PIXART_CMD_SWITCH_PROTO		0x00de
++
++#define PIXART_MODE_REL	0
++#define PIXART_MODE_ABS	1
++
++#define PIXART_TYPE_CLICKPAD	0
++#define PIXART_TYPE_TOUCHPAD	1
++
++#define CONTACT_CNT(m)	(((m) & GENMASK(6, 4)) >> 4)
++#define SLOT_ID_MASK(m)	((m) & GENMASK(2, 0))
++#define ABS_Y_MASK(m)	(((m) & GENMASK(5, 4)) << 4)
++#define ABS_X_MASK(m)	(((m) & GENMASK(7, 6)) << 2)
++
++struct pixart_data {
++	int mode;
++	int type;
++	int x_max;
++	int y_max;
++};
++
++int pixart_detect(struct psmouse *psmouse, bool set_properties);
++int pixart_init(struct psmouse *psmouse);
++
++#endif  /* _PIXART_PS2_H */
+diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+index a2c9f7144864..5a4defe9cf32 100644
+--- a/drivers/input/mouse/psmouse-base.c
++++ b/drivers/input/mouse/psmouse-base.c
+@@ -36,6 +36,7 @@
+ #include "focaltech.h"
+ #include "vmmouse.h"
+ #include "byd.h"
++#include "pixart_ps2.h"
+ 
+ #define DRIVER_DESC	"PS/2 mouse driver"
+ 
+@@ -905,6 +906,15 @@ static const struct psmouse_protocol psmouse_protocols[] = {
+ 		.detect		= byd_detect,
+ 		.init		= byd_init,
+ 	},
++#endif
++#ifdef CONFIG_MOUSE_PS2_PIXART
++	{
++		.type		= PSMOUSE_PIXART,
++		.name		= "PixArtPS/2",
++		.alias		= "pixart",
++		.detect		= pixart_detect,
++		.init		= pixart_init,
++	},
+ #endif
+ 	{
+ 		.type		= PSMOUSE_AUTO,
+@@ -1172,6 +1182,13 @@ static int psmouse_extensions(struct psmouse *psmouse,
+ 			return ret;
+ 	}
+ 
++	/* Try PixArt touchpad */
++	if (max_proto > PSMOUSE_IMEX &&
++	    psmouse_try_protocol(psmouse, PSMOUSE_PIXART, &max_proto,
++				 set_properties, true)) {
++		return PSMOUSE_PIXART;
++	}
++
+ 	if (max_proto > PSMOUSE_IMEX) {
+ 		if (psmouse_try_protocol(psmouse, PSMOUSE_GENPS,
+ 					 &max_proto, set_properties, true))
+diff --git a/drivers/input/mouse/psmouse.h b/drivers/input/mouse/psmouse.h
+index 4d8acfe0d82a..23f7fa7243cb 100644
+--- a/drivers/input/mouse/psmouse.h
++++ b/drivers/input/mouse/psmouse.h
+@@ -69,6 +69,7 @@ enum psmouse_type {
+ 	PSMOUSE_BYD,
+ 	PSMOUSE_SYNAPTICS_SMBUS,
+ 	PSMOUSE_ELANTECH_SMBUS,
++	PSMOUSE_PIXART,
+ 	PSMOUSE_AUTO		/* This one should always be last */
+ };
+ 
+@@ -94,7 +95,7 @@ struct psmouse {
+ 	const char *vendor;
+ 	const char *name;
+ 	const struct psmouse_protocol *protocol;
+-	unsigned char packet[8];
++	unsigned char packet[16];
+ 	unsigned char badbyte;
+ 	unsigned char pktcnt;
+ 	unsigned char pktsize;
 -- 
-With best wishes
-Dmitry
+2.43.0
+
 
