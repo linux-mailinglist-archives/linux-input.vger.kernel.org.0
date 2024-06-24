@@ -1,868 +1,169 @@
-Return-Path: <linux-input+bounces-4592-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4593-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FEF9143D1
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 09:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDC0914564
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 10:52:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A7E01F217F1
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 07:42:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37E481F23D4F
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 08:52:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B28645034;
-	Mon, 24 Jun 2024 07:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 125AB78C61;
+	Mon, 24 Jun 2024 08:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3qeLW8r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBOI14/o"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38E849626;
-	Mon, 24 Jun 2024 07:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1F96A347;
+	Mon, 24 Jun 2024 08:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719214930; cv=none; b=hgJyaRcSBpo8kFcoWqJNlUsyi8ckdQC1ihjwGBBAWN6t07cznUA8R+jvzuaEKikVHonzmMjEMZmS10LRxWWXcVSYaWfrmJ0/S28htpaybu789ctvGHVBFRdJ6HaHAhv1kyGvDRMOw7kGlWzJsjLwQ6dwsEVpX5THQjlUlPFrN+c=
+	t=1719219171; cv=none; b=oBr0nPfayxy4KOPGUogkYyGIzatR3RBvJnYY705td/t/V+/soq85nTusZQW4WgbmZUyvvNE6ZulCw8JYe0YzCqwpsMWEfUgLbJS4Dih4km/GQIqi3Pl56DAgzOUnadk8XcfxPS3svKuQZ/pPpNcUM48aJF33m6Go6LnZh+Vppk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719214930; c=relaxed/simple;
-	bh=0+QCo9l0EDJ8RkKm/x7Xz5rlp91iyv5BAca2cUUG37k=;
+	s=arc-20240116; t=1719219171; c=relaxed/simple;
+	bh=Jz2YPX0sMcFcT9gDrGUv+vNcyE/fgQCLh5AW7ZHQyYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SaAnddYL6ko5zkPO6HAgmJBFBTfsCQ04sY9ee0Qc6t9Tzokh5awZ9L+waB5gPUTyvpNn/g6wc+si18bRrCElHlCIAPnPY31T+MzgJg9vZacdKKZYt29MikCYuX9mk1ZaafzsK35L+brpbBkgjmD8HpaKxaFcjR655DXG6Z2mLJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3qeLW8r; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f9b364faddso32243945ad.3;
-        Mon, 24 Jun 2024 00:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719214927; x=1719819727; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hQje6SQb91BhFEUhqy4uRwoZwftPrB3MAMmxj1P9POY=;
-        b=d3qeLW8rFJu4n496gYetFxM+L8DvPlJKOTy6/9QIhLQoKREV7h7tjojUghhogOUzQ5
-         kFUSCnkQKUkI/n3E0nSqeV/kw1GGJURJM69SQ/v+hm806ZHB5HwtA7CK1yd5FYKGLeng
-         q5ps9fib/l4i+dr7cXYJ+yXCDVYMQpfPsw7XlRsDGdk+dyTiezGsi9VIryTDTa9eeWBi
-         JGXge/glXjaXyhLnI2Bhn2QPHWCM+L8qfHXQCXzRaLH9j27Cv1DrMuOuyJjWOelMOb5U
-         pkLEISHnINxNya4wFuuBJZsvbSR2ko2G+uNf3sOKnlDnrlBFzvNTxP2WH2KM19Ql6vSZ
-         fITg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719214927; x=1719819727;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hQje6SQb91BhFEUhqy4uRwoZwftPrB3MAMmxj1P9POY=;
-        b=bSwG5+oAb90xBjaQe7bxgsSZB+u2C8dRMihkQNCNO3aRM2EUb338rsgnWNs5TN6tk+
-         YOMV9TZ0Q4IsSJjzM7IoNIPYnxSdiinu/Qv0U6wRot6XDb26JHNnOEWcBhc4Z6zUqJMn
-         Trurh/Jkh1UR9Lj62PnDzIZMPQsuEsFc80WGng+vrrJS4E9+T4QhperaXWZlaLhNHKg+
-         gXm+0Fmj2mM4TFvJIAGYg/VCuFnPzJdJZ0N/RhgTNrUyNN2mb7FLJqLW9LuEB/DX1UUV
-         BIJiQIItv8Wg/sbazlDxpXAhwM6gLq7r2ivCOtPAFknqzHRE/sKaXPbLycSNcE7KzOaw
-         xY4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXZC9kZpi1qXEzNgKxuCx8FJi+CD27mXXHo3dtcU1CmIfxmFNND3G+bprp8pDP2AlZdp3xDdESSNzfnq5IUtFVjgafgdp+kylLkYm4++m/821wEuHmkFiLETiyiJFSwlx/a4oKbNrlisHnC4Z7znIBFU11limdJrto5fVhAGA1XXm3r6Lj1ZA==
-X-Gm-Message-State: AOJu0YxiDgGZxXIj5LlWvFnXPL040xN0uhBPuWw+RuzU70JhiFs2uBwB
-	XM7Hf216mfmbs9uEe9EDkLrfop8JL+iT2TWBOXWSWfXw8bPW9frI
-X-Google-Smtp-Source: AGHT+IHOV8cjsVt/gay73HXJ3jbc3l/b3nCMTnJJHn5w+FyX2moYuczaMDzM+rydcpoNU7+momAwSw==
-X-Received: by 2002:a17:903:18d:b0:1fa:1f31:e78a with SMTP id d9443c01a7336-1fa23f07182mr43477935ad.6.1719214926952;
-        Mon, 24 Jun 2024 00:42:06 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:eba1:6f76:e2d7:7858])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb2f058bsm56427355ad.13.2024.06.24.00.42.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 00:42:06 -0700 (PDT)
-Date: Mon, 24 Jun 2024 00:42:03 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Frieder Hannenheim <frieder.hannenheim@proton.me>
-Subject: Re: [PATCH 6/7] Input: touchscreen: add Synaptics TCM oncell S3908
-Message-ID: <ZnkjS3x73iNJtUIw@google.com>
-References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-6-388eecf2dff7@postmarketos.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DCfMz14qFLiWagLAjd37nTFxWzAD0Wqs/mhyA8s+XlYV7JeKzygzf9dYP35hEakd0lXfmfFaz6SMhOnj4YZlq/fPyACNsl+3t1z/fUFUhi45piH8LC4ozsl/9FH3JM6tDs7wNqzwn6sDEMpMaU4XpaGe0yAUxtsu3YE0tFmYd7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBOI14/o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6A0C2BBFC;
+	Mon, 24 Jun 2024 08:52:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719219170;
+	bh=Jz2YPX0sMcFcT9gDrGUv+vNcyE/fgQCLh5AW7ZHQyYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YBOI14/oYPx8q48kf6Xxu1uDVeHExkrJB9bxubtil/4hi6VDo/3eSS814m7EqKNuE
+	 sAUGs9lNICAvuXWfcvd6d/qGekEWhRMKG8agxKIfjzXQWtvWNZ1s6/h4OY2L/v8gLu
+	 D/JR4UifvKjfzypXKqSI0zEuKwQpxuZXvZVUCOAOmrFvfWZ2ZdERiQoxBu+ruSxnY5
+	 Ao8bm9G96rz/dEl393pZtwgv20in3w3Z+0yuUOkTfQ4gfWEWgsqM/M6NWXWeHBBLVR
+	 w7Lq+bwWcvK5homVzrnhRt1Vf7IiL7il3wycrQWaSA5ladKWDgoZe0tvBuH+6RmWJ0
+	 386WOj5EUzWhw==
+Date: Mon, 24 Jun 2024 10:52:45 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH HID 06/12] HID: bpf: add HID-BPF hooks for
+ hid_hw_output_report
+Message-ID: <zjcva76d6qk5hshkyf7x6jmkahmicboei4tbxxhrrfbemxcu6v@cv2vdhjszdsf>
+References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
+ <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org>
+ <CAADnVQ+us6cQepSGWbOB4K1bb_0Wh43Cpo4zXJxB2d+SVpYinQ@mail.gmail.com>
+ <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
+ <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-6-388eecf2dff7@postmarketos.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
 
-Hi Caleb,
-
-On Mon, Jun 24, 2024 at 03:30:30AM +0200, Caleb Connolly wrote:
-> The TCM oncell is the next generation of Synaptics touchscreen ICs.
-> These run a very featured firmware with a reasonably well defined API.
-> It is however entirely incompatible with the existing RMI4 interface.
+On Jun 21 2024, Alexei Starovoitov wrote:
+> On Fri, Jun 21, 2024 at 9:08 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
+> >
+> > On Jun 21 2024, Alexei Starovoitov wrote:
+> > > On Fri, Jun 21, 2024 at 1:56 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
+> > > >
+> > > > Same story than hid_hw_raw_requests:
+> > > >
+> > > > This allows to intercept and prevent or change the behavior of
+> > > > hid_hw_output_report() from a bpf program.
+> > > >
+> > > > The intent is to solve a couple of use case:
+> > > >   - firewalling a HID device: a firewall can monitor who opens the hidraw
+> > > >     nodes and then prevent or allow access to write operations on that
+> > > >     hidraw node.
+> > > >   - change the behavior of a device and emulate a new HID feature request
+> > > >
+> > > > The hook is allowed to be run as sleepable so it can itself call
+> > > > hid_hw_output_report(), which allows to "convert" one feature request into
+> > > > another or even call the feature request on a different HID device on the
+> > > > same physical device.
+> > > >
+> > > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> > > >
+> > > > ---
+> > > >
+> > > > Here checkpatch complains about:
+> > > > WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU code
+> > > >
+> > > > However, we are jumping in BPF code, so I think this is correct, but I'd
+> > > > like to have the opinion on the BPF folks.
+> > > > ---
+> > > >  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++++++++----
+> > > >  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
+> > > >  drivers/hid/hid-core.c               | 10 ++++++++--
+> > > >  drivers/hid/hidraw.c                 |  2 +-
+> > > >  include/linux/hid.h                  |  3 ++-
+> > > >  include/linux/hid_bpf.h              | 24 ++++++++++++++++++++++-
+> > > >  6 files changed, 68 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
+> > > > index 8d6e08b7c42f..2a29a0625a3b 100644
+> > > > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
+> > > > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+> > > > @@ -111,6 +111,38 @@ int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
+> > > >
+> > > > +int dispatch_hid_bpf_output_report(struct hid_device *hdev,
+> > > > +                                  __u8 *buf, u32 size, __u64 source,
+> > > > +                                  bool from_bpf)
+> > > > +{
+> > > > +       struct hid_bpf_ctx_kern ctx_kern = {
+> > > > +               .ctx = {
+> > > > +                       .hid = hdev,
+> > > > +                       .allocated_size = size,
+> > > > +                       .size = size,
+> > > > +               },
+> > > > +               .data = buf,
+> > > > +               .from_bpf = from_bpf,
+> > > > +       };
+> > > > +       struct hid_bpf_ops *e;
+> > > > +       int ret;
+> > > > +
+> > > > +       rcu_read_lock_trace();
+> > > > +       list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
+> > > > +               if (e->hid_hw_output_report) {
+> > > > +                       ret = e->hid_hw_output_report(&ctx_kern.ctx, source);
+> > > > +                       if (ret)
+> > > > +                               goto out;
+> > > > +               }
+> > > > +       }
+> > > > +       ret = 0;
+> > > > +
+> > > > +out:
+> > > > +       rcu_read_unlock_trace();
+> > >
+> > > same question.
+> >
+> > re What is this for?:
+> >
+> > e->hid_hw_output_report might sleep, so using a plain rcu_read_lock()
+> > introduces warnings.
 > 
-> Unfortunately, no public datasheet for the interface seems to be
-> available, instead this driver was created through a combination of
-> vendor drivers and trial and error.
+> Ok, but just replacing rcu_read_lock() with rcu_read_lock_trace()
+> doesn't fix it.
+> rcu and rcu_tasks_trace are different.
+> If you're using call_rcu to wait for GP to free an element in that
+> list the thing will go wrong.
 > 
-> The firmware interface implies support for defining the exact bit
-> encoding of the touch reports, however on the S3908 chip + firmware
-> found in the OnePlus 8t the TCM_SET_TOUCH_REPORT_CONFIG command appears
-> to be unsupported.
-> 
-> Co-developed-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
-> Signed-off-by: Frieder Hannenheim <frieder.hannenheim@proton.me>
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
->  MAINTAINERS                                      |   7 +
->  drivers/input/touchscreen/Kconfig                |  11 +
->  drivers/input/touchscreen/Makefile               |   1 +
->  drivers/input/touchscreen/synaptics_tcm_oncell.c | 617 +++++++++++++++++++++++
->  4 files changed, 636 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2b9cfbf92d7a..db589c841d8c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21826,8 +21826,15 @@ M:	Icenowy Zheng <icenowy@aosc.io>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml
->  F:	drivers/regulator/sy8106a-regulator.c
->  
-> +SYNAPTICS TCM ONCELL TOUCHSCREEN DRIVER
-> +M:	Caleb Connolly <caleb@postmarketos.org>
-> +L:	linux-input@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/input/touchscreen/syna,tcm-oncell.yaml
-> +F:	drivers/input/touchscreen/synaptics_tcm_oncell.c
-> +
->  SYNC FILE FRAMEWORK
->  M:	Sumit Semwal <sumit.semwal@linaro.org>
->  R:	Gustavo Padovan <gustavo@padovan.org>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index c821fe3ee794..43c4fd80601c 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -531,8 +531,19 @@ config TOUCHSCREEN_S6SY761
->  
->  	  To compile this driver as module, choose M here: the
->  	  module will be called s6sy761.
->  
-> +config TOUCHSCREEN_SYNAPTICS_TCM_ONCELL
-> +	tristate "Synaptics TCM Oncell Touchscreen driver"
-> +	depends on I2C
-> +	help
-> +	  Say Y if you have the Synaptics S3908 TCM Oncell
-> +
-> +	  If unsure, say N
-> +
-> +	  To compile this driver as module, choose M here: the
-> +	  module will be called synaptics_tcm_oncell.
-> +
->  config TOUCHSCREEN_GUNZE
->  	tristate "Gunze AHL-51S touchscreen"
->  	select SERIO
->  	help
-> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-> index a81cb5aa21a5..6a2b85050c3a 100644
-> --- a/drivers/input/touchscreen/Makefile
-> +++ b/drivers/input/touchscreen/Makefile
-> @@ -88,8 +88,9 @@ obj-$(CONFIG_TOUCHSCREEN_STMFTS)	+= stmfts.o
->  obj-$(CONFIG_TOUCHSCREEN_STMPE)		+= stmpe-ts.o
->  obj-$(CONFIG_TOUCHSCREEN_SUN4I)		+= sun4i-ts.o
->  obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
->  obj-$(CONFIG_TOUCHSCREEN_SURFACE3_SPI)	+= surface3_spi.o
-> +obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_TCM_ONCELL)	+= synaptics_tcm_oncell.o
->  obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
->  obj-$(CONFIG_TOUCHSCREEN_TOUCHWIN)	+= touchwin.o
-> diff --git a/drivers/input/touchscreen/synaptics_tcm_oncell.c b/drivers/input/touchscreen/synaptics_tcm_oncell.c
-> new file mode 100644
-> index 000000000000..c1ba9a3a93c0
-> --- /dev/null
-> +++ b/drivers/input/touchscreen/synaptics_tcm_oncell.c
-> @@ -0,0 +1,617 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + *  Driver for Synaptics TCM Oncell Touchscreens
-> + *
-> + *  Copyright (c) 2024 Frieder Hannenheim <frieder.hannenheim@proton.me>
-> + *  Copyright (c) 2024 Caleb Connolly <caleb@postmarketos.org>
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/input.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <asm/unaligned.h>
-> +#include <linux/delay.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
-> +#include <linux/of_gpio.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +/*
-> + * The TCM oncell interface uses a command byte, which may be followed by additional
-> + * data. The packet format is defined in the tcm_cmd struct.
-> + *
-> + * The following list only defines commands that are used in this driver (and their
-> + * counterparts for context). Vendor reference implementations can be found at
-> + * https://github.com/LineageOS/android_kernel_oneplus_sm8250/tree/ee0a7ee1939ffd53000e42051caf8f0800defb27/drivers/input/touchscreen/synaptics_tcm
-> + */
-> +
-> +/*
-> + * Request information about the chip. We don't send this command explicitly as
-> + * the controller automatically sends this information when starting up.
-> + */
-> +#define TCM_IDENTIFY 0x02
-> +
-> +/* Enable/disable reporting touch inputs */
-> +#define TCM_ENABLE_REPORT 0x05
-> +#define TCM_DISABLE_REPORT 0x06
-> +
-> +/*
-> + * After powering on, we send this to exit the bootloader mode and run the main
-> + * firmware.
-> + */
-> +#define TCM_RUN_APPLICATION_FIRMWARE 0x14
-> +
-> +/*
-> + * Reports information about the vendor provided application firmware. This is
-> + * also used to determine when the firmware has finished booting.
-> + */
-> +#define TCM_GET_APPLICATION_INFO 0x20
-> +
-> +#define MODE_APPLICATION 0x01
-> +
-> +#define APP_STATUS_OK 0x00
-> +#define APP_STATUS_BOOTING 0x01
-> +#define APP_STATUS_UPDATING 0x02
-> +#define APP_STATUS_BAD_APP_CONFIG 0xff
-> +
-> +/* status codes */
-> +#define REPORT_IDLE 0x00
-> +#define REPORT_OK 0x01
-> +#define REPORT_BUSY 0x02
-> +#define REPORT_CONTINUED_READ 0x03
-> +#define REPORT_RECEIVE_BUFFER_OVERFLOW 0x0c
-> +#define REPORT_PREVIOUS_COMMAND_PENDING 0x0d
-> +#define REPORT_NOT_IMPLEMENTED 0x0e
-> +#define REPORT_ERROR 0x0f
-> +
-> +/* report types */
-> +#define REPORT_IDENTIFY 0x10
-> +#define REPORT_TOUCH 0x11
-> +#define REPORT_DELTA 0x12
-> +#define REPORT_RAW 0x13
-> +#define REPORT_DEBUG 0x14
-> +#define REPORT_LOG 0x1d
-> +#define REPORT_TOUCH_HOLD 0x20
-> +#define REPORT_INVALID 0xff
-> +
-> +/* Touch report codes */
-> +#define TOUCH_END 0
-> +#define TOUCH_FOREACH_ACTIVE_OBJECT 1
-> +#define TOUCH_FOREACH_OBJECT 2
-> +#define TOUCH_FOREACH_END 3
-> +#define TOUCH_PAD_TO_NEXT_BYTE 4
-> +#define TOUCH_TIMESTAMP 5
-> +#define TOUCH_OBJECT_N_INDEX 6
-> +#define TOUCH_OBJECT_N_CLASSIFICATION 7
-> +#define TOUCH_OBJECT_N_X_POSITION 8
-> +#define TOUCH_OBJECT_N_Y_POSITION 9
-> +#define TOUCH_OBJECT_N_Z 10
-> +#define TOUCH_OBJECT_N_X_WIDTH 11
-> +#define TOUCH_OBJECT_N_Y_WIDTH 12
-> +#define TOUCH_OBJECT_N_TX_POSITION_TIXELS 13
-> +#define TOUCH_OBJECT_N_RX_POSITION_TIXELS 14
-> +#define TOUCH_0D_BUTTONS_STATE 15
-> +#define TOUCH_GESTURE_DOUBLE_TAP 16
-> +#define TOUCH_FRAME_RATE 17 /* Normally 80hz */
-> +#define TOUCH_POWER_IM 18
-> +#define TOUCH_CID_IM 19
-> +#define TOUCH_RAIL_IM 20
-> +#define TOUCH_CID_VARIANCE_IM 21
-> +#define TOUCH_NSM_FREQUENCY 22
-> +#define TOUCH_NSM_STATE 23
-> +#define TOUCH_NUM_OF_ACTIVE_OBJECTS 23
-> +#define TOUCH_NUM_OF_CPU_CYCLES_USED_SINCE_LAST_FRAME 24
-> +#define TOUCH_TUNING_GAUSSIAN_WIDTHS 0x80
-> +#define TOUCH_TUNING_SMALL_OBJECT_PARAMS 0x81
-> +#define TOUCH_TUNING_0D_BUTTONS_VARIANCE 0x82
-> +#define TOUCH_REPORT_GESTURE_SWIPE 193
-> +#define TOUCH_REPORT_GESTURE_CIRCLE 194
-> +#define TOUCH_REPORT_GESTURE_UNICODE 195
-> +#define TOUCH_REPORT_GESTURE_VEE 196
-> +#define TOUCH_REPORT_GESTURE_TRIANGLE 197
-> +#define TOUCH_REPORT_GESTURE_INFO 198
-> +#define TOUCH_REPORT_GESTURE_COORDINATE 199
-> +#define TOUCH_REPORT_CUSTOMER_GRIP_INFO 203
+> If you really need rcu life times here use srcu. It's a much better fit.
+> There will be srcu_read_lock() here, paired with call_srcu().
 
-I don't think all these are used. Also, could we align values on the
-same column please?
+OK, thanks for the explanation.
 
-> +
-> +struct tcm_message_header {
-> +	u8 marker;
-> +	u8 code;
-> +} __packed;
+I'll work on this for v2
 
-I don't think this needs to be packed.
-
-> +
-> +/* header + 2 bytes (which are length of data depending on report code) */
-> +#define REPORT_PEAK_LEN (sizeof(struct tcm_message_header) + 2)
-> +
-> +struct tcm_cmd {
-> +	u8 cmd;
-> +	u16 length;
-> +	u8 data[];
-> +};
-> +
-> +struct tcm_identification {
-> +	struct tcm_message_header header;
-> +	u16 length;
-> +	u8 version;
-> +	u8 mode;
-> +	char part_number[16];
-> +	u8 build_id[4];
-> +	u8 max_write_size[2];
-> +} __packed;
-> +
-> +struct tcm_app_info {
-> +	struct tcm_message_header header;
-> +	u16 length;
-
-On-wire data needs to be annotated with proper endiannes (__le16 or
-__be16) and converted to CPU-endianness before use.
-
-> +	u8 version[2];
-> +	u16 status;
-> +	u8 static_config_size[2];
-
-Should this be __le16 or __be16.
-
-> +	u8 dynamic_config_size[2];
-> +	u8 app_config_start_write_block[2];
-> +	u8 app_config_size[2];
-> +	u8 max_touch_report_config_size[2];
-> +	u8 max_touch_report_payload_size[2];
-> +	char customer_config_id[16];
-> +	u16 max_x;
-> +	u16 max_y;
-> +	u8 max_objects[2];
-> +	u8 num_of_buttons[2];
-> +	u8 num_of_image_rows[2];
-> +	u8 num_of_image_cols[2];
-> +	u8 has_hybrid_data[2];
-> +} __packed;
-> +
-> +struct tcm_report_config_prop {
-> +	u8 id; /* TOUCH_OBJECT_* */
-> +	u8 bits; /* Size of the field in bits */
-> +};
-> +
-> +struct tcm_report_config_entry {
-> +	u8 foreach; /* TOUCH_FOREACH_* (and maybe other things?) */
-> +	int n_props;
-> +	const struct tcm_report_config_prop *props;
-> +};
-> +
-> +struct tcm_report_config {
-> +	int n_entries;
-> +	const struct tcm_report_config_entry *entries;
-> +};
-> +
-> +struct tcm_data {
-> +	struct i2c_client *client;
-> +	struct regmap *regmap;
-> +	struct input_dev *input;
-> +	struct touchscreen_properties prop;
-> +	struct gpio_desc *reset_gpio;
-> +	struct completion response;
-> +	struct regulator_bulk_data supplies[2];
-> +
-> +	/* annoying state */
-> +	u16 buf_size;
-> +	char buf[256];
-> +};
-> +
-> +static int tcm_send_cmd(struct tcm_data *tcm, struct tcm_cmd *cmd)
-> +{
-> +	struct i2c_client *client = tcm->client;
-> +	struct i2c_msg msg;
-> +	int ret;
-> +
-> +	dev_dbg(&client->dev, "sending command %#x\n", cmd->cmd);
-> +
-> +	msg.addr = client->addr;
-> +	msg.flags = 0;
-> +	msg.len = 1 + cmd->length;
-> +	msg.buf = (u8 *)cmd;
-> +
-> +	ret = i2c_transfer(client->adapter, &msg, 1);
-> +	if (ret == 1)
-> +		return 0;
-> +	else if (ret < 0)
-> +		return ret;
-> +	else
-> +		return -EIO;
-> +}
-> +
-> +static int tcm_send_cmd_noargs(struct tcm_data *tcm, u8 cmd)
-> +{
-> +	struct tcm_cmd c = {
-> +		.cmd = cmd,
-> +		.length = 0,
-> +	};
-> +
-> +	return tcm_send_cmd(tcm, &c);
-> +}
-> +
-> +static int tcm_recv_report(struct tcm_data *tcm,
-> +			   void *buf, size_t length)
-> +{
-> +	struct i2c_client *client = tcm->client;
-> +	struct i2c_msg msg;
-> +	int ret;
-> +
-> +	msg.addr = client->addr;
-> +	msg.flags = I2C_M_RD;
-> +	msg.len = length;
-> +	msg.buf = buf;
-> +
-> +	ret = i2c_transfer(client->adapter, &msg, 1);
-> +	if (ret == 1)
-> +		return 0;
-> +	else if (ret < 0)
-> +		return ret;
-> +	else
-> +		return -EIO;
-> +}
-> +
-> +static int tcm_read_message(struct tcm_data *tcm, u8 cmd, void *buf, size_t length)
-> +{
-> +	int ret;
-> +
-> +	reinit_completion(&tcm->response);
-> +	ret = tcm_send_cmd_noargs(tcm, cmd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = wait_for_completion_timeout(&tcm->response, msecs_to_jiffies(1000));
-> +	if (ret == 0)
-> +		return -ETIMEDOUT;
-> +
-> +	if (buf) {
-> +		if (length > tcm->buf_size) {
-> +			dev_warn(&tcm->client->dev, "expected %zu bytes, got %u\n",
-> +				 length, tcm->buf_size);
-> +		}
-> +		length = min(tcm->buf_size, length);
-> +		memcpy(buf, tcm->buf, length);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void tcm_power_off(void *data)
-> +{
-> +	struct tcm_data *tcm = data;
-> +
-> +	disable_irq(tcm->client->irq);
-> +	regulator_bulk_disable(ARRAY_SIZE(tcm->supplies), tcm->supplies);
-> +}
-> +
-> +static int tcm_input_open(struct input_dev *dev)
-> +{
-> +	struct tcm_data *tcm = input_get_drvdata(dev);
-> +
-> +	return i2c_smbus_write_byte(tcm->client, TCM_ENABLE_REPORT);
-> +}
-> +
-> +static void tcm_input_close(struct input_dev *dev)
-> +{
-> +	struct tcm_data *tcm = input_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = i2c_smbus_write_byte(tcm->client, TCM_DISABLE_REPORT);
-> +	if (ret)
-> +		dev_err(&tcm->client->dev, "failed to turn off sensing\n");
-> +}
-> +
-> +/*
-> + * The default report config looks like this:
-> + *
-> + * a5 01 80 00 11 08 1e 08 0f 01 04 01 06 04 07 04
-> + * 08 0c 09 0c 0a 08 0b 08 0c 08 0d 10 0e 10 03 00
-> + * 00 00
-> + *
-> + * a5 01 80 00 - HEADER + length
-> + *
-> + * 11 08 - TOUCH_FRAME_RATE (8 bits)
-> + * 30 08 - UNKNOWN (8 bits)
-> + * 0f 01 - TOUCH_0D_BUTTONS_STATE (1 bit)
-> + * 04 01 - TOUCH_PAD_TO_NEXT_BYTE (7 bits - padding)
-> + * 06 04 - TOUCH_OBJECT_N_INDEX (4 bits)
-> + * 07 04 - TOUCH_OBJECT_N_CLASSIFICATION (4 bits)
-> + * 08 0c - TOUCH_OBJECT_N_X_POSITION (12 bits)
-> + * 09 0c - TOUCH_OBJECT_N_Y_POSITION (12 bits)
-> + * 0a 08 - TOUCH_OBJECT_N_Z (8 bits)
-> + * 0b 08 - TOUCH_OBJECT_N_X_WIDTH (8 bits)
-> + * 0c 08 - TOUCH_OBJECT_N_Y_WIDTH (8 bits)
-> + * 0d 10 - TOUCH_OBJECT_N_TX_POSITION_TIXELS (16 bits) ??
-> + * 0e 10 - TOUCH_OBJECT_N_RX_POSITION_TIXELS (16 bits) ??
-> + * 03 00 - TOUCH_FOREACH_END (0 bits)
-> + * 00 00 - TOUCH_END (0 bits)
-> + *
-> + * Since we only support this report config, we just hardcode the format below.
-> + * To support additional report configs, we would need to parse the config and
-> + * use it to parse the reports dynamically.
-> + */
-> +
-> +struct tcm_default_report_data {
-> +	u8 fps;
-> +	struct {
-> +		u8 unknown;
-> +		u8 buttons;
-> +		u8 idx : 4;
-> +		u8 classification : 4;
-> +		u16 x : 12;
-> +		u16 y : 12;
-
-This will be a mess on big endian. Please no bitfields. Use normally
-sized fields (u8, u16, etc) and masks/shifts to get data.
-
-> +		u8 z;
-> +		u8 width_x;
-> +		u8 width_y;
-> +		u8 tx;
-> +		u8 rx;
-> +	} __packed points[];
-> +} __packed;
-> +
-> +static int tcm_handle_touch_report(struct tcm_data *tcm, char *buf, size_t len)
-> +{
-> +	struct tcm_default_report_data *data;
-> +
-> +	buf += REPORT_PEAK_LEN;
-> +	len -= REPORT_PEAK_LEN;
-> +
-> +	dev_dbg(&tcm->client->dev, "touch report len %zu\n", len);
-> +	if ((len - 1) % 11)
-> +		dev_err(&tcm->client->dev, "invalid touch report length\n");
-> +
-> +	data = (struct tcm_default_report_data *)buf;
-> +
-> +	/* We don't need to report releases because we have INPUT_MT_DROP_UNUSED */
-> +	for (int i = 0; i < (len - 1) / 11; i++) {
-> +		u8 major_width, minor_width;
-> +
-> +		minor_width = data->points[i].width_x;
-> +		major_width = data->points[i].width_y;
-> +
-> +		if (minor_width > major_width)
-> +			swap(major_width, minor_width);
-> +
-> +		dev_dbg(&tcm->client->dev, "touch report: idx %u x %u y %u\n",
-> +			data->points[i].idx, data->points[i].x, data->points[i].y);
-> +		input_mt_slot(tcm->input, data->points[i].idx);
-> +		input_mt_report_slot_state(tcm->input, MT_TOOL_FINGER, true);
-> +
-> +		input_report_abs(tcm->input, ABS_MT_POSITION_X, data->points[i].x);
-> +		input_report_abs(tcm->input, ABS_MT_POSITION_Y, data->points[i].y);
-
-touchscreen_report_pos(...) instead of the 2 above so that rotation/axis
-swap will be handled properly.
-
-> +		input_report_abs(tcm->input, ABS_MT_TOUCH_MAJOR, major_width);
-> +		input_report_abs(tcm->input, ABS_MT_TOUCH_MINOR, minor_width);
-> +		input_report_abs(tcm->input, ABS_MT_PRESSURE, data->points[i].z);
-> +	}
-> +
-> +	input_mt_sync_frame(tcm->input);
-> +	input_sync(tcm->input);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t tcm_report_irq(int irq, void *data)
-> +{
-> +	struct tcm_data *tcm = data;
-> +	struct tcm_message_header *header;
-> +	char buf[256];
-> +	u16 len;
-> +	int ret;
-> +
-> +	header = (struct tcm_message_header *)buf;
-> +	ret = tcm_recv_report(tcm, buf, sizeof(buf));
-> +	if (ret) {
-> +		dev_err(&tcm->client->dev, "failed to read report: %d\n", ret);
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	switch (header->code) {
-> +	case REPORT_OK:
-> +	case REPORT_IDENTIFY:
-> +	case REPORT_TOUCH:
-> +	case REPORT_DELTA:
-> +	case REPORT_RAW:
-> +	case REPORT_DEBUG:
-> +	case REPORT_TOUCH_HOLD:
-> +		break;
-> +	default:
-> +		dev_dbg(&tcm->client->dev, "Ignoring report %#x\n", header->code);
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	/* Not present for REPORT_CONTINUED_READ */
-> +	len = get_unaligned_le16(buf + sizeof(*header));
-> +
-> +	dev_dbg(&tcm->client->dev, "report %#x len %u\n", header->code, len);
-> +	print_hex_dump_bytes("report: ", DUMP_PREFIX_OFFSET, buf,
-> +			     min(sizeof(buf), len + sizeof(*header)));
-> +
-> +	if (len > sizeof(buf) - sizeof(*header)) {
-> +		dev_err(&tcm->client->dev, "report too long\n");
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	/* Check if this is a read response or an indication. For indications
-> +	 * (user touched the screen) we just parse the report directly.
-> +	 */
-> +	if (completion_done(&tcm->response) && header->code == REPORT_TOUCH) {
-> +		tcm_handle_touch_report(tcm, buf, len + sizeof(*header));
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	tcm->buf_size = len + sizeof(*header);
-> +	memcpy(tcm->buf, buf, len + sizeof(*header));
-> +	complete(&tcm->response);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int tcm_hw_init(struct tcm_data *tcm, u16 *max_x, u16 *max_y)
-> +{
-> +	int ret;
-> +	struct tcm_identification id = { 0 };
-> +	struct tcm_app_info app_info = { 0 };
-> +
-> +	/*
-> +	 * Tell the firmware to start up. After starting it sends an IDENTIFY report, which
-> +	 * we treat like a response to this message even though it's technically a new report.
-> +	 */
-> +	ret = tcm_read_message(tcm, TCM_RUN_APPLICATION_FIRMWARE, &id, sizeof(id));
-> +	if (ret) {
-> +		dev_err(&tcm->client->dev, "failed to identify device: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(&tcm->client->dev, "Synaptics TCM %s v%d mode %d\n",
-> +		id.part_number, id.version, id.mode);
-> +	if (id.mode != MODE_APPLICATION) {
-> +		/* We don't support firmware updates or anything else */
-> +		dev_err(&tcm->client->dev, "Device is not in application mode\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	do {
-> +		msleep(20);
-> +		ret = tcm_read_message(tcm, TCM_GET_APPLICATION_INFO, &app_info, sizeof(app_info));
-> +		if (ret) {
-> +			dev_err(&tcm->client->dev, "failed to get application info: %d\n", ret);
-> +			return ret;
-> +		}
-> +	} while (app_info.status == APP_STATUS_BOOTING || app_info.status == APP_STATUS_UPDATING);
-> +
-> +	dev_dbg(&tcm->client->dev, "Application firmware v%d.%d (customer '%s') status %d\n",
-> +		 app_info.version[0], app_info.version[1], app_info.customer_config_id,
-> +		 app_info.status);
-> +
-> +	*max_x = app_info.max_x;
-> +	*max_y = app_info.max_y;
-> +
-> +	return 0;
-> +}
-> +
-> +static int tcm_power_on(struct tcm_data *tcm)
-> +{
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(tcm->supplies),
-> +				    tcm->supplies);
-> +	if (ret)
-> +		return ret;
-> +
-> +	gpiod_set_value(tcm->reset_gpio, false);
-> +	usleep_range(10000, 11000);
-> +	gpiod_set_value(tcm->reset_gpio, true);
-
-Here you have reset GPIO asserted, which means that the controller will
-stay in reset state indefinitely.
-
-gpiod API operates on logical states (active/inactive) and performs
-conversion to physical state (LOW/HIGH) internally.
-
-Also we should use gpiod_set_value_cansleep() unless we are in atomic
-context.
-
-> +	usleep_range(80000, 81000);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tcm_probe(struct i2c_client *client)
-> +{
-> +	struct tcm_data *tcm;
-> +	struct tcm_report_config __maybe_unused report_config;
-
-It is definitely not used, there no "maybe" about it.
-
-> +	u16 max_x, max_y;
-> +	int ret;
-
-Call this and similar variables holding error code "error" please.
-
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
-> +						I2C_FUNC_SMBUS_BYTE_DATA |
-> +						I2C_FUNC_SMBUS_I2C_BLOCK))
-> +		return -ENODEV;
-> +
-> +	tcm = devm_kzalloc(&client->dev, sizeof(struct tcm_data), GFP_KERNEL);
-
-sizeof(*tcm)
-
-> +	if (!tcm)
-> +		return -ENOMEM;
-> +
-> +	i2c_set_clientdata(client, tcm);
-> +	tcm->client = client;
-> +
-> +	init_completion(&tcm->response);
-> +
-> +	tcm->supplies[0].supply = "vdd";
-> +	tcm->supplies[1].supply = "vcc";
-> +	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(tcm->supplies),
-> +				      tcm->supplies);
-> +	if (ret)
-> +		return ret;
-> +
-> +	tcm->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-
-Do all designs require GPIO line be specified? Can it be made optional?
-
-> +
-> +	ret = devm_add_action_or_reset(&client->dev, tcm_power_off,
-> +				       tcm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = tcm_power_on(tcm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					tcm_report_irq,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-
-Please do not hardcode trigger (besides IRQF_ONESHOT), let platform
-decide.
-
-Also interrupt is hot there, are you sure we will not try to report
-input events for not-yet-allocated input device if someone is thouching
-the device at this point?
-
-> +					"synaptics_tcm_report", tcm);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = tcm_hw_init(tcm, &max_x, &max_y);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to initialize hardware\n");
-> +		return ret;
-> +	}
-> +
-> +	tcm->input = devm_input_allocate_device(&client->dev);
-> +	if (!tcm->input)
-> +		return -ENOMEM;
-> +
-> +	tcm->input->name = "Synaptics TCM Oncell Touchscreen";
-> +	tcm->input->id.bustype = BUS_I2C;
-> +	tcm->input->open = tcm_input_open;
-> +	tcm->input->close = tcm_input_close;
-> +
-> +	input_set_abs_params(tcm->input, ABS_MT_POSITION_X, 0, max_x, 0, 0);
-> +	input_set_abs_params(tcm->input, ABS_MT_POSITION_Y, 0, max_y, 0, 0);
-> +	input_set_abs_params(tcm->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-> +	input_set_abs_params(tcm->input, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
-> +	input_set_abs_params(tcm->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
-> +
-> +	touchscreen_parse_properties(tcm->input, true, &tcm->prop);
-> +
-> +	ret = input_mt_init_slots(tcm->input, 10, INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-> +	if (ret)
-> +		return ret;
-> +
-> +	input_set_drvdata(tcm->input, tcm);
-> +
-> +	ret = input_register_device(tcm->input);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id syna_driver_ids[] = {
-> +	{
-> +		.compatible = "syna,s3908",
-> +	},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, syna_driver_ids);
-> +
-> +static const struct i2c_device_id syna_i2c_ids[] = {
-> +	{ "synaptics-tcm", 0 },
-> +	{ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, syna_i2c_ids);
-> +
-> +static struct i2c_driver syna_i2c_driver = {
-> +	.probe	= tcm_probe,
-> +	.id_table	= syna_i2c_ids,
-> +	.driver	= {
-> +	.name	= "synaptics-tcm",
-> +	.of_match_table = syna_driver_ids,
-> +	},
-> +};
-> +
-> +module_i2c_driver(syna_i2c_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Frieder Hannenheim <frieder.hannenheim@proton.me>");
-> +MODULE_AUTHOR("Caleb Connolly <caleb@postmarketos.org>");
-> +MODULE_DESCRIPTION("A driver for Synaptics TCM Oncell Touchpanels");
-> +
-> 
-> -- 
-> 2.45.0
-> 
-
--- 
-Dmitry
+Cheers,
+Benjamin
 
