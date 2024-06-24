@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-4587-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4588-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A0B9141DC
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 07:18:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B25C9141E4
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 07:21:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAB0F1C220A3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 05:18:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE090B22A46
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 05:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D82F9175AB;
-	Mon, 24 Jun 2024 05:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D40011713;
+	Mon, 24 Jun 2024 05:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zWPqIY8o"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQsdcnfB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F54EAF6
-	for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 05:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB55811CAF
+	for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 05:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719206325; cv=none; b=eQAiy48Vgj+Qa0NZhs9C/wL/azIwdYHK7OIe8rYpbIyMFe3pbQPTZoCsryoVZkjCqggQJBkfym5vF0xrkyJKjywgGRJuuDOcu1RkSynhdGx6qJOaSU7BTNVbQr2nOsUpTGb3CByFfc8W7iApmXEylRHMSfCxZeU0cQ4sf6yK3uA=
+	t=1719206485; cv=none; b=SOUI9weMw3GXZFIT95uSY58KAYe5xXKh6cB4+Jd+SXC97IQK2Vo4Sj9KYqDcoNPCZfEgXo0Xm6OriCnJYCFKOqZYI5JM22IozDJbWopaOD/wHGa/L4Ggu6ean+C6G7cIOcTqAto4b4IxYV+DG4ZNEQ6Jmk3kZTlT+F9O1nVpHEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719206325; c=relaxed/simple;
-	bh=JrQtr3cmZd5ypuWX2UtYWXpbxSkqdZPXBYDcdnWf7rk=;
+	s=arc-20240116; t=1719206485; c=relaxed/simple;
+	bh=JiRbCTrVtsSCGPNd6tmirF5cOqSpGwp1bx+HJw156uE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LW2dmlK+qoHLO0DD+DIYeDFs8AECLanIxodwfqIu1tNTLUBfgp32Off6T9az+FPl/3j+Y17asB+FBmI7BkGNDIiMm2KlchDV1p65VHN1ikK1XO+/Ud+YB62HpkSTd08F9U1VuWDBnHIJ5/Xrq9Ep+GH+DRJbC8DbmaD3K1H2C04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zWPqIY8o; arc=none smtp.client-ip=209.85.208.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=cHXnk8NG5LLmi5pxvQbO9huezpHOKyKaShx3ihXCDw1LNpp3sw62Z+br1/yUIVji9Xz1QocRfTVTiTO95zE2sU7RaoCISCl+AIlB3oroqNGniqATdS+D58vYbtdwXLHh8Q+TjyOSeQnpb87veyiRWd09Oa1h7L0IIywqgyNWjrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZQsdcnfB; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2eaafda3b5cso41993061fa.3
-        for <linux-input@vger.kernel.org>; Sun, 23 Jun 2024 22:18:43 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ebe3fb5d4dso34082631fa.0
+        for <linux-input@vger.kernel.org>; Sun, 23 Jun 2024 22:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719206322; x=1719811122; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1719206481; x=1719811281; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IuyadEulFu3FDpPhLLNT9X9XFnfp6SMEqQX7h8wDmlY=;
-        b=zWPqIY8oW69n5s7vDaooegAR+r0mAK3JESSpYMdz30wSJ6fjcBcDK0GcBjxx4Fc3B6
-         jKxvi7TxP0CCzIoNtW+P5nf7HfwqNVQ2TprPFUMB59f00eECk6SySprO6FJxlGBsnJ7E
-         08YgqMcLwfAH2g2CdRPb4XW/aF7N5tsCiWuQnOUL5wJX9ii/lzvj4RjtNOaBzF/8XhVF
-         ht18PjbpFlTbZbPOUzYTC1qbyRJoED3OuHgkYamFrmeONNBAOiN9K4ZpgxD4YEqHAJGH
-         dTDCp97mx/T4zAdo79P7IApofd/VueWJDgsfVVbmm769nM4rjuBxk888g1N0JkAA2eOZ
-         0wRg==
+        bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
+        b=ZQsdcnfBwd4N1kAEKfAFOU/fNUOfJ7vQ7b8QbgSdSk951y8D/I7JxuLP+yppvhY9is
+         eM1nSBnfDkhYzIUspiX96aHuc1JzhmXPEe+bQJCvFuHBKGAOFosNMOkSjJr9YiTUDNfg
+         UY5vmLKyw1z+9SrehMhvYsShqUS3eCC2ZHFeMIpc1bxSzrYQCafHwSde/SjVysNpU8Qy
+         F+lEZLLcJ4bi+16hBiHVClaEYwh1ru0JITszAZxbRphKp73+MP9ioRWmusHzLHQ8GrWZ
+         xDO8Y7w69kQ0h/4AODoZ22QcT5FAf2NH0l5IydYOQaEWR15k7HueFk/Kx6boGLLHHCK9
+         YXBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719206322; x=1719811122;
+        d=1e100.net; s=20230601; t=1719206481; x=1719811281;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IuyadEulFu3FDpPhLLNT9X9XFnfp6SMEqQX7h8wDmlY=;
-        b=M/OhscsPesrhmSdLC9c5iOzrQP6QmAlZswfz56P1XXx4T4tLQuS03p/Z8pqdkt0e6D
-         eA/l0v5z5xKL1uFJoK/LkqPxrBY4IJ6vr1oFsBPnwEypwp5iKUYL9L1ZsNKzOjvQJ3U/
-         z0ma3Za2IFjChmKS2OItk9+qLiE6gUDpMioMA13B0eE7eUrW9zfb/cE5L350/6cexZ6E
-         wA1FPEkRsP7RmSqo1vH8JADFZq26Qd7pMHCJnKqFOXP8JFGCUOpoPBUf65Zbj90APfn4
-         yMNvZve3+YLwzOENO9pvd0Br/S73KJMJ88mI7EBRvjnGb6I5k1SkVsx8i2in/5sLQ7up
-         lirg==
-X-Forwarded-Encrypted: i=1; AJvYcCXUChj2RDSFMmz8z/VUQYG5qptxmnPS/W/UVqoK8qKUztuXfVAlHgMdWUBVKxafp4UTrrAIe+2Kgc8IcS3ZN0YNNfxg7IWmGX1hOno=
-X-Gm-Message-State: AOJu0YxsqaMtpSbMNq8wwRW/In9y18Zo8CQQjzvXTcXBirilT5FtoUur
-	1aIfxg558+RHPm2t0cns6k07N+6FrWtSKz3PRv77+F0k8AvZppfMoaI3ijSJxEc=
-X-Google-Smtp-Source: AGHT+IFayfixZjNle/0sDVRFWDTPCafxBUrwkkSut5g+TSdNaooCLZ1a3RRLfxCfWY7qdQrrOhDqyw==
-X-Received: by 2002:a2e:9dd8:0:b0:2ec:4fc3:a8c8 with SMTP id 38308e7fff4ca-2ec59312e0fmr26152271fa.0.1719206322244;
-        Sun, 23 Jun 2024 22:18:42 -0700 (PDT)
+        bh=2MGm9hgBQiIaonwYDgBJ0aXBhWFo2f3cLhGxXka39iM=;
+        b=mJi7u44JzxY2rN3OshKkVGhd3RjhSshuUWBb8d+A3RL4tibz0xFTP6tbCi5nH2xfW3
+         QZjuIHLTlfyTG5O27nKTXc0P0tchojo86Fv4HCL5fvY29BJlNLutrXEdFFZHEmtHJl5V
+         cVi0PkxD2bx1mxt5mhx9vRKpzRrX37MC84o3/4XHquloNmJiLdFh6E1EL0ZP7bqt1ufR
+         l9gqXM5KlMUXi8EmJDJ6sHS1pgMvs2mtcTk1XmB3l272Rgy0SZKzsS1HcE3hrVQtNBry
+         CtC6VV2/Xem/DI1qmWzBemNIzdUyH2EzrTYPqmimNKEvKBeRDaJLFurCkuXKbcsfdJ2k
+         1Erg==
+X-Forwarded-Encrypted: i=1; AJvYcCUak1vigsi4mNz8aJtWhXgW4r8oCIcy+/PIRxZJZHyuetJZtwN9NomIk7LR3x58IfqwpiXTx8Dwk/m5YFyXeaRAYpwZIJOPeo8sx/U=
+X-Gm-Message-State: AOJu0YxX2k06FMfv+STCVpEA3TTP2L3XZf+uMlWfmI/w+CCIolE3J8XJ
+	+STWv/AyuaZVQMUNFAsIBLvDA1a6rtn1GQyt0KtOw+V1CFkQ2A5WTRVbxMYTxck=
+X-Google-Smtp-Source: AGHT+IH+EF6ZVxgix/33CGJs1LcRlM58jSDEP6hH4S/kepamdqtcu83VYx7sjlT8qvi+UsLClCqQ1A==
+X-Received: by 2002:a2e:9f08:0:b0:2ec:3c7e:3b3d with SMTP id 38308e7fff4ca-2ec56be6b08mr10787131fa.26.1719206481012;
+        Sun, 23 Jun 2024 22:21:21 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec5ed4f89bsm3258471fa.32.2024.06.23.22.18.41
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec4d7e7906sm8868841fa.121.2024.06.23.22.21.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 22:18:41 -0700 (PDT)
-Date: Mon, 24 Jun 2024 08:18:40 +0300
+        Sun, 23 Jun 2024 22:21:20 -0700 (PDT)
+Date: Mon, 24 Jun 2024 08:21:19 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Caleb Connolly <caleb@postmarketos.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -78,10 +78,11 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
 	Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
 	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	~postmarketos/upstreaming@lists.sr.ht, Frieder Hannenheim <frieder.hannenheim@proton.me>
-Subject: Re: [PATCH 0/7] qcom: initial support for the OnePlus 8T
-Message-ID: <ufc7sq5s5nymjncp5w2446dq5xcmmqbmsuubhpo2fxtsz5dpgg@xtqtmmsio6sr>
+	~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 4/7] drm: mipi: add mipi_dsi_generic_write_multi_type()
+Message-ID: <jbxk6uo3q2ddwthtc5et6gquiofgywnwh6e5kwpqe7pvglgbfg@k3djx6owef2t>
 References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+ <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -90,33 +91,125 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+In-Reply-To: <20240624-oneplus8-v1-4-388eecf2dff7@postmarketos.org>
 
-On Mon, Jun 24, 2024 at 03:30:24AM GMT, Caleb Connolly wrote:
-> Add bindings for the SM8250 OnePlus devices, a common devicetree,
-> touchscreen and display drivers, and a dts for the OnePlus 8T (kebab).
+On Mon, Jun 24, 2024 at 03:30:28AM GMT, Caleb Connolly wrote:
+> Some panels like the Samsung AMB655X use long write commands for all
+> non-standard messages and do not work when trying to use the appropriate
+> command type.
 > 
-> The OnePlus 8 series is made up of 3 flagship smartphones from 2019,
-> featuring the Qualcomm X55 5G PCIe modem.
+> Support these panels by introducing a new helper to send commands of a
+> specific type, overriding the normal rules.
 > 
-> This series introduces initial support for the 8T, adding drivers for
-> the 1080x2400 120Hz DSC panel and the Synaptics TCM Oncell touchscreen.
+> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_mipi_dsi.h     | 16 ++++++++++++++++
+>  2 files changed, 56 insertions(+)
 > 
-> The panel driver suffers from similar limitations to the LG SW43408
-> panel found on the Pixel 3, namely that after toggling the reset GPIO it
-> is not possible to get the panel into a working state.
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index a471c46f5ca6..d0fee0498d91 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -819,8 +819,48 @@ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+>  	}
+>  }
+>  EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
+>  
+> +/**
+> + * mipi_dsi_generic_write_type() - transmit data using a generic write packet of
 
-Just to point it out: this is no longer true for SW43408. The panel
-wakes up and works after toggling the reset. It seems, there is an issue
-with one of the regulators, but not with the reset and/or panel startup.
+This doesn't match the name of the function.
 
-> Given the apparent prevelance of this issue, particularly with DSC
-> panels, I believe this is a bug in the core DSI code, and not a device
-> or panel specific issue. I think it is still useful to accept these
-> panel drivers into upstream since, from a users perspective, the panel
-> is fully functional just by leaving the reset GPIO alone and keeping the
-> regulator on. The only (theoretical) downside is worse battery life,
-> which is a small price to pay for a working display.
+> + * a specific type
+> + * @dsi: DSI peripheral device
+> + * @type: data type of the packet
+> + * @payload: buffer containing the payload
+> + * @size: size of payload buffer
+> + *
+> + * This function will automatically choose the right data type depending on
+> + * the payload length.
+> + *
+> + * Return: The number of bytes transmitted on success or a negative error code
+> + * on failure.
+> + */
+> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx,
+> +					  u8 type, const void *payload, size_t size)
+
+write_type_multi. Or maybe write_raw_multi.
+
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct mipi_dsi_msg msg = {
+> +		.channel = dsi->channel,
+> +		.tx_buf = payload,
+> +		.tx_len = size,
+> +		.type = type,
+> +	};
+> +	ssize_t ret;
+> +
+> +	if (ctx->accum_err)
+> +		return 0;
+> +
+> +	ret = mipi_dsi_device_transfer(dsi, &msg);
+> +	if (ret < 0) {
+> +		ctx->accum_err = ret;
+> +		dev_err(&dsi->dev, "sending generic data %*ph failed: %zd\n",
+> +			(int)size, payload, ret);
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_generic_write_multi_type);
+> +
+>  /**
+>   * mipi_dsi_generic_read() - receive data using a generic read packet
+>   * @dsi: DSI peripheral device
+>   * @params: buffer containing the request parameters
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 71d121aeef24..a5d949e695d4 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -287,8 +287,10 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+>  int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+>  				  const void *payload, size_t size);
+>  void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+>  				  const void *payload, size_t size);
+> +ssize_t mipi_dsi_generic_write_multi_type(struct mipi_dsi_multi_context *ctx, u8 type,
+> +				    const void *payload, size_t size);
+>  ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+>  			      size_t num_params, void *data, size_t size);
+>  
+>  #define mipi_dsi_msleep(ctx, delay)	\
+> @@ -432,8 +434,22 @@ void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
+>  		static const u8 d[] = { cmd, seq };                     \
+>  		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+>  	} while (0)
+>  
+> +/**
+> + * mipi_dsi_dcs_write_long - transmit a DCS long command with payload
+> + * @dsi: DSI peripheral device
+> + * @cmd: Commands
+> + * @seq: buffer containing data to be transmitted
+> + */
+> +#define mipi_dsi_dcs_write_long(ctx, cmd, seq...)                          \
+
+foo_multi
+
+> +	do {                                                               \
+> +		static const u8 d[] = { cmd, seq };                        \
+> +		mipi_dsi_generic_write_multi_type(ctx,                     \
+> +						  MIPI_DSI_DCS_LONG_WRITE, \
+> +						  d, ARRAY_SIZE(d));       \
+> +	} while (0)
+> +
+>  /**
+>   * struct mipi_dsi_driver - DSI driver
+>   * @driver: device driver model driver
+>   * @probe: callback for device binding
+> 
+> -- 
+> 2.45.0
 > 
 
 -- 
