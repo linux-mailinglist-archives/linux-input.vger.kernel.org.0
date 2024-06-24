@@ -1,108 +1,119 @@
-Return-Path: <linux-input+bounces-4602-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4603-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583A591563B
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 20:11:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBAC915667
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 20:21:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8C281F21859
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 18:11:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65E34285A3B
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 18:21:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C877B19D8B4;
-	Mon, 24 Jun 2024 18:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B74F19F48B;
+	Mon, 24 Jun 2024 18:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q8fWcpKC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHM+4FSQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6307266AB
-	for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 18:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6131A00E1;
+	Mon, 24 Jun 2024 18:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719252672; cv=none; b=aHSQ4yzA3Uf45X2UAJT+IvWCCNRBYqs2p9oWjouGOl5FbQzprfdCNqrZb1yWhFvMWJqg2aW8sfLAn0VLePG0j60zWR5NfGH7+/ZM1+u7gJao+cqa8w4NPvaA3DCsPqSkxEu7ToP5cDtSBpVrPCVWkE8UepTSYXnZe0+/p2np9sE=
+	t=1719253272; cv=none; b=UtFIVzJpeDmxoIxK2W+wccz0S+ipJ29jR7w2iXThhxQ1tMxsI4+wN3d7FcbZ2xTMg2nEK2MiMnhFXGHzATjl11IVEnLvYMNqonxAjvdDFaA+hHA1DRzHswceISljopyt/sZZQ3YAMYaMJ43GDuBYp/bKpkzs32wIvFEPjz15I0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719252672; c=relaxed/simple;
-	bh=9RbQgTCqCFSALgUc/JRqpUmZQvIwc1hyoGU2TywvaWY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VwRXECkvY+HMNQ5lP/N0eoRuC1KpxmWYGlfoYeHAxvUPkwcJvIW8IImiG4QeZHEX7Ise1+AaSkFwKwZgNXzaU5I6RkH96pTrDhzpFZ0vD4AF311fEKXkbLRVDL+WAmpLVvm7w0KzKnRgoQXNBcQjbLDqdYbLMGxL3FofMTcVgJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Q8fWcpKC; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a725282b926so182965066b.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 11:11:09 -0700 (PDT)
+	s=arc-20240116; t=1719253272; c=relaxed/simple;
+	bh=09AADDag4LI27YU4Ve+VnoSz7BYMdXf7ag8W+KFQ150=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PjIKJELM046+QXURVJOtGj97/O5RXFybp5/7uvLKJDKGh3JEWSlCk71nqhYcnpCzQGUnwOsAglHhKC6LfUA+XXA8+HwTQL2U/Go3rDubh0SXyNnTmcyVh2Jk30uwe9itI33DdhPW+oqE9iJjRA2zQ4mMcNANCas9ebAF1K3QiOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHM+4FSQ; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fa0f143b85so15629395ad.3;
+        Mon, 24 Jun 2024 11:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1719252668; x=1719857468; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xeba+taLfwoM/yTWpKlwizK8Xk6HSTOMdLsJyeBt0rM=;
-        b=Q8fWcpKC9BhNOx+sqFUZp3Vfo+VGYSDsQn/5d+6hEADfP9BTgFTmhhJVKXI4sBrxOZ
-         pYMELWd1kTqaM9Y/giewvviF9m7M+gI0H68L7UEK5XEpyTdeEErqCIqCe8Yn4HYzWgFr
-         yycwZ2VkU/5WXYibbZBDcYz2rjzohws4zUjec=
+        d=gmail.com; s=20230601; t=1719253270; x=1719858070; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l3BP13dCu8i2ssz9SfynI8OeHky+ZXnMSTo9auq+UbE=;
+        b=iHM+4FSQpn/2oZcmUMut+AtIYYkuL8ZMjGgg5/rG47dfre8q844mJgCiSxNrxaZTVX
+         MKy0ne4vPrrCVDO78tXl8hiWTkl33bz/zbW5k6Vs/NJDOlROWJ/U729TmzYeB1jPpGKl
+         G3tBQP5LLIrEU3zgLz3kCXHeuEkv+smhHluMr2gqsjds72NzeQp5C2hySv/8bu4JBHCs
+         nGm5WjDKWeefi9SWv8F0GzficQCjcVFl72HuGmmAEWkHuh4q1sXDNt/+CtvCgjdWZYpW
+         EobqZlYkz3gqVLE1rZVlctoIdVNfpA5akbEyEh0XzxG8pvQ5toPXou9TvuqfbO0/msuO
+         ks+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719252668; x=1719857468;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xeba+taLfwoM/yTWpKlwizK8Xk6HSTOMdLsJyeBt0rM=;
-        b=TdMhh5bhWLUDBJ6xu9wFy5Gx/YbFqHj02+GIDDy6vpJYg+EdUKnEoUbEBTSay3K/xw
-         gdbOrUoVSWeGNbsM9JngVON4GMcsnoFDYNy+Z725Poi7unPRqK1X+AO21TcRyoKMtr4i
-         K5L0coqiZIvXWWObfRT4FXEhypjvLYtEJyLIgXFo04bsFW7sjDMXS+sAlgF68FitKgUm
-         JkjFyp87ng1MijI0pLcnlov+RrXjDcF6UamOxLqgoKR1lf8upyzLbBkNMnGi630Y/nmv
-         TCvJqz741jqkOCS3ZqBx2FDEWeUuAPKccrTgw+CnlcDzoUFt4DqryWJMG2XXivmudvbl
-         s6BA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkzDHCpZMO6u5IsWTuQRTGmW44fNVX2EPo5NXgm6rqqG6O4nVbgukXclnG7SdW3YIT/0D11kDOQpAN+zzMFMgcr+Wqne3jjhrtAH0=
-X-Gm-Message-State: AOJu0YySG03n/6wLxYD9o3Z4lLf3fJgfxYEHi+n4+yrX+/F37VPfbXPN
-	o/o2ecPQzZRh2GW49LK6zS4e59R6Edk6Q9nolvVaYcYB/v+Go4HaLFw6UTo+I6RpPpIgbsYbMfz
-	lOzLjHg==
-X-Google-Smtp-Source: AGHT+IGji0s7oTi2HBOfdLSRJD3K1v2FA7O3VQMQ7mpG3TnEUksINJuXV05/7uzswKRhwM5a5Vjj3A==
-X-Received: by 2002:a17:906:3c3:b0:a6f:b08b:86ca with SMTP id a640c23a62f3a-a7245df73b4mr308763666b.75.1719252667906;
-        Mon, 24 Jun 2024 11:11:07 -0700 (PDT)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fe0f2bd06sm326173666b.81.2024.06.24.11.11.06
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 11:11:07 -0700 (PDT)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a725282b926so182960466b.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Jun 2024 11:11:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUxqEJs58+1gJIz7hFGIcGRjbptMXafF5hjcM9nmrXb/bz1z7ygTuCeUFgGtueWklN0DlpyQj8AM6xC0/oTCirArlSEt3paOY+N6RE=
-X-Received: by 2002:a17:906:6d4b:b0:a6f:ab9c:7778 with SMTP id
- a640c23a62f3a-a7245cece82mr312240066b.34.1719252666566; Mon, 24 Jun 2024
- 11:11:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719253270; x=1719858070;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l3BP13dCu8i2ssz9SfynI8OeHky+ZXnMSTo9auq+UbE=;
+        b=cJgjtVc49mbop3Pl6kdv/C0w30Uj053eF2Y6b+IAJYAiudDbILJR98plBRGqp3iDX7
+         2G1GRLHrPGOg+6S6PS3/bSSa1cpY+uSXSDgXCggirajwwGLPTmIMp0qmlt2s65VlyatD
+         yHvNyjmBFiOcU7/1pNxaygY3DXCRVGLQKd6GwjXl0wJXhLqmO3+Wlk8nfplLeMkc0gnB
+         1hT4FFB1LNFOmhHO+YbvKfRCcvshs5H8UuXP6NtGTMGmz1zND+3atffQHs6ITTVohFy8
+         RO6HiJY1OM1S56XC8v7eckirhLM+CXsx2BjXfV/Ck6gNvlnTcBB3DHR+B7Ml8lnxHpoH
+         7jAw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+rongpuNtWr12szD8z0pBFBz9zJnMyLjcCNDlmmoPx5ut4hXUoOU4jgW+hzwJvJJmrt/gatGUHzLHm5rD1NoDD6wQxw5+/Q2Yv2k=
+X-Gm-Message-State: AOJu0YxID4G4Q5Ao6qrgq3iL8hzLi/tgxz+iY3QXG8j5fPBeO2SvL4aZ
+	kR5751146A3bF4LMW/oJDcZyoKrkYF7urJQXlkNeAAOy5TQJty/aNsg0rA==
+X-Google-Smtp-Source: AGHT+IHwXXnwVKne+2KppR0cvgfENs/xvsTr42M5uZ1NUw/1HOEdKjD3W9Tq6oy4i9vEIiymenr9QQ==
+X-Received: by 2002:a17:902:d38d:b0:1f7:1730:b456 with SMTP id d9443c01a7336-1fa23f2699amr54022125ad.57.1719253270019;
+        Mon, 24 Jun 2024 11:21:10 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:eba1:6f76:e2d7:7858])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3208fbsm65818215ad.79.2024.06.24.11.21.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 11:21:09 -0700 (PDT)
+Date: Mon, 24 Jun 2024 11:21:07 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [git pull] Input updates for v6.10-rc5
+Message-ID: <Znm5EzNHCk_g4puh@google.com>
+References: <ZniqQuGkosZYqIYE@google.com>
+ <CAHk-=wj730guvRzh4wo16Cq8tq1D1tyD8ub4CiBxV4Bk0Kq_-g@mail.gmail.com>
+ <ZnmX1XeOzU1NfgrY@google.com>
+ <CAHk-=wh3ZpDhHseFjYf96CcgTSRoZtjbf41hoBCyfQJ=N+oMng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZniqQuGkosZYqIYE@google.com> <CAHk-=wj730guvRzh4wo16Cq8tq1D1tyD8ub4CiBxV4Bk0Kq_-g@mail.gmail.com>
- <ZnmX1XeOzU1NfgrY@google.com>
-In-Reply-To: <ZnmX1XeOzU1NfgrY@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 24 Jun 2024 14:10:49 -0400
-X-Gmail-Original-Message-ID: <CAHk-=wh3ZpDhHseFjYf96CcgTSRoZtjbf41hoBCyfQJ=N+oMng@mail.gmail.com>
-Message-ID: <CAHk-=wh3ZpDhHseFjYf96CcgTSRoZtjbf41hoBCyfQJ=N+oMng@mail.gmail.com>
-Subject: Re: [git pull] Input updates for v6.10-rc5
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh3ZpDhHseFjYf96CcgTSRoZtjbf41hoBCyfQJ=N+oMng@mail.gmail.com>
 
-On Mon, 24 Jun 2024 at 11:59, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->
-> Ugh, I was on a wrong branch ('next' for the next merge window) when I
-> created the tag. I'll fix my script, but in the meantime should I:
->
-> - blow away the bad tag and re-create under the same name as before
->   (input-for-v6.10-rc5) or
->
-> - blow away the bad tag and use new name for the correct one (somthing
->   like input-for-v6.10-rc5-fixed)?
+On Mon, Jun 24, 2024 at 02:10:49PM -0400, Linus Torvalds wrote:
+> On Mon, 24 Jun 2024 at 11:59, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Ugh, I was on a wrong branch ('next' for the next merge window) when I
+> > created the tag. I'll fix my script, but in the meantime should I:
+> >
+> > - blow away the bad tag and re-create under the same name as before
+> >   (input-for-v6.10-rc5) or
+> >
+> > - blow away the bad tag and use new name for the correct one (somthing
+> >   like input-for-v6.10-rc5-fixed)?
+> 
+> Either works. Some people just re-use the same tag name, others will
+> always use new names. I don't personally worry about it, and whatever
+> you feel better about works for me.
 
-Either works. Some people just re-use the same tag name, others will
-always use new names. I don't personally worry about it, and whatever
-you feel better about works for me.
+OK, great. I re-created the tag using the original name but tagging the
+right commit.
 
-               Linus
+Please pull from:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.10-rc5
+
+It should resolve to 7c7b1be19b22 ("Input: ads7846 - use spi_device_id
+table").
+
+Thanks!
+
+-- 
+Dmitry
 
