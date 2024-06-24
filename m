@@ -1,169 +1,156 @@
-Return-Path: <linux-input+bounces-4593-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4594-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDC0914564
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 10:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB27D91471E
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 12:10:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37E481F23D4F
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 08:52:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 357671F210AC
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jun 2024 10:10:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 125AB78C61;
-	Mon, 24 Jun 2024 08:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C75E136643;
+	Mon, 24 Jun 2024 10:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBOI14/o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LepGv7H7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1F96A347;
-	Mon, 24 Jun 2024 08:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0AE3BBF2;
+	Mon, 24 Jun 2024 10:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719219171; cv=none; b=oBr0nPfayxy4KOPGUogkYyGIzatR3RBvJnYY705td/t/V+/soq85nTusZQW4WgbmZUyvvNE6ZulCw8JYe0YzCqwpsMWEfUgLbJS4Dih4km/GQIqi3Pl56DAgzOUnadk8XcfxPS3svKuQZ/pPpNcUM48aJF33m6Go6LnZh+Vppk4=
+	t=1719223828; cv=none; b=AldWKZxRENdvTTXPruAiZrMesAZYK19oBnTnK6jGQwOVnPjxWTy5QqpX4jE/+Qxb2UucefcCVbng8/+OjsFYuePWWb1HKurmCzAq4IOPZygXIIjhA6+lc8nHIzOkgQGWkqXFXbuOfF69sMe9Xsi6f5MDJh1JWynay7H4jwscnmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719219171; c=relaxed/simple;
-	bh=Jz2YPX0sMcFcT9gDrGUv+vNcyE/fgQCLh5AW7ZHQyYE=;
+	s=arc-20240116; t=1719223828; c=relaxed/simple;
+	bh=scVGa1MRN1RkfvP96gtjMP9mba8xgHdiodS6IHhTUHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DCfMz14qFLiWagLAjd37nTFxWzAD0Wqs/mhyA8s+XlYV7JeKzygzf9dYP35hEakd0lXfmfFaz6SMhOnj4YZlq/fPyACNsl+3t1z/fUFUhi45piH8LC4ozsl/9FH3JM6tDs7wNqzwn6sDEMpMaU4XpaGe0yAUxtsu3YE0tFmYd7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBOI14/o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6A0C2BBFC;
-	Mon, 24 Jun 2024 08:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719219170;
-	bh=Jz2YPX0sMcFcT9gDrGUv+vNcyE/fgQCLh5AW7ZHQyYE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YBOI14/oYPx8q48kf6Xxu1uDVeHExkrJB9bxubtil/4hi6VDo/3eSS814m7EqKNuE
-	 sAUGs9lNICAvuXWfcvd6d/qGekEWhRMKG8agxKIfjzXQWtvWNZ1s6/h4OY2L/v8gLu
-	 D/JR4UifvKjfzypXKqSI0zEuKwQpxuZXvZVUCOAOmrFvfWZ2ZdERiQoxBu+ruSxnY5
-	 Ao8bm9G96rz/dEl393pZtwgv20in3w3Z+0yuUOkTfQ4gfWEWgsqM/M6NWXWeHBBLVR
-	 w7Lq+bwWcvK5homVzrnhRt1Vf7IiL7il3wycrQWaSA5ladKWDgoZe0tvBuH+6RmWJ0
-	 386WOj5EUzWhw==
-Date: Mon, 24 Jun 2024 10:52:45 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH HID 06/12] HID: bpf: add HID-BPF hooks for
- hid_hw_output_report
-Message-ID: <zjcva76d6qk5hshkyf7x6jmkahmicboei4tbxxhrrfbemxcu6v@cv2vdhjszdsf>
-References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
- <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org>
- <CAADnVQ+us6cQepSGWbOB4K1bb_0Wh43Cpo4zXJxB2d+SVpYinQ@mail.gmail.com>
- <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
- <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7btT33PxXodgfELpbB9A27RbKLkkST5QkolZmdEhOKjcs/xTQu7Kog+dwM+Vg++MrMYi2bLsELsgEgefouY1xnvFtM7au5/0yfFbKuexADz6ggXIf8217JrRUQisJzPig5koRZ9WeSfq6QIIznxZaVQ5RZFAW/GoQkQG7frTp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LepGv7H7; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f9cd92b146so32190125ad.3;
+        Mon, 24 Jun 2024 03:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719223826; x=1719828626; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EmkWOq+vi8o8UsVtQJBxJjgPpIFiVV6OClCfC0Rntuo=;
+        b=LepGv7H7Qg1s99YK/HYc66KOE6vreIdAvFo9Fdo3xghF/zh0BolREiOTV7588h4WU9
+         lDZcr+qAle66DmlAkWGbCba3z9hckJ9RZ1EhypPI8zOFdcuo5b3KB0bZKFSEt5cL+c6e
+         WBYZTIppjLhyl+R2ICU+MI14i6fpBjT2k0syFjjTGHVtASGw+4ZiPq4VkoQqkNExOhdh
+         d3SiXWBk13KMjBHm6S3YrV9Y8oBpGRwxFGZ3YRnyxlAQeyUw4EM5CW2pIvuoHDvoxB3Y
+         Xu6d/TqPzl2vfHZoqkKFS8Vze95tqzbi65vyrhwUNR6yUCVb8uOpXonckSnZasMqcUpP
+         awFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719223826; x=1719828626;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EmkWOq+vi8o8UsVtQJBxJjgPpIFiVV6OClCfC0Rntuo=;
+        b=w8zuPd9WolwDaAmfoe4v8rZH+ZWetM61hyOZwuHwQJ5Td8d4CDJgzDjx32tpdPNMPa
+         K+Hj1JuaZHgLumAsKoaypZ+yin6lH7pS3jIKJSxCbphirTBgHWnT57m3eIXLZnwe6sdb
+         xC8KtUt408lSET2Qj79GtnVb9SZqqruBbaxC4qBtzwqUlZ+q0TpclKB49dyEi83bgVg5
+         53N8E6R+0NUQ5FBM1qoP2Um0Y3E5Lz/pOf3RNiI/s5j33Qyt3dwT6rcDTz6HDetmwek7
+         yp8B33uDwjySCYzxqw8BIzO2YAk3ThcSfns6OXVTef5nfwMDl5j3OD7Nvzd+fFbXYpKi
+         lkgg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMnV0nEAVLFMEULUMXUOwo22kY6uuxmmPhzl0SlZI7RWuVy/LD/5k7eIE2NfXxj3eDqRij0biaARHj1zw+fhyjrxPijV1SLKjE7KSmMNadH8QemvbmR+qB3IrpcRbHnMOJXOwdy1+BTaTVjgyaQDTrm+yDvM7GeZKRPgRzB5xuHpRVj9JU
+X-Gm-Message-State: AOJu0YydoZo9d0LvN+Gw5PR5Cav0wV3ISzNICVBgqU5nBdLRcMfBGjdz
+	u5Maoip7CW7cdgeHJr6ziXBXEYzzEIOFd36vYdgJ+TEDDDonRLNOoa/yVm6+
+X-Google-Smtp-Source: AGHT+IExyh9XY/uAa+ex+R6L6mnS7JnlV6BzaNmrYWFmyNLbz/1fEXQThjdEUJIyuRW+0lmscIB6Pg==
+X-Received: by 2002:a17:902:ce82:b0:1fa:1ebb:eb79 with SMTP id d9443c01a7336-1fa1ebbeee9mr64889935ad.58.1719223826247;
+        Mon, 24 Jun 2024 03:10:26 -0700 (PDT)
+Received: from ux-UP-WHL01 (mailgw01.goodix.com. [45.117.96.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3c5ec7sm59033725ad.141.2024.06.24.03.10.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 03:10:25 -0700 (PDT)
+Date: Mon, 24 Jun 2024 18:10:20 +0800
+From: Charles Wang <charles.goodix@gmail.com>
+To: dmitry.torokhov@gmail.com, dan.carpenter@linaro.org, conor@kernel.org,
+	robh@kernel.org
+Cc: dianders@chromium.org, krzk+dt@kernel.org, jikos@kernel.org,
+	bentiss@kernel.org, hbarnor@chromium.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] HID: add initial support for Goodix HID-over-SPI
+ touchscreen
+Message-ID: <ZnlGDCcNch475wWA@ux-UP-WHL01>
+References: <20240618084455.1451461-1-charles.goodix@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
+In-Reply-To: <20240618084455.1451461-1-charles.goodix@gmail.com>
 
-On Jun 21 2024, Alexei Starovoitov wrote:
-> On Fri, Jun 21, 2024 at 9:08 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
-> >
-> > On Jun 21 2024, Alexei Starovoitov wrote:
-> > > On Fri, Jun 21, 2024 at 1:56 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
-> > > >
-> > > > Same story than hid_hw_raw_requests:
-> > > >
-> > > > This allows to intercept and prevent or change the behavior of
-> > > > hid_hw_output_report() from a bpf program.
-> > > >
-> > > > The intent is to solve a couple of use case:
-> > > >   - firewalling a HID device: a firewall can monitor who opens the hidraw
-> > > >     nodes and then prevent or allow access to write operations on that
-> > > >     hidraw node.
-> > > >   - change the behavior of a device and emulate a new HID feature request
-> > > >
-> > > > The hook is allowed to be run as sleepable so it can itself call
-> > > > hid_hw_output_report(), which allows to "convert" one feature request into
-> > > > another or even call the feature request on a different HID device on the
-> > > > same physical device.
-> > > >
-> > > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > > >
-> > > > ---
-> > > >
-> > > > Here checkpatch complains about:
-> > > > WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU code
-> > > >
-> > > > However, we are jumping in BPF code, so I think this is correct, but I'd
-> > > > like to have the opinion on the BPF folks.
-> > > > ---
-> > > >  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++++++++----
-> > > >  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
-> > > >  drivers/hid/hid-core.c               | 10 ++++++++--
-> > > >  drivers/hid/hidraw.c                 |  2 +-
-> > > >  include/linux/hid.h                  |  3 ++-
-> > > >  include/linux/hid_bpf.h              | 24 ++++++++++++++++++++++-
-> > > >  6 files changed, 68 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > > index 8d6e08b7c42f..2a29a0625a3b 100644
-> > > > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > > @@ -111,6 +111,38 @@ int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
-> > > >
-> > > > +int dispatch_hid_bpf_output_report(struct hid_device *hdev,
-> > > > +                                  __u8 *buf, u32 size, __u64 source,
-> > > > +                                  bool from_bpf)
-> > > > +{
-> > > > +       struct hid_bpf_ctx_kern ctx_kern = {
-> > > > +               .ctx = {
-> > > > +                       .hid = hdev,
-> > > > +                       .allocated_size = size,
-> > > > +                       .size = size,
-> > > > +               },
-> > > > +               .data = buf,
-> > > > +               .from_bpf = from_bpf,
-> > > > +       };
-> > > > +       struct hid_bpf_ops *e;
-> > > > +       int ret;
-> > > > +
-> > > > +       rcu_read_lock_trace();
-> > > > +       list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-> > > > +               if (e->hid_hw_output_report) {
-> > > > +                       ret = e->hid_hw_output_report(&ctx_kern.ctx, source);
-> > > > +                       if (ret)
-> > > > +                               goto out;
-> > > > +               }
-> > > > +       }
-> > > > +       ret = 0;
-> > > > +
-> > > > +out:
-> > > > +       rcu_read_unlock_trace();
-> > >
-> > > same question.
-> >
-> > re What is this for?:
-> >
-> > e->hid_hw_output_report might sleep, so using a plain rcu_read_lock()
-> > introduces warnings.
+Gentle ping...
+
+On Tue, Jun 18, 2024 at 04:44:52PM +0800, Charles Wang wrote:
+> This patch introduces a new driver to support the Goodix GT7986U
+> touch controller. This device is not compatible with Microsoft's
+> HID-over-SPI protocol and therefore needs to implement its own
+> flavor. The data reported is packaged according to the HID
+> protocol but uses SPI for communication to improve speed. This
+> enables the device to transmit not only coordinate data but also
+> corresponding raw data that can be accessed by user-space programs
+> through the hidraw interface. The raw data can be utilized for
+> functions like palm rejection, thereby improving the touch experience.
 > 
-> Ok, but just replacing rcu_read_lock() with rcu_read_lock_trace()
-> doesn't fix it.
-> rcu and rcu_tasks_trace are different.
-> If you're using call_rcu to wait for GP to free an element in that
-> list the thing will go wrong.
+> Key features:
+> - Device connection confirmation and initialization
+> - IRQ-based event reporting to the input subsystem
+> - Support for HIDRAW operations (GET_REPORT and SET_REPORT)
 > 
-> If you really need rcu life times here use srcu. It's a much better fit.
-> There will be srcu_read_lock() here, paired with call_srcu().
+> Signed-off-by: Charles Wang <charles.goodix@gmail.com>
+> ---
+> Changes in v5:
+> - Add additional descriptive information to the dt-binding file.
+> - Fixed build warnings reported by kernel test robot.
+> 
+> Changes in v4:
+> - Allocate memory based on the report information.
+> - Added a new function goodix_get_event_report() to retrieve report data,
+>   reducing memory copy operations and avoiding the use of reg_rw_lock.
+> - Add low power control operations.
+> - Implemented power management operations.
+> - Introduced GOODIX_HID_STARTED to record the current device operating state.
+> - Add OF match table.
+> 
+> Changes in v3:
+> - Renamed the driver file to hid-goodix-spi.c.
+> - Mentioned in the commit message that this implementation is not compatible with
+>   Microsoft's HID-over-SPI protocol.
+> - Modified the driver to fetch the GOODIX_HID_REPORT_ADDR from device properties.
+> - Add a lock to prevent concurrent hid feature request operations.
+> - Optimized the SPI read/write functions by reducing the number of malloc calls.
+> 
+> Changes in v2:
+> - Fixed build warnings reported by kernel test robot
+> 
+> ---
+> Charles Wang (2):
+>   HID: hid-goodix: Add Goodix HID-over-SPI driver
+>   dt-bindings: input: Goodix SPI HID Touchscreen
+> 
+>  .../bindings/input/goodix,gt7986u.yaml        |  72 ++
+>  drivers/hid/Kconfig                           |   6 +
+>  drivers/hid/Makefile                          |   1 +
+>  drivers/hid/hid-goodix-spi.c                  | 811 ++++++++++++++++++
+>  4 files changed, 890 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7986u.yaml
+>  create mode 100644 drivers/hid/hid-goodix-spi.c
+> 
+> -- 
+> 2.43.0
+> 
 
-OK, thanks for the explanation.
+Thanks
+Charles
 
-I'll work on this for v2
 
-Cheers,
-Benjamin
 
