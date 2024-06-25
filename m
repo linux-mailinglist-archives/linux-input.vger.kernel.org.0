@@ -1,50 +1,50 @@
-Return-Path: <linux-input+bounces-4612-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4613-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924D9916AAE
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 16:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5213916AB4
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 16:40:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4867728A6E2
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 14:40:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C23B28A975
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 14:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774BD16D31F;
-	Tue, 25 Jun 2024 14:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D350216D9D7;
+	Tue, 25 Jun 2024 14:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jlTP5wnZ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G6IBLXCX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C8314900E;
-	Tue, 25 Jun 2024 14:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C96416C686;
+	Tue, 25 Jun 2024 14:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719326397; cv=none; b=YGVhePG4wGR37GuMxNkvPvEPBcaB/hBKD6f83b10k+rU2BSk8SJFvZ9CoQ4wvLCXVL9Ev6QRFnUKQCNfgNb0cy7bK1dnDqZt/jrcBf/EzY982pYsH2D0FDasl4fR/9UVa0JeAlK27MwWuU7Hy0myTkDY1TbpwHHWmyAMpOcL8T0=
+	t=1719326398; cv=none; b=WNHHbobF179jzfRLbTcVX3hQ6jWuo1jAIOBeOebhGb5mNypmYc+O/QD7AQ2KbBiyw+C4xenz9UFO/osJt16zwBuJ+Lj4CFE5DsaM2eEFUIpYoGNHiSF+dOkn7YnZZh80eU0zj1uqlrCDYIRCCBAtW8p45nBiY/pM7vbaQ5T/a3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719326397; c=relaxed/simple;
-	bh=1HXdA6M6KAUeAAzN+YBpdYa42kM0BsZHdz1BSdufsmk=;
+	s=arc-20240116; t=1719326398; c=relaxed/simple;
+	bh=S+xz9RqsX533kIjYTtATwxQ1Epdiv3D3KI8KDQXvyXI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jPO/uFoGDz0dfwID0tEs2lj3Gw9IJN3Zyf+EU7jXEInKsnrbqSntkcHlS0i/citvjQDApPObBySOX7KghtIv4vF+soI5G6JK80NU+WFYkZ2bmwSAYRNwRaVShHtM5BxZPN39+TXA8Rselff0p+zNlncVyyYZ9CpY7v9T8A7yhV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jlTP5wnZ; arc=none smtp.client-ip=217.70.183.199
+	 MIME-Version; b=UKMvqhiKMTZEvqqYBIL0msk/rB9VF6sSjw7kZQiMYuJAgdGdL8z05k8M8tQ+oPrbL8iG4AOCshB8YKn8TVJ8xPszE4i7vIME736qSUWpX3iSo/SSS5owxc26ua9/NHn6RogWNn0x9ydBX3mrIqEyNacBrWxfT7MLqVP4l1H/lX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G6IBLXCX; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 95367FF80D;
-	Tue, 25 Jun 2024 14:39:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D4B10E0007;
+	Tue, 25 Jun 2024 14:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719326393;
+	t=1719326394;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pM2hUFcFpuiz5NRTmI0ZT1jIADywFVObzv76mhdSL3Y=;
-	b=jlTP5wnZ/+Au0tt2YDl+/iQ8aSWVWaw80lxI6MYbRMGHhc5HYjr37nUTtQQywajUANE2kU
-	g2TEVwx36oVwSdjNppimgFaMV39Nn1YqW3wbUbC9rbfANu2nrIOSPkPzgFpxSdER0mzzay
-	DwabXtncYuCeZKMCYcl2jXPpTmx6uee+rtnWRhlrjqn/wRNEg1/sxVNauFghxEUmgIfzWu
-	7EBVGsMVqNqQ6vX36GYKp5kz8ZdwEUpZkRa0i8Ioo1kBSj9AJB6UyxNpiRjT5EyPFCTI87
-	Um2EC6igL1GaAdEvkP+NAigEmv4aiTDade2pcU/m5hzQ7xRMW7EEdB7ilQln8A==
+	bh=3UV1WNGu3sKJOjsgG0vZ+ZhZ4wrNoOE4iT5vKldVJD8=;
+	b=G6IBLXCXakuXNjU+/ipomSb2vhtGaQtsyi41wxJDXjetRk6yAzzGys4rYw57FF/kx2kk0r
+	C3tuUcp9xWg1cfNKJI44qIrcDYFD84viL+ghnqV12yV/9SLeJUWa+ftnge++aBR89YE0/8
+	ptBgI2e1GTYhCuMcy52CcHpVz+FbsJS2hxAI9KQ4FXPPjPau5Hw8m4ZScFO8H75z73jQV9
+	3GEvG1kYK1iw1m2ntXOnm7nKFTAfHe6V6bs5W+lvSB44FpwVd2JzQ+YDmtP7fzIW2w9bvq
+	uJMzeF+6KA96DT334OHR8XwNqZobMLu3jdzaFvGi2WwmLu+gqSmQ8M8MXR/lnQ==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -63,9 +63,9 @@ Cc: catalin.popescu@leica-geosystems.com,
 	bsp-development.geo@leica-geosystems.com,
 	Kamel Bouhara <kamel.bouhara@bootlin.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v14 1/3] dt-bindings: vendor-prefixes: Add TouchNetix AS
-Date: Tue, 25 Jun 2024 16:39:46 +0200
-Message-ID: <20240625143948.54452-2-kamel.bouhara@bootlin.com>
+Subject: [PATCH v14 2/3] dt-bindings: input: Add TouchNetix axiom touchscreen
+Date: Tue, 25 Jun 2024 16:39:47 +0200
+Message-ID: <20240625143948.54452-3-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240625143948.54452-1-kamel.bouhara@bootlin.com>
 References: <20240625143948.54452-1-kamel.bouhara@bootlin.com>
@@ -78,27 +78,102 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: kamel.bouhara@bootlin.com
 
-Add vendor prefix for TouchNetix AS (https://www.touchnetix.com/products/).
+Add the TouchNetix axiom I2C touchscreen device tree bindings
+documentation.
 
 Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../input/touchscreen/touchnetix,ax54a.yaml   | 62 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index fbf47f0bacf1..f102b3abf3fc 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1489,6 +1489,8 @@ patternProperties:
-     description: Toradex AG
-   "^toshiba,.*":
-     description: Toshiba Corporation
-+  "^touchnetix,.*":
-+    description: TouchNetix AS
-   "^toumaz,.*":
-     description: Toumaz
-   "^tpk,.*":
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
+new file mode 100644
+index 000000000000..66229a4d6f15
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/touchnetix,ax54a.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TouchNetix Axiom series touchscreen controller
++
++maintainers:
++  - Kamel Bouhara <kamel.bouhara@bootlin.com>
++
++allOf:
++  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
++  - $ref: /schemas/input/input.yaml#
++
++properties:
++  compatible:
++    const: touchnetix,ax54a
++
++  reg:
++    const: 0x66
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vdda-supply:
++    description: Analog power supply regulator on VDDA pin
++
++  vddi-supply:
++    description: I/O power supply regulator on VDDI pin
++
++required:
++  - compatible
++  - reg
++  - vdda-supply
++  - vddi-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      touchscreen@66 {
++        compatible = "touchnetix,ax54a";
++        reg = <0x66>;
++        interrupt-parent = <&gpio2>;
++        interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
++        reset-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
++        vdda-supply = <&vdda_reg>;
++        vddi-supply = <&vddi_reg>;
++        poll-interval = <20>;
++      };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2ca8f35dfe03..6e418ee4c166 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22739,6 +22739,12 @@ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+ F:	drivers/platform/x86/toshiba-wmi.c
+ 
++TOUCHNETIX AXIOM I2C TOUCHSCREEN DRIVER
++M:	Kamel Bouhara <kamel.bouhara@bootlin.com>
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
++
+ TPM DEVICE DRIVER
+ M:	Peter Huewe <peterhuewe@gmx.de>
+ M:	Jarkko Sakkinen <jarkko@kernel.org>
 -- 
 2.25.1
 
