@@ -1,112 +1,115 @@
-Return-Path: <linux-input+bounces-4619-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4620-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE362916DD4
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 18:14:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714BF916EF2
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 19:15:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BFB1B22E79
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 16:14:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E0F21F22737
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 17:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1491216D323;
-	Tue, 25 Jun 2024 16:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75ACA17624F;
+	Tue, 25 Jun 2024 17:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qw/aowst"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYCqYqdn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812711BC23;
-	Tue, 25 Jun 2024 16:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97E41779BA;
+	Tue, 25 Jun 2024 17:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719332075; cv=none; b=aG0QYIi00HAIQ+7lD96FNwE1BldF+Ad8voYnYim3vf8ciqlD1gDXHZqoDH30kiK2x3jigj9m+D8ctMk0N3Scs4nhYhQ4oI2DBaxdZaBbkjUuO2BVJ2/kE/fROzhGARb3UkMmXdYm7FMq1iZq40x6ne9op3CtoSdbFA9VFt94U2Q=
+	t=1719335714; cv=none; b=gqrUdB0PkP/y7iDqrJ7tvfxaaj9CcsTFai7mxBZVbTvv6UTqdmoSLGRbO0xKyAoFyXVv0R48zbD9h94cuBd/E0YYmMfEGDCZHl/QRUEnTuLg2BlplZ2iANAS7XD6dzmx3yiDrokq/yXAibPS6lgfq7ABJYwHvfKsO/Kam5eOfC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719332075; c=relaxed/simple;
-	bh=0cepQ8DTy2dd7hDBl1FBxJREPoxG0e83dtyZ38Xz36I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8ArW2GsjBpVQWWL+fYaV0yfm7sHrOxbzqsOR6FEcAyFWoupYJD0JiFR9LBeJFq5FHmjzOl5Za55/jlvx0QHTu3BcTItN52TySrPIQMSK7x37hN0FHjY2KI61om+vmaVF36RzZvITVbOhl0dqlZWQLbXXPpDVAdlNuhhTAYppew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qw/aowst; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1719335714; c=relaxed/simple;
+	bh=jjtcuEA9sKtqwrfShdvUlPqsNArkCuWKWDP61e+bF2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CBzrTHCptDEdypX6Taq7H8CButKC5rXhxAqP8OGbUllE8FeGKIRVw/OVnXirhgz0kEoH5JKp4EFUhKmDz9c5zLUlkUCFv06kGmWJ3KIi+CPiJ3hjK3L5ZxAsZG8k3lxkioAIPBEVSZRvl8aCB9s/x77j1ikA6yhdFEfpMASpRqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYCqYqdn; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2c81fe42e53so3319871a91.3;
-        Tue, 25 Jun 2024 09:14:33 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3645e9839b3so4431627f8f.3;
+        Tue, 25 Jun 2024 10:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719332073; x=1719936873; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=r7lvyqQ/bh+Zu96Z19nUVf4NW7qOys3muVGUV5WCLYg=;
-        b=Qw/aowstLlytzT7lI0ixP3URo749A4E4C0Nz/Cn0Hz6MdKrXEzjIk4rMN8V1MktGlV
-         utuxnerjs70YaqSEg35zfMpeKQ2s1mZFBLN7sy9P+qKZ2Y/4cmElVMk85iDzIjvV9RXW
-         TEG6Uskocl2HEUj90WsoHI+tyY5YFj2GRi+/8V2/8Qn+5NS1wqiiOd7zkL4YSF2JSCsS
-         d4/YIERTBaJClnf+X2Qb2NF86Bn9wuwMjW83IcJ2Oy+bO02XQCXjBolxDSrfmtvtiuJ/
-         syIQ7KJ04Fg9NeGODHh70LBnlhumkNMl1eyF6WJ6ADMLRkhApzVRbn5BRHwXi7iBtkiu
-         /uzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719332073; x=1719936873;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1719335711; x=1719940511; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r7lvyqQ/bh+Zu96Z19nUVf4NW7qOys3muVGUV5WCLYg=;
-        b=qEdVGXOhIPj2SD7JclgyDKvbVmmwVqeyp90Mal/GGBgimUT3Z/6GZOFqzDZvZXMhbw
-         f3Sa4x7ITwozASa3PE/qdYkGYyT7VJrtlGUvztbzgrR5qaTb85mxKaX5cfHSFo8zeZku
-         m2gmDJ8snz9aiLnNDgIBwp4keUOvJ+2jLoTY7xRBSevpqjlItSRqel2/zU9xyyU63sY7
-         izPoieNy3jcjqR7pn/5Md6bvkz73RyFLPT6psdjrDM67qgSENLiF2/I/Pc/h2oYKNagl
-         cCxqZNEi6+jjIeuNXrSG75h9k3xWq1NSRLt3OM5mwtfzEdphvs2DU54chkMxcDpSlU/+
-         R+cg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+ZiZsPXRQSsg2BN6ZcHMquostXZuELOevpT4M9CGk3E16Si2i0e2cJYK57v7d9mmyb411qAk9/s463DB3xvzy45FNO2vIo9slPuBzAiqzrs4FBwmZ+LX2R+Im5PdVydNjC69/BCv7Kkc=
-X-Gm-Message-State: AOJu0YzeCfc4n1CXsWG78z7kGCWOAFRFc4ULYLZEJ7/860qeIoK7SSzS
-	CZnQvyDapB0NZZIo3QuXZol7kPiE1oGY56rnkD2od/Q3wmRoJWSW
-X-Google-Smtp-Source: AGHT+IGOj7PYUzqYXS7lK06vRPtKJ6R8Xd9yzfHf170bY0pHwHK6TYk2DBv7+efjA2IM3JLNItk1Eg==
-X-Received: by 2002:a17:90b:4c41:b0:2c3:213b:d0b1 with SMTP id 98e67ed59e1d1-2c86127e2a8mr6883282a91.5.1719332072587;
-        Tue, 25 Jun 2024 09:14:32 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:ff4:b46e:2948:c244])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c819dbcd88sm8951847a91.37.2024.06.25.09.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 09:14:32 -0700 (PDT)
-Date: Tue, 25 Jun 2024 09:14:29 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andrei Lalaev <andrey.lalaev@gmail.com>
-Cc: robh@kernel.org, m.felsch@pengutronix.de, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrei Lalaev <andrei.lalaev@anton-paar.com>
-Subject: Re: [PATCH] Input: qt1050 - handle CHIP_ID reading error
-Message-ID: <Znrs5QVAuSjH5sCT@google.com>
-References: <20240617183018.916234-1-andrey.lalaev@gmail.com>
+        bh=jjtcuEA9sKtqwrfShdvUlPqsNArkCuWKWDP61e+bF2w=;
+        b=GYCqYqdntBMnluW6qiqNvbQTF4M3Wf/7jQUcNvFQh0/c7MnymLqfB30MaVFF4J5LP7
+         0xPoA7PCN/11FaTSUsZRvxEp217dBwCCRW/Rxz+CxuSquk03z6OZcU9Xy7C9YoYwqd4j
+         U+fTKsgx4ounyvkyMqhUPEA4aIbVF1g/9seCMCC5zmX/3kfKSLYDpWmj1sc7RdxmkZ4W
+         VLTRg7cY8zppH7Jdna3N/KkoyYSU4MG18kGOgg8+xMBRpz9kekvfhgGe5KLpu39/gdgC
+         Y21f0cmoIZfNl+8XjhBV7RB2YuYfh0FLAdnEhsqFdNNJn7DePQNk5W4A90tYr0spsIsn
+         p0kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719335711; x=1719940511;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jjtcuEA9sKtqwrfShdvUlPqsNArkCuWKWDP61e+bF2w=;
+        b=cRiw76e7KbwZIAyNjraNoRFp0L7dVhonnHu4fK+DSfUeqHr5Yf+XU3dNzhoqIwv3ob
+         vV+2IvVAfYbY9epwKKuFziIxHtmeA7XzocqvtJNqaMtVU5V9Fq6RO0+tBoB2Wv5BGAf9
+         D2sbxDEijIvBxGZ2s391DfAQWAKokWGH00vPZBMrMxr/Od8O8sbiSb1mtXRCg7DNTzO1
+         FJhmZ9FEg3G3+7Ny3e71gH4st1dUX9ApQEFsTVPGpITckCkxn1EkfXBqQ3lyuamTIKjV
+         yIXgW56NUi0fsun1OL3GnkoHa+rzViXRIcpm2unKyDkPQNt+LQ1hz9yhpmVHxxWl5gan
+         9cUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaH4SQgKPIXtQXeG8S3AqNEjSqV5khV6tmi4DxVl3h1pfKwnT7fiU6iC4eSs3fJYkoFFp+ZIBZgCST4bSOVftpiOf1txuEVzimphvqmNnftfN3lSuBkKUAyGOdc6uBBeHG464ocJykbmvDORfi5k0HJX8J6PFak/z+gLK/PxgOq7NBtgtKcODJvBEpwl7QJMEkJ9p6KbH6xRjrel7H2kcWp91sj7yI42HHy+IcNnA0P57s
+X-Gm-Message-State: AOJu0YxI2Cj3arAukmN9e07VJ8JBHL60dxa14GbHE/rp9SapJ40UVcPJ
+	MpkwM9I5fb2BB2pF9wieVkZ9THOlE2mDGyDK/J109WAhGFgAJfMhLwDKWzNZpZYPCA0aIHuy+WS
+	LGuXKJI43izBwNpK3y9jvxMEY66U=
+X-Google-Smtp-Source: AGHT+IGqtcwJLjr+3MHilvLPVtfKoipe5kx4LBLA5mXRe+9hOE9htiLokRjYzn24SuFzozxc4yBuhK03IeWG4UE0GVg=
+X-Received: by 2002:a5d:598a:0:b0:366:ed80:d056 with SMTP id
+ ffacd0b85a97d-366eef90065mr5423589f8f.14.1719335710842; Tue, 25 Jun 2024
+ 10:15:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617183018.916234-1-andrey.lalaev@gmail.com>
+References: <ZnB9X1Jj6c04ufC0@sirena.org.uk> <CAFVMQ6R8ZZE+9jWM1vhEuz2PsLyCgKhpaVD377TKEu4AfGO_iA@mail.gmail.com>
+ <ud5j6hbozgg6em43volidpffykdtd2lpf32etmdiyksorl2cb4@whtseaibw2xw>
+In-Reply-To: <ud5j6hbozgg6em43volidpffykdtd2lpf32etmdiyksorl2cb4@whtseaibw2xw>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 25 Jun 2024 10:14:59 -0700
+Message-ID: <CAADnVQ+cJ5bga7tX9BSTC150CgXM8KQT+Z21zYE-VY-8fts6kg@mail.gmail.com>
+Subject: Re: linux-next: build failure after merge of the bpf-next tree
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Thinker Li <thinker.li@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
+	Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	Networking <netdev@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Martin KaFai Lau <martin.lau@kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2024 at 08:30:18PM +0200, Andrei Lalaev wrote:
-> From: Andrei Lalaev <andrei.lalaev@anton-paar.com>
-> 
-> If the device is missing, we get the following error:
-> 
->   qt1050 3-0041: ID -1340767592 not supported
-> 
-> Let's handle this situation and print more informative error
-> when reading of CHIP_ID fails:
-> 
->   qt1050 3-0041: Failed to read chip ID: -6
-> 
-> Fixes: cbebf5addec1 ("Input: qt1050 - add Microchip AT42QT1050 support")
-> Signed-off-by: Andrei Lalaev <andrei.lalaev@anton-paar.com>
+On Tue, Jun 25, 2024 at 8:54=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> On Jun 24 2024, Thinker Li wrote:
+> > Hi Mark,
+> >
+> > I'm sorry for not getting back to you sooner. I have been traveling
+> > since my last message.
+> > I guess this patch is for the HID tree. The changes in this patch are g=
+reat.
+>
+> Ok, thanks for the review. However, the need appears because there is a
+> conflicting update in the bpf tree.
+>
+> May I ask the bpf maintainers (Daniel/Alexei/Andrii) for an immutable
+> tag I could merge to so I can take this patch from Mark?
 
-Applied, thank you.
-
-But how did we get into the situation with the chip being missing?
-Incorrect DTB for the board?
-
-Thanks.
-
--- 
-Dmitry
+I'm not sure how that would look like.
+imo conflict is minor enough.
+When net-next/bpf-next lands in the upcoming merge window
+just provide Mark's patch as a conflict resolution suggestion
+in the cover letter of hid PR ?
 
