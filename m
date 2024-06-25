@@ -1,108 +1,112 @@
-Return-Path: <linux-input+bounces-4618-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4619-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C64D916DAD
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 18:03:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE362916DD4
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 18:14:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41BB31C22280
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 16:03:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BFB1B22E79
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 16:14:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD72916FF59;
-	Tue, 25 Jun 2024 16:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1491216D323;
+	Tue, 25 Jun 2024 16:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hFkQ6LF5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qw/aowst"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879B21607A4;
-	Tue, 25 Jun 2024 16:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812711BC23;
+	Tue, 25 Jun 2024 16:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719331432; cv=none; b=jQd7lbjsnHZ1xj+ocLCeivz/TrJcP3tTMRaGxYZizWEr6X4MdHEVPF9hnBT6Y72Y4l85WrII2fU1Bl5qfknhP8LAY1yU8ZHoLXgOBmmMJfxdcraaPLZVuj0zIthn6GST1cZhfc5q+PqBxBVHsEYn331SlMXkj2iCxwUf7kFiTCM=
+	t=1719332075; cv=none; b=aG0QYIi00HAIQ+7lD96FNwE1BldF+Ad8voYnYim3vf8ciqlD1gDXHZqoDH30kiK2x3jigj9m+D8ctMk0N3Scs4nhYhQ4oI2DBaxdZaBbkjUuO2BVJ2/kE/fROzhGARb3UkMmXdYm7FMq1iZq40x6ne9op3CtoSdbFA9VFt94U2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719331432; c=relaxed/simple;
-	bh=Y8zvoHUAQ6E9tju5DAZj3duYamVhaNp9orEJwp6fjSg=;
+	s=arc-20240116; t=1719332075; c=relaxed/simple;
+	bh=0cepQ8DTy2dd7hDBl1FBxJREPoxG0e83dtyZ38Xz36I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FuRMx/C+9RBkcVjrqWe73zUYaG6xWpXo66O/DzseE1sP5ZQ+IpzOW3a8GI5b6+O0aEoRBKuynrnCxdxr4hgzMpoCggjdi/D8/0V2lYUIUPArzVbOBJzF0F4ESXYc/bc5FCwG0abGPmdXMpVbDv16w0uWjW+6wApiBwtc5uPhPfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hFkQ6LF5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92C8AC32781;
-	Tue, 25 Jun 2024 16:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719331432;
-	bh=Y8zvoHUAQ6E9tju5DAZj3duYamVhaNp9orEJwp6fjSg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hFkQ6LF56fezBbXVsx6mY+PbtHpcuJypoJdE4yZI4kCqvQ4ZkOkmrhzNnbK386YcL
-	 Wo/AP184WAE6JUtJ1hMOKKYPd3/Jfx+vDVHoh2KprzBJHXCGTrVc3jkTM5tA3+Uqei
-	 h0p+nBYOt1BzjP2blvXAlaLZExNV4/jJ7WAebLeKR6ZmVNzQ7JO0tuXBpS5LYTvEhw
-	 AWW3xH+La49wTVUk6PatO2UhbSiLbYnoJMbmabF/6rTLkMN3wyJPzHfX7laVz2KUty
-	 wlPRoAmex6f04cjFA68TYrFAMXpMKK82HAD+5898PONWaeiAt+JBPcp1kGPJghzdQR
-	 b5N0/mpy9ULzQ==
-Date: Tue, 25 Jun 2024 17:03:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Thinker Li <thinker.li@gmail.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
-	Networking <netdev@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	linux-input@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the bpf-next tree
-Message-ID: <72caa9df-5806-4729-ae54-b185e557e707@sirena.org.uk>
-References: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
- <CAFVMQ6R8ZZE+9jWM1vhEuz2PsLyCgKhpaVD377TKEu4AfGO_iA@mail.gmail.com>
- <ud5j6hbozgg6em43volidpffykdtd2lpf32etmdiyksorl2cb4@whtseaibw2xw>
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8ArW2GsjBpVQWWL+fYaV0yfm7sHrOxbzqsOR6FEcAyFWoupYJD0JiFR9LBeJFq5FHmjzOl5Za55/jlvx0QHTu3BcTItN52TySrPIQMSK7x37hN0FHjY2KI61om+vmaVF36RzZvITVbOhl0dqlZWQLbXXPpDVAdlNuhhTAYppew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qw/aowst; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2c81fe42e53so3319871a91.3;
+        Tue, 25 Jun 2024 09:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719332073; x=1719936873; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r7lvyqQ/bh+Zu96Z19nUVf4NW7qOys3muVGUV5WCLYg=;
+        b=Qw/aowstLlytzT7lI0ixP3URo749A4E4C0Nz/Cn0Hz6MdKrXEzjIk4rMN8V1MktGlV
+         utuxnerjs70YaqSEg35zfMpeKQ2s1mZFBLN7sy9P+qKZ2Y/4cmElVMk85iDzIjvV9RXW
+         TEG6Uskocl2HEUj90WsoHI+tyY5YFj2GRi+/8V2/8Qn+5NS1wqiiOd7zkL4YSF2JSCsS
+         d4/YIERTBaJClnf+X2Qb2NF86Bn9wuwMjW83IcJ2Oy+bO02XQCXjBolxDSrfmtvtiuJ/
+         syIQ7KJ04Fg9NeGODHh70LBnlhumkNMl1eyF6WJ6ADMLRkhApzVRbn5BRHwXi7iBtkiu
+         /uzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719332073; x=1719936873;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r7lvyqQ/bh+Zu96Z19nUVf4NW7qOys3muVGUV5WCLYg=;
+        b=qEdVGXOhIPj2SD7JclgyDKvbVmmwVqeyp90Mal/GGBgimUT3Z/6GZOFqzDZvZXMhbw
+         f3Sa4x7ITwozASa3PE/qdYkGYyT7VJrtlGUvztbzgrR5qaTb85mxKaX5cfHSFo8zeZku
+         m2gmDJ8snz9aiLnNDgIBwp4keUOvJ+2jLoTY7xRBSevpqjlItSRqel2/zU9xyyU63sY7
+         izPoieNy3jcjqR7pn/5Md6bvkz73RyFLPT6psdjrDM67qgSENLiF2/I/Pc/h2oYKNagl
+         cCxqZNEi6+jjIeuNXrSG75h9k3xWq1NSRLt3OM5mwtfzEdphvs2DU54chkMxcDpSlU/+
+         R+cg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+ZiZsPXRQSsg2BN6ZcHMquostXZuELOevpT4M9CGk3E16Si2i0e2cJYK57v7d9mmyb411qAk9/s463DB3xvzy45FNO2vIo9slPuBzAiqzrs4FBwmZ+LX2R+Im5PdVydNjC69/BCv7Kkc=
+X-Gm-Message-State: AOJu0YzeCfc4n1CXsWG78z7kGCWOAFRFc4ULYLZEJ7/860qeIoK7SSzS
+	CZnQvyDapB0NZZIo3QuXZol7kPiE1oGY56rnkD2od/Q3wmRoJWSW
+X-Google-Smtp-Source: AGHT+IGOj7PYUzqYXS7lK06vRPtKJ6R8Xd9yzfHf170bY0pHwHK6TYk2DBv7+efjA2IM3JLNItk1Eg==
+X-Received: by 2002:a17:90b:4c41:b0:2c3:213b:d0b1 with SMTP id 98e67ed59e1d1-2c86127e2a8mr6883282a91.5.1719332072587;
+        Tue, 25 Jun 2024 09:14:32 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:ff4:b46e:2948:c244])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c819dbcd88sm8951847a91.37.2024.06.25.09.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 09:14:32 -0700 (PDT)
+Date: Tue, 25 Jun 2024 09:14:29 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andrei Lalaev <andrey.lalaev@gmail.com>
+Cc: robh@kernel.org, m.felsch@pengutronix.de, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrei Lalaev <andrei.lalaev@anton-paar.com>
+Subject: Re: [PATCH] Input: qt1050 - handle CHIP_ID reading error
+Message-ID: <Znrs5QVAuSjH5sCT@google.com>
+References: <20240617183018.916234-1-andrey.lalaev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TPBmgX5q1nLjiXwu"
-Content-Disposition: inline
-In-Reply-To: <ud5j6hbozgg6em43volidpffykdtd2lpf32etmdiyksorl2cb4@whtseaibw2xw>
-X-Cookie: Results vary by individual.
-
-
---TPBmgX5q1nLjiXwu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240617183018.916234-1-andrey.lalaev@gmail.com>
 
-On Tue, Jun 25, 2024 at 05:54:47PM +0200, Benjamin Tissoires wrote:
-> On Jun 24 2024, Thinker Li wrote:
+On Mon, Jun 17, 2024 at 08:30:18PM +0200, Andrei Lalaev wrote:
+> From: Andrei Lalaev <andrei.lalaev@anton-paar.com>
+> 
+> If the device is missing, we get the following error:
+> 
+>   qt1050 3-0041: ID -1340767592 not supported
+> 
+> Let's handle this situation and print more informative error
+> when reading of CHIP_ID fails:
+> 
+>   qt1050 3-0041: Failed to read chip ID: -6
+> 
+> Fixes: cbebf5addec1 ("Input: qt1050 - add Microchip AT42QT1050 support")
+> Signed-off-by: Andrei Lalaev <andrei.lalaev@anton-paar.com>
 
-> > However, I suggest you implement ".update" if you think it is
-> > reasonable for HID,
-> > although it is not a MUST-BE. ".update" provides a good feature that
-> > user space programs
-> > can update an implementation on the flight.
+Applied, thank you.
 
-> FWIW, Mark handles linux-next, so not sure he has deep knowledge of
-> HID-BPF, and not sure he wants too :)
+But how did we get into the situation with the chip being missing?
+Incorrect DTB for the board?
 
-Only holiday cover but yes.
+Thanks.
 
---TPBmgX5q1nLjiXwu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ66mEACgkQJNaLcl1U
-h9BQogf+LEeo7TZubksELi3+Li3QTObF77QLOOuzIkAiep5ZV5i0Q0T21TTB3E0E
-cCF661ItvcruzKYpIUbrki0hloiTe9m4LqFKn/Cavgy2vtH75z0tI7mfe2tBd5q3
-9M1TDaLJ0i/+CwMwAS5Yxg/l3X4qpOjEsKFvVvQY1yOTpybqHwFc0bwcZPCdQ6wp
-qAgowFcBx1PR+oUlRtMDqWRqd+8/0mudj7XdgE4Po7r1FO3iRMYhwZxkvXUldMNd
-0pd/JHnvl+FQGORRb/CvaEAQJVPcOAYrWzF5zP4qEh9LmHu++d3gdJNAkshMNbbc
-sQAzyr09r750cYq7fBtOT5jBLhyEJg==
-=MFwz
------END PGP SIGNATURE-----
-
---TPBmgX5q1nLjiXwu--
+-- 
+Dmitry
 
