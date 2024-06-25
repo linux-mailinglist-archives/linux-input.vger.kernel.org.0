@@ -1,179 +1,85 @@
-Return-Path: <linux-input+bounces-4607-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4608-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB896915B93
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 03:22:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B910591615E
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 10:34:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71D442831C1
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 01:22:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EAA171C22200
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 08:34:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1263217557;
-	Tue, 25 Jun 2024 01:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkkTDP2X"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F716149C4B;
+	Tue, 25 Jun 2024 08:33:03 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDC1D2F5;
-	Tue, 25 Jun 2024 01:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79517149C41
+	for <linux-input@vger.kernel.org>; Tue, 25 Jun 2024 08:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719278565; cv=none; b=ReGm3RT5a9GeiTSc5QhLTtIpjozdRpWvgioNbxHYCJ3rCi4UBDsEtPcik12JCqQwrLTOu+BpgL2PQWe+g8qWE1i/f9vHDCcRY8QdraunjGHxPv1l8sKCGA+52w6X0qUfdjcSfcYJfQlAeI5vzsEmWjKhI+lEhpq5d7Y9ZAxsWIw=
+	t=1719304383; cv=none; b=lbTro9nMoGY5h0n9aJMVN0h9XkIRhd0FMQ1msz467ybskl/5GVb1MUEa7ZyBG0qsGzx+53FvUL2YZ85mvciCEQJaazW/CUzlC8zDuesGPFKRc1SynWfxVz69FVtVRQv+TpwAN9nqnfYZCEZkNjsi9Mn/iJu/gmKQmO3dG6UMaYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719278565; c=relaxed/simple;
-	bh=ZGwtin6IkFydRDXhg3G6A7e5bT2gMU7/bqPl3Ei9A5I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ULIeyipmwgiX6OXMrVpZl9exUZ8VGqiPgX9KzmXLV4QhB+uPGP5UAmcIwS879WKpUszxj0paNrKoKnhIPNR4+zS6yQdXupF9QjQa/6jiBfYEFNlL1aOGDRK9Wq/15m5ROVc/8cA/v+YqA6RgeZXlsjf6L55MvmVFtm7cueYJbfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkkTDP2X; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2967337a12.1;
-        Mon, 24 Jun 2024 18:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719278563; x=1719883363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ocP+7GWOt5qm8uAfbxuKZILjuZbqgqb/oS35llmMlfI=;
-        b=dkkTDP2Xr7Nq/TEjekeGvcVlYVSPHbm75OftPmTEPce45exCZBJqE7zk+rwnYUZq3r
-         0PupnnYI3baUIr+FlDp5SsyeDSOZi3EQ88gSNvzK1hSUsxwZ2iq+wQQSVxAudksOdinE
-         nEkaDfwUceoXq+oMqJsWOWCJ8MnhIQjJLEz4hwTD4ISqryMxHzH863UpK9PIxwJ2klFs
-         SqYf2XYEkiAJ/TtMj+aD5aZEd9o4PAbZXtaQhz8V8bp+0/BXikzO5eu60qSVEo/fHVov
-         7Nq7/fNvjcrq7VhNg+Dh33+mwcXkZgjIp46ioj33wL/WibsYD//OasmMPDxcK0PF4ivF
-         whFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719278563; x=1719883363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ocP+7GWOt5qm8uAfbxuKZILjuZbqgqb/oS35llmMlfI=;
-        b=EhxFHaIlQ4Xr1UgW0BWU8ZtlwQA6loVmykU6xAeBUP6G429wg3TlSPujnSI8uc2HES
-         xwyhyk1M9fAjE2YSNEwgRttPZOwWhU+mDiPQxn2est8IG3d36PLj3OhecGV1J06klX5d
-         Koi4HxLUBs3bdUD9+cUPXyocFqLTB1/LSM41bopnJp/j2PXYMFVeS+79S3ksIcc/q56i
-         sZm7SXIXT7A4Z7jURKzre17UnKi6amaGWh3vyuqQB/U9BK0uMA2r6jJzX3/oM//LPSJx
-         sE9LcPrhORKINYoVPRbPmmq4EHJCMTJulwxDMAUKE+GMmIiiMsIR7VZnGEU2EFJB0Kx9
-         GH3g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7QSXsRfnVkTYdzO+BN7mDCtxG67HPIQ5d9mORWgDAeFsIpqBfEMoaDdOQoYHSY1fVBm/xubLknQ2LARyhOKqgvhAOz+ODe/hpovmXpTq+vl7ztyH96QiShK+iWMF7K19fhS4Wr+KQigSSJ09147Eiba8vdKQoLRONwYlSKm0R7ZjS+/3IG/WsHu6gwzFb3CIgVKBQCRl5CdnF+msQIclLXhhaYQW9t3pLSrobcm7lwtrG
-X-Gm-Message-State: AOJu0Yzm6pk7Z+Mp19eFC1A3aIDAxREkkNgWGoKFtJaka9Hw0gjrXn1r
-	N7foL94lf8zGtK7SpnkYgHfGb1jjMW83bN4xjQhOqLUHWPWggbz75O43cO8SEm+HpSpbct6EBGp
-	jZVk1fn5/QoLewctAQaG27KEr/F0=
-X-Google-Smtp-Source: AGHT+IFOCCklcLOPy6WOiPuVU/fqKEtVmpGsdjPKTD+WPo8kIPQbu2yjkuypxUjWSU3hHx43L4MQeDRy9lY4WHhpjvY=
-X-Received: by 2002:a17:90b:1bc8:b0:2c8:59f1:366f with SMTP id
- 98e67ed59e1d1-2c859f13802mr4966999a91.4.1719278562794; Mon, 24 Jun 2024
- 18:22:42 -0700 (PDT)
+	s=arc-20240116; t=1719304383; c=relaxed/simple;
+	bh=BAC4cTMVD1u8CmBSnANIr+EbJBSCJ8Py+C49dJT7/kM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOS22syBa52G+dTFuHW6Q4qxgGricxlX71UOWBwhYXSiHFgoUl4H1aACWzs2jZo4bgtTjodFkI04+QxZdZIelhi1uhDrz0y2OGbdt9Frg2P2b4PWhU94Zx8PhGxIDOLeBErt1RkDypc2AP6UdKlDHKWxet0/uJhoBZwdwnQQkLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sM1bf-0002Bf-70; Tue, 25 Jun 2024 10:32:51 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sM1be-004qca-KI; Tue, 25 Jun 2024 10:32:50 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sM1be-00E3rT-1l;
+	Tue, 25 Jun 2024 10:32:50 +0200
+Date: Tue, 25 Jun 2024 10:32:50 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Andrei Lalaev <andrey.lalaev@gmail.com>
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrei Lalaev <andrei.lalaev@anton-paar.com>
+Subject: Re: [PATCH] Input: qt1050 - handle CHIP_ID reading error
+Message-ID: <20240625083250.jcgfszu6plkopouu@pengutronix.de>
+References: <20240617183018.916234-1-andrey.lalaev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
-In-Reply-To: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
-From: Thinker Li <thinker.li@gmail.com>
-Date: Mon, 24 Jun 2024 18:22:30 -0700
-Message-ID: <CAFVMQ6R8ZZE+9jWM1vhEuz2PsLyCgKhpaVD377TKEu4AfGO_iA@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the bpf-next tree
-To: Mark Brown <broonie@kernel.org>
-Cc: Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Networking <netdev@vger.kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, linux-input@vger.kernel.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240617183018.916234-1-andrey.lalaev@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Hi Mark,
+On 24-06-17, Andrei Lalaev wrote:
+> From: Andrei Lalaev <andrei.lalaev@anton-paar.com>
+> 
+> If the device is missing, we get the following error:
+> 
+>   qt1050 3-0041: ID -1340767592 not supported
+> 
+> Let's handle this situation and print more informative error
+> when reading of CHIP_ID fails:
+> 
+>   qt1050 3-0041: Failed to read chip ID: -6
+> 
+> Fixes: cbebf5addec1 ("Input: qt1050 - add Microchip AT42QT1050 support")
+> Signed-off-by: Andrei Lalaev <andrei.lalaev@anton-paar.com>
 
-I'm sorry for not getting back to you sooner. I have been traveling
-since my last message.
-I guess this patch is for the HID tree. The changes in this patch are great=
-.
-
-However, I suggest you implement ".update" if you think it is
-reasonable for HID,
-although it is not a MUST-BE. ".update" provides a good feature that
-user space programs
-can update an implementation on the flight.
-
-On Mon, Jun 17, 2024 at 11:16=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> Hi all,
->
-> After merging the bpf-next tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->
-> /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:280:16: error: initi=
-alization of 'int (*)(void *, struct bpf_link *)' from incompatible pointer=
- type 'int (*)(void *)' [-Werror=3Dincompatible-pointer-types]
->   280 |         .reg =3D hid_bpf_reg,
->       |                ^~~~~~~~~~~
-> /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:280:16: note: (near =
-initialization for 'bpf_hid_bpf_ops.reg')
-> /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:281:18: error: initi=
-alization of 'void (*)(void *, struct bpf_link *)' from incompatible pointe=
-r type 'void (*)(void *)' [-Werror=3Dincompatible-pointer-types]
->   281 |         .unreg =3D hid_bpf_unreg,
->       |                  ^~~~~~~~~~~~~
-> /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:281:18: note: (near =
-initialization for 'bpf_hid_bpf_ops.unreg')
->
-> Caused by commit
->
->   73287fe228721b ("bpf: pass bpf_struct_ops_link to callbacks in bpf_stru=
-ct_ops.")
->
-> interacting with commit
->
->   ebc0d8093e8c97 ("HID: bpf: implement HID-BPF through bpf_struct_ops")
->
-> from the HID tree.
->
-> I've fixed it up as below:
->
-> From e8aeaba00440845f9bd8d6183ca5d7383a678cd3 Mon Sep 17 00:00:00 2001
-> From: Mark Brown <broonie@kernel.org>
-> Date: Mon, 17 Jun 2024 19:02:27 +0100
-> Subject: [PATCH] HID: bpf: Fix up build
->
-> Fix up build error due to 73287fe228721b ("bpf: pass bpf_struct_ops_link =
-to callbacks in bpf_struct_ops.")
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  drivers/hid/bpf/hid_bpf_struct_ops.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_b=
-pf_struct_ops.c
-> index 5f200557ff12b..744318e7d936b 100644
-> --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-> +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> @@ -175,7 +175,7 @@ static int hid_bpf_ops_init_member(const struct btf_t=
-ype *t,
->         return 0;
->  }
->
-> -static int hid_bpf_reg(void *kdata)
-> +static int hid_bpf_reg(void *kdata, struct bpf_link *link)
->  {
->         struct hid_bpf_ops *ops =3D kdata;
->         struct hid_device *hdev;
-> @@ -229,7 +229,7 @@ static int hid_bpf_reg(void *kdata)
->         return err;
->  }
->
-> -static void hid_bpf_unreg(void *kdata)
-> +static void hid_bpf_unreg(void *kdata, struct bpf_link *link)
->  {
->         struct hid_bpf_ops *ops =3D kdata;
->         struct hid_device *hdev;
-> --
-> 2.39.2
->
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
