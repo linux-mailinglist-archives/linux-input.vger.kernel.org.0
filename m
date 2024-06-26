@@ -1,81 +1,63 @@
-Return-Path: <linux-input+bounces-4624-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4625-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B591C917512
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 01:55:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA43917732
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 06:16:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 712A32816C8
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jun 2024 23:55:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CF6C1F234E5
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 04:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C56917F4FE;
-	Tue, 25 Jun 2024 23:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9ED45978;
+	Wed, 26 Jun 2024 04:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jBnHjDgU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7gTc0Sd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CDC1494DE
-	for <linux-input@vger.kernel.org>; Tue, 25 Jun 2024 23:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAE528E8;
+	Wed, 26 Jun 2024 04:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719359736; cv=none; b=REOPOJ7LbYf4fxjylvoG0NjXLiRA0FQ/qkM32dJ3uuNooMFItpqpCP2h3TNrQMsUAnGzPZWE8zem0pBHFHKaKleh+YuGLS+1DN2oFRJJdbBOwhE96rTKpgYCMp24rLzg83SjVdzLpv/cBx0H0wlB/Uzhg9WcZuRRUHf68wnRz30=
+	t=1719375399; cv=none; b=JAgmIEExA4k56WiAvFKTfIvxZMN8GMEKsyIt/ma06j01OIqSzC6YM83UaQbSkh8xMtFald64McKJApIVOQOmSo5ffk/ldeUNWaKQ5qqzdON90dL5629/Vr4PSkCs1ocbJ45zk2lCqBZ/hGivL2lFeHiJQFgu5ZWFjxGD+zZq2p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719359736; c=relaxed/simple;
-	bh=tCUw6OKrI3M9lq8PMs+zef2CfiXsSNbpyDJ0EVh/aGU=;
+	s=arc-20240116; t=1719375399; c=relaxed/simple;
+	bh=0hebWygg9tsCmkyf+fkAl70fxWVWa3kYkNFZjge3O1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uvoK4fHJFBGsP7vD8xHcJKxlTT3GlNTNUl1WeeKeTpKnXy2HALswsC3kmjXphJAxK6//uUUBu0IgHjeWF/f9L2Wg3wSd1hvTGCtTAnwRm6VwINd/jFIigbq3QNyuGNDTA8KCh1mkk821RwZYJ3zWJu7oK4MqSxbXhcO2gzlid+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jBnHjDgU; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5c21ba58227so404918eaf.0
-        for <linux-input@vger.kernel.org>; Tue, 25 Jun 2024 16:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1719359734; x=1719964534; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tR/5LidHEHdLx+7YoIA/m7Q0RMjxvdEYmf3t8jZN9s4=;
-        b=jBnHjDgU0H1S99QKR5L1Z8mOGtbOfY76g918BpgNkaM2hEqQgdL58tqZyjTx4NABoq
-         qlYkGH2GUyC2Vt3GFsPHoHLjBRrXHjw21UkzHN2f+ICt7HHxYYlxLgrmwrcMZkpAsgoT
-         SsCeVpPnv672zykUAa2t7U79Y201q7/xHEIP0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719359734; x=1719964534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tR/5LidHEHdLx+7YoIA/m7Q0RMjxvdEYmf3t8jZN9s4=;
-        b=Rl7pAhBRus2SpOeMNHf7iMOyQMRTp8Lu2xiK4E1/wj9/MEKp1wa553JXyuiORCrZ7X
-         IOw0U4FdxtQndoi4idY+9tuv2ATv6Z42fbtVszhi2WuQr72mpDbxXasfR0Gdhy/rBjnv
-         9H2i+U6wblXz1A8Q/mQ14CA4NqpFHaPaQ+gPfcvcMnZKr29pzjWVYc+N8ZnuhsiIuCSP
-         Bua8AMY/7QjKMCpAekz3Xz7RfcuvVUy4qX5cnX8CwWXgyl5EufR2vHWPuTtwNZJhdE+X
-         RmWUn1vqitIbY7T8YYPVZHaPdTEJc/O43UX7CLd7TOhhRD3jcuRoa3StGOKG6VRjxZNE
-         1DLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUx34P5CrKfqPc0Je6D3tKv+05v1XP6HAvEo+yQqOKy/a7nJr3M5WcGlwqVLT62S7vadiF9EJV7Yee12m3X0C92qm8ol0Wcl+Z+tEU=
-X-Gm-Message-State: AOJu0Yw0ao+rBJbtMdRudr3PnL1g+wdSKVET3JUuBX3vryDkewJuFZIp
-	KFhTL4k5LEktPWo6QvC5muC5uZQa+jCSQOxahBBklkCM4HwntKIPvxMk6SLCJQ==
-X-Google-Smtp-Source: AGHT+IFWixiWc/Xf7hhEVlmRUjiGlwO3fPZ7mbY+sLjAuI0jQ8hgAooSCb5RK6xs/Dexp/bsn8lOkQ==
-X-Received: by 2002:a4a:3508:0:b0:5c1:ae36:14e with SMTP id 006d021491bc7-5c1eed5a523mr9818442eaf.6.1719359733608;
-        Tue, 25 Jun 2024 16:55:33 -0700 (PDT)
-Received: from google.com (syn-076-186-130-074.res.spectrum.com. [76.186.130.74])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7009c60833csm1736998a34.46.2024.06.25.16.55.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 16:55:33 -0700 (PDT)
-Date: Tue, 25 Jun 2024 18:55:29 -0500
-From: Aseda Aboagye <aaboagye@chromium.org>
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>, Jon Xie <jon_xie@pixart.com>,
-	Jay Lee <jay_lee@pixart.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	loongson-kernel@lists.loongnix.cn, linux-input@vger.kernel.org,
-	Xiaotian Wu <wuxiaotian@loongson.cn>
-Subject: Re: [PATCH v2] Input: Add driver for PixArt PS/2 touchpad
-Message-ID: <ZntY8UO-VIW3reL4@google.com>
-References: <20240624065359.2985060-1-zhoubinbin@loongson.cn>
+	 Content-Type:Content-Disposition:In-Reply-To; b=t4SLpDAbE1j76q5/nlvmRnrdPo/QX343zcJJ1OWWQ3SR4DTn3lLNgfncwOlbPahZ1bjwOSUWqYv0iNn0s8xG+fY79j5naerPu0YrOx6vap1CvOixnVeZv1iRFUfDpteepfbPe8LBrkgTT2o61QlGWu/k3cwtATNVQTNagCT/Qqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7gTc0Sd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A17C2BD10;
+	Wed, 26 Jun 2024 04:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719375397;
+	bh=0hebWygg9tsCmkyf+fkAl70fxWVWa3kYkNFZjge3O1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L7gTc0SdkE4I6ZaW3/woROuS0mElIB7t99B9lGypdWhxVdNz/0DArnwJT0FSsYmvF
+	 Mn91xBTmm26oXMBVVtdtulsgncZUb/B7QtBIn2X2LO/UKIT2m2EYi+bafJA5Z4ioIG
+	 G7d+tKkVRqoLQE4FvVSCUbj+jySUa/93sJ9ikqWmmysjzgNNW5d85+DLjiiwRNWHuy
+	 AQAfL9juhI674AVaDEYEtxW+Aw33TJYnb1+Wo7VceqqYzXd6ow+MotbWwNkM6m1M7T
+	 As0Z8JnYyEpDyZYcjhY9rEK6J5Dlwe73R02VFGkkkYjdDS3uVaxo51r5OSStTdzJ0V
+	 qLsoALVJMrc0w==
+Date: Tue, 25 Jun 2024 23:16:34 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Caleb Connolly <caleb@postmarketos.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Henrik Rydberg <rydberg@bitmath.org>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+	Frieder Hannenheim <frieder.hannenheim@proton.me>
+Subject: Re: [PATCH 7/7] arm64: dts: qcom: add OnePlus 8T (kebab)
+Message-ID: <ckl554gpw74ot7x7ruce3ik2judbwg3ift2aiqr2wycgu6zhbh@jk5wp2so6pm7>
+References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
+ <20240624-oneplus8-v1-7-388eecf2dff7@postmarketos.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,25 +66,134 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624065359.2985060-1-zhoubinbin@loongson.cn>
+In-Reply-To: <20240624-oneplus8-v1-7-388eecf2dff7@postmarketos.org>
 
-Hi Binbin,
+On Mon, Jun 24, 2024 at 03:30:31AM GMT, Caleb Connolly wrote:
+> Initial support for USB, UFS, touchscreen, panel, wifi, and bluetooth.
+> 
 
-On Mon, Jun 24, 2024 at 02:53:59PM +0800, Binbin Zhou wrote:
+Nice.
+
+> diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi
+[..]
+> +	vph_pwr: vph-pwr-regulator {
+
+Please keep nodes sorted by address, then node name, then label (as
+applicable). Perhaps making the -regulator suffix a regulator- prefix
+instead (to keep them grouped).
+
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vph_pwr";
+> +		regulator-min-microvolt = <3700000>;
+> +		regulator-max-microvolt = <3700000>;
+> +		regulator-always-on;
+> +	};
 > +
-> +static void pixart_reset(struct psmouse *psmouse)
-> +{
-> +	ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
-> +	msleep(100);
-> +	psmouse_reset(psmouse);
-> +}
+> +	vreg_s4a_1p8: vreg-s4a-1p8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vreg_s4a_1p8";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-always-on;
+> +	};
+[..]
+> +&adsp {
+> +	status = "okay";
 
-What is the reason for the 100ms delay here? Is it to prepare the
-controller for the upcoming reset? If so, could it perhaps be
-defined as a macro?
+Per Documentation/devicetree/bindings/dts-coding-style.rst please keep
+"status" as last property in your nodes.
 
-Thanks,
+> +	firmware-name = "qcom/sm8250/OnePlus/adsp.mbn";
+> +};
+> +
+[..]
+> +&mdss_dsi0 {
+> +	status = "okay";
+> +	vdda-supply = <&vreg_l9a_1p2>;
+> +
+> +	display_panel: panel@0 {
+> +		reg = <0>;
+> +		vddio-supply = <&vreg_l14a_1p8>;
+> +		vdd-supply = <&vreg_l11c_3p3>;
+> +		avdd-supply = <&panel_avdd_5p5>;
 
--- 
-Aseda Aboagye
+How do you know that the panel will have these properties, when you
+don't give it a compatible here? Not a strong objection, but perhaps
+this should be pushed out?
+
+> +		/* FIXME: There is a bug somewhere in the display stack and it isn't
+> +		 * possible to get the panel to a working state after toggling reset.
+> +		 * At best it just shows one or more vertical red lines. So for now
+> +		 * let's skip the reset GPIO.
+> +		 */
+> +		// reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
+> +
+> +		pinctrl-0 = <&panel_reset_pins &panel_vsync_pins &panel_vout_pins>;
+> +		pinctrl-names = "default";
+> +
+> +		status = "disabled";
+> +
+> +		port {
+> +			panel_in_0: endpoint {
+> +				remote-endpoint = <&mdss_dsi0_out>;
+> +			};
+> +		};
+> +	};
+> +
+> +};
+[..]
+> +&pm8150_gpios {
+> +	gpio-reserved-ranges = <2 1>, <4 1>, <8 1>;
+
+How come?
+
+> +};
+> +
+[..]
+> +&tlmm {
+> +	gpio-reserved-ranges = <28 4>, <40 4>;
+> +
+> +	bt_en_state: bt-default-state {
+> +		pins = "gpio21";
+> +		function = "gpio";
+> +		drive-strength = <16>;
+> +		output-low;
+> +		bias-pull-up;
+> +	};
+> +
+> +	wlan_en_state: wlan-default-state {
+> +		wlan-en-pins {
+
+Perhaps flatten this?
+
+> +			pins = "gpio20";
+> +			function = "gpio";
+> +
+> +			drive-strength = <16>;
+> +			output-low;
+> +			bias-pull-up;
+> +		};
+> +	};
+> +
+[..]
+> diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts b/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts
+[..]
+> +&i2c13 {
+[..]
+> +};
+> +
+> +&display_panel {
+
+'d' < 'i'
+
+Regards,
+Bjorn
+
+> +	compatible = "samsung,amb655x";
+> +	status = "okay";
+> +};
+> 
+> -- 
+> 2.45.0
+> 
 
