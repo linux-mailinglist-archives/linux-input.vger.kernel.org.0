@@ -1,133 +1,168 @@
-Return-Path: <linux-input+bounces-4647-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4648-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D955C918402
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 16:27:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 299A8918767
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 18:30:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D281C22850
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 14:27:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D48E7281ABF
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 16:30:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB233187320;
-	Wed, 26 Jun 2024 14:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD9318F2D8;
+	Wed, 26 Jun 2024 16:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mJ+vzImA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0CD186E33
-	for <linux-input@vger.kernel.org>; Wed, 26 Jun 2024 14:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8233E18EFCA;
+	Wed, 26 Jun 2024 16:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719412014; cv=none; b=ig20bu0kJMhMXkUfmbtaCzcwA2Cvx/V1XSTMo0BRxv3gKrT/55z+sV4ZbPC/2ca16b3OUSJpU6oNkUg84T8jpc8oVrMxf5fTMVohFYnpdWdYIKlabKeK35x/UZKdJk8QbG1Zq7bIhMwbljensBdkGIzJ09pmGNyT0+FTueyxkn8=
+	t=1719419412; cv=none; b=KQdnZMBI3Mw4qzXQ3fIS4u8Z9+bDcuTcva6Sd1H+aRmZynnpO/dCzrhsQBim6LaG5/4xTZN+24Xo5p0M9PJMGzcLY+ynjQWbiPeG/H1nOnLBSKIzlgQzxjlhv6TN5KD3Vjs+mvcUwbUQ+M4nojDIEa/lnZm6vFu4FjweGeMLlyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719412014; c=relaxed/simple;
-	bh=whpbwhrEakapp6ARSx28pzKavWRe8tqJgMqKz0U+2F4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TGp3SdmZDSoA7vH3cE0fpuO80pFTjbeym4S4b2wmw+HhdY4cUVw6WUKzJ5CJRDoOYQXrB2GeGCHW6lkWrMC0sDw6SGx70gfiYAPWCnfmQ5bzcDbuZQDxY8Zvlk6W8pxbkHAZdkLaVqMJsSfA8Ds4IN4n5cvFFNCmnL0i5YeTQCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1sMTbk-0005JO-FP; Wed, 26 Jun 2024 16:26:48 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-Date: Wed, 26 Jun 2024 16:26:48 +0200
-Subject: [PATCH] Input: exc3000 - add EXC81W32 support
+	s=arc-20240116; t=1719419412; c=relaxed/simple;
+	bh=yVYTETKAskdA/CEyHVZMZB/YT3nD87X+ZkQpK1oY4LE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OrdD+Gd4mT1EgXWlUFxH1Fyg/hS1udYrBxb6/866OtkoQvqYHJj7qwGEAcUGtNMZP1Kf5RpnrawATzCv7Y6n/8DHXu0VrV9HKHKCEbREHtemdAlwqNKESCTcElBlOBudDU1hKVKmhbiH2DoO/RmFeNsEuk4eyTDdFXW4jXEBcAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mJ+vzImA; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57d4ee2aaabso659255a12.2;
+        Wed, 26 Jun 2024 09:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719419409; x=1720024209; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8I4DP0aO9rNRkcVk0FjZDiZ477lq6V7C5TCxegEyCtg=;
+        b=mJ+vzImAJpLQ7QOnes9OWe1rNXM7G6V9X0FlGWhbYbYbSvVtgIP/mbxks8jaixS+wj
+         /TDJFamyKsSEJfq4f1g5CHr9jOlGNEkBtI2PSKfDqt6DSTN4fLHb+17EXx1ruTCuPxDU
+         pok9L3ZswrFJf/bYoisouL8GjXWlxb5g6SuNaPeTS0/+4j2WfDKKsTAHr8f1KMxyXzsy
+         M3fEbbjHxZJlDXHeSLmLYeg+SFdM2+gJIvY+ATSJWvofpB7+PtK0m1aLBe0vN4grfF+X
+         s4d6CdLeg4HUlhkRs1mxtBXYwjpOpgaLW1EtPzECSOMj+cE2I+E0EaP7NkFhdBsirpqZ
+         Hlkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719419409; x=1720024209;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8I4DP0aO9rNRkcVk0FjZDiZ477lq6V7C5TCxegEyCtg=;
+        b=BhxLIFKQ5iGT+kp0zSTtBuUdk6lJjI1MnUC5K6ai4rT+Z9YBcvKs+CRNUGDb7ks7+f
+         uMRohyQXXEM5kQR/mfxtkqb5H3snRTIItjnsjlYSNjhx+FgHyl4OAaRj6FxNUAeACUFI
+         Q1/Es5Pq9JdpLk/OzFsPnpTX4UAwvqu8kfGl+ZmhgvIsCviEUNaqs+GSXgFW3RD0v/Cl
+         qrB+s5Fj51oiJriTZGzV7ln9Y/oQcaOIOCj1IN+jNJbZQpfQzYs4flU+pop/BwsFXJVn
+         gMMadngp6BY12/NkMKuO8mNs5Fa7m5DlCBvAy9S3FHDyTkR0ocUZAtkwj5uRUryUqyPJ
+         KrFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPfmhXTtkM66S0ib0Cb0rlrR7XW3uoSTJAQ5dTkRQofB3ZUh/fq5u+CjLAIv+pWQyONBZ1NBn9kQu6bsXFJS+0Uzkl4KVKwrl2OqgbsOAW2bgNZZQakqaNmSnXOFEquRsSxtJ8C1unlb7TmsHXKJVvqI0kJs7aJLhUdAAFqR2kzeuB38x2gCGUSL0ndxLqPdmMsksceY95ZnYgBCm+J5hhI0Yr/BFGkGez0lbo95WI+igWu2cABAOU3dc=
+X-Gm-Message-State: AOJu0YwkxYumv8WhBero8qZalrCWDBTyCflp4l09GuvUK+R0F7YcymB0
+	0IuQIbfGE+IASZAhasieNNwzZUxlPuQssbgKnjw02mFz6WfQN+N2MdpDqun2vfYLy8Ac3hfWICW
+	GlHu0tuLPi4nFsOsp+UYNW2U8q+0=
+X-Google-Smtp-Source: AGHT+IGv/GYDO4u+mhEGsQrt+U650ZI8J+/sSOwwWzvWvNQSsFz4d/hdYgWzhvAjXSELu95408I+N/FzkbBdpH9oj0w=
+X-Received: by 2002:a17:907:a4c1:b0:a72:7e5f:a0c4 with SMTP id
+ a640c23a62f3a-a727e5fa2a9mr356995766b.56.1719419408774; Wed, 26 Jun 2024
+ 09:30:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240626-input-exc3000-exc81w32-v1-1-ac42d3b87aff@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIACclfGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDMyMz3cy8gtIS3dSKZGMDAwMQbWFYbmyka2oBhEmJJomWFmlKQM0FRal
- pmRVgg6Nja2sB/rBwSWgAAAA=
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
- Philipp Zabel <p.zabel@pengutronix.de>
-X-Mailer: b4 0.14-dev
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <20240626-hid_hw_req_bpf-v2-0-cfd60fb6c79f@kernel.org> <20240626-hid_hw_req_bpf-v2-4-cfd60fb6c79f@kernel.org>
+In-Reply-To: <20240626-hid_hw_req_bpf-v2-4-cfd60fb6c79f@kernel.org>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Wed, 26 Jun 2024 09:29:57 -0700
+Message-ID: <CAADnVQLZRE_QxuEaqbTpKNQt+0VUB=DK37FqScaxtqwbn9UorA@mail.gmail.com>
+Subject: Re: [PATCH HID v2 04/13] HID: bpf: add HID-BPF hooks for hid_hw_raw_requests
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This adds support for EXC81W32 controllers.
+On Wed, Jun 26, 2024 at 6:46=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> This allows to intercept and prevent or change the behavior of
+> hid_hw_raw_request() from a bpf program.
+>
+> The intent is to solve a couple of use case:
+> - firewalling a HID device: a firewall can monitor who opens the hidraw
+>   nodes and then prevent or allow access to write operations on that
+>   hidraw node.
+> - change the behavior of a device and emulate a new HID feature request
+>
+> The hook is allowed to be run as sleepable so it can itself call
+> hid_bpf_hw_request(), which allows to "convert" one feature request into
+> another or even call the feature request on a different HID device on the
+> same physical device.
+>
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+>
+> ---
+>
+> changes in v2:
+> - make use of SRCU
+> ---
+>  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++++++=
+++++++
+>  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
+>  drivers/hid/hid-core.c               |  6 ++++++
+>  include/linux/hid_bpf.h              | 35 ++++++++++++++++++++++++++++++=
+++++
+>  4 files changed, 79 insertions(+)
+>
+> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf=
+_dispatch.c
+> index c026248e3d73..ac98bab4c96d 100644
+> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
+> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+> @@ -74,6 +74,43 @@ dispatch_hid_bpf_device_event(struct hid_device *hdev,=
+ enum hid_report_type type
+>  }
+>  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
+>
+> +int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
+> +                                 unsigned char reportnum, u8 *buf,
+> +                                 u32 size, enum hid_report_type rtype,
+> +                                 enum hid_class_request reqtype,
+> +                                 u64 source)
+> +{
+> +       struct hid_bpf_ctx_kern ctx_kern =3D {
+> +               .ctx =3D {
+> +                       .hid =3D hdev,
+> +                       .allocated_size =3D size,
+> +                       .size =3D size,
+> +               },
+> +               .data =3D buf,
+> +       };
+> +       struct hid_bpf_ops *e;
+> +       int ret, idx;
+> +
+> +       if (rtype >=3D HID_REPORT_TYPES)
+> +               return -EINVAL;
+> +
+> +       idx =3D srcu_read_lock(&hdev->bpf.srcu);
+> +       list_for_each_entry_srcu(e, &hdev->bpf.prog_list, list,
+> +                                srcu_read_lock_held(&hdev->bpf.srcu)) {
+> +               if (e->hid_hw_request) {
+> +                       ret =3D e->hid_hw_request(&ctx_kern.ctx, reportnu=
+m, rtype, reqtype, source);
+> +                       if (ret)
+> +                               goto out;
+> +               }
+> +       }
 
-Tested with firmware reported as type "PCAP81X32 Series",
-model "Orion_0183_1019", fw_version "8001280G".
+here and in patch 7 I would reduce indent by doing:
+if (!e->hid_hw_request)
+   continue;
+ret =3D e->hid_hw_request(...);
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- .../devicetree/bindings/input/touchscreen/eeti,exc3000.yaml        | 1 +
- drivers/input/touchscreen/exc3000.c                                | 7 +++++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-index 9dc25d30a0a8..c299838e2680 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
-@@ -18,6 +18,7 @@ properties:
-       - eeti,exc3000
-       - eeti,exc80h60
-       - eeti,exc80h84
-+      - eeti,exc81w32
-   reg:
-     const: 0x2a
-   interrupts:
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index a4030cc9ff60..2e77cfb63f32 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -53,6 +53,7 @@ enum eeti_dev_id {
- 	EETI_EXC3000,
- 	EETI_EXC80H60,
- 	EETI_EXC80H84,
-+	EETI_EXC81W32,
- };
- 
- static struct eeti_dev_info exc3000_info[] = {
-@@ -68,6 +69,10 @@ static struct eeti_dev_info exc3000_info[] = {
- 		.name = "EETI EXC80H84 Touch Screen",
- 		.max_xy = SZ_16K - 1,
- 	},
-+	[EETI_EXC81W32] = {
-+		.name = "EETI EXC81W32 Touch Screen",
-+		.max_xy = SZ_16K - 1,
-+	},
- };
- 
- struct exc3000_data {
-@@ -441,6 +446,7 @@ static const struct i2c_device_id exc3000_id[] = {
- 	{ "exc3000", EETI_EXC3000 },
- 	{ "exc80h60", EETI_EXC80H60 },
- 	{ "exc80h84", EETI_EXC80H84 },
-+	{ "exc81w32", EETI_EXC81W32 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, exc3000_id);
-@@ -450,6 +456,7 @@ static const struct of_device_id exc3000_of_match[] = {
- 	{ .compatible = "eeti,exc3000", .data = &exc3000_info[EETI_EXC3000] },
- 	{ .compatible = "eeti,exc80h60", .data = &exc3000_info[EETI_EXC80H60] },
- 	{ .compatible = "eeti,exc80h84", .data = &exc3000_info[EETI_EXC80H84] },
-+	{ .compatible = "eeti,exc81w32", .data = &exc3000_info[EETI_EXC81W32] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, exc3000_of_match);
-
----
-base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-change-id: 20240626-input-exc3000-exc81w32-58585ba4a98f
-
-Best regards,
--- 
-Philipp Zabel <p.zabel@pengutronix.de>
-
+otherwise lgtm
 
