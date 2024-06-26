@@ -1,102 +1,146 @@
-Return-Path: <linux-input+bounces-4632-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4633-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD1918121
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 14:40:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13289182F6
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 15:46:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EA9D1C21937
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 12:40:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D8F3280DDA
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jun 2024 13:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9039D53B;
-	Wed, 26 Jun 2024 12:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE541822C5;
+	Wed, 26 Jun 2024 13:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fjuYe1uk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+CWNp0w"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0B21474D4
-	for <linux-input@vger.kernel.org>; Wed, 26 Jun 2024 12:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC7714532F;
+	Wed, 26 Jun 2024 13:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719405615; cv=none; b=dS8VER/Y1Jlod2FOoDSnKjje9l5Z849GQGm2z+FGylrO7t1BdA9LahbGuImCbQD9kwx3tiEniY4dlecBg5QS4NZYhkGCEiugmuzWj/X/vGKZCfCQfzqba4KFzZEcIJW2xz7Hi5IMtiqzFNXj3uzrPQz4cjqmgk8LXZxW8NCBbIE=
+	t=1719409606; cv=none; b=C6/sT9/vNk9LXaxKCxDmZ0T2BTMkmpWCMTDCRMSftW+9dlCDRuAR/L8OCicRWTkvsLcOHydCW4amxVrjwP3gbfHioklJS6kX9vusc3+XwoPrRdpOkvzwgnosrnOdVZdBVZP91tK02K24xWeVVcAWBiDQVE363nB1rFLrNWDGUSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719405615; c=relaxed/simple;
-	bh=Bgg6OU0ZDX5EPyb7G4lD7fk8ehJWpHM+uLJp1CPeCGA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mSq4geLtJZok8IRJt76MOv7gtZlzO6CpBgEWy3is9Vc+polR5BtphX+fhMey21afTPqjVvh9tAXhbO47z9wuwbVi4UrtYQKqAaJVJweG9m7ZbbihoozUckWm/288onOXQek6z/9iGFehsvg0qL+ouCbU9sUn69mRMJd+Pb6X9wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fjuYe1uk; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52ce674da85so3532100e87.2
-        for <linux-input@vger.kernel.org>; Wed, 26 Jun 2024 05:40:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719405612; x=1720010412; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bgg6OU0ZDX5EPyb7G4lD7fk8ehJWpHM+uLJp1CPeCGA=;
-        b=fjuYe1ukPSaWliNl1Bq5AyEUWF6pn7DP9LMTcgeGM0RZthHplal4qliUHTbPYC/YEs
-         dhJUMHHMuInaPtibRldjqC37o7JOKVh3DE2SoJRJAZld8379pBdDCdLTH6llo7tAY9e0
-         +RPQCnzfhkJuEcOxi+RthP3tMrBNExp58s1vCEtVr52FrQgRH1HzTCXrACWxPg+LjjzD
-         1Xpr7Jwy/vLWcG/lM9SKl95+I5I1Xw0NdONfVHKpZHyOxC0yDwzlxclCTDoF+6b2iMbR
-         5SLvdc/YcxG37PwulXqSJ3ZlZS90CPiPGrlhMnZ6SBTkq0WaFuycW6M71IV6lIH+9MaV
-         DaiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719405612; x=1720010412;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bgg6OU0ZDX5EPyb7G4lD7fk8ehJWpHM+uLJp1CPeCGA=;
-        b=K09HVn8wKC1DN4q81HrdAmN2ZeSHj1g1dm5gm2l7s8ZukWCIfTmVATN57rsncARyLs
-         /A6s7j78PlcgS2CicifhF6XDR3yu5qTbqEylxLTZnrfNwcJIe8T7McXND0RnySDaqf+z
-         exD/3SkcehzV7Rya1ZVjvdb3SrFJBt8aydv0ZllTITenJa6//cMpnXNBf1l/c/s+pfx/
-         tFcq4RvUMK7zOzFHf1l3QLoPrO6fAVxRCVWogOIkTpeEDl1qOE13R3lx2ihqllZIj0z1
-         AugTd2laPkeQBnugjVYHkQQ56UkHQqT/em/Nxucn7QFkiPOw1w5iWkIJKHYZFeFHj7vu
-         OPVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWytCnn5N6UGncsioYplDAxwUAHLsKgyd9FxtVhUgdaQOaz+T3NcwShjr7+sfeGQM+N6xXO/P7iXCzad2+SGHTzTLYWC6VglBrNJcA=
-X-Gm-Message-State: AOJu0YwlcIhglc7GQxoPlToasyGWhYe9fcphKN8G4UgDmc8O8ZhgRz2t
-	1lII2bFt+8d1YPuuqn/DbRra12oIl/4weKB3NuMu0N6UoPx6pjfuZgPysva9WkgJ4RBhvpmy/jP
-	57cCn+KtIgW8rA/tn8YVBHKmDwoM8cjZgUxG6EQ==
-X-Google-Smtp-Source: AGHT+IE6G96G6EVrsIreMTezmK+cGOq8ifme1cHZyKOsQUlVRBZqXVmC/fMQy8QmcbaaTJt8Bu69GJG3JCzDZEIN4NQ=
-X-Received: by 2002:a05:6512:358b:b0:52c:e086:7953 with SMTP id
- 2adb3069b0e04-52ce18325e8mr7682235e87.4.1719405611883; Wed, 26 Jun 2024
- 05:40:11 -0700 (PDT)
+	s=arc-20240116; t=1719409606; c=relaxed/simple;
+	bh=fowNjRUPqytav6kaGkQlvoda+Xzi+RnRNNTdb1ay/w4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uDzRdHO809pElUfnlR/2+E+lZkhZ5Vrtw7BgGnW07BDCqpOO9z5TfFzwq3QA04BCjLrpk0SIsijCezWeAyEI+dZFRa2DGAn96rGJPWPnLBU0VyEyewoi4aAl8aBNaavTHodrbVaW2iNo7kAxsgzeoCENFrShniMEYUdcGymBn2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+CWNp0w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97179C116B1;
+	Wed, 26 Jun 2024 13:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719409604;
+	bh=fowNjRUPqytav6kaGkQlvoda+Xzi+RnRNNTdb1ay/w4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=o+CWNp0wBeOKZae3utxe+j4UButbC6veYWb/eExT93eqfVkpVxPJP+LGaGLXf0o2p
+	 MPFSK/1sfFA5golJK83DMjP81fU9IrCxi76uYmcMZmklUOkU/LV23GbR7JYM2DTQuV
+	 x+2ESFukVxb9GPlDgz6mMAYsjZhGJvIwZ13/X6+yv4n4hCPvEFYK6HN8BoPK5DpFpW
+	 VnkpeGbeX7Fll1xLsrN6HiJFxbA3kqRBCQo6kOXp7xJSwcH2zpBsKw7N3JEhJh4h/U
+	 M5G++Dx9icZ8Q0cIj00runDqrGNsyIuqt9sTGmmqi3WnVttpQcYmlh9+EZyuE4K9zQ
+	 C9OQi/RN9pZjQ==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH HID v2 00/13] HID: bpf_struct_ops, part 2
+Date: Wed, 26 Jun 2024 15:46:21 +0200
+Message-Id: <20240626-hid_hw_req_bpf-v2-0-cfd60fb6c79f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240320072533.170029-1-marex@denx.de> <dfc1b846-24ea-42c4-adfe-2b762e2f8851@denx.de>
- <Znstp_l5l2PUgIfP@google.com>
-In-Reply-To: <Znstp_l5l2PUgIfP@google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 26 Jun 2024 14:40:00 +0200
-Message-ID: <CACRpkdaC79-UPDg17cnanBFbsnOrzgwks7HCLxfrn_eBwNuXxA@mail.gmail.com>
-Subject: Re: [PATCH] Input: ads7846 - add dummy command register clearing cycle
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Aaro Koskinen <aaro.koskinen@iki.fi>
-Cc: Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@dh-electronics.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK4bfGYC/12NwQrCMBBEf6Xs2UgSWq2ePHjQb5ASErNtFqWtG
+ 4lK6b8b6s3jm2HeTBCRCSPsiwkYE0Ua+gx6VcA12L5DQT4zaKlLuVGlCORNeBnGh3FjK3wr3a6
+ y6EpdQR6NjC29F+EFTucjNDkMFJ8Df5aTpJbq59Pq35eUkMJvratdXVdWusMNucf7euAOmnmev
+ wW9AQayAAAA
+To: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719409602; l=3372;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=fowNjRUPqytav6kaGkQlvoda+Xzi+RnRNNTdb1ay/w4=;
+ b=SejyWtK62WC9iE0OJ8KJDNd3lehwTElCdkkp4775Sjrkc7Avs9E7oefzFyCPTzk9bbRuKdjAX
+ myisqS+QNMLAPqNQ2lfy+3FHvQtg4+F4PuLrZ2t1rejxnE9JHSJN4Hr
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Tue, Jun 25, 2024 at 10:50=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+This series is a followup of the struct_ops conversion.
 
-> I am concerned that we are putting workaroud for a single controller
-> into common function. Can we quirk it based on compatible? If not then I
-> would like someone to run tests on other controllers. Unfortunately I do
-> not have such hardware.
->
-> Linus, do you have devices with ads7846 or tsc2046 by chance? Spitz?
+Therefore, it is based on top of the for-6.11/bpf branch of the hid.git
+tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-6.11/bpf
 
-Sadly I do not, but it is inside the Nokia770 so maybe Aaro can test it?
-(Not sure if Aaro has the 770 though...)
+The first patch should go in ASAP, it's a fix that was detected by Dan
+and which is actually breaking some use cases.
 
-Yours,
-Linus Walleij
+The rest is adding new capabilities to HID-BPF: being able to intercept
+hid_hw_raw_request() and hid_hw_ouptut_report(). Both operations are
+write operations to the device.
+
+Having those new hooks allows to implement the "firewall" of HID
+devices: this way a bpf program can selectively authorize an hidraw
+client to write or not to the device depending on what is requested.
+
+This also allows to completely emulate new behavior: we can now create a
+"fake" feature on a HID device, and when we receive a request on this
+feature, we can emulate the answer by either statically answering or
+even by communicating with the device from bpf, as those new hooks are
+sleepable.
+
+Last, there is one change in the kfunc hid_bpf_input_report, in which it
+actually waits for the device to be ready. This will not break any
+potential users as the function was already declared as sleepable.
+
+Cheers,
+Benjamin
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Changes in v2:
+- made use of srcu, for sleepable users
+- Link to v1: https://lore.kernel.org/r/20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org
+
+---
+Benjamin Tissoires (13):
+      HID: bpf: fix dispatch_hid_bpf_device_event uninitialized ret value
+      HID: add source argument to HID low level functions
+      HID: bpf: protect HID-BPF prog_list access by a SRCU
+      HID: bpf: add HID-BPF hooks for hid_hw_raw_requests
+      HID: bpf: prevent infinite recursions with hid_hw_raw_requests hooks
+      selftests/hid: add tests for hid_hw_raw_request HID-BPF hooks
+      HID: bpf: add HID-BPF hooks for hid_hw_output_report
+      selftests/hid: add tests for hid_hw_output_report HID-BPF hooks
+      HID: bpf: make hid_bpf_input_report() sleep until the device is ready
+      selftests/hid: add wq test for hid_bpf_input_report()
+      HID: bpf: allow hid_device_event hooks to inject input reports on self
+      selftests/hid: add another test for injecting an event from an event hook
+      selftests/hid: add an infinite loop test for hid_bpf_try_input_report
+
+ Documentation/hid/hid-bpf.rst                      |   2 +-
+ drivers/hid/bpf/hid_bpf_dispatch.c                 | 165 ++++++++++-
+ drivers/hid/bpf/hid_bpf_dispatch.h                 |   1 +
+ drivers/hid/bpf/hid_bpf_struct_ops.c               |   6 +-
+ drivers/hid/hid-core.c                             | 118 +++++---
+ drivers/hid/hidraw.c                               |  10 +-
+ include/linux/hid.h                                |   7 +
+ include/linux/hid_bpf.h                            |  80 ++++-
+ tools/testing/selftests/hid/hid_bpf.c              | 326 +++++++++++++++++++++
+ tools/testing/selftests/hid/progs/hid.c            | 292 ++++++++++++++++++
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |  13 +
+ 11 files changed, 955 insertions(+), 65 deletions(-)
+---
+base-commit: 33c0fb85b571b0f1bbdbf466e770eebeb29e6f41
+change-id: 20240614-hid_hw_req_bpf-df0b95aeb425
+
+Best regards,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
+
 
