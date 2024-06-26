@@ -1,123 +1,134 @@
-Return-Path: <linux-input+bounces-4656-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4657-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003D4919CEF
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 03:24:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D58919E2B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 06:29:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 326631C20929
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 01:24:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A47B31F23474
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 04:29:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB79D613D;
-	Thu, 27 Jun 2024 01:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0781BF24;
+	Thu, 27 Jun 2024 04:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHxm45Wx"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="d0nZiXMO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8031E5223
-	for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 01:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A851864C
+	for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 04:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719451469; cv=none; b=aO6itpSYAU5pvJ/d5KB+8rKRptnre2Mm86pvm7BpaxPdpXhjH4QCJIGe/ov1+hOs9+WJuBgKbcJsf5IZhak8X0GgSooen7X50zknX7P+B+a9ht5QaYQdMOmJXuLWuLGbNfv8exs4rWYfVyWESdxl3pxl+8h75dbHmu2d2brbhuo=
+	t=1719462581; cv=none; b=Wv6MBn+ntDRJH1UsD/DMpmqZ3ngLNnA9ppLnAWrCzKH1Gs7KXdJih857z3ryA9hy810ZsXHUaC/I61mw48yvEs+Gh2nqftdxK0unOPShyrqakQXraSbVI8lwUQu9BvYfsVzT0+JB5W7cE42LhEdmr2hKRhq1Wb8tUelwrG+tNSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719451469; c=relaxed/simple;
-	bh=okDc0cuuSIf1l57t41xUr1c3wyqQiWoF0TYgoxrGvZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EbuMhuItEyE8SN5Joq8r5YERNLMF8nwUS8wqH4olHG4dvrnGu5nG+bOFgEcWPmnoe/xeKXRHoZOgD7PxK3BKchlDCP7w/LGGlGXwvEn9im/v53Ku87lS0pH2fajofnUYvmI9zdrg67GSb303OdrUyo81Dlv4MmEW9vQ+7Mrdej8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHxm45Wx; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfef5980a69so7277283276.3
-        for <linux-input@vger.kernel.org>; Wed, 26 Jun 2024 18:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719451467; x=1720056267; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YJ495YCxMt4o91NvscAPBM2TalAX8peDvOQUdp9mfNM=;
-        b=lHxm45Wx5+vvE5PJWFs6fjid3+tr0d0S31aNXbtjbLdIuIQvuj39jKLme2AWNaA62e
-         HJW5/9nkudwhk3VwuoMLQ/0riRx2i+mUdgDgcADjR0ViXihjPkWo7KnWT3vq9chdAzDA
-         45GTHhhEKtPgpyiGYXFxgWa7+BR94747b87oJV5LXrG31FVBpmG/lFb8JBdB55DsykP0
-         J+M4Y9n0xY6jeVXhrz7iT1AYP91fAD1Zv/pX8btL+0vOmFieW4F9Sv5kkeSA+uqXCOks
-         7hO0Xzik5SlxIrmNcbouf5Wc7O72Yyov9FzaYSj8AUWPmB4IAK2oYmxBs0OLb5YUr8xT
-         n1iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719451467; x=1720056267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YJ495YCxMt4o91NvscAPBM2TalAX8peDvOQUdp9mfNM=;
-        b=pQRyna4YkKN+0W08dxstqhsR7Y1YdaAND3OkbkFRvLJdHvghe6E+9PoY2WkH1pOFWh
-         h4/Vn1Hcy1435K9DdolPbXxGk+t0oQQXO43IQDYFt3icA9fizdfeXey++NKyoyb1q1Im
-         BNUBTQS14jRhoJq2su/GKRMzyiEMe6qs2aqIVc4Aypk8sr3nvI15Z1s0wUr2/tWTpvQM
-         LF/f+s287RmZFAci0O72NjwLWbyTsWbYy90EfBcyfFl1zIQZJ2fAjmg+Y9zCjXwhNyDJ
-         Bq3/yhbEaa/Bz3QpHIsx6JmRYoD4dJ4pgWb7MczxlnVAnVuJzA+I4Ypd8l3KWfpWEjGw
-         LiHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzkIYk/0Xmz3xh3hs15EunOEc66dTVGYVcN0mpIpUIC/xgw+YXlzDtrxPH6Xm/ZFRRJv3JcDzQpm/IeCLgzMyfoaWKdxLQYJStQQI=
-X-Gm-Message-State: AOJu0Yzt4FErxciRqtB1966NgFbjNWqF/k2936QDNa0vG74WSVoOrtO8
-	e904VsSgpDLwu+XFuqpTVnVH2rwMPdi8qKdEVPtdaaKKsH62/Q6tT+bKy7olTjzbfHDR2AqBidM
-	qpDa5oYHK+5HAUnny/Inc+MBHsTk=
-X-Google-Smtp-Source: AGHT+IFkbsKkE4eIdwmpwrHuPJ7AxQ9Qobpf6xJndRYc2VFOHv/mARlgbNaq9J+7rK980jSYUSqF4ZONkDO3+0gzOCQ=
-X-Received: by 2002:a25:bfcc:0:b0:e02:2c19:493f with SMTP id
- 3f1490d57ef6-e03010b11ecmr11725682276.57.1719451467316; Wed, 26 Jun 2024
- 18:24:27 -0700 (PDT)
+	s=arc-20240116; t=1719462581; c=relaxed/simple;
+	bh=WxM89B8GdFcvIky4khjE/J1YoHF/vA0+MuOxGFXi9Uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GG0H6qACp3qQT2X6Kd8gtaeDfngHuImfWYuHmIlBC96dHpINWcLDLabYr8Ns7JVMdfdOG7xMLe4679/gwZLtmNnpu3ap54M4CQ1nm5axbbRVw1bBLKRoRseH3d7ko0Dcba6VuJtfiODauoDSIukj21cah+BXXHmEbCNXCWUCYEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=d0nZiXMO; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id A82B488418;
+	Thu, 27 Jun 2024 06:29:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1719462577;
+	bh=aWWqWdnU7+yrg17a567wt24wi3FnoqsfAdqndcpRsW0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d0nZiXMObzibcdbTZAGQorY0zyRT0auzjw7CY6AEBxYvuB1+R73uBHeLnmXQ7nDYT
+	 XYpIxfV0EbihOpfI0RKuw1XdVaHw68PPwh3eWzqC7BjySTE3o4mHWL9ZDPPBpmds4t
+	 Uwf6lUMBGOgVLcx/H/9vk6qtLPOCibIo1Ikq877WmH/6PKTZLJxJCynXaiqZEt5fST
+	 Yx6nqUcvz8v9uavrTQe0iPk9oR7z/2P4V83egJ9YksvrrVChIGbiyAasLWtRF+9zu5
+	 1ef4DkXDK8U+dmWGEB4Etvz2Jbm83NvmP4pBtl2eC1Ks/8M3DpIjiElmNwUcz9Td/P
+	 uKi80dvI+5Jcw==
+Message-ID: <15130710-c446-4df0-ad8e-638491399499@denx.de>
+Date: Wed, 26 Jun 2024 22:08:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624065359.2985060-1-zhoubinbin@loongson.cn> <ZntY8UO-VIW3reL4@google.com>
-In-Reply-To: <ZntY8UO-VIW3reL4@google.com>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Thu, 27 Jun 2024 07:24:15 +0600
-Message-ID: <CAMpQs4LmAc6_-2KHEnZsnaMdbUWVTE_zhDK8W4GEtnBJyr0AUg@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: Add driver for PixArt PS/2 touchpad
-To: Aseda Aboagye <aaboagye@chromium.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Jon Xie <jon_xie@pixart.com>, Jay Lee <jay_lee@pixart.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	loongson-kernel@lists.loongnix.cn, linux-input@vger.kernel.org, 
-	Xiaotian Wu <wuxiaotian@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: ads7846 - add dummy command register clearing
+ cycle
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>, kernel@dh-electronics.com
+References: <20240320072533.170029-1-marex@denx.de>
+ <dfc1b846-24ea-42c4-adfe-2b762e2f8851@denx.de> <Znstp_l5l2PUgIfP@google.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <Znstp_l5l2PUgIfP@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi Aseda:
+On 6/25/24 10:50 PM, Dmitry Torokhov wrote:
+> On Sun, Jun 23, 2024 at 08:21:00PM +0200, Marek Vasut wrote:
+>> On 3/20/24 8:23 AM, Marek Vasut wrote:
+>>> On STM32MP135F with XPT2046 touch controller attached to SPI bus, it has
+>>> been observed that the touch controller locks up after Linux kernel has
+>>> finished booting. Adding a dummy cycle on the SPI bus seems to mitigate
+>>> the lock up.
+>>>
+>>> The XPTEK XPT2046 controller seems to be an identical clone of TI TSC2046,
+>>> the datasheet seems to be a clone of the TI part as well, text seem to be
+>>> word to word identical, except all the pictures have been drawn again.
+>>>
+>>> This touch controller is present e.g. on WaveShare 3.2inch RPi LCD (B)
+>>> panel, the DTO provided by WaveShare uses 50 kHz SPI clock for this
+>>> touch controller, which is unusually low and possibly might have been
+>>> used as some sort of workaround for an issue. The SPI LCD on the same
+>>> bus uses 16 MHz clock.
+>>>
+>>> SPI bus DT properties spi-cs-setup-delay-ns, spi-cs-hold-delay-ns,
+>>> spi-cs-inactive-delay-ns, spi-rx-delay-us, spi-tx-delay-us set to
+>>> range of 500ns..5us seem to have no impact on the behavior of the
+>>> touch controller, the lock up always occurs. The STM32MP13xx SPI
+>>> controller users GPIO control for the nCS pins.
+>>>
+>>> Since the dummy cycle happens after the controller has been put into
+>>> power down mode and both ADC and REF regulators have been disabled,
+>>> the cycle should have no impact on the configuration of the controller,
+>>> i.e. it should be a NOP.
+>>>
+>>> It is unclear whether this problem is specific to this cloned XPT2046
+>>> controller, or whether this is also present on TSC2046. A test on
+>>> either TSC2046 or ADS7846 would be very welcome.
+>>
+>> Hi,
+>>
+>> Are there still any open topics with this patch ?
+> 
+> I am concerned that we are putting workaroud for a single controller
+> into common function. Can we quirk it based on compatible?
 
-Thanks for your reply.
+We can, but there is a slight problem. I came across DTs which describe 
+this XPT2046 using TSC2046 or ADS7846 compatible string in those DTs, so 
+if those get used, this driver won't work correctly. On the other hand, 
+those are random downstream DTs, they are not upstream, so maybe those 
+are irrelevant.
 
-On Wed, Jun 26, 2024 at 7:55=E2=80=AFAM Aseda Aboagye <aaboagye@chromium.or=
-g> wrote:
->
-> Hi Binbin,
->
-> On Mon, Jun 24, 2024 at 02:53:59PM +0800, Binbin Zhou wrote:
-> > +
-> > +static void pixart_reset(struct psmouse *psmouse)
-> > +{
-> > +     ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
-> > +     msleep(100);
-> > +     psmouse_reset(psmouse);
-> > +}
->
-> What is the reason for the 100ms delay here? Is it to prepare the
-> controller for the upcoming reset? If so, could it perhaps be
-> defined as a macro?
->
-Yes, the 100ms is required for the upcoming reset.
-And we just use it in this one place, do we really have to define it as a m=
-acro?
+> If not then I
+> would like someone to run tests on other controllers. Unfortunately I do
+> not have such hardware.
 
-Thanks.
-Binbin
+I did dig through my pile and I don't have one such controller either.
 
-> Thanks,
+> Linus, do you have devices with ads7846 or tsc2046 by chance? Spitz?
 
->
-> --
-> Aseda Aboagye
+I would much rather see this tested on at least one of the old 
+controllers than add a quirk via DT compatible, because I believe this 
+won't have adverse effects on those controllers, and it would help cover 
+the odd DTs which consider this to be a drop-in compatible replacement 
+for TSC2046 transparently (even if it really is not quite compatible).
 
