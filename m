@@ -1,141 +1,123 @@
-Return-Path: <linux-input+bounces-4677-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4678-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2259C91ABD1
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 17:49:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DE391AD34
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 18:51:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D233D281F74
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 15:49:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16EB328884B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 16:51:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C823199244;
-	Thu, 27 Jun 2024 15:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C6181990C4;
+	Thu, 27 Jun 2024 16:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gp+WXlJi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQi/AgxK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA491922CD;
-	Thu, 27 Jun 2024 15:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23791991DB;
+	Thu, 27 Jun 2024 16:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719503354; cv=none; b=uJzyqBdsjjaduHO0bhL5/rsVfNAoh4MxJds7ofy3TR+1VWtc+WGO5G7ke0waTCxXml8vCH7bS2zA6ptH5VcORY28rvNQkLfv9kaUtS1IUQX8od3RzA2jzlpAG1S6h5n6Ycu9Vj/qV5gI9T2hejSuzP6sdpAYzof5yqD8s29sYtA=
+	t=1719507074; cv=none; b=dCdm1Ug6KZX0urgDCwHdWaFFbHS3LfWIloPkL/Zn+0+Bvfxexlf9VcIPNukofbNaagU57/MIV03GB00dOVjlVa/vWItDzG2uvpfibVBqu7QUINtAQx3/wqDyo6qAghQENdmvn9R+TUovYmremfgrWoZvZQjhMALLxB3r/bdy4NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719503354; c=relaxed/simple;
-	bh=xgjUZRmQAA3oaZk9hzcDX3hZLFBkFo2wuKMcGzAVB7o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pXFfHONVJfyCpQWZ0rXxIbaPyiqybMMMRDF+8jxwMihzK57/fdGy7c9gzIeVN+HLnOh7HSFHYTN40jsJi3kBIOE0fZZjEIWTln43g4tC2o9e2NaFNtm464znyMeaQW5MrUFssVF0Fsi+tDQ7LYMXsBE6PrimdjiP+vL+LEh//QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gp+WXlJi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAB6C2BBFC;
-	Thu, 27 Jun 2024 15:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719503353;
-	bh=xgjUZRmQAA3oaZk9hzcDX3hZLFBkFo2wuKMcGzAVB7o=;
-	h=From:Date:Subject:To:Cc:From;
-	b=Gp+WXlJid+W5KQva3Or6bBrmAxtgW1JfEYGGFvUqcMHvHeiRIvB2FGkAJxGz24nbH
-	 G7L6CTA5F+q4g2VR5yAj1KTQ65zan0/GZLIDNA4kpQ0IQXYdOnkbs7Wf/5uklveGKr
-	 pM0CRvrtH2GKG7SIcTeRKL2yyM1qO571EBkNWH9LDuGlW857QfEz7iRCREeZxNCmYp
-	 jywdPpKQUbJEpw+Y3Y4H5eAjbo9YKTUP86LTaLFhTWfAH9zX5nLQlht5tYSfSNqVsc
-	 Ws0RZouZId2PG2dsU6qucoavHvhR7wp1ZI/LQ0qiUnrhj2cKCx3dtrZxnjPg528EUf
-	 hnfLQQP5nQtHw==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Thu, 27 Jun 2024 17:49:07 +0200
-Subject: [PATCH] selftests/hid: ensure CKI can compile our new tests on old
- kernels
+	s=arc-20240116; t=1719507074; c=relaxed/simple;
+	bh=zpcwn9flbKcq0T6UN63hvuzvkWllw7Tqpb3Aa9DMctE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLwW7UY7xCacxJYrF6R9mfHBjpXagWFGDf/OWOvqax3p2eXLFoXcoFFwb5mVLxi8dE7Vpc/RF2fzJjZtYv4bI9cl3k2R7m+ekHJ1ZyjsrTbjyW1Ch9FDxM1/lr3WW6tMVSF+YGh4q7QSRvy7JWbySxgzFlKsRiZ2kz/QBU53MTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQi/AgxK; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7067435d376so1501292b3a.0;
+        Thu, 27 Jun 2024 09:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719507072; x=1720111872; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=q+P8ZMHBFh7Ea0PmzSMD7AKjbgN9ipTjqguYxy6dCKE=;
+        b=kQi/AgxKbrOaTCQcbqljQdJ0uhD16kALh6KHedKaoHrd8r6FtZi2ot/WsfhDNAamTR
+         dpdKFuNS2UybYc6f7YCJsrgi7WatvAtnO9doDOK9nUxJNT0RRKXhHN7hjPiaOMBwoQ2e
+         iH21tWXJ6KmVlttKvoeBM0nv7HiQSoWvyma2Zs4g6CzNNbMGdkw3c7HKHv89MJpEmrpi
+         VxdFwlyMDY4jP65xlmgTcEOZPdcQlyu2OhBNVLr+hU+WJQzqyW0Otgqqd/2eL5srru+x
+         qBvQ26zqTXzs8ShOyYoI6Ze8KhugQ6yqQDGe9HE+lVmI4mcE4lJzxItWN31Rou4CB6BX
+         LgTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719507072; x=1720111872;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q+P8ZMHBFh7Ea0PmzSMD7AKjbgN9ipTjqguYxy6dCKE=;
+        b=DAFujQxTGgowZ9O4rJ/0stznGz7Icgia+wC/+O+wgmz1iUHSw6u/YBg2GrnPhKg0kt
+         7YbiUq8s4dq1167hz/OpM0HuPZo/yUJON4T0v69TCVMppeXvueDmyBfbbf029LT7haBh
+         0LYebxY7ztjwh+WkSu9oWJbB1HJ0LOW48c62bCSYJnqkZfATISz5fpicuXJHopvqL09s
+         /iXmxcjIxDVMmfB2f249X3toeBFrk+VD32PQmM33UOLs7GRvaVafahTtIuQZLFSqKeB7
+         gNh3v+SbtdcoCQXt+yqWkt1zmC/7zhyKO5p51FQKdyJ6uP1i+0LQcmzqIb90ohxdt74z
+         +IIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWc8fVz0dDYoPfHJNmxKW4woywtG3CVe/g/V/9aCy3yZqZQ22FguXuw5mi0DID9Tj19WG72/01H/YRw+I9cRT8tDfu/Op/pI9SVk6ISB+0GBzyjTbjSBeMoSnW/EIDR254Kc97e8piyQc1Y0kHFAYViGSvEaF8ia/4hLaym9tuVpLnEwYtJ
+X-Gm-Message-State: AOJu0YzYM7zJxmaWfReq0KhLJzHvBqznMXyQI9E1IJM+66mILK94lgeo
+	UJJByWFc1xt1zSnMfXOyQHjfg28lV8v3GJcEIuTPA1Kx0pML+0NW
+X-Google-Smtp-Source: AGHT+IEtsHGRa5kfKuqYiySLzZn6IDZD4AjzxULhgcZLdzw6y6a3eBUMXL/wpPOeXdDOqPwZo5HkNg==
+X-Received: by 2002:a05:6a00:928f:b0:706:7797:27ef with SMTP id d2e1a72fcca58-706b4fec34emr3808432b3a.1.1719507071890;
+        Thu, 27 Jun 2024 09:51:11 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c4ea:7ce4:91ae:d360])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-706b4a073c3sm1585740b3a.115.2024.06.27.09.51.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 09:51:11 -0700 (PDT)
+Date: Thu, 27 Jun 2024 09:51:09 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH] Input: exc3000 - add EXC81W32 support
+Message-ID: <Zn2Yfeaewi-Bxx83@google.com>
+References: <20240626-input-exc3000-exc81w32-v1-1-ac42d3b87aff@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240627-fix-cki-v1-1-2b47ceac116a@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPKJfWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDMyNz3bTMCt3k7EzdNGNzIwtT0+SkNLM0JaDqgqJUoBTYpOjY2loAGLL
- Jn1kAAAA=
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
- Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719503352; l=2538;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=xgjUZRmQAA3oaZk9hzcDX3hZLFBkFo2wuKMcGzAVB7o=;
- b=95iTWBmDiE/6+whJH0CAZPlsQ44A96rWBoxXMbzBOr+W6DyK+lrkdI4ij6ksmS7kWoPGSpQ7b
- QfDjmuoPtHCD3OzlQKXT5iyAoA9sLQNdI/k3BCNezixLRIywl6bjnEU
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240626-input-exc3000-exc81w32-v1-1-ac42d3b87aff@pengutronix.de>
 
-In the same way than commit ae7487d112cf ("selftests/hid: ensure we can
-compile the tests on kernels pre-6.3") we should expose struct hid_bpf_ops
-when it's not available in vmlinux.h.
+Hi Philipp,
 
-So unexpose an eventual struct hid_bpf_ops, include vmlinux.h, and
-re-export struct hid_bpf_ops.
+On Wed, Jun 26, 2024 at 04:26:48PM +0200, Philipp Zabel wrote:
+> This adds support for EXC81W32 controllers.
+> 
+> Tested with firmware reported as type "PCAP81X32 Series",
+> model "Orion_0183_1019", fw_version "8001280G".
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+>  .../devicetree/bindings/input/touchscreen/eeti,exc3000.yaml        | 1 +
+>  drivers/input/touchscreen/exc3000.c                                | 7 +++++++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+> index 9dc25d30a0a8..c299838e2680 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml
+> @@ -18,6 +18,7 @@ properties:
+>        - eeti,exc3000
+>        - eeti,exc80h60
+>        - eeti,exc80h84
+> +      - eeti,exc81w32
+>    reg:
+>      const: 0x2a
+>    interrupts:
 
-Fixes: d7696738d66b ("selftests/hid: convert the hid_bpf selftests with struct_ops")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/r/202406270328.bscLN1IF-lkp@intel.com/
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
-Same situation than in an early report when HID-BPF was initially
-included: the automatically generated vmlinux.h doesn't contain all of
-the required structs and the compilation of the bpf program fails.
----
- tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Could you please split this chunk into a separate patch so that DT folks
+can chime in on it separately from the driver change?
 
-diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-index c72e44321764..5a911f0e8625 100644
---- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-+++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-@@ -7,6 +7,7 @@
- 
- /* "undefine" structs and enums in vmlinux.h, because we "override" them below */
- #define hid_bpf_ctx hid_bpf_ctx___not_used
-+#define hid_bpf_ops hid_bpf_ops___not_used
- #define hid_report_type hid_report_type___not_used
- #define hid_class_request hid_class_request___not_used
- #define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
-@@ -24,6 +25,7 @@
- #include "vmlinux.h"
- 
- #undef hid_bpf_ctx
-+#undef hid_bpf_ops
- #undef hid_report_type
- #undef hid_class_request
- #undef hid_bpf_attach_flags
-@@ -68,6 +70,20 @@ enum hid_class_request {
- 	HID_REQ_SET_PROTOCOL		= 0x0B,
- };
- 
-+struct hid_bpf_ops {
-+	int			hid_id;
-+	u32			flags;
-+	struct list_head	list;
-+	int (*hid_device_event)(struct hid_bpf_ctx *ctx, enum hid_report_type report_type,
-+				__u64 source);
-+	int (*hid_rdesc_fixup)(struct hid_bpf_ctx *ctx);
-+	int (*hid_hw_request)(struct hid_bpf_ctx *ctx, unsigned char reportnum,
-+			       enum hid_report_type rtype, enum hid_class_request reqtype,
-+			       __u64 source);
-+	int (*hid_hw_output_report)(struct hid_bpf_ctx *ctx, __u64 source);
-+	struct hid_device *hdev;
-+};
-+
- #ifndef BPF_F_BEFORE
- #define BPF_F_BEFORE (1U << 3)
- #endif
+Thanks.
 
----
-base-commit: d3e15189bfd4d0a9d3a7ad8bd0e6ebb1c0419f93
-change-id: 20240627-fix-cki-f372855cbf6f
-
-Best regards,
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
-
+Dmitry
 
