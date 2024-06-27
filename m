@@ -1,244 +1,133 @@
-Return-Path: <linux-input+bounces-4683-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4684-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6E491B2E7
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 01:40:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C9791B2FB
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 01:53:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF0471F21AE7
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 23:40:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D01A8283620
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 23:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970251A2FCA;
-	Thu, 27 Jun 2024 23:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1BB1A2FD0;
+	Thu, 27 Jun 2024 23:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b="I4aNvlya"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ANg6MnLv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7301D199E93
-	for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 23:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383C01A2FCF
+	for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 23:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719531628; cv=none; b=ScgE7Ln9L2B84d6FjWhxgTOhkOH/8KTIFmEHB1oMK3n+eDL3bX5kOdpdlmR3jLhsJ/OPbxtQR5rII79xoUiwK5uaTR3QTHgZ6bNv9o4t0gr8JMKHxulZ31R4IgcWzjm9qcqY2ENG8bS3DCJe3qAk/fUXkvG3ju0RIX1LO6hVUQY=
+	t=1719532427; cv=none; b=jom5eRURs6Gk84K250Bgc9DvZjQgMo2qPTvaUxLiddIkUNUg6hKzHwCs/6MlbL3oc4K1iliQVB+KrsliPgnvRTTxlGXR+S4bMWEx7DsLd9raRh3mYpvgQ68ITV0dFbpohsI3aBVRtrXB883VgfcAWmnwmBbDuW84VTLtsHRG4m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719531628; c=relaxed/simple;
-	bh=3YLvN5/iWcnZs3Q0KBZzgW6erIJeeR7biVQO+hrxAZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L3kNVRwf0arr4Gnw9QgWrBYl5Gs10VxRkDgXxdeqlh/s0JxmOH0h9CabwOjieZR+QjabXEjax8x3EkCjUnqXc+WZsRgxHkaTm3G2wuLS2/djrdizIDS/gcJ0qICwq3g4Z5iG9MxtLaCt108nvH6zMsTxAdFCblIJPlxfXMqoVkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org; spf=pass smtp.mailfrom=postmarketos.org; dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b=I4aNvlya; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=postmarketos.org
-X-Envelope-To: andersson@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
-	s=key1; t=1719531624;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ie79ko5ZwHfoNCk1wIpxCXgeugvWB+WfyJLcLpro6L8=;
-	b=I4aNvlya48pBk20R4FvuMMw8yqtuXqjSwf+gUF9PkL4gKx0sOR6zFhY9xHOrKqL2TmLcwc
-	ksL9/WWiwMdvVxGY7AlY5oPeFXcLgc54kKr5Po2JxSWDjFUBs1nCH7lXJSsQMh+U/w638C
-	PWRhBn6ASko5N/9xNjDYFjL60N8ooVgJvyfE8EZMbfd8plOLBwr/YMSC8/fi2N1KD3YbLm
-	3HFfPPENowli0BizsQIlc8JOJ4CfzenzM7rbx0wsVLdXXfBXbxihPh3Ihe0eOGUHjiGobb
-	dXxoDP3qG8Bf6VX5c5KNUxWT4MhDD5qQNwR3kKU6FWQw2cvAZEUqEbQ0oinrOw==
-X-Envelope-To: neil.armstrong@linaro.org
-X-Envelope-To: quic_jesszhan@quicinc.com
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: dmitry.torokhov@gmail.com
-X-Envelope-To: konrad.dybcio@linaro.org
-X-Envelope-To: rydberg@bitmath.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-input@vger.kernel.org
-X-Envelope-To: linux-arm-msm@vger.kernel.org
-X-Envelope-To: ~postmarketos/upstreaming@lists.sr.ht
-X-Envelope-To: frieder.hannenheim@proton.me
-Message-ID: <f4100977-230b-4d0a-8a11-8040407737a0@postmarketos.org>
-Date: Fri, 28 Jun 2024 01:40:20 +0200
+	s=arc-20240116; t=1719532427; c=relaxed/simple;
+	bh=8TDzL4LG+A2ddCLi6fgg9V+G2E1PrISrQcbK/zNYedM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lpVT6hiRq+kefA2cTDJpDADvaHp498sa7UrJUcxFM8tBsYZp76rdQ49mGjm9yP6lDCOZ01uz9RrkusllmhBLQg9FHp2BsyR20+z+EFE0zHXIM50pQPXE3xebHd2WJHrmIrLU3385VCfB5QGUiw74a8Kjgy16V4hkgl+qttzAyd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ANg6MnLv; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fa07e4f44eso8055ad.2
+        for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1719532424; x=1720137224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GvgNRfUrYC3vDPSHgELOXCgco+1ty8Hri5LXWyU0EuU=;
+        b=ANg6MnLv9Nt+cvvg85p7tHx6wWPzblkE5JkOrwBtxxh7KZzqH0/h8E0lN1BGqnCYSv
+         hbsR3B9eeSWxC10BuGLA32B0N63v3ewnnBwazfYnhz0mKDgcGBTqV6ovY5uj3oK0U9GB
+         TUFDgcSof5vgtRJuvtX2ZO1bqUvbbbQ3xUMmI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719532424; x=1720137224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GvgNRfUrYC3vDPSHgELOXCgco+1ty8Hri5LXWyU0EuU=;
+        b=C23we0h5iNV2sqibg/qFMVEnWH1jRict5kH+XhomgvMGznqVcz/ZG9BRFdw9bXf29Q
+         DJkMITo48P8P9bUnnC2wSvfLsCg17/B7WuX2lIws3FuZczLvJD4FQSykiQtnw/iwnYQH
+         oeObsF8+zZSnL4ucx2PEGXBYULOGBloLNk30y/F92zyU9OlqL/Wyz5JqUMiftQPBIOgb
+         LBo4fXnHIakvkCacZWih/uGst/nMBy39ke9ZR7NuzSRBk8BgIbn4SVH92A9ZE1Ouq0py
+         dFb7ZpOY/G/wYyBT0xJAZoi5LTkhXabq1vJKOg42xbp6NrP6wURSE8ITigIPHMwpo/6r
+         NV4g==
+X-Forwarded-Encrypted: i=1; AJvYcCWWY8wzC3JVOlhfhIF0VmEMcZm3FVkEsAkP4cztYiXZjXmL1Zu37gdZk31j/GQQwSsFuicORCpNTexoJEmGRNr/cjrSryl8wlkx8xw=
+X-Gm-Message-State: AOJu0Ywz4fp1tsVSjcQ72i2OAyTJsMjqOnqVpLJKY5xLwat+ysLbvANP
+	8JW+FaOO1VD3ZMbnaDqbIXUkhplyF8le8voK6Ru6z4ZZbWaHTlfhBQnmRBj2cFDqUEF4UhhyNkA
+	=
+X-Google-Smtp-Source: AGHT+IFTGJHi0WhKn1jfdIqcqfPQxr8jYnm7Tq2RVmaHgug3fRpbKxlPiPDM9y6uifF4i205XhWnMg==
+X-Received: by 2002:a17:902:ea08:b0:1f6:5013:7842 with SMTP id d9443c01a7336-1fa23cd95edmr158375265ad.27.1719532424505;
+        Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+Received: from pc98uv11.mtv.corp.google.com ([2620:15c:9d:2:cf5d:cb26:248e:ee00])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac11d8cd2sm3366595ad.107.2024.06.27.16.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 16:53:44 -0700 (PDT)
+From: Daisuke Nojiri <dnojiri@chromium.org>
+To: 
+Cc: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Reka Norman <rekanorman@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Pavan Holla <pholla@chromium.org>,
+	Lukasz Majczak <lma@chromium.org>,
+	Ching-Kang Yen <chingkang@chromium.org>,
+	Daisuke Nojiri <dnojiri@chromium.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 0/2] Consolidate ec_response_get_next_event
+Date: Thu, 27 Jun 2024 16:53:06 -0700
+Message-ID: <cover.1719531519.git.dnojiri@chromium.org>
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 7/7] arm64: dts: qcom: add OnePlus 8T (kebab)
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Frieder Hannenheim <frieder.hannenheim@proton.me>
-References: <20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org>
- <20240624-oneplus8-v1-7-388eecf2dff7@postmarketos.org>
- <ckl554gpw74ot7x7ruce3ik2judbwg3ift2aiqr2wycgu6zhbh@jk5wp2so6pm7>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Caleb Connolly <caleb@postmarketos.org>
-In-Reply-To: <ckl554gpw74ot7x7ruce3ik2judbwg3ift2aiqr2wycgu6zhbh@jk5wp2so6pm7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
+---
+Changes in v5:
+ - Merged changes in cros_ec_commands.h and cros_ec_proto.c
 
+Changes in v4:
+ - Change subject line: ARM:... to dt-bindings:...
+ - Add description about keyboard matrix v3.0.
+ - Add cover letter.
 
-On 26/06/2024 06:16, Bjorn Andersson wrote:
-> On Mon, Jun 24, 2024 at 03:30:31AM GMT, Caleb Connolly wrote:
->> Initial support for USB, UFS, touchscreen, panel, wifi, and bluetooth.
->>
-> 
-> Nice.
-> 
->> diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi
-> [..]
->> +	vph_pwr: vph-pwr-regulator {
-> 
-> Please keep nodes sorted by address, then node name, then label (as
-> applicable). Perhaps making the -regulator suffix a regulator- prefix
-> instead (to keep them grouped).
-> 
->> +		compatible = "regulator-fixed";
->> +		regulator-name = "vph_pwr";
->> +		regulator-min-microvolt = <3700000>;
->> +		regulator-max-microvolt = <3700000>;
->> +		regulator-always-on;
->> +	};
->> +
->> +	vreg_s4a_1p8: vreg-s4a-1p8 {
->> +		compatible = "regulator-fixed";
->> +		regulator-name = "vreg_s4a_1p8";
->> +		regulator-min-microvolt = <1800000>;
->> +		regulator-max-microvolt = <1800000>;
->> +		regulator-always-on;
->> +	};
-> [..]
->> +&adsp {
->> +	status = "okay";
-> 
-> Per Documentation/devicetree/bindings/dts-coding-style.rst please keep
-> "status" as last property in your nodes.
-> 
->> +	firmware-name = "qcom/sm8250/OnePlus/adsp.mbn";
->> +};
->> +
-> [..]
->> +&mdss_dsi0 {
->> +	status = "okay";
->> +	vdda-supply = <&vreg_l9a_1p2>;
->> +
->> +	display_panel: panel@0 {
->> +		reg = <0>;
->> +		vddio-supply = <&vreg_l14a_1p8>;
->> +		vdd-supply = <&vreg_l11c_3p3>;
->> +		avdd-supply = <&panel_avdd_5p5>;
-> 
-> How do you know that the panel will have these properties, when you
-> don't give it a compatible here? Not a strong objection, but perhaps
-> this should be pushed out?
+---
+Changes in v3:
+ - Remove CROS_KBD_V30 in Kconfig and macros conditionally set in
+   cros-ec-keyboard.dtsi.
 
-I'll double check, I assumed all the panels on all the variants of this 
-platform used the same regulators (the 8 and 8 pro as well) but i could 
-be mistaken.
-> 
->> +		/* FIXME: There is a bug somewhere in the display stack and it isn't
->> +		 * possible to get the panel to a working state after toggling reset.
->> +		 * At best it just shows one or more vertical red lines. So for now
->> +		 * let's skip the reset GPIO.
->> +		 */
->> +		// reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
->> +
->> +		pinctrl-0 = <&panel_reset_pins &panel_vsync_pins &panel_vout_pins>;
->> +		pinctrl-names = "default";
->> +
->> +		status = "disabled";
->> +
->> +		port {
->> +			panel_in_0: endpoint {
->> +				remote-endpoint = <&mdss_dsi0_out>;
->> +			};
->> +		};
->> +	};
->> +
->> +};
-> [..]
->> +&pm8150_gpios {
->> +	gpio-reserved-ranges = <2 1>, <4 1>, <8 1>;
-> 
-> How come?
+---
+Changes in v2:
+ - Separate cros_ec_commands.h from cros_ec_proto.{c.h}.
+ - Remove Change-Id, TEST=, BUG= lines.
 
-I'll check this, I forgot to make a note originally, but I do remember 
-that I was only able to figure out which GPIOs were causing the 
-crashdump by squinting at the magic writing in the tz log (one of the 
-values corresponds to to a register address iirc).
-> 
->> +};
->> +
-> [..]
->> +&tlmm {
->> +	gpio-reserved-ranges = <28 4>, <40 4>;
->> +
->> +	bt_en_state: bt-default-state {
->> +		pins = "gpio21";
->> +		function = "gpio";
->> +		drive-strength = <16>;
->> +		output-low;
->> +		bias-pull-up;
->> +	};
->> +
->> +	wlan_en_state: wlan-default-state {
->> +		wlan-en-pins {
-> 
-> Perhaps flatten this? >
->> +			pins = "gpio20";
->> +			function = "gpio";
->> +
->> +			drive-strength = <16>;
->> +			output-low;
->> +			bias-pull-up;
->> +		};
->> +	};
->> +
-> [..]
->> diff --git a/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts b/arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts
-> [..]
->> +&i2c13 {
-> [..]
->> +};
->> +
->> +&display_panel {
-> 
-> 'd' < 'i'
+---
+Daisuke Nojiri (2):
+  cros_ec_proto: Consolidate ec_response_get_next_event
+  dt-bindings: cros-ec-keyboard: Add keyboard matrix v3.0
 
-Ack, thanks for the review :)
-> 
-> Regards,
-> Bjorn
-> 
->> +	compatible = "samsung,amb655x";
->> +	status = "okay";
->> +};
->>
->> -- 
->> 2.45.0
->>
+ drivers/platform/chrome/cros_ec_proto.c       |  16 +--
+ include/dt-bindings/input/cros-ec-keyboard.h  | 104 ++++++++++++++++++
+ .../linux/platform_data/cros_ec_commands.h    |  34 +-----
+ include/linux/platform_data/cros_ec_proto.h   |   2 +-
+ 4 files changed, 114 insertions(+), 42 deletions(-)
 
-Kind regards,
-Caleb (they/them)
+-- 
+2.45.2.803.g4e1b14247a-goog
+
 
