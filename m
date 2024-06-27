@@ -1,134 +1,191 @@
-Return-Path: <linux-input+bounces-4657-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4658-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D58919E2B
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 06:29:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30201919FA0
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 08:55:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A47B31F23474
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 04:29:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 529C41C2110E
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jun 2024 06:55:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0781BF24;
-	Thu, 27 Jun 2024 04:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 306323FB94;
+	Thu, 27 Jun 2024 06:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="d0nZiXMO"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Apxgdcar"
 X-Original-To: linux-input@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A851864C
-	for <linux-input@vger.kernel.org>; Thu, 27 Jun 2024 04:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217573D982;
+	Thu, 27 Jun 2024 06:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719462581; cv=none; b=Wv6MBn+ntDRJH1UsD/DMpmqZ3ngLNnA9ppLnAWrCzKH1Gs7KXdJih857z3ryA9hy810ZsXHUaC/I61mw48yvEs+Gh2nqftdxK0unOPShyrqakQXraSbVI8lwUQu9BvYfsVzT0+JB5W7cE42LhEdmr2hKRhq1Wb8tUelwrG+tNSM=
+	t=1719471298; cv=none; b=pYRWrwLt1RQkFTtUV/MlXSzN/VcrwvLKwopZRLtiLCRCIrj7CDcA8iGqwUX1ezsAREmgHi+KnKUJiiR/ocwsR8RdDfE9QnVtx7eGyXw6EQSbmKrr9ScZBAyJupKWQOuTHuWreivwLnRO/tOek2yYcVPYko1h80btwZkvxtEbOO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719462581; c=relaxed/simple;
-	bh=WxM89B8GdFcvIky4khjE/J1YoHF/vA0+MuOxGFXi9Uk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GG0H6qACp3qQT2X6Kd8gtaeDfngHuImfWYuHmIlBC96dHpINWcLDLabYr8Ns7JVMdfdOG7xMLe4679/gwZLtmNnpu3ap54M4CQ1nm5axbbRVw1bBLKRoRseH3d7ko0Dcba6VuJtfiODauoDSIukj21cah+BXXHmEbCNXCWUCYEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=d0nZiXMO; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id A82B488418;
-	Thu, 27 Jun 2024 06:29:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1719462577;
-	bh=aWWqWdnU7+yrg17a567wt24wi3FnoqsfAdqndcpRsW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=d0nZiXMObzibcdbTZAGQorY0zyRT0auzjw7CY6AEBxYvuB1+R73uBHeLnmXQ7nDYT
-	 XYpIxfV0EbihOpfI0RKuw1XdVaHw68PPwh3eWzqC7BjySTE3o4mHWL9ZDPPBpmds4t
-	 Uwf6lUMBGOgVLcx/H/9vk6qtLPOCibIo1Ikq877WmH/6PKTZLJxJCynXaiqZEt5fST
-	 Yx6nqUcvz8v9uavrTQe0iPk9oR7z/2P4V83egJ9YksvrrVChIGbiyAasLWtRF+9zu5
-	 1ef4DkXDK8U+dmWGEB4Etvz2Jbm83NvmP4pBtl2eC1Ks/8M3DpIjiElmNwUcz9Td/P
-	 uKi80dvI+5Jcw==
-Message-ID: <15130710-c446-4df0-ad8e-638491399499@denx.de>
-Date: Wed, 26 Jun 2024 22:08:17 +0200
+	s=arc-20240116; t=1719471298; c=relaxed/simple;
+	bh=8s27ioJExjtNim++OuRDOzZMqcclii2c+GaxxeiGdm8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qhIbnYT4K7VADYHK0942wTxAI6RJNSY7lyNu0CnjD4r/LbAIit5M83OBF6HFLwDz8jUrI0hFFyvHxxxGeCD5uwcJeAoV7pP6Q8/s6s7lnqZGLwdm0U9uD7zf8FC7fK1YtAKYIuP9VOa6Or+dtcAUU7KWNIjL3O6IEkkR+asr9kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Apxgdcar; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7A48AFF809;
+	Thu, 27 Jun 2024 06:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719471293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nL0vE0DdHw2fe3t8EULh4lAk/eioWNZxHW2rdLJ7xI8=;
+	b=Apxgdcar3fmMLz8QLIZBRM4PilcTUT1vREmz5ubG48Mm0SPuhyGsYYxVX/Hxs75O3avAwj
+	2nmw5ycXbheCwV5Hc67xOxW3HTcs5HfnEVZkjyrdVPKRj13Um9OE7+PuT+r3KIYZsKewmw
+	kNbL4H7ImRyHpaDDV6zUClcBAZ6un2tghPIhZnZ+nT+ktxHW5Y3M+LAdsMClsvMLeF2IpU
+	Af4DBpmTKs3BpSpGHe6H8jnqZ79+2Ud5SoaIVDcGONvI/+ZSHhStW6HL9d/qr1uoRf8nY6
+	y+btmdQxFMb1IUbq9S7oo8Xf4+Bo3JqPjXSNcSO+jzV2ZLCG+hXXKBkBrdcC9A==
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [PATCH v15 0/3] Input: Add TouchNetix axiom touchscreen driver
+Date: Thu, 27 Jun 2024 08:54:30 +0200
+Message-ID: <20240627065434.4915-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: ads7846 - add dummy command register clearing
- cycle
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>, kernel@dh-electronics.com
-References: <20240320072533.170029-1-marex@denx.de>
- <dfc1b846-24ea-42c4-adfe-2b762e2f8851@denx.de> <Znstp_l5l2PUgIfP@google.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <Znstp_l5l2PUgIfP@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: kamel.bouhara@bootlin.com
 
-On 6/25/24 10:50 PM, Dmitry Torokhov wrote:
-> On Sun, Jun 23, 2024 at 08:21:00PM +0200, Marek Vasut wrote:
->> On 3/20/24 8:23 AM, Marek Vasut wrote:
->>> On STM32MP135F with XPT2046 touch controller attached to SPI bus, it has
->>> been observed that the touch controller locks up after Linux kernel has
->>> finished booting. Adding a dummy cycle on the SPI bus seems to mitigate
->>> the lock up.
->>>
->>> The XPTEK XPT2046 controller seems to be an identical clone of TI TSC2046,
->>> the datasheet seems to be a clone of the TI part as well, text seem to be
->>> word to word identical, except all the pictures have been drawn again.
->>>
->>> This touch controller is present e.g. on WaveShare 3.2inch RPi LCD (B)
->>> panel, the DTO provided by WaveShare uses 50 kHz SPI clock for this
->>> touch controller, which is unusually low and possibly might have been
->>> used as some sort of workaround for an issue. The SPI LCD on the same
->>> bus uses 16 MHz clock.
->>>
->>> SPI bus DT properties spi-cs-setup-delay-ns, spi-cs-hold-delay-ns,
->>> spi-cs-inactive-delay-ns, spi-rx-delay-us, spi-tx-delay-us set to
->>> range of 500ns..5us seem to have no impact on the behavior of the
->>> touch controller, the lock up always occurs. The STM32MP13xx SPI
->>> controller users GPIO control for the nCS pins.
->>>
->>> Since the dummy cycle happens after the controller has been put into
->>> power down mode and both ADC and REF regulators have been disabled,
->>> the cycle should have no impact on the configuration of the controller,
->>> i.e. it should be a NOP.
->>>
->>> It is unclear whether this problem is specific to this cloned XPT2046
->>> controller, or whether this is also present on TSC2046. A test on
->>> either TSC2046 or ADS7846 would be very welcome.
->>
->> Hi,
->>
->> Are there still any open topics with this patch ?
-> 
-> I am concerned that we are putting workaroud for a single controller
-> into common function. Can we quirk it based on compatible?
+Add a new driver for the TouchNetix's axiom family of touchscreen
+controller. This driver only support i2c and can be later adapted for
+SPI and USB support.
+--
+Changes in v15:
+ - Fix report ABS_MT_TRACKING_ID after input_mt_slot
 
-We can, but there is a slight problem. I came across DTs which describe 
-this XPT2046 using TSC2046 or ADS7846 compatible string in those DTs, so 
-if those get used, this driver won't work correctly. On the other hand, 
-those are random downstream DTs, they are not upstream, so maybe those 
-are irrelevant.
+Changes in v14:
+ - Fix is_report/present as booleans
+ - Add a comment to describe the boolean variable insert
+ - Remove not needed packed attributed from struct axiom_cmd_header
+ - Remove duplicate target event checking
+ - Only emit ABS_MT_DISTANCE/ABS_MT_PRESSURE
+ - Remove input_report_key() as a mean to indicate firs reported contact
+ - Remove EV_REL only need for u46 aka debug data
+ - Report only MT_TOOL_FINGER instead of MT_TOOL_MAX
+ - Remove unused EV_REL
+ - Remove emit BTN_TOUCH as a way to indicate first target report
+ - Remove unjustified delay after read access
+ - Remove falling back to polling mode when no irq acquired in ACPI/DT
+ - Remove handle of u46 report as it's not used
+ - Remove touchscreen_report_pos() call as it generates extra dummy events
+ - Rebase on v6.10-rc5
 
-> If not then I
-> would like someone to run tests on other controllers. Unfortunately I do
-> not have such hardware.
+Changes in v13:
+ - Fix CRC16 not selected reported in:https://lore.kernel.org/oe-kbuild-all/202405311035.5QZSREJv-lkp@intel.com/
+ - Rebase on v6.10-rc2
 
-I did dig through my pile and I don't have one such controller either.
+Changes in v12:
+ - Fix REGMAP_I2C not selected
+ - Rebase on v6.10-rc1
 
-> Linus, do you have devices with ads7846 or tsc2046 by chance? Spitz?
+Changes in v11:
+ - Fix regulators name to match dt-binding
+ - Enable regulators before reset is asserted
 
-I would much rather see this tested on at least one of the old 
-controllers than add a quirk via DT compatible, because I believe this 
-won't have adverse effects on those controllers, and it would help cover 
-the odd DTs which consider this to be a drop-in compatible replacement 
-for TSC2046 transparently (even if it really is not quite compatible).
+Changes in v10:
+ - Set regulators as required
+ - Enable power supply before reset
+ - Fix ref count due to regulator requested twice
+ - Rebase on v6.9-rc4
+
+Changes in v9:
+ - Fix issue reported in https://lore.kernel.org/oe-kbuild-all/202402201157.BKo97uWl-lkp@intel.com/
+ - Rebase on v6.8-rc2
+
+Changes in v8:
+ - Fix missing call to input_report_slot_state()
+ - Fix issue reported in https://lore.kernel.org/oe-kbuild-all/202402020623.8T1Ah513-lkp@intel.com/
+
+Changes in v7:
+ - Remove startup time from dt-binding
+ - Fix usage table not correctly populated
+
+Changes in v6:
+ - Fix missing unevaluatedProperties.in dt-binding
+ - Use __le16 to correctly deal with device endianness
+ - Use standart kernel types s/char/u8/
+ - Use regmap api as driver might support spi later
+ - Use get_unaligned_le16() for the sake of clarity
+ - Use devm_regulator_enable_optional()
+
+Changes in v5:
+ - Fix wrong message constructed in axiom_i2c_read
+ - Delay required between i2c reads is >= 250us
+ - Do not split report reading in two phases as we'll
+   have to wait 500us
+ - Use lower-case in properties names
+ - Make regulators properties are required in dt-binding
+ - Fix bug report: https://lore.kernel.org/lkml/202312051457.y3N1q3sZ-lkp@intel.com/
+ - Fix bug report: https://lore.kernel.org/lkml/6f8e3b64-5b21-4a50-8680-063ef7a93bdb@suswa.mountain/
+
+Changes in v4:
+ - Cleanup unused headers and macros
+ - Use standard kernel type
+ - Namespace structures and functions
+ - Use packed struct when possible to avoid bitfield operators
+ - Fix missing break when address is found in axiom_populate_target_address()
+ - Split reads in two steps for the reports, first length then report
+   itself so we only read required bytes
+ - Get poll-interval from devicetree
+ - Add VDDI/VDDA regulators
+ - Add a startup delay of 110 ms required after VDDA/VDDI is applied
+ - Remove axiom_i2c_write() as it is no more used
+
+Changes in v3:
+ - Remove irq-gpios property in dt-binding
+ - Use a generic node name
+ - Fix issues reported in https://lore.kernel.org/oe-kbuild-all/202310100300.oAC2M62R-lkp@intel.com/
+
+Changes in v2:
+ - Add device tree binding documentation
+ - Move core functions in axiom_i2c as we only care about i2c support now
+ - Use static function when required
+ - Use syntax dev_err_probe()
+ - Add an hardware based reset
+
+Kamel Bouhara (3):
+  dt-bindings: vendor-prefixes: Add TouchNetix AS
+  dt-bindings: input: Add TouchNetix axiom touchscreen
+  Input: Add TouchNetix axiom i2c touchscreen driver
+
+ .../input/touchscreen/touchnetix,ax54a.yaml   |  62 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ drivers/input/touchscreen/Kconfig             |  14 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/touchnetix_axiom.c  | 616 ++++++++++++++++++
+ 6 files changed, 703 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchnetix,ax54a.yaml
+ create mode 100644 drivers/input/touchscreen/touchnetix_axiom.c
+
+--
+2.25.1
+
 
