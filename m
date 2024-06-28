@@ -1,126 +1,99 @@
-Return-Path: <linux-input+bounces-4708-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4709-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C13A91C3A8
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 18:21:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA0F91C4B8
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 19:21:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD54A2844F3
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 16:21:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0FAA1F232C4
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 17:21:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55B5E1C8FB1;
-	Fri, 28 Jun 2024 16:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19701C9ED3;
+	Fri, 28 Jun 2024 17:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iddrDdV2"
+	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="kbMcgn20"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BBC20DE8;
-	Fri, 28 Jun 2024 16:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B8D1DDCE;
+	Fri, 28 Jun 2024 17:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719591682; cv=none; b=ndEEmYyr253m0hmDf3eUn45Orh7yYCit3T7A/1XZMG+GQfD44FirNsyFbHjhn+1FDbIBwOiDHF37ocyRAxJkIABiFG3JxIGAFQbcgPU57Ff7bc5sgYTkHDlySDeScSpSy9SBHRSoSd1HXh46miFDffrqSfd12n0F79T5+SrwFbc=
+	t=1719595290; cv=none; b=osuwn7nF7t3PAJCqUfRDidNrkf8PYO4VXnqDqmNC43GrFbbs8MdtlsQhYWAuWM8Z/ZbKA94kVomYfk24eujupznGoXO8s8ATXBF9IWnzFijimixTPvq5dEV7IvJ2LvmHbKO5wXyjLJQQ7BDO85LEf/hGep9K8DXO71zh0QZmSYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719591682; c=relaxed/simple;
-	bh=w3NbMxbKmswnQ6oF33UmJfda5v4dc+Buf2Yr7Q3ZsRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ugA0mndm51dDfdWn2wKc0WQL2Pl5QHvoJESF1RM8tsszzy2paL2KCz8Uau/EqQSvU5RDriCrE8bZ0Pe9cUv2I96x1JaoKGkra7KMxp5HF/przg7v1VFTpxRR/NukvkrDCdszllIf72g2Wnm4PTB3hq5Til95j+YLjygzhI0nQOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iddrDdV2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58BAC116B1;
-	Fri, 28 Jun 2024 16:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719591681;
-	bh=w3NbMxbKmswnQ6oF33UmJfda5v4dc+Buf2Yr7Q3ZsRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iddrDdV2nW6yQRM+oe8uKXWgjGhedfHOTtgrWvIKh9GZ9mS8BgCXXoVkAUAfq9oaH
-	 upgVP6x0ostRqGIk/7xhRzHs9mz06puGU+w2Fk3L/UulQP58qfKZ32ixuHRtb6hZiO
-	 7BMNMyBlAE6wqB12PziVsBVllgyHHZFTc4bcu22mqA7NU9G5Skr7Sq4lJYJxIwtqeU
-	 CxxTXWEezTOG5IT4E8vcZ9+J5KGzEn52KUZBaRg9Ik8YImMbr8dizJzxQS6rt9+9nH
-	 ok9+GNVTI0McM3Iimsi/vr88jf4my1XkkDYsmTTV7zYSfio/S0FuZ5/Rs2dyIadZrK
-	 XtZA+scDl0qWA==
-Date: Fri, 28 Jun 2024 17:21:17 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: exc3000: add
- EXC81W32
-Message-ID: <20240628-agonizing-syrup-fcd55c441b3f@spud>
-References: <20240628-input-exc3000-exc81w32-v2-0-c2b21a369c05@pengutronix.de>
- <20240628-input-exc3000-exc81w32-v2-1-c2b21a369c05@pengutronix.de>
+	s=arc-20240116; t=1719595290; c=relaxed/simple;
+	bh=NbOS8wtvU7uKZD7BIvMjlCuVnUcuWUyNlr4dVg1GJ5w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
+	 References:In-Reply-To; b=Whx5V12RGS9g9fMMhYdmsOzqLNBfD9INUISPaM0rdO2j8sKPD0VSKShirVXnN4O91f7cxwhDL9XuxjZtYV75+VujXaqrRCS4WVklAmnF0RDdu/+J4TL5B8gHMv5E93hRfwPHP7Kpn/1qR/iBGzyIcZFmsW5bmJGx2kZaCyOlq7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=kbMcgn20; arc=none smtp.client-ip=195.113.20.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
+X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
+	serial F5FD910E8FE2121B897F7E55B84E351D
+	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
+	auth type TLS.CUNI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
+	s=submission; t=1719595214; x=1720895214;
+	bh=NbOS8wtvU7uKZD7BIvMjlCuVnUcuWUyNlr4dVg1GJ5w=; h=From;
+	b=kbMcgn20SSqY+/JxddiLXwHe9sRBJ9BKqp4uHpNCQLh5PZrbZvIQO1XMKrGNPI2PT
+	 HpY0OkPKM4Ui8kXeCfb1+coH564dkDDw6PkYgz6EkKrSWIh1TNtu9LryK4YUuzb1a4
+	 9LBh6/yHSWk+3RqJjtVf8iafrA4dSQFqerg7nD5eRfhMJbbfswm9us0YK7jrzY5dlr
+	 bZCM6C6Vv+kGGfBI5WA+olaLCjIVuoFMEfSoQkxuhkagIsOwjZGbqg8kOklomUq0OP
+	 3My/2ZHjF+yi2Nc1qL7dRtCXCFihkSLm6X8xKW9kyfOF/iD0nyhI2XMioUWg1En8Md
+	 u7jQLsnSNXIfA==
+Received: from localhost (cdwifi-a110.cd-t.cz [213.235.133.110] (may be forged))
+	(authenticated)
+	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 45SHKBZq057515
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Fri, 28 Jun 2024 19:20:13 +0200 (CEST)
+	(envelope-from balejk@matfyz.cz)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="t4gpnudAEY7ZnRQc"
-Content-Disposition: inline
-In-Reply-To: <20240628-input-exc3000-exc81w32-v2-1-c2b21a369c05@pengutronix.de>
-
-
---t4gpnudAEY7ZnRQc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 28 Jun 2024 19:20:50 +0200
+Message-Id: <D2BTN4CHSFO0.1H59EH2PH7HAG@matfyz.cz>
+Cc: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+Subject: Re: [PATCH v7 0/5] initial support for Marvell 88PM886 PMIC
+To: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
+        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+        "Conor Dooley"
+ <conor+dt@kernel.org>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>,
+        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
+From: "Karel Balej" <balejk@matfyz.cz>
+References: <20240531175109.15599-1-balejk@matfyz.cz>
+ <171958569931.3316488.12728822093231549974.b4-ty@kernel.org>
+In-Reply-To: <171958569931.3316488.12728822093231549974.b4-ty@kernel.org>
 
-On Fri, Jun 28, 2024 at 10:35:51AM +0200, Philipp Zabel wrote:
-> Add compatible for EXC81W32 touchscreen controllers.
+Lee Jones, 2024-06-28T15:41:39+01:00:
+> On Fri, 31 May 2024 19:34:55 +0200, Karel Balej wrote:
+> > the following implements basic support for Marvell's 88PM886 PMIC which
+> > is found for instance as a component of the samsung,coreprimevelte
+> > smartphone which inspired this and also serves as a testing platform.
+> >=20
+> > The code for the MFD is based primarily on this old series [1] with the
+> > addition of poweroff based on the smartphone's downstream kernel tree
+> > [2]. The onkey and regulators drivers are based on the latter. I am not
+> > in possesion of the datasheet.
+> >=20
+> > [...]
+>
+> Applied, thanks!
 
-Could you please mention in your commit messages what makes a fallback
-compatible inappropriate here?
+Thank you and thank you and everybody else for all the feedback and
+reviews, I appreciate it.
 
-Thanks,
-Conor.
-
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
-> v2: new patch, split out of driver patch
-> ---
->  Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.yaml | =
-1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc=
-3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc300=
-0.yaml
-> index 9dc25d30a0a8..c299838e2680 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.ya=
-ml
-> @@ -18,6 +18,7 @@ properties:
->        - eeti,exc3000
->        - eeti,exc80h60
->        - eeti,exc80h84
-> +      - eeti,exc81w32
->    reg:
->      const: 0x2a
->    interrupts:
->=20
-> --=20
-> 2.39.2
->=20
-
---t4gpnudAEY7ZnRQc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZn7i/QAKCRB4tDGHoIJi
-0iYVAP4haTPIyIPx775CG7THzh7EA85NDpBkFZiK8q1fcOKOKQEA7USaUzVEMvzU
-x6LtOV33uSeeEPAF2ygDFcjz/XL6+Qo=
-=Twy1
------END PGP SIGNATURE-----
-
---t4gpnudAEY7ZnRQc--
+K. B.
 
