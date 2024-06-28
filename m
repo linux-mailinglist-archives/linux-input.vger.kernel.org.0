@@ -1,132 +1,198 @@
-Return-Path: <linux-input+bounces-4691-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4692-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D8D91B821
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 09:20:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE14791B972
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 10:07:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AA881C212AE
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 07:20:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0838AB223A5
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 08:07:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C7D813DB8A;
-	Fri, 28 Jun 2024 07:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A63144307;
+	Fri, 28 Jun 2024 08:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFBUuBmU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ddWAcFDj"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA34F1F934;
-	Fri, 28 Jun 2024 07:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67C94436A;
+	Fri, 28 Jun 2024 08:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719559223; cv=none; b=Ur/uA1ha+WQOKllA5UFi+UTnU2jkTbmC5jPFQihwrSOxEBbWUNAO4D/cZC2Jd9T/OcsVwpQxLjwZTAxkwSvDbV7YCvZ7nIOzeRUaCe17m+o8TGkO9/Y5wGAMn4+PFDx9FZdXSsumZZb8WuWRd7R1GO72W5D4PMgh1mklrI+h694=
+	t=1719562018; cv=none; b=CyNqn1GD8jr+lc5pG29RtM98Ewae+e6njuS1AhOjmAzSTgJOSmn5xbDb8FSlXTj9BI4E2n7nBRVKrr75opZnyIVL/pxcC33ESchzx9etrDEmJRWF5z+cP/o4OI5QMUhFxmZCvNuyfAMpN3AGc02GdTYnYwk6kKoytAz6UlMBFh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719559223; c=relaxed/simple;
-	bh=vTNBz/wLOTojPrgqgi2T1cbenZdK42UQ0OjDz2FOcmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LN9bvfGcl2SI5W3mIF702ZcodOs8ce9kEvImdpdIHP+08AuteNNXZ0cUpk+Z2U60eG0noy8ZUO2JnctOseuRCuMyTGvNNvrthezpmweqjvQrFmKM/wHlW3EC/AXZk3nvRrHnMoQmXJcccOi6eJYGg6FkyXdVN3qzRey5I9Qdt/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFBUuBmU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8235FC116B1;
-	Fri, 28 Jun 2024 07:20:15 +0000 (UTC)
+	s=arc-20240116; t=1719562018; c=relaxed/simple;
+	bh=Iy8/UxZRhExwvU1/4dAFYZkxite/l0ek3Z7R2WkUJCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fpxudu7N7JDANKtqy8pyc46dSGDMMLPK1k9Twv5Gi7iDFYxXsX2SullfBF3e+pGkMjcz0fVn6FAWS9T12DUKLSfTZxT5Y9xwZUFphR8xtW696P6uVJ2ZxkNpymFuWfb6Uw/3suCWOS2TiHDZY641DBFtE9VKRpuJ/HBNGjEfrzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ddWAcFDj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAF9C32781;
+	Fri, 28 Jun 2024 08:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719559222;
-	bh=vTNBz/wLOTojPrgqgi2T1cbenZdK42UQ0OjDz2FOcmk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YFBUuBmUEurG6s46nzLA0voroM5LRbqkfHs/kQnfUM3+IFG9zWq41h331dcxXVyVh
-	 7BQWu0n+3BIq2XWtqpog5zTfUIYEi+VGVtH7pXjweic+7AxurJQpgImxBc4HYKwGwP
-	 rRjOLmCgbQFIST+IvUEvyqqdKcZTyJSPi+PAgWGPCutUej5yoyBJWCiLMoxQATiw62
-	 fS1hXW42nG+nBzJ3kueCGQdzbDSDh+AkHUepchDnvrpzQ0omEc37kjrTckR7GyeMP4
-	 VzDa18ECx4ebsMOp01LFu8A8x/kISwCqjrsMKbERqLVxXgOJIN2DGvKoUPZTrCRyGI
-	 y5U9qdtYWNwgg==
-Message-ID: <2bc8c87c-0e2a-482c-82ff-aae86f3a2c06@kernel.org>
-Date: Fri, 28 Jun 2024 09:20:12 +0200
+	s=k20201202; t=1719562018;
+	bh=Iy8/UxZRhExwvU1/4dAFYZkxite/l0ek3Z7R2WkUJCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ddWAcFDjX0QfautySQE9b+e04FLKN6UtAFVjcXXUG+KFdZ7cu2KxlcYX7JZ9j+SBI
+	 /l3QHtcjZAm0H+pqMjqa7UNXNqi3KLUVLNfQs2t96afCUgs5VRRZdiflY+UwVzNGQy
+	 6chnlUZw5ixIa77vbxSSN/M1LOqVrFsB3A/JVtxPoo0MqpwZ21Yy4tdyLHbtBNxzcG
+	 5GYkHugbz5ll775Y3nQQY/P5vBGUP2TVh9XYkRliuyYCcG0Qm6E8oPCg3fkBA2mu2T
+	 DqsizVQ1ZYc9yknrnBZ8VxjX1jI+o0iKUZIp/Kzz241EPN1vp54yDt+cQ2MKkbfIyj
+	 Ts4Vy/xh+w8/Q==
+Date: Fri, 28 Jun 2024 09:06:53 +0100
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <James.Ogletree@cirrus.com>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH RESEND v11 0/5] Add support for CS40L50
+Message-ID: <20240628080653.GJ2532839@google.com>
+References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
+ <20240620165935.GT3029315@google.com>
+ <21975F67-D71D-4D5D-8042-8EE64E8864CA@cirrus.com>
+ <20240627071258.GE2532839@google.com>
+ <C8C41985-E19A-400C-9DF2-720BCDE984E1@cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard matrix
- v3.0
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Reka Norman <rekanorman@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Gwendal Grignou <gwendal@chromium.org>, Pavan Holla <pholla@chromium.org>,
- Lukasz Majczak <lma@chromium.org>, Ching-Kang Yen <chingkang@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Prashant Malani <pmalani@chromium.org>,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <cover.1719531519.git.dnojiri@chromium.org>
- <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <C8C41985-E19A-400C-9DF2-720BCDE984E1@cirrus.com>
 
-On 28/06/2024 01:53, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
+On Thu, 27 Jun 2024, James Ogletree wrote:
+
 > 
-> Signed-off-by: Daisuke Nojiri <dnojiri@chromium.org>
-> ---
->  include/dt-bindings/input/cros-ec-keyboard.h | 104 +++++++++++++++++++
->  1 file changed, 104 insertions(+)
+> > On Jun 27, 2024, at 2:12 AM, Lee Jones <lee@kernel.org> wrote:
+> > 
+> > On Wed, 26 Jun 2024, James Ogletree wrote:
+> > 
+> >> 
+> >>> On Jun 20, 2024, at 11:59 AM, Lee Jones <lee@kernel.org> wrote:
+> >>> 
+> >>> On Thu, 20 Jun 2024, James Ogletree wrote:
+> >>> 
+> >>>> Changes in v11:
+> >>>> - Constified function parameters in ASOC driver
+> >>>> - Removed an unneeded #include
+> >>>> - Changed number of max FF effects = 1
+> >>>> - Minor refactoring in Input driver
+> >>>> - Reworded comment in MFD driver
+> >>>> 
+> >>>> Changes in v10:
+> >>>> - Minor refactoring and logical improvements all around
+> >>>> - Renamed and added supplies
+> >>>> 
+> >>>> Changes in v9:
+> >>>> - Fixed empty struct by utilizing cs_dsp's post_run callback
+> >>>> - Style fixes in MFD driver
+> >>>> 
+> >>>> Changes in v8:
+> >>>> - set_sysclk() -> set_bclk_ratio()
+> >>>> - Added ID table to codec driver
+> >>>> - Style improvements
+> >>>> - Fixed ordering of new write sequence operations
+> >>>> 
+> >>>> Changes in v7:
+> >>>> - Fixed sparse warning
+> >>>> - Moved write sequences to private data structure
+> >>>> - Logical and style improvements in write sequence interface
+> >>>> 
+> >>>> Changes in v6:
+> >>>> - Updated write sequencer interface to be control-name based
+> >>>> - Fixed a race condition and non-handling of repeats in playback callback
+> >>>> - Stylistic and logical improvements all around
+> >>>> 
+> >>>> Changes in v5:
+> >>>> - Added a codec sub-device to support I2S streaming
+> >>>> - Moved write sequencer code from cirrus_haptics to cs_dsp
+> >>>> - Reverted cirrus_haptics library; future Cirrus input
+> >>>> drivers will export and utilize cs40l50_vibra functions
+> >>>> - Added more comments
+> >>>> - Many small stylistic and logical improvements
+> >>>> 
+> >>>> Changes in v4:
+> >>>> - Moved from Input to MFD
+> >>>> - Moved common Cirrus haptic functions to a library
+> >>>> - Incorporated runtime PM framework
+> >>>> - Many style improvements
+> >>>> 
+> >>>> Changes in v3:
+> >>>> - YAML formatting corrections
+> >>>> - Fixed typo in MAINTAINERS
+> >>>> - Used generic node name "haptic-driver"
+> >>>> - Fixed probe error code paths
+> >>>> - Switched to "sizeof(*)"
+> >>>> - Removed tree reference in MAINTAINERS
+> >>>> 
+> >>>> Changes in v2:
+> >>>> - Fixed checkpatch warnings
+> >>>> 
+> >>>> James Ogletree (5):
+> >>>> firmware: cs_dsp: Add write sequence interface
+> >>>> dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+> >>>> mfd: cs40l50: Add support for CS40L50 core driver
+> >>>> Input: cs40l50 - Add support for the CS40L50 haptic driver
+> >>>> ASoC: cs40l50: Support I2S streaming to CS40L50
+> >>>> 
+> >>>> .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
+> >>>> MAINTAINERS                                   |  12 +
+> >>>> drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
+> >>>> drivers/input/misc/Kconfig                    |  10 +
+> >>>> drivers/input/misc/Makefile                   |   1 +
+> >>>> drivers/input/misc/cs40l50-vibra.c            | 555 +++++++++++++++++
+> >>>> drivers/mfd/Kconfig                           |  30 +
+> >>>> drivers/mfd/Makefile                          |   4 +
+> >>>> drivers/mfd/cs40l50-core.c                    | 570 ++++++++++++++++++
+> >>>> drivers/mfd/cs40l50-i2c.c                     |  68 +++
+> >>>> drivers/mfd/cs40l50-spi.c                     |  68 +++
+> >>>> include/linux/firmware/cirrus/cs_dsp.h        |  27 +
+> >>>> include/linux/mfd/cs40l50.h                   | 137 +++++
+> >>>> sound/soc/codecs/Kconfig                      |  11 +
+> >>>> sound/soc/codecs/Makefile                     |   2 +
+> >>>> sound/soc/codecs/cs40l50-codec.c              | 307 ++++++++++
+> >>>> 16 files changed, 2148 insertions(+)
+> >>>> create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+> >>>> create mode 100644 drivers/input/misc/cs40l50-vibra.c
+> >>>> create mode 100644 drivers/mfd/cs40l50-core.c
+> >>>> create mode 100644 drivers/mfd/cs40l50-i2c.c
+> >>>> create mode 100644 drivers/mfd/cs40l50-spi.c
+> >>>> create mode 100644 include/linux/mfd/cs40l50.h
+> >>>> create mode 100644 sound/soc/codecs/cs40l50-codec.c
+> >>> 
+> >>> Still needs Acks - ping me when you have them.
+> >>> 
+> >>> -- 
+> >>> Lee Jones [李琼斯]
+> >> 
+> >> Hi Lee,
+> >> 
+> >> You can take this series now.
+> > 
+> > sound/soc?
+> > 
+> > -- 
+> > Lee Jones [李琼斯]
+> 
+> Mark has Acked the original v11 series here:
+> https://lore.kernel.org/all/a85e09d6-d8eb-4c60-ae83-b4dbf875a926@sirena.org.uk/
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Ah, you just forgot to add it to the RESEND?
 
-Best regards,
-Krzysztof
+Okay, leave it with me then.
 
+-- 
+Lee Jones [李琼斯]
 
