@@ -1,99 +1,169 @@
-Return-Path: <linux-input+bounces-4709-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4710-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA0F91C4B8
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 19:21:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4331E91C569
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 20:07:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0FAA1F232C4
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 17:21:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA0B71F2547E
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jun 2024 18:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19701C9ED3;
-	Fri, 28 Jun 2024 17:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F361946441;
+	Fri, 28 Jun 2024 18:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="kbMcgn20"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kuBWd4bX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B8D1DDCE;
-	Fri, 28 Jun 2024 17:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BC11B94F;
+	Fri, 28 Jun 2024 18:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719595290; cv=none; b=osuwn7nF7t3PAJCqUfRDidNrkf8PYO4VXnqDqmNC43GrFbbs8MdtlsQhYWAuWM8Z/ZbKA94kVomYfk24eujupznGoXO8s8ATXBF9IWnzFijimixTPvq5dEV7IvJ2LvmHbKO5wXyjLJQQ7BDO85LEf/hGep9K8DXO71zh0QZmSYM=
+	t=1719598031; cv=none; b=N+MLZTG7Kn4UcoIyNtQ7UJEW91PD3stfXTxDDeI8v4ghNquef16zjbFdBuAhgTKuomU26CNnsKfR8V9VO2/DV5H39TZ9jgj5FDz7wH1zuvHnzN3W04OczfumC2ukZfeVI/L48b3xR7+fARtoRGD8Q2khC1k3hTc7rdSqoCoBOZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719595290; c=relaxed/simple;
-	bh=NbOS8wtvU7uKZD7BIvMjlCuVnUcuWUyNlr4dVg1GJ5w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=Whx5V12RGS9g9fMMhYdmsOzqLNBfD9INUISPaM0rdO2j8sKPD0VSKShirVXnN4O91f7cxwhDL9XuxjZtYV75+VujXaqrRCS4WVklAmnF0RDdu/+J4TL5B8gHMv5E93hRfwPHP7Kpn/1qR/iBGzyIcZFmsW5bmJGx2kZaCyOlq7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=kbMcgn20; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1719595214; x=1720895214;
-	bh=NbOS8wtvU7uKZD7BIvMjlCuVnUcuWUyNlr4dVg1GJ5w=; h=From;
-	b=kbMcgn20SSqY+/JxddiLXwHe9sRBJ9BKqp4uHpNCQLh5PZrbZvIQO1XMKrGNPI2PT
-	 HpY0OkPKM4Ui8kXeCfb1+coH564dkDDw6PkYgz6EkKrSWIh1TNtu9LryK4YUuzb1a4
-	 9LBh6/yHSWk+3RqJjtVf8iafrA4dSQFqerg7nD5eRfhMJbbfswm9us0YK7jrzY5dlr
-	 bZCM6C6Vv+kGGfBI5WA+olaLCjIVuoFMEfSoQkxuhkagIsOwjZGbqg8kOklomUq0OP
-	 3My/2ZHjF+yi2Nc1qL7dRtCXCFihkSLm6X8xKW9kyfOF/iD0nyhI2XMioUWg1En8Md
-	 u7jQLsnSNXIfA==
-Received: from localhost (cdwifi-a110.cd-t.cz [213.235.133.110] (may be forged))
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 45SHKBZq057515
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Fri, 28 Jun 2024 19:20:13 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
+	s=arc-20240116; t=1719598031; c=relaxed/simple;
+	bh=EMbVzbnsLSmtwf7hpcQDvwkGp+gUbKkbpsvhQ6740Jo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=lb0qE+cPgO4Nv6WRkGLFOrKLtcpgaWsRJQKBL3kjD5MbyFHPZxBb51Tvp3+U8PTygqOmaXpISnyWVdKQbQI2GX414KUhCilSYSGk6XFIiVbrrhe7c9EBopyp5R/DDeV92eWxJ1kpJ5P29nPqYkQ+trKTfJCcY/HmhxSvF5wtuTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kuBWd4bX; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so350114a12.1;
+        Fri, 28 Jun 2024 11:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719598028; x=1720202828; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8EdFRuIjAMdYahk4Kci0WZzTsWWkZ1bOHj3GXMpTCuY=;
+        b=kuBWd4bX2XPaqgSDGCr1UaTEJWMC9Eylv5MoJcrMnAY6ZT64zvO4eFrz5mHt2M74rc
+         cUwGDJBAHgoXzvstknjO6EJiCnHZ0bR6ifSxkwa+fdE36LgOHA5XD2n75tn/HuP4hFcS
+         uj0zJRg5PNJ5IFpnkVhrJsywC00lrUt/2r50+1iVLyA9qBRWxmyLAGBY99j9bPGoiPY+
+         Y4wcgcmGbNwW48PNc0mgcSGF7j20VFuWpxczBhNvizPu4aDXSVOyeURisqHX+bDTs63J
+         lJKC+uOTSqRUJPsfB2XBu/1j+tfRBQXmz1QJoWFFTVmLcH5obdhq2Q+Vir14Ww6yN7D/
+         +4fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719598028; x=1720202828;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8EdFRuIjAMdYahk4Kci0WZzTsWWkZ1bOHj3GXMpTCuY=;
+        b=gcCSIkBnRFuVoV1YQIvCVs2pD0uyF2L+1CLy9uRij+fn8Qv/RU7CEMWYcwcWlmn96a
+         lUwp6YIuKKCp1JjusXZ0nkbY4fVYCFI7ZM+2xtW549UdriqqtgfuYBVnRm6k2Ini2p4G
+         yUoo9m9PNP77rM81/pQ2zMFHjWCmAUk4n4jxuXPn6kB+E/sb85JOmSYnvCG0jrxNh9iO
+         vYYK8LUCkud6wLLVmwVmCDj7ikkpHMVujHpX30H9tid3YQkTYmd70zAuXaNfj1TniuAg
+         G+/6r7OZzcgkElILnjQle8XfxblziREY9x/wCef9lK+NftBilDbaLMGnQntAVPNojtTR
+         7LkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJMPigF/teWLFkN2mf7cKK/+29jHcTFm0du3faY9v4HaHtimusBDTJTj3PEzqZESkQ5E8TDhfbFq5MJYGw3Vo8uzWq51e53LqXzsoyiRqPNAg9eLoddxCmKPRnmCRcP1f9QahQyqagrUM=
+X-Gm-Message-State: AOJu0YwkVz7/Ma82RZkvHNoZvJrXMDiISUMWQy+vWau2SKd6QfW34Klp
+	kUnDaBtzrVeerdG8chWjkVfHbj8+F0OaYv993RY7Xj/4oe0zuyDyhZNKoA==
+X-Google-Smtp-Source: AGHT+IEl1RM1Aavl6HBjqIB0gZ1mW30dOcVOnvOK4VHVcakerUJ4rmBQ6+rZkKMOWDndnw9kJKXR0w==
+X-Received: by 2002:a05:6402:22e3:b0:57c:ff0d:b781 with SMTP id 4fb4d7f45d1cf-5865d4737cfmr1703648a12.16.1719598027336;
+        Fri, 28 Jun 2024 11:07:07 -0700 (PDT)
+Received: from [192.168.178.20] (dh207-41-166.xnet.hr. [88.207.41.166])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58612c83534sm1308168a12.10.2024.06.28.11.07.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jun 2024 11:07:06 -0700 (PDT)
+Message-ID: <bc73207a-4b52-423d-833a-fb2a4221a5bc@gmail.com>
+Date: Fri, 28 Jun 2024 20:07:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Mirsad Todorovac <mtodorovac69@gmail.com>
+Subject: [PROBLEM linux-next] drivers/hid/hidraw.c: error: cast from pointer
+ to integer of different size [-Werror=pointer-to-int-cast]
+To: linux-kernel@vger.kernel.org
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-input@vger.kernel.org,
+ Linux Kernel Build System <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 28 Jun 2024 19:20:50 +0200
-Message-Id: <D2BTN4CHSFO0.1H59EH2PH7HAG@matfyz.cz>
-Cc: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
-Subject: Re: [PATCH v7 0/5] initial support for Marvell 88PM886 PMIC
-To: "Lee Jones" <lee@kernel.org>, "Rob Herring" <robh@kernel.org>,
-        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
-        "Conor Dooley"
- <conor+dt@kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Liam
- Girdwood" <lgirdwood@gmail.com>,
-        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
-From: "Karel Balej" <balejk@matfyz.cz>
-References: <20240531175109.15599-1-balejk@matfyz.cz>
- <171958569931.3316488.12728822093231549974.b4-ty@kernel.org>
-In-Reply-To: <171958569931.3316488.12728822093231549974.b4-ty@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Lee Jones, 2024-06-28T15:41:39+01:00:
-> On Fri, 31 May 2024 19:34:55 +0200, Karel Balej wrote:
-> > the following implements basic support for Marvell's 88PM886 PMIC which
-> > is found for instance as a component of the samsung,coreprimevelte
-> > smartphone which inspired this and also serves as a testing platform.
-> >=20
-> > The code for the MFD is based primarily on this old series [1] with the
-> > addition of poweroff based on the smartphone's downstream kernel tree
-> > [2]. The onkey and regulators drivers are based on the latter. I am not
-> > in possesion of the datasheet.
-> >=20
-> > [...]
->
-> Applied, thanks!
+Hi all,
 
-Thank you and thank you and everybody else for all the feedback and
-reviews, I appreciate it.
+While testing randconfig with vanilla next-20240627, the following KCONFIG_SEED=0x14021E00
+gave this particular build error:
 
-K. B.
+drivers/hid/hidraw.c: In function ‘hidraw_send_report’:
+drivers/hid/hidraw.c:143:63: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
+  143 |                 ret = __hid_hw_output_report(dev, buf, count, (__u64)file, false);
+      |                                                               ^
+drivers/hid/hidraw.c:154:56: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
+  154 |                                    HID_REQ_SET_REPORT, (__u64)file, false);
+      |                                                        ^
+drivers/hid/hidraw.c: In function ‘hidraw_get_report’:
+drivers/hid/hidraw.c:231:56: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
+  231 |                                    HID_REQ_GET_REPORT, (__u64)file, false);
+      |                                                        ^
+
+Apparently, on this architecture, sizeof(struct file *) != sizeof(__u64)?
+
+→ 105 static ssize_t hidraw_send_report(struct file *file, const char __user *buffer, size_t count, unsigned char report_type)
+  106 {
+  107         unsigned int minor = iminor(file_inode(file));
+  108         struct hid_device *dev;
+  109         __u8 *buf;
+  110         int ret = 0;
+  111 
+  112         lockdep_assert_held(&minors_rwsem);
+  113 
+  114         if (!hidraw_table[minor] || !hidraw_table[minor]->exist) {
+  115                 ret = -ENODEV;
+  116                 goto out;
+  117         }
+  118 
+  119         dev = hidraw_table[minor]->hid;
+  120 
+  121         if (count > HID_MAX_BUFFER_SIZE) {
+  122                 hid_warn(dev, "pid %d passed too large report\n",
+  123                          task_pid_nr(current));
+  124                 ret = -EINVAL;
+  125                 goto out;
+  126         }
+  127 
+  128         if (count < 2) {
+  129                 hid_warn(dev, "pid %d passed too short report\n",
+  130                          task_pid_nr(current));
+  131                 ret = -EINVAL;
+  132                 goto out;
+  133         }
+  134 
+  135         buf = memdup_user(buffer, count);
+  136         if (IS_ERR(buf)) {
+  137                 ret = PTR_ERR(buf);
+  138                 goto out;
+  139         }
+  140 
+  141         if ((report_type == HID_OUTPUT_REPORT) &&
+  142             !(dev->quirks & HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP)) {
+  143                 ret = __hid_hw_output_report(dev, buf, count, (__u64)file, false);
+  144                 /*
+  145                  * compatibility with old implementation of USB-HID and I2C-HID:
+  146                  * if the device does not support receiving output reports,
+  147                  * on an interrupt endpoint, fallback to SET_REPORT HID command.
+  148                  */
+  149                 if (ret != -ENOSYS)
+  150                         goto out_free;
+  151         }
+  152         
+  153         ret = __hid_hw_raw_request(dev, buf[0], buf, count, report_type,
+→ 154                                    HID_REQ_SET_REPORT, (__u64)file, false);
+  155 
+  156 out_free:
+  157         kfree(buf);
+  158 out:    
+  159         return ret;
+  160 }
+
+Thank you very much for examining this bug report.
+
+Best regards,
+Mirsad Todorovac
 
