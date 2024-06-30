@@ -1,113 +1,171 @@
-Return-Path: <linux-input+bounces-4737-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4738-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4335591D394
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 21:55:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1172991D4A7
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 00:46:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9607B20AB8
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 19:55:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 892E81F21188
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 22:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A418155A21;
-	Sun, 30 Jun 2024 19:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5194D8C0;
+	Sun, 30 Jun 2024 22:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RTZ+hc2W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tep1209S"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBF237169;
-	Sun, 30 Jun 2024 19:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64048F72
+	for <linux-input@vger.kernel.org>; Sun, 30 Jun 2024 22:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719777326; cv=none; b=YHifo6tyEhLflyGAX7DOKa/1DDZRodhVGtXOmJwa3Y83pHNpVPtjQ3tzXKnB+g+kA0wyARYub5Va//NzcC44boY6xZUqBaCOqN5pBP0IqanOFlFw3TvN60X4teCVoz2nKuncXlVeMoNawneBUO7ulsUspaEh5NnZE+lfwSxtsi0=
+	t=1719787575; cv=none; b=JH9Go/5if82Fcul4G3vfucur8IFE3M0w1QFQey+5+T4OVnKT86dmF6i591UP9crMASrRMgH8kU60KZDoxcdFAQtL/ONTF33Y2Wy027b9SZUa53jbQlA6QxvoqXBRzmdyKvaD6kixy1cHs8TMMB3YQ+QsXu4xUEWwH12HT252o0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719777326; c=relaxed/simple;
-	bh=t0kMkB/WeZM4FC6XXyefVXL1YStBOqisgBin5mqjQ+k=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=QJEVm3z5n5TE1bRy2MpZ4/dhKqIoj5fjaLedTdoQtaOv4NBdp72KzeFR7y/c+DqJR3RW2jtHRgrr0XhhgBo42edg628Yrj/y7lrB8zySd27Ahcl5tKaY0UZPuTnrZuJqzgsL4xoDH3XA88E0ZP4vxDMnD1XdW/5k0dsVsvA9WI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RTZ+hc2W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AB70C32781;
-	Sun, 30 Jun 2024 19:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719777325;
-	bh=t0kMkB/WeZM4FC6XXyefVXL1YStBOqisgBin5mqjQ+k=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=RTZ+hc2WOo66gCpTZi1xjIb+Qgiav0F44CotgM/U+cp2gYp2+R63IxXn/0WDkZWHc
-	 qXYxtT9vtV5iVYr8IzYUv4cwyA25Z2iQa1zaJ4P1dQXRJMMx/FNdPB/V/5V3UVOoQ5
-	 dZsalutIjxzZbzNZlTABB2TGJ2qKAaiemKC2iZFvuIK+XSpd54MjX1ts2Nayq57fQQ
-	 SWXtqIT7AtsMf+eqWK1rusCDQFkHYuDcijlGTGxIjXRQvR8rHrc5sohQ1Dggw1z32p
-	 pGI7bRRW3ZlcsRZIhGnSyQQl5JpzqiMsXz+DjB1FfuI+0aD+xmuqKF3zkcdvPqHnQf
-	 MxGgurq3HPmng==
-Date: Sun, 30 Jun 2024 13:55:24 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1719787575; c=relaxed/simple;
+	bh=mDdlZtJQxAfs5R9Xsqoppgl4GbqR/sIbUROalegVY8U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=idwklUAUEArmeZhpVK1ss7+EVORU4xkz5Yx+aDhr7KkbmCvsEGrRO81jFNF9iBQ5ZWzRIxwlHkBlanw5K39v1jBcY5ZYMZGHGB+4PbIkMF0hJJIuAoERdbvsJycH/3eaI8GOaDfqy9l1h31lKOtF0YjentyY7qs1lJ6/fEmpntY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tep1209S; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719787574; x=1751323574;
+  h=date:from:to:cc:subject:message-id;
+  bh=mDdlZtJQxAfs5R9Xsqoppgl4GbqR/sIbUROalegVY8U=;
+  b=Tep1209S8gkwb9RB6IXWZD+jIM0PFasqfXw4X89s6FAnG4Mz1RRut1VJ
+   2cMXUZLf8rIaeFEjKH6RB3ojUl/5ipsjwKYxeKSKbDO2dDVWbFZrlp3GF
+   uqcYhtPtLTpRnqXpYYnlHh/CQvQMSnTbGEdWQob4djCm8Qi1Oz7mVSLDs
+   4ZfSEjZvf/U/J13zNe6mEesr8O/f3WUsg2XAvAfGzODtLyQ4vs97kJLE9
+   So6wGcrrM8nRjQs6LNoJmrLac5eSVb/vutDkG0+d7TnepLxbF5oStIeq1
+   5pEj0mBjU8W33PnWsKYvH9TRp8p2m/IkHCBezoht8P0iE4mZObZRXgcE8
+   Q==;
+X-CSE-ConnectionGUID: tDgIv3o0R1qz0tNNDKbHbg==
+X-CSE-MsgGUID: eQSJBru3TCuoAFBLxaehfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="17022404"
+X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
+   d="scan'208";a="17022404"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 15:46:13 -0700
+X-CSE-ConnectionGUID: m+F6S6LcSyGyY/nXX85YrQ==
+X-CSE-MsgGUID: dxpXiG28THexiwLWxnkPsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
+   d="scan'208";a="50264998"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 30 Jun 2024 15:46:13 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sO3JB-000M6N-2S;
+	Sun, 30 Jun 2024 22:46:09 +0000
+Date: Mon, 01 Jul 2024 06:45:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 7c459517252ebbad515a0b6f972454962ca549e2
+Message-ID: <202407010610.85vJCFrR-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Caleb Connolly <caleb@postmarketos.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Henrik Rydberg <rydberg@bitmath.org>, linux-arm-msm@vger.kernel.org, 
- linux-input@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- ~postmarketos/upstreaming@lists.sr.ht, Maxime Ripard <mripard@kernel.org>, 
- dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-In-Reply-To: <20240630-oneplus8-v2-1-c4a1f8da74f1@postmarketos.org>
-References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
- <20240630-oneplus8-v2-1-c4a1f8da74f1@postmarketos.org>
-Message-Id: <171977732454.1979597.10634226835672850966.robh@kernel.org>
-Subject: Re: [PATCH v2 1/8] dt-bindings: panel: document Samsung AMB655X
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 7c459517252ebbad515a0b6f972454962ca549e2  Input: ili210x - use guard notation when disabling and reenabling IRQ
 
-On Sun, 30 Jun 2024 20:36:24 +0200, Caleb Connolly wrote:
-> Describe the Samsung AMB655X panel. It has three supplies.
-> 
-> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
-> ---
->  .../bindings/display/panel/samsung,amb655x.yaml    | 63 ++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
-> 
+elapsed time: 2880m
 
-My bot found errors running 'make dt_binding_check' on your patch:
+configs tested: 78
+configs skipped: 0
 
-yamllint warnings/errors:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dts:20.11-21: Warning (reg_format): /example-0/panel@0:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/panel/samsung,amb655x.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                   randconfig-001-20240701   gcc-13.2.0
+arc                   randconfig-002-20240701   gcc-13.2.0
+arm                               allnoconfig   clang-19
+arm                   randconfig-001-20240701   gcc-13.2.0
+arm                   randconfig-002-20240701   gcc-13.2.0
+arm                   randconfig-003-20240701   clang-19
+arm                   randconfig-004-20240701   clang-15
+arm64                             allnoconfig   gcc-13.2.0
+arm64                 randconfig-001-20240701   gcc-13.2.0
+arm64                 randconfig-002-20240701   clang-19
+arm64                 randconfig-003-20240701   gcc-13.2.0
+arm64                 randconfig-004-20240701   clang-19
+csky                              allnoconfig   gcc-13.2.0
+csky                  randconfig-001-20240701   gcc-13.2.0
+csky                  randconfig-002-20240701   gcc-13.2.0
+hexagon                           allnoconfig   clang-19
+hexagon               randconfig-001-20240701   clang-19
+i386         buildonly-randconfig-001-20240629   gcc-7
+i386         buildonly-randconfig-001-20240630   clang-18
+i386         buildonly-randconfig-002-20240629   clang-18
+i386         buildonly-randconfig-002-20240630   clang-18
+i386         buildonly-randconfig-003-20240629   clang-18
+i386         buildonly-randconfig-003-20240630   clang-18
+i386         buildonly-randconfig-004-20240629   gcc-13
+i386         buildonly-randconfig-004-20240630   clang-18
+i386         buildonly-randconfig-004-20240630   gcc-7
+i386         buildonly-randconfig-005-20240629   gcc-13
+i386         buildonly-randconfig-005-20240630   clang-18
+i386         buildonly-randconfig-006-20240629   clang-18
+i386         buildonly-randconfig-006-20240630   clang-18
+i386         buildonly-randconfig-006-20240630   gcc-13
+i386                  randconfig-001-20240629   clang-18
+i386                  randconfig-001-20240630   clang-18
+i386                  randconfig-001-20240630   gcc-13
+i386                  randconfig-002-20240629   gcc-9
+i386                  randconfig-002-20240630   clang-18
+i386                  randconfig-002-20240630   gcc-13
+i386                  randconfig-003-20240629   clang-18
+i386                  randconfig-003-20240630   clang-18
+i386                  randconfig-004-20240629   gcc-9
+i386                  randconfig-004-20240630   clang-18
+i386                  randconfig-004-20240630   gcc-13
+i386                  randconfig-005-20240629   gcc-13
+i386                  randconfig-005-20240630   clang-18
+i386                  randconfig-006-20240629   clang-18
+i386                  randconfig-006-20240630   clang-18
+i386                  randconfig-011-20240629   gcc-13
+i386                  randconfig-011-20240630   clang-18
+i386                  randconfig-011-20240630   gcc-13
+i386                  randconfig-012-20240629   clang-18
+i386                  randconfig-012-20240630   clang-18
+i386                  randconfig-013-20240629   gcc-12
+i386                  randconfig-013-20240630   clang-18
+i386                  randconfig-013-20240630   gcc-8
+i386                  randconfig-014-20240629   gcc-13
+i386                  randconfig-014-20240630   clang-18
+i386                  randconfig-014-20240630   gcc-8
+i386                  randconfig-015-20240629   gcc-12
+i386                  randconfig-015-20240630   clang-18
+i386                  randconfig-015-20240630   gcc-10
+i386                  randconfig-016-20240629   gcc-13
+i386                  randconfig-016-20240630   clang-18
+i386                  randconfig-016-20240630   gcc-13
+loongarch                         allnoconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+s390                              allnoconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+um                                allnoconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-13.2.0
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240630-oneplus8-v2-1-c4a1f8da74f1@postmarketos.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
