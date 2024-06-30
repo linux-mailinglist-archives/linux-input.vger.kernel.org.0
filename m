@@ -1,85 +1,215 @@
-Return-Path: <linux-input+bounces-4727-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4728-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8851091D195
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 14:18:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C315891D31D
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 20:36:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12C3CB21630
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 12:18:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 711FF1C208A1
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jun 2024 18:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32DCF13BC05;
-	Sun, 30 Jun 2024 12:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE4F7155A43;
+	Sun, 30 Jun 2024 18:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBUrp8YA"
+	dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b="rrsPtuwj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D874A383A3;
-	Sun, 30 Jun 2024 12:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA31154426
+	for <linux-input@vger.kernel.org>; Sun, 30 Jun 2024 18:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719749885; cv=none; b=c+LtohEWXq7BOfDqtjCTaVGVLKR2crZ0DWVHJlAkboGqxWc7+iqaS4VikHm7fX49s0ksPI1vknVz9VzvNm9wRzJbllorYls92SRT+2DVcWsWxd3C9l+pVZnLMe32XQBcygHSfOwxaZYKM3WfXj0QX1LYz5VhDNXELHn0QJyOx+0=
+	t=1719772603; cv=none; b=VN3YDBSOu41TlX6oLI+2sjbPjeXF5FatATmGgMAcjf8Rhq8S5LxKLrCTnUsTnVB+r0w0f7035U7hTFrjg58i1kUdDc2W54qqgazDbIMOpeiVdik3lw8OZFTbH92a/W213o/w22DFHKsLBs3FN23jb5li+CShZuUxr6DJBrb4l5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719749885; c=relaxed/simple;
-	bh=eKwBrzI+lzlfuBG5EPxKBhnoZMId/ejrKy4DBkhiAJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fgm5eQi5UXS6XRdxHVyysR3j1mLnxesCxTwn852kauV4Y5ttIyXG3qVuPAd6EfHsNhhCxuGi7dfAScBLX57v5/GRNWq3vcuj48S6DO4Ynirpj7yZuXmPrGAGQ/+2JXOOyIT/eWwJaTOPUJmpvThrpmf90NmkXVSHbic2JV+IBbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBUrp8YA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF39C2BD10;
-	Sun, 30 Jun 2024 12:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719749884;
-	bh=eKwBrzI+lzlfuBG5EPxKBhnoZMId/ejrKy4DBkhiAJc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBUrp8YAABDF4opVRq+DrH8ycNRd8GfrwCW6jJFNwZuNNS+2idGndOFSPmuhIqp0l
-	 F3O2cTPeu7xoIp8kPje5tzg8QQ+q5Suk0x+GjG4HgCxx5rgBDWlwLvLSApX6/pKYCg
-	 mGppQnfz1/FZ95nvbClpH4z30jvcMbvXJfgy2kkU59wezCQRhMo9QU4PrA2dT3kwjG
-	 9RIzsdAQ4CzWmeKRApMa30vn6KLMzAtrTX274RhstAt16g2wfOXSkG1nxsK6L4GVwE
-	 HTFfxSiWFgW/dPnCm6k9id0seOQB/T80eo29S0rBt4fck7lCNPSkzLXvT+hvkBTBcv
-	 Rd/PD6ZF6gU7A==
-Date: Sun, 30 Jun 2024 20:17:57 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daisuke Nojiri <dnojiri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Reka Norman <rekanorman@chromium.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Pavan Holla <pholla@chromium.org>,
-	Lukasz Majczak <lma@chromium.org>,
-	Ching-Kang Yen <chingkang@chromium.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] dt-bindings: cros-ec-keyboard: Add keyboard
- matrix v3.0
-Message-ID: <ZoFM9QJVp3cpf012@tzungbi-laptop>
-References: <cover.1719531519.git.dnojiri@chromium.org>
- <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+	s=arc-20240116; t=1719772603; c=relaxed/simple;
+	bh=UD8+qzKQsKjZhrLn6zXaLwSngXQfDHuaeiVK6oRk9Lk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nOIdYKCco2Mc95/2QBlDGgJFziX91QQBfkmT/5oKVirfCZwWhF84J33FgcjZ0LHlMLsTZTk3lggeHKnfDFYV3Y2HEsVeAwybQPWgFrAvPu9h3C2XjLC9gJl+FM0r+P3H4LqbUXdbbzdADTE562Ek4XYmAa27t31wkhHlr66UKxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org; spf=pass smtp.mailfrom=postmarketos.org; dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b=rrsPtuwj; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=postmarketos.org
+X-Envelope-To: robh@kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
+	s=key1; t=1719772599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aCRUWWr9ZwPe3tG89wMDeKt2B/HIpzAjTdWlwEDozgo=;
+	b=rrsPtuwj1u05eQJcnmiVwdlubvsIy3Kl//rCkCSZffHiMFwRpuFvxGRZktmNXqsXObZpD+
+	RyMfxBcRcJ4iXFv3UyiPOphCfKe/9361xZv5i0k3XZJ+zGeFwcbA2SUhC0/oyyqbw2b8EX
+	76De40NEOOA08dws4lgRuvoO5RxmhWai0sHqkpZoYH0zwSG3UdOgNDnCJbJDLFs3T4eYUw
+	yfgaeTXyyhcMbstrlH+JchiJ7WdMpHxKi2MhU8nz1JXXEqeuj7uBzBjiIBbyEqhpiXSedg
+	p+fSqGy1BrzsacQDLPQsX2xsGq4NsKgb+dbltMVKNVr5FuaQpdjhLC1MrEgE8A==
+X-Envelope-To: conor+dt@kernel.org
+X-Envelope-To: neil.armstrong@linaro.org
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: ~postmarketos/upstreaming@lists.sr.ht
+X-Envelope-To: dmitry.torokhov@gmail.com
+X-Envelope-To: linux-input@vger.kernel.org
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: caleb@postmarketos.org
+X-Envelope-To: krzysztof.kozlowski@linaro.org
+X-Envelope-To: linux-arm-msm@vger.kernel.org
+X-Envelope-To: krzk+dt@kernel.org
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: rydberg@bitmath.org
+X-Envelope-To: konrad.dybcio@linaro.org
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: devicetree@vger.kernel.org
+X-Envelope-To: dmitry.baryshkov@linaro.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: frieder.hannenheim@proton.me
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: quic_jesszhan@quicinc.com
+X-Envelope-To: andersson@kernel.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Caleb Connolly <caleb@postmarketos.org>
+Subject: [PATCH v2 0/8] qcom: initial support for the OnePlus 8T
+Date: Sun, 30 Jun 2024 20:36:23 +0200
+Message-Id: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ae4d96cc2ce8c9de8755b9beffb78c641100fe7.1719531519.git.dnojiri@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKilgWYC/0XM0QrCIBTG8VcZ5zrDmaV01XvELsQdN6mmeEyK4
+ btng+jy//HxW4EweSQ4dyskLJ58WFqIXQd2NsuEzI+tQXAh+UkIFhaM9ydpprTm/Gitkgah3WN
+ C518bdR1az55ySO9NLv13/SHyj5SecXbQGtE6MTqnLjFQfph0wxxoH9IEQ631A1xApoanAAAA
+To: Caleb Connolly <caleb@postmarketos.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Henrik Rydberg <rydberg@bitmath.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frieder Hannenheim <frieder.hannenheim@proton.me>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4478;
+ i=caleb@postmarketos.org; h=from:subject:message-id;
+ bh=UD8+qzKQsKjZhrLn6zXaLwSngXQfDHuaeiVK6oRk9Lk=;
+ b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBmgaWyRznbSdcUMegGzHhYvD0/l2HoNPkhP0xsE
+ CoO6ZRS+h6JAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZoGlsgAKCRAFgzErGV9k
+ th+TD/48o8WNtOxciGAWzmnm9MuOojC5zH9S+tlGVtRHeHhDTqqYv04cH3G/SOyQJ7Vt56+3Q3f
+ ZuhKIByi4YAT9xCQcYTY2pCXMU9gqxJiilGbc9iyOUv88IcbpIjpDFx/vqylDzSFqoOlPaG907+
+ ECZfHrKCBPcpBSRdtjkS2CcMGi5yO5IB8TPCL60egQd4LmJtk8HEx8lnvvyPGwX8k2y14oGpz49
+ Bqt0ZHDNG6maOTlwOIKBHTneM7MxQiz/YzFq55B2zmOkyiRn1UxKQPrMVEPqIeXGCdJ+AzwqqK6
+ +071XH8jcUAAqTVNlvjizVkm8O4Vv3jgmNmnLut5O6n7Bdiu7faFzAhQB49ARr5SZyzNj4PVj4O
+ XMger/oNVDbEKdsphCcqOHiVyR/JntWLq/GolxTCWqehOYwtOUS2UI82bl5PJS71FPjnd0wXPYo
+ yaZrd0m2KAr1yX1zqv5Wc/nia51L6V+ufNW7cx8bH9eOuaDjOOIwCeQQEERecY/mApmKkRHInon
+ uwcDW/gVqrkwuuJFCj4gZlYZ1LN41Q44P2w6pr0CKWZRw8ToP+rIfO88Wcs2YmwN8vk+UBndWmJ
+ ED2FNjaFexo8oQEGvBDMHU9RfR8k2kovfu9uQZGA9zabsz/oy7PUN2e9kwm/yG1SN98X9V5Xah+
+ BHI7aB/KvNzOhnA==
+X-Developer-Key: i=caleb@postmarketos.org; a=openpgp;
+ fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jun 27, 2024 at 04:53:08PM -0700, Daisuke Nojiri wrote:
-> Add support for keyboard matrix version 3.0, which reduces keyboard
-> ghosting.
+Add bindings for the SM8250 OnePlus devices, a common devicetree,
+touchscreen and display drivers, and a dts for the OnePlus 8T (kebab).
 
-Dmitry,
+The OnePlus 8 series is made up of 3 flagship smartphones from 2019,
+featuring the Qualcomm X55 5G PCIe modem.
 
-I saw your R-b tag of the patch.  Would you like to apply the patch
-through chrome-platform tree?
+This series introduces initial support for the 8T, adding drivers for
+the 1080x2400 120Hz DSC panel and the Synaptics TCM Oncell touchscreen.
+
+The panel features a Pixelworks Iris 5 co-processor, what this exactly
+does is not very well explained by their website, but as far as we're
+concerned it's a chip that sits between the panel and the SoC, we talk
+to it over i2c/i3c. The bootloader has some init sequence which can get
+the panel working, and if we then reset the panel it becomes impossible
+to get it initialized again without adding a driver for this
+co-processor.
+
+Note that we can still power down the panel regulators, as long as we
+don't toggle the reset pin.
+
+I think it is still useful to accept this panel drivers into
+upstream. From a users perspective, the panel is fully functional
+just by leaving the reset GPIO alone and keeping the regulator on.
+
+The Synaptics TCM Oncell touchscreens are a new generation of Synaptics
+controllers with a totally incompatible firmware compared to the older
+rmi4 touchscreens. A new driver is written which currently only supports
+the S3908 controller found on the OnePlus 8T. Downstream vendor drivers
+suggest that the controller supports custom touch report configuration,
+one can define the exact bit packing of the touch reports, however the
+combination of controller and firmware available on this device does not
+allow for programming in cusotm configs, so for simplicity this initial
+driver uses a hardcoded bit packing to decode the touch reports.
+
+With this series, the OnePlus 8T can boot up to GNOME shell, connect to
+a wifi network and browse the web with GPU acceleration, with battery
+status reporting via the BQ27541 fuel gauge IC.
+
+The touchscreen driver included here is loosely based on a previous
+attempt by Frieder Hannenheim which can be found below.
+
+Link: https://lore.kernel.org/lkml/20240327214643.7055-1-friederhannenheim@riseup.net/
+
+---
+Changes in v2:
+- Panel:
+- 	Fix amb655x dt-bindings example
+- 	Fully switch to *_multi helpers
+- 	Fix regulator refcount handling (skip enabling regulators during
+	first prepare() call since they're already powered up).
+- DTS:
+- 	Add BQ27541 fuel gauge ic
+- 	Remove erroneous i2c-ls1 comment
+- 	Add chassis-type propery
+- 	Don't make panel regulators always-on (not needed)
+- 	Describe pielworks iris 5 i2c chip
+- Touchscreen:
+- 	Fix potential IRQ race condition during probe
+- 	Handle big endian hosts correctly
+- 	Removed unused macros and generally clean up
+- Link to v1: https://lore.kernel.org/r/20240624-oneplus8-v1-0-388eecf2dff7@postmarketos.org
+
+---
+Caleb Connolly (8):
+      dt-bindings: panel: document Samsung AMB655X
+      dt-bindings: input: touchscreen: document synaptics TCM oncell
+      dt-bindings: arm: qcom: add OnePlus 8 series
+      drm: mipi: add mipi_dsi_generic_write_multi_type()
+      drm/mipi-dsi: add set column/page multi helpers
+      drm/panel: add driver for samsung amb655x
+      Input: touchscreen: add Synaptics TCM oncell S3908
+      arm64: dts: qcom: add OnePlus 8T (kebab)
+
+ Documentation/devicetree/bindings/arm/qcom.yaml    |   3 +
+ .../bindings/display/panel/samsung,amb655x.yaml    |  63 ++
+ .../input/touchscreen/syna,tcm-oncell.yaml         |  68 ++
+ MAINTAINERS                                        |  14 +
+ arch/arm64/boot/dts/qcom/Makefile                  |   1 +
+ .../arm64/boot/dts/qcom/sm8250-oneplus-common.dtsi | 909 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8250-oneplus-kebab.dts  |  36 +
+ drivers/gpu/drm/drm_mipi_dsi.c                     |  40 +
+ drivers/gpu/drm/panel/Kconfig                      |   9 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-samsung-amb655x.c      | 399 +++++++++
+ drivers/input/touchscreen/Kconfig                  |  11 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/synaptics_tcm_oncell.c   | 571 +++++++++++++
+ include/drm/drm_mipi_dsi.h                         |  32 +
+ 15 files changed, 2158 insertions(+)
+---
+change-id: 20240622-oneplus8-788005cc74ae
+base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+
+// Caleb (they/them)
+
 
