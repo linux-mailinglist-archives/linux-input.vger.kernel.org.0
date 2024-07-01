@@ -1,94 +1,145 @@
-Return-Path: <linux-input+bounces-4766-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4767-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F0091E114
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 15:46:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B03C391E2A9
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 16:42:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4740B1C21913
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 13:46:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E2A31F21398
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 14:42:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC2215ECF5;
-	Mon,  1 Jul 2024 13:46:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9121C16B3B7;
+	Mon,  1 Jul 2024 14:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="scHpz+h6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es6ZvAts"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B9715ECEA;
-	Mon,  1 Jul 2024 13:46:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF584696;
+	Mon,  1 Jul 2024 14:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719841603; cv=none; b=TAatlxL3dwtvNAGa6xAEdFH+uca21wwZQETcCUUB1R/XVmMGYG3vXxtwhzBzjF/r8K7lF1lVCJFDBPNWfRRooAZ+YOPsGLQ3Sajc9FUdnYbV9gMZf9uji9AK4HtCILW18OJhYQ8BMb37lznpO4bB4v8IxjX4TmRYTTBw4ZpXnIY=
+	t=1719844961; cv=none; b=Wv0lvCC11h8mD2kgsRvavWPyUbssqvskV/CTJRNfEq17z4Q2tc5GUNBiOq/phhVzFzZDj9txDS8oL2J3sqCV6TLV/HDGUueQc1vjXspD43v7Vhgs18qLXxKXGOxT9OyisHuKawqwN1U2koZ3z/NTw5OLki0tJHik+dEiGStxqlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719841603; c=relaxed/simple;
-	bh=yOQivT421DdQX+XSo94Vz7zP0uqqGn78GjmZjtGzag0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=STqons4msoPnMWCODFU5GQ78bixSE2KrwLhBgOeI/Kd2p8nbHfyjXTxSSyAAhsGxniZ/GAQFcti/Ri83j09DvwCmOs+yQj/jhQMR2mQEmsQ3ql60NVcYDZx/8jy8T5sGmW7tlhunrL9bBs84OGUzKqS8FNSThZOiQyr2Lb67FPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=scHpz+h6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85064C4AF0D;
-	Mon,  1 Jul 2024 13:46:41 +0000 (UTC)
+	s=arc-20240116; t=1719844961; c=relaxed/simple;
+	bh=oqreuN7Lmf3KZB06NiHnlq3XgvAne96Q0HZLnxU1cvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cetDsoaMvwzi8W9hhDbN5E8LUWMYgDwpGNmwtbde3BHQwDWiyciQo7/zZfC+4qqu6SkXmsAvcsmUylFs89e6r+CqYTrT+awDdsa1mGXvYem/dLPbFnKC+KBPJsi1zL4baVpUIFcQzk4uhe1/tFsgxYxnHmRx5x2WITq/v//Yu7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es6ZvAts; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A929C116B1;
+	Mon,  1 Jul 2024 14:42:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719841603;
-	bh=yOQivT421DdQX+XSo94Vz7zP0uqqGn78GjmZjtGzag0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=scHpz+h6Lz1YehXmBFKh9rL63zhAPmrNkaQr2mlu+DlDh8CooF5S1ErqqYVDbxg51
-	 NHFyanz6QNMKz71yWimnAeRmMFQdjYg4HZKPZKnRlxH3CVDmFRNIL0fwfkSWruNPyg
-	 k70H/9Rx3sOl/Q7o4aD88whsmSu1kq5B/94nrxhYrbac2DxGO453/IUO2tilh/UFBh
-	 01lri0KPw5QtNxD30/16l0d0JkaPYMhiw28nAfyEhnBlM5/N0b5pGuNqmmni9vA4TW
-	 RRb/eJ8Wa85oWK0LP/onAK8zkk5k1brI/P0XetMvTIUWR0pIZMeckWhK6yYvEXL3hj
-	 YCJHLEngYJGCg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- bpf@vger.kernel.org, Peter Hutterer <peter.hutterer@who-t.net>, 
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>, 
- K S Iyer <kumar.s.iyer65@gmail.com>
-In-Reply-To: <20240627-import-bpf-v1-0-0dbcda4a5b1f@kernel.org>
-References: <20240627-import-bpf-v1-0-0dbcda4a5b1f@kernel.org>
-Subject: Re: [PATCH 0/6] HID: bpf: import some more fixes from udev-hid-bpf
-Message-Id: <171984160126.804118.1988566013648655002.b4-ty@kernel.org>
-Date: Mon, 01 Jul 2024 15:46:41 +0200
+	s=k20201202; t=1719844961;
+	bh=oqreuN7Lmf3KZB06NiHnlq3XgvAne96Q0HZLnxU1cvA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Es6ZvAtss93UUyTV0/C5Kq7xcHV2mMr7W2uHGzC8FpKbNdC+jdwp2ciIC5jj/WLlr
+	 FyJlaV6yEroIgDjOJcuzd9aP6IUmM5Sp6czY1Awasc8IPqdGjj19lmJ1PoKJQekKjF
+	 iO8Evf/hfcQCmvr2bAjQTBrWOLxgdGAf4UNc7gokAoLxG4XDH0ROZNiDmRHlstPjTK
+	 RYuYX45Ln2d79925pclof5E9V0BwvtKu0XXZGfSh1PNR9rQGijypIVTJJfg19nB3Ou
+	 eOYGsfaO+Ws94mFfXxKN7LCu/yzJU5xXxZNZxLrtd2oRTkk6rkoTKotFrck44To5RZ
+	 tLuvqQyHCPFuA==
+Date: Mon, 1 Jul 2024 15:42:37 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: exc3000: add
+ EXC81W32
+Message-ID: <20240701-evolve-unbutton-ef7d913ad69f@spud>
+References: <20240628-input-exc3000-exc81w32-v2-0-c2b21a369c05@pengutronix.de>
+ <20240628-input-exc3000-exc81w32-v2-1-c2b21a369c05@pengutronix.de>
+ <20240628-agonizing-syrup-fcd55c441b3f@spud>
+ <150055844b8af2017fa721ff08bbde473354b2da.camel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oXw+Hz09N3mxcR0V"
+Content-Disposition: inline
+In-Reply-To: <150055844b8af2017fa721ff08bbde473354b2da.camel@pengutronix.de>
 
-On Thu, 27 Jun 2024 11:54:16 +0200, Benjamin Tissoires wrote:
-> This is a batch update to sync up the testing directory of udev-hid-bpf
-> and the kernel. The development happens there, and once we are happy,
-> we merge the bpf there, and then sync up with the kernel.
-> 
-> I've added all of the signed-off by from the various authors, as we
-> require them there as well.
-> 
-> [...]
 
-Applied to hid/hid.git (for-6.11/bpf), thanks!
+--oXw+Hz09N3mxcR0V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1/6] HID: bpf: Add a HID report composition helper macros
-      https://git.kernel.org/hid/hid/c/8a89db51873c
-[2/6] HID: bpf: add a driver for the Huion Inspiroy 2S (H641P)
-      https://git.kernel.org/hid/hid/c/09c555faedb8
-[3/6] HID: bpf: move the BIT() macro to hid_bpf_helpers.h
-      https://git.kernel.org/hid/hid/c/c4015aa7d8fa
-[4/6] HID: bpf: Add support for the XP-PEN Deco Mini 4
-      https://git.kernel.org/hid/hid/c/f03741540dba
-[5/6] HID: bpf: Add Huion Dial 2 bpf fixup
-      https://git.kernel.org/hid/hid/c/9b52d81115db
-[6/6] HID: bpf: Thrustmaster TCA Yoke Boeing joystick fix
-      https://git.kernel.org/hid/hid/c/f58e7f404da4
+On Mon, Jul 01, 2024 at 02:47:50PM +0200, Philipp Zabel wrote:
+> Hi Conor,
+>=20
+> On Fr, 2024-06-28 at 17:21 +0100, Conor Dooley wrote:
+> > On Fri, Jun 28, 2024 at 10:35:51AM +0200, Philipp Zabel wrote:
+> > > Add compatible for EXC81W32 touchscreen controllers.
+> >=20
+> > Could you please mention in your commit messages what makes a fallback
+> > compatible inappropriate here?
+>=20
+> thank for pointing this out. Actually, I'm not sure a fallback
+> compatible is inappropriate at all. There just is none currently, even
+> though EXC80H60 and EXC80H84 already look compatible to me.
+>=20
+> To my understanding, there's EXC80[WH]{32,46,60,84} models, that should
+> only differ in ball pitch (W or H) and targeted display size (the last
+> number).
+> I don't know if there are actual relevant differences between what I
+> assume are model generations, such as EXC80 to EXC81. At least the
+> limited currently implemented feature set in the exc3000 driver is
+> identical.
+>=20
+> Given that EXC80H60, EXC80H84, and now EXC81W32 all share the same 16K
+> resolution and the same message format (possible differences in
+> capability to measure touch area nonwithstanding), should I prepend
+> this series with a patch:
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+If you're prepared to update the two users to avoid adding more
+dtbs_check warnings, sure.
 
+Thanks,
+Conor.
+
+>=20
+> @@ -14,10 +14,13 @@
+> =20
+>  properties:
+>    compatible:
+> -    enum:
+> -      - eeti,exc3000
+> -      - eeti,exc80h60
+> -      - eeti,exc80h84
+> +    oneOf:
+> +      - const: eeti,exc3000
+> +      - items:
+> +          - enum:
+> +              - eeti,exc80h60
+> +          - const: eeti,exc80h84
+> +      - const: eeti,exc80h84
+>    reg:
+>      const: 0x2a
+>    interrupts:
+>=20
+> regards
+> Philipp
+
+--oXw+Hz09N3mxcR0V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoLAXQAKCRB4tDGHoIJi
+0kfdAPinlDksflI+CZ0V7RLLNE6TzTiZAcuSVA8xrHNj8sd+AP4/QgKGeSLOwa2n
+NxYwmgWXdF5eK9yJeua4gyd0PjUSBg==
+=eq1X
+-----END PGP SIGNATURE-----
+
+--oXw+Hz09N3mxcR0V--
 
