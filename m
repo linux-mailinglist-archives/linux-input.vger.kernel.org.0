@@ -1,120 +1,126 @@
-Return-Path: <linux-input+bounces-4788-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4789-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7585F91EAF5
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 00:48:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1456B91EB28
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 00:51:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62EB21C21433
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 22:48:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7DDC283455
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 22:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08250823DE;
-	Mon,  1 Jul 2024 22:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C74516EBE9;
+	Mon,  1 Jul 2024 22:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHDu8+jk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5kMK079"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71FE17BA1;
-	Mon,  1 Jul 2024 22:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A6E823DE;
+	Mon,  1 Jul 2024 22:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719874128; cv=none; b=ZjZ6owCipN1L8z0ZE3RXEmk8cepQT3DnFnjda4wgFrbSljW6rpOg35Ls2Mxl0rKqHs1zIEMgUcg7vpnKwNaYAmZsArvJvS4IGNKZJjBoOKf5+p8I4CQi6HVjoKDsYuQi6Jm9XdWdOeYnvYtmbWYt9v0K61li5d60isp2nJUxy4M=
+	t=1719874308; cv=none; b=CO8hst35xz4Z1e8pvZNPfjFAUaJi1mjcf9myiRy91+oSwLWi/GKzizvlN4jIFme52D6wu5z+VPg6unMP1yhwBavMxfQH/k1abemw5X8faQPGVawDps4htDYY1+78XB3TmzzP3Eh94jRr8j7FA2T7br2J9ZhhaeZpiAkTD2KvWcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719874128; c=relaxed/simple;
-	bh=/6Z/UAr2KgLqp347jHQwBD9sTujLQ/+JLX5OMYw3hw8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Cc:Date:
-	 Message-Id:References:To; b=Gb5RWIzHP6HqS3KvNJI/ObFdPsHKWITgZEnY/rfapi43420WCCovmgPRQmcqYY+Oyih9uXoE3I8OWIw5vMOhwdsotTMg9bzfwYJMq9LuZMzRsPSCtLxnsgBOw5tC3ObmNT8LGIlD6fRNPKiwNTvJ0DtIeozw1LJDFuyUM0M0wcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHDu8+jk; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1719874308; c=relaxed/simple;
+	bh=YkKR7UEsCLK+xQ7GWcTJ8lLq8r10Cek9EjhNWKOmLkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMgYtimWn67uDtJTc0ldKLVK+w/aPpGf04AvIDO2fqT/sDdp+xeKB/2MyrX1d6KuoybQCI1LLHkMWlXD4egb03E/Kv5J4o9MQPtZTfSgUS5xE2hYkVE10mkeBokdaepTt7brv19J05cZsQl+FgUNr2K1uD5NMqRfHe0gFqNhr3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5kMK079; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7066a3229f4so2171362b3a.2;
-        Mon, 01 Jul 2024 15:48:47 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fab03d2f23so26749325ad.0;
+        Mon, 01 Jul 2024 15:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719874127; x=1720478927; darn=vger.kernel.org;
-        h=to:references:message-id:date:cc:in-reply-to:from:subject
-         :mime-version:content-transfer-encoding:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FdlVPgQAR+X09paap9HfMATsnRFfGeCHqlkO62FRPcs=;
-        b=AHDu8+jkE1dqghzR8TOIdrNns2K7FPieKwMDqNjL2zPQoFM+9ShR2CS7QqAssKOq2K
-         qfhh8kqiRvusRnaMcSUmE3xHqJsir/YpscDGVjvna+C5RfeoOQJWdmTC8ueMj0T3VXNk
-         3CIcFhkAKoj+bva+t8fUdDhIY2+JbComrMorPZZfdT13rGhGfhC715nnT5f4TkKs3xLH
-         Kb3+yq86WIZ87mvj8iNDFqW3I0605+ACUF7Asd10pAnwkYIEzsu0CJjUUUd8lSgkueHG
-         p1KVThjmRL3yNDkPaPE01WJbHD/oYox9BeH+2UeYaicQu5AwhifHRRsc9sVhbaFdfyvF
-         dMhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719874127; x=1720478927;
-        h=to:references:message-id:date:cc:in-reply-to:from:subject
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+        d=gmail.com; s=20230601; t=1719874306; x=1720479106; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=FdlVPgQAR+X09paap9HfMATsnRFfGeCHqlkO62FRPcs=;
-        b=qgj6P8aDYVyI5EtGETzbim6bMTqKNeqy9udh9cKecyxd0jUHkicNrXxiuq+MC6onzH
-         80iIC4Ymt2M7RNwj2OrOVMHu93n8A1SN+b1QnPuEkK7T6Fk6KrbepOOfVkizIHQ1r/ZB
-         tCgIp0o2Iug4gSq8ErlQXos4UPrGlnJA5L27fEuulNtbVMG80CkeXP+K2fSFNFFSmJpG
-         JOsjpoNw1y/TIMjuAkLukJLBXD3ydcuAfrKRD6Tansi0fuK8E9Ka2bcmWPmDfU+aPUz9
-         vJoxf/CuW6eiiQaboM389dM8aYvMx5/o6hzB6308YEIeBcv8pu4tSmqt++G2UHBM6KG6
-         aPMw==
-X-Forwarded-Encrypted: i=1; AJvYcCVIH6mPvmiX4rJoVKWPNOI1wdrEJfA35q5rMWIbwzjDsKF2gwgzjLr47ikQWso+rIzIJKAb7y2bRlPH8gToInJlAwWIci0Ims0sFIhRtmBFIVLzYmmeN0WtLHeB4JTOh0SANcfjSSHLdNA=
-X-Gm-Message-State: AOJu0Yzb6/e3q0Hn/s6Q5t1+0ilHsHclD4kaltMVnRGxsuNyU73n1aVZ
-	cb90lSNMA4hi8KySh55ciUEHKgAOPeGUMzNDuHL4HFJlsCWjYiEV
-X-Google-Smtp-Source: AGHT+IHFN4CHmBRJmSu3HUoM28FBmLYAzslqhKRbx5V+Mpzpac89oqKSSeVgLrGFTnQlhl4Ua+32Ow==
-X-Received: by 2002:a05:6a00:1acd:b0:706:334a:43d8 with SMTP id d2e1a72fcca58-70aaad26836mr6351092b3a.2.1719874126879;
-        Mon, 01 Jul 2024 15:48:46 -0700 (PDT)
-Received: from smtpclient.apple (121-45-106-167.tpgi.com.au. [121.45.106.167])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708044af3b0sm7288776b3a.175.2024.07.01.15.48.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 15:48:46 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        bh=x7+cY2cLXbP1SprNSHEMTG9lFh0AWylYTn/DasTU9Zc=;
+        b=X5kMK079vgImC3s3b/GfJr9gc20aYTM/3F3sK16DSlCbrIK2v0ASe8PRfuypuz5usF
+         OU954hh0GXDBa47vK4fk0Ot+b9avkMEePzcznLgpsNcM/ISsMXkwD9SqR7H8Kv+6jSTL
+         Sstm3w7+8nRaeI/tI/YjxvYXgPr8Is2BoS0AK9pWOaHkmKE+K8IW1a15Eob6hVcg7DRi
+         MrUgsxDWn8UWR0hdhaxP9utONoJXhzfva+JgW9j0PG7mzZRhBufYLu7iKPZe27RmO4f7
+         mXxZuJflskLIT0xLusW2DRAscD27Wd8Ju6EXnSEdtKa74nIJZFTO1zcgVmokhiRYr6Nx
+         07uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719874306; x=1720479106;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x7+cY2cLXbP1SprNSHEMTG9lFh0AWylYTn/DasTU9Zc=;
+        b=xEFP10dg1YsOmWE/D9OeBBtRfknCgKiHd9AYrGCJG1wdEXr4e5ULGHr4L89cXIaoKR
+         0fwFixlQYge5QA444Ls0AltPZUThdtIgSuwRC1JZyDPabxjxqajiHI0+KW4awG+NTx+U
+         TVrZGrzSPTjwkqpszMxmjLIbN5iW4unyx5M0lGJUzw3WoeE1ltli7slJrBj92MitGgpx
+         gGIM/ZeTurIZiZrsOs6ZKxPtJSmHcDrU700wDhVMvY80tkIUO6EIOjmJn6oECV60Z8Ei
+         4agfyWQTwigXWID4OI39LuCE4KlqrurMIYNyceEwA7AehlynCuSoy0mcRG8AK9qiEYNX
+         +JWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwOtCJTMU8T72i3RRlwtgjcGcOxJdNpAsOW0n7fQh1n4JbA3Ihlo5TjRcWfsswsGycymGFN5p+hBK+6X3O1kXR0m9TtEmW6Z29L3mVklTVB3Ohpq1IKdknXKJgtBaSt416cH+fdtRNAIo=
+X-Gm-Message-State: AOJu0YykOb9HMeLLCM5GJpZZjxAt92+rOlqCkV+Q81+NgAlc7m9kMGOA
+	MvRBjV9QDmyB5rv4irsmO6kd6BI2FFfqHGYmQxxHn7DZ+YVbMgpe
+X-Google-Smtp-Source: AGHT+IFx09tdMTQ857MQ1bKtgK6tbZzK69MhBwUY2KbXSMsgx1todcGMSPQ1+cjCQsAI7c4kZd726A==
+X-Received: by 2002:a17:902:ced2:b0:1f7:1b42:431d with SMTP id d9443c01a7336-1fadbc96959mr46552895ad.30.1719874306281;
+        Mon, 01 Jul 2024 15:51:46 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:97a3:bdcc:1a3b:f207])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac10d1b56sm70262535ad.41.2024.07.01.15.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 15:51:45 -0700 (PDT)
+Date: Mon, 1 Jul 2024 15:51:43 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+	Utsav Agarwal <utsav.agarwal@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iInput: adp5588-keys - use guard notation when acquiring
+ mutexes
+Message-ID: <ZoMy_8lcdS-NN76w@google.com>
+References: <ZoLt_qBCQS-tG8Ar@google.com>
+ <pdnij2qolnmbcwtvlsdvkvtua7s7yjw4ms4bc7zyk3tpdr5pou@sga4mhcztfiz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] HID: apple: Add support for magic keyboard backlight on T2 Macs
-From: Orlando Chamberlain <orlandoch.dev@gmail.com>
-In-Reply-To: <MA0P287MB021782E3C0DEDB8FC65F1C35B8D32@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-Cc: Jiri Kosina <jikos@kernel.org>, bentiss@kernel.org,
- linux-input@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date: Tue, 2 Jul 2024 08:48:34 +1000
-Message-Id: <8DC4D384-1349-4C8A-848D-589BA25B15D2@gmail.com>
-References: <MA0P287MB021782E3C0DEDB8FC65F1C35B8D32@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-To: Aditya Garg <gargaditya08@live.com>
-X-Mailer: iPhone Mail (21F90)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <pdnij2qolnmbcwtvlsdvkvtua7s7yjw4ms4bc7zyk3tpdr5pou@sga4mhcztfiz>
 
+On Mon, Jul 01, 2024 at 10:28:09PM +0200, Uwe Kleine-König wrote:
+> Hello Dmitry,
+> 
+> $Subject ~= s/iI/I/
 
+Oops, vim strikes again ;)
 
-> On 2 Jul 2024, at 4:19=E2=80=AFAM, Aditya Garg <gargaditya08@live.com> wro=
-te:
-> =EF=BB=BFApparently this patch is breaking touchbar functionality is some c=
-ases.
+> >  
+> >  static int adp5588_gpio_direction_output(struct gpio_chip *chip,
+> > @@ -310,9 +296,9 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
+> >  	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
+> >  	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+> >  	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+> > -	int ret;
+> > +	int error;
+> 
+> If you keep ret it's consistent with the other functions in this driver
+> (at least the one you touched above).
 
-I think this is because apple_magic_backlight_init will return an error when=
- it finds the touchbar interface, but this return value is not checked, so h=
-id-apple still binds to the touchbar backlight.
+This is part of my quest to have variables that hold error codes (i.e.
+when we do not return them in case of success) to be called "error".
+"ret" or "retval" is to be used when it is returned in both error and
+success cases; before the guard notation we needed to use the same
+variable in both success and failure.
 
-This should be fixable so I don't think we need to still have the separate d=
-river.
+> 
+> Otherwise looks fine to me,
 
->>=20
->> static int apple_probe(struct hid_device *hdev,
->>       const struct hid_device_id *id)
->> {
->> @@ -860,6 +940,9 @@ static int apple_probe(struct hid_device *hdev,
->>   if (quirks & APPLE_BACKLIGHT_CTL)
->>       apple_backlight_init(hdev);
->>=20
->> +    if (quirks & APPLE_MAGIC_BACKLIGHT)
->> +        apple_magic_backlight_init(hdev);
+Thanks for the review!
 
-return value isn't checked here ^, we return 0 unconditionally below.
-
->> +
->>   return 0;
->> }
+-- 
+Dmitry
 
