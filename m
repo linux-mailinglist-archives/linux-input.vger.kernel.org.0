@@ -1,58 +1,57 @@
-Return-Path: <linux-input+bounces-4765-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4766-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05A891E112
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 15:46:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F0091E114
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 15:46:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69DA01F22B62
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 13:46:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4740B1C21913
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 13:46:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23D2158DA4;
-	Mon,  1 Jul 2024 13:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC2215ECF5;
+	Mon,  1 Jul 2024 13:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSlOq3FG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="scHpz+h6"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E90B1EEF8;
-	Mon,  1 Jul 2024 13:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B9715ECEA;
+	Mon,  1 Jul 2024 13:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719841601; cv=none; b=kfehG14slVnTILjxp5S/oEh4We6y3LjQ7mpqJbCSRcgWjcZtduAS3a4MTL3Ej2F0klmz/OUCcDG+x6avjXzwti6KlrPa3uo6n4qNjLkRVhDL54xVSvSY6nZWq4FVyZAi6wmrddoKntqlztVywH+8hJQ6Aa0UGUPAw6UPPEL/N6A=
+	t=1719841603; cv=none; b=TAatlxL3dwtvNAGa6xAEdFH+uca21wwZQETcCUUB1R/XVmMGYG3vXxtwhzBzjF/r8K7lF1lVCJFDBPNWfRRooAZ+YOPsGLQ3Sajc9FUdnYbV9gMZf9uji9AK4HtCILW18OJhYQ8BMb37lznpO4bB4v8IxjX4TmRYTTBw4ZpXnIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719841601; c=relaxed/simple;
-	bh=Ya0S5zdi+7SsyR/6A/c4L3sTSewdGTHlOAshJGwLjKU=;
+	s=arc-20240116; t=1719841603; c=relaxed/simple;
+	bh=yOQivT421DdQX+XSo94Vz7zP0uqqGn78GjmZjtGzag0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=txHs/9Uu6azgfAQvFTl/YNAAa7NfkI8laWLA30Mo+ukQB4v+KyU1f4Xkru622KSJ8Y/jjzCknJ6hYhsS9QbJ+eMkFPSNj2Xbmqc5mLIUQU2D76oGP4yH+RD+X4k8WnjZGAEaxNf2HwI+Qie/W6Qp1yave88w6ut0oKWzd/D03ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSlOq3FG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48561C4AF0A;
-	Mon,  1 Jul 2024 13:46:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=STqons4msoPnMWCODFU5GQ78bixSE2KrwLhBgOeI/Kd2p8nbHfyjXTxSSyAAhsGxniZ/GAQFcti/Ri83j09DvwCmOs+yQj/jhQMR2mQEmsQ3ql60NVcYDZx/8jy8T5sGmW7tlhunrL9bBs84OGUzKqS8FNSThZOiQyr2Lb67FPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=scHpz+h6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85064C4AF0D;
+	Mon,  1 Jul 2024 13:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719841601;
-	bh=Ya0S5zdi+7SsyR/6A/c4L3sTSewdGTHlOAshJGwLjKU=;
+	s=k20201202; t=1719841603;
+	bh=yOQivT421DdQX+XSo94Vz7zP0uqqGn78GjmZjtGzag0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cSlOq3FG8SZuh4akDuACZJxd2A4gtLhs3pFh0tx9ufyM4qJRfpx6cixnhO0YyLMQU
-	 KqBFXcrk5WrmVgthXrf1PtMTtA1zDLMpgalrmgJESpgRzvFe7xDYx/4X9Kgv0daPor
-	 LO7xWI0dM6BKRXTaqiXkOVDwIBXSmOZmlXDBWGMKFiKYBLlVjoSqpHVErrHPNyaIps
-	 lSSBpSrWzJF5DjH1c/fKwqRr5TOoODrU72VH0b7TUbBbgbIvD1y9UL/pB4py5Rft+w
-	 fkC45O3nuqyL2XCH5h3gCPjojgsbHemesLXpoTiLkfX+TzidQlVeNL0PmrQXfJ1BT9
-	 fCbqiXyaNMWhg==
+	b=scHpz+h6Lz1YehXmBFKh9rL63zhAPmrNkaQr2mlu+DlDh8CooF5S1ErqqYVDbxg51
+	 NHFyanz6QNMKz71yWimnAeRmMFQdjYg4HZKPZKnRlxH3CVDmFRNIL0fwfkSWruNPyg
+	 k70H/9Rx3sOl/Q7o4aD88whsmSu1kq5B/94nrxhYrbac2DxGO453/IUO2tilh/UFBh
+	 01lri0KPw5QtNxD30/16l0d0JkaPYMhiw28nAfyEhnBlM5/N0b5pGuNqmmni9vA4TW
+	 RRb/eJ8Wa85oWK0LP/onAK8zkk5k1brI/P0XetMvTIUWR0pIZMeckWhK6yYvEXL3hj
+	 YCJHLEngYJGCg==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- Mirsad Todorovac <mtodorovac69@gmail.com>
-In-Reply-To: <20240701-fix-cki-v2-0-20564e2e1393@kernel.org>
-References: <20240701-fix-cki-v2-0-20564e2e1393@kernel.org>
-Subject: Re: [PATCH v2 0/4] Fix warnings in for-6.11/bpf
-Message-Id: <171984159899.804118.13748285528625314885.b4-ty@kernel.org>
-Date: Mon, 01 Jul 2024 15:46:38 +0200
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ bpf@vger.kernel.org, Peter Hutterer <peter.hutterer@who-t.net>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>, 
+ K S Iyer <kumar.s.iyer65@gmail.com>
+In-Reply-To: <20240627-import-bpf-v1-0-0dbcda4a5b1f@kernel.org>
+References: <20240627-import-bpf-v1-0-0dbcda4a5b1f@kernel.org>
+Subject: Re: [PATCH 0/6] HID: bpf: import some more fixes from udev-hid-bpf
+Message-Id: <171984160126.804118.1988566013648655002.b4-ty@kernel.org>
+Date: Mon, 01 Jul 2024 15:46:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,26 +62,30 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.0
 
-On Mon, 01 Jul 2024 14:39:48 +0200, Benjamin Tissoires wrote:
-> We had several complains in linux-next that there were warnings:
+On Thu, 27 Jun 2024 11:54:16 +0200, Benjamin Tissoires wrote:
+> This is a batch update to sync up the testing directory of udev-hid-bpf
+> and the kernel. The development happens there, and once we are happy,
+> we merge the bpf there, and then sync up with the kernel.
 > 
-> CKI was not happy: it was the same situation than in an early report
-> when HID-BPF was initially included: the automatically generated
-> vmlinux.h doesn't contain all of the required structs and the
-> compilation of the bpf program fails.
+> I've added all of the signed-off by from the various authors, as we
+> require them there as well.
 > 
 > [...]
 
 Applied to hid/hid.git (for-6.11/bpf), thanks!
 
-[1/4] selftests/hid: ensure CKI can compile our new tests on old kernels
-      https://git.kernel.org/hid/hid/c/fcdf830ea634
-[2/4] HID: bpf: fix gcc warning and unify __u64 into u64
-      https://git.kernel.org/hid/hid/c/762ced1630a9
-[3/4] HID: bpf: doc fixes for hid_hw_request() hooks
-      https://git.kernel.org/hid/hid/c/c79de517a226
-[4/4] HID: bpf: doc fixes for hid_hw_request() hooks
-      https://git.kernel.org/hid/hid/c/c79de517a226
+[1/6] HID: bpf: Add a HID report composition helper macros
+      https://git.kernel.org/hid/hid/c/8a89db51873c
+[2/6] HID: bpf: add a driver for the Huion Inspiroy 2S (H641P)
+      https://git.kernel.org/hid/hid/c/09c555faedb8
+[3/6] HID: bpf: move the BIT() macro to hid_bpf_helpers.h
+      https://git.kernel.org/hid/hid/c/c4015aa7d8fa
+[4/6] HID: bpf: Add support for the XP-PEN Deco Mini 4
+      https://git.kernel.org/hid/hid/c/f03741540dba
+[5/6] HID: bpf: Add Huion Dial 2 bpf fixup
+      https://git.kernel.org/hid/hid/c/9b52d81115db
+[6/6] HID: bpf: Thrustmaster TCA Yoke Boeing joystick fix
+      https://git.kernel.org/hid/hid/c/f58e7f404da4
 
 Cheers,
 -- 
