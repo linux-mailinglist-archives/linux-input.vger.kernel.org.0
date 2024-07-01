@@ -1,157 +1,123 @@
-Return-Path: <linux-input+bounces-4763-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4764-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA68391DF90
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 14:41:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DCE91DFD3
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 14:48:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 683FBB2317C
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 12:41:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 544E928109B
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 12:48:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5079915AAC1;
-	Mon,  1 Jul 2024 12:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxVssHLs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC20158D7A;
+	Mon,  1 Jul 2024 12:48:07 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DB915A87C;
-	Mon,  1 Jul 2024 12:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D17158DA5
+	for <linux-input@vger.kernel.org>; Mon,  1 Jul 2024 12:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719837614; cv=none; b=bEysZRbod8lT5E1tEkyYYmluoimmF+/xA4h1Oc4yyTQPDmnh7o71IroPp+zPIdHjwKk/Wmfx3eeKhMgagjdKRrnQJDMtbuMS7SZJpyZOLTNQaTLu36fFmvbleC2gt5AhG0fR6fVsBtCT+wupJdZvJUToJ9S/Pmb8jI/poe8Ilig=
+	t=1719838086; cv=none; b=hPFxWcTl0Mgr2SljN6l5uMyubW2YU6ddj5UGa2SEUKI/B9iCYfem4PdFjze2sp6CZXJ3lFQfDB2WeTb+SG6m1k5AsdBkD2GVRqopg50nX4kdrQD+ppbNAlwHBohQWSMNoswBHroisQ0eAbPB/UuLflntqLw0pIh6LTf8xmmmMq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719837614; c=relaxed/simple;
-	bh=d7yH9YfAsU8Sr3Uu3uIuiYCXGouIBOJuEfxMH6XTfb0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u9rA+pabUEX/8PtZu6Qw5OpWxtq1vgRJOeTRlXcPFK7uoRRXk54W3U7MWgxaLdhvKtsVOcnD5T2r3iDcUzxOLcU8CxcFaR3K7vdnTqXfHRpOdgpKVkFl2mInkp19M0gOz02U5SWVn+0RtsM3ZVI3Xlzpyj1eVewx3T/L2OIHPwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxVssHLs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F6BFC2BD10;
-	Mon,  1 Jul 2024 12:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719837613;
-	bh=d7yH9YfAsU8Sr3Uu3uIuiYCXGouIBOJuEfxMH6XTfb0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OxVssHLsOOJFr4MH5RlMpbyjO/kIYmyjM4THraM6JKXAHLo5b9Nx+4MqnXSpYh4qf
-	 jsBF+XQapwHA9P+hBo29hlQrkPZlPN4iiuVJFkmtqUKOdXpH0ru5cApTiGv9hZrZC9
-	 HMY76uW/iSO8NTrKTE/DSGFQ3CcgBP+uO6KGZEP+cKbB1LjiOiXonnxn3vJqQTBXm5
-	 T6WSOuqEOBKNa4fnZhBVubWFo3b+nzjG4UGDPBsOxrxZZe3n17OvrV6ZjGjlIO5BTI
-	 IaGnOkVtLNDNO2tBPOz0uzBIxQcLJQqNgjXgTSJY2zg8WcBeri6eRZ+O2dAyJMYmQ0
-	 MRnCrNN1/lCkg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Mon, 01 Jul 2024 14:39:52 +0200
-Subject: [PATCH v2 4/4] HID: bpf: doc fixes for hid_hw_request() hooks
+	s=arc-20240116; t=1719838086; c=relaxed/simple;
+	bh=Pt1ou4Zca/Wj4epFL7dL1mbnEt3BYprXaD0ZHvhVv+o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QulpccGbiTwlTKNw+Vce63HY4kHvRNtSmJZk5f2IHttDeD1PtMrZC9jmuBfevuicOg+59vC7/zPTVwW2bK3uWxoXFHY4WvwzDpTjWOKapcTHd/DMkW6bu48pRH++13DA29gmq9ut65mGLZ+4VUqY1uTodWGVy6fuuaoZwXtNYso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1sOGRi-000460-T4; Mon, 01 Jul 2024 14:47:50 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1sOGRi-006NK5-G9; Mon, 01 Jul 2024 14:47:50 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1sOGRi-000UeT-1P;
+	Mon, 01 Jul 2024 14:47:50 +0200
+Message-ID: <150055844b8af2017fa721ff08bbde473354b2da.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: exc3000: add
+ EXC81W32
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Conor Dooley <conor@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ kernel@pengutronix.de
+Date: Mon, 01 Jul 2024 14:47:50 +0200
+In-Reply-To: <20240628-agonizing-syrup-fcd55c441b3f@spud>
+References: 
+	<20240628-input-exc3000-exc81w32-v2-0-c2b21a369c05@pengutronix.de>
+	 <20240628-input-exc3000-exc81w32-v2-1-c2b21a369c05@pengutronix.de>
+	 <20240628-agonizing-syrup-fcd55c441b3f@spud>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240701-fix-cki-v2-4-20564e2e1393@kernel.org>
-References: <20240701-fix-cki-v2-0-20564e2e1393@kernel.org>
-In-Reply-To: <20240701-fix-cki-v2-0-20564e2e1393@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719837604; l=3801;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=d7yH9YfAsU8Sr3Uu3uIuiYCXGouIBOJuEfxMH6XTfb0=;
- b=lRVwyNBjOsfEBiiJ7w+xL007jid0rN15OF9+h9R5Zm5GHE/IgWBsYSaY+iq4VfC0o3D6EvH9u
- 4L0zR1wYq3wBN4Kof28tK6Gp81Z0IZICq9vY06Pwdggu5CyKO1rP5wz
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-We had the following errors while doing make htmldocs:
+Hi Conor,
 
-Documentation/hid/hid-bpf:185: include/linux/hid_bpf.h:167:
-	ERROR: Unexpected indentation.
+On Fr, 2024-06-28 at 17:21 +0100, Conor Dooley wrote:
+> On Fri, Jun 28, 2024 at 10:35:51AM +0200, Philipp Zabel wrote:
+> > Add compatible for EXC81W32 touchscreen controllers.
+>=20
+> Could you please mention in your commit messages what makes a fallback
+> compatible inappropriate here?
 
-Also ensure consistency with the rest of the __u64 vs u64.
+thank for pointing this out. Actually, I'm not sure a fallback
+compatible is inappropriate at all. There just is none currently, even
+though EXC80H60 and EXC80H84 already look compatible to me.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 9286675a2aed ("HID: bpf: add HID-BPF hooks for hid_hw_output_report")
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- drivers/hid/bpf/hid_bpf_dispatch.c |  2 +-
- include/linux/hid_bpf.h            | 14 ++++++++------
- 2 files changed, 9 insertions(+), 7 deletions(-)
+To my understanding, there's EXC80[WH]{32,46,60,84} models, that should
+only differ in ball pitch (W or H) and targeted display size (the last
+number).
+I don't know if there are actual relevant differences between what I
+assume are model generations, such as EXC80 to EXC81. At least the
+limited currently implemented feature set in the exc3000 driver is
+identical.
 
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index a36e680399fe..a272a086c950 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -115,7 +115,7 @@ int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
- EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
- 
- int dispatch_hid_bpf_output_report(struct hid_device *hdev,
--				   __u8 *buf, u32 size, __u64 source,
-+				   __u8 *buf, u32 size, u64 source,
- 				   bool from_bpf)
- {
- 	struct hid_bpf_ctx_kern ctx_kern = {
-diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-index c30c31b79419..9ca96fc90449 100644
---- a/include/linux/hid_bpf.h
-+++ b/include/linux/hid_bpf.h
-@@ -138,6 +138,7 @@ struct hid_bpf_ops {
- 	 * It has the following arguments:
- 	 *
- 	 * ``ctx``: The HID-BPF context as &struct hid_bpf_ctx
-+	 *
- 	 * ``reportnum``: the report number, as in hid_hw_raw_request()
- 	 *
- 	 * ``rtype``: the report type (``HID_INPUT_REPORT``, ``HID_FEATURE_REPORT``,
-@@ -165,16 +166,17 @@ struct hid_bpf_ops {
- 	 * It has the following arguments:
- 	 *
- 	 * ``ctx``: The HID-BPF context as &struct hid_bpf_ctx
-+	 *
- 	 * ``source``: a u64 referring to a uniq but identifiable source. If %0, the
--	 *             kernel itself emitted that call. For hidraw, ``source`` is set
--	 *             to the associated ``struct file *``.
-+	 * kernel itself emitted that call. For hidraw, ``source`` is set
-+	 * to the associated ``struct file *``.
- 	 *
- 	 * Return: %0 to keep processing the request by hid-core; any other value
- 	 * stops hid-core from processing that event. A positive value should be
- 	 * returned with the number of bytes written to the device; a negative error
- 	 * code interrupts the processing of this call.
- 	 */
--	int (*hid_hw_output_report)(struct hid_bpf_ctx *ctx, __u64 source);
-+	int (*hid_hw_output_report)(struct hid_bpf_ctx *ctx, u64 source);
- 
- 
- 	/* private: do not show up in the docs */
-@@ -203,9 +205,9 @@ int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
- 				  unsigned char reportnum, __u8 *buf,
- 				  u32 size, enum hid_report_type rtype,
- 				  enum hid_class_request reqtype,
--				  __u64 source, bool from_bpf);
-+				  u64 source, bool from_bpf);
- int dispatch_hid_bpf_output_report(struct hid_device *hdev, __u8 *buf, u32 size,
--				   __u64 source, bool from_bpf);
-+				   u64 source, bool from_bpf);
- int hid_bpf_connect_device(struct hid_device *hdev);
- void hid_bpf_disconnect_device(struct hid_device *hdev);
- void hid_bpf_destroy_device(struct hid_device *hid);
-@@ -221,7 +223,7 @@ static inline int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
- 						enum hid_class_request reqtype,
- 						u64 source, bool from_bpf) { return 0; }
- static inline int dispatch_hid_bpf_output_report(struct hid_device *hdev, __u8 *buf, u32 size,
--						 __u64 source, bool from_bpf) { return 0; }
-+						 u64 source, bool from_bpf) { return 0; }
- static inline int hid_bpf_connect_device(struct hid_device *hdev) { return 0; }
- static inline void hid_bpf_disconnect_device(struct hid_device *hdev) {}
- static inline void hid_bpf_destroy_device(struct hid_device *hid) {}
+Given that EXC80H60, EXC80H84, and now EXC81W32 all share the same 16K
+resolution and the same message format (possible differences in
+capability to measure touch area nonwithstanding), should I prepend
+this series with a patch:
 
--- 
-2.44.0
+@@ -14,10 +14,13 @@
+=20
+ properties:
+   compatible:
+-    enum:
+-      - eeti,exc3000
+-      - eeti,exc80h60
+-      - eeti,exc80h84
++    oneOf:
++      - const: eeti,exc3000
++      - items:
++          - enum:
++              - eeti,exc80h60
++          - const: eeti,exc80h84
++      - const: eeti,exc80h84
+   reg:
+     const: 0x2a
+   interrupts:
 
+regards
+Philipp
 
