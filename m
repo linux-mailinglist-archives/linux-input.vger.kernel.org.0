@@ -1,155 +1,158 @@
-Return-Path: <linux-input+bounces-4749-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4750-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C950291D8FE
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 09:33:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2E891D911
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 09:36:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BB3B1F21D5A
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 07:33:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98AD2B209B6
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 07:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBC437142;
-	Mon,  1 Jul 2024 07:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD77B7E58D;
+	Mon,  1 Jul 2024 07:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYT8YMNV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urTlMEjt"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328641EB21
-	for <linux-input@vger.kernel.org>; Mon,  1 Jul 2024 07:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864ED7E110;
+	Mon,  1 Jul 2024 07:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719819191; cv=none; b=AWy283zzGIgiyPpkkbWp43d294vo9TQ4CAT3wAeUWf+F53lOl2sAEjEWzf8VABU39tyWxoLYA0VmdvyV5KUA0jfz/Urhwtjm+YgqJcKGTV0A3MOPkgMwEtozTuAgQruVgfKO1mEu0dRlFuN1lA+CeLep5EJGBYzkiU1eMv8fqgM=
+	t=1719819373; cv=none; b=Cug4ov5UZWaUA/5w/28XpwZNNTHzHwVh8XncdDGSItZrf7O9NxbNCcPTP/ehIC/yzqYJ5xc40vFYTCPwhxfSX+YzLMODM5SRqJcRNq2p2q0F0QByFKJ8GITD8DzRw/Ge77DgLLvubJy23eo6e7Rq/aslbft8Sg8qYLObTiiVF/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719819191; c=relaxed/simple;
-	bh=7Qmr0PgJ9DTOKD9sl3USdB7bnm5hVyHwmwSPijQRYuI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QkJWh/ZNFezzF8PLsikvEGAx/YGJ8HsgQwptNTbSKCcipGEJsdlXhFtE021r/4VTFUXz3BFbqwvL9WT0lAQm/s73oUH9YUYi4UkrD4FVBCu6EEHcJovwyuRz4VRCe9tjdawh6Ot22a90WpkXb3yR1EbijUV8h3bXkVLslMG2dLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYT8YMNV; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719819189; x=1751355189;
-  h=date:from:to:cc:subject:message-id;
-  bh=7Qmr0PgJ9DTOKD9sl3USdB7bnm5hVyHwmwSPijQRYuI=;
-  b=lYT8YMNVps/n9bR6n84Yq63K6aK+bQ0K8iabhXUyXHwbRTlT0J2WSWu4
-   /mdIPGGaKNW3uKc2lsAPwG0mmk7pXhDR/ziSQyLkL61V2nYOmT6u0/iJJ
-   X51yIfZw3g4JApn15BzUS6LX/TdfgFxpWPOeb9L+Zw5Bzo2ICT/9BbcJX
-   Oet7Yyd8ybOeJzljkNw1zIUFGdgOeBQXiflKC4iYfmrvnPxqWD3S1iSLo
-   Ni+S8gzdE4xk0MXTSrrf9DwyHfxvW/dL6/75dnmuo7Vaok/pqhF4MBKTq
-   C3Q3ftJXwpeUyFZa65a0l9QmMkpuhQyqMvc8sjbolIkFwJyHQMPCbkZ2O
-   A==;
-X-CSE-ConnectionGUID: wWUehqIxQxmXyZAp9OdDSA==
-X-CSE-MsgGUID: qZHJRAn0TU+6espfrCEntg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="19826213"
-X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="19826213"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 00:32:58 -0700
-X-CSE-ConnectionGUID: cp6PCy4qTGCgnlAgQL5sWg==
-X-CSE-MsgGUID: FKLSl27fQiWN7AYjyOyBsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="46168441"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Jul 2024 00:32:56 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sOBWv-000MYg-2l;
-	Mon, 01 Jul 2024 07:32:53 +0000
-Date: Mon, 01 Jul 2024 15:31:59 +0800
-From: kernel test robot <lkp@intel.com>
+	s=arc-20240116; t=1719819373; c=relaxed/simple;
+	bh=rQ/PY2VWUnfw+FYccw7ARj24Suz8u/p2eHcFrTdUxtM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=db5JyF8ulk0GVjx+Mgixmvf6wjofJqS2pJbbXQVJ0ky/QqUauNygex7gg++H0mpVe5JfoiuByFtAdvEGyaHsQr2PPiY4XRRRIJo9qHIgkb7dHXQ5W6NyAyEDF4f+vf6lI5D9cOllWerKllTcE6Gr5DMO9oGRmwQDXzYFSylBmqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urTlMEjt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9816C32781;
+	Mon,  1 Jul 2024 07:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719819373;
+	bh=rQ/PY2VWUnfw+FYccw7ARj24Suz8u/p2eHcFrTdUxtM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=urTlMEjtjrSXwML7JT5Ik5qC4AoYE66mey2RAIvFIvOrJc/8VCfznEkr1kDpTe0dz
+	 YXa93ElZSjzMzOn/e8F0L6L51SH+kgSb8J30PM+KaGhxEQ3jQ27HhN+OwoP0WaSXZK
+	 ZoF+JxbtdDpzIkYjWOGOd1jy6humGZtLbp8w25StfKKvkes7bq2p3bsesDJ0mpSuAF
+	 rKXEdcPAzfi7bMPHmFtBkxshZhHG3U5Fjie1wJXQnXiB/EcTa9Mqw6a/sBVauXUlPF
+	 O2OtxxTiWqVGWGCZ2VlnMhKpqYB97SB6OUyXRKSeB+Q/HVcTumang1+xTkzuOGMs3N
+	 DcM1TrxNuXREQ==
+Date: Mon, 1 Jul 2024 09:36:08 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 7c7b1be19b228b450c2945ec379d7fc6bfef9852
-Message-ID: <202407011558.sSGUGP8L-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Cc: linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] Input: make sure input handlers define only one
+ processing method
+Message-ID: <cg35cp36opttnr2jgsqda2gsgqdn6vplc2pq3n3of3e356igua@vei6pdsw25si>
+References: <20240701060553.869989-1-dmitry.torokhov@gmail.com>
+ <20240701060553.869989-2-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701060553.869989-2-dmitry.torokhov@gmail.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 7c7b1be19b228b450c2945ec379d7fc6bfef9852  Input: ads7846 - use spi_device_id table
+Hi Dmitry,
 
-elapsed time: 15345m
+On Jun 30 2024, Dmitry Torokhov wrote:
+> Input core expects input handlers to be either filters, or regular
+> handlers, but not both. Additionally, for regular handlers it does
+> not make sense to define both single event method and batch method.
+> 
+> Refuse registering handler if it defines more than one method.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/input.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index fd4997ba263c..8434348faeac 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -2517,6 +2517,26 @@ void input_unregister_device(struct input_dev *dev)
+>  }
+>  EXPORT_SYMBOL(input_unregister_device);
+>  
+> +static int input_handler_check_methods(const struct input_handler *handler)
+> +{
+> +	int count = 0;
+> +
+> +	if (handler->filter)
+> +		count++;
+> +	if (handler->events)
+> +		count++;
+> +	if (handler->event)
+> +		count++;
+> +
+> +	if (count != 1) {
 
-configs tested: 62
-configs skipped: 1
+Am I missing some upstream commit? I have the following:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+in drivers/input/evdev.c:
 
-tested configs:
-alpha                            allyesconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                    vdk_hs38_smp_defconfig   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                           tegra_defconfig   gcc-13.2.0
-arm64                            allmodconfig   clang-19
-hexagon                          allmodconfig   clang-19
-hexagon                          allyesconfig   clang-19
-i386                             allmodconfig   gcc-13
-i386                              allnoconfig   gcc-13
-i386                             allyesconfig   gcc-13
-i386                                defconfig   clang-18
-loongarch                        allmodconfig   gcc-13.2.0
-m68k                             allmodconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-13.2.0
-m68k                        m5407c3_defconfig   gcc-13.2.0
-m68k                       m5475evb_defconfig   gcc-13.2.0
-microblaze                       allmodconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-13.2.0
-mips                      maltasmvp_defconfig   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                         allyesconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-parisc                           allmodconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                           allyesconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc64                         alldefconfig   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                          allmodconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                          allyesconfig   clang-19
-powerpc                    ge_imp3a_defconfig   gcc-13.2.0
-powerpc                   microwatt_defconfig   gcc-13.2.0
-riscv                            allmodconfig   clang-19
-riscv                             allnoconfig   gcc-13.2.0
-riscv                            allyesconfig   clang-19
-riscv                          rv32_defconfig   clang-19
-s390                             allmodconfig   clang-19
-s390                             allyesconfig   gcc-13.2.0
-sh                               allmodconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                               allyesconfig   gcc-13.2.0
-sh                                  defconfig   gcc-13.2.0
-sh                         ecovec24_defconfig   gcc-13.2.0
-sh                               j2_defconfig   gcc-13.2.0
-sh                          polaris_defconfig   gcc-13.2.0
-sh                           se7712_defconfig   gcc-13.2.0
-sparc                            allmodconfig   gcc-13.2.0
-sparc                             allnoconfig   gcc-13.2.0
-sparc                               defconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-13.2.0
-um                               allmodconfig   clang-19
-um                               allyesconfig   gcc-13
-um                             i386_defconfig   gcc-13
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64                              defconfig   gcc-13
-x86_64                          rhel-8.3-rust   clang-15
-xtensa                            allnoconfig   gcc-13.2.0
+static struct input_handler evdev_handler = {
+	.event		= evdev_event,
+	.events		= evdev_events,
+	.connect	= evdev_connect,
+	.disconnect	= evdev_disconnect,
+	.legacy_minors	= true,
+	.minor		= EVDEV_MINOR_BASE,
+	.name		= "evdev",
+	.id_table	= evdev_ids,
+};
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So here count should be 2 and evdev would be rejected?
+
+And in drivers/tty/serial/kgdboc.c:
+
+static struct input_handler kgdboc_reset_handler = {
+	.connect	= kgdboc_reset_connect,
+	.disconnect	= kgdboc_reset_disconnect,
+	.name		= "kgdboc_reset",
+	.id_table	= kgdboc_reset_ids,
+};
+
+here count would be 0 and kgdboc would also be rejected.
+
+I agree on the intent of the patch, but these couple of input handlers
+should be fixed if they are not already.
+
+Cheers,
+Benjamin
+
+> +		pr_err("%s: only one event processing method should be defined (%s)\n",
+> +		       __func__, handler->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * input_register_handler - register a new input handler
+>   * @handler: handler to be registered
+> @@ -2530,6 +2550,10 @@ int input_register_handler(struct input_handler *handler)
+>  	struct input_dev *dev;
+>  	int error;
+>  
+> +	error = input_handler_check_methods(handler);
+> +	if (error)
+> +		return error;
+> +
+>  	error = mutex_lock_interruptible(&input_mutex);
+>  	if (error)
+>  		return error;
+> -- 
+> 2.45.2.803.g4e1b14247a-goog
+> 
 
