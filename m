@@ -1,79 +1,83 @@
-Return-Path: <linux-input+bounces-4741-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4742-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B266791D7D7
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 08:06:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A30B91D7D9
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 08:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAFD51C219E7
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 06:06:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88867B239E0
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 06:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC47364BA;
-	Mon,  1 Jul 2024 06:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0659A4F215;
+	Mon,  1 Jul 2024 06:06:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DKdXkyyp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+I7wuL6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0717D33FE;
-	Mon,  1 Jul 2024 06:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E90142056;
+	Mon,  1 Jul 2024 06:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719813965; cv=none; b=DJtZ8gUEALNPVOE/5/E5835t857Qkm5nQ+sKg9+t2irKdYowwJOX8YUlviprRyVrXgi9fyd00i+YpbqS5l5jxZxJkj+TFe+W9ckaYDcGYgAJFyJpmwXHARpDPZnK3icDsdRaFVOsh8DLk1PxGEE6PVMNUG3v1bqdh5t1Qa9GIZc=
+	t=1719813966; cv=none; b=aiuJQBXpTgVUCGWBTBrhutMxXOUfG5z4XupHIMPpetcmgeSEURNbjVR9KJ+i0WrcvrZWY/RkzBFeSIEQLjTFy7qbRR1zRV/80FjjYv72DheYotiQ2OK+f5PEDMazt+FXRTaiKfId6WRHWxWCrS6IKXX1gWD0LtVJ+ObxJRBKDm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719813965; c=relaxed/simple;
-	bh=jyHmhz6YtxBCoF+b+T+iIrjoSkrSmFJevOyDQJKyylI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XmEBURCIrRmruSskDiGMm+StK+HSwh1vtQnWyfEsIQewYAjOJIhEb2pZhVu/4VRocRzvWjV/52tEjnCnKQXh+yvTGk8nE8D/w5u9+CVBxEpKfWW3o+JMo2+OSolUMZmmkbguLDx3EX2BMU5zx4Gxrhko6DCl7BQlYbzwODdQDgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DKdXkyyp; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1719813966; c=relaxed/simple;
+	bh=gE4srvRTq4uMOziw6LpIXybIaA+YogFBoel+P4KrXFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MvsE8gMBUKMro4XcBRDcU+xnaCLmrGKmZOwKijEOVdwA//y8CohUObERSh+WcSuhnYGQPh3T4HVRE6Pol5seDl0uvMe8LltDCItzMQI2QK8U8MZMG1Q0gHEpg0rpMlnhvrnx7vGeMPJaykw0TWbHBbSdJojCVxUvr6k7tVpUysM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+I7wuL6; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-70b2421471aso1427728a12.0;
-        Sun, 30 Jun 2024 23:06:03 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f8395a530dso9676925ad.0;
+        Sun, 30 Jun 2024 23:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719813963; x=1720418763; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sLiIJ+2Vic/d/7Emq4DIWvGCTnwHORSzkrZU78QtsoY=;
-        b=DKdXkyypCZo9dJ7LFmOzgbyf3tYUZLDY3Sr+6zYZyodzJLnkLRhp4U37lh1N6d+qmW
-         BTJ4iPXeI+TbZtbViVjTvkZ4XAm/mbumPuaS0rVtcKbOKDbK3eK03Tc6BJPy5xQp2ms3
-         930FUSPC0MQtagoz2dZslDuWv0AwOxbdZ1XSehILFUmoVSRjIAZ3fNUG0UckORgq9tPX
-         88EDIAhfUaHjDI1BeCDE3IbTmhM69RhXplSOvlM+Htr3lcvb68aKgWHDFPiZkBex9Vep
-         Qkte0LcFLA0HGKJEhZYohSyR7N7e0LpVExHrkE+NY9FnyXySlkWi6i8ndx4csBIP+9Lo
-         Pbfg==
+        d=gmail.com; s=20230601; t=1719813965; x=1720418765; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/rr5LgW7b41WmKRKWDxksz++aJz2iH/cDfPQ5g0Teqo=;
+        b=M+I7wuL6nKLCN14sgu/IreKFlhWZhQO7UUTLvK7+3/WhpfaEtS1MWrMILhIWvtjXTV
+         k037dTvdW91+EEMI9Nvbuc4sOzpVfIcpVcgapCkLhf7dgLCTspQdjJ2HRYKaxMR1sBGD
+         raP4XKeN+z2IWuqKd5IZcEW3RSZobOLW56j9A3meZb63iHCvvPHPPcUnsZx3HzM825k6
+         0lc1L9b3SEBrfVqKeQHp+eQACgahMkYLfBt6ARnt9fmdQSV1pdurOtyfKTgdOy9bLD1m
+         WdypHJBkMo025x9kbk8KCYigfx0w5YAUoIUWgJlcpT8qIBTXJaDrqxArSOzV9zvKrUjR
+         qVTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719813963; x=1720418763;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sLiIJ+2Vic/d/7Emq4DIWvGCTnwHORSzkrZU78QtsoY=;
-        b=QyT3pTzYjuKliB0Qai2H7Pu9ViRjONbr0F6A8mGGJ/9yA0/cX22t5dtDMNDmIposf9
-         vMlWDAFa31rrE6q+8gxP81BQ+wRO9X1XiS4QwerBrtUoymhfvGPyDkoNoHTpjj34hUu+
-         XCHDUmQzGjwehqjTK/RwMqhRPN1Drch9paaJfYVXh2FHgdzxLUC4x2I6vjOO4tnBS6BB
-         OY2YyJ+f9WUpynu1DYwYds3RGOUjdjLnOTDQ/W0x+9iJdtFylKhuc0N1LQdRdA8f6ZZ8
-         snnUs2yNikT1hIOwLdYKcAdbx2GYmyPWKz5AAGpty6Swa2diQdKGuOPVe5Fowp2rlhMX
-         uxCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUsamF5x2Wm9Swgq1J6egLGw9/+TakTw1W3QM1a9/lPnpUp9XKEW2u2B812Cx1PXJXxQtY37jPWc9KoMQc7BuwYQBCAiNtt3knMOVO+
-X-Gm-Message-State: AOJu0Yz9WB8+/PiBVTCKaDzgYmX/a58Eldi4telJXYu0tz1x9PViGyLk
-	RKNxeAFKBj2ffM0r1l1XTL6cDnoFUTwdRmEonwcGrsQarkWERsiyhKbRcA==
-X-Google-Smtp-Source: AGHT+IHCKtehDdiR0dyGWpJB4TkdD2rqJOm+yBoFMsLgUGeMZvz3UCWY4g6qCx6Am5plA5LWYhG87w==
-X-Received: by 2002:a05:6a20:431b:b0:1be:d74c:dd5a with SMTP id adf61e73a8af0-1bef6101c9bmr4058728637.23.1719813962961;
-        Sun, 30 Jun 2024 23:06:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719813965; x=1720418765;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/rr5LgW7b41WmKRKWDxksz++aJz2iH/cDfPQ5g0Teqo=;
+        b=W6VU6mjGcGaMbHENmGv+r3UwhaD/W8Y1JujJALmiz/P+qLtx2zRLVDHmc/Uy2IUWlI
+         2gZqkYX1lMUNu3S4NOjZ7nvsZGeXGUMdwK6lkPI0//lYJX+omPOPka/1usN6kWZmmCHD
+         4KivWPraHulvPvJ7qY0GOesC+Eqapb6mAjC/jKB50I4HBXsHHtao5IHWTqPnYfrokMV7
+         LFQcjN211kAkQPVQY3cWY3l0tsEaEAPW9yak3PobGe5jugpwzwdtfm25TdfrKZgxAoY0
+         XFb75aZ8DXUdA7V2bAoiHYHYSbL4JjLLd5rVrZtGPJFZxVMinhq43kNFr/aftzoHSwqt
+         v6wQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ3mGrNJPFug2vI8AzrLDhj8OJGCUws2J1lD9jOt5kVN5zCsGzcyvimvuXgI/KdFGlEhLCwhnAhWNonw+qa9se5RidM4uBnmgbeN5R
+X-Gm-Message-State: AOJu0YwYxmi/8OUHPFuHClxj2gXyzFTKO/d1uRoKwThrjOO6anWo57XD
+	VTm8h1+iDH4KbjhnfWF5DR8CCXYycnSKETN+16RyEdEATZ0XRJ5Xr2gr6Q==
+X-Google-Smtp-Source: AGHT+IHKtRt0IZvPSVkDmGcYwtIXVcO+j/Q3xXny3MuW5Vse/pGTgH3D0zXcO3fLQ7oMm7lHyw/Ong==
+X-Received: by 2002:a17:903:32cd:b0:1f6:a606:539e with SMTP id d9443c01a7336-1fadbd0b200mr26857885ad.61.1719813964517;
+        Sun, 30 Jun 2024 23:06:04 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:7783:69e6:8487:f6ab])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fad304311csm44588205ad.31.2024.06.30.23.06.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fad304311csm44588205ad.31.2024.06.30.23.06.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 23:06:02 -0700 (PDT)
+        Sun, 30 Jun 2024 23:06:03 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Benjamin Tissoires <bentiss@kernel.org>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] Simplify event handling logic in input core
-Date: Sun, 30 Jun 2024 23:05:48 -0700
-Message-ID: <20240701060553.869989-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 1/4] Input: make sure input handlers define only one processing method
+Date: Sun, 30 Jun 2024 23:05:49 -0700
+Message-ID: <20240701060553.869989-2-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
+In-Reply-To: <20240701060553.869989-1-dmitry.torokhov@gmail.com>
+References: <20240701060553.869989-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,26 +86,59 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series tries to untangle somewhat convoluted logic in the input
-event processing in the input core by realizing that input handler can
-be either a filter, or a handler that handles a single event at a time,
-or a handler that can handle a sequence of events, but should not mix
-the 3 behaviors in one handler. This allows us to reduce both filter
-functionality and single-event handling functionality to batch handling
-and have the main event handling path to only deal with
-input_handle->events() batch method.
+Input core expects input handlers to be either filters, or regular
+handlers, but not both. Additionally, for regular handlers it does
+not make sense to define both single event method and batch method.
 
-Dmitry Torokhov (4):
-  Input: make sure input handlers define only one processing method
-  Input: make events() method return number of events processed
-  Input: simplify event handling logic
-  Input: preallocate memory to hold event values
+Refuse registering handler if it defines more than one method.
 
- drivers/input/evdev.c |   6 +-
- drivers/input/input.c | 210 +++++++++++++++++++++++++++---------------
- include/linux/input.h |   7 +-
- 3 files changed, 146 insertions(+), 77 deletions(-)
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/input.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index fd4997ba263c..8434348faeac 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -2517,6 +2517,26 @@ void input_unregister_device(struct input_dev *dev)
+ }
+ EXPORT_SYMBOL(input_unregister_device);
+ 
++static int input_handler_check_methods(const struct input_handler *handler)
++{
++	int count = 0;
++
++	if (handler->filter)
++		count++;
++	if (handler->events)
++		count++;
++	if (handler->event)
++		count++;
++
++	if (count != 1) {
++		pr_err("%s: only one event processing method should be defined (%s)\n",
++		       __func__, handler->name);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * input_register_handler - register a new input handler
+  * @handler: handler to be registered
+@@ -2530,6 +2550,10 @@ int input_register_handler(struct input_handler *handler)
+ 	struct input_dev *dev;
+ 	int error;
+ 
++	error = input_handler_check_methods(handler);
++	if (error)
++		return error;
++
+ 	error = mutex_lock_interruptible(&input_mutex);
+ 	if (error)
+ 		return error;
 -- 
 2.45.2.803.g4e1b14247a-goog
 
