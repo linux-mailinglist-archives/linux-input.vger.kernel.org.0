@@ -1,157 +1,186 @@
-Return-Path: <linux-input+bounces-4770-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4771-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885D491E365
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 17:08:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE1791E478
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 17:46:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73B6CB278D2
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 15:08:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79A0E1F24F75
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 15:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BECD16D322;
-	Mon,  1 Jul 2024 15:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10EF016D321;
+	Mon,  1 Jul 2024 15:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s64otzxt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rmLu8rVB"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C0816C86F;
-	Mon,  1 Jul 2024 15:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78A816CD1A;
+	Mon,  1 Jul 2024 15:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719846303; cv=none; b=YkxGcWpcjYosAx0+A5JyNXaYnIRf5GoquvRHgVOIThnozQrPKra1XO82Z3ggEAFMfxH45MuRRPWM8WO/2TbPd1tuWOGbk9wuyPur7MPEflGf5A9VHV1LlVk/8ja9Qc6KCpvaT2cgq7MIeva9fF5WYDFUni1Ff2Xy1pbtiNmyBsQ=
+	t=1719848778; cv=none; b=pPND1HRfFbTWZARzVYV4mKeHkWtTMc1kLwMMSF2mpSE/jv/0CbKZzikRqjjcz/IDCYjKNOTR5mBA7t4b6fkuzmtvDbc/+Z2cyk9nPY3r4bVABlayRPiz6H1gyKpJm3fI+23K9gSg8E0P1FHNnWdnNBqZdPD7eKECgG0FQIz1yzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719846303; c=relaxed/simple;
-	bh=h7iGe0Nh7IPjp654fHg/MivCpi9BUQ3tEVx6hM5y4KY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RqF7ZYL7eSaM9P40CiPbm50E6O75UekqLNe/rlSfMzhGIncGZk3NRJURApLy1ciViY0wHyzz9K3aI6CRffFxjMR0yWOvX55extTqpVyXiZR0FQuG8KjRc13Vs6EO2ogyzg0d1NkATUja7+jhKn1vp5VQXfJel4ll7Q7Gil9BAc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s64otzxt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 57C35C32786;
-	Mon,  1 Jul 2024 15:05:03 +0000 (UTC)
+	s=arc-20240116; t=1719848778; c=relaxed/simple;
+	bh=Fg94f39jtc9hqKc36WSaKQnsZgFXSp7xy5OBlT2V7M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rF9Xz1Bu3NpWOA4U4NcvHIEfQQ60qFv4yYkN55BZJf1ZJTa6LQemUXaQ+D1uyt1jnQXrYoEgvL7zj8U4eOzd0mH3gCMtDvlPmx2J7TnrYWONNTNEvsA82fCIBAYrIbsw+gG6MocHws3p/yrBWqsA8STao8bCTl8l29w8SZN+Qjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rmLu8rVB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1E95C116B1;
+	Mon,  1 Jul 2024 15:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719846303;
-	bh=h7iGe0Nh7IPjp654fHg/MivCpi9BUQ3tEVx6hM5y4KY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=s64otzxtlKTKDDSZJwaVIiJJNK4UXnspi14ImzYhUOWOae85KlHO/qTLt6caLUDCB
-	 bJQIAy1u+qZyoiJGhuAL4vQOYqbrq4wx99i6HbdgPEJvwfHsUX5JqxYuXF19MV3JdW
-	 3dLeVx/FZgzdOj/GexvwPuYTBhwsk9ojORCtKT/YGRRUsIxBm9OyGeTc1qGp/mV73M
-	 hyAElEuWJV1nm+SbAL3BUUaHft18s8HUMVT1k8+2S0dwlMYZtOB9Wi//WfK2/tiQEq
-	 DJFd+0q9Kcsn66HSmM/1tKn5XoCMY+TB4uAMrg9zXV5oariS7IYf+r048SRSFeGXqF
-	 g28nthQb8pyJA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B6DC3065A;
-	Mon,  1 Jul 2024 15:05:03 +0000 (UTC)
-From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
-Date: Mon, 01 Jul 2024 16:04:51 +0100
-Subject: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
+	s=k20201202; t=1719848777;
+	bh=Fg94f39jtc9hqKc36WSaKQnsZgFXSp7xy5OBlT2V7M0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rmLu8rVB/3esvcxOeQajnTJatwXOApM4Ul0yEYTmx4KKEuxYhSOfNPkkD+tV0A7O0
+	 SSZewKH3oGn12+d4PbhaLVMPkbhSA95LMnLUab8Krd3yo2rUC+C+L4cXDIH/Zvu055
+	 AFGbc+OuVBl2Orz4atYdHu9Xtl2fkK/PbSevqV3MT4SPMyy8VSRKge+JK/jJvedaKe
+	 54jyL4HqOgoX4jENIAQ+5+PEGua9oOlprHjfFqdpZrtO/zJKEJCSJuxq9Q/8fMAZP5
+	 CgEwwoEl4hnQDek7XbmjSi5lrNdwRry7nJvb5HZAoMoyfZ3bRAyLKbUs2ty4anAH5t
+	 mE00hsdfaJmIg==
+Date: Mon, 1 Jul 2024 16:46:12 +0100
+From: Conor Dooley <conor@kernel.org>
+To: utsav.agarwal@analog.com
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arturs Artamonovs <arturs.artamonovs@analog.com>,
+	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
+	Oliver Gaskell <oliver.gaskell@analog.com>
+Subject: Re: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
+Message-ID: <20240701-battalion-tacky-c52566b37a97@spud>
+References: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
+ <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
-References: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
-In-Reply-To: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
-To: Utsav Agarwal <utsav.agarwal@analog.com>, 
- Michael Hennerich <michael.hennerich@analog.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Arturs Artamonovs <arturs.artamonovs@analog.com>, 
- Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
- Oliver Gaskell <oliver.gaskell@analog.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719846302; l=1849;
- i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
- bh=R/G0DKQvnInMMKOi2Ti6N/j7TpAXEYOccy0wLPhCRJc=;
- b=S6UwSAlomrXIllsnT//Gm6AItJFxmvZCHA+3ptH9mIbPrtpnFw7JXQXJ9x/7Jr0po8RxHyeuM
- 6dkgupGl/TMDOhuKDMkWgSUzy6aTIovcjGi/JfjgJ3VdEW5OwibrtAq
-X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
- pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
-X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
- auth_id=178
-X-Original-From: Utsav Agarwal <utsav.agarwal@analog.com>
-Reply-To: utsav.agarwal@analog.com
-
-From: Utsav Agarwal <utsav.agarwal@analog.com>
-
-Updating dt bindings for adp5588. Following properties are now made
-optional:
-	- interrupts
-	- keypad,num-rows
-	- keypad,num-columns
-	- linux,keymap
-The proposed new property "gpio-only" has been added as an optional
-property with an additional example.
-
-Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
----
- .../devicetree/bindings/input/adi,adp5588.yaml     | 28 ++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-index 26ea66834ae2..158fbf02cc16 100644
---- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-+++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-@@ -46,6 +46,11 @@ properties:
-   '#gpio-cells':
-     const: 2
- 
-+  gpio-only:
-+    description:
-+      This property applies if keypad,num-rows, keypad,num-columns and
-+      linux,keypad are not specified. All keys will be marked as gpio.
-+
-   interrupt-controller:
-     description:
-       This property applies if either keypad,num-rows lower than 8 or
-@@ -68,10 +73,6 @@ properties:
- required:
-   - compatible
-   - reg
--  - interrupts
--  - keypad,num-rows
--  - keypad,num-columns
--  - linux,keymap
- 
- unevaluatedProperties: false
- 
-@@ -108,4 +109,23 @@ examples:
-             >;
-         };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/input/input.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+        gpio@34 {
-+            compatible = "adi,adp5588";
-+            reg = <0x34>;
-+
-+            #gpio-cells = <2>;
-+            gpio-controller;
-+            gpio-only;
-+            };
-+        };
-+
- ...
-
--- 
-2.34.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oDOttPmur9969YgW"
+Content-Disposition: inline
+In-Reply-To: <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
 
 
+--oDOttPmur9969YgW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jul 01, 2024 at 04:04:51PM +0100, Utsav Agarwal via B4 Relay wrote:
+> From: Utsav Agarwal <utsav.agarwal@analog.com>
+>=20
+> Updating dt bindings for adp5588. Following properties are now made
+> optional:
+> 	- interrupts
+> 	- keypad,num-rows
+> 	- keypad,num-columns
+> 	- linux,keymap
+> The proposed new property "gpio-only" has been added as an optional
+> property with an additional example.
+
+I can see that as it is clear in the diff, but this doesn't explain why,
+which is what you need to do in your commit message.
+
+>=20
+> Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+> ---
+>  .../devicetree/bindings/input/adi,adp5588.yaml     | 28 ++++++++++++++++=
+++----
+>  1 file changed, 24 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml b/D=
+ocumentation/devicetree/bindings/input/adi,adp5588.yaml
+> index 26ea66834ae2..158fbf02cc16 100644
+> --- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> +++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> @@ -46,6 +46,11 @@ properties:
+>    '#gpio-cells':
+>      const: 2
+> =20
+> +  gpio-only:
+> +    description:
+> +      This property applies if keypad,num-rows, keypad,num-columns and
+> +      linux,keypad are not specified. All keys will be marked as gpio.
+
+Why is a property required for this? Is the absence of the 3 keypad
+properties not sufficient to determine that you're in this mode?
+
+
+>    interrupt-controller:
+>      description:
+>        This property applies if either keypad,num-rows lower than 8 or
+> @@ -68,10 +73,6 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - interrupts
+
+I don't understand why interrupts is no longer required.
+
+> -  - keypad,num-rows
+> -  - keypad,num-columns
+> -  - linux,keymap
+
+I think you should configure "dependencies:" such that if one of these
+properties is added, then all 3 of them must be to preserve the current
+requirements while the device is being used in keypad mode.
+
+Thanks,
+Conor.
+
+> =20
+>  unevaluatedProperties: false
+> =20
+> @@ -108,4 +109,23 @@ examples:
+>              >;
+>          };
+>      };
+> +
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/input/input.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +        gpio@34 {
+> +            compatible =3D "adi,adp5588";
+> +            reg =3D <0x34>;
+> +
+> +            #gpio-cells =3D <2>;
+> +            gpio-controller;
+> +            gpio-only;
+> +            };
+> +        };
+> +
+>  ...
+>=20
+> --=20
+> 2.34.1
+>=20
+>=20
+
+--oDOttPmur9969YgW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoLPRAAKCRB4tDGHoIJi
+0nBeAQCMd4I0xkAJEwaZsZmkD1PB6aeBhxjeoczPoq86VRRHEwEAp4QdAfVNSYoc
+D/M+TPzlJGpZ1KDMJrOYRdK/NJkOygI=
+=RHUe
+-----END PGP SIGNATURE-----
+
+--oDOttPmur9969YgW--
 
