@@ -1,81 +1,90 @@
-Return-Path: <linux-input+bounces-4774-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4775-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06A491E568
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 18:31:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFB991E6D4
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 19:46:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8D5A2844F3
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 16:31:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87EBEB21208
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jul 2024 17:46:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0323213C908;
-	Mon,  1 Jul 2024 16:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B079216DEDA;
+	Mon,  1 Jul 2024 17:46:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dbQ14Rnt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+YPqWk8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40A816CD1E;
-	Mon,  1 Jul 2024 16:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B00B15A85F;
+	Mon,  1 Jul 2024 17:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719851493; cv=none; b=hM/pKkrEhCn1CjyXI+0Mt2ioq8stPqj11X8MuliZOm5Bfn0MNZZcExyMUzCcSBqdLM24eKunqZ/6EPI6Q3/eAqR1QE40YODBUeoAlyJEbq6fLih8yAiiqPLuKixERaOlini9yR//shBmXgHAmPeFiFAUEf2QcmRm0g3mnIbQpSI=
+	t=1719855974; cv=none; b=OuapL7ILKrGFxQL/ioks8Ckk59N8bxOoYinzqjMLw0W/O8a/1uEeiHZN+kUTKtCqoAx4YF+OrShXQoz3nKfa92diK/J+f+1gay8/JZedF/bAaSbDoZkGT84abJemfpaWO96hwi5/9OH9MJrusPquCp4oIOXY2zcCgJek+BXfKlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719851493; c=relaxed/simple;
-	bh=TifkD5hVkfGaSO8ihQ8YTBk0F409tUQni5mnGn4iz8c=;
+	s=arc-20240116; t=1719855974; c=relaxed/simple;
+	bh=wci4+W9GeP0U7in3LTGi+QSTAQK4rVss0pVpzAhOo/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4S5n0Na+hliU6xiMGnsY5Gk3sWv8xpFZPFxVfVsTS9FtjkrtBBc6uHnuAmTg6GaDN5Q1319+NwPLkunVcOHeonI3JInV0f1I7RIte12b83rRU8UgTOCzGl/75bBHjrwzUP7PYn+cT5Zb1AlwaWbciy09bx7Lj7aHxuHFPefEFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dbQ14Rnt; arc=none smtp.client-ip=209.85.210.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYHqC29fP8Aw2+vdcsEWPuV3+SkXn90paGGtTuaJcCbZUYHN52tNSslf4Ltqw3SOhvIYuHDgD9OHscbj47mtOoZoV+phnC/P8pUbvjQKpOncLUjx4VMttEDgR+mDeQxGqHeV9SroZgKM+OMQfoPTjkeaP5vBiI/tffMh7Bv0uKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+YPqWk8; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-706a4a04891so1928926b3a.3;
-        Mon, 01 Jul 2024 09:31:32 -0700 (PDT)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-74840cb804dso805626a12.2;
+        Mon, 01 Jul 2024 10:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719851492; x=1720456292; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719855972; x=1720460772; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DDxa8Y7qDFzYu84VzXuiVkhDJnkp6oD4zUKV4rga8Uw=;
-        b=dbQ14Rnt5CdSn7PAFYbaiXNEAGCLlgUPsDZjib4X3aEQKWvlC2lcjn7EtjfkdxLmNt
-         Gl1fp7Rfgl+omxSgP1eUpz2c7vhEGC4l9CLoE2HPb+xvE9tpAjrNFf7lhWMOGTYyqqhp
-         YXm1BGCixPSUjHsoCFwXJqIa0z+pQoRJxvPSL96GmPj+RQUhkRfIXfKE8ZGWqvAppjRF
-         3ahlbR7qznynU4QgY1kV8ecTB5UZywa8BubKTDhEGD+vbz3tGfPgHS0tQqGxcX9ndbLK
-         XNxKcOXny7+MbJdsCJdImzRwhbI11wchYeW9cc+u0ZhDoIzSUkyhr9GNd5WAKA8ioevm
-         3Kgw==
+        bh=MDfU/E7NximEh+ePQe6fwwT9wo95bqQJ44SzFp5cz5U=;
+        b=K+YPqWk80xxz+sZUBbca4umtoVOtDPOGvSjBLmLBdmUEnxEcpq9Tyqnuau/pTl095Y
+         juMfsXHcQIozxTn2//Qr1t4jOE7pKqf7FOzNXzJgwbd91it9svaR99QtTZWlvOpMtvoL
+         oIUU51R92pPCH3fI2Ni7pBEgsew+nG0YMIgCaZabVoEnhA7Sq70SXlsCS2ujww/lF27D
+         eLDvqxrJwQynlkRimqcWMStFc9mnnp41kUYP5jqtahiyuV2IeVxLZ/rd7/ZHN2aItTbs
+         VnOW+GUKKAnrMfM73tzGnXeVzn5CskejGImycBeWXT9zIB/Y+xfiVvc6OoWfC5YAbRWU
+         nh5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719851492; x=1720456292;
+        d=1e100.net; s=20230601; t=1719855972; x=1720460772;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DDxa8Y7qDFzYu84VzXuiVkhDJnkp6oD4zUKV4rga8Uw=;
-        b=TMzA+fJtvojVWbqgwrsrflJzn2PYFUmcggb1IRviD/lxPoV1YeeNZ65TDmp/ndbmOv
-         ZFUpQn9WR7BhZcDITjrainxFdISEomaW5I1aOKBGiv++U6q/+DIifxq89S20UZ1Nm21v
-         awLdmrvvxdbnKieGEWsBi79jbO1+/XcQYG/CYUdsgvZeeJbvvzyfc3FT1cafPPacYAlX
-         aY7IBh6UHKxg3gLCmxVJZ4N71JsoLE4RBY8ZQ9XS2zZT4pupzaGenavsGyUWaA6xYYFG
-         W3CMj+Lg0GzzDjkrP2zwgbqCc7Tg8wcrz0TpL15bK6pFpWVtEP7QLgnKuUKosxdhbtB9
-         JikA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvVbNsAUhy0wUyZgUJHhGd1QPfgrljg2qj/CHWeYFKv8qgvQxNiamyYOvYnEQJVdtA3znDVHF1MXoCg9LIY7J/Finu3pS2rB0bMzGv
-X-Gm-Message-State: AOJu0Yw99QCeOjC6Kd7D/TAQmUnTRhZ0T5uAk/lzGmB0uyUhX+0FXJ38
-	u8TgtQZlJLtJLiOEaZfenBXO9X0mMdsMPVctJhXdLNlfz6CKFH4bko05LQ==
-X-Google-Smtp-Source: AGHT+IG5jVz15PRjp9GhSUvJnrNd+szn4cEnfN2pl4hgvcfqVt6He2l3AUF6hjhr8yBNMH24PhWWqg==
-X-Received: by 2002:a05:6a00:3c8b:b0:705:d8b8:682d with SMTP id d2e1a72fcca58-70aaaf2523amr5172462b3a.22.1719851491786;
-        Mon, 01 Jul 2024 09:31:31 -0700 (PDT)
+        bh=MDfU/E7NximEh+ePQe6fwwT9wo95bqQJ44SzFp5cz5U=;
+        b=qJdmkMQRJf1+NPMMMniKBl9QFL20SRD7VniKv4TkguoDGIIGCnVb2NvH4eFCm9u36w
+         xhQ8P9mwS0/wwAe4cYQXqF+anmRWG5uOjdPeOIp4jQlI2HvwHePRiNpfKgxw9aMY2xrD
+         2SNbo/gNpPeIPdSZ06f5+2KiFw+H4Xj+h926+QQVO3OSxF+4s0QvKT/SAfxUGP85+Q+X
+         kKnai6PtjwCPpTxx1K3+RTSh14KNQrQ3N5fm70hI30OJmiuln8ymyFY+cLFoOe1dPDpG
+         FfdcXLGxJoO9TBH0VxQZuq6gs+ePhZjqp1CU8oct5Wa/I7VyB7U3PF71IPQsXcb+Wa5V
+         0P8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVxWM7ECmsNne9TvtDeB8JE5EoWBB+MZ+qPZECXAizINR5F2c7PtLSEOI4xik3JJ+YhM/EO+VLhMA+bpoC1S3QXgNRQHoKSIo6+bd2Ou8dDE7pIs2Y1IFy+nKVL+J7YzNW4YdQRR1tdE0mneEWm5fxZp/T8e9ALaGvBopH17x+3l2di1Yg+
+X-Gm-Message-State: AOJu0YyJUj+hmkS6y/QdiQeNfJmwjcTNTzEpPiDYCC1XSZv6X8wo/PFH
+	ECA9JOPeyG+tqUPHzGIS/M53u4PvNGO0pc09tjxoNoD7drii9vpD
+X-Google-Smtp-Source: AGHT+IGxkduV6KdRJoavHrAWCnQJOcYjJsCXh6tx2oOz1qYdldZJrbKnyQhvsHZgBt76YwOYDN5ExQ==
+X-Received: by 2002:a05:6a20:8425:b0:1be:cfb:cdd1 with SMTP id adf61e73a8af0-1bef61ed43cmr9494456637.39.1719855972221;
+        Mon, 01 Jul 2024 10:46:12 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:7783:69e6:8487:f6ab])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708044ae3a0sm6925981b3a.173.2024.07.01.09.31.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708044b0b61sm7034232b3a.176.2024.07.01.10.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 09:31:31 -0700 (PDT)
-Date: Mon, 1 Jul 2024 09:31:28 -0700
+        Mon, 01 Jul 2024 10:46:11 -0700 (PDT)
+Date: Mon, 1 Jul 2024 10:46:09 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: simplify event handling logic
-Message-ID: <ZoLZ4INw2gZjNzw1@google.com>
-References: <20240701060553.869989-1-dmitry.torokhov@gmail.com>
- <20240701060553.869989-4-dmitry.torokhov@gmail.com>
- <qevkkesgw7y2bypexmogght7iozo646vowjkovht5mplegzvnl@tzfffoaglijz>
+To: Conor Dooley <conor@kernel.org>
+Cc: utsav.agarwal@analog.com,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arturs Artamonovs <arturs.artamonovs@analog.com>,
+	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
+	Oliver Gaskell <oliver.gaskell@analog.com>
+Subject: Re: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
+Message-ID: <ZoLrYTp2IUKFBvzq@google.com>
+References: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
+ <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
+ <20240701-battalion-tacky-c52566b37a97@spud>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -84,24 +93,66 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <qevkkesgw7y2bypexmogght7iozo646vowjkovht5mplegzvnl@tzfffoaglijz>
+In-Reply-To: <20240701-battalion-tacky-c52566b37a97@spud>
 
-On Mon, Jul 01, 2024 at 09:41:22AM +0200, Benjamin Tissoires wrote:
-> On Jun 30 2024, Dmitry Torokhov wrote:
-> >  /*
-> >   * Pass values first through all filters and then, if event has not been
-> >   * filtered out, through all open handles. This function is called with
+On Mon, Jul 01, 2024 at 04:46:12PM +0100, Conor Dooley wrote:
+> On Mon, Jul 01, 2024 at 04:04:51PM +0100, Utsav Agarwal via B4 Relay wrote:
+> > From: Utsav Agarwal <utsav.agarwal@analog.com>
+> > 
+> > Updating dt bindings for adp5588. Following properties are now made
+> > optional:
+> > 	- interrupts
+> > 	- keypad,num-rows
+> > 	- keypad,num-columns
+> > 	- linux,keymap
+> > The proposed new property "gpio-only" has been added as an optional
+> > property with an additional example.
 > 
-> Nitpick: maybe that comment above input_pass_values() should also be
-> amended now that the processing is more straightforward?
+> I can see that as it is clear in the diff, but this doesn't explain why,
+> which is what you need to do in your commit message.
+> 
+> > 
+> > Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+> > ---
+> >  .../devicetree/bindings/input/adi,adp5588.yaml     | 28 ++++++++++++++++++----
+> >  1 file changed, 24 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > index 26ea66834ae2..158fbf02cc16 100644
+> > --- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > +++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > @@ -46,6 +46,11 @@ properties:
+> >    '#gpio-cells':
+> >      const: 2
+> >  
+> > +  gpio-only:
+> > +    description:
+> > +      This property applies if keypad,num-rows, keypad,num-columns and
+> > +      linux,keypad are not specified. All keys will be marked as gpio.
+> 
+> Why is a property required for this? Is the absence of the 3 keypad
+> properties not sufficient to determine that you're in this mode?
 
-I think the comment is still accurate from the higher POV. We do want to
-send the event(s) first through all the filters and the remainder is
-through the handlers. This is achieved by placing filters at the head of
-the list of handles attacher to the device, and placing regular handles
-at the tail of the list.
+Yes, I think it should be enough.
 
-Do you want me to expand the comment?
+> 
+> 
+> >    interrupt-controller:
+> >      description:
+> >        This property applies if either keypad,num-rows lower than 8 or
+> > @@ -68,10 +73,6 @@ properties:
+> >  required:
+> >    - compatible
+> >    - reg
+> > -  - interrupts
+> 
+> I don't understand why interrupts is no longer required.
+
+I think it should be possible to use this chip as a GPIO controller but
+not an interrupt controller, in which case one does not have to wire up
+the interrupt line from it. However this requires much more elaborate
+binding description (i.e. no keys and no "interrupt-controller"
+property).
 
 Thanks.
 
