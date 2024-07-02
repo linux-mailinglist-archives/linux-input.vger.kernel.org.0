@@ -1,209 +1,163 @@
-Return-Path: <linux-input+bounces-4796-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4797-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EAE923A63
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 11:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23554923AA1
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 11:50:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE61B1F21A5F
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 09:43:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A30C81F22042
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 09:50:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9833D155726;
-	Tue,  2 Jul 2024 09:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC2E15665B;
+	Tue,  2 Jul 2024 09:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b="Ho1v5h9K"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="H4krv3pN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2049.outbound.protection.outlook.com [40.92.102.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1B9150993;
-	Tue,  2 Jul 2024 09:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719913390; cv=none; b=BAnKwCQdCUUvtzbprjYtihbFouwLXu+jsO4ourVnMk96XOqUomVHk0o7e6O+sgu9tBVh64VxBdLcBRf0h0r5wEorHvUKhl1WWxe8ilwJXjhm/DfJ2vUYLvB8AdUG8USBupaT7Q7LlAs9fLaYf7UFiS+o4jkd10yULo9hqdneveY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719913390; c=relaxed/simple;
-	bh=GBMM0dVazdheQtySNQrd9itpZeEMvmwZWXhrnd+2J+U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F7Wh8Rv+T55li4hG0Zsg9EkVE6rGp3s4KnVNkeLzpKk1RKWKOXhbEE6XI7IBArJj4qjtmiIQOE7qlraJSnd8do4rSDJsIFsJRkPlMUFwBs0U6EFEe55htTS8n5RFyhUoVlow+d51Rg8hNBUpEX2BQ52UPaeZ6UBuWBM3uw4nl/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org; spf=pass smtp.mailfrom=postmarketos.org; dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b=Ho1v5h9K; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=postmarketos.org
-X-Envelope-To: dmitry.baryshkov@linaro.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
-	s=key1; t=1719913382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yOKgP0GWvCCYbYaffXHDB7kZ4VKKj8957zGCIlU8n2I=;
-	b=Ho1v5h9KPPiREQ1LtxXGM3qE54jU5wgUYiHjHw9g4QhuTJf4DVKUTWx7X6TrSTI8v6sQ6H
-	AvZe5aiJCsHdw1MBWC+dw7235Jh40HqwikeQMvU+k53Di8+y4Mn5L2rUlGK0hIG8xmtw1a
-	8w/eXlRVTHdX6Wt7DDhUIMZlclscKJEtr4v6/TW+jTSDOdA66zSNOXV5aroaYmKH201coU
-	EW8+pO/vrRyWt1mvAhM4cvcH7BCTERcMRjXiFfF3K8ltD+q1OxM4tTLFfPZOq7MNvlf78x
-	9akdpo5LJsk9Sb+8twQFUOFfp+7isrVfMjL8l1nFwZNfI6NicBuoHO2w3a10/w==
-X-Envelope-To: neil.armstrong@linaro.org
-X-Envelope-To: quic_jesszhan@quicinc.com
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: dmitry.torokhov@gmail.com
-X-Envelope-To: andersson@kernel.org
-X-Envelope-To: konrad.dybcio@linaro.org
-X-Envelope-To: rydberg@bitmath.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-input@vger.kernel.org
-X-Envelope-To: linux-arm-msm@vger.kernel.org
-X-Envelope-To: ~postmarketos/upstreaming@lists.sr.ht
-Message-ID: <efa5b7c2-05ac-4354-830b-1d5a66e2fb58@postmarketos.org>
-Date: Tue, 2 Jul 2024 11:42:58 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7468156255;
+	Tue,  2 Jul 2024 09:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719913815; cv=fail; b=YF5mMkua5ghHJyDjoaw465z27BnaNSLIeJMK8cdtyV7xZJ72aXBrETlBBRi22aQ5dJRcXtVaJ8lb4aGtGpM32qE8Nnd0TC1SYViSvK04HwOi6aOg3gx9fyLDBWggHHrVhfBa3Cf0DMKaDkC5cfMIw+3MbyYAQTuIvwFU9wdkA38=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719913815; c=relaxed/simple;
+	bh=SjilrZxMz7BeQW4Mn1XzrCLMv0EEEVYPUl2fcjjSCm8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=kW0XoiFhETrOZ74/L1XqaVy0MNTYED3QfI5qTNAMHfuKI8nB5ZXo8NGwcwiNYS2noW3kRMqZ1Dc455Ad5ML0EPmEekkViUNEC5PxUVTWnZMovwPvOyuMxSs4WX4ZC4U2k5Drgb58Zrmbn+JfDKzFHTpKnnTmb4sPSPIa6/rSr8Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=H4krv3pN; arc=fail smtp.client-ip=40.92.102.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fqC2FNC+YhWtpqOqyc6rae2Hb3rPM2O/42ms7lbuJz1ztAfYgoB6WwUpB4/qUpEKjtHsoeDHmCBVGA/yyFaz1jms28WB+wCreHZcLk9s5jaeNnw1wgjpQ7LFUvTZqAjJHbTSRzrPvE+AJC03+Sx0OKmv6N16T4pUmY1KEjcjMhM+eyN6D3DIY/a0/e9QFFJSHn2q4wFpvZxm/tBryJpkoGi9u7jys73jAUM2TWx7NJfgsyOdcKlM75nIWxAGmYV4BXQqLjzKcxJg21UWp/yWoA4BCahqVcHgiVlYxvYcA7pAMPdv0owIXhycfyMhm3J2PQoVAxH0I0VZcrR4cezGyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SjilrZxMz7BeQW4Mn1XzrCLMv0EEEVYPUl2fcjjSCm8=;
+ b=a8PJ+0pT5mEV1XbJXtz/tK3tDdX1nmksQ3zASsB0WyAhXsI+ZqS3nWYJfGTt3vV+mP5O6kThwty6QQM0rY8T+AZ8LnSQOcpEahogLEms6/o1QCo7YHDy1zy5vLOC206jLVpmoDKemXvNU3i51zSwqOqjhZ29cYjb3I5e7JRMPtI7NJgsRz0kfkJ7BljIAvl6zgMGQ08EbUHpejddywT36YLHzKJmcnhz/nafIOJ5ohsmCbcaydoZMKcMbOzJQb+5jC8glcWjxleULCYIOkFn8mesBssJzTwQs1A3S1txfZa99NXSH1Pwy/smb8Vp+Yrr4eExz/EpWSYUK0YfgyJxcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SjilrZxMz7BeQW4Mn1XzrCLMv0EEEVYPUl2fcjjSCm8=;
+ b=H4krv3pNCZNMDB8kYqhgwCJVPAtfhUi+2NLxgRSapdVclaKsKUtOlUzuJ9OLm906nFqmvKCkfpDD5jplYlkJoXi558mk7tOnyEBcURQ1XQJrTApSlXEXqEH/hdK4eXwwZBpkUGLAIJkaL1160tudcXTMKNts/gvto5hbzPZx5QXetytT8K0h28NpqvX90usi/04HN8PvcHo0Z1uBqpb+PKXVPhKTdtOEKbVuTg2QIql+ZX0y6kHylduB2dLb/vhyeSFi2ceahRCcQsCYMVxAw27PT+1Axnlww2MqPzGWLROyoaWwysBUDbQmzgXv8oMeN6eiOtF3qdh0Wmz74g1O4g==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ MA0P287MB1418.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:f6::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7719.32; Tue, 2 Jul 2024 09:50:09 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7741.017; Tue, 2 Jul 2024
+ 09:50:09 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Orlando Chamberlain <orlandoch.dev@gmail.com>
+CC: Jiri Kosina <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: apple: Add support for magic keyboard backlight on
+ T2 Macs
+Thread-Topic: [PATCH] HID: apple: Add support for magic keyboard backlight on
+ T2 Macs
+Thread-Index: AQHay6PH5ldcO3kl80evALAvsJ3vq7HiLwsvgABLSACAAAJ3gIAAtmHr
+Date: Tue, 2 Jul 2024 09:50:09 +0000
+Message-ID:
+ <MA0P287MB0217895AB52142877C726851B8DC2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+References: <8DC4D384-1349-4C8A-848D-589BA25B15D2@gmail.com>
+ <B28CFBDD-16ED-41AE-AE4A-92066D0DD4D8@gmail.com>
+In-Reply-To: <B28CFBDD-16ED-41AE-AE4A-92066D0DD4D8@gmail.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:
+ [rpaCEpUKAsN2NMwKBoslji8RH0WxX6I87Yv+OrLjPNecHzoPiA1+YC59SZ63Sou6YRuL+h7Q5uQ=]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|MA0P287MB1418:EE_
+x-ms-office365-filtering-correlation-id: 597de8ca-12e0-4cdb-c023-08dc9a7c5c24
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8060799006|461199028|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info:
+ +UO28U9rL4d2CkMgJ1gs6f8z0D5h+ZWHSjZDvD8yIvKf7xfUnIQlRYuCH1zG4RVmiaaG8c1QXtXaBLGnQRyAO2FjB6aENS0Tt1+/DFw8sOSqaxykHk3XH4J9+ETItFOCMz6zi2CUy2VByvOC84L4wKL+/QVPz02DRk7a0iHjXofaa/bFy2nSfBPDy8qXXSbl4BUcG+G4YvPmSUxO61TIVQMszxxS+bVpE95J1LF+7o2vFUFFQbjJxElwBiVs0JJN8MdnyAUr0vg/X6vmc0JtQHY8fw2w2cBdrTNIN+e8tg9omkLihhJ3XWxWHl0k1NrbbTZc+cjohGf3MLQ3rRT43sadvEKiF+/Q/PZNxl3vBwcOq2lNklqN6Ltm1dFOUABBdmTXzdla+SdfXyOII4yCz7BDUCdYzq9Upe+Z6fvCPHoOmgS2OUJ8lvV0s/O/hYiGEcbfymPq4yxSFQUqR9cAaMnEmgQr1qpsrNjbLnqrFjQmJUIsZ/0E46gUcaAemoB8NHitGuy9h2taounDQIHnRHAn2mJSDDg8qWz9TA4x3UI3AkM//3yPVXs7gWRR2Uqu7FscI35Eqmi9JOqtfq4cTTuwP63ccFOx3ZSFzu6KQM9lTWlI246d2oM3+eBL5UOb
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cjdrS3ZYS2dKNjVLeFg0cmJuTWl3djh4NWNkSW83TWg4T1dkejF6OGR6TGIx?=
+ =?utf-8?B?K2lsTjdEMUljM3R4eXQyZlFkS3F1VzFCa2YrK09FZmNVNTRjNDVkb2dXRFdD?=
+ =?utf-8?B?SkVndy82anZDeHNaYXE4L2V2TnRjajUySThEZDBkbzNXbUlYZlNLNytDNFFJ?=
+ =?utf-8?B?RitqOGtzd3JPUnNDNDdLNWZlT0VDdUFNcU1DVWRROCtYb2toSXZvZGlVT3NG?=
+ =?utf-8?B?bXJneUNjeDhueTlXR1NkYXJXbEd4Q3RZYU5WLzFCcjdBMks1TjJZaSt2Umwx?=
+ =?utf-8?B?ZHRvWmd2RERWQSs1R0dsTkN1dDlKN3ZoTGZOUjFnbTJrODNLTWJtTEVvK1Zx?=
+ =?utf-8?B?WWE5WHRpKzEzUUJCTkN2UmE1ejhocmZ0d2ZXSkIrNUQydHFacHhab20yZHFn?=
+ =?utf-8?B?cE5iVkx6YXhqSUtIc3F0RDk4ZXgzRlJ3aWJ5ZlBhdGc5S1dDd3IyTWdCNnN1?=
+ =?utf-8?B?bzF0RFVUYlVtY0lNTEpJdTg1N2JCcEJnR0ZJanQrVzgwdGFjMGVFTEhBNE1u?=
+ =?utf-8?B?TmVzSkFIUG42WEZMaWdCdHJMandlM2lNT2ltOXQwaGVsTXYvcUlCWkk1eDdO?=
+ =?utf-8?B?N3Z6ZTlEYUp0Y2tVb28xMlJzY1BNWjUyanNwWUJjRkV0dWcxenBoYmhUUy82?=
+ =?utf-8?B?VzR4bzdGZkFnSkRSSmtVYVdpN1hHVUlsc09BdjNOdTVXZVNyTnI1Q0VMRzhH?=
+ =?utf-8?B?cFg0QVpwL0VVN0RncnVIQ0dUZU95MzFoWGFoNFVoV3MraUY5dnNSV1NiRTJh?=
+ =?utf-8?B?YWREckV1TGl2US83aC93enBjWmFNVlJpVGZEd0U2MDBEQVdwaG9ZbTdaRith?=
+ =?utf-8?B?OHZVVFk4WCtLYnN1dEdlMk81aGxjajlhTGZTMWJkTE5hL2x6V0paQ0JxYW4w?=
+ =?utf-8?B?STNUbHVqVk1hMjljeCtHNVMzSmJZdXFKQmxKRjkvUkM0MTBUdXQ0VDRmOGhS?=
+ =?utf-8?B?Z2FvYm1EM1FJUjdaUkVRcjZsM3VQV1N2ZlhOditaQjlrNFBQYXRVTmV3RWNC?=
+ =?utf-8?B?MDM4NEZEaGlvS1NzY2ZobVRMcFFKVDBlV0dDRVhLYWNhb1NMQnFsbEJQNWMv?=
+ =?utf-8?B?OFdCd3I1ZDNhTSs4cGlvVnd2dHIzTEVZY1htcFMyVnU4MGd5REYzSGt6SW0y?=
+ =?utf-8?B?RkxpNzA5RlRkRC9aODUxNGtXSkdXc00vby9kVWN3Y294ODgyZ0ZzM0lGUEZr?=
+ =?utf-8?B?czhKQjNUT3NQang2V2lUMUlWbndtKzZhOStKcFJOVC9JWk5UeEFSNkhrbWJ4?=
+ =?utf-8?B?dE9qa0xxd042VktURjJIRWJienptYndVeGZrdnE1bS9Qd0NpTmRXWWJYdHp0?=
+ =?utf-8?B?WnEwTTFjS0FEZ2k1eG15SytTc3BVVmNCWHZvSU50SCtMVkZzeG1mTUdPTkdE?=
+ =?utf-8?B?UWxQQWg2ZlpJcnJ3ZG53QWtZaGFJSlpBNkl6eVI3RW5aKzdXSmtscmdEbzRr?=
+ =?utf-8?B?R0lzTGRoa3VpQ05rNU8xdTVwQ0t5YzNYNlQ0QWtvS1AwT2FJYk1FNHpCNTFS?=
+ =?utf-8?B?dHdEekUzSkpRa0xYU1FuZmdoVkpocmJkMHZnSEV1Ri9iczF1NVAweUxacVRp?=
+ =?utf-8?B?L2NYMjRzNWp2NHFDRE93dkN4Yklxak9uMlBKcE5zUXpmRFRpSWo0K25xenMv?=
+ =?utf-8?B?OEE1UjBYS3BFR09LTGNmN29KNEZGK1BUTncxc01RQzNUL0hqU3pTYURjYmxO?=
+ =?utf-8?B?RW9MaytUWXZuWGI1U3gva0g1Smdla2FxYlNFQkJ1R3hqS3diZ0d5OGpuL09w?=
+ =?utf-8?Q?pWWqpTjlzE6Kdxv/Vo=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 6/8] drm/panel: add driver for samsung amb655x
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Henrik Rydberg <rydberg@bitmath.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
- <20240630-oneplus8-v2-6-c4a1f8da74f1@postmarketos.org>
- <37y25ko7q2hoqlzvteqt3cj2lsms3lkwi6xu6qm4xaq5gm6pus@lxh4jo4hpryv>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Caleb Connolly <caleb@postmarketos.org>
-In-Reply-To: <37y25ko7q2hoqlzvteqt3cj2lsms3lkwi6xu6qm4xaq5gm6pus@lxh4jo4hpryv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 597de8ca-12e0-4cdb-c023-08dc9a7c5c24
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2024 09:50:09.2090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB1418
 
-
-
-On 01/07/2024 22:32, Dmitry Baryshkov wrote:
-> On Sun, Jun 30, 2024 at 08:36:29PM GMT, Caleb Connolly wrote:
->> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
->> with many non-standard DCS commands.
->>
->> The only user of this panel (the OnePlus 8T) has a bug somewhere in the
->> DSI stack whereby it isn't possible to properly initialize this panel
->> after a reset. As a result, the reset GPIO is made optional so it can be
->> left unused on that device.
->>
->> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
->> ---
->>   MAINTAINERS                                   |   7 +
->>   drivers/gpu/drm/panel/Kconfig                 |   9 +
->>   drivers/gpu/drm/panel/Makefile                |   1 +
->>   drivers/gpu/drm/panel/panel-samsung-amb655x.c | 399 ++++++++++++++++++++++++++
->>   4 files changed, 416 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 807feae089c4..2b9cfbf92d7a 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -7142,8 +7142,15 @@ M:	Robert Chiras <robert.chiras@nxp.com>
->>   S:	Maintained
->>   F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
->>   F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
->>   
->> +DRM DRIVER FOR SAMSUNG AMB655X PANEL
->> +M:	Caleb Connolly <caleb@postmarketos.org>
->> +S:	Maintained
->> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->> +F:	Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
->> +F:	drivers/gpu/drm/panel/panel-samsung-amb655x.c
->> +
->>   DRM DRIVER FOR SAMSUNG DB7430 PANELS
->>   M:	Linus Walleij <linus.walleij@linaro.org>
->>   S:	Maintained
->>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
->> index bf4eadfe21cb..7203d16ab20a 100644
->> --- a/drivers/gpu/drm/panel/Kconfig
->> +++ b/drivers/gpu/drm/panel/Kconfig
->> @@ -590,8 +590,17 @@ config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
->>   	depends on OF
->>   	select DRM_MIPI_DSI
->>   	select VIDEOMODE_HELPERS
->>   
->> +config DRM_PANEL_SAMSUNG_AMB655X
->> +	tristate "Samsung AMB655X DSI panel"
->> +	depends on OF
->> +	depends on DRM_MIPI_DSI
->> +	depends on BACKLIGHT_CLASS_DEVICE
->> +	help
->> +	  DRM panel driver for the Samsung AMB655X panel.
->> +	  This panel has a resolution of 1080x2400 @ 60hz or 120Hz.
->> +
->>   config DRM_PANEL_SAMSUNG_ATNA33XC20
->>   	tristate "Samsung ATNA33XC20 eDP panel"
->>   	depends on OF
->>   	depends on BACKLIGHT_CLASS_DEVICE
->> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
->> index 051b75b3df7b..be6d500a56a4 100644
->> --- a/drivers/gpu/drm/panel/Makefile
->> +++ b/drivers/gpu/drm/panel/Makefile
->> @@ -58,8 +58,9 @@ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
->>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
->>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
->>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
->>   obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
->> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_AMB655X) += panel-samsung-amb655x.o
->>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
->>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
->>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
->>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
-> 
-> 
->> +static int samsung_amb655x_prepare(struct drm_panel *panel)
->> +{
->> +	struct samsung_amb655x *ctx = to_samsung_amb655x(panel);
->> +	struct device *dev = &ctx->dsi->dev;
->> +	int ret;
->> +
->> +	/*
->> +	 * During the first call to prepare, the regulators are already enabled
->> +	 * since they're boot-on. Avoid enabling them twice so we keep the refcounts
->> +	 * balanced.
-> 
-> I see your intent, but I don't think this is fully correct. If the
-> driver gets rebound, then it will perform one extra disable call. On the
-> next driver probe / enable / disable / remove cycle the driver will
-> perform one more, underflowing enable count. I think
-> regulator_init_complete_work_function should give the phone enough time
-> to boot the panel.
-
-I do make an extra call to regulator_bulk_enable() in probe(), does that 
-balance things out?
-> 
->> +	 */
->> +	if (!regulator_is_enabled(ctx->supplies[0].consumer)) {
->> +		ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> +		if (ret) {
->> +			dev_err(dev, "Failed to enable regulators: %d\n", ret);
->> +			return ret;
->> +		}
->> +	}
->> +
-> 
+SGkgT3JsYW5kbw0KDQpJIHJlc3VibWl0dGVkIHRoZSBwYXRjaCB3aGljaCBpbmNsdWRlZCBvbmx5
+IHRoZSBiYWNrbGlnaHQgZHJpdmVyIGhhZCBubyByZXBsaWVzLiBMZXQncyBzZWUgaWYgamlyaSBp
+cyBmaW5lIHdpdGggdGhlIHNlcGFyYXRlIGRyaXZlciBvciBub3QuDQoNCj4gT24gMiBKdWwgMjAy
+NCwgYXQgNDoyN+KAr0FNLCBPcmxhbmRvIENoYW1iZXJsYWluIDxvcmxhbmRvY2guZGV2QGdtYWls
+LmNvbT4gd3JvdGU6DQo+IA0KPiDvu78NCj4gDQo+Pj4gT24gMiBKdWwgMjAyNCwgYXQgODo0OOKA
+r0FNLCBPcmxhbmRvIENoYW1iZXJsYWluIDxvcmxhbmRvY2guZGV2QGdtYWlsLmNvbT4gd3JvdGU6
+DQo+Pj4gDQo+Pj4+IE9uIDIgSnVsIDIwMjQsIGF0IDQ6MTnigK9BTSwgQWRpdHlhIEdhcmcgPGdh
+cmdhZGl0eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+Pj4g77u/QXBwYXJlbnRseSB0aGlzIHBhdGNo
+IGlzIGJyZWFraW5nIHRvdWNoYmFyIGZ1bmN0aW9uYWxpdHkgaXMgc29tZSBjYXNlcy4NCj4+IA0K
+Pj4gSSB0aGluayB0aGlzIGlzIGJlY2F1c2UgYXBwbGVfbWFnaWNfYmFja2xpZ2h0X2luaXQgd2ls
+bCByZXR1cm4gYW4gZXJyb3Igd2hlbiBpdCBmaW5kcyB0aGUgdG91Y2hiYXIgaW50ZXJmYWNlLCBi
+dXQgdGhpcyByZXR1cm4gdmFsdWUgaXMgbm90IGNoZWNrZWQsIHNvIGhpZC1hcHBsZSBzdGlsbCBi
+aW5kcyB0byB0aGUgdG91Y2hiYXIgYmFja2xpZ2h0Lg0KPiANCj4gV2UgbWF5IGFsc28gbmVlZCB0
+byBtYWtlIHN1cmUgaGlkX2h3X3N0b3AgaXMgY2FsbGVkIGluIHRoaXMgY2FzZS4gUGVyaGFwcyB3
+ZSBjYW4gbW92ZSB0aGlzIGxvZ2ljIGZyb20gYXBwbGVfbWFnaWNfYmFja2xpZ2h0X2luaXQgdG8g
+YXBwbGVfcHJvYmU/DQo+IA0KPj4gDQo+PiBUaGlzIHNob3VsZCBiZSBmaXhhYmxlIHNvIEkgZG9u
+J3QgdGhpbmsgd2UgbmVlZCB0byBzdGlsbCBoYXZlIHRoZSBzZXBhcmF0ZSBkcml2ZXIuDQo+PiAN
+Cj4+Pj4gDQo+Pj4+IHN0YXRpYyBpbnQgYXBwbGVfcHJvYmUoc3RydWN0IGhpZF9kZXZpY2UgKmhk
+ZXYsDQo+Pj4+ICAgICBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCAqaWQpDQo+Pj4+IHsNCj4+
+Pj4gQEAgLTg2MCw2ICs5NDAsOSBAQCBzdGF0aWMgaW50IGFwcGxlX3Byb2JlKHN0cnVjdCBoaWRf
+ZGV2aWNlICpoZGV2LA0KPj4+PiBpZiAocXVpcmtzICYgQVBQTEVfQkFDS0xJR0hUX0NUTCkNCj4+
+Pj4gICAgIGFwcGxlX2JhY2tsaWdodF9pbml0KGhkZXYpOw0KPj4+PiANCj4+Pj4gKyAgICBpZiAo
+cXVpcmtzICYgQVBQTEVfTUFHSUNfQkFDS0xJR0hUKQ0KPj4+PiArICAgICAgICBhcHBsZV9tYWdp
+Y19iYWNrbGlnaHRfaW5pdChoZGV2KTsNCj4+IA0KPj4gcmV0dXJuIHZhbHVlIGlzbid0IGNoZWNr
+ZWQgaGVyZSBeLCB3ZSByZXR1cm4gMCB1bmNvbmRpdGlvbmFsbHkgYmVsb3cuDQo+PiANCj4+Pj4g
+Kw0KPj4+PiByZXR1cm4gMDsNCj4+Pj4gfQ0K
 
