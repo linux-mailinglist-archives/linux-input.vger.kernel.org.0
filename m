@@ -1,146 +1,166 @@
-Return-Path: <linux-input+bounces-4803-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4804-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E158A923CC2
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 13:45:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B758B92429C
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 17:42:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 113791C22447
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 11:45:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71B96286721
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 15:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE1C15B12D;
-	Tue,  2 Jul 2024 11:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 081161BC076;
+	Tue,  2 Jul 2024 15:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R2Enjn2y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UcHIAOHQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64D214D703
-	for <linux-input@vger.kernel.org>; Tue,  2 Jul 2024 11:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15AF14D42C;
+	Tue,  2 Jul 2024 15:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719920735; cv=none; b=EczaExNq/ogsBLpTP/sNQv0DWkPi/iq5mgMxEGJPdMq0asIqce4b0O8jBI3u6eVkA/zA21EHCE/3lw4vYGv5C3MLjNdyLMOEzohGo5rdQ3mUuVCJcPCu0VrbHTslwQZrppcVZ1Wf0dRejOZ4X2ZGXzUwwn4Bh58gUKmwWdixK+k=
+	t=1719934931; cv=none; b=O1g2soxJNp7+cUv2tDQQZuUsmy7raTN5F9T98ATWIf9Dsn5Nq1zsVrIZTDVr1+nP+l2I4/BI3dCzIuaTn8UwEybsdxaT/uxB2PtV+v2y5CEoYfhgd9YQsqxBG+3o6q8dEGwI26iW02bVoTaETUJolDVmZoUSyj6pgHryuKL8OzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719920735; c=relaxed/simple;
-	bh=b7BEb1GMp0N0LB+ob72C4rjuxa75QUzMf47VJxy0J6U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eRL1oT5UtRocnTujd47tXmbfLvTDnSEsDGiWgmXD2HnicXsy9QQSkC85sF207L78j8odzbb+/tbVmKqsh1ayqBFwxWki/1whOkrQ0yw/XWg8vDOlBc7JT7FaYKHBxSbWMF8zNB3HQ6uV2EfAt+YDTjZ5YUClpscvgnF3eRC/RB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R2Enjn2y; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57d05e0017aso1839399a12.1
-        for <linux-input@vger.kernel.org>; Tue, 02 Jul 2024 04:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719920732; x=1720525532; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vz3BF/KeMlnuaXXShA8godWdvP8SWS1ADPMj9tfaSYE=;
-        b=R2Enjn2ysiEubCReEgMMXhWKxS/ytxrUuSLWdbURTdkLtzSd1uHnyxsoM2pkdBD3vp
-         4zhHtni/NUuSMYglJFHGjqPq5K9TZl7NaV9fBVznx8U6dbe4RTCUYbV/CLCit/Xc2mlK
-         3QlV877YAKIUnZub8hnsv2tmBvuL1IpKBhzgovmQHSXlxvfAbXvHU7nKXjGa5h6tGCH+
-         p7lhrrAjt41tbVw+6OF9fDaS8sH0pPQR1fI9L20T9DohuhwARrqU0nimWGoaxB6LDu31
-         INqZHQaagZsyu8qRQwTv/1tJJfTOFy2mZnsmgA9PY2viBce+1yPTIYa08ebeeYhptpSW
-         C9UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719920732; x=1720525532;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vz3BF/KeMlnuaXXShA8godWdvP8SWS1ADPMj9tfaSYE=;
-        b=sNn823vCKvqChFCkhYcFi/BWYhm6DIBOpAxu8AX7OZiotaL3VNWWm4M52x8F635SZ3
-         mE5OyC/gusAc0BOYHdzZO6zXibK5AxLcZtJ2vbohlfbMlJkXNWq7Ump+dFCzs2xhBR69
-         /THA3kxlZIOTuvFsfq/Oyur45NWjG4B4hoqI2ypJVrVbBh9M8tDzqmQF7blR64fxLIit
-         NGGueEKgDJVKdkLYzlwcnEe+N4GoSJFHrM6Hx75TuzweZThXCzASe+eTRWqPnBU0n7r0
-         UawglEcEyioJ7pPrRIBB9j7GW/k4Zn9N+xoJkh3fjMogTTLAqFW7z7EhJvYFLQSh6Q75
-         dsyQ==
-X-Gm-Message-State: AOJu0Yy4FNhJyStPaTEWKkG8pogDR3oXElokpFf61/YZybBOCIb+/chT
-	tkbsAurNZVo8GK/QBnY+3CUMdnrkRfnDJDnUNWkv2prxA+hBCYouotxNYQEY
-X-Google-Smtp-Source: AGHT+IHzM+0uVQNqKvgj0+GgGGkI0PiyDwii5lGsgpPMcnScovclTXiuuXjGO/0f9d7rQxMZlICNuQ==
-X-Received: by 2002:a05:6402:234c:b0:57c:6ba4:3d8a with SMTP id 4fb4d7f45d1cf-5879eed9466mr5608228a12.10.1719920731762;
-        Tue, 02 Jul 2024 04:45:31 -0700 (PDT)
-Received: from laptok.lan (89-64-31-171.dynamic.chello.pl. [89.64.31.171])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-586138185ebsm5580520a12.52.2024.07.02.04.45.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 04:45:31 -0700 (PDT)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: dmitry.torokhov@gmail.com
-Cc: linux-input@vger.kernel.org
-Subject: [PATCH] Input: increase max button number to 0x3ff
-Date: Tue,  2 Jul 2024 13:41:47 +0200
-Message-ID: <20240702114530.11800-1-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1719934931; c=relaxed/simple;
+	bh=D+AzAWjxfUjC9KFtkLpFRJsjafrnXXkauvIj9N7Pm6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JazidG2WXYA8c/wJJQUxQ+k9dtFEtiFsCBGGIie0jQfYf1v7Dfs8EEN2I2lKclNXG0z/N4taH4JtPzfkHzLHzdayuLRw14RD5MBzWi/bDRMsK8eVJwl5gaSHpV0jeJn4o3gdlPtfLuD5XZxueqdZF+iPcOyy6ZAl45M/nnoWyNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UcHIAOHQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF85FC116B1;
+	Tue,  2 Jul 2024 15:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719934931;
+	bh=D+AzAWjxfUjC9KFtkLpFRJsjafrnXXkauvIj9N7Pm6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UcHIAOHQ5t9qxQbVe1cefKCNU5kkD/MlJCKI214oiLJVdrvit0ZDsYFOZY0kRZfF9
+	 yHYzhKBMdIR38unM5YHk+lF5OgMD/bESyrB6knNPcFt3o02bf3HBKkawK+1I88MBFQ
+	 kHY4HbCBJWLEoAkUmsDtMuthBp82AGexJAZP2iF0E7XTSAgxtDmzg560TS8RpcsLTi
+	 6huyXugXgbAr/zmF0SWNBitC/z0gw4XANjVCdiP18KofnL7Qpdwf2wWnEsyvC11k6r
+	 nqooI2Pwi9Ivw6gV+KG6xUIUGksTEyw5gX3fMZ2sVzInDwM1J0WgZ9fY+xEseQFZ90
+	 FTIVi45QDBHqA==
+Date: Tue, 2 Jul 2024 16:42:06 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: utsav.agarwal@analog.com,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arturs Artamonovs <arturs.artamonovs@analog.com>,
+	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
+	Oliver Gaskell <oliver.gaskell@analog.com>
+Subject: Re: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
+Message-ID: <20240702-comic-tannery-792d461e0ab7@spud>
+References: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
+ <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
+ <20240701-battalion-tacky-c52566b37a97@spud>
+ <ZoLrYTp2IUKFBvzq@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="DW1LKY6BicGgV+zw"
+Content-Disposition: inline
+In-Reply-To: <ZoLrYTp2IUKFBvzq@google.com>
 
-Maximum number of buttons is limited to 0x2ff. This makes it so game
-controllers like joysticks, racing wheelbases etc. are limited to 80
-buttons.
 
-A lot of input devices for flight simulators and racing simulators take
-full advantage of Windows' input API limitation of 128 buttons and,
-in turn, some of their buttons simply don't show up under linux. While
-normally I'd say doing something just becuase other OS does, doesn't
-seem like enough of a reason, Linux became quite a viable gaming
-platform in the recent years so this makes it so it supports all the HID
-peripherals without fuss and confusion (there aren't any dmesg errors if
-HID device exceeds the 0x2ff button id).
+--DW1LKY6BicGgV+zw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm a part of linux simracing community and we encoutered this issue
-with Moza Racing wheelbases, as they use top of the range for things
-like h-pattern shifters, sequential shifters. These accessories simply
-don't work, be it connected through the wheelbase or directly with USB.
+On Mon, Jul 01, 2024 at 10:46:09AM -0700, Dmitry Torokhov wrote:
+> On Mon, Jul 01, 2024 at 04:46:12PM +0100, Conor Dooley wrote:
+> > On Mon, Jul 01, 2024 at 04:04:51PM +0100, Utsav Agarwal via B4 Relay wr=
+ote:
+> > > From: Utsav Agarwal <utsav.agarwal@analog.com>
+> > >=20
+> > > Updating dt bindings for adp5588. Following properties are now made
+> > > optional:
+> > > 	- interrupts
+> > > 	- keypad,num-rows
+> > > 	- keypad,num-columns
+> > > 	- linux,keymap
+> > > The proposed new property "gpio-only" has been added as an optional
+> > > property with an additional example.
+> >=20
+> > I can see that as it is clear in the diff, but this doesn't explain why,
+> > which is what you need to do in your commit message.
+> >=20
+> > >=20
+> > > Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+> > > ---
+> > >  .../devicetree/bindings/input/adi,adp5588.yaml     | 28 ++++++++++++=
+++++++----
+> > >  1 file changed, 24 insertions(+), 4 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml=
+ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > > index 26ea66834ae2..158fbf02cc16 100644
+> > > --- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+> > > @@ -46,6 +46,11 @@ properties:
+> > >    '#gpio-cells':
+> > >      const: 2
+> > > =20
+> > > +  gpio-only:
+> > > +    description:
+> > > +      This property applies if keypad,num-rows, keypad,num-columns a=
+nd
+> > > +      linux,keypad are not specified. All keys will be marked as gpi=
+o.
+> >=20
+> > Why is a property required for this? Is the absence of the 3 keypad
+> > properties not sufficient to determine that you're in this mode?
+>=20
+> Yes, I think it should be enough.
+>=20
+> >=20
+> >=20
+> > >    interrupt-controller:
+> > >      description:
+> > >        This property applies if either keypad,num-rows lower than 8 or
+> > > @@ -68,10 +73,6 @@ properties:
+> > >  required:
+> > >    - compatible
+> > >    - reg
+> > > -  - interrupts
+> >=20
+> > I don't understand why interrupts is no longer required.
+>=20
+> I think it should be possible to use this chip as a GPIO controller but
+> not an interrupt controller, in which case one does not have to wire up
+> the interrupt line from it. However this requires much more elaborate
+> binding description (i.e. no keys and no "interrupt-controller"
+> property).
 
-Upcoming Moza Flight Sim devices will face the same issue, and there were
-Saitek/Logitech/Honeycomb and custom-made products that also have more
-then 80 buttons.
+Aye. I can totally understand why you might want to make the interrupt
+portion optional - but it seems unrelated to the rest of the changes in
+the patch (use as a keypad without interrupts could be possible, right?)
+and is unexplained.
 
-0x2ff was already sort of an arbitrary number, so I'm increasing it to
-0x3ff to keep the value straight-forward.
+Cheers,
+Conor.
 
-Change has been verified on my Moza Racing R9 wheelbase + Moza racing
-sequential shifter (it uses buttons 112-117).
+--DW1LKY6BicGgV+zw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- include/linux/mod_devicetable.h        | 2 +-
- include/uapi/linux/input-event-codes.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 4338b1b4ac44..c2cb3a2d0dc7 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -333,7 +333,7 @@ struct pcmcia_device_id {
- /* Input */
- #define INPUT_DEVICE_ID_EV_MAX		0x1f
- #define INPUT_DEVICE_ID_KEY_MIN_INTERESTING	0x71
--#define INPUT_DEVICE_ID_KEY_MAX		0x2ff
-+#define INPUT_DEVICE_ID_KEY_MAX		0x3ff
- #define INPUT_DEVICE_ID_REL_MAX		0x0f
- #define INPUT_DEVICE_ID_ABS_MAX		0x3f
- #define INPUT_DEVICE_ID_MSC_MAX		0x07
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index a4206723f503..a8eace215b54 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -808,7 +808,7 @@
- 
- /* We avoid low common keys in module aliases so they don't get huge. */
- #define KEY_MIN_INTERESTING	KEY_MUTE
--#define KEY_MAX			0x2ff
-+#define KEY_MAX			0x3ff
- #define KEY_CNT			(KEY_MAX+1)
- 
- /*
--- 
-2.45.2
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoQfzgAKCRB4tDGHoIJi
+0lquAP9bna7cBICOAimP3OFaEcfDauwaXWxk5OuMVv35e9Ab4wD+MHVU1fOj/6D+
+hn0FQ1J1b8m2EWgcYtxuU8GbRsJQQg8=
+=1pa+
+-----END PGP SIGNATURE-----
 
+--DW1LKY6BicGgV+zw--
 
