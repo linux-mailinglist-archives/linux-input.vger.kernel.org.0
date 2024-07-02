@@ -1,326 +1,215 @@
-Return-Path: <linux-input+bounces-4801-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4802-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8760923B49
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 12:21:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 454AE923C25
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 13:13:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22AD0B21ACA
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 10:21:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 692511C20C8B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jul 2024 11:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7537B157E84;
-	Tue,  2 Jul 2024 10:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B25158DDD;
+	Tue,  2 Jul 2024 11:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="uUOZQ2U/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KMptZSdD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940BC15535A;
-	Tue,  2 Jul 2024 10:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719915664; cv=fail; b=XmEbhhrBKptjI5xMz12kqc9dP8apL+GfBGKxWzLGkVd9J9FxETTry4xxUuRkk1vYUpOCu2CQRwRlqBoiSP8iRlssiYiSATheNdtqxMbxRRkzuhdxu3/2nWAECOimCP+iBr09Vh4d9wo1u7ZWIzPLbvAWfeK47TvqFODby7Dw4Lc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719915664; c=relaxed/simple;
-	bh=04LZaSJYsrlmZVYAq0sYRG/aNZge7oAejCSUoW/1Du4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=G5B5IRNH4/O4SDKh4IC9YJs3zv700KN9BuO4t9Wp2kyOqFxGoZoUkpE7Ms+/IiEXhwPkdVdQfIU8y6KD5ONIlZRTRvUq7CvmnYfvApKt76TbTyQjxARjKaPfR0899MQaeOn25+OlOwMc3IlL+WC2Q9b2RFI5ayjkl5gDN9qi7TY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=uUOZQ2U/; arc=fail smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4629Pjr8023290;
-	Tue, 2 Jul 2024 06:20:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=uOJhs
-	VhX3gh0+JJ5vfmMDHdH4upwzs9fzZrtYtkF2Jk=; b=uUOZQ2U/daQ67aSm960CH
-	wey4wlQ2/QIetxPjr3LeuM4ZB5wKTfCJ5xD+Vw6jGDL48SUKJmhnbk0QteDvpkxq
-	QPx4vHMX+cDbVJHzaJkP0deKSkatSQ4vobcEqDjZvq4Uyc5ePexFXSVkVPbm7EOJ
-	5lOrRR84dentspy9A/+Bn60wx1wK3bjGr37c6j8jsWS4eSVn2hqaK+LnjbN80FdP
-	bw+IEHQH/StK5n1oI0TGHQ9OaeDkoOqw2exWydywyNnYGb+V1s6wVrqTbkh0Q8Uh
-	38xEyAj6A2xbnCuO9ICmLDkY6k1hcKRAsDGEYAbR99u545c3A3wavSzmCiKVguHi
-	A==
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2049.outbound.protection.outlook.com [104.47.70.49])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 404ewm0apy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Jul 2024 06:20:47 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cJekiFiUEO5cyOM0tJ7ghxRLrxBLZHNLitf00Ivg6wy876ul+cDiaVwBmj7fElmN/y0w7KkSDgwFIasULnB04NxN0dP9CWi+z9WwvCJKgucRR1DTXlMERjsLk+8GJ3CmW16EvXxbC/avIfLqNQ3S6P2GD1bWG9BxxohJ1ztHrAyE7beLamPRcXsL06K1K+OCB5z9IkpIxGtHmwoP4OcJL1rDN2DSvsJb/vZMFGFcy2e4EWfW8MEhxGETZx10x9w0Fr24EGcoltohJQnUOe8hnaEw8am2MATuCgDIzt6VlbF0FDwIJBZ3tDgtq13eJOYgADDBqfA24MZ6ccxWdpIJFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uOJhsVhX3gh0+JJ5vfmMDHdH4upwzs9fzZrtYtkF2Jk=;
- b=oPWRuqtUULTRb5CSJj6BXjqrS52LUEHOqrhPP9lOC5KS9G7inNdkjvHPCLjVG5mJc+F7c2SsA6Farnc9wgTQSeJzbIUpfVni+HYKbtu4VwUiLhfqxWyp8djDBZiAYjGNIsdakwLqdD5r2wdc5XiEMfBgkOJ9YsZyrGReeVztu+u8tLVp81+zCA8/w42HHkB09CCG9yX8akJf4J6SlNhHeCWU/GFbMh7pcIWi26l2DrQ7fj+JelXOkATvu7jmxM/E27KIl95fX8/oMpNqr2sO1DxzBiEtRuOxDWUBXwrW8XRpVGV0ZAGapnLAVNt2qfkRzBW+17h8KJBNNZClq95+CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from SJ0PR03MB6343.namprd03.prod.outlook.com (2603:10b6:a03:399::11)
- by DM6PR03MB5050.namprd03.prod.outlook.com (2603:10b6:5:1e8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.36; Tue, 2 Jul
- 2024 10:20:43 +0000
-Received: from SJ0PR03MB6343.namprd03.prod.outlook.com
- ([fe80::6744:a83a:ab:7e23]) by SJ0PR03MB6343.namprd03.prod.outlook.com
- ([fe80::6744:a83a:ab:7e23%2]) with mapi id 15.20.7719.029; Tue, 2 Jul 2024
- 10:20:43 +0000
-From: "Agarwal, Utsav" <Utsav.Agarwal@analog.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Conor Dooley
-	<conor@kernel.org>
-CC: "Hennerich, Michael" <Michael.Hennerich@analog.com>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, "Sa, Nuno" <Nuno.Sa@analog.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Artamonovs,
- Arturs" <Arturs.Artamonovs@analog.com>,
-        "Bimpikas, Vasileios"
-	<Vasileios.Bimpikas@analog.com>,
-        "Gaskell, Oliver"
-	<Oliver.Gaskell@analog.com>
-Subject: RE: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
-Thread-Topic: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5588
-Thread-Index: AQHay8gTYwwWs3CKE0S2GySCAYj43bHiBAgAgAAhhICAAQ+sQA==
-Date: Tue, 2 Jul 2024 10:20:43 +0000
-Message-ID: 
- <SJ0PR03MB63431578A395E4DA9552EC2C9BDC2@SJ0PR03MB6343.namprd03.prod.outlook.com>
-References: <20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com>
- <20240701-adp5588_gpio_support-v4-2-44bba0445e90@analog.com>
- <20240701-battalion-tacky-c52566b37a97@spud> <ZoLrYTp2IUKFBvzq@google.com>
-In-Reply-To: <ZoLrYTp2IUKFBvzq@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-rorf: true
-x-dg-ref: 
- =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcdWFnYXJ3YTJc?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy1iYjU1MjdhYy0zODVjLTExZWYtODRmMi02NDQ5?=
- =?us-ascii?Q?N2RjZTVmODVcYW1lLXRlc3RcYmI1NTI3YWUtMzg1Yy0xMWVmLTg0ZjItNjQ0?=
- =?us-ascii?Q?OTdkY2U1Zjg1Ym9keS50eHQiIHN6PSI3MjEyIiB0PSIxMzM2NDM4OTI0MTMw?=
- =?us-ascii?Q?MzQyNzkiIGg9Ijl2RzU2RDRERlVxWkJSTEZVenZESUFZWnpmRT0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUVvQ0FB?=
- =?us-ascii?Q?QW43NjE5YWN6YUFlNEFCVGlrRzVGVDdnQUZPS1Fia1ZNREFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBM0xoU2ZnQUFBQUFBQUFBQUFBQUFBSjRBQUFCaEFHUUFh?=
- =?us-ascii?Q?UUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QUc4QWFnQmxBR01BZEFCekFG?=
- =?us-ascii?Q?OEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFhUUIwQUdrQWRnQmxBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR0VBWkFCcEFGOEFjd0JsQUdNQWRR?=
- =?us-ascii?Q?QnlBR1VBWHdCd0FISUFid0JxQUdVQVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURF?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVlRQmtBR2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dC?=
- =?us-ascii?Q?dkFHb0FaUUJqQUhRQWN3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21l?=
- =?us-ascii?Q?dGE+?=
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR03MB6343:EE_|DM6PR03MB5050:EE_
-x-ms-office365-filtering-correlation-id: abaf1f18-3ef2-476f-f6ad-08dc9a80a13b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?Cyg94FVYLj5R9nSN3Uc3xGeAPqx3z23FHBraGy0yZuLfYQ+xOX+vdhFJ4DWM?=
- =?us-ascii?Q?R0GQXd9lqlJhObtUqyRFI5Aou6MURV8m+PC7Z//pTbSCSI/mIR4h9cFjVX2Z?=
- =?us-ascii?Q?KtK8A5ti1AFr/yEgqUraq6T/IqHC8mFUDPzdz7TAZO0LFSnOXuEIMqgPBnhM?=
- =?us-ascii?Q?dcQoGbh8XgJPn1MtXpK9i6KzGRsOKCkYNjrYfcETJ/xnqyG+TkJrykWwfAdk?=
- =?us-ascii?Q?hX9gIC5TUpVyVyJ5bXVHO7rmpkFTOPgaQRsG6bZUMyoT0mGo7Z7l75rvJ+vg?=
- =?us-ascii?Q?Qz1Z6vLgLFgiTfCeO/tpQeROF/uzGvSFEAJREGJsqpfwxCiYwxKtfuX8iZXI?=
- =?us-ascii?Q?uHlvcOV9dvR/8nKPiRAwEpx2vbQFzuvK1yAZXUZGIslSWvqYEN3tdav3gYPs?=
- =?us-ascii?Q?+RfLZlt3TV683acOuPpcJ700ifMV1B/NtMB7jXTyIeQQ5pR4FqupOtAVuIIp?=
- =?us-ascii?Q?Aek/zcBNLPjdc7RV+391An4bTnxu2XeCnRdZEoMW1KVyTbPQuKT9garw6Qrb?=
- =?us-ascii?Q?toHYb1TZ1YKXaWdAGUJ6HM2pxad13YII1O21w4ts0JDPhLafyS+XhmTvgrvA?=
- =?us-ascii?Q?6h5zkSBDiy90eq82ariYOIHrwCQr7dW+b45uYmQCz7CdKnug/lgcRxm82TC+?=
- =?us-ascii?Q?GnVj7WrHC4FtNRkofJiNk2invHYS4SR6V8RwJbX/krbnE++tXqg2tcdZiSBJ?=
- =?us-ascii?Q?kkigJJ4EwBD2YoImbEXFRG62onEy8ZNQFvOLZDUvsOCD7tNXJ4Rb+6s5kqyD?=
- =?us-ascii?Q?+4yGLC6DwSDffUkDjvv/pYPaiUD6sYLTutgr/AdBkYK0ZQWnaCDDM2N3Sa2D?=
- =?us-ascii?Q?nxqaFKO5gi03ygl3ePlqTx4B3IaVqKqTqyQQbtINqGgJLeIQ1cnSQYmaFCUy?=
- =?us-ascii?Q?zg8SX26KBCLwKezILAkKbI7oV9uv+FfdGNnpi92k7IqQ6HmljRb0rKDT1Huy?=
- =?us-ascii?Q?0S+1qe7CCwpYfhgnypSgX5kuKBzP1bxUecfVqzGvBdS1wSB+Kpr1Yqx/kCuU?=
- =?us-ascii?Q?UP7b+0LaZCz+Vyr9U2DGqDj7NUG3pUjD2BSTXZc8mOXuscqMiyUxT5ojg2So?=
- =?us-ascii?Q?Rrq7kM74VWP3smFr+2JmijY8TEK4DsUlA3Of5rK8o+Mq4TuWnR2w6L4pKS12?=
- =?us-ascii?Q?ODB5APvDEwVgdmfx35uVAOlF6YDNsW7hsTVKtWPWRU2Nn318gfxUJT0Vfsq3?=
- =?us-ascii?Q?tf5I1VUK5NEYyvQvQPt4TyMEIU/rrHej3vXHAoASK6e7inWj8Vxue9I3vtTG?=
- =?us-ascii?Q?st7OHGs56gZSPV4Z5hFC4ImQ+XVlqNMhegD2XfxujjYkGcjpyJKwsEvl4KSP?=
- =?us-ascii?Q?5aI422PNG6KICe7S+JMPgWfGmkNpaPhvrxAODjDQJm5iipiUUnUOF9LjlVB9?=
- =?us-ascii?Q?NAhRi2uKRQPQG0LnT8fIU6P96ubmaANyHffJ3LE54kzbpD6rDA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6343.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?tTwHbFWm+Qhz4C6j0XFAKKBc7YgtY3Gjl6jfzMaBzrtttjx/n93U0cok77P3?=
- =?us-ascii?Q?uesRWbSVCf9vqE0paJFPrXgVG359F5CBKx8VbVC+wue/T1kYMALDWI6a1PEC?=
- =?us-ascii?Q?9q7x0p96yeGhuEFs1haxmcssu2ieePpZ/cb/wpknvitEGM69xtmJWrjafu2y?=
- =?us-ascii?Q?khRoA74s5Nb1oGj75wDGNBWgtMJT9OfG9mweW5rZGh4ywXNRSgiJsYLi+d1H?=
- =?us-ascii?Q?ThG+mpSAH5+eHiIuPfg9LtGNBuPNnP63GxwgxtyR2ZVYoA0dbiL5PlqGk85o?=
- =?us-ascii?Q?o9yh6pTEHBZKjbHpkjbWNj3AnJSAm3c0VjieKj4q3SBJ+o84owScX1IUsx0B?=
- =?us-ascii?Q?C9QKeZ3KPqa1fZ6+5551RyrQxGke0gNd7MqZKczZ8fqRFPXf4QPfX0a2XJER?=
- =?us-ascii?Q?lDmoQ/FdUzNwYTFhEvrsyJ8XhR3AKSmxL0R8ZRPQzBFsnvzoRYTeXq9tLXsL?=
- =?us-ascii?Q?a7SAjB9XivXZB31KVflQGTZK4SRacQn03JhX9DiWVzvBuSfQAuR/Tp3LwKGT?=
- =?us-ascii?Q?jYqCiUjCxAY3TbBONHT5kx4xf7XvlZa7jXLcOMFEhEvDMmih81GhXZ4WToXg?=
- =?us-ascii?Q?I7DZfzgnfIx1ThnQKGxLNF408TpIuvKseXdTDfXtKMwwWFUtFJtIJcNmZQcC?=
- =?us-ascii?Q?kLf2mH0+1+Q/vVi6ooEF6HEKkOmqhPXpVUKaIu0b5QHBfKgw8920swxb/qjj?=
- =?us-ascii?Q?6v+YX+By3+85Ooz8gtc9Ch+UQ94KhPyP/DomKSnZ11O3OVj4eg+Qsh4czxS/?=
- =?us-ascii?Q?AHTg9ykRwj/JUD03NkvZImbTFglg3r/UZLquAyLXOfIH3G2+1p7elkx3IPpN?=
- =?us-ascii?Q?efZRdY9SAsL5nLDW45GQzcLkwCGpOYndBktrxtwQRdReRlYMHF58muInINYC?=
- =?us-ascii?Q?Y5qTjmL+8Ep2KggYMkaEZF1WD7UqjZj8O1as2hJzLnrb5XiUPFpGkzwNtWJ1?=
- =?us-ascii?Q?HvigNMOHorihPOgm57aqFzhuu0hkLJC4047DWdFXjfZ2Ya6s03ajJAUUnUC+?=
- =?us-ascii?Q?GIvKo7bK/8wzmJRHF17a0VfAgDGsoFHnlXP2H6DnnRpGhbSzYfo1JgjZVNw0?=
- =?us-ascii?Q?dLAsR4IM3Oi6Iah2+6xYQhaQaxXacsh1a4KVoP0lezrYs/lABHJI0JGCy9FX?=
- =?us-ascii?Q?fkF0JYRwBJbBfojG7lOetcnNiAHX/uZ2gjbMxzB0lmi4zyNrBaWlonfib4l5?=
- =?us-ascii?Q?jFHyrV0NglyBY5oLus6+wtvh628Q3PRnBl4yOMJnDe5YySA9TFrW6ZCWP6au?=
- =?us-ascii?Q?X20qZL6q5u8ANCwoV49WITrPUOuQUWOdxwuzMrFwK+v7aVnsGorlkRZoJENw?=
- =?us-ascii?Q?rCDII1n17c+MkCYxPiKt24LJJvoPhMSC9vlACoFknpt3wq0qEgkNKjam3mCL?=
- =?us-ascii?Q?lJ9q5pDOQtje5NSCh9+fg8sHKhue0xpYh8H4OAhs9GBd4ysw5Jv7BE8ss+AR?=
- =?us-ascii?Q?geT85aC85nSoHQAEnor/Gp9lDSNqmj/ZtRHL+DX44caATgqJvWqIlmImevH8?=
- =?us-ascii?Q?p1fp9vPIfMze40Mvl7KC9tc7R/qdjMsNssuTn/vmj+lKnE4OSZ3cHCleO6AF?=
- =?us-ascii?Q?BAzvCtUCskBrX4zsQpMA0YQLbu3L0T+oNOEzKK8z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9887C6FC3
+	for <linux-input@vger.kernel.org>; Tue,  2 Jul 2024 11:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719918794; cv=none; b=DepbC9yDgdiv2E/J6vRUe4y+D7qEE+Py8wYEatbfghrDO2K6fp+6rVsxgFtcKwjY4FKae5yiF/nvrpRQ6lBQO+enCA3XbVosRicdErjjlav/35984+tytjX4p0bV/b8fEL1oqGicL2oTacs1fzXSo1p/VhuqYXgw2ZWJ7ZYcdnY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719918794; c=relaxed/simple;
+	bh=ZA2RukZW6Lk9QiReyZU5WGfhUVp/7ceSyeaFN1+Zc0I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e/oxKGvPnqosdsLTEvzOT299JVgZrIm26NoITqFf9NAllCzTcR9wT5G1+uRc8mMm+QbVIj+hPGQzuxcEbBRzxCPVx9L+NFPn/CzTtro/VsBhL/QPXlNNIrktuzC7xnMpDB5qM53qCM1qox/wN2NbijiuKYmiTY60uwPgq9VDAn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KMptZSdD; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-64f4c11d2c9so14210927b3.2
+        for <linux-input@vger.kernel.org>; Tue, 02 Jul 2024 04:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719918791; x=1720523591; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yZwkViluL9fZYJDEVjVHxofuWUETp5oFGLDBWD1R34Y=;
+        b=KMptZSdD52VXDFoNdvSBIL1FHT3OECFdk7qWKPOuVc9JtLpOC/bxnlmGL7SL8u6OR9
+         TZ84M1kdILKfwr2QhRS/kFX3g4q1SUj0TOMseRd2ePTbHgx+FD2WUMAEaxarJLPFoT99
+         twWs8XPopqpXtrgdc2lHu6qqxtjnJ0AYkrZAHD9tP5t2Cd15kqgI6WzulX4v+60NqPhs
+         l99I8iGbRWklzDm6XYpXMuQTP8Q4F2qUh0n5pnxCKxLFTd4aWUMaQHh7Iu1q2Yrnmwqa
+         7w2zxeaDehXF9GqYjGlVpgXGVbEKo6H9mYS1UjQ/GmfmdWtVwBpiMlqSNLQEZaMR3ixL
+         72Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719918791; x=1720523591;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yZwkViluL9fZYJDEVjVHxofuWUETp5oFGLDBWD1R34Y=;
+        b=jyRSbzJu8w4qjf5eGUF2yxgm75a5WjaO+5kz9n11i5cB0Q+4WBGI7HpKOG74Ulau9v
+         oqZADpWt6N8X55ii5fG30MxgXfkXzm21fkhsJpLPDNiBAyT9IsBQcCfxEfI42Ua5UxzG
+         F3jpjANkNN5RGABbvjcxDgV2Ht/UgQ24pMfl2wVuzWJ9gHzudgRAdLVZv7pHn4y7rzLh
+         DkFfTJrL/7VNxzkJwrC5/44Stp2kFrFPFbWinI71lQtZuFKoE9vM2Q6mNAZxOmpyitb7
+         CCQOrwkN4iRSGVN3OdXjcM/klo4DHjeXH750rrQZeEzz0gShaHhc9r9yD+wCNiv5qAHX
+         Oc9g==
+X-Forwarded-Encrypted: i=1; AJvYcCWYNQ0fZ67HYh8TF3rqUiv4BynQiz/vVwdgkWTEDz57xJu9HY47BY5Hf/NM4djZzvvz06j+BHs4wbqAAJRBVDuIRRWZLaFLiORPVKk=
+X-Gm-Message-State: AOJu0YwbE3p/blIUQXYFfrPlmdHqOKnpYz23VJ9Q1lMVUD8uaN+cz2M+
+	tV8rI5i1oLRetUWDu3MeM5nGdv6/vrvuUUz8PmQGeKjt1+PxJ/g01h1irZE0BSKainGL2qSdbUB
+	Pq2X8fdRTL0RFuVmo8vYq+vc68qxJ5k3Ih12QbQ==
+X-Google-Smtp-Source: AGHT+IE+XENqew12llqHSNS380ty5q6Xoz123+Kygwygr+yT2Q9JclDAXyV8vjEJVMRy6iBc7TeDkbDj9c+tJaEHcv4=
+X-Received: by 2002:a81:69c4:0:b0:630:de2f:79b8 with SMTP id
+ 00721157ae682-64c71802f74mr90961787b3.13.1719918791593; Tue, 02 Jul 2024
+ 04:13:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6343.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abaf1f18-3ef2-476f-f6ad-08dc9a80a13b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2024 10:20:43.0942
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JFxjo9ykgcZC7C/wvHDqV2VcQSkKI0H3Uqw7LIstjC8rzH6CbfHmEGZYBTtzBUfl64d+BMfUvQLC79N17pQHYlVCtNsCup53fhWfHQEiOao=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5050
-X-Proofpoint-ORIG-GUID: QPuOZWQhQKSxmTFx6HVyIHHlpNk115du
-X-Proofpoint-GUID: QPuOZWQhQKSxmTFx6HVyIHHlpNk115du
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-02_06,2024-07-02_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 mlxscore=0 phishscore=0 priorityscore=1501 mlxlogscore=999
- clxscore=1011 malwarescore=0 impostorscore=0 bulkscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407020077
+References: <20240630-oneplus8-v2-0-c4a1f8da74f1@postmarketos.org>
+ <20240630-oneplus8-v2-6-c4a1f8da74f1@postmarketos.org> <37y25ko7q2hoqlzvteqt3cj2lsms3lkwi6xu6qm4xaq5gm6pus@lxh4jo4hpryv>
+ <efa5b7c2-05ac-4354-830b-1d5a66e2fb58@postmarketos.org>
+In-Reply-To: <efa5b7c2-05ac-4354-830b-1d5a66e2fb58@postmarketos.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 2 Jul 2024 14:13:00 +0300
+Message-ID: <CAA8EJprniEW4ktqRQb0Zac1BcwzrvBbXQcve6V3rGmCOAC-vUA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] drm/panel: add driver for samsung amb655x
+To: Caleb Connolly <caleb@postmarketos.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Henrik Rydberg <rydberg@bitmath.org>, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Connor,
-
-> -----Original Message-----
-> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Sent: Monday, July 1, 2024 6:46 PM
-> To: Conor Dooley <conor@kernel.org>
-> Cc: Agarwal, Utsav <Utsav.Agarwal@analog.com>; Hennerich, Michael
-> <Michael.Hennerich@analog.com>; Rob Herring <robh@kernel.org>;
-> Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> <conor+dt@kernel.org>; Sa, Nuno <Nuno.Sa@analog.com>; linux-
-> input@vger.kernel.org; devicetree@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Artamonovs, Arturs
-> <Arturs.Artamonovs@analog.com>; Bimpikas, Vasileios
-> <Vasileios.Bimpikas@analog.com>; Gaskell, Oliver
-> <Oliver.Gaskell@analog.com>
-> Subject: Re: [PATCH v4 2/2] dt-bindings: input: Update dtbinding for adp5=
-588
->=20
-> [External]
->=20
-> On Mon, Jul 01, 2024 at 04:46:12PM +0100, Conor Dooley wrote:
-> > On Mon, Jul 01, 2024 at 04:04:51PM +0100, Utsav Agarwal via B4 Relay
-> wrote:
-> > > From: Utsav Agarwal <utsav.agarwal@analog.com>
-> > >
-> > > Updating dt bindings for adp5588. Following properties are now made
-> > > optional:
-> > > 	- interrupts
-> > > 	- keypad,num-rows
-> > > 	- keypad,num-columns
-> > > 	- linux,keymap
-> > > The proposed new property "gpio-only" has been added as an optional
-> > > property with an additional example.
+On Tue, 2 Jul 2024 at 12:43, Caleb Connolly <caleb@postmarketos.org> wrote:
+>
+>
+>
+> On 01/07/2024 22:32, Dmitry Baryshkov wrote:
+> > On Sun, Jun 30, 2024 at 08:36:29PM GMT, Caleb Connolly wrote:
+> >> This is a 1080x2400 120hz panel used on the OnePlus 8T. It uses DSC but
+> >> with many non-standard DCS commands.
+> >>
+> >> The only user of this panel (the OnePlus 8T) has a bug somewhere in the
+> >> DSI stack whereby it isn't possible to properly initialize this panel
+> >> after a reset. As a result, the reset GPIO is made optional so it can be
+> >> left unused on that device.
+> >>
+> >> Signed-off-by: Caleb Connolly <caleb@postmarketos.org>
+> >> ---
+> >>   MAINTAINERS                                   |   7 +
+> >>   drivers/gpu/drm/panel/Kconfig                 |   9 +
+> >>   drivers/gpu/drm/panel/Makefile                |   1 +
+> >>   drivers/gpu/drm/panel/panel-samsung-amb655x.c | 399 ++++++++++++++++++++++++++
+> >>   4 files changed, 416 insertions(+)
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 807feae089c4..2b9cfbf92d7a 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -7142,8 +7142,15 @@ M:    Robert Chiras <robert.chiras@nxp.com>
+> >>   S: Maintained
+> >>   F: Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> >>   F: drivers/gpu/drm/panel/panel-raydium-rm67191.c
+> >>
+> >> +DRM DRIVER FOR SAMSUNG AMB655X PANEL
+> >> +M:  Caleb Connolly <caleb@postmarketos.org>
+> >> +S:  Maintained
+> >> +T:  git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> >> +F:  Documentation/devicetree/bindings/display/panel/samsung,amb655x.yaml
+> >> +F:  drivers/gpu/drm/panel/panel-samsung-amb655x.c
+> >> +
+> >>   DRM DRIVER FOR SAMSUNG DB7430 PANELS
+> >>   M: Linus Walleij <linus.walleij@linaro.org>
+> >>   S: Maintained
+> >>   T: git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> >> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> >> index bf4eadfe21cb..7203d16ab20a 100644
+> >> --- a/drivers/gpu/drm/panel/Kconfig
+> >> +++ b/drivers/gpu/drm/panel/Kconfig
+> >> @@ -590,8 +590,17 @@ config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
+> >>      depends on OF
+> >>      select DRM_MIPI_DSI
+> >>      select VIDEOMODE_HELPERS
+> >>
+> >> +config DRM_PANEL_SAMSUNG_AMB655X
+> >> +    tristate "Samsung AMB655X DSI panel"
+> >> +    depends on OF
+> >> +    depends on DRM_MIPI_DSI
+> >> +    depends on BACKLIGHT_CLASS_DEVICE
+> >> +    help
+> >> +      DRM panel driver for the Samsung AMB655X panel.
+> >> +      This panel has a resolution of 1080x2400 @ 60hz or 120Hz.
+> >> +
+> >>   config DRM_PANEL_SAMSUNG_ATNA33XC20
+> >>      tristate "Samsung ATNA33XC20 eDP panel"
+> >>      depends on OF
+> >>      depends on BACKLIGHT_CLASS_DEVICE
+> >> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> >> index 051b75b3df7b..be6d500a56a4 100644
+> >> --- a/drivers/gpu/drm/panel/Makefile
+> >> +++ b/drivers/gpu/drm/panel/Makefile
+> >> @@ -58,8 +58,9 @@ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
+> >>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
+> >>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
+> >>   obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
+> >>   obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
+> >> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_AMB655X) += panel-samsung-amb655x.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
 > >
-> > I can see that as it is clear in the diff, but this doesn't explain why=
-,
-> > which is what you need to do in your commit message.
+> >
+> >> +static int samsung_amb655x_prepare(struct drm_panel *panel)
+> >> +{
+> >> +    struct samsung_amb655x *ctx = to_samsung_amb655x(panel);
+> >> +    struct device *dev = &ctx->dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    /*
+> >> +     * During the first call to prepare, the regulators are already enabled
+> >> +     * since they're boot-on. Avoid enabling them twice so we keep the refcounts
+> >> +     * balanced.
+> >
+> > I see your intent, but I don't think this is fully correct. If the
+> > driver gets rebound, then it will perform one extra disable call. On the
+> > next driver probe / enable / disable / remove cycle the driver will
+> > perform one more, underflowing enable count. I think
+> > regulator_init_complete_work_function should give the phone enough time
+> > to boot the panel.
+>
+> I do make an extra call to regulator_bulk_enable() in probe(), does that
+> balance things out?
+
+Hmm, I missed it. But if you have it, why not just have a single
+regulator_bulk_enable() in pre_enable() like everybody else does?
+
+> >
+> >> +     */
+> >> +    if (!regulator_is_enabled(ctx->supplies[0].consumer)) {
+> >> +            ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> >> +            if (ret) {
+> >> +                    dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> >> +                    return ret;
+> >> +            }
+> >> +    }
+> >> +
 > >
 
-I will add more description to this commit message for context.
 
-> > >
-> > > Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
-> > > ---
-> > >  .../devicetree/bindings/input/adi,adp5588.yaml     | 28
-> ++++++++++++++++++----
-> > >  1 file changed, 24 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-> b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-> > > index 26ea66834ae2..158fbf02cc16 100644
-> > > --- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-> > > +++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
-> > > @@ -46,6 +46,11 @@ properties:
-> > >    '#gpio-cells':
-> > >      const: 2
-> > >
-> > > +  gpio-only:
-> > > +    description:
-> > > +      This property applies if keypad,num-rows, keypad,num-columns a=
-nd
-> > > +      linux,keypad are not specified. All keys will be marked as gpi=
-o.
-> >
-> > Why is a property required for this? Is the absence of the 3 keypad
-> > properties not sufficient to determine that you're in this mode?
->=20
-> Yes, I think it should be enough.
 
-The idea behind introducing a new property was to simplify the usage in add=
-ition to making it easier to document a pure gpio mode being supported. Wou=
-ld it still be better to remove this?
-
->=20
-> >
-> >
-> > >    interrupt-controller:
-> > >      description:
-> > >        This property applies if either keypad,num-rows lower than 8 o=
-r
-> > > @@ -68,10 +73,6 @@ properties:
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > > -  - interrupts
-> >
-> > I don't understand why interrupts is no longer required.
->=20
-> I think it should be possible to use this chip as a GPIO controller but
-> not an interrupt controller, in which case one does not have to wire up
-> the interrupt line from it. However this requires much more elaborate
-> binding description (i.e. no keys and no "interrupt-controller"
-> property).
-
-I will add a more detailed description in the binding.
-
->=20
-> Thanks.
->=20
-> --
-> Dmitry
-
-Thanks,
-Utsav
+-- 
+With best wishes
+Dmitry
 
