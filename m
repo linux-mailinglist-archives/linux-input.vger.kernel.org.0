@@ -1,52 +1,53 @@
-Return-Path: <linux-input+bounces-4807-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4808-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F00925E2B
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 13:35:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA85C925BB7
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 13:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F40FB3614B
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 11:10:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5572C1F251D3
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 11:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 074D219D8AD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10C4119D8B2;
 	Wed,  3 Jul 2024 10:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+cyatzg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3/JcvEi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C960E1891B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D55194A61;
 	Wed,  3 Jul 2024 10:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720004302; cv=none; b=uv/6DfvW6elaP3vRfbR9RrvfHFTFyxHt03lkQaxml08GBLrHSFykGvntjUYf70Jp856b9XiC7AQa6T0DlkQggnDbxd4UA7JnE4QNpAYBq63VYSfYXadJibuuXZF38HyVGAkV0SK5M1mZSJ96+pdjMj29/tbry/cc3VBzxag1SqE=
+	t=1720004302; cv=none; b=q/1Xj8XpbOUcj1E8qBTKrElMtSmWifjnouTMVzdLhY/dSFh6fvXATr/BQ4c0+PXWfJVnntYB6sFm/Ysdu1DDuQOUGorGFO/3DD2yXV9Zx0VHzToHZ6KAuINKs5ILvsQ8nFA8lyfzXhakxm4k3slexwKyI7oU74hy7UsPzunHw9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1720004302; c=relaxed/simple;
-	bh=ZKBZXqTb3GYcej9sBFGWNtjDUyV0Rn3CMeoWjdQoMDA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HDZztUYC2Lya2+G0UwdxpltO2/TVuSRCl7XuxGTWBX0sh4jK5cskLLvBtYJsa67xIymxz7nJtkGGKCXLAz4ZG4mORW42/eqL05YYRuWD+N5iRWz2w6ZwNFpNIbvUxlmPLafbkYinn61akp3E5qQf1dbmR6uF2TDKjBnCcc0xaJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+cyatzg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 907E1C32781;
+	bh=aEuCjWxRkzWwfDTMdgU+LpngRSgkeUQ7WrIWnqmQ1+I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=HjAD4mDezL3F1/9u4DKn6Gpwgal2dfxQY56IanPW+858FdFkimJcCiXWp0jYX35vZ+Yl+jMZV47zpNwwL9HUpVu4c/hqV11UIkXH29qyjom2H4NDWW9w1QSNUNLUxfRfGB+FjopSYT640hRLwsTba9eAjXoja5Yr4FZ2YvkQlaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3/JcvEi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A048FC4AF0C;
 	Wed,  3 Jul 2024 10:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1720004302;
-	bh=ZKBZXqTb3GYcej9sBFGWNtjDUyV0Rn3CMeoWjdQoMDA=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=I+cyatzgwZSzFZqgft1lCda9R3boMN5wwvPMQl0eLu0p0JyFqixrZ2wRNjopEmK0k
-	 lMA1bTcgG0eoiR5QQMHOlWN3oykSPpCHKujOIMWWwgDCrD1K5nTIRBnkQO9gd0OJsx
-	 0d7jxY/7ToA6rHZdoGHqn0iVMxDmuoTqTOV7ddfwHmXhYw6KTULh54Uj43np3GN8IL
-	 hnAtcIA5efKhKhRUGnkpCqihGX9X3jhptYk7IAACPNLPAYuiNXNx1DObUwVnw6JHZC
-	 XPago3eB5gQBYHb+hr/UIwLhrJRUlWQQELxFjzH07/TdEptwGXlzQWa2X8HYIwRHmU
-	 Tjl46bQeytIMA==
+	bh=aEuCjWxRkzWwfDTMdgU+LpngRSgkeUQ7WrIWnqmQ1+I=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=I3/JcvEiwOginYTFAnj+tYCVxSmrkuJ1tk2Vnevrmh0X1MhI3ugqmM4Mop2s7G2DS
+	 GABk6/peN/3skwvld22hxvU7G6M20QpqJLlSEV/hZGcFgTYXz5BzR4P+ufEDgpsHpk
+	 zMJrRYATd9fjE1DCpYJiv+dGyJ+B1atofDIhUxfx/gLlkO4FhHm1G8zsrIaeWMkFA+
+	 leC2dwZoc81BASnzKQPrV5REufclSUkm7P4Y2nS2jCqL5SudMTFk/6P4f3wVbGDPUJ
+	 F6/g/zl8ejre+OW4OmQvpPVrovekF0tHk1RIgHrg4Q2cbcx+615hVxvkbiDXri0Hb1
+	 G/zh7L9iD6TZQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73FBBC31D97;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6F5C30653;
 	Wed,  3 Jul 2024 10:58:22 +0000 (UTC)
 From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
-Subject: [PATCH v5 0/3] adp5588-keys: Support for dedicated gpio operation
-Date: Wed, 03 Jul 2024 11:58:13 +0100
-Message-Id: <20240703-adp5588_gpio_support-v5-0-49fcead0d390@analog.com>
+Date: Wed, 03 Jul 2024 11:58:14 +0100
+Subject: [PATCH v5 1/3] iInput: adp5588-keys - use guard notation when
+ acquiring mutexes
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -55,10 +56,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMUuhWYC/4WNQQ6DIBBFr2JmXRokQ6tdeY/GGBDUSVogYEkb4
- 91LvUCX7yX//Q2SjWQT3KoNos2UyLsC8lTBuCg3W0amMAgukF95zZQJUjbNMAfyQ3qF4OPKLtJ
- ooY2oVTtBmYZoJ3of2XtfeKG0+vg5XjL+7J9gRsYZotaKI0rb8k459fDzefRP6Pd9/wJQTla4u
- QAAAA==
+Message-Id: <20240703-adp5588_gpio_support-v5-1-49fcead0d390@analog.com>
+References: <20240703-adp5588_gpio_support-v5-0-49fcead0d390@analog.com>
+In-Reply-To: <20240703-adp5588_gpio_support-v5-0-49fcead0d390@analog.com>
 To: Utsav Agarwal <utsav.agarwal@analog.com>, 
  Michael Hennerich <michael.hennerich@analog.com>, 
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
@@ -71,11 +71,11 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
  Oliver Gaskell <oliver.gaskell@analog.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720004298; l=2339;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720004298; l=4350;
  i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
- bh=ZKBZXqTb3GYcej9sBFGWNtjDUyV0Rn3CMeoWjdQoMDA=;
- b=F5tQpXuKWFwC+womE91xcSEaMlAf2+LITtvgdoV2FfCwSH+UNmP1DrAbVZZpGx9lHkr8+ioKN
- HZ+kRE5RfHnAIUoFTjct16dDojVUrrAb5whPZduEy9pRdP1N7DJe+M2
+ bh=mDwNB6wUzoZc6JGCdhyWFTBkDbZltiAbjw3N6y6sDvU=;
+ b=jjBqSWcwnCVzitZS8QoidLwX+c3dn+VHXbdi+9FWtIk/bQ05CH4Ff5URgrqubb75obuhY4T6X
+ spmwdD+N+NZDIUSyhLwXe1W268/QaPs5KuoVnKqVFQaPQ4sfGHDsnqJ
 X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
  pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
 X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
@@ -83,68 +83,146 @@ X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
 X-Original-From: Utsav Agarwal <utsav.agarwal@analog.com>
 Reply-To: utsav.agarwal@analog.com
 
-Current state of the driver for the ADP5588/87 only allows partial
-I/O to be used as GPIO. This support was previously present as a
-separate gpio driver, which was dropped with the commit
-5ddc896088b0 ("gpio: gpio-adp5588: drop the driver") since the
-functionality was deemed to have been merged with adp5588-keys.
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-This series of patches re-enables this support by allowing the driver to 
-relax the requirement for registering a keymap and enable pure GPIO 
-operation. 
+This makes the code more compact and error handling more robust.
 
-Changelog
-==========
-
-V2: 
-	-  Changed gpio_only from a local variable to a member of struct
-	adp5588_kpad
-	-  Removed condition from adp5588_probe() to skip adp5588_fw_parse() if 
-	gpio-only specified. adp558_fw_parse() now handles and returns
-	0 if gpio-only has been specified.
-	-  Added a check in adp5588_fw_parse() to make sure keypad 
-	properties(keypad,num-columns and keypad,num-rows) were not defined when 
-	gpio-only specified
-
-V3:
-	-  Moved device_property_present() for reading "gpio-only" into 
-	adp558_fw_parse()
-	-  Added print statements in case of error
-
-V4:
-	- Added dt-bindings patch
-
-Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Acked-by: Michael Hennerich <michael.hennerich@analog.com>
 ---
-V5:
-	- Removed extra property "gpio-only", now pure gpio mode is
-	  detected via the adbsence of keypad specific properties.
-	- Added dependencies for keypad properties to preserve
-	  the original requirements in case a pure gpio mode is not
-	  being used.
-	- Added additional description for why the "interrupts" property
-	  was made optional
-	- Rebased current work based on https://lore.kernel.org/linux-input/ZoLt_qBCQS-tG8Ar@google.com/
-- Link to v4: https://lore.kernel.org/r/20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com
+ drivers/input/keyboard/adp5588-keys.c | 49 ++++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 32 deletions(-)
 
----
-Dmitry Torokhov (1):
-      iInput: adp5588-keys - use guard notation when acquiring mutexes
+diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
+index 1b0279393df4..09bcfc6b9408 100644
+--- a/drivers/input/keyboard/adp5588-keys.c
++++ b/drivers/input/keyboard/adp5588-keys.c
+@@ -221,15 +221,13 @@ static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned int off)
+ 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+ 	int val;
+ 
+-	mutex_lock(&kpad->gpio_lock);
++	guard(mutex)(&kpad->gpio_lock);
+ 
+ 	if (kpad->dir[bank] & bit)
+ 		val = kpad->dat_out[bank];
+ 	else
+ 		val = adp5588_read(kpad->client, GPIO_DAT_STAT1 + bank);
+ 
+-	mutex_unlock(&kpad->gpio_lock);
+-
+ 	return !!(val & bit);
+ }
+ 
+@@ -240,7 +238,7 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
+ 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+ 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+ 
+-	mutex_lock(&kpad->gpio_lock);
++	guard(mutex)(&kpad->gpio_lock);
+ 
+ 	if (val)
+ 		kpad->dat_out[bank] |= bit;
+@@ -248,8 +246,6 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
+ 		kpad->dat_out[bank] &= ~bit;
+ 
+ 	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank, kpad->dat_out[bank]);
+-
+-	mutex_unlock(&kpad->gpio_lock);
+ }
+ 
+ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
+@@ -259,7 +255,6 @@ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
+ 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+ 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+ 	bool pull_disable;
+-	int ret;
+ 
+ 	switch (pinconf_to_config_param(config)) {
+ 	case PIN_CONFIG_BIAS_PULL_UP:
+@@ -272,19 +267,15 @@ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
+ 		return -ENOTSUPP;
+ 	}
+ 
+-	mutex_lock(&kpad->gpio_lock);
++	guard(mutex)(&kpad->gpio_lock);
+ 
+ 	if (pull_disable)
+ 		kpad->pull_dis[bank] |= bit;
+ 	else
+ 		kpad->pull_dis[bank] &= bit;
+ 
+-	ret = adp5588_write(kpad->client, GPIO_PULL1 + bank,
+-			    kpad->pull_dis[bank]);
+-
+-	mutex_unlock(&kpad->gpio_lock);
+-
+-	return ret;
++	return adp5588_write(kpad->client, GPIO_PULL1 + bank,
++			     kpad->pull_dis[bank]);
+ }
+ 
+ static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned int off)
+@@ -292,16 +283,11 @@ static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned int off
+ 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
+ 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+ 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+-	int ret;
+ 
+-	mutex_lock(&kpad->gpio_lock);
++	guard(mutex)(&kpad->gpio_lock);
+ 
+ 	kpad->dir[bank] &= ~bit;
+-	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
+-
+-	mutex_unlock(&kpad->gpio_lock);
+-
+-	return ret;
++	return adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
+ }
+ 
+ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
+@@ -310,9 +296,9 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
+ 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
+ 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
+ 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
+-	int ret;
++	int error;
+ 
+-	mutex_lock(&kpad->gpio_lock);
++	guard(mutex)(&kpad->gpio_lock);
+ 
+ 	kpad->dir[bank] |= bit;
+ 
+@@ -321,17 +307,16 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
+ 	else
+ 		kpad->dat_out[bank] &= ~bit;
+ 
+-	ret = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
+-			    kpad->dat_out[bank]);
+-	if (ret)
+-		goto out_unlock;
+-
+-	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
++	error = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
++			      kpad->dat_out[bank]);
++	if (error)
++		return error;
+ 
+-out_unlock:
+-	mutex_unlock(&kpad->gpio_lock);
++	error = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
++	if (error)
++		return error;
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int adp5588_build_gpiomap(struct adp5588_kpad *kpad)
 
-Utsav Agarwal (2):
-      Input: adp5588-keys - add support for pure gpio
-      dt-bindings: input: Update dtbinding for adp5588
-
- .../devicetree/bindings/input/adi,adp5588.yaml     | 33 ++++++++--
- drivers/input/keyboard/adp5588-keys.c              | 70 ++++++++++++----------
- 2 files changed, 66 insertions(+), 37 deletions(-)
----
-base-commit: 1c52cf5e79d30ac996f34b64284f2c317004d641
-change-id: 20240701-adp5588_gpio_support-65db2bd21a9f
-
-Best regards,
 -- 
-Utsav Agarwal <utsav.agarwal@analog.com>
+2.34.1
 
 
 
