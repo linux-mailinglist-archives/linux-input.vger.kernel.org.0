@@ -1,110 +1,126 @@
-Return-Path: <linux-input+bounces-4812-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4813-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA85925F0E
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 13:48:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2643925DA1
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 13:30:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D886B27C4A
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 11:28:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4DCA1C227A7
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 11:30:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C6E17FAB8;
-	Wed,  3 Jul 2024 11:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5952B187342;
+	Wed,  3 Jul 2024 11:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="SiqJSeyy"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="N4hXOeQQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2071.outbound.protection.outlook.com [40.92.102.71])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2091.outbound.protection.outlook.com [40.92.103.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A472180A99;
-	Wed,  3 Jul 2024 11:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8855F45945;
+	Wed,  3 Jul 2024 11:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.91
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720005498; cv=fail; b=kBCJvl4k5rxN8AnMOUCZwB64u3kGVIrFZrKFMnvWPEVW5/EfnuGTDfjjbkRAIzqWthNwm/ugGcpVSSqbV5nchEu5e5q85ta1A7chlfVE+zkstUYDFrj3P4gVK9NzA/JT3FXPgXWW7NLCGoitnFYtM8Uc5Aysg20QHUNtXTehqPc=
+	t=1720005710; cv=fail; b=IO/B+EWBkU8yb75d4bb2jvKfgAf+0RSVNiv2J2jmuwjHSEZQPYXBDGFMiQVxrQGUXjyTFr6ZMMy38rZJRdzjxMItNeFy4XxvPhH7ellS7Xj9dd338Xh6bqQaxqLSPD+7TJTyh6dZPLVEAga4nOHvLxd7YNKuXPCwJeig9t7Ad7Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720005498; c=relaxed/simple;
-	bh=qlslJ3sBgKS9arxR3CRriJCr+pXpxssmPqBwQNqguJw=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Z/CTkbNy8ZoMhbjhtbLoQQUw14iRF66n7PzhBDIQ7dsFmHTDslF6seau0+NWsVS44wR2BBXIhGjeSnm3SMFweC+CgPqVYu2e6NEzsl5ynMjPhTKdJ742rO/r8tzBGz8fLwqxoP18xy7RzmCb8wO6V/fNw4y8amz2rC1//sIxMIs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=SiqJSeyy; arc=fail smtp.client-ip=40.92.102.71
+	s=arc-20240116; t=1720005710; c=relaxed/simple;
+	bh=uq2v1Q7GC72OhrQi3FLQuYk8xuGgmuF/nI+eE5kImF0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=A00mZQthWKO8S/pNDhTQ3GiEJJu+/+/SrPn9eSdm2OQldCIjjGJttd59qnRkC8AVHiB58V4UPXTyPuRBUL62Zh3C1iIx1NkWIlqmxny8iOgBQQ/X+C3So799S3SAtiqGe/hZx4MGBk4jSBVbYWIeI22yKoVdhfcV9WYk+h2ZTOc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=N4hXOeQQ; arc=fail smtp.client-ip=40.92.103.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ni/YYqfElWCrONWkYDQVw6J6xV9hSEc+ln9XnSLQvtVrJo8zDEv83ItarxmWUkgGcI8GNQDLFRcwmg0mt6vPDvHd93MkLjYjC3JhSTLN/euJHZGVhhRsmV2LKO38BtT1ASyv9OJZEHVpn/2w52xuTLNFOvsSM7nqPSzuyVTzTEEpUCPiocn/m+HiPMUGAJWKlZECbkMLe/iUqZ0F6Fa6QL/oiGh2dTQl9jtYvNdACZcmdxh5Uxoat30oHb8MKC+OJ6NkUcv8c14XT/VaSp+iuDLxS277qDoaRcJYK2fFIyAhSZss/ggqTUCBDIrYrWIX9gTepfLI+++hwQlPNO0mkw==
+ b=gv+5HIqllMqDFunsnNo4up1Ah8ecp/bRU/eW3xIYbLTYyAsNXhuiURJvlXO79v8hWXZ8JnxR4cV46jMzk7/oejg9L/TFTCYVDg82Fj/jsple4I7rqiKbKX/30DvFwIEBcrF5zEZavG8/k1zJ02b+xDUymFOErlFgO4884amOfOcNCbqwZnoNi9XMWLjF5allze0nBxbVi/buX7sU11CPPFVXY04OggZK3WSJbQ6nFsSgICSA56E217yIyakmkF/QOBV08Dy7DGOSGqQ6bNYizsK1V2qvmSdHFWIpW0LPxHY2FLWomJzn93JYFzKTABA1TrS5w2D5szQWZTzhPWCAAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8xUQBECFGFtgpVSfRr7Zz6jrC3Jl9nps8hD+AiSsu/M=;
- b=OTQNsNgiX7ym8fLAy6qttdrIptsfRvRGKvNK1V8Y5lccOyQJ+dy7+UTevAJxxzrzZU6guMKGqo/SxN3AKDmDSiyHiPEX1YzC3buwhLq7VF8RzedmGELps9ThHnog9CMG9oNbGJ/5mcSc0E68UNvHXZEXBuF10+WsHnmnuMLnW4E6vButswhAUqdGAeygZFk+7PDJ/JiLTjslKBkseCdVpYXHQ3kl3lPu2Mo/LeEcJkcolqX31g+Ra2HXRCULoG5T5N5n1bObtbmY/A7MNm3muPuVpQGvwszcxclkqZio/4uD2767+Z1BJfj5vGj3ZWHra4Dhb0MC+HE77vSJRjv8Gw==
+ bh=uq2v1Q7GC72OhrQi3FLQuYk8xuGgmuF/nI+eE5kImF0=;
+ b=PiJ8gBLDpD+sDilUp8i/eu5QfBmKUsfv27EnLMRc3MIWkjDNY6ZH9eX9GJaVjcsA6sR8PDGsROAnMCap1rlmC050qAMqyrMkhtZtw3yEDsDprH1p5h7nE8XavEt+r/77D5kOucX17Xzp53PZAY/pLyjW+3t1Ic8CvSQEmxhGiKQnP1TQxLth8S6UA2RfGjUKZE/xNNfuXsdYWZYN02JwRIDCFPhH+7ibqNsmyV2uIw3GQ/FiIOGgauonISJNsye1bUA3SEVdeKdmf4gzULP18EEhY2SOrRlHC3mUrgrobk9iHH1L5RDuIfrmiBZ6h3gvlHg3u8eRaiZpiHv1R1nZWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xUQBECFGFtgpVSfRr7Zz6jrC3Jl9nps8hD+AiSsu/M=;
- b=SiqJSeyyIPhLY/GP9NmEYUOGKi5KcT8EEpW8p+RDZ7V68/9DwqGNWTeOv6asollWvBAbYYStxv55AJe8FOuM/HiDEZwOK8wbxe8vQ0rBZd6zPUqOqV/Q0IL2ykTmneTzfnxpI4TQczNEnrXDlACJWcABqXj0nb/2l91NvtnKUAc9bML0sbZuGqQBdT+n/JbULSAxa2JUqGRtMJlopqS1VDVQafThI250dEOOuf7QWpIHiJOJFVmBgYNqHOiQHLO4FWnhoBOoWocodmwScvhTw3aejQNFca49pPrhzR+HbkR7rd2Gjt0MNwMLwMPDzf0FvK6dhzN4BRoJGmPCibW15Q==
+ bh=uq2v1Q7GC72OhrQi3FLQuYk8xuGgmuF/nI+eE5kImF0=;
+ b=N4hXOeQQ4utkLsLXs+VC0jMFBnTMk2on5mRBRoR4PJ1+hx3D/xRZy7LAUodAdFqCJdj7VYlWU1QhgDww5ZfDtyAwM6ViusnxoG8qFnqHA7+2dghEDR1x1nHpfZd1MtEiZi27bCaER5D4BUFew48Em9odva9mwNqWzBmPY1HkRoZMLY3PehGwQWtsecQgMLVJWDj7MNHiodCyxuuiYT1mu4O/PB7VxxXHT7F5ulRiAvd642dK7znzV4HEaE09qtqAhE6qf92lXndrAEZSKNHpQylaAFPjjapenSydbmBgqm6oAJdyrWcu1TGWfQeIE/7zQJcxud5UorxewCSLcj9HGg==
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN2P287MB0271.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:ee::12) with Microsoft
+ MA0P287MB1481.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:f6::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7741.25; Wed, 3 Jul 2024 11:18:12 +0000
+ 15.20.7741.25; Wed, 3 Jul 2024 11:21:42 +0000
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7741.017; Wed, 3 Jul 2024
- 11:18:12 +0000
+ 11:21:42 +0000
 From: Aditya Garg <gargaditya08@live.com>
-To: Jiri Kosina <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>
-CC: Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] HID: apple: Add support for magic keyboard backlight on T2
- Macs
-Thread-Topic: [PATCH v2] HID: apple: Add support for magic keyboard backlight
- on T2 Macs
-Thread-Index: AQHazTqxdSWB0UDPjkG8o6UyySDHEw==
-Date: Wed, 3 Jul 2024 11:18:12 +0000
-Message-ID: <16C35623-78AE-44B9-8D54-CA9584AEC49E@live.com>
+To: Pavel Machek <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, "bentiss@kernel.org"
+	<bentiss@kernel.org>
+CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Kerem Karabay <kekrby@gmail.com>, Andy Shevchenko
+	<andy.shevchenko@gmail.com>, =?utf-8?B?VGhvbWFzIFdlacOfc2NodWg=?=
+	<linux@weissschuh.net>
+Subject: Re: [PATCH 0/2] Add driver for keyboard backlight on Magic keyboards
+ found on T2 Macs
+Thread-Topic: [PATCH 0/2] Add driver for keyboard backlight on Magic keyboards
+ found on T2 Macs
+Thread-Index: AQHay+tu1Tr1WmutCUW1PwnNBqV+h7Hk3nYA
+Date: Wed, 3 Jul 2024 11:21:42 +0000
+Message-ID: <04704D6B-2883-40E6-9ECA-5ECE524E7D80@live.com>
+References: <3055BCC5-8F8B-4472-9E94-1319D1C6DEED@live.com>
+In-Reply-To: <3055BCC5-8F8B-4472-9E94-1319D1C6DEED@live.com>
 Accept-Language: en-IN, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
 x-tmn:
- [zYFlKhsA2ZMq2pdf8J6+E8iuuEBzHn0b9onxuk8x6bG09VxNTw17KBJC2Qoot2wA34kXlHbIw9U=]
+ [RVnAsjiaHG+l5uLSxYpZ/kXstGORJdjjX0Ob6Hj7yZkZ6eoZAE6E7mNnC3jAwiiCgB4Z30qNE7I=]
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN2P287MB0271:EE_
-x-ms-office365-filtering-correlation-id: 1421a47c-c6e8-4364-a032-08dc9b51d390
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|MA0P287MB1481:EE_
+x-ms-office365-filtering-correlation-id: a2f0ad44-841f-49ef-1ff0-08dc9b525099
 x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|8060799006|440099028|3412199025|102099032;
+ BCL:0;ARA:14566002|461199028|8060799006|102099032|440099028|4302099013|3412199025|1602099012;
 x-microsoft-antispam-message-info:
- s8e5vgXga/LWBVoCWyqRlPXVPJiwL7tCm2GTENKYAsAZCsg3WmtkjByv5kQLmF/0TNOY7oXzjNRey6QZt4S0c0AV6m3Ixpr4JWQYvtAa3lKirwUnReURyJ97lbvZj0olVT4ckgM9wXFKyJcX3Fg+zSezDAkULu0oZdNEUk67dQdMVdC08ypRbKKcR+EmrJr4/ykc8zHhM4j8+Rm98Tt3TrC9ncBOqJmMLFkm4nR3GgOp++ImTyoW4UZbq3zDBk18i6hnDYBSPie4AJH64uNirWMJypxpGO4KqPn+6TUFWOY8n1GMxmZOzstZUmd4HcI0N198vtyWYRdr4HoM2aE7JzpQrOqMSVtvwXyACcjB6FKOx1CtZZaaCrWRd/0SisdFD9hVaybvWBvd6cjYWt8F6sxDQ6dxfnJLtZVUayN5E4eia2glkMk0EZaTVSsTv8J2WVOhxYWVUuslUQ0b9Ra/b0wDbV+0rXv5VGAe6D82lI4VOX+pc9xAhp7xlW1sSM+gATvYAfr14u2B9cJH6GiOthDYQo8jq/cCTOeDKaC5f/Lvir9Zu3jFUbJgCehipfpsn8HJeiriNABgkxpANDKcqxxOyOheC0Kyy4qTWKxCIvnJCzSqPDC/Sc3k6Z8/bGDR
+ JKa6zbA234XYmBLZ8lHsz2jPF4WD6oYM8jlHZG0/aDb6kCuxaasx3ZDm97+HyMY9Nmq0HGnJojcndfTZtrc+pVTYTF3tIEYXADlB/3QNClSdfBiJFNbUT8B/UllCPC/rqrk4O0ze4uu6tkK69PC8lWkJwYbkcjNslAuB4OlLzvrjRWf7UCdsx4EfjoBNox9rbzk1rNC6NkijkDYyQNa3nc/pMMGz6yLvkSNwPC8Tw00vx6vPLM1LPJhNeClkjqNscrq2amN7TWPAP86CO/v+YMWeuqzSwUa3a//XBQVPtJWiT645Edg8BV1y7A098qZEfC9ybqUujoHkS8Cv1Ejiz9gMT0MTPN6tKFcTT3O6/p53QGHviTdI0r0bSfnmKT44ae/TH9nUuvNN/GKGKFWzIdhga+eTpo+K0RrH6qBcYj80ave/G8blVr+CX5h847Rrt27R9uY0CEi6TfmaOH2kGtiBejlYssZ/9zachzNX2uNP8srWNEGLGvUO+tJXr5X2FE4YHWiZRqTxg/cvaQ7dOnE2H07/latBTrLqUwhmcnLzsd19LTrv5fYboJZX/XtO1MNYAvwC65phRo9nOoUhzv10zNEjAyZh3m4U5tpZ0PnLC0rM6by8g8Ejyoqd05BREwse/+CTChakpevbTcjO4b9bwFAyN5issY0LxSpjNz2giPaZKT96dqIX1IEkoPWDl7lA60Qr43GoVa9kAYrOWAx5Zk9qAjxAc6hsk6qyoRE=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?kKXyWQyk8Br1ceFjQ8QEoeYqUIoSk7nUIQPaiOkuyuRgYV1F5IgjeFqsNRPu?=
- =?us-ascii?Q?B90v10iC0hN0TMicorCiRaUcAc/ckF7GEDc7nuAQdTihxrZuYW4rB0DB+2ot?=
- =?us-ascii?Q?gteHdB/ohziBEp7hDi/iK6mleS6BvJhWUopJf4tcZNgGsAA0mZNNMF3etbY/?=
- =?us-ascii?Q?+G+bCWM7Rq4gs3PoYKcXe5oH2nwMiko+74fHmlWB+RjFmpgomHPpD9UUoFgY?=
- =?us-ascii?Q?+L7e7Sz1n1blAqv+CMW2uy6uLJFNGgrR5nLetGuhiL0v7UG+UiYmHi6+ekbW?=
- =?us-ascii?Q?6+s4rwVJTCxXHn213t9Fkv7e2t+SxWHnnWj5jKkgmWFoeeAaRWDgcGg7TCWI?=
- =?us-ascii?Q?y4oUWT/XQhnBX8gXJLcbn032vq4njNHkl00v/ks0hn+3nRnqt9jQWpnZElg/?=
- =?us-ascii?Q?+aIWkDN2pfLBg2CmMevDOi1Z7MmqCFrSrPLv8B5taLTSBhM/BlK1Sr+gkEw3?=
- =?us-ascii?Q?O698VlEt4uMlTsDbFcS+73dohSBuIlOKDlS3WlmHqiNmlKrtugAUgXJuuqKl?=
- =?us-ascii?Q?8ZoeHLP1IWkTH2bP1m9DwbzCqBVfgfK1i6D5bZPcu7MYA8Usday30b2f6Ccz?=
- =?us-ascii?Q?D7TjCr7jsNj+B4gYixqFBi+ECg3rSluBbLKqAdiVPDycDpycyxWDkJgTVk4r?=
- =?us-ascii?Q?C1lKNZKgOYMnJFMVbd/SzZXcL/aB3YCUIhmzGWkLQeM+wCT6Y238UBwuPid6?=
- =?us-ascii?Q?OIO+a8ZSJLbflK1hIaI9alvNQOuw+SBkJ07EZ4qiDSizZXAtBEgYu76A2Fok?=
- =?us-ascii?Q?gEkcMV99d5ZJthK3NhfKCqsdZMZ/DePfddUnN6WJ4LhLzgKY/tsPHnG7G6Qq?=
- =?us-ascii?Q?Yoghy40witzCyx/w1C+DZg8ALZbxUsiybC2Uqj+SikC7E+ucFfMnwWncEYw2?=
- =?us-ascii?Q?CJCAz26ZFN5zsoEEd0fITXOBbGICY2RFHdKkrnBn/Tg3vDoRMBjOzI70d4JW?=
- =?us-ascii?Q?+/7V+ETK+ATYizP4s7OKJHDtyE+Lne6LowxnKdgw/D4QAHxfA+sua8skeazH?=
- =?us-ascii?Q?wPlBRaiZQ8Mum6tK72WoQ15drrOBGH2UaOIyu7pyZlBtRWe5u062Xp06MWXQ?=
- =?us-ascii?Q?vPo4urlor9LwXCeGr2bW5/5QtcIfnZ8MrylGLHBVA25zpACxpiN3BnABdDZa?=
- =?us-ascii?Q?Qq4dNxe47DI++Y86HGf31iEBHDjBudJJb6EPEcb0hW5BKOUI+XxVpvkW1OKp?=
- =?us-ascii?Q?e3BWqyIBjqN3wdS8Hjq+pSgUrS03Fsg6aiwzgFCJqTTOLJmDIDXhdK2jBjkQ?=
- =?us-ascii?Q?ZPZOSUTmeMOMJlRJge5rvey8NWIFdPL2xO1J7JknGdbrfu9NyOVLoyampgPO?=
- =?us-ascii?Q?53izGts3iamNuUYy1cPEGGXV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7D8CD4AAD6C15642AA87C0C579DE516A@INDP287.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+ =?utf-8?B?VGpwTkZoNm8xOUJyWjNWQzdxTFV2NTBDcDNpOTdKUk1tMWJHRHo5cW44ODJk?=
+ =?utf-8?B?YWFSVzNoamhwMjVib0NCK0xLZkkvUW43ZVdYbFFmcUcxSGZtNmZxQ2prVmRY?=
+ =?utf-8?B?eGppQ3NmeDJaZGVrSlR4WjdUVWhEQUJjVHJXZ1AvNkUxVnI0bmhOQVJ0dWVm?=
+ =?utf-8?B?RVVMSSt0enhQU1p6enJ5L3FEWm5VMjQrQnp1aDVLRjFJWm5vMW54RXlCK0w0?=
+ =?utf-8?B?VmsvbXRXMmFlcHRzTXQvUVZKRXdCaVhBM2p1NC9zditudWNIUEhsRFZ0aE1q?=
+ =?utf-8?B?c0d5OWx4WURFUGxNQkdYZFBxZ2lHMkh0Y3J4TFJaamVlUlk1d3lNNnZ1WVll?=
+ =?utf-8?B?WFd4MmhFWmt6V3BmTkZFOGpSWkh2N1QxRUxPYk9ZaUx6MG1TOWNDdHAvcTNo?=
+ =?utf-8?B?QTgwT3JoeUh1UHdPS1cydTRNc0l3ZElqZERDdXg0SENEVXdzZEloNVJCR3Nq?=
+ =?utf-8?B?UWdJS1ZpNjI5aW55djZiMk5WYVVoOGZscVN5MHgvNFZiNWlYZUFkT09YWDA1?=
+ =?utf-8?B?eVR3bFowQVVuQ1cvbDJlc0RiNmlZc2ZyVmxJR2FvbUhTWkwzdHFBQUNFMlNu?=
+ =?utf-8?B?bkJkWnJoWjZMZ21mZENGRFV3ZlY2ZWFTZGNKVkpVcGg5RlZETzJyWmNOd21H?=
+ =?utf-8?B?SGF4NVpJeDVZU3VXMWpiWGw3SUNCK0JhYmNyYmtsZ2JYNXVlSXByTXdvbkFJ?=
+ =?utf-8?B?NC8xa2dKQS9lRy9JQytwbmpTeXdwTDdVNmdtNVFDempEaGh2VGNLdy94OUJw?=
+ =?utf-8?B?amtTQzVHdEtxRUVhUjlCK3BlWkV1d0NtVUwzcVdoVWZsbjQvb3N5Y04rWDRx?=
+ =?utf-8?B?L0w1TWs3Y0hVM3NQeEhQOFdFTTI3eU5DL2NUd2MxQ3h2R1hEWnhqeG9XUytF?=
+ =?utf-8?B?Rjl2Tk0xZGlWV29TamVkVVpwbEt0ZFRUbXRCem5yMEZZb1d0UHFiSk1sUCty?=
+ =?utf-8?B?WC83MCtjNlplSm15ZzhBSlZubnNUd2M2cVdKOXF6U2NlVERTb3RGbjE1WEpa?=
+ =?utf-8?B?SU1ONi9EeHdRTFJYem9rbnh5M0J4a1E3ekYwVk9GeG5zUWFKVHp4WTVHRkJm?=
+ =?utf-8?B?eTBjWU5WbjVyYm5yN2RCbXZTK2tFU3JxZGM0QTI3QzMvRWlXVmRWUjN0aVJz?=
+ =?utf-8?B?RUZicktUTEVSV2NLSTVMN2o3ZGhsRHhoUHVDNUJZV3FORTFEVWdjTkhJOTYy?=
+ =?utf-8?B?S25ObDBoaFRkZnFhd3lEdU9CdUdyNStPVmxZODY5M09DUHR5VEYzVjlmQnZU?=
+ =?utf-8?B?RFg2VDh3ejE0UERhd05UUmJBNnlFTU42cDdWNjJ6K25ZQnhmY1lTeHFhZVVt?=
+ =?utf-8?B?cENheW16clR3YTEwWW9pSndWV0ZNaUc0STNrR2xvL2lYeXFncS9MUk1lbVd6?=
+ =?utf-8?B?SkxZV3ZSbVg3UTR3d2hZaVozbU56dm9SNFZkV2k2bExQRmw5QlVUWVhSUFA2?=
+ =?utf-8?B?ZGhpTnVQUkJTb0huazJTbHRzc0t3eU91V1VSazBQcVhIcDEycU9aTUg4VG4z?=
+ =?utf-8?B?emJRTFZxMXgzb3pFemg0VFh5RndXVWNnb0xvM0QvRjdtYU02eDRYSlVvT1lq?=
+ =?utf-8?B?UjRBdExNNW5rQVRZZ3BxMHVNM2RTVHdHaEdZcHhaWWgwZWZablVIM1Y3cEl1?=
+ =?utf-8?B?bjJ5dldxVm9uRy9DWTREZlRvTDZJc1dlc1JSNmRLNlVTdmdlZlRXNWZxQzFt?=
+ =?utf-8?B?enJBVzJuNFZWYnBYNmtzWW1LeXpKSFZGZmlsVUFpZ2dQUytnTEJVSTFyeURa?=
+ =?utf-8?Q?wK513DlN0cj1sopBa2g/R48PtoepKegXrMc86V8?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ABAABB678199A741821D0A8B9E4792C3@INDP287.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -115,190 +131,43 @@ X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1421a47c-c6e8-4364-a032-08dc9b51d390
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2f0ad44-841f-49ef-1ff0-08dc9b525099
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 11:18:12.3702
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 11:21:42.1300
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0271
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB1481
 
-From: Orlando Chamberlain <orlandoch.dev@gmail.com>
-
-Unlike T2 Macs with Butterfly keyboard, who have their keyboard backlight
-on the USB device the T2 Macs with Magic keyboard have their backlight on
-the Touchbar backlight device (05ac:8102).
-
-Support for Butterfly keyboards has already been added in 9018eacbe623
-("HID: apple: Add support for keyboard backlight on certain T2 Macs.").
-This patch adds support for the Magic keyboards.
-
-Co-developed-by: Aditya Garg <gargaditya08@live.com>
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
-Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
----
- drivers/hid/hid-apple.c | 87 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 86 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index bd022e004356..2d1cd4456303 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -8,6 +8,8 @@
-  *  Copyright (c) 2006-2007 Jiri Kosina
-  *  Copyright (c) 2008 Jiri Slaby <jirislaby@gmail.com>
-  *  Copyright (c) 2019 Paul Pawlowski <paul@mrarm.io>
-+ *  Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
-+ *  Copyright (c) 2024 Aditya Garg <gargaditya08@live.com>
-  */
-=20
- /*
-@@ -23,6 +25,7 @@
- #include <linux/timer.h>
- #include <linux/string.h>
- #include <linux/leds.h>
-+#include <dt-bindings/leds/common.h>
-=20
- #include "hid-ids.h"
-=20
-@@ -37,13 +40,18 @@
- #define APPLE_NUMLOCK_EMULATION	BIT(8)
- #define APPLE_RDESC_BATTERY	BIT(9)
- #define APPLE_BACKLIGHT_CTL	BIT(10)
--#define APPLE_IS_NON_APPLE	BIT(11)
-+#define APPLE_MAGIC_BACKLIGHT	BIT(11)
-+#define APPLE_IS_NON_APPLE	BIT(12)
-=20
- #define APPLE_FLAG_FKEY		0x01
-=20
- #define HID_COUNTRY_INTERNATIONAL_ISO	13
- #define APPLE_BATTERY_TIMEOUT_MS	60000
-=20
-+#define HID_USAGE_MAGIC_BL			0xff00000f
-+#define APPLE_MAGIC_REPORT_ID_POWER		3
-+#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS	1
-+
- static unsigned int fnmode =3D 3;
- module_param(fnmode, uint, 0644);
- MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 =3D disable=
-d, "
-@@ -81,6 +89,12 @@ struct apple_sc_backlight {
- 	struct hid_device *hdev;
- };
-=20
-+struct apple_magic_backlight {
-+	struct led_classdev cdev;
-+	struct hid_report *brightness;
-+	struct hid_report *power;
-+};
-+
- struct apple_sc {
- 	struct hid_device *hdev;
- 	unsigned long quirks;
-@@ -822,6 +836,66 @@ static int apple_backlight_init(struct hid_device *hde=
-v)
- 	return ret;
- }
-=20
-+static void apple_magic_backlight_report_set(struct hid_report *rep, s32 v=
-alue, u8 rate)
-+{
-+	rep->field[0]->value[0] =3D value;
-+	rep->field[1]->value[0] =3D 0x5e; /* Mimic Windows */
-+	rep->field[1]->value[0] |=3D rate << 8;
-+
-+	hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
-+}
-+
-+static void apple_magic_backlight_set(struct apple_magic_backlight *backli=
-ght,
-+				     int brightness, char rate)
-+{
-+	apple_magic_backlight_report_set(backlight->power, brightness ? 1 : 0, ra=
-te);
-+	if (brightness)
-+		apple_magic_backlight_report_set(backlight->brightness, brightness, rate=
-);
-+}
-+
-+static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
-+					 enum led_brightness brightness)
-+{
-+	struct apple_magic_backlight *backlight =3D container_of(led_cdev,
-+			struct apple_magic_backlight, cdev);
-+
-+	apple_magic_backlight_set(backlight, brightness, 1);
-+	return 0;
-+}
-+
-+static int apple_magic_backlight_init(struct hid_device *hdev)
-+{
-+	struct apple_magic_backlight *backlight;
-+
-+	/*
-+	 * Ensure this usb endpoint is for the keyboard backlight, not touchbar
-+	 * backlight.
-+	 */
-+	if (hdev->collection[0].usage !=3D HID_USAGE_MAGIC_BL)
-+		return -ENODEV;
-+
-+	backlight =3D devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
-+	if (!backlight)
-+		return -ENOMEM;
-+
-+	backlight->brightness =3D hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
-+	backlight->power =3D hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_POWER, 0);
-+
-+	if (!backlight->brightness || !backlight->power)
-+		return -ENODEV;
-+
-+	backlight->cdev.name =3D ":white:" LED_FUNCTION_KBD_BACKLIGHT;
-+	backlight->cdev.max_brightness =3D backlight->brightness->field[0]->logic=
-al_maximum;
-+	backlight->cdev.brightness_set_blocking =3D apple_magic_backlight_led_set=
-;
-+
-+	apple_magic_backlight_set(backlight, 0, 0);
-+
-+	return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
-+
-+}
-+
- static int apple_probe(struct hid_device *hdev,
- 		const struct hid_device_id *id)
- {
-@@ -860,6 +934,15 @@ static int apple_probe(struct hid_device *hdev,
- 	if (quirks & APPLE_BACKLIGHT_CTL)
- 		apple_backlight_init(hdev);
-=20
-+	if (quirks & APPLE_MAGIC_BACKLIGHT) {
-+		ret =3D apple_magic_backlight_init(hdev);
-+		if (ret) {
-+			del_timer_sync(&asc->battery_timer);
-+			hid_hw_stop(hdev);
-+			return ret;
-+		}
-+	}
-+
- 	return 0;
- }
-=20
-@@ -1073,6 +1156,8 @@ static const struct hid_device_id apple_devices[] =3D=
- {
- 		.driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK | APPLE_RDESC_BATT=
-ERY },
- 	{ HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC_KEYB=
-OARD_NUMPAD_2021),
- 		.driver_data =3D APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLI=
-GHT),
-+		.driver_data =3D APPLE_MAGIC_BACKLIGHT },
-=20
- 	{ }
- };
---=20
-2.45.2
-
+DQoNCj4gT24gMiBKdWwgMjAyNCwgYXQgMTI6NDjigK9BTSwgQWRpdHlhIEdhcmcgPGdhcmdhZGl0
+eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+IA0KPiBUaGlzIHBhdGNoc2VyaWVzIGFkZHMgc3VwcG9y
+dCBmb3IgdGhlIGludGVybmFsIGtleWJvYXJkIGJhY2tsaWdodCBvZg0KPiBNYWNzIHdpdGggQXBw
+bGUncyAiTWFnaWMiIGtleWJvYXJkIChNYWNCb29rUHJvMTYsKiBhbmQgTWFjQm9va0FpcjksMSks
+DQo+IGFuZCBhbHNvIGRvY3VtZW50cyB3aGF0IG5hbWVzIHNob3VsZCBiZSB1c2VkIGZvciBrZXli
+b2FyZCBiYWNrbGlnaHQNCj4gbGVkcyBpbiBEb2N1bWVudGF0aW9uL2xlZHMvd2VsbC1rbm93bi1s
+ZWRzLnR4dC4NCj4gDQo+IEEgc2VwYXJhdGUgZHJpdmVyIGZvciB0aGUgcHVycG9zZSBvZiBiYWNr
+bGlnaHQgaGFzIGJlZW4gY2hvc2VuIGJlY2F1c2U6DQo+IA0KPiAxLiBPbiB0aGUgTWFjQm9va0Fp
+cjksMSB0aGVyZSBpcyBhIFVTQiBkZXZpY2UgZGVkaWNhdGVkIGp1c3QgZm9yIGtleWJvYXJkDQo+
+ICBiYWNrbGlnaHQgYnkgdGhlIG5hbWUgb2YgVG91Y2hiYXIgQmFja2xpZ2h0LiBBZGRpbmcgaXRz
+IHN1cHBvcnQgdG8gYW55IG90aGVyDQo+ICBoaWQtZHJpdmVyIGJyZWFrcyB0aGUgZGV2aWNlLg0K
+PiANCg0KVGhhbmtzIHRvIE9ybGFuZG/igJlzIGhlbHAsIEkgbWFuYWdlZCB0byBwb3J0IHRoZSBi
+YWNrbGlnaHQgY29kZSB0byBhbHJlYWR5IGV4aXN0aW5nIGhpZC1hcHBsZQ0KDQpTbywgY29uc2lk
+ZXIgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8xNkMzNTYyMy03OEFFLTQ0QjktOEQ1NC1D
+QTk1ODRBRUM0OUVAbGl2ZS5jb20vVC8jdSBpbnN0ZWFkIG9mIHRoaXMgcGF0Y2ggc2VyaWVzLg0K
+DQo+IDIuIEl04oCZcyBub3cgcG9zc2libGUgdG8gdXNlIGRybSBvbiB0aGUgVG91Y2ggQmFyIChz
+aW1pbGFyIHRvIHdoYXQgbWFjT1MgZG9lcykuDQo+ICBTbywgdGhlIFRvdWNoIEJhciBkcml2ZXJz
+IGludGVuZGVkIHRvIGJlIHVwc3RyZWFtZWQgYmVmb3JlIGFyZSBubyBsb25nZXIgdXNlZC4NCj4g
+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC84NjhBQTU4RC0yMzk5LTRFNEEtQTZDNi03M0Y4
+OERCMTM5OTJAbGl2ZS5jb20vDQo+ICBUaGUgZHJpdmVyIHRoYXQgc3VwcG9ydHMgZHJtIGlzIHN0
+aWxsIG91dCBvZiB0cmVlIGFuZCB5ZXQgdG8gYmUgc3VibWl0dGVkLg0KPiANCj4gT3JsYW5kbyBD
+aGFtYmVybGFpbiAoMik6DQo+IERvY3VtZW50YXRpb246IGxlZHM6IHN0YW5kYXJkaXNlIGtleWJv
+YXJkIGJhY2tsaWdodCBsZWQgbmFtZXMNCj4gSElEOiBoaWQtYXBwbGUtbWFnaWMtYmFja2xpZ2h0
+OiBBZGQgZHJpdmVyIGZvciBrZXlib2FyZCBiYWNrbGlnaHQgb24NCj4gaW50ZXJuYWwgTWFnaWMg
+S2V5Ym9hcmRzDQo+IA0KPiBEb2N1bWVudGF0aW9uL2xlZHMvd2VsbC1rbm93bi1sZWRzLnR4dCB8
+IDggKysNCj4gTUFJTlRBSU5FUlMgfCA2ICsrDQo+IGRyaXZlcnMvaGlkL0tjb25maWcgfCAxMyAr
+KysNCj4gZHJpdmVycy9oaWQvTWFrZWZpbGUgfCAxICsNCj4gZHJpdmVycy9oaWQvaGlkLWFwcGxl
+LW1hZ2ljLWJhY2tsaWdodC5jIHwgMTIwICsrKysrKysrKysrKysrKysrKysrKysrKw0KPiA1IGZp
+bGVzIGNoYW5nZWQsIDE0OCBpbnNlcnRpb25zKCspDQo+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
+ZXJzL2hpZC9oaWQtYXBwbGUtbWFnaWMtYmFja2xpZ2h0LmMNCj4gDQo+IC0tIA0KPiAyLjM5LjIN
+Cg0K
 
