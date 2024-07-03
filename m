@@ -1,98 +1,96 @@
-Return-Path: <linux-input+bounces-4837-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4838-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50643926AB0
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 23:46:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4A2926B72
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2024 00:22:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5EDFB26066
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 21:46:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 427E12824F3
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jul 2024 22:22:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5502F18F2C6;
-	Wed,  3 Jul 2024 21:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B5614B966;
+	Wed,  3 Jul 2024 22:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gdc7iCkV"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hICZbKof"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2421891B6;
-	Wed,  3 Jul 2024 21:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6003B142651;
+	Wed,  3 Jul 2024 22:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720043179; cv=none; b=Rw5hFsYbr56gqlDDIlxdE2HxCdidyhHghViDjIPXL+gFKvX1P8OrFZWrweOZxNM38H/uRT1fltskwtqQgrDDJb8+DgTd6cJ9SAJNJ8OEqkPdma/CXRpJQleRMUn8/q1It7VMHz/I1qO8vztggsoSJRbUTMsXkVFdV0Mjl5xORio=
+	t=1720045318; cv=none; b=pek0W4TiIAldt2mG7VI2otgXQMcgSNDog7KER9Z0SbDsHNBo6Xv2O3VHde+hCP+EUxH9uEBSJblqA1rPnERiQafS1qMZjqsdd7xC6UxQvWi/pFGSsqLKkHhqgaB+7oIntZNO3TYHpMrAoF+xAcZ1apCRmNLPaZ4kXHevkSTqSdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720043179; c=relaxed/simple;
-	bh=agN1VFzDdSLqPGLpdAw2jOT8E3vfw5rnSDl00bt8rXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FCdOnbBHWoqueKtfgWblCI3ghCqf80qV05M1c6xPQCXDLJibx1kYIObALZtD09NdTKDUeiA+DiIJZqAHueZpvIC0SRNAMp0W7lgpwnNz7/EI+vlJSIe9VAmdSkx9exk3AZbULDJvqgPiqIT8SW0FxJAJ1/orCC15K4ER6kYBJ0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gdc7iCkV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA479C2BD10;
-	Wed,  3 Jul 2024 21:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720043178;
-	bh=agN1VFzDdSLqPGLpdAw2jOT8E3vfw5rnSDl00bt8rXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gdc7iCkVppWzHjS83RRYkXW6FN+Klufs1dzRzyc9iBQccC1qZk/dInQeqwp9c/1e2
-	 266xKCpOzDfPvwJ64pLeZZqohLscOLhoj+OUPmRqbDBMa1DugtSBjV7ZADOsytNSxv
-	 vEPXRi/knskr5XNWEhazzUbmOqvMv89on6hlw44+/tkpeViDSOa5+vBIJEo4IkTIa4
-	 7/AgfsDYwwTyyFYg3/HgvEFhGQc82TtnPfUoKxWUgl8eN0IPKDEFwRPd0l6cmLJehY
-	 Iqmfom11DJyQ7KUeVQkQz/3o+wsSRgtbvqnqZImJ46ivLyAwSPpAXGzzmYwCYN/k8J
-	 NfzFepA9Z/v7w==
-Date: Wed, 3 Jul 2024 23:46:14 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: gupt21@gmail.com, jikos@kernel.org, bentiss@kernel.org, 
-	Jonathan.Cameron@huawei.com, matt@ranostay.sg, linux-i2c@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: mcp2221: Remove unneeded semicolon
-Message-ID: <mqqatbuibseyxxtz44wialt2tlzihosdvlv2ajhh3y5jcfe3qj@gdsj6baftv5f>
-References: <20240701071639.846169-1-nichen@iscas.ac.cn>
+	s=arc-20240116; t=1720045318; c=relaxed/simple;
+	bh=3uyn+KQrD7+JoodPrYSXe0BG8/Upnr+uMnRMaxfx3lM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jPqH9epRG7jayS4TDlf/glHu/nWrRL3Dhrk+t9Rgl75jCQkirShIEGBQm8Ckxx0ZiVLVnqBhB/rkSezC38UUj3IdhKeBjrKN3TRqOonp5QRsOCxShQ/K1HlpR7o8s50SILtm5jPitRB/ujcGkIHgp48qw5S0NpeD3d0q7PcMUG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hICZbKof; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9D9A94189E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1720045313; bh=NefHPWiz1XT6XjqnDGEfHoulZ4mLF/O4XPqMKS9lzmo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=hICZbKofX6K5AfzWTI0wO8o6qXfBjPM8+eAvdvK1WZzSfS49ohTgtIVNA1VPt6TsK
+	 Tl46YX3qcXsju4BnO6nNfHtQVAJBb4VqEJbovBaW0XtpZANeY4vKz0UfYxJ7vHqcV4
+	 avkgIJiESsbQF8wSHzG8lSc/HETs27T3T4li78kv6Ag+gbiJwrDlzg3xwfIep6E6oL
+	 i0dH8p+gw1vJvUJ+kqi272zR6x6lM4fvNtpc1JX3U7LjGnZwhaG/r9uwGEnwXfd/iH
+	 Eap5o/kpCjFm8xHflb13ciTLonExblKJFmzfVnUBv/ft7SxsRizSL+TProNfzyM9t8
+	 ymiS+bC0QRp1Q==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9D9A94189E;
+	Wed,  3 Jul 2024 22:21:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH] Add libps2 to the input section of driver-api
+In-Reply-To: <ZoMQhkyUQYi1Bx4t@google.com>
+References: <ZoMQhkyUQYi1Bx4t@google.com>
+Date: Wed, 03 Jul 2024 16:21:52 -0600
+Message-ID: <87h6d6t8u7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240701071639.846169-1-nichen@iscas.ac.cn>
+Content-Type: text/plain
 
-On Mon, Jul 01, 2024 at 03:16:39PM GMT, Chen Ni wrote:
-> Remove unneeded semicolon.
+Dmitry Torokhov <dmitry.torokhov@gmail.com> writes:
 
-Please be a bit more precise: "Remove unnecessary semicolon at
-the end of the switch statement"
-
-> This is detected by coccinelle.
-> 
-> Fixes: 960f9df7c620 ("HID: mcp2221: add ADC/DAC support via iio subsystem")
-
-No need for the Fixes tag here.
-
-Andi
-
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> libps2 has been using kerneldoc to document its methods, but was not
+> actually plugged into driver-api.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  drivers/hid/hid-mcp2221.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-> index da5ea5a23b08..0f93c22a479f 100644
-> --- a/drivers/hid/hid-mcp2221.c
-> +++ b/drivers/hid/hid-mcp2221.c
-> @@ -1048,7 +1048,7 @@ static int mcp_iio_channels(struct mcp2221 *mcp)
->  			break;
->  		default:
->  			continue;
-> -		};
-> +		}
+>  Documentation/driver-api/input.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/Documentation/driver-api/input.rst b/Documentation/driver-api/input.rst
+> index 4bbb26ae2a89..bd7a3578ade7 100644
+> --- a/Documentation/driver-api/input.rst
+> +++ b/Documentation/driver-api/input.rst
+> @@ -40,3 +40,10 @@ Sparse keymap support
+>  .. kernel-doc:: drivers/input/sparse-keymap.c
+>     :export:
 >  
->  		chan->type = IIO_VOLTAGE;
->  		chan->indexed = 1;
-> -- 
-> 2.25.1
-> 
+> +PS/2 protocol support
+> +---------------------
+> +.. kernel-doc:: include/linux/libps2.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/input/serio/libps2.c
+> +   :export:
+
+Applied, thanks.
+
+jon
 
