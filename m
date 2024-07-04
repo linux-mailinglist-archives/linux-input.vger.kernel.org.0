@@ -1,560 +1,271 @@
-Return-Path: <linux-input+bounces-4854-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4855-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47717927674
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2024 14:53:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B7292767D
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2024 14:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F14DD2821B4
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2024 12:53:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17A381C21BC8
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jul 2024 12:55:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387FF1940A2;
-	Thu,  4 Jul 2024 12:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD8AA1AE0A5;
+	Thu,  4 Jul 2024 12:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="WZWVwVbO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C44EB1AE877
-	for <linux-input@vger.kernel.org>; Thu,  4 Jul 2024 12:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720097584; cv=none; b=GMaPS1Ru40tqui8TwFDAdh9LL+86ZQ+apGJ7KqN9Ep4LizLvZX/pFVz9OmPlQnzXmxcd78J++B56CER/UVsmoC3ItSaNhncB5QE2LQW/ARPPDzWBAhzVgZ40WHexH4Fif5nJmjqSEFUY/6hiMxzt8DhpY+xJAR4YOW4hQhM9gQg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720097584; c=relaxed/simple;
-	bh=qtetJYXjwhuVWWSxXhqBXryFSikw03QNy+mL5z+t2/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kZVKZTM6qzqbtGQs6Q9OFeucqHYvEGRk19V/IwT3vc8bKnzSkuOm3ujkHQyFTPVeEOVvzLB3OF5Z571tsEJYkFQTmmxUdWI20bVehP2ay0hJZJRomeONS2ecNOk+EELVxoI/R6JFmr78JgRCMYPfcMGklMiF0wrQ8sZ+6sxqRCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.2])
-	by gateway (Coremail) with SMTP id _____8Axjuspm4ZmivQAAA--.2847S3;
-	Thu, 04 Jul 2024 20:52:58 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.68.2])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxqsYnm4ZmYxM7AA--.5783S2;
-	Thu, 04 Jul 2024 20:52:55 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Jon Xie <jon_xie@pixart.com>,
-	Jay Lee <jay_lee@pixart.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-input@vger.kernel.org,
-	Xiaotian Wu <wuxiaotian@loongson.cn>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v4] Input: Add driver for PixArt PS/2 touchpad
-Date: Thu,  4 Jul 2024 20:52:43 +0800
-Message-ID: <20240704125243.3633569-1-zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.43.0
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4606C26289;
+	Thu,  4 Jul 2024 12:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720097727; cv=fail; b=srY7hxuH3RwCElwusp6PLUKjP9nW49NIAeGuNtCywne0/0gSxGQNqTNdqqJ8oHdYEs3xOuU9/e/ItIptVpYhEyBvrH/PPAr+uhRuem0yXczpyekFmOhegQusPW3V5D5wfhBII8Jc9bL5Usn00AYQgBttcJv9Y7caSG4d7eyDKho=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720097727; c=relaxed/simple;
+	bh=fPto+nrOZoW51uCH1hapUb+kZzPw1u136hNEQLiFdOU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ke4KRb2AUyUAisuHy/Ri0lGa9vnTa9Aa77Mo8ZrDPcTh13VvbDsLvlf16fKuuMxttKLEetzAKRL9NF1UxEusqV7j7QF74gOBjMy6DZZ8NhkTcwwy0PLh24bbaSs0n4FOVRQA6xszuWSj2cpSiwrCB8IUtC5TuX5ef6Zj+PPRo+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=WZWVwVbO; arc=fail smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4646ilEQ003902;
+	Thu, 4 Jul 2024 08:55:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=fPto+
+	nrOZoW51uCH1hapUb+kZzPw1u136hNEQLiFdOU=; b=WZWVwVbO8o1uimGIcoUZA
+	b7iBUt9b/eRDWTRzcQsZWS+cvxqlI2r+rlRQUYKQEIGo5OLAoto/N8kwEYDnDhQO
+	NfO0lUH3ln/GtbxKCMzRiJFZ+ROSkfWhD3Ucm1W4D3rWQWth5BDTKPzgukz4+wUT
+	QcO10XXxkCPNhm7ddqQngoWDXO/8iTkWkBiHKSCuN66fXDJ9EcpiNuMY7+GH8dHo
+	okHZdCAck9UVtDTd/dKK8gC9p2teKGPqSpjbCtYNpSc5Arg624AqTfm7/vkiwEqR
+	5XVut8S96+7IWJ9BEcIQiavcCazCdXikfAXiSLzFybY3xCcd0zDzfs+4KCI3nIUj
+	A==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 405a7nbe50-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Jul 2024 08:55:22 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JD6VVP7mkCQzM1wFvkjnjuqhxB39+3pW+R3igwheD6ycIlo1/9ym3zA1D0w40l4I7JMQmkFVMJ6QokCIOdVBrq5U7SgUovBuaU+/TBSq/NGT9lCEmqs7ZtbswMPaYEoOIkd+oQCw6Y5K0EJBH+BiYdUavZqgoE/qgYyxP7R4dKR1huYzBPXatahkN3L5Vj00qvywzpxUHWqxrSEH9WIgiyVNe9JRB+2w+yyGswP49jwaOSrm6tmIYWr1RPhSktUv1hGCNdZ0KYc46i0vEbVZDupjd7GnyC7Hiku4W2UKKGC7To1nCequzlHv0b6rcgiFOhq+Tpi7UNiE8ljNdsb4qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fPto+nrOZoW51uCH1hapUb+kZzPw1u136hNEQLiFdOU=;
+ b=lW24UFaUX46aKXNFTggle1l7AMr1IU+OLTSk5orQ92k7v9XfPxyI6IgzwefUNMAwi/Ua8a/L3B2XMaPJ/GreoWvujJwI2/OlXPX9T5UtjyL1l74Bhpbs9BZvGJuAcbAwWMhJCr7SAgG8dHZQ1aS3GJoyNItzyxl5tNxOQeI9+zqI3p9xLrqzHIqwBdMAr1kdRwk1O0wtQSUvr5H6TQ+qHrvxrpe5xHzsnM9BxkIBKpSLuyZW9pBujy388DGo2JqfvJkhi+SlycHUJIyhefQP7LNZuTAeGowzDxBnhgKzhTh+63rD7ETDe8OQNpN1EL8FfcWDTLJxgy9qlv18U/+TMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from SJ0PR03MB6343.namprd03.prod.outlook.com (2603:10b6:a03:399::11)
+ by MW4PR03MB6556.namprd03.prod.outlook.com (2603:10b6:303:127::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Thu, 4 Jul
+ 2024 12:55:20 +0000
+Received: from SJ0PR03MB6343.namprd03.prod.outlook.com
+ ([fe80::6744:a83a:ab:7e23]) by SJ0PR03MB6343.namprd03.prod.outlook.com
+ ([fe80::6744:a83a:ab:7e23%2]) with mapi id 15.20.7741.017; Thu, 4 Jul 2024
+ 12:55:20 +0000
+From: "Agarwal, Utsav" <Utsav.Agarwal@analog.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        "Hennerich, Michael"
+	<Michael.Hennerich@analog.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, "Sa, Nuno" <Nuno.Sa@analog.com>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Artamonovs,
+ Arturs" <Arturs.Artamonovs@analog.com>,
+        "Bimpikas, Vasileios"
+	<Vasileios.Bimpikas@analog.com>,
+        "Gaskell, Oliver"
+	<Oliver.Gaskell@analog.com>
+Subject: RE: [PATCH v6 3/3] dt-bindings: input: Update dtbinding for adp5588
+Thread-Topic: [PATCH v6 3/3] dt-bindings: input: Update dtbinding for adp5588
+Thread-Index: AQHazf9b0FD2h6fHokSvsoYqmkzuurHmZjYAgAAfudA=
+Date: Thu, 4 Jul 2024 12:55:20 +0000
+Message-ID: 
+ <SJ0PR03MB6343FEECD95E18404A7886209BDE2@SJ0PR03MB6343.namprd03.prod.outlook.com>
+References: <20240704-adp5588_gpio_support-v6-0-cb65514d714b@analog.com>
+ <20240704-adp5588_gpio_support-v6-3-cb65514d714b@analog.com>
+ <857b9398-a19b-4f6d-8a73-647f6aa8eeb3@kernel.org>
+In-Reply-To: <857b9398-a19b-4f6d-8a73-647f6aa8eeb3@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-rorf: true
+x-dg-ref: 
+ =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+ =?utf-8?B?bk5jZFdGbllYSjNZVEpjWVhCd1pHRjBZVnh5YjJGdGFXNW5YREE1WkRnME9X?=
+ =?utf-8?B?STJMVE15WkRNdE5HRTBNQzA0TldWbExUWmlPRFJpWVRJNVpUTTFZbHh0YzJk?=
+ =?utf-8?B?elhHMXpaeTFoWVRNMk56TTVNUzB6WVRBMExURXhaV1l0T0RSbU15MDJORFE1?=
+ =?utf-8?B?TjJSalpUVm1PRFZjWVcxbExYUmxjM1JjWVdFek5qY3pPVE10TTJFd05DMHhN?=
+ =?utf-8?B?V1ZtTFRnMFpqTXROalEwT1Rka1kyVTFaamcxWW05a2VTNTBlSFFpSUhONlBT?=
+ =?utf-8?B?SXpNVEl5SWlCMFBTSXhNek0yTkRVM01UTXhPVEl3TlRJek5URWlJR2c5SWtO?=
+ =?utf-8?B?eFNVUkllbGR0Y0hvNWFrZGFLMWw1YVZsTlNFRkVXSGREWnowaUlHbGtQU0lp?=
+ =?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
+ =?utf-8?B?azVEWjFWQlFVVnZRMEZCUWk4MWNFSnpSV00zWVVGVFdVNHpOWHBEVG1sd1Vr?=
+ =?utf-8?B?cG5NMlp1VFVreVMyeEZSRUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRklRVUZCUVVSaFFWRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGRlFVRlJRVUpCUVVGQk0weG9VMlpuUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
+ =?utf-8?B?alJCUVVGQ2FFRkhVVUZoVVVKbVFVaE5RVnBSUW1wQlNGVkJZMmRDYkVGR09F?=
+ =?utf-8?B?RmpRVUo1UVVjNFFXRm5RbXhCUjAxQlpFRkNla0ZHT0VGYVowSm9RVWQzUVdO?=
+ =?utf-8?B?M1FteEJSamhCV21kQ2RrRklUVUZoVVVJd1FVZHJRV1JuUW14QlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMFZCV2tGQ2NFRkdPRUZqZDBKc1FVZE5RV1JS?=
+ =?utf-8?B?UW5sQlIxVkJXSGRDZDBGSVNVRmlkMEp4UVVkVlFWbDNRakJCU0UxQldIZENN?=
+ =?utf-8?B?RUZIYTBGYVVVSjVRVVJGUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZsUlFtdEJSMnRCV0hkQ2Vr?=
+ =?utf-8?B?RkhWVUZaZDBJeFFVaEpRVnBSUW1aQlNFRkJZMmRDZGtGSGIwRmFVVUpxUVVo?=
+ =?utf-8?B?UlFXTjNRbVpCU0ZGQllWRkNiRUZJU1VGTlowRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZCUFQwaUx6NDhMMjFs?=
+ =?utf-8?Q?dGE+?=
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR03MB6343:EE_|MW4PR03MB6556:EE_
+x-ms-office365-filtering-correlation-id: bd504806-1ad3-4631-5818-08dc9c288fd3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?QzF5bFZlTHpDYmdoV04xaWVpUCtTSTJ2b0FNTVB6blJRdlQ5eVZTVHBjU081?=
+ =?utf-8?B?UWlqbXVxV2VHbFZQZ2FBeUI4TDdLTWduQlZMWUtoSk1mWis4bG1ZOGdZTVND?=
+ =?utf-8?B?d1R6amNsNVBHdE0wQUpRSEFoV280dXdWaG84QmYzUTJ4UEtQZW9pZ2lEUGtj?=
+ =?utf-8?B?WklybVpQNnVqbVJtbEM5ZTR6S1VEZUx2aDlMS3orWEJhYXY1aGp4MVVsejZH?=
+ =?utf-8?B?a0ZrRy9ycU0xNHFUMGNXOURSRnJSSGlGU2lZVnZUNTgzWTUvbW5DTWNnYVo3?=
+ =?utf-8?B?OEhqM0dRUVlJb08wWTJ2bWpUaVk2S1cxTmlLTmVJYTdieEVkMlF0OEFqNHd0?=
+ =?utf-8?B?b09kc2VCUmZWZlFWQ290ZmpaM3RSdzIzVm1xbkZ2Z2lTdU1HTXJBeUhTMENN?=
+ =?utf-8?B?ZDFxWWVmMm1xay82N1dDU3psVkQrVHlVVUhid0pCcXBKNmpqU2ZRRXdPNiti?=
+ =?utf-8?B?V1JpYmlURXEyejdFbUF2QnhjS2pQWitiVWpQSCt3SHlvY25ZNlFZcW0zeDlC?=
+ =?utf-8?B?OVU5bWhqd2RRZlZnNGtabjhqVDNQcHpVT0dGZmRjTFlUeXlUakxzdHlxK096?=
+ =?utf-8?B?d2w4UmFVOFR3TnBqdkVHSFpOSE9SUVVHWFB6MjJ5OFdtTlhNOEJKVUljKzJV?=
+ =?utf-8?B?cDFHRS9WYlJJdUFaUERZbjArMCtBaWNvRmxsUllQamlVNWFUaVVFcVFwQVhJ?=
+ =?utf-8?B?c1c0NXY1c0ZpcW56c0owSk1tK0x1dVJ4S3lVejVSUmNrZldLaS9QNHhIbXB4?=
+ =?utf-8?B?dnBmZEZuWkdXbCs1dU9hdDlpenVJTnJNeC9nclRDdVVPdzN2eDYzcWFTTGl2?=
+ =?utf-8?B?a0JTMGxBWTBCSUpqMTVESTFnbFFkL2ROZ0tsVkhlVWtRWit6QStnYklvRUs1?=
+ =?utf-8?B?ZEo0TC9Yc05PUW55NmtCalZHQU9KM2YyRFM2SEhScDhKOURrZWFyaEsxbng5?=
+ =?utf-8?B?WWZHMVJtNkRlMmhRQ2hPWEUyaS9NMEg4QkhMUHVqd0k1SmhqQW8xNmNWU3Uw?=
+ =?utf-8?B?MzFNendjVGJmdDJTYnY1MjhRbEpqRjM3SXk4ZENOVlI3cS9JMmNDRGVxTjF2?=
+ =?utf-8?B?dzB2R2pBY2IxRTlvY3REM3loMUZ0cnBLY1BqZlVLeFRlSGxRTXJXRmNZeUJ6?=
+ =?utf-8?B?ZDl3cmIyMm41NURlVlRDbHB1bkxUWVhBY0hsSWF5eVA4M09aUHE3TFZyU0hO?=
+ =?utf-8?B?bDZwTnM1Qk1Uc1pmd1dYT00zdk83S1F1cU1wUi9UbkYrZzRvQmozb2NVRjJy?=
+ =?utf-8?B?alVsaWt0MXBZYXpaVkpDbjlxNGtEcURzY3k2REdWVi93VytKMkFWcnQ3c2Nz?=
+ =?utf-8?B?THd6clRTdThDekZqYjY3cGx0K1FXai9uelZYNk0yOVVBamgyNDhMdlY4dkQ3?=
+ =?utf-8?B?ZkZoMFdOZ0VVRjA4RXFpRkNRc1d1WWhlOEF6WUNCVTdreXBWN3FvdmVsdXdx?=
+ =?utf-8?B?NXpVdnFGWjE0WFE0SEFwOG1qVFV2NUZqeGdwcDNTYXl4T3hNMnAwMUJwQU9r?=
+ =?utf-8?B?dk5zTXpuellKbUF3RHhlZzlwMVJFZHhJbzFtV0ZkcUwvTlVudERQeUdOdUZv?=
+ =?utf-8?B?bWVRV0FaWTVIdXM2WUlPKzlwTU9HTSs2MUZTKzA2U2xSSVBkaURCQzNFMFB1?=
+ =?utf-8?B?MjlVUnVKNFZMUEFLUi84M2ZhQ20vcUc5MGZZczNoTWxrQTJrWVdjOGlHb3lU?=
+ =?utf-8?B?bG52ZFpWN1NDWUk5UHlxMDV6a2VYNWs1ZjlKcEEyOUJvNFZWN1pGakM2SGJ6?=
+ =?utf-8?B?SndOUmVNQSsvbWVwb0F5UGYzT3lDVDBNWmhSVlBNa1NIbzFXaFg0UExveVVw?=
+ =?utf-8?B?aFVESWdmajlZVUNBcFZqZnk5cjNuYUU2SmMwRWJXak9vOWtRMHQ4ZUgxSlBl?=
+ =?utf-8?B?bTFYZS93THRrQk94Z1N0STdzWDhsWFdaaUlsZEl0ODYwRWc9PQ==?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6343.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?L041NjlXY0RQc0pEZnMxSmIvTXJWRWlFV2NSNDFwUHltd0htVzdFVS9ndHV5?=
+ =?utf-8?B?NEttR2U5WTNpVThIaUFYeWEyMEZwYkVyT0hoMFAvTm1pZ1RBcFdNeG5tYlZk?=
+ =?utf-8?B?WmozTG9xT1NzNlMxY1l5S0RmOTVERWo2bnBWS1FjWFZQUTRLcTFKV1dLYnl0?=
+ =?utf-8?B?RFBBWUVjODJuUGl1RFJoWEdld2RJaUtmZi8zbG83c3lxYmpyTHVMTXJhSGdn?=
+ =?utf-8?B?eVBUQmMwOTNrbEVBTVJRSWp2N0hZMk8ydmNJVndXekNzSkR2aGdLWGZQbjZC?=
+ =?utf-8?B?MjREYTc1VlFtMW16OTV6a3hhRUVhMGpEREdpb0JZaHI3WFlTMUN0OXpjRUFU?=
+ =?utf-8?B?Z2t1c3BScVM1amZXdjVQUnFVY2ZaNVhvNStuMUVVd2IxMVltOEc2QTZWVXZu?=
+ =?utf-8?B?UkVRRzVyM0hQeUxET3g1WXgyQUprb21nTSsyRDRVTjNtNWtRRmlkblJwSGdZ?=
+ =?utf-8?B?TVpZZFJsS1NKSlUzZC95NXU1L2trR3dzUzlKdEx3dDBrbUNZUEdEZzAwckg1?=
+ =?utf-8?B?ZEgxTlJDL0Q1b09CdFYzNkFNVGU3T2I1RnNPQ1NobnhyOURiL1Z6RjFWZjZ0?=
+ =?utf-8?B?TGFWQm45WDJTQ21kd0QrOHRmelNGbWViVGhYeUFLVGRtbEtTYjk1OGRDcS9C?=
+ =?utf-8?B?K25wRjV6cmU0NjVvMXdaWXNNWk9iRmdxNndHOWs4WURSdFlRdzVWMjBZVmda?=
+ =?utf-8?B?dlJ5VTVBanBuU0ZoU3NnTTEyckJkWnFDVllSMmI5czFGOXZmcEdhU0E1eDlB?=
+ =?utf-8?B?dnVFUXRUK1NQeGp3NVNPd0pGc2JYR3FpK09JSHVvUEN4SWlUaFR2bmNoNldp?=
+ =?utf-8?B?YTl3THhOYlpKSGxzVEdHNzBGalN4YzZUMEd5NDQzQ1pjRHZRazRYZHVnL3NS?=
+ =?utf-8?B?Yi9wM3BRbzdveW8ySjNJcDRUM0RXSDJvK0M3UGdscEdhZUZEdXdoT0ovRHV4?=
+ =?utf-8?B?MkROYUMrU2RpcWNETEVhNXRTZTR2WXhTamZzWE93OG82dEtDc0l6ZUJqeW9F?=
+ =?utf-8?B?dTFvd3VyL2pCYW5tSXFBcHk0dldJV0k2Tm9WRGdHUkEzUWl3bzlYcG4yelNS?=
+ =?utf-8?B?NzlJWW5TNXM2Tm4yVnFrenNhT2tIcmdINkFHV1I0UTJHR1NUckduaWNVbnlG?=
+ =?utf-8?B?UklnVzllQ0U4aHJkRnhrVnMxMllsOUcxeUwzczlFSEplWUNKTVhEb0l6ZDBH?=
+ =?utf-8?B?c0R6blV6NDVkdCtGR0dFWDArVWhwR3ZpTnBmWWRyM2pxUWppYWpud253UU5i?=
+ =?utf-8?B?WDlyVnVYUXJVb0gwY3JKVWM3QWwvbTJ4eVp6N1FybUFkampLbkdwYlBlRlMz?=
+ =?utf-8?B?VzFxWWY5NmYxalNZaVJhTFJSUjB2Q3Nxb1dIY1RyNDNPc1JVbnQ1d3VTR1gr?=
+ =?utf-8?B?aGxncVllOWJFRnAreUFtVmNwWm9VS212dU5BdXF6Yzh6eGJVOWpMYzBoQzVK?=
+ =?utf-8?B?bVlwbVB4Zk4wNGtWSTBKZW5ORXlJQVFWUFB1VDU1b1FxTFRVemcwTVNJd1E2?=
+ =?utf-8?B?a2ltNkNNczNJTVhGaDNTMjZHN1RGeUtGU01maUtzMEpiL1RnZnMwQ3pGVjNS?=
+ =?utf-8?B?a1RGVEtxbktYY0ZMZEVEZklrM3FBTG5uV0JkMzRvNXFHZXFudDYzYU8xZGZk?=
+ =?utf-8?B?cnRjanJQblNvaGJCd1Z1aWVyVktSSWp1RlZFRHpVV2RvK21ra3lUN1lJLyto?=
+ =?utf-8?B?ckJZNURCUjJkbEY4S3RuZ0tPekFmMWJRTU5rdEhHY05rOVg1M0JvYUMwUktS?=
+ =?utf-8?B?L2drTGFZWm94WWNuMDhpQU1Ba3UrK3FWaEd1WHR0TDdUYk9ySmZ0alV1NTJO?=
+ =?utf-8?B?VitnY2FFRmh5dlBEeXcxRnovNXBNekhKYXU2akZCM1JacXVWM3lkZnZvWkZ2?=
+ =?utf-8?B?cmtQaG54ZzVQUmVqaWdvRTdDaEFCMGtndlkzdlRCMlVOb0h6a2dxUXVzd2N5?=
+ =?utf-8?B?N3VCNmJ3QkkrOFJJVTE5cE9Sd09XZTZFSmt6SDkyRWh4dG4vOGN1YTBCY3hl?=
+ =?utf-8?B?Rklsb2hwamZNSWZyUWJqZU1sYUs2bGRTRFBRVEdrOWZWZVVDREFodG82cjVH?=
+ =?utf-8?B?T244ckFldXQwU0NVTXpTSlFpUFhZeXBZTkJ2RGFYMDROLzJhakl6MENsbUMx?=
+ =?utf-8?Q?3LFQfBXoVYA+RxD9m6C5VXV0o?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8CxqsYnm4ZmYxM7AA--.5783S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfJw1xXr1rZry5KryxGFykZwc_yoW8GF18Ao
-	WfZrZIvw4rtw13J3s0k3Wxt3W3XanFka93Zw4akrZ0vr10yryYgFyUtw18Ja13KrWYqFs3
-	Xrn3tF48Xr4furn5l-sFpf9Il3svdjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUYC7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
-	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
-	Jrv_JF1lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
-	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8DGOUUUUU=
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6343.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd504806-1ad3-4631-5818-08dc9c288fd3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jul 2024 12:55:20.5336
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9gldPKhX1iQTlyLrRL1U/FSsMOEPCLEdrNsdIFaBJf3TlNWW37NgMMOYN8X4UsUXtnRXc2SStsVCRusySJjbDl9n5ZSOad+lm/wzV5i7kCs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR03MB6556
+X-Proofpoint-ORIG-GUID: D1pRDEtYnFgSpYiwe1IuYkgDmhjWDBp1
+X-Proofpoint-GUID: D1pRDEtYnFgSpYiwe1IuYkgDmhjWDBp1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-04_09,2024-07-03_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 mlxscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=979 clxscore=1011
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407040092
 
-This patch introduces a driver for the PixArt PS/2 touchpad, which
-supports both clickpad and touchpad types.
-
-At the same time, we extended the single data packet length to 16,
-because according to the current PixArt hardware and FW design, we need
-11 bytes/15 bytes to represent the complete three-finger/four-finger data.
-
-Co-developed-by: Jon Xie <jon_xie@pixart.com>
-Signed-off-by: Jon Xie <jon_xie@pixart.com>
-Co-developed-by: Jay Lee <jay_lee@pixart.com>
-Signed-off-by: Jay Lee <jay_lee@pixart.com>
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
-V4:
- - Thanks Dmitry for the review.
-   - Just return what ps2_command() reports, instead of replacing it with
-     -EIO;
-   - Refact pixart_read_tp_mode/pixart_read_tp_type(), to separate mode
-     value and errors/success;
-   - Pass the INPUT_MT_POINTER flag to input_mt_init_slots() and remove
-     some redundant code, like the call to input_mt_report_finger_count()
-     and the setting of bits in the touchpad section.
-
-Link to V3:
-https://lore.kernel.org/all/20240701094953.3195501-1-zhoubinbin@loongson.cn/
-
-V3:
- - Rebased on input/next;
- - Added comment to msleep() in pixart_reset() as suggested by Aseda, no
-functional change, thanks.
-
-Link to V2:
-https://lore.kernel.org/all/20240624065359.2985060-1-zhoubinbin@loongson.cn/
-
-V2:
- - Rebased on input/next;
- - Merge two patches from the V1 patchset;
- - Initialize local variables to prevent random garbage;
- - Remove some noisy debug message;
- - Check ps2_command() return value;
- - Use macros to represent bit operations for better readability, such
-   as abs_x;
- - Remove the code related to rel packets, for the normal
-   intellimouse detection is well in PixArt.
-
-Link to V1:
-https://lore.kernel.org/all/cover.1715224143.git.zhoubinbin@loongson.cn/
-
- drivers/input/mouse/Kconfig        |  12 ++
- drivers/input/mouse/Makefile       |   1 +
- drivers/input/mouse/pixart_ps2.c   | 277 +++++++++++++++++++++++++++++
- drivers/input/mouse/pixart_ps2.h   |  36 ++++
- drivers/input/mouse/psmouse-base.c |  17 ++
- drivers/input/mouse/psmouse.h      |   3 +-
- 6 files changed, 345 insertions(+), 1 deletion(-)
- create mode 100644 drivers/input/mouse/pixart_ps2.c
- create mode 100644 drivers/input/mouse/pixart_ps2.h
-
-diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
-index 833b643f0616..8a27a20d04b0 100644
---- a/drivers/input/mouse/Kconfig
-+++ b/drivers/input/mouse/Kconfig
-@@ -69,6 +69,18 @@ config MOUSE_PS2_LOGIPS2PP
- 
- 	  If unsure, say Y.
- 
-+config MOUSE_PS2_PIXART
-+	bool "PixArt PS/2 touchpad protocol extension" if EXPERT
-+	default y
-+	depends on MOUSE_PS2
-+	help
-+	  This driver supports the PixArt PS/2 touchpad found in some
-+	  laptops.
-+	  Say Y here if you have a PixArt PS/2 TouchPad connected to
-+	  your system.
-+
-+	  If unsure, say Y.
-+
- config MOUSE_PS2_SYNAPTICS
- 	bool "Synaptics PS/2 mouse protocol extension" if EXPERT
- 	default y
-diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
-index a1336d5bee6f..563029551529 100644
---- a/drivers/input/mouse/Makefile
-+++ b/drivers/input/mouse/Makefile
-@@ -32,6 +32,7 @@ psmouse-$(CONFIG_MOUSE_PS2_ELANTECH)	+= elantech.o
- psmouse-$(CONFIG_MOUSE_PS2_OLPC)	+= hgpk.o
- psmouse-$(CONFIG_MOUSE_PS2_LOGIPS2PP)	+= logips2pp.o
- psmouse-$(CONFIG_MOUSE_PS2_LIFEBOOK)	+= lifebook.o
-+psmouse-$(CONFIG_MOUSE_PS2_PIXART)	+= pixart_ps2.o
- psmouse-$(CONFIG_MOUSE_PS2_SENTELIC)	+= sentelic.o
- psmouse-$(CONFIG_MOUSE_PS2_TRACKPOINT)	+= trackpoint.o
- psmouse-$(CONFIG_MOUSE_PS2_TOUCHKIT)	+= touchkit_ps2.o
-diff --git a/drivers/input/mouse/pixart_ps2.c b/drivers/input/mouse/pixart_ps2.c
-new file mode 100644
-index 000000000000..6d78c4157abe
---- /dev/null
-+++ b/drivers/input/mouse/pixart_ps2.c
-@@ -0,0 +1,277 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Pixart Touchpad Controller 1336U PS2 driver
-+ *
-+ * Author: Jon Xie <jon_xie@pixart.com>
-+ *         Jay Lee <jay_lee@pixart.com>
-+ * Further cleanup and restructuring by:
-+ *         Binbin Zhou <zhoubinbin@loongson.cn>
-+ *
-+ * Copyright (C) 2021-2024 Pixart Imaging.
-+ * Copyright (C) 2024 Loongson Technology Corporation Limited.
-+ *
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/libps2.h>
-+#include <linux/input/mt.h>
-+#include <linux/serio.h>
-+#include <linux/slab.h>
-+
-+#include "pixart_ps2.h"
-+
-+static int pixart_read_tp_mode(struct ps2dev *ps2dev, u8 *mode)
-+{
-+	int error;
-+	u8 param[1] = { 0 };
-+
-+	error = ps2_command(ps2dev, param, PIXART_CMD_REPORT_FORMAT);
-+	if (error)
-+		return error;
-+
-+	*mode = (param[0] == 1) ? PIXART_MODE_ABS : PIXART_MODE_REL;
-+
-+	return 0;
-+}
-+
-+static int pixart_read_tp_type(struct ps2dev *ps2dev, u8 *type)
-+{
-+	int error;
-+	u8 param[3] = { 0 };
-+
-+	param[0] = 0x0a;
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRATE);
-+	if (error)
-+		return error;
-+
-+	param[0] = 0x0;
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
-+	if (error)
-+		return error;
-+
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
-+	if (error)
-+		return error;
-+
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
-+	if (error)
-+		return error;
-+
-+	param[0] = 0x03;
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_SETRES);
-+	if (error)
-+		return error;
-+
-+	error = ps2_command(ps2dev, param, PSMOUSE_CMD_GETINFO);
-+	if (error)
-+		return error;
-+
-+	*type = (param[0] == 0x0e) ? PIXART_TYPE_TOUCHPAD : PIXART_TYPE_CLICKPAD;
-+
-+	return 0;
-+}
-+
-+static void pixart_reset(struct psmouse *psmouse)
-+{
-+	ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
-+
-+	/* according to PixArt, 100ms is required for the upcoming reset */
-+	msleep(100);
-+	psmouse_reset(psmouse);
-+}
-+
-+static void pixart_process_packet(struct psmouse *psmouse)
-+{
-+	struct pixart_data *priv = psmouse->private;
-+	struct input_dev *dev = psmouse->dev;
-+	int i, id, fingers = 0, abs_x, abs_y;
-+	u8 *pkt = psmouse->packet;
-+	u8 contact_cnt = CONTACT_CNT(pkt[0]);
-+	bool tip;
-+
-+	for (i = 0; i < contact_cnt; i++) {
-+		id = SLOT_ID_MASK(pkt[3 * i + 3]);
-+		abs_y = ABS_Y_MASK(pkt[3 * i + 3]) | pkt[3 * i + 1];
-+		abs_x = ABS_X_MASK(pkt[3 * i + 3]) | pkt[3 * i + 2];
-+
-+		if (i == PIXART_MAX_FINGERS - 1)
-+			tip = pkt[14] & BIT(1);
-+		else
-+			tip = pkt[3 * contact_cnt + 1] & BIT(2 * i + 1);
-+
-+		input_mt_slot(dev, id);
-+		if (input_mt_report_slot_state(dev, MT_TOOL_FINGER, tip)) {
-+			fingers++;
-+			input_report_abs(dev, ABS_MT_POSITION_Y, abs_y);
-+			input_report_abs(dev, ABS_MT_POSITION_X, abs_x);
-+		}
-+	}
-+
-+	input_mt_sync_frame(dev);
-+
-+	if (priv->type == PIXART_TYPE_CLICKPAD) {
-+		input_report_key(dev, BTN_LEFT, pkt[0] & 0x03);
-+	} else {
-+		input_report_key(dev, BTN_LEFT, pkt[0] & 0x01);
-+		input_report_key(dev, BTN_RIGHT, pkt[0] & 0x02);
-+	}
-+
-+	input_sync(dev);
-+}
-+
-+static psmouse_ret_t pixart_protocol_handler(struct psmouse *psmouse)
-+{
-+	u8 *pkt = psmouse->packet;
-+	u8 contact_cnt = CONTACT_CNT(pkt[0]);
-+
-+	if (contact_cnt > PIXART_MAX_FINGERS || ((pkt[0] & 0x8c) != 0x80))
-+		return PSMOUSE_BAD_DATA;
-+
-+	if (contact_cnt == PIXART_MAX_FINGERS && psmouse->pktcnt < psmouse->pktsize)
-+		return PSMOUSE_GOOD_DATA;
-+
-+	if (contact_cnt == 0 && psmouse->pktcnt < 5)
-+		return PSMOUSE_GOOD_DATA;
-+
-+	if (psmouse->pktcnt < (3 * contact_cnt + 2))
-+		return PSMOUSE_GOOD_DATA;
-+
-+	pixart_process_packet(psmouse);
-+
-+	return PSMOUSE_FULL_PACKET;
-+}
-+
-+static void pixart_disconnect(struct psmouse *psmouse)
-+{
-+	pixart_reset(psmouse);
-+	kfree(psmouse->private);
-+	psmouse->private = NULL;
-+}
-+
-+static int pixart_reconnect(struct psmouse *psmouse)
-+{
-+	u8 mode;
-+	int error;
-+	struct ps2dev *ps2dev = &psmouse->ps2dev;
-+
-+	pixart_reset(psmouse);
-+	error = pixart_read_tp_mode(ps2dev, &mode);
-+	if (error)
-+		return error;
-+
-+	if (mode != PIXART_MODE_ABS)
-+		return mode;
-+
-+	return ps2_command(ps2dev, NULL, PIXART_CMD_SWITCH_PROTO);
-+}
-+
-+static int pixart_set_input_params(struct input_dev *dev, struct pixart_data *priv)
-+{
-+	/* No relative support */
-+	__clear_bit(EV_REL, dev->evbit);
-+	__clear_bit(REL_X, dev->relbit);
-+	__clear_bit(REL_Y, dev->relbit);
-+	__clear_bit(BTN_MIDDLE, dev->keybit);
-+
-+	/* Buttons */
-+	__set_bit(EV_KEY, dev->evbit);
-+	__set_bit(BTN_LEFT, dev->keybit);
-+	if (priv->type == PIXART_TYPE_CLICKPAD)
-+		__set_bit(INPUT_PROP_BUTTONPAD, dev->propbit);
-+	else
-+		__set_bit(BTN_RIGHT, dev->keybit);
-+
-+	/* Absolute position */
-+	input_set_abs_params(dev, ABS_X, 0, PIXART_PAD_WIDTH, 0, 0);
-+	input_set_abs_params(dev, ABS_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
-+
-+	input_set_abs_params(dev, ABS_MT_POSITION_X, 0, PIXART_PAD_WIDTH, 0, 0);
-+	input_set_abs_params(dev, ABS_MT_POSITION_Y, 0, PIXART_PAD_HEIGHT, 0, 0);
-+
-+	return input_mt_init_slots(dev, PIXART_SLOTS_NUM, INPUT_MT_POINTER);
-+}
-+
-+static int pixart_query_hardware(struct ps2dev *ps2dev, u8 *mode, u8 *type)
-+{
-+	int error;
-+
-+	error = pixart_read_tp_type(ps2dev, type);
-+	if (error)
-+		return error;
-+
-+	return pixart_read_tp_mode(ps2dev, mode);
-+}
-+
-+int pixart_detect(struct psmouse *psmouse, bool set_properties)
-+{
-+	u8 type;
-+	int error;
-+
-+	pixart_reset(psmouse);
-+	error = pixart_read_tp_type(&psmouse->ps2dev, &type);
-+	if (error)
-+		return error;
-+
-+	if (set_properties) {
-+		psmouse->vendor = "PixArt";
-+		psmouse->name = (type == PIXART_TYPE_TOUCHPAD) ?
-+				"touchpad" : "clickpad";
-+	}
-+
-+	return 0;
-+}
-+
-+int pixart_init(struct psmouse *psmouse)
-+{
-+	int error;
-+	struct pixart_data *priv;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	psmouse->private = priv;
-+	pixart_reset(psmouse);
-+
-+	error = pixart_query_hardware(&psmouse->ps2dev, &priv->mode, &priv->type);
-+	if (error) {
-+		psmouse_err(psmouse, "init: Unable to query PixArt touchpad hardware.\n");
-+		goto err_exit;
-+	}
-+
-+	/* Relative mode follows standard PS/2 mouse protocol */
-+	if (priv->mode != PIXART_MODE_ABS) {
-+		error = -EIO;
-+		goto err_exit;
-+	}
-+
-+	/* Set absolute mode */
-+	error = ps2_command(&psmouse->ps2dev, NULL, PIXART_CMD_SWITCH_PROTO);
-+	if (error) {
-+		psmouse_err(psmouse, "init: Unable to initialize PixArt absolute mode.\n");
-+		goto err_exit;
-+	}
-+
-+	error = pixart_set_input_params(psmouse->dev, priv);
-+	if (error) {
-+		psmouse_err(psmouse, "init: Unable to set input params.\n");
-+		goto err_exit;
-+	}
-+
-+	psmouse->pktsize = 15;
-+	psmouse->protocol_handler = pixart_protocol_handler;
-+	psmouse->disconnect = pixart_disconnect;
-+	psmouse->reconnect = pixart_reconnect;
-+	psmouse->cleanup = pixart_reset;
-+	/* resync is not supported yet */
-+	psmouse->resync_time = 0;
-+
-+	return 0;
-+
-+err_exit:
-+	pixart_reset(psmouse);
-+	kfree(priv);
-+	psmouse->private = NULL;
-+	return error;
-+}
-diff --git a/drivers/input/mouse/pixart_ps2.h b/drivers/input/mouse/pixart_ps2.h
-new file mode 100644
-index 000000000000..ecc0f715b291
---- /dev/null
-+++ b/drivers/input/mouse/pixart_ps2.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef _PIXART_PS2_H
-+#define _PIXART_PS2_H
-+
-+#include "psmouse.h"
-+
-+#define PIXART_PAD_WIDTH	1023
-+#define PIXART_PAD_HEIGHT	579
-+#define PIXART_MAX_FINGERS	4
-+#define PIXART_SLOTS_NUM	PIXART_MAX_FINGERS
-+
-+#define PIXART_CMD_REPORT_FORMAT	0x01d8
-+#define PIXART_CMD_SWITCH_PROTO		0x00de
-+
-+#define PIXART_MODE_REL	0
-+#define PIXART_MODE_ABS	1
-+
-+#define PIXART_TYPE_CLICKPAD	0
-+#define PIXART_TYPE_TOUCHPAD	1
-+
-+#define CONTACT_CNT(m)	(((m) & GENMASK(6, 4)) >> 4)
-+#define SLOT_ID_MASK(m)	((m) & GENMASK(2, 0))
-+#define ABS_Y_MASK(m)	(((m) & GENMASK(5, 4)) << 4)
-+#define ABS_X_MASK(m)	(((m) & GENMASK(7, 6)) << 2)
-+
-+struct pixart_data {
-+	u8 mode;
-+	u8 type;
-+	int x_max;
-+	int y_max;
-+};
-+
-+int pixart_detect(struct psmouse *psmouse, bool set_properties);
-+int pixart_init(struct psmouse *psmouse);
-+
-+#endif  /* _PIXART_PS2_H */
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index a0aac76b1e41..41af3460077d 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -36,6 +36,7 @@
- #include "focaltech.h"
- #include "vmmouse.h"
- #include "byd.h"
-+#include "pixart_ps2.h"
- 
- #define DRIVER_DESC	"PS/2 mouse driver"
- 
-@@ -905,6 +906,15 @@ static const struct psmouse_protocol psmouse_protocols[] = {
- 		.detect		= byd_detect,
- 		.init		= byd_init,
- 	},
-+#endif
-+#ifdef CONFIG_MOUSE_PS2_PIXART
-+	{
-+		.type		= PSMOUSE_PIXART,
-+		.name		= "PixArtPS/2",
-+		.alias		= "pixart",
-+		.detect		= pixart_detect,
-+		.init		= pixart_init,
-+	},
- #endif
- 	{
- 		.type		= PSMOUSE_AUTO,
-@@ -1172,6 +1182,13 @@ static int psmouse_extensions(struct psmouse *psmouse,
- 			return ret;
- 	}
- 
-+	/* Try PixArt touchpad */
-+	if (max_proto > PSMOUSE_IMEX &&
-+	    psmouse_try_protocol(psmouse, PSMOUSE_PIXART, &max_proto,
-+				 set_properties, true)) {
-+		return PSMOUSE_PIXART;
-+	}
-+
- 	if (max_proto > PSMOUSE_IMEX) {
- 		if (psmouse_try_protocol(psmouse, PSMOUSE_GENPS,
- 					 &max_proto, set_properties, true))
-diff --git a/drivers/input/mouse/psmouse.h b/drivers/input/mouse/psmouse.h
-index 4d8acfe0d82a..23f7fa7243cb 100644
---- a/drivers/input/mouse/psmouse.h
-+++ b/drivers/input/mouse/psmouse.h
-@@ -69,6 +69,7 @@ enum psmouse_type {
- 	PSMOUSE_BYD,
- 	PSMOUSE_SYNAPTICS_SMBUS,
- 	PSMOUSE_ELANTECH_SMBUS,
-+	PSMOUSE_PIXART,
- 	PSMOUSE_AUTO		/* This one should always be last */
- };
- 
-@@ -94,7 +95,7 @@ struct psmouse {
- 	const char *vendor;
- 	const char *name;
- 	const struct psmouse_protocol *protocol;
--	unsigned char packet[8];
-+	unsigned char packet[16];
- 	unsigned char badbyte;
- 	unsigned char pktcnt;
- 	unsigned char pktsize;
--- 
-2.43.0
-
+SGkgS3J6eXN6dG9mLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEty
+enlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4NCj4gU2VudDogVGh1cnNkYXksIEp1
+bHkgNCwgMjAyNCAxMTo1OSBBTQ0KPiBUbzogQWdhcndhbCwgVXRzYXYgPFV0c2F2LkFnYXJ3YWxA
+YW5hbG9nLmNvbT47IEhlbm5lcmljaCwgTWljaGFlbA0KPiA8TWljaGFlbC5IZW5uZXJpY2hAYW5h
+bG9nLmNvbT47IERtaXRyeSBUb3Jva2hvdg0KPiA8ZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbT47
+IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YNCj4gS296bG93c2tpIDxr
+cnprK2R0QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBT
+YSwNCj4gTnVubyA8TnVuby5TYUBhbmFsb2cuY29tPg0KPiBDYzogbGludXgtaW5wdXRAdmdlci5r
+ZXJuZWwub3JnOyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2
+Z2VyLmtlcm5lbC5vcmc7IEFydGFtb25vdnMsIEFydHVycw0KPiA8QXJ0dXJzLkFydGFtb25vdnNA
+YW5hbG9nLmNvbT47IEJpbXBpa2FzLCBWYXNpbGVpb3MNCj4gPFZhc2lsZWlvcy5CaW1waWthc0Bh
+bmFsb2cuY29tPjsgR2Fza2VsbCwgT2xpdmVyDQo+IDxPbGl2ZXIuR2Fza2VsbEBhbmFsb2cuY29t
+Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY2IDMvM10gZHQtYmluZGluZ3M6IGlucHV0OiBVcGRh
+dGUgZHRiaW5kaW5nIGZvciBhZHA1NTg4DQo+IA0KPiBbRXh0ZXJuYWxdDQo+IA0KPiBPbiAwNC8w
+Ny8yMDI0IDEyOjQ1LCBVdHNhdiBBZ2Fyd2FsIHZpYSBCNCBSZWxheSB3cm90ZToNCj4gPiArDQo+
+ID4gKyAgLSB8DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRy
+b2xsZXIvaXJxLmg+DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW5wdXQvaW5wdXQu
+aD4NCj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8uaD4NCj4gPiArDQo+
+ID4gKyAgICBpMmMgew0KPiA+ICsgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiArICAg
+ICAgI3NpemUtY2VsbHMgPSA8MD47DQo+ID4gKyAgICAgICAgZ3Bpb0AzNCB7DQo+ID4gKyAgICAg
+ICAgICAgIGNvbXBhdGlibGUgPSAiYWRpLGFkcDU1ODgiOw0KPiA+ICsgICAgICAgICAgICByZWcg
+PSA8MHgzND47DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAjZ3Bpby1jZWxscyA9IDwyPjsNCj4g
+PiArICAgICAgICAgICAgZ3Bpby1jb250cm9sbGVyOw0KPiA+ICsgICAgICAgICAgICB9Ow0KPiAN
+Cj4gRml4IHlvdXIgaW5kZW50YXRpb24uIEl0J3MgdG90YWwgbWVzcyBhYm92ZS4NCj4gDQo+IEJl
+c3QgcmVnYXJkcywNCj4gS3J6eXN6dG9mDQoNCkFwb2xvZ2llcyBmb3IgdGhlIHNhbWUsIEkgd2ls
+bCBiZSBmaXhpbmcgaXQuDQoNClRoYW5rcywNClV0c2F2IA0K
 
