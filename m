@@ -1,233 +1,247 @@
-Return-Path: <linux-input+bounces-4870-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4871-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB8E9284FC
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 11:21:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2909287A7
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 13:18:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF0C11F2235F
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 09:21:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97EB91C21E3F
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 11:18:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690981465A7;
-	Fri,  5 Jul 2024 09:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A3E148844;
+	Fri,  5 Jul 2024 11:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BHxXWldj"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="j25ZAqmD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2067.outbound.protection.outlook.com [40.92.103.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E1E14659B
-	for <linux-input@vger.kernel.org>; Fri,  5 Jul 2024 09:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720171290; cv=none; b=aqiARdJ3jIyxna9LKO9IjZRkFBpTWkvbs+1zF6Cp8v66ZrCby2j63tPYG7O6XKZ6tjVAM4KIdLImDXste8lDUOFY0zYEWWMnKFs56KnEZAprrnbVAX5mIH3RZD2N8aWtJ05qK4ypgwrLHIZ/17y3rQN7baTFCgNYxAeA3Fj1wkE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720171290; c=relaxed/simple;
-	bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKsUP/fbdIak/oHCopZET/OFbuuKBWXLnHsulp/3gNh2eSsIoEQxgxEHwtV7wjC5jS885eNqfVk9Hwrfs9gms9V7heHh15TGMsT+eGh+Zwh0ZgOEtHsXSrPhCe152Ib9ZzNIT2qNDQmXVqo0hgpbBs+qP4B2Q0y+kXtoRA/GaHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BHxXWldj; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a77b4387302so179096066b.1
-        for <linux-input@vger.kernel.org>; Fri, 05 Jul 2024 02:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720171286; x=1720776086; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
-        b=BHxXWldj+hHqE2ns8S7/HAU42Z7MkYBmemSuhBWSrNKLJElFlh+Q7FcO+aA+P9LbaA
-         EAYq1RdO44rOCVBQIN7NgVzw5+vw9GZXvknaG0YFg/JZExIY6Ex6YAvsSbvIyrCbT1Fk
-         SymdVF1FI8op/8C6GBynndXKuBvrUlCd7+Orq+SdWWRrmREve0aOYgn+m9F7lNz8pCmy
-         FX7mtN7hJUMBz7mmYMIbddHt6ohOM24jP83x4BCkktmhK91m4j7HsLvHwH7jy1VI5k4S
-         M7Qyb+ARd26QRITXmUIfMXUvfuVm+MhhkaFkNiZglCxndpvv5En9S08MJPo8WpnSxewy
-         oRRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720171286; x=1720776086;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
-        b=JPMM2/km3KjCmnhF9KKYMZXufCCPqmqnQaYtH1hkmwrmEsDdRFl/Erl90lgrivMnpW
-         /B8z2hirdEp8wNRjua13vImemJcRH7mBbRU+XqXjuEl2Wr7eCgghpPa53E0DwWGVLtkp
-         Xb2jpeq85ims3bHCbhhGRY5vZJMKUamOEezx0Lx77SK3YEnQx2DuAntjtCaCYfCyOs+p
-         3zgIDImkUwpQO3njyBbtsPd4qeBUun823em6eID6CVvDFVeS0X7JikYzlhFpewZpXCfe
-         eRfvgXcH4xPDcjxtTPW6BLcplv4f6TOQbryQ5OB9k7AonxES0PylKatEkl8Pe5n+B9QX
-         ndqg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Vgu0xI2bVoIFeaNkn6+wwNoZtjCw3ie4ybnwWD/w+aV98hyBV/xxj2AwtO+iNrrdc+aKFCRT76qwf2isUlco0vXqg8QN6Q6RY1s=
-X-Gm-Message-State: AOJu0YzgqRd+7yjeJaYaIfGFPUnGVa80MQYvhcqjEWdSQIGZdwVKrPCC
-	We1ohqmOvILlTKc+64CToJ4fuQTIbI4u1RTOABvW3wiJ1NK7xqN94IePX948io4=
-X-Google-Smtp-Source: AGHT+IH5GBzifj2YL+uV1tph7kmD/UU37Fput+e22tUxmHwQFDW0cLo/eN2fRQ1OiC6xRmZjvtbAaw==
-X-Received: by 2002:a17:906:fb95:b0:a6f:b400:4751 with SMTP id a640c23a62f3a-a77ba46ccffmr181755366b.22.1720171286291;
-        Fri, 05 Jul 2024 02:21:26 -0700 (PDT)
-Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77d9cdf337sm10855266b.53.2024.07.05.02.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jul 2024 02:21:25 -0700 (PDT)
-Date: Fri, 5 Jul 2024 11:21:25 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>, 
-	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-ide@vger.kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
-Message-ID: <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
- <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
- <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
- <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154381487FE;
+	Fri,  5 Jul 2024 11:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720178270; cv=fail; b=MdffoqSTIBkOkBUVH2vxc9PRyHMQc6Q6gL6FKIRjINgt+koz15421QqcRwOASSdjoqq0G+nUiQbQ8trYd8pACjSSD7gAvWVNTmYHFbR9y2U126c5iUaS5lzTj4N4gmYqNjam/E6rDkTfmowlVwFyDqg7Rw4e/gc6fqMq6HzeecQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720178270; c=relaxed/simple;
+	bh=MKNHh0/+fBoXEgLap/b3GUxbtESwyLKtEKV37XNKYZI=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Aw0HxnhcOUq1QZGILQbw/zHhBsZJleAtlV19kVHhBObfR+dF53QLtNX1JiZ54zPVcu8LLnGz7RsW2zM34Rzk4vLIuNX830esxt1d0hvSWtDHOo3HWs5MFjYlwl1691Cp1uzDEGj8iQtaIhXui3yeKEsBx/BuI8lm85301N7K2ls=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=j25ZAqmD; arc=fail smtp.client-ip=40.92.103.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dCuvI2tv0IqAnGCYrFggwlO76YW6hWyAQl5ONqowFnCAMhrFku8mBpL7HgZzZjrt36coBB8Xa+tuBH5J1KCVhfk/spM1z/BaQXQkVqS09nnR5t5k03krT4CtkNONLaihq+Dz1dId7oeP9RLHtNsSOdwtdVXNQqog1qzQlhkfy+p6puXmIPbPTBZiW9UttLk4Ie4GlglJc7guP3sG82phXGcx3S9bTq08q76dUMorREVWR95DeFXKzAWLGMkLYfcfaL5TJb8OB2yF064gUNj3RFaMf1HMSYi34Y+4jhlv8SLc5R8lNHP0qXWVz8efq0LYyF4nds/E0mXRwU8XMtko1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=88AnSyO7W4Dz8Ljjwv5/j9uUHNWkfxU117bogXdV4Wg=;
+ b=Xrb91pgZd8hIF5E8+o13d8CKYFVOP1pcSHgyEVuK8r9F/9gCVSWiewfUMPW48kkYAOAtdB2w5STF70FOew7rINxvTuJtgUDOCNMtJ4MJ5dMaHkdKf1odeFKQoh2UL9baTf+XjqNdXBqUD6Ccn6nemgFSLwVqAp5+j0FK+lcYTPZGqzK5rHCKMXRrM8AcJQLN6y9lCCQDBDPg0Lvz4FLTOFuzeoKh16jwo5LWn16v9MRFi+VzYcN1CbFPmU3cw1aI/mb34cPlSRm6BFRvKZdLcIFLH3XmqJ6ddk6QZ+J7J4yEBhZKk+iQYzI+GZ2zd5N8uf5w2asIZ+tadhzDhkPT7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=88AnSyO7W4Dz8Ljjwv5/j9uUHNWkfxU117bogXdV4Wg=;
+ b=j25ZAqmDZafvuIxm/p/3WodAT9lJTKpKbaXq3hkqEl/2xfnDDNZGa1gWZVOLHcgwrcsTrdibsMvYe/z9Fjbn4U1RJ8tEiL0pwJn04s3wDKZVHppcbEWMEPFRqXKwIrBTvT4h1UiDMQ/KtwMuNINglBuOwUci5lRgMzB/vk2Ms7syVw9gafcZVDPy+pYR5+jmEZjy9YxQgrsouU3aa8zZZUvvSGkYYAbo0VYqvnSBXRHoWDdsfCwCqiFOjgwfRQe8VjTNkrqPgu2qcZRdsXlGJbvqxKqqCinedMlVYjepE8YO2BY+dQqaFjt0LW7SgfYDoVFLn8BYgOrd6AW/mEG49w==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN0P287MB0296.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:e7::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7741.31; Fri, 5 Jul 2024 11:17:42 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7741.027; Fri, 5 Jul 2024
+ 11:17:42 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Jiri Kosina <jikos@kernel.org>, "bentiss@kernel.org" <bentiss@kernel.org>
+CC: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>, Orlando Chamberlain
+	<orlandoch.dev@gmail.com>, Kerem Karabay <kekrby@gmail.com>
+Subject: [PATCH] HID: core: add helper for finding a field with a certain
+ usage
+Thread-Topic: [PATCH] HID: core: add helper for finding a field with a certain
+ usage
+Thread-Index: AQHazsz08zSvbznbdE+K+1fERfm8Mg==
+Date: Fri, 5 Jul 2024 11:17:42 +0000
+Message-ID: <3EA8F21F-2C0A-49DB-BD23-224CE9D65A0D@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [XjrJ3QoFAkSGBLwf8JbMC1/d6bXhMoLYadQTJADvgLCU/RLhtta06L5uOKDCs403]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN0P287MB0296:EE_
+x-ms-office365-filtering-correlation-id: 0b4e9fc5-b631-4141-9847-08dc9ce416a3
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|461199028|8060799006|19110799003|3412199025|440099028|102099032;
+x-microsoft-antispam-message-info:
+ a89g9b6zK81OBBznZqlvhyJNfunWeDg4ApT4vkZOb4+sxB0+6ZwzLy2dTLJaM1n6op8n8iQpJil94e8G9SyD70sXAONiZUW/pFeWtwn29n0ZM09VvArU0DdEsGumx+PJZ7HMjTqCV6g/eY+NShbqf4wrIxzd4/H74dQ9qnGLEGR6VkyySOego0v8n5v3gmixYOzihdyVMzZlEZn49kpSWUH0N+rjhH66AmERfRZS1yC4NAJDWlZN6UZfewKHQreoUjfxIwMH0JmJBQF/V8fCu+LTPRopFOtg23wYzRPWzFVv3tAqY8yLqvNvGioBJ2ZMm7QWNhQZKwpsSUZBYJIK1UJ0fXsG4qNBAKGr5f5ds1S78iBRPiaSbxo7EWzQmY/fp24YjsuXAr/pv0TFbsOsd4dZwxzBbtg1N6nDgpSV9zxWn9zuj2Weo8qDIS2ZOi1mgpSoHQIb4R2POGQ1dv9oAWYXnBgWe/gkWbU0vXY0uT7Kr/nz4coilzrKpsnR9cY2yBubqDSKZWG9Dgjc8aATZ3psQGS8vI2XL6v3NgmDpxJpIY8QBYAZNKZm5y5RlwjcjAyEzNNI30sgnWW06IcJAYV/KUXODXSbsqzsnXmzOmd8iqy+8QHaLa7tXjxr4jpdHZLgM10wZXDD3o43vdPVJg==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?WeGyp0Cti6lHLn+uU5NPbVqf3zUDcjfXlngBceM0C6Seq/xSK5E6bgCOVheF?=
+ =?us-ascii?Q?Y+fiJ38PGBmVExoNHulszGnFRKQb8N/UXiUegxth/jeZF7c3co880G2QIwwp?=
+ =?us-ascii?Q?daucSXmJjPAwxQH+Ge/SbQ8Tb0Jjm7A3LtL9fDGleO+xC1/tenPcVLHjvuAa?=
+ =?us-ascii?Q?Kgve5EKkd6Jh6739ch40QBIA97JP10nG2k8AZPUzizc7oMbc2ZB3SoB8b6tk?=
+ =?us-ascii?Q?wuLtmTI2kzL2pwWcRrpZBy/P6h0QVriG+nsDuEKS9+pPBgSr8Fz03qp3+ozJ?=
+ =?us-ascii?Q?for1IM8h5lfhdMVUgOXIhUKiYtAXbkKmlv09D+Quyk6P3d+GbiXUCB0wBiLD?=
+ =?us-ascii?Q?Jv7+xzYdbVNLH8dsJIFboxHb/hmNC8tMfPCwbCtNSCvHttrv4uZZ+DcEkpek?=
+ =?us-ascii?Q?1rQE9D9HPWh+FibZkrZpWLo0lmyrI7+RBH4e6oOYHcaXIPNFy6EigQ1So/Mj?=
+ =?us-ascii?Q?2o6O5XFIcf5L8vfA5/ELtIvrkgPaBeQ5Q9DNBEseyiLQH+4A4hqkWxqDMqIV?=
+ =?us-ascii?Q?mlgnfRzjqC0HOauFhsLHRnOt0+Q27U5Bk95yl/iIuKBvmGVZbJmbmjHdjpdT?=
+ =?us-ascii?Q?MRadPp4b3Opk2tSrHZu/Xbww4PuZN6aKDn/1PxXdYq4Krqj+G2blmm18KPTo?=
+ =?us-ascii?Q?p6A9qkWc6FqnhzLw+twFsMAh/R2EwCwtQhTrtWYHHYA/etSs7/3XkP3s4UkB?=
+ =?us-ascii?Q?vi5D+lubh/NbuC7FzBoA7d+wbrDl539RgWDcMT7QlUoyNTmdDBaV+y2TJbxn?=
+ =?us-ascii?Q?sQe3QlvQGWfegarMeEIRF435RT/MJuv48p5hBrXlALGjzsWF2Sn0cEumQmAS?=
+ =?us-ascii?Q?GsA9yzr3znXA81b1GxZfIzHS4g688zBwfguA5VExHRfnw8iFq1aIvKzHHY9p?=
+ =?us-ascii?Q?n3RQP72vVeRPDp0n7eKB10sF+8kZRzbdy9BPndLkMqBai5qHNp/0r77idW04?=
+ =?us-ascii?Q?3wVvIInsdfQAOdAEnHfkUgv6JAKn5oAnepBHwxXh6i/ifsTVl9u792VUPxis?=
+ =?us-ascii?Q?E/mERzaxZqD49j+oLujrrTql+SOxkrKPhL/D92Hzv0/bCeDcO8FJDNgBWkJn?=
+ =?us-ascii?Q?eBjARG7V7waDXp62tD4UlrbYKFZxUgPO7c08ZcSOBzPmPN/7j2aW/w/jMkva?=
+ =?us-ascii?Q?T6+9GF9DM4Wf6v9Zl5i2wuwYh+Gnx2HEXdL6+h6yIZxPrEkHjkscgUdWtY8X?=
+ =?us-ascii?Q?eNJNuzTuim99xHd8hR8S/X6qQCWSZ2y8h5SvkLU3SogNE5hD0M4g3pfVIZik?=
+ =?us-ascii?Q?XqQ/oiFpL/CnUhZ5l3gYb1dr4NST3Xpd461jmiTH5eOR0Sn1U5nmkfUPuFSW?=
+ =?us-ascii?Q?6urSVazjznvPdnDAkxkp+qCg?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E17288F1018C6D49AE0260278A367514@INDP287.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="icynwgj6p72h37hs"
-Content-Disposition: inline
-In-Reply-To: <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b4e9fc5-b631-4141-9847-08dc9ce416a3
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jul 2024 11:17:42.5621
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0296
 
+From: Kerem Karabay <kekrby@gmail.com>
 
---icynwgj6p72h37hs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This helper will allow HID drivers to easily determine if they should
+bind to a hid_device by checking for the prescence of a certain field
+when its ID is not enough, which can be the case on USB devices with
+multiple interfaces and/or configurations.
 
-Hello,
+Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+---
+ drivers/hid/hid-core.c          | 25 +++++++++++++++++++++++++
+ drivers/hid/hid-google-hammer.c | 27 ++-------------------------
+ include/linux/hid.h             |  2 ++
+ 3 files changed, 29 insertions(+), 25 deletions(-)
 
-On Thu, Jun 27, 2024 at 11:29:44AM +0300, Nikita Shubin wrote:
-> On Tue, 2024-06-18 at 19:20 +0300, Nikita Shubin wrote:
-> > Hello Andy!
-> > On Mon, 2024-06-17 at 12:58 +0200, Andy Shevchenko wrote:
-> > > On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
-> > > <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
-> > > >=20
-> > > > The goal is to recieve ACKs for all patches in series to merge it
-> > > > via Arnd branch.
-> > >=20
-> > > 'receive'
-> > >=20
-> > > > Unfortunately, CLK subsystem suddenly went silent on clk portion
-> > > > of
-> > > > series V2 reroll,
-> > > > tried to ping them for about a month but no luck.
-> > > >=20
-> > > > Link:
-> > > > https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
-uefel.me
-> > > >=20
-> > > > Some changes since last version (v9) - see "Changes in v10",
-> > > > mostly
-> > > > cosmetic.
-> > >=20
-> > > ...
-> > >=20
-> > > > Patches should be formated with '--histogram'
-> > >=20
-> > > 'formatted'
-> > >=20
-> > > ...
-> > >=20
-> > > > Changes in v10:
-> > > >=20
-> > > > Reordered SoB tags to make sure they appear before Rb and Acked
-> > > > tags.
-> > >=20
-> > > This is not required. The importance is only the order of SoBs
-> > > themselves. If they are interleaved with other tags, it's fine.
-> >=20
-> > Ah - ok. Just saw someone was complaining about b4 reordering them.=20
-> >=20
-> > >=20
-> > > ...
-> > >=20
-> > >=20
-> > > Hopefully to see this series being eventually applied soon.
-> > > Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
-> > >=20
-> > >=20
-> >=20
-> > As i see from my perspective only three left:
-> >=20
-> > Clk subsystem:
-> >=20
-> > - clk: ep93xx: add DT support for Cirrus EP93xx
-> >=20
-> > DMA subsystem (but the only request from Vinod, as far as i remember,
-> > was fixing commits titles):
-> >=20
-> > - dmaengine: cirrus: Convert to DT for Cirrus EP93xx
-> > - dmaengine: cirrus: remove platform code
-> >=20
-> > Beside that tags missing on platform code removal (which can be Acked
-> > by Arnd himself i believe) and dtsi/dts files (same ?).
->=20
-> Vinod acked the above two patches:
->=20
-> https://lore.kernel.org/all/ZnkIp8bOcZK3yVKP@matsya/
-> https://lore.kernel.org/all/ZnkImp8BtTdxl7O3@matsya/
->=20
-> so only:
->=20
-> - clk: ep93xx: add DT support for Cirrus EP93xx
->=20
-> https://lore.kernel.org/all/20240617-ep93xx-v10-3-662e640ed811@maquefel.m=
-e/
->=20
-> left.
->=20
-> Hope Stephen will find some time for this one.
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 8992e3c1e..6395bdc2e 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1906,6 +1906,31 @@ int hid_set_field(struct hid_field *field, unsigned =
+offset, __s32 value)
+ }
+ EXPORT_SYMBOL_GPL(hid_set_field);
+=20
++struct hid_field *hid_find_field(struct hid_device *hdev, unsigned int rep=
+ort_type,
++				 unsigned int application, unsigned int usage)
++{
++	struct list_head *report_list =3D &hdev->report_enum[report_type].report_=
+list;
++	struct hid_report *report;
++	int i, j;
++
++	list_for_each_entry(report, report_list, list) {
++		if (report->application !=3D application)
++			continue;
++
++		for (i =3D 0; i < report->maxfield; i++) {
++			struct hid_field *field =3D report->field[i];
++
++			for (j =3D 0; j < field->maxusage; j++) {
++				if (field->usage[j].hid =3D=3D usage)
++					return field;
++			}
++		}
++	}
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(hid_find_field);
++
+ static struct hid_report *hid_get_report(struct hid_report_enum *report_en=
+um,
+ 		const u8 *data)
+ {
+diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hamme=
+r.c
+index c6bdb9c4e..fba3652aa 100644
+--- a/drivers/hid/hid-google-hammer.c
++++ b/drivers/hid/hid-google-hammer.c
+@@ -419,38 +419,15 @@ static int hammer_event(struct hid_device *hid, struc=
+t hid_field *field,
+ 	return 0;
+ }
+=20
+-static bool hammer_has_usage(struct hid_device *hdev, unsigned int report_=
+type,
+-			unsigned application, unsigned usage)
+-{
+-	struct hid_report_enum *re =3D &hdev->report_enum[report_type];
+-	struct hid_report *report;
+-	int i, j;
+-
+-	list_for_each_entry(report, &re->report_list, list) {
+-		if (report->application !=3D application)
+-			continue;
+-
+-		for (i =3D 0; i < report->maxfield; i++) {
+-			struct hid_field *field =3D report->field[i];
+-
+-			for (j =3D 0; j < field->maxusage; j++)
+-				if (field->usage[j].hid =3D=3D usage)
+-					return true;
+-		}
+-	}
+-
+-	return false;
+-}
+-
+ static bool hammer_has_folded_event(struct hid_device *hdev)
+ {
+-	return hammer_has_usage(hdev, HID_INPUT_REPORT,
++	return !!hid_find_field(hdev, HID_INPUT_REPORT,
+ 				HID_GD_KEYBOARD, HID_USAGE_KBD_FOLDED);
+ }
+=20
+ static bool hammer_has_backlight_control(struct hid_device *hdev)
+ {
+-	return hammer_has_usage(hdev, HID_OUTPUT_REPORT,
++	return !!hid_find_field(hdev, HID_OUTPUT_REPORT,
+ 				HID_GD_KEYBOARD, HID_AD_BRIGHTNESS);
+ }
+=20
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 39e21e381..9520fdfdd 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -913,6 +913,8 @@ extern void hidinput_report_event(struct hid_device *hi=
+d, struct hid_report *rep
+ extern int hidinput_connect(struct hid_device *hid, unsigned int force);
+ extern void hidinput_disconnect(struct hid_device *);
+=20
++struct hid_field *hid_find_field(struct hid_device *hdev, unsigned int rep=
+ort_type,
++				 unsigned int application, unsigned int usage);
+ int hid_set_field(struct hid_field *, unsigned, __s32);
+ int hid_input_report(struct hid_device *hid, enum hid_report_type type, u8=
+ *data, u32 size,
+ 		     int interrupt);
+--=20
+2.42.0
 
-As we're approaching the merge window and this is still unclear, I
-applied the pwm bits (i.e. patches 12, 13). If I understand correctly,
-patch 33 isn't suitable for application yet as it has a dependency on
-pinctrl changes in that series.
-
-(side note: Your patches are signed, but that doesn't bring any benefit
-if the receivers don't have your key. I didn't find it neither on
-keys.openpgp.org nor in the kernel pgp key collection.)
-
-Best regards
-Uwe
-
---icynwgj6p72h37hs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaHuxIACgkQj4D7WH0S
-/k63agf/ctyXHUSwirhdvMJNeHEME1eqwJPf8P71cxUigi0cvcf0NrTT4jEqglzC
-BqT8dRZCw6LKUShZlhwO7ymRXcAjNYTvFLuJKQYOGuVQZQEtoK7PDa80NeQjFhZP
-r0CwuOQfcg2ovACIA1T/iSX2APqGatvsO4Ke7h2u5kawsGxQIu2TZnfPDhwTIdqj
-Ib33BChvzlU45YrMZrQUHKE3/3XOHyxVvZSutJmaHLtSdIOE/fPr/U5anDzjdWFS
-gxrbDGE0Z3LyDIb0OB8iZiVIeyXDjysmlTdYpfPQi3/4JT+ohaNXgpSC5dmYo/s+
-R6QHGSe+ahTTQGyCjdYkOM/hMh/CiQ==
-=1/WB
------END PGP SIGNATURE-----
-
---icynwgj6p72h37hs--
 
