@@ -1,79 +1,48 @@
-Return-Path: <linux-input+bounces-4868-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4869-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBEFB92814E
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 06:55:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B0B9283B8
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 10:35:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 976792859F7
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 04:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11B041F23364
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 08:35:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102A84596E;
-	Fri,  5 Jul 2024 04:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="ar/FgGgJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D910B2BCF6;
+	Fri,  5 Jul 2024 08:35:18 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865183D963
-	for <linux-input@vger.kernel.org>; Fri,  5 Jul 2024 04:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97797145FE0;
+	Fri,  5 Jul 2024 08:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720155352; cv=none; b=imsiAUzmYnEokk9IwU9YgNYfUqjwS7zCeHlho/ZByiVE2lzoyIW2Q9l6O+p5enIf6g7AAorKmJK8ja3NnfFlrMwlFDOs5B0fKQCVwCRIyH7KwZBw9WvrmazhYXXu/9cy/RdoQSHCjTOM6zSMzJxPqk/DEadHUT5t1FWVaNYuHHk=
+	t=1720168518; cv=none; b=SejqenOC3I8ggaxf+1p99hTzfoOsvWFDWMABJsZn2gXr/YHF/MpPWHQ15TeCcrsBINkPoiakUEtLzSJlSgurkkHO/Qj04J26KGwPzkA0PCP8PWCSEi+A96jB/cNuUMrjjaZwuSH6sB4mdeCVWvcxTpe5KyYVQg5pCe5UjCz5Jts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720155352; c=relaxed/simple;
-	bh=h+pOKEzq21EGew2ZzreJZHhy8p7mi5YZ80UnEQBIRVA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bj1HJF6LRjyd3FFKpDIX6RTE8nPxr5EpZ9yLiCpAVTMhwCAcsBcXrnIz1PJ3Sw+Xrqv5SPde/5ip2qUdlkkAzK1Sqso2s1UNvh+3zp5u11bKGdCMGlNWXccLh26dLkxH2eyHeUHNDfInap41A7nO6vLJJagrQzrtYXDUcCqDprs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=ar/FgGgJ; arc=none smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3d566d5eda9so617097b6e.0
-        for <linux-input@vger.kernel.org>; Thu, 04 Jul 2024 21:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1720155349; x=1720760149; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MS4jp5iaFz0GsaZtHsv+uAaVoKI5dr5okZLBYqXviZo=;
-        b=ar/FgGgJUUnHti2MWR6wgPH3XQYiOHx/+CkcPBumRAOU9BV2Pp9Bn5B94D6QsVN5b4
-         G/QCkvwAxzZ3jzQJ38gqZq42JPLECLjBu8slQk4GeebPF1p0/sBm2AuCFdFv17B58+3D
-         wsEiZROl3sqadjjER0W3EciPD/3u9t00UboOFWxqOMBxN6VnXTIgIlisJxW7L/lRbnuQ
-         Q0jN2De54S9TzSeTf+sxU1H5gmFbOsbQntFvJI3WaPVy/CoITxlJzwk+aXlXVJHU3dJS
-         Cy6y4TLFIgkFkNXWHintJ1KVMODrkaT1uU0P7z94XnhqSvd62tRr/SqIrkRMvmrpHc1h
-         5bFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720155349; x=1720760149;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MS4jp5iaFz0GsaZtHsv+uAaVoKI5dr5okZLBYqXviZo=;
-        b=O0GbEe8KSt6Qm49bYeXffwD0QLnkYmByiHXWSJf/diopLgTIPpmu/12YLsZtr5453n
-         BmFM4jGzvoLrsqk63/9Y4lkBzBOqhAKaIvqoOUkJSllDOXz9P3u+EGRmbRJ2DWp3utFA
-         152YOgp2acsV2d6COm+I8+8KLTvIch8vn2cmg5xpdfYkXeKRTZbw7BcfyiQ3lppaeke1
-         VSUypEuQUWqwSnE8Uc9sXATwGH6j6YycDN/IiaYaPONfo7LfmMXQfYuAZ3DHXDAv1tg6
-         xNw4q+n7k6wcXr7nI4z5jMh0pqqGObo5yc5DACeV671plG8sYoO7i52cB+HhSgtbdquZ
-         Mf4A==
-X-Gm-Message-State: AOJu0Ywj42g5v6SCC8MgILwBNqq4q0nHojeQxoY6StKCKaDh97drzgeR
-	l/xIMGFzAJYazlkNAx8I9WevQTXnXZzNXCG6o0Pd0gliyCqtLm9AkMvG+dzdS0w=
-X-Google-Smtp-Source: AGHT+IGrdpf/l+4J/X1f/n6Zp4kaac2RRN+llj4yLgHAH2VyfMdwf0gSp9n6NKmE7givMUPxUsXs2Q==
-X-Received: by 2002:a05:6870:e40e:b0:25c:c35f:e259 with SMTP id 586e51a60fabf-25e2bb89991mr3284701fac.34.1720155349515;
-        Thu, 04 Jul 2024 21:55:49 -0700 (PDT)
-Received: from fedora.vc.shawcable.net (S0106c09435b54ab9.vc.shawcable.net. [24.85.107.15])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70803ecf9d0sm13110040b3a.115.2024.07.04.21.55.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 21:55:49 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
+	s=arc-20240116; t=1720168518; c=relaxed/simple;
+	bh=W51tM3Sdtf5xD4z/lBdRxd4baZPwIZnr6Gb2kXv7IDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aCrU/e+dIGCsEc2nM+qTIMQU7uoc33AUDry29x3+a5lNLuncgzI+OfoSWYNLiZTlQS9H7+Q26SiGus/FJNEml/XzLK7E1XNd56qxTDIkAKmTBPfeuRPsccteJUlYvUpFlMiqKoC5mj70vDJIGmw8CSjjnIDIcBHpLFfLFvjbj9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowADX37c2sIdm_zalAQ--.39002S2;
+	Fri, 05 Jul 2024 16:35:03 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: dmitry.torokhov@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	Jonathan.Cameron@huawei.com,
+	broonie@kernel.org
 Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] HID: hid-steam: Fix typo in goto label
-Date: Fri,  5 Jul 2024 06:54:59 +0200
-Message-ID: <20240705045458.65108-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.2
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] Input: pxspad - add check for spi_setup
+Date: Fri,  5 Jul 2024 16:20:57 +0800
+Message-Id: <20240705082057.3006342-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -81,37 +50,50 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowADX37c2sIdm_zalAQ--.39002S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xAr4xAr47ZrW8AF1fJFb_yoWfurX_ur
+	yFva1rAw4v9rnFkr4DX3ySqF92ya98XFZ7uFn2qw13tas093y7JryUZF9rArW3ZayjkF1U
+	JrnxC34xAF40gjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbwxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l
+	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+	cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+	6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-s/stream/steam/
+Add check for the return value of spi_setup() and return the error
+if it fails in order to catch the error.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/hid/hid-steam.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/joystick/psxpad-spi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index f166188c21ec..a765a48c0ab5 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -1267,7 +1267,7 @@ static int steam_probe(struct hid_device *hdev,
- 	steam->client_hdev = steam_create_client_hid(hdev);
- 	if (IS_ERR(steam->client_hdev)) {
- 		ret = PTR_ERR(steam->client_hdev);
--		goto err_stream_unregister;
-+		goto err_steam_unregister;
- 	}
- 	steam->client_hdev->driver_data = steam;
+diff --git a/drivers/input/joystick/psxpad-spi.c b/drivers/input/joystick/psxpad-spi.c
+index c47fc5f34bd0..5b53d43c797a 100644
+--- a/drivers/input/joystick/psxpad-spi.c
++++ b/drivers/input/joystick/psxpad-spi.c
+@@ -344,7 +344,11 @@ static int psxpad_spi_probe(struct spi_device *spi)
+ 	/* (PlayStation 1/2 joypad might be possible works 250kHz/500kHz) */
+ 	spi->controller->min_speed_hz = 125000;
+ 	spi->controller->max_speed_hz = 125000;
+-	spi_setup(spi);
++	err = spi_setup(spi);
++	if (err < 0) {
++		dev_err(&spi->dev, "failed to set up spi: %d\n", err);
++		return err;
++	}
  
-@@ -1279,7 +1279,7 @@ static int steam_probe(struct hid_device *hdev,
- 
- err_destroy:
- 	hid_destroy_device(steam->client_hdev);
--err_stream_unregister:
-+err_steam_unregister:
- 	if (steam->connected)
- 		steam_unregister(steam);
- err_hw_close:
+ 	/* pad settings */
+ 	psxpad_set_motor_level(pad, 0, 0);
 -- 
-2.45.2
+2.25.1
 
 
