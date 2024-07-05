@@ -1,99 +1,233 @@
-Return-Path: <linux-input+bounces-4869-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4870-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B0B9283B8
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 10:35:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB8E9284FC
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 11:21:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11B041F23364
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 08:35:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF0C11F2235F
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jul 2024 09:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D910B2BCF6;
-	Fri,  5 Jul 2024 08:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690981465A7;
+	Fri,  5 Jul 2024 09:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BHxXWldj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97797145FE0;
-	Fri,  5 Jul 2024 08:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E1E14659B
+	for <linux-input@vger.kernel.org>; Fri,  5 Jul 2024 09:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720168518; cv=none; b=SejqenOC3I8ggaxf+1p99hTzfoOsvWFDWMABJsZn2gXr/YHF/MpPWHQ15TeCcrsBINkPoiakUEtLzSJlSgurkkHO/Qj04J26KGwPzkA0PCP8PWCSEi+A96jB/cNuUMrjjaZwuSH6sB4mdeCVWvcxTpe5KyYVQg5pCe5UjCz5Jts=
+	t=1720171290; cv=none; b=aqiARdJ3jIyxna9LKO9IjZRkFBpTWkvbs+1zF6Cp8v66ZrCby2j63tPYG7O6XKZ6tjVAM4KIdLImDXste8lDUOFY0zYEWWMnKFs56KnEZAprrnbVAX5mIH3RZD2N8aWtJ05qK4ypgwrLHIZ/17y3rQN7baTFCgNYxAeA3Fj1wkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720168518; c=relaxed/simple;
-	bh=W51tM3Sdtf5xD4z/lBdRxd4baZPwIZnr6Gb2kXv7IDs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aCrU/e+dIGCsEc2nM+qTIMQU7uoc33AUDry29x3+a5lNLuncgzI+OfoSWYNLiZTlQS9H7+Q26SiGus/FJNEml/XzLK7E1XNd56qxTDIkAKmTBPfeuRPsccteJUlYvUpFlMiqKoC5mj70vDJIGmw8CSjjnIDIcBHpLFfLFvjbj9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowADX37c2sIdm_zalAQ--.39002S2;
-	Fri, 05 Jul 2024 16:35:03 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: dmitry.torokhov@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	Jonathan.Cameron@huawei.com,
-	broonie@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] Input: pxspad - add check for spi_setup
-Date: Fri,  5 Jul 2024 16:20:57 +0800
-Message-Id: <20240705082057.3006342-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1720171290; c=relaxed/simple;
+	bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKsUP/fbdIak/oHCopZET/OFbuuKBWXLnHsulp/3gNh2eSsIoEQxgxEHwtV7wjC5jS885eNqfVk9Hwrfs9gms9V7heHh15TGMsT+eGh+Zwh0ZgOEtHsXSrPhCe152Ib9ZzNIT2qNDQmXVqo0hgpbBs+qP4B2Q0y+kXtoRA/GaHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BHxXWldj; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a77b4387302so179096066b.1
+        for <linux-input@vger.kernel.org>; Fri, 05 Jul 2024 02:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720171286; x=1720776086; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+        b=BHxXWldj+hHqE2ns8S7/HAU42Z7MkYBmemSuhBWSrNKLJElFlh+Q7FcO+aA+P9LbaA
+         EAYq1RdO44rOCVBQIN7NgVzw5+vw9GZXvknaG0YFg/JZExIY6Ex6YAvsSbvIyrCbT1Fk
+         SymdVF1FI8op/8C6GBynndXKuBvrUlCd7+Orq+SdWWRrmREve0aOYgn+m9F7lNz8pCmy
+         FX7mtN7hJUMBz7mmYMIbddHt6ohOM24jP83x4BCkktmhK91m4j7HsLvHwH7jy1VI5k4S
+         M7Qyb+ARd26QRITXmUIfMXUvfuVm+MhhkaFkNiZglCxndpvv5En9S08MJPo8WpnSxewy
+         oRRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720171286; x=1720776086;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+        b=JPMM2/km3KjCmnhF9KKYMZXufCCPqmqnQaYtH1hkmwrmEsDdRFl/Erl90lgrivMnpW
+         /B8z2hirdEp8wNRjua13vImemJcRH7mBbRU+XqXjuEl2Wr7eCgghpPa53E0DwWGVLtkp
+         Xb2jpeq85ims3bHCbhhGRY5vZJMKUamOEezx0Lx77SK3YEnQx2DuAntjtCaCYfCyOs+p
+         3zgIDImkUwpQO3njyBbtsPd4qeBUun823em6eID6CVvDFVeS0X7JikYzlhFpewZpXCfe
+         eRfvgXcH4xPDcjxtTPW6BLcplv4f6TOQbryQ5OB9k7AonxES0PylKatEkl8Pe5n+B9QX
+         ndqg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Vgu0xI2bVoIFeaNkn6+wwNoZtjCw3ie4ybnwWD/w+aV98hyBV/xxj2AwtO+iNrrdc+aKFCRT76qwf2isUlco0vXqg8QN6Q6RY1s=
+X-Gm-Message-State: AOJu0YzgqRd+7yjeJaYaIfGFPUnGVa80MQYvhcqjEWdSQIGZdwVKrPCC
+	We1ohqmOvILlTKc+64CToJ4fuQTIbI4u1RTOABvW3wiJ1NK7xqN94IePX948io4=
+X-Google-Smtp-Source: AGHT+IH5GBzifj2YL+uV1tph7kmD/UU37Fput+e22tUxmHwQFDW0cLo/eN2fRQ1OiC6xRmZjvtbAaw==
+X-Received: by 2002:a17:906:fb95:b0:a6f:b400:4751 with SMTP id a640c23a62f3a-a77ba46ccffmr181755366b.22.1720171286291;
+        Fri, 05 Jul 2024 02:21:26 -0700 (PDT)
+Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77d9cdf337sm10855266b.53.2024.07.05.02.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 02:21:25 -0700 (PDT)
+Date: Fri, 5 Jul 2024 11:21:25 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
+	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+Message-ID: <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+ <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+ <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+ <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADX37c2sIdm_zalAQ--.39002S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xAr4xAr47ZrW8AF1fJFb_yoWfurX_ur
-	yFva1rAw4v9rnFkr4DX3ySqF92ya98XFZ7uFn2qw13tas093y7JryUZF9rArW3ZayjkF1U
-	JrnxC34xAF40gjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbwxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l
-	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-	cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
-	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-	6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="icynwgj6p72h37hs"
+Content-Disposition: inline
+In-Reply-To: <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
 
-Add check for the return value of spi_setup() and return the error
-if it fails in order to catch the error.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/input/joystick/psxpad-spi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+--icynwgj6p72h37hs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/joystick/psxpad-spi.c b/drivers/input/joystick/psxpad-spi.c
-index c47fc5f34bd0..5b53d43c797a 100644
---- a/drivers/input/joystick/psxpad-spi.c
-+++ b/drivers/input/joystick/psxpad-spi.c
-@@ -344,7 +344,11 @@ static int psxpad_spi_probe(struct spi_device *spi)
- 	/* (PlayStation 1/2 joypad might be possible works 250kHz/500kHz) */
- 	spi->controller->min_speed_hz = 125000;
- 	spi->controller->max_speed_hz = 125000;
--	spi_setup(spi);
-+	err = spi_setup(spi);
-+	if (err < 0) {
-+		dev_err(&spi->dev, "failed to set up spi: %d\n", err);
-+		return err;
-+	}
- 
- 	/* pad settings */
- 	psxpad_set_motor_level(pad, 0, 0);
--- 
-2.25.1
+Hello,
 
+On Thu, Jun 27, 2024 at 11:29:44AM +0300, Nikita Shubin wrote:
+> On Tue, 2024-06-18 at 19:20 +0300, Nikita Shubin wrote:
+> > Hello Andy!
+> > On Mon, 2024-06-17 at 12:58 +0200, Andy Shevchenko wrote:
+> > > On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
+> > > <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+> > > >=20
+> > > > The goal is to recieve ACKs for all patches in series to merge it
+> > > > via Arnd branch.
+> > >=20
+> > > 'receive'
+> > >=20
+> > > > Unfortunately, CLK subsystem suddenly went silent on clk portion
+> > > > of
+> > > > series V2 reroll,
+> > > > tried to ping them for about a month but no luck.
+> > > >=20
+> > > > Link:
+> > > > https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
+uefel.me
+> > > >=20
+> > > > Some changes since last version (v9) - see "Changes in v10",
+> > > > mostly
+> > > > cosmetic.
+> > >=20
+> > > ...
+> > >=20
+> > > > Patches should be formated with '--histogram'
+> > >=20
+> > > 'formatted'
+> > >=20
+> > > ...
+> > >=20
+> > > > Changes in v10:
+> > > >=20
+> > > > Reordered SoB tags to make sure they appear before Rb and Acked
+> > > > tags.
+> > >=20
+> > > This is not required. The importance is only the order of SoBs
+> > > themselves. If they are interleaved with other tags, it's fine.
+> >=20
+> > Ah - ok. Just saw someone was complaining about b4 reordering them.=20
+> >=20
+> > >=20
+> > > ...
+> > >=20
+> > >=20
+> > > Hopefully to see this series being eventually applied soon.
+> > > Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
+> > >=20
+> > >=20
+> >=20
+> > As i see from my perspective only three left:
+> >=20
+> > Clk subsystem:
+> >=20
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> >=20
+> > DMA subsystem (but the only request from Vinod, as far as i remember,
+> > was fixing commits titles):
+> >=20
+> > - dmaengine: cirrus: Convert to DT for Cirrus EP93xx
+> > - dmaengine: cirrus: remove platform code
+> >=20
+> > Beside that tags missing on platform code removal (which can be Acked
+> > by Arnd himself i believe) and dtsi/dts files (same ?).
+>=20
+> Vinod acked the above two patches:
+>=20
+> https://lore.kernel.org/all/ZnkIp8bOcZK3yVKP@matsya/
+> https://lore.kernel.org/all/ZnkImp8BtTdxl7O3@matsya/
+>=20
+> so only:
+>=20
+> - clk: ep93xx: add DT support for Cirrus EP93xx
+>=20
+> https://lore.kernel.org/all/20240617-ep93xx-v10-3-662e640ed811@maquefel.m=
+e/
+>=20
+> left.
+>=20
+> Hope Stephen will find some time for this one.
+
+As we're approaching the merge window and this is still unclear, I
+applied the pwm bits (i.e. patches 12, 13). If I understand correctly,
+patch 33 isn't suitable for application yet as it has a dependency on
+pinctrl changes in that series.
+
+(side note: Your patches are signed, but that doesn't bring any benefit
+if the receivers don't have your key. I didn't find it neither on
+keys.openpgp.org nor in the kernel pgp key collection.)
+
+Best regards
+Uwe
+
+--icynwgj6p72h37hs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaHuxIACgkQj4D7WH0S
+/k63agf/ctyXHUSwirhdvMJNeHEME1eqwJPf8P71cxUigi0cvcf0NrTT4jEqglzC
+BqT8dRZCw6LKUShZlhwO7ymRXcAjNYTvFLuJKQYOGuVQZQEtoK7PDa80NeQjFhZP
+r0CwuOQfcg2ovACIA1T/iSX2APqGatvsO4Ke7h2u5kawsGxQIu2TZnfPDhwTIdqj
+Ib33BChvzlU45YrMZrQUHKE3/3XOHyxVvZSutJmaHLtSdIOE/fPr/U5anDzjdWFS
+gxrbDGE0Z3LyDIb0OB8iZiVIeyXDjysmlTdYpfPQi3/4JT+ohaNXgpSC5dmYo/s+
+R6QHGSe+ahTTQGyCjdYkOM/hMh/CiQ==
+=1/WB
+-----END PGP SIGNATURE-----
+
+--icynwgj6p72h37hs--
 
