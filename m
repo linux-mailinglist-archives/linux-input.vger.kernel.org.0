@@ -1,77 +1,76 @@
-Return-Path: <linux-input+bounces-4885-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4886-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D355E929994
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jul 2024 21:54:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AFB929996
+	for <lists+linux-input@lfdr.de>; Sun,  7 Jul 2024 21:55:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89438280D0E
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jul 2024 19:54:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59C451C203A8
+	for <lists+linux-input@lfdr.de>; Sun,  7 Jul 2024 19:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809D03A8CE;
-	Sun,  7 Jul 2024 19:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472203A8CE;
+	Sun,  7 Jul 2024 19:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="uDWGNMje"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="IBTDCP0o"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2094.outbound.protection.outlook.com [40.107.93.94])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2124.outbound.protection.outlook.com [40.107.94.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C204228DD1;
-	Sun,  7 Jul 2024 19:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF7728DD1;
+	Sun,  7 Jul 2024 19:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720382081; cv=fail; b=GlkwYfli1ve/DH7h8FgBZCiyJypqNCg5v1bWsHdwPMw2Ncec2mTZGeZeZvVIW/rW23wY7BB3QEMv2SLorncLnr75f3d2omkKRhxam4FdsxYdQI8QekB02SVV3Pp7lAygz0PuqEsBzRhNJq7VPjSMpkFNQo/hycGJC+Ei8XHwiHA=
+	t=1720382130; cv=fail; b=dA4/EKinvysF7cjQBHucVUD3VhREackj6AHP3FTheTPdH0kZayN+gL2+yNn8RBL3oOFQnAhCEo1Ajct7q/9xiVWjDYG2z/m+1KkmBhAUaRuAyyn222DuRcO3z0sgskRPPO2N6etVrjJ/xz7XjP7PVF3lgJQv+nlvFOWobfovsFc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720382081; c=relaxed/simple;
-	bh=/fM1Tz4KWHHutDp+FHKIMZH9nRlZtBP3PKee46DomPk=;
+	s=arc-20240116; t=1720382130; c=relaxed/simple;
+	bh=Mh0Q1YyRE97AxXaXI/NzmDZDuzEBjsDjc7rYs2rIp38=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FicbW6kigrCVts0XB7vnW4vKVtt6UalCVOwlYvh2iNVyn0VUHsEyA1Bnu+hIn7MBCXgrHptI0zsN3HPl7hE+HW2870qr4D5+nJUVVFn3aV6h6uh7xMiHy3AbLc64948k2ak4p7fOGAv+JcdUvkH0azNQO7Tt1PiMmjhSM1GGuZ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=uDWGNMje; arc=fail smtp.client-ip=40.107.93.94
+	 Content-Disposition:In-Reply-To:MIME-Version; b=iYgRFhWdfS01ujP+oaRKGURKvmFWIlP8BOGNcKK4u8xQySLODXFNgC5+c0XFGl1GQHrdnW4ytgRl2ae0Ajf50E8XRiBR8bNBqqdAiRlEtx3YRc8x2nT69DeXGdC4cxZ+zsMcosF0zsthmSh+v9P6q3slXbPtsYg5V9kL6hXLX6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com; spf=pass smtp.mailfrom=labundy.com; dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b=IBTDCP0o; arc=fail smtp.client-ip=40.107.94.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e216YScMBadIVMnTFj17zltpojksSs1BKePndwoRJ7T4m8uJYhOosazIn0paVpo7sZthGlLSMerN7SMnLDT2aKFBZyUwUx0NNlFRCtdhSEXuy+vlbaTN0+UcauMtuHl0mizUH5UzTsCJX0C/YvvUReR13rktVpJKRven/czTK37fqB9AXMsHf6F2TKDTd+HpiaA0R7TOElo7vLKrtk27AaqUNiU2xLeBiIfmCiwDwvelGa1Xpda6CxIES8U+4kTXhKhTkwNjFSwBASvgSZW4iyimpPS1luu34HderxfKrRVeHKO1FWgbiryF/9m9cGqPL0rg6wuhaqv5o9dTGK48xg==
+ b=DZy1oiUBZEYz7t3Zp4BIf7LAtf7MFswWtfDmDwZwRCC+aJQuc7Kg4Qqv6035WNMr+MbVm5JOaZnK4d/Re7U6YpdKzmIC9VpM9vdRzljgRszkGmGI32A5g+ptIi0FH2Qd6ON9fvsFmXnRZkGfruermbIm3AUfpk8bftDBJ/dMhHpeoewaAGxBuk3soAad6CyQYMhZtHM9+KOsNQjekcChCHlT1neytCuVoT8dmQ5pzcYSYC6Foz0SkwXfsK7SVStIgh5oT2cfZbDYMKsSKzPsNLe6uPRImxXiHJv5QXRo63fd9+Sd6oaYlu8glYzeP4f1uHFKuvyQuecVwZ+rkPRznA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GzCqk3PyezL0l3N3zHamdF5x2OLtUtxQI+aGDrmazck=;
- b=SxGOM4iL+MWxaARK6dkoRAssSj2LWHZ/oq4jcCi6UEBHc6KrORg0Go1/+HnvxOyRBciNiQIqtqQQADyTgK3IudP8cHHqiNBPmEOpzBCRyBFv2f9KcU2+O/GhHwDUC6eA15oyFI4f07prs98MZBnqqchWEeqfJLpgH9OfvY8g2aEXj7YaIICI0ml1M5OI2ixigvEtb6Tjanomts/sZVngLpe7+z0I46WYUJSVxb3sBcOJ5KaRDEQRfaSA2zjqhyYVudbWlBCt5uT6FWvb5edR2Qg/P/35mDgd1SZpuq1LbpMV+g7OjtvOCFNzUMtXxiWBkxdYbtIjnAWnLZXlFTulXw==
+ bh=zGHyRQkmOCz5lT9Wlq3wFVxdBrmmUJ3BCeLDfItJV9o=;
+ b=kEPEczFoty/C+7DRxAC/9fhYw9Oem2hpYuvXMhBHjiwftB31J+Wg/nIdaOtdp44e25wKRP8IVi5A6ZM8Z63RusY1r1ZRe4kZMUtSNwj4HEHUImFeQMbnVIa/qV8E8ARl+ceSbf+lVoYsNISr8Wh8USSmejPeBR/YvgfsLQQZ2mSK4KFdGVf6ZOvik/JqrhGhwMCGjwpW+stJ3l9f35o+L232k4vjl0Arj49YVTwZMkmjpt738Im9ujHXzxNpPsV0rsJY0UJiy1ALMVJRhESw26QhSKw7GHnFMWwi3E5iE/lnyUQd9paXMHiWDpkiCy0MkuQW01lA78q4n7auTsfadw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GzCqk3PyezL0l3N3zHamdF5x2OLtUtxQI+aGDrmazck=;
- b=uDWGNMjeQ8DfjvTCr/UFw1NIn1Gvs2RujJl5G3YihB6xu2Dy4+RR3l5dlmQT2y5JZ3KwenlLVEFfGrWkNzCX71alEgKinrUIAfBXQiux0ieHkKpmU96A4OwTamsUq0mGE2+lWAhTbyfrGXkdnZUcLiRQXYbPOnY4oAUnGY8CFRk=
+ bh=zGHyRQkmOCz5lT9Wlq3wFVxdBrmmUJ3BCeLDfItJV9o=;
+ b=IBTDCP0o13KQ+IVzSabcNT6+tEiz2wJm9cmm54HzCLvGPa7jmYvrvivaPf/z6+9aYIw7DSqJ9C93doLfhQCbOvacpKjnAmxD+SNhQQz1qUfl1GtQiP/X66v2t6RouyRY/1P0taLYz6nBD2O1WSNQbk3LO4ldlefFsDX4hIbk5Nc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from BN7PR08MB3937.namprd08.prod.outlook.com (2603:10b6:406:8f::25)
  by MN2PR08MB6431.namprd08.prod.outlook.com (2603:10b6:208:1ae::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.34; Sun, 7 Jul
- 2024 19:54:38 +0000
+ 2024 19:55:26 +0000
 Received: from BN7PR08MB3937.namprd08.prod.outlook.com
  ([fe80::b729:b21d:93b4:504d]) by BN7PR08MB3937.namprd08.prod.outlook.com
  ([fe80::b729:b21d:93b4:504d%6]) with mapi id 15.20.7741.033; Sun, 7 Jul 2024
- 19:54:38 +0000
-Date: Sun, 7 Jul 2024 14:54:35 -0500
+ 19:55:26 +0000
+Date: Sun, 7 Jul 2024 14:55:23 -0500
 From: Jeff LaBundy <jeff@labundy.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] Input: make events() method return number of
- events processed
-Message-ID: <ZoryexoiivzhHeYI@nixie71>
+Subject: Re: [PATCH v2 4/7] Input: simplify event handling logic
+Message-ID: <Zoryq51EvorLIPLA@nixie71>
 References: <20240703213756.3375978-1-dmitry.torokhov@gmail.com>
- <20240703213756.3375978-4-dmitry.torokhov@gmail.com>
+ <20240703213756.3375978-5-dmitry.torokhov@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703213756.3375978-4-dmitry.torokhov@gmail.com>
-X-ClientProxiedBy: SN7PR18CA0006.namprd18.prod.outlook.com
- (2603:10b6:806:f3::8) To BN7PR08MB3937.namprd08.prod.outlook.com
+In-Reply-To: <20240703213756.3375978-5-dmitry.torokhov@gmail.com>
+X-ClientProxiedBy: SA1PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:806:2d2::9) To BN7PR08MB3937.namprd08.prod.outlook.com
  (2603:10b6:406:8f::25)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -81,142 +80,243 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN7PR08MB3937:EE_|MN2PR08MB6431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33988e9e-bfca-486a-4a2c-08dc9ebea239
+X-MS-Office365-Filtering-Correlation-Id: eb478312-b64d-436f-3159-08dc9ebebf1a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?q6yAeSrAjFJ+ksww26N7FfpSA1dOZifX/xmUQEuv0G2lVyj+tOSS19H49HIG?=
- =?us-ascii?Q?mXcL3UuHQYlcGe3xZfxGkj2TLvzqrE0I4v+aruP0V/2IGXXdyk4q4KZ+hEM+?=
- =?us-ascii?Q?AKwS9tMkeMFrUniS1D9xQGcYlraKedxMcQkAxQ1D8yvZM/DeLoHbWrKIeulg?=
- =?us-ascii?Q?pGNwSlEfE0rB3hCWIG3dOhFMm++xjHTE78Ypr663F2neQIOmm/29GE5tiFgG?=
- =?us-ascii?Q?XH3OWWDCLB8lKDx/nmYype6qSzEl/tZFYUznds5SvGaa9ggWN9oEYkMVdNGe?=
- =?us-ascii?Q?MG565ExG97nyIE8qBY4JLE4J3D689pbPgUw6hyg6DFFvFNFRrMs5N/RaR/S8?=
- =?us-ascii?Q?ZXKOTeIVvnc1QvzTajCwoQ5fJIi+th382zOHLyekQnoAv9xh/dJVRFzqaLVB?=
- =?us-ascii?Q?wcy1WCejAVM3xqPfz+9V3u3TeXbL15AhcZVbZzB/47/xYClqkALfwGpkZQ73?=
- =?us-ascii?Q?Npzd/mpP+ymJPeEhjV01VsGUYtV128FnYxhh0NKEAH9dg2eMRjI4xrn3g5Xv?=
- =?us-ascii?Q?s5Y6IU9YyOl+u6mtc7y2G6z9l1JCMaCS/OYq4bivw/zdtuU4R43P7hHYaRfW?=
- =?us-ascii?Q?OTausB8n1hD1kxb2Vpv/AIJlncczV6Bxmzz7hDcj3r0e2E+3GILlaR3vxeh2?=
- =?us-ascii?Q?2lAu9fKhdRkT89loLdHzheEIvZ3BYmwoA+AV/NPD2VJqPs0/IAbkKKPL13Ec?=
- =?us-ascii?Q?ugbLuILfKOfj1/GKsqE5v/+kHYQCnAFYT+TsIfpMxStRw1gbqHn6EQwZiSor?=
- =?us-ascii?Q?xbfChDeVQ29TIlb8TmqMG8QnWkLChafjWPVTkKRUzgK52/4pKROXEvv0D1r1?=
- =?us-ascii?Q?sNRG0wtyYJlaA77wm0Pgj45zRlOTCbnbxROx3jgOVONEtro6BGX9iwRTwokO?=
- =?us-ascii?Q?LZc34uqBEEHrkE2N8agQQmfxSzHXgs82zntQMg7cGytMGkE6abaDwsFt1RWE?=
- =?us-ascii?Q?S+blSl9uZrhS6C/AYwYOKtY8Evkc3QgTXKHwIn+hJnnW91BOC8+qdzUHZdrw?=
- =?us-ascii?Q?cm6pWAUb053dbyTgg0I4YbfDbER2WAkZ5WEcf1pEd7x5pEiVxtyhBciI60Le?=
- =?us-ascii?Q?qXe3cJmv2e/dHpLws/gs3vgjhuRUk561uIeOZby4GTTLBtmc7vcG4JPHVXEw?=
- =?us-ascii?Q?Yzqd4w7RNICgfb29FDI1n/a/CQKK+fPOarafABN4NkGLF9KHBBrtsR/1Ehs/?=
- =?us-ascii?Q?gOAJ6ZSDvzTqdSSbtXcPzsFGuvFkgwb3bIYs2kJeWil616QtpwgrZv8URLJk?=
- =?us-ascii?Q?uc1Mdz0pPMxkNvS3PvruJ99sY8oAHzZb+392eaP1NZibSeWCJqzZMVswWlrK?=
- =?us-ascii?Q?Q7Zb6PNPM9n2Ys22uY5dcSYLXE6qPncB9skPdYqNBq9O9Q=3D=3D?=
+	=?us-ascii?Q?11Ysxa/34KVjub+1b0SLP4AnUt5kOi4rXND29w+oIuEvDc3mgFWnG4rk/CmP?=
+ =?us-ascii?Q?va/uX9aVicSXU6qxUbK8jDWRuCEn07T6JiW8ZaahbPKv7lvtg3VpIjBneRTj?=
+ =?us-ascii?Q?C/XDQBexuZJtp6+WK3GCo5RK15ELFmXAZ+kuce6Bw1Uh4rJKeDRpNtzZy2st?=
+ =?us-ascii?Q?TnvS/eygvJ5uPxKDxP1Af6dZYmtCY8Vh+NmyDvSGbHhmqF5J4TErWR/rtujg?=
+ =?us-ascii?Q?5AQZi7Z+XMxJio9dbcEexSt3Gwd9OkGYp0ySg7XgVcdxEApi1kd1tmd2cFFa?=
+ =?us-ascii?Q?DWDF8Tmp9EdPoY5cp7caIcE2nB9P60QmRTYqAvnyBpahdyuWfXbAU6G/oBiD?=
+ =?us-ascii?Q?CEQ53zuID8rUK5kCHNMzq4ZgAZ+9+YwVjxeAmkiw9J1pR/0J/U1T+Gx/7KAQ?=
+ =?us-ascii?Q?xYeCxATmdzu258vaKXJLS+J5LWxNfJPS5V0o0M2imrl1X7vXMj9UlSC7y4LX?=
+ =?us-ascii?Q?wPcgHyHMb1q1RH71olakolym+n+wUwJ71+7/R0dgZxzgxw4u3qgfbPDek85l?=
+ =?us-ascii?Q?hM8nGo90kdRY/gTTITWNKbhIdDNTMHl5ESN7Aq8YvyM30mFkoUvgBQVBeNcT?=
+ =?us-ascii?Q?19V4hRGGeW/L+hFZCuLM4amCYmgy19yqrXjaGKz+j3uUdy11S7wcp2WVOYls?=
+ =?us-ascii?Q?kPOJMzVRvw0AaT4+/6IwRNGOfXChXxOL++g9V3K/JMsn34ZCiUbGUUhiwn8g?=
+ =?us-ascii?Q?BDVTFnEB1XpHlT3H6Zzluc8MzSfp1TxcnEYQG4blTDjQ5NFGUwFg6ptmHSIp?=
+ =?us-ascii?Q?XW6MGTQ7eL3eOJjj99wejamDGOr+Hs9U1rI/4xxNxVIuU2bkqhJfYLt6Brbh?=
+ =?us-ascii?Q?kyzFInz1qxYcMg+Kg0C0emp8SgJZ3Z3BGl6byeTzU2Wgn1xQkn5bFe+0UynP?=
+ =?us-ascii?Q?EgCeSDJbgLcTq6QA/5tokNwIciVKIF5zYZsS0wG6Z5lwvf1iMFnDJFgoHWJg?=
+ =?us-ascii?Q?jVXxWmQYTFiN+/epjEVkW88547gbkj5ygZtrlAFS3xeF57wI1yLuBnRa24CT?=
+ =?us-ascii?Q?8HzYbyrFOvBrZvkFzLvuUfa6J84H57inKWh2Rocn028YqEWI3++iNjxmhTha?=
+ =?us-ascii?Q?C/5pyNLBhylHP+PZVQesM7koONYFxoDlCN2CzHZAY0cFCoHCivng8QEzqiTb?=
+ =?us-ascii?Q?3zxa4lfuBVZ36hXY31lHQaWG9b/7jb8lukfCsuTpsTM9i25hXVBeQq/q3/kS?=
+ =?us-ascii?Q?AZyOCXCfs1LsA0jSXQ2Nam29yyETufwirQL+/jJUA+J3VukHyUAABftAqSWj?=
+ =?us-ascii?Q?jcNAuGUNC7/jiEc1QvMvf1TrGdVGyj6VFskQNOJ0xG7KX12bqvCYlVVPC6Z5?=
+ =?us-ascii?Q?sp/aOsrcGbESVmtCjXBpZ0lS1qtI4iWuW4rERLIzjGNsfg=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR08MB3937.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?52iW+9pOuFtv0cKq5pa7L28evk5kBvwyJ5Mp4st5uf+/EjLAr9CelzYklGia?=
- =?us-ascii?Q?/je4WjhvydejaiplUe3nfo20USKDec0bAQX+C9cy939VDGBNls8npG1/uRoe?=
- =?us-ascii?Q?H2i5pl3G3XBmSvT2jZ/dnKpAOXVmrtW/5srSyzN3lR3ks02FQ3NLYLTgnzS1?=
- =?us-ascii?Q?ay1NHWS6MZ2UKLZ/4gU8U59WGelK41c04sg0VomjolJyOPaq4yoDCUWgF67Q?=
- =?us-ascii?Q?B+tiL1M642yAzE4TFTnmp5o8jjjSUdBup4wuSxT0//jjIWUlp5MN6doaTlFb?=
- =?us-ascii?Q?4OchrdfgtSszUR3mK0tEBq4pEAZCr6lnaSidl00POwYtKhwdrC51P0ZprK0U?=
- =?us-ascii?Q?aQh208SZOFbqN72B4adu2cQ9IIISOpI/ALaZgN5nw/W8NwGAaXC1h91jDlA+?=
- =?us-ascii?Q?4Erz+5tsHyxpHXEQ3B8ycU3Lr0bAOAtI0vuknHTM7T/V5PlVaSBUXx8lL+Eh?=
- =?us-ascii?Q?PGCJRZUFb5rv1gGdWpx5XCA6awwi9+MsflLzWjDVp9+vkGhebGzkXfLFgIa9?=
- =?us-ascii?Q?xr2JwdO8Zt4apDuAoybMIXvHQKjk1VJfBc+32S3KiBufDJ2d2HrK2owM9Pmp?=
- =?us-ascii?Q?UTi/fUdBvZYbpwm2N3d/U1LrwhRzehIhOJlBW6Slw/4dDn+muBgdA//1/bt+?=
- =?us-ascii?Q?kaFr2PMIt01vEhD6VY0r9biuYGvGdOlnaXKYddj3va6Z4HvpavyibHCrjKc3?=
- =?us-ascii?Q?PLg0WZY/Avp3XIKRSk7tLwKtuRgBzduBKsjd2/VshreHv8FvLpeW074UdOj/?=
- =?us-ascii?Q?Ik+JTC79tZuEIuE5SJTN3+lcQ4kadX5cvusbDDXO/C1lsTXzmDQ4dGoNPg0s?=
- =?us-ascii?Q?sF0Yo3XNhN8gtA2ucH3BZ1hj3Gp0VEgd4qi9nUuP1p8DBu89u1zXcPlA6364?=
- =?us-ascii?Q?CyTjBlMRUapb+5oQzmXYlWebvsOEdKi6nJVGfRKpfSaWiCcUsGfg8tcYvK5g?=
- =?us-ascii?Q?rkJl1rT3GWhATUSIpDXYzi2sJchKtG640ItY+iHtZ9GBL2DRV+EWBczBXUO+?=
- =?us-ascii?Q?CLwMJdGh8CQqAMXj49Ph60GNpzEuQulzJUFYl43S80RDrc+w9kn+Z6NkKy2+?=
- =?us-ascii?Q?FO00S78/EuVvfeGNEE+qkXVaexB1TD9zN6WaX83TLdZ4bPT3qfXDj0j2j+kw?=
- =?us-ascii?Q?6VcDQWBBdNNCFdViTJznWFT8nLhiF3qmVWJc5borRPMqkVkBq/KROWj9VH3e?=
- =?us-ascii?Q?xLyPT8fRiFePUMB6KnUiAJ5HvSAlKdJPpp2bNkrbhKYFOlvgC7kZ5yEBsAJl?=
- =?us-ascii?Q?XWrrjEMZ7567ZsoxoGsh3N7CQ36bKzwxTN+Bx7cJUt/Vu/b1xlwyjrG1vsar?=
- =?us-ascii?Q?hmjPfK4sSlIKk/f5g8HegyuwEAmC2CK2Yq/lquv8tcE0dgsOwz4Hu9Q8sAsF?=
- =?us-ascii?Q?6dFb1ym400kQriYMBx7/r0ImMVtNEAPR2V3iigxenuw/pgxIQPQZPKL98GPz?=
- =?us-ascii?Q?DmPh5DY7I2hYox37hXAiTha2zy+uB0Xdcws0kGYXb7gQbPRqhCJB83XfcN19?=
- =?us-ascii?Q?ETwegZQ/IMFwuxE3IhoYbhAIWmUDBlGz2zHaQy6HGbxaE2YDm07y2bdGKGLN?=
- =?us-ascii?Q?K6mxxQ3cz6zkuEMthVuRu8Wr/A5GvReykgSnHgVW?=
+	=?us-ascii?Q?AvtVB1acBtgMWN41rpzeGkBf+kTH5MGttLzYhD4n8H4rjPwAA8xj2DRFivsH?=
+ =?us-ascii?Q?uxQECgeF1yXdGnuueIOWs+lJnt4KKVV3n8f9/I41o60ZetrwU5lWbMrLrXaK?=
+ =?us-ascii?Q?tLatjRo5ajW/CLnkBwaXQ5LvUcY+FObz4IbxYaE/TvWHEuZAfyBarJT2EQrd?=
+ =?us-ascii?Q?mp59dqzEGAnQZ21mSEjqBTT/tK3IIFjpo3ERgSz5NpWyGYRQRyCG99lGOjNW?=
+ =?us-ascii?Q?34SIRk5yx7h4B6V+vZ95IocvyRPuNvKekoloNd7QRrhZQsv6BcV3dGAjZo7p?=
+ =?us-ascii?Q?XA2OW5IdfCQu0OpXZbCFvAS0KIVhhcpiMhof5yOCkWg14ZCTUgMNCNlP21PZ?=
+ =?us-ascii?Q?BjtYPwjNGg7pQXs+pe1PzoPPstnIl+xEprRZm9lKI0ZalA86oLx/Svmr8EFN?=
+ =?us-ascii?Q?Vp3/ueRzJ3DOArCWQSUvRvWG2BdzoBv08pIACojqIzV7VYn8CiFwaGCWNhQm?=
+ =?us-ascii?Q?mWoFLhpXK9Uh+IRAxRyasMBN7OzR9TTenEQvvof3I9/i+lB7sTAI+alO0z49?=
+ =?us-ascii?Q?+WzPhuxD9TfYVnTEttHLtWuxGxqm85/0+hfgI9UHOOCQtHJEgbWYn1su8Gx2?=
+ =?us-ascii?Q?2PRu3TPYBSx09iLhTSL8ez6hFzk2YM7V9yurWIyrlRePWoqatoqSuMk5nIIo?=
+ =?us-ascii?Q?LAYZOhKyC/CHd9PoSEg54NINJh47cROuaKHeHNPkrw18lkNX0wxo+WLEaMHC?=
+ =?us-ascii?Q?XnRUa2OAuqLNN/NDLU3xxsXoTFgwtdHq4heY5QVcQKhuevNrmEt9+v86FZwD?=
+ =?us-ascii?Q?kkOcTTvzqYvo1bdaqpl5tpaRMjtJKRCBA6C8jcWsdkOuAs46uiccaowa++lR?=
+ =?us-ascii?Q?VO042TuBSGMIFj236NSMuZeFWhN1SPDl13JXbDO+FpPvuY8MlkRzVeQcyHQx?=
+ =?us-ascii?Q?Plrb9CzkRKUu6GNccU7HbZ9BfzRRWhrepCflPgQVcosaEqZvLFVpEh/2lvnv?=
+ =?us-ascii?Q?0WzpmbaFGUlFW559lSkOW2PpqYoLux1qHzMihgkFrGNRTuRCucuQMt41GE8J?=
+ =?us-ascii?Q?Hu+GbuhjC49mME2/FBnsQKLJlKJl+a8ye3npC/CAIBOu9Y3crhPijmKjQjfF?=
+ =?us-ascii?Q?X7VpC1/MRz5yRlDXEk/v5rcK1/F95PGFOG4+ehVw5I0+WNJg+h0q+U+Ch4q5?=
+ =?us-ascii?Q?mwoqCltIXFMVzyMKWuA3OUJgLOUo7iBzMwnDrDbmYw1sWlKQuhHvk5eEqeEq?=
+ =?us-ascii?Q?IMhw6lGYcN7g1eKVP7tVmAvxrIMMmLId1nKM8hrUvEoAjDZRqNA++YXpjYwb?=
+ =?us-ascii?Q?26axStB926P8XgsX8E4+1g0aRcVO2JUXFxJEDPx3iyDpqe/62bS4dLtno9wF?=
+ =?us-ascii?Q?7cxHkXFa8Z5ViDdH1/p026e3gvRFw/5AXe4jdH7Lx8y88Zgwfj0WOu76y4ON?=
+ =?us-ascii?Q?rlmciLEceQLdWygEOGfHcbCXXxX3m1PJfFRmkZwNNxWLSTAeD234jnb+NEe4?=
+ =?us-ascii?Q?E0K/GRscYdkZcBheg9qzC+C7IBYQe2Xemh2Pg4P3QiyA6S6ohj+y4wCa+q/w?=
+ =?us-ascii?Q?RBw5werWXG0jWNEFdYrIZEmV41m62IXgcY9VYIXQc3+GMNtwCrs8X0gGB/wZ?=
+ =?us-ascii?Q?DDkehbwmrLFIgXoTKH352a16d8+FRuIdBaXdQCJA?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33988e9e-bfca-486a-4a2c-08dc9ebea239
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb478312-b64d-436f-3159-08dc9ebebf1a
 X-MS-Exchange-CrossTenant-AuthSource: BN7PR08MB3937.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2024 19:54:38.2960
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2024 19:55:26.8039
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RFAAk6yfgfcBZNfZp+1L8dz3BS/efd+u2HBwpt28Cb6S5JYbks64mJY3Ry0yP02RA2KuqjX0LPskrtUhi3qd3g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 75qsSuSwT0RQu2mXhCq9l/7K6qDFW7oIBoVNSyAmyV4VJGTdGBJBXkdjGu9jQzJ/cRzAkLmjCAgRkdGFCl8w9Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR08MB6431
 
 Hi Dmitry,
 
-On Wed, Jul 03, 2024 at 02:37:50PM -0700, Dmitry Torokhov wrote:
-> In preparation to consolidating filtering and event processing in the
-> input core change events() method to return number of events processed
-> by it.
+On Wed, Jul 03, 2024 at 02:37:51PM -0700, Dmitry Torokhov wrote:
+> Streamline event handling code by providing batch implementations for
+> filtering and event processing and using them in place of the main
+> event handler, as needed, instead of having complex branching logic
+> in the middle of the event processing code.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
 > ---
->  drivers/input/evdev.c | 6 ++++--
->  include/linux/input.h | 7 ++++---
->  2 files changed, 8 insertions(+), 5 deletions(-)
+>  drivers/input/input.c | 109 ++++++++++++++++++++++++++----------------
+>  1 file changed, 68 insertions(+), 41 deletions(-)
 > 
-> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-> index 05abcd45b5d4..a8ce3d140722 100644
-> --- a/drivers/input/evdev.c
-> +++ b/drivers/input/evdev.c
-> @@ -288,8 +288,8 @@ static void evdev_pass_values(struct evdev_client *client,
->  /*
->   * Pass incoming events to all connected clients.
->   */
-> -static void evdev_events(struct input_handle *handle,
-> -			 const struct input_value *vals, unsigned int count)
-> +static unsigned int evdev_events(struct input_handle *handle,
-> +				 struct input_value *vals, unsigned int count)
->  {
->  	struct evdev *evdev = handle->private;
->  	struct evdev_client *client;
-> @@ -306,6 +306,8 @@ static void evdev_events(struct input_handle *handle,
->  			evdev_pass_values(client, vals, count, ev_time);
->  
->  	rcu_read_unlock();
-> +
-> +	return count;
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index 7e4f8824f4fd..40a04154f99d 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -99,45 +99,13 @@ static void input_stop_autorepeat(struct input_dev *dev)
+>  	del_timer(&dev->timer);
 >  }
 >  
->  static int evdev_fasync(int fd, struct file *file, int on)
-> diff --git a/include/linux/input.h b/include/linux/input.h
-> index c22ac465254b..89a0be6ee0e2 100644
-> --- a/include/linux/input.h
-> +++ b/include/linux/input.h
-> @@ -275,7 +275,8 @@ struct input_handle;
->   *	it may not sleep
->   * @events: event sequence handler. This method is being called by
->   *	input core with interrupts disabled and dev->event_lock
-> - *	spinlock held and so it may not sleep
-> + *	spinlock held and so it may not sleep. The method must return
-> + *	number of events passed to it.
->   * @filter: similar to @event; separates normal event handlers from
->   *	"filters".
->   * @match: called after comparing device's id with handler's id_table
-> @@ -312,8 +313,8 @@ struct input_handler {
->  	void *private;
+> -/*
+> - * Pass event first through all filters and then, if event has not been
+> - * filtered out, through all open handles. This function is called with
+> - * dev->event_lock held and interrupts disabled.
+> - */
+> -static unsigned int input_to_handler(struct input_handle *handle,
+> -			struct input_value *vals, unsigned int count)
+> -{
+> -	struct input_handler *handler = handle->handler;
+> -	struct input_value *end = vals;
+> -	struct input_value *v;
+> -
+> -	if (handler->filter) {
+> -		for (v = vals; v != vals + count; v++) {
+> -			if (handler->filter(handle, v->type, v->code, v->value))
+> -				continue;
+> -			if (end != v)
+> -				*end = *v;
+> -			end++;
+> -		}
+> -		count = end - vals;
+> -	}
+> -
+> -	if (!count)
+> -		return 0;
+> -
+> -	if (handler->events)
+> -		handler->events(handle, vals, count);
+> -	else if (handler->event)
+> -		for (v = vals; v != vals + count; v++)
+> -			handler->event(handle, v->type, v->code, v->value);
+> -
+> -	return count;
+> -}
+> -
+>  /*
+>   * Pass values first through all filters and then, if event has not been
+> - * filtered out, through all open handles. This function is called with
+> - * dev->event_lock held and interrupts disabled.
+> + * filtered out, through all open handles. This order is achieved by placing
+> + * filters at the head of the list of handles attached to the device, and
+> + * placing regular handles at the tail of the list.
+> + *
+> + * This function is called with dev->event_lock held and interrupts disabled.
+>   */
+>  static void input_pass_values(struct input_dev *dev,
+>  			      struct input_value *vals, unsigned int count)
+> @@ -154,11 +122,12 @@ static void input_pass_values(struct input_dev *dev,
 >  
->  	void (*event)(struct input_handle *handle, unsigned int type, unsigned int code, int value);
-> -	void (*events)(struct input_handle *handle,
-> -		       const struct input_value *vals, unsigned int count);
-> +	unsigned int (*events)(struct input_handle *handle,
-> +			       struct input_value *vals, unsigned int count);
->  	bool (*filter)(struct input_handle *handle, unsigned int type, unsigned int code, int value);
->  	bool (*match)(struct input_handler *handler, struct input_dev *dev);
->  	int (*connect)(struct input_handler *handler, struct input_dev *dev, const struct input_device_id *id);
+>  	handle = rcu_dereference(dev->grab);
+>  	if (handle) {
+> -		count = input_to_handler(handle, vals, count);
+> +		count = handle->handler->events(handle, vals, count);
+>  	} else {
+>  		list_for_each_entry_rcu(handle, &dev->h_list, d_node)
+>  			if (handle->open) {
+> -				count = input_to_handler(handle, vals, count);
+> +				count = handle->handler->events(handle, vals,
+> +								count);
+>  				if (!count)
+>  					break;
+>  			}
+> @@ -2537,6 +2506,57 @@ static int input_handler_check_methods(const struct input_handler *handler)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * An implementation of input_handler's events() method that simply
+> + * invokes handler->event() method for each event one by one.
+> + */
+> +static unsigned int input_handler_events_default(struct input_handle *handle,
+> +						 struct input_value *vals,
+> +						 unsigned int count)
+> +{
+> +	struct input_handler *handler = handle->handler;
+> +	struct input_value *v;
+> +
+> +	for (v = vals; v != vals + count; v++)
+> +		handler->event(handle, v->type, v->code, v->value);
+> +
+> +	return count;
+> +}
+> +
+> +/*
+> + * An implementation of input_handler's events() method that invokes
+> + * handler->filter() method for each event one by one and removes events
+> + * that were filtered out from the "vals" array.
+> + */
+> +static unsigned int input_handler_events_filter(struct input_handle *handle,
+> +						struct input_value *vals,
+> +						unsigned int count)
+> +{
+> +	struct input_handler *handler = handle->handler;
+> +	struct input_value *end = vals;
+> +	struct input_value *v;
+> +
+> +	for (v = vals; v != vals + count; v++) {
+> +		if (handler->filter(handle, v->type, v->code, v->value))
+> +			continue;
+> +		if (end != v)
+> +			*end = *v;
+> +		end++;
+> +	}
+> +
+> +	return end - vals;
+> +}
+> +
+> +/*
+> + * An implementation of input_handler's events() method that does nothing.
+> + */
+> +static unsigned int input_handler_events_null(struct input_handle *handle,
+> +					      struct input_value *vals,
+> +					      unsigned int count)
+> +{
+> +	return count;
+> +}
+> +
+>  /**
+>   * input_register_handler - register a new input handler
+>   * @handler: handler to be registered
+> @@ -2554,12 +2574,19 @@ int input_register_handler(struct input_handler *handler)
+>  	if (error)
+>  		return error;
+>  
+> +	INIT_LIST_HEAD(&handler->h_list);
+> +
+> +	if (handler->filter)
+> +		handler->events = input_handler_events_filter;
+> +	else if (handler->event)
+> +		handler->events = input_handler_events_default;
+> +	else if (!handler->events)
+> +		handler->events = input_handler_events_null;
+> +
+>  	error = mutex_lock_interruptible(&input_mutex);
+>  	if (error)
+>  		return error;
+>  
+> -	INIT_LIST_HEAD(&handler->h_list);
+> -
+>  	list_add_tail(&handler->node, &input_handler_list);
+>  
+>  	list_for_each_entry(dev, &input_dev_list, node)
 > -- 
 > 2.45.2.803.g4e1b14247a-goog
 > 
