@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-4892-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4893-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96544929CEC
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 09:16:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8D3929CEF
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 09:16:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31C88B20CD6
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 07:16:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F8161F21AC9
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 07:16:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CFE23775;
-	Mon,  8 Jul 2024 07:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648593218B;
+	Mon,  8 Jul 2024 07:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvqzMpH1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0QQnOem"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA84224F2;
-	Mon,  8 Jul 2024 07:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A712824211;
+	Mon,  8 Jul 2024 07:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720422971; cv=none; b=YmZnysBWt6Y01iiZzG8vBzjgxItDqaLi/ZAgU90/oY+1FWYs32Q/ATsKvFWw/sqTEdGa3Ef1TML2EbFUwPvkj6XsBNIkN2hY+V96sbX3pOqLhCYVyf+ZnWEf+wPuFJk2SF3HwbRcMCiPUOO8+KoJDD0fW/+APGnFcZSIxR+tGEM=
+	t=1720422973; cv=none; b=crhATqh6fRgyNpKesUghySBSAz5JLALJf+yeBxW2w1oEnCAD7ekUSmocbo8DEKGO0++8znnOe1qkf77h89t/t3Eax3Tdte5Sy5RtsYArri++4rBtzpr4xBjtsD/BFUDwsfh/7adbl8hK54nLzpJt+GI8C5mKd8GEhOkxXvr6I6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720422971; c=relaxed/simple;
-	bh=h3+KBOlt8omvXSrpwxNhfGFcHcpApPKjKBcqxJdbRQQ=;
+	s=arc-20240116; t=1720422973; c=relaxed/simple;
+	bh=sHT2gejI7g0XKR+lt1K92pFzxyjfVxJww2AwZ7KOL3Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iAh0KOH/XSDVEYpLTHnB2en5mWeVOV9KSq/ckePRNgDJsaZy/lqO/p9eWktrEajfRi5p3jLvDX86v1oJqN+aGBNBDJ5OKlADqlzMWWWjogdUIBGGf5v/QOpvjgcoU8/R9ROiBUW5O69BGA2uJoTnBGYmezLx1xfeywn3WqBL8tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bvqzMpH1; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=tDlDwR1fcHoZZuioI/QVP03D1T8uBoG/KlvQTWFVqwiIGbCA1fCyhWeM785c3u9xAD2ojiuPUsslWZ+m9eaFtAxcrU8UROogSfRLVO2+SVa87UvTBFSOdbTG8efwZYR/uMqVumweMhuc9Ug4yYn9zKXob6yBVJ0/4T8chW7XQnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0QQnOem; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367ab50a07aso1704955f8f.0;
-        Mon, 08 Jul 2024 00:16:09 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52e99060b0dso3909819e87.1;
+        Mon, 08 Jul 2024 00:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720422968; x=1721027768; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720422970; x=1721027770; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NSr6W9+kIBrExV7rAUXxvmIpCII4LVhMfKMFiF1UZnE=;
-        b=bvqzMpH1wsRa8xnoFcwCbSmxK0Ik0l6A5bEMuPvAHyfpLaJnLoBZPKFnBVb85qeVIl
-         Mm/fb8K4IDmoRkhgyZ7UysVV4kuQAZ+XbzsjYiqN/w4ReDeRixLRHpFNcxFU2tWPn6Gi
-         gxhWn4xKejUkZCEJ4JxBJkTke/om0lLscEo594NgFXCMhPcuwKWWK7TeUYvTjD1g4HDd
-         VtO1fiYx33M94dJfJvRRSyu/4Y3dBbK/je+cawHYfBAVYraC9JvgAv72CI8SZqNTzeLt
-         kG+ENV02Y5+1M9Z5TdDxSMP7lDrFPNZui4ya+kmPPmnQ23+7eR576SEbwp86BpVJP7sl
-         ky/w==
+        bh=AFhWGLjXxrpIBhuvDdpT6ZAZC88NAS6103pgQHGSnqI=;
+        b=O0QQnOemrGczHhi28PCYTynks16LBdkcerRRDr5PnDqsx4ND2I333D45Z0iC29hMqR
+         BPnS635V73AUset61ks/BR9Nzb4gz3rBo/BgDfDPXThMt87l1zfsdX9uUeXgOsfxnqmR
+         vw5JnkCiPlqWeg2l7qgTWIaX5KVVXmfZNw5f43wfJiKMSzYTNnHIRJQpixxoK0ql8Z91
+         xdgIOKe0KsfdE6R+N0A2liBXm4L0MCGmXs0vskfMr49i880aT0Z2g3iZoFZD6R+IDi4z
+         U0T8qw7VZQ96UysUwPcoIqx93r+gXfqcbMtNY6+gO8k0pjwYlMW62YaEN8jjsLnLEuNL
+         Rw4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720422968; x=1721027768;
+        d=1e100.net; s=20230601; t=1720422970; x=1721027770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NSr6W9+kIBrExV7rAUXxvmIpCII4LVhMfKMFiF1UZnE=;
-        b=ZLgChrphDUCilaSqKdg5DGziJNZIszYTaRwwAbJQDNXxb8WUFDbPbw2PlWIoSkLzaL
-         yACBK0m5Op9B/xKKP2uawAWBy31nwEBNlEE8U5m2naaehfZxRIoAD4ZFrM1rU6T5OEFf
-         dw4XQInKo+VjYYm48eUlHuLMSdyEBzJOgSatK5c2cZEf3QjHIbM4pZ+nm3IVu03Ffw1U
-         puQsKeQ2G2afOw2HWt1Ut/ZfdDHAMsFJ0VTy9Ec0GxXRIY4D47u6o5b+fpepK8eD1y2l
-         0nSCP7GH061eqPSLvxjy5uakjxjuk6wRw5OpOuf2T9nE0POvez7I9IayLl5iX3NVBBHT
-         wYgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLnCo9UlV12Whg3xPc7MLH1/3tdhhHTsGBdSptd0mCP8RoICgYBva/kCer3voVSdOXjL7EIrDoUhxpmiEZQhvxk1WaG8jNeDcM/m6P12RGxYm72p0G7iWTuzNB6JyMOA4k3xPuCbkDIg==
-X-Gm-Message-State: AOJu0YwBQgSToMiCCGqTnARI82GYCYlBpVpkA1oglrc9Isy2RemXp+B8
-	oln7eRSOuzE11mQscUtO5KGo4fV/xaYy9rrTawsgHnWdAhxnoyX4
-X-Google-Smtp-Source: AGHT+IHrzhQu0plLHQSnW6EQAbhlLdpaa6G8qkl7Pllj+JcKaF9nRXS7gqQjM6Ofo0NmYv4Ov37Elw==
-X-Received: by 2002:adf:ecd2:0:b0:35f:1dce:8671 with SMTP id ffacd0b85a97d-3679dd29926mr7019361f8f.25.1720422968305;
-        Mon, 08 Jul 2024 00:16:08 -0700 (PDT)
+        bh=AFhWGLjXxrpIBhuvDdpT6ZAZC88NAS6103pgQHGSnqI=;
+        b=NQEttUdiZ3n1rDeBNddVol8nw2GsKfesh0mU3+S5noxcq4h56kJ3SUWjj4/jidoWby
+         icogWOzNvHn3iAauSPm5wQQQwD2dT9qnPb/uqQpuzHG6jrmxM4EONsuW2bB5a0D1I9G7
+         4I1b0LjZ5c4HWeQeXiAGB+AX+KuOv4GyXba/+5c7EFGgu6j+lFVkMigFxRH5IPH+HAwR
+         FHzcVAoj9QfIcfqQUYZJhwxmX1n9RqsJ2KdCJUyeIdAzMXCcKiV/hZi5/oD0EYpMQ4iV
+         ojSn1WbzCDJV7Dt2FjmFllDO5zkH8TGY6pGwyVe216ASYr/IALmnOD/7IZy+g2UFTjqJ
+         g1cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkZ8sHffPsmTqv7mFvJrLDPl5EFzx11ho+mNyX93f2sEpMcUh+80320lCvGlCO9drbznmYHKk0LbKiCyKz0psGx/iSKqGdV9H2pXGulB5dAPXcwVcF2s0jw6sDJxYSrUweWZW9sWfr8A==
+X-Gm-Message-State: AOJu0Yy+5bMsXb9gsDtg52E9M3k65zwgfYcB9T6KHqGjkKSH5lIS9ryA
+	RlvLQyKQXMKhQZU4d+U8U5ztByeU9bj8inIJNIByrnfxXPETfYAd
+X-Google-Smtp-Source: AGHT+IHcUMix5VO0zk46X4Nnwk0P0vgPnVPmSZzcgZqI6KRivT5tw5aOfPyuvEsFnIqmFpIZxb0+Ug==
+X-Received: by 2002:ac2:5a50:0:b0:52c:dbc6:8eb0 with SMTP id 2adb3069b0e04-52ea0632ac0mr8398974e87.21.1720422969742;
+        Mon, 08 Jul 2024 00:16:09 -0700 (PDT)
 Received: from eichest-laptop.toradex.int ([2a02:168:af72:0:a786:d603:1c55:ced1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679dd5ea09sm9994564f8f.65.2024.07.08.00.16.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679dd5ea09sm9994564f8f.65.2024.07.08.00.16.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 00:16:07 -0700 (PDT)
+        Mon, 08 Jul 2024 00:16:09 -0700 (PDT)
 From: Stefan Eichenberger <eichest@gmail.com>
 To: nick@shmanahar.org,
 	dmitry.torokhov@gmail.com,
@@ -83,10 +83,11 @@ Cc: linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH v5 2/4] Input: atmel_mxt_ts - move calls to register the input device to separate function
-Date: Mon,  8 Jul 2024 09:15:49 +0200
-Message-ID: <20240708071601.7571-3-eichest@gmail.com>
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 3/4] dt-bindings: input: atmel,maxtouch: add poweroff-sleep property
+Date: Mon,  8 Jul 2024 09:15:50 +0200
+Message-ID: <20240708071601.7571-4-eichest@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240708071601.7571-1-eichest@gmail.com>
 References: <20240708071601.7571-1-eichest@gmail.com>
@@ -100,68 +101,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-The calls to register the input device are moved to a separate function
-so that we can call it without having to confiugre the device. This is
-necessary if we want to power on the device only when it is opened.
+Add a new property to indicate that the device should power off rather
+than use deep sleep. Deep sleep is a feature of the controller that
+expects the controller to remain powered in suspend. However, if a
+display shares its regulator with the touch controller, we may want to
+do a power off so that the display and touch controller do not use any
+power.
 
 Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 34 +++++++++++++++++-------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+ Documentation/devicetree/bindings/input/atmel,maxtouch.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 4fc83a4cabd9b..85f3c685bf526 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2277,6 +2277,28 @@ static void mxt_config_cb(const struct firmware *cfg, void *ctx)
- 	release_firmware(cfg);
- }
+diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+index c40799355ed75..8de5f539b30e3 100644
+--- a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
++++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+@@ -87,6 +87,12 @@ properties:
+       - 2 # ATMEL_MXT_WAKEUP_GPIO
+     default: 0
  
-+static void mxt_debug_init(struct mxt_data *data);
++  atmel,poweroff-sleep:
++    description: |
++      Instead of using the deep sleep feature of the maXTouch controller,
++      poweroff the regulators.
++    type: boolean
 +
-+static int mxt_device_register(struct mxt_data *data)
-+{
-+	int error;
-+
-+	/* If input device is not already registered */
-+	if (!data->input_dev) {
-+		if (data->multitouch) {
-+			error = mxt_initialize_input_device(data);
-+			if (error)
-+				return error;
-+		} else {
-+			dev_warn(&data->client->dev, "No touch object detected\n");
-+		}
-+
-+		mxt_debug_init(data);
-+	}
-+
-+	return 0;
-+}
-+
- static int mxt_initialize(struct mxt_data *data)
- {
- 	struct i2c_client *client = data->client;
-@@ -2831,15 +2853,9 @@ static int mxt_configure_objects(struct mxt_data *data,
- 			dev_warn(dev, "Error %d updating config\n", error);
- 	}
+   wakeup-source:
+     type: boolean
  
--	if (data->multitouch) {
--		error = mxt_initialize_input_device(data);
--		if (error)
--			return error;
--	} else {
--		dev_warn(dev, "No touch object detected\n");
--	}
--
--	mxt_debug_init(data);
-+	error = mxt_device_register(data);
-+	if (error)
-+		return error;
- 
- 	return 0;
- }
 -- 
 2.43.0
 
