@@ -1,244 +1,219 @@
-Return-Path: <linux-input+bounces-4894-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4895-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC387929CF1
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 09:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1EE2929D5A
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 09:42:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 590841F21811
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 07:17:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 716041F224E9
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 07:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E105E381BD;
-	Mon,  8 Jul 2024 07:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96DB82E416;
+	Mon,  8 Jul 2024 07:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsiDSzZE"
+	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="VhLZU4xm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC6D2C694;
-	Mon,  8 Jul 2024 07:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522F5381B9;
+	Mon,  8 Jul 2024 07:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720422973; cv=none; b=CBmC4MOccS+IFq91ysWchrWnCWPvONQj322p3Ko2a09CwTQ/xtb0SKNsArmw354cb4ML/YI+GoSffJjKuYAURMvCK3GorZlZBPtuW7Yf+J18YpC5YQGeOj+wRtzXz4ZcV+FdwBw8fcdv6UcfnQl0qkjSWfE6JPkiXweAE2eHzoI=
+	t=1720424534; cv=none; b=aCBRDhC+fQSIyKfGLvD9JovgMnyrTTrcT41pG4eHKAsC+PtnC9yiEwGk1TJGLyOHu9SPG8OE+8yUp0qBunhRnZeaJZabqH+nHO7A2lnyMB9+8ckJHPzSQbggwQD+A3SP+mVWLgZnR46JIl0sBGIf44o9j+s/n+JWVn/0V7Efhwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720422973; c=relaxed/simple;
-	bh=yOX+W+4UFfjm7aIIDqbdd1jZIgnWT/b322lNMxg98U8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pCyQ5b8LSKINduhw+bNXgYbKqrNpDLJF6hExWFgtiY3+9D3KlmCf8jR9bW8nxORr4yJ2v0RUKqcFiMGimxuJAO2md9JjaEIjrxOlYjkvwgtUVmpeaz+88iVFtUQRBatFL2SmbBSfP3GTvA5NAUi+kQNR/GQcYEZhr9pn/LK02n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsiDSzZE; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4255fa23f7bso23839925e9.2;
-        Mon, 08 Jul 2024 00:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720422971; x=1721027771; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FvhvTdVpDZ79yvlH1+XJiOzGxkpYhrLPBWh5+/JeQbw=;
-        b=RsiDSzZEIkmDOvGFKwHp+z2k2I64b7beUeqsfRU0aEVmIcYIIEgwPum0yOW1gtS9Dp
-         6BC9HKpxpGVSu4HaZ/ogsU8LekaBQMmoXtsU8EMfMbVzcwpBmq56j/e2F9UPUd9q65un
-         un4V/g1jKNN/DQyuFXz+PfkAKekx9oqlfiuxTL2Yn8jDZ+qgvJuHcARGMZTVbRfB0AsC
-         1wyS3sa4mmvYux8+N5+osjA+dRN1KjJ6VS5RRRJwHomMVYLfa4ei1+/CPw0S63sY9BwK
-         7TjxitDflv45UdAoQZiUK6PEPagVWYoxaEMS9f1RUbG7q+pTBOXr4XM6j4mFBf9OlkTe
-         p1DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720422971; x=1721027771;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FvhvTdVpDZ79yvlH1+XJiOzGxkpYhrLPBWh5+/JeQbw=;
-        b=aLtFKF0xTx7/PR3kG/sJQSEyHzG9SZQPQdSW0vfiGKrtXf8Kwmx8+CHM1jNpMYsvFJ
-         c/BXYM1R0KgdEdJDJElb+SyvXSFf0dvqjivHmNVg2hFif38tzJ5eLGkmpd6GX72BwbII
-         Iy3AEEYkhsURjI3UsbEw4r96nGoxJiuq51XiRc0DOvgujuHvSr8N9qs+OYOC414/pD3e
-         VA8JCMUCmxOUJDC7kjcDIXVZdKP8QNMT94oTH+eQNYNsAeJtoKJ2jeRw4uywRjqbofhF
-         zf1rxqdlSAHOzCm12fGp7sASBxt5GVfgjMWYdzY+UrvK/18/y5fNQZqf8JGpyXZ5mmpg
-         JXmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUChUwJdBRDJ1yBZOvSQpKdst3AI8LU9AK2jsNjPaJ/8J51yXx3bj/sO2R0nEOiI/CnF3sczka9vWROgYdCyZZ5QcLa2SQC/Qd1JYLT7OZyvkEr+Iu8peN2ywHDgxXU1b7JtVS8noE1Sw==
-X-Gm-Message-State: AOJu0YzxRJNwi65Ul8kA6q2AvTO9Fxqn6H4j6fdBJwjAx3picXgNwqrC
-	3nlPTAP3FmKTt1LEpTg+TtQfLY+4mBiQdWBCWNwO/3SrdXNirEwT
-X-Google-Smtp-Source: AGHT+IENCKvfCZxO2Rt6KDsB7M0kjjFGMdi6MvfCYZJU7eP3x5K0nZi26KF8OMrrBBbNgihafqwRFw==
-X-Received: by 2002:a05:600c:4f0f:b0:425:5ec3:570b with SMTP id 5b1f17b1804b1-4264a428ec4mr69226885e9.35.1720422970695;
-        Mon, 08 Jul 2024 00:16:10 -0700 (PDT)
-Received: from eichest-laptop.toradex.int ([2a02:168:af72:0:a786:d603:1c55:ced1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679dd5ea09sm9994564f8f.65.2024.07.08.00.16.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 00:16:10 -0700 (PDT)
-From: Stefan Eichenberger <eichest@gmail.com>
-To: nick@shmanahar.org,
-	dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev,
-	linus.walleij@linaro.org,
-	francesco.dolcini@toradex.com,
-	joao.goncalves@toradex.com
-Cc: linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH v5 4/4] Input: atmel_mxt_ts - add support for poweroff-sleep
-Date: Mon,  8 Jul 2024 09:15:51 +0200
-Message-ID: <20240708071601.7571-5-eichest@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240708071601.7571-1-eichest@gmail.com>
-References: <20240708071601.7571-1-eichest@gmail.com>
+	s=arc-20240116; t=1720424534; c=relaxed/simple;
+	bh=O9RoOO9HvF5SuUCeDg6vUA4wVmtzSSul9Xm5/s61R6Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GZvza9XF6nJILN6gLmoEHqQ9x8nje2HC//JgXX1onsz18q0bmZF87ZXtK401h6yLmsqZlTjYumbt54CpIWxqOvPMdhOIdd+9tu5rPaAtPegM8g7CQ2Z4dejZltQLbRzPUlvLaRHsYodxcKvQYCvqnD1gCliZs5P7kLaOUFGUk7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=VhLZU4xm; arc=none smtp.client-ip=178.154.239.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
+Received: from mail-nwsmtp-smtp-production-main-24.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-24.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:7dca:0:640:d4d9:0])
+	by forward500d.mail.yandex.net (Yandex) with ESMTPS id C5DDC60A3F;
+	Mon,  8 Jul 2024 10:34:32 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-24.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 6YW3mBQe3W20-qUQtuv72;
+	Mon, 08 Jul 2024 10:34:30 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
+	t=1720424070; bh=O9RoOO9HvF5SuUCeDg6vUA4wVmtzSSul9Xm5/s61R6Y=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=VhLZU4xmXX2w4OBfMMBdLTuYfNHiVS81wr+5BeazZfJVOu+yyXSQdoaO60cjQziKc
+	 M0uTvIyCbbrFj9TBj/klf6qeczg17/a4YJiSE0dCEH6yKJCldgKqcd4qvfnukuaDOU
+	 WcbQbDv7ImiZUeCsbYrO017QDF3uXjKDnJWXQ9oc=
+Authentication-Results: mail-nwsmtp-smtp-production-main-24.klg.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
+Message-ID: <663b1749afeb5cec281149fdb445ed36fdcbc68e.camel@maquefel.me>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+From: Nikita Shubin <nikita.shubin@maquefel.me>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>, 
+	Arnd Bergmann
+	 <arnd@arndb.de>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Stephen Boyd
+ <sboyd@kernel.org>,  Hartley Sweeten <hsweeten@visionengravers.com>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy
+ Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter
+ Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, Mark
+ Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai
+ <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron"
+ <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
+ <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org,  devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-watchdog@vger.kernel.org,
+ linux-pwm@vger.kernel.org,  linux-spi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod
+ Koul <vkoul@kernel.org>
+Date: Mon, 08 Jul 2024 10:34:05 +0300
+In-Reply-To: <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+	 <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+	 <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+	 <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+	 <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Arnd,=20
 
-Add support for poweroff-sleep to the Atmel maXTouch driver. This allows
-us to power off the input device entirely and only power it on when it
-is opened. This will also automatically power it off when we suspend the
-system.
+Are we continuing this patch series ?
 
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 59 ++++++++++++++++++++++--
- 1 file changed, 55 insertions(+), 4 deletions(-)
+You are silent since last version submit, which makes me a bit worried.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 85f3c685bf526..3bcdbb58a24e6 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -265,6 +265,7 @@ enum v4l_dbg_inputs {
- enum mxt_suspend_mode {
- 	MXT_SUSPEND_DEEP_SLEEP	= 0,
- 	MXT_SUSPEND_T9_CTRL	= 1,
-+	MXT_SUSPEND_POWEROFF	= 2,
- };
- 
- /* Config update context */
-@@ -2273,8 +2274,38 @@ static int mxt_configure_objects(struct mxt_data *data,
- 
- static void mxt_config_cb(const struct firmware *cfg, void *ctx)
- {
-+	struct mxt_data *data = ctx;
-+
- 	mxt_configure_objects(ctx, cfg);
- 	release_firmware(cfg);
-+
-+	if ((data->suspend_mode == MXT_SUSPEND_POWEROFF) && !data->in_bootloader) {
-+		disable_irq(data->irq);
-+		mxt_power_off(data);
-+	}
-+}
-+
-+static void mxt_initialize_after_resume(struct mxt_data *data)
-+{
-+	int error;
-+
-+	error = mxt_power_on(data);
-+	if (error) {
-+		dev_err(&data->client->dev, "Failed to power on device\n");
-+		return;
-+	}
-+
-+	error = mxt_acquire_irq(data);
-+	if (error) {
-+		dev_err(&data->client->dev, "Failed to acquire IRQ\n");
-+		return;
-+	}
-+
-+	error = mxt_configure_objects(data, NULL);
-+	if (error) {
-+		dev_err(&data->client->dev, "Failed to configure objects\n");
-+		return;
-+	}
- }
- 
- static void mxt_debug_init(struct mxt_data *data);
-@@ -3089,6 +3120,12 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	struct mxt_data *data = dev_get_drvdata(dev);
- 	int error;
- 
-+	if ((data->suspend_mode == MXT_SUSPEND_POWEROFF) && !data->in_bootloader) {
-+		error = mxt_power_on(data);
-+		if (error)
-+			return error;
-+	}
-+
- 	error = mxt_load_fw(dev, MXT_FW_NAME);
- 	if (error) {
- 		dev_err(dev, "The firmware update failed(%d)\n", error);
-@@ -3123,7 +3160,10 @@ static const struct attribute_group mxt_attr_group = {
- 
- static void mxt_start(struct mxt_data *data)
- {
--	mxt_wakeup_toggle(data->client, true, false);
-+	if (data->suspend_mode == MXT_SUSPEND_POWEROFF)
-+		mxt_initialize_after_resume(data);
-+	else
-+		mxt_wakeup_toggle(data->client, true, false);
- 
- 	switch (data->suspend_mode) {
- 	case MXT_SUSPEND_T9_CTRL:
-@@ -3135,6 +3175,7 @@ static void mxt_start(struct mxt_data *data)
- 				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
- 		break;
- 
-+	case MXT_SUSPEND_POWEROFF:
- 	case MXT_SUSPEND_DEEP_SLEEP:
- 	default:
- 		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
-@@ -3160,7 +3201,12 @@ static void mxt_stop(struct mxt_data *data)
- 		break;
- 	}
- 
--	mxt_wakeup_toggle(data->client, false, false);
-+	if (data->suspend_mode == MXT_SUSPEND_POWEROFF) {
-+		disable_irq(data->irq);
-+		mxt_power_off(data);
-+	} else {
-+		mxt_wakeup_toggle(data->client, false, false);
-+	}
- }
- 
- static int mxt_input_open(struct input_dev *dev)
-@@ -3357,6 +3403,9 @@ static int mxt_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
-+	if (device_property_read_bool(&client->dev, "atmel,poweroff-sleep"))
-+		data->suspend_mode = MXT_SUSPEND_POWEROFF;
-+
- 	/*
- 	 * Controllers like mXT1386 have a dedicated WAKE line that could be
- 	 * connected to a GPIO or to I2C SCL pin, or permanently asserted low.
-@@ -3406,7 +3455,8 @@ static void mxt_remove(struct i2c_client *client)
- 	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
--	mxt_power_off(data);
-+	if (!(data->suspend_mode == MXT_SUSPEND_POWEROFF))
-+		mxt_power_off(data);
- }
- 
- static int mxt_suspend(struct device *dev)
-@@ -3439,7 +3489,8 @@ static int mxt_resume(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
--	enable_irq(data->irq);
-+	if (!(data->suspend_mode == MXT_SUSPEND_POWEROFF))
-+		enable_irq(data->irq);
- 
- 	mutex_lock(&input_dev->mutex);
- 
--- 
-2.43.0
+If you suddenly changed your mind please let us know, cause anyway we
+have no possibility to merge these series without you.
+
+
+On Fri, 2024-07-05 at 11:21 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>=20
+> On Thu, Jun 27, 2024 at 11:29:44AM +0300, Nikita Shubin wrote:
+> > On Tue, 2024-06-18 at 19:20 +0300, Nikita Shubin wrote:
+> > > Hello Andy!
+> > > On Mon, 2024-06-17 at 12:58 +0200, Andy Shevchenko wrote:
+> > > > On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
+> > > > <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+> > > > >=20
+> > > > > The goal is to recieve ACKs for all patches in series to
+> > > > > merge it
+> > > > > via Arnd branch.
+> > > >=20
+> > > > 'receive'
+> > > >=20
+> > > > > Unfortunately, CLK subsystem suddenly went silent on clk
+> > > > > portion
+> > > > > of
+> > > > > series V2 reroll,
+> > > > > tried to ping them for about a month but no luck.
+> > > > >=20
+> > > > > Link:
+> > > > > https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@m=
+aquefel.me
+> > > > >=20
+> > > > > Some changes since last version (v9) - see "Changes in v10",
+> > > > > mostly
+> > > > > cosmetic.
+> > > >=20
+> > > > ...
+> > > >=20
+> > > > > Patches should be formated with '--histogram'
+> > > >=20
+> > > > 'formatted'
+> > > >=20
+> > > > ...
+> > > >=20
+> > > > > Changes in v10:
+> > > > >=20
+> > > > > Reordered SoB tags to make sure they appear before Rb and
+> > > > > Acked
+> > > > > tags.
+> > > >=20
+> > > > This is not required. The importance is only the order of SoBs
+> > > > themselves. If they are interleaved with other tags, it's fine.
+> > >=20
+> > > Ah - ok. Just saw someone was complaining about b4 reordering
+> > > them.=20
+> > >=20
+> > > >=20
+> > > > ...
+> > > >=20
+> > > >=20
+> > > > Hopefully to see this series being eventually applied soon.
+> > > > Arnd? (Do we have all necessary subsystem maintainers' tags,
+> > > > btw?)
+> > > >=20
+> > > >=20
+> > >=20
+> > > As i see from my perspective only three left:
+> > >=20
+> > > Clk subsystem:
+> > >=20
+> > > - clk: ep93xx: add DT support for Cirrus EP93xx
+> > >=20
+> > > DMA subsystem (but the only request from Vinod, as far as i
+> > > remember,
+> > > was fixing commits titles):
+> > >=20
+> > > - dmaengine: cirrus: Convert to DT for Cirrus EP93xx
+> > > - dmaengine: cirrus: remove platform code
+> > >=20
+> > > Beside that tags missing on platform code removal (which can be
+> > > Acked
+> > > by Arnd himself i believe) and dtsi/dts files (same ?).
+> >=20
+> > Vinod acked the above two patches:
+> >=20
+> > https://lore.kernel.org/all/ZnkIp8bOcZK3yVKP@matsya/
+> > https://lore.kernel.org/all/ZnkImp8BtTdxl7O3@matsya/
+> >=20
+> > so only:
+> >=20
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> >=20
+> > https://lore.kernel.org/all/20240617-ep93xx-v10-3-662e640ed811@maquefel=
+.me/
+> >=20
+> > left.
+> >=20
+> > Hope Stephen will find some time for this one.
+>=20
+> As we're approaching the merge window and this is still unclear, I
+> applied the pwm bits (i.e. patches 12, 13). If I understand
+> correctly,
+> patch 33 isn't suitable for application yet as it has a dependency on
+> pinctrl changes in that series.
+>=20
+> (side note: Your patches are signed, but that doesn't bring any
+> benefit
+> if the receivers don't have your key. I didn't find it neither on
+> keys.openpgp.org nor in the kernel pgp key collection.)
+>=20
+> Best regards
+> Uwe
 
 
