@@ -1,105 +1,105 @@
-Return-Path: <linux-input+bounces-4909-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4910-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E825292AB5D
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 23:39:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6E392AC77
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 01:16:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE179B21043
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 21:39:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84EDF28262C
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jul 2024 23:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CB7F14EC53;
-	Mon,  8 Jul 2024 21:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0BA150986;
+	Mon,  8 Jul 2024 23:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TW/BEIa6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8HGjmem"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D23B14EC43
-	for <linux-input@vger.kernel.org>; Mon,  8 Jul 2024 21:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C7A33993;
+	Mon,  8 Jul 2024 23:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720474754; cv=none; b=Xm75I5doB+SP8wL6OCdO9kRCm1G7cTmBoVeutI0Ndawi1xuYwci1NQb7RUPRKiE/oSEs3jUOns8Zd+5EE2PDtxWdQiqvFcM7ncX9ahkGC7MoousTUrci5TSVZKBdyMMq1JV0OfxoFEVaX1fxEAzA9c3mcEWmKgfDeNpLESABiqY=
+	t=1720480597; cv=none; b=gRqPXq7e7411ByAZNJSkm84H73At1S2Y+MdFqf6yMPHq1ZtHLG1By7WGu/SIleOv9iFNjGCMmeugPrCQkqCHJLc02GgXr97ciLT4lc2yfiwpJfiDIk9VNvGs4WfCd7d3XTlffvTyuSeauU+xSwB73KhB+PY6+pxk+8IjHj+xVsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720474754; c=relaxed/simple;
-	bh=7/1EU0mhU3YEkT+rBvTVwycGb+IDEYe4xvLMubJptmc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=EFghancPm00j5Vsa6cH12iieYA1V7PRqWAq1OpBoihqoLHMqEykA/BAIofSAMjxmLk5KnWiV3NbzVGs2LDrtOKQ53VE5jsTHs3rRnPV472kQ5bEt7UhUtoLvU3U0rmdZUnU+tPgJ4/rGVi2CVJJ2Qg4Z+IAUFHjDWEo+LNGJf+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TW/BEIa6; arc=none smtp.client-ip=209.85.160.41
+	s=arc-20240116; t=1720480597; c=relaxed/simple;
+	bh=gb+VQ2HoccIXWeorLO412/GRKILgSGbTiJfCRgTzwdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sCrDA0LUnQ95H43EhAYSmKLDIjWoro0YsPaInMy3k6suFM7TAZ6CyExf2BMkfA0DY2/ley67n8721uQhAN9yRbhUXefM402iuQ4Lns524z90KOeZ6+oSpzgFhWBgdeGHbdC36TQ6gDHzamw2DauBeg3jXWV5lrxiyIou0NeEmas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8HGjmem; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-25e3bc751daso2422089fac.3
-        for <linux-input@vger.kernel.org>; Mon, 08 Jul 2024 14:39:12 -0700 (PDT)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70b03ffbb3aso3469795b3a.0;
+        Mon, 08 Jul 2024 16:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720474752; x=1721079552; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7/1EU0mhU3YEkT+rBvTVwycGb+IDEYe4xvLMubJptmc=;
-        b=TW/BEIa6UxJ/I9/+ZUluCryWy2p3lnLb5mldr1YM5e39Wn7K7ycOr0p8HNLSaesMSv
-         rtroAv1kVZu1VFKxNQa8rM2R/Un9AVAm7grwqKee0zgyB2XNs7DPvhEzhyaNKDyS8ui8
-         KYNRl9gUNVCfTXGgoLa8St/l2iCcsXRcA9loYVuCUewK0L4Hhf9P7x0JsPTVmWxOeOIa
-         T/HbY7ShQdwHPcxqzFhW7P+5MoDSEx6bB4zpb8uP/UxwRH9hXooayvZPj/s+K70s156M
-         j3FScvxv7dnNw9lrGqlUPgHNKCNR8RVbT3WP3V1IynlyCzYZxmiv+veRuGjrNFn5eDco
-         nu4A==
+        d=gmail.com; s=20230601; t=1720480595; x=1721085395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fkfi0ZGGhlPm8YGtRJaPnrGiZgaJQOgvXosi1T3YYr4=;
+        b=W8HGjmemvPcexjhUgNVAcgIn2TSxjJ6Z09z+PwH09CJobcsQx0SUVoBVR3jRfryryl
+         Ae6iMTTSWry59KZglKTC4hvW83tZy5OSotpS/wPx2quHTQza3vDZFMyNmL3b6nS3fAwS
+         5utTqGz0JEvqR/zshjk2/9v7lcIZys7SOMz1NsUE7deJV3sgOxilT/qhDe6g/fYArFuy
+         6jwyjsV5v3ONIrHxZO/Wc9ucZp1Mlg1wzYXUwNNdyK7F1DrJKDP8UZhOXyII6Fc0S1Eu
+         U34JeZ17FdHBBOsmezFun0oQVF0Q57XWSUMgTfR//2GTfMIgs4zCOq+PCJF/mFytiv7Y
+         untA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720474752; x=1721079552;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7/1EU0mhU3YEkT+rBvTVwycGb+IDEYe4xvLMubJptmc=;
-        b=iG3QkcGb8VBhQbtC7FJ0VSkckE00XJtj29KPzB6oGrCzSkHMaHGC8+ovReG7BSNtDe
-         T6QuWpF3Nnz9603daCweXVxRVZ1q/F/nopjG6y5fZf5N8WTt3C91WE6UEZCD6HTcHoMR
-         MyFo9mv6YUqsbzzHxXkSo0Xmxy1lcE/6X1HyHe8TDXpgtEm70nrAhFiUzg8ddzFdOuYM
-         KidcdlAFFUkvFdbLcJJw/lYlrf35p7mvNxD2mmcRMCGmDfMxUgPxyqUtZdf3OTKyaHhm
-         6gTL2FkmHcXJAp+yw+GvdJhZINy2asK4iF7Is18CIYKPXDOugFOjsitlTXNwFIoTbHip
-         GlQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqjU9sTv9+eFTnYh9ss0dxNr1VzjhNsuUFSSBoOvPa00tlip85A5a8+/n1u3Xs954xvleIHkcXLpMYJI2ClYHXZx7p+D7eo2VJNwE=
-X-Gm-Message-State: AOJu0Ywyy1HHu2aZTw+Tvf3VceLBpsRgQe7bM3X8VLmwx7qED7bl1zjF
-	gO55QEp/krZZdMz+HksXKgYttLdQdUbwfu7XgWKoZPGgK3aMjS6y
-X-Google-Smtp-Source: AGHT+IEDeIytBtgPH24VYCHyU9ge+ZhW4ClXGZgr/cSrwA9v5ofxzpFwWrOhJwqbLmL7EZa8DR3dSQ==
-X-Received: by 2002:a05:6870:5253:b0:25e:20e2:fddd with SMTP id 586e51a60fabf-25eae7f6096mr555761fac.23.1720474752160;
-        Mon, 08 Jul 2024 14:39:12 -0700 (PDT)
-Received: from ?IPv6:::1? ([2601:647:5e00:4acd:a644:10aa:e7d1:9d6b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b4396c2a7sm345163b3a.139.2024.07.08.14.39.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 14:39:11 -0700 (PDT)
-Date: Mon, 08 Jul 2024 14:39:09 -0700
+        d=1e100.net; s=20230601; t=1720480595; x=1721085395;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fkfi0ZGGhlPm8YGtRJaPnrGiZgaJQOgvXosi1T3YYr4=;
+        b=qaKur2zKB8NwzU3O0f/SsQTWzXzdmUboNGgYUHQ8Q4AV3GGtkSMkYSQ+u4UKqoNeTS
+         4ExmJ1tUU1pxue5oKdWlLRxP7/ht4ekf/jQlt3OaDt/oaHDgSflBrwwRfPnMD+qXbana
+         FiZWAkvqCNtShu7zTyonPcQVVsI+q8yLJrIDQlW/+b/x2GjedBctuOu90dTOLGX+qUNs
+         eBz1ZTofKybAr9iBDVro9BbMvB1DcEsChpj3oKRattR0ZUSMchx9jt29my+7OwQOLY5j
+         r46OlOsxDJrsKQQN3gXr4cIeTDFcA6Ap12JBeOpWSiziJ05rNjQtb8g3TDJTdiOiKi1o
+         QItw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQyzvCjXj/NC0ktlg+fwhlmqFoCx8ZP+w0VIkATjn3Iz16oZgpgj2CZyXOSo5VmrggkC5gRgixJF2Is0U1LPfWMRDaY9xMUtd37j+s2aphPNJjZC1veH9g8II+k/F56SpXx+TMAK29Z0zhbnpztvnEET3cDAsvj/Py2Gb3/thcxpN95wYB
+X-Gm-Message-State: AOJu0Yxm6P+Q/Jt7p56SlAm2cNyDGye+0WLW+v2tS9hVcrlEFZ7Cpg01
+	EUdvwVC28ZtDDH0Cnxa9m28O+J1aHUE8W6sIAIZufne68eRalQKr
+X-Google-Smtp-Source: AGHT+IH4W6+RW0xbdWaMvpNmma1j9y72EY/kqBGuYjqium8CtuJgbRdQUmyWnJIuNBeT57qMg7y3ew==
+X-Received: by 2002:a05:6a21:7895:b0:1be:e6d8:756e with SMTP id adf61e73a8af0-1c2984d7aaemr1193623637.53.1720480595263;
+        Mon, 08 Jul 2024 16:16:35 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:922a:af36:b3d9:2eac])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b438bfa86sm432650b3a.47.2024.07.08.16.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 16:16:34 -0700 (PDT)
+Date: Mon, 8 Jul 2024 16:16:32 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marek Vasut <marex@denx.de>, linux-input@vger.kernel.org
-CC: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>, kernel@dh-electronics.com
-Subject: Re: [PATCH] Input: ads7846 - ratelimit the spi_sync error message
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20240708211913.171243-1-marex@denx.de>
-References: <20240708211913.171243-1-marex@denx.de>
-Message-ID: <8AA709E7-9739-4CC9-B6EE-77D152B35984@gmail.com>
+To: Felix Kaechele <felix@kaechele.ca>
+Cc: Job Noorman <job@noorman.info>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] himax_hx83112b: add support for HX83100A
+Message-ID: <ZoxzUHsGcgYrRXjT@google.com>
+References: <20240620145019.156187-1-felix@kaechele.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620145019.156187-1-felix@kaechele.ca>
 
-On July 8, 2024 2:18:57 PM PDT, Marek Vasut <marex@denx=2Ede> wrote:
->In case the touch controller is not connected, this message keeps scrolli=
-ng
->on the console indefinitelly=2E Ratelimit it to avoid filling kernel logs=
-=2E
+On Thu, Jun 20, 2024 at 10:50:01AM -0400, Felix Kaechele wrote:
+> Original discussion around v2 here: https://lore.kernel.org/all/20240511121245.109644-1-felix@kaechele.ca/
+> 
+> Changes from v2:
+> - reworded dt-bindings commit message to specifiy how the HX83100A is different
+>   from other chips in this series to justify having its own compatible string
+> - added Acked-By from Conor that was given in the v2 thread to commit message
+> 
+> I've done some more testing in the meantime and haven't found any issues.
+> I haven't heard back from anyone with an HX83112B, but the HX83100A works as
+> intended with these changes and I assume the HX83112B will too.
 
-Instead of ratelimiting, maybe we should try reading touchscreen state whe=
-n
-probing and abort if the device dies not respond?
+Applied the lot, thank you.
 
-Thanks=2E
-Hi Marek,
---=20
+-- 
 Dmitry
 
