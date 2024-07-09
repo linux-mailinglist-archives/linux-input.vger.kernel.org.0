@@ -1,140 +1,312 @@
-Return-Path: <linux-input+bounces-4935-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4936-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C49492C169
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 18:58:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB3592C1FF
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 19:13:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5EE091C2355F
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 16:58:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5B822939DE
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 17:13:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 155E119E2E0;
-	Tue,  9 Jul 2024 16:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201E617B04F;
+	Tue,  9 Jul 2024 16:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1koOL3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACnkmid6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCC819E2DB;
-	Tue,  9 Jul 2024 16:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0F018563E
+	for <linux-input@vger.kernel.org>; Tue,  9 Jul 2024 16:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542449; cv=none; b=b3SVhdtjTjCiyALDsufOEk8jS198bq50fvLPKNVMn+ECdEgBU1iWBKxpkcr232EhAsik8N+aOmpFKLPH5c689Py+T9grph0HknHgFV98ObMxwbYUysX3y/8ujJdm3U2KMH2VtQw/M5AIxFccIcr3UBUf4/leEUgCOIIy92Leylo=
+	t=1720544153; cv=none; b=LR24hRza1/vPTU5os+PnPL1431UUQ0xoJnu5BRLpiJxSC2dKQW9o/raqHNhesXUZzwCBAg/2Ec4xnJ5GSsGzuwNPk6+eZCOO4tdnRIgxjnJa06+Fr5N/njksXV9pZrbBKJ3FNH4cTVjXo+aRceoIHbb1uPznxlsuN7HQcp0QwOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542449; c=relaxed/simple;
-	bh=imYIFxwQm9Tpqt9qP5Rzt36q+eNgduHDNVlWjY4Y8B8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8VNksO9tApXI+pISppPsKJ8IUaVIF7QbekbVCY++NfIqgKRxuXTKdTL1Or2D+cWQiSwYyOf4srt8+LWwKoHEcpR6n86jCIJHVxSKrtptTZS9lCViW3Wkm8511AgI92m3rGw3sQT6bJUQeA8v2gbF/FtovBeDnEes941cpADsMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1koOL3P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DE6C3277B;
-	Tue,  9 Jul 2024 16:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542448;
-	bh=imYIFxwQm9Tpqt9qP5Rzt36q+eNgduHDNVlWjY4Y8B8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=h1koOL3PQE07powVZFfrkSE2LTR7D8Nwkd8oD9su6rRxDUKRBkT6n66EfHd+eG5c6
-	 GrFd7c3h/cdvQ9A+D79fIA8uYm3+pQjiLpkqxMqVQvA+owxmTd6VEVTRcw/Fis0TGC
-	 3U0sF6l6m7e/i1aJcRET6MT8EvvE9V5UDGH5Z48nlknpcLW2hQwrE3THb/2qB/RLKN
-	 WqQ7BcFUcupkOYaPm2YPsMLUXDkG9b4nqKH9UMFZL7N3NuAiCuoVH3LEE2amyOmMGz
-	 RNlS+zioUOl4ACEFodZPQVOyp1pUJpnh5qHBdOYPvwbZxMCiDfhAVA/JSJyUov1pM6
-	 XxzN8OVWuZ3YQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jonathan Denose <jdenose@google.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sasha Levin <sashal@kernel.org>,
-	jefferymiller@google.com,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/7] Input: elantech - fix touchpad state on resume for Lenovo N24
-Date: Tue,  9 Jul 2024 12:27:12 -0400
-Message-ID: <20240709162726.33610-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1720544153; c=relaxed/simple;
+	bh=T+O9CqRCVUqISiPU1TtHnvumAWe2aE6gq+xxuXur2xM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nWUTsEbA1u2Vjn34zw6MixvjCzHOWWYlxyVNCk+8GKBob3pFzumtf/JVVzagVL3l26ihRTg5j9qWnHE29zRNJOge1OtSO0OZ/CB9KNjkcCmT4yI1btIXg6E8wYLmzKxwcoHPAcspfIBQyIRiZBJKD2g6MHQaxLpuuwuWAm8OVcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACnkmid6; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720544151; x=1752080151;
+  h=date:from:to:cc:subject:message-id;
+  bh=T+O9CqRCVUqISiPU1TtHnvumAWe2aE6gq+xxuXur2xM=;
+  b=ACnkmid6eLMFkQDlKbJHcBPaLPtnq0mhd/suKsLi4WTWMOm2nGEtlGRN
+   Rz9IvJICxglP3O72K8sChBrN6CCuoZChg6ehWvtkVAIQZN1TfBcjJYp4F
+   k/0dlNVFQkFPvU5Aq9QxqC6xB56wtSd5VomcEUlcPW6ILTlLemgxrNNKi
+   9rHDcxiWOE3absnXq5TYDqJUop0B3zUNRvfJhsvfVATukjhfMmbIIolGu
+   vxv4dTzyQZZAkRcoBjcf5pnhqJFWbTQutrzW/M8c0EW4t7vSKM/uuPgGf
+   k+vNYQ/s4h2UjoHBfTFgQv7NdSOfyxISO1eUz5WkftgTYchonX73J+dRg
+   w==;
+X-CSE-ConnectionGUID: wAh0GxipQcyIBbzZeZTZpg==
+X-CSE-MsgGUID: 5s7EhUd0Svufy310Y/zhWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="17650771"
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
+   d="scan'208";a="17650771"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 09:55:50 -0700
+X-CSE-ConnectionGUID: gDw0zkUVSaWjwP1AdWD4Kw==
+X-CSE-MsgGUID: 8VZcmQxETmObf4WHPBX3pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
+   d="scan'208";a="48648685"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 Jul 2024 09:55:50 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRE83-000WuX-0N;
+	Tue, 09 Jul 2024 16:55:47 +0000
+Date: Wed, 10 Jul 2024 00:55:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 5e91cef94426d71e3156864d52753ace4cee721a
+Message-ID: <202407100033.IeDugqaI-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.317
-Content-Transfer-Encoding: 8bit
 
-From: Jonathan Denose <jdenose@google.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 5e91cef94426d71e3156864d52753ace4cee721a  Input: himax_hx83112b - add support for HX83100A
 
-[ Upstream commit a69ce592cbe0417664bc5a075205aa75c2ec1273 ]
+elapsed time: 998m
 
-The Lenovo N24 on resume becomes stuck in a state where it
-sends incorrect packets, causing elantech_packet_check_v4 to fail.
-The only way for the device to resume sending the correct packets is for
-it to be disabled and then re-enabled.
+configs tested: 219
+configs skipped: 5
 
-This change adds a dmi check to trigger this behavior on resume.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Jonathan Denose <jdenose@google.com>
-Link: https://lore.kernel.org/r/20240503155020.v2.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/mouse/elantech.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+tested configs:
+alpha                            alldefconfig   gcc-13.2.0
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240709   gcc-13.2.0
+arc                   randconfig-002-20240709   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                     am200epdkit_defconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                          ixp4xx_defconfig   gcc-13.2.0
+arm                         mv78xx0_defconfig   clang-19
+arm                         nhk8815_defconfig   gcc-13.2.0
+arm                           omap1_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240709   gcc-13.2.0
+arm                   randconfig-002-20240709   gcc-13.2.0
+arm                   randconfig-003-20240709   gcc-13.2.0
+arm                   randconfig-004-20240709   gcc-13.2.0
+arm                         socfpga_defconfig   gcc-13.2.0
+arm                           spitz_defconfig   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240709   gcc-13.2.0
+arm64                 randconfig-002-20240709   gcc-13.2.0
+arm64                 randconfig-003-20240709   gcc-13.2.0
+arm64                 randconfig-004-20240709   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240709   gcc-13.2.0
+csky                  randconfig-002-20240709   gcc-13.2.0
+hexagon                          allmodconfig   clang-19
+hexagon                          allyesconfig   clang-19
+i386                             allmodconfig   clang-18
+i386                             allmodconfig   gcc-13
+i386                              allnoconfig   clang-18
+i386                              allnoconfig   gcc-13
+i386                             allyesconfig   clang-18
+i386                             allyesconfig   gcc-13
+i386         buildonly-randconfig-001-20240709   gcc-11
+i386         buildonly-randconfig-002-20240709   gcc-11
+i386         buildonly-randconfig-002-20240709   gcc-13
+i386         buildonly-randconfig-003-20240709   clang-18
+i386         buildonly-randconfig-003-20240709   gcc-11
+i386         buildonly-randconfig-004-20240709   clang-18
+i386         buildonly-randconfig-004-20240709   gcc-11
+i386         buildonly-randconfig-005-20240709   clang-18
+i386         buildonly-randconfig-005-20240709   gcc-11
+i386         buildonly-randconfig-006-20240709   clang-18
+i386         buildonly-randconfig-006-20240709   gcc-11
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240709   gcc-11
+i386                  randconfig-001-20240709   gcc-13
+i386                  randconfig-002-20240709   clang-18
+i386                  randconfig-002-20240709   gcc-11
+i386                  randconfig-003-20240709   gcc-11
+i386                  randconfig-004-20240709   gcc-11
+i386                  randconfig-004-20240709   gcc-13
+i386                  randconfig-005-20240709   gcc-11
+i386                  randconfig-005-20240709   gcc-13
+i386                  randconfig-006-20240709   gcc-11
+i386                  randconfig-006-20240709   gcc-13
+i386                  randconfig-011-20240709   clang-18
+i386                  randconfig-011-20240709   gcc-11
+i386                  randconfig-012-20240709   gcc-11
+i386                  randconfig-012-20240709   gcc-13
+i386                  randconfig-013-20240709   gcc-11
+i386                  randconfig-013-20240709   gcc-12
+i386                  randconfig-014-20240709   clang-18
+i386                  randconfig-014-20240709   gcc-11
+i386                  randconfig-015-20240709   clang-18
+i386                  randconfig-015-20240709   gcc-11
+i386                  randconfig-016-20240709   gcc-10
+i386                  randconfig-016-20240709   gcc-11
+loongarch                        allmodconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240709   gcc-13.2.0
+loongarch             randconfig-002-20240709   gcc-13.2.0
+m68k                             allmodconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+m68k                            mac_defconfig   gcc-13.2.0
+m68k                        mvme16x_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                         bigsur_defconfig   gcc-13.2.0
+mips                       bmips_be_defconfig   clang-19
+mips                           ci20_defconfig   clang-19
+mips                           ip32_defconfig   clang-19
+mips                       lemote2f_defconfig   gcc-13.2.0
+mips                      malta_kvm_defconfig   gcc-13.2.0
+mips                        maltaup_defconfig   gcc-13.2.0
+mips                    maltaup_xpa_defconfig   gcc-13.2.0
+nios2                         3c120_defconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240709   gcc-13.2.0
+nios2                 randconfig-002-20240709   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                         allyesconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+openrisc                 simple_smp_defconfig   gcc-13.2.0
+parisc                           allmodconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                           allyesconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240709   gcc-13.2.0
+parisc                randconfig-002-20240709   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc                          allyesconfig   gcc-13.2.0
+powerpc                   lite5200b_defconfig   gcc-13.2.0
+powerpc                   motionpro_defconfig   gcc-13.2.0
+powerpc                 mpc8315_rdb_defconfig   clang-19
+powerpc               mpc834x_itxgp_defconfig   clang-19
+powerpc                    mvme5100_defconfig   clang-19
+powerpc                    mvme5100_defconfig   gcc-13.2.0
+powerpc                      pcm030_defconfig   gcc-13.2.0
+powerpc                     powernv_defconfig   clang-19
+powerpc                     powernv_defconfig   gcc-13.2.0
+powerpc                       ppc64_defconfig   clang-19
+powerpc                         ps3_defconfig   gcc-13.2.0
+powerpc                     rainier_defconfig   clang-19
+powerpc               randconfig-001-20240709   gcc-13.2.0
+powerpc               randconfig-002-20240709   gcc-13.2.0
+powerpc               randconfig-003-20240709   gcc-13.2.0
+powerpc                     redwood_defconfig   gcc-13.2.0
+powerpc                      tqm8xx_defconfig   gcc-13.2.0
+powerpc64             randconfig-001-20240709   gcc-13.2.0
+powerpc64             randconfig-002-20240709   gcc-13.2.0
+powerpc64             randconfig-003-20240709   gcc-13.2.0
+riscv                            allmodconfig   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                            allyesconfig   gcc-13.2.0
+riscv                               defconfig   gcc-13.2.0
+riscv                 randconfig-001-20240709   gcc-13.2.0
+riscv                 randconfig-002-20240709   gcc-13.2.0
+s390                             allmodconfig   clang-19
+s390                              allnoconfig   clang-19
+s390                              allnoconfig   gcc-13.2.0
+s390                             allyesconfig   clang-19
+s390                             allyesconfig   gcc-13.2.0
+s390                                defconfig   gcc-13.2.0
+s390                  randconfig-001-20240709   gcc-13.2.0
+s390                  randconfig-002-20240709   gcc-13.2.0
+sh                               allmodconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                               allyesconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                ecovec24-romimage_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240709   gcc-13.2.0
+sh                    randconfig-002-20240709   gcc-13.2.0
+sh                          rsk7203_defconfig   gcc-13.2.0
+sh                           se7206_defconfig   gcc-13.2.0
+sh                           se7619_defconfig   gcc-13.2.0
+sh                           se7751_defconfig   gcc-13.2.0
+sh                        sh7757lcr_defconfig   gcc-13.2.0
+sparc                            allmodconfig   gcc-13.2.0
+sparc                       sparc64_defconfig   gcc-13.2.0
+sparc64                          alldefconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240709   gcc-13.2.0
+sparc64               randconfig-002-20240709   gcc-13.2.0
+um                               allmodconfig   clang-19
+um                               allmodconfig   gcc-13.2.0
+um                                allnoconfig   clang-17
+um                                allnoconfig   gcc-13.2.0
+um                               allyesconfig   gcc-13
+um                               allyesconfig   gcc-13.2.0
+um                                  defconfig   gcc-13.2.0
+um                             i386_defconfig   gcc-13.2.0
+um                    randconfig-001-20240709   gcc-13.2.0
+um                    randconfig-002-20240709   gcc-13.2.0
+um                           x86_64_defconfig   gcc-13.2.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240709   gcc-11
+x86_64       buildonly-randconfig-002-20240709   gcc-11
+x86_64       buildonly-randconfig-003-20240709   gcc-11
+x86_64       buildonly-randconfig-004-20240709   gcc-11
+x86_64       buildonly-randconfig-005-20240709   gcc-11
+x86_64       buildonly-randconfig-006-20240709   gcc-11
+x86_64                              defconfig   clang-18
+x86_64                              defconfig   gcc-13
+x86_64                randconfig-001-20240709   gcc-11
+x86_64                randconfig-002-20240709   gcc-11
+x86_64                randconfig-003-20240709   gcc-11
+x86_64                randconfig-004-20240709   gcc-11
+x86_64                randconfig-005-20240709   gcc-11
+x86_64                randconfig-006-20240709   gcc-11
+x86_64                randconfig-011-20240709   gcc-11
+x86_64                randconfig-012-20240709   gcc-11
+x86_64                randconfig-013-20240709   gcc-11
+x86_64                randconfig-014-20240709   gcc-11
+x86_64                randconfig-015-20240709   gcc-11
+x86_64                randconfig-016-20240709   gcc-11
+x86_64                randconfig-071-20240709   gcc-11
+x86_64                randconfig-072-20240709   gcc-11
+x86_64                randconfig-073-20240709   gcc-11
+x86_64                randconfig-074-20240709   gcc-11
+x86_64                randconfig-075-20240709   gcc-11
+x86_64                randconfig-076-20240709   gcc-11
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                  nommu_kc705_defconfig   gcc-13.2.0
+xtensa                randconfig-001-20240709   gcc-13.2.0
+xtensa                randconfig-002-20240709   gcc-13.2.0
+xtensa                    xip_kc705_defconfig   gcc-13.2.0
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 6759cab82a723..6f747c59cd652 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1527,16 +1527,47 @@ static void elantech_disconnect(struct psmouse *psmouse)
- 	psmouse->private = NULL;
- }
- 
-+/*
-+ * Some hw_version 4 models fail to properly activate absolute mode on
-+ * resume without going through disable/enable cycle.
-+ */
-+static const struct dmi_system_id elantech_needs_reenable[] = {
-+#if defined(CONFIG_DMI) && defined(CONFIG_X86)
-+	{
-+		/* Lenovo N24 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
-+		},
-+	},
-+#endif
-+	{ }
-+};
-+
- /*
-  * Put the touchpad back into absolute mode when reconnecting
-  */
- static int elantech_reconnect(struct psmouse *psmouse)
- {
-+	int err;
-+
- 	psmouse_reset(psmouse);
- 
- 	if (elantech_detect(psmouse, 0))
- 		return -1;
- 
-+	if (dmi_check_system(elantech_needs_reenable)) {
-+		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_DISABLE);
-+		if (err)
-+			psmouse_warn(psmouse, "failed to deactivate mouse on %s: %d\n",
-+				     psmouse->ps2dev.serio->phys, err);
-+
-+		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_ENABLE);
-+		if (err)
-+			psmouse_warn(psmouse, "failed to reactivate mouse on %s: %d\n",
-+				     psmouse->ps2dev.serio->phys, err);
-+	}
-+
- 	if (elantech_set_absolute_mode(psmouse)) {
- 		psmouse_err(psmouse,
- 			    "failed to put touchpad back into absolute mode.\n");
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
