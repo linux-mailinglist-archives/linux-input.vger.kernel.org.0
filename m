@@ -1,59 +1,63 @@
-Return-Path: <linux-input+bounces-4921-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4922-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F9992BF97
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 18:21:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 080AF92BFA6
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 18:22:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AB0F1F25817
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 16:21:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8315B2A1CF
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 16:22:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C480F19E826;
-	Tue,  9 Jul 2024 16:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C28B19F480;
+	Tue,  9 Jul 2024 16:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9Dsn8bV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEnHTmpC"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9902B19E810;
-	Tue,  9 Jul 2024 16:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0356158A36;
+	Tue,  9 Jul 2024 16:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542015; cv=none; b=SV2no+BgdmJ/ZwqBcFDylSr80W77eKvgMiCH9ZLppuODB/CwKNe4R1HwCTjaoNtJlt0Y/mWjL3vnB04PV3T/EXsaq1n01prNU9TGc+x8ZbpHBEYws3XVzGznZDrX/UruXIlATB1lD5xHqnxJCt0fMVCQvPt6TpOdVZrMGya/aX4=
+	t=1720542023; cv=none; b=ZTscox+is7tISE/BlJ5OmW+AKJ8kE8NyDD2HskyIG2OisYboBF/gzkPL1H46kU5srQp0eEt3RA0j62YwvlKjknEqsXTGrgKrzmDYU2f4bGYb/l34XSwPQh052M8nX8DQhplyFaBJRpJTvCxoglcns/6052odH39hr+L7if7/P5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542015; c=relaxed/simple;
-	bh=FAAQ7hUngIYfV+m+yhEiNqSqomtGq42oNGZTyjozpxk=;
+	s=arc-20240116; t=1720542023; c=relaxed/simple;
+	bh=1nXATt9mFXz0Fj+Z1Wwmlpy+9RSQ0yEeq/tP00RZfec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RC1Tp+LAKrCF4B+6XHVcvU7rsDFymmYLBK3cBNy/fKe891fCfX/HbVRBqiJzJnMVZQtB5/bVXMRMKmn6gY6cytUrPB6DHfV4WJDb2s/N7eo5c+/gX0agYbft5S4KfE7CcDCbhIdYB6/Kvt4WYwgcAFOwpM3mc5fEdLw7jWd+Bhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9Dsn8bV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275F2C3277B;
-	Tue,  9 Jul 2024 16:20:14 +0000 (UTC)
+	 MIME-Version; b=L7mL5Dtg3wQcplxDqWVD40AcmWHMR4EEP8BlXBa9JOgzgTkYwhp5eAUBnuqNHsvOJ+XgMMxvsjHn/ZBupoKS3JrHVIq8LLkmhsXA7s0ob2f9TBoiZAiaH1wa1ihpULcMe5EJji89uek9FW+rmQeVMLcwOhK+f5o2+MVenOfSeyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEnHTmpC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97C7C4AF07;
+	Tue,  9 Jul 2024 16:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542015;
-	bh=FAAQ7hUngIYfV+m+yhEiNqSqomtGq42oNGZTyjozpxk=;
+	s=k20201202; t=1720542023;
+	bh=1nXATt9mFXz0Fj+Z1Wwmlpy+9RSQ0yEeq/tP00RZfec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m9Dsn8bVrioXbWBfyF/LcM2h+g0/smSWgC1nsJ36atJg42rLU5iFxSipOoVHCsXcc
-	 E0RdYB6nve8cdcFKI/HMPJ5Het6lGFfdpBtiA17bnQNb+V0r2vCoB9RGcAhBRV4YKQ
-	 1JTlrz793gPhFq//6gA48MAzRlBE5mrTmhC8F//+TTjAcHXqoCrFgYAFJwr3TIAiqV
-	 K1zvu5FivpGnnY8p5/Vee7pYcEuLSBIFgDDw8VDR2uFuYd+Q2btgQfvVvNRU7DPEFw
-	 Jth7GLLBq+fx65+srzeetIEYI9frKc4ywsL8B0MsvQYmmSTTXvhn39bTP92WKFAdAa
-	 o+i2NJGCac82g==
+	b=aEnHTmpCZ+BT//RxpiQhjFOc+pzQjcLFdGG+uGwzrEfDVuxnPfy5dujHR7iOXBMgw
+	 telY3EsK0Few6lzGSximCciTA/XrHvw9fTjpLGrTvfWPr+OmH0Hcemjg2VN95J3uPi
+	 IkVFcDu9t+EW5Nl+jPdcMtcOmz71RHe5VAEA73T0fC6X4YzG8daaB+bqCI0udAMRCg
+	 2YXVzMU9IEKtvUZVk05TKx955QNwYDBPriw0BWBOYtUORumW2gmNo/puw4u1Hv8ZYi
+	 +tR1YcBQkCOJvW5u+D95CX1KdC9zv54rfbEhAR4RehmAS9KENxk6jLFZ+D4iR5Mfg+
+	 pjG79moDHl8zg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
+Cc: "Luke D. Jones" <luke@ljones.dev>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	wse@tuxedocomputers.com,
-	szfabian@bluemarch.art,
-	eshimanovich@chromium.org,
+	carl.ng@hp.com,
+	maxwell.nguyen@hp.com,
+	appsforartists@google.com,
+	matt.git@fastmail.fm,
+	matthias_berndt@gmx.de,
+	christophe.jaillet@wanadoo.fr,
+	artewar6767@gmail.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 03/40] Input: i8042 - add Ayaneo Kun to i8042 quirk table
-Date: Tue,  9 Jul 2024 12:18:43 -0400
-Message-ID: <20240709162007.30160-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 06/40] Input: xpad - add support for ASUS ROG RAIKIRI PRO
+Date: Tue,  9 Jul 2024 12:18:46 -0400
+Message-ID: <20240709162007.30160-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240709162007.30160-1-sashal@kernel.org>
 References: <20240709162007.30160-1-sashal@kernel.org>
@@ -68,64 +72,32 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.9.8
 Content-Transfer-Encoding: 8bit
 
-From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+From: "Luke D. Jones" <luke@ljones.dev>
 
-[ Upstream commit 955af6355ddfe35140f9706a635838212a32513b ]
+[ Upstream commit cee77149ebe9cd971ba238d87aa10e09bd98f1c9 ]
 
-See the added comment for details. Also fix a typo in the
-quirk's define.
+Add the VID/PID for ASUS ROG RAIKIRI PRO to the list of known devices.
 
-Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-Link: https://lore.kernel.org/r/20240531190100.3874731-1-tjakobi@math.uni-bielefeld.de
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Link: https://lore.kernel.org/r/20240607223722.1170776-1-luke@ljones.dev
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/serio/i8042-acpipnpio.h | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/input/joystick/xpad.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index dfc6c581873b7..5b50475ec4140 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -76,7 +76,7 @@ static inline void i8042_write_command(int val)
- #define SERIO_QUIRK_PROBE_DEFER		BIT(5)
- #define SERIO_QUIRK_RESET_ALWAYS	BIT(6)
- #define SERIO_QUIRK_RESET_NEVER		BIT(7)
--#define SERIO_QUIRK_DIECT		BIT(8)
-+#define SERIO_QUIRK_DIRECT		BIT(8)
- #define SERIO_QUIRK_DUMBKBD		BIT(9)
- #define SERIO_QUIRK_NOLOOP		BIT(10)
- #define SERIO_QUIRK_NOTIMEOUT		BIT(11)
-@@ -1332,6 +1332,20 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
-+	{
-+		/*
-+		 * The Ayaneo Kun is a handheld device where some the buttons
-+		 * are handled by an AT keyboard. The keyboard is usually
-+		 * detected as raw, but sometimes, usually after a cold boot,
-+		 * it is detected as translated. Make sure that the keyboard
-+		 * is always in raw mode.
-+		 */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_MATCH(DMI_BOARD_NAME, "KUN"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_DIRECT)
-+	},
- 	{ }
- };
- 
-@@ -1655,7 +1669,7 @@ static void __init i8042_check_quirks(void)
- 		if (quirks & SERIO_QUIRK_RESET_NEVER)
- 			i8042_reset = I8042_RESET_NEVER;
- 	}
--	if (quirks & SERIO_QUIRK_DIECT)
-+	if (quirks & SERIO_QUIRK_DIRECT)
- 		i8042_direct = true;
- 	if (quirks & SERIO_QUIRK_DUMBKBD)
- 		i8042_dumbkbd = true;
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 6fadaddb2b908..3a5af0909233a 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -209,6 +209,7 @@ static const struct xpad_device {
+ 	{ 0x0738, 0xf738, "Super SFIV FightStick TE S", 0, XTYPE_XBOX360 },
+ 	{ 0x07ff, 0xffff, "Mad Catz GamePad", 0, XTYPE_XBOX360 },
+ 	{ 0x0b05, 0x1a38, "ASUS ROG RAIKIRI", 0, XTYPE_XBOXONE },
++	{ 0x0b05, 0x1abb, "ASUS ROG RAIKIRI PRO", 0, XTYPE_XBOXONE },
+ 	{ 0x0c12, 0x0005, "Intec wireless", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8801, "Nyko Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0c12, 0x8802, "Zeroplus Xbox Controller", 0, XTYPE_XBOX },
 -- 
 2.43.0
 
