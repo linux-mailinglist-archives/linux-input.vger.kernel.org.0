@@ -1,60 +1,57 @@
-Return-Path: <linux-input+bounces-4923-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4924-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A2B92BFD6
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 18:26:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE4A92C02A
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 18:32:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E5D01F2305B
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 16:26:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A19928A9C4
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jul 2024 16:32:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC9771ABC55;
-	Tue,  9 Jul 2024 16:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D84D19E7C6;
+	Tue,  9 Jul 2024 16:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYvVF0cG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKf9rPmc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A248A1ABC4F;
-	Tue,  9 Jul 2024 16:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FB519DFA7;
+	Tue,  9 Jul 2024 16:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542053; cv=none; b=MLkMze576BjWrk0s4HFa3AfIlOeNBKJ3gWgpZqFdpRchkVB8eIhaqxKvoXihv6BdMXAxNmdfefgcWCa3U0y1LOI2OtBmzqqr0/CzWLbuiPkCeDrrclW1XPN643gF2Qa133SK+kH3DnWRxTwHxorR9jGXpazrdPUki2N8Pb9hhp4=
+	t=1720542146; cv=none; b=Sm5tFUOqFFgvF0ZgQWvRmwKrF/Cg2D6wi/UVoEKtlVLxBZRqTVaOkC5b+iX4KhPhDxnUyHcKaJ2G1y5PnBvTo3Y1rE+GiUbsqtTks8xICeVUowO27UCp7brtuxBsb4OZi4O2gs6gawGeLcUP7XNN/xBF8JwQirgs2KfJNWOwk/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542053; c=relaxed/simple;
-	bh=DKBwWJOniIY2A2Y9VaFIIBbdLvz3p/Q5FsGMztwQ/G4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jjb93+vzVjfq5bnuwkpdN+EjWkGIbxiBzFBsUQXA8pbwV5E43CKL9sxpXQaPC5Fz/Eq495OKnLzX+QMtCFvG5IGaQVUhZIWQc0noFmO0pwuqh5Kdojh8tjnbZy4xxVu8XRP5jnFwnKdi5rIQQM4tLslcsNboOwxAlRy7Hb3HYiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYvVF0cG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD939C32782;
-	Tue,  9 Jul 2024 16:20:52 +0000 (UTC)
+	s=arc-20240116; t=1720542146; c=relaxed/simple;
+	bh=RLPBOy9bO4BWCJVE0yOsG/T3YzQ5OxEOb79y7bhWjVM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m87ELd5iP9a7sc4QtPnEJxAM02Q3Od/ZPSuu2FBYan0DrKjN/tS7zP0HZvWtQAxOPYmDFnu5cqKq9UoAVm8XC/korG6EaUComN0FOnBhfWeKUa+Pv8VUW4HzNvixCOz1fzEDcM9UZyUtmw5XQMlXTSvgK0llbxdWzeVkuIbRCEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKf9rPmc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73CB8C3277B;
+	Tue,  9 Jul 2024 16:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542053;
-	bh=DKBwWJOniIY2A2Y9VaFIIBbdLvz3p/Q5FsGMztwQ/G4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dYvVF0cGpQFnaq9/7M59gvr7GA4T0eiqZTeausOjwGQ9sV/K5Cj0so5whXR7Xu7fG
-	 YouiMKX+M6WVQMkjUiIyitV2eF5YBLecAPUxi1J5V02qxPwOTuQisXyL1rxllIij5z
-	 BsazKUIpGnOgMc+MMQbF8cgKL06spCdQU2l+3tVEwrc71pwP/WPduuTUUaqZML3RWz
-	 vXzZBAnmeMkyfR9celqrnz0H+rL896tlPhh7R8m/i9XiwOe/zaufontt/DwEtQdKnM
-	 kiuO6udvihtco31DdxU7/WQIoJQvRvuhl80WLDrLsFB+MGtlMMt3Jo9RGacuOp0/yZ
-	 60WhxoB3yWeuA==
+	s=k20201202; t=1720542146;
+	bh=RLPBOy9bO4BWCJVE0yOsG/T3YzQ5OxEOb79y7bhWjVM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TKf9rPmcNTEPkTMLF06O5PP24oA1hJhbYznrE8NQSrZdguT4oR8j3h1w86y96Zf1e
+	 5uWGds3mCqqDWznbUa5AgDjs7C5+Y8Q1jRrpQgj8d1MuxrwnalQBdmOV/Uc5nn5HdZ
+	 BRR+/FFkRT0LFdG22sd+K0hr3K3uBFOQMRTUnO9G3r31f/j4KYyGuHdI8cNt6IxaLc
+	 DMh3n4CdS9O7LB5+lQa+VSWI9H2lmE+OkRHbGQh4u8ATcVynlIC+UDXBHn+41dtOUT
+	 /WewZlgcD83alaRLeQGSzn8s6ugvKJUnpE3mHmtNKtcCnGT/Lggge67wb41BlyU3BP
+	 aoZtqJDvtE5VA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+Cc: Jonathan Denose <jdenose@google.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	gregkh@linuxfoundation.org,
+	jefferymiller@google.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 20/40] Input: ads7846 - use spi_device_id table
-Date: Tue,  9 Jul 2024 12:19:00 -0400
-Message-ID: <20240709162007.30160-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/33] Input: elantech - fix touchpad state on resume for Lenovo N24
+Date: Tue,  9 Jul 2024 12:21:27 -0400
+Message-ID: <20240709162224.31148-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240709162007.30160-1-sashal@kernel.org>
-References: <20240709162007.30160-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,64 +60,80 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.9.8
+X-stable-base: Linux 6.6.38
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
+From: Jonathan Denose <jdenose@google.com>
 
-[ Upstream commit 7c7b1be19b228b450c2945ec379d7fc6bfef9852 ]
+[ Upstream commit a69ce592cbe0417664bc5a075205aa75c2ec1273 ]
 
-As the driver supports more devices over time the single MODULE_ALIAS
-is complete and raises several warnings:
-SPI driver ads7846 has no spi_device_id for ti,tsc2046
-SPI driver ads7846 has no spi_device_id for ti,ads7843
-SPI driver ads7846 has no spi_device_id for ti,ads7845
-SPI driver ads7846 has no spi_device_id for ti,ads7873
+The Lenovo N24 on resume becomes stuck in a state where it
+sends incorrect packets, causing elantech_packet_check_v4 to fail.
+The only way for the device to resume sending the correct packets is for
+it to be disabled and then re-enabled.
 
-Fix this by adding a spi_device_id table and removing the manual
-MODULE_ALIAS.
+This change adds a dmi check to trigger this behavior on resume.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Link: https://lore.kernel.org/r/20240619122703.2081476-1-alexander.stein@ew.tq-group.com
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+Link: https://lore.kernel.org/r/20240503155020.v2.1.Ifa0e25ebf968d8f307f58d678036944141ab17e6@changeid
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/ads7846.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/input/mouse/elantech.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index d2bbb436a77df..4d13db13b9e57 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -1111,6 +1111,16 @@ static const struct of_device_id ads7846_dt_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, ads7846_dt_ids);
+diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+index 4e38229404b4b..b4723ea395eb9 100644
+--- a/drivers/input/mouse/elantech.c
++++ b/drivers/input/mouse/elantech.c
+@@ -1476,16 +1476,47 @@ static void elantech_disconnect(struct psmouse *psmouse)
+ 	psmouse->private = NULL;
+ }
  
-+static const struct spi_device_id ads7846_spi_ids[] = {
-+	{ "tsc2046", 7846 },
-+	{ "ads7843", 7843 },
-+	{ "ads7845", 7845 },
-+	{ "ads7846", 7846 },
-+	{ "ads7873", 7873 },
-+	{ },
++/*
++ * Some hw_version 4 models fail to properly activate absolute mode on
++ * resume without going through disable/enable cycle.
++ */
++static const struct dmi_system_id elantech_needs_reenable[] = {
++#if defined(CONFIG_DMI) && defined(CONFIG_X86)
++	{
++		/* Lenovo N24 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "81AF"),
++		},
++	},
++#endif
++	{ }
 +};
-+MODULE_DEVICE_TABLE(spi, ads7846_spi_ids);
 +
- static const struct ads7846_platform_data *ads7846_get_props(struct device *dev)
+ /*
+  * Put the touchpad back into absolute mode when reconnecting
+  */
+ static int elantech_reconnect(struct psmouse *psmouse)
  {
- 	struct ads7846_platform_data *pdata;
-@@ -1386,10 +1396,10 @@ static struct spi_driver ads7846_driver = {
- 	},
- 	.probe		= ads7846_probe,
- 	.remove		= ads7846_remove,
-+	.id_table	= ads7846_spi_ids,
- };
++	int err;
++
+ 	psmouse_reset(psmouse);
  
- module_spi_driver(ads7846_driver);
+ 	if (elantech_detect(psmouse, 0))
+ 		return -1;
  
- MODULE_DESCRIPTION("ADS7846 TouchScreen Driver");
- MODULE_LICENSE("GPL");
--MODULE_ALIAS("spi:ads7846");
++	if (dmi_check_system(elantech_needs_reenable)) {
++		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_DISABLE);
++		if (err)
++			psmouse_warn(psmouse, "failed to deactivate mouse on %s: %d\n",
++				     psmouse->ps2dev.serio->phys, err);
++
++		err = ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_ENABLE);
++		if (err)
++			psmouse_warn(psmouse, "failed to reactivate mouse on %s: %d\n",
++				     psmouse->ps2dev.serio->phys, err);
++	}
++
+ 	if (elantech_set_absolute_mode(psmouse)) {
+ 		psmouse_err(psmouse,
+ 			    "failed to put touchpad back into absolute mode.\n");
 -- 
 2.43.0
 
