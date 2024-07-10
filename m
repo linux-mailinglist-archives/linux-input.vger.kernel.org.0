@@ -1,117 +1,114 @@
-Return-Path: <linux-input+bounces-4945-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4947-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F69692CF43
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 12:35:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFA892CF4E
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 12:36:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 299CC1C23C0B
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 10:35:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5954D1F21C1A
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 10:36:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A79C119149C;
-	Wed, 10 Jul 2024 10:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24F63190051;
+	Wed, 10 Jul 2024 10:32:30 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225E31922DA
-	for <linux-input@vger.kernel.org>; Wed, 10 Jul 2024 10:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E38190059
+	for <linux-input@vger.kernel.org>; Wed, 10 Jul 2024 10:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720607326; cv=none; b=PUHGx+khvjHdXxKQprpcOXVudz4FktK1bg6nt0rgZNPG/iOn6dMbwhAKrJZidCCFYN3dosryb2iB6LuZnOmx2R8Z7t2HOfWj1r5DuZbugps/O4o7NsBj5l6ee3AaK7vdnFJjDu7cg3vEE7ChCDgYgEoKHF7hBnOeNPEnI7RXVP8=
+	t=1720607550; cv=none; b=g8C1ei1Wvbay70DtAKfgXOwE0mjAIPYXDmTUo8GZH1IyMWOkY98bFom0etnq2Ac0YIXzRQrrwON9gvvl7dHy/bC2neTbDCSgglGHt2U0adzbGP94nn332dIGGKhacURshlsdYRm07aZTJchpQqnv9XVNdBS6YyI4W5IjSCVhZdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720607326; c=relaxed/simple;
-	bh=L/pgUwpgSrw/v5EABz0F3z0MFWWRAZFBSZNzpj8MzUM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EDqVw8M4a4r94s6Fj7VaFJ8+cYF7+ApR4MgspIBwV8N0pz1xDwUcdBVhz/v7AsZ8tyaSjNN30J4nby8cTzpIM8wsA3cNZr5i2S3kZLfgjq/h9SyDkmaNCgV8adcKRf+DqvUOsH5JyrMMRbryZw+5nXHUWRU78X2C1XG6Cn4fTuY=
+	s=arc-20240116; t=1720607550; c=relaxed/simple;
+	bh=fTQ7zkRLNDCLn/p4WuewCqh1pWrTOX5y6H7fbS4cZeU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UrwVLg6D3r1T2VOauB3wPobuplqxsQX/3reXkEUEwnaQgdYFXcsf9QVCck2iJYa4Kh7iWnh6rDi+VAIcfoQy5sV/s5WE7ud/vaNGhcKLouKHuhk7ejl9MbC3Aiq/pIcZyq0SmTT6JbUWuTmpNirykRCPkmrz7qjRcNlQi2G0D4Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1sRUYt-0001Y8-0f; Wed, 10 Jul 2024 12:28:35 +0200
+	id 1sRUcX-0001wy-IB; Wed, 10 Jul 2024 12:32:21 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1sRUcX-008Ui7-4a; Wed, 10 Jul 2024 12:32:21 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1sRUcX-0006FY-0F;
+	Wed, 10 Jul 2024 12:32:21 +0200
+Message-ID: <863e5bcd9160090f3b9a93f70da0de50d5efbe9a.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: exc3000: add
+ EXC81W32
 From: Philipp Zabel <p.zabel@pengutronix.de>
-Date: Wed, 10 Jul 2024 12:28:32 +0200
-Subject: [PATCH v3 2/2] Input: exc3000 - add EXC81W32 support
+To: Conor Dooley <conor@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ kernel@pengutronix.de
+Date: Wed, 10 Jul 2024 12:32:20 +0200
+In-Reply-To: <20240701-evolve-unbutton-ef7d913ad69f@spud>
+References: 
+	<20240628-input-exc3000-exc81w32-v2-0-c2b21a369c05@pengutronix.de>
+	 <20240628-input-exc3000-exc81w32-v2-1-c2b21a369c05@pengutronix.de>
+	 <20240628-agonizing-syrup-fcd55c441b3f@spud>
+	 <150055844b8af2017fa721ff08bbde473354b2da.camel@pengutronix.de>
+	 <20240701-evolve-unbutton-ef7d913ad69f@spud>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240710-input-exc3000-exc81w32-v3-2-4272183628b4@pengutronix.de>
-References: <20240710-input-exc3000-exc81w32-v3-0-4272183628b4@pengutronix.de>
-In-Reply-To: <20240710-input-exc3000-exc81w32-v3-0-4272183628b4@pengutronix.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
- Philipp Zabel <p.zabel@pengutronix.de>
-X-Mailer: b4 0.15-dev-13183
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Add support for EXC81W32 controllers.
+On Mo, 2024-07-01 at 15:42 +0100, Conor Dooley wrote:
+> On Mon, Jul 01, 2024 at 02:47:50PM +0200, Philipp Zabel wrote:
+> > Hi Conor,
+> >=20
+> > On Fr, 2024-06-28 at 17:21 +0100, Conor Dooley wrote:
+> > > On Fri, Jun 28, 2024 at 10:35:51AM +0200, Philipp Zabel wrote:
+> > > > Add compatible for EXC81W32 touchscreen controllers.
+> > >=20
+> > > Could you please mention in your commit messages what makes a fallbac=
+k
+> > > compatible inappropriate here?
+> >=20
+> > thank for pointing this out. Actually, I'm not sure a fallback
+> > compatible is inappropriate at all. There just is none currently, even
+> > though EXC80H60 and EXC80H84 already look compatible to me.
+> >=20
+> > To my understanding, there's EXC80[WH]{32,46,60,84} models, that should
+> > only differ in ball pitch (W or H) and targeted display size (the last
+> > number).
+> > I don't know if there are actual relevant differences between what I
+> > assume are model generations, such as EXC80 to EXC81. At least the
+> > limited currently implemented feature set in the exc3000 driver is
+> > identical.
+> >=20
+> > Given that EXC80H60, EXC80H84, and now EXC81W32 all share the same 16K
+> > resolution and the same message format (possible differences in
+> > capability to measure touch area nonwithstanding), should I prepend
+> > this series with a patch:
+>=20
+> If you're prepared to update the two users to avoid adding more
+> dtbs_check warnings, sure.
 
-Tested with firmware reported as type "PCAP81X32 Series",
-model "Orion_0183_1019", fw_version "8001280G".
+I'll follow up with another patch series, thanks.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-v2: split device tree binding compatible update out of this patch
----
- drivers/input/touchscreen/exc3000.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index a4030cc9ff60..2e77cfb63f32 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -53,6 +53,7 @@ enum eeti_dev_id {
- 	EETI_EXC3000,
- 	EETI_EXC80H60,
- 	EETI_EXC80H84,
-+	EETI_EXC81W32,
- };
- 
- static struct eeti_dev_info exc3000_info[] = {
-@@ -68,6 +69,10 @@ static struct eeti_dev_info exc3000_info[] = {
- 		.name = "EETI EXC80H84 Touch Screen",
- 		.max_xy = SZ_16K - 1,
- 	},
-+	[EETI_EXC81W32] = {
-+		.name = "EETI EXC81W32 Touch Screen",
-+		.max_xy = SZ_16K - 1,
-+	},
- };
- 
- struct exc3000_data {
-@@ -441,6 +446,7 @@ static const struct i2c_device_id exc3000_id[] = {
- 	{ "exc3000", EETI_EXC3000 },
- 	{ "exc80h60", EETI_EXC80H60 },
- 	{ "exc80h84", EETI_EXC80H84 },
-+	{ "exc81w32", EETI_EXC81W32 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, exc3000_id);
-@@ -450,6 +456,7 @@ static const struct of_device_id exc3000_of_match[] = {
- 	{ .compatible = "eeti,exc3000", .data = &exc3000_info[EETI_EXC3000] },
- 	{ .compatible = "eeti,exc80h60", .data = &exc3000_info[EETI_EXC80H60] },
- 	{ .compatible = "eeti,exc80h84", .data = &exc3000_info[EETI_EXC80H84] },
-+	{ .compatible = "eeti,exc81w32", .data = &exc3000_info[EETI_EXC81W32] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, exc3000_of_match);
-
--- 
-2.39.2
-
+regards
+Philipp
 
