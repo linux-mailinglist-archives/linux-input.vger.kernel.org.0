@@ -1,138 +1,162 @@
-Return-Path: <linux-input+bounces-4951-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4953-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42E792D378
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 15:54:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE4492D52A
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 17:41:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F09F1F21ED6
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 13:54:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD800B2472D
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jul 2024 15:41:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABF1194A6F;
-	Wed, 10 Jul 2024 13:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkIZxIE9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC2A189F26;
+	Wed, 10 Jul 2024 15:40:59 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3B6193449;
-	Wed, 10 Jul 2024 13:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF86191494;
+	Wed, 10 Jul 2024 15:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720619577; cv=none; b=YtzVHb6E1aPS5Om+ZbXZCdazoTdCvJF7iJeCQUadcAsVqE7LmM5zCZsOSJF0jK1Z0YsXNQX6tqe1pytsQR2s76qwez8TWJVb5+k6LeSNflSoJRmqxwOVymQrA0UHF6qJ9wlEmwxo9YXqFHVqlLyB/DT029Tk+DvzVxoPQqoBFNc=
+	t=1720626059; cv=none; b=EW7LFSXV/saO/XhaDwxR4GtMgBBwJEv8khpwA4rMyEanVM+5HtqBmq01rAOrjqdaHvoCu5orVOQvDiqc6CjvdPK8oQIVPCVqhyDweaUSJla7C+a68WHZXVQGIOwtL41mm60nrucOxeYNtqJVG42BMK/4DqrwWcOUxFcsuu/zB0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720619577; c=relaxed/simple;
-	bh=QhaNADKPWhmGoAiQ07UnKvQntsV5hpp5wAActCfsVSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HX8MvLOT7COjDaTKwgQxcxk8900EvlDMV5zSC4L+Ory0qGZaf+VMJ3nXdNZ1zxOiEdJrAXje19YOTbRT07h/CDurajZsdxHaJ/Aq0HL4DfB5T8jQjMFnTSOMUuLYGrLRhG5J8J6NLyDa9kq6XMA1n3QWUt8j0IlSaOZ6/DONPF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkIZxIE9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85E4C32786;
-	Wed, 10 Jul 2024 13:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720619576;
-	bh=QhaNADKPWhmGoAiQ07UnKvQntsV5hpp5wAActCfsVSU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZkIZxIE9HFZpTFdTcF9Pn3T5CVGo0zmI+mKzMTlUtV32Ky5lpV5NTDQ1HxoU9e139
-	 2CwfH8fja2VIo1DUzJvoO2VafelRm3DIBLrD6UuJj2vJSoOBNQ/FkgQ6E7xH9h8p6t
-	 dUS8yHsHK0BTKJVfgAI/942cKxbbEom/uzbLDVbd0y8M7kZ+ml5TTdPvUSHGrGh5CK
-	 mWN0glJls9YrvjxYiXKdMXiWre+n+LC1pBoQlQ5u1pueuD5jliY5iVv/n9ok20ZaQs
-	 rFEYxyTu8IHy4vWFJQQus2Y5ReL10550An05mT2nACI3a+kyzuwrbPX44tudqgBFUU
-	 r57+CplF1ng+w==
-Date: Wed, 10 Jul 2024 14:52:52 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: touchscreen: exc3000: add
- EXC81W32
-Message-ID: <20240710-couch-creamed-11ff20becccd@spud>
-References: <20240710-input-exc3000-exc81w32-v3-0-4272183628b4@pengutronix.de>
- <20240710-input-exc3000-exc81w32-v3-1-4272183628b4@pengutronix.de>
+	s=arc-20240116; t=1720626059; c=relaxed/simple;
+	bh=CrL/Jn/Ty/fnR5ezAckIV+af6We6y4cUsMgzE8M/R7o=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uCCfNzvj6D7MYgtbMrW5EklZQtHgUj0zmFy51vcqNn+21ROgi1iDyIUoBJhj/yaq1hRKxgnwyhvgjCUTd5MoPDtWjfCQowtw3VcQvsZ0mQmobkAZA21Wxmpv9DdHHb4QuPfu0+nEAbHJcHfxfxSVQomBUrRjZ0PZTM4sTgvNKdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 1A3FF1000C8;
+	Wed, 10 Jul 2024 15:35:21 +0000 (UTC)
+Message-ID: <afda41dc-7b36-4ddd-abfc-c9430d8c9503@enpas.org>
+Date: Thu, 11 Jul 2024 00:35:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XOyo+sROn9MECkm7"
-Content-Disposition: inline
-In-Reply-To: <20240710-input-exc3000-exc81w32-v3-1-4272183628b4@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+From: Max Staudt <max@enpas.org>
+Subject: Re: [PATCH v1] hid-playstation: DS4: Update rumble and lightbar
+ together
+To: Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240616163055.75174-1-max@enpas.org>
+ <CAEc3jaCkH5JwNTpHRZYsekbwX+G6T5tMTLD0+O6E7Q2hqcAFHw@mail.gmail.com>
+ <dedb2c39-fc28-4cba-802f-5d56f23db722@enpas.org>
+ <CAEc3jaC-Tmd2XtK9H2sipBJAhCf16dMWx46r8Hs4p9At3LC_Jg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAEc3jaC-Tmd2XtK9H2sipBJAhCf16dMWx46r8Hs4p9At3LC_Jg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi Roderick,
 
 
---XOyo+sROn9MECkm7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/9/24 01:07, Roderick Colenbrander wrote:
+> The console behavior (I checked the code) does use the flags as well 
+> like I do. The architecture there between usermode/kernel is a bit 
+> different, so in some cases flags do get set when not needed.
 
-On Wed, Jul 10, 2024 at 12:28:31PM +0200, Philipp Zabel wrote:
-> Add compatible for EXC81W32 touchscreen controllers.
-> They use the same protocol and have the same resolution as EXC80H84.
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
-> v3: Mark exc81w32 as compatible with exc80h84.
-> ---
->  .../devicetree/bindings/input/touchscreen/eeti,exc3000.yaml  | 12 ++++++=
-++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc=
-3000.yaml b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc300=
-0.yaml
-> index 9dc25d30a0a8..1c7ae05a8c15 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/eeti,exc3000.ya=
-ml
-> @@ -14,10 +14,14 @@ allOf:
-> =20
->  properties:
->    compatible:
-> -    enum:
-> -      - eeti,exc3000
-> -      - eeti,exc80h60
-> -      - eeti,exc80h84
-> +    oneOf:
-> +      - const: eeti,exc3000
-> +      - const: eeti,exc80h60
-> +      - const: eeti,exc80h84
+Thank you so, so much for double checking this. It's always great to 
+have someone who can speak authoritatively on such matters and eliminate 
+the guesswork.
 
-This portion could've remained an enum.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Cheers,
-Conor.
+> Various devices tried to capture bit patterns and see what kind of 
+> worked even though not really right. (Officially licensed
+> controllers are a different story they use different hid reports.) We
+> didn't know other devices did this wrong.
 
-> +      - items:
-> +          - enum:
-> +              - eeti,exc81w32
-> +          - const: eeti,exc80h84
->    reg:
->      const: 0x2a
->    interrupts:
->=20
-> --=20
-> 2.39.2
->=20
+Licensed controllers... That will be my next patch set, apologies in 
+advance :)
 
---XOyo+sROn9MECkm7
-Content-Type: application/pgp-signature; name="signature.asc"
+They need quite a few quirks, too... And as it turns out, my previous 
+patches have laid a lot of ground work for them :)
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZo6SNAAKCRB4tDGHoIJi
-0vzYAQDcPRhGnxO6POKthGpu366MT1iGX+CXzGRY6KCZNAqyZQD+MjJES5StKWp4
-KA+fWgMhbNa5geuwCYyoGQc+SxlnHwg=
-=58jP
------END PGP SIGNATURE-----
+> Correct the validation tests are all uhid based, which is the best 
+> which can be done.
 
---XOyo+sROn9MECkm7--
+Please correct me if I'm getting the wrong idea here, but what I read 
+between the lines and from your email address is that this is something 
+in Sony's interest.
+
+So an idea comes to mind: Maybe somewhere inside Sony, there exists 
+something like a DS4 simulator at the HID level, which could serve as a 
+foundation for improving the tests? That would get the tests much closer 
+to the gold standard, which is using a real controller.
+
+If not, then maybe there is protocol documentation that could help test 
+writers in creating more precise tests?
+
+
+> There is the hid-tools one, but the one which we help out with, but
+> the key one is the Android ones. We have so many problems with these.
+> Mostly because of vendors not enabling e.g. FF support or LED support
+> other things.
+
+Hm, but downstream users misconfiguring kernels is not our fault, is it? 
+In that case, the tests actually do their work correctly if they show 
+that something is amiss.
+
+
+> The main new Android kernel (public knowledge) is now 6.6 and many
+> new devices due later this year/early next year will use it.  The
+> eco system is a lot wider now and the drivers are used a lot on
+> non-mobile devices (cars, televisions, chromecast,..). Occassionally
+> driver patches are also backported from upstream to older Android
+> kernels (patches have to be merged upstream first).
+
+I see. But still, that is just typical downstream risk of building on 
+behaviour that the kernel does not provide guarantees for. I know 
+first-hand that backporting is a lot of work and easy to get wrong, but 
+this is the first time that I hear that as a reason to stop improving 
+the mainline kernel. Hence my confusion here.
+
+
+> Not that I wouldn't want these kind of patches, but I have to weigh 
+> both sides.
+
+Thanks for your understanding, and hence my offer to help if I somehow 
+can...
+
+
+> The pain on addressing things downstream and in Android conformance
+> tests is quite painful.
+
+Hm, I can somewhat imagine this. I've heard that Android conformance is 
+quite strict.
+
+Given Sony's supposed interest (see above), I guess it would be a 
+worthwhile investment to make the tests more robust? We could just hold 
+off on this patch for a while until downstream has better tests... What 
+would be a timeline for this to trickle downstream?
+
+
+> We would also have both code paths used in the wild forever, because
+> existing 6.6 devices wouldn't change behavior.
+
+Well, that's kind of the point of LTS releases, if I'm not mistaken...
+
+
+> (The official Android tests are kind of kernel version agnostic as
+> they work across multiple kernel and Android versions.
+
+Hm, sounds to me like the Android test framework is broken if it cannot 
+be kernel-specific in such cases. What's required in order to improve this?
+
+
+
+Max
+
+
 
