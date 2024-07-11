@@ -1,78 +1,78 @@
-Return-Path: <linux-input+bounces-4979-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4980-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A3892EDB9
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 19:27:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE7892EDBB
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 19:28:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40C101F224F1
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 17:27:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 876FD2833DD
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 17:28:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A110D16DEA2;
-	Thu, 11 Jul 2024 17:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34BF816E862;
+	Thu, 11 Jul 2024 17:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2ESpU2A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAbgFgw+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6DA16D9C4;
-	Thu, 11 Jul 2024 17:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A194016DEA4;
+	Thu, 11 Jul 2024 17:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720718853; cv=none; b=vEQu/mZ0C/xRGhBUtzT0Zz6geB9xQ3HjUD9CezXxuXoDqhlcyoGSS+QP929LXaOcjD2viF0UAqanW7G4e58i5MMsTe4QWxE0dxP0+1CC8oSR/G1X8wjjhfF9NllEIo05E4DnFB1EXMaoWZlIzkkq2NfEBvqp4vHrXXN8rthNin8=
+	t=1720718855; cv=none; b=imaEaYB6zUmPvq7BFP9cGXbmdMvDhKlc4wSu0YcH0o1z2pEVj+2ASeo03Ir2V3YiMy4L5XK52bYzwFZqUrhFT2m2ju1AobLapxc/igUZ2HtZROKojJz0qUHipWk4aH3ZxrVzi6Yowbw06ywmInNfoBVAcTyZGT2RG0bLvthg0Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720718853; c=relaxed/simple;
-	bh=LV2qkLwVkLu0UyvYvKa5w4mGcnJWYXxH4Pynyzbgdw8=;
+	s=arc-20240116; t=1720718855; c=relaxed/simple;
+	bh=g6RvsJvEBelZQYRBsDfESiSGLCnzJsuJi47mQGX69tI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XLwB9fVjFVeZduHSIyBfqOC1jVzw57Db9qzTL8+Z5vfhTJD9txBd6d+7dYH9LfltGLtHYEKqydASF0boNFhIFL1bM1QiPm0PqM2a8NVEqf6r0I/6rBt/UfhPAdtWPk6X5VsbodvpVLau0xf5mqInjSA8YNDi2X8YKmx8/IOx3zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2ESpU2A; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=ds3+SYaM22jZfbN+7H9QlklCWMasWFDJFHC4UbenRk9+vTDGnuQfCbGduE3bAkdSmwrbVgjW0IuCvw+oqq1qIGBnMx5VFr5+g/R4U6V0RFXFEOVrjeDADl//KkPFooskh3II4HFAvn/bDKLmjNa2xV2LDaf9emWuIRFgKMhehuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAbgFgw+; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fb05ac6b77so8143425ad.0;
-        Thu, 11 Jul 2024 10:27:32 -0700 (PDT)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fbe6f83957so5802685ad.3;
+        Thu, 11 Jul 2024 10:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720718851; x=1721323651; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720718853; x=1721323653; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F1HlQyJZEZSdBP2lJm/bVCfQMFgVDPH4QbUxllsdPXs=;
-        b=m2ESpU2AWr/SwEDNk5aHKri5Zq7x0Sy2o9eR9dIZp6Kjq3Qw0NbILYcGy618bL5lQs
-         iXsTEWort066smUBP3E4+GcwA89+Yg9DeebChJpLSbd3Ibd4zMhhDWNTCm6v0BrzVPbw
-         57BOg83Ce3dR5uQagAdTYg1hxyGDIi3zXxq88SRwyBWCuZw5J0BMagasKdftSXPqBjJu
-         6AtFYgXnbWPKc7QzDLdOovu1KiKcde9/+zY6zofH86OvdEdp9JBHV9o6CQ+d+56xpvLp
-         K8fuYwT3Nfw+0PVDezVSAJy+5ZMKqeQn5ss5cq1vO9bECvUxgJMkpedvxD1qdStcCw5J
-         +Sbg==
+        bh=+BOesuwkLEFmcZ7ZJT5jxAmqXAgpT28qhJPsL9e5Gek=;
+        b=lAbgFgw+kQhPAToJqgpuQq/YDUhp29NiwG4c17aqsTt8vNNg10kVTEOJpvDPF1eOJv
+         vyoen5tTDlwquWmIBsANwHHYH+PptCuDl/dQGJR+nKfMOqLIHhPanIhlZnuTL4KTXxBa
+         xP7FXMNEoisIQkyqAU9t1WjCMPVCi55VyarD+iQu+98cJu/LTyrXt1tBfpHKVRpIg/xK
+         CFwbGOzKZFBHwJcGCy8dq7OAi6YUgMg3C+kw0jr1FV0WgDKx3PO0karyVdal8WL54P7J
+         tNtQdJA/A9t2kim3zwkMcoMejKSNXVVV4Tu6NyMeCh9fI55AY1UbynMW19JRKFCTEBuQ
+         MmPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720718851; x=1721323651;
+        d=1e100.net; s=20230601; t=1720718853; x=1721323653;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F1HlQyJZEZSdBP2lJm/bVCfQMFgVDPH4QbUxllsdPXs=;
-        b=fwua5mvujzG9Z+4nsNEOzzyMm+5cILEwYeLC9YQttbz9+1uKKfjx/D3Zv23NQZ77X/
-         5O7d/jZF++cv77ATDiEiyewwF9SFOXC5eGJtgQborOj6tvdXi4O6mOmv5TY4/n4+sVFk
-         FbVQbdpub0oNKrm42FQs5wN7W4FP87r5fgv0cz8Tu/BNu6LLfVo5Y8+35ClU6j0QUJIe
-         LCzMYzwd2rdLs+pZKhqmGvF5ST3QaOZplbvappbAH0GrKQFGxTUhByicwSFHUb2513fG
-         85mNuKshosqiL4biedG/Disvz4DnIU2gW99zK+3bK/1iEIAwdpYKWWSx9PzL2YNh0lE8
-         Um8g==
-X-Gm-Message-State: AOJu0Yw+8XyejkkzVU5IGHFuDn7CZ2l3XAACYKrBSVrsoL2wQiK/N1fY
-	rUV7IEupkfdIrF11abYNI8SG/FyiZofotJgHgjFXNPz6xmljcJmIyvvbzQ==
-X-Google-Smtp-Source: AGHT+IHT7fMeIaUUZxL/1MFKinxvV1RLGJFuukwC+TxrAA6s15NCPpTLUzX/7nP/BCxgRvVwh2ODWQ==
-X-Received: by 2002:a17:902:d4c6:b0:1fb:3474:9500 with SMTP id d9443c01a7336-1fbb6d4b98fmr80587975ad.27.1720718851150;
-        Thu, 11 Jul 2024 10:27:31 -0700 (PDT)
+        bh=+BOesuwkLEFmcZ7ZJT5jxAmqXAgpT28qhJPsL9e5Gek=;
+        b=wrlnBIKBhN6oWpLwYvCEWtNOR9P+z3cDxGkdMcRAaZDp1FOh5Jt3EXC+7rOp8ws+8s
+         XdRd1XqcJ/W89beqQg26OQtBwX4L3JOyqO57yY3veOjyVAIx7WCNe8hPFSBBOaClZxb2
+         3o/93fZtZqx0GNJxRBzi6LNdH+MP2juOVySDC80ScwczKyTdKCRKU+j9xYoglrwA7Vr4
+         3wZHBnN77KgPTM2afFrdP6G7RcC/OaBp6c/sxkYOPk9Nkds6H9vCwQQqugn6jzfVBYZh
+         fe0+xRecbE6v0RGqk3E+CbUPBllVvX94kgdrz/G3FoqklQ6fszGyo9KTrff3XTFHhx3L
+         B6TQ==
+X-Gm-Message-State: AOJu0Yx2IQNphTudWLagxi8hTnzHUgCCwv9lL134OZ3xuN0HSFauplqB
+	mp0GbPeiOvTaANifOwqKmwuO0LaLt9rO7c3n9uwxn6yeEgCyMAsGcYk2bQ==
+X-Google-Smtp-Source: AGHT+IHZo1R3wkEolk/aOQEV88/4xoSeprWRPeZYVx1grAOHtqrRU82RG481zF+vOAOMw5dtx3mGmg==
+X-Received: by 2002:a17:903:283:b0:1fb:8a0e:7730 with SMTP id d9443c01a7336-1fbb6d4b03cmr78219085ad.26.1720718852429;
+        Thu, 11 Jul 2024 10:27:32 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4761:5ea8:2da4:8299])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ac0c47sm52976845ad.192.2024.07.11.10.27.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ac0c47sm52976845ad.192.2024.07.11.10.27.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 10:27:30 -0700 (PDT)
+        Thu, 11 Jul 2024 10:27:31 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org,
 	Sebastian Reichel <sre@kernel.org>
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] Input: tsc2004/5 - fix reset handling on probe
-Date: Thu, 11 Jul 2024 10:27:14 -0700
-Message-ID: <20240711172719.1248373-3-dmitry.torokhov@gmail.com>
+Subject: [PATCH 4/6] Input: tsc2004/5 - do not use irq_set_irq_wake() directly
+Date: Thu, 11 Jul 2024 10:27:15 -0700
+Message-ID: <20240711172719.1248373-4-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.45.2.993.g49e7a77208-goog
 In-Reply-To: <20240711172719.1248373-1-dmitry.torokhov@gmail.com>
 References: <20240711172719.1248373-1-dmitry.torokhov@gmail.com>
@@ -84,69 +84,64 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the driver has been converted to use gpiod API it was requesting
-and asserting the reset on probe, but never deasserted it. However
-because of incorrect annotations in device tree marking reset line as
-active high whereas in reality it is active low, the end result was
-that the chip was never reset on probe. With polarity of the reset line
-now corrected this became a problem.
+Instead of setting irq_set_irq_wake() directly in probe(), mark the device
+as wakeup-capable, and use enable_irq_wake() and disable_irq_wake() in
+suspend/resume path.
 
-Fix this by calling tsc200x_reset() from tsc200x_probe() to properly
-complete the reset sequence and move requesting the reset GPIO and VIO
-supply closer to the point where we need to start talking to the
-hardware.
+This also allows changing the wakeup setting dynamically at runtime using
+/sys/devices/.../tsc2005/power/wakeup.
 
-Fixes: d257f2980feb ("Input: tsc2005 - convert to gpiod")
+Reviewed-By: Sebastian Reichel <sre@kernel.org>
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/tsc200x-core.c | 28 +++++++++++++-----------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ drivers/input/touchscreen/tsc200x-core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touchscreen/tsc200x-core.c
-index cd539a2a1dd5..87e6839c60fa 100644
+index 87e6839c60fa..cd60bba11c56 100644
 --- a/drivers/input/touchscreen/tsc200x-core.c
 +++ b/drivers/input/touchscreen/tsc200x-core.c
-@@ -486,19 +486,6 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
- 					 &esd_timeout);
- 	ts->esd_timeout = error ? 0 : esd_timeout;
+@@ -106,7 +106,9 @@ struct tsc200x {
  
--	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(ts->reset_gpio)) {
--		error = PTR_ERR(ts->reset_gpio);
--		dev_err(dev, "error acquiring reset gpio: %d\n", error);
--		return error;
--	}
--
--	error = devm_regulator_get_enable(dev, "vio");
--	if (error) {
--		dev_err(dev, "error acquiring vio regulator: %d\n", error);
--		return error;
--	}
--
- 	mutex_init(&ts->mutex);
+ 	struct gpio_desc	*reset_gpio;
+ 	int			(*tsc200x_cmd)(struct device *dev, u8 cmd);
++
+ 	int			irq;
++	bool			wake_irq_enabled;
+ };
  
- 	spin_lock_init(&ts->lock);
-@@ -539,6 +526,21 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
+ static void tsc200x_update_pen_state(struct tsc200x *ts,
+@@ -560,7 +562,8 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
+ 		return error;
+ 	}
  
- 	touchscreen_parse_properties(input_dev, false, &ts->prop);
+-	irq_set_irq_wake(irq, 1);
++	device_init_wakeup(dev, true);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(tsc200x_probe);
+@@ -576,6 +579,9 @@ static int tsc200x_suspend(struct device *dev)
  
-+	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	error = PTR_ERR_OR_ZERO(ts->reset_gpio);
-+	if (error) {
-+		dev_err(dev, "error acquiring reset gpio: %d\n", error);
-+		return error;
+ 	ts->suspended = true;
+ 
++	if (device_may_wakeup(dev))
++		ts->wake_irq_enabled = enable_irq_wake(ts->irq) == 0;
++
+ 	mutex_unlock(&ts->mutex);
+ 
+ 	return 0;
+@@ -587,6 +593,11 @@ static int tsc200x_resume(struct device *dev)
+ 
+ 	mutex_lock(&ts->mutex);
+ 
++	if (ts->wake_irq_enabled) {
++		disable_irq_wake(ts->irq);
++		ts->wake_irq_enabled = false;
 +	}
 +
-+	error = devm_regulator_get_enable(dev, "vio");
-+	if (error) {
-+		dev_err(dev, "error acquiring vio regulator: %d\n", error);
-+		return error;
-+	}
-+
-+	tsc200x_reset(ts);
-+
- 	/* Ensure the touchscreen is off */
- 	tsc200x_stop_scan(ts);
+ 	if (ts->suspended && ts->opened)
+ 		__tsc200x_enable(ts);
  
 -- 
 2.45.2.993.g49e7a77208-goog
