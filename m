@@ -1,200 +1,134 @@
-Return-Path: <linux-input+bounces-4973-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4974-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586D092EC7A
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 18:19:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FE392ED07
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 18:49:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C6AD1C21161
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 16:19:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7612CB20995
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jul 2024 16:49:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C8415FCED;
-	Thu, 11 Jul 2024 16:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E90416D4C6;
+	Thu, 11 Jul 2024 16:48:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sci.fi header.i=@sci.fi header.b="PU8kL0jB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3bXjZw8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fgw21-4.mail.saunalahti.fi (fgw21-4.mail.saunalahti.fi [62.142.5.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876B18BFD
-	for <linux-input@vger.kernel.org>; Thu, 11 Jul 2024 16:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8348E84047;
+	Thu, 11 Jul 2024 16:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720714746; cv=none; b=kcANWBroLt/pNlOh/dgXWciUJ3G4QJOec4PUXn3B0nokmGXrHR/nhdnYTE1GR/FXpR97GH6WXK/jfFnc9tejYefpERkILrydO4ZmENhaZVQFJqA34oIt8gH/gYHR9FyYwDeYTmIPe1KmIlqFV6JJMiLU69E3yvR4VL9zAkvolGg=
+	t=1720716538; cv=none; b=hWgZ/7MAaAsuwq8DNf13OVMY9FysKnoiTpfF33lg515k06JNaeCrlJIsa3e+Nb7mNG9ZQfQ5yVblgkx9Dg2xGUQLfI+FBkDSkhgwhiPVHDnlWIYODt5Dp8+mCZ+MlS0sI3u3FTNlOUgWmglFDs73jhvvomPpmEpzKbeNvioLvRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720714746; c=relaxed/simple;
-	bh=zCAjZ21UoUMwBBB1qyvpP4jCRL8vy3sea2sCKrtiIH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMcnTDMvPCo/9v8Cuis7fUPzajMA+pxrYF5+lmpy5ZH8aKjY6PPx6y5AviO7lKryoHn91gWPWMWuQG1Wu070PNlvnCRAhQF12jEjm8POrf86UsoJOI8pR/EziWYBfT4RedL0lgX6s0WLPP1es60Likcrde4b9WOc8nPBzfoNnl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sci.fi; spf=pass smtp.mailfrom=sci.fi; dkim=pass (2048-bit key) header.d=sci.fi header.i=@sci.fi header.b=PU8kL0jB; arc=none smtp.client-ip=62.142.5.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sci.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sci.fi
+	s=arc-20240116; t=1720716538; c=relaxed/simple;
+	bh=73ZIG9KmkYiAhggQE4JH+gw0xEUz2iC+N+OJETReESc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s2J9zka26tS0CfibUDE536HM4wy+T/dv3uTbtzUvyeCkZNpgDbiOz/xLdnGMD+4e3oZgKcH8//4Jx5kJW8WNEjBHHSMn48+SZFGu+1+WSLjz63c2IBMwRyCfgCHDQ5LNDU2OSdC8HSSlqRBa5KrIGnz/HTXxeNaWiKaMz54q3sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3bXjZw8; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57cf8880f95so1394697a12.3;
+        Thu, 11 Jul 2024 09:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sci.fi; s=elisa1;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:feedback-id:from:to:cc:reply-to:subject:
-	 date:in-reply-to:references:list-archive:list-subscribe:list-unsubscribe:
-	 content-type:content-transfer-encoding:message-id;
-	bh=QLwqgHRZ6lSOojwMebwwsVWAh74G0Lu0nm5wRXcRVSI=;
-	b=PU8kL0jBK8cZIcMZFYjysq11i8gTTRmK+OaD5MQ5ojwXdHGIxiqM+mzN7t9y6ADyZU0q/VsJ9ia5j
-	 VImah3lSvSFSXoKGGmHA2EyGWAcQzNj89Lxvr9YVCo0NBmeMKaEkT5Paif0HbDY4Lmyk4kv/UIhgb1
-	 kV6tTwPfXwJ8xIaKdcRG8Y+Bl8pVvd1Zj+JB5RV1Fc8EYGkIu/PKjU+MQdsOFKAR5Ij+KxYaGKn7y4
-	 uvXXHkPhdeKwm8wIE/XY7s6pojAh0QLHrTO5oaCi7E8C3AobFlKn2vjjfzUY6IfUKG6QuFVsrE3tBR
-	 1SyqVnUE+H7MUJrA3q2p0kLOiVXtn2Q==
-Feedback-ID: 91b3a81a:25bf58:smtpa:elisa
-Received: from sci.fi (89-27-49-32.bb.dnainternet.fi [89.27.49.32])
-	by fgw20.mail.saunalahti.fi (Halon) with ESMTPSA
-	id 44a41fc4-3fa1-11ef-8dbd-005056bd6ce9;
-	Thu, 11 Jul 2024 19:18:55 +0300 (EEST)
-Date: Thu, 11 Jul 2024 19:18:54 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <syrjala@sci.fi>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] Input: ati-remote2 - use driver core to instantiate
- device attributes
-Message-ID: <ZpAF7gqeF589IkTA@sci.fi>
-Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <syrjala@sci.fi>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <Zo8gaF_lKPAfcye1@google.com>
+        d=gmail.com; s=20230601; t=1720716535; x=1721321335; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iEZsA+JEWanK57qEMYDbE1caMCR1HD9S3b8hhmYN9Oo=;
+        b=B3bXjZw8q5r+qwjrEdDCbhNjya+xxE0sF4rtO6VzxJ98mD3lvg4kHhvklpVepdxjoP
+         h1JSx07zuK0jPE15+kS86KlaiCPyia3csEHkneDYDOcakbdnJWqTQZ6Gsyt55Ddm8zGm
+         0ppc6ia3VdpI84TxCV2u7sCkf0qJFsG/zNY0sUykMgrGSh3uhPosAK9vJq/coqDxNu52
+         q70MoN9VCrLSFeaCiTtz5i62cxrqo0hH7hUddhGAoYnKqu4gQLG0MvBWiDChxlEaQ/G+
+         xLeGNgXAFafd4svJCfoPc+/9NsXoRlCcSKffjRZfNf1EeWX/ygdp+ZdEdwgavPVXRdm2
+         BQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720716535; x=1721321335;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iEZsA+JEWanK57qEMYDbE1caMCR1HD9S3b8hhmYN9Oo=;
+        b=MIPoL+0dmU+mJIZwa8+LyfqqCoFMtMzMnY4IVLI4CytMKhinaFEwcPjuF19oEXCA8r
+         Opl2f99ZtDQ2TQ+fWhKIsWS138d7LaGm5s02rb4ZF0m3NTMkoZsud9Fv1EOm4386FCZk
+         ljwTDwLS3+j2XcEjyRFdGwzbkJkRKhjQJJHWqHPZ2pHWYkQ35nLU+q4D1kr/5VGUlMi4
+         ePy3zrzZ+6l6M4hrKxbFVKQ33afbYZ14v6SlEgDTrEPnDEYDG2t7yUxDqW1GD6z3moMh
+         GD3kqD4UiFOUO++aOrsESMFKyigl+DjU0P1ERcCODhVGdDL/3JmLwOKhBlagjiZXuluq
+         KSVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWIsA8EkbXCk6xXiPkoyV5IM6KpCpSp0p4ZM0m0i3u9kHtGe8G90ckz+Itc5wZEsmH1Ja1f8gdQw9JN8pvDIrhUu98AvhYM7Pxni8=
+X-Gm-Message-State: AOJu0YwWEwsV3m/efrbHL4LQNAOnvM+vxDxsFdMMZpOIM2ELwGGRKjHi
+	XS2Da3zM7hpmgsXzQR51Ht+MpVscbEDj07BcUkwzTitCUZXQLwGO
+X-Google-Smtp-Source: AGHT+IFMW06wAwwEUvlp048oJpfkaauaUhl40CXY1F07ftga56DZRibkuT4YWyNJJr0/tYkHk68Rxg==
+X-Received: by 2002:a17:906:d29b:b0:a77:c330:ad9d with SMTP id a640c23a62f3a-a780b8826cdmr683873666b.61.1720716534517;
+        Thu, 11 Jul 2024 09:48:54 -0700 (PDT)
+Received: from [192.168.178.20] (dh207-43-148.xnet.hr. [88.207.43.148])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a7ff07esm270724666b.111.2024.07.11.09.48.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jul 2024 09:48:54 -0700 (PDT)
+Message-ID: <3ac07aff-4ac4-4649-86ec-6175dd516162@gmail.com>
+Date: Thu, 11 Jul 2024 18:48:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zo8gaF_lKPAfcye1@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: twl4030-pwrbutton - fix kernel-doc warning
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <Zo3QE00GqCrA3M9b@google.com>
+Content-Language: en-US
+From: Mirsad Todorovac <mtodorovac69@gmail.com>
+In-Reply-To: <Zo3QE00GqCrA3M9b@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 10, 2024 at 04:59:36PM -0700, Dmitry Torokhov wrote:
-> Instead of manually creating driver-specific device attributes
-> set struct usb_driver->dev_groups pointer to have the driver core
-> do it.
+On 7/10/24 02:04, Dmitry Torokhov wrote:
+> Do not use kernel-doc style for comment describing contents of the
+> source file, as it trips the script:
 > 
+>   scripts/kernel-doc -none   drivers/input/misc/twl4030-pwrbutton.c
+> drivers/input/misc/twl4030-pwrbutton.c:2: info: Scanning doc for function twl4030
+> drivers/input/misc/twl4030-pwrbutton.c:33: warning: expecting prototype for twl4030(). Prototype was for PWR_PWRON_IRQ() instead
+> 1 warnings
+> 
+> Also remove file name from the same comment - it it not the best idea
+> to have it as they tend to get stale when sources get moved or renamed.
+> 
+> Reported-by: Mirsad Todorovac <mtodorovac69@gmail.com>
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
->  drivers/input/misc/ati_remote2.c | 50 +++++++++++---------------------
->  1 file changed, 17 insertions(+), 33 deletions(-)
+>  drivers/input/misc/twl4030-pwrbutton.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/input/misc/ati_remote2.c b/drivers/input/misc/ati_remote2.c
-> index 946bf75aa106..795f69edb4b2 100644
-> --- a/drivers/input/misc/ati_remote2.c
-> +++ b/drivers/input/misc/ati_remote2.c
-> @@ -204,26 +204,7 @@ struct ati_remote2 {
->  	unsigned int mode_mask;
->  };
->  
-> -static int ati_remote2_probe(struct usb_interface *interface, const struct usb_device_id *id);
-> -static void ati_remote2_disconnect(struct usb_interface *interface);
-> -static int ati_remote2_suspend(struct usb_interface *interface, pm_message_t message);
-> -static int ati_remote2_resume(struct usb_interface *interface);
-> -static int ati_remote2_reset_resume(struct usb_interface *interface);
-> -static int ati_remote2_pre_reset(struct usb_interface *interface);
-> -static int ati_remote2_post_reset(struct usb_interface *interface);
-> -
-> -static struct usb_driver ati_remote2_driver = {
-> -	.name       = "ati_remote2",
-> -	.probe      = ati_remote2_probe,
-> -	.disconnect = ati_remote2_disconnect,
-> -	.id_table   = ati_remote2_id_table,
-> -	.suspend    = ati_remote2_suspend,
-> -	.resume     = ati_remote2_resume,
-> -	.reset_resume = ati_remote2_reset_resume,
-> -	.pre_reset  = ati_remote2_pre_reset,
-> -	.post_reset = ati_remote2_post_reset,
-> -	.supports_autosuspend = 1,
-> -};
-> +static struct usb_driver ati_remote2_driver;
+> diff --git a/drivers/input/misc/twl4030-pwrbutton.c b/drivers/input/misc/twl4030-pwrbutton.c
+> index e3ee0638ffba..f85cc289c053 100644
+> --- a/drivers/input/misc/twl4030-pwrbutton.c
+> +++ b/drivers/input/misc/twl4030-pwrbutton.c
+> @@ -1,5 +1,5 @@
+> -/**
+> - * twl4030-pwrbutton.c - TWL4030 Power Button Input Driver
+> +/*
+> + * TWL4030 Power Button Input Driver
+>   *
+>   * Copyright (C) 2008-2009 Nokia Corporation
+>   *
 
-Would be easier to see what's actually happening if
-the rearrangement of the forward declarations was a
-separate patch.
+Tested, finally:
 
-Otherwise lgtm
-Reviewed-by: Ville Syrjälä <syrjala@sci.fi>
+  CC      drivers/input/misc/tps65219-pwrbutton.o
+  CC      drivers/input/misc/twl4030-pwrbutton.o
+  CC      drivers/hwmon/pmbus/max15301.o
 
->  
->  static int ati_remote2_submit_urbs(struct ati_remote2 *ar2)
->  {
-> @@ -791,10 +772,7 @@ static struct attribute *ati_remote2_attrs[] = {
->  	&dev_attr_mode_mask.attr,
->  	NULL,
->  };
-> -
-> -static struct attribute_group ati_remote2_attr_group = {
-> -	.attrs = ati_remote2_attrs,
-> -};
-> +ATTRIBUTE_GROUPS(ati_remote2);
->  
->  static int ati_remote2_probe(struct usb_interface *interface, const struct usb_device_id *id)
->  {
-> @@ -861,13 +839,9 @@ static int ati_remote2_probe(struct usb_interface *interface, const struct usb_d
->  
->  	strlcat(ar2->name, "ATI Remote Wonder II", sizeof(ar2->name));
->  
-> -	r = sysfs_create_group(&udev->dev.kobj, &ati_remote2_attr_group);
-> -	if (r)
-> -		goto fail3;
-> -
->  	r = ati_remote2_input_init(ar2);
->  	if (r)
-> -		goto fail4;
-> +		goto fail3;
->  
->  	usb_set_intfdata(interface, ar2);
->  
-> @@ -875,8 +849,6 @@ static int ati_remote2_probe(struct usb_interface *interface, const struct usb_d
->  
->  	return 0;
->  
-> - fail4:
-> -	sysfs_remove_group(&udev->dev.kobj, &ati_remote2_attr_group);
->   fail3:
->  	ati_remote2_urb_cleanup(ar2);
->   fail2:
-> @@ -900,8 +872,6 @@ static void ati_remote2_disconnect(struct usb_interface *interface)
->  
->  	input_unregister_device(ar2->idev);
->  
-> -	sysfs_remove_group(&ar2->udev->dev.kobj, &ati_remote2_attr_group);
-> -
->  	ati_remote2_urb_cleanup(ar2);
->  
->  	usb_driver_release_interface(&ati_remote2_driver, ar2->intf[1]);
-> @@ -1032,4 +1002,18 @@ static int ati_remote2_post_reset(struct usb_interface *interface)
->  	return r;
->  }
->  
-> +static struct usb_driver ati_remote2_driver = {
-> +	.name       = "ati_remote2",
-> +	.probe      = ati_remote2_probe,
-> +	.disconnect = ati_remote2_disconnect,
-> +	.dev_groups = ati_remote2_groups,
-> +	.id_table   = ati_remote2_id_table,
-> +	.suspend    = ati_remote2_suspend,
-> +	.resume     = ati_remote2_resume,
-> +	.reset_resume = ati_remote2_reset_resume,
-> +	.pre_reset  = ati_remote2_pre_reset,
-> +	.post_reset = ati_remote2_post_reset,
-> +	.supports_autosuspend = 1,
-> +};
-> +
->  module_usb_driver(ati_remote2_driver);
-> -- 
-> 2.45.2.803.g4e1b14247a-goog
-> 
-> 
-> -- 
-> Dmitry
+Compiled w/o warnings.
 
--- 
-Ville Syrjälä
-syrjala@sci.fi
-http://www.sci.fi/~syrjala/
+Thanks!
+
+Tested-by: Mirsad Todorovac <mtodorovac69@gmail.com>
+
+Best regards,
+Mirsad Todorovac
 
