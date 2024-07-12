@@ -1,120 +1,137 @@
-Return-Path: <linux-input+bounces-5008-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5009-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2134D92F858
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 11:51:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2640592F864
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 11:52:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D299A282013
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 09:51:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4EBF1F234BD
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 09:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15F6714265C;
-	Fri, 12 Jul 2024 09:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86C3614E2E8;
+	Fri, 12 Jul 2024 09:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfKin0kY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out28-148.mail.aliyun.com (out28-148.mail.aliyun.com [115.124.28.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CDF17BB6;
-	Fri, 12 Jul 2024 09:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E4014D714;
+	Fri, 12 Jul 2024 09:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720777867; cv=none; b=n7cM58veBi/kd7uPuzFzLQR31N38YYO0nofHWejmyENJIn4JW50dAS1of2yP926tsB2+iqb37yNHh8ijuWfIXQTEHRKNxO8jUXOaI7RYo9LpAyof4tB5n0PzQJxRqbUHxOBuP0ZsOUZWGYrFIQIe8xKlP6yoMZfQmqYshR025oA=
+	t=1720777933; cv=none; b=En7l0QXZ/cDmz8EJKXR9/Ha9ym+YQEZ4Uwdeq3bLLKFcmaH5Wqm4TFCXt/35ajBdDQhhw/uOC8jPIoulaLNZXaYrGn5DlkDHL7v9IJRCSvDK1fcwrfKZZn9TO9ylSUYLJcSxoVIoxOec4JZK98snTLpPjXtgL7n20n4qpnZxBRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720777867; c=relaxed/simple;
-	bh=pUaulvtdD9qQg/45WX1ET2WbuAUsRQxwcTQt/oHElw8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hvvfrHbGrt9ateHdZYlivh6JfHo6F31+y6ukHzUCQWtJ80IF3yEaKSBgIhSa2cZoeP+rCRSL0W2D6vq8kqdGZlWD0bkCurkTF1UnGeG7Mp5jRsVH4B3HGRtXosAEx9Fh93s6o/eZQsIwOJpZAJJYBNUEyA5rB36LpXVGoeHyRbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.08055284|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.211365-0.00225663-0.786379;FP=16534973576804402570|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023108233;MF=wangshuaijie@awinic.com;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.YOOi3cV_1720777846;
-Received: from awinic..(mailfrom:wangshuaijie@awinic.com fp:SMTPD_---.YOOi3cV_1720777846)
-          by smtp.aliyun-inc.com;
-          Fri, 12 Jul 2024 17:50:54 +0800
-From: wangshuaijie@awinic.com
-To: krzk@kernel.org
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	jeff@labundy.com,
-	kangjiajun@awinic.com,
-	krzk+dt@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	liweilei@awinic.com,
-	robh@kernel.org,
-	wangshuaijie@awinic.com
-Subject: Re: [PATCH V2 3/5] Add aw9610x series related interfaces to the aw_sar driver
-Date: Fri, 12 Jul 2024 09:50:46 +0000
-Message-ID: <20240712095046.2396720-1-wangshuaijie@awinic.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <4d8b7fe5-a566-49f7-8924-3c310af2f7cd@kernel.org>
-References: <4d8b7fe5-a566-49f7-8924-3c310af2f7cd@kernel.org>
+	s=arc-20240116; t=1720777933; c=relaxed/simple;
+	bh=Fl758Lbh3U7r3qwMeOeC068iOhZAyZs+9551apx3XuI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dq2In2wO9AadOdQJAJcvdGEjbD8K/OhuScoWVbWTHbPj6GKKebr2k8OUGC/5KbaTQFs1l/IrmStVwfH/xOovRtGbExXx0ZtR5OVvVoL88e3eLNBrxhN3Y+EV9z2HjJzv+C6E1BJIrDuH9HAOVjV8ZYTvEmT82cqrlYKDkfb95fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfKin0kY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57222C32782;
+	Fri, 12 Jul 2024 09:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720777932;
+	bh=Fl758Lbh3U7r3qwMeOeC068iOhZAyZs+9551apx3XuI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IfKin0kYJ+79JXJqxoCueZ3pzQIxv3ZL7sxUgimO39yNxQ7vzhL6BfRABAWRGfKH5
+	 wU6IveRj41ScWHy+nrNz9OEMHfUKXnpXEUKQLlVgs8ssHAsrPB3XQ+yOQI4PQwEpQW
+	 HToZSL7qeddwK1WQmcHb9DzsK/BMvLJ8IwF939rXZmCosYLh/57sJCvqmYh8i3woOJ
+	 OS9k3/7b4AqAmWgosJ3lIAndalDIEOaio1/FBvbJaDIJ6D13eIwVyydqRwvfTaMReS
+	 DvL61s2zxQAmEz24K36VE9Q4wNg1ONEqccWDP1Y17S+yP4d5edEtU5I+HYJxL/mjdx
+	 LStYKUXPMJdaQ==
+Message-ID: <cf02eb9b-2304-4db5-96f9-cfe89037faad@kernel.org>
+Date: Fri, 12 Jul 2024 11:52:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Removal of MSC-5000/5080 touchscreen/touchkey drivers?
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Sangwon Jee <jeesw@melfas.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+References: <ZpC7G0AVMB98og6H@google.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ZpC7G0AVMB98og6H@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,=0D
-=0D
-On Wed, 5 Jun 2024 12:22:16, krzk@kernel.org wrote:=0D
->On 05/06/2024 11:11, wangshuaijie@awinic.com wrote:=0D
->> From: shuaijie wang <wangshuaijie@awinic.com>=0D
->> =0D
->=0D
->No commit msg, no proper subject prefix.=0D
->=0D
-=0D
-The patch for v3 will fix these issues.=0D
-=0D
->> Signed-off-by: shuaijie wang <wangshuaijie@awinic.com>=0D
->> | Reported-by: kernel test robot <lkp@intel.com>=0D
->> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>=0D
->> | Reported-by: Dan Carpenter <error27@gmail.com>=0D
->=0D
->Drop all these, this is some bogus tags. Tag never starts with pipe, btw.=
-=0D
->=0D
-=0D
-The patch for v3 will fix these issues.=0D
-=0D
->> ---=0D
->>  drivers/input/misc/aw_sar/aw9610x/aw9610x.c | 884 ++++++++++++++++++++=
-=0D
->>  drivers/input/misc/aw_sar/aw9610x/aw9610x.h | 327 ++++++++=0D
->>  2 files changed, 1211 insertions(+)=0D
->>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.c=0D
->>  create mode 100644 drivers/input/misc/aw_sar/aw9610x/aw9610x.h=0D
->=0D
->...=0D
->=0D
->> +struct aw_reg_data {=0D
->> +	unsigned char rw;=0D
->> +	unsigned short reg;=0D
->> +};=0D
->> +/********************************************=0D
->> + * Register Access=0D
->> + *******************************************/=0D
->> +#define REG_NONE_ACCESS					(0)=0D
->> +#define REG_RD_ACCESS					(1 << 0)=0D
->> +#define REG_WR_ACCESS					(1 << 1)=0D
->> +=0D
->> +static const struct aw_reg_data g_aw9610x_reg_access[] =3D {=0D
->=0D
->Ehh... so we are at basics of C. Data structures do not go to headers.=0D
->=0D
-=0D
-The patch for v3 will fix these issues.=0D
-=0D
->=0D
->Best regards,=0D
->Krzysztof=0D
-=0D
-Kind regards,=0D
-Wang Shuaijie=0D
+On 12/07/2024 07:11, Dmitry Torokhov wrote:
+> Hi,
+> 
+> Sorry for a somewhat wide and random distribution, but I was wondering
+> if anyone knows if drivers/input/touchscreen/mcs5000_ts.c and
+> drivers/input/keyboard/mcs_touchkey.c are still relevant these days?
+> 
+> Looking at Melfas web-site it looks like these were the 1st generation
+> of their chips, manufactured 2000-2007. The drivers were contributed by
+> Samsung long time ago, they rely on custom platform data (no DT support)
+> and as far as I can see we never had a user of them in mainline.
+> 
+> Should I simply remove them? Does anyone know?
+
+Digging in history, commit claims this was for S3C6410 NCP board (with
+Samsung S3C6410 SoC), which had a board-file:
+arch/arm/mach-s3c64xx/mach-ncp.c
+But the touchscreen was never added to the board file, thus mainline
+kernel never had it fully working.
+
+The NCP board file was finally removed in v6.3 in commit:
+743c8fbb90ca4c02bdf4087fa9f1885ddd85041b
+
+I say drop the driver.
+
+Best regards,
+Krzysztof
+
 
