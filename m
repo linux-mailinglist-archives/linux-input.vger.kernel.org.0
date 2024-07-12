@@ -1,55 +1,54 @@
-Return-Path: <linux-input+bounces-5013-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5014-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E926292FEA4
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 18:35:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DB792FEA8
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 18:35:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 267C71C22949
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 16:35:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5654D1F22B07
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 16:35:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D92B7176220;
-	Fri, 12 Jul 2024 16:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06712176AA1;
+	Fri, 12 Jul 2024 16:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nz+V2njb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlrfcHaL"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB62F16F849;
-	Fri, 12 Jul 2024 16:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FE9176259;
+	Fri, 12 Jul 2024 16:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720802124; cv=none; b=hXhn5j0RlBBpgFyUwn5REUv4coLgntc3UTa9tCrLt/F0FRArqo8S8B2+1jVIKVTwy2mKbFm1elDq78533QEtFz6GcRcvX8MVboqaWZQm6rWkggRwH8IcObSkDEmF9T/jP6RfXy9g0yrnxaaZWwmFmQQZba4QaMjSbXQFpw/IDVc=
+	t=1720802125; cv=none; b=ghr4782BTqVcmx2E331hqjgT7+/+obovGLpRwyt3KsoMSuu8wpxp7cmDJcAZRyBniBZgMZw+Eo2T1bo3eetBdNxAbbdwL/rmnXr6fprB5zkbjS4ykHPDu1aGemzyByWRTD3JB5PomgNO1GF/Bgs4YrV4urx55En7XC+/rwR6gYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720802124; c=relaxed/simple;
-	bh=r2m/zU+vwI9w4oJRcW5wvMb2cFHwm54WEtcqoN5XWK8=;
+	s=arc-20240116; t=1720802125; c=relaxed/simple;
+	bh=wJLC4jiWZHz6PeNBrhCS7RadStX60mh/Po1K8TlDWWE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Vrj0TBY68jB4g4vtkaSaPIQ/jzJ90PJQOMDkQ8LHfr1PCemFfLroSw7lZEsQJ34HWaZHS0FcXXRZrwytLHyGKolHu2DzYd1kW/4+6+QR1ERS4JwTXZVLZepT78P0oIaoBD88VBYzPcjo/yQP07A+FttXcpWAkX+5Wg2ReF0KoQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nz+V2njb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9F0C32782;
-	Fri, 12 Jul 2024 16:35:22 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qDZ7GDEI2DOKxlCHbXZlmxdhn+Ic4Z/76PR5zxomAJrvzG0PKuyyIKikjUepj4Zuyl+ebNwIYrSs282BZ6fBGUa6ozsQILWel62rveJhVw6nTd9IHSYn6QjHT2K6P7LualAIvzy/aTqjXEvGekIYqQEYqKj3IUlgJ2cxsN5w8XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlrfcHaL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D198C4AF07;
+	Fri, 12 Jul 2024 16:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720802124;
-	bh=r2m/zU+vwI9w4oJRcW5wvMb2cFHwm54WEtcqoN5XWK8=;
+	s=k20201202; t=1720802125;
+	bh=wJLC4jiWZHz6PeNBrhCS7RadStX60mh/Po1K8TlDWWE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nz+V2njbSdeEapzGDB0dBNAWJQO6zMWY1Mvm2a5zVKqCzU7KqPOL1I/0tsn+KpQ09
-	 FmUPpD16cESAkoKGzqXCp0GFy5CkDb6HNjA7YVIG4a38qTwptMTXgqtwdgZ/lSM4ly
-	 8SARbXhjX5pH6wMzMW9iN+WvWqeJdKkay1aGoGadoMTqnWBPyTPvFRBPV9NKUUH6Jz
-	 kzdgOH8i4hi+Fbh+ByRU4+i6CTUFiOvRll9uD4DMSJsnsK/TaqXWTLxgyQqqqLEYiu
-	 r6gKpV0IiHhGHXeXtV0P4zWCu/2pRMqZFEm2g/Bz0K1bFRFB92n6HIe/s91lQgRKul
-	 tQ4i/L7728mFQ==
+	b=LlrfcHaLGNxUqgjx/qpS6l7j+Ul6HE2DWdJPT49tw1JW3ny7zyET5Y8ekL7Tmbewb
+	 1dnB+fIWQ/THtICRyyPFU4gxqf70p7TYbCliVhoS694lsv1m2nzFDgLwp5pzn1kV9q
+	 LbN7lw5WNfAphaOZKA5TAl+Nf9crRWH9FMmG3EJqmrmv6O7NpgoYYWfOYRs77VuK6M
+	 DE7fh+G/0HDlbQAo7b7dk7ZUbrSX+L+lw//9/Yp9UCGn8EJf1wD/T3ll1NlstQydaU
+	 v8AV+J1eyJmlDqtJmtWJERWNw1ayAEA9NhMbi9uMXap1hneIdrmF9OrcLaxE3hmd7r
+	 ozeDFdHSXSC+g==
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: gupt21@gmail.com, jikos@kernel.org, Chen Ni <nichen@iscas.ac.cn>
-Cc: linux-i2c@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240709012223.17393-1-nichen@iscas.ac.cn>
-References: <20240709012223.17393-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH v2] HID: mcp2221: Remove unnecessary semicolon
-Message-Id: <172080212265.1416360.5200433925238530579.b4-ty@kernel.org>
-Date: Fri, 12 Jul 2024 18:35:22 +0200
+To: jikos@kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240705045458.65108-2-thorsten.blum@toblux.com>
+References: <20240705045458.65108-2-thorsten.blum@toblux.com>
+Subject: Re: [PATCH] HID: hid-steam: Fix typo in goto label
+Message-Id: <172080212436.1416360.6914195041158653366.b4-ty@kernel.org>
+Date: Fri, 12 Jul 2024 18:35:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,16 +59,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.0
 
-On Tue, 09 Jul 2024 09:22:23 +0800, Chen Ni wrote:
-> Remove unnecessary semicolon at the end of the switch statement.
-> This is detected by coccinelle.
+On Fri, 05 Jul 2024 06:54:59 +0200, Thorsten Blum wrote:
+> s/stream/steam/
 > 
 > 
 
 Applied to hid/hid.git (for-6.11/trivial), thanks!
 
-[1/1] HID: mcp2221: Remove unnecessary semicolon
-      https://git.kernel.org/hid/hid/c/ad1ff1f250c9
+[1/1] HID: hid-steam: Fix typo in goto label
+      https://git.kernel.org/hid/hid/c/8a25418ba65a
 
 Cheers,
 -- 
