@@ -1,79 +1,79 @@
-Return-Path: <linux-input+bounces-4988-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-4989-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EB192F4E4
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 07:19:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE23592F4E5
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 07:19:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 310CD1F226D5
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 05:19:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EBE51C21DF9
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jul 2024 05:19:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E96B1CAAC;
-	Fri, 12 Jul 2024 05:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36611225D9;
+	Fri, 12 Jul 2024 05:19:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QvqiBtsq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HP/tOpmJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2270182C3;
-	Fri, 12 Jul 2024 05:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0521B964;
+	Fri, 12 Jul 2024 05:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720761544; cv=none; b=Nmd+ZdN0wFo4JeI3q4XoIIwe1tq6dh96fwaXdnDBt4DicN5TwRwhXHr0+BHQIzouPhKJX8s3Zl5UHRjphi83vKxflPZ1N0ujDlbZGTtNRRdOU3Y1nNBHIFw7/GXu3b1AnU7s/pq21+Jl6aWNeEmc50sciMFBgzPkwxIIXtbDAi4=
+	t=1720761545; cv=none; b=PrwR++U6uxZkPUZmuWDgd4D4mkRlWcKaKu+MXetZBqKqFGXfIjGS/UDeYbaarEyTmQ3EiCvdJo7DPh4hVvgIb2896GJHzdQegYNwP3mC9NQ2xFI0uM5gKwNVnYiVm146Ag36tLLp+y43Cuq6jGNR+OvWGrEF1kvLlBjPULjipd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720761544; c=relaxed/simple;
-	bh=cUQiFMMF+9hZA4tgQkNBaYdNRO8e49vzvTF7ifqhXOI=;
+	s=arc-20240116; t=1720761545; c=relaxed/simple;
+	bh=7eqopMkDjKlu/hakA2C6CO/W0kEaXw6bfsB1daa0d30=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IYR2UplchlRV76CVBcZDL93XI0cDLs4ltHFUuszGY/aBmPw0uthQ1n77R5KyUdXeU0E5QBbNYXcLuyOV6WUmPwuJtvcdm88PghJjWk4VUaOFLgqosrA7fESgVyH1Rw0OYOUlQzLGvWI91pTOK1XfGLFKt9xPsJtHV/e+v/Bu9y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QvqiBtsq; arc=none smtp.client-ip=209.85.167.172
+	 MIME-Version; b=jDZkKHRVQeJ52yvpdvcoAh3a18pwaDYs34i4eCYZ+JKJ7jyXVTiHFkv0g/lft1nqlaMVr/zPpMGiRhYtd3b3+DTeKwkPxJMLKmSSptAG7CrjhkesJ4TZzm/4AO+ybrMHmnMqD8FJG71aaJO9X7F9ktCRNxZbEAMZNvfR04bxx/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HP/tOpmJ; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3d9306100b5so1049324b6e.1;
-        Thu, 11 Jul 2024 22:19:02 -0700 (PDT)
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3d93f9c793fso842363b6e.0;
+        Thu, 11 Jul 2024 22:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720761541; x=1721366341; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720761542; x=1721366342; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s8F2Z7o9tWJAaAOtucMBRsGDbemuCjNEYUY94GLUdRo=;
-        b=QvqiBtsq9PdHCWsniptG9H1+lBr/HxFSOw4MeKh190i6CWvGZakyu4autLXrcP2S95
-         ebleExJZIPcDRtXkM000KG/B/jwIbOxAOBTqYkarTzggyHzFRUgJ0ghcxY8aDkYDUFBU
-         wEnGJAxsT2Jq8chN8z1qIb/Ldf1D8cmd1z3BUlcFT1YwRGLA/9GmC7oN4fizwgFjfZYk
-         fRzzdl58Er1paGkM8FThhIHeyUoBm/9ENOVr7SXvQ2OKoGga46FxrlNMvlGFejNIa+08
-         G57RJ/OOJW3D8r4/IlDM2bTi8tFbq1i5QrZJCdXn6gz4iLnozHtraqtmiYqr8wB+H9b4
-         D2qQ==
+        bh=Pm74VrxyqY+0uev/+f0ppn+yBayQJCAzAB2dk3rWmmM=;
+        b=HP/tOpmJ1D9w25yx3tBQE9Pph1tMtGQTYcv7mb3xOitRjrLNqyko4m3Grzjm+3pxGt
+         V+Pyk5P5C6cShaDYIABcqnuS5CyGvFkJ6qtDwMJ9EHk1geygf51srG00kS2uc21F130U
+         AmNaccI6zjPTHIqQ4XvoFubnieVwbLSCNUhnMwH9MlgGoI3boMrzgrPkxWnn9zrRU1Gn
+         vlN+rH9hYVH8l2lnIi7YCB3tCkylld82B1+2sDQ8PyQKvG3/FVM9A3Vj95RhOJh095Vu
+         oyYIudXZ/V9UCPg1wsGcG/jGdcU7O+2Y88wuK79fbADSylpPrNTBqWNGhIMa+iUYq/cz
+         191g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720761541; x=1721366341;
+        d=1e100.net; s=20230601; t=1720761542; x=1721366342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s8F2Z7o9tWJAaAOtucMBRsGDbemuCjNEYUY94GLUdRo=;
-        b=SxML5TIdanLR9fBS+jnE1w76j4c1n7U29jlv4mQ6FdyE1fCGzOhzz+kJ/1aIgKncNs
-         tLvXGd5m/HrwPivK23PsmYGgchYYDUdf4Yx2iO07J8mKtlEd+24HhC2/ZVBGMS6MTxd1
-         qrwNNloLPgyKZYI5aVAAgmZ3ysgFEGsmFSxfSiRrYjYQ1dsjI3lhCBon8P6AcOZwlsLE
-         CnRYS81Hg3VaFS3shXRNTuCW3UhV1qY3UHhRB2ANswALpRE/1UhoFpimhSUp2hDllI5E
-         N9u1560xD0uZilTqWdoZkKw91A+eRHGV5ZQ91X8eZex+zdkRPJ2VVga93IRYNu0lEeST
-         TJSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrblsZc4+gxlp2Nlnv913rQEU7eLMtKzx4Ldo8q8AId0t9KqPx+KIoUC/uJL9iEY425FCVrl8/bu2K0JiQGU7tiV6JuHmtsWgqiNq1
-X-Gm-Message-State: AOJu0YygWNmc30RJUhVwvNeCD52GILSQiQF1ZoTid5Kp9ycDwShjqAKW
-	OdOwaxyl3fhldTWrbec14ygEaPujx8n3kOuLcf9JmXqoqDLaIu7DFB2JtA==
-X-Google-Smtp-Source: AGHT+IGgKnVo2p40tHpEeqbelq09wldtXq+m+0zRr3srCCVkyUR8LC4BchVaT54FL8O2Hb2M4Ig21Q==
-X-Received: by 2002:a05:6808:148b:b0:3d9:2920:bc2f with SMTP id 5614622812f47-3d93bdd1669mr12394154b6e.10.1720761541522;
-        Thu, 11 Jul 2024 22:19:01 -0700 (PDT)
+        bh=Pm74VrxyqY+0uev/+f0ppn+yBayQJCAzAB2dk3rWmmM=;
+        b=OF9bn1I749ZG1rnE/BfY3l3UaZzaktd3jQHGiSJiZ4vnkcrRQkRht+DxJV0T4na570
+         4ThJO+1cusUCON+CHprIMIo95zjAzUiAbT4oYa6fdxr6zxctsah8JQuZeSPaS2ybg85O
+         h9BK9LhY0XMmrQIJRn1ITuw8uhhCu8tIYgetLkVwHWVQAy8R3HGPTloBD179anhDW0z8
+         uoadCZswiWM//TwIw+PDC/u/QaLjE2zticWYRN3Qkn9kpMORB6MZNsRYN0n24MVbmcB0
+         askfcQKBsxNCdUeSCfw+0lMwf0DZ1p1cLP2+xG09qKq30RokO3+6aP8eG03dlsI1YlJZ
+         AZlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKHJ0RLfTdGFgyluwiG4DF7DA0g8RsiIrVZscYFNe5iM6FUV7L+h9iOBKYRYkEUqTx/M5sx6zE7DmEx/t+rRWJxlRYlJw4o8vznXaJ
+X-Gm-Message-State: AOJu0YzH/aAwlbXHRyuxWcWtf0TkI3Yyx5wJLjMZrTR2Qqv3jkcw9Eia
+	soTR0w/cgRJddNJ8/rYjlQHlzEU0JSCWE/yeufiiFhzYrxkjFHVcE9RxRQ==
+X-Google-Smtp-Source: AGHT+IFe25qCmxaQzes5XsqGYjN0Q/sgR8+ACQ6FgpwQOUA+X03VilQllfnIXl5PdwJfokiQDoviGw==
+X-Received: by 2002:a05:6870:c34c:b0:254:96ec:bc44 with SMTP id 586e51a60fabf-25eae88a6d3mr8154434fac.28.1720761542349;
+        Thu, 11 Jul 2024 22:19:02 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:acda:de52:5c83:f72d])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d669d525csm4328972a12.73.2024.07.11.22.19.00
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d669d525csm4328972a12.73.2024.07.11.22.19.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 22:19:00 -0700 (PDT)
+        Thu, 11 Jul 2024 22:19:01 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Greg KH <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/8] Input: usbtouchscreen - move the driver ID table
-Date: Thu, 11 Jul 2024 22:18:45 -0700
-Message-ID: <20240712051851.3463657-3-dmitry.torokhov@gmail.com>
+Subject: [PATCH 4/8] Input: usbtouchscreen - move process_pkt() into main device structure
+Date: Thu, 11 Jul 2024 22:18:46 -0700
+Message-ID: <20240712051851.3463657-4-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.45.2.993.g49e7a77208-goog
 In-Reply-To: <20240712051851.3463657-1-dmitry.torokhov@gmail.com>
 References: <20240712051851.3463657-1-dmitry.torokhov@gmail.com>
@@ -85,242 +85,128 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the driver's ID table closer to where it is used in preparation
-to it using pointers to device info/parameters instead of device type
-enum.
+In preparation of splitting big usbtouch_dev_info table into separate
+per-protocol structures and constifying them move process_pkt() from the
+device info into main drvice structure and set it up in probe().
+We can derive if we should use single- or multi-packet handling based
+on presence of get_pkt_len() method.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/usbtouchscreen.c | 209 ++++++++++-----------
- 1 file changed, 104 insertions(+), 105 deletions(-)
+ drivers/input/touchscreen/usbtouchscreen.c | 28 ++++++++++------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
-index 57a5b7d503d5..3a9de3d24e75 100644
+index 3a9de3d24e75..f8a67834a695 100644
 --- a/drivers/input/touchscreen/usbtouchscreen.c
 +++ b/drivers/input/touchscreen/usbtouchscreen.c
-@@ -130,111 +130,6 @@ enum {
- 	DEVTYPE_ETOUCH,
+@@ -68,8 +68,6 @@ struct usbtouch_device_info {
+ 	 */
+ 	bool irq_always;
+ 
+-	void (*process_pkt) (struct usbtouch_usb *usbtouch, unsigned char *pkt, int len);
+-
+ 	/*
+ 	 * used to get the packet len. possible return values:
+ 	 * > 0: packet len
+@@ -103,6 +101,8 @@ struct usbtouch_usb {
+ 
+ 	int x, y;
+ 	int touch, press;
++
++	void (*process_pkt)(struct usbtouch_usb *usbtouch, unsigned char *pkt, int len);
  };
  
--static const struct usb_device_id usbtouch_devices[] = {
--#ifdef CONFIG_TOUCHSCREEN_USB_EGALAX
--	/* ignore the HID capable devices, handled by usbhid */
--	{USB_DEVICE_INTERFACE_CLASS(0x0eef, 0x0001, USB_INTERFACE_CLASS_HID),
--		.driver_info = DEVTYPE_IGNORE},
--	{USB_DEVICE_INTERFACE_CLASS(0x0eef, 0x0002, USB_INTERFACE_CLASS_HID),
--		.driver_info = DEVTYPE_IGNORE},
--
--	/* normal device IDs */
--	{USB_DEVICE(0x3823, 0x0001), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x3823, 0x0002), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x0123, 0x0001), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x0eef, 0x0001), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x0eef, 0x0002), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x1234, 0x0001), .driver_info = DEVTYPE_EGALAX},
--	{USB_DEVICE(0x1234, 0x0002), .driver_info = DEVTYPE_EGALAX},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_PANJIT
--	{USB_DEVICE(0x134c, 0x0001), .driver_info = DEVTYPE_PANJIT},
--	{USB_DEVICE(0x134c, 0x0002), .driver_info = DEVTYPE_PANJIT},
--	{USB_DEVICE(0x134c, 0x0003), .driver_info = DEVTYPE_PANJIT},
--	{USB_DEVICE(0x134c, 0x0004), .driver_info = DEVTYPE_PANJIT},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_3M
--	{USB_DEVICE(0x0596, 0x0001), .driver_info = DEVTYPE_3M},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_ITM
--	{USB_DEVICE(0x0403, 0xf9e9), .driver_info = DEVTYPE_ITM},
--	{USB_DEVICE(0x16e3, 0xf9e9), .driver_info = DEVTYPE_ITM},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_ETURBO
--	{USB_DEVICE(0x1234, 0x5678), .driver_info = DEVTYPE_ETURBO},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_GUNZE
--	{USB_DEVICE(0x0637, 0x0001), .driver_info = DEVTYPE_GUNZE},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_DMC_TSC10
--	{USB_DEVICE(0x0afa, 0x03e8), .driver_info = DEVTYPE_DMC_TSC10},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_IRTOUCH
--	{USB_DEVICE(0x255e, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
--	{USB_DEVICE(0x595a, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
--	{USB_DEVICE(0x6615, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
--	{USB_DEVICE(0x6615, 0x0012), .driver_info = DEVTYPE_IRTOUCH_HIRES},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_IDEALTEK
--	{USB_DEVICE(0x1391, 0x1000), .driver_info = DEVTYPE_IDEALTEK},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_GENERAL_TOUCH
--	{USB_DEVICE(0x0dfc, 0x0001), .driver_info = DEVTYPE_GENERAL_TOUCH},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_GOTOP
--	{USB_DEVICE(0x08f2, 0x007f), .driver_info = DEVTYPE_GOTOP},
--	{USB_DEVICE(0x08f2, 0x00ce), .driver_info = DEVTYPE_GOTOP},
--	{USB_DEVICE(0x08f2, 0x00f4), .driver_info = DEVTYPE_GOTOP},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_JASTEC
--	{USB_DEVICE(0x0f92, 0x0001), .driver_info = DEVTYPE_JASTEC},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_E2I
--	{USB_DEVICE(0x1ac7, 0x0001), .driver_info = DEVTYPE_E2I},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_ZYTRONIC
--	{USB_DEVICE(0x14c8, 0x0003), .driver_info = DEVTYPE_ZYTRONIC},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_ETT_TC45USB
--	/* TC5UH */
--	{USB_DEVICE(0x0664, 0x0309), .driver_info = DEVTYPE_TC45USB},
--	/* TC4UM */
--	{USB_DEVICE(0x0664, 0x0306), .driver_info = DEVTYPE_TC45USB},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_NEXIO
--	/* data interface only */
--	{USB_DEVICE_AND_INTERFACE_INFO(0x10f0, 0x2002, 0x0a, 0x00, 0x00),
--		.driver_info = DEVTYPE_NEXIO},
--	{USB_DEVICE_AND_INTERFACE_INFO(0x1870, 0x0001, 0x0a, 0x00, 0x00),
--		.driver_info = DEVTYPE_NEXIO},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_ELO
--	{USB_DEVICE(0x04e7, 0x0020), .driver_info = DEVTYPE_ELO},
--#endif
--
--#ifdef CONFIG_TOUCHSCREEN_USB_EASYTOUCH
--	{USB_DEVICE(0x7374, 0x0001), .driver_info = DEVTYPE_ETOUCH},
--#endif
--
--	{}
--};
--
- static struct usbtouch_device_info usbtouch_dev_info[];
  
+@@ -1045,11 +1045,6 @@ static int elo_read_data(struct usbtouch_usb *dev, unsigned char *pkt)
  /*****************************************************************************
-@@ -1847,6 +1742,110 @@ static const struct attribute_group *usbtouch_groups[] = {
- 	NULL
- };
+  * the different device descriptors
+  */
+-#ifdef MULTI_PACKET
+-static void usbtouch_process_multi(struct usbtouch_usb *usbtouch,
+-				   unsigned char *pkt, int len);
+-#endif
+-
+ static struct usbtouch_device_info usbtouch_dev_info[] = {
+ #ifdef CONFIG_TOUCHSCREEN_USB_ELO
+ 	[DEVTYPE_ELO] = {
+@@ -1070,7 +1065,6 @@ static struct usbtouch_device_info usbtouch_dev_info[] = {
+ 		.min_yc		= 0x0,
+ 		.max_yc		= 0x07ff,
+ 		.rept_size	= 16,
+-		.process_pkt	= usbtouch_process_multi,
+ 		.get_pkt_len	= egalax_get_pkt_len,
+ 		.read_data	= egalax_read_data,
+ 		.init		= egalax_init,
+@@ -1121,7 +1115,6 @@ static struct usbtouch_device_info usbtouch_dev_info[] = {
+ 		.min_yc		= 0x0,
+ 		.max_yc		= 0x07ff,
+ 		.rept_size	= 8,
+-		.process_pkt	= usbtouch_process_multi,
+ 		.get_pkt_len	= eturbo_get_pkt_len,
+ 		.read_data	= eturbo_read_data,
+ 	},
+@@ -1177,7 +1170,6 @@ static struct usbtouch_device_info usbtouch_dev_info[] = {
+ 		.min_yc		= 0x0,
+ 		.max_yc		= 0x0fff,
+ 		.rept_size	= 8,
+-		.process_pkt	= usbtouch_process_multi,
+ 		.get_pkt_len	= idealtek_get_pkt_len,
+ 		.read_data	= idealtek_read_data,
+ 	},
+@@ -1268,7 +1260,6 @@ static struct usbtouch_device_info usbtouch_dev_info[] = {
+ 		.min_yc		= 0x0,
+ 		.max_yc		= 0x07ff,
+ 		.rept_size	= 16,
+-		.process_pkt	= usbtouch_process_multi,
+ 		.get_pkt_len	= etouch_get_pkt_len,
+ 		.read_data	= etouch_read_data,
+ 	},
+@@ -1378,9 +1369,15 @@ static void usbtouch_process_multi(struct usbtouch_usb *usbtouch,
+ 	usbtouch->buf_len = 0;
+ 	return;
+ }
++#else
++static void usbtouch_process_multi(struct usbtouch_usb *usbtouch,
++                                   unsigned char *pkt, int len)
++{
++	dev_WARN_ONCE(&usbtouch->interface->dev, 1,
++		      "Protocol has ->get_pkt_len() without #define MULTI_PACKET");
++}
+ #endif
  
-+static const struct usb_device_id usbtouch_devices[] = {
-+#ifdef CONFIG_TOUCHSCREEN_USB_EGALAX
-+	/* ignore the HID capable devices, handled by usbhid */
-+	{USB_DEVICE_INTERFACE_CLASS(0x0eef, 0x0001, USB_INTERFACE_CLASS_HID),
-+		.driver_info = DEVTYPE_IGNORE},
-+	{USB_DEVICE_INTERFACE_CLASS(0x0eef, 0x0002, USB_INTERFACE_CLASS_HID),
-+		.driver_info = DEVTYPE_IGNORE},
-+
-+	/* normal device IDs */
-+	{USB_DEVICE(0x3823, 0x0001), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x3823, 0x0002), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x0123, 0x0001), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x0eef, 0x0001), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x0eef, 0x0002), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x1234, 0x0001), .driver_info = DEVTYPE_EGALAX},
-+	{USB_DEVICE(0x1234, 0x0002), .driver_info = DEVTYPE_EGALAX},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_PANJIT
-+	{USB_DEVICE(0x134c, 0x0001), .driver_info = DEVTYPE_PANJIT},
-+	{USB_DEVICE(0x134c, 0x0002), .driver_info = DEVTYPE_PANJIT},
-+	{USB_DEVICE(0x134c, 0x0003), .driver_info = DEVTYPE_PANJIT},
-+	{USB_DEVICE(0x134c, 0x0004), .driver_info = DEVTYPE_PANJIT},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_3M
-+	{USB_DEVICE(0x0596, 0x0001), .driver_info = DEVTYPE_3M},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_ITM
-+	{USB_DEVICE(0x0403, 0xf9e9), .driver_info = DEVTYPE_ITM},
-+	{USB_DEVICE(0x16e3, 0xf9e9), .driver_info = DEVTYPE_ITM},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_ETURBO
-+	{USB_DEVICE(0x1234, 0x5678), .driver_info = DEVTYPE_ETURBO},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_GUNZE
-+	{USB_DEVICE(0x0637, 0x0001), .driver_info = DEVTYPE_GUNZE},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_DMC_TSC10
-+	{USB_DEVICE(0x0afa, 0x03e8), .driver_info = DEVTYPE_DMC_TSC10},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_IRTOUCH
-+	{USB_DEVICE(0x255e, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
-+	{USB_DEVICE(0x595a, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
-+	{USB_DEVICE(0x6615, 0x0001), .driver_info = DEVTYPE_IRTOUCH},
-+	{USB_DEVICE(0x6615, 0x0012), .driver_info = DEVTYPE_IRTOUCH_HIRES},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_IDEALTEK
-+	{USB_DEVICE(0x1391, 0x1000), .driver_info = DEVTYPE_IDEALTEK},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_GENERAL_TOUCH
-+	{USB_DEVICE(0x0dfc, 0x0001), .driver_info = DEVTYPE_GENERAL_TOUCH},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_GOTOP
-+	{USB_DEVICE(0x08f2, 0x007f), .driver_info = DEVTYPE_GOTOP},
-+	{USB_DEVICE(0x08f2, 0x00ce), .driver_info = DEVTYPE_GOTOP},
-+	{USB_DEVICE(0x08f2, 0x00f4), .driver_info = DEVTYPE_GOTOP},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_JASTEC
-+	{USB_DEVICE(0x0f92, 0x0001), .driver_info = DEVTYPE_JASTEC},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_E2I
-+	{USB_DEVICE(0x1ac7, 0x0001), .driver_info = DEVTYPE_E2I},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_ZYTRONIC
-+	{USB_DEVICE(0x14c8, 0x0003), .driver_info = DEVTYPE_ZYTRONIC},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_ETT_TC45USB
-+	/* TC5UH */
-+	{USB_DEVICE(0x0664, 0x0309), .driver_info = DEVTYPE_TC45USB},
-+	/* TC4UM */
-+	{USB_DEVICE(0x0664, 0x0306), .driver_info = DEVTYPE_TC45USB},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_NEXIO
-+	/* data interface only */
-+	{USB_DEVICE_AND_INTERFACE_INFO(0x10f0, 0x2002, 0x0a, 0x00, 0x00),
-+		.driver_info = DEVTYPE_NEXIO},
-+	{USB_DEVICE_AND_INTERFACE_INFO(0x1870, 0x0001, 0x0a, 0x00, 0x00),
-+		.driver_info = DEVTYPE_NEXIO},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_ELO
-+	{USB_DEVICE(0x04e7, 0x0020), .driver_info = DEVTYPE_ELO},
-+#endif
-+
-+#ifdef CONFIG_TOUCHSCREEN_USB_EASYTOUCH
-+	{USB_DEVICE(0x7374, 0x0001), .driver_info = DEVTYPE_ETOUCH},
-+#endif
-+
-+	{}
-+};
- MODULE_DEVICE_TABLE(usb, usbtouch_devices);
+-
+ static void usbtouch_irq(struct urb *urb)
+ {
+ 	struct usbtouch_usb *usbtouch = urb->context;
+@@ -1411,7 +1408,7 @@ static void usbtouch_irq(struct urb *urb)
+ 		goto exit;
+ 	}
  
- static struct usb_driver usbtouch_driver = {
+-	usbtouch->type->process_pkt(usbtouch, usbtouch->data, urb->actual_length);
++	usbtouch->process_pkt(usbtouch, usbtouch->data, urb->actual_length);
+ 
+ exit:
+ 	usb_mark_last_busy(interface_to_usbdev(usbtouch->interface));
+@@ -1564,8 +1561,6 @@ static int usbtouch_probe(struct usb_interface *intf,
+ 
+ 	type = &usbtouch_dev_info[id->driver_info];
+ 	usbtouch->type = type;
+-	if (!type->process_pkt)
+-		type->process_pkt = usbtouch_process_pkt;
+ 
+ 	usbtouch->data_size = type->rept_size;
+ 	if (type->get_pkt_len) {
+@@ -1589,6 +1584,9 @@ static int usbtouch_probe(struct usb_interface *intf,
+ 		usbtouch->buffer = kmalloc(type->rept_size, GFP_KERNEL);
+ 		if (!usbtouch->buffer)
+ 			goto out_free_buffers;
++		usbtouch->process_pkt = usbtouch_process_multi;
++	} else {
++		usbtouch->process_pkt = usbtouch_process_pkt;
+ 	}
+ 
+ 	usbtouch->irq = usb_alloc_urb(0, GFP_KERNEL);
 -- 
 2.45.2.993.g49e7a77208-goog
 
