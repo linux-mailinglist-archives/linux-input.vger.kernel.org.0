@@ -1,168 +1,127 @@
-Return-Path: <linux-input+bounces-5019-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5020-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187EC9302AC
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 02:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA84930456
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 09:48:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFAD2283373
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 00:12:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06E7D2844A6
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 07:48:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBBFA41;
-	Sat, 13 Jul 2024 00:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52E681F5FD;
+	Sat, 13 Jul 2024 07:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBuujuG8"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="lNfbOrpT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZwNSv+6s"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11A91370;
-	Sat, 13 Jul 2024 00:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687B9101D5;
+	Sat, 13 Jul 2024 07:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720829518; cv=none; b=kwPPGhj4/xvFC9lWVBa1cdLalop5Qf7yaLRdRck4gJkx2wlBYgA84S3mg2kdohu8zaGEsg9wGbpCSETfoOEADlJ+DhspZcAcZWs7E2ueJ0B51TMRSoaZloEk6rmgWnFovg/lFdbznGmj9Q/bql3fUwIY6RoAUsh0fMOnt1z4fqA=
+	t=1720856877; cv=none; b=iWJ4mZN12DCr3DizaeSQQbQh9UmQB8XIqCl7Bp+nu08B2L15xPsenSpZWoGeQZQM7fowXkEok606nRT5aaqoTbD+SZCuHn4xMNzIXbe5F5XSG4lu04/LuKK+ISAyA6O5IzWgRuA7Wxh3KrP5W6SMWM3wFSywcgEBD/91Y2xc+4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720829518; c=relaxed/simple;
-	bh=Phxk21ZRQHBWO8Fk+3b1KHjGX6RECntBicJRnbKr46U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IQtGUBKy4GCxuronPYOoKcRE3BwWnCXelGwuDGq5Fz3JI6rGwXD6yFDGyUrTZhvCc7EeEkazJQvQvAYnLfWWkuB5S7uqGESijPZ0mPjFq/OUZW6/IIk/9o5Ejdwd3NI1k3vqrWvu3+QMJhIPHF0AnIoVoIUUaJG4Av3V7Nd9AhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBuujuG8; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1fbc09ef46aso21927715ad.3;
-        Fri, 12 Jul 2024 17:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720829515; x=1721434315; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q7pphgwh/0pG0XDQwktVo+yWTDf7IpCH6Ju6MKVkTgw=;
-        b=VBuujuG8N1JVnx9IxJ8jlO1Nt/xp90u5pQ8ixkfNck87R0ulFix1sYrGIOe2paJuDa
-         6OcI65ebydYKd8UQo+nBcdT1S3azrlX2N2IQwX2XspT3bfDqlGMGeXIE4oq9gRVPjYlw
-         dhUxbK82VyehrFmdw1m1393/VjbVi4XuBGoR9pvUVVUUtmK7lXSoerbCfKjp/1FL7Ztg
-         afkqJekrmF2CeB+ujIAK5agmyl70DgjgxsFsdfQb0wqBd8mN2T/94ArAAlEm6ubS9Ovn
-         6vZ8GstyymVG5pWDotArReVBhUHWkXqWiA4ORT86btMx4X04htcBwVsMixxPeARzTRdv
-         c/UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720829515; x=1721434315;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q7pphgwh/0pG0XDQwktVo+yWTDf7IpCH6Ju6MKVkTgw=;
-        b=Ue+OnmpIgEsUb1va9GrIZ2MCNmb4Y06OrqbfkjgB1gdkZgb/b8rxaLajZ3q67Nxk43
-         cgHNm1RvGcy3FX2qQnJH2e1kQu1uFh09UzHMHQRfCKcnDr57F1oah26yJyo9OdKDsZMB
-         ugB1uf7tqWOXoQg0f9zFgAp+B77O7R1ornGf46rfsU0aLYfUA1leE9C8nfjbySl0Jekd
-         A4jt5p1zXZ7qKf+UvR4XeroWRtAV00uPU1fxPODyRO6KLFoznydENBrdsurRfOI8071Z
-         c1QLtY1n3wd+SGj0jRwACcuw6YXAPeXC/CFXF2hhMNPlOfOls2cYTNbw7Hx7BuLq8E9I
-         Gv7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXUb7zn6WnrISJCPPiA9YRQBld4x1o1HixonsEhMNovr9uCQCxBWp3f2orBuP2BduULDCMO4uOI0lARuQTwzjlqGz7heduTb3mL+ah7oupG99Xs6tGesLD2S45BijH7EPctWfNlbfD54OA=
-X-Gm-Message-State: AOJu0YzzfjHG/+bSt1DC8vqDkvwuCeOsEveuqVDdIfxIwpE4pzNWJKv1
-	EmIHIKi0x4RjvH4J1fngAmm/xckCTfCYbHjK0DP+Qb2SKufvwSt0
-X-Google-Smtp-Source: AGHT+IEjh/xpVfdgoQwIz90ulydeyB6ybkbqta+ytUx2VzxoLaOfYGkrxLhV5izrDYes3VNsqaxoXg==
-X-Received: by 2002:a17:90b:118:b0:2c4:dcf6:2130 with SMTP id 98e67ed59e1d1-2ca35d4b252mr10162252a91.32.1720829515082;
-        Fri, 12 Jul 2024 17:11:55 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:669e:eb9d:e30c:18b4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-78e386d5437sm20011a12.57.2024.07.12.17.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 17:11:54 -0700 (PDT)
-Date: Fri, 12 Jul 2024 17:11:52 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Jacky Bai <ping.bai@nxp.com>, Jason Liu <jason.hui.liu@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] input: bbnsm_pwrkey: Fix missed key press after
- suspend
-Message-ID: <ZpHGSCzckXncmeRv@google.com>
-References: <20240712224352.82190-1-Frank.Li@nxp.com>
- <ZpG2fNQ9-inLN8-Q@google.com>
- <ZpG5d1/EsOU4eJEj@lizhi-Precision-Tower-5810>
+	s=arc-20240116; t=1720856877; c=relaxed/simple;
+	bh=hClNeZXf/HT0BsbMx7fG9NUOdX2m7PgVo+dYXWa77SM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LcRjzluPPlID98+iWsAoZ+otgB3M3YBQ3Hh2vpDumJGhsMm1UVppqaYA4v0gdeLiotJX+hNUEjLVzPSBUQ3QGT2UwjnRZJalSpen7ptQTzbXBke7WekJIl1LqficsRlOtU0SGlv+q8iL4yKVjfEHau83qoH+JCQGZ6GFo7F8GmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=lNfbOrpT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZwNSv+6s; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 67D071141FAA;
+	Sat, 13 Jul 2024 03:47:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 13 Jul 2024 03:47:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1720856874; x=1720943274; bh=HRQNq8s9JmqkZ0Ob0Og2B
+	8lcbEhlLJEuplxADn3x+wQ=; b=lNfbOrpTXvsnO/pjDqVHw87b1/xD3Y4ju7B9n
+	EYfKWk3VNmvAhiSmw7pkMoqB5ApSkpgRPTKF6KGspYlBQ+5SOSK8AyDcm2tPi0Vs
+	vlYSKdTVQqiHxLxx2sjROqxSPku7lJjM9u2atoTgjJnDOvPa7O1YxY2M/DNlz8HM
+	JRRtxw97wLC8Mkam6aOvZo+JmFE61D+HuTZ3G7HeSe1D1lOFrgrazh/rVptvnz0M
+	j2+rLCdeaLJuPkeb0Pcga53ANnv/Ew8qPgbkT1j9jBD9ubdU2OPyzCMSYUKApwfp
+	0K2PdPGgt2240LwYtGakSq0r9wiL1qhs51iouFvs13KMvtfrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720856874; x=1720943274; bh=HRQNq8s9JmqkZ0Ob0Og2B8lcbEhl
+	LJEuplxADn3x+wQ=; b=ZwNSv+6swRik7OGQY1p6BotOO1vJSNrUfVoHEU1VII/8
+	xtoGT0xmtmDHfWFBs7zBLwJqBsOWvbdrOOHSTvJQ87lajfxQ5++lSRX/nRLQvK2u
+	4lmih+B+gi+1eUsj57m6eDK9vS19IQvCt5s0FtNJEnNGHo2mdFlPqn5uadXeWahE
+	TB+E/fk9qZtwC3JQRVuwgkJD+tB0i/LUSbyWPTUWbckBsOgkEoRJJafa3YefMpjJ
+	2YwYdHZHYzhgsiJDJCwz9B90IG8M1Fq2ISXoNb3kKjZFWeBJ2ASZ3ebnr3zAZkMf
+	I3QmxEeniyllTy7MDIuECoooejvPsARBZzT5cFmuBw==
+X-ME-Sender: <xms:KTGSZh7913t_iWSKSPIZGdWQHoSkHyZXN3VQ6UgNXhP44JyCYMBP9Q>
+    <xme:KTGSZu7V_Wtm-kfgkxwmY868z_aXRJoMGQhf9m3lCzqH7I8o2rl7dXCGdq5vO_Gle
+    c-2V1MRt_vLWY5kAss>
+X-ME-Received: <xmr:KTGSZodCEJzdSGaEpRho8Jq4PlM-StCZJSBF2p6CLr75PP3HPuUazRmFi3f0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeejgdduvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehljhho
+    nhgvshdruggvvheqnecuggftrfgrthhtvghrnheptdehkeeigeeggfelkeeufeefjeduvd
+    ejveduvdehtdegveeftdeugeetvdeltdejnecuffhomhgrihhnpehkvghrnhgvlhdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluh
+    hkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:KTGSZqIJCbok3RF6_D8yqVYkavYZ3iAbPus54OSgXPvI-PFxq6u0FQ>
+    <xmx:KTGSZlJqHO6Kyzq77rV-YrxEzN6HFKzcpEBiH-So5Z68oyzdjHb25w>
+    <xmx:KTGSZjyNHYr6cCrA3h4M2JjpfWg9CZXzFS5fqQDksa47uVPHxyvYOw>
+    <xmx:KTGSZhKcZglb3_a5gQ8mxmVG4lKgfvM9DrctfvKPZJ8p_jYcNGgbgQ>
+    <xmx:KjGSZs_agL3dzYdiarjRW-FTLHP46mR1mn1EXh96eNBdgK1Iryly2GKw>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 13 Jul 2024 03:47:49 -0400 (EDT)
+From: "Luke D. Jones" <luke@ljones.dev>
+To: platform-driver-x86@vger.kernel.org
+Cc: corentin.chary@gmail.com,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-input@vger.kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH v3 0/1] hid-asus: use hid for keyboard brightness control
+Date: Sat, 13 Jul 2024 19:47:32 +1200
+Message-ID: <20240713074733.77334-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZpG5d1/EsOU4eJEj@lizhi-Precision-Tower-5810>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 12, 2024 at 07:17:11PM -0400, Frank Li wrote:
-> On Fri, Jul 12, 2024 at 04:04:28PM -0700, Dmitry Torokhov wrote:
-> > Hi Frank,
-> > 
-> > On Fri, Jul 12, 2024 at 06:43:51PM -0400, Frank Li wrote:
-> > > From: Jacky Bai <ping.bai@nxp.com>
-> > > 
-> > > Report input event directly on wakeup to ensure no press event is missed
-> > > when resuming from suspend.
-> > > 
-> > > Signed-off-by: Jacky Bai <ping.bai@nxp.com>
-> > > Reviewed-by: Peng Fan <peng.fan@nxp.com>
-> > > Acked-by: Jason Liu <jason.hui.liu@nxp.com>
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > >  drivers/input/misc/nxp-bbnsm-pwrkey.c | 36 +++++++++++++++++++++++++++
-> > >  1 file changed, 36 insertions(+)
-> > > 
-> > > diff --git a/drivers/input/misc/nxp-bbnsm-pwrkey.c b/drivers/input/misc/nxp-bbnsm-pwrkey.c
-> > > index 1d99206dd3a8b..9675717ecbdfe 100644
-> > > --- a/drivers/input/misc/nxp-bbnsm-pwrkey.c
-> > > +++ b/drivers/input/misc/nxp-bbnsm-pwrkey.c
-> > > @@ -38,6 +38,7 @@ struct bbnsm_pwrkey {
-> > >  	int irq;
-> > >  	int keycode;
-> > >  	int keystate;  /* 1:pressed */
-> > > +	bool suspended;
-> > >  	struct timer_list check_timer;
-> > >  	struct input_dev *input;
-> > >  };
-> > > @@ -70,6 +71,7 @@ static irqreturn_t bbnsm_pwrkey_interrupt(int irq, void *dev_id)
-> > >  {
-> > >  	struct platform_device *pdev = dev_id;
-> > >  	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
-> > > +	struct input_dev *input = bbnsm->input;
-> > >  	u32 event;
-> > >  
-> > >  	regmap_read(bbnsm->regmap, BBNSM_EVENTS, &event);
-> > > @@ -81,6 +83,16 @@ static irqreturn_t bbnsm_pwrkey_interrupt(int irq, void *dev_id)
-> > >  	mod_timer(&bbnsm->check_timer,
-> > >  		   jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
-> > >  
-> > > +	/*
-> > > +	 * Directly report key event after resume to make sure key press
-> > > +	 * event is never missed.
-> > > +	 */
-> > 
-> > How do you know that wakeup was caused by the key press on this device?
-> > As far as I can see the driver requests the interrupt as shared, so we
-> > could end up in bbnsm_pwrkey_interrupt() even if button was not pressed.
-> > 
-> 
-> In bbnsm_pwrky_interrupt()
-> {	...
-> 	regmap_read(bbnsm->regmap, BBNSM_EVENTS, &event);                                           
->         	if (!(event & BBNSM_BTN_OFF))                                                               
->                 	return IRQ_NONE;
-> 
-> 	...
-> }
-> 
-> If wakeup was not caused by pwr key,  irq will do nothing, code will not
-> reach to here.
+Refactored V1 of patch to remove the report_id change as it isn't required.
 
-OK, so the case you are trying to fix is when interrupt is delayed so
-the key is either already released or it will be released by the time
-the normal debouncing interval passes?
+Changelog:
+- V3
+  - Fix an issue with array initialisation
+- V2
+  - Split patch in two (use hid, and change report_id)
+  - Drop the report_id changing as not required
+  - Use dmi_check_system() for DMI matching
 
-I think you want to reset ->suspended in the interrupt handler so that
-this block fires at most once per suspend/resume cycle. And maybe move
-it before calling mod_timer().
+History:
+- https://lore.kernel.org/linux-input/20240528013959.14661-1-luke@ljones.dev/T/#u
 
-Thanks.
+Luke D. Jones (1):
+  hid-asus: use hid for brightness control on keyboard
+
+ drivers/hid/hid-asus.c                     |  7 +++++
+ drivers/platform/x86/asus-wmi.c            |  3 +-
+ include/linux/platform_data/x86/asus-wmi.h | 36 ++++++++++++++++++++++
+ 3 files changed, 45 insertions(+), 1 deletion(-)
 
 -- 
-Dmitry
+2.45.2
+
 
