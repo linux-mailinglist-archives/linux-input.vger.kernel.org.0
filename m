@@ -1,212 +1,110 @@
-Return-Path: <linux-input+bounces-5021-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5022-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AAF930458
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 09:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F5D930623
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 17:28:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF7851C2294E
-	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 07:48:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C633F1C20C81
+	for <lists+linux-input@lfdr.de>; Sat, 13 Jul 2024 15:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26F75210EE;
-	Sat, 13 Jul 2024 07:48:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 688A113959B;
+	Sat, 13 Jul 2024 15:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="LsHlN0Zm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="STJ83Btb"
+	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="G5IhIY+h"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9FB4655D;
-	Sat, 13 Jul 2024 07:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B8F21A0C;
+	Sat, 13 Jul 2024 15:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.87.146.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720856882; cv=none; b=UiHdGwHgg+NusKGKCxT7wGNA4choaoYgwU+REWfUKnMKEy4UwNR0ymbl9xQcXkViiwBqrinAknixOnYOYKT/QYmfyQk1LCqYjMdjGiF3BbEPBkIOaKWGOvf4kpNIYyAn/ErzMK1iLd41TueNhaN32FTMu7znNQTCl5UWpjKCpEg=
+	t=1720884515; cv=none; b=JlqI2AmrMPV3VUx+iMUycY9k35catixBNh/RtGAlb2pdBeZoYd6L3b6PTZtHfq7KvNPMKVMtPeh6Ovj7az9KsblKpTHSvHSTVysuD7/MBO2lqCaXcM6bC/gCm8XGDnG7ei+n1O/5j50iIoNNuH52Ud3ZYlz/Z0VlgF/d/wnXmWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720856882; c=relaxed/simple;
-	bh=fzE1tqkAitvT9MWEhAFeNMSVpk428YEAujKOqvz1CLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BKXQBq7RmlOAgHxUdyGsQunBaey7wrr20I+5cUvFixYjYWV+Mnb5d1EiFbn1m9atIeNYDo58k7WyxckmXsT87+i3TS/MJ2sJ83VYUuP8x4NWgyFmPu0i3JqA5FB0DE9rLxF+qnKYZAa/HOVQOxOvEnar4dVyWAspXWaK7Nb7Mbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=LsHlN0Zm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=STJ83Btb; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 7EAF31141FFC;
-	Sat, 13 Jul 2024 03:47:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 13 Jul 2024 03:47:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1720856879; x=
-	1720943279; bh=9HOzQ+ZFXE7l7J8yGreQf7AnqqrREQApYuFf8vOUgZc=; b=L
-	sHlN0ZmukVrdiPtao0dVrvRe9eV451O8mEX/qqzdiw0D2v+k4rmU8c0y+2FhJPqR
-	Iif7mdJDyMPtdmUdx0II9uqHON9rh17TNYION23jTp+GOrbJ3jbrlyfivSNBZuCf
-	br/1J2CqirverxAItgNWhR5m02lHbt/2pT98Lo58OXs6Y1jDpmLGIk+yKVAL4yfr
-	nQJ2HXgVjgqhPQ0Trl1lvksD+8TOgVeYtczi+ZXvIDBXYxH7LJsfBm+UDEsSebuJ
-	YhnmHE74kSbE39Rf5wXDWSf5jk1CisApP7PLZOAyjW+wkQNJCCvzofjzagOAGhdc
-	75T+ghwU0Ei4NWV2d6FMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720856879; x=
-	1720943279; bh=9HOzQ+ZFXE7l7J8yGreQf7AnqqrREQApYuFf8vOUgZc=; b=S
-	TJ83BtbBqvQ8R9LAxbKo93gU5Y86rnUYjbPC7bs9Igl9E3+eChJRja4CdscbzatT
-	Wby7h8HIhfGoRGvSldYbIZ8fLkE2m0u4KlAE/grS/n/X9ThBauGhfkhYSTaAEcqx
-	ZILG5j0c7L+my1DHasy1pNMnmz/6RN2yWZUfO9mH7sJlA54rIBcLsdBy/YJ57u9r
-	87LXJfK84HynhVYfxrw5b2qTfD7CnRnDi8QprXM80riHISjydIo+wKv+wJvvAi2B
-	/z7Sx+O1x2ONLwBToQK4ebp/ATMePXgFUQhhyNA4/KOcNKx+dajHpbOmZPb5WSWX
-	vBs6U82o8QADnyjhDr/Aw==
-X-ME-Sender: <xms:LjGSZpTLLgEBSm0UebqMbq6_eBJdvDNOPlp6aGQPlmBpXAaiyppHZQ>
-    <xme:LjGSZizCOdhgYo_R8heb_RPOeQKwVtw9aL5zmJ6FZU4FAjyonBPxs6KsD38PhNJSN
-    DoBwIgdz0QDQ80FmF8>
-X-ME-Received: <xmr:LjGSZu2M-xQ-Cb4Tb9E-i7bgasas62YEVPoHRtrHuGcy3m7hlk35OcF-89X1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeejgdduvdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:LjGSZhBbF6XKaGx8FW13b_DQ_VvEfEM_bnDK_WdDB08LSuww5IKQZw>
-    <xmx:LjGSZijqxVUODI3I0YrJeP-vaxqXb1x2_xb5ug-N-bjtrShibUnJAg>
-    <xmx:LjGSZlo_a2Pstf5rCTSfbXaMhcXAEc4DuJSZpUWzLE8o7ZnEDWu0Ow>
-    <xmx:LjGSZthmKpUXUKxFgJX-OsiwVEVJ_t7C6rFQcHnLNROw5jF80i3MlA>
-    <xmx:LzGSZrWKCz4vr2OnIB3Aa46v2Tx0FK0ykRTiaVrlLU8vOqpfJ3dzqJDP>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Jul 2024 03:47:54 -0400 (EDT)
-From: "Luke D. Jones" <luke@ljones.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: corentin.chary@gmail.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-input@vger.kernel.org,
-	"Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH v3 1/1] hid-asus: use hid for brightness control on keyboard
-Date: Sat, 13 Jul 2024 19:47:33 +1200
-Message-ID: <20240713074733.77334-2-luke@ljones.dev>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240713074733.77334-1-luke@ljones.dev>
-References: <20240713074733.77334-1-luke@ljones.dev>
+	s=arc-20240116; t=1720884515; c=relaxed/simple;
+	bh=uMTAAyeF3I0QRs1D9Thykfo5n67qdtlh32dyUvRJIoo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TdkS5f5a6f1S4FACllYJTJgVNHs9KGUDDRuBhQCHhMq0i/b378n1t2s+kugZjBSwh+ZM6MSHl4lBK0NMBVsYQDeo0h6m7MXwTp3pi1uAnmV9GoIN85flYItb4Lrj212JfP5Zdk/52ouH7lHd8zsbp6g/NxBttTGW8URzrwCIIOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=G5IhIY+h; arc=none smtp.client-ip=194.87.146.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.trvn.ru (Postfix) with ESMTPSA id B866041C8F;
+	Sat, 13 Jul 2024 20:28:29 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+	t=1720884510; bh=uMTAAyeF3I0QRs1D9Thykfo5n67qdtlh32dyUvRJIoo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=G5IhIY+hzLUgB2+zZERB6VH7mZHf6LYKbsS1yTvy5+TOQCMHrsm22m9irtp2j5DaO
+	 5uDtlFNZKE1FipkRqOWwazjxPnPfLHrF+VL2ybJOGiDFZBzEmxsN1VwQP8+xBlcavT
+	 uqaDAhtpnQc4Ln0NGw7qd6hAYG40XGJgz/m6yptMgc06Ev1nVFgV6VO92gmKvbzG5a
+	 2NI3ngG1X6fV/ck0590J8Vw41HqaPVfpj+UA3WczTgWIjbFHl/rP9iogEj5XabQiw3
+	 SUE4/TygUdF5wxT9et14Z6HFhlimUJ3kJ85bJNhuW6Vcl+lTM/A1kplXAkCR0St3Bg
+	 VWPH7wADSAkyg==
+From: Nikita Travkin <nikita@trvn.ru>
+Subject: [PATCH RESEND v4 0/2] Add touch-keys support to the Zinitix touch
+ driver
+Date: Sat, 13 Jul 2024 20:28:07 +0500
+Message-Id: <20240713-zinitix-tkey-v4-0-14b7e2d5ace3@trvn.ru>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michael Srba <Michael.Srba@seznam.cz>, 
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>, 
+ ~postmarketos/upstreaming@lists.sr.ht, Rob Herring <robh@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=808; i=nikita@trvn.ru;
+ h=from:subject:message-id; bh=uMTAAyeF3I0QRs1D9Thykfo5n67qdtlh32dyUvRJIoo=;
+ b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBmkp0Zc2nj0SsIZOwWjGazismdji9qaqfTRSH6w
+ 3D//V9GTnSJAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZpKdGQAKCRBDHOzuKBm/
+ dYSkEACHYHVmvgzOctNOVoOUf7LrEd8yvYB2Y+qyH5992SeG/fS+MBl+o7scaimlMf+E7kWJWNa
+ dZjFvfuKgePllnn19GLKU45cxzqaFXOc8Rz0raHCw1rKr9mmXjOjEG8AHG1DKTy4SD3y/XK0sIk
+ +dmZCBA72qzF5Zn5nvNEy1Qrz1OGw2X7mwD3x8xFVzjlrdrvpmzuPZnI6/TySMLOB4EnRgpS2rj
+ PECmNzisFWR4EX7cueDGbymM0yITHbkqcut3SYCrA0Okd4BtLH0diIf3yWCjePa43Bwp1H1RxZa
+ uIVl6B+1ilR5PBhcv9p5SgIXskNTxi22UyLvElzMEnULaDEKTQ02a/LOOnw+4MUPB3iLI4zHAgJ
+ IKlypNf0WXRrNXsGsYh8C4e1B7P03aAXEEnEX1HxVCptvzjDl+tjkWzYH2GpOlWXp5g15Mt7XeK
+ HIluFh3avJzwdY52Km/l6JtUS37drfxoIa90QBo1xk286V+KGz0XtjoWqSh2Nw1XCPot1l8QDgn
+ wgn7BffUwkBQdg1pa39H/K5hnJhx3Wg54MshbitRawXcH7277tv2dtfmRoLYmpe9QXJSVheYLwd
+ 9v66dM+0CkTlzfYrNFOldXjpunL0KJU+uNRiu41RUWwcHb+flZNzhWdvpQewxV9xyl9PIIQrYGg
+ WnoaGHCDPZ+FhqQ==
+X-Developer-Key: i=nikita@trvn.ru; a=openpgp;
+ fpr=C084AF54523FAA837E2EC547431CECEE2819BF75
 
-On almost all ASUS ROG series laptops the MCU used for the USB keyboard
-also has a HID packet used for setting the brightness. This is usually
-the same as the WMI method. But in some laptops the WMI method either
-is missing or doesn't work, so we should default to the HID control.
+This series adds support for the touch-keys that can be present on some
+touchscreen configurations.
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Signed-off-by: Nikita Travkin <nikita@trvn.ru>
 ---
- drivers/hid/hid-asus.c                     |  7 +++++
- drivers/platform/x86/asus-wmi.c            |  3 +-
- include/linux/platform_data/x86/asus-wmi.h | 36 ++++++++++++++++++++++
- 3 files changed, 45 insertions(+), 1 deletion(-)
+Changes in v4:
+- The series was partially applied, these patches dropped.
+- Link to v3: https://lore.kernel.org/r/20220106072840.36851-1-nikita@trvn.ru
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 37e6d25593c2..af57a5f03193 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -492,12 +492,19 @@ static void asus_kbd_backlight_work(struct work_struct *work)
-  */
- static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
- {
-+	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
- 	u32 value;
- 	int ret;
- 
- 	if (!IS_ENABLED(CONFIG_ASUS_WMI))
- 		return false;
- 
-+	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
-+			dmi_check_system(asus_use_hid_led_dmi_ids)) {
-+		hid_info(hdev, "using HID for asus::kbd_backlight\n");
-+		return false;
-+	}
-+
- 	ret = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DSTS,
- 				       ASUS_WMI_DEVID_KBD_BACKLIGHT, 0, &value);
- 	hid_dbg(hdev, "WMI backlight check: rc %d value %x", ret, value);
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 3f9b6285c9a6..799d928c7d3d 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1681,7 +1681,8 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
- 			goto error;
- 	}
- 
--	if (!kbd_led_read(asus, &led_val, NULL)) {
-+	if (!kbd_led_read(asus, &led_val, NULL) && !dmi_check_system(asus_use_hid_led_dmi_ids)) {
-+		pr_info("using asus-wmi for asus::kbd_backlight\n");
- 		asus->kbd_led_wk = led_val;
- 		asus->kbd_led.name = "asus::kbd_backlight";
- 		asus->kbd_led.flags = LED_BRIGHT_HW_CHANGED;
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 3eb5cd6773ad..74b32e1d6735 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/errno.h>
- #include <linux/types.h>
-+#include <linux/dmi.h>
- 
- /* WMI Methods */
- #define ASUS_WMI_METHODID_SPEC	        0x43455053 /* BIOS SPECification */
-@@ -160,4 +161,39 @@ static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
- }
- #endif
- 
-+/* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
-+static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "GA403U"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "GU605M"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
-+		},
-+	},
-+	{ },
-+};
-+
- #endif	/* __PLATFORM_DATA_X86_ASUS_WMI_H */
+---
+Nikita Travkin (2):
+      dt-bindings: input: zinitix: Document touch-keys support
+      input: zinitix: Add touchkey support
+
+ .../bindings/input/touchscreen/zinitix,bt400.yaml  | 10 ++++
+ drivers/input/touchscreen/zinitix.c                | 61 ++++++++++++++++++++--
+ 2 files changed, 68 insertions(+), 3 deletions(-)
+---
+base-commit: a734662572708cf062e974f659ae50c24fc1ad17
+change-id: 20230801-zinitix-tkey-5a3023bc304c
+
+Best regards,
 -- 
-2.45.2
+Nikita Travkin <nikita@trvn.ru>
 
 
