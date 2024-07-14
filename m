@@ -1,98 +1,114 @@
-Return-Path: <linux-input+bounces-5026-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5027-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2488D930899
-	for <lists+linux-input@lfdr.de>; Sun, 14 Jul 2024 07:34:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE99D9308C5
+	for <lists+linux-input@lfdr.de>; Sun, 14 Jul 2024 08:15:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F9711C20A71
-	for <lists+linux-input@lfdr.de>; Sun, 14 Jul 2024 05:34:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4564DB212B8
+	for <lists+linux-input@lfdr.de>; Sun, 14 Jul 2024 06:15:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE71C10A11;
-	Sun, 14 Jul 2024 05:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5766EF9F7;
+	Sun, 14 Jul 2024 06:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzM9NCvl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNksWJVb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678F01094E
-	for <linux-input@vger.kernel.org>; Sun, 14 Jul 2024 05:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C5B28FA
+	for <linux-input@vger.kernel.org>; Sun, 14 Jul 2024 06:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720935273; cv=none; b=RwuN2ZZG/1t/ekuJ5cBkxC2ES188dQ+J1xbWT2h04tPgNxItk4QRz4QoyJwGQzP/D1Zmvu9sCAP6JRUf5riZd5z9yjVsXkFoIkZU0HHKHKicqWAcdiAjlS9LL/gDULbyWU9QM5PgSTvVooIK/NXc6QTvYDhGlzEZUClgAENbJEE=
+	t=1720937752; cv=none; b=IpNaSr8k08HP9hwomPAEkYGM2dFW4KeRXQGQZzEzZUQt8NSbsa6R0/T1keUDFwhVHFbTdCLEiJsGpc+RaYPlSTF5abZEGNkbWxZyQC5Ek2egr9/hoKl7Hs6UPtfiGnKnn90uAEAT+PN3VnsuYJTRBz9RRbDUZV0j7BfOu0sdn9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720935273; c=relaxed/simple;
-	bh=98BhEN07JetMjEVKAFcF7F8Fa6S5ygQ7s0E1Zw0A1GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UijFX83cKw58XMbZ0ErZKlup4GbpjlOuOMNvdFFN5gacN+4dTF3H5x+aPXxuTZqVK+ErMlAlHT3L60fuYk49+gATrUUR8Ru1q5eq07L+DKzTdDKaf7YBJZzPa+f+vRdL+/teVg+jxE+sA8TkAv2kMekyqhMWcCV/pj5ccjQXY5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzM9NCvl; arc=none smtp.client-ip=209.85.167.182
+	s=arc-20240116; t=1720937752; c=relaxed/simple;
+	bh=RR7VMxNqnbokWkyX/KWzTZStlI5dneDufGMAQIDZkcA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MAYosX2TELQhaS80xRiX/3MVyPNhFFxWNr7Tqi+1TTD6L/eAUuU141T66TcQ1yJk54gC46zMHDnYNL/kVPOQpCFH1Jw63fiCI31a8fCnRJONecN3RuqARt22/d5b7k+wkmp4PZXuj12ZVL54DZqwKx6i1gNO7MmkUJKxNNEP5Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNksWJVb; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3d9306100b5so2225568b6e.1
-        for <linux-input@vger.kernel.org>; Sat, 13 Jul 2024 22:34:32 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a77b60cafecso396657166b.1
+        for <linux-input@vger.kernel.org>; Sat, 13 Jul 2024 23:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720935271; x=1721540071; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qMM98B5qLImcHuA2vJ8qYUFUjxkgiMPuQv1klhzc6+s=;
-        b=RzM9NCvlhRj2UZ4lvAccqfQQKCNJxpf6Tlf71ez0u8PjaoaoJ+opoq8SRxEdWIQRjY
-         k91gi8wMIks7JPTyLYb3T7OTfkXEB/0dD/CHnQNkb5pIhchnTnWLXg4I8cWVZjAmzeno
-         rErl4RJYJf56dJyA9i6sXkDe7rT/xbqwDfQvlCyWaMdHS56yc6mzxSLkY4HymuOAoFv9
-         +HfIgSU5I9hC2YkMR8r5KR5TK/XEIsYMpuJG8iL8IiFyhoFkRXYh1WFKxci3s2WgdhY4
-         VGkDRy9SrEVG91NMFCatx+itM9u9qnw31Zq+cPMMG7cDDJ9dUVUFDydngfzkhY7eEBfC
-         sGLQ==
+        d=gmail.com; s=20230601; t=1720937749; x=1721542549; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RR7VMxNqnbokWkyX/KWzTZStlI5dneDufGMAQIDZkcA=;
+        b=iNksWJVbc8swbtrmzPVCJIq2AFHA2EsECelBfuSFCrrlFUVK9zdI7MvIAAOAU1A7LE
+         HLxQYjXWhFHmAyI+qLLJ3gzm+gVb6qnr4Q+uajSGOgRQDLNyNAE4jr96DelhC5Bg/rEo
+         yztc7+6cIeaywjYsBCBr5bd34ZMvT77CMQV6UbhvrBdemlk/lpMlvbxNR1Q6svERVeYz
+         jNE9kvfiujPVdsy6nlVSC4HBchVZ+/5vFtpPqtAagVkut068bU/VFMRnF7ZIFhUeh6ek
+         725yOsZpHpkh5w8VhwCMUJRY0Y2RkEieTn7Jm2WWY2u4qEOVLJ3+TRRHT1OyxpQzwDOs
+         M6EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720935271; x=1721540071;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qMM98B5qLImcHuA2vJ8qYUFUjxkgiMPuQv1klhzc6+s=;
-        b=jjU84it8URqf1IrnPQEi8uZhux14Y6lYYzVYBg9zKuPutxSPHcaFS6jG/DMt+RD8mg
-         2dNvNOl95ErCB85faVfDYuxkNON2e0DnK/O7wnP1uO4k7/5xuFcxqVursJFbLFkLcBhC
-         GOn9KbtsvVsUbrF7RLAhUPx9EEIbRRgo2OPjKwU4Aj8eOf4zWKQaghbO0d8OTeZImcNH
-         pGIFtomc6iu9CO+G2z6Ip708QK4olY9Rpz5Pi0CmlPJ/0tiJF0cwm9DH5KHpAOhZIjpD
-         arq6HqxxbteVT+w3nehuaaYOqc7yUq1XenPVpSWPsXHUmsFNAz363Wb89ucpafdnxpWY
-         5B5g==
-X-Gm-Message-State: AOJu0Yz4CS8C27ky+fCFpPbsiADIPuJBCdsBMXuDWiUZdiQK4m1IYDc8
-	D3QtvzCuvQNSdtamO6t1fEeQSNU3BbHBl4mOdQX+G8EYRYOvyrlH
-X-Google-Smtp-Source: AGHT+IFTHV9z1N3Om+1RoF6sMqhb+fNLu5CusQTIOrHm6nx1oau9gaXHmItuv5BDosAd7QU2g83/Kg==
-X-Received: by 2002:aca:2112:0:b0:3d9:dcf8:3450 with SMTP id 5614622812f47-3d9dcf83b9emr12120410b6e.33.1720935271249;
-        Sat, 13 Jul 2024 22:34:31 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:977d:d7e0:6495:8c0b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7ecd1c97sm1999431b3a.202.2024.07.13.22.34.30
+        d=1e100.net; s=20230601; t=1720937749; x=1721542549;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RR7VMxNqnbokWkyX/KWzTZStlI5dneDufGMAQIDZkcA=;
+        b=boWc6DFt7r1rnPipsQXpRa0isnIbejtcOKwLw9kaVrfIXn5QES1FmCAVKYbVinME50
+         RvP8uo1l/WIO7yS59uK2AnUxdpl60IHS/7N/aXxh8aM+W9A3Orf0bWfLi735Ds9FJR6W
+         Y54p614r1PVeuixeDu9wYFjX2B/eD8jlfmI+FDk+G1piVoKNmk/BeA2ajFeVZgHsH7Pr
+         1nxk8w1EkHBhPCbe+ODo5N5V6KkISUNNF7ZVJY7M6MaW/sqwf3kyyMRRe4QzsWvlEJO5
+         CeiDpEK4MfA8UFsXKWEOMQIL6dEjRbJVvJ7NW2J4XuLZrgTY9TFsuNHr36sp/athYK/y
+         jlRw==
+X-Gm-Message-State: AOJu0YxmtElUYAtEVb2tL8z0qMNvOjSmVhlTupat6RuXmR/1V4GOjico
+	QtZzKGFt+QrK7FlD8ukKAHehlccMTk0hkM2/3vU4u9Ns5/1I+1S9
+X-Google-Smtp-Source: AGHT+IFXSSFzfJwAytDl8Mq+34B7a9UwTeyrVqNGtBju1e84QXAGW7+BSYsxySVxSUb3WOM3gWv35g==
+X-Received: by 2002:a17:907:7da6:b0:a72:750d:ab08 with SMTP id a640c23a62f3a-a780b6881e1mr1274418866b.14.1720937748689;
+        Sat, 13 Jul 2024 23:15:48 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:359b:e801:d44:32b3:6924:10d1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc5a3965sm101582466b.42.2024.07.13.23.15.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jul 2024 22:34:30 -0700 (PDT)
-Date: Sat, 13 Jul 2024 22:34:28 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Utsav Agarwal <utsav.agarwal@analog.com>
+        Sat, 13 Jul 2024 23:15:48 -0700 (PDT)
+Message-ID: <2cc00eb824ad5e72da10caa1303bb1caa1c7076f.camel@gmail.com>
+Subject: Re: Should adp5589-keys driver be removed?
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Michael Hennerich
+	 <michael.hennerich@analog.com>, Utsav Agarwal <utsav.agarwal@analog.com>
 Cc: Linux Input <linux-input@vger.kernel.org>
-Subject: Should adp5589-keys driver be removed?
-Message-ID: <ZpNjZC4YbkCy38R1@google.com>
+Date: Sun, 14 Jul 2024 08:15:47 +0200
+In-Reply-To: <ZpNjZC4YbkCy38R1@google.com>
+References: <ZpNjZC4YbkCy38R1@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Michael, Nuno, Utsav,
+On Sat, 2024-07-13 at 22:34 -0700, Dmitry Torokhov wrote:
+> Hi Michael, Nuno, Utsav,
+>=20
+> I am looking at the adp5589-keys driver and it only supports
+> configuration via platform data and there are no users of it in the
+> mainline kernel. We should either remove it if it is no longer relevant,
+> or change it to use generic device properties so that it can actually be
+> used on modern systems.
+>=20
+> Please let me know.
+>=20
+> Thanks.
+>=20
 
-I am looking at the adp5589-keys driver and it only supports
-configuration via platform data and there are no users of it in the
-mainline kernel. We should either remove it if it is no longer relevant,
-or change it to use generic device properties so that it can actually be
-used on modern systems.
+Hi Dmitry,
 
-Please let me know.
+I think that driver is still relevant (Michael can better confirm it). I'll=
+ do a
+similar refactor as I did for the adp5588.
 
-Thanks.
+Please just bear in mind that with summer vacations and all of that it may =
+take me a
+bit longer to send a patchset but I'll definitely take care of it.
 
--- 
-Dmitry
+Thanks!
+- Nuno S=C3=A1
 
