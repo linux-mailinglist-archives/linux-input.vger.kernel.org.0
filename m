@@ -1,139 +1,93 @@
-Return-Path: <linux-input+bounces-5044-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5045-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F1D931C2B
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 22:46:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE23931CC5
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 23:51:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 812EB1C21694
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 20:46:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3E95B221B8
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 21:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F1413B586;
-	Mon, 15 Jul 2024 20:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D8A713C9A2;
+	Mon, 15 Jul 2024 21:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHa5vIWE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X14lzln5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBC1EAE7;
-	Mon, 15 Jul 2024 20:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D7C4C7C;
+	Mon, 15 Jul 2024 21:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721076365; cv=none; b=h5v9cHEEX37flV2iRMF0mWFC2/qiNWp8EP4i9guNqy6OMU89jW2yGOumWR3OD/Nz8D2qaIKd6+aBQrpnpq474Y5JT1ldoUe0/QAVKZxbDN1/nvbcfTzEzNqrb+wLot2oARJIHkwosRrdqdI9D00TFkFrWtZVsxo0yaB4RLfbquE=
+	t=1721080281; cv=none; b=u93og7cabJMb09AobpP1xzmcE1qYWoT/7CLTWi1zLHnF4nby+RbJrXZUzA0ee7Y1ZBe+L0Rll+SRtzrzF0ts1SQG6O+hnwn3IiR6v/jRfo2vEljRrJDZ9vAjSFHCYQmc+RGMKf/6vMAn3A2lVcBUnGD6VcvXBS8NTE8gFL5WMg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721076365; c=relaxed/simple;
-	bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=b+xGZLW1nLRyppQT2B46yP+WvImzzRJmVOXTGZytcuym8DVwcVYqI7o/P3rEt7O3GDFBeZg5esJxZ6RZtz9F2yes4S02qWexitfEi0wA8ywEo/BOt90g8tVI6lGajAM1YIQ8jRE159vWcswtL1VTpd+fz3eVfJzGpFh4TBuaeqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHa5vIWE; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1721080281; c=relaxed/simple;
+	bh=PuGKTD0bqaCNqwyH7ywYKEHXZHJXYd40xsrP5Ml+05Q=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=PKfPSVsLpd+WMCRSMdy8uEV4yiIDcL8ScfiCQEWHgXvsz80Tn6h84rjy/KajRtpyr1JQuzOOKvHa9BHaexcgKMA4L/shTNOs46QNVxsz3GeGOdQ6R6n5wsWbPps9xYmeAKHicUH0r31B4Oei1vLXJCFQUrJjuKMW2yjtupZUCpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X14lzln5; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-58b447c513aso5254040a12.2;
-        Mon, 15 Jul 2024 13:46:03 -0700 (PDT)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ca4649ad49so3080164a91.1;
+        Mon, 15 Jul 2024 14:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721076362; x=1721681162; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+        d=gmail.com; s=20230601; t=1721080279; x=1721685079; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
-        b=OHa5vIWEXxzyHXKqqoP9PYQGzYD1ecRI/3e3snuws82NE5UQ79FDYiB/pOHuiFPryN
-         MJYQYmy3Fh10xZDsajNlYCb4uFRq+/ufS8OoqSCBSVEpjhWGmWsfp54l/NkeQOnUs0I1
-         ShtJjTZEkLzihUVDf002/0WL9hMbECeuQumMgP69HCs8XvgmZyHO66k8TQHTxkj5yIFN
-         PTynY1OR4ZDo5NmLEqoxL65LdFXubh1mI1MreZxz/N0bvxnLCeL6MQ7U8lcmwpv8Og+k
-         5cYokb2ui3eOAxRfp3zq3TfbVFthC/El3qfCBZ436XLoGhJZWLpGpmymw8BxBYalKnoV
-         C+3w==
+        bh=PuGKTD0bqaCNqwyH7ywYKEHXZHJXYd40xsrP5Ml+05Q=;
+        b=X14lzln5C/1OzgaacMVwwkXpVcpU9geUjfmI0sesRBi7kiC6hJl9mOBGJQ+JzAqquC
+         0IJecGcYW6AeqAviF+qOxjs82+/nKHOqHUmHyk9L3tqcht+ZRDONsft2ZjRlOzQh0nxx
+         CYdkoch5GGg0EgkoxnZ3RCBDVk9hWAmOJwnF+hLHva5mGlhEN1+k3r7NxUYrxISSzAzt
+         YV2e1hZ5B0zaOA8KgZZoBoG2q9I6Rna3Aq/MQcR3aUN5TWgvZM7c6ZoPpzk21Sbt1aOd
+         sKzZ+JE5VQamKAnwKO7yfwCrik/76N81vsnBiWHFM/STD4teqAOHXnrMC2Hs00ltq8vE
+         hZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721076362; x=1721681162;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=1e100.net; s=20230601; t=1721080279; x=1721685079;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
-        b=BJTkvlJfhF5RoHAzc0IN07daqmw6waORavq/QAIuxHJAWEwm4ZZGT+mAAMo/lnuN9W
-         6WAWpNWgDySogFKpUn4tEs/z0sSIAwYlm9Jmjn9ltDUX6+njQF3eYks5ESD+p1vVicw1
-         DkKTY6rumpF6BUIqk2Icv+Dyia1foggmiV4YMSrJ9BgFY8y56t5K3mNNo4NuK6p3Ibiu
-         zUGNCgJlubuE98LStBpR9XHzBTgOWoGPxZZm3vRADpznOekTd7YY35f0vWrxnXi2fCbJ
-         Fy2n57VBU5IE1LMAupL1dPgg0Yu5iw1M9DI9A2KvQ8ZuY2uCYufcqEZ00P8fKFrRbe+y
-         IXwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURrBDqXuvgwdXyss97WSuG+2fN/jyDhB1oz554i1TvIpKykLIGO6JWaAI5JLW/EpOg8rd+itZCraMb/qQEtOLBXmUSgipXmY8XpZZoF9DuCUWqpRIKMs0H49zH1UQ5f3+c1f0V+EwT1Ux0xGCy++1SNo1PH4/1ojXqvmGGN8EXv824dvsYnB72I5EHt57qKU6czdBF9FucP80r9k6s4HgliJxmkJvtyy+Jp79D4Qevcak/w/lB5ltsm/eG7cVYe9tEmvadZkzNuaQJjV4M7Hs0Q7VsMRn11dFOv4prJ32iNpb/8FXu7LVXfKt0gRICRLM0qbLK/lXritMwxEdXnLWEK37bHNiVjbs/Hh14g+s/crg1LA==
-X-Gm-Message-State: AOJu0YwiKRFm/IaULVCU9XP7Xe/x3ucRvUmIXSbh73mZKkpgml0E8NeR
-	V9BOe5HiGLPVvOPydB8aWyo3LBES7z9b72TjC/5Z3Tm/4Y1WWUuu
-X-Google-Smtp-Source: AGHT+IHZpaZWcXFCjRZBArLC0Q4QIJCZB151JdU+pruJeqzfFvKL2FYuoiEW53znBItBXa8q8c0m1w==
-X-Received: by 2002:a05:6402:270b:b0:59a:aa54:4e23 with SMTP id 4fb4d7f45d1cf-59eee833f0amr46280a12.3.1721076362036;
-        Mon, 15 Jul 2024 13:46:02 -0700 (PDT)
-Received: from giga-mm.home ([2a02:1210:860a:c700:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b24a770dbsm3829880a12.4.2024.07.15.13.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 13:46:01 -0700 (PDT)
-Message-ID: <f68b628c3978a4fb0e5989e3b6918c756da1fefb.camel@gmail.com>
-Subject: Re: [PATCH v11 00/38] ep93xx device tree conversion
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>, Nikita Shubin
-	 <nikita.shubin@maquefel.me>
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Damien Le Moal
- <dlemoal@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Thierry
- Reding <thierry.reding@gmail.com>,  Vignesh Raghavendra <vigneshr@ti.com>,
- linux-pwm@vger.kernel.org, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>, Ralf Baechle <ralf@linux-mips.org>, 
- Sebastian Reichel <sre@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  linux-ide@vger.kernel.org, Stephen
- Boyd <sboyd@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-spi@vger.kernel.org, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown
- <broonie@kernel.org>,  Hartley Sweeten <hsweeten@visionengravers.com>,
- linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,  Andrew Lunn
- <andrew@lunn.ch>, Richard Weinberger <richard@nod.at>, Eric Dumazet
- <edumazet@google.com>,  linux-sound@vger.kernel.org, Arnd Bergmann
- <arnd@arndb.de>,  linux-input@vger.kernel.org, Jaroslav Kysela
- <perex@perex.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>, Lukasz Majewski
- <lukma@denx.de>
-Date: Mon, 15 Jul 2024 22:46:01 +0200
-In-Reply-To: <172104541245.3725513.13547524352291855487.robh@kernel.org>
-References: <20240715-ep93xx-v11-0-4e924efda795@maquefel.me>
-	 <172104541245.3725513.13547524352291855487.robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 
+        bh=PuGKTD0bqaCNqwyH7ywYKEHXZHJXYd40xsrP5Ml+05Q=;
+        b=MCJKN3KYM/xuKOsHnnZsq83TAZ4BLkWcHb40L8SC08hDyr6WuHyTkoeKL/HCBbQ5N/
+         WB1+1+xnu7B/e5iUFG20picwVGkaiIJwy57GoDBDOS+ullMdBEbBXZsdWeLEYr5Q//9I
+         41a98nI47zJjzTDFaPN/il3Xnh3LosWlLTcIsaltEoJtuSy4Z4ypTJ5bFP4sw7luHCfm
+         uZ6txtac1dHpfG8fMGtyAQgsbLZcOxs9P35vgDPMQxvdQW/ZhoRvDBhVAA4QO6YVBww5
+         fg9gvcNqQZCgtBHlKQV+YO8llnz0/yvRb9F1Yd1sGDVr2GHqc3DBNU19CMC7lWZ2m7lD
+         GbjA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhsqrh38l3aMeZfVhTgorNCgW86v2bRlzfur1Li3UaEB3E0EcpLeDZmJlO4wM6LbQg+jaVzF6ln7umrk59Nv43CUFnehyWG3MdZIMTTQ9ec+z5/eaezf1RGkGkdGyQFzG0B1IZPhySaRc=
+X-Gm-Message-State: AOJu0YydHhHY0HhgCNCsPJUJIZGA+qpcTvfQ1w6J8yQWUrB+ROaoDy1T
+	L8ZTzgtp2t4p9eQ915PwMsNRXZ/8yEfDzm9kWv/GbgraGOIONhedz87nAFBYtwbs9FZYYcOnWCK
+	Pf1rHe/QEkQ1roi+jeNfggab2E+U=
+X-Google-Smtp-Source: AGHT+IGKempCiAskwViSue/XBabZPqnFmIGVUdyk4bjoTTfM7S8Q5yIcJXA2vohFOfDFgS8ldPk+PEdLN15SvUftZxw=
+X-Received: by 2002:a17:90a:4885:b0:2c9:8b33:3195 with SMTP id
+ 98e67ed59e1d1-2cb373e4291mr145700a91.4.1721080279485; Mon, 15 Jul 2024
+ 14:51:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: Robby Knipp <knipp30@gmail.com>
+Date: Mon, 15 Jul 2024 17:51:08 -0400
+Message-ID: <CABSVwinoDALdCFk5cB2bg7Zs8uOKkFZnJB4svEXcbMz4Dw1LCw@mail.gmail.com>
+Subject: Re: Xinput Controllers No Longer Working
+To: regressions@leemhuis.info
+Cc: dmitry.torokhov@gmail.com, Edward Wawrzynski <ewawrzynski16@gmail.com>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Rob,
+Hi again! I likely will accidentally top-post this, and I am sorry for doing so!
 
-On Mon, 2024-07-15 at 06:12 -0600, Rob Herring (Arm) wrote:
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
->=20
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
->=20
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
->=20
-> =C2=A0 pip3 install dtschema --upgrade
->=20
->=20
-> New warnings running 'make CHECK_DTBS=3Dy cirrus/ep93xx-bk3.dtb cirrus/ep=
-93xx-edb9302.dtb cirrus/ep93xx-ts7250.dtb' for 20240715-ep93xx-v11-0-4e924e=
-fda795@maquefel.me:
->=20
-> arch/arm/boot/dts/cirrus/ep93xx-edb9302.dtb: /soc/spi@808a0000/codec@0: f=
-ailed to match any schema with compatible: ['cirrus,cs4271']
+However, my BZ was answered with what looks to be the fix:
+~~~
+That module is in the kernel-modules-extra package:
 
-well, this seems to come from the fact is still documented in a .txt file
-(Documentation/devicetree/bindings/sound/cs4271.txt), which is not really
-the scope of this series. Hope it's OK to ignore it for the series.
+rpm -ql kernel-modules-extra-6.9.7-200.fc40.x86_64 | grep xpad
+/lib/modules/6.9.7-200.fc40.x86_64/extra/drivers/input/joystick/psxpad-spi.ko.xz
+/lib/modules/6.9.7-200.fc40.x86_64/extra/drivers/input/joystick/xpad.ko.xz
+~~~
 
---=20
-Alexander Sverdlin.
-
+I installed the package above, and my controller now works as expected.
 
