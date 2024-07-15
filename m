@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5039-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5040-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72069317B0
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 17:34:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE44A9317B3
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 17:34:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 345B01F2265A
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 15:34:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 770E0B2249B
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jul 2024 15:34:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7594F18F2E4;
-	Mon, 15 Jul 2024 15:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F062191499;
+	Mon, 15 Jul 2024 15:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRk9l93c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FovkSFN6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE46A18F2CA;
-	Mon, 15 Jul 2024 15:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D070A18F2D8;
+	Mon, 15 Jul 2024 15:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721057621; cv=none; b=q+EmRaLVvBq3LyGZnOqlxOWvQOOXlLxRT/B6l35/XiKDjD8/+QhWbj1OCyQpNtpo0/slHOqG0erjp3lll1zir9nDk9wSNc/epEy8PxQXpYqZovqnLI3+qtaSTPAGGXAgtSxRn5muHorvY0KAzQMq9KWDlsJK+H027V94rbm2YlE=
+	t=1721057622; cv=none; b=O+e0eyiYqDB7UUQyifW4gLvwrQQUI8DKFSmy5sBrGkonDIKXgFGsG81tWqlUH9idCPDLbfft7h4F1Td2gWISMfR7c59Zjk1KAWR+K9t9DBDNqlfc8iWLNcLKWXgWNOfFWC96KKpASfK6UdfkYK5RdPq7QH2LOJMTgToxZs0j/dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721057621; c=relaxed/simple;
-	bh=w5gxgyW7pDD5OiYuiD/yPeV2bq0/fDV04JlwWC9nnUg=;
+	s=arc-20240116; t=1721057622; c=relaxed/simple;
+	bh=sHT2gejI7g0XKR+lt1K92pFzxyjfVxJww2AwZ7KOL3Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SL8NJbhp4fiG1o1FrBT15++P46vL6cKtykDBHt2WOkZN6Mny82M9ADyNmJhielriVWLKFVYAyBLrB2ylILENZ9J0YKUnba51WZ/RT12jmLaYRgxIP42hfiNvK8mYrdq4WargR3X9ZbwWiAgQE8trQFQujJ51SyEHg5lMmR9rRss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRk9l93c; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=tlTv1nWiLXP/c9W26KLVfYsEr2E5YR0RclxDMCB0cpzZf8qKB//D0QIJzL0/dteZy0iZj6x3wLJbqpHb1k/6Wp+BsNdI7zIPDliO3opEvUZza21gxxTnQ/6AuBV5qmbDqONyaxik95O+wtTuK6nkGc8Svi8gIo2KnIXyrgBST2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FovkSFN6; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-367975543a8so2738956f8f.3;
-        Mon, 15 Jul 2024 08:33:39 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4266fd395eeso30388495e9.3;
+        Mon, 15 Jul 2024 08:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721057618; x=1721662418; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1721057619; x=1721662419; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XrCU6G9DnnMkxpZ0nGUhFrVcFHRKc9c76P/tMQAhH00=;
-        b=QRk9l93cTNWatUQIa+m5sUZ8RWwox3CB6U3XTabhWUVjp8RBPNPyf6LPYy/4H2sCGv
-         aOaPqiyEe4KyUTJooD+pAQ8J2UXrsR2TZRVgitis+ztiMq0xcUfTcjhHnnhnR7qxWUN7
-         5Mkwfvpid4r5qddTPivBshkS/NQckoUsj5pbV49brAJQf3tLi57vidJ8zDiAS1MH5enE
-         bhpeEkpAeUfEDfQV4JXTZr/mGMG3GLPo+TrRszg/lOccBGlhbDHSfk7D52byIZhFAX1v
-         S5aoEuSmKzMLFDzX0u9RSGVtrrdRAMJ8YUOL8WXT+gJHWxLgyVuteR+cJvRlHt+Pac2X
-         JTjw==
+        bh=AFhWGLjXxrpIBhuvDdpT6ZAZC88NAS6103pgQHGSnqI=;
+        b=FovkSFN6grplptpuiBER0/cflvSm0vq0sqMY5HPzb362pu2tSrknPfa4ZrOecIcjFz
+         QeckyS/NbQ9DQ/ss8SdHN7uRjh0MJBot7Hx7ZOZ1QS+abUpZAFFeWLOfyW7gzjhKGnDx
+         vMYud8XplROF7e7QeVWIWyFAAOIcrCUmotKzUgsEPAJmds9+B+w2QJ5bhddjyfLuoaj2
+         4I3DTt99PrYUCloyOQS8/xzTxW0s4WwsvQ8tq39d2ZuCTFmQVHHd8I7K7L6U5y7z2KM9
+         ANUOmhBgS/eKTL0uGS991c+H7mlChGUwyb8Db5nd8P9NNHemoSBtwgQEaTXMRYFc1EOW
+         45yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721057618; x=1721662418;
+        d=1e100.net; s=20230601; t=1721057619; x=1721662419;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XrCU6G9DnnMkxpZ0nGUhFrVcFHRKc9c76P/tMQAhH00=;
-        b=Wb8UrAwBUHiDHRSP94EB8Ao/jpDPNXCe1hHBcYXs3Vp/Coybl4G7AdzbG48AFc/ypK
-         oAL/oBc1Nr7dZXTUZsQFkNceIwJXLKfXXqFJor8ovxGLiQ9HnIVSNFi6jLyW3oPQpI4c
-         Cf8CEYOSF0wq0A/SKsVP2ODA3iT7iNPThsPP6bBmvz0YovfG9Fcyctsw+sMF2DLiQzr/
-         Sxgm1spymfbmSq44sLx/8F2e4aZtO3BfSC4Vtut5Dpy4K7LohznFOlZ87j+Gd5RlW2Tg
-         F/jpmQb/eGIvZt1kBpe+DfOvajWorXp7AZ/wtieqCY1LrLtBW47OaNlZmCsp9megGUDK
-         eZHA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEiuGxe6uwrwVqVCWLMq6Ya0KNXKK/8jkth5DMKn1GNk0v1DAz+DftU2fdVoPr9IINmIMgGLFg/aJO9wFoBQ2fM7wIfJwVPfU0s+tj0h/+czPDp5asVDSR2K6ZbBifV1LCuWk3BaDRig==
-X-Gm-Message-State: AOJu0YzkoWkD5VZy+9rQOJ7gnsWWvmS7W/4JVV+jxyfhdawjxC/uysVC
-	3G8dXXfa6op2hnB86zbQX0XMipmhAl/Uk4ft9jJ9Lwo/DJrX2uu0
-X-Google-Smtp-Source: AGHT+IHFu8Io6ztt+geSSFK6mvGbGpy+kC8jppmdsA/0W5RtN9ndSF6+krNBDMfvyv6CFAl9AoiYbg==
-X-Received: by 2002:a5d:6089:0:b0:367:96c5:ae70 with SMTP id ffacd0b85a97d-368240936c8mr67604f8f.31.1721057618058;
-        Mon, 15 Jul 2024 08:33:38 -0700 (PDT)
+        bh=AFhWGLjXxrpIBhuvDdpT6ZAZC88NAS6103pgQHGSnqI=;
+        b=AhCPBwLdSQjS8Kz4v4LJEtvNV4jOefQ8u652GkYEVRn1O88eUM5d7UwaWy0UDbBFvJ
+         8zsiwUOpeOxUTDrOudvJY+2r1wgdTGmlnBmUBkyS+rh5BpXU6cY5eUlZR7X1RbmOAT/S
+         Z37B1mirE6MUCx3V1F8ZEQt3VnomM+Dv4/EsT9Xrh9YUMxOPNX8eGTRBSV1tgXLpdI5b
+         DOEkDA9zJNvmQ5y81zdC9X/qz8OC9E1hzbNNZwew4aNnhfeU7/A54Wm9Osjeb797yQvJ
+         IItApLpUILDbzAzRxFgYPPovTtu+D5rKVDPgyTaI6//U8fCCOaX7oKuANxWzJmHtQvJ0
+         cyxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX69EddmS3dMEpc755h1HRHsVTd/hkzvdrMpsF6796+nMBM1ez8GiBxU4QTeV8p9cIZo/c52XFMvYg4EmI77vfEr6wTdIdvCYe3sOQBthJ5q8/DzRr8gQz5ery7o2zTYlzp2koH4YXUSQ==
+X-Gm-Message-State: AOJu0YxM6UZKNj/iszeYOy6ZUj959sNf6i+tSqbp9VQmvPuWHPkPqP5A
+	bj3K+nwjng+5zOAwsYxRCf6cQHYRyO25ZemmqDvJ30XHeZWio2mt
+X-Google-Smtp-Source: AGHT+IFiyTZE/+oE0xkUmOA7iwowc7q5KaPBKgyHBKRziOql6qdP2VyoHmCNFAkNIJeEzlryIGaF3w==
+X-Received: by 2002:adf:e5c9:0:b0:367:9639:66d3 with SMTP id ffacd0b85a97d-36824081d99mr79678f8f.5.1721057619043;
+        Mon, 15 Jul 2024 08:33:39 -0700 (PDT)
 Received: from eichest-laptop.lan ([2a02:168:af72:0:564b:c18:f4fc:19ad])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dafbf4bsm6720866f8f.73.2024.07.15.08.33.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dafbf4bsm6720866f8f.73.2024.07.15.08.33.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 08:33:37 -0700 (PDT)
+        Mon, 15 Jul 2024 08:33:38 -0700 (PDT)
 From: Stefan Eichenberger <eichest@gmail.com>
 To: nick@shmanahar.org,
 	dmitry.torokhov@gmail.com,
@@ -83,10 +83,11 @@ Cc: linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH v6 1/3] Input: atmel_mxt_ts - add power off and power on functions
-Date: Mon, 15 Jul 2024 17:31:21 +0200
-Message-ID: <20240715153330.91979-2-eichest@gmail.com>
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v6 2/3] dt-bindings: input: atmel,maxtouch: add poweroff-sleep property
+Date: Mon, 15 Jul 2024 17:31:22 +0200
+Message-ID: <20240715153330.91979-3-eichest@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240715153330.91979-1-eichest@gmail.com>
 References: <20240715153330.91979-1-eichest@gmail.com>
@@ -100,104 +101,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-Add a separate function for power off and power on instead of calling
-regulator_bulk_enable and regulator_bulk_disable directly.
+Add a new property to indicate that the device should power off rather
+than use deep sleep. Deep sleep is a feature of the controller that
+expects the controller to remain powered in suspend. However, if a
+display shares its regulator with the touch controller, we may want to
+do a power off so that the display and touch controller do not use any
+power.
 
 Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 56 ++++++++++++++----------
- 1 file changed, 34 insertions(+), 22 deletions(-)
+ Documentation/devicetree/bindings/input/atmel,maxtouch.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 8a606bd441ae6..9416de53bf9af 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1307,6 +1307,35 @@ static int mxt_soft_reset(struct mxt_data *data)
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+index c40799355ed75..8de5f539b30e3 100644
+--- a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
++++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+@@ -87,6 +87,12 @@ properties:
+       - 2 # ATMEL_MXT_WAKEUP_GPIO
+     default: 0
  
-+static int mxt_power_on(struct mxt_data *data)
-+{
-+	int error;
++  atmel,poweroff-sleep:
++    description: |
++      Instead of using the deep sleep feature of the maXTouch controller,
++      poweroff the regulators.
++    type: boolean
 +
-+	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
-+				      data->regulators);
-+	if (error) {
-+		dev_err(&data->client->dev, "failed to enable regulators: %d\n",
-+			error);
-+		return error;
-+	}
-+
-+	msleep(MXT_BACKUP_TIME);
-+
-+	if (data->reset_gpio) {
-+		/* Wait a while and then de-assert the RESET GPIO line */
-+		msleep(MXT_RESET_GPIO_TIME);
-+		gpiod_set_value(data->reset_gpio, 0);
-+		msleep(MXT_RESET_INVALID_CHG);
-+	}
-+
-+	return 0;
-+}
-+
-+static void mxt_power_off(struct mxt_data *data)
-+{
-+	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
-+}
-+
- static void mxt_update_crc(struct mxt_data *data, u8 cmd, u8 value)
- {
- 	/*
-@@ -3305,25 +3334,9 @@ static int mxt_probe(struct i2c_client *client)
- 		return error;
- 	}
+   wakeup-source:
+     type: boolean
  
--	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
--				      data->regulators);
--	if (error) {
--		dev_err(&client->dev, "failed to enable regulators: %d\n",
--			error);
-+	error = mxt_power_on(data);
-+	if (error)
- 		return error;
--	}
--	/*
--	 * The device takes 40ms to come up after power-on according
--	 * to the mXT224 datasheet, page 13.
--	 */
--	msleep(MXT_BACKUP_TIME);
--
--	if (data->reset_gpio) {
--		/* Wait a while and then de-assert the RESET GPIO line */
--		msleep(MXT_RESET_GPIO_TIME);
--		gpiod_set_value(data->reset_gpio, 0);
--		msleep(MXT_RESET_INVALID_CHG);
--	}
- 
- 	/*
- 	 * Controllers like mXT1386 have a dedicated WAKE line that could be
-@@ -3361,8 +3374,8 @@ static int mxt_probe(struct i2c_client *client)
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
- err_disable_regulators:
--	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
--			       data->regulators);
-+	mxt_power_off(data);
-+
- 	return error;
- }
- 
-@@ -3374,8 +3387,7 @@ static void mxt_remove(struct i2c_client *client)
- 	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
- 	mxt_free_input_device(data);
- 	mxt_free_object_table(data);
--	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
--			       data->regulators);
-+	mxt_power_off(data);
- }
- 
- static int mxt_suspend(struct device *dev)
 -- 
 2.43.0
 
