@@ -1,112 +1,134 @@
-Return-Path: <linux-input+bounces-5048-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5049-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E2A931E42
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2024 03:05:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C642B931F9F
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2024 06:17:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89ABFB22112
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2024 01:05:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E46F51C20DE3
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jul 2024 04:17:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5020A187F;
-	Tue, 16 Jul 2024 01:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D26823B0;
+	Tue, 16 Jul 2024 04:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7cdU2n6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOvaDk5L"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4D3F9EB;
-	Tue, 16 Jul 2024 01:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6687737B;
+	Tue, 16 Jul 2024 04:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721091915; cv=none; b=dPn6TzEpFymeePAMZm/oR/u4St8t29y6XdJNs5wV0wmhKMMJo64MzLmM9nCuFqn/0QvPkyY8/j/VAe9c4VOyoVOF1IK4Wa8NTiyfXnb/V1662H2Nv2x2xpdeIHqt/EDvNcW7Y7khBySACByxydQE5galqwUgGd52fBHlmV9TI50=
+	t=1721103461; cv=none; b=jSbZgKFlhHnGQg1vrbGHOEhnQO2AEVX45ZlmmqYTnraDRHVCNSkf+ccdaC4Tz7eG1st5WrPNzCoh69dLwlYHYFzlaQuNvG3a+lzwtwhXFuAQSXQ4RoeFO6PuhWmZJBKF3q6rFSvKXR4H9atgvuR64i2lwO+xtxo5BoCsaj41CA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721091915; c=relaxed/simple;
-	bh=9gPSAq95rNiZCXyBU3Kd6hCeOEJ2HutuI47VBsQFkI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VlJ3vraF9f/aJw34ZKtydSccyeiADy2dY3Q5BGIxyy6C+VtGAEGykqlBYtJCB1Bxgp620CajtPOBOYhCkZ3uNemcKdhhI5ehk5bDeoMhosvDiVDA4QY8rDwUNJW2XXKV7RYH5+HFbAjPsJSIQlsD8/66u9YXmdDP6lvkIWT9nnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7cdU2n6; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1721103461; c=relaxed/simple;
+	bh=qJn8e1i5WLq5UWGU0oBfqjMNX1SJrBxdFucDEfseg04=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=btcON/FDWg+VQ/gaTRz5UCzjiWfB6vEzRd7AjHLFj+P8dc1pXVlRzAomEzwgYbHc3ro7exdx72MTRaL0H4/6+UqcMoWo4sc8Z2KLZ5MPqpEsbF4Us4Lrt89DriUrsycU+Lqwwm/ZA3p8GkpLxFY/jVkPxC1TZMKViJ/D6N4z16A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOvaDk5L; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7669d62b5bfso2881670a12.1;
-        Mon, 15 Jul 2024 18:05:13 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5957040e32aso3318159a12.2;
+        Mon, 15 Jul 2024 21:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721091913; x=1721696713; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pp+fEGwUsMKJFAFFVlger+9tRuEQAUzXCtEx0rK1fiM=;
-        b=E7cdU2n6Upm6xCnLL1w5NjmUJD5TG+BuE76Z/0MX2yU5gDPiY9O1UAxmDlixH2YLnX
-         G4o799dNNMGydXTaovxMECeO2nPMZhpW/CDQl5wwR88HmFHFwmuqWaKfTSDyFv38TTH9
-         IyjIOWTfF9FKeA3rH6UCp/Z0u9ZwVJ1MmGBiOOpmBSO9z4jHBhK5WHWaZztXL7L+H0BX
-         wRuCrgloI6ID5dPcUcbSWIRqnPYB1YACId6Y64GTgH0XoS/ucl7Of4eh5dzRdPLsOMWu
-         M8SjncA6c4lUWQZsgjbWXMRwgq1iwTc+5CqKX3OINPlFORvRoISWZZ8FcJqjXr1Hmvsw
-         57hA==
+        d=gmail.com; s=20230601; t=1721103458; x=1721708258; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lhFeghLSccQHLDcLSo9e5QnjvRQLxj2zjcsbdhYZSqE=;
+        b=hOvaDk5LXJP0WLrR1zCOEtMJgkfoFY/DNrJxfROevICiKoeFPDKoSRe2/1iMYwP1ZA
+         EOy7/GnxEyK2xJVal3z2VB1kKRLw+nV6RNLXpBMLMCz7Vfc9HigH78tmArlboAwj76Sv
+         yeOQwc6bfoH7DoW2NPCkc5w2g9IUcm68NQ0ls/ADmh7JhVPogX2HMs5ctUy3ZoAegM0p
+         Zrxz2AIMI2Y+UYuVKkVXrMMowPng69XwlWonDb5sES8WwrcC/qu3+mx2WcOrZ43mJfkL
+         GV33KlXAxeVn7Wd+qag1Itf6PXE6Q2KLBl4dktDOYP4oHF6CDmPAK9oq77XBlB0QWtdP
+         AX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721091913; x=1721696713;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pp+fEGwUsMKJFAFFVlger+9tRuEQAUzXCtEx0rK1fiM=;
-        b=UFS7yRru1hX44zi3mwx7A659U/PgZR5pSTlhO/kFSN9+FdXsCBGVDKPwRqzSHgeYV6
-         BZOEwhfqrriDwrBDCXgT7ZwWSoO8h0uo9tgU74rizZGxbOhmi8LkK5HI3Cnmgv1AmxWC
-         TI41sS0e/sbtYTadSHYD8j9b7SsFm8FGDdIC0Nz0P6tk6aDyJkYIToHCdKCGq8crDj5/
-         imgnmbUzz6bPZTEr2BS8zWaKD7oHIYAw105eKZaalVN+Ms3eH4NEFQ5nj3IgHKCrjvL4
-         sXLRz39uhmFJ2fKR2MaSdu/bGO30SSAJM7i9NYt0aZDsxmI0X1cAOZYa4YoG3hnOltJn
-         LsNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1DaEc2Vh318ukkSuuq3Amo8RoMhGB7P8UOiFFiLsXA7dzKIFH444II/MqIXGNgvmbU6ofoLU7+RE3VIhc3ya7B0REY+2rpfF0h/xE
-X-Gm-Message-State: AOJu0Yyq/sWa0yg8MnQq2y1HL4u+oqjMi7xgYOtdZyU3bb74DgwnxtUa
-	lwOWB8VizT3qEVY3rLBzIjsNS7b9TBx8BuSqAjANodJ5KXvIF++J
-X-Google-Smtp-Source: AGHT+IGGgF7eGJU3h+t38zRil0xKHRoO/XzydhvlGw9FhA3C+gaj3VzYyzjevCA2/kXHraOzTumULA==
-X-Received: by 2002:a05:6a21:1796:b0:1c0:f48e:a5ed with SMTP id adf61e73a8af0-1c3f12719b5mr644048637.37.1721091912990;
-        Mon, 15 Jul 2024 18:05:12 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:6d45:d4db:b14d:ea69])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7ebb6754sm5011506b3a.56.2024.07.15.18.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 18:05:11 -0700 (PDT)
-Date: Mon, 15 Jul 2024 18:05:08 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] input: use device_for_each_child_node_scoped()
-Message-ID: <ZpXHRPLJOMJ-K2jb@google.com>
-References: <20240412-input_device_for_each_child_node_scoped-v1-0-dbad1bc7ea84@gmail.com>
+        d=1e100.net; s=20230601; t=1721103458; x=1721708258;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lhFeghLSccQHLDcLSo9e5QnjvRQLxj2zjcsbdhYZSqE=;
+        b=S7ZerSWBcjO9GRAgxpXO4x0VE46IxfGcEltHLvlcYQUCcelSRnYrvgVS5ZURDm2TSl
+         KniL+IZ9Szy40sIxsnkehafV8SJlhccqtXElpNOBwOeXKn1oVVwx5TciUPwAhc9EjlQ6
+         onerSpztvCxcdcL9VpndDeC4tt4x4N2b0r0KREDJTwqwnxeOPfVVuQ6tLePqIhJDC6Yp
+         +5JLGEA6Y5maTsdF89uW3ugR3wvznlOTz7dK8jx8X6QWc1wuhzgfZK8nRp00E1yblZU3
+         B2c10IA0RsdFakaGkr21PPMUNerf8QPJn7XzjEkb85ozl+coeTVNyhKz5NyehiUpxmrz
+         U7tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWIK6AtgYiyUtylxe362bLZhMN43qtFH7X8yTp4fIocRQZFDaOFUrN2E7Ur5DvjNORoVnnGFt+1jVXt37iI0wFoEVXNZ5iNyP+DSP7
+X-Gm-Message-State: AOJu0Yx7WueX7u7q6+mP006mPUBRZqt8UbtvMvMTzRLovz9HJsu41kxN
+	o04PV29df9OHNyARykG6kLJlPY62580yJpnrgimxcCLebmBVtUddWMaMuw==
+X-Google-Smtp-Source: AGHT+IG3SMJScO8ARZP24U9bTJmilJ1G/xzJWovTLCATt8gREEpXnkKf1ea9AMJD/c4BZTzHB8QBZQ==
+X-Received: by 2002:a05:6402:13d6:b0:58c:ab6f:8d63 with SMTP id 4fb4d7f45d1cf-59ef09d20b4mr674566a12.39.1721103457271;
+        Mon, 15 Jul 2024 21:17:37 -0700 (PDT)
+Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b268a271fsm4198764a12.78.2024.07.15.21.17.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jul 2024 21:17:36 -0700 (PDT)
+Message-ID: <5fcf9e51-1fcf-4f51-8870-e709b6c87a55@gmail.com>
+Date: Tue, 16 Jul 2024 06:17:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412-input_device_for_each_child_node_scoped-v1-0-dbad1bc7ea84@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] input: qt1050: use
+ device_for_each_child_node_scoped()
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240412-input_device_for_each_child_node_scoped-v1-0-dbad1bc7ea84@gmail.com>
+ <20240412-input_device_for_each_child_node_scoped-v1-2-dbad1bc7ea84@gmail.com>
+ <ZpXG_TOdvq6SF22s@google.com>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <ZpXG_TOdvq6SF22s@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 12, 2024 at 10:57:29PM +0200, Javier Carrasco wrote:
-> Switch to the _scoped() version introduced in commit 365130fd47af
-> ("device property: Introduce device_for_each_child_node_scoped()")
-> to remove the need for manual calling of fwnode_handle_put() in the
-> paths where the code exits the loop early. This modification simplifies
-> the code and eliminates the risk of leaking memory if any early exit is
-> added without de-allocating the child node.
+On 16/07/2024 03:03, Dmitry Torokhov wrote:
+> Hi Javier,
 > 
-> There are six users of the non-scoped version in the input subsystem:
+> On Fri, Apr 12, 2024 at 10:57:31PM +0200, Javier Carrasco wrote:
+>> Switch to the _scoped() version introduced in commit 365130fd47af
+>> ("device property: Introduce device_for_each_child_node_scoped()")
+>> to remove the need for manual calling of fwnode_handle_put() in the
+>> paths where the code exits the loop early.
+>>
+>> In this case the err label was no longer necessary and EINVAL is
+>> returned directly.
+>>
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> ---
+>>  drivers/input/keyboard/qt1050.c | 12 ++++--------
+>>  1 file changed, 4 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/input/keyboard/qt1050.c b/drivers/input/keyboard/qt1050.c
+>> index b51dfcd76038..6ac2b9dbdb85 100644
+>> --- a/drivers/input/keyboard/qt1050.c
+>> +++ b/drivers/input/keyboard/qt1050.c
+>> @@ -355,21 +355,21 @@ static int qt1050_parse_fw(struct qt1050_priv *ts)
+>>  		if (fwnode_property_read_u32(child, "linux,code",
+>>  					     &button.keycode)) {
+>>  			dev_err(dev, "Button without keycode\n");
+>> -			goto err;
+>> +			return -EINVAL;
 > 
-> - iqs269a
-> - qt1050
-> - gpio_keys
-> - gpio_keys_polled
-> - adc-keys
-> - adc-joystick
+> It looks like the chunk actually switching to
+> device_for_each_child_node_scoped() is missing from the patch. I added
+> it and applied, thank you.
 > 
-> This series is based on the master branch of linux-next (next-20240412)
-> to have access to the scoped version of device_for_each_child_node().
+> Thanks.
 > 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Applied the series (after adjusting qt1050 patch), thank you.
 
--- 
-Dmitry
+Thank your for adding the missing bit. Did you remove the child variable
+at the beginning of the function as well? It will be unused otherwise
+(child is defined in the macro itself).
+
+Thanks again and best regards,
+Javier Carrasco
 
