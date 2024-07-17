@@ -1,53 +1,54 @@
-Return-Path: <linux-input+bounces-5070-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5071-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF90933E06
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jul 2024 15:56:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED8C933E08
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jul 2024 15:56:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 091641F222E8
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jul 2024 13:56:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E47B2820CE
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jul 2024 13:56:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20345180A72;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660FB180A88;
 	Wed, 17 Jul 2024 13:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="2JIRp6a5"
+	dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b="cYIHzjHQ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447D7566A;
-	Wed, 17 Jul 2024 13:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E3C1802DA;
+	Wed, 17 Jul 2024 13:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.87.146.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721224562; cv=none; b=u6jWwO4j1yDA9yB7tfMnx1l+/flg/be1UawQJFRDxyBc1pMXpNP3xeGN8qUzDJmbkf2LOyZ4svcdCikfCM6Gy+5kh+Qp/3Excd+9ysncK62p57FSAkY5+Xc3EZu7W7I/ys7H4V7DOJbuBHTMzVF9YXdII4L0bH8jCv8dRyXJefU=
+	t=1721224562; cv=none; b=Ld26mrjzfxCG7JiwONrzLEwpqxdhDdC7jsbbYqq6FcX5LAHEWS7n7rqV4SV8xTlAWqeRVcY6JLvyvDPNfj6IP61v15wQ2cpDaB/sNnC9MAiUaBhS8P8EGiY/YzFO7A1pHkxc/Aod6pAkqRDWTGUXGyUj8Iz13SDYww6k1xNpOWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1721224562; c=relaxed/simple;
-	bh=3JLeakvUoL1c9iCizxlAZxvMR1xaK8Nc1uhBJnc4gOc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BQTF9KoG0Pm+2ymVYU5a1S93+bPrp4aog//cCtjEwaB7uurZj77xVZbBJqQ7nLViCrulSV83KumnI8e63IAsmY/lWgSqmoGXRzwTfvn195iFQHP4Ufd3X2LmwtF5o+8CxB4OFdLSWhOKxy6DAoB3fpIz1O3kFBoLu2zSDW0LLdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=2JIRp6a5; arc=none smtp.client-ip=194.87.146.52
+	bh=bmIgxc0PzdJDo8ZRzTqn8JeYF2n5fgLK8q0l12myA9A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=nJC1oT3B2lgcdzZmZnYv2R37gxq4nXbwUvNIiF3S76/oYKFoAht9S8sclEbpgDGbUG7qCCps+zdgWvTRnj/dovVM6bi7StmFUdgprnju44Tq7yCcR/3m2GfFAAQIKtjTLJFz+wv56XHIHXMzhIOjkNndxoHor1dLUuYddCaOA5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru; spf=pass smtp.mailfrom=trvn.ru; dkim=pass (2048-bit key) header.d=trvn.ru header.i=@trvn.ru header.b=cYIHzjHQ; arc=none smtp.client-ip=194.87.146.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trvn.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trvn.ru
 Received: from authenticated-user (box.trvn.ru [194.87.146.52])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by box.trvn.ru (Postfix) with ESMTPSA id 51E49401C4;
-	Wed, 17 Jul 2024 18:55:42 +0500 (+05)
+	by box.trvn.ru (Postfix) with ESMTPSA id B9B45403F4;
+	Wed, 17 Jul 2024 18:55:44 +0500 (+05)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
-	t=1721224544; bh=3JLeakvUoL1c9iCizxlAZxvMR1xaK8Nc1uhBJnc4gOc=;
-	h=From:Subject:Date:To:Cc:From;
-	b=2JIRp6a5G6U5vL3ZQBf05kTszGUESN0aJukfyIuSO+LQ+OhPQfjVr/6uoygC3VFcC
-	 SbfWaRoabYP6tVq0vQX5DTxh9o7/A4Nilm2aYmdgkJ/9M8J43rFW1TfBBpGsVTb3m8
-	 KhlBT5hufAahj3Iq1OdGcLuYWRCAbfZcgnT4eNpONaw0BDGQREjg5KlkEUwzR36CA0
-	 7yRByqEjP+tUpxQqrbuft60ar3UDiOF/qVCCqYQ7KZ3fKQfokpsEhQn50o9SuiSvbo
-	 xDX8+RKBD3twklpq9P67JCtREj2eXqkfNQ0CJcAMqu9pr+CfTm3XT9WaxkgU1PXxgu
-	 x7+bbekLGxzIQ==
+	t=1721224545; bh=bmIgxc0PzdJDo8ZRzTqn8JeYF2n5fgLK8q0l12myA9A=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=cYIHzjHQV7CBHagqdBR3sm699Tg0u27LnoYgRWx2Ot9iLkl9q3CaE/Gmx4cPmA7N6
+	 joo6QeX3G7iY7c8DpMAsZobbBQ94YwDCkkdL6vyNliMMooFlZCT+H2nSrUMzwdc/Zi
+	 CM3YNb90aU35fyILeYerGqJBfLjaFFV0R7ZJdX5rVYxkiV7zVb2W/3lpmvcG1v+SME
+	 GHBzW4KOPUkuaURxW5D9IWmI/TNeE9RlTuZrI8Q9vrP43JEc4a1FZdtUildeXu6ubI
+	 +xTr0ZeiGlhLl8oWnZlNtbp+UjuEau7JxyXpPwf1zgwC1whsw+N1uxyRLIwWjlsFQk
+	 e3nO42Obi8otQ==
 From: Nikita Travkin <nikita@trvn.ru>
-Subject: [PATCH v5 0/2] Add touch-keys support to the Zinitix touch driver
-Date: Wed, 17 Jul 2024 18:55:32 +0500
-Message-Id: <20240717-zinitix-tkey-v5-0-52ea4cd4bd50@trvn.ru>
+Date: Wed, 17 Jul 2024 18:55:33 +0500
+Subject: [PATCH v5 1/2] dt-bindings: input: zinitix: Document touch-keys
+ support
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,9 +57,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFTNl2YC/3WMQQrCMBAAv1L27EpsEi2e/If0kMbVLkIqmxhaS
- /5u7N3jDMysEEmYIpybFYQyR55CBbtrwI8uPAj5Vhla1WrVqQN+OHDiGdOTFrROVz94rYyHmry
- E7jxvu2tfeeSYJlm2ezY/+2eUDSocOmvbo7fOnMwlSQ57eUNfSvkCf1lI7aYAAAA=
+Message-Id: <20240717-zinitix-tkey-v5-1-52ea4cd4bd50@trvn.ru>
+References: <20240717-zinitix-tkey-v5-0-52ea4cd4bd50@trvn.ru>
+In-Reply-To: <20240717-zinitix-tkey-v5-0-52ea4cd4bd50@trvn.ru>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -67,61 +68,63 @@ To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Nikita Travkin <nikita@trvn.ru>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1414; i=nikita@trvn.ru;
- h=from:subject:message-id; bh=3JLeakvUoL1c9iCizxlAZxvMR1xaK8Nc1uhBJnc4gOc=;
- b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBml81Z8Vc3wWbuvFJA2X998N8NoOdXWixcDxDZ8
- seybOilss6JAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZpfNWQAKCRBDHOzuKBm/
- dZ+kD/9rxBC0vKVA3Wb/ydCS9nohtOw5U8ojU9e5OJQMRvHSN2ifC31DWL7EdsJNtySvs0k+sQP
- oGx2wgAPFMjDr35EJgWw13HV5/PiPNfLew63hmayYzuIbkAHmxgt2iKX8zJhfjVE9qj7KzT2QmQ
- ZbxOQkIbg/0Ndc6fpENle4zihJuyW5edebZQydBxkHSRg9MzZQHTgNzubbwZGNBrF8kMIGuU6W2
- llyozQRIBNn+Z8uqiBS3Gqd0SuNKAXl+ovckse6yjXvVVdNJaPbbcgLEhsPZUf93IPUCsFoUeFS
- VeQxNiRoAQBP7MQc9Z1sJ4SezEykQrotjAdkISbvPhW2scz3Aa2Nv6SsMCNpXsaSr4lR1PDv3li
- ewzXfXWYG64O0wRbJE2q2/wGFk5TaJ1vkUfWnYxQeQ5gzYnkE+d2uLsiah37QwMrr7ELTUwvkL/
- ++pg1cgmd9mSuD/unwNDt5QXOj/IKtrPlHGn++kjuz9hqlLMDxaZdgPRLzoBzTKptPwTNc5w8sV
- R83dwKtOawMSgT8JObcfjqYOfbyKRGJpdYKWkcxVjFYhH3q7iW2exZ3TeZ55IVNkpNecreMQJjh
- QdG62Rw/QA1RKKw/8V/pC6iZFRIfeYmWYHH66t6dmAVxO+kQpqeUSIok1vu0mWhIIYlNN9RkD1w
- HvmWsPuYFXAqaxg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1461; i=nikita@trvn.ru;
+ h=from:subject:message-id; bh=bmIgxc0PzdJDo8ZRzTqn8JeYF2n5fgLK8q0l12myA9A=;
+ b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBml81dHjEAfCI3XnrhUSe8s0YNX8R/sQ0JhiLgi
+ SArsSoo6bGJAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZpfNXQAKCRBDHOzuKBm/
+ deDZD/9QMcV+Ppzf0xMsZS3V5LJMgoYMmYZ8J6acMpNDpYmvCqvMzqAA+vdHq0eMHK3fVtLh9hE
+ 7pdB0935ETiu1xK31P5QOSsse8acU1/P6Jdq7yO+11w26GTEHgXAzRYIKSJyBSDRT1VQ/IBYFN/
+ R9ym/77u6quaTHbdgJLUHbeB1NSyPIcm0hgk35qJZaCYC3a6Dxoxe47WAbM7wUqq3XOnLwZKHuB
+ dYm6X2s/u3MkO8mxgJHOaidepHO7I/QQ7UNzMQukXAggs7EndBgqIYRnJHorVEs7uLJxt203mHu
+ SO/zfIlyF8DjUwQZx1bbUEhLEAZk/fwffXVrkyf7XssZK9YIcwlp6v364gz+AWpTN+qeabCR60H
+ bV3K/TLpD245v9YJkT8Mfd9Vl9ZTmY9dlg9fv5NI1p3zcgGVC8v+s/+QZeRHrjsBuNnm10Z2jQU
+ UDXxA6UfpGSWWtnh4Q85MbIR4C+ddut7KVI96c63v23G9oaofj8xERDpby5I3BiHp7a/Y20zpM4
+ 77uc1w5QXFXyKeEvI1k9iAs6iTghLOtRT/bMBIBlo3obqjbYUh1at8uPGv7duAf3gd+KsljCEHv
+ k6FjWHibLkDZTfzQrKLWMZlHIYohc54qYRogjEBqrVHUIYnXMLH2i4NVHyo4/xLc6C4El1TrcmN
+ Gm7AtnnpUrIcbHA==
 X-Developer-Key: i=nikita@trvn.ru; a=openpgp;
  fpr=C084AF54523FAA837E2EC547431CECEE2819BF75
 
-This series adds support for the touch-keys that can be present on some
-touchscreen configurations.
+In some configurations the touch controller can support the touch-keys.
+Document the linux,keycodes property that enables those keys and
+specifies the keycodes that should be used to report the key events.
 
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Michael Srba <Michael.Srba@seznam.cz>
-To: Linus Walleij <linus.walleij@linaro.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-input@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Nikita Travkin <nikita@trvn.ru>
-
-Changes in v5:
-- Switch to using device_property_ (Dmitry)
-- Link to v4: https://lore.kernel.org/r/20230801-zinitix-tkey-v4-0-b85526c5a474@trvn.ru
-
-Changes in v4:
-- The series was partially applied, these patches dropped.
-- Link to v3: https://lore.kernel.org/r/20220106072840.36851-1-nikita@trvn.ru
-
 ---
-Nikita Travkin (2):
-      dt-bindings: input: zinitix: Document touch-keys support
-      input: zinitix: Add touchkey support
+ .../devicetree/bindings/input/touchscreen/zinitix,bt400.yaml   | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- .../bindings/input/touchscreen/zinitix,bt400.yaml  | 10 ++++
- drivers/input/touchscreen/zinitix.c                | 63 ++++++++++++++++++++--
- 2 files changed, 70 insertions(+), 3 deletions(-)
----
-base-commit: 797012914d2d031430268fe512af0ccd7d8e46ef
-change-id: 20230801-zinitix-tkey-5a3023bc304c
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml b/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+index b1507463a03e..3f663ce3e44e 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+@@ -16,6 +16,7 @@ maintainers:
+ 
+ allOf:
+   - $ref: touchscreen.yaml#
++  - $ref: ../input.yaml#
+ 
+ properties:
+   $nodename:
+@@ -79,6 +80,15 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [1, 2]
+ 
++  linux,keycodes:
++    description:
++      This property specifies an array of keycodes assigned to the
++      touch-keys that can be present in some touchscreen configurations.
++      If the touch-keys are enabled, controller firmware will assign some
++      touch sense lines to those keys.
++    minItems: 1
++    maxItems: 8
++
+   touchscreen-size-x: true
+   touchscreen-size-y: true
+   touchscreen-fuzz-x: true
 
-Best regards,
 -- 
-Nikita Travkin <nikita@trvn.ru>
+2.45.2
 
 
