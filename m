@@ -1,148 +1,184 @@
-Return-Path: <linux-input+bounces-5074-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5075-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE47D9345E3
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2024 03:46:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95D39345E4
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2024 03:49:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DFA01F22135
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2024 01:46:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC5CC1C21818
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jul 2024 01:49:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7EB394;
-	Thu, 18 Jul 2024 01:46:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CF815C3;
+	Thu, 18 Jul 2024 01:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFHLKzbh"
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="b1DGKJ+u"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0BB19E
-	for <linux-input@vger.kernel.org>; Thu, 18 Jul 2024 01:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6830B19E;
+	Thu, 18 Jul 2024 01:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721267161; cv=none; b=ic+LacB392I//UOUutm4oCx1v/g1tIeaWoXlFvdE5ok+7WnbRaZO4tp5qFyEf8pktm5w0Ier4zIGffiqUIMXVvwogcT3tHRW/FBzy/WJO0i2clfGH9Q2SlpBWz2DV5zPPLAnzQiuWBQ8qZqXWQOocx3T4NxsKJPAzWSiKpJcMqc=
+	t=1721267366; cv=none; b=tpiiyS95JTZhFsBDdtZg0hfub+jtHp1lIZUgKr2K5NfVEUykPKkdN5XgaGGiIL1mFC3nWuZl9RdCgw1Sp1RaRMhtDX7sXz8gqoMJExca/cJO2QRZMOHnVra6jnxuSlBnRzb9kCHSoEZnY+y67abB5FMqY9k9eyUusnHIYIv8/58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721267161; c=relaxed/simple;
-	bh=C4cYj/AZJXOY0GKs4lSM1PqXy1CGM2PpM/8NvLRTkhA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=eDNyP8YUcoWVCgaTawmxO4EQho5UYJET1whr3YDjovcKjjBXWZ/Hbr7QPhLWzP7QXpJCpbaWHSbidd5KKKtqXBS8xQuiK6qT8yqfwHEAabhl9sLey+aOZKH0BRlQmzFWZYKQyCMnWAElsjQ6ZHPyuMfBWasb8GFGmx+RSShZw7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFHLKzbh; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e05eccfcdb3so323622276.1
-        for <linux-input@vger.kernel.org>; Wed, 17 Jul 2024 18:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721267159; x=1721871959; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yBTa1DgCIrHiqKoM9szQI7ksCer3BGPGT+ClgJ/Ju1k=;
-        b=GFHLKzbhQS7j/BLKxkRfh6jBKpxcZO6hQQ8oKSgLyCkBSZVsRvnMM5beZHprwFDzrG
-         3Gn9kqL4NUQVeNzKaG8EvzK531ZENlzJ6ZDO+5rx882yv5plpnB1ju0ozlQg+VTVkSkn
-         RAlrpdAGPy3YwI+HNGtwFpZNMX/HrweRIr0/8re3stf4t/n+dqdxNl7MxOBJ89U7DuqW
-         nbUwipv3axhdrfmog6/EkPQNdMR6lll06HAxMcy9s+2z9r6Y5g7h/lW0j99e3l8bQxzy
-         FFJeu3sCkWcM8/vTYq8B52RrjSypdjKEYfDXVsyyZ177MFyfSguq5aaQBl0kr2Fi7vxw
-         z6Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721267159; x=1721871959;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yBTa1DgCIrHiqKoM9szQI7ksCer3BGPGT+ClgJ/Ju1k=;
-        b=Tc45HX1JDt6Z5kBIYeYWJ/92VJTUR33DEeSgFuHF/N/MGKkmXacwidOTKz1abTATGq
-         3vAPvqUbNMFjqfeIYGYfFG6sOigAkmGKvzcP19uR4OtlVU5PTorqiH1DYu7MYCSD1f/U
-         zNtHnHohZPuQW3q3tk0itzaRm9NJo/Cm9PThF59bx79mwOQiK9CSu09p7L0UTrzswH5a
-         Nuqezn6Olhc5yZX99ZN6e8CBa6QepOvF6jn8dHd/ohE4ZjEquF7KnFeCuQkKZiyqIovs
-         /NoxUPM09d9HVy76hvqeUVYkD9ShZ6v4M/vX1qh74oo5KpR7lMZtkpzc8kQ2ULW0zAA5
-         cJsA==
-X-Gm-Message-State: AOJu0Yy83awq3234i/8Ga85svl1gssaRxtdgDLYUlXBxgDPaShe2G4HH
-	SUEYunJNk/SwroI80YYH02ZK2bQ+kNrHO63arChyPro72IWU2OP+FawP+Um3rVkDO+MrFNW3dKK
-	djnZoFFBvFStGY2uI+CtUeSYjqZCc/EwBBkw=
-X-Google-Smtp-Source: AGHT+IGn5UaIk/ycQGxuPpxjbgIyww152RZywhTL5+4Bewv9VffB6tFBmvIrAHhHWAFIT0Ig76/7oa9QSTJdZLhHIpU=
-X-Received: by 2002:a05:6902:1242:b0:e05:61af:d490 with SMTP id
- 3f1490d57ef6-e05ed848684mr3597923276.59.1721267158716; Wed, 17 Jul 2024
- 18:45:58 -0700 (PDT)
+	s=arc-20240116; t=1721267366; c=relaxed/simple;
+	bh=Pi8/3jwy2l9+AmJtuYgshe/ziSNw878e7MeG21eo1K8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ur2mK5JYOW/vXbL+OWaB2U1MtRFIwL4X/Qq7HSb/IapNqRY5Y3p0taj/fctDoIlEASVtPZ8hQ2RaucSAXsDYlrQ0yeEpA0I7TUtUarHrGgMWDTsdtc1Jz0yVtfxImE1SQHJWoUuN4mQC1rMfF5l6fhOeax4spEzJHZ7rneW/Qj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=b1DGKJ+u; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=201702; t=1721267358;
+	bh=1NRM7JcRwY2THxFpUefXrObhIbdMlndIp71Mh/8WNt0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=b1DGKJ+ukjIW2SzPeEReZGJvUlAc1Ap9iBHztuyhoMDvKbVONNxoXP2AmaZQA1aVo
+	 /+T5AZjarjTQ6Ys/07iveL72XVI5K8vKo3jZ2nre5HrwFCwIdUZjicGAEEbG+D68U/
+	 tsghnJXQ90zjn0a3gbIXrNIEeDXXzsKD+ddRn0uVMCR1vcf5r45KeXrQf+h275QRxM
+	 6kDO6nu4GgFVwJAqQYxYemF8QlS6+V69WU1NBC6QyI2ogU+MQEqfUH7d4tgm6kYYx9
+	 Dma9Zb9Gc6lDkoZRS3DUCn+2bSoKZTS7UsxnuPJRkCzoibt0D3JjZMMsayoM9saY4z
+	 BbSN3gvraoz/A==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WPbMK4D5Sz4wbr;
+	Thu, 18 Jul 2024 11:49:17 +1000 (AEST)
+Date: Thu, 18 Jul 2024 11:49:16 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, David Miller <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Mark
+ Brown <broonie@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Alexei
+ Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, bpf
+ <bpf@vger.kernel.org>, Networking <netdev@vger.kernel.org>, Kui-Feng Lee
+ <thinker.li@gmail.com>, Martin KaFai Lau <martin.lau@kernel.org>,
+ linux-input@vger.kernel.org, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the bpf-next tree
+Message-ID: <20240718114916.7fab0442@canb.auug.org.au>
+In-Reply-To: <20240710091344.2f3f2029@canb.auug.org.au>
+References: <ZnB9X1Jj6c04ufC0@sirena.org.uk>
+	<20240710091344.2f3f2029@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Mario!!" <oiramxd@gmail.com>
-Date: Wed, 17 Jul 2024 19:45:47 -0600
-Message-ID: <CAPR0m+d4P1X2fiigJ4pd1wdG89cmez80cS+qTfTJ9Uu0BjwUMg@mail.gmail.com>
-Subject: Thinkpad T440p Touchpad not working
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/2M387VI3s81L9IdtWW7R0d/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/2M387VI3s81L9IdtWW7R0d/
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-To whom it may concern.
+Hi all,
 
-Hope I am communicating through the right channel.
+On Wed, 10 Jul 2024 09:13:44 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> On Mon, 17 Jun 2024 19:15:59 +0100 Mark Brown <broonie@kernel.org> wrote:
+> >
+> > After merging the bpf-next tree, today's linux-next build (x86_64
+> > allmodconfig) failed like this:
+> >=20
+> > /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:280:16: error: ini=
+tialization of 'int (*)(void *, struct bpf_link *)' from incompatible point=
+er type 'int (*)(void *)' [-Werror=3Dincompatible-pointer-types]
+> >   280 |         .reg =3D hid_bpf_reg,
+> >       |                ^~~~~~~~~~~
+> > /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:280:16: note: (nea=
+r initialization for 'bpf_hid_bpf_ops.reg')
+> > /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:281:18: error: ini=
+tialization of 'void (*)(void *, struct bpf_link *)' from incompatible poin=
+ter type 'void (*)(void *)' [-Werror=3Dincompatible-pointer-types]
+> >   281 |         .unreg =3D hid_bpf_unreg,
+> >       |                  ^~~~~~~~~~~~~
+> > /tmp/next/build/drivers/hid/bpf/hid_bpf_struct_ops.c:281:18: note: (nea=
+r initialization for 'bpf_hid_bpf_ops.unreg')
+> >=20
+> > Caused by commit
+> >=20
+> >   73287fe228721b ("bpf: pass bpf_struct_ops_link to callbacks in bpf_st=
+ruct_ops.")
+> >=20
+> > interacting with commit
+> >=20
+> >   ebc0d8093e8c97 ("HID: bpf: implement HID-BPF through bpf_struct_ops")
+> >=20
+> > from the HID tree.
+> >=20
+> > I've fixed it up as below:
+> >=20
+> > From e8aeaba00440845f9bd8d6183ca5d7383a678cd3 Mon Sep 17 00:00:00 2001
+> > From: Mark Brown <broonie@kernel.org>
+> > Date: Mon, 17 Jun 2024 19:02:27 +0100
+> > Subject: [PATCH] HID: bpf: Fix up build
+> >=20
+> > Fix up build error due to 73287fe228721b ("bpf: pass bpf_struct_ops_lin=
+k to callbacks in bpf_struct_ops.")
+> >=20
+> > Signed-off-by: Mark Brown <broonie@kernel.org>
+> > ---
+> >  drivers/hid/bpf/hid_bpf_struct_ops.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid=
+_bpf_struct_ops.c
+> > index 5f200557ff12b..744318e7d936b 100644
+> > --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
+> > +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
+> > @@ -175,7 +175,7 @@ static int hid_bpf_ops_init_member(const struct btf=
+_type *t,
+> >  	return 0;
+> >  }
+> > =20
+> > -static int hid_bpf_reg(void *kdata)
+> > +static int hid_bpf_reg(void *kdata, struct bpf_link *link)
+> >  {
+> >  	struct hid_bpf_ops *ops =3D kdata;
+> >  	struct hid_device *hdev;
+> > @@ -229,7 +229,7 @@ static int hid_bpf_reg(void *kdata)
+> >  	return err;
+> >  }
+> > =20
+> > -static void hid_bpf_unreg(void *kdata)
+> > +static void hid_bpf_unreg(void *kdata, struct bpf_link *link)
+> >  {
+> >  	struct hid_bpf_ops *ops =3D kdata;
+> >  	struct hid_device *hdev;
+> > --=20
+> > 2.39.2
+> >  =20
+>=20
+> This fixup is now required when the hid and next-next trees are merged.
 
-Since about a two months ago my touchpad stop working.  At first I
-thought it was a hardware problem.
-I bought a new one and realized that it was not the case.
-Tried to roll back to a previous kernel and I had no results.
-After a some weeks of looking trough internet I realized that the
-touchpad was detect by libinput (or xinput) after suspend my computer.
-But still can not record or debug-evente via libinput, it just doesn=C2=B4t
-show any event.
-
-I am currently using debian 12 with kernel 6.1.0-21-amd64.
-
-## Steps to reproduce
-`libinput list-devices` does not show my touchpad. After suspend it
-shows the device.
-If I shutdown my computer the devices is not detected again.
-
-## Required information
-- hardware information:
-  - Thinkpad T440p
-  - The current touchpad had separate physical hardware buttons. The
-previous one hasn't, but still was not working.
-- libinput (version 1.22.1):
-Device:           SynPS/2 Synaptics TouchPad
-Kernel:           /dev/input/event16
-Group:            8
-Seat:             seat0, default
-Size:             98x54mm
-Capabilities:     pointer gesture
-Tap-to-click:     disabled
-Tap-and-drag:     enabled
-Tap drag lock:    disabled
-Left-handed:      disabled
-Nat.scrolling:    disabled
-Middle emulation: disabled
-Calibration:      n/a
-Scroll methods:   *two-finger edge
-Click methods:    *button-areas clickfinger
-Disable-w-typing: enabled
-Disable-w-trackpointing: enabled
-Accel profiles:   flat *adaptive
-Rotation:         n/a
-
-After report it in a issue
-(https://gitlab.freedesktop.org/libinput/libinput/-/issues/1011) to
-the libinput gitlab.
-Peter Hutterer kindly point me in the right direction.
-
-The command 'dmesg -H | grep -i TouchPad' shows:
-  [  +0.000012] psmouse serio1: synaptics: Your touchpad () says it can
-support a different bus. If i2c-hid and hid-rmi are not used, you
-might want to try setting psmouse.synaptics_intertouch to 1 and report
-this to linux-input@vger.kernel.org.
-  [  +0.066526] psmouse serio1: synaptics: Touchpad model: 1, fw: 8.2,
-id: 0x1e2b1, caps: 0xf006a3/0x943300/0x12e800/0x410000, board id:
-3157, fw id: 2403511
-  [  +0.042611] input: SynPS/2 Synaptics TouchPad as
-/devices/platform/i8042/serio1/input/input25
-
-Any idea what could possibly be going on? Anything I could try?
-
-Thanks for your attention.
-
+And now this is needed when the hid tree is merged with Linus' tree.
 
 --=20
-Mario Villasante Barahona
+Cheers,
+Stephen Rothwell
+
+--Sig_/2M387VI3s81L9IdtWW7R0d/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaYdJwACgkQAVBC80lX
+0Gzm4gf+K5Eaw1hvi2atamuIucgJDjivmNzXb3gDTrIWxAwufU6uM61blbV8fBJ2
+H7ZcSIvsPD51QsazauCN77Xcgt80KMlhCAYixSXqoz9LU9+k5w29S7hXdseL/HYS
+hlFFw1BPtnTlPx6pzXEtq6z0MxUFoif3/D6j0wWFJLFx3DQsLGCOdxVtOnQ0hboA
+pFFzgZ9XKnYGhqRqpbCn/AXyFb6rgwzUM0gbgLCIoQDGfWchYfeD6Wi/+j9vGDTI
+Kr4x4nUlxlt0a+FdLKHAerlAOU49cUdhMuAxsTAA0SbJCRZNm/VcevAMNMD7arH0
+7ANk3vvbMrFCAYZspujkNW2ggjRC6w==
+=1aIh
+-----END PGP SIGNATURE-----
+
+--Sig_/2M387VI3s81L9IdtWW7R0d/--
 
