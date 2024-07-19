@@ -1,142 +1,93 @@
-Return-Path: <linux-input+bounces-5093-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5094-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E2A9378C0
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2024 15:52:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A416E9378DB
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2024 16:01:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 041DE2821B9
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2024 13:52:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C66A1F22A8E
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jul 2024 14:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E604B142915;
-	Fri, 19 Jul 2024 13:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9245A84A4D;
+	Fri, 19 Jul 2024 14:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dvvuwG/c"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZyiG7f3d"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CDB83A19;
-	Fri, 19 Jul 2024 13:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6721E1DDC5;
+	Fri, 19 Jul 2024 14:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721397156; cv=none; b=FdYjXiOsqCzhIbc7v/oj0T3YUIdT1+Jzr0UyppjrUvXsaHehqIRs2+MOtHOyp5IFZNgE2MTEieDu3GQ4ENNnIOlTMHnQiW/CrAd1oPX24Oir4XgNteblcQzBMhrjm+Ory6TMc+ciB8pa9YiKM2NGr5Ti3X7c+2QbpWtZpYR08is=
+	t=1721397666; cv=none; b=kTEkIWYS/1bXXotYeuX4kHrfZj8honVDLKpof09DpPjTnEAbrxqgeJOR5IYnY9Vaa0khBTrCXC/8CF4xPpTldQQ0+ZrRn+7K93oQzDNcX7BGefyuXxdiPY6oiAnSZE9612RuXSXIjjS9HN6jyVAkHCZQjwHKcacnfLbXaU8kc/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721397156; c=relaxed/simple;
-	bh=5m/6tNBOY6VJGkhYsAlnvm2sT/AZ1AzuwTAgZlWDiw4=;
+	s=arc-20240116; t=1721397666; c=relaxed/simple;
+	bh=7uiDhLmzO5sSt2+b9hbbq+lm8FTy6+JtoaE60ZC7JTY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LX8c5JAG0vYIc4SVRZveqlK4hcuAxlhaFE50HX6YttyhsTk6+d4x0jipEInfaArw9gmFhHTaZA055u4i6zGMvn9xnoHd4tc58VLJ4VoX98ROm1hMioRqXFLstujVPN3Pal2qypXWXo8UanidG4/hGKavZAID4Tsa9GCnTRg+6wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dvvuwG/c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89239C32782;
-	Fri, 19 Jul 2024 13:52:34 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=XwUC9pZpw0LnmVLH45txAT9t+R5FBGtmgVynT+gcMsfSwqfrW8er1MUcjTRLncy3kC8ZXTcOASTXluPRDKF/ON6YU+PQ3pmsTbmlYVW4ZCHZJqyIRqJAmNTY6duy7sqdLl/25gKWO2jOMTCBaPcsSacwLEPngzyLzvacWBKYnPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZyiG7f3d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A10C32782;
+	Fri, 19 Jul 2024 14:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721397156;
-	bh=5m/6tNBOY6VJGkhYsAlnvm2sT/AZ1AzuwTAgZlWDiw4=;
+	s=k20201202; t=1721397665;
+	bh=7uiDhLmzO5sSt2+b9hbbq+lm8FTy6+JtoaE60ZC7JTY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dvvuwG/cSLij6G6Tyyloq6vZOLDBPwlkLd5DCAmZYxPt88yRChye9N2ar/S/trx2P
-	 v9WB4FfSbaOwMl0cMyrzNz2AYL+/8+TN6NbQw3GorJjYew/XCLo1AliytOAt1NgMUo
-	 EgCW9QZoJFli5BFNZAxIwkR31ttRkPuXUWBXNI0HvTWKsug9stCwUelRDxItnE5JOz
-	 4uBTJfLf6qKM4f487YjTxPLCf9fGSxMZO/0gJlSAY+hFDFhrE+1aablGlr3V2ZhTZJ
-	 95PF7OnKTWnDg55ABCqRXvRm/N9f1hTkiN5TMww2wjMj607AqHTjsysxRUCI9prXTq
-	 rHIsRUkW2MoYw==
-Date: Fri, 19 Jul 2024 15:52:31 +0200
+	b=ZyiG7f3dSbc2IXUA0hAxYbuQaI/ZGhV9Z1UQKUoGpcJcoT5bzaBvCWQPkhnDvkLNx
+	 nTTUToqWey2l5Z/iZoqoPjaqHhHBD14fIoxf6x38LnMReheCg3lZp94qq+Jf4YkoPt
+	 5KPKllsEMBB/QLy+cmpNV9729vuDaAMFBjkyNyBggFRhBKHENwNfUGCCbiPfNI0RUO
+	 5luytdZVhyzQWWcxNRnnn/LW+EQj/GldKbBMsR8l/LMHQAOt8oygOUXxdOrxXU/Uav
+	 9JQjCik54rgcM3tY9DHOopqnwFSVwE6K9/zkDfbZuJ7mt6+18/JBrhhf1easNrQltL
+	 ooYlBIBa0NRlA==
+Date: Fri, 19 Jul 2024 16:01:01 +0200
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org
-Subject: Re: [PATCH] hid: bpf: avoid building struct ops without JIT
-Message-ID: <gf7t6iyj3ueewvbbmqo2ypzitiy6bvnzj2l6tgccvi22xe5fgm@xvlbq3vkndgr>
-References: <20240719095117.3482509-1-arnd@kernel.org>
+To: =?utf-8?B?6Im+6LaF?= <aichao@kylinos.cn>
+Cc: jikos <jikos@kernel.org>, linux-input <linux-input@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: core: Fix parsing error for Thinkbook16 G6+ IMH
+Message-ID: <uwn4lccc34xtilwzfbogjor2xrue6ob7ydlywaylvg4a53x7io@bq4nqnkczu4s>
+References: <12vo1pesman-12vrviv1rs0@nsmail7.0.0--kylin--1>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240719095117.3482509-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <12vo1pesman-12vrviv1rs0@nsmail7.0.0--kylin--1>
 
-On Jul 19 2024, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The module does not do anything when the JIT is disabled, but instead
-> causes a warning:
-> 
-> In file included from include/linux/bpf_verifier.h:7,
->                  from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-> drivers/hid/bpf/hid_bpf_struct_ops.c: In function 'hid_bpf_struct_ops_init':
-> include/linux/bpf.h:1853:50: error: statement with no effect [-Werror=unused-value]
->  1853 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
->       |                                                  ^~~~~~~~~~~~~~~~
-> drivers/hid/bpf/hid_bpf_struct_ops.c:305:16: note: in expansion of macro 'register_bpf_struct_ops'
->   305 |         return register_bpf_struct_ops(&bpf_hid_bpf_ops, hid_bpf_ops);
->       |                ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> This could be avoided by making HID-BPF just depend on JIT, but that
-> is probably not what we want here. Checking the other users of struct_ops,
-> I see that those just leave out the struct_ops usage, so do the same here.
+Hi,
 
-Actually, if we make the struct_ops part only depend on JIT HID-BPF is
-kind of moot. All we could do is use HID-BPF to communicate with the
-device, without getting any feedback, so nothing much more than what
-hidraw provides.
+Thanks for your contribution but there are many things wrong with your
+patch submission:
+- you used html which should be rejected by the mailing list
+- your mail client completely messed up the format and the patch is not
+  applicable in its current state.
+- your signed-off-by is not correct as it's missing your email.
 
-The only "interesting" bit we could do is inject a new event on a device
-as if it were originated from the device itself, but I really do not see
-the point without the struct_ops hooks.
+Please make sure to use `git send-email` or `b4` for your future
+submissions
 
-So I think struct_ops is now the base for HID-BPF, and if it's not
-available, we should not have HID-BPF at all.
+Also, the patch in itself (or what I could guess on the email I
+received) is wrong. You should not tamper with hid-core for that but
+need a dedicated report descriptor fixup in the target driver.
 
-> 
-> Fixes: ebc0d8093e8c ("HID: bpf: implement HID-BPF through bpf_struct_ops")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/hid/bpf/Makefile           | 3 ++-
->  drivers/hid/bpf/hid_bpf_dispatch.h | 6 ++++++
->  2 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/bpf/Makefile b/drivers/hid/bpf/Makefile
-> index d1f2b81788ca..7566be8eefba 100644
-> --- a/drivers/hid/bpf/Makefile
-> +++ b/drivers/hid/bpf/Makefile
-> @@ -8,4 +8,5 @@ LIBBPF_INCLUDE = $(srctree)/tools/lib
->  obj-$(CONFIG_HID_BPF) += hid_bpf.o
->  CFLAGS_hid_bpf_dispatch.o += -I$(LIBBPF_INCLUDE)
->  CFLAGS_hid_bpf_jmp_table.o += -I$(LIBBPF_INCLUDE)
+However, the device seems to rely on hid-multitouch which I'd rather not
+have report descriptor fixups in there.
 
-Unrelated to your patch, but looks like I forgot to remove that entry
-from the Makefile now that hid_bpf_jmp_table.c is not available :)
+Maybe the simplest solution is to rely on HID-BPF and submit a new
+driver fix to https://gitlab.freedesktop.org/libevdev/udev-hid-bpf or if
+you want to directly submit said fix to the kernel in the directory
+drivers/hid/bpf/progs.
 
 Cheers,
 Benjamin
 
-> -hid_bpf-objs += hid_bpf_dispatch.o hid_bpf_struct_ops.o
-> +hid_bpf-y += hid_bpf_dispatch.o
-> +hid_bpf-$(CONFIG_BPF_JIT) += hid_bpf_struct_ops.o
-> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.h b/drivers/hid/bpf/hid_bpf_dispatch.h
-> index 44c6ea22233f..577572f41454 100644
-> --- a/drivers/hid/bpf/hid_bpf_dispatch.h
-> +++ b/drivers/hid/bpf/hid_bpf_dispatch.h
-> @@ -14,7 +14,13 @@ struct hid_bpf_ctx_kern {
->  struct hid_device *hid_get_device(unsigned int hid_id);
->  void hid_put_device(struct hid_device *hid);
->  int hid_bpf_allocate_event_data(struct hid_device *hdev);
-> +#ifdef CONFIG_BPF_JIT
->  void __hid_bpf_ops_destroy_device(struct hid_device *hdev);
-> +#else
-> +static inline void __hid_bpf_ops_destroy_device(struct hid_device *hdev)
-> +{
-> +}
-> +#endif
->  int hid_bpf_reconnect(struct hid_device *hdev);
->  
->  struct bpf_prog;
-> -- 
-> 2.39.2
-> 
+
+On Jul 19 2024, 艾超 wrote:
+
 
