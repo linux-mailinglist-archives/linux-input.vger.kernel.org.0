@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-5120-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5121-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75A0939429
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 21:25:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB7193943F
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 21:31:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B2991F21622
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 19:25:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB7F928210B
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 19:31:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE3716FF45;
-	Mon, 22 Jul 2024 19:25:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BCB16EBE9;
+	Mon, 22 Jul 2024 19:31:04 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5060D1BF54;
-	Mon, 22 Jul 2024 19:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46741BF54;
+	Mon, 22 Jul 2024 19:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721676307; cv=none; b=kunyEP0o36W14RYm/2KOvUoHPtZa1qezVlx4xCbZorMYutGNxEOHm0y29mSS9tMoMzjbYzcIA1RIbeaa06madeUqwkpfBOrXvjiiQzaeoQ1NUjOIblNSkL8hTDoz6vkCxQeUhVnc6bV0thHouHox7RFpLrz+J7mqrXH0lgaccr0=
+	t=1721676664; cv=none; b=s/XJs8ZJBoUXi2+waTRzilwcUULEid9si8tc/6ShsznvmiF3GgV5ZNMxUlsxTlPjdCbXtSAEOSx6MZziSauc6J5Qk0vjVUsBIdxsb/93Xh0QAErh4XdJPeo3LaFhp45zCC7RmS4Br63IEbPcMDQBCThU9pgQD9aTP6oE5+6ZzGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721676307; c=relaxed/simple;
-	bh=xu2IiexuD5dTgf1O4emkjQ7RWm6wNI2lFesN+gHiKhc=;
+	s=arc-20240116; t=1721676664; c=relaxed/simple;
+	bh=PdkihwyRSa1fRWOQEZU/r0Yz3LbDBGeUurrTpVXaKpk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kTj9UY7qFjwpctAj0RBWMMg1ODV4sVjWfW8n30Gyvhv/sAceY7oRuJfNbuwYTB2Hr4kjeVEE/a8Xz+FbG32cfnGhKVgDiNzEUsd+oe8FwHxzpbAyk2Pvkv+2jcGZl600KDtqDky6WFM9c6G1UWFTN6vjv5qSB7UvjvkVKIwLdzk=
+	 In-Reply-To:Content-Type; b=ZOxpV5dAjESo1k+78nnQcal6nJ8fziR4GHc3WoFFwMyLcCYlCLHxSDcKGnhUETQbQ62ctCMxf0+BOV2Xk3E1WxANJn7hcvyjjyCHSsI9f0gZBkHJSuW7q8wHNkTU1pqAu625gpXf1h048O5kpNGY0FjzLRWqWM0aqmoMVO+JOiM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.enpas.org (Postfix) with ESMTPSA id 7F20010021F;
-	Mon, 22 Jul 2024 19:24:53 +0000 (UTC)
-Message-ID: <1c53a747-f606-44e4-804c-2c0fc7c9c600@enpas.org>
-Date: Tue, 23 Jul 2024 04:24:46 +0900
+	by mail.enpas.org (Postfix) with ESMTPSA id C301510021F;
+	Mon, 22 Jul 2024 19:30:58 +0000 (UTC)
+Message-ID: <cde0bcf3-eb31-48ae-93a6-e630ba80a068@enpas.org>
+Date: Tue, 23 Jul 2024 04:30:53 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -43,7 +43,6 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1] hid-playstation: DS4: Update rumble and lightbar
  together
-Content-Language: en-US
 To: Benjamin Tissoires <bentiss@kernel.org>
 Cc: Roderick Colenbrander <thunderbird2k@gmail.com>,
  Jiri Kosina <jikos@kernel.org>,
@@ -57,7 +56,9 @@ References: <20240616163055.75174-1-max@enpas.org>
  <afda41dc-7b36-4ddd-abfc-c9430d8c9503@enpas.org>
  <CAEc3jaB7ijeXCUKOhpORx4Omf8edSmc1HKe9bk22V1mz=cLa+g@mail.gmail.com>
  <5b42961b-8ca6-4245-b16c-d703255e5aea@enpas.org>
- <4olssbvj6iap42kqycdnvpibiufemz5hhwjw65aj3qqeuzrib5@467sqzfl53vt>
+ <bf096319-c44d-4bbf-bbcb-374d3cce0ca7@enpas.org>
+ <rktgvill7zgcggiir54ixh3ele4zeqatoxwshamebtvvcnz4z5@nmmh5wgwnqmf>
+Content-Language: en-US
 From: Max Staudt <max@enpas.org>
 Autocrypt: addr=max@enpas.org; keydata=
  xsNNBFWfXgEBIADcbJMG2xuJBIVNlhj5AFBwKLZ6GPo3tGxHye+Bk3R3W5uIws3Sxbuj++7R
@@ -130,79 +131,27 @@ Autocrypt: addr=max@enpas.org; keydata=
  d3HIwZEKLNW9hUEqwXueZqQSNQ0Lvjx/oWYlrQQpz4kFJJb9LYpKpY5k3nBf9AGtJP+c1+PN
  eOjt3GvAJlnOzLtT36UIgcXSQuQFgLpY6FKT0verMP35mV2JXfm/qHIC+mnHAe4HRiZ54aML
  PsRBqTJGs7jw5gOWMMchFaemEnEJtg==
-In-Reply-To: <4olssbvj6iap42kqycdnvpibiufemz5hhwjw65aj3qqeuzrib5@467sqzfl53vt>
+In-Reply-To: <rktgvill7zgcggiir54ixh3ele4zeqatoxwshamebtvvcnz4z5@nmmh5wgwnqmf>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/23/24 01:46, Benjamin Tissoires wrote:
->> As a generalised question, how about controllers that work on
->> Android phones with kernel v6.1 (hid-sony), but not with v6.6
->> (hid-playstation), because of protocol changes that don't affect
->> first-party controllers. Do we accept upstream regressions on
->> actual, physical devices for the sake of passing downstream tests?
-> 
-> The upstream rule is simple: no regressions (that we know about).
-> The argument that downstream tests are hard to do is not correct for 
-> upstream. As a general rule of thumb, upstream doesn't care about 
-> downstream at all. Regressions is all we care, and a bad test from 
-> downstream is not a correct justification to reject a fix upstream.
-> 
-> Please understand Roderick that I am not taking side. I perfectly 
-> understand the downstream challenges, but we can not refuse a
-> regression fix because the new patch breaks a downstream test.
-> 
-> I followed the thread and Max seemed to be OK with waiting and I
-> assumed it was not critical. But if we know about a regression in a
-> device we supported, we should find a solution for it.
+On 7/23/24 01:49, Benjamin Tissoires wrote:
+> Is there anyway to detect that the device can not support the current
+> behavior? And if so then dynamically switch to the new behaviour?
 
-Thanks for clarifying the general rule about no regressions!
-
-I asked in the general sense, because I needed to know how the "no 
-regressions" rule works in clear-cut cases, and that the move from v6.2 
-to v6.3 indeed counts as introducing regressions, and that they are 
-worth fixing even if they break downstream tests.
-
-If you're interested: The 8BitDo controller failed due to a request that 
-was a warning in hid-sony, and then became a hard error in 
-hid-playstation. This regression was fixed in 46089080a8e1.
+Sadly, no, otherwise I would have used that already :(
 
 
-Please let me clarify the current patch, since it's maybe less 
-clear-cut. Do you have guidance on this as well?
-
-With this patch, I intend to port over a behaviour from hid-sony, but I 
-can (currently?) only test it on a controller which also needs a 
-behaviour that appeared in the kernel with hid-playstation (it's the 
-0x12 feature report that Roderick mentioned previously). So it's not a 
-clear-cut regression, but still I am porting a behaviour that was there 
-before.
-
-Hence I am trying to merge the behaviour of both drivers, for maximum 
-compatibility.
-
-Since it's possible that other controllers also worked better with 
-hid-sony's output reports, I've looked for third-party hints, and 
-mentioned them in my code comments and commit message, to better gauge 
-what the most compatible path forward may be. It seems like a middle 
-ground between both drivers is the most compatible, so my patch takes 
-this into account.
-
-
-Where does this fall on the continuum of patches to take in or not?
-
-
-And as an even more general question: Do downstream tests count as 
-things that we don't break when fixing real devices?
-
-
-> BTW, that's the reason why I finally managed to push the hid-tools
-> tests in the seftests dir of the kernel directly. Now each kernel has
-> its own set of tests, and there is no more discrepancies between
-> tests and regressions that are found.
-
-Great, thank you!
+Also, the change that my patch makes is in the "dialect" of the wire 
+protocol. This seemingly changes zero in the original Sony device's 
+behaviour, both from what my tests have shown, and from what I gather 
+from Roderick's emails. HID traces on the web confirm that the PS4 may 
+output such or similar reports as well. Hence I don't understand why we 
+would want to make a distinction at all, if the driver can simply only 
+speak the "dialect" that works on most devices.
 
 
 
 Max
+
 
