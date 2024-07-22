@@ -1,162 +1,181 @@
-Return-Path: <linux-input+bounces-5117-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5118-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A119193928A
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 18:30:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 563319392B5
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 18:46:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBF431C2150F
-	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 16:30:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DEC18B21D75
+	for <lists+linux-input@lfdr.de>; Mon, 22 Jul 2024 16:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A8E16DC0C;
-	Mon, 22 Jul 2024 16:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F0EF16DC3B;
+	Mon, 22 Jul 2024 16:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DardbNI0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+SaYC96"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C05426ACD;
-	Mon, 22 Jul 2024 16:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570AB16DC0C;
+	Mon, 22 Jul 2024 16:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721665849; cv=none; b=MUXerL9S1M+bj4DLZiPKhGoLSiFhrvpauCTnG30Zfsg36jd0Wf2ygI8AIyEZD6sN2FRssaWKdPPDgTI+0PoH2ZVj+qksvoho1AVP1t804aQxOHZxP1V/OZubaoWUZQRLWDpVXjJZIB+V5E5A/fGhaqGbemsTwHNL5BTBiFoP6MU=
+	t=1721666797; cv=none; b=UR4r8D7k4qwiZrlUwM5Iqs9QFv3NdgLHhickZiZNCrM+p9yZkNRGQuyBQl+YnKsGYDGYHLT0SRch93PVKM3Iavso7pz/v9V9fH8UVKQpKk4LjSAXoBxNT4GDPL5EKJyRZGtvq3beLOBFydndd7gBz4k2Jc2kvrlpDox7MIm5XpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721665849; c=relaxed/simple;
-	bh=iy+DHszSYzVd/2RQ3w/4OKIj+1QnSngPdSBIBoonwvM=;
+	s=arc-20240116; t=1721666797; c=relaxed/simple;
+	bh=rjcrEEtcXwXyHhqYVN5lI0ecjsvaW2zSIiDc/gTcPfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEsHPMeOwvDg/UUVekH4OgsFK0OW8JwQ6Ye1wpDxl2O9CxzD0cBihjiMLu18sx5pDtkROnexfdL31AvskQigov6chCis5NxJE6sIb9IP/DmAMrQuPew3TZarfa1HTQ9kk/Nkc7/qRMQ5lSq4nS6mUl/K6WrnN2e3eYGdy5E5nHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DardbNI0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 792BAC32782;
-	Mon, 22 Jul 2024 16:30:46 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YHG4esnxcJ3J6ItK68c8QroQsUDeR7cqUfWvmvwg3e5C+l24RpL0Z8BunU9S+8Wjq1j09hyAwCD42ZXpP6zmVgH8rFDAofRZ/Ue9FUHSX2nGHWwsln4cjECyO+s/TYdVAOMRN+kiNv8WSjQJF5ZjlL+viN7vn2VZqnnkIrLbuTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+SaYC96; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ECECC116B1;
+	Mon, 22 Jul 2024 16:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721665848;
-	bh=iy+DHszSYzVd/2RQ3w/4OKIj+1QnSngPdSBIBoonwvM=;
+	s=k20201202; t=1721666796;
+	bh=rjcrEEtcXwXyHhqYVN5lI0ecjsvaW2zSIiDc/gTcPfI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DardbNI0Zi+RDgiJERVOwi5alDu4PtEZH0sFLoddTiENZ55EbDexeoAcOfqHVvglk
-	 /MXT8RiVqvx7VkKtnCWluzn1ycZhiD+EEz82YPRWKOSt7H9ZMgBQXEjVHNhgXC44YV
-	 pfBzYsQYIoUraJ9xm93Tig6NG8PH2XK1oGLEf1eqJL4oj8mN5yeaYBz5qrP2zCU6af
-	 a3gubOF6zHJ2mYvpsc8EsKMQubuLDrmgmREaSL4NqlDBtYtpkrykwI4oaT0FVtNDbh
-	 8iTk+rUpXIu+zkdfMo4axtftmQoHqUx8Sq8CYJ+FIzopdcldIAtkCMeYojAr7/wyhy
-	 JNstCBkcNlmcg==
-Date: Mon, 22 Jul 2024 18:30:44 +0200
+	b=o+SaYC96QBviGLQj8+NaRhqSgmPBfhI9KgDXp9p1WD0HfLAztz671XH8Xt3oy/D7m
+	 PcoHJLIh0fIqDrFLi58yhleS4B0gImZbUjfeMoJJG0sRHP7l7m7wFRZbhIjfY15ncg
+	 caF6krT7YYYHVgpdBdbSwovp9jjt6qv6zdTeqtAEoGBfYm579Ilqo8Ci8goYCff0U5
+	 KX4AckU1uvjvdTdWtXEW1VCtNThyyx5ozRwtxK4U4O11TzFQnFqk6NAKWRSjLG+N5C
+	 P6Z+dAbrHXfPJ49r9sAj3f/YVIRCXzMS53CeFM/YMCuKJhgd9egCevs2ngCzlv2Iwu
+	 BKZRupF6LD5BA==
+Date: Mon, 22 Jul 2024 18:46:32 +0200
 From: Benjamin Tissoires <bentiss@kernel.org>
-To: Chris Hixon <linux-kernel-bugs@hixontech.com>, 
-	Basavaraj Natikar <bnatikar@amd.com>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, 
-	Jiri Kosina <jkosina@suse.com>, LKML <linux-kernel@vger.kernel.org>, Li Ma <li.ma@amd.com>, 
-	amd-gfx@lists.freedesktop.org, Alexander.Deucher@amd.com, yifan1.zhang@amd.com, 
-	linux-input@vger.kernel.org, Basavaraj Natikar <basavaraj.natikar@amd.com>
-Subject: Re: [BUG] HID: amd_sfh (drivers/hid/amd-sfh-hid/): memory/page
- corruption
-Message-ID: <kkenglf5lkvu2um3o44umdxaoeh5zgsaus73kauc6vwcqpnsfv@5i6xtjnxtb5c>
-References: <3b129b1f-8636-456a-80b4-0f6cce0eef63@hixontech.com>
- <ade43b5b-9b93-40a8-acbf-99df944b45f9@leemhuis.info>
- <11fdf362-8fa5-4d44-904b-c0c9867ebd07@amd.com>
- <f6162b22-c6c6-47d7-9bda-dd702fcc5b4b@hixontech.com>
+To: Max Staudt <max@enpas.org>
+Cc: Roderick Colenbrander <thunderbird2k@gmail.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Roderick Colenbrander <roderick.colenbrander@sony.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] hid-playstation: DS4: Update rumble and lightbar
+ together
+Message-ID: <4olssbvj6iap42kqycdnvpibiufemz5hhwjw65aj3qqeuzrib5@467sqzfl53vt>
+References: <20240616163055.75174-1-max@enpas.org>
+ <CAEc3jaCkH5JwNTpHRZYsekbwX+G6T5tMTLD0+O6E7Q2hqcAFHw@mail.gmail.com>
+ <dedb2c39-fc28-4cba-802f-5d56f23db722@enpas.org>
+ <CAEc3jaC-Tmd2XtK9H2sipBJAhCf16dMWx46r8Hs4p9At3LC_Jg@mail.gmail.com>
+ <afda41dc-7b36-4ddd-abfc-c9430d8c9503@enpas.org>
+ <CAEc3jaB7ijeXCUKOhpORx4Omf8edSmc1HKe9bk22V1mz=cLa+g@mail.gmail.com>
+ <5b42961b-8ca6-4245-b16c-d703255e5aea@enpas.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f6162b22-c6c6-47d7-9bda-dd702fcc5b4b@hixontech.com>
+In-Reply-To: <5b42961b-8ca6-4245-b16c-d703255e5aea@enpas.org>
 
-On Jul 21 2024, Chris Hixon wrote:
-> On 7/21/24 00:20, Basavaraj Natikar wrote:
+On Jul 21 2024, Max Staudt wrote:
+> On 7/17/24 09:26, Roderick Colenbrander wrote:
+> > > If not, then maybe there is protocol documentation that could help
+> > > test writers in creating more precise tests?
+> > 
+> > Unfortunately none of the documentation for our controllers is public.
+> > Just read between the lines in the code, which we cover with some clues
+> > here and there :)
 > 
-> > On 7/17/2024 4:51 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >> On 15.07.24 06:39, Chris Hixon wrote:
-> >>> System: HP ENVY x360 Convertible 15-ds1xxx; AMD Ryzen 7 4700U with
-> >>> Radeon Graphics
-> >>>
-> >>> Problem commits (introduced in v6.9-rc1):
-> >>> 6296562f30b1 HID: amd_sfh: Extend MP2 register access to SFH
-> >>> 2105e8e00da4 HID: amd_sfh: Improve boot time when SFH is available
-> >>>> It appears amd_sfh commits 6296562f30b1 and 2105e8e00da4 correlate with
-> >>> some form of memory/page corruption. 
-> >> Hi! From a quick search on lore it looks like Basavaraj Natikar who
-> >> authored those two commits is inactive since a few days. This is totally
-> >> fine, but given the nature of the problem slightly unfortunate. That's
-> >> why I'm trying to raise awareness to this report by adding the
-> >> subsystems maintainers, a few lists, and a few people to the list of
-> >> recipients that were involved in the submission of those two patches.
-> >> With a bit of luck somebody might be able to help out. Ciao, Thorsten
-> >>
-> >>> On my system, this typically
-> >>> presents itself as a page dump followed by BTRFS errors, usually
-> >>> involving "corrupt leaf" (see dmesg output below); often the BTRFS
-> >>> filesystem becomes read-only afterwards. Note that the underlying NVME
-> >>> disk seems fine, and the BTRFS filesystem does not actually appear to be
-> >>> corrupt when booted/checked from kernels without this bug (no BTRFS
-> >>> errors or I/O errors reported on non-problem kernels).
-> >>>
-> >>> I have no problems when I blacklist the amd_sfh module (any kernel
-> >>> version), or revert both commits 6296562f30b1 and 2105e8e00da4 (on
-> >>> stable, linux-6.9.y). I have no problems on any recent linux-mainline
-> >>> (v6.10{,-rc*}) when reverting these two commits (in addition to
-> >>> reverting 7902ec988a9a and 6856f079cd45 to successfully build the
-> >>> kernel). I have had no problems with any 6.6.y, v6.7.y, or v6.8.y version.
-> >>>
-> >>> It is curious BTRFS always seems involved, but problems go away with
-> >>> these amd_sfh commits reverted (or amd_afh disabled).
-> >>>
-> >>> Further notes:
-> >>>
-> >>> I have not specifically used the amd_sfh module for anything. As far
-> >>> I've been able to determine, my system has the "Sensor Fusion Hub" mp2
-> >>> chip, but has no supported sensors/sub-devices (or I need to do
-> >>> something to enable them), (or there is an error while detecting
-> >>> sensors?). All logs I've checked contain something like:
-> >>>
-> >>> Jul 09 04:14:37 arch kernel: pcie_mp2_amd 0000:04:00.7: enabling device
-> >>> (0000 -> 0002)
-> >>> Jul 09 04:15:07 arch kernel: pcie_mp2_amd 0000:04:00.7: Failed to
-> >>> discover, sensors not enabled is 0
-> >>> Jul 09 04:15:07 arch kernel: pcie_mp2_amd 0000:04:00.7:
-> >>> amd_sfh_hid_client_init failed err -95
-> >>>
-> >>> Excerpt from lshw:
-> >>>            *-generic:1 UNCLAIMED
-> >>>                 description: Signal processing controller
-> >>>                 product: Sensor Fusion Hub
-> >>>                 vendor: Advanced Micro Devices, Inc. [AMD]
-> >>>                 physical id: 0.7
-> >>>                 bus info: pci@0000:04:00.7
-> >>>                 version: 00
-> >>>                 width: 32 bits
-> >>>                 clock: 33MHz
-> >>>                 capabilities: pm pciexpress msi msix cap_list
-> >>>                 configuration: latency=0
-> >>>                 resources: memory:fe000000-fe0fffff
-> >>> memory:fe4cc000-fe4cdfff
-> > 
-> > Could you please check with the latest version, including the patch below?
-> > 
-> > https://lore.kernel.org/all/20240718111616.3012155-1-Basavaraj.Natikar@amd.com/
-> > 
-> > Thanks,
-> > --
-> > Basavaraj
-> > 
+> I've seen the clues and they are certainly an improvement of
+> hid-playstation over hid-sony that I am grateful for :)
 > 
-> Hi,
+> As for the documentation, I didn't mean that you should open it to the
+> wide public (although that would be fabulous!). Rather, I suggested
+> providing what's needed to the people writing the downstream tests that
+> we've been going on about for a while now.
 > 
-> Unfortunately, that patch doesn't fix the issue. I do get different crashes...
+> The utility of tests is... rather limited, if they don't verify an
+> actual specification, but just a specific code's behaviour. After all,
+> these tests would fail even when talking to a real PlayStation 4.
+> 
+> 
+> > > > (The official Android tests are kind of kernel version agnostic
+> > > > as they work across multiple kernel and Android versions.
+> > > 
+> > > Hm, sounds to me like the Android test framework is broken if it
+> > > cannot be kernel-specific in such cases. What's required in order to
+> > > improve this?
+> > 
+> > It is a bit of a long process we work on with Google. Some initial
+> > fixing of some of the bugs will be for this year to make sure the 6.6
+> > tests pass properly. But any work to maybe handle multiple behaviors,
+> > that's quite tricky and would take quite a bit of time to be honest.
+> 
+> Sure, time is not the issue, as long as there is a clear light of
+> correct software at the end of the tunnel :)
+> 
+> Are these tests open source?
+> 
+> Can kernel patchers run the tests easily (without installing a full
+> Android SDK) and see which tests their patches would break?
+> 
+> 
+> > Considering how widely Android and all these devices are used, I'm
+> > hesitant to make changes to not cause regressions. Even just a simple
+> > one can take forever to trickle down.
+> 
+> Apologies, I am still confused.
+> 
+> With v6.2, hid-playstation gained DS4 support. With v6.3, hid-sony lost
+> DS4 support.
+> 
+> DS4 support was removed from hid-sony just one minor release after it
+> was included in hid-playstation. I didn't see any hesitation there,
+> despite the wire protocol seeing significant changes compared to
+> hid-sony, which had been deployed for almost a decade.
+> 
+> Given how quickly the DS4 code was removed from hid-sony, why are fixes
+> suddenly difficult, less than two years into the hid-playstation era, after
+> around 8 years of DS4 support in hid-sony?
 
-Thanks for the quick testing.
+Ouch, that is worrisome.
 
-Basavaraj, was the patch from above an attempt at fixing that particular
-regression or was it emerging from some other means?
+> 
+> 
+> The change from hid-sony to hid-playstation caused a regression on a
+> real-world device, on Android phones:
+> 
+> I have an 8BitDo controller that quirkily emulates a DS4, and which
+> worked fine with my old Android phone, with a kernel from the hid-sony
+> days. With v6.3, this controller broke, and this went into LTS v6.6.
+> 
+> Does this kind of regression, which has clearly spread across the Android
+> ecosystem with v6.6, deserve to be fixed?
 
-In other words: should I apply the fix even if it's still not the
-correct one for Chris?
+it does, yeah.
+
+> 
+> 
+> As a generalised question, how about controllers that work on Android phones
+> with kernel v6.1 (hid-sony), but not with v6.6 (hid-playstation), because of
+> protocol changes that don't affect first-party controllers. Do we accept
+> upstream regressions on actual, physical devices for the sake of passing
+> downstream tests?
+
+The upstream rule is simple: no regressions (that we know about). The
+argument that downstream tests are hard to do is not correct for
+upstream. As a general rule of thumb, upstream doesn't care about
+downstream at all. Regressions is all we care, and a bad test from
+downstream is not a correct justification to reject a fix upstream.
+
+Please understand Roderick that I am not taking side. I perfectly
+understand the downstream challenges, but we can not refuse a regression
+fix because the new patch breaks a downstream test.
+
+I followed the thread and Max seemed to be OK with waiting and I assumed
+it was not critical. But if we know about a regression in a device we
+supported, we should find a solution for it.
+
+BTW, that's the reason why I finally managed to push the hid-tools tests
+in the seftests dir of the kernel directly. Now each kernel has its own
+set of tests, and there is no more discrepancies between tests and
+regressions that are found.
 
 Cheers,
 Benjamin
+
+> 
+> 
+> 
+> Max
 
