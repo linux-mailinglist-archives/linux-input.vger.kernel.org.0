@@ -1,50 +1,56 @@
-Return-Path: <linux-input+bounces-5130-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5131-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C2793A450
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2024 18:23:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DEB93A4B9
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2024 19:11:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B51B2B23B93
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2024 16:23:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 824C6284E01
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jul 2024 17:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60DA158A29;
-	Tue, 23 Jul 2024 16:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0CAE14C5A1;
+	Tue, 23 Jul 2024 17:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xcnn9IhT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/OO6NnQ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A658E158A1F;
-	Tue, 23 Jul 2024 16:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB43214A4C9
+	for <linux-input@vger.kernel.org>; Tue, 23 Jul 2024 17:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721751737; cv=none; b=gkEBpjPAncb06vZ34hYuoEYuVglczlelHVy1zZ4YNGg2TEI/aoZ5+yoKkKTr4Ur1T/QpmohmMuGi7EstAO+uSLBJnSP0jkC5oPM4iG3mxQkEQRMves2L04jXw+mjD4FVURwwEiL9MyW82jC9AvkpqdorUa2gy7ftOa0VxcWtt1E=
+	t=1721754657; cv=none; b=JyMR9YsoYL0M58IETA7T6+ydnasWjkGEM9AjRqFcnvswS1qKicBGSkRfsf45TtZJ0I71KzFr07l+Q57PC/wKEEMEQWxJT+x6plswwLYFIQvltMGn/NOPguy2JX/KIWw8qwgkyykvsIJonY/cCWwgOj04HI2y/ER/enFTDS1xFBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721751737; c=relaxed/simple;
-	bh=rbkwpDTz7JUQx62sDw+oVHWEAHwrQR6OSjMfDq8ibHU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qdVYIdQDO1mUzH7Yze7uwz9R/TauPU5j1ZC7lqhWD97HZhuVZOQ/ZpBW0tNt8TWXH+4Dt6IboiWOcfFubBLKMyZ8vOMj9HBZ4O6fqhjRsj8aGHY7OMK0q4pDZh6Eor9PVGaloGjlcYk1Zz3d3gASghjFgtuT4oaWft2niqVSNkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xcnn9IhT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1147C4AF09;
-	Tue, 23 Jul 2024 16:22:15 +0000 (UTC)
+	s=arc-20240116; t=1721754657; c=relaxed/simple;
+	bh=TiiXapBe3plWDtxfzMezopKA2+G5znkdMQQv1Tcz7Ss=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nBnZ2xVME2xx7CjJxejmgMth0xfJ9joAiqOtfDXgO+qL8uh4upDrD3pcCMFPqVga0N50LCShNgDAlY6TdElZ4tW65hrhIHTu1Kn6JBhlrwy569/zoyAfvAkdmOKP8NzkFl0jGoZ3qTCXDVSAZiW+v3A5WaRGKqlq46oHguKsgpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/OO6NnQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691B1C4AF0A;
+	Tue, 23 Jul 2024 17:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721751737;
-	bh=rbkwpDTz7JUQx62sDw+oVHWEAHwrQR6OSjMfDq8ibHU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Xcnn9IhTdV53G/ModhKEbQDSMUV3IFkwy/yGYYDE9kTYWzH+NKESUgfHTeSBaF2PA
-	 INgnXoXgFauT0VhOjjf44CPcadvYnf/Lf1N/sggNx3nhdTu9MRmi6cjJZHskhVy4y1
-	 MOw36NYA+6zAf7m/YezM6LtoFWkyGvVXVXYpfjC4xWHD5vRpvmfZ75P2fcuAcdVrEg
-	 t+J5YvFydLedgEm0E4h51YYtH4Vtg06ESLH2fLsJ3yskl/T0oPutJNWWjg1VNMAm9d
-	 tqxONYyWG76pPvQjjcP9eTFpmNvTWuvWaDo0mdbn7CD7ToIrBi+NiSri89kiOeoMdo
-	 yR4b1cvsCRB8A==
+	s=k20201202; t=1721754657;
+	bh=TiiXapBe3plWDtxfzMezopKA2+G5znkdMQQv1Tcz7Ss=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=f/OO6NnQiCRvySHXAxXTryFKcRCMNHrPdcqA0FawCcZQ6cJneghbBjUTqi7aicyRm
+	 dFNaEYqoaF+CJNE1HztIpa398kXbrAYIFolwd7Annl2oBvNtAmT1y+pELWa9mnMIHu
+	 QWlAor4xvl1rhahKrPsrMovZBlUTw8ZbIlKcouzPvQGqAL/itc87AbsjUNz2Kok4vK
+	 7ZNjnjTLtk2rS44nZKxz+gFJwWhIqm3M+mxV7NTRJ7sONg3x8bQA3xASCt+QZDru7a
+	 R+X4aDzAQjhOc8H1WotKx1L6ngA/lWY4NlKDeteRwZQuWGDRtXYzLVfD8FEMVLy01H
+	 G3PyxjqWHVTPg==
 From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Tue, 23 Jul 2024 18:21:54 +0200
-Subject: [PATCH HID 4/4] selftests/hid: add test for attaching multiple
- time the same struct_ops
+To: jikos@kernel.org, linux-input@vger.kernel.org, 
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: petrvelicka@tuta.io
+In-Reply-To: <20240718111616.3012155-1-Basavaraj.Natikar@amd.com>
+References: <20240718111616.3012155-1-Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH] HID: amd_sfh: Move sensor discovery before HID device
+ initialization
+Message-Id: <172175465613.391329.15479817028414601464.b4-ty@kernel.org>
+Date: Tue, 23 Jul 2024 19:10:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -53,61 +59,23 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240723-fix-6-11-bpf-v1-4-b9d770346784@kernel.org>
-References: <20240723-fix-6-11-bpf-v1-0-b9d770346784@kernel.org>
-In-Reply-To: <20240723-fix-6-11-bpf-v1-0-b9d770346784@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721751728; l=1182;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=rbkwpDTz7JUQx62sDw+oVHWEAHwrQR6OSjMfDq8ibHU=;
- b=o462OkArDDHfVpI/bdKYU9U7nW92WlKzPZgakCpKBG595M3fkFpL0MBDj7Q3DYupX34eM8L0o
- PnACh9AIlBWA6Af5Rpki97NcuxJx12ghILHimKeeiXmKcCLHndejuh4
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+X-Mailer: b4 0.14.0
 
-Turns out that we would en up in a bad state if we attempt to attach
-twice the same HID-BPF struct_ops, so have a test for it.
+On Thu, 18 Jul 2024 16:46:16 +0530, Basavaraj Natikar wrote:
+> Sensors discovery is independent of HID device initialization. If sensor
+> discovery fails after HID initialization, then the HID device needs to be
+> deinitialized. Therefore, sensors discovery should be moved before HID
+> device initialization.
+> 
+> 
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- tools/testing/selftests/hid/hid_bpf.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Applied to hid/hid.git (for-6.11/upstream-fixes), thanks!
 
-diff --git a/tools/testing/selftests/hid/hid_bpf.c b/tools/testing/selftests/hid/hid_bpf.c
-index 9c935fd0dffc..75b7b4ef6cfa 100644
---- a/tools/testing/selftests/hid/hid_bpf.c
-+++ b/tools/testing/selftests/hid/hid_bpf.c
-@@ -694,6 +694,24 @@ TEST_F(hid_bpf, subprog_raw_event)
- 	ASSERT_EQ(buf[2], 52);
- }
- 
-+/*
-+ * Attach hid_first_event to the given uhid device,
-+ * attempt at re-attaching it, we should not lock and
-+ * return an invalid struct bpf_link
-+ */
-+TEST_F(hid_bpf, multiple_attach)
-+{
-+	const struct test_program progs[] = {
-+		{ .name = "hid_first_event" },
-+	};
-+	struct bpf_link *link;
-+
-+	LOAD_PROGRAMS(progs);
-+
-+	link = bpf_map__attach_struct_ops(self->skel->maps.first_event);
-+	ASSERT_NULL(link) TH_LOG("unexpected return value when re-attaching the struct_ops");
-+}
-+
- /*
-  * Ensures that we can attach/detach programs
-  */
+[1/1] HID: amd_sfh: Move sensor discovery before HID device initialization
+      https://git.kernel.org/hid/hid/c/8031b001da70
 
+Cheers,
 -- 
-2.44.0
+Benjamin Tissoires <bentiss@kernel.org>
 
 
