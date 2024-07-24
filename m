@@ -1,130 +1,151 @@
-Return-Path: <linux-input+bounces-5140-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5141-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7E393B60D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 19:37:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE18293B68A
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 20:21:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B2261F2231D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 17:37:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A3A2B23157
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 18:21:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28FE115EFB9;
-	Wed, 24 Jul 2024 17:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C55E160783;
+	Wed, 24 Jul 2024 18:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="Wf2ZI1L8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6ZYWeGe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7A32E639;
-	Wed, 24 Jul 2024 17:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209C515F33A;
+	Wed, 24 Jul 2024 18:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721842617; cv=none; b=fuN6lzQ0xpscYhOTIamVEfjKflgbJg2nmCdBmQKezyNlSr0zqK9e2awQpqNMta9w34jZz8e6m39pAi/inm1IPzKph4exTDALjHnSy3k5goKpIsSaHkzZR6TpEzRNm/153JZiTJr+KUHfGbFZ/eZUgMIzH8o40rm50/xGVffNUUQ=
+	t=1721845293; cv=none; b=kjF5NPw+T/Ti6ENhHUSFAAWqksUOU8aGcU6eohuwesfsToX6ezRNdanwGgebP3mt71ZBCbIQU+bD1FZbyNhOJoN1ykQF2bhvLdkS0yQvuQatX55PvINz74y5/GmAT/9v02UsqoQ/winlI/2BtiPw9l4NNiOjr/ckDHSdr5VKaJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721842617; c=relaxed/simple;
-	bh=/cBPn80bLOKCv+/H/yCLrV6vjovXjhH4bLZtNKr8D3s=;
+	s=arc-20240116; t=1721845293; c=relaxed/simple;
+	bh=AchHhKwoH2XTRDncv3aZ9DVHgH7DNtyJRQ7cNb7zWX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iFLNNS7S53pvY9QLCfSHTDmpqptI6Yb25Bs899dD3/10EtqmpoSnYBqMeqy0TapFKh1UecG6J6V0nHhk4JG5Q+UQNrQaZQvd/otpEs1HxJGthpPAiXVMzityZlidc9Mq8ZT5RoY99iL7eHuvAuS/70fjS4VnSYCPae4698POKg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=Wf2ZI1L8; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 7B2661C009D; Wed, 24 Jul 2024 19:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1721842610;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=an3NqH+1POnuE0beDev8aj+SC67nRWyTt2QwUTuBvJg=;
-	b=Wf2ZI1L80VoiKf0pRGMckpaygLO6rn19EUfxCYXkPO1XwvCDoTea5PyGdak/2bkd7zdqsF
-	nSlnfqqQCl/67cUoLvnxx790Kr8iaBslYEh72AWlZ4+URtcNSc7L/U72Q64mO7RcxMjJit
-	g6VosIXwfCnhRHl+4jxyzkWlQ6Czq/Y=
-Date: Wed, 24 Jul 2024 19:36:50 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
-	jikos@kernel.org, linux-kernel@vger.kernel.org,
-	Jelle van der Waa <jelle@vdwaa.nl>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org, Gregor Riepl <onitake@gmail.com>
-Subject: Re: In kernel virtual HID devices (was Future handling of complex
- RGB devices on Linux v3)
-Message-ID: <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-References: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hnJPmF5oGaMXa30idDkBTWoSXvh0C4wRSwV4Dyp+kqB+rpd0bm9RR9etkixHG1O3OxNg4guf+ke2ehdsNLzX+WgPnAL22KE5XtGuCsNm4t5AYSEWp7uC4RbMFKKxk+brvRej1InsXwG5xIjckDQeRBNy5/VsetfHc9qmID7C4Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6ZYWeGe; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70d2b27c115so76632b3a.2;
+        Wed, 24 Jul 2024 11:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721845291; x=1722450091; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7WCpmXa82zyOZ922g0iRuHBkONYRB7p6kOaLY9TSJIg=;
+        b=Y6ZYWeGeYaocy9X0UDnjOGnPkSQfkGP7VL+DYFuh8vhCqEXRU5iGNUfCNtmzqyY1fB
+         cjHtBBHE/3ljpviXj6ElzcK0xVb1KbPfrTR4w8CF+5a9LXyKPgnytspeuogDYezqqMBR
+         E2Fsud8NxJP9HNXIKlB1J60EoY3k3cWEJjtQCcMKvXi4bpJIctCzH5fmoZl/IGR9os7r
+         ajl8+Q+4lVWx6BdvOJ55TVK1M4ak/p34ZXvCKkN3T5ISjWsYaDctI7pZWma7rJIYrOvm
+         8Yi/6CzWr1QM0R41hss12nC6EyVA7yXnq2zup0XdIPuoIudhoH6v5IQVaeblIc+/gPD8
+         F0vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721845291; x=1722450091;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7WCpmXa82zyOZ922g0iRuHBkONYRB7p6kOaLY9TSJIg=;
+        b=Pily2R65LY1Ndi3lfLyzu71tTJgQDZzND2XhthuvJ4sU8QVomNc6hb9Gz80AgHVHcZ
+         tDcD0XDtXREQq14WdrYvYhHOzwS2MUFQLXR3KwXaQ/qxbsOhX1QWAaZHrgRQYiliaGJ6
+         Bkv31HYqzjcSuZyo0UOeBUCKjRaf/Pca3QGKFUceVuwy6RmaullSmss6vuTIkqiDKliQ
+         yGPbuiVjVWFD/ITrpAzWrPPX8oZoeW1BTiii0K0QZAdvsOPHq3SKONXIjYuJ+hNWR9pO
+         kR/2jNhpP6mnEcf5OPfhnhhj1opp/cSuZXhtb50GGAD8tPoIUiFDuchI4kIXjW1ls9v/
+         580A==
+X-Forwarded-Encrypted: i=1; AJvYcCUYh20wfzAXrrBtZQUhBe17UdsCfLpmRj7hYVlrLZsNQ7SOBaXmzuZCswy+cZs1/MVaJNjpo+hKFL6Ntm3VbxpsgO10p8ImEf8nnuHMz5AFEL7hIysRpYhjXj/Oodudc324+VkgMBhcPT4=
+X-Gm-Message-State: AOJu0YxQwLKEDqCZ33nqEtkg/FrrvNEuQfVpWXYJpzqFNf6qh7p8qXFX
+	TsUzqyjXkhSh8ttlgq5I1wS5Bl3h3/aueUBzfh7WNfJ8HN1jjzFrHfxX0g==
+X-Google-Smtp-Source: AGHT+IHbXJnA2o0kEdtq8KjKxSCdIUUIOh5dEi8uNKi3kPgDUGk1zRWNY81M+lRRC8/X2Nrwwr7hGg==
+X-Received: by 2002:a05:6a00:6f61:b0:707:ffa4:de3f with SMTP id d2e1a72fcca58-70eaa8c59a2mr414328b3a.17.1721845291027;
+        Wed, 24 Jul 2024 11:21:31 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c2d6:b5c3:537e:3830])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70d1a09df58sm6258957b3a.112.2024.07.24.11.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 11:21:30 -0700 (PDT)
+Date: Wed, 24 Jul 2024 11:21:27 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Nitin Garg <nitin.garg@nxp.com>,
+	Abel Vesa <abelvesa@kernel.org>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/1] input: imx_sc_key: Enable wakeup according to dts
+ property wakeup-source
+Message-ID: <ZqFGJwb-0MU_GP28@google.com>
+References: <20240719152259.760457-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PO2vVUoo5RSgWJzT"
-Content-Disposition: inline
-In-Reply-To: <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
-
-
---PO2vVUoo5RSgWJzT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240719152259.760457-1-Frank.Li@nxp.com>
 
-Hi!
+Hi Frank,
 
-> > IMO working with the HID LampArray is the way forward. So I would
-> > suggest to convert any non-HID RGB "LED display" that we are talking
-> > about as a HID LampArray device through `hid_allocate_device()` in the
-> > kernel. Basically what you are suggesting Hans. It's just that you don't
-> > need a formal transport layer, just a child device that happens to be
-> > HID.
-> >=20
-> > The next question IMO is: do we want the kernel to handle such
-> > machinery? Wouldn't it be simpler to just export the HID device and let
-> > userspace talk to it through hidraw, like what OpenRGB does?
->=20
-> That's already part of my plan: The kernels main goal is to give devices a
-> LampArray interface that don't have one already (e.g. because they are no
-> HID devices to begin with).
->=20
-> The actual handling of LampArray will happen in userspace.
->=20
-> Exception is that maybe it could be useful to implement a small subset of
-> LampArray in a generic leds-subsystem driver for backwards compatibility =
-to
-> userspace applications that only implement that (e.g. UPower). It would
-> treat the whole keyboard as a single led.
+On Fri, Jul 19, 2024 at 11:22:58AM -0400, Frank Li wrote:
+> From: Abel Vesa <abel.vesa@nxp.com>
+> 
+> Enable default wakeup according to dts property 'wakeup-source'.
+> 
+> Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
+> Reviewed-by: Nitin Garg <nitin.garg@nxp.com>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change from v1 to v2
+> - change int to bool
+> - move of_property_read_bool() just before device_init_wakeup()
+> - drop !!
+> ---
+>  drivers/input/keyboard/imx_sc_key.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/imx_sc_key.c b/drivers/input/keyboard/imx_sc_key.c
+> index d18839f1f4f60..fc1492088b645 100644
+> --- a/drivers/input/keyboard/imx_sc_key.c
+> +++ b/drivers/input/keyboard/imx_sc_key.c
+> @@ -110,8 +110,10 @@ static void imx_sc_key_action(void *data)
+>  
+>  static int imx_sc_key_probe(struct platform_device *pdev)
+>  {
+> +	struct device_node *np = pdev->dev.of_node;
+>  	struct imx_key_drv_data *priv;
+>  	struct input_dev *input;
+> +	bool wakeup;
+>  	int error;
+>  
+>  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> @@ -151,6 +153,9 @@ static int imx_sc_key_probe(struct platform_device *pdev)
+>  	priv->input = input;
+>  	platform_set_drvdata(pdev, priv);
+>  
+> +	wakeup = of_property_read_bool(np, "wakeup-source");
 
-Are you sure LampArray is good-enough interface? OpenRGB exposes
-keycode-to-LED interface, how will that work with LampArray?
+The driver uses generic device properties, why do you use OF-specific
+variant here?
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+> +	device_init_wakeup(&pdev->dev, wakeup);
+> +
 
---PO2vVUoo5RSgWJzT
-Content-Type: application/pgp-signature; name="signature.asc"
+How does this actually work? Doesn't the call directly below
+unconditionally configures button as a wakeup source?
 
------BEGIN PGP SIGNATURE-----
+>  	error = imx_scu_irq_group_enable(SC_IRQ_GROUP_WAKE, SC_IRQ_BUTTON,
+>  					 true);
+>  	if (error) {
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZqE7sgAKCRAw5/Bqldv6
-8ga8AJ9BT/RPUldd2PgRbjEZ62iTLLo7HQCgpJKSBBtTvzqxW31MSQlB/aghnwY=
-=B9/0
------END PGP SIGNATURE-----
+Thanks.
 
---PO2vVUoo5RSgWJzT--
+-- 
+Dmitry
 
