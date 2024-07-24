@@ -1,131 +1,350 @@
-Return-Path: <linux-input+bounces-5143-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5144-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9965193B85F
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 23:08:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9984E93B8CA
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 23:48:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F973B22DE1
-	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 21:08:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B2411F23BBD
+	for <lists+linux-input@lfdr.de>; Wed, 24 Jul 2024 21:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB4D13B29B;
-	Wed, 24 Jul 2024 21:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CFA313A885;
+	Wed, 24 Jul 2024 21:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="IaZ/EQ3f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xg3Y5SQ3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F3A446DB;
-	Wed, 24 Jul 2024 21:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6801F13A41D
+	for <linux-input@vger.kernel.org>; Wed, 24 Jul 2024 21:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721855318; cv=none; b=myZg/e4lK6NFvEd8PfKsNP3lCOv9fHwr2DsOGOUGg/3MhK1pocxjWa6gAIL8Jk4jvyc1U4V6RImq/SHSCZxxEz4z8mYCNuUuWPLnsaYO8vnZp/MKzlYoOHpx/h0+J2dEdewG+4aDdGk3U10GCsVVDI/gQjLgLk8ysQ1IkpvNQE0=
+	t=1721857722; cv=none; b=uPbv/0DIqIAtb4cz0PDkuq+sKYTEREoL5aWeKgx1Q0orMZsdzYbMH4B/xP8AJ0IpWxDhJQ1Yq4iBISHB3THH7XtYoPthzzK4AIMaC6j/kkyA1kZA3QfSzn3xD3lIOVAbUqE8J5m89xFQ+j9A7WArzOXcgQrb7WKJiGfPZ4wIxG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721855318; c=relaxed/simple;
-	bh=xauPDe3MUJmpkXHHLGbkZ6AjxNjImXmuIx8rlCswwGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OfnBH+JmYJgfEvMCOM1YD5zv0lZezrO3HiDgz3sNKNt8jW6WcXDYzGwiDjDwTgVRczj2bOdyBSldCeME2coKACX2W1Rjamlo3vKhU12pJZOTWINjYGz4DPh6WE5eBIq0A1Oz2+rFAa0n4SS89bFQatMc1usA1McvNKl3TOtGKSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=IaZ/EQ3f; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from [192.168.42.20] (p5b16425b.dip0.t-ipconnect.de [91.22.66.91])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 465472FC0087;
-	Wed, 24 Jul 2024 23:08:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1721855312;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h3Age+yvHCUqLI2CoWAhvtrLifjIlex4RPmQJcbWOTM=;
-	b=IaZ/EQ3fz0ZU/y+4RZpX6YNF7KQDUz23VKApKqub3s/+TXnGZXF2GOM0TQ5j2Qt4Uw66Yj
-	69r4VGlqtyuJZxOajvMI4D8+Bw8Hwh45Cs4naPT9jA1xndNlA2moFAJRBCJ6zmV0V6zQxM
-	VxMdPqhnDsa/GKV8APYH9QyOyLxGZTM=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <0c025223-9eeb-44dd-97a0-d7b6de28d90d@tuxedocomputers.com>
-Date: Wed, 24 Jul 2024 23:08:32 +0200
+	s=arc-20240116; t=1721857722; c=relaxed/simple;
+	bh=+tqxqClTSVVQsTafq1426dgBp5uW6cfsVDFxWmDfm3c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TW13rOAtirb0G7pxX6+Cgj8xoCi3x4yi/gMlveWsaCXCO2lSUlPdTdThRq1AgugcwL3/mxuge/QeVb26XvCxG1Qk7IG01TKBfBYLWOwetuW2rZcLdIc6rbhj6iHXjKRXs2ZpYKF5dhYv9k4U5AAmzsOcFaIjDfBQ5RrmlzIMyeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xg3Y5SQ3; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721857720; x=1753393720;
+  h=date:from:to:cc:subject:message-id;
+  bh=+tqxqClTSVVQsTafq1426dgBp5uW6cfsVDFxWmDfm3c=;
+  b=Xg3Y5SQ3GGz7qIiGjEcjXy0KxMwZBBkx1TGRcVuyfLftAsBkd9bdKS64
+   LoowMSz9ddHMBJ6zA5YlW27pz90dzgYTcAbPH5zH3w+J5wK//5NzJbsZk
+   IOLzvRDDvuWXmrbkxO4Y++qORKslsMd5eirt1fEF+RoPHH5nYOf6pV/E4
+   BL1sHm4axaT5bnXP7nGe+i7aztwPIei8vOtomJ37nGJ63NAQYk5oIXGOR
+   35uQFfx4gD+x8Il64zXZL4U7ZFWBs3q+3Cd+jzSOSjCGw0fI8TGRLS2k4
+   5ceiVdOsLA5NqV6hGc0NMHIdNNcwMWb6KpZoUKUYFwnQmuZkPYSxS1DHq
+   w==;
+X-CSE-ConnectionGUID: 58hjXeaOSHujrJdff7IY8g==
+X-CSE-MsgGUID: /gd36G4/SoediMF7D0r68w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="12698289"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="12698289"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 14:48:40 -0700
+X-CSE-ConnectionGUID: FI5ksPctSVm/vXnHNfjEXA==
+X-CSE-MsgGUID: W8Vil0crT+isUjrQSxkP7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="57021726"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2024 14:48:38 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sWjqe-000nT3-2D;
+	Wed, 24 Jul 2024 21:48:36 +0000
+Date: Thu, 25 Jul 2024 05:48:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ da897484557b34a54fabb81f6c223c19a69e546d
+Message-ID: <202407250517.RVe2gnfM-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: In kernel virtual HID devices (was Future handling of complex RGB
- devices on Linux v3)
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Benjamin Tissoires <bentiss@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Lee Jones <lee@kernel.org>,
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org,
- Gregor Riepl <onitake@gmail.com>
-References: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
- <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
- <a21f6c49-2c05-4496-965c-a7524ed38634@gmail.com>
- <825129ea-d389-4c6c-8a23-39f05572e4b4@redhat.com>
- <adbfdf6c-fb59-4fae-a472-17b04dd8a3f6@tuxedocomputers.com>
- <1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com>
- <aec1d22d-9e59-4dfc-b108-5ba339b0e76a@redhat.com>
- <siebkhaauocqkuox73q2e5p2mbsyc7j4gvpzfvt4c3gvncdpap@oxh5pp4gxpuo>
- <870cca8a-1a1b-4d17-874e-a26c30aca2bf@tuxedocomputers.com>
- <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZqE7sk0ZW0q8ueul@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: da897484557b34a54fabb81f6c223c19a69e546d  Input: synaptics - enable SMBus for HP Elitebook 840 G2
 
-Am 24.07.24 um 19:36 schrieb Pavel Machek:
-> Hi!
->
->>> IMO working with the HID LampArray is the way forward. So I would
->>> suggest to convert any non-HID RGB "LED display" that we are talking
->>> about as a HID LampArray device through `hid_allocate_device()` in the
->>> kernel. Basically what you are suggesting Hans. It's just that you don't
->>> need a formal transport layer, just a child device that happens to be
->>> HID.
->>>
->>> The next question IMO is: do we want the kernel to handle such
->>> machinery? Wouldn't it be simpler to just export the HID device and let
->>> userspace talk to it through hidraw, like what OpenRGB does?
->> That's already part of my plan: The kernels main goal is to give devices a
->> LampArray interface that don't have one already (e.g. because they are no
->> HID devices to begin with).
->>
->> The actual handling of LampArray will happen in userspace.
->>
->> Exception is that maybe it could be useful to implement a small subset of
->> LampArray in a generic leds-subsystem driver for backwards compatibility to
->> userspace applications that only implement that (e.g. UPower). It would
->> treat the whole keyboard as a single led.
+elapsed time: 963m
 
-LampArray also gives the HID keycode, if applicable, for keyboard leds.
+configs tested: 257
+configs skipped: 3
 
-It's the InputBinding field in the LampAttributesResponseReport, see HID Usage 
-Tables v1.5 -> 26.3 Lamp Attributes Report.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Kind regards,
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                             allnoconfig   gcc-13.3.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                      axs103_smp_defconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240724   gcc-13.2.0
+arc                   randconfig-002-20240724   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-14.1.0
+arm                               allnoconfig   clang-19
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-14.1.0
+arm                       aspeed_g5_defconfig   gcc-14.1.0
+arm                     davinci_all_defconfig   gcc-14.1.0
+arm                                 defconfig   gcc-13.2.0
+arm                            hisi_defconfig   gcc-13.2.0
+arm                        multi_v5_defconfig   gcc-13.2.0
+arm                           omap1_defconfig   gcc-14.1.0
+arm                   randconfig-001-20240724   clang-19
+arm                   randconfig-001-20240724   gcc-13.2.0
+arm                   randconfig-002-20240724   clang-19
+arm                   randconfig-002-20240724   gcc-13.2.0
+arm                   randconfig-003-20240724   clang-19
+arm                   randconfig-003-20240724   gcc-13.2.0
+arm                   randconfig-004-20240724   gcc-13.2.0
+arm                   randconfig-004-20240724   gcc-14.1.0
+arm                       spear13xx_defconfig   gcc-14.1.0
+arm                           spitz_defconfig   gcc-14.1.0
+arm64                            allmodconfig   clang-19
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-14.1.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240724   gcc-13.2.0
+arm64                 randconfig-001-20240724   gcc-14.1.0
+arm64                 randconfig-002-20240724   gcc-13.2.0
+arm64                 randconfig-002-20240724   gcc-14.1.0
+arm64                 randconfig-003-20240724   gcc-13.2.0
+arm64                 randconfig-003-20240724   gcc-14.1.0
+arm64                 randconfig-004-20240724   gcc-13.2.0
+arm64                 randconfig-004-20240724   gcc-14.1.0
+csky                              allnoconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-14.1.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240724   gcc-13.2.0
+csky                  randconfig-001-20240724   gcc-14.1.0
+csky                  randconfig-002-20240724   gcc-13.2.0
+csky                  randconfig-002-20240724   gcc-14.1.0
+hexagon                          allmodconfig   clang-19
+hexagon                           allnoconfig   clang-19
+hexagon                          allyesconfig   clang-19
+hexagon               randconfig-001-20240724   clang-19
+hexagon               randconfig-002-20240724   clang-19
+i386                             alldefconfig   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240724   clang-18
+i386         buildonly-randconfig-001-20240725   gcc-13
+i386         buildonly-randconfig-002-20240724   clang-18
+i386         buildonly-randconfig-002-20240725   gcc-13
+i386         buildonly-randconfig-003-20240724   clang-18
+i386         buildonly-randconfig-003-20240725   gcc-13
+i386         buildonly-randconfig-004-20240724   clang-18
+i386         buildonly-randconfig-004-20240725   gcc-13
+i386         buildonly-randconfig-005-20240724   clang-18
+i386         buildonly-randconfig-005-20240725   gcc-13
+i386         buildonly-randconfig-006-20240724   clang-18
+i386         buildonly-randconfig-006-20240725   gcc-13
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240724   clang-18
+i386                  randconfig-001-20240725   gcc-13
+i386                  randconfig-002-20240724   clang-18
+i386                  randconfig-002-20240725   gcc-13
+i386                  randconfig-003-20240724   clang-18
+i386                  randconfig-003-20240725   gcc-13
+i386                  randconfig-004-20240724   clang-18
+i386                  randconfig-004-20240725   gcc-13
+i386                  randconfig-005-20240724   clang-18
+i386                  randconfig-005-20240725   gcc-13
+i386                  randconfig-006-20240724   clang-18
+i386                  randconfig-006-20240725   gcc-13
+i386                  randconfig-011-20240724   clang-18
+i386                  randconfig-011-20240725   gcc-13
+i386                  randconfig-012-20240724   clang-18
+i386                  randconfig-012-20240725   gcc-13
+i386                  randconfig-013-20240724   clang-18
+i386                  randconfig-013-20240725   gcc-13
+i386                  randconfig-014-20240724   clang-18
+i386                  randconfig-014-20240725   gcc-13
+i386                  randconfig-015-20240724   clang-18
+i386                  randconfig-015-20240725   gcc-13
+i386                  randconfig-016-20240724   clang-18
+i386                  randconfig-016-20240725   gcc-13
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-14.1.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240724   gcc-13.2.0
+loongarch             randconfig-001-20240724   gcc-14.1.0
+loongarch             randconfig-002-20240724   gcc-13.2.0
+loongarch             randconfig-002-20240724   gcc-14.1.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-14.1.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                        m5272c3_defconfig   gcc-13.2.0
+m68k                          sun3x_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-14.1.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-14.1.0
+mips                         bigsur_defconfig   gcc-14.1.0
+mips                      fuloong2e_defconfig   gcc-13.2.0
+mips                           gcw0_defconfig   gcc-13.2.0
+mips                       lemote2f_defconfig   gcc-13.2.0
+mips                      pic32mzda_defconfig   gcc-14.1.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-14.1.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240724   gcc-13.2.0
+nios2                 randconfig-001-20240724   gcc-14.1.0
+nios2                 randconfig-002-20240724   gcc-13.2.0
+nios2                 randconfig-002-20240724   gcc-14.1.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240724   gcc-13.2.0
+parisc                randconfig-001-20240724   gcc-14.1.0
+parisc                randconfig-002-20240724   gcc-13.2.0
+parisc                randconfig-002-20240724   gcc-14.1.0
+parisc64                         alldefconfig   gcc-14.1.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   clang-19
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                     ksi8560_defconfig   gcc-14.1.0
+powerpc                 mpc837x_rdb_defconfig   gcc-14.1.0
+powerpc                     mpc83xx_defconfig   gcc-13.2.0
+powerpc                      pmac32_defconfig   gcc-14.1.0
+powerpc                      ppc44x_defconfig   gcc-13.2.0
+powerpc               randconfig-001-20240724   clang-19
+powerpc               randconfig-001-20240724   gcc-13.2.0
+powerpc               randconfig-002-20240724   gcc-13.2.0
+powerpc               randconfig-002-20240724   gcc-14.1.0
+powerpc               randconfig-003-20240724   clang-19
+powerpc               randconfig-003-20240724   gcc-13.2.0
+powerpc                     redwood_defconfig   gcc-14.1.0
+powerpc                     taishan_defconfig   gcc-13.2.0
+powerpc                     tqm8560_defconfig   gcc-14.1.0
+powerpc64             randconfig-001-20240724   clang-19
+powerpc64             randconfig-001-20240724   gcc-13.2.0
+powerpc64             randconfig-002-20240724   gcc-13.2.0
+powerpc64             randconfig-002-20240724   gcc-14.1.0
+powerpc64             randconfig-003-20240724   clang-19
+powerpc64             randconfig-003-20240724   gcc-13.2.0
+riscv                            allmodconfig   clang-19
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   clang-19
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv             nommu_k210_sdcard_defconfig   gcc-14.1.0
+riscv                    nommu_virt_defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240724   gcc-13.2.0
+riscv                 randconfig-001-20240724   gcc-14.1.0
+riscv                 randconfig-002-20240724   gcc-13.2.0
+riscv                 randconfig-002-20240724   gcc-14.1.0
+s390                             allmodconfig   clang-19
+s390                              allnoconfig   gcc-14.1.0
+s390                             allyesconfig   clang-19
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240724   gcc-13.2.0
+s390                  randconfig-001-20240724   gcc-14.1.0
+s390                  randconfig-002-20240724   clang-19
+s390                  randconfig-002-20240724   gcc-13.2.0
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-14.1.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-14.1.0
+sh                            hp6xx_defconfig   gcc-13.2.0
+sh                               j2_defconfig   gcc-13.2.0
+sh                            migor_defconfig   gcc-14.1.0
+sh                          r7785rp_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240724   gcc-13.2.0
+sh                    randconfig-001-20240724   gcc-14.1.0
+sh                    randconfig-002-20240724   gcc-13.2.0
+sh                    randconfig-002-20240724   gcc-14.1.0
+sh                          sdk7780_defconfig   gcc-13.2.0
+sh                           se7705_defconfig   gcc-13.2.0
+sh                        sh7763rdp_defconfig   gcc-14.1.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240724   gcc-13.2.0
+sparc64               randconfig-001-20240724   gcc-14.1.0
+sparc64               randconfig-002-20240724   gcc-13.2.0
+sparc64               randconfig-002-20240724   gcc-14.1.0
+um                               allmodconfig   clang-19
+um                                allnoconfig   gcc-14.1.0
+um                               allyesconfig   gcc-13
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240724   clang-15
+um                    randconfig-001-20240724   gcc-13.2.0
+um                    randconfig-002-20240724   gcc-13
+um                    randconfig-002-20240724   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240724   clang-18
+x86_64       buildonly-randconfig-002-20240724   clang-18
+x86_64       buildonly-randconfig-003-20240724   clang-18
+x86_64       buildonly-randconfig-004-20240724   clang-18
+x86_64       buildonly-randconfig-005-20240724   clang-18
+x86_64       buildonly-randconfig-006-20240724   clang-18
+x86_64                              defconfig   clang-18
+x86_64                randconfig-001-20240724   clang-18
+x86_64                randconfig-002-20240724   clang-18
+x86_64                randconfig-003-20240724   clang-18
+x86_64                randconfig-004-20240724   clang-18
+x86_64                randconfig-005-20240724   clang-18
+x86_64                randconfig-006-20240724   clang-18
+x86_64                randconfig-011-20240724   clang-18
+x86_64                randconfig-012-20240724   clang-18
+x86_64                randconfig-013-20240724   clang-18
+x86_64                randconfig-014-20240724   clang-18
+x86_64                randconfig-015-20240724   clang-18
+x86_64                randconfig-016-20240724   clang-18
+x86_64                randconfig-071-20240724   clang-18
+x86_64                randconfig-072-20240724   clang-18
+x86_64                randconfig-073-20240724   clang-18
+x86_64                randconfig-074-20240724   clang-18
+x86_64                randconfig-075-20240724   clang-18
+x86_64                randconfig-076-20240724   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-14.1.0
+xtensa                randconfig-001-20240724   gcc-13.2.0
+xtensa                randconfig-001-20240724   gcc-14.1.0
+xtensa                randconfig-002-20240724   gcc-13.2.0
+xtensa                randconfig-002-20240724   gcc-14.1.0
 
-Werner
-
-(ps sorry for resend @pavel, hit reply instead of reply all the first time)
-
-(pps resend a second time because Thunderbird did HTML e-mail)
-
-> Are you sure LampArray is good-enough interface? OpenRGB exposes
-> keycode-to-LED interface, how will that work with LampArray?
->
-> Best regards,
-> 								Pavel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
