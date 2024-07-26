@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-5166-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5167-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734A793D143
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2024 12:41:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A9193D14E
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2024 12:43:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D6BB1C20B67
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2024 10:41:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17F8EB2229C
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2024 10:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D77178390;
-	Fri, 26 Jul 2024 10:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9048A178CDE;
+	Fri, 26 Jul 2024 10:43:33 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53322B9C4;
-	Fri, 26 Jul 2024 10:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC59178372;
+	Fri, 26 Jul 2024 10:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721990501; cv=none; b=fq4+5WJ4L1M6qFqpZAx8Sov+XCq47fDjEWLtNfqfTst5B5wR0T6d6pISgnIRZPmbePWmYhBAM8+ug21b8y0w2S50xzgFJOIhuxcd/a8SU5S5dINUWglXDO/H6KloejKNC8jO0L30eHkGX0wt7S4VxtFWOy0qgZZ41wG+m5nKkfM=
+	t=1721990613; cv=none; b=Ll/uO8dUPqRQ09DqZ0bwU4pbHXvzZH/jScGiCeVTVDBS3sGVImTGIrEmjI987dL3oGUkOYWRRtXt/z7v0mfiCpXAB1gSnGkE69YiM3VmED7TyXMdsfox0/uwpAUBDfc0DXWC35ddnEArTn2dQS5P8MR5WAS5OfoTQmmU0zY+LK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721990501; c=relaxed/simple;
+	s=arc-20240116; t=1721990613; c=relaxed/simple;
 	bh=EMIqymkkmsp2yIFmkqP9X5hm4EP09YGY3VbxMo/iihM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TAKsbkRfh+hZJLHtXMh+g8VzRrvA2zksCIx40vaAGLynvCDmlrIB6pFXlsm/nRQ52r3VX98qxkmj+JCbOaZ9jaLoiAY8hGS+1f/aR0W3W1V6qla8R3RgoK6UaOdH5tNKYW9cV9Ktv+u+gOjAr4UdJ86GEbJBzUpPNGyjKJrl5Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; arc=none smtp.client-ip=54.206.34.216
+	 MIME-Version:Content-Type; b=pdtK7vRwRRD5+u/9x/om3o7hV062Agfwsf1l5DVO0+f9MQLxYTfFyGeAxuh2H5lfJf1O6Dt1ZAJfsAKIx6hlhtYspGQKkewyNH73LKFbmzamo+Zo/dQ/U3sCGUcnLoiHgrab0wIHJRrgIf8DOAS1kjsksJOMkJpPFamPAOzpQPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; arc=none smtp.client-ip=54.204.34.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-X-QQ-mid: bizesmtpsz10t1721990475two4uu
-X-QQ-Originating-IP: k2c1s9b73anA3oC7JtVpWn6Qej+uxjEfiRTb1KSKUL4=
+X-QQ-mid: bizesmtpsz2t1721990593thwg32k
+X-QQ-Originating-IP: qCF1KVPE3s8eeRYFXRyOTvKbJgFSRLyLlB8rpBGugSM=
 Received: from john-PC ( [123.114.60.34])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 26 Jul 2024 18:41:07 +0800 (CST)
+	id ; Fri, 26 Jul 2024 18:43:11 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13043270550837116636
-Date: Fri, 26 Jul 2024 18:41:05 +0800
+X-BIZMAIL-ID: 8217678786369483096
+Date: Fri, 26 Jul 2024 18:43:11 +0800
 From: Qiang Ma <maqianga@uniontech.com>
 To: dmitry.torokhov@gmail.com, hdegoede@redhat.com
 Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Input: atkbd - fix LED state at suspend/resume
-Message-ID: <035AC89B9E0E2BE4+20240726184105.6b90f00b@john-PC>
+Message-ID: <78D6537A71DFAB47+20240726184311.3e120f26@john-PC>
 In-Reply-To: <20240726102730.24836-1-maqianga@uniontech.com>
 References: <20240726102730.24836-1-maqianga@uniontech.com>
 Organization: UOS
