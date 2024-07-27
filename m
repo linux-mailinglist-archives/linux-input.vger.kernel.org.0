@@ -1,94 +1,141 @@
-Return-Path: <linux-input+bounces-5169-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5170-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980FE93DADF
-	for <lists+linux-input@lfdr.de>; Sat, 27 Jul 2024 00:57:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A895A93DD88
+	for <lists+linux-input@lfdr.de>; Sat, 27 Jul 2024 08:38:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16BDCB21B7B
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jul 2024 22:57:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C57E284AB5
+	for <lists+linux-input@lfdr.de>; Sat, 27 Jul 2024 06:38:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52F7F14F10E;
-	Fri, 26 Jul 2024 22:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C43C1CD3D;
+	Sat, 27 Jul 2024 06:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="BdGgqL4b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887BE14E2E2
-	for <linux-input@vger.kernel.org>; Fri, 26 Jul 2024 22:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DB9208B0;
+	Sat, 27 Jul 2024 06:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722034626; cv=none; b=jMPBbzfJuXFvEMn++zHqh0J0Qsmem7/mgYP2vi44fiQry4G2vnXBH6A8NdZ3nP3uGHPlRRX0vrknLhThsiMSTn9ewHbQvSwv3t9hLg4YSCggTZ7Tgel2/X5q/avNiUEUSwHyuSQQArbwS1ucjAY1mNafM4IeoJAGwqjoU874VLU=
+	t=1722062295; cv=none; b=jN47Ci/dnMAjFJV9FjxFFyk4nTfgH7juNpTkbBYgqLNLRO3BiGlwLfhjLN+rge5ccA33qtkIZXBMp3TjhJNTxtQFrI830a8KpE16HZg2ad4wlkUs6ZgRT1eHfrAy+teUeldea0tDaEvQd4dt/5LgORLSkI9lF9b2cxqAXfNldNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722034626; c=relaxed/simple;
-	bh=UhWI7TcLxejpJoI+IfqhEmkIioV4bu09QRF+kzi+Euk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Bq0jeNdm+sRGQyqRnhv+A+HwdjgYcod+SzEJYXv3GXKK2QAl5yQy7lqTeI56nTWz5Ix6glPKMxV+SgxKu7e4mkxyFYmlLuJplV7yo/Ez81GaZgaXwtKCjnva2icVpRN8bkY+Uaf0QOviQeJmanpDuqqeppp0EXZCHA9Qnudf0b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-39915b8e08dso38098965ab.0
-        for <linux-input@vger.kernel.org>; Fri, 26 Jul 2024 15:57:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722034624; x=1722639424;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfHEsQdhoJOdt0CYCZsm++AlvwlAzWoJHsIj6s9Xdbc=;
-        b=OYmKR/wRhW84hNHI4CjuS0DjtRUScCCz6++70Wz1I+IQoeCVRaQ1sj3QhvH63lIEGV
-         8q6gCsxuV7nLKYqd3jmU8kzdzHDKfAiDQPJouggfkF8OkkjtZZYhJJAepTaHWxN6aIpD
-         /aWTSd+qyzhw94uO3OKPujRnwkuJVhIlyl0MmErYOc5c6+SmpikTKwQOpXE9bh9Ufjy4
-         DnNiuOIwsYZDno0FmjFLmeFMpMdCgQbW0p90j2HVdlikUmmZS2xV52vf8/b9MdI/b40b
-         PTlVY+xkH+JGmqT4o/s2jW0XGQe24QsRpvkSv4xS1JDk6JCRqBml4aQOUSmWEag6DJcj
-         gaeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMnz63fmnIJK16FHBVDyYoFnft7oO0weaMuonYhYKwqBpYhdyEHtaBwB+SBXkEPtf//Vb4GJbz6RT6Im5dhzEEqF8xcxohRdQg70s=
-X-Gm-Message-State: AOJu0Yzbma1q4Ij7ScUYyvM/5z071TG7xERR8wW4IuWi5UWZqcgpuvhs
-	A9TMcxSgV/pzBYajrbp4YDWLxguG9BuypDxoneR+Nd6DNOtiO7EPSMI37wotT+q4AEYGv9DobeN
-	G9+/yhlGDIgCgvxA9UT2Dzx4Z7l9ZRrPihsl7GkOx3/slCQoeDrKd0NQ=
-X-Google-Smtp-Source: AGHT+IH1IGReWJjnZICMOV9b++BLUObuYL6w4gT4mDFAVD0lxxD2JZLW2qTvQ0IOykja3TBds2LleQamC0YuWT65jexcIA8WcgEY
+	s=arc-20240116; t=1722062295; c=relaxed/simple;
+	bh=GrJeDK2srVi+z2UkjJHob9c8b6SOSjMXZQ3r/XMlwYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhR+VhPzq4Ckhxo50KykFCMRE+XKzpINBnPzd9k+Id1JE/lrKcEB2iVNUcUk0Y3bqvk2AmJZ4P5A/kUnvT2RVUca+Ws8uNHbT9/vYNhI7ON2MGkEU2tPWHnQOb9uB3eH1rWRXoRkd99/I4PX2RbCZ182T+NtCgZRJU4zJqzSgG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=BdGgqL4b; arc=none smtp.client-ip=80.12.242.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id Xb2zsVCoM6bu3Xb2zscawa; Sat, 27 Jul 2024 08:36:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1722062213;
+	bh=ZHDCDqysapmv2ryBK6BEJxU1h57yEUk6bw3Qv1mEShs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=BdGgqL4bydrIPmm/lNBGsOHsGXsAa+Q8dwBHEn4O7+m/PqLOLNJdH9HqY4c7QYtti
+	 C8Gq6wLy+Xt7fDflgw1nohqsR4qbyLv388/Eb/UULvVVACDlW5LBjv0/OdE++MESZz
+	 96rXENTHPWC6YeNN+eJCY0s2g2bpxLb7yrMyrdiTLm6EjkKEBaT6FOa/UzXebqvk98
+	 /BW4kKokbm7FgcexUWp2YD16plDbNqFpnQvJs/rZD7UX47e2LVl10Yl8VG94w5tSX+
+	 9cEsz+6kgF33UksgZ58JzVMZ9nK7hvEw4R5PKFkv3w1V5wNUuKt+UePkt2KaMfm2Xn
+	 HieCaZrfQRlgw==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 27 Jul 2024 08:36:53 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-input@vger.kernel.org
+Subject: [PATCH v2] Input: spear-keyboard - Switch to devm_clk_get_prepared()
+Date: Sat, 27 Jul 2024 08:36:49 +0200
+Message-ID: <062986b0a5105cbc61330da0e55b22c00e2c1c4f.1722062145.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d1d:b0:397:95c7:6f72 with SMTP id
- e9e14a558f8ab-39aec448e1cmr647105ab.6.1722034623729; Fri, 26 Jul 2024
- 15:57:03 -0700 (PDT)
-Date: Fri, 26 Jul 2024 15:57:03 -0700
-In-Reply-To: <0000000000002b27c60592b00f38@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000009e19c061e2e6e93@google.com>
-Subject: Re: [syzbot] [input?] [usb?] WARNING in implement
-From: syzbot <syzbot+38e7237add3712479d65@syzkaller.appspotmail.com>
-To: andreyknvl@google.com, benjamin.tissoires@redhat.com, bentiss@kernel.org, 
-	jikos@kernel.org, jkosina@suse.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	n.zhandarovich@fintech.ru, rientjes@google.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot suspects this issue was fixed by commit:
+Use devm_clk_get_prepared() in order to remove a clk_unprepare() in an
+error handling path of the probe and from the .remove() function.
 
-commit 4aa2dcfbad538adf7becd0034a3754e1bd01b2b5
-Author: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Date:   Fri May 17 14:19:14 2024 +0000
+This done, the whole .remove() function can also be axed because
+'input_dev' is a managed resource allocated with
+devm_input_allocate_device() and we can fully rely on devm for cleaning up.
 
-    HID: core: remove unnecessary WARN_ON() in implement()
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested only.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13a010d3980000
-start commit:   b9ddbb0cde2a Merge tag 'parisc-for-6.6-rc5' of git://git.k..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b89b61abf7449972
-dashboard link: https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15eebef1680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1375f9ce680000
+Changes in v2:
+  - Merge patch 1 and 2, because patch 1 alone introduced a bug   [Dmitry Torokhov]
 
-If the result looks correct, please mark the issue as fixed by replying with:
+v1: https://lore.kernel.org/all/cover.1721939824.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/input/keyboard/spear-keyboard.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
-#syz fix: HID: core: remove unnecessary WARN_ON() in implement()
+diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
+index 557d00a667ce..1df4feb8ba01 100644
+--- a/drivers/input/keyboard/spear-keyboard.c
++++ b/drivers/input/keyboard/spear-keyboard.c
+@@ -222,7 +222,7 @@ static int spear_kbd_probe(struct platform_device *pdev)
+ 	if (IS_ERR(kbd->io_base))
+ 		return PTR_ERR(kbd->io_base);
+ 
+-	kbd->clk = devm_clk_get(&pdev->dev, NULL);
++	kbd->clk = devm_clk_get_prepared(&pdev->dev, NULL);
+ 	if (IS_ERR(kbd->clk))
+ 		return PTR_ERR(kbd->clk);
+ 
+@@ -255,14 +255,9 @@ static int spear_kbd_probe(struct platform_device *pdev)
+ 		return error;
+ 	}
+ 
+-	error = clk_prepare(kbd->clk);
+-	if (error)
+-		return error;
+-
+ 	error = input_register_device(input_dev);
+ 	if (error) {
+ 		dev_err(&pdev->dev, "Unable to register keyboard device\n");
+-		clk_unprepare(kbd->clk);
+ 		return error;
+ 	}
+ 
+@@ -272,14 +267,6 @@ static int spear_kbd_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static void spear_kbd_remove(struct platform_device *pdev)
+-{
+-	struct spear_kbd *kbd = platform_get_drvdata(pdev);
+-
+-	input_unregister_device(kbd->input);
+-	clk_unprepare(kbd->clk);
+-}
+-
+ static int spear_kbd_suspend(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -373,7 +360,6 @@ MODULE_DEVICE_TABLE(of, spear_kbd_id_table);
+ 
+ static struct platform_driver spear_kbd_driver = {
+ 	.probe		= spear_kbd_probe,
+-	.remove_new	= spear_kbd_remove,
+ 	.driver		= {
+ 		.name	= "keyboard",
+ 		.pm	= pm_sleep_ptr(&spear_kbd_pm_ops),
+-- 
+2.45.2
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
