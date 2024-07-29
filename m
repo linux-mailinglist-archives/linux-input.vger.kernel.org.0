@@ -1,104 +1,93 @@
-Return-Path: <linux-input+bounces-5189-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5190-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1468493F6D0
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 15:37:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A07E93F83C
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 16:36:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F9EE281351
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 13:37:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B265E281812
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 14:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90891148FF9;
-	Mon, 29 Jul 2024 13:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC878188CAD;
+	Mon, 29 Jul 2024 14:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtCX0AXO"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qCgKQK1p"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A740147C86
-	for <linux-input@vger.kernel.org>; Mon, 29 Jul 2024 13:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F4F1553AF;
+	Mon, 29 Jul 2024 14:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722260243; cv=none; b=h6msjaZuA0I7xv2FRzKiDGnZ6TDjX69dc/foG+lmECNXTmNQXVj7+LP+ZBGH+4vA1X+ylENO7L+Q86xrfCPhqZNcFmJoE54GfdHCw9ePsWk/lSTrld65wvl32ufEzGS1L+GXjm8s88rFlSiZMxWa/OIUFNqrqKhgjqt7ks7i1SU=
+	t=1722263322; cv=none; b=k/uV/ntSUsJiIgdm1CcbzV1AB4HyPdeJwGbGlHqc8JTkzxEVnpTVxyUlX2SJFwdw3bYI7inIxRFMg5tsUEepqFo2Y1s8miJMMLtByzBgOQoDUctOGFTCebXgJwg2t1Z21MYy93N21bJX+MPWC8mHAd418k93FpiJowd8CMhqRQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722260243; c=relaxed/simple;
-	bh=TdarGSv19dLebhrk2LtQfRDEJjNlAi0LNP/ghMVcJ58=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=pH56ZvlGq1M7qS/bbkUM2fry730EyOfuPZgMbryS6rsKmsUA3IzrUFBVUgPqbU+o4EYw7+W6wx4id4XbOGAc15Oitiq/36B13sv8l/ozzGq9RxnY1y1y84JVa2ngbg6Umbe/Qz6KDQjhj2UIwCUseDjo6/r2RNJ/mOWACBJxTNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gtCX0AXO; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-70ede9df528so910806b3a.2
-        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2024 06:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722260241; x=1722865041; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TdarGSv19dLebhrk2LtQfRDEJjNlAi0LNP/ghMVcJ58=;
-        b=gtCX0AXODe2zduUcu3xUva2Mi4W96aS1ApSqK/fLF4LV/K6nstogJcGaBlCpMhnDB0
-         sFoznDejJDfsSF/wP4NF4UCBn+2mAeFrR9tUVW87Ifw34wOVB8PrrzhK/MSNedL61RbX
-         /LtPhDDQibRq4jEJh7UG0ernQON3M1SXGf0no82EBLUMjnI+2UqrgmCc21xNCV0Ljs1o
-         kDieATIbNbaYNsdFa9t6zVw0wtgD+73YhwjjdfrizsYxVVw1eOXEk9rnMWNpca/gakr2
-         oCipx/mWwh2y/T6QkBQmMQHztoPtekauYfLF8GkoATQc+WuMvree1te01h1FgwfjQ3Yh
-         oHvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722260241; x=1722865041;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TdarGSv19dLebhrk2LtQfRDEJjNlAi0LNP/ghMVcJ58=;
-        b=ccX1N3Ho5MV9PLsaPUxcg1l9ItY0t3plWnfXP5v33owfpw58gnbLkrRE5uadEn9q3u
-         I6FDnCLu+M+kQS3Ds5UpSHRodd0buMzWBfjSgsLXBJ5t8fY5TO/JXTj7Wi/SpSPjlasB
-         zdGrQL3lnblDrOZIpnpVVmQtrBxxPaWOEZoqQdy5AXFOmtQtSNgSrQaldI2tsXc5HQWE
-         U++as+hDMAiQY0ow4nPr+nvYc+4GE1HIhLE88D2CQz7ArFtNfluUbFonWVdORrYqbCkf
-         lrGoVdOJcUuvNNdj5tL+mkHsNdQKqPgyU0GhxLZ2aRBhXFqt3yzJYMqMlfKr0kwkCSDw
-         UYJg==
-X-Gm-Message-State: AOJu0YwpP/nwSgqFvo5yI7RTD32b6SN7X2/vRCAZwKL0sKbfcXeQepUT
-	QivNH4jPrXv3yPXoIOOyvixkRrM/Jm8UgMSepP3rvcikpMdsxse92CB6a/aJnOddN2JGp70cfab
-	cjdMLgogLXDh9loxRdNnAK5H/YB1izTHi
-X-Google-Smtp-Source: AGHT+IFmcBDAi+zAKe5ma3y+0yehk7LzkANzg0fXrV6FAIFrFUeGE4am5nTzcmkQ4PDaLf9ILQzwNIWn0QRhUxUFoHs=
-X-Received: by 2002:a05:6a21:328c:b0:1c3:b26d:82ad with SMTP id
- adf61e73a8af0-1c4a11803d2mr7266847637.3.1722260240619; Mon, 29 Jul 2024
- 06:37:20 -0700 (PDT)
+	s=arc-20240116; t=1722263322; c=relaxed/simple;
+	bh=u3aBnlBIWIm5mjDYRAHGO98z292LKT5DZ12e3C3WyTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCK6NIuUcyi4hKVAx4kLfEdXRFJsuQAk4PB2TnZlLyWwmEsOu3QbMR3vVZuOKuahYeJ6eHBWo5imvnx45jBhIvmqWd2DT0HMRWsnn8CWUcGDNOFQ5AuCmjWIvktYEs4kHe+YEhvYYQQcpsgfK9hM8ZHo+xV/CdlYNG/WQQV/UYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qCgKQK1p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86656C32786;
+	Mon, 29 Jul 2024 14:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722263322;
+	bh=u3aBnlBIWIm5mjDYRAHGO98z292LKT5DZ12e3C3WyTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qCgKQK1pfZ8JBZJwJ4QTtJYrKqzTBmGQ1zIMlx1gmKhWjdl6Ew9Ffg0jLrTPxtQ43
+	 udOb/ww1E+eIuqqHTYVj5wR1wvxaqgXTxirUwOp1H8Ljopkr5y/4kB6G8+I/hAOA1a
+	 I6YX5bumYPAz7oWL9WPEUdYUjmQ5JTOrYG4lDJSs=
+Date: Mon, 29 Jul 2024 16:28:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Henrik Rydberg <rydberg@bitmath.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH (resend)] Input: MT - limit max slots
+Message-ID: <2024072930-badge-trilogy-c041@gregkh>
+References: <a7eb34e0-28cf-4e18-b642-ea8d7959f0c7@I-love.SAKURA.ne.jp>
+ <2024072944-appraisal-panning-a0b1@gregkh>
+ <f9b4ff23-ee3e-418f-b65d-c40fe28fbba8@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Asnaeb Dev <asnaeb.dev@gmail.com>
-Date: Mon, 29 Jul 2024 15:37:08 +0200
-Message-ID: <CAJCDZKwZ9t8UDpiV+JePhLL+t3vzFXJtrHJgRssGUkdetphB1g@mail.gmail.com>
-Subject: Lenovo v15 G3 Touchpad input lag after two fingers actions
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f9b4ff23-ee3e-418f-b65d-c40fe28fbba8@I-love.SAKURA.ne.jp>
 
-After two fingers actions, touchpad movement lags.
+On Mon, Jul 29, 2024 at 10:15:26PM +0900, Tetsuo Handa wrote:
+> On 2024/07/29 22:05, Greg Kroah-Hartman wrote:
+> > On Mon, Jul 29, 2024 at 09:51:30PM +0900, Tetsuo Handa wrote:
+> >> syzbot is reporting too large allocation at input_mt_init_slots(), for
+> >> num_slots is supplied from userspace using ioctl(UI_DEV_CREATE).
+> >>
+> >> Since nobody knows possible max slots, this patch chose 1024.
+> >>
+> >> Reported-by: syzbot <syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com>
+> >> Closes: https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
+> >> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> >> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> >> ---
+> >> This patch was tested in linux-next between next-20240611 and next-20240729
+> >> via my tree. Who can take this patch? If nobody can, I will send to Linus.
+> > 
+> > What is wrong with the normal input maintainer and tree?  Why not send
+> > it there?
+> 
+> I don't know why. I couldn't get further response from Dmitry Torokhov.
+> Who can make final decision and what tree is used?
+> 
+> e.g.
+> 2022-11-23  0:28 https://lkml.kernel.org/r/03e8c3f0-bbbf-af37-6f52-67547cbd4cde@I-love.SAKURA.ne.jp
+> 2023-09-03 13:55 https://lkml.kernel.org/r/07350163-de52-a2bf-58bf-88c3d9d8d85b@I-love.SAKURA.ne.jp
+> 2024-05-27 10:35 https://lkml.kernel.org/r/7b7f9cf5-a1de-4e5a-8d30-bb2979309f02@I-love.SAKURA.ne.jp
+> 
 
-When booting the system, touchpad movement works normally. After any
-two fingers scroll action is performed, the touchpad movement starts
-lagging. It shows an input lag of approximately 100ms. If no input is
-given to the touchpad for at least 6 seconds, the lag stops.
-Two-finger scrolling again will re-trigger the lag which will stay
-until the touchpad is left without input for 6 seconds and so on.
-Under Windows, on the same machine, this issue is not observed.
-
-To reproduce:
-- Use the same laptop model
-- Two finger scroll anywhere
-- Move the cursor, it will lag
-- Wait 6 seconds without touching the touchpad
-- Move the cursors again, it won't lag
-
-Original issue on libinput that forwarded me here:
-https://gitlab.freedesktop.org/libinput/libinput/-/issues/1024
-
-Video showcasing the issue:
-https://www.youtube.com/watch?v=gO4YvUimoYE
-
-Linux version:
-Linux fedora 6.9.9-200.fc40.x86_64
-
-I will be happy to provide any other needed info.
+Again, it's up to the Input maintainer.
 
