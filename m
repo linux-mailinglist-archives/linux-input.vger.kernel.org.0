@@ -1,142 +1,123 @@
-Return-Path: <linux-input+bounces-5197-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5198-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9B693FE18
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 21:12:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD5893FE3D
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 21:27:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB4921C21CF5
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 19:12:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42AEE28434C
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 19:27:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C54DB15F3E6;
-	Mon, 29 Jul 2024 19:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848B118787A;
+	Mon, 29 Jul 2024 19:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iij0pBbt"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Rau8zEAd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B668F6E;
-	Mon, 29 Jul 2024 19:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4F6187337
+	for <linux-input@vger.kernel.org>; Mon, 29 Jul 2024 19:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722280357; cv=none; b=qXcz9TgG4CsbgylgqyVCKxGVhIQeWNEpPQm4Gy8tzoFo7tL8n2FIO5ybZrR0hkcIpuY5LWdRdN+5nFSq0qGRKZMxOLpaofuYnxH+6K5tYhAoPuH+vJlNI+e6GAesNeVb75afLqUsA+/K8tWYKsHSBsZOi5eUR33UMhhcsAcmWzc=
+	t=1722281247; cv=none; b=Jl/4F/VfQQdN9BtQr9qyJUNUJOJLDbk9O5G2Ooa30pI8J/k1A9DfRCdDkCpsRyJ7RrW94x0I5TWZkWvslmi6hRvA9u+czE7HOfTeIrQ0tZYP35wc99pxnsHrU1cBHuWz4KxaVflGOTq8LWFwY3QMRuqWgnC8DeGitb+DI/0Y9RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722280357; c=relaxed/simple;
-	bh=EPD2BDyZu9cDwSZXPB6ps8Mutfj93/PSQZdxDtNgZhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qfULMT1nShqMFiI1wUzbAEANKe/1xdB3mfQSE/Qxw9LNA2yuHICqXLG2LQuytdqo+AzcPPRHAIf0wZsB703vnBb6dGfLPxx9gr4ODspKhTL62I1j5EtzRoIbE01UHY8hqg9U1W7KBCyCFFDwonxtPnUOWZKeURQAqPsZZD/MC00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iij0pBbt; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-710437d0affso2294675a12.3;
-        Mon, 29 Jul 2024 12:12:36 -0700 (PDT)
+	s=arc-20240116; t=1722281247; c=relaxed/simple;
+	bh=wuV0CJ6b56yl9jpPmCcBO0ysR9/+51iVD3eCn2Pl17c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HjYmk4y7P5eUGjPcsnmkhK7aTn4um6v73hkbT0KeMAb35bBzZzDx7pyE85VvwnFd5CO/gKQwBwNRPNcOm3u9XX8wlh6KdlAMBl3+k5KiC/Epq16+k5Ql5qVSXvats/RBQwxtvLq+W0WoDATd1KTn01CQwY8GUpxLB55spl3Ah3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Rau8zEAd; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7d638a1f27so97535066b.2
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2024 12:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722280356; x=1722885156; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hTQylAUyGjtxW2RZUn8s2GYIyj34iEsIrUfH2V1cUd4=;
-        b=iij0pBbtXSMf+PDSoRlwx1iOU/TebWm892G7zBU6537xNBQwxHfc2SnbOP2rlj+dgr
-         EzWCjHTW7L9cd2dqugus5AipzItvJ5KP3WbZH2dLWxaz3YfpGxwBZwzfUQa6z4g+7cos
-         3A5WjHIeSX6d88hKL5AL4PsHyusP3/wyRrwkSYq+YAWsbzmepLn51+MHVk2FIno8U1k6
-         AZw1SjYqcs/KsL6uztrDwjYVSptGIm0iV7/LXt6uVWCZgCIocIvcQy3SlapSPXaVcV72
-         TeoNccs9cG/XmIp/KAh8duu6U+eo65Fq7iEx1ihHPWCmHz95TuWVRcuDuc8Ix2jVJbLJ
-         ceIA==
+        d=linux-foundation.org; s=google; t=1722281243; x=1722886043; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSNi0pjVxejT/B7YEh+vGAJOW4I46TVEhUbFiwaZ0+8=;
+        b=Rau8zEAdV8TJq8wRN3hgwLVEfS3NFAgQfMMpoVJ1wDygcZRQzxLai+zlP/zYcHJrSz
+         IKgR7kHfKzTc9d+UMGsDUSo87tn50BUxQvHFCJXhmnTIM5Llzx7cxzhFWojrXxYjl37i
+         ssXHrdPLDWuuGYsiEGa6vw+Zs3IUwFnE9WRf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722280356; x=1722885156;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hTQylAUyGjtxW2RZUn8s2GYIyj34iEsIrUfH2V1cUd4=;
-        b=K9OpyLmGyG+zrm+x0SPBW9ejHu47AuAspl6mWCNIUYbfdpsnro14RFSyin+UzHfkcU
-         pYgEPFuJnVTOQnQFMqHOrBovu+SVEBYdqQUPo+ebrq1AmhE0vN0hDm7Qbvmv/1gCQlGl
-         48Nsh7WLxYkqYJEFtF0yY6Bku+mVZviwOWlBQLdzy/OSbjix1+Q7fPztbNc7bsnCGc2U
-         A/W+6y2+maYLgwZm1We8UVaBmfN6NNnpNq89HdzEWv9MLMMs0Qn7VcD/8787LAFiqAt7
-         5UsRaRb3H8UCYTqMyuczvEyt/pQBtDT1ig/Kn4o7HD8gtoTJZw9xJ03o8WzFHgdF2HrV
-         F2Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0163LSb1VB8dkEkTiPwP469aZ9P5AjB6434NNyl0oZ0kW2OjXLEKwIdV7FeSRx5B5I15iPPhYOcNOaASh9fLRn1p66SbauMbrND/8qpvkea+YiOp0QLQiQlNoSsKYfHDHGIO/A7X5oAI=
-X-Gm-Message-State: AOJu0YyRysHxuWztwLK3C9tcMfb3P/EPniZMbD+ODKmbR+VBkdstS4DN
-	8+gkF1506E9dE/Dce26AhAKFRfUBRyL76zFNe2TjiZdgDTU4KQYr
-X-Google-Smtp-Source: AGHT+IEqhfooVsc0hFlfiA/Zg4bzKu2nxSQ35s1YFjSweht9P8+D6ayQSXmuwbCURViaHtHwVQa67g==
-X-Received: by 2002:a17:90a:c281:b0:2c9:6ecf:89b8 with SMTP id 98e67ed59e1d1-2cf7e71b62bmr6604126a91.38.1722280325409;
-        Mon, 29 Jul 2024 12:12:05 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f53a:d352:6282:526b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28c9c764sm8945844a91.26.2024.07.29.12.12.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 12:12:05 -0700 (PDT)
-Date: Mon, 29 Jul 2024 12:12:02 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH (resend)] Input: MT - limit max slots
-Message-ID: <ZqfpgmmLgKti0Xrf@google.com>
-References: <a7eb34e0-28cf-4e18-b642-ea8d7959f0c7@I-love.SAKURA.ne.jp>
- <2024072944-appraisal-panning-a0b1@gregkh>
- <f9b4ff23-ee3e-418f-b65d-c40fe28fbba8@I-love.SAKURA.ne.jp>
- <2024072930-badge-trilogy-c041@gregkh>
- <Zqe76gATYUcDVLaG@google.com>
- <CAHk-=wgweFg4hOus9rhDEa437kpkdV88cvmOHeZWwhgSa5ia1g@mail.gmail.com>
- <ZqfYfIp3n7Qfo1-Q@google.com>
- <CAHk-=wiT8RzFUVXe=r3S9dfCpV+FhARgtb5SxLDSOKCJKCLOZA@mail.gmail.com>
- <Zqfg8FW-SFFedebo@google.com>
- <CAHk-=wg4peLPGB+Lyvdtwxe6nVeprvTbZiO8_=E8-R_M+VyWow@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1722281243; x=1722886043;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kSNi0pjVxejT/B7YEh+vGAJOW4I46TVEhUbFiwaZ0+8=;
+        b=HjBQ7AoChf7N9DaHoBGFLuXDbxy1w3aW9FMkhm8s5xdSILaneFGi3+C6ZVN15q8Y7e
+         O2UoYHc77cK3wlZkHFaRSq4WZL5QkB18inhOSpEa11gxCBieZ6Ywb4DLgVP7SBInBC6o
+         ZLefbtBP/NUJM5xKK13NqDhWPzAHlwS4gSfUA/HcWEL3kEFB1oKqnFIiIpCYrebHkfYS
+         9iCk3NgY9SR0BTR26IV9rGr7eW78A6I99QDnXdMHMtQQcWue14Dy4SMzzLAdbuQRNSOR
+         9D1eLXNPoHXqc8JsiNENgb/tlBgOqXDQTQGfcWqD7rV6i6uln1npmoCspxf3CzH6vqvo
+         HmUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPVnI1oU2MzYVkWevgN3BiQ1vZr11o5uBXEnTVzwzt8z90aIkO2ALPl80FxawNI8D8ALrke3PxeVVpvfiXmEhJ0C3ZwGexH8ffBuM=
+X-Gm-Message-State: AOJu0YyVPDhssHf+nc/ilMruV3utsYm3u3SKccBA/e7kLnF4xzWvQ6My
+	mwHo+FBZxeLchUU9SoG85scE9QYMsPPtv5+buGRU6Xqp04+2Svor86wgIfXbUP4DS+5xVmsytae
+	Sb2+G0g==
+X-Google-Smtp-Source: AGHT+IEyNrh1o4IMCkO2rAm0d8sql7uN4Bsg2mesKiXUqIVRYyYCkBnRtBrPoPS/EHRBdQqQfE1AZA==
+X-Received: by 2002:a50:c357:0:b0:5a1:2ce9:f416 with SMTP id 4fb4d7f45d1cf-5b023a52f6bmr6226690a12.37.1722281242545;
+        Mon, 29 Jul 2024 12:27:22 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac631b0464sm6178231a12.4.2024.07.29.12.27.21
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jul 2024 12:27:22 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5a15c2dc569so3554226a12.3
+        for <linux-input@vger.kernel.org>; Mon, 29 Jul 2024 12:27:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVfdcoZ+L2pyZnseWB2NzDN76DdOGoYBLzwkJkDoomLu/zJKpQ8GT4T3DatNycjzbXV42HfQxNX8GFjbOoLIr8IIMPbUgya+/gMiGY=
+X-Received: by 2002:a05:6402:268d:b0:5a2:65cb:7335 with SMTP id
+ 4fb4d7f45d1cf-5b021d22bf0mr7507356a12.19.1722281241607; Mon, 29 Jul 2024
+ 12:27:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wg4peLPGB+Lyvdtwxe6nVeprvTbZiO8_=E8-R_M+VyWow@mail.gmail.com>
+References: <a7eb34e0-28cf-4e18-b642-ea8d7959f0c7@I-love.SAKURA.ne.jp>
+ <2024072944-appraisal-panning-a0b1@gregkh> <f9b4ff23-ee3e-418f-b65d-c40fe28fbba8@I-love.SAKURA.ne.jp>
+ <2024072930-badge-trilogy-c041@gregkh> <Zqe76gATYUcDVLaG@google.com>
+ <CAHk-=wgweFg4hOus9rhDEa437kpkdV88cvmOHeZWwhgSa5ia1g@mail.gmail.com>
+ <ZqfYfIp3n7Qfo1-Q@google.com> <CAHk-=wiT8RzFUVXe=r3S9dfCpV+FhARgtb5SxLDSOKCJKCLOZA@mail.gmail.com>
+ <Zqfg8FW-SFFedebo@google.com> <CAHk-=wg4peLPGB+Lyvdtwxe6nVeprvTbZiO8_=E8-R_M+VyWow@mail.gmail.com>
+ <ZqfpgmmLgKti0Xrf@google.com>
+In-Reply-To: <ZqfpgmmLgKti0Xrf@google.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 29 Jul 2024 12:27:05 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgo9iEZ20wB4rOpt6h36Dymudqf6HXww1N094bVoqyMmg@mail.gmail.com>
+Message-ID: <CAHk-=wgo9iEZ20wB4rOpt6h36Dymudqf6HXww1N094bVoqyMmg@mail.gmail.com>
+Subject: Re: [PATCH (resend)] Input: MT - limit max slots
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Henrik Rydberg <rydberg@bitmath.org>, 
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 29, 2024 at 11:41:59AM -0700, Linus Torvalds wrote:
-> On Mon, 29 Jul 2024 at 11:35, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >
-> > What exactly did you do? Limit size of data userspace can request to be
-> > written? What is the max allowed size then? Can I stick a warning in the
-> > code to complain when it is "too big"?
-> 
-> Look up MAX_RW_COUNT.
-> 
-> 
-> > So does this mean that we should disallow any and all allocations above
-> > 4k because they can potentially fail, depending on the system state? Or
-> > maybe we should be resilient and fail gracefully instead?
-> 
-> We are resilient and fail gracefully.
-> 
-> But there's very a limit to that.
-> 
-> Dmitry - none of this is at all new. The kernel has a *lot* of
-> practical limits. Many of them actually come from very traditional
-> sources indeed.
-> 
-> Things like NR_OPEN, PATH_MAX, lots of arbitrary limits because arrays
-> don't get to grow too big. Things that are *so* basic that you don't
-> even think about them, because you think they are obvious.
-> 
-> In fact, you should start from the assumption that *EVERYTHING* is limited.
-> 
-> So get off your idiotic high horse. The input layer is not so special
-> that you should say "I can't have any limits".
+On Mon, 29 Jul 2024 at 12:12, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+>
+> OK, if you want to have limits be it. You probably want to lower from
+> 1024 to 128 or something, because with 1024 slots the structure will be
+> larger than one page and like I said mt->red table will be 4Mb.
 
-OK, if you want to have limits be it. You probably want to lower from
-1024 to 128 or something, because with 1024 slots the structure will be
-larger than one page and like I said mt->red table will be 4Mb.
+So this is why subsystem maintainers should be involved and helpful.
+It's hard to know what practical limits are.
 
-This still will not affect any real users, and will not solve syzkaller
-issue as it will continue tripping on various memory allocations that we
-are actually prepared to handle.
+That said, a 4MB allocation for some test code is nothing.
 
-Thanks.
+And yes, if syzbot hits other cases where the input layer just takes
+user input without any limit sanity checking, those should be fixed
+*too*.
 
--- 
-Dmitry
+"The allocation failed" is not some graceful thing. Large pointless
+allocations can be very very very expensive *before* they fail,
+because the VM layer will spend lots of time trying to clean things
+up.
+
+So a sane limit *UP FRONT* instead of "let's see if this random
+allocation succeeds" is always the right answer when at all possible.
+
+                Linus
 
