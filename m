@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-5220-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5216-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DCC942245
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 23:36:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302B994223D
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 23:36:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1F452868BE
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 21:36:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9DF41F231E4
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 21:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD3F1917DB;
-	Tue, 30 Jul 2024 21:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1558A18E02E;
+	Tue, 30 Jul 2024 21:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Gy6zEL6m"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UcR1fYmh"
 X-Original-To: linux-input@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B6E145FEF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C4F18DF81;
 	Tue, 30 Jul 2024 21:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722375375; cv=none; b=ioeMqkbEs4heRhcNsjm/dHmGuL2g/ASTxXyZMeX1yk24Mrt9js7B7Ra4Bi2pNqkidseRfc0bMnybUZjNZZjoWPUg1+EgsXJ5gCpaFMuj753f6xFzukD+99bAK5HA96NTmA6z8uvU6G/Bw9FwTcKXQlGrBn6L/TtCvMi3g1AcQrQ=
+	t=1722375373; cv=none; b=FdrjYkXI7z5lV663L1sy6rb++swUPvKL7zn0/YMTKMeHHH4+h8AawZ4sdfXmfz0mQtLw2Afiv8oeDeRG0oyVxhDWlQFqi8mfN0+WD1wu5jS35inx4Jz5ee+h4aAp8HvWyJ8p+1StVFttPRyJwj6EeoUOWVGY3y1Ugz1HsMIjWgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722375375; c=relaxed/simple;
-	bh=CuCPxz/YYLzA4evHClClTWRKVOvvMIx6m6M1HhhjvJw=;
+	s=arc-20240116; t=1722375373; c=relaxed/simple;
+	bh=HqF2jZdEKGHsJTB8RCtb6VbOiiZngzSQrgnKBN4QiNQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bnCTya0KaOV9WwBclluqdw1k4XOyuwDtNSRyxkQQliNfUswt0apNm733y6cN8qr/43WlnbsXTHgJOWDTPLKlqXnVRH/XE3GFXuRswqRPxAFddDVaLuU6l8VGSLL+iiAlOosEZqw8PufUgmi8ScykT7weKaZ0iqWBVAtjyeaeaq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Gy6zEL6m; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=IV3KzcsIj5BWeHCA0sNJreqZhp5WmioXHlMdgVtp56iydBtUdSFU3nhwuz3W49CA93HM4A0DeM3VwlylTo+m4zS5wgrXgy1Lob4VhZB2EM9NeRY67pXV7f4jnKwK5ni8+c8hG8See4U8/e5Ol8/1MPXLBdlWgKqcrIklKOubqms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UcR1fYmh; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1722375361;
-	bh=CuCPxz/YYLzA4evHClClTWRKVOvvMIx6m6M1HhhjvJw=;
+	bh=HqF2jZdEKGHsJTB8RCtb6VbOiiZngzSQrgnKBN4QiNQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Gy6zEL6mvS8A/NgRcnVeeOoVl948AKfpjeRrf1UXxIUGAu3axFwTrOT8xLUbL8Cpy
-	 gITObj2lOL6F4VItRNZzjyavnGFHJpybFDoeRkpZcthyRW0C7mzVWmKkmVY3A0I7Ki
-	 ZQl8w0+uZnwrO0p5+sB0sO1vvEpfDyldYVEUlFXc=
+	b=UcR1fYmhIPiLf7jSNGgsbQD5YJgGX21t74ttJmAZoGihKCoHCG1tgdoJYjB1xtmDi
+	 6sDIQhLCymNmJbdazxZKXU8L0bT5bXe4VEvAZ9t6rJkt2uvFc2uRbX4Shmf6cmOvzx
+	 WCUW7hT6KyFrjZzqVWZ/ueDUIWJuXPm27cLPjIUE=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 30 Jul 2024 23:35:57 +0200
-Subject: [PATCH RFC 1/4] HID: treat fixed up report as const
+Date: Tue, 30 Jul 2024 23:35:58 +0200
+Subject: [PATCH RFC 2/4] HID: cmedia: directly return fixed up rdesc
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -49,57 +49,45 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240730-hid-const-fixup-v1-1-f667f9a653ba@weissschuh.net>
+Message-Id: <20240730-hid-const-fixup-v1-2-f667f9a653ba@weissschuh.net>
 References: <20240730-hid-const-fixup-v1-0-f667f9a653ba@weissschuh.net>
 In-Reply-To: <20240730-hid-const-fixup-v1-0-f667f9a653ba@weissschuh.net>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
 Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722375361; l=1162;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722375361; l=899;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=CuCPxz/YYLzA4evHClClTWRKVOvvMIx6m6M1HhhjvJw=;
- b=2X4hlJon375StyoXGzTN+k5j8d3rhRDdjk6ApotaD5JDflxLk7VNkWqCo9JtsdXGpFvFnPZm9
- ouBk3GCMVD9B7S2CLuOBh1fxgDAg4dTlpf9WtcA4fqns5CEtKQtLc//
+ bh=HqF2jZdEKGHsJTB8RCtb6VbOiiZngzSQrgnKBN4QiNQ=;
+ b=gtPWFFwLa6VlvpwpvXzX9Y5A3YmU7yMB1ZFLFRqndnTDY02vBB5z4jQMMGm5xZMY3RgUQXWJR
+ uSycQzj0cEMCUqiLNxX8nRSuaHRcKLcoDYMoftPMWEn3tdfADcBpoF/
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Prepare the HID core for the ->report_fixup() callback to return const
-data. This will then allow the HID drivers to store their static reports
-in read-only memory.
+In a future patch the return type of the _report_fixup() callback will
+change to "const", but the "rdesc" parameter will stay non-const.
+Avoid constness errors in that case by not assigning to rdesc but
+returning directly.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hid/hid-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/hid/hid-cmedia.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 988d0acbdf04..dc233599ae56 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1203,6 +1203,7 @@ int hid_open_report(struct hid_device *device)
+diff --git a/drivers/hid/hid-cmedia.c b/drivers/hid/hid-cmedia.c
+index cab42047bc99..0681d8882ac8 100644
+--- a/drivers/hid/hid-cmedia.c
++++ b/drivers/hid/hid-cmedia.c
+@@ -204,8 +204,8 @@ static __u8 *cmhid_hs100b_report_fixup(struct hid_device *hid, __u8 *rdesc,
  {
- 	struct hid_parser *parser;
- 	struct hid_item item;
-+	const __u8 *fixed_up;
- 	unsigned int size;
- 	__u8 *start;
- 	__u8 *buf;
-@@ -1232,11 +1233,11 @@ int hid_open_report(struct hid_device *device)
- 		return -ENOMEM;
- 
- 	if (device->driver->report_fixup)
--		start = device->driver->report_fixup(device, buf, &size);
-+		fixed_up = device->driver->report_fixup(device, buf, &size);
- 	else
--		start = buf;
-+		fixed_up = buf;
- 
--	start = kmemdup(start, size, GFP_KERNEL);
-+	start = kmemdup(fixed_up, size, GFP_KERNEL);
- 	kfree(buf);
- 	if (start == NULL)
- 		return -ENOMEM;
+ 	if (*rsize == HS100B_RDESC_ORIG_SIZE) {
+ 		hid_info(hid, "Fixing CMedia HS-100B report descriptor\n");
+-		rdesc = hs100b_rdesc_fixed;
+ 		*rsize = sizeof(hs100b_rdesc_fixed);
++		return hs100b_rdesc_fixed;
+ 	}
+ 	return rdesc;
+ }
 
 -- 
 2.45.2
