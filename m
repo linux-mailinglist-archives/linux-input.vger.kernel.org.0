@@ -1,88 +1,160 @@
-Return-Path: <linux-input+bounces-5206-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5207-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B636C94091B
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 09:10:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1993694105A
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 13:18:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E74EE1C20B41
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 07:10:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3AF41F2468C
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 11:18:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2055854774;
-	Tue, 30 Jul 2024 07:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2649919DF52;
+	Tue, 30 Jul 2024 11:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDds1kO2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2hZBrnn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB047161914
-	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 07:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CCF195F3A
+	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 11:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722323449; cv=none; b=ZfD08SxF/mmQgYB9MyOY0ri602KzFX1yDxlbVuNLiom8tms1dVLcOix+zathvGwXFw6lLDXsFRwCIm4OhTz8IPWqy//b0MYU1nPAOfYW40MOHwqrEAfOYF/SSmGsZVvlihTSRZwb1x1+JT6PfyjP0Y6Td6vDlOsv77PEZr661Tc=
+	t=1722338297; cv=none; b=tuKHmqjgDlmn5/LJCe8ktWVNv0LhfSYjblDq/Er6ZDs33dOll3AONZw6j/Z+VEpHrKe11vXErHp0OlUHa9o+nhfn7K5ZlmHQgr6+2NlySy2bWr5zo+B/Q0h9NPqRUuSsnBSPBuNojsy0SQed4A/aS9vKqkaSEkYSSJlxmaR5xv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722323449; c=relaxed/simple;
-	bh=uOvq+MhB4+zSd/Vt0H1pnDvcLKpcwozIOQ5FrDJDE2c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=sMh556MSiPN+fsCw6/guoTN6X6+6OvEC8GCW/zSmz+tCNFgqEjryxyBInryHCmj1ARhMbr+2qMQgQURxWndAt1taeoru4XfbMibNDM588fxAG/egwzndeRwd3zwNmXzsVavDwLxmMTBTsbpqAZ96M5qJu59Mn6AJqlPJxBvFTjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDds1kO2; arc=none smtp.client-ip=209.85.160.52
+	s=arc-20240116; t=1722338297; c=relaxed/simple;
+	bh=emu2WIvwyO6/p/LotTUUlS2nbvSB04ybNi2qi3ND6lk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=osUmMAjp+hk4I0CGAEuLYcIDHkOID3bJ1y0eTOlRNINKTE7NmXPT+2gpI1mCH1atrOhmoILzXGrP3xj3bW+2LMbf7uwJui412ZYmlRNmIhWgT6/svtnBqDCiS2pUsID3G/2Mk7KQkvT3pnEkIJGTcT0i90R1nj1s2ehxeYmhdK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2hZBrnn; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2635abdc742so659728fac.2
-        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 00:10:47 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7a843bef98so469382366b.2
+        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 04:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722323446; x=1722928246; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uOvq+MhB4+zSd/Vt0H1pnDvcLKpcwozIOQ5FrDJDE2c=;
-        b=DDds1kO2xfPevh6cWVVOI9/e1gd3vVJUHt4DiZiGxyMSgAnsNxLtVQ50JmPfd0NraP
-         aCN/jjGo7prikd85ZZhXq/WPPW8MIVzJt2xL1lUKGoHvtQmMNTxrxyJyY9BcqMNem0Lu
-         vmurBrYue5XYS8nnyLTbn58NivY4qHL59PnjVDx19HQ0OxUTJnM2dgCmWTu3PNfdliOm
-         odYzAGovuPGbFa0ciD8skIzruZelsBRPtyh3hqYEBy6v7d2vEBjgIeIQwZt4cS3kJGzs
-         RNySAF0ObHVXAV8mCSZkE4/rNKHhp5lDmqY+eu+qhjx30C4/mzWQiF0rh0mj5qAtPvf6
-         qGRQ==
+        d=gmail.com; s=20230601; t=1722338294; x=1722943094; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G/lB3uSgzrF7JggXtZTiUk0HNBbSz+s7ih2s5fn5YqQ=;
+        b=g2hZBrnnMgbDQCdmPI0+IA5keaIkrstRWihqgMp2wLrMfVNM+Cl2SZOHsFThHuPLRs
+         EB7W6pMZOaFKAwKn19FUedo7Vg5chZwI+wBeZwWG6WRqX3VCFVydaKuu/uRjLox0YL4r
+         brH+vEmOTzGayk/Ji7JHbX1uveVYwNQVBh9ordDQDd+vOTexHREUDplQB15y3lhQRaLh
+         X/a8xkdi6pZvtherftlrTacDJDjV6vpk5nqOWz2L2KS0L9JfJvMokIlfYcyMvFwgmeEq
+         Wg9oLsZIUwrGcwgwhwrRwP53KmFGno0P6ndcJZkLsBFXBgPFSjydKXSRugF6ZSgS9v3B
+         tYTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722323446; x=1722928246;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uOvq+MhB4+zSd/Vt0H1pnDvcLKpcwozIOQ5FrDJDE2c=;
-        b=vea14YgJmo3Fm2tDY9FFhsyUMSgpZG3UfvYpwavtPsquoZWZfupe3tIYceZ/8Ok2P+
-         URFNopQ6dBb3DN5CMinAUlG5Y+oRMF0QvWVbJhql//aw4a1wPptGd9xSNiB6Sy2A0t0S
-         y3E3sSIq7YL2XXCFQSSMMkXSUv8RQd33UAXE0HYNWwD+MZY/ttG96iEYqnCssm/WiI/m
-         EH+zt4iqm/rEHrPZzJz7774kLA4/BIOFv7HTAwJOMRTM0QFfMXnclnS/iBkLQSOtIxVO
-         XRIvENHSeCIBI8dnc05ZHsbij0mqfAiV/sdPE3Kkl6iwQrKJj83dUNMtg+fTaI7z7Utl
-         YpGQ==
-X-Gm-Message-State: AOJu0YyNM7wyUzz2i9A+v2q9zroOKjoNJPt2G7U7dQhChj+C/NeiI9zH
-	/SaxvibjL2YFNfhO1tI+gK2iHAPKMm/PLs4BT1jCyLaXBtzZXApgATFk5syPNYmHCC277c6BIAs
-	MAm2yi0m+L0SDmCt4mWf5f7yfyo49hw==
-X-Google-Smtp-Source: AGHT+IEm6ZW/f+AzNc01zkSJdzTLsp5MKs0eTgfNhnj266iSNqnxnuvmZY55xlA4ozR8R63Af5poCstsOgdlCQn3Hrg=
-X-Received: by 2002:a05:6820:1050:b0:5cd:13ef:f4ed with SMTP id
- 006d021491bc7-5d5b15610e0mr9214982eaf.2.1722323445906; Tue, 30 Jul 2024
- 00:10:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722338294; x=1722943094;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G/lB3uSgzrF7JggXtZTiUk0HNBbSz+s7ih2s5fn5YqQ=;
+        b=ffbNdKPXNDUngplzBHg22gmZtnSw5kc4HDOmCFNnV1zr/UbkQj4pcp8C5NDyuDyDdl
+         EHQuKDEtB86eFrDm7tlPQ9Dpj//n8UzissAr7r/iWEFAq9k2peItmzGGq4JMhVXZnODb
+         CIZ4Uvm5mnbxncGhC+jYGM/KkTp9VBLywfXsp59+EEqcBwy8re0JtuBGPm9Gjkdegi7E
+         J9eON+YUHnnb6hKbAEReNe0pyhmQMU/n21+jyQ5LvNzFsounqNWHCRLHRGYxe8GhqZXh
+         Eumh69hUlt2GdrGsmbErTTxbocdxeOk3eDgTlY7FjkkvguBouI+OyrWTrWNX7T/Q4PFt
+         TNfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwdV2qJbd92LE4zt55BRgM6nSpz9yoFXfp0rIxqi3epsTbeIzk5rrwtthd1k1Tf1uiLrUPaMQCig1zriY6t3ujgMe2wy+NOhIfvdM=
+X-Gm-Message-State: AOJu0Yxu524wLdSb3XwuiTM4cWEAicV4EW75chsu3pHhIMLnjoJ2otCV
+	w4FyiWW0rk1TBDc4caSNn43Bllo087srKVy8RpSkR1odghnQ/oN0
+X-Google-Smtp-Source: AGHT+IGLX9ujp5eIq+UZ1e7xWSL128xNAP58YPs5zK11pUO4o1qAvx+Ml7vmaQ4GqVLmG8vf4oPcEQ==
+X-Received: by 2002:a17:907:3f1f:b0:a7a:a7b8:ada3 with SMTP id a640c23a62f3a-a7d3ffde804mr816491166b.3.1722338293305;
+        Tue, 30 Jul 2024 04:18:13 -0700 (PDT)
+Received: from laptok.lan (89-64-31-171.dynamic.chello.pl. [89.64.31.171])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab52d46sm626557766b.80.2024.07.30.04.18.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 04:18:12 -0700 (PDT)
+From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: dmitry.torokhov@gmail.com
+Cc: bentiss@kernel.org,
+	benjamin.tissoires@redhat.com,
+	jikos@jikos.cz,
+	linux-input@vger.kernel.org
+Subject: [PATCH] [v2] Input: increase max button number to 0x340
+Date: Tue, 30 Jul 2024 13:17:16 +0200
+Message-ID: <20240730111810.1017708-1-tomasz.pakula.oficjalny@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8cd6293f66f9399a859330a348c79fa3dacb0202.camel@gmail.com>
-In-Reply-To: <8cd6293f66f9399a859330a348c79fa3dacb0202.camel@gmail.com>
-From: Alexey Kuznetsov <kuznetsov.alexey@gmail.com>
-Date: Tue, 30 Jul 2024 10:10:09 +0300
-Message-ID: <CAO1Zr+rJsSr=d7Zimgt=NcH6uo0H=ajqktPATO_ciVeSp5W40g@mail.gmail.com>
-Subject: Fwd: asus_wmi: Unknown key code 0xcf
-To: linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello!
+v1 of this patch increased the number of buttons to 0x3ff. This version
+reduces this number to 0x340 to decrease the size of some static arrays
+by almost 200.
 
-My Asus Laptop (ASUS VivoBook PRO 15 OLED M3500QA-L1072) reporting this
-wmi code everytime I connect power cable.
+Maximum number of buttons is limited to 0x2ff. This makes it so game
+controllers like joysticks, racing wheelbases etc. are limited to 80
+buttons.
 
-I got no key code on power disconnect.
+A lot of input devices for flight simulators and racing simulators take
+full advantage of defining a large number of buttons in HID descriptor,
+in turn, some of their buttons simply don't show up under linux. Linux
+became quite a viable gaming platform in the recent years so this makes
+it so it supports all the HID peripherals without fuss and confusion
+(there aren't any dmesg errors if HID device exceeds the 0x2ff
+button id).
 
-[11238.502716] asus_wmi: Unknown key code 0xcf
+I'm a part of linux simracing community and we encoutered this issue
+with Moza Racing wheelbases, as they use top of the range for things
+like h-pattern shifters, sequential shifters. These accessories simply
+don't work, be it connected through the wheelbase or directly with USB.
+
+Upcoming Moza Flight Sim devices will face the same issue, and there
+were Saitek/Logitech/Honeycomb and custom-made products that also have
+more than 80 buttons.
+
+0x2ff was already sort of an arbitrary number, I'm increasing it to
+0x340 to still keep the array not too big, while allowing additional 65
+buttons.
+
+Change has been verified on my Moza Racing R9 wheelbase + Moza racing
+sequential shifter (it uses buttons 112-117). I didn't encounter any
+issues whatsoever. Evey button works, every axis works. Keyboards and
+other peripherals unaffected.
+
+This patch is important as SDL uses this defines and we'll have to
+wait until it propagates into release versions built on top of
+(hopefully) 6.11
+
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+---
+ include/linux/mod_devicetable.h        | 2 +-
+ include/uapi/linux/input-event-codes.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 4338b1b4ac44..e1699f4b1858 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -333,7 +333,7 @@ struct pcmcia_device_id {
+ /* Input */
+ #define INPUT_DEVICE_ID_EV_MAX		0x1f
+ #define INPUT_DEVICE_ID_KEY_MIN_INTERESTING	0x71
+-#define INPUT_DEVICE_ID_KEY_MAX		0x2ff
++#define INPUT_DEVICE_ID_KEY_MAX		0x340
+ #define INPUT_DEVICE_ID_REL_MAX		0x0f
+ #define INPUT_DEVICE_ID_ABS_MAX		0x3f
+ #define INPUT_DEVICE_ID_MSC_MAX		0x07
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index a4206723f503..5f10f09ac174 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -808,7 +808,7 @@
+ 
+ /* We avoid low common keys in module aliases so they don't get huge. */
+ #define KEY_MIN_INTERESTING	KEY_MUTE
+-#define KEY_MAX			0x2ff
++#define KEY_MAX			0x340
+ #define KEY_CNT			(KEY_MAX+1)
+ 
+ /*
+-- 
+2.45.2
+
 
