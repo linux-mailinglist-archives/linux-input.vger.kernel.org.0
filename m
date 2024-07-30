@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-5217-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5218-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CD194223E
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 23:36:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05799942241
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 23:36:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 818C81C232E8
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 21:36:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 95B60B239B9
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 21:36:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 702FE18E042;
-	Tue, 30 Jul 2024 21:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 008D418E056;
+	Tue, 30 Jul 2024 21:36:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Qvp3oFnk"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Cjk/ur9K"
 X-Original-To: linux-input@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB0A18DF8B;
-	Tue, 30 Jul 2024 21:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BBF18B46A;
+	Tue, 30 Jul 2024 21:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722375373; cv=none; b=A5EE8VDprJKA/VcQbbodlfxiXWH+zL7WeUO3shQLuolbhhLz1BSHANyXo/Rs1DH/waunbQ01WINJkUZoacH6+HyUhQAP+Ll7/v6+uYVy5EFnMK0GUxeW9hhuIdCABtbPYQFYn7DG21EEGZZjIirx8k/uZyaXtKYar4neMn933rg=
+	t=1722375373; cv=none; b=Fpm1o9O05KbmJhEPtzvMqYBqlGrC2Rn7dk5YNnhXWmAKyMQzVAYl6yGFSiM8MEUAU6x1/7roy26M7p0ny10oJMBwgNPDv0GscVDZEgWXm4GBcGuqx3BqTAc91LjEckLRX3euBV95xpLyTUqWAIGeq9ejwoYCSjKjoFShiw370tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722375373; c=relaxed/simple;
-	bh=vQHVvIEzQXkW1NLb5klOf1qnkQALOJgVLTI071IIIt8=;
+	bh=LHZUnDmwFmh2fmeCMgokisCrnfbDNiATUFJWQDX71ZM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BL4mAKAAG+MtdXMPXSmxCjl6irhY3fNcVvbdrZ7cc0FZJt9cRbjAW9bcHZwdnU2HRgfafa+z8xlFHc4ZMEFxexCPyFf6agu9ou+cK/wQ9ZU9XwrMjIYzzyWy6lYaetIg0fGWjDzCX631sOnH6c1yILIirTEUjL6AF+cvBQylDPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Qvp3oFnk; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=T3yCnCoR6VMyyUXL/+isenuVzs5T/V+rH+t1iv0J7FgMFslkKexHoB1O17FhYiNFfRTo9FrXPaVIxndMLSGWbfHsmPFEPye3ZKEZZpoOB8SKGlk1KIGcr/MtBWe8CK2NG78w/acOm/8bviTSgDGNHVB2M4pF4SMyFkVhuMQGQ4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Cjk/ur9K; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1722375361;
-	bh=vQHVvIEzQXkW1NLb5klOf1qnkQALOJgVLTI071IIIt8=;
+	bh=LHZUnDmwFmh2fmeCMgokisCrnfbDNiATUFJWQDX71ZM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Qvp3oFnkeV/d/RpHj5bv1nBJXiLlrJ65SvzzDSMb7rmTs4O4oX7JFM44vs29rDE1Q
-	 wfWGMFGyqAW8r4Jr/nQqtn0GiedoJPrI9+/Dm8pY/r3tNRgVjGkugVSFvVcgichnno
-	 2I1GEeLlIRBEF8Mzi4L3l0kXFkcX0lb4qX7RrRKs=
+	b=Cjk/ur9KK6sYkMPTj+0ll6/g30Z/l4RHmEuFOYose44C7XvGGUChPwiLbsptgR3Je
+	 CtIliOepImKqNCXtxVexQFPylqDznA09sdUMo+Hhwzn+K8wmomO1D9bSKkmGsLpfRI
+	 DF14UJ90gt1GFelAYX6RoI0Dbt54lDSTaQnHN2Hs=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 30 Jul 2024 23:35:59 +0200
-Subject: [PATCH RFC 3/4] HID: change return type of report_fixup() to const
+Date: Tue, 30 Jul 2024 23:36:00 +0200
+Subject: [PATCH RFC 4/4] HID: cmedia: constify fixed up report descriptor
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -49,74 +49,42 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240730-hid-const-fixup-v1-3-f667f9a653ba@weissschuh.net>
+Message-Id: <20240730-hid-const-fixup-v1-4-f667f9a653ba@weissschuh.net>
 References: <20240730-hid-const-fixup-v1-0-f667f9a653ba@weissschuh.net>
 In-Reply-To: <20240730-hid-const-fixup-v1-0-f667f9a653ba@weissschuh.net>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
 Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722375361; l=2159;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722375361; l=864;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vQHVvIEzQXkW1NLb5klOf1qnkQALOJgVLTI071IIIt8=;
- b=MMeW3AAQPkKElwpHNYNMqNes0wv8iNwkNyVZykY/DhmTs3MGO4z6C8IN4pHcdVEkj8XN0GkAu
- 3EoqgATFA00CkIuFDMUC0hmycO6YGxP/FecjMOzuDy2iDBHc51YdyTe
+ bh=LHZUnDmwFmh2fmeCMgokisCrnfbDNiATUFJWQDX71ZM=;
+ b=afXRryW/iPaJsDa968Z+1f22FEEueZPZVceiIxetaiVJMoY0pis3DPqzzzuD8hLjKMW4hAs08
+ L/GU02du/FFDDqzQFmFYG3MTOW9zxs/xIRrVdk/mtanxucgsGMB38sV
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-By allowing the drivers to return a "const *" they can constify their
-static report arrays.
-This makes it clear to driver authors that the HID core will not modify
-those reports and they can be reused for multiple devices.
-Furthermore security is slightly improved as those reports are protected
-against accidental or malicious modifications.
+The HID core now allows static report descriptors to be read-only,
+make use of it.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hid/hid-cmedia.c     | 2 +-
- drivers/hid/hid-sensor-hub.c | 2 +-
- include/linux/hid.h          | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/hid/hid-cmedia.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-cmedia.c b/drivers/hid/hid-cmedia.c
-index 0681d8882ac8..d235dbedab8c 100644
+index d235dbedab8c..528d7f361215 100644
 --- a/drivers/hid/hid-cmedia.c
 +++ b/drivers/hid/hid-cmedia.c
-@@ -199,7 +199,7 @@ static struct hid_driver cmhid_driver = {
- 	.input_mapping = cmhid_input_mapping,
- };
- 
--static __u8 *cmhid_hs100b_report_fixup(struct hid_device *hid, __u8 *rdesc,
-+static const __u8 *cmhid_hs100b_report_fixup(struct hid_device *hid, __u8 *rdesc,
- 				       unsigned int *rsize)
- {
- 	if (*rsize == HS100B_RDESC_ORIG_SIZE) {
-diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-sensor-hub.c
-index 26e93a331a51..7bd86eef6ec7 100644
---- a/drivers/hid/hid-sensor-hub.c
-+++ b/drivers/hid/hid-sensor-hub.c
-@@ -580,7 +580,7 @@ void sensor_hub_device_close(struct hid_sensor_hub_device *hsdev)
- }
- EXPORT_SYMBOL_GPL(sensor_hub_device_close);
- 
--static __u8 *sensor_hub_report_fixup(struct hid_device *hdev, __u8 *rdesc,
-+static const __u8 *sensor_hub_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- 		unsigned int *rsize)
- {
- 	/*
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 1533c9dcd3a6..8b3807609ff2 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -822,7 +822,7 @@ struct hid_driver {
- 			struct hid_usage *usage, __s32 value);
- 	void (*report)(struct hid_device *hdev, struct hid_report *report);
- 
--	__u8 *(*report_fixup)(struct hid_device *hdev, __u8 *buf,
-+	const __u8 *(*report_fixup)(struct hid_device *hdev, __u8 *buf,
- 			unsigned int *size);
- 
- 	int (*input_mapping)(struct hid_device *hdev,
+@@ -26,7 +26,7 @@ MODULE_LICENSE("GPL");
+ /* Fixed report descriptor of HS-100B audio chip
+  * Bit 4 is an abolute Microphone mute usage instead of being unassigned.
+  */
+-static __u8 hs100b_rdesc_fixed[] = {
++static const __u8 hs100b_rdesc_fixed[] = {
+ 	0x05, 0x0C,         /*  Usage Page (Consumer),          */
+ 	0x09, 0x01,         /*  Usage (Consumer Control),       */
+ 	0xA1, 0x01,         /*  Collection (Application),       */
 
 -- 
 2.45.2
