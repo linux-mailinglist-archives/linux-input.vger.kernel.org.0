@@ -1,91 +1,87 @@
-Return-Path: <linux-input+bounces-5201-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5202-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EE59401AA
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 01:17:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 545579402E6
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 02:58:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30AC02832E2
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jul 2024 23:17:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C84CD1F22F86
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 00:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9FAB140E29;
-	Mon, 29 Jul 2024 23:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A1D23C9;
+	Tue, 30 Jul 2024 00:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Crk/4gxV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXjtXTdS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335D1288BD;
-	Mon, 29 Jul 2024 23:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA019460;
+	Tue, 30 Jul 2024 00:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722295025; cv=none; b=eRqoytk744fKHXCJ60fsd6dr+rVJ68RP2QOynqaIUv5BMElUlcQwpOCLR3wr2/ZBrQAEtp5FlSDmnA6r31JmYgw7TPo87+tQvJ2pKokC7ErPLr+mPXCWD8FI0/0umtfDRr/ScPqeFMGgtdSAYWIXX2djq9kGsssuP/0hg420ceo=
+	t=1722301115; cv=none; b=pC8+GtXZg63b3UnIbMxtS3gSrYdkzBXgCsuOoiOZzvtxXWOk1Ga24DWjNmDmZpwmVOGQSnMjSvWuxpL+b1qF9Qi0eCrdpR+oweITVRga1XwDZXXaIq67hFfips+653hjUk8sXcCcy8lEo6uS59j9/eApgCevqQUj20aUUs4IRjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722295025; c=relaxed/simple;
-	bh=RrvqmgLgqLnMAmqJKNZ7eoEkTpSJreqnYx0rN8RHGkg=;
+	s=arc-20240116; t=1722301115; c=relaxed/simple;
+	bh=CpYECB0kmaquqCdk4FxbZ09dwK4tNbkto3Y1jPXD1mI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kfjO4Dd0BA9i6EJO78cZQ1+19gRGa6daRbGnskonbP3Dgk5dwE7UDsMVNC7OjDFGcZ8YcmS0b6VJHtYoqZRUyFm5Dr/X47OkvLK/ZpyJTinwUyoDiUHtnIsfigTB9D08jVqjNlyIz7Uy4ZaU0wboGBDJqkZu02frHQ9UCeE/wbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Crk/4gxV; arc=none smtp.client-ip=209.85.216.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=cCKRwTuLVu6pEfSlAqudqp7H0AgZIlPD2veGMpevhw75PgC+5oO24XAFk188LVeBKjNZtVWiU+oKzkv5AifYhM9dTPZFNgUf7VCJJGxEAXuG5sia27Ema1QDuy6GvfK5+9g1nobJoXyE1pA3hhDfqjsLLdOmig+jdGHpJ7uo3ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXjtXTdS; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2cb56c2c30eso2531509a91.1;
-        Mon, 29 Jul 2024 16:17:04 -0700 (PDT)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d150e8153so2405216b3a.0;
+        Mon, 29 Jul 2024 17:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722295023; x=1722899823; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1722301112; x=1722905912; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2XLDTo8udNoQ8sH9s/3k371tAlYwBcapamVwSmgChJE=;
-        b=Crk/4gxV/du0REEm3BDJmfhU7x+1J0+5fMcxkxe74Jj3/Ge0Eil4Iu77VPLWcKZ6Bg
-         G0UfDoTuqy0ORyP0vXbWIr6893TvanKwQyLv2sK48IhzYUbcfReaIfbgpp/A9V5+UP4r
-         nh2w/puirC1+fOVTSF8WFITmEKOFmrtxyUYq23WG85p+bnhmmrqAotFme0TcaJsAVT87
-         RNakeTWHZMQzD2jVT5e+WaUsFenfGOvdTDPSXiUhby9+YkrLslOM6bWv02tm62MUlJwk
-         T7dOFeWF4/BkxGO+MNLct+wVfyVf5uI0/uLMXmxQpO8Cs4nyaAVWm/cbKywHgFKL3arG
-         +Bng==
+        bh=RDSB5pPC4KBnYq35M/mZ4xVlhDzcx3CFEpFuR7OQWhw=;
+        b=SXjtXTdSJydJwXKgd+WvJpky37Y8O2Hn6Cebw0lVW1s5amITlk46lWD9EyaefUe6br
+         +XsjchxxWp6qtQHO/PcnTqzLv1oUdDyvmkiJMp4bubn/1Slj8kb0zuyCCTP15tgusn24
+         folHj1IkcWrfFvv0yUNAXbQuQI+U+g4ZFn7KjDsZfvW9Wp3G9r6r3iZSeh73wd27HZNj
+         2u3636CKkb4crX+/1p7KaiithBnxoGXQoLlZ4FSXWn5XbU4c3cTQGBqr3RUcbnu4u2vi
+         Y1+zA8sEzlBvpCLF72itCDfF/H3cI5hKq+LbnivUSsmZq5j1mZLETLf9YUkCdSJjYLFo
+         ybLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722295023; x=1722899823;
+        d=1e100.net; s=20230601; t=1722301112; x=1722905912;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2XLDTo8udNoQ8sH9s/3k371tAlYwBcapamVwSmgChJE=;
-        b=fXjLvPpnKBKL4vd9nAQp0MtvrAadmiWT9M/jJtToYpZVa2wgSxeJBAODq+UOMO1iFM
-         EKe3noXHzPh6B0J9QqQNVm/5qKDgi+tvbR61VVWiLnI+mh80UTxWg2LHtSTqMhauYWL4
-         ZxnKaN0zf5lf4bjsP3xhBlAIMooJtMLvha7pEwOGyrszf9gdpFAUCUbR/2u5RLBKRQD6
-         4l899E5EbUlApAUy2OOhO3YmzkP/8Vx9vs9WPQ0L/wowc0kohlsgMEl2SBSymwVU5XQY
-         r75EiIXf6RvD8OsgqKR7J1GKY5BsBq1yrLGRPiTEwgy/xJ3pM6SMe8iqfT/OR7rd+66v
-         e16w==
-X-Forwarded-Encrypted: i=1; AJvYcCVvSeyPeQP5UIDY+3vMN8hHEAbKkXKobYyso6gUPe2gmQCdKlz+2sDYuCNufBaSsx2Q1VEIJBahPhAnTuJQakqiSiCgJwSKjcIzmT0Ib2Ahb3Wzw6eeLWOsWGUfyPBF5XfuVMYeldk3YHU=
-X-Gm-Message-State: AOJu0YzQHsCIR0d6yChDeMRrUM39v4+K79RXtb6VrqXk5rRb4OyqzMJ2
-	r6K0YEv49iW3/hLuvNX1nWJVRdaXL3oPzdlXaIrMX6eUTVSDt0mV
-X-Google-Smtp-Source: AGHT+IFOLMBqJmfe/8i/vRam/QiNv6uQtorhY+JcwYQOAtKd/R5L5EFtLPw0+DI3gNrPxhcecMuLuQ==
-X-Received: by 2002:a17:90b:4c03:b0:2ca:f755:1040 with SMTP id 98e67ed59e1d1-2cfcaaec72fmr374995a91.7.1722295023211;
-        Mon, 29 Jul 2024 16:17:03 -0700 (PDT)
+        bh=RDSB5pPC4KBnYq35M/mZ4xVlhDzcx3CFEpFuR7OQWhw=;
+        b=da7gih406NNDbDgp/5GI8m3XDM8Jxez3AoQ3mSHIx5Gc+B2Ikw/sSxLQ/BfpRgYrSX
+         Yjmq08RKw6uGmtxWbetCfnyAwempZsIt5DNnZC4DDMlpJG8NkHaYsaobtRXn2z/GZ46G
+         92z7bTSRCoTKTVUWytWuiEbXyWEcTse1/h21c0pLQON+d3rrlcwbzirnMqJ1QiG93WKm
+         /Fe6N+7nMrtTX3dHwC8CRYk181a0hY0GeJinHo2ImrZMV6ASJ8TiaLShXDDT2Q/rvRxX
+         nEKi/pb0Dz1m+Fpk5bbk/n4JLdpQY9auKtiSipfuU1iwwo39UnOupJ0pRosylq358Ec8
+         oXPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrMdhuptmeBhfgDZdbOBGR2CGzSyTbO3gMczCOLqENjBHMHo1LCbRl5zuOlKFSNCfhz7c7tIWBwdCIXcPXsHI8GtyhpDWX8InYrAiPsCE9qETPfkCRn3onh3BhRiguQLAYx7DAq1vs2znrLfPYRhl9HZvkQREHk+KKLFcWVxD31SN9cWbn
+X-Gm-Message-State: AOJu0YxxOkS+H5s8P1FHFd4x+qP/4zM1NSe22mNfZ0Kybgsq/oYaINn9
+	KUHE0djiDK7IvL/NtxxuIW13r7ZmaVZvBSdFISu588r4PZ2McDKc
+X-Google-Smtp-Source: AGHT+IGlRbqc8Vnkb/OVeSxyLoLVHmlnHJgJ1CjK24WFJc9iHRieP0JngOXu75PmQbjxav/NMb5GfQ==
+X-Received: by 2002:a05:6a00:9a2:b0:704:151d:dcce with SMTP id d2e1a72fcca58-70efe428b7dmr681641b3a.5.1722301112114;
+        Mon, 29 Jul 2024 17:58:32 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:f53a:d352:6282:526b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28ca3b75sm9226981a91.25.2024.07.29.16.17.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead712f1asm7392956b3a.61.2024.07.29.17.58.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 16:17:02 -0700 (PDT)
-Date: Mon, 29 Jul 2024 16:17:00 -0700
+        Mon, 29 Jul 2024 17:58:31 -0700 (PDT)
+Date: Mon, 29 Jul 2024 17:58:28 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH (resend)] Input: MT - limit max slots
-Message-ID: <Zqgi7NYEbpRsJfa2@google.com>
-References: <Zqe76gATYUcDVLaG@google.com>
- <CAHk-=wgweFg4hOus9rhDEa437kpkdV88cvmOHeZWwhgSa5ia1g@mail.gmail.com>
- <ZqfYfIp3n7Qfo1-Q@google.com>
- <CAHk-=wiT8RzFUVXe=r3S9dfCpV+FhARgtb5SxLDSOKCJKCLOZA@mail.gmail.com>
- <Zqfg8FW-SFFedebo@google.com>
- <CAHk-=wg4peLPGB+Lyvdtwxe6nVeprvTbZiO8_=E8-R_M+VyWow@mail.gmail.com>
- <ZqfpgmmLgKti0Xrf@google.com>
- <CAHk-=wgo9iEZ20wB4rOpt6h36Dymudqf6HXww1N094bVoqyMmg@mail.gmail.com>
- <Zqf00C_eOBwcEiWG@google.com>
- <CAHk-=whH+xp7ZxqgwOEm=_H=fVpWQvWpPqK6gzcPt8xdEXzwrg@mail.gmail.com>
+To: Stefan Eichenberger <eichest@gmail.com>
+Cc: nick@shmanahar.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
+	linus.walleij@linaro.org, francesco.dolcini@toradex.com,
+	joao.goncalves@toradex.com, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Subject: Re: [PATCH v6 3/3] Input: atmel_mxt_ts - add support for
+ poweroff-sleep
+Message-ID: <Zqg6tNbCn3W79Li_@google.com>
+References: <20240715153330.91979-1-eichest@gmail.com>
+ <20240715153330.91979-4-eichest@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -94,85 +90,261 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=whH+xp7ZxqgwOEm=_H=fVpWQvWpPqK6gzcPt8xdEXzwrg@mail.gmail.com>
+In-Reply-To: <20240715153330.91979-4-eichest@gmail.com>
 
-On Mon, Jul 29, 2024 at 01:14:36PM -0700, Linus Torvalds wrote:
-> On Mon, 29 Jul 2024 at 13:00, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hmm, maybe the checks should go into drivers/input/misc/uinput.c which
-> > is the only place that allows userspace to create input device instances
-> > and drive them rather than into input core logic because all other
-> > devices are backed by real hardware.
-> 
-> Ack, that sounds like a good idea, particularly if there is some
-> single location that could validate the input.
-> 
-> uinput_validate_absinfo(), perhaps?
+Hi Stefan,
 
-Yes, I think that's the right place.
+On Mon, Jul 15, 2024 at 05:31:23PM +0200, Stefan Eichenberger wrote:
+> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> 
+> Add support for poweroff-sleep to the Atmel maXTouch driver. This allows
+> us to power off the input device entirely and only power it on when it
+> is opened. This will also automatically power it off when we suspend the
+> system.
+
+I have been looking at the patch closely and I have a few comments.
 
 > 
-> We do end up trying to protect against some forms of bad hardware too
-> when possible, but realistically _that_ kind of protection should be
-> more along the lines of "don't cause security issues".
+> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 82 ++++++++++++++++++++----
+>  1 file changed, 70 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index 9416de53bf9af..46ed3dbf0c5ed 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -265,6 +265,7 @@ enum v4l_dbg_inputs {
+>  enum mxt_suspend_mode {
+>  	MXT_SUSPEND_DEEP_SLEEP	= 0,
+>  	MXT_SUSPEND_T9_CTRL	= 1,
+> +	MXT_SUSPEND_POWEROFF	= 2,
+>  };
+>  
+>  /* Config update context */
+> @@ -1311,6 +1312,10 @@ static int mxt_power_on(struct mxt_data *data)
+>  {
+>  	int error;
+>  
+> +	/* Make sure the device is in reset before enabling power */
+> +	if (data->reset_gpio)
+> +		gpiod_set_value_cansleep(data->reset_gpio, 1);
+> +
+>  	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
+>  				      data->regulators);
+>  	if (error) {
+> @@ -2270,8 +2275,38 @@ static int mxt_configure_objects(struct mxt_data *data,
+>  
+>  static void mxt_config_cb(const struct firmware *cfg, void *ctx)
+>  {
+> +	struct mxt_data *data = ctx;
+> +
+>  	mxt_configure_objects(ctx, cfg);
+>  	release_firmware(cfg);
+> +
+> +	if ((data->suspend_mode == MXT_SUSPEND_POWEROFF) && !data->in_bootloader) {
+> +		disable_irq(data->irq);
+> +		mxt_power_off(data);
+> +	}
 
-Most of them have statically defined slot limit. The exception is HID
-(which can also be fed garbage through uhid) but hid-multitouch uses u8
-for maximum number of contacts, so can't go above 256.
+I do not think you can do it like that here. When you register an input
+device it goes through the list of registered handlers and attaches
+matching ones. Some of them may be in-kernel (for example on Chrome OS
+ARM we have a handler that momentarily boosts CPU frequency on user
+activity) and may open the input device immediately. So when you get to
+this spot the device might be powered up and being used.
+
+You should probably check result of input_device_enabled() when deciding
+whether to power it off.
+
+Also I think this would be valid for other suspend modes. Why don't we
+power off unused device?
+
+> +}
+> +
+> +static void mxt_initialize_after_resume(struct mxt_data *data)
+> +{
+> +	int error;
+> +
+> +	error = mxt_power_on(data);
+> +	if (error) {
+> +		dev_err(&data->client->dev, "Failed to power on device\n");
+> +		return;
+> +	}
+> +
+> +	error = mxt_acquire_irq(data);
+> +	if (error) {
+> +		dev_err(&data->client->dev, "Failed to acquire IRQ\n");
+> +		return;
+> +	}
+> +
+> +	error = mxt_configure_objects(data, NULL);
+
+I do not think you need to call mxt_configure_objects() here. You are
+not going to apply the config (you do not have it) and you are not going
+to create the input device (it should already be created or we do not
+have right fw/config for it to be created). You also do not need to call
+mxt_init_t7_power_cfg() because it is supposed to be run already. We
+just need to call mxt_set_t7_power_cfg() to set the right T7 power
+config, which happens later in mxt_start() anyways.
+
+I think you just need to power on and re-enable interrupts here, and I
+would do it directly in mxt_start.
+
+
+> +	if (error) {
+> +		dev_err(&data->client->dev, "Failed to configure objects\n");
+> +		return;
+> +	}
+>  }
+>  
+>  static int mxt_initialize(struct mxt_data *data)
+> @@ -2828,15 +2863,18 @@ static int mxt_configure_objects(struct mxt_data *data,
+>  			dev_warn(dev, "Error %d updating config\n", error);
+>  	}
+>  
+> -	if (data->multitouch) {
+> -		error = mxt_initialize_input_device(data);
+> -		if (error)
+> -			return error;
+> -	} else {
+> -		dev_warn(dev, "No touch object detected\n");
+> -	}
+> +	/* Do not initialize and register input device twice */
+> +	if (!data->input_dev) {
+> +		if (data->multitouch) {
+> +			error = mxt_initialize_input_device(data);
+> +			if (error)
+> +				return error;
+> +		} else {
+> +			dev_warn(dev, "No touch object detected\n");
+> +		}
+>  
+> -	mxt_debug_init(data);
+> +		mxt_debug_init(data);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -3070,6 +3108,12 @@ static ssize_t mxt_update_fw_store(struct device *dev,
+>  	struct mxt_data *data = dev_get_drvdata(dev);
+>  	int error;
+>  
+> +	if ((data->suspend_mode == MXT_SUSPEND_POWEROFF) && !data->in_bootloader) {
+> +		error = mxt_power_on(data);
+
+Can we not make it dependent on data->suspend_mode? Maybe keep track of
+the power state the device is in and just call mxt_power_on() if we
+believe that the device is off? Or even have this check (counter?) in
+mxt_power_on()/mxt_power_off()?
+
+> +		if (error)
+> +			return error;
+> +	}
+> +
+>  	error = mxt_load_fw(dev, MXT_FW_NAME);
+>  	if (error) {
+>  		dev_err(dev, "The firmware update failed(%d)\n", error);
+> @@ -3104,7 +3148,10 @@ static const struct attribute_group mxt_attr_group = {
+>  
+>  static void mxt_start(struct mxt_data *data)
+>  {
+> -	mxt_wakeup_toggle(data->client, true, false);
+> +	if (data->suspend_mode == MXT_SUSPEND_POWEROFF)
+> +		mxt_initialize_after_resume(data);
+> +	else
+> +		mxt_wakeup_toggle(data->client, true, false);
+>  
+>  	switch (data->suspend_mode) {
+>  	case MXT_SUSPEND_T9_CTRL:
+> @@ -3116,6 +3163,7 @@ static void mxt_start(struct mxt_data *data)
+>  				MXT_TOUCH_MULTI_T9, MXT_T9_CTRL, 0x83);
+>  		break;
+>  
+> +	case MXT_SUSPEND_POWEROFF:
+
+I would do like this:
+
+		error = mxt_power_on(...);
+		if (error) {
+			dev_err(...);
+			return;
+		}
+
+  		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
+
+		/*
+		 * I am not sure if explicit calibration is needed
+		 * after full power up.
+		 */
+		mxt_t6_command(data, MXT_COMMAND_CALIBRATE, 1, false);
+		mxt_acquire_irq(...);
+		break;
+
+>  	case MXT_SUSPEND_DEEP_SLEEP:
+>  	default:
+>  		mxt_set_t7_power_cfg(data, MXT_POWER_CFG_RUN);
+> @@ -3141,7 +3189,12 @@ static void mxt_stop(struct mxt_data *data)
+>  		break;
+>  	}
+>  
+> -	mxt_wakeup_toggle(data->client, false, false);
+> +	if (data->suspend_mode == MXT_SUSPEND_POWEROFF) {
+> +		disable_irq(data->irq);
+> +		mxt_power_off(data);
+
+Work it into switch() as well. If you need to move mxt_wakeup_toggle()
+into individual cases that is fine.
+
+> +	} else {
+> +		mxt_wakeup_toggle(data->client, false, false);
+> +	}
+>  }
+>  
+>  static int mxt_input_open(struct input_dev *dev)
+> @@ -3338,6 +3391,9 @@ static int mxt_probe(struct i2c_client *client)
+>  	if (error)
+>  		return error;
+>  
+> +	if (device_property_read_bool(&client->dev, "atmel,poweroff-sleep"))
+> +		data->suspend_mode = MXT_SUSPEND_POWEROFF;
+> +
+>  	/*
+>  	 * Controllers like mXT1386 have a dedicated WAKE line that could be
+>  	 * connected to a GPIO or to I2C SCL pin, or permanently asserted low.
+> @@ -3387,7 +3443,8 @@ static void mxt_remove(struct i2c_client *client)
+>  	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
+>  	mxt_free_input_device(data);
+>  	mxt_free_object_table(data);
+> -	mxt_power_off(data);
+> +	if (!(data->suspend_mode == MXT_SUSPEND_POWEROFF))
+> +		mxt_power_off(data);
+
+Please make decision based on the state, not suspend mode.
+
+>  }
+>  
+>  static int mxt_suspend(struct device *dev)
+> @@ -3420,7 +3477,8 @@ static int mxt_resume(struct device *dev)
+>  	if (!input_dev)
+>  		return 0;
+>  
+> -	enable_irq(data->irq);
+> +	if (!(data->suspend_mode == MXT_SUSPEND_POWEROFF))
+> +		enable_irq(data->irq);
+
+It would be good to have consistent IRQ management regardless of the
+suspend mode.
+
+>  
+>  	mutex_lock(&input_dev->mutex);
+>  
+> -- 
+> 2.43.0
+> 
 
 Thanks.
 
 -- 
 Dmitry
-
----8<------------------8<------------------8<---------------
-
-Input: uinput - reject requests with unreasonable number of slots
-
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-When exercising uinput interface syzkaller may try setting up device
-with a really large number of slots, which causes memory allocation
-failure in input_mt_init_slots(). While this allocation failure is
-handled properly and request is rejected, it results in syzkaller
-reports. Additionally, such request may put undue burden on the
-system which will try to free a lot of memory for a bogus request.
-
-Fix it by limiting allowed number of slots to 100. This can easily
-be extended if we see devices that can track more than 100 contacts.
-
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Reported-by: syzbot <syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/misc/uinput.c |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-index d23f3225b00f..ea3d34e62eb2 100644
---- a/drivers/input/misc/uinput.c
-+++ b/drivers/input/misc/uinput.c
-@@ -417,6 +417,20 @@ static int uinput_validate_absinfo(struct input_dev *dev, unsigned int code,
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * Limit number of contacts to a reasonable value (100). This
-+	 * ensures that we need less than 2 pages for struct input_mt
-+	 * (we are not using in-kernel slot assignment so not going to
-+	 * allocate memory for the "red" table), and we should have no
-+	 * trouble getting this much memory.
-+	 */
-+	if (code == ABS_MT_SLOT && max > 99) {
-+		printk(KERN_DEBUG
-+		       "%s: unreasonably large number of slots requested: %d\n",
-+		       UINPUT_NAME, max);
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
-
 
