@@ -1,305 +1,264 @@
-Return-Path: <linux-input+bounces-5214-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5215-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFCB9421B8
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 22:40:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDC29421E2
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 22:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E1AD283988
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 20:40:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F7321F24F9E
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 20:54:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C5618E03F;
-	Tue, 30 Jul 2024 20:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A567188003;
+	Tue, 30 Jul 2024 20:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="Apy7UCqw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA01418DF8B
-	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 20:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+Received: from submarine.notk.org (62-210-214-84.rev.poneytelecom.eu [62.210.214.84])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E178A1AA3C3
+	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 20:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722372028; cv=none; b=Etj4ZzngOhR4jBvTQH8VCIhqdPA1P1t2QYv9Lp//bnvc6Wz3UHXHX96wPaGYiMxNU5cYAU16NpaYBjwzDuQb8brqTsth204WCY4gRV2ODPRGjObWaiiC2eNzIdeL6zpIl2LTemvGHaS7nhmlSyRk2iuR/mVWSpF3Jwl4FzMSrwQ=
+	t=1722372847; cv=none; b=K0oHLfI0d7SdLn3hH0eR/uimlxt5Eaye28eZNxPNnOcvZHH8ron4RIU+KJ5he6vqroQC+lYOpJDD3vrXFKFan/rRHVaHEM9a5SRESyTOWX55q09iFltq8LuBEncWsTXoLIt+CHumOghM8+nMyjfJgpsLE2uxPYUHgumIBs5ndUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722372028; c=relaxed/simple;
-	bh=bnvK+8ZQ/kfnx62ANKz9knGFT4N9PUGnAB5gtvTxyH4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Iqro2GdPcm53SrKxeqhzTkPel8hxOgLCYuPCABhPXz3WsJOyMf1/NJ3cZp70axv35KkEdiassKo/YjHrzlpvkaciwrg1m2x9dGsV/PSjIfkEf+CiJdBpFHKf39I1sJIKbdLg0qtnx8rvxkofUDkUNk8dYgSNl0S/bZC9BTkA97g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-397a99d76baso87309375ab.1
-        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 13:40:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722372026; x=1722976826;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gaa4kNEwbZ4Ttaq1s1EfSe+XcCtx+K9EUayL7rg0k74=;
-        b=M1kxTdypQNsAcKlfo0//UiK8AkRFboT2g7fjMIxdqxiPR30RFdKgncIS/2nz/ZiGXl
-         /f08BRHu+i8limB+I/LNVgbg6a5AiiNlxDm8XR8Fo3eD98f/KWEj1mh2l/hauvphPog0
-         NINi85uRcTR+PnbUp6QU+rNKDldPHSzJSmIx44NDr/xdt9lpHgE3ncPhrZgMl8W/CBwu
-         8+qNemyyeJbq1v9ENfw8UsLGbytB/bA04GtSfXzqBvu7541uElOWwSPcWdtz/l/xpHRe
-         xsN3262TMpnkLqT0iSRP0mGuqXo0xsbCRGsyf6sJnsX0YPr3VvDat8FBNXYh5S10E+t6
-         M3fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJj9bz2T69Z0lor8+80CLMhnXQQnYuLEmMcGYQf8fieaVVuF80JKlME8t3y/LPBwNFulhlSdkK4w5wykdQ7mZzl0nxXDpJQoWbiyY=
-X-Gm-Message-State: AOJu0YwHg8k+a+6QhbkFZDSdh/tFZ2vdBWe6BnlXOTa8ZTWKt0aXg/Kt
-	CgFwVp9KbeOpqzMTxXu6PEtCF2umI83uCi51xnYkYU27VVBwYJjnmTKtJnyvHgPoxRuT08pt5Lu
-	gW5x0sKjc6RmK22RrvybBKUJ4FPd8vOtY7Z9tfJymp35fIUgK8K1JUhk=
-X-Google-Smtp-Source: AGHT+IGTZ3g08BWa4CatDZhUnU2l7Aq0ge7IsP5JGtZNMNWkaFNCzSKlKYvfcDgqMs2oBtQR9iUsh8NMI8Md3UBw7SHojGYX+usZ
+	s=arc-20240116; t=1722372847; c=relaxed/simple;
+	bh=DfbQbe/0HJhCm0l7QHt3+EL9v7HBLos8Yqv3JrTTL08=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xq+DbcUpM0HeC4ljdksNagAmAxFh6uhvtcySeGW+efocSRb+/KYbueFTyCKei7qT4mPE3OQojjEygAzo6kefhN03ZxZVUSsk6C5QT+hJcsTQ24SDE5XRh/UiZnGtF6PgZ5mfcmgJT/7hmjponi2JZd/qWzb7yn7fvb03LiOQiiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=Apy7UCqw; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id 7A29F14C2DC;
+	Tue, 30 Jul 2024 22:53:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1722372835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qc/5jgK4xS3OIhoxCJfQw3fkB+WYleGotHOjPrfp+fc=;
+	b=Apy7UCqwtVkcyO21KEWscflHXi3pRn0u2k2vYI7CVpyStSBnu+EzmrN4x+ywGKcQW6Pyjj
+	Aqfwvj0sDHr3fTyowy1YWPfXh6Bub6AV7M6l5nG7OOCvKcwKTY707MxLfIF0OJSWx45Knm
+	ThvT+ESPMeaoGnlUbgkhws8LRRLlTnXv9hqXtHy+UBsnPd5qvCncKnwjHv82BnIJftgKq5
+	mYe/dS1LJ8wMbxOIkQDR4wD4gVkWrbE6y2IsU4yWUzW2lR2hYLHXlLLVRUGykYIHsTLSjr
+	27s9biOyYqrT5BXGBA9YtR6Gu3BlE6Oh8PtHkV476VccVtsLXb8yMCeLp1hPsw==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 5c173803;
+	Tue, 30 Jul 2024 20:53:51 +0000 (UTC)
+Date: Wed, 31 Jul 2024 05:53:36 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: Jiri Kosina <jkosina@suse.cz>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Nehal Shah <nehal-bakulchandra.shah@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	linux-input@vger.kernel.org
+Subject: BUG in amd_sfh_get_report
+Message-ID: <ZqlS0MWxFDsIj_Sf@codewreck.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:2146:b0:381:7075:6911 with SMTP id
- e9e14a558f8ab-39aec2a611emr4623355ab.1.1722372026117; Tue, 30 Jul 2024
- 13:40:26 -0700 (PDT)
-Date: Tue, 30 Jul 2024 13:40:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c9ff1f061e7cfc05@google.com>
-Subject: [syzbot] [input?] [usb?] KASAN: slab-out-of-bounds Read in cougar_report_fixup
-From: syzbot <syzbot+24c0361074799d02c452@syzkaller.appspotmail.com>
-To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 Hello,
 
-syzbot found the following issue on:
+I just rebooted my server this morning and was greeted by this bug:
+--------------
+[    9.251535] BUG: unable to handle page fault for address: ffffffff856000=
+00
+[    9.254214] #PF: supervisor read access in kernel mode
+[    9.257295] #PF: error_code(0x0000) - not-present page
+[    9.259928] PGD 181a25067 P4D 181a25067 PUD 181a26063 PMD 0=20
+[    9.259940] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[    9.259945] CPU: 11 PID: 723 Comm: (udev-worker) Tainted: P           O =
+      6.6.42 #1-NixOS
+[    9.259949] Hardware name:  /Default string, BIOS FP7R2_B5D_04A.45 06/14=
+/2023
+[    9.259950] RIP: 0010:amd_sfh_get_report+0x43/0x140 [amd_sfh]
+[    9.272030] Code: 00 48 8b 68 08 8b 45 10 85 c0 0f 84 d9 00 00 00 49 89 =
+fc 41 89 f6 41 89 d7 31 db eb 0d 48 83 c3 01 48 39 c3 0f 84 bf 00 00 00 <4c=
+> 39 64 dd 68 75 ec 48 8b 44 24 30 48 33 05 92 d3 c7 c2 be c0 0d
+[    9.272037] RSP: 0018:ffffc90000f8fb40 EFLAGS: 00010287
+[    9.272041] RAX: 0000000048000000 RBX: 0000000000545c2d RCX: 00000000000=
+00000
+[    9.272043] RDX: 0000000000000002 RSI: 0000000000000001 RDI: ffff88812ce=
+84000
+[    9.272045] RBP: ffffffff82bd1e30 R08: ffffc90000f8fbd8 R09: ffffc90000f=
+8fbd8
+[    9.272046] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88812ce=
+84000
+[    9.272047] R13: 0000000000000001 R14: 0000000000000001 R15: 00000000000=
+00002
+[    9.272049] FS:  00007f7175005100(0000) GS:ffff88838ff80000(0000) knlGS:=
+0000000000000000
+[    9.272050] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    9.272051] CR2: ffffffff85600000 CR3: 0000000117900000 CR4: 0000000000f=
+50ee0
+[    9.297338] PKRU: 55555554
+[    9.297345] Call Trace:
+[    9.297353]  <TASK>
+[    9.297360]  ? __die+0x23/0x80
+[    9.297371]  ? page_fault_oops+0x171/0x500
+[    9.297376]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    9.297382]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    9.297384]  ? search_bpf_extables+0x5f/0x90
+[    9.319385]  ? exc_page_fault+0x158/0x160
+[    9.319397]  ? asm_exc_page_fault+0x26/0x30
+[    9.319403]  ? __pfx_css_release+0x10/0x10
+[    9.319417]  ? amd_sfh_get_report+0x43/0x140 [amd_sfh]
+[    9.319426]  amdtp_hid_request+0x3e/0x60 [amd_sfh]
+[    9.319435]  sensor_hub_get_feature+0xad/0x180 [hid_sensor_hub]
+[    9.319448]  hid_sensor_parse_common_attributes+0x217/0x320 [hid_sensor_=
+iio_common]
+[    9.319457]  hid_accel_3d_probe+0xb7/0x320 [hid_sensor_accel_3d]
+[    9.319463]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    9.319466]  platform_probe+0x44/0xa0
+[    9.319474]  really_probe+0x1ac/0x3f0
+[    9.319478]  ? __pfx___driver_attach+0x10/0x10
+[    9.319480]  __driver_probe_device+0x78/0x170
+[    9.319482]  driver_probe_device+0x1f/0xa0
+[    9.319485]  __driver_attach+0xea/0x1e0
+[    9.319487]  bus_for_each_dev+0x8c/0xe0
+[    9.319493]  bus_add_driver+0x14d/0x280
+[    9.319497]  driver_register+0x5d/0x120
+[    9.319500]  ? __pfx_hid_accel_3d_platform_driver_init+0x10/0x10 [hid_se=
+nsor_accel_3d]
+[    9.319504]  do_one_initcall+0x5d/0x330
+[    9.319513]  do_init_module+0x90/0x270
+[    9.319517]  __do_sys_init_module+0x18a/0x1c0
+[    9.319520]  ? srso_alias_return_thunk+0x5/0xfbef5
+[    9.319525]  do_syscall_64+0x39/0x90
+[    9.319530]  entry_SYSCALL_64_after_hwframe+0x78/0xe2
+[    9.319534] RIP: 0033:0x7f7174b1a61e
+[    9.319579] Code: 48 8b 0d 0d 68 0d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 =
+2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 af 00 00 00 0f 05 <48=
+> 3d 01 f0 ff ff 73 01 c3 48 8b 0d da 67 0d 00 f7 d8 64 89 01 48
+[    9.319581] RSP: 002b:00007ffda3136658 EFLAGS: 00000246 ORIG_RAX: 000000=
+00000000af
+[    9.319584] RAX: ffffffffffffffda RBX: 000055a3f7725040 RCX: 00007f7174b=
+1a61e
+[    9.319585] RDX: 00007f7175181304 RSI: 0000000000007fd0 RDI: 000055a3f77=
+3edb0
+[    9.319587] RBP: 000055a3f773edb0 R08: 0000000000000000 R09: 00000000000=
+00000
+[    9.319588] R10: 0000000000000000 R11: 0000000000000246 R12: 00007f71751=
+81304
+[    9.319589] R13: 0000000000020000 R14: 000055a3f771fa40 R15: 00000000000=
+00000
+[    9.319593]  </TASK>
+[    9.319594] Modules linked in: hid_sensor_gyro_3d hid_sensor_magn_3d snd=
+_sof_amd_renoir intel_rapl_msr(+) edac_core nls_iso8859_1 hid_sensor_accel_=
+3d(+) snd_sof_amd_acp rtw88_core intel_rapl_common hid_sensor_trigger nls_c=
+p437 industrialio_triggered_buffer snd_sof_pci kfifo_buf snd_sof_xtensa_dsp=
+ hid_sensor_iio_common vfat industrialio snd_sof fat kvm_amd mac80211 snd_s=
+of_utils hid_sensor_hub snd_hda_codec_realtek snd_hda_codec_hdmi kvm snd_hd=
+a_codec_generic drm_exec snd_soc_core amdxcp snd_usb_audio drm_buddy irqbyp=
+ass snd_compress snd_hda_intel crc32_pclmul eeepc_wmi(-) polyval_clmulni ac=
+97_bus snd_intel_dspcfg gpu_sched btusb asus_wmi snd_pcm_dmaengine polyval_=
+generic snd_intel_sdw_acpi snd_usbmidi_lib gf128mul drm_suballoc_helper btr=
+tl battery snd_pci_ps ghash_clmulni_intel snd_ump drm_ttm_helper snd_hda_co=
+dec snd_rpl_pci_acp6x btintel snd_rawmidi ttm btbcm snd_acp_pci ledtrig_aud=
+io input_leds sha512_ssse3 snd_seq_device snd_hda_core sparse_keymap btmtk =
+evdev wmi_bmof snd_acp_legacy_common sha256_ssse3
+[    9.319659]  drm_display_helper mc led_class snd_pci_acp6x snd_hwdep sha=
+1_ssse3 cfg80211 mac_hid bluetooth r8169 aesni_intel snd_pcm cec crypto_sim=
+d cryptd snd_pci_acp5x i2c_algo_bit sp5100_tco snd_rn_pci_acp3x realtek snd=
+_timer tpm_crb snd_acp_config mdio_devres ecdh_generic uas watchdog video s=
+nd tpm_tis amd_pmf snd_soc_acpi tiny_power_button rfkill ecc rapl usb_stora=
+ge crc16 libphy libarc4 soundcore k10temp amd_sfh(+) i2c_piix4 ccp snd_pci_=
+acp3x backlight wmi thermal tpm_tis_core platform_profile button acpi_tad s=
+erio_raw zfs(PO+) nfsd spl(O) tun tap auth_rpcgss macvlan nfs_acl lockd bri=
+dge grace stp llc fuse sunrpc efi_pstore configfs nfnetlink zram efivarfs t=
+pm rng_core dmi_sysfs ip_tables x_tables autofs4 hid_generic sd_mod usbhid =
+atkbd libps2 hid vivaldi_fmap ahci libahci libata nvme xhci_pci xhci_pci_re=
+nesas nvme_core scsi_mod xhci_hcd nvme_common t10_pi crc64_rocksoft crc64 c=
+rc_t10dif crct10dif_generic crct10dif_pclmul scsi_common crct10dif_common r=
+tc_cmos i8042 serio dm_mod dax btrfs blake2b_generic
+[    9.319743]  libcrc32c crc32c_generic crc32c_intel xor raid6_pq
+[    9.319749] CR2: ffffffff85600000
+[    9.319752] ---[ end trace 0000000000000000 ]---
+[    9.444407] RIP: 0010:amd_sfh_get_report+0x43/0x140 [amd_sfh]
+[    9.563701] Code: 00 48 8b 68 08 8b 45 10 85 c0 0f 84 d9 00 00 00 49 89 =
+fc 41 89 f6 41 89 d7 31 db eb 0d 48 83 c3 01 48 39 c3 0f 84 bf 00 00 00 <4c=
+> 39 64 dd 68 75 ec 48 8b 44 24 30 48 33 05 92 d3 c7 c2 be c0 0d
+[    9.563707] RSP: 0018:ffffc90000f8fb40 EFLAGS: 00010287
+[    9.563710] RAX: 0000000048000000 RBX: 0000000000545c2d RCX: 00000000000=
+00000
+[    9.563711] RDX: 0000000000000002 RSI: 0000000000000001 RDI: ffff88812ce=
+84000
+[    9.563713] RBP: ffffffff82bd1e30 R08: ffffc90000f8fbd8 R09: ffffc90000f=
+8fbd8
+[    9.563714] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88812ce=
+84000
+[    9.563715] R13: 0000000000000001 R14: 0000000000000001 R15: 00000000000=
+00002
+[    9.563716] FS:  00007f7175005100(0000) GS:ffff88838ff80000(0000) knlGS:=
+0000000000000000
+[    9.594612] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    9.594617] CR2: ffffffff85600000 CR3: 0000000117900000 CR4: 0000000000f=
+50ee0
+[    9.594619] PKRU: 55555554
+[    9.594622] note: (udev-worker)[723] exited with irqs disabled
+------
 
-HEAD commit:    1722389b0d86 Merge tag 'net-6.11-rc1' of git://git.kernel...
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=153cbebd980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e3044dca4d5f6dbe
-dashboard link: https://syzkaller.appspot.com/bug?extid=24c0361074799d02c452
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10aef9a1980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11d32623980000
+Thanksfully the system was able to boot but I'm not quite sure if it's
+related udev got a thread stuck trying to remove the device (probably
+the thread died with some lock held) and everything was very slow;
+something else crashed again shortly after so I didn't have time to
+investigate the bugged state all that much.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/78a5695ed7e2/disk-1722389b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1507b4c5000d/vmlinux-1722389b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/449aa9e94d6b/bzImage-1722389b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+24c0361074799d02c452@syzkaller.appspotmail.com
-
-usb 1-1: config 0 interface 0 altsetting 0 endpoint 0x81 has invalid wMaxPacketSize 0
-usb 1-1: New USB device found, idVendor=060b, idProduct=700a, bcdDevice= 0.00
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-==================================================================
-BUG: KASAN: slab-out-of-bounds in cougar_report_fixup+0x1a1/0x1e0 drivers/hid/hid-cougar.c:109
-Read of size 1 at addr ffff88810e2895e2 by task kworker/0:1/9
-
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.10.0-syzkaller-g1722389b0d86 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:119
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0xc3/0x620 mm/kasan/report.c:488
- kasan_report+0xd9/0x110 mm/kasan/report.c:601
- cougar_report_fixup+0x1a1/0x1e0 drivers/hid/hid-cougar.c:109
- hid_open_report+0x1b3/0x7c0 drivers/hid/hid-core.c:1235
- hid_parse include/linux/hid.h:1118 [inline]
- cougar_probe+0x78/0x840 drivers/hid/hid-cougar.c:206
- __hid_device_probe drivers/hid/hid-core.c:2674 [inline]
- hid_device_probe+0x2eb/0x490 drivers/hid/hid-core.c:2711
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- hid_add_device+0x37f/0xa70 drivers/hid/hid-core.c:2857
- usbhid_probe+0xd3b/0x1410 drivers/hid/usbhid/hid-core.c:1431
- usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- usb_set_configuration+0x10cb/0x1c50 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:254
- usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2651
- hub_port_connect drivers/usb/core/hub.c:5521 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
- port_event drivers/usb/core/hub.c:5821 [inline]
- hub_event+0x2e66/0x4f50 drivers/usb/core/hub.c:5903
- process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
- process_scheduled_works kernel/workqueue.c:3312 [inline]
- worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
- kthread+0x2c1/0x3a0 kernel/kthread.c:389
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
-
-Allocated by task 9:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
- kasan_save_track+0x14/0x30 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:370 [inline]
- __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:387
- kasan_kmalloc include/linux/kasan.h:211 [inline]
- __do_kmalloc_node mm/slub.c:4158 [inline]
- __kmalloc_node_track_caller_noprof+0x1ff/0x3e0 mm/slub.c:4177
- kmemdup_noprof+0x29/0x60 mm/util.c:133
- kmemdup_noprof include/linux/fortify-string.h:753 [inline]
- hid_open_report+0x133/0x7c0 drivers/hid/hid-core.c:1230
- hid_parse include/linux/hid.h:1118 [inline]
- cougar_probe+0x78/0x840 drivers/hid/hid-cougar.c:206
- __hid_device_probe drivers/hid/hid-core.c:2674 [inline]
- hid_device_probe+0x2eb/0x490 drivers/hid/hid-core.c:2711
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- hid_add_device+0x37f/0xa70 drivers/hid/hid-core.c:2857
- usbhid_probe+0xd3b/0x1410 drivers/hid/usbhid/hid-core.c:1431
- usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- usb_set_configuration+0x10cb/0x1c50 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:254
- usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
- call_driver_probe drivers/base/dd.c:578 [inline]
- really_probe+0x23e/0xa90 drivers/base/dd.c:657
- __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
- __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
- bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
- bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
- device_add+0x114b/0x1a70 drivers/base/core.c:3679
- usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2651
- hub_port_connect drivers/usb/core/hub.c:5521 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
- port_event drivers/usb/core/hub.c:5821 [inline]
- hub_event+0x2e66/0x4f50 drivers/usb/core/hub.c:5903
- process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
- process_scheduled_works kernel/workqueue.c:3312 [inline]
- worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
- kthread+0x2c1/0x3a0 kernel/kthread.c:389
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
-The buggy address belongs to the object at ffff88810e2895e0
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 1 bytes to the right of
- allocated 1-byte region [ffff88810e2895e0, ffff88810e2895e1)
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10e289
-flags: 0x200000000000000(node=0|zone=2)
-page_type: 0xfdffffff(slab)
-raw: 0200000000000000 ffff888100041500 ffffea000439a880 0000000000000002
-raw: 0000000000000000 0000000080800080 00000001fdffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 1, tgid 1 (swapper/0), ts 6939675028, free_ts 6856482901
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x2d1/0x350 mm/page_alloc.c:1493
- prep_new_page mm/page_alloc.c:1501 [inline]
- get_page_from_freelist+0x1311/0x25f0 mm/page_alloc.c:3438
- __alloc_pages_noprof+0x21e/0x2290 mm/page_alloc.c:4696
- __alloc_pages_node_noprof include/linux/gfp.h:269 [inline]
- alloc_pages_node_noprof include/linux/gfp.h:296 [inline]
- alloc_slab_page+0x4e/0xf0 mm/slub.c:2321
- allocate_slab mm/slub.c:2484 [inline]
- new_slab+0x84/0x260 mm/slub.c:2537
- ___slab_alloc+0xdac/0x1870 mm/slub.c:3723
- __slab_alloc.constprop.0+0x56/0xb0 mm/slub.c:3813
- __slab_alloc_node mm/slub.c:3866 [inline]
- slab_alloc_node mm/slub.c:4025 [inline]
- __do_kmalloc_node mm/slub.c:4157 [inline]
- __kmalloc_node_track_caller_noprof+0x14e/0x3e0 mm/slub.c:4177
- kvasprintf+0xbd/0x160 lib/kasprintf.c:25
- kvasprintf_const+0x66/0x1a0 lib/kasprintf.c:49
- kobject_set_name_vargs+0x5a/0x140 lib/kobject.c:274
- dev_set_name+0xc8/0x100 drivers/base/core.c:3482
- usb_alloc_dev+0xb4c/0xdc0 drivers/usb/core/usb.c:696
- usb_add_hcd+0x477/0x16a0 drivers/usb/core/hcd.c:2863
- dummy_hcd_probe+0x15c/0x380 drivers/usb/gadget/udc/dummy_hcd.c:2682
- platform_probe+0xff/0x1f0 drivers/base/platform.c:1404
-page last free pid 36 tgid 36 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1094 [inline]
- free_unref_page+0x698/0xce0 mm/page_alloc.c:2608
- vfree+0x181/0x7a0 mm/vmalloc.c:3364
- delayed_vfree_work+0x56/0x70 mm/vmalloc.c:3285
- process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
- process_scheduled_works kernel/workqueue.c:3312 [inline]
- worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
- kthread+0x2c1/0x3a0 kernel/kthread.c:389
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
-Memory state around the buggy address:
- ffff88810e289480: fa fc fc fc 00 fc fc fc fa fc fc fc 00 fc fc fc
- ffff88810e289500: 00 fc fc fc 00 fc fc fc 00 fc fc fc 00 fc fc fc
->ffff88810e289580: fa fc fc fc 00 fc fc fc 01 fc fc fc 01 fc fc fc
-                                                       ^
- ffff88810e289600: fa fc fc fc fa fc fc fc 06 fc fc fc 06 fc fc fc
- ffff88810e289680: fa fc fc fc 06 fc fc fc 06 fc fc fc 00 fc fc fc
-==================================================================
+- 6.6.42 kernel from nixos unstable
+- CPU identified as AMD Ryzen 7 7735HS with Radeon Graphics in
+/proc/cpuinfo
+- this card:
+05:00.7 Signal processing controller [1180]: Advanced Micro Devices, Inc. [=
+AMD] Sensor Fusion Hub [1022:15e4]
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I'd offer to test mainline but I cannot reboot this machine easily, and
+passing the card to qemu unfortunately didn't reproduce
+(amd_sfh_dis_sts_v2() !=3D 0 so it doesn't load, and skipping that check
+doesn't help), so I'm afraid I won't be of much help with further
+debugging but hopefully it'll give a starting point..
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+I unfortunately have no way to easily get debug infos but a quick look
+at the disassembly hints that amd_sfh_get_report+0x43 is the
+access to cli_data->hid_sensor_hubs[i]:
+('i++')
+     aa6:       48 83 c3 01             add    $0x1,%rbx
+('i < cli_data->num_hid_devices' check)
+     aaa:       48 39 c3                cmp    %rax,%rbx
+     aad:       0f 84 bf 00 00 00       je     b72 <amd_sfh_get_report+0x10=
+2>
+(amd_sfh_get_report+0x43;
+'if (cli_data->hid_sensor_hubs[i] =3D=3D hid) {'
+0x68 is the offset of hid_sensor_hubs in struct amdtp_cl_data;
+the registers / bug address also match rbp+8*rbx+0x68 =3D ffffffff85600000)
+     ab3:       4c 39 64 dd 68          cmp    %r12,0x68(%rbp,%rbx,8)
+     ab8:       75 ec                   jne    aa6 <amd_sfh_get_report+0x36>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+     ab3:       4c 39 64 dd 68          cmp    %r12,0x68(%rbp,%rbx,8)
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+So the problem would be that num_hid_device somehow holds 0x48000000 and
+that let i run free to way too high values?
+I can't fault num_hid_devices init for a given cli_data in
+amd_sfh_hid_client_init, but amd_sfh_get_report() might have been called
+on something that's not quite valid yet or is in the process of being
+removed?...
+I'm sorry my previous reboot was a while ago so I can't even tell if
+it's reproducible, but the code hasn't changed all that much recently so
+this is probably a race condition so that'd explain I hadn't seen this
+before...
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+(... And I honestly have no idea what this driver is all for even after
+having looked at the code so I've just blacklisted the module for now,
+good luck!)
+--=20
+Dominique Martinet | Asmadeus
 
