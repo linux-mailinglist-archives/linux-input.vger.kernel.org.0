@@ -1,215 +1,305 @@
-Return-Path: <linux-input+bounces-5213-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5214-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C8C9415C8
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 17:52:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFCB9421B8
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 22:40:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B2482841CC
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 15:52:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E1AD283988
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jul 2024 20:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F3361BA874;
-	Tue, 30 Jul 2024 15:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3tM6Z+K"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C5618E03F;
+	Tue, 30 Jul 2024 20:40:28 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BA81BA882
-	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 15:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA01418DF8B
+	for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 20:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722354734; cv=none; b=CYg8Lh8824zr/qkGzJiIwlSTbEIEMTyhi5Jd1bN7XSjC6+MFs4qpJiDiXDfY9zLMVAERTpk/FIGUD2FnKCC17sos0olOtmqlcu5i0sfQ0kZWu5Jc/28C7rsC8tm7HIjkrms1m+9AXsB8Bk9NSvsdqML2wZLkw3oypj4rAmw5zSo=
+	t=1722372028; cv=none; b=Etj4ZzngOhR4jBvTQH8VCIhqdPA1P1t2QYv9Lp//bnvc6Wz3UHXHX96wPaGYiMxNU5cYAU16NpaYBjwzDuQb8brqTsth204WCY4gRV2ODPRGjObWaiiC2eNzIdeL6zpIl2LTemvGHaS7nhmlSyRk2iuR/mVWSpF3Jwl4FzMSrwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722354734; c=relaxed/simple;
-	bh=v5e/IuWMGYfiUxz6H+zHQ+Ep/y19tWPY1QrZkU7uVks=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UCXS18j+MB2k2lBwg/8W8ARPqFQI4KLJtPiwLKLfV8GLT4xe1h9Hdm6J2vkPVt7X8GrqfyDG390MIn/x41b1mMCIJaCFnKyxIa8+2isoQ03ksaK2vitjY5sgl9UezcOdsAJ6bjy1GVwlkgoc9YFHQo3xjfKXLVG0uCH68zH1gzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3tM6Z+K; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2cf11b91813so3014956a91.1
-        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 08:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722354731; x=1722959531; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9QznQgl7IMPwXRn13HQau8DQv3i//tPPE+dJlmMF5Xw=;
-        b=R3tM6Z+KIcVYeSOZyV6B99DpOBtE/zqTPl4+XBe4EhX06RzZ4V31v69SDazIiL1U1h
-         8EaHiO1owlZTHFR2y+/o4UDWIgYD4OqmeUycf4RgpwbXPGQHfry+1MSshCLXMtDCC7cO
-         xts4e76ZmJeQ8pTbliLg6HtBTpd1DZ1LXcrE2LxkyC7P2t/tWcUdAV4zzJ50JBc3Zn2k
-         zEOxQydkmfZqUOdW2a76IK4VXTJKyveqqZlWyd3E5jtGf7Wgay+I4g9NB3w9Ggyexn30
-         0J71XiOyR2x4JjlcsJrE7oHWxNi6ITub90ZZPxlMabcMDpacRpH91RuGVjHSwt5pj4il
-         XXyg==
+	s=arc-20240116; t=1722372028; c=relaxed/simple;
+	bh=bnvK+8ZQ/kfnx62ANKz9knGFT4N9PUGnAB5gtvTxyH4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Iqro2GdPcm53SrKxeqhzTkPel8hxOgLCYuPCABhPXz3WsJOyMf1/NJ3cZp70axv35KkEdiassKo/YjHrzlpvkaciwrg1m2x9dGsV/PSjIfkEf+CiJdBpFHKf39I1sJIKbdLg0qtnx8rvxkofUDkUNk8dYgSNl0S/bZC9BTkA97g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-397a99d76baso87309375ab.1
+        for <linux-input@vger.kernel.org>; Tue, 30 Jul 2024 13:40:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722354731; x=1722959531;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9QznQgl7IMPwXRn13HQau8DQv3i//tPPE+dJlmMF5Xw=;
-        b=R/Wwbc2VpJHQLghOYHxs3NnmP+MOwrJQNVS3QR88i6csnuJa8ZT6qPUYreusX+I4Ni
-         6qhsS0eclKF2sJoRJtsBLlRQ9y/cJXRqi1OwkrgxSl+wK4JFMDyeocxiGD4GofIgnEA6
-         4gz3gB7DTBNo/NcjZiHBY0AgVGmVFJzw5DcVHm/DoXVwVYkb6WBMKiGHPUlsGy+hwVwD
-         4Gd84ZHjSXdHhcEyyy5GvJ1sryzck449404tQCqDCq2YIq1fG25O3aaUrIaXI2IFUvvv
-         AWGyAI0wE6w1lu4ngjrPn5xWihvnScYtGd/9DvIkZIqwtu93qUEqdUJ5oH/WmB2gNUUD
-         xpTA==
-X-Gm-Message-State: AOJu0YxEpyIFFqsNs4GiMdfNcLqNUw+SxRT3D7v8j34RjO8qt2DKWUwH
-	LR7IG5des1joNG6qaY6surYT5ZjKsGaZLCFyKMvY8zlIX0MgfKXfGCoCiQ==
-X-Google-Smtp-Source: AGHT+IFrCxGoxE87NfNjTcc3J4UGBNaa+Wm/4b/nzFp6FzZnuQ3wSDDOSFDpIcqJdipOhAXik5hr8Q==
-X-Received: by 2002:a17:90b:50e:b0:2c9:6ad9:b75b with SMTP id 98e67ed59e1d1-2cf7e72beabmr8118198a91.40.1722354731186;
-        Tue, 30 Jul 2024 08:52:11 -0700 (PDT)
-Received: from localhost.localdomain (71-34-81-131.ptld.qwest.net. [71.34.81.131])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb7600054sm12788517a91.47.2024.07.30.08.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 08:52:10 -0700 (PDT)
-From: "Gerecke, Jason" <killertofu@gmail.com>
-X-Google-Original-From: "Gerecke, Jason" <jason.gerecke@wacom.com>
-To: linux-input@vger.kernel.org,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>
-Cc: Ping Cheng <pinglinux@gmail.com>,
-	Joshua Dickens <Joshua@Joshua-Dickens.com>,
-	Erin Skomra <skomra@gmail.com>,
-	"Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>
-Subject: [PATCH 5/5] HID: wacom: Support devices with two touchrings
-Date: Tue, 30 Jul 2024 08:51:59 -0700
-Message-ID: <20240730155159.3156-5-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240730155159.3156-1-jason.gerecke@wacom.com>
-References: <20240730155159.3156-1-jason.gerecke@wacom.com>
+        d=1e100.net; s=20230601; t=1722372026; x=1722976826;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gaa4kNEwbZ4Ttaq1s1EfSe+XcCtx+K9EUayL7rg0k74=;
+        b=M1kxTdypQNsAcKlfo0//UiK8AkRFboT2g7fjMIxdqxiPR30RFdKgncIS/2nz/ZiGXl
+         /f08BRHu+i8limB+I/LNVgbg6a5AiiNlxDm8XR8Fo3eD98f/KWEj1mh2l/hauvphPog0
+         NINi85uRcTR+PnbUp6QU+rNKDldPHSzJSmIx44NDr/xdt9lpHgE3ncPhrZgMl8W/CBwu
+         8+qNemyyeJbq1v9ENfw8UsLGbytB/bA04GtSfXzqBvu7541uElOWwSPcWdtz/l/xpHRe
+         xsN3262TMpnkLqT0iSRP0mGuqXo0xsbCRGsyf6sJnsX0YPr3VvDat8FBNXYh5S10E+t6
+         M3fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJj9bz2T69Z0lor8+80CLMhnXQQnYuLEmMcGYQf8fieaVVuF80JKlME8t3y/LPBwNFulhlSdkK4w5wykdQ7mZzl0nxXDpJQoWbiyY=
+X-Gm-Message-State: AOJu0YwHg8k+a+6QhbkFZDSdh/tFZ2vdBWe6BnlXOTa8ZTWKt0aXg/Kt
+	CgFwVp9KbeOpqzMTxXu6PEtCF2umI83uCi51xnYkYU27VVBwYJjnmTKtJnyvHgPoxRuT08pt5Lu
+	gW5x0sKjc6RmK22RrvybBKUJ4FPd8vOtY7Z9tfJymp35fIUgK8K1JUhk=
+X-Google-Smtp-Source: AGHT+IGTZ3g08BWa4CatDZhUnU2l7Aq0ge7IsP5JGtZNMNWkaFNCzSKlKYvfcDgqMs2oBtQR9iUsh8NMI8Md3UBw7SHojGYX+usZ
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:2146:b0:381:7075:6911 with SMTP id
+ e9e14a558f8ab-39aec2a611emr4623355ab.1.1722372026117; Tue, 30 Jul 2024
+ 13:40:26 -0700 (PDT)
+Date: Tue, 30 Jul 2024 13:40:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c9ff1f061e7cfc05@google.com>
+Subject: [syzbot] [input?] [usb?] KASAN: slab-out-of-bounds Read in cougar_report_fixup
+From: syzbot <syzbot+24c0361074799d02c452@syzkaller.appspotmail.com>
+To: bentiss@kernel.org, jikos@kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jason Gerecke <jason.gerecke@wacom.com>
+Hello,
 
-If a device has more than one touchring, we want to be sure that userspace
-is able to distinguish them. Following previous standards, the first
-absolute ring will be reported as ABS_WHEEL and the second as ABS_THROTTLE.
-Relative rings will use REL_WHEEL_HI_RES / REL_WHEEL for the first and
-REL_HWHEEL_HI_RES / REL_HWHEEL for the second.
+syzbot found the following issue on:
 
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+HEAD commit:    1722389b0d86 Merge tag 'net-6.11-rc1' of git://git.kernel...
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=153cbebd980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e3044dca4d5f6dbe
+dashboard link: https://syzkaller.appspot.com/bug?extid=24c0361074799d02c452
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10aef9a1980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11d32623980000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/78a5695ed7e2/disk-1722389b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1507b4c5000d/vmlinux-1722389b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/449aa9e94d6b/bzImage-1722389b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+24c0361074799d02c452@syzkaller.appspotmail.com
+
+usb 1-1: config 0 interface 0 altsetting 0 endpoint 0x81 has invalid wMaxPacketSize 0
+usb 1-1: New USB device found, idVendor=060b, idProduct=700a, bcdDevice= 0.00
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+==================================================================
+BUG: KASAN: slab-out-of-bounds in cougar_report_fixup+0x1a1/0x1e0 drivers/hid/hid-cougar.c:109
+Read of size 1 at addr ffff88810e2895e2 by task kworker/0:1/9
+
+CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.10.0-syzkaller-g1722389b0d86 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:119
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0xc3/0x620 mm/kasan/report.c:488
+ kasan_report+0xd9/0x110 mm/kasan/report.c:601
+ cougar_report_fixup+0x1a1/0x1e0 drivers/hid/hid-cougar.c:109
+ hid_open_report+0x1b3/0x7c0 drivers/hid/hid-core.c:1235
+ hid_parse include/linux/hid.h:1118 [inline]
+ cougar_probe+0x78/0x840 drivers/hid/hid-cougar.c:206
+ __hid_device_probe drivers/hid/hid-core.c:2674 [inline]
+ hid_device_probe+0x2eb/0x490 drivers/hid/hid-core.c:2711
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ hid_add_device+0x37f/0xa70 drivers/hid/hid-core.c:2857
+ usbhid_probe+0xd3b/0x1410 drivers/hid/usbhid/hid-core.c:1431
+ usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ usb_set_configuration+0x10cb/0x1c50 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:254
+ usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2651
+ hub_port_connect drivers/usb/core/hub.c:5521 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
+ port_event drivers/usb/core/hub.c:5821 [inline]
+ hub_event+0x2e66/0x4f50 drivers/usb/core/hub.c:5903
+ process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
+ process_scheduled_works kernel/workqueue.c:3312 [inline]
+ worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
+ kthread+0x2c1/0x3a0 kernel/kthread.c:389
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+
+Allocated by task 9:
+ kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:370 [inline]
+ __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:387
+ kasan_kmalloc include/linux/kasan.h:211 [inline]
+ __do_kmalloc_node mm/slub.c:4158 [inline]
+ __kmalloc_node_track_caller_noprof+0x1ff/0x3e0 mm/slub.c:4177
+ kmemdup_noprof+0x29/0x60 mm/util.c:133
+ kmemdup_noprof include/linux/fortify-string.h:753 [inline]
+ hid_open_report+0x133/0x7c0 drivers/hid/hid-core.c:1230
+ hid_parse include/linux/hid.h:1118 [inline]
+ cougar_probe+0x78/0x840 drivers/hid/hid-cougar.c:206
+ __hid_device_probe drivers/hid/hid-core.c:2674 [inline]
+ hid_device_probe+0x2eb/0x490 drivers/hid/hid-core.c:2711
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ hid_add_device+0x37f/0xa70 drivers/hid/hid-core.c:2857
+ usbhid_probe+0xd3b/0x1410 drivers/hid/usbhid/hid-core.c:1431
+ usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ usb_set_configuration+0x10cb/0x1c50 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0xb1/0x110 drivers/usb/core/generic.c:254
+ usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:657
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:799
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:829
+ __device_attach_driver+0x1df/0x310 drivers/base/dd.c:957
+ bus_for_each_drv+0x157/0x1e0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1029
+ bus_probe_device+0x17f/0x1c0 drivers/base/bus.c:532
+ device_add+0x114b/0x1a70 drivers/base/core.c:3679
+ usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2651
+ hub_port_connect drivers/usb/core/hub.c:5521 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
+ port_event drivers/usb/core/hub.c:5821 [inline]
+ hub_event+0x2e66/0x4f50 drivers/usb/core/hub.c:5903
+ process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
+ process_scheduled_works kernel/workqueue.c:3312 [inline]
+ worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
+ kthread+0x2c1/0x3a0 kernel/kthread.c:389
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+The buggy address belongs to the object at ffff88810e2895e0
+ which belongs to the cache kmalloc-8 of size 8
+The buggy address is located 1 bytes to the right of
+ allocated 1-byte region [ffff88810e2895e0, ffff88810e2895e1)
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10e289
+flags: 0x200000000000000(node=0|zone=2)
+page_type: 0xfdffffff(slab)
+raw: 0200000000000000 ffff888100041500 ffffea000439a880 0000000000000002
+raw: 0000000000000000 0000000080800080 00000001fdffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 1, tgid 1 (swapper/0), ts 6939675028, free_ts 6856482901
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x2d1/0x350 mm/page_alloc.c:1493
+ prep_new_page mm/page_alloc.c:1501 [inline]
+ get_page_from_freelist+0x1311/0x25f0 mm/page_alloc.c:3438
+ __alloc_pages_noprof+0x21e/0x2290 mm/page_alloc.c:4696
+ __alloc_pages_node_noprof include/linux/gfp.h:269 [inline]
+ alloc_pages_node_noprof include/linux/gfp.h:296 [inline]
+ alloc_slab_page+0x4e/0xf0 mm/slub.c:2321
+ allocate_slab mm/slub.c:2484 [inline]
+ new_slab+0x84/0x260 mm/slub.c:2537
+ ___slab_alloc+0xdac/0x1870 mm/slub.c:3723
+ __slab_alloc.constprop.0+0x56/0xb0 mm/slub.c:3813
+ __slab_alloc_node mm/slub.c:3866 [inline]
+ slab_alloc_node mm/slub.c:4025 [inline]
+ __do_kmalloc_node mm/slub.c:4157 [inline]
+ __kmalloc_node_track_caller_noprof+0x14e/0x3e0 mm/slub.c:4177
+ kvasprintf+0xbd/0x160 lib/kasprintf.c:25
+ kvasprintf_const+0x66/0x1a0 lib/kasprintf.c:49
+ kobject_set_name_vargs+0x5a/0x140 lib/kobject.c:274
+ dev_set_name+0xc8/0x100 drivers/base/core.c:3482
+ usb_alloc_dev+0xb4c/0xdc0 drivers/usb/core/usb.c:696
+ usb_add_hcd+0x477/0x16a0 drivers/usb/core/hcd.c:2863
+ dummy_hcd_probe+0x15c/0x380 drivers/usb/gadget/udc/dummy_hcd.c:2682
+ platform_probe+0xff/0x1f0 drivers/base/platform.c:1404
+page last free pid 36 tgid 36 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1094 [inline]
+ free_unref_page+0x698/0xce0 mm/page_alloc.c:2608
+ vfree+0x181/0x7a0 mm/vmalloc.c:3364
+ delayed_vfree_work+0x56/0x70 mm/vmalloc.c:3285
+ process_one_work+0x9c5/0x1b40 kernel/workqueue.c:3231
+ process_scheduled_works kernel/workqueue.c:3312 [inline]
+ worker_thread+0x6c8/0xf20 kernel/workqueue.c:3390
+ kthread+0x2c1/0x3a0 kernel/kthread.c:389
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+Memory state around the buggy address:
+ ffff88810e289480: fa fc fc fc 00 fc fc fc fa fc fc fc 00 fc fc fc
+ ffff88810e289500: 00 fc fc fc 00 fc fc fc 00 fc fc fc 00 fc fc fc
+>ffff88810e289580: fa fc fc fc 00 fc fc fc 01 fc fc fc 01 fc fc fc
+                                                       ^
+ ffff88810e289600: fa fc fc fc fa fc fc fc 06 fc fc fc 06 fc fc fc
+ ffff88810e289680: fa fc fc fc 06 fc fc fc 06 fc fc fc 00 fc fc fc
+==================================================================
+
+
 ---
- drivers/hid/wacom_wac.c | 58 ++++++++++++++++++++++++++++++++---------
- drivers/hid/wacom_wac.h |  3 +++
- 2 files changed, 49 insertions(+), 12 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index e45abc973363a..74258a78d0408 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2049,10 +2049,21 @@ static void wacom_wac_pad_usage_mapping(struct hid_device *hdev,
- 		break;
- 	case WACOM_HID_WD_TOUCHRING:
- 		if (field->flags & HID_MAIN_ITEM_RELATIVE) {
--			wacom_map_usage(input, usage, field, EV_REL, REL_WHEEL_HI_RES, 0);
--			set_bit(REL_WHEEL, input->relbit);
-+			wacom_wac->relring_count++;
-+			if (wacom_wac->relring_count == 1) {
-+				wacom_map_usage(input, usage, field, EV_REL, REL_WHEEL_HI_RES, 0);
-+				set_bit(REL_WHEEL, input->relbit);
-+			}
-+			else if (wacom_wac->relring_count == 2) {
-+				wacom_map_usage(input, usage, field, EV_REL, REL_HWHEEL_HI_RES, 0);
-+				set_bit(REL_HWHEEL, input->relbit);
-+			}
- 		} else {
--			wacom_map_usage(input, usage, field, EV_ABS, ABS_WHEEL, 0);
-+			wacom_wac->absring_count++;
-+			if (wacom_wac->absring_count == 1)
-+				wacom_map_usage(input, usage, field, EV_ABS, ABS_WHEEL, 0);
-+			else if (wacom_wac->absring_count == 2)
-+				wacom_map_usage(input, usage, field, EV_ABS, ABS_THROTTLE, 0);
- 		}
- 		features->device_type |= WACOM_DEVICETYPE_PAD;
- 		break;
-@@ -2175,14 +2186,37 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
- 				value = wacom_offset_rotation(input, usage, value, 1, 2);
- 		}
- 		else if (field->flags & HID_MAIN_ITEM_RELATIVE) {
--			/* We must invert the sign for vertical
--			 * relative scrolling. Clockwise rotation
--			 * produces positive values from HW, but
--			 * userspace treats positive REL_WHEEL as a
--			 * scroll *up*!
--			 */
--			int hires_value = -value * 120 / usage->resolution_multiplier;
--			int *ring_value = &wacom_wac->hid_data.ring_value;
-+			int hires_value = value * 120 / usage->resolution_multiplier;
-+			int *ring_value;
-+			int lowres_code;
-+
-+			if (usage->code == REL_WHEEL_HI_RES) {
-+				/* We must invert the sign for vertical
-+				 * relative scrolling. Clockwise
-+				 * rotation produces positive values
-+				 * from HW, but userspace treats
-+				 * positive REL_WHEEL as a scroll *up*!
-+				 */
-+				hires_value = -hires_value;
-+				ring_value = &wacom_wac->hid_data.ring_value;
-+				lowres_code = REL_WHEEL;
-+			}
-+			else if (usage->code == REL_HWHEEL_HI_RES) {
-+				/* No need to invert the sign for
-+				 * horizontal relative scrolling.
-+				 * Clockwise rotation produces positive
-+				 * values from HW and userspace treats
-+				 * positive REL_HWHEEL as a scroll
-+				 * right.
-+				 */
-+				ring_value = &wacom_wac->hid_data.ring2_value;
-+				lowres_code = REL_HWHEEL;
-+			}
-+			else {
-+				hid_err(wacom->hdev, "unrecognized relative wheel with code %d\n",
-+					usage->code);
-+				break;
-+			}
- 
- 			value = hires_value;
- 			*ring_value += hires_value;
-@@ -2193,7 +2227,7 @@ static void wacom_wac_pad_event(struct hid_device *hdev, struct hid_field *field
- 			if (*ring_value >= 120 || *ring_value <= -120) {
- 				int clicks = *ring_value / 120;
- 
--				input_event(input, usage->type, REL_WHEEL, clicks);
-+				input_event(input, usage->type, lowres_code, clicks);
- 				*ring_value -= clicks * 120;
- 			}
- 		}
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index aeba2f3082f03..55e0c7a9fdcb4 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -313,6 +313,7 @@ struct hid_data {
- 	int height;
- 	int id;
- 	int ring_value;
-+	int ring2_value;
- 	int cc_report;
- 	int cc_index;
- 	int cc_value_index;
-@@ -356,6 +357,8 @@ struct wacom_wac {
- 	int num_contacts_left;
- 	u8 bt_features;
- 	u8 bt_high_speed;
-+	u8 absring_count;
-+	u8 relring_count;
- 	int mode_report;
- 	int mode_value;
- 	struct hid_data hid_data;
--- 
-2.45.2
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
