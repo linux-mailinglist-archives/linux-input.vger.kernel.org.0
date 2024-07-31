@@ -1,57 +1,60 @@
-Return-Path: <linux-input+bounces-5258-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5262-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90F19436F2
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 22:15:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385639437D4
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 23:25:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8293A1F224ED
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 20:15:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69A621C22CF2
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 21:25:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA2E16CD27;
-	Wed, 31 Jul 2024 20:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jeMcF3Pt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C052516D4D2;
+	Wed, 31 Jul 2024 21:24:58 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEF816C6B5;
-	Wed, 31 Jul 2024 20:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04C716CD06;
+	Wed, 31 Jul 2024 21:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722456883; cv=none; b=C35X1M6j82a0y8/ujW+phElx6oR5iQEiSfjhjdJBVMuX6B14vRb8WUPvQSPo1UuRu9r1nChLu+upv57HjwAmpNg/n5EFL9NJVGyAH4D71aaUBjtujLWVAo0JxHKe9i45uVsKF4G6ZlcQ9eQFjlYeT/DjPuf43pDqdwLFuMAz4jM=
+	t=1722461098; cv=none; b=S5bUSmgFb38zN5zkYiWCyP7wFJY1cNUOZkQNsDsjgLw2LHR81EAeS77GtIX+fkJiDQuLXvBbNlemcftTdcKZ23qrLx+v05ebe6P4LhoMmQEQpspc25//4qL45//PUAyoLK1NTbNKXjt3KoXr5sAbRWZDBgBAb7z+RKLmfQIzONE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722456883; c=relaxed/simple;
-	bh=oJGAtAHYW6J5L4jx2/Dh0v9aVLJrCw5LhgkmOC6rItM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r10XXzr9eg7TtsR2Gb+FCQXspWFAtCoDl2lfdR2ZuXOfj1C7HEaNeMCRZTtWoiLvDVRxZ1gyWczI2ZBSzpnFnG7XJLlkO9H4flWvRh2ZyZisyVDaGI2iS67t/jvjtlctjV0rsVlffgMPReiUoJJ4CMzV5HdL56BIXIWsDj6TkmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jeMcF3Pt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5325DC4AF0C;
-	Wed, 31 Jul 2024 20:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722456883;
-	bh=oJGAtAHYW6J5L4jx2/Dh0v9aVLJrCw5LhgkmOC6rItM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jeMcF3PtJ+DxggC/AT6CnpH4gsTnjuC3wUxRDbu1cWWob1QUbEUb9XYXDsOQnszMJ
-	 ej21lvwHzaU+i9FxOkXg0RaN/SHXn3QUMFHleZi2r25mPl5xstWdhbRWmfYBrOvkzE
-	 jZYOHMGZuUErxLw6UTac7HRR+JmCA8rAgIjroyLnL2GJUD9DTjJoHNli61TrrLiXu7
-	 p9IuvJi3q6nyaSIHxY0RFJngGe2LRMYGi5+l6Oh6hTP7lx4kBUc95UXseBwexBO8ap
-	 8kZrt0+Rh/4YenPZA2/Z9cTrMxBxE4OmMzGpvZiyDoXBxlhds3qvjEW8zeYuBKtWmi
-	 oxiAwz+uV0ZKA==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Laxman Dewangan <ldewangan@nvidia.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-input@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] input: tegra: Use of_property_read_variable_u32_array() and of_property_present()
-Date: Wed, 31 Jul 2024 14:14:01 -0600
-Message-ID: <20240731201407.1838385-6-robh@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1722461098; c=relaxed/simple;
+	bh=xB2SONp4XwaJ1YzVBBAmZ8b3kGBVnBVR/zV7uFVrM4I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SdSHDJskZnYR4bZKghokHW4WryqkNPXrtrVdjnJBGIRCcoXw1GST5uL3DUJGyEGR5rttfxJlOvVlFr6pa8wxfxAgfvnTlBhnmIf4l5Wjw1yKbeN7NTfh7Rz4a2+mHpmuB4oBb2ix6auGS8xxax1gr8lEmrcyO8NOr83617/9z4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875ac5.versanet.de ([83.135.90.197] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sZGoL-0007jg-Kg; Wed, 31 Jul 2024 23:24:41 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: lee@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	dmitry.torokhov@gmail.com,
+	pavel@ucw.cz
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	ukleinek@debian.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH v3 0/7] Drivers to support the MCU on QNAP NAS devices
+Date: Wed, 31 Jul 2024 23:24:23 +0200
+Message-Id: <20240731212430.2677900-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -60,133 +63,113 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's no need to get the length of an DT array property before
-parsing the array. of_property_read_variable_u32_array() takes a
-minimum and maximum length and returns the actual length (or error
-code).
+This implements a set of drivers for the MCU used on QNAP NAS devices.
 
-This is part of a larger effort to remove callers of of_get_property()
-and similar functions. of_get_property() leaks the DT property data
-pointer which is a problem for dynamically allocated nodes which may
-be freed.
----
- drivers/input/keyboard/tegra-kbc.c | 72 +++++++++++-------------------
- 1 file changed, 27 insertions(+), 45 deletions(-)
+Of course no documentation for the serial protocol is available, so
+thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
+I found interceptty [0] to listen to what goes over the serial connection.
 
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index a1765ed8c825..53f39fc155ea 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -491,12 +491,10 @@ static int tegra_kbc_parse_dt(struct tegra_kbc *kbc)
- 	struct device_node *np = kbc->dev->of_node;
- 	u32 prop;
- 	int i;
--	u32 num_rows = 0;
--	u32 num_cols = 0;
-+	int num_rows;
-+	int num_cols;
- 	u32 cols_cfg[KBC_MAX_GPIO];
- 	u32 rows_cfg[KBC_MAX_GPIO];
--	int proplen;
--	int ret;
- 
- 	if (!of_property_read_u32(np, "nvidia,debounce-delay-ms", &prop))
- 		kbc->debounce_cnt = prop;
-@@ -510,56 +508,23 @@ static int tegra_kbc_parse_dt(struct tegra_kbc *kbc)
- 	    of_property_read_bool(np, "nvidia,wakeup-source")) /* legacy */
- 		kbc->wakeup = true;
- 
--	if (!of_get_property(np, "nvidia,kbc-row-pins", &proplen)) {
--		dev_err(kbc->dev, "property nvidia,kbc-row-pins not found\n");
--		return -ENOENT;
--	}
--	num_rows = proplen / sizeof(u32);
--
--	if (!of_get_property(np, "nvidia,kbc-col-pins", &proplen)) {
--		dev_err(kbc->dev, "property nvidia,kbc-col-pins not found\n");
--		return -ENOENT;
--	}
--	num_cols = proplen / sizeof(u32);
--
--	if (num_rows > kbc->hw_support->max_rows) {
--		dev_err(kbc->dev,
--			"Number of rows is more than supported by hardware\n");
--		return -EINVAL;
--	}
--
--	if (num_cols > kbc->hw_support->max_columns) {
--		dev_err(kbc->dev,
--			"Number of cols is more than supported by hardware\n");
--		return -EINVAL;
--	}
--
--	if (!of_get_property(np, "linux,keymap", &proplen)) {
-+	if (!of_property_present(np, "linux,keymap")) {
- 		dev_err(kbc->dev, "property linux,keymap not found\n");
- 		return -ENOENT;
- 	}
- 
--	if (!num_rows || !num_cols || ((num_rows + num_cols) > KBC_MAX_GPIO)) {
--		dev_err(kbc->dev,
--			"keypad rows/columns not properly specified\n");
--		return -EINVAL;
--	}
--
- 	/* Set all pins as non-configured */
- 	for (i = 0; i < kbc->num_rows_and_columns; i++)
- 		kbc->pin_cfg[i].type = PIN_CFG_IGNORE;
- 
--	ret = of_property_read_u32_array(np, "nvidia,kbc-row-pins",
--				rows_cfg, num_rows);
--	if (ret < 0) {
-+	num_rows = of_property_read_variable_u32_array(np, "nvidia,kbc-row-pins",
-+				rows_cfg, 1, KBC_MAX_GPIO);
-+	if (num_rows < 0) {
- 		dev_err(kbc->dev, "Rows configurations are not proper\n");
--		return -EINVAL;
--	}
--
--	ret = of_property_read_u32_array(np, "nvidia,kbc-col-pins",
--				cols_cfg, num_cols);
--	if (ret < 0) {
--		dev_err(kbc->dev, "Cols configurations are not proper\n");
-+		return num_rows;
-+	} else if (num_rows > kbc->hw_support->max_rows) {
-+		dev_err(kbc->dev,
-+			"Number of rows is more than supported by hardware\n");
- 		return -EINVAL;
- 	}
- 
-@@ -568,11 +533,28 @@ static int tegra_kbc_parse_dt(struct tegra_kbc *kbc)
- 		kbc->pin_cfg[rows_cfg[i]].num = i;
- 	}
- 
-+	num_cols = of_property_read_variable_u32_array(np, "nvidia,kbc-col-pins",
-+				cols_cfg, 1, KBC_MAX_GPIO);
-+	if (num_cols < 0) {
-+		dev_err(kbc->dev, "Cols configurations are not proper\n");
-+		return num_cols;
-+	} else if (num_cols > kbc->hw_support->max_columns) {
-+		dev_err(kbc->dev,
-+			"Number of cols is more than supported by hardware\n");
-+		return -EINVAL;
-+	}
-+
- 	for (i = 0; i < num_cols; i++) {
- 		kbc->pin_cfg[cols_cfg[i]].type = PIN_CFG_COL;
- 		kbc->pin_cfg[cols_cfg[i]].num = i;
- 	}
- 
-+	if (!num_rows || !num_cols || ((num_rows + num_cols) > KBC_MAX_GPIO)) {
-+		dev_err(kbc->dev,
-+			"keypad rows/columns not properly specified\n");
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
+In general it looks like there are two different generations in general,
+an "EC" device and now this "MCU" - referenced in the strings of the
+userspace handlers for those devices.
+
+For the MCU "SPEC3" and "SPEC4" are listed which is configured in
+the model.conf of the device. When setting the value from SPEC4 to
+SPEC3 on my TS433, the supported commands change, but the command
+interface stays the same and especially the version command is the
+same.
+
+The binding also does not expose any interals of the device that
+might change, so hopefully there shouldn't be big roadblocks to
+support different devices, apart from possibly adapting the commands.
+
+
+changes in v3:
+mfd
+- use correct power-off priority: default
+- constify the cmd-data array in command functions (Dmitry)
+
+leds:
+- don't point to temporary buffers for cdev->name (Florian Eckert)
+
+hwmon:
+- use clamp_val(), don't try to reimplement (Guenter)
+- add Guenter's Ack
+
+input:
+address Dmitry's comments
+- constify some cmd arrays
+- add input-close callback to cancel beep worker
+- drop initial input event report
+
+
+changes in v2:
+binding:
+- rename to qnap,ts433-mcu.yaml (Krzysztof)
+- drop "preserve formatting" indicator (Krzysztof)
+- add Krzysztof's Review tag
+
+mfd:
+- fix checkpatch --strict CHECKs
+- add a MAINTAINERS entry for all qnap-mcu-parts
+
+hwmon:
+address Guenter's review comments:
+- fix checkpatch strict warnings
+  I've kept the devm_thermal_of_cooling_device_register alignment,
+  because that line is so long that aligning to the "(" would make
+  things way too long and unreadable
+- add hwmon documentation
+- spelling corrections
+- report actual pwm value, not last-set one
+- make some cmd arrays static
+- drop pwm_enable as the pwm-mode is not controllable
+- actually handle error returns from mcu commands
+- fix calculation of fan-rpm (I read my notes wrong)
+- fix temperature calculation to return millicelsius as expected
+- only bail at obviously wrong pwm values, but clamp to min,max
+- only register cooling-device if cooling-levels are available
+
+
+[0] https://github.com/geoffmeyers/interceptty
+
+Heiko Stuebner (7):
+  dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+  mfd: add base driver for qnap-mcu devices
+  leds: add driver for LEDs from qnap-mcu devices
+  Input: add driver for the input part of qnap-mcu devices
+  hwmon: add driver for the hwmon parts of qnap-mcu devices
+  arm64: dts: rockchip: hook up the MCU on the QNAP TS433
+  arm64: dts: rockchip: set hdd led labels on qnap-ts433
+
+ .../bindings/mfd/qnap,ts433-mcu.yaml          |  43 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/qnap-mcu-hwmon.rst        |  27 ++
+ MAINTAINERS                                   |   9 +
+ .../boot/dts/rockchip/rk3568-qnap-ts433.dts   |  58 +++
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/qnap-mcu-hwmon.c                | 372 ++++++++++++++++++
+ drivers/input/misc/Kconfig                    |  12 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/qnap-mcu-input.c           | 161 ++++++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-qnap-mcu.c                  | 247 ++++++++++++
+ drivers/mfd/Kconfig                           |  10 +
+ drivers/mfd/Makefile                          |   2 +
+ drivers/mfd/qnap-mcu.c                        | 358 +++++++++++++++++
+ include/linux/mfd/qnap-mcu.h                  |  28 ++
+ 18 files changed, 1354 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+ create mode 100644 Documentation/hwmon/qnap-mcu-hwmon.rst
+ create mode 100644 drivers/hwmon/qnap-mcu-hwmon.c
+ create mode 100644 drivers/input/misc/qnap-mcu-input.c
+ create mode 100644 drivers/leds/leds-qnap-mcu.c
+ create mode 100644 drivers/mfd/qnap-mcu.c
+ create mode 100644 include/linux/mfd/qnap-mcu.h
+
 -- 
-2.43.0
+2.39.2
 
 
