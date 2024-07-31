@@ -1,31 +1,31 @@
-Return-Path: <linux-input+bounces-5264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5263-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8840D9437DE
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 23:25:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1109437DB
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 23:25:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D50E28223D
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 21:25:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FECE1C217D0
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 21:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A16916DC14;
-	Wed, 31 Jul 2024 21:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F82C16D9CA;
+	Wed, 31 Jul 2024 21:24:59 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C113516D31B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C02216CD1C;
 	Wed, 31 Jul 2024 21:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722461100; cv=none; b=XveQyglbURc1bnkuKdobC9lSAnkAgHrmW59WE53THrWSflHFg94XdOam13rFmSc9WIxUHx4HnK6FDcQOh5u3bchThrF3tq5BDAJ97HBnGw77+o64U5npW/J62sj9eRy007HEiMcF9/tbvG+zgsq8pMh1LfWrRNL2hIszTnTA+rI=
+	t=1722461099; cv=none; b=HkaLXR1bxFIBBnXLqtiVhcvpfmWXPoV0zNhd1YOuf8FFAEjjaJwrN66E+x1zDwb4OaoepSxQfco0vdiKCM083Z3BFFNWfkNNRr7EenCmv29jaONUpXWo0UC9c24NPb7gfrVxS1rZf+7kbAIu2Ei98AN2b/lNUM6N8ZAKs9UJT1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722461100; c=relaxed/simple;
-	bh=WwR9NJbY5KyK146hPk/LlI+lZhP3AuABNIp9JHXUDlc=;
+	s=arc-20240116; t=1722461099; c=relaxed/simple;
+	bh=BaYChaXx6ooUD9KpdLBIjOsUsm34NE/btN4+nf+bzrE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oGyJ2qDesUt6bm4z/EWJWL8jW8W921VOs45L9QI6+pOAdPzgrPWrlgYvJeBy7NxHcOUSVEK+/9J5M5/1bWwSw/LkJn+a+yKX2As+u8vATLMd5g2BqjsmhbX5WqtOLinPf/38R/fbAnOiEGWdtNsUYyJq+OMbsbIXA9wL0PAQbw4=
+	 MIME-Version; b=XSsOzAZjfjhMpLR25BV551bDGXi8WVOFhFfjjsaqG/BGEJGnBAAswhksEu3COzAw/up6B6Naa7kl+oj0n388ZgDHGEA2dd3Q9owsDQBx2VwDRQWsTV4lqJUQLs6Ds6veQmfQjQ6W9zRk1Yt0M1PmBDEN7IrOK5afSyS3RphFpPg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
@@ -33,7 +33,7 @@ Received: from i53875ac5.versanet.de ([83.135.90.197] helo=phil.lan)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1sZGoN-0007jg-1m; Wed, 31 Jul 2024 23:24:43 +0200
+	id 1sZGoN-0007jg-OY; Wed, 31 Jul 2024 23:24:43 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: lee@kernel.org,
 	jdelvare@suse.com,
@@ -52,9 +52,9 @@ Cc: robh@kernel.org,
 	linux-hwmon@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v3 2/7] mfd: add base driver for qnap-mcu devices
-Date: Wed, 31 Jul 2024 23:24:25 +0200
-Message-Id: <20240731212430.2677900-3-heiko@sntech.de>
+Subject: [PATCH v3 3/7] leds: add driver for LEDs from qnap-mcu devices
+Date: Wed, 31 Jul 2024 23:24:26 +0200
+Message-Id: <20240731212430.2677900-4-heiko@sntech.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240731212430.2677900-1-heiko@sntech.de>
 References: <20240731212430.2677900-1-heiko@sntech.de>
@@ -66,487 +66,317 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These MCUs are used in network-attached-storage devices made by QNAP
-and provide additional functionality to the system.
-
-This adds the base driver that implements the serial protocol via
-serdev and additionally hooks into the poweroff handlers to turn
-off the parts of the system not supplied by the general PMIC.
-
-Turning off (at least the TSx33 devices using Rockchip SoCs) is twofold.
-Turning off the MCU does not turn off the SoC and turning off the SoC
-does not turn off the hard-drives. And if the MCU is not turned off,
-the system also won't start again until it is unplugged from power.
-
-So on shutdown the MCU needs to be turned off before the general PMIC.
-
-The protocol spoken by the MCU is sadly not documented, but was
-obtained by listening to the chatter on the serial port, as thankfully
-the "hal_app" program from QNAPs firmware allows triggering all/most
-MCU actions from the command line.
-
-The implementation of how to talk to the serial device got some
-inspiration from the rave-sp servdev mfd.
+This adds a driver that connects to the qnap-mcu mfd driver and provides
+access to the LEDs on it.
 
 Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 ---
- MAINTAINERS                  |   6 +
- drivers/mfd/Kconfig          |  10 +
- drivers/mfd/Makefile         |   2 +
- drivers/mfd/qnap-mcu.c       | 358 +++++++++++++++++++++++++++++++++++
- include/linux/mfd/qnap-mcu.h |  28 +++
- 5 files changed, 404 insertions(+)
- create mode 100644 drivers/mfd/qnap-mcu.c
- create mode 100644 include/linux/mfd/qnap-mcu.h
+ MAINTAINERS                  |   1 +
+ drivers/leds/Kconfig         |  11 ++
+ drivers/leds/Makefile        |   1 +
+ drivers/leds/leds-qnap-mcu.c | 247 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 260 insertions(+)
+ create mode 100644 drivers/leds/leds-qnap-mcu.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 42decde383206..6c55b5e0a2e1a 100644
+index 6c55b5e0a2e1a..69c770ce73ee5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -18651,6 +18651,12 @@ L:	linux-media@vger.kernel.org
- S:	Odd Fixes
- F:	drivers/media/tuners/qm1d1c0042*
- 
-+QNAP MCU DRIVER
-+M:	Heiko Stuebner <heiko@sntech.de>
-+S:	Maintained
-+F:	drivers/mfd/qnap-mcu.c
-+F:	include/linux/qnap-mcu.h
-+
- QNX4 FILESYSTEM
- M:	Anders Larsen <al@alarsen.net>
+@@ -18654,6 +18654,7 @@ F:	drivers/media/tuners/qm1d1c0042*
+ QNAP MCU DRIVER
+ M:	Heiko Stuebner <heiko@sntech.de>
  S:	Maintained
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index bc8be2e593b6b..ca7289e906a7b 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -2362,6 +2362,16 @@ config MFD_INTEL_M10_BMC_PMCI
- 	  additional drivers must be enabled in order to use the functionality
- 	  of the device.
++F:	drivers/leds/leds-qnap-mcu.c
+ F:	drivers/mfd/qnap-mcu.c
+ F:	include/linux/qnap-mcu.h
  
-+config MFD_QNAP_MCU
-+	tristate "QNAP MCU core driver"
-+	depends on SERIAL_DEV_BUS
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 8d9d8da376e46..9a337478dd80c 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -580,6 +580,17 @@ config LEDS_PCA995X
+ 	  LED driver chips accessed via the I2C bus. Supported
+ 	  devices include PCA9955BTW, PCA9952TW and PCA9955TW.
+ 
++config LEDS_QNAP_MCU
++	tristate "LED Support for QNAP MCU controllers"
++	depends on LEDS_CLASS
++	depends on MFD_QNAP_MCU
 +	help
-+	  Select this to get support for the QNAP MCU device found in
-+	  several devices of QNAP network attached storages.
++	  This option enables support for LEDs available on embedded
++	  controllers used in QNAP NAS devices.
 +
-+	  It implements the base serial protocol to talk to the device
-+	  and provides functions for the other parts to hook into.
++	  This driver can also be built as a module. If so, the module
++	  will be called qnap-mcu-leds.
 +
- config MFD_RSMU_I2C
- 	tristate "Renesas Synchronization Management Unit with I2C"
- 	depends on I2C && OF
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 02b651cd75352..fc8b825725ff2 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -286,5 +286,7 @@ obj-$(CONFIG_MFD_INTEL_M10_BMC_PMCI)   += intel-m10-bmc-pmci.o
- obj-$(CONFIG_MFD_ATC260X)	+= atc260x-core.o
- obj-$(CONFIG_MFD_ATC260X_I2C)	+= atc260x-i2c.o
- 
-+obj-$(CONFIG_MFD_QNAP_MCU)	+= qnap-mcu.o
-+
- obj-$(CONFIG_MFD_RSMU_I2C)	+= rsmu_i2c.o rsmu_core.o
- obj-$(CONFIG_MFD_RSMU_SPI)	+= rsmu_spi.o rsmu_core.o
-diff --git a/drivers/mfd/qnap-mcu.c b/drivers/mfd/qnap-mcu.c
+ config LEDS_WM831X_STATUS
+ 	tristate "LED support for status LEDs on WM831x PMICs"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 18afbb5a23ee5..c6f74865d7299 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -79,6 +79,7 @@ obj-$(CONFIG_LEDS_PCA995X)		+= leds-pca995x.o
+ obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
+ obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
+ obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
++obj-$(CONFIG_LEDS_QNAP_MCU)		+= leds-qnap-mcu.o
+ obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
+ obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
+ obj-$(CONFIG_LEDS_SUN50I_A100)		+= leds-sun50i-a100.o
+diff --git a/drivers/leds/leds-qnap-mcu.c b/drivers/leds/leds-qnap-mcu.c
 new file mode 100644
-index 0000000000000..4ef46f30b8a8d
+index 0000000000000..aa5d662f2c7fa
 --- /dev/null
-+++ b/drivers/mfd/qnap-mcu.c
-@@ -0,0 +1,358 @@
++++ b/drivers/leds/leds-qnap-mcu.c
+@@ -0,0 +1,247 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
 +/*
-+ * MFD core driver for the MCU in Qnap NAS devices that is connected
-+ * via a dedicated UART port
++ * Driver for LEDs found on QNAP MCU devices
 + *
 + * Copyright (C) 2024 Heiko Stuebner <heiko@sntech.de>
 + */
 +
-+#include <linux/export.h>
-+#include <linux/slab.h>
-+#include <linux/mfd/core.h>
++#include <linux/leds.h>
 +#include <linux/mfd/qnap-mcu.h>
 +#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/reboot.h>
-+#include <linux/serdev.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <uapi/linux/uleds.h>
 +
-+/* The longest command found so far is 5 bytes long */
-+#define QNAP_MCU_MAX_CMD_SIZE		5
-+#define QNAP_MCU_MAX_DATA_SIZE		36
-+#define QNAP_MCU_CHECKSUM_SIZE		1
-+
-+#define QNAP_MCU_RX_BUFFER_SIZE		\
-+		(QNAP_MCU_MAX_DATA_SIZE + QNAP_MCU_CHECKSUM_SIZE)
-+
-+#define QNAP_MCU_TX_BUFFER_SIZE		\
-+		(QNAP_MCU_MAX_CMD_SIZE + QNAP_MCU_CHECKSUM_SIZE)
-+
-+/**
-+ * struct qnap_mcu_reply - Reply to a command
-+ *
-+ * @data:	Buffer to store reply payload in
-+ * @length:	Expected reply length, including the checksum
-+ * @received:	So far received number of bytes
-+ * @done:	Reply received completely
-+ */
-+struct qnap_mcu_reply {
-+	u8 *data;
-+	size_t length;
-+	size_t received;
-+	struct completion done;
++enum qnap_mcu_err_led_mode {
++	QNAP_MCU_ERR_LED_ON = 0,
++	QNAP_MCU_ERR_LED_OFF = 1,
++	QNAP_MCU_ERR_LED_BLINK_FAST = 2,
++	QNAP_MCU_ERR_LED_BLINK_SLOW = 3,
 +};
 +
-+/**
-+ * struct qnap_mcu - QNAP NAS embedded controller
-+ *
-+ * @serdev:	Pointer to underlying serdev
-+ * @bus_lock:	Lock to serialize access to the device
-+ * @reply_lock:	Lock protecting @reply
-+ * @reply:	Pointer to memory to store reply payload
-+ * @variant:	Device variant specific information
-+ * @version:	MCU firmware version
-+ */
-+struct qnap_mcu {
-+	struct serdev_device *serdev;
-+	/* Serialize access to the device */
-+	struct mutex bus_lock;
-+	/* Protect access to the reply pointer */
-+	struct mutex reply_lock;
-+	struct qnap_mcu_reply *reply;
-+	const struct qnap_mcu_variant *variant;
-+	u8 version[4];
++struct qnap_mcu_err_led {
++	struct qnap_mcu *mcu;
++	struct led_classdev cdev;
++	char name[LED_MAX_NAME_SIZE];
++	u8 num;
++	u8 mode;
 +};
 +
-+/*
-+ * The QNAP-MCU uses a basic XOR checksum.
-+ * It is always the last byte and XORs the whole previous message.
-+ */
-+static u8 qnap_mcu_csum(const u8 *buf, size_t size)
++static inline struct qnap_mcu_err_led *
++		cdev_to_qnap_mcu_err_led(struct led_classdev *led_cdev)
 +{
-+	u8 csum = 0;
-+
-+	while (size--)
-+		csum ^= *buf++;
-+
-+	return csum;
++	return container_of(led_cdev, struct qnap_mcu_err_led, cdev);
 +}
 +
-+static int qnap_mcu_write(struct qnap_mcu *sp, const u8 *data, u8 data_size)
++static int qnap_mcu_err_led_set(struct led_classdev *led_cdev,
++				enum led_brightness value)
 +{
-+	unsigned char tx[QNAP_MCU_TX_BUFFER_SIZE];
-+	size_t length = data_size + QNAP_MCU_CHECKSUM_SIZE;
-+
-+	if (WARN_ON(length > sizeof(tx)))
-+		return -ENOMEM;
-+
-+	memcpy(tx, data, data_size);
-+	tx[data_size] = qnap_mcu_csum(data, data_size);
-+
-+	print_hex_dump_debug("qnap-mcu tx: ", DUMP_PREFIX_NONE,
-+			     16, 1, tx, length, false);
-+
-+	return serdev_device_write(sp->serdev, tx, length, HZ);
-+}
-+
-+static size_t qnap_mcu_receive_buf(struct serdev_device *serdev,
-+				   const u8 *buf, size_t size)
-+{
-+	struct device *dev = &serdev->dev;
-+	struct qnap_mcu *mcu = dev_get_drvdata(dev);
-+	struct qnap_mcu_reply *reply = mcu->reply;
-+	const u8 *src = buf;
-+	const u8 *end = buf + size;
-+
-+	mutex_lock(&mcu->reply_lock);
-+	if (!reply) {
-+		dev_warn(dev, "received %lu bytes, we were not waiting for\n",
-+			 size);
-+		mutex_unlock(&mcu->reply_lock);
-+		return size;
-+	}
-+
-+	while (src < end) {
-+		reply->data[reply->received] = *src++;
-+		reply->received++;
-+
-+		if (reply->received == reply->length) {
-+			complete(&reply->done);
-+			mutex_unlock(&mcu->reply_lock);
-+
-+			/*
-+			 * We report the consumed number of bytes. If there
-+			 * are still bytes remaining (though there shouldn't)
-+			 * the serdev layer will re-execute this handler with
-+			 * the remainder of the Rx bytes.
-+			 */
-+			return src - buf;
-+		}
-+	}
++	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
++	u8 cmd[] = {
++		[0] = 0x40,
++		[1] = 0x52,
++		[2] = 0x30 + err_led->num,
++		[3] = 0x30
++	};
 +
 +	/*
-+	 * The only way to get out of the above loop and end up here
-+	 * is through consuming all of the supplied data, so here we
-+	 * report that we processed it all.
++	 * If the led is off, turn it on. Otherwise don't disturb
++	 * a possible set blink-mode.
 +	 */
-+	mutex_unlock(&mcu->reply_lock);
-+	return size;
++	if (value == 0)
++		err_led->mode = QNAP_MCU_ERR_LED_OFF;
++	else if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
++		err_led->mode = QNAP_MCU_ERR_LED_ON;
++
++	cmd[3] = 0x30 + err_led->mode;
++
++	return qnap_mcu_exec_with_ack(err_led->mcu, cmd, sizeof(cmd));
 +}
 +
-+static const struct serdev_device_ops qnap_mcu_serdev_device_ops = {
-+	.receive_buf  = qnap_mcu_receive_buf,
-+	.write_wakeup = serdev_device_write_wakeup,
-+};
-+
-+int qnap_mcu_exec(struct qnap_mcu *mcu,
-+		  const u8 *cmd_data, size_t cmd_data_size,
-+		  u8 *reply_data, size_t reply_data_size)
++static int qnap_mcu_err_led_blink_set(struct led_classdev *led_cdev,
++				      unsigned long *delay_on,
++				      unsigned long *delay_off)
 +{
-+	unsigned char rx[QNAP_MCU_RX_BUFFER_SIZE];
-+	size_t length = reply_data_size + QNAP_MCU_CHECKSUM_SIZE;
-+	struct qnap_mcu_reply reply = {
-+		.data     = rx,
-+		.length   = length,
-+		.received = 0,
-+		.done     = COMPLETION_INITIALIZER_ONSTACK(reply.done),
++	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
++	u8 cmd[] = {
++		[0] = 0x40,
++		[1] = 0x52,
++		[2] = 0x30 + err_led->num,
++		[3] = 0x30
 +	};
-+	int ret;
 +
-+	if (WARN_ON(length > sizeof(rx)))
-+		return -ENOMEM;
++	/* LED is off, nothing to do */
++	if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
++		return 0;
 +
-+	mutex_lock(&mcu->bus_lock);
-+
-+	mutex_lock(&mcu->reply_lock);
-+	mcu->reply = &reply;
-+	mutex_unlock(&mcu->reply_lock);
-+
-+	qnap_mcu_write(mcu, cmd_data, cmd_data_size);
-+
-+	if (!wait_for_completion_timeout(&reply.done,
-+					 msecs_to_jiffies(500))) {
-+		dev_err(&mcu->serdev->dev, "Command timeout\n");
-+		ret = -ETIMEDOUT;
++	if (*delay_on < 500) {
++		*delay_on = 100;
++		*delay_off = 100;
++		err_led->mode = QNAP_MCU_ERR_LED_BLINK_FAST;
 +	} else {
-+		u8 crc = qnap_mcu_csum(rx, reply_data_size);
-+
-+		print_hex_dump_debug("qnap-mcu rx: ", DUMP_PREFIX_NONE,
-+				     16, 1, rx, length, false);
-+
-+		if (crc != rx[reply_data_size]) {
-+			dev_err(&mcu->serdev->dev,
-+				"Checksum 0x%02x wrong for data\n", crc);
-+			ret = -EIO;
-+		} else {
-+			memcpy(reply_data, rx, reply_data_size);
-+			ret = 0;
-+		}
++		*delay_on = 500;
++		*delay_off = 500;
++		err_led->mode = QNAP_MCU_ERR_LED_BLINK_SLOW;
 +	}
 +
-+	mutex_lock(&mcu->reply_lock);
-+	mcu->reply = NULL;
-+	mutex_unlock(&mcu->reply_lock);
++	cmd[3] = 0x30 + err_led->mode;
 +
-+	mutex_unlock(&mcu->bus_lock);
-+	return ret;
++	return qnap_mcu_exec_with_ack(err_led->mcu, cmd, sizeof(cmd));
 +}
-+EXPORT_SYMBOL_GPL(qnap_mcu_exec);
 +
-+int qnap_mcu_exec_with_ack(struct qnap_mcu *mcu,
-+			   const u8 *cmd_data, size_t cmd_data_size)
++static int qnap_mcu_register_err_led(struct device *dev, struct qnap_mcu *mcu, int num)
 +{
-+	u8 ack[2];
++	struct qnap_mcu_err_led *err_led;
 +	int ret;
 +
-+	ret = qnap_mcu_exec(mcu, cmd_data, cmd_data_size, ack, sizeof(ack));
-+	if (ret)
-+		return ret;
-+
-+	/* Should return @0 */
-+	if (ack[0] != 0x40 || ack[1] != 0x30) {
-+		dev_err(&mcu->serdev->dev, "Did not receive ack\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qnap_mcu_exec_with_ack);
-+
-+const struct qnap_mcu_variant *qnap_mcu_get_variant_data(struct qnap_mcu *mcu)
-+{
-+	return mcu->variant;
-+}
-+EXPORT_SYMBOL_GPL(qnap_mcu_get_variant_data);
-+
-+static int qnap_mcu_get_version(struct qnap_mcu *mcu)
-+{
-+	u8 cmd[] = {
-+		[0] = 0x25, /* % */
-+		[1] = 0x56  /* V */
-+	};
-+	u8 rx[14];
-+	int ret;
-+
-+	ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), rx, 6);
-+	if (ret)
-+		return ret;
-+
-+	memcpy(mcu->version, &rx[2], 4);
-+
-+	return 0;
-+}
-+
-+/*
-+ * The MCU controls power to the peripherals but not the CPU.
-+ *
-+ * So using the pmic to power off the system keeps the MCU and hard-drives
-+ * running. This also then prevents the system from turning back on until
-+ * the MCU is turned off by unplugging the power-cable.
-+ * Turning off the MCU alone on the other hand turns off the hard-drives,
-+ * LEDs, etc while the main SoC stays running - including its network ports.
-+ */
-+static int qnap_mcu_power_off(struct sys_off_data *data)
-+{
-+	struct qnap_mcu *mcu = data->cb_data;
-+	int ret;
-+	u8 cmd[] = {
-+		[0] = 0x40, /* @ */
-+		[1] = 0x43, /* C */
-+		[2] = 0x30  /* 0 */
-+	};
-+
-+	dev_dbg(&mcu->serdev->dev, "running MCU poweroff\n");
-+	ret = qnap_mcu_exec_with_ack(mcu, cmd, sizeof(cmd));
-+	if (ret) {
-+		dev_err(&mcu->serdev->dev, "MCU poweroff failed %d\n", ret);
-+		return NOTIFY_STOP;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static const struct qnap_mcu_variant qnap_ts433_mcu = {
-+	.baud_rate = 115200,
-+	.num_drives = 4,
-+	.fan_pwm_min = 51,  /* specified in original model.conf */
-+	.fan_pwm_max = 255,
-+	.usb_led = true,
-+};
-+
-+static const struct of_device_id qnap_mcu_dt_ids[] = {
-+	{ .compatible = "qnap,ts433-mcu", .data = &qnap_ts433_mcu },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, qnap_mcu_dt_ids);
-+
-+static const struct mfd_cell qnap_mcu_subdevs[] = {
-+	{ .name = "qnap-mcu-input", },
-+	{ .name = "qnap-mcu-leds", },
-+	{ .name = "qnap-mcu-hwmon", }
-+};
-+
-+static int qnap_mcu_probe(struct serdev_device *serdev)
-+{
-+	struct device *dev = &serdev->dev;
-+	struct qnap_mcu *mcu;
-+	int ret;
-+
-+	mcu = devm_kzalloc(dev, sizeof(*mcu), GFP_KERNEL);
-+	if (!mcu)
++	err_led = devm_kzalloc(dev, sizeof(*err_led), GFP_KERNEL);
++	if (!err_led)
 +		return -ENOMEM;
 +
-+	mcu->serdev = serdev;
-+	dev_set_drvdata(dev, mcu);
++	err_led->mcu = mcu;
++	err_led->num = num;
++	err_led->mode = QNAP_MCU_ERR_LED_OFF;
 +
-+	mcu->variant = of_device_get_match_data(dev);
-+	if (!mcu->variant)
-+		return -ENODEV;
++	snprintf(err_led->name, LED_MAX_NAME_SIZE, "hdd%d:red:status", num + 1);
++	err_led->cdev.name = err_led->name;
 +
-+	mutex_init(&mcu->bus_lock);
-+	mutex_init(&mcu->reply_lock);
++	err_led->cdev.brightness_set_blocking = qnap_mcu_err_led_set;
++	err_led->cdev.blink_set = qnap_mcu_err_led_blink_set;
++	err_led->cdev.brightness = 0;
++	err_led->cdev.max_brightness = 1;
 +
-+	serdev_device_set_client_ops(serdev, &qnap_mcu_serdev_device_ops);
-+	ret = devm_serdev_device_open(dev, serdev);
++	ret = devm_led_classdev_register(dev, &err_led->cdev);
 +	if (ret)
-+		return ret;
++		return dev_err_probe(dev, ret, "failed to register hdd led %d", num);
 +
-+	serdev_device_set_baudrate(serdev, mcu->variant->baud_rate);
-+	serdev_device_set_flow_control(serdev, false);
++	return qnap_mcu_err_led_set(&err_led->cdev, 0);
++}
 +
-+	ret = serdev_device_set_parity(serdev, SERDEV_PARITY_NONE);
-+	if (ret) {
-+		dev_err(dev, "Failed to set parity\n");
-+		return ret;
++enum qnap_mcu_usb_led_mode {
++	QNAP_MCU_USB_LED_ON = 1,
++	QNAP_MCU_USB_LED_OFF = 3,
++	QNAP_MCU_USB_LED_BLINK = 2,
++};
++
++struct qnap_mcu_usb_led {
++	struct qnap_mcu *mcu;
++	struct led_classdev cdev;
++	u8 mode;
++};
++
++static inline struct qnap_mcu_usb_led *
++		cdev_to_qnap_mcu_usb_led(struct led_classdev *led_cdev)
++{
++	return container_of(led_cdev, struct qnap_mcu_usb_led, cdev);
++}
++
++static int qnap_mcu_usb_led_set(struct led_classdev *led_cdev,
++				enum led_brightness value)
++{
++	struct qnap_mcu_usb_led *usb_led = cdev_to_qnap_mcu_usb_led(led_cdev);
++	u8 cmd[] = {
++		[0] = 0x40,
++		[1] = 0x43,
++		[2] = 0
++	};
++
++	/*
++	 * If the led is off, turn it on. Otherwise don't disturb
++	 * a possible set blink-mode.
++	 */
++	if (value == 0)
++		usb_led->mode = QNAP_MCU_USB_LED_OFF;
++	else if (usb_led->mode == QNAP_MCU_USB_LED_OFF)
++		usb_led->mode = QNAP_MCU_USB_LED_ON;
++
++	/* byte 3 is shared between the usb led target and setting the mode */
++	cmd[2] = 0x44 | usb_led->mode;
++
++	return qnap_mcu_exec_with_ack(usb_led->mcu, cmd, sizeof(cmd));
++}
++
++static int qnap_mcu_usb_led_blink_set(struct led_classdev *led_cdev,
++				      unsigned long *delay_on,
++				      unsigned long *delay_off)
++{
++	struct qnap_mcu_usb_led *usb_led = cdev_to_qnap_mcu_usb_led(led_cdev);
++	u8 cmd[] = {
++		[0] = 0x40,
++		[1] = 0x43,
++		[2] = 0
++	};
++
++	/* LED is off, nothing to do */
++	if (usb_led->mode == QNAP_MCU_USB_LED_OFF)
++		return 0;
++
++	*delay_on = 250;
++	*delay_off = 250;
++	usb_led->mode = QNAP_MCU_USB_LED_BLINK;
++
++	/* byte 3 is shared between the usb led target and setting the mode */
++	cmd[2] = 0x44 | usb_led->mode;
++
++	return qnap_mcu_exec_with_ack(usb_led->mcu, cmd, sizeof(cmd));
++}
++
++static int qnap_mcu_register_usb_led(struct device *dev, struct qnap_mcu *mcu)
++{
++	struct qnap_mcu_usb_led *usb_led;
++	int ret;
++
++	usb_led = devm_kzalloc(dev, sizeof(*usb_led), GFP_KERNEL);
++	if (!usb_led)
++		return -ENOMEM;
++
++	usb_led->mcu = mcu;
++	usb_led->mode = QNAP_MCU_USB_LED_OFF;
++	usb_led->cdev.name = "usb:blue:disk";
++	usb_led->cdev.brightness_set_blocking = qnap_mcu_usb_led_set;
++	usb_led->cdev.blink_set = qnap_mcu_usb_led_blink_set;
++	usb_led->cdev.brightness = 0;
++	usb_led->cdev.max_brightness = 1;
++
++	ret = devm_led_classdev_register(dev, &usb_led->cdev);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to register usb led");
++
++	return qnap_mcu_usb_led_set(&usb_led->cdev, 0);
++}
++
++static int qnap_mcu_leds_probe(struct platform_device *pdev)
++{
++	struct qnap_mcu *mcu = dev_get_drvdata(pdev->dev.parent);
++	const struct qnap_mcu_variant *variant = qnap_mcu_get_variant_data(mcu);
++	int ret, i;
++
++	for (i = 0; i < variant->num_drives; i++) {
++		ret = qnap_mcu_register_err_led(&pdev->dev, mcu, i);
++		if (ret)
++			return dev_err_probe(&pdev->dev, ret,
++					"failed to register error led %d\n", i);
 +	}
 +
-+	ret = qnap_mcu_get_version(mcu);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_register_sys_off_handler(dev,
-+					    SYS_OFF_MODE_POWER_OFF_PREPARE,
-+					    SYS_OFF_PRIO_DEFAULT,
-+					    &qnap_mcu_power_off, mcu);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to register poweroff handler\n");
-+
-+	ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, qnap_mcu_subdevs,
-+				   ARRAY_SIZE(qnap_mcu_subdevs), NULL, 0, NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "adding qnap mfd devices failed\n");
++	if (variant->usb_led) {
++		ret = qnap_mcu_register_usb_led(&pdev->dev, mcu);
++		if (ret)
++			return dev_err_probe(&pdev->dev, ret,
++					"failed to register usb led %d\n", i);
++	}
 +
 +	return 0;
 +}
 +
-+static struct serdev_device_driver qnap_mcu_drv = {
-+	.probe			= qnap_mcu_probe,
++static struct platform_driver qnap_mcu_leds_driver = {
++	.probe = qnap_mcu_leds_probe,
 +	.driver = {
-+		.name		= "qnap-mcu",
-+		.of_match_table	= qnap_mcu_dt_ids,
++		.name = "qnap-mcu-leds",
 +	},
 +};
-+module_serdev_device_driver(qnap_mcu_drv);
++module_platform_driver(qnap_mcu_leds_driver);
 +
-+MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:qnap-mcu-leds");
 +MODULE_AUTHOR("Heiko Stuebner <heiko@sntech.de>");
-+MODULE_DESCRIPTION("QNAP MCU core driver");
-diff --git a/include/linux/mfd/qnap-mcu.h b/include/linux/mfd/qnap-mcu.h
-new file mode 100644
-index 0000000000000..f954815d3025b
---- /dev/null
-+++ b/include/linux/mfd/qnap-mcu.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+
-+/*
-+ * Core definitions for QNAP MCU MFD driver.
-+ * Copyright (C) 2024 Heiko Stuebner <heiko@sntech.de>
-+ */
-+
-+#ifndef _LINUX_QNAP_MCU_H_
-+#define _LINUX_QNAP_MCU_H_
-+
-+struct qnap_mcu;
-+
-+struct qnap_mcu_variant {
-+	u32 baud_rate;
-+	int num_drives;
-+	int fan_pwm_min;
-+	int fan_pwm_max;
-+	bool usb_led;
-+};
-+
-+int qnap_mcu_exec(struct qnap_mcu *mcu,
-+		  const u8 *cmd_data, size_t cmd_data_size,
-+		  u8 *reply_data, size_t reply_data_size);
-+int qnap_mcu_exec_with_ack(struct qnap_mcu *mcu,
-+			   const u8 *cmd_data, size_t cmd_data_size);
-+const struct qnap_mcu_variant *qnap_mcu_get_variant_data(struct qnap_mcu *mcu);
-+
-+#endif /* _LINUX_QNAP_MCU_H_ */
++MODULE_DESCRIPTION("QNAP MCU LEDs driver");
++MODULE_LICENSE("GPL");
 -- 
 2.39.2
 
