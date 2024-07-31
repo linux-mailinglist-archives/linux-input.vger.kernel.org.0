@@ -1,30 +1,31 @@
-Return-Path: <linux-input+bounces-5262-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5261-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385639437D4
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 23:25:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4069B9437D0
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 23:25:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69A621C22CF2
-	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 21:25:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E20231F21BB6
+	for <lists+linux-input@lfdr.de>; Wed, 31 Jul 2024 21:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C052516D4D2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD59916D4C0;
 	Wed, 31 Jul 2024 21:24:58 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04C716CD06;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87D916CD05;
 	Wed, 31 Jul 2024 21:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722461098; cv=none; b=S5bUSmgFb38zN5zkYiWCyP7wFJY1cNUOZkQNsDsjgLw2LHR81EAeS77GtIX+fkJiDQuLXvBbNlemcftTdcKZ23qrLx+v05ebe6P4LhoMmQEQpspc25//4qL45//PUAyoLK1NTbNKXjt3KoXr5sAbRWZDBgBAb7z+RKLmfQIzONE=
+	t=1722461098; cv=none; b=iYmdjFENkGCsyBET8xh1MoopOUEzb1VgQN4EFXU2Fv90bTIYBuy8w9XxtLhpgLSCUKvMtqxdc1Atqgtaqh1EVQ4mAUAQGNv+qAOw1vHiXiPCsSsfZgT33/5cfhPTK4JEjEdFVi2SYffwOpMAEodgrMPG9G2JJXDCKcboM4zAtsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722461098; c=relaxed/simple;
-	bh=xB2SONp4XwaJ1YzVBBAmZ8b3kGBVnBVR/zV7uFVrM4I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SdSHDJskZnYR4bZKghokHW4WryqkNPXrtrVdjnJBGIRCcoXw1GST5uL3DUJGyEGR5rttfxJlOvVlFr6pa8wxfxAgfvnTlBhnmIf4l5Wjw1yKbeN7NTfh7Rz4a2+mHpmuB4oBb2ix6auGS8xxax1gr8lEmrcyO8NOr83617/9z4M=
+	bh=26vnjYeJUbZSWRshsuWzvhrk6GDXebFodiGDME77AB0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=raCjEcHE6EeSPVMLUJsnweFZp+7DQhpQwZ5gjGw6VFA89Qw9EOiDNC0sy7PC8+TXiU6JPjufaDxstHUWedjKinT0jFbWbn3TmzRQN+KN0jUK3+CCv3o3je+dEtKtn4sCn7plH67MERimc11PK1r3pfabyj3O2f7Y1oNikcXD544=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
@@ -32,7 +33,7 @@ Received: from i53875ac5.versanet.de ([83.135.90.197] helo=phil.lan)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1sZGoL-0007jg-Kg; Wed, 31 Jul 2024 23:24:41 +0200
+	id 1sZGoM-0007jg-Bb; Wed, 31 Jul 2024 23:24:42 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: lee@kernel.org,
 	jdelvare@suse.com,
@@ -50,11 +51,14 @@ Cc: robh@kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-hwmon@vger.kernel.org,
 	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH v3 0/7] Drivers to support the MCU on QNAP NAS devices
-Date: Wed, 31 Jul 2024 23:24:23 +0200
-Message-Id: <20240731212430.2677900-1-heiko@sntech.de>
+	linux-leds@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/7] dt-bindings: mfd: add binding for qnap,ts433-mcu devices
+Date: Wed, 31 Jul 2024 23:24:24 +0200
+Message-Id: <20240731212430.2677900-2-heiko@sntech.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240731212430.2677900-1-heiko@sntech.de>
+References: <20240731212430.2677900-1-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,112 +67,66 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This implements a set of drivers for the MCU used on QNAP NAS devices.
+These MCUs can be found in network attached storage devices made by QNAP.
+They are connected to a serial port of the host device and provide
+functionality like LEDs, power-control and temperature monitoring.
 
-Of course no documentation for the serial protocol is available, so
-thankfully QNAP has a tool on their rescue-inird to talk to the MCU and
-I found interceptty [0] to listen to what goes over the serial connection.
-
-In general it looks like there are two different generations in general,
-an "EC" device and now this "MCU" - referenced in the strings of the
-userspace handlers for those devices.
-
-For the MCU "SPEC3" and "SPEC4" are listed which is configured in
-the model.conf of the device. When setting the value from SPEC4 to
-SPEC3 on my TS433, the supported commands change, but the command
-interface stays the same and especially the version command is the
-same.
-
-The binding also does not expose any interals of the device that
-might change, so hopefully there shouldn't be big roadblocks to
-support different devices, apart from possibly adapting the commands.
-
-
-changes in v3:
-mfd
-- use correct power-off priority: default
-- constify the cmd-data array in command functions (Dmitry)
-
-leds:
-- don't point to temporary buffers for cdev->name (Florian Eckert)
-
-hwmon:
-- use clamp_val(), don't try to reimplement (Guenter)
-- add Guenter's Ack
-
-input:
-address Dmitry's comments
-- constify some cmd arrays
-- add input-close callback to cancel beep worker
-- drop initial input event report
-
-
-changes in v2:
-binding:
-- rename to qnap,ts433-mcu.yaml (Krzysztof)
-- drop "preserve formatting" indicator (Krzysztof)
-- add Krzysztof's Review tag
-
-mfd:
-- fix checkpatch --strict CHECKs
-- add a MAINTAINERS entry for all qnap-mcu-parts
-
-hwmon:
-address Guenter's review comments:
-- fix checkpatch strict warnings
-  I've kept the devm_thermal_of_cooling_device_register alignment,
-  because that line is so long that aligning to the "(" would make
-  things way too long and unreadable
-- add hwmon documentation
-- spelling corrections
-- report actual pwm value, not last-set one
-- make some cmd arrays static
-- drop pwm_enable as the pwm-mode is not controllable
-- actually handle error returns from mcu commands
-- fix calculation of fan-rpm (I read my notes wrong)
-- fix temperature calculation to return millicelsius as expected
-- only bail at obviously wrong pwm values, but clamp to min,max
-- only register cooling-device if cooling-levels are available
-
-
-[0] https://github.com/geoffmeyers/interceptty
-
-Heiko Stuebner (7):
-  dt-bindings: mfd: add binding for qnap,ts433-mcu devices
-  mfd: add base driver for qnap-mcu devices
-  leds: add driver for LEDs from qnap-mcu devices
-  Input: add driver for the input part of qnap-mcu devices
-  hwmon: add driver for the hwmon parts of qnap-mcu devices
-  arm64: dts: rockchip: hook up the MCU on the QNAP TS433
-  arm64: dts: rockchip: set hdd led labels on qnap-ts433
-
- .../bindings/mfd/qnap,ts433-mcu.yaml          |  43 ++
- Documentation/hwmon/index.rst                 |   1 +
- Documentation/hwmon/qnap-mcu-hwmon.rst        |  27 ++
- MAINTAINERS                                   |   9 +
- .../boot/dts/rockchip/rk3568-qnap-ts433.dts   |  58 +++
- drivers/hwmon/Kconfig                         |  12 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/qnap-mcu-hwmon.c                | 372 ++++++++++++++++++
- drivers/input/misc/Kconfig                    |  12 +
- drivers/input/misc/Makefile                   |   1 +
- drivers/input/misc/qnap-mcu-input.c           | 161 ++++++++
- drivers/leds/Kconfig                          |  11 +
- drivers/leds/Makefile                         |   1 +
- drivers/leds/leds-qnap-mcu.c                  | 247 ++++++++++++
- drivers/mfd/Kconfig                           |  10 +
- drivers/mfd/Makefile                          |   2 +
- drivers/mfd/qnap-mcu.c                        | 358 +++++++++++++++++
- include/linux/mfd/qnap-mcu.h                  |  28 ++
- 18 files changed, 1354 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+---
+ .../bindings/mfd/qnap,ts433-mcu.yaml          | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
- create mode 100644 Documentation/hwmon/qnap-mcu-hwmon.rst
- create mode 100644 drivers/hwmon/qnap-mcu-hwmon.c
- create mode 100644 drivers/input/misc/qnap-mcu-input.c
- create mode 100644 drivers/leds/leds-qnap-mcu.c
- create mode 100644 drivers/mfd/qnap-mcu.c
- create mode 100644 include/linux/mfd/qnap-mcu.h
 
+diff --git a/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+new file mode 100644
+index 0000000000000..5ae19d8faedbd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+@@ -0,0 +1,43 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/qnap,ts433-mcu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: QNAP NAS on-board Microcontroller
++
++maintainers:
++  - Heiko Stuebner <heiko@sntech.de>
++
++description:
++  QNAP embeds a microcontroller on their NAS devices adding system feature
++  as PWM Fan control, additional LEDs, power button status and more.
++
++properties:
++  compatible:
++    enum:
++      - qnap,ts433-mcu
++
++  "#cooling-cells":
++    const: 2
++
++  cooling-levels:
++    description: PWM duty cycle values corresponding to thermal cooling states.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    items:
++      maximum: 255
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    uart {
++      mcu {
++        compatible = "qnap,ts433-mcu";
++        #cooling-cells = <2>;
++        cooling-levels = <0 64 89 128 166 204 221 238>;
++      };
++    };
 -- 
 2.39.2
 
