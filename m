@@ -1,266 +1,402 @@
-Return-Path: <linux-input+bounces-5267-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5268-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2925394414A
-	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 04:38:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6729594483A
+	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 11:28:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62486B2BFA5
-	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 02:15:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A8A61C214BC
+	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 09:28:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52C61A38FB;
-	Thu,  1 Aug 2024 01:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37349189B86;
+	Thu,  1 Aug 2024 09:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jHQx+hr7"
+	dkim=pass (2048-bit key) header.d=infogain-com.20230601.gappssmtp.com header.i=@infogain-com.20230601.gappssmtp.com header.b="PzdeRxfi"
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2069.outbound.protection.outlook.com [40.107.247.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A921A38F5;
-	Thu,  1 Aug 2024 01:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722476176; cv=fail; b=WZcf2S24mIn9AJOErfFyYgipYRdRZnL3bjOng5XHDw4FFbj97Un21pNhuJT8v48DhRtjLmzjcMDFysLpOR+prK1J49R/GfwJCTQ7RUOBiOips9FlaIEzFNsOsBNSizRBYBQxh7R5dikhWV3kHx1QYdM1ASxRaVFUD/trvJlLRPE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722476176; c=relaxed/simple;
-	bh=gVTfGhF45QxfGVy1xSpjvRKRE4pFdq4KJNdWlheyZsE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QePmjYzSYFi+uYtBxCc00GuDE/xcYqjnsmQiUlDg0YDdbNIJo5EOG0pXy4jhL/4G1GfyE9DvmgcOLRbz1Li1kvf8TqGNF9h81st6RPxrLs8DpFwPH8VlcHlWQ1DHQZX4wvBRnSTTNFi+7rvn2aOVyJijWngjklVfURuvBBL8E8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jHQx+hr7; arc=fail smtp.client-ip=40.107.247.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GcZjj5374b3zphhz7raEJZAkPHQJl6885BACnGwLBB/raPvV0Ukx+miQgbwXCjsQsX3Uctwwx09LZLfYT2XSnr3ZUJdBq947rdJ5ekzs28+dUVa1kGr0KqBNT2oIIpQMyHukEv/k+tyon7vWqmQr6X/Bjv6UF1anIi6YkhaWWrUymCg27JNdlUC/zStmXcyE1OxRyn8dDqKo11XBlpwMtbf4BaXGaCPXA9SFFBZl7DpykXY77fHDPcV9YYhjAsjkiEgdNldnryBLzEim4m3Mn5VJV7gvDi5SnTDrDSKnVI0i2X/ucgDehc5fXnCAyqsyLfPliqVwayETzPqD+HfH4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n5BTEXELbeNDNTUMxqhgTFFudwaBnj5kXcegc38+924=;
- b=GGR8ctIGQUDuRWtm0NYGf0Fv4qo7WoMrZgBy2e+4iwgjZndaupifMkn7JqGH6/kQBlndtR0XU2lO7HKQ98CwJMVIPviy5Jyw6KI6fD4C8gh0vSIESxUx7r7XbGOUFgz+N1biIRGR69rK2vb3GV7pDauKpDw91SPtbIIk4Ugkg6JJQOWnTNBQXQ3Ek+E9Jc7SQYLmF74f7yEX1R/RppyUlfbNF2Y/5yoHr+dubIseRR/JEr8K3hUJwRcrPXUIpGfyR0DMPXywqXgDp5Ygd6RXkAEPZ63F9IRr/p5Q8FVfQPuY7QmS5QskDH4Mx0Ei/ltHFWZ/rVSsUVE5ITTIa8C6ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n5BTEXELbeNDNTUMxqhgTFFudwaBnj5kXcegc38+924=;
- b=jHQx+hr76gDu5C5thu3Kkn14cl4BAA6mukGFjbQ0WTQWFdkeYm9JQnShzz99cP3zj0PyvZItpWo7T6ulSFmkAaxMvUIE3a6UWTjKPEXWuAbd0lZvcK+XsVj19uI+3gpmH6ghmerBI4yxeasUGNFUbuQ5/UREg/wG7QDkmfynAbmSBPt8Gvbf4eazxoL4F9GqKE3eA8G20/PVWRxGDd3hvQp9Er474QEaZqq07HuVs0TwnZY2ABxawX2RK7S6tnr8se07WWBdP4A74Klywpis3Sc3PafInueWrKMR7xv9q0WnMR81LZIHVEHXVmCkAVbAk0maca+MH23fLBr4JwAEkA==
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by DB8PR04MB7130.eurprd04.prod.outlook.com (2603:10a6:10:123::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
- 2024 01:36:10 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.7784.020; Thu, 1 Aug 2024
- 01:36:10 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Cristian Marussi <cristian.marussi@arm.com>, "Peng Fan (OSS)"
-	<peng.fan@oss.nxp.com>, Sudeep Holla <sudeep.holla@arm.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM module
-Thread-Topic: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM module
-Thread-Index: AQHa40fZMc1qZndYQk+4NNhqZFIIlLIQ3I8AgAAZs4CAACEqgIAAewKw
-Date: Thu, 1 Aug 2024 01:36:10 +0000
-Message-ID:
- <PAXPR04MB8459CE89FFF5662AED66D9AA88B22@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
- <20240731-imx95-bbm-misc-v2-v7-7-a41394365602@nxp.com>
- <ZqpCwOhXiLzxK43-@pluto>
- <PAXPR04MB84598B36C6721748FB98905088B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Zqp0IZfUobg6dq8G@google.com>
-In-Reply-To: <Zqp0IZfUobg6dq8G@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|DB8PR04MB7130:EE_
-x-ms-office365-filtering-correlation-id: 74f3fc79-f0f1-47f2-0a78-08dcb1ca5279
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?8cwtjIEuB7jCWNaNh49r4bs8I879CMtbH8j+usUIuT/6p3N7AiJ1/c4BLkAl?=
- =?us-ascii?Q?/zKKcS2Wqw7SRRETuqBshLIGpU24VODI7evetmbTqk9jqHPXHvWZaGzz0Hte?=
- =?us-ascii?Q?gyPveUJvIO2UWBmv0a+Ac/H+z3c2XEAlMDXWJ61s7dy4mE4j7dKiaNn8l0pQ?=
- =?us-ascii?Q?1t/Ax0lYIO2g5axtBpvZ1OJNowNfYWYn8NdkeOwZ0LHAQHZwoepAGGGxXPUA?=
- =?us-ascii?Q?BM6AM6yIT8DmriIiUgobTyl7MLQWZdVGLg9R3WxeaR8+KrX66OKSwWDYoKwG?=
- =?us-ascii?Q?qR6c3SDbCbvjtxdi2nriNTwsgfk125uk4gc7svxmw1S5Cn4RynUiG+GHzZ4f?=
- =?us-ascii?Q?/k6cnebf1n1NtW+XSiwTeD/3ROtSv9S67yx45RbZFMGG9dATr1Fmnyes2Phl?=
- =?us-ascii?Q?a7IehdVOQurWRkRRTvvQ+c0mUwUQq7f/Q1pxhnskH5QkqeV+zDOJaynRFk1T?=
- =?us-ascii?Q?0kEd30oUh/HXG6ScnnfvOv8QaPrX4xbBSEGmlegyK03sTFKMdeXx1hYXuB1v?=
- =?us-ascii?Q?e3vUmEcXoyDi1MjAiT1x9vWxAhLD1d7j0lzBbEGSm6obK+HBUUTQ8EZqv5Wd?=
- =?us-ascii?Q?eXzYgxA5x8BddGj4G1WlrWPYduLHJU4UOf6woERAOHeTiTjWkJ7JOKBrOPYq?=
- =?us-ascii?Q?pwd6c8h7uqSdEhPpSlpCYAcizCCRdRC6m4TUzSGxwmtoqWqz7ezdvWc7MhS+?=
- =?us-ascii?Q?Uo3s8pEt9tzV3pIgrMKGGG+eTV9z17rvFqfl7vxOmsjmtP7NHvEjCQMbgAdx?=
- =?us-ascii?Q?FCJuKqjVzJFMI+keoBmICXsHjL97JKlw3ZTqeX2UwQuqhdOoDk388LgYOvGa?=
- =?us-ascii?Q?mEBzlWBlsD3ZBxjInorNMjp7ezLPxUU1yY88/1AQqFZWJPcTnc3TGgB2728B?=
- =?us-ascii?Q?00NEv0zJDkEKxY05GoobGs+/Y9iUsom9Qsf/bZKs4FGvltdyXzHb5L1JFTMM?=
- =?us-ascii?Q?chCluhgK6j32/JFAj8FYifwlurEChNpR9b4Ep2G+k69Ag2T7fXyBM3cE7x5f?=
- =?us-ascii?Q?PkK7dRw+I7EeVVB4Ge2HEnwTwjvQcEtwmUiV3uC23WGz8cmZ+MQuTj1SuDoS?=
- =?us-ascii?Q?z4Gyn22jpV5RFhrTpSo/aim2+IdALFlqU7xp1rLuwwhpT7/YDhtMN2CNoRoZ?=
- =?us-ascii?Q?EyMG/ym4Sdq27A/omoeMzvDtqjGUGpSOSK+oO1khbnI+9VzEb8JYHB+dAWjt?=
- =?us-ascii?Q?+4tfLyyLl5hXVKHRZPOq3YUSGTbR2g6G+I9Fp4gRhywmBASb/Q7JbIB3lxgw?=
- =?us-ascii?Q?AOlNUYzhpKL7Zh5pWA68FsNqt3ILG3A2a1OiBAYQWe7YHQPuPn5xDUPKG2Tt?=
- =?us-ascii?Q?nAaBUgbShU+nJGWSKKEIHs/yv7fKV/Ake/Uj1GUfqyOM4Cbgap1q0JfCQw4b?=
- =?us-ascii?Q?mFrEhqXCtMAgzFEpF2IfLKEpQcfC/C2wzScI1+wk+pUGtcvj9A=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?jJVzZOmvhgXXaYVDA0Rfs9wdJVhfemp6z3SToLLngcngmx5wH8EEiXb3rllI?=
- =?us-ascii?Q?z4DLuq6TLsQXRkPM1cm0hXy/CMapkUsR4wDXgkMlmhVSPnAAOEGMKeHll8eE?=
- =?us-ascii?Q?r9ekJxKo+XCTXEdRPgZ+pdYoZzS3woBQdo6+sqiD1TOWihKS6fYCMiHB4dRv?=
- =?us-ascii?Q?hNsIAeq8ENwf4UYLopX+m/BgF5rUooZuy+M2+LyUor9N+63RiaY4iF53SedE?=
- =?us-ascii?Q?vGLsuZPBwHBy+YJi215/O6lGAOGSr/wcNhMgii9lIXvNOzHUBM5N4JwGNLu0?=
- =?us-ascii?Q?UAPgfLO05kQDfaJSUADiK6nKtgNYN2P036Vzz4sZRP4vVl6OyrbULEyPGE1v?=
- =?us-ascii?Q?t3gWy+1EhnXxEmtmqbDCOxcxPpu/qDHxPhmc8F3ibVvOobIlX0RMp5UxFCej?=
- =?us-ascii?Q?S2KuIw8pcIG1FevF3JQb4dyFJ/SQ7kzm/uMtO1ny6Eu8UJNqSHHECB+Opgef?=
- =?us-ascii?Q?xbgfyNGJ2B3tthBR8LjIgEUwbo9We86CcCdip4nqQZlgVeePkwC5KW5Bo5zz?=
- =?us-ascii?Q?9JzhPDmYeQr1PB5cxTl0d2j7w7bhoR1LPSGYOTQ6mOQfIPjOrhRsEQMg9eLE?=
- =?us-ascii?Q?7jbp97G/kMcS8zTUyuWsyySYFpc5RBJw2QAjnfvI5h9QFzJiQ98la73L+VBh?=
- =?us-ascii?Q?rblTwgCdbwl4ThCIZDA4iuz45V7oGu42dX8oRv6BhIKDK5ZSBIBxj8IJ9/6r?=
- =?us-ascii?Q?U2TwdTxDsANaFXedv1mwOx4X2Du114qufxQCYhLHLRBsGgOf5p9xLbLh8vQT?=
- =?us-ascii?Q?fcnEFpRBCvcHjlZB510ySQcScU+Q1PIEbCg9us4ZItJ1WKNiRu+PTuqgWle1?=
- =?us-ascii?Q?I/89KgPm30ZTrQ34KGhEHL5h6h5EIa/WEBE2uFXf10pCcHC6OPm8n67R9fRz?=
- =?us-ascii?Q?nBQb01agXMg8nn+KvikjemOwH1Z95a03xfEvN7cTlL4AtxAPaap0M7ZD4Kxe?=
- =?us-ascii?Q?csm6eGuQw7u5ASckvgZdba9Lx2NbFxohlSRNfNoCTghIXMNGemJ5UldO1IbI?=
- =?us-ascii?Q?yTiWamK3ATSH7QLZ8yPP3lCs/4qIO5oMu/P1TF4oNKJCGrzVh4rSK2CoYo0B?=
- =?us-ascii?Q?HA0qc01/MgeRWfj5SDnbSty7fgdJXnEdFpn7ig1dxHEA2BW8SRqieikcSCA3?=
- =?us-ascii?Q?d3Gwpc3k4i6j0j6lT4FccxJoQI0pwx8DR41bQpSzhL+bUZ1C5kNyflIuizPi?=
- =?us-ascii?Q?f8PgWGN8/sGahVSJhiAyYHUVqppq7wtU6bOVyGQk+KC8PkJ0HnzAL5ojcOwh?=
- =?us-ascii?Q?vT7KGivxQzaMggB2XEc4s1P437R5mpVQ1d8Jr9rJcCjxHKlPkaD/kYj2h89u?=
- =?us-ascii?Q?DoK8o274+3parS0OX0Sgxjm4scLOrIoux04RnPWqewo/AVlQP7BmY+gwJAs3?=
- =?us-ascii?Q?M2Rak9ajqBLoaZkYE+cUI3uY9iwOTf65nLeBre0d4cf06hRG41hl0KAcF9lS?=
- =?us-ascii?Q?g4/MEdNs/F2QSLF709piT82mr0IRJN6JFi6l5LTtUG8A4H83jR6jV2i4/Nsl?=
- =?us-ascii?Q?fsITpuMamdjCUd3EBzk75SM4tE6mTTIGFjLfmaN+GlcuVALXwlvjJMtLEYT2?=
- =?us-ascii?Q?KGooInInrtNgNhKjLAw=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2F84594D
+	for <linux-input@vger.kernel.org>; Thu,  1 Aug 2024 09:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722504329; cv=none; b=ku15mZU7/D+U81lVMf38NEzYAEaRbp7b+3Trd/YqRcoWLlgxNxpezf0MD3/A17s6FdeMSfAXDvTJPZiy9c98x5v5qWlkoonglaCe2k0Lwg+OqlMbdCNhxsGT70vknH8o7BpKwSA2rdtaKh21lauvfUFdM0uTtkjlTL2kYmtCeyU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722504329; c=relaxed/simple;
+	bh=lbglg/Mpx3pX8ZICFqAdxoB5ICUG9AEOHbFvgEIw740=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=k//zjYOKA+S174k5CbFRYv/Irm25CvRjEE45cGVHNv7Jx9/q46T3h1mRdp4a3Z/hh432kkt8Q1W7+ZmQtO/i3hNZvLeMudL3wPHqv8REumcX9247RUmimhEFUXr549r2OWkzIYpJttajzoGgavDZZcK7gjDmummeW13BUWwbMhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=infogain.com; spf=fail smtp.mailfrom=infogain.com; dkim=pass (2048-bit key) header.d=infogain-com.20230601.gappssmtp.com header.i=@infogain-com.20230601.gappssmtp.com header.b=PzdeRxfi; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=infogain.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=infogain.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42819654737so38808455e9.1
+        for <linux-input@vger.kernel.org>; Thu, 01 Aug 2024 02:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=infogain-com.20230601.gappssmtp.com; s=20230601; t=1722504323; x=1723109123; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H0CHF4pps4YreqwHY67zaT5Ce2XnYtQmLVn1IuYuhb4=;
+        b=PzdeRxfiZKs/joITKuUkxkDnzelEgmaM9Lqn13VwmoRg9AMrIAb0v6F30NCkLOGi+q
+         beJA4OeO2RHaam62H7CoRi66BdZnliouT+C5tdBluw0D4N8HThfMORNG+rZJJM/rrvBu
+         jcKbbLeoDvYoZPiUSosWX7ETJSJ4zpjbsAgfiJbNiO+Cp9C0VBKpOVwB13xQSWVHCKqi
+         IJxyXyxhXXaw3/JNczt46/eg2rzkrJwEbAkb0MteRc6vLXeafLazbXElFpmnI8mZDJES
+         53gYJpC8dtrRgxzy+0atpV1euYNaINZkspYArmHRG+fq4hOoOKhV6QekncphtidfwTAx
+         PGMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722504323; x=1723109123;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H0CHF4pps4YreqwHY67zaT5Ce2XnYtQmLVn1IuYuhb4=;
+        b=K8b2bSkVC+oWsXIvYVato0PYCWQwbENmnGWcHGQnTmJO7mLACE0i0JGDwrhCTT50++
+         axqK4dBtbpmWeKbVOkBWb/aM2sR/JoSZb6eQKRgmOuMT/Np/rRwkO0483roCRMaOMBaR
+         rjogLWFSwDuQgzj4lof5DUbsx05Ao3xdvLf4DLJF8rPXANYouLoaCZIh1KD6Sy1/2NgV
+         FTmWziEy4iMnGcRt1Qct7GuGZCIVo/4H1eqBlEDNAOx0MooAFdmrEBFj/eZIfz0i8p5T
+         lC3DokvQN6y7xjYgaTRjVANkeWdccqvmUILHgn3r9YXm/7nc8RReZEqifOh0VRIzgzB7
+         PzwA==
+X-Gm-Message-State: AOJu0YzX3OqPDeyAE5hmhpCE0WkxEmkQG7MgSMJfAy1YbGy3OlHlW0KV
+	JGGe8sU9NtCs8vWVIg3ek9JZ8WzxEzj2qAJ/GqoRgpi6ADLS2zbxinVQnspKQK6w5HSZ2MqhahT
+	2dP0=
+X-Google-Smtp-Source: AGHT+IGUq9zsQoTDKSMx9QjPsandly5EZ2Mjoq6zYR2DwvYXRwsVUxNlCYAi/h9STkCgbhNcAg3cwg==
+X-Received: by 2002:a05:600c:6c4e:b0:426:6a53:e54f with SMTP id 5b1f17b1804b1-428b032c05cmr11669725e9.33.1722504322337;
+        Thu, 01 Aug 2024 02:25:22 -0700 (PDT)
+Received: from localhost.localdomain (apn-31-0-3-137.dynamic.gprs.plus.pl. [31.0.3.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282bb1dfd6sm49105465e9.42.2024.08.01.02.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 02:25:21 -0700 (PDT)
+From: =?UTF-8?q?Wojciech=20G=C5=82adysz?= <wojciech.gladysz@infogain.com>
+To: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Cc: =?UTF-8?q?Wojciech=20G=C5=82adysz?= <wojciech.gladysz@infogain.com>
+Subject: [PATCH] kernel/evdev: suppress irq bad dependency lockdep report
+Date: Thu,  1 Aug 2024 11:24:57 +0200
+Message-Id: <20240801092457.9982-1-wojciech.gladysz@infogain.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74f3fc79-f0f1-47f2-0a78-08dcb1ca5279
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2024 01:36:10.4353
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3tmbQPk3iITJS4OqvMLlowTaXyC3u78a0IeEgZNCbqn8NgEXpZaUXSYOnuo1qyVipPZ1CM1/0bQ3kYIMRjjujg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7130
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry,
+Lockdep connects soft irq (keyboard tasklet injecting led events)
+and vfs started (lease break) locking chains. In the test scenario
+the chains do not connect due to event type/code and client->fasync.
 
-> Subject: Re: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM
-> module
->=20
-> Hi Peng,
->=20
-> On Wed, Jul 31, 2024 at 03:37:18PM +0000, Peng Fan wrote:
-> > Hi Cristian,
-> >
-> > > Subject: Re: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM
-> > > module
-> > >
-> > > On Wed, Jul 31, 2024 at 08:56:11PM +0800, Peng Fan (OSS) wrote:
-> > > > From: Peng Fan <peng.fan@nxp.com>
-> > > >
-> > > > The BBM module provides BUTTON feature. To i.MX95, this
-> module is
-> > > > managed by System Manager and exported using System
-> > > Management Control
-> > > > Interface(SCMI). Linux could use i.MX SCMI BBM Extension
-> protocol
-> > > to
-> > > > use BUTTON feature.
-> > > >
-> > > > This driver is to use SCMI interface to enable pwrkey.
-> > > >
-> > > > +}
-> > > > +
-> > > > +static void scmi_imx_bbm_key_remove(struct scmi_device
-> *sdev) {
-> > > > +	struct device *dev =3D &sdev->dev;
-> > > > +	struct scmi_imx_bbm *bbnsm =3D dev_get_drvdata(dev);
-> > > > +
-> > > > +	device_init_wakeup(dev, false);
->=20
-> I do not believe you need to reset the wakeup flag on driver unbind, as
-> well as in the error handling path of probe(). If this is needed then
-> driver core should do this cleanup (maybe it already does?).
+commit 45a3e24f65e9 ("Linux 6.4-rc7")
+Backtrace
+=====================================================
+WARNING: SOFTIRQ-safe -> SOFTIRQ-unsafe lock order detected
+5.10.0-syzkaller #0 Not tainted
+-----------------------------------------------------
+syz-executor175/2640 [HC0[0]:SC0[0]:HE0:SE1] is trying to acquire:
+ffffffff8720b458 (tasklist_lock){.+.+}-{2:2}, at: send_sigio+0xdc/0x340
 
-I just check the driver core code, you are right, there is
-no need do this.
+and this task is already holding:
+ffff88800bc0e978 (&f->f_owner.lock){....}-{2:2}, at: send_sigio+0x31/0x340
+which would create a new lock dependency:
+ (&f->f_owner.lock){....}-{2:2} -> (tasklist_lock){.+.+}-{2:2}
 
-DevAttrError:
- device_pm_remove-> device_wakeup_disable(dev);
- dpm_sysfs_remove
+but this new dependency connects a SOFTIRQ-irq-safe lock:
+ (&client->buffer_lock){..-.}-{2:2}
 
->=20
-> > > > +
-> > > > +	cancel_delayed_work_sync(&bbnsm->check_work);
-> > > > +}
-> > > > +
-> > >
-> > > ..so in v6 I asked you to add a cancel_delayed_work_sync() on the
-> > > removal path, BUT I missed, my bad, that indeed above there was
-> > > already a call to cancel_delayed_work_sync() associated to a
-> > > devm_add_action_or_reset....so now we have 2....also you should
-> try
-> > > not to mix devm_add_action_or_reset and plain .remove
-> methods..use
-> > > one or the other.
-> >
-> > Thanks for your detailed reviewing on this. I will wait to see if
-> > Sudeep has any comments to patch 1-4. If no comments, I will not do
-> a
-> > new version to this patchset.
-> >
-> > If v7 patch 1-4 are good for Sudeep to pick up, I will separate this
-> > patch out as a standalone one for input subsystem maintainer.
->=20
-> If you remove the duplicated cancel_delayed_work_sync() in remove()
-> and unneded device_init_wakeup(dev, false); then you can merge the
-> input patch with the rest of them with my:
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+... which became SOFTIRQ-irq-safe at:
+  lock_acquire+0x197/0x480
+  _raw_spin_lock+0x2a/0x40
+  evdev_pass_values+0xef/0xaf0
+  evdev_events+0x1ba/0x2f0
+  input_pass_values+0x87e/0x1200
+  input_handle_event+0xc17/0x1500
+  input_inject_event+0x1eb/0x2f0
+  kbd_update_leds_helper+0xfd/0x130
+  input_handler_for_each_handle+0xdc/0x1a0
+  kbd_bh+0x180/0x250
+  tasklet_action_common+0x2e1/0x3d0
+  tasklet_action+0x1d/0x20
+  __do_softirq+0x3e6/0x94e
+  run_ksoftirqd+0x96/0xf0
+  smpboot_thread_fn+0x557/0x900
+  kthread+0x374/0x3f0
+  ret_from_fork+0x3a/0x50
 
-Thanks for your Ack. But I think patch 1-4 needs go to arm-scmi tree,
-Patch 5 to arm imx tree, patch 6 to rtc tree, patch 7 to input tree.
+to a SOFTIRQ-irq-unsafe lock:
+ (tasklist_lock){.+.+}-{2:2}
 
-I put the patches together in a patchset is to let reviewers could
-get a full picture how the whole stuff work.
+... which became SOFTIRQ-irq-unsafe at:
+...
+  lock_acquire+0x197/0x480
+  _raw_read_lock+0x32/0x50
+  do_wait+0x356/0xc80
+  kernel_wait+0xe5/0x240
+  call_usermodehelper_exec_work+0xb7/0x220
+  process_one_work+0x857/0xfd0
+  worker_thread+0xafa/0x1550
+  kthread+0x374/0x3f0
+  ret_from_fork+0x3a/0x50
 
-For patch 7, I will send out it as a separate patch with fix and tag
-after patch 1-4 is ready in arm-scmi tree.
+other info that might help us debug this:
 
-Thanks,
-Peng.
+Chain exists of:
+  &client->buffer_lock --> &f->f_owner.lock --> tasklist_lock
 
->=20
-> Thanks.
->=20
-> --
-> Dmitry
+ Possible interrupt unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(tasklist_lock);
+                               local_irq_disable();
+                               lock(&client->buffer_lock);
+                               lock(&f->f_owner.lock);
+  <Interrupt>
+    lock(&client->buffer_lock);
+
+ *** DEADLOCK ***
+
+5 locks held by syz-executor175/2640:
+ #0: ffffffff879b7bf0 (file_rwsem){.+.+}-{0:0}, at: __break_lease+0x186/0x1300
+ #1: ffff88800f2d2dd8 (&ctx->flc_lock){+.+.}-{2:2}, at: __break_lease+0x193/0x1300
+ #2: ffffffff8784ba80 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire+0x9/0x40
+ #3: ffff88800ea3d9f0 (&new->fa_lock){....}-{2:2}, at: kill_fasync+0x15f/0x480
+ #4: ffff88800bc0e978 (&f->f_owner.lock){....}-{2:2}, at: send_sigio+0x31/0x340
+
+the dependencies between SOFTIRQ-irq-safe lock and the holding lock:
+  -> (&client->buffer_lock){..-.}-{2:2} {
+     IN-SOFTIRQ-W at:
+                        lock_acquire+0x197/0x480
+                        _raw_spin_lock+0x2a/0x40
+                        evdev_pass_values+0xef/0xaf0
+                        evdev_events+0x1ba/0x2f0
+                        input_pass_values+0x87e/0x1200
+                        input_handle_event+0xc17/0x1500
+                        input_inject_event+0x1eb/0x2f0
+                        kbd_update_leds_helper+0xfd/0x130
+                        input_handler_for_each_handle+0xdc/0x1a0
+                        kbd_bh+0x180/0x250
+                        tasklet_action_common+0x2e1/0x3d0
+                        tasklet_action+0x1d/0x20
+                        __do_softirq+0x3e6/0x94e
+                        run_ksoftirqd+0x96/0xf0
+                        smpboot_thread_fn+0x557/0x900
+                        kthread+0x374/0x3f0
+                        ret_from_fork+0x3a/0x50
+     INITIAL USE at:
+                       lock_acquire+0x197/0x480
+                       _raw_spin_lock+0x2a/0x40
+                       evdev_pass_values+0xef/0xaf0
+                       evdev_events+0x1ba/0x2f0
+                       input_pass_values+0x87e/0x1200
+                       input_handle_event+0xc17/0x1500
+                       input_inject_event+0x1eb/0x2f0
+                       evdev_write+0x37b/0x580
+                       vfs_write+0x287/0xc90
+                       ksys_write+0x17e/0x2a0
+                       __x64_sys_write+0x7b/0x90
+                       do_syscall_64+0x4f/0x60
+                       entry_SYSCALL_64_after_hwframe+0x61/0xc6
+   }
+   ... key      at: [<ffffffff895f5640>] evdev_open.__key.17+0x0/0x20
+ -> (&new->fa_lock){....}-{2:2} {
+    INITIAL READ USE at:
+                          lock_acquire+0x197/0x480
+                          _raw_read_lock_irqsave+0xb8/0x100
+                          kill_fasync+0x15f/0x480
+                          evdev_pass_values+0x5b9/0xaf0
+                          evdev_events+0x1ba/0x2f0
+                          input_pass_values+0x87e/0x1200
+                          input_handle_event+0xc17/0x1500
+                          input_inject_event+0x1eb/0x2f0
+                          evdev_write+0x37b/0x580
+                          vfs_write+0x287/0xc90
+                          ksys_write+0x17e/0x2a0
+                          __x64_sys_write+0x7b/0x90
+                          do_syscall_64+0x4f/0x60
+                          entry_SYSCALL_64_after_hwframe+0x61/0xc6
+  }
+  ... key      at: [<ffffffff8943f5e0>] fasync_insert_entry.__key+0x0/0x20
+  ... acquired at:
+   lock_acquire+0x197/0x480
+   _raw_read_lock_irqsave+0xb8/0x100
+   kill_fasync+0x15f/0x480
+   evdev_pass_values+0x5b9/0xaf0
+   evdev_events+0x1ba/0x2f0
+   input_pass_values+0x87e/0x1200
+   input_handle_event+0xc17/0x1500
+   input_inject_event+0x1eb/0x2f0
+   evdev_write+0x37b/0x580
+   vfs_write+0x287/0xc90
+   ksys_write+0x17e/0x2a0
+   __x64_sys_write+0x7b/0x90
+   do_syscall_64+0x4f/0x60
+   entry_SYSCALL_64_after_hwframe+0x61/0xc6
+
+-> (&f->f_owner.lock){....}-{2:2} {
+   INITIAL USE at:
+                   lock_acquire+0x197/0x480
+                   _raw_write_lock_irq+0xab/0xf0
+                   f_modown+0x3b/0x350
+                   do_fcntl+0x139b/0x1750
+                   __se_sys_fcntl+0xe3/0x1c0
+                   __x64_sys_fcntl+0x7b/0x90
+                   do_syscall_64+0x4f/0x60
+                   entry_SYSCALL_64_after_hwframe+0x61/0xc6
+   INITIAL READ USE at:
+                        lock_acquire+0x197/0x480
+                        _raw_read_lock_irqsave+0xb8/0x100
+                        send_sigio+0x31/0x340
+                        kill_fasync+0x1fb/0x480
+                        evdev_pass_values+0x5b9/0xaf0
+                        evdev_events+0x1ba/0x2f0
+                        input_pass_values+0x87e/0x1200
+                        input_handle_event+0xc17/0x1500
+                        input_inject_event+0x1eb/0x2f0
+                        evdev_write+0x37b/0x580
+                        vfs_write+0x287/0xc90
+                        ksys_write+0x17e/0x2a0
+                        __x64_sys_write+0x7b/0x90
+                        do_syscall_64+0x4f/0x60
+                        entry_SYSCALL_64_after_hwframe+0x61/0xc6
+ }
+ ... key      at: [<ffffffff8943e960>] __alloc_file.__key+0x0/0x10
+ ... acquired at:
+   lock_acquire+0x197/0x480
+   _raw_read_lock_irqsave+0xb8/0x100
+   send_sigio+0x31/0x340
+   kill_fasync+0x1fb/0x480
+   evdev_pass_values+0x5b9/0xaf0
+   evdev_events+0x1ba/0x2f0
+   input_pass_values+0x87e/0x1200
+   input_handle_event+0xc17/0x1500
+   input_inject_event+0x1eb/0x2f0
+   evdev_write+0x37b/0x580
+   vfs_write+0x287/0xc90
+   ksys_write+0x17e/0x2a0
+   __x64_sys_write+0x7b/0x90
+   do_syscall_64+0x4f/0x60
+   entry_SYSCALL_64_after_hwframe+0x61/0xc6
+
+the dependencies between the lock to be acquired
+ and SOFTIRQ-irq-unsafe lock:
+-> (tasklist_lock){.+.+}-{2:2} {
+   HARDIRQ-ON-R at:
+                    lock_acquire+0x197/0x480
+                    _raw_read_lock+0x32/0x50
+                    do_wait+0x356/0xc80
+                    kernel_wait+0xe5/0x240
+                    call_usermodehelper_exec_work+0xb7/0x220
+                    process_one_work+0x857/0xfd0
+                    worker_thread+0xafa/0x1550
+                    kthread+0x374/0x3f0
+                    ret_from_fork+0x3a/0x50
+   SOFTIRQ-ON-R at:
+                    lock_acquire+0x197/0x480
+                    _raw_read_lock+0x32/0x50
+                    do_wait+0x356/0xc80
+                    kernel_wait+0xe5/0x240
+                    call_usermodehelper_exec_work+0xb7/0x220
+                    process_one_work+0x857/0xfd0
+                    worker_thread+0xafa/0x1550
+                    kthread+0x374/0x3f0
+                    ret_from_fork+0x3a/0x50
+   INITIAL USE at:
+                   lock_acquire+0x197/0x480
+                   _raw_write_lock_irq+0xab/0xf0
+                   copy_process+0x2192/0x3880
+                   kernel_clone+0x220/0x7a0
+                   kernel_thread+0x147/0x1c0
+                   rest_init+0x24/0x300
+                   arch_call_rest_init+0xe/0x11
+                   start_kernel+0x469/0x512
+                   x86_64_start_reservations+0x2a/0x2d
+                   x86_64_start_kernel+0x60/0x64
+                   secondary_startup_64_no_verify+0xac/0xbb
+   INITIAL READ USE at:
+                        lock_acquire+0x197/0x480
+                        _raw_read_lock+0x32/0x50
+                        do_wait+0x356/0xc80
+                        kernel_wait+0xe5/0x240
+                        call_usermodehelper_exec_work+0xb7/0x220
+                        process_one_work+0x857/0xfd0
+                        worker_thread+0xafa/0x1550
+                        kthread+0x374/0x3f0
+                        ret_from_fork+0x3a/0x50
+ }
+ ... key      at: [<ffffffff8720b458>] tasklist_lock+0x18/0x40
+ ... acquired at:
+   lock_acquire+0x197/0x480
+   _raw_read_lock+0x32/0x50
+   send_sigio+0xdc/0x340
+   kill_fasync+0x1fb/0x480
+   lease_break_callback+0x26/0x30
+   __break_lease+0x4d1/0x1300
+   do_dentry_open+0x6ac/0xf40
+   vfs_open+0x73/0x80
+   path_openat+0x26c5/0x3290
+   do_filp_open+0x20b/0x450
+   do_sys_openat2+0x124/0x460
+   __x64_sys_open+0x221/0x270
+   do_syscall_64+0x4f/0x60
+   entry_SYSCALL_64_after_hwframe+0x61/0xc6
+
+stack backtrace:
+CPU: 2 PID: 2640 Comm: syz-executor175 Not tainted 5.10.0-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ dump_stack+0x183/0x226
+ validate_chain+0x4cca/0x5870
+ __lock_acquire+0x12fd/0x20d0
+ lock_acquire+0x197/0x480
+ _raw_read_lock+0x32/0x50
+ send_sigio+0xdc/0x340
+ kill_fasync+0x1fb/0x480
+ lease_break_callback+0x26/0x30
+ __break_lease+0x4d1/0x1300
+ do_dentry_open+0x6ac/0xf40
+ vfs_open+0x73/0x80
+ path_openat+0x26c5/0x3290
+ do_filp_open+0x20b/0x450
+ do_sys_openat2+0x124/0x460
+ __x64_sys_open+0x221/0x270
+ do_syscall_64+0x4f/0x60
+ entry_SYSCALL_64_after_hwframe+0x61/0xc6
+RIP: 0033:0x7f65eb366509
+Code: 28 c3 e8 1a 15 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffac3b94b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007f65eb3d3ed0 RCX: 00007f65eb366509
+RDX: 0000000000000000 RSI: 0000000000004c01 RDI: 0000000020000240
+RBP: 00007fffac3b94c8 R08: 00007f65eb3d3e40 R09: 00007f65eb3d3e40
+R10: 00007f65eb3d3e40 R11: 0000000000000246 R12: 00007fffac3b94d0
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+
+Signed-off-by: Wojciech Gładysz <wojciech.gladysz@infogain.com>
+---
+ drivers/input/evdev.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index a8ce3d140722..e579e5b98757 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -257,8 +257,13 @@ static void evdev_pass_values(struct evdev_client *client,
+ 	event.input_event_sec = ts.tv_sec;
+ 	event.input_event_usec = ts.tv_nsec / NSEC_PER_USEC;
+ 
+-	/* Interrupts are disabled, just acquire the lock. */
+-	spin_lock(&client->buffer_lock);
++	/*
++	 * Disable lockdep chain connecting with subclass based on fasync
++	 * to suppress lockdep report. No further locking for NULL fasync
++	 * (keybord_tasklet injecting input events).
++	 * Interrupts are disabled, just acquire the lock.
++	 */
++	spin_lock_nested(&client->buffer_lock, !client->fasync);
+ 
+ 	for (v = vals; v != vals + count; v++) {
+ 		if (__evdev_is_filtered(client, v->type, v->code))
+-- 
+2.35.3
+
 
