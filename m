@@ -1,81 +1,98 @@
-Return-Path: <linux-input+bounces-5271-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5272-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4D5944A0B
-	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 13:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E368944EAA
+	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 17:01:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9F491F29A2F
-	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 11:07:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC9C31F22339
+	for <lists+linux-input@lfdr.de>; Thu,  1 Aug 2024 15:01:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8998183CA7;
-	Thu,  1 Aug 2024 11:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TqFMV6Tz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50C181EB3D;
+	Thu,  1 Aug 2024 15:01:24 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FA1183CC7;
-	Thu,  1 Aug 2024 11:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CC11370
+	for <linux-input@vger.kernel.org>; Thu,  1 Aug 2024 15:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722510459; cv=none; b=HJt0leyYWQynjfpnGh5JqDAHYchTsX43JH04Se8awdmU/cGQl/GN8aiQzbQndKEs7vr6kmi/ME6B+cz+tAPFN3fCO8fDPIFNHGAvtrgYYaYvUUZHhyU86KQ8J7D+MosGSVFr+7QpF6BkG8OMk1DYEagFZyPrKJb17/qzaw8ikaQ=
+	t=1722524484; cv=none; b=G+Y+TVJxzulYC8BPS36ARxS32En1EBwrfOrkvIB3ud7vV59jcYVBfj846v/q6u0ofoZ51EncmREYbpnaxt7VE33GU1vPOFyA0OifdykhYmxcB31zDnLC6ufNXia3VxhztOUxUKK6fVZuh/DIusNTixuBWMMKukIUJABaZCHaHZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722510459; c=relaxed/simple;
-	bh=nrXRn6jo3q8qJ+8iBWQWvu/KEr3WFZfgkq++HuYZ+gg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=If3zlgCfqlLRbDWIHBnKD1BxMG5TS7kLSXdhCbw0gfmwk7OtjqNYCgFMiYk2YqAq9S2nIA6AAnhkOICAAHYiGfy1Ji9aSO+xkrHnOowTQWt3T2ocBOvCS8B8KFp0iasyc8TwRADaGLYvXuOhhXNFyRAP9pfpY30SW1AY07gk3+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TqFMV6Tz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABFFC4AF0A;
-	Thu,  1 Aug 2024 11:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722510459;
-	bh=nrXRn6jo3q8qJ+8iBWQWvu/KEr3WFZfgkq++HuYZ+gg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=TqFMV6TziDZEp/jyXZpcLcKKrNs+p9CBazrZHPMTzQ+kCE5H3fxILjKIExtJZOYeb
-	 rdig2Ke9qujtGBlJ2DcpBHPBNZovGHElIMYEpSg5swC2Va580MpTdcDvzDlvS4Hob1
-	 rhS49bz10AFiTrJfhVNfk7WhV658ePC5XCVbHkrqs6jZGGlTO9zdhMrefQPAOhahlj
-	 DiFggen8Iye1lBGTXZunySNa4UgXP5hefMDNHAsoZUUa1ZHySWX3WqKIo96ZVIadDX
-	 PBtrwy4RgByzf7UxKTUHArKkthgMcmu487Xv7MnChPjcC6jWfdvs/Q5En2vZzjCAiL
-	 0d1s/64dkSK5Q==
-Date: Thu, 1 Aug 2024 13:07:37 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: "Gerecke, Jason" <killertofu@gmail.com>
-cc: linux-input@vger.kernel.org, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    Ping Cheng <pinglinux@gmail.com>, 
-    Joshua Dickens <Joshua@Joshua-Dickens.com>, Erin Skomra <skomra@gmail.com>, 
-    "Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>, 
-    Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] HID: wacom: Defer calculation of resolution until
- resolution_code is known
-In-Reply-To: <20240730155159.3156-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2408011305530.12664@cbobk.fhfr.pm>
-References: <20240730155159.3156-1-jason.gerecke@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1722524484; c=relaxed/simple;
+	bh=xDYQRz2zfjaC/TVAVz2YenfZxGKnilXGn5SX3/e0M3w=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=WayN4qqSMeK47da24ogUUpRRRss/08PE6BBHGNlo8cXuy4M6Dpkt8v8t9dpru1V2TTOPadF+6O4ZFlLdadcljahef53O2BRjlLhQjs99AJIVSKz4k13jbvOpqCq16cHRPFA5aMnQuIKUbZd9r+NvoQ0d+GiO5pY13kaBy8pmrCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id EC1CE61E5FE01;
+	Thu,  1 Aug 2024 17:00:53 +0200 (CEST)
+Message-ID: <b326259a-e971-4fc4-987b-e3e106a938d8@molgen.mpg.de>
+Date: Thu, 1 Aug 2024 17:00:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: Dell XPS 13 9370: Linux warns `i2c_hid_acpi i2c-ELAN24EE:00:
+ i2c_hid_get_input: IRQ triggered but there's no data`
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Jason,
+Dear Linux folks,
 
-this doesn't really look like a patch series, but rather a collection of 
-independent, assorted fixes and improvements, right?
 
-From my POV, patches 1, 2 and 3 seem like 6.11-rc material to me, while 4 
-and 5 seem to be 6.12 merge window material. Do you agree?
+On the Dell XPS 13 9370/0F6P3V, BIOS 1.21.0 07/06/2022, Debian’s Linux 
+6.9.12 warns:
 
-Thanks,
+     i2c_hid_acpi i2c-ELAN24EE:00: i2c_hid_get_input: IRQ triggered but 
+there's no data
 
--- 
-Jiri Kosina
-SUSE Labs
+What can be done about this warning? Looking at commit 1475af255e18 
+(HID: i2c-hid: Ignore input report if there's no data present on Elan 
+touchpanels), printing the warning is intentional for all ELAN human 
+input devices.
 
+> While using Elan touchpads, the message floods:
+> [  136.138487] i2c_hid i2c-DELL08D6:00: i2c_hid_get_input: incomplete report (14/65535)
+> 
+> Though the message flood is annoying, the device it self works without
+> any issue. I suspect that the device in question takes too much time to
+> pull the IRQ back to high after I2C host has done reading its data.
+> 
+> Since the host receives all useful data, let's ignore the input report
+> when there's no data.
+
+`include/linux/kern_levels.h` defines:
+
+     #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+     #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant 
+condition */
+
+As the condition seems normal, and there is no hint, what the user can 
+do about the warning, like to contact ELAN, I’d reduce the log level?
+
+
+Kind regards,
+
+Paul
+
+
+[1]: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1475af255e18f35dc46f8a7acc18354c73d45149
 
