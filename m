@@ -1,57 +1,55 @@
-Return-Path: <linux-input+bounces-5282-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5283-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181E5945C65
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 12:48:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 495B4945C7F
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 12:52:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCA2A281B20
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 10:48:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 054BC283C01
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 10:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1887A1DD3A3;
-	Fri,  2 Aug 2024 10:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 831061DE86F;
+	Fri,  2 Aug 2024 10:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F4/tgcIt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlpQORBp"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E176A1DC461;
-	Fri,  2 Aug 2024 10:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5981B1DE85D;
+	Fri,  2 Aug 2024 10:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722595722; cv=none; b=tW/RX/kYu7MkGMLZ4g1O0iuciES6H1+TBMKNIWiw+T4c/LKx5AHKt67/m57plQTH+F3f0A30wD6adUgxsZFMhRBm+dAPf9GiM/14FPa6nu8XQ5nz+75oQHwcv1ShsUzOcsTzlxAtbZ49RrXX6aBM557BdFhRxLssls5iQhP6i6E=
+	t=1722595949; cv=none; b=GgBPH8cLiNzyEWCsq9Jm+sVQiv1Yjxl3NCoBK5RRiZsLjBeJfIp4p4tJsYKJC7AM+LEweeQ+SCj94IrS6uiv/rQvDLk1u/ZuUL2exHyCqf1FNPL6sF5cQNwIPRsxHtcgBC2x5UvKGI/py+av1xoTVnelpA5HqIRouYpCr4E5sNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722595722; c=relaxed/simple;
-	bh=1UtEsW1B8YGTusoX2RACg6eRJD75Xl/UNssGCGaoLFo=;
+	s=arc-20240116; t=1722595949; c=relaxed/simple;
+	bh=Dsah45Y/KHqlc4tvbqi7GZ6iAsFDWEfJZezDlhque04=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=c93LyOF6fZDgYCjOknhn7cRlYbrkdQRxOjtcxP2qK1iHiXooA16D8/J+v1fH5LPtjJHmU12RznWuS5gWKl5lO0nJDLtJQuv+0LY1FaCGefRZLsv8hTEzx6lj92aKW/4Iq/+jA9zY3gVUG72ntypYLOxH8M3oPV7wfkbWlciv5X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F4/tgcIt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDBB6C32782;
-	Fri,  2 Aug 2024 10:48:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=p9M/5z90XRBuxxj5WcZ2cDdL9ggLKrohElaO2FnoOlJD9T0GEgA9yRPKBzGqKRvi6eV61oFs1KLTFdg64LDs/YRuU3/6EBd2UX6mCbdhoROcBrtZevF1FRW7dA1B9yOv5iPN3joZhrsFXT261e9U8wy3hVtY4g99J3larjQknjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlpQORBp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D4EC32782;
+	Fri,  2 Aug 2024 10:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722595721;
-	bh=1UtEsW1B8YGTusoX2RACg6eRJD75Xl/UNssGCGaoLFo=;
+	s=k20201202; t=1722595949;
+	bh=Dsah45Y/KHqlc4tvbqi7GZ6iAsFDWEfJZezDlhque04=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=F4/tgcItl7OXJuY2RVCfRtvR6VVCv4wUIutjw0GzyZq67a3nOTCgU8OmMj+hG81Hx
-	 DrleyO8xaZ9pTlavt4q6a5TDx2cCL3YrPfNu2D2pGxVevWYvCXIMCtBC0GQgLUFY3C
-	 ORMos0Y0sKNfEt3fxCco4D1SYDCapTmMyCSGo/k09c6hq7xmWqO7/cgX1REt0Ec0cr
-	 T9O1Nu5Qb+7nvkP7hXlPjhScsuljs3NyFr/faO1osK8qkbD9psJtPwWoU9fLwYQ25A
-	 2kiWsplk4wwSsIhjiw/arHEUviuDgWLFN/pgdt0tcvq/Wqnyl7HaylvmTgd1R5BFeP
-	 n7oGIMwehz3Wg==
-Date: Fri, 2 Aug 2024 12:48:38 +0200 (CEST)
+	b=LlpQORBpXAFAKQIJweJDU+4vrjyXc1koXzSa0QTv1KuD7nX4R4NNT/Pz9p6hD+mmr
+	 WN60xpK8biJ31LpG62vqE5yjoGIEda31UBK8/so1tjQZgPJxzqaLXPOF3ITaJpSD/T
+	 Fe8SwKC61Qqzz/wtQHovGWy+n61mOLeH2oZhvqkfkuZVR7+ibsMJvgN4Rq494mMIro
+	 80+hq64c4CuXhXXyqlLkOSUlCDDCwnNiQ0RssP9vT93tIjaDDb4oO7RBNoOv+TJPqm
+	 hSAVGHQnTFWs9j1pAFZluQUYEGdol3thYc7N6sAb9qsUNFGsdspE81E6GOKlLoIzi+
+	 3ejjEowMf+oYQ==
+Date: Fri, 2 Aug 2024 12:52:25 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Olivier Sobrie <olivier@sobrie.be>
-cc: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, linux-input@vger.kernel.org, 
+To: "Luke D. Jones" <luke@ljones.dev>
+cc: bentiss@kernel.org, linux-input@vger.kernel.org, 
     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: amd_sfh: free driver_data after destroying hid
- device
-In-Reply-To: <20240723084827.11773-1-olivier@sobrie.be>
-Message-ID: <nycvar.YFH.7.76.2408021247560.12664@cbobk.fhfr.pm>
-References: <20240723084827.11773-1-olivier@sobrie.be>
+Subject: Re: [PATCH] hid-asus: add ROG Ally X prod ID to quirk list
+In-Reply-To: <20240724223125.44914-1-luke@ljones.dev>
+Message-ID: <nycvar.YFH.7.76.2408021251150.12664@cbobk.fhfr.pm>
+References: <20240724223125.44914-1-luke@ljones.dev>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -61,51 +59,44 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 23 Jul 2024, Olivier Sobrie wrote:
+On Thu, 25 Jul 2024, Luke D. Jones wrote:
 
-> HID driver callbacks aren't called anymore once hid_destroy_device() has
-> been called. Hence, hid driver_data should be freed only after the
-> hid_destroy_device() function returned as driver_data is used in several
-> callbacks.
+> The new ASUS ROG Ally X functions almost exactly the same as the previous
+> model, so we can use the same quirks.
 > 
-> I observed a crash with kernel 6.10.0 on my T14s Gen 3, after enabling
-> KASAN to debug memory allocation, I got this output:
-[ ... snip ... ]
-> KASAN reports a use-after-free of hid->driver_data in function
-> amd_sfh_get_report(). The backtrace indicates that the function is called
-> by amdtp_hid_request() which is one of the callbacks of hid device.
-> The current make sure that driver_data is freed only once
-> hid_destroy_device() returned.
-> 
-> Note that I observed the crash both on v6.9.9 and v6.10.0. The
-> code seems to be as it was from the early days of the driver.
-> 
-> Signed-off-by: Olivier Sobrie <olivier@sobrie.be>
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
 > ---
->  drivers/hid/amd-sfh-hid/amd_sfh_hid.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/hid/hid-asus.c | 3 +++
+>  drivers/hid/hid-ids.h  | 1 +
+>  2 files changed, 4 insertions(+)
 > 
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-> index 705b52337068..81f3024b7b1b 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-> @@ -171,11 +171,13 @@ int amdtp_hid_probe(u32 cur_hid_dev, struct amdtp_cl_data *cli_data)
->  void amdtp_hid_remove(struct amdtp_cl_data *cli_data)
->  {
->  	int i;
-> +	struct amdtp_hid_data *hid_data;
->  
->  	for (i = 0; i < cli_data->num_hid_devices; ++i) {
->  		if (cli_data->hid_sensor_hubs[i]) {
-> -			kfree(cli_data->hid_sensor_hubs[i]->driver_data);
-> +			hid_data = cli_data->hid_sensor_hubs[i]->driver_data;
->  			hid_destroy_device(cli_data->hid_sensor_hubs[i]);
-> +			kfree(hid_data);
->  			cli_data->hid_sensor_hubs[i] = NULL;
->  		}
+> diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+> index 9010f12a221e..e5f6664bac0f 100644
+> --- a/drivers/hid/hid-asus.c
+> +++ b/drivers/hid/hid-asus.c
+> @@ -1255,6 +1255,9 @@ static const struct hid_device_id asus_devices[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>  	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY),
+>  	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+> +	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X),
+> +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>  	    USB_DEVICE_ID_ASUSTEK_ROG_AZOTH_KEYBOARD),
+>  	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index fdf2d480533b..57f1f1bc5eb6 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -212,6 +212,7 @@
+>  #define USB_DEVICE_ID_ASUSTEK_ROG_RAIKIRI_PAD		0x1abb
+>  #define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY		0x1abe
+>  #define USB_DEVICE_ID_ASUSTEK_ROG_AZOTH_KEYBOARD	0x1a83
+> +#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X		0x1b4c
 
-This seems reasonable. Basavaraj, can you please provide your Ack for 
-this? Thanks,
+I've applied the patch, but got a conflict here, because I don't see 
+USB_DEVICE_ID_ASUSTEK_ROG_AZOTH_KEYBOARD in my tree, nor in Linus' tree.
+What tree was this patch generated against?
 
 -- 
 Jiri Kosina
