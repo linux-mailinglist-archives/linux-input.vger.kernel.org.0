@@ -1,137 +1,152 @@
-Return-Path: <linux-input+bounces-5278-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5279-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6419A9458F2
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 09:36:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A3A945902
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 09:37:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D2F7281EC7
-	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 07:36:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E62421C216B5
+	for <lists+linux-input@lfdr.de>; Fri,  2 Aug 2024 07:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B416A15ADAF;
-	Fri,  2 Aug 2024 07:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37F215B134;
+	Fri,  2 Aug 2024 07:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="B+gbkflc"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="FUUr2IUp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15FC482EF;
-	Fri,  2 Aug 2024 07:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A84482EF;
+	Fri,  2 Aug 2024 07:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722584187; cv=none; b=sr+K7eGaIPS75Gkr4OlmaudDkNAMetEupwf2eFd//k4eBKtAHMY0g8Ki5wYLp0p7zlmZC43s/Z9F+9cBrkCwQ1eXNdISsmT474YhAwR7k+ZKhXTBr8wxXg2mBNLfMWz1TPC023zb2gujoHMXKr0r6Cu1rsdylwE6O7vUReu2cbY=
+	t=1722584249; cv=none; b=h5YqtOQ6Ns4V0gH1J/qj5P8aaM2eSscBuGgrhtEqBV5eE5hT+nBjWsftpNZqmUmiSGx2u5t338QLIOm8WSpEkF/Bn8ffXbrv2brlK/4BSNYTUf6XjgUe4B4IrZE0zyJH4RrhzbF7Zlh0HsytclQQrd3lybcz/Dzbrpz0ifG8Ckk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722584187; c=relaxed/simple;
-	bh=xFfFI1VUxM96WEW9h09vMDS1bRrM3Fk2qt43Z+ICuZ8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uKMlx82TRvia6UWp4OhrxgBHFAjpXbHsmXLTKdxQt2nkyAneXWR0UJfnM2ufRgniRuORF05wQI7wF+PM0mc+EQCJxDoGGqeYTi5neBtTEbepFAXc6YTkOhNueFnNdGMYaL0lEzqQJtktPvBikksAi7Jl25CUH1a4OwWgnBuPcQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=B+gbkflc; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
-Received: from mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:3ca5:0:640:b181:0])
-	by forward500d.mail.yandex.net (Yandex) with ESMTPS id D54DA614BA;
-	Fri,  2 Aug 2024 10:36:14 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 6aS9oj3g9Gk0-oGKazRiT;
-	Fri, 02 Aug 2024 10:36:13 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
-	t=1722584173; bh=xFfFI1VUxM96WEW9h09vMDS1bRrM3Fk2qt43Z+ICuZ8=;
-	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
-	b=B+gbkflcsamzsGcKQTG4gVtLeiw5V77vFyRCXGV32y02UNz0jqZWx/MHlr09NS+AF
-	 H/nuqOh4suJapcpzsjCr0oA+GzqaB3O/j3B06JXBVCF/TWiGCMWTOk55v0lhknim05
-	 7duSEm+DNJsbKzrqYeFrO89AuJ66z0aYIFrJU63c=
-Authentication-Results: mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
-Message-ID: <a1a27117725305dcd6135df193fe2b74646a9e26.camel@maquefel.me>
-Subject: Re: [PATCH v11 00/38] ep93xx device tree conversion
-From: Nikita Shubin <nikita.shubin@maquefel.me>
-To: "Rob Herring (Arm)" <robh@kernel.org>, Alexander Sverdlin
-	 <alexander.sverdlin@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Damien Le Moal
- <dlemoal@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Thierry
- Reding <thierry.reding@gmail.com>,  Vignesh Raghavendra <vigneshr@ti.com>,
- linux-pwm@vger.kernel.org, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>, Ralf Baechle <ralf@linux-mips.org>, 
- Sebastian Reichel <sre@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  linux-ide@vger.kernel.org, Stephen
- Boyd <sboyd@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-spi@vger.kernel.org, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown
- <broonie@kernel.org>,  Hartley Sweeten <hsweeten@visionengravers.com>,
- linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,  Andrew Lunn
- <andrew@lunn.ch>, Richard Weinberger <richard@nod.at>, Eric Dumazet
- <edumazet@google.com>,  linux-sound@vger.kernel.org, Arnd Bergmann
- <arnd@arndb.de>,  linux-input@vger.kernel.org, Jaroslav Kysela
- <perex@perex.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>, Lukasz Majewski
- <lukma@denx.de>
-Date: Fri, 02 Aug 2024 10:36:06 +0300
-In-Reply-To: <f68b628c3978a4fb0e5989e3b6918c756da1fefb.camel@gmail.com>
-References: <20240715-ep93xx-v11-0-4e924efda795@maquefel.me>
-	 <172104541245.3725513.13547524352291855487.robh@kernel.org>
-	 <f68b628c3978a4fb0e5989e3b6918c756da1fefb.camel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+	s=arc-20240116; t=1722584249; c=relaxed/simple;
+	bh=WuEYORx3IyoiSp+v+nyNnIg6eYQ7oAvqa66kuTpzhuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gvAlOhkavqygZ4blzvbcOxRnB7sDaY++BIW+n/KJOlPIsfGYgXGzuwjWiEaabBZNBqipgIsKzbnZnEZ2hp6rKmhCnpe9lSnVqqpzwG7dJt4rgA3RvecyvFhXoZFlsCPoWq1Lctrshryk2XOCkYMGnm4edtnAbYfLkV7wQRNKvZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=FUUr2IUp; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1722584189;
+	bh=r3hNelFkCsMXD8kt/m3OWh+QBBUibrJz4XoFzCwXigM=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version;
+	b=FUUr2IUpSuB1ExjLhT7TdmtrrSb5nLyMcGNm3LWZ5ni7lVnF4LkISVWxqFotNUXIZ
+	 U5GuoKvAChCIemaH7IKMWjkCvp9wtoQA3rTdLjFdtFJPR5H/OWImFph/ZYlsLZtAXQ
+	 TmwqeaEjG8JUZud5FNA4txR5GoMf2LR6x16S8g1o=
+X-QQ-mid: bizesmtpsz10t1722584187tihcfq
+X-QQ-Originating-IP: BDTqJCUnh5xPEZDI/VQyPDJxR62AaYus1bLOS6IUXhA=
+Received: from john-PC ( [123.114.60.34])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 02 Aug 2024 15:36:25 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 5280773945744906871
+Date: Fri, 2 Aug 2024 15:36:24 +0800
+From: Qiang Ma <maqianga@uniontech.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: hdegoede@redhat.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: atkbd - fix LED state at suspend/resume
+Message-ID: <5CC999395DCE8ABD+20240802153624.02dfe6a4@john-PC>
+In-Reply-To: <20240730101708.50fa6734@john-PC>
+References: <20240726102730.24836-1-maqianga@uniontech.com>
+	<ZqQbr8aZnaYi20Dp@google.com>
+	<20240730101708.50fa6734@john-PC>
+Organization: UOS
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
 
-Hi Rob,
+On Tue, 30 Jul 2024 10:17:08 +0800
+Qiang Ma <maqianga@uniontech.com> wrote:
 
-On Mon, 2024-07-15 at 22:46 +0200, Alexander Sverdlin wrote:
-> Hi Rob,
->=20
-> On Mon, 2024-07-15 at 06:12 -0600, Rob Herring (Arm) wrote:
-> > My bot found new DTB warnings on the .dts files added or changed in
-> > this
-> > series.
-> >=20
-> > Some warnings may be from an existing SoC .dtsi. Or perhaps the
-> > warnings
-> > are fixed by another series. Ultimately, it is up to the platform
-> > maintainer whether these warnings are acceptable or not. No need to
-> > reply
-> > unless the platform maintainer has comments.
-> >=20
-> > If you already ran DT checks and didn't see these error(s), then
-> > make sure dt-schema is up to date:
-> >=20
-> > =C2=A0 pip3 install dtschema --upgrade
-> >=20
-> >=20
-> > New warnings running 'make CHECK_DTBS=3Dy cirrus/ep93xx-bk3.dtb
-> > cirrus/ep93xx-edb9302.dtb cirrus/ep93xx-ts7250.dtb' for
-> > 20240715-ep93xx-v11-0-4e924efda795@maquefel.me:
-> >=20
-> > arch/arm/boot/dts/cirrus/ep93xx-edb9302.dtb:
-> > /soc/spi@808a0000/codec@0: failed to match any schema with
-> > compatible: ['cirrus,cs4271']
->=20
-> well, this seems to come from the fact is still documented in a .txt
-> file
-> (Documentation/devicetree/bindings/sound/cs4271.txt), which is not
-> really
-> the scope of this series. Hope it's OK to ignore it for the series.
->=20
+> On Fri, 26 Jul 2024 14:57:03 -0700
+> Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> 
+> Hi Dmitry,
+> 
+> > Hi Qiang,
+> > 
+> > On Fri, Jul 26, 2024 at 06:27:30PM +0800, Qiang Ma wrote:  
+> > > After we turn on the keyboard CAPSL LED and let the system
+> > > suspend, the keyboard LED is not off, and the kernel log is as
+> > > follows:
+> > > 
+> > > [  185.987574] i8042: [44060] ed -> i8042 (kbd-data)
+> > > [  185.988057] i8042: [44061] ** <- i8042 (interrupt, 0, 1)
+> > > [  185.988067] i8042: [44061] 04 -> i8042 (kbd-data)
+> > > [  185.988248] i8042: [44061] ** <- i8042 (interrupt, 0, 1)
+> > > 
+> > > The log shows that after the command 0xed is sent, the data
+> > > sent is 0x04 instead of 0x00.
+> > > 
+> > > Solution:
+> > > Add a bitmap variable ledon in the atkbd structure, and then set
+> > > ledon according to code-value in the event, in the atkbd_set_leds
+> > > function, first look at the value of lenon, if it is 0, there is
+> > > no need to look at the value of dev->led, otherwise, Need to look
+> > > at dev->led to determine the keyboard LED on/off.    
+> > 
+> > I am not sure why duplicating input_dev->led which is supposed to
+> > record which LEDs are currently active on an input device would
+> > solve the issue. Could you please explain?  
+> 
+> At this point, the suspend purpose is to turn off the led(calling
+> input_dev_toggle(input_dev, false) in function input_dev_suspend()),
+> but the dev->led gets the status is on, so it will not turn off the
+> led.
+> 
+> > 
+> > The input core is supposed to turn off all LEDs on suspend. This
+> > happens in input_dev_toggle() which is called from
+> > input_dev_suspend(). It iterates over all LEDs on a device and turns
+> > off active ones one by one.
+> > 
+> > I think what happens here is we are running afoul of the throttling
+> > done in atkbd (see atkbd_schedule_event_work), and it does not
+> > actually turn off all LEDs in time. But on the other hand
+> > atkbd_cleanup() (which is called to suspend the keyboard) calls
+> > 
+> > 	ps2_command(&atkbd->ps2dev, NULL, ATKBD_CMD_RESET_DEF);
+> > 
+> > which should turn off everything anyways.  
+> 
+> Send reset command under the actual test did not turn off the led, get
+> it just reset the i8042 register? Did not change the led corresponding
+> gpio status?
+> 
+> > 
+> > I think we need better understand what is going on here. Maybe post
+> > the entire communication between the kernel and i8042?
+> > 
 
-Indeed it resides in
-Documentation/devicetree/bindings/sound/cs4271.txt.
+Description of ps/2 keyboard interface on this
+website(http://www-ug.eecg.toronto.edu/msl/nios_devices/datasheets/PS2%20Keyboard%20Protocol.htm):
 
-Can we slip for the series ?
+0xF6 (Set Default) - Load default typematic rate/delay (10.9cps /
+500ms), key types (all keys typematic/make/break), and scan code set
+(2).
 
-Actually i found this one on mail lists:
+It seems that sending this F6 reset command does not mention what
+effect it has on the LED.
 
-https://lore.kernel.org/lkml/20240709184231.125207-1-animeshagarwal28@gmail=
-.com/
-
-Conversion of cs4270.txt, Alexander isn't it almost the same thing as
-cs4271 ?
+> > Thanks.
+> >   
+> 
+> ---
+> Qiang
 
 
