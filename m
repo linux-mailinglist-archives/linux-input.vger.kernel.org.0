@@ -1,84 +1,125 @@
-Return-Path: <linux-input+bounces-5298-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5299-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2385946832
-	for <lists+linux-input@lfdr.de>; Sat,  3 Aug 2024 08:33:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330B49469A7
+	for <lists+linux-input@lfdr.de>; Sat,  3 Aug 2024 14:31:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 763631F219BC
-	for <lists+linux-input@lfdr.de>; Sat,  3 Aug 2024 06:33:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D42E91F217CA
+	for <lists+linux-input@lfdr.de>; Sat,  3 Aug 2024 12:31:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F111482E2;
-	Sat,  3 Aug 2024 06:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63B3A49659;
+	Sat,  3 Aug 2024 12:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1pgsPk14"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="tE3EiRX0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE385136350
-	for <linux-input@vger.kernel.org>; Sat,  3 Aug 2024 06:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46A1D53B;
+	Sat,  3 Aug 2024 12:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722666806; cv=none; b=JBWVfXSWxqd8ofTITJ5OVFzQ6O8k2WfZyyOxqtOkZ/sub+ypFa91b2vf+YZGid/ynI1ncd1tQMmE7urCEAEU3eMulwYvZA/pupBirGhPHMJpKDFniaXhxVk2bPwEK2u1IIypkq2tMFgoq7QtybFVC/RcAkIpbk9IF6OQvgIsblQ=
+	t=1722688272; cv=none; b=CtllD/4v5UQpVY8ecvhWrsGHlnNRzk+IfKS2sp5GpKM4lD5vkSo8jFmB3Xnt5OmeOyN43gy8gKGx0LnsLqmbdgfpGowIrHH9wAOAvXRHJOZF4zFRavduWHWAXbqF6ff8h2DT05xHGTGShzgBQr633z6Yq1N/woc3VewEfG5l6zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722666806; c=relaxed/simple;
-	bh=u5SO4sht5xGq2HpMXvDwLfAFQ4sKhEaWHWHvNvNTSN8=;
+	s=arc-20240116; t=1722688272; c=relaxed/simple;
+	bh=CMS5+c/qQz1o2D46lsvfZ5yvcnTgysrck07yIKd+E3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=otHVbuBm6PmcWBueM4R1WcZNTn1dDtthZlwToq/4+iP4cmDmC8UhJ1IYDBj3s2FDBo/T3xBPq2FUjWeqQJ5wMM9kN4rMoIX7u9JPpgrqjEOxTJqxwxPW61MWaAZbjzuviZA7heBQNJLCqKFgOxoQ14+hMy/BvotACm2tIGbcE6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1pgsPk14; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE73DC116B1;
-	Sat,  3 Aug 2024 06:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722666806;
-	bh=u5SO4sht5xGq2HpMXvDwLfAFQ4sKhEaWHWHvNvNTSN8=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=clSPPnsaR1DOfvFMqc3NH4fTtBoSr2givaMwNn3K5b0Apj75F16Udx5R/jsohOHfZUpAz0X1FG5TMbA5o2V6GBu0n2y5jydOVmCaX0jRAqB1Q0qxoSb9C4NIBgGm6A1qOqxRJ3EOlto/w2pKAcD61kAmNNgGkkx6QLpFON6zgLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=tE3EiRX0; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1722688259;
+	bh=CMS5+c/qQz1o2D46lsvfZ5yvcnTgysrck07yIKd+E3E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1pgsPk14h20BDtcR948APkLDd91QnR7eaORLTA9lysgrKZxS0xcdbU3BYamRKCKIa
-	 DGTw5aW0d8SBLLHQNZuyPZAfXKeqhh16x7qNQ4ed4XCXzA8y840ZNUlZddA+3iNWQG
-	 1OvQdl5bU+I9RlizkLTUUROYOm9b1tzHn9INtkqs=
-Date: Sat, 3 Aug 2024 08:33:23 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linux Input <linux-input@vger.kernel.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: Removal of cyttsp4 driver from mainline Linux kernel
-Message-ID: <2024080301-unlikable-sepia-49cb@gregkh>
-References: <Zq3Jc7Vt0BM5VWAa@google.com>
- <Zq3JxhVMPoZsviDT@google.com>
+	b=tE3EiRX0AN08enhI7Bn94Wn5BDEaBAeAfezzn5wLB9iS1GQqzf/8CJ1nIJOLHeK47
+	 L/fO7zcbBX7Eywj+1iUhaCDGPbViJ0KYZIBojZBkTasq5xdxoS8gRmpybwueIuTwZr
+	 jBjWc0eoYUFX3uODX5VY930rinftlIKnC7I9lnYI=
+Date: Sat, 3 Aug 2024 14:30:59 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] HID: treat fixed up report as const
+Message-ID: <a48c4f98-bf7c-4050-807c-5c86fbbbd4f8@t-8ch.de>
+References: <20240730-hid-const-fixup-v1-0-f667f9a653ba@weissschuh.net>
+ <20240730-hid-const-fixup-v1-1-f667f9a653ba@weissschuh.net>
+ <2kfmgwlmliwmn6olmnaab2mdn4ywquqputk3hcdqqkyqc6bfvd@jtlmixoar7qu>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zq3JxhVMPoZsviDT@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2kfmgwlmliwmn6olmnaab2mdn4ywquqputk3hcdqqkyqc6bfvd@jtlmixoar7qu>
 
-On Fri, Aug 02, 2024 at 11:10:14PM -0700, Dmitry Torokhov wrote:
-> On Fri, Aug 02, 2024 at 11:08:51PM -0700, Dmitry Torokhov wrote:
-> > Hi,
+On 2024-07-31 15:59:21+0000, Benjamin Tissoires wrote:
+> On Jul 30 2024, Thomas Weißschuh wrote:
+> > Prepare the HID core for the ->report_fixup() callback to return const
+> > data. This will then allow the HID drivers to store their static reports
+> > in read-only memory.
 > > 
-> > cyttsp4 touchscreen driver was contributed by Cypress in 2013 and since
-> > then has seen no updates. The driver uses platform data (no device tree
-> > support) and there are no users of it in the mainline kernel. There were
-> > occasional fixes to it for issues either found by static ocde analysis
-> > tools or visual inspection, but otherwise the driver is completely
-> > untested.
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> >  drivers/hid/hid-core.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
 > > 
-> > Should it be removed?
-> > 
-> > Thanks.
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 988d0acbdf04..dc233599ae56 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -1203,6 +1203,7 @@ int hid_open_report(struct hid_device *device)
+> >  {
+> >  	struct hid_parser *parser;
+> >  	struct hid_item item;
+> > +	const __u8 *fixed_up;
+> >  	unsigned int size;
+> >  	__u8 *start;
+> >  	__u8 *buf;
+> > @@ -1232,11 +1233,11 @@ int hid_open_report(struct hid_device *device)
+> >  		return -ENOMEM;
+> >  
+> >  	if (device->driver->report_fixup)
+> > -		start = device->driver->report_fixup(device, buf, &size);
+> > +		fixed_up = device->driver->report_fixup(device, buf, &size);
+> >  	else
+> > -		start = buf;
+> > +		fixed_up = buf;
+> >  
+> > -	start = kmemdup(start, size, GFP_KERNEL);
+> > +	start = kmemdup(fixed_up, size, GFP_KERNEL);
 > 
-> And of course vendor email is bouncing...
+> I think that kmemdup makes all of your efforts pointless because from
+> now, there is no guarantees that the report descriptor is a const.
 
-Sound like a good reason to drop it.  If anyone needs it back it can be
-reverted and fixed up easily then.
+The patch was meant to clarify the API to driver authors, not to make
+the HID core safer. So I think it would not be pointless :-)
 
-thanks,
+> How about you also change the struct hid_device to have both .dev_rdesc
+> and .rdesc as const u8 *, and then also amend the function here so that
+> start and end are properly handled?
+> 
+> This will make a slightly bigger patch but at least the compiler should
+> then shout at us if we try to change the content of those buffers
+> outside of the authorized entry points.
 
-greg k-h
+That sounds indeed like the correct solution.
+It also completely avoids to introduction of yet another variable.
+
+> Cheers,
+> Benjamin
+> 
+> >  	kfree(buf);
+> >  	if (start == NULL)
+> >  		return -ENOMEM;
+> > 
+> > -- 
+> > 2.45.2
+> > 
 
