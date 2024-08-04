@@ -1,132 +1,118 @@
-Return-Path: <linux-input+bounces-5313-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5314-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD98946F09
-	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 15:37:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBFB946FCD
+	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 18:29:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 985F22817B6
-	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 13:37:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C1F61C204F8
+	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 16:29:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E005837160;
-	Sun,  4 Aug 2024 13:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B6B50288;
+	Sun,  4 Aug 2024 16:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SLnykJ+s"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="iGWs0PmW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DE01CAB1
-	for <linux-input@vger.kernel.org>; Sun,  4 Aug 2024 13:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3857279C2;
+	Sun,  4 Aug 2024 16:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722778617; cv=none; b=Owu6793lm9klGuXRfbgL9nCRJrOaf/++iRQXucmF0y7dY8twjWJzsH9m95bgX5s2TkX+Kpi+DSZbTw7tzRL+AX0vP515dPi6YvdiZIrOnwQMvL1mxaZ9FqZlcgLs0m3QENRmr0D+Vs0KeD+m7SHBFpM8PjicvVTmvtnSMlRd/jE=
+	t=1722788990; cv=none; b=AqYLxXVkcFOG1yK74I6cW67EMnVHIjK1L5WgWObeY+4Jv93pMC06xa+UDwSXpfX6QUojg8N72V3PfnfsDZqTX7WLICdscaz1wx900luQDzQQsEzUw8VEn8n3xx+64mrmNA8cp8bbJp8g4C1HpSqmmKbVEKpwRgTuddsAcqwESxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722778617; c=relaxed/simple;
-	bh=iFguVEayxy/6i/kXK33dtOGb0Vf9o9K+gk4mhO4vv08=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MTnmD+CuiB/UU4rs0YkTNd6rWwjXNILQ2M2w3UyWz+VlqlPMskSI7lNGFweKs5GqVy8XLCN9cG5NK8OsLhtd6VWQiRpbXiWH38mp7pXh6S1BKK/yk8bglr8aUCwyjmrkeMpxMWMv0iLRMScM4wM/zWIbfUNT8hsKhYmzQ/7COn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SLnykJ+s; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722778614;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekGjsydpSil5mrG/y7twbUiA1Wy5ByiU1t/KMOjN+wo=;
-	b=SLnykJ+sZ9V/0ke4iQ3f7ZQR/+rirfJdi5Yuj1KZtzR6JNGbv3ec32SVXXeyNQN/zle3aB
-	AekXT9ptxi7tKZrxoukE27y2nmRg8UKDRJ+pbx7wmibIvqENfny5ujetq/5jqUm4wX+RSJ
-	uoLAYGqsZMVCyZO1JWfoNob/hs9eHFg=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-141-Qhh9Wyx_MFegMhUVdm2aRw-1; Sun, 04 Aug 2024 09:36:45 -0400
-X-MC-Unique: Qhh9Wyx_MFegMhUVdm2aRw-1
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-70e9ea89b42so8480752b3a.3
-        for <linux-input@vger.kernel.org>; Sun, 04 Aug 2024 06:36:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722778605; x=1723383405;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekGjsydpSil5mrG/y7twbUiA1Wy5ByiU1t/KMOjN+wo=;
-        b=hqx7t7RHp31Ud2/xvWbdHy3f9/mYfR/NVzb5dyfqLlv2up5yS8HfI2us+RyXetM3TW
-         aNjWvc8r50hVpeTo10iPGu2KJk/3Nu4nuu7pxIRwlipJuhOCiYo/BUkNia/F5p46D3/k
-         ECCnIe+zEEtaeh7+yjGP8N1gd2eGyfPFTN/htSgNF4orTtLugWh9SPp+s8OEt2i0kMHY
-         iZH7iuIB2I43KhY4CQ23ZeWxaY2Y7cKCOw86EtN+Gg5TQuTvtFI7bv3OkDzCPpVKSMV7
-         30yCYTVMRDFz7RCH7u0UOrrkCiGEMmiUQOHOjNyo8AtQIOy7oNLZw46IOfwZ3QukSYqk
-         Z56A==
-X-Gm-Message-State: AOJu0Yz1t8IkpAMMu5/agFJJ4OzJiHnpiKzUSxSxdYHZ7VrsjxR+8lwr
-	yQd4NwAB4j2HFn81qv4/zt/FQqd1MmvEk3i2bhFn8hlRUJYXjAJXYFJgIn6HMFnHTUhfyizOTwX
-	po4H/JfjhmO8RheUSLKhStvAouJuobbu+etFl86F1qmLqWdfglEBS/8MMYExJ
-X-Received: by 2002:a05:6a00:10c4:b0:70d:26f3:e5c5 with SMTP id d2e1a72fcca58-7106cfd1abamr9363061b3a.17.1722778604793;
-        Sun, 04 Aug 2024 06:36:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEI/UjIDd4rvAzJinT+Y7bDiGXW48q9SiC72cNEtEQrIVj8ZISxG0VFVJqaZYcX9IU6jaU9Q==
-X-Received: by 2002:a05:6a00:10c4:b0:70d:26f3:e5c5 with SMTP id d2e1a72fcca58-7106cfd1abamr9363050b3a.17.1722778604396;
-        Sun, 04 Aug 2024 06:36:44 -0700 (PDT)
-Received: from localhost ([181.120.144.238])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ecdffefsm3943772b3a.139.2024.08.04.06.36.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 06:36:43 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>
-Cc: Linux Input <linux-input@vger.kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>
-Subject: Re: Removal of cyttsp4 driver from mainline Linux kernel
-In-Reply-To: <2024080301-unlikable-sepia-49cb@gregkh>
-References: <Zq3Jc7Vt0BM5VWAa@google.com> <Zq3JxhVMPoZsviDT@google.com>
- <2024080301-unlikable-sepia-49cb@gregkh>
-Date: Sun, 04 Aug 2024 15:36:41 +0200
-Message-ID: <87frrk8l5i.fsf@minerva.mail-host-address-is-not-set>
+	s=arc-20240116; t=1722788990; c=relaxed/simple;
+	bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DH7VhSetGcxqOSD2KGEYkNa6erg9qH+jO+CUe0TaolP7ndGRVVv2wLi37UVLj/nAodzpEozDPQ413yKGL2mbYu8LXX4aVapkjRRU6h3OOGUX9tkivXGpOAM5nIRPPo3O3E5OUy9FdGf55nS3NxjKzAAgMk+9hWXgdQwsQjnr7fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=iGWs0PmW; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1722788985;
+	bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=iGWs0PmWzGK/LWGKTE9cRWNmMSWMkqyHKZpShZSluVOgMkaHeVVsgJ/F7CFAnt6z1
+	 7zhKa3Bml17F3cQ5UL7qh7ULJl62IvObvBWo2rklBurCP9bHmaKUvniZbjX2GnQoAJ
+	 PRFD29erDDZLzVN1rV6e78eIDNUlG/Np0y/kBvr8=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 04 Aug 2024 18:29:37 +0200
+Subject: [PATCH] HID: winwing: constify read-only structs
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240804-hid-const-winwing-v1-1-5a6c714753b1@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAHCsr2YC/x2MywqAIBAAf0X23IKaQfUr0cHHVnux0Kgg/Pckm
+ MscZl7IlJgyjOKFRBdn3mMV1Qjwm40rIYfqoKU2spcGNw7o95hPvDlWVvRWtc7JwXbBQ+2ORAs
+ //3OaS/kApIKu/2MAAAA=
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ivan Gorinov <ivan.gorinov@jobyaviation.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722788984; l=1549;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
+ b=iqoKJ3TQyASgio7HiFbsQoC+E4YyPtL4UZqXOVYCTRJukuVVk2zVB+EN06SwQEuMazTb2ERIU
+ 2/vObygLQX7AuSXqkSHkp1eEMMRqJpka/jsXC0/AQ7h2TAA+iGYLfcP
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+These structs are never modified, so mark them as const.
 
-Hello Dmitry,
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+While I stumbled upon this during the rdesc constification work,
+this patch is unrelated to it and can be applied independently.
+---
+ drivers/hid/hid-winwing.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> On Fri, Aug 02, 2024 at 11:10:14PM -0700, Dmitry Torokhov wrote:
->> On Fri, Aug 02, 2024 at 11:08:51PM -0700, Dmitry Torokhov wrote:
->> > Hi,
->> > 
->> > cyttsp4 touchscreen driver was contributed by Cypress in 2013 and since
->> > then has seen no updates. The driver uses platform data (no device tree
->> > support) and there are no users of it in the mainline kernel. There were
->> > occasional fixes to it for issues either found by static ocde analysis
->> > tools or visual inspection, but otherwise the driver is completely
->> > untested.
->> > 
->> > Should it be removed?
->> > 
->> > Thanks.
->> 
->> And of course vendor email is bouncing...
->
+diff --git a/drivers/hid/hid-winwing.c b/drivers/hid/hid-winwing.c
+index 10a5d87ccb96..7d1c0226ab60 100644
+--- a/drivers/hid/hid-winwing.c
++++ b/drivers/hid/hid-winwing.c
+@@ -27,7 +27,7 @@ struct winwing_led_info {
+ 	const char *led_name;
+ };
+ 
+-static struct winwing_led_info led_info[3] = {
++static const struct winwing_led_info led_info[3] = {
+ 	{ 0, 255, "backlight" },
+ 	{ 1, 1, "a-a" },
+ 	{ 2, 1, "a-g" },
+@@ -94,7 +94,7 @@ static int winwing_init_led(struct hid_device *hdev,
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < 3; i += 1) {
+-		struct winwing_led_info *info = &led_info[i];
++		const struct winwing_led_info *info = &led_info[i];
+ 
+ 		led = &data->leds[i];
+ 		led->hdev = hdev;
+@@ -150,7 +150,7 @@ static int winwing_input_configured(struct hid_device *hdev,
+ 	return ret;
+ }
+ 
+-static __u8 original_rdesc_buttons[] = {
++static const __u8 original_rdesc_buttons[] = {
+ 	0x05, 0x09, 0x19, 0x01, 0x29, 0x6F,
+ 	0x15, 0x00, 0x25, 0x01, 0x35, 0x00,
+ 	0x45, 0x01, 0x75, 0x01, 0x95, 0x6F,
 
-I contributed that driver because was working at the time on upstreaming
-support for the OMAP3 Nook Color eReader from Barnes & Noble, but never
-made that much progress on it. And even though I still have that tablet,
-it has been in a box for more than a decade so unlikely I'll ever do it.
+---
+base-commit: a5dbd76a89423eca9f8de338350f2666aacfb432
+change-id: 20240804-hid-const-winwing-ca13bb09a5dc
 
-> Sound like a good reason to drop it.  If anyone needs it back it can be
-> reverted and fixed up easily then.
->
-
-Agreed.
-
--- 
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
 
