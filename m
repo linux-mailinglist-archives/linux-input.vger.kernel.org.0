@@ -1,118 +1,102 @@
-Return-Path: <linux-input+bounces-5314-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5315-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBFB946FCD
-	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 18:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866A69471DB
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 02:13:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C1F61C204F8
-	for <lists+linux-input@lfdr.de>; Sun,  4 Aug 2024 16:29:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC8131C2084E
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 00:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B6B50288;
-	Sun,  4 Aug 2024 16:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99CD5631;
+	Mon,  5 Aug 2024 00:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="iGWs0PmW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBpQDztc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3857279C2;
-	Sun,  4 Aug 2024 16:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F346365;
+	Mon,  5 Aug 2024 00:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722788990; cv=none; b=AqYLxXVkcFOG1yK74I6cW67EMnVHIjK1L5WgWObeY+4Jv93pMC06xa+UDwSXpfX6QUojg8N72V3PfnfsDZqTX7WLICdscaz1wx900luQDzQQsEzUw8VEn8n3xx+64mrmNA8cp8bbJp8g4C1HpSqmmKbVEKpwRgTuddsAcqwESxE=
+	t=1722816823; cv=none; b=nL6rfV+umx2dXlV4U7L+Csg1XEAjV+OIU7VmvVRmk3AwoLBaU3KKVZHpTfoO7LuH9WoTSFLfQIKhhDI8QwLIXVWxAvNwFN1jDFbZPJ69fKCwJ3vsX9hu4u9l6/hxG0UMroK3k9YRksUCV6mPTVNKCF7sNJDJprAwCcaJsFkf9To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722788990; c=relaxed/simple;
-	bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DH7VhSetGcxqOSD2KGEYkNa6erg9qH+jO+CUe0TaolP7ndGRVVv2wLi37UVLj/nAodzpEozDPQ413yKGL2mbYu8LXX4aVapkjRRU6h3OOGUX9tkivXGpOAM5nIRPPo3O3E5OUy9FdGf55nS3NxjKzAAgMk+9hWXgdQwsQjnr7fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=iGWs0PmW; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1722788985;
-	bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
-	h=From:Date:Subject:To:Cc:From;
-	b=iGWs0PmWzGK/LWGKTE9cRWNmMSWMkqyHKZpShZSluVOgMkaHeVVsgJ/F7CFAnt6z1
-	 7zhKa3Bml17F3cQ5UL7qh7ULJl62IvObvBWo2rklBurCP9bHmaKUvniZbjX2GnQoAJ
-	 PRFD29erDDZLzVN1rV6e78eIDNUlG/Np0y/kBvr8=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 04 Aug 2024 18:29:37 +0200
-Subject: [PATCH] HID: winwing: constify read-only structs
+	s=arc-20240116; t=1722816823; c=relaxed/simple;
+	bh=uVorrCAduiKeWUTyairGtco+4A+09i2uq/mFF8crB1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DDkW2vdxum++N+fotmjl6qHV0JhkeybEIjxkeIE8rV2h7HnbgfyCtT+L6Yue3X8Psr/Tu7mCd4J80eBur51c6VKUPv+IdVCGVXLDQG9Vy58NmBCHXk5LtVQFamcNdCVpvsj9Gk559Vrd+YJIFc8ME6ml0aqSFDgRbZ3g0w2iZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBpQDztc; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-260e6dfc701so6068864fac.3;
+        Sun, 04 Aug 2024 17:13:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722816821; x=1723421621; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkFQnqc3Vckow7kxwkifKPwvvrqP8gds2NpG6dbOj/w=;
+        b=SBpQDztcChY3yiPpL5pAWAzv60fjoOTVPgqo7erduqujOdKEs19yjt6VhybOxNgVBf
+         ej9ZYwcAJ6xynJE+kX0B34tfr+c14SBvaNNPkugXJ6Du+Lw7iszZgeXdfVg4CkOHSpfx
+         xqMPd+0Dv+8wqB2u9iKM1AcOAO0iFW5BtpXLvlTCkuFbfp4b4WwT2wNmo7RxEVw4RufS
+         0uCZgVwI4BHO1YxWVUYkfgPG+pmhQJS/4FZ+H7fGvPHIULpnorRYGHgA53SLI1FT1ed0
+         iCAzsnnwNmMDuFMkDPi8yg6s84cIHRbTQLJYNhcxVUfC0D9UzMAXM61ge4G6N7Soej3T
+         VDPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722816821; x=1723421621;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dkFQnqc3Vckow7kxwkifKPwvvrqP8gds2NpG6dbOj/w=;
+        b=qE38wqKJ6RAD3V3rfCq8cIIIbsdgrxvrfiUnZplFyKxAMybk3RKY2VpZmdQDm3FlId
+         d35XADdhFOTieOF01I4lFf9LUsINYDkCQNtSaxqdfAIY7A8RW7b11o4+YQV9f7SIkDON
+         Gui1DNljSsyRZDT/g8ktL4HRal505upgk6ODsVuROtYSduKCDyjTcyz5V+/5Dijd7eaR
+         dCbVzaXUKuVM+fgLEOyWqSXuuE/NPA4skGoMXr4TA2iNbAWKWkUUaroAAoXEGwF1PU4J
+         g7+gSpeQ+UfGtwTP3JbPIU+NTZF1CoT3XbTohD850ZKPb6ib+YzWAon0QuIlRaE5uFFU
+         YCjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWAFFJUIdBQQ9XjiJvhpX+LgTyfqESicCKKb6sDYX5iqUzkrrlWWDPtrGbG0Jt2TfwHGvkywijqFwOMGgRmoa0oqEhCMS0D6DbRvRSd/A06VCLqp+Gm7RVtrWHMrXgkCSDC24+pTLfqND/acwDwCnGh7Qsx477SIo3RvFitqaB9ZrICbvQ
+X-Gm-Message-State: AOJu0YyyvRD0mH5iD5zxQOvi4do9RDsxJ8dsShalapSWkno4FCZU7xoq
+	kPcMxh3p9je7Aw54yr0BRSG8TmsgFN1njpODtmS20fFwRjMYJJxn
+X-Google-Smtp-Source: AGHT+IEmGHyJx5myGf7MwLAWtkQsDtVYfn30W5TGhMcIZJLXT8frvmlb96JUBDtbTa/JWaAlGDbzcQ==
+X-Received: by 2002:a05:6870:a689:b0:261:679:d7f4 with SMTP id 586e51a60fabf-26891d4b1c6mr12833570fac.25.1722816821062;
+        Sun, 04 Aug 2024 17:13:41 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:22e4:17a:28a:7497])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7b7653b4be2sm3709119a12.77.2024.08.04.17.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Aug 2024 17:13:40 -0700 (PDT)
+Date: Sun, 4 Aug 2024 17:13:37 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Felix Kaechele <felix@kaechele.ca>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Input: edt-ft5x06 - add support for FocalTech FT8201
+Message-ID: <ZrAZMVCt5w7ls4mO@google.com>
+References: <20240804031310.331871-1-felix@kaechele.ca>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240804-hid-const-winwing-v1-1-5a6c714753b1@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAHCsr2YC/x2MywqAIBAAf0X23IKaQfUr0cHHVnux0Kgg/Pckm
- MscZl7IlJgyjOKFRBdn3mMV1Qjwm40rIYfqoKU2spcGNw7o95hPvDlWVvRWtc7JwXbBQ+2ORAs
- //3OaS/kApIKu/2MAAAA=
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ivan Gorinov <ivan.gorinov@jobyaviation.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722788984; l=1549;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=f0NlaCtt5Gf1nH692kjaX/e8x0tkeOxFgFp66UrzRNo=;
- b=iqoKJ3TQyASgio7HiFbsQoC+E4YyPtL4UZqXOVYCTRJukuVVk2zVB+EN06SwQEuMazTb2ERIU
- 2/vObygLQX7AuSXqkSHkp1eEMMRqJpka/jsXC0/AQ7h2TAA+iGYLfcP
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240804031310.331871-1-felix@kaechele.ca>
 
-These structs are never modified, so mark them as const.
+On Sat, Aug 03, 2024 at 11:13:08PM -0400, Felix Kaechele wrote:
+> The driver supports the FT8201 chip as well. It registers up to 10 touch
+> points.
+> 
+> Tested on: Lenovo ThinkSmart View (CD-18781Y), LCM: BOE TV080WXM-LL4
+> 
+> Felix Kaechele (2):
+>   dt-bindings: input: touchscreen: edt-ft5x06: Document FT8201 support
+>   Input: edt-ft5x06 - add support for FocalTech FT8201
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-While I stumbled upon this during the rdesc constification work,
-this patch is unrelated to it and can be applied independently.
----
- drivers/hid/hid-winwing.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied the lot, thank you.
 
-diff --git a/drivers/hid/hid-winwing.c b/drivers/hid/hid-winwing.c
-index 10a5d87ccb96..7d1c0226ab60 100644
---- a/drivers/hid/hid-winwing.c
-+++ b/drivers/hid/hid-winwing.c
-@@ -27,7 +27,7 @@ struct winwing_led_info {
- 	const char *led_name;
- };
- 
--static struct winwing_led_info led_info[3] = {
-+static const struct winwing_led_info led_info[3] = {
- 	{ 0, 255, "backlight" },
- 	{ 1, 1, "a-a" },
- 	{ 2, 1, "a-g" },
-@@ -94,7 +94,7 @@ static int winwing_init_led(struct hid_device *hdev,
- 		return -ENOMEM;
- 
- 	for (i = 0; i < 3; i += 1) {
--		struct winwing_led_info *info = &led_info[i];
-+		const struct winwing_led_info *info = &led_info[i];
- 
- 		led = &data->leds[i];
- 		led->hdev = hdev;
-@@ -150,7 +150,7 @@ static int winwing_input_configured(struct hid_device *hdev,
- 	return ret;
- }
- 
--static __u8 original_rdesc_buttons[] = {
-+static const __u8 original_rdesc_buttons[] = {
- 	0x05, 0x09, 0x19, 0x01, 0x29, 0x6F,
- 	0x15, 0x00, 0x25, 0x01, 0x35, 0x00,
- 	0x45, 0x01, 0x75, 0x01, 0x95, 0x6F,
-
----
-base-commit: a5dbd76a89423eca9f8de338350f2666aacfb432
-change-id: 20240804-hid-const-winwing-ca13bb09a5dc
-
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+Dmitry
 
