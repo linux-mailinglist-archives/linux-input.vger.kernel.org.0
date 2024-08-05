@@ -1,136 +1,95 @@
-Return-Path: <linux-input+bounces-5330-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5331-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E620947658
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 09:52:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2770C947700
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 10:15:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B26E281364
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 07:52:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6EC62813E1
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 08:15:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0E4A148312;
-	Mon,  5 Aug 2024 07:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9002914BFA8;
+	Mon,  5 Aug 2024 08:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="PXfTzEXU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j6h4JZBB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B63149C60;
-	Mon,  5 Aug 2024 07:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E411465B8
+	for <linux-input@vger.kernel.org>; Mon,  5 Aug 2024 08:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722844335; cv=none; b=XH9cngjuUUnN8uRizoj+91vpn/7pmSpn0eF89OrhSpKgkOjis2Lb5OhlkxuGCZ7YN4zpFq84hVCDTzWkWSDZ8oVMzCi8Gt2boE3/3cPu7fKKcVDokdQr03TH7HqQ1stGAlh82GS9ms265t/Pqmf5vLEumis4rGZ6a9UpZfSvrp4=
+	t=1722845721; cv=none; b=XuGSzfPSw3VW/tgT4c+DAGtkuzxUvZm5E2Q4L3n/QqjMBoe7ziyNxmwsMUfzQrwOmCmwlKG5avP5z82OnMDhSMIPAjpspQ+0d1OY9RS3pE81toxLrHWusGkXp60pkXUEkicEOTwxFbMmOys7rYN5qxhdaM13zvyuGhwXnAUlCGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722844335; c=relaxed/simple;
-	bh=3aW4nH3vgZoUQRm15WC8tjx3YwoliExaUBNNXskj8Ew=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PDDOoAwaEJji0IIrIlICYHPrYg6QJ60ZSNnxLC3s8go9rRPaeT1n6aqYmof9PeZ3Gzfk8bofLrjXTNDM7UemMpHS1eff5+JHd0IlLgfj7RSWAZbkH56Wr3JAYeAWOmPFYBtyErrLmYaqLJhJ91khNkjgkRy3oCJ3h7s1Xk+6Ev0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=PXfTzEXU; arc=none smtp.client-ip=18.132.163.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1722844304;
-	bh=dX/LpPoHut8lETBwmF/IEv0TvOdoORDmfrs936mQZ+Q=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=PXfTzEXUlvaaubI0B6c+I7CsCssmJNKB5JGvsy9dOESFxEKqHxWazJUYMjE1Ig4Py
-	 jx5z0O+/qhz2MmAzr1iCxuvF3R6jr8MqoUgRQbS063Z2ZY4tiru226lo3cK/X7GQdf
-	 3ZVedaQQLYbZhOnCsdjJ+h/nBI/Z6kCG16RvnZ9o=
-X-QQ-mid: bizesmtpsz8t1722844302tm82f4s
-X-QQ-Originating-IP: 4ukN1MC4aqboCviRCrmkyr4OHY5tnDpuhOgKA2gu7vQ=
-Received: from john-PC ( [123.114.60.34])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 05 Aug 2024 15:51:40 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 5759599161836929121
-Date: Mon, 5 Aug 2024 15:51:36 +0800
-From: Qiang Ma <maqianga@uniontech.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: hdegoede@redhat.com, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: atkbd - fix LED state at suspend/resume
-Message-ID: <64DEA81E07C8F88E+20240805155136.6212f08d@john-PC>
-In-Reply-To: <ZqQbr8aZnaYi20Dp@google.com>
-References: <20240726102730.24836-1-maqianga@uniontech.com>
-	<ZqQbr8aZnaYi20Dp@google.com>
-Organization: UOS
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1722845721; c=relaxed/simple;
+	bh=02dJS4qXgZ7UM0o8jJd4oCrkx+dEUwHVR2zreAtWCsE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WX51RjfxFiZzqDBv38sldlUBXRXINGncU0bCqkh38eoLIY3FTxV4owK7y0WWX9Okb5y80NVbO7n+jaMuLSPYk1JM+xLReXIKz/ypNBDChUnmrp+zoUjs73ynOxXWKgWNn3hQxGcL2l3uV5+RawbHB5diQd51fIkGTlhZBvWiulQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j6h4JZBB; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ef248ab2aeso143193971fa.0
+        for <linux-input@vger.kernel.org>; Mon, 05 Aug 2024 01:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722845718; x=1723450518; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=02dJS4qXgZ7UM0o8jJd4oCrkx+dEUwHVR2zreAtWCsE=;
+        b=j6h4JZBBTZI791iFUHjyI6jaX2iJSgP8AMdbLh1J6Mmy9QUviRi2+x7jRemilicTMF
+         5PUKJCiCL3D/ZDZYDqOVBgh7WMW6XT7yRAjvNkwf1yiZ1poLC8Mll8M8+IMsB9RshxzC
+         6yREv5mdcJNsHTEnDN9So/iks56AKLoILJ+cGAq9lm/bD0fPkkx1BwHl1/DZ7uwXztx8
+         pQcblzxVkApqPD0JwnUJAD9e2cWCpDNZEaNu4coBxFGavlhcTvx9XAdW5dO+4pZ+n98G
+         YLQGQ9tUGHv4pSJ8cQZ9eP8qSo7kY+wc9r273z8Zv6x4VmKBAON+b+L4tROi1a9PoUZk
+         +CmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722845718; x=1723450518;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=02dJS4qXgZ7UM0o8jJd4oCrkx+dEUwHVR2zreAtWCsE=;
+        b=m3xBa1INI6s5SSA+FTxUW9xUTjtqGGcL5b9FDHDuhgpkcPyh3D8pRvSRlUAOYjNp/t
+         n8AAFBH3bqEDA+DGSTK0Ik0rFD10/o3td41PRl/wQ+kmEPmbue+/ZfxpRyE7+Zt0Cyzc
+         jx+ZqTBCo64VuclOeaP7jyzZRl5GtozlBOoPuLGSsm0oxSn1JFkTnsPKZoec38ZCS0u6
+         lj4/UUy9vlDsLqAO1zWFUoPqkaq3GggrtoBJmljqReOQMgIYywgPCw+Rrpj9tA/FPH5b
+         jvuZ8hOp/KqMpxki1oH0AbIIy57Fz5BJdCY3JnOFDsH+dZ3gZz1eg89+UxWHrsTyZXMI
+         sb6Q==
+X-Gm-Message-State: AOJu0Yz2svSTeRawipnXRFY4T6qD8AQrn58txo9O0E9rD2ek4OXyc9dq
+	Ux1VYjEv86+99H21R7fCX87fRfv+zILbmIt+8Xd76YvgdDwXZtEszyh8MV2F7XPMeWDhpTTxfCM
+	mQr5pykn2EqZ7drjYeEyuVAgLIIwy7FZdlNikzKDv393kyWfe
+X-Google-Smtp-Source: AGHT+IHFE0asTojEFyFN1hGyYypB+vCuvfehldI0nMe6gLGypRXLEqVOtCDdu7pKwvSU2t+ghl8CRCYzleDZzngjytE=
+X-Received: by 2002:a2e:320b:0:b0:2ef:28ed:1ff2 with SMTP id
+ 38308e7fff4ca-2f15aa88cb7mr87559091fa.9.1722845717523; Mon, 05 Aug 2024
+ 01:15:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+References: <ZrAaHWNvaAfDlDfI@google.com>
+In-Reply-To: <ZrAaHWNvaAfDlDfI@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 5 Aug 2024 10:15:06 +0200
+Message-ID: <CACRpkdbv63K=Lt2d27R0ar3pK854MUgd77NLR5Z5Z4AHoUrPSw@mail.gmail.com>
+Subject: Re: [PATCH] Input: ilitek_ts_i2c - stop including gpio.h
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 26 Jul 2024 14:57:03 -0700
-Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+On Mon, Aug 5, 2024 at 2:17=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-> On Fri, Jul 26, 2024 at 02:57:03PM -0700, Dmitry Torokhov wrote:
-> > Hi Qiang,
-> > 
-> > On Fri, Jul 26, 2024 at 06:27:30PM +0800, Qiang Ma wrote:
-> > > After we turn on the keyboard CAPSL LED and let the system
-> > > suspend, the keyboard LED is not off, and the kernel log is as
-> > > follows:
-> > > 
-> > > [  185.987574] i8042: [44060] ed -> i8042 (kbd-data)
-> > > [  185.988057] i8042: [44061] ** <- i8042 (interrupt, 0, 1)
-> > > [  185.988067] i8042: [44061] 04 -> i8042 (kbd-data)
-> > > [  185.988248] i8042: [44061] ** <- i8042 (interrupt, 0, 1)
-> > > 
-> > > The log shows that after the command 0xed is sent, the data
-> > > sent is 0x04 instead of 0x00.
-> > > 
-> > > Solution:
-> > > Add a bitmap variable ledon in the atkbd structure, and then set
-> > > ledon according to code-value in the event, in the atkbd_set_leds
-> > > function, first look at the value of lenon, if it is 0, there is
-> > > no need to look at the value of dev->led, otherwise, Need to look
-> > > at dev->led to determine the keyboard LED on/off.
-> > 
-> > I am not sure why duplicating input_dev->led which is supposed to
-> > record which LEDs are currently active on an input device would
-> > solve the issue. Could you please explain?
-> 
-> Ah, OK, I see it now. We do not actually toggle input_dev->led when
-> suspending, so atkbd uses wrong data to determine the LED state.
-> 
+> The driver does not use legacy GPIO API, stop including this header.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Yes, that's true.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> > 
-> > The input core is supposed to turn off all LEDs on suspend. This
-> > happens in input_dev_toggle() which is called from
-> > input_dev_suspend(). It iterates over all LEDs on a device and
-> > turns off active ones one by one.
-> > 
-> > I think what happens here is we are running afoul of the throttling
-> > done in atkbd (see atkbd_schedule_event_work), and it does not
-> > actually turn off all LEDs in time. But on the other hand
-> > atkbd_cleanup() (which is called to suspend the keyboard) calls
-> > 
-> >     ps2_command(&atkbd->ps2dev, NULL, ATKBD_CMD_RESET_DEF);
-> > 
-> > which should turn off everything anyways.
-> 
-> But still, why ATKBD_CMD_RESET_DEF does not shut off the LEDs for you?
-> 
-Looking at a ps/2 keyboard
-document(http://www-ug.eecg.toronto.edu/msl/nios_devices/datasheets/PS2%20Keyboard%20Protocol.htm),
-the F6 command does not seem to affect the state of the LED.
-
-> Thanks.
-> 
-> -- 
-> Dmitry
-
---
-Qiang
+Yours,
+Linus Walleij
 
