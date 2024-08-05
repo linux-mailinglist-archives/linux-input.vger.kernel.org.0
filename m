@@ -1,116 +1,177 @@
-Return-Path: <linux-input+bounces-5319-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5320-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575919471E9
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 02:22:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4AD947281
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 02:45:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F4741C20429
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 00:22:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E9781F20F56
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 00:45:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 559DDEA4;
-	Mon,  5 Aug 2024 00:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F14CD2A1CA;
+	Mon,  5 Aug 2024 00:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ee59iofD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDwBy7MQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD401109
-	for <linux-input@vger.kernel.org>; Mon,  5 Aug 2024 00:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721AF23AB;
+	Mon,  5 Aug 2024 00:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722817349; cv=none; b=o5lYKG6ykzI9eFMyTH9mgpTy382AZVKojvXdu615wSgHmj2bUpWKUbpq391YyuF1fXm4aTqrWfhMwGKTHx7yI5n699k2ELAo1EyavyxFRIeSK4FzPHDUk6R2lsbO3BKcGvMyUYMcdHxUjD/MAGwvfEJ/cpvJpdVFxZ9QZDUoMcg=
+	t=1722818708; cv=none; b=ZIaCEGxLd+O562Ik+915MGbjAcad0Nopgd22XJ1Jor1WxEOb0wI52d6WbqXwf54W8uDTgdos6MQx/CsokboSO3cjhyYB9eK1jAJN6XYH2UiMYnZ/Jp1ZBtc4a862NrL5D+KjfAhFui0TjNw1RIDqh9m6UhQB7uqeERFByjH44Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722817349; c=relaxed/simple;
-	bh=PQvcQ8t7S1Bi+S4T8EGOEg11/VjbQzVW6VNMnvTl5To=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NBWoid2Po5xgof4fFXBY4L/e/1BGe7EEP1yYHvdABDey3FZnsecsZqhj2LnqSExYE0boPaSc6T1oBML7UYJXceQrEco023+D4STmNO8d19IdJ0KP1fXmWxEtqWa1jt129uQ8MPyvdHyJKyvZvVY0wyx4LlnQok4d4r2EyVIZ1mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ee59iofD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722817346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oBVCiUmIJ/pcUNh5weJT45NG9FUYmnt3UvfN0Id1eB4=;
-	b=Ee59iofD0TvsPwLKZUL5Eqh8nGJ13VLnb3ZOs+4hkc7TdH1WglCREspPfDkpC1Nr9/iJVo
-	Syfo5tYSiAjJ7cZy/aIuFAEpQkRU3n32UkyYOB67W7t1vmTCrKJChf7P+K9u3ej7i15mvL
-	NXIlSiYMkqDilJ0mgga9gJC+Ma0acv8=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-97-oP2-2USCNs2uDwnuj1yDVA-1; Sun, 04 Aug 2024 20:22:23 -0400
-X-MC-Unique: oP2-2USCNs2uDwnuj1yDVA-1
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-1fee7c9e4a4so76446965ad.2
-        for <linux-input@vger.kernel.org>; Sun, 04 Aug 2024 17:22:22 -0700 (PDT)
+	s=arc-20240116; t=1722818708; c=relaxed/simple;
+	bh=NVAt8QzH6LN78Y7bgJg+NONzxNvYYkm1dX9mEDIYW1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fPrRwnO5fuSZEvBd+edZR0o/MGBMv/9Dv5+JLyowaR13KthSdQn0cXwUjtveqohVn6GcLIiWLZnzXOJGV7HJxFRDLBd/dIwGKsKIK65Q9vAy8WOyY61JEdgLRinfXNuD2iR1uzw7/m1a5lvsWBEtFdC1TsuR4/rVbx5+3HQ7IKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDwBy7MQ; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2cb57e25387so7579727a91.3;
+        Sun, 04 Aug 2024 17:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722818707; x=1723423507; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F/T72/HgCQ9HZvJyHpdL8MOMLhTV/SiSFiIaMQu4P98=;
+        b=BDwBy7MQiWoqRE4mm0F3WoVyB3Yu0PggXxdUz0gDuULWlnfQFRxinOhTLXW4hlGtyS
+         DfySuZjK8SiLG9i1OmBuMwAVTwy3GnPRAaQMSgbmszMi3j1R1h7w5etyd1tbWqr73G2b
+         ABufYeQTDCksCOWbQDbUMPr+gRXfPbLVwQyP2dPcrNAhkXHWphXJa2kSdb8Ph/D12TdN
+         Jer/mcj/XkGOYHzmCw7HyWzE02/XMkSG5cCcCATWVVKbAg+ppGW6B8Bygp2ndMI7K+Bv
+         gP1Fa7csRAxgPSBSukRge1b5jAHl7qlP2N65qjFJbyzRrY7cuWVVlB7fZFQRSGa1Rnsu
+         6m6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722817342; x=1723422142;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oBVCiUmIJ/pcUNh5weJT45NG9FUYmnt3UvfN0Id1eB4=;
-        b=QTpRT+T8RqfalX1ee+xQNsk4rhrTizmjr8DQWJ3kYv6mXiSGOZ2tlzUxAMbyvQ0G2m
-         Z6pRJS0+4NV3FA8zrdlM4fRyoTcZgl9VvSNSa7QmF4BxUsVbM9h5cQACrR7FvGLuAY0v
-         rNVJKLUMTAAid6u7CEsAV3qRvk4v8ncTvLN0ZJOt75M4DCr4nBvg1n79pxz6mAegbFH4
-         S40mDD15p7Cq5VhUU3KTRfBkSYczwkNb1ijQBp9lcYwmfh8JyM5EVjQOkXJ5qeXwvUCW
-         WIW8eCODe4qfkC11Chk9YQuJp4xlLy5k8rWnVTMkC/8T0ukJ8xyg1vArOj4DZBHDvxmK
-         RPHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ0IGUYFf2fK1IS3yRuGkqLq8D8n8L4zmS0s/X9C22oxiIDo+rK+ypgvP8fSXKFg9uY6TuBI2BjIWQvr/RNos6Bb+vvp95LI8l19s=
-X-Gm-Message-State: AOJu0YzYzV6L8ymzyBpzz65CdVzGVi3Ft5luajOWDsoKep4bRw1HuqRf
-	qjajvIqn5M8xALqlxFXr7eOZeJikasB/lOnliHUXw2HxzJ1MKWxCkZoC02bXCAjXFcSkjW7Bpqp
-	+eCOEcCPpcPrSrK1E47h/AA90U9P/gzIl2gwjsV9Lgq9KxOgMU5gX0Xcx2Sjg
-X-Received: by 2002:a17:902:ecc2:b0:1fb:fc96:757e with SMTP id d9443c01a7336-1ff5730969emr88782145ad.37.1722817342112;
-        Sun, 04 Aug 2024 17:22:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF4yKMe5je0FqceGU22lDwDuJqaOtMxq2d1pVGzFinAoW5Gy1aEKZ5TnASTwP3+a3ZJ1222TA==
-X-Received: by 2002:a17:902:ecc2:b0:1fb:fc96:757e with SMTP id d9443c01a7336-1ff5730969emr88781945ad.37.1722817341453;
-        Sun, 04 Aug 2024 17:22:21 -0700 (PDT)
-Received: from localhost ([2803:2a00:8:776f:3d96:6be:69c7:46c2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff592b5886sm54653605ad.299.2024.08.04.17.22.20
+        d=1e100.net; s=20230601; t=1722818707; x=1723423507;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/T72/HgCQ9HZvJyHpdL8MOMLhTV/SiSFiIaMQu4P98=;
+        b=KupEwymjo3BsXXx/FFgc7ekIWq37sMvc/H4FWU81y1X43Lvva3amE4iDZKXoV4aTJn
+         j7Mvf9rDKUs6LT51Vj+U6IkiE3vU2evVxO4grFvKfCv40QzcMH4wYeZ1QtjWAClrc8Zl
+         jSwjki9laBjFvfAHE10v9YRz0WLesc1HVX0voiPBfKwbeX7ezQmLEencixsm/ZrqWXem
+         9JeZHyrT7Ef/T21hhihEojkGgCra7WQ08f7VWzqUc2bmlvVU3VJ2wTMhEj3zkzAz4mW4
+         jlU9m4mFBGjJAvmOxZYZHi9c+6bvXaPO7znr9dUzJkUQUlMAvHLvLGN3XX3LuLMgZj8h
+         d6LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNA55TqXiEEawLc5ZxaCw3820StYXhPSnGJmP+6xInpWaKOl3r0wPfaCRhm683GsoSaRAUDY0EDnLaz14634ol/5GRcmkQMqRnV7j6
+X-Gm-Message-State: AOJu0YwF/ROeTKkrKN0XP7o9AydhzePoXsLnbQQUNSuJBvwsuHopGMXa
+	QGaQoIdHw1u2ITXDK0TNmepmNHix7TxQpqtZr/RRtrAtyYwmhpEdiIsOFQ==
+X-Google-Smtp-Source: AGHT+IGfzKJIYcEprsm4A0eERIA3wLZPoJKd00ZXHqLAacua77aYElmEw8Zhr4hDKqUvvv3B7m11oQ==
+X-Received: by 2002:a17:90b:164d:b0:2cb:3748:f5ce with SMTP id 98e67ed59e1d1-2cff9445528mr13770846a91.10.1722818706566;
+        Sun, 04 Aug 2024 17:45:06 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:22e4:17a:28a:7497])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cffaf96996sm5695845a91.16.2024.08.04.17.45.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 17:22:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: cyttsp4 - remove driver
-In-Reply-To: <ZrAZ2cUow_z838tp@google.com>
-References: <ZrAZ2cUow_z838tp@google.com>
-Date: Mon, 05 Aug 2024 02:22:18 +0200
-Message-ID: <87cymn95tx.fsf@minerva.mail-host-address-is-not-set>
+        Sun, 04 Aug 2024 17:45:06 -0700 (PDT)
+Date: Sun, 4 Aug 2024 17:45:03 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: cyttsp - use devm_regulator_bulk_get_enable()
+Message-ID: <ZrAgj9rG6oVqfdoK@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dmitry Torokhov <dmitry.torokhov@gmail.com> writes:
+The driver does not try to power down the rails at system suspend or
+when touchscreen is not in use, but rather enables regulators at probe
+time. Power savings are achieved by requesting the controller to enter
+low power mode.
 
-Hello Dmitry,
+Switch to devm_regulator_bulk_get_enable() instead of separately
+requesting regulators, enabling them, and installing a custom
+devm-action to disable them on unbind/remove, which simplifies the
+code.
 
-> The cyttsp4 touchscreen driver was contributed in 2013 and since then
-> has seen no updates. The driver uses platform data (no device tree
-> support) and there are no users of it in the mainline kernel. There were
-> occasional fixes to it for issues either found by static code analysis
-> tools or via visual inspection, but otherwise the driver is completely
-> untested.
->
-> Remove the driver.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/cyttsp_core.c | 38 ++++++-------------------
+ drivers/input/touchscreen/cyttsp_core.h |  1 -
+ 2 files changed, 8 insertions(+), 31 deletions(-)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
+index 3e77cca4f5ca..b8ce6012364c 100644
+--- a/drivers/input/touchscreen/cyttsp_core.c
++++ b/drivers/input/touchscreen/cyttsp_core.c
+@@ -614,17 +614,14 @@ static int cyttsp_parse_properties(struct cyttsp *ts)
+ 	return 0;
+ }
+ 
+-static void cyttsp_disable_regulators(void *_ts)
+-{
+-	struct cyttsp *ts = _ts;
+-
+-	regulator_bulk_disable(ARRAY_SIZE(ts->regulators),
+-			       ts->regulators);
+-}
+-
+ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
+ 			    struct device *dev, int irq, size_t xfer_buf_size)
+ {
++	/*
++	 * VCPIN is the analog voltage supply
++	 * VDD is the digital voltage supply
++	 */
++	static const char * const supplies[] = { "vcpin", "vdd" };
+ 	struct cyttsp *ts;
+ 	struct input_dev *input_dev;
+ 	int error;
+@@ -642,29 +639,10 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
+ 	ts->bus_ops = bus_ops;
+ 	ts->irq = irq;
+ 
+-	/*
+-	 * VCPIN is the analog voltage supply
+-	 * VDD is the digital voltage supply
+-	 */
+-	ts->regulators[0].supply = "vcpin";
+-	ts->regulators[1].supply = "vdd";
+-	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(ts->regulators),
+-					ts->regulators);
+-	if (error) {
+-		dev_err(dev, "Failed to get regulators: %d\n", error);
+-		return ERR_PTR(error);
+-	}
+-
+-	error = regulator_bulk_enable(ARRAY_SIZE(ts->regulators),
+-				      ts->regulators);
+-	if (error) {
+-		dev_err(dev, "Cannot enable regulators: %d\n", error);
+-		return ERR_PTR(error);
+-	}
+-
+-	error = devm_add_action_or_reset(dev, cyttsp_disable_regulators, ts);
++	error = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(supplies),
++					       supplies);
+ 	if (error) {
+-		dev_err(dev, "failed to install chip disable handler\n");
++		dev_err(dev, "Failed to enable regulators: %d\n", error);
+ 		return ERR_PTR(error);
+ 	}
+ 
+diff --git a/drivers/input/touchscreen/cyttsp_core.h b/drivers/input/touchscreen/cyttsp_core.h
+index 82ea611d70d8..40a605d20285 100644
+--- a/drivers/input/touchscreen/cyttsp_core.h
++++ b/drivers/input/touchscreen/cyttsp_core.h
+@@ -122,7 +122,6 @@ struct cyttsp {
+ 	enum cyttsp_state state;
+ 	bool suspended;
+ 
+-	struct regulator_bulk_data regulators[2];
+ 	struct gpio_desc *reset_gpio;
+ 	bool use_hndshk;
+ 	u8 act_dist;
+-- 
+2.46.0.rc2.264.g509ed76dc8-goog
+
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Dmitry
 
