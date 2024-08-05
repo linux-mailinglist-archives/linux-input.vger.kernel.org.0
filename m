@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5325-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5326-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F91947329
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 03:48:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3BF94732C
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 03:48:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E748B1C20E53
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 01:48:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CBDB1F21494
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 01:48:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D72713E881;
-	Mon,  5 Aug 2024 01:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB941422AB;
+	Mon,  5 Aug 2024 01:47:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMWr9Jle"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEZ/Yvj8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26E513D881;
-	Mon,  5 Aug 2024 01:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E6A3BBCB;
+	Mon,  5 Aug 2024 01:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722822447; cv=none; b=PDDHGTnjNWQKZpHkIDuQXH4uh7/Pgg9qZRrcNs3pEPD5s0cSY7K8n9/ZxGJViJBA/2dIiQyanbtO1aduW9CRJmTd6hc4sZNGr7K/rHz3Bd27PIXG+mC8O5gAxXLUv4pNI0rSNF14vwzNMPiVa+cvd1tCibUUaN+e3J6+BDRkgk0=
+	t=1722822448; cv=none; b=M49DJFaBGi5ZfdwEyZ2bk4Wf61n+ZHIGxAYnD15T8Hqzixtcp5Td6e38S/Ru6P0+Tc/qkRbVS5Ovu8L3u0LLhrrOwCvXUZFwnoVAGiEWqVx3JMM2raum4KVG0a2Xle9McW4uRYCa+cfGcRZ3a2MIbozh+/kPyjxF/nWuECVeq1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722822447; c=relaxed/simple;
-	bh=+uC3SC1UtyhUUzh1mzOSCegvqVfTGD/4wsDMq+vSIL8=;
+	s=arc-20240116; t=1722822448; c=relaxed/simple;
+	bh=8bB3loXHuxTdbn0Pa+bvxNatmKFAbx31tjgt9O+dFYM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BwRfQTbXy8TADdPBJRNPPNP9wNgjuhked6353/NFDd7yG8BzHtbYpNQ9KY4CFycWMiUL/blvtUbXki/zUVZYq+zvXJZgT0pMGK3h4Txz+McDRC3fqYXL0wo/pxtaEbE1DeDfp3QawqBDxcFKLmfOYg82KPH4GjDFrliztbBFGLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMWr9Jle; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=SF6z7MQFSu0g7kMhzkGQ5vACe8EwMV2sQ8ULdQ2lLgblCF/E2EgVq60LG+xSs4ssWSQdlHY2xBZN+o/qLMrj1k/aUGCx6nldlp+7ApjKjWxAwnKiVqak71ixBTEhWRf1AB3dsmZqrEcdKUhTY6odhCPypuWbQ8hX+B7vMRbqWwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEZ/Yvj8; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1ff4fa918afso24309795ad.1;
-        Sun, 04 Aug 2024 18:47:25 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fc49c0aaffso72670645ad.3;
+        Sun, 04 Aug 2024 18:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722822445; x=1723427245; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1722822446; x=1723427246; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5KT5OQ6GzPXvDFTLkEAc2lVR09Idrwl4z6UvcUd1WRM=;
-        b=nMWr9JletD0CgebBgZ3Zu8hOR8TTgWbd7EQa38ACGuzkG+jzB8cok0jaN8RZO0l+6I
-         ucD3Dmsxz+U39M656VC8WURNR0FRAhIQh2u4lJFU6Du19vzqs4wdKm4/YGqXjgDL5kkO
-         Jn/hB51iaBAShes/5Sx/+cs2qo/2xYwnYs2GryD46qk50uPZpVhfZa1xCrWTnhrF/5yT
-         4yVVjuQKJ0dv3pA8QvtxFdOzsY4r9jOdqVp8hPYo2oA5Nh+36GWN0H5ConZvkT2UQ59e
-         blVDhlEH6g7p/vgwA+TbQUwPqiTVUAxJ8Cx4DdUTVqgzwfPSL8FvnidRlw1PxBlFPGBw
-         RWtw==
+        bh=y2fTMTU2sCnO518NONvI840diOGxlwU3sQIVaxycmPg=;
+        b=FEZ/Yvj8+80yJLbndZhRiID5jh+52G6WROIOqHuGK2KbQcr59cqxnqjqsYK//or7Rt
+         3tRpD6rCQM0bMjj4SxopkGNlIvqHpDbNdW/7UsPKPuicCdaW53CtTSwU5YkMSfeRMlOw
+         3pAncKxEs3MpAl1yy8lHWBETeL2bF4g2QsoLDHYj92UB9z5llQk/W3W6VK1eVevfGNX4
+         zf4KIK3EHJcnKnxBPeTILsYAdW+vQi7VAjrre3QrxtI1InNY8oMnlcy7NRSy3YRAg9a0
+         dbWNTC/Blza6wQwXjpduT2iVIMk+YggQB+7P7ZBs3paRLQdX4dPGSRg1MyGZ04xzczqJ
+         Ul+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722822445; x=1723427245;
+        d=1e100.net; s=20230601; t=1722822446; x=1723427246;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5KT5OQ6GzPXvDFTLkEAc2lVR09Idrwl4z6UvcUd1WRM=;
-        b=IfcJGeuH26HBprsUJi+b4+oK8nCJc6BIj+zPEwvqOnCHblaK7UIFmHCvWlWp/MMoez
-         eLY23Jn9c3Ky22m3NHnQAU2SK37W3CKeY/ouAwxJU8PhbvscVivQqcD57PAW1mTL4hkN
-         xgKFgYKl30EsaN+r9Lih2sb4XdcuylRptp58POuSLcDnpbGSLZb0wtsyB7Ng4B01xy5k
-         0lzrt4b0BLf6ssWzcEZg4wSLf08m6RY956meuN7Rv7RtQLUz8fGgomR4e50XWTXFLyYU
-         YcIb04PJsgzBYGxlK6SjXxXMz9VX76srUxHAEu2k8Hf9z4vos1pz+4MgN3tyAhlPTla0
-         cZFg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCOBMl4AAUgmrFOleB75jrpIElLe0iWlGErp/yTHqzrz43s37LbcI7JoG/j/WJ3rhmEZukTfFuqKJ5Vm7WgHjnHrB9/HrIHdPSc8zZQUKGNknP0sUzSgaP9O0tlKK9XeJMGLREPJzB0rY=
-X-Gm-Message-State: AOJu0YymQ2pZb7TpghbXircIeNnvwae5lFXWTqWSahVlUfUD9QwmAF8h
-	3YQSyYboPPK6xvUD0E//ocrFrNdIMKt+pWcpeNJKSsn26/tn+H73
-X-Google-Smtp-Source: AGHT+IGrPevOGrlhiIh2ypAJGRzfsgFKi7VmSIU2ZX7hVG5vsny8HwZs2H2+Vz3F41zi1kTLTuMLEw==
-X-Received: by 2002:a17:902:d505:b0:1ff:49a0:46b1 with SMTP id d9443c01a7336-1ff5722e7abmr106827945ad.6.1722822444951;
-        Sun, 04 Aug 2024 18:47:24 -0700 (PDT)
+        bh=y2fTMTU2sCnO518NONvI840diOGxlwU3sQIVaxycmPg=;
+        b=sSpNdBkszbecNlv48vuzfOhZRHL7eubp/ohi4tBLJ+VXYLneZNDbQ7fNR55hJTVGfY
+         wkvFT3s/03F51nN6bLfADWvjRjJF0RmVr9wGkL6m3VEW0OGfyDxvdsNyyOpvZQbWAjTr
+         hiTZRV86fEeRJCXLSmXQqQHbPqzwALksbX4+rtnZBILxPiNi6tKP/zEI6oPfV9AvNwX5
+         o0tjmkQcx/KWnZuM74a6VpGvmcL76NCrXzl0saIZxh4IQSFJL6ekeZh0M3tSf24SjXGD
+         VS7XJlL0x5BTX+Gb/yMZM5pbf/HaG0xf+Yxj1MleBpoye/gqgzFvMBo5MGtfQcbBWbZ4
+         uRnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWxBaq2h9aE4KXe2SrSodyiL+wsOaFud6Uu74MSwfRUJD7bGnB2GCGU6Zinbfg9E8RPcwynSlKuMGnpTz99zyOukNvwfNvq35g/m4d3hXndFnsKxSbbZjiX5TKDdx14tWD0irVkUF3Ys5E=
+X-Gm-Message-State: AOJu0YwDt7Brw23dLg/KdxXPSeGhaGQkINQK74m93X1DjHwf5/jMklB2
+	GEOAlKulrybhhJRFKj/04cVcIrgCJzhapJcT+55hlUrRnPszKyTp
+X-Google-Smtp-Source: AGHT+IFGvfv0qGcuu0s9hpraRVdX+4qEf2sPdEvVVkHNnRbbklmFC1Z3IJaCt/qLGORFLVGSXNLLxw==
+X-Received: by 2002:a17:902:d2ce:b0:1f6:f298:e50 with SMTP id d9443c01a7336-1ff574e697cmr111650735ad.58.1722822446358;
+        Sun, 04 Aug 2024 18:47:26 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:22e4:17a:28a:7497])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59295790sm55836015ad.261.2024.08.04.18.47.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59295790sm55836015ad.261.2024.08.04.18.47.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 18:47:24 -0700 (PDT)
+        Sun, 04 Aug 2024 18:47:25 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Haojian Zhuang <haojian.zhuang@gmail.com>,
 	Daniel Mack <daniel@zonque.org>,
@@ -77,9 +77,9 @@ To: Haojian Zhuang <haojian.zhuang@gmail.com>,
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-input@vger.kernel.org
-Subject: [PATCH 3/5] ARM: spitz: Use software nodes/properties for the GPIO-driven buttons
-Date: Sun,  4 Aug 2024 18:47:06 -0700
-Message-ID: <20240805014710.1961677-4-dmitry.torokhov@gmail.com>
+Subject: [PATCH 4/5] ARM: spitz: Use software nodes/properties for the matrix keypad
+Date: Sun,  4 Aug 2024 18:47:07 -0700
+Message-ID: <20240805014710.1961677-5-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.rc2.264.g509ed76dc8-goog
 In-Reply-To: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
 References: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
@@ -92,131 +92,97 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Convert the Spitz to use software nodes and static properties to
-describe GPIOs for the GPIO-driven buttons.
+describe GPIOs and other parameters of its matrix keypad.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- arch/arm/mach-pxa/spitz.c | 99 +++++++++++++++++++++++++++------------
- 1 file changed, 68 insertions(+), 31 deletions(-)
+ arch/arm/mach-pxa/spitz.c | 64 +++++++++++++++++++++++++--------------
+ 1 file changed, 41 insertions(+), 23 deletions(-)
 
 diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index 452bf7aac1fa..9a7dc7b8676d 100644
+index 9a7dc7b8676d..690596f36979 100644
 --- a/arch/arm/mach-pxa/spitz.c
 +++ b/arch/arm/mach-pxa/spitz.c
-@@ -419,45 +419,82 @@ static inline void spitz_mkp_init(void) {}
-  * GPIO keys
-  ******************************************************************************/
- #if defined(CONFIG_KEYBOARD_GPIO) || defined(CONFIG_KEYBOARD_GPIO_MODULE)
--static struct gpio_keys_button spitz_gpio_keys[] = {
--	{
--		.type	= EV_PWR,
--		.code	= KEY_SUSPEND,
--		.gpio	= SPITZ_GPIO_ON_KEY,
--		.desc	= "On Off",
--		.wakeup	= 1,
--	},
--	/* Two buttons detecting the lid state */
--	{
--		.type	= EV_SW,
--		.code	= 0,
--		.gpio	= SPITZ_GPIO_SWA,
--		.desc	= "Display Down",
--	},
--	{
--		.type	= EV_SW,
--		.code	= 1,
--		.gpio	= SPITZ_GPIO_SWB,
--		.desc	= "Lid Closed",
--	},
-+static const struct software_node spitz_gpio_keys_node = {
-+	.name = "spitz-gpio-keys",
+@@ -378,38 +378,56 @@ static const uint32_t spitz_keymap[] = {
+ 	KEY(6, 8, KEY_RIGHT),
  };
  
--static struct gpio_keys_platform_data spitz_gpio_keys_platform_data = {
--	.buttons	= spitz_gpio_keys,
--	.nbuttons	= ARRAY_SIZE(spitz_gpio_keys),
-+static const struct property_entry spitz_suspend_key_props[] = {
-+	PROPERTY_ENTRY_U32("linux,input-type", EV_PWR),
-+	PROPERTY_ENTRY_U32("linux,code", KEY_SUSPEND),
-+	PROPERTY_ENTRY_GPIO("gpios", &pxa2xx_gpiochip_node,
-+			    SPITZ_GPIO_ON_KEY, GPIO_ACTIVE_HIGH),
-+	PROPERTY_ENTRY_STRING("label", "On Off"),
+-static const struct matrix_keymap_data spitz_keymap_data = {
+-	.keymap		= spitz_keymap,
+-	.keymap_size	= ARRAY_SIZE(spitz_keymap),
++static const struct software_node_ref_args spitz_mkp_row_gpios[] = {
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 12, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 17, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 91, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 34, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 36, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 38, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 39, GPIO_ACTIVE_HIGH),
+ };
+ 
+-static const uint32_t spitz_row_gpios[] =
+-		{ 12, 17, 91, 34, 36, 38, 39 };
+-static const uint32_t spitz_col_gpios[] =
+-		{ 88, 23, 24, 25, 26, 27, 52, 103, 107, 108, 114 };
+-
+-static struct matrix_keypad_platform_data spitz_mkp_pdata = {
+-	.keymap_data		= &spitz_keymap_data,
+-	.row_gpios		= spitz_row_gpios,
+-	.col_gpios		= spitz_col_gpios,
+-	.num_row_gpios		= ARRAY_SIZE(spitz_row_gpios),
+-	.num_col_gpios		= ARRAY_SIZE(spitz_col_gpios),
+-	.col_scan_delay_us	= 10,
+-	.debounce_ms		= 10,
+-	.wakeup			= 1,
++static const struct software_node_ref_args spitz_mkp_col_gpios[] = {
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 88, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 23, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 24, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 25, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 26, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 27, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 52, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 103, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 107, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 108, GPIO_ACTIVE_HIGH),
++	SOFTWARE_NODE_REFERENCE(&pxa2xx_gpiochip_node, 114, GPIO_ACTIVE_HIGH),
+ };
+ 
+-static struct platform_device spitz_mkp_device = {
++static const struct property_entry spitz_mkp_properties[] = {
++	PROPERTY_ENTRY_ARRAY_U32("linux,keymap", spitz_keymap),
++	PROPERTY_ENTRY_REF_ARRAY("row-gpios", spitz_mkp_row_gpios),
++	PROPERTY_ENTRY_REF_ARRAY("col-gpios", spitz_mkp_col_gpios),
++	PROPERTY_ENTRY_U32("col-scan-delay-us", 10),
++	PROPERTY_ENTRY_U32("debounce-delay-ms", 10),
 +	PROPERTY_ENTRY_BOOL("wakeup-source"),
 +	{ }
- };
- 
--static struct platform_device spitz_gpio_keys_device = {
--	.name	= "gpio-keys",
--	.id	= -1,
--	.dev	= {
--		.platform_data	= &spitz_gpio_keys_platform_data,
++};
++
++static const struct platform_device_info spitz_mkp_info __initconst = {
+ 	.name		= "matrix-keypad",
+-	.id		= -1,
+-	.dev		= {
+-		.platform_data	= &spitz_mkp_pdata,
 -	},
-+static const struct software_node spitz_suspend_key_node = {
-+	.parent = &spitz_gpio_keys_node,
-+	.properties = spitz_suspend_key_props,
-+};
-+
-+static const struct property_entry spitz_sw1_props[] = {
-+	PROPERTY_ENTRY_U32("linux,input-type", EV_SW),
-+	PROPERTY_ENTRY_U32("linux,code", 0),
-+	PROPERTY_ENTRY_GPIO("gpios", &pxa2xx_gpiochip_node,
-+			    SPITZ_GPIO_SWA, GPIO_ACTIVE_HIGH),
-+	PROPERTY_ENTRY_STRING("label", "Display Down"),
-+	{ }
-+};
-+
-+static const struct software_node spitz_sw1_node = {
-+	.parent = &spitz_gpio_keys_node,
-+	.properties = spitz_sw1_props,
-+};
-+
-+static const struct property_entry spitz_sw2_props[] = {
-+	PROPERTY_ENTRY_U32("linux,input-type", EV_SW),
-+	PROPERTY_ENTRY_U32("linux,code", 1),
-+	PROPERTY_ENTRY_GPIO("gpios", &pxa2xx_gpiochip_node,
-+			    SPITZ_GPIO_SWB, GPIO_ACTIVE_HIGH),
-+	PROPERTY_ENTRY_STRING("label", "Lid Closed"),
-+	{ }
-+};
-+
-+static const struct software_node spitz_sw2_node = {
-+	.parent = &spitz_gpio_keys_node,
-+	.properties = spitz_sw2_props,
-+};
-+
-+static const struct software_node *spitz_gpio_keys_swnodes[] = {
-+	&spitz_gpio_keys_node,
-+	&spitz_suspend_key_node,
-+	&spitz_sw1_node,
-+	&spitz_sw2_node,
-+	NULL
++	.id		= PLATFORM_DEVID_NONE,
++	.properties	= spitz_mkp_properties,
  };
  
- static void __init spitz_keys_init(void)
++
+ static void __init spitz_mkp_init(void)
  {
--	platform_device_register(&spitz_gpio_keys_device);
-+	struct platform_device_info keys_info = {
-+		.name	= "gpio-keys",
-+		.id	= PLATFORM_DEVID_NONE,
-+	};
+-	platform_device_register(&spitz_mkp_device);
 +	struct platform_device *pd;
 +	int err;
 +
-+	err = software_node_register_node_group(spitz_gpio_keys_swnodes);
-+	if (err) {
-+		pr_err("failed to register gpio-keys software nodes: %d\n", err);
-+		return;
-+	}
-+
-+	keys_info.fwnode = software_node_fwnode(&spitz_gpio_keys_node);
-+
-+	pd = platform_device_register_full(&keys_info);
++	pd = platform_device_register_full(&spitz_mkp_info);
 +	err = PTR_ERR_OR_ZERO(pd);
 +	if (err)
-+		pr_err("failed to create gpio-keys device: %d\n", err);
++		pr_err("failed to create keypad device: %d\n", err);
  }
  #else
- static inline void spitz_keys_init(void) {}
+ static inline void spitz_mkp_init(void) {}
 -- 
 2.46.0.rc2.264.g509ed76dc8-goog
 
