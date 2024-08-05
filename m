@@ -1,46 +1,46 @@
-Return-Path: <linux-input+bounces-5355-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5356-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190D9948149
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 20:07:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4688F948154
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 20:08:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ACBA1C21EE4
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 18:07:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF5291F235CF
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 18:08:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9728C17D896;
-	Mon,  5 Aug 2024 17:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F49D17F4F1;
+	Mon,  5 Aug 2024 17:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqQZycz/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIMbU6Ok"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFCD17CA0B;
-	Mon,  5 Aug 2024 17:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F7B17F391;
+	Mon,  5 Aug 2024 17:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722880767; cv=none; b=CdLZBjXUOOernUWRAoWY62h30bsWkh4sQVpQQTmIGYiZIDTRsCYtpjJ3XrsRaCHWDyyJraenD1j06A0c6oRWa+Y40UmFb7RMc36EufSmJAzxiAHrHzPrAewo6HH5uUY51ttojS3zlGzYKfWEFa8D0QJ96ZyC+x/yWNPKlI2KheE=
+	t=1722880773; cv=none; b=eaagK5TMdD0sYgsEKSNz+7k/f6VPARt1oQwzTP/MCTHpxfusVmHSmKaoRk0ugnVE87MRtOxkQ5UzKwNBCT2piuO5H49woglfS1/WqGt3XnEqUKc38hVOsqr3CtgMS6sV+j9X1E6OeYofBnvsRR9+xsE054FlW/eKe3P0tWopnqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722880767; c=relaxed/simple;
-	bh=xlrR3WwL+cXJc1lqxFYvNtOrzzq8EIlyhO6U+rAUZkc=;
+	s=arc-20240116; t=1722880773; c=relaxed/simple;
+	bh=qxMkwj0LA/Ob+ps90+hcO/vZt3FuGMuZ12+fIXihcO0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GZAxSOJ0YyVl2dK4LoYQOTa/D3BHJaYsGFY22Q3kVW0v4hSwQq5oZ4aTsQrpFqHO0RojbSMczhB0prsO1LRjdtq6NxGbgiBPWFFLcSqi4F0wi3dCGUPJcclno/1JW02F2g1VnzMUcd7NwhRTAiOCBAWkRbAZ0qvBogw8FOuCFwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqQZycz/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40942C4AF0B;
-	Mon,  5 Aug 2024 17:59:26 +0000 (UTC)
+	 MIME-Version; b=l3t2tqfsiYjUZPezfQL+XHEhGtohJqtnNxfKuRlv17Br0OBUN57fxJGrDW05Fco4+FeoPf+oFt/7MxLHQxf5ASvDRaXBwmfbaeLzyf5c+dT8ly8pxLhug/hpZY3IU+fMU7ooTTLn6Ntp3qimZimH/1j2GHdiwRXjjM9Vyk6a5QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIMbU6Ok; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C8EC4AF0C;
+	Mon,  5 Aug 2024 17:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722880767;
-	bh=xlrR3WwL+cXJc1lqxFYvNtOrzzq8EIlyhO6U+rAUZkc=;
+	s=k20201202; t=1722880773;
+	bh=qxMkwj0LA/Ob+ps90+hcO/vZt3FuGMuZ12+fIXihcO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iqQZycz/2tHit3J1Opk3yxb2ikqkpydpbS2hH6d5Cs29J7PPaEM9aseLOdrvQDZhp
-	 DuUZALdKpTMUlc+qpgKw1jFkvVqLc/JXyEXomz6090ACSEnWhbBW1QRwxNjtVO6cwN
-	 mgAxqzqXQtUSliwVRd3VS9nLn52h7k1ENGBBv+oujMbHACdO1kHSDDlT+ex+a6dV8E
-	 quA03aJUijAjZQxTdKPSQXR7C7Og8RwwOraNyw++PIg9t8DqQU8ghO84DiqFayDfr8
-	 UX7BHecTOkt2QMwC74zngYNiwpSoa/a9WeTgXqGEi4SFqQee3oJJg9ql7/VtQJDJjG
-	 YGulKHQKcN+Kg==
+	b=FIMbU6OkUureyj3ekTF4F0gEb/wlGCOqxyA2dSvdYBOQyEJf7Juxbuq1YbfDpllcn
+	 0RZVM4suKpOmDn0JO1xBMY6qJcGa3wRLzQNT5F3zYPrJ42m+9WwvPkGh0nQ3EpaQX3
+	 Hp6w/RcVLy6V+8dQ98XR3MMk27mf2vcl272BhZQKsCx5nwsfYsShxVuKD7IHZvM3w3
+	 9o4I3SdEt5cTauM0k2QuYik03l60iyDhcn++jYylSNtdfcGr1GOPyT45LW9iDOk942
+	 4qs6mdqhd1SIa/EE7iUULur6lMFfpuIkuDfIzzY2ZgRw3S/CZGjLtHLYeyLQMvmJKc
+	 w46Nub4IONFNg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 4/4] Input: MT - limit max slots
-Date: Mon,  5 Aug 2024 13:59:11 -0400
-Message-ID: <20240805175916.3257027-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 2/2] Input: MT - limit max slots
+Date: Mon,  5 Aug 2024 13:59:27 -0400
+Message-ID: <20240805175928.3257720-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805175916.3257027-1-sashal@kernel.org>
-References: <20240805175916.3257027-1-sashal@kernel.org>
+In-Reply-To: <20240805175928.3257720-1-sashal@kernel.org>
+References: <20240805175928.3257720-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.223
+X-stable-base: Linux 5.4.281
 Content-Transfer-Encoding: 8bit
 
 From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
@@ -87,7 +87,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
-index 44fe6f2f063ce..d0f8c31d7cc04 100644
+index a81e141484077..dd457403a1a03 100644
 --- a/drivers/input/input-mt.c
 +++ b/drivers/input/input-mt.c
 @@ -45,6 +45,9 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
