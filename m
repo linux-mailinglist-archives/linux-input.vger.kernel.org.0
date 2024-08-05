@@ -1,100 +1,98 @@
-Return-Path: <linux-input+bounces-5333-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5334-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33675947705
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 10:16:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CE8947708
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 10:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64EF71C20C32
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 08:16:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A82CCB22CF8
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 08:16:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F3914AD10;
-	Mon,  5 Aug 2024 08:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8C1114D290;
+	Mon,  5 Aug 2024 08:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yDIgjAjy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zF1//vbV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8F0143738
-	for <linux-input@vger.kernel.org>; Mon,  5 Aug 2024 08:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC59143738
+	for <linux-input@vger.kernel.org>; Mon,  5 Aug 2024 08:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722845769; cv=none; b=QwkauuVDyB6pjaz8bVUarlpyncPRdzrerx8iF+opTgbPNFqL7Yv4PfrMd4hF6AFbs14pplD2p31h3dkBkom1ee4F6+Lk3hhP3uRN/h3Yd9IFQska17GBFmVnfOUYnXpR2bAI5B48XAik0h3fkaICw8XTe+8tn7guCscVKXxpgvw=
+	t=1722845798; cv=none; b=SkV+pDZZxdApjQi7ji3fquGj2V6RNoHqKbs+tgLCvE/2ECeplfly4CvMphAcFHzM+z6p1PrecGZQuyQRCmxl1+qvpE2VJHzQ1TfBMjOek3hebcCYE56cybTttz9MeuzT+SmuknznHgZv3V/88nk9MVqi/UGKXHA7aoAEwma9Rbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722845769; c=relaxed/simple;
-	bh=s0l4BMr1B1oQ2wxQZMWmEy5Qxbcv4jHmonN6e/ZZ7AY=;
+	s=arc-20240116; t=1722845798; c=relaxed/simple;
+	bh=5unLlgc6A6zclb59BucjBaezsg4VcXs/IowJ1jRLzcA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e5Fl0HjsGRqwpaWZSthvDQddSQhAtKe7ir39jqVJ2BtMV/NwfUbQlSu09NcBuoJ2+QCqPdTkV2l+DiQj2bmfIC1Y7q0kSfqriqx1q5ULoY/nbFjoNG5mT1Qv9Eh0y2m8jYsocLTXl6DkN0aDJDNwR/5STIpju/J0gOGiiiGlAM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yDIgjAjy; arc=none smtp.client-ip=209.85.167.53
+	 To:Cc:Content-Type; b=mqwFyKM+1tfrmYsnmicHGqhRsqFBzEhhUxBl9vKfgZXYxxO65WV6k3BA5YwEhLIKLqG3eUYBNVC7FSWjtVYBQ7frf/tBwDWSxr0BEvTMeTNaaPExVF5EGVWGEIJSIsepT2YNrjxaw0VpX3zqLDghD/3yXybv6Kdd1tQFLXURv5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zF1//vbV; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-530d0882370so596314e87.3
-        for <linux-input@vger.kernel.org>; Mon, 05 Aug 2024 01:16:07 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52efd08e6d9so14889727e87.1
+        for <linux-input@vger.kernel.org>; Mon, 05 Aug 2024 01:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722845766; x=1723450566; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1722845794; x=1723450594; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s0l4BMr1B1oQ2wxQZMWmEy5Qxbcv4jHmonN6e/ZZ7AY=;
-        b=yDIgjAjy2jskhaKJnwLbZya2F7nWUrMUEgiw4WPSAheYOhzlDdQ74/Ray9LU0urbR0
-         L77Mlj/pjBYNE3Rj5Czj4vnBZZMGPdFOO1Pw5OZV1SviknB1yQhvucpGd3tho9kfqlEz
-         1t3Ql+yG+mzwCH/ni8/BX6eOZ19fMrpAjOgGEexZg77ZTu/aKlFry/MlBb0BVBXhm8C+
-         sm8AZCiGdB1z6v8CMPbjwJrPvR+J2nBQvXTxZvtx/CxB9nIPOZ7d5j06ZR3buMm4QxlL
-         xl4k1kf+3E/VRFnQuQ3bDdW2pMroX6MbFLn573CNqj/Pb2HStWsgcDqw7RcA4/GUv1GW
-         Cdag==
+        bh=5unLlgc6A6zclb59BucjBaezsg4VcXs/IowJ1jRLzcA=;
+        b=zF1//vbVzdClJz35M2lTfM1iGNvwUq7MAMV5x84wurR/Aw29fSXAIl+GtjS8cHui9O
+         xisw+QcXNOidbYEm6eYRGdcaRSKAXWiCZRQYOBmzeBsRIs5olxWPBD7zRlp7GnIlM3sl
+         zJQaFPVZ3/2L4h0p2ySGgJr8tnQqhyq3XblDpWsSncK3/C2yuA8Im5C3p16+HAkd1OVN
+         lVvOZeu8jbs5rdLyEEAHxg4FOdzIdvtJkJO3XQmhIPVOtqAz5fPfefmvKwkzliWfWolK
+         EtF8J0qAGBBfEDwLPxqUNdTDRpyVdZNjKGrMxpjiX8b+IOOL782Ui+N6IlRGJRZSmIak
+         9+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722845766; x=1723450566;
+        d=1e100.net; s=20230601; t=1722845794; x=1723450594;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s0l4BMr1B1oQ2wxQZMWmEy5Qxbcv4jHmonN6e/ZZ7AY=;
-        b=drkvXJvthBVhcS/kExA78DStHoQGDDc9leGMD6VRJYYXiO9rC8onrt/kVYxiClFCYC
-         w444Wn5i7FLYhwx9cChzfv4wqoMbWcLthM1pCpfiy0rsc17PPVkqePtPjRE7ieErL0JE
-         THmbGEzCrngJ14gKswDe0sSNIhBBhnmeX9ubHGNwkmeasN8808ubjXoxDybStcD7wjyQ
-         h/gjRRex8O75RAPIiRE2isTrq1tcM6CQ4jRszz8jcy4FeEGyxtUs26EJBfKStyJVSI0P
-         a6TE4fJR55X6i45QwCbe+3ba9t5nWgw+6o1Vh91a7ie5Z0tcZi4Tp5lGUmYcgfDaykT9
-         pzqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNknRE6UtWKAzxIME+ArZ9XLThiJBNiF8Nvgu0onwVimwLjRODJXRWV1EdJkFirW4zDx01N9W1pXJQK9tP/dEqcGALQe0VVDFFycU=
-X-Gm-Message-State: AOJu0YzKHqkaRkYBs2mm0pCOePUzyyeDvdViD3RExcAI/SxyTq9Ck8ny
-	hWmy0Qcx0Os/IvxDep3VtrfArWBH2Z6FRC+K89jkDoR1PiQvP1+ilrgFc0a31j0v2F1e32tgS67
-	gE8Qp5458xBNVIjF9kwkgn3WvRkIbiC4NpEJUBA==
-X-Google-Smtp-Source: AGHT+IGUexCj6VshdbtjSrODpd0QaUTYrmwGB1cyypCiKha5sXzPdSUyZ0My5KvmjU1qwV/Qlke5GN0U/8cR6eEqqxQ=
-X-Received: by 2002:a05:6512:3e7:b0:530:c212:4a5a with SMTP id
- 2adb3069b0e04-530c2124e52mr4492808e87.22.1722845765730; Mon, 05 Aug 2024
- 01:16:05 -0700 (PDT)
+        bh=5unLlgc6A6zclb59BucjBaezsg4VcXs/IowJ1jRLzcA=;
+        b=LNCvbYqVZYByVwJkZmdhkJCn4v10Qe+dXifAg/TmOZSBoT2YtqImi85KgZfGtBRBpC
+         3ot4HJXHJdgIE+57RSNzwEWiVGMs7e2tKKxQcCkQiszSltNRQHr2AYPQ9udfM760y+Ce
+         IfWYPeZpJc5cMUzgEjwxTgyNPTlioTWeoyadOx8bdeFEDI+1Ui0g+vDSHtBCJlUwbTc3
+         mvsdwDIenz1JH+X9ORul3hnNrEfncJVZZYk4d5zI3c4kD0T3wQpFZziMCnnnlredg/2Z
+         aP3x14i/kDEjwIp2kMuRBuMNvVvQ1G0B7ICC+sNy39sVE0/6vitbNMqaig2bUPdXxdJi
+         82pg==
+X-Gm-Message-State: AOJu0Yz/xmTalDTZiGAXLnbj2fQWzfcEGyK+yAMVkqPQW4+6n0GDyVJg
+	J+oU+t4mzLvpUiaHEEHyuBhHApgpPPRyvj2WPONuaeMiKbir1q+3eXoMW0vrTyFxoumb+Y6yloF
+	LzvuRDCXebdILdFAeOJJR4510bP/N3LzGDFvghw==
+X-Google-Smtp-Source: AGHT+IH3RK3cbhFuy8fuCp+3vtZx2KcsiayetJDkYeKN58B24FoHtQcGq9smDLZXRdkzF4xXi3Z4oUykfCeFy0UYzUc=
+X-Received: by 2002:a05:6512:2310:b0:52c:8df9:2e6f with SMTP id
+ 2adb3069b0e04-530bb3d4333mr8370398e87.42.1722845793449; Mon, 05 Aug 2024
+ 01:16:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZrAZ2cUow_z838tp@google.com>
-In-Reply-To: <ZrAZ2cUow_z838tp@google.com>
+References: <ZrAgj9rG6oVqfdoK@google.com>
+In-Reply-To: <ZrAgj9rG6oVqfdoK@google.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 5 Aug 2024 10:15:54 +0200
-Message-ID: <CACRpkdatVEunoi=Erm9jYpBxKv+yMpjFUJGck+dd-VRbTJEz=A@mail.gmail.com>
-Subject: Re: [PATCH] Input: cyttsp4 - remove driver
+Date: Mon, 5 Aug 2024 10:16:22 +0200
+Message-ID: <CACRpkdYV3AZLLShnnstKK8SrenDoWzhnC9XO13OUWKgWgG7CKQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: cyttsp - use devm_regulator_bulk_get_enable()
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Javier Martinez Canillas <javierm@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-input@vger.kernel.org
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 5, 2024 at 2:16=E2=80=AFAM Dmitry Torokhov
+On Mon, Aug 5, 2024 at 2:45=E2=80=AFAM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 
-> The cyttsp4 touchscreen driver was contributed in 2013 and since then
-> has seen no updates. The driver uses platform data (no device tree
-> support) and there are no users of it in the mainline kernel. There were
-> occasional fixes to it for issues either found by static code analysis
-> tools or via visual inspection, but otherwise the driver is completely
-> untested.
+> The driver does not try to power down the rails at system suspend or
+> when touchscreen is not in use, but rather enables regulators at probe
+> time. Power savings are achieved by requesting the controller to enter
+> low power mode.
 >
-> Remove the driver.
+> Switch to devm_regulator_bulk_get_enable() instead of separately
+> requesting regulators, enabling them, and installing a custom
+> devm-action to disable them on unbind/remove, which simplifies the
+> code.
 >
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
