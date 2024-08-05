@@ -1,62 +1,89 @@
-Return-Path: <linux-input+bounces-5360-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5361-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3898948220
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 21:17:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D613E9484DE
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 23:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9067D1F2365A
-	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 19:17:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9227F28126F
+	for <lists+linux-input@lfdr.de>; Mon,  5 Aug 2024 21:34:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7348143C6E;
-	Mon,  5 Aug 2024 19:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1672E172BA5;
+	Mon,  5 Aug 2024 21:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1XOg7lq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QkWxoyUM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C55364AB;
-	Mon,  5 Aug 2024 19:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CB9172BBC;
+	Mon,  5 Aug 2024 21:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722885445; cv=none; b=Dr1dUIlnG4txUwE+LdzBdFZu/p/OxrMcv682MIndDOafalEjaCy2EwuTOzRLz+MvtNhn8YYaAFuYd3G/HUqQ9K44RBzIBapKq72Je2HLRwBIu+7tuhOm9HGhUQhzfyDsixiwdeF2nxFp70b6EKDbWWg7hPjq1uxjjuW6Jcc9A7k=
+	t=1722893384; cv=none; b=Bs9Y0o3F7J0dPz7N32uV3qL2hMo/bjz3Dta5km5QLd0E52JkuOrk1Z4INUrqFUEcGRC5aO4jgIcTVCY3u5PstywK+Sdr2aGzrfS62a7jO22tNaa0c/0A9upMDrvUX19kjORGbyvUdivMrU82f8fpmyr5xQG9JdMMcIIeQMt4DJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722885445; c=relaxed/simple;
-	bh=yIzYBRhu3FkCRao5W4ixWWwmAsOLTrfWSG9/9Ucrdsg=;
+	s=arc-20240116; t=1722893384; c=relaxed/simple;
+	bh=Rc9/Scd9LV1mp7Rp5OWAaSkGROsvNZErc9Y8out3dD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kwc5j0iuUINwxUE7IfVx15u03yv0ie0pSMVgnRUWfdi7l3pP2LPOiOOiKrcYYwLQo0J2APARzGim8D7NtPar3fxVTtD9zZH/PJJL2i5BaIxqcYUdXjdzAUaDo5gB5o/R9af2Oh/YMDR3l3JS/LYr+93JnSj278rAgDc3myyvyHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1XOg7lq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4DAC32782;
-	Mon,  5 Aug 2024 19:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722885445;
-	bh=yIzYBRhu3FkCRao5W4ixWWwmAsOLTrfWSG9/9Ucrdsg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u1XOg7lq5Gb+Iyutvrb8Ggq1n89ppsPewkZrwb13K7CWOXV1ARdNO+yQznlR51CJv
-	 x9DjQkQdymtnwglT35Zr3AzKShlloIi9pbSBHhQ2EU+RLp0dmJCQ66l9NgegZpPZbx
-	 S6QVW7Q46UxRi9amYrn3ZRfZGrXJhA1TeNTeXK3MCaIm6KiOVSgtIPPViJ783BI2A8
-	 ue5GOs/Uyl1OXFptfdXDApl1bygdQuBO2dH64KCQBaI+qRFJnTycQlHXQnh88c93Uq
-	 VD2po/oxeg5ZwuWR8jHjjzIzBSo6y1R5jMi6xF2A3CYcnDHnP1IVDk97wQl53JhHjK
-	 36UJfSxOdj/Og==
-Date: Mon, 5 Aug 2024 13:17:23 -0600
-From: Rob Herring <robh@kernel.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: lee@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-	dmitry.torokhov@gmail.com, pavel@ucw.cz, krzk+dt@kernel.org,
-	conor+dt@kernel.org, ukleinek@debian.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3 1/7] dt-bindings: mfd: add binding for qnap,ts433-mcu
- devices
-Message-ID: <20240805191723.GA2636745-robh@kernel.org>
-References: <20240731212430.2677900-1-heiko@sntech.de>
- <20240731212430.2677900-2-heiko@sntech.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=M9TC8s3BGcflwIqL0rfNwl0GHfcKjnYfreskVe7ezGGgBm6fK7Z3Nep5BkZR+8u8dKq1b/jKrddG8aDKPPdpLCqerK1V4pDB5cyf7oSntkAz4wJXs9vrQLuEyTYxMtlLM6UFiSxhzZdAMvEswjkUi2UVbVh0Oyz3pTXW3lim5Z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QkWxoyUM; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fd70ba6a15so83525525ad.0;
+        Mon, 05 Aug 2024 14:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722893382; x=1723498182; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5R8qingnKHE1sSnceSvImf+uxhthRiDd71Y2tMBRrYo=;
+        b=QkWxoyUMBWMSXoiQvg4mv1G+qAyqWNa4HkLedN/w8EzYpEGTvTGOEjxoVXUfNDyyH0
+         bc7JiBYK/IawORqlgy+RtyUtVWksAC3ByZIrv975FalGd/aPp+nIKEmX9qU42jddnwRN
+         gy3lXU0+ojYt7cenUPHo3tejmOj8U4x26xS9t6yvpSQ++qtTIUJKdJ26lD99/MMROjsY
+         /k/WBmhmCVtixJ/3NqHl1q2CbMdoOy8ozjWAmAtf1NI/0+gDuhUDCbPOtDuh5lNHZ36h
+         f1KNqrocOERkgzcvEjsQoCaFPsUeh4UFjceBP6jshndofWRutFdqkKHqKV2c/pM9Ol1U
+         1W2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722893382; x=1723498182;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5R8qingnKHE1sSnceSvImf+uxhthRiDd71Y2tMBRrYo=;
+        b=YtSVo/kypzJgsdFG6JOqcGRghUp2F9ubrY548Eg79oAMXf/InBz24DKTC0SFH2MoFf
+         9tY0vwWf+0LvDnzDLCjedeR+jEQcQxYjxsSDh3oTUxKQIUnkFMKFq8gu5NU7GVrh+tXq
+         3j3Gqs9Pm2v2b/oqoSzxBw35X/B96wyXkPYCsNyulHCO+64Kls6vpTpXi42fRcdYa82+
+         1hmOILG1dgUSYLOHvhRkyZV1Q77TTauK2LDE09ZU+/EfI7soRwmntmgy5eoXeGScNf6V
+         MGozCsPQhnesahHV2Md6usw1xWxA1iOKFxKJR4Q5d2MAIjECZpVfDg9DstxfF2c0s6W+
+         lVbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ7NYNZzpRXsm8b5nnRGbWf7ARiOxly9nXDiSV9WGFcAjCbyIJfYBIMd5R7jRhTdC6AeSP8ZvpeqiTuxZfP3Iva5FhMFjck7GJeRUNRYeAPltKdaDEjLKKeBO/1NrWDo3R+KvYzuwAKZU=
+X-Gm-Message-State: AOJu0YxI3XtVfMP2/hlCdju591roFA2cKSxw+qSOHOmYYC/Rnzgt3fVX
+	63cOvnn8vSdq4bMqjBzpp40NzH+IIOazx+YWws/7hoO9KmBTBjSC
+X-Google-Smtp-Source: AGHT+IF2j7ps9k+6l1cQEnPtesTFVF3Ua6BRrBnA3eWbVWcHwO1aQYqz6PxwW7dFR1rzA0ouq8840A==
+X-Received: by 2002:a17:902:d2d2:b0:1fb:7b96:8467 with SMTP id d9443c01a7336-1ff574cf808mr124076865ad.63.1722893381804;
+        Mon, 05 Aug 2024 14:29:41 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:b116:76da:13a7:247b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff58f5713fsm73331435ad.95.2024.08.05.14.29.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 14:29:41 -0700 (PDT)
+Date: Mon, 5 Aug 2024 14:29:38 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vojtech Pavlik <vojtech@suse.cz>
+Cc: Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.de>,
+	Andreas Mohr <andi@lisas.de>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>
+Subject: Re: [PATCH 1/2] SOUND: kill gameport bits
+Message-ID: <ZrFEQkveaV6Q-Ayf@google.com>
+References: <20140820024638.GA25240@rhlx01.hs-esslingen.de>
+ <20140820051815.GA1109@core.coreip.homeip.net>
+ <s5hwqa3hetu.wl-tiwai@suse.de>
+ <20140820063130.GA11226@core.coreip.homeip.net>
+ <s5htx57hc89.wl-tiwai@suse.de>
+ <s5h4mx6rshs.wl-tiwai@suse.de>
+ <20140824050716.GA523@rhlx01.hs-esslingen.de>
+ <s5hppfpt520.wl-tiwai@suse.de>
+ <53FF8B2B.3050506@ladisch.de>
+ <20140828211110.GA24519@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -65,60 +92,43 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731212430.2677900-2-heiko@sntech.de>
+In-Reply-To: <20140828211110.GA24519@suse.cz>
 
-On Wed, Jul 31, 2024 at 11:24:24PM +0200, Heiko Stuebner wrote:
-> These MCUs can be found in network attached storage devices made by QNAP.
-> They are connected to a serial port of the host device and provide
-> functionality like LEDs, power-control and temperature monitoring.
+Hi everyone,
+
+On Thu, Aug 28, 2014 at 11:11:10PM +0200, Vojtech Pavlik wrote:
+> On Thu, Aug 28, 2014 at 10:03:55PM +0200, Clemens Ladisch wrote:
+> > Takashi Iwai wrote:
+> > > did anyone test the patch at all...?
+> > 
+> > Appears to work.  The ymfpci gameport seems to be somewhat unreliable:
+> > 
+> >  analog.c: 100 out of 17347 reads (0%) on pci0000:06:06.1/gameport0 failed
+> >  analog.c: 122 out of 1111 reads (10%) on pci0000:06:07.0/gameport0 failed
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> ---
->  .../bindings/mfd/qnap,ts433-mcu.yaml          | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
+> The analog.c gameport read routine is unreliable by design. 
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> new file mode 100644
-> index 0000000000000..5ae19d8faedbd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> @@ -0,0 +1,43 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/qnap,ts433-mcu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: QNAP NAS on-board Microcontroller
-> +
-> +maintainers:
-> +  - Heiko Stuebner <heiko@sntech.de>
-> +
-> +description:
-> +  QNAP embeds a microcontroller on their NAS devices adding system feature
-> +  as PWM Fan control, additional LEDs, power button status and more.
+> The 558 chip is not an ADC, it's an one-shot timer from 1971. The analog
+> position of the joystick is measured by timing bit changes on the
+> gameport.
+> 
+> analog.c does that without disabling interrupts, as the read can take
+> several milliseconds. analog.c instead detects when an interrupt influenced
+> the measurement too much and retries.
+> 
+> The retries are counted and reported.
+> 
+> 10% is a largeish number, but still something the analog.c driver can
+> cope with and give reliable results. 
 
-Doesn't really look like the binding is complete.
+So 10 years have passed since I tried to remove gameport support from
+the kernel. I do not believe there were a lot of meaningful fixes.
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qnap,ts433-mcu
-> +
-> +  "#cooling-cells":
-> +    const: 2
-> +
-> +  cooling-levels:
-> +    description: PWM duty cycle values corresponding to thermal cooling states.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    items:
-> +      maximum: 255
+Do we still want to keep this in the kernel or is it time for gameport
+to retire?
 
-These are fan properties and should be in a "fan" node referencing 
-hwmon/fan-common.yaml.
+Thanks.
 
-Rob
+-- 
+Dmitry
 
