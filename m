@@ -1,143 +1,179 @@
-Return-Path: <linux-input+bounces-5374-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5376-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D2A948B49
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 10:27:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FB7948B9A
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 10:49:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 821FF1C20B6B
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 08:27:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DD9C1F2161B
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 08:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D565D1BCA1B;
-	Tue,  6 Aug 2024 08:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34C31BD4F1;
+	Tue,  6 Aug 2024 08:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QXLFizCS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tt+hbk+A"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A7D3C092;
-	Tue,  6 Aug 2024 08:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F31BD016;
+	Tue,  6 Aug 2024 08:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722932817; cv=none; b=nfk3YijQ+ICxooI9tm+wWvpmEGH6rv87hZkHWNpCUqovWRPEmtTYJly6HR3vYvact5jufuz7fWaISi91IM3tLRlMwU/46LWJrG6I7JGR/SXRsDNQeet3dTYFuXA8bwut04uzT+EfvkasEe+ULkjgRh4cSdRCtXODCZyci5Su69A=
+	t=1722934168; cv=none; b=nD/fsQOS8Lt0wu51D7S+DkeozDKu9oy69KswfeReQhtl2IpcPJF2hhTofjYD7dqPPTzfUu9k0Mh+BcY7anqeoJeVo9ww/CND7yDyIb3itfwtuzxRvdVXH4kdS5jyFZss+f1LP3rD2zLAZttN+/fw4HqZU/Hyu9lnydiynnJ7NL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722932817; c=relaxed/simple;
-	bh=QJkh28dfaTpLjVEIV2Nz8NvUIGeG3YYvhCkbDyeVoJ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sBmPQhkMCXDj8YfQ3AXOp2SOxTgWQStPYV8/i/rNTjqoKKaM+Muh5A2duX6BSCtl3wcqyVBiARrx5Jy4FFmorSelfsI+oFJCyd6dvYdOOefW39l89BvPk1Yic9+DbguqIJ3zl2Mc72WZI/L+ef3xSGYoGvZGWR6bcpq6s+1u6uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QXLFizCS; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1fc4fccdd78so2332445ad.2;
-        Tue, 06 Aug 2024 01:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722932816; x=1723537616; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=21cCqT5PRweYK70/48x7Kh3qRL476Uhp78KESvWeohE=;
-        b=QXLFizCSpMo3TohhAtGiWUMt8pJjpm+2y1tS7Mij21GIbxBbgarpkQBrVhWFX5RRH7
-         kDQ3uUcY9vhbtERPRIWNNpr4hgvFziSPTsecsZ93IWlsvcjz5MPv30p9vogi7xUA2JKU
-         iRnZk0KRxGGPewZl+lqJU4m0RrxJEdxx9fdOHcBRA9ntXXHI8lq+cw+jL7orsSzt1TQC
-         y6dsjAZwY6lHGXoBJtkjAxTzwFdif+p1hcrHT4S7kh274raeffUcKMxjTPV+Yit9XEdL
-         T5N/bGB5yMJ7TS4XkG+ErVeEngf8UjGlOwOurFTTc5dkjj6GdSR2rLLGJrUT2G0BLLLJ
-         Z50w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722932816; x=1723537616;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=21cCqT5PRweYK70/48x7Kh3qRL476Uhp78KESvWeohE=;
-        b=V57y3OwWo0adEgfj8OupllJuPyYaypf9EwZKesKFMD6YFB9a3rJXcdz4/S/Asoz5MX
-         xU7l/nh7sKjxyfxguqTjonjKAOS97TV4yJhloxvdKILcH0o/vKzfprp0VYIJ6EmGmDyq
-         IntSP+4CYRvUMaUoyx1NnoMRYbEvXf3QA7USpFder7fOm7UPMCW6ZrTISt3LL63tJhl5
-         KEu2AcBHg0rPA4EMrTTxFTRrWW8NkiXQmZOj2LK9sFqx8kbSMULNORUdgZMvYDChsU6U
-         BAtQip/5SWDdXkf9RewFy0q8COirEJPAYF6UmBm8v5LvY2SxdTX8Ufnk7uv3lyjzc8AF
-         JUkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLv+m/O3l5x6NKjki3ZAH25GHZ8zVIdoj4yGXKPvXWIqi3wGcwkH2TCOrchFiYJDTwIPyIu5gyiz2ekto=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJIWpUYH+jVbcAxsGMvPKyTkTDDuaQXZrNmPVCfRQmSCF9wpw2
-	l0K3ldkrUp5fnsNl1sVbqjrB6ySS0/QdCuQEhK/JiAgdFn68RB7f
-X-Google-Smtp-Source: AGHT+IEq9/4drMN7kIJagyt6lrlCSWgHiibKxIIRqUq2p5mmi0bXPHTGWSPyacFRkErrEli/VAB2LA==
-X-Received: by 2002:a17:903:22d1:b0:1fd:7097:af58 with SMTP id d9443c01a7336-1ff5727d560mr147468455ad.11.1722932815585;
-        Tue, 06 Aug 2024 01:26:55 -0700 (PDT)
-Received: from sis-tammy.. ([2402:7500:587:98f5:915f:607f:a35b:7990])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff591764ebsm82106985ad.197.2024.08.06.01.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 01:26:55 -0700 (PDT)
-From: tammy tseng <tammy0524@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tammy_tseng@sis.com,
-	tammy tseng <tammy0524@gmail.com>
-Subject: [PATCH RESEND] hid: add patch for sis multitouch format
-Date: Tue,  6 Aug 2024 16:25:32 +0800
-Message-ID: <20240806082531.1353207-2-tammy0524@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1722934168; c=relaxed/simple;
+	bh=z6BNIWQvDIFzDFRaPnzzCuPXrZTJJc4qFGwxFyDJgYc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=grPz8YnEcj12N2wsa4mbmZBsE93Ecw2wOSOXOSvULOInJMPYysWGLeogYkvsbifGZZLyhZEbstTjjZmWUxY/8wTPtVS1LCDpcs4FAEzO8kBYqCC72ounXxzVRjIGDtOhQ2PABUl7XJo70ad53lTB8wWBu6u7W9ZAr+XLiOt8bNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tt+hbk+A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F18D1C32786;
+	Tue,  6 Aug 2024 08:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722934168;
+	bh=z6BNIWQvDIFzDFRaPnzzCuPXrZTJJc4qFGwxFyDJgYc=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=tt+hbk+APODZ+79aGebmSb3xZ0eE5TmPG/RGh/EO4X71g4plRbuSAZ6mGf81pbfF3
+	 1gYEZ1VPfitrsVi1E/tz5kJ7oJeG3fzUmD4jkhXqGuaNPoad9cgwu84BiKt/WsekyK
+	 qdFvskMwW0oZvVAH+1BRW66f/Zp+dUv3fuiIdN0OQ+Vx0++mKVbc84buMi3gJsZ52U
+	 bT4oXax/TwPzrOdIykjzcSdIP0CQNBQVuHfYwzF4Xsa4bfbfKDVvV6nRpAuBW2BNet
+	 IgUvEVIiad6wiP6Hfh6nYWMB6F1NHriu1VTw6JCoj7izvY4GnwZxH0Dr3ZSsJUJk/v
+	 tWH4JbSg/N8+Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A48C3DA64;
+	Tue,  6 Aug 2024 08:49:27 +0000 (UTC)
+From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
+Subject: [PATCH v9 0/3] adp5588-keys: Support for dedicated gpio operation
+Date: Tue, 06 Aug 2024 09:48:01 +0100
+Message-Id: <20240806-adp5588_gpio_support-v9-0-4d6118b6d653@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEHjsWYC/43NTWrDMBCG4asErasiyzOSnFXvUUrQz9gRtJaQU
+ tMSfPfKWaWkoVm+H8wzZ1apRKpsvzuzQkusMc0thqcd80c7T8RjaM2kkCC06LgNGdGYw5RjOtT
+ PnFM5cYXBSRdkZ4eRtdNcaIxfF/b1rfUx1lMq35cvC2zrP+ACXHAA56wAQBrEi53te5qeffpgm
+ 7jgtdLfUXBThtGTDSL0fyjqWoE7imqKdwqxg6A7cDeKfkTRTaEeyGlyFu2tYh5RTFOkMH7EAF4
+ G9UtZ1/UH6IBqtdEBAAA=
+To: Utsav Agarwal <utsav.agarwal@analog.com>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Arturs Artamonovs <arturs.artamonovs@analog.com>, 
+ Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
+ Oliver Gaskell <oliver.gaskell@analog.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722934106; l=3577;
+ i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
+ bh=z6BNIWQvDIFzDFRaPnzzCuPXrZTJJc4qFGwxFyDJgYc=;
+ b=/ifpxzrm/VKkH30SmFcTiMGHhueyyNmb9b62CQ2n+z0olhvOUiEGaDbJr/BVye4sUGEvdFQzi
+ CUX9tX4Rbz1C838FBv1DHk2FsQMTeZcRNm8ehjxf1pgLXjBwLMM886o
+X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
+ pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
+X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
+ auth_id=178
+X-Original-From: Utsav Agarwal <utsav.agarwal@analog.com>
+Reply-To: utsav.agarwal@analog.com
 
-The patch is to add proper quirks for sis multitouch format
+Current state of the driver for the ADP5588/87 only allows partial
+I/O to be used as GPIO. This support was previously present as a
+separate gpio driver, which was dropped with the commit
+5ddc896088b0 ("gpio: gpio-adp5588: drop the driver") since the
+functionality was deemed to have been merged with adp5588-keys.
 
-Signed-off-by: tammy tseng <tammy0524@gmail.com>
+This series of patches re-enables this support by allowing the driver to 
+relax the requirement for registering a keymap and enable pure GPIO 
+operation. 
+
+Changelog
+==========
+
+V2: 
+	-  Changed gpio_only from a local variable to a member of struct
+	adp5588_kpad
+	-  Removed condition from adp5588_probe() to skip adp5588_fw_parse() if 
+	gpio-only specified. adp558_fw_parse() now handles and returns
+	0 if gpio-only has been specified.
+	-  Added a check in adp5588_fw_parse() to make sure keypad 
+	properties(keypad,num-columns and keypad,num-rows) were not defined when 
+	gpio-only specified
+
+V3:
+	-  Moved device_property_present() for reading "gpio-only" into 
+	adp558_fw_parse()
+	-  Added print statements in case of error
+
+V4:
+	- Added dt-bindings patch
+
+Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
 ---
- drivers/hid/hid-multitouch.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+V5:
+	- Removed extra property "gpio-only", now pure gpio mode is
+	  detected via the adbsence of keypad specific properties.
+	- Added dependencies for keypad properties to preserve
+	  the original requirements in case a pure gpio mode is not
+	  being used.
+	- Added additional description for why the "interrupts" property
+	  was made optional
+	- Rebased current work based on https://lore.kernel.org/linux-input/ZoLt_qBCQS-tG8Ar@google.com/
+- Link to v4: https://lore.kernel.org/r/20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 56fc78841f24..9f49bc7a157c 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -212,6 +212,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
- #define MT_CLS_GOOGLE				0x0111
- #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
- #define MT_CLS_SMART_TECH			0x0113
-+#define MT_CLS_SIS				0x0457
- 
- #define MT_DEFAULT_MAXCONTACT	10
- #define MT_MAX_MAXCONTACT	250
-@@ -396,6 +397,11 @@ static const struct mt_class mt_classes[] = {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_SEPARATE_APP_REPORT,
- 	},
-+	{ .name = MT_CLS_SIS,
-+		.quirks = MT_QUIRK_NOT_SEEN_MEANS_UP |
-+			MT_QUIRK_ALWAYS_VALID |
-+			MT_QUIRK_CONTACT_CNT_ACCURATE,
-+	},
- 	{ }
- };
- 
-@@ -1787,6 +1793,9 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
- 		mt_fix_const_fields(hdev, HID_DG_CONTACTID);
- 
-+	if (hdev->vendor == USB_VENDOR_ID_SIS_TOUCH)
-+		hdev->quirks |= HID_QUIRK_NOGET;
-+
- 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
- 	if (ret)
- 		return ret;
-@@ -2243,6 +2252,11 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8, USB_VENDOR_ID_GOOGLE,
- 			USB_DEVICE_ID_GOOGLE_WHISKERS) },
- 
-+	/* sis */
-+	{ .driver_data = MT_CLS_SIS,
-+		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_SIS_TOUCH,
-+			HID_ANY_ID) },
-+
- 	/* Generic MT device */
- 	{ HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
- 
+---
+Changes in v9:
+	- Added dt-binding dependency for interrupt-controller. Now if
+	  interrupt-controller is specified, interrupts must be
+	  provided.
+- Link to v8: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v8-0-208cf5d4c2d6@analog.com
+
+Changes in v8:
+	- Fixed indentation in document example (removed extra spaces)
+- Link to v7: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v7-0-e34eb7eba5ab@analog.com
+
+Changes in v7:
+	- Fixed commit subject for transported patch 
+	- Driver now does not setup gpio_irq_chip if 
+	  interrupt has not been provided
+	- Fixed indentation for dtbinding example
+- Link to v6: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v6-0-cb65514d714b@analog.com
+
+Changes in v6:
+	- Restored functionality to register interrupts in GPIO
+	  mode(i.e, these are optional but not exclusive to keypad mode
+	  since even in pure gpio mode, they can be used as inputs via 
+	  gpio-keys)
+	- Updated dt-bindings such that each keypad property depends on
+	  the others. Interrupts, although optional are now required by 
+	  keypad mode but are not limited to it.
+- Link to v5: https://lore.kernel.org/r/20240703-adp5588_gpio_support-v5-0-49fcead0d390@analog.com
+
+---
+Dmitry Torokhov (1):
+      Input: adp5588-keys - use guard notation when acquiring mutexes
+
+Utsav Agarwal (2):
+      Input: adp5588-keys - add support for pure gpio
+      dt-bindings: input: Update dtbinding for adp5588
+
+ .../devicetree/bindings/input/adi,adp5588.yaml     | 51 +++++++++++--
+ drivers/input/keyboard/adp5588-keys.c              | 86 +++++++++++++---------
+ 2 files changed, 95 insertions(+), 42 deletions(-)
+---
+base-commit: 1c52cf5e79d30ac996f34b64284f2c317004d641
+change-id: 20240701-adp5588_gpio_support-65db2bd21a9f
+
+Best regards,
 -- 
-2.43.0
+Utsav Agarwal <utsav.agarwal@analog.com>
+
 
 
