@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-5392-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5393-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B06A949235
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 15:54:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A4894923A
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 15:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4690282D76
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 13:54:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 749DF1C2146B
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 13:54:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FE861D47C8;
-	Tue,  6 Aug 2024 13:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 442391EA0B7;
+	Tue,  6 Aug 2024 13:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="MIaZ8EJB"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="rqDaIoXl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2065.outbound.protection.outlook.com [40.92.102.65])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2054.outbound.protection.outlook.com [40.92.102.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA131C579D;
-	Tue,  6 Aug 2024 13:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714601EA0BD;
+	Tue,  6 Aug 2024 13:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722952335; cv=fail; b=Q1v/UdB21G2DDIDzfR1DpO8BUqGyUhNJd2L/bFR6iYN+4EYtgbGgrk1KQlqgzJ8FG/NZHCCFiUcwRW0Kg6IAg1XU68QXbihaadza3vLk7CDwQnsv8GsWxo16G6R6QqKQqa8id6BmRgso2S/XMLjsJ2BP+/1U6bc3J9K234zVT9c=
+	t=1722952382; cv=fail; b=Oi6fv9ZMgiOewyNztxF26Y22tqyverOGXjQBdt7/QwGzZraFD42BOHF75a0wnl3Qwtubr2XYj41UCZm/Nv3ot2eN2LVhD9Wu+utlT09ExOL6biMhXi+xzXmQkl0MziNxuL1tiLTKDlDAdf+knYD8H3Q+T0hmzI3rzAMgyjwrsws=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722952335; c=relaxed/simple;
-	bh=jCr6GauCRcC/9iluikBIxt/ItT4hMTWA3erT2d8Q39Q=;
+	s=arc-20240116; t=1722952382; c=relaxed/simple;
+	bh=wM5lJQU/XTPlSQMc3tjBBPl998jaf/IPW5DbGJ2A6IA=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XpU1B83KKJoVUT6gFS9xrzAdcyRU2D5VdAygwOS0fjqMtQAwC545QzpexiRkxDeyoDE5AXWfGUufhkIqV6CsKn7UxzgWQ5dJJLlUgU1HjjIDzVm9xgU+5Awj7O7XJW/ZOfGqck8xmrVIKT6hk/zNX++irIbLiJp+hfpGrpIzsWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=MIaZ8EJB; arc=fail smtp.client-ip=40.92.102.65
+	 Content-Type:MIME-Version; b=oKYvoTHJArISoNAo5xkTJithT/zZvonwKp7a+LRM2fNMK6Rs4yqN44QlTGoG2haLJcjMpKDPp5qhVJAjiTmd+VAAVl40G08XIy98YWxzMkGzUTR174p3TYy9S7M4DrkXHnk0YX7HqhStK6ILviWcCYnIlPeCh1Ej8fvdpzYJtDY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=rqDaIoXl; arc=fail smtp.client-ip=40.92.102.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nww0OtRcTbev+JQoG9qsmSyKaklPeQ72le/+FJ5nqlq3PjWe56QhbW+LBgLFaHfTUbYWsbFEvX8V+901JSr+mcXR05BZt4wsbQEaHosMyH6SxtWoqRZ9LkJ8N8WLicpqM0ZSAp8+okilFzbC/7deEemb5tQ1wGPJEfMOiTJRCYsA9Np8MJzm6LhmymGmVXtl7ZZk1qCooLE/7ua7gVeuoHXmRzQVUvDAp8VpKPwNSYC6dJp08yNSiCr6TTFZ0evzzvHuKh3gpcGvmbuXUTQ6ZAOzDtN7oj+RQ2PqRyIepZ1Gzc6oEhED5Uc0A0MvtVP84KE3u1Nq30w7YXzHdmRMvA==
+ b=KC7BJPnHxJk3inQkFZuTHr33Uyt17QWwb5Afhn9eZrbm2TBbl2Ijd2QJ9VV7M9Zmlr5xh9N2b9sP9/opQ3HmmNYDd8IqF2GoxtDr3+y64nGORMDFUDwMjhzuRT5ggWl1E3rm5Pbissif0Bw1AWfue85sZasOVNP2Pm96xM2GxoI26o7FKYRk3qnIZ+My8e4JhNIU5Cc5LtMlUW5r7mdr6MHoF6nP8KpGj4THgpP5xpUZD3s5W07LyatWZEJDziwe2iymjFtsDDIXmTl4VjoFDoo+Z5zRQ8nBQALLSSC0RB0h6s4pDb3+oBdrwNC60Tk76/DK1tIbxCTh7/DtTH+Izg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4bYZgdqTMzmRFsyXfpaWbc4sii2G3oKwpGMkDDNkMys=;
- b=X4RWWXNgsK5hQ61rrNCEW+nC3YUPauLl/W5tzO5gUb7Aw2YM3sM0s6pUpsqHlrKoWOJ9/wFUIiZLmQ2rK68PmlQyxLDw8gL3RvsOYiEmXFkh0wx0xZpyDP/6U2IplVrEItVRVbwaGJINl35NMbVaW4h3u3MxZlDyu16p9e9rxZcIVRKxdHbdbmQIyTnmtzjvDAleUehZOXMiBU9MVT7+Qw+czZx+xU0cdVJkQMWjgm2ATJVPuNXJiNU/5FYd7EuUowM1x02hkhRoDM1mC1F5OTAo9KjJUTBsCC1e1x7DEqFgOQcHEJwvJzmsM3Hh2ue7gBta8ZPYE43+MeX20ZR++A==
+ bh=WFlmNon3cxCsrA/dn65ztpfF+V3XRcHR23mKlXxL7g4=;
+ b=Hm+fTj7azRnRda/yjkYA5/RbC8yramoGYgwObEoKh1WulhOnyv5G+GrFfxqlkJohmdyP+IRgUZZsKYpfbjWfK+rSCApJvO65eaDLhP7w4SAyyRx5zhsj/9DwBzkI9X0qcASG9Vbw7Zw2EgHQSmRwPBnVwjMpxpBzOXsRIcIDByQPVAB9mbDHpCBCal5VjQZl5InHl7cAfyuoyZM++dqd4aU2TMfaaQuWMJ7GY+A8PbfnCCQSspvDRXMrqZ+gIB7aH1RUwyIt9iNaCU629SHKrBtSYH9Ax+ZFjx7RjJ1s3bOnKfmq91vuzoCosZSrZL7GmFW88jCEYHq1TY7SbJR+kA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bYZgdqTMzmRFsyXfpaWbc4sii2G3oKwpGMkDDNkMys=;
- b=MIaZ8EJB1sUKqhEjG+rvtN5FTkeWaIzbs6RjkOI/ccSnhlfW4IU5fpUTxX9sCfx10DNuM/n19JMiWMERPojMMA77L69KfYfddYRoMM1SrO6Auq+sh6nPjFmWQuyYN1IVkShX7tGsWiMmwhQwnGIjvjCoj2q14QNNQZVZcPecrZ8AyjQX1asS1NCbGuZC8nsUTBbyuYw2JdQOUV7Wy89PoNq61D9mdlFaSb/cLP/bpZCgMWaKOE5le8IXhrQ63ScSJmkgEoFcaF7EFzJNEFcFM+km+F73JAikKvrnWb1/jSqA+hoEURtZ3UdAr7o/CiL+/AE71gpgm5k8kZgbxqaUmg==
+ bh=WFlmNon3cxCsrA/dn65ztpfF+V3XRcHR23mKlXxL7g4=;
+ b=rqDaIoXlUSPM0Ip3SFDNBOOVW9uK9cljHNfuKAyGjUYywKwe1H4gaDGMZT7vs00eazkPoIwhuQL7XIxslVXMt7p/rj6X1/cgvVaD0QdTOG78gLZ8zJkC5o94pW7Cyc5t7py7/wJ/Y77N4mpl+mc6df9oh9sZUjR06pfKTd+TAJh6wutwDLkV2KlyjFPd29DzbgDRXPjOoYHsiE6HYxXd50PUPyBmXSn8rZENVrsKGIe05txXTt5s6FujK4Yea9Cyc1hjwGUFJ2HHlbQxQRTWbDRmF4j+qkpflqdvjpEQF7W+LMJs+nJhzI2fib24Ms6ujEbRNQlHObHnixdKODAung==
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN0P287MB1046.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:139::12) with Microsoft
+ MA0P287MB1708.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:fe::10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7828.26; Tue, 6 Aug 2024 13:52:07 +0000
+ 15.20.7828.26; Tue, 6 Aug 2024 13:52:46 +0000
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
- 13:52:07 +0000
+ 13:52:46 +0000
 From: Aditya Garg <gargaditya08@live.com>
 To: Aditya Garg <gargaditya08@live.com>
 CC: "tzimmermann@suse.de" <tzimmermann@suse.de>,
@@ -63,61 +63,60 @@ CC: "tzimmermann@suse.de" <tzimmermann@suse.de>,
 	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
 	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, Orlando
  Chamberlain <orlandoch.dev@gmail.com>
-Subject: [PATCH 6/9] HID: multitouch: allow specifying if a device is direct
- in a class
-Thread-Topic: [PATCH 6/9] HID: multitouch: allow specifying if a device is
- direct in a class
-Thread-Index: AQHa6AfTXzzJ/JF6skiWN3sUlqa+rA==
-Date: Tue, 6 Aug 2024 13:52:07 +0000
-Message-ID: <708F206D-3571-42E2-BA6B-5AD9EEF66073@live.com>
+Subject: [PATCH 7/9] HID: multitouch: add device ID for Apple Touch Bars
+Thread-Topic: [PATCH 7/9] HID: multitouch: add device ID for Apple Touch Bars
+Thread-Index: AQHa6AfrYQfNORX0kUmVQmeA7FLxkA==
+Date: Tue, 6 Aug 2024 13:52:46 +0000
+Message-ID: <4BB7CA6D-1554-4784-9F7E-BFDBCD9D8B5A@live.com>
 References: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
  <C0F2E161-BBAD-4AF7-B39F-015A5A609CD4@live.com>
  <C687A5C0-9922-4CDB-85C1-096CE9D82847@live.com>
  <9223E804-286F-4692-9726-2306361F1909@live.com>
  <C2CAAA64-500A-4D76-905B-DC3E2A884941@live.com>
  <BDCA0457-7A04-4705-892F-CC8DF493DBC7@live.com>
-In-Reply-To: <BDCA0457-7A04-4705-892F-CC8DF493DBC7@live.com>
+ <708F206D-3571-42E2-BA6B-5AD9EEF66073@live.com>
+In-Reply-To: <708F206D-3571-42E2-BA6B-5AD9EEF66073@live.com>
 Accept-Language: en-IN, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
 x-tmn:
- [1rXyefyAd4du6axD4T4TI6TaWAibKUOqrTVFNx349dzHl1wc/h/ohhBxEwOZTVwfZ7MYF4DUgM4=]
+ [YCaoMJIq9VaYdbccaFPuAV4fufHF45NGgAyQLik22ZYRlcAAXGT1ArLGcdN7mjWp8MniL5IZ6yw=]
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN0P287MB1046:EE_
-x-ms-office365-filtering-correlation-id: 0e9829c1-55ad-455b-bb9b-08dcb61ef61b
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|MA0P287MB1708:EE_
+x-ms-office365-filtering-correlation-id: f4c3c476-067f-411f-4476-08dcb61f0da2
 x-microsoft-antispam:
- BCL:0;ARA:14566002|19110799003|461199028|8060799006|102099032|3412199025|440099028|1710799026;
+ BCL:0;ARA:14566002|8060799006|461199028|19110799003|3412199025|440099028|102099032|1710799026;
 x-microsoft-antispam-message-info:
- afzkGsFwFavMgQjrTREFy/7q0uj/qpJvL2Q5dFvlE9DtLgnIl5c3BLm/oF7i/8KRwHe+Zlr0b4z46hDmxDwPMYkca8y6x2Er0KH/KPzyYQdOLTCiGV5iyMIkuvuV3x55ELqyHV+7uMvv/4eMqOTK9MLk6CoexKVKhA5p0OraQWObv9vnimK6j3gkoeHPz4twjdEnSOaro0rpkd00GuMLKnOgKmOe/271WE0MAukjF4vJ9V8OfpV3qQ0hlOAP5r2qa7eaccFOGc0kQZa6euamGmYyNFgYBa7uBjMHeAHFjoqkrgZNSbapZiDDh9of+umnWJFEFFSoUqZWg3T9hW6LAFKJ0NAfpnmQqm2l2pTuZMYxuRanqdXNNRyLj/UzpiA4ANsJC9CyaNgXaVah4zLXmS96xCbkyx2mZTW/eBkwH0wOrmlzU9pona+m245e5p6w//RrpP49aLTPyeleO5o2VI4F+CNn0Rcb4eUvaYGJ52qSUwB+R/ZhwmmlbDiFIbnR5V4LUOqbagScqmcHwvGypfkPbuPcwtnKZIuljKG16aRW5E/y94Zl85FD0zFt0R2rPtyYbyzBbXu/mfcyEvcOuTby8Ib8YPM8rVWEW+7B85W3rKLXaBDYlHtcwW9yRlQXTqfvrSGG8jNob0B9BK65viohYH5RCW5wl9PcqugphmG/DlSS27kmHHg52ISlYjkJ
+ 5MX1fzMAZ6gRNqtwKjoIbwcKRzddUqXBbW0lrlzdb2q0a1SuUxWyj4CVVVpB/x6ym3Z2jpvMGPb3/jvOJQHeX1IrnlCxKVCnjmbNm66+uy8dyskBV+0jeZW0U4zaYfaii3/sK6g36smW6zLr455z5WYE2U12UmVwzamlJ8kv9HEWjk7P11SoWho9R/DIbgl5ZdiNWCU4nUJAM1R4clPnZ5BX0rDqtQHvaVGZOWtGMT3Tx4MkUsHF90DJiSzahyQ0LncKsKgZe5PzgBMwWt/qfENErSqMEDmLOfMiDIpeWXOIWOa2Ul5LbQSv2uesyrve0A4s7EpqllUxUqhLaHqvY13ia4eMhjDax+OHHAZcOiG/H+NqA+xehAkcn71vnOONXOebfIxClLOaq+rTj6yRRxoEI8ibeO07uK3LRNAgR6f4OQZYmcXfziefWe7teVF7mAcGKd1V52IfDUnjA1ICUTPhW/KZ864Wxr5EW9Lvlz5W2UDSuzzeTfdq1H67DKZl0ntsoF5doPbSaeLZHdXLo1OtyIkHmqG3DMaHppzoo8Bp9jZPSLuaJNZS8fzX7Kg3YL8WVM3vxVh02jCW/OQdSGFMJ5WqDT1qYq5OLrQPa+zGPSkrC5i+czRbANBtvfMY1SYF10rwbPSsxBSyjJYazFFuoToLlJvBRsqzcbFxqn1doooYTzdSIKCBeOWZVmUs
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?96Q83/xG935NrOS/indTqt9QYGd2BFOJotyl584av3ZRz5NycgzLJ/3vFPtu?=
- =?us-ascii?Q?vI+xMSWyxmkuHmMCNG0xgk+Njnpm6D/CRw+sz3+I+5TIH9yDtlfq6PZ8Ic0T?=
- =?us-ascii?Q?fozte3uQUUiYR+dObhrJ6J0JdjAqw0MyNxaBt+f83U7YMpaWD3xAAYjyYHid?=
- =?us-ascii?Q?ZgBDJauFcPy+4qG/sXD/poF4Bmr1RbmN1qJegwCZeB09JKLavdg/emrCh0vf?=
- =?us-ascii?Q?qXX8nWZHN3joJSsSIOwyntQxi1z8P5Y8cyLehaW6ua+JCrBfXQSRDoXEsb65?=
- =?us-ascii?Q?PPQe5522lRBj9H6ThcrdwBqBacyIuC6/ILFCyR/5nRIs/HrZJPHEbTmsSSP+?=
- =?us-ascii?Q?WHS0Ic0IZTHlcqr4P3mfGC1FUsEy0f1Ym8QjquwCWGj9+RL8I2fkNfE7Mm3P?=
- =?us-ascii?Q?+irjFZr0BE1PBIhkuBc5dMBYt2VywbsiGY23v4obS92pvtXtE1Ug/RqcUrup?=
- =?us-ascii?Q?WIsiCQWy0E0gTY/cRErsqJtA9ggDZE2LzOvHMfM1cv8TX7zqxRNsrUNfi8qa?=
- =?us-ascii?Q?ItDqMSymGM7DfxSS2gtaHcX+kjYCSfNQi9eZhklbrJ2doYNSVWdnzY/XCz2Y?=
- =?us-ascii?Q?9rCuXxuBbVvksq7+m5kToMv7S9D3upU0GY08HwH5Hr7zOzyTc0Q0vU4UN6Kc?=
- =?us-ascii?Q?MiCW42qmD8f68QPSUWXLEsx/QkslZFVCPnMExqx0SPmOdwpRb9KxxDjp+bwd?=
- =?us-ascii?Q?jedgfZL9tGyRYLBtGV6no2mN9noKrr6CdwjBAkSwICNMnXtbmY82qVKtGOTC?=
- =?us-ascii?Q?UlP4+Evc4Zwcz1Pyl+T+2lbVDDkbmZ356Fw+N4qT0ceB72uQxtDaBjjD5Nf6?=
- =?us-ascii?Q?aSRet7YdHO+2OkiJVByD2+b05zcFlsLH6glk+YgKjvQbLBxZ9JVrZQmnJoQG?=
- =?us-ascii?Q?9krqwSCq+YT/N3WqypNSQkRmNDLKywjj1ZkXVmKBmoqie+gfWiJ0V9XMND6i?=
- =?us-ascii?Q?8lJIV3vc11MJhTci0CLOcYJx3XYyInWqrHprmpes7MA2ZGqXBqjQlqG01fkf?=
- =?us-ascii?Q?ZyvmvPiEgEoprqV3Pg4LATOyTe2v9pQ2xRuTE2kAGlYQmUQcZ7XF3a9meplC?=
- =?us-ascii?Q?+y2qrt3nyiCnCRGAJcCZ62bVqlydE7Xd6w/wkrgGzxUx5jcjoWoJOPHM9A39?=
- =?us-ascii?Q?s7eUcRCxc+ohdwPd3WG4bzjoRNLNMBY5xp2DOR4HvJeCLN0QAFUBNZJQ1rdW?=
- =?us-ascii?Q?T7tXiJzUYVerixf8vhCfMtXQZsGUDgmnTSST7P524osd8vxuZJ0BEPGIIVah?=
- =?us-ascii?Q?wdswcvBkAOWl44LJPYDBu/yFF1igSMM2BMDhmTwMsdUaSDkwDAlEf95lVRp6?=
- =?us-ascii?Q?O1JCaD5ZY3ZriOUxoZJiz/1C?=
+ =?us-ascii?Q?yzzQm2EqQ1A5m5va5l5FhF8MpeajYsixtuBU42sPASbIqmLk97VjyjiE/WLJ?=
+ =?us-ascii?Q?zpPt70JhoDJwKx/1tbf6FM6LAZLJJbgnjpxI1E+H6xikq7VEyIeUQ1w6tPKJ?=
+ =?us-ascii?Q?hnN48SpWtgDKp4e5p45BKFozuSQZrEr0Vxq0pOhOJ6w9gZSG5lmjGIQAAIBc?=
+ =?us-ascii?Q?GqA134q0+AZeBwVAhpKBk4fs0XBXypQ5vwWEUDOcat4PFDIaw93CkTbn/Fqy?=
+ =?us-ascii?Q?WNWbpztQxdy2SV3y3fm0ehAxnjSXYTk0fCO2ubsQQ5x4/UlQ3S9txi/wrFqk?=
+ =?us-ascii?Q?efNSLrrvi37J+zofIry3EWjSVg5EZbJRqgvX/vRoSegMB2lg9vv7P3b7smE1?=
+ =?us-ascii?Q?sUHCGxP8Fa6QzHoYokH1lGswx8tKb0Vni/Ek4U5waq0IUGnUzsrw47HdKbvo?=
+ =?us-ascii?Q?9DV2ujglAU503YsFspvi/lyg3OwIK16OkJeUl1DGdAPxxqO3UbEWJ1Y4ptLL?=
+ =?us-ascii?Q?VbyiJDbgPYCDFITlIboCeE45V1e3D0Fu6nDHsnzyJ6ObULbJ/sCzdOEem5LH?=
+ =?us-ascii?Q?ZUwGH/4oKs5fZ23T6TNzu6BJXzvURCc0bX24vcRoUs80EjxUbqhe8yHwZVJh?=
+ =?us-ascii?Q?JJzSiKqiMwAfTU5k51AglogDGf0gjvLdtv4h+Gj0uDJzfc1/g1VHGNp1kjdg?=
+ =?us-ascii?Q?ciBas5O8KbjvgC1peZGauXDfGlWYpMAJssFYIRgNKvuvYM2BcFYqgjwlYI5z?=
+ =?us-ascii?Q?juACGTuUIlLtdC9iiCf32+SjxLOga42+I17tLLyBF1IAKj6I8O3z4J3AGQTW?=
+ =?us-ascii?Q?bvuhAeZjdFssRmoHTCRg0UWC2wlrQzG1g6dA+cBKElPF0LWTSy1dHJCB3oph?=
+ =?us-ascii?Q?h7xJezbdfhKTNxvKX+zlGtuY7psIp4hPkEPTL0kguY752GKMl1h3cdKuZuuJ?=
+ =?us-ascii?Q?h3+C7J/mWTHfby2wbgI4umiXAWwZ1Xkz+mgyO/4Y5V4Npx7OPKY8R79b6YwL?=
+ =?us-ascii?Q?D/IQgs68nlgW7Xeq87W6s68z7RapHE1eC+Rg/gpIg2zj7C1sc3gcigG40xhc?=
+ =?us-ascii?Q?RNwYKvZ/6cQyblDtUMH2EjV7G618p/vwN4pnRHOnbxGew8O8MDntCjvh+3sG?=
+ =?us-ascii?Q?ZTe+0LWCTaFzkt0MLazw8P8foS8m50H1uPr3wHUNNJu2WDkJJ/FI6a6/n1xH?=
+ =?us-ascii?Q?wb8w0b3ty7gHExOyK+2qaGSofwJZ0/YUZe7I2dJj0ghdn5hjKUM0T4obOLup?=
+ =?us-ascii?Q?40sUfknA3RXC/XLYx7iP/4333q3Urq5V82DpD3/vP/HzCfDJ/ZxKMq3NFlLg?=
+ =?us-ascii?Q?gX89CnpLid6IjJljV+wRNkm8F+jcalrBHz6bz2HDL/4EfQ4T9CsOAMMAeFcx?=
+ =?us-ascii?Q?icmkxZbnzpx1Wecax+ulakqt?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9DFCC3DA2F08DD44B5BE816CAB7EDC9D@INDP287.PROD.OUTLOOK.COM>
+Content-ID: <95EE09D02FDC9742B58E4500BDEC44A5@INDP287.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -129,67 +128,106 @@ X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e9829c1-55ad-455b-bb9b-08dcb61ef61b
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4c3c476-067f-411f-4476-08dcb61f0da2
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 13:52:07.3500
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 13:52:46.8230
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB1046
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB1708
 
 From: Kerem Karabay <kekrby@gmail.com>
 
-Currently the driver determines the device type based on the
-application, but this value is not reliable on Apple Touch Bars, where
-the application is HID_DG_TOUCHPAD even though the devices are direct,
-so allow setting it in classes.
+Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
+appreciated.
 
 Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- drivers/hid/hid-multitouch.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/hid/Kconfig          |  1 +
+ drivers/hid/hid-multitouch.c | 26 ++++++++++++++++++++++----
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 72b665eda..35ef5d4ef 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -744,6 +744,7 @@ config HID_MULTITOUCH
+ 	  Say Y here if you have one of the following devices:
+ 	  - 3M PCT touch screens
+ 	  - ActionStar dual touch panels
++	  - Touch Bars on x86 MacBook Pros
+ 	  - Atmel panels
+ 	  - Cando dual touch panels
+ 	  - Chunghwa panels
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 60b675cd1..2948fbcbc 100644
+index 2948fbcbc..0fed95536 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -146,6 +146,7 @@ struct mt_class {
- 	__s32 sn_height;	/* Signal/noise ratio for height events */
- 	__s32 sn_pressure;	/* Signal/noise ratio for pressure events */
- 	__u8 maxcontacts;
-+	bool is_direct;	/* true for touchscreens */
- 	bool is_indirect;	/* true for touchpads */
- 	bool export_all_inputs;	/* do not ignore mouse, keyboards, etc... */
+@@ -214,6 +214,7 @@ static void mt_post_parse(struct mt_device *td, struct =
+mt_application *app);
+ #define MT_CLS_GOOGLE				0x0111
+ #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
+ #define MT_CLS_SMART_TECH			0x0113
++#define MT_CLS_APPLE_TOUCHBAR			0x0114
+=20
+ #define MT_DEFAULT_MAXCONTACT	10
+ #define MT_MAX_MAXCONTACT	250
+@@ -398,6 +399,13 @@ static const struct mt_class mt_classes[] =3D {
+ 			MT_QUIRK_CONTACT_CNT_ACCURATE |
+ 			MT_QUIRK_SEPARATE_APP_REPORT,
+ 	},
++	{ .name =3D MT_CLS_APPLE_TOUCHBAR,
++		.quirks =3D MT_QUIRK_HOVERING |
++			MT_QUIRK_TOUCH_IS_TIPSTATE |
++			MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE,
++		.is_direct =3D true,
++		.maxcontacts =3D 11,
++	},
+ 	{ }
  };
-@@ -563,13 +564,13 @@ static struct mt_application *mt_allocate_application=
-(struct mt_device *td,
- 	mt_application->application =3D application;
- 	INIT_LIST_HEAD(&mt_application->mt_usages);
 =20
--	if (application =3D=3D HID_DG_TOUCHSCREEN)
-+	if (application =3D=3D HID_DG_TOUCHSCREEN && !td->mtclass.is_indirect)
- 		mt_application->mt_flags |=3D INPUT_MT_DIRECT;
-=20
- 	/*
- 	 * Model touchscreens providing buttons as touchpads.
- 	 */
--	if (application =3D=3D HID_DG_TOUCHPAD) {
-+	if (application =3D=3D HID_DG_TOUCHPAD && !td->mtclass.is_direct) {
- 		mt_application->mt_flags |=3D INPUT_MT_POINTER;
- 		td->inputmode_value =3D MT_INPUTMODE_TOUCHPAD;
+@@ -1747,6 +1755,15 @@ static int mt_probe(struct hid_device *hdev, const s=
+truct hid_device_id *id)
+ 		}
  	}
-@@ -1317,6 +1318,9 @@ static int mt_touch_input_configured(struct hid_devic=
-e *hdev,
- 	if (td->serial_maybe)
- 		mt_post_parse_default_settings(td, app);
 =20
-+	if (cls->is_direct)
-+		app->mt_flags |=3D INPUT_MT_DIRECT;
++	ret =3D hid_parse(hdev);
++	if (ret !=3D 0)
++		return ret;
 +
- 	if (cls->is_indirect)
- 		app->mt_flags |=3D INPUT_MT_POINTER;
++	if (mtclass->name =3D=3D MT_CLS_APPLE_TOUCHBAR &&
++	    !hid_find_field(hdev, HID_INPUT_REPORT,
++			    HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
++		return -ENODEV;
++
+ 	td =3D devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
+ 	if (!td) {
+ 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
+@@ -1794,10 +1811,6 @@ static int mt_probe(struct hid_device *hdev, const s=
+truct hid_device_id *id)
 =20
+ 	timer_setup(&td->release_timer, mt_expired_timeout, 0);
+=20
+-	ret =3D hid_parse(hdev);
+-	if (ret !=3D 0)
+-		return ret;
+-
+ 	if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
+ 		mt_fix_const_fields(hdev, HID_DG_CONTACTID);
+=20
+@@ -2249,6 +2262,11 @@ static const struct hid_device_id mt_devices[] =3D {
+ 		MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
+ 			USB_DEVICE_ID_XIROKU_CSR2) },
+=20
++	/* Apple Touch Bars */
++	{ .driver_data =3D MT_CLS_APPLE_TOUCHBAR,
++		HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
++			       USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
++
+ 	/* Google MT devices */
+ 	{ .driver_data =3D MT_CLS_GOOGLE,
+ 		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
 --=20
 2.43.0
 
