@@ -1,48 +1,48 @@
-Return-Path: <linux-input+bounces-5382-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5383-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B64C948CF6
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 12:41:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CC9948CFA
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 12:41:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6E6C28799B
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 10:41:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3985BB255F6
+	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 10:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C0231BE86A;
-	Tue,  6 Aug 2024 10:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E71D1BE86C;
+	Tue,  6 Aug 2024 10:41:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUN+AYZu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VP/sKAO9"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6BA15B54C;
-	Tue,  6 Aug 2024 10:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED5D15B54C;
+	Tue,  6 Aug 2024 10:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722940872; cv=none; b=mFgyd6UVb0jDrVKhi7/dXaOiYpYOBKBLhgn8lRpIUXMLygp4hL1AJSKMR+q+MlkEYAXey1Ntg4uiwEqydTuq/gHRLE4t7ma9MZzP2n6XNpG6qPEUZr3oXTQZjq+2sxQcwreYoxZx/tH5IdyDxm5PEZCIldh6Iaarzp7kRzAogj0=
+	t=1722940907; cv=none; b=n5u5aBdcydZL4I8Qf+Fap/kozxehn9/gl7DfTjzIslFwVyhTCuzho8PfAHDDL7nUkT8PQlpa3axyohduepOyL3pp7y9qi/nPPwJJ0jn/stMzbCFjgweMkIEsdn/LnIAhZUjrPSXEw2BkJlClp2inEPJ5kMUCGmkUsVSGWyT7Jsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722940872; c=relaxed/simple;
-	bh=drHSdKz/YFqHnONN0l+WYeZVM3N4PKrFV86XOgZ/LYE=;
+	s=arc-20240116; t=1722940907; c=relaxed/simple;
+	bh=w/o/43GVgMIJBJnANDvsMR2gUekzP2lLGblNSraTfnA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sRWwYVBTfd3m7lw5LMsnmE5VxWqYadHJ37a5lOU/iEkxE4hdwmdcBHaQs6rLlKgk+D8rb8J2nxfOLVHzUpoxumA9Er+D0Xx+/Tgb/SoSlv7EY/1fkm2QGpBVUICAQkUFQgl3+2yMsnvXxPwVsXAa/lQ/0ehVlUCK0j8cOFSRgTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUN+AYZu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CBB5C32786;
-	Tue,  6 Aug 2024 10:41:06 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=A6mwfnQEOOw8uClQpNeJuyEf0BPIhOR2+rWBykU8xR+Vy2jfZKBYRWeCFaD/0t5PIf0xayNKufPkIK3k7Q2durLMGmnTDYQ3cZUHy+c0tzszbKfXSt+cwDZn8skVIYQHfEQugIdTGI3c5+d4kb3y7Sn7g/vPtDPnZcX5TehN+tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VP/sKAO9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA7CC32786;
+	Tue,  6 Aug 2024 10:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722940871;
-	bh=drHSdKz/YFqHnONN0l+WYeZVM3N4PKrFV86XOgZ/LYE=;
+	s=k20201202; t=1722940906;
+	bh=w/o/43GVgMIJBJnANDvsMR2gUekzP2lLGblNSraTfnA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZUN+AYZu2Xrv/o5UdGuNqgNqAa6p0Wy35kMRwUxtnRH8J/w1WhGi8NE5PvVlZlcDq
-	 eCut5d6ogZ2letMddCFfoeE0NML6akTy27xoX2yWzVtGds+n8YfFPIFOJVZdUqKxPt
-	 9HaH0ySU0yciLMEw+sLBlwyog9H0Pp8TfVRAHYSGI11iCv24L2HP2FRHFsxPX/gYJp
-	 vh36nRBXag9F/lWGjXEFBDtbUHKdvHgIKEsjuJpKu1qJgFLMLsAQZrxROQv/pVjUO0
-	 2HKClWRNi/TUfqBxVCoeu+ZY6OqRF6/LZRAHFkU+4HbgJihBdrQC1oCZBUoRBSpPFD
-	 +kXlSXVoGjzeQ==
-Message-ID: <ce0ff6f1-ac08-40c7-be58-02f609f648b0@kernel.org>
-Date: Tue, 6 Aug 2024 12:41:03 +0200
+	b=VP/sKAO9WUjFnKnBY7nudP6EHdMseFpHQwbizktPDVfxANcUeEshotjMa6GGR8eV5
+	 AJ8zrUV0MCnWJe6TnfEWYvTVxBz6+J1QbOQl+Fo+9EfwepFqNaLUiw3/v6cpoZgxK5
+	 npKCuurCCwxHOsjt5W7rMVtzuYeZJEmNuUJ6WXm/znRPaFgBt+AXMpT0VsXYnQqf5L
+	 zn9mT2ALyjTzP2H2KR9fWVyleCagmRbLeknKrWtVYeEC9T76oOmcQJoiKIRWjzXgVM
+	 wj4JWEDC1cswZ7ivp2nuApgu3GP4ZdjkW6muZvDi8mNhxyNC+q9zQqq3k6x2eqqB7C
+	 T1GQtaV/kMUlg==
+Message-ID: <25163642-8f36-4bb1-8bf4-a3e34b283795@kernel.org>
+Date: Tue, 6 Aug 2024 12:41:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/3] dt-bindings: input: Update dtbinding for adp5588
+Subject: Re: [PATCH v9 0/3] adp5588-keys: Support for dedicated gpio operation
 To: "Agarwal, Utsav" <Utsav.Agarwal@analog.com>,
  "Hennerich, Michael" <Michael.Hennerich@analog.com>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -63,9 +63,8 @@ Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
  "Bimpikas, Vasileios" <Vasileios.Bimpikas@analog.com>,
  "Gaskell, Oliver" <Oliver.Gaskell@analog.com>
 References: <20240806-adp5588_gpio_support-v9-0-4d6118b6d653@analog.com>
- <20240806-adp5588_gpio_support-v9-3-4d6118b6d653@analog.com>
- <c230faec-d359-461e-a717-6708d2710e42@kernel.org>
- <SJ0PR03MB6343E06A1009171EB4E9AD9F9BBF2@SJ0PR03MB6343.namprd03.prod.outlook.com>
+ <bd4f6aca-ca3a-465e-8b46-e9c5e11ebad7@kernel.org>
+ <SJ0PR03MB6343FDF6A250691B387088A19BBF2@SJ0PR03MB6343.namprd03.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,137 +110,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <SJ0PR03MB6343E06A1009171EB4E9AD9F9BBF2@SJ0PR03MB6343.namprd03.prod.outlook.com>
+In-Reply-To: <SJ0PR03MB6343FDF6A250691B387088A19BBF2@SJ0PR03MB6343.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/08/2024 12:05, Agarwal, Utsav wrote:
+On 06/08/2024 12:16, Agarwal, Utsav wrote:
 >>
->> A nit, subject: drop second/last, redundant "dtbinding". The
->> "dt-bindings" prefix is already stating that these are bindings.
->> See also:
->> https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.7-
->> rc8/source/Documentation/devicetree/bindings/submitting-
->> patches.rst*L18__;Iw!!A3Ni8CS0y2Y!_px-
->> SkCaAOezCa_s0eiP5BTliLmvyA110d4MXahf8mHkAXr0vJtpM0EXu7EsoG2jWg
->> 5qW9FgaYf2gCZf$
 >>
->> Subject: everything is an update. Be descriptive and specific.
+>>> 	- Added dt-binding dependency for interrupt-controller. Now if
+>>> 	  interrupt-controller is specified, interrupts must be
+>>> 	  provided.
 >>
->>> Updating dt bindings for adp5588. Since the device can now function in a
->>> purely gpio mode, the following keypad specific properties are now made
->>
->> Hardware changed? How?
+>> So that's the reason of skipping tag?
 > 
-> The hardware was not changed, rather support was added for an already
-> present functionality in regard to a new use case where the chip was being 
-> used purely for gpio. I will update the commit description to be more elaborate.
+> Apologies if I don’t understand this, but I have pointed to the link 
+> for the previous version as well as labelled that this change is 
+> under v9. I understand the order is wrong, but all versions seem to
+> be present in the changelog. Could you guide me on what should
+> to be added?
 
-Bindings should reflect hardware, not current Linux support. If the
-binding is incomplete, explain it in the commit msg. Commit msg claims
-"device can now", so it is not about the driver. This is just confusing.
-
-
-> 
->>> optional:
->>> 	- interrupts
->>> 	- keypad,num-rows
->>> 	- keypad,num-columns
->>> 	- linux,keymap
->>>
->>> However the above properties are required to be specified when
->>> configuring the device as a keypad, dependencies have been added
->>> such that specifying either one would require the remaining as well.
->>>
->>> Note that interrupts are optional, but required when the device has
->>> either been configured in keypad mode or as an interrupt controller.
->>>
->>> Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
->>> ---
->>>  .../devicetree/bindings/input/adi,adp5588.yaml     | 51
->> +++++++++++++++++++---
->>>  1 file changed, 45 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
->> b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
->>> index 26ea66834ae2..827d72ece54b 100644
->>> --- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
->>> +++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
->>> @@ -49,7 +49,12 @@ properties:
->>>    interrupt-controller:
->>>      description:
->>>        This property applies if either keypad,num-rows lower than 8 or
->>> -      keypad,num-columns lower than 10.
->>> +      keypad,num-columns lower than 10. This property is optional if
->>> +      keypad,num-rows or keypad,num-columns are not specified since the
->>> +      device then acts as gpio only, during which interrupts may or may
->>> +      not be utilized. If specified however, interrupts must be also be
->>> +      provided as all interrupt communication is h
->>
->> Don't repeat constraints in free form text.
->>
-> Thank you for pointing the same out, I will remove it.
->>
->> andled via a single
->>> +      interrupt line.
->>>
->>>    '#interrupt-cells':
->>>      const: 2
->>> @@ -65,13 +70,30 @@ properties:
->>>      minItems: 1
->>>      maxItems: 2
->>>
->>> +
->>> +dependencies:
->>> +  keypad,num-rows:
->>> +    - linux,keymap
->>> +    - keypad,num-columns
->>> +  keypad,num-columns:
->>> +    - linux,keymap
->>> +    - keypad,num-rows
->>> +  linux,keymap:
->>> +    - keypad,num-rows
->>> +    - keypad,num-columns
->>> +  interrupt-controller:
->>> +    - interrupts
->>
->> How is this related to this patchset? Why? I don't understand what are
->> you trying to achieve here. Hardware changed? Are you fixing something?
->> How many issues are you fixing in one (!!!) commit?
-> 
-> Apologies for the confusion, but the issue I'm wanting to address is the lack of
-> support for a pure gpio mode. Since in this case, interrupts are not used, they
-
-Initial bindings made a mistake of being strictly tied to what driver
-supports. Aren't you repeating the mistake?
-
-The commit mentions "gpio mode" but it is not explained - neither in
-commit msg nor in the code. What is the "gpio mode" of the device?
-
-> are made optional, but in doing so, I also need to be careful of its requirements
-> as a keypad, which it was originally structured as. As a result, there is an
-> interdependency that was established between the keypad properties
-> (prior to this as you can see, they were all required). This was followed 
-> by a requirement to make the interrupts required if the device 
-> was intended to be an interrupt controller in the last review
-> (https://lore.kernel.org/all/Zq17uABHdNENnwVq@google.com/)
-
-This makes sense, I assume device cannot be an interrupt controller if
-it is unable to pass the interrupt to the SoC.
-
-BTW, do not add multiple blank lines before dependencies: block.
-
-> 
->>
->>> +
->>> +if:
->>> +  required:
->>> +    - linux,keymap
->>> +then:
->>> +  required:
->>> +    - interrupts
-
-This can be part of earlier dependencies.
+You received a tag (or even tags). Where is it?
 
 Best regards,
 Krzysztof
