@@ -1,276 +1,300 @@
-Return-Path: <linux-input+bounces-5401-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5402-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A25949B3C
-	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 00:21:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3B0949E2C
+	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 05:12:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF46F2864D3
-	for <lists+linux-input@lfdr.de>; Tue,  6 Aug 2024 22:21:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C59A11C2116D
+	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 03:12:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A04616DC0B;
-	Tue,  6 Aug 2024 22:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA56F1A288;
+	Wed,  7 Aug 2024 03:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="rKQgDKNi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lk4ipcuH"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="pTSsIbSm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F0kpIHHm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEBE15B0EE;
-	Tue,  6 Aug 2024 22:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E84DB667
+	for <linux-input@vger.kernel.org>; Wed,  7 Aug 2024 03:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722982866; cv=none; b=nh0062rgA06SHm2jbOnxKLZiV7Nqi95zkCbFWT01oDtXR9NRJ8LAnKH6ywKdJQRL95/Rq4Y1tRkLOkUD7Yf2Mj1uYidWtxaZ3UQCFkdrbjBDI6gE1Vfapr5kgzfO0BHAuGa2Co0H/VrWG7vB0RckzHa9xDCoK1qsKgfHXLUSaDY=
+	t=1723000375; cv=none; b=IgsmuUk1yhWb5O+vsiBluTEFxEJ82XSyznNK2sO9WFVSG0U8xR4LtafJGurqgtM0edINcOwzBoaQQYh0xXrmZCi/PO6T3qdrbkAdsNnswdYkHNGz2gHz9oLuYwe5ttA9nwAw0IjAU4urlHp7b6EnRzqR99QdfNreR2qXEtB404E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722982866; c=relaxed/simple;
-	bh=OcfpEBA/YoUMFzxCcxJs8XsIh86XtElvSDFM9o5ZArs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=DjdOHduT/a0Msg0fanfy15Y5K6zV+73hjlbmBRw+O/cguCoEBoQWLhsFtdtBe96yor9TEvnbpHZpEZ7JNbv90xoB0nL3H4umHbuPmrGFNaKE1sd3TcSfZm7DRzIqxd45V5teMHAuR9rDQoIyx7cM3sc2/flelpvyzL/HOdDqX6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=rKQgDKNi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lk4ipcuH; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id D888A114B060;
-	Tue,  6 Aug 2024 18:20:59 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Tue, 06 Aug 2024 18:20:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	s=arc-20240116; t=1723000375; c=relaxed/simple;
+	bh=0jmJadN2RpmOotY8odbfAJEHh7nZyGum1u6s91Odxzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lZ3AEnBoXVwRB6EcpqD1tBUI8rCfEAcHCIGoOiq/ZJLff+/z+jScbV2jkPK5FY1uuUwGgEGJrImxhVVj6NAFdH3PrWk+PX0JmWk9lM800VWFMjEgZqRP0EtjHsULZ1XV6c3yJ2r86keW0VObBw6KhSeUw3o4+fsjRc5NIs+yMbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=pTSsIbSm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F0kpIHHm; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 5A2931151A3F;
+	Tue,  6 Aug 2024 23:12:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 06 Aug 2024 23:12:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1722982859;
-	 x=1723069259; bh=ckVWeKkiO13bW4HzDYwVSL+LMwbmo1HdCa4CANBBsJY=; b=
-	rKQgDKNiD1DSB7epKE1tPMn9aShKLlbVnA4CQp9FTyvHB5Ali+tuvzael3Z9sRqV
-	xVnkonNNBwMmsyDv6fKaMMMCMvXm4XrX15+aufMvcIj1jJbeUs+Wu/ad35lraSNp
-	Q1fXrVFPgBPzSojfdpwyOTSGVl9CnqbKIYu0fxhPk0/03uje1/N19ZHQVj2ljBkT
-	tLYYgYK9DxfOMIfhKFU4nCZE8551p/Y6O4rEaoRiUz0prfzn1FnHbqP6l8jPGFEP
-	9FwZ26mvNYLl9hVdqpquyie9jN54SC+/WOrvgjmTPvSyBwZdy6be3vXUIuJWmJYD
-	VdsWcLRX3eV9JHvnkDc+gw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1723000372;
+	 x=1723086772; bh=QL8qfaIOVl/lFwNsqb096WbdYHYVYUGnKDfvqIEcUDk=; b=
+	pTSsIbSmdfhI8Koi+YpgsXtAJwWhumMTbBn/hZsoo410ksP9dheva+gNA6q8jKlU
+	kAYphJhlTguWQrDZn1JzUrHuoPk5kgGJmZ/hSYMvCug6TyrxAjvTDreBIh9wfEEg
+	bIxIZ+A3bXGOnfgJCdU5SH0tCiETnb6kvPlS3lj0DXs6KKmZD5KO3So3hH3bdC6C
+	JJa1bGsOCyGqY9iCnNjqH43OEW12WJB/PXZFvGPABBGjo4aYWvxzhFUZqIlB0RUI
+	9xQanTIh4VLalx3uUS+dqpgNYI6F0BFIO5JRrXrtJe72D5OB4/E6UvmhStINKAId
+	LTlTTzmdEvcSDM4HNeA3xQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1722982859; x=
-	1723069259; bh=ckVWeKkiO13bW4HzDYwVSL+LMwbmo1HdCa4CANBBsJY=; b=l
-	k4ipcuHnBu831vu/emjE2Fi3vOpLNcE1mISjLeSLSbjCWWVx7eNggSV9egy2rN75
-	fk/wCG+T09m/+q6//fjNo9oPasUw8DYduJfb9oFMC8UEVMGjFYqlXuYdJUnHqAIg
-	w6JJJyXZXE1Aw54h2aMU46C51E8o3OB7csqa4IXyWtUNvOaprWqDNV/jnEGEfrPs
-	wnRaPY20M4SUI3gVXo1UfFeMd005zs45bBM16GDDqhyBN945xTz3GzJ1PJYX/aLO
-	njbfxsJGsW+8aiGiocumuJQg2i+cDwHGNHvQ6JGhsVFqCb7qlufkpaxL01FAvuih
-	7pSvk01d9LsWNkgAI0Niw==
-X-ME-Sender: <xms:y6GyZlvKVdzEkjZDd5BQMd2nb8SWxztDtGnMQq3_iIq5htPazed43g>
-    <xme:y6GyZucGL6JL_-ELSqrFAlzi93nSmdo8C7I9JdISRzyZm68oyQJdTkNJRdSaakulT
-    fopx1GaFAi67wRn4ps>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeelgdduudcutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1723000372; x=
+	1723086772; bh=QL8qfaIOVl/lFwNsqb096WbdYHYVYUGnKDfvqIEcUDk=; b=F
+	0kpIHHmz+nhsARRkKfeJQRV+Dc/KCJFTmbyrwkQpnCcDQrg4sPhVpO4K4Nw7Bfb8
+	TXAjEJgraOWmmkYA6vUnKR8n24Ivh5xf6qids2fv2NkvcH2gq/6Nb9Bc/7ltZdbQ
+	Az8DEX2mjQFAuiw0c5JNN/oM2mrvFJiLjcr+nyitzpHXo8yaYQVOaW1yVSM/W/Ld
+	rhKltZwJB9ecEQczzvF3B+28ArknM/5GBldljRSZTnzhcOr67gdAgSX06Lu9Zywc
+	h6+T2uK2bmfXvf6PsnBsX94VN4MtUyi/arH08HS5oQBJaeCM1f8zxck3X7imjjf4
+	2ryYNmOOqbjZulrNqHQpw==
+X-ME-Sender: <xms:NOayZkyQKoPKL4hgWJwneDB5ZBazF2CKSq3kYdSQ9u65iBPZMJsuQA>
+    <xme:NOayZoTUyUz0yInFCG1VANNYWneqSPuPyKo509QH6Ojs0z_I639BLkTD7BpVLVKpI
+    q-d-pvUbZa7fz68bmk>
+X-ME-Received: <xmr:NOayZmVs7l8yceE6eYjTvDARqIfAlFnOqvBPbOyvXbPax7N1ZKiVfwNZYTDfDyns-84NFwm226o0HmpjFdyON2s-Lv1WcwIjWS1C>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeelgdejtdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdfnuhhk
-    vgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdruggvvheqnecuggftrfgrthhtvg
-    hrnhepkedvleetfeelfedufffgueekfeehueffveevveetveegveejgedtleetffekffeh
-    necuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrh
-    hnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtth
-    hopedt
-X-ME-Proxy: <xmx:y6GyZozSjfSKaj6EuGcrxF7ut9qAZ26PWYkE0OCj-9B93wjQbrM15Q>
-    <xmx:y6GyZsPZf1GPpyMbUSkylTEIcVkyQ6A6AcBSTFCEwgaDVQimJ36Zug>
-    <xmx:y6GyZl-uHKcZsI9QrfifZmkE0ccXGbq9iGS4TYtYpinquxWkub0wIQ>
-    <xmx:y6GyZsU0Wo5s6GIv8VGMM44n-rzsZzvEBogI4vCgRNqswWR5oBl-Pw>
-    <xmx:y6GyZomPpr49Tlt8yxd060oGZ7o8IqnGgs41K3JrDcfuXLvPYAHuTYEm>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 8A8722340080; Tue,  6 Aug 2024 18:20:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+    fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeejffeihfeivdffueehieeifeefieeugfeiffdtkedv
+    leffteeilefgvdettddvtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhu
+    thhtvghrvghrseifhhhoqdhtrdhnvghtpdhnsggprhgtphhtthhopedt
+X-ME-Proxy: <xmx:NOayZihR5tXz_eBkx7S5FUnqaC3Db8GAuxDdP9S-wUqYh9csgyOKrA>
+    <xmx:NOayZmBCHr34rvzgEmVpy_yKwZTELGKqFnjQlBDI1rQqnWHiD8osbA>
+    <xmx:NOayZjIf66aUOflpX1R5-17g34JfqTntUK-mtVUDMDYbFif7u9SmxA>
+    <xmx:NOayZtDF2OC8pCbKlj1sw-TVcMcbf0P1YQuoecKRmNfaAo6R8vAxyw>
+    <xmx:NOayZo2gzDCkYoO0wzK-5_Xm3HjYyKNkBbqhZBVe4rXujEhGv9RkYOnU>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Aug 2024 23:12:49 -0400 (EDT)
+Date: Wed, 7 Aug 2024 13:12:45 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, bentiss@kernel.org,
+	linux-input@vger.kernel.org, cpuwolf@gmail.com, oleg@makarenk.ooo
+Subject: Re: [PATCH] [v2] Input: increase max button number to 0x340
+Message-ID: <20240807031245.GA3526220@quokka>
+References: <20240802201001.406898-1-tomasz.pakula.oficjalny@gmail.com>
+ <Zq1ypyDxAVQsjpjB@google.com>
+ <20240805053445.GA3149961@quokka>
+ <CAFqprmwOR7i+gA6hcou3NkY_CZXVANfSQVq6f_ZAAkHGmNLqZA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 07 Aug 2024 10:20:39 +1200
-From: "Luke Jones" <luke@ljones.dev>
-To: "kernel test robot" <lkp@intel.com>, linux-input@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Benjamin Tissoires" <bentiss@kernel.org>,
- "Jiri Kosina" <jikos@kernel.org>
-Message-Id: <a24dd146-2991-46af-a6f7-6f2b0a7eb97f@app.fastmail.com>
-In-Reply-To: <202408070520.r1N2Tpys-lkp@intel.com>
-References: <20240806081212.56860-1-luke@ljones.dev>
- <202408070520.r1N2Tpys-lkp@intel.com>
-Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFqprmwOR7i+gA6hcou3NkY_CZXVANfSQVq6f_ZAAkHGmNLqZA@mail.gmail.com>
+
+On Tue, Aug 06, 2024 at 07:50:07PM +0200, Tomasz Pakuła wrote:
+> On Mon, 5 Aug 2024 at 07:34, Peter Hutterer <peter.hutterer@who-t.net> wrote:
+> >
+> > On Fri, Aug 02, 2024 at 04:58:31PM -0700, Dmitry Torokhov wrote:
+> > > Hi Tomasz,
+> > >
+> > > On Fri, Aug 02, 2024 at 10:09:40PM +0200, Tomasz Pakuła wrote:
+> > > > Hi. I can't seem to shake the feeling I'm being ignored here. I would love to
+> > > > get some input from you Dmitry, as this is an issue that was raised a few
+> > > > times throught the years and many times, it was left to wither, even with
+> > > > proper patches submitted and the reasoning explained.
+> > > >
+> > > > One might think of this as trivial, but this is kind of an ancient limitation
+> > > > and we ought to improve linux HID compatibility, especially since this is
+> > > > such an "easy" fix but still has to propagate throught the linux world.
+> > > >
+> > > > If I'm stepping out of the line, or something is really worng with my
+> > > > intention here then please let me know, but I know at least in 2020 there
+> > > > was a similar push to change this and  after Wei Shuai explained his reasons
+> > > > he was similary ignored.
+> > > >
+> > > > Me? I just got a new Moza wheel and it too uses button above 80 so I can't
+> > > > make proper use of it :)
+> > >
+> > > Sorry, I must have missed Wei's email and I was just trying to figure
+> > > out what to do here...
+> > >
+> > > I understand that we have a limitation in the input layer for the number
+> > > of keys/buttons to support, but I wonder if input layer is the best way
+> > > of going through here. For the long time I was against an "anonymous" or
+> > > programmable buttons in the EV_KEY space. The reason is that we want
+> > > userspace to not care what device emits an event and act solely upon
+> > > what that event is. I.e. if a device emits KEY_A it should not matter if
+> > > it is an external USB keyboard, or internal PS/2 one or maybe it is
+> > > Chrome OS matrix keyboard connected to an embedded controller with it's
+> > > own protocol. Same goes for KEY_SCREENLOCK and others. Yes, we do have
+> > > multiple usages called "trigger happy" but I am not really happy about
+> > > them.
+> >
+> > ftr though it's mostly obvious, this effectively moves all key
+> > configuration into the kernel, doubly so for devices that are fully
+> > programmable with no specific meanings (the XKeys devices are the oldest
+> > ones that I'm aware of that don't work that way).
+> >
+> > IOW, this approach works for semantic keys but not at all for anything
+> > that's really just one key out of many with no real distinguishing
+> > features otherwise.
+> >
+> > OTOH it has saved us from having to ship keyboard models like XKB used
+> > to do in userspace.
+> >
+> > > Additionally extending keys space is not free, we need to allocate
+> > > bitmaps, historically we run into issues with uevents being too big,
+> > > etc, etc.
+> > >
+> > > I wonder if we can consider following alternatives:
+> > >
+> > > 1. Can we go through HID (/dev/hidraw) instead of input layer? I do not
+> > > think we will see such devices connected over anything but HID (BT or
+> > > USB).
+> >
+> > HID is currently unsuitable for two reasons: we don't have EVIOCREVOKE
+> > for hidraw (I need to dust off that patch from years ago). And the
+> > desktop input stack (i.e. libinput + compositors) doesn't handle that
+> > use-case either, our key events are currently tied to EV_KEY codes.
+> > Can be worked around, just needs a fair bit of effort that without a
+> > HIDIOCREVOKE (and logind integration) isn't worth starting.
+> >
+> > But at least for these devices - libinput already doesn't handle
+> > joysticks/gaming devices so I can easily ignore those too and let those
+> > be punted to the application :) Which means the ioctl is all we need for
+> > now?
+> >
+> > > 2. Can we consider using something other than EV_KEY? For example we
+> > > could define EV_MSC/MSC_PROG_KEY and EV_MSC/MSG_PROG_VAL pair to allow
+> > > transmitting key number and state of keys that do not have pre-defined
+> > > meaning. Here we are losing event deduplication and ability to query
+> > > full keyboard state, but I wonder how important that is for the devices
+> > > in question.
+> >
+> > The same problem rears its head in the EV_ABS and EV_REL range, so
+> > fixing it for EV_KEY doesn't necessarily fix it for those.
+> >
+> > MSC_PROG_KEY/VAL pairs would make it difficult to send two button
+> > updates in the same frame without an SYN_MT_REPORT equivalent.
+> >
+> > but (and this is not fully thought through) if we are ok with dropping
+> > value 2 key repeat values we can make the input_event.value a bitmask,
+> > so we can have EV_KEYMASK / KEYMASK_00, KEYMASK_32, .... so for buttons
+> > 1, 2 and 32 down you'd send
+> >         EV_KEYMASK / KEYMASK_00 / 3
+> >         EV_KEYMASK / KEYMASK_32 / 1
+> >         SYN_REPORT
+> >
+> > This should be nicely map-able from HID too. Would also work
+> > for EV_MSC / MSC_PROG_KEYMASK if you don't want a new type.
+> >
+> > Other random idea, even less thought out: have a marker bit/value that
+> > designates anything in a certain range as "merely numbered'. Not sure
+> > how to do that but that would make it possible for non-mt devices to
+> > re-use the limited abs range for something else.
+> >
+> > Cheers,
+> >   Peter
+> 
+> Hmm, these all sound like good ideas. I'm net yet very well versed in the whole
+> linux kernel input stack, but looking at it, it seems that it does need an
+> overhaul in the coming years.
+> 
+> But I have some questions. This patch only adds another 65 possible buttons/
+> undefined usages. Would it really pose such an issue? 0x2ff already is quite
+> a big number (767). I don't think another 65 would really break the bank here.
+> 
+> > Additionally extending keys space is not free, we need to allocate
+> > bitmaps, historically we run into issues with uevents being too big,
+> > etc, etc.
+> 
+> Is it related to Linux kernel or outside software? Is linux generating some
+> kind of bitmaps? I'm not aware of such thing.
+
+Recent example I recall is this:
+https://lore.kernel.org/lkml/ZjAWMQCJdrxZkvkB@google.com/t/
+
+> Peter's idea seems sane BUT doesn't address the real crutch here. A lot of
+> software uses (directly, or indirectly) KEY_MAX define to outright cap the
+> number of buttons read from a given HID device. From the top of my head,
+> SDL2/3 does this, Firefox as well.
+
+fwiw, anything based on libevdev which is at least libinput +
+xf86-input-synaptics/evdev are similarly capped.
+
+> When it comes to undefined usages, software already deals with that without
+> issues. For years we had this undefined range above TRIGGER_HAPPY_40 from
+> 0x2e8 to 0x2ff. SDL returns "Undefined" name, evtest marks these as "?" BUT
+> this doesn't impare the use of such buttons in the slightest. These simply
+> show up as buttons 58-80.
+
+ftr, evtest marks anything as ? that doesn't have a define added to
+evdev. libevdev does the same but at least it automates the process
+based on the kernel header file.
+
+But my main gripe here is that, for better of worse, the keycodes
+are semantic - an unknown code isn't "button N" because in the next
+kernel version it may be e.g. KEY_VOLUME_MAX and unless you special-case
+every client that wants to use your device, this hurts. At
+least the trigger happy is reserved to never be anything else.
+
+Likewise, once released your device will now *always* have to send
+KEY_VOLUME_MAX for button 3 because changing that will break everyone
+special-casing your device.
+
+We have existing instances like this: BTN_BACK and BTN_FORWARD are not
+actually forward/back because decades ago X decided physical buttons 4
+and 5 have that role - so BTN_SIDE/EXTGRA are mapped to back/forward and
+BTN_FORWARD/BACK are mapped to whatever comes next (also note: X and
+thus the rest of userspace has back/forward whereas the kernel has
+forward/back).
+
+libevdev (and thus libinput/xorg drivers) have special casing for
+ABS_MT_SLOT - 1 to detect "fake" multitouch devices that just run up
+from the ABS_MISC range.
+
+etc. etc.
+
+Cheers,
+  Peter
+
+PS: and re-reading the above I realised it would also be relatively
+trivial to add EV_BTN. That could (maybe?) even run parallel to EV_KEY
+in the same frame so that button 8 becomes something like:
+
+	EV_KEY BTN_FOO 1
+	EV_BTN 8 1
+	EV_SYN SYN_REPORT
+
+Which means that userspace becomes a "if EV_BTN is present, ignore the
+EV_KEY in the same frame" though that gets a bit trickier if we have
+more than one per frame.
 
 
-
-On Wed, 7 Aug 2024, at 9:34 AM, kernel test robot wrote:
-> Hi Luke,
+> All in all, we've had people using this patch (but increasing KEY_MAX to a
+> whopping 0x4ff) for the past few years with no adverse effects. I've been
+> using a custom Linux kernel with this patch on my Arch machine since about
+> May, and didn't notice anything, even when compiling with debug flags and
+> following and filtering dmesg.
 > 
-> kernel test robot noticed the following build warnings:
+> So here's the thing I'm most curious about. Is this something, you'd just
+> want to resolve differently, to make it nicer and more logical, or is this
+> really something that would break everything and doing it in this way will
+> never be allowed/merged? That would make a lot of us sad :(
 > 
-> [auto build test WARNING on hid/for-next]
-> [also build test WARNING on next-20240806]
-> [cannot apply to linus/master v6.11-rc2]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/hid-asus-ally-Add-full-gamepad-support/20240806-170850
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-> patch link:    https://lore.kernel.org/r/20240806081212.56860-1-luke%40ljones.dev
-> patch subject: [PATCH] hid-asus-ally: Add full gamepad support
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408070520.r1N2Tpys-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:21:
->    In file included from include/linux/kallsyms.h:13:
->    In file included from include/linux/mm.h:2228:
->    include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->      514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
->          |                               ~~~~~~~~~~~ ^ ~~~
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      548 |         val = __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->          |                                                   ^
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      585 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    drivers/hid/hid-asus-ally.c:565:10: warning: variable 'max_output_report_size' set but not used [-Wunused-but-set-variable]
->      565 |         uint8_t max_output_report_size;
->          |                 ^
->    drivers/hid/hid-asus-ally.c:1177:6: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
->     1177 |         int cmd, side, is_tr;
->          |             ^
-> >> drivers/hid/hid-asus-ally.c:894:1: warning: unused variable 'btn_mapping_lt_attr_group' [-Wunused-const-variable]
->      894 | ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
->      321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
->      306 |         static const struct attribute_group _fname##_attr_group = {       \
->          |                                             ^~~~~~~~~~~~~~~~~~~
->    <scratch space>:125:1: note: expanded from here
->      125 | btn_mapping_lt_attr_group
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/hid/hid-asus-ally.c:895:1: warning: unused variable 'btn_mapping_rt_attr_group' [-Wunused-const-variable]
->      895 | ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
->      321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
->      306 |         static const struct attribute_group _fname##_attr_group = {       \
->          |                                             ^~~~~~~~~~~~~~~~~~~
->    <scratch space>:167:1: note: expanded from here
->      167 | btn_mapping_rt_attr_group
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~
->    11 warnings generated.
-> 
-> 
-> vim +/btn_mapping_lt_attr_group +894 drivers/hid/hid-asus-ally.c
-> 
->    882
->    883 /* button map attributes, regular and macro*/
->    884 ALLY_BTN_MAPPING(m2, btn_pair_m1_m2, btn_pair_side_left);
->    885 ALLY_BTN_MAPPING(m1, btn_pair_m1_m2, btn_pair_side_right);
->    886 ALLY_BTN_MAPPING(a, btn_pair_a_b, btn_pair_side_left);
->    887 ALLY_BTN_MAPPING(b, btn_pair_a_b, btn_pair_side_right);
->    888 ALLY_BTN_MAPPING(x, btn_pair_x_y, btn_pair_side_left);
->    889 ALLY_BTN_MAPPING(y, btn_pair_x_y, btn_pair_side_right);
->    890 ALLY_BTN_MAPPING(lb, btn_pair_lb_rb, btn_pair_side_left);
->    891 ALLY_BTN_MAPPING(rb, btn_pair_lb_rb, btn_pair_side_right);
->    892 ALLY_BTN_MAPPING(ls, btn_pair_ls_rs, btn_pair_side_left);
->    893 ALLY_BTN_MAPPING(rs, btn_pair_ls_rs, btn_pair_side_right);
-> > 894 ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
-> > 895 ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
->    896 ALLY_BTN_MAPPING(dpad_u, btn_pair_dpad_u_d, btn_pair_side_left);
->    897 ALLY_BTN_MAPPING(dpad_d, btn_pair_dpad_u_d, btn_pair_side_right);
->    898 ALLY_BTN_MAPPING(dpad_l, btn_pair_dpad_l_r, btn_pair_side_left);
->    899 ALLY_BTN_MAPPING(dpad_r, btn_pair_dpad_l_r, btn_pair_side_right);
->    900 ALLY_BTN_MAPPING(view, btn_pair_view_menu, btn_pair_side_left);
->    901 ALLY_BTN_MAPPING(menu, btn_pair_view_menu, btn_pair_side_right);
->    902
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
-
-I like this service. The above warnings will be fixed in next version after I get some review.
-
-Regards,
-Luke.
+> Thanks, and cheers
+> Tomasz
 
