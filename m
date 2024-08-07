@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-5408-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5409-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D66794A4B8
-	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 11:50:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4255594A724
+	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 13:44:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDBBF1F2119A
-	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 09:50:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0E8B28226C
+	for <lists+linux-input@lfdr.de>; Wed,  7 Aug 2024 11:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C72EB1D0DE3;
-	Wed,  7 Aug 2024 09:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7171E288B;
+	Wed,  7 Aug 2024 11:44:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACCoSYt6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbdEeVJz"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F671D1F5E;
-	Wed,  7 Aug 2024 09:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5FC1DF68A;
+	Wed,  7 Aug 2024 11:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723024238; cv=none; b=s47zIwY9TaZnluMea6vEPPDhDcpTtHuKiq0ulN9JdDctWgmgwL+uqgvfhZgVe6oxEji6ivtjnWWl1VVGYpBSbDfjN9Dusnuv4JCzc8AEz68c1R5nwh78n/KkP/BfrisqidD9zaPtLOllhV/7WAHx/TYzQvG0WXRLRT4mpe4pkaI=
+	t=1723031059; cv=none; b=CUI+AQUY5xoXkeKZ6vpgkt/odiUBfB7kBrCPWtZmtCj+jWXSHp3Ea+Gj9aDYpcbNykEIKDWsy2J4Rxw4/eGuXHkqAl92PNKLEjlVXyK1nspBT5W4K9hKEeasgT+fYEdjIU/Zsh4puntqJU8+O0LxrW/q9SWstqERbHCroo1sjQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723024238; c=relaxed/simple;
-	bh=mUjY9ixgfxwjEEIW3FiijfuqlQl0p2VLrfkkATvsJqo=;
+	s=arc-20240116; t=1723031059; c=relaxed/simple;
+	bh=Q+lQTRThOqbJKr3mxGSgIBGBexoepsWD38fgDrU2y0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5487cXtAr+UcKIfyxvvv9CBMfLr0+tceguVcO8ccKApxLltW/gVyGL8Lfymjlq8+XsyM38X8hrDvVf4o0jN/FVfZ8mtm+xwRQNtuh63PxnL2wdU4iMLpaoer1xWvCn6SYa+WHSm91q/Rot7tBs5bQT/81IWC5bKPkWFEVMQOKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACCoSYt6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmlfkftcpjqnWMM36beamjhnOGLkTfQrACvo57LQwkIVuNAyiZL3DYcxLoW0pG81DmRPJBIgHrKBwhBiO44McQvLLnOXQDXgrNOgjJtfR/TxdbScH12lmkr5xWohpypKD9VWx+4OTKAbIcLJyNcsMNEG0cs1iqWtKdyEI4BhDWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbdEeVJz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723024234; x=1754560234;
+  t=1723031057; x=1754567057;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mUjY9ixgfxwjEEIW3FiijfuqlQl0p2VLrfkkATvsJqo=;
-  b=ACCoSYt6w/U8e4ayQ1Pk7KvLlvgZ+/wXr527BjXIJNT+Raul5X2jmAHR
-   qs3v3zUGXX/vSfqfGv1/15YNTsWd+HpZtpHBfWLbK4mWtMZ0gJYASEahv
-   EQjwg9aKVtBUkD/HXhRqYcBJq0UboDaKXRx0dYJjco0Vz5w+CsDfH41Du
-   0Y9ArcxSou+R4GuNoxzANpalei/g4jZnnYh2x3Z1ky4bbWja7uSCzE/Y6
-   O3IZAEHnJa9VrRtxh1tVkr/RW5zgeORc6Y/MmcvqIdmrCbL6fayYQe9cm
-   oykYOWau0B8QSPEzxMaUPYUtVzvQXDgPtLpkup5YxfrTACpm7lMEkbfGD
+  bh=Q+lQTRThOqbJKr3mxGSgIBGBexoepsWD38fgDrU2y0c=;
+  b=SbdEeVJzy56YUVaIBR7a+x2A0VIU2MqnSfeLBxvTusVXbGhd+V0Z6tJs
+   D8wi0wayp8nO7VHo23EbrF4jEcLUDY2uhu+0VdH6dv9okw5DrzozXuQWt
+   gFYPE1J2i5LNo9NYNaYW42Op459C+baSZVgpy3JmW2/4/a/ZfULBa9eye
+   Z4CKpxuJNiov1Yz2BtklPvatTsD0lXSVENu+3j5Adh3upjIm9t6hdXPrg
+   P22g3Hb1LCqWjad+r6U2JKQV9lYOYoHq1uu90DFSv8lpeBkIHOXS3YLne
+   XubQMnK197ejDEX84woOsgy3r2ZdB4cGy9cpPtUvwo94xpWlaGMZcM2HI
    Q==;
-X-CSE-ConnectionGUID: rPKunieGRZu/cmwWfD3C3g==
-X-CSE-MsgGUID: j9R2+oZPTkeoow8MVXFUUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="32486933"
+X-CSE-ConnectionGUID: JuG6PShsTMOMZk0Wdw76ZA==
+X-CSE-MsgGUID: EsCkeb4QRKmJOlXoE5pu6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31725182"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="32486933"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 02:50:33 -0700
-X-CSE-ConnectionGUID: 3q4OSmWKT5qdhAokF2/pug==
-X-CSE-MsgGUID: nu2YmeCkTdSqN4w4aObU2A==
+   d="scan'208";a="31725182"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 04:44:16 -0700
+X-CSE-ConnectionGUID: DXZuJho/Qrq+w4+pWJOVcg==
+X-CSE-MsgGUID: GBGc5AFnTnuN24MxpgTHMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="56469436"
+   d="scan'208";a="56693885"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2024 02:50:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2024 04:44:14 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbdJN-0005HI-1t;
-	Wed, 07 Aug 2024 09:50:29 +0000
-Date: Wed, 7 Aug 2024 17:50:02 +0800
+	id 1sbf5P-0005Ke-1X;
+	Wed, 07 Aug 2024 11:44:11 +0000
+Date: Wed, 7 Aug 2024 19:43:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Luke D. Jones" <luke@ljones.dev>, linux-input@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	bentiss@kernel.org, jikos@kernel.org,
 	"Luke D. Jones" <luke@ljones.dev>
 Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
-Message-ID: <202408071743.00IxSKrf-lkp@intel.com>
+Message-ID: <202408071932.E7Cxqi0x-lkp@intel.com>
 References: <20240806081212.56860-1-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -96,111 +96,123 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/hid-asus-all
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
 patch link:    https://lore.kernel.org/r/20240806081212.56860-1-luke%40ljones.dev
 patch subject: [PATCH] hid-asus-ally: Add full gamepad support
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408071743.00IxSKrf-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071743.00IxSKrf-lkp@intel.com/reproduce)
+config: csky-randconfig-r113-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071932.E7Cxqi0x-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240807/202408071932.E7Cxqi0x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408071743.00IxSKrf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408071932.E7Cxqi0x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-asus-ally.c:561:1: sparse: sparse: symbol 'dev_attr_ally_x_qam_mode' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:845:1: sparse: sparse: symbol 'dev_attr_btn_mapping_apply' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:884:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m2' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:884:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m2_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:884:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m2_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:885:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m1' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:885:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m1_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:885:1: sparse: sparse: symbol 'dev_attr_btn_mapping_m1_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:886:1: sparse: sparse: symbol 'dev_attr_btn_mapping_a' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:886:1: sparse: sparse: symbol 'dev_attr_btn_mapping_a_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:886:1: sparse: sparse: symbol 'dev_attr_btn_mapping_a_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:887:1: sparse: sparse: symbol 'dev_attr_btn_mapping_b' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:887:1: sparse: sparse: symbol 'dev_attr_btn_mapping_b_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:887:1: sparse: sparse: symbol 'dev_attr_btn_mapping_b_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:888:1: sparse: sparse: symbol 'dev_attr_btn_mapping_x' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:888:1: sparse: sparse: symbol 'dev_attr_btn_mapping_x_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:888:1: sparse: sparse: symbol 'dev_attr_btn_mapping_x_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:889:1: sparse: sparse: symbol 'dev_attr_btn_mapping_y' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:889:1: sparse: sparse: symbol 'dev_attr_btn_mapping_y_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:889:1: sparse: sparse: symbol 'dev_attr_btn_mapping_y_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:890:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lb' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:890:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lb_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:890:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lb_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:891:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rb' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:891:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rb_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:891:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rb_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:892:1: sparse: sparse: symbol 'dev_attr_btn_mapping_ls' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:892:1: sparse: sparse: symbol 'dev_attr_btn_mapping_ls_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:892:1: sparse: sparse: symbol 'dev_attr_btn_mapping_ls_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:893:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rs' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:893:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rs_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:893:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rs_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:894:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lt' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:894:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lt_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:894:1: sparse: sparse: symbol 'dev_attr_btn_mapping_lt_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:895:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rt' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:895:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rt_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:895:1: sparse: sparse: symbol 'dev_attr_btn_mapping_rt_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:896:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_u' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:896:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_u_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:896:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_u_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:897:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_d' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:897:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_d_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:897:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_d_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:898:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_l' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:898:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_l_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:898:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_l_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:899:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_r' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:899:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_r_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:899:1: sparse: sparse: symbol 'dev_attr_btn_mapping_dpad_r_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:900:1: sparse: sparse: symbol 'dev_attr_btn_mapping_view' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:900:1: sparse: sparse: symbol 'dev_attr_btn_mapping_view_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:900:1: sparse: sparse: symbol 'dev_attr_btn_mapping_view_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:901:1: sparse: sparse: symbol 'dev_attr_btn_mapping_menu' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:901:1: sparse: sparse: symbol 'dev_attr_btn_mapping_menu_macro' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:901:1: sparse: sparse: symbol 'dev_attr_btn_mapping_menu_turbo' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:952:1: sparse: sparse: symbol 'dev_attr_btn_mapping_reset' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1028:1: sparse: sparse: symbol 'dev_attr_gamepad_mode' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1037:1: sparse: sparse: symbol 'dev_attr_gamepad_vibration_intensity_index' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1115:1: sparse: sparse: symbol 'dev_attr_gamepad_vibration_intensity' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1202:1: sparse: sparse: symbol 'dev_attr_axis_xyz_deadzone_index' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1204:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_left_deadzone' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1205:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_right_deadzone' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1206:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_left_deadzone' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1207:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_right_deadzone' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1288:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_left_ADZ' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1313:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_right_ADZ' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1321:1: sparse: sparse: symbol 'dev_attr_rc_point_index' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1390:1: sparse: sparse: symbol 'dev_attr_rc_point_left_1' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1391:1: sparse: sparse: symbol 'dev_attr_rc_point_left_2' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1392:1: sparse: sparse: symbol 'dev_attr_rc_point_left_3' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1393:1: sparse: sparse: symbol 'dev_attr_rc_point_left_4' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1395:1: sparse: sparse: symbol 'dev_attr_rc_point_right_1' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1396:1: sparse: sparse: symbol 'dev_attr_rc_point_right_2' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1397:1: sparse: sparse: symbol 'dev_attr_rc_point_right_3' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1398:1: sparse: sparse: symbol 'dev_attr_rc_point_right_4' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1586:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_left_cal' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1587:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_right_cal' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1588:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_left_cal' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1589:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_right_cal' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1597:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_cal_index' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1605:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_cal_index' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1643:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_left_cal_reset' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1644:1: sparse: sparse: symbol 'dev_attr_xpad_axis_xy_right_cal_reset' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1645:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_left_cal_reset' was not declared. Should it be static?
+>> drivers/hid/hid-asus-ally.c:1646:1: sparse: sparse: symbol 'dev_attr_xpad_axis_z_right_cal_reset' was not declared. Should it be static?
 
-   drivers/hid/hid-asus-ally.c: In function 'ally_x_create':
->> drivers/hid/hid-asus-ally.c:565:17: warning: variable 'max_output_report_size' set but not used [-Wunused-but-set-variable]
-     565 |         uint8_t max_output_report_size;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.c: In function '__gamepad_store_deadzones':
->> drivers/hid/hid-asus-ally.c:1177:13: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
-    1177 |         int cmd, side, is_tr;
-         |             ^~~
-   In file included from drivers/hid/hid-asus-ally.c:24:
-   drivers/hid/hid-asus-ally.c: At top level:
->> drivers/hid/hid-asus-ally.h:321:44: warning: 'btn_mapping_rt_attr_group' defined but not used [-Wunused-const-variable=]
-     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
-         |                                            ^~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.h:306:45: note: in definition of macro 'ALLY_BTN_ATTRS_GROUP'
-     306 |         static const struct attribute_group _fname##_attr_group = {       \
-         |                                             ^~~~~~
-   drivers/hid/hid-asus-ally.c:895:1: note: in expansion of macro 'ALLY_BTN_MAPPING'
-     895 | ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
-         | ^~~~~~~~~~~~~~~~
->> drivers/hid/hid-asus-ally.h:321:44: warning: 'btn_mapping_lt_attr_group' defined but not used [-Wunused-const-variable=]
-     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
-         |                                            ^~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.h:306:45: note: in definition of macro 'ALLY_BTN_ATTRS_GROUP'
-     306 |         static const struct attribute_group _fname##_attr_group = {       \
-         |                                             ^~~~~~
-   drivers/hid/hid-asus-ally.c:894:1: note: in expansion of macro 'ALLY_BTN_MAPPING'
-     894 | ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
-         | ^~~~~~~~~~~~~~~~
+vim +/dev_attr_ally_x_qam_mode +561 drivers/hid/hid-asus-ally.c
 
-
-vim +/max_output_report_size +565 drivers/hid/hid-asus-ally.c
-
+   545	
+   546	static ssize_t ally_x_qam_mode_store(struct device *dev, struct device_attribute *attr,
+   547					     const char *buf, size_t count)
+   548	{
+   549		struct ally_x_device *ally_x = drvdata.ally_x;
+   550		bool val;
+   551		int ret;
+   552	
+   553		ret = kstrtobool(buf, &val);
+   554		if (ret < 0)
+   555			return ret;
+   556	
+   557		ally_x->qam_btns_steam_mode = val;
+   558	
+   559		return count;
+   560	}
+ > 561	ALLY_DEVICE_ATTR_RW(ally_x_qam_mode, qam_mode);
    562	
-   563	static struct ally_x_device *ally_x_create(struct hid_device *hdev)
-   564	{
- > 565		uint8_t max_output_report_size;
-   566		struct ally_x_device *ally_x;
-   567		struct ff_report *report;
-   568		int ret;
-   569	
-   570		ally_x = devm_kzalloc(&hdev->dev, sizeof(*ally_x), GFP_KERNEL);
-   571		if (!ally_x)
-   572			return ERR_PTR(-ENOMEM);
-   573	
-   574		ally_x->hdev = hdev;
-   575		INIT_WORK(&ally_x->output_worker, ally_x_work);
-   576		spin_lock_init(&ally_x->lock);
-   577		ally_x->output_worker_initialized = true;
-   578		ally_x->qam_btns_steam_mode =
-   579			true; /* Always default to steam mode, it can be changed by userspace attr */
-   580	
-   581		max_output_report_size = sizeof(struct ally_x_input_report);
-   582		report = devm_kzalloc(&hdev->dev, sizeof(*report), GFP_KERNEL);
-   583		if (!report) {
-   584			ret = -ENOMEM;
-   585			goto free_ally_x;
-   586		}
-   587	
-   588		/* None of these bytes will change for the FF command for now */
-   589		report->report_id = 0x0D;
-   590		report->ff.enable = 0x0F; /* Enable all by default */
-   591		report->ff.pulse_sustain_10ms = 0xFF; /* Duration */
-   592		report->ff.pulse_release_10ms = 0x00; /* Start Delay */
-   593		report->ff.loop_count = 0xEB; /* Loop Count */
-   594		ally_x->ff_packet = report;
-   595	
-   596		ally_x->input = ally_x_setup_input(hdev);
-   597		if (IS_ERR(ally_x->input)) {
-   598			ret = PTR_ERR(ally_x->input);
-   599			goto free_ff_packet;
-   600		}
-   601	
-   602		if (sysfs_create_file(&hdev->dev.kobj, &dev_attr_ally_x_qam_mode.attr)) {
-   603			ret = -ENODEV;
-   604			goto unregister_input;
-   605		}
-   606	
-   607		ally_x->update_ff = true;
-   608		if (ally_x->output_worker_initialized)
-   609			schedule_work(&ally_x->output_worker);
-   610	
-   611		hid_info(hdev, "Registered Ally X controller using %s\n",
-   612			 dev_name(&ally_x->input->dev));
-   613		return ally_x;
-   614	
-   615	unregister_input:
-   616		input_unregister_device(ally_x->input);
-   617	free_ff_packet:
-   618		kfree(ally_x->ff_packet);
-   619	free_ally_x:
-   620		kfree(ally_x);
-   621		return ERR_PTR(ret);
-   622	}
-   623	
 
 -- 
 0-DAY CI Kernel Test Service
