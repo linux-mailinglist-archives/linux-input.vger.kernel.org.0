@@ -1,108 +1,124 @@
-Return-Path: <linux-input+bounces-5450-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5451-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0D794C384
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 19:19:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4ED94C3AE
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 19:27:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CF82B21AE1
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 17:19:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 55BE81F23710
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 17:27:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C26B190692;
-	Thu,  8 Aug 2024 17:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619CE190692;
+	Thu,  8 Aug 2024 17:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Mi4Qqzlm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkqg4BRN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C3A190477
-	for <linux-input@vger.kernel.org>; Thu,  8 Aug 2024 17:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B7E1F19A;
+	Thu,  8 Aug 2024 17:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723137581; cv=none; b=OmaTQId6WqiqAri2BRwxixDILMA88WsF51ORe5q5vy61Kt9FEfiyWxGVBeEFrWviWviDf/NEtj4/gWl4Y9q1pa6vzdiZw5Qghg4pW1GHn3aXkbtdM9rFlLfx/46RmSFL6oD9TTzpVlfigp9BasOT6Tgeqj2nFFzM0prijPnWTy0=
+	t=1723138066; cv=none; b=j8TrubxOVo37NaTj2xTA/1cf3jeYp1Z1A1sl7jMGH5jc9ptTMWDG7Qt9NFab4AnMTZGrH8SnL2IlzEjL8xU7GAAyG7NFTaD59UVVGqP6F738xXKp3pV7UdOjcYwFUurYPJubNeCAzGQ2u9NtuRD7c9PHvWmQcouJ3W/uRKU1MpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723137581; c=relaxed/simple;
-	bh=lsuG+EZA1Vx6q/Fv+7s0/FIoUtMR0zl1+rBKVZ9ncjk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PjSKe9B7jHg31lR+pWVoTwCamXRud0yHfPYWmjoBhsazWwfBnHnDJtVK0Q3dLKnhk/6D5JJ1ukkMinmME5JJq/VkEPjC1mw7L9I6aNR7ebIK7vLAUkSVdzppQAtV4DUvy0ZnuLWyCulHp9BggWzcd/3C0ZESdJBMLK5gMYEY1cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Mi4Qqzlm; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52f04b3cb33so2603246e87.0
-        for <linux-input@vger.kernel.org>; Thu, 08 Aug 2024 10:19:39 -0700 (PDT)
+	s=arc-20240116; t=1723138066; c=relaxed/simple;
+	bh=lwUQfOEc2hZe4/KMXO3cqzXDSPRfUQogVwfP9KDe0zg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WomCX7Mis1D9oY3n74dqiKSCnW7k+LNVp1eDtZ0wVXE6tvBcRJeMfQ3zcs9ttT/HDsXnGxZb0+AJnDyK2Yq3s5fdRqnY0y27SO8aUvPcVB/QdlUZQpFQAVhkCCTTN06a68LNL99zea/mX6C1PZKDvPKAs0qU++FVovXY7Uf282g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkqg4BRN; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d199fb3dfso1001449b3a.3;
+        Thu, 08 Aug 2024 10:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723137576; x=1723742376; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lsuG+EZA1Vx6q/Fv+7s0/FIoUtMR0zl1+rBKVZ9ncjk=;
-        b=Mi4QqzlmnWnYrsL/30VZ0EmSEMy46eBdPIqWbgldrMQkp7SCz7aafBKTybKcR2szIS
-         GdH2pZ3SjIIIl6zc17+CY9O8NVErW32AqBUXzsnVBlrC+sVyLWR6JIbXkbS+upIKlZzC
-         UBljqI6kYVRn43kP2zgSIRYKizLZopUAzRQ74=
+        d=gmail.com; s=20230601; t=1723138064; x=1723742864; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TnC2UNJgJBzMoYJ2xUWxB+uaxQleBrW7qhwl0df1128=;
+        b=bkqg4BRNSVIm3O2GwzWo97NOkya7cvvh/mPwvYR2nXO4f4O9j0eQ+lVxNIRtkAPzSW
+         EsYXmMjiB+qJuMsbGNRT6bzw3LT9ZSJxsBHJAg9+LbeCvYWLwDmXlve7FahD8d0kdiqT
+         lG7Il7fPz4KKfn+t1a5LXRL1KBrGfSjizGvAOqAVsg9aliy8vr+QYydY/T7uipei46UC
+         XMlE7KOUYRknpKRK7/Ule63vZIEpKDdlynodrskAFaNIlvijvf2mDbBTkH7VEKLTbziw
+         mmvkaLawb74VSucGescgKoMuX89QiGtyj0tM7gIQCBtTY0lMVvdAR4g33yp8E4+gV+L/
+         gBrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723137576; x=1723742376;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lsuG+EZA1Vx6q/Fv+7s0/FIoUtMR0zl1+rBKVZ9ncjk=;
-        b=TfAbzv6MJOY+0WQXyz11fhzuoL1p+fMASzhToVYYyTV4wClGa8KHk5IIrvD51InaCn
-         y+yZ0ICwer4HJstT2J/gfzsTbTDi7HIsHRK5ZHiz5tDay69cZIjE/0dXj2a1YVgRiUPJ
-         fb/zTSW80+A8RfTz6nBDFx3zTKf+oba+Aw27wRAjLYMBuqUe3jaoTUbf8pRD9wFxntpQ
-         9yFETn7inVJAF9tg5yLrM4X+GBtMb0vFIW1M8XEZXPSE2Tew0sfmfii6wyMjeAt4f1Ti
-         iJoDmS5562mHFtFppLN2V++Esk3A69jMRwmuPKwBmPD8xap4kKn0g1esKeJleo+jzc0x
-         uCGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQIoT6/eWCx2n9QFOGtWoq9oVYfqYEy949phKghE5VyiW33xHRYQaWDlKGodxJXBWVyV/NpZacuyWVJUlX2b4Hf8kxWaLrsYGtXrM=
-X-Gm-Message-State: AOJu0YwJGXNgXRA8E+MDwgsWXO3+4jIRYVsAa+jse8OouiW+2bBk6F2Z
-	Xm0D8WuLiGPAxO77MMYn0OwcpY0cIMZS00ev8xGW559CD9M9kfRiI0coXzUh+VZdWOfup6fCIEA
-	gBw==
-X-Google-Smtp-Source: AGHT+IEkc7w5Jdl8mI77b9rNLQU77YbFs/HPYJiQxuTvMB1lT2MCyQzJRlosdr0Jlseow+JRMUwElg==
-X-Received: by 2002:a05:6512:114c:b0:52e:8071:e89d with SMTP id 2adb3069b0e04-530e5876a42mr2305237e87.40.1723137575500;
-        Thu, 08 Aug 2024 10:19:35 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9bcac58sm763523366b.35.2024.08.08.10.19.34
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Aug 2024 10:19:34 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-428063f4d71so435e9.1
-        for <linux-input@vger.kernel.org>; Thu, 08 Aug 2024 10:19:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVrs3719awLZeJR5cn7KDgW7Tut+rbHTW0JqGTj8ZxcTiRHO/EVMy0XHXnybS5kgNwmAh5kEGYffbThiSe8b0ENH+/0cqu4hj8eQWA=
-X-Received: by 2002:a05:600c:c14:b0:426:6edd:61a7 with SMTP id
- 5b1f17b1804b1-4290aa8f28emr1775535e9.7.1723137574029; Thu, 08 Aug 2024
- 10:19:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723138064; x=1723742864;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TnC2UNJgJBzMoYJ2xUWxB+uaxQleBrW7qhwl0df1128=;
+        b=I3jjmjKsGPw95rqgMP9ZaiBqY584YUTOIH7QdkYk9JOkKTKwPFedQMvQZIHtlsVSPJ
+         pF0cbbzc2aYam1l+mtTEGaNOsCcs3QssBkdUsSHtbo+bUnAlKbt+BoCPeWlIee0HMgKX
+         LFBay9S3yGqCKZBp+teRSYh1bRtJI0jsQbvsw33farttdfU1HFqf2D9946I6z/5qyiLx
+         SWuGl7Mi2RwGKkE3wJoxzcLq+VX6kC5GYdEDHEpI7h8z9E9xZLs6sZdrgqZOOkYYiXuC
+         YfA+ppZl4ylvOYFXssUKW1KAeqqBMfA77CVtmSpsN0tVEEXxmFGsZNkFwjkb/3HDbeBA
+         Yqlw==
+X-Gm-Message-State: AOJu0YxyKWtkTCa+JYJlSVuPXafWDpuY5wkKPq0Xqy7wBk0s0rFuRD3r
+	tSBLl972akSikICqbe/RQNr1dcNGElo3cEqMv3oUxvrkrmlmT7TuYaZP3Q==
+X-Google-Smtp-Source: AGHT+IHXqgA5pTOf/q15EL4W+gWcslWxIUxssa6YVtm5dlZbtVhUoF9fadEbjkut3Nf38JHHyjxwpA==
+X-Received: by 2002:a05:6a00:390c:b0:710:4d08:e094 with SMTP id d2e1a72fcca58-710cad31263mr3448382b3a.2.1723138063852;
+        Thu, 08 Aug 2024 10:27:43 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4403:e9e1:aefe:e6e8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710cb2e89ffsm1349829b3a.180.2024.08.08.10.27.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Aug 2024 10:27:43 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Vojtech Pavlik <vojtech@ucw.cz>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Subject: [RFC PATCH 0/5] Removal of a few obsolete input drivers
+Date: Thu,  8 Aug 2024 10:27:26 -0700
+Message-ID: <20240808172733.1194442-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.46.0.76.ge559c4bf1a-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618084455.1451461-1-charles.goodix@gmail.com> <ZnlGDCcNch475wWA@ux-UP-WHL01>
-In-Reply-To: <ZnlGDCcNch475wWA@ux-UP-WHL01>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Aug 2024 10:19:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UkHaH_oUojLCozh-C27GUaCgr_6V16_0XKJw86p5wmFQ@mail.gmail.com>
-Message-ID: <CAD=FV=UkHaH_oUojLCozh-C27GUaCgr_6V16_0XKJw86p5wmFQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] HID: add initial support for Goodix HID-over-SPI touchscreen
-To: Charles Wang <charles.goodix@gmail.com>
-Cc: dmitry.torokhov@gmail.com, dan.carpenter@linaro.org, conor@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, jikos@kernel.org, bentiss@kernel.org, 
-	hbarnor@chromium.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On Mon, Jun 24, 2024 at 3:10=E2=80=AFAM Charles Wang <charles.goodix@gmail.=
-com> wrote:
->
-> Gentle ping...
+I am wondering if it is not the time to retire bus mice drivers since
+they have been out of favor for close to 30 years, as well as 3 drivers
+for portables from late '90s to early 2000.
 
-Looks like Dmitry had some small nits on patch #1. Maybe folks are
-assuming that you'll send a v6 or at least respond to him about the
-nits?
+Please let me know what you think.
 
--Doug
+Thanks,
+Dmitry
+
+Dmitry Torokhov (5):
+  Input: inport - remove driver
+  Input: logibm - remove driver
+  Input: pc110pad - remove driver
+  Input: mk712 - remove driver
+  Input: ct82c710 - remove driver
+
+ drivers/input/mouse/Kconfig        |  36 -----
+ drivers/input/mouse/Makefile       |   3 -
+ drivers/input/mouse/inport.c       | 177 ---------------------
+ drivers/input/mouse/logibm.c       | 166 --------------------
+ drivers/input/mouse/pc110pad.c     | 160 -------------------
+ drivers/input/serio/Kconfig        |  13 --
+ drivers/input/serio/Makefile       |   1 -
+ drivers/input/serio/ct82c710.c     | 239 -----------------------------
+ drivers/input/touchscreen/Kconfig  |  12 --
+ drivers/input/touchscreen/Makefile |   1 -
+ drivers/input/touchscreen/mk712.c  | 215 --------------------------
+ 11 files changed, 1023 deletions(-)
+ delete mode 100644 drivers/input/mouse/inport.c
+ delete mode 100644 drivers/input/mouse/logibm.c
+ delete mode 100644 drivers/input/mouse/pc110pad.c
+ delete mode 100644 drivers/input/serio/ct82c710.c
+ delete mode 100644 drivers/input/touchscreen/mk712.c
+
+-- 
+2.46.0.76.ge559c4bf1a-goog
+
 
