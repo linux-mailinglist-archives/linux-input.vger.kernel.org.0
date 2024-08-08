@@ -1,57 +1,57 @@
-Return-Path: <linux-input+bounces-5423-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5424-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE45594BCCE
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 14:01:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 494BC94BCD7
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 14:02:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D069A1C22F16
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 12:01:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD79DB22E8B
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 12:02:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B667156220;
-	Thu,  8 Aug 2024 12:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B60618C34A;
+	Thu,  8 Aug 2024 12:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="prBxQf+E"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="EqwIwU4k"
 X-Original-To: linux-input@vger.kernel.org
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2060.outbound.protection.outlook.com [40.92.103.60])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2050.outbound.protection.outlook.com [40.92.103.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BD7126F1E;
-	Thu,  8 Aug 2024 12:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A2A18C914;
+	Thu,  8 Aug 2024 12:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723118490; cv=fail; b=IpINjAH+kyurh9R5BtBxhhtKrjC6BJSjHOuD9IgCXGQeuQKYj+PqLxwCheSGISz+QxB2G9U5P5YJbcMx0ZnnwN8CWH4EqQ5OHvh4khrS1dIRd1yW4n2fw2QrHubZp25BX+HAN1oSUmCnyPWGdm0oEb9LZ+TUJT8PN7rN92Doqig=
+	t=1723118535; cv=fail; b=nCr2VIXD1s8Q3g4yrVt7UXHFP4pSQZxbU3oPzTkT2nJquUQYZxH2wR+f1o1mqbNTzkPHONaZwjvAZjOCjSHlMzEf1Yd8bpeWqaA9tMC4b7hZKqYgLXwXfkA442U5x2OzqDdLdLCMGDNMqlbBtlJ7KlVJdR3VdjSsm2+bnYGtyPE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723118490; c=relaxed/simple;
-	bh=Epig5QAHDBVwrNvDZkDXr7kWymX9dQP5FAfFEisSWhU=;
+	s=arc-20240116; t=1723118535; c=relaxed/simple;
+	bh=k2qTvJJuKQ9yjna5tCPRpIpR+Mhe7F9Wvq5AaQD3p4o=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BpEhJ1Fi4Rtmsxtu1C0n7ZZdkm7hkftKWpAG4dyUZfkEfmFVpCXw+O9gW0+ibBIml8PxjFV3HsQCa29eMw6LTTsr/t2pqzb3ac62Y/PFvDfWrVR6GezOVmAKVkiEuubY9LWfSpFOg+NYvRTX1VWZ6Lx3FvHCa9lZoKT+2WX5vRk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=prBxQf+E; arc=fail smtp.client-ip=40.92.103.60
+	 Content-Type:MIME-Version; b=rOJyTbk0xPjN0sIkWWTHxbu+YD4BRlbuDLokymCvv6cZiugOtEdS9NoEvXg3Ge/nANB42YYCWXivlomsfkgoTi9uAExLZRE75Lg8U8y1mzKrXjXw6b8nOlQ2IPMFyU4KFbORR9Q/arFmuNJ6oQs72/uWqlUFtP55MMZTjUfaNns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=EqwIwU4k; arc=fail smtp.client-ip=40.92.103.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eXYvwCX86pkoFz4bY1LvYkwclunn84+yLwMWtvIG74pYKuL9CDRA52evxAeFEvlEDj+V3vSE6ojShcOEDIKNQ3awUhmS6cAMsklQTIfujWdl1L0zwexS44YDBl5Z0KQkkPqT/OjpiWsPbXlPGg7DwCfMvyCOumR4xCdrQ4yq90Lwal5zuKWzwRQR0FtDTdNEeLmZYS6KNcnZFBee2i74KLtcXUdHxSbS979vcFb5QcLgdQkBk2GRWWvFnOeDM9nHw2opzZE0uDp2xlCqMEGYWF7eRgkO/zr2ljbA/vTVrh9g4uLO4SmBBKrzerWGx7YTkpscUIrwKstZmWCUr0PkFA==
+ b=ernNd6vggmXQwz2g4wn/RRZUFLHp02F4zYH6wJydBn3Fq8LSRapWbj38ZyP0VRIdKmLITxue2IFDxRQ0o/1MP/N0jd39ygj62i+zDgJaRKTGy7aWgD/Ymf64DtZF2LTaMK0QkfmyUQDZBxMEh0fv4vQQiVA/CmQCbz94wq6bNti3se4A/uCH4vY2AJSDVgrxX98Vz6ekT13fDKnl20QoTkj8z2H4WM3D9kA8OmoX3gpqT9prwYWGiENs5Uy4lyOxjU21PKcoD4ahj5AEODCwucFMOVcGl70KC8hbQccD36K/IqGRgiYu2G4E0PTEwX3smsHxHcSJliFHCv1TQZzcjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iRg9eJxDc4ARlekO+g7uV6lPG0TkCEJFMy6dAol1E7M=;
- b=ehR6lkiQ4oykOwGz6gGKZKr8f3exF3faceqQnMfCSHQ7PmB8z5dYkHZGFY/BZGosSqFvVB5VwcdU37tJnkR8qEpp+u27VFL0NTHMUq1lQtFN+bDhG8vIuuv7ypOQmtejvzpyJxwmGF7JymXepEUJ5Gz/oBZfd2TZRDdlidATue99eAF7Ltx4VuC//UU5EvUQ8zB7VF7S60ilsC/3krglZBY0WKgi7Qp6Yn1/x4d9iREgFSAhXf6hSZRLoFuXi7smh+7byupDN158BWPEgjS00RI7hdFxz2bAv/5usyBTwrQZJ5v6XSFM/yzYIg9F0PizEBGSGGwKzwYoZxozTmEfkQ==
+ bh=OtdQ3/r+0UdrKlCuSHzXkJk1YWEEi4Wt1GXubHNHEfc=;
+ b=S4JkW/EBahzf9sv7AL1UDyGPigWZrBVtrxo0nihqpA5bnbkQ4Gu4SkfpLIbF79zlnUB5WtOKSdDrWS15zUt8/TkRYkTtNMOE8BztCP8RqqAZQEjNXfJPmTTQ8KafeyWLt6qZv/fb9rdL4IYgoUM6ftm7UFH7LYQWKX5ybGpxIYccRiHcEczl9zKwxkSVlm0XuWIugtIcXY4MluFmv9uq+Tqw+PL5YxYQPPs1giC4fA3a7tfBtJZLl8GvAGqrX+D/j3r2GSTjtf209LLHdku++llkt3CtFJK75HsD9RL2ce2tJQO192EVhYu9Yd3h0mZ5y12D902fgAOIDTBjA0zbRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iRg9eJxDc4ARlekO+g7uV6lPG0TkCEJFMy6dAol1E7M=;
- b=prBxQf+Ee/7Cg8EORrhO9E108okFu8dOhJNLuwCj1zFvZecZgKACTTl6lXaBmxpmB1IrtQIc0YPQr94kj8Pugb4hwgyl2sGsZt7NP1oI6S94OiqAXUrQNKjJ9sZ2gRYJK9HVYXwZKzpBDUP1Fk9b+QQzA4+34qQjDSXZdymr4kpnKdleUf/XQRpuyUwPxt+GQm7dpATKynQzffqbs6vGycgOM90jEuROxL3lu7xwkpnXBmbwVLP7SCD4T3CxwsrCv1M9u8v40yUjHpqBpgywkyfLfTTbU7JJWVjhwuXJiAd8hNOEZ9beG3IePpo8zhklZ1w7LXLpKIahhj203TVHMw==
+ bh=OtdQ3/r+0UdrKlCuSHzXkJk1YWEEi4Wt1GXubHNHEfc=;
+ b=EqwIwU4kpYHf4R9SFBuLZHr/lQB5/D9KRczREttggng+Rk0YCrvsxyjJDurnXuL2VxqATVm6zw6hTnPvPP3hr2jwlfux+K7RSR1e4mJbXZfNKO7QpLLa5Zswe1I9LbPdtzgf1vvf1qmELPCpzIXcc+ZZyb0rM2Ml5rB2t3hrK3Zy4dXnQhsERzygXwXn+E8Cyu/FMG72F6N0S/7oVg1i6Ee3VarLloJXboKqBPcV/yHhNNwCiVOiAk94Fjk1MJIWykX7nFF2xaF9EPtNu+eNkw/wFxA3JXrAvBtiUyWkOwFoBTc+mrXpF57qpFHvSOWkHmYhjNp8QqTIzP2zIJvEBg==
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN3P287MB0339.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:d0::5) with Microsoft
+ PN2P287MB0925.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:130::10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7849.14; Thu, 8 Aug 2024 12:01:22 +0000
+ 15.20.7849.14; Thu, 8 Aug 2024 12:02:01 +0000
 Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
  ([fe80::98d2:3610:b33c:435a%5]) with mapi id 15.20.7849.013; Thu, 8 Aug 2024
- 12:01:22 +0000
+ 12:02:01 +0000
 From: Aditya Garg <gargaditya08@live.com>
 To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
 	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
@@ -62,55 +62,56 @@ CC: Kerem Karabay <kekrby@gmail.com>, Linux Kernel Mailing List
 	<linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
 	<dri-devel@lists.freedesktop.org>, "linux-input@vger.kernel.org"
 	<linux-input@vger.kernel.org>, Orlando Chamberlain <orlandoch.dev@gmail.com>
-Subject: [PATCH v2 7/9] HID: multitouch: add device ID for Apple Touch Bars
-Thread-Topic: [PATCH v2 7/9] HID: multitouch: add device ID for Apple Touch
- Bars
-Thread-Index: AQHa6YqvzOez1ap2/U+g7ZZ+h/G4ow==
-Date: Thu, 8 Aug 2024 12:01:22 +0000
-Message-ID: <6AB25F04-EA02-4737-B5FD-77BAAEFA9DC7@live.com>
-References: <9550ADFD-0534-471D-94B4-EF370943CF80@live.com>
-In-Reply-To: <9550ADFD-0534-471D-94B4-EF370943CF80@live.com>
+Subject: [PATCH v2 8/9] drm/format-helper: Add conversion from XRGB8888 to
+ BGR888
+Thread-Topic: [PATCH v2 8/9] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Thread-Index: AQHa6YrH8N1UU3Lexk6hcx8Bbn3Wrw==
+Date: Thu, 8 Aug 2024 12:02:01 +0000
+Message-ID: <DD1D2855-D3C2-4EED-B236-0D5FA9D325A9@live.com>
+References: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
+In-Reply-To: <021EE0BF-93CA-4A37-863F-851078A0EFB7@live.com>
 Accept-Language: en-IN, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
 x-tmn:
- [TE0ZrEGgc/1+pS77m/Wjrt74y0yWy2FUAeTYdjUY9yu5UE/ij0wPUXUaM+8Mn4LDaE798j6EIVU=]
+ [yaUpJp84u9Mq7rbg31lHnt8PPFVn5KhKmzFy9jSQ0WDj+nlaSQQgedLopwAktsuYlbCOll+Z+1A=]
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN3P287MB0339:EE_
-x-ms-office365-filtering-correlation-id: 3f263054-759b-4420-894e-08dcb7a1d214
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN2P287MB0925:EE_
+x-ms-office365-filtering-correlation-id: f55fd3ee-e5ae-4e8e-849b-08dcb7a1e9bc
 x-microsoft-antispam:
- BCL:0;ARA:14566002|19110799003|461199028|8060799006|15080799003|440099028|3412199025|102099032;
+ BCL:0;ARA:14566002|19110799003|15080799003|461199028|8060799006|440099028|3412199025|102099032;
 x-microsoft-antispam-message-info:
- mUfGQz7HYqFw2nSy/OVvOzWJEPoYbi9OaSo1Kf+yNcDeFitTwAeZkPMSbXqKexwNCJMzsKqJtlmzzJds5/70lPuo7Yamqbqq5ktu10i4U3F4Yp3iixn0OZ7h47m1EjxPsW2I131wYjL5V7B0T6DCKUw0KCF8w/qBX1lQkQppXttjB3FC08pPgIsgy9694wlWX0voDPgVeHOTuNnfF2qCwWzX3TyzkCi1yACcI5TzKi+FQpDPVSR6Jpk0m3qqzZSxJYAAV78s0OUnypUNA+O+liw3JsFBrTGUU0PsN1g36OZrYi2EtmNXVCZ1Q6GYF7xkHXjXhBXSnsmNKLdHXtISuGDrQ5iQtZU5bmfaDeV+8ELjvVdvschssgCohRC+N3y28C5eyZ6HpwxA5S39gNaxTU817WyvNpPK2k2WAzN6sLOcpJWugl/JJgWR0R6UsWaswT7e0oeURM4YRuKRVNcMF0/Gcz+ZDDi+HxGH8l61G3Tl2lNRZupHaKbvtGOxmyPHZtx/jS8MMfLxzTK7BH3YJwh6B1AHJeVf8KsocopAIpVsG6PN2GhRdhSwAHZC1+oue4o91sbCYyCRUF1ijqD2O2zyG+hdP980G+dQ/rtziI/SiW83yhe7gYEm06YnLFC6BFYdREPxrK9Pq6WBthpiydgaL7pRKg0xwKNsIRKty8EEqY+CEIQtCFGsMYPTdCmz
+ oH6A9hMlA3k8U7b3kwPJzIYw4c/Z/nT8/Fc0WKIPAhWBpFSxCG2aqf+C5jL0htkp4L2l4o+xXXqk1F3baj8pH+BaI6A50LKO2EGCgy4giFU6om7udI4M4Csgs8XbyeP+9uIKDhVLNobpVTuNja+30rJFcOL/opBf22cQKfC7VOCpHnQGBJGCR1BFm4sjxkwVm+W0js/w1VnqaMxBBwSnSrSPt39U4ZMAgKlDs3V0y/OMLWrhexRzWEetspUGI/sMz0FUoJ42M7NMyEr7G2Z+x2QxAxLul7WYEi95WjRD1vGejT7B5e7RrTg9kbI6962IiCRNemvCAnbO2dWcqs5lYgxzm9b6gvtaCpXpklk1Jdd07TfgT44MyOrsytBuI+Q2a4jpi39sNyvDNF6ONI9P4QXEb58Ajw2Q6C3iZoj11xTy9wtrgLo7vuf505T46vdvwDCIjUAWzJvQf/tFriMXDQ1IzWGNj8/FuNht6JCVmEgf+CyWpzZENpCRHHlfmqNZOb9bzYerchP6WB7dsDQfk41BoeugT8ypT8xJLGsVUb22XGhVLMRXhbQmzhIrcCcigB/lSEqcRclMKSucMO4S4CqqH7s7x0oV7BJGtFdsp/RXkP0/NqsXUCnEvyLP6/LtoPpDq1S3VhsbIyw2lANJTq1cQLfgEPrw0T4sWQuj+uw=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?XY4qMeanqyQDILrA3IMiqebs0wv0dJ9/wwbRMsrP+B5ofxG6afa70GAm0wqD?=
- =?us-ascii?Q?T6eNah+yiLyuwj5Hu0VUbLSoPzBeEtFcl0nstUDVkFTbNVaSUy3ftQKFHqDJ?=
- =?us-ascii?Q?RPk5pxDSpZsClRjKkbPKBXEFc4zBQy+G4IX0nTwxBHFQ59YgMb2xTR/cAxit?=
- =?us-ascii?Q?T4oc0sjLcS4mvi/MkXsUTXL/jex/azOcKPvRpPHtwnXRITcn1j2YM9NRo+PP?=
- =?us-ascii?Q?Rul6Lp2cVVmWaGY4uibNMrtBNj3BQCzenKRmy05WDx4lHc8GR7o7JHslq9Od?=
- =?us-ascii?Q?xRQXQIHs1GGIAqs0PQ9lonKJQtqjAPOh+odps0inaF37zwx7bD6owsbtabva?=
- =?us-ascii?Q?+u/3sG5Lh8nMdB6PhSW4iO9tChW7MuxLY6Wlo90ZQO3Ddh4I7Ia8SdNDAl3y?=
- =?us-ascii?Q?gnFxztowbspsLKPLAw+w7ZN5I8/6O6nEC98O41UYf4wDP7/IK06LEJ5lufA9?=
- =?us-ascii?Q?FJuWM4IidXI7DPZlHwbWhZm0Qks+OJ7D8/GHP5fkOJlLnt59yDxs65b+1p7o?=
- =?us-ascii?Q?ai3q/0sUJBFf3G33a/9geLT1wCU4YrIaQHRnGFwlQBAHGFZcyFIVErt2j31s?=
- =?us-ascii?Q?QBCkWkh1A9qiNi1sJ9Qpvwx8u1U+OrMcNgQJ4AwWyf8AaigmOAngfM1kLI41?=
- =?us-ascii?Q?fR0gkxdap1JdkOLI8viV/U9EniMpER+wEui6TD2dTI6vhYdsi+PD3Beb2/f6?=
- =?us-ascii?Q?OcsvgtOODqciCazkl7kkBD98gIVsvn/lKtrbB+xdlj8W5VgcJwwuom8bSGAd?=
- =?us-ascii?Q?KN6nnf19ek9S8Ea5kzBygmx8RM7UGO1IB7+wVFymW8zacZFDWUjbuDND2cdY?=
- =?us-ascii?Q?U+V1hTx0W9n1LzvrbpqjCcufQdZAa3JYNA/OXsDeQ88j5KLPiDVGiX+b8irv?=
- =?us-ascii?Q?KY6N9x+wjREohaohK1NtD+T4xeZj+rm96gQCBLx4V7hMM4XWI9YBUO7Yxk31?=
- =?us-ascii?Q?Au3rxTzwM9GK1aWH6pdzs/wM/PCGkmTNzKDqGwb94c9bAYbFFnJ3F8DWEvZJ?=
- =?us-ascii?Q?nv6PzFp8X5XYk/uoLU7qyPeYSNcdkqmUOypLkoIS0QCByav4QC06j4PDQdCy?=
- =?us-ascii?Q?9s5PNposrS20GzYMnhR4R3yMvpdA5v7AEtLtvrJTISa+48ODN4LitjKBqkpz?=
- =?us-ascii?Q?ZgM57CQYErCJKjD/G3MwJrmq9gmftianTOANaO5shTMpEa4DAqbHbKz9K7Xc?=
- =?us-ascii?Q?pOhoXl/qQeWaK0BR/UgvBfbyc7ZWoaaedOXIUJw81JKuB47bE6UdJVvIDHy0?=
- =?us-ascii?Q?6eM26xr7NE5/SOuWnhR92vU+1eL6tqe1NXZLZlhoMWJXdM/yHKVu4pC/Q2qD?=
- =?us-ascii?Q?rrTnrwN2Md+k3ZwLFtOdAMBp?=
+ =?us-ascii?Q?uYFfSadW5TXLiV1C7uQ00jp1xRdQy/V7MFGZuYQbuiwqNFTI0YHX6h+CGVRu?=
+ =?us-ascii?Q?+0VrcvZzG6TsIabH32cyuBpbhUqg9C3N20YEkA+XpRRjw0BOgDyiiD3GYbUo?=
+ =?us-ascii?Q?bGu/7/N66NhRa08UIRloXFxaJI+fqqWUEZIYKplPGNhel5/TAWPQogtPXE6c?=
+ =?us-ascii?Q?FE2cxfNPPDe5ygi2ym4ioUQgZ7hCx4+YQJLDKqiMMOtOuPjnUiiOS9KSu04d?=
+ =?us-ascii?Q?lKs5BSA80y2cge0iLpC96f7bTp6u4VmN2tlq3Yde2ZAmex1IZ28PeD2dAIVr?=
+ =?us-ascii?Q?yyuI8Uf7IZ3eaytY1sBygzE/3T7GdP2Mr65nQAo9UTg642+5naCzSLZ4ZSOf?=
+ =?us-ascii?Q?5hEoaJDaGVvYXPwPVckizTUMTZdu8VbZIvjbf92LnOjZBfsBVRTJrgTx5I6v?=
+ =?us-ascii?Q?yovEwwCwLuYaoLO331azR2bHJQI96HnKU+8Iplvf3WfDt5vUxv4+fBnZ925e?=
+ =?us-ascii?Q?liZAZYo5dqKyiLcH7L6ZySKtCH71UOdltGqo6eGoV10PAY50FUg7cq0fc1zZ?=
+ =?us-ascii?Q?azsWEGI1k+UhoIh0Hotpls81BFy/JUxhyWmC0sKYU+GzLjmnYIazVxtWxTu/?=
+ =?us-ascii?Q?PkQkhuLNhCFvrzSBPPUWxvZ2uarwxz/RQyv/4TURdxz0ywlnskK1TgngH762?=
+ =?us-ascii?Q?fDlUcsxJ1Xt8E/LkLtwGyJlhohy0ghC/a7dmHl2HV47OqxDkr8g02fr4cq+g?=
+ =?us-ascii?Q?/B24dES7+wxTejgfHYgdNNPmge2x0YuizeMMm9+Z6vUWmzj8FRkD3zFnBw06?=
+ =?us-ascii?Q?qQ1gi66reioU5KNEZdYhZwrCRhxpyF4HWrHfnbas20Ig8vWog1D4vQ9p/nAv?=
+ =?us-ascii?Q?7aUM7C8R4spdm3/EZMYNX6inIhx3QqaS3OcHr+ihWRgtQyAcjUOMR/zAmsu+?=
+ =?us-ascii?Q?eBchZbIx8cZFduk+etApCc7As2iGNven6dI8z7llAf+iEI0S6jSxYcTkV2fl?=
+ =?us-ascii?Q?Pe9qnbtk+sykaKmrQ0R3NY0xAZOsTpw5m21HbKv76ENksN14qI8YSzE9tNmk?=
+ =?us-ascii?Q?rJH8tknnSYxXTugyOviNHlTrlSBZgVGsfmx4vqq1nEMYQWI4lOm2jLOJmaDO?=
+ =?us-ascii?Q?n6GdgAHs7V7/D5doxIUcedbhB+yGdXcaOoOUf45oQA/PjOCf4LsbhshB7U0Q?=
+ =?us-ascii?Q?buTSXVoitVXriysYj+29qf+QKxP+cnzbBIaGsgZKFhCTRGf4yA3ElBjNBAWd?=
+ =?us-ascii?Q?N3WTDy6DMnb42uDs1PV1xUN50K0m242pPyMG8gDD0UKvLeQCwxRpxz3IA8hA?=
+ =?us-ascii?Q?IK4yp9FALfyfznf5TNkZoOKKMJJ+D/OSSa6KPa4+t5xnh8gm8irwnOwaxTvt?=
+ =?us-ascii?Q?ep4GphC/w/oxqZs17zpSXswI?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <83B75ECA2854B541BA20B45AF5B694BF@INDP287.PROD.OUTLOOK.COM>
+Content-ID: <5B62F816C57B6244A12FD4DBA73D2C1B@INDP287.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -122,106 +123,290 @@ X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f263054-759b-4420-894e-08dcb7a1d214
+X-MS-Exchange-CrossTenant-Network-Message-Id: f55fd3ee-e5ae-4e8e-849b-08dcb7a1e9bc
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2024 12:01:22.1641
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2024 12:02:01.8710
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0339
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0925
 
 From: Kerem Karabay <kekrby@gmail.com>
 
-Note that this is device ID is for T2 Macs. Testing on T1 Macs would be
-appreciated.
+Add XRGB8888 emulation helper for devices that only support BGR888.
 
 Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- drivers/hid/Kconfig          |  1 +
- drivers/hid/hid-multitouch.c | 26 ++++++++++++++++++++++----
- 2 files changed, 23 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
+ .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
+ include/drm/drm_format_helper.h               |  3 +
+ 3 files changed, 138 insertions(+)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 72b665eda..35ef5d4ef 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -744,6 +744,7 @@ config HID_MULTITOUCH
- 	  Say Y here if you have one of the following devices:
- 	  - 3M PCT touch screens
- 	  - ActionStar dual touch panels
-+	  - Touch Bars on x86 MacBook Pros
- 	  - Atmel panels
- 	  - Cando dual touch panels
- 	  - Chunghwa panels
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 2948fbcbc..0fed95536 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -214,6 +214,7 @@ static void mt_post_parse(struct mt_device *td, struct =
-mt_application *app);
- #define MT_CLS_GOOGLE				0x0111
- #define MT_CLS_RAZER_BLADE_STEALTH		0x0112
- #define MT_CLS_SMART_TECH			0x0113
-+#define MT_CLS_APPLE_TOUCHBAR			0x0114
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_form=
+at_helper.c
+index b1be458ed..28c0e76a1 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, =
+const unsigned int *dst_pi
+ }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
 =20
- #define MT_DEFAULT_MAXCONTACT	10
- #define MT_MAX_MAXCONTACT	250
-@@ -398,6 +399,13 @@ static const struct mt_class mt_classes[] =3D {
- 			MT_QUIRK_CONTACT_CNT_ACCURATE |
- 			MT_QUIRK_SEPARATE_APP_REPORT,
- 	},
-+	{ .name =3D MT_CLS_APPLE_TOUCHBAR,
-+		.quirks =3D MT_QUIRK_HOVERING |
-+			MT_QUIRK_TOUCH_IS_TIPSTATE |
-+			MT_QUIRK_SLOT_IS_CONTACTID_MINUS_ONE,
-+		.is_direct =3D true,
-+		.maxcontacts =3D 11,
-+	},
- 	{ }
++static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, u=
+nsigned int pixels)
++{
++	u8 *dbuf8 =3D dbuf;
++	const __le32 *sbuf32 =3D sbuf;
++	unsigned int x;
++	u32 pix;
++
++	for (x =3D 0; x < pixels; x++) {
++		pix =3D le32_to_cpu(sbuf32[x]);
++		/* write red-green-blue to output in little endianness */
++		*dbuf8++ =3D (pix & 0x00FF0000) >> 16;
++		*dbuf8++ =3D (pix & 0x0000FF00) >> 8;
++		*dbuf8++ =3D (pix & 0x000000FF) >> 0;
++	}
++}
++
++/**
++ * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
++ * @dst: Array of BGR888 destination buffers
++ * @dst_pitch: Array of numbers of bytes between the start of two consecut=
+ive scanlines
++ *             within @dst; can be NULL if scanlines are stored next to ea=
+ch other.
++ * @src: Array of XRGB8888 source buffers
++ * @fb: DRM framebuffer
++ * @clip: Clip rectangle area to copy
++ * @state: Transform and conversion state
++ *
++ * This function copies parts of a framebuffer to display memory and conve=
+rts the
++ * color format during the process. Destination and framebuffer formats mu=
+st match. The
++ * parameters @dst, @dst_pitch and @src refer to arrays. Each array must h=
+ave at
++ * least as many entries as there are planes in @fb's format. Each entry s=
+tores the
++ * value for the format's respective color plane at the same index.
++ *
++ * This function does not apply clipping on @dst (i.e. the destination is =
+at the
++ * top-left corner).
++ *
++ * Drivers can use this function for BGR888 devices that don't natively
++ * support XRGB8888.
++ */
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] =3D {
++		3,
++	};
++
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
++		    drm_fb_xrgb8888_to_bgr888_line);
++}
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
++
+ static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf,=
+ unsigned int pixels)
+ {
+ 	__le32 *dbuf32 =3D dbuf;
+@@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned=
+ int *dst_pitch, uint32_t d
+ 		} else if (dst_format =3D=3D DRM_FORMAT_RGB888) {
+ 			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
++		} else if (dst_format =3D=3D DRM_FORMAT_BGR888) {
++			drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
++			return 0;
+ 		} else if (dst_format =3D=3D DRM_FORMAT_ARGB8888) {
+ 			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/d=
+rm/tests/drm_format_helper_test.c
+index 08992636e..35cd3405d 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
+ 	const u8 expected[TEST_BUF_SIZE];
  };
 =20
-@@ -1747,6 +1755,15 @@ static int mt_probe(struct hid_device *hdev, const s=
-truct hid_device_id *id)
- 		}
- 	}
-=20
-+	ret =3D hid_parse(hdev);
-+	if (ret !=3D 0)
-+		return ret;
++struct convert_to_bgr888_result {
++	unsigned int dst_pitch;
++	const u8 expected[TEST_BUF_SIZE];
++};
 +
-+	if (mtclass->name =3D=3D MT_CLS_APPLE_TOUCHBAR &&
-+	    !hid_find_field(hdev, HID_INPUT_REPORT,
-+			    HID_DG_TOUCHPAD, HID_DG_TRANSDUCER_INDEX))
-+		return -ENODEV;
+ struct convert_to_argb8888_result {
+ 	unsigned int dst_pitch;
+ 	const u32 expected[TEST_BUF_SIZE];
+@@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
+ 	struct convert_to_argb1555_result argb1555_result;
+ 	struct convert_to_rgba5551_result rgba5551_result;
+ 	struct convert_to_rgb888_result rgb888_result;
++	struct convert_to_bgr888_result bgr888_result;
+ 	struct convert_to_argb8888_result argb8888_result;
+ 	struct convert_to_xrgb2101010_result xrgb2101010_result;
+ 	struct convert_to_argb2101010_result argb2101010_result;
+@@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D {
++				0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
++				0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
++				0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
++				0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D {
+@@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D 15,
++			.expected =3D {
++				0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D 20,
+ 			.expected =3D {
+@@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kuni=
+t *test)
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ }
+=20
++static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
++{
++	const struct convert_xrgb8888_case *params =3D test->param_value;
++	const struct convert_to_bgr888_result *result =3D &params->bgr888_result;
++	size_t dst_size;
++	u8 *buf =3D NULL;
++	__le32 *xrgb8888 =3D NULL;
++	struct iosys_map dst, src;
 +
- 	td =3D devm_kzalloc(&hdev->dev, sizeof(struct mt_device), GFP_KERNEL);
- 	if (!td) {
- 		dev_err(&hdev->dev, "cannot allocate multitouch data\n");
-@@ -1794,10 +1811,6 @@ static int mt_probe(struct hid_device *hdev, const s=
-truct hid_device_id *id)
-=20
- 	timer_setup(&td->release_timer, mt_expired_timeout, 0);
-=20
--	ret =3D hid_parse(hdev);
--	if (ret !=3D 0)
--		return ret;
--
- 	if (mtclass->quirks & MT_QUIRK_FIX_CONST_CONTACT_ID)
- 		mt_fix_const_fields(hdev, HID_DG_CONTACTID);
-=20
-@@ -2249,6 +2262,11 @@ static const struct hid_device_id mt_devices[] =3D {
- 		MT_USB_DEVICE(USB_VENDOR_ID_XIROKU,
- 			USB_DEVICE_ID_XIROKU_CSR2) },
-=20
-+	/* Apple Touch Bars */
-+	{ .driver_data =3D MT_CLS_APPLE_TOUCHBAR,
-+		HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			       USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
++	struct drm_framebuffer fb =3D {
++		.format =3D drm_format_info(DRM_FORMAT_XRGB8888),
++		.pitches =3D { params->pitch, 0, 0 },
++	};
 +
- 	/* Google MT devices */
- 	{ .driver_data =3D MT_CLS_GOOGLE,
- 		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
++	dst_size =3D conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
++				       &params->clip, 0);
++	KUNIT_ASSERT_GT(test, dst_size, 0);
++
++	buf =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
++	iosys_map_set_vaddr(&dst, buf);
++
++	xrgb8888 =3D cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
++	iosys_map_set_vaddr(&src, xrgb8888);
++
++	/*
++	 * BGR888 expected results are already in little-endian
++	 * order, so there's no need to convert the test output.
++	 */
++	drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->c=
+lip,
++				  &fmtcnv_state);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++
++	buf =3D dst.vaddr; /* restore original value of buf */
++	memset(buf, 0, dst_size);
++
++	int blit_result =3D 0;
++
++	blit_result =3D drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, =
+&src, &fb, &params->clip,
++				  &fmtcnv_state);
++
++	KUNIT_EXPECT_FALSE(test, blit_result);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++}
++
+ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+ {
+ 	const struct convert_xrgb8888_case *params =3D test->param_value;
+@@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases=
+[] =3D {
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_par=
+ams),
++	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_par=
+ams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_ge=
+n_params),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_ge=
+n_params),
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helpe=
+r.h
+index 428d81afe..aa1604d92 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -96,6 +96,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, c=
+onst unsigned int *dst_
+ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
+ 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
+ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int=
+ *dst_pitch,
+ 				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 				 const struct drm_rect *clip, struct drm_format_conv_state *state);
 --=20
 2.39.3 (Apple Git-146)
 
