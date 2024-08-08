@@ -1,204 +1,135 @@
-Return-Path: <linux-input+bounces-5457-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5458-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216D594C724
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 01:00:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA8794C738
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 01:11:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB29B285CC3
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 23:00:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7F3A1F275A3
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 23:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCAD15D5C3;
-	Thu,  8 Aug 2024 23:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C5615F32E;
+	Thu,  8 Aug 2024 23:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="qunEkyV5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KVQ8byg/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MyudVsov"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD14D1591F3
-	for <linux-input@vger.kernel.org>; Thu,  8 Aug 2024 23:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE64F15EFB6;
+	Thu,  8 Aug 2024 23:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723158015; cv=none; b=gClaHpYMREPPjkxjhcpysJTsHrfxCm+RsDoxobQitzncR5sA7crqSLh9eVzX+lG53fbX4ogB6GrhtEOsKxn1pb61yN7MdODmxI2Djw+ZWWAtmvXVwtKtJbY3ICjU7q5TmXvIDjnUQdTbK4T5aDIcAMjCjMbzgMpcFwNbKb/5SPE=
+	t=1723158710; cv=none; b=uM22mjQTA/mSt2gecrarF7npGD/zNuX+hSkz9MWuebAf3vwSr+zwjdR5PN8eg/Eq6/Tl682fBGyk2zN0L63quCkcvS6n1FlNyt5Ax7A3AaEhryi3SPP2/Enz2H+ds39FuEaLgMG7PCWku4e1xPO/bWq8+D1FuujTA6kbSLtZZ/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723158015; c=relaxed/simple;
-	bh=gYmkQPByhTO/aHp076JxitausCFg/yIz78X2Q4j1RTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fb23sExcCDw/cH7vYNC/KrlxvUuRrWSWxuzEazBziORii5k+VGXVKkHDuraUEMot6UznpRBSqrOsH5qwZY6xxbn0fCf9OFsKF+4MFUUlEsZTaba7zYJy2fuhFq3olzGuMXDB+hbdDj5z3MFS0clvKO4Kl2LjkP+Plzi5B8A8myk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=qunEkyV5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KVQ8byg/; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id B3576114C02C;
-	Thu,  8 Aug 2024 19:00:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 08 Aug 2024 19:00:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1723158012;
-	 x=1723244412; bh=wEaSAs0LzgMl3QEXDA0dbuhoARoLNZ34CFnUMQqOlUY=; b=
-	qunEkyV517NibtvZWk+uSEVlkdrLNsWJ+BQpelg2qiRE4VJTb89vL6+jaHz8+TNw
-	3ycFU/652jMgmullqZfC+QT0SER/5mjDMuJhUWOg56BtOYBf/HUh8sv9sAdG75ei
-	QOa3EheOQiyM1im9luxGqJv/YNJimSvmhaA1c+ZznCOJoyecBUc5ahrgKsh4s/Cc
-	zIh07H5mFaD5mUBmaxkBTpiBoa/3hQfMMJw20La4+j7UAmkw5S1aU2ZrNe/V5dBM
-	hl3+N0z1L93hc5lmcNwwBLd3VVaja5sgi7vtb3UmSWwxDCNoazJxtVFSYRUjlG0g
-	c0thWuPYHF898MJj/2RACw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1723158012; x=
-	1723244412; bh=wEaSAs0LzgMl3QEXDA0dbuhoARoLNZ34CFnUMQqOlUY=; b=K
-	VQ8byg/GnmHtmjNhfdJjEq8NBXSeDoem+dS7wb0tvM9nH4EzUlR8Npkzd1Ekxylw
-	mcWA4EJDkkqRxKr/MaVS3UsFMHdi532tlpDI51vvIKxgM45/iuPQI2rvxM36Hz7V
-	oTP0kAXPougIq6cfIiUZ41kzYsDsHPHF0zXyTnXixAFyLFwSDQfrzJJHzCORjn1Z
-	97PE8c/9IbZSNozDKNFUcOqDopKmNYvVyVrT7/M4jqK8hdhnm3c/irzXX0rXl3Pg
-	Ib6QXJsujGrIgVMWScvlqt/BYLyOdxcDKZtqhhmRVSVBVwFsz7zo2S4Qaqi/6uOQ
-	3MQQc5Pdyn1bkU//FLBAg==
-X-ME-Sender: <xms:_E21ZjmdkL60mQseKHiZ7vIzwc1iRU-NtdYtX-kTfKI-hfWgIOfkkA>
-    <xme:_E21Zm1DVrfYIZN-z8T2zhiEFUYvbMQQhq2Slug5N5FszzwM9AoUidJEyjH0ufimB
-    pSYcLgBG5eCJGQTmFk>
-X-ME-Received: <xmr:_E21Zpr7KjYFAJdpNRkIUfzDjLOF9Yl66I4cohcNsm3OgaFeR0Iy5alNjS4aMiESFeARXKtMGAjDe0Is-8owPqMOs687E_Qc1uwr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrleefgdduhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
-    ucfhrhhomheprfgvthgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvg
-    hrseifhhhoqdhtrdhnvghtqeenucggtffrrghtthgvrhhnpeevheeitdejgfdvfffhueek
-    veffgeehueelteetheefvedtuefhuefhtefhvdehfeenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihh
-    ohdqthdrnhgvthdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepthhomhgrshiirdhprghkuhhlrgdrohhfihgtjhgrlhhnhiesghhmrghilhdr
-    tghomhdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtoheptghpuhifohhlfhesghhmrghilhdrtghomhdprhgtphhtthhopegs
-    vghnthhishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhinhhpuh
-    htsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhlvghgsehmrghkrghr
-    vghnkhdrohhoohdprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhhouhhnug
-    grthhiohhnrdhorhhg
-X-ME-Proxy: <xmx:_E21ZrnoNHEXHLeM6U2Q28sbAObuVvLsaiKyGztl1c1v88-inRuB8w>
-    <xmx:_E21Zh0RbfHih5gdcEPu4y7bjqKeWb3p5jixcOvvbvEn8P-az03BgQ>
-    <xmx:_E21ZqvzcjYkgH05scxADFVJ3sk-yN6aOFj2upRXk9-aByT6XNkz2w>
-    <xmx:_E21ZlXzHtRhHiSVQo8ahB9y5TDTWHhWXu-UeZ0XaZMNEndz7Im8mQ>
-    <xmx:_E21ZumCO5lGytN4HviWL4FVJ_okxblSgy5-ToCuTB_r3V2Qdzt1_JaC>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Aug 2024 19:00:09 -0400 (EDT)
-Date: Fri, 9 Aug 2024 09:00:05 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Wei Shuai <cpuwolf@gmail.com>, bentiss@kernel.org,
-	linux-input@vger.kernel.org, oleg@makarenk.ooo,
-	torvalds@linux-foundation.org
-Subject: Re: [PATCH] [v2] Input: increase max button number to 0x340
-Message-ID: <20240808230005.GA4041272@quokka>
-References: <CAFqprmwOR7i+gA6hcou3NkY_CZXVANfSQVq6f_ZAAkHGmNLqZA@mail.gmail.com>
- <20240807031245.GA3526220@quokka>
- <ZrL0KD9yDnfHMbL-@google.com>
- <20240807051708.GA3551201@quokka>
- <CAFqprmwT5tzvTg92eAobN8s1zdAUsBUm2P9X6NjbdcMR33ijww@mail.gmail.com>
- <CACa7zymOLKZE03xQMGG3ZS=sJLrjAN1Xk6MKkZuCKzmpS4pPVA@mail.gmail.com>
- <ZrPEgZ9_ahKx2WTu@google.com>
- <CAFqprmwT2ppX5S+KXrCebuw=PCtZNu+6C0Y95=Ld-uWVOa331Q@mail.gmail.com>
- <ZrPh9F5lhUKLLSQk@google.com>
- <CAFqprmwb_nDc1EgMSHMgy2KX7O9NO5WaesYASV8Vkzm2tOp2Pw@mail.gmail.com>
+	s=arc-20240116; t=1723158710; c=relaxed/simple;
+	bh=QzKhyPe14h+xTaNGHujCXgpo07qtS6ZBmgHJXGPpT9Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IKHopUxDKtRQSQyXGze+4Twv8BmDebXdZnW20xp0dI1vfEE3bg9ifHIonEFf44u180sny2tWgYSvOWgLxryxkpr3t4kSBGD2sKN4kKiMQuf6mvtD/NSch8ycT9JSWNqrqcs8fMMej+km90aQHKyGRp/c+t2xrr3WHM1LpT1WZVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MyudVsov; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a8caef11fso178062266b.0;
+        Thu, 08 Aug 2024 16:11:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723158707; x=1723763507; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QzKhyPe14h+xTaNGHujCXgpo07qtS6ZBmgHJXGPpT9Q=;
+        b=MyudVsovMEjiWlrDd9Zv++6b+or2lpCMbqRNiKgZnDLlokd7T9KpgoQqWX/MCG8blB
+         y78THO64KZ9t92YRaklnmy16+742QzNTreo4wK9I274ne+/iH1L8roh10k/8EG8Pa1lR
+         8ECtq/suKK//hP6BHdINer/OHA7wF0pR2DIfA6scTelA/0BZWUIMop+dcKfIPaKlaumL
+         kArwajAODwNJ5EpsCx5DBs6tfWG8HePcobcawWNIkbeY7WqaRkv69TboVW7uHD7s7XVC
+         hCIf5J4492UMR9eEH6SH3SD5hkq+hmiJIlAjUd5ugIYnn7T32UjEfX+3UZLXoLsepSyO
+         5F4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723158707; x=1723763507;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QzKhyPe14h+xTaNGHujCXgpo07qtS6ZBmgHJXGPpT9Q=;
+        b=tt33L1596Z7P4xSLp4JpqCkM/V3g1xAWJK8bw5Kcu4djomLbz6SaZXyAAt95OhCVQT
+         x7ZaOoN6kJCzWMaQ5KIeToazkZdw7GcN44xiR3OAQ0H3avaCcRTnSa0q1iutcWyzSgTU
+         bYW5aNvVWnMPVbiOup204npsgM+kivreOKq+FjiUy/IOTXrIAYJHzkDle9pYOpadH2Ys
+         wPCxBmCrNYG7g4R0XeAtum+tmEJOXO0LzEAPMgHrKaNx+wf3+8fh+NaQHoXrsAFQkJrf
+         SXHC+5sRiB4Gww0AylTCFZ1HXb/1N78jOHcpG7DjvqFYWl0jwY4Lif3kGhJyJ/o3or4g
+         TPMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYW3vxfg6QmRE1ckAQjarSj2TavX9/sFaee4PXucozXpkwdOTTfskkctipAmlGcaK3m7oysP0vEjVonbV9XmORS0FvGHovPNih2mDCexqNk56R7+2NBM6+KqoMY+AsuPe+U53RsqHN9Us=
+X-Gm-Message-State: AOJu0YwQFmttru+TYa6LbPZGUnRVHO35anrQ8khxzExHCjG3MnTfJiNn
+	0P73NsG+REnF7siYYgmaASKwtZyk/xzkTHuqRnxQ+2SkV7dc32r5KkVa0edtN8ajFoaIUIS2gnR
+	gHEPRyxZ5ioht0XAcUAmJVCIMLDo=
+X-Google-Smtp-Source: AGHT+IEZ2mPTSt8Cd6agvxFpioGrtvMggA1ekdh8FHzUpIES/hJWVqYYR71ztdrO1o/0/tsLcQ/9f+093ztH/t169f8=
+X-Received: by 2002:a17:907:1b27:b0:a7a:9447:3e8b with SMTP id
+ a640c23a62f3a-a8090c82a6amr252374966b.25.1723158707109; Thu, 08 Aug 2024
+ 16:11:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFqprmwb_nDc1EgMSHMgy2KX7O9NO5WaesYASV8Vkzm2tOp2Pw@mail.gmail.com>
+References: <20240616163055.75174-1-max@enpas.org> <CAEc3jaCkH5JwNTpHRZYsekbwX+G6T5tMTLD0+O6E7Q2hqcAFHw@mail.gmail.com>
+ <dedb2c39-fc28-4cba-802f-5d56f23db722@enpas.org> <CAEc3jaC-Tmd2XtK9H2sipBJAhCf16dMWx46r8Hs4p9At3LC_Jg@mail.gmail.com>
+ <afda41dc-7b36-4ddd-abfc-c9430d8c9503@enpas.org> <CAEc3jaB7ijeXCUKOhpORx4Omf8edSmc1HKe9bk22V1mz=cLa+g@mail.gmail.com>
+ <5b42961b-8ca6-4245-b16c-d703255e5aea@enpas.org> <bf096319-c44d-4bbf-bbcb-374d3cce0ca7@enpas.org>
+ <rktgvill7zgcggiir54ixh3ele4zeqatoxwshamebtvvcnz4z5@nmmh5wgwnqmf> <cde0bcf3-eb31-48ae-93a6-e630ba80a068@enpas.org>
+In-Reply-To: <cde0bcf3-eb31-48ae-93a6-e630ba80a068@enpas.org>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Thu, 8 Aug 2024 16:11:34 -0700
+Message-ID: <CAEc3jaDzvus5ZDCupDzpy1HWRAwaKHQZLpDU4gO1=jTmPUzeKA@mail.gmail.com>
+Subject: Re: [PATCH v1] hid-playstation: DS4: Update rumble and lightbar together
+To: Max Staudt <max@enpas.org>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Roderick Colenbrander <roderick.colenbrander@sony.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 08, 2024 at 09:46:09AM +0200, Tomasz Pakuła wrote:
-> > No, not really. EVIOCGRAB is an ioctl on evdev, as well as
-> > EVIOCGKEYCODE_V2 and EVIOCSKEYCODE_V2. If you do not care about meaning
-> > the kernel assigns to the buttons you can remap usages to whatever
-> > (maybe withing the range of 0x160 - 0x2ff) using EVIOCSKEYCODE_V2, and
-> > use EVIOCGRAB to stop events being delivered to anything but your
-> > application (so the rest of the system is not confused).
-> >
-> > These are existing userspace APIs that SDL can use.
-> 
-> But to remap a usage, it would still have to be in range to actually
-> show up in evdev?
+On Mon, Jul 22, 2024 at 12:31=E2=80=AFPM Max Staudt <max@enpas.org> wrote:
+>
+> On 7/23/24 01:49, Benjamin Tissoires wrote:
+> > Is there anyway to detect that the device can not support the current
+> > behavior? And if so then dynamically switch to the new behaviour?
+>
+> Sadly, no, otherwise I would have used that already :(
+>
+>
+> Also, the change that my patch makes is in the "dialect" of the wire
+> protocol. This seemingly changes zero in the original Sony device's
+> behaviour, both from what my tests have shown, and from what I gather
+> from Roderick's emails. HID traces on the web confirm that the PS4 may
+> output such or similar reports as well. Hence I don't understand why we
+> would want to make a distinction at all, if the driver can simply only
+> speak the "dialect" that works on most devices.
+>
+>
+>
+> Max
+>
 
-I think Dmitry meant that instead of having randomly sprinkled usages
-you remap every single one sequentially from 1..N, effectively giving you
-a KEY_MAX number of *physical* buttons. Then you treat them sequentially
-instead of whatever the #define's name is.
+Sorry for my late reply. I just got back from vacation. Just catching
+up on emails.
 
-> > What do you mean? If we go to separate event namespace then what KEY_MAX
-> > would have to do with it?
-> 
-> I guess, in that instance it maybe would not matter, as legacy
-> software would not
-> be able to read the new namespace and KEY_MAX wouldn't even be considered
-> there.
-> 
-> >
-> > Would it take that long to teach SDL about new event types (EV_BTN that
-> > Peter suggested or MSC_KEY* pairs)?
-> >
-> > Can we also talk again about the exact use case we need to solve. It is
-> > not a random Steam game that will make use of tens or hundreds of
-> > keys/buttons and only support a single input device. Don't you already
-> > have to deal with let's say racing wheel and pedals being separate
-> > devices?
-> 
-> SDL would be easy I think, but there are actually native linux games,
-> and they, sadly
-> have their own statically linked SDL versions. Well, nothing we can do
-> about it really.
-> 
-> Simracing equipment supports dual mode operation more often than not, to
-> combat the exact issues of multiple devices. Most of the time, it's recommended
-> to connect everything through the wheelbase. Moreover, even if such devices are
-> connected directly through USB, they can still define a lot of buttons
-> just to keep
-> the assignments the same. My h-pattern shifter does this, as even when used
-> standalone, it sends its events in the 112-120 range.
-> 
-> The use case is I want to use every button that's available to me. My
-> steering wheel
-> has 5 rotary knobs, each has 12 states that appear as separate
-> buttons. This means
-> they alone define 60 buttons. And even If I wanted to use just one,
-> the buttons don't
-> even show up.
+In general as Max also mentioned it is not a true regression as
+various of these devices didn't work before. I have been thinking
+about how to handle things. Preferably it would be some type of quirk.
+Just changing the patterns is not a good idea also in case
+hypothetically other features were get added (volume control for the
+speaker, microphone settings,..) and other features which work through
+the same output report and various of these devices probably won't
+handle (or it is hard to predict).
 
-arguably, those knobs should be defined as an ABS_WHEEL with a range of
-0-11 But now we're back at the "we're out of EV_ABS codes" problem which
-is the older brother of the "we're out of EV_KEY codes" problem :)
+I have been trying to think of ways to realize a quirk. I think we
+need to search it in the HID reports. Either do some tests on reports
+we know aren't supported (ugly). It can also be that the calibration
+data is invalid (zeros, which we now initialize to a default). Or
+perhaps is the firmware/hardware version related HID report returning
+anything interesting?
 
-> Currently additional buttons just overflow into the undefined range and stop at
-> KEY_MAX, and that's why my first intention was to just increase this
-> define, as it
-> would be the fastest fix.
-> 
-> > I feel we are talking about pretty specialized hardware and pretty
-> > specialized applications and that is why I was wondering if using HID
-> > instead of input would not be a better choice here.
-> 
-> Just Racing simulators, Slight simulators, button boxes of any kind.
-> Honestly, anything that would make it possible to define and receive
-> buttons. I just wonder if it would be good to spinn off the whole joystick stuff
-> so devices like that (gamepads, wheels, etc) would have their own subsystem.
-> Current stuff could be kept for compatibility reasons, but this new component
-> would take care of all the events, buttons, ranges. This would be a complete
-> and singular source of "truth".
-
-xkcd too many standards comic :)
-
-Cheers,
-  Peter
+Thanks,
+Roderick
 
