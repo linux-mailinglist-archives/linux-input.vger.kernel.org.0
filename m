@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-5454-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5455-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BFD94C3B4
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 19:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C09294C3B6
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 19:28:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2824BB26046
-	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 17:28:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7EF21B221D4
+	for <lists+linux-input@lfdr.de>; Thu,  8 Aug 2024 17:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434CC191F9A;
-	Thu,  8 Aug 2024 17:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01DCF1922DA;
+	Thu,  8 Aug 2024 17:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ds6WMUex"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jlwgd9YV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7714191F65;
-	Thu,  8 Aug 2024 17:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA8B191F89;
+	Thu,  8 Aug 2024 17:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723138070; cv=none; b=dt8O0CE+FFwIbKPJzJbjXkm4i0J6bSOrh2ckgPhsmHiTOpwF5Qc9RW4f6Uz0Q5+afH/DOaogLwHfT8zeSRMt63UGhLsu1LtY0Vz7PDDVsjURpqux3pst8xRT4kImtB6PgnA4DPE0YKjRiJbTrLL3jds1MW1Wwcvi2zy85+PeUHs=
+	t=1723138070; cv=none; b=QlNyN2YRJuTZW6AV0MZUkkA1OQYC6t71SzDZcqq8+liQekB2cJqKeaRjCWvafPyS6IC6KCMRe1+nvO7wd6gGfRxxReIGbbjOzjv48FwKD8Yrk5JSt76KSi7/SY07nNUT7EJ3Hgo0uaorF1RP4z+5TRr15wXKQJuFp/LvfETJe80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723138070; c=relaxed/simple;
-	bh=JiG9JU7BMC0nbgb7xMU1fHsrYsmQ1eqXt8YVfdaVmPQ=;
+	bh=3ZsKmwzrlZfB2YYTxc4oG+oooZiVbr6oeemLdO/TzAY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HfPFWhpwVor/zRy3ui7c+T5LBjvMye6JgRFr0BPQBXmAMb+vEhSCJhTYrDFv2aenqTS6cHN0G0kjr1mlaq0PHWVY8MDuXo28E5iqvRfOiHMDFKOb7ctfg0x9q/dTZdNZN4RqD3rTD4tSx4YbtLpqhObyKPjcMFF+JWu7eXBddh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ds6WMUex; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=Mh3VeW/mbvgrPe8hsrxpTTP9+6K0addr1GD0UEfypXlbMn7ut+U8aw2SvP55SwqMBrIacO/ZnbCzFlsYWqKy1aPWjEeNGCweETl34D4K+aKGLQb3YET+f0L0m9iiHPxUMu6i0rK7JVWG5LdmulAySIbGWoRkCo+NdR2W7zxw8As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jlwgd9YV; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70d1fb6c108so987853b3a.3;
-        Thu, 08 Aug 2024 10:27:48 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-710afd56c99so973074b3a.0;
+        Thu, 08 Aug 2024 10:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1723138068; x=1723742868; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HWkxNnU4sBqalSwyfrRRirCD1vzPLoXEjt3eORuHZEk=;
-        b=Ds6WMUexGDZOoK3tS+xQqzmuJ+OIAKRy9m+4KBHlqB9McGCCXFQFRMfHPlM3bSFJao
-         pFuCEA8tWtL+o/WXDIiceAHUH8ucTiZTIm6hxTjXoWWyNzA5Q5kDO1M1AxQwIAMVUHa+
-         aQVw/0gxLmPvDasmgKF9R+9+1nTAbc+DLSPSOeKzdJ2GUrGkVqnvTSN0SsSCSi5rtH00
-         WIBWd5ZJbXV9vtIhjV7KRQm+nWFCJphn9FSjL/0sTBGX6kmt73JOUG6mTKAEG7ctGhVx
-         XC2kFUxUyVvZPqKROt/gLMX13j+lUPzJRH0igWOPiTbKeNaS6rAxAOvB8iKbVATq2jIe
-         z6lA==
+        bh=vdvbvAUR0z2Nufq0kmY32p/2v+6ROcGHOdtM6kL6rew=;
+        b=Jlwgd9YVQ5vn05OleB3V5rRA1tOZt+VvzujZVbvMI7W07TYw6KwQOLLY4pGWMUfNch
+         Qsfli/m78DZuH3eXGCLu496NRRWE1iGeF8YJ6PhyARRd3fCDr0EWXve+V3Hub0byHA+A
+         oNSu5YlwhkU6XljO0+hYCx7i+Ol/Tsosyqwcya5s7teeUgEynlRmHFp8377u3HEvcHWq
+         VFgCUt7sYCLHr8X1/1vy4xBdZ4hED4WzPRx7M5wlUhRWWtCSSzQRM4Qs6iR8TfAchmK7
+         4FkYUlyubzxJHj5lucaqXbdIroHLHoePPqslIu7E5ghTVqBvq9kQSkT5NYAqfYb7/UU8
+         VLjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1723138068; x=1723742868;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HWkxNnU4sBqalSwyfrRRirCD1vzPLoXEjt3eORuHZEk=;
-        b=CUmT+GpP7cpUx/fr6E9Nz+YZ4Zwejcvkbv5GGIJCXh2jI2bypv16rnCHpx3AgRYBhp
-         5sguxzoZ5Hk+CvAAtY3VIQw9jsOzuSxHw0/Vd3AsoNK4g776M63tdP9tI7t9DXD/Q4WE
-         b3mdyN3Mw1EBm+wri5qFHzUiekNOuHXIIHXadOyaUfL7iO7cayyfnvj55PFmNRtaJrq/
-         dyJv+DwDAKfnEf7RgIsjZJRJL0OXenrGKlbhXDmqsFZLI0FthG0RIJTOT5Q/Cj1bm32o
-         DkQ+ZCuOUMumPEM9M7h3Gzir0dDW6bXDI/TMuK+KDGCndD1dJLewcq3m4RMfYXjxRI/e
-         wIOQ==
-X-Gm-Message-State: AOJu0Yyz6jN1DfcdMTzcKhiELvbb/I7UzG4qMwGwqrWGkA1sl4danrrk
-	ncpY4YL9X8NxzfA4+okTBEpzxQQEHBUNmim9tlZTFvkfG4UVbISzx4sS5Q==
-X-Google-Smtp-Source: AGHT+IGtu27SHBP86xkut5jFOZP9QMYAdUvjhgVB0NYFDN61MXtxY2e+tXyMK2jpwDEu04a76CWwtg==
-X-Received: by 2002:a05:6a21:998f:b0:1c4:8294:3963 with SMTP id adf61e73a8af0-1c6fcedc911mr3652636637.24.1723138067279;
-        Thu, 08 Aug 2024 10:27:47 -0700 (PDT)
+        bh=vdvbvAUR0z2Nufq0kmY32p/2v+6ROcGHOdtM6kL6rew=;
+        b=N5YvsAHSWsNFn46j3Ocj9wdGhPhW7YIQqhiybxlqO50lYJmKAoZr3SI/LnWNfIUeTB
+         5ERuf6+yooU7trjLzbAP4HGfrbo3FSmE/qsBnBDqRSpXCPEpgK0KjIRfdllkVT9iD6q7
+         QTutXfhr2un7D792GejWyn1CxL60tC6yNbxfKz94qVrB2h/5k2g8yflrQgogOMq1NdB/
+         2E3PiDyyGg6qhjexs4PjLDDbgdbMiUWjcmFItlslvvGWlePGv32A3LHZ5/J6/gk5xctc
+         cTvicEXMouZCMj5tEDsQ8xK///Yo9t4VF4F7ipksN5Hp9nJgmQJU6x8k5fIwuTnqzVYF
+         6P4A==
+X-Gm-Message-State: AOJu0Yw+Ki9utX7C61VGRj0WrTB4Is9nXUgmXPbvYPrJvErNnxGgxNeL
+	Xr+CSB1vHbydc771RI+G6R/UrBkyQDzUc6OKdXHuYoHx2ZsMOebWAWwguQ==
+X-Google-Smtp-Source: AGHT+IEKh9p5SSTF7S+TymiO0GmRZV06egORQLFN1Dv4EbCZYUe4lJ/7OUlzqlQka8ISkWpsUIuANw==
+X-Received: by 2002:a05:6a00:3a06:b0:70e:aa44:39df with SMTP id d2e1a72fcca58-710cc6f7d3amr3706574b3a.1.1723138068286;
+        Thu, 08 Aug 2024 10:27:48 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4403:e9e1:aefe:e6e8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710cb2e89ffsm1349829b3a.180.2024.08.08.10.27.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710cb2e89ffsm1349829b3a.180.2024.08.08.10.27.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 10:27:46 -0700 (PDT)
+        Thu, 08 Aug 2024 10:27:47 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Vojtech Pavlik <vojtech@ucw.cz>,
 	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
-Subject: [RFC PATCH 3/5] Input: pc110pad - remove driver
-Date: Thu,  8 Aug 2024 10:27:29 -0700
-Message-ID: <20240808172733.1194442-4-dmitry.torokhov@gmail.com>
+Subject: [RFC PATCH 4/5] Input: mk712 - remove driver
+Date: Thu,  8 Aug 2024 10:27:30 -0700
+Message-ID: <20240808172733.1194442-5-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.76.ge559c4bf1a-goog
 In-Reply-To: <20240808172733.1194442-1-dmitry.torokhov@gmail.com>
 References: <20240808172733.1194442-1-dmitry.torokhov@gmail.com>
@@ -86,221 +86,279 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Palm Top PC 110 is a handheld personal computer with 80486SX CPU that
-was released exclusively in Japan in September 1995.
+This touchscreen controller was used om Gateway AOL Connected Touchpad
+released in 2000 and, according to Wikipedia, removed from the market
+in October 2001 due to slow sales.
 
-While the kernel still supports 486 CPU it is highly unlikely that
-anyone is using this device with the latest kernel.
+It looks like it can still be bought on eBay for $1000 but I really
+doubt anyone will actually use it.
 
 Remove the driver.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/mouse/Kconfig    |  10 ---
- drivers/input/mouse/Makefile   |   1 -
- drivers/input/mouse/pc110pad.c | 160 ---------------------------------
- 3 files changed, 171 deletions(-)
- delete mode 100644 drivers/input/mouse/pc110pad.c
+ drivers/input/touchscreen/Kconfig  |  12 --
+ drivers/input/touchscreen/Makefile |   1 -
+ drivers/input/touchscreen/mk712.c  | 215 -----------------------------
+ 3 files changed, 228 deletions(-)
+ delete mode 100644 drivers/input/touchscreen/mk712.c
 
-diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
-index f660e6ba24c2..7b7053c57588 100644
---- a/drivers/input/mouse/Kconfig
-+++ b/drivers/input/mouse/Kconfig
-@@ -312,16 +312,6 @@ config MOUSE_ELAN_I2C_SMBUS
+diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+index 1ac26fc2e3eb..4685660faaf6 100644
+--- a/drivers/input/touchscreen/Kconfig
++++ b/drivers/input/touchscreen/Kconfig
+@@ -687,18 +687,6 @@ config TOUCHSCREEN_INEXIO
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called inexio.
  
- 	   If unsure, say Y.
- 
--config MOUSE_PC110PAD
--	tristate "IBM PC110 touchpad"
+-config TOUCHSCREEN_MK712
+-	tristate "ICS MicroClock MK712 touchscreen"
 -	depends on ISA
 -	help
--	  Say Y if you have the IBM PC-110 micro-notebook and want its
--	  touchpad supported.
+-	  Say Y here if you have the ICS MicroClock MK712 touchscreen
+-	  controller chip in your system.
+-
+-	  If unsure, say N.
 -
 -	  To compile this driver as a module, choose M here: the
--	  module will be called pc110pad.
+-	  module will be called mk712.
 -
- config MOUSE_AMIGA
- 	tristate "Amiga mouse"
- 	depends on AMIGA
-diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
-index e745b64fed49..4f9fb7d87a37 100644
---- a/drivers/input/mouse/Makefile
-+++ b/drivers/input/mouse/Makefile
-@@ -13,7 +13,6 @@ obj-$(CONFIG_MOUSE_CYAPA)		+= cyapatp.o
- obj-$(CONFIG_MOUSE_ELAN_I2C)		+= elan_i2c.o
- obj-$(CONFIG_MOUSE_GPIO)		+= gpio_mouse.o
- obj-$(CONFIG_MOUSE_MAPLE)		+= maplemouse.o
--obj-$(CONFIG_MOUSE_PC110PAD)		+= pc110pad.o
- obj-$(CONFIG_MOUSE_PS2)			+= psmouse.o
- obj-$(CONFIG_MOUSE_RISCPC)		+= rpcmouse.o
- obj-$(CONFIG_MOUSE_SERIAL)		+= sermouse.o
-diff --git a/drivers/input/mouse/pc110pad.c b/drivers/input/mouse/pc110pad.c
+ config TOUCHSCREEN_HP600
+ 	tristate "HP Jornada 6xx touchscreen"
+ 	depends on SH_HP6XX && SH_ADC
+diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+index 82bc837ca01e..23d19ba7dc6e 100644
+--- a/drivers/input/touchscreen/Makefile
++++ b/drivers/input/touchscreen/Makefile
+@@ -65,7 +65,6 @@ obj-$(CONFIG_TOUCHSCREEN_MIGOR)		+= migor_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_MMS114)	+= mms114.o
+ obj-$(CONFIG_TOUCHSCREEN_MSG2638)	+= msg2638.o
+ obj-$(CONFIG_TOUCHSCREEN_MTOUCH)	+= mtouch.o
+-obj-$(CONFIG_TOUCHSCREEN_MK712)		+= mk712.o
+ obj-$(CONFIG_TOUCHSCREEN_NOVATEK_NVT_TS)	+= novatek-nvt-ts.o
+ obj-$(CONFIG_TOUCHSCREEN_HP600)		+= hp680_ts_input.o
+ obj-$(CONFIG_TOUCHSCREEN_HP7XX)		+= jornada720_ts.o
+diff --git a/drivers/input/touchscreen/mk712.c b/drivers/input/touchscreen/mk712.c
 deleted file mode 100644
-index efa58049f746..000000000000
---- a/drivers/input/mouse/pc110pad.c
+index 753d9cc1de1f..000000000000
+--- a/drivers/input/touchscreen/mk712.c
 +++ /dev/null
-@@ -1,160 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
+@@ -1,215 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- *  Copyright (c) 2000-2001 Vojtech Pavlik
+- * ICS MK712 touchscreen controller driver
 - *
-- *  Based on the work of:
-- *	Alan Cox	Robin O'Leary
+- * Copyright (c) 1999-2002 Transmeta Corporation
+- * Copyright (c) 2005 Rick Koch <n1gp@hotmail.com>
+- * Copyright (c) 2005 Vojtech Pavlik <vojtech@suse.cz>
+- */
+-
+-
+-/*
+- * This driver supports the ICS MicroClock MK712 TouchScreen controller,
+- * found in Gateway AOL Connected Touchpad computers.
+- *
+- * Documentation for ICS MK712 can be found at:
+- *	https://www.idt.com/general-parts/mk712-touch-screen-controller
 - */
 -
 -/*
-- * IBM PC110 touchpad driver for Linux
+- * 1999-12-18: original version, Daniel Quinlan
+- * 1999-12-19: added anti-jitter code, report pen-up events, fixed mk712_poll
+- *             to use queue_empty, Nathan Laredo
+- * 1999-12-20: improved random point rejection, Nathan Laredo
+- * 2000-01-05: checked in new anti-jitter code, changed mouse protocol, fixed
+- *             queue code, added module options, other fixes, Daniel Quinlan
+- * 2002-03-15: Clean up for kernel merge <alan@redhat.com>
+- *             Fixed multi open race, fixed memory checks, fixed resource
+- *             allocation, fixed close/powerdown bug, switched to new init
+- * 2005-01-18: Ported to 2.6 from 2.4.28, Rick Koch
+- * 2005-02-05: Rewritten for the input layer, Vojtech Pavlik
+- *
 - */
 -
 -#include <linux/module.h>
 -#include <linux/kernel.h>
--#include <linux/errno.h>
--#include <linux/ioport.h>
--#include <linux/input.h>
 -#include <linux/init.h>
--#include <linux/interrupt.h>
--#include <linux/pci.h>
+-#include <linux/errno.h>
 -#include <linux/delay.h>
--
+-#include <linux/ioport.h>
+-#include <linux/interrupt.h>
+-#include <linux/input.h>
 -#include <asm/io.h>
--#include <asm/irq.h>
 -
--MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
--MODULE_DESCRIPTION("IBM PC110 touchpad driver");
+-MODULE_AUTHOR("Daniel Quinlan <quinlan@pathname.com>, Vojtech Pavlik <vojtech@suse.cz>");
+-MODULE_DESCRIPTION("ICS MicroClock MK712 TouchScreen driver");
 -MODULE_LICENSE("GPL");
 -
--#define PC110PAD_OFF	0x30
--#define PC110PAD_ON	0x38
+-static unsigned int mk712_io = 0x260;	/* Also 0x200, 0x208, 0x300 */
+-module_param_hw_named(io, mk712_io, uint, ioport, 0);
+-MODULE_PARM_DESC(io, "I/O base address of MK712 touchscreen controller");
 -
--static int pc110pad_irq = 10;
--static int pc110pad_io = 0x15e0;
+-static unsigned int mk712_irq = 10;	/* Also 12, 14, 15 */
+-module_param_hw_named(irq, mk712_irq, uint, irq, 0);
+-MODULE_PARM_DESC(irq, "IRQ of MK712 touchscreen controller");
 -
--static struct input_dev *pc110pad_dev;
--static int pc110pad_data[3];
--static int pc110pad_count;
+-/* eight 8-bit registers */
+-#define MK712_STATUS		0
+-#define MK712_X			2
+-#define MK712_Y			4
+-#define MK712_CONTROL		6
+-#define MK712_RATE		7
 -
--static irqreturn_t pc110pad_interrupt(int irq, void *ptr)
+-/* status */
+-#define	MK712_STATUS_TOUCH			0x10
+-#define	MK712_CONVERSION_COMPLETE		0x80
+-
+-/* control */
+-#define MK712_ENABLE_INT			0x01
+-#define MK712_INT_ON_CONVERSION_COMPLETE	0x02
+-#define MK712_INT_ON_CHANGE_IN_TOUCH_STATUS	0x04
+-#define MK712_ENABLE_PERIODIC_CONVERSIONS	0x10
+-#define MK712_READ_ONE_POINT			0x20
+-#define MK712_POWERUP				0x40
+-
+-static struct input_dev *mk712_dev;
+-static DEFINE_SPINLOCK(mk712_lock);
+-
+-static irqreturn_t mk712_interrupt(int irq, void *dev_id)
 -{
--	int value     = inb_p(pc110pad_io);
--	int handshake = inb_p(pc110pad_io + 2);
+-	unsigned char status;
+-	static int debounce = 1;
+-	static unsigned short last_x;
+-	static unsigned short last_y;
 -
--	outb(handshake |  1, pc110pad_io + 2);
--	udelay(2);
--	outb(handshake & ~1, pc110pad_io + 2);
--	udelay(2);
--	inb_p(0x64);
+-	spin_lock(&mk712_lock);
 -
--	pc110pad_data[pc110pad_count++] = value;
+-	status = inb(mk712_io + MK712_STATUS);
 -
--	if (pc110pad_count < 3)
--		return IRQ_HANDLED;
+-	if (~status & MK712_CONVERSION_COMPLETE) {
+-		debounce = 1;
+-		goto end;
+-	}
 -
--	input_report_key(pc110pad_dev, BTN_TOUCH,
--		pc110pad_data[0] & 0x01);
--	input_report_abs(pc110pad_dev, ABS_X,
--		pc110pad_data[1] | ((pc110pad_data[0] << 3) & 0x80) | ((pc110pad_data[0] << 1) & 0x100));
--	input_report_abs(pc110pad_dev, ABS_Y,
--		pc110pad_data[2] | ((pc110pad_data[0] << 4) & 0x80));
--	input_sync(pc110pad_dev);
+-	if (~status & MK712_STATUS_TOUCH) {
+-		debounce = 1;
+-		input_report_key(mk712_dev, BTN_TOUCH, 0);
+-		goto end;
+-	}
 -
--	pc110pad_count = 0;
+-	if (debounce) {
+-		debounce = 0;
+-		goto end;
+-	}
+-
+-	input_report_key(mk712_dev, BTN_TOUCH, 1);
+-	input_report_abs(mk712_dev, ABS_X, last_x);
+-	input_report_abs(mk712_dev, ABS_Y, last_y);
+-
+- end:
+-	last_x = inw(mk712_io + MK712_X) & 0x0fff;
+-	last_y = inw(mk712_io + MK712_Y) & 0x0fff;
+-	input_sync(mk712_dev);
+-	spin_unlock(&mk712_lock);
 -	return IRQ_HANDLED;
 -}
 -
--static void pc110pad_close(struct input_dev *dev)
+-static int mk712_open(struct input_dev *dev)
 -{
--	outb(PC110PAD_OFF, pc110pad_io + 2);
--}
+-	unsigned long flags;
 -
--static int pc110pad_open(struct input_dev *dev)
--{
--	pc110pad_interrupt(0, NULL);
--	pc110pad_interrupt(0, NULL);
--	pc110pad_interrupt(0, NULL);
--	outb(PC110PAD_ON, pc110pad_io + 2);
--	pc110pad_count = 0;
+-	spin_lock_irqsave(&mk712_lock, flags);
+-
+-	outb(0, mk712_io + MK712_CONTROL); /* Reset */
+-
+-	outb(MK712_ENABLE_INT | MK712_INT_ON_CONVERSION_COMPLETE |
+-		MK712_INT_ON_CHANGE_IN_TOUCH_STATUS |
+-		MK712_ENABLE_PERIODIC_CONVERSIONS |
+-		MK712_POWERUP, mk712_io + MK712_CONTROL);
+-
+-	outb(10, mk712_io + MK712_RATE); /* 187 points per second */
+-
+-	spin_unlock_irqrestore(&mk712_lock, flags);
 -
 -	return 0;
 -}
 -
--/*
-- * We try to avoid enabling the hardware if it's not
-- * there, but we don't know how to test. But we do know
-- * that the PC110 is not a PCI system. So if we find any
-- * PCI devices in the machine, we don't have a PC110.
-- */
--static int __init pc110pad_init(void)
+-static void mk712_close(struct input_dev *dev)
+-{
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&mk712_lock, flags);
+-
+-	outb(0, mk712_io + MK712_CONTROL);
+-
+-	spin_unlock_irqrestore(&mk712_lock, flags);
+-}
+-
+-static int __init mk712_init(void)
 -{
 -	int err;
 -
--	if (!no_pci_devices())
+-	if (!request_region(mk712_io, 8, "mk712")) {
+-		printk(KERN_WARNING "mk712: unable to get IO region\n");
 -		return -ENODEV;
--
--	if (!request_region(pc110pad_io, 4, "pc110pad")) {
--		printk(KERN_ERR "pc110pad: I/O area %#x-%#x in use.\n",
--				pc110pad_io, pc110pad_io + 4);
--		return -EBUSY;
 -	}
 -
--	outb(PC110PAD_OFF, pc110pad_io + 2);
+-	outb(0, mk712_io + MK712_CONTROL);
 -
--	if (request_irq(pc110pad_irq, pc110pad_interrupt, 0, "pc110pad", NULL)) {
--		printk(KERN_ERR "pc110pad: Unable to get irq %d.\n", pc110pad_irq);
--		err = -EBUSY;
--		goto err_release_region;
+-	if ((inw(mk712_io + MK712_X) & 0xf000) ||	/* Sanity check */
+-	    (inw(mk712_io + MK712_Y) & 0xf000) ||
+-	    (inw(mk712_io + MK712_STATUS) & 0xf333)) {
+-		printk(KERN_WARNING "mk712: device not present\n");
+-		err = -ENODEV;
+-		goto fail1;
 -	}
 -
--	pc110pad_dev = input_allocate_device();
--	if (!pc110pad_dev) {
--		printk(KERN_ERR "pc110pad: Not enough memory.\n");
+-	mk712_dev = input_allocate_device();
+-	if (!mk712_dev) {
+-		printk(KERN_ERR "mk712: not enough memory\n");
 -		err = -ENOMEM;
--		goto err_free_irq;
+-		goto fail1;
 -	}
 -
--	pc110pad_dev->name = "IBM PC110 TouchPad";
--	pc110pad_dev->phys = "isa15e0/input0";
--	pc110pad_dev->id.bustype = BUS_ISA;
--	pc110pad_dev->id.vendor = 0x0003;
--	pc110pad_dev->id.product = 0x0001;
--	pc110pad_dev->id.version = 0x0100;
+-	mk712_dev->name = "ICS MicroClock MK712 TouchScreen";
+-	mk712_dev->phys = "isa0260/input0";
+-	mk712_dev->id.bustype = BUS_ISA;
+-	mk712_dev->id.vendor  = 0x0005;
+-	mk712_dev->id.product = 0x0001;
+-	mk712_dev->id.version = 0x0100;
 -
--	pc110pad_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
--	pc110pad_dev->absbit[0] = BIT_MASK(ABS_X) | BIT_MASK(ABS_Y);
--	pc110pad_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
+-	mk712_dev->open    = mk712_open;
+-	mk712_dev->close   = mk712_close;
 -
--	input_abs_set_max(pc110pad_dev, ABS_X, 0x1ff);
--	input_abs_set_max(pc110pad_dev, ABS_Y, 0x0ff);
+-	mk712_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+-	mk712_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
+-	input_set_abs_params(mk712_dev, ABS_X, 0, 0xfff, 88, 0);
+-	input_set_abs_params(mk712_dev, ABS_Y, 0, 0xfff, 88, 0);
 -
--	pc110pad_dev->open = pc110pad_open;
--	pc110pad_dev->close = pc110pad_close;
+-	if (request_irq(mk712_irq, mk712_interrupt, 0, "mk712", mk712_dev)) {
+-		printk(KERN_WARNING "mk712: unable to get IRQ\n");
+-		err = -EBUSY;
+-		goto fail1;
+-	}
 -
--	err = input_register_device(pc110pad_dev);
+-	err = input_register_device(mk712_dev);
 -	if (err)
--		goto err_free_dev;
+-		goto fail2;
 -
 -	return 0;
 -
-- err_free_dev:
--	input_free_device(pc110pad_dev);
-- err_free_irq:
--	free_irq(pc110pad_irq, NULL);
-- err_release_region:
--	release_region(pc110pad_io, 4);
--
+- fail2:	free_irq(mk712_irq, mk712_dev);
+- fail1:	input_free_device(mk712_dev);
+-	release_region(mk712_io, 8);
 -	return err;
 -}
 -
--static void __exit pc110pad_exit(void)
+-static void __exit mk712_exit(void)
 -{
--	outb(PC110PAD_OFF, pc110pad_io + 2);
--	free_irq(pc110pad_irq, NULL);
--	input_unregister_device(pc110pad_dev);
--	release_region(pc110pad_io, 4);
+-	input_unregister_device(mk712_dev);
+-	free_irq(mk712_irq, mk712_dev);
+-	release_region(mk712_io, 8);
 -}
 -
--module_init(pc110pad_init);
--module_exit(pc110pad_exit);
+-module_init(mk712_init);
+-module_exit(mk712_exit);
 -- 
 2.46.0.76.ge559c4bf1a-goog
 
