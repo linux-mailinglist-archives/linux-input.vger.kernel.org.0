@@ -1,202 +1,137 @@
-Return-Path: <linux-input+bounces-5469-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5470-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A706694D39F
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 17:36:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB07394D4E5
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 18:44:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 367DD1F22BB5
-	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 15:36:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C2411C20E7B
+	for <lists+linux-input@lfdr.de>; Fri,  9 Aug 2024 16:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 151251990C4;
-	Fri,  9 Aug 2024 15:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA97220328;
+	Fri,  9 Aug 2024 16:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DuQ5IuJH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIdkZEd0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFEE198A36
-	for <linux-input@vger.kernel.org>; Fri,  9 Aug 2024 15:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA96381D9;
+	Fri,  9 Aug 2024 16:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723217751; cv=none; b=ubSjG2cFiTefVy+1BtwLmtgWMDk1UqMe0UFn9+G6csQyAOgrSSlT4TPTZOYedSW12MLgXBzOb8r+JvxlXBbEBw5YNBhOS7iitBIm/XSYVIffw6ZWhurxkRjn7t4aSGvCe328RJAVCnk/rTrUJckfjHPzy92TjB+ugO0qKsLbz20=
+	t=1723221876; cv=none; b=aFdYou7Uw7NHEe0hB2FPFnKlzNfCnLg+8v0WKl42JAdLkqLxYq4vnfWRmrQl+TZznW+pTTrs46bLOFsVPSsYt1VPZyE6Y2byH4GY5PBfT63pvIw3gvJJTEDL6cGYw1URvVHxnUSqpmxTMMsW07tKX+N6ZNb/tWy0wwaQ0qr/61A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723217751; c=relaxed/simple;
-	bh=2zaes7dlxzr8VPPiWIrdjQxXoXhnSxRDw7ZXoUBzE3w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7bSTCOUBYJMfaLApcG9z5IFMCCxqdcm5oyN6HmOVhR5JoQ/0PqbFpHWspsasTqk41oLtTleBajVjLpFWR24ORQT1VGa1Jg2AJmANL2TVY0Y4dNcNn9NjzmQaBIOas6c3lfbU2yHeF3x54PNPZpDAiWbD5j38Z/d4C56tlSBBCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DuQ5IuJH; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52f01993090so2907278e87.2
-        for <linux-input@vger.kernel.org>; Fri, 09 Aug 2024 08:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723217747; x=1723822547; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oXhBdpwBP8GmKyUdFL62uektdxESo1EGHQabF0x3TRU=;
-        b=DuQ5IuJH2/t/rKksvjpv/zqOZ8NQkYK+RVK+ir99n0VVUug+qOfoiGzAl+uAcx3QYW
-         Je2dyuzHeDs88junosrqVX7CI4mrR+jIES/DBvtMQ+FJS9JjS5lKY2A7YYhF3Ma9LoYW
-         QDC7gCKPpmwvdPDp2mPlD3u6J4ne7QjPsYqQA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723217747; x=1723822547;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oXhBdpwBP8GmKyUdFL62uektdxESo1EGHQabF0x3TRU=;
-        b=HtKCFuU6jUnX/ZV7JAHMX1W0aCdE8CS6gZYlpXHrMXGxaAdpe7EFGD8DebpG9nfqGD
-         7wQJ4R73/vDztmwxPd4FdaBHZfdRnJfpjyhQUIrUWlUsXmieLO5WmBQRzGFilznbEJ4B
-         DcaLAiDgC2ZojFJxrQw0y6+BTKXNEdnrN+uaKZyMXMqaod3OruaN+7fG+hbA4V8hMmfb
-         Nfyvf4TJ+ZGrP2f2P7nIvBILROhI9Hxfl20npViq+APJpBO8LuYd4Co7wPfDlirIhvrc
-         4f2UzQ6ZA18cn9QO8yr6I7oOxiuKqgN+QcteiOEQ5BdYngSA1iOwfWAkLG3v3TmjeVxd
-         JpPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEqlRz+1u4wq+C+HDC9zlOHNO3iC6lbV2M9Y2gfIRzLVRN6xMtuxSV5ZPz7vZcGijsbYnr/TRZ7lAWhYxW2KMhi5V7/1U8P4DxtYY=
-X-Gm-Message-State: AOJu0Yyl22udWIdhRBC8by8PWvMZS4uf3fTJbRQaJ5dZG51UXgCktI21
-	i95yT4dq1I40c+Iy5iU4+gd5mrHEPCQTuOawp96c7JpG32pdWMzRTDZoS/h49SsvQ8Y+Jcu3X3b
-	0xRY9dT3i1Z4c3jcz/B125UpaDjfJi0/F8Q8R
-X-Google-Smtp-Source: AGHT+IHXVFVjsZCHJpXcoZGG1494+V3zMv+IYTXYiftaTTTYA0Ky62ohy8iO+a2GzswEpBp6c1vS5ljZBlu/8Zduv4I=
-X-Received: by 2002:a05:6512:2312:b0:52e:a60e:3a08 with SMTP id
- 2adb3069b0e04-530ee981982mr1529347e87.11.1723217746903; Fri, 09 Aug 2024
- 08:35:46 -0700 (PDT)
+	s=arc-20240116; t=1723221876; c=relaxed/simple;
+	bh=vLE2cjx+eGlTzAhIetya+WWnuf0ErM3c6dyZ/onkUFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljOdYVHKZXLP1Uo1+s24IQr/syM81hNJsWoWOcxX88/idG/NjyE4l6l8bpxROMlc/eC2mnOfdJCMwO10xjq7DVsBqWnclWTP4+aFrlbNVJK4zjuk3SWImYjrJJoxjaJBg3CY6KIMaKvQlXM1hq4cfm32CIVncMdWgPBx+4CPA0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIdkZEd0; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723221875; x=1754757875;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vLE2cjx+eGlTzAhIetya+WWnuf0ErM3c6dyZ/onkUFc=;
+  b=LIdkZEd0Kesm6ACKzuNpqqdGRdmAE7j8zwQABwffF6m2qXNgweVJoeFB
+   mPaPpCb2wCKfRCKtVsBav/ZBgmNzKplWylwT6lNzhcYItQ347lvL80KLT
+   k0LG09jxmooTmhaUjdpwMVBcmHBRGBHd4IgKyPw8x2GB7YgOR4hgPR+bK
+   cuW7Dk9jFyN/2Qtp2ChSV84aMpBePbcCkbtXJLvViwchtp6TDEvDY75wz
+   y4dBAGAfz0nwEFqVQkw5NUFuaxgz+sNhgdAy3axsP0BoctfFxBsNdSk2n
+   NaLJhkK4kJ97sNgjsRfWaOv/Wm6ckYbL7o5T2E7hG11ukJRgRDtrOprRU
+   g==;
+X-CSE-ConnectionGUID: ljRL99NsTT6db0M8wKS8MQ==
+X-CSE-MsgGUID: hwvaDGgpRsiceN1qvxwo0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21284318"
+X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
+   d="scan'208";a="21284318"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 09:44:34 -0700
+X-CSE-ConnectionGUID: Kpg+x0KOQn2Xht89cUizQg==
+X-CSE-MsgGUID: e7B76N61TUyKXw8NmPYnuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
+   d="scan'208";a="57842290"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 09 Aug 2024 09:44:33 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1scSj7-0008ii-2s;
+	Fri, 09 Aug 2024 16:44:29 +0000
+Date: Sat, 10 Aug 2024 00:43:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Hutterer <peter.hutterer@who-t.net>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: hidraw - add HIDIOCREVOKE ioctl
+Message-ID: <202408100004.Lp6vMaKd-lkp@intel.com>
+References: <20240809100342.GA52163@quokka>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
- <ZcKs589qYxviC1J4@google.com> <CALNJtpV0KsOusPQeGv8bQ3jKy2sUj+k=mPHc172f+vMaTDYPfg@mail.gmail.com>
- <ZcZ2oG1Rls-oR593@google.com> <CALNJtpWNbSZdpxky9hTiSRsaGgLDUnM66QGEy213d3Lhra0hsw@mail.gmail.com>
- <ZeDLq9gPs5InBmdK@google.com> <CALNJtpWwhen2H9OT1-rZ4bt+huwXPOPz6qVDJ5g+emE1wRSLsw@mail.gmail.com>
- <ZeoHcH59Qsiv90b-@google.com> <b9f08bfb-4c1c-4d1b-9061-8a4b1013497d@redhat.com>
- <ZrEDOnxYzbJpC-pH@google.com>
-In-Reply-To: <ZrEDOnxYzbJpC-pH@google.com>
-From: Jonathan Denose <jdenose@chromium.org>
-Date: Fri, 9 Aug 2024 10:35:35 -0500
-Message-ID: <CALNJtpUmb70zJnMfk4V6kTAhBEdzjZEch-CbRUojt26WmQFPvQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: psmouse - add resync_on_resume dmi check
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, LKML <linux-kernel@vger.kernel.org>, 
-	jefferymiller@google.com, Jonathan Denose <jdenose@google.com>, 
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org, 
-	Ike Panhc <ike.pan@canonical.com>, platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809100342.GA52163@quokka>
 
-Hello Hans and Dmitry,
+Hi Peter,
 
-Yes, as Dmitry described that's the issue that I was seeing but it was
-on a Lenovo N24 and not an Ideapad Z570.
+kernel test robot noticed the following build warnings:
 
-On Mon, Aug 5, 2024 at 11:52=E2=80=AFAM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Hans,
->
-> On Mon, Aug 05, 2024 at 04:18:57PM +0200, Hans de Goede wrote:
-> > Hi Dmitry,
-> >
-> > On 3/7/24 7:29 PM, Dmitry Torokhov wrote:
-> > > On Mon, Mar 04, 2024 at 11:17:31AM -0600, Jonathan Denose wrote:
-> > >> I disabled the ideapad driver by rebuilding the kernel without the
-> > >> ideapad_laptop module. That does fix the suspend/resume issue!
-> > >>
-> > >> Attached are the logs. Is there a way to make this permanent?
-> > >>
-> > >> On Thu, Feb 29, 2024 at 12:23=E2=80=AFPM Dmitry Torokhov
-> > >> <dmitry.torokhov@gmail.com> wrote:
-> > >>>
-> > >>> On Mon, Feb 12, 2024 at 02:57:08PM -0600, Jonathan Denose wrote:
-> > >>> ...
-> > >>>> [   50.241235] ideapad_acpi VPC2004:00: PM: calling acpi_subsys_re=
-sume+0x0/0x5d @ 4492, parent: PNP0C09:00
-> > >>>> [   50.242055] snd_hda_intel 0000:00:0e.0: PM: pci_pm_resume+0x0/0=
-xed returned 0 after 13511 usecs
-> > >>>> [   50.242120] snd_hda_codec_realtek hdaudioC0D0: PM: calling hda_=
-codec_pm_resume+0x0/0x19 [snd_hda_codec] @ 4518, parent: 0000:00:0e.0
-> > >>>> [   50.247406] i8042: [49434] a8 -> i8042 (command)
-> > >>>> [   50.247468] ideapad_acpi VPC2004:00: PM: acpi_subsys_resume+0x0=
-/0x5d returned 0 after 6220 usecs
-> > >>> ...
-> > >>>> [   50.247883] i8042 kbd 00:01: PM: calling pnp_bus_resume+0x0/0x9=
-d @ 4492, parent: pnp0
-> > >>>> [   50.247894] i8042 kbd 00:01: PM: pnp_bus_resume+0x0/0x9d return=
-ed 0 after 0 usecs
-> > >>>> [   50.247906] i8042 aux 00:02: PM: calling pnp_bus_resume+0x0/0x9=
-d @ 4492, parent: pnp0
-> > >>>> [   50.247916] i8042 aux 00:02: PM: pnp_bus_resume+0x0/0x9d return=
-ed 0 after 0 usecs
-> > >>> ...
-> > >>>> [   50.248301] i8042 i8042: PM: calling platform_pm_resume+0x0/0x4=
-1 @ 4492, parent: platform
-> > >>>> [   50.248377] i8042: [49434] 55 <- i8042 (flush, kbd)
-> > >>>> [   50.248407] i8042: [49435] aa -> i8042 (command)
-> > >>>> [   50.248601] i8042: [49435] 00 <- i8042 (return)
-> > >>>> [   50.248604] i8042: [49435] i8042 controller selftest: 0x0 !=3D =
-0x55
-> > >>>
-> > >>> So here I see the ideapad-laptop driver trying to access i8042 befo=
-re it
-> > >>> even starts resuming. I wonder, does it help if you disable
-> > >>> (temporarily) the ideapad driver?
-> > >
-> > > OK, so I tried to cook up a patch that would allow ideapad-laptop dri=
-ver
-> > > to establish device link with i8042 so that the resume will be proces=
-sed
-> > > after i8042 resumes, but the longer I think about it, the more I thin=
-k
-> > > that ideapad driver should not be messing with the touchpad state
-> > > directly. The disable event may come up in a middle of the touchpad
-> > > resume transition, or when we decide to change touchpad mode for one
-> > > reason or another. It also does not respect inhibit/uninhibit control=
-s
-> > > for input devices. I think that the proper way for ideapad driver to
-> > > handle this is to only send KEY_TOUCHPAD_OFF/KEY_TOUCHPAD_ON to
-> > > userspace and let userspace deal with toggling touchpad input (via
-> > > inhibit or by other means).
-> > >
-> > > CC-ing ideapad maintainers for their thoughts.
-> >
-> > Sorry for the very slow reply.
-> >
-> > The interesting thing is that sometime ago I already removed the i8042_=
-command()
-> > command being done on most models now the ideapad driver already only
-> > sends KEY_TOUCHPAD_OFF/KEY_TOUCHPAD_ON except on the ideapad Z570 for
-> > which the i8042_command() call was initially added.
-> >
-> > I agree that this should probably just be removed.
-> >
-> > Jonathan, I presume that you are seeing this on an Ideapad Z570 ?
-> > (since that is the only model where this is still done by default).
-> >
-> > Since the i8042_command() call has already been disabled on all other
-> > ideapad models I agree that it would be best to just remove it entirely
-> > relying on userspace filtering out touchpad events after receiving
-> > a KEY_TOUCHPAD_OFF.
-> >
-> > I have submitted a patch to do just that:
-> >
-> > https://lore.kernel.org/platform-driver-x86/20240805141608.170844-1-hde=
-goede@redhat.com/
-> >
-> > Jonathan can you give this patch a try (with a kernel with
-> > the ideapad-laptop module re-enabled) and then confirm that this
-> > fixes things ?
->
-> IIRC Jonathan observed the touchpad being stuck on resume even after
-> disabling ideapad-laptop module. So we ended up with a69ce592cbe0
-> ("Input: elantech - fix touchpad state on resume for Lenovo N24") that
-> sends disable and then enable command to the mouse/touchpad on resume
-> which makes touchpad work after resume.
->
-> Thanks.
->
-> --
-> Dmitry
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.11-rc2 next-20240809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Hutterer/HID-hidraw-add-HIDIOCREVOKE-ioctl/20240809-202833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240809100342.GA52163%40quokka
+patch subject: [PATCH v2] HID: hidraw - add HIDIOCREVOKE ioctl
+config: i386-randconfig-052-20240809 (https://download.01.org/0day-ci/archive/20240810/202408100004.Lp6vMaKd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100004.Lp6vMaKd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408100004.Lp6vMaKd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hid/hidraw.c:41:22: warning: no previous prototype for 'hidraw_is_revoked' [-Wmissing-prototypes]
+      41 | __weak noinline bool hidraw_is_revoked(struct hidraw_list *list)
+         |                      ^~~~~~~~~~~~~~~~~
+>> drivers/hid/hidraw.c:47:21: warning: no previous prototype for 'hidraw_open_errno' [-Wmissing-prototypes]
+      47 | __weak noinline int hidraw_open_errno(__u32 major, __u32 minor)
+         |                     ^~~~~~~~~~~~~~~~~
+
+
+vim +/hidraw_is_revoked +41 drivers/hid/hidraw.c
+
+    40	
+  > 41	__weak noinline bool hidraw_is_revoked(struct hidraw_list *list)
+    42	{
+    43		return list->revoked;
+    44	}
+    45	ALLOW_ERROR_INJECTION(hidraw_is_revoked, TRUE);
+    46	
+  > 47	__weak noinline int hidraw_open_errno(__u32 major, __u32 minor)
+    48	{
+    49		return 0;
+    50	}
+    51	ALLOW_ERROR_INJECTION(hidraw_open_errno, ERRNO);
+    52	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
