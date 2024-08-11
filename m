@@ -1,252 +1,238 @@
-Return-Path: <linux-input+bounces-5507-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5508-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9E394E1C2
-	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2024 17:16:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B70AD94E228
+	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2024 18:11:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26C2EB20DFD
-	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2024 15:16:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAE921C2093B
+	for <lists+linux-input@lfdr.de>; Sun, 11 Aug 2024 16:11:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67C6149C55;
-	Sun, 11 Aug 2024 15:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6647014F9F4;
+	Sun, 11 Aug 2024 16:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="F02Eu7XK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA1B4503C
-	for <linux-input@vger.kernel.org>; Sun, 11 Aug 2024 15:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF1A14A624;
+	Sun, 11 Aug 2024 16:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723389380; cv=none; b=OoRVjK15nt0vSNHqwMguHrc3ctzlIxKzjkBHAWhUNJqlNPt3dLyMARTOiGRIqQARPWniqAK+f5UYsmrIpr3FAV1M7wXaD1uOvm9kLnd5YN8pEK3fmWGhwsrRmPvHBdsxZZ3+Bbzz3FIlt8iyDousiY9+lxMxoeGJCgBPeU4eO8U=
+	t=1723392659; cv=none; b=IK958dcr66lL0sOq/t+8dU0Ce5lY62AmKWl93tiQqnlS0E62hlGv9slEoO//PmqrKiKHCGGEWRPlrJbfSdByXSYIByjONjG/5EQaMqHOA927M67tcXp2vIggQRrgUcGLs5SAJtBhGqnvXgOXo64QnMgoVA9chG5lctnPCkamR6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723389380; c=relaxed/simple;
-	bh=PX2Qyk2sj2YaPRE4vAlMIG+yD1O2x+23AfU91/Rmmzc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JuAUeUZXq/itfqLE1bH0KNjXK7QEPmsyEMBuV8vfrc9Mwb1hJ903KHzKXLr8KVbsRsu74tFDXDgRpkaJkSrafGw0Pm/jPrC+XQpPPDZQhNAiFTQ5HSeeEPxLFkWa4c6xnqboakTCPntXrnmFELw2VGcoTjmvBNDzSr1XzCzu1ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-39b3dc8cd61so50120135ab.3
-        for <linux-input@vger.kernel.org>; Sun, 11 Aug 2024 08:16:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723389378; x=1723994178;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GpqsDr7Fcpr/7oyJ3XUVZU4wjeRME0LvNsxEkl7xmII=;
-        b=QT2xAE0r/qZbq0SBKaDXZNSdQgTvGWF6Mi6xNkh/grgVzcoj76thcPt61+1ZkMcv9m
-         U819CBhqwrAxtgaJ+5n76YSYPaga02oH4zNWt9taHz7QE52FqC2+eq02pso1NKC56hGf
-         sLmOMpOPcdOE8NzScGJ0cBEocpl96+kUpnNOJcex3EuerLOCU4te2GwLcLY2vh0Y7gQ8
-         xdkdRxL2DsWweZNi/w33FZL0mG3GkGA8C10lkOhljKyhIHKqWC3q5433b9vh6L4q5Z0y
-         Y2L6RbV/hG+2Nt/BSvyoLop2Cq4Bod2pTCzbxz8uQNn7F22pLrP15LYTgUx3dwgXpsei
-         tueQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ99zE56SGAaN44eOYURkRGJ1CTHUdlZZeYF4wawuUXKm+26IDfvz0mQrUCs//3kPc+b4iWvVRTNnN+I1ynIBzlOrINzpqnAip5SQ=
-X-Gm-Message-State: AOJu0YzHZBKQ9fuKkfZluGbmP0CSTlD4T4MPEIZKDXy0fNcdqIDO+F3/
-	brs8zqvrRe5VQRJqLYR4dwHWJYvOoalraUmu3E5hMQWUNGpGCYks9+6W817rK0Hzk03sl9WW/kh
-	g1cMKlrC2H2Gdyz7FtIZgJswJepIjALMK/zdGTDLJCb3Mb2KCHW9Rn/k=
-X-Google-Smtp-Source: AGHT+IHmHGGs5LmOfUwYNaTLMuPRKQUdmKFj6p7TiMr30uCvMxNr/7J2hDeOgjBG80mju7GweKZbi5GIsEczl83tezpx/VIYPVhV
+	s=arc-20240116; t=1723392659; c=relaxed/simple;
+	bh=K1RkmZ1XMXbmQ0IgaOltvb6q7PvX1FamB1pjg0OaYT4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m0wGETnyC2a+HxX3Xqd95v7WRfIOsLhWq3FUwubdFjYNtrto8dAYGXPcLHVXPNYk1Pt6LI5fbCXIpuuAyEqN9ij7k3Es9i2ftwtrmGytWyVL7e9ndAj0eqFqmaH2KdE1O3XUF8Ln/mRxJwi2jYhAE8+Mj5rZZ2pmwFN6ryAH7Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=F02Eu7XK; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 6CE8C2E03AC7;
+	Sun, 11 Aug 2024 19:10:45 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1723392645;
+	bh=K1RkmZ1XMXbmQ0IgaOltvb6q7PvX1FamB1pjg0OaYT4=;
+	h=Received:From:Subject:To;
+	b=F02Eu7XKnTPaImNpwXKuPnbtyyOjgrovKdHWhzuljLALp071aKlRciH/Fm8ltCPuU
+	 vR0FTVWAKFaRAaEiHdrNfkJnhTcJf/PFxSWp33g7YjumbyYNBq8mPM5ZKQuY5ScqGm
+	 0+uMVzP74DU0ygPbNMI8wUH0GsraE70C5r2S82yg=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.173) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f173.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-2ef2fccca2cso37593651fa.1;
+        Sun, 11 Aug 2024 09:10:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUC3LIROHArQIPD9wuoeJZv5P4SiyOmR0UfILjzAKC2tagj8MZZlCxasf+B7JpN9aOg13Tv4up9GMtUYkr7jV+/NUqB3Dm4gynBXrvNb5RfXOvX/Gm3i/MSuBV7ikTuOncJLFyfwUVDNu8=
+X-Gm-Message-State: AOJu0Yw4Cqqh/EgayFKhRuXch5wjKQylvd2svB1ICNOORWinKA4c1MY1
+	bPVmT7G/dzIORhrb+gD7qQJG1pGUP3IX9x1AYn6fSGM/UZop60lKWYBRhAjurOW3YdVDbls7faT
+	Myv8EobqzI4ep25NxQ9G0+JFKVkc=
+X-Google-Smtp-Source: 
+ AGHT+IGpEsjzcGBVUnaHabhb8bPLfQTy9dOLO0VluRaclDx0/Hs56pujGp+8TFWm/nIYF9bg0+ieD9LmumITnzJJmaQ=
+X-Received: by 2002:a2e:be9d:0:b0:2ef:2dfd:15e3 with SMTP id
+ 38308e7fff4ca-2f1a6cf2727mr62339501fa.19.1723392644652; Sun, 11 Aug 2024
+ 09:10:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c24a:0:b0:397:ca8e:d377 with SMTP id
- e9e14a558f8ab-39b6c11b447mr6284165ab.0.1723389378217; Sun, 11 Aug 2024
- 08:16:18 -0700 (PDT)
-Date: Sun, 11 Aug 2024 08:16:18 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b2d765061f69db06@google.com>
-Subject: [syzbot] [input?] possible deadlock in __input_unregister_device
-From: syzbot <syzbot+3f4bf5c599ee9b16d704@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: 
+ <CAGwozwHDwswam-Q40YqXMDJt6oui=UHv-bkjuF+X5fOmT+6PaA@mail.gmail.com>
+ <9078b350-27a8-48af-a19d-2adaaaa16f9f@app.fastmail.com>
+In-Reply-To: <9078b350-27a8-48af-a19d-2adaaaa16f9f@app.fastmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sun, 11 Aug 2024 19:10:33 +0300
+X-Gmail-Original-Message-ID: 
+ <CAGwozwEg2TiQyB27qjHHz1kCHWXJhYsBhqLqq530Z2ZJQjFcRw@mail.gmail.com>
+Message-ID: 
+ <CAGwozwEg2TiQyB27qjHHz1kCHWXJhYsBhqLqq530Z2ZJQjFcRw@mail.gmail.com>
+Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
+To: Luke Jones <luke@ljones.dev>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <172339264584.8458.1347010145616904680@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Hello,
+Hi Luke,
+thank you for taking the time to reply.
 
-syzbot found the following issue on:
+And everyone else, thank you for putting up with my broken line spacing,
+because of Gmail. And perhaps the lack of in-reply-to because of mailto.
+Hopefully in-reply-to works this time ;).
 
-HEAD commit:    25f51b76f90f xhci-pci: Make xhci-pci-renesas a proper modu..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=11831703980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=10d86428d89226d6
-dashboard link: https://syzkaller.appspot.com/bug?extid=3f4bf5c599ee9b16d704
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+First off, understand that I do not mean to attack your work. I tried to
+make my response helpful to you. In fact, I took a lot of time in writing it
+and preemptively saved you a lot of work in testing your patchset so you do
+not have to spend time reaching the same conclusions that I have had to.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Provided you heed my comments of course, which is not clear from your reply.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c1824302a322/disk-25f51b76.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/9f387ec15c0a/vmlinux-25f51b76.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/58ba53ce9979/bzImage-25f51b76.xz
+As I currently represent what is the largest Linux ROG Ally community, I hope
+it is reasonable that it is in my and my community's best interest that an
+unstable patch which could affect Linux Ally support should be vetted before
+it becomes part of the mainline kernel. Once it becomes part of the kernel,
+workarounds around it will become very hard. We have achieved near perfect
+controller support through userspace, so I would hate to jeopardize that.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3f4bf5c599ee9b16d704@syzkaller.appspotmail.com
+In my previous email, I gave you my preliminary thoughts without having time
+to test your patchset. Of course, as I noted in that email, I will be testing
+and integrating support for your patchset, personally, with an Ally X unit
+I will be getting access to close to the end of August.
 
-UDC core: USB Raw Gadget: couldn't find an available UDC or it's busy
-misc raw-gadget: fail, usb_gadget_register_driver returned -16
-UDC core: USB Raw Gadget: couldn't find an available UDC or it's busy
-misc raw-gadget: fail, usb_gadget_register_driver returned -16
-======================================================
-WARNING: possible circular locking dependency detected
-6.11.0-rc1-syzkaller-00033-g25f51b76f90f #0 Not tainted
-------------------------------------------------------
-syz.2.38/5056 is trying to acquire lock:
-ffff8881177d42c0 (&dev->mutex#2){+.+.}-{3:3}, at: input_disconnect_device drivers/input/input.c:724 [inline]
-ffff8881177d42c0 (&dev->mutex#2){+.+.}-{3:3}, at: __input_unregister_device+0x24/0x450 drivers/input/input.c:2273
+I do not think there is value in arguing, therefore I am not happy continuing
+the discussion under this tone. Hopefully, in a few days you, will have
+another look at my comments, with a level head, and address them.
+I still believe that they are valid and that if they are fixed, I am more
+than happy with your patchset merging into the kernel.
 
-but task is already holding lock:
-ffff8881131b5e20 (&hdev->ll_open_lock){+.+.}-{3:3}, at: hid_hw_open+0x25/0x170 drivers/hid/hid-core.c:2361
+Since you raised some technical points in your response, let me disambiguate.
 
-which lock already depends on the new lock.
+> You're repeating information that has come directly from me.
 
+Indeed, this specific point (XInput being deprecated) came from you.
+I am just bringing everyone up to speed, since I feel your patch missed
+some important context.
 
-the existing dependency chain (in reverse order) is:
+> I have many records from many MCU updates. It doesn't happen. (referring to
+> relying to the endpoint descriptor instead of HID Usages)
 
--> #1 (&hdev->ll_open_lock){+.+.}-{3:3}:
-       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
-       __mutex_lock+0x175/0x9c0 kernel/locking/mutex.c:752
-       hid_hw_open+0x25/0x170 drivers/hid/hid-core.c:2361
-       input_open_device+0x1c9/0x320 drivers/input/input.c:617
-       evdev_open_device drivers/input/evdev.c:391 [inline]
-       evdev_open+0x533/0x6a0 drivers/input/evdev.c:478
-       chrdev_open+0x26d/0x6f0 fs/char_dev.c:414
-       do_dentry_open+0x957/0x1490 fs/open.c:959
-       vfs_open+0x82/0x3f0 fs/open.c:1089
-       do_open fs/namei.c:3727 [inline]
-       path_openat+0x2141/0x2d20 fs/namei.c:3886
-       do_filp_open+0x1dc/0x430 fs/namei.c:3913
-       do_sys_openat2+0x17a/0x1e0 fs/open.c:1416
-       do_sys_open fs/open.c:1431 [inline]
-       __do_sys_openat fs/open.c:1447 [inline]
-       __se_sys_openat fs/open.c:1442 [inline]
-       __x64_sys_openat+0x175/0x210 fs/open.c:1442
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+In my opinion, using the standard Usage Page and Usage the controller reports
+remains the proper solution (this is what the Windows driver does).
+Remember that if there is a breakage due to a firmware update, users will
+become unable to use their device as they can not update the kernel.
 
--> #0 (&dev->mutex#2){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3133 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3252 [inline]
-       validate_chain kernel/locking/lockdep.c:3868 [inline]
-       __lock_acquire+0x24ed/0x3cb0 kernel/locking/lockdep.c:5142
-       lock_acquire kernel/locking/lockdep.c:5759 [inline]
-       lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5724
-       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
-       __mutex_lock+0x175/0x9c0 kernel/locking/mutex.c:752
-       input_disconnect_device drivers/input/input.c:724 [inline]
-       __input_unregister_device+0x24/0x450 drivers/input/input.c:2273
-       input_unregister_device+0xb9/0x100 drivers/input/input.c:2514
-       steam_input_unregister+0x10c/0x2c0 drivers/hid/hid-steam.c:917
-       steam_client_ll_open+0xc9/0x100 drivers/hid/hid-steam.c:1121
-       hid_hw_open+0xe2/0x170 drivers/hid/hid-core.c:2366
-       hidraw_open+0x274/0x7e0 drivers/hid/hidraw.c:296
-       chrdev_open+0x26d/0x6f0 fs/char_dev.c:414
-       do_dentry_open+0x957/0x1490 fs/open.c:959
-       vfs_open+0x82/0x3f0 fs/open.c:1089
-       do_open fs/namei.c:3727 [inline]
-       path_openat+0x2141/0x2d20 fs/namei.c:3886
-       do_filp_open+0x1dc/0x430 fs/namei.c:3913
-       do_sys_openat2+0x17a/0x1e0 fs/open.c:1416
-       do_sys_open fs/open.c:1431 [inline]
-       __do_sys_openat fs/open.c:1447 [inline]
-       __se_sys_openat fs/open.c:1442 [inline]
-       __x64_sys_openat+0x175/0x210 fs/open.c:1442
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Using `desc.bEndpointAddress` may be appropriate for a userspace tool or an
+out-of-tree kernel driver, but perhaps not for the mainline kernel.
+I am happy to be proven wrong.
 
-other info that might help us debug this:
+> "Attempted"... I *did*. You've failed to notice that what I've set is
+> what is reported by the HID report.
 
- Possible unsafe locking scenario:
+I am a bit confused here. I thought the purpose of your patch was to convert
+the HID report into what xpad would export. That means respecting xpad, not
+a random HID report.
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(&hdev->ll_open_lock);
-                               lock(&dev->mutex#2);
-                               lock(&hdev->ll_open_lock);
-  lock(&dev->mutex#2);
+In this case, the absinfo (with `input_set_abs_params`) needs to be set
+according to what is set by xpad, which is signed and from -32768 to 32767
+(referencing both the Linux Gamepad Specification and the out-of-tree driver
+xpadneo which seems to be the prominent driver providing support for
+controllers similar to Ally X, i.e., Xbox One bluetooth controllers).
 
- *** DEADLOCK ***
+I know from experience that Handheld Daemon will have a problem with this.
+But alas, I was not referring to Handheld Daemon being the problem here:
+it is simple enough to fix it in there and I will do it when I add
+support for your patchset (would rather avoid doing it or doing it and having
+to revert it of course). I was moreso referring to other userspace
+applications without this privilege.
 
-2 locks held by syz.2.38/5056:
- #0: ffffffff89d34790 (minors_rwsem){+.+.}-{3:3}, at: hidraw_open+0xa6/0x7e0 drivers/hid/hidraw.c:282
- #1: ffff8881131b5e20 (&hdev->ll_open_lock){+.+.}-{3:3}, at: hid_hw_open+0x25/0x170 drivers/hid/hid-core.c:2361
+As for why I have to add support for your patchset, it is simply because
+it being there changes the controller mappings, so I simply need to add
+an if statement that uses the standard XInput mappings when it is available.
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 5056 Comm: syz.2.38 Not tainted 6.11.0-rc1-syzkaller-00033-g25f51b76f90f #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:119
- check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2186
- check_prev_add kernel/locking/lockdep.c:3133 [inline]
- check_prevs_add kernel/locking/lockdep.c:3252 [inline]
- validate_chain kernel/locking/lockdep.c:3868 [inline]
- __lock_acquire+0x24ed/0x3cb0 kernel/locking/lockdep.c:5142
- lock_acquire kernel/locking/lockdep.c:5759 [inline]
- lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5724
- __mutex_lock_common kernel/locking/mutex.c:608 [inline]
- __mutex_lock+0x175/0x9c0 kernel/locking/mutex.c:752
- input_disconnect_device drivers/input/input.c:724 [inline]
- __input_unregister_device+0x24/0x450 drivers/input/input.c:2273
- input_unregister_device+0xb9/0x100 drivers/input/input.c:2514
- steam_input_unregister+0x10c/0x2c0 drivers/hid/hid-steam.c:917
- steam_client_ll_open+0xc9/0x100 drivers/hid/hid-steam.c:1121
- hid_hw_open+0xe2/0x170 drivers/hid/hid-core.c:2366
- hidraw_open+0x274/0x7e0 drivers/hid/hidraw.c:296
- chrdev_open+0x26d/0x6f0 fs/char_dev.c:414
- do_dentry_open+0x957/0x1490 fs/open.c:959
- vfs_open+0x82/0x3f0 fs/open.c:1089
- do_open fs/namei.c:3727 [inline]
- path_openat+0x2141/0x2d20 fs/namei.c:3886
- do_filp_open+0x1dc/0x430 fs/namei.c:3913
- do_sys_openat2+0x17a/0x1e0 fs/open.c:1416
- do_sys_open fs/open.c:1431 [inline]
- __do_sys_openat fs/open.c:1447 [inline]
- __se_sys_openat fs/open.c:1442 [inline]
- __x64_sys_openat+0x175/0x210 fs/open.c:1442
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f4c34136390
-Code: 48 89 44 24 20 75 93 44 89 54 24 0c e8 19 8e 02 00 44 8b 54 24 0c 89 da 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 77 38 44 89 c7 89 44 24 0c e8 6c 8e 02 00 8b 44
-RSP: 002b:00007f4c32db6b70 EFLAGS: 00000293 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 000000000014a042 RCX: 00007f4c34136390
-RDX: 000000000014a042 RSI: 00007f4c32db6c10 RDI: 00000000ffffff9c
-RBP: 00007f4c32db6c10 R08: 0000000000000000 R09: 0023776172646968
-R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007f4c342c5f80 R15: 00007ffd273fd598
- </TASK>
-UDC core: USB Raw Gadget: couldn't find an available UDC or it's busy
-misc raw-gadget: fail, usb_gadget_register_driver returned -16
-UDC core: USB Raw Gadget: couldn't find an available UDC or it's busy
-misc raw-gadget: fail, usb_gadget_register_driver returned -16
+This is not to say that the end result will be as reliable as without your
+driver, as Handheld Daemon will then be at the mercy of your kernel driver.
+So please, do extended testing and I think with e.g., ChimeraOS 46.2 being
+released yesterday with your patchset, you will get some valuable
+feedback soon enough.
 
+I know that I have spent multiple weeks already optimizing my implementation,
+having released it close to a month ago. Which is also why I am not in a
+rush to add support for your experimental patchset.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> It is a very different story in a kernel driver... (referring to the 80ms
+> delay used for Xbox+A)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Please understand that I have spent weeks of effort debugging and optimizing
+the Side Menu behavior of Handheld Daemon. In fact, it currently implements
+three different ways of opening the Steam Side Menu (keyboard, extest through
+the gamescope X11 socket, and as a last fallback as Xbox + A). When I say
+80ms is not enough, I know it is not enough. Otherwise Handheld Daemon would
+be using 80ms. The rest is conjecture.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+> It is done on a worker. It is not blocking the kernel....
+> (referring to xbox+a holding a spinlock to send the key combo with msleep)
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Repeating myself:
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> > In addition, you are freezing the kernel **driver** to send those
+> > commands for 240ms which is around 100 reports.
 
-If you want to undo deduplication, reply with:
-#syz undup
+Which in my opinion will become more like 300ms. Freezing the controller for
+that long is not ideal (I know you are not freezing the kernel).
+Please revisit this.
+
+> Please describe how you think it is broken? (referring to `mcu_powersave`)
+
+Quoting myself:
+
+> > This feature remains broken when the device is at low TDPs and unplugged.
+
+e.g., when the Ally is set on its quiet mode and or is below 12W, and is
+suspended unplugged, with Steam and a game running. In this case,
+the USB controller of the Ally simply does not wake up and RGB breaks.
+The occurrence of this given those conditions is around 40% of the time.
+This includes testing with or without your DMI table patch by the way.
+
+> Does not work how? (referring to `ally_mcu_usb_switch`)
+
+Seems like a DMI table always sets it to 0. I do not know why. However I do
+know that as part of our validation on the distribution Bazzite which took
+place prior to you submitting your patch, we tested both adding an or for
+ally x and a dmi table, and the dmi table did not work. Post submitting your
+patch, there was a 5 day brief period where both the unstable ChimeraOS
+kernel and the CachyOs kernel integrated your patch before they also
+integrated the patch I am replying to (which makes Handheld Daemon not work;
+for now). During this period both the original ally and the ally x regressed
+when `mcu_powersave` was disabled.
+
+> I test, mate. With the default kernel and empty userspace.
+
+Unfortunately, this is not how users interact with my kernel patches and
+Handheld Daemon. They usually play games with SteamUI running in the
+background. Often, this includes setting an aggressively low TDP, and multiple
+suspends back-to-back while in game. This is the standard I hold myself to.
+And I would expect no less from a mainline kernel driver.
+
+I hope I replied to all your technical claims. If I missed any, I am
+happy to clarify and expand where appropriate.
+
+Again, good luck with your patchset. Hopefully, it will merge with 6.12 and
+Ally X owners will get an acceptable result without the need for userspace
+tools (albeit without gyro, back buttons, and RGB being part of the
+controller).
+
+Best regards,
+Antheas
 
