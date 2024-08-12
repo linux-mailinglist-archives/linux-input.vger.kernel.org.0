@@ -1,184 +1,291 @@
-Return-Path: <linux-input+bounces-5527-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5528-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB8194F802
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2024 22:14:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1AD94FA25
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 01:11:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3ED283F0D
-	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2024 20:14:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBA722828A1
+	for <lists+linux-input@lfdr.de>; Mon, 12 Aug 2024 23:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C64F186E5C;
-	Mon, 12 Aug 2024 20:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 140A818C920;
+	Mon, 12 Aug 2024 23:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kod0WXaY"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kERYL9r7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2073.outbound.protection.outlook.com [40.107.105.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54C361FFC;
-	Mon, 12 Aug 2024 20:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723493672; cv=none; b=c+xLzxUgqojCpXJhn2LWFC5xbqyJE4kwgDycxPH/76ZZ0lpq1LT61O7D7OMgq7YoSiRxKqUNrmZhD8oJ6L00CET+Md5GPu1PbcxRLiejffzJSNCaUpe4pAX8fB0MoF+rMwvc11wSIWzFn6/5SGmNKVkNHPVM0gTpt2tbmejIan4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723493672; c=relaxed/simple;
-	bh=CGlvoF2IaOy5iNGBKS8l1uRRC2nmhoV8scV0V8UbCI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RW+7q8+MWT+iavmwZ+9R2rNFCM111AI8s6Yk1WucgvBHMOOv1vEaDVdeFeEK/nvlyFcDfZAzOMUWIPchX30Ch7Nw3QaG/TK7wsNRMdDf9oeJyys6fw7sZlDs89//AsdrbIC21Zp6TZTVmQY6VhH7zLcd0R06yfhZHp1pRbphnjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kod0WXaY; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fc4fcbb131so35986035ad.3;
-        Mon, 12 Aug 2024 13:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723493670; x=1724098470; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DlLLEz/lGtjtk2D8ppPzr5S99NccdFJC755Ti0pZlOY=;
-        b=Kod0WXaYx6kCgIXrb4C8f8PTPScX0kbFPnSBlleFgam/P9+VO8bs5REXHl+y9bP9EA
-         /jbA3DsUBmYC2odjBJTwRN2DOq47s2RLMN+cV+GhM3kWFL0JLYpQuuH2m5ThPBuQg1dX
-         2H2vpMJyliScHDd5KcXtIQs87Mg8XyOL+slTAMBVmDzL4UeqcQgvSiRu8oVEvFr9+4El
-         qDQ+Gs3/Tovwn5dReKb9yTu1EECY2qyVwbUATa3fhU/Cbi2BSW/cUx0C1qqiKkhNEKZI
-         BVSyYN+V93ULO/AKLXMUWVZHRMTU6g7DvtpPN7nngK0wC1geo6iw2alxlWk33rKLSqcT
-         9kAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723493670; x=1724098470;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DlLLEz/lGtjtk2D8ppPzr5S99NccdFJC755Ti0pZlOY=;
-        b=wPdyjnHt7KwlDxazkxt/huzV+cJeHSrd9GYUwkkgCz293nzZYbyfGAP9lD+9ZA0PrF
-         Ovpj15u6BF4wlTPNrNZBEVQQ3LexWt05C5lZTXj30q1ukrtjojmUY5NV91pSPYIE5ECw
-         V/OAePaxsoZ2aOSzCUvukFbMhgqk1l5kFum2qd7srPma+LDsVBJUJ+DuGupyGgK9BaBQ
-         cmBC80ApxLXg38u0DfeljbDZV+uagYofyIzdBvfq3p2k9BqrGnuqKPUPz2k/e33qNwws
-         +gua2bZfeRWXWtqg6fOnKXJZddu2mssuSdkjV9k/27m2hfEiaPuY3SmmNMmU7dhv2D7c
-         kBow==
-X-Forwarded-Encrypted: i=1; AJvYcCULXPDcLPmUOgVc65wndPHjUSdiAtDK6SScK7T+Go/4K9JSAe4C6hzBCOzLn7dzmkrwiHIOQnvSGH0dThQAKeYORLBAYqb2diU7ldRzKoHu9ikJPv8WBzus50j/bnRiAKpuI7S7DNNjcVc=
-X-Gm-Message-State: AOJu0Yx1KsvlMZNd7ltaSwFBB5joU5otXd1zSRtNU8jihGlTE9vnD/WS
-	zfR9OD9n6kuoGgKM/FxcyF+9Bn0HmKStSxmn0FpLTlKc1K2VD/lQr5NXA3Nn
-X-Google-Smtp-Source: AGHT+IEBqQoMmtaL7YWmcrOUrXjl8QnXospiZk0mOSzFQYMRIh5wRKRCx2jU7LQpt9mkOHWa+mIbkg==
-X-Received: by 2002:a17:902:c94d:b0:1ff:4a11:5f72 with SMTP id d9443c01a7336-201ca139f97mr19370025ad.23.1723493669709;
-        Mon, 12 Aug 2024 13:14:29 -0700 (PDT)
-Received: from localhost.localdomain (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-201cd14ac10sm808335ad.102.2024.08.12.13.14.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 13:14:29 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: lkml@antheas.dev
-Cc: luke@ljones.dev,
-	bentiss@kernel.org,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>
-Subject: Re: Re: Re: [PATCH] hid-asus-ally: Add full gamepad support
-Date: Mon, 12 Aug 2024 13:12:08 -0700
-Message-ID: <20240812201404.15484-1-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <CAGwozwFN6neJf2RGOR_e916KvpPWpsyKJd5pMcE+WoOS+M5o=Q@mail.gmail.com>
-References: <CAGwozwFN6neJf2RGOR_e916KvpPWpsyKJd5pMcE+WoOS+M5o=Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3741E1487F9;
+	Mon, 12 Aug 2024 23:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.105.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723504304; cv=fail; b=kE4z+wIr9ndNDRj4UA872cJWlcrJKIdn/uvQcNCfklT+0dVInxmxQmVSRfdto1F6acDFMD8n0cDwroaKGsJ33RVVIDWr7VrEps0FcZ9O0CIgov/2J2D9KQ/Dvx9Ah1gjbG0z4/dc9Cl1n19l8pZ4PEPlplJy9TPr9JZqLHMVHrk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723504304; c=relaxed/simple;
+	bh=KqDKxnqd/2X4PXEedaMv6gkGp3Fs35mKX9UGZShDhdA=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Ld3UEjPDSW80gO0llEGVoAqxFsuXykeu6m3pxRINRuDk19PrADp0jF9hGlLQuwhVaySQDqGvKCgcDKL0TEmHi8p8Wn7pfSsIeWmU9OsouPvpThjq3VpV92KUSkkypfIgHtqNSySbCJExRBbJf5kyXI4fghu4EHCoomz+o+q/Tec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kERYL9r7; arc=fail smtp.client-ip=40.107.105.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ull44/Nk+Unhh3yla2pJvaJUK47MiAkFJr/INq56ZW5iClksr8DsX3jtWeq+ZUQKUocV/L5FGD/FYLm/ReNGL8huX+pfRKSLHrDNx4Gg6yJlpnCbEiqHXx9igRXLjP0qiBjtbS5jmzF42l/xruS9cf0lbV7/3oijD7nj+FkIM3uS/rKVhjBC35Ufs0Rl56KjGlnYU3AXqwiAT2EBZkP1OiM2/JV9anVTbvd31xQsq12Yba85K41/H3DxT1vfDL907auLt1E5jKCM25cMnk0mAxuV15/19NefJkPK3eoXMgEUZYWt1cEbUVwnkd+np94CnJ/T88bk5xPEaXIJneGDVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zTPlkEuFQW1uFIvbSPmuip3Z7+MB/9szTpdUDNbS38M=;
+ b=ME9kYM4nr5AZDzfsrw7OcbQQSxiLMqLMaRxhHD2fC+rOctU8meKzQhL74FyWmgLLXs1cyQP/L1hLbmeE8LWwWHraPC5HIDbVq51qmE36CGjEvwLbOtE+5CU0OK8cu/tsgElpBKfZJCi59eLR8FzYNV+MGZ6GtCARJDWYr/K72GQUFKawCUbi1j/uYsN7j5l+2ZS7L3WJqhZYma81HvN+2UBZscljmrxG4m8lHG4lTPNBjNRwmjbiAOoGlOPc2FysGrdUdnsRVBIhgZ1bFLlVVu3dmOvQGSxBYazMW5f+hibRgoYX+k/uFdZF6t48pOENVN/4mn3mtBUrcM9ukyWvZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zTPlkEuFQW1uFIvbSPmuip3Z7+MB/9szTpdUDNbS38M=;
+ b=kERYL9r7Vn69EbKst8jH0kpiGUwBo7zyNb26WFaBv8dFiKPtOvdEBN49jMLssBdBHAHE3hqAP0MNpG4wjpEdCpej/sozXOBV6Lz7AhGg9wMWWjOzzUVgHt07/i/P9CDblI9oZKwZsHReZ8sHg/7vH+UFh35hpQkfka8xbA7ZrDaZ1E9BCrT50OS+TVjTEtPyOVGtLBHW3VuQuLgSYcjyJvucFgsmpw7+Y6HrzQugQbZiPPN2/84G9UT1n1cJM6LPrWwn8nZ6OjsHD5KL+2Ktxtfz5pjA0/JQxg6pR65IxfsZbV7w3RbH4v1R4x+M3NJWI9zRcviX+f/OmB7y0aeSRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by GVXPR04MB11017.eurprd04.prod.outlook.com (2603:10a6:150:21c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
+ 2024 23:11:39 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%3]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
+ 23:11:38 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev
+Subject: [PATCH 1/1] dt-bindings: input: touchscreen: convert colibri-vf50-ts.txt to yaml
+Date: Mon, 12 Aug 2024 19:11:19 -0400
+Message-Id: <20240812231123.3838058-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR07CA0104.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::45) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GVXPR04MB11017:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc46e603-cfd2-44a4-c901-08dcbb241e9d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?9YOXU0kNHqtKkO1/jasWpHhKTr8ddc1+UbRCork+NwKmBq6SsHKbag9x3yey?=
+ =?us-ascii?Q?Z92e20bQQdnMSgn706Qz7Sieyi5I/ySgloxotbwfEv+KdWKdU9AXob3Khdi2?=
+ =?us-ascii?Q?ioSfuCi+w/x1cqHmmmbnWHkP1JiKxWaBWyj61qmk+wjlePY9EpTbDyLeBrev?=
+ =?us-ascii?Q?Lc7vNPWFp3QzCX8xslJ7tsKAr55+oNJDUSStIMvchIA48moNPAOHNf2F/q7P?=
+ =?us-ascii?Q?3/gdFduTYMvU2fem1EZBk4bl80Kh8eRGUK8ZnIGkZK3rtD37xW3zoe1b8JcG?=
+ =?us-ascii?Q?45dx+uoKex8Q8ozcg/HHwFNAM7aN44wN4fFspZopV6yo2gudgRBWyauMiavZ?=
+ =?us-ascii?Q?TESZsHgJBc3mL+wIeX/1QGYEV1iue0PEKfaL2VqN6ZtFnBhhNLIHXljKHyJ6?=
+ =?us-ascii?Q?35ojbHQXna965yO3XunFqmWYR7k3qLtgxNy0oMA6AKxGfgDgTtjt5DwlphOI?=
+ =?us-ascii?Q?jiOGUGuOBZXkcw6WhfNGXe8UvkU5n8937W/MZNhvYxI2RxX94qTdI9DQfToj?=
+ =?us-ascii?Q?iwWN6MrPbwfVbkSEslo0K7aIj8eu+IEaF1pRCpG6w/Z5nh2uDDuZVlw6N2lf?=
+ =?us-ascii?Q?RobIzC85dX3mB3sq+mPs5fzBE4O6C8aOdAXIz4hcS6hhewgvA2WwFt23BRSE?=
+ =?us-ascii?Q?oUL09RmpPC6+N5NeYmTIk3UAmFm5CW0BslaOFWgazzxsGeXX7fifppK1qso8?=
+ =?us-ascii?Q?DJGkX7yFZBwX12QwCtrRSIqQnIQYSLPRo/5RXKd5urBc/QvNJrxD7AMxF0iZ?=
+ =?us-ascii?Q?lE49uI93opcj1A5gS7qb7WH2W7nVWGxQuO2g+WzsUu4cIy3mys0UqbUrIbp/?=
+ =?us-ascii?Q?pqGPSONSHaUpgvUnWbMCcb8ZWNd8jD5R2wa8m0otUkrpHRsLt7J6MUWWcGG+?=
+ =?us-ascii?Q?GdZo/CPDgjU9GEcyv2+WCrtWVa/zWBObN9Xr/A03V+n3nUbuYw+xay7QrRGA?=
+ =?us-ascii?Q?JjA45yMLdvWtsUBjl7j5xv8JbZ/WWXWuyPDi3wZbaEduPOb/+p7dAZiY2WQX?=
+ =?us-ascii?Q?CBFQQXkAujjUR6KxmZLnvnQpAkWXplOx1wAYpX/JAJxXdTOYwZuSSwhJLaGR?=
+ =?us-ascii?Q?GS3ELzu0FJpYqAZUgItNuVlfYJxAR2uxen2jzzyicjDlvp/rWY3dHsTRKCM/?=
+ =?us-ascii?Q?oUK1C/dy5bFGPgKHolfvURRyyIOeks1zEbMJv0RPMJfSVgd0XZJohnBvQwXf?=
+ =?us-ascii?Q?+mo89uetpiC6UfxTzqodS3vjueJxBls4Kc7r5RIhKIFT1kTBD+x7RoTE0aQj?=
+ =?us-ascii?Q?fVkEDp3xUjWrqdonxEi9G8GUss4u44IE5sqcLaVVUCotvOYZGdL9l+pwiIHc?=
+ =?us-ascii?Q?+Cn9vtttgrB9SLZgYFBkS4j5Yft/ZCwTJYwiNBcc5Q0pvNQc5+ubACR/auLG?=
+ =?us-ascii?Q?aoewguk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SD+d9aAVkQYBeHVr6nW7mX7ezBfzkhuHQ5H+isceXFsMbmceDPOsu9aj7Sca?=
+ =?us-ascii?Q?dqyORXwCnyFlpyACfXPJwDqBqsYX0Ypgn1Pk/O2xeIsbbpxZuxVTkBTN1vdE?=
+ =?us-ascii?Q?gTxLgeAv51niYJ2lnCD6qm7zRJERTgHbVBliwsmxaO8VZW4sWUUTAX3S5Teh?=
+ =?us-ascii?Q?B613d9IhwmakggW43opeiZB+1M5EtI6B1y5vKduLZ+LrAYU8JONYmYymBClD?=
+ =?us-ascii?Q?hyHV6wS+EOJ3XVOKXK4aQ34itaOc8OZgZZ3xbhIeUBYwui/qDZO0QLp88qqS?=
+ =?us-ascii?Q?tn1g60jaxnT7jJWMyHkJsLh4vVy7jt0shL1cLlgO7YG6lVGfxyQ/OCXDbvGE?=
+ =?us-ascii?Q?CyRn/Aiiwwgd/DBWrs10V7LcGjf7TzdJ62aI1NiVJkHT6SMDxAPG3SgjmY7c?=
+ =?us-ascii?Q?AVzDefgTXhFFYhNKTHH2hhl9JuDYE+HblKfyg/w+XHvRBypQGQi0drKg+dFP?=
+ =?us-ascii?Q?ge9OuE75Zhymvn7kGLkEgp+kAZFYtmU18ww+s7ZNn2ZBj9O3pnVowxeJBf5j?=
+ =?us-ascii?Q?6RqDH7+NFvNvTXHo4pXlQcDEWca0o+JFQPbqLvmhL7nRDOfijNpMHr35L0Nl?=
+ =?us-ascii?Q?qj+VUOWdlEiT/dMWfFWh0/S9vrjxSzjuxOn1uSzYOnbHAb3haz2owTS6JGn9?=
+ =?us-ascii?Q?bAwO+Yz3j0gJbHo3Yt4pq43CQ39bR2jvdcSXjoJAnMD+BmYFEXUvMKPjEvHL?=
+ =?us-ascii?Q?cKEj46FeBETxF1cNK4Et789sQLt6ToOulyF0w8iHeQySaaQZ5JM5w2tuR8Iu?=
+ =?us-ascii?Q?leBTz2jog7BSRP9owT8EuxokCWd7b2Z45qd2fa0kkLJaJ0FHNp/4Hqk4gW8L?=
+ =?us-ascii?Q?I6SXdOPNC0D4eOJmSnXuNuj6ZdlwkzBPb9LQJTKEK3xI36WLUFug8PPGBkpA?=
+ =?us-ascii?Q?Jpl5U+vl+0W9qwqWR7beUpLC+8irVulmveXj6oVIyYYnfr0LDPvKVa/JXiwR?=
+ =?us-ascii?Q?3cJfhMsksb7B7y9QRXarwIvkYTlzTyfJYczXmWjm+MzMyhGhwa6W4jPDTxbu?=
+ =?us-ascii?Q?2yxut3ysTlIOL/9F71wrQmOSaqO5nOuevLzB1eGnybPrgGCIcZAMnUF18RCJ?=
+ =?us-ascii?Q?QLdU3bJm7+Wd/CV4ou+ADQ10RheOo0g5/8x8e1iKHOqSZYwnjEU4hQnEb759?=
+ =?us-ascii?Q?6ZMu3iBx1UAzFzby/uYogDNhngb3FcQvCn7YwvJnhx+PJtcNkiH1Od7Jf0c4?=
+ =?us-ascii?Q?rdW45jrmMLUsVgUReFhSExCD/GFysTjp1Bq5gB0C91WazAx+7wcMFGD7PeEO?=
+ =?us-ascii?Q?8MSVTlXS0g/v97KbutvNoSmTbnpjjanTwp6YqiqtJvbU1PSsTFsPKgUsAx50?=
+ =?us-ascii?Q?fYbUHmWo/iXbXddgCvkuSes7nozei6suMAXWxfTEV0JWJD++pwR/hz98CO30?=
+ =?us-ascii?Q?K/mCKms5gYgbpH2L74AS7cLOq8EX/SJZIEsB2dN9UbegbGCyrWaXI69vWG1Z?=
+ =?us-ascii?Q?Dgg0ryVy2mNaoVsJvguRfhmPu4cVHdNrVK5519k13H4YKA+pVM98fzDzQjJT?=
+ =?us-ascii?Q?zKs8kH4ikB6zq2MW4aDzgggBuE7hdki0QwNo7qOGO93o///6GM0PISmKNhO9?=
+ =?us-ascii?Q?/H9XZneqa9WptJ7sbM42pbi9Aj+ouTSso9Ma3i+X?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc46e603-cfd2-44a4-c901-08dcbb241e9d
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 23:11:38.8303
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L5sBEhOEZgKTPc9y+5NqXWHvPpvKhw4pHAZ2L8SN64aOPm/Zdw4R58HGP6bQkIEHE8Mktw6WqrCkkP89zKqrnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11017
 
-> Hi Derek and Denis,
-> 
-> Let us be civil. If I could have bug reported you I would have bug reported
-> you. However, for some weird coincidence, I do not have access to the
-> ShadowBlip bug tracker or the relevant communities. Nevertheless, this is
-> not relevant public discussion. Let us refrain from this discussion further,
-> including e.g., name-calling.
+Convert binding doc colibri-vf50-ts.txt to yaml.
+Additional change:
+- add ref touchscreen.yaml.
+- remove standard pinctrl properties.
 
-I haven't called you any names or levied any personal attacks, so I will
-continue not to. I'll also help you, here is the resource for reporting kernel
-bugs. You will find the ShadowBlip GitHub is notably absent from it, so I'm not
-sure why you brought that up.
+Fix below warning:
+arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /touchscreen:
+  failed to match any schema with compatible: ['toradex,vf50-touchscreen']
 
-https://www.kernel.org/doc/html/v4.19/admin-guide/reporting-bugs.html
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ .../input/touchscreen/colibri-vf50-ts.txt     | 34 ----------
+ .../input/touchscreen/toradex,vf50.yaml       | 68 +++++++++++++++++++
+ 2 files changed, 68 insertions(+), 34 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
 
-> The MCU of the Ally is the embedded microcontroller that runs the RGB and the
-> controller of the Ally. Therefore, the discussion of the MCU powersave and
-> wake is relevant here. What is not proper is that I should also have replied
-> to the original patch. I admitted that much in my original email. However,
-> since you are now aware of it, I trust that you can block the patch for
-> merging until you review it.
->
-> If the patch does not function under normal operation, this is relevant here.
-> It means this extended patchset is built on reliance of the broken patch,
-> which raises questions. Nevertheless, calling the patchset "experimental"
-> is hearsay. Therefore, I will refer to it as ambitious from now on :).
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt b/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
+deleted file mode 100644
+index ca304357c374a..0000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
++++ /dev/null
+@@ -1,34 +0,0 @@
+-* Toradex Colibri VF50 Touchscreen driver
+-
+-Required Properties:
+-- compatible must be toradex,vf50-touchscreen
+-- io-channels: adc channels being used by the Colibri VF50 module
+-    IIO ADC for Y-, X-, Y+, X+ connections
+-- xp-gpios: FET gate driver for input of X+
+-- xm-gpios: FET gate driver for input of X-
+-- yp-gpios: FET gate driver for input of Y+
+-- ym-gpios: FET gate driver for input of Y-
+-- interrupts: pen irq interrupt for touch detection, signal from X plate
+-- pinctrl-names: "idle", "default"
+-- pinctrl-0: pinctrl node for pen/touch detection, pinctrl must provide
+-    pull-up resistor on X+, X-.
+-- pinctrl-1: pinctrl node for X/Y and pressure measurement (ADC) state pinmux
+-- vf50-ts-min-pressure: pressure level at which to stop measuring X/Y values
+-
+-Example:
+-
+-	touchctrl: vf50_touchctrl {
+-		compatible = "toradex,vf50-touchscreen";
+-		io-channels = <&adc1 0>,<&adc0 0>,
+-				<&adc0 1>,<&adc1 2>;
+-		xp-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+-		xm-gpios = <&gpio2 29 GPIO_ACTIVE_HIGH>;
+-		yp-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+-		ym-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
+-		interrupt-parent = <&gpio0>;
+-		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
+-		pinctrl-names = "idle","default";
+-		pinctrl-0 = <&pinctrl_touchctrl_idle>, <&pinctrl_touchctrl_gpios>;
+-		pinctrl-1 = <&pinctrl_touchctrl_default>, <&pinctrl_touchctrl_gpios>;
+-		vf50-ts-min-pressure = <200>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml b/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
+new file mode 100644
+index 0000000000000..6ff3ad1f9edfd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/toradex,vf50.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Toradex Colibri VF50 Touchscreen
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    const: toradex,vf50-touchscreen
++
++  interrupts:
++    maxItems: 1
++
++  io-channels:
++    maxItems: 4
++    description:
++      adc channels being used by the Colibri VF50 module
++      IIO ADC for Y-, X-, Y+, X+ connections
++
++  xp-gpios:
++    description: FET gate driver for input of X+
++
++  xm-gpios:
++    description: FET gate driver for input of X-
++
++  yp-gpios:
++    description: FET gate driver for input of Y+
++
++  ym-gpios:
++    description: FET gate driver for input of Y-
++
++  vf50-ts-min-pressure:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: pressure level at which to stop measuring X/Y values
++
++required:
++  - compatible
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    touchscreen {
++        compatible = "toradex,vf50-touchscreen";
++        interrupt-parent = <&gpio0>;
++        interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
++        io-channels = <&adc1 0>,<&adc0 0>, <&adc0 1>,<&adc1 2>;
++        xp-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
++        xm-gpios = <&gpio2 29 GPIO_ACTIVE_HIGH>;
++        yp-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
++        ym-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
++        pinctrl-names = "idle", "default";
++        pinctrl-0 = <&pinctrl_touchctrl_idle>, <&pinctrl_touchctrl_gpios>;
++        pinctrl-1 = <&pinctrl_touchctrl_default>, <&pinctrl_touchctrl_gpios>;
++        vf50-ts-min-pressure = <200>;
++    };
++
+-- 
+2.34.1
 
-It is not relevant to the functionality provided by this patch, and the bug
-exists with or without this patch. The bug cannot be resolved with this patch,
-and it is not exacerbated by this patch. Therefore it follows that there is
-no reason to block this patch because of the mcu_powersave issue. See above
-for how to report the issue properly.
-
-> > This is 100% an issue with your software. I just completed an exhaustive
-> > battery of testing at 8w STAPM/FPPT/SPPT on Quiet power profile with only
-> > 2 cores active. The tests included using Steam by itself and the kernel
-> > implementation, as well as running InputPlumber (which also has an
-> > 80ms delay).
-> 
-> Please refrain from name-calling. I was very specific to say that the issue
-> here is that under load when in a game, Steam will either let A leak through
-> to the game or not respond, sporadically. While in Steam UI the combination
-> always works, regardless of TDP. Since you did not test while in a game,
-> this renders your test invalid.
->
-> To save you some additional invalid testing for the other issues: using
-> ryzenadj on the Ally causes misbehavior, especially after suspend, where the
-> TDP will reset. In addition, modifying SMP and core parking can freeze the
-> Ally during suspend. Therefore, for further testing, I expect you to disable
-> your "PowerStation" application and instead use the low-power platform
-> profile, which is provided by asus-wmi, and is the vendor specific way for
-> setting TDP on the Ally. Or use asusctl, which does the same.
-
-I should have been more clear about my testing as you have made a lot of
-assumptions about how they were conducted. All of my tests were done multiple
-times in different games. I chose not to list them all for brevity in the LKML.
-PowerStation was disabled for all of tests and I used the sysfs devnodes at
-/sys/class/firmware-attributes/asus-armoury/attributes/ to set STAPM/FPPT/SPPT
-and asusctl to set the "quiet" power profile. ryzenadj -i was used only to
-verify current setting of each PPT before and after sleep to ensure it did not
-reset. Also, I only disabled cores to provide a “worst-case” scenario to ensure 
-that the test was as comprehensive as possible. These tests meet all of the 
-criteria you have specified so thank you for providing a second validation of my 
-methodology.
-
-I will point out that the issue of Steam passing events through to a game can
-occur when a user has their settings too low to run the game at a reasonable
-framerate. In such cases it is recommended they lower their settings or adjust
-their power profile to increase performance. Kernel drivers do not need to
-account for misbehavior in userspace, especially when those issues are
-driven by misconfiguration. In any case, this is a bug in Steam so you should
-report it to Valve directly using their SteamForLinux GitHub, rather than on
-unrelated kernel patches.
-
-Furthermore, we both know you won't be using the default button combination
-and will instead use the included configuration attributes to set the buttons
-to the F14-F16 keys you already support so you can determine the discrete
-events, just as InputPlumber is doing. This patch will not affect your ability
-to use your multiple fallback methods and only provides a usable default
-without the use of any userspace tools. Within the scope of the patch and its
-purpose there is no issue here as it functions as intended.
-
-> As for using direct HID commands to program RGB, asusctl does the same,
-> including many other userspace apps, and prior to this patchset there was
-> no way to do different, so I do not see the problem here.
->
-> Best,
-> Antheas
-
-R/
-Derek J. Clark
 
