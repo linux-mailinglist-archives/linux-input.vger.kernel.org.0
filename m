@@ -1,53 +1,52 @@
-Return-Path: <linux-input+bounces-5557-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5558-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969A5950D9B
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 22:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E8E950D9F
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 22:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37A8F1F233AC
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 20:08:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 87B3F1F23A50
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 20:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 401111A4F26;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4BD1A4F3B;
 	Tue, 13 Aug 2024 20:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtDz8iN0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhBYzxNb"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFCD1A00F2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417C01A4F28;
 	Tue, 13 Aug 2024 20:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723579722; cv=none; b=Fmf4UO0pPvK9xtGEHq199N+ejdU/kInBYf0G2V/aRdDpPQ9kpLCZ5H+wnGwIvBmkS4S8yJopfHuhvEfWVEzY24IFyDIcPrjYGGLb5fBli5v+PNIkm+SwQco3M/+RqDNQifUUt3rBEn0Sma6utL0Er+QCmUqDC9fRupXHdjAlj44=
+	t=1723579722; cv=none; b=K/f7vF1thNiJ3zyiNJrf/nclsX3TWw/tepMGKDcblQOahdB8+SicQm+FAgHfnl5ylGPY1UeEbw09X2nL/b52vWbbWEFmGeW1bqWHe9xUCdx3KukL2xwMwZMt9G4MDMPFamfAQmO5P2uyd4IIFiXA7TuIlmybqQ/bJSbGkB0Vm/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723579722; c=relaxed/simple;
-	bh=aEuCjWxRkzWwfDTMdgU+LpngRSgkeUQ7WrIWnqmQ1+I=;
+	bh=9Td4swnVF8NKLMcauXwWH+DSBDJe1nM7mcNOPWwcfRg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RJNTJ0KK26E7Ue4mXBi222K6btt4v/qSQeaTXCrAJa9h+oDfk4NdtalWBbH/9WGTZ2agfTLXIoCoa/zUXkVHTaFdH/ouKg9jk0gj4fg9Nb7Ztx03tHWcLSpy5OTw4CIcFm6UOBY1tOIl++WhuArlEk6vEanwSTCKfjlrySG2Zvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtDz8iN0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB229C4AF0C;
+	 In-Reply-To:To:Cc; b=XXb7DYSpgNUXm9w2kWjJlDum9PXYYxpZWjqlmKEjRyMCXPLoWzFnJPXoebVF7E4qVpcuGvnoOZOGhwkFksAPzlXTAz+ir3mCD94ICLiavMY3VvpUAJ5Fy5uNZKTSCA6VZVtEXWwIF04yEo5rZmAWmQc4z/gFzVfMFT5aha7xSMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhBYzxNb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9DABC4AF11;
 	Tue, 13 Aug 2024 20:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1723579721;
-	bh=aEuCjWxRkzWwfDTMdgU+LpngRSgkeUQ7WrIWnqmQ1+I=;
+	bh=9Td4swnVF8NKLMcauXwWH+DSBDJe1nM7mcNOPWwcfRg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KtDz8iN0frtUgPRihxrO6toTbULRcYJMh899KRCL3FYgmbdZo05++5ZWyrRDR9jnk
-	 A0eJkCKcv4GfVgzDSxBs8v00YKrPjnChM7smIw7BKPLds0KHzwvl498nIwIqODVPS9
-	 au3g+gGySxqsox9RIN/R8DyeHhV1ZcZfu9WxtlIgIt2LOb19qmf9kZAkJoPu/+JrC7
-	 EUUYkuoRI5DUnhgy8ixw0QHO+blJ8YfxSVI27CIV5AYbU+3N/DJQf2tv+U9MbIoFt9
-	 TxPnk0a/akyxsToMJPM/s0qNw6pmGMCu35JU28r/tHIm4M9JuEAy1p5J3iWmrxiCTm
-	 7aGCfTOh52Yqw==
+	b=lhBYzxNbVI70X7kaBhjYpLhbX+OGFWP/dEPoi0+3PXrgEhH/cAmpjTMMe14aglV+g
+	 DLsaHn3VA9EnBUZtWvcLHNq+Tl+YP5gu3hCMC798/fmeVe+3s/tw+61viXqAaNhA8F
+	 MWNdVFdNuIivGyrZQg5vOM+YDTmGoQQBUW+8Ct/SPD8A1fLcJzlarPel6LN5rKZq6l
+	 EgA9tG0lbmHH+MoVwgfHxgukChxiuS9GwhJCdWWmVeqbiPknmTJWdljSaYW+Dem9eU
+	 gkcU+VeJZhXnUKNRSP8OlJ7FdUgRyoqfI/4UsQXCjs321dY5mwTNmBHUCN888k3Vv9
+	 +lb+psi9lzwFg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 964D5C52D7D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9059C52D7B;
 	Tue, 13 Aug 2024 20:08:41 +0000 (UTC)
 From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
-Date: Tue, 13 Aug 2024 21:07:17 +0100
-Subject: [PATCH v11 1/3] Input: adp5588-keys - use guard notation when
- acquiring mutexes
+Date: Tue, 13 Aug 2024 21:07:18 +0100
+Subject: [PATCH v11 2/3] Input: adp5588-keys - add support for pure gpio
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240813-adp5588_gpio_support-v11-1-9ea490d6c41d@analog.com>
+Message-Id: <20240813-adp5588_gpio_support-v11-2-9ea490d6c41d@analog.com>
 References: <20240813-adp5588_gpio_support-v11-0-9ea490d6c41d@analog.com>
 In-Reply-To: <20240813-adp5588_gpio_support-v11-0-9ea490d6c41d@analog.com>
 To: Utsav Agarwal <utsav.agarwal@analog.com>, 
@@ -71,11 +70,11 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
  Oliver Gaskell <oliver.gaskell@analog.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723579648; l=4350;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723579648; l=2755;
  i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
- bh=mDwNB6wUzoZc6JGCdhyWFTBkDbZltiAbjw3N6y6sDvU=;
- b=FTWmkaXK015P1QQRAHT7+cEAEHI2ymCRuHJkAmGfL7Fw2OwwifQc819zSsYRAJ3vMa4CEwHZG
- 3zrkYcp2MOHAPA+kxzvwoxuV5j3PKU29jZv/W0jN3o1t8nedjrkvGfl
+ bh=Eu2lV0vTpN9Abv9n1z4OYRsDPkCZkTfQntOwZUtyC/k=;
+ b=1gQPzbe8iYWoov9Uzy5TGHtBJeQ7TkGkLCS8ag/Enf4TcEwTwVLg/HT0/xQhB8/V6Na5OTYdQ
+ vcbmaPibOmwBMmRnDZ9eOJS1Y2aRxZe1Ww6LUN4UYkOnREHeR3Ei6Pn
 X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
  pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
 X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
@@ -83,143 +82,93 @@ X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
 X-Original-From: Utsav Agarwal <utsav.agarwal@analog.com>
 Reply-To: utsav.agarwal@analog.com
 
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From: Utsav Agarwal <utsav.agarwal@analog.com>
 
-This makes the code more compact and error handling more robust.
+Keypad specific setup is relaxed if no keypad rows/columns are specified,
+enabling a purely gpio operation.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Acked-by: Michael Hennerich <michael.hennerich@analog.com>
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
 ---
- drivers/input/keyboard/adp5588-keys.c | 49 ++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 32 deletions(-)
+ drivers/input/keyboard/adp5588-keys.c | 37 +++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 1b0279393df4..09bcfc6b9408 100644
+index 09bcfc6b9408..7c32f8b69a3e 100644
 --- a/drivers/input/keyboard/adp5588-keys.c
 +++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -221,15 +221,13 @@ static int adp5588_gpio_get_value(struct gpio_chip *chip, unsigned int off)
- 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
- 	int val;
+@@ -188,6 +188,7 @@ struct adp5588_kpad {
+ 	u32 cols;
+ 	u32 unlock_keys[2];
+ 	int nkeys_unlock;
++	bool gpio_only;
+ 	unsigned short keycode[ADP5588_KEYMAPSIZE];
+ 	unsigned char gpiomap[ADP5588_MAXGPIO];
+ 	struct gpio_chip gc;
+@@ -431,10 +432,12 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
+ 	kpad->gc.label = kpad->client->name;
+ 	kpad->gc.owner = THIS_MODULE;
  
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
+-	girq = &kpad->gc.irq;
+-	gpio_irq_chip_set_chip(girq, &adp5588_irq_chip);
+-	girq->handler = handle_bad_irq;
+-	girq->threaded = true;
++	if (kpad->client->irq) {
++		girq = &kpad->gc.irq;
++		gpio_irq_chip_set_chip(girq, &adp5588_irq_chip);
++		girq->handler = handle_bad_irq;
++		girq->threaded = true;
++	}
  
- 	if (kpad->dir[bank] & bit)
- 		val = kpad->dat_out[bank];
- 	else
- 		val = adp5588_read(kpad->client, GPIO_DAT_STAT1 + bank);
+ 	mutex_init(&kpad->gpio_lock);
  
--	mutex_unlock(&kpad->gpio_lock);
--
- 	return !!(val & bit);
- }
+@@ -632,6 +635,21 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
+ 	struct i2c_client *client = kpad->client;
+ 	int ret, i;
  
-@@ -240,7 +238,7 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
- 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
++	/*
++	 * Check if the device is to be operated purely in GPIO mode. To do
++	 * so, check that no keypad rows or columns have been specified,
++	 * since all GPINS should be configured as GPIO.
++	 */
++	ret = device_property_present(&client->dev,
++			"keypad,num-rows");
++	ret |= device_property_present(&client->dev,
++			"keypad,num-columns");
++	/* If purely GPIO, skip keypad setup */
++	if (!ret) {
++		kpad->gpio_only = true;
++		return 0;
++	}
++
+ 	ret = matrix_keypad_parse_properties(&client->dev, &kpad->rows,
+ 					     &kpad->cols);
+ 	if (ret)
+@@ -775,6 +793,11 @@ static int adp5588_probe(struct i2c_client *client)
+ 	if (error)
+ 		return error;
  
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	if (val)
- 		kpad->dat_out[bank] |= bit;
-@@ -248,8 +246,6 @@ static void adp5588_gpio_set_value(struct gpio_chip *chip,
- 		kpad->dat_out[bank] &= ~bit;
- 
- 	adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank, kpad->dat_out[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
- }
- 
- static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
-@@ -259,7 +255,6 @@ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
- 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
- 	bool pull_disable;
--	int ret;
- 
- 	switch (pinconf_to_config_param(config)) {
- 	case PIN_CONFIG_BIAS_PULL_UP:
-@@ -272,19 +267,15 @@ static int adp5588_gpio_set_config(struct gpio_chip *chip,  unsigned int off,
- 		return -ENOTSUPP;
++	if (kpad->gpio_only && !client->irq) {
++		dev_info(&client->dev, "Rev.%d, started as GPIO only\n", revid);
++		return 0;
++	}
++
+ 	error = devm_request_threaded_irq(&client->dev, client->irq,
+ 					  adp5588_hard_irq, adp5588_thread_irq,
+ 					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+@@ -785,6 +808,12 @@ static int adp5588_probe(struct i2c_client *client)
+ 		return error;
  	}
  
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	if (pull_disable)
- 		kpad->pull_dis[bank] |= bit;
- 	else
- 		kpad->pull_dis[bank] &= bit;
- 
--	ret = adp5588_write(kpad->client, GPIO_PULL1 + bank,
--			    kpad->pull_dis[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
--
--	return ret;
-+	return adp5588_write(kpad->client, GPIO_PULL1 + bank,
-+			     kpad->pull_dis[bank]);
++	if (kpad->gpio_only) {
++		dev_info(&client->dev, "Rev.%d GPIO only, irq %d\n",
++				revid, client->irq);
++		return 0;
++	}
++
+ 	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
+ 	return 0;
  }
- 
- static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned int off)
-@@ -292,16 +283,11 @@ static int adp5588_gpio_direction_input(struct gpio_chip *chip, unsigned int off
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
- 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--	int ret;
- 
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	kpad->dir[bank] &= ~bit;
--	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
--
--	mutex_unlock(&kpad->gpio_lock);
--
--	return ret;
-+	return adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
- }
- 
- static int adp5588_gpio_direction_output(struct gpio_chip *chip,
-@@ -310,9 +296,9 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
- 	struct adp5588_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = ADP5588_BANK(kpad->gpiomap[off]);
- 	unsigned int bit = ADP5588_BIT(kpad->gpiomap[off]);
--	int ret;
-+	int error;
- 
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	kpad->dir[bank] |= bit;
- 
-@@ -321,17 +307,16 @@ static int adp5588_gpio_direction_output(struct gpio_chip *chip,
- 	else
- 		kpad->dat_out[bank] &= ~bit;
- 
--	ret = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
--			    kpad->dat_out[bank]);
--	if (ret)
--		goto out_unlock;
--
--	ret = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
-+	error = adp5588_write(kpad->client, GPIO_DAT_OUT1 + bank,
-+			      kpad->dat_out[bank]);
-+	if (error)
-+		return error;
- 
--out_unlock:
--	mutex_unlock(&kpad->gpio_lock);
-+	error = adp5588_write(kpad->client, GPIO_DIR1 + bank, kpad->dir[bank]);
-+	if (error)
-+		return error;
- 
--	return ret;
-+	return 0;
- }
- 
- static int adp5588_build_gpiomap(struct adp5588_kpad *kpad)
 
 -- 
 2.34.1
