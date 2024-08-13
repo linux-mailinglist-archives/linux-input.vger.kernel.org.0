@@ -1,140 +1,194 @@
-Return-Path: <linux-input+bounces-5538-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5541-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F0F950178
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 11:45:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A81099501AB
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 11:53:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A387B23404
-	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 09:44:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCDB81C21EE2
+	for <lists+linux-input@lfdr.de>; Tue, 13 Aug 2024 09:53:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C02B17E44F;
-	Tue, 13 Aug 2024 09:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB8519047C;
+	Tue, 13 Aug 2024 09:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b="Fv+q4nSa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pxzYeR/n"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.valdk.tel (mail.valdk.tel [185.177.150.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3B18BF3
-	for <linux-input@vger.kernel.org>; Tue, 13 Aug 2024 09:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.177.150.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51928189533;
+	Tue, 13 Aug 2024 09:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723542293; cv=none; b=ItWyI8SMNus2AFsItzlctWGbhGmRQVEI1xQc4AWF5J94x9J/UKCUzfQTav31Fni6ybLiCnqow7oG6XjITIhq+pE+nF0leGDQKqObnE0giNHHikX8PP2VeZSInC+co4XQYvsK54nAesTOSlOxr2SQ6SOqyXnEz1+4oU8Vc6eONk8=
+	t=1723542764; cv=none; b=CNrzKlOVH2GB4Y0Kv9i75HO7BnXMTiPlZxvtwqh9/1jbSD3FFAA8WhDnqmHqsIR6acWuE3I5KwInDLBUyia/bg5nFvQ84J072tRna21B/R0hE+Fr0iUar9BggMuqvwJxjDph5ee7Nt+e/sUvogV9MDPBuEzlNnWDbvlHbKz9pFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723542293; c=relaxed/simple;
-	bh=NeGXkbheEI/fLY761GzXgyfA94dAiaVoIuD6/2WaCOM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TALnWGXT8eqe/UiQy2AkIBYoSiVGPbjpRRHMEqaRxGrn22/BFGE3Tq0XPW9oqpLbKNO4uJzrSrgmFfB3lgNN61Ik6uX/Zd3wOmbUgaibRQ+X3f1LoMBjWx6mEYjE88bwJX38j7GQh4Tzq+RwMkZXvHi9BEY2jDWtje5vIdK3j6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru; spf=pass smtp.mailfrom=valdikss.org.ru; dkim=pass (2048-bit key) header.d=valdikss.org.ru header.i=@valdikss.org.ru header.b=Fv+q4nSa; arc=none smtp.client-ip=185.177.150.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=valdikss.org.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valdikss.org.ru
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1EE7514C8694;
-	Tue, 13 Aug 2024 12:38:13 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valdikss.org.ru;
-	s=msrv; t=1723541896;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
-	bh=Ul+4J4WR/diCWoceg01z8R+8+52OBtolf/H9KGWOnaA=;
-	b=Fv+q4nSawLM4u5qDo6r9e5uNzZnWdVAxsa4UKQ747+6Jw4NlSKpZ3tALZMIqeEzatLBJXp
-	GGd42Ydkf7F2p+57BfM6p0E9hPt7xKwLSZtU2ONKzwjdV/KEEXc0BltfHpjhQ9o6xAOYPj
-	/E1gTYZgvTZlWFG0H8IareIEMCo1eO65KqpydPxvWfkSiRSmZy2Iuo1SLJzOlydm0mfuyc
-	ME72qErtSUOZUjLGrruV79+xwtD9f9HKvUfKJuDeU70KdYXrDNL1eEF06DvDWLb1lMXyI1
-	Q2lyZxRnsPEfY5ZL3GL5lQK5WLmEpe3X0W9TKKb8xLiUNNSOM10yiSO7j8SuCA==
-Message-ID: <d3d71c5b-da20-4358-84e9-59295da2863f@valdikss.org.ru>
-Date: Tue, 13 Aug 2024 12:38:03 +0300
+	s=arc-20240116; t=1723542764; c=relaxed/simple;
+	bh=r3ixwT4ejaY1WXYoTRnXA9O5iIKHCzNV0dZx1F6sTuk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Lucask4nK4vKnBO1T1cYzmvGNrZlRkoGzNoHd1/qRQsPAhtWPsnXS74lSyea3kQIqs7fIr53Jbov9rkehrou+akL8BTECTPiIBVgaiuQ6RPZhGJxg8RBVaTdoczsHCzjBo+rOEfxur803KnMDCM9VtDkSkzm448grRwR0NGkt1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pxzYeR/n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E0FACC4AF09;
+	Tue, 13 Aug 2024 09:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723542764;
+	bh=r3ixwT4ejaY1WXYoTRnXA9O5iIKHCzNV0dZx1F6sTuk=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=pxzYeR/ngM/D2uS7FiVCP0gz0rjQjHzjVhXz+unDlgtrwfWVoLh0VPOjX2/aDZN3b
+	 h8nHa3IMevseRFq8aDzR63Ko0r1ziBHXecLzjV6W9Tw5xAlh/KscBJrYdPa3dkkwoO
+	 H3ThqwnmYztnA+m5ryNtREm+4rNPEmelvFdFOVQ6z599DJC9EjVo9Ad24ha59GWFqS
+	 bEVdqPJ435/3qMFsfv/UqosuPSg8zieOmdKLix32V2CYeH4nALXTsPrN07Ex3TYUFk
+	 XsWvMeNQQBFipTfrmM3DGPBm706teBQsI8v3mNt1dZsx42uzORMTdt6x4/p+loTk7H
+	 i2LIFDcqoesIA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2484C52D7B;
+	Tue, 13 Aug 2024 09:52:43 +0000 (UTC)
+From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
+Subject: [PATCH v10 0/3] adp5588-keys: Support for dedicated gpio operation
+Date: Tue, 13 Aug 2024 10:51:30 +0100
+Message-Id: <20240813-adp5588_gpio_support-v10-0-aab3c52cc8bf@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] HID: lenovo: fix Fn-Lock on Lenovo TrackPoint
- Keyboard II in USB mode
-To: Jiri Kosina <jikos@kernel.org>
-Cc: linux-input@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
- Rodrigo Aguilera <rodrigoaguileraparraga@gmail.com>
-References: <20240725004934.301342-1-iam@valdikss.org.ru>
- <nycvar.YFH.7.76.2408131128230.12664@cbobk.fhfr.pm>
-Content-Language: ru, en-US
-From: ValdikSS <iam@valdikss.org.ru>
-Autocrypt: addr=iam@valdikss.org.ru; keydata=
- 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
- OEcVmRU/pw5/zoQyQg==
-In-Reply-To: <nycvar.YFH.7.76.2408131128230.12664@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-B4-Tracking: v=1; b=H4sIAKIsu2YC/43Q3UrEMBAF4FdZcm0lSWfy45XvIbIkmbQb0Kaka
+ 1GWvrvp3rhSi3t5Dsx3YC5siiXFiT0dLqzEOU0pDzUI/nBg4eSGPjaJasEkl8A1F42jEdGYYz+
+ mfJw+xjGXc6OQvPQkhbMdq6djiV36vLovrzWf0nTO5es6M8Pa/gPO0PAGwHvHATBa/uwG95b7x
+ 5Df2SrOeKu0Owquiu1CdMSp/UNRtwrsKKoqwStEAaQF+I2i71F0VWIL0evoHbqtYu5RTFUkN6F
+ DgiBJbRT7oxiudhS7/oWUEMYrUtj+UpZl+QYz3/k+GAIAAA==
+To: Utsav Agarwal <utsav.agarwal@analog.com>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Arturs Artamonovs <arturs.artamonovs@analog.com>, 
+ Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
+ Oliver Gaskell <oliver.gaskell@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723542691; l=4164;
+ i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
+ bh=r3ixwT4ejaY1WXYoTRnXA9O5iIKHCzNV0dZx1F6sTuk=;
+ b=IQz9G0SArziByu8tFlo26DBKrKLiIn7itrN727zn/+SoM6P7dQbnddP7DvhqsSzTFWNM8tkNa
+ dnopI+gT0pTDAd0c+5NpMZIAXOrO2Bme0Ds/Fu2Ou8/j1DdqQWBBOC/
+X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
+ pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
+X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
+ auth_id=178
+X-Original-From: Utsav Agarwal <utsav.agarwal@analog.com>
+Reply-To: utsav.agarwal@analog.com
 
-On 13.08.2024 12:28, Jiri Kosina wrote:
->> When Fn-Lock is pressed on Lenovo TrackPoint Keyboard II in USB mode,
->> the keyboard only sends the scancode to the host and does not toggle
->> the mode by itself, contrary to Bluetooth mode.
->>
->> This results in non-working Fn-Lock switching.
->>
->> Fix this issue by sending switching command upon receiving Fn-Lock
->> scancode.
->>
->> Signed-off-by: ValdikSS <iam@valdikss.org.ru>
-> 
-> Could you please contribute using your real name?
+Current state of the driver for the ADP5588/87 only allows partial
+I/O to be used as GPIO. This support was previously present as a
+separate gpio driver, which was dropped with the commit
+5ddc896088b0 ("gpio: gpio-adp5588: drop the driver") since the
+functionality was deemed to have been merged with adp5588-keys.
 
-I prefer to use my nickname on the internet, and as far as I know, the 
-patch accepting policy has been lifted to allow nicknames (pseudonyms) 
-since my last contribution.
+This series of patches re-enables this support by allowing the driver to 
+relax the requirement for registering a keymap and enable pure GPIO 
+operation. 
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#developer-s-certificate-of-origin-1-1
+Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
+---
+Changelog
+==========
 
-> then you just add a line saying [...] using a _known identity_ (sorry, no anonymous contributions.)
+Changes in v10:
+	- Corrected changelog ordering
+	- Changed dtbinding commit to clarify all changes are made in
+	  software. The commit message now also expands on what
+	  the desired pure gpio mode is
+	- Added acquired tags to commits
+	- dt-binding:
+		Removed multiple blank lines before the dependecies block
+	  	Removed excess headers included in dtbinding example
+	  	Removed constraint being repeated in free form text
+	  	Merged outlying dependency into a single block
+- Link to v9: https://lore.kernel.org/r/20240806-adp5588_gpio_support-v9-0-4d6118b6d653@analog.com
 
-It used to be:
+Changes in v9:
+	- Added dt-binding dependency for interrupt-controller. Now if
+	  interrupt-controller is specified, interrupts must be
+	  provided.
+- Link to v8: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v8-0-208cf5d4c2d6@analog.com
 
-> using your real name (sorry, no pseudonyms or anonymous contributions.)
+Changes in v8:
+	- Fixed indentation in document example (removed extra spaces)
+- Link to v7: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v7-0-e34eb7eba5ab@analog.com
 
-If I'm reading this wrong, please feel free to resubmit it under your 
-name, as has been done with my previous patch.
+Changes in v7:
+	- Fixed commit subject for transported patch 
+	- Driver now does not setup gpio_irq_chip if 
+	  interrupt has not been provided
+	- Fixed indentation for dtbinding example
+- Link to v6: https://lore.kernel.org/r/20240704-adp5588_gpio_support-v6-0-cb65514d714b@analog.com
+
+Changes in v6:
+	- Restored functionality to register interrupts in GPIO
+	  mode(i.e, these are optional but not exclusive to keypad mode
+	  since even in pure gpio mode, they can be used as inputs via 
+	  gpio-keys)
+	- Updated dt-bindings such that each keypad property depends on
+	  the others. Interrupts, although optional are now required by 
+	  keypad mode but are not limited to it.
+- Link to v5: https://lore.kernel.org/r/20240703-adp5588_gpio_support-v5-0-49fcead0d390@analog.com
+
+V5:
+	- Removed extra property "gpio-only", now pure gpio mode is
+	  detected via the adbsence of keypad specific properties.
+	- Added dependencies for keypad properties to preserve
+	  the original requirements in case a pure gpio mode is not
+	  being used.
+	- Added additional description for why the "interrupts" property
+	  was made optional
+	- Rebased current work based on https://lore.kernel.org/linux-input/ZoLt_qBCQS-tG8Ar@google.com/
+- Link to v4: https://lore.kernel.org/r/20240701-adp5588_gpio_support-v4-0-44bba0445e90@analog.com
+
+V4:
+	- Added dt-bindings patch
+
+V3:
+	-  Moved device_property_present() for reading "gpio-only" into 
+	adp558_fw_parse()
+	-  Added print statements in case of error
+
+V2: 
+	-  Changed gpio_only from a local variable to a member of struct
+	adp5588_kpad
+	-  Removed condition from adp5588_probe() to skip adp5588_fw_parse() if 
+	gpio-only specified. adp558_fw_parse() now handles and returns
+	0 if gpio-only has been specified.
+	-  Added a check in adp5588_fw_parse() to make sure keypad 
+	properties(keypad,num-columns and keypad,num-rows) were not defined when 
+	gpio-only specified
+
+---
+
+---
+Dmitry Torokhov (1):
+      Input: adp5588-keys - use guard notation when acquiring mutexes
+
+Utsav Agarwal (2):
+      Input: adp5588-keys - add support for pure gpio
+      dt-bindings: input: pure gpio support for adp5588
+
+ .../devicetree/bindings/input/adi,adp5588.yaml     | 40 ++++++++--
+ drivers/input/keyboard/adp5588-keys.c              | 86 +++++++++++++---------
+ 2 files changed, 84 insertions(+), 42 deletions(-)
+---
+base-commit: 1c52cf5e79d30ac996f34b64284f2c317004d641
+change-id: 20240701-adp5588_gpio_support-65db2bd21a9f
+
+Best regards,
+-- 
+Utsav Agarwal <utsav.agarwal@analog.com>
+
+
 
