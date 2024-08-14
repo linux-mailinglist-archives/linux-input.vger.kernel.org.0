@@ -1,286 +1,220 @@
-Return-Path: <linux-input+bounces-5570-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5571-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A59951FFE
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 18:30:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE9C952039
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 18:40:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDE591C21B27
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 16:30:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F9F81F21575
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 16:40:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7A41B86E0;
-	Wed, 14 Aug 2024 16:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="EyqHZOa0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DE041B9B31;
+	Wed, 14 Aug 2024 16:40:49 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FDD1B3F3E;
-	Wed, 14 Aug 2024 16:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723653000; cv=fail; b=Mo3aFMiI/xi/9w1Z/tz+W0YkO66NJeebXB1xs0jgANjA7sXN8RHHakaMScda+u5YXkRZc4RiSZ9PdoFVQoQP87VuKCeag6fK2+3iL6s8Xs5gY8xN4b4eW8G1VXQWc6pP2nw0ZMr2/8BnzsQhWAaqWQZesUJYBnLkmwEBSqRvUYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723653000; c=relaxed/simple;
-	bh=D77HdHorRMGtr2lOZACJqO0Fg7eU3Zbg5ZLZtrwapTk=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=rozalzktUxPGcLZ9rKt/RuWnd7+cUnv6Uu8ffLW4kWWp8MnkxjLUZu7WX3OnAf9JsGVNMtWHe9s/kkoZqMhIfv4iR5kFjBeKdGYu9l57eApoax0OYtRchmvyKi648blQq088lBYGw/sMSPyeR9HQtdpYd3R4fNlxYS/PbVmSPfk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=EyqHZOa0; arc=fail smtp.client-ip=40.107.21.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GetAFQOfkaQGdDyLlvbo0Igy6BzVBLblvt0+55z0/a5uwmYZKA6Ue0V/G+OQFPXKe1aif6WcckV46R1jBmISWZYFL+hBm0uuoOga+iCOORDZGdSlSszf1l9YB+HSLTnUMvXHIIQn0Syx+A+yHCDZyj7VdhkxS8bldnIti7Elinr1VgiO9CCSrwL/pfne76x02Zr80FKDkH6Mrw16L4eIeTupfBoDhrNgGnsPFxjhpRLW9gGo5LNIxkgLVDtVZkoLT8P+nwqQpoDHyzijFbEkzISV6jcb7g9F6sdYlxq5eQvVqkBELr/g+iLOmhL005cKCVfnmeZq3/v7wGZnh6vurw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H+svNqFpRLn6j7VyTLsyb2YgFQ5TN8rzUoiSzv7vKyM=;
- b=R8HCksYolbw9/1TsRUGxH/BdzXE4mpwds1XhO2l4BIyeyIbLcVRnxZHGMLziEaAmHnfseE0Fa1DjIVP9QnC1imYjpWs2dUiTj0UM0lPMbgF6rFZEvcyNU0Gt0oZ6tJQZ7KsKLMxDSiYdIxbUev1I5pKuox6pxjfTTLY/A7gnbz7InWt8IWsjifx0UmyyQGCW+QDqYMMUyZxpoXkcuVcHVbDGhghEsLEUlc5xizMWmhDEHKZfio7ktdM3b3WeRXyc4n11AL/ixUJiGnTdcvjaE4sQnJK318GYM5IPUbfx5HKq788KMgkAMgXntLazjuzMQVAFHd4CSkDZyKny49a2gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H+svNqFpRLn6j7VyTLsyb2YgFQ5TN8rzUoiSzv7vKyM=;
- b=EyqHZOa05eKqc0DbANE6HMiJ+6dWB7RRjfKDoxugnhvfUkTr6m5KY+b4JocHDZ3WelxyVyzjTRBXWjyK1FRShOjC1NBIx7P+KMuy3jjuWEe+1gbnQsy4xcAaCbk22gM9kPf9stzNwwqmJAnOdrU1RvEpIbNyelZ45j1QlS90mCYgHaF4BWBjh1FiNkHIJlu9DWvLSeKFyFJzaX2IInXaWQJZVE6Sw1X6uvyJoEYfyFAYjTD0MD+A+9NHvx13VGhbVkf2OqmlLuRsNAQC+nh7wiPcVArmtPs3JwBQSYXSgyIjvw0+ppGyOWYu8d5UbX9DKIgssLM3UrFE3VWIWuqPxw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AS8PR04MB8530.eurprd04.prod.outlook.com (2603:10a6:20b:421::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Wed, 14 Aug
- 2024 16:29:55 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%3]) with mapi id 15.20.7875.016; Wed, 14 Aug 2024
- 16:29:55 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sanchayan Maity <maitysanchayan@gmail.com>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: imx@lists.linux.dev
-Subject: [PATCH v2 1/1] dt-bindings: input: touchscreen: convert colibri-vf50-ts.txt to yaml
-Date: Wed, 14 Aug 2024 12:29:35 -0400
-Message-Id: <20240814162940.4020520-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR11CA0070.namprd11.prod.outlook.com
- (2603:10b6:a03:80::47) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116D81B1405;
+	Wed, 14 Aug 2024 16:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723653649; cv=none; b=QGSe+SqxS1Aeo+shKg5g6/v5LWte1gEhAHuB5pEtc4Oc1bWMDfqUiaPFYvaCcHYQJ+cKWra9MU9M7nVBwDACqTe6i6BQZdLNgFl3SZdJfJ3uP0iXIJuEg7dWZiwWFgCw/d+HMj+x0jSfyxmXVOxaHkvBuDe+nDJLXyZtaPywBAY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723653649; c=relaxed/simple;
+	bh=SP/HDoox5FIwbOFO2pO5YScBkssyFrd98lr261tyhqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uaW9wKKS5yInQG60X06C7lKnJ/DJBrMXzkrTmjaZvNsI1gDXJ97x2eVqVeLlQvJf/p2zHcbKYhLjsT6HktwMxJ0FONo8f4TThKz1bPKzdSDUSoPKsmu4OsTv69scUAI4OGB1ooLVG4YGz+vzOEYRgrXwfJ5KbcdueQyCJamP+W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id 3CD0D100246;
+	Wed, 14 Aug 2024 16:40:35 +0000 (UTC)
+Message-ID: <1ff1239d-2f90-4c8d-8b68-b0e0fa2340da@enpas.org>
+Date: Thu, 15 Aug 2024 01:40:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AS8PR04MB8530:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7505c40-be1f-4694-29d3-08dcbc7e54af
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	wUVOuLFY+s1Lqu/vd5N7PgO8in4/PUZ+qMB7UFlbjzbKxzTOvSD9nRqU2GUAlfXTq5aqux+mvmHSZ5fH+5fQWx27gzlYMCt2jE65S/Bv8jTeEp3u8SqTDwtrt8H47fRnR0QLaz4pV7iXCfOg+18yTHY5wTKPECIfeidu7bz0L7IxeP25lQFO0c4odulRW3wqoVaDiwI7QMU/GcYbHuGfQBjPZUwVe0K8R7Wm3DodGe85fCY5p1JnSADqIBA2pq03pNodcl11hNFG9X2/5BQTbTSxD6QE2//OpkFUxwOgdSbtx833oMnVk9sa2po7Y5zLMDEW/SHm8oo002dk5aPHwMDkUllEiPsX/zveGW7vlTcrlN4S4HH5HPH7I1mJR/ao+CshJbXqC2dypSrMm2jmrRODi5knciWEIfVT4Dr8bdjbCLneKiTnfdUXjTnnkpXIXTNE0lYksEFe5i10wn8xdYWt//MsB6kNkWlxYSvC4lUHyTv1i+IPUY/sAMAoUUT+noSfizRzEZAd+cI7LLCUH3Jewl80sqAgflY6rFGp1B54sAc45AFlUqmuaVN5o2vcDziNJc3hJDGt+/kZimaQRQGJ/5faWpxYN/ow7i11Bo+Yw+qREFpclTQaHWkdU9qZoyoG7JSsjYDIPhSTkK2PcjoBBrtiidCG4Zt8P8bRlNZyyj4K7aYx+tEpeUk/RG2p
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3hl03hluUJSP7ebO2w5AQLTFrnZljic1n7LrzbvVCW1tl7CQLC97BZOQF9UP?=
- =?us-ascii?Q?ordqzP7gjv4OH8BD9G1jp7191D3w5IXsfy3XgiRxFaxyWmwWJL9XCvSbv58Y?=
- =?us-ascii?Q?JxxXVpKy/t9yC4s6wFeVZdZGnefxaB8A3Umx6eJ1oJayPHcaZLGGBr74sl7q?=
- =?us-ascii?Q?mTbyRbHt2eamvMw5fa82r7XwOIpLrI5FvIkmGg6/n+VXhseDVLFQUXsyxHwZ?=
- =?us-ascii?Q?O8csllyfpgTuCZ4ZYxp3Ipkw0NCeqAPE5iazF1YNJUIbv5t/NkqxgfsPVDkx?=
- =?us-ascii?Q?wy5bWwPPTI2VYhfaas8dt/wFBfrWuLtY4MW9n3+rSLDfKPMZXihqNcyu3PTa?=
- =?us-ascii?Q?Js8Qn3Uz3le8sRrd7KT419A/qg8f5Ip1LAbGuwGmSODkL69iqpHGy+ep90Z9?=
- =?us-ascii?Q?Y1OrRWqc/FeKXDsrsE1LYNjQgR9HdDiXwTVPsOfRFwJI+W+fkuIbP0v1vuHp?=
- =?us-ascii?Q?5TrJ7vNFfF5G9li2sAZghamgYIdo6YqhLx4cjP8xwRJJ1lbbpd2w71jc6Crc?=
- =?us-ascii?Q?N8O5A7XvBdIb3F5w2S0baBIV3llXCIi9c/khsDfkv84Hg43PToIkKF9XC4AE?=
- =?us-ascii?Q?3ONostvFZ0coa96kLuudq+3hRi2nAsJt4BP60uirWR+nV2+EaVoqE94CqbOS?=
- =?us-ascii?Q?cQXV7P17t3H4wdta/REsf22vnYQMeB/C4Hn8ycLunc0a28Qxf1OzYoLH6Oi8?=
- =?us-ascii?Q?8AAr2h3IvHqzm4BgaAs0mTAgmsada666ScZJEzfXLpUizcRaYfhfBeuq1d4S?=
- =?us-ascii?Q?b1MhKXF/iv0D1Zf5QzAdE+PnT5VzZUJTunYsnogGACXiHF3K1XWRpjD+HoxL?=
- =?us-ascii?Q?zgBogs36PyoBb0jXY+iMMZamuYADZONo171AOsOXNj7SM8IkxugEEkbgoC5K?=
- =?us-ascii?Q?vusKHf5/tMVnb/KWRV/rbxVPo3mfYdiD3CQTamRJqjYO6bmbYCaRDLM+juPJ?=
- =?us-ascii?Q?hY+EBEepjrZAkWh6nd53nhIjMW8NYKekzeVWMdtuu9hTeC0QW+tx+k9il3Js?=
- =?us-ascii?Q?Ijz0/LcGygSqBaVJ8T/TDNmYjkGCUmY5soiWGHI1BLthFi0eFBJazemDWB7Z?=
- =?us-ascii?Q?KPvRKchNmsQlnH8oVTmSv+l/mADY5+SxskGjnkESKJ10r4sY3+tvYXF0HKQc?=
- =?us-ascii?Q?+r6B815e1S95bOe1jeyaZKVSEFx4FeHpjHCqvcsDCzf4/uh+nixJxRZyz6Xr?=
- =?us-ascii?Q?ID/dCfnRsIYZItEgMKDB6hLyDPHc7lEgERb3w0OPU9JQ+iKXw+NmUkipGW3O?=
- =?us-ascii?Q?TDUskx64NBa5jqhjbUbhMnMEM/No3VETu7d/5csV5my9H2vVnHpKz41nVjov?=
- =?us-ascii?Q?u0zDg9GdWUxk5DN0bhAv9yLRgDvvLwfcoQbhIV9cUe4P6JvH5vAjfrhx/etN?=
- =?us-ascii?Q?Lp7PSHcbRDtGExAS3NEs0Hc58I73FkB7J2m+E6Iro4gLRpYsuYnYTSPa5nF6?=
- =?us-ascii?Q?JdDpmacQFT3u4DBwoZLE0Xnm8Nlp+t6aCWJtYImkS1tOJ80Cvl1VPKlO274S?=
- =?us-ascii?Q?BGSaQqT3ZCT2W/SwyN0yecG61Sv8gYzinaRaajlRvW11FIx8dkFeW6biGpfH?=
- =?us-ascii?Q?AIPG9LBDGc/VChqZMCUnMQcgxR93N5R/JXOYUkmn?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7505c40-be1f-4694-29d3-08dcbc7e54af
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2024 16:29:55.3520
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PStltvvzIdjoPF9xmuQDyxrBk4/iiyXO5TLtpLOWAZQW+NluuOZ4Y6FfiGzfwpSd+cCGTIICTesqm/cvwH7QOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hid-playstation: DS4: Update rumble and lightbar
+ together
+To: Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nathaniel.lewis@sony.com
+References: <20240811130906.3682-1-max@enpas.org>
+ <CAEc3jaBELzAnffyE4mzQeNAiH-F5AhQqMGvMKoL6yu4naHBo+w@mail.gmail.com>
+Content-Language: en-US
+From: Max Staudt <max@enpas.org>
+Autocrypt: addr=max@enpas.org; keydata=
+ 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
+ PsRBqTJGs7jw5gOWMMchFaemEnEJtg==
+In-Reply-To: <CAEc3jaBELzAnffyE4mzQeNAiH-F5AhQqMGvMKoL6yu4naHBo+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Convert binding doc colibri-vf50-ts.txt to yaml.
-Additional change:
-- add ref touchscreen.yaml.
-- remove standard pinctrl properties.
+Great, thank you!
 
-Fix below warning:
-arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /touchscreen:
-  failed to match any schema with compatible: ['toradex,vf50-touchscreen']
+Then I guess the previous patch was just too hard to understand. Lesson 
+learned, I'll try to be clearer next time :)
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-Change from v1 to v2
-- fix missed required properties
-- use original submitter and input maintainer
-- add value limitted vf50-ts-min-pressure, just provide rough range, which
-not mention in original doc
-- fix style problem in example
----
- .../input/touchscreen/colibri-vf50-ts.txt     | 34 --------
- .../input/touchscreen/toradex,vf50.yaml       | 78 +++++++++++++++++++
- 2 files changed, 78 insertions(+), 34 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt b/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
-deleted file mode 100644
-index ca304357c374a..0000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/colibri-vf50-ts.txt
-+++ /dev/null
-@@ -1,34 +0,0 @@
--* Toradex Colibri VF50 Touchscreen driver
--
--Required Properties:
--- compatible must be toradex,vf50-touchscreen
--- io-channels: adc channels being used by the Colibri VF50 module
--    IIO ADC for Y-, X-, Y+, X+ connections
--- xp-gpios: FET gate driver for input of X+
--- xm-gpios: FET gate driver for input of X-
--- yp-gpios: FET gate driver for input of Y+
--- ym-gpios: FET gate driver for input of Y-
--- interrupts: pen irq interrupt for touch detection, signal from X plate
--- pinctrl-names: "idle", "default"
--- pinctrl-0: pinctrl node for pen/touch detection, pinctrl must provide
--    pull-up resistor on X+, X-.
--- pinctrl-1: pinctrl node for X/Y and pressure measurement (ADC) state pinmux
--- vf50-ts-min-pressure: pressure level at which to stop measuring X/Y values
--
--Example:
--
--	touchctrl: vf50_touchctrl {
--		compatible = "toradex,vf50-touchscreen";
--		io-channels = <&adc1 0>,<&adc0 0>,
--				<&adc0 1>,<&adc1 2>;
--		xp-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
--		xm-gpios = <&gpio2 29 GPIO_ACTIVE_HIGH>;
--		yp-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
--		ym-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
--		interrupt-parent = <&gpio0>;
--		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
--		pinctrl-names = "idle","default";
--		pinctrl-0 = <&pinctrl_touchctrl_idle>, <&pinctrl_touchctrl_gpios>;
--		pinctrl-1 = <&pinctrl_touchctrl_default>, <&pinctrl_touchctrl_gpios>;
--		vf50-ts-min-pressure = <200>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml b/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
-new file mode 100644
-index 0000000000000..cdf6c073dcb8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/toradex,vf50.yaml
-@@ -0,0 +1,78 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/toradex,vf50.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Toradex Colibri VF50 Touchscreen
-+
-+maintainers:
-+  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-+  - Sanchayan Maity <maitysanchayan@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: toradex,vf50-touchscreen
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  io-channels:
-+    maxItems: 4
-+    description:
-+      adc channels being used by the Colibri VF50 module
-+      IIO ADC for Y-, X-, Y+, X+ connections
-+
-+  xp-gpios:
-+    description: FET gate driver for input of X+
-+
-+  xm-gpios:
-+    description: FET gate driver for input of X-
-+
-+  yp-gpios:
-+    description: FET gate driver for input of Y+
-+
-+  ym-gpios:
-+    description: FET gate driver for input of Y-
-+
-+  vf50-ts-min-pressure:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 50
-+    maximum: 2000
-+    description: pressure level at which to stop measuring X/Y values
-+
-+required:
-+  - compatible
-+  - io-channels
-+  - xp-gpios
-+  - xm-gpios
-+  - yp-gpios
-+  - ym-gpios
-+  - interrupts
-+  - vf50-ts-min-pressure
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    touchscreen {
-+        compatible = "toradex,vf50-touchscreen";
-+        interrupt-parent = <&gpio0>;
-+        interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-+        io-channels = <&adc1 0>, <&adc0 0>, <&adc0 1>, <&adc1 2>;
-+        xp-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
-+        xm-gpios = <&gpio2 29 GPIO_ACTIVE_HIGH>;
-+        yp-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
-+        ym-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
-+        pinctrl-names = "idle", "default";
-+        pinctrl-0 = <&pinctrl_touchctrl_idle>, <&pinctrl_touchctrl_gpios>;
-+        pinctrl-1 = <&pinctrl_touchctrl_default>, <&pinctrl_touchctrl_gpios>;
-+        vf50-ts-min-pressure = <200>;
-+    };
-+
--- 
-2.34.1
+On another note, I've dumped hid->rdesc for my controller which shows 
+this problem. It is different from my Sony DS4 2.0 controllers, which 
+all have the same descriptor. Do you prefer to guard this hack by a 
+quirk, which activates on, say, a CRC32 match of the HID descriptor?
+
+
+Thank you, and sorry for the extended back and forth!
+
+Max
+
+
+
+
+On 8/15/24 01:17, Roderick Colenbrander wrote:
+> Hi Max,
+> 
+> That looks like a reasonable workaround. I think it would be fine to
+> add. We will try to support that with Android as well.
+> 
+> Thanks,
+> Roderick
+> 
+> On Sun, Aug 11, 2024 at 6:15 AM Max Staudt <max@enpas.org> wrote:
+>>
+>> Some 3rd party gamepads expect updates to rumble and lightbar together,
+>> and setting one may cancel the other.
+>>
+>> Let's maximise compatibility by always sending rumble and lightbar
+>> updates together, even when only one has been scheduled.
+>>
+>> Further background reading:
+>>
+>> - Apparently the PS4 always sends rumble and lightbar updates together:
+>>
+>>    https://eleccelerator.com/wiki/index.php?title=DualShock_4#0x11_2
+>>
+>> - 3rd party gamepads may not implement lightbar_blink, and may simply
+>>    ignore updates with 0x07 set, according to:
+>>
+>>    https://github.com/Ryochan7/DS4Windows/pull/1839
+>> ---
+>> Changes in v1 -> v2:
+>>   - Simplified the code, comment, and commit message.
+>> ---
+>>   drivers/hid/hid-playstation.c | 20 ++++++++++++++++++++
+>>   1 file changed, 20 insertions(+)
+>>
+>> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+>> index e7c309cfe3a0..0d90d7ee693c 100644
+>> --- a/drivers/hid/hid-playstation.c
+>> +++ b/drivers/hid/hid-playstation.c
+>> @@ -2143,6 +2143,26 @@ static void dualshock4_output_worker(struct work_struct *work)
+>>
+>>          spin_lock_irqsave(&ds4->base.lock, flags);
+>>
+>> +       /*
+>> +        * Some 3rd party gamepads expect updates to rumble and lightbar
+>> +        * together, and setting one may cancel the other.
+>> +        *
+>> +        * Let's maximise compatibility by always sending rumble and lightbar
+>> +        * updates together, even when only one has been scheduled, resulting
+>> +        * in:
+>> +        *
+>> +        *   ds4->valid_flag0 >= 0x03
+>> +        *
+>> +        * Hopefully this will maximise compatibility with third-party pads.
+>> +        *
+>> +        * Any further update bits, such as 0x04 for lightbar blinking, will
+>> +        * be or'd on top of this like before.
+>> +        */
+>> +       if (ds4->update_rumble || ds4->update_lightbar) {
+>> +               ds4->update_rumble = true; /* 0x01 */
+>> +               ds4->update_lightbar = true; /* 0x02 */
+>> +       }
+>> +
+>>          if (ds4->update_rumble) {
+>>                  /* Select classic rumble style haptics and enable it. */
+>>                  common->valid_flag0 |= DS4_OUTPUT_VALID_FLAG0_MOTOR;
+>> --
+>> 2.39.2
+>>
+>>
 
 
