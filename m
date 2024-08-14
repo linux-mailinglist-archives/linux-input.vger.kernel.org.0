@@ -1,157 +1,161 @@
-Return-Path: <linux-input+bounces-5568-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5569-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4848495184C
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 12:06:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07888951FA1
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 18:18:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F14B2282FDD
-	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 10:05:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B88EE1F22915
+	for <lists+linux-input@lfdr.de>; Wed, 14 Aug 2024 16:18:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D921AD9C1;
-	Wed, 14 Aug 2024 10:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B78A1B9B30;
+	Wed, 14 Aug 2024 16:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lr2fk2+5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7fRJxaJm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lr2fk2+5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7fRJxaJm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fYd9KDXL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74551AD9C3;
-	Wed, 14 Aug 2024 10:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AAB1B9B2D;
+	Wed, 14 Aug 2024 16:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723629955; cv=none; b=TP/38nQ2f/xwtZPEqt/voXBAXTJF7zDQfGO4U35MDaaSMpQ1u9mn+1HCdIdnSDkUXMOiJNk5eeKGi2PNMHhDke8+7rHBYyKz7vMUhiVQEd9ahKAqJrxe9XEbRJbVNG/KTUPmzKXq+0v2PtzQpzitdOqrd+5pds5zagy3EUlWTwY=
+	t=1723652283; cv=none; b=FzSws/Z96Hn6X4DdIH5mRLd2gvEDxeLUj2MrykC0Bwn5O4GagdSgqjGlsC1SwLSzHNGQZSFnvh13eCHFKhY4sBbkjYJbVJCsLd9oGKz1O/8fhS9ljb8mHoH/GOWMhUI/uOVnX2WsDD+aqOFkAJ5VnJBu0/dg5WmqOKwojFKK8+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723629955; c=relaxed/simple;
-	bh=kGB7G+oyhUvaSZULm/kqipJRFWrvmob0q7slb+FRlWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7OTQN/gbejn2tygz73Zz5ZEkZs8UMOBuSEKfDpsechScpKtJA3iAwrQttlKR0dslQYyDfmrBZNMNViIMqyKSq6sQexDnikLTNNGzeO9ZLBNjlI6N8duiTe2ZBoVbmGo5nx6FpM8OC5kduw6uzbv5zycR8LsczUpehbNnHVsED0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lr2fk2+5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7fRJxaJm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lr2fk2+5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7fRJxaJm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BCE981FE8B;
-	Wed, 14 Aug 2024 10:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723629951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=59Ch4V7HniiSk/7TkYRqYl6qpLneFEB8CnTGZUH3BD0=;
-	b=Lr2fk2+5jaSn8XhEXVLAnRMUiOvOHixETEKrety5vDE9jYoJqcvQ5mOVx9i5emG8ecipSL
-	fHPDx9PZgML6ffrdYlT92K+y9Nif1bkzT07kg9r/RgZ5ze8au9OGKNIwT25x1qIf/v4RL5
-	/3CqwY5a2kMegjTW1Ks/BptwtsuYn2g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723629951;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=59Ch4V7HniiSk/7TkYRqYl6qpLneFEB8CnTGZUH3BD0=;
-	b=7fRJxaJm/qNBoTC+DtXgrvx4Q0K//BW/xCxG6otNt6YqfRP4KD998mfpX8/rUvrKaHN+cJ
-	IfmWAbtfquaRFLAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723629951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=59Ch4V7HniiSk/7TkYRqYl6qpLneFEB8CnTGZUH3BD0=;
-	b=Lr2fk2+5jaSn8XhEXVLAnRMUiOvOHixETEKrety5vDE9jYoJqcvQ5mOVx9i5emG8ecipSL
-	fHPDx9PZgML6ffrdYlT92K+y9Nif1bkzT07kg9r/RgZ5ze8au9OGKNIwT25x1qIf/v4RL5
-	/3CqwY5a2kMegjTW1Ks/BptwtsuYn2g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723629951;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=59Ch4V7HniiSk/7TkYRqYl6qpLneFEB8CnTGZUH3BD0=;
-	b=7fRJxaJm/qNBoTC+DtXgrvx4Q0K//BW/xCxG6otNt6YqfRP4KD998mfpX8/rUvrKaHN+cJ
-	IfmWAbtfquaRFLAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 968DA139B9;
-	Wed, 14 Aug 2024 10:05:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TY8+I3+BvGZsAQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Aug 2024 10:05:51 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: i8042 - add Fujitsu Lifebook E756 to i8042 quirk table
-Date: Wed, 14 Aug 2024 12:06:19 +0200
-Message-ID: <20240814100630.2048-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1723652283; c=relaxed/simple;
+	bh=qjGHmCCT3n7na7guZ53a4L38VNclwcsnw+vHrgqGSVY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l7TfT83aKW/coIMxkjwC9fPpDGjMnhKR0HYiiFXtiv6/RlYiNIAK4wZha7q2W59V1QjyBcnvc7Q1aJA08PHWlRB+wwVbd4K1DaQ7vVo0ix1jZWtgt0VVetT6bdVYyEBG7/lk2r/BdXx8gBTxxsc3dmjD+khVymI/NNf+Piv7I8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fYd9KDXL; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52efd530a4eso52958e87.0;
+        Wed, 14 Aug 2024 09:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723652279; x=1724257079; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X6GhjpSzNcKT1K05L2BbnSGw53j/7mRIROTvKsTi+mM=;
+        b=fYd9KDXLbf5RUw038Snw82hBUuiiW6L+NHsSEFqaSNTZo2YayPd44HC2wi0bxCyRSw
+         1V6Kc4lBHELwE3fL+wAEVoE9vBobhJ7AsbmTpt5WWIv6Pbb96Cw/pojwOXaVZ3Pm/Eyo
+         3+H2zrV+9WybYOd9FeWnLlHWKTlkjzuznyz7yrWLDBD+HIp2k7A37cU0tewDBYZMRwfx
+         Hqrk28IoGz7hUKYgyvdZXbkvo6jJNFN2r9DWCDDrQXOqMWvbGfVQl2w070HFwhCQCqbR
+         hUrfhvS2f/lArZR4qoYFVWQRzli2pgHDGATVCriKwDvwWwVPz2cVKNtAzNXKCYY8F7Re
+         j3Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723652279; x=1724257079;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X6GhjpSzNcKT1K05L2BbnSGw53j/7mRIROTvKsTi+mM=;
+        b=m+Q9rLmdUgxYoATuOPN2c1O34KEiJZrImI9QvYdM5wkVPP2EB4nAMN2HZ/rsM5Vhcm
+         1p0kviLLOHFhcZpCXEeixnwICGpTwy28z00BGJyUyvOqSS0qvNwKHdNXa29roTXjrTn8
+         SCCZtqpihW0+yOjXVmc0QXqpuolBt1Qiw3YwenvcQV8qlsSv/LGrgQkM+zPji+qZvdlr
+         SFdakkAYDbOi1NtD7lylXdlsi1B5AQbsetREDl5YoHeG2rvW0WTVMkm4JjECkIuQsDvb
+         nydAE/e6AfLzkZMdU0MPOxg9G0ikigzxXP+ga6a9nTtst7qc4oP8UPnHVLsmIIHlOO/C
+         2t5g==
+X-Forwarded-Encrypted: i=1; AJvYcCV4leHYqTbvdrq7U6+Q3IJp/CKEvSjw2PFO1US+PAE3325sFkg/5nb/bq6tzR3jH6E3yDlA5xh4nWJznMZN/DXhLfJgfIz9Frw6hvEGjX2Pu646+JL36QVwd7zWIhXoORvTwLAiKIX3oyY=
+X-Gm-Message-State: AOJu0YzNR67HQS0ka1BjubO1QpR9z3zy3QsqqI1pAsD6ApRpAGtz+bW/
+	SZ73qAADyjmKKJ3Xt635ucBl/ZxH/RcnfX9GeD+Le0jYCl6z3hE1KDhz9x/emlm1htnGWbBMx5j
+	ZBbRRPKtjfprkI9ZQwLQ6zA3/eqo=
+X-Google-Smtp-Source: AGHT+IFTt6dc7a7BKyJuOH6ExjMRSwVGbfZGPoo6MzUgnA0WpOCitBL+7TAGEBnj4WjYAyHszWBxwwuUiAKQSrJgBE4=
+X-Received: by 2002:a05:6512:33cf:b0:52e:76d5:9504 with SMTP id
+ 2adb3069b0e04-532eda6728dmr2025990e87.3.1723652279165; Wed, 14 Aug 2024
+ 09:17:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+References: <20240811130906.3682-1-max@enpas.org>
+In-Reply-To: <20240811130906.3682-1-max@enpas.org>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Wed, 14 Aug 2024 09:17:46 -0700
+Message-ID: <CAEc3jaBELzAnffyE4mzQeNAiH-F5AhQqMGvMKoL6yu4naHBo+w@mail.gmail.com>
+Subject: Re: [PATCH v2] hid-playstation: DS4: Update rumble and lightbar together
+To: Max Staudt <max@enpas.org>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nathaniel.lewis@sony.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yet another quirk entry for Fujitsu laptop.  Lifebook E756 requires
-i8041.nomux for keeping the touchpad working after suspend/resume.
+Hi Max,
 
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1229056
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+That looks like a reasonable workaround. I think it would be fine to
+add. We will try to support that with Android as well.
 
----
- drivers/input/serio/i8042-acpipnpio.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thanks,
+Roderick
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 5b50475ec414..78e5c9c60b8b 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -626,6 +626,15 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
- 	},
-+	{
-+		/* Fujitsu Lifebook E756 */
-+		/* https://bugzilla.suse.com/show_bug.cgi?id=1229056 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK E756"),
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
-+	},
- 	{
- 		/* Fujitsu Lifebook E5411 */
- 		.matches = {
--- 
-2.43.0
-
+On Sun, Aug 11, 2024 at 6:15=E2=80=AFAM Max Staudt <max@enpas.org> wrote:
+>
+> Some 3rd party gamepads expect updates to rumble and lightbar together,
+> and setting one may cancel the other.
+>
+> Let's maximise compatibility by always sending rumble and lightbar
+> updates together, even when only one has been scheduled.
+>
+> Further background reading:
+>
+> - Apparently the PS4 always sends rumble and lightbar updates together:
+>
+>   https://eleccelerator.com/wiki/index.php?title=3DDualShock_4#0x11_2
+>
+> - 3rd party gamepads may not implement lightbar_blink, and may simply
+>   ignore updates with 0x07 set, according to:
+>
+>   https://github.com/Ryochan7/DS4Windows/pull/1839
+> ---
+> Changes in v1 -> v2:
+>  - Simplified the code, comment, and commit message.
+> ---
+>  drivers/hid/hid-playstation.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
+c
+> index e7c309cfe3a0..0d90d7ee693c 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -2143,6 +2143,26 @@ static void dualshock4_output_worker(struct work_s=
+truct *work)
+>
+>         spin_lock_irqsave(&ds4->base.lock, flags);
+>
+> +       /*
+> +        * Some 3rd party gamepads expect updates to rumble and lightbar
+> +        * together, and setting one may cancel the other.
+> +        *
+> +        * Let's maximise compatibility by always sending rumble and ligh=
+tbar
+> +        * updates together, even when only one has been scheduled, resul=
+ting
+> +        * in:
+> +        *
+> +        *   ds4->valid_flag0 >=3D 0x03
+> +        *
+> +        * Hopefully this will maximise compatibility with third-party pa=
+ds.
+> +        *
+> +        * Any further update bits, such as 0x04 for lightbar blinking, w=
+ill
+> +        * be or'd on top of this like before.
+> +        */
+> +       if (ds4->update_rumble || ds4->update_lightbar) {
+> +               ds4->update_rumble =3D true; /* 0x01 */
+> +               ds4->update_lightbar =3D true; /* 0x02 */
+> +       }
+> +
+>         if (ds4->update_rumble) {
+>                 /* Select classic rumble style haptics and enable it. */
+>                 common->valid_flag0 |=3D DS4_OUTPUT_VALID_FLAG0_MOTOR;
+> --
+> 2.39.2
+>
+>
 
