@@ -1,63 +1,63 @@
-Return-Path: <linux-input+bounces-5580-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5581-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0315B9527D4
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D4E9527D5
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:10:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3970285B73
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 02:10:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 246F32860F7
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 02:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34D16FC3;
-	Thu, 15 Aug 2024 02:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900B88F6D;
+	Thu, 15 Aug 2024 02:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdAJhW0h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsqlpxDc"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0132C8F6D
-	for <linux-input@vger.kernel.org>; Thu, 15 Aug 2024 02:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A520E9475
+	for <linux-input@vger.kernel.org>; Thu, 15 Aug 2024 02:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723687816; cv=none; b=Qiil93OYlU6ml01gIJ1UwCta/gopuH2PoJPrtKLa/1JX9cx0uak5OXbpc9t0ZKFiTgA19AboqRuGC2r0gBZp3uOR9AP0i5PoQzOHog1HbpM9012ie5JCMWYuAhBzTC+Xszp+FTGnwmgrirhXffZamU40rZpfdT8I/hpMlm+7NUU=
+	t=1723687818; cv=none; b=gUzRYsq8kIhyZbrPFj57To0bcaZpbUkaniM/sEXzq8e0ukXwE1O32VRwUQtMIgOkqN0ZW4/wuj6NJ0X0F1iZGU3y2j5N+mjgK7JFFNejXzyEwF/e0cucVX+9nHr+IWbk3BT1YjCz6mffstSIl6JR5Er/3cZ1AtXTsXyZC5Otju8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723687816; c=relaxed/simple;
-	bh=NPCHo1P97QcUOplo6nm44XwDM4ia3zlrYgn6JHMPR/w=;
+	s=arc-20240116; t=1723687818; c=relaxed/simple;
+	bh=iLPwaTSVPkO34boqcOe77hU9ZzsSLX55jYi9pFMku8s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fvHxgJakZi6AHaLy8HUyMclxdxa8zKK0oygpJYy5sUuCiOGe28aJEjff/qp+kywcikiOi+0SgFF9fkvKuk42rmItuMW9r9SHCBOvEs5T5HHCHdCAOACBDWSYFssP3uYq6F5WIZ1b1tzlmhHfda34upccohERYGRoaFXruWp8lzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdAJhW0h; arc=none smtp.client-ip=198.175.65.19
+	 MIME-Version; b=DJfYcXK/rQb2R6Dk1S1VWfC80x0aF/G1h/3hMqTP+6PMdRN3szMfOrVvblZiKD4Qpk4bNAF4bzgRW0kZN0+yPmOKFQF1vh2zdvWsJ6C22VXxwLJyUqsAswDW9Ke/GymBUF2nXg+OfqnoADcLZKDcqYbeiHlfvl6StinSp1mQveo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsqlpxDc; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723687815; x=1755223815;
+  t=1723687817; x=1755223817;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=NPCHo1P97QcUOplo6nm44XwDM4ia3zlrYgn6JHMPR/w=;
-  b=UdAJhW0hUzWI0bNICTcJGze54G6XhOCaUw6T8i9RGY8HUSTjzLYTpMfu
-   hpzlU9a4rGIeHO5U9XAXMrJTxc8N6wLWcjNYzA+ULU3Y6BUi5g1DFaIo0
-   G4b2Wi0W2kd3eae8wHHlojshQxqsRHqfEV7TYRwHA9JiDSnDXrPCGiNhv
-   s3sRmYjkowYlNdoP4yo0sJUAILAdmGdYPylYeSrGomEzZY8Q1Ai4gmjpy
-   03zBoIwNd/wjD/tNRIQQq+8yqjHQnbJ8kae+RUJbdH4Epo5gxM/4YJSwD
-   hIZsFv2KoRxf1yzCKeKG5K8SwvK9mqu1VQPB+wZvczC5qswemjTUEaTmo
-   w==;
-X-CSE-ConnectionGUID: DdmcHO9GTCSDxJv37PpIng==
-X-CSE-MsgGUID: YbV0d3lnT5+ZVqZIIV/dJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21796113"
+  bh=iLPwaTSVPkO34boqcOe77hU9ZzsSLX55jYi9pFMku8s=;
+  b=lsqlpxDcwjWnh7GJm+yt8mD/aSQYi4t5c5R06e5RgIhQia2OgXCrJflZ
+   3pgpHUZFJ1pUZiAJztI2D1VwsaXq9EtcIvO3PdWZJGK8rf2Cobqm6b9Ay
+   Usd5JzxG8gr+DWQEEcOjx1s2/gKdcXNbH5q9Oyaku8q1fLDNzPzHeEDIZ
+   vCNP63VTnpB7hDEAXLCR/28hYdq1f5juk2EieiEfh3CqIKo1H0HDl7Jaf
+   kZsItxVJbio8J9fBKOH2NrHVlnymZtATwjrYkKZBC50gaFrEzOKLrOJpZ
+   oL2nNSf/CW7d4J8DqFs+bsmSUC1nUbIxGrJzptJvAjyPoe6lUlus0dMAw
+   g==;
+X-CSE-ConnectionGUID: Nl2hwebnRr2ZNlpxv/SUEQ==
+X-CSE-MsgGUID: 9+cHjIUyTFGRrIhZWjEbwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21796129"
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="21796113"
+   d="scan'208";a="21796129"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:10:09 -0700
-X-CSE-ConnectionGUID: Q4TYVX9WTiC9B4IYmgMVtg==
-X-CSE-MsgGUID: H4ax1UEHTzWWen3P+k2OjQ==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:10:11 -0700
+X-CSE-ConnectionGUID: RudW+FGJSE6RxiSQ+RZuGw==
+X-CSE-MsgGUID: 5j+yA5zaSryk+u5TT/bmbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="63635446"
+   d="scan'208";a="63635486"
 Received: from ipg-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Aug 2024 19:10:04 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Aug 2024 19:10:08 -0700
 From: Zhang Lixu <lixu.zhang@intel.com>
 To: linux-input@vger.kernel.org,
 	srinivas.pandruvada@linux.intel.com,
@@ -68,9 +68,9 @@ Cc: lixu.zhang@intel.com,
 	yoshi.wang@intel.com,
 	even.xu@intel.com,
 	ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v2 1/3] Documentation: hid: intel-ish-hid: Add vendor custom firmware loading
-Date: Thu, 15 Aug 2024 10:09:59 +0800
-Message-Id: <20240815021001.936277-2-lixu.zhang@intel.com>
+Subject: [PATCH v2 2/3] HID: intel-ish-hid: Use CPU generation string in driver_data
+Date: Thu, 15 Aug 2024 10:10:00 +0800
+Message-Id: <20240815021001.936277-3-lixu.zhang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240815021001.936277-1-lixu.zhang@intel.com>
 References: <20240815021001.936277-1-lixu.zhang@intel.com>
@@ -82,53 +82,137 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add ISH firmware loading guidelines for vendor custom firmware.
+ISH allows vendors to customize ISH firmware. To differentiate different
+vendors and load the correct firmware, Intel defined a firmware file
+name format. As part of the filename, there is a "generation" string. To
+load correct format the driver must know the generation name to create
+file name.
+
+In the absence of any vendor specific firmware, default ISH firmware is
+loaded.
+
+Currently full ISH firmware file name is stored as part of driver data.
+This file name already includes the generation name. For example, for
+Lunar Lake, the name is ish_lnlm.bin, where "lnlm" is the generation.
+
+So instead of storing both generation name and ISH default firmware file
+name, just store generation name and create the default ISH firmware
+file name string during initialization.
+
+No functional changes are expected.
 
 Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
 Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 ---
- Documentation/hid/intel-ish-hid.rst | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c     |  8 ++++---
+ drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h |  8 ++++---
+ drivers/hid/intel-ish-hid/ishtp/loader.c    | 23 ++++++++++++++++++---
+ 3 files changed, 30 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index 55cbaa719a79..2adc174fb576 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -404,6 +404,35 @@ For more detailed information, please refer to the flow descriptions provided be
-   | ISHTP Driver  |                                                    | ISH Bootloader  |
-   +---------------+                                                    +-----------------+
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index f82428d7f6c3..f20463082dc4 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -28,11 +28,13 @@ enum ishtp_driver_data_index {
+ 	ISHTP_DRIVER_DATA_LNL_M,
+ };
  
-+Vendor Custom Firmware Loading
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-#define ISH_FW_FILENAME_LNL_M "intel/ish/ish_lnlm.bin"
++#define ISH_FW_GEN_LNL_M "lnlm"
 +
-+The firmware running inside ISH can be provided by Intel or developed by vendors using the Firmware Development Kit (FDK) provided by Intel.
-+Intel will upstream the Intel-built firmware to the ``linux-firmware.git`` repository, located under the path ``intel/ish/``. For the Lunar Lake platform, the Intel-built ISH firmware will be named ``ish_lnlm.bin``.
-+Vendors who wish to upstream their custom firmware should follow these guidelines for naming their firmware files:
++#define ISH_FIRMWARE_PATH(gen) "intel/ish/ish_" gen ".bin"
+ 
+ static struct ishtp_driver_data ishtp_driver_data[] = {
+ 	[ISHTP_DRIVER_DATA_LNL_M] = {
+-		.fw_filename = ISH_FW_FILENAME_LNL_M,
++		.fw_generation = ISH_FW_GEN_LNL_M,
+ 	},
+ };
+ 
+@@ -397,4 +399,4 @@ MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>");
+ MODULE_DESCRIPTION("Intel(R) Integrated Sensor Hub PCI Device Driver");
+ MODULE_LICENSE("GPL");
+ 
+-MODULE_FIRMWARE(ISH_FW_FILENAME_LNL_M);
++MODULE_FIRMWARE(ISH_FIRMWARE_PATH(ISH_FW_GEN_LNL_M));
+diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
+index 181838c3d7ac..cdacce0a4c9d 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
++++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
+@@ -129,13 +129,15 @@ struct ishtp_hw_ops {
+  * ISHTP device instance. It allows for the storage of data that is unique to
+  * a particular driver or hardware variant.
+  *
+- * @fw_filename: The firmware filename associated with a specific hardware
++ * @fw_generation: The generation name associated with a specific hardware
+  *               variant of the Intel Integrated Sensor Hub (ISH). This allows
+  *               the driver to load the correct firmware based on the device's
+- *               hardware variant.
++ *               hardware variant. For example, "lnlm" for the Lunar Lake-M
++ *               platform. The generation name must not exceed 8 characters
++ *               in length.
+  */
+ struct ishtp_driver_data {
+-	char *fw_filename;
++	char *fw_generation;
+ };
+ 
+ /**
+diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.c b/drivers/hid/intel-ish-hid/ishtp/loader.c
+index fcca070bdecb..ff11ee4e38ed 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/loader.c
++++ b/drivers/hid/intel-ish-hid/ishtp/loader.c
+@@ -43,6 +43,7 @@
+ #include <linux/math.h>
+ #include <linux/module.h>
+ #include <linux/pfn.h>
++#include <linux/sprintf.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+ #include <linux/wait.h>
+@@ -192,6 +193,23 @@ static int prepare_dma_bufs(struct ishtp_device *dev,
+ 	return 0;
+ }
+ 
++#define ISH_FW_FILE_DEFAULT_FMT "intel/ish/ish_%s.bin"
 +
-+- The firmware filename should use one of the following patterns:
++#define ISH_FW_FILENAME_LEN_MAX 56
 +
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
++static int request_ish_firmware(const struct firmware **firmware_p,
++				struct device *dev)
++{
++	struct ishtp_device *ishtp = dev_get_drvdata(dev);
++	const char *gen;
++	char filename[ISH_FW_FILENAME_LEN_MAX];
 +
-+- ``${intel_plat_gen}`` indicates the Intel platform generation (e.g., ``lnlm`` for Lunar Lake) and must not exceed 8 characters in length.
-+- ``${SYS_VENDOR_CRC32}`` is the CRC32 checksum of the ``sys_vendor`` value from the DMI field ``DMI_SYS_VENDOR``.
-+- ``${PRODUCT_NAME_CRC32}`` is the CRC32 checksum of the ``product_name`` value from the DMI field ``DMI_PRODUCT_NAME``.
-+- ``${PRODUCT_SKU_CRC32}`` is the CRC32 checksum of the ``product_sku`` value from the DMI field ``DMI_PRODUCT_SKU``.
++	gen = ishtp->driver_data->fw_generation;
++	snprintf(filename, sizeof(filename), ISH_FW_FILE_DEFAULT_FMT, gen);
 +
-+During system boot, the ISH Linux driver will attempt to load the firmware in the following order, prioritizing custom firmware with more precise matching patterns:
++	return request_firmware(firmware_p, filename, dev);
++}
 +
-+1. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+2. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+3. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+4. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
-+5. ``intel/ish/ish_${intel_plat_gen}.bin``
-+
-+The driver will load the first matching firmware and skip the rest. If no matching firmware is found, it will proceed to the next pattern in the specified order. If all searches fail, the default Intel firmware, listed last in the order above, will be loaded.
-+
- ISH Debugging
- -------------
+ /**
+  * ishtp_loader_work() - Load the ISHTP firmware
+  * @work: The work structure
+@@ -220,7 +238,6 @@ void ishtp_loader_work(struct work_struct *work)
+ 	struct loader_xfer_query query = { .header = cpu_to_le32(query_hdr.val32), };
+ 	struct loader_start start = { .header = cpu_to_le32(start_hdr.val32), };
+ 	union loader_recv_message recv_msg;
+-	char *filename = dev->driver_data->fw_filename;
+ 	const struct firmware *ish_fw;
+ 	void *dma_bufs[FRAGMENT_MAX_NUM] = {};
+ 	u32 fragment_size;
+@@ -228,9 +245,9 @@ void ishtp_loader_work(struct work_struct *work)
+ 	int retry = ISHTP_LOADER_RETRY_TIMES;
+ 	int rv;
+ 
+-	rv = request_firmware(&ish_fw, filename, dev->devc);
++	rv = request_ish_firmware(&ish_fw, dev->devc);
+ 	if (rv < 0) {
+-		dev_err(dev->devc, "request firmware %s failed:%d\n", filename, rv);
++		dev_err(dev->devc, "request ISH firmware failed:%d\n", rv);
+ 		return;
+ 	}
  
 -- 
 2.34.1
