@@ -1,216 +1,217 @@
-Return-Path: <linux-input+bounces-5583-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5584-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A4C9527E7
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:23:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3296952879
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 06:20:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44B8F1F223B3
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 02:23:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 048531C2159D
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8500BDF5C;
-	Thu, 15 Aug 2024 02:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7EB383A2;
+	Thu, 15 Aug 2024 04:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNKZFZpo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMWn9ihN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806C8F62
-	for <linux-input@vger.kernel.org>; Thu, 15 Aug 2024 02:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723688597; cv=fail; b=fM5aXsVkfJorGCm6ZffIyUvxLxBkFY1lnrerAPpDjGDVHTLmLTwE52ZD4G4PFVdsQvecOO5/GnGGuwnh9alQwWUHKotiy+3UIbj8eEux+sQVqH+igsiNpsUjPU9oNkwXbPFPni07P4zrDOVa7Lya9Sdc1reI5xvKrVT37/eEIQM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723688597; c=relaxed/simple;
-	bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dn/rHD5WYqghLZ1SlQRSrMs/+z/yeu/T3RPjbD6SbtCEQaEa5IbwLHXHA1Uw9QvI5Qrxe+E2zdn8+4Z82o929BbrBxI/fV2U6FB5XJLHTDF+w3+Kime2mpj+F0Uv6O63zpNh55Rcs5WoCLH2ATpcx26dPem+1RqzdnrCQYNGlro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNKZFZpo; arc=fail smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F592576F;
+	Thu, 15 Aug 2024 04:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723695598; cv=none; b=ZAcSY+K/ZT8HqiYN0zU43WRWJ0d6UNiZvtriO0s/LC9no3rUhi5nCzwSYd319UjWGJJUzJrkZCtDSmEcWbCSjyNYt9NbN8kajNtBXkBZFcCPEEgGKpM0YSHa3VUEjSLELXxMzfquHNTMwqkp1Sc9Xb8c86uCzqlUfsCD4+xHax0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723695598; c=relaxed/simple;
+	bh=5rXTI59siKti7cV1QIU5PVsMkBlNbZYpYR6E11v0kR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhgZB9rBo8HBjVUoW6SIsQLu/owHikZFeIqCJm4xolciZKF54W7uQpko3o+z/Qlt2Yt+Jf2sGn+cb3XQlooJYEt5syyXZ5RWh0v2Z41Yq9IMy10NL6qEWUQgRxrFu5EVUTwz+bEUikPg1Z/WM6rzMSQ5UGn+zAOyZjQwyjazocs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMWn9ihN; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723688596; x=1755224596;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
-  b=NNKZFZpoeaU9VE/zEyVucwAzPEiH9Txp/RgZKDCQBt31D/NzUy/9NGRT
-   tCisG6sB2y0kYuAttMoT4EMukMbTCvvkn8dgX48MZ9mijPn01fUC1sWph
-   ZfKDMJV97gC2eQP9Unc7A89izzKSoppfxq1Kxx1mIXjpUy0uhAilDYQl+
-   Ih0mZvpWTMkY/i6i+aXjgCjsiw/Dr88sPsOXUN0wDR3EN0AfqCc+q4xkl
-   X1SCPquaINKRZI8E1bwClaXaW9pB+pGVCvw8AbLR+ND0JthHUmsS2gWF8
-   uQ1QGJAHF0fP3l6nAvVbqPS3OhHPVcc6UKvnBnCz3XvOleCGoHO39lbhQ
+  t=1723695597; x=1755231597;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5rXTI59siKti7cV1QIU5PVsMkBlNbZYpYR6E11v0kR4=;
+  b=gMWn9ihNQkot/X4C6c06RvxOQXcd2EEO4XgjmOfvXcq2HAMX52mqtaFO
+   ZEtwKAKWAwXyrM7jYczjMsTmXLk237SS3NlKHRQfiegXTPqjjQJoTGAfo
+   2bdZolL1LC9XY8RSllZFK4mOwMJ96R85G1Cn6C9rU3x8+0c7+AO2+hJ28
+   J1NU9LaLet6pORdhg9G7ZkH1q3iw8zuOYiGmSS4Pzz342vgivVkNNnhaX
+   1NEvQJ8f3Pm0jP4nwDaTaJIMP48emVSryA+kWbNrfQMcIc/UWcF3jsQX3
+   QUb38taNVQ+Oc6fxCSILa/jAzfudg4OzNyoITp8PGxOW9YX1PLsFPmj2Q
    Q==;
-X-CSE-ConnectionGUID: nqy4xarQTWqQSscp/dMhIA==
-X-CSE-MsgGUID: ErFoPykKT8m3A7m+oX+o8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="25797593"
+X-CSE-ConnectionGUID: hTejts8tTRyTahbsMHsAYg==
+X-CSE-MsgGUID: fdjrWD3IRcaxprFFMdt8Jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="24845877"
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="25797593"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:23:15 -0700
-X-CSE-ConnectionGUID: t39maRcqTI6Gxhr5stJXEw==
-X-CSE-MsgGUID: yIgsTbPIQFKfBwnpqxOgIw==
+   d="scan'208";a="24845877"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 21:19:56 -0700
+X-CSE-ConnectionGUID: xS8szqD1R4+q2CrbshO9Og==
+X-CSE-MsgGUID: grFZXQ5eTlGUsVs0fkp7jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="96722992"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Aug 2024 19:23:15 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 14 Aug 2024 19:23:14 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 14 Aug 2024 19:23:14 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.48) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 14 Aug 2024 19:23:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OL3ICsMjbk30l5BaykB81Z7bvVaGY6MV13ZpDs2mCxeczFBPiI2Fj+g8OjEetc+r7yPCUbZnMta6vqmUPDa2umyEpCoVFJ4zDk7INvYMOGF+qXdgTsANmEPg2Iq6H0ZlY391M3CHUrp36o+eX+h/Jp54ObAT2hg3a59KUR2lV3QhJH7ZLPhhkaUyjvs7nMIoJQ3FW1f292wGq5UNpN7JGMR+UvG28UZcGbvFcu/4ogblDtaiY2SFqJIWdPQRWpc5MEXg7gaoYZA+K2SMbiav73lVw7pp5AolOfyINRL4byYRcA+OFm0rrj/YJ7LfxEeR7/8jsoFw58tm1XQbsClL8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
- b=sms3ebAjuCrr6XPdbNma7H+P1eXXeo2VMfEVpks4HE9DIih2qZJ4Tb6weS66pDAiXgFUK1BBcmjVTZTALV9eLGWMuJcPwudKwDwZONS7XSzVXMmkxm/M/FRx3Yfw/OfG3hHvDWXY7vWM4jXcjHfOGfs0N4BLwfaY8ehR6qsFQRcAEPcaP4sJ2aL0Q/5xWurJtiYF3M+5qpxCu+OgFqebmB3bQLjHJFRAdTLQWrh2PV2Tk+SoHfPEiHYP5cshEJuX/Nbvb7S3MHL/83+/8ZVA19MCUbGqjam/iaw0otv+S+KdTfVe1Ttne0Lni4svzMiGL2rTvNcG6KI/mevMkbzrBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5995.namprd11.prod.outlook.com (2603:10b6:8:5e::11) by
- DS0PR11MB7409.namprd11.prod.outlook.com (2603:10b6:8:153::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7828.33; Thu, 15 Aug 2024 02:23:12 +0000
-Received: from DM4PR11MB5995.namprd11.prod.outlook.com
- ([fe80::654c:a738:ac8:7908]) by DM4PR11MB5995.namprd11.prod.outlook.com
- ([fe80::654c:a738:ac8:7908%7]) with mapi id 15.20.7828.031; Thu, 15 Aug 2024
- 02:23:12 +0000
-From: "Zhang, Lixu" <lixu.zhang@intel.com>
-To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
-	"jikos@kernel.org" <jikos@kernel.org>, "benjamin.tissoires@redhat.com"
-	<benjamin.tissoires@redhat.com>
-CC: "Han, Hemin" <hemin.han@intel.com>,
-	"Wang, Yoshi" <yoshi.wang@intel.com>, "Xu, Even" <even.xu@intel.com>,
-	"ilpo.jarvinen@linux.intel.com." <ilpo.jarvinen@linux.intel.com>
-Subject: RE: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
- driver_data
-Thread-Topic: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
- driver_data
-Thread-Index: AQHa7TOZ0OUYaB0DlUipGStnqNuxd7InmNwQ
-Date: Thu, 15 Aug 2024 02:23:12 +0000
-Message-ID: <DM4PR11MB5995682D7495E6FCEE860FED93802@DM4PR11MB5995.namprd11.prod.outlook.com>
-References: <20240813034736.812475-1-lixu.zhang@intel.com>
- <20240813034736.812475-3-lixu.zhang@intel.com>
-In-Reply-To: <20240813034736.812475-3-lixu.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB5995:EE_|DS0PR11MB7409:EE_
-x-ms-office365-filtering-correlation-id: b3ddc22f-e6dc-4c29-93c8-08dcbcd1361b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?IMDXUP/FICkBskB8QaKVo0Xr5A1RPCuQ10mUcCKxkg4662/stpNOYK0zMp7h?=
- =?us-ascii?Q?E9NPJu+0gjyklUbNGC336lycRxKWA2EEjxoWvzDhkRehPiMC8m2WEJAQhS6x?=
- =?us-ascii?Q?d1yzFX+gyZELUqum6HrPdQXNiusQdtuqiY8wQXvwwb9MuAZG0ZaQ4QrJll5c?=
- =?us-ascii?Q?zH3a3FB1g0tAtsqYlMKC+PrkSoDAtp6JfiJagz0EfPD7DBwQv6QpyJTqOgUt?=
- =?us-ascii?Q?DLgMw7nV5wsQBLPv846S2vtx829NkrzcGIcFG3Dsu1Uw+DFJ2zWiIVuPi68C?=
- =?us-ascii?Q?gjGN0JPtCD0uKBvNl/zvvMVmmm9vHc+QBf38SUB2EMVu7mJtBPqbjK7SjLGR?=
- =?us-ascii?Q?FhR/jhss7loksmTrvOBZTPLc3Gw7MAl3HxlDwlz9l2+JJCoivSwrOIujUwK/?=
- =?us-ascii?Q?5YjfQAeJci3SS5HL1wSgRz/1GiT4O29ldLsiPpe+tHWc7kG0mTAxoF5zSn5R?=
- =?us-ascii?Q?OUlACP27rw1UFTyJyQaa6rsYzE2hUFI+dTKQXx2eEQLvp1q0CzmGFF5U7JG2?=
- =?us-ascii?Q?o+gmwSnAdvMueUwokGqrqU33LgBzf/x3rgbZdrqt1EjCGjlJN2Ybwa5jAZaj?=
- =?us-ascii?Q?q8FuUCUdR14uPWLBryUlidQXVJ8HtBS459NnbrOSjvs31U7D3W4LyKv95oBo?=
- =?us-ascii?Q?t0zSznh+HpXu1ZXyYZ18KBdFxoYIAx091/+TAhbYhojqtj32OZqzASynuiip?=
- =?us-ascii?Q?vRul9dIA6alikD9j1nGRPbfCeW305FogRbSdkey9EXwTJ2v3nOIY2oa6sBnA?=
- =?us-ascii?Q?Gj/XPpucdl9ryl9AErw0ORTeZVXfotm85cixOQDVbrAWqd8MPhsjOIXzjNZj?=
- =?us-ascii?Q?ZolBng+XHByugOKUi/x7+U3ejhMu/Oo2v7dmYpWiCXJt+eA12pkQQMSSuu6G?=
- =?us-ascii?Q?WhjL+EADVFebhOQOpClR/FHPXHLVedcSopa9aSGiZPtyZ9v7FZxgfRQelu3G?=
- =?us-ascii?Q?fsd9kqPGNZN8tX23gPPLzRcdwJAdkWS8LVoTbm77FUxhRC6wjSHV2OfQI3yH?=
- =?us-ascii?Q?EnbW1+yWMripxNfjqOKWQjO1+ASf5xkF/yWnYfufeFaMr6EdSXa9/ndNLaPj?=
- =?us-ascii?Q?sgsiO+qU4/TLZrCAMzyfYvP/Mxfjzi1LIaqrzziC49iBdgMVVsAFuM9EMCZz?=
- =?us-ascii?Q?znmQXQ7lCQ+DzpaWmmXxyUDT0GCsJy6R3wHdcvdyvh6j1t/f+ekCA0gtrYcr?=
- =?us-ascii?Q?q6tDJqmhYE0tvl6ppjSRfbHARzeIuRPxlTl65qYZRimlvJT3xGsTA6+/4XIV?=
- =?us-ascii?Q?u7q1OIYLMnWt+I5tPy70YzSavvfO/iYg6PTGRR9qm8tRz43CEAHvTqsrkTDH?=
- =?us-ascii?Q?YfL+8rxPy7vTEPPPN4xcbEwn5NDIExCbadLMc0TzYb7rtBiVPpunR/mipuNt?=
- =?us-ascii?Q?dcMk6ix8lodQp5veFhhbVH9k0WrCBkG7bAxu2mY2bmigGjoWmw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rKqg6xR/6LLXTU7oK627JV0cE94S5zU3WXOccDdfLG3GazLDk7rU6GBjdgNc?=
- =?us-ascii?Q?aRCbPQ4IP5n+wYl8QbY+1A2JXe7pvyPotzR2jfDwjRs8ZI3BX3Cr0V69s4Yr?=
- =?us-ascii?Q?KDm7keTRu+beIBmjyaMJAcps3h293q3YtD/MqZVIr3/f0oNQgxbpXSuMI+Ql?=
- =?us-ascii?Q?GezSTyMjur3y2rR3iKzGJDMde0y71ONNBWauTwnUdGKhlKnpyw6dqYSSQfxp?=
- =?us-ascii?Q?rB5sMfKpFow5PXDwtcs+ECwxXult6LdfoWHedVzwKIYUqR0i40CiKFyEMmRs?=
- =?us-ascii?Q?bb9y3nLWsK7snKcJlGZT1yru1/vL/JyApJbp33hb1UyAOXgxUE+rASXqxiUg?=
- =?us-ascii?Q?TqBCAq7ImXtAkQPc82gyQ0VxKJdQRrv15YMmVygaNWTAhokFVE93RDSRqshs?=
- =?us-ascii?Q?FKqxHPozloHnotX/i4qKmw4iLnbwwSfsRkFAXw+by/MlRcw6c/PAWOfGWjqT?=
- =?us-ascii?Q?5cdrFQ8kj+3Ay38OypUE4Y5kzOraIUGmuXGL/aeDq9M5B313eVv0XDpjJfd5?=
- =?us-ascii?Q?OQF5D6uCtF3NZFdsly8+ygPESq0BprUs77vKWPyfcd87VDF9y0130eagEkGu?=
- =?us-ascii?Q?+UFYDKsVf4O0r6UgR2e1DjXDhewBNBjP8LPmM0ODCSqqX+53/40sQvp+Eend?=
- =?us-ascii?Q?96h1ijmuIgRKS4Keq/6H2Erm46UcFe/hUpf2/0eQrDbqyX6K308eQetQtBO7?=
- =?us-ascii?Q?JA0+RHIZCMpI4yme6OH5YjYmb0fg/Yzg5hum/pVNYLV3jX/62Poq227yxP0o?=
- =?us-ascii?Q?Ltx/yiLkrYKRR+Qg29SVZyVQ/k1E6m7UJhlRKtp8TswGydgWTBFqinbAKDCk?=
- =?us-ascii?Q?qE0WcBYCi4x75SuZ0RBkZvnQg1zuQ/FSzpsV4Zo/OKoeObVLL3dYsqMejWO/?=
- =?us-ascii?Q?DsflFezUuFdXBp+/DuUAWm0Utv+rQ2tEJUICNAw3PdfioxKXRB9Hf4LujNfu?=
- =?us-ascii?Q?RyNwr8MPGyMMK0Sjs1JKyXPk4nmE1nW/8p0+BjAk6I4HhqgnC6Pp2VA1UDIU?=
- =?us-ascii?Q?O0VNX+lsv2j22NbG5FQdibcqX+uZwphDzhRxEwuH7wGbp12n6Q8FwC/T7CRg?=
- =?us-ascii?Q?7a+uj67Ujx4FCk/rW7E4wyDdDn4vLlV5u1rxhko/t8EJQDdl0sdBYPmJx0cm?=
- =?us-ascii?Q?9cmKWYc+QG7qfQX/Um4hEjQ89/03Y23+Jg5lSyLQETKnqX+5gI4XKyeD/CZo?=
- =?us-ascii?Q?9gMBDn5ca8mRx0QUlq8Soq5grvpxgJ/MYrdlSHG2MeD1sTEcTXErFKrlJ5eW?=
- =?us-ascii?Q?7Ha9ba3HcVwy14OvAvSdriph27mOCVcLtVN2uQL7J1+rdaDdNUvuj4e648GH?=
- =?us-ascii?Q?nPUWCCqnuI1jBNwEanHSCa+XTsVcvhenaDgE1k2EfyVjmK82nytEhchvV7d4?=
- =?us-ascii?Q?kQDHCTMcgZ8hDqOSNcxyLR/wrpaxQkpXPo76TxtIEqkMdBNUvnL/7pYszpxf?=
- =?us-ascii?Q?RG0le1Zg+9hEeD6HAeYaivhCwX79AcbRAPh++IjdTlP6QBga4+y13NjkbOYu?=
- =?us-ascii?Q?ky4aONvIeWM9yB6M5cN51uo4CmtN7HeIIdkJLiihLMdemE9ChvwUdbZB2cDH?=
- =?us-ascii?Q?9HP77wSxDs7vBaacc7mDdmMsazFc7SehBw9SQ6na?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="59525436"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2024 21:19:55 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seRxo-0003BM-1x;
+	Thu, 15 Aug 2024 04:19:52 +0000
+Date: Thu, 15 Aug 2024 12:19:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: corsair-void: Add Corsair Void headset family driver
+Message-ID: <202408151231.kUWzsw88-lkp@intel.com>
+References: <20240813153819.840275-3-stuart.a.hayhurst@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3ddc22f-e6dc-4c29-93c8-08dcbcd1361b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 02:23:12.1714
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BYpMJiszMnHthLFlPnr8QYhIHgOFRWJiU+yd1O412+rWjZWCgHZjFpiB0m7kuoALvgaeY2Kf/Xn5/moYTEciJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7409
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240813153819.840275-3-stuart.a.hayhurst@gmail.com>
 
->-----Original Message-----
->From: Zhang, Lixu <lixu.zhang@intel.com>
->Sent: Tuesday, August 13, 2024 11:48 AM
->To: linux-input@vger.kernel.org; srinivas.pandruvada@linux.intel.com;
->jikos@kernel.org; benjamin.tissoires@redhat.com
->Cc: Zhang, Lixu <lixu.zhang@intel.com>; Han, Hemin <hemin.han@intel.com>;
->Wang, Yoshi <yoshi.wang@intel.com>; Xu, Even <even.xu@intel.com>
->Subject: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
->driver_data
->
->
->+#define ISH_FW_FILE_DEFALUT_FMT "intel/ish/ish_%s.bin"
->+
-The version 2 has been sent out to address the review comments from ilpo.ja=
-rvinen@linux.intel.com.
+Hi Stuart,
 
-Thanks,
-Lixu
+kernel test robot noticed the following build warnings:
 
->--
->2.34.1
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.11-rc3 next-20240814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Stuart-Hayhurst/HID-corsair-void-Add-Corsair-Void-headset-family-driver/20240815-004208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240813153819.840275-3-stuart.a.hayhurst%40gmail.com
+patch subject: [PATCH] HID: corsair-void: Add Corsair Void headset family driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240815/202408151231.kUWzsw88-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408151231.kUWzsw88-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408151231.kUWzsw88-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/hid/hid-corsair-void.c: In function 'corsair_void_probe':
+>> drivers/hid/hid-corsair-void.c:646:36: warning: variable 'psy_cfg' set but not used [-Wunused-but-set-variable]
+     646 |         struct power_supply_config psy_cfg;
+         |                                    ^~~~~~~
+
+
+vim +/psy_cfg +646 drivers/hid/hid-corsair-void.c
+
+   640	
+   641	static int corsair_void_probe(struct hid_device *hid_dev,
+   642				      const struct hid_device_id *hid_id)
+   643	{
+   644		int ret = 0;
+   645		struct corsair_void_drvdata *drvdata;
+ > 646		struct power_supply_config psy_cfg;
+   647		char *name;
+   648		int name_length;
+   649	
+   650		if (!hid_is_usb(hid_dev))
+   651			return -EINVAL;
+   652	
+   653		drvdata = devm_kzalloc(&hid_dev->dev, sizeof(struct corsair_void_drvdata),
+   654				       GFP_KERNEL);
+   655		if (!drvdata)
+   656			return -ENOMEM;
+   657	
+   658		hid_set_drvdata(hid_dev, drvdata);
+   659		psy_cfg.drv_data = drvdata;
+   660		dev_set_drvdata(&hid_dev->dev, drvdata);
+   661	
+   662		drvdata->dev = &hid_dev->dev;
+   663		drvdata->hid_dev = hid_dev;
+   664		drvdata->is_wired = hid_id->driver_data == CORSAIR_VOID_WIRED;
+   665	
+   666		drvdata->sidetone_max = CORSAIR_VOID_SIDETONE_MAX_WIRELESS;
+   667		if (drvdata->is_wired)
+   668			drvdata->sidetone_max = CORSAIR_VOID_SIDETONE_MAX_WIRED;
+   669	
+   670		/* Set initial values for no wireless headset attached */
+   671		/* If a headset is attached, it'll be prompted later */
+   672		corsair_void_set_unknown_wireless_data(drvdata);
+   673		corsair_void_set_unknown_batt(drvdata);
+   674	
+   675		/* Receiver version won't be reset after init */
+   676		/* Headset version already set via set_unknown_wireless_data */
+   677		drvdata->fw_receiver_major = 0;
+   678		drvdata->fw_receiver_minor = 0;
+   679	
+   680		ret = hid_parse(hid_dev);
+   681		if (ret) {
+   682			hid_err(hid_dev, "parse failed (reason: %d)\n", ret);
+   683			return ret;
+   684		}
+   685	
+   686		name_length = snprintf(NULL, 0, "corsair-void-%d-battery", hid_dev->id);
+   687		name = devm_kzalloc(drvdata->dev, name_length + 1, GFP_KERNEL);
+   688		if (!name)
+   689			return -ENOMEM;
+   690		snprintf(name, name_length + 1, "corsair-void-%d-battery", hid_dev->id);
+   691	
+   692		drvdata->battery_desc.name = name;
+   693		drvdata->battery_desc.type = POWER_SUPPLY_TYPE_BATTERY;
+   694		drvdata->battery_desc.properties = corsair_void_battery_props;
+   695		drvdata->battery_desc.num_properties = ARRAY_SIZE(corsair_void_battery_props);
+   696		drvdata->battery_desc.get_property = corsair_void_battery_get_property;
+   697	
+   698		drvdata->battery = NULL;
+   699		INIT_WORK(&drvdata->battery_remove_work,
+   700			  corsair_void_battery_remove_work_handler);
+   701		INIT_WORK(&drvdata->battery_add_work,
+   702			  corsair_void_battery_add_work_handler);
+   703		ret = devm_mutex_init(drvdata->dev, &drvdata->battery_mutex);
+   704		if (ret)
+   705			return ret;
+   706	
+   707		ret = sysfs_create_group(&hid_dev->dev.kobj, &corsair_void_attr_group);
+   708		if (ret)
+   709			return ret;
+   710	
+   711		ret = hid_hw_start(hid_dev, HID_CONNECT_DEFAULT);
+   712		if (ret) {
+   713			hid_err(hid_dev, "hid_hw_start failed (reason: %d)\n", ret);
+   714			goto failed_after_sysfs;
+   715		}
+   716	
+   717		/* Any failures after here should go to failed_after_hid_start */
+   718	
+   719		/* Refresh battery data, in case wireless headset is already connected */
+   720		INIT_DELAYED_WORK(&drvdata->delayed_status_work,
+   721				  corsair_void_status_work_handler);
+   722		schedule_delayed_work(&drvdata->delayed_status_work,
+   723				      msecs_to_jiffies(100));
+   724	
+   725		/* Refresh firmware versions */
+   726		INIT_DELAYED_WORK(&drvdata->delayed_firmware_work,
+   727				  corsair_void_firmware_work_handler);
+   728		schedule_delayed_work(&drvdata->delayed_firmware_work,
+   729				      msecs_to_jiffies(100));
+   730	
+   731		goto success;
+   732	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
