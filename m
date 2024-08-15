@@ -1,258 +1,216 @@
-Return-Path: <linux-input+bounces-5582-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5583-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45079527D6
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:10:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A4C9527E7
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 04:23:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31A721F24943
-	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 02:10:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44B8F1F223B3
+	for <lists+linux-input@lfdr.de>; Thu, 15 Aug 2024 02:23:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFEE3C144;
-	Thu, 15 Aug 2024 02:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8500BDF5C;
+	Thu, 15 Aug 2024 02:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O57W7cQc"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNKZFZpo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CF3BA20
-	for <linux-input@vger.kernel.org>; Thu, 15 Aug 2024 02:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723687818; cv=none; b=UmDRszKxdZUXkkbWnktL3CV7BaiOZqdHKLSbxalpmWeNlF8gRQoEA2id1lb2kJQKITr9drFrgKbr5i5wY1/HRzoa8wyieOwUsJXpjVFwE5z2ABcsVA+rMSkGGKO0HYAbcrg2rwp3kQ13glnyUNh2VPqXC2hb0sOL986bdpmjLHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723687818; c=relaxed/simple;
-	bh=qy6rFW2Ca7IeP9dj5MULCx0bT5yDxg5gpzSH1XS5jNo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=h7VYggo9GmGh0xmkY0Y8ahQ7wPnRZ8Fp/0aK5g0quGdZh556P5PV7HFG+PgxoOcH7obR2tQzQdIeftsnhQvNEl1aIYzOv9/9Cg9xDYpyfU0n1/A1qBlse6Eb/D1/jCqn5plaVCJT+yNBYa12qhjhXfm6qcY9Z+e5K9CWs7dbfCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O57W7cQc; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806C8F62
+	for <linux-input@vger.kernel.org>; Thu, 15 Aug 2024 02:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723688597; cv=fail; b=fM5aXsVkfJorGCm6ZffIyUvxLxBkFY1lnrerAPpDjGDVHTLmLTwE52ZD4G4PFVdsQvecOO5/GnGGuwnh9alQwWUHKotiy+3UIbj8eEux+sQVqH+igsiNpsUjPU9oNkwXbPFPni07P4zrDOVa7Lya9Sdc1reI5xvKrVT37/eEIQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723688597; c=relaxed/simple;
+	bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=dn/rHD5WYqghLZ1SlQRSrMs/+z/yeu/T3RPjbD6SbtCEQaEa5IbwLHXHA1Uw9QvI5Qrxe+E2zdn8+4Z82o929BbrBxI/fV2U6FB5XJLHTDF+w3+Kime2mpj+F0Uv6O63zpNh55Rcs5WoCLH2ATpcx26dPem+1RqzdnrCQYNGlro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNKZFZpo; arc=fail smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723687817; x=1755223817;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qy6rFW2Ca7IeP9dj5MULCx0bT5yDxg5gpzSH1XS5jNo=;
-  b=O57W7cQcZ8bXypYW79wMb5VgDf0/U3olt1pmaXfQ7iS9MKhNEDkQ0wcu
-   Xon/lZZirpTzNZNhEmlo/goZ9ap9J5XPPhAVDgITsXcnUzFLMrUonNhR9
-   lRkvJPFLfjQC6joP/qZd+Jbul0CLkg2bjt6SgUjPkDSF4oTqP2aJRKcGK
-   YP18YXsumK2k82hHpZwXJc2XbiomDduwRDZV/fT/4amqxIL353DFSwbqj
-   S2KLASbUe75yoiIzsTOXOCr6XdLzJViMCJ3X32UMFD9ZGey9MUaGkTFYM
-   m+Qj6YYMTVLrfy8k5bPTniuUDp6vAv1f4V7QRj2V83H/KgeQvse9iqUZH
+  t=1723688596; x=1755224596;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
+  b=NNKZFZpoeaU9VE/zEyVucwAzPEiH9Txp/RgZKDCQBt31D/NzUy/9NGRT
+   tCisG6sB2y0kYuAttMoT4EMukMbTCvvkn8dgX48MZ9mijPn01fUC1sWph
+   ZfKDMJV97gC2eQP9Unc7A89izzKSoppfxq1Kxx1mIXjpUy0uhAilDYQl+
+   Ih0mZvpWTMkY/i6i+aXjgCjsiw/Dr88sPsOXUN0wDR3EN0AfqCc+q4xkl
+   X1SCPquaINKRZI8E1bwClaXaW9pB+pGVCvw8AbLR+ND0JthHUmsS2gWF8
+   uQ1QGJAHF0fP3l6nAvVbqPS3OhHPVcc6UKvnBnCz3XvOleCGoHO39lbhQ
    Q==;
-X-CSE-ConnectionGUID: txOaXGqoS3KtWolFzuq7bg==
-X-CSE-MsgGUID: 4HjgE24CS2G/Yz9PRz0Zvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21796133"
+X-CSE-ConnectionGUID: nqy4xarQTWqQSscp/dMhIA==
+X-CSE-MsgGUID: ErFoPykKT8m3A7m+oX+o8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="25797593"
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="21796133"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:10:14 -0700
-X-CSE-ConnectionGUID: tP7paeRbQymVObfduXp++A==
-X-CSE-MsgGUID: D1tukIZyR9KMK5nGborGIw==
+   d="scan'208";a="25797593"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:23:15 -0700
+X-CSE-ConnectionGUID: t39maRcqTI6Gxhr5stJXEw==
+X-CSE-MsgGUID: yIgsTbPIQFKfBwnpqxOgIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="63635503"
-Received: from ipg-l-lixuzha.sh.intel.com ([10.239.153.157])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Aug 2024 19:10:11 -0700
-From: Zhang Lixu <lixu.zhang@intel.com>
-To: linux-input@vger.kernel.org,
-	srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: lixu.zhang@intel.com,
-	hemin.han@intel.com,
-	yoshi.wang@intel.com,
-	even.xu@intel.com,
-	ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v2 3/3] hid: intel-ish-hid: Add support for vendor customized firmware loading
-Date: Thu, 15 Aug 2024 10:10:01 +0800
-Message-Id: <20240815021001.936277-4-lixu.zhang@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240815021001.936277-1-lixu.zhang@intel.com>
-References: <20240815021001.936277-1-lixu.zhang@intel.com>
+   d="scan'208";a="96722992"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Aug 2024 19:23:15 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 14 Aug 2024 19:23:14 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 14 Aug 2024 19:23:14 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.48) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 14 Aug 2024 19:23:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OL3ICsMjbk30l5BaykB81Z7bvVaGY6MV13ZpDs2mCxeczFBPiI2Fj+g8OjEetc+r7yPCUbZnMta6vqmUPDa2umyEpCoVFJ4zDk7INvYMOGF+qXdgTsANmEPg2Iq6H0ZlY391M3CHUrp36o+eX+h/Jp54ObAT2hg3a59KUR2lV3QhJH7ZLPhhkaUyjvs7nMIoJQ3FW1f292wGq5UNpN7JGMR+UvG28UZcGbvFcu/4ogblDtaiY2SFqJIWdPQRWpc5MEXg7gaoYZA+K2SMbiav73lVw7pp5AolOfyINRL4byYRcA+OFm0rrj/YJ7LfxEeR7/8jsoFw58tm1XQbsClL8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JW/JJqdpGckYbmfcDEN9qP3EI/kePeG2JivCVFwePBo=;
+ b=sms3ebAjuCrr6XPdbNma7H+P1eXXeo2VMfEVpks4HE9DIih2qZJ4Tb6weS66pDAiXgFUK1BBcmjVTZTALV9eLGWMuJcPwudKwDwZONS7XSzVXMmkxm/M/FRx3Yfw/OfG3hHvDWXY7vWM4jXcjHfOGfs0N4BLwfaY8ehR6qsFQRcAEPcaP4sJ2aL0Q/5xWurJtiYF3M+5qpxCu+OgFqebmB3bQLjHJFRAdTLQWrh2PV2Tk+SoHfPEiHYP5cshEJuX/Nbvb7S3MHL/83+/8ZVA19MCUbGqjam/iaw0otv+S+KdTfVe1Ttne0Lni4svzMiGL2rTvNcG6KI/mevMkbzrBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5995.namprd11.prod.outlook.com (2603:10b6:8:5e::11) by
+ DS0PR11MB7409.namprd11.prod.outlook.com (2603:10b6:8:153::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7828.33; Thu, 15 Aug 2024 02:23:12 +0000
+Received: from DM4PR11MB5995.namprd11.prod.outlook.com
+ ([fe80::654c:a738:ac8:7908]) by DM4PR11MB5995.namprd11.prod.outlook.com
+ ([fe80::654c:a738:ac8:7908%7]) with mapi id 15.20.7828.031; Thu, 15 Aug 2024
+ 02:23:12 +0000
+From: "Zhang, Lixu" <lixu.zhang@intel.com>
+To: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
+	"jikos@kernel.org" <jikos@kernel.org>, "benjamin.tissoires@redhat.com"
+	<benjamin.tissoires@redhat.com>
+CC: "Han, Hemin" <hemin.han@intel.com>,
+	"Wang, Yoshi" <yoshi.wang@intel.com>, "Xu, Even" <even.xu@intel.com>,
+	"ilpo.jarvinen@linux.intel.com." <ilpo.jarvinen@linux.intel.com>
+Subject: RE: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
+ driver_data
+Thread-Topic: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
+ driver_data
+Thread-Index: AQHa7TOZ0OUYaB0DlUipGStnqNuxd7InmNwQ
+Date: Thu, 15 Aug 2024 02:23:12 +0000
+Message-ID: <DM4PR11MB5995682D7495E6FCEE860FED93802@DM4PR11MB5995.namprd11.prod.outlook.com>
+References: <20240813034736.812475-1-lixu.zhang@intel.com>
+ <20240813034736.812475-3-lixu.zhang@intel.com>
+In-Reply-To: <20240813034736.812475-3-lixu.zhang@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5995:EE_|DS0PR11MB7409:EE_
+x-ms-office365-filtering-correlation-id: b3ddc22f-e6dc-4c29-93c8-08dcbcd1361b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?IMDXUP/FICkBskB8QaKVo0Xr5A1RPCuQ10mUcCKxkg4662/stpNOYK0zMp7h?=
+ =?us-ascii?Q?E9NPJu+0gjyklUbNGC336lycRxKWA2EEjxoWvzDhkRehPiMC8m2WEJAQhS6x?=
+ =?us-ascii?Q?d1yzFX+gyZELUqum6HrPdQXNiusQdtuqiY8wQXvwwb9MuAZG0ZaQ4QrJll5c?=
+ =?us-ascii?Q?zH3a3FB1g0tAtsqYlMKC+PrkSoDAtp6JfiJagz0EfPD7DBwQv6QpyJTqOgUt?=
+ =?us-ascii?Q?DLgMw7nV5wsQBLPv846S2vtx829NkrzcGIcFG3Dsu1Uw+DFJ2zWiIVuPi68C?=
+ =?us-ascii?Q?gjGN0JPtCD0uKBvNl/zvvMVmmm9vHc+QBf38SUB2EMVu7mJtBPqbjK7SjLGR?=
+ =?us-ascii?Q?FhR/jhss7loksmTrvOBZTPLc3Gw7MAl3HxlDwlz9l2+JJCoivSwrOIujUwK/?=
+ =?us-ascii?Q?5YjfQAeJci3SS5HL1wSgRz/1GiT4O29ldLsiPpe+tHWc7kG0mTAxoF5zSn5R?=
+ =?us-ascii?Q?OUlACP27rw1UFTyJyQaa6rsYzE2hUFI+dTKQXx2eEQLvp1q0CzmGFF5U7JG2?=
+ =?us-ascii?Q?o+gmwSnAdvMueUwokGqrqU33LgBzf/x3rgbZdrqt1EjCGjlJN2Ybwa5jAZaj?=
+ =?us-ascii?Q?q8FuUCUdR14uPWLBryUlidQXVJ8HtBS459NnbrOSjvs31U7D3W4LyKv95oBo?=
+ =?us-ascii?Q?t0zSznh+HpXu1ZXyYZ18KBdFxoYIAx091/+TAhbYhojqtj32OZqzASynuiip?=
+ =?us-ascii?Q?vRul9dIA6alikD9j1nGRPbfCeW305FogRbSdkey9EXwTJ2v3nOIY2oa6sBnA?=
+ =?us-ascii?Q?Gj/XPpucdl9ryl9AErw0ORTeZVXfotm85cixOQDVbrAWqd8MPhsjOIXzjNZj?=
+ =?us-ascii?Q?ZolBng+XHByugOKUi/x7+U3ejhMu/Oo2v7dmYpWiCXJt+eA12pkQQMSSuu6G?=
+ =?us-ascii?Q?WhjL+EADVFebhOQOpClR/FHPXHLVedcSopa9aSGiZPtyZ9v7FZxgfRQelu3G?=
+ =?us-ascii?Q?fsd9kqPGNZN8tX23gPPLzRcdwJAdkWS8LVoTbm77FUxhRC6wjSHV2OfQI3yH?=
+ =?us-ascii?Q?EnbW1+yWMripxNfjqOKWQjO1+ASf5xkF/yWnYfufeFaMr6EdSXa9/ndNLaPj?=
+ =?us-ascii?Q?sgsiO+qU4/TLZrCAMzyfYvP/Mxfjzi1LIaqrzziC49iBdgMVVsAFuM9EMCZz?=
+ =?us-ascii?Q?znmQXQ7lCQ+DzpaWmmXxyUDT0GCsJy6R3wHdcvdyvh6j1t/f+ekCA0gtrYcr?=
+ =?us-ascii?Q?q6tDJqmhYE0tvl6ppjSRfbHARzeIuRPxlTl65qYZRimlvJT3xGsTA6+/4XIV?=
+ =?us-ascii?Q?u7q1OIYLMnWt+I5tPy70YzSavvfO/iYg6PTGRR9qm8tRz43CEAHvTqsrkTDH?=
+ =?us-ascii?Q?YfL+8rxPy7vTEPPPN4xcbEwn5NDIExCbadLMc0TzYb7rtBiVPpunR/mipuNt?=
+ =?us-ascii?Q?dcMk6ix8lodQp5veFhhbVH9k0WrCBkG7bAxu2mY2bmigGjoWmw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rKqg6xR/6LLXTU7oK627JV0cE94S5zU3WXOccDdfLG3GazLDk7rU6GBjdgNc?=
+ =?us-ascii?Q?aRCbPQ4IP5n+wYl8QbY+1A2JXe7pvyPotzR2jfDwjRs8ZI3BX3Cr0V69s4Yr?=
+ =?us-ascii?Q?KDm7keTRu+beIBmjyaMJAcps3h293q3YtD/MqZVIr3/f0oNQgxbpXSuMI+Ql?=
+ =?us-ascii?Q?GezSTyMjur3y2rR3iKzGJDMde0y71ONNBWauTwnUdGKhlKnpyw6dqYSSQfxp?=
+ =?us-ascii?Q?rB5sMfKpFow5PXDwtcs+ECwxXult6LdfoWHedVzwKIYUqR0i40CiKFyEMmRs?=
+ =?us-ascii?Q?bb9y3nLWsK7snKcJlGZT1yru1/vL/JyApJbp33hb1UyAOXgxUE+rASXqxiUg?=
+ =?us-ascii?Q?TqBCAq7ImXtAkQPc82gyQ0VxKJdQRrv15YMmVygaNWTAhokFVE93RDSRqshs?=
+ =?us-ascii?Q?FKqxHPozloHnotX/i4qKmw4iLnbwwSfsRkFAXw+by/MlRcw6c/PAWOfGWjqT?=
+ =?us-ascii?Q?5cdrFQ8kj+3Ay38OypUE4Y5kzOraIUGmuXGL/aeDq9M5B313eVv0XDpjJfd5?=
+ =?us-ascii?Q?OQF5D6uCtF3NZFdsly8+ygPESq0BprUs77vKWPyfcd87VDF9y0130eagEkGu?=
+ =?us-ascii?Q?+UFYDKsVf4O0r6UgR2e1DjXDhewBNBjP8LPmM0ODCSqqX+53/40sQvp+Eend?=
+ =?us-ascii?Q?96h1ijmuIgRKS4Keq/6H2Erm46UcFe/hUpf2/0eQrDbqyX6K308eQetQtBO7?=
+ =?us-ascii?Q?JA0+RHIZCMpI4yme6OH5YjYmb0fg/Yzg5hum/pVNYLV3jX/62Poq227yxP0o?=
+ =?us-ascii?Q?Ltx/yiLkrYKRR+Qg29SVZyVQ/k1E6m7UJhlRKtp8TswGydgWTBFqinbAKDCk?=
+ =?us-ascii?Q?qE0WcBYCi4x75SuZ0RBkZvnQg1zuQ/FSzpsV4Zo/OKoeObVLL3dYsqMejWO/?=
+ =?us-ascii?Q?DsflFezUuFdXBp+/DuUAWm0Utv+rQ2tEJUICNAw3PdfioxKXRB9Hf4LujNfu?=
+ =?us-ascii?Q?RyNwr8MPGyMMK0Sjs1JKyXPk4nmE1nW/8p0+BjAk6I4HhqgnC6Pp2VA1UDIU?=
+ =?us-ascii?Q?O0VNX+lsv2j22NbG5FQdibcqX+uZwphDzhRxEwuH7wGbp12n6Q8FwC/T7CRg?=
+ =?us-ascii?Q?7a+uj67Ujx4FCk/rW7E4wyDdDn4vLlV5u1rxhko/t8EJQDdl0sdBYPmJx0cm?=
+ =?us-ascii?Q?9cmKWYc+QG7qfQX/Um4hEjQ89/03Y23+Jg5lSyLQETKnqX+5gI4XKyeD/CZo?=
+ =?us-ascii?Q?9gMBDn5ca8mRx0QUlq8Soq5grvpxgJ/MYrdlSHG2MeD1sTEcTXErFKrlJ5eW?=
+ =?us-ascii?Q?7Ha9ba3HcVwy14OvAvSdriph27mOCVcLtVN2uQL7J1+rdaDdNUvuj4e648GH?=
+ =?us-ascii?Q?nPUWCCqnuI1jBNwEanHSCa+XTsVcvhenaDgE1k2EfyVjmK82nytEhchvV7d4?=
+ =?us-ascii?Q?kQDHCTMcgZ8hDqOSNcxyLR/wrpaxQkpXPo76TxtIEqkMdBNUvnL/7pYszpxf?=
+ =?us-ascii?Q?RG0le1Zg+9hEeD6HAeYaivhCwX79AcbRAPh++IjdTlP6QBga4+y13NjkbOYu?=
+ =?us-ascii?Q?ky4aONvIeWM9yB6M5cN51uo4CmtN7HeIIdkJLiihLMdemE9ChvwUdbZB2cDH?=
+ =?us-ascii?Q?9HP77wSxDs7vBaacc7mDdmMsazFc7SehBw9SQ6na?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3ddc22f-e6dc-4c29-93c8-08dcbcd1361b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 02:23:12.1714
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BYpMJiszMnHthLFlPnr8QYhIHgOFRWJiU+yd1O412+rWjZWCgHZjFpiB0m7kuoALvgaeY2Kf/Xn5/moYTEciJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7409
+X-OriginatorOrg: intel.com
 
-Enhance the firmware loader to support the loading of vendor-specific
-customized firmware for the Intel Integrated Sensor Hub (ISH). The
-loader now constructs firmware file names based on the DMI_SYS_VENDOR,
-DMI_PRODUCT_NAME, and DMI_PRODUCT_SKU information in Desktop Management
-Interface (DMI). The loader will attempt to load the firmware files
-following a specific naming convention in sequence. If successful, it
-will skip the remaining files.
+>-----Original Message-----
+>From: Zhang, Lixu <lixu.zhang@intel.com>
+>Sent: Tuesday, August 13, 2024 11:48 AM
+>To: linux-input@vger.kernel.org; srinivas.pandruvada@linux.intel.com;
+>jikos@kernel.org; benjamin.tissoires@redhat.com
+>Cc: Zhang, Lixu <lixu.zhang@intel.com>; Han, Hemin <hemin.han@intel.com>;
+>Wang, Yoshi <yoshi.wang@intel.com>; Xu, Even <even.xu@intel.com>
+>Subject: [PATCH 2/3] HID: intel-ish-hid: Use CPU generation string in
+>driver_data
+>
+>
+>+#define ISH_FW_FILE_DEFALUT_FMT "intel/ish/ish_%s.bin"
+>+
+The version 2 has been sent out to address the review comments from ilpo.ja=
+rvinen@linux.intel.com.
 
-For more details, please refer to Documentation/hid/intel-ish-hid.rst.
+Thanks,
+Lixu
 
-Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- drivers/hid/intel-ish-hid/ipc/pci-ish.c  |   2 +
- drivers/hid/intel-ish-hid/ishtp/loader.c | 104 ++++++++++++++++++++++-
- 2 files changed, 103 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index f20463082dc4..aae0d965b47b 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -31,6 +31,7 @@ enum ishtp_driver_data_index {
- #define ISH_FW_GEN_LNL_M "lnlm"
- 
- #define ISH_FIRMWARE_PATH(gen) "intel/ish/ish_" gen ".bin"
-+#define ISH_FIRMWARE_PATH_ALL "intel/ish/ish_*.bin"
- 
- static struct ishtp_driver_data ishtp_driver_data[] = {
- 	[ISHTP_DRIVER_DATA_LNL_M] = {
-@@ -400,3 +401,4 @@ MODULE_DESCRIPTION("Intel(R) Integrated Sensor Hub PCI Device Driver");
- MODULE_LICENSE("GPL");
- 
- MODULE_FIRMWARE(ISH_FIRMWARE_PATH(ISH_FW_GEN_LNL_M));
-+MODULE_FIRMWARE(ISH_FIRMWARE_PATH_ALL);
-diff --git a/drivers/hid/intel-ish-hid/ishtp/loader.c b/drivers/hid/intel-ish-hid/ishtp/loader.c
-index ff11ee4e38ed..f76c4437a1f5 100644
---- a/drivers/hid/intel-ish-hid/ishtp/loader.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/loader.c
-@@ -35,8 +35,10 @@
- 
- #include <linux/cacheflush.h>
- #include <linux/container_of.h>
-+#include <linux/crc32.h>
- #include <linux/dev_printk.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dmi.h>
- #include <linux/errno.h>
- #include <linux/firmware.h>
- #include <linux/gfp_types.h>
-@@ -193,21 +195,117 @@ static int prepare_dma_bufs(struct ishtp_device *dev,
- 	return 0;
- }
- 
-+#define ISH_FW_FILE_VENDOR_NAME_SKU_FMT "intel/ish/ish_%s_%08x_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_SKU_FMT "intel/ish/ish_%s_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_NAME_FMT "intel/ish/ish_%s_%08x_%08x.bin"
-+#define ISH_FW_FILE_VENDOR_FMT "intel/ish/ish_%s_%08x.bin"
- #define ISH_FW_FILE_DEFAULT_FMT "intel/ish/ish_%s.bin"
- 
- #define ISH_FW_FILENAME_LEN_MAX 56
- 
-+#define ISH_CRC_INIT (~0u)
-+#define ISH_CRC_XOROUT (~0u)
-+
-+static int _request_ish_firmware(const struct firmware **firmware_p,
-+					const char *name, struct device *dev)
-+{
-+	int ret;
-+
-+	dev_dbg(dev, "Try to load firmware: %s\n", name);
-+	ret = firmware_request_nowarn(firmware_p, name, dev);
-+	if (!ret)
-+		dev_info(dev, "load firmware: %s\n", name);
-+
-+	return ret;
-+}
-+
-+/**
-+ * request_ish_firmware() - Request and load the ISH firmware.
-+ * @firmware_p: Pointer to the firmware image.
-+ * @dev: Device for which firmware is being requested.
-+ *
-+ * This function attempts to load the Integrated Sensor Hub (ISH) firmware
-+ * for the given device in the following order, prioritizing custom firmware
-+ * with more precise matching patterns:
-+ *
-+ *   ish_${fw_generation}_${SYS_VENDOR_CRC32}_$(PRODUCT_NAME_CRC32)_${PRODUCT_SKU_CRC32}.bin
-+ *   ish_${fw_generation}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin
-+ *   ish_${fw_generation}_${SYS_VENDOR_CRC32}_$(PRODUCT_NAME_CRC32).bin
-+ *   ish_${fw_generation}_${SYS_VENDOR_CRC32}.bin
-+ *   ish_${fw_generation}.bin
-+ *
-+ * The driver will load the first matching firmware and skip the rest. If no
-+ * matching firmware is found, it will proceed to the next pattern in the
-+ * specified order. If all searches fail, the default Intel firmware, listed
-+ * last in the order above, will be loaded.
-+ *
-+ * The firmware file name is constructed using CRC32 checksums of strings.
-+ * This is done to create a valid file name that does not contain spaces
-+ * or special characters which may be present in the original strings.
-+ *
-+ * The CRC-32 algorithm uses the following parameters:
-+ *   Poly: 0x04C11DB7
-+ *   Init: 0xFFFFFFFF
-+ *   RefIn: true
-+ *   RefOut: true
-+ *   XorOut: 0xFFFFFFFF
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
- static int request_ish_firmware(const struct firmware **firmware_p,
- 				struct device *dev)
- {
-+	const char *gen, *sys_vendor, *product_name, *product_sku;
- 	struct ishtp_device *ishtp = dev_get_drvdata(dev);
--	const char *gen;
-+	u32 vendor_crc, name_crc, sku_crc;
- 	char filename[ISH_FW_FILENAME_LEN_MAX];
-+	int ret;
- 
- 	gen = ishtp->driver_data->fw_generation;
--	snprintf(filename, sizeof(filename), ISH_FW_FILE_DEFAULT_FMT, gen);
-+	sys_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-+	product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
-+	product_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-+
-+	if (sys_vendor)
-+		vendor_crc = crc32(ISH_CRC_INIT, sys_vendor, strlen(sys_vendor)) ^ ISH_CRC_XOROUT;
-+	if (product_name)
-+		name_crc = crc32(ISH_CRC_INIT, product_name, strlen(product_name)) ^ ISH_CRC_XOROUT;
-+	if (product_sku)
-+		sku_crc = crc32(ISH_CRC_INIT, product_sku, strlen(product_sku)) ^ ISH_CRC_XOROUT;
-+
-+	if (sys_vendor && product_name && product_sku) {
-+		snprintf(filename, sizeof(filename), ISH_FW_FILE_VENDOR_NAME_SKU_FMT, gen,
-+			 vendor_crc, name_crc, sku_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	if (sys_vendor && product_sku) {
-+		snprintf(filename, sizeof(filename), ISH_FW_FILE_VENDOR_SKU_FMT, gen, vendor_crc,
-+			 sku_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
- 
--	return request_firmware(firmware_p, filename, dev);
-+	if (sys_vendor && product_name) {
-+		snprintf(filename, sizeof(filename), ISH_FW_FILE_VENDOR_NAME_FMT, gen, vendor_crc,
-+			 name_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	if (sys_vendor) {
-+		snprintf(filename, sizeof(filename), ISH_FW_FILE_VENDOR_FMT, gen, vendor_crc);
-+		ret = _request_ish_firmware(firmware_p, filename, dev);
-+		if (!ret)
-+			return 0;
-+	}
-+
-+	snprintf(filename, sizeof(filename), ISH_FW_FILE_DEFAULT_FMT, gen);
-+	return _request_ish_firmware(firmware_p, filename, dev);
- }
- 
- /**
--- 
-2.34.1
+>--
+>2.34.1
 
 
