@@ -1,227 +1,146 @@
-Return-Path: <linux-input+bounces-5630-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5631-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A832955F4E
-	for <lists+linux-input@lfdr.de>; Sun, 18 Aug 2024 23:16:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6357595600C
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 01:17:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17E1D1F212A4
-	for <lists+linux-input@lfdr.de>; Sun, 18 Aug 2024 21:16:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F10FFB20ADC
+	for <lists+linux-input@lfdr.de>; Sun, 18 Aug 2024 23:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF827153808;
-	Sun, 18 Aug 2024 21:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D96C154454;
+	Sun, 18 Aug 2024 23:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="pMP5a3s7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/NLNcE4"
 X-Original-To: linux-input@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FCB8BF0;
-	Sun, 18 Aug 2024 21:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D778443AA9;
+	Sun, 18 Aug 2024 23:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724015776; cv=none; b=nwwHRkJJHlR7H+WtCw73xzMrz718KJ3ni1RT4XNrQ2llCw38CYtVKtYA7bs9uMv4UiZwJjQ48cfqKu0lOYX6P+Sh5RiAIJ2fqrtJXTVEXouoyIw7ue7YChgwuUHVZXrnot0hYHJE07edhIXBYIcVSGrknF3MP/xUL8qURMwacvc=
+	t=1724023041; cv=none; b=DLBbgU4mEexxkPvofZl/I9bna4qYeEN4dsZAUETLnYIE6rZ6oWRp8BeoMlZugP3YrbQVQtnug+CmUMdINGzqU0QcYEjxXkXSwDNaEI5D3vAjA70sXKcDPfnFyfBAB+NdCcBEJbStgwkjXgTNIAzvR3i3OdbHBUYq7TGv9/kfgVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724015776; c=relaxed/simple;
-	bh=YcQ6i4BCzVsVY61qAbNIMzmfFGGpbVPKA+jNi/DZD2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=atc+HcCgJlzGyN0ojV/Vp5347AHnM0lCPKLRla+zxbc7HXL6Y4iohp3zBLP69yzMDq1LmPTnQdDvath06I0c9Kq+YKexeRsO5Um/U3AcYRb0TcO8vkW2BnwW0eYT7Sq/q6Nke7geyWiGZ8CewiMkBv3PvKHON2mjz1RB0upvJXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=pMP5a3s7; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tw/4lQQeW1YOwp5kih2jcJwbHpRnZLldiL+qxm7D/ss=; b=pMP5a3s7ErLWhc6t52Ur7h8ZvE
-	lw8pNJDbDqNy1v472TSBUqP0wvGQanZharekO2Mf+IABMYeuGqKDn7sjgrVKI43QEUpQTv9RqynFC
-	Nzsine5ZMHZRnikDcLMJjRmaxSb74lxvlm+fACS+aRXhy8fKOPn7CCF/q/4J54IePhsFicE/ygz1x
-	BgKJYUPplgQAXh1SyVKhUU2Qjb6Bg7jxjK/DEGvgOs6RKeMQy7eekrMAdHkwvjaabsNNphnojZOOy
-	zExi0I9ZiigaGxUecfLZuV9ZjDO9bMByc+vNZL7YHPXozDZPu8MmkA1t+6E1zTzImzJCOF7uhCCpu
-	fm0E9Q5Q==;
-Received: from i53875a9f.versanet.de ([83.135.90.159] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sfnFZ-0004Bo-Cu; Sun, 18 Aug 2024 23:15:45 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Lee Jones <lee@kernel.org>
-Cc: jdelvare@suse.com, linux@roeck-us.net, dmitry.torokhov@gmail.com,
- pavel@ucw.cz, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- ukleinek@debian.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 2/7] mfd: add base driver for qnap-mcu devices
-Date: Sun, 18 Aug 2024 23:15:58 +0200
-Message-ID: <2875938.88bMQJbFj6@diego>
-In-Reply-To: <20240816171336.GF5853@google.com>
-References:
- <20240810184743.277248-1-heiko@sntech.de>
- <20240810184743.277248-3-heiko@sntech.de> <20240816171336.GF5853@google.com>
+	s=arc-20240116; t=1724023041; c=relaxed/simple;
+	bh=mjzCCkkb4ZbTcGqwXgP3YjGJHkuaJAiVlLqdbaVyKDc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lyT8mkHYBdWqtUEveLZtt1mkazz9l2SRjnmf8jrBX5oNZCC4sTOoCbCDMFSUQ/5mrKDBzMcAd71LoJNN86ZOJUCv/r7ufk9xPCNxIlLoemTWc5/aMQeCsXLRUnqFj7SmY2mOvqxwW2WzCfTalylyoB9s1ZM9eLGHWcsylj0DKP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/NLNcE4; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-428141be2ddso28519895e9.2;
+        Sun, 18 Aug 2024 16:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724023038; x=1724627838; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mjzCCkkb4ZbTcGqwXgP3YjGJHkuaJAiVlLqdbaVyKDc=;
+        b=N/NLNcE4L99kRpQFIgZU04oPx7036Nlmll/jVdRQYVIELhYVu/h+kct+MoZ5KfJcJK
+         hadgn1YUKiP7Wl/V9mufy6v1pyRU44bsh6rwACoVY3KABEttrHK942/QNwihe+3L/fIg
+         fTkHg/TecrqSfHqN37b4hEZ/Wbt/AQDnVRgJe92Jbdoh1szleMSVo3HYfPBZnJa+yusW
+         upXueAipMdoweMPmtpGx8Rx4fqCQGLAyQ1u2c40kv/2YvyaEzzzaN3dv7zToQ870y+ic
+         08im5RTaMZn/kOsyZiOG9K02yr43ln3dne5uZZKsCAzTSLtCMWeOVDmt6COeOgxCeXwF
+         bxIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724023038; x=1724627838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mjzCCkkb4ZbTcGqwXgP3YjGJHkuaJAiVlLqdbaVyKDc=;
+        b=IAR8Dgz8JSbmweMoHHZk+U1102ECc8reY8qEKNit12nMS565PINeyxxKUZpGXnRRj6
+         8o9xQuR+HLtAbFA183Qr6fbqrhqQ4mNKljm1o20O1C+NGVySc2cMG7cinbDIlzQPgcNa
+         trOEwdKXZMk9WBKuAOvi2SLId3S84vBNEM0CNmw7AFDeIaaTG4MAbolLSLnJLLGe19Xm
+         3wBaoh7EuZjb6VhJi7HbUwqQKfiCa6T/jUY83FQeJWV2AdsfUiOGSGgX2cFl7IMUD+Az
+         a0ENCyViRfb+cBgdZUrM6ghymhWKNL22O0DE/GfpTIcZXHBrKAliBprC99BCqQR/t0Ew
+         NDUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUy6Dkk5WFH3qaYffvbn4wlGUSfi1yN55tWPghiupXCr3tBaTZjqziOAI9fyvKG4a2x1qlA8K9eudLlw+w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUMU+e06Vqae+6DgyIcyMlP9caLUiSokZ2MitJ7/eRSIn/YYdP
+	iUAGlY26yv5x+BQOsVNUBA/VIgdVQLwH3lWycyylD+CXyjsWnTrmbnF5M8X0Lorh8q0Wioi6fZc
+	F0sQX2Ucnpa1Q/26eRuNnWpNK1eY=
+X-Google-Smtp-Source: AGHT+IHxy2T6UXAIaEhVrq0qGQdA+4TZ7OKvTtoKVdPKod9Ha1x5vNYL7if0QlAQp7T8bwTr+/wSdP7Gcge59JT5ckA=
+X-Received: by 2002:a5d:58fa:0:b0:368:3717:10c7 with SMTP id
+ ffacd0b85a97d-3719431e872mr5310398f8f.4.1724023037477; Sun, 18 Aug 2024
+ 16:17:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20240813153819.840275-3-stuart.a.hayhurst@gmail.com> <aa331200-205e-4b00-ae02-343c96c52ae8@web.de>
+In-Reply-To: <aa331200-205e-4b00-ae02-343c96c52ae8@web.de>
+From: Stuart <stuart.a.hayhurst@gmail.com>
+Date: Mon, 19 Aug 2024 00:17:06 +0100
+Message-ID: <CALTg27kAMd-0tQdJ+k4Ur9i=kZ0qY_vffhm3ZT+_CX6tD_874Q@mail.gmail.com>
+Subject: Re: [PATCH] HID: corsair-void: Add Corsair Void headset family driver
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lee,
+> How do you think about to distinguish properties any further for availabl=
+e
+> device attributes?
+> https://elixir.bootlin.com/linux/v6.11-rc3/source/Documentation/driver-ap=
+i/driver-model/device.rst#L38
 
-thanks a lot for your review,
+Sorry I'm not sure I follow you're saying
 
-Am Freitag, 16. August 2024, 19:13:36 CEST schrieb Lee Jones:
-> On Sat, 10 Aug 2024, Heiko Stuebner wrote:
+> * Are these really changeable?
 
+The receiver firmware version wouldn't change during the device's
+lifetime unless someone wrote a firmware updater for Linux, even then
+it would probably reconnect
+The headset firmware version could theoretically change if you changed
+which headset is paired, but I don't have 2 headsets of the same model
+to test this
 
-> > +/*
-> > + * MFD core driver for the MCU in Qnap NAS devices that is connected
-> 
-> No such thing as an "MFD".  Please describe the device.
-> 
-> Is it QNAP or Qnap?  Please be consistent.
+> * Can the macro =E2=80=9CDEVICE_ATTR_RO=E2=80=9D be applied?
 
-Looks like QNAP spells itself in all upper case on their website, so I did
-go with that
+Done, also applied DEVICE_ATTR_WO
 
+> > +MODULE_AUTHOR("Stuart Hayhurst");
+> Would you like to add an email address here?
 
-> > + * via a dedicated UART port
-> > + *
-> > + * Copyright (C) 2024 Heiko Stuebner <heiko@sntech.de>
-> > + */
-> > +
-> > +#include <linux/export.h>
-> 
-> What is this used for?
+Done. Thanks again for the review, I'll submit a v2 with the changes so far=
+.
 
-the #define EXPORT_SYMBOL_GPL that gets used below lives in that file.
+Stuart
 
-
-> > + * struct qnap_mcu - QNAP NAS embedded controller
-> > + *
-> > + * @serdev:	Pointer to underlying serdev
-> > + * @bus_lock:	Lock to serialize access to the device
-> > + * @reply_lock:	Lock protecting @reply
-> > + * @reply:	Pointer to memory to store reply payload
-> > + * @variant:	Device variant specific information
-> > + * @version:	MCU firmware version
-> > + */
-> > +struct qnap_mcu {
-> > +	struct serdev_device *serdev;
-> > +	/* Serialize access to the device */
-> 
-> Comments and K-doc is OOT.
-
-I don't really know what OOT means, but I guess you mean that only
-one or the other is needed?
-
-Though somehow checkpatch was very unhappy without those comments directly
-above the mutex declaration. But I can of course remove these additional
-comments
-
-
-> > +	mutex_lock(&mcu->reply_lock);
-> > +	if (!reply) {
-> > +		dev_warn(dev, "received %zu bytes, we were not waiting for\n",
-> > +			 size);
-> > +		mutex_unlock(&mcu->reply_lock);
-> 
-> guard(mutex)?
-
-thanks a lot for pointing out this neat feature
-
-
-> > +int qnap_mcu_exec_with_ack(struct qnap_mcu *mcu,
-> > +			   const u8 *cmd_data, size_t cmd_data_size)
-> > +{
-> > +	u8 ack[2];
-> > +	int ret;
-> > +
-> > +	ret = qnap_mcu_exec(mcu, cmd_data, cmd_data_size, ack, sizeof(ack));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Should return @0 */
-> > +	if (ack[0] != 0x40 || ack[1] != 0x30) {
-> 
-> Why not use the char variants?
-
-Consistency, I guess.
-
-While the basic commands _seem_ to use values equivalent to ascii
-characters, I've also seen other commands where the values are not based
-on those but use real numbers / hex values for data instead.
-
-So I opted to go with hex values for all and kept the comments, if someone
-wants to get started talking to their MCU via a terminal.
-
-
-> > +
-> > +/*
-> > + * The MCU controls power to the peripherals but not the CPU.
-> > + *
-> > + * So using the pmic to power off the system keeps the MCU and hard-drives
-> > + * running. This also then prevents the system from turning back on until
-> > + * the MCU is turned off by unplugging the power-cable.
-> > + * Turning off the MCU alone on the other hand turns off the hard-drives,
-> > + * LEDs, etc while the main SoC stays running - including its network ports.
-> > + */
-> > +static int qnap_mcu_power_off(struct sys_off_data *data)
-> > +{
-> > +	struct qnap_mcu *mcu = data->cb_data;
-> > +	int ret;
-> > +	u8 cmd[] = {
-> > +		[0] = 0x40, /* @ */
-> > +		[1] = 0x43, /* C */
-> > +		[2] = 0x30  /* 0 */
-> > +	};
-> 
-> u8 cmd [] = { '@', 'C', '0' };  ?
-
-see above.
-
-I guess this is a style choice, we could of course go with
-	u8 cmd[] = { 0x40, 0x43, 0x30 }
-if you prefer that.
-
-
-> > +static int qnap_mcu_probe(struct serdev_device *serdev)
-> > +{
-> > +	struct device *dev = &serdev->dev;
-> > +	struct qnap_mcu *mcu;
-> > +	int ret;
-> > +
-> > +	mcu = devm_kzalloc(dev, sizeof(*mcu), GFP_KERNEL);
-> > +	if (!mcu)
-> > +		return -ENOMEM;
-> > +
-> > +	mcu->serdev = serdev;
-> > +	dev_set_drvdata(dev, mcu);
-> > +
-> > +	mcu->variant = of_device_get_match_data(dev);
-> > +	if (!mcu->variant)
-> > +		return -ENODEV;
-> > +
-> > +	mutex_init(&mcu->bus_lock);
-> > +	mutex_init(&mcu->reply_lock);
-> 
-> Can you not get away with a single lock?
-
-Of course all behaviour information of the device come from observation
-alone right now, but it does look like the MCU does not cause
-transmissions of its own, but only as a reply to a sent command.
-
-So yes, I can probably do away with the whole reply assignment and just
-use one dataset and thus just the main lock.
-
-
-Heiko
-
-
+On Sun, Aug 18, 2024 at 2:12=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> How do you think about to distinguish properties any further for availabl=
+e
+> device attributes?
+> https://elixir.bootlin.com/linux/v6.11-rc3/source/Documentation/driver-ap=
+i/driver-model/device.rst#L38
+>
+>
+> =E2=80=A6
+> > +++ b/drivers/hid/hid-corsair-void.c
+> > @@ -0,0 +1,851 @@
+> =E2=80=A6
+> > +static DEVICE_ATTR(fw_version_receiver, 0444, corsair_void_report_firm=
+ware, NULL);
+> > +static DEVICE_ATTR(fw_version_headset, 0444, corsair_void_report_firmw=
+are, NULL);
+>
+> * Are these really changeable?
+>
+> * Can the macro =E2=80=9CDEVICE_ATTR_RO=E2=80=9D be applied?
+>
+>
+> =E2=80=A6
+> > +MODULE_AUTHOR("Stuart Hayhurst");
+>
+> Would you like to add an email address here?
+>
+> Regards,
+> Markus
 
