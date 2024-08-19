@@ -1,84 +1,84 @@
-Return-Path: <linux-input+bounces-5671-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5672-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0B8956DC3
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 16:46:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D40D7956DCA
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 16:47:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E6601C2309B
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 14:46:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 88A861F22046
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 14:47:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA6E174EF0;
-	Mon, 19 Aug 2024 14:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58551173347;
+	Mon, 19 Aug 2024 14:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B14FTg2q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGgJdoJB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95F6172BDC;
-	Mon, 19 Aug 2024 14:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF15616A92B;
+	Mon, 19 Aug 2024 14:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724078782; cv=none; b=QaJiOZjl122+6OA3JOqq9HVAvmSXEo/teB71s4NriA4VonFmucJfn7nfH5aIvN2rDYP3ppbBQZrjxy941Mqmn6x+oqUZsfWtLL/n6zKgUcOHFZIJDaDB3/3n7cItCWIiG4zhXNnfcAvP8tIWocfV5g+V/wZwy2h0vvQg17b15GM=
+	t=1724078827; cv=none; b=kD7ofALAGpLX5IpaPyC08PU202geavbYvjXX9V1O5QefFGK6rE50FKakQ+gsyP7gQmL3EhzkWVlxt6O83hMnjeMMxFS+QB+crWXb2yCM0tABla7U4/l4hTRZH0wP/Mp5QYZby3/JGwJw8jtUJZmOAzHMG+xdNMy/Ji4TPPm76n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724078782; c=relaxed/simple;
-	bh=SkZnuyF0tW5tyjgIM6yWpPVNsrQ0ePYYUfcrMhq4OWw=;
+	s=arc-20240116; t=1724078827; c=relaxed/simple;
+	bh=tcDn4VkGCIffVpO9LcLKalO7ETRk0IZwLygamxw+b58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1/lshkcYuSieNwPsKQKvRTUCO7tCzqpuetIB7lyILvxh+d3zzOuNu9Fn9OcH6BPNrrI00zyHZgX8Gqme0e5A2SjX1FQezW++l+KrSMoYVGO4Ak/oPc8WvvB6Fx2Oj/MBAaXTG5f0+G5OoXW3ivwm8So6xnIFNGFB/Q6dvb5Afg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B14FTg2q; arc=none smtp.client-ip=209.85.160.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=GrRLJeE4gnX3+p5mQ5ENSgvCxENXp4M5upD0etCXGHoPzrwPBwGam14/ecPoVoaBcCbUOyZsBhcZPWxiXB754oqZY5mA/q/U+I0gdSR5HDS9QJ/8Qayq3S+ucbv+deg10UPatUEqESZ9RDnhyvZmtoKMBfVQSEhJrM2KsNH3fTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MGgJdoJB; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2701824beeeso2203011fac.1;
-        Mon, 19 Aug 2024 07:46:20 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d23caf8ddso3672880b3a.0;
+        Mon, 19 Aug 2024 07:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724078780; x=1724683580; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724078825; x=1724683625; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8r8vZX0TLkXlphek2g43KwTQkJU+hOeULw/Z2z2ApCU=;
-        b=B14FTg2qNsHAk4DVvReZRKqeDc8fp0c5DXeYCFTpksodC/4RwCfzM2Swg8aNcE0D7X
-         8T+zg/Au/d4HfN46Od6GGZQQcr/xki+KUs+wi69sFTsmdmQxq1LGgupVK4wZanbj0fz9
-         zBhQqC6QbyIfHBLkkGfSMyGp2VYKZgkj5R6xZKMurTUp/SpUvicD95jCGnwbNa9tfk9a
-         lYxRua1Sp/keSgrqEgAiWjgpivq0u0TVEysqORoloAr5cNLAI4C7Ny0jCEXH7+53sGNf
-         2UMR41B+jWi8d19vDSFx0fU4EQ2pCRENp3vFP2HP55Ln2bqS1QaqrU5B4UQRk7eKcqSN
-         paMA==
+        bh=PgIQHKvxINV8ovUdofvk90SRsFNtQrsv8SYAZXy1GIw=;
+        b=MGgJdoJBr5YiND5cbXiIIdwrLYppJ9Oj3F5r/awTD6M3xOyJPVqZgbHTDD8jvMhvo2
+         WdoHU4GK42p2P64Nj3YJSJs2skbYGvV8xmwKuNOZl11NU+m1dQak2wtOnoVZxHCPj+Kz
+         F+KNejwQOSg7u3qutCQWoxzwfwxtGPEl8n2m7RZ3tFMxwquGQQ3RsjxWCJKgUxPjU9rO
+         jHTdbIjthOY2omGS9XDWjIcedxymMb/pZbgLzuhOACWx/NCnd6q+FORZKrH6HvxoSGju
+         6lEVCmhcvdGBxMukv+cVZO2XjebJUrq2b6Kgy2IUmIjbg1QHSD0WlemiyB6H4q3Z7DEm
+         y/6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724078780; x=1724683580;
+        d=1e100.net; s=20230601; t=1724078825; x=1724683625;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8r8vZX0TLkXlphek2g43KwTQkJU+hOeULw/Z2z2ApCU=;
-        b=QUMlKISJei7xjh4RJ7fnpSZr6k3xYURXTT5ZxiRUUR2FU7Q5eB1rA/BsMF0nq0ZRg0
-         iGSUXQHMawrPsTAThYOVtqb6unOU/2WMF/ReGUW6r6XptZJXcaU0U07oM8bt+Ysc6l91
-         8+Dgj38MKFAOGxZxJMDIBkXFwDktoUCLWKtEuITXrWrRrLfuDsXjw6kokutoDOfvwa9i
-         7cU9ID9auKIRvsurw4Y9kgZKUNz/ofF8eE32oX/+EXgzQG3oPM2qfXx32OCCIPTB5984
-         t4np3yhKA78m4pDKFb/TU8DKJu9v+U1Nf2czpOs5GWTGVXrSwMN5GExUdWd+v6TF30JA
-         XHXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6KI3BSs/QXJ8WBtZgVgeQXaz152lmEkHHyfjyjYk3VdStqY965FHWn7lad8kqkze0+Cjwz8D6jBpllAwwkUakLPuexZalEjI4M77iGIbyqzlo1aOoePnY4KarB7pmEqDYEq8Hai61T9bscf6XmuezifBegGvJFwt9cPsB8bTAbyvSK1rPGFqAirBb445B7AMofOJEQWdDRkAYHDCTq8q/aJu+C9OqwsU=
-X-Gm-Message-State: AOJu0YztzVufyV7rPdpsRnGUEdHM0nt6eT9Sab60NpX+hglwyCjcllYx
-	zr1VGg1RuAlrqPGEpNJzxPsPXsTQlBEnA1AelHEgRbC9O50eccTJ
-X-Google-Smtp-Source: AGHT+IF0xWTeCT0SqOoVl5Lakk1Cl8bdYSIhAbwVApvfvBKG7cJPB+SE5lP+ESdrLNLfqdnSQKJlJQ==
-X-Received: by 2002:a05:6870:d185:b0:25e:1edb:5bcf with SMTP id 586e51a60fabf-2701c34553emr12552175fac.6.1724078779582;
-        Mon, 19 Aug 2024 07:46:19 -0700 (PDT)
+        bh=PgIQHKvxINV8ovUdofvk90SRsFNtQrsv8SYAZXy1GIw=;
+        b=EjbDV51ZBJBuUYg8tEL/qxn0Dv+FzacXikcjreesfbMN/9tYeOXsDn5pCMmqXxRsVl
+         7pFIbBQ95a4KwQ8Y35y9eZbkdAUg6zRUCdlFvuIypd8VQh2cW0AofQxPaEFV2R+NFQ1N
+         a+Nk1UoBPpFSxEVGNMbjXfNNlKK4op5CSNsqwq7ZQ7jeMvU98J1/TI1S4fVJ8zz8tSE1
+         A4VRt8bHNIfVEOvHm2dJzAYuwP+63glLhJGFmX361gBCK+lmdpfV3klQwXMPGncUnpI5
+         Bjo+31spG1MM8Lc8jFeA912mVPu0GwSi1XwBDkekwI3irvO8CPwOa/hNEgy4k073YP/g
+         IQag==
+X-Forwarded-Encrypted: i=1; AJvYcCUdGO99mnHxg+mFX/hh5rTBY6t8RNTn403gxlKWqd57PpeEZQoNZ1miVGblOgr2vvv9lDNgYv54B1Dz/hXvw2GvAde60QNIBF8iy2hcFReMLWFsktq2V4Jdf8vAta8zVs+Gg2zLaBP/I+lhwyCUHq72C9mBWM7EDY6fGetXPC/F4/CbDDhjPl0En9Arg2ZI0ftTiHGXl7gLTrBdVyyu0IVpZwFnHxBiopU=
+X-Gm-Message-State: AOJu0YzFqVU8b4lJzig//gP3d94vdR00jYm+cM0Pe025Cs46XZ/dht5H
+	Ymr2cynjbq5qKFVr7JsZ1r66YqFVeCq+fyFtCnGImwBnECLgkYFH
+X-Google-Smtp-Source: AGHT+IGrCgLg0GXxkzDgwGDOBKGFKORKGgvOeeHFPa54by/bTROcalylrW+u03hvlcCh5NVWpjksHQ==
+X-Received: by 2002:a05:6a20:c90e:b0:1c4:c305:121c with SMTP id adf61e73a8af0-1c9050261edmr14517485637.42.1724078824487;
+        Mon, 19 Aug 2024 07:47:04 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:f80c:1483:bced:7f88])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b6356c76sm7616998a12.62.2024.08.19.07.46.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127af16628sm6884782b3a.144.2024.08.19.07.47.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 07:46:19 -0700 (PDT)
-Date: Mon, 19 Aug 2024 07:46:16 -0700
+        Mon, 19 Aug 2024 07:47:04 -0700 (PDT)
+Date: Mon, 19 Aug 2024 07:47:01 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
 	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 01/14] Input: samsung-keypad - switch to using
- devm_clk_get_prepared()
-Message-ID: <ZsNauAfnX8-PoVAN@google.com>
+Subject: Re: [PATCH 05/14] Input: samsung-keypad - use devm to disable
+ runtime PM
+Message-ID: <ZsNa5SmDyrAo_MXq@google.com>
 References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
- <20240819045813.2154642-2-dmitry.torokhov@gmail.com>
- <xlbtkevzwcqm2j3xwykyktvpcn776imbijync47ogcnjargmw3@giaklcsa3iai>
+ <20240819045813.2154642-6-dmitry.torokhov@gmail.com>
+ <bkkh2as5v44nldhpnmswt7pssiude6ddci7v5nvzqhba6xxbnj@veoftlgrhu6p>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -87,43 +87,51 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <xlbtkevzwcqm2j3xwykyktvpcn776imbijync47ogcnjargmw3@giaklcsa3iai>
+In-Reply-To: <bkkh2as5v44nldhpnmswt7pssiude6ddci7v5nvzqhba6xxbnj@veoftlgrhu6p>
 
-On Mon, Aug 19, 2024 at 02:51:09PM +0200, Krzysztof Kozlowski wrote:
-> On Sun, Aug 18, 2024 at 09:57:58PM -0700, Dmitry Torokhov wrote:
-> > Switch to using devm_clk_get_prepared() instead of combining
-> > devm_clk_get() with clk_prepare(), which simplifies the code and
-> > ensures that the clock is unprepared at the right time relative to
-> > releasing other managed resources.
-> 
-> ...
-> 
-> >  	device_init_wakeup(&pdev->dev, pdata->wakeup);
-> > @@ -439,20 +433,12 @@ static int samsung_keypad_probe(struct platform_device *pdev)
-> >  
-> >  err_disable_runtime_pm:
-> >  	pm_runtime_disable(&pdev->dev);
-> > -err_unprepare_clk:
-> > -	clk_unprepare(keypad->clk);
-> >  	return error;
+On Mon, Aug 19, 2024 at 02:54:39PM +0200, Krzysztof Kozlowski wrote:
+> On Sun, Aug 18, 2024 at 09:58:02PM -0700, Dmitry Torokhov wrote:
+> > To make sure that runtime PM is disabled at the right time relative
+> > to all other devm-managed resources use devm_add_action_or_reset()
+> > to register a handler that will disable it.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/input/keyboard/samsung-keypad.c | 24 +++++++++++++-----------
+> >  1 file changed, 13 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
+> > index 7adcd2657bca..924327de4d8f 100644
+> > --- a/drivers/input/keyboard/samsung-keypad.c
+> > +++ b/drivers/input/keyboard/samsung-keypad.c
+> > @@ -310,6 +310,13 @@ samsung_keypad_parse_dt(struct device *dev)
 > >  }
+> >  #endif
 > >  
-> >  static void samsung_keypad_remove(struct platform_device *pdev)
+> > +static void samsung_disable_runtime_pm(void *data)
+> > +{
+> > +	struct samsung_keypad *keypad = data;
+> > +
+> > +	pm_runtime_disable(&keypad->pdev->dev);
+> > +}
+> > +
+> >  static int samsung_keypad_probe(struct platform_device *pdev)
 > >  {
-> > -	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-> > -
-> >  	pm_runtime_disable(&pdev->dev);
-> > -
-> > -	input_unregister_device(keypad->input_dev);
+> >  	const struct samsung_keypad_platdata *pdata;
+> > @@ -420,11 +427,16 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+> >  
+> >  	device_init_wakeup(&pdev->dev, pdata->wakeup);
+> >  	platform_set_drvdata(pdev, keypad);
+> > +
+> >  	pm_runtime_enable(&pdev->dev);
+> > +	error = devm_add_action_or_reset(&pdev->dev, samsung_disable_runtime_pm,
+> > +					 keypad);
+> > +	if (error)
+> > +		return error;
 > 
-> This looks unrelated.
+> I think you are open-coding devm_pm_runtime_enable().
 
-It actually is related: with clk moved to devm we no longer need to
-unregister input device by hand to keep the right ordering and we can
-rely on devm to clean the input device as well (it already is being
-allocated with devm_input_allocate_device()).
-
-Thanks.
+Ah, I didn't realize we had it. Thanks!
 
 -- 
 Dmitry
