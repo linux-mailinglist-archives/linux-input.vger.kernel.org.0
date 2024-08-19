@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5645-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5646-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92579562E3
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 07:00:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D849562E6
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 07:00:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 277B7B2188D
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 05:00:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 592F51C21382
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 05:00:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23EBD158A08;
-	Mon, 19 Aug 2024 04:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805CD158DC5;
+	Mon, 19 Aug 2024 04:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlyEwvqY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OB3UID4h"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D3C158524;
-	Mon, 19 Aug 2024 04:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB7C158866;
+	Mon, 19 Aug 2024 04:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724043519; cv=none; b=fD3uy6PGZe6qjFNslUUCKpKWrOkJYtUnwJ8Fs0hPrYMmgtAIHSpqtvkiWdTLwEFCydvPvACwOjZZojOMEUtqRko2QumxeAzZ6x9RqchdMCMoQTCPOvhtvxjSj1F8emT56qMe+yZFDcTMZpPxoaG+x6chs1AmzJSpIKisi3/KobU=
+	t=1724043520; cv=none; b=WS/fdQEKpOfWSHKTZbLZtZKq3d1rmOUUXZGvv6rFBsIqJbmqj8MK/EHaLvPYiACFHoMqrTUZt2g/aXQZ7JDNYNVkgz0aV4EivuB0CeWWTqmsl9sTjIScdinpX6cDVfuCWTHR87ViRMn/Rr/SNI3CtU+CJjWcva91F+Na5gmDIsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724043519; c=relaxed/simple;
-	bh=pWY6q3L3+rcdHBFJ72AaCd4gwD1AvD5QCAXJ1uEhjds=;
+	s=arc-20240116; t=1724043520; c=relaxed/simple;
+	bh=0Y6SvS6wUHhmrgnziF3Zcfml6zOO2CYzjzMgrYgGEPY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lP1W+231SzgSHcCMsfzxEX8wDpUurVphRdaKfrdmFFHO3EdeOgT6MSN3u6QIPIZV2J4o8TJ0qV9x1EKxEEklQr7/rxugln96co2lgwWkw9Zf41fvrlbK/QSabVocSpDfCm+3LxWYHVyLZyOlcphHE+jNZHvxih8fAdJ/Gz+sJls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlyEwvqY; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=I8R81wnSh3/GZWvdoHeHCa8++d+YcK2wvFGVbjGtq//jDYqAcJnl8Z6ecjQondVN9OToUY8KIy32+d0o/P8q7X0YtWPft41S7EO5vX7qJUHsQoVugK1qQAT0CmnBRoGvAyL40wuqsuW9Kj3Xc5+puy0ntoSh1Pe122bqp4xBqBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OB3UID4h; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-202146e93f6so22585745ad.3;
-        Sun, 18 Aug 2024 21:58:37 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-710ce81bf7dso2777397b3a.0;
+        Sun, 18 Aug 2024 21:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724043517; x=1724648317; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724043518; x=1724648318; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2rL9e50K+KTD0iWv/ZJJXKGxKFtaByRAx8vVdC/BQNE=;
-        b=SlyEwvqYDhY1g0i0Fo+Pqec3pwzDzSZNpItUk+o+20w/TkqVhr4yxvfbl3Z8UzU9tU
-         8Coy7ExWkktRCmFlinQyHmrxPhzc3N8+CvEnurAX815whsVyz8l5zCG03MpeYnx3WoOG
-         iOCOy3athlPiEpg847SdTetv8vGBNFaOd3SA2uv/FCTaYgs6LyK0tYElHfy3UGWRyajK
-         k0/+LiMbUmGR/8QYX7AddT9SJjFxrwmy8UjlAoYBlt081WKHZR1Yu4m8PwtpfIPNzTeH
-         mhaqkIStOR/nCJF0nTs+lJcS+Q++5Ga56fQdQ5KEkZ1EfCkDbB13wfY7JT59OV5PZJE4
-         N7pQ==
+        bh=5L9I6imIfpvf63yPfkptA7xMzZO0c5Qjz4Mu6DS54Gw=;
+        b=OB3UID4hcemTPekK3ZcGwhQ8IAanJQVrznQBakCGQeszRnj3P5Br85pPMp/yUI6LQ/
+         ivPyPHKU51a5sx/fBfraLFVe4eq0PJ+NE+W1JUg2mUtzNC9SAIDTXcxHJq7oacRBAS/q
+         nsUve1XIMoQvcNBYo3Sf2FXortJ5WFkjpouGjJKv1nxA2pRoCUGq3jAZs61AsSunSytB
+         gqVPgtESLHOzEf5NX+RQUNlHJAOl1hT8u+tQEGVTay1ADMs1iTXDKJHt6jBJwT6Z1WUh
+         WDpuq6J8chzrWkJ3RttBj6s1Bu8KIMYGXdGk07ZyUlVniNu4gl5biaiOzDr50QNOwKNB
+         oSSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724043517; x=1724648317;
+        d=1e100.net; s=20230601; t=1724043518; x=1724648318;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2rL9e50K+KTD0iWv/ZJJXKGxKFtaByRAx8vVdC/BQNE=;
-        b=IM2sH4jjOZdMz6ZTngtaAnKhG8wHc0191bHhfzOgmA6tlWFf0bTxRzRweUoC3FkqAz
-         FKJWMh8FQZV69TQQJswzzFROpcmPhHuVg8RMd/oGDAf+6dFA2N3idQ35O2ooEZ0qLnyW
-         aHF+T3c5KJcCFhbo/Zaj2krkgDq9XES6CidQRO7lgeyxzeQ8nsXk30/zP974laHLO9gj
-         p/oqZz3hSC60tlsXucWhlpe1EEmg8uFz4du8+OjSafB5p4+tLN4Rhc0dxMHHC3LRaeLC
-         VFdNmFTKpRrwBvcYw35bzpKag1vECDelR++qS/1zIT5j+T/+W6lT/RmOCIViLAUi8uYd
-         ORqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5dTRQT+/qKNvJFHkTlPfcB3a1j5Lab62Vo/a+NOc0ptKJ2wdcDanGJTOSNR6ftlNQYK+WRRHyWd/OYeL9v7DEzc1n/soUdNArxF9e5OE3lopsUi1HcSmlik9vud4J7wWX+pry+OJgeT26owzNjMV4UNhxRC+MCjJQ1Ksv7MTjpYtgCQVhhPU3LvJz
-X-Gm-Message-State: AOJu0Yytdfbx0aXZPNixB4q22AdwxU0qnixDP05yybBA1UIA0dwGxRBm
-	nScC0WWCTMnTxB5Y3OWJKy+HnIVX38rmgOGsrLobsZtqN2/3W7Qk
-X-Google-Smtp-Source: AGHT+IHRfw+SZ9RF2mv8HemU9qcOBYNa4aOGEE+5+suKU5vhvp5qcT10dqeZbTjbknB4zaBQdB79yA==
-X-Received: by 2002:a17:902:f988:b0:201:ff75:fa3a with SMTP id d9443c01a7336-20203ea01c9mr85637105ad.23.1724043516489;
-        Sun, 18 Aug 2024 21:58:36 -0700 (PDT)
+        bh=5L9I6imIfpvf63yPfkptA7xMzZO0c5Qjz4Mu6DS54Gw=;
+        b=ghdHiLyN50xrNijK89lRn2M1gSRSNR2crvzoF3CNr2szv7lSoujG06tOEZHyvaAFev
+         Paw6Pm4beqWVH/KsYGfRXHaCck4v+dUD2FMCo19qg2AJlSTyeZH6DRQ7uz7XSSKPElpX
+         QvFnHyj1uFnRFFz4djsi7v3JY03YrDC9oPOYBPZweBFufgxK8CKWTfd7nPW00rjVaZ19
+         9eAEffx8v3sta5nFfbb5LEciU2EmzAeoC4Ise/uomUW3vfdAdk8rhnGy9RVAv2yajscq
+         MUYr8HdyXgQ88Ibh7Z4P98AQbFSx/FACflACkP3Yonz4AJuW2O6qTZ6CaHfKbxVb7HfD
+         sttQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXo5/wMf243aHkgLrti56ixPNQTgiE0vXASSCyBSbMEZ4jnH8abGJVSNHTQksVm3cOT9Li6LQOWPd395pIN6LQFCbwGSEr1Hk9lWvOZG8Zn+xZ2rouku8B45YNMQJ2zFRkrlCY0LySoBeeXvC8++luPRERvKfO96L419lEpDpwEJ/4XYnaF/1PJjD1X
+X-Gm-Message-State: AOJu0YwoFL6ZOqMgndT3Kc5nPOSE6WRXRP85p1doxnKjNJQGb0Uy4Nzy
+	bLrYenVZQCQnC0MdZHaP/TGVHMtZdTiPkTS8drEtYzBfCXcI24Jz
+X-Google-Smtp-Source: AGHT+IFOXUP47XrlReJyTvezC1ueWJrGGZqHqPG5DuxuErxhgxqYthREfB9dhnYaAiK/2wzqkmdXDQ==
+X-Received: by 2002:a05:6a21:8181:b0:1c9:bb89:4d66 with SMTP id adf61e73a8af0-1c9bb894f08mr7201660637.3.1724043517786;
+        Sun, 18 Aug 2024 21:58:37 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4eb5:4500:6efc:6c24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-202068497b4sm43483445ad.269.2024.08.18.21.58.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-202068497b4sm43483445ad.269.2024.08.18.21.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 21:58:36 -0700 (PDT)
+        Sun, 18 Aug 2024 21:58:37 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>,
 	Mark Brown <broonie@kernel.org>,
@@ -77,9 +77,9 @@ Cc: linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-samsung-soc@vger.kernel.org,
 	patches@opensource.cirrus.com
-Subject: [PATCH 09/14] dt-bindings: input: samsung,s3c6410-keypad: introduce compact binding
-Date: Sun, 18 Aug 2024 21:58:06 -0700
-Message-ID: <20240819045813.2154642-10-dmitry.torokhov@gmail.com>
+Subject: [PATCH 10/14] Input: samsung-keypad - handle compact binding
+Date: Sun, 18 Aug 2024 21:58:07 -0700
+Message-ID: <20240819045813.2154642-11-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
 In-Reply-To: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
 References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
@@ -91,113 +91,210 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The binding with a sub-node per each key is very verbose and is hard to
-use with static device properties. Allow standard matrix keymap binding
-in addition to the verbose one.
+Add support for standard matrix keymap binding (in addition to the
+existing verbose binding with a sub-node for each key). This will
+allow easier conversions from platform data to device properties when
+using static device properties.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- .../input/samsung,s3c6410-keypad.yaml         | 57 ++++++++++++++++++-
- 1 file changed, 54 insertions(+), 3 deletions(-)
+ drivers/input/keyboard/samsung-keypad.c | 122 +++++++++++++-----------
+ 1 file changed, 64 insertions(+), 58 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml b/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
-index a53569aa0ee7..28a318a0ff7e 100644
---- a/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
-+++ b/Documentation/devicetree/bindings/input/samsung,s3c6410-keypad.yaml
-@@ -16,6 +16,10 @@ description:
- maintainers:
-   - Krzysztof Kozlowski <krzk@kernel.org>
+diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
+index e262137b6838..df2427ac63d7 100644
+--- a/drivers/input/keyboard/samsung-keypad.c
++++ b/drivers/input/keyboard/samsung-keypad.c
+@@ -231,78 +231,85 @@ static void samsung_keypad_close(struct input_dev *input_dev)
+ 	samsung_keypad_stop(keypad);
+ }
  
-+allOf:
-+  - $ref: input.yaml#
-+  - $ref: matrix-keymap.yaml#
+-#ifdef CONFIG_OF
+-static struct samsung_keypad_platdata *
+-samsung_keypad_parse_dt(struct device *dev)
++static const struct matrix_keymap_data *
++samsung_parse_verbose_keymap(struct device *dev)
+ {
+-	struct samsung_keypad_platdata *pdata;
+ 	struct matrix_keymap_data *keymap_data;
+-	uint32_t *keymap, num_rows = 0, num_cols = 0;
+-	struct device_node *np = dev->of_node, *key_np;
++	struct fwnode_handle *child;
++	u32 *keymap;
+ 	unsigned int key_count;
+ 
+-	if (!np) {
+-		dev_err(dev, "missing device tree data\n");
+-		return ERR_PTR(-EINVAL);
+-	}
+-
+-	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+-	if (!pdata) {
+-		dev_err(dev, "could not allocate memory for platform data\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
+-
+-	of_property_read_u32(np, "samsung,keypad-num-rows", &num_rows);
+-	of_property_read_u32(np, "samsung,keypad-num-columns", &num_cols);
+-	if (!num_rows || !num_cols) {
+-		dev_err(dev, "number of keypad rows/columns not specified\n");
+-		return ERR_PTR(-EINVAL);
+-	}
+-	pdata->rows = num_rows;
+-	pdata->cols = num_cols;
+-
+ 	keymap_data = devm_kzalloc(dev, sizeof(*keymap_data), GFP_KERNEL);
+ 	if (!keymap_data) {
+ 		dev_err(dev, "could not allocate memory for keymap data\n");
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+-	pdata->keymap_data = keymap_data;
+ 
+-	key_count = of_get_child_count(np);
+-	keymap_data->keymap_size = key_count;
+-	keymap = devm_kcalloc(dev, key_count, sizeof(uint32_t), GFP_KERNEL);
++	key_count = device_get_child_node_count(dev);
++	keymap = devm_kcalloc(dev, key_count, sizeof(*keymap), GFP_KERNEL);
+ 	if (!keymap) {
+ 		dev_err(dev, "could not allocate memory for keymap\n");
+ 		return ERR_PTR(-ENOMEM);
+ 	}
 +
- properties:
-   compatible:
-     enum:
-@@ -37,6 +41,10 @@ properties:
++	keymap_data->keymap_size = key_count;
+ 	keymap_data->keymap = keymap;
  
-   wakeup-source: true
- 
-+  keypad,num-columns: true
-+  keypad,num-rows: true
-+  linux,keymap: true
+-	for_each_child_of_node(np, key_np) {
++	device_for_each_child_node(dev, child) {
+ 		u32 row, col, key_code;
+-		of_property_read_u32(key_np, "keypad,row", &row);
+-		of_property_read_u32(key_np, "keypad,column", &col);
+-		of_property_read_u32(key_np, "linux,code", &key_code);
 +
-   linux,input-no-autorepeat:
-     type: boolean
-     description:
-@@ -81,12 +89,33 @@ patternProperties:
-       - keypad,row
-       - linux,code
- 
-+dependencies:
-+  linux,keymap:
-+    required:
-+      - keypad,num-columns
-+      - keypad,num-rows
++		fwnode_property_read_u32(child, "keypad,row", &row);
++		fwnode_property_read_u32(child, "keypad,column", &col);
++		fwnode_property_read_u32(child, "linux,code", &key_code);
 +
- required:
-   - compatible
-   - reg
-   - interrupts
--  - samsung,keypad-num-columns
--  - samsung,keypad-num-rows
-+
-+if:
-+  required:
-+    - linux,keymap
-+then:
-+  properties:
-+    samsung,keypad-num-columns: false
-+    samsung,keypad-num-rows: false
-+  patternProperties:
-+    '^key-[0-9a-z]+$': false
-+else:
-+  properties:
-+    keypad,num-columns: false
-+    keypad,num-rows: false
-+  required:
-+    - samsung,keypad-num-columns
-+    - samsung,keypad-num-rows
+ 		*keymap++ = KEY(row, col, key_code);
+ 	}
  
- additionalProperties: false
+-	pdata->no_autorepeat = of_property_read_bool(np, "linux,input-no-autorepeat");
++	return keymap_data;
++}
  
-@@ -94,8 +123,9 @@ examples:
-   - |
-     #include <dt-bindings/clock/exynos4.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/input/input.h>
+-	pdata->wakeup = of_property_read_bool(np, "wakeup-source") ||
+-			/* legacy name */
+-			of_property_read_bool(np, "linux,input-wakeup");
++static const struct samsung_keypad_platdata *
++samsung_keypad_parse_properties(struct device *dev)
++{
++	const struct matrix_keymap_data *keymap_data;
++	struct samsung_keypad_platdata *pdata;
++	u32 num_rows = 0, num_cols = 0;
++	int error;
++
++	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
++	if (!pdata) {
++		dev_err(dev, "could not allocate memory for platform data\n");
++		return ERR_PTR(-ENOMEM);
++	}
  
--    keypad@100a0000 {
-+    keypad1@100a0000 {
-         compatible = "samsung,s5pv210-keypad";
-         reg = <0x100a0000 0x100>;
-         interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-@@ -119,3 +149,24 @@ examples:
-             linux,code = <3>;
-         };
-     };
-+  - |
-+    #include <dt-bindings/clock/exynos4.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/input/input.h>
++	device_property_read_u32(dev, "samsung,keypad-num-rows", &num_rows);
++	device_property_read_u32(dev, "samsung,keypad-num-columns", &num_cols);
 +
-+    keypad2@100a0000 {
-+        compatible = "samsung,s5pv210-keypad";
-+        reg = <0x100a0000 0x100>;
-+        interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clock CLK_KEYIF>;
-+        clock-names = "keypad";
++	error = matrix_keypad_parse_properties(dev, &num_rows, &num_cols);
++	if (error)
++		return ERR_PTR(error);
 +
-+        keypad,num-rows = <2>;
-+        keypad,num-columns = <8>;
-+        linux,keymap = <
-+          MATRIX_KEY(0, 3, 2)
-+          MATRIX_KEY(0, 4, 3)
-+        >;
-+        linux,input-no-autorepeat;
-+        wakeup-source;
-+    };
++	pdata->rows = num_rows;
++	pdata->cols = num_cols;
++
++	if (!device_property_present(dev, "linux,keymap")) {
++		keymap_data = samsung_parse_verbose_keymap(dev);
++		if (IS_ERR(keymap_data))
++			return ERR_CAST(keymap_data);
++
++		pdata->keymap_data = keymap_data;
++	}
+ 
+-	return pdata;
+-}
+-#else
+-static struct samsung_keypad_platdata *
+-samsung_keypad_parse_dt(struct device *dev)
+-{
+-	dev_err(dev, "no platform data defined\n");
+ 
+-	return ERR_PTR(-EINVAL);
++	pdata->no_autorepeat =
++		device_property_read_bool(dev, "linux,input-no-autorepeat");
++
++	pdata->wakeup = device_property_read_bool(dev, "wakeup-source") ||
++			/* legacy name */
++			device_property_read_bool(dev, "linux,input-wakeup");
++
++	return pdata;
+ }
+-#endif
+ 
+ static void samsung_disable_runtime_pm(void *data)
+ {
+@@ -314,7 +321,6 @@ static void samsung_disable_runtime_pm(void *data)
+ static int samsung_keypad_probe(struct platform_device *pdev)
+ {
+ 	const struct samsung_keypad_platdata *pdata;
+-	const struct matrix_keymap_data *keymap_data;
+ 	const struct platform_device_id *id;
+ 	struct samsung_keypad *keypad;
+ 	struct resource *res;
+@@ -323,18 +329,17 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 	int error;
+ 
+ 	pdata = dev_get_platdata(&pdev->dev);
+-	if (!pdata) {
+-		pdata = samsung_keypad_parse_dt(&pdev->dev);
++	if (pdata) {
++		if (!pdata->keymap_data) {
++			dev_err(&pdev->dev, "no keymap data defined\n");
++			return -EINVAL;
++		}
++	} else {
++		pdata = samsung_keypad_parse_properties(&pdev->dev);
+ 		if (IS_ERR(pdata))
+ 			return PTR_ERR(pdata);
+ 	}
+ 
+-	keymap_data = pdata->keymap_data;
+-	if (!keymap_data) {
+-		dev_err(&pdev->dev, "no keymap data defined\n");
+-		return -EINVAL;
+-	}
+-
+ 	if (!pdata->rows || pdata->rows > SAMSUNG_MAX_ROWS)
+ 		return -EINVAL;
+ 
+@@ -398,7 +403,7 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 	input_dev->open = samsung_keypad_open;
+ 	input_dev->close = samsung_keypad_close;
+ 
+-	error = matrix_keypad_build_keymap(keymap_data, NULL,
++	error = matrix_keypad_build_keymap(pdata->keymap_data, NULL,
+ 					   pdata->rows, pdata->cols,
+ 					   keypad->keycodes, input_dev);
+ 	if (error) {
+@@ -439,11 +444,12 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
+-	if (pdev->dev.of_node) {
++	if (!dev_get_platdata(&pdev->dev)) {
+ 		devm_kfree(&pdev->dev, (void *)pdata->keymap_data->keymap);
+ 		devm_kfree(&pdev->dev, (void *)pdata->keymap_data);
+ 		devm_kfree(&pdev->dev, (void *)pdata);
+ 	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.46.0.184.g6999bdac58-goog
 
