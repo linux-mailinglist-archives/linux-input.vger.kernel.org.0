@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5647-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5648-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B209562E9
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 07:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1591D9562EF
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 07:01:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D281C21286
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 05:01:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 397A71C212F1
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 05:01:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87F3159583;
-	Mon, 19 Aug 2024 04:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2081215A864;
+	Mon, 19 Aug 2024 04:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTdgmkrK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7+n3VhK"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07071158D94;
-	Mon, 19 Aug 2024 04:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FDE159217;
+	Mon, 19 Aug 2024 04:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724043521; cv=none; b=L8R9OxDNZQ1Onz6hUA6UHnfIrBPGAOyZnMgSB8xkYhAsBxV7g3GhvM/HCHryRt/y+PeUX+Dzn50CqT542u39SywDlyw7eqvbGkWHN73gwW4VH7V4AEEkIoOiRkZShRq1NhceOZiE5W3eAbDJPcvxO7lxss7xF0qHFTwF1b+D32U=
+	t=1724043523; cv=none; b=ihbzy4Ilz6cFXXuVFZivzaUEWFLD/yrlUQgDdOrFFMm7Wu1VaavkSZfr+Mvs3Jxvl5EPdPLuM5ht1pByaC05Go0H9BRY47p8jkq1+lq8BV4mmzUlxWGPMMtYyQClZ9FOJGlN2WGtEsjlxRBPj4ALktHY0VyHdRtc0awZPoOaPBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724043521; c=relaxed/simple;
-	bh=xymCWFAdt2li2mS6XF3ulx50Wm+dPQnKiQopB489exs=;
+	s=arc-20240116; t=1724043523; c=relaxed/simple;
+	bh=sM7+5/or5kXiavB2qY8+Jl/DwHhncIpJwdyy49AMsnQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ozGbzHoTvaqW0ea+izSln/Rz0gthhfF4MGC4IA0ntAUpFllQ/+KoVB+2wu3Qj5EFvbGbnL4gcyX65I+1RueXo18VQOx7bObVhWALpIO1CGV3DFwehAzrZUpciE+U4WE25cDgaipJjWYhVj3ALz2vXCHH7FaWs8v8VJztM4d9JYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTdgmkrK; arc=none smtp.client-ip=209.85.215.179
+	 MIME-Version; b=fL5a5NQByehTmQAH4TpvG3dbw4HSvxv1CB4LdfiewGlU7n+ne7aDoK0ahWpwX2ffJkwwrsJtDHxc1WvGAV318epQlb5BQL8A8g9U6bMan4TIWrRWi/kArZdPv99+VwLnPUbrm6inl3e60n2KjzACqydweZkE7LyWx7g2H6jCCDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7+n3VhK; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7a115c427f1so2377395a12.0;
-        Sun, 18 Aug 2024 21:58:39 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1fec34f94abso32565645ad.2;
+        Sun, 18 Aug 2024 21:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724043519; x=1724648319; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724043520; x=1724648320; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t5aFFwx+23c+SuWLKFR8CIgT2nsj1neFDbQ+3clMGIs=;
-        b=bTdgmkrKqdCBpovK7inhD4AJQCLl2qPvAz3Q9zOwlG5KRKU3iWjEq9tMofq7BbJ8B3
-         99TsDV4HH+fUXeiW8DXBCnAtw0XIZzZnf222b8bFqrqeUHkaBZ92RNXnfECBI5fJJ5Mk
-         uBh59E86FxoEYqb3/zDYM5fJO07/nLr5l9hGEnuivI62CuKtuQPLMBg7IO9sGnlqr8vV
-         tRYwCW9PLeVVle7z1R1/mCscWWllJt8Y7flo7LS9BQ2omCJVL0aq0eRicak5TgK4xQ9l
-         kx7A77Z7M1P80nEjLQUuES3x7HV+YUUYzgvOx7PbAPqhZ5Bw8ARgfwgd8FbZDlmFt6VY
-         Z59Q==
+        bh=nUndIWERZKRj9I2TwNCsJPKiHZoV4U6VZkZuTz/CWC4=;
+        b=P7+n3VhKnlX0zi7aoJVZB+MOGF6s2GLlRqMoWANESZ+9FTE0H13sIZ8NNYcwAgAIgZ
+         AL5syw0OHb5jDPSUoU+FsuNtiKlIYdbktADoj9tb8X8Q6DkU624Bh8YrWHKy8Xhm9yzr
+         h4m/mnEfIBJA98nrAZy37tXDod0x/sSuUSYNUc9uwDmwGiXijISEz0L6PrXyuPvi2WaT
+         ZdOjVxXT50yUCVLAiNdcPCKUgFWHcG7XeBAHZnlIdZyv03eTYHKt9bzh+o6fXrelNLvJ
+         ErwzyAv7VEMbQTrqkr03yxi+SrO4T4Zawbjetjn0RY8CapF2sFX84jYvDMJcR/ORpRSw
+         bwcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724043519; x=1724648319;
+        d=1e100.net; s=20230601; t=1724043520; x=1724648320;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t5aFFwx+23c+SuWLKFR8CIgT2nsj1neFDbQ+3clMGIs=;
-        b=nBEQJwOxsbs2qx5mSSYWqe17xVZV6tOvymhfsHfyeg1GhBpThy0YsmZFrI8LuuePAk
-         ujkBBPXHZtmzXBwT+OGLVSTJHtZ9r7T9l6V8SbjbDWskRwGXFG9aKlp6slg54w38d6Ok
-         GZEZMmvRig2PtFScskXZxbHtyfMBbX+RnCkugcmTMoS4jNfIcHS8G+7w3LXr9YGXccz/
-         vVW83aolSYeImz5prsu4qzsuSSgamXn6fv8Fg5Kpw6DjJfl7lonSyjqSlWTeGASFB4wa
-         /9KZ1tw+6rKPZDd0U+aSr9ZPaiqTu53wB01yhmHsc8XjFgHbEfEIIG8IMZQjDrQgKXsd
-         aZ9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUMMM12ViGW+6AB9XzqURR2d5uhC4Vo7kR1wzUSaxLbEoZBnt+Zvz08lzzTyBPL65eQBAGhqEgVcDc/@vger.kernel.org, AJvYcCV50w+Dl9kmGPaMYkVg+vCKkXipGVYHnJbOWHAFc7uZK8upIlFRCVEHFZm9vmgWNjmSE72Vy2Lzv9qP+Vub@vger.kernel.org, AJvYcCWUoupJCn4qB++gMEDkCfFnE9vTwBhwvRHenkZ1Kjb96WSNP6e1GdC5E3K5lbyt0k27tZr1QQ4h1bC0L64VlT+VpEA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2D4bbj2tlPXr2ifRYeDwUz9EPDf/4HGa2Ttf/BQzMOtfOxjQQ
-	mxjNp7ZEowAsRldmt9djCC8vm6GS8J5AqyImvdRgsV8r22UEsBv/iSAWpg==
-X-Google-Smtp-Source: AGHT+IF6+c/SUIcS1ZDv+kTMg0oMY4h55VBLJNBOlG+3D942PdoJjASXKzlhOZtFhmJ1ew44Ehhw0Q==
-X-Received: by 2002:a05:6a21:9214:b0:1c4:21c0:ea0f with SMTP id adf61e73a8af0-1c905028143mr9543505637.33.1724043518915;
-        Sun, 18 Aug 2024 21:58:38 -0700 (PDT)
+        bh=nUndIWERZKRj9I2TwNCsJPKiHZoV4U6VZkZuTz/CWC4=;
+        b=C7MNuhQq+TPMol2lwh1k/TG3QQHvIr03G92dda3VAVb3KrXyacshV7xPwYVFTOPEXE
+         YbsLA9LxMzVrTR3OBQmGCRQ4R3y9ajN9e6eOaQukokAvYiRnaoIljCa4CbY4Ki2y+rXI
+         KkM4rmgTGtvYgk5koB8woFOveJ0wsFXLBVRNElQklauzsCV8O//yAVbsszGsn6Lug1Et
+         qeeLTYsapecUfbfzIxrfMmYRuveFQob4hTdlV9Q299H/EaJ3L4e/L9pjrd6bD8PzdUuZ
+         bZ5O80ukcaP61NadNQkTMI58AOOVOS44f012TD1+Nqrc+x0pc1O3StKcdt9F45vb0jJs
+         I2+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXctjQ8hbCwICvoU4VB2S+zoI9oKGkkvmqFCGrhL8YXbyrux7bCNombwz3eJ/xukAh4JLJ1dfnlWMvpFN4lNr5Gwf5pbxWnCJkKwXinRDx/yTu03/4Xo87BJ7HmwOuVpnyrSyZWkJejpJnaqTN97zR5O0feURfFob/iVw9n7qEWtdLJINmp805BwSdp
+X-Gm-Message-State: AOJu0Yy1YbJql3MR2Xx0OIjC41r2Kg3SQhLI5VIOJm1eAh2v00EXJ8pe
+	UFs1jOaFFOAak8viYwmwCzc8kwvbDl5v9bfpo2c/AHDFCsaHh1bP
+X-Google-Smtp-Source: AGHT+IE8wP1IODXwo9Jr5pjb8LD7AgNjePF3eWo7XxmUYWOTaK20CLj2D3LT7nPWl3GEhcIqE16bMA==
+X-Received: by 2002:a17:902:d10b:b0:1fb:6d12:2c1c with SMTP id d9443c01a7336-20203e9b06emr68765385ad.19.1724043520237;
+        Sun, 18 Aug 2024 21:58:40 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4eb5:4500:6efc:6c24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-202068497b4sm43483445ad.269.2024.08.18.21.58.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-202068497b4sm43483445ad.269.2024.08.18.21.58.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 21:58:38 -0700 (PDT)
+        Sun, 18 Aug 2024 21:58:39 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>,
 	Mark Brown <broonie@kernel.org>,
@@ -77,9 +77,9 @@ Cc: linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-samsung-soc@vger.kernel.org,
 	patches@opensource.cirrus.com
-Subject: [PATCH 11/14] ARM: s3c: crag6410: switch keypad device to software properties
-Date: Sun, 18 Aug 2024 21:58:08 -0700
-Message-ID: <20240819045813.2154642-12-dmitry.torokhov@gmail.com>
+Subject: [PATCH 12/14] Input: samsung-keypad - remove support for platform data
+Date: Sun, 18 Aug 2024 21:58:09 -0700
+Message-ID: <20240819045813.2154642-13-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
 In-Reply-To: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
 References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
@@ -91,298 +91,355 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch the keypad device to use software properties to describe the
-keypad. This will allow dropping support for platform data from the
-samsung-keypad driver.
+Because there are no more users of samsung_keypad_platdata left in
+the kernel remove support for it from the driver.
+
+The driver supports generic device properties so all configuration
+should be done using them instead of a custom platform data.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- arch/arm/mach-s3c/Kconfig                |  5 ---
- arch/arm/mach-s3c/Kconfig.s3c64xx        |  1 -
- arch/arm/mach-s3c/Makefile.s3c64xx       |  1 -
- arch/arm/mach-s3c/devs.c                 | 27 ------------
- arch/arm/mach-s3c/devs.h                 |  1 -
- arch/arm/mach-s3c/keypad.h               | 27 ------------
- arch/arm/mach-s3c/mach-crag6410.c        | 56 ++++++++++++++++++------
- arch/arm/mach-s3c/setup-keypad-s3c64xx.c | 20 ---------
- 8 files changed, 42 insertions(+), 96 deletions(-)
- delete mode 100644 arch/arm/mach-s3c/keypad.h
- delete mode 100644 arch/arm/mach-s3c/setup-keypad-s3c64xx.c
+ drivers/input/keyboard/samsung-keypad.c | 190 +++++++++---------------
+ include/linux/input/samsung-keypad.h    |  39 -----
+ 2 files changed, 70 insertions(+), 159 deletions(-)
+ delete mode 100644 include/linux/input/samsung-keypad.h
 
-diff --git a/arch/arm/mach-s3c/Kconfig b/arch/arm/mach-s3c/Kconfig
-index b3656109f1f7..2e77bb4f3a8c 100644
---- a/arch/arm/mach-s3c/Kconfig
-+++ b/arch/arm/mach-s3c/Kconfig
-@@ -111,11 +111,6 @@ config S3C64XX_DEV_SPI0
- 	  Compile in platform device definitions for S3C64XX's type
- 	  SPI controller 0
+diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
+index df2427ac63d7..78fa55498fc3 100644
+--- a/drivers/input/keyboard/samsung-keypad.c
++++ b/drivers/input/keyboard/samsung-keypad.c
+@@ -12,6 +12,7 @@
+ #include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/input.h>
++#include <linux/input/matrix_keypad.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+@@ -21,7 +22,9 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/sched.h>
+-#include <linux/input/samsung-keypad.h>
++
++#define SAMSUNG_MAX_ROWS			8
++#define SAMSUNG_MAX_COLS			8
  
--config SAMSUNG_DEV_KEYPAD
--	bool
--	help
--	  Compile in platform device definitions for keypad
--
- config SAMSUNG_DEV_PWM
- 	bool
- 	help
-diff --git a/arch/arm/mach-s3c/Kconfig.s3c64xx b/arch/arm/mach-s3c/Kconfig.s3c64xx
-index 8f40af063ad6..cc1257fbf642 100644
---- a/arch/arm/mach-s3c/Kconfig.s3c64xx
-+++ b/arch/arm/mach-s3c/Kconfig.s3c64xx
-@@ -116,7 +116,6 @@ config MACH_WLF_CRAGG_6410
- 	select S3C_DEV_I2C1
- 	select S3C_DEV_USB_HOST
- 	select S3C_DEV_USB_HSOTG
--	select SAMSUNG_DEV_KEYPAD
- 	select SAMSUNG_DEV_PWM
- 	help
- 	  Machine support for the Wolfson Cragganmore S3C6410 variant.
-diff --git a/arch/arm/mach-s3c/Makefile.s3c64xx b/arch/arm/mach-s3c/Makefile.s3c64xx
-index 61287ad2ea42..1686b1f344f8 100644
---- a/arch/arm/mach-s3c/Makefile.s3c64xx
-+++ b/arch/arm/mach-s3c/Makefile.s3c64xx
-@@ -32,7 +32,6 @@ obj-y				+= dev-audio-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_FB_24BPP)	+= setup-fb-24bpp-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_I2C0)	+= setup-i2c0-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_I2C1)	+= setup-i2c1-s3c64xx.o
--obj-$(CONFIG_S3C64XX_SETUP_KEYPAD)	+= setup-keypad-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_SDHCI_GPIO)	+= setup-sdhci-gpio-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_SPI)		+= setup-spi-s3c64xx.o
- obj-$(CONFIG_S3C64XX_SETUP_USB_PHY) += setup-usb-phy-s3c64xx.o
-diff --git a/arch/arm/mach-s3c/devs.c b/arch/arm/mach-s3c/devs.c
-index 8c26d592d2a3..31827cfc5700 100644
---- a/arch/arm/mach-s3c/devs.c
-+++ b/arch/arm/mach-s3c/devs.c
-@@ -40,7 +40,6 @@
- #include "devs.h"
- #include "fb.h"
- #include <linux/platform_data/i2c-s3c2410.h>
--#include "keypad.h"
- #include "pwm-core.h"
- #include "sdhci.h"
- #include "usb-phy.h"
-@@ -266,32 +265,6 @@ void __init s3c_i2c1_set_platdata(struct s3c2410_platform_i2c *pd)
+ #define SAMSUNG_KEYIFCON			0x00
+ #define SAMSUNG_KEYIFSTSCLR			0x04
+@@ -231,84 +234,43 @@ static void samsung_keypad_close(struct input_dev *input_dev)
+ 	samsung_keypad_stop(keypad);
  }
- #endif /* CONFIG_S3C_DEV_I2C1 */
  
--/* KEYPAD */
+-static const struct matrix_keymap_data *
+-samsung_parse_verbose_keymap(struct device *dev)
++static int samsung_keypad_parse_keymap(struct samsung_keypad *keypad)
+ {
+-	struct matrix_keymap_data *keymap_data;
++	struct matrix_keymap_data keymap_data = { 0 };
++	struct device *dev = &keypad->pdev->dev;
+ 	struct fwnode_handle *child;
+ 	u32 *keymap;
+ 	unsigned int key_count;
 -
--#ifdef CONFIG_SAMSUNG_DEV_KEYPAD
--static struct resource samsung_keypad_resources[] = {
--	[0] = DEFINE_RES_MEM(SAMSUNG_PA_KEYPAD, SZ_32),
--	[1] = DEFINE_RES_IRQ(IRQ_KEYPAD),
--};
+-	keymap_data = devm_kzalloc(dev, sizeof(*keymap_data), GFP_KERNEL);
+-	if (!keymap_data) {
+-		dev_err(dev, "could not allocate memory for keymap data\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
++	int retval;
+ 
+ 	key_count = device_get_child_node_count(dev);
+-	keymap = devm_kcalloc(dev, key_count, sizeof(*keymap), GFP_KERNEL);
+-	if (!keymap) {
+-		dev_err(dev, "could not allocate memory for keymap\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
 -
--struct platform_device samsung_device_keypad = {
--	.name		= "samsung-keypad",
--	.id		= -1,
--	.num_resources	= ARRAY_SIZE(samsung_keypad_resources),
--	.resource	= samsung_keypad_resources,
--};
+-	keymap_data->keymap_size = key_count;
+-	keymap_data->keymap = keymap;
 -
--void __init samsung_keypad_set_platdata(struct samsung_keypad_platdata *pd)
--{
--	struct samsung_keypad_platdata *npd;
+-	device_for_each_child_node(dev, child) {
+-		u32 row, col, key_code;
 -
--	npd = s3c_set_platdata(pd, sizeof(*npd), &samsung_device_keypad);
+-		fwnode_property_read_u32(child, "keypad,row", &row);
+-		fwnode_property_read_u32(child, "keypad,column", &col);
+-		fwnode_property_read_u32(child, "linux,code", &key_code);
 -
--	if (!npd->cfg_gpio)
--		npd->cfg_gpio = samsung_keypad_cfg_gpio;
+-		*keymap++ = KEY(row, col, key_code);
+-	}
+-
+-	return keymap_data;
 -}
--#endif /* CONFIG_SAMSUNG_DEV_KEYPAD */
 -
- /* PWM Timer */
+-static const struct samsung_keypad_platdata *
+-samsung_keypad_parse_properties(struct device *dev)
+-{
+-	const struct matrix_keymap_data *keymap_data;
+-	struct samsung_keypad_platdata *pdata;
+-	u32 num_rows = 0, num_cols = 0;
+-	int error;
++	if (key_count) {
++		keymap = kcalloc(key_count, sizeof(*keymap), GFP_KERNEL);
++		if (!keymap) {
++			dev_err(dev, "could not allocate memory for keymap\n");
++			return -ENOMEM;
++		}
  
- #ifdef CONFIG_SAMSUNG_DEV_PWM
-diff --git a/arch/arm/mach-s3c/devs.h b/arch/arm/mach-s3c/devs.h
-index 21c00786c264..2737990063b1 100644
---- a/arch/arm/mach-s3c/devs.h
-+++ b/arch/arm/mach-s3c/devs.h
-@@ -39,7 +39,6 @@ extern struct platform_device s3c_device_i2c1;
- extern struct platform_device s3c_device_ohci;
- extern struct platform_device s3c_device_usb_hsotg;
+-	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+-	if (!pdata) {
+-		dev_err(dev, "could not allocate memory for platform data\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
++		keymap_data.keymap = keymap;
++		keymap_data.keymap_size = key_count;
  
--extern struct platform_device samsung_device_keypad;
- extern struct platform_device samsung_device_pwm;
+-	device_property_read_u32(dev, "samsung,keypad-num-rows", &num_rows);
+-	device_property_read_u32(dev, "samsung,keypad-num-columns", &num_cols);
++		device_for_each_child_node(dev, child) {
++			u32 row, col, key_code;
  
- /**
-diff --git a/arch/arm/mach-s3c/keypad.h b/arch/arm/mach-s3c/keypad.h
+-	error = matrix_keypad_parse_properties(dev, &num_rows, &num_cols);
+-	if (error)
+-		return ERR_PTR(error);
++			fwnode_property_read_u32(child, "keypad,row", &row);
++			fwnode_property_read_u32(child, "keypad,column", &col);
++			fwnode_property_read_u32(child, "linux,code", &key_code);
+ 
+-	pdata->rows = num_rows;
+-	pdata->cols = num_cols;
+-
+-	if (!device_property_present(dev, "linux,keymap")) {
+-		keymap_data = samsung_parse_verbose_keymap(dev);
+-		if (IS_ERR(keymap_data))
+-			return ERR_CAST(keymap_data);
+-
+-		pdata->keymap_data = keymap_data;
++			*keymap++ = KEY(row, col, key_code);
++		}
+ 	}
+ 
+-
+-	pdata->no_autorepeat =
+-		device_property_read_bool(dev, "linux,input-no-autorepeat");
+-
+-	pdata->wakeup = device_property_read_bool(dev, "wakeup-source") ||
+-			/* legacy name */
+-			device_property_read_bool(dev, "linux,input-wakeup");
+-
+-	return pdata;
++	retval = matrix_keypad_build_keymap(key_count ? &keymap_data : NULL,
++					    NULL, keypad->rows, keypad->cols,
++					    keypad->keycodes,
++					    keypad->input_dev);
++	kfree(keymap_data.keymap);
++	return retval;
+ }
+ 
+ static void samsung_disable_runtime_pm(void *data)
+@@ -320,68 +282,39 @@ static void samsung_disable_runtime_pm(void *data)
+ 
+ static int samsung_keypad_probe(struct platform_device *pdev)
+ {
+-	const struct samsung_keypad_platdata *pdata;
+ 	const struct platform_device_id *id;
++	struct device *dev = &pdev->dev;
+ 	struct samsung_keypad *keypad;
+ 	struct resource *res;
+ 	struct input_dev *input_dev;
+ 	unsigned int row_shift;
++	u32 num_rows = 0, num_cols = 0;
++	bool wakeup;
+ 	int error;
+ 
+-	pdata = dev_get_platdata(&pdev->dev);
+-	if (pdata) {
+-		if (!pdata->keymap_data) {
+-			dev_err(&pdev->dev, "no keymap data defined\n");
+-			return -EINVAL;
+-		}
+-	} else {
+-		pdata = samsung_keypad_parse_properties(&pdev->dev);
+-		if (IS_ERR(pdata))
+-			return PTR_ERR(pdata);
+-	}
++	device_property_read_u32(dev, "samsung,keypad-num-rows", &num_rows);
++	device_property_read_u32(dev, "samsung,keypad-num-columns", &num_cols);
+ 
+-	if (!pdata->rows || pdata->rows > SAMSUNG_MAX_ROWS)
+-		return -EINVAL;
++	error = matrix_keypad_parse_properties(dev, &num_rows, &num_cols);
++	if (error)
++		return error;
+ 
+-	if (!pdata->cols || pdata->cols > SAMSUNG_MAX_COLS)
++	if (num_rows > SAMSUNG_MAX_ROWS || num_cols > SAMSUNG_MAX_COLS)
+ 		return -EINVAL;
+ 
+-	/* initialize the gpio */
+-	if (pdata->cfg_gpio)
+-		pdata->cfg_gpio(pdata->rows, pdata->cols);
+-
+-	row_shift = get_count_order(pdata->cols);
++	row_shift = get_count_order(num_cols);
+ 
+ 	keypad = devm_kzalloc(&pdev->dev,
+ 			      struct_size(keypad, keycodes,
+-					  pdata->rows << row_shift),
++					  num_rows << row_shift),
+ 			      GFP_KERNEL);
+ 	if (!keypad)
+ 		return -ENOMEM;
+ 
+-	input_dev = devm_input_allocate_device(&pdev->dev);
+-	if (!input_dev)
+-		return -ENOMEM;
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res)
+-		return -ENODEV;
+-
+-	keypad->base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
+-	if (!keypad->base)
+-		return -EBUSY;
+-
+-	keypad->clk = devm_clk_get_prepared(&pdev->dev, "keypad");
+-	if (IS_ERR(keypad->clk)) {
+-		dev_err(&pdev->dev, "failed to get keypad clk\n");
+-		return PTR_ERR(keypad->clk);
+-	}
+-
+-	keypad->input_dev = input_dev;
+ 	keypad->pdev = pdev;
+ 	keypad->row_shift = row_shift;
+-	keypad->rows = pdata->rows;
+-	keypad->cols = pdata->cols;
++	keypad->rows = num_rows;
++	keypad->cols = num_cols;
+ 	keypad->stopped = true;
+ 	init_waitqueue_head(&keypad->wait);
+ 
+@@ -397,26 +330,45 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	input_dev = devm_input_allocate_device(&pdev->dev);
++	if (!input_dev)
++		return -ENOMEM;
++
++	keypad->input_dev = input_dev;
++
+ 	input_dev->name = pdev->name;
+ 	input_dev->id.bustype = BUS_HOST;
+ 
+ 	input_dev->open = samsung_keypad_open;
+ 	input_dev->close = samsung_keypad_close;
+ 
+-	error = matrix_keypad_build_keymap(pdata->keymap_data, NULL,
+-					   pdata->rows, pdata->cols,
+-					   keypad->keycodes, input_dev);
++	error = samsung_keypad_parse_keymap(keypad);
+ 	if (error) {
+ 		dev_err(&pdev->dev, "failed to build keymap\n");
+ 		return error;
+ 	}
+ 
+ 	input_set_capability(input_dev, EV_MSC, MSC_SCAN);
+-	if (!pdata->no_autorepeat)
++
++	if (!device_property_read_bool(&pdev->dev, "linux,input-no-autorepeat"))
+ 		__set_bit(EV_REP, input_dev->evbit);
+ 
+ 	input_set_drvdata(input_dev, keypad);
+ 
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENODEV;
++
++	keypad->base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
++	if (!keypad->base)
++		return -EBUSY;
++
++	keypad->clk = devm_clk_get_prepared(&pdev->dev, "keypad");
++	if (IS_ERR(keypad->clk)) {
++		dev_err(&pdev->dev, "failed to get keypad clk\n");
++		return PTR_ERR(keypad->clk);
++	}
++
+ 	keypad->irq = platform_get_irq(pdev, 0);
+ 	if (keypad->irq < 0) {
+ 		error = keypad->irq;
+@@ -431,7 +383,11 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 		return error;
+ 	}
+ 
+-	device_init_wakeup(&pdev->dev, pdata->wakeup);
++	wakeup = device_property_read_bool(dev, "wakeup-source") ||
++		 /* legacy name */
++		 device_property_read_bool(dev, "linux,input-wakeup");
++	device_init_wakeup(&pdev->dev, wakeup);
++
+ 	platform_set_drvdata(pdev, keypad);
+ 
+ 	pm_runtime_enable(&pdev->dev);
+@@ -444,12 +400,6 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
+-	if (!dev_get_platdata(&pdev->dev)) {
+-		devm_kfree(&pdev->dev, (void *)pdata->keymap_data->keymap);
+-		devm_kfree(&pdev->dev, (void *)pdata->keymap_data);
+-		devm_kfree(&pdev->dev, (void *)pdata);
+-	}
+-
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/input/samsung-keypad.h b/include/linux/input/samsung-keypad.h
 deleted file mode 100644
-index 9754b9a29945..000000000000
---- a/arch/arm/mach-s3c/keypad.h
+index ab6b97114c08..000000000000
+--- a/include/linux/input/samsung-keypad.h
 +++ /dev/null
-@@ -1,27 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0+ */
+@@ -1,39 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
 -/*
-- * Samsung Platform - Keypad platform data definitions
+- * Samsung Keypad platform data definitions
 - *
 - * Copyright (C) 2010 Samsung Electronics Co.Ltd
 - * Author: Joonyoung Shim <jy0922.shim@samsung.com>
 - */
 -
--#ifndef __PLAT_SAMSUNG_KEYPAD_H
--#define __PLAT_SAMSUNG_KEYPAD_H
+-#ifndef __SAMSUNG_KEYPAD_H
+-#define __SAMSUNG_KEYPAD_H
 -
--#include <linux/input/samsung-keypad.h>
+-#include <linux/input/matrix_keypad.h>
+-
+-#define SAMSUNG_MAX_ROWS	8
+-#define SAMSUNG_MAX_COLS	8
 -
 -/**
-- * samsung_keypad_set_platdata - Set platform data for Samsung Keypad device.
-- * @pd: Platform data to register to device.
+- * struct samsung_keypad_platdata - Platform device data for Samsung Keypad.
+- * @keymap_data: pointer to &matrix_keymap_data.
+- * @rows: number of keypad row supported.
+- * @cols: number of keypad col supported.
+- * @no_autorepeat: disable key autorepeat.
+- * @wakeup: controls whether the device should be set up as wakeup source.
+- * @cfg_gpio: configure the GPIO.
 - *
-- * Register the given platform data for use with Samsung Keypad device.
-- * The call will copy the platform data, so the board definitions can
-- * make the structure itself __initdata.
+- * Initialisation data specific to either the machine or the platform
+- * for the device driver to use or call-back when configuring gpio.
 - */
--extern void samsung_keypad_set_platdata(struct samsung_keypad_platdata *pd);
+-struct samsung_keypad_platdata {
+-	const struct matrix_keymap_data	*keymap_data;
+-	unsigned int rows;
+-	unsigned int cols;
+-	bool no_autorepeat;
+-	bool wakeup;
 -
--/* defined by architecture to configure gpio. */
--extern void samsung_keypad_cfg_gpio(unsigned int rows, unsigned int cols);
+-	void (*cfg_gpio)(unsigned int rows, unsigned int cols);
+-};
 -
--#endif /* __PLAT_SAMSUNG_KEYPAD_H */
-diff --git a/arch/arm/mach-s3c/mach-crag6410.c b/arch/arm/mach-s3c/mach-crag6410.c
-index e5df2cb51ab2..16b6ef312aaf 100644
---- a/arch/arm/mach-s3c/mach-crag6410.c
-+++ b/arch/arm/mach-s3c/mach-crag6410.c
-@@ -15,6 +15,7 @@
- #include <linux/io.h>
- #include <linux/init.h>
- #include <linux/input-event-codes.h>
-+#include <linux/input/matrix_keypad.h>
- #include <linux/gpio.h>
- #include <linux/gpio/machine.h>
- #include <linux/leds.h>
-@@ -53,7 +54,6 @@
- #include "gpio-cfg.h"
- #include <linux/platform_data/spi-s3c64xx.h>
- 
--#include "keypad.h"
- #include "devs.h"
- #include "cpu.h"
- #include <linux/platform_data/i2c-s3c2410.h>
-@@ -176,7 +176,7 @@ static struct s3c_fb_platdata crag6410_lcd_pdata = {
- 
- /* 2x6 keypad */
- 
--static uint32_t crag6410_keymap[] = {
-+static const uint32_t crag6410_keymap[] __initconst = {
- 	/* KEY(row, col, keycode) */
- 	KEY(0, 0, KEY_VOLUMEUP),
- 	KEY(0, 1, KEY_HOME),
-@@ -192,17 +192,41 @@ static uint32_t crag6410_keymap[] = {
- 	KEY(1, 5, KEY_CAMERA),
- };
- 
--static struct matrix_keymap_data crag6410_keymap_data = {
--	.keymap		= crag6410_keymap,
--	.keymap_size	= ARRAY_SIZE(crag6410_keymap),
-+static const struct property_entry crag6410_keypad_props[] __initconst = {
-+	PROPERTY_ENTRY_U32("keypad,num-columns", 6),
-+	PROPERTY_ENTRY_U32("keypad,num-rows", 2),
-+	PROPERTY_ENTRY_U32_ARRAY("linux,keymap", crag6410_keymap),
-+	{ }
- };
- 
--static struct samsung_keypad_platdata crag6410_keypad_data = {
--	.keymap_data	= &crag6410_keymap_data,
--	.rows		= 2,
--	.cols		= 6,
-+static const struct resource crag6410_keypad_resources[] __initconst = {
-+	[0] = DEFINE_RES_MEM(SAMSUNG_PA_KEYPAD, SZ_32),
-+	[1] = DEFINE_RES_IRQ(IRQ_KEYPAD),
- };
- 
-+static const struct platform_device_info crag6410_keypad_info __initconst = {
-+	.name		= "samsung-keypad",
-+	.id		= PLATFORM_DEVID_NONE,
-+	.res		= crag6410_keypad_resources,
-+	.num_res	= ARRAY_SIZE(crag6410_keypad_resources),
-+	.properties	= crag6410_keypad_props,
-+};
-+
-+static void __init crag6410_setup_keypad(void)
-+{
-+	struct platform_device *pd;
-+
-+	/* Set all the necessary GPK pins to special-function 3: KP_ROW[x] */
-+	s3c_gpio_cfgrange_nopull(S3C64XX_GPK(8), 2, S3C_GPIO_SFN(3));
-+
-+	/* Set all the necessary GPL pins to special-function 3: KP_COL[x] */
-+	s3c_gpio_cfgrange_nopull(S3C64XX_GPL(0), 6, S3C_GPIO_SFN(3));
-+
-+	pd = platform_device_register_full(&crag6410_keypad_info);
-+	if (IS_ERR(pd))
-+		pr_err("failed to instantiate keypad device");
-+}
-+
- static struct gpio_keys_button crag6410_gpio_keys[] = {
- 	[0] = {
- 		.code	= KEY_SUSPEND,
-@@ -358,7 +382,7 @@ static struct platform_device wallvdd_device = {
- 	},
- };
- 
--static struct platform_device *crag6410_devices[] __initdata = {
-+static struct platform_device *crag6410_devs0[] __initdata = {
- 	&s3c_device_hsmmc0,
- 	&s3c_device_hsmmc2,
- 	&s3c_device_i2c0,
-@@ -369,8 +393,10 @@ static struct platform_device *crag6410_devices[] __initdata = {
- 	&samsung_device_pwm,
- 	&s3c64xx_device_iis0,
- 	&s3c64xx_device_iis1,
--	&samsung_device_keypad,
- 	&crag6410_gpio_keydev,
-+};
-+
-+static struct platform_device *crag6410_devs1[] __initdata = {
- 	&crag6410_dm9k_device,
- 	&s3c64xx_device_spi0,
- 	&crag6410_mmgpio,
-@@ -864,13 +890,15 @@ static void __init crag6410_machine_init(void)
- 	gpiod_add_lookup_table(&crag_wm1250_ev1_gpiod_table);
- 	i2c_register_board_info(1, i2c_devs1, ARRAY_SIZE(i2c_devs1));
- 
--	samsung_keypad_set_platdata(&crag6410_keypad_data);
--
- 	gpiod_add_lookup_table(&crag_spi0_gpiod_table);
- 	s3c64xx_spi0_set_platdata(0, 2);
- 
- 	pwm_add_table(crag6410_pwm_lookup, ARRAY_SIZE(crag6410_pwm_lookup));
--	platform_add_devices(crag6410_devices, ARRAY_SIZE(crag6410_devices));
-+	platform_add_devices(crag6410_devs0, ARRAY_SIZE(crag6410_devs0));
-+
-+	crag6410_setup_keypad();
-+
-+	platform_add_devices(crag6410_devs1, ARRAY_SIZE(crag6410_devs1));
- 
- 	gpio_led_register_device(-1, &gpio_leds_pdata);
- 
-diff --git a/arch/arm/mach-s3c/setup-keypad-s3c64xx.c b/arch/arm/mach-s3c/setup-keypad-s3c64xx.c
-deleted file mode 100644
-index 8463ad37c6ab..000000000000
---- a/arch/arm/mach-s3c/setup-keypad-s3c64xx.c
-+++ /dev/null
-@@ -1,20 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--//
--// Copyright (c) 2010 Samsung Electronics Co., Ltd.
--//		http://www.samsung.com/
--//
--// GPIO configuration for S3C64XX KeyPad device
--
--#include <linux/gpio.h>
--#include "gpio-cfg.h"
--#include "keypad.h"
--#include "gpio-samsung.h"
--
--void samsung_keypad_cfg_gpio(unsigned int rows, unsigned int cols)
--{
--	/* Set all the necessary GPK pins to special-function 3: KP_ROW[x] */
--	s3c_gpio_cfgrange_nopull(S3C64XX_GPK(8), rows, S3C_GPIO_SFN(3));
--
--	/* Set all the necessary GPL pins to special-function 3: KP_COL[x] */
--	s3c_gpio_cfgrange_nopull(S3C64XX_GPL(0), cols, S3C_GPIO_SFN(3));
--}
+-#endif /* __SAMSUNG_KEYPAD_H */
 -- 
 2.46.0.184.g6999bdac58-goog
 
