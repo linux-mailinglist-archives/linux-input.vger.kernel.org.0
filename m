@@ -1,131 +1,130 @@
-Return-Path: <linux-input+bounces-5665-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5671-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14FB956D93
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 16:40:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0B8956DC3
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 16:46:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 846C8B24C94
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 14:40:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E6601C2309B
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 14:46:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 283D0176227;
-	Mon, 19 Aug 2024 14:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA6E174EF0;
+	Mon, 19 Aug 2024 14:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="BoN1ZK5E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B14FTg2q"
 X-Original-To: linux-input@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1644D171E70;
-	Mon, 19 Aug 2024 14:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95F6172BDC;
+	Mon, 19 Aug 2024 14:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724078421; cv=none; b=fhlTwNT5HJNP7R2+G6R0OHR9k7fiWK54vaTnj4zsZhcHAm842Wou7wff7o+y8jL1K7X1dZyhBpR5WeJPsIowUJBzdzgX3QHn8FayiSZKsnCD1hoGXNIPY9xUg2k4tKvr8D/TcZmF52E9NkZx1ohfWED1sP7d0P8/AVL/O1dSL+I=
+	t=1724078782; cv=none; b=QaJiOZjl122+6OA3JOqq9HVAvmSXEo/teB71s4NriA4VonFmucJfn7nfH5aIvN2rDYP3ppbBQZrjxy941Mqmn6x+oqUZsfWtLL/n6zKgUcOHFZIJDaDB3/3n7cItCWIiG4zhXNnfcAvP8tIWocfV5g+V/wZwy2h0vvQg17b15GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724078421; c=relaxed/simple;
-	bh=equbU9VBMIwdvGkqWk+AjPVcTc+O1BMZPBWXnDB1Dyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RcmjDfVHqpaCA35Bg/MNA0g/N1nXwXrzur4RmxqCU6wbCcErfPfxvLzXkSYhFodViaRdsgLAMBchsIb2IrJWZRKAiMRwhKgrjeRw+8B+xQIbKgC+CbnzhEiEvUM0f8owWIuix8epb2ccyFiVrbqFTMU4Hyb7Udd/OcEt9VGTjDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=BoN1ZK5E; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=q1jpFbe8UJlfuFdvluwPG8fKnNdFZmBXVzuyZQAcBU0=; b=BoN1ZK5Edi9AlOHHsw1K/RGBPt
-	zQnEiOOg+wQjd7zLve56+O+FLfv3n7NCkXP3C7P4r3zBLkfiMaOrLqcIZJGSXaL9QINQhSfoRnac8
-	uEbjryqLMmKCDpbH2XSEKBouHnow+ghJF/ph6rUWQ/Nt1bOca21pt3UAYViRyyULydRLkSnAvUnXb
-	QylKTwWz1zgrtlp1rf+Ru5DGYSoJaQQtfWS9xjUlzTxDFbEp6kCsP+sXxcDUhmhiz6hHUmLa8I63a
-	F4iSiPN25iJmdtH6XBKaT38Z6lgfsAXzGnnYl35EzTqgDqv9vDCAxctSdNGsFZwvUMfikYe+cRdeb
-	2Ms5JD9w==;
-Received: from i53875a9f.versanet.de ([83.135.90.159] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sg3YG-00014n-NZ; Mon, 19 Aug 2024 16:40:08 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lee@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	heiko@sntech.de,
-	dmitry.torokhov@gmail.com,
-	pavel@ucw.cz,
-	ukleinek@debian.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: [PATCH v5 7/7] arm64: dts: rockchip: set hdd led labels on qnap-ts433
-Date: Mon, 19 Aug 2024 16:40:00 +0200
-Message-ID: <20240819144000.411846-8-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240819144000.411846-1-heiko@sntech.de>
-References: <20240819144000.411846-1-heiko@sntech.de>
+	s=arc-20240116; t=1724078782; c=relaxed/simple;
+	bh=SkZnuyF0tW5tyjgIM6yWpPVNsrQ0ePYYUfcrMhq4OWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1/lshkcYuSieNwPsKQKvRTUCO7tCzqpuetIB7lyILvxh+d3zzOuNu9Fn9OcH6BPNrrI00zyHZgX8Gqme0e5A2SjX1FQezW++l+KrSMoYVGO4Ak/oPc8WvvB6Fx2Oj/MBAaXTG5f0+G5OoXW3ivwm8So6xnIFNGFB/Q6dvb5Afg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B14FTg2q; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2701824beeeso2203011fac.1;
+        Mon, 19 Aug 2024 07:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724078780; x=1724683580; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8r8vZX0TLkXlphek2g43KwTQkJU+hOeULw/Z2z2ApCU=;
+        b=B14FTg2qNsHAk4DVvReZRKqeDc8fp0c5DXeYCFTpksodC/4RwCfzM2Swg8aNcE0D7X
+         8T+zg/Au/d4HfN46Od6GGZQQcr/xki+KUs+wi69sFTsmdmQxq1LGgupVK4wZanbj0fz9
+         zBhQqC6QbyIfHBLkkGfSMyGp2VYKZgkj5R6xZKMurTUp/SpUvicD95jCGnwbNa9tfk9a
+         lYxRua1Sp/keSgrqEgAiWjgpivq0u0TVEysqORoloAr5cNLAI4C7Ny0jCEXH7+53sGNf
+         2UMR41B+jWi8d19vDSFx0fU4EQ2pCRENp3vFP2HP55Ln2bqS1QaqrU5B4UQRk7eKcqSN
+         paMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724078780; x=1724683580;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8r8vZX0TLkXlphek2g43KwTQkJU+hOeULw/Z2z2ApCU=;
+        b=QUMlKISJei7xjh4RJ7fnpSZr6k3xYURXTT5ZxiRUUR2FU7Q5eB1rA/BsMF0nq0ZRg0
+         iGSUXQHMawrPsTAThYOVtqb6unOU/2WMF/ReGUW6r6XptZJXcaU0U07oM8bt+Ysc6l91
+         8+Dgj38MKFAOGxZxJMDIBkXFwDktoUCLWKtEuITXrWrRrLfuDsXjw6kokutoDOfvwa9i
+         7cU9ID9auKIRvsurw4Y9kgZKUNz/ofF8eE32oX/+EXgzQG3oPM2qfXx32OCCIPTB5984
+         t4np3yhKA78m4pDKFb/TU8DKJu9v+U1Nf2czpOs5GWTGVXrSwMN5GExUdWd+v6TF30JA
+         XHXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6KI3BSs/QXJ8WBtZgVgeQXaz152lmEkHHyfjyjYk3VdStqY965FHWn7lad8kqkze0+Cjwz8D6jBpllAwwkUakLPuexZalEjI4M77iGIbyqzlo1aOoePnY4KarB7pmEqDYEq8Hai61T9bscf6XmuezifBegGvJFwt9cPsB8bTAbyvSK1rPGFqAirBb445B7AMofOJEQWdDRkAYHDCTq8q/aJu+C9OqwsU=
+X-Gm-Message-State: AOJu0YztzVufyV7rPdpsRnGUEdHM0nt6eT9Sab60NpX+hglwyCjcllYx
+	zr1VGg1RuAlrqPGEpNJzxPsPXsTQlBEnA1AelHEgRbC9O50eccTJ
+X-Google-Smtp-Source: AGHT+IF0xWTeCT0SqOoVl5Lakk1Cl8bdYSIhAbwVApvfvBKG7cJPB+SE5lP+ESdrLNLfqdnSQKJlJQ==
+X-Received: by 2002:a05:6870:d185:b0:25e:1edb:5bcf with SMTP id 586e51a60fabf-2701c34553emr12552175fac.6.1724078779582;
+        Mon, 19 Aug 2024 07:46:19 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f80c:1483:bced:7f88])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b6356c76sm7616998a12.62.2024.08.19.07.46.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 07:46:19 -0700 (PDT)
+Date: Mon, 19 Aug 2024 07:46:16 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 01/14] Input: samsung-keypad - switch to using
+ devm_clk_get_prepared()
+Message-ID: <ZsNauAfnX8-PoVAN@google.com>
+References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
+ <20240819045813.2154642-2-dmitry.torokhov@gmail.com>
+ <xlbtkevzwcqm2j3xwykyktvpcn776imbijync47ogcnjargmw3@giaklcsa3iai>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xlbtkevzwcqm2j3xwykyktvpcn776imbijync47ogcnjargmw3@giaklcsa3iai>
 
-The automatically generated names for the LEDs from color and function
-do not match nicely for the 4 hdds, so set them manually per the label
-property to also match the LEDs generated from the MCU.
+On Mon, Aug 19, 2024 at 02:51:09PM +0200, Krzysztof Kozlowski wrote:
+> On Sun, Aug 18, 2024 at 09:57:58PM -0700, Dmitry Torokhov wrote:
+> > Switch to using devm_clk_get_prepared() instead of combining
+> > devm_clk_get() with clk_prepare(), which simplifies the code and
+> > ensures that the clock is unprepared at the right time relative to
+> > releasing other managed resources.
+> 
+> ...
+> 
+> >  	device_init_wakeup(&pdev->dev, pdata->wakeup);
+> > @@ -439,20 +433,12 @@ static int samsung_keypad_probe(struct platform_device *pdev)
+> >  
+> >  err_disable_runtime_pm:
+> >  	pm_runtime_disable(&pdev->dev);
+> > -err_unprepare_clk:
+> > -	clk_unprepare(keypad->clk);
+> >  	return error;
+> >  }
+> >  
+> >  static void samsung_keypad_remove(struct platform_device *pdev)
+> >  {
+> > -	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
+> > -
+> >  	pm_runtime_disable(&pdev->dev);
+> > -
+> > -	input_unregister_device(keypad->input_dev);
+> 
+> This looks unrelated.
 
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+It actually is related: with clk moved to devm we no longer need to
+unregister input device by hand to keep the right ordering and we can
+rely on devm to clean the input device as well (it already is being
+allocated with devm_input_allocate_device()).
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-index 4bc5f5691d45..7bd32d230ad2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-@@ -50,6 +50,7 @@ led-0 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
-+			label = "hdd1:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd1_led_pin>;
-@@ -59,6 +60,7 @@ led-1 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_LOW>;
-+			label = "hdd2:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd2_led_pin>;
-@@ -68,6 +70,7 @@ led-2 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio1 RK_PD7 GPIO_ACTIVE_LOW>;
-+			label = "hdd3:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd3_led_pin>;
-@@ -77,6 +80,7 @@ led-3 {
- 			color = <LED_COLOR_ID_GREEN>;
- 			function = LED_FUNCTION_DISK;
- 			gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
-+			label = "hdd4:green:disk";
- 			linux,default-trigger = "disk-activity";
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&hdd4_led_pin>;
+Thanks.
+
 -- 
-2.43.0
-
+Dmitry
 
