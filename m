@@ -1,101 +1,152 @@
-Return-Path: <linux-input+bounces-5635-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803489562A8
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 06:32:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CBF9562BE
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 06:58:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D8F01F22273
-	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 04:32:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86EF31F2196B
+	for <lists+linux-input@lfdr.de>; Mon, 19 Aug 2024 04:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BAB645007;
-	Mon, 19 Aug 2024 04:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26256142E77;
+	Mon, 19 Aug 2024 04:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IoUl13lC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eax/+ahA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1BE2BD19;
-	Mon, 19 Aug 2024 04:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975921870;
+	Mon, 19 Aug 2024 04:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724041918; cv=none; b=Mx2whuOHw+2dfXEYACnnY5iRYHHrSAKiDNwK8vN7Yxv5JyKHfgq9N2EmmVLkSIzQtvHgsw+5tk0Z7AzeW75szYLHlISfPqVWZLj6BFceexmnPv4f7v86cRwGDCF9xPBsp+1cJnn5dyqaX5ZaMJ+7iR9cF6hKmiD4T3jLmqb2LbY=
+	t=1724043508; cv=none; b=a9fl3Ukg0EtJFN6zm1gWQih6IC4TSVUUNNhCIFfjsTJOPFimi34ZEsBa/IxNeVM9ebEVc9sLgGE2AGmqpVY7rCgIWbrmI7DGEm0CosWxsof9CsHt6aBIXAEiKmwoDPoqzr9iavEy9421vWU64BpCokWfObtM38e9fd6AZA4oyIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724041918; c=relaxed/simple;
-	bh=U+EGGC9xM1D1d10amOKd5j6vNWdUdynEEyMYIdLcd88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UKjml+bZMjE2A/+28mnsIlbAjGqMBfkIuZVdq7Vn1qcwQuNSUR54EcgT4P6ZE5/Sm7T9KMAL8plC7aeqC2MnaSAgM6tQ0KiT4UHks+/e35lA9oAGzwEnZjw42tcOxzl/EB47aML67DgaoNeW/bV1e5/ctMUQmCW1Unm/qUKtzjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IoUl13lC; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1724043508; c=relaxed/simple;
+	bh=VIPdrCoWFZNXgUdWs/O2j16FTn1XlPZYBS3HkHce7FU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wbn/0gETdhwnKdDDrxbnBMme/XpfgbwxZj7grOhpTPUcUAMyQEaUmM5HXKYmvokdMoS1wvdNiFqsP/L78BKPHsrp7HxjaDLBug5ogpOprHZiqiO2sahgXwnZzoGZrTvz7q2+SkhK358yHj6icpAYzVOhqqLexCLazwrTWhbIelU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eax/+ahA; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7a18ba4143bso2374410a12.2;
-        Sun, 18 Aug 2024 21:31:56 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-201fbd0d7c2so22032155ad.0;
+        Sun, 18 Aug 2024 21:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724041916; x=1724646716; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pjEw3wQOMf1AKn43BEx21ZcKh5pn+wfGqK3TxJhADLk=;
-        b=IoUl13lCvQ1RprjUx3//Q0ItYKmAZxG8omkb3wK4Rz4upr9IAjB689szQvoOwtsNHi
-         vekhsuLdcjwAdx63tLYc0PgerAkw39tYPJdCCpf6NlzsIKq5HFiucMAgR0r9Z4BsOpNB
-         8Gt5tmzYaays76ACw9mrCEjzgq3kCV9qk+WpfXKZLHf+MSvd7vKqWLy41uVdJyR05m5/
-         tLXCjp8t4i7+g9QoBNh9ScxIr5xRNioQ3dDobNuLF2u1oJD+smlieblkZkgYqqASIjyW
-         Ag6bPDD9JkY+kJGRCQCY9R7hdT7juaTnin37JOl7LN+ErMOw3B8HcTcrcveGesDGEGhV
-         y5TQ==
+        d=gmail.com; s=20230601; t=1724043506; x=1724648306; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JOVoXvcj4Cn0QgTVrC2uIwTrsjwD3Uvd4WFAriAkPBY=;
+        b=eax/+ahAGDOObKDTuEQBXriD197FF9tGmOhAt3KsdFeuRkm67MBPVrMw2fm8QYExvI
+         ZMqlDt5S7dwgE0xVu4TLOWyEuG2Pc+asU0MUUDF6LMH5C2sovng5uuhFcvzl/rbDPMW3
+         cFabnMj9moKhlN+e/hGG7ybsrxS/sF2Dikf3mbIwtcJ0QaFIYJD7Lw6Mp+vF1PB3ncOL
+         hXOD/FNanoVJyEWsPx4qV/JKe/75VedbAOSh2oOy7fWlBhZqPi/D0p0cts1c3c4z3oRd
+         LSRUAh2WomaKqmCduHqAsaDJdUSobPbCDTqyE/bumqVn/Sqn/Q5H9qUHFUZLNidY1eNX
+         Stbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724041916; x=1724646716;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pjEw3wQOMf1AKn43BEx21ZcKh5pn+wfGqK3TxJhADLk=;
-        b=U0AOvQ7JCCVidOhPybk1Mw0aJY35EHJjdAoDMN0n0iXy+V44xnJ+95g8Ygl9MP0sQv
-         1pWPwI4bLFTrm+qann3Mz8nuytFDWwVlnN/xKfcJ78rU3C7aGF9wyOQrIPkdFeKhfcY0
-         YLCvuhfn9nJsrNe3SmUgVvWIhtVtxA39jNzTwxzUSdEtksS3tdvyUDGQI2fz3iDWLHM1
-         VYI/AXdagdc86S6v67cL7/ZRDtYIWLkPvfSkuD4BP/LidQSKJZ4QWazTFkUuaoVPja82
-         NqJ7h9P6tT6NQr13f8kWzBUX+cy9mqlb/NPNVas68yDNMDKYY1dTYaIDiGy3uDbyV0Tc
-         hfAg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1qgJ0XcMDoY6tNEWQDjOva3c8pEHnbvat7ce0ZD/UN3Gx3ZesbEHchYlHjL+UP9G9soEl1fiU1zLpAnHRo3sOyfKfUAe0evyb5FclwprL40DBVhs/1pLBnoxfXrE6+wzG4kzL52qxqHs=
-X-Gm-Message-State: AOJu0Yziy3pJntjCTGH92zDs9wtC79OdY/PUBGZVHyFCVLHFbGZ52otl
-	69tgBh0kWbePDl3iRAFnveHvGaGA99iW+/GgdfvyfARAKoJUj/Qg
-X-Google-Smtp-Source: AGHT+IF4MZ7GWBIIa+SeQgRUZIEcXrAn1USWIEwcTi8KCIlmk9Rq26wkTu9Kh7gV3HogBI221/DBQQ==
-X-Received: by 2002:a17:90b:19c9:b0:2d3:c0b9:7c2a with SMTP id 98e67ed59e1d1-2d3dfd8bef4mr8247906a91.20.1724041915591;
-        Sun, 18 Aug 2024 21:31:55 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4eb5:4500:6efc:6c24])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3bc1b86casm8823439a91.1.2024.08.18.21.31.54
+        d=1e100.net; s=20230601; t=1724043506; x=1724648306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JOVoXvcj4Cn0QgTVrC2uIwTrsjwD3Uvd4WFAriAkPBY=;
+        b=jWNccE3e8uUgq/wTVpfeTTREzeGRvI2C/yx9ffhgtdwyd3ka59z1EoOo0UvUDQXD8L
+         klYKM/RgRUCT+HP/eOejLiMVP0M4r+FDYaD6XxM2NQrHwQCxbZE7a7lI4IEMtf9jlMwt
+         +DxJsmtd300HdePPKz1nWH6GAWgMJ4UhvvVHtPjvRKtzSJb2Qd1VHh2+wVXYel0mbamA
+         HADLAVrBv57261pBPb0+tshXWMqEZxNq0yjLJZ1JTn9mma70pr+ixyIWiqYFM9PoNCcC
+         tAC3eVoFTgeDpLu6R6q85cGzbNo6tu/owFZt/I/FRax7n4IEFWBNwrAWPYHZms/XfsCU
+         j26g==
+X-Forwarded-Encrypted: i=1; AJvYcCVsLnIXFpv4MF9fxyonmeWnHY6FdvftoyKatazOwPHNoLcyMBCr/fGi2iuP7MG8VVddOUcpLJP4JJIKlcq621vsp7FBt22kcDv4sL5C1/I78WQ5aQlEMPgJ8Ts9NxbJpMlSnKCW+S/mIdkkLaKF8f3h2zxS1kkxHpUNg+3P5q7RR6uIcwo2DObrIp7F
+X-Gm-Message-State: AOJu0YxuO/yqlft+Blkb3eEh0fBUqIeSgys+KDBnHhFQlWfE4+sdBR9j
+	cAjTjYdra9YfQFHT4HiT+zVfO2BIFIY/K91en+oJE2TZW9z/g2TE
+X-Google-Smtp-Source: AGHT+IEJGn5PVasUJVsx/uK8VLnavHd3PelxJImB1HsqxNz46WkgjVgZaV6xLgHVa8kdhAa3cLHWxw==
+X-Received: by 2002:a17:903:192:b0:202:301f:36fd with SMTP id d9443c01a7336-202301f38f5mr23768775ad.18.1724043505296;
+        Sun, 18 Aug 2024 21:58:25 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:4eb5:4500:6efc:6c24])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-202068497b4sm43483445ad.269.2024.08.18.21.58.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 21:31:55 -0700 (PDT)
-Date: Sun, 18 Aug 2024 21:31:52 -0700
+        Sun, 18 Aug 2024 21:58:24 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: hdegoede@redhat.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] i8042: Use new forcenorestore quirk to replace
- old buggy quirk combination
-Message-ID: <ZsLKuKpBzh9fg5qM@google.com>
-References: <20240104183118.779778-1-wse@tuxedocomputers.com>
- <20240104183118.779778-3-wse@tuxedocomputers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH 00/14] Remove support for platform data from samsung keypad
+Date: Sun, 18 Aug 2024 21:57:57 -0700
+Message-ID: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240104183118.779778-3-wse@tuxedocomputers.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 04, 2024 at 07:31:18PM +0100, Werner Sembach wrote:
-> The old quirk combination sometimes cause a laggy keyboard after boot. With
-> the new quirk the initial issue of an unresponsive keyboard after s3 resume
-> is also fixed, but it doesn't have the negative side effect of the
-> sometimes laggy keyboard.
-> 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Cc: stable@vger.kernel.org
+Hi,
 
-Applied, thank you.
+This series attempts to rework samsumg=keypad driver to stop using
+platform data and instead rely on generic device properties only.
+
+The first 8 patches are general cleanup/facelift patches.
+
+The 9th patch introduces alternative binding that is more compact that
+the original one, which makes it more suitable for use in legacy (non
+DT) boards with static device properties. Note that the "new" binding is
+the standard binding for matrix keypads.
+
+Patch #10 implements the new binding in the driver, #11 converts the
+only user of platform data in the mainline tree to the static device
+properties, and #12 drops support for platform data from the driver.
+
+Patches #13 and #14 are "bonus" converting the rest of crag6410 to use
+software nodes/properties to describe GPIO keys, LEDs and other
+peripherals. Note that I believe they fix and issue with recent
+conversion to GPIO lookup tables - the names of gpiochip structures I
+think are "GP<N>" ("GPK", "GPL", etc) and not "GPIO<N>".
+
+Mark, you said you are using this board, it would be great if you could
+give this a spin.
+
+Thanks!
+
+Dmitry Torokhov (14):
+  Input: samsung-keypad - switch to using devm_clk_get_prepared()
+  Input: samsung-keypad - do not set input device's parent explicitly
+  Input: samsung-keypad - do not combine memory allocation checks
+  Input: samsung-keypad - use struct_size() helper
+  Input: samsung-keypad - use devm to disable runtime PM
+  Input: samsung-keypad - use guard notation to acquire mutex
+  Input: samsung-keypad - use per-chip parameters
+  Input: samsung-keypad - use BIT() and GENMASK() where appropriate
+  dt-bindings: input: samsung,s3c6410-keypad: introduce compact binding
+  Input: samsung-keypad - handle compact binding
+  ARM: s3c: crag6410: switch keypad device to software properties
+  Input: samsung-keypad - remove support for platform data
+  ARM: s3c: crag6410: use software nodes/properties to set up GPIO keys
+  ARM: s3c: crag6410 - convert GPIO lookup tables to property entries
+
+ .../input/samsung,s3c6410-keypad.yaml         |  57 +++-
+ arch/arm/mach-s3c/Kconfig                     |   5 -
+ arch/arm/mach-s3c/Kconfig.s3c64xx             |   1 -
+ arch/arm/mach-s3c/Makefile.s3c64xx            |   1 -
+ arch/arm/mach-s3c/devs.c                      |  62 ----
+ arch/arm/mach-s3c/devs.h                      |   2 -
+ arch/arm/mach-s3c/gpio-samsung-s3c64xx.h      |   5 +
+ arch/arm/mach-s3c/gpio-samsung.c              |  35 ++
+ arch/arm/mach-s3c/keypad.h                    |  27 --
+ arch/arm/mach-s3c/mach-crag6410.c             | 242 ++++++++-----
+ arch/arm/mach-s3c/setup-keypad-s3c64xx.c      |  20 --
+ drivers/input/keyboard/samsung-keypad.c       | 318 ++++++++----------
+ include/linux/input/samsung-keypad.h          |  39 ---
+ 13 files changed, 398 insertions(+), 416 deletions(-)
+ delete mode 100644 arch/arm/mach-s3c/keypad.h
+ delete mode 100644 arch/arm/mach-s3c/setup-keypad-s3c64xx.c
+ delete mode 100644 include/linux/input/samsung-keypad.h
 
 -- 
 Dmitry
