@@ -1,145 +1,125 @@
-Return-Path: <linux-input+bounces-5705-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5706-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620AA957F42
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 09:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E25957F46
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 09:22:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF2E7B2177B
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 07:20:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87FE8B211EA
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 07:22:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC72189534;
-	Tue, 20 Aug 2024 07:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53323149C5B;
+	Tue, 20 Aug 2024 07:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQsk0Jih"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="wDMxH9B9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2822C181B9A;
-	Tue, 20 Aug 2024 07:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC75618E36D;
+	Tue, 20 Aug 2024 07:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724138429; cv=none; b=bWF77HE7BtHAdX/+fiaOlio/Xfocj57e/pr3wPNl78Rcs8rPQe8BkU3fYfKAdJVtM0sMmp08vs9RLeYNCH/Dojf9kFuv4D4gpPjk3fImv3MrI1RYM/IgahKxHvINn2gmB/KU/4yqEv52HJiW7yG4x/mwLmAZAHVOLkupjbpHfKk=
+	t=1724138526; cv=none; b=k+GsD4XJmkrWsta4SAycs32WhcPE8wDEmJOtlBxNMVyJTmX+girEi1mFKzQXQyBZ09UXAVd/djw49BN4xxbKq6Rcre7wypwvEu0QP4VKXC7KdYk7BMaaMCLOwHO3ywx1vGZRTMUsTcae1M7E38MdPJpFzSXgha4Es7lA5vCGVe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724138429; c=relaxed/simple;
-	bh=SKFbGFSwJ55rWUmbm1hpW9JrvmpDPslIScuSlfAiMQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BU7vgJwTnHkqme9k+KbSLji8Ufh70M/z3dUP7apvTspkWQp2Ge6SIBMPH+jCz//OGHSJ9MmW1ROgfu6jwem3B+lgayXLpJdDdcpu8I94sduxpLTGtYEhwGGv43PfA9Tmuu9gpsrzLBn81Wri7o2stAkmR0FI2OD4evvJ0ldRsyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQsk0Jih; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724138428; x=1755674428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SKFbGFSwJ55rWUmbm1hpW9JrvmpDPslIScuSlfAiMQU=;
-  b=gQsk0Jihhb/7QHr/fu8MzYyj2wtn0WIjMwWZMeiqFtHp8GCWStKPySgg
-   rVcwv9VTev5/DtViNjDp2YuHiCD+r9EOf0VOmTwl2xx4HpnCbwkfUlxna
-   uugxVJ+ehhZSvXXlJ4PaJSVPVYpTHq3cwKGkjne6heSJB1RxEW1RB3YQX
-   M+z4XlUCjQtoDuK+6h0jnlX9nu+U5NOvZIUU5Egnb9BQM7531UmNl8uR+
-   wuxN74WWGK54v5Rl5Ou6du91+VWTZwT5UBSudz/luDYPUfUuK9d2dKnGR
-   L7bLidAkE3HcB10PkzKJ2SgVkb73YwvRVuH1o7ykXzRT88TZo6cRonrnc
-   g==;
-X-CSE-ConnectionGUID: 04Gf8w/dTU6YmMlMaHQXxw==
-X-CSE-MsgGUID: gEEPg8hHQgmfu5dw1LLj2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="13106938"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="13106938"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 00:20:27 -0700
-X-CSE-ConnectionGUID: OyIb2tPlTIeb0hT0TnPI+Q==
-X-CSE-MsgGUID: Wiuvg/1ST0uhXBN1FEW5qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="60682926"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Aug 2024 00:20:20 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgJAA-0009q2-1A;
-	Tue, 20 Aug 2024 07:20:18 +0000
-Date: Tue, 20 Aug 2024 15:19:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matteo Croce <technoboy85@gmail.com>, bpf@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-Message-ID: <202408201510.KPb6hCTA-lkp@intel.com>
-References: <20240820000245.61787-1-technoboy85@gmail.com>
+	s=arc-20240116; t=1724138526; c=relaxed/simple;
+	bh=1BUozcEWfgQZ+KdPlrQWUrtXZ3tJ34vzoXdYunpPaTM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ouqOpvHftbHFX22YUjKG24XBD8sQFzGuHJw6boyP529rM73nU4J8UrNSEaquLa+sxXi6VfP8obGRLOKFDB8kld3otNQ3LzzC60z5SG+Ar5dmKn5COXUlDAaNREQfmvmh6dhuYvjjb/bSeYak9A3DTBkrraKaUNh2WzyeFBdo/Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=wDMxH9B9; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1724138511; x=1724743311; i=markus.elfring@web.de;
+	bh=4eRNJiZiepI2514EsLWCsocatXLAAh5RemIIL/ANUNo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=wDMxH9B9EPOV3MrVMCGfdR9L+OTELB2iE5x4lMvDtPQWrbQHH/hBFULJgi0/wuPD
+	 rdWOH12LyEfXNq/Ar3mTY63wR2MbLUI7QvkOyrKncqzwbk8spKLvlrmXi7YpYTirF
+	 SM22dJed2Cy/BjGRPWIk119plXbyXs+9pmCIaJdbMIlWI/X8KXM3CCqxVxHG2swwn
+	 QPidV157BWYWUXfcat7gQiXBknnKceW4wao+ybWXgcJnTsr7G3bbOD3/QAxmZibyK
+	 KSgKWhTryIrDuWgBW3t0ghV6mH+vyeeLnPOS9jZD57ZKbOvfOY/EunziSy4j3V/Ho
+	 l7WlsJUKC4EJlRMnxQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MoecF-1sMz4w0bCz-00ZmI4; Tue, 20
+ Aug 2024 09:21:51 +0200
+Message-ID: <577e96df-5535-4530-ac62-edc53881a443@web.de>
+Date: Tue, 20 Aug 2024 09:21:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240820000245.61787-1-technoboy85@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] HID: corsair-void: Add Corsair Void headset family
+ driver
+To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>, linux-input@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+References: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:RxBDSm2bAjWw9MUt7h27DhLB6rK2rmz9WjyH2mhS0AnebpGRls5
+ c+ac3YlzdIzs0mR4Q2zG6xJEivOV7aQvU6SzR3mKzuX7YlS06/ySiHx120m8bdSct5XbuX5
+ 41CmphS4MS8GA7chcIN+od9H9YAxhrKtAoewoZnXZvCLmSjFCiWXnynT/v98velJ1vTYmzS
+ e/ZD5dC8t6pklRqt3Fjiw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5uSCuaLLpp0=;9qVP4j1PRUMIJpDU0GvzUjw3F3W
+ 4Bav2WiZZnEbnEzZa5j6vAiKSQK88BxuuJMzyT0DnMW9ZMM7hl2yRHMUD90kWvYZekvPlUZzy
+ OG7sGpvn53b/sl0f3ftGczLj74Pz2cGWseZps18Vp3HptKuOygggILyG/mz3zYvSPNg0JzM72
+ CmI6a4h17RbJByJ/+6s/7jMl9N1kV+Kt+Hew4EhHQyFfkjlGnxL7xGuh1kWaw3vLrdAPaACA0
+ nS3jr2N/DSbV5SNcaSgJ5jdsKE0mvidR4/Z1EDOddukanpDQKpIB+wUsMAuCQQuQLTW7QYKAR
+ X5wNPgl+RIPr0eNbYWh44nPqhiveUKDKs5lORyuJboCbUn8HvowQKEWQZsSHa5YhYib9IpR7I
+ IIJhOpDRYSXfc4ZLPIly97qYbK/LE8tiwE5dIcInXiIgZsMnCF+vOJ/pAT3Xq1uwpQr2xkUp/
+ 8zbO634MzUT4x11JvFo7WVHXBgfFP5AfUhQW6j282Z1kdwpger2EyFvhs1ctru36PDYScftJc
+ ykKcvPcZY+4WikO09v1ejNXfwdSUWk1hriZHLeh0Pm/aYPPRoMFZOzzjW8jTPziMmGZoABwYu
+ cDgpAMKF3QppbiOJrtbaXMt42f4oRCrqTsdcKOtcNVi1nWPsiwY53+qeeIZSiGzRc0A3mEGtC
+ Gxy4HkTeIOJQQMnm8Oy6hpK255XZksuGiCFGQ0EzACiKANbdxhOP+Ek8rG5XKHar6fb3MOWgN
+ o5je/t4j3SaNl+6T/mEQm241bMHNEOkPWR5KSwFkT8S5bBehO+VO0lhn6+ni9jr8mhNWQozM1
+ nFAHK/WmtPJbYonP47Yo9zSw==
 
-Hi Matteo,
+=E2=80=A6
+> +++ b/drivers/hid/hid-corsair-void.c
+> @@ -0,0 +1,842 @@
+=E2=80=A6
+> +enum {
+> +	CORSAIR_VOID_BATTERY_NORMAL	=3D 1,
+=E2=80=A6
+> +	CORSAIR_VOID_BATTERY_CHARGING	=3D 5,
+> +};
 
-kernel test robot noticed the following build warnings:
+Would you like to choose a corresponding name for such an enumeration?
 
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/bpf-use-kfunc-hooks-instead-of-program-types/20240820-080354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240820000245.61787-1-technoboy85%40gmail.com
-patch subject: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-config: i386-buildonly-randconfig-001-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201510.KPb6hCTA-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201510.KPb6hCTA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408201510.KPb6hCTA-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/core/filter.c:12084:38: warning: unused variable 'bpf_kfunc_set_sock_addr' [-Wunused-const-variable]
-    12084 | static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
-          |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+Can any other data type be reused for this purpose?
 
 
-vim +/bpf_kfunc_set_sock_addr +12084 net/core/filter.c
+=E2=80=A6
+> +static ssize_t send_alert_store(struct device *dev,
+> +				struct device_attribute *attr,
+> +				const char *buf, size_t count)
+> +{
+=E2=80=A6
+> +	if (ret < 0) {
+> +		hid_warn(hid_dev, "failed to send alert request (reason: %d)",
+> +			 ret);
+> +	} else {
+> +		ret =3D count;
+> +	}
 
-05421aecd4ed65 Joanne Koong  2023-03-01  12083  
-53e380d2144190 Daan De Meyer 2023-10-11 @12084  static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
-53e380d2144190 Daan De Meyer 2023-10-11  12085  	.owner = THIS_MODULE,
-53e380d2144190 Daan De Meyer 2023-10-11  12086  	.set = &bpf_kfunc_check_set_sock_addr,
-53e380d2144190 Daan De Meyer 2023-10-11  12087  };
-53e380d2144190 Daan De Meyer 2023-10-11  12088  
+Would you like to omit curly brackets here?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/coding-style.rst?h=3Dv6.11-rc4#n197
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Markus
 
