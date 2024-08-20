@@ -1,483 +1,305 @@
-Return-Path: <linux-input+bounces-5715-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5716-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB3B958FD1
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 23:40:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C1D95909E
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 00:45:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48750B20C11
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 21:40:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E73341F21FA4
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 22:45:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBF11C579C;
-	Tue, 20 Aug 2024 21:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C4D31C7B87;
+	Tue, 20 Aug 2024 22:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gnOWbE3q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSIVKT6l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DEA45008;
-	Tue, 20 Aug 2024 21:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014CC3A8D2
+	for <linux-input@vger.kernel.org>; Tue, 20 Aug 2024 22:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724190040; cv=none; b=Eb7+rSug47X8p//Acnvzn1mjjlCn4kgSP4mAta3qeGU2JBXaKzXA/HBp5AiwtuJH9vqA+8tYyaGIveX1juTToANBhT/5eCd4AI0lIi8z5Jdf+X08tqQyvA1ZUMa5GYImMRJeM8hRDwdGdXphxzEDUmmxQ+lWneczQSZFKJyUPho=
+	t=1724193901; cv=none; b=o2RDAVsOyo7Se1znWMTqbXWVaWrbIdW7587/9R5NHKR367MV8VmFLgxnVkggoUixoc4xl0Cot6KBcDPkjHYHRyt/Xr9HuDwAJt4bJj58uSmOjNuvUoXTDTGLr9qv9o5Xtr5qk1S4I8VXGYfEMxIGVhudXXc3cTkBatO5BNuyQEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724190040; c=relaxed/simple;
-	bh=Ca6gwEKH80OPr+KsoobU9z79sFuQS6nDgaPIgItVHyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VHnqEi39sajQKOjWShE16MknwZ7FNJz/t9nUqSA4lAuPcK8n2ougARAsYcIc0BDStESXBqZY6eENmSzFtvxFwWzzkLopVFPu8PxT4dO5W7O25nBkH+KbsOjimQtGC6NaRVBmrFwvZrjQ7NwX2GAj5ZUGISJqsSzo7gb51TZ05l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gnOWbE3q; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f029e9c9cfso33754161fa.2;
-        Tue, 20 Aug 2024 14:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724190036; x=1724794836; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R9iSw6uozci3pG6LRIrPTc4SM7kkJjQGgR6ebryZrPo=;
-        b=gnOWbE3qzJAF/yc484GYgInHMrCxfmnKX44JLbgealCEXPY2rJj+6kQYpnFKbSDiyQ
-         QUb0JxT/+NehVXWpUtrG1FYXHssGbZv6v5LRtz+Lr5QE5gYnQW7AZEc0U1obZao3n39F
-         t8oMUtSgUafKYSjqb6vJi6CNbqiJRg6bmNo4VS2VM4IW0Q97oJD9lfJG5Fiw/in0pDWa
-         HAi1p4QKtYFVe4NdMbm4O1YMIPilQC4Gxvr7RrKD/tHseM2nDpXihvnr+RZz/Btdv2u8
-         0wRHIktN7PQOXn0v3WzG5VwG/UQVC8Bsp8lMXtSArFUQUeMTg38Z4+piABZtOTSv2eAE
-         JdNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724190036; x=1724794836;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R9iSw6uozci3pG6LRIrPTc4SM7kkJjQGgR6ebryZrPo=;
-        b=A+w9VnUo0hdIbTCN/NE5NtqhbEgzQZ1MU4erCuV70FH2fKFT/gOnjeCidjh8bv6FqB
-         8fGhinTAou5FNfJ6MtZsTbYG4RRNVTbOaKnlxwFwaB9Iz3U+tLpr/jgZHdRgB2UDswoq
-         vcWBRmfsuCnVOA445LyGUTEonlgZziVvbhVwMSH/tU3cFEhk2GrKcwt1g3y8Y1MOfMO/
-         CAiaSbWz4BXosP0IzjRGKPdtzm2zEiD4ugab1pDgOxkc4RGqQyDGHsNfcDKg0j/J6LcH
-         Hx86eJ99Cd0+5siAqBU3BaCjuFGWLTL299XKmqALo1VLPBs9DE2EO2pCbTBGwEAjBEjD
-         4fNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUaL90Sc+qewB6GIYh7bjSQ5f20S8+uvfzllF+6SDgzLyDPfnE8v8E/Jgz2OyrsIwDFMvhEZL/J4rkTQA==@vger.kernel.org, AJvYcCUpJwLFEfPCwcXjsRea3ybl1oHimA/Dgg6dC7OXpKhuYZ3ghldS6yvVZUBlEYxOK0rKzqOricBcgK5VcRJuwZGBo8bUNg==@vger.kernel.org, AJvYcCX1Z3aHXTx3lDdWZdkuR24rF4sSG/Nc7sk9BGjf2c7y4BlZMgboqcskt/e/ieRmKkbyju3J6hR4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7cYsfBZjDyIycYexTDOu9RFQ8Zld5L9IP3y4y+LuCXj69tSyl
-	sKxCare/z2gv3sMHTLnEuLuBDtMfAkJf9Ym3YiZJBdfJSQQMhnN4
-X-Google-Smtp-Source: AGHT+IGIqjQs4+C80iAgdeSuscEasTqYgihJ6L+4FrzuYEUEybXMuLJI/umICeTIA5PWKNHpVej7yg==
-X-Received: by 2002:a2e:742:0:b0:2f3:f1ee:2256 with SMTP id 38308e7fff4ca-2f3f8b3ce37mr1601731fa.44.1724190035975;
-        Tue, 20 Aug 2024 14:40:35 -0700 (PDT)
-Received: from localhost ([91.219.237.56])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8383935909sm808193166b.112.2024.08.20.14.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 14:40:35 -0700 (PDT)
-Date: Wed, 21 Aug 2024 00:40:34 +0300
-From: Maxim Mikityanskiy <maxtram95@gmail.com>
+	s=arc-20240116; t=1724193901; c=relaxed/simple;
+	bh=pBEFlqQtMa5ek2mpCdoURX1j7fSJN1rU2fMo85k6p/E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B0GevJb7oauwLaPWrtCmbRPyRJ6xDoVYBeJNh9StmKEyzFSPaeCHR2GLplPY4Lj7IRNiYWPwhxCjclFPFmImB5TZUXlsQQvn64/YbcixPG/oKBs+QTio1EsP4OgX8zxtUOJFVZe3nv/KZx7l3xoEr8TlHUxWD07wF81bCysGe0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSIVKT6l; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724193899; x=1755729899;
+  h=date:from:to:cc:subject:message-id;
+  bh=pBEFlqQtMa5ek2mpCdoURX1j7fSJN1rU2fMo85k6p/E=;
+  b=aSIVKT6lUr/pMDSgbpHzleZMRyEx5s91ije2di/8Ekh6BYST0uuG7dtZ
+   AJMKhaBNPRsmv8LemiH2TVzh9ATSbQw3WiEm41+L53ktXe5lxLrIkomMA
+   FRRJm3g3xEBDGoPL6B+XGBIkPQMsvhCVwc5EzAg+HYOb1m6VgbtFK4JYc
+   8p+ox3RZgtVr+lcEJgDIYoc+i8fmP9Po3CjBCPLSzyx9juElKElSeJufn
+   o91vCd/60rgJbF1ljm+6f+DYo+sJJja8IDgfkR2+A1UWsoVAUTP0kbN0m
+   yZ9+VVRToU8He4zEdnAnStZzapJba/Kv/0cNlSsRLRHEXja6MtLmeMN97
+   w==;
+X-CSE-ConnectionGUID: dsk5G4XPSsuXL3Cr4UotoA==
+X-CSE-MsgGUID: b2ZbEXrKRCqk+JaTtAVYIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22690800"
+X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
+   d="scan'208";a="22690800"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:44:57 -0700
+X-CSE-ConnectionGUID: Cv5lUnE4QBChexu6VmcHvg==
+X-CSE-MsgGUID: DoZ7HmPNRhi0f9BJ+NM1hA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
+   d="scan'208";a="65776543"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 20 Aug 2024 15:44:56 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sgXav-000AfK-2z;
+	Tue, 20 Aug 2024 22:44:53 +0000
+Date: Wed, 21 Aug 2024 06:43:56 +0800
+From: kernel test robot <lkp@intel.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Ike Panhc <ike.pan@canonical.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@chromium.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: ideapad-laptop: Stop calling
- i8042_command()
-Message-ID: <ZsUNUh7IGeduDUNX@mail.gmail.com>
-References: <20240805141608.170844-1-hdegoede@redhat.com>
- <ZrDwF919M0YZTqde@mail.gmail.com>
- <5c5120a7-4739-4d92-a5b8-9b9c60edc3b7@redhat.com>
- <ZroaE5Q6OdGe6ewz@mail.gmail.com>
- <80dc479e-33af-4d09-8177-7862c34a4882@redhat.com>
- <ZrpFSnCQ0T4_7zAB@google.com>
- <2d5be262-3bfd-4b66-bee4-97c89a9a4707@redhat.com>
- <Zrph94r8haR_nbj7@google.com>
- <ZsJZ7fKJtNTbXhi7@google.com>
- <ZsR0HdzglEH19dVH@mail.gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 4e870e6bbec5c41c0d8b253282dca9465fbf5044
+Message-ID: <202408210653.EHsgsiIN-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZsR0HdzglEH19dVH@mail.gmail.com>
 
-On Tue, 20 Aug 2024 at 13:46:53 +0300, Maxim Mikityanskiy wrote:
-> On Sun, 18 Aug 2024 at 13:30:37 -0700, Dmitry Torokhov wrote:
-> > On Mon, Aug 12, 2024 at 12:26:47PM -0700, Dmitry Torokhov wrote:
-> > > On Mon, Aug 12, 2024 at 08:18:24PM +0200, Hans de Goede wrote:
-> > > > Hi Dmitry,
-> > > > 
-> > > > On 8/12/24 7:24 PM, Dmitry Torokhov wrote:
-> > > > > On Mon, Aug 12, 2024 at 04:41:50PM +0200, Hans de Goede wrote:
-> > > > >> Hi Maxim,
-> > > > >>
-> > > > >> On 8/12/24 4:37 PM, Maxim Mikityanskiy wrote:
-> > > > >>> On Mon, 05 Aug 2024 at 17:45:19 +0200, Hans de Goede wrote:
-> > > > >>>> On 8/5/24 5:30 PM, Maxim Mikityanskiy wrote:
-> > > > >>>>> That means, userspace is not filtering out events upon receiving
-> > > > >>>>> KEY_TOUCHPAD_OFF. If we wanted to rely on that, we would need to send
-> > > > >>>>> KEY_TOUCHPAD_TOGGLE from the driver, but we actually can't, because Z570
-> > > > >>>>> is weird. It maintains the touchpad state in firmware to light up the
-> > > > >>>>> status LED, but the firmware doesn't do the actual touchpad disablement.
-> > > > >>>>>
-> > > > >>>>> That is, if we use TOGGLE, the LED will get out of sync. If we use
-> > > > >>>>> ON/OFF, the touchpad won't be disabled, unless we do it in the kernel.
-> > > > >>>>
-> > > > >>>> Ack.
-> > > > >>>>
-> > > > >>>> So how about this instead:
-> > > > >>>>
-> > > > >>>> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> > > > >>>> index 1ace711f7442..b7fa06f793cb 100644
-> > > > >>>> --- a/drivers/platform/x86/ideapad-laptop.c
-> > > > >>>> +++ b/drivers/platform/x86/ideapad-laptop.c
-> > > > >>>> @@ -1574,7 +1574,7 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_
-> > > > >>>>  	 * touchpad off and on. We send KEY_TOUCHPAD_OFF and
-> > > > >>>>  	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
-> > > > >>>>  	 */
-> > > > >>>> -	if (priv->features.ctrl_ps2_aux_port)
-> > > > >>>> +	if (send_events && priv->features.ctrl_ps2_aux_port)
-> > > > >>>>  		i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
-> > > > >>>>  
-> > > > >>>>  	/*
-> > > > >>>>
-> > > > >>>> Maxmime, if you still have your Z570 can you check if the touchpad state after a suspend/resume
-> > > > >>>> correctly reflects the state before suspend/resume in both touchpad on / off states ?
-> > > > >>>
-> > > > >>> *Maxim
-> > > > >>
-> > > > >> Oops, sorry.
-> > > > >>
-> > > > >>> Just a heads-up, my Z570 now belongs to a family member, we'll test what
-> > > > >>> you asked, but right now there is a btrfs corruption on that laptop that
-> > > > >>> we need to fix first, it interferes with kernel compilation =/
-> > > > >>
-> > > > >> Note as discussed in another part of the thread the original bug report
-> > > > >> actually was not on a Z570, so the whole usage of i8042_command() on
-> > > > >> suspend/resume was a bit of a red herring. And the suspend/resume issue
-> > > > >> has been fixed in another way in the mean time.
-> > > > >>
-> > > > >> So there really is no need to test this change anymore. At the moment
-> > > > >> there are no planned changes to ideapad-laptop related to this.
-> > > > > 
-> > > > > I think we still need to stop ideapad-laptop poking into 8042,
-> > > > > especially ahead of time.
-> > > > 
-> > > > I agree. I think your suggestion of using the new(ish) [un]inhibit
-> > > > support in the input subsystem for this instead of poking at the i8042
-> > > > is a good idea.
-> > > > 
-> > > > As I mentioned when you first suggested this, I guess this requires 2 things:
-> > > > 
-> > > > 1. Some helper to find the struct input_dev for the input_dev related
-> > > >    to the ps/2 aux port
-> > > > 2. In kernel API / functions to do inhibit/uninhibit
-> > > >    (maybe these already exist?)
-> > > > 
-> > > > > If we do not want to wait for userspace to
-> > > > > handle this properly, I wonder if we could not create an
-> > > > > input_handler that would attach to the touchpad device and filter out
-> > > > > all events coming from the touchpad if touchpad is supposed to be off.
-> > > > 
-> > > > I think using the inhibit stuff would be better no?
-> > > 
-> > > The issue with inhibit/uninhibit is that they are only exposed to
-> > > userpsace via sysfs. And as you mentioned we need to locate the input
-> > > device corresponding to the touchpad.
-> > > 
-> > > With input handler we are essentially getting both - psmouse does not do
-> > > anything special in inhibit so it is just the input core dropping
-> > > events, the same as with the filter handler, and we can use hanlder's
-> > > match table to limit it to the touchpad and input core will find the
-> > > device for us.
-> > > 
-> > > > 
-> > > > The biggest problems with trying to fix this are:
-> > > > 
-> > > > 1. Finding time to work on this
-> > > > 2. Finding someone willing to test the patches
-> > > > 
-> > > > Finding the time is going to be an issue for me since the i8042_command()
-> > > > calls are only still done on a single model laptop (using a DMI quirk)
-> > > > inside ideapad-laptop now, so this is pretty low priority IMHO. Which
-> > > > in practice means that I will simply never get around to this, sorry...
-> > > 
-> > > Yeah, I can see that ;) Maybe I will find a couple of hours to waste...
-> > 
-> > Maybe something like below can work?
-> 
-> Great patch, thank you, I'll test it and report the results. See some
-> minor comments below.
-> 
-> > 
-> > 
-> > platform/x86: ideapad-laptop: do not poke keyboard controller
-> > 
-> > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > 
-> > On Ideapad Z570 the driver tries to disable and reenable data coming
-> > from the touchpad by poking directly into 8042 keyboard controller.
-> > This may coincide with the controller resuming and leads to spews in
-> > dmesg and potentially other instabilities.
-> > 
-> > Instead of using i8042_command() to control the touchpad state create a
-> > input handler that serves as a filter and drop events coming from the
-> > touchpad when it is supposed to be off.
-> > 
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > ---
-> >  drivers/platform/x86/ideapad-laptop.c |  171 ++++++++++++++++++++++++++++++++-
-> >  1 file changed, 168 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> > index fcf13d88fd6e..2f40feefd5e3 100644
-> > --- a/drivers/platform/x86/ideapad-laptop.c
-> > +++ b/drivers/platform/x86/ideapad-laptop.c
-> > @@ -17,7 +17,6 @@
-> >  #include <linux/device.h>
-> >  #include <linux/dmi.h>
-> >  #include <linux/fb.h>
-> > -#include <linux/i8042.h>
-> >  #include <linux/init.h>
-> >  #include <linux/input.h>
-> >  #include <linux/input/sparse-keymap.h>
-> > @@ -157,6 +156,13 @@ struct ideapad_private {
-> >  		struct led_classdev led;
-> >  		unsigned int last_brightness;
-> >  	} fn_lock;
-> > +	struct {
-> > +		bool initialized;
-> > +		bool active;
-> > +		struct input_handler handler;
-> > +		struct input_dev *tp_dev;
-> > +		spinlock_t lock;
-> > +	} tp_switch;
-> >  };
-> >  
-> >  static bool no_bt_rfkill;
-> > @@ -1236,6 +1242,158 @@ static void ideapad_check_special_buttons(struct ideapad_private *priv)
-> >  	}
-> >  }
-> >  
-> > +struct ideapad_tpswitch_handle {
-> > +	struct input_handle handle;
-> > +	struct ideapad_private *priv;
-> > +};
-> > +
-> > +#define to_tpswitch_handle(h) \
-> > +	container_of(h, struct ideapad_tpswitch_handle, handle);
-> > +
-> > +static int ideapad_tpswitch_connect(struct input_handler *handler,
-> > +				    struct input_dev *dev,
-> > +				    const struct input_device_id *id)
-> > +{
-> > +	struct ideapad_private *priv =
-> > +		container_of(handler, struct ideapad_private, tp_switch.handler);
-> > +	struct ideapad_tpswitch_handle *h;
-> > +	int error;
-> > +
-> > +	h = kzalloc(sizeof(*h), GFP_KERNEL);
-> > +	if (!h)
-> > +		return -ENOMEM;
-> > +
-> > +	h->priv = priv;
-> > +	h->handle.dev = dev;
-> > +	h->handle.handler = handler;
-> > +	h->handle.name = "ideapad-tpswitch";
-> > +
-> > +	error = input_register_handle(&h->handle);
-> > +	if (error)
-> > +		goto err_free_handle;
-> > +
-> > +	/*
-> > +	 * FIXME: ideally we do not want to open the input device here
-> > +	 * if there are no other users. We need a notion of "observer"
-> > +	 * handlers in the input core.
-> > +	 */
-> > +	error = input_open_device(&h->handle);
-> > +	if (error)
-> > +		goto err_unregister_handle;
-> > +
-> > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> > +		priv->tp_switch.tp_dev = dev;
-> > +
-> > +	return 0;
-> > +
-> > + err_unregister_handle:
-> > +	input_unregister_handle(&h->handle);
-> > +err_free_handle:
-> > +	kfree(h);
-> > +	return error;
-> > +}
-> > +
-> > +static void ideapad_tpswitch_disconnect(struct input_handle *handle)
-> > +{
-> > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > +	struct ideapad_private *priv = h->priv;
-> > +
-> > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> 
-> Nice syntax, I didn't know about it before.
-> 
-> > +		priv->tp_switch.tp_dev = NULL;
-> > +
-> > +	input_close_device(handle);
-> > +	input_unregister_handle(handle);
-> > +	kfree(h);
-> > +}
-> > +
-> > +static bool ideapad_tpswitch_filter(struct input_handle *handle,
-> > +				    unsigned int type, unsigned int code,
-> > +				    int value)
-> > +{
-> > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > +	struct ideapad_private *priv = h->priv;
-> > +
-> > +	if (!priv->tp_switch.active)
-> 
-> This check seems inverted. ideapad_tpswitch_toggle assigns true when the
-> touchpad is enabled.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 4e870e6bbec5c41c0d8b253282dca9465fbf5044  Input: himax_hx83112b - fix incorrect size when reading product ID
 
-I tested the patch on Z570 (with this check inverted), and it seems to
-work great.
+elapsed time: 1268m
 
-Also tested what happens on resume from suspend: the laptop reenables
-the touchpad (the LED turns off on suspend and blinks briefly on
-resume), and the driver handles it properly.
+configs tested: 212
+configs skipped: 7
 
-> 
-> > +		return false;
-> > +
-> > +	/* Allow passing button release events, drop everything else */
-> > +	return !(type == EV_KEY && value == 0) &&
-> > +	       !(type == EV_SYN && code == SYN_REPORT);
-> > +
-> > +}
-> > +
-> > +static const struct input_device_id ideapad_tpswitch_ids[] = {
-> > +	{
-> > +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
-> > +				INPUT_DEVICE_ID_MATCH_KEYBIT |
-> > +				INPUT_DEVICE_ID_MATCH_ABSBIT,
-> > +		.bustype = BUS_I8042,
-> > +		.vendor = 0x0002,
-> > +		.evbit = { BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS) },
-> > +		.keybit = { [BIT_WORD(BTN_TOOL_FINGER)] =
-> > +				BIT_MASK(BTN_TOOL_FINGER) },
-> > +		.absbit = { BIT_MASK(ABS_X) | BIT_MASK(ABS_Y) |
-> > +				BIT_MASK(ABS_PRESSURE) |
-> > +				BIT_MASK(ABS_TOOL_WIDTH) },
-> > +	},
-> > +	{ }
-> > +};
-> > +
-> > +static int ideapad_tpswitch_init(struct ideapad_private *priv)
-> > +{
-> > +	int error;
-> > +
-> > +	if (!priv->features.ctrl_ps2_aux_port)
-> 
-> Nit: the comment above ctrl_ps2_aux_port and the MODULE_PARAM_DESC
-> should be altered, because it no longer disables PS/2 AUX, but just
-> filters the events on software level.
-> 
-> Not sure whether we want to keep the old name for the module parameter.
-> I think it's better to keep it, because it essentially serves the same
-> purpose, but the implementation is better.
-> 
-> > +		return 0;
-> > +
-> > +	spin_lock_init(&priv->tp_switch.lock);
-> > +
-> > +	priv->tp_switch.handler.name = "ideapad-tpswitch";
-> > +	priv->tp_switch.handler.id_table = ideapad_tpswitch_ids;
-> > +	priv->tp_switch.handler.filter = ideapad_tpswitch_filter;
-> > +	priv->tp_switch.handler.connect = ideapad_tpswitch_connect;
-> > +	priv->tp_switch.handler.disconnect = ideapad_tpswitch_disconnect;
-> > +
-> > +	error = input_register_handler(&priv->tp_switch.handler);
-> > +	if (error) {
-> > +		dev_err(&priv->platform_device->dev,
-> > +			"failed to register touchpad switch handler: %d",
-> > +			error);
-> > +		return error;
-> > +	}
-> > +
-> > +	priv->tp_switch.initialized = true;
-> > +	return 0;
-> > +}
-> > +
-> > +static void ideapad_tpswitch_exit(struct ideapad_private *priv)
-> > +{
-> > +	if (priv->tp_switch.initialized) {
-> > +		input_unregister_handler(&priv->tp_switch.handler);
-> > +		priv->tp_switch.initialized = false;
-> > +	}
-> > +}
-> > +
-> > +static void ideapad_tpswitch_toggle(struct ideapad_private *priv, bool on)
-> > +{
-> > +	guard(spinlock_irq)(&priv->tp_switch.lock);
-> > +
-> > +	priv->tp_switch.active = on;
-> > +	if (on) {
-> > +		struct input_dev *tp_dev = priv->tp_switch.tp_dev;
-> > +		if (tp_dev) {
-> > +			input_report_key(tp_dev, BTN_TOUCH, 0);
-> > +			input_report_key(tp_dev, BTN_TOOL_FINGER, 0);
-> > +			input_report_key(tp_dev, BTN_TOOL_DOUBLETAP, 0);
-> > +			input_report_key(tp_dev, BTN_TOOL_TRIPLETAP, 0);
-> > +			input_report_key(tp_dev, BTN_LEFT, 0);
-> > +			input_report_key(tp_dev, BTN_RIGHT, 0);
-> > +			input_report_key(tp_dev, BTN_MIDDLE, 0);
-> > +			input_sync(tp_dev);
-> > +		}
-> > +	}
-> > +}
-> > +
-> >  /*
-> >   * backlight
-> >   */
-> > @@ -1567,7 +1725,6 @@ static void ideapad_fn_lock_led_exit(struct ideapad_private *priv)
-> >  static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_events)
-> >  {
-> >  	unsigned long value;
-> > -	unsigned char param;
-> >  	int ret;
-> >  
-> >  	/* Without reading from EC touchpad LED doesn't switch state */
-> > @@ -1582,7 +1739,7 @@ static void ideapad_sync_touchpad_state(struct ideapad_private *priv, bool send_
-> >  	 * KEY_TOUCHPAD_ON to not to get out of sync with LED
-> >  	 */
-> >  	if (priv->features.ctrl_ps2_aux_port)
-> > -		i8042_command(&param, value ? I8042_CMD_AUX_ENABLE : I8042_CMD_AUX_DISABLE);
-> > +		ideapad_tpswitch_toggle(priv, value);
-> >  
-> >  	/*
-> >  	 * On older models the EC controls the touchpad and toggles it on/off
-> > @@ -1927,6 +2084,10 @@ static int ideapad_acpi_add(struct platform_device *pdev)
-> >  	if (err)
-> >  		goto input_failed;
-> >  
-> > +	err = ideapad_tpswitch_init(priv);
-> > +	if (err)
-> > +		goto tpswitch_failed;
-> > +
-> >  	err = ideapad_kbd_bl_init(priv);
-> >  	if (err) {
-> >  		if (err != -ENODEV)
-> > @@ -2001,6 +2162,9 @@ static int ideapad_acpi_add(struct platform_device *pdev)
-> >  
-> >  	ideapad_fn_lock_led_exit(priv);
-> >  	ideapad_kbd_bl_exit(priv);
-> > +	ideapad_tpswitch_exit(priv);
-> > +
-> > +tpswitch_failed:
-> >  	ideapad_input_exit(priv);
-> >  
-> >  input_failed:
-> > @@ -2029,6 +2193,7 @@ static void ideapad_acpi_remove(struct platform_device *pdev)
-> >  
-> >  	ideapad_fn_lock_led_exit(priv);
-> >  	ideapad_kbd_bl_exit(priv);
-> > +	ideapad_tpswitch_exit(priv);
-> >  	ideapad_input_exit(priv);
-> >  	ideapad_debugfs_exit(priv);
-> >  	ideapad_sysfs_exit(priv);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                             allnoconfig   gcc-13.3.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                            hsdk_defconfig   gcc-13.2.0
+arc                   randconfig-001-20240820   gcc-13.2.0
+arc                   randconfig-002-20240820   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-14.1.0
+arm                               allnoconfig   clang-20
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-14.1.0
+arm                         assabet_defconfig   gcc-13.2.0
+arm                          collie_defconfig   gcc-14.1.0
+arm                                 defconfig   gcc-13.2.0
+arm                         mv78xx0_defconfig   gcc-14.1.0
+arm                   randconfig-001-20240820   gcc-13.2.0
+arm                   randconfig-002-20240820   gcc-13.2.0
+arm                   randconfig-003-20240820   gcc-13.2.0
+arm                   randconfig-004-20240820   gcc-13.2.0
+arm                           sama5_defconfig   gcc-13.2.0
+arm64                            allmodconfig   clang-20
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-14.1.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240820   gcc-13.2.0
+arm64                 randconfig-002-20240820   gcc-13.2.0
+arm64                 randconfig-003-20240820   gcc-13.2.0
+arm64                 randconfig-004-20240820   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-14.1.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240820   gcc-13.2.0
+csky                  randconfig-002-20240820   gcc-13.2.0
+hexagon                          allmodconfig   clang-20
+hexagon                           allnoconfig   clang-20
+hexagon                          allyesconfig   clang-20
+i386                             allmodconfig   clang-18
+i386                             allmodconfig   gcc-12
+i386                              allnoconfig   clang-18
+i386                              allnoconfig   gcc-12
+i386                             allyesconfig   clang-18
+i386                             allyesconfig   gcc-12
+i386         buildonly-randconfig-001-20240820   clang-18
+i386         buildonly-randconfig-002-20240820   clang-18
+i386         buildonly-randconfig-003-20240820   clang-18
+i386         buildonly-randconfig-004-20240820   clang-18
+i386         buildonly-randconfig-004-20240820   gcc-12
+i386         buildonly-randconfig-005-20240820   clang-18
+i386         buildonly-randconfig-006-20240820   clang-18
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240820   clang-18
+i386                  randconfig-002-20240820   clang-18
+i386                  randconfig-003-20240820   clang-18
+i386                  randconfig-004-20240820   clang-18
+i386                  randconfig-005-20240820   clang-18
+i386                  randconfig-006-20240820   clang-18
+i386                  randconfig-011-20240820   clang-18
+i386                  randconfig-011-20240820   gcc-11
+i386                  randconfig-012-20240820   clang-18
+i386                  randconfig-012-20240820   gcc-12
+i386                  randconfig-013-20240820   clang-18
+i386                  randconfig-013-20240820   gcc-12
+i386                  randconfig-014-20240820   clang-18
+i386                  randconfig-014-20240820   gcc-12
+i386                  randconfig-015-20240820   clang-18
+i386                  randconfig-015-20240820   gcc-12
+i386                  randconfig-016-20240820   clang-18
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-14.1.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch                 loongson3_defconfig   gcc-14.1.0
+loongarch             randconfig-001-20240820   gcc-13.2.0
+loongarch             randconfig-002-20240820   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-14.1.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                       m5208evb_defconfig   gcc-13.2.0
+m68k                        m5272c3_defconfig   gcc-13.2.0
+m68k                       m5275evb_defconfig   gcc-14.1.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-14.1.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-14.1.0
+mips                      bmips_stb_defconfig   gcc-13.2.0
+mips                      maltasmvp_defconfig   gcc-14.1.0
+mips                      pic32mzda_defconfig   gcc-14.1.0
+mips                       rbtx49xx_defconfig   gcc-14.1.0
+mips                          rm200_defconfig   gcc-14.1.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-14.1.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240820   gcc-13.2.0
+nios2                 randconfig-002-20240820   gcc-13.2.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240820   gcc-13.2.0
+parisc                randconfig-002-20240820   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   clang-20
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                      arches_defconfig   gcc-14.1.0
+powerpc                 canyonlands_defconfig   gcc-13.2.0
+powerpc                     ep8248e_defconfig   gcc-13.2.0
+powerpc                        icon_defconfig   gcc-14.1.0
+powerpc                       maple_defconfig   gcc-13.2.0
+powerpc                     mpc5200_defconfig   gcc-13.2.0
+powerpc                 mpc832x_rdb_defconfig   gcc-13.2.0
+powerpc                      ppc64e_defconfig   gcc-13.2.0
+powerpc                      ppc6xx_defconfig   gcc-13.2.0
+powerpc                      ppc6xx_defconfig   gcc-14.1.0
+powerpc                         ps3_defconfig   gcc-14.1.0
+powerpc               randconfig-003-20240820   gcc-13.2.0
+powerpc                    socrates_defconfig   gcc-14.1.0
+powerpc64             randconfig-001-20240820   gcc-13.2.0
+powerpc64             randconfig-002-20240820   gcc-13.2.0
+powerpc64             randconfig-003-20240820   gcc-13.2.0
+riscv                            allmodconfig   clang-20
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   clang-20
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240820   gcc-13.2.0
+riscv                 randconfig-002-20240820   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   clang-20
+s390                              allnoconfig   gcc-14.1.0
+s390                             allyesconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240820   gcc-13.2.0
+s390                  randconfig-002-20240820   gcc-13.2.0
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-14.1.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-14.1.0
+sh                             espt_defconfig   gcc-14.1.0
+sh                 kfr2r09-romimage_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240820   gcc-13.2.0
+sh                    randconfig-002-20240820   gcc-13.2.0
+sh                           se7619_defconfig   gcc-13.2.0
+sh                           se7705_defconfig   gcc-13.2.0
+sh                             sh03_defconfig   gcc-14.1.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240820   gcc-13.2.0
+sparc64               randconfig-002-20240820   gcc-13.2.0
+um                               allmodconfig   clang-20
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   clang-17
+um                                allnoconfig   gcc-14.1.0
+um                               allyesconfig   gcc-12
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240820   gcc-13.2.0
+um                    randconfig-002-20240820   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240820   clang-18
+x86_64       buildonly-randconfig-002-20240820   clang-18
+x86_64       buildonly-randconfig-003-20240820   clang-18
+x86_64       buildonly-randconfig-004-20240820   clang-18
+x86_64       buildonly-randconfig-005-20240820   clang-18
+x86_64       buildonly-randconfig-006-20240820   clang-18
+x86_64                              defconfig   clang-18
+x86_64                              defconfig   gcc-11
+x86_64                randconfig-001-20240820   clang-18
+x86_64                randconfig-002-20240820   clang-18
+x86_64                randconfig-003-20240820   clang-18
+x86_64                randconfig-004-20240820   clang-18
+x86_64                randconfig-005-20240820   clang-18
+x86_64                randconfig-006-20240820   clang-18
+x86_64                randconfig-011-20240820   clang-18
+x86_64                randconfig-012-20240820   clang-18
+x86_64                randconfig-013-20240820   clang-18
+x86_64                randconfig-014-20240820   clang-18
+x86_64                randconfig-015-20240820   clang-18
+x86_64                randconfig-016-20240820   clang-18
+x86_64                randconfig-071-20240820   clang-18
+x86_64                randconfig-072-20240820   clang-18
+x86_64                randconfig-073-20240820   clang-18
+x86_64                randconfig-074-20240820   clang-18
+x86_64                randconfig-075-20240820   clang-18
+x86_64                randconfig-076-20240820   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-14.1.0
+xtensa                randconfig-001-20240820   gcc-13.2.0
+xtensa                randconfig-002-20240820   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
