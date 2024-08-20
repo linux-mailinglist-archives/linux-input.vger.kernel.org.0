@@ -1,99 +1,136 @@
-Return-Path: <linux-input+bounces-5699-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5700-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC42957A7D
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 02:28:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6DE957BEC
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 05:31:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 725671F23072
-	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 00:28:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2F88B21D37
+	for <lists+linux-input@lfdr.de>; Tue, 20 Aug 2024 03:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B15F522A;
-	Tue, 20 Aug 2024 00:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54790481CE;
+	Tue, 20 Aug 2024 03:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S5pcYm8/"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="wb9gJB8E"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46AC4C66;
-	Tue, 20 Aug 2024 00:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E14733DF;
+	Tue, 20 Aug 2024 03:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724113702; cv=none; b=qmM54T+JlhplnfD/7vGiuxFHgl+zTx4F6aXCbryCwgxcpPf6DXcW6Xv9bTeucwPmoqecu6upEjrgwlyuoFtdhuxhGn8xGK4L833IF1rD2sOnGNVb2GWpAi8yubvquzHUUm0HOU6vK3KrM65CirGYILWR3rWfzXljmefXG6c41Uo=
+	t=1724124673; cv=none; b=uylatWXuWz6z9gjKNrMeC4tGCckCsgL2JTmvoGtJ8DJFgHvciRMHAfICuPYXEruHoofoM4sfu/t9CyAHTN68nXtLd8XPm+LYrmnGRKl//9atZ9FFyxQP+PZvjTcbS7x/lhY26tmamK2Hrd8CK0cPkRCmRhSEznxaUBet63XKNe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724113702; c=relaxed/simple;
-	bh=g3gpBwL+B5ZJ8NjCtxm282xSGoZ58QBB9Wx/FNRCdnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TLc1WMwCkYQ0iJ+VkkGiROCAYYgOjS8tmRqY8d1YvWHdFSet1Ysan68IK+yNOG6MOzqycNlO0EKZJ5dE8osTEBzjmXfP/LQ5juIVmkKpvuALJFwsflYuF+8aN1L0T+Y8bS+FlteWO7/EBhAkdPtOVC+EnEm2xhvJnF/YsEc3xes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S5pcYm8/; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2020ac89cabso26507385ad.1;
-        Mon, 19 Aug 2024 17:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724113700; x=1724718500; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5P8WpQoTvhu+O7jRED+d3IXgvB1Af3gFVvat8qHTkBI=;
-        b=S5pcYm8/F7Ao/W106yyIEevEt0DrOxKg+HCdr868yEbuYclYW8aip64MDSYG/PdqwK
-         hiOSiEADH8i9LpegzbX3V0e0/Y0aGRaZPgjCtVeocBHFy0AyvcY1JnxiDS/8hSk0isrP
-         GgfJLjZVd4PAQ3rX5eLTJ1mrGBQyAPpoEmA4UbWFZjlRk/jXuw9UMn4qQFTCD30ytKLG
-         PI33iFRowzCy13p3E90k/+w+3HrmPC7vvDTdI1lMeVXzbt9NBr19EhTrsyHCVkvJBNdn
-         fhLPBY6iLNuvXIjXeNUK3VJDjoz3P7nU8SDlUdqhc4iXZ5xFBgbHzx4Xt+kp+6pmVyqZ
-         J1XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724113700; x=1724718500;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5P8WpQoTvhu+O7jRED+d3IXgvB1Af3gFVvat8qHTkBI=;
-        b=VioKEfFYgo4hgvXdu8e3i7YzMHBcorjrudWI/QvcWe9ZvmfCtLEwtB3ICpH7gU6Peg
-         TLq0r5bCIR7vL5OC7WAixrLY0qlmHV3tmQZEWT6Z2MmqAMHGUPJlEVtxHTzE6FVO/d0C
-         Sn2nh2bHdnwpLk0aplbERrEyRAeyxiXev7x3CB2D1PNq/Dm3IKix10xmp/54LrEx9XPI
-         I1gjy1tfB/sWE2Kn0dxLnYrGoxQhlw+Sau3s9IL+2zlcIoa7A0rpcyogNycpsF1VABHv
-         y00uqCB0RdN4uOzSb0H9kzxtEfU8QE0lAytMpQ4Ly/6LXHGFbEmx+U+h/Fb5cE2meA58
-         OCvA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0+IDFoyJUB2v5JXllP4ME/nzrOvEMwbkMphTLddSN6F+4EOg78ZXeTTXW/7c7FjARvMN9JrPVABF/jKhJ@vger.kernel.org, AJvYcCXlY+KbU+g7w3jkrhmk1+Hai+k1EnFQqL5l2JmkvchYoLkxpIiLJbPREP4/Gt7mLs5le+4ZTX83sa3WRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9M2mnk/GfyBf7OYzcJw4wubAg338M/E+OsIHY/HWLIXHs8H8t
-	TU+t/NdYJ+bqCSmCn8/mDoFWRVHI7snZa5rR3FR5mRQ6I5wXWJg/
-X-Google-Smtp-Source: AGHT+IE8snDFn7fLYkbjB+uaEeiW337OcPjVQGnq007KzIppx9LClrtq8ORqfk1EXqJTykJhODHPhg==
-X-Received: by 2002:a17:902:e5c8:b0:202:35e0:deaf with SMTP id d9443c01a7336-20235e0e226mr64498415ad.39.1724113699481;
-        Mon, 19 Aug 2024 17:28:19 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f80c:1483:bced:7f88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f0320edasm67669745ad.115.2024.08.19.17.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 17:28:19 -0700 (PDT)
-Date: Mon, 19 Aug 2024 17:28:16 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Felix Kaechele <felix@kaechele.ca>
-Cc: Job Noorman <job@noorman.info>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: - fix incorrect size when reading product ID
-Message-ID: <ZsPjIPiKH7UXmF6Q@google.com>
-References: <ZsPdmtfC54R7JVxR@google.com>
- <f6308658-0ce6-4b40-aa6f-dd75668ff142@kaechele.ca>
+	s=arc-20240116; t=1724124673; c=relaxed/simple;
+	bh=o2y4NtQw6PkMCLcvj2u3PAmkBMrJLxt98FGyYIjlE1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfkmKSIdnfxxbmz5D50wOvyIDfZf4H1UeULS3PpOansKAunJN8yzqd3nQECpJUuGVr4HScuIQU88QTkXztsKzA8X6woaxm6j12t2HA5EIjfmeESnxs7sBDp7dwNaLuSGT42bSyR6pr2faOo70VWRSrizRiFo6kP2QuAT3n+hgFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=wb9gJB8E; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 857AC88D3C;
+	Tue, 20 Aug 2024 05:31:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1724124662;
+	bh=RD4icbSIhX45rwxUUXSTQSGNIkWDW0xKEjDV/wBBn0w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=wb9gJB8EVjoeuiBshusKsHO/UqSyI6NkyHahtgV7GUIs6IYl46dUPN6+VFs3Yrs3o
+	 WmAeTrSQbUSrJiq0QiYUoyh7hRv/3O9IZil2yQXh5TmSElUEsaJ/hFQgeuYZZvSTB4
+	 Q+/k/vD9Cc4eX2h/IcDdjabs5X9JCEaDMWDdn/YcseocgPdG2emZq11gH0STAU8y7a
+	 jRuDwEvMe3DRGV7TtjblRJhLohuzPljuGy22K+EBdcVcujTJr/u+SeSScZ25/dxOub
+	 47fS/lj/dGI6MNGSxuY2i0mg665xu4ZBEDier2H6xhcaUHUaReGK+ZdbIRYf20Yw6c
+	 pRnJImsc6wU1w==
+Message-ID: <cd8b6c1e-f7d7-4db2-b178-7391e3111237@denx.de>
+Date: Tue, 20 Aug 2024 05:30:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6308658-0ce6-4b40-aa6f-dd75668ff142@kaechele.ca>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/1] dt-bindings: input: touchscreen: convert
+ ads7846.txt to yaml
+To: Frank Li <Frank.Li@nxp.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Mark Hasemeyer <markhas@chromium.org>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+ <linux-input@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Cc: imx@lists.linux.dev
+References: <20240819180535.368902-1-Frank.Li@nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240819180535.368902-1-Frank.Li@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Mon, Aug 19, 2024 at 08:24:33PM -0400, Felix Kaechele wrote:
-> Thanks for fixing my rookie mistakes ;-)
-> 
-> Just tested it on my Lenovo ThinkSmart View and it works fine.
-> 
-> Tested-by: Felix Kaechele <felix@kaechele.ca>
+On 8/19/24 8:05 PM, Frank Li wrote:
 
-Thanks for the quick test.
+[...]
 
--- 
-Dmitry
+> +  ti,keep-vref-on:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      set to keep Vref on for differential measurements as well.
+
+Please start sentence with uppercase letter.
+
+> +  ti,pendown-gpio-debounce:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Platform specific debounce time for the pendown-gpio.
+> +
+> +  ti,penirq-recheck-delay-usecs:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      If set to non-zero, after samples are taken this delay is applied and
+> +      penirq is rechecked, to help avoid false events.  This value is
+> +      affected by the material used to build the touch layer.
+> +
+> +  ti,pressure-max:
+> +    deprecated: true
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Maximum reported pressure value.
+> +
+> +  ti,pressure-min:
+> +    deprecated: true
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Minimum reported pressure value (threshold).
+> +
+> +  ti,settle-delay-usec:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Settling time of the analog signals; a function of Vcc and the
+> +      capacitance on the X/Y drivers.  If set to non-zero, two samples are
+> +      taken with settle_delay us apart, and the second one is used. ~150
+> +      uSec with 0.01uF caps.
+> +
+> +  ti,swap-xy:
+> +    deprecated: true
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      swap x and y axis.
+
+DTTO
+
+With those two fixed:
+
+Reviewed-by: Marek Vasut <marex@denx.de>
+
+Thanks !
 
