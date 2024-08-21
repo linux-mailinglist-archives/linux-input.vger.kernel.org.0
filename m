@@ -1,251 +1,107 @@
-Return-Path: <linux-input+bounces-5720-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5721-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8B195940C
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 07:28:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3F959510
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 08:49:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A559928154C
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 05:28:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F8001C2262A
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 06:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84C2166F02;
-	Wed, 21 Aug 2024 05:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6186818661E;
+	Wed, 21 Aug 2024 06:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="edKtMg2x"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tkkCjqKk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6063C157E62;
-	Wed, 21 Aug 2024 05:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4661865FF;
+	Wed, 21 Aug 2024 06:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724218109; cv=none; b=oXTDDMpYna/dPVEHgxCF/82Hx+k55eg1yKiGu45169q38YBgUMS5cCeNCuSwpIxY9zTFgCj6+gZaqe5cmNHsvSIc5+PWhXRIJRl4KLedqB0Fd2CaiHrmQa9KNfnMe3Zg/Nt8Ncfyu6p5fKPXWXs6E9MjJAZTfdoc6DxTiXguk1I=
+	t=1724222991; cv=none; b=AvzTusw5Mn9TyPGQkKFENEJgKeqkQe4+M2elzRHHv8iX06nuxYiih0W3AKVIO3PZEK39x6o/Zmdnj4UmCHuz7dJ5OYjKsvM0hdpUSsFein0n52jzvCYaKPKTxYrwYt2FjZHVHssxbT7o+DvfW6p+75toJBTMG6TbtAafJRSqz7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724218109; c=relaxed/simple;
-	bh=aLcHiegIuOi+f+fxw2rJxz/UsUNbZWn/Ch2h2XFIoQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPr9rlT4j8U9WR/sXY08mQSXuzxQDxmiyFxLgbbU2mtI75PpW9kLU0luaVCDbdFUV0ak+x9H3ReZqbVggMVAt5Wu8MA+dwJTmcVtrfgH7f+AEwrdLfT5In2Pyij1gz0oBISx8B4NC/C9CBeN9shxbrpNYzwNV7pKtiX6LUXD94Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=edKtMg2x; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-6c5bcb8e8edso4464143a12.2;
-        Tue, 20 Aug 2024 22:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724218107; x=1724822907; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DTFKIDvCm1Z5mPreMcN7KxNB0etUZ8BUtYGdp/1dbTc=;
-        b=edKtMg2xNe5XuYkN+ew7XmFdtqs+Q6wyeyf2iDPbbSy0YnnzkBcEOgiOp3sAaQGBqw
-         a5Z5DG02BdhJ1D2lsY+0INXSji1G/C+6wRH9VWuLKWHeRRhplgn3d3SwKObscEfr2YdS
-         8Qg9nGGBDVo1FEuK/h+gsapbBiVaJJ0g9zaChNP26af3oHtfHgJU+IdEN8RdxbKDnRj4
-         M5QeYp00/kdbdLwHAGzJmTPgsOi3yz47NwmZ6pU/2aaK2zHakxr4ZKGpNqWBbWTnYluK
-         WnehQOkqY1txPHm3jbp9dtvumjZgH8uPT7pvXH6M/7QtxckEoPjeqFgvcTDpo2QSLOmW
-         ZFlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724218107; x=1724822907;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DTFKIDvCm1Z5mPreMcN7KxNB0etUZ8BUtYGdp/1dbTc=;
-        b=N4BAt0RPtgoW5rA2WAC2qRMZnM9Fuhl0jW1bPmEnWFMZky8bebcdHeomwpwl6tuEoY
-         Pg64AjHgMknpmAhm5i0qLl1dys+x+CcKYR2pZtV1Kj8do5KSbYk9yawUPS35HkxrymFw
-         77ufhgtn7M0eXJbKyR4WnNquaFfYYnn4pkcSLAPYjuiDqzxzzEFhz14cve/C1ghtUtME
-         5CI3pmmwiu/0Hbt1o8yUWsFE1i8GtsjTsdLYV70vuUfWgHIpoVCURZvA5yd55SEMo1jZ
-         qyMYlICXTmSG9eW46sEGen0tKGLFqAg0+5XeJefxRSBWQosa5KaUT1TZuPxnXHcTS3w4
-         aOYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkNj0YEDTLZszz8G8W7kN5YYH90WxNvEvd9IBtO84g7l/XorQImpVI0+Wp8QdNs2WLMqSK/NCQ1sj76vmnpOpF04RNIw==@vger.kernel.org, AJvYcCW70QmB99GeIDLAXCHOYEmmEp0QjWOJyQUvBB5hi/DXANSu01i29PX9t8K6puAcCjr53j9KczFj@vger.kernel.org, AJvYcCWgv7HfqF/9Q9xB3r/yPKdLpYJyFRfU+/BGpTkP8k+tH1cKYP5rL8kx6BDybBGQXtkMBoWUKOvzz3eAcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydY5m2BXDc2Fqkjhjcm0h/tsUIouPOoGHwxc5alZaUUbqoU4yV
-	oIWBWHbo+y2YLn/+e9cTwHlawKywISMvXdArkFjFleui/tOxs5yn
-X-Google-Smtp-Source: AGHT+IF4/W5UKTOzWJfcWClbUVUzvP2wRHB4iGB3pJ+jyH5opKIM1m+Rmv1H5gwXifaXY+kvk9TB4Q==
-X-Received: by 2002:a05:6a20:9e4e:b0:1c4:b8a1:6d54 with SMTP id adf61e73a8af0-1cad8145eeamr1908544637.36.1724218107253;
-        Tue, 20 Aug 2024 22:28:27 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9f8b:d2d2:8416:b9d1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d5ebba6f7esm676665a91.55.2024.08.20.22.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 22:28:26 -0700 (PDT)
-Date: Tue, 20 Aug 2024 22:28:24 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Ike Panhc <ike.pan@canonical.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@chromium.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: ideapad-laptop: Stop calling
- i8042_command()
-Message-ID: <ZsV6-NRkJLJhHxiq@google.com>
-References: <ZrDwF919M0YZTqde@mail.gmail.com>
- <5c5120a7-4739-4d92-a5b8-9b9c60edc3b7@redhat.com>
- <ZroaE5Q6OdGe6ewz@mail.gmail.com>
- <80dc479e-33af-4d09-8177-7862c34a4882@redhat.com>
- <ZrpFSnCQ0T4_7zAB@google.com>
- <2d5be262-3bfd-4b66-bee4-97c89a9a4707@redhat.com>
- <Zrph94r8haR_nbj7@google.com>
- <ZsJZ7fKJtNTbXhi7@google.com>
- <ZsR0HdzglEH19dVH@mail.gmail.com>
- <ZsUNUh7IGeduDUNX@mail.gmail.com>
+	s=arc-20240116; t=1724222991; c=relaxed/simple;
+	bh=BqvEjNaBLPixdJTzZ/B6t5WySxm2QEG9jD9TzfsRKHk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mIR56YdtUwEtGFn/HjqR0coQR/lmkPtJasgtFAxxnUcthdSrcSHLO1d8TJqJXag/7XXGpcq3r+jUVVB9VfP7kuLb2PYxIHPr8NmU/bgvSF3nqpNSaTelZqI5vkr6fLnqzw3Fltp/Vupvw9LgLDJolT++sXmibeuKs73Nt2t3/fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tkkCjqKk; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1724222975; x=1724827775; i=markus.elfring@web.de;
+	bh=BqvEjNaBLPixdJTzZ/B6t5WySxm2QEG9jD9TzfsRKHk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=tkkCjqKkUdS10Y5oModBEchGIL9OZpGZ8YnQfaVUPWav/aHljNJumMbwLJsjyG+N
+	 iuzUbkiwF7eUAXF0RETYDGLqB9LomN1uTwBBSK0XmXA9mE+I71yFs4xSORIE5rRlv
+	 bJ/boc2kJwFmTpb1auOW0TATGYND9BWIaMW0PuPG/qWwL4D7m6gMXFp0851A8TvxV
+	 LSKxSx6VPJKzrqoK/8U4APQpVtazthptgmUGy9J+U1mEjNhxM50VQJYRUB7O3SKaR
+	 aGXQsVxVo90bhOPo6G5k2marFX7F9o4GNYGWgWg1VngRDQzToqvpKjXsWOzn1g+Ch
+	 M8BwsVIo2Or4qAe4JA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MMp8Y-1sO1oR2Xqu-00U7iB; Wed, 21
+ Aug 2024 08:49:35 +0200
+Message-ID: <8059d887-b765-4d62-8367-614fe0a0a462@web.de>
+Date: Wed, 21 Aug 2024 08:49:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZsUNUh7IGeduDUNX@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3] HID: corsair-void: Add Corsair Void headset family driver
+To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+References: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com>
+ <577e96df-5535-4530-ac62-edc53881a443@web.de>
+ <CALTg27mK9wPC_1sRzk-Z-NCm7a+25KrEYwB8=JQN62RrCASOOw@mail.gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CALTg27mK9wPC_1sRzk-Z-NCm7a+25KrEYwB8=JQN62RrCASOOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:W6HQPTJTd9h/3szQ3mScOiF4oLKbiPaHTYGvV4QuIj4XBuR3Z4O
+ VKWXtY814lJ0OC1dvkthh0VUJYrznL01jEzOv2sBlboRabaYyLWPaOv8trWkUM/10jvHlvZ
+ u5JfaZnaBT14v1nlqZWMvA+gium4k7bnUB1RMxtCVV92BV1l2d0vCLznBc31akb155IgX5d
+ WeDTZugbSxSQumpnERYng==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:f8rMYqyFe6k=;oGvMK8+LwCc1ohzOK6PtcHHeHtn
+ +BHCJqe6SbaQEfYWN9Li30uYhHjC21eDdfiauSH1QOIlAhvp0GoqX/0/vhNf+ovZRzJFRTw7g
+ A77I6EcmrDo1GMsX3H4EronMLWSX9Nn5fmcMHoJphpykpsx/Z8y2ViBdDEGyf14zGzkUdpRXe
+ aFLvsvSCOPWl6/POTrqDHJZAmx/tHd1Dx9wtrBKthrFnqgCgCYled2x5+u3cS/SQOlP0PbOVZ
+ F+WI9oMhGmfHyF8jYOAa3/517J7z7qZNvbiIm6kzQhwehKDndsG29bcI19/cgahV5OdqJCltb
+ PVyVP5p8bPu8NjO3pHqdF7rjspkyfB7Jmp0NZumHIsEgQ8V2NQyCzUN1Ccf2OXDdV3Tbprkaq
+ hDGujsNhSXYfk0QNHXrzOMsG1XLgzg5efc6LVlkPa54a9tk/1BVHBAEmmOMJzEmU2k+feqdzP
+ V0W9/WnqprK/KIwAm2OoEdOgSxltmXCEMtXZO5eQzwPE77DnLj3C0X7sEZERbBP5Y9xmEJ5iR
+ wNDfmCD65kct5s+6OWM1FewVYkX5a80CvqwuMbCnq1caYXSJGGYhM9J66c3GmDp9bbhH6gwsa
+ XvUhz9HqlD1wd9h1jMaGZcDTqaXwol6NZWwh9j6Q+thn56l8uCyZhWDhwLekgh/WHVStpbQtT
+ wFCV1Su3WgzwhH2gZlcZGm+JGRzOQcFJc2IdgrFQntkqGS5PGplC2G4WjkR5Ri42G7dAxdef7
+ MNEj15V0YY+5s+qIGpzpLRVSdj5F7FZZnuhKshHffT4kVHzLFpsuQhiUKb6CVDAU2aHYMmGVF
+ ZQ3nGWgcwh3/6CDf3DEADO4Q==
 
-On Wed, Aug 21, 2024 at 12:40:34AM +0300, Maxim Mikityanskiy wrote:
-> On Tue, 20 Aug 2024 at 13:46:53 +0300, Maxim Mikityanskiy wrote:
-> > On Sun, 18 Aug 2024 at 13:30:37 -0700, Dmitry Torokhov wrote:
-> > > 
-> > > Maybe something like below can work?
-> > 
-> > Great patch, thank you, I'll test it and report the results. See some
-> > minor comments below.
-> > 
-> > > 
-> > > 
-> > > platform/x86: ideapad-laptop: do not poke keyboard controller
-> > > 
-> > > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > 
-> > > On Ideapad Z570 the driver tries to disable and reenable data coming
-> > > from the touchpad by poking directly into 8042 keyboard controller.
-> > > This may coincide with the controller resuming and leads to spews in
-> > > dmesg and potentially other instabilities.
-> > > 
-> > > Instead of using i8042_command() to control the touchpad state create a
-> > > input handler that serves as a filter and drop events coming from the
-> > > touchpad when it is supposed to be off.
-> > > 
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> > >  drivers/platform/x86/ideapad-laptop.c |  171 ++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 168 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> > > index fcf13d88fd6e..2f40feefd5e3 100644
-> > > --- a/drivers/platform/x86/ideapad-laptop.c
-> > > +++ b/drivers/platform/x86/ideapad-laptop.c
-> > > @@ -17,7 +17,6 @@
-> > >  #include <linux/device.h>
-> > >  #include <linux/dmi.h>
-> > >  #include <linux/fb.h>
-> > > -#include <linux/i8042.h>
-> > >  #include <linux/init.h>
-> > >  #include <linux/input.h>
-> > >  #include <linux/input/sparse-keymap.h>
-> > > @@ -157,6 +156,13 @@ struct ideapad_private {
-> > >  		struct led_classdev led;
-> > >  		unsigned int last_brightness;
-> > >  	} fn_lock;
-> > > +	struct {
-> > > +		bool initialized;
-> > > +		bool active;
-> > > +		struct input_handler handler;
-> > > +		struct input_dev *tp_dev;
-> > > +		spinlock_t lock;
-> > > +	} tp_switch;
-> > >  };
-> > >  
-> > >  static bool no_bt_rfkill;
-> > > @@ -1236,6 +1242,158 @@ static void ideapad_check_special_buttons(struct ideapad_private *priv)
-> > >  	}
-> > >  }
-> > >  
-> > > +struct ideapad_tpswitch_handle {
-> > > +	struct input_handle handle;
-> > > +	struct ideapad_private *priv;
-> > > +};
-> > > +
-> > > +#define to_tpswitch_handle(h) \
-> > > +	container_of(h, struct ideapad_tpswitch_handle, handle);
-> > > +
-> > > +static int ideapad_tpswitch_connect(struct input_handler *handler,
-> > > +				    struct input_dev *dev,
-> > > +				    const struct input_device_id *id)
-> > > +{
-> > > +	struct ideapad_private *priv =
-> > > +		container_of(handler, struct ideapad_private, tp_switch.handler);
-> > > +	struct ideapad_tpswitch_handle *h;
-> > > +	int error;
-> > > +
-> > > +	h = kzalloc(sizeof(*h), GFP_KERNEL);
-> > > +	if (!h)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	h->priv = priv;
-> > > +	h->handle.dev = dev;
-> > > +	h->handle.handler = handler;
-> > > +	h->handle.name = "ideapad-tpswitch";
-> > > +
-> > > +	error = input_register_handle(&h->handle);
-> > > +	if (error)
-> > > +		goto err_free_handle;
-> > > +
-> > > +	/*
-> > > +	 * FIXME: ideally we do not want to open the input device here
-> > > +	 * if there are no other users. We need a notion of "observer"
-> > > +	 * handlers in the input core.
-> > > +	 */
-> > > +	error = input_open_device(&h->handle);
-> > > +	if (error)
-> > > +		goto err_unregister_handle;
-> > > +
-> > > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> > > +		priv->tp_switch.tp_dev = dev;
-> > > +
-> > > +	return 0;
-> > > +
-> > > + err_unregister_handle:
-> > > +	input_unregister_handle(&h->handle);
-> > > +err_free_handle:
-> > > +	kfree(h);
-> > > +	return error;
-> > > +}
-> > > +
-> > > +static void ideapad_tpswitch_disconnect(struct input_handle *handle)
-> > > +{
-> > > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > > +	struct ideapad_private *priv = h->priv;
-> > > +
-> > > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> > 
-> > Nice syntax, I didn't know about it before.
-> > 
-> > > +		priv->tp_switch.tp_dev = NULL;
-> > > +
-> > > +	input_close_device(handle);
-> > > +	input_unregister_handle(handle);
-> > > +	kfree(h);
-> > > +}
-> > > +
-> > > +static bool ideapad_tpswitch_filter(struct input_handle *handle,
-> > > +				    unsigned int type, unsigned int code,
-> > > +				    int value)
-> > > +{
-> > > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > > +	struct ideapad_private *priv = h->priv;
-> > > +
-> > > +	if (!priv->tp_switch.active)
-> > 
-> > This check seems inverted. ideapad_tpswitch_toggle assigns true when the
-> > touchpad is enabled.
-> 
-> I tested the patch on Z570 (with this check inverted), and it seems to
-> work great.
-> 
-> Also tested what happens on resume from suspend: the laptop reenables
-> the touchpad (the LED turns off on suspend and blinks briefly on
-> resume), and the driver handles it properly.
+>> Would you like to choose a corresponding name for such an enumeration?
+>
+> I'm not entirely convinced it needs one, as the value names are fairly d=
+escriptive
+>
+>> Can any other data type be reused for this purpose?
+>
+> I'm not sure what you're asking
 
-Great, thank you! Give me a couple of days and I think I will implement
-observer/passive handler support and we can figure out how to merge
-this...
+I imagine that more advanced programming interfaces can be applied for
+the management of batteries together with some devices.
 
--- 
-Dmitry
+Regards,
+Markus
 
