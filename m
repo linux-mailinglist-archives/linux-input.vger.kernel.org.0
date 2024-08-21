@@ -1,125 +1,75 @@
-Return-Path: <linux-input+bounces-5726-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5727-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBD9959966
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 13:18:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADC6959CA9
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 14:58:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B59E283CF4
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 11:18:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E10561F22187
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 12:58:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B99209750;
-	Wed, 21 Aug 2024 09:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39B88192D7E;
+	Wed, 21 Aug 2024 12:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="MCrADFJy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm5RoP+t"
 X-Original-To: linux-input@vger.kernel.org
-Received: from msa.smtpout.orange.fr (msa-208.smtpout.orange.fr [193.252.23.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1A8208D5E;
-	Wed, 21 Aug 2024 09:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B33188A3E;
+	Wed, 21 Aug 2024 12:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724233956; cv=none; b=H5Jwf98/JKxY23p2A1+NYr7TvS5NzpA7Jd4/XdMiVjMgXdeHSqihc0kDDpISQ58dPdQNxdq2fGLNnakYgXvR9Rc3mh+Rm96OkcrE5usQSeLAGxURMXTN8ThnuqqpAlvw0mzEV95bDJNqoQrGZ7KMa6U0qO0VkFqynD/BTyuyWrE=
+	t=1724245104; cv=none; b=fhOFrICLkxLSTop+WBQ+w27val+EfELsJv4rAAgSLiDsU6dW8BEhJhLAUG7ljaYHhvgfjKAAezOwRBAoq5CqU1tZrcbRKvj/D7Ttm08Fz3qspd7ujZJHHuiZWrjzASLSJTecYLnnxkeIrRRKQIUNJIX4/l8273d3mx3YJ0J/ZaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724233956; c=relaxed/simple;
-	bh=efaMJisE1csBNHMgzNlrdBMW6I1j3sElVPdv8eM7GVU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f3uIoSV79C5riQ6Yr/dhzmXnC0SPtsEY6i6CYZEgFub4oqAzvFEA/B6tWIj6ah4pByt5T6qBOKYVxMWOptPltvC+OKR5maa0QAVQTPu2AOvlAUWp8JinMXoBrBCO3lNqv3wQBvOzwjbBJ4Y96Dlssq4CjO1m8oSFIjmROY9pLpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=MCrADFJy; arc=none smtp.client-ip=193.252.23.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id gi0usBwoUzHoQgi0vsJnJd; Wed, 21 Aug 2024 11:52:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724233945;
-	bh=9GZn7f7pGGsAOSSuARBG8S3X2+G0DybjoUxpTfZIbVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=MCrADFJyguIsaQaxMtM57PNk0PcldvYVgJ4NQrkqd0Dx+12Q49XcGpO/fRMXQCj6N
-	 4GRAAGC8/cAbwsbOMY0j4HTZHtWZosB2KHe2YEdnaBGeS0Mj+Vr9E9tmxBjfrMRssW
-	 yV2Mqw+smCnEvDgStJZ8kv57W4caR/IGK39G4oDEznN+AoOeRHCu6qN2f3xg/AM0c3
-	 /aCs5c+GSjlCkXI2Wc2G2yLJzBNtsgcsynnY1sPZdNIQqWn/C4Io5MQcvhk8ZfpJfb
-	 qC3h6UCmQu+lD1CLUFCEC/+BRfDFzFYTedbbp0Gjp2ZCbsmqAYTbgngOGo753IssRa
-	 ZZ8M5p+ZljgGg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 21 Aug 2024 11:52:25 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <78b667fa-8e54-4023-9187-4ecb999d3c01@wanadoo.fr>
-Date: Wed, 21 Aug 2024 11:52:24 +0200
+	s=arc-20240116; t=1724245104; c=relaxed/simple;
+	bh=mpBh5TTSg1PYnhzinoSMRvpQ0SALxojd6diANBY1Llk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=DwUnht+5EY0b5RG+3YmsbkVteDK3KSBjqAOC6JjNYwJyFCll1S0RlrV9R1DXA8Hho3sP9akGE//A5Yrnx2YzF5XJuDpWy2PeWBPPzHxBS2QMYx7WzsGBnKOI7vihofh1T1x/3XHq/B5JRRbY8HSnKaD2P6lrKt2f0g9xFG91qXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm5RoP+t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 387CBC32782;
+	Wed, 21 Aug 2024 12:58:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724245103;
+	bh=mpBh5TTSg1PYnhzinoSMRvpQ0SALxojd6diANBY1Llk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=Mm5RoP+t8Y9ONXsB+YR9D50QRJW5a+0LSgjwpdFAuZhi4YnPghtkt34MELQ7wJDbm
+	 kEaIuW/Bhzuwyq+0hu5u3qb4vPRj4ZLcM4CTvsYdhK5ofTYkI6tTgDbhotHU/k2bFF
+	 y6FEqCyU5sVgYMDeXmAsWBTiVI3+DSjEHA94Hv403lZe9L5GMGhNFqgCDmRubRqn4T
+	 zSIXP0nNrm5Se36mA3lSkLrYDEKhvYu9ugFAKb+eziqB1UellrgRLT54+Vk3uSaH09
+	 dVr3fx+oyObouQqYUYXTPg9bToWt/FvyTihwRws9mMAaB9GhKwY84CrY+Tolk2z8N3
+	 6xL4vVY6dycrw==
+Date: Wed, 21 Aug 2024 14:58:21 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] HID: hidraw - add HIDIOCREVOKE ioctl
+In-Reply-To: <20240821065936.GA635104@quokka>
+Message-ID: <nycvar.YFH.7.76.2408211458000.12664@cbobk.fhfr.pm>
+References: <20240812052753.GA478917@quokka> <nycvar.YFH.7.76.2408210231050.12664@cbobk.fhfr.pm> <20240821065936.GA635104@quokka>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2] HID: corsair-void: Add Corsair Void headset family driver
-To: Markus Elfring <Markus.Elfring@web.de>,
- Stuart Hayhurst <stuart.a.hayhurst@gmail.com>, linux-input@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
-References: <20240818231940.34635-5-stuart.a.hayhurst@gmail.com>
- <bd07e14e-eae8-4264-b275-9efdf635cd82@web.de>
- <CALTg27mgOx3W3WENxFh0sEEeNYKEjrZCEQGoBi9=vjgiaZnZtQ@mail.gmail.com>
- <65b8f7e4-358f-4943-8ce0-c28e4c947016@web.de>
- <CALTg27nu2_26WwFKc2hWbWY9B40QQLxJ_bM97OWY9VoRo-d_FA@mail.gmail.com>
- <f0aa2ca0-6256-48e4-8d2a-dfd5da072ad4@web.de>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <f0aa2ca0-6256-48e4-8d2a-dfd5da072ad4@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Le 21/08/2024 à 09:26, Markus Elfring a écrit :
->>> This was the case for a while.
->>>
->>> Increasing applications of scope-based resource management provide
->>> further opportunities for smaller scopes according to some local variables,
->>> don't they?
->>
->> Personally I'd rather it just fits in with the rest of the kernel,
->> but if the general consensus is that new drivers should use tighter
->> scopes, I can do that instead.
-> 
-> There are the usual communication challenges to consider also especially
-> with collateral evolution in such software areas.
-> 
-> 
->>> How do you think about to collaborate with other data structures
->>> than character arrays?
->>>
->>> See also:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst?h=v6.11-rc4#n953
->>
->> Hm, I picked a character array since all it's doing is sending a
->> buffer to the device.
->> There's no published specification to follow, only "Well the Windows
->> driver sends these bytes and this happens".
->> So there isn't really a structure that really comes naturally,
->> especially with all the magic numbers.
-> 
-> I imagine that further development concerns can be adjusted accordingly.
-> 
-> 
->> Unless you're suggesting I just do `unsigned char send_buf[3] = {...}`?
-> 
+On Wed, 21 Aug 2024, Peter Hutterer wrote:
 
-Hi,
+> Benjamin just messaged me about a HID CI pipeline failure caused by this
+> patch, looks like it's buggy. Can you please revert it again?  I'll send
+> out a fixed version ASAP, thanks.
 
-If I recollect correctly, there may be an alignment issue and just using 
-the stack is not enough to guaranty what is needed.
+OK, thanks for the report. It's now reverted in for-next, and branch 
+for-6.12/hidraw is dropped.
 
-
-CJ
-
-
-> Such a programming approach might also look promising.
-> 
-
+-- 
+Jiri Kosina
+SUSE Labs
 
 
