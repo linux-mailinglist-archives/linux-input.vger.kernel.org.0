@@ -1,107 +1,147 @@
-Return-Path: <linux-input+bounces-5721-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5722-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3F959510
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 08:49:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D153959534
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 08:59:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F8001C2262A
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 06:49:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFD1E1F2195B
+	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 06:59:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6186818661E;
-	Wed, 21 Aug 2024 06:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E776193419;
+	Wed, 21 Aug 2024 06:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tkkCjqKk"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="0OzslZWD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qBqJ6wW1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4661865FF;
-	Wed, 21 Aug 2024 06:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5E0193417;
+	Wed, 21 Aug 2024 06:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724222991; cv=none; b=AvzTusw5Mn9TyPGQkKFENEJgKeqkQe4+M2elzRHHv8iX06nuxYiih0W3AKVIO3PZEK39x6o/Zmdnj4UmCHuz7dJ5OYjKsvM0hdpUSsFein0n52jzvCYaKPKTxYrwYt2FjZHVHssxbT7o+DvfW6p+75toJBTMG6TbtAafJRSqz7w=
+	t=1724223590; cv=none; b=QRy0YcieoTANu29sbiUKI2WsUGkdV4TgQFcd6K8v/mRBW2skMSyH5CRe4WzpcdCNyM30UKky/I+ukiP5Wsp9jrqTwmeS7672BZV6cXTOnuoV8rgsQuHLH8WD7c2+V9Is8Fc+aeUF72s0oHwOLi+qFCRjjpcl9dag0Sv5VFj/LJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724222991; c=relaxed/simple;
-	bh=BqvEjNaBLPixdJTzZ/B6t5WySxm2QEG9jD9TzfsRKHk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mIR56YdtUwEtGFn/HjqR0coQR/lmkPtJasgtFAxxnUcthdSrcSHLO1d8TJqJXag/7XXGpcq3r+jUVVB9VfP7kuLb2PYxIHPr8NmU/bgvSF3nqpNSaTelZqI5vkr6fLnqzw3Fltp/Vupvw9LgLDJolT++sXmibeuKs73Nt2t3/fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tkkCjqKk; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1724222975; x=1724827775; i=markus.elfring@web.de;
-	bh=BqvEjNaBLPixdJTzZ/B6t5WySxm2QEG9jD9TzfsRKHk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=tkkCjqKkUdS10Y5oModBEchGIL9OZpGZ8YnQfaVUPWav/aHljNJumMbwLJsjyG+N
-	 iuzUbkiwF7eUAXF0RETYDGLqB9LomN1uTwBBSK0XmXA9mE+I71yFs4xSORIE5rRlv
-	 bJ/boc2kJwFmTpb1auOW0TATGYND9BWIaMW0PuPG/qWwL4D7m6gMXFp0851A8TvxV
-	 LSKxSx6VPJKzrqoK/8U4APQpVtazthptgmUGy9J+U1mEjNhxM50VQJYRUB7O3SKaR
-	 aGXQsVxVo90bhOPo6G5k2marFX7F9o4GNYGWgWg1VngRDQzToqvpKjXsWOzn1g+Ch
-	 M8BwsVIo2Or4qAe4JA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MMp8Y-1sO1oR2Xqu-00U7iB; Wed, 21
- Aug 2024 08:49:35 +0200
-Message-ID: <8059d887-b765-4d62-8367-614fe0a0a462@web.de>
-Date: Wed, 21 Aug 2024 08:49:06 +0200
+	s=arc-20240116; t=1724223590; c=relaxed/simple;
+	bh=RJZGVmbSm9dTUqRx+uATMSqYind8iYZaDoVC12M/+Do=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CLI3+1ndYoulJ3xxoWfMMX9kxGdZjRq8EgBGG6hABfTup2suJhyZsEJy1pJUBf2GxqOAInh1siF9A6S8oQMJLnBiCJHEiUR0blqbtdkSXScBK0F+Z11u34dcdjwovMjpZyKLOjnxS/8g9ZRkET5MStI4/f6TFkuxjh5SMNMfaE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=0OzslZWD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qBqJ6wW1; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-02.internal (phl-compute-02.nyi.internal [10.202.2.42])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 4D959138FF3C;
+	Wed, 21 Aug 2024 02:59:47 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 21 Aug 2024 02:59:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1724223587; x=1724309987; bh=HUYGoPtkPX
+	SIcq5G75OesE2wTzGU8YCmJtPfixrqDfQ=; b=0OzslZWDCI/Fq2nmcDplF86+2v
+	Wd0ETYi/m7nqxgxM7D1LnTrFRh1rU2rKYrtCiYSvP12W4HhvGSse0oVF7Hqhh9zU
+	qOGbT0LhTNFWoQ5jowpwFtFUxD/FiojkdnloqjxLjkj2pb+dgh47GKnjMl6uaXr4
+	S5w+bhjHRvMaWAYnGQvOHvCznIXu5umkbFXOXZ3k4K0jp4h8wu2Sj8hG1pQfohKS
+	wRMjJpkAUTblY0MLNEfLcDb0NV7+oO7LELPBnuQbJJZDedVBUE77znds3t/KjFFQ
+	fkcCx+yLpgj3gVYRPJkW9UH9viRSiNJv5ipcTTJCudn2PtTS/pQL03GsPV/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1724223587; x=1724309987; bh=HUYGoPtkPXSIcq5G75OesE2wTzGU
+	8YCmJtPfixrqDfQ=; b=qBqJ6wW1iX2SwIKg/YR4i3Nb/RNRc+gbyAXnHnNjdwNM
+	APu54gNJV+nOxWKCxVXh6juHPP5QceExlHK2CyT4bYjGp/Pd9fNzHaXaFSyfeXK8
+	sUsKQ0iqTSOY2eoX4wpOca0RQKz30jKFkDLStp5kUKs5Mpm565ndi24TZP/shWTA
+	8f+6/gHPZKWFohvV3AYUeJLXrCxQbB4cX7COtZsxfmMPNHFp1qCn7Dg6EhRnXjxz
+	Amfd7pUlZ72ef+0RcdKTKQTs8jkExRAKEwuJURNb8gTJGOGrEtF+RUnYVtTB9NaQ
+	K2Tx/AItVPfbE0rdZ9Z5088kBrEp8dSdB/oUXQ4b3w==
+X-ME-Sender: <xms:Y5DFZvPIkkbAjOJOW3EdmqXun2KFr4597ciB1XDgwo3C54tH8ieEhw>
+    <xme:Y5DFZp_9Ay-f0QVV8hEUzfNQlFs1cEpNWDzWfRG4vHazU11yDQkUu3_s6IeB9HF3g
+    Ygn6Xidvo_RcKxl33k>
+X-ME-Received: <xmr:Y5DFZuQuhEKdbUUmKGeyxuf2OD2zitwvWzMmeBc4N_7He8yUzZ2GJIix_ggrLk_NUWI7bi8iB9wu7v5E9eAl-amoTYsluxBRBtCe>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddujedguddufecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrh
+    gvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepjeefffdvfffggeeiheet
+    vefgtefhvdegieelffekfeeuiedvtdefgeeftdekveetnecuffhomhgrihhnpehgihhthh
+    husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpth
+    htohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhikhhosheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtohepsggvnhhjrghmihhnrdhtihhsshhoihhrvghssehrvg
+    guhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:Y5DFZjs7fEvn7gIZ5JMGQo1qom6L7EfBuKNV30kSQ8-2aLXQpzru1A>
+    <xmx:Y5DFZnf-w8HWLaY3VJUz-SJMgdxrvjEHJ4mgx0Y9IIY8HUaAgyWPbQ>
+    <xmx:Y5DFZv3erN9jCe-wtW7wBRW55HrkDECAFP4n66vcfUGWoP8ncQgjgA>
+    <xmx:Y5DFZj_Ry_Y25bxf7aejnq2IkCyGqn7llFUsG3nKXp31jZ6byrhDGw>
+    <xmx:Y5DFZu6oSBtUrJOEbozNPihxwKggX51w4hhP9j9Nq4Jwh9Ggi4simi2y>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Aug 2024 02:59:45 -0400 (EDT)
+Date: Wed, 21 Aug 2024 16:59:36 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] HID: hidraw - add HIDIOCREVOKE ioctl
+Message-ID: <20240821065936.GA635104@quokka>
+References: <20240812052753.GA478917@quokka>
+ <nycvar.YFH.7.76.2408210231050.12664@cbobk.fhfr.pm>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3] HID: corsair-void: Add Corsair Void headset family driver
-To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
- linux-input@vger.kernel.org, linux-pm@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
-References: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com>
- <577e96df-5535-4530-ac62-edc53881a443@web.de>
- <CALTg27mK9wPC_1sRzk-Z-NCm7a+25KrEYwB8=JQN62RrCASOOw@mail.gmail.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <CALTg27mK9wPC_1sRzk-Z-NCm7a+25KrEYwB8=JQN62RrCASOOw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W6HQPTJTd9h/3szQ3mScOiF4oLKbiPaHTYGvV4QuIj4XBuR3Z4O
- VKWXtY814lJ0OC1dvkthh0VUJYrznL01jEzOv2sBlboRabaYyLWPaOv8trWkUM/10jvHlvZ
- u5JfaZnaBT14v1nlqZWMvA+gium4k7bnUB1RMxtCVV92BV1l2d0vCLznBc31akb155IgX5d
- WeDTZugbSxSQumpnERYng==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:f8rMYqyFe6k=;oGvMK8+LwCc1ohzOK6PtcHHeHtn
- +BHCJqe6SbaQEfYWN9Li30uYhHjC21eDdfiauSH1QOIlAhvp0GoqX/0/vhNf+ovZRzJFRTw7g
- A77I6EcmrDo1GMsX3H4EronMLWSX9Nn5fmcMHoJphpykpsx/Z8y2ViBdDEGyf14zGzkUdpRXe
- aFLvsvSCOPWl6/POTrqDHJZAmx/tHd1Dx9wtrBKthrFnqgCgCYled2x5+u3cS/SQOlP0PbOVZ
- F+WI9oMhGmfHyF8jYOAa3/517J7z7qZNvbiIm6kzQhwehKDndsG29bcI19/cgahV5OdqJCltb
- PVyVP5p8bPu8NjO3pHqdF7rjspkyfB7Jmp0NZumHIsEgQ8V2NQyCzUN1Ccf2OXDdV3Tbprkaq
- hDGujsNhSXYfk0QNHXrzOMsG1XLgzg5efc6LVlkPa54a9tk/1BVHBAEmmOMJzEmU2k+feqdzP
- V0W9/WnqprK/KIwAm2OoEdOgSxltmXCEMtXZO5eQzwPE77DnLj3C0X7sEZERbBP5Y9xmEJ5iR
- wNDfmCD65kct5s+6OWM1FewVYkX5a80CvqwuMbCnq1caYXSJGGYhM9J66c3GmDp9bbhH6gwsa
- XvUhz9HqlD1wd9h1jMaGZcDTqaXwol6NZWwh9j6Q+thn56l8uCyZhWDhwLekgh/WHVStpbQtT
- wFCV1Su3WgzwhH2gZlcZGm+JGRzOQcFJc2IdgrFQntkqGS5PGplC2G4WjkR5Ri42G7dAxdef7
- MNEj15V0YY+5s+qIGpzpLRVSdj5F7FZZnuhKshHffT4kVHzLFpsuQhiUKb6CVDAU2aHYMmGVF
- ZQ3nGWgcwh3/6CDf3DEADO4Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YFH.7.76.2408210231050.12664@cbobk.fhfr.pm>
 
->> Would you like to choose a corresponding name for such an enumeration?
->
-> I'm not entirely convinced it needs one, as the value names are fairly d=
-escriptive
->
->> Can any other data type be reused for this purpose?
->
-> I'm not sure what you're asking
+Hi Jiri,
 
-I imagine that more advanced programming interfaces can be applied for
-the management of batteries together with some devices.
+On Wed, Aug 21, 2024 at 02:31:32AM +0200, Jiri Kosina wrote:
+> On Mon, 12 Aug 2024, Peter Hutterer wrote:
+> 
+> > There is a need for userspace applications to open HID devices directly.
+> > Use-cases include configuration of gaming mice or direct access to
+> > joystick devices. The latter is currently handled by the uaccess tag in
+> > systemd, other devices include more custom/local configurations or just
+> > sudo.
+> > 
+> > A better approach is what we already have for evdev devices: give the
+> > application a file descriptor and revoke it when it may no longer access
+> > that device.
+> > 
+> > This patch is the hidraw equivalent to the EVIOCREVOKE ioctl, see
+> > commit c7dc65737c9a607d3e6f8478659876074ad129b8 for full details.
+> > 
+> > An MR for systemd-logind has been filed here:
+> > https://github.com/systemd/systemd/pull/33970
+> > 
+> > hidraw_is_revoked() and hidraw_open_errno() are both defined as weak
+> > functions to allow for a BPF program to deny access to a /dev/hidraw
+> > device. The function returns 0 on success or a negative errno
+> > otherwise that is returned to the caller.
+> > 
+> > As a use-case example, a gamepad-managing process could attach a BPF
+> > program that defaults to -EACCESS for all hidraw devices except those
+> > with ID_INPUT_JOYSTICK set by udev.
+> > 
+> > Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> 
+> Thanks Peter. Now queued in hid.git#for-6.12/hidraw.
 
-Regards,
-Markus
+Benjamin just messaged me about a HID CI pipeline failure caused by this
+patch, looks like it's buggy. Can you please revert it again?  I'll send
+out a fixed version ASAP, thanks.
+
+Cheeres,
+  Peter
 
