@@ -1,55 +1,55 @@
-Return-Path: <linux-input+bounces-5736-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5737-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EE495AD24
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 08:03:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6FA95AD48
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 08:15:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 674A3B211AB
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 06:02:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 879251F23FEB
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 06:15:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47CD1304B0;
-	Thu, 22 Aug 2024 06:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1ACD57CBE;
+	Thu, 22 Aug 2024 06:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="rxQUoBxE"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="HgTGu5RU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
+Received: from msa.smtpout.orange.fr (msa-216.smtpout.orange.fr [193.252.23.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76E212D214;
-	Thu, 22 Aug 2024 06:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B43AD2D;
+	Thu, 22 Aug 2024 06:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724306572; cv=none; b=T2NcgzC8RrQnl5BkcFCtCRgfnFKD/SzVo3I9RhmJsIXBoEw/akd64/AoGV7etqMDiOpGSc1VW9eKhl0M5DmrLTh77YSzOpyyKLGKO7lacZELqF9sJfEc5YLFXTgs8Qyhgn219x2C/8/iZXb+LRxkJxTFJ9nUXfdkCN1K3HMVc6c=
+	t=1724307325; cv=none; b=rLKBKzoDDeNkTm1FbZ3FiFJYppr1NkEZ74kak78sTrQqYcwA0VOvCKCwtCCiWt2MQLCYy+Ayoo/RG8/aVSAY9zKE6iZk7FP+TfkAJfayXBfFbRbXxclNMBN7XvVBcFW/B3zT7nzR5FoIT+7E2AVOYXDDejiNCSQHP4Zva3O3Ob4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724306572; c=relaxed/simple;
-	bh=9hQq3Cggm+CLvBV/nj8HKe6LznylH6xfIF09n6ueqP8=;
+	s=arc-20240116; t=1724307325; c=relaxed/simple;
+	bh=gE7HJGwPzb9QwFIDqoz16H+LTbNCegLBqEQAzMPOryM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZA4vbuUIm8VvGgEjNUpJOGUJDPE7rjMAvaPtc6a329hxNMzegXV3rwyFa2FuJwFMN5Ktdvc2jSZxr3od2x0SpfgoEX5BtaBGVYDZH+tNjFXo43puTInkd4XRy8VkOnr1iG0U5+iUvfgF1ABYZBHuhzI7x5BTXuXkg3C8v/sfdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=rxQUoBxE; arc=none smtp.client-ip=80.12.242.30
+	 In-Reply-To:Content-Type; b=FdGcp9ABERb+xH4atNpxQqmpbhZs93oADDNS3WK4KvjdNt+pZixWy0+WlKNS1xF2DQyIVPUC/mrnIVlMtmG7a31aTmBKarDtryOpWugrJ9nieERkNHWRLj+WjaBjO5HgWpYjkDGPvg/EIXQIV2Bnj9WJGMnDxak7U/ag1iyHDtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=HgTGu5RU; arc=none smtp.client-ip=193.252.23.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Received: from [192.168.1.37] ([90.11.132.44])
 	by smtp.orange.fr with ESMTPA
-	id h0uFswYJ8Jokxh0uFsXpWb; Thu, 22 Aug 2024 08:02:47 +0200
+	id h16OsqfTTiKc3h16OsNh1C; Thu, 22 Aug 2024 08:15:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724306567;
-	bh=WypjVt1rMzUmmOHxryPtXP32L1+Fh9Dgn3lMlwanlvQ=;
+	s=t20230301; t=1724307321;
+	bh=f+FyGUC0UH+gHN6I+2BobiU0UCvWGk6MFyKe4vtFVeY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=rxQUoBxEpJbK4ORPz14zJ7h2wu/SQbdDkUTSiQShojXn9qO6a1eDcgrrjgtStbOI9
-	 mUKEugvxIYCBCljWRzCJtCkbqwjMuMaLgrNSIXnLwPkPqe0hqc0sAl6cvSJRZ67BPb
-	 erhsH+Ikuwo95DErqQuE0ZOKiak1jaM+QgPIRPEyShvpDaiKxEYu6aqYAy4bk0r6x5
-	 r9FWhkPvlqLVv47Dt21kTPpIqb6YdhRPaoX3RmoFSaI66jo4C0cyRU9sS/lqj6TjaG
-	 NnFIIs8BLrO7D1U+m+O7dOmr6Y9fY4+Fu0wlc+UBfjcfi9KKgk5W3TIRbl1WL8szru
-	 wN/NCxxavapTA==
+	b=HgTGu5RUBF8u71VJSAxWt5rzA3Llul87ftxb0PUUOOv70yF/WsKCP/rwUJ3EXB5bT
+	 rvDwt48XcvwlrJFKk/cEBt/I2CQFZPxwq/Otn4Xe2xZybxOBstyUzZPNxKfiwhzmk3
+	 J+qRo1Oc80eRsEh8PN7JxaiRvbhunGTCJtQ/3LmYGXpR3qb8EjC4enHyrteHiK/Mpt
+	 ypxs8ILczMaXjbg0fDRzekCw0i1zepIHcozKzfSIbcq4UY9tfmGiDgy4fk32DCOBxF
+	 6X22Hpkk7Mq62DfJZY9WRkPsJDuMTZ8zZLSsez/QeAtFmpNeMuEyJ4lZtSnTiTC6H2
+	 2sn3eDzkL0X5w==
 X-ME-Helo: [192.168.1.37]
 X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Thu, 22 Aug 2024 08:02:47 +0200
+X-ME-Date: Thu, 22 Aug 2024 08:15:21 +0200
 X-ME-IP: 90.11.132.44
-Message-ID: <171ecc6e-281e-4b43-8bab-c776faa89ccb@wanadoo.fr>
-Date: Thu, 22 Aug 2024 08:02:47 +0200
+Message-ID: <fe5a258e-3cf9-47f3-aa36-802813c9866f@wanadoo.fr>
+Date: Thu, 22 Aug 2024 08:15:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -57,62 +57,56 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] HID: corsair-void: Add Corsair Void headset family
- driver
+Subject: Re: [v2] HID: corsair-void: Add Corsair Void headset family driver
 To: Stuart <stuart.a.hayhurst@gmail.com>
-Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org,
- Markus Elfring <Markus.Elfring@web.de>
-References: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com>
- <8a4c117b-7cab-4149-a9e7-c6214d6d92ad@wanadoo.fr>
- <CALTg27kBYb5+GOwBz4a1-xeM-21DrbUh7eQyNkW9K_m6TdSwNQ@mail.gmail.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, linux-input@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+References: <20240818231940.34635-5-stuart.a.hayhurst@gmail.com>
+ <bd07e14e-eae8-4264-b275-9efdf635cd82@web.de>
+ <CALTg27mgOx3W3WENxFh0sEEeNYKEjrZCEQGoBi9=vjgiaZnZtQ@mail.gmail.com>
+ <65b8f7e4-358f-4943-8ce0-c28e4c947016@web.de>
+ <CALTg27nu2_26WwFKc2hWbWY9B40QQLxJ_bM97OWY9VoRo-d_FA@mail.gmail.com>
+ <f0aa2ca0-6256-48e4-8d2a-dfd5da072ad4@web.de>
+ <78b667fa-8e54-4023-9187-4ecb999d3c01@wanadoo.fr>
+ <CALTg27nmNR=AXg=Ku_nXtwFQLxMypdbK4_Bu9CruB=vEDzxZoA@mail.gmail.com>
 Content-Language: en-US, fr-FR
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <CALTg27kBYb5+GOwBz4a1-xeM-21DrbUh7eQyNkW9K_m6TdSwNQ@mail.gmail.com>
+In-Reply-To: <CALTg27nmNR=AXg=Ku_nXtwFQLxMypdbK4_Bu9CruB=vEDzxZoA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 22/08/2024 à 03:03, Stuart a écrit :
->> Maybe is_wired could be close to other bools below, to improve avoid
->> holes in the structure?
+Le 22/08/2024 à 03:11, Stuart a écrit :
+>> If I recollect correctly, there may be an alignment issue and just using
+>> the stack is not enough to guaranty what is needed.
 > 
-> Possibly, I put `name`, `is_wired` and `sidetone_max` together, since
-> they only depend on the device model and are set once.
+> I can't find any reference to issues with it, I'm not sure what I saw before.
+> Also, it seems like the hid-asus driver is using it:
+> https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/hid/hid-asus.c#L391
 > 
->> Missing newline.
-> 
-> Done
-> 
->> I'm not familiar with the hid_hw_raw_request() API, but I think that a
->> kfree(send_buf) is missing here.
-> 
-> The `__free(kfree)` on the declaration should take care of that
-
-Sorry, I missed that.
-You are right.
-
-> 
->> Nitpick: No need to init.
-> 
-> Thanks, but that `ret` won't be in the next revision anyway
-> 
->> You could save 2 lines if ret was initialized when declared.
-> 
-> Could I? Wouldn't it get overwritten by `hid_hw_raw_request`?
-
-No, you are obviously right.
-
-BTW, the return value of corsair_void_request_status() is not used.
-Does it make sense to change it into avoid function?
-
-> 
->> devm_kasprintf() would simplify this.
-> 
-> Well that's a lot simpler...
-> 
-> Thanks,
 > Stuart
 > 
 > 
 
+It's not.
+
+asus_kbd_set_report() is called, and there, the array is explicitly 
+kmemdup()'ed to a variable called dmabuf before calling 
+hid_hw_raw_request().
+
+
+
+I've not found an explicit documentation, but here are a few results 
+from Google related to HID and DMA related issues:
+
+
+[1]: 
+https://linux.kernel.narkive.com/2bRjLz9p/patch-hid-lenovo-don-t-use-stack-variables-for-dma-buffers
+
+[2]: https://bugzilla.kernel.org/show_bug.cgi?id=87991
+
+[3]: 
+https://git.kontron-electronics.de/estoll/linux-stm-lvds/-/commit/3d1355b3cfad53feba76a73b052c757a7de7f4de
+
+CJ
 
