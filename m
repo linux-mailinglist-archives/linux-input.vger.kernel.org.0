@@ -1,84 +1,114 @@
-Return-Path: <linux-input+bounces-5731-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5732-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D353695A7BF
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 00:25:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A0495A94E
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 03:03:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 117021C21C2A
-	for <lists+linux-input@lfdr.de>; Wed, 21 Aug 2024 22:25:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB3371F22F07
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 01:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F5F17BB2B;
-	Wed, 21 Aug 2024 22:25:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7103979C2;
+	Thu, 22 Aug 2024 01:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oyttoDyV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZxEyhtN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFB3139CFE;
-	Wed, 21 Aug 2024 22:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9DF6FC7;
+	Thu, 22 Aug 2024 01:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724279133; cv=none; b=ggiSo8llMtd46Lo88pA4CaibGo5ldqabD/hllQizB7WKxqMRIwvhIkP+MAeY1Ybfu7gMOeiCa0M4SOlFAaXIo0uISKY0ZGvoMjSBaKEUhHyYkq/eyysubwOHwhipSAPnott3BQkUCigexNhdU3KEAP3bdPTpTy4jbOxHFXN/MIE=
+	t=1724288617; cv=none; b=fQhox9AewM7CToWlUBSd0GpVy53SnjP2ol9TVOojFypO1djXJRHZNqzIiCZfdw3CQBlV502L1wBXnC2MoxqgAKGiJINues54IoUmyO9RIyAEdk+sK77jZLwVyR+7xdRzYqC4xJ1JVGEqT8nC+ocmyxOMumCylEWIPwsl13s4UZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724279133; c=relaxed/simple;
-	bh=mLvLUZ5Ksp/REY0LJFygplugK6ca+l7k2mf7meJXDk4=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gHtNxisbH7ce3ty/30XgYdZhoPZZ8DVgxifqU66kodd/PUAR8VISCw1NkWPBjftrlvmmdVkwZJcgbookOyEeknr60pJRQZf8hQI7ND+JYXIlCNg5msPhR3YvCDpmUlk7SyEdOTM3/e7l++jT2XeQn8X3c2GQzuSzHLwHuUNuQHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oyttoDyV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3AFFC32781;
-	Wed, 21 Aug 2024 22:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724279133;
-	bh=mLvLUZ5Ksp/REY0LJFygplugK6ca+l7k2mf7meJXDk4=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=oyttoDyVeNfew/exwZt5qeU3jPbr7/Kr70a2dHJrNVM+PWWSZyK9uzdYwPLKRirWn
-	 MLZIMnHLvSDCY0XYsilfkxcD71e4IqREGXeyyumo1Vu5lLsrl4+oKMFOznS/kvczcL
-	 ccF7GRQqk9yjeZeHSoXSAciiM+4yJlAqhxweI7Gvy0YnpqjeZteTNR5Pjj4fJFPnWA
-	 1tKZJTG+YtB+hs18ZxG2IqETJKGMG3NhDfB09lhzliCgjylW4qwmnQq0e++LY46Tzx
-	 CTcVBjXIW9UwF+6qo2NU85BCVcgvJI6IN56qws4Km8djdNlBFtUpM6yJT87z+CN7xm
-	 YRN1PnNqP85cQ==
-Date: Thu, 22 Aug 2024 00:25:30 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Max Staudt <max@enpas.org>
-cc: Roderick Colenbrander <thunderbird2k@gmail.com>, 
-    Roderick Colenbrander <roderick.colenbrander@sony.com>, 
-    Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] hid-playstation: DS4: Update rumble and lightbar
- together
-In-Reply-To: <0b58bf46-503e-48c6-ad1c-e54a5c13e7a2@enpas.org>
-Message-ID: <nycvar.YFH.7.76.2408220025070.12664@cbobk.fhfr.pm>
-References: <20240820142529.9380-1-max@enpas.org> <nycvar.YFH.7.76.2408211632590.12664@cbobk.fhfr.pm> <CAEc3jaD6sv=O+MbH5XtHvpXgXyzBROfLDYX2rGoa+3QCOJ-Srw@mail.gmail.com> <0b58bf46-503e-48c6-ad1c-e54a5c13e7a2@enpas.org>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	s=arc-20240116; t=1724288617; c=relaxed/simple;
+	bh=r7R9se5rg7N5lEUpA8br65l66pmINbKJy+1PiA1DI34=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k/YqMnHO1fQo3p0R95cZfoFhT2djcmoKNvvgHCOEkxjP28eYnl2APn+UcSyeOQMRurNomsqSdtx9MBO6fbSNyLKlXG+QeiofeZ/vMuH6As+tANMnAkjShjju7KaX4ti+uHcxo8Fz9nBuw8pMbVOG3H/jcbAhNeE+1iQCLS7uogY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hZxEyhtN; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-429e29933aaso1285705e9.0;
+        Wed, 21 Aug 2024 18:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724288614; x=1724893414; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r7R9se5rg7N5lEUpA8br65l66pmINbKJy+1PiA1DI34=;
+        b=hZxEyhtNIeLYDW7e4UwOyO5F8/tl6uwoi4QzIjrhgfnH5r2eZ/8W77zyE81tO862ZZ
+         bvh8OsfanZWXl2zFTWsqBrHNt6kpepo0wXE5QOQjrlWHe1LcVb7RegNeZC22+OlLTihX
+         Za9yK37vyhYEo7CiTqVsOh52ys/r+dxVlGTsJUuhuyGJ749NQk7egSE2gWrvFXFrLC+T
+         G4+ssxQ17Kf/nUz4GJoXjUSl8D6T9EnLfDi9eCMiHhcYEf0nX4X2Sko0ZgTzqyTxCfpP
+         J35mn0z13kg1wT9yHRZf+u77Kv+GUOrYCbwZORfqII3KIeGgHljPsjYRqh8uH7SzAh9o
+         ivkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724288614; x=1724893414;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r7R9se5rg7N5lEUpA8br65l66pmINbKJy+1PiA1DI34=;
+        b=pq8/15fRUpNnLceA3pN0yTzD+K4LLKxwewRrOP9yqKs5EcTaGo4S3gbhuon7dPdhMk
+         p+VfyVyvFQorKWgeCr8/cx5HLg3nuctfi3/g3RU0LJIVQeEcM3ZhhB9rwhJoXrFNIgzG
+         gMH6QbyKGzct+WLCBSyxC2/foWbrFCrLzCWGwCZAKijKPlF4PR8chPqAaFBiQUgcRlUG
+         E4uNMcoBsuIIi+96D+gCY2D1RUk0cWNWWezA4er7jkHGIPvFvHIpIzvRDyDIToZHLlnk
+         sXgDy849QqNSZF+OCupzoTJ4Ywu2exwuSnVWJqwNpLlCQex5AEPaxO0K9+z9y9gbh+Fz
+         /WOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtDU7Ei39Bt4jEOGFPr5KiNcWPpvFtPZsl/68dSEWd7l1jOrO8ZIAjNYpnZnvUbz1jP05q1NIInU0Xa3A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8QVH/vJ0+iDYmfxALyK3qLKL1kkO+rgjCqbo+5xPjoa1/weWF
+	HGSnalAJyNfO72WSlV5wBOfTh2DY86+yXJDfzjoFmAwVoo+4+YQqtumd7zMrCJNLj9dT7BFowaK
+	st9mCGZaIMvNZYjDPHnGXuAWKcy8=
+X-Google-Smtp-Source: AGHT+IH1fBTAXa00b57fsi2XRIpPb6JDnEyKgiEwWgWBIxbyUdvujpWQoO3He3Ae+dHnrFmksMRmeFlX3wCeCGgx6Kg=
+X-Received: by 2002:a05:600c:4ed2:b0:428:f650:6a4e with SMTP id
+ 5b1f17b1804b1-42ac5637557mr1666365e9.23.1724288613271; Wed, 21 Aug 2024
+ 18:03:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20240820002210.54014-3-stuart.a.hayhurst@gmail.com> <8a4c117b-7cab-4149-a9e7-c6214d6d92ad@wanadoo.fr>
+In-Reply-To: <8a4c117b-7cab-4149-a9e7-c6214d6d92ad@wanadoo.fr>
+From: Stuart <stuart.a.hayhurst@gmail.com>
+Date: Thu, 22 Aug 2024 02:03:22 +0100
+Message-ID: <CALTg27kBYb5+GOwBz4a1-xeM-21DrbUh7eQyNkW9K_m6TdSwNQ@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: corsair-void: Add Corsair Void headset family driver
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, linux-kernel@vger.kernel.org, 
+	Markus Elfring <Markus.Elfring@web.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 21 Aug 2024, Max Staudt wrote:
+> Maybe is_wired could be close to other bools below, to improve avoid
+> holes in the structure?
 
-> > My gut feeling is that the previous fix is less fragile, so let's opt 
-> > for that one.
-> 
-> Let me know if you wish for me to resend v2 with a Signed-off-by. Or, I guess
-> Jiri might just manually patch it in - please see this as permission to do so
-> if you prefer this.
+Possibly, I put `name`, `is_wired` and `sidetone_max` together, since
+they only depend on the device model and are set once.
 
-Now in hid.git:
+> Missing newline.
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-6.12/hid-playstation
+Done
+
+> I'm not familiar with the hid_hw_raw_request() API, but I think that a
+> kfree(send_buf) is missing here.
+
+The `__free(kfree)` on the declaration should take care of that
+
+> Nitpick: No need to init.
+
+Thanks, but that `ret` won't be in the next revision anyway
+
+> You could save 2 lines if ret was initialized when declared.
+
+Could I? Wouldn't it get overwritten by `hid_hw_raw_request`?
+
+> devm_kasprintf() would simplify this.
+
+Well that's a lot simpler...
 
 Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Stuart
 
