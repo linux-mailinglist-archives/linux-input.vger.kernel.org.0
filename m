@@ -1,92 +1,82 @@
-Return-Path: <linux-input+bounces-5739-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5740-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FEB95B36B
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 13:03:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA4A95B403
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 13:38:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEC371F23DD2
-	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 11:03:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 457A41F22319
+	for <lists+linux-input@lfdr.de>; Thu, 22 Aug 2024 11:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F158A1802AB;
-	Thu, 22 Aug 2024 11:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A401C93C6;
+	Thu, 22 Aug 2024 11:38:42 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE9D148841;
-	Thu, 22 Aug 2024 11:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.enpas.org (zhong.enpas.org [46.38.239.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0B01C93AA;
+	Thu, 22 Aug 2024 11:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.239.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724324594; cv=none; b=Quo3B1+t56caCze1+gZP9GN2iNyiDI94CiP2B7msqWNtgZoMC0ZeBkjMzMArLud4lq6UwlcEo+nLdKmdt844BxaSgCOQO7BoLqSr8tEUUnqC0BiPsf2wARix5a1cNUQ+PW1r+ZAMs3XRrIKbQt9iNT2gKwBIS2m9/8zYmZPKC2A=
+	t=1724326722; cv=none; b=LsaLe0D1O0EYI0cYg7RlN0PB/TPkaCi/YBRppxwwyJToglKUEUdsQT6fJzTYiP3asD8RJ43YKNEB8A9t4d555K6MZLzEmVGsZS1Ng0mPuUfx6Xn4BBbWmyFLE6+VNtnwfSKmlp5d1uiSLLm0TN3WQByKt3F6+tAuGUggrxI2Tws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724324594; c=relaxed/simple;
-	bh=QcvlALG8K7OqmQiS0wFQWiP9IuevNmp4OpyP2LoMZfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/UXsYXr/L+jR5Ps8TFlfDGcMLE7fRPoWuI9gc8H9vn1rzRayRLYJjaP/eD/ZHcfd/2NLrjjV19J2+WvZqCAgieMixXjYMRrF5RV3quqQzNzSynFqQ0ObgCL51bsFRo0iSN1JOEqDY0Sp9O6lMwry3ZQC4eIYvz4bPYQmFxdcCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 015ECDA7;
-	Thu, 22 Aug 2024 04:03:39 -0700 (PDT)
-Received: from bogus (e107155-lin.cambridge.arm.com [10.1.198.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EAFF3F58B;
-	Thu, 22 Aug 2024 04:03:08 -0700 (PDT)
-Date: Thu, 22 Aug 2024 12:03:05 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
-Message-ID: <Zsca6aqY861q0bOm@bogus>
-References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
- <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1724326722; c=relaxed/simple;
+	bh=Ro82gGljlpSXIu23s78JkcgQvy3+Z38d/lJN97reotg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ellSBzfTeBoq9RA2cnXAnp29U+fsF2aM3IlA//4cC2EEU+pxGaEgzaDzZTA9AYK2D+hWgFRtA+87PO/QAFHECZGX7F+n38D2y8R175jz8kZJpboJG+liSHO8FXs5kUY9tfRJftk53+VtJiW6lgwTISQACaGNqqwgAD03DMDbRoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org; spf=pass smtp.mailfrom=enpas.org; arc=none smtp.client-ip=46.38.239.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enpas.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enpas.org
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.enpas.org (Postfix) with ESMTPSA id C5AF0100225;
+	Thu, 22 Aug 2024 11:38:36 +0000 (UTC)
+Message-ID: <219825d3-22de-4cd7-8045-a7cde74bd9f2@enpas.org>
+Date: Thu, 22 Aug 2024 13:38:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] hid-playstation: DS4: Update rumble and lightbar
+ together
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Roderick Colenbrander <thunderbird2k@gmail.com>,
+ Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240820142529.9380-1-max@enpas.org>
+ <nycvar.YFH.7.76.2408211632590.12664@cbobk.fhfr.pm>
+ <CAEc3jaD6sv=O+MbH5XtHvpXgXyzBROfLDYX2rGoa+3QCOJ-Srw@mail.gmail.com>
+ <0b58bf46-503e-48c6-ad1c-e54a5c13e7a2@enpas.org>
+ <nycvar.YFH.7.76.2408220025070.12664@cbobk.fhfr.pm>
+Content-Language: en-US
+From: Max Staudt <max@enpas.org>
+In-Reply-To: <nycvar.YFH.7.76.2408220025070.12664@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 22, 2024 at 06:02:05AM +0000, Peng Fan wrote:
-> Hi Sudeep,
+On 8/22/24 00:25, Jiri Kosina wrote:
+> On Wed, 21 Aug 2024, Max Staudt wrote:
 > 
-> > Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
-> > Extension
+>>> My gut feeling is that the previous fix is less fragile, so let's opt
+>>> for that one.
+>>
+>> Let me know if you wish for me to resend v2 with a Signed-off-by. Or, I guess
+>> Jiri might just manually patch it in - please see this as permission to do so
+>> if you prefer this.
 > 
-> With Cristian's transport patchset applied, there a minor conflict in Makefile
-> with this patchset. Please let me know if I need to send v8 to address
-> the Makefile conflict or you could help.
+> Now in hid.git:
 > 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-6.12/hid-playstation
 
-Sorry, I previously delayed reviewing your patches for reasons mentioned
-before(non technical) and was planning to start looking at it this week.
-But I haven't so far, so go ahead and post the v8. If possible, please move
-all the imx files under a new "vendors" directory.
 
-	drivers/firmware/arm_scmi/vendors/imx/....
+Thank you all for your help in getting this patch landed!
 
---
-Regards,
-Sudeep
+
+Max
+
 
