@@ -1,135 +1,205 @@
-Return-Path: <linux-input+bounces-5767-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5769-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB36A95D248
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 18:02:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E84B95D65B
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 22:01:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6897F1F26335
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 16:02:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 734991C211CC
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 20:01:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7415714AD30;
-	Fri, 23 Aug 2024 16:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC9C1193087;
+	Fri, 23 Aug 2024 20:01:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THUKa1hM"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OIPbGLHg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035931C680;
-	Fri, 23 Aug 2024 16:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A6E192D6F;
+	Fri, 23 Aug 2024 20:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724428934; cv=none; b=kOF7feHGFyVHkzcqmMjtFh/YqgZkKQiTWY5Kv4uVq9ixiSkt90uV11Nc4Epp6cxY1DyFMs5KpKUfmouBMmmctmWzSFBPUJf1sHP/9jli1JMurAi7Vm+axlvO/vy+eFRstUo4DQqvF3SY+PqJ1041ygdwhdoVzb7a+0SAQ4mc+qo=
+	t=1724443300; cv=none; b=FDTVBVwyj6N9sOBn0t/2QqdcUhehciuQHg49z1CDJN1A2GWkAwTiGgtOpQJs5/yN5D5WGkjYUOgLUoQ6GUGV4C30RDI17RZU1MlG1jaRIkxNFkngAnrO5tIOu+B5pASCKqodG6C7CBaTFF8cUIzFJ70rAZGAN8syozL/y62g8So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724428934; c=relaxed/simple;
-	bh=b8LE5GoA7/tNfcDosifTE11C4eHpBOYZ1OfVcLjIlMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PvfLa0RXKhLMFGBBWfh29oC4eEBOxRuNqLcqjq+XfK8hcnbaYlch/AAJk8PCViKUkytUXN5LnK3BtWUUwd0JQQpXMvid6HvthLZx6oVrlGn8x58xwtJ534A0/OC6z6ZCfjJn0T6/eB/R1Q+GtUD0wSyMyATbBTzrxCWHd9WoLJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=THUKa1hM; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20231aa8908so18760815ad.0;
-        Fri, 23 Aug 2024 09:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724428932; x=1725033732; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rSEc8IuLgrEwWAM8+Mg+yV+OINf+nUjNczzsNR2PhoI=;
-        b=THUKa1hM2hitWRDjR4oIEUXzkgNxrZStsnVvJtrW7Bgat1LF2Ym4LTkseU8F19pgvE
-         puuO63EQj1mg1GqEWxxdIO/aJMWsQGpWMvG0WEs5IfPUKPuCDKBkM/mmQ1GriU191bz+
-         GjRb3u9mSKF0pz0vseF7V62peLbSwzh5+d4HON8N7k+C75Jcf6m92rispIqLuBlKkJKF
-         Q4KiDF5xaRQPvV7PydjKp2CyP5wU92ebDPkRYciRm4eUG4MxO6WeuxRpJEEdx4aM/IFI
-         9QMBUiFi6NEJoRlZmvrsRcu8vewIPOppojGUumqJvMKjHRatggdtO52JUb3KSww7MkMb
-         a1Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724428932; x=1725033732;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rSEc8IuLgrEwWAM8+Mg+yV+OINf+nUjNczzsNR2PhoI=;
-        b=h7ztvqRxox4msQ8CTnG/lLdb9b/ISF53/nqwvtTgRbtr0xoTLSf4WH8PKq7V+9nro8
-         6z1sb0/GVSDgfHzC5Ddqcm2z6SYa5z4B2UEwtGsqGDd/8/g0AmtOlcy33jAMevKzBYGB
-         efZExsc0p3UtBrRGNhSiZCROyrSE8I6dg/Dx+gyAQJIT/9553ZaIcc6B+sKODaQ957ss
-         JIXzGccvTMswx8JYAflukFA4agBjFURRA2QVviFMbif8X+fwLvg9yBeuwVNYusLu6JjX
-         RUH7Fb4l+B5lVpagTHaSojBtdsE0oM3aN/KaleX8ZUZW/O/wu7RtHuhioyE3oDf8TePG
-         bEZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUONHK+7h3uR8IbZSWOKWo3QQGumiCQoyaKiKN30NdRMLN+aJKnckuF8KEnx3koR83MnjsLF1OMXz9wLa3g@vger.kernel.org, AJvYcCXGjbzaq57QyIJFP1xusM+ipf3phag+lMdHofj1eUmBCdYlGAOhwiHP1pL35384SOayv0cWVv6xnc7mtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXsTKtGycTMegLodO7jETWcB2I3Xjrpp7f2qL78Fxl6i58EB9b
-	mlY3myAhljJoIYurBe6OKjnfuOD0/+zt/3j3IkGqkbqZilgwDJ9B
-X-Google-Smtp-Source: AGHT+IFm9bfhV0E2ppaQ2w4WAd8hdG2KagFxE0sirDEjgyyoq1tgA2ruqzLgtHrDzAQMHCSgozUvnw==
-X-Received: by 2002:a17:90a:680f:b0:2d6:1c0f:fea6 with SMTP id 98e67ed59e1d1-2d646bad283mr2408625a91.11.1724428931106;
-        Fri, 23 Aug 2024 09:02:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:75c:5a5a:d7dc:18f6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d5eb90c4c1sm6595170a91.19.2024.08.23.09.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 09:02:10 -0700 (PDT)
-Date: Fri, 23 Aug 2024 09:02:08 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Daniel Mack <daniel@zonque.org>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Arnd Bergmann <arnd@arndb.de>, soc@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/5] Remove support for platform data from matrix keypad
- driver
-Message-ID: <ZsiygIj9SiP4O0OM@google.com>
-References: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
- <CACRpkdYFc8vuz__7DkFSMFxUC=LSwCJmEun2KXgUvPMq+_e17A@mail.gmail.com>
+	s=arc-20240116; t=1724443300; c=relaxed/simple;
+	bh=aw59SIunqFIELS5Fh0+Q8lxZNWNSMCUFa1CSIJx6JvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DO07kbhYVQ+e6sqGf3gfVJ0rpdK1cn/G7/4Q+0h312GIZWojzp8V5wD7sFdTh7R1vDSs3Us6PElpko0yo9xxI4MDWLlO+iOhuAyu3AsrmTX+Jf9cs8KtHadMbfkpDeeH0FTHPbQs6omZhz3S6zJU3KeT7/TVgb1lGX/wbHdhjtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OIPbGLHg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47NBD2wA009021;
+	Fri, 23 Aug 2024 20:01:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=EbpUGdZYWaz1gSCzAD70ouF4
+	KW64zbhrUQmGahwL2ZM=; b=OIPbGLHgBM/uSttHDcD7BY9T0AzRWDNJiCh1Nb0E
+	AIsFU6Qkyr1/Fk+f53/xKcjJtWUVHo9QakbjSrzCqK5maP5X0us2BeAFOZSgSxAP
+	29pbePjghq92Ugo9lrtSeGcQ8Cg9NWeqFe2A8R53BjgsrFsGUxD/jwnEn8Sq77C4
+	Ovh0u9ow2so3sXIPId56HS+zdp0Bbrf1wqaEz9T2FLcDWL+H5UXsZC73HEUer5Lm
+	+LyJUDs3MTrp/ELNGssKgIIxaJ2HXXQTz1oVjH+lygpFE34VE8zcvaQMC2QmG3Na
+	MzbPfd9A0bK9U98LJbvFkwAtRdu+ljT7wEKwRhir/ORENg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414pe5v8ch-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 20:01:16 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47NK1EVG008329
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 20:01:14 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 23 Aug 2024 13:01:14 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>
+Subject: [PATCH v25 04/33] usb: xhci: Allow for secondary interrupter to set IMOD
+Date: Fri, 23 Aug 2024 13:00:32 -0700
+Message-ID: <20240823200101.26755-5-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYFc8vuz__7DkFSMFxUC=LSwCJmEun2KXgUvPMq+_e17A@mail.gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kUAMkixSalBMAvNgxvAJbo6QLoj3pMjW
+X-Proofpoint-GUID: kUAMkixSalBMAvNgxvAJbo6QLoj3pMjW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-23_16,2024-08-23_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 spamscore=0 mlxlogscore=675 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408230147
 
-Hi Linus,
+When creating a secondary interrupter, add an argument for XHCI sideband
+clients to specify an interrupt moderation value for the interrupter
+context.
 
-On Fri, Aug 23, 2024 at 05:51:30PM +0200, Linus Walleij wrote:
-> On Mon, Aug 5, 2024 at 3:47 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> 
-> > This series attempts to remove support for platform data from
-> > matrix_keypad driver, and have it use generic device properties only
-> > for the keypad configuration. Spitz is the only board [left] that
-> > uses platform data.
-> >
-> > As part of the migration I am also dropping support for "clustered"
-> > interrupt mode, as it was only available through platform data and there
-> > are no users of it in the mainline kernel.
-> >
-> > Additionally gpio-keys device used by Spitz converted to use device
-> > properties instead of platform data.
-> >
-> > I would prefer not to have the song and dance of merging first 2 patches
-> > through the input tree, waiting, merging the spitz patches through SoC
-> > tree, waiting, and finally merging the last patch to matrix keypad
-> > through input again, so maybe we could merge it all through SoC?
-> > Alternatively, I could merge everything through input. What do you
-> > think?
-> 
-> Sounds like a plan. The series:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-mem.c       | 4 +++-
+ drivers/usb/host/xhci-sideband.c  | 4 ++--
+ drivers/usb/host/xhci.c           | 2 +-
+ drivers/usb/host/xhci.h           | 5 ++++-
+ include/linux/usb/xhci-sideband.h | 2 +-
+ 5 files changed, 11 insertions(+), 6 deletions(-)
 
-Thanks!
-
-I'm glad that we agree that we do not want the elaborate merge process
-and instead push the changes through one tree in one shot we just need
-to decide which one - soc or input. I am fine with using either.
-
-Sorry if I am being obtuse.
-
-Thanks.
-
--- 
-Dmitry
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3100219d6496..2ca5937b73f4 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2334,7 +2334,8 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ }
+ 
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++					u32 imod_interval)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	struct xhci_interrupter *ir;
+@@ -2367,6 +2368,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs)
+ 		return NULL;
+ 	}
+ 
++	xhci_set_interrupter_moderation(ir, imod_interval);
+ 	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
+ 		 i, xhci->max_interrupters);
+ 
+diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+index 281ab4c1fc42..f06bb49ede4d 100644
+--- a/drivers/usb/host/xhci-sideband.c
++++ b/drivers/usb/host/xhci-sideband.c
+@@ -259,7 +259,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
+  */
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear)
++				 bool ip_autoclear, u32 imod_interval)
+ {
+ 	int ret = 0;
+ 
+@@ -273,7 +273,7 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+ 	}
+ 
+ 	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+-			num_seg);
++			num_seg, imod_interval);
+ 	if (!sb->ir) {
+ 		ret = -ENOMEM;
+ 		goto out;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 3a051ed32907..0b22342bbff1 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -347,7 +347,7 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ }
+ 
+ /* interrupt moderation interval imod_interval in nanoseconds */
+-static int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 					   u32 imod_interval)
+ {
+ 	u32 imod;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 58236b435e1c..a2db8250b1fd 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1832,7 +1832,8 @@ struct xhci_container_ctx *xhci_alloc_container_ctx(struct xhci_hcd *xhci,
+ void xhci_free_container_ctx(struct xhci_hcd *xhci,
+ 		struct xhci_container_ctx *ctx);
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs);
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
++					u32 imod_interval);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
+ 
+@@ -1872,6 +1873,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+ 		struct usb_device *hdev,
+ 		struct usb_tt *tt, gfp_t mem_flags);
++int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
++					   u32 imod_interval);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
+diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+index a03f0958ebed..dd4b1a27c08d 100644
+--- a/include/linux/usb/xhci-sideband.h
++++ b/include/linux/usb/xhci-sideband.h
+@@ -56,7 +56,7 @@ xhci_sideband_get_event_buffer(struct xhci_sideband *sb);
+ 
+ int
+ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+-				 bool ip_autoclear);
++				 bool ip_autoclear, u32 imod_interval);
+ 
+ void
+ xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
 
