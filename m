@@ -1,137 +1,116 @@
-Return-Path: <linux-input+bounces-5753-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5754-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C5B95C828
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 10:33:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8480195C858
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 10:46:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 786291F22416
-	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 08:33:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBCF0B2230A
+	for <lists+linux-input@lfdr.de>; Fri, 23 Aug 2024 08:46:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 500891448E3;
-	Fri, 23 Aug 2024 08:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69E6D146A67;
+	Fri, 23 Aug 2024 08:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0U9E0bY"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="LdE0GSNP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97FD13D8A0;
-	Fri, 23 Aug 2024 08:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157A62E644;
+	Fri, 23 Aug 2024 08:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724401975; cv=none; b=oNQfDdwgurGFZY0HINo04zM74tTNkRQnX7qUKV46DJZDh0BbCb0FE5DzDf4tS/DhDqFslV9Gi+hwkoQrfPffAUNUdMiMlmZKSqhgwDDAonMbyUS/bI4emhT3OngUatA90YtEurTtRSgGQt+6KpiAifL3+9cULqLB73Bg/K0RJyo=
+	t=1724402788; cv=none; b=Zjszt5lSyia7MpFLEJoAq39q8i0NUy3s7ucoNXJMvMsZRlbRhn1LtYyde3jU9PgdTYIOKOaFx0D4bjtfX4dU0n/zWn1cat5aOAGzV8Tn4YKsIyaipZ8XPIO0/VdetpDSV9J2bdhWMv8j0nOULdIoQ9Osj7aZ/CXEw8zqr2DFT4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724401975; c=relaxed/simple;
-	bh=NV8JjnDoRrxNVYgq/FNfOB/FO+JK04wojIRoTm2lX5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YR17uLZcP8N37RlgA8g/bKG8atiqumxvFWmIpL7nvP3OPYD+SNscfPRJgVo8fvUHuQGBgCy+dCrJL3iSE1smZAxJwQGvccQwUwmnbMlR3dULNlfZfihGEtyyvpy9gJiQr/1gbYaye6QOQXa8B53DfVt97ZGWcD5EUHnuu+6fP9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0U9E0bY; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5d5b22f97b7so1700430eaf.2;
-        Fri, 23 Aug 2024 01:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724401973; x=1725006773; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yp4pKPaH9PczaTr8JGBibTa2Z0QRF52/s5tchcuFGOI=;
-        b=C0U9E0bYFAYT4WWhxso7ZK0VOaSBh3cO0KjWcR9mkXpn8Bwt+8n3TSA8U6U3zxYi4K
-         7rITDdCg4hQQDMWe9ZLGQ59IXp5eMP02zVT4c+kOtA328Ax8ZkWSBm83+QldwSV8DeG7
-         bUQM4UlGX88QPmZ6WMxYYahX6SkrTVxXwQRLC7LvqDQ7ZdkjGOPNprIniT3iqhuR7ArN
-         jO5ppjJ7mZn2ydwB4lKC/rvjmQ2KKZTVy1iWXi8TlH8PNjkvs1ZYW+30SMDwPb1JkBGB
-         CVW+Qb5vvYS1mziGJyEc4sUlQbFG/Cs6kqDZoPM59thZS756DIeG6wZE+Lz3AAO8lnzp
-         wzaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724401973; x=1725006773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yp4pKPaH9PczaTr8JGBibTa2Z0QRF52/s5tchcuFGOI=;
-        b=iFjjkjkGXkTqIHdGvyU7YBcFBnj4UVmftvkGuVHsw00WyvDmkkz+hqVBb6siNyNrcd
-         tQ78MfIqlUPLrVEwnadCCYR8o+vu0QtnzOfyTjf08JGeALpkEaJESdvb9VJta3tK6usC
-         Q96ttN94jELRGsjEVdQEBuOZDleRgukGO0jbQz0afF2sWXhVLU/qeg9rYuWZT3Uovn7T
-         hR9zmtuBimDWzzr7WtNmbBdE/lMaNgPlYfHN+tTgcxhFV/lhHZ1VOW08ZeT73FviqEJx
-         RGVOs3xc+hL0LEHVoIAsRWTRAJR4XdCnvpCvntuvrdY8ihX2iAaiWlyW7//434Kjzg7U
-         9R0w==
-X-Forwarded-Encrypted: i=1; AJvYcCV7F4jsRSdadxhzc9HIIJu7Y87fwGqy5q/nl7ACqmceKLe1/39VkjhJ6t8oAkBxQGiqZsKPp5Z9LB9Dy5Oz@vger.kernel.org, AJvYcCVSbE81i4OMkPlAWmBod8n8ttX+GGclcMD9Bh2klapzJpgef2UPL0Vh6JxhQZ8DEpYasB9mbvoUyJO9@vger.kernel.org, AJvYcCVseVnVP+PFEwVLKLo8fMYnnR2+Gdhy26Js1TSxT7qCpd1G+L4gknWvdInu7KHBqzCLbJxWbVqYXtFBYbs=@vger.kernel.org, AJvYcCXywFmnvJ/2UcNa3i+fNce8OUE4lF/Z0xIBXZicD8/pxMKS4ssCKljxFEWVYZx++suJPGkZdgi0RqOSgehWd5RWHL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzA+sb2XhCy56+Ta2vNXXef4phcGrAsG5/LaTUI96gINsNhdoG2
-	k/KGvFWVFNCwu+tXKWpIDYJLSZgZJad81l+KLH51Bzmv6rVsOt/d
-X-Google-Smtp-Source: AGHT+IEsGrMIBnE5i9swqXq/Apvogdiy73ZTSN5iJnCeHN2vFAylF26K8eA1Sr+N3GDp+gdG1bTwQg==
-X-Received: by 2002:a05:6358:52c1:b0:1ac:cdba:8c87 with SMTP id e5c5f4694b2df-1b5c3a4e88bmr144912155d.10.1724401972541;
-        Fri, 23 Aug 2024 01:32:52 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:ccdb:6951:7a5:be1b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9acabbf3sm2265501a12.29.2024.08.23.01.32.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 01:32:52 -0700 (PDT)
-Date: Fri, 23 Aug 2024 01:32:49 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 06/14] Input: samsung-keypad - use guard notation to
- acquire mutex
-Message-ID: <ZshJMRCe4LvpYNmZ@google.com>
-References: <20240819045813.2154642-1-dmitry.torokhov@gmail.com>
- <20240819045813.2154642-7-dmitry.torokhov@gmail.com>
- <e6xkutxnpu7acvm5qfyyces4estm4ihc3rzczqpnxrbrkptdm2@6lwrlssvtt3v>
- <Zsd-aVM6504L_hqi@google.com>
- <0afadefb-ecb1-4ec8-a862-bfa06d171457@kernel.org>
+	s=arc-20240116; t=1724402788; c=relaxed/simple;
+	bh=s4XMzS2qLSsdhJFnl+AXGI1oAfA4VKS9oWCX+k3urHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Os5KeqwPwGHTAcFDPdVKH+GqlXbIWBvWasTWjM2beViRJZEzneoXqcll6dyDBCpd4UM+bkGbCOqdDAd0c1m1m8KzLVzy+sn6vuoIsR1iG4CH2DpixQug8ozgqjOHpq3RnPWhkgs8b0pxlW61JzxoUi24XnznbzChcQQcVnJ08XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=LdE0GSNP; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1724402767; x=1725007567; i=markus.elfring@web.de;
+	bh=s4XMzS2qLSsdhJFnl+AXGI1oAfA4VKS9oWCX+k3urHc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=LdE0GSNPLXyH66T0p2+T3ZblW4Wq3pVuL3dLLeetT5IeISs98K3rxqAE1SH4MDdC
+	 W2OSgHp73WMMv1G2XxtVsV/tml1BfHGvBxyvrMXx9k0r36tn7DTPrdFQs/GQEjFyu
+	 coHNAbD+85x47ZocWnx3JgcmK+khXQbnYvG84LWD8fkANQ4RHAgs8SbMWDkxP1RGx
+	 RXiuUAX//cUryo2SkB94M06cgPqRe1XvL4BVCU4cRD6B435VWoRTixXRKKCN5b/rU
+	 Ie1E2WmkLVcG4vSEkjn3mHtCGUFl5E6gXeJPThLr6ATRbD79K0zL2IQdGBcxrxmef
+	 F01lOZbQmc+Ic4VK4w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MuVKK-1rrF3F1sKQ-017jKu; Fri, 23
+ Aug 2024 10:46:07 +0200
+Message-ID: <20f2ff71-fa9c-4282-9a16-566ff85c1247@web.de>
+Date: Fri, 23 Aug 2024 10:45:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0afadefb-ecb1-4ec8-a862-bfa06d171457@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v2] HID: corsair-void: Add Corsair Void headset family driver
+To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+ linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>
+References: <20240818231940.34635-5-stuart.a.hayhurst@gmail.com>
+ <bd07e14e-eae8-4264-b275-9efdf635cd82@web.de>
+ <CALTg27mgOx3W3WENxFh0sEEeNYKEjrZCEQGoBi9=vjgiaZnZtQ@mail.gmail.com>
+ <65b8f7e4-358f-4943-8ce0-c28e4c947016@web.de>
+ <CALTg27nu2_26WwFKc2hWbWY9B40QQLxJ_bM97OWY9VoRo-d_FA@mail.gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CALTg27nu2_26WwFKc2hWbWY9B40QQLxJ_bM97OWY9VoRo-d_FA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VQmvx4YoPNQuSrYJ/XKqJ+GhyHHr/+qt+7Ic1k/elT2w6OzsMZr
+ n5KATzmz4/0/TNrSUYxpwkfy+cDiKMiaq5iAO/G+pHnXAMkON0V3tdc0R1D8HV3ZZgH9QOb
+ fh9Y3V0iqa6MAYSN+v5aEbQiX07yOkjlZs8iuUi6lc3Xq7bZbjKTQv6YEWqB+31AIACb7az
+ tcbN4rxomhvS48PXIPxPg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:koNXlGavHxs=;sIIuj/CZ7dY3l6Lo41BWOySHNh7
+ Orp/o6NwP6UKsZUP6h5JAirVaQsBhLCeVd4tVDzQrfwScrnSBzZNAPi1zSvfdYKXKMx2Tb3jx
+ wTPILtSyHqiaT/BXxOG01hVF8wxwhH1WgltauhFkxPegTWkeiqD19z4RB69bgZ04DQ6xmBtg5
+ 4B/RMS9DaDMRSwF1B3PK6X5913NaueYnCJEA39TmU6rP89/XLoE3GrBEwXurziXJzzxE/wd+R
+ DAoeYOUzTL6mW5IK64dZp/XiYRltmR2MUoszI3ZhX1Cmn6jGqKdLqoHU+QIYC4IY/6XwVg4cd
+ 0PNRHdo7Wy2MrrTWwOgzl2tktqCugFIwuN6l0ME4A3qemOhv6T1ORUui9K7CkpcZHtHe+ydX8
+ Sq0XY0fj5GooR3t/4PZDdFBG7ngd+KaIpWi1SnrFvG6lPmbGSiwjjXlgUYUTvxtCiowltGuPc
+ qvJhXEaxZNSpImTWf9JGtEi7LGuiYDFgSCfr0s38EvyytKIFSLJ+jHT2ASBuan0ocEB9AA6kV
+ iDiCfzayc5fZUGBwm7O6K+mi/AVoX+21wEOLI1qv1IPc8G61BSA957WQUApgixA36cG6SMgyc
+ yFy/TsrYDe+FX/EKrDPBt5FnwpqPU4hN3ZUSSo+3XhDCmugf8vEj034GljhUjj+RdcI5VQeXt
+ CJ+LvK6PjMvFn1vHBK9tM+RhgK9334N2WHEZYtEX29yM4n9dLrfbfBjXF4v2AA5jyN4gr4F5z
+ cAgTW29hTHWKOsDl65YwZF4656UY1qjG4w8v/9c71jlFRSXps/O/Syg4PmTBTVdWwRq4eCmTX
+ kweuJOgzG/KJJpkozF3cQ/BA==
 
-On Fri, Aug 23, 2024 at 08:06:17AM +0200, Krzysztof Kozlowski wrote:
-> On 22/08/2024 20:07, Dmitry Torokhov wrote:
-> > On Thu, Aug 22, 2024 at 05:48:33PM +0200, Krzysztof Kozlowski wrote:
-> >> On Sun, Aug 18, 2024 at 09:58:03PM -0700, Dmitry Torokhov wrote:
-> >>> Guard notation is more compact and ensures that the mutex will be
-> >>> released when control leaves the function.
-> >>>
-> >>> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >>> ---
-> >>>  drivers/input/keyboard/samsung-keypad.c | 8 ++------
-> >>>  1 file changed, 2 insertions(+), 6 deletions(-)
-> >>>
-> >>
-> >> You need to include cleanup.h (unless some other patch already did it
-> >> and I missed it?)
-> > 
-> > Guard for mutexes defined in mutex.h which is pulled in indirectly, and
-> 
-> guard() is not in mutex.h and in general we are including headers for
-> the things directly used in the unit.
+>> How do you think about to collaborate with other data structures
+>> than character arrays?
+>>
+>> See also:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/coding-style.rst?h=3Dv6.11-rc4#n953
+>
+> Hm, I picked a character array since all it's doing is sending a
+> buffer to the device.
+> There's no published specification to follow, only "Well the Windows
+> driver sends these bytes and this happens".
+> So there isn't really a structure that really comes naturally,
+> especially with all the magic numbers.
 
-Oh, but it is:
+Is there still a desire and need to achieve a more meaningful interpretati=
+on
+for involved data exchanges?
+https://en.wikipedia.org/wiki/Header_(computing)
 
-https://elixir.bootlin.com/linux/v6.10/source/include/linux/mutex.h#L196
-
-DEFINE_GUARD(mutex, struct mutex *, mutex_lock(_T), mutex_unlock(_T))
-
-> 
-> > cleanup.h is included there.
-> > 
-> > If we want to list all the headers that we need instead of relying on
-> 
-> Fixing existing code is another thing. I only propose to add new code
-> with the header.
-> 
-> I don't have strong opinion anyway, so:
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Thanks!
-
--- 
-Dmitry
+Regards,
+Markus
 
