@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-5818-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5819-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BCF95DC0E
-	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 07:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CDB95DC0F
+	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 07:53:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C71D61C21BF1
-	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 05:52:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 667101C20C8A
+	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 05:53:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A23C1714AF;
-	Sat, 24 Aug 2024 05:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF8D1714D3;
+	Sat, 24 Aug 2024 05:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJYODFVo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b3utMy3i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E059815B155;
-	Sat, 24 Aug 2024 05:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F55D1684AC;
+	Sat, 24 Aug 2024 05:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724478667; cv=none; b=IRIm6H43MQk3cdYWG+IKl2hUtkUiBDuaSf5fARrZ10hZOB6fMoV3I4sx0i//37Z1ckAADwGT8KMbeggV+xHcj/l8XribEfb9Xk1sDdW7vekPlgl8WIsjHiYfPfFTtPHctk7DMv3nNJYhX0C5h+mOcL5u+UabxCUh7Ufk6a7FXKk=
+	t=1724478668; cv=none; b=i7nfmHKgySM4VZNJJ3iynIS8+Zt4YmNIvHnYfcsM/i811S48nFT3p8uLSraehu20mAIW6ROaCsiXpGBen76uTgzm/OG+n3WZ0YNX+POLv3ZmjyR0P6mzP4UP08c8vaN24xugywt1Kd30Iqj22Akvmc+7K06imgM0XcmLjrCbhL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724478667; c=relaxed/simple;
-	bh=Xp4qfeTlxk2eTt/LR4WhGao5XwYHTSzWfxlA1JG37LY=;
+	s=arc-20240116; t=1724478668; c=relaxed/simple;
+	bh=LH7J6vBS32ha3ew9nxayD5gynd3RoOLPuosE9anBCXk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZczM7SV20/CD6FjkaggSQ2QrPAv7RdnmFTYuz6WjNjeWQ2EDQgIk1U4Uh76m2NBLTsut/zqDJxlF5czpiM/LZtGoj/CY5XGxUStmIybfHIS/dc0XSxagWLBPhPawUMXr0skA65WirCz6g0vxv3XWWcxrptL+cDoikhcJg3gW1mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJYODFVo; arc=none smtp.client-ip=209.85.215.172
+	 MIME-Version; b=O1EMbkAMib8g5B3/s2F29jY2smZWdV3ImYOXAMkR00TPKH5JEL1/WBdiZAVDYwXehe57kkv7b36k93Hp9YhIjyofPI/9gCNdXXP8BHWP7/CyWbVXsPhAia2OrgSyt/Z3FnF/oihPBIRbzFDsxjSGOiX2P7gmEfEojMhxZJbKlks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b3utMy3i; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-6c5bcb8e8edso1989520a12.2;
-        Fri, 23 Aug 2024 22:51:05 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2020e83eca1so26741175ad.2;
+        Fri, 23 Aug 2024 22:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724478665; x=1725083465; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724478666; x=1725083466; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iWx4S/yyQ8tATVGsDpSEMMNoZAbZjpUFwOWTe/DcQKs=;
-        b=XJYODFVoYHN7AnNozDGb0tsxsoT8TVHZoiD1qF0nJ0mDY5NZ3ZLFTkcGPVMVRra9ek
-         ov4jnRMwxaNhC1Vc9uTeS/kCs4c1GPMl+qfC8l4S/Mvfe0C7mTNBId4rmFTCfxWm6MeL
-         yLh8o0ZhkXTxPwlsSrR3UDg0VJHI4ILB/ISziCK6vtx4C69WIHDzVkAmcR8hIeahxva2
-         qoEJhFT03NDOXF3GxYX7zllZQ1bTeHO+ugxMXmKuKYEMkRpxy2oQvi2EbtBIP1bsS8oz
-         qplmXceD/oo7kvF0YktdMbh++K4fD4J75bkKnOi5TF2TVfMSJEIpWWQN1M+6UsBZt/kb
-         OvXg==
+        bh=CKtUQ3HzVmiQ6+VbR9hd5Nt80Xys/tTNaSD1W/KzOkI=;
+        b=b3utMy3ikEQ9ciY1Z0eGPivjSowZzkiZ1CMulxrxnNNgDsrFlzKlvTA7wYU1u0Z2fd
+         pgxj9kMDBBFwnjxDjySx6aXvaCrf/Gb0qxaxbYnUxg0UWROWR/IBaeh6mDvwbzC1EPou
+         Tw2ltXtzpxp4KjPvFtuNZQAGvgkcdyEmZHT7T2wjQHTL+Bb3lK5KBuvCDompL9BOlfKt
+         Whz3PleZxCm6DAZJE0Cgf9EQ4lK0EThYqFgJSU0EHAuDP4UX3n7SwYuOU0bnULrTeL1L
+         raUPXgP4gODPoTNZ8exaBovlBjOyEhZMTckf1QvK6vUiuCOUVUMV66PoRy4oTTUGJ2WY
+         EVNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724478665; x=1725083465;
+        d=1e100.net; s=20230601; t=1724478666; x=1725083466;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iWx4S/yyQ8tATVGsDpSEMMNoZAbZjpUFwOWTe/DcQKs=;
-        b=u0DVETLE/3ojFPAWnmP1GvsTRDbeO6r+BG43F/A8lwr/nhA7zANSOxzvoYReXtAO4h
-         N2aCBWmubrGIxsIoWf1oSYksaSsNrZ+yHm8Ovj6vZ6kYRBqWtN++3XYxtc9YrJHAWWyO
-         e+eZLuSEODSopZ+zK8ZN6+NsqTxZ0NAh8gN00YvWrIoUIvvvjl6x4pPFPEWnCZY5eLlE
-         7YyvBMU7vz1G8FAgoty4UXq+0O2DuExc6ta+wx9kMnVtl3EPeRWnoWJFZEUASVt2v6ka
-         yapZwKLfVAZQ+Az1cuEF8dxYKwru2g+5WNY4cDox4GWgrEVLR7g4h7T2d3RB4P73BBg5
-         uDBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwXohGpFAFSEYnrm2zWMOkrlDWkWAzZapZ8VQMb5/QT8SHHclTNFpkylHjOPFM5T3jps9zic6WALvOA1gm@vger.kernel.org, AJvYcCX/Vboxy/1XlOG8jZHqZqgvbvCT5Bs8p+pVDBHM4EwkgppomKfyQBANmzwA9cACB+k77PNyvIaJP3KDcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCcSI9WjR/xjK+cMA6QdRAlg7AvmFq5QbvHyo0KWdoOcyjLj0D
-	PRaUSBgnJ7LeB+W42DUOBLuh04l0c5s69HYp17MLgMh+E8/UJpoNe7F+jQ==
-X-Google-Smtp-Source: AGHT+IGXN3AOZT9KuNHhR9PsauJTI+NYuBD8Ia2mqI/h9yGRicbDAD6T5EJ2fs6qURarH2FaOecdQw==
-X-Received: by 2002:a05:6a20:ac43:b0:1c0:f1cb:c4b2 with SMTP id adf61e73a8af0-1cc8b4290d5mr4610745637.4.1724478664907;
-        Fri, 23 Aug 2024 22:51:04 -0700 (PDT)
+        bh=CKtUQ3HzVmiQ6+VbR9hd5Nt80Xys/tTNaSD1W/KzOkI=;
+        b=JqA2VWH6FvyP8YW5ilxSmhoc22ziYkPTO5ReNp5zMt+Ty7iOfvQtBdIh7IwGqsGzly
+         rMzSosyrcD2oLJIBx7dE9gSpqdQV1Q4h9Yhipekk82skTSfy7MEAXxpp6aJspba04Q46
+         +0qLGlKHT1I2p5xRogMTWtKcBGgYJZb3xNRpDZC/nE/e26D8s0+hr1CEW08ZzfMQfDKI
+         3Hy9HmlwGmMuF0Hbxk1aMEYSkYa8rWqpnyFvAyZJBysHUCDQEP3CHtCA4V7WxZ5XEM5c
+         vXa24EILFenBXA5bn8NR5/4NjbmXCgeTTqL6GOg+36NUnjysyu4RxMi22nni6tgWhpZp
+         KVaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTM5ZvAyuewLyOL6a18au+zMs++bPPILpcIaFY/jV6IJQvw5tgWQkMC6kFZoAUj6MqQ38eqcsIq1GXfg==@vger.kernel.org, AJvYcCUrBcu/Kh14S8dhP/wDcut325vnLcA8KFC2U2yksyS42rbqFR5at4n8mzKwYv4gQWyqPkrne99VAxE2tUYl@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0LzfmPiwMZBtoreTIMoLwyg5wyWlNa1dx4pdYgtawGkqW/yAV
+	lPvTEzZhYj7Dr3J7u26mIMtElXbfUpjeyUFxiP7ll/H3M0IWXqii
+X-Google-Smtp-Source: AGHT+IF5KCoB6pj3hiWa4LcaH5wpgJV4z2oTS4dorpkOJV5VFkOVNEE3VQh2jR3TO0zipICA/ol0Cg==
+X-Received: by 2002:a17:902:c404:b0:203:a0f1:3400 with SMTP id d9443c01a7336-203a0f134f2mr48429025ad.0.1724478665796;
+        Fri, 23 Aug 2024 22:51:05 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:75c:5a5a:d7dc:18f6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20395ef904dsm23398615ad.31.2024.08.23.22.51.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20395ef904dsm23398615ad.31.2024.08.23.22.51.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 22:51:04 -0700 (PDT)
+        Fri, 23 Aug 2024 22:51:05 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
 	linux-input@vger.kernel.org
 Cc: Andreas Kemnade <andreas@kemnade.info>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 10/18] Input: zforce_ts - make parsing of contacts less confusing
-Date: Fri, 23 Aug 2024 22:50:34 -0700
-Message-ID: <20240824055047.1706392-11-dmitry.torokhov@gmail.com>
+Subject: [PATCH 11/18] Input: zforce_ts - do not ignore errors when acquiring regulator
+Date: Fri, 23 Aug 2024 22:50:35 -0700
+Message-ID: <20240824055047.1706392-12-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
 In-Reply-To: <20240824055047.1706392-1-dmitry.torokhov@gmail.com>
 References: <20240824055047.1706392-1-dmitry.torokhov@gmail.com>
@@ -86,76 +86,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Zforce touch data packet consists of a byte representing number of
-contacts followed by several chunks with length of 9 bytes representing
-each contact. Instead of accounting for the leading byte by increasing
-offset of each field in contacts by one introduce a pointer to contact
-data and point it appropriately. This avoids awkward constructs like:
-
-	point.prblty = payload[9 * i + 9];
-
-which makes it seem like there is off-by-one error, in favor of more
-straightforward:
-
-	point.prblty = p[8];
+We should abort probe on any error besides -ENOENT which signifies that
+the regulator is not defined in device tree or elsewhere, not only
+when we see -EPROBE_DEFER.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/zforce_ts.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/input/touchscreen/zforce_ts.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/input/touchscreen/zforce_ts.c b/drivers/input/touchscreen/zforce_ts.c
-index 32f3d74bd339..c5b4c85359b4 100644
+index c5b4c85359b4..0d06dda311d4 100644
 --- a/drivers/input/touchscreen/zforce_ts.c
 +++ b/drivers/input/touchscreen/zforce_ts.c
-@@ -318,6 +318,7 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
- 	struct i2c_client *client = ts->client;
- 	struct zforce_point point;
- 	int count, i, num = 0;
-+	u8 *p;
- 
- 	count = payload[0];
- 	if (count > ZFORCE_REPORT_POINTS) {
-@@ -328,8 +329,10 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
- 	}
- 
- 	for (i = 0; i < count; i++) {
--		point.coord_x = get_unaligned_le16(&payload[9 * i + 1]);
--		point.coord_y = get_unaligned_le16(&payload[9 * i + 3]);
-+		p = &payload[i * 9 + 1];
-+
-+		point.coord_x = get_unaligned_le16(&p[0]);
-+		point.coord_y = get_unaligned_le16(&p[2]);
- 
- 		if (point.coord_x > ts->prop.max_x ||
- 		    point.coord_y > ts->prop.max_y) {
-@@ -338,18 +341,16 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
- 			point.coord_x = point.coord_y = 0;
- 		}
- 
--		point.state = payload[9 * i + 5] & 0x0f;
--		point.id = (payload[9 * i + 5] & 0xf0) >> 4;
-+		point.state = p[4] & 0x0f;
-+		point.id = (p[4] & 0xf0) >> 4;
- 
- 		/* determine touch major, minor and orientation */
--		point.area_major = max(payload[9 * i + 6],
--					  payload[9 * i + 7]);
--		point.area_minor = min(payload[9 * i + 6],
--					  payload[9 * i + 7]);
--		point.orientation = payload[9 * i + 6] > payload[9 * i + 7];
--
--		point.pressure = payload[9 * i + 8];
--		point.prblty = payload[9 * i + 9];
-+		point.area_major = max(p[5], p[6]);
-+		point.area_minor = min(p[5], p[6]);
-+		point.orientation = p[5] > p[6];
-+
-+		point.pressure = p[7];
-+		point.prblty = p[8];
- 
- 		dev_dbg(&client->dev,
- 			"point %d/%d: state %d, id %d, pressure %d, prblty %d, x %d, y %d, amajor %d, aminor %d, ori %d\n",
+@@ -753,7 +753,7 @@ static int zforce_probe(struct i2c_client *client)
+ 	ts->reg_vdd = devm_regulator_get_optional(&client->dev, "vdd");
+ 	if (IS_ERR(ts->reg_vdd)) {
+ 		ret = PTR_ERR(ts->reg_vdd);
+-		if (ret == -EPROBE_DEFER)
++		if (ret != -ENOENT)
+ 			return ret;
+ 	} else {
+ 		ret = regulator_enable(ts->reg_vdd);
 -- 
 2.46.0.295.g3b9ea8a38a-goog
 
