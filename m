@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-5814-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5815-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB28095DC06
-	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 07:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A275995DC07
+	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 07:52:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73788283F8C
-	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 05:52:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDDB28419C
+	for <lists+linux-input@lfdr.de>; Sat, 24 Aug 2024 05:52:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546DA15573A;
-	Sat, 24 Aug 2024 05:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E959156242;
+	Sat, 24 Aug 2024 05:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QR5yoyBS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fd9ErRlh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF011547EE;
-	Sat, 24 Aug 2024 05:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF031552E3;
+	Sat, 24 Aug 2024 05:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724478664; cv=none; b=hZQoZZ0wnI4wQ0/3lCpC7RlrsM06nQPgf1b3uRlCYtnAub2keknjxALoWHG1PJzkULkJPwhuK9o3kSUFMxU2syPW2DvmNI+K0kZvXgIWlLi6ycDqTr02+QX/mJN8n5DTTfW3e5UCH0IOMZT51Ph5o3KafY56dJS40m+PJf+E+5w=
+	t=1724478664; cv=none; b=OWbzZY+DkGtCWuRWC3hWcNERKokY+TOZplsRnrg8YlDwFN+wrQxBsJgHN736pqcwERmc6Zxd/CCrXYeBkfx/569BxgjT8PjbD1kIY8s0hkR+42syRZ+MKZwHyocLCF3E+opAK5wulQZ02hteOdzg8V3wwk4HRmSp+gIko+cFW7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724478664; c=relaxed/simple;
-	bh=DO2POWR+L4mpoJESl3OGhJJvqVw8fpyfFYUIvsIfyV4=;
+	bh=jZc/ru8ieOguS6XNd3fDyKoJzxvdq03+pTPuWqE0FRQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mpWbniVRte1zd1ygXdFy2O1MgcfiFKmCCJ5D73CQeKRnBrbNfU4exesFyytyjK0SaQiJusovOpmWxjuzjV3JcQ6fEjCXCPHUwMLc1S1GaqfqHFkKoR6d/I531+vb2p7Rz82iiJbN8UgnAH5ZDfl72oKVxtzr3wa2uBqPZSjKgPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QR5yoyBS; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version; b=Bkg1HzmjFbpv6P33VFGRtNFKoE8DAyagSthkEZCqpkKzUqYYHjNAbiILaZdDQmjzl3MKzH7A8/8e2msTBzgO+5wKac0hYAHo/xpjJMu4XgUgWrqPwuTArErT+wbhwrlugYV3FPWdp+GGTVmDp/GJHnKpY+bqWF9tFvzdbEyn/nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fd9ErRlh; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201d5af11a4so23871295ad.3;
-        Fri, 23 Aug 2024 22:51:02 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2025031eb60so23383225ad.3;
+        Fri, 23 Aug 2024 22:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724478662; x=1725083462; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724478663; x=1725083463; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ehLi53HnV4EpA+uVYR2JtIJT0ACD//Baaeue9KBcNcI=;
-        b=QR5yoyBS3bwXMJvovrQwPFfhSq/iTzlkPvazaoN7C9Y55Amadew31WA+bNFyLb7j1o
-         hMxoXr6p1sNyWsYVSd1a/C7MF+rl+atk55zs58NoGS3oifqh59YOkFRmww1SYyJRKklb
-         /YfvVvNC9qTP0Nwetx92IuaMV+uR6RHk1puhUsh7Bl9qejquC5MncSOkmOOZM+EvRcKG
-         I01IfRPVt3fmR4erjDIAwkHE+68t1DgfQA9xdATisiE1Ow895q76nUOhfQPh5KEcCTgo
-         +2n6tZqnL+QmzsqC3fdWkPFBHrEBjE8c2ycVfqiP7wYHlGaTKbzidxeAc/UlvUg4wJ/8
-         NM9A==
+        bh=ztZiHh+Ss+9GgllgOmhrzPgnRJ98j/KfpwosGaKcSPw=;
+        b=fd9ErRlh/xQErQTBhJOU5UIq6eR8WGedIubVtjzYJ9DIi/CXfHYNTtUOkVi3sZcYT6
+         3i4/u7bTSUF+hE0iSGuCWtRzdPk6wZXvg5OliEDt3/5dsNHk2cTEmwA52ZsZaRgfyclw
+         NOzFDNRqBcF8qDyzBa9PbGY4fuC1bZItFed7LxXcyO6jDypbfYO95u1uQL/K9b95uf63
+         SktIEtJ+V9C840iu0FWYfY1otYC5FNFN6km3TbC8MF8s+mYUrUMKO5qsyCkyGxwvfJUq
+         MbUVNhpckFmLkcBI7Za2CgFu8wgqsIRgCgJHtD23q5Mr5eczHR9lbx0tYyHl92HoIWuR
+         /TiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724478662; x=1725083462;
+        d=1e100.net; s=20230601; t=1724478663; x=1725083463;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ehLi53HnV4EpA+uVYR2JtIJT0ACD//Baaeue9KBcNcI=;
-        b=mPQJNCEcMmVmf8ElZWh7ewQ8f6cBKGSaSZbKz3YYaPX1ipMYS2HdHO5gri2CREGJsS
-         sN948XKoCjwDyP0+iMl05V8nH6eXx/lOlo3TBZvhKMUCfYyodHkx8lXtwrKmcNk2YCF3
-         uwhYVawj8mkaG82HokBr9/lG6pZdja+sGCZVmQCnuodbxTlTD826nwumQCKsL/Sq1/YL
-         Aco2noscHQCu8NGqg8Gy2Efj3jmHbWoObizqjKjfortp9toKvlPu8D03mC3M4rWyIOU9
-         zRvfnIluM5VvkH3ouOcJVoAHOam0RmVpdYlS5KEB4nE6q40Dx4T2iAjj6HhM03vGoEfT
-         8dLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVO8grpormtsCaK4k2Xr1QztwlIvNKT3OuZAYX/N01r0c34VoSP9//EsKm8jkWsTidCv1i91NHGDA30iw==@vger.kernel.org, AJvYcCXcxJwo0gjJt8qsRYTBsf1gB35d21NTjdtbcEYL5KPwoC7W/zxSk63LU3IfYtxzDyBYHKt5m3YiNJYcnSJu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw892FLjv/wukTd9eUV1zQrDIrXLdoP9gTCUsRybNFjvWowJmkd
-	jSJjan1ltmQB2m9hjPlELi2bgBJvrQjGzyJVAkxnYgYPMJtzr/OD
-X-Google-Smtp-Source: AGHT+IEgSszwWvTWjjBYNM43ijA8tNPk16mglLTjE9eznV7DUm/LrglTUm9Hikoo4gKdLsskpuQXbQ==
-X-Received: by 2002:a17:902:e889:b0:202:1db8:d9aa with SMTP id d9443c01a7336-2039e4cefb4mr47257555ad.30.1724478661767;
-        Fri, 23 Aug 2024 22:51:01 -0700 (PDT)
+        bh=ztZiHh+Ss+9GgllgOmhrzPgnRJ98j/KfpwosGaKcSPw=;
+        b=SG2DDM+geo9w9T/3y+RQWdDJZlx8Nw3IZqkjVlo8diSNtdtxGSFRnf/sg5AvBr/ExB
+         0JyWnrinAZl2lv5QzKQK8Vn1d2WIuajBcnJEkPYW2f7V2boPW4/xOQXbDPd94rLw+1C7
+         lgsfe8ONca0FHjGNuQvScxTY/p2bSx3jbGcQN4CnhWw0kIWOl4ieE4nVoDLkcjV7b/Wk
+         9mAlZE+3CKfd5pUOAU0JB7JmJ91DMWA1v120RrEtj/YOT1A6lrIuN8SZ4uA2HKpUr+Zi
+         DyK52qIHK7iplWSOznpzwTxCJGvccgkEXHk1MIGHKdbjMmFdCfZ87nYBkfW/+P+5xL01
+         Dgxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWV2snsMaJCOpu2LGyAidlXaT5ZOPxpEbzcTCM4khYVI5cSfGSWJSfY0g7PYryasWhtYfO9tww7uFoLHk6G@vger.kernel.org, AJvYcCXB43w1n4AZcrL3T54cVG/39/q7HmdNZGjBAcvRQvE05CFY36pwSDAz28fsO0o1imxCifaozrj4KKVF7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIlg0Ta5ZjmVdIs4RBtEXWecd6r6YrhOKjcgSo1Pg86BkbnJ77
+	h0X4b1WMX88m7oj/LduY4tBkgFswYMAii9asviHLhlc1mJA+kQ0B
+X-Google-Smtp-Source: AGHT+IGot0lQRgzGokFPzNf71FPRlrLtsMrbJ1ij7h8spkWMrpcdahIR65WkFEWR2vsBXXI5LaaCFw==
+X-Received: by 2002:a17:903:188:b0:1fc:86cc:4254 with SMTP id d9443c01a7336-2039e4b37c1mr44644235ad.33.1724478662530;
+        Fri, 23 Aug 2024 22:51:02 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:75c:5a5a:d7dc:18f6])
         by smtp.gmail.com with ESMTPSA id d9443c01a7336-20395ef904dsm23398615ad.31.2024.08.23.22.51.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 22:51:01 -0700 (PDT)
+        Fri, 23 Aug 2024 22:51:02 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
 	linux-input@vger.kernel.org
 Cc: Andreas Kemnade <andreas@kemnade.info>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 06/18] Input: zforce_ts - remove unneeded locking
-Date: Fri, 23 Aug 2024 22:50:30 -0700
-Message-ID: <20240824055047.1706392-7-dmitry.torokhov@gmail.com>
+Subject: [PATCH 07/18] Input: zforce_ts - ensure that pm_stay_awake() and pm_relax() are balanced
+Date: Fri, 23 Aug 2024 22:50:31 -0700
+Message-ID: <20240824055047.1706392-8-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
 In-Reply-To: <20240824055047.1706392-1-dmitry.torokhov@gmail.com>
 References: <20240824055047.1706392-1-dmitry.torokhov@gmail.com>
@@ -86,152 +86,79 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need to have a lock around calls to i2c_master_send() and
-i2c_master_recv() as they are not issued concurrently and they are not
-sharing any buffers. Also there is no need for command_mutex as all
-commands are issued sequentially.
-
-Remove both.
+There is a small chance that ts->suspending flag may change while the
+interrupt handler is running. To make sure call to pm_relax() is not
+skipped on accident use a temporary to hold the original value at the
+beginning of interrupt. Use READ_ONCE() so that the value is actually
+fetched at the right time.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/zforce_ts.c | 47 +++++----------------------
- 1 file changed, 9 insertions(+), 38 deletions(-)
+ drivers/input/touchscreen/zforce_ts.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/touchscreen/zforce_ts.c b/drivers/input/touchscreen/zforce_ts.c
-index a4956f1eebb2..afeafa589928 100644
+index afeafa589928..004ef728fb90 100644
 --- a/drivers/input/touchscreen/zforce_ts.c
 +++ b/drivers/input/touchscreen/zforce_ts.c
-@@ -95,9 +95,7 @@ struct zforce_point {
-  * @suspending		in the process of going to suspend (don't emit wakeup
-  *			events for commands executed to suspend the device)
-  * @suspended		device suspended
-- * @access_mutex	serialize i2c-access, to keep multipart reads together
-  * @command_done	completion to wait for the command result
-- * @command_mutex	serialize commands sent to the ic
-  * @command_waiting	the id of the command that is currently waiting
-  *			for a result
-  * @command_result	returned result of the command
-@@ -123,10 +121,7 @@ struct zforce_ts {
- 	u16			version_build;
- 	u16			version_rev;
- 
--	struct mutex		access_mutex;
--
- 	struct completion	command_done;
--	struct mutex		command_mutex;
- 	int			command_waiting;
- 	int			command_result;
- };
-@@ -143,9 +138,7 @@ static int zforce_command(struct zforce_ts *ts, u8 cmd)
- 	buf[1] = 1; /* data size, command only */
- 	buf[2] = cmd;
- 
--	mutex_lock(&ts->access_mutex);
- 	ret = i2c_master_send(client, &buf[0], ARRAY_SIZE(buf));
--	mutex_unlock(&ts->access_mutex);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "i2c send data request error: %d\n", ret);
- 		return ret;
-@@ -169,37 +162,24 @@ static int zforce_send_wait(struct zforce_ts *ts, const char *buf, int len)
- 	struct i2c_client *client = ts->client;
+@@ -454,6 +454,7 @@ static irqreturn_t zforce_irq_thread(int irq, void *dev_id)
  	int ret;
+ 	u8 payload_buffer[FRAME_MAXSIZE];
+ 	u8 *payload;
++	bool suspending;
  
--	ret = mutex_trylock(&ts->command_mutex);
--	if (!ret) {
--		dev_err(&client->dev, "already waiting for a command\n");
--		return -EBUSY;
--	}
--
- 	dev_dbg(&client->dev, "sending %d bytes for command 0x%x\n",
- 		buf[1], buf[2]);
+ 	/*
+ 	 * When still suspended, return.
+@@ -467,7 +468,8 @@ static irqreturn_t zforce_irq_thread(int irq, void *dev_id)
+ 	dev_dbg(&client->dev, "handling interrupt\n");
  
- 	ts->command_waiting = buf[2];
+ 	/* Don't emit wakeup events from commands run by zforce_suspend */
+-	if (!ts->suspending && device_may_wakeup(&client->dev))
++	suspending = READ_ONCE(ts->suspending);
++	if (!suspending && device_may_wakeup(&client->dev))
+ 		pm_stay_awake(&client->dev);
  
--	mutex_lock(&ts->access_mutex);
- 	ret = i2c_master_send(client, buf, len);
--	mutex_unlock(&ts->access_mutex);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "i2c send data request error: %d\n", ret);
--		goto unlock;
-+		return ret;;
- 	}
+ 	/*
+@@ -495,7 +497,7 @@ static irqreturn_t zforce_irq_thread(int irq, void *dev_id)
+ 			 * Always report touch-events received while
+ 			 * suspending, when being a wakeup source
+ 			 */
+-			if (ts->suspending && device_may_wakeup(&client->dev))
++			if (suspending && device_may_wakeup(&client->dev))
+ 				pm_wakeup_event(&client->dev, 500);
+ 			zforce_touch_event(ts, &payload[RESPONSE_DATA]);
+ 			break;
+@@ -548,7 +550,7 @@ static irqreturn_t zforce_irq_thread(int irq, void *dev_id)
+ 		}
+ 	} while (gpiod_get_value_cansleep(ts->gpio_int));
  
- 	dev_dbg(&client->dev, "waiting for result for command 0x%x\n", buf[2]);
+-	if (!ts->suspending && device_may_wakeup(&client->dev))
++	if (!suspending && device_may_wakeup(&client->dev))
+ 		pm_relax(&client->dev);
  
--	if (wait_for_completion_timeout(&ts->command_done, WAIT_TIMEOUT) == 0) {
--		ret = -ETIME;
--		goto unlock;
--	}
-+	if (wait_for_completion_timeout(&ts->command_done, WAIT_TIMEOUT) == 0)
-+		return -ETIME;
+ 	dev_dbg(&client->dev, "finished interrupt\n");
+@@ -584,7 +586,9 @@ static int zforce_suspend(struct device *dev)
+ 	int ret = 0;
  
- 	ret = ts->command_result;
--
--unlock:
--	mutex_unlock(&ts->command_mutex);
--	return ret;
-+	return 0;
- }
+ 	mutex_lock(&input->mutex);
+-	ts->suspending = true;
++
++	WRITE_ONCE(ts->suspending, true);
++	smp_mb();
  
- static int zforce_command_wait(struct zforce_ts *ts, u8 cmd)
-@@ -412,41 +392,35 @@ static int zforce_read_packet(struct zforce_ts *ts, u8 *buf)
- 	struct i2c_client *client = ts->client;
- 	int ret;
+ 	/*
+ 	 * When configured as a wakeup source device should always wake
+@@ -615,7 +619,9 @@ static int zforce_suspend(struct device *dev)
+ 	ts->suspended = true;
  
--	mutex_lock(&ts->access_mutex);
--
- 	/* read 2 byte message header */
- 	ret = i2c_master_recv(client, buf, 2);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "error reading header: %d\n", ret);
--		goto unlock;
-+		return ret;
- 	}
+ unlock:
+-	ts->suspending = false;
++	smp_mb();
++	WRITE_ONCE(ts->suspending, false);
++
+ 	mutex_unlock(&input->mutex);
  
- 	if (buf[PAYLOAD_HEADER] != FRAME_START) {
- 		dev_err(&client->dev, "invalid frame start: %d\n", buf[0]);
--		ret = -EIO;
--		goto unlock;
-+		return -EIO;
- 	}
- 
- 	if (buf[PAYLOAD_LENGTH] == 0) {
- 		dev_err(&client->dev, "invalid payload length: %d\n",
- 			buf[PAYLOAD_LENGTH]);
--		ret = -EIO;
--		goto unlock;
-+		return -EIO;
- 	}
- 
- 	/* read the message */
- 	ret = i2c_master_recv(client, &buf[PAYLOAD_BODY], buf[PAYLOAD_LENGTH]);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "error reading payload: %d\n", ret);
--		goto unlock;
-+		return ret;
- 	}
- 
- 	dev_dbg(&client->dev, "read %d bytes for response command 0x%x\n",
- 		buf[PAYLOAD_LENGTH], buf[PAYLOAD_BODY]);
- 
--unlock:
--	mutex_unlock(&ts->access_mutex);
--	return ret;
-+	return 0;
- }
- 
- static void zforce_complete(struct zforce_ts *ts, int cmd, int result)
-@@ -801,9 +775,6 @@ static int zforce_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 	}
- 
--	mutex_init(&ts->access_mutex);
--	mutex_init(&ts->command_mutex);
--
- 	ts->client = client;
- 	ts->input = input_dev;
- 
+ 	return ret;
 -- 
 2.46.0.295.g3b9ea8a38a-goog
 
