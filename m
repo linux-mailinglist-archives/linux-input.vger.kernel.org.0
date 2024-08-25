@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5839-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5840-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469E895E1F7
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 07:18:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D65F95E1FA
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 07:18:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 67F891C21547
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 05:18:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A09928225C
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 05:18:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66B94823C3;
-	Sun, 25 Aug 2024 05:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7598C82C60;
+	Sun, 25 Aug 2024 05:16:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhmQxu2I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cH0JcXXb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57317F7FC;
-	Sun, 25 Aug 2024 05:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1693C466;
+	Sun, 25 Aug 2024 05:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724563013; cv=none; b=oLYUT3QI/ecUIhc3BBdU4xCxy8d7+t51Us8FjzvavUYsnshBc1VgxMK1WFxUZ6OYx87NtRf3T8yFzJSrbDEj5qwjOm7XsxE8npSmdVW4ntDKJKpqcO0QcK/lX2th+vNdA608FH5zgcD8AMlalM1q07s4fAkhYnIHidjU9cgz6QA=
+	t=1724563014; cv=none; b=QFuawjSlNoIqxGXSKIwivbMY0DiSjDydLmPNhGJjNYERYHVVbRzaFSPJvcgyr/w+gkuyzhe7m4t2kiFwjS7w/uoujUoCR3TOVgauJg6nmD4iz8+uWEPTMZOt3k8Absu7Wgn7dcU/lVnWpwIK01vUo20BeOKeC6wQSidr1h20hbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724563013; c=relaxed/simple;
-	bh=9QH0Z2k1Exe8nRbW09wHzcRQf5tH/6RKlkLk5/+ZLDM=;
+	s=arc-20240116; t=1724563014; c=relaxed/simple;
+	bh=wNujzFkWY2QRnJ4eoygNvp/2j66nWvzzi/2rJGjoD6c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F1Hk4bIMYjkTunbXxSdFxRWQyurfxMVJ7J3RK348i170ckg6dORpPoKYCNOmBYf/KPohuuqQl/luWhH3mJtkJ0p3flosDeIi8fYtjHV8CAs1I6KL7jkPMxXVzpzrUlQd3kgr6I0k/zU31MVAVCPGkt8vznlNAqZqjLaSyQztOd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nhmQxu2I; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=QEnMr2x+d7TqS54bakSD3CS9bIBNVnWMtI8XyJOVSYEdAv8Rapz8/SGcMfOkI1xt+e0V8om61KYltbV4Dpp5EOxkiIdVDiVP0WF9Ek+fMgpJITy+mkwCHfAZR0iYOI2HHHuvaK5CsoN6MP5SKGCEtyzVvbB8gfTGw5d5v1X6vDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cH0JcXXb; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-714302e7285so2797474b3a.2;
-        Sat, 24 Aug 2024 22:16:51 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7093c94435bso1933207a34.0;
+        Sat, 24 Aug 2024 22:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724563011; x=1725167811; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724563012; x=1725167812; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y1sIje/HnXzt33wD+dka8sJAuwV3C7GUd6Fvewfxm9o=;
-        b=nhmQxu2IZqlUWVEZja/FcP6IxxfQC8aFtCdUDEqazlOptNsZ8dTuesJqL9IcGS3zRz
-         ob5CPGzpOWlJDF6tW4A16N1LpjzwHSDEsPwyZVmXtRCjMdbkLCXhIgX/jOAdw0Jk/dcC
-         4hloWImfwFtmHOm4K7KEIcgFWl8jJ25hQNCPSv15xL7EAuh1oVnSZBJ85nk9xFWSn7fc
-         FAfE1boLKbf4Gg5PCCpVt3nS94e/IZW6D8U197S3oZXbS8Prvd0elPlexyuBhIVxgL4Q
-         Sbd4tHDhSgKveWDJfiy1w4OicyJQRLNOucN0dBwlkOvlVODxEcfefhuOweMl2kiT9KD/
-         0mfw==
+        bh=cyPqTHyh07puR7bU3JACy63C0BspLgz3ChuDMwPsOL4=;
+        b=cH0JcXXbV2lvKKho+cCq3ozdf157nleRIP0RYiCoOuBT60yNaEE6roBwp1epEnItWl
+         baoSotLbXupEcw9V9+Hff4D0Qs+jNC1reyYTHL4ok9cXrA0j/pC2P9j7EmgTUWmeY7cB
+         eb5iQNs+5OEiAWlYEgaYdEdlxziIU8MMpz7i6qL1PQgRGHLliikyLDrGzxDRH9RsWDSV
+         FwuQxGgE4M51s5BhElxcHAwet6CTQbDrJnIlcdQf7/vS34NpYYNiwgRpRmpUf1r/dDaC
+         yeTn0HDBeG8BeUAnMNGF4CnplbR3TmINy317BTKOU7GYsE+VKhBEYlfS1K0gDaT/1yjE
+         v3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724563011; x=1725167811;
+        d=1e100.net; s=20230601; t=1724563012; x=1725167812;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y1sIje/HnXzt33wD+dka8sJAuwV3C7GUd6Fvewfxm9o=;
-        b=T8rqtk7V7rI4SAWxAogU0pOjah2/Q5ausj/RLeOWVHrzre0ZbIglQO+kzqSt6RsTAl
-         5GyYuiCGtByB5EVlySGUx8WV5y3hlDUxI/Gel+AhQEl+eVRVQjOZRTLYg41xUEVGZzFf
-         aCquXb3CUJ45+tIvc7IOCOW3QsoC4cav5SNBd+C+SgTJ+4EtLMU40mWa/7++OpqeI+zo
-         gkC7Sr9g17p2ROzQwtQGS4/Cgj0XrWDb353FpKc3QifhN7wVnnQMxymYADdaWKoCGNkw
-         m3uFL402169eKNP/zYSBF6iS+z2Vztgw5r6kWpZ9ISOqd+x0scvr1nrwJPfi0ogcj3p3
-         ntYA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8FDPVOutxIXTMJQMxX+nhR3pLbO39UvXxoOytA0rD67gY2/l/kxJCYEJaOkDYGt3JVnajwsP4DGtyhvQ=@vger.kernel.org, AJvYcCXKUpNnUBIgUyIJPJJyjLZBjlm8LWabhSoKF2GGyoiqgnuAaikhH4qOj8fm3aea0wfpfnz4qfFvNPnrCQY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws9mp5uW3ntvTVcC+X4SWyV5wRVvNSjfw1026RPS6p6+Lg0RXJ
-	06iKoMA3QnsHuAIAJQhMgOvw/LyZuDa2T1A+A+csgUMtJ5/ZmlnRPaztQQ==
-X-Google-Smtp-Source: AGHT+IH6nl7Gp6typ8jXOMj8WE/a55ZrJJqfoIbSsLMBPPh/0P9kxt4yqzLE6RUgOHHWRfDQqSZM3Q==
-X-Received: by 2002:a05:6a21:3a87:b0:1be:c4bb:6f31 with SMTP id adf61e73a8af0-1cc89d4d900mr8040665637.18.1724563010571;
-        Sat, 24 Aug 2024 22:16:50 -0700 (PDT)
+        bh=cyPqTHyh07puR7bU3JACy63C0BspLgz3ChuDMwPsOL4=;
+        b=mVAy964Im+CAUrbCcm8wecp8DM0Ncjf6O3mty0gykGD8EGBknPsKrJUyJ2iNzgrbsX
+         CzYyvLa4MtRRTUc1iVK754k0noYsiNcP+2RVGgK73UNpkCBfkBh1ABi8zZdUkBkzxtvv
+         +IOIq5yqHq0UDF95buPYkvekQxL1+W3AV3pzqjH35a4WcB7SAR64VShdPSt2BECbDObY
+         kQlWQ8937oAxGGKDrgiuSlCHt3YHA55buZXhk3Mmmty6fS/YEQtlHIEg+Bb0UIzmH/5Y
+         D6eLY6y3sbCx8HzQJ+gOfr+o68j/B0jXwBTyeQuoT5hsoGRYvkM9+8i0tnziG8r4I5rI
+         2EfA==
+X-Forwarded-Encrypted: i=1; AJvYcCVsABSM6KocGKi4C2dYM+NcYsRMm/4m7lWRfTB8HdKBbY+7UHPzEtWNgz6vIqLH9pdFUIN2f1uqsADwNa8=@vger.kernel.org, AJvYcCWbLgxFp/xreBeAc+tbjxaoDt6IxDZAsAuLN/CuTIxkVqgwbkhbPcJo+aIQk5XaRnAX7FtzDAXXvjV815c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQYs4ev8yJ/mqUhu3C6Am5hJy3dYFmysDUNYT1R34rDHwLEbvj
+	tECOf5atXLFP7O2inW/zXRMLcwTOYGkmV1JzDcUOPadaUKQP7YP7cE0e+w==
+X-Google-Smtp-Source: AGHT+IElTjsj7Q4fdjXuCiV15fwaclHOkI2Ai1DHHC2EwetOtIQNk0UHrxm09mtsUN+F1sUh9V3o8w==
+X-Received: by 2002:a05:6830:658c:b0:708:b32f:ade5 with SMTP id 46e09a7af769-70e0ec90cacmr8581080a34.32.1724563011839;
+        Sat, 24 Aug 2024 22:16:51 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:66dc:ce07:b7cc:51ea])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ad55a94sm5622442a12.57.2024.08.24.22.16.49
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ad55a94sm5622442a12.57.2024.08.24.22.16.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Aug 2024 22:16:50 -0700 (PDT)
+        Sat, 24 Aug 2024 22:16:51 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -82,9 +82,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 09/17] Input: lm8323 - use guard notation when acquiring mutexes
-Date: Sat, 24 Aug 2024 22:16:13 -0700
-Message-ID: <20240825051627.2848495-10-dmitry.torokhov@gmail.com>
+Subject: [PATCH 10/17] Input: lpc32xx-keys - use guard notation when acquiring mutex
+Date: Sat, 24 Aug 2024 22:16:14 -0700
+Message-ID: <20240825051627.2848495-11-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
 In-Reply-To: <20240825051627.2848495-1-dmitry.torokhov@gmail.com>
 References: <20240825051627.2848495-1-dmitry.torokhov@gmail.com>
@@ -102,143 +102,58 @@ leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/lm8323.c | 49 +++++++++++++++------------------
- 1 file changed, 22 insertions(+), 27 deletions(-)
+ drivers/input/keyboard/lpc32xx-keys.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/input/keyboard/lm8323.c b/drivers/input/keyboard/lm8323.c
-index cf67ba13477a..e26bf2956344 100644
---- a/drivers/input/keyboard/lm8323.c
-+++ b/drivers/input/keyboard/lm8323.c
-@@ -350,11 +350,11 @@ static int lm8323_configure(struct lm8323_chip *lm)
+diff --git a/drivers/input/keyboard/lpc32xx-keys.c b/drivers/input/keyboard/lpc32xx-keys.c
+index 423035be86fb..2392e7ec3b19 100644
+--- a/drivers/input/keyboard/lpc32xx-keys.c
++++ b/drivers/input/keyboard/lpc32xx-keys.c
+@@ -262,7 +262,7 @@ static int lpc32xx_kscan_suspend(struct device *dev)
+ 	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
+ 	struct input_dev *input = kscandat->input;
  
- static void pwm_done(struct lm8323_pwm *pwm)
- {
--	mutex_lock(&pwm->lock);
-+	guard(mutex)(&pwm->lock);
-+
- 	pwm->running = false;
- 	if (pwm->desired_brightness != pwm->brightness)
- 		schedule_work(&pwm->work);
--	mutex_unlock(&pwm->lock);
- }
+-	mutex_lock(&input->mutex);
++	guard(mutex)(&input->mutex);
  
- /*
-@@ -367,7 +367,7 @@ static irqreturn_t lm8323_irq(int irq, void *_lm)
- 	u8 ints;
- 	int i;
- 
--	mutex_lock(&lm->lock);
-+	guard(mutex)(&lm->lock);
- 
- 	while ((lm8323_read(lm, LM8323_CMD_READ_INT, &ints, 1) == 1) && ints) {
- 		if (likely(ints & INT_KEYPAD))
-@@ -394,8 +394,6 @@ static irqreturn_t lm8323_irq(int irq, void *_lm)
- 		}
+ 	if (input_device_enabled(input)) {
+ 		/* Clear IRQ and disable clock */
+@@ -270,7 +270,6 @@ static int lpc32xx_kscan_suspend(struct device *dev)
+ 		clk_disable_unprepare(kscandat->clk);
  	}
  
--	mutex_unlock(&lm->lock);
--
- 	return IRQ_HANDLED;
+-	mutex_unlock(&input->mutex);
+ 	return 0;
  }
  
-@@ -445,7 +443,7 @@ static void lm8323_pwm_work(struct work_struct *work)
- 	u16 pwm_cmds[3];
- 	int num_cmds = 0;
+@@ -279,19 +278,20 @@ static int lpc32xx_kscan_resume(struct device *dev)
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
+ 	struct input_dev *input = kscandat->input;
+-	int retval = 0;
++	int error;
  
--	mutex_lock(&pwm->lock);
-+	guard(mutex)(&pwm->lock);
+-	mutex_lock(&input->mutex);
++	guard(mutex)(&input->mutex);
  
- 	/*
- 	 * Do nothing if we're already at the requested level,
-@@ -454,7 +452,7 @@ static void lm8323_pwm_work(struct work_struct *work)
- 	 * finishes.
- 	 */
- 	if (pwm->running || pwm->desired_brightness == pwm->brightness)
--		goto out;
-+		return;
- 
- 	kill = (pwm->desired_brightness == 0);
- 	up = (pwm->desired_brightness > pwm->brightness);
-@@ -489,9 +487,6 @@ static void lm8323_pwm_work(struct work_struct *work)
- 
- 	lm8323_write_pwm(pwm, kill, num_cmds, pwm_cmds);
- 	pwm->brightness = pwm->desired_brightness;
--
-- out:
--	mutex_unlock(&pwm->lock);
- }
- 
- static void lm8323_pwm_set_brightness(struct led_classdev *led_cdev,
-@@ -500,9 +495,9 @@ static void lm8323_pwm_set_brightness(struct led_classdev *led_cdev,
- 	struct lm8323_pwm *pwm = cdev_to_pwm(led_cdev);
- 	struct lm8323_chip *lm = pwm->chip;
- 
--	mutex_lock(&pwm->lock);
--	pwm->desired_brightness = brightness;
--	mutex_unlock(&pwm->lock);
-+	scoped_guard(mutex, &pwm->lock) {
-+		pwm->desired_brightness = brightness;
-+	}
- 
- 	if (in_interrupt()) {
- 		schedule_work(&pwm->work);
-@@ -510,12 +505,12 @@ static void lm8323_pwm_set_brightness(struct led_classdev *led_cdev,
- 		/*
- 		 * Schedule PWM work as usual unless we are going into suspend
- 		 */
--		mutex_lock(&lm->lock);
--		if (likely(!lm->pm_suspend))
--			schedule_work(&pwm->work);
--		else
--			lm8323_pwm_work(&pwm->work);
--		mutex_unlock(&lm->lock);
-+		scoped_guard(mutex, &lm->lock) {
-+			if (likely(!lm->pm_suspend))
-+				schedule_work(&pwm->work);
-+			else
-+				lm8323_pwm_work(&pwm->work);
-+		}
- 	}
- }
- 
-@@ -608,9 +603,9 @@ static ssize_t lm8323_set_disable(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&lm->lock);
-+	guard(mutex)(&lm->lock);
+ 	if (input_device_enabled(input)) {
+ 		/* Enable clock and clear IRQ */
+-		retval = clk_prepare_enable(kscandat->clk);
+-		if (retval == 0)
+-			writel(1, LPC32XX_KS_IRQ(kscandat->kscan_base));
++		error = clk_prepare_enable(kscandat->clk);
++		if (error)
++			return error;
 +
- 	lm->kp_enabled = !i;
--	mutex_unlock(&lm->lock);
++		writel(1, LPC32XX_KS_IRQ(kscandat->kscan_base));
+ 	}
  
- 	return count;
+-	mutex_unlock(&input->mutex);
+-	return retval;
++	return 0;
  }
-@@ -758,9 +753,9 @@ static int lm8323_suspend(struct device *dev)
- 	irq_set_irq_wake(client->irq, 0);
- 	disable_irq(client->irq);
  
--	mutex_lock(&lm->lock);
--	lm->pm_suspend = true;
--	mutex_unlock(&lm->lock);
-+	scoped_guard(mutex, &lm->lock) {
-+		lm->pm_suspend = true;
-+	}
- 
- 	for (i = 0; i < 3; i++)
- 		if (lm->pwm[i].enabled)
-@@ -775,9 +770,9 @@ static int lm8323_resume(struct device *dev)
- 	struct lm8323_chip *lm = i2c_get_clientdata(client);
- 	int i;
- 
--	mutex_lock(&lm->lock);
--	lm->pm_suspend = false;
--	mutex_unlock(&lm->lock);
-+	scoped_guard(mutex, &lm->lock) {
-+		lm->pm_suspend = false;
-+	}
- 
- 	for (i = 0; i < 3; i++)
- 		if (lm->pwm[i].enabled)
+ static DEFINE_SIMPLE_DEV_PM_OPS(lpc32xx_kscan_pm_ops, lpc32xx_kscan_suspend,
 -- 
 2.46.0.295.g3b9ea8a38a-goog
 
