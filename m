@@ -1,80 +1,80 @@
-Return-Path: <linux-input+bounces-5855-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5856-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390D695E38D
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 15:13:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50B095E38F
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 15:14:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B73111F21F56
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 13:13:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7A5E1C20F3C
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 13:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5452154BF8;
-	Sun, 25 Aug 2024 13:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B849913E88B;
+	Sun, 25 Aug 2024 13:14:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M2Ha1XfY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JXJZo+yS"
 X-Original-To: linux-input@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348C613E88B
-	for <linux-input@vger.kernel.org>; Sun, 25 Aug 2024 13:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C10529408
+	for <linux-input@vger.kernel.org>; Sun, 25 Aug 2024 13:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724591585; cv=none; b=EK7vuBy3PtvJKD3CFE844JnhfgMg1KDYD9RQFuXjOsPED7emopMFbbCxRME+vYE8Hx1bhMpjexr/FjGFIqkQ5E08gZbnaXPv0G2CLfVzFQpE15xtHxto7WfzheGAMVp8sa5Z/m7kc9Y7rpE1txl5IfYtzfnzbg609oe54w3vlWA=
+	t=1724591643; cv=none; b=TWX6t4rE7e4fAOmo8wkFCJK0TDNpguvEQ09+0DgcdQjx0U4NIUTu+lGo0tj6I20yeR77TJBJScmUeE3XwCYC0PY5PCsEKAK1TIVUFVo089ya6nQza8jFWQTdnXOTbtfwc0Kb7BrUhc9pwxAF/0OCyMNMOLBexthMZJL+1gPxVTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724591585; c=relaxed/simple;
-	bh=TgKYnPZPyDTOZ3L65cfrHkuK/skuYvE26k2QLr8XRJ4=;
+	s=arc-20240116; t=1724591643; c=relaxed/simple;
+	bh=If+/8xbIiesAUyAMotSQq4erR1sm/1SDnyOVcA8R6BQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SMS1/xrv3uaiXssP1aiS6vTHaITHkpswXoGknoia0fKfY1df7OpRd2Vjh8aUgtOfTi/5GQ9tMrGRqvqfNpWVroWlu1MJcjjQTn5TQmLqsu3yqx/Bb56Az2H4KaKwxNbUSwUNESTC6tQz0pParR8xVH5m4i0fYvaBc/FOAVV8cSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M2Ha1XfY; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=ZLNWWZrVFMPX/jR1l6bWsZd0+AUkg6eUBwBL3jZrYMRHWdggcm/cZHha1cy8+WXRcNxWjFvRsEKHRbzOvZGdl787STw1XCUVe0tfeo6SzF1C/4yfqZurU7OaOZqfh8SotBkzbwd10rcQauDaf5w2P3X2PYU3Duhuc7mqNYNOoFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JXJZo+yS; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724591583;
+	s=mimecast20190719; t=1724591641;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BjT76MGllL0Qcry+tUV4L4dLGaCMJhJzvO4cnqx+Y6g=;
-	b=M2Ha1XfYZMKativ1+EOZh2gWVWX2zXCA8PZyO5mx2ndaOaUjviI1/2Xgy0w8SCcJ26CJk6
-	P+WSf81mvPvbXT05T9bXpZBHssUo2SFlyVg6MOHodlJw15qyEMfDTWQiK19cJ3qOmV9iX2
-	r+zhG0bX2jAejrFKB7yF4HVimSELvFA=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=z6JO4w81QAnxfI/sVFQ992flHyAjc9Uzm0HkU62Trw4=;
+	b=JXJZo+ySqhwRZ2yHmx4oH/7S2RESKEnthJXSxNRqmr0NPUZoN6WvDEtFTMCQOqdqbIAJ0i
+	EzdxZiMgDHQikFLFbThO1JLvBDipubOCJqtCMvU8txNkcXwTvGEWNhLp9veRET4aUy4Fc8
+	pV0De0tT7n5qIT2+2pTr89YXdoxZimE=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-bHRZF9cwNbKrjvnTvqyB7Q-1; Sun, 25 Aug 2024 09:13:00 -0400
-X-MC-Unique: bHRZF9cwNbKrjvnTvqyB7Q-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2f4051c38b7so35175331fa.0
-        for <linux-input@vger.kernel.org>; Sun, 25 Aug 2024 06:13:00 -0700 (PDT)
+ us-mta-475--SnW-xDZPH6iVj-P1RMzzQ-1; Sun, 25 Aug 2024 09:13:59 -0400
+X-MC-Unique: -SnW-xDZPH6iVj-P1RMzzQ-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-5334824e68dso3299749e87.3
+        for <linux-input@vger.kernel.org>; Sun, 25 Aug 2024 06:13:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724591579; x=1725196379;
+        d=1e100.net; s=20230601; t=1724591638; x=1725196438;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BjT76MGllL0Qcry+tUV4L4dLGaCMJhJzvO4cnqx+Y6g=;
-        b=KC5i4ufaXfH97fOigvV8XiykyW+52C+qsywa2oQIE98rm+qDfVgUCQJzyyoUo+a40G
-         Amiy5r66VU6rgltmEz1SpKgbJeXV7dARV9oPTjpkCZVCZ7/bZOVK1OD0o/GTFj0thkpv
-         ytLPNvNeD7hGCzxTH1qiRlygkbq6jwtjZuLK4EZdxV17yjelmnupMmMwlneG8V+Hq9lN
-         G3HxynyhixDIn4eydnzam+ERhMP/fh/lrobcqNQ3OZiWE84f7/rCwkRn9x2ED5pXvgLi
-         gsjjVs19ZFow1Ah8hny4j2XSktthywfV2GofXQVrAiUCIbYuKmy3sWo/Id6s0gXpN1Zu
-         LOmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVpKZdwStGroDo3znKCZetgGxnmvqbD0yVJVBBb0BrMHcm5EEH/MzBcuy3VsUS5gDfKFeGk95VVC5qs2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxosQWdWDKytU1uOPL3/4EX1Z8txJkl+2K38xLB4W5DCj51Qpyi
-	oFZGwBjOpjXcZQwgzTt95/F548gf+HekOu/6HPN8DhfvoF2fLcAsinNKtW+LtiP//P/4JANeHr0
-	R/Yr2IzQX4ld8DtwbjNt62hYqxQ7qJbOOBAdRxBr8Xrs9bNZwOIPgPnRCmUEf
-X-Received: by 2002:a2e:5119:0:b0:2f1:922f:874a with SMTP id 38308e7fff4ca-2f4f48eeda8mr42665861fa.14.1724591579160;
-        Sun, 25 Aug 2024 06:12:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGedG8Qc1ocP0F7rBDO7Du9zOdeBSFMEWGKGSF2JNS3V7HesaJGbrGKKVPU6aQQc17mUbUsw==
-X-Received: by 2002:a2e:5119:0:b0:2f1:922f:874a with SMTP id 38308e7fff4ca-2f4f48eeda8mr42665631fa.14.1724591578503;
-        Sun, 25 Aug 2024 06:12:58 -0700 (PDT)
+        bh=z6JO4w81QAnxfI/sVFQ992flHyAjc9Uzm0HkU62Trw4=;
+        b=AYUOyWep6a79oGuq517UHVyPVxGuJsFm2bF9ARWD8MhHl31MLV6nE0trXgQMYR9Yyd
+         w9cTdaxhv4RWUOcff/W2meEgKfeGseRXl4u8tLcLRezM2o471IhBBKjouP9KmoX45OpD
+         Ffyv5n68OsOCiSBylRKt6+jcSrqQsY1QHPe7VWhMVm1kLWV8Adt28qbt4ybcimTDDmQE
+         io8dKt3TW/xGg4qCVgz1WNdg8sHAJDmKHurQ5Fzur6o13tV06rPY1QL3r8GKNTtXx6oN
+         tku1dfKjws1xThEAYaxEdOa5nYYddBtYAXutuCkWBN2evxPAfJ7FsmUc0U5jEvZLvU7U
+         Oulw==
+X-Forwarded-Encrypted: i=1; AJvYcCXchSfi1FPBj3iVgUzqNsp5zHvB8aUuwWKiRCeuf7+5+84V2HZtDzKaGi04OyRBnBPIiBfQiUmPnTS6DA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxenUlJi6W72POryLGic06TE+OuRxiucsKJH/9Zo5xak/T6nSiH
+	evKsax8t/kHO5SPJh0VKNLt7rlew1s66OUnOQ9dv0L5P9o6w1VtwG7FHYKHni0UxZK+5PHY4bE6
+	PR4ioNtxvgkVFm33m6K3Dtn7n+ykKm/qJDOo1tN+MgyutNFWum3/9PSLkw6K4
+X-Received: by 2002:ac2:4e07:0:b0:52e:9f76:53dc with SMTP id 2adb3069b0e04-534387d23ffmr4435061e87.0.1724591637780;
+        Sun, 25 Aug 2024 06:13:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFij4DUMFVB07YMBQHND15S17vubAKk8zRYJctcQrk4OJNZ/Y6GfWIX0ARkcVXAeWLHy8YEVA==
+X-Received: by 2002:ac2:4e07:0:b0:52e:9f76:53dc with SMTP id 2adb3069b0e04-534387d23ffmr4435049e87.0.1724591637278;
+        Sun, 25 Aug 2024 06:13:57 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3cc25bsm4404438a12.38.2024.08.25.06.12.57
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f2a5764sm533272866b.79.2024.08.25.06.13.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Aug 2024 06:12:58 -0700 (PDT)
-Message-ID: <c32467c6-fe3d-4ac9-85cb-15f37d4728a2@redhat.com>
-Date: Sun, 25 Aug 2024 15:12:57 +0200
+        Sun, 25 Aug 2024 06:13:56 -0700 (PDT)
+Message-ID: <34c641d3-ee4e-4e93-ad42-90a33c0f8b0a@redhat.com>
+Date: Sun, 25 Aug 2024 15:13:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -82,30 +82,23 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] Input: atkbd - use guard notation when acquiring
- mutex
+Subject: Re: [PATCH] Input: matrix-keymap - switch to using __free() cleanup
+ facility
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, Tony Lindgren <tony@atomide.com>,
- Jeff LaBundy <jeff@labundy.com>, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org
-References: <20240825051627.2848495-1-dmitry.torokhov@gmail.com>
- <20240825051627.2848495-4-dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <ZspoEPdTcH-hpciy@google.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240825051627.2848495-4-dmitry.torokhov@gmail.com>
+In-Reply-To: <ZspoEPdTcH-hpciy@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 8/25/24 7:16 AM, Dmitry Torokhov wrote:
-> This makes the code more compact and error handling more robust
-> by ensuring that mutexes are released in all code paths when control
-> leaves critical section.
+On 8/25/24 1:09 AM, Dmitry Torokhov wrote:
+> Use __free(kfree) cleanup facility in matrix_keypad_parse_keymap() to
+> automatically free temporarily allocated memory.
 > 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
@@ -120,99 +113,63 @@ Hans
 
 
 > ---
->  drivers/input/keyboard/atkbd.c | 37 ++++++++++++++--------------------
->  1 file changed, 15 insertions(+), 22 deletions(-)
+>  drivers/input/matrix-keymap.c | 25 +++++++++----------------
+>  1 file changed, 9 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-> index f4f2078cf501..5855d4fc6e6a 100644
-> --- a/drivers/input/keyboard/atkbd.c
-> +++ b/drivers/input/keyboard/atkbd.c
-> @@ -639,7 +639,7 @@ static void atkbd_event_work(struct work_struct *work)
->  {
->  	struct atkbd *atkbd = container_of(work, struct atkbd, event_work.work);
->  
-> -	mutex_lock(&atkbd->mutex);
-> +	guard(mutex)(&atkbd->mutex);
->  
->  	if (!atkbd->enabled) {
->  		/*
-> @@ -657,8 +657,6 @@ static void atkbd_event_work(struct work_struct *work)
->  		if (test_and_clear_bit(ATKBD_REP_EVENT_BIT, &atkbd->event_mask))
->  			atkbd_set_repeat_rate(atkbd);
->  	}
-> -
-> -	mutex_unlock(&atkbd->mutex);
->  }
->  
->  /*
-> @@ -1361,7 +1359,7 @@ static int atkbd_reconnect(struct serio *serio)
->  {
->  	struct atkbd *atkbd = atkbd_from_serio(serio);
->  	struct serio_driver *drv = serio->drv;
-> -	int retval = -1;
+> diff --git a/drivers/input/matrix-keymap.c b/drivers/input/matrix-keymap.c
+> index 5d93043bad8e..3bea3575a0a9 100644
+> --- a/drivers/input/matrix-keymap.c
+> +++ b/drivers/input/matrix-keymap.c
+> @@ -73,10 +73,9 @@ static int matrix_keypad_parse_keymap(const char *propname,
+>  	struct device *dev = input_dev->dev.parent;
+>  	unsigned int row_shift = get_count_order(cols);
+>  	unsigned int max_keys = rows << row_shift;
+> -	u32 *keys;
+>  	int i;
+>  	int size;
+> -	int retval;
 > +	int error;
 >  
->  	if (!atkbd || !drv) {
->  		dev_dbg(&serio->dev,
-> @@ -1369,16 +1367,17 @@ static int atkbd_reconnect(struct serio *serio)
->  		return -1;
+>  	if (!propname)
+>  		propname = "linux,keymap";
+> @@ -94,30 +93,24 @@ static int matrix_keypad_parse_keymap(const char *propname,
+>  		return -EINVAL;
 >  	}
 >  
-> -	mutex_lock(&atkbd->mutex);
-> +	guard(mutex)(&atkbd->mutex);
+> -	keys = kmalloc_array(size, sizeof(u32), GFP_KERNEL);
+> +	u32 *keys __free(kfree) = kmalloc_array(size, sizeof(*keys), GFP_KERNEL);
+>  	if (!keys)
+>  		return -ENOMEM;
 >  
->  	atkbd_disable(atkbd);
+> -	retval = device_property_read_u32_array(dev, propname, keys, size);
+> -	if (retval) {
+> +	error = device_property_read_u32_array(dev, propname, keys, size);
+> +	if (error) {
+>  		dev_err(dev, "failed to read %s property: %d\n",
+> -			propname, retval);
+> -		goto out;
+> +			propname, error);
+> +		return error;
+>  	}
 >  
->  	if (atkbd->write) {
-> -		if (atkbd_probe(atkbd))
+>  	for (i = 0; i < size; i++) {
+>  		if (!matrix_keypad_map_key(input_dev, rows, cols,
+> -					   row_shift, keys[i])) {
+> -			retval = -EINVAL;
 > -			goto out;
-> +		error = atkbd_probe(atkbd);
-> +		if (error)
-> +			return error;
->  
->  		if (atkbd->set != atkbd_select_set(atkbd, atkbd->set, atkbd->extra))
-> -			goto out;
-> +			return -EIO;
->  
->  		/*
->  		 * Restore LED state and repeat rate. While input core
-> @@ -1404,11 +1403,7 @@ static int atkbd_reconnect(struct serio *serio)
->  	if (atkbd->write)
->  		atkbd_activate(atkbd);
+> -		}
+> +					   row_shift, keys[i]))
+> +			return -EINVAL;
+>  	}
 >  
 > -	retval = 0;
 > -
-> - out:
-> -	mutex_unlock(&atkbd->mutex);
+> -out:
+> -	kfree(keys);
 > -	return retval;
 > +	return 0;
 >  }
 >  
->  static const struct serio_device_id atkbd_serio_ids[] = {
-> @@ -1465,17 +1460,15 @@ static ssize_t atkbd_attr_set_helper(struct device *dev, const char *buf, size_t
->  	struct atkbd *atkbd = atkbd_from_serio(serio);
->  	int retval;
->  
-> -	retval = mutex_lock_interruptible(&atkbd->mutex);
-> -	if (retval)
-> -		return retval;
-> +	scoped_guard(mutex_intr, &atkbd->mutex) {
-> +		atkbd_disable(atkbd);
-> +		retval = handler(atkbd, buf, count);
-> +		atkbd_enable(atkbd);
->  
-> -	atkbd_disable(atkbd);
-> -	retval = handler(atkbd, buf, count);
-> -	atkbd_enable(atkbd);
-> -
-> -	mutex_unlock(&atkbd->mutex);
-> +		return retval;
-> +	}
->  
-> -	return retval;
-> +	return -EINTR;
->  }
->  
->  static ssize_t atkbd_show_extra(struct atkbd *atkbd, char *buf)
+>  /**
 
 
