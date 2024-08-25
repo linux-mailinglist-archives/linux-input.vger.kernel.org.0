@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-5831-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5832-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2A195E1DD
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 07:16:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1A595E1E1
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 07:16:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3405E1F21D9F
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 05:16:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 474662826AD
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 05:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B6303A267;
-	Sun, 25 Aug 2024 05:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2702945003;
+	Sun, 25 Aug 2024 05:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ih9e9nhF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zat+6PSX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B52F28382;
-	Sun, 25 Aug 2024 05:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748943987D;
+	Sun, 25 Aug 2024 05:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724563002; cv=none; b=sQeKMGv9YMCHL0EKXIgmZPLHnxeWkq5qBOuYT2eWCzx8h9TpFp42Ia9QVW/9CtrCuQwvO7/EfUVnve1Ffu/L8fpmwDQRYUK/OBqBJc9nEhxs556RrodOb1An8DW7kRX7YhA+Vws3n5zd2i0iYsuyr+PctlNfZj8kMQJ26KRkUI0=
+	t=1724563004; cv=none; b=hes4HCnBboAnbUTJkcR+eo+HupIA62HC8TCond2dgYuzyhQZia+sJ5Rp2zzR1WXW7Gl9+vhCc6jSg6D1WSpTSZen5+DgsHklr40+pqZj099vW/Nz0862d8warMVrLW3ezNBWsmjxW0Wz7LzOZ/ME6xXj0mQnaTf5CQZcaOT6GDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724563002; c=relaxed/simple;
-	bh=OSk3cuE+1s6/axlkl5Wvob1pSWEblZgOBnVXoaDU3Z8=;
+	s=arc-20240116; t=1724563004; c=relaxed/simple;
+	bh=MsMHIhrTk1gjFRMb90/7beC7gZ6Zim5csgEiyFhf9s4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ksYqVqzOIiOE2dnJpUO+Ob17Xa8pof+blFG7zUZfh2QW3ZReLojXeN1eVQIKNmp0VICNHxL65s9fOga7JJloHxdTzyQkcAn4Ok+WS0zlGMTgXrzmylSmLQIt5LuMnwf5xNM+8PpFSFen8PA5aVZuuhoj9sjva3fTeGB8XjFOAjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ih9e9nhF; arc=none smtp.client-ip=209.85.160.45
+	 MIME-Version; b=Zi8AaMzLCWsNcVSz3XBhdx/j8CEQX/f/XDGr8lrluDB2BtTi1k5+rQxa0R2+173AGf/kAyeX3ytcBUCTxgj9OAqiSNXRZPR4rpqx6sqBjDVxx1BPLu2eJo8z4satqxAcLN3N7nouQwK2K2uDXAmC0pLozChCmGzmb5T6pFFGHIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zat+6PSX; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2703967b10cso2397246fac.0;
-        Sat, 24 Aug 2024 22:16:41 -0700 (PDT)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7141d7b270dso2511502b3a.2;
+        Sat, 24 Aug 2024 22:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724563000; x=1725167800; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724563002; x=1725167802; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ShO+HgvM3GmU9GyOB1yPa+S5A01U1lb+gXxQbTtxVpc=;
-        b=Ih9e9nhFoNghFKgVDd3KOC24ec4FdrkVvj0hLEcrHoUnN01joGDF+/mEDRDhoxJsFV
-         jGRWMQI/c1yLvNKSYKcInZlTXx9CmTlJO93BAN1xY4bK8b364J9Y7bQT/7fDm7wz+q1z
-         9d0oBEfpEI3ah5wVuFfkZB2No32xt7sXQuunGMBoAx6Wts2owOuVSuqJ26mJy6CqPfTI
-         24kbvUunl5olH9TJDxUcaYEY/suXBAO63uYHXJmVQLn5dY+qbYvG5Q/t8CrU+DuCoi1h
-         AuXVBYVm7vvplwmAVY5mOkxHsCM1PgAxyK/Lg+MfYNCAcOx1W66fAQEstk+DIoIrpnat
-         b51w==
+        bh=v03nlMt8wt97ucP9MgPsI2XvI1FXNf/NrpeS/5IiYv0=;
+        b=Zat+6PSXFyM9m3wsyVYFvA0ghD3Cw8Gz5JcWthPVq8lL/wLawsnBmHIGDS7+IWY4gU
+         M6n2CEWoS+plzEIy0VSSFlEsw43tuaFZ3xw3JIHn5HpgHh4+bERgavYFBRGfOgS8tCsg
+         BnTwqKIsXfIYPEQvYJJoyaooqDjmpklJbAwTSUUezuEXgxgApbAtN5PQ5YhSKk3Y2Z9q
+         L9+MwVYMuJY9XUqtIyeq0BP4bE3kLLIqUfOBm8YD9PlNxKuEqk5iyBVpGrH/S+4DO5sh
+         41faqrv/tF/uDlkTjwH0U7juUf+NBPaDrsOhQLsL4M/B1sN1Cq/pJqkGXbCdcB09P3wk
+         h8Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724563000; x=1725167800;
+        d=1e100.net; s=20230601; t=1724563002; x=1725167802;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ShO+HgvM3GmU9GyOB1yPa+S5A01U1lb+gXxQbTtxVpc=;
-        b=R+ss+e/8S9p4IWtoyaaN50+YPJMphGT9ph0YpdaJPulRwWIV91RYc4fxUm2b8o7LHD
-         1v7PkNa/Z3eOabrAtSwqXFrFL5lMiyn7AsK97ta90v/mMo3u0kTrokEgI0qCEYPCqYum
-         lXnP0VnUp3BSYZHQj5AAzzfIKLuvsF6rBeIzPnaks2H42AzN7aT2M56+q/VlvVKxPURP
-         h0KdErL1RMBHH6aq1Oy/DppZyRyu0i7vYVmMJWpp2xFdu8JuSOjEe/Hx9/CQmbS+Ohfl
-         s/m/kIWeXGY6AagWrSzARGT5nlTtpdQPP+gKeHDE4op9FnVTp1XgMllZwr+Fhyfvvzhb
-         ENXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWw1Ic2ponYQ9HAjok99Hre32echD08B/UvrrpIsxn4x/uTsRHIlDSiVsBQ/de42F1gLDvsXYTIn1dHUmo=@vger.kernel.org, AJvYcCXIh/nMh8M8wf7EVF877WTNCqQOKyUjfLRGq0NToYJ0t4M/Mbcc5Uizm9w4yJfGwErkFNgsMSu3a8uQIWQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY6horRlQFyF88Z/2AlEmdEa9rjbjcM0qsdLdci8JtmQt7JTyN
-	sWU5NoYSVV9fL4i6rDNUPUcdLPzshbNNrYOea2yTGCmDOZVvb3Prt4TBZw==
-X-Google-Smtp-Source: AGHT+IEZFPpCzZoomgKLJTyaudR7j9NCS6uaxVcYk6aQIQGxzRythkb2raMKaNsay8DSDOaUBbZJmA==
-X-Received: by 2002:a05:6870:1608:b0:270:440a:a40e with SMTP id 586e51a60fabf-273e67260d0mr8083459fac.46.1724563000175;
-        Sat, 24 Aug 2024 22:16:40 -0700 (PDT)
+        bh=v03nlMt8wt97ucP9MgPsI2XvI1FXNf/NrpeS/5IiYv0=;
+        b=sl03y5KIWnOtaaQeS5aMSCvlBRGRJHfD2YoLgKFWOdTIoAA9o3gxLDJgt7uiCsa3kv
+         T9ywtyfiaHA1m7BxfhdY4fz49vQnADkIZd7IIH0XVoRJSeGFfYq+mej/+YXXrz1bkxGl
+         wvmbM5hbO0w2SF66HGVdDIivHu6Lp4i4tb37RFXnCT9qyyEGGXA9v0GMZWjg8JaHo4am
+         Uu2z57iJU4VQxl51kO7SP9xS/Pr/mfel5PgnZQ5kSH3F7PgHMJHDXYRTAkE/MPL043xV
+         stAFWuHhR+vJwFdyeaaCsT/j88CpZfmEF15SlP9a0oOG2NBtbLlzQwtfjgmm4GxEg8ax
+         N/nw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0drbk26N0tJj6TUxYt3dWsGy4p3f12j1vaw0/QNFsHrSgKiUp6NyPzP8DTMsPtxKt8F9BqIB0/CR7WeE=@vger.kernel.org, AJvYcCW+hPH/KuGAw6pA15Pshxb4Z9TD/paXAUNzDXti1ZUwFG7QyvXfY7YKRqM/uTva4FHkb+Gev7XA2w9RUAU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/GJGodSiYF3tG7qmwQtRBpagOZuLEGnwqS7ruP1eTnA59to2Q
+	D1t2pK/mkj56QG6o5TvWNTSIc1SXIZV3njvyhuzVu4P/9ddJJeo+TNrksw==
+X-Google-Smtp-Source: AGHT+IF7QoHmrLV6kSFTTdk+PD8n2j4jO61+JgdZXKp0HB/dxjAB/YizqF4tzxEjr27TgbIwya03LQ==
+X-Received: by 2002:a05:6a00:1990:b0:710:7efe:a870 with SMTP id d2e1a72fcca58-71445dfe700mr6501782b3a.19.1724563001466;
+        Sat, 24 Aug 2024 22:16:41 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:66dc:ce07:b7cc:51ea])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ad55a94sm5622442a12.57.2024.08.24.22.16.39
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ad55a94sm5622442a12.57.2024.08.24.22.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Aug 2024 22:16:39 -0700 (PDT)
+        Sat, 24 Aug 2024 22:16:41 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -82,9 +82,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 01/17] Input: adp5589-keys - use guard notation when acquiring mutex
-Date: Sat, 24 Aug 2024 22:16:05 -0700
-Message-ID: <20240825051627.2848495-2-dmitry.torokhov@gmail.com>
+Subject: [PATCH 02/17] Input: applespi - use guard notation when acquiring spinlock
+Date: Sat, 24 Aug 2024 22:16:06 -0700
+Message-ID: <20240825051627.2848495-3-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.295.g3b9ea8a38a-goog
 In-Reply-To: <20240825051627.2848495-1-dmitry.torokhov@gmail.com>
 References: <20240825051627.2848495-1-dmitry.torokhov@gmail.com>
@@ -97,98 +97,200 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 This makes the code more compact and error handling more robust
-by ensuring that mutexes are released in all code paths when control
+by ensuring that locks are released in all code paths when control
 leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/adp5589-keys.c | 39 +++++++++++++--------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
+ drivers/input/keyboard/applespi.c | 72 ++++++++-----------------------
+ 1 file changed, 18 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
-index 8996e00cd63a..735d96b056d4 100644
---- a/drivers/input/keyboard/adp5589-keys.c
-+++ b/drivers/input/keyboard/adp5589-keys.c
-@@ -404,7 +404,7 @@ static void adp5589_gpio_set_value(struct gpio_chip *chip,
- 	unsigned int bank = kpad->var->bank(kpad->gpiomap[off]);
- 	unsigned int bit = kpad->var->bit(kpad->gpiomap[off]);
- 
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	if (val)
- 		kpad->dat_out[bank] |= bit;
-@@ -413,8 +413,6 @@ static void adp5589_gpio_set_value(struct gpio_chip *chip,
- 
- 	adp5589_write(kpad->client, kpad->var->reg(ADP5589_GPO_DATA_OUT_A) +
- 		      bank, kpad->dat_out[bank]);
+diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
+index cf25177b4830..501ce8154786 100644
+--- a/drivers/input/keyboard/applespi.c
++++ b/drivers/input/keyboard/applespi.c
+@@ -717,9 +717,7 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi);
+ static void applespi_msg_complete(struct applespi_data *applespi,
+ 				  bool is_write_msg, bool is_read_compl)
+ {
+-	unsigned long flags;
 -
--	mutex_unlock(&kpad->gpio_lock);
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	if (is_read_compl)
+ 		applespi->read_active = false;
+@@ -733,8 +731,6 @@ static void applespi_msg_complete(struct applespi_data *applespi,
+ 		applespi->cmd_msg_queued = 0;
+ 		applespi_send_cmd_msg(applespi);
+ 	}
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
  }
  
- static int adp5589_gpio_direction_input(struct gpio_chip *chip, unsigned off)
-@@ -422,18 +420,13 @@ static int adp5589_gpio_direction_input(struct gpio_chip *chip, unsigned off)
- 	struct adp5589_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = kpad->var->bank(kpad->gpiomap[off]);
- 	unsigned int bit = kpad->var->bit(kpad->gpiomap[off]);
--	int ret;
+ static void applespi_async_write_complete(void *context)
+@@ -888,33 +884,22 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi)
  
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	kpad->dir[bank] &= ~bit;
--	ret = adp5589_write(kpad->client,
--			    kpad->var->reg(ADP5589_GPIO_DIRECTION_A) + bank,
--			    kpad->dir[bank]);
+ static void applespi_init(struct applespi_data *applespi, bool is_resume)
+ {
+-	unsigned long flags;
 -
--	mutex_unlock(&kpad->gpio_lock);
--
--	return ret;
-+	return adp5589_write(kpad->client,
-+			     kpad->var->reg(ADP5589_GPIO_DIRECTION_A) + bank,
-+			     kpad->dir[bank]);
- }
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
  
- static int adp5589_gpio_direction_output(struct gpio_chip *chip,
-@@ -442,9 +435,9 @@ static int adp5589_gpio_direction_output(struct gpio_chip *chip,
- 	struct adp5589_kpad *kpad = gpiochip_get_data(chip);
- 	unsigned int bank = kpad->var->bank(kpad->gpiomap[off]);
- 	unsigned int bit = kpad->var->bit(kpad->gpiomap[off]);
--	int ret;
-+	int error;
- 
--	mutex_lock(&kpad->gpio_lock);
-+	guard(mutex)(&kpad->gpio_lock);
- 
- 	kpad->dir[bank] |= bit;
- 
-@@ -453,15 +446,19 @@ static int adp5589_gpio_direction_output(struct gpio_chip *chip,
+ 	if (is_resume)
+ 		applespi->want_mt_init_cmd = true;
  	else
- 		kpad->dat_out[bank] &= ~bit;
- 
--	ret = adp5589_write(kpad->client, kpad->var->reg(ADP5589_GPO_DATA_OUT_A)
--			    + bank, kpad->dat_out[bank]);
--	ret |= adp5589_write(kpad->client,
--			     kpad->var->reg(ADP5589_GPIO_DIRECTION_A) + bank,
--			     kpad->dir[bank]);
-+	error = adp5589_write(kpad->client,
-+			      kpad->var->reg(ADP5589_GPO_DATA_OUT_A) + bank,
-+			      kpad->dat_out[bank]);
-+	if (error)
-+		return error;
- 
--	mutex_unlock(&kpad->gpio_lock);
-+	error = adp5589_write(kpad->client,
-+			      kpad->var->reg(ADP5589_GPIO_DIRECTION_A) + bank,
-+			      kpad->dir[bank]);
-+	if (error)
-+		return error;
- 
--	return ret;
-+	return 0;
+ 		applespi->want_tp_info_cmd = true;
+ 	applespi_send_cmd_msg(applespi);
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
  }
  
- static int adp5589_build_gpiomap(struct adp5589_kpad *kpad,
+ static int applespi_set_capsl_led(struct applespi_data *applespi,
+ 				  bool capslock_on)
+ {
+-	unsigned long flags;
+-	int sts;
+-
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	applespi->want_cl_led_on = capslock_on;
+-	sts = applespi_send_cmd_msg(applespi);
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+-
+-	return sts;
++	return applespi_send_cmd_msg(applespi);
+ }
+ 
+ static void applespi_set_bl_level(struct led_classdev *led_cdev,
+@@ -922,9 +907,8 @@ static void applespi_set_bl_level(struct led_classdev *led_cdev,
+ {
+ 	struct applespi_data *applespi =
+ 		container_of(led_cdev, struct applespi_data, backlight_info);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	if (value == 0) {
+ 		applespi->want_bl_level = value;
+@@ -940,8 +924,6 @@ static void applespi_set_bl_level(struct led_classdev *led_cdev,
+ 	}
+ 
+ 	applespi_send_cmd_msg(applespi);
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+ }
+ 
+ static int applespi_event(struct input_dev *dev, unsigned int type,
+@@ -1428,9 +1410,7 @@ static void applespi_got_data(struct applespi_data *applespi)
+ 	/* process packet header */
+ 	if (!applespi_verify_crc(applespi, applespi->rx_buffer,
+ 				 APPLESPI_PACKET_SIZE)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++		guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 		if (applespi->drain) {
+ 			applespi->read_active = false;
+@@ -1439,8 +1419,6 @@ static void applespi_got_data(struct applespi_data *applespi)
+ 			wake_up_all(&applespi->drain_complete);
+ 		}
+ 
+-		spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+-
+ 		return;
+ 	}
+ 
+@@ -1573,11 +1551,10 @@ static u32 applespi_notify(acpi_handle gpe_device, u32 gpe, void *context)
+ {
+ 	struct applespi_data *applespi = context;
+ 	int sts;
+-	unsigned long flags;
+ 
+ 	trace_applespi_irq_received(ET_RD_IRQ, PT_READ);
+ 
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	if (!applespi->suspended) {
+ 		sts = applespi_async(applespi, &applespi->rd_m,
+@@ -1590,8 +1567,6 @@ static u32 applespi_notify(acpi_handle gpe_device, u32 gpe, void *context)
+ 			applespi->read_active = true;
+ 	}
+ 
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+-
+ 	return ACPI_INTERRUPT_HANDLED;
+ }
+ 
+@@ -1819,29 +1794,21 @@ static int applespi_probe(struct spi_device *spi)
+ 
+ static void applespi_drain_writes(struct applespi_data *applespi)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	applespi->drain = true;
+ 	wait_event_lock_irq(applespi->drain_complete, !applespi->write_active,
+ 			    applespi->cmd_msg_lock);
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+ }
+ 
+ static void applespi_drain_reads(struct applespi_data *applespi)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
++	guard(spinlock_irqsave)(&applespi->cmd_msg_lock);
+ 
+ 	wait_event_lock_irq(applespi->drain_complete, !applespi->read_active,
+ 			    applespi->cmd_msg_lock);
+ 
+ 	applespi->suspended = true;
+-
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+ }
+ 
+ static void applespi_remove(struct spi_device *spi)
+@@ -1908,21 +1875,18 @@ static int applespi_resume(struct device *dev)
+ 	struct spi_device *spi = to_spi_device(dev);
+ 	struct applespi_data *applespi = spi_get_drvdata(spi);
+ 	acpi_status acpi_sts;
+-	unsigned long flags;
+ 
+ 	/* ensure our flags and state reflect a newly resumed device */
+-	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
+-
+-	applespi->drain = false;
+-	applespi->have_cl_led_on = false;
+-	applespi->have_bl_level = 0;
+-	applespi->cmd_msg_queued = 0;
+-	applespi->read_active = false;
+-	applespi->write_active = false;
+-
+-	applespi->suspended = false;
++	scoped_guard(spinlock_irqsave, &applespi->cmd_msg_lock) {
++		applespi->drain = false;
++		applespi->have_cl_led_on = false;
++		applespi->have_bl_level = 0;
++		applespi->cmd_msg_queued = 0;
++		applespi->read_active = false;
++		applespi->write_active = false;
+ 
+-	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
++		applespi->suspended = false;
++	}
+ 
+ 	/* switch on the SPI interface */
+ 	applespi_enable_spi(applespi);
 -- 
 2.46.0.295.g3b9ea8a38a-goog
 
