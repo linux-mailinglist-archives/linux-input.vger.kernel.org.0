@@ -1,34 +1,34 @@
-Return-Path: <linux-input+bounces-5865-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5863-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8174A95E540
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 22:33:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202D695E53A
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 22:33:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A66671C20B90
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 20:33:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAC1E2816AC
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 20:33:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 749F917B437;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04522179647;
 	Sun, 25 Aug 2024 20:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ZyZFkxDC"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="QkPM/xBM"
 X-Original-To: linux-input@vger.kernel.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAD81714BC;
-	Sun, 25 Aug 2024 20:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182F54D5BD;
+	Sun, 25 Aug 2024 20:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724617980; cv=none; b=KxlTtaOUdwoLIED1iDliz2QIrMXdHE0B7Lyl7unTaDAHUjywjgHXnnTyZvnq8OkH7w1EaabaEHDNb/xfeFpSKqUEny1YSIBRnJ88Fyon7AQAlI30XF1cLxO5+Hyq8UbWNVegXixN2ZKWTdITCDBHQct4sNm0I8BZ2vnebNhIUvs=
+	t=1724617979; cv=none; b=KG+Eka+Izda+5B7dIlbl3RhWKg89U2MTtz5Q8xduIB1tZv+Q45tUiaV9WUP/eF9713koxN9tqUmZMHFfcj/5OqZYXKZwljwNySaDRM/xAkuP4XXpodk/rZz/MoySU4xi0PR883yrPG6MSIsYucykwQ8+UXUjR3npPL9OefwhoIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724617980; c=relaxed/simple;
-	bh=xL9PERMnhgc6uCDcBxkArzLcXU8/Y1aeS1VIMloqBts=;
+	s=arc-20240116; t=1724617979; c=relaxed/simple;
+	bh=MpwvzhvgOaDrytoYEQnWPSuHKjx383ho/OaLqcZzFv4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ox0WWl1TCQuFin58lUUHnlNsU+4hcnd0gDr8b1bDQ4EwjDb/oZDXncNufrlIXLCNrLBPummzEySoAAjqxaoB9s9UNW6WWtc8ibgnMPtuhEeuE9EJskNRjWlMIOaK1ugRLd8yrh8K6lBiQ1RQDdPnRtFgTH5OKbp1Pj9Hk9pmnrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ZyZFkxDC; arc=none smtp.client-ip=185.11.138.130
+	 MIME-Version; b=an2cRy+KYmG1V/dVwrlAaPwRlha01Td7KWuNfZVT5K14bPkgFOlPLtITS9EaW/C6ffQCq/sFpMocZHjDArSyfd/OZzgCLSYPTCr5O60Jt43o8reRqQ7UAjkOiAnleY3tm4ev0OBudEWaxHgJ9b9phliFZC/ga6wJ3svmM217DQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=QkPM/xBM; arc=none smtp.client-ip=185.11.138.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
@@ -37,17 +37,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6hBNIrRL2eucOx0CuvG4HfJnzv1sdgsf5exJGTlBIfU=; b=ZyZFkxDCZjiH4L9w7s+jjwzyqP
-	qRrowsHHlFjcQIpgpY5VoFZNFsfWRc0QMh+il4HEWSoKtoBCx6ZetBcMWVE1uKFhFZRSnVzqAIiWH
-	anjINs9GwJTHNB0icOWprQpmOBMt/6JTSqz0pW/e2eWgmfugjdKv0+hSRMoQb4iiyL4lyc7XmV0wH
-	mWcDGG7eBNuumDllqTMREYQZvN01a1zyrKQMb6XGRwe5PlhY1v0YmnrQOuoZMqIZx2dW9bqlNC1Wn
-	kcEDonopwRYaXVnfI02f9JOM71o/h6kiCF3IDwJSbWqsKJeDWotKEs0azS9OxNMWRelNM1QfOpslN
-	p++otGMg==;
+	bh=ZFg9nq4Mz5BTGB9tCqxNQ5vxEapgnJXJdTITfa1daEw=; b=QkPM/xBMLOU7O943Lc004lB9+7
+	xkqlhDvuCFggHxSXllW/BjGKXqWwaQecdKgqIyhc4AYD3llvSGpAJja2TKGCOQYMyibA00U3LjqHn
+	069bE/6d4U2Tt7XRUShybG2GFCMrchI/xDk5480zCHo3gqmv730Qgsas2Ts/CfdOIItwk/rCHLmWT
+	fQHpBCRRBJYmU5eXhROKF/Ta1hnDeztPGm63QqV7nEy/gfhfKF0iPThjW82HJow6JdnyMoR3vhwEz
+	IdZTXbbpFu9957NyYPwigyfJBcslIJmiJ944AbqJ+q1lqxMHRME+QCK8UDWjc02k7JCbRMGZmvrrp
+	sKJzANmw==;
 Received: from i53875a40.versanet.de ([83.135.90.64] helo=phil.lan)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1siJuk-0001cM-Lb; Sun, 25 Aug 2024 22:32:42 +0200
+	id 1siJul-0001cM-BO; Sun, 25 Aug 2024 22:32:43 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: lee@kernel.org
 Cc: robh@kernel.org,
@@ -66,9 +66,9 @@ Cc: robh@kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v6 3/7] leds: add driver for LEDs from qnap-mcu devices
-Date: Sun, 25 Aug 2024 22:32:31 +0200
-Message-ID: <20240825203235.1122198-4-heiko@sntech.de>
+Subject: [PATCH v6 4/7] Input: add driver for the input part of qnap-mcu devices
+Date: Sun, 25 Aug 2024 22:32:32 +0200
+Message-ID: <20240825203235.1122198-5-heiko@sntech.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240825203235.1122198-1-heiko@sntech.de>
 References: <20240825203235.1122198-1-heiko@sntech.de>
@@ -80,295 +80,227 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds a driver that connects to the qnap-mcu mfd driver and provides
-access to the LEDs on it.
+The MCU controls the power-button and beeper, so expose them as input
+device. There is of course no interrupt line, so the status of the
+power-button needs to be polled. To generate an event the power-button
+also needs to be held for 1-2 seconds, so the polling interval does
+not need to be overly fast.
 
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 ---
- MAINTAINERS                  |   1 +
- drivers/leds/Kconfig         |  11 ++
- drivers/leds/Makefile        |   1 +
- drivers/leds/leds-qnap-mcu.c | 226 +++++++++++++++++++++++++++++++++++
- 4 files changed, 239 insertions(+)
- create mode 100644 drivers/leds/leds-qnap-mcu.c
+ MAINTAINERS                         |   1 +
+ drivers/input/misc/Kconfig          |  12 +++
+ drivers/input/misc/Makefile         |   1 +
+ drivers/input/misc/qnap-mcu-input.c | 153 ++++++++++++++++++++++++++++
+ 4 files changed, 167 insertions(+)
+ create mode 100644 drivers/input/misc/qnap-mcu-input.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0fbd2d953da4..4dff0e237f22 100644
+index 4dff0e237f22..a41906b3caa3 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
 @@ -18657,6 +18657,7 @@ F:	drivers/media/tuners/qm1d1c0042*
  QNAP MCU DRIVER
  M:	Heiko Stuebner <heiko@sntech.de>
  S:	Maintained
-+F:	drivers/leds/leds-qnap-mcu.c
++F:	drivers/input/misc/qnap-mcu-input.c
+ F:	drivers/leds/leds-qnap-mcu.c
  F:	drivers/mfd/qnap-mcu.c
  F:	include/linux/qnap-mcu.h
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 6a852c76331b..13d135257e06 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -917,6 +917,18 @@ config INPUT_HISI_POWERKEY
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called hisi_powerkey.
  
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 8d9d8da376e4..9a337478dd80 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -580,6 +580,17 @@ config LEDS_PCA995X
- 	  LED driver chips accessed via the I2C bus. Supported
- 	  devices include PCA9955BTW, PCA9952TW and PCA9955TW.
- 
-+config LEDS_QNAP_MCU
-+	tristate "LED Support for QNAP MCU controllers"
-+	depends on LEDS_CLASS
++config INPUT_QNAP_MCU
++	tristate "Input Support for QNAP MCU controllers"
 +	depends on MFD_QNAP_MCU
 +	help
-+	  This option enables support for LEDs available on embedded
-+	  controllers used in QNAP NAS devices.
++	  This option enables support for input elements available on
++	  embedded controllers used in QNAP NAS devices.
 +
-+	  This driver can also be built as a module. If so, the module
-+	  will be called qnap-mcu-leds.
++	  This includes a polled power-button as well as a beeper.
 +
- config LEDS_WM831X_STATUS
- 	tristate "LED support for status LEDs on WM831x PMICs"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 18afbb5a23ee..c6f74865d729 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -79,6 +79,7 @@ obj-$(CONFIG_LEDS_PCA995X)		+= leds-pca995x.o
- obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
- obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
- obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
-+obj-$(CONFIG_LEDS_QNAP_MCU)		+= leds-qnap-mcu.o
- obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
- obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
- obj-$(CONFIG_LEDS_SUN50I_A100)		+= leds-sun50i-a100.o
-diff --git a/drivers/leds/leds-qnap-mcu.c b/drivers/leds/leds-qnap-mcu.c
++	  To compile this driver as a module, choose M here: the
++	  module will be called qnap-mcu-input.
++
+ config INPUT_RAVE_SP_PWRBUTTON
+ 	tristate "RAVE SP Power button Driver"
+ 	depends on RAVE_SP_CORE
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 4f7f736831ba..6d91804d0a6f 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -68,6 +68,7 @@ obj-$(CONFIG_INPUT_PMIC8XXX_PWRKEY)	+= pmic8xxx-pwrkey.o
+ obj-$(CONFIG_INPUT_POWERMATE)		+= powermate.o
+ obj-$(CONFIG_INPUT_PWM_BEEPER)		+= pwm-beeper.o
+ obj-$(CONFIG_INPUT_PWM_VIBRA)		+= pwm-vibra.o
++obj-$(CONFIG_INPUT_QNAP_MCU)		+= qnap-mcu-input.o
+ obj-$(CONFIG_INPUT_RAVE_SP_PWRBUTTON)	+= rave-sp-pwrbutton.o
+ obj-$(CONFIG_INPUT_RB532_BUTTON)	+= rb532_button.o
+ obj-$(CONFIG_INPUT_REGULATOR_HAPTIC)	+= regulator-haptic.o
+diff --git a/drivers/input/misc/qnap-mcu-input.c b/drivers/input/misc/qnap-mcu-input.c
 new file mode 100644
-index 000000000000..0723ec52e4c5
+index 000000000000..b9b50520ccf7
 --- /dev/null
-+++ b/drivers/leds/leds-qnap-mcu.c
-@@ -0,0 +1,226 @@
++++ b/drivers/input/misc/qnap-mcu-input.c
+@@ -0,0 +1,153 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
 +/*
-+ * Driver for LEDs found on QNAP MCU devices
++ * Driver for input events on QNAP-MCUs
 + *
 + * Copyright (C) 2024 Heiko Stuebner <heiko@sntech.de>
 + */
 +
-+#include <linux/leds.h>
++#include <linux/input.h>
 +#include <linux/mfd/qnap-mcu.h>
 +#include <linux/module.h>
 +#include <linux/platform_device.h>
 +#include <linux/slab.h>
-+#include <uapi/linux/uleds.h>
++#include <uapi/linux/input-event-codes.h>
 +
-+enum qnap_mcu_err_led_mode {
-+	QNAP_MCU_ERR_LED_ON = 0,
-+	QNAP_MCU_ERR_LED_OFF = 1,
-+	QNAP_MCU_ERR_LED_BLINK_FAST = 2,
-+	QNAP_MCU_ERR_LED_BLINK_SLOW = 3,
-+};
++/*
++ * The power-key needs to be pressed for a while to create an event,
++ * so there is no use for overly frequent polling.
++ */
++#define POLL_INTERVAL		500
 +
-+struct qnap_mcu_err_led {
++struct qnap_mcu_input_dev {
++	struct input_dev *input;
 +	struct qnap_mcu *mcu;
-+	struct led_classdev cdev;
-+	char name[LED_MAX_NAME_SIZE];
-+	u8 num;
-+	u8 mode;
++	struct device *dev;
++
++	struct work_struct beep_work;
++	int beep_type;
 +};
 +
-+static inline struct qnap_mcu_err_led *
-+		cdev_to_qnap_mcu_err_led(struct led_classdev *led_cdev)
++static void qnap_mcu_input_poll(struct input_dev *input)
 +{
-+	return container_of(led_cdev, struct qnap_mcu_err_led, cdev);
++	struct qnap_mcu_input_dev *idev = input_get_drvdata(input);
++	static const u8 cmd[] = { 0x40, 0x43, 0x56 };
++	u8 reply[4];
++	int state, ret;
++
++	/* poll the power button */
++	ret = qnap_mcu_exec(idev->mcu, cmd, sizeof(cmd), reply, sizeof(reply));
++	if (ret)
++		return;
++
++	/* First bytes must mirror the sent command */
++	if (memcmp(cmd, reply, sizeof(cmd))) {
++		dev_err(idev->dev, "malformed data received\n");
++		return;
++	}
++
++	state = reply[3] - 0x30;
++	input_event(input, EV_KEY, KEY_POWER, state);
++	input_sync(input);
 +}
 +
-+static int qnap_mcu_err_led_set(struct led_classdev *led_cdev,
-+				enum led_brightness value)
++static void qnap_mcu_input_beeper_work(struct work_struct *work)
 +{
-+	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
-+	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
++	struct qnap_mcu_input_dev *idev =
++		container_of(work, struct qnap_mcu_input_dev, beep_work);
++	const u8 cmd[] = { 0x40, 0x43, (idev->beep_type == SND_TONE) ? 0x33 : 0x32 };
 +
-+	/* Don't disturb a possible set blink-mode if LED is already on */
++	qnap_mcu_exec_with_ack(idev->mcu, cmd, sizeof(cmd));
++}
++
++static int qnap_mcu_input_event(struct input_dev *input, unsigned int type,
++				unsigned int code, int value)
++{
++	struct qnap_mcu_input_dev *idev = input_get_drvdata(input);
++
++	if (type != EV_SND || (code != SND_BELL && code != SND_TONE))
++		return -EOPNOTSUPP;
++
++	if (value < 0)
++		return -EINVAL;
++
++	/* beep runtime is determined by the MCU */
 +	if (value == 0)
-+		err_led->mode = QNAP_MCU_ERR_LED_OFF;
-+	else if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
-+		err_led->mode = QNAP_MCU_ERR_LED_ON;
-+
-+	cmd[3] = 0x30 + err_led->mode;
-+
-+	return qnap_mcu_exec_with_ack(err_led->mcu, cmd, sizeof(cmd));
-+}
-+
-+static int qnap_mcu_err_led_blink_set(struct led_classdev *led_cdev,
-+				      unsigned long *delay_on,
-+				      unsigned long *delay_off)
-+{
-+	struct qnap_mcu_err_led *err_led = cdev_to_qnap_mcu_err_led(led_cdev);
-+	u8 cmd[] = { 0x40, 0x52, 0x30 + err_led->num, 0x30 };
-+
-+	/* LED is off, nothing to do */
-+	if (err_led->mode == QNAP_MCU_ERR_LED_OFF)
 +		return 0;
 +
-+	if (*delay_on < 500) {
-+		*delay_on = 100;
-+		*delay_off = 100;
-+		err_led->mode = QNAP_MCU_ERR_LED_BLINK_FAST;
-+	} else {
-+		*delay_on = 500;
-+		*delay_off = 500;
-+		err_led->mode = QNAP_MCU_ERR_LED_BLINK_SLOW;
-+	}
-+
-+	cmd[3] = 0x30 + err_led->mode;
-+
-+	return qnap_mcu_exec_with_ack(err_led->mcu, cmd, sizeof(cmd));
-+}
-+
-+static int qnap_mcu_register_err_led(struct device *dev, struct qnap_mcu *mcu, int num)
-+{
-+	struct qnap_mcu_err_led *err_led;
-+	int ret;
-+
-+	err_led = devm_kzalloc(dev, sizeof(*err_led), GFP_KERNEL);
-+	if (!err_led)
-+		return -ENOMEM;
-+
-+	err_led->mcu = mcu;
-+	err_led->num = num;
-+	err_led->mode = QNAP_MCU_ERR_LED_OFF;
-+
-+	snprintf(err_led->name, LED_MAX_NAME_SIZE, "hdd%d:red:status", num + 1);
-+	err_led->cdev.name = err_led->name;
-+
-+	err_led->cdev.brightness_set_blocking = qnap_mcu_err_led_set;
-+	err_led->cdev.blink_set = qnap_mcu_err_led_blink_set;
-+	err_led->cdev.brightness = 0;
-+	err_led->cdev.max_brightness = 1;
-+
-+	ret = devm_led_classdev_register(dev, &err_led->cdev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to register hdd led %d", num);
-+
-+	return qnap_mcu_err_led_set(&err_led->cdev, 0);
-+}
-+
-+enum qnap_mcu_usb_led_mode {
-+	QNAP_MCU_USB_LED_ON = 1,
-+	QNAP_MCU_USB_LED_OFF = 3,
-+	QNAP_MCU_USB_LED_BLINK = 2,
-+};
-+
-+struct qnap_mcu_usb_led {
-+	struct qnap_mcu *mcu;
-+	struct led_classdev cdev;
-+	u8 mode;
-+};
-+
-+static inline struct qnap_mcu_usb_led *
-+		cdev_to_qnap_mcu_usb_led(struct led_classdev *led_cdev)
-+{
-+	return container_of(led_cdev, struct qnap_mcu_usb_led, cdev);
-+}
-+
-+static int qnap_mcu_usb_led_set(struct led_classdev *led_cdev,
-+				enum led_brightness value)
-+{
-+	struct qnap_mcu_usb_led *usb_led = cdev_to_qnap_mcu_usb_led(led_cdev);
-+	u8 cmd[] = { 0x40, 0x43, 0 };
-+
-+	/*
-+	 * If the led is off, turn it on. Otherwise don't disturb
-+	 * a possible set blink-mode.
-+	 */
-+	if (value == 0)
-+		usb_led->mode = QNAP_MCU_USB_LED_OFF;
-+	else if (usb_led->mode == QNAP_MCU_USB_LED_OFF)
-+		usb_led->mode = QNAP_MCU_USB_LED_ON;
-+
-+	/* byte 3 is shared between the usb led target and setting the mode */
-+	cmd[2] = 0x44 | usb_led->mode;
-+
-+	return qnap_mcu_exec_with_ack(usb_led->mcu, cmd, sizeof(cmd));
-+}
-+
-+static int qnap_mcu_usb_led_blink_set(struct led_classdev *led_cdev,
-+				      unsigned long *delay_on,
-+				      unsigned long *delay_off)
-+{
-+	struct qnap_mcu_usb_led *usb_led = cdev_to_qnap_mcu_usb_led(led_cdev);
-+	u8 cmd[] = { 0x40, 0x43, 0 };
-+
-+	/* LED is off, nothing to do */
-+	if (usb_led->mode == QNAP_MCU_USB_LED_OFF)
-+		return 0;
-+
-+	*delay_on = 250;
-+	*delay_off = 250;
-+	usb_led->mode = QNAP_MCU_USB_LED_BLINK;
-+
-+	/* byte 3 is shared between the usb led target and setting the mode */
-+	cmd[2] = 0x44 | usb_led->mode;
-+
-+	return qnap_mcu_exec_with_ack(usb_led->mcu, cmd, sizeof(cmd));
-+}
-+
-+static int qnap_mcu_register_usb_led(struct device *dev, struct qnap_mcu *mcu)
-+{
-+	struct qnap_mcu_usb_led *usb_led;
-+	int ret;
-+
-+	usb_led = devm_kzalloc(dev, sizeof(*usb_led), GFP_KERNEL);
-+	if (!usb_led)
-+		return -ENOMEM;
-+
-+	usb_led->mcu = mcu;
-+	usb_led->mode = QNAP_MCU_USB_LED_OFF;
-+	usb_led->cdev.name = "usb:blue:disk";
-+	usb_led->cdev.brightness_set_blocking = qnap_mcu_usb_led_set;
-+	usb_led->cdev.blink_set = qnap_mcu_usb_led_blink_set;
-+	usb_led->cdev.brightness = 0;
-+	usb_led->cdev.max_brightness = 1;
-+
-+	ret = devm_led_classdev_register(dev, &usb_led->cdev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to register usb led");
-+
-+	return qnap_mcu_usb_led_set(&usb_led->cdev, 0);
-+}
-+
-+static int qnap_mcu_leds_probe(struct platform_device *pdev)
-+{
-+	struct qnap_mcu *mcu = dev_get_drvdata(pdev->dev.parent);
-+	const struct qnap_mcu_variant *variant = qnap_mcu_get_variant_data(mcu);
-+	int ret, i;
-+
-+	for (i = 0; i < variant->num_drives; i++) {
-+		ret = qnap_mcu_register_err_led(&pdev->dev, mcu, i);
-+		if (ret)
-+			return dev_err_probe(&pdev->dev, ret,
-+					"failed to register error led %d\n", i);
-+	}
-+
-+	if (variant->usb_led) {
-+		ret = qnap_mcu_register_usb_led(&pdev->dev, mcu);
-+		if (ret)
-+			return dev_err_probe(&pdev->dev, ret,
-+					"failed to register usb led %d\n", i);
-+	}
++	/* Schedule work to actually turn the beeper on */
++	idev->beep_type = code;
++	schedule_work(&idev->beep_work);
 +
 +	return 0;
 +}
 +
-+static struct platform_driver qnap_mcu_leds_driver = {
-+	.probe = qnap_mcu_leds_probe,
++static void qnap_mcu_input_close(struct input_dev *input)
++{
++	struct qnap_mcu_input_dev *idev = input_get_drvdata(input);
++
++	cancel_work_sync(&idev->beep_work);
++}
++
++static int qnap_mcu_input_probe(struct platform_device *pdev)
++{
++	struct qnap_mcu *mcu = dev_get_drvdata(pdev->dev.parent);
++	struct qnap_mcu_input_dev *idev;
++	struct device *dev = &pdev->dev;
++	struct input_dev *input;
++	int ret;
++
++	idev = devm_kzalloc(dev, sizeof(*idev), GFP_KERNEL);
++	if (!idev)
++		return -ENOMEM;
++
++	input = devm_input_allocate_device(dev);
++	if (!input)
++		return dev_err_probe(dev, -ENOMEM, "no memory for input device\n");
++
++	idev->input = input;
++	idev->dev = dev;
++	idev->mcu = mcu;
++
++	input_set_drvdata(input, idev);
++
++	input->name		= "qnap-mcu";
++	input->phys		= "qnap-mcu-input/input0";
++	input->id.bustype	= BUS_HOST;
++	input->id.vendor	= 0x0001;
++	input->id.product	= 0x0001;
++	input->id.version	= 0x0100;
++	input->event		= qnap_mcu_input_event;
++	input->close		= qnap_mcu_input_close;
++
++	input_set_capability(input, EV_KEY, KEY_POWER);
++	input_set_capability(input, EV_SND, SND_BELL);
++	input_set_capability(input, EV_SND, SND_TONE);
++
++	INIT_WORK(&idev->beep_work, qnap_mcu_input_beeper_work);
++
++	ret = input_setup_polling(input, qnap_mcu_input_poll);
++	if (ret)
++		return dev_err_probe(dev, ret, "unable to set up polling\n");
++
++	input_set_poll_interval(input, POLL_INTERVAL);
++
++	ret = input_register_device(input);
++	if (ret)
++		return dev_err_probe(dev, ret, "unable to register input device\n");
++
++	return 0;
++}
++
++static struct platform_driver qnap_mcu_input_driver = {
++	.probe = qnap_mcu_input_probe,
 +	.driver = {
-+		.name = "qnap-mcu-leds",
++		.name = "qnap-mcu-input",
 +	},
 +};
-+module_platform_driver(qnap_mcu_leds_driver);
++module_platform_driver(qnap_mcu_input_driver);
 +
-+MODULE_ALIAS("platform:qnap-mcu-leds");
++MODULE_ALIAS("platform:qnap-mcu-input");
 +MODULE_AUTHOR("Heiko Stuebner <heiko@sntech.de>");
-+MODULE_DESCRIPTION("QNAP MCU LEDs driver");
++MODULE_DESCRIPTION("QNAP MCU input driver");
 +MODULE_LICENSE("GPL");
 -- 
 2.43.0
