@@ -1,34 +1,34 @@
-Return-Path: <linux-input+bounces-5860-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5861-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3109895E528
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 22:33:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D46795E52E
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 22:33:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D86C1C20AD4
-	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 20:33:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A8702822FC
+	for <lists+linux-input@lfdr.de>; Sun, 25 Aug 2024 20:33:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C97F16C84B;
-	Sun, 25 Aug 2024 20:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB6E16F908;
+	Sun, 25 Aug 2024 20:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="D1gBs5Fm"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="yJfQ/ZYi"
 X-Original-To: linux-input@vger.kernel.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737093B78D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2954F48CCC;
 	Sun, 25 Aug 2024 20:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724617977; cv=none; b=QV5xfPDWW4W5YQ+PrMtvb8Q/4Qwhdi4sqzNpsznWGnQoUNOz0RLQykdAH0ACj8+ndFid+KwtHy7rKvOrGLrV3Gg5/io/EEV/ZUa/lgQ7DMNc+X3KhFHeFjovMvfRBsnb3OT7T5frI2hVOOf9G5D4bd+ePJmWRDGn6eai5IV2JSY=
+	t=1724617978; cv=none; b=UCm//TNGqHHmrnmv1nwwcE8Q0MWAXIpDTlJPlKQhLwoqdSZc0BHZAYtbmB1A9NJjpD9azcHFP7dlQonPeppsUvehORzNgNAbqQ62M2WEOiIDX7XSOPo/hOVIwr2VIeWOzCato8j3d7ECrWIuSmNoRnx3r0OWFwxC7p+m5fCfvzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724617977; c=relaxed/simple;
-	bh=I1ayERe8+MKL+sKOTVHqL9vNWgJrFIP3xM5InJN9/c8=;
+	s=arc-20240116; t=1724617978; c=relaxed/simple;
+	bh=equbU9VBMIwdvGkqWk+AjPVcTc+O1BMZPBWXnDB1Dyo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=svU4aw/1SFnBo/NbCbpiKAQhEO75GLJgfV9Fe+wWBbbKD/zpegS/HPpmDPCvydf+S2AjbZ5iqPNp0souZjy5Sln9rKEsmDpcv5fbf9XXHGWV6RV2T8vjQZsWmVDMq25e84Z7H2IWqxMqa7hxl182CRu5td9A+02W/lumgZO/Ijs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=D1gBs5Fm; arc=none smtp.client-ip=185.11.138.130
+	 MIME-Version; b=gk+15XTxakTUWXy914DirizA9otDS8pGRU+IKwOygHIYkfgJVMXgHI3tUqSNKNLhSVcjZ5sm1iwIoqks7ZYR+dvDzKQhb78QJT2aX++MLZjMWpEfSZoLCfO3N6WgP6rNMzrkeb0v9KisPVxrpcfsdX7A5/FcU8g6eUKuQdNzGeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=yJfQ/ZYi; arc=none smtp.client-ip=185.11.138.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
@@ -37,17 +37,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=OX2mDGoNhn5NuPQsdotMoW4uOBKIyWHrefRAShTe53U=; b=D1gBs5FmrSMGtVNzlimfww/Xy8
-	T2YkapJ/ZtqFbvVpKcdSmZ8niwabpAS1z2l5H0lSVjRydt1dE7yiAr8sh26RtK7HYm965BHXJ0JOZ
-	s7MEJnSYzght/OlC1dQUe3XM0TFMTf/5DI2TMn1COcnEVHFYi7BqWqo09ALxUCCWtAlew2VPVeGdQ
-	PAbtsVO5SzPH8Pdza+0Ob5rjC+NaVX1kDintIBnvMnmV7DUgxrvz5qOJ4AWPIC0zxnqQhARGxI3Qq
-	lDZyy7knvtsv65hl4IDgnMdCNLMhzvogTFgMszjJ/V3IVCqRGwsGX0KlkhYpjuq5wU0Nl0kH5I+je
-	JpWC1cOQ==;
+	bh=q1jpFbe8UJlfuFdvluwPG8fKnNdFZmBXVzuyZQAcBU0=; b=yJfQ/ZYiGjXfIVii5sEup1e3oT
+	YoLOHgiUbggO1eXEczvmIWxBeHgK2DavbeoG4HWaUqbd/yKwGL8sYArl25mjYWmG2UyiTLzQuw5nQ
+	WEUsXg9adhpxTTYG81NFZWAMd38HhRRxyJrAlCxXMPOZfYMEqGEdHRy3dEwFrXEDuB/BxyedDQqpU
+	V3rnk+YDqoJN86IpKRAhNQvSkBeJJf9yAsehJVv71Ye2xwI6Zbz1zPgMz6DADAsL2IFzp8f0z56Vf
+	ufG5jrRVEkGe1ij3dl+nir8fu5NomR279+5wg90IkMiuBDBZSsbS3rDNT4GjHWrfqy5ZLN2DTVIZZ
+	R3rbk+BQ==;
 Received: from i53875a40.versanet.de ([83.135.90.64] helo=phil.lan)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1siJum-0001cM-OR; Sun, 25 Aug 2024 22:32:44 +0200
+	id 1siJun-0001cM-E0; Sun, 25 Aug 2024 22:32:45 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: lee@kernel.org
 Cc: robh@kernel.org,
@@ -66,9 +66,9 @@ Cc: robh@kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-input@vger.kernel.org,
 	linux-leds@vger.kernel.org
-Subject: [PATCH v6 6/7] arm64: dts: rockchip: hook up the MCU on the QNAP TS433
-Date: Sun, 25 Aug 2024 22:32:34 +0200
-Message-ID: <20240825203235.1122198-7-heiko@sntech.de>
+Subject: [PATCH v6 7/7] arm64: dts: rockchip: set hdd led labels on qnap-ts433
+Date: Sun, 25 Aug 2024 22:32:35 +0200
+Message-ID: <20240825203235.1122198-8-heiko@sntech.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240825203235.1122198-1-heiko@sntech.de>
 References: <20240825203235.1122198-1-heiko@sntech.de>
@@ -80,99 +80,51 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The MCU is an important part of the device functionality. It provides
-functionality like fan-control, more leds, etc and even more important
-without it, the NAS-device cannot even fully turned off.
-
-Hook up the serial device to its uart and hook into the thermal
-management to control the fan according to the cpu temperature.
-
-While the MCU also provides a temperature sensor for the case, this one
-is just polled and does not provide functionality for handling trip
-points in hardware, so a lot of polling would be involved.
-As the cpu is only cooled passively in these devices, it's temperature
-rising will indicate the temperature level of the system just earlier.
+The automatically generated names for the LEDs from color and function
+do not match nicely for the 4 hdds, so set them manually per the label
+property to also match the LEDs generated from the MCU.
 
 Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 ---
- .../boot/dts/rockchip/rk3568-qnap-ts433.dts   | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-index e601d9271ba8..4bc5f5691d45 100644
+index 4bc5f5691d45..7bd32d230ad2 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
 +++ b/arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts
-@@ -483,6 +483,54 @@ rgmii_phy0: ethernet-phy@0 {
- 	};
- };
- 
-+/*
-+ * The MCU can provide system temperature too, but only by polling and of
-+ * course also cannot set trip points. So attach to the cpu thermal-zone
-+ * instead to control the fan.
-+ */
-+&cpu_thermal {
-+	trips {
-+		case_fan0: case-fan0 {
-+			hysteresis = <2000>;
-+			temperature = <35000>;
-+			type = "active";
-+		};
-+
-+		case_fan1: case-fan1 {
-+			hysteresis = <2000>;
-+			temperature = <45000>;
-+			type = "active";
-+		};
-+
-+		case_fan2: case-fan2 {
-+			hysteresis = <2000>;
-+			temperature = <65000>;
-+			type = "active";
-+		};
-+	};
-+
-+	cooling-maps {
-+		/*
-+		 * Always provide some air movement, due to small case
-+		 * full of harddrives.
-+		 */
-+		map1 {
-+			cooling-device = <&fan THERMAL_NO_LIMIT 1>;
-+			trip = <&case_fan0>;
-+		};
-+
-+		map2 {
-+			cooling-device = <&fan 2 3>;
-+			trip = <&case_fan1>;
-+		};
-+
-+		map3 {
-+			cooling-device = <&fan 4 THERMAL_NO_LIMIT>;
-+			trip = <&case_fan2>;
-+		};
-+	};
-+};
-+
- &pcie30phy {
- 	data-lanes = <1 2>;
- 	status = "okay";
-@@ -582,6 +630,15 @@ &tsadc {
-  */
- &uart0 {
- 	status = "okay";
-+
-+	mcu {
-+		compatible = "qnap,ts433-mcu";
-+
-+		fan: fan-0 {
-+			#cooling-cells = <2>;
-+			cooling-levels = <0 64 89 128 166 204 221 238>;
-+		};
-+	};
- };
- 
- /*
+@@ -50,6 +50,7 @@ led-0 {
+ 			color = <LED_COLOR_ID_GREEN>;
+ 			function = LED_FUNCTION_DISK;
+ 			gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
++			label = "hdd1:green:disk";
+ 			linux,default-trigger = "disk-activity";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&hdd1_led_pin>;
+@@ -59,6 +60,7 @@ led-1 {
+ 			color = <LED_COLOR_ID_GREEN>;
+ 			function = LED_FUNCTION_DISK;
+ 			gpios = <&gpio1 RK_PD6 GPIO_ACTIVE_LOW>;
++			label = "hdd2:green:disk";
+ 			linux,default-trigger = "disk-activity";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&hdd2_led_pin>;
+@@ -68,6 +70,7 @@ led-2 {
+ 			color = <LED_COLOR_ID_GREEN>;
+ 			function = LED_FUNCTION_DISK;
+ 			gpios = <&gpio1 RK_PD7 GPIO_ACTIVE_LOW>;
++			label = "hdd3:green:disk";
+ 			linux,default-trigger = "disk-activity";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&hdd3_led_pin>;
+@@ -77,6 +80,7 @@ led-3 {
+ 			color = <LED_COLOR_ID_GREEN>;
+ 			function = LED_FUNCTION_DISK;
+ 			gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
++			label = "hdd4:green:disk";
+ 			linux,default-trigger = "disk-activity";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&hdd4_led_pin>;
 -- 
 2.43.0
 
