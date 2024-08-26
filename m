@@ -1,183 +1,201 @@
-Return-Path: <linux-input+bounces-5873-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5874-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BF995ED4E
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 11:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3174995F35C
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 15:57:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13E94282AB6
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 09:33:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E28FB281A16
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 13:57:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74CFA146584;
-	Mon, 26 Aug 2024 09:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFDC187868;
+	Mon, 26 Aug 2024 13:57:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+EjeyBH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="taeqgAbA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892FC13D630;
-	Mon, 26 Aug 2024 09:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD62FC08;
+	Mon, 26 Aug 2024 13:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664792; cv=none; b=keHUoY0pMrmxdKFVhfO3Gp1B5gxiqGGDX17GHdOXZgHrJ4Z+FYJYZMu3ZXu5edyM1VLi3ZjMrTEpUhtWwzhzAWPisA1v7jUBbXgA0qwj5t/0+6PmF9LjB+hsMi5Jhwk8DlpsWj93K8THUsgQzej0TsdIHvT4R3NWxkKTwYb8IDA=
+	t=1724680657; cv=none; b=XkF4a3zq4li56fPZmgmnDih4N8uX6Q2KOuRNIZJ3hp1HboLMFvKkAukfPM2ooGMd3aQen3jReqdvTHssGslBMJFeaTwuVewirJqXll+BW8Qlp8TSjdNQwA5grpeO6K7/TQxoBmxSGvQWLu1AfkuIoBTnvcSGF9Vna/9jWPzrWYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664792; c=relaxed/simple;
-	bh=5gF49ZsaBl+eyYEsQZFl8g7Ns5jOi2/2z9XqrrfRfmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SV+uiTefO6odSYwMbjTztiBa59T5ZgIA/Mdc3TBrUKkNyvonjBnSXhxjYRIGfhQvt8kSCn9r1gAAvuexMPvWpx+UABoGGJQ7VSgktOKwJpbvAcW6aK3KHXKS/IKd2uOLyHV05mG7uLgebdLRqbZryjVPrOrmRLqrXmmWpU30QRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+EjeyBH; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724664791; x=1756200791;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5gF49ZsaBl+eyYEsQZFl8g7Ns5jOi2/2z9XqrrfRfmI=;
-  b=d+EjeyBHlhkx1BjfdYbQsoXrglBjlBrZdwqR4WIFaK0oK9RzFyGJKaVV
-   BAcPLfxqHTnmYVKKESGwvik+P69q+wIxjGUS3+YiJcO7SKHm8++jLqCU2
-   ExCaswP+Qy+b1zSZ/79KCsgFI61CVcwA8CQNfikrzlHR5JiQKqzHy5hXw
-   trynUIAvPxnr3hnQbhmqfZK8MD4tzz65v37E8zTgSU9rXdmoKPp46GYa7
-   HdiA+rNYIAAfBQUIfubYgcr9IE8N0JpeI34uBRWkZsv+WNut8gc/tEG6p
-   zKD1+wAo6bt49ngN4kGuE8f41o+SQEQ+J5/jZw2I64cmLEAkccWt9P6LO
-   w==;
-X-CSE-ConnectionGUID: uAbQSPB9RSW0VeQbYmKcPw==
-X-CSE-MsgGUID: lnnUEWNvQRu7WcdIPA4ThA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="25967099"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="25967099"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:33:10 -0700
-X-CSE-ConnectionGUID: StgiaI9yQWW9P7hnhG707A==
-X-CSE-MsgGUID: q0WWbT5FSWeCAnkmt419Iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62134701"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.121]) ([10.245.246.121])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:33:03 -0700
-Message-ID: <f4e609c0-92ff-4724-8243-bfe5de50d308@linux.intel.com>
-Date: Mon, 26 Aug 2024 11:28:45 +0200
+	s=arc-20240116; t=1724680657; c=relaxed/simple;
+	bh=X//oeaSxSnvJgJjp5uLJev8fa/GTw+ktOEOTQx0Z4Mg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8v3dpwuQVK/wR1cNKWnd3DcyzAeOwZo3Li7y+jhTUWxH6s4G8X4YQkX8xz95cbEu+U8AkUSIMJoGDWSdalk67SBwLzpAC367TG7Ys2sKrNrKhR8IrKaa3nifru8ncckqdKkTlIIeX2nPuN9Xu20d/NyY9LO6zE3g8evRCnIOyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=taeqgAbA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90DD7C52FC3;
+	Mon, 26 Aug 2024 13:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724680656;
+	bh=X//oeaSxSnvJgJjp5uLJev8fa/GTw+ktOEOTQx0Z4Mg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=taeqgAbA652djiX3Rk5Gnh4x5kYkQ3BWcdJW9d5ai2S13BClGEiqbkpSLlwPKCj9b
+	 YDm7tQrtiqlb/07Qc4ZbrhaFpvs1HHMZBnvxR1IVSIzzzpoySXbIOwwTFGyIsnULqT
+	 vgF1Zk1r8EXlwbik1dJrKt5ULsyGqv5JwiN9FNMePPoe0qSzsto6cJ1U+OIhXKqtmd
+	 mQ1qEgwzHoaRQ7jxDz/Y92G5yUhpWy2kCoFEcMtCuERcvPrbn+2LJLEFwmDRQgvd0b
+	 xjs4jMOYFfSyDlv7RFYq7NKYEetITX7gVmSIJ8QFaZEej7ilUnRLiZIDYIUK2oBr/E
+	 NJbn4JC4SiqmA==
+Date: Mon, 26 Aug 2024 08:57:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Marek Vasut <marex@denx.de>, Mark Hasemeyer <markhas@chromium.org>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH v5 1/1] dt-bindings: input: touchscreen: convert
+ ads7846.txt to yaml
+Message-ID: <20240826135734.GA63447-robh@kernel.org>
+References: <20240820163710.448302-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v25 00/33] Introduce QC USB SND audio offloading support
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240823200101.26755-1-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240820163710.448302-1-Frank.Li@nxp.com>
+
+On Tue, Aug 20, 2024 at 12:37:03PM -0400, Frank Li wrote:
+> Convert binding doc ads7846.txt to yaml format.
+> Additional change:
+> - add ref to touchscreen.yaml and spi-peripheral-props.yaml.
+> - use common node name touchscreen.
+> - sort ti properties alphabetically.
+> - sort common properties alphabetically.
+> - sort compatible string alphabetically.
+> - remove vcc-supply from required list.
+> - deprecated ti,x-min, ti,y,min
+
+ti,y-min?
+
+> 
+> Fix below warning: arch/arm64/boot/dts/freescale/imx8mm-var-som-symphony.dtb: touchscreen@0:
+> 	ti,x-min: b'\x00}' is not of type 'object', 'array', 'boolean', 'null'
+> 
+> Reviewed-by: Marek Vasut <marex@denx.de>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change from v4 to v5
+> - Add Reviewed-by: Marek Vasut <marex@denx.de>
+> - Start sentence with uppercase letter
+> 
+> Change from v3 to v4
+> - new line for all descrptions
+> - add . after sentense.
+> 
+> Change from v2 to v3
+> - Remove u16(u32) in descriptions
+> - deprecated ti,x-min and ti, y-min
+> 
+> Change from v1 to v2
+> - sort properties, by 3 group:
+>   1. General (compatible, reg, interrupt)
+>   2. Common properties
+>   3. ti properties
+> - sort maintainers name alphabetically.
+> - uint16 have to be kept because default is uint32
+> - remove vcc-supply from required list
+> - remove unfinished sentence "all mandatory properties described in"
+> because it refer to /schemas/spi/spi-peripheral-props.yaml#
+> - fix make refcheckdoc error
+> ---
+>  .../bindings/input/touchscreen/ads7846.txt    | 107 ----------
+>  .../input/touchscreen/ti,ads7843.yaml         | 182 ++++++++++++++++++
+>  .../bindings/power/wakeup-source.txt          |   2 +-
+>  3 files changed, 183 insertions(+), 108 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/ads7846.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml
 
 
-> Changelog
-> --------------------------------------------
-> Changes in v25:
-> - Cleanups on typos mentioned within the xHCI layers
-> - Modified the xHCI interrupter search if clients specify interrupter index
-> - Moved mixer_usb_offload into its own module, so that other vendor offload USB
-> modules can utilize it also.
-> - Added support for USB audio devices that may have multiple PCM streams, as
-> previous implementation only assumed a single PCM device.  SOC USB will be
-> able to handle an array of PCM indexes supported by the USB audio device.
-> - Added some additional checks in the QC USB offload driver to check that device
-> has at least one playback stream before allowing to bind
-> - Reordered DT bindings to fix the error found by Rob's bot.  The patch that
-> added USB_RX was after the example was updated.
-> - Updated comments within SOC USB to clarify terminology and to keep it consistent
-> - Added SND_USB_JACK type for notifying of USB device audio connections
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml b/Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml
+> new file mode 100644
+> index 0000000000000..92d5e7d3b1ffd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/ti,ads7843.yaml
+> @@ -0,0 +1,182 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/ti,ads7843.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI's SPI driven touch screen controllers.
 
-I went through the code and didn't find anything that looked like a
-major blocker. There are still a number of cosmetic things you'd want to
-fix such as using checkpatch.pl --strict --codespell to look for obvious
-style issues and typos, see selection below. git am also complains about
-EOF lines.
+Drop period.
 
-Overall this is starting to look good and ready for other reviewers to
-look at.
+> +
+> +maintainers:
+> +  - Alexander Stein <alexander.stein@ew.tq-group.com>
+> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description:
+> +  Device tree bindings for TI's ADS7843, ADS7845, ADS7846, ADS7873, TSC2046
 
+Drop 'Device tree bindings for '.
 
+> +  SPI driven touch screen controllers.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,ads7843
+> +      - ti,ads7845
+> +      - ti,ads7846
+> +      - ti,ads7873
+> +      - ti,tsc2046
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  pendown-gpio:
+> +    description:
+> +      GPIO handle describing the pin the !PENIRQ line is connected to.
 
-WARNING: 'reaquire' may be misspelled - perhaps 'reacquire'?
-#54: FILE: drivers/usb/host/xhci-ring.c:3037:
-+ * for non OS owned interrupter event ring. It may drop and reaquire
-xhci->lock
-                                                             ^^^^^^^^
-WARNING: 'compliation' may be misspelled - perhaps 'compilation'?
-#16:
-module compliation added by Wesley Cheng to complete original concept code
-       ^^^^^^^^^^^
-CHECK: Prefer kzalloc(sizeof(*sgt)...) over kzalloc(sizeof(struct
-sg_table)...)
-#105: FILE: drivers/usb/host/xhci-sideband.c:35:
-+	sgt = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+maxItems: 1
 
-CHECK: struct mutex definition without comment
-#557: FILE: include/linux/usb/xhci-sideband.h:35:
-+	struct mutex			mutex;
+> +
+> +  vcc-supply:
+> +    description:
+> +      A regulator node for the supply voltage.
+> +
+> +  wakeup-source: true
+> +
+> +  ti,debounce-max:
+> +    deprecated: true
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Max number of additional readings per sample.
+> +
+> +  ti,debounce-rep:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Additional consecutive good readings required after the first two.
+> +
+> +  ti,debounce-tol:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Tolerance used for filtering.
+> +
+> +  ti,hsync-gpios:
+> +    description:
+> +      GPIO line to poll for hsync.
 
-WARNING: 'straightfoward' may be misspelled - perhaps 'straightforward'?
-#22:
-straightfoward, as the ASoC components have direct references to the ASoC
-^^^^^^^^^^^^^^
-CHECK: Unnecessary parentheses around 'card == sdev->card_idx'
-#142: FILE: sound/soc/qcom/qdsp6/q6usb.c:217:
-+	if ((card == sdev->card_idx) &&
-+		(pcm == sdev->ppcm_idx[sdev->num_playback - 1])) {
+maxItems: 1
 
-CHECK: Unnecessary parentheses around 'pcm ==
-sdev->ppcm_idx[sdev->num_playback - 1]'
-#142: FILE: sound/soc/qcom/qdsp6/q6usb.c:217:
-+	if ((card == sdev->card_idx) &&
-+		(pcm == sdev->ppcm_idx[sdev->num_playback - 1])) {
+With those fixes,
 
-WARNING: 'seqeunces' may be misspelled - perhaps 'sequences'?
-#8:
-seqeunces.  This allows for platform USB SND modules to properly initialize
-^^^^^^^^^
-
-WARNING: 'exisiting' may be misspelled - perhaps 'existing'?
-#12:
-exisiting parameters.
-^^^^^^^^^
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1020: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:98:
-+};
-+#define QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN 46
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1054: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:132:
-+};
-+#define QMI_UAUDIO_STREAM_RESP_MSG_V01_MAX_MSG_LEN 202
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1081: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:159:
-+};
-+#define QMI_UAUDIO_STREAM_IND_MSG_V01_MAX_MSG_LEN 181
-
-CHECK: Macro argument 'n' may be better as '(n)' to avoid precedence issues
-#100: FILE: sound/usb/mixer_usb_offload.c:19:
-+#define PCM_IDX(n)  (n & 0xffff)
-
-CHECK: Macro argument 'n' may be better as '(n)' to avoid precedence issues
-#101: FILE: sound/usb/mixer_usb_offload.c:20:
-+#define CARD_IDX(n) (n >> 16)
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
