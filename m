@@ -1,53 +1,53 @@
-Return-Path: <linux-input+bounces-5883-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5884-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C8795F7E2
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 19:22:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D66BA95F7E4
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 19:22:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62E131F2337D
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 17:22:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EBB8282670
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 17:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18491198E8C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C5F1990AB;
 	Mon, 26 Aug 2024 17:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAFk/Iau"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJNTUzTI"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6002198A34;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B28198E6F;
 	Mon, 26 Aug 2024 17:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724692941; cv=none; b=R5CT6c+v9UrUUWDp7K78hkcXzVV75O4eEqWYSHvZ1WdVBU7G00C9yib15ZAotlc6YAwHS1jy4E5Uu/Srg0PHKiHt3OHE5N3kCjZRQ7W7zE9VDCyqdWkKpUEPzAUcqe5Du8dXhloG3ftQ6t9/OXIyfN1OnVFggkuFl9JLiFB+xyA=
+	t=1724692942; cv=none; b=u3jLsYTnKLxWBy3cpaKs6s/mdfXW4WtB5UpjFbNkBkUlfLqkWJbpscaCZ572+US4N23CQhrIKq+jXyue5qhFXS8etgNxQA6DQyzJxPYHkZ1+4uLEZXAAjZ6iO9B/la9nQESRckvmvADJdx4q2fNT87fSbSMsA/urpR2LPTQFa80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724692941; c=relaxed/simple;
-	bh=9Td4swnVF8NKLMcauXwWH+DSBDJe1nM7mcNOPWwcfRg=;
+	s=arc-20240116; t=1724692942; c=relaxed/simple;
+	bh=Sw38NxgEBd0FI0cz03ax43Gc8YUQhNKE+vphoIaIiO8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oVe5O/VdjgORBN+d74PMhA8Mk2h4PDCeImUgRvhlhoiAPrTJME1s+bJ8d4YntMup5sJOANl1i/n4MRje9g2Zdi+p4wfmjH4fHVSxgQs2++M97ftCS4mf61RahUe6ZImEHXw5OtRZB1t3mn1fXQVnRh2Lszfs7SFM9AXHF1Wgo0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAFk/Iau; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 54899C4CA51;
+	 In-Reply-To:To:Cc; b=SyOYwn7rNahYKZ03BqO90zKBkvOTLpQqWRMwy5XfRnaWN2LAv134ZxZSHQz20JZpoGxcHSowWNf+j/Bo1R5ok+b/nvb9iArBal26o4ZE6foJJnltL+f9r4nmV4vC7bDk2XUokeiRIcHsgH0JSCC31fS4veAE9z+JZBfFcVs+2TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJNTUzTI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6388BC4CA57;
 	Mon, 26 Aug 2024 17:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1724692941;
-	bh=9Td4swnVF8NKLMcauXwWH+DSBDJe1nM7mcNOPWwcfRg=;
+	bh=Sw38NxgEBd0FI0cz03ax43Gc8YUQhNKE+vphoIaIiO8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MAFk/IauBmCcUcabqek7wOYkKgASOMxVLKtCmng4zkRDyhLzRSCnR0dOihEd5+pVP
-	 tq9YaACfoFGWwxa6blkIRdLi/VknygMsSKIcQVz2M76hWKXY2/Q18wO1P/FkqMH7z8
-	 Jk7HFW46S+H0xwI/ksqDrLwcxr88sFOZNm89ur+C4CoDd+TbgQYVb4Zvc41h/oB87m
-	 22I8+3wYT16zQBugfeQadQutm89v8jbHD6Qa9XHo1DK4A+231opPBRZ2wdKRSQoxr3
-	 cSBd4/M6fYgYa1rllsKKnr8/kJwSPi7Mb5TsloEDgdNpalsYRCUGGAP1cTs5fL5gJf
-	 0Otk71eO3I+eA==
+	b=PJNTUzTIicWFpI7+JiPAoIt8R3Ge6k1Zu3cvh24JMfUi6fEoSK2mGVByJtFQNCniK
+	 AguEU+bT9agZf/kxDQD0n686Ecj9mhJYWThUJWLGZsLIWPDWv8LaFa+a6mrpVKLjcQ
+	 z40h3gt+BROneZ1hXC3HaLeKE/2qtXENDWhoB4ttiJynFg67awqaOdW0sw2+W2Jj6C
+	 Hcn7NVq3q5Z9HfUIxr70/30gJ9oOHAqVQZkr7f8ZT9IzwemmlKEQEfeLPtpdvxQD4W
+	 uqO9PTHPxrBRGTA277K4txv8d6jGAvON1FcryFPG9qljAS1BUvyDOlFACC+OR3xOhC
+	 alboczShMY9QQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4369FC54731;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B8DDC5321D;
 	Mon, 26 Aug 2024 17:22:21 +0000 (UTC)
 From: Utsav Agarwal via B4 Relay <devnull+utsav.agarwal.analog.com@kernel.org>
-Date: Mon, 26 Aug 2024 18:22:02 +0100
-Subject: [PATCH RESEND v11 2/3] Input: adp5588-keys - add support for pure
- gpio
+Date: Mon, 26 Aug 2024 18:22:03 +0100
+Subject: [PATCH RESEND v11 3/3] dt-bindings: input: pure gpio support for
+ adp5588
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240826-adp5588_gpio_support-v11-2-3e5ac2bd31b7@analog.com>
+Message-Id: <20240826-adp5588_gpio_support-v11-3-3e5ac2bd31b7@analog.com>
 References: <20240826-adp5588_gpio_support-v11-0-3e5ac2bd31b7@analog.com>
 In-Reply-To: <20240826-adp5588_gpio_support-v11-0-3e5ac2bd31b7@analog.com>
 To: Utsav Agarwal <utsav.agarwal@analog.com>, 
@@ -69,13 +69,14 @@ Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Arturs Artamonovs <arturs.artamonovs@analog.com>, 
  Vasileios Bimpikas <vasileios.bimpikas@analog.com>, 
- Oliver Gaskell <oliver.gaskell@analog.com>
+ Oliver Gaskell <oliver.gaskell@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724692968; l=2755;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724692968; l=2847;
  i=utsav.agarwal@analog.com; s=20240701; h=from:subject:message-id;
- bh=Eu2lV0vTpN9Abv9n1z4OYRsDPkCZkTfQntOwZUtyC/k=;
- b=dFxkqh3oSiisgdWsfanl7dd+rZhlPsLqIOUuqb0Sj22Ddj6yqTg1UQH2/ce4G1f/p0JxW8jbj
- bpRu5i8p6Q/AuYuHb0boo53Dr16hfYwdN+qvzigPtkRMwS12MNh00A+
+ bh=6COPIRO0bw4RfEE2lJUqSvRth5I5w5rGF5z/Z1lH4ik=;
+ b=IjWudUKa7aKS1rr/siLsgaP4s7mxSufAJhsuS61xlwozYgJkTayIUxIYehIzoqa9MvvhxzKWQ
+ 31bsvJ0nRK7CYp023fSA9aSD9GabAgm2nyMwqwKqbwzOclCPwF1xrRF
 X-Developer-Key: i=utsav.agarwal@analog.com; a=ed25519;
  pk=mIG5Dmd3TO5rcICwTsixl2MoUcf/i2u+jYqifd7+fmI=
 X-Endpoint-Received: by B4 Relay for utsav.agarwal@analog.com/20240701 with
@@ -85,91 +86,96 @@ Reply-To: utsav.agarwal@analog.com
 
 From: Utsav Agarwal <utsav.agarwal@analog.com>
 
-Keypad specific setup is relaxed if no keypad rows/columns are specified,
-enabling a purely gpio operation.
+Adding software support for enabling the pure gpio capability of the
+device - which allows all I/O to be used as GPIO. Previously, I/O
+configuration was limited by software to partial GPIO support only.
 
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+When working in a pure gpio mode, the device does not require the
+certain properties and hence, the following are now made optional:
+	- interrupts
+	- keypad,num-rows
+	- keypad,num-columns
+	- linux,keymap
+
+However, note that the above are required to be specified when
+configuring the device as a keypad, for which dependencies have been added
+such that specifying either one requires the remaining as well.
+
+Also, note that interrupts are made optional, but required when the device
+has either been configured in keypad mode or as an interrupt controller.
+This has been done since they may not necessarily be used when leveraging
+the device purely for GPIO.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Utsav Agarwal <utsav.agarwal@analog.com>
 ---
- drivers/input/keyboard/adp5588-keys.c | 37 +++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+ .../devicetree/bindings/input/adi,adp5588.yaml     | 38 +++++++++++++++++++---
+ 1 file changed, 33 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 09bcfc6b9408..7c32f8b69a3e 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -188,6 +188,7 @@ struct adp5588_kpad {
- 	u32 cols;
- 	u32 unlock_keys[2];
- 	int nkeys_unlock;
-+	bool gpio_only;
- 	unsigned short keycode[ADP5588_KEYMAPSIZE];
- 	unsigned char gpiomap[ADP5588_MAXGPIO];
- 	struct gpio_chip gc;
-@@ -431,10 +432,12 @@ static int adp5588_gpio_add(struct adp5588_kpad *kpad)
- 	kpad->gc.label = kpad->client->name;
- 	kpad->gc.owner = THIS_MODULE;
+diff --git a/Documentation/devicetree/bindings/input/adi,adp5588.yaml b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+index 26ea66834ae2..336bc352579a 100644
+--- a/Documentation/devicetree/bindings/input/adi,adp5588.yaml
++++ b/Documentation/devicetree/bindings/input/adi,adp5588.yaml
+@@ -49,7 +49,10 @@ properties:
+   interrupt-controller:
+     description:
+       This property applies if either keypad,num-rows lower than 8 or
+-      keypad,num-columns lower than 10.
++      keypad,num-columns lower than 10. This property is optional if
++      keypad,num-rows or keypad,num-columns are not specified as the
++      device is then configured to be used purely for gpio during which
++      interrupts may or may not be utilized.
  
--	girq = &kpad->gc.irq;
--	gpio_irq_chip_set_chip(girq, &adp5588_irq_chip);
--	girq->handler = handle_bad_irq;
--	girq->threaded = true;
-+	if (kpad->client->irq) {
-+		girq = &kpad->gc.irq;
-+		gpio_irq_chip_set_chip(girq, &adp5588_irq_chip);
-+		girq->handler = handle_bad_irq;
-+		girq->threaded = true;
-+	}
+   '#interrupt-cells':
+     const: 2
+@@ -65,13 +68,23 @@ properties:
+     minItems: 1
+     maxItems: 2
  
- 	mutex_init(&kpad->gpio_lock);
- 
-@@ -632,6 +635,21 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
- 	struct i2c_client *client = kpad->client;
- 	int ret, i;
- 
-+	/*
-+	 * Check if the device is to be operated purely in GPIO mode. To do
-+	 * so, check that no keypad rows or columns have been specified,
-+	 * since all GPINS should be configured as GPIO.
-+	 */
-+	ret = device_property_present(&client->dev,
-+			"keypad,num-rows");
-+	ret |= device_property_present(&client->dev,
-+			"keypad,num-columns");
-+	/* If purely GPIO, skip keypad setup */
-+	if (!ret) {
-+		kpad->gpio_only = true;
-+		return 0;
-+	}
++dependencies:
++  keypad,num-rows:
++    - linux,keymap
++    - keypad,num-columns
++  keypad,num-columns:
++    - linux,keymap
++    - keypad,num-rows
++  linux,keymap:
++    - keypad,num-rows
++    - keypad,num-columns
++    - interrupts
++  interrupt-controller:
++    - interrupts
 +
- 	ret = matrix_keypad_parse_properties(&client->dev, &kpad->rows,
- 					     &kpad->cols);
- 	if (ret)
-@@ -775,6 +793,11 @@ static int adp5588_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
+ required:
+   - compatible
+   - reg
+-  - interrupts
+-  - keypad,num-rows
+-  - keypad,num-columns
+-  - linux,keymap
  
-+	if (kpad->gpio_only && !client->irq) {
-+		dev_info(&client->dev, "Rev.%d, started as GPIO only\n", revid);
-+		return 0;
-+	}
-+
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  adp5588_hard_irq, adp5588_thread_irq,
- 					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-@@ -785,6 +808,12 @@ static int adp5588_probe(struct i2c_client *client)
- 		return error;
- 	}
+ unevaluatedProperties: false
  
-+	if (kpad->gpio_only) {
-+		dev_info(&client->dev, "Rev.%d GPIO only, irq %d\n",
-+				revid, client->irq);
-+		return 0;
-+	}
+@@ -108,4 +121,19 @@ examples:
+             >;
+         };
+     };
 +
- 	dev_info(&client->dev, "Rev.%d keypad, irq %d\n", revid, client->irq);
- 	return 0;
- }
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        gpio@34 {
++            compatible = "adi,adp5588";
++            reg = <0x34>;
++
++            #gpio-cells = <2>;
++            gpio-controller;
++        };
++    };
++
+ ...
 
 -- 
 2.34.1
