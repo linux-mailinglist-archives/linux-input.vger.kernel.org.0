@@ -1,177 +1,101 @@
-Return-Path: <linux-input+bounces-5871-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5869-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A730595ED43
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 11:33:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9B795EC62
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 10:52:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FF4D1F22319
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 09:33:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7790728145B
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 08:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46512145B10;
-	Mon, 26 Aug 2024 09:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB3513BC3F;
+	Mon, 26 Aug 2024 08:52:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EOIanDy6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lkNMvOxh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88C1143C70;
-	Mon, 26 Aug 2024 09:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C06F55898
+	for <linux-input@vger.kernel.org>; Mon, 26 Aug 2024 08:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664778; cv=none; b=Z2xH97e0woklw6WltLoSC3BXAbssL2EyfM+PLgRwYDnmW6R43epjkWYLcZ/Y/KGBM9xGFLodDLMQ5ABOR3gAlrR54tWqzNZW2mWHRI+TNWkqXre8p8+UCYxT2TN+w1GPBpTm8WZXFJdCQgHRoBjsil4YOUb0Jqzhp7VFFhMtPTg=
+	t=1724662337; cv=none; b=MJPn8Y3LB89zytpXUTIrB38jYoKY2PUR48rFTJKsAAauax+ZMtZChCCaOQD+JAgsqvW+C/nQEY4aeRqzt2FLhn3cvaMkWYAEdxQkQp9+PBES+rjhNd5cMrcVHm/MNSgtcuhqyYeb0z3Ulq/rmbil8nV7YHtFMitRDnAfibyIaMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664778; c=relaxed/simple;
-	bh=CNlgUOIhnZS0GrsQng07UAMdA7zQHT5HyZ7gwUjR7Rk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=afSrq7tqzAt0FBocXkWCBZ6YdC6J/hWb3uo7DV7IWFt6/s6rXpiswmopsrS6NIgdn8yXy4POtyEBCxOsfw9oMcAseK+m/xMP+vdkkmKPSu5IdWTC+gj5ONGyl5F2GBBw9gzS47VVIxbfL8UZdiIHFfWTBXNCjAo3vog/pPK5kuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EOIanDy6; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724664776; x=1756200776;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=CNlgUOIhnZS0GrsQng07UAMdA7zQHT5HyZ7gwUjR7Rk=;
-  b=EOIanDy6WKVOWqNGb8VoKVTyz5MHq827hmKYXYOglpGNGU2O4KN44xJH
-   MB96NL5Ql9/BBRP1aPCw6FJS7eNFu9LnMMBaS0Fgnf9xHR0UNkCGlvf84
-   wtqIA38ZlIdyN3rvUXmsJerdiGtHa8LvsEkXL2UwNuz02qzAnecMIueqZ
-   0HyrcFcHX9Z0b019Eq41ATGjWvcEjtTFLhiqqRH9dcsPexOzS68gY+EUy
-   W7iawrrkhadQJRet03mp2NGq5p9kG5qyB7i5YddoaP2+CG3avXFMCQK3U
-   m3inFtu0q5b2UXnHU1wOb/pAd0j9ML72EHDQ0ChoT5fcvdrjGEMTJVAny
-   A==;
-X-CSE-ConnectionGUID: /MZactx/QFC/l6uKqmMQxg==
-X-CSE-MsgGUID: HKpjTBjSTeSwwz2paY1HuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="25967061"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="25967061"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:32:55 -0700
-X-CSE-ConnectionGUID: wdvPnAEPTqmZhETgD1WLmA==
-X-CSE-MsgGUID: RKvQAKVwRa24HsNafnwANQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62134672"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.121]) ([10.245.246.121])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:32:49 -0700
-Message-ID: <9f25b900-ae1c-41af-a380-ac5e00860283@linux.intel.com>
-Date: Mon, 26 Aug 2024 10:48:24 +0200
+	s=arc-20240116; t=1724662337; c=relaxed/simple;
+	bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kshR6h580j915W6RRSe9VbqhVj671ZMLlE3wR0QRqmycgtyOEU1BvbQJQjElO48OZQ8u/hFEliNCU5fbQE8cyEadqJOjtedBqdIY3cMGT3KGI6z38pU/thyuZUxiUQGdNMA+YLcYlGE6BAK/MnY7ll9AwB/yx1/u72nE5xANgQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lkNMvOxh; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-533488ffaf7so5495067e87.0
+        for <linux-input@vger.kernel.org>; Mon, 26 Aug 2024 01:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724662333; x=1725267133; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
+        b=lkNMvOxhXIswR4nnZFnAVWjtCk2qP7x27k7mbQQD0h34Aw5Ahyalv4H029ZKjhDKPQ
+         EdvLHffOZqCKyvPkm4WYu+CNLKQAnte++YVmBLPXXuZI4WOm6R0LJGKh1lzbKh3d2Psc
+         zBYQiQhPmiRnhDMmPQ7v9oyZYE3pnH8dpYRMQvO27Bu9HY89mmJjoP9ovSVZ52Fc08Jh
+         AQ2+MNoWF9fI2SJOewN/D0yuDIX271s04926jtON9z9Z08ecwGggN8uBwdqDUcGxF1ZP
+         X8SKMmEWUqLxJsuRmOPqfgJz2P+qJlc//URw8b+s6VPetBUtU8CKdUoYHm8WlFT6U9EE
+         gJvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724662333; x=1725267133;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
+        b=rRYuf/BNgpFogEMEz/ELAjFjqrZQfe7ZY3LrRhdt2d2DE9gRn7Jrnu3DFwUHgFb+rI
+         w6S+SdXzIkw9qTQf7I4H2fgtO0drwS5/sIqXlyERejECxqvwBvS6HJEZPHcQpgH/JvU4
+         QIDFnOzEVUJB4fE/DqjyXDswsviNgdlgiP6XeXoEFuUaMUu9nsTGDr01DGdbyMkRtWIx
+         2eqsftyVoweOkMEJFYGlMz1uUNyQLVSdQviQzFyKzmwtotifljf+jXjdMbMP7PHoW3TT
+         I7S/kFgz9uqw/uv4Hgcq+FksH5XKhHTf8qSaM39tXiFHLzYWP/ujrrd/no6VUDFj+RHz
+         HjCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQafGFfe/mwgppHrZs+LRnKe/KSE0seTGsYCsPAGgzxro0LdxgOon01+DQ5d8eZCnzR5UJLFQ36tmjFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6+/7iUIuhUu4WpUxbm+kxsBbuFHVWmqhqqCv/APZXUwpNMh0s
+	11+bjUzrgao7FsDkAY/4VF7A++SqmtIeSGxjhBFe2w3tKYsrgrXiRE3y/B2CgTqlTax0STWjtgO
+	VymuYP+wJKnZNvausYYPODiTGgk7Y+pwlaYPpGA==
+X-Google-Smtp-Source: AGHT+IHdurCu1h8I5sDDWlcStXgFvab4u4dfQ3BDVkKhxSBCdaAQCimGjSbIMIoVyf3zCgPHH//JMjG8dg09AgOyRLc=
+X-Received: by 2002:a05:6512:334d:b0:534:375f:97de with SMTP id
+ 2adb3069b0e04-534387bdfc1mr4983010e87.58.1724662333113; Mon, 26 Aug 2024
+ 01:52:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v25 01/33] xhci: add helper to stop endpoint and wait for
- completion
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
- Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
- <20240823200101.26755-2-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240823200101.26755-2-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
+ <CACRpkdYFc8vuz__7DkFSMFxUC=LSwCJmEun2KXgUvPMq+_e17A@mail.gmail.com> <ZsiygIj9SiP4O0OM@google.com>
+In-Reply-To: <ZsiygIj9SiP4O0OM@google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 26 Aug 2024 10:52:02 +0200
+Message-ID: <CACRpkdZ_y=2WKCLwi5or-=MasvNw2bcxht6a+bFjV=yAfvQhdQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Remove support for platform data from matrix keypad driver
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Aug 23, 2024 at 6:02=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
+> I'm glad that we agree that we do not want the elaborate merge process
+> and instead push the changes through one tree in one shot we just need
+> to decide which one - soc or input. I am fine with using either.
 
-On 8/23/24 22:00, Wesley Cheng wrote:
-> From: Mathias Nyman <mathias.nyman@linux.intel.com>
-> 
-> Expose xhci_stop_endpoint_sync() which is a synchronous variant of
-> xhci_queue_stop_endpoint().  This is useful for client drivers that are
-> using the secondary interrupters, and need to stop/clean up the current
-> session.  The stop endpoint command handler will also take care of cleaning
-> up the ring.
-> 
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  drivers/usb/host/xhci.c | 39 +++++++++++++++++++++++++++++++++++++++
->  drivers/usb/host/xhci.h |  2 ++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 37eb37b0affa..3a051ed32907 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -2784,6 +2784,45 @@ static int xhci_reserve_bandwidth(struct xhci_hcd *xhci,
->  	return -ENOMEM;
->  }
->  
-> +/*
-> + * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
-> + * waits for the command completion before returning.
-> + */
-> +int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend,
-> +			    gfp_t gfp_flags)
-> +{
-> +	struct xhci_command *command;
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	command = xhci_alloc_command(xhci, true, gfp_flags);
-> +	if (!command)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_irqsave(&xhci->lock, flags);
-> +	ret = xhci_queue_stop_endpoint(xhci, command, ep->vdev->slot_id,
-> +				       ep->ep_index, suspend);
-> +	if (ret < 0) {
-> +		spin_unlock_irqrestore(&xhci->lock, flags);
-> +		goto out;
-> +	}
-> +
-> +	xhci_ring_cmd_db(xhci);
-> +	spin_unlock_irqrestore(&xhci->lock, flags);
-> +
-> +	wait_for_completion(command->completion);
-> +
-> +	if (command->status == COMP_COMMAND_ABORTED ||
-> +	    command->status == COMP_COMMAND_RING_STOPPED) {
-> +		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
+I'm also fine with either, but let's take the input tree because the
+you're in direct control of it so it will be easier.
 
-nit-pick: is this really a timeout? In that case you would have used
-wait_for_completion_timeout(), no?
-
-> +		ret = -ETIME;
-> +	}
-> +out:
-> +	xhci_free_command(xhci, command);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(xhci_stop_endpoint_sync);
->  
->  /* Issue a configure endpoint command or evaluate context command
->   * and wait for it to finish.
-> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> index 30415158ed3c..1c6126ed55b0 100644
-> --- a/drivers/usb/host/xhci.h
-> +++ b/drivers/usb/host/xhci.h
-> @@ -1914,6 +1914,8 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
->  void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
->  void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
->  unsigned int count_trbs(u64 addr, u64 len);
-> +int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-> +			    int suspend, gfp_t gfp_flags);
->  
->  /* xHCI roothub code */
->  void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
-
+Yours,
+Linus Walleij
 
