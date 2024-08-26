@@ -1,101 +1,99 @@
-Return-Path: <linux-input+bounces-5869-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5870-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9B795EC62
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 10:52:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C3E95EC9A
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 11:00:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7790728145B
-	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 08:52:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79AFB1C213C0
+	for <lists+linux-input@lfdr.de>; Mon, 26 Aug 2024 09:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB3513BC3F;
-	Mon, 26 Aug 2024 08:52:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5947784D25;
+	Mon, 26 Aug 2024 09:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lkNMvOxh"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="pXL8eYFR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C06F55898
-	for <linux-input@vger.kernel.org>; Mon, 26 Aug 2024 08:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D749913AD22;
+	Mon, 26 Aug 2024 09:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724662337; cv=none; b=MJPn8Y3LB89zytpXUTIrB38jYoKY2PUR48rFTJKsAAauax+ZMtZChCCaOQD+JAgsqvW+C/nQEY4aeRqzt2FLhn3cvaMkWYAEdxQkQp9+PBES+rjhNd5cMrcVHm/MNSgtcuhqyYeb0z3Ulq/rmbil8nV7YHtFMitRDnAfibyIaMc=
+	t=1724662846; cv=none; b=SS2McssDUVA6izXaPETtPs7FjSZgptqjhCXMZhxxd2TAJ5QEmXl2nfkF7qYPXcJpB/VWjjLj6uB9DliF17/nZTEzJxsRUj3sDBOeALhTwugPK1nmZmx2pN8w780aCxbHgz4q7ogXwFolt72mY8AmXxwZFFyTkeQFsCj+FneTagI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724662337; c=relaxed/simple;
-	bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kshR6h580j915W6RRSe9VbqhVj671ZMLlE3wR0QRqmycgtyOEU1BvbQJQjElO48OZQ8u/hFEliNCU5fbQE8cyEadqJOjtedBqdIY3cMGT3KGI6z38pU/thyuZUxiUQGdNMA+YLcYlGE6BAK/MnY7ll9AwB/yx1/u72nE5xANgQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lkNMvOxh; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-533488ffaf7so5495067e87.0
-        for <linux-input@vger.kernel.org>; Mon, 26 Aug 2024 01:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724662333; x=1725267133; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
-        b=lkNMvOxhXIswR4nnZFnAVWjtCk2qP7x27k7mbQQD0h34Aw5Ahyalv4H029ZKjhDKPQ
-         EdvLHffOZqCKyvPkm4WYu+CNLKQAnte++YVmBLPXXuZI4WOm6R0LJGKh1lzbKh3d2Psc
-         zBYQiQhPmiRnhDMmPQ7v9oyZYE3pnH8dpYRMQvO27Bu9HY89mmJjoP9ovSVZ52Fc08Jh
-         AQ2+MNoWF9fI2SJOewN/D0yuDIX271s04926jtON9z9Z08ecwGggN8uBwdqDUcGxF1ZP
-         X8SKMmEWUqLxJsuRmOPqfgJz2P+qJlc//URw8b+s6VPetBUtU8CKdUoYHm8WlFT6U9EE
-         gJvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724662333; x=1725267133;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iLPgq4j7K2LiYLxuRxf5ckNN955ctmmarm/caOOsssA=;
-        b=rRYuf/BNgpFogEMEz/ELAjFjqrZQfe7ZY3LrRhdt2d2DE9gRn7Jrnu3DFwUHgFb+rI
-         w6S+SdXzIkw9qTQf7I4H2fgtO0drwS5/sIqXlyERejECxqvwBvS6HJEZPHcQpgH/JvU4
-         QIDFnOzEVUJB4fE/DqjyXDswsviNgdlgiP6XeXoEFuUaMUu9nsTGDr01DGdbyMkRtWIx
-         2eqsftyVoweOkMEJFYGlMz1uUNyQLVSdQviQzFyKzmwtotifljf+jXjdMbMP7PHoW3TT
-         I7S/kFgz9uqw/uv4Hgcq+FksH5XKhHTf8qSaM39tXiFHLzYWP/ujrrd/no6VUDFj+RHz
-         HjCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQafGFfe/mwgppHrZs+LRnKe/KSE0seTGsYCsPAGgzxro0LdxgOon01+DQ5d8eZCnzR5UJLFQ36tmjFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6+/7iUIuhUu4WpUxbm+kxsBbuFHVWmqhqqCv/APZXUwpNMh0s
-	11+bjUzrgao7FsDkAY/4VF7A++SqmtIeSGxjhBFe2w3tKYsrgrXiRE3y/B2CgTqlTax0STWjtgO
-	VymuYP+wJKnZNvausYYPODiTGgk7Y+pwlaYPpGA==
-X-Google-Smtp-Source: AGHT+IHdurCu1h8I5sDDWlcStXgFvab4u4dfQ3BDVkKhxSBCdaAQCimGjSbIMIoVyf3zCgPHH//JMjG8dg09AgOyRLc=
-X-Received: by 2002:a05:6512:334d:b0:534:375f:97de with SMTP id
- 2adb3069b0e04-534387bdfc1mr4983010e87.58.1724662333113; Mon, 26 Aug 2024
- 01:52:13 -0700 (PDT)
+	s=arc-20240116; t=1724662846; c=relaxed/simple;
+	bh=fw3mwugogCB7KnXEdkXpUIMDWmO4PBh+J4IMIJItIZI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Ff6cmtyJwAOggG+7X8zp8mjR0XXRiqkf2KwBMSLdUOS5i9gBzvd0tBMdXDMsDUq5pSjrZid1bJBryPykQC4rxF3tfmiCb6cRn6qCIWihCO+XewJXs+FBMpcERWncD2nfqB770zc66HrsWpneaT/yZ9aRzf2M4krKIRhxjcpomFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=pXL8eYFR; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1724662830; x=1725267630; i=markus.elfring@web.de;
+	bh=fw3mwugogCB7KnXEdkXpUIMDWmO4PBh+J4IMIJItIZI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=pXL8eYFRNcxdMdZT0savz718Vnmqg4hulxFAw5Dp+L/NA3f792ar2uW1iWUJPhmR
+	 f5yHDkQ8nbHeelR04ifjGuT9mLOGp0WX6B4YYR+PFg2AId/QZgWn+ezRoD5JPpOoc
+	 al4+4dWdCbM5GzGYAhJb1LYBm6PKiLvcHPduoAXPo79EALfETPVSS9H3FLHUcNf06
+	 jRG3hh8jwtbZ90yRsXVWaALrY1CZCn3T4ugcQBDws4pBZmG3DG06S3XdfUMLAkFU6
+	 i2MzlH/Kbg2Vdu19qJ5QqtOC/6ILXwTOSmzpeVbcAwFmhJJwTXT5895hOsGFiLWfL
+	 HrBMRH4uYbBtadizlg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3Gkg-1s1AQW1znO-00zsLs; Mon, 26
+ Aug 2024 11:00:30 +0200
+Message-ID: <05a1b1bf-4de7-4e1e-8ec9-8c61e129e5b5@web.de>
+Date: Mon, 26 Aug 2024 11:00:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805014710.1961677-1-dmitry.torokhov@gmail.com>
- <CACRpkdYFc8vuz__7DkFSMFxUC=LSwCJmEun2KXgUvPMq+_e17A@mail.gmail.com> <ZsiygIj9SiP4O0OM@google.com>
-In-Reply-To: <ZsiygIj9SiP4O0OM@google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 26 Aug 2024 10:52:02 +0200
-Message-ID: <CACRpkdZ_y=2WKCLwi5or-=MasvNw2bcxht6a+bFjV=yAfvQhdQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Remove support for platform data from matrix keypad driver
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Arnd Bergmann <arnd@arndb.de>, soc@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <ZsrAa9XcDvHeIs9T@google.com>
+Subject: Re: [PATCH] Input: psmouse-smbus - use guard notation when acquiring
+ mutex
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <ZsrAa9XcDvHeIs9T@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3Z2aoRuaPlsTgz07INOT3VvchL+LwZAFNzoMIAFiuj3zPvmM5Xm
+ oIKD2tLweh1nm1c6LYjBv4U2z2qgG38WMRhDcXCdzCNQkMDLXKrd4DFoFM2H5ae8twIIe1q
+ zcejtzekH6CKnaaRyjU57CqkR3eWRcLwCvGeK0t/wWGd0tX4VHQKWl4b6ul1sS24MW7Hp5/
+ wTuYbpztUGfaW9kc8sfBA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bxSVx8RpDCc=;qIlbB4Qx+F5roM7zGOVTn91fST/
+ xbfvou3+OPHo7UkdkcIzf5rREXfPGBWsfn7baCEdM9EZXoIk7Ziryz1qn1KJQCfcZZ6KyCsPe
+ 1n2G6ZBfN3NeENhqtj/N6GuArE3d26tKfS1ilpqTJDaxXZzLwZlFwtwGEGiAaGE9cJwQF3kys
+ 5BtyOQD7QnUdQ6+n+dUT93rz78FpO52llALuu3sM16zqWiowBWNLQJca7vwZVWG+/TCAU/isR
+ sYweaP1HphG4jUWCEtyaTlz3kXCG8wccaPdMNy14whwU4meNsx79QAy35uhVtEruKbJKHbokJ
+ BorZOjV9clBufA59dPvHfOkpRh7KvTnAD9mK08cst3quyNyOaHYXD10Bqzy2FbGtBkQcvT9zk
+ 1q2v5ch2NaTqD3EMrPiUFVO9tPf2rDpSPZz2QdHf5WOfqSUO5hmqSBvpZeM+X+lYUI6RP58PP
+ 5A1jOqhNlfYmBHEZpiO892Hr4uNKsc3WaXhuWjIi3UKeM4Tm6LyF0PpBCX293pO4VC8it1V7m
+ J8sUYgFkSIkDIaD+khlgFKOiwo0WaTB+WvlCEs6ELA9NmqLSKvuKbxpS0e9FN1pTz2swnZ3zB
+ NXXDuZ2a4rNN9D16zbMCDLJBWd1OJzl1XURa6CqVdKGfDJgDnl+9ASIqbvmiQRlhNFPIVyUeY
+ RDzNkCPecgjofwfbFXdVnootBSuIBrhKDobrDbiVgpT7mQ21NsIBd1UlCqaiJl7TIwUCOlLst
+ RQXYVvOh3mtwazLF7pYvdM64JlydnZ3NbwhAoDaxGxkT/biFs3rhnER7zQ1n94M5dGm9o1Dm1
+ 5VSleBjXqQdMBrqvP5yoAqjg==
 
-On Fri, Aug 23, 2024 at 6:02=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+> This makes the code =E2=80=A6
 
-> I'm glad that we agree that we do not want the elaborate merge process
-> and instead push the changes through one tree in one shot we just need
-> to decide which one - soc or input. I am fine with using either.
+How do you think about to improve such a change description with imperativ=
+e wordings?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.11-rc5#n94
 
-I'm also fine with either, but let's take the input tree because the
-you're in direct control of it so it will be easier.
-
-Yours,
-Linus Walleij
+Regards,
+Markus
 
