@@ -1,118 +1,188 @@
-Return-Path: <linux-input+bounces-5890-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5891-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C75895FF6B
-	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2024 04:57:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1429600F9
+	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2024 07:17:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5F331F23112
-	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2024 02:56:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93625B22D38
+	for <lists+linux-input@lfdr.de>; Tue, 27 Aug 2024 05:17:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38E821754B;
-	Tue, 27 Aug 2024 02:56:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 225A95476B;
+	Tue, 27 Aug 2024 05:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="aVnGZC0U"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="ipHIFNFM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OZrpjKe8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01B8168BE
-	for <linux-input@vger.kernel.org>; Tue, 27 Aug 2024 02:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFE74CB4E;
+	Tue, 27 Aug 2024 05:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724727403; cv=none; b=UZS9z9q/+DfWL/Mo1oXdPnpzIXMwnbVs1e9e8yUtL24I5swVUTWDzgjoRPbNbZ7ti3VQ28+pRKWFgP6VA+lT+vFG6ekn+av8PLffXrDnrhkjPWGJSMYNWQn3QIzl6wuukWijhYR3avCEDYSx9OgyEh+K89RAX8/pYy4YTmWVTvo=
+	t=1724735820; cv=none; b=QSl7nbb5ZubYa18M31+BmU/frMsRB8KpTMEh7dLsAAwDSvcqn2j7qFRaccE1VAPJ8Z3s/b7A8mVoaksLYoMB5Q9cVsnqmuxApNrbPSc7dmeIPU8CLJ83qbR5EjJZiWFNcdqob4wofyJD6LpeBweHf+actmsVQQIL81Cbsa/M90s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724727403; c=relaxed/simple;
-	bh=YReN9hhTm/AgGwN0pk/NvTUlS6J27z+Z3E74YmfRp6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FdMTLdQCM6E+XViI/iID+4r5MgJ2qBIR63JzjPXQPImKgIlXezrqU49cRWkjWoyvEMVvkDiwXNAYRi0gYgx3DnU5Ql23HGh6KICrztmMwayg0+uIik77oNcp7vIWia+Rv6ysjhLKF9LcehE0UlLPxCx+tIpLiitzspl0L/jK4+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=aVnGZC0U; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1724727376;
-	bh=Xq9ybufUgwg5w8zkVefTMid7KAewFwiTPVvxMnZlVWo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=aVnGZC0UJw2F4c4WnQ32zGvelWCyxbG260b6rnO/PVw5B+an0b73F9rdvIB9aMeaC
-	 4NLE30jcstNIMtSExouoZSPtRyQthjHzZ/isg1Lv3A/xOkZQNrLpGIjhIXPKXH5U8/
-	 Jhk2qH5VmPTuxhdc1dm9w9TzjekaRZmQDXYot1+Y=
-X-QQ-mid: bizesmtpsz11t1724727373tu07y5
-X-QQ-Originating-IP: f7RDH/RfcUYogMg0apaufoZrh11eEzi6nstxWlEgFNw=
-Received: from localhost.localdomain ( [221.226.144.218])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 27 Aug 2024 10:56:08 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11103224841497809063
-From: He Lugang <helugang@uniontech.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	He Lugang <helugang@uniontech.com>
-Subject: [PATCH] HID: multitouch: Add support for lenovo Y9000P Touchpad
-Date: Tue, 27 Aug 2024 10:56:05 +0800
-Message-ID: <EBB0056587822FAA+20240827025605.13790-1-helugang@uniontech.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1724735820; c=relaxed/simple;
+	bh=4WVQlOdz4iUXl/ZtOOfq/sz3W/LEnSLvrPuKObENMTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8Aqq20gFD2+cPxZk1cXmU4dOIpN0inT9H5z8s5IziMDeLKGbqkZfHLIKehnYmwzOEUMlnRx2H8+EkjnPwrVX0/KluS/0cMDDxJnOjZPr5St/S8wR6hViveT3zeCqrjz7YBcSSJW+BTsZIM8LWf6Z9ylCJHOt7RRu3MmGDBVnBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=ipHIFNFM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OZrpjKe8; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-06.internal (phl-compute-06.nyi.internal [10.202.2.46])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id D2FCA1151AF6;
+	Tue, 27 Aug 2024 01:16:56 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 27 Aug 2024 01:16:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1724735816; x=1724822216; bh=XnEvNey2dg
+	8TqK9++0fBtgkojn39VmGvBW+c5uPNs9s=; b=ipHIFNFMnmvaLASurFuE42XJ4H
+	O8MrnVSKQUw03hTaOnltaJqp2HuL0JHkUxeSXLdzur4y7mroys9FKIbKrCfi4LVp
+	D0+qILxcw7a9fj/0IxAZQKYrcdHSYal0a1hZekhTAc4sxGGymnpDimUjBpX8jk/Q
+	3jto+BQFa5NUW/e5k+dquBj7/pVxHj82SIMbnf5nsJsVj2igvaCRxGCQfL1hxOeX
+	jFMTuC30i6mEeu1HpC2tjoqC26sZfCf6o6D9Bmwvxh9V/q9gqDb7QDSvXvBCUhI4
+	o/iz6qu5U2euvVz8aWdhd57z8mmyjuBXMHNtJ6nIEgvO8nGWN5Y2dqxJArVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1724735816; x=1724822216; bh=XnEvNey2dg8TqK9++0fBtgkojn39
+	VmGvBW+c5uPNs9s=; b=OZrpjKe8QTwXHNK9igIuz6o4ItQw8i++ZLrkg3NlIlOj
+	JonKQ5pjMhe/r13UcnD5S2jnAj5Cjzd7+BjhTWC3NO/F1oqfRY5+KNdUQ8jsXu5e
+	h6+CxnqjvHQWJ71mPRTCEAzwVEazXaZJf22sEeqcJTeeE6jacSorkJeJJ7tSsZ7L
+	ssquZzyxAMMZo/k0nBd7auR7esQRp/Jtrnvm6i2Cf2kMpYLHQ6LT76bspgsDTgal
+	iXEnMomdtYh3NheymhgIH1HUHsX7fJPE7050Ut/t2RrElg4hMbEt+dyxlTy5ye7T
+	2j76W9WWWKyjRrmwiad8rdjB/ywbhD+SY/NP0b/7+A==
+X-ME-Sender: <xms:SGHNZqMOa9a0hX7KLMIJQ-lb8D6K4Vc1vyJ_22Bp04X-zef5LhfaAA>
+    <xme:SGHNZo_J9Zqv91k-y8WN597TfOwg-1szt4m-WEn2OLTHeKLdm7H2bmXNaBGb6kBYC
+    MdJpapY9u4H824jOco>
+X-ME-Received: <xmr:SGHNZhSk8ZYSMatRbA4Dkc8tNNB0XWYT3sBQUfULlm_5kWWQoTAW83Z5_xgdeOVQNbivpeyDQLtbmk8BOsG1MN1ccbxGm4Xzbo84>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddvledgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomheprfgvthgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvg
+    hrseifhhhoqdhtrdhnvghtqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudff
+    hfevheejffevgfeigfekhfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihh
+    ohdqthdrnhgvthdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhho
+    sheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehlihhnuhigqdhkshgvlhhfthgvshhtsehvghgvrhdrkhgvrhhn
+    vghlrdhorhhg
+X-ME-Proxy: <xmx:SGHNZqtAoD21fPi8acR_pj7bJolz_ursOrpitpBpE8v70B58m_wpHQ>
+    <xmx:SGHNZifvPFupfwpZYEphbyaj2WK8BdSdVdYdfnr33GnG5eOGpa2XRA>
+    <xmx:SGHNZu15qWJb9jvfWg_3YA5PY1MsqAB7XEpYO_vp2cwp6UxJNp0hCA>
+    <xmx:SGHNZm9pzaSWnZqYx0DTBCwFLOZrLSRH8BSOtJtKUCNPVymNlNhhwQ>
+    <xmx:SGHNZqRilbTf-yWYtC5G9xsmt_jKTlTcDcvdKSRlmstliBWugxKvN6M0>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Aug 2024 01:16:54 -0400 (EDT)
+Date: Tue, 27 Aug 2024 15:16:44 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] selftests/hid: Add HIDIOCREVOKE tests
+Message-ID: <20240827051644.GA1580781@quokka>
+References: <20240827-hidraw-revoke-v4-0-88c6795bf867@kernel.org>
+ <20240827-hidraw-revoke-v4-3-88c6795bf867@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240827-hidraw-revoke-v4-3-88c6795bf867@kernel.org>
 
-The 2024 Lenovo Y9000P which use GT7868Q chip also needs a fixup.
-The information of the chip is as follows:
-I2C HID v1.00 Mouse [GXTP5100:00 27C6:01E0]
+Thanks for picking this up and adding the tests, much appreciated
 
-Signed-off-by: He Lugang <helugang@uniontech.com>
----
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 8 ++++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+On Tue, Aug 27, 2024 at 12:47:53AM +0900, Benjamin Tissoires wrote:
+> Add 4 tests for the new revoke ioctl, for read/write/ioctl and poll.
+> 
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> 
+> ---
+> 
+> new in v4
+> ---
+>  tools/testing/selftests/hid/hidraw.c | 143 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 143 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/hid/hidraw.c b/tools/testing/selftests/hid/hidraw.c
+> index f8c933476dcd..669eada8886b 100644
+> --- a/tools/testing/selftests/hid/hidraw.c
+> +++ b/tools/testing/selftests/hid/hidraw.c
+> @@ -19,6 +19,11 @@
+>  	__typeof__(b) _b = (b); \
+>  	_a < _b ? _a : _b; })
+>  
+> +/* for older kernels */
+> +#ifndef HIDIOCREVOKE
+> +#define HIDIOCREVOKE	      _IOW('H', 0x0D, int) /* Revoke device access */
+> +#endif /* HIDIOCREVOKE */
+> +
+>  static unsigned char rdesc[] = {
+>  	0x06, 0x00, 0xff,	/* Usage Page (Vendor Defined Page 1) */
+>  	0x09, 0x21,		/* Usage (Vendor Usage 0x21) */
+> @@ -516,6 +521,144 @@ TEST_F(hidraw, raw_event)
+>  	ASSERT_EQ(buf[1], 42);
+>  }
+>  
+> +/*
+> + * After initial opening/checks of hidraw, revoke the hidraw
+> + * node and check that we can not read any more data.
+> + */
+> +TEST_F(hidraw, raw_event_revoked)
+> +{
+> +	__u8 buf[10] = {0};
+> +	int err;
+> +
+> +	/* inject one event */
+> +	buf[0] = 1;
+> +	buf[1] = 42;
+> +	uhid_send_event(_metadata, self->uhid_fd, buf, 6);
+> +
+> +	/* read the data from hidraw */
+> +	memset(buf, 0, sizeof(buf));
+> +	err = read(self->hidraw_fd, buf, sizeof(buf));
+> +	ASSERT_EQ(err, 6) TH_LOG("read_hidraw");
+> +	ASSERT_EQ(buf[0], 1);
+> +	ASSERT_EQ(buf[1], 42);
+> +
+> +	/* call the revoke ioctl */
+> +	err = ioctl(self->hidraw_fd, HIDIOCREVOKE, NULL);
+> +	ASSERT_OK(err) TH_LOG("couldn't revoke the hidraw fd");
+> +
+> +	/* inject one other event */
+> +	buf[0] = 1;
+> +	buf[1] = 43;
+> +	uhid_send_event(_metadata, self->uhid_fd, buf, 6);
+> +
+> +	/* read the data from hidraw */
+> +	memset(buf, 0, sizeof(buf));
+> +	err = read(self->hidraw_fd, buf, sizeof(buf));
+> +	ASSERT_EQ(err, -1) TH_LOG("read_hidraw");
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 53655f81d995..83a03edb37e9 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -505,6 +505,7 @@
- #define USB_DEVICE_ID_GENERAL_TOUCH_WIN8_PIT_E100 0xe100
- 
- #define I2C_VENDOR_ID_GOODIX		0x27c6
-+#define I2C_DEVICE_ID_GOODIX_01E0	0x01e0
- #define I2C_DEVICE_ID_GOODIX_01E8	0x01e8
- #define I2C_DEVICE_ID_GOODIX_01E9	0x01e9
- #define I2C_DEVICE_ID_GOODIX_01F0	0x01f0
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 99812c0f830b..0faaa2c23d2e 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1446,7 +1446,8 @@ static __u8 *mt_report_fixup(struct hid_device *hdev, __u8 *rdesc,
- {
- 	if (hdev->vendor == I2C_VENDOR_ID_GOODIX &&
- 	    (hdev->product == I2C_DEVICE_ID_GOODIX_01E8 ||
--	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9)) {
-+	     hdev->product == I2C_DEVICE_ID_GOODIX_01E9 ||
-+		 hdev->product == I2C_DEVICE_ID_GOODIX_01E0)) {
- 		if (rdesc[607] == 0x15) {
- 			rdesc[607] = 0x25;
- 			dev_info(
-@@ -2065,7 +2066,10 @@ static const struct hid_device_id mt_devices[] = {
- 		     I2C_DEVICE_ID_GOODIX_01E8) },
- 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
- 	  HID_DEVICE(BUS_I2C, HID_GROUP_ANY, I2C_VENDOR_ID_GOODIX,
--		     I2C_DEVICE_ID_GOODIX_01E8) },
-+		     I2C_DEVICE_ID_GOODIX_01E9) },
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT_NSMU,
-+	  HID_DEVICE(BUS_I2C, HID_GROUP_ANY, I2C_VENDOR_ID_GOODIX,
-+		     I2C_DEVICE_ID_GOODIX_01E0) },
- 
- 	/* GoodTouch panels */
- 	{ .driver_data = MT_CLS_NSMU,
--- 
-2.45.2
+do you want to check for errno == ENODEV here to avoid false positives?
+Shouldn't really happen in this test suite but it costs very little.
 
+Same for the various cases below.
+
+With or without - series:
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+
+Cheers,
+  Peter
 
