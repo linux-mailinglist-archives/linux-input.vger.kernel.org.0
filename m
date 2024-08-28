@@ -1,106 +1,125 @@
-Return-Path: <linux-input+bounces-5934-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5935-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA172962D5D
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2024 18:13:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C6696308E
+	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2024 20:59:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E3A61F224C4
-	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2024 16:13:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B41D2282578
+	for <lists+linux-input@lfdr.de>; Wed, 28 Aug 2024 18:59:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F64A1A38CE;
-	Wed, 28 Aug 2024 16:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12F7A1AB51E;
+	Wed, 28 Aug 2024 18:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gzG0BYje"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O0Xmz5bf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D8534CC4;
-	Wed, 28 Aug 2024 16:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7071C1A76B2;
+	Wed, 28 Aug 2024 18:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724861608; cv=none; b=slLPTcBWEp3Nw3IDraLl8/sqKMOrterHw0/H85ZY6a7lEMVu12m6u3/QV53mIk7yGvLvY8cRMJOOKDM8t8DunqH+m8yalalLZpxRQpRCHVLuTxTRVCAmklHHYtxYL7P4bn9mblSAJ0bPXNyQt/PtyEgmp/9Y78ccNZV0+BBS7f4=
+	t=1724871575; cv=none; b=uqPBi4JLNietbW8rQd6hpl7MGWBFEkILr0QjPsjj7JWPjBwDMg4/Y5qYk00X+WmMyiOSiMzwhXMxsHGVJ8YI6tDT8PW1f2kuBoLOQ4NqL1fOUDMruSnXWZmwdFEPEKXb/m9KKbNfOSb8koOrv/bS+EhS2kW9eDMlq5EqsDvc5G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724861608; c=relaxed/simple;
-	bh=Lvej6w5uIY8bD1Kx4q4GEaKPNFurV+4bBu+6h8JrzuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFjwChC8WXM+ShcffKjVfFqQrFjx8yVWH5EnVk+SF1eYLu0240GqAx10i4nfn3BT6hC/U1GHLR9ZirnVUYTj3PSjusMm7P56pQHg5SFrjy7KO7TBzv1LsqzToDiODd9nlqv696s+G3uOrAScXLAgrv35RX0EJQpNb6hCKHNDfsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gzG0BYje; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-204d391f53bso31123975ad.2;
-        Wed, 28 Aug 2024 09:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724861606; x=1725466406; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uRQW4GdIFwAz9Vj7IzfPe+8EkFNaAd7KHI5+HTfnkDE=;
-        b=gzG0BYjeBRtnblzUoRCRE4bpTY3cM3vaLcmXuqCM6AaFLNEyPMIbDC08w78hCmw6Qt
-         eaZPfS2TfpOT7pBU7AK2grVrKdfcr0mlKSkP4qamH4PT4yYnRzn+Gq6mFLCBIe1WMgc2
-         MrJ0ZrEXsMl1yaOqXXPnZayGPvHBb4c/nCdKopEpcnhdJ5mgAYKa2fPD8QKXpRNJzQzB
-         TF9My9j7K+v54b4o+atKOX9RQZJfKFR6/1Yn5fryKkPoeip5iZuWgfseSsZfSnQeikh4
-         DjsFZwVOJ5WGuP6LOSpuQk3gFmAFELb0f/13QI6SWZYjcyxtiRs5izPF0pRSeqxWbK/L
-         BFvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724861606; x=1725466406;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uRQW4GdIFwAz9Vj7IzfPe+8EkFNaAd7KHI5+HTfnkDE=;
-        b=Ukew1op6Q6RP0mPEjzGe+igNQ1vMMxF5VX6FrR0bZgnGz4xqf6jF/jSq9UnrcHVKd8
-         YBd8dV8KDYsRhGprfgBoEJ079tKpSV1yedsfuV+nP/K5Gn0t6ECSVGCEFlzaMg0RhEwc
-         Tp0cysyUeAgPHcaiVWeeyLduo/0uBRxj1xhsFsPY7sHFDExARogPNMyoz/CGm192mWHU
-         M+5F4lj5Z/1u3616qBY42pJ81y5eNo/juFTZiMIsLunifjQ1qIWgh6XUSatNvWeT4ylT
-         YbuVJqeUl95SPJDIf94hb0thTKDw1vzJm50xQZpXTMETS4joOBGLAys9DxaZJu2Qk7gZ
-         cD4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVkCoU5aElGXocooUxWvWFVKO/RWdcfHgR+giTT7McpYP9OTcxr7MLxK03GXKyHDRUTbZimDveOAFtAlw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr5QWbMsUkZLVbKTj24lMzaoniNp/GnwO7Ffo8rRg9tehO7FuY
-	eMVwFBreAm+nJYegkRxbYlQ63PpmrjBLlv8mrobnZgfx+PXMz1NkupcttQ==
-X-Google-Smtp-Source: AGHT+IEJQxDregpNQV57q5WpbrUNp4P1Khcu+xtzue1u1dzoR06Y8UxmiGQSZ/vWkFR4T9a5z5oHcg==
-X-Received: by 2002:a17:902:ec8c:b0:201:cda4:69cb with SMTP id d9443c01a7336-204f9a6142bmr30243105ad.9.1724861605594;
-        Wed, 28 Aug 2024 09:13:25 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:3eb8:762:d1b6:97f9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e759sm100237475ad.67.2024.08.28.09.13.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 09:13:25 -0700 (PDT)
-Date: Wed, 28 Aug 2024 09:13:23 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 4/6] input: serio.h: add SERIO_EXTRON_DA_HD_PLUS
-Message-ID: <Zs9Mox-hIbpPbbmJ@google.com>
-References: <cover.1723190258.git.hverkuil-cisco@xs4all.nl>
- <ccbb099a35cb788c7304795927f508cfc2342ff8.1723190258.git.hverkuil-cisco@xs4all.nl>
- <157c368c-f01b-4378-be1f-4af6396d03f9@xs4all.nl>
+	s=arc-20240116; t=1724871575; c=relaxed/simple;
+	bh=2oNMMsYsI+j+ejHVU5D5R1OZsviLXTfVtcjUTwfydlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Jn+L7pLrQxr1p2TO3auViaZxf3bvq4byxodjve8czn7xQ2k1kYMxyMoHSTxT3qDT3DLYLT/cuNeH9at0WJQN+TSB8DGofY1VLn0R7uflNaMmCZ3YS1aIKnH7V4WHQ4yvmjE6R04FExu84/UXZ34017dFT9hCruB4WN+wVhmkCnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O0Xmz5bf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SAiFvp020336;
+	Wed, 28 Aug 2024 18:59:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	X+bp9nEmFMTVmWQTMXToBGklbro1PYiI6dvNZl24hjw=; b=O0Xmz5bf0/grb8CI
+	bmXJR3TuhNpmeW4y21GNl1aEjQWl4aC+Zw12rl2gx9sHLwPb7UzoUi+A1JeaIMLb
+	rJ6isSaBm9Rl5FQdWhMYTdDmDF/n1f2uzeX/WySv7ubqzQXaZakKtu+xG28hZAya
+	qZubyj/54hHBgPJkUMf5boHQwa++N1WfMKVJzk9DFGVCTbvx8m+uhz0pWzYKXFPc
+	CXtqn48VSVLt1A+pBcpA/Gcelit/+bFyltIEJpusDE4/9/tHlGo7c5XfaMWNL2Ze
+	CUqHbpZ500s9jmP/u/1KKejrfapEoiLd7x84f/1mkz2Qm9YYtasGJavo6hOse+wN
+	uGNWIw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puttu87-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Aug 2024 18:59:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47SIxEYk019455
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Aug 2024 18:59:14 GMT
+Received: from [10.110.100.101] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
+ 2024 11:59:13 -0700
+Message-ID: <d44634b7-1285-4771-b7e0-4e852224d13f@quicinc.com>
+Date: Wed, 28 Aug 2024 11:59:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <157c368c-f01b-4378-be1f-4af6396d03f9@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v25 31/33] ALSA: usb-audio: Add USB offload route kcontrol
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
+ <20240823200101.26755-32-quic_wcheng@quicinc.com>
+ <4149884a-7c60-40d8-848b-8876f16d6d7f@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <4149884a-7c60-40d8-848b-8876f16d6d7f@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: X3n_XKtTrJz3EB77-0EvdjKlg6OlyTSW
+X-Proofpoint-GUID: X3n_XKtTrJz3EB77-0EvdjKlg6OlyTSW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-28_08,2024-08-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=544 suspectscore=0 phishscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408280138
 
-Hi Hans,
+Hi Pierre,
 
-On Wed, Aug 28, 2024 at 01:25:45PM +0200, Hans Verkuil wrote:
-> Hi Dmitry,
-> 
-> It's a trivial patch, but it would be great if you can give an Acked-by
-> or Reviewed-by.
+On 8/26/2024 2:09 AM, Pierre-Louis Bossart wrote:
+>
+>> +config SND_USB_OFFLOAD_MIXER
+>> +	tristate "Qualcomm USB Audio Offload mixer control"
+>> +	help
+>> +	 Say Y to enable the Qualcomm USB audio offloading mixer controls.
+>> +	 This exposes an USB offload capable kcontrol to signal to
+>> +	 applications about which platform sound card can support USB
+>> +	 audio offload.  This can potentially be used to fetch further
+>> +	 information about the offloading status from the platform sound
+>> +	 card.
+> I would remove reference to Qualcomm for this Kconfig, all the code
+> seems generic to me? Probably a left-over from the previous version.
 
+Ah, yes will remove any vendor stuff.
 
-My apologies, I missed this.
+Thanks
 
-Please make sure to CC me directly, not just the input list. Hmm, I see
-that serio.h is missing from the MAINTAINERS file, let me add it...
+Wesley Cheng
 
-Thanks.
-
--- 
-Dmitry
 
