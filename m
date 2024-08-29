@@ -1,445 +1,227 @@
-Return-Path: <linux-input+bounces-5993-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-5994-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1429651BC
-	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2024 23:20:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4131B96525A
+	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2024 23:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF1121C215C8
-	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2024 21:20:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F4EAB22578
+	for <lists+linux-input@lfdr.de>; Thu, 29 Aug 2024 21:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82E0F18B491;
-	Thu, 29 Aug 2024 21:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF83118A933;
+	Thu, 29 Aug 2024 21:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFc9oC6x"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="iAANN7Tb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2071.outbound.protection.outlook.com [40.107.104.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE1A18A949;
-	Thu, 29 Aug 2024 21:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724966445; cv=none; b=jrS3A/5IqX9k7mZl7/5krygPglwsilGAnQUgb9ZDdwvVx7AFqIwm/gPrLc2udPCHDHEPQn6b2gZfZvj2SQiJUMGEl34JSttU3AkzvUoGcN6fj9xqZISJkH1KsFfcoCnTMBjHaCgwU7IRxddk+yn7Yu+kENVk4V2tD/Bn3mifHnA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724966445; c=relaxed/simple;
-	bh=dRnhMyY49I8ctFsXtGe5a/F62TAp6N8dyGWxa8kuhGQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sOY/n1Wo3crw3oLLkRwVsXp8dZUL2hm5S0HlfwhDR/9LfQzYI5bssOzmqJI7t+IkK/gN09zGj6oVUZsuc5tHTIiaCkPRPzp+XHaYog7peW3Irjz6T0v1YwmaqhzOWtIfqgKWo1IeLiqFbzUMB51BUH+48YUJdUXAZl/zbQhkXUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFc9oC6x; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f50ca18a13so13561031fa.1;
-        Thu, 29 Aug 2024 14:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724966442; x=1725571242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4CNS52G9gf5nwN/oN7spUpivcZOSe+Yaer5GWMcRkJs=;
-        b=hFc9oC6xL4wALJqT0H30KMJUS3qiyvfraYsq40ryI3yjzpq1+wdII7fxjgdUgV2axB
-         T7wJwhhbK4qORO63Uvn3ltIdtuOj5z9DHCmE0DnFhEBmRZJgFvfjjMutyId1/A12ntid
-         ROs4tmgkt+CX6tO/oOv+sKidB/onlAJs4c0QYHj7KhDl/VbohJ6Y2XbDc1fScrcExCtJ
-         9nOegXaCLDrrn8V3Zutxwm0PTcfhCAGVTTKmqgWdvPDd5msJi1L5LayB4zeIDaZt2kVS
-         gqOErjBQppa6V2IB+m2jZZz3T7Lb574Ev19BTkUfUaMXElu21RKumiprYHrDWNxDXJxA
-         wMIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724966442; x=1725571242;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4CNS52G9gf5nwN/oN7spUpivcZOSe+Yaer5GWMcRkJs=;
-        b=oIrW9jFildA7c9AMbEMzuXJ2rhh/4YTF+2v8NJNo1jrCvrOsCFQiEISPlhMA1uKjHC
-         LXOnT3xkOdxgIvtHGdctNVR1ORApD0j92WVq7jaUPBM1hiWiw+1oXkKkN1aG/SsZbHOq
-         IDj8EIEE6zwSKH/4Ha1ihF6U7cOykd9peSK3sYP9mtctW+PH7Mj0Kn87/PdMh9fyjrW5
-         p+kO42xx1VwTfm9O4g06N0eyWJne/4Db8pqFAhENa4EJDgAt5YHEAH/a45qjbiPmD4wy
-         RIpiKTeF4G7di1ZpnAxtiDifwzEzn1rlQczxlEYzWwnkpa4K8L1Rm4RxNRhO53MkbTxB
-         /aNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhpiW1o+9g+DIcjpJY51GbLequBVPaXnicYAZYQC9c5rTmvU1hXqELBSOFV3Rz15DNzuP6L1YpfiGxoL0L@vger.kernel.org, AJvYcCW35lR90dCYfbYnsJznAtmtDtfUAFWebNSwvjNxF3is+Hy8+i49tMb6F6aIZhpJK9Y0fCevZGJOH3n8@vger.kernel.org
-X-Gm-Message-State: AOJu0YzILnl6qK5SlO17V/s9cSoynyIgLOeQMO+bTccL5Mjq+YDCWicI
-	+8ixxx1GdmdvnTpBEzdWiXHVvCxgJF9996xsJsZsCFoe1n8aERnb
-X-Google-Smtp-Source: AGHT+IHHyFSZ3yQ419EfMrv0FTsDa/Ap/eIPQI0AwKi3FyXQ9oSSw7ZqrFhVpzbxIER+TLkvlPw4Jw==
-X-Received: by 2002:a2e:4a09:0:b0:2f3:f1a7:9813 with SMTP id 38308e7fff4ca-2f61054a1c2mr26483681fa.43.1724966440795;
-        Thu, 29 Aug 2024 14:20:40 -0700 (PDT)
-Received: from kuzhyl-vm.. (89-64-30-233.dynamic.chello.pl. [89.64.30.233])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f614ed15fcsm2746671fa.16.2024.08.29.14.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 14:20:40 -0700 (PDT)
-From: Oleh Kuzhylnyi <kuzhylol@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Oleh Kuzhylnyi <kuzhylol@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	igor.opaniuk@gmail.com,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v4 2/2] input: add driver for Hynitron CST816X touchscreen
-Date: Thu, 29 Aug 2024 23:20:14 +0200
-Message-Id: <20240829212014.111357-2-kuzhylol@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240829212014.111357-1-kuzhylol@gmail.com>
-References: <20240829212014.111357-1-kuzhylol@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E9F1B3F0A;
+	Thu, 29 Aug 2024 21:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724968370; cv=fail; b=qq5yOiJPkX1WeL6TbMaBI2MKtmAqM/X6tc5MUzfUcitFcfh9F3r3YV+dNG2PNQ1g9M3D7PSTLkGt6cIXGBlphSYNWbxqOTosfsc/hQG7AczKYurc4NWd6JINgUhwqVrI2W3YQs2Ih39wxJENgtEqWNP1v5uzh/a+zkroceixd/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724968370; c=relaxed/simple;
+	bh=oEX5DDCNIVL4HOus70dVqQ2Rr/qAgBNstiFSFW0UfdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=taPMKU0kDvu0xQDtqabgyygDA2NTNcOUYygFiMCp1gZZJKtqu4W4HhVWaShu+6Bkug+4Oo3PGdzeTHX0gy/xyQHwE7acYLJyP1ZRhLlR4A3fQc1/1LtfhRyY++eeqNeZYT5OmqE7yhZ20OR0krYp61En4e3UbkTS45Rvl1l0Z5w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=iAANN7Tb; arc=fail smtp.client-ip=40.107.104.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UYfoILCK+3XTXjYSWUmdk24hGF1w+llMLCmPV7V8RCA1yJeU+Yg/xH+jtAMWTJN1x33bdIuVLCzI2bcIEJ3Dt6PqiETuq9fPtYtma14had7MhGDFjjH3JIMc5sIsKVPNnD+Kp/xfGvQW1vNa+VY2uJsGVs9O4NpRHVvY4X16ymQe5/KINFzx/S6H/Jr3S7l9Q+Z8bnef0SsXHj3TQXE3p0vTTC4jbKr3sx0HL4nEk5hR/W9tXVHVODckkqpUtmKBfJQArMig3Ssv1fkKxoUsgrbljz00EWawJbNN35GBmzNH4A+C11WSp9NSDIyGyZAZthVJBA9bVe9o/F50TFbIbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P0guAulJjqBgpHqmvWDNYmduydg0ErAUpqQUCsPn3ho=;
+ b=ZVzgiD7fXwhtCKMbFbOhnjRuj4/mEudd1nbDfaJW+m/yoWdu91poYZpwH679pYQ6Dl5JuhcE4HtPwyafUlMqkhnUw3yQTtc/+uF6QLqACd9Pmb5X/+eXwbOKhO9D3ngs30QMHlIaZNWuWVpy7V0l180JvJTQnSD5pjCKOLspPIL0zLydx77pXLmOESZoRVLDAGfOJF+9YRJNZUPADIJxL/ZWyEHZrSvBYi0Ph/uCfp7owBU6Y28c5MOSPFx751BkA141pP4C+wfa2upBnFYZWgDf8PLvCO4KsmW9u3SbDsMJISWHGbXtLbdC/PtR1SrSs+Jqzmy46tq6QxV29NwT4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P0guAulJjqBgpHqmvWDNYmduydg0ErAUpqQUCsPn3ho=;
+ b=iAANN7TbDFx9wOUfKp//Lo/ivgRnl34LIEBaerpl+f9r6NeLPj7/NoaoSnC0yLzu2fxyMdhJJnUDyenND2XuHCTqJJ9nDlJxFrcF0USJTNM02JPIr0yAVug4s67/UA5iMnIXLscKEuX8Ozc61cEigGeBNj9tStmiTGMyAYwqzrLokEfrL8g/oa1LmnOY21cF4RYtUMayXOUXVxbIiAF1KNglg9KL1Tj8HpoKtFUJy1eDdcK1yK+TIf3vm34K9CC4TvLhM3nkt127aNqPjgHVv2WZy95TLiRU6mfEezZr71LSAXNr58qjNqyWuolDuFs/KXSrhtFh4WswZsQTBBSFgg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DU4PR04MB10362.eurprd04.prod.outlook.com (2603:10a6:10:563::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 29 Aug
+ 2024 21:52:45 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.7897.027; Thu, 29 Aug 2024
+ 21:52:45 +0000
+Date: Thu, 29 Aug 2024 17:52:39 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Robin Gong <yibin.gong@nxp.com>
+Subject: Re: [PATCH] Input: snvs_pwrkey - use devm_clk_get_optional_enabled()
+Message-ID: <ZtDtp5WPPJiTB0Yu@lizhi-Precision-Tower-5810>
+References: <ZtDDGMaOFlMYjOrt@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZtDDGMaOFlMYjOrt@google.com>
+X-ClientProxiedBy: BYAPR06CA0005.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::18) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU4PR04MB10362:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa87ff31-9c55-4f33-a62a-08dcc874ea74
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?b8+BHiYWMvsdD6usfVrKm8j3hf+3ubT1Qfjy47L5J/kS8Dq/cqvIXzEDcTjl?=
+ =?us-ascii?Q?hcYgYIISHkIU4Exf1HzKeFvmF5MDLG5H6t5OlovMTsfYN7EYyPbaMgAgO/Q2?=
+ =?us-ascii?Q?fzWHUKAc6bmN+YEFXDWTetawNWFyAvu3oFPUaYiHLaSJXmz9mnKlneoRVXcK?=
+ =?us-ascii?Q?/RCJRXNG5rCS2AdzwO75PhRFIY3e3zu2wXhTE2xcnz76GBch4cO5HzSOW9wL?=
+ =?us-ascii?Q?nrsReT0UeKHeDXag+Yo6uo0Q9eghx6gkxfcLkMbrEOzsfOSQIbzhNneUMbv7?=
+ =?us-ascii?Q?1c51TrIa8v9uzUI6zzLnJOx4jhLEWOwu5reOge2orYg+h3Q46gePWATQz5mJ?=
+ =?us-ascii?Q?m8LOIXwksRKnaZoOlqcII6o7WlvShUHcvwGqS99Ku+QRxVJBqmlnhf1BHWQY?=
+ =?us-ascii?Q?Vn3LUMKtjMzCUnzT2pLwAs1ngx1Aq/HIs1dYz4qeBsIi51AjDUJahjh/LreN?=
+ =?us-ascii?Q?Uc9y8QW/UpAVX1s5BcgwUKJWovOzkEqCgwwSaDvS6n0f5yGUNJk2Mmn8T52z?=
+ =?us-ascii?Q?eel6mpby/tgMn3FF6SiGbx9hS7E8TvKzqCbWcsB0XIEOkbu+nfcTDm70MInk?=
+ =?us-ascii?Q?bRZr/qaNZWGbX/pkHjcfpgFZEqb1+ORTZKGSyf82xMLAa4VBYX6fWjZa9Qkd?=
+ =?us-ascii?Q?JjiUo9mAgyDV16CN9IinO/MiZBJovdAgbAZ5OBY5wbN0H94n0XnAsTdZN6Dx?=
+ =?us-ascii?Q?VOoEcY84FJVSl1FFEFcoc9YQlY8IZgDLuGb4GkaGhnKyaR1QwtKrJEjN5RCn?=
+ =?us-ascii?Q?xR54TIAallA/N8Us8Vi9IS8m1Vv53ltV5wTrMBRGxCXHZlwkQTU43/MXoOCn?=
+ =?us-ascii?Q?wxdIPOCuvMS/XEwN0uFdM+ygr4IctxpFG5Qq4oMoZuL2ApgL1Z7yuSLj4jRp?=
+ =?us-ascii?Q?KbUWHkQQ6LSJ2HjbkhvHF33H6EYxKWZckxGHOw9asfITKqrdqG4KNxEWnnkg?=
+ =?us-ascii?Q?O1jcSTo+cZHRaXWsEgtBvBNvwXOHz6xZh8qQf4vln4pXOu5WwUmNL473STig?=
+ =?us-ascii?Q?cL4uDS8uXobcbZEzXX2oJxSSdvVkSIbPAjC5otpKp3IU2j1w+u/XZBO4wliv?=
+ =?us-ascii?Q?5Zae8qokzZ9ekeoXtnxsW2FbUP8lBkorzaNMO0i5F+fMrFLcOi9wPzZOM0Bq?=
+ =?us-ascii?Q?rKUiBC/WimSjYiOwF+4b2qrbeD9j52lPvVXLEB9xNRJsjOpSAabDSEIHbzXv?=
+ =?us-ascii?Q?q0Mbwogs/r3CuN0udjU/gjto/qv6NrGjr7GXHRpOdskHR4MFCQF8Pk1qJjnY?=
+ =?us-ascii?Q?spqBnhEBwf7G8tmRiF8kjsMHeyl/QwoWzxKou7V5QJQ4TgIeO89CTlZb/22e?=
+ =?us-ascii?Q?RmNvGq/0DlBrvyF5G8xHn8WuU2GNKHrBIuevvuIovBbDr4+k4YBfqMLJQyEU?=
+ =?us-ascii?Q?pDuc4GeYE8eecbfuAFlZRMqmSdqOLGX7/8bRLk02xx2DWjA21Q=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?UjwJ60xX+P6nF3PMFc0T8D7o7BML+Sr9/9sSbZ24nUg1bsLzEFg/Q/PNNHb8?=
+ =?us-ascii?Q?Im5KuhpGho05TnDtVGb/RshfMZmAb6Vfict21jxfD9NaFXusbZe7rFccmPP7?=
+ =?us-ascii?Q?JP/QELy/mczRglx3exr6w95kXgLi3pqARR41U3muPXFgZivKX7jOmBGKNXap?=
+ =?us-ascii?Q?z7hetySorRXKO68gXsBMZGaUdUWMO9gv7bXHs8z2P3N72WIjid94piRmJCQP?=
+ =?us-ascii?Q?QO8nMydAbUB1PH58H9ZhKFk5zLeKgvJTCwadfOm7Dq5HbjY5lYUu09p82eBy?=
+ =?us-ascii?Q?uAhBup4WXsjntByRrpIIbVU/j/KrG9KFyjnjnafvp8XGwGtKQ0o5zTrDfyL7?=
+ =?us-ascii?Q?bSOol7z6svzd7eUMUkKRQM3io/050L+4gyYPHzL0ID+GT55X7xoJX6k7X6IG?=
+ =?us-ascii?Q?dpGrfFUP32OpxgCGKT3Hb+mXwuJxp/fsVXnQaFStoOFOsDY178DmFGsXwlc/?=
+ =?us-ascii?Q?DWBU4jrrORLOw9biGaVWFh+WEnbnz6OuGHSLG3MA4kEiWCEa180if8FAPOnW?=
+ =?us-ascii?Q?H0jSEUMi+0v5vHtmhyXR7xpiWMtxCusElwxo0htKlbbkr0ICImLXh1caWh/l?=
+ =?us-ascii?Q?lpR/xccKvrG6eVvAicryJy7xwprrrEx0GQn4+X2A1wWOZngiwKzoA47Ch2U5?=
+ =?us-ascii?Q?83zYb7NpriyXbg1IY2D5vJYsiPAOtPLrvTVhu/4gh7gGPai+KWetEV4efSgs?=
+ =?us-ascii?Q?0mGn60vBoh4VNFktJG+rn0f4Xn5VdpftJxa95fBZfhLHEDksOAmHPGUPIXNA?=
+ =?us-ascii?Q?kttVvF4ct6OF8ogbXe94Avjadeafr9Jx3ScanbD6bU2uZfh59/n1jj+KlWxB?=
+ =?us-ascii?Q?ZqGYXxeawyyIFC/O6Xjb16Z7HbKRswiq83/7Gpv/Ei3N8MSLDNBCAIkPG5it?=
+ =?us-ascii?Q?gGdHqwZK4GazgR3+mfRKm6kVwRfOyXFS9DKx9HvFlRg2fpR2SyNsGFiUZBZi?=
+ =?us-ascii?Q?02qddtbCH9/6cydU/DaOi7p22/PR5g9988HZLEDQoZtTe60/SvfiXgdqmC01?=
+ =?us-ascii?Q?hIpB466lA6aVcRKj/a2rrCTyoGLRWntQcuJBiUYvB23lVTIpbmxvmxg/pY8C?=
+ =?us-ascii?Q?R/XCV9DLRtHsiGipy6qax4nq8ntn3Cx2OzW383wLEmfYksJkr+Gyble3uwhe?=
+ =?us-ascii?Q?YDR1NKv4O5Qy8PcBN+7lnoGW/FIX9iC6ntBGYkJzh7uEBUQyk16sHFCZF2F+?=
+ =?us-ascii?Q?T0M5pNnu3iw2XSz1WtcakkxZVn7TOdHPS3Kw8FDYoPSBa4m2/r+TZcNGmoVr?=
+ =?us-ascii?Q?JHtZ2GD99sxwYuEO0GKpk+bXqll6K2jlhb71BYZQLuwxIBB3focWXF/FW7BN?=
+ =?us-ascii?Q?KFZlRqnPV6mK1fxknSfjFXFaer0j8sq6svgQQLXN/AQLY96Ukga4w6bPIG+R?=
+ =?us-ascii?Q?m0JWMzm8nPgQei4xDOPSwdCQ5yV4w2LKQ8hkp1nAhlVBlCXJt3JzoMwE4T3F?=
+ =?us-ascii?Q?DLJQIp4zDCBEEWaFEq0Unr96tVlu9N/XteSUptaRk6FCNyr7F6Sc8Gvwq1bs?=
+ =?us-ascii?Q?npB+5fSRI3DwCk0EzNmUvoGfoI81rDAiqE0s4JyIcGpWl/nB38IRo4qg4NXn?=
+ =?us-ascii?Q?gPo0c9aBBLti+OrRgbc=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa87ff31-9c55-4f33-a62a-08dcc874ea74
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 21:52:45.5847
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kKjTosemqM+SerEGD2mHzXDvjSSsgep4gMhcoUuLc+r39iaz0bmJXkefJj4WPjQMC9Bf/wn2nla1UI9PDrDY/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10362
 
-Introduce support for the Hynitron CST816X touchscreen controller
-used for 240×240 1.28-inch Round LCD Display Module manufactured
-by Waveshare Electronics. The driver is designed based on an Arduino
-implementation marked as under MIT License. This driver is written
-for a particular round display based on the CST816S controller, which
-is not compatiable with existing driver for Hynitron controllers.
+On Thu, Aug 29, 2024 at 11:51:04AM -0700, Dmitry Torokhov wrote:
+> Switch to using devm_clk_get_optional_enabled() helper instead of
+> acquiring the clock with devm_clk_get_optional(), enabling it, and
+> defining and installing a custom devm action to call clk_disable().
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Signed-off-by: Oleh Kuzhylnyi <kuzhylol@gmail.com>
----
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-Changes in v4:
-- Update commit based on Dmitry's feedback:
-- Move abs_x and abs_y to u16
-- Remove __packed qualifier for touch_info struct
-- Hide tiny touch irq context to stack
-- Extend cst816x_i2c_read_register() with buf and buf_size
-- Remove loop from event lookup
-
-Changes in v3:
- - Drop timer and delayed work
- - Process touch in threaded IRQ context
- - Fix chip reset sequence
- - Move input_register() before devm_request_threaded_irq()
- - Re-arrange and document input reporting
- - Set u16 data type for event_code
- - Remove double tap event to prevent continuous double side sliding
-
-Changes in v2:
- - Apply dev_err_probe() for better error handling
- - Remove redundant printing, remove dev_warn() message spamming
- - Get rid of PM since the touchscreen goes into sleep mode automatically
- - Get rid of IRQ control and IRQF_NO_AUTOEN flag
- - Reduce timer timeout up to 10ms to handle touch events faster
- - Skip registering of non-gesture CST816X_SWIPE event
- - Shift input_register_device() as a final call in probe() callback
- - Specify name of i2c_device_id explicitly
- - Update module description and fix typo
- - Add necessary spaces between lines
-
- drivers/input/touchscreen/Kconfig            |  12 +
- drivers/input/touchscreen/Makefile           |   1 +
- drivers/input/touchscreen/hynitron-cst816x.c | 258 +++++++++++++++++++
- 3 files changed, 271 insertions(+)
- create mode 100644 drivers/input/touchscreen/hynitron-cst816x.c
-
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index c821fe3ee794..02f40d0fbac0 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -481,6 +481,18 @@ config TOUCHSCREEN_HYNITRON_CSTXXX
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hynitron-cstxxx.
- 
-+config TOUCHSCREEN_HYNITRON_CST816X
-+	tristate "Hynitron CST816X touchscreen support"
-+	depends on I2C
-+	help
-+	  Say Y here if you have a touchscreen using a Hynitron
-+	  CST816X touchscreen controller.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called hynitron-cst816x.
-+
- config TOUCHSCREEN_ILI210X
- 	tristate "Ilitek ILI210X based touchscreen"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index a81cb5aa21a5..a92a87417a97 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -51,6 +51,7 @@ obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
-+obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CST816X)	+= hynitron-cst816x.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
- obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
-diff --git a/drivers/input/touchscreen/hynitron-cst816x.c b/drivers/input/touchscreen/hynitron-cst816x.c
-new file mode 100644
-index 000000000000..8e2587727e1c
---- /dev/null
-+++ b/drivers/input/touchscreen/hynitron-cst816x.c
-@@ -0,0 +1,258 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for I2C connected Hynitron CST816X Touchscreen
-+ *
-+ * Copyright (C) 2024 Oleh Kuzhylnyi <kuzhylol@gmail.com>
-+ */
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+
-+enum cst816x_registers {
-+	CST816X_FRAME = 0x01,
-+	CST816X_MOTION = 0xEC,
-+};
-+
-+enum cst816x_gestures {
-+	CST816X_SWIPE_UP = 0x01,
-+	CST816X_SWIPE_DOWN = 0x02,
-+	CST816X_SWIPE_LEFT = 0x03,
-+	CST816X_SWIPE_RIGHT = 0x04,
-+	CST816X_SINGLE_TAP = 0x05,
-+	CST816X_LONG_PRESS = 0x0C,
-+	CST816X_RESERVED = 0xFF,
-+};
-+
-+struct cst816x_touch_info {
-+	u8 gesture;
-+	u8 touch;
-+	u16 abs_x;
-+	u16 abs_y;
-+};
-+
-+struct cst816x_priv {
-+	struct device *dev;
-+	struct i2c_client *client;
-+	struct gpio_desc *reset;
-+	struct input_dev *input;
-+};
-+
-+struct cst816x_event_mapping {
-+	enum cst816x_gestures gesture;
-+	u16 code;
-+};
-+
-+static const struct cst816x_event_mapping event_map[16] = {
-+	{CST816X_SWIPE_UP, BTN_FORWARD},
-+	{CST816X_SWIPE_DOWN, BTN_BACK},
-+	{CST816X_SWIPE_LEFT, BTN_LEFT},
-+	{CST816X_SWIPE_RIGHT, BTN_RIGHT},
-+	{CST816X_SINGLE_TAP, BTN_TOUCH},
-+	{CST816X_LONG_PRESS, BTN_TOOL_TRIPLETAP},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+	{CST816X_RESERVED, KEY_RESERVED},
-+};
-+
-+static int cst816x_i2c_read_register(struct cst816x_priv *priv, u8 reg,
-+				     void *buf, size_t len)
-+{
-+	struct i2c_client *client;
-+	struct i2c_msg xfer[2];
-+	int rc;
-+
-+	client = priv->client;
-+
-+	xfer[0].addr = client->addr;
-+	xfer[0].flags = 0;
-+	xfer[0].buf = &reg;
-+	xfer[0].len = sizeof(reg);
-+
-+	xfer[1].addr = client->addr;
-+	xfer[1].flags = I2C_M_RD;
-+	xfer[1].buf = buf;
-+	xfer[1].len = len;
-+
-+	rc = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
-+	if (rc != ARRAY_SIZE(xfer)) {
-+		if (rc >= 0)
-+			rc = -EIO;
-+	} else {
-+		rc = 0;
-+	}
-+
-+	if (rc < 0)
-+		dev_err(&client->dev, "i2c rx err: %d\n", rc);
-+
-+	return rc;
-+}
-+
-+static int cst816x_process_touch(struct cst816x_priv *priv,
-+				 struct cst816x_touch_info *info)
-+{
-+	u8 raw[8];
-+	int rc;
-+
-+	rc = cst816x_i2c_read_register(priv, CST816X_FRAME, raw, sizeof(raw));
-+	if (!rc) {
-+		info->gesture = raw[0];
-+		info->touch = raw[1];
-+		info->abs_x = ((raw[2] & 0x0F) << 8) | raw[3];
-+		info->abs_y = ((raw[4] & 0x0F) << 8) | raw[5];
-+
-+		dev_dbg(priv->dev, "x: %d, y: %d, t: %d, g: 0x%x\n",
-+			info->abs_x, info->abs_y, info->touch, info->gesture);
-+	}
-+
-+	return rc;
-+}
-+
-+static int cst816x_register_input(struct cst816x_priv *priv)
-+{
-+	priv->input = devm_input_allocate_device(priv->dev);
-+	if (!priv->input)
-+		return -ENOMEM;
-+
-+	priv->input->name = "Hynitron CST816X Touchscreen";
-+	priv->input->phys = "input/ts";
-+	priv->input->id.bustype = BUS_I2C;
-+	input_set_drvdata(priv->input, priv);
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(event_map); i++)
-+		input_set_capability(priv->input, EV_KEY, event_map[i].code);
-+
-+	input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
-+	input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
-+
-+	return input_register_device(priv->input);
-+}
-+
-+static void cst816x_reset(struct cst816x_priv *priv)
-+{
-+	gpiod_set_value_cansleep(priv->reset, 1);
-+	msleep(50);
-+	gpiod_set_value_cansleep(priv->reset, 0);
-+	msleep(100);
-+}
-+
-+static void report_gesture_event(const struct cst816x_priv *priv,
-+				 enum cst816x_gestures gesture, bool touch)
-+{
-+	u16 key = event_map[gesture & 0x0F].code;
-+
-+	if (key != KEY_RESERVED)
-+		input_report_key(priv->input, key, touch);
-+
-+	if (!touch)
-+		input_report_key(priv->input, BTN_TOUCH, 0);
-+}
-+
-+/*
-+ * Supports five gestures: TOUCH, LEFT, RIGHT, FORWARD, BACK, and LONG_PRESS.
-+ * Reports surface interaction, sliding coordinates and finger detachment.
-+ *
-+ * 1. TOUCH Gesture Scenario:
-+ *
-+ * [x/y] [touch] [gesture] [Action] [Report ABS] [Report Key]
-+ *  x y   true    0x00      Touch    ABS_X_Y      BTN_TOUCH
-+ *  x y   true    0x00      Slide    ABS_X_Y
-+ *  x y   false   0x05      Gesture               BTN_TOUCH
-+ *
-+ * 2. LEFT, RIGHT, FORWARD, BACK, and LONG_PRESS Gestures Scenario:
-+ *
-+ * [x/y] [touch] [gesture] [Action] [Report ABS] [Report Key]
-+ *  x y   true    0x00      Touch    ABS_X_Y      BTN_TOUCH
-+ *  x y   true    0x01      Gesture  ABS_X_Y      BTN_FORWARD
-+ *  x y   true    0x01      Slide    ABS_X_Y
-+ *  x y   false   0x01      Detach                BTN_FORWARD | BTN_TOUCH
-+ */
-+static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
-+{
-+	struct cst816x_priv *priv = (struct cst816x_priv *)cookie;
-+	struct cst816x_touch_info info;
-+
-+	if (!cst816x_process_touch(priv, &info)) {
-+		if (info.touch) {
-+			input_report_abs(priv->input, ABS_X, info.abs_x);
-+			input_report_abs(priv->input, ABS_Y, info.abs_y);
-+			input_report_key(priv->input, BTN_TOUCH, 1);
-+		}
-+
-+		if (info.gesture)
-+			report_gesture_event(priv, info.gesture, info.touch);
-+
-+		input_sync(priv->input);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int cst816x_probe(struct i2c_client *client)
-+{
-+	struct cst816x_priv *priv;
-+	struct device *dev = &client->dev;
-+	int rc;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = dev;
-+	priv->client = client;
-+
-+	priv->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset),
-+				     "reset gpio not found\n");
-+
-+	cst816x_reset(priv);
-+
-+	rc = cst816x_register_input(priv);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "input register failed\n");
-+
-+	rc = devm_request_threaded_irq(dev, client->irq, NULL, cst816x_irq_cb,
-+				       IRQF_ONESHOT, dev->driver->name, priv);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "irq request failed\n");
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id cst816x_id[] = {
-+	{ .name = "cst816s", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, cst816x_id);
-+
-+static const struct of_device_id cst816x_of_match[] = {
-+	{ .compatible = "hynitron,cst816s", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, cst816x_of_match);
-+
-+static struct i2c_driver cst816x_driver = {
-+	.driver = {
-+		.name = "cst816x",
-+		.of_match_table = cst816x_of_match,
-+	},
-+	.id_table = cst816x_id,
-+	.probe = cst816x_probe,
-+};
-+
-+module_i2c_driver(cst816x_driver);
-+
-+MODULE_AUTHOR("Oleh Kuzhylnyi <kuzhylol@gmail.com>");
-+MODULE_DESCRIPTION("Hynitron CST816X Touchscreen Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
-
+> ---
+>  drivers/input/keyboard/snvs_pwrkey.c | 24 +-----------------------
+>  1 file changed, 1 insertion(+), 23 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/snvs_pwrkey.c b/drivers/input/keyboard/snvs_pwrkey.c
+> index ad8660be0127..f7b5f1e25c80 100644
+> --- a/drivers/input/keyboard/snvs_pwrkey.c
+> +++ b/drivers/input/keyboard/snvs_pwrkey.c
+> @@ -100,11 +100,6 @@ static irqreturn_t imx_snvs_pwrkey_interrupt(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>
+> -static void imx_snvs_pwrkey_disable_clk(void *data)
+> -{
+> -	clk_disable_unprepare(data);
+> -}
+> -
+>  static void imx_snvs_pwrkey_act(void *pdata)
+>  {
+>  	struct pwrkey_drv_data *pd = pdata;
+> @@ -141,28 +136,12 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+>  		dev_warn(&pdev->dev, "KEY_POWER without setting in dts\n");
+>  	}
+>
+> -	clk = devm_clk_get_optional(&pdev->dev, NULL);
+> +	clk = devm_clk_get_optional_enabled(&pdev->dev, NULL);
+>  	if (IS_ERR(clk)) {
+>  		dev_err(&pdev->dev, "Failed to get snvs clock (%pe)\n", clk);
+>  		return PTR_ERR(clk);
+>  	}
+>
+> -	error = clk_prepare_enable(clk);
+> -	if (error) {
+> -		dev_err(&pdev->dev, "Failed to enable snvs clock (%pe)\n",
+> -			ERR_PTR(error));
+> -		return error;
+> -	}
+> -
+> -	error = devm_add_action_or_reset(&pdev->dev,
+> -					 imx_snvs_pwrkey_disable_clk, clk);
+> -	if (error) {
+> -		dev_err(&pdev->dev,
+> -			"Failed to register clock cleanup handler (%pe)\n",
+> -			ERR_PTR(error));
+> -		return error;
+> -	}
+> -
+>  	pdata->wakeup = of_property_read_bool(np, "wakeup-source");
+>
+>  	pdata->irq = platform_get_irq(pdev, 0);
+> @@ -204,7 +183,6 @@ static int imx_snvs_pwrkey_probe(struct platform_device *pdev)
+>  	error = devm_request_irq(&pdev->dev, pdata->irq,
+>  			       imx_snvs_pwrkey_interrupt,
+>  			       0, pdev->name, pdev);
+> -
+>  	if (error) {
+>  		dev_err(&pdev->dev, "interrupt not available.\n");
+>  		return error;
+> --
+> 2.46.0.469.g59c65b2a67-goog
+>
+>
+> --
+> Dmitry
 
