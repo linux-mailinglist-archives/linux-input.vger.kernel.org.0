@@ -1,96 +1,126 @@
-Return-Path: <linux-input+bounces-6020-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6022-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2579662D4
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2024 15:24:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711A19663A8
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2024 16:05:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DEBB1C235EC
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2024 13:24:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D9E6284644
+	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2024 14:05:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFF8179652;
-	Fri, 30 Aug 2024 13:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4741B2EC0;
+	Fri, 30 Aug 2024 14:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aloisio@gmx.com header.b="FGk9kxuC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dhmvuQOE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5D8199952
-	for <linux-input@vger.kernel.org>; Fri, 30 Aug 2024 13:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CB91B2EC6
+	for <linux-input@vger.kernel.org>; Fri, 30 Aug 2024 14:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725024245; cv=none; b=AHUAq8GN8oaGhAwcv3I7MMdxEbLF9JEQQFOrA9g1sheYK/k4MtBrdIaiifeEUOED3jdRP+lW7N7dJThmy+Jl0nYEkv1aSOpu7+/w9H38SnumyWy/IMySLg9afeQfiwk3weKnOq/GDD3k17TOM7M+5Rhzr0Ytk5qkukrAlQIRqw8=
+	t=1725026679; cv=none; b=c+orvFrXIKO+jFeO3JS1Eteuj7rnrdTFGRckrC+2HogZvC0AGr8+JeVBLOEyDBBhS4UEmljyE5Wq9hkraoq2A2Y4k5CJFshU/P2/CWBOWX+ide/2dkHEVBwqyE+KLBc3iEfwNmRbwEMBUFvcSv+zb2RnyIGKluWiY/ZSCeWQ0lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725024245; c=relaxed/simple;
-	bh=alkXXliIvrPqNJdORoYbqa2xI4tj+lKeqJUtmJkDRyc=;
-	h=MIME-Version:Message-ID:From:To:Cc:Subject:Content-Type:Date; b=ck4fG31oN6Bw1QG8yOrxTUxg8sINcwEQFqaxU/ZMsA53P6f1XIveFePe4PPh/Ct5y4SpRaDUrrbnVfMZHe4HbAabDmR1zzLK0Itc9/2WHxVCLNB6EAlxkR1OW+OIg1+1qB/2W4G4h9d85GOf2M2DtbHg8xHQ95tyJGOrchaRLvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aloisio@gmx.com header.b=FGk9kxuC; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1725024240; x=1725629040; i=aloisio@gmx.com;
-	bh=eHLPMZfKiucgpaqQjfGORBQpODzvnsnoabaYsRoXsEw=;
-	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Cc:Subject:
-	 Content-Type:Date:cc:content-transfer-encoding:content-type:date:
-	 from:message-id:mime-version:reply-to:subject:to;
-	b=FGk9kxuCgxnNIc84Q3MgNHJhr+46iTmsAV82dJkUwSR31zMNao9moxPlCNbllegz
-	 iR6Lga1lcxlxxg8rr9svyLxDwGAOMBdTAMIDuL06lovNmkwGdaNSDNgLM9Zt9x/V+
-	 rFH7H+ZhrOGDxOfTgWwRUtvSUyRjOhxp33GsB3r2iv4eBiT5jpVYsKHj900Ie9TkA
-	 7Jl8SK0Dsk6Js7a7rPchfyBtvQkFWPYwbg9qjMybHZcyHLZY+lYYvI02A7dqtWFFA
-	 dkMnHh3HLeflXponE4Kh+Q/yxib8lZFRkuvqWkU5o+CqawV6cR+/LhyeKSDDyFNwE
-	 LNs1EHvwBnum2i5ngg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [80.104.255.168] ([80.104.255.168]) by web-mail.gmx.net
- (3c-app-mailcom-bs11.server.lan [172.19.170.179]) (via HTTP); Fri, 30 Aug
- 2024 15:23:59 +0200
+	s=arc-20240116; t=1725026679; c=relaxed/simple;
+	bh=vC6E1dmI+DVdLPbsboa4vE5TR88Fimwcbq1iFUmZlLc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fDJuYMiJnZSUz49wR6EGxqfgzRB8TNVWKrxwxWv8wHGFGlIrlG5bzsvAq4xU4svIQwLvQ6p/qBtoGZu5XPLzCp8ksohjCDLUrOmj+gHzoR9wEtD+eqdFeVxeIm8Q10rW0cO5iQ4YKF+z8ZgfzLoAy5cW0jguNio1SA9zozbG02k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dhmvuQOE; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5343eeb4973so2859931e87.2
+        for <linux-input@vger.kernel.org>; Fri, 30 Aug 2024 07:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725026674; x=1725631474; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8rRGNMPrMx4PkGhanzqLIDkRAwzJPAKyu4iHvprRv2o=;
+        b=dhmvuQOEfmmWVasF4VMsvhcJ1W7T7UbiuEEfTZIz38Cdq4puxvgfIxFQgBEqLLhqgj
+         HgsLfnmZTIodM8Y+rt868ivihqsjJnw2HLX/LqpiVAt/v1aw13yz0GZJE60q90rrTZzX
+         Tbp16+4bhz6dGK6UXXlRofH8z4My3zlbpq2P+1k2wqcg7r5dryGqlFCTU1822+380MrV
+         rh1dGfMEOUgl02K4ROAdtSaYdYFT8wrHB9hJfjvBz43OzGwVtTN83kkp2J8fXyiXUBX4
+         Qqvx73MnZUD5UkdxjWl8jcouTtl4MH6cuAoMDxamKRQYdz8iaWu8EwM8h4ytRs2bxlr1
+         cmUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725026674; x=1725631474;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8rRGNMPrMx4PkGhanzqLIDkRAwzJPAKyu4iHvprRv2o=;
+        b=iCm0mmoAO48AkrSpFzY94OEOrXj+BAxRf703jnnMFr+gQtkNewSvqccGYUb0EbPeAp
+         NWaQAKIp2F31QP7TYePcHK+4sj4kSP4Kx5q7P/o2kdDsgPsD0geD/Uo05j3E7PPGxdXr
+         OmjOUvR2CgN0BT4Wna/k17BmGCDW5GqZyHh0HlDOqYbgdGfndkhvgJ+M2YZAYgWAngrj
+         aKYx6Z2MitztePBwWRDwQYyIdvXPoqCTdaHNCCWZjK1jYiWpldd60M6RBqypi87yFBnM
+         wC/VgSli5FZCpQ0o8/OKcuAz5YUb49x2SukB3sgOENGl389idJ0MamJGwkEQUz9GyByO
+         jeug==
+X-Gm-Message-State: AOJu0Yx8IP62+dNi6Hg4xY/Dgr/oWdhcHevA66Di/fKBXbNCI6tTSHJj
+	mmO7kOHpyQeJPpP87P9PuhA8MVFMKT7FJ+g6G1/UM35NzEmPxjEkDIf1yGj5Wuo=
+X-Google-Smtp-Source: AGHT+IHbtCYQLg/fD4tXDbJPsa6LQjl1fw2InO4YLVPo9anHxLG26kTZRmZH5CPEsdKyf7ixXGeP0g==
+X-Received: by 2002:a05:6512:3b99:b0:535:3d15:e70e with SMTP id 2adb3069b0e04-53546bde524mr1855327e87.37.1725026671382;
+        Fri, 30 Aug 2024 07:04:31 -0700 (PDT)
+Received: from Fecusia.lan (c-21d3225c.014-348-6c756e10.bbcust.telenor.se. [92.34.211.33])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5354084118dsm616826e87.217.2024.08.30.07.04.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2024 07:04:31 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v2 0/2] Input: zinitix - Handle chip revisions for
+ touchkeys
+Date: Fri, 30 Aug 2024 16:04:26 +0200
+Message-Id: <20240830-zinitix-tk-versions-v2-0-90eae6817eda@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <trinity-449b8dc4-ceb8-4098-ae8d-74fcdedb9d04-1725024239914@3c-app-mailcom-bs11>
-From: Luigi Baldoni <aloisio@gmx.com>
-To: linux-input@vger.kernel.org
-Cc: Benjamin Tissoires <benjamin.tissoires@gmail.com>, Stephane Chatty
- <chatty@enac.fr>
-Subject: Lenovo Ideapad and hid-multitouch
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Aug 2024 15:23:59 +0200
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:HwhN7foJbLgY698/fo4FDaImOQaXXtgk48scTbVlNbF84uyB8ss8FIYq5AwRTNaAn1MzU
- N4eP8Zp6D1c4jikgIrnC/W2pBY0Mom6hkdPA9bOzGB5vf38sCRX+5fGAWGyVTBgTBCpWujhp8Kdk
- hbs5qHIRIrmpoAYnM6gUf5+G1v0YX6yShsEz6BPGxDDh4VEexiWVNQ84GmXsb5jjlrjKD21kZ/l6
- tgocE2FwKHPWd3ynyCdLNQN7Cy3i4PhTu8R9gxa771Ol0jkwCnewgct68XVZR3cGr96aCV1vmcXp
- 18=
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PGz1iTtWlbo=;x87ldu21kGPIL7P2qFXTisXNoGW
- OV58fjrung7V6qcY60rGiFBltDPlFRB2PkFWCJ1mEAelxQDbaGYn9SGIPPlOaKTksVNz1FpEH
- rtgg/QxRlYOLiiDpXhso/JVuetup0Biq2VPf/XPvHPt4V7AfNKHtpOWbkPVsoorduJ3QGkcJW
- 2w+9ztreVQ/wGdTILEnAnzsiVGGaFKHfpwpemvYLP8BZvJNAvB+OSSm0zPkhtjni5sHLVA7lU
- bdpzQJZ7b24FzO4CArcOiBedArOrJ337wGMFF+b7LoclOZ1r2tovcUcredVIIM1mP6abr2I8d
- J8RAvoeSSQvRcORjwndZQO8aA8aTpXYlKG1oMJF436iMa9LwL+WBaJnPYVOxnPLgI+CD3+lGY
- yFHFrVGCGdl75zcOOu7YmtX9M309UVM7NhCN3PMga69GUKhY+dYjswZxn4QI2kHnw4TmaM7+9
- qGAx2hzaQnqLJqrgEljWNIuJgfAtQFV2zdsTJJrBb2eFuhSOGq9ntE+UL5VLGi84v1I8MkB37
- KYQFafWeIHjgKOI+z2XJvSSSEV0nVZqyMtILKxz5KCaQjB0SHjFDCG5vHE0Je3ARegobwtwKX
- iViWUAA7qdWqOEREGuVEw5M2aDasNL6nz9n28lUxiIR0OsTTOpW8rzVdsDqJcGOXCvy4YxaTC
- cQekH5S1uTXlwXr3SEjQNvIfEFTWEcQhA1ARn5HKBQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGrR0WYC/32NTQ6CMBCFr0Jm7Zi2Gn5ceQ/DosAAE01rpk2DE
+ u5u4QAuv5f3vrdCIGEKcCtWEEoc2LsM5lRAP1s3EfKQGYwyV1WrEr/sOPKC8YmJZK8HbDpdd0Z
+ RZ+0AefkWGnk5rI8288whevkcJ0nv6X9f0qiwvNBYNX01GqvvL3ZW/NnLBO22bT/zmSPNtwAAA
+ A==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Nikita Travkin <nikita@trvn.ru>
+Cc: linux-input@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.4
 
-  Hello everyone,
-I've had a problem with the touchpad on my Lenovo Ideapad laptop since buying it, namely
-it's way too sensitive and this results in fake clicks and jumpy behaviour overall.
-Libinput people told me there's nothing they can do (https://gitlab.freedesktop.org/libinput/libinput/-/issues/946)
-and referred me to this mailing list.
+The registers containing the touchkey status varies between
+different chip revisions for the Zinitix touchscreens.
 
-Do you see a potential margin of improvement here?
+This series address the problem by reading out some chip
+revision and firmware data so we can take different runtime
+paths in different chip versions.
 
-If there's any further test I could run or experimental drivers to try, please tell me.
+Also read out firmware and register version as this may
+prove helpful to similar situations in the future.
 
-Thanks
+This applies on top of Nikitas series to handle touchkeys
+that was recently merged.
+
+After this my BT404 touchkeys work.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Changes in v2:
+- Move the variable keeping track of versioning info being
+  read into the per-device state.
+- Link to v1: https://lore.kernel.org/r/20240806-zinitix-tk-versions-v1-0-63ef79c7f2a1@linaro.org
+
+---
+Linus Walleij (2):
+      Input: zinitix - Read and cache device version numbers
+      Input: zinitix - Varying icon status registers
+
+ drivers/input/touchscreen/zinitix.c | 59 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 57 insertions(+), 2 deletions(-)
+---
+base-commit: 669e9cb5f59903fbb1649660f3cb04e5217a7e58
+change-id: 20240806-zinitix-tk-versions-9b18b20ebaad
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
 
 
