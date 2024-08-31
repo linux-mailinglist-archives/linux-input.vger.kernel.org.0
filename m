@@ -1,104 +1,173 @@
-Return-Path: <linux-input+bounces-6032-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6033-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96078966CB9
-	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2024 00:50:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A02B0966EA9
+	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2024 03:49:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30E7AB227D3
-	for <lists+linux-input@lfdr.de>; Fri, 30 Aug 2024 22:50:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 568BD2848AA
+	for <lists+linux-input@lfdr.de>; Sat, 31 Aug 2024 01:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 153BE18BC28;
-	Fri, 30 Aug 2024 22:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B411E25776;
+	Sat, 31 Aug 2024 01:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjWcnxXr"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U38Ldbdo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0EF165F0B;
-	Fri, 30 Aug 2024 22:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25711BC5C;
+	Sat, 31 Aug 2024 01:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725058253; cv=none; b=VFk9uRfc2bbK04uFr9MkgetqqtOxzZwNE8BgVhNWiopRG1IkOWQpP/u0RZENO2T9Ikfp9WrnS07VJT7GodR05L5aKRzT00TrzbW/ca44st5VtIakLv5zI7BWvKyi2YDoDkfy85hx0sVbqdT0IQUo8kOuaNlF/s8oBNCybxXqZQI=
+	t=1725068977; cv=none; b=ZLwLFe6qJbkYQnDWVcFjWDXnkUML9UoU1EtQDq3K0IFEX7/NfYfa3XhcxDIr3ioG7JuU+8/fQoK00vf0ILIdEU7dg1VqH055bkXNNWhWkGCISI83lutHWzeDsfFQC9yPp2LFlZsURcxDeZDBBfle1Ok4kMa2sc3UHObBdXMt5TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725058253; c=relaxed/simple;
-	bh=OLTIlPpa+v4c60pxBvkB0sb99UmhCoAw0VWc01EiOB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M3f0TNTm+cVDw6QLw9etTfh0+AWF/ftMKMO1B8Pfhli2raJJ4Bj+nE+FMyuAlcMVMw8zIXzuNHHVK+msSelWlMvNZATuC6rT9y+yZo1ByJ2BBWvUsseOzduxmhM/fWRVdQH3ALclPY8h4COTGh82O550Zf21lN4icihwctNeU34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjWcnxXr; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7d1fa104851so1303599a12.3;
-        Fri, 30 Aug 2024 15:50:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725058251; x=1725663051; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=65LIKbIRP/1nqSoA8pyNVDo/Zs1EoaJfqqWrC0sNrZk=;
-        b=ZjWcnxXrWzv7fFR3ocFQA+QglscI+xV/m3qr2pbXU4lxr2WLZYWQvlElpqqoo4/S1K
-         A9fyqQXrRZTyXfvQhlaRxLIhZPr7JbOYge7vBEViHGBY6ZnemzwxzmXUgWOc7h4qdug3
-         r6ehF0gQsoCNyQUdoDBHG78nZQmObqD7cAtKLi6nMZi9FJXpIRmn/YA3629vhNPOnus7
-         mO5gubiTVPcWx3VGWuiswplgn2eZqBpNI7OuyGffq2J8U+GJGP4Wd+Gwk12J9spoYTWv
-         vtUbuepnwWkEtG97tPCBd+q8VmbmBvdI7dqXgJYxwLKYLD1fkYbM/9S14G9JLbFqxeU2
-         V/Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725058251; x=1725663051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=65LIKbIRP/1nqSoA8pyNVDo/Zs1EoaJfqqWrC0sNrZk=;
-        b=a/hk2yGbND0S4OUdmSk1K6M0e9Q/fDv55RH2VlCncOvQqiQW7ZWdouDTMXR1qS4Uhy
-         zunOJKazjz8PIWe4i5EDfRPEKFe5fAZGid/wVM0neKdF2Cq8lGoNugKvyxAScE8br5Km
-         XJhfXEmKBiPdjjyYN/Pig8WOCegvqSvnl/CGG+n2Xy+NWyYStaUjaOq+8KteXRqh2tZV
-         vzlUHx0G1Uj76+zOju7bwV4RGHUephnr+S9oIAEyoInGNFCB3tnC0PeNkD+eAk2fYp8d
-         qs3LnnZFubvFRoN1cLh3w21VBmgQhdK51aERc4wcjqCMPn+Z4Pybn3d5m1vjYJSZk90r
-         Zffw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5IYsXnTyh9l3mQj364IhsELhkTmKMIrISa5nNt9ycoRw05VUF7K8HzI2anIG5vlPAlO7xDCtBqa43@vger.kernel.org, AJvYcCXMY9vm7ZA5R/HpJ4xDNxkmyGMoj83gRehC1BH8L9dhx9oXSQXW7WgYdekW/O2s/VT26DWyY0bnW9HJbKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuPoeHHMikCCeWe7K1Iy4hn9GLX6vn/086NT7vp1klnbiaf0UA
-	meqT0dSGdcpsRsB68vsr3RwXmEKEBZwM0iA9BPkBnzm7xKoENvzX
-X-Google-Smtp-Source: AGHT+IFj3tUQDVnRHCVW0OPOd+JfJPvohp2+ENJAsJ6FBawIv0bVWDU2WiZ05D8IkNSeGPF2diTxDQ==
-X-Received: by 2002:a17:90b:224e:b0:2cb:55f9:b7c5 with SMTP id 98e67ed59e1d1-2d8561a1482mr8376670a91.12.1725058250662;
-        Fri, 30 Aug 2024 15:50:50 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:bf97:5ce2:737d:1e6f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d84462afb6sm6939409a91.33.2024.08.30.15.50.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 15:50:50 -0700 (PDT)
-Date: Fri, 30 Aug 2024 15:50:47 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2] dt-bindings: input: touchscreen: Use generic node name
-Message-ID: <ZtJMx46dqn9HNz4T@google.com>
-References: <20240830194331.3774408-1-festevam@gmail.com>
+	s=arc-20240116; t=1725068977; c=relaxed/simple;
+	bh=COgP8gtOwj9866IMzZkzcjlN1M8qSRLRfPhLqL3mK+A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=sBnsII6kJl+VeS4Wf+9KXzDYxGF3PoRiTjqN1dM2N7IP39IpM1OY4MzfYv3UdIVbc92iorzrGVZFyu0FT9tG27pb8lK79LB42YQQvto8bMvkqGWaZ8wRxLD4fmGzw1MYe4N2MrcQW8IO7xtmRGzEIr8MGELi5dWVizs6u5oWFGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U38Ldbdo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47V1lkCb014463;
+	Sat, 31 Aug 2024 01:49:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/G28frVMVZQFN7ykoLWCfBQ91+/BjNk3d7oGSSViOkc=; b=U38Ldbdoft5FS4jS
+	FGIsftdcLD4R5LALOdJe2Li7yl7bWJvSriY7C9/G/+b2IK9+QjkqGIiVBYrTkZsR
+	PRGTGPvaYjKET9r1vOCxCMbK78Y61p8w87LfVDb36fYtdtULvClkUIdZKlYwq7bo
+	tCwbdc5ZiuKt73Cn5wZqffSM78SIe+FZb9LRqUxDbC6mwibL4bKg61Q9oP4xZOta
+	T7c3Vmk7//oXhqdDoGDrMf6uFSNyMLho9KtGjoR0wxluNRbq75VTxpHPQi0a4eZ5
+	ToqbLViLcOGzVvK6la1BowVyWCz3t1ZD+0WTA9PQKQ2uBFITbNdq86NqjybH8IXd
+	f/i8bA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41ax4mm825-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 31 Aug 2024 01:49:12 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47V1nBQb020803
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 31 Aug 2024 01:49:11 GMT
+Received: from [10.110.4.92] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
+ 2024 18:49:10 -0700
+Message-ID: <b027dd79-56e3-40d8-a4ca-779b4b5914c5@quicinc.com>
+Date: Fri, 30 Aug 2024 18:49:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240830194331.3774408-1-festevam@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v26 16/33] ASoC: doc: Add documentation for SOC USB
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
+ <20240829194105.1504814-17-quic_wcheng@quicinc.com>
+ <522dd841-2060-4e7c-b8ce-7e9ea2fa8498@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <522dd841-2060-4e7c-b8ce-7e9ea2fa8498@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ZLPf2EcXuyfBRx9vfV8fRBTvbL_dFQ2S
+X-Proofpoint-ORIG-GUID: ZLPf2EcXuyfBRx9vfV8fRBTvbL_dFQ2S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-30_12,2024-08-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=910
+ impostorscore=0 spamscore=0 suspectscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408310012
 
-On Fri, Aug 30, 2024 at 04:43:31PM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> Node names should be generic.
-> 
-> Improve the binding example by using 'touchscreen' as the node name.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Applied, thank you.
+On 8/30/2024 2:03 AM, Pierre-Louis Bossart wrote:
+>> diff --git a/Documentation/sound/soc/index.rst b/Documentation/sound/soc/index.rst
+>> index e57df2dab2fd..8bed8f8f48da 100644
+>> --- a/Documentation/sound/soc/index.rst
+>> +++ b/Documentation/sound/soc/index.rst
+>> @@ -18,3 +18,4 @@ The documentation is spilt into the following sections:-
+>>     jack
+>>     dpcm
+>>     codec-to-codec
+>> +   usb
+>> diff --git a/Documentation/sound/soc/usb.rst b/Documentation/sound/soc/usb.rst
+>> new file mode 100644
+>> index 000000000000..bd3d9eb86b07
+>> --- /dev/null
+>> +++ b/Documentation/sound/soc/usb.rst
+>> @@ -0,0 +1,429 @@
+>> +================
+>> +ASoC USB support
+>> +================
+>> +
+>> +Overview
+>> +========
+>> +In order to leverage the existing USB sound device support in ALSA, the
+>> +ASoC USB APIs are introduced to allow for the entities to communicate
+>> +with one another.
+> nit-pick: entities is rather vague and an overloaded term in USB audio.
+> Maybe "allow the subsystems to exchange configuration information"
+Sure, will make that change.
+>> +One potential use case would be to support USB audio offloading, which is
+>> +an implementation that allows for an external DSP on the SoC to handle the
+> nit-pick: not sure about the reference to an 'external DSP'. "external"
+> would usually to a stand-alone device and there's no real need for DSP
+> capabilities for USB offload, e.g. a regular embedded core would do just
+> fine.
+>
+> maybe "allows for an alternate power-optimized path in the audio
+> subsystem to handle the transfer of audio data over the USB bus"
+Yeah, I guess external doesn't make sense, its just another core within the SoC.
+>> +transfer of audio data over the USB bus.  This would let the main
+>> +processor to stay in lower power modes for longer duration.  The following
+>> +is an example design of how the ASoC and ALSA pieces can be connected
+>> +together to achieve this:
+>> +	int snd_soc_usb_update_offload_route(struct device *dev, int card, int pcm,
+>> +					     int direction, long *route)
+>> +..
+>> +
+>> +  - ``dev``: USB device to look up offload path mapping
+>> +  - ``card``: USB sound card index
+>> +  - ``pcm``: USB sound PCM device index
+>> +  - ``direction``: direction to fetch offload routing information
+>> +  - ``route``: mapping of sound card and pcm indexes for the offload path
+> nit-pick: again explain how the card and pcm indices are handled.
+>
+Will do.
+>> +--------------------------------
+>> +USB devices can be hotplugged into the USB root hub at any point in time.
+> "root hub" really?
+>
+> Is this really required? I would think the entire framework would work
+> just fine if the device is connected to any hub at any level, not just
+> "the" root hub.
 
--- 
-Dmitry
+Yes, you're right. Will clarify this as well.  My test set up for this involves doing audio transfers on multiple devices over an external 4port USB hub.
+
+Thanks
+
+Wesley Cheng
+
+>
 
