@@ -1,110 +1,131 @@
-Return-Path: <linux-input+bounces-6044-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6046-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFAC968180
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 10:17:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 801969681BF
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 10:28:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EE228189B
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 08:17:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3774B1F22C4F
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 08:28:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34AF614F132;
-	Mon,  2 Sep 2024 08:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 822C0186617;
+	Mon,  2 Sep 2024 08:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="Eg5rDLZ3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A768460
-	for <linux-input@vger.kernel.org>; Mon,  2 Sep 2024 08:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD778185B7D;
+	Mon,  2 Sep 2024 08:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725265043; cv=none; b=mbjRynNhCiWBjX1U9PpT7Hf9UVhROama0RImVamhwKpkXaC7h3slaFft69ditf7m6a8TPlLq+XuocovNAPHfI2mOPlbILIKWkkJ/1xWynEoF8SJofddP4lBbRMqpShXOS9GYEdRutMobqPfEHqcZkuge0nTkvNANB2i9duZbxW0=
+	t=1725265663; cv=none; b=fIcldNzuWtw+njYdaz8lJlptjyAk5aXTB9f1fm78TOIS3pRhlLmETdEhmN/x0LStsPABqYsSY05GHhyCVz4AzyrlvhigLbft/gE8XHFJzwye2YYs3jxc6tp5OHO8FrvumOOzXbuQB0Pa63osULn+4fCejHOUXTNY2lhXNE4WtV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725265043; c=relaxed/simple;
-	bh=IRTJHVYUzlZ9RvtWow2fn+GIAETMjVyYAVFQqMO2Jgk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=e11cRf6yEhttZXrztyAVZRviE+ADL2HzB/KBcLW++8Bx2GnCpyAmcJ+UMybSd1IYc2RD4kxc/xe04GI08YhKLNiHmktRTcVxHTQcFh7V81M2b3Z0ZC3iFn3R1dwNsNHPpcJ78JrOr4WyGzYGzr2P3gw+fICg9nGQVUHI2y77Opc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-82a1c57f4dcso499229439f.2
-        for <linux-input@vger.kernel.org>; Mon, 02 Sep 2024 01:17:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725265041; x=1725869841;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2sns7FwWpwK54OmxtXlX+1DBcBpWQtZaZin2PDIL4+0=;
-        b=U6O6Eu+sXwKDobqxKfuthhnjFeVlXNDWIkhaQ7UYb1bRMbqU4H+Xh0lKaZste0pcmR
-         1w6if/kE5/rAnVqdSqM32giNNlWVTOOS3uyt8hl0Nk8AMl9OQ2CzIcvAhXGLpwJZjlql
-         xYQLelSNtmUxi+huZHv7Gvtpe47kw9Q99VJuln0iaFWGBEG2dBoAkoyqQlD61YnjZQQY
-         DMb3MgsbEsaLmSa4vZNI1FB904FHQ6SuD3IWcHmqqcPQ7fX9BQXfU5gLTCXp/M7eAlFB
-         OVTBoAtFoRoF198lepJdc1rxNKQdH2BPNrZrosvIejG90zhFlYlcFFbQ4aFZJUNdveM8
-         rTbw==
-X-Gm-Message-State: AOJu0YwCMEY6FYKjPKkQVxdpC1yT90rxgEaKYpuK1xxmBk0JNr4by4S6
-	F2epvrgyERsITed+MiOtbohzmu321M5j9xLzLN9ye/tputIp/BgzjyWyRDTEU/fuP9wFfaYIlIc
-	yzjVEQKKAc+MlPWkgGJgDCkkQXclhdMuWZ7ZtmusglhuyCDgBXozhawM=
-X-Google-Smtp-Source: AGHT+IGbwOCsNT+/J0+VefbIlcQy4+aRzLa3+CQCPb/6igbcthkuqiPhcsqwpBWr6e16Rf1yZ4MtiBXaLjNbXVhny5tNaffBanRZ
+	s=arc-20240116; t=1725265663; c=relaxed/simple;
+	bh=bwCr2cKS3bvq6ljjGjHqWsqogAeGXrGBsmS3vger5CM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oPm89UJins3XMDpW7W0hQJwxRj5qDOoqCFIZPZdySEV2hRogw4FhB6wLrZ+KOXj4mVyt52ZfXk2HUE/+pMqP30bJIHU6DBTF35/8tuQejS/ZZRKM7p/6EgEr+O/4griyKOoHgjVtiRK25Tiy/YvzfBT87FYriiNx3gR6sDIMVj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=Eg5rDLZ3; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4823IUPg003128;
+	Mon, 2 Sep 2024 04:27:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=niI3I7JyZS3O6tP9TPghw9Awc8v
+	0YPXV7qysyszBa1A=; b=Eg5rDLZ3eKtjPeh354ukZKPWaIE6L2tT4GgkaX0ccUD
+	sKlkyr++E+vR9Hxy402sWU8x3cyHlOKO0plFryEN+5ddCqibLLh8qgx7i+bTnof+
+	p3tiGsZ7PNZc3P61uY8jkp3v/DpRYh18ZxQaIPwF7vlyPhcxKb9xbepB6ULqqJS0
+	blvhtHUsOGl633HW28K6v5wM13BrqDcjnfy7UCWKdLG/mdPJrl4yPifd/viSGwnq
+	mfJCsfgj8qyZd/P2PTJuG4cePdsduLKZcDbgbFH6eF5weGb16Vj+p7NW8DfcGLYi
+	58Fl/dV4ZIDZ7+t1ezVkUCjRIUyz2kMo/h4rxqJFycA==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 41d5bg8vb9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Sep 2024 04:27:24 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 4828RNRT022710
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 2 Sep 2024 04:27:23 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 2 Sep 2024
+ 04:27:22 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 2 Sep 2024 04:27:22 -0400
+Received: from amiclaus-VirtualBox.ad.analog.com (AMICLAUS-L02.ad.analog.com [10.48.65.139])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 4828R9oQ014033;
+	Mon, 2 Sep 2024 04:27:12 -0400
+From: Antoniu Miclaus <antoniu.miclaus@analog.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/3] input: touchscreem: ad7877: add match table
+Date: Mon, 2 Sep 2024 11:24:31 +0300
+Message-ID: <20240902082707.4325-1-antoniu.miclaus@analog.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1e09:b0:39d:637f:97cf with SMTP id
- e9e14a558f8ab-39f40ef46b7mr6736105ab.1.1725265040927; Mon, 02 Sep 2024
- 01:17:20 -0700 (PDT)
-Date: Mon, 02 Sep 2024 01:17:20 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e882a306211e9197@google.com>
-Subject: [syzbot] Monthly input report (Sep 2024)
-From: syzbot <syzbot+list404de26cc86aa8de7c97@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: HMTvouU1rGNzCmtDj2v7hLqKUcCe7G64
+X-Proofpoint-ORIG-GUID: HMTvouU1rGNzCmtDj2v7hLqKUcCe7G64
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-09-02_01,2024-08-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ spamscore=0 phishscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409020068
 
-Hello input maintainers/developers,
+Add match table for the ad7877 driver and define the compatible string.
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
-
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 18 issues are still open and 57 have been fixed so far.
-
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 702     No    possible deadlock in evdev_pass_values (2)
-                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<2> 392     Yes   INFO: task hung in uhid_char_release
-                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<3> 353     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<4> 23      Yes   WARNING in cm109_input_open/usb_submit_urb (3)
-                  https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
-<5> 21      Yes   possible deadlock in uinput_request_submit
-                  https://syzkaller.appspot.com/bug?extid=159077b1355b8cd72757
-<6> 19      No    possible deadlock in __input_unregister_device
-                  https://syzkaller.appspot.com/bug?extid=3f4bf5c599ee9b16d704
-<7> 10      Yes   INFO: rcu detected stall in sendmsg (4)
-                  https://syzkaller.appspot.com/bug?extid=9c0539eda655673bdaa4
-<8> 9       No    possible deadlock in hid_hw_open
-                  https://syzkaller.appspot.com/bug?extid=2313ca2498b9554beeba
-<9> 3       Yes   WARNING in bcm5974_start_traffic/usb_submit_urb (2)
-                  https://syzkaller.appspot.com/bug?extid=b064b5599f18f7ebb1e1
-
+Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+no changes in v2.
+ drivers/input/touchscreen/ad7877.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/drivers/input/touchscreen/ad7877.c b/drivers/input/touchscreen/ad7877.c
+index a0598e9c7aff..7886454a19c6 100644
+--- a/drivers/input/touchscreen/ad7877.c
++++ b/drivers/input/touchscreen/ad7877.c
+@@ -805,10 +805,17 @@ static int ad7877_resume(struct device *dev)
+ 
+ static DEFINE_SIMPLE_DEV_PM_OPS(ad7877_pm, ad7877_suspend, ad7877_resume);
+ 
++static const struct of_device_id ad7877_of_match[] = {
++	{ .compatible = "adi,ad7877", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ad7877_of_match);
++
+ static struct spi_driver ad7877_driver = {
+ 	.driver = {
+ 		.name		= "ad7877",
+ 		.dev_groups	= ad7877_groups,
++		.of_match_table = ad7877_of_match,
+ 		.pm		= pm_sleep_ptr(&ad7877_pm),
+ 	},
+ 	.probe		= ad7877_probe,
+-- 
+2.46.0
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
