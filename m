@@ -1,38 +1,38 @@
-Return-Path: <linux-input+bounces-6065-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6079-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA7B968F91
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 00:29:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62166968FC2
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 00:33:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 884D4B2284B
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 22:29:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11E9E1F25826
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 22:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48D5188011;
-	Mon,  2 Sep 2024 22:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CCAE188A04;
+	Mon,  2 Sep 2024 22:29:56 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from fgw23-7.mail.saunalahti.fi (fgw23-7.mail.saunalahti.fi [62.142.5.84])
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507A31885A0
-	for <linux-input@vger.kernel.org>; Mon,  2 Sep 2024 22:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C44190057
+	for <linux-input@vger.kernel.org>; Mon,  2 Sep 2024 22:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725316135; cv=none; b=aLeW0VOgzN9xnwBtadmqR2m4iyvrDSHGxO4v31KFZspbVzA7Zi/xvyOp+sDW6yrr20N7mbaw0IOfwqCHd2ZQiSwGqf8uPv2+8kxINVb3mqnOowHm28EordZDuM1d1bIx2wQnHnUcTpveWmntyZtwnQXVqiuJfvPlsFv7aULodLo=
+	t=1725316196; cv=none; b=Lhx8NoB9GMwNUKkZwzYTP19DF22v+9pFo4FxX6Dz4wrWCou8fTopTRksW77ScTGuSXrbZjjVX2AxDNOxJBcqtP+aW0PONPTWtIZiXUolqCHek9pJwSsXlPl//7Ow7E/5IpcdmanYqxX4AehIBvbKaXB4mIz4nevGEtbIpXu83tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725316135; c=relaxed/simple;
-	bh=bCouMPCfZo5pf56gbl+7wP0aa2XkCRIomN3pfQ0D6fw=;
+	s=arc-20240116; t=1725316196; c=relaxed/simple;
+	bh=6s0/uK8OpJ0JPPuTa8tnsMtjG6IVSRGiOMZJleFz5mc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t12E9WJU1J9BAdl/my3j4E9b4BnXVBQTy7csIWIkZobQjfJmN5363CYPt+0LyiTn0mXFxsxNwIoAwYCaHnAwROLOHWpZC8uys+wW0op1T2N9XftpV9sqZnS2IfatPEvrb1hAAzInkjizI1ng6QAI5PaisBijCaZ6HjulgMZReME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.84
+	 MIME-Version; b=fldaz7khFEbX7dci7lc8xdeY2a6LDEuoHh5FQ2CAc0DM6U2MGYUc3Ux8w64dH/cgJ43ADB8Av67ldltJQ4aptJL9e0wS5wcxwnpN/0NGIVb2Q4GArB9X13ULmmn1BmerR7IvXq7aouJsE5Ypq/bM8cUb8M/OqV+eL4vJ7ZAZofA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-25-87.elisa-laajakaista.fi [88.113.25.87])
 	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-	id b05ac0f2-697a-11ef-8e8a-005056bd6ce9;
-	Tue, 03 Sep 2024 01:28:33 +0300 (EEST)
+	id b0c0841e-697a-11ef-8e8a-005056bd6ce9;
+	Tue, 03 Sep 2024 01:28:34 +0300 (EEST)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	David Lechner <dlechner@baylibre.com>,
@@ -51,9 +51,9 @@ Cc: Jiri Kosina <jikos@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v1 07/22] iio: dac: ad5504: Get platform data via dev_get_platdata()
-Date: Tue,  3 Sep 2024 01:16:52 +0300
-Message-ID: <20240902222824.1145571-8-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 08/22] iio: dac: ad5791: Get platform data via dev_get_platdata()
+Date: Tue,  3 Sep 2024 01:16:53 +0300
+Message-ID: <20240902222824.1145571-9-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
 References: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
@@ -71,22 +71,22 @@ Access to platform data via dev_get_platdata() getter to make code cleaner.
 
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/iio/dac/ad5504.c | 2 +-
+ drivers/iio/dac/ad5791.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/dac/ad5504.c b/drivers/iio/dac/ad5504.c
-index e6c5be728bb2..305cd58cd257 100644
---- a/drivers/iio/dac/ad5504.c
-+++ b/drivers/iio/dac/ad5504.c
-@@ -270,7 +270,7 @@ static const struct iio_chan_spec ad5504_channels[] = {
+diff --git a/drivers/iio/dac/ad5791.c b/drivers/iio/dac/ad5791.c
+index 75b549827e15..553431bf0232 100644
+--- a/drivers/iio/dac/ad5791.c
++++ b/drivers/iio/dac/ad5791.c
+@@ -341,7 +341,7 @@ static const struct iio_info ad5791_info = {
  
- static int ad5504_probe(struct spi_device *spi)
+ static int ad5791_probe(struct spi_device *spi)
  {
--	struct ad5504_platform_data *pdata = spi->dev.platform_data;
-+	const struct ad5504_platform_data *pdata = dev_get_platdata(&spi->dev);
+-	struct ad5791_platform_data *pdata = spi->dev.platform_data;
++	const struct ad5791_platform_data *pdata = dev_get_platdata(&spi->dev);
  	struct iio_dev *indio_dev;
- 	struct ad5504_state *st;
- 	struct regulator *reg;
+ 	struct ad5791_state *st;
+ 	int ret, pos_voltage_uv = 0, neg_voltage_uv = 0;
 -- 
 2.46.0
 
