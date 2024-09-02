@@ -1,38 +1,38 @@
-Return-Path: <linux-input+bounces-6066-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6058-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FA0968F93
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 00:29:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9436968F81
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 00:28:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99E9C1C22A44
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 22:29:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AE43B21F03
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 22:28:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8327518755C;
-	Mon,  2 Sep 2024 22:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5362A18734F;
+	Mon,  2 Sep 2024 22:28:36 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
 Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4DE188930
-	for <linux-input@vger.kernel.org>; Mon,  2 Sep 2024 22:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E9F1A4E8A
+	for <linux-input@vger.kernel.org>; Mon,  2 Sep 2024 22:28:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725316138; cv=none; b=MEDwxRtL9a1qvEBj608pBIUkStXOlEVT8LvMaOT2a2qu7XZB1maCYZdCzVbKETXTdkjC56JPwqPcObLqc/yz+V/U+OuNP1jsUe70eIBww9h25KIei9j7cNE3BM1APH4jTeGtJGVBnuzdafJVOEL7j5b4P4Jx1LlZvEdAkUmN2TA=
+	t=1725316116; cv=none; b=EO6SV56j1hXceLtgvWpHqTbzNYxXhRaQX0kUWxFrDtxClcswGHXP6QAOn6muB+TGUXPGOqH2h0h4aqWtMXJDHBmddhTDUMCXi2COz13+DdkdUD/p2ephD0QlGuDhYylXJqVqxlIIjnWbS8ptGFag2E39b/Qrr6Creql2QznmpO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725316138; c=relaxed/simple;
-	bh=T/CgH+qXQHoXnPD9XO3eOWuwN2VpZYAO5w82WXns/1c=;
+	s=arc-20240116; t=1725316116; c=relaxed/simple;
+	bh=TJVJWUgFroHz4D1KAqxrh0hBNP9FzfldUPa3LBUsFjI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u0qT5+sB9VH6gEUXO/orWUO+etB8oEMFP6+jd2yWlYjRg+CNXuIl5Gfawm/zR7cgT5Nm9ZK8Q7HkvIFjpK0vdqnwOK5y6QiLtYrP+Vlche90mIhP1PmwjlX5wcMcRjsx/f6/0uK5uMXzbK9fkEKD1IdCI0/09/0kiHLTOyCz3jU=
+	 MIME-Version; b=E8JE/Gl9hUZ42TFHokXyulu/3UNspQsgqQ7qdKq65VZmQiwGaSpXIpzJOWv9LV52r8oWC4mWm2bt4+T7egnCmM/LD0BFZj8X7RgrIbzuxhDk6A+PT0Kp4nqjIoC6GcZjbPrKnrGP4HFyHq+ysHYQqMxRQjbvOdmiUhiVFcF4IK0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
 Received: from localhost (88-113-25-87.elisa-laajakaista.fi [88.113.25.87])
-	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-	id aee633f9-697a-11ef-abae-005056bdd08f;
-	Tue, 03 Sep 2024 01:28:31 +0300 (EEST)
+	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+	id af57ce29-697a-11ef-8ecb-005056bdf889;
+	Tue, 03 Sep 2024 01:28:32 +0300 (EEST)
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	David Lechner <dlechner@baylibre.com>,
@@ -51,9 +51,9 @@ Cc: Jiri Kosina <jikos@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v1 04/22] iio: adc: ad7887: Get platform data via dev_get_platdata()
-Date: Tue,  3 Sep 2024 01:16:49 +0300
-Message-ID: <20240902222824.1145571-5-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 05/22] iio: adc: ad7793: Get platform data via dev_get_platdata()
+Date: Tue,  3 Sep 2024 01:16:50 +0300
+Message-ID: <20240902222824.1145571-6-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
 References: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
@@ -71,22 +71,22 @@ Access to platform data via dev_get_platdata() getter to make code cleaner.
 
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/iio/adc/ad7887.c | 2 +-
+ drivers/iio/adc/ad7793.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/adc/ad7887.c b/drivers/iio/adc/ad7887.c
-index 6265ce7df703..b301da9b88b1 100644
---- a/drivers/iio/adc/ad7887.c
-+++ b/drivers/iio/adc/ad7887.c
-@@ -234,7 +234,7 @@ static void ad7887_reg_disable(void *data)
+diff --git a/drivers/iio/adc/ad7793.c b/drivers/iio/adc/ad7793.c
+index abebd519cafa..b86e89370e0d 100644
+--- a/drivers/iio/adc/ad7793.c
++++ b/drivers/iio/adc/ad7793.c
+@@ -770,7 +770,7 @@ static const struct ad7793_chip_info ad7793_chip_info_tbl[] = {
  
- static int ad7887_probe(struct spi_device *spi)
+ static int ad7793_probe(struct spi_device *spi)
  {
--	struct ad7887_platform_data *pdata = spi->dev.platform_data;
-+	const struct ad7887_platform_data *pdata = dev_get_platdata(&spi->dev);
- 	struct ad7887_state *st;
+-	const struct ad7793_platform_data *pdata = spi->dev.platform_data;
++	const struct ad7793_platform_data *pdata = dev_get_platdata(&spi->dev);
+ 	struct ad7793_state *st;
  	struct iio_dev *indio_dev;
- 	uint8_t mode;
+ 	int ret, vref_mv = 0;
 -- 
 2.46.0
 
