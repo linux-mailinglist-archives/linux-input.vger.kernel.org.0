@@ -1,215 +1,156 @@
-Return-Path: <linux-input+bounces-6049-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6050-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3729686B3
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 13:52:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE21968BBA
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 18:15:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B71531F21730
-	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 11:52:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0970E1F23609
+	for <lists+linux-input@lfdr.de>; Mon,  2 Sep 2024 16:15:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644E91D6DC3;
-	Mon,  2 Sep 2024 11:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D098D1A304F;
+	Mon,  2 Sep 2024 16:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4Etz+uz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmdtUR/s"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AE51D6C73;
-	Mon,  2 Sep 2024 11:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0711A2627;
+	Mon,  2 Sep 2024 16:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725277924; cv=none; b=VKRpdHPlJ2hZnqxTCUPwahlxr3zW/Otxs9I0tDDfoRBSK9JuQBFoZhzmCom7KZengJzsyLSW9s/Ci6ubvuWPMXirZQ+oXYuFbueDktytP6xBP2kSj/QQ0vVks4a3fo6xmw8zE1YaUB/K+llGdj/WFZEQ2tj9EqqfZngG4qK0vSs=
+	t=1725293699; cv=none; b=CrN/FX25dHSaZG/NOb3ZzDkizLBbfXQ18dnsrGCQjtfYM6fueL5Fwm4AJZSgWI+5C0hHn1MuNDnDZBUnMHPS95wiLcEUomlfPm9KKncJ7xxLT5xl5NBP8ExXaEDSGAIVAaWY4HjntnXUIgzdArls3kaL5AThD05SHKqdNmgVP9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725277924; c=relaxed/simple;
-	bh=ClG945cLDYt80cvq7MHU0MZy2pQK+a2zhTll8AQVeEM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L4uRq1CQ21g3oLqTRpkyjLdv+7sY3opBHpN3Ce7S1ib1L9MD4sHfqM9G6KvJR9to6kT9MzG1tJwa1IaO7OgsJezI99//N03fWAiQ88LIs1G5mgKg3elqMtbU70WM/ww983Af1qSlOzns52hWXnkl5jZWMxw3fsAb0HVfFTgSOXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4Etz+uz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3043BC4CEC6;
-	Mon,  2 Sep 2024 11:52:02 +0000 (UTC)
+	s=arc-20240116; t=1725293699; c=relaxed/simple;
+	bh=2YXvs+4h6EtwgTDIiHH+k7lx3bBCvlfhGPYD9djhnD0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CP3Ya+3QXzPDouXaFE8gv7k7+pR41um0joK35bEj3gyPAART9X+WRXouhqHWtxYs/WkMrw4a9ypG04MRx3DoR90unyqk7otHRHChS11xz8tqlT81DBQS7KFnDYMubPXcdKAT+yH6Qh7/xJx+QjyMID8Bkv70sqSHoF8yE+WbKPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmdtUR/s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE5EC4CEC2;
+	Mon,  2 Sep 2024 16:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725277923;
-	bh=ClG945cLDYt80cvq7MHU0MZy2pQK+a2zhTll8AQVeEM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E4Etz+uzb+RpZxNmqRFMSO/q14B1JYKHuWA/gxjKaoF6m2/upq7RLVVb6/hXOA40D
-	 RJAHzEQHq+4Hlhqkjeiu0IAuTPAOvEF5ozEETq0cAPS+loH4qHuEsSI4gweYF4vXAY
-	 QCu7d2Dm6rLBWKbwJbY+sV+zWQoqMSfW1lWHjgc8bILnVKwkjhAcinKB2ZZ+ibL5jL
-	 YKzpVKUoAh3TOR9el1itnPUlQwCR7blj5ZWTuaMSUBo3WrgjNtR1yLjP/0+inkynb3
-	 qw00QG5+gbGuMKbezWj7GstYA4g3OcTNXSuzF6g3ENPQFiH77tKaFN/YVsbTGG+XLp
-	 0bGpdoCJNhVKA==
-Date: Mon, 2 Sep 2024 13:52:00 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: touchscreen: ad7877: add bindings
-Message-ID: <h6vvttsj3bu2rrmpzr4sazyn6lylh3yfzins2y2vk3rjkz76az@xy2yraidasu2>
-References: <20240902082707.4325-1-antoniu.miclaus@analog.com>
- <20240902082707.4325-3-antoniu.miclaus@analog.com>
+	s=k20201202; t=1725293699;
+	bh=2YXvs+4h6EtwgTDIiHH+k7lx3bBCvlfhGPYD9djhnD0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=WmdtUR/sRt9/rVHTFsg3tdydOMs9g8cytn2zASvD9jPODXG+5JOY7usGel9zF2JTi
+	 623n5c12xkpGvF6S2Z/VdrkH+Gd3rEEb3kcO+f85ezNd4wqY7z7GOa/ZL8l8/oYeF+
+	 hPnEtWVizk6kdKLqVaWBbnkWIUV6ne2ec8+gZ5LLh449cYWyHQkhZC0pYeDV9nlh8+
+	 bKv2zCmc/Cb1SpeYpRcNT1LHez628sVPc/4ocYxubo4UW1l/ZIJTxFMsVDWhE7hJxu
+	 rrUgf1Q7uDtrDpzYyvJViuPrDCK1CZsOx822PArRbjtdYJbmiZaTG/4cJQuwMTrpO4
+	 PLJbXWK/IfonQ==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH HID 0/7] HID: bpf: add a new hook to control hid-generic
+Date: Tue, 03 Sep 2024 01:14:30 +0900
+Message-Id: <20240903-hid-bpf-hid-generic-v1-0-9511a565b2da@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240902082707.4325-3-antoniu.miclaus@analog.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGbk1WYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCyNL3YzMFN2kgjQwnZ6aB9SdrGtmaGpumWaaZGppYqoE1FlQlJqWWQE
+ 2NVrJw9NFKba2FgCCMG3zagAAAA==
+To: Jiri Kosina <jikos@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>, Vicki Pfau <vi@endrift.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725293696; l=4061;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=2YXvs+4h6EtwgTDIiHH+k7lx3bBCvlfhGPYD9djhnD0=;
+ b=m0iCZE1dHV9g7xwZtqTLCsu7pk2cVmrdyeFbjmCJtVCjK/kAT3HuOJA8z1AzYZAj2AajwbxRV
+ 1y3XyKrSD+UAkxR7DdC0smgCXARau1kShwLKgxc77dGNa7NyQnAe3oG
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Mon, Sep 02, 2024 at 11:24:33AM +0300, Antoniu Miclaus wrote:
-> Add device tree bindings for the ad7877 driver.
-> 
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> ---
-> changes in v2:
->  - add only the used properties from touchscreen.yaml
->  - add vendor properties.
->  - update dt example.
->  .../input/touchscreen/adi,ad7877.yaml         | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml b/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
-> new file mode 100644
-> index 000000000000..035e2d5bbcb8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/adi,ad7877.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/adi,ad7877.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices AD7877 Touch Screen Controller
-> +
-> +maintainers:
-> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> +
-> +description: |
-> +  Analog Devices Touch Screen Controller
-> +  https://www.analog.com/media/en/technical-documentation/data-sheets/AD7877.pdf
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,ad7877
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    description: AD7877 SPI bus clock frequency.
-> +    minimum: 10000
-> +    maximum: 20000000
-> +
-> +  adi,stopacq-polarity:
-> +    description: The polarity of the signal applied to the STOPACQ pin.
-> +                 0 = active low
-> +                 1 = active high
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    enum: [0, 1]
+This is a slight change from the fundamentals of HID-BPF.
+In theory, HID-BPF is abstract to the kernel itself, and makes
+only changes at the HID level (through report descriptors or
+events emitted to/from the device).
 
-I think I was already commenting on this for analog... If using numbers,
-why this is reversed from standard GPIO property? Or maybe this should
-be just string.
+However, we have seen a few use cases where HID-BPF might interact with
+the running kernel when the target device is already handled by a
+specific device.
 
-> +
-> +  adi,first-conv-delay:
-> +    description: Delay before the first conversion.
+For example, the XP-Pen/Huion/UC-Logic tablets are handled by
+hid-uclogic but this driver is also doing a report descriptor fixup
+without checking if the device has already been fixed by HID-BPF.
 
-No, use proper unit suffix.
+In the same way, another recent example[0] was when a cheap foot pedal is
+used and tricks iPhones and Windows machines by presenting itself as a
+known Apple wireless keyboard. The problem is that this fake keyboard is
+not presenting a compatible report descriptor and hid-core merges all
+device nodes together making libinput ignore the keyboard part for
+historical reasons.
 
-> +                 0 = 0.5us
-> +                 1 = 128us
-> +                 2 = 1ms
-> +                 3 = 8ms
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    enum: [0, 1, 2, 3]
-> +
-> +  adi,pen-down-acc-interval:
+Last, there has been a long standing request to allow to disable the
+input part of a given gamepad while SDL or Steam opens the device
+through hidraw.
 
-Use proper unit suffix.
+This series aims at tackling both of these problems:
+- first we had a new hook `hid_bpf_driver_probe` which allows the BPF
+  program to decide if the curently probed driver should be used or not
+- then this same hook can also change the ->driver_data of the struct
+  hid_device_id argument, and we teach hid-generic to use that field as
+  the connect mask.
 
-> +    description: Enable the ADC to repeatedly perform conversions.
-> +                  0 = covert once
-> +                  1 = every 0.5 ms
-> +                  2 = every 1 ms
-> +                  3 = every 8 ms
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    enum: [0, 1, 2, 3]
+Basically, it means that when we insert a BPF program to fix a device,
+we can force hid-generic to handle the device, and thus preventing
+any other kernel driver to tamper with our device. We can also
+selectively decide to export the hidraw or input nodes when using
+hid-generic.
 
-How is it supposed to work? These are optional but there are no
-defaults?
+In the SDL/Steam use case, this would means that the gaming application
+will load one BPF program per input device it wants to open through
+hidraw, that BPF program reassigns the input device to hid-generic and
+disables hid-input, then it can open the new hidraw node.
+Once that program terminates, the BPF program is removed (either
+automatically because no-one has the fd of the links open, or manually
+by SDL/Steam), and the normal driver rebinds to the HID device,
+restoring full input functionality.
 
-> +
-> +  adi,acquisition-time:
-> +    description:  Select acquisition times for the ADC.
-> +                  0 = 2us
-> +                  1 = 4us
-> +                  2 = 8us
-> +                  3 = 16us
+This branch is on top of the for-6.12/hidraw branch of hid.git, mainly
+because that branch saw some selftests/hid changes.
 
-Same problem
+[0] https://gitlab.freedesktop.org/libinput/libinput/-/issues/1014
 
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    enum: [0, 1, 2, 3]
-> +
-> +  adi,vref-delay-usecs:
-> +    description: Delay required for the SPI transfers depending on the VREF used.
-> +    $ref: /schemas/types.yaml#/definitions/uint16
-> +
-> +  touchscreen-average-samples:
-> +    enum: [1, 4, 8, 16]
-> +
-> +  touchscreen-x-plate-ohms: true
-> +  touchscreen-y-plate-ohms: true
-> +  touchscreen-min-x: true
-> +  touchscreen-min-y: true
-> +  touchscreen-max-x: true
-> +  touchscreen-max-y: true
-> +  touchscreen-max-pressure: true
-> +  touchscreen-min-pressure: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - touchscreen-average-samples
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      touchscreen@0 {
-> +        compatible = "adi,ad7877";
-> +        reg = <0>;
-> +        spi-max-frequency = <20000000>;
-> +        interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
-> +        interrupt-parent = <&gpio>;
-> +        touchscreen-average-samples = <16>;
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Benjamin Tissoires (7):
+      selftests/hid: add dependency on hid_common.h
+      selftests/hid: cleanup C tests by adding a common struct uhid_device
+      selftests/hid: allow to parametrize bus/vid/pid/rdesc on the test device
+      HID: bpf: allow BPF programs to force using hid-generic
+      selftests/hid: add test for assigning a given device to hid-generic
+      HID: bpf: Allow to control the connect mask of hid-generic from BPF
+      selftests/hid: add test to disable hid-input
 
-Make the example complete.
+ Documentation/hid/hid-bpf.rst                      |   2 +-
+ drivers/hid/bpf/hid_bpf_dispatch.c                 |  31 ++++
+ drivers/hid/bpf/hid_bpf_struct_ops.c               |   4 +
+ drivers/hid/hid-core.c                             |  18 +-
+ drivers/hid/hid-generic.c                          |   5 +-
+ include/linux/hid_bpf.h                            |  40 ++++
+ tools/testing/selftests/hid/Makefile               |   2 +-
+ tools/testing/selftests/hid/hid_bpf.c              | 205 ++++++++++++++++-----
+ tools/testing/selftests/hid/hid_common.h           | 112 +++++++----
+ tools/testing/selftests/hid/hidraw.c               |  36 +---
+ tools/testing/selftests/hid/progs/hid.c            |  31 ++++
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |   4 +
+ 12 files changed, 372 insertions(+), 118 deletions(-)
+---
+base-commit: 321f7798cfb8d834ae0ed0d467c8bf46804243f9
+change-id: 20240829-hid-bpf-hid-generic-61579f5b5945
 
 Best regards,
-Krzysztof
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
 
