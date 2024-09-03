@@ -1,139 +1,137 @@
-Return-Path: <linux-input+bounces-6111-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6112-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB9896AA3B
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 23:33:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C09996AA77
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 23:42:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 201D01F25D21
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 21:33:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54045282964
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 21:42:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 090CE18A6CB;
-	Tue,  3 Sep 2024 21:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0121922C7;
+	Tue,  3 Sep 2024 21:42:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LUVcQzTq"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EuvPBfsF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAAB1922D3;
-	Tue,  3 Sep 2024 21:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565551EC013;
+	Tue,  3 Sep 2024 21:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725399207; cv=none; b=ukUMVX5yP9VmvJ9hXv6hu8LHbuSUSt6feIt0p1nOzfyAGlvufKVvUEHc1IYLq6UnaCCB6PJyFvw4QoaT8kGimUe55ccS1HQ77z3dCMBvwtqKxhoPUY2t6KUN41gH10JA/qKadvaMsr6eKwY7jm6ekEMv8v9qF1OWVKmjo+tOzJI=
+	t=1725399735; cv=none; b=IivTvX59vAqG0QuLd1+7TuDKOInRgyWeURscSOmjKsm7B6cDlKCs6MGu9/MxaSBVVkFNB3k2/5aNihRYjUjkHZCKXnW+CHUnfONx1jjDv0Y1m/C3CQfjXamw/nv68BQcsGSIrqzZU+PpBBsYh3/zlqQTxCPYjNcKDiPEyzVotUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725399207; c=relaxed/simple;
-	bh=siROdXbi6QoNvp1nbq7OjP+/sFCOE+zKn39MtBEqcCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rb7TLYcNmk12S+i1yTgpjIe8p8vawkVDjx163JPTWKT0eR4YiVJT0yC154MEnkaF08sElLtWw2P2mo0uMLaJOpYHyz1oZa5aQ+8FmrwF2ZZ00e3+UVN1+Nc8nDTwg6ME6KuSxafqJIMIJIFOCVl+PEhMMs/YzrPIHIZdGkP1ct0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LUVcQzTq; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4570ec45fc8so19354431cf.3;
-        Tue, 03 Sep 2024 14:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725399205; x=1726004005; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=huMuxx+pTzI5Ed2sFfVpPNrmfrYqodc/tD1h5FMXjt4=;
-        b=LUVcQzTqbI/0BC+UShZ8HS9b4SOzi358crh+YMO7cbJKNrSGVXVK7uiN/nHvzvoFMb
-         d7gKuU+qOT0FHyXcV44t8UySVKdbOiAaqJJORDR44YXItHuvo/kcDxSIvQZyNh4TlzOT
-         204x7jd/LFGQN5Dp5xlwjX2zeaWP7XItmSI30U63tS7JA7C9qECV6R2udyyu7wtVOYz7
-         DIDeANm8vKgot2xwRLCKYGS7oZ5H6iscCpZ/G9lqnnJSlOMBhZJO7H8PQRCg7T2FPAu6
-         jEEMS18P9LZA4BEZ5mLkqE+XvSReOADW31x9InW6ftKYKwTSWJh+x/4zr8A5fvmwAjYR
-         wswA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725399205; x=1726004005;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=huMuxx+pTzI5Ed2sFfVpPNrmfrYqodc/tD1h5FMXjt4=;
-        b=pjtn9ey2L+A5PxkHCcgOzQ0e954GT47qPnRmZvP7urQswmQrMgBIVeSKu1Sus447co
-         vDRBW+9QheWRqKQ9heBA9niogK18qB2FQPAVz8znv2fyGlMtv9Uc/NHM9u2XTFWZ47Ko
-         d49xOYuZNLN0ZbJwA7Om/lZYowtFGDljJqhz8s6FPUd2uAwcMEAnD2rYgbAS0BRfG8uB
-         lzASBdQNhZIOgph913JbzK4IUNrYlUh1VHC3lswRkVsNOapWAAt8MF0aC8Ha+dYpa6SB
-         4qdy6jf4Pdy31Gi8fDneLlTLV92/+TctxhwlZVXe+eCqr+n+ZhGepvej5AT1Qw39P17i
-         z7og==
-X-Forwarded-Encrypted: i=1; AJvYcCWLZTSEnDviY0R+CD9uaTegpNG3xJCRJ0V8aORCVuKmGmkTQYhm/5aZeS1oVAYmr9Mp8rhYUrek+uqseA==@vger.kernel.org, AJvYcCWRFSFpjq8/bq7/zfGt3uKdan7bGB4dZPPtwq/hIBw4OCov1g6+pb3p0k9xLxCNKf5kcBnZJraYfk7zO7Ih@vger.kernel.org
-X-Gm-Message-State: AOJu0YziCHXdgz8LWulwdkNgs5qTsBVQXwNI2v2YBeFvIKE8VlCeOxjc
-	9YRGY8plEsispDpdqWXOKCz0jRLEY17fDPHc8/Ih6pycUl1GupSf
-X-Google-Smtp-Source: AGHT+IEZTGLAaGioDRreFw0HgRmPpymCve4FCUEmLnZ4OxenWVmxkLRToLtBOinXu4jUWil4YzFuTA==
-X-Received: by 2002:a05:622a:428b:b0:453:74cc:ce09 with SMTP id d75a77b69052e-457e2d27101mr61344411cf.8.1725399205142;
-        Tue, 03 Sep 2024 14:33:25 -0700 (PDT)
-Received: from localhost ([2607:fea8:52a3:d200::24da])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45682d9560fsm53679411cf.86.2024.09.03.14.33.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 14:33:24 -0700 (PDT)
-Date: Tue, 3 Sep 2024 17:33:23 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Marge Yang <marge.yang@tw.synaptics.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vincent Huang <Vincent.Huang@tw.synaptics.com>,
-	david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-	sam.tsai@synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4 - Supports to query DPM value.
-Message-ID: <ZteAo-bklYbs29Pq@radian>
-References: <20240805083636.1381205-1-marge.yang@tw.synaptics.com>
- <ZtdQW7nqAOEJDNBN@radian>
- <ZtdYJkU17y1iNsLG@google.com>
+	s=arc-20240116; t=1725399735; c=relaxed/simple;
+	bh=uoNkzLOA4+bEXXauGFDuvi535BjiyR9hC+LwDmtgCi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lksBI3+TzLExD2JcnuCMHgzE+YFJcZpl89qLN7oM2KPFkzy35EbXZxwpZccTLIS2MaNwKQxPm1PNwQoTPlE0cagqh7veV20GQIrzArI2wK4UQ5AqmlHXbGcR+ZMiWPy+7lvKtmtTRAoZbOqWRsZ+ibLhksDZC6jR4qtY5l54QGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EuvPBfsF; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483K9d8N001873;
+	Tue, 3 Sep 2024 21:41:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	i4kb4yVx+3sH1ZmXJNcJnqmzTK7YhWN2/t9HdImh6b0=; b=EuvPBfsFHXRwOXwL
+	qOi16J/OHKzUTy/gG+tMz4HUXwHK2KaaGSH/Pokkl9Mqe+XSWTnMknoPGnU4CSP2
+	dmlpbGjhY2gxbIDzBwk8yIx1k/8X9D6L6t00YqQ4UzP2JC3Ee2R7TqflVnO5whHR
+	6xBRAzu4tuQgGS/P008pSf6KcsP/6CUY2MwrmRkH9qeSRcNh9Cr0dA03LfeB1/wp
+	fcowbu0YUSQKz/eUq1P708Z2jmkr8/6WkUPNBQ0/VXdtZMbDNJDaYjoN5Jfu3gOL
+	oQE5DBRAyK18qfhGPMZG5VQNdEqwMAM93YcjXf743I6I5o0vzGdu+oT7+ecJ+oYW
+	p6P9Mg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41dxy226se-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Sep 2024 21:41:55 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 483LfspF010185
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 3 Sep 2024 21:41:54 GMT
+Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Sep 2024
+ 14:41:53 -0700
+Message-ID: <abc9713f-3230-4a5d-98fd-f1cb293bc26a@quicinc.com>
+Date: Tue, 3 Sep 2024 14:41:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZtdYJkU17y1iNsLG@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v26 22/33] ASoC: qcom: qdsp6: Add headphone jack for
+ offload connection status
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
+ <20240829194105.1504814-23-quic_wcheng@quicinc.com>
+ <39e1e90e-116c-4f13-b223-84e6991c8a32@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <39e1e90e-116c-4f13-b223-84e6991c8a32@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: GItmiVfHicGlp-DsAfCqnyYQEbqHxlPh
+X-Proofpoint-ORIG-GUID: GItmiVfHicGlp-DsAfCqnyYQEbqHxlPh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-03_09,2024-09-03_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=837 spamscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409030174
 
-On Tue, Sep 03, 2024 at 11:40:38AM -0700, Dmitry Torokhov wrote:
-> On Tue, Sep 03, 2024 at 02:07:23PM -0400, Richard Acayan wrote:
-> > > +	/* Use the Query DPM feature when the query register exists for resolution. */
-> > > +	item = rmi_get_register_desc_item(&f12->query_reg_desc, RMI_F12_QUERY_RESOLUTION);
-> > > +	if (item) {
-> > > +		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
-> > > +			RMI_F12_QUERY_RESOLUTION);
-> > > +		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-> > > +		ret = rmi_read(fn->rmi_dev, query_dpm_addr, buf);
-> > > +		if (ret < 0) {
-> > > +			dev_err(&fn->dev, "Failed to read DPM value: %d\n", ret);
-> > > +			return -ENODEV;
-> > > +		}
-> > > +		dpm_resolution = buf[0];
-> > > +
-> > > +		sensor->x_mm = sensor->max_x / dpm_resolution;
-> > > +		sensor->y_mm = sensor->max_y / dpm_resolution;
-> > > +	} else {
-> > > +		if (rmi_register_desc_has_subpacket(item, 3)) {
-> > 
-> > The item variable is NULL in this branch, as it was overwritten just
-> > before the if statement.
-> > 
-> > This patch causes a NULL pointer dereference:
-> 
-> Ugh, indeed. I guess the simplest way of fixing this would be:
-> 
-> diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
-> index fc2cc8e2b0ba..8246fe77114b 100644
-> --- a/drivers/input/rmi4/rmi_f12.c
-> +++ b/drivers/input/rmi4/rmi_f12.c
-> @@ -129,9 +129,8 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
->  	 * Use the Query DPM feature when the resolution query register
->  	 * exists.
->  	 */
-> -	item = rmi_get_register_desc_item(&f12->query_reg_desc,
-> -					  RMI_F12_QUERY_RESOLUTION);
-> -	if (item) {
-> +	if (rmi_get_register_desc_item(&f12->query_reg_desc,
-> +				       RMI_F12_QUERY_RESOLUTION)) {
->  		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
->  						RMI_F12_QUERY_RESOLUTION);
->  		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-> 
-> Could you please tell me if this works for you?
+Hi Pierre,
 
-Yeah, it fixes the bug.
+On 8/30/2024 2:27 AM, Pierre-Louis Bossart wrote:
+>
+>>  		/* Selects the latest USB headset plugged in for offloading */
+>> +		if (data->hs_jack && list_empty(&data->devices))
+>> +			snd_jack_report(data->hs_jack->jack, SND_JACK_USB);
+>> +
+> with the list_empty check, this looks like only the first connected
+> headset will be handled, not the last?
+
+Sorry, the comment is misplaced.  It should be meant to explain:
+
+/* Selects the latest USB headset plugged in for offloading */
+list_add_tail(&sdev->list, &data->devices);
+
+The above IF check is to say that we'll only notify the USB jack if there is an available USB audio device (capable of offloading) connected.  I guess it might make sense to notify the snd jack on every USB audio device connection.  Currently, it will notify on the first device identified (present) and the last device removed (not present).
+
+Thanks
+
+Wesley Cheng
+
+>>  		list_add_tail(&sdev->list, &data->devices);
+>>  	} else {
+>>  		list_del(&sdev->list);
+>> +
+>> +		if (data->hs_jack && list_empty(&data->devices))
+>> +			snd_jack_report(data->hs_jack->jack, 0);
+>>  	}
+>>  	mutex_unlock(&data->mutex);
+>>  
+>>  	return 0;
+>>  }
 
