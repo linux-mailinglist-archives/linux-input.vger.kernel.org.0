@@ -1,183 +1,126 @@
-Return-Path: <linux-input+bounces-6086-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6087-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3D79694E4
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 09:13:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F12969962
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 11:42:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE495B22BAC
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 07:13:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFD45B24CD9
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 09:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B17A6200102;
-	Tue,  3 Sep 2024 07:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75911A0BE1;
+	Tue,  3 Sep 2024 09:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cVNhGfIe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Au6xXDpf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8204A1D67A8;
-	Tue,  3 Sep 2024 07:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8FB1A0BD6
+	for <linux-input@vger.kernel.org>; Tue,  3 Sep 2024 09:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725347461; cv=none; b=q4rfBHsQ+jEObJaccG198/r6rvVOUQ2KzyJJihvkKCzb5J9EQbGxqkHMPUo7ELxE0BkkUFYZ7xEWtapKNgNtqRzNJwkx3LGvld0g1eX5/kqfqfTe+leMWPF9JuQifn2pNq4eGOCRXx1xhRDl02fzDJE3qkCwB8vqUe6k80XQQiQ=
+	t=1725356399; cv=none; b=oG2z3bN8xI3nE0HtYbEK9W+upZKXvEonbbrWkD/sYsKWLOk3yBTqFCr4LBj/f8nPNkSvtzySuHNO2/0dzPIAW4F+zPUKQarIybmM9SdMrW2CP2dvFQFrqBGcQURsnE9Lp0c7WSE/lY9nQTVxrlMtB+YETP9+r6/A1y5Answl4X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725347461; c=relaxed/simple;
-	bh=yp7QPjDqSp8ibLntSHK2Vl+iJPwEo+sNDOYISBqzaJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3c1Lk6hmXmPBlE7wHqHZs+FCqzSMCiy2XcRmtEpcf9166b93quJuX3hRzKCO7qMGksLKcV7LdHdhbqvVDh8lX3PxmGLhC4jDQmn1DjfE37oXOKMCBIyolTsuikKElsJFFe4yy/JThKUkaDen2rgpVrQXD6REMA16xGITErvjx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cVNhGfIe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9BD8C4CEC5;
-	Tue,  3 Sep 2024 07:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725347461;
-	bh=yp7QPjDqSp8ibLntSHK2Vl+iJPwEo+sNDOYISBqzaJ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cVNhGfIeG2Dd7I+YNwCLMkte9sxNLGwap9hB/6Q8hmYGMNyBPOmcTmw/tKAmJpx+Q
-	 qh81qimgaSINA+M3jj+luTzjeJOuD4+xuMayjgcCVZF/Wq3kitGKdeaHQe0KB4L1RS
-	 Z7tg25hJQPoLHSa1+aPJbqwhGd/8N9oOzMMs0i6+aMPgJxNVvrP5tkegCUOYeY9zoR
-	 qsrmmcwb9fxe90GfWn8l51lJn7n3b+FKOYL6W+7v+/nDGRvaYQlMd5tW9kbo7CCoaE
-	 Gof2RUmhaAUI0SxQb19TiH2NVH3L3jhjTQyTxMV8o7N/gVwNcg5iDcoLtoPRgMDVg8
-	 5he0KCoEQC7fQ==
-Date: Tue, 3 Sep 2024 09:10:57 +0200
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Subject: Re: [PATCH v1 14/22] iio: imu: st_lsm6dsx: Get platform data via
- dev_get_platdata()
-Message-ID: <Zta2gaV_8qintFts@lore-rh-laptop>
-References: <20240902222824.1145571-1-andy.shevchenko@gmail.com>
- <20240902222824.1145571-15-andy.shevchenko@gmail.com>
+	s=arc-20240116; t=1725356399; c=relaxed/simple;
+	bh=YmM/1Eehb6jsD664Sl2Rr0CIjdzwq6jIGR9orWtFBBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FZtwnZjJ6My+72n2QgdxcVRJLTBq6Qd5MtF6UNYQa1Cws7sT60T4WP0r7PQmWp6vJxkvwKTqYVigoMmD8PNFkITEI1++mIBHvMRAzr4u+t1LtmT1KA7qL0k8BZnZcWDv459eqP+xvbTx8YyM7NTFTmmKgdvluXYaYQI7fyzQUM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Au6xXDpf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725356397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=rPJ8JR2hsu2+h8AaCAr5yRN3QjhSF/kOuIBdMukfuug=;
+	b=Au6xXDpfDdZcsDmgJ1w3MqDvnKqOCoAy6WZkhVJOVH9cgXirJeTD59aNk84INqek034i1E
+	Z4+AivIud2m11d2LO9EmH6HFLPu00Cya485u9JzXj0Vketm6BIa+bXqw1nNr54czTJKwg9
+	dBbMgrd8oE24rbEdTlgKHjNqpYGCYpE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-eaIs8rhYN5aiGN1mku-A3Q-1; Tue, 03 Sep 2024 05:39:56 -0400
+X-MC-Unique: eaIs8rhYN5aiGN1mku-A3Q-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-42c7936e4ebso28161515e9.3
+        for <linux-input@vger.kernel.org>; Tue, 03 Sep 2024 02:39:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725356395; x=1725961195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rPJ8JR2hsu2+h8AaCAr5yRN3QjhSF/kOuIBdMukfuug=;
+        b=sGMf0oR8qTOhc2jxjpOjDYaKZTL1f9UWAHlZ9vKmbxYfsxRCeoTCedQmkPM0eEXNm6
+         5UYT81YvtunOHgZcN5LG6sKycZBt6hKuU1jEefkmxWY3yv4/sMDMaGopyRrGMi18V5Rg
+         2803jkJG1iZZbYjjV54J287So5ZsE6e74XHEUQ3WyieogH5yzBxDcWPrKWVBZopXYefa
+         L+gTUp8pFZioLOUR219Ne6lbbF3Yk4PIFwnOMHT+GmnKCk86Z+lMb13FFIExRnHueNYo
+         9BK/xH0393Ap/kDotfev5WwGvQpRS18TVSyMVVX85KBpEwcY3UC1RGHtLNOwI225EgDI
+         N/NA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhKGkWVIoPO+Xzs1Rm8Ipe3upC6/uVrYX+Mwf1Sh1NTW62CeEplgx9KZQObb6EVU/K1SNAuPyHV1LcdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGI37Cf9iNjARTSpHWanxjrvjfjHEQUaiHICFA0M+JnkUy8l+b
+	+BHgeroxSIAFW4RItNHtaTSNAlaIlZ5FZEMzi5WELQklsQYoxCFOueOUES3ZnxyjN9pos52s8BB
+	LA3h9lwCkC1bBLwNs7eihc43072XyBhbcNnpkYgg810QZo90PgDUcuM1Np5MYepTHCYDe
+X-Received: by 2002:a5d:4086:0:b0:368:7583:54c7 with SMTP id ffacd0b85a97d-374bce97f92mr6805204f8f.8.1725356394862;
+        Tue, 03 Sep 2024 02:39:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHopwsF2Or6X59KptCdtP9shvBUqKfSIOsOAprOTS/L+AM2LQoWh0DPR0/BX78uGFil1dVQkw==
+X-Received: by 2002:a5d:4086:0:b0:368:7583:54c7 with SMTP id ffacd0b85a97d-374bce97f92mr6805193f8f.8.1725356394362;
+        Tue, 03 Sep 2024 02:39:54 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:4ce1:e394:7ac0:6905])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6e33d60sm165511655e9.43.2024.09.03.02.39.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 02:39:53 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: remove unneeded file entry in INPUT section
+Date: Tue,  3 Sep 2024 11:39:48 +0200
+Message-ID: <20240903093948.122957-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b3D8ckyOT+sNuJnX"
-Content-Disposition: inline
-In-Reply-To: <20240902222824.1145571-15-andy.shevchenko@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
---b3D8ckyOT+sNuJnX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit b9401c658d2c ("MAINTAINERS: add gameport.h, serio.h and uinput.h to
+INPUT section") adds further header files in ./include/linux/ and
+./include/uapi/linux to the INPUT section, but the file
+./include/linux/uinput.h does not exist since commit a11bc476b987 ("Input:
+uinput - fold header into the driver proper") removed this header file
+in 2017.
 
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->=20
-> Access to platform data via dev_get_platdata() getter to make code cleane=
-r.
->=20
-> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> ---
->  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c b/drivers/iio/i=
-mu/st_lsm6dsx/st_lsm6dsx_core.c
-> index ed0267929725..3958b5e1a3f6 100644
-> --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
-> @@ -2132,14 +2132,11 @@ st_lsm6dsx_get_drdy_reg(struct st_lsm6dsx_hw *hw,
->  			const struct st_lsm6dsx_reg **drdy_reg)
->  {
->  	struct device *dev =3D hw->dev;
-> +	const struct st_sensors_platform_data *pdata =3D dev_get_platdata(dev);
+Fortunately, ./scripts/get_maintainer.pl --self-test=patterns complains
+about a broken reference. Remove the file entry referring to the
+non-existing header file in the INPUT section.
 
-nit: I guess you can move pdata pointer in the 'if' block, since it is just
-used there.
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-Regards,
-Lorenzo
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 87108b3fefaa..3b19921eb948 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11195,7 +11195,6 @@ F:	include/linux/input.h
+ F:	include/linux/input/
+ F:	include/linux/libps2.h
+ F:	include/linux/serio.h
+-F:	include/linux/uinput.h
+ F:	include/uapi/linux/gameport.h
+ F:	include/uapi/linux/input-event-codes.h
+ F:	include/uapi/linux/input.h
+-- 
+2.46.0
 
->  	int err =3D 0, drdy_pin;
-> =20
-> -	if (device_property_read_u32(dev, "st,drdy-int-pin", &drdy_pin) < 0) {
-> -		struct st_sensors_platform_data *pdata;
-> -
-> -		pdata =3D (struct st_sensors_platform_data *)dev->platform_data;
-> +	if (device_property_read_u32(dev, "st,drdy-int-pin", &drdy_pin) < 0)
->  		drdy_pin =3D pdata ? pdata->drdy_int_pin : 1;
-> -	}
-> =20
->  	switch (drdy_pin) {
->  	case 1:
-> @@ -2162,14 +2159,13 @@ st_lsm6dsx_get_drdy_reg(struct st_lsm6dsx_hw *hw,
->  static int st_lsm6dsx_init_shub(struct st_lsm6dsx_hw *hw)
->  {
->  	const struct st_lsm6dsx_shub_settings *hub_settings;
-> -	struct st_sensors_platform_data *pdata;
->  	struct device *dev =3D hw->dev;
-> +	const struct st_sensors_platform_data *pdata =3D dev_get_platdata(dev);
->  	unsigned int data;
->  	int err =3D 0;
-> =20
->  	hub_settings =3D &hw->settings->shub_settings;
-> =20
-> -	pdata =3D (struct st_sensors_platform_data *)dev->platform_data;
->  	if (device_property_read_bool(dev, "st,pullups") ||
->  	    (pdata && pdata->pullups)) {
->  		if (hub_settings->pullup_en.sec_page) {
-> @@ -2524,9 +2520,9 @@ static irqreturn_t st_lsm6dsx_sw_trigger_handler_th=
-read(int irq,
-> =20
->  static int st_lsm6dsx_irq_setup(struct st_lsm6dsx_hw *hw)
->  {
-> -	struct st_sensors_platform_data *pdata;
->  	const struct st_lsm6dsx_reg *reg;
->  	struct device *dev =3D hw->dev;
-> +	const struct st_sensors_platform_data *pdata =3D dev_get_platdata(dev);
->  	unsigned long irq_type;
->  	bool irq_active_low;
->  	int err;
-> @@ -2554,7 +2550,6 @@ static int st_lsm6dsx_irq_setup(struct st_lsm6dsx_h=
-w *hw)
->  	if (err < 0)
->  		return err;
-> =20
-> -	pdata =3D (struct st_sensors_platform_data *)dev->platform_data;
->  	if (device_property_read_bool(dev, "drive-open-drain") ||
->  	    (pdata && pdata->open_drain)) {
->  		reg =3D &hw->settings->irq_config.od;
-> @@ -2639,7 +2634,7 @@ static int st_lsm6dsx_init_regulators(struct device=
- *dev)
->  int st_lsm6dsx_probe(struct device *dev, int irq, int hw_id,
->  		     struct regmap *regmap)
->  {
-> -	struct st_sensors_platform_data *pdata =3D dev->platform_data;
-> +	const struct st_sensors_platform_data *pdata =3D dev_get_platdata(dev);
->  	const struct st_lsm6dsx_shub_settings *hub_settings;
->  	struct st_lsm6dsx_hw *hw;
->  	const char *name =3D NULL;
-> --=20
-> 2.46.0
->=20
-
---b3D8ckyOT+sNuJnX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCZta2fwAKCRA6cBh0uS2t
-rLPyAQCvquLs7JDnDvHnO/jvP81iVTbPM3O1eg0j63jsywclQwD7BBi5FVTic6H6
-L0gvyU9T0IGcdw1vF12cst9yKOtEwAI=
-=bFZX
------END PGP SIGNATURE-----
-
---b3D8ckyOT+sNuJnX--
 
