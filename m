@@ -1,146 +1,251 @@
-Return-Path: <linux-input+bounces-6114-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6115-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C297096AB46
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 00:06:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C00996ACB8
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 01:20:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CC781F21831
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 22:06:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2013128692B
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 23:20:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C93011DB525;
-	Tue,  3 Sep 2024 22:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3EB81D58B3;
+	Tue,  3 Sep 2024 23:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxNMOKSa"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cn0TfoFN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CB81DA609;
-	Tue,  3 Sep 2024 22:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA304126C07;
+	Tue,  3 Sep 2024 23:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725401022; cv=none; b=qFmUp+SfHS5h7oHvlrY0kWFfhJH+YjFy99DLNuj9Pk9jhi/KfdfMiUflpCRu1EnB70FZfwMDNgrvX1fqgUIB+yCNizIZqwtifA+/0fohPpsnHGEL2iaUv4MSYh7tvaoMwLTUr/gTVv8wKG+2XyzWlTko6WVXk/n6ebFisvzQgP8=
+	t=1725405628; cv=none; b=DBPgGr+b3lLMRZTLGsqwraq1XVnnCI/qWrMpisdUgkraw17RL3Uhjs05k4AQ8eTqxqeB1MIoe7+CN+lbDFA5lrUreaPbhpopSv9BOmlhmBL++h0S8H6cN/6X9Xpu8o3Dvl6XB3gHGirGtuqT4bkrCfRWE9W7I9oGlGdbGFDtK0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725401022; c=relaxed/simple;
-	bh=cz4p2ODJm/ytXkJBxY6JpLu+G71YhDCA60Y5nA7S0o0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCXyJcvvlUBXy8Nf3Fr4atNdi4BBIeXW136v12KQNgNm+7p1TYGEt5mv9T4h3sxORfvjsOLMnjzKj6HZfD2OfTJecOcTXaw0elom3PVZFW3kkQCokw6t6t1p3+ZuQHMRX6usR4OVg7AwripQbk1qmnDxDWRhZh6WLrggsDqjKZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MxNMOKSa; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7b8884631c4so2400642a12.2;
-        Tue, 03 Sep 2024 15:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725401020; x=1726005820; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DSaJhRoNakzGivzbT5n1z09XgYc1jmuejdmEvDZUXHc=;
-        b=MxNMOKSavYS5lnnsdaSHuetHOOOe/DNm5kciu739JAJgAqm0cxJceGj8yX0FU/Uqbv
-         AZREJYqmW3n7edMctlCwDejBW7aN7yQ0dNP3VmXx1bj2GnVCvVSFQYUsC+xnE0LH+Ezj
-         +AK688IuST2kwHiZ0qPxPo1wsajb/u+HLWQC8Q4pqnT4kfGlWA3fyNM2BSUtF2Hr1CF7
-         4gt1Zo22Bazdxz1ELjVBtE5LfOSCeoGvDZ7Pz5m8XT3Sw/7ZKa/o4HfGgEksI1aQX8XY
-         uqUC4+xF9fric5ijlLRenV9rG2tLcC+D4a+y8sLlOYR8dErarkgZUmluCvxx4wkb8YFQ
-         N1Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725401020; x=1726005820;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DSaJhRoNakzGivzbT5n1z09XgYc1jmuejdmEvDZUXHc=;
-        b=RvFd5cfLThafwjwHjtwdoCCTacnGLJwwKaKxQK0Qg656meONVGr5CiOfjlqZgHXWKK
-         dSPMU+3h8XOZH/7mD7GfJHmeII0S44KpfEJAWy1cYPuqnXH6YBJgSuYlP2t3ooFBn43m
-         ND6Wtrez6n0rgMk/3Vftek3U2p5qCX42/eOWsMIcYv/JPHPOYD8DhS96uBB5YND+PcKe
-         qY+i8xPt1CKrncXy1yXCUVCRkezx821SUbnk+//L6onQ/fA2VfzQS4t2S/zdCWz4I8m8
-         HAjXHdUFd5DkeE6rUv2wR1vptG5r5XKkjE/7WD4JowlqLZa2/ernPtRpZJJmtFHJ/yix
-         IoqA==
-X-Forwarded-Encrypted: i=1; AJvYcCX32cd2N8EYJbTmGjVXh6f2Jb5RWUeiv+xQZQqI78Kfl1CPLwg5LqP8oH4OtDKqQCJPSJB9HxIrKmQkvA6J@vger.kernel.org, AJvYcCXTBTove0d2YmRzGE8zzkj/ugJsTx8lCPNi//fO+ohYNhiUPxHlHLPc+m+l316mrLRRZiC5nIUJYefUrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKnNCassjavn97TqIY+kOvoGK9zVFp822SI+K36gnnFOGHebjg
-	+0MiIlmJH8NICUMcMRPpa19NArk9U9x3TPT+zLAFhC0imAV6bU51JtjJ7A==
-X-Google-Smtp-Source: AGHT+IG8eUc0WZDH2DCEUZhRvMBgSX3QFbN75OF5ZsnM7mc2YrLEshXEjhJeQM+16d+pQR1weipTrw==
-X-Received: by 2002:a05:6a21:e91:b0:1cc:cdb6:c10c with SMTP id adf61e73a8af0-1cecf757e4fmr16044272637.37.1725401019875;
-        Tue, 03 Sep 2024 15:03:39 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7177859a4d1sm348443b3a.177.2024.09.03.15.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 15:03:39 -0700 (PDT)
-Date: Tue, 3 Sep 2024 15:03:36 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Marge Yang <marge.yang@tw.synaptics.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vincent Huang <Vincent.Huang@tw.synaptics.com>,
-	david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-	sam.tsai@synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4 - Supports to query DPM value.
-Message-ID: <ZteHuMJFkqOk44WE@google.com>
-References: <20240805083636.1381205-1-marge.yang@tw.synaptics.com>
- <ZtdQW7nqAOEJDNBN@radian>
- <ZtdYJkU17y1iNsLG@google.com>
- <ZteAo-bklYbs29Pq@radian>
+	s=arc-20240116; t=1725405628; c=relaxed/simple;
+	bh=4Z3ozeviRatS93zCqmOEXUHdfvAfceFr0UYbAscwrBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=U/stG067i4RI6zk3wJW7hwiafvQyPptu5gSaCWkQHv6aiqc5YnL66s2YLdcTXAhOBkcIiyqJADAMeJMyR+1A17DYHUYrwpHP908sL2SHrMV3Cn4D5Oz+oh/PLBZhMA32Gmgclaf2MfBP8aFpu3jX39wYGdKOzS2U0yLHUxrbCoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cn0TfoFN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483LjZFX031912;
+	Tue, 3 Sep 2024 23:20:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	U+nwjH+5HRTBxo4oY6wX0HYfuZukdXAoqF0xzNCPEJ0=; b=Cn0TfoFNDyR0GlaP
+	c+sRtEBWfDZdscCKKt/PCtFGbxfY0LAjC1CPtxR+xsgOFiLipgnJ4/sIJl9bcOl6
+	VLv2ZasfZo5IZg4etHtcj7WIXN9cP3urlmBfroCD4Izl84aWAdsW3XfSTEzAjPGQ
+	M4np++5Ca0JZA0vCj43fcC83Uh1ileopxXFJis958eef5kjdcZuXX5D2fx1C2UpV
+	lQRzRoag/UtlOQ+oe4A1Rg7DT2NAMKvZY1jg8G3h2qjxDv18fAAc8+ZeEh3U89xt
+	7A2PdU2ls7gN4bYFZD1Jrx0VFcgY84FzLrUbwTyFX4L+quaAilKsrdQwdj/DUtZ6
+	FRb0Cg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt67132b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Sep 2024 23:20:06 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 483NK58d013896
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 3 Sep 2024 23:20:05 GMT
+Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Sep 2024
+ 16:20:04 -0700
+Message-ID: <c9908207-d208-405d-a58d-ab2872adb4f1@quicinc.com>
+Date: Tue, 3 Sep 2024 16:20:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZteAo-bklYbs29Pq@radian>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v26 24/33] ALSA: usb-audio: Introduce USB SND platform op
+ callbacks
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
+ <20240829194105.1504814-25-quic_wcheng@quicinc.com>
+ <63b679c8-48f1-4251-8b7e-d38b605e5089@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <63b679c8-48f1-4251-8b7e-d38b605e5089@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 6xtnjrseX5vOTfg5gQ6jv1TmZOBm_H-9
+X-Proofpoint-GUID: 6xtnjrseX5vOTfg5gQ6jv1TmZOBm_H-9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-03_11,2024-09-03_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409030186
 
-On Tue, Sep 03, 2024 at 05:33:23PM -0400, Richard Acayan wrote:
-> On Tue, Sep 03, 2024 at 11:40:38AM -0700, Dmitry Torokhov wrote:
-> > On Tue, Sep 03, 2024 at 02:07:23PM -0400, Richard Acayan wrote:
-> > > > +	/* Use the Query DPM feature when the query register exists for resolution. */
-> > > > +	item = rmi_get_register_desc_item(&f12->query_reg_desc, RMI_F12_QUERY_RESOLUTION);
-> > > > +	if (item) {
-> > > > +		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
-> > > > +			RMI_F12_QUERY_RESOLUTION);
-> > > > +		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-> > > > +		ret = rmi_read(fn->rmi_dev, query_dpm_addr, buf);
-> > > > +		if (ret < 0) {
-> > > > +			dev_err(&fn->dev, "Failed to read DPM value: %d\n", ret);
-> > > > +			return -ENODEV;
-> > > > +		}
-> > > > +		dpm_resolution = buf[0];
-> > > > +
-> > > > +		sensor->x_mm = sensor->max_x / dpm_resolution;
-> > > > +		sensor->y_mm = sensor->max_y / dpm_resolution;
-> > > > +	} else {
-> > > > +		if (rmi_register_desc_has_subpacket(item, 3)) {
-> > > 
-> > > The item variable is NULL in this branch, as it was overwritten just
-> > > before the if statement.
-> > > 
-> > > This patch causes a NULL pointer dereference:
-> > 
-> > Ugh, indeed. I guess the simplest way of fixing this would be:
-> > 
-> > diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
-> > index fc2cc8e2b0ba..8246fe77114b 100644
-> > --- a/drivers/input/rmi4/rmi_f12.c
-> > +++ b/drivers/input/rmi4/rmi_f12.c
-> > @@ -129,9 +129,8 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
-> >  	 * Use the Query DPM feature when the resolution query register
-> >  	 * exists.
-> >  	 */
-> > -	item = rmi_get_register_desc_item(&f12->query_reg_desc,
-> > -					  RMI_F12_QUERY_RESOLUTION);
-> > -	if (item) {
-> > +	if (rmi_get_register_desc_item(&f12->query_reg_desc,
-> > +				       RMI_F12_QUERY_RESOLUTION)) {
-> >  		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
-> >  						RMI_F12_QUERY_RESOLUTION);
-> >  		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-> > 
-> > Could you please tell me if this works for you?
-> 
-> Yeah, it fixes the bug.
+Hi Pierre,
 
-Great, thank you for reporting and testing!
+On 8/30/2024 2:38 AM, Pierre-Louis Bossart wrote:
+>
+> On 8/29/24 21:40, Wesley Cheng wrote:
+>> Allow for different platforms to be notified on USB SND connect/disconnect
+>> sequences.  This allows for platform USB SND modules to properly initialize
+>> and populate internal structures with references to the USB SND chip
+>> device.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>  sound/usb/card.c | 53 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>  sound/usb/card.h | 10 +++++++++
+>>  2 files changed, 63 insertions(+)
+>>
+>> diff --git a/sound/usb/card.c b/sound/usb/card.c
+>> index 1f9dfcd8f336..7f120aa006c0 100644
+>> --- a/sound/usb/card.c
+>> +++ b/sound/usb/card.c
+>> @@ -118,6 +118,42 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
+>>  static DEFINE_MUTEX(register_mutex);
+>>  static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
+>>  static struct usb_driver usb_audio_driver;
+>> +static struct snd_usb_platform_ops *platform_ops;
+>> +
+>> +/*
+>> + * Register platform specific operations that will be notified on events
+>> + * which occur in USB SND.  The platform driver can utilize this path to
+>> + * enable features, such as USB audio offloading, which allows for audio data
+>> + * to be queued by an audio DSP.
+>> + *
+>> + * Only one set of platform operations can be registered to USB SND.  The
+>> + * platform register operation is protected by the register_mutex.
+>> + */
+>> +int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
+>> +{
+>> +	guard(mutex)(&register_mutex);
+>> +	if (platform_ops)
+>> +		return -EEXIST;
+>> +
+>> +	platform_ops = ops;
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
+>> +
+>> +/*
+>> + * Unregisters the current set of platform operations.  This allows for
+> Unregister?
+Will fix.
+>> + * a new set to be registered if required.
+>> + *
+>> + * The platform unregister operation is protected by the register_mutex.
+>> + */
+>> +int snd_usb_unregister_platform_ops(void)
+>> +{
+>> +	guard(mutex)(&register_mutex);
+>> +	platform_ops = NULL;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
+>>  
+>>  /*
+>>   * Checks to see if requested audio profile, i.e sample rate, # of
+>> @@ -946,7 +982,11 @@ static int usb_audio_probe(struct usb_interface *intf,
+>>  	chip->num_interfaces++;
+>>  	usb_set_intfdata(intf, chip);
+>>  	atomic_dec(&chip->active);
+>> +
+>> +	if (platform_ops && platform_ops->connect_cb)
+>> +		platform_ops->connect_cb(chip);
+>>  	mutex_unlock(&register_mutex);
+>> +
+>>  	return 0;
+>>  
+>>   __error:
+>> @@ -983,6 +1023,9 @@ static void usb_audio_disconnect(struct usb_interface *intf)
+>>  	card = chip->card;
+>>  
+>>  	mutex_lock(&register_mutex);
+>> +	if (platform_ops && platform_ops->disconnect_cb)
+>> +		platform_ops->disconnect_cb(chip);
+>> +
+>>  	if (atomic_inc_return(&chip->shutdown) == 1) {
+>>  		struct snd_usb_stream *as;
+>>  		struct snd_usb_endpoint *ep;
+>> @@ -1130,6 +1173,11 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
+>>  		chip->system_suspend = chip->num_suspended_intf;
+>>  	}
+>>  
+>> +	mutex_lock(&register_mutex);
+>> +	if (platform_ops && platform_ops->suspend_cb)
+>> +		platform_ops->suspend_cb(intf, message);
+>> +	mutex_unlock(&register_mutex);
+>> +
+>>  	return 0;
+>>  }
+>>  
+>> @@ -1170,6 +1218,11 @@ static int usb_audio_resume(struct usb_interface *intf)
+>>  
+>>  	snd_usb_midi_v2_resume_all(chip);
+>>  
+>> +	mutex_lock(&register_mutex);
+>> +	if (platform_ops && platform_ops->resume_cb)
+>> +		platform_ops->resume_cb(intf);
+>> +	mutex_unlock(&register_mutex);
+>> +
+>>   out:
+>>  	if (chip->num_suspended_intf == chip->system_suspend) {
+>>  		snd_power_change_state(chip->card, SNDRV_CTL_POWER_D0);
+>> diff --git a/sound/usb/card.h b/sound/usb/card.h
+>> index 4f4f3f39b7fa..23d9e6fc69e7 100644
+>> --- a/sound/usb/card.h
+>> +++ b/sound/usb/card.h
+>> @@ -207,7 +207,17 @@ struct snd_usb_stream {
+>>  	struct list_head list;
+>>  };
+>>  
+>> +struct snd_usb_platform_ops {
+>> +	void (*connect_cb)(struct snd_usb_audio *chip);
+>> +	void (*disconnect_cb)(struct snd_usb_audio *chip);
+>> +	void (*suspend_cb)(struct usb_interface *intf, pm_message_t message);
+>> +	void (*resume_cb)(struct usb_interface *intf);
+>> +};
+>
+> You're using the same mutex to protect all four callbacks, so how would
+> things work if e.g. you disconnected a device during the resume operation?
 
--- 
-Dmitry
+We actually might be able to remove the mutex locks from the suspend and resume callbacks.  From looking at the USB core driver, whenever the USB interface is unbounded, it ensures that it is in an active/resumed state before the disconnect() is called:
+
+static int usb_unbind_interface(struct device *dev)
+{
+..
+    /* Autoresume for set_interface call below */
+    udev = interface_to_usbdev(intf);
+    error = usb_autoresume_device(udev);
+..
+
+    driver->disconnect(intf);
+
+So this will ensure that there won't be a condition where an interface disconnect routine could run in parallel to the interface's runtime resume or runtime suspend.
+
+Thanks
+
+Wesley Cheng
+
 
