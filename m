@@ -1,59 +1,80 @@
-Return-Path: <linux-input+bounces-6094-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6095-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EC596A191
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 17:06:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A18396A32C
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 17:47:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD4A61F2405B
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 15:05:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6CDA1C22DCD
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 15:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEE3716F8EF;
-	Tue,  3 Sep 2024 15:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0909B17A932;
+	Tue,  3 Sep 2024 15:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1cYRvRp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QESuzkL+"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98917155A47;
-	Tue,  3 Sep 2024 15:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66AA1E492;
+	Tue,  3 Sep 2024 15:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725375955; cv=none; b=CiW2s4qneM5Nwtq9N9auF31UlwP3uxW9oTaNXTDEY5Irto27/N/RUUmS8qfoOoKCPN6WRpQxYYU+bXTZZK34hTXCsGnRmobkhGLwRqcE+qLm49y3WtHKl4BRX/RwuoOQR+WVk38PWOqtbKWSh7eaBBvnsHxKPX6yokd5E0cfEH8=
+	t=1725378433; cv=none; b=nIXcPqnz9zLSJxWXM2IqZ+57JJ+IQWXIuBqGBBOtRBXmMFIfugNEA/GbDIGcsl5rniGciKRbVFdSFEVMyQf9igC21lpBsb4Gwx0KIDXd8PVc+Yzb/9EB0ecj+6f1IwAKAuao+8kUssQcrTfQ1TBnUjlkazbks4woK/tQ6tSN0dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725375955; c=relaxed/simple;
-	bh=w69MLEqK330Sk+wMCXQQYMy8arh6ynKRT7T/EqZwROw=;
+	s=arc-20240116; t=1725378433; c=relaxed/simple;
+	bh=5kUdSagbe/GJ8lJhvIzZg25K9C6/1izhcdvJhYWGWNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bbCcYlPqj23bJfHXgaFfAs4Wz2Emlb2d3rH2CFBLM4KNRH84IOGXmuGCvbnhCcl6bq6+jAR+OizJreL4S3T99Mc14uWMuK3+XA1Vq5uOWiDskuUgwJmvcHTweVxaYdHBcoOQBsrpH0/9PPeHAYZRgb0BPmx4Wc3qoC8ZeS951cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1cYRvRp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3BCC4CEC4;
-	Tue,  3 Sep 2024 15:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725375955;
-	bh=w69MLEqK330Sk+wMCXQQYMy8arh6ynKRT7T/EqZwROw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r1cYRvRpgtFrgX/tfT9F1ib/Uk00EuQtg2FgTPVFVY023ATgxXbEnEbROfGG+y+R2
-	 4xzyDlJQF9AUy2KWSYkOh6VFysf8Q5bxAmgJaxU6zv48ZHF19YgSOLJpDU/4SaFJwh
-	 LFO1vMuKHR72o8QBIZK5lt2tjWa+9oYU1SIp6Cfes5cd01Oz3nA5GS7D1m5QOCakro
-	 X/IKC5MQMaO3fEGfDqIK4+LH98A9aUZSxCy1Lpa7nzNykE+vmCSs/PjXaCNHeMVPGe
-	 Dio5Nv5Fv5L4baxhROdBx2zv8AQhSbevJGdkx53edBIFW79UKEUCW6XES9iJuYtsK0
-	 /5Z/hBS+jcNKA==
-Date: Tue, 3 Sep 2024 17:05:49 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Peter Hutterer <peter.hutterer@who-t.net>
-Cc: Jiri Kosina <jikos@kernel.org>, Vicki Pfau <vi@endrift.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH HID 4/7] HID: bpf: allow BPF programs to force using
- hid-generic
-Message-ID: <whzoigqsbgmhxhk7qws4o63l23a5ravmpqyro4kvajomypljgf@x5pakwey5wej>
-References: <20240903-hid-bpf-hid-generic-v1-0-9511a565b2da@kernel.org>
- <20240903-hid-bpf-hid-generic-v1-4-9511a565b2da@kernel.org>
- <20240903053656.GA968953@quokka>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BVYAK1AgKeDI7OF7WUU6SPJHGLC1vwZsmVmQUVqeftIjJ2HUioajwx5obIfD2LJUgxGRYRyYOkDFbKW1td0/RzJi0UCe/j5JkKnnE4Q4Gq9AksVA1YY5yhVL7opsfziT/ROALHpJJPSviqWanvB+rs41KI3RfiYpV7Z9YvfYQ4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QESuzkL+; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d8815ef6d2so2718890a91.0;
+        Tue, 03 Sep 2024 08:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725378432; x=1725983232; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B/FRmqd1fd5s4pr9pNoowMmPBZe4VgMiMQoqWg50Gtk=;
+        b=QESuzkL+AZyy1WUhh5RQYu5Fp4CDlQnE1Uxrlv7PycJQHKim0LE++3+AHI0EPmgnFN
+         b7Q3KtwoR06Vluqmim9NgFcqFPd8de62MPux1i8WeJ0XX+2/oJ0BrY0wak/Pj6EdAISv
+         UnPZiy672tsyu0m9Kwi9uvMxSB8SwkgbwLVOrfPrT09aORz2ZeBAY83czOxvpfl3rbHa
+         cLBA0IQh6KpI0QPLXS/9G8xOHFwT2T+7MCZnv3vhalrRKTbrOaiM+G3UWubf2ODxpyYS
+         5oLZRXwX13G8kH48dXy8+WaiAdZjvfpTZ/sZMjKjrHPE9XbYgOp7gYeJn4433V2BhCKE
+         fxBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725378432; x=1725983232;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B/FRmqd1fd5s4pr9pNoowMmPBZe4VgMiMQoqWg50Gtk=;
+        b=Ciw/scWauAFjrmNm9OtPN8eFXHjY9RI0LYdECDUToM+7YKYb7+eN6LNZGj+lLrolal
+         UM0IvRoqQeE96ij28TYEPLWDRFLRV/WWf1hJhoxIKj8glqZweK9p1UWE3II6ZK7xZrQ+
+         Iw7wtP+yOJNspnfuCwAg2AAkGQP31USb07l15TSlQiJEbBiXfescGOg5gLNQIQzQgE9g
+         2h5lvM6FcQWrMRhQ6zBQ+jYtrMaJ6icURVd4aLpjHWp8bSySe4w4JoHSQO8QY0eRBcSG
+         xGDqMa75g305Ne5a+9ZPH3QBRnHDO/zEXlgCHXyZCXBF2Cwqf0SQCe5Sd2cjFUBTlCGS
+         IurQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJELg3DKwqi/m9T1uaoAWYcmXYwlNuCcClzXtDGi7Z/ujcCf9fz9uxLDdC0VSOWnNaj7F4dOQex00lN3jDj78=@vger.kernel.org, AJvYcCWm46zAqGd98J0LNdcfACmhJnJa4eFNS+/rUkede7SSR1FKnOYp8/fxf2lsf4Bjr1nt7B+LMLf217pdrbvI@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNZQlCXjpOt/ayChswnPVqst1L4n4tIZnlAT2MZJryesC/cYp7
+	NImIz+60nYStzMiFkZr9GRmaOQEukQ2WlWgWtn4Jx4Iey2ATjj09VUey2w==
+X-Google-Smtp-Source: AGHT+IHIteDa49wYcvWfo7PiouXO3lBPb7jvb/m+6iuR+EVyA7oATaaDEX9vJPyBkY93nIIwiT22Xw==
+X-Received: by 2002:a17:90a:ec16:b0:2da:6812:c1bd with SMTP id 98e67ed59e1d1-2da6812c3e9mr2003869a91.15.1725378431451;
+        Tue, 03 Sep 2024 08:47:11 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:6a38:89e0:6dd:908b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8b69a61eesm5716092a91.43.2024.09.03.08.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 08:47:11 -0700 (PDT)
+Date: Tue, 3 Sep 2024 08:47:08 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: remove unneeded file entry in INPUT section
+Message-ID: <ZtcvfGanifeeUFZL@google.com>
+References: <20240903093948.122957-1-lukas.bulwahn@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,256 +83,26 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903053656.GA968953@quokka>
+In-Reply-To: <20240903093948.122957-1-lukas.bulwahn@redhat.com>
 
-On Sep 03 2024, Peter Hutterer wrote:
-> On Tue, Sep 03, 2024 at 01:14:34AM +0900, Benjamin Tissoires wrote:
-> > The use case is when we fix a device through HID-BPF, 99% of the cases
-> > we want the device to use hid-generic now instead of a dedicated device.
+On Tue, Sep 03, 2024 at 11:39:48AM +0200, Lukas Bulwahn wrote:
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 > 
-> s/dedicated device/dedicated driver/ in the commit message
+> Commit b9401c658d2c ("MAINTAINERS: add gameport.h, serio.h and uinput.h to
+> INPUT section") adds further header files in ./include/linux/ and
+> ./include/uapi/linux to the INPUT section, but the file
+> ./include/linux/uinput.h does not exist since commit a11bc476b987 ("Input:
+> uinput - fold header into the driver proper") removed this header file
+> in 2017.
 > 
-> > That's because the dedicated device might also want to change the report
-> > descriptor, or will be handling the device in a different way the new
-> > fixed device is using.
-> > 
-> > In hid-core, after matching for the device (so that we only call this new
-> > hook on compatible drivers), we call for `.hid_bpf_driver_probe`.
-> > The function can not communicate with the device because it is not yet
-> > started, but it can make educated guesses and decide to:
-> > - let hid-core decide by itself
-> > - force the use of this driver (by comparing the provided name with
-> >   "hid-generic" for instance)
-> > - force hid-core to ignore this driver for this device.
-> > 
-> > For API stability, we don't rely on a bitfield or a return value for
-> > chosing hid-core behavior. We simply have a couple of writeable fields
-> > in the new struct hid_bpf_driver, and then hid-core can make its educated
-> > decision.
-> > 
-> > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > ---
-> >  Documentation/hid/hid-bpf.rst        |  2 +-
-> >  drivers/hid/bpf/hid_bpf_dispatch.c   | 31 ++++++++++++++++++++++++++++
-> >  drivers/hid/bpf/hid_bpf_struct_ops.c |  3 +++
-> >  drivers/hid/hid-core.c               |  6 ++++++
-> >  include/linux/hid_bpf.h              | 40 ++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 81 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-bpf.rst
-> > index 5939eeafb361..05a43f11cdab 100644
-> > --- a/Documentation/hid/hid-bpf.rst
-> > +++ b/Documentation/hid/hid-bpf.rst
-> > @@ -190,7 +190,7 @@ User API data structures available in programs:
-> >  -----------------------------------------------
-> >  
-> >  .. kernel-doc:: include/linux/hid_bpf.h
-> > -   :identifiers: hid_bpf_ctx
-> > +   :identifiers: hid_bpf_ctx hid_bpf_driver
-> >  
-> >  Available API that can be used in all HID-BPF struct_ops programs:
-> >  ------------------------------------------------------------------
-> > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > index a272a086c950..2df136d64152 100644
-> > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > @@ -189,6 +189,37 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
-> >  }
-> >  EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-> >  
-> > +int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
-> > +			      const struct hid_device_id *id)
-> > +{
-> > +	struct hid_bpf_driver drv = { 0 };
-> > +	struct hid_bpf_ops *e;
-> > +	int idx;
->  +
-> > +	if (strscpy(drv.name, hdrv->name, sizeof(drv.name)) < 0)
-> > +		return 0;
-> > +
-> > +	idx = srcu_read_lock(&hdev->bpf.srcu);
-> > +	list_for_each_entry_srcu(e, &hdev->bpf.prog_list, list,
-> > +				 srcu_read_lock_held(&hdev->bpf.srcu)) {
-> > +		if (!e->hid_driver_probe)
-> > +			continue;
-> > +
-> > +		e->hid_driver_probe(hdev, &drv, id);
-> > +	}
-> > +
-> > +	srcu_read_unlock(&hdev->bpf.srcu, idx);
-> > +
-> > +	if (drv.force_driver)
-> > +		return 1;
-> > +
-> > +	if (drv.ignore_driver)
-> > +		return -1;
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(call_hid_bpf_driver_probe);
-> > +
-> >  static int device_match_id(struct device *dev, const void *id)
-> >  {
-> >  	struct hid_device *hdev = to_hid_device(dev);
-> > diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > index cd696c59ba0f..1e13a22f73a1 100644
-> > --- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > +++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-> > @@ -46,6 +46,7 @@ static int hid_bpf_ops_check_member(const struct btf_type *t,
-> >  	case offsetof(struct hid_bpf_ops, hid_rdesc_fixup):
-> >  	case offsetof(struct hid_bpf_ops, hid_hw_request):
-> >  	case offsetof(struct hid_bpf_ops, hid_hw_output_report):
-> > +	case offsetof(struct hid_bpf_ops, hid_driver_probe):
-> >  		break;
-> >  	default:
-> >  		if (prog->sleepable)
-> > @@ -79,6 +80,8 @@ static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
-> >  		WRITE_RANGE(hid_device, name, true),
-> >  		WRITE_RANGE(hid_device, uniq, true),
-> >  		WRITE_RANGE(hid_device, phys, true),
-> > +		WRITE_RANGE(hid_bpf_driver, force_driver, false),
-> > +		WRITE_RANGE(hid_bpf_driver, ignore_driver, false),
-> >  	};
-> >  #undef WRITE_RANGE
-> >  	const struct btf_type *state = NULL;
-> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > index 988d0acbdf04..7845f0a789ec 100644
-> > --- a/drivers/hid/hid-core.c
-> > +++ b/drivers/hid/hid-core.c
-> > @@ -2639,10 +2639,16 @@ static bool hid_check_device_match(struct hid_device *hdev,
-> >  				   struct hid_driver *hdrv,
-> >  				   const struct hid_device_id **id)
-> >  {
-> > +	int ret;
-> > +
-> >  	*id = hid_match_device(hdev, hdrv);
-> >  	if (!*id)
-> >  		return false;
-> >  
-> > +	ret = call_hid_bpf_driver_probe(hdev, hdrv, *id);
-> > +	if (ret)
-> > +		return ret > 0;
-> > +
-> >  	if (hdrv->match)
-> >  		return hdrv->match(hdev, hid_ignore_special_drivers);
-> >  
-> > diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-> > index d4d063cf63b5..20693c218857 100644
-> > --- a/include/linux/hid_bpf.h
-> > +++ b/include/linux/hid_bpf.h
-> > @@ -9,6 +9,7 @@
-> >  #include <uapi/linux/hid.h>
-> >  
-> >  struct hid_device;
-> > +struct hid_driver;
-> >  
-> >  /*
-> >   * The following is the user facing HID BPF API.
-> > @@ -80,6 +81,22 @@ struct hid_ops {
-> >  
-> >  extern struct hid_ops *hid_ops;
-> >  
-> > +/**
-> > + * struct hid_bpf_driver - User accessible data for the ``hid_bpf_probe``
-> > + * struct_ops
-> > + *
-> > + * @name: the name of the driver currently being treated
-> > + * @force_driver: set this to ``true`` to force hid-core to use this driver,
-> > + *		  bypassing any further decision made by this driver
-> > + * @ignore_driver: set this to ``true`` to force hid-core to ignore this driver,
-> > + *                bypassing any further decision made by this driver
-> 
-> If I set both to false or true, what happens? The two seem to be
+> Fortunately, ./scripts/get_maintainer.pl --self-test=patterns complains
+> about a broken reference. Remove the file entry referring to the
+> non-existing header file in the INPUT section.
 
-force_driver has priority over ignore_driver.
+TIL about get_maintainer.pl --self-test.
 
-> mutually exclusive, in userspace I'd use an enum here to have a
-> NOOP/FORCE_DRIVER/IGNORE_DRIVER value range (that can be extended later).
-> Maybe something like that is an option?
+Applied, thank you.
 
-enum also has the advantage to be exported in vmlinux.h.
-
-FWIW, the idea behind adding new fields in a struct was to get the
-backward compatibility for free. Because the verifier/relocator will see
-if we are using the correct field entries.
-
-OTOH, maybe we can make the function return the afformended enum, and
-drop those two fields.
-
-I think we should probably abort processing of any bpf sets the return
-value to anything else than NOOP.
-
-I'll work a little bit more on that.
-
-Cheers,
-Benjamin
-
-> 
-> > + */
-> > +struct hid_bpf_driver {
-> > +	__u8 name[64];
-> > +	bool force_driver;
-> > +	bool ignore_driver;
-> > +};
-> > +
-> >  /**
-> >   * struct hid_bpf_ops - A BPF struct_ops of callbacks allowing to attach HID-BPF
-> >   *			programs to a HID device
-> > @@ -178,6 +195,25 @@ struct hid_bpf_ops {
-> >  	 */
-> >  	int (*hid_hw_output_report)(struct hid_bpf_ctx *ctx, u64 source);
-> >  
-> > +	/**
-> > +	 * @hid_driver_probe: called before the kernel ``.probe()`` function
-> > +	 *
-> > +	 * It has the following arguments:
-> > +	 *
-> > +	 * ``hdev``: The HID device kernel representation
-> > +	 *
-> > +	 * ``hdrv``: A BPF partially writeable representation of a HID driver
-> > +	 *
-> > +	 * ``id``: The device match structure found in the driver
-> > +	 *
-> > +	 * Note that the device has not been started yet, and thus kfuncs like
-> > +	 * ``hid_hw_output_report`` will likely fail.
-> 
-> Just to confirm, I can access the device's report descriptor though? For
-> the devices that we're looking at (e.g. the foot pedals pretending to be
-> an apple keyboard) the driver name and what we can set in HID_BPF_CONFIG
-> are not going to be enough, we'll have to check the rdesc too.
-> 
-> Cheers,
->   Peter
-> 
-> > +	 *
-> > +	 * This function is useful to force/ignore a given supported HID driver,
-> > +	 * by writing ``true`` in ``hdrv->force_driver`` or ``hdrv->ignore_driver``
-> > +	 */
-> > +	void (*hid_driver_probe)(struct hid_device *hdev, struct hid_bpf_driver *hdrv,
-> > +				 const struct hid_device_id *id);
-> >  
-> >  	/* private: do not show up in the docs */
-> >  	struct hid_device *hdev;
-> > @@ -213,6 +249,8 @@ void hid_bpf_disconnect_device(struct hid_device *hdev);
-> >  void hid_bpf_destroy_device(struct hid_device *hid);
-> >  int hid_bpf_device_init(struct hid_device *hid);
-> >  u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size);
-> > +int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
-> > +			      const struct hid_device_id *id);
-> >  #else /* CONFIG_HID_BPF */
-> >  static inline u8 *dispatch_hid_bpf_device_event(struct hid_device *hid, enum hid_report_type type,
-> >  						u8 *data, u32 *size, int interrupt,
-> > @@ -228,6 +266,8 @@ static inline int hid_bpf_connect_device(struct hid_device *hdev) { return 0; }
-> >  static inline void hid_bpf_disconnect_device(struct hid_device *hdev) {}
-> >  static inline void hid_bpf_destroy_device(struct hid_device *hid) {}
-> >  static inline int hid_bpf_device_init(struct hid_device *hid) { return 0; }
-> > +static inline int call_hid_bpf_driver_probe(struct hid_device *hdev, struct hid_driver *hdrv,
-> > +					    const struct hid_device_id *id) { return 0; }
-> >  /*
-> >   * This specialized allocator has to be a macro for its allocations to be
-> >   * accounted separately (to have a separate alloc_tag). The typecast is
-> > 
-> > -- 
-> > 2.46.0
-> > 
+-- 
+Dmitry
 
