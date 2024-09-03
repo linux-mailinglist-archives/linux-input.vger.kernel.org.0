@@ -1,83 +1,83 @@
-Return-Path: <linux-input+bounces-6106-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6107-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAB596A6B3
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 20:40:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 035DD96A6E9
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 20:50:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09166B22B6F
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 18:40:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B61022828E2
+	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 18:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF8E31917E9;
-	Tue,  3 Sep 2024 18:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C143192B85;
+	Tue,  3 Sep 2024 18:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCVAeqyQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnpYIPNj"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FAE15574F;
-	Tue,  3 Sep 2024 18:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CED1925AB;
+	Tue,  3 Sep 2024 18:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725388843; cv=none; b=vBCZ6b0w9JGs09tPFawfxJBfE9TcNlYt8jeeEo/SeJxq2iJZqj81fcI2CV+iZaOaHTdNq76rX1sjiGFMaXX+rSPydF5F72pYgZCfodiZCmR1ws2jFWq3vkhVL7Kk8Kqe0cNyE3wqHBt/NIBnCcjgDRWBPciaRyKndeobLa3phBI=
+	t=1725389433; cv=none; b=UGr/SfKEo9bvO9n8di2qOLoHcz9HbpYtk3YUrZgOGsAobyc0KSLV290RoH/rct3D6VxY9Qq3rtvgjbgxgHLAnE3zP2Rxwfb+A9Z++GOfbmleE0Neqgj9JDHzsJQqmrHjfH8L2u/T4Nc/p/06TY17YLecWVAOhLmJn76EenghrWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725388843; c=relaxed/simple;
-	bh=O0ueIPA3TfCbFwkD/G6Tfz3Wi9LnRBhHUqC09xoX6ak=;
+	s=arc-20240116; t=1725389433; c=relaxed/simple;
+	bh=kSg1533I0r0PkbK2TEZPHjRsuMCYmQmvrMKSfsnHYpM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZCfW1EvRYIpmIoGZNjlk258w3uj/2W4C7oMR5hD/Ku/wjXli4N1VwOY5vFer8FQmNRtaBSZkLxRjBO71ZgghfUxauGpQo+99L+KbFaRxIvnFRbOHailmjUkKp7yoZoE/KBhxQrsT4EWEA2bJLFBhrV4dX3aY9T8BAv47q19Xpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCVAeqyQ; arc=none smtp.client-ip=209.85.216.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTefv8TKbeie/EjS2qsx+TunC9i3kciTPQH/Sg0eCl7OCFajtWt0Exigsr2qwBGvtHQ8sFdCzCFrA2JyYjoiDGVPIj5zcBQY3fdNjhhud23+9JZ2bbmd8YF0QpaK90wpGJgac8xT6Lxj7P0SAXjtI3vgiR/eBpAof37DdNuy/6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnpYIPNj; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2d8881850d9so2807283a91.3;
-        Tue, 03 Sep 2024 11:40:42 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2da4ea59658so1219373a91.0;
+        Tue, 03 Sep 2024 11:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725388841; x=1725993641; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725389431; x=1725994231; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6wjgG2ajpqw1hRzc/uMgFC+dB34lcDpuPyL3goEF6q0=;
-        b=kCVAeqyQTR3ah+zBa+skMQwu8L3nx5MQcuxw5RoXjrXkIRkBllRCvKOXOLw4TcJGGA
-         KXdETwPMlbVVncHfdXRtssqQDlEDdVj4qvlRkuGTCC1Sh+Jzbs2HbhC8HTAGvtzp1Orm
-         W/hri/ws84FOoi4iYG6Q8OOiCoI4wnkV1UWHGVWOMZhrpjXJ3LTgkQyDu8U9K8HHk+hA
-         /n1KHP+TtkzvbqU150tBOzNet1lIpwCMPq/3fM+qRcNG1VueQjFA60jdVvneJqfxP4qf
-         WkB9+4e44/vU60Mo1gsG+720n0X5gw1AlywnwHuADL3Oc3DTP4cFK6gAFVIW+e+HgkkA
-         VALw==
+        bh=bu4GQe3UiaUM0tGnHsfH7VdXeNCJgGZKmohYeo4w/J8=;
+        b=TnpYIPNj//0HBopWY0grKmGBZ3zGd8fnts+YcJMiNDNNmov/RAvhqzh1paYz5nroqk
+         fPkqT8zaXZyEAtNI9+jqk+5qwcWbqxFgQ7blOBaOxAuGhSHt1aemuLlKDgV954+yGnG/
+         f71JteaXrNQCyBVV1xEUNUkH3xlXry7zd228HILimOsOz0Hmg0KjxhkPe4g8I6ZdLqAt
+         RbFS6TNUN+C3uS0kASJa3ccBA76uVhhOPxfNV2ECnW5EsHhDxG6M8u4CmYG90norJ38f
+         KqJLGaggH9eVMFI+vebLjVn2LVRYk7SeoP3h0xj+PyrkyKihRFh7IiRofQrHDnmpddld
+         sc0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725388841; x=1725993641;
+        d=1e100.net; s=20230601; t=1725389431; x=1725994231;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6wjgG2ajpqw1hRzc/uMgFC+dB34lcDpuPyL3goEF6q0=;
-        b=cS4lGc17EOT0WUGCjB1HbsPBakS1leEQAU7E1luCq5pdRo/g7Vyvkb0JvnFQuUmbX/
-         JLOhI8AHwL91/k0XhIfyELPNOOIT7SLAQKvDzo8dHWsZDMfFYzD+ohiniZIOV12HZKfm
-         +INbV11l9XRFb/vGvshv2b43HMULQv+ncygkN+2dyLodUXjdUvoww6ty3WYwrrcLHSS7
-         8H6S+f9qJPeHT9/uzjU2X2mDyTwGd4JWkugKafIfR03EeN/eNFNCDUyUAVd0K5WsjL5y
-         4A/jZkLeyk6lBYX8e8iZpbnMjRJj99pMXgp7msrSlwHVw746AJpa7ZEqzjEyjpSs9XpF
-         Yp2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWuc5vweyEtkJqoCjmRaecrghPvF2Ne/C1UpL4dEqmZlGnle0WhVQ65i21x/mUFd1cZTtHcNWkMFyH3DQ==@vger.kernel.org, AJvYcCX9+jA12acMvAzAxcvhFpNQ9p9irP7CERBTl+cMTXaFbae8a5IZRT/qit9RksfWXIY+sufcAxno1FQLxHs0@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVijht9rZRuBNQS1SGZ/u02hGncT2sdr81xzAKO9cSiikg7/VM
-	KDeD0WFQn/U1YCIuXqSDuFLhW6x+yHMm1dZq1DPH7L2m04J3NSR9
-X-Google-Smtp-Source: AGHT+IHgSutBHeWXw3YJPZ+Yxrdbk7ePwFYldx07gliZ3r1PpfRrHRWr4ftgUOJEMVjexUm+jTrU9A==
-X-Received: by 2002:a17:90b:3b8f:b0:2d3:d95a:36dd with SMTP id 98e67ed59e1d1-2da62ccd76bmr3038201a91.8.1725388841154;
-        Tue, 03 Sep 2024 11:40:41 -0700 (PDT)
+        bh=bu4GQe3UiaUM0tGnHsfH7VdXeNCJgGZKmohYeo4w/J8=;
+        b=i26k8bXOboeYKlFri9fwHp5QZM9lGuqKDSwM+uaonzdfgT71p8ZDRS8yeFUHITR0kG
+         hHBqs+BWUZD+XEFWDGIWesXZyUud8lV5nygU9T7oQe8Jqu+G4K3M4T8XBtydFWD5qwyd
+         XZrSSHXz8S7MPczwlaegUrnMEbI0TudQUfE5UZNoLuKy4DO+VdVyCVnT1M+aOvjh6iyh
+         PY9zIRZFyg1h6RJQxZHpPa3fKzL8aJG6dmzqg921y+8rs5WsC9qZynnOQws/hSBPyC0S
+         MwUAds82BfuCacc330E+zUAYwoYR04EtwkY6TtBSvt1ZOEc+cGTmXDdL3WPa2yE9cRLN
+         rGuA==
+X-Forwarded-Encrypted: i=1; AJvYcCV37MM/neQuy6W49dk3GFYO2+bNW1+2D0hpJ9296hPgoJ0jlWS2YyJ3aCAZNIIrgZGxf/1Xk8khKjBwL4I=@vger.kernel.org, AJvYcCVF1pC/INIZk2I3INcgKZU4bjDgJYXWEf0V36ZI5P8DrweosgU+Yw02C7tEc2+cpgHBW7J3seEAG00n@vger.kernel.org, AJvYcCXe5nBx7/TsyC/gS7a7X3c8/yT5YlCJ6Ah7cM0/mMyluV1ZKy+fwUYzk0tKSE+5tbD95Bh4Hiub1cAWBwju@vger.kernel.org
+X-Gm-Message-State: AOJu0YytSB1bEYABCEoEHM2c+Xov0lNCXxXwnPiaIVM6GN6+BxWMMn62
+	BBDqSIsGZky/IpiXkMLvFq2SPIBXAcOrWV00i78/Z0SmS2ZZ+v+Q
+X-Google-Smtp-Source: AGHT+IH7i+s8ay2RYSBwbw0EFEWCvvj5h6jWEmYf/dWAvwbObT9pZF3N5UCpn3lN33Kc/lIg2ODlAA==
+X-Received: by 2002:a17:90a:f2d8:b0:2cf:cc0d:96cc with SMTP id 98e67ed59e1d1-2d88d6680b5mr13365416a91.9.1725389430525;
+        Tue, 03 Sep 2024 11:50:30 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8b966948asm5775776a91.17.2024.09.03.11.40.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2da7ba49b57sm734102a91.18.2024.09.03.11.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 11:40:40 -0700 (PDT)
-Date: Tue, 3 Sep 2024 11:40:38 -0700
+        Tue, 03 Sep 2024 11:50:30 -0700 (PDT)
+Date: Tue, 3 Sep 2024 11:50:27 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Marge Yang <marge.yang@tw.synaptics.com>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vincent Huang <Vincent.Huang@tw.synaptics.com>,
-	david.chiu@tw.synaptics.com, derek.cheng@tw.synaptics.com,
-	sam.tsai@synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4 - Supports to query DPM value.
-Message-ID: <ZtdYJkU17y1iNsLG@google.com>
-References: <20240805083636.1381205-1-marge.yang@tw.synaptics.com>
- <ZtdQW7nqAOEJDNBN@radian>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] input: touchscreen: ad7877: add dt support
+Message-ID: <Ztdac2BANNpShK2t@google.com>
+References: <20240902082707.4325-1-antoniu.miclaus@analog.com>
+ <20240902082707.4325-2-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -86,52 +86,82 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZtdQW7nqAOEJDNBN@radian>
+In-Reply-To: <20240902082707.4325-2-antoniu.miclaus@analog.com>
 
-On Tue, Sep 03, 2024 at 02:07:23PM -0400, Richard Acayan wrote:
-> > +	/* Use the Query DPM feature when the query register exists for resolution. */
-> > +	item = rmi_get_register_desc_item(&f12->query_reg_desc, RMI_F12_QUERY_RESOLUTION);
-> > +	if (item) {
-> > +		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
-> > +			RMI_F12_QUERY_RESOLUTION);
-> > +		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-> > +		ret = rmi_read(fn->rmi_dev, query_dpm_addr, buf);
-> > +		if (ret < 0) {
-> > +			dev_err(&fn->dev, "Failed to read DPM value: %d\n", ret);
-> > +			return -ENODEV;
-> > +		}
-> > +		dpm_resolution = buf[0];
-> > +
-> > +		sensor->x_mm = sensor->max_x / dpm_resolution;
-> > +		sensor->y_mm = sensor->max_y / dpm_resolution;
-> > +	} else {
-> > +		if (rmi_register_desc_has_subpacket(item, 3)) {
+Hi Antoniu,
+
+On Mon, Sep 02, 2024 at 11:24:32AM +0300, Antoniu Miclaus wrote:
+> Add devicetree support within the driver.
 > 
-> The item variable is NULL in this branch, as it was overwritten just
-> before the if statement.
+> Make the old platform data approach optional.
+
+Nobody is using it, so simply remove it.
+
 > 
-> This patch causes a NULL pointer dereference:
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+> new in v2.
+>  drivers/input/touchscreen/ad7877.c | 68 +++++++++++++++++++++++++++++-
+>  1 file changed, 66 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/ad7877.c b/drivers/input/touchscreen/ad7877.c
+> index 7886454a19c6..3fa38043b561 100644
+> --- a/drivers/input/touchscreen/ad7877.c
+> +++ b/drivers/input/touchscreen/ad7877.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/input.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/pm.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/spi/spi.h>
+>  #include <linux/spi/ad7877.h>
+> @@ -667,6 +668,68 @@ static void ad7877_setup_ts_def_msg(struct spi_device *spi, struct ad7877 *ts)
+>  	}
+>  }
+>  
+> +static struct ad7877_platform_data *ad7877_parse_props(struct device *dev)
+> +{
+> +	struct ad7877_platform_data *pdata;
+> +	u32 value, average;
+> +
+> +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+> +	if (!pdata)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	pdata->model = (uintptr_t)device_get_match_data(dev);
+> +
+> +	device_property_read_u8(dev, "adi,stopacq-polarity",
+> +				&pdata->stopacq_polarity);
+> +	device_property_read_u8(dev, "adi,first-conv-delay",
+> +				&pdata->first_conversion_delay);
+> +	device_property_read_u8(dev, "adi,pen-down-acc-interval",
+> +				&pdata->pen_down_acc_interval);
+> +	device_property_read_u8(dev, "adi,acquisition-time",
+> +				&pdata->acquisition_time);
+> +
+> +	device_property_read_u16(dev, "adi,vref-delay-usecs",
+> +				 &pdata->vref_delay_usecs);
+> +
+> +	device_property_read_u32(dev, "touchscreen-x-plate-ohms", &value);
+> +	pdata->x_plate_ohms = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-y-plate-ohms", &value);
+> +	pdata->y_plate_ohms = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-min-x", &value);
+> +	pdata->x_min = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-min-y", &value);
+> +	pdata->y_min = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-max-x", &value);
+> +	pdata->x_max = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-max-y", &value);
+> +	pdata->y_max = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-max-pressure", &value);
+> +	pdata->pressure_max = (u16)value;
+> +	device_property_read_u32(dev, "touchscreen-min-pressure", &value);
+> +	pdata->pressure_min = (u16)value;
 
-Ugh, indeed. I guess the simplest way of fixing this would be:
-
-diff --git a/drivers/input/rmi4/rmi_f12.c b/drivers/input/rmi4/rmi_f12.c
-index fc2cc8e2b0ba..8246fe77114b 100644
---- a/drivers/input/rmi4/rmi_f12.c
-+++ b/drivers/input/rmi4/rmi_f12.c
-@@ -129,9 +129,8 @@ static int rmi_f12_read_sensor_tuning(struct f12_data *f12)
- 	 * Use the Query DPM feature when the resolution query register
- 	 * exists.
- 	 */
--	item = rmi_get_register_desc_item(&f12->query_reg_desc,
--					  RMI_F12_QUERY_RESOLUTION);
--	if (item) {
-+	if (rmi_get_register_desc_item(&f12->query_reg_desc,
-+				       RMI_F12_QUERY_RESOLUTION)) {
- 		offset = rmi_register_desc_calc_reg_offset(&f12->query_reg_desc,
- 						RMI_F12_QUERY_RESOLUTION);
- 		query_dpm_addr = fn->fd.query_base_addr	+ offset;
-
-Could you please tell me if this works for you?
+Please use touchscreen_parse_properties() and also apply transformations
+via touchscreen_report_pos() instead of rolling your own logic.
 
 Thanks.
 
