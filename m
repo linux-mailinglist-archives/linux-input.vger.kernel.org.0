@@ -1,92 +1,108 @@
-Return-Path: <linux-input+bounces-6120-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6121-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773ED96AD21
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 01:56:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C36396AD69
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 02:37:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BD291C243AF
-	for <lists+linux-input@lfdr.de>; Tue,  3 Sep 2024 23:56:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14F02286A6C
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 00:37:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0491D7985;
-	Tue,  3 Sep 2024 23:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB347E1;
+	Wed,  4 Sep 2024 00:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j03uaLNi"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="uUMbtg4X";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YuTDvr3J"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479D4B647;
-	Tue,  3 Sep 2024 23:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AC7646
+	for <linux-input@vger.kernel.org>; Wed,  4 Sep 2024 00:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725407760; cv=none; b=dhxYKKqTBIBVyT+kkWHocF5NGWwZWJQeszIi04ZlOnoegG2ieC5M4hB7/OXxGClnyUxGDstCtfWntBZP3obxzqi6fE+RygYg1MmK10b3euocF/YSlFyMx4jDgc+wI0GHqzEBkdElkrBAA9YxEAL5X/l7Ownp+0xL78lPiw45CsE=
+	t=1725410228; cv=none; b=T0Xr+qAMHoUbHbcWCBzjG3porDqkaMDMS8NFD6YWGpG7sQj3X7rIWF/HzBVcrO4fIFA8tA7bfGeAWFKpjEJZ4m3mZIriHeefFxQy9704hDz6SUMgqi8MvdtTFYSGZGOpDhmBgVVbh/uGV+/dh+JzmN16NGwclPGXYbdfu1Oqt2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725407760; c=relaxed/simple;
-	bh=LSOwYuGCKvbFWo4iN2ovI4ZnBGmZF6NN5+HSYIkfa6c=;
+	s=arc-20240116; t=1725410228; c=relaxed/simple;
+	bh=+OgSMCWSZcTEyyni1j7zOjHjrtIh46PmJw5vb6R93IQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcK1n+CodWuUibA8v+gmGWHHJL2nwSUfFRZagOkHSeYW2IxXiFU+niJquBWkC+P5OOl6L9lkFuWeoD59fAAuoolss2LS6SPQ7IeLw4bOWDH1TICA4VYiCzfyv2FgzM64xsbNpJFHEvYZHS7yAUF5Y4UdIYFSFSmX/r4W+kkiDYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j03uaLNi; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d8a744aa9bso2260862a91.3;
-        Tue, 03 Sep 2024 16:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725407758; x=1726012558; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cFMiOs/yfweXq3uJON9KHqWX+3Y5SezGqg1af6CUqlg=;
-        b=j03uaLNihtNvPPbucbwH9S+Ruu2VCgsiS54hm6PAdMYFOik47PEw9Xdq8t7TohHCrJ
-         /9ZIVyjvVVonftTr/WKLya4A4ytLDCK1dWZwteZpzA9Oeqv5/w4utMGI27X2ClPkClCM
-         xSTDitBq2t9uSMJ8ufqILefbpUHkla6VXcXUoX1eCHmLJLQnDHkFjZ7JrHvhmzbvmn6O
-         DCKNerIUF++yWZB+HGVB7/10ZYQ4Qy7rsqkdJJ/6yiVQbQzHvk67o2U02T6IKFlrkSok
-         kDp38k8KcaHh54y+IOgX6F8ehWneQ4nh2J2Eb/Gcf5eT25loQStqRHESLxZwRn1Rkr0W
-         Qs5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725407758; x=1726012558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cFMiOs/yfweXq3uJON9KHqWX+3Y5SezGqg1af6CUqlg=;
-        b=rk0iiJ9t2UZ13tNbTWHQro/7/3sOcUB7A4ck5s7P1I7IoNsa5vdOcQouJnSa2Vhkaq
-         2qUhT83PosHU2V43diw5yGNYeT/bEebt5SKswlmgi+OuoTMXGlDwz6NuC3WAYMNP4ZnS
-         PpnqGnyvVYi6kD9ndW+oA1rHEMX2zl6giiUi062P5cadiJvBHwgJs4QfsYN11r5fX7ru
-         oaYM7i/BsCH1bJL61oBNxW7JX7JlSYuRmo5h/BLpjaxZgWVzd83knf0+t1xi1C7G53Ol
-         k2WobyUBZ6BLrE3jElViw5rPw1FJZe0OepiUMl7jyrAJ1sqNHZTbpiQChTdGpR2AzFWf
-         ReOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV8oDpm7ljJj+lTqFvCfw7o2gLNnwhbysZyj3EpKITwdx30AVPfj/n5PS/PmfhMwXRJMUsRuhp1@vger.kernel.org, AJvYcCXffZr0D6tlrDPIXrFQyEE1BCvHGWlLPgbBm7nDfJSab1I6NO3o4I7cXL0uABSlaFW5pwSxAH9/AwtrNQ==@vger.kernel.org, AJvYcCXj5tLVVuM/bm1zQuV7Jy3ZpP1iAOuL6dRcTQMj6KfmcpgdlQeMbuvno7QGijeimLHT3lWxwCR4UEg/go9PaPOm9wK26Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCKOUdGQ/xzqUiRMl2PhBVHI0RR+MX3ihuWSgWqADEgh8VoJoP
-	ZfF15rp+guYIhAkQhbO/FWa6NnE7vFqNRnsXAHSanfVAibeYI46v
-X-Google-Smtp-Source: AGHT+IFOE3cS1YC5tzzgZ3r3i9jiYZTer9F1jlK7UVk75TthuSEWg3rssXTq8VbDN1pkNJIVezZA2Q==
-X-Received: by 2002:a17:90b:101:b0:2c3:2557:3de8 with SMTP id 98e67ed59e1d1-2d8973a5a50mr10867409a91.33.1725407758168;
-        Tue, 03 Sep 2024 16:55:58 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d85b3b95e8sm12010806a91.54.2024.09.03.16.55.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 16:55:57 -0700 (PDT)
-Date: Tue, 3 Sep 2024 16:55:54 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Ike Panhc <ike.pan@canonical.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	Jonathan Denose <jdenose@chromium.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: ideapad-laptop: Stop calling
- i8042_command()
-Message-ID: <ZteiClP9jabjHFkG@google.com>
-References: <5c5120a7-4739-4d92-a5b8-9b9c60edc3b7@redhat.com>
- <ZroaE5Q6OdGe6ewz@mail.gmail.com>
- <80dc479e-33af-4d09-8177-7862c34a4882@redhat.com>
- <ZrpFSnCQ0T4_7zAB@google.com>
- <2d5be262-3bfd-4b66-bee4-97c89a9a4707@redhat.com>
- <Zrph94r8haR_nbj7@google.com>
- <ZsJZ7fKJtNTbXhi7@google.com>
- <ZsR0HdzglEH19dVH@mail.gmail.com>
- <ZsUNUh7IGeduDUNX@mail.gmail.com>
- <ZsV6-NRkJLJhHxiq@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CRtso+IyBcZzGAg92mTbDrLP3APwUnb33094hBQP3KgFhHkBx0ya8qnjzEUgQ2DwFs9AFksp1jAuziGJjaXrWLe6+i4YA7367JywqIMVMR5Y0xBHORCE1un5wAYRGPNbIk3J7xm4PqiTfzMKoBqJ7NiDa+rmO6Gr7C2cB5+ghEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=uUMbtg4X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YuTDvr3J; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5973D11401AB;
+	Tue,  3 Sep 2024 20:37:05 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 03 Sep 2024 20:37:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1725410225; x=1725496625; bh=2rgwUhNazR
+	6DdDiLmw+BaXmMVOVh0mA5sB7JSHpZPXA=; b=uUMbtg4X6FsGS2MusqlaKnaf4g
+	73Dk7vBwpknWoRymE/e+0iLHWuaA+V+Z4uYBGBybIxqHEDZ2mSxgpPTWRbI78xFt
+	RkDvks/BxgGJJvLH6R+u1PeVXGU5cLLy5COw3wG6qovvwm43S6L4k2LjggwUhYKG
+	HHllT+jzF/MiTPIp9djhfIVkGuKLJtva+s1U5FKSjc1Vn8PeLZNzsXG67vI+szp2
+	JDCBjQeEb93U925c/gXCdFUv0FdUUc4TDz99KfVXf23G8bDmBk76QCFLnCkbmcFe
+	rCRcgqLZ6Ar6luVqsQW8rfUQ25IdstFXA09LgcH81SnIjIKAW68JAHu4hiMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725410225; x=1725496625; bh=2rgwUhNazR6DdDiLmw+BaXmMVOVh
+	0mA5sB7JSHpZPXA=; b=YuTDvr3Jh8gjkibrWb1QAkNSaeio00qJD0jVBcVzAFNb
+	fUTxxPOpmbzxN2OoW8ArWzvD3Y1TIyt6pbdm9eNMNTgEPE1Ch/v1dSjk66S6flpF
+	AfcOlXlx6wGc76lSVAwe45mMMHlG9Q4d2KfAOnqVBzbepu9Rma3z37qKXYWOJAdk
+	b5XIVzCXVt/pUUHMbJsEHeQVmSqvyeLyv5yQycB0ruKfAIfqL0Pl7/5fmY9n3eft
+	iOrXyCEoDUmnt3iD0Ygo2S2FCUcuLFJIX5xxJm0atOqSnpNznoJecXjYugm+7sy2
+	Lr/ghka3DJuVB2zWpqSYV4EcZPIbfJd2ymbVjgcgoQ==
+X-ME-Sender: <xms:savXZq_FZKAg1O8ng45ma9-1uvgbFNfknfJajMMarZa0v5CFPmzYEQ>
+    <xme:savXZquBzRtX4_AJ_GWI6tpMvacIeuTcn-agn0zHabrVboNwpv-TwHla8yFX5wIl0
+    A_kWeZKleqcwgAxjD4>
+X-ME-Received: <xmr:savXZgAwBESsXmFGptcF_5Uhp0ZGJu9D383dvC4LFIckrb1xBVTw4qE2W5MqqM8yTmY0fMm-Osc3Hz_RuaU7FPSWPL2PgltXkcH9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehiedgfeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomheprfgvthgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvg
+    hrseifhhhoqdhtrdhnvghtqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudff
+    hfevheejffevgfeigfekhfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihh
+    ohdqthdrnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehkihhllhgvrhhtohhfuhesghhmrghilhdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsg
+    gvnhhjrghmihhnrdhtihhsshhoihhrvghssehrvgguhhgrthdrtghomhdprhgtphhtthho
+    pehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorh
+    hokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepphhinhhglhhinhhugiesghhm
+    rghilhdrtghomhdprhgtphhtthhopehtrghtshhunhhoshhukhgvrdhtohgsihhtrgesfi
+    grtghomhdrtghomhdprhgtphhtthhopehskhhomhhrrgesghhmrghilhdrtghomhdprhgt
+    phhtthhopehjohhshhhurgesjhhoshhhuhgrqdguihgtkhgvnhhsrdgtohhm
+X-ME-Proxy: <xmx:savXZifcyz1yVFzFQW0Y64ZzhG-y-jPeZAjDdvzuWSC48f468Nx1uQ>
+    <xmx:savXZvOKz3m7XPaTiHosPkp95YiNLHg5p9QlmA43pMfxPuXdJlTptA>
+    <xmx:savXZskXH6d8GgCswGdtKqf3L32XzIKfTyR4nUlXBmDu8nxWuBIFcA>
+    <xmx:savXZhtIhcVqpV6FTEbNZYUNQR_XmDRl1X62sYgqPOmbuFBgTQ7_FA>
+    <xmx:savXZgHASjMQBm-2I5L7aXlhiTtyOc4euAyjmDv1HI7fpQgKP9q8Vces>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 20:37:01 -0400 (EDT)
+Date: Wed, 4 Sep 2024 10:36:49 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: "Gerecke, Jason" <killertofu@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Ping Cheng <pinglinux@gmail.com>,
+	"Tobita, Tatsunosuke" <tatsunosuke.tobita@wacom.com>,
+	Erin Skomra <skomra@gmail.com>,
+	Joshua Dickens <Joshua@joshua-dickens.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [RFC PATCH] HID: wacom: Stop mangling tool IDs
+Message-ID: <20240904003649.GA1105191@quokka>
+References: <20240903182633.870892-1-jason.gerecke@wacom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -95,228 +111,40 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZsV6-NRkJLJhHxiq@google.com>
+In-Reply-To: <20240903182633.870892-1-jason.gerecke@wacom.com>
 
-On Tue, Aug 20, 2024 at 10:28:24PM -0700, Dmitry Torokhov wrote:
-> On Wed, Aug 21, 2024 at 12:40:34AM +0300, Maxim Mikityanskiy wrote:
-> > On Tue, 20 Aug 2024 at 13:46:53 +0300, Maxim Mikityanskiy wrote:
-> > > On Sun, 18 Aug 2024 at 13:30:37 -0700, Dmitry Torokhov wrote:
-> > > > 
-> > > > Maybe something like below can work?
-> > > 
-> > > Great patch, thank you, I'll test it and report the results. See some
-> > > minor comments below.
-> > > 
-> > > > 
-> > > > 
-> > > > platform/x86: ideapad-laptop: do not poke keyboard controller
-> > > > 
-> > > > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > 
-> > > > On Ideapad Z570 the driver tries to disable and reenable data coming
-> > > > from the touchpad by poking directly into 8042 keyboard controller.
-> > > > This may coincide with the controller resuming and leads to spews in
-> > > > dmesg and potentially other instabilities.
-> > > > 
-> > > > Instead of using i8042_command() to control the touchpad state create a
-> > > > input handler that serves as a filter and drop events coming from the
-> > > > touchpad when it is supposed to be off.
-> > > > 
-> > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > ---
-> > > >  drivers/platform/x86/ideapad-laptop.c |  171 ++++++++++++++++++++++++++++++++-
-> > > >  1 file changed, 168 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> > > > index fcf13d88fd6e..2f40feefd5e3 100644
-> > > > --- a/drivers/platform/x86/ideapad-laptop.c
-> > > > +++ b/drivers/platform/x86/ideapad-laptop.c
-> > > > @@ -17,7 +17,6 @@
-> > > >  #include <linux/device.h>
-> > > >  #include <linux/dmi.h>
-> > > >  #include <linux/fb.h>
-> > > > -#include <linux/i8042.h>
-> > > >  #include <linux/init.h>
-> > > >  #include <linux/input.h>
-> > > >  #include <linux/input/sparse-keymap.h>
-> > > > @@ -157,6 +156,13 @@ struct ideapad_private {
-> > > >  		struct led_classdev led;
-> > > >  		unsigned int last_brightness;
-> > > >  	} fn_lock;
-> > > > +	struct {
-> > > > +		bool initialized;
-> > > > +		bool active;
-> > > > +		struct input_handler handler;
-> > > > +		struct input_dev *tp_dev;
-> > > > +		spinlock_t lock;
-> > > > +	} tp_switch;
-> > > >  };
-> > > >  
-> > > >  static bool no_bt_rfkill;
-> > > > @@ -1236,6 +1242,158 @@ static void ideapad_check_special_buttons(struct ideapad_private *priv)
-> > > >  	}
-> > > >  }
-> > > >  
-> > > > +struct ideapad_tpswitch_handle {
-> > > > +	struct input_handle handle;
-> > > > +	struct ideapad_private *priv;
-> > > > +};
-> > > > +
-> > > > +#define to_tpswitch_handle(h) \
-> > > > +	container_of(h, struct ideapad_tpswitch_handle, handle);
-> > > > +
-> > > > +static int ideapad_tpswitch_connect(struct input_handler *handler,
-> > > > +				    struct input_dev *dev,
-> > > > +				    const struct input_device_id *id)
-> > > > +{
-> > > > +	struct ideapad_private *priv =
-> > > > +		container_of(handler, struct ideapad_private, tp_switch.handler);
-> > > > +	struct ideapad_tpswitch_handle *h;
-> > > > +	int error;
-> > > > +
-> > > > +	h = kzalloc(sizeof(*h), GFP_KERNEL);
-> > > > +	if (!h)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	h->priv = priv;
-> > > > +	h->handle.dev = dev;
-> > > > +	h->handle.handler = handler;
-> > > > +	h->handle.name = "ideapad-tpswitch";
-> > > > +
-> > > > +	error = input_register_handle(&h->handle);
-> > > > +	if (error)
-> > > > +		goto err_free_handle;
-> > > > +
-> > > > +	/*
-> > > > +	 * FIXME: ideally we do not want to open the input device here
-> > > > +	 * if there are no other users. We need a notion of "observer"
-> > > > +	 * handlers in the input core.
-> > > > +	 */
-> > > > +	error = input_open_device(&h->handle);
-> > > > +	if (error)
-> > > > +		goto err_unregister_handle;
-> > > > +
-> > > > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> > > > +		priv->tp_switch.tp_dev = dev;
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > + err_unregister_handle:
-> > > > +	input_unregister_handle(&h->handle);
-> > > > +err_free_handle:
-> > > > +	kfree(h);
-> > > > +	return error;
-> > > > +}
-> > > > +
-> > > > +static void ideapad_tpswitch_disconnect(struct input_handle *handle)
-> > > > +{
-> > > > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > > > +	struct ideapad_private *priv = h->priv;
-> > > > +
-> > > > +	scoped_guard(spinlock_irq, &priv->tp_switch.lock)
-> > > 
-> > > Nice syntax, I didn't know about it before.
-> > > 
-> > > > +		priv->tp_switch.tp_dev = NULL;
-> > > > +
-> > > > +	input_close_device(handle);
-> > > > +	input_unregister_handle(handle);
-> > > > +	kfree(h);
-> > > > +}
-> > > > +
-> > > > +static bool ideapad_tpswitch_filter(struct input_handle *handle,
-> > > > +				    unsigned int type, unsigned int code,
-> > > > +				    int value)
-> > > > +{
-> > > > +	struct ideapad_tpswitch_handle *h = to_tpswitch_handle(handle);
-> > > > +	struct ideapad_private *priv = h->priv;
-> > > > +
-> > > > +	if (!priv->tp_switch.active)
-> > > 
-> > > This check seems inverted. ideapad_tpswitch_toggle assigns true when the
-> > > touchpad is enabled.
-> > 
-> > I tested the patch on Z570 (with this check inverted), and it seems to
-> > work great.
-> > 
-> > Also tested what happens on resume from suspend: the laptop reenables
-> > the touchpad (the LED turns off on suspend and blinks briefly on
-> > resume), and the driver handles it properly.
+On Tue, Sep 03, 2024 at 11:26:33AM -0700, Gerecke, Jason wrote:
+> From: Jason Gerecke <jason.gerecke@wacom.com>
 > 
-> Great, thank you! Give me a couple of days and I think I will implement
-> observer/passive handler support and we can figure out how to merge
-> this...
+> In ancient times, an off-by-one-nybble error resulted in the Wacom
+> driver sending "mangled" tool IDs to userspace. This mangling behavior
+> was later enshrined into a function so that devices using the then-new
+> generic codepath could share the same broken behavior. The mangled IDs
+> have not historically been a major problem for userspace since few
+> applications care about the exact numeric value of the IDs. As long as
+> the IDs were unique it didn't much matter. Some programs (cross-
+> platform and remote-desktop applications in particular) /do/ rely on
+> the IDs being correct, however.
+> 
+> This patch rids the driver of the mangling behavior.
+> 
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> References: 493630b20389 ("Input: wacom - fix serial number handling on Cintiq 21UX2")
+> References: 82527da319ee ("HID: wacom: Read and internally use corrected Intuos tool IDs")
+> ---
+> I'd like to get the opinion of the kernel maintainers on making a
+> change like this at some point in the future. There are _very_ few
+> userspace uses of these IDs (primarily: drivers, compositors, and
+> tablet control panels) and my plan is to update those bits and then
+> give some time for the changes to roll out to users before re-
+> submitting this for real. I don't expect any kind of breakage since
+> we'll be taking our time with the rollout and userspace needs to
+> have handling for "unknown" IDs anyway (since Wacom periodically
+> releases new pens).
 
-OK, so if you could try the patch below that would be great.
-Don't forget to set ".passive_observer = 1" in the ideapad handler.
+Just to show my support :)
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-Thanks!
-
--- 
-Dmitry
-
-
-Input: introduce notion of passive observers for input handlers
-
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/input.c |    7 +++++++
- include/linux/input.h |    5 +++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 54c57b267b25..60a9445d78d5 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -605,6 +605,9 @@ int input_open_device(struct input_handle *handle)
- 
- 	handle->open++;
- 
-+	if (handle->handler->passive_observer)
-+		goto out;
-+
- 	if (dev->users++ || dev->inhibited) {
- 		/*
- 		 * Device is already opened and/or inhibited,
-@@ -668,6 +671,9 @@ void input_close_device(struct input_handle *handle)
- 
- 	__input_release_device(handle);
- 
-+	if (handle->handler->passive_observer)
-+		goto out;
-+
- 	if (!--dev->users && !dev->inhibited) {
- 		if (dev->poller)
- 			input_dev_poller_stop(dev->poller);
-@@ -684,6 +690,7 @@ void input_close_device(struct input_handle *handle)
- 		synchronize_rcu();
- 	}
- 
-+out:
- 	mutex_unlock(&dev->mutex);
- }
- EXPORT_SYMBOL(input_close_device);
-diff --git a/include/linux/input.h b/include/linux/input.h
-index 89a0be6ee0e2..6437c35f0796 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -286,6 +286,10 @@ struct input_handle;
-  * @start: starts handler for given handle. This function is called by
-  *	input core right after connect() method and also when a process
-  *	that "grabbed" a device releases it
-+ * @passive_observer: set to %true by drivers only interested in observing
-+ *	data stream from devices if there are other users present. Such
-+ *	drivers will not result in starting underlying hardware device
-+ *	when input_open_device() is called for their handles
-  * @legacy_minors: set to %true by drivers using legacy minor ranges
-  * @minor: beginning of range of 32 legacy minors for devices this driver
-  *	can provide
-@@ -321,6 +325,7 @@ struct input_handler {
- 	void (*disconnect)(struct input_handle *handle);
- 	void (*start)(struct input_handle *handle);
- 
-+	bool passive_observer;
- 	bool legacy_minors;
- 	int minor;
- 	const char *name;
+Cheers,
+  Peter
 
