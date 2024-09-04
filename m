@@ -1,74 +1,74 @@
-Return-Path: <linux-input+bounces-6186-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6187-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AAA96C699
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 20:42:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ACE96C6A5
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 20:46:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 309CC1C220B9
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 18:42:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 880471F269F8
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 18:46:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0856B1E4117;
-	Wed,  4 Sep 2024 18:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1001E2006;
+	Wed,  4 Sep 2024 18:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsQ6RV4a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="foZLVm0i"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D235A1E203C;
-	Wed,  4 Sep 2024 18:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D870D41C6D;
+	Wed,  4 Sep 2024 18:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725475297; cv=none; b=GrqHgL3zA881wj5WT7h2MiwV7LRJeyXCcwq2tMgRXuMDmQ7PJhsKawMBmNAxHOxXt1HBN/IgrGWmMTwRkCNYDGK59pol2cJndM7xvfAiWKocPhzvFHMO4diau3OtrechgZcIxO1XWZrMnecMTRRu1HwWdFb9UbTH8VZBMzNKItQ=
+	t=1725475566; cv=none; b=qQgq52CB0h2SYkOAX8VnPCOOTQ2hNtxcJerImIkdxLbe6fFuLGbaIjCG9b4EHTDlS0kSm+kseUg1LmZOOREF8vyem/mR7xyb+8Q2TNfxAziClBxkUaZAVVCqJEenR3keZxEvZCHi9A0fKM2Qq58BXIsjo89DMYWvQhpm3bBPk70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725475297; c=relaxed/simple;
-	bh=A3ro/nfnjAl4s81sSOoMnUR+2g5Ubu7GFMcfa1xCd/k=;
+	s=arc-20240116; t=1725475566; c=relaxed/simple;
+	bh=Dk80cgHfgvhtG3hlWMq5Sd83w3a6ykovSRge1QbM7I0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uYrRtQ26KMWD0oGdsANHVkYvD6tIUGAeNn33U2bdE6ZPrdGdOejNWw0tPPd94cD0K7Oin7dJgqgGEYG1OCPhTrxsOI4xwK9adBi2VJ6NBKT2Xf6xJIzVxSVvMiLEHIc7NqCPaImQhBNlZy0bYTjJgPhRCoIZjnifeHe4ZosFo1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsQ6RV4a; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:Content-Type; b=c5+rTVuk/5UdImd/hX6FP7hDpCnPBccpekXjWxUPKM1MfzNudcBk7aMN/cURpdzNbwpx/y7p1H7U3Qw0ODQAVY9nVd4FuaOTecRya1sm+KzvQqod2SYYO7Bmvdz0pFAUlyIQt+ymyplMUnIK3QHiitawxz6aC5O31gseyFYGsfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=foZLVm0i; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8695cc91c8so728703066b.3;
-        Wed, 04 Sep 2024 11:41:34 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a869f6ce2b9so762873866b.2;
+        Wed, 04 Sep 2024 11:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725475293; x=1726080093; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725475563; x=1726080363; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GwUgBvho3B0QvIg0ctI8JPj/EWGRCH/IJjBVlNqiQsE=;
-        b=hsQ6RV4ann3zHyKjm3g52Vy5W6st/xSO7VUN8mRy4MdbSkB70y3w3iC/ElyDGSA8/a
-         sGrEvaCuIljHXEaLxQ6X+BGgWkfaiw6/j2NcsCnwv7jyNbq7GOtq9gjaDqArcQqLnaPT
-         SQgcN7FTEZO492lFTkM/ygak5WkgF6gZYsv4kahcGGT2xb5cH7kCLStk3KGoEIQyzxkZ
-         cpIqSfAfH/WO50N0n92sctkvy5bdUI+/JKb2BDT+skOIe7sF8+XzeF4KZMd0EkwxuSIG
-         lo4jOx0LDbTbcGWr3nRfElSpAtNsms5JFsN9W4o766OuzXvIY7st0sPdXAVe5aPrAoLe
-         4KmQ==
+        bh=GskvCRhfcAwmr5253iUymakzID+2+I+HrhujHF9z1LM=;
+        b=foZLVm0i8lcf0SZHNuCB8HbKgE1vNmvrFXdyVzrp9IoVJopZYsN8IQ4m7M0mmF8oSH
+         xeuFo5+VPWTSS6ZJo9IkHooRjwhWc1g9Dcmzj+3Ph6edyRPuhtwOU5j0ckzFHaomrtft
+         +d1vpRIaumRcNPRLOvuf9dDOq9YhrF64ZM5j00zsxO3u1N+balMBgrdr+IAIwFCCUg5o
+         xVb9XRIsuYUNbluoWD7yb3fVruTgtJ4quroBnnZKUDWxAGPammdM8B/XwdjZOxVDq3wv
+         mBFnPGdMfr0qIBWXAMVJMP3l9VTacgcjJED4jRg2dqvTPjdahYHvEIhtZgJOrTK8xFxT
+         WuAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725475293; x=1726080093;
+        d=1e100.net; s=20230601; t=1725475563; x=1726080363;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GwUgBvho3B0QvIg0ctI8JPj/EWGRCH/IJjBVlNqiQsE=;
-        b=qSGuDg1UB9PH929w8pvuQhJKnKalACU6mLXN4wnOeheB1ToapLSMfkIbpiEjvQn/66
-         VpzZ51fKzlYcWhWSY45jcPdjqkyteHjE/SfQWVBIOzmqTm3ausKc4bXvjdiMsC7WTf6Y
-         0WOEbgB2ACwO1FGtfWHU8ZlCAOTOUzzmqdn6Hc6YKZOxVMhku6J/Iu9A7z4Ie63OwdEx
-         /CSRGi5+5ZQJpmUG3k4sYdr/0tMBkASNeOiqi0vQewR/niX/8BPsSG4VL+n9RYjQ11Es
-         GQA6ObY08q6WVWLdeX+vJ9cYSgT/7OabiPVcdhj86WWzoR4Gc5nLEtqIovFc/PKULPIT
-         4rwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNXQPvoGZ4V6dGVdtTdlcf5IoCiFNEFiEYv1WgUVXQuN66RxoJJlToT9YiUHvcJ+LdjoaOybcUlqV5iKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1ajr6C/T1/qFPYq5bgfHIIdOzr6GKCPLAs/SCQ9w04lB3HcpJ
-	OlUJYMn66ds79XLDTEeynwFIZrRCunjBMzjmnUyf7YSu1TrsV8Hp
-X-Google-Smtp-Source: AGHT+IG3U2Il4yRhkgfYtW8gFeMe/a6wnJ1Il0WFF8MHIJcPcXuD4ybYVAWrqJuVDFGfzd6OA+cU1w==
-X-Received: by 2002:a17:907:2d22:b0:a7a:bae8:f297 with SMTP id a640c23a62f3a-a897f84bd71mr1631202866b.15.1725475292693;
-        Wed, 04 Sep 2024 11:41:32 -0700 (PDT)
+        bh=GskvCRhfcAwmr5253iUymakzID+2+I+HrhujHF9z1LM=;
+        b=Xknh+wG/Gzsfg50qxQSNBqVMzhFNFU5iVKFOHBp3EUAf3pNGhOpDz+3cZscPsrwCb1
+         kYq2ilxi3rRYXIpti1obl4YXQjxfek0YDtEnBB+w9LDjXUqUulBljLHZK/LNN4e1hmY/
+         2t2lVjYuLOd43j6kdgCd5cHVs30eBTeAU2hbgftX7L23mdr22FtRIvcjZ5rarjKgJWKb
+         pejnKVW/ghv27D8MAFYlSskd1CMgJ/NqW4VquspymkfxtVEiNa7APzfvACsGTouyyuHH
+         BFB+Nl1AfJILxeawcTCHqCmzYd1e0qJcVZ05OCHgjGH0hnHhJCuTfN5qCzdV8HEGn1xQ
+         O75Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXi0/XKezGzOveUsPYKfgpvAmXFtdrqXouPsgIizvyIWqO97ElnsNVUBm1LVxq1Li0FXyyYOw/YuNPNbS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqKE7yJRqtssq+2dzcyw9oQ/d0iRaXHbEBhaMl96/lt4wbJVoq
+	BOqDYhAJQ2aNvWnhGZFqj69zAVGV4gU1AfqnZkXNMWn3yTTUC1U6
+X-Google-Smtp-Source: AGHT+IGhTO5k/+/5d8Xo9dsVZE5HMv3qs+vKLXszGxwL8jUeoJfCUp+Zi7Zusz5jD2TLtLN68X0PRQ==
+X-Received: by 2002:a17:907:72c4:b0:a86:74fa:6a6f with SMTP id a640c23a62f3a-a8a32e767b2mr371957966b.23.1725475562918;
+        Wed, 04 Sep 2024 11:46:02 -0700 (PDT)
 Received: from [192.168.0.31] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a61fd64e0sm23332966b.36.2024.09.04.11.41.31
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623e3180sm22777866b.203.2024.09.04.11.46.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 11:41:32 -0700 (PDT)
-Message-ID: <818a1972-2862-460c-89b7-476ac0680db7@gmail.com>
-Date: Wed, 4 Sep 2024 20:41:30 +0200
+        Wed, 04 Sep 2024 11:46:01 -0700 (PDT)
+Message-ID: <1b2254fa-9f1a-4150-b610-abfb55e4d161@gmail.com>
+Date: Wed, 4 Sep 2024 20:46:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,8 +76,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/22] Input: iqs269a - use guard notation when acquiring
- mutex
+Subject: Re: [PATCH 15/22] Input: iqs7222 - use cleanup facility for fwnodes
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org,
  Michael Hennerich <michael.hennerich@analog.com>,
@@ -87,106 +86,75 @@ Cc: linux-input@vger.kernel.org,
  Hans de Goede <hdegoede@redhat.com>, Jeff LaBundy <jeff@labundy.com>,
  linux-kernel@vger.kernel.org
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
- <20240904044756.1047629-1-dmitry.torokhov@gmail.com>
- <9cc5b106-88dc-4539-b831-3cc6cb3ef860@gmail.com>
- <ZtilRLKICDSXKyEp@google.com>
+ <20240904044825.1048256-1-dmitry.torokhov@gmail.com>
+ <f0956e79-8261-4bd5-96ca-3795bbe1faaf@gmail.com>
+ <ZtimWmQ2B_WlcvTw@google.com>
 Content-Language: en-US, de-AT
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <ZtilRLKICDSXKyEp@google.com>
+In-Reply-To: <ZtimWmQ2B_WlcvTw@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2024 20:21, Dmitry Torokhov wrote:
-> Hi Javier,
-> 
-> On Wed, Sep 04, 2024 at 03:53:40PM +0200, Javier Carrasco wrote:
->> On 04/09/2024 06:47, Dmitry Torokhov wrote:
->>> Using guard notation makes the code more compact and error handling
->>> more robust by ensuring that mutexes are released in all code paths
->>> when control leaves critical section.
+On 04/09/2024 20:26, Dmitry Torokhov wrote:
+> On Wed, Sep 04, 2024 at 12:50:44PM +0200, Javier Carrasco wrote:
+>> Hi Dmitry,
+>>
+>> On 04/09/2024 06:48, Dmitry Torokhov wrote:
+>>> Use __free(fwnode_handle) cleanup facility to ensure that references to
+>>> acquired fwnodes are dropped at appropriate times automatically.
 >>>
 >>> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 >>> ---
->>>  drivers/input/misc/iqs269a.c | 46 +++++++++++++-----------------------
->>>  1 file changed, 16 insertions(+), 30 deletions(-)
+>>>  drivers/input/misc/iqs7222.c | 30 ++++++++++++++----------------
+>>>  1 file changed, 14 insertions(+), 16 deletions(-)
 >>>
->>> diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
->>> index 843f8a3f3410..c34d847fa4af 100644
->>> --- a/drivers/input/misc/iqs269a.c
->>> +++ b/drivers/input/misc/iqs269a.c
+>>> diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
+>>> index 9ca5a743f19f..d9b87606ff7a 100644
+>>> --- a/drivers/input/misc/iqs7222.c
+>>> +++ b/drivers/input/misc/iqs7222.c
 >>
 >> ...
 >>
->>> @@ -453,9 +449,9 @@ static int iqs269_ati_base_get(struct iqs269_private *iqs269,
->>>  	if (ch_num >= IQS269_NUM_CH)
->>>  		return -EINVAL;
+>>> @@ -2818,9 +2813,9 @@ static int iqs7222_parse_reg_grp(struct iqs7222_private *iqs7222,
+>>>  				 int reg_grp_index)
+>>>  {
+>>>  	struct i2c_client *client = iqs7222->client;
+>>> -	struct fwnode_handle *reg_grp_node;
+>>>  	int error;
 >>>  
->>> -	mutex_lock(&iqs269->lock);
->>> +	guard(mutex)(&iqs269->lock);
->>> +
->>>  	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
 >>
->> maybe scoped_guard() to keep the scope of the mutex as it used to be?
-> 
-> Thank you for looking over patches.
-> 
-> It is just a few computations extra, so I decided not to use
-> scoped_guard(). Note that original code was forced to release mutex
-> early to avoid having to unlock it in all switch branches.
-> 
+>> Nit: reg_grp_node could stay at the top (where it used to be), as you
+>> are assigning it to NULL because there are no sensible assignments at
+>> this point.
 >>
->>> -	mutex_unlock(&iqs269->lock);
->>>  
->>>  	switch (engine_b & IQS269_CHx_ENG_B_ATI_BASE_MASK) {
->>>  	case IQS269_CHx_ENG_B_ATI_BASE_75:
->>> @@ -491,7 +487,7 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
->>>  	if (target > IQS269_CHx_ENG_B_ATI_TARGET_MAX)
->>>  		return -EINVAL;
->>>  
->>> -	mutex_lock(&iqs269->lock);
->>> +	guard(mutex)(&iqs269->lock);
->>>  
->>>  	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->>>  
->>> @@ -501,8 +497,6 @@ static int iqs269_ati_target_set(struct iqs269_private *iqs269,
->>>  	ch_reg[ch_num].engine_b = cpu_to_be16(engine_b);
->>>  	iqs269->ati_current = false;
->>>  
->>> -	mutex_unlock(&iqs269->lock);
->>> -
->>>  	return 0;
->>>  }
->>>  
->>> @@ -515,10 +509,9 @@ static int iqs269_ati_target_get(struct iqs269_private *iqs269,
->>>  	if (ch_num >= IQS269_NUM_CH)
->>>  		return -EINVAL;
->>>  
->>> -	mutex_lock(&iqs269->lock);
->>> -	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->>> -	mutex_unlock(&iqs269->lock);
->>> +	guard(mutex)(&iqs269->lock);
->>
->> same here?
->>
->>>  
->>> +	engine_b = be16_to_cpu(ch_reg[ch_num].engine_b);
->>>  	*target = (engine_b & IQS269_CHx_ENG_B_ATI_TARGET_MASK) * 32;
+>>> +	struct fwnode_handle *reg_grp_node __free(fwnode_handle) = NULL;
+>>>  	if (iqs7222_reg_grp_names[reg_grp]) {
+>>>  		char reg_grp_name[16];
 > 
-> Same here, calculating the line above will take no time at all...
+> I think this follows Linus' guidance (in spirit) to combine declaration
+> and initialization for objects using __cleanup(). If it was Rust I'd
+> written it as
+> 
+> 	let reg_grp_node = if let Some(...) { ... } else { ... };
+> 
+> so declaration and initialization would be the same, but with C this is
+> the closest I could come up with.
 > 
 > Thanks.
 > 
 
-As you pointed out, in reality the extra locked instructions will not
-make any difference. But as the conversion added instructions to be
-locked by the mutex without mentioning it, I thought it should be either
-left as it used to be with scoped_guard(), or explicitly mentioned in
-the description.
+Combining the declaration and initialization was right, no doubt about
+that. I was just nitpicking that the variable declaration could have
+been done at the top, as it used to be. The same as you did, but not
+separating the declaration from the rest as there are no instructions in
+between.
 
-No strong feelings against it, but out of curiosity, why would you
-rather use guard()? I think scoped_guard() is a better way to
-self-document what has to be accessed via mutex, and what not.
+My second thought was that you might be attempting to declare the
+variable as near as possible to the "some" initialization, so you moved
+it a little bit to get it closer :)
 
-Best regards,
-Javier Carrasco
+Either way, if you did that on purpose, then
+
+Reviewed-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
 
