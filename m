@@ -1,72 +1,72 @@
-Return-Path: <linux-input+bounces-6135-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-6136-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB4A96AFFB
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:44:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8679296AFFD
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 06:44:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A68841F23E78
-	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:44:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F345288241
+	for <lists+linux-input@lfdr.de>; Wed,  4 Sep 2024 04:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBD8127B57;
-	Wed,  4 Sep 2024 04:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7661F12C526;
+	Wed,  4 Sep 2024 04:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U91gOzrR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFvRGgrE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F5684E0D;
-	Wed,  4 Sep 2024 04:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB950126BFD;
+	Wed,  4 Sep 2024 04:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725424988; cv=none; b=K20U/GhCm1JeL8B9XjxbZQ5sMDNPw6mtuHApQQHEv/GxwLHwEiXIYik/hCwj+s8gtcsKmNaAOaVEVQpHK/+5IqtdEeEWUCh/vTKnB78F/mCh4TvdY6acK2oRlBqGJDnYadNXQounX6LCQ3cEDh4AA+S56Ed9RYeoEAsVQ9UXLMg=
+	t=1725424989; cv=none; b=XYkrA1tBBbZdUWXWr7LeUKGJfpKBntneJ1s1lcbiCZWSPqmaIAPtssXjeEQ35Gc9zVNYbmL6v6PRLDpGyrHmTE6cLsLQnY7/MktvFveoZAKOyfQWKzwBNaa5m1p/bESbvSe0YCdmScHbQPBsheGiI+Rn7wLK6zMVabTF0J7rGVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725424988; c=relaxed/simple;
-	bh=ZwmF1IcBskxRDxGqbU3BxmePdaxQNe2xsTrvQC+AKc0=;
+	s=arc-20240116; t=1725424989; c=relaxed/simple;
+	bh=UO5tdz28zf6P49QFmFryD8fHoZAMUUMLPprETK3ohXY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pmOusnwAV8/yXZi7OjuagArECauSCuZm9v+484TgrUE8yzeeE7iWno9fxfAFzO/bJCiOLDow4ETfgfrnvkHpcuxrfmEWkK79HbgndCqMnMOecAWuM+Ib4ICGwYi33mdxIH+PKBsDR0MJKu2Xtc1X77OP0EAIl4l561Uy5gFhB6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U91gOzrR; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=a5AUuaoLosMx58g/M+bZmP9fVfqeh90yjj4y9b8XQOJActnii7cqGacl2xqfZDrsndObF3OvuYWKfr0BLnQUC9Gxn19j2RpHIMindN7vOqDq3EBySfKbEUA1pCjPuSubLwLKhHqUO4Y8Q/T27IS8Uwk4AfweiT15Ox7FbPHfbCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFvRGgrE; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-205722ba00cso21242345ad.0;
-        Tue, 03 Sep 2024 21:43:06 -0700 (PDT)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6bce380eb96so3449508a12.0;
+        Tue, 03 Sep 2024 21:43:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725424986; x=1726029786; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725424987; x=1726029787; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CofU3FPlAau2C+uDy1gGfBp2z32YQ2vYmUn+IAuO6yQ=;
-        b=U91gOzrR89zom76kR56aCP6PcbGPwB7u2uslxFRMArUwlNuVpYZ8mllQ2WV9f8a/Ck
-         goGoiJBj3cD350DvnvKKFezfN++Z/BFZFmSQgUe8Lgva7xMY3W0f/QslIkZcQ61696+o
-         q9/yFZrb8WAf4gB6zuEn/laamCk4oIZToNDU2Ujp68OB6qBkfJUrAfjneXXCUpMbXGOr
-         +oc1NHVMeQBb8JCnusvk/7lbrtJmC1XOpGQNDLSMN/ySKYWzFQ9W7RY8j1Lh4eratfOI
-         YmEq5D8tfNyyDgImvOF6giu55c0KXKygm+jFFITyZWVX/JSG1+jYIAglu/OGETn3RT57
-         97uw==
+        bh=tt6lvz54FLu2yt0+MuKREUCSNC/E33zVcfi/wJ5rHi8=;
+        b=GFvRGgrEVXDkGsUo9eAbPTZhplz43ZdPDe37XDR7mmIGYRkqIiuh7qacJf2TXRFwTu
+         oewyrHUWMn/2z0gp4GJZUbm6/Z7H+ValOkdV08ZpF+vj4p0wlHYaMK63k1MPB1jQEcdJ
+         jicBUjI8+hT/4lBCdEkqBpS5HbmjJ3/2cjaWnpS2HNpSZ6hSNvR2t3r+onijzmN16eRP
+         jswoA1n3i79KUAYRGsFv3DbsvcP+K2sYsGFXnNFLfH+wT1EnrJxtjPEnUp6sPYsjKSvm
+         ly1JoQ0AkKT58hcSYF5EiksP+q7BBXwAk77/hmILA2TY+1Zp7sTerWrRtjpjdGqJSuZn
+         Hkng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725424986; x=1726029786;
+        d=1e100.net; s=20230601; t=1725424987; x=1726029787;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CofU3FPlAau2C+uDy1gGfBp2z32YQ2vYmUn+IAuO6yQ=;
-        b=wcaObx88ERC3WRxTEuVwkf4QJQNT19yf7SXTB+BYg/TufeTIycOkQXKgnyppyKAQIq
-         CckXU2jyGOB4PgAeBeugipV87SHiE6cpHsTvDP0HYByV6umNLflOubQi2p0n+5BRtlHi
-         WdlhF5lxARMaRkm7VIbfg+J+lp54zRl0klIsXc22U6pstlMlfykfBsKhz7hGjtYYODTz
-         yGiv5lm8xIRsc1Bt6AqHcrIaxBUid057isxRUttsw4qbFo504FXggX3qzH7tcDK/pCTI
-         PSUREvNn4p+7mY9sUCIvsLbC33On9FRJ0N0W8b5/V7ZhaUqNMQcgGrm9Ls5YIZKM4XuH
-         qVLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjsIK7rfCbuHkWYhrM3u6M2jX6b5mK9og3n220p/xhKmesf2I+K1GWWw3DdsKGlR1RZ7V9fHRTnBFtLho=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1Z8X90UdpX3Y6nC+KZCDNur23OX9/o5qS7tQDvugfZJfhsdCy
-	wfSrn78Sdo8bj3xGin0K6szyvbE/9tdrMTju0Ooy7JyM1+vaRRO8uauWqw==
-X-Google-Smtp-Source: AGHT+IF6bV7qkawi5DzOxfYgshmXdy3EZLNlfAEDj5Hu3oUYEZu2AmASuDYEqp1iuXr/1vLXmrvwsQ==
-X-Received: by 2002:a17:902:db0f:b0:205:5f35:80b6 with SMTP id d9443c01a7336-2055f358700mr84495025ad.61.1725424985793;
-        Tue, 03 Sep 2024 21:43:05 -0700 (PDT)
+        bh=tt6lvz54FLu2yt0+MuKREUCSNC/E33zVcfi/wJ5rHi8=;
+        b=hDCtH44dLrcAPIEhKC+VcqBkp2dZgB04UgIJPZ5Qn0h4iMLkXY1S8O9M7Cm30kt5wq
+         47vOFizlrc03G7d8u0thGWOarnEoQNYPcB0myYbBA0+E7AW3N2QGPmOhyRrH/RkJbxUc
+         ThmUQEr6gbsSXez6g5HzKtYXMxUhuROKK6wlM+o2toimJbLuXzQBbAsAvJAHt2T5d3DM
+         1kIJ5TM2ALwg6LWJJvAU6ywqUhEBJimIDzZI8ZzfIMX3457+Hbz0bwwPNQBOlcxG3luy
+         GKh4eVx/ORl/69iGaE32nFcP1DIcbyI/LhXcykYQtAVq+u3nL2FsJTumwVsovV1qdBLx
+         4OHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrEEL7i+VIDrBxFNPxeKNABfzzEyb5zUveGYsBqj4BAkYn8Gv3CAwwV+BR0k/eGUGO+cTw566XYm/ac1I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMFjjh6GGfch7mxGrdoZfpKT6sa9gOx0yU1SWR3et2GM5Y1M24
+	bPvKSK16yxI6n9mTiFSQMVLW8TNeJHwTRgEiMSAvyZfS9EXd6OU8/KpZGQ==
+X-Google-Smtp-Source: AGHT+IGPb3PpMZ/VEpa9wnSlL3PiK9uo22oOIgqwAyk1NF1r0jwyW5MLPmpjGblzlcP/m8rIDEZKnw==
+X-Received: by 2002:a17:902:daca:b0:202:54b8:72e5 with SMTP id d9443c01a7336-205444f14d9mr119647375ad.22.1725424987017;
+        Tue, 03 Sep 2024 21:43:07 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2620:15c:9d:2:e682:e3dc:908:eef0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae951c13sm5727665ad.103.2024.09.03.21.43.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 21:43:05 -0700 (PDT)
+        Tue, 03 Sep 2024 21:43:06 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: linux-input@vger.kernel.org
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
@@ -78,9 +78,9 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
 	Jeff LaBundy <jeff@labundy.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 06/22] Input: kxtj9 - use guard notation when acquiring mutex/disabling irq
-Date: Tue,  3 Sep 2024 21:42:26 -0700
-Message-ID: <20240904044244.1042174-7-dmitry.torokhov@gmail.com>
+Subject: [PATCH 07/22] Input: drv260x - use guard notation when acquiring mutex
+Date: Tue,  3 Sep 2024 21:42:27 -0700
+Message-ID: <20240904044244.1042174-8-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
 In-Reply-To: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
 References: <20240904044244.1042174-1-dmitry.torokhov@gmail.com>
@@ -93,68 +93,107 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Using guard notation makes the code more compact and error handling
-more robust by ensuring that mutexes are released and interrupts are
-re-enabled in all code paths when control leaves critical section.
+more robust by ensuring that mutexes are released in all code paths
+when control leaves critical section.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/misc/kxtj9.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ drivers/input/misc/drv260x.c | 50 +++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/input/misc/kxtj9.c b/drivers/input/misc/kxtj9.c
-index 837682cb2a7d..c6146bcee9f9 100644
---- a/drivers/input/misc/kxtj9.c
-+++ b/drivers/input/misc/kxtj9.c
-@@ -314,9 +314,8 @@ static ssize_t kxtj9_set_poll(struct device *dev, struct device_attribute *attr,
- 		return error;
+diff --git a/drivers/input/misc/drv260x.c b/drivers/input/misc/drv260x.c
+index 61b503835aa6..96cd6a078c8a 100644
+--- a/drivers/input/misc/drv260x.c
++++ b/drivers/input/misc/drv260x.c
+@@ -537,64 +537,62 @@ static int drv260x_probe(struct i2c_client *client)
+ static int drv260x_suspend(struct device *dev)
+ {
+ 	struct drv260x_data *haptics = dev_get_drvdata(dev);
+-	int ret = 0;
++	int error;
  
- 	/* Lock the device to prevent races with open/close (and itself) */
--	mutex_lock(&input_dev->mutex);
--
--	disable_irq(client->irq);
-+	guard(mutex)(&input_dev->mutex);
-+	guard(disable_irq)(&client->irq);
+-	mutex_lock(&haptics->input_dev->mutex);
++	guard(mutex)(&haptics->input_dev->mutex);
  
- 	/*
- 	 * Set current interval to the greater of the minimum interval or
-@@ -326,9 +325,6 @@ static ssize_t kxtj9_set_poll(struct device *dev, struct device_attribute *attr,
+ 	if (input_device_enabled(haptics->input_dev)) {
+-		ret = regmap_update_bits(haptics->regmap,
+-					 DRV260X_MODE,
+-					 DRV260X_STANDBY_MASK,
+-					 DRV260X_STANDBY);
+-		if (ret) {
++		error = regmap_update_bits(haptics->regmap,
++					   DRV260X_MODE,
++					   DRV260X_STANDBY_MASK,
++					   DRV260X_STANDBY);
++		if (error) {
+ 			dev_err(dev, "Failed to set standby mode\n");
+-			goto out;
++			return error;
+ 		}
  
- 	kxtj9_update_odr(tj9, tj9->last_poll_interval);
+ 		gpiod_set_value(haptics->enable_gpio, 0);
  
--	enable_irq(client->irq);
--	mutex_unlock(&input_dev->mutex);
--
- 	return count;
+-		ret = regulator_disable(haptics->regulator);
+-		if (ret) {
++		error = regulator_disable(haptics->regulator);
++		if (error) {
+ 			dev_err(dev, "Failed to disable regulator\n");
+ 			regmap_update_bits(haptics->regmap,
+ 					   DRV260X_MODE,
+ 					   DRV260X_STANDBY_MASK, 0);
++			return error;
+ 		}
+ 	}
+-out:
+-	mutex_unlock(&haptics->input_dev->mutex);
+-	return ret;
++
++	return 0;
  }
  
-@@ -504,12 +500,11 @@ static int kxtj9_suspend(struct device *dev)
- 	struct kxtj9_data *tj9 = i2c_get_clientdata(client);
- 	struct input_dev *input_dev = tj9->input_dev;
+ static int drv260x_resume(struct device *dev)
+ {
+ 	struct drv260x_data *haptics = dev_get_drvdata(dev);
+-	int ret = 0;
++	int error;
  
--	mutex_lock(&input_dev->mutex);
-+	guard(mutex)(&input_dev->mutex);
+-	mutex_lock(&haptics->input_dev->mutex);
++	guard(mutex)(&haptics->input_dev->mutex);
  
- 	if (input_device_enabled(input_dev))
- 		kxtj9_disable(tj9);
+ 	if (input_device_enabled(haptics->input_dev)) {
+-		ret = regulator_enable(haptics->regulator);
+-		if (ret) {
++		error = regulator_enable(haptics->regulator);
++		if (error) {
+ 			dev_err(dev, "Failed to enable regulator\n");
+-			goto out;
++			return error;
+ 		}
  
--	mutex_unlock(&input_dev->mutex);
- 	return 0;
+-		ret = regmap_update_bits(haptics->regmap,
+-					 DRV260X_MODE,
+-					 DRV260X_STANDBY_MASK, 0);
+-		if (ret) {
++		error = regmap_update_bits(haptics->regmap,
++					   DRV260X_MODE,
++					   DRV260X_STANDBY_MASK, 0);
++		if (error) {
+ 			dev_err(dev, "Failed to unset standby mode\n");
+ 			regulator_disable(haptics->regulator);
+-			goto out;
++			return error;
+ 		}
+ 
+ 		gpiod_set_value(haptics->enable_gpio, 1);
+ 	}
+ 
+-out:
+-	mutex_unlock(&haptics->input_dev->mutex);
+-	return ret;
++	return 0;
  }
  
-@@ -519,12 +514,11 @@ static int kxtj9_resume(struct device *dev)
- 	struct kxtj9_data *tj9 = i2c_get_clientdata(client);
- 	struct input_dev *input_dev = tj9->input_dev;
- 
--	mutex_lock(&input_dev->mutex);
-+	guard(mutex)(&input_dev->mutex);
- 
- 	if (input_device_enabled(input_dev))
- 		kxtj9_enable(tj9);
- 
--	mutex_unlock(&input_dev->mutex);
- 	return 0;
- }
- 
+ static DEFINE_SIMPLE_DEV_PM_OPS(drv260x_pm_ops, drv260x_suspend, drv260x_resume);
 -- 
 2.46.0.469.g59c65b2a67-goog
 
